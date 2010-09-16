@@ -1,0 +1,54 @@
+/* Underwater
+ *
+ * Copyright (C) 2009 Reece H. Dunn [mailto:msclrhd@gmail.com]
+ *
+ * Released under the Creative Commons Attribution-Share Alike 2.0 UK: England
+ * & Wales Licence [http://creativecommons.org/licenses/by-sa/2.0/uk/].
+ *
+ * A blue website look.
+ */
+
+@import url(minimalist.css);
+
+html
+{
+	background-color: lightskyblue;
+}
+
+body > header, body > header > h1, body > footer
+{
+	background-color: #00b2ee;
+}
+
+body
+{
+	width: 950px;
+	margin: 0 auto;
+}
+
+body > footer
+{
+	padding: 1.5em 0.5em 1.5em 0.5em;
+	margin-bottom: 3em;
+}
+
+body, body > footer
+{
+	-moz-border-radius: 0em 0em 0.5em 0.5em;
+	-webkit-border-radius: 0em 0em 0.5em 0.5em;
+}
+
+body > header
+{
+	padding: 0em 0.5em 0em 0.5em;
+}
+
+body > header > h1
+{
+	font-family: Liberation Serif, Times New Roman;
+	text-align: left;
+	color: black;
+	margin-bottom: 0em;
+	padding-bottom: 0.5em;
+}
+

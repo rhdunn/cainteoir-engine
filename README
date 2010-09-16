@@ -1,0 +1,20 @@
+ABOUT
+
+
+The Cainteoir Text-to-Speech engine is the core modular program for performing
+text-to-speech synthesis.
+
+Cainteoir is a registered trademark of Reece Dunn. All trademarks are property
+of their respective owners.
+
+BUGS
+
+
+Report bugs to http://wush.net/bugzilla/msclrhd/ under the cainteoir-tts
+project.
+
+
+CONTACT INFORMATION
+
+
+Reece H. Dunn <msclrhd@gmail.com>

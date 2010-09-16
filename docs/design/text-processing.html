@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/underwater.css"></link>
+<title>Text Processing</title>
+</head>
+<body>
+
+<header>
+<blockquote style="float: right;"><em>Cainteoir</em> is the Irish Gaeilge word for speaker.</blockquote>
+<h1>
+<div style="font-size: 1.20em;">Cainteoir</div>
+<div style="font-size: 0.75em;">Text-to-Speech</div>
+</h1>
+</header>
+
+
+<article>
+<h1>Text Processing</h1>
+
+<p>One of the hardest problems to solve in text-to-speech is transforming arbitary free-form text into an accurate pronunciation of that text. It is one that can be broken down into various steps. For the sake of this topic, it is assumed that the text has been extracted from the document and is in a single (Unicode-based) encoding, be it UTF-8, UTF-16 or UTF-32.</p>
+
+<h2>Normalisation</h2>
+
+<p>This step involves removing noise in encoded character sequences. It covers:</p>
+<ol>
+	<li>Converting all unicode space characters the U+0020 space character;</li>
+	<li>Converting the half-width characters to their ascii equivalents &mdash; the distinction of half-width characters is not necessary when reading text;</li>
+	<li>Converting the braille characters to their ascii equivalents &mdash; again, the distinction is not necessary when reading the text;</li>
+	<li>Removing the soft hyphen (U+00AD, U+058A, U+1806) which is only used to break up individual words over multiple lines, so this character will result in words being read in multiple parts making them harder to understand;</li>
+	<li>and more...</li>
+</ol>
+
+<p>The idea here is to reduce the problem space when matching character sequences in the next phase. There is a balance here to retain enough detail when needed (e.g. handling accented characters), but also ignoring that detail when needed (as a fallback).</p>
+
+<p>The problem space here falls into 3 categories:</p>
+<ol>
+	<li>Classification &mdash; where characters are classified as space, vowels, consonants, numbers, soft hyphen, etc.</li>
+	<li>Decomposition &mdash; where attributes such as capital letter, umlaut, grave and acute are removed from the characters</li>
+	<li>Reduction &mdash; where characters are reduced to their base form, including decomposed characters, braille characters and half-width characters</li>
+</ol>
+
+<h2>Range Classification</h2>
+
+<p>This is classifying sequences of characters into the type of thing they (may) represent. This includes identifying:</p>
+<ol>
+	<li>Words &mdash; sequences of characters in a given script (latin, greek, chinese, hirigana, lao, ethiopic, ipa, etc.) which may include decomposing words in sequences of CamelCase text.</li>
+	<li>Roman Numerals &mdash; I, II, III, IV, V, VI, VII, ...</li>
+	<li>Ordinal Numbers &mdash; 1, 2, 3, 4, ...</li>
+	<li>Cardinal Numbers &mdash; 1st, 2nd, 3rd, ...</li>
+	<li>Fractions &mdash; 1/2, 1/4, 2/7, ...</li>
+	<li>Decimal Numbers &mdash; 1.25, 3.14159, ...</li>
+	<li>Dates &mdash; 12/7/01, 2/3/2008, 1st Aug 1976, ...</li>
+	<li>Arbitary Number Sequence &mdash; 1234567890, telephone numbers, etc.</li>
+	<li>Months &mdash; Aug, Feb, Jan, ...</li>
+	<li>Days of the Week &mdash; Mon, Tue, Wed, ...</li>
+	<li>US States &mdash; OK, KY, NY, ...</li>
+	<li>and more...</li>
+</ol>
+
+<p>Some of these are ambiguous without context:</p>
+<ol>
+	<li><em>I am reading Chapter I</em> vs <em>this is the Chapter I have read</em> (roman numeral vs word).</li>
+	<li><em>she pulled the IV from er arm</em> vs <em>turn to page IV</em> (word/abbreviation vs roman numeral).</li>
+	<li><em>Jan cycled to work</em> vs <em>I started in Jan of this year</em> (word vs month abbreviation).</li>
+	<li><em>everything is OK</em> vs <em>I am flying to OK next week</em> (word vs us state abbreviation).</li>
+</ol>
+
+<p>For this reason, it is a good idea to record all possibilities.</p>
+
+<h2>Character Rewrite Rules</h2>
+
+<p>A character rewrite rule takes a sequence of characters and replaces them with a sequence of words.</p>
+
+<p>The character rewrite rules are used to handle the special character classifications (e.g. converting <em>21</em> to <em>twenty one</em>) and abbreviations (e.g. converting <em>Ltd</em> to <em>Limited</em>).</p>
+
+<p>Again, this is context dependend. Consider:</p>
+<ol>
+	<li><em>St. Noun</em> being <em>saint noun</em> vs <em>Noun St.</em> being <em>noun street</em>.</li>
+	<li><em>Dr. Noun</em> being <em>doctor noun</em> vs <em>Noun Dr.</em> being <em>noun drive</em>.</li>
+</ol>
+
+<p>Another thing that this can deal with is converting hirigana and kirigana to their romanji form, resulting in things like <em>watashi wa</em> to give an approximate (westernised accent) pronunciation of these Japanese scripts.</p>
+
+<h2>Letter-to-Phoneme Rules</h2>
+
+<p>Strictly speaking, letter-to-phoneme rules are a set of rules that get applied when a word is not recognised (that is, the word is not in the pronunciation dictionary) to determine how best to pronounce it. Some languages have simple pronunciation rules, while others (especially English) have a far more complex rule set.</p>
+
+<p>In practice, however, it is possible to implement a pronunciation dictionary as a set of letter-to-phoneme rules that just happen to span whole words.</p>
+
+<p>Prefixes (pre-, post-, anti, etc.) and suffixes (s, es, ing, ed, er, atrix, atrices, etc.) have common pronunciations and adding support for all variations of a word can increase the size of the pronunciation dictionary. These can be handled as special classes of letter-to-phoneme rules.</p>
+
+<h2>Context Analysis And Folding</h2>
+
+<p>This is were character sequences that have more than one pronunciation are resolved to a single pronunciation. There are several approaches to do this:</p>
+<ol>
+	<li>take the first pronunciation found &mdash; this is simple and fast but will lead to more pronunciation errors;</li>
+	<li>take the more probable pronunciation &mdash; this requires a sufficient data set to draw from in order to produce less errors on average;</li>
+	<li>use a hidden markov model &mdash; this is a more sophisticated statistical tecchnique leading to better results on average provided there is a suffient data set;</li>
+	<li>use parts of speech and grammar rules &mdash; this is to rule out pronunciations depending on gramatical rules, leading to far less errors at the cost of computational time and accurate grammatical analysis/part of speech tagging;</li>
+	<li>hybrid &mdash; using a combination of the above techniques.</li>
+</ol>
+
+<p>
+
+<h2>Phoneme-to-Phoneme Rules</h2>
+
+<p>There are cases where the phoneme sequence produced by the letter-to-phoneme rules needs to be modified. This can be a result of:</p>
+<ol>
+	<li>phonemic variations in the broad accent (Recieved Pronunciation, General American, etc.);</li>
+	<li>phonemic variations in the narrow accent (the accent of the voice artist the voice is based on);</li>
+	<li>phoneme weakening on unstressed vowels;</li>
+	<li>supra-segmental variations as part of natural, rhythmic speech (e.g. speaking /said John/ as /sai(J)ohn/);</li>
+</ol>
+
+<h2>Implementation</h2>
+
+<p>Each of the phases outlined above could be expressed using regular expressions, or a regular expression-like language. Having each of these phases running on the same internal logic makes it easier to support and maintain the codebase moving forward. It also allows the logic to be separated from the specific rules.</p>
+
+<p>The <em>eSpeak</em> engine takes this approach for the letter-to-phoneme phase and part of the content rewrite phase. However, it hard codes specific phoneme-to-phoneme rules and uses separate logic for the pronunciation dictionary.</p>
+
+<p>The normalisation phase forms the building block for classifying and grouping characters which is then used by the rule engine. The rule engine will support a regular expression-like language that can be used to express the phases listed above in a set of rules.</p>
+
+<p>This approach is both interesting and very attractive since it:</p>
+<ol>
+	<li>gives a very clean separation between the logic (the rule engine) and the data (the rules);</li>
+	<li>makes the core text processing (rule) engine very small and light-weight;</li>
+	<li>allows for research into optimising the rule engine as the engine has no explicit knowledge of the problem domain;</li>
+	<li>makes it easier to test the core rule engine for both conformance and performance testing;</li>
+	<li>makes it easier to start and stop at different phases in the processing, making the rules easier to test.</li>
+</ol>
+</article>
+
+<footer>
+	<div class="copyright">Copyright (C) 2010 Reece H. Dunn</div>
+	<div>This documentation is released under the <a href="http://creativecommons.org/licenses/by-sa/2.0/uk/">Creative Commons Attribution-Share Alike 2.0 UK: England & Wales</a> Licence.</div>
+	<div><em>Cainteoir</em> is a registered trademark of Reece Dunn. All trademarks are property of their respective owners.</div>
+</footer>
+
+</body>
+</html>
