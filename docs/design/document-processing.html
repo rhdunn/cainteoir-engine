@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/underwater.css"></link>
+<title>Document Processing</title>
+</head>
+<body>
+
+<header>
+<blockquote style="float: right;"><em>Cainteoir</em> is the Irish Gaeilge word for speaker.</blockquote>
+<h1>
+<div style="font-size: 1.20em;">Cainteoir</div>
+<div style="font-size: 0.75em;">Text-to-Speech</div>
+</h1>
+</header>
+
+
+<article>
+<h1>Document Processing</h1>
+
+<p>Document processing is about handling documents of a given type in a given format. For the purpose of text-to-speech this is any document that can contain text.</p>
+
+<p>There are several areas of document processing that are of interest, and specific tasks that a user may want to perform on the document:</p>
+<ol>
+	<li>Reading &mdash; this is extracting the text and other information from the document that is of interest;</li>
+	<li>Writing &mdash; this is persisting text and other information in a document, for example when the user requests to save the document they have open;</li>
+	<li>Viewing &mdash; this is presenting the document to the user such that they can read and navigate through it;</li>
+	<li>Printing &mdash; this is rendering the document to a printer device;</li>
+	<li>Listening &mdash; this is where the computer speaks out the content of the document to some speakers or headphones;</li>
+	<li>Recording &mdash; this is where the computer speaks out the content of the document to an audio file, allowing the user to listen to it on their portable media player;</li>
+	<li>Modifying &mdash; this is changing the content of the document, which is useful for pasting text from the clipboard or correcting errors in the document.</li>
+</ol>
+
+<p>By creating a generalised model of document content and formatting, adding support for a new document type can be reduced to providing a producer of this content to read a document and a consumer of this content to write the document to a file.</p>
+
+<p>The text-to-speech engine can then handle reading and recording document contents by providing a consumer of the document content.</p>
+
+<p>The viewing and printing support is then handled by a Document Object Model (DOM) with a graphical viewer that renders the content to a screen or printer device. The DOM is constructed by using a DomBuilder that is a consumer of document contents and a DomSerialiser that is a producer of document contents.</p>
+
+<p>The command-line version can skip the DOM generation and bind the text-to-speech engine directly to the correct document reader.</p>
+
+</article>
+
+<footer>
+	<div class="copyright">Copyright (C) 2010 Reece H. Dunn</div>
+	<div>This documentation is released under the <a href="http://creativecommons.org/licenses/by-sa/2.0/uk/">Creative Commons Attribution-Share Alike 2.0 UK: England & Wales</a> Licence.</div>
+	<div><em>Cainteoir</em> is a registered trademark of Reece Dunn. All trademarks are property of their respective owners.</div>
+</footer>
+
+</body>
+</html>
