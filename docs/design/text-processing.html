@@ -88,6 +88,8 @@
 
 <p>In practice, however, it is possible to implement a pronunciation dictionary as a set of letter-to-phoneme rules that just happen to span whole words.</p>
 
+<p>It is necessary to identify capitalisation in some contexts to identify captionyms &mdash; Tangier/tangier, Polish/polish, Natal/natal and August/august.</p>
+
 <p>Prefixes (pre-, post-, anti, etc.) and suffixes (s, es, ing, ed, er, atrix, atrices, etc.) have common pronunciations and adding support for all variations of a word can increase the size of the pronunciation dictionary. These can be handled as special classes of letter-to-phoneme rules.</p>
 
 <h2>Context Analysis And Folding</h2>
@@ -129,6 +131,13 @@
 	<li>makes it easier to test the core rule engine for both conformance and performance testing;</li>
 	<li>makes it easier to start and stop at different phases in the processing, making the rules easier to test.</li>
 </ol>
+
+<h2>References</h2>
+<ol>
+	<li><a href="http://swtch.com/~rsc/regexp/regexp1.html">http://swtch.com/~rsc/regexp/regexp1.html</a>: fast regex performance</li>
+	<li><a href="http://swtch.com/~rsc/regexp/regexp2.html">http://swtch.com/~rsc/regexp/regexp2.html</a>: regex virtual machine</li>
+</ol>
+
 </article>
 
 <footer>
