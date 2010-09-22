@@ -20,6 +20,17 @@
 
 <p>Document processing is about handling documents of a given type in a given format. For the purpose of text-to-speech this is any document that can contain text.</p>
 
+<h2>Goals</h2>
+
+<p>The document processing should be:</p>
+<ol>
+	<li>easy to read and maintain &mdash; that is they should have a simple, clear architecture;</li>
+	<li>easy to extend &mdash; that is the architecture should be flexible enough to support new functionality;</li>
+	<li>performant &mdash; that is they should not consume an excessive amount of memory and should be fast.</li>
+</ol>
+
+<h2>Architecture</h2>
+
 <p>There are several areas of document processing that are of interest, and specific tasks that a user may want to perform on the document:</p>
 <ol>
 	<li>Reading &mdash; this is extracting the text and other information from the document that is of interest;</li>
@@ -38,6 +49,50 @@
 <p>The viewing and printing support is then handled by a Document Object Model (DOM) with a graphical viewer that renders the content to a screen or printer device. The DOM is constructed by using a DomBuilder that is a consumer of document contents and a DomSerialiser that is a producer of document contents.</p>
 
 <p>The command-line version can skip the DOM generation and bind the text-to-speech engine directly to the correct document reader.</p>
+
+<h2>Data Buffers</h2>
+
+<p>For readers to be performant, it is important to reduce the memory overhead wherever possible and minimise/control where data conversions occur. This is achieved through the concept of buffers: a buffer is an object that holds a sequence of characters.</p>
+
+<p>There are several types of buffer, the most common of which are:</p>
+<ol>
+	<li>MmapBuffer &mdash; a memory-mapped buffer that provides direct memory access to the content of the file, which will release the hold of the mmap and file once destroyed;</li>
+	<li>MemoryBuffer &mdash; a memory buffer is a dynamically allocated memory block containing the characters, which will release the memory once destroyed;</li>
+	<li>RangeBuffer &mdash; a range buffer provides a sub-view onto another buffer, which maintains a reference to the original buffer for its lifetime;</li>
+	<li>CompressedBuffer &mdash; a compressed buffer is a RangeBuffer over the compressed data that can spawn a MemoryBuffer to the decompressed content on demand or returning a cached copy if the data has already been decompressed;</li>
+	<li>ZlibBuffer &mdash; a zlib buffer is a CompressedBuffer using the zlib compression algorithm;</li>
+	<li>GzipBuffer &mdash; a gzip buffer is a CompressedBuffer using the gzip compression algorithm;</li>
+	<li>Bzip2Buffer &mdas; a bzip2 buffer is a CompressedBuffer using the bzip2 compression algorithm.</li>
+</ol>
+
+<h2>Directory Readers</h2>
+
+<p>An DirectoryReader is a type of content reader designed to read muli-file documents that operate over a directory structure, providing access to the list of available files and their corresponding content buffers. There are several types of DirectoryReader:</p>
+<ol>
+	<li>FileSystemReader &mdash; this provides access to a series of files on the native filesystem (e.g. for index.html and associated content files and extracted odf/epub documents);</li>
+	<li>ZipReader &mdash; this provides access to the content of a zip archive (such as an odf or epub document);</li>
+	<li>TarReader &mdash; this provides access to the content of a tar archive.</li>
+</ol>
+
+<h2>SGML Readers</h2>
+
+<p>An SgmlReader is a reader that can interpret SGML formatted text. This covers strict XML-based documents such as docbook, ocf, opf, ncx as well as non-strict documents such as HTML.</p>
+
+<p>XHTML is an interesting case as some documents (e.g. those in epub documents) may be malformed XML and may actually be HTML.</p>
+
+<p>HTML5 is also interesting in that the HTML5 specification provides rules on how to parse the HTML content. Is the HTML5 parser compliant with SGML parsing rules? Are there any HTML4 documents that cannot be parsed by the HTML5 rules?</p>
+
+<h2>Document Format Specification Language</h2>
+
+<p>To make it easier to support new document formats and to simplify the maintenance of the document handlers, the format of the document should be outlined in a document specification language file. This file can then be compiled into the code to actually read or write the files.</p>
+
+<p>This allows:</p>
+<ol>
+	<li>optimisations to be made across all supported formats easily and simply;</li>
+	<li>a lot of common code to be shared;</li>
+	<li>error case / malformatted document / document format fuzzing handling to be driven in a uniform and mechanical way;</li>
+	<li>the format specification details to be kept and not distorted by the implementation details.</li>
+</ol>
 
 </article>
 
