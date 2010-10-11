@@ -1,4 +1,4 @@
-/* Cainteoir Command-Line Application.
+/* Memory-Mapped File Buffer.
  *
  * Copyright (C) 2010 Reece H. Dunn
  *
@@ -19,28 +19,35 @@
  */
 
 #include <cainteoir/buffer.hpp>
-#include <cstring>
-#include <cstdio>
-#include <memory>
 
-int main(int argc, char ** argv)
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+
+#include <stdexcept>
+#include <string.h>
+#include <errno.h>
+
+cainteoir::mmap_buffer::mmap_buffer(const char *path)
+	: buffer(NULL, NULL)
+	, fd(-1)
 {
-	try
-	{
-		const char *text = "Hello World!";
-		std::auto_ptr<cainteoir::buffer> text_buffer;
+	fd = open(path, O_RDONLY);
+	if (fd == -1) throw std::runtime_error(strerror(errno));
 
-		if (argc > 1)
-			text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[1]));
-		else
-			text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::buffer(text, text+strlen(text)));
+	struct stat sb;
+	if (fstat(fd, &sb) == -1) throw std::runtime_error(strerror(errno));
 
-		printf("(%d)%s\n", text_buffer->size(), text_buffer->begin());
-	}
-	catch (std::exception &e)
-	{
-		printf("error: %s\n", e.what());
-	}
+	first = (const char *)mmap(NULL, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+	if (first == MAP_FAILED) throw std::runtime_error(strerror(errno));
 
-	return 0;
+	last = first + sb.st_size;
 }
+
+cainteoir::mmap_buffer::~mmap_buffer()
+{
+	if (fd != -1) close(fd);
+	if (first) munmap((void *)first, size());
+}
+

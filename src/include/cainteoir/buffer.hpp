@@ -27,10 +27,12 @@ namespace cainteoir
 {
 	class buffer
 	{
+	protected:
 		const char *first;
 		const char *last;
 	public:
 		buffer(const char *f, const char *l) : first(f), last(l) {}
+		virtual ~buffer() {}
 
 		typedef const char * iterator;
 		typedef std::size_t size_type;
@@ -41,6 +43,14 @@ namespace cainteoir
 		size_type size() const { return last - first; }
 
 		bool empty() const { return first == last; }
+	};
+
+	class mmap_buffer : public buffer
+	{
+		int fd;
+	public:
+		mmap_buffer(const char *path);
+		~mmap_buffer();
 	};
 }
 
