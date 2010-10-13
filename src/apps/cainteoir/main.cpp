@@ -19,7 +19,6 @@
  */
 
 #include <cainteoir/tts_engine.hpp>
-#include <cstring>
 #include <cstdio>
 #include <memory>
 
@@ -33,7 +32,7 @@ int main(int argc, char ** argv)
 		if (argc > 1)
 			text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[1]));
 		else
-			text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::buffer(text, text+strlen(text)+1));
+			text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::buffer(text));
 
 		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine();
 		tts->speak(text_buffer.get());

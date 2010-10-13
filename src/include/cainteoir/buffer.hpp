@@ -21,7 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_BUFFER_HPP
 #define CAINTEOIR_ENGINE_BUFFER_HPP
 
-#include <utility>
+#include <cstring>
 
 namespace cainteoir
 {
@@ -32,6 +32,7 @@ namespace cainteoir
 		const char *last;
 	public:
 		buffer(const char *f, const char *l) : first(f), last(l) {}
+		buffer(const char *f) : first(f), last(f+strlen(f)+1) {}
 		virtual ~buffer() {}
 
 		typedef const char * iterator;
