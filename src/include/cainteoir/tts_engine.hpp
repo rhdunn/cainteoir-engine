@@ -1,4 +1,4 @@
-/* Cainteoir Command-Line Application.
+/* Text-to-Speech Engine API.
  *
  * Copyright (C) 2010 Reece H. Dunn
  *
@@ -18,30 +18,22 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cainteoir/tts_engine.hpp>
-#include <cstring>
-#include <cstdio>
+#ifndef CAINTEOIR_ENGINE_TTS_ENGINE_HPP
+#define CAINTEOIR_ENGINE_TTS_ENGINE_HPP
+
+#include "buffer.hpp"
 #include <memory>
 
-int main(int argc, char ** argv)
+namespace cainteoir
 {
-	try
+	struct tts_engine
 	{
-		const char *text = "Hello World!";
-		std::auto_ptr<cainteoir::buffer> text_buffer;
+		virtual ~tts_engine() {}
 
-		if (argc > 1)
-			text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[1]));
-		else
-			text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::buffer(text, text+strlen(text)+1));
+		virtual void speak(buffer *text) = 0;
+	};
 
-		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine();
-		tts->speak(text_buffer.get());
-	}
-	catch (std::exception &e)
-	{
-		printf("error: %s\n", e.what());
-	}
-
-	return 0;
+	std::auto_ptr<tts_engine> create_espeak_engine();
 }
+
+#endif

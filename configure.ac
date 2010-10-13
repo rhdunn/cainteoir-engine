@@ -17,39 +17,11 @@ dnl ================================================================
 dnl espeak tts engine checks.
 dnl ================================================================
 
-AC_ARG_WITH([espeak],
-    [AS_HELP_STRING([--with-espeak[[=DIR]]], [support for the eSpeak TTS engine @<:@default=yes@:>@])],
-    [ case "$withval" in
-        n|no)
-            ;;
-        y|yes)
-            ESPEAK_DIR=/usr
-            CPPFLAGS="${CPPFLAGS} -I/usr/include"
-            ;;
-        *)
-            ESPEAK_DIR=$withval
-            CPPFLAGS="${CPPFLAGS} -I$withval/include"
-            ;;
-    esac ])
-
-if test "$with_espeak" = "no"; then
-    echo "Disabling eSpeak Text-to-Speech voice support"
-    have_espeak=no
-else
-    AC_CHECK_HEADERS(espeak/speak_lib.h,
-        [
-            AC_DEFINE(HAVE_ESPEAK, [], [Do we have eSpeak])
-            if test "x${ESPEAK_DIR}" != "x"; then
-                ESPEAK_CFLAGS="-I${ESPEAK_DIR}/include"
-                ESPEAK_LIBS="-L${ESPEAK_DIR}/lib -lespeak"
-            else
-                ESPEAK_LIBS="-lespeak"
-            fi
-            have_espeak=yes
-        ],[
-            have_espeak=no
-        ])
-fi
+AC_CHECK_HEADERS(espeak/speak_lib.h,
+    [
+        ESPEAK_CFLAGS="-DHAVE_ESPEAK"
+        ESPEAK_LIBS="-lespeak"
+    ])
 
 AC_SUBST(ESPEAK_CFLAGS)
 AC_SUBST(ESPEAK_LIBS)

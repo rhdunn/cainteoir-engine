@@ -1,4 +1,4 @@
-/* Cainteoir Command-Line Application.
+/* Espeak Text-to-Speech Engine.
  *
  * Copyright (C) 2010 Reece H. Dunn
  *
@@ -19,29 +19,25 @@
  */
 
 #include <cainteoir/tts_engine.hpp>
-#include <cstring>
-#include <cstdio>
-#include <memory>
+#include <espeak/speak_lib.h>
 
-int main(int argc, char ** argv)
+class espeak_engine : public cainteoir::tts_engine
 {
-	try
+public:
+	espeak_engine()
 	{
-		const char *text = "Hello World!";
-		std::auto_ptr<cainteoir::buffer> text_buffer;
-
-		if (argc > 1)
-			text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[1]));
-		else
-			text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::buffer(text, text+strlen(text)+1));
-
-		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine();
-		tts->speak(text_buffer.get());
-	}
-	catch (std::exception &e)
-	{
-		printf("error: %s\n", e.what());
+		int samplerate = espeak_Initialize(AUDIO_OUTPUT_PLAYBACK, 0, NULL, 0);
 	}
 
-	return 0;
+	void speak(cainteoir::buffer *text)
+	{
+		espeak_Synth(text->begin(), text->size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, NULL);
+		espeak_Synchronize();
+	}
+};
+
+std::auto_ptr<cainteoir::tts_engine> cainteoir::create_espeak_engine()
+{
+	return std::auto_ptr<cainteoir::tts_engine>(new espeak_engine());
 }
+

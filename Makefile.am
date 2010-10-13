@@ -27,6 +27,7 @@ EXTRA_DIST += ChangeLog
 noinst_LIBRARIES += src/libcainteoir/libcainteoir.a
 
 src_libcainteoir_libcainteoir_a_SOURCES = \
+	src/libcainteoir/espeak_engine.cpp \
 	src/libcainteoir/mmap_buffer.cpp
 
 ############################# cainteoir #######################################
