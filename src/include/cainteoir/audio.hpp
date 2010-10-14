@@ -1,4 +1,4 @@
-/* Text-to-Speech Engine API.
+/* Audio API.
  *
  * Copyright (C) 2010 Reece H. Dunn
  *
@@ -18,25 +18,32 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAINTEOIR_ENGINE_TTS_ENGINE_HPP
-#define CAINTEOIR_ENGINE_TTS_ENGINE_HPP
-
-#include "buffer.hpp"
-#include "audio.hpp"
-#include <memory>
+#ifndef CAINTEOIR_ENGINE_AUDIO_HPP
+#define CAINTEOIR_ENGINE_AUDIO_HPP
 
 namespace cainteoir
 {
-	struct tts_engine : public audio_properties
+	enum channels
 	{
-		virtual ~tts_engine() {}
-
-		virtual const char *name() const = 0;
-
-		virtual void speak(buffer *text) = 0;
+		mono = 1,
+		stereo = 2,
 	};
 
-	std::auto_ptr<tts_engine> create_espeak_engine();
+	enum audio_format
+	{
+		pcm_s16,
+	};
+
+	struct audio_properties
+	{
+		virtual ~audio_properties() {}
+
+		virtual int frequency() const = 0;
+
+		virtual int channels() const = 0;
+
+		virtual audio_format format() const = 0;
+	};
 }
 
 #endif

@@ -23,10 +23,11 @@
 
 class espeak_engine : public cainteoir::tts_engine
 {
+	int m_frequency;
 public:
 	espeak_engine()
 	{
-		int samplerate = espeak_Initialize(AUDIO_OUTPUT_PLAYBACK, 0, NULL, 0);
+		m_frequency = espeak_Initialize(AUDIO_OUTPUT_PLAYBACK, 0, NULL, 0);
 	}
 
 	~espeak_engine()
@@ -34,11 +35,40 @@ public:
 		espeak_Terminate();
 	}
 
+	/** @name cainteoir::audio_properties */
+	//@{
+
+	int frequency() const
+	{
+		return m_frequency;
+	}
+
+	int channels() const
+	{
+		return cainteoir::mono;
+	}
+
+	cainteoir::audio_format format() const
+	{
+		return cainteoir::pcm_s16;
+	}
+
+	//@}
+	/** @name cainteoir::tts_engine */
+	//@{
+
+	const char *name() const
+	{
+		return "espeak";
+	}
+
 	void speak(cainteoir::buffer *text)
 	{
 		espeak_Synth(text->begin(), text->size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, NULL);
 		espeak_Synchronize();
 	}
+
+	//@}
 };
 
 std::auto_ptr<cainteoir::tts_engine> cainteoir::create_espeak_engine()
