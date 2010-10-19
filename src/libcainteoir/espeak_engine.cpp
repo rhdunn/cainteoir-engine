@@ -62,6 +62,12 @@ public:
 		return "espeak";
 	}
 
+	bool set_voice_by_name(const char *name)
+	{
+		if (!name) name = "default";
+		return espeak_SetVoiceByName(name) == EE_OK;
+	}
+
 	void speak(cainteoir::buffer *text)
 	{
 		espeak_Synth(text->begin(), text->size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, NULL);

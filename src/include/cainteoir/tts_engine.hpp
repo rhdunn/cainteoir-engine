@@ -33,6 +33,8 @@ namespace cainteoir
 
 		virtual const char *name() const = 0;
 
+		virtual bool set_voice_by_name(const char *name) = 0;
+
 		virtual void speak(buffer *text) = 0;
 	};
 

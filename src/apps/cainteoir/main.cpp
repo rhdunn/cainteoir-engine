@@ -21,25 +21,59 @@
 #include <cainteoir/tts_engine.hpp>
 #include <cstdio>
 #include <memory>
+#include <getopt.h>
+
+static struct option options[] =
+{
+	{ "voice", required_argument, 0, 'v' },
+	{ 0, 0, 0, 0 }
+};
 
 int main(int argc, char ** argv)
 {
 	try
 	{
-		const char *text = "Hello World!";
+		const char *voice = NULL;
 		std::auto_ptr<cainteoir::buffer> text_buffer;
 
-		if (argc > 1)
-			text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[1]));
-		else
-			text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::buffer(text));
+		while (1)
+		{
+			int option_index = 0;
+			int c = getopt_long(argc, argv, "v:", options, &option_index);
+			if (c == -1)
+				break;
+
+			switch (c)
+			{
+			case 'v':
+				voice = optarg;
+				break;
+			}
+		}
+
+		argc -= optind;
+		argv += optind;
+
+		if (argc != 1)
+		{
+			fprintf(stderr, "error: no file specified\n");
+			return 0;
+		}
+
+		text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0]));
 
 		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine();
+		if (!tts->set_voice_by_name(voice))
+		{
+			fprintf(stderr, "error: unrecognised voice %s\n", voice);
+			return 0;
+		}
+
 		tts->speak(text_buffer.get());
 	}
 	catch (std::exception &e)
 	{
-		printf("error: %s\n", e.what());
+		fprintf(stderr, "error: %s\n", e.what());
 	}
 
 	return 0;
