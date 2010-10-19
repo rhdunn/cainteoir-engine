@@ -23,27 +23,6 @@
 
 namespace cainteoir
 {
-	enum channels
-	{
-		mono = 1,
-		stereo = 2,
-	};
-
-	enum audio_format
-	{
-		pcm_s16,
-	};
-
-	struct audio_properties
-	{
-		virtual ~audio_properties() {}
-
-		virtual int frequency() const = 0;
-
-		virtual int channels() const = 0;
-
-		virtual audio_format format() const = 0;
-	};
 }
 
 #endif

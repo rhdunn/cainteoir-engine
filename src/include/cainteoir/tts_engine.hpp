@@ -28,7 +28,7 @@
 
 namespace cainteoir
 {
-	struct tts_engine : public audio_properties, public metadata
+	struct tts_engine : public metadata
 	{
 		virtual ~tts_engine() {}
 

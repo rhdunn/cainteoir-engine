@@ -23,8 +23,6 @@
 #include <memory>
 #include <getopt.h>
 
-namespace dc = cainteoir::dc;
-
 static struct option options[] =
 {
 	{ "voice", required_argument, 0, 'v' },
@@ -71,7 +69,11 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
-		fprintf(stdout, "using text-to-speech engine %s\n", tts->get_metadata(dc::title).c_str());
+		fprintf(stdout, "... using text-to-speech engine %s (%s %s %s)\n",
+			tts->get_metadata(cainteoir::title),
+			tts->get_metadata(cainteoir::frequency),
+			tts->get_metadata(cainteoir::audio_format),
+			tts->get_metadata(cainteoir::channels));
 
 		tts->speak(text_buffer.get());
 	}

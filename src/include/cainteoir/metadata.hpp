@@ -21,25 +21,28 @@
 #ifndef CAINTEOIR_ENGINE_METADATA_HPP
 #define CAINTEOIR_ENGINE_METADATA_HPP
 
-#include <string>
-
 namespace cainteoir
 {
-	namespace dc
+	enum metadata_tag
 	{
-		static const char *title = "http://purl.org/dc/elements/1.1/title";
-	}
+		/** @brief The title of the document, chapter, voice, text-to-speech engine, etc. */
+		title,
 
-	namespace dcterms
-	{
-		static const char *title = "http://purl.org/dc/terms/title";
-	}
+		/** @brief The number of audio channels (mono = 1, stereo = 2). */
+		channels,
+
+		/** @brief The frequency (in Hz) of the audio data. */
+		frequency,
+
+		/** @brief The format of the audio data: S16_LE, S16_BE, S32_LE, etc. */
+		audio_format,
+	};
 
 	struct metadata
 	{
 		virtual ~metadata() {}
 
-		virtual std::string get_metadata(const char *uri) const = 0;
+		virtual const char *get_metadata(metadata_tag tag) const = 0;
 	};
 }
 
