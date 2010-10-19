@@ -54,13 +54,19 @@ public:
 	}
 
 	//@}
-	/** @name cainteoir::tts_engine */
+	/** @name cainteoir::metadata */
 	//@{
 
-	const char *name() const
+	std::string get_metadata(const char *uri) const
 	{
-		return "espeak";
+		if (!strcmp(uri, cainteoir::dc::title) || !strcmp(uri, cainteoir::dcterms::title))
+			return "espeak";
+		return std::string();
 	}
+
+	//@}
+	/** @name cainteoir::tts_engine */
+	//@{
 
 	bool set_voice_by_name(const char *name)
 	{

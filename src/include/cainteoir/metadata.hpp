@@ -1,4 +1,4 @@
-/* Text-to-Speech Engine API.
+/* MetaData API.
  *
  * Copyright (C) 2010 Reece H. Dunn
  *
@@ -18,26 +18,29 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAINTEOIR_ENGINE_TTS_ENGINE_HPP
-#define CAINTEOIR_ENGINE_TTS_ENGINE_HPP
+#ifndef CAINTEOIR_ENGINE_METADATA_HPP
+#define CAINTEOIR_ENGINE_METADATA_HPP
 
-#include "buffer.hpp"
-#include "audio.hpp"
-#include "metadata.hpp"
-#include <memory>
+#include <string>
 
 namespace cainteoir
 {
-	struct tts_engine : public audio_properties, public metadata
+	namespace dc
 	{
-		virtual ~tts_engine() {}
+		static const char *title = "http://purl.org/dc/elements/1.1/title";
+	}
 
-		virtual bool set_voice_by_name(const char *name) = 0;
+	namespace dcterms
+	{
+		static const char *title = "http://purl.org/dc/terms/title";
+	}
 
-		virtual void speak(buffer *text) = 0;
+	struct metadata
+	{
+		virtual ~metadata() {}
+
+		virtual std::string get_metadata(const char *uri) const = 0;
 	};
-
-	std::auto_ptr<tts_engine> create_espeak_engine();
 }
 
 #endif

@@ -23,6 +23,8 @@
 #include <memory>
 #include <getopt.h>
 
+namespace dc = cainteoir::dc;
+
 static struct option options[] =
 {
 	{ "voice", required_argument, 0, 'v' },
@@ -68,6 +70,8 @@ int main(int argc, char ** argv)
 			fprintf(stderr, "error: unrecognised voice %s\n", voice);
 			return 0;
 		}
+
+		fprintf(stdout, "using text-to-speech engine %s\n", tts->get_metadata(dc::title).c_str());
 
 		tts->speak(text_buffer.get());
 	}
