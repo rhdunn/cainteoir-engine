@@ -21,13 +21,31 @@
 #include <cainteoir/tts_engine.hpp>
 #include <espeak/speak_lib.h>
 
+static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
+{
+	cainteoir::audio *out = (cainteoir::audio *)events->user_data;
+
+	if (!wav)
+	{
+		out->close();
+		return 0;
+	}
+
+	if (numsamples > 0)
+		out->write(wav, numsamples*2);
+
+	return 0;
+}
+
 class espeak_engine : public cainteoir::tts_engine
 {
 	char m_frequency[20];
 public:
 	espeak_engine()
 	{
-		int frequency = espeak_Initialize(AUDIO_OUTPUT_PLAYBACK, 0, NULL, 0);
+		int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, 0);
+		espeak_SetSynthCallback(espeak_tts_callback);
+
 		snprintf(m_frequency, 20, "%dHz", frequency);
 	}
 
@@ -61,9 +79,9 @@ public:
 		return espeak_SetVoiceByName(name) == EE_OK;
 	}
 
-	void speak(cainteoir::buffer *text)
+	void speak(cainteoir::buffer *text, cainteoir::audio *out)
 	{
-		espeak_Synth(text->begin(), text->size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, NULL);
+		espeak_Synth(text->begin(), text->size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, out);
 		espeak_Synchronize();
 	}
 

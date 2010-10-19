@@ -23,9 +23,16 @@
 #include <memory>
 #include <getopt.h>
 
+enum args
+{
+	ARG_STDOUT = 300,
+};
+
 static struct option options[] =
 {
-	{ "voice", required_argument, 0, 'v' },
+	{ "voice",  required_argument, 0, 'v' },
+	{ "output", required_argument, 0, 'o' },
+	{ "stdout", no_argument,       0, ARG_STDOUT },
 	{ 0, 0, 0, 0 }
 };
 
@@ -34,12 +41,13 @@ int main(int argc, char ** argv)
 	try
 	{
 		const char *voice = NULL;
+		const char *outfile = NULL;
 		std::auto_ptr<cainteoir::buffer> text_buffer;
 
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "v:", options, &option_index);
+			int c = getopt_long(argc, argv, "o:v:", options, &option_index);
 			if (c == -1)
 				break;
 
@@ -47,6 +55,12 @@ int main(int argc, char ** argv)
 			{
 			case 'v':
 				voice = optarg;
+				break;
+			case 'o':
+				outfile = optarg;
+				break;
+			case ARG_STDOUT:
+				outfile = "-";
 				break;
 			}
 		}
@@ -56,7 +70,13 @@ int main(int argc, char ** argv)
 
 		if (argc != 1)
 		{
-			fprintf(stderr, "error: no file specified\n");
+			fprintf(stderr, "error: no document specified\n");
+			return 0;
+		}
+
+		if (!outfile)
+		{
+			fprintf(stderr, "error: no output file specified, use -o/--output or --stdout\n");
 			return 0;
 		}
 
@@ -69,13 +89,19 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
-		fprintf(stdout, "... using text-to-speech engine %s (%s %s %s)\n",
+		std::auto_ptr<cainteoir::audio> out;
+		if (!strcmp(outfile, "-"))
+			out = cainteoir::create_wav_file(NULL, tts.get());
+		else
+			out = cainteoir::create_wav_file(outfile, tts.get());
+
+		fprintf(stderr, "... using text-to-speech engine %s (%s %s %s)\n",
 			tts->get_metadata(cainteoir::title),
 			tts->get_metadata(cainteoir::frequency),
 			tts->get_metadata(cainteoir::audio_format),
 			tts->get_metadata(cainteoir::channels));
 
-		tts->speak(text_buffer.get());
+		tts->speak(text_buffer.get(), out.get());
 	}
 	catch (std::exception &e)
 	{
