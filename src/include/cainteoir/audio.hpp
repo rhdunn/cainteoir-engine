@@ -21,8 +21,22 @@
 #ifndef CAINTEOIR_ENGINE_AUDIO_HPP
 #define CAINTEOIR_ENGINE_AUDIO_HPP
 
+#include "metadata.hpp"
+#include <stdint.h>
+#include <memory>
+
 namespace cainteoir
 {
+	struct audio
+	{
+		virtual ~audio() {}
+
+		virtual uint32_t write(const void *data, uint32_t len) = 0;
+
+		virtual void close() = 0;
+	};
+
+	std::auto_ptr<audio> create_wav_file(const char *filename, cainteoir::metadata *data);
 }
 
 #endif
