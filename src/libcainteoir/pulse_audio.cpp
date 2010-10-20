@@ -26,31 +26,39 @@
 class pulse_audio : public cainteoir::audio
 {
 	pa_simple *pa;
+	pa_sample_spec ss;
+	const char *m_device;
 public:
 	pulse_audio(const char *device, cainteoir::metadata *data)
+		: pa(NULL)
+		, m_device(device)
 	{
-		pa_sample_spec ss;
 
 		if (!strcmp(data->get_metadata(cainteoir::audio_format), "S16_LE"))
 			ss.format = PA_SAMPLE_S16LE;
 
 		ss.channels = !strcmp(data->get_metadata(cainteoir::channels), "mono") ? 1 : 2;
 		sscanf(data->get_metadata(cainteoir::frequency), "%dHz", &ss.rate);
-
-		pa = pa_simple_new(device, "Cainteoir Text-to-Speech", PA_STREAM_PLAYBACK, NULL, "Music", &ss, NULL, NULL, NULL);
 	}
 
 	~pulse_audio()
 	{
-		pa_simple_free(pa);
+		close();
 	}
 
 	void open()
 	{
+		if (!pa)
+			pa = pa_simple_new(m_device, "Cainteoir Text-to-Speech", PA_STREAM_PLAYBACK, NULL, "Music", &ss, NULL, NULL, NULL);
 	}
 
 	void close()
 	{
+		if (pa)
+		{
+			pa_simple_free(pa);
+			pa = NULL;
+		}
 	}
 
 	uint32_t write(const char *data, uint32_t len)
