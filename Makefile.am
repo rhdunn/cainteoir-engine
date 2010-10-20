@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
-AM_LDFLAGS  = ${VORBIS_LIBS}   ${ESPEAK_LIBS}
-AM_CXXFLAGS = ${VORBIS_CFLAGS} ${ESPEAK_CFLAGS} -Isrc/include
+AM_LDFLAGS  = ${PULSE_LIBS}   ${VORBIS_LIBS}   ${ESPEAK_LIBS}
+AM_CXXFLAGS = ${PULSE_CFLAGS} ${VORBIS_CFLAGS} ${ESPEAK_CFLAGS} -Isrc/include
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -27,6 +27,7 @@ EXTRA_DIST += ChangeLog
 noinst_LIBRARIES += src/libcainteoir/libcainteoir.a
 
 src_libcainteoir_libcainteoir_a_SOURCES = \
+	src/libcainteoir/pulse_audio.cpp \
 	src/libcainteoir/wav_audio.cpp \
 	src/libcainteoir/ogg_audio.cpp \
 	src/libcainteoir/espeak_engine.cpp \

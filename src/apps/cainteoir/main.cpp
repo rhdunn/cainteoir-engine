@@ -79,12 +79,6 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
-		if (!outfile || !outformat)
-		{
-			fprintf(stderr, "error: no output file/format specified, use -o/--output or --stdout with -t/--type\n");
-			return 0;
-		}
-
 		text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0]));
 
 		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine();
@@ -95,19 +89,24 @@ int main(int argc, char ** argv)
 		}
 
 		std::auto_ptr<cainteoir::audio> out;
-		if (!strcmp(outfile, "-"))
-			outfile = NULL;
-
-		if (!strcmp(outformat, "wave"))
-			out = cainteoir::create_wav_file(outfile, tts.get());
-		else if (!strcmp(outformat, "ogg"))
-			out = cainteoir::create_ogg_file(outfile, tts.get(), 0.3);
-
-		if (!out.get())
+		if (outfile)
 		{
-			fprintf(stderr, "error: unsupported audio file format\n");
-			return 0;
+			if (!strcmp(outfile, "-"))
+				outfile = NULL;
+
+			if (!strcmp(outformat, "wave"))
+				out = cainteoir::create_wav_file(outfile, tts.get());
+			else if (!strcmp(outformat, "ogg"))
+				out = cainteoir::create_ogg_file(outfile, tts.get(), 0.3);
+
+			if (!out.get())
+			{
+				fprintf(stderr, "error: unsupported audio file format\n");
+				return 0;
+			}
 		}
+		else
+			out = cainteoir::create_pulseaudio_device(NULL, tts.get());
 
 		fprintf(stderr, "... using text-to-speech engine %s (%s %s %s)\n",
 			tts->get_metadata(cainteoir::title),

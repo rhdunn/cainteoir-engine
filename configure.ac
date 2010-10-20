@@ -34,6 +34,14 @@ AC_SUBST(ESPEAK_CFLAGS)
 AC_SUBST(ESPEAK_LIBS)
 
 dnl ================================================================
+dnl PulseAudio checks.
+dnl ================================================================
+
+PKG_CHECK_MODULES(PULSE, [libpulse-simple >= 0.9])
+AC_SUBST(PULSE_CFLAGS)
+AC_SUBST(PULSE_LIBS)
+
+dnl ================================================================
 dnl Ogg/Vorbis checks.
 dnl ================================================================
 
