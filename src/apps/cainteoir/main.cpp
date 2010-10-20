@@ -43,7 +43,7 @@ int main(int argc, char ** argv)
 	{
 		const char *voice = NULL;
 		const char *outfile = NULL;
-		const char *outformat = NULL;
+		const char *outformat = "wave";
 		std::auto_ptr<cainteoir::buffer> text_buffer;
 
 		while (1)
