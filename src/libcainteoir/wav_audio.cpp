@@ -66,10 +66,6 @@ public:
 		header.block_align = header.channels * (header.sample_size / 8);
 
 		m_header = header;
-
-		fwrite(&m_header, 1, sizeof(m_header), m_file);
-		m_header.size = sizeof(WaveHeader);
-		m_header.data_size = 0;
 	}
 
 	~wav_audio()
@@ -77,12 +73,11 @@ public:
 		close();
 	}
 
-	uint32_t write(const void *data, uint32_t len)
+	void open()
 	{
-		m_header.size += len;
-		m_header.data_size += len;
-
-		return fwrite(data, 1, len, m_file);
+		fwrite(&m_header, 1, sizeof(m_header), m_file);
+		m_header.size = sizeof(WaveHeader);
+		m_header.data_size = 0;
 	}
 
 	void close()
@@ -95,6 +90,14 @@ public:
 
 		fclose(m_file);
 		m_file = NULL;
+	}
+
+	uint32_t write(const char *data, uint32_t len)
+	{
+		m_header.size += len;
+		m_header.data_size += len;
+
+		return fwrite(data, 1, len, m_file);
 	}
 };
 

@@ -30,9 +30,10 @@ enum args
 
 static struct option options[] =
 {
-	{ "voice",  required_argument, 0, 'v' },
 	{ "output", required_argument, 0, 'o' },
 	{ "stdout", no_argument,       0, ARG_STDOUT },
+	{ "type",   required_argument, 0, 't' },
+	{ "voice",  required_argument, 0, 'v' },
 	{ 0, 0, 0, 0 }
 };
 
@@ -42,12 +43,13 @@ int main(int argc, char ** argv)
 	{
 		const char *voice = NULL;
 		const char *outfile = NULL;
+		const char *outformat = NULL;
 		std::auto_ptr<cainteoir::buffer> text_buffer;
 
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "o:v:", options, &option_index);
+			int c = getopt_long(argc, argv, "o:t:v:", options, &option_index);
 			if (c == -1)
 				break;
 
@@ -58,6 +60,9 @@ int main(int argc, char ** argv)
 				break;
 			case 'o':
 				outfile = optarg;
+				break;
+			case 't':
+				outformat = optarg;
 				break;
 			case ARG_STDOUT:
 				outfile = "-";
@@ -74,9 +79,9 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
-		if (!outfile)
+		if (!outfile || !outformat)
 		{
-			fprintf(stderr, "error: no output file specified, use -o/--output or --stdout\n");
+			fprintf(stderr, "error: no output file/format specified, use -o/--output or --stdout with -t/--type\n");
 			return 0;
 		}
 
@@ -91,9 +96,18 @@ int main(int argc, char ** argv)
 
 		std::auto_ptr<cainteoir::audio> out;
 		if (!strcmp(outfile, "-"))
-			out = cainteoir::create_wav_file(NULL, tts.get());
-		else
+			outfile = NULL;
+
+		if (!strcmp(outformat, "wave"))
 			out = cainteoir::create_wav_file(outfile, tts.get());
+		else if (!strcmp(outformat, "ogg"))
+			out = cainteoir::create_ogg_file(outfile, tts.get(), 0.3);
+
+		if (!out.get())
+		{
+			fprintf(stderr, "error: unsupported audio file format\n");
+			return 0;
+		}
 
 		fprintf(stderr, "... using text-to-speech engine %s (%s %s %s)\n",
 			tts->get_metadata(cainteoir::title),

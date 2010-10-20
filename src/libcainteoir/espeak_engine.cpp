@@ -32,7 +32,7 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
 	}
 
 	if (numsamples > 0)
-		out->write(wav, numsamples*2);
+		out->write((const char *)wav, numsamples*2);
 
 	return 0;
 }
@@ -81,6 +81,7 @@ public:
 
 	void speak(cainteoir::buffer *text, cainteoir::audio *out)
 	{
+		out->open();
 		espeak_Synth(text->begin(), text->size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, out);
 		espeak_Synchronize();
 	}

@@ -34,6 +34,30 @@ AC_SUBST(ESPEAK_CFLAGS)
 AC_SUBST(ESPEAK_LIBS)
 
 dnl ================================================================
+dnl Ogg/Vorbis checks.
+dnl ================================================================
+
+AC_ARG_WITH([vorbisenc],
+    [AS_HELP_STRING([--with-vorbisenc], [support for vorbisenc Ogg/Vorbis encoder @<:@default=yes@:>@])],
+    [])
+
+if test "$with_vorbisenc" = "no"; then
+    echo "Disabling Ogg/Vorbis support via vorbisenc"
+    have_vorbisenc=no
+else
+    PKG_CHECK_MODULES(VORBIS, [vorbisenc >= 1.2],
+        [
+            AC_DEFINE(HAVE_VORBISENC, [], [Do we have vorbisenc])
+            have_vorbisenc=yes
+        ],[
+            have_vorbisenc=no
+        ])
+fi
+
+AC_SUBST(VORBIS_CFLAGS)
+AC_SUBST(VORBIS_LIBS)
+
+dnl ================================================================
 dnl Generate output.
 dnl ================================================================
 

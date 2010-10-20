@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
-AM_LDFLAGS  = ${ESPEAK_LIBS}
-AM_CXXFLAGS = ${ESPEAK_CFLAGS} -Isrc/include
+AM_LDFLAGS  = ${VORBIS_LIBS}   ${ESPEAK_LIBS}
+AM_CXXFLAGS = ${VORBIS_CFLAGS} ${ESPEAK_CFLAGS} -Isrc/include
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -28,6 +28,7 @@ noinst_LIBRARIES += src/libcainteoir/libcainteoir.a
 
 src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/libcainteoir/wav_audio.cpp \
+	src/libcainteoir/ogg_audio.cpp \
 	src/libcainteoir/espeak_engine.cpp \
 	src/libcainteoir/mmap_buffer.cpp
 

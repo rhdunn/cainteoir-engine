@@ -31,12 +31,15 @@ namespace cainteoir
 	{
 		virtual ~audio() {}
 
-		virtual uint32_t write(const void *data, uint32_t len) = 0;
+		virtual void open() = 0;
 
 		virtual void close() = 0;
+
+		virtual uint32_t write(const char *data, uint32_t len) = 0;
 	};
 
 	std::auto_ptr<audio> create_wav_file(const char *filename, cainteoir::metadata *data);
+	std::auto_ptr<audio> create_ogg_file(const char *filename, cainteoir::metadata *data, float quality);
 }
 
 #endif
