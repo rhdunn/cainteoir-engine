@@ -29,6 +29,7 @@ namespace unicode
 	{
 		enum type
 		{
+			counting_rod,
 			latin,
 			none,
 		};
@@ -216,7 +217,7 @@ static unicode::codepoint_data unicode_c0_controls_and_basic_latin[] =
 	{ '~',    script::latin, type::symbol }, /* TILDE */
 	/* 0x007F: Control Character */
 	{ 0x007F, script::latin, type::control },
-}
+};
 
 /** @see http://www.unicode.org/charts/PDF/U0080.pdf - C1 Controls And Latin-1 Supplement */
 static unicode::codepoint_data unicode_c1_controls_and_latin_1_supplement[] =
@@ -358,8 +359,46 @@ static unicode::codepoint_data unicode_c1_controls_and_latin_1_supplement[] =
 	{ 'y',    script::latin, type::letter }, /* LATIN SMALL LETTER Y WITH DIAERESIS */
 };
 
+/** @see http://www.unicode.org/charts/PDF/U1D360.pdf - Counting Rod Units */
+static unicode::codepoint_data unicode_counting_rod_units[] =
+{
+	{ 1,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT ONE */
+	{ 2,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT TWO */
+	{ 3,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT THREE */
+	{ 4,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT FOUR */
+	{ 5,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT FIVE */
+	{ 6,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT SIX */
+	{ 7,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT SEVEN */
+	{ 8,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT EIGHT */
+	{ 9,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT NINE */
+	{ 10,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT ONE */
+	{ 20,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT TWO */
+	{ 30,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT THREE */
+	{ 40,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT FOUR */
+	{ 50,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT FIVE */
+	{ 60,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT SIX */
+	{ 70,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT SEVEN */
+	{ 80,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT EIGHT */
+	{ 90,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT NINE */
+	{ 0x1D372, script::none, type::invalid },
+	{ 0x1D373, script::none, type::invalid },
+	{ 0x1D374, script::none, type::invalid },
+	{ 0x1D375, script::none, type::invalid },
+	{ 0x1D376, script::none, type::invalid },
+	{ 0x1D377, script::none, type::invalid },
+	{ 0x1D378, script::none, type::invalid },
+	{ 0x1D379, script::none, type::invalid },
+	{ 0x1D37A, script::none, type::invalid },
+	{ 0x1D37B, script::none, type::invalid },
+	{ 0x1D37C, script::none, type::invalid },
+	{ 0x1D37D, script::none, type::invalid },
+	{ 0x1D37E, script::none, type::invalid },
+	{ 0x1D37F, script::none, type::invalid },
+};
+
 static unicode_range_data data[] = /* Unicode 6.0 */
 {
 	{ 0x00000, 0x0007F, unicode_c0_controls_and_basic_latin },
 	{ 0x00080, 0x000FF, unicode_c1_controls_and_latin_1_supplement },
+	{ 0x1D360, 0x1D37F, unicode_counting_rod_units },
 };
