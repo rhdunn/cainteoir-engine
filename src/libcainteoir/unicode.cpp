@@ -91,7 +91,7 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 0x0006, script::none,  type::control },
 	{ 0x0007, script::none,  type::control },
 	{ 0x0008, script::none,  type::control },
-	{ 0x0020, script::none,  type::space   }, /* CHARACTER TABULATION */
+	{ ' ',    script::none,  type::space   }, /* CHARACTER TABULATION */
 	{ 0x000A, script::none,  type::newline }, /* LINE FEED (LF) */
 	{ 0x000B, script::none,  type::control },
 	{ 0x000C, script::none,  type::newline }, /* FORM FEED (FF) */
@@ -115,107 +115,107 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 0x001E, script::none,  type::control },
 	{ 0x001F, script::none,  type::control },
 	/* 0x0020: C0 Controls And Basic Latin -- ASCII Punctuation And Symbols */
-	{ 0x0020, script::latin, type::space       }, /* SPACE */
-	{ 0x0021, script::latin, type::punctuation }, /* EXCLAMATION MARK */
-	{ 0x0022, script::latin, type::symbol      }, /* QUOTATION MARK */
-	{ 0x0023, script::latin, type::symbol      }, /* NUMBER SIGN */
-	{ 0x0024, script::latin, type::symbol      }, /* DOLLAR SIGN */
-	{ 0x0025, script::latin, type::symbol      }, /* PERCENT SIGN */
-	{ 0x0026, script::latin, type::symbol      }, /* AMPERSAND */
-	{ 0x0027, script::latin, type::symbol      }, /* APOSTROPHE */
-	{ 0x0028, script::latin, type::symbol      }, /* LEFT PARENTHESIS */
-	{ 0x0029, script::latin, type::symbol      }, /* RIGHT PARENTHESIS */
-	{ 0x002A, script::latin, type::symbol      }, /* ASTERISK */
-	{ 0x002B, script::latin, type::symbol      }, /* PLUS SIGN */
-	{ 0x002C, script::latin, type::punctuation }, /* COMMA */
-	{ 0x002D, script::latin, type::symbol      }, /* HYPHEN-MINUS */
-	{ 0x002E, script::latin, type::punctuation }, /* FULL STOP */
-	{ 0x002F, script::latin, type::symbol      }, /* SOLIDUS */
+	{ ' ',    script::latin, type::space       }, /* SPACE */
+	{ '!',    script::latin, type::punctuation }, /* EXCLAMATION MARK */
+	{ '"',    script::latin, type::symbol      }, /* QUOTATION MARK */
+	{ '#',    script::latin, type::symbol      }, /* NUMBER SIGN */
+	{ '$',    script::latin, type::symbol      }, /* DOLLAR SIGN */
+	{ '%',    script::latin, type::symbol      }, /* PERCENT SIGN */
+	{ '&',    script::latin, type::symbol      }, /* AMPERSAND */
+	{ '\'',   script::latin, type::symbol      }, /* APOSTROPHE */
+	{ '(',    script::latin, type::symbol      }, /* LEFT PARENTHESIS */
+	{ ')',    script::latin, type::symbol      }, /* RIGHT PARENTHESIS */
+	{ '*',    script::latin, type::symbol      }, /* ASTERISK */
+	{ '+',    script::latin, type::symbol      }, /* PLUS SIGN */
+	{ ',',    script::latin, type::punctuation }, /* COMMA */
+	{ '-',    script::latin, type::symbol      }, /* HYPHEN-MINUS */
+	{ '.',    script::latin, type::punctuation }, /* FULL STOP */
+	{ '/',    script::latin, type::symbol      }, /* SOLIDUS */
 	/* 0x0030: C0 Controls And Basic Latin -- ASCII Digits */
-	{ 0, script::latin, type::number }, /* DIGIT ZERO */
-	{ 1, script::latin, type::number }, /* DIGIT ONE */
-	{ 2, script::latin, type::number }, /* DIGIT TWO */
-	{ 3, script::latin, type::number }, /* DIGIT THREE */
-	{ 4, script::latin, type::number }, /* DIGIT FOUR */
-	{ 5, script::latin, type::number }, /* DIGIT FIVE */
-	{ 6, script::latin, type::number }, /* DIGIT SIX */
-	{ 7, script::latin, type::number }, /* DIGIT SEVEN */
-	{ 8, script::latin, type::number }, /* DIGIT EIGHT */
-	{ 9, script::latin, type::number }, /* DIGIT NINE */
+	{ 0,      script::latin, type::number }, /* DIGIT ZERO */
+	{ 1,      script::latin, type::number }, /* DIGIT ONE */
+	{ 2,      script::latin, type::number }, /* DIGIT TWO */
+	{ 3,      script::latin, type::number }, /* DIGIT THREE */
+	{ 4,      script::latin, type::number }, /* DIGIT FOUR */
+	{ 5,      script::latin, type::number }, /* DIGIT FIVE */
+	{ 6,      script::latin, type::number }, /* DIGIT SIX */
+	{ 7,      script::latin, type::number }, /* DIGIT SEVEN */
+	{ 8,      script::latin, type::number }, /* DIGIT EIGHT */
+	{ 9,      script::latin, type::number }, /* DIGIT NINE */
 	/* 0x003A: C0 Controls And Basic Latin -- ASCII Punctuation And Symbols */
-	{ 0x003A, script::latin, type::punctuation }, /* COLON */
-	{ 0x003B, script::latin, type::punctuation }, /* SEMICOLON */
-	{ 0x003C, script::latin, type::symbol      }, /* LESS-THAN SIGN */
-	{ 0x003D, script::latin, type::symbol      }, /* EQUALS SIGN */
-	{ 0x003E, script::latin, type::symbol      }, /* GREATER-THAN SIGN */
-	{ 0x003F, script::latin, type::punctuation }, /* QUESTION MARK */
-	{ 0x0040, script::latin, type::symbol      }, /* COMMERCIAL AT */
+	{ ':',    script::latin, type::punctuation }, /* COLON */
+	{ ';',    script::latin, type::punctuation }, /* SEMICOLON */
+	{ '<',    script::latin, type::symbol      }, /* LESS-THAN SIGN */
+	{ '=',    script::latin, type::symbol      }, /* EQUALS SIGN */
+	{ '>',    script::latin, type::symbol      }, /* GREATER-THAN SIGN */
+	{ '?',    script::latin, type::punctuation }, /* QUESTION MARK */
+	{ '@',    script::latin, type::symbol      }, /* COMMERCIAL AT */
 	/* 0x0041: C0 Controls And Basic Latin -- Uppercase Latin Alphabet */
-	{ 0x0061, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER A */
-	{ 0x0062, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER B */
-	{ 0x0063, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER C */
-	{ 0x0064, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER D */
-	{ 0x0065, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER E */
-	{ 0x0066, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER F */
-	{ 0x0067, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER G */
-	{ 0x0068, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER H */
-	{ 0x0069, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER I */
-	{ 0x006A, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER J */
-	{ 0x006B, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER K */
-	{ 0x006C, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER L */
-	{ 0x006D, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER M */
-	{ 0x006E, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER N */
-	{ 0x006F, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER O */
-	{ 0x0070, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER P */
-	{ 0x0071, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER Q */
-	{ 0x0072, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER R */
-	{ 0x0073, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER S */
-	{ 0x0074, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER T */
-	{ 0x0075, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER U */
-	{ 0x0076, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER V */
-	{ 0x0077, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER W */
-	{ 0x0078, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER X */
-	{ 0x0079, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER Y */
-	{ 0x007A, script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER Z */
+	{ 'a',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER A */
+	{ 'b',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER B */
+	{ 'c',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER C */
+	{ 'd',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER D */
+	{ 'e',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER E */
+	{ 'f',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER F */
+	{ 'g',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER G */
+	{ 'h',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER H */
+	{ 'i',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER I */
+	{ 'j',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER J */
+	{ 'k',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER K */
+	{ 'l',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER L */
+	{ 'm',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER M */
+	{ 'n',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER N */
+	{ 'o',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER O */
+	{ 'p',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER P */
+	{ 'q',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER Q */
+	{ 'r',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER R */
+	{ 's',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER S */
+	{ 't',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER T */
+	{ 'u',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER U */
+	{ 'v',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER V */
+	{ 'w',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER W */
+	{ 'x',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER X */
+	{ 'y',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER Y */
+	{ 'z',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER Z */
 	/* 0x005B: C0 Controls And Basic Latin -- ASCII Punctuation And Symbols */
-	{ 0x005B, script::latin, type::symbol }, /* LEFT SQUARE BRACKET */
-	{ 0x005C, script::latin, type::symbol }, /* REVERSE SOLIUS */
-	{ 0x005D, script::latin, type::symbol }, /* RIGHT SQUARE BRACKET */
-	{ 0x005E, script::latin, type::symbol }, /* CIRCUMFLEX ACCENT */
-	{ 0x005F, script::latin, type::symbol }, /* LOW LINE */
-	{ 0x0060, script::latin, type::symbol }, /* GRAVE ACCENT */
+	{ '[',    script::latin, type::symbol }, /* LEFT SQUARE BRACKET */
+	{ '\\',   script::latin, type::symbol }, /* REVERSE SOLIUS */
+	{ ']',    script::latin, type::symbol }, /* RIGHT SQUARE BRACKET */
+	{ '^',    script::latin, type::symbol }, /* CIRCUMFLEX ACCENT */
+	{ '_',    script::latin, type::symbol }, /* LOW LINE */
+	{ '`',    script::latin, type::symbol }, /* GRAVE ACCENT */
 	/* 0x0061: C0 Controls And Basic Latin -- Lowercase Latin Alphabet */
-	{ 0x0061, script::latin, type::letter }, /* LATIN SMALL LETTER A */
-	{ 0x0062, script::latin, type::letter }, /* LATIN SMALL LETTER B */
-	{ 0x0063, script::latin, type::letter }, /* LATIN SMALL LETTER C */
-	{ 0x0064, script::latin, type::letter }, /* LATIN SMALL LETTER D */
-	{ 0x0065, script::latin, type::letter }, /* LATIN SMALL LETTER E */
-	{ 0x0066, script::latin, type::letter }, /* LATIN SMALL LETTER F */
-	{ 0x0067, script::latin, type::letter }, /* LATIN SMALL LETTER G */
-	{ 0x0068, script::latin, type::letter }, /* LATIN SMALL LETTER H */
-	{ 0x0069, script::latin, type::letter }, /* LATIN SMALL LETTER I */
-	{ 0x006A, script::latin, type::letter }, /* LATIN SMALL LETTER J */
-	{ 0x006B, script::latin, type::letter }, /* LATIN SMALL LETTER K */
-	{ 0x006C, script::latin, type::letter }, /* LATIN SMALL LETTER L */
-	{ 0x006D, script::latin, type::letter }, /* LATIN SMALL LETTER M */
-	{ 0x006E, script::latin, type::letter }, /* LATIN SMALL LETTER N */
-	{ 0x006F, script::latin, type::letter }, /* LATIN SMALL LETTER O */
-	{ 0x0070, script::latin, type::letter }, /* LATIN SMALL LETTER P */
-	{ 0x0071, script::latin, type::letter }, /* LATIN SMALL LETTER Q */
-	{ 0x0072, script::latin, type::letter }, /* LATIN SMALL LETTER R */
-	{ 0x0073, script::latin, type::letter }, /* LATIN SMALL LETTER S */
-	{ 0x0074, script::latin, type::letter }, /* LATIN SMALL LETTER T */
-	{ 0x0075, script::latin, type::letter }, /* LATIN SMALL LETTER U */
-	{ 0x0076, script::latin, type::letter }, /* LATIN SMALL LETTER V */
-	{ 0x0077, script::latin, type::letter }, /* LATIN SMALL LETTER W */
-	{ 0x0078, script::latin, type::letter }, /* LATIN SMALL LETTER X */
-	{ 0x0079, script::latin, type::letter }, /* LATIN SMALL LETTER Y */
-	{ 0x007A, script::latin, type::letter }, /* LATIN SMALL LETTER Z */
+	{ 'a',    script::latin, type::letter }, /* LATIN SMALL LETTER A */
+	{ 'b',    script::latin, type::letter }, /* LATIN SMALL LETTER B */
+	{ 'c',    script::latin, type::letter }, /* LATIN SMALL LETTER C */
+	{ 'd',    script::latin, type::letter }, /* LATIN SMALL LETTER D */
+	{ 'e',    script::latin, type::letter }, /* LATIN SMALL LETTER E */
+	{ 'f',    script::latin, type::letter }, /* LATIN SMALL LETTER F */
+	{ 'g',    script::latin, type::letter }, /* LATIN SMALL LETTER G */
+	{ 'h',    script::latin, type::letter }, /* LATIN SMALL LETTER H */
+	{ 'i',    script::latin, type::letter }, /* LATIN SMALL LETTER I */
+	{ 'j',    script::latin, type::letter }, /* LATIN SMALL LETTER J */
+	{ 'k',    script::latin, type::letter }, /* LATIN SMALL LETTER K */
+	{ 'l',    script::latin, type::letter }, /* LATIN SMALL LETTER L */
+	{ 'm',    script::latin, type::letter }, /* LATIN SMALL LETTER M */
+	{ 'n',    script::latin, type::letter }, /* LATIN SMALL LETTER N */
+	{ 'o',    script::latin, type::letter }, /* LATIN SMALL LETTER O */
+	{ 'p',    script::latin, type::letter }, /* LATIN SMALL LETTER P */
+	{ 'q',    script::latin, type::letter }, /* LATIN SMALL LETTER Q */
+	{ 'r',    script::latin, type::letter }, /* LATIN SMALL LETTER R */
+	{ 's',    script::latin, type::letter }, /* LATIN SMALL LETTER S */
+	{ 't',    script::latin, type::letter }, /* LATIN SMALL LETTER T */
+	{ 'u',    script::latin, type::letter }, /* LATIN SMALL LETTER U */
+	{ 'v',    script::latin, type::letter }, /* LATIN SMALL LETTER V */
+	{ 'w',    script::latin, type::letter }, /* LATIN SMALL LETTER W */
+	{ 'x',    script::latin, type::letter }, /* LATIN SMALL LETTER X */
+	{ 'y',    script::latin, type::letter }, /* LATIN SMALL LETTER Y */
+	{ 'z',    script::latin, type::letter }, /* LATIN SMALL LETTER Z */
 	/* 0x007B: C0 Controls And Basic Latin -- ASCII Punctuation And Symbols */
-	{ 0x007B, script::latin, type::symbol }, /* LEFT CURLY BRACKET */
-	{ 0x007C, script::latin, type::symbol }, /* VERTICAL LINE */
-	{ 0x007D, script::latin, type::symbol }, /* RIGHT CURLY BRACKET */
-	{ 0x007E, script::latin, type::symbol }, /* TILDE */
+	{ '{',    script::latin, type::symbol }, /* LEFT CURLY BRACKET */
+	{ '|',    script::latin, type::symbol }, /* VERTICAL LINE */
+	{ '}',    script::latin, type::symbol }, /* RIGHT CURLY BRACKET */
+	{ '~',    script::latin, type::symbol }, /* TILDE */
 	/* 0x007F: C0 Controls And Basic Latin -- Control Character */
 	{ 0x007F, script::latin, type::control },
 	/* 0x0080: C1 Controls And Latin-1 Supplement -- C1 Controls */
@@ -252,8 +252,8 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 0x009E, script::none,  type::control },
 	{ 0x009F, script::none,  type::control },
 	/* 0x00A0: C1 Controls And Latin-1 Supplement -- Latin-1 Punctuation And Symbols */
-	{ 0x0020, script::latin, type::space       | type::skip }, /* NO-BREAK SPACE */
-	{ 0x00A1, script::latin, type::punctuation }, /* INVERTED EXCLAMATION MARK */
+	{ ' ',    script::latin, type::space       | type::skip }, /* NO-BREAK SPACE */
+	{ '!',    script::latin, type::punctuation }, /* INVERTED EXCLAMATION MARK */
 	{ 0x00A2, script::latin, type::symbol      }, /* CENT SIGN */
 	{ 0x00A3, script::latin, type::symbol      }, /* POUND SIGN */
 	{ 0x00A4, script::latin, type::symbol      }, /* CURRENCY SIGN */
@@ -283,76 +283,76 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 0x00BC, script::latin, type::symbol      }, /* VULGAR FRACTION ONE QUARTER (1/4) */
 	{ 0x00BD, script::latin, type::symbol      }, /* VULGAR FRACTION ONE HALF (1/2) */
 	{ 0x00BE, script::latin, type::symbol      }, /* VULGAR FRACTION THREE QUARTERS (3/4) */
-	{ 0x00BF, script::latin, type::symbol      }, /* INVERTED QUESTION MARK */
+	{ '?',    script::latin, type::symbol      }, /* INVERTED QUESTION MARK */
 	/* 0x00C0: C1 Controls And Latin-1 Supplement -- Letters */
-	{ 0x0061, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH GRAVE */
-	{ 0x0061, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH ACUTE */
-	{ 0x0061, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX */
-	{ 0x0061, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH TILDE */
-	{ 0x0061, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH DIAERESIS */
-	{ 0x0061, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH RING ABOVE */
+	{ 'a',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH GRAVE */
+	{ 'a',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH ACUTE */
+	{ 'a',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX */
+	{ 'a',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH TILDE */
+	{ 'a',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH DIAERESIS */
+	{ 'a',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH RING ABOVE */
 	{ 0x00E6, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER AE */
-	{ 0x0063, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER C WITH CEDILLA */
-	{ 0x0065, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER E WITH GRAVE */
-	{ 0x0065, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER E WITH ACUTE */
-	{ 0x0065, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX */
-	{ 0x0065, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER E WITH DIAERESIS */
-	{ 0x0069, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER I WITH GRAVE */
-	{ 0x0069, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER I WITH ACUTE */
-	{ 0x0069, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER I WITH CIRCUMFLEX */
-	{ 0x0069, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER I WITH DIAERESIS */
+	{ 'c',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER C WITH CEDILLA */
+	{ 'e',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER E WITH GRAVE */
+	{ 'e',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER E WITH ACUTE */
+	{ 'e',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX */
+	{ 'e',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER E WITH DIAERESIS */
+	{ 'i',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER I WITH GRAVE */
+	{ 'i',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER I WITH ACUTE */
+	{ 'i',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER I WITH CIRCUMFLEX */
+	{ 'i',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER I WITH DIAERESIS */
 	{ 0x00F0, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER ETH */
-	{ 0x006E, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER N WITH TILDE */
-	{ 0x006F, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH GRAVE */
-	{ 0x006F, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH ACUTE */
-	{ 0x006F, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX */
-	{ 0x006F, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH TILDE */
-	{ 0x006F, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH DIAERESIS */
+	{ 'n',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER N WITH TILDE */
+	{ 'o',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH GRAVE */
+	{ 'o',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH ACUTE */
+	{ 'o',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX */
+	{ 'o',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH TILDE */
+	{ 'o',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH DIAERESIS */
 	/* 0x00D7: C1 Controls And Latin-1 Supplement -- Mathematical Operator */
 	{ 0x00D7, script::latin, type::symbol }, /* MULTIPLICATION SIGN */
 	/* 0x00D8: C1 Controls And Latin-1 Supplement -- Letters */
-	{ 0x006F, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH STROKE */
-	{ 0x0075, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER U WITH GRAVE */
-	{ 0x0075, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER U WITH ACUTE */
-	{ 0x0075, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER U WITH CIRCUMFLEX */
-	{ 0x0075, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER U WITH DIAERESIS */
-	{ 0x0079, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER Y WITH ACUTE */
+	{ 'o',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH STROKE */
+	{ 'u',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER U WITH GRAVE */
+	{ 'u',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER U WITH ACUTE */
+	{ 'u',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER U WITH CIRCUMFLEX */
+	{ 'u',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER U WITH DIAERESIS */
+	{ 'y',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER Y WITH ACUTE */
 	{ 0x00FE, script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER THORN */
-	{ 0x00DF, script::latin, type::letter }, /* LATIN SMALL LETTER SHARP S */
-	{ 0x0061, script::latin, type::letter }, /* LATIN SMALL LETTER A WITH GRAVE */
-	{ 0x0061, script::latin, type::letter }, /* LATIN SMALL LETTER A WITH ACUTE */
-	{ 0x0061, script::latin, type::letter }, /* LATIN SMALL LETTER A WITH CIRCUMFLEX */
-	{ 0x0061, script::latin, type::letter }, /* LATIN SMALL LETTER A WITH TILDE */
-	{ 0x0061, script::latin, type::letter }, /* LATIN SMALL LETTER A WITH DIAERESIS */
-	{ 0x0061, script::latin, type::letter }, /* LATIN SMALL LETTER A WITH RING ABOVE */
+	{ 's',    script::latin, type::letter }, /* LATIN SMALL LETTER SHARP S */
+	{ 'a',    script::latin, type::letter }, /* LATIN SMALL LETTER A WITH GRAVE */
+	{ 'a',    script::latin, type::letter }, /* LATIN SMALL LETTER A WITH ACUTE */
+	{ 'a',    script::latin, type::letter }, /* LATIN SMALL LETTER A WITH CIRCUMFLEX */
+	{ 'a',    script::latin, type::letter }, /* LATIN SMALL LETTER A WITH TILDE */
+	{ 'a',    script::latin, type::letter }, /* LATIN SMALL LETTER A WITH DIAERESIS */
+	{ 'a',    script::latin, type::letter }, /* LATIN SMALL LETTER A WITH RING ABOVE */
 	{ 0x00E6, script::latin, type::letter }, /* LATIN SMALL LETTER AE */
-	{ 0x0063, script::latin, type::letter }, /* LATIN SMALL LETTER C WITH CEDILLA */
-	{ 0x0065, script::latin, type::letter }, /* LATIN SMALL LETTER E WITH GRAVE */
-	{ 0x0065, script::latin, type::letter }, /* LATIN SMALL LETTER E WITH ACUTE */
-	{ 0x0065, script::latin, type::letter }, /* LATIN SMALL LETTER E WITH CIRCUMFLEX */
-	{ 0x0065, script::latin, type::letter }, /* LATIN SMALL LETTER E WITH DIAERESIS */
-	{ 0x0069, script::latin, type::letter }, /* LATIN SMALL LETTER I WITH GRAVE */
-	{ 0x0069, script::latin, type::letter }, /* LATIN SMALL LETTER I WITH ACUTE */
-	{ 0x0069, script::latin, type::letter }, /* LATIN SMALL LETTER I WITH CIRCUMFLEX */
-	{ 0x0069, script::latin, type::letter }, /* LATIN SMALL LETTER I WITH DIAERESIS */
+	{ 'c',    script::latin, type::letter }, /* LATIN SMALL LETTER C WITH CEDILLA */
+	{ 'e',    script::latin, type::letter }, /* LATIN SMALL LETTER E WITH GRAVE */
+	{ 'e',    script::latin, type::letter }, /* LATIN SMALL LETTER E WITH ACUTE */
+	{ 'e',    script::latin, type::letter }, /* LATIN SMALL LETTER E WITH CIRCUMFLEX */
+	{ 'e',    script::latin, type::letter }, /* LATIN SMALL LETTER E WITH DIAERESIS */
+	{ 'i',    script::latin, type::letter }, /* LATIN SMALL LETTER I WITH GRAVE */
+	{ 'i',    script::latin, type::letter }, /* LATIN SMALL LETTER I WITH ACUTE */
+	{ 'i',    script::latin, type::letter }, /* LATIN SMALL LETTER I WITH CIRCUMFLEX */
+	{ 'i',    script::latin, type::letter }, /* LATIN SMALL LETTER I WITH DIAERESIS */
 	{ 0x00F0, script::latin, type::letter }, /* LATIN SMALL LETTER ETH */
-	{ 0x006E, script::latin, type::letter }, /* LATIN SMALL LETTER N WITH TILDE */
-	{ 0x006F, script::latin, type::letter }, /* LATIN SMALL LETTER O WITH GRAVE */
-	{ 0x006F, script::latin, type::letter }, /* LATIN SMALL LETTER O WITH ACUTE */
-	{ 0x006F, script::latin, type::letter }, /* LATIN SMALL LETTER O WITH CIRCUMFLEX */
-	{ 0x006F, script::latin, type::letter }, /* LATIN SMALL LETTER O WITH TILDE */
-	{ 0x006F, script::latin, type::letter }, /* LATIN SMALL LETTER O WITH DIAERESIS */
+	{ 'n',    script::latin, type::letter }, /* LATIN SMALL LETTER N WITH TILDE */
+	{ 'o',    script::latin, type::letter }, /* LATIN SMALL LETTER O WITH GRAVE */
+	{ 'o',    script::latin, type::letter }, /* LATIN SMALL LETTER O WITH ACUTE */
+	{ 'o',    script::latin, type::letter }, /* LATIN SMALL LETTER O WITH CIRCUMFLEX */
+	{ 'o',    script::latin, type::letter }, /* LATIN SMALL LETTER O WITH TILDE */
+	{ 'o',    script::latin, type::letter }, /* LATIN SMALL LETTER O WITH DIAERESIS */
 	/* 0x00F7: C1 Controls And Latin-1 Supplement -- Mathematical Operator */
 	{ 0x00F7, script::latin, type::symbol }, /* DIVISION SIGN */
 	/* 0x00F8: C1 Controls And Latin-1 Supplement -- Letters */
-	{ 0x006F, script::latin, type::letter }, /* LATIN SMALL LETTER O WITH STROKE */
-	{ 0x0075, script::latin, type::letter }, /* LATIN SMALL LETTER U WITH GRAVE */
-	{ 0x0075, script::latin, type::letter }, /* LATIN SMALL LETTER U WITH ACUTE */
-	{ 0x0075, script::latin, type::letter }, /* LATIN SMALL LETTER U WITH CIRCUMFLEX */
-	{ 0x0075, script::latin, type::letter }, /* LATIN SMALL LETTER U WITH DIAERESIS */
-	{ 0x0079, script::latin, type::letter }, /* LATIN SMALL LETTER Y WITH ACUTE */
+	{ 'o',    script::latin, type::letter }, /* LATIN SMALL LETTER O WITH STROKE */
+	{ 'u',    script::latin, type::letter }, /* LATIN SMALL LETTER U WITH GRAVE */
+	{ 'u',    script::latin, type::letter }, /* LATIN SMALL LETTER U WITH ACUTE */
+	{ 'u',    script::latin, type::letter }, /* LATIN SMALL LETTER U WITH CIRCUMFLEX */
+	{ 'u',    script::latin, type::letter }, /* LATIN SMALL LETTER U WITH DIAERESIS */
+	{ 'y',    script::latin, type::letter }, /* LATIN SMALL LETTER Y WITH ACUTE */
 	{ 0x00FE, script::latin, type::letter }, /* LATIN SMALL LETTER THORN */
-	{ 0x0079, script::latin, type::letter }, /* LATIN SMALL LETTER Y WITH DIAERESIS */
+	{ 'y',    script::latin, type::letter }, /* LATIN SMALL LETTER Y WITH DIAERESIS */
 };
 
 static unicode_range_data data[] = /* Unicode 6.0 */
