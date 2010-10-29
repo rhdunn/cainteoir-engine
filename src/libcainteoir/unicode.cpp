@@ -76,12 +76,10 @@ struct unicode_range_data
 	unicode::codepoint_data *codepoints;
 };
 
-/** @see http://www.unicode.org/charts/PDF/U0000.pdf - C0 Controls And Basic Latin
-  * @see http://www.unicode.org/charts/PDF/U0080.pdf - C1 Controls And Latin-1 Supplement
-  */
-static unicode::codepoint_data unicode_0x00000[] =
+/** @see http://www.unicode.org/charts/PDF/U0000.pdf - C0 Controls And Basic Latin */
+static unicode::codepoint_data unicode_c0_controls_and_basic_latin[] =
 {
-	/* 0x0000: C0 Controls And Basic Latin -- C0 Controls */
+	/* 0x0000: C0 Controls */
 	{ 0x0000, script::none,  type::control },
 	{ 0x0001, script::none,  type::control },
 	{ 0x0002, script::none,  type::control },
@@ -114,7 +112,7 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 0x001D, script::none,  type::control },
 	{ 0x001E, script::none,  type::control },
 	{ 0x001F, script::none,  type::control },
-	/* 0x0020: C0 Controls And Basic Latin -- ASCII Punctuation And Symbols */
+	/* 0x0020: ASCII Punctuation And Symbols */
 	{ ' ',    script::latin, type::space       }, /* SPACE */
 	{ '!',    script::latin, type::punctuation }, /* EXCLAMATION MARK */
 	{ '"',    script::latin, type::symbol      }, /* QUOTATION MARK */
@@ -131,7 +129,7 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ '-',    script::latin, type::symbol      }, /* HYPHEN-MINUS */
 	{ '.',    script::latin, type::punctuation }, /* FULL STOP */
 	{ '/',    script::latin, type::symbol      }, /* SOLIDUS */
-	/* 0x0030: C0 Controls And Basic Latin -- ASCII Digits */
+	/* 0x0030: ASCII Digits */
 	{ 0,      script::latin, type::number }, /* DIGIT ZERO */
 	{ 1,      script::latin, type::number }, /* DIGIT ONE */
 	{ 2,      script::latin, type::number }, /* DIGIT TWO */
@@ -142,7 +140,7 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 7,      script::latin, type::number }, /* DIGIT SEVEN */
 	{ 8,      script::latin, type::number }, /* DIGIT EIGHT */
 	{ 9,      script::latin, type::number }, /* DIGIT NINE */
-	/* 0x003A: C0 Controls And Basic Latin -- ASCII Punctuation And Symbols */
+	/* 0x003A: ASCII Punctuation And Symbols */
 	{ ':',    script::latin, type::punctuation }, /* COLON */
 	{ ';',    script::latin, type::punctuation }, /* SEMICOLON */
 	{ '<',    script::latin, type::symbol      }, /* LESS-THAN SIGN */
@@ -150,7 +148,7 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ '>',    script::latin, type::symbol      }, /* GREATER-THAN SIGN */
 	{ '?',    script::latin, type::punctuation }, /* QUESTION MARK */
 	{ '@',    script::latin, type::symbol      }, /* COMMERCIAL AT */
-	/* 0x0041: C0 Controls And Basic Latin -- Uppercase Latin Alphabet */
+	/* 0x0041: Uppercase Latin Alphabet */
 	{ 'a',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER A */
 	{ 'b',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER B */
 	{ 'c',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER C */
@@ -177,14 +175,14 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 'x',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER X */
 	{ 'y',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER Y */
 	{ 'z',    script::latin, type::letter | type::capital }, /* LATIN CAPTIAL LETTER Z */
-	/* 0x005B: C0 Controls And Basic Latin -- ASCII Punctuation And Symbols */
+	/* 0x005B: ASCII Punctuation And Symbols */
 	{ '[',    script::latin, type::symbol }, /* LEFT SQUARE BRACKET */
 	{ '\\',   script::latin, type::symbol }, /* REVERSE SOLIUS */
 	{ ']',    script::latin, type::symbol }, /* RIGHT SQUARE BRACKET */
 	{ '^',    script::latin, type::symbol }, /* CIRCUMFLEX ACCENT */
 	{ '_',    script::latin, type::symbol }, /* LOW LINE */
 	{ '`',    script::latin, type::symbol }, /* GRAVE ACCENT */
-	/* 0x0061: C0 Controls And Basic Latin -- Lowercase Latin Alphabet */
+	/* 0x0061: Lowercase Latin Alphabet */
 	{ 'a',    script::latin, type::letter }, /* LATIN SMALL LETTER A */
 	{ 'b',    script::latin, type::letter }, /* LATIN SMALL LETTER B */
 	{ 'c',    script::latin, type::letter }, /* LATIN SMALL LETTER C */
@@ -211,14 +209,19 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 'x',    script::latin, type::letter }, /* LATIN SMALL LETTER X */
 	{ 'y',    script::latin, type::letter }, /* LATIN SMALL LETTER Y */
 	{ 'z',    script::latin, type::letter }, /* LATIN SMALL LETTER Z */
-	/* 0x007B: C0 Controls And Basic Latin -- ASCII Punctuation And Symbols */
+	/* 0x007B: ASCII Punctuation And Symbols */
 	{ '{',    script::latin, type::symbol }, /* LEFT CURLY BRACKET */
 	{ '|',    script::latin, type::symbol }, /* VERTICAL LINE */
 	{ '}',    script::latin, type::symbol }, /* RIGHT CURLY BRACKET */
 	{ '~',    script::latin, type::symbol }, /* TILDE */
-	/* 0x007F: C0 Controls And Basic Latin -- Control Character */
+	/* 0x007F: Control Character */
 	{ 0x007F, script::latin, type::control },
-	/* 0x0080: C1 Controls And Latin-1 Supplement -- C1 Controls */
+}
+
+/** @see http://www.unicode.org/charts/PDF/U0080.pdf - C1 Controls And Latin-1 Supplement */
+static unicode::codepoint_data unicode_c1_controls_and_latin_1_supplement[] =
+{
+	/* 0x0080: C1 Controls */
 	{ 0x0080, script::none,  type::control },
 	{ 0x0081, script::none,  type::control },
 	{ 0x0082, script::none,  type::control },
@@ -251,7 +254,7 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 0x009D, script::none,  type::control },
 	{ 0x009E, script::none,  type::control },
 	{ 0x009F, script::none,  type::control },
-	/* 0x00A0: C1 Controls And Latin-1 Supplement -- Latin-1 Punctuation And Symbols */
+	/* 0x00A0: Latin-1 Punctuation And Symbols */
 	{ ' ',    script::latin, type::space       | type::skip }, /* NO-BREAK SPACE */
 	{ '!',    script::latin, type::punctuation }, /* INVERTED EXCLAMATION MARK */
 	{ 0x00A2, script::latin, type::symbol      }, /* CENT SIGN */
@@ -284,7 +287,7 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 0x00BD, script::latin, type::symbol      }, /* VULGAR FRACTION ONE HALF (1/2) */
 	{ 0x00BE, script::latin, type::symbol      }, /* VULGAR FRACTION THREE QUARTERS (3/4) */
 	{ '?',    script::latin, type::symbol      }, /* INVERTED QUESTION MARK */
-	/* 0x00C0: C1 Controls And Latin-1 Supplement -- Letters */
+	/* 0x00C0: Letters */
 	{ 'a',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH GRAVE */
 	{ 'a',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH ACUTE */
 	{ 'a',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX */
@@ -308,9 +311,9 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 'o',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX */
 	{ 'o',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH TILDE */
 	{ 'o',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH DIAERESIS */
-	/* 0x00D7: C1 Controls And Latin-1 Supplement -- Mathematical Operator */
+	/* 0x00D7: Mathematical Operator */
 	{ 0x00D7, script::latin, type::symbol }, /* MULTIPLICATION SIGN */
-	/* 0x00D8: C1 Controls And Latin-1 Supplement -- Letters */
+	/* 0x00D8: Letters */
 	{ 'o',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER O WITH STROKE */
 	{ 'u',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER U WITH GRAVE */
 	{ 'u',    script::latin, type::letter | type::capital }, /* LATIN CAPITAL LETTER U WITH ACUTE */
@@ -342,9 +345,9 @@ static unicode::codepoint_data unicode_0x00000[] =
 	{ 'o',    script::latin, type::letter }, /* LATIN SMALL LETTER O WITH CIRCUMFLEX */
 	{ 'o',    script::latin, type::letter }, /* LATIN SMALL LETTER O WITH TILDE */
 	{ 'o',    script::latin, type::letter }, /* LATIN SMALL LETTER O WITH DIAERESIS */
-	/* 0x00F7: C1 Controls And Latin-1 Supplement -- Mathematical Operator */
+	/* 0x00F7: Mathematical Operator */
 	{ 0x00F7, script::latin, type::symbol }, /* DIVISION SIGN */
-	/* 0x00F8: C1 Controls And Latin-1 Supplement -- Letters */
+	/* 0x00F8: Letters */
 	{ 'o',    script::latin, type::letter }, /* LATIN SMALL LETTER O WITH STROKE */
 	{ 'u',    script::latin, type::letter }, /* LATIN SMALL LETTER U WITH GRAVE */
 	{ 'u',    script::latin, type::letter }, /* LATIN SMALL LETTER U WITH ACUTE */
@@ -357,5 +360,6 @@ static unicode::codepoint_data unicode_0x00000[] =
 
 static unicode_range_data data[] = /* Unicode 6.0 */
 {
-	{ 0x00000, 0x000FF, unicode_0x00000 },
+	{ 0x00000, 0x0007F, unicode_c0_controls_and_basic_latin },
+	{ 0x00080, 0x000FF, unicode_c1_controls_and_latin_1_supplement },
 };
