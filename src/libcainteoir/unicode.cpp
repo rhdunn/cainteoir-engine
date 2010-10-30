@@ -29,6 +29,7 @@ namespace unicode
 	{
 		enum type
 		{
+			cirth, /* J. R. R. Tolkien - Runic Script */
 			counting_rod,
 			klingon, /* StarTrek */
 			latin,
@@ -532,6 +533,139 @@ static unicode::codepoint_data unicode_tengwar[] =
 	{ 0x0E07F, script::none,    type::unused },
 };
 
+/** @see http://www.evertype.com/standards/csur/cirth.html - Cirth */
+static unicode::codepoint_data unicode_cirth[] =
+{
+	{ 0x0E080, script::cirth, type::letter }, /* CIRTH LETTER P */
+	{ 0x0E081, script::cirth, type::letter }, /* CIRTH LETTER B */
+	{ 0x0E082, script::cirth, type::letter }, /* CIRTH LETTER F */
+	{ 0x0E083, script::cirth, type::letter }, /* CIRTH LETTER V */
+	{ 0x0E084, script::cirth, type::letter }, /* CIRTH LETTER HW */
+	{ 0x0E085, script::cirth, type::letter }, /* CIRTH LETTER M */
+	{ 0x0E086, script::cirth, type::letter }, /* CIRTH LETTER MB */
+	{ 0x0E087, script::cirth, type::letter }, /* CIRTH LETTER T */
+	{ 0x0E088, script::cirth, type::letter }, /* CIRTH LETTER D */
+	{ 0x0E089, script::cirth, type::letter }, /* CIRTH LETTER TH */
+	{ 0x0E08A, script::cirth, type::letter }, /* CIRTH LETTER DH */
+	{ 0x0E08B, script::cirth, type::letter }, /* CIRTH LETTER N */
+	{ 0x0E08C, script::cirth, type::letter }, /* CIRTH LETTER CH */
+	{ 0x0E08D, script::cirth, type::letter }, /* CIRTH LETTER J */
+	{ 0x0E08E, script::cirth, type::letter }, /* CIRTH LETTER SH */
+	{ 0x0E08F, script::cirth, type::letter }, /* CIRTH LETTER ZH */
+	{ 0x0E090, script::cirth, type::letter }, /* CIRTH LETTER NJ */
+	{ 0x0E091, script::cirth, type::letter }, /* CIRTH LETTER K */
+	{ 0x0E092, script::cirth, type::letter }, /* CIRTH LETTER G */
+	{ 0x0E093, script::cirth, type::letter }, /* CIRTH LETTER KH */
+	{ 0x0E094, script::cirth, type::letter }, /* CIRTH LETTER GH */
+	{ 0x0E095, script::cirth, type::letter }, /* CIRTH LETTER ENG */
+	{ 0x0E096, script::cirth, type::letter }, /* CIRTH LETTER KW */
+	{ 0x0E097, script::cirth, type::letter }, /* CIRTH LETTER GW */
+	{ 0x0E098, script::cirth, type::letter }, /* CIRTH LETTER KHW */
+	{ 0x0E099, script::cirth, type::letter }, /* CIRTH LETTER GHW */
+	{ 0x0E09A, script::cirth, type::letter }, /* CIRTH LETTER NGW */
+	{ 0x0E09B, script::cirth, type::letter }, /* CIRTH LETTER NW */
+	{ 0x0E09C, script::cirth, type::letter }, /* CIRTH LETTER R */
+	{ 0x0E09D, script::cirth, type::letter }, /* CIRTH LETTER RH */
+	{ 0x0E09E, script::cirth, type::letter }, /* CIRTH LETTER L */
+	{ 0x0E09F, script::cirth, type::letter }, /* CIRTH LETTER LH */
+	{ 0x0E0A0, script::cirth, type::letter }, /* CIRTH LETTER NG */
+	{ 0x0E0A1, script::cirth, type::letter }, /* CIRTH LETTER S */
+	{ 0x0E0A2, script::cirth, type::letter }, /* CIRTH LETTER KHUZDUL GLOTTAL STOP */
+	{ 0x0E0A3, script::cirth, type::letter }, /* CIRTH LETTER Z */
+	{ 0x0E0A4, script::cirth, type::letter }, /* CIRTH LETTER KHUZDUL NG */
+	{ 0x0E0A5, script::cirth, type::letter }, /* CIRTH LETTER ND */
+	{ 0x0E0A6, script::cirth, type::letter }, /* CIRTH LETTER EI */
+	{ 0x0E0A7, script::cirth, type::letter }, /* CIRTH LETTER I */
+	{ 0x0E0A8, script::cirth, type::letter }, /* CIRTH LETTER KHUZDUL Y */
+	{ 0x0E0A9, script::cirth, type::letter }, /* CIRTH LETTER KHUZDUL HY */
+	{ 0x0E0AA, script::cirth, type::letter }, /* CIRTH LETTER U */
+	{ 0x0E0AB, script::cirth, type::letter }, /* CIRTH LETTER UU */
+	{ 0x0E0AC, script::cirth, type::letter }, /* CIRTH LETTER W */
+	{ 0x0E0AD, script::cirth, type::letter }, /* CIRTH LETTER UE */
+	{ 0x0E0AE, script::cirth, type::letter }, /* CIRTH LETTER UI */
+	{ 0x0E0AF, script::cirth, type::letter }, /* CIRTH LETTER E */
+	{ 0x0E0B0, script::cirth, type::letter }, /* CIRTH LETTER EE */
+	{ 0x0E0B1, script::cirth, type::letter }, /* CIRTH LETTER A */
+	{ 0x0E0B2, script::cirth, type::letter }, /* CIRTH LETTER AA */
+	{ 0x0E0B3, script::cirth, type::letter }, /* CIRTH LETTER O */
+	{ 0x0E0B4, script::cirth, type::letter }, /* CIRTH LETTER OO */
+	{ 0x0E0B5, script::cirth, type::letter }, /* CIRTH LETTER VARINT OO */
+	{ 0x0E0B6, script::cirth, type::letter }, /* CIRTH LETTER OE */
+	{ 0x0E0B7, script::cirth, type::letter }, /* CIRTH LETTER VARIANT OE */
+	{ 0x0E0B8, script::cirth, type::letter }, /* CIRTH LETTER KHUZDUL N */
+	{ 0x0E0B9, script::cirth, type::letter }, /* CIRTH LETTER H */
+	{ 0x0E0BA, script::cirth, type::letter }, /* CIRTH LETTER KHUZDUL LEFT-POINTING SCHWA */
+	{ 0x0E0BB, script::cirth, type::letter }, /* CIRTH LETTER SHORT LEFT-POINTING SCHWA */
+	{ 0x0E0BC, script::cirth, type::letter }, /* CIRTH LETTER KHUZDUL RIGHT-POINTING SCHWA */
+	{ 0x0E0BD, script::cirth, type::letter }, /* CIRTH LETTER SHORT RIGHT-POINTING SCHWA */
+	{ 0x0E0BE, script::cirth, type::letter }, /* CIRTH LETTER KHUZDUL PS */
+	{ 0x0E0BF, script::cirth, type::letter }, /* CIRTH LETTER KHUZDUL TS */
+	{ 0x0E0C0, script::cirth, type::letter }, /* CIRTH MODIFIER LETTER H */
+	{ '&',     script::cirth, type::symbol }, /* CIRTH AMPERSAND */
+	{ 0x0E0C2, script::cirth, type::letter }, /* CIRTH LETTER SP */
+	{ 0x0E0C3, script::cirth, type::letter }, /* CIRTH LETTER SB */
+	{ 0x0E0C4, script::cirth, type::letter }, /* CIRTH LETTER SC */
+	{ 0x0E0C5, script::cirth, type::letter }, /* CIRTH LETTER SG */
+	{ 0x0E0C6, script::cirth, type::letter }, /* CIRTH LETTER NDZH */
+	{ 0x0E0C7, script::cirth, type::letter }, /* CIRTH LETTER DORIATHRIN KW */
+	{ 0x0E0C8, script::cirth, type::letter }, /* CIRTH LETTER DORIATHRIN GW */
+	{ 0x0E0C9, script::cirth, type::letter }, /* CIRTH LETTER DORIATHRIN KHW */
+	{ 0x0E0CA, script::cirth, type::letter }, /* CIRTH LETTER DORIATHRIN GHW */
+	{ 0x0E0CB, script::cirth, type::letter }, /* CIRTH LETTER DORIATHRIN L */
+	{ 0x0E0CC, script::cirth, type::letter }, /* CIRTH LETTER ENGLISH ND */
+	{ 0x0E0CD, script::cirth, type::letter }, /* CIRTH LETTER DORIATHRIN Z */
+	{ 0x0E0CE, script::cirth, type::letter }, /* CIRTH LETTER IU */
+	{ 0x0E0CF, script::cirth, type::letter }, /* CIRTH LETTER AI */
+	{ 0x0E0D0, script::cirth, type::letter }, /* CIRTH LETTER AU */
+	{ 0x0E0D1, script::cirth, type::letter }, /* CIRTH LETTER AY */
+	{ 0x0E0D2, script::cirth, type::letter }, /* CIRTH LETTER AE */
+	{ 0x0E0D3, script::cirth, type::letter }, /* CIRTH LETTER EA */
+	{ 0x0E0D4, script::cirth, type::letter }, /* CIRTH LETTER EW */
+	{ 0x0E0D5, script::cirth, type::letter }, /* CIRTH LETTER NOLDORIN O */
+	{ 0x0E0D6, script::cirth, type::letter }, /* CIRTH LETTER NOLDORIN OO */
+	{ 0x0E0D7, script::cirth, type::letter }, /* CIRTH LETTER IO */
+	{ 0x0E0D8, script::cirth, type::letter }, /* CIRTH LETTER EU */
+	{ 0x0E0D9, script::cirth, type::letter }, /* CIRTH LETTER OU */
+	{ 0x0E0DA, script::cirth, type::letter }, /* CIRTH LETTER NOLDORIN OE */
+	{ 0x0E0DB, script::cirth, type::letter }, /* CIRTH LETTER DORIATHRIN O */
+	{ 0x0E0DC, script::cirth, type::letter }, /* CIRTH LETTER ENGLISH THE */
+	{ 0x0E0DD, script::cirth, type::letter }, /* CIRTH LETTER NOLDORIN L */
+	{ 0x0E0DE, script::cirth, type::letter }, /* CIRTH LETTER ENGLISH OF */
+	{ 0x0E0DF, script::cirth, type::letter }, /* CIRTH LETTER Y */
+	{ 0x0E0E0, script::cirth, type::letter }, /* CIRTH LETTER ENGLISH IS */
+	{ 0x0E0E1, script::cirth, type::letter }, /* CIRTH LETTER VARIANT Y */
+	{ 0x0E0E2, script::cirth, type::letter }, /* CIRTH LETTER YY */
+	{ 0x0E0E3, script::cirth, type::letter }, /* CIRTH LETTER NOLDORIN OE */
+	{ 0x0E0E4, script::cirth, type::letter }, /* CIRTH LETTER NOLDORIN OOE */
+	{ 0x0E0E5, script::cirth, type::symbol }, /* CIRTH SEPARATOR SINGLE DOT */
+	{ 0x0E0E6, script::cirth, type::symbol }, /* CIRTH SEPARATOR DOUBLE DOT */
+	{ 0x0E0E7, script::cirth, type::symbol }, /* CIRTH SEPARATOR TRIPLE DOT */
+	{ 0x0E0E8, script::cirth, type::symbol }, /* CIRTH START OR END OF TEXT */
+	{ 0x0E0E9, script::cirth, type::symbol }, /* CIRTH SEPARATOR DOUBLE PIPE */
+	{ 0x0E0EA, script::cirth, type::symbol }, /* CIRTH COMBINING NASAL MARK */
+	{ 0x0E0EB, script::cirth, type::symbol }, /* CIRTH COMBINING LENGTH MARK */
+	{ 0x0E0EC, script::cirth, type::symbol }, /* CIRTH COMBINING NUMERIC DOT */
+	{ 0x0E0ED, script::none,  type::unused },
+	{ 0x0E0EE, script::none,  type::unused },
+	{ 0x0E0EF, script::none,  type::unused },
+	{ 0x0E0F0, script::none,  type::unused },
+	{ 0x0E0F1, script::none,  type::unused },
+	{ 0x0E0F2, script::none,  type::unused },
+	{ 0x0E0F3, script::none,  type::unused },
+	{ 0x0E0F4, script::none,  type::unused },
+	{ 0x0E0F5, script::none,  type::unused },
+	{ 0x0E0F6, script::none,  type::unused },
+	{ 0x0E0F7, script::none,  type::unused },
+	{ 0x0E0F8, script::none,  type::unused },
+	{ 0x0E0F9, script::none,  type::unused },
+	{ 0x0E0FA, script::none,  type::unused },
+	{ 0x0E0FB, script::none,  type::unused },
+	{ 0x0E0FC, script::none,  type::unused },
+	{ 0x0E0FD, script::none,  type::unused },
+	{ 0x0E0FE, script::none,  type::unused },
+	{ 0x0E0FF, script::none,  type::unused },
+};
+
 /** @see http://www.evertype.com/standards/csur/klingon.html - Klingon */
 static unicode::codepoint_data unicode_klingon[] =
 {
@@ -590,10 +724,12 @@ static unicode_range_data data[] = /* Unicode 6.0 */
 	{ 0x00000, 0x0007F, unicode_c0_controls_and_basic_latin },
 	{ 0x00080, 0x000FF, unicode_c1_controls_and_latin_1_supplement },
 	{ 0x0E000, 0x0E07F, unicode_tengwar }, /* unofficial - private (reserved) area */
+	{ 0x0E080, 0x0E0FF, unicode_cirth },   /* unofficial - private (reserved) area */
 	{ 0x0F8D0, 0x0F8FF, unicode_klingon }, /* unofficial - private (reserved) area */
 
 /* SMP: Supplementary Multilingual Plane */
 
+	/*{ 0x13380, 0x133FF, unicode_cirth },   /* proposed - http://www.unicode.org/roadmaps/smp */
 	/*{ 0x1CC00, 0x1CC7F, unicode_tengwar }, /* proposed - http://www.unicode.org/roadmaps/smp */
 	{ 0x1D360, 0x1D37F, unicode_counting_rod_units },
 };
