@@ -31,6 +31,7 @@ namespace unicode
 		{
 			cirth, /* J. R. R. Tolkien - Runic Script */
 			counting_rod,
+			hiragana,
 			klingon, /* StarTrek */
 			latin,
 			none,
@@ -364,41 +365,105 @@ static unicode::codepoint_data unicode_c1_controls_and_latin_1_supplement[] =
 	{ 'y',    script::latin, type::letter }, /* LATIN SMALL LETTER Y WITH DIAERESIS */
 };
 
-/** @see http://www.unicode.org/charts/PDF/U1D360.pdf - Counting Rod Units */
-static unicode::codepoint_data unicode_counting_rod_units[] =
+/** @see http://www.unicode.org/charts/PDF/U03040.pdf - Hiragana */
+static unicode::codepoint_data unicode_hiragana[] =
 {
-	{ 1,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT ONE */
-	{ 2,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT TWO */
-	{ 3,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT THREE */
-	{ 4,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT FOUR */
-	{ 5,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT FIVE */
-	{ 6,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT SIX */
-	{ 7,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT SEVEN */
-	{ 8,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT EIGHT */
-	{ 9,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT NINE */
-	{ 10,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT ONE */
-	{ 20,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT TWO */
-	{ 30,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT THREE */
-	{ 40,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT FOUR */
-	{ 50,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT FIVE */
-	{ 60,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT SIX */
-	{ 70,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT SEVEN */
-	{ 80,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT EIGHT */
-	{ 90,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT NINE */
-	{ 0x1D372, script::none, type::unused },
-	{ 0x1D373, script::none, type::unused },
-	{ 0x1D374, script::none, type::unused },
-	{ 0x1D375, script::none, type::unused },
-	{ 0x1D376, script::none, type::unused },
-	{ 0x1D377, script::none, type::unused },
-	{ 0x1D378, script::none, type::unused },
-	{ 0x1D379, script::none, type::unused },
-	{ 0x1D37A, script::none, type::unused },
-	{ 0x1D37B, script::none, type::unused },
-	{ 0x1D37C, script::none, type::unused },
-	{ 0x1D37D, script::none, type::unused },
-	{ 0x1D37E, script::none, type::unused },
-	{ 0x1D37F, script::none, type::unused },
+	{ 0x03040, script::none,     type::unused },
+	{ 0x03042, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL A */
+	{ 0x03042, script::hiragana, type::letter }, /* HIRAGANA LETTER A */
+	{ 0x03044, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL I */
+	{ 0x03044, script::hiragana, type::letter }, /* HIRAGANA LETTER I */
+	{ 0x03046, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL U */
+	{ 0x03046, script::hiragana, type::letter }, /* HIRAGANA LETTER U */
+	{ 0x03048, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL E */
+	{ 0x03048, script::hiragana, type::letter }, /* HIRAGANA LETTER E */
+	{ 0x0304A, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL O */
+	{ 0x0304A, script::hiragana, type::letter }, /* HIRAGANA LETTER O */
+	{ 0x0304B, script::hiragana, type::letter }, /* HIRAGANA LETTER KA */
+	{ 0x0304C, script::hiragana, type::letter }, /* HIRAGANA LETTER GA */
+	{ 0x0304D, script::hiragana, type::letter }, /* HIRAGANA LETTER KI */
+	{ 0x0304E, script::hiragana, type::letter }, /* HIRAGANA LETTER GI */
+	{ 0x0304F, script::hiragana, type::letter }, /* HIRAGANA LETTER KU */
+	{ 0x03050, script::hiragana, type::letter }, /* HIRAGANA LETTER GU */
+	{ 0x03051, script::hiragana, type::letter }, /* HIRAGANA LETTER KE */
+	{ 0x03052, script::hiragana, type::letter }, /* HIRAGANA LETTER GE */
+	{ 0x03053, script::hiragana, type::letter }, /* HIRAGANA LETTER KO */
+	{ 0x03054, script::hiragana, type::letter }, /* HIRAGANA LETTER GO */
+	{ 0x03055, script::hiragana, type::letter }, /* HIRAGANA LETTER SA */
+	{ 0x03056, script::hiragana, type::letter }, /* HIRAGANA LETTER ZA */
+	{ 0x03057, script::hiragana, type::letter }, /* HIRAGANA LETTER SI (SHI) */
+	{ 0x03058, script::hiragana, type::letter }, /* HIRAGANA LETTER ZI */
+	{ 0x03059, script::hiragana, type::letter }, /* HIRAGANA LETTER SU */
+	{ 0x0305A, script::hiragana, type::letter }, /* HIRAGANA LETTER ZU */
+	{ 0x0305B, script::hiragana, type::letter }, /* HIRAGANA LETTER SE */
+	{ 0x0305C, script::hiragana, type::letter }, /* HIRAGANA LETTER ZE */
+	{ 0x0305D, script::hiragana, type::letter }, /* HIRAGANA LETTER SO */
+	{ 0x0305E, script::hiragana, type::letter }, /* HIRAGANA LETTER ZO */
+	{ 0x0305F, script::hiragana, type::letter }, /* HIRAGANA LETTER TA */
+	{ 0x03060, script::hiragana, type::letter }, /* HIRAGANA LETTER DA */
+	{ 0x03061, script::hiragana, type::letter }, /* HIRAGANA LETTER TI (CHI) */
+	{ 0x03062, script::hiragana, type::letter }, /* HIRAGANA LETTER DI */
+	{ 0x03064, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL TU (TSU) */
+	{ 0x03064, script::hiragana, type::letter }, /* HIRAGANA LETTER TU (TSU) */
+	{ 0x03065, script::hiragana, type::letter }, /* HIRAGANA LETTER DU */
+	{ 0x03066, script::hiragana, type::letter }, /* HIRAGANA LETTER TE */
+	{ 0x03067, script::hiragana, type::letter }, /* HIRAGANA LETTER DE */
+	{ 0x03068, script::hiragana, type::letter }, /* HIRAGANA LETTER TO */
+	{ 0x03069, script::hiragana, type::letter }, /* HIRAGANA LETTER DO */
+	{ 0x0306A, script::hiragana, type::letter }, /* HIRAGANA LETTER NA */
+	{ 0x0306B, script::hiragana, type::letter }, /* HIRAGANA LETTER NI */
+	{ 0x0306C, script::hiragana, type::letter }, /* HIRAGANA LETTER NU */
+	{ 0x0306D, script::hiragana, type::letter }, /* HIRAGANA LETTER NE */
+	{ 0x0306E, script::hiragana, type::letter }, /* HIRAGANA LETTER NO */
+	{ 0x0306F, script::hiragana, type::letter }, /* HIRAGANA LETTER HA */
+	{ 0x03070, script::hiragana, type::letter }, /* HIRAGANA LETTER BA */
+	{ 0x03071, script::hiragana, type::letter }, /* HIRAGANA LETTER PA */
+	{ 0x03072, script::hiragana, type::letter }, /* HIRAGANA LETTER HI */
+	{ 0x03073, script::hiragana, type::letter }, /* HIRAGANA LETTER BI */
+	{ 0x03074, script::hiragana, type::letter }, /* HIRAGANA LETTER PI */
+	{ 0x03075, script::hiragana, type::letter }, /* HIRAGANA LETTER HU */
+	{ 0x03076, script::hiragana, type::letter }, /* HIRAGANA LETTER BU */
+	{ 0x03077, script::hiragana, type::letter }, /* HIRAGANA LETTER PU */
+	{ 0x03078, script::hiragana, type::letter }, /* HIRAGANA LETTER HE */
+	{ 0x03079, script::hiragana, type::letter }, /* HIRAGANA LETTER BE */
+	{ 0x0307A, script::hiragana, type::letter }, /* HIRAGANA LETTER PE */
+	{ 0x0307B, script::hiragana, type::letter }, /* HIRAGANA LETTER HO */
+	{ 0x0307C, script::hiragana, type::letter }, /* HIRAGANA LETTER BO */
+	{ 0x0307D, script::hiragana, type::letter }, /* HIRAGANA LETTER PO */
+	{ 0x0307E, script::hiragana, type::letter }, /* HIRAGANA LETTER MA */
+	{ 0x0307F, script::hiragana, type::letter }, /* HIRAGANA LETTER MI */
+	{ 0x03080, script::hiragana, type::letter }, /* HIRAGANA LETTER MU */
+	{ 0x03081, script::hiragana, type::letter }, /* HIRAGANA LETTER ME */
+	{ 0x03082, script::hiragana, type::letter }, /* HIRAGANA LETTER MO */
+	{ 0x03084, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL YA */
+	{ 0x03084, script::hiragana, type::letter }, /* HIRAGANA LETTER YA */
+	{ 0x03086, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL YU */
+	{ 0x03086, script::hiragana, type::letter }, /* HIRAGANA LETTER YU */
+	{ 0x03088, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL YO */
+	{ 0x03088, script::hiragana, type::letter }, /* HIRAGANA LETTER YO */
+	{ 0x03089, script::hiragana, type::letter }, /* HIRAGANA LETTER RA */
+	{ 0x0308A, script::hiragana, type::letter }, /* HIRAGANA LETTER RI */
+	{ 0x0308B, script::hiragana, type::letter }, /* HIRAGANA LETTER RU */
+	{ 0x0308C, script::hiragana, type::letter }, /* HIRAGANA LETTER RE */
+	{ 0x0308D, script::hiragana, type::letter }, /* HIRAGANA LETTER RO */
+	{ 0x0308E, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL WA */
+	{ 0x0308F, script::hiragana, type::letter }, /* HIRAGANA LETTER WA */
+	{ 0x03090, script::hiragana, type::letter }, /* HIRAGANA LETTER WI */
+	{ 0x03091, script::hiragana, type::letter }, /* HIRAGANA LETTER WE */
+	{ 0x03092, script::hiragana, type::letter }, /* HIRAGANA LETTER WO */
+	{ 0x03093, script::hiragana, type::letter }, /* HIRAGANA LETTER N */
+	{ 0x03094, script::hiragana, type::letter }, /* HIRAGANA LETTER VU */
+	{ 0x0304B, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL KA */
+	{ 0x03051, script::hiragana, type::letter }, /* HIRAGANA LETTER SMALL KE */
+	{ 0x03097, script::none,     type::unused },
+	{ 0x03098, script::none,     type::unused },
+	{ 0x03099, script::none,     type::combining }, /* COMBINING KATAKANA-HIRAGANA VOICED SOUND MARK */
+	{ 0x0309A, script::none,     type::combining }, /* COMBINING KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK */
+	{ 0x0309B, script::none,     type::combining }, /* KATAKANA-HIRAGANA VOICED SOUND MARK */
+	{ 0x0309C, script::none,     type::combining }, /* KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK */
+	{ 0x0309D, script::hiragana, type::symbol }, /* HIRAGANA ITERATION MARK */
+	{ 0x0309E, script::hiragana, type::symbol }, /* HIRAGANA VOICED ITERATION MARK */
+	{ 0x0309F, script::hiragana, type::letter }, /* HIRAGANA DIGRAPH YORI */
 };
 
 /** @see http://www.evertype.com/standards/csur/tengwar.html - Tengwar */
@@ -720,10 +785,48 @@ static unicode::codepoint_data unicode_klingon[] =
 	{ 0x0F8FF, script::klingon, type::symbol }, /* KLINGON MUMMIFICATION GLYPH */
 };
 
+/** @see http://www.unicode.org/charts/PDF/U1D360.pdf - Counting Rod Units */
+static unicode::codepoint_data unicode_counting_rod_units[] =
+{
+	{ 1,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT ONE */
+	{ 2,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT TWO */
+	{ 3,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT THREE */
+	{ 4,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT FOUR */
+	{ 5,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT FIVE */
+	{ 6,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT SIX */
+	{ 7,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT SEVEN */
+	{ 8,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT EIGHT */
+	{ 9,       script::counting_rod, type::number  }, /* COUNTING ROD DIGIT NINE */
+	{ 10,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT ONE */
+	{ 20,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT TWO */
+	{ 30,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT THREE */
+	{ 40,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT FOUR */
+	{ 50,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT FIVE */
+	{ 60,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT SIX */
+	{ 70,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT SEVEN */
+	{ 80,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT EIGHT */
+	{ 90,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT NINE */
+	{ 0x1D372, script::none, type::unused },
+	{ 0x1D373, script::none, type::unused },
+	{ 0x1D374, script::none, type::unused },
+	{ 0x1D375, script::none, type::unused },
+	{ 0x1D376, script::none, type::unused },
+	{ 0x1D377, script::none, type::unused },
+	{ 0x1D378, script::none, type::unused },
+	{ 0x1D379, script::none, type::unused },
+	{ 0x1D37A, script::none, type::unused },
+	{ 0x1D37B, script::none, type::unused },
+	{ 0x1D37C, script::none, type::unused },
+	{ 0x1D37D, script::none, type::unused },
+	{ 0x1D37E, script::none, type::unused },
+	{ 0x1D37F, script::none, type::unused },
+};
+
 static unicode_range_data data[] = /* Unicode 6.0 */
 {
 	{ 0x00000, 0x0007F, unicode_c0_controls_and_basic_latin },
 	{ 0x00080, 0x000FF, unicode_c1_controls_and_latin_1_supplement },
+	{ 0x03040, 0x0309F, unicode_hiragana },
 	{ 0x0E000, 0x0E07F, unicode_tengwar }, /* unofficial - private (reserved) area */
 	{ 0x0E080, 0x0E0FF, unicode_cirth },   /* unofficial - private (reserved) area */
 	{ 0x0F8D0, 0x0F8FF, unicode_klingon }, /* unofficial - private (reserved) area */
