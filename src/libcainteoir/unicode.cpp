@@ -41,7 +41,7 @@ namespace unicode
 		{
 			/* core types */
 			core        = 0x00000FFF,
-			invalid     = 0x00000000, /* no character associated with this codepoint */
+			unused      = 0x00000000, /* no character associated with this codepoint */
 			control     = 0x00000001, /* control character */
 			newline     = 0x00000002,
 			space       = 0x00000004,
@@ -49,6 +49,7 @@ namespace unicode
 			number      = 0x00000010,
 			letter      = 0x00000020,
 			symbol      = 0x00000040,
+			invalid     = 0x00000080, /* not a unicode character */
 			/* modifiers */
 			capital     = 0x00001000, /* capital letter (upper case) */
 			skip        = 0x00002000, /* skip this character when matching word spans */
@@ -380,20 +381,20 @@ static unicode::codepoint_data unicode_counting_rod_units[] =
 	{ 70,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT SEVEN */
 	{ 80,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT EIGHT */
 	{ 90,      script::counting_rod, type::number  }, /* COUNTING ROD TENS DIGIT NINE */
-	{ 0x1D372, script::none, type::invalid },
-	{ 0x1D373, script::none, type::invalid },
-	{ 0x1D374, script::none, type::invalid },
-	{ 0x1D375, script::none, type::invalid },
-	{ 0x1D376, script::none, type::invalid },
-	{ 0x1D377, script::none, type::invalid },
-	{ 0x1D378, script::none, type::invalid },
-	{ 0x1D379, script::none, type::invalid },
-	{ 0x1D37A, script::none, type::invalid },
-	{ 0x1D37B, script::none, type::invalid },
-	{ 0x1D37C, script::none, type::invalid },
-	{ 0x1D37D, script::none, type::invalid },
-	{ 0x1D37E, script::none, type::invalid },
-	{ 0x1D37F, script::none, type::invalid },
+	{ 0x1D372, script::none, type::unused },
+	{ 0x1D373, script::none, type::unused },
+	{ 0x1D374, script::none, type::unused },
+	{ 0x1D375, script::none, type::unused },
+	{ 0x1D376, script::none, type::unused },
+	{ 0x1D377, script::none, type::unused },
+	{ 0x1D378, script::none, type::unused },
+	{ 0x1D379, script::none, type::unused },
+	{ 0x1D37A, script::none, type::unused },
+	{ 0x1D37B, script::none, type::unused },
+	{ 0x1D37C, script::none, type::unused },
+	{ 0x1D37D, script::none, type::unused },
+	{ 0x1D37E, script::none, type::unused },
+	{ 0x1D37F, script::none, type::unused },
 };
 
 static unicode_range_data data[] = /* Unicode 6.0 */
