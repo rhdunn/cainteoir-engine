@@ -53,6 +53,7 @@ namespace unicode
 			letter      = 0x00000020,
 			symbol      = 0x00000040,
 			invalid     = 0x00000080, /* not a unicode character */
+			combining   = 0x00000100, /* the character is not valid on its own */
 			/* modifiers */
 			capital     = 0x00001000, /* capital letter (upper case) */
 			skip        = 0x00002000, /* skip this character when matching word spans */
@@ -467,36 +468,36 @@ static unicode::codepoint_data unicode_tengwar[] =
 	{ 0x0E03D, script::none,    type::unused },
 	{ 0x0E03E, script::none,    type::unused },
 	{ 0x0E03F, script::none,    type::unused },
-	{ 0x0E040, script::tengwar, type::letter }, /* TENGWAR SIGN THREE DOTS ABOVE */
-	{ 0x0E041, script::tengwar, type::letter }, /* TENGWAR SIGN THREE DOTS BELOW */
-	{ 0x0E042, script::tengwar, type::letter }, /* TENGWAR SIGN TWO DOTS ABOVE */
-	{ 0x0E043, script::tengwar, type::letter }, /* TENGWAR SIGN TWO DOTS BELOW */
-	{ 0x0E044, script::tengwar, type::letter }, /* TENGWAR SIGN AMATICSE (dot above) */
-	{ 0x0E045, script::tengwar, type::letter }, /* TENGWAR SIGN NUNTICSE (dot below) */
-	{ 0x0E046, script::tengwar, type::letter }, /* TENGWAR SIGN ACUTE (andaith, long mark) */
-	{ 0x0E047, script::tengwar, type::letter }, /* TENGWAR SIGN DOUBLE ACUTE */
-	{ 0x0E048, script::tengwar, type::letter }, /* TENGWAR SIGN RIGHT CURL */
-	{ 0x0E049, script::tengwar, type::letter }, /* TENGWAR SIGN DOUBLE RIGHT CURL */
-	{ 0x0E04A, script::tengwar, type::letter }, /* TENGWAR SIGN LEFT CURL */
-	{ 0x0E04B, script::tengwar, type::letter }, /* TENGWAR SIGN DOUBLE LEFT CURL */
-	{ 0x0E04C, script::tengwar, type::letter }, /* TENGWAR SIGN NASALIZER */
-	{ 0x0E04D, script::tengwar, type::letter }, /* TENGWAR SIGN DOUBLER */
-	{ 0x0E04E, script::tengwar, type::letter }, /* TENGWAR SIGN TILDE */
-	{ 0x0E04F, script::tengwar, type::letter }, /* TENGWAR SIGN BREVE */
+	{ 0x0E040, script::tengwar, type::combining }, /* TENGWAR SIGN THREE DOTS ABOVE */
+	{ 0x0E041, script::tengwar, type::combining }, /* TENGWAR SIGN THREE DOTS BELOW */
+	{ 0x0E042, script::tengwar, type::combining }, /* TENGWAR SIGN TWO DOTS ABOVE */
+	{ 0x0E043, script::tengwar, type::combining }, /* TENGWAR SIGN TWO DOTS BELOW */
+	{ 0x0E044, script::tengwar, type::combining }, /* TENGWAR SIGN AMATICSE (dot above) */
+	{ 0x0E045, script::tengwar, type::combining }, /* TENGWAR SIGN NUNTICSE (dot below) */
+	{ 0x0E046, script::tengwar, type::combining }, /* TENGWAR SIGN ACUTE (andaith, long mark) */
+	{ 0x0E047, script::tengwar, type::combining }, /* TENGWAR SIGN DOUBLE ACUTE */
+	{ 0x0E048, script::tengwar, type::combining }, /* TENGWAR SIGN RIGHT CURL */
+	{ 0x0E049, script::tengwar, type::combining }, /* TENGWAR SIGN DOUBLE RIGHT CURL */
+	{ 0x0E04A, script::tengwar, type::combining }, /* TENGWAR SIGN LEFT CURL */
+	{ 0x0E04B, script::tengwar, type::combining }, /* TENGWAR SIGN DOUBLE LEFT CURL */
+	{ 0x0E04C, script::tengwar, type::combining }, /* TENGWAR SIGN NASALIZER */
+	{ 0x0E04D, script::tengwar, type::combining }, /* TENGWAR SIGN DOUBLER */
+	{ 0x0E04E, script::tengwar, type::combining }, /* TENGWAR SIGN TILDE */
+	{ 0x0E04F, script::tengwar, type::combining }, /* TENGWAR SIGN BREVE */
 	{ ',',     script::tengwar, type::punctuation }, /* TENGWAR PUSTA (putta, stop) */
 	{ '.',     script::tengwar, type::punctuation }, /* TENGWAR DOUBLE PUSTA (putta) */
 	{ '!',     script::tengwar, type::punctuation }, /* TENGWAR EXCLAMATION MARK */
 	{ '?',     script::tengwar, type::punctuation }, /* TENGWAR QUESTION MARK */
 	{ 0x0E054, script::tengwar, type::letter }, /* TENGWAR SECTION MARK */
 	{ 0x0E055, script::tengwar, type::letter }, /* TENGWAR LONG SECTION MARK */
-	{ 0x0E056, script::tengwar, type::letter }, /* TENGWAR SIGN LONG CARRIER BELOW */
-	{ 0x0E057, script::tengwar, type::letter }, /* TENGWAR SIGN DOUBLE ACUTE BELOW */
-	{ 0x0E058, script::tengwar, type::letter }, /* TENGWAR SIGN RIGHT CURL BELOW */
+	{ 0x0E056, script::tengwar, type::combining }, /* TENGWAR SIGN LONG CARRIER BELOW */
+	{ 0x0E057, script::tengwar, type::combining }, /* TENGWAR SIGN DOUBLE ACUTE BELOW */
+	{ 0x0E058, script::tengwar, type::combining }, /* TENGWAR SIGN RIGHT CURL BELOW */
 	{ 0x0E059, script::none,    type::unused },
-	{ 0x0E05A, script::tengwar, type::letter }, /* TENGWAR SIGN LEFT CURL BELOW */
+	{ 0x0E05A, script::tengwar, type::combining }, /* TENGWAR SIGN LEFT CURL BELOW */
 	{ 0x0E05B, script::none,    type::unused },
-	{ 0x0E05C, script::tengwar, type::letter }, /* TENGWAR SIGN LEFT FOLLOWING SILME */
-	{ 0x0E05D, script::tengwar, type::letter }, /* TENGWAR SIGN RIGHT FOLLOWING SILME */
+	{ 0x0E05C, script::tengwar, type::combining }, /* TENGWAR SIGN LEFT FOLLOWING SILME */
+	{ 0x0E05D, script::tengwar, type::combining }, /* TENGWAR SIGN RIGHT FOLLOWING SILME */
 	{ 0x0E05E, script::none,    type::unused },
 	{ 0x0E05F, script::none,    type::unused },
 	{ 0x0E060, script::none,    type::unused },
@@ -511,9 +512,9 @@ static unicode::codepoint_data unicode_tengwar[] =
 	{ 9,       script::tengwar, type::number }, /* TENGWAR DIGIT NINE */
 	{ 10,      script::tengwar, type::number }, /* TENGWAR DUODECIMAL DIGIT TEN */
 	{ 11,      script::tengwar, type::number }, /* TENGWAR DUODECIMAL DIGIT ELEVEN */
-	{ 0x0E06C, script::tengwar, type::symbol }, /* TENGWAR DECIMAL BASE MARK */
-	{ 0x0E06D, script::tengwar, type::symbol }, /* TENGWAR DUODECIMAL BASE MARK */
-	{ 0x0E06E, script::tengwar, type::symbol }, /* TENGWAR DUODECIMAL LEAST SIGNIFICANT DIGIT MARK */
+	{ 0x0E06C, script::tengwar, type::combining }, /* TENGWAR DECIMAL BASE MARK */
+	{ 0x0E06D, script::tengwar, type::combining }, /* TENGWAR DUODECIMAL BASE MARK */
+	{ 0x0E06E, script::tengwar, type::combining }, /* TENGWAR DUODECIMAL LEAST SIGNIFICANT DIGIT MARK */
 	{ 0x0E06F, script::none,    type::unused },
 	{ 0x0E070, script::none,    type::unused },
 	{ 0x0E071, script::none,    type::unused },
@@ -642,9 +643,9 @@ static unicode::codepoint_data unicode_cirth[] =
 	{ 0x0E0E7, script::cirth, type::symbol }, /* CIRTH SEPARATOR TRIPLE DOT */
 	{ 0x0E0E8, script::cirth, type::symbol }, /* CIRTH START OR END OF TEXT */
 	{ 0x0E0E9, script::cirth, type::symbol }, /* CIRTH SEPARATOR DOUBLE PIPE */
-	{ 0x0E0EA, script::cirth, type::symbol }, /* CIRTH COMBINING NASAL MARK */
-	{ 0x0E0EB, script::cirth, type::symbol }, /* CIRTH COMBINING LENGTH MARK */
-	{ 0x0E0EC, script::cirth, type::symbol }, /* CIRTH COMBINING NUMERIC DOT */
+	{ 0x0E0EA, script::cirth, type::combining }, /* CIRTH COMBINING NASAL MARK */
+	{ 0x0E0EB, script::cirth, type::combining }, /* CIRTH COMBINING LENGTH MARK */
+	{ 0x0E0EC, script::cirth, type::combining }, /* CIRTH COMBINING NUMERIC DOT */
 	{ 0x0E0ED, script::none,  type::unused },
 	{ 0x0E0EE, script::none,  type::unused },
 	{ 0x0E0EF, script::none,  type::unused },
