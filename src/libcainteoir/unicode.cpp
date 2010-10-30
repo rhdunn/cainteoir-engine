@@ -30,6 +30,7 @@ namespace unicode
 		enum type
 		{
 			counting_rod,
+			klingon,
 			latin,
 			none,
 		};
@@ -397,9 +398,63 @@ static unicode::codepoint_data unicode_counting_rod_units[] =
 	{ 0x1D37F, script::none, type::unused },
 };
 
+/** @see http://www.evertype.com/standards/csur/klingon.html */
+static unicode::codepoint_data unicode_klingon[] =
+{
+	{ 0x0F8D0, script::klingon, type::letter }, /* KLINGON LETTER A */
+	{ 0x0F8D1, script::klingon, type::letter }, /* KLINGON LETTER B */
+	{ 0x0F8D2, script::klingon, type::letter }, /* KLINGON LETTER CH */
+	{ 0x0F8D3, script::klingon, type::letter }, /* KLINGON LETTER D */
+	{ 0x0F8D4, script::klingon, type::letter }, /* KLINGON LETTER E */
+	{ 0x0F8D5, script::klingon, type::letter }, /* KLINGON LETTER GH */
+	{ 0x0F8D6, script::klingon, type::letter }, /* KLINGON LETTER H */
+	{ 0x0F8D7, script::klingon, type::letter }, /* KLINGON LETTER I */
+	{ 0x0F8D8, script::klingon, type::letter }, /* KLINGON LETTER J */
+	{ 0x0F8D9, script::klingon, type::letter }, /* KLINGON LETTER L */
+	{ 0x0F8DA, script::klingon, type::letter }, /* KLINGON LETTER M */
+	{ 0x0F8DB, script::klingon, type::letter }, /* KLINGON LETTER N */
+	{ 0x0F8DC, script::klingon, type::letter }, /* KLINGON LETTER NG */
+	{ 0x0F8DD, script::klingon, type::letter }, /* KLINGON LETTER O */
+	{ 0x0F8DE, script::klingon, type::letter }, /* KLINGON LETTER P */
+	{ 0x0F8DF, script::klingon, type::letter }, /* KLINGON LETTER Q */
+	{ 0x0F8E0, script::klingon, type::letter }, /* KLINGON LETTER QH */
+	{ 0x0F8E1, script::klingon, type::letter }, /* KLINGON LETTER R */
+	{ 0x0F8E2, script::klingon, type::letter }, /* KLINGON LETTER S */
+	{ 0x0F8E3, script::klingon, type::letter }, /* KLINGON LETTER T */
+	{ 0x0F8E4, script::klingon, type::letter }, /* KLINGON LETTER TLH */
+	{ 0x0F8E5, script::klingon, type::letter }, /* KLINGON LETTER U */
+	{ 0x0F8E6, script::klingon, type::letter }, /* KLINGON LETTER V */
+	{ 0x0F8E7, script::klingon, type::letter }, /* KLINGON LETTER W */
+	{ 0x0F8E8, script::klingon, type::letter }, /* KLINGON LETTER Y */
+	{ 0x0F8E9, script::klingon, type::letter }, /* KLINGON LETTER GLOTTAL STOP */
+	{ 0x0F8EA, script::none,    type::unused },
+	{ 0x0F8EB, script::none,    type::unused },
+	{ 0x0F8EC, script::none,    type::unused },
+	{ 0x0F8ED, script::none,    type::unused },
+	{ 0x0F8EE, script::none,    type::unused },
+	{ 0x0F8EF, script::none,    type::unused },
+	{ 0,       script::klingon, type::number }, /* KLINGON DIGIT ZERO */
+	{ 1,       script::klingon, type::number }, /* KLINGON DIGIT ONE */
+	{ 2,       script::klingon, type::letter }, /* KLINGON DIGIT TWO */
+	{ 3,       script::klingon, type::letter }, /* KLINGON DIGIT THREE */
+	{ 4,       script::klingon, type::letter }, /* KLINGON DIGIT FOUR */
+	{ 5,       script::klingon, type::letter }, /* KLINGON DIGIT FIVE */
+	{ 6,       script::klingon, type::letter }, /* KLINGON DIGIT SIX */
+	{ 7,       script::klingon, type::letter }, /* KLINGON DIGIT SEVEN */
+	{ 8,       script::klingon, type::letter }, /* KLINGON DIGIT EIGHT */
+	{ 9,       script::klingon, type::letter }, /* KLINGON DIGIT NINE */
+	{ 0x0F8FA, script::none,    type::unused },
+	{ 0x0F8FB, script::none,    type::unused },
+	{ 0x0F8FC, script::none,    type::unused },
+	{ ',',     script::klingon, type::punctuation }, /* KLINGON COMMA */
+	{ '.',     script::klingon, type::punctuation }, /* KLINGON FULL STOP */
+	{ 0x0F8FF, script::klingon, type::symbol }, /* KLINGON MUMMIFICATION GLYPH */
+};
+
 static unicode_range_data data[] = /* Unicode 6.0 */
 {
 	{ 0x00000, 0x0007F, unicode_c0_controls_and_basic_latin },
 	{ 0x00080, 0x000FF, unicode_c1_controls_and_latin_1_supplement },
+	{ 0x0F8D0, 0x0F8FF, unicode_klingon }, /* unofficial */
 	{ 0x1D360, 0x1D37F, unicode_counting_rod_units },
 };
