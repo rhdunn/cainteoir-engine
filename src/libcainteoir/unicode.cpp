@@ -30,9 +30,10 @@ namespace unicode
 		enum type
 		{
 			counting_rod,
-			klingon,
+			klingon, /* StarTrek */
 			latin,
 			none,
+			tengwar, /* J. R. R. Tolkien - Cursive Script */
 		};
 	}
 
@@ -398,7 +399,140 @@ static unicode::codepoint_data unicode_counting_rod_units[] =
 	{ 0x1D37F, script::none, type::unused },
 };
 
-/** @see http://www.evertype.com/standards/csur/klingon.html */
+/** @see http://www.evertype.com/standards/csur/tengwar.html - Tengwar */
+static unicode::codepoint_data unicode_tengwar[] =
+{
+	{ 0x0E000, script::tengwar, type::letter }, /* TENGWAR LETTER TINCO */
+	{ 0x0E001, script::tengwar, type::letter }, /* TENGWAR LETTER PARMA */
+	{ 0x0E002, script::tengwar, type::letter }, /* TENGWAR LETTER CALMA */
+	{ 0x0E003, script::tengwar, type::letter }, /* TENGWAR LETTER QUESSE */
+	{ 0x0E004, script::tengwar, type::letter }, /* TENGWAR LETTER ANDO */
+	{ 0x0E005, script::tengwar, type::letter }, /* TENGWAR LETTER UMBAR */
+	{ 0x0E006, script::tengwar, type::letter }, /* TENGWAR LETTER ANGA */
+	{ 0x0E007, script::tengwar, type::letter }, /* TENGWAR LETTER UNGWE */
+	{ 0x0E008, script::tengwar, type::letter }, /* TENGWAR LETTER THUULE (suule) */
+	{ 0x0E009, script::tengwar, type::letter }, /* TENGWAR LETTER FORMEN */
+	{ 0x0E00A, script::tengwar, type::letter }, /* TENGWAR LETTER HARMA (aha) */
+	{ 0x0E00B, script::tengwar, type::letter }, /* TENGWAR LETTER HWESTA */
+	{ 0x0E00C, script::tengwar, type::letter }, /* TENGWAR LETTER ANTO */
+	{ 0x0E00D, script::tengwar, type::letter }, /* TENGWAR LETTER AMPA */
+	{ 0x0E00E, script::tengwar, type::letter }, /* TENGWAR LETTER ANCA */
+	{ 0x0E00F, script::tengwar, type::letter }, /* TENGWAR LETTER UNQUE */
+	{ 0x0E010, script::tengwar, type::letter }, /* TENGWAR LETTER NUUMEN */
+	{ 0x0E011, script::tengwar, type::letter }, /* TENGWAR LETTER MALTA */
+	{ 0x0E012, script::tengwar, type::letter }, /* TENGWAR LETTER NOLDO (ngoldo) */
+	{ 0x0E013, script::tengwar, type::letter }, /* TENGWAR LETTER NWALME (ngwalme) */
+	{ 0x0E014, script::tengwar, type::letter }, /* TENGWAR LETTER OORE */
+	{ 0x0E015, script::tengwar, type::letter }, /* TENGWAR LETTER VALA */
+	{ 0x0E016, script::tengwar, type::letter }, /* TENGWAR LETTER ANNA */
+	{ 0x0E017, script::tengwar, type::letter }, /* TENGWAR LETTER VILYA (wilya) */
+	{ 0x0E018, script::tengwar, type::letter }, /* TENGWAR LETTER ROOMEN */
+	{ 0x0E019, script::tengwar, type::letter }, /* TENGWAR LETTER ARDA */
+	{ 0x0E01A, script::tengwar, type::letter }, /* TENGWAR LETTER LAMBE */
+	{ 0x0E01B, script::tengwar, type::letter }, /* TENGWAR LETTER ALDA */
+	{ 0x0E01C, script::tengwar, type::letter }, /* TENGWAR LETTER SILME */
+	{ 0x0E01D, script::tengwar, type::letter }, /* TENGWAR LETTER SILME NUQUERNA */
+	{ 0x0E01E, script::tengwar, type::letter }, /* TENGWAR LETTER AARE (aaze, esse) */
+	{ 0x0E01F, script::tengwar, type::letter }, /* TENGWAR LETTER AARE NUQUERNA (aaze n., esse n.) */
+	{ 0x0E020, script::tengwar, type::letter }, /* TENGWAR LETTER HYARMEN */
+	{ 0x0E021, script::tengwar, type::letter }, /* TENGWAR LETTER HWESTA SINDARINWA */
+	{ 0x0E022, script::tengwar, type::letter }, /* TENGWAR LETTER YANTA */
+	{ 0x0E023, script::tengwar, type::letter }, /* TENGWAR LETTER UURE */
+	{ 0x0E024, script::tengwar, type::letter }, /* TENGWAR LETTER HALLA */
+	{ 0x0E025, script::tengwar, type::letter }, /* TENGWAR LETTER SHORT CARRIER */
+	{ 0x0E026, script::tengwar, type::letter }, /* TENGWAR LETTER LONG CARRIER */
+	{ 0x0E027, script::tengwar, type::letter }, /* TENGWAR LETTER ANNA SINDARINWA */
+	{ 0x0E028, script::tengwar, type::letter }, /* TENGWAR LETTER EXTENDED THUULE */
+	{ 0x0E029, script::tengwar, type::letter }, /* TENGWAR LETTER EXTENDED FORMEN */
+	{ 0x0E02A, script::tengwar, type::letter }, /* TENGWAR LETTER EXTENDED HARMA */
+	{ 0x0E02B, script::tengwar, type::letter }, /* TENGWAR LETTER EXTENDED HWESTA */
+	{ 0x0E02C, script::tengwar, type::letter }, /* TENGWAR LETTER EXTENDED ANTO */
+	{ 0x0E02D, script::tengwar, type::letter }, /* TENGWAR LETTER EXTENDED AMPA */
+	{ 0x0E02E, script::tengwar, type::letter }, /* TENGWAR LETTER EXTENDED ANCA */
+	{ 0x0E02F, script::tengwar, type::letter }, /* TENGWAR LETTER EXTENDED UNQUE */
+	{ 0x0E030, script::tengwar, type::letter }, /* TENGWAR LETTER STEMLESS OORE (digit zero) */
+	{ 0x0E031, script::tengwar, type::letter }, /* TENGWAR LETTER STEMLESS VALA */
+	{ 0x0E032, script::tengwar, type::letter }, /* TENGWAR LETTER STEMLESS ANNA */
+	{ 0x0E033, script::tengwar, type::letter }, /* TENGWAR LETTER STEMLESS VILYA (digit one) */
+	{ 0x0E034, script::none,    type::unused },
+	{ 0x0E035, script::none,    type::unused },
+	{ 0x0E036, script::none,    type::unused },
+	{ 0x0E037, script::none,    type::unused },
+	{ 0x0E038, script::none,    type::unused },
+	{ 0x0E039, script::none,    type::unused },
+	{ 0x0E03A, script::none,    type::unused },
+	{ 0x0E03B, script::none,    type::unused },
+	{ 0x0E03C, script::none,    type::unused },
+	{ 0x0E03D, script::none,    type::unused },
+	{ 0x0E03E, script::none,    type::unused },
+	{ 0x0E03F, script::none,    type::unused },
+	{ 0x0E040, script::tengwar, type::letter }, /* TENGWAR SIGN THREE DOTS ABOVE */
+	{ 0x0E041, script::tengwar, type::letter }, /* TENGWAR SIGN THREE DOTS BELOW */
+	{ 0x0E042, script::tengwar, type::letter }, /* TENGWAR SIGN TWO DOTS ABOVE */
+	{ 0x0E043, script::tengwar, type::letter }, /* TENGWAR SIGN TWO DOTS BELOW */
+	{ 0x0E044, script::tengwar, type::letter }, /* TENGWAR SIGN AMATICSE (dot above) */
+	{ 0x0E045, script::tengwar, type::letter }, /* TENGWAR SIGN NUNTICSE (dot below) */
+	{ 0x0E046, script::tengwar, type::letter }, /* TENGWAR SIGN ACUTE (andaith, long mark) */
+	{ 0x0E047, script::tengwar, type::letter }, /* TENGWAR SIGN DOUBLE ACUTE */
+	{ 0x0E048, script::tengwar, type::letter }, /* TENGWAR SIGN RIGHT CURL */
+	{ 0x0E049, script::tengwar, type::letter }, /* TENGWAR SIGN DOUBLE RIGHT CURL */
+	{ 0x0E04A, script::tengwar, type::letter }, /* TENGWAR SIGN LEFT CURL */
+	{ 0x0E04B, script::tengwar, type::letter }, /* TENGWAR SIGN DOUBLE LEFT CURL */
+	{ 0x0E04C, script::tengwar, type::letter }, /* TENGWAR SIGN NASALIZER */
+	{ 0x0E04D, script::tengwar, type::letter }, /* TENGWAR SIGN DOUBLER */
+	{ 0x0E04E, script::tengwar, type::letter }, /* TENGWAR SIGN TILDE */
+	{ 0x0E04F, script::tengwar, type::letter }, /* TENGWAR SIGN BREVE */
+	{ ',',     script::tengwar, type::punctuation }, /* TENGWAR PUSTA (putta, stop) */
+	{ '.',     script::tengwar, type::punctuation }, /* TENGWAR DOUBLE PUSTA (putta) */
+	{ '!',     script::tengwar, type::punctuation }, /* TENGWAR EXCLAMATION MARK */
+	{ '?',     script::tengwar, type::punctuation }, /* TENGWAR QUESTION MARK */
+	{ 0x0E054, script::tengwar, type::letter }, /* TENGWAR SECTION MARK */
+	{ 0x0E055, script::tengwar, type::letter }, /* TENGWAR LONG SECTION MARK */
+	{ 0x0E056, script::tengwar, type::letter }, /* TENGWAR SIGN LONG CARRIER BELOW */
+	{ 0x0E057, script::tengwar, type::letter }, /* TENGWAR SIGN DOUBLE ACUTE BELOW */
+	{ 0x0E058, script::tengwar, type::letter }, /* TENGWAR SIGN RIGHT CURL BELOW */
+	{ 0x0E059, script::none,    type::unused },
+	{ 0x0E05A, script::tengwar, type::letter }, /* TENGWAR SIGN LEFT CURL BELOW */
+	{ 0x0E05B, script::none,    type::unused },
+	{ 0x0E05C, script::tengwar, type::letter }, /* TENGWAR SIGN LEFT FOLLOWING SILME */
+	{ 0x0E05D, script::tengwar, type::letter }, /* TENGWAR SIGN RIGHT FOLLOWING SILME */
+	{ 0x0E05E, script::none,    type::unused },
+	{ 0x0E05F, script::none,    type::unused },
+	{ 0x0E060, script::none,    type::unused },
+	{ 0x0E061, script::none,    type::unused },
+	{ 2,       script::tengwar, type::number }, /* TENGWAR DIGIT TWO */
+	{ 3,       script::tengwar, type::number }, /* TENGWAR DIGIT THREE */
+	{ 4,       script::tengwar, type::number }, /* TENGWAR DIGIT FOUR */
+	{ 5,       script::tengwar, type::number }, /* TENGWAR DIGIT FIVE */
+	{ 6,       script::tengwar, type::number }, /* TENGWAR DIGIT SIX */
+	{ 7,       script::tengwar, type::number }, /* TENGWAR DIGIT SEVEN */
+	{ 8,       script::tengwar, type::number }, /* TENGWAR DIGIT EIGHT */
+	{ 9,       script::tengwar, type::number }, /* TENGWAR DIGIT NINE */
+	{ 10,      script::tengwar, type::number }, /* TENGWAR DUODECIMAL DIGIT TEN */
+	{ 11,      script::tengwar, type::number }, /* TENGWAR DUODECIMAL DIGIT ELEVEN */
+	{ 0x0E06C, script::tengwar, type::symbol }, /* TENGWAR DECIMAL BASE MARK */
+	{ 0x0E06D, script::tengwar, type::symbol }, /* TENGWAR DUODECIMAL BASE MARK */
+	{ 0x0E06E, script::tengwar, type::symbol }, /* TENGWAR DUODECIMAL LEAST SIGNIFICANT DIGIT MARK */
+	{ 0x0E06F, script::none,    type::unused },
+	{ 0x0E070, script::none,    type::unused },
+	{ 0x0E071, script::none,    type::unused },
+	{ 0x0E072, script::none,    type::unused },
+	{ 0x0E073, script::none,    type::unused },
+	{ 0x0E074, script::none,    type::unused },
+	{ 0x0E075, script::none,    type::unused },
+	{ 0x0E076, script::none,    type::unused },
+	{ 0x0E077, script::none,    type::unused },
+	{ 0x0E078, script::none,    type::unused },
+	{ 0x0E079, script::none,    type::unused },
+	{ 0x0E07A, script::none,    type::unused },
+	{ 0x0E07B, script::none,    type::unused },
+	{ 0x0E07C, script::none,    type::unused },
+	{ 0x0E07D, script::none,    type::unused },
+	{ 0x0E07E, script::none,    type::unused },
+	{ 0x0E07F, script::none,    type::unused },
+};
+
+/** @see http://www.evertype.com/standards/csur/klingon.html - Klingon */
 static unicode::codepoint_data unicode_klingon[] =
 {
 	{ 0x0F8D0, script::klingon, type::letter }, /* KLINGON LETTER A */
@@ -455,6 +589,11 @@ static unicode_range_data data[] = /* Unicode 6.0 */
 {
 	{ 0x00000, 0x0007F, unicode_c0_controls_and_basic_latin },
 	{ 0x00080, 0x000FF, unicode_c1_controls_and_latin_1_supplement },
-	{ 0x0F8D0, 0x0F8FF, unicode_klingon }, /* unofficial */
+	{ 0x0E000, 0x0E07F, unicode_tengwar }, /* unofficial - private (reserved) area */
+	{ 0x0F8D0, 0x0F8FF, unicode_klingon }, /* unofficial - private (reserved) area */
+
+/* SMP: Supplementary Multilingual Plane */
+
+	/*{ 0x1CC00, 0x1CC7F, unicode_tengwar }, /* proposed - http://www.unicode.org/roadmaps/smp */
 	{ 0x1D360, 0x1D37F, unicode_counting_rod_units },
 };
