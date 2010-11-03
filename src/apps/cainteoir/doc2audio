@@ -1,0 +1,107 @@
+#!/bin/bash
+#
+# Document to audio conversion utility.
+#
+# Copyright (C) 2010 Reece H. Dunn
+#
+# This file is part of cainteoir-engine.
+#
+# cainteoir-engine is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# cainteoir-engine is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
+
+
+# NOTE: This script is temporary until cainteoir supports different
+# formats such that the following works:
+#
+#     cainteoir "$SRC" -o "$DEST"
+
+
+# This is a temporary workaround until cainteoir supports html documents.
+html2ogg()
+{
+	lynx -dump -nonumbers -nolist "$1" > /tmp/text.txt
+	cainteoir /tmp/text.txt --type ogg -o "$2"
+}
+
+# This is a temporary workaround until cainteoir supports html documents
+# with metadata extraction.
+html2ogg_ext()
+{
+	SRC=$1
+	DEST=$2
+	ALBUM=$3
+	ARTIST=$4
+	N=$5
+
+	DESTNAME=`basename "$DEST"`
+	FILE=`basename "$SRC" | sed -e 's,\.xhtml,,' -e 's,\.html,,'`
+	NAME=`printf "%04d" $N`
+
+	OUT="$DEST/$NAME-$DESTNAME-$FILE"
+
+	echo "============================== ($N of $T) =============================="
+	if [[ -e "$OUT.ogg" ]] ; then
+		echo "exists ... skipping"
+	else
+		TITLE=`cat "$SRC" | grep -F "<title>" | sed -e 's,.*<title>,,' -e 's,</title>.*,,'`
+		echo "author |$4| album |$3| chapter |$TITLE|"
+		lynx -dump -nonumbers -nolist "$SRC" > /tmp/text.txt
+		cainteoir /tmp/text.txt --type wave -o- | oggenc - -o "$OUT.ogg" -c "ALBUM=$ALBUM" -c "ARTIST=$ARTIST" -c "GENRE=Vocal" -c "TITLE=$TITLE" -c "TRACKNUMBER=$N"
+	fi
+}
+
+# This is a temporary workaround until cainteoir supports scanning directories
+# with an index.htm(l) file.
+dir2ogg()
+{
+	SRC=$1
+	DEST=$2
+	DESTNAME=$3
+	ALBUM=$4
+	ARTIST=$5
+	DESTDIR="$DEST/$DESTNAME"
+
+	mkdir -p "$DESTDIR"
+	N=0
+	T=`find "$SRC" -type f | grep -F "html" | grep -vF "index." | grep -vF "cover." | wc -l`
+	find "$SRC" -type f | grep -F "html" | grep -vF "index." | grep -vF "cover." | sort -V | while read line ; do
+		N=$((N + 1))
+		html2ogg_ext "$line" "$DESTDIR" "$ALBUM" "$ARTIST" $N
+	done
+}
+
+# This is a temporary workaround until cainteoir supports epub documents
+# with metadata extraction.
+epub2ogg()
+{
+	SRC=$1
+	DEST=$2
+
+	rm -rf /tmp/epub
+	mkdir /tmp/epub && unzip "$SRC" -d /tmp/epub >/dev/null
+	DC_CREATOR=`cat /tmp/epub/*/content.opf | grep -F "dc:creator" | sed -e 's,.*<dc:creator>,,' -e 's,</dc:creator>.*,,'`
+	DC_TITLE=`cat /tmp/epub/*/content.opf | grep -F "dc:title" | sed -e 's,.*<dc:title>,,' -e 's,</dc:title>.*,,'`
+
+	dir2ogg /tmp/epub "$DEST" "`basename $SRC | sed -e 's,\.epub,,'`" "$DC_TITLE" "$DC_CREATOR"
+	rm -rf /tmp/epub
+}
+
+SRC=$2
+DEST=$1
+
+case "$SRC" in
+	*.txt)          cainteoir "$SRC" --type ogg -o "$DEST" ;;
+	*.html|*.xhtml) html2ogg "$SRC" "$DEST" ;;
+	*.epub)		epub2ogg "$SRC" "$DEST" ;;
+	*)		dir2ogg "$SRC" "$DEST" "`basename $SRC`" "Unknown" "Unknown" ;;
+esac
