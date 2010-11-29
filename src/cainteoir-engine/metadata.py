@@ -30,12 +30,14 @@ class RDFResource:
 				self.base, self.ref = ref.split('#')
 				self.base = '%s#' % self.base
 			else:
-				self.ref = os.path.basename(ref)
 				self.base = '%s/' % os.path.dirname(ref)
+				self.ref  = os.path.basename(ref)
+			self.uri = ref
 		else:
-			self.ref = ref
 			self.base = base
+			self.ref  = ref
+			self.uri  = '%s%s' % (self.base, self.ref)
 
 	def __str__(self):
-		return '%s%s' % (self.base, self.ref)
+		return self.uri
 
