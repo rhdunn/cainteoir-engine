@@ -44,3 +44,10 @@ src_apps_cainteoir_cainteoir_LDADD = \
 src_apps_cainteoir_cainteoir_SOURCES = \
 	src/apps/cainteoir/main.cpp
 
+############################# tests ###########################################
+
+TEST_EXTENSIONS = .py
+PY_LOG_COMPILER = $(PYTHON)
+
+TESTS = tests/metadata-tests.py
+

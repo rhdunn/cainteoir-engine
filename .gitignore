@@ -1,4 +1,7 @@
 *.o
+*.pyc
+
+.*.swp
 
 src/apps/cainteoir/cainteoir
 src/libcainteoir/libcainteoir.a
