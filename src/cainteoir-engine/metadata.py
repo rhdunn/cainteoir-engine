@@ -21,10 +21,20 @@ the Cainteoir Text-to-Speech engine using RDF.
 # You should have received a copy of the GNU General Public License
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
-class Resource:
+import os
+
+class RDFResource:
 	def __init__(self, ref, base):
-		self.ref = ref
-		self.base = base
+		if ref.startswith('http://'):
+			if '#' in ref:
+				self.base, self.ref = ref.split('#')
+				self.base = '%s#' % self.base
+			else:
+				self.ref = os.path.basename(ref)
+				self.base = '%s/' % os.path.dirname(ref)
+		else:
+			self.ref = ref
+			self.base = base
 
 	def __str__(self):
 		return '%s%s' % (self.base, self.ref)

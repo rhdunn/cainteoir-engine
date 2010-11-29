@@ -29,10 +29,31 @@ def ok(cond, message):
 		raise Exception(message)
 
 def equal(a, b, message):
-	ok(a == b, '%s : expected "%s", got "%s"' % (message, a, b))
+	ok(a == b, '%s : expected "%s", got "%s"' % (message, b, a))
 
-if __name__ == '__main__':
-	res = metadata.Resource('title', 'http://purl.org/dc/terms/')
+def check_unpacked_http_resource():
+	res = metadata.RDFResource('title', 'http://purl.org/dc/terms/')
 	equal(res.ref, 'title', 'res.ref')
 	equal(res.base, 'http://purl.org/dc/terms/', 'res.base')
 	equal(str(res), 'http://purl.org/dc/terms/title', 'str(res)')
+
+	res = metadata.RDFResource('type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+	equal(res.ref, 'type', 'res.ref')
+	equal(res.base, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'res.base')
+	equal(str(res), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'str(res)')
+
+def check_packed_http_resource():
+	res = metadata.RDFResource('http://purl.org/dc/terms/title', None)
+	equal(res.ref, 'title', 'res.ref')
+	equal(res.base, 'http://purl.org/dc/terms/', 'res.base')
+	equal(str(res), 'http://purl.org/dc/terms/title', 'str(res)')
+
+	res = metadata.RDFResource('http://www.w3.org/1999/02/22-rdf-syntax-ns#type', None)
+	equal(res.ref, 'type', 'res.ref')
+	equal(res.base, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'res.base')
+	equal(str(res), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'str(res)')
+
+if __name__ == '__main__':
+	check_unpacked_http_resource()
+	check_packed_http_resource()
+
