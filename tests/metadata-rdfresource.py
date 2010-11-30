@@ -63,7 +63,23 @@ def check_packed_http_resource():
 	test.equal(res.uri, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'res.uri')
 	test.equal(str(res), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'str(res)')
 
+def check_formatting_resource():
+	prefixes1 = {'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf'}
+	prefixes2 = {'http://purl.org/dc/terms/': 'dc'}
+	prefixes3 = {'http://purl.org/dc/terms/': 'dct', 'http://purl.org/dc/elements/1.1/': 'dc'}
+
+	res = metadata.RDFResource('type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+	test.equal(res.format(), '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', 'res.format()')
+	test.equal(res.format(prefixes1), 'rdf:type', 'res.format()')
+	test.equal(res.format(prefixes2), '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', 'res.format()')
+
+	res = metadata.RDFResource('http://purl.org/dc/terms/title')
+	test.equal(res.format(), '<http://purl.org/dc/terms/title>', 'res.format()')
+	test.equal(res.format(prefixes2), 'dc:title', 'res.format()')
+	test.equal(res.format(prefixes3), 'dct:title', 'res.format()')
+
 if __name__ == '__main__':
 	check_unpacked_http_resource()
 	check_packed_http_resource()
+	check_formatting_resource()
 

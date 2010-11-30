@@ -38,6 +38,11 @@ class RDFResource:
 			self.ref  = ref
 			self.uri  = '%s%s' % (self.base, self.ref)
 
+	def format(self, prefixes={}):
+		if self.base in prefixes.keys():
+			return '%s:%s' % (prefixes[self.base], self.ref)
+		return '<%s>' % self.uri
+
 	def __str__(self):
 		return self.uri
 
