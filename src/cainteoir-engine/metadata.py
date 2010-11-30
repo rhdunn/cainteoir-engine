@@ -60,7 +60,7 @@ class RDFLiteral:
 			return '"%s"@%s^^%s' % (self.text, self.language, self.type.format(prefixes))
 		if self.language:
 			return '"%s"@%s' % (self.text, self.language)
-		elif self.type:
+		if self.type:
 			return '"%s"^^%s' % (self.text, self.type.format(prefixes))
 		return '"%s"' % self.text
 
