@@ -50,3 +50,9 @@ class RDFLiteral:
 		else:
 			self.type = None
 
+class RDFTriple:
+	def __init__(self, subject, predicate, object):
+		self.subject   = subject
+		self.predicate = predicate
+		self.object    = object
+
