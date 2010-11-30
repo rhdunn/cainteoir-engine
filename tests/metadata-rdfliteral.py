@@ -23,23 +23,17 @@ import os
 sys.path.append(os.path.join(sys.path[0], '../src/cainteoir-engine'))
 
 import metadata
-
-def ok(cond, message):
-	if (not cond):
-		raise Exception(message)
-
-def equal(a, b, message):
-	ok(a == b, '%s : expected "%s", got "%s"' % (message, b, a))
+import harness as test
 
 def check_basic_literal():
 	literal = metadata.RDFLiteral('This is a test.')
-	equal(literal.text, 'This is a test.', 'literal.text')
-	equal(literal.language, None, 'literal.language')
-	equal(literal.type, None, 'literal.type')
+	test.equal(literal.text, 'This is a test.', 'literal.text')
+	test.equal(literal.language, None, 'literal.language')
+	test.equal(literal.type, None, 'literal.type')
 
 def check_literal_text(text, expected):
 	literal = metadata.RDFLiteral(text)
-	equal(literal.text, expected, 'literal.text')
+	test.equal(literal.text, expected, 'literal.text')
 
 def check_literal_text_normalisation():
 	check_literal_text('This    is  a test.', 'This is a test.')
@@ -52,36 +46,36 @@ def check_literal_text_normalisation():
 
 def check_literal_with_language():
 	literal = metadata.RDFLiteral('English text', 'en')
-	equal(literal.text, 'English text', 'literal.text')
-	equal(literal.language, 'en', 'literal.language')
-	equal(literal.type, None, 'literal.type')
+	test.equal(literal.text, 'English text', 'literal.text')
+	test.equal(literal.language, 'en', 'literal.language')
+	test.equal(literal.type, None, 'literal.type')
 
 	literal = metadata.RDFLiteral('English (US) text', 'en-US')
-	equal(literal.text, 'English (US) text', 'literal.text')
-	equal(literal.language, 'en-US', 'literal.language')
-	equal(literal.type, None, 'literal.type')
+	test.equal(literal.text, 'English (US) text', 'literal.text')
+	test.equal(literal.language, 'en-US', 'literal.language')
+	test.equal(literal.type, None, 'literal.type')
 
 	literal = metadata.RDFLiteral('English (British) text', language='en-GB')
-	equal(literal.text, 'English (British) text', 'literal.text')
-	equal(literal.language, 'en-GB', 'literal.language')
-	equal(literal.type, None, 'literal.type')
+	test.equal(literal.text, 'English (British) text', 'literal.text')
+	test.equal(literal.language, 'en-GB', 'literal.language')
+	test.equal(literal.type, None, 'literal.type')
 
 def check_typed_literal():
 	literal = metadata.RDFLiteral('27', None, 'http://www.w3.org/2001/XMLSchema#integer')
-	equal(literal.text, '27', 'literal.text')
-	equal(literal.language, None, 'literal.language')
-	equal(literal.type.ref, 'integer', 'literal.type.ref')
-	equal(literal.type.base, 'http://www.w3.org/2001/XMLSchema#', 'literal.type.base')
-	equal(literal.type.uri, 'http://www.w3.org/2001/XMLSchema#integer', 'literal.type.uri')
-	equal(str(literal.type), 'http://www.w3.org/2001/XMLSchema#integer', 'str(literal.type)')
+	test.equal(literal.text, '27', 'literal.text')
+	test.equal(literal.language, None, 'literal.language')
+	test.equal(literal.type.ref, 'integer', 'literal.type.ref')
+	test.equal(literal.type.base, 'http://www.w3.org/2001/XMLSchema#', 'literal.type.base')
+	test.equal(literal.type.uri, 'http://www.w3.org/2001/XMLSchema#integer', 'literal.type.uri')
+	test.equal(str(literal.type), 'http://www.w3.org/2001/XMLSchema#integer', 'str(literal.type)')
 
 	literal = metadata.RDFLiteral('27', type='http://www.w3.org/2001/XMLSchema#string')
-	equal(literal.text, '27', 'literal.text')
-	equal(literal.language, None, 'literal.language')
-	equal(literal.type.ref, 'string', 'literal.type.ref')
-	equal(literal.type.base, 'http://www.w3.org/2001/XMLSchema#', 'literal.type.base')
-	equal(literal.type.uri, 'http://www.w3.org/2001/XMLSchema#string', 'literal.type.uri')
-	equal(str(literal.type), 'http://www.w3.org/2001/XMLSchema#string', 'str(literal.type)')
+	test.equal(literal.text, '27', 'literal.text')
+	test.equal(literal.language, None, 'literal.language')
+	test.equal(literal.type.ref, 'string', 'literal.type.ref')
+	test.equal(literal.type.base, 'http://www.w3.org/2001/XMLSchema#', 'literal.type.base')
+	test.equal(literal.type.uri, 'http://www.w3.org/2001/XMLSchema#string', 'literal.type.uri')
+	test.equal(str(literal.type), 'http://www.w3.org/2001/XMLSchema#string', 'str(literal.type)')
 
 if __name__ == '__main__':
 	check_basic_literal()

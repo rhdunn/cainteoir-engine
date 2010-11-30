@@ -23,39 +23,33 @@ import os
 sys.path.append(os.path.join(sys.path[0], '../src/cainteoir-engine'))
 
 import metadata
-
-def ok(cond, message):
-	if (not cond):
-		raise Exception(message)
-
-def equal(a, b, message):
-	ok(a == b, '%s : expected "%s", got "%s"' % (message, b, a))
+import harness as test
 
 def check_unpacked_http_resource():
 	res = metadata.RDFResource('title', 'http://purl.org/dc/terms/')
-	equal(res.ref, 'title', 'res.ref')
-	equal(res.base, 'http://purl.org/dc/terms/', 'res.base')
-	equal(res.uri, 'http://purl.org/dc/terms/title', 'res.uri')
-	equal(str(res), 'http://purl.org/dc/terms/title', 'str(res)')
+	test.equal(res.ref, 'title', 'res.ref')
+	test.equal(res.base, 'http://purl.org/dc/terms/', 'res.base')
+	test.equal(res.uri, 'http://purl.org/dc/terms/title', 'res.uri')
+	test.equal(str(res), 'http://purl.org/dc/terms/title', 'str(res)')
 
 	res = metadata.RDFResource('type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
-	equal(res.ref, 'type', 'res.ref')
-	equal(res.base, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'res.base')
-	equal(res.uri, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'res.uri')
-	equal(str(res), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'str(res)')
+	test.equal(res.ref, 'type', 'res.ref')
+	test.equal(res.base, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'res.base')
+	test.equal(res.uri, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'res.uri')
+	test.equal(str(res), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'str(res)')
 
 def check_packed_http_resource():
 	res = metadata.RDFResource('http://purl.org/dc/terms/title', None)
-	equal(res.ref, 'title', 'res.ref')
-	equal(res.base, 'http://purl.org/dc/terms/', 'res.base')
-	equal(res.uri, 'http://purl.org/dc/terms/title', 'res.uri')
-	equal(str(res), 'http://purl.org/dc/terms/title', 'str(res)')
+	test.equal(res.ref, 'title', 'res.ref')
+	test.equal(res.base, 'http://purl.org/dc/terms/', 'res.base')
+	test.equal(res.uri, 'http://purl.org/dc/terms/title', 'res.uri')
+	test.equal(str(res), 'http://purl.org/dc/terms/title', 'str(res)')
 
 	res = metadata.RDFResource('http://www.w3.org/1999/02/22-rdf-syntax-ns#type', None)
-	equal(res.ref, 'type', 'res.ref')
-	equal(res.base, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'res.base')
-	equal(res.uri, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'res.uri')
-	equal(str(res), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'str(res)')
+	test.equal(res.ref, 'type', 'res.ref')
+	test.equal(res.base, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'res.base')
+	test.equal(res.uri, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'res.uri')
+	test.equal(str(res), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'str(res)')
 
 if __name__ == '__main__':
 	check_unpacked_http_resource()
