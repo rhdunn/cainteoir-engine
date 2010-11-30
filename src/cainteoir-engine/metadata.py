@@ -5,7 +5,7 @@ the Cainteoir Text-to-Speech engine using RDF.
 """
 
 # Copyright (C) 2010 Reece H. Dunn
-
+#
 # This file is part of cainteoir-engine.
 #
 # cainteoir-engine is free software: you can redistribute it and/or modify
@@ -40,4 +40,13 @@ class RDFResource:
 
 	def __str__(self):
 		return self.uri
+
+class RDFLiteral:
+	def __init__(self, text, language=None, type=None):
+		self.text = ' '.join(text.split())
+		self.language = language
+		if type:
+			self.type = RDFResource(type, None)
+		else:
+			self.type = None
 

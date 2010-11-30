@@ -49,5 +49,7 @@ src_apps_cainteoir_cainteoir_SOURCES = \
 TEST_EXTENSIONS = .py
 PY_LOG_COMPILER = $(PYTHON)
 
-TESTS = tests/metadata-tests.py
+TESTS = \
+	tests/metadata-rdfresource.py \
+	tests/metadata-rdfliteral.py
 
