@@ -55,6 +55,15 @@ class RDFLiteral:
 		else:
 			self.type = None
 
+	def format(self, prefixes={}):
+		if self.language and self.type:
+			return '"%s"@%s^^%s' % (self.text, self.language, self.type.format(prefixes))
+		if self.language:
+			return '"%s"@%s' % (self.text, self.language)
+		elif self.type:
+			return '"%s"^^%s' % (self.text, self.type.format(prefixes))
+		return '"%s"' % self.text
+
 class RDFTriple:
 	def __init__(self, subject, predicate, object):
 		self.subject   = subject
