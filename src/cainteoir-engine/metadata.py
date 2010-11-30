@@ -64,6 +64,9 @@ class RDFLiteral:
 			return '"%s"^^%s' % (self.text, self.type.format(prefixes))
 		return '"%s"' % self.text
 
+	def __str__(self):
+		return self.text
+
 class RDFTriple:
 	def __init__(self, subject, predicate, object):
 		self.subject   = subject

@@ -30,11 +30,13 @@ def check_basic_literal():
 	test.equal(literal.text, 'This is a test.', 'literal.text')
 	test.equal(literal.language, None, 'literal.language')
 	test.equal(literal.type, None, 'literal.type')
+	test.equal(str(literal), 'This is a test.', 'str(literal)')
 	test.equal(literal.format(), '"This is a test."', 'literal.format()')
 
 def check_literal_text(text, expected):
 	literal = metadata.RDFLiteral(text)
 	test.equal(literal.text, expected, 'literal.text')
+	test.equal(str(literal), expected, 'str(literal)')
 	test.equal(literal.format(), '"%s"' % expected, 'literal.format()')
 
 def check_literal_text_normalisation():
@@ -51,18 +53,21 @@ def check_literal_with_language():
 	test.equal(literal.text, 'English text', 'literal.text')
 	test.equal(literal.language, 'en', 'literal.language')
 	test.equal(literal.type, None, 'literal.type')
+	test.equal(str(literal), 'English text', 'str(literal)')
 	test.equal(literal.format(), '"English text"@en', 'literal.format()')
 
 	literal = metadata.RDFLiteral('English (US) text', 'en-US')
 	test.equal(literal.text, 'English (US) text', 'literal.text')
 	test.equal(literal.language, 'en-US', 'literal.language')
 	test.equal(literal.type, None, 'literal.type')
+	test.equal(str(literal), 'English (US) text', 'str(literal)')
 	test.equal(literal.format(), '"English (US) text"@en-US', 'literal.format()')
 
 	literal = metadata.RDFLiteral('English (British) text', language='en-GB')
 	test.equal(literal.text, 'English (British) text', 'literal.text')
 	test.equal(literal.language, 'en-GB', 'literal.language')
 	test.equal(literal.type, None, 'literal.type')
+	test.equal(str(literal), 'English (British) text', 'str(literal)')
 	test.equal(literal.format(), '"English (British) text"@en-GB', 'literal.format()')
 
 def check_typed_literal():
@@ -74,6 +79,7 @@ def check_typed_literal():
 	test.equal(literal.type.ref, 'integer', 'literal.type.ref')
 	test.equal(literal.type.base, 'http://www.w3.org/2001/XMLSchema#', 'literal.type.base')
 	test.equal(literal.type.uri, 'http://www.w3.org/2001/XMLSchema#integer', 'literal.type.uri')
+	test.equal(str(literal), '27', 'str(literal)')
 	test.equal(str(literal.type), 'http://www.w3.org/2001/XMLSchema#integer', 'str(literal.type)')
 	test.equal(literal.format(), '"27"^^<http://www.w3.org/2001/XMLSchema#integer>', 'literal.format()')
 	test.equal(literal.format(prefixes), '"27"^^xsd:integer', 'literal.format()')
@@ -84,6 +90,7 @@ def check_typed_literal():
 	test.equal(literal.type.ref, 'string', 'literal.type.ref')
 	test.equal(literal.type.base, 'http://www.w3.org/2001/XMLSchema#', 'literal.type.base')
 	test.equal(literal.type.uri, 'http://www.w3.org/2001/XMLSchema#string', 'literal.type.uri')
+	test.equal(str(literal), '27', 'str(literal)')
 	test.equal(str(literal.type), 'http://www.w3.org/2001/XMLSchema#string', 'str(literal.type)')
 	test.equal(literal.format(), '"27"^^<http://www.w3.org/2001/XMLSchema#string>', 'literal.format()')
 	test.equal(literal.format(prefixes), '"27"^^xsd:string', 'literal.format()')
@@ -97,6 +104,7 @@ def check_typed_literal_with_language():
 	test.equal(literal.type.ref, 'string', 'literal.type.ref')
 	test.equal(literal.type.base, 'http://www.w3.org/2001/XMLSchema#', 'literal.type.base')
 	test.equal(literal.type.uri, 'http://www.w3.org/2001/XMLSchema#string', 'literal.type.uri')
+	test.equal(str(literal), 'test', 'str(literal)')
 	test.equal(str(literal.type), 'http://www.w3.org/2001/XMLSchema#string', 'str(literal.type)')
 	test.equal(literal.format(), '"test"@en^^<http://www.w3.org/2001/XMLSchema#string>', 'literal.format()')
 	test.equal(literal.format(prefixes), '"test"@en^^xsd:string', 'literal.format()')
