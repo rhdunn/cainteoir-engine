@@ -37,6 +37,8 @@ def check_literal(literal, value):
 	test.equal(literal.type, value.type, 'res.type')
 
 def check_triple_with_resource():
+	prefixes = {'http://www.w3.org/2001/XMLSchema#': 'xsd', 'http://purl.org/dc/elements/1.1/': 'dc'}
+
 	subject   = metadata.RDFResource('http://example.com/test.html')
 	predicate = metadata.RDFResource('http://purl.org/dc/elements/1.1/creator')
 	object    = metadata.RDFResource('http://example.com/users/jane-bloggs')
@@ -45,8 +47,12 @@ def check_triple_with_resource():
 	check_resource(triple.subject, subject)
 	check_resource(triple.predicate, predicate)
 	check_resource(triple.object, object)
+	test.equal(triple.format(), '<http://example.com/test.html> <http://purl.org/dc/elements/1.1/creator> <http://example.com/users/jane-bloggs> .', 'triple.format()')
+	test.equal(triple.format(prefixes), '<http://example.com/test.html> dc:creator <http://example.com/users/jane-bloggs> .', 'triple.format()')
 
 def check_triple_with_literal():
+	prefixes = {'http://www.w3.org/2001/XMLSchema#': 'xsd', 'http://purl.org/dc/elements/1.1/': 'dc'}
+
 	subject   = metadata.RDFResource('http://example.com/test.html')
 	predicate = metadata.RDFResource('http://purl.org/dc/elements/1.1/title')
 	object    = metadata.RDFLiteral('Test page')
@@ -55,6 +61,8 @@ def check_triple_with_literal():
 	check_resource(triple.subject, subject)
 	check_resource(triple.predicate, predicate)
 	check_literal(triple.object, object)
+	test.equal(triple.format(), '<http://example.com/test.html> <http://purl.org/dc/elements/1.1/title> "Test page" .', 'triple.format()')
+	test.equal(triple.format(prefixes), '<http://example.com/test.html> dc:title "Test page" .', 'triple.format()')
 
 if __name__ == '__main__':
 	check_triple_with_resource()

@@ -70,3 +70,6 @@ class RDFTriple:
 		self.predicate = predicate
 		self.object    = object
 
+	def format(self, prefixes={}):
+		return '%s %s %s .' % (self.subject.format(prefixes), self.predicate.format(prefixes), self.object.format(prefixes))
+
