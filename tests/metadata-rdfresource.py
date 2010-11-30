@@ -51,6 +51,18 @@ def check_packed_http_resource():
 	test.equal(res.uri, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'res.uri')
 	test.equal(str(res), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'str(res)')
 
+	res = metadata.RDFResource('http://purl.org/dc/terms/title')
+	test.equal(res.ref, 'title', 'res.ref')
+	test.equal(res.base, 'http://purl.org/dc/terms/', 'res.base')
+	test.equal(res.uri, 'http://purl.org/dc/terms/title', 'res.uri')
+	test.equal(str(res), 'http://purl.org/dc/terms/title', 'str(res)')
+
+	res = metadata.RDFResource('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
+	test.equal(res.ref, 'type', 'res.ref')
+	test.equal(res.base, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'res.base')
+	test.equal(res.uri, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'res.uri')
+	test.equal(str(res), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'str(res)')
+
 if __name__ == '__main__':
 	check_unpacked_http_resource()
 	check_packed_http_resource()

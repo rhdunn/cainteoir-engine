@@ -24,7 +24,7 @@ the Cainteoir Text-to-Speech engine using RDF.
 import os
 
 class RDFResource:
-	def __init__(self, ref, base):
+	def __init__(self, ref, base=None):
 		if ref.startswith('http://'):
 			if '#' in ref:
 				self.base, self.ref = ref.split('#')
@@ -46,7 +46,7 @@ class RDFLiteral:
 		self.text = ' '.join(text.split())
 		self.language = language
 		if type:
-			self.type = RDFResource(type, None)
+			self.type = RDFResource(type)
 		else:
 			self.type = None
 

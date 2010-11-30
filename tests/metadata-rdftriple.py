@@ -37,9 +37,9 @@ def check_literal(literal, value):
 	test.equal(literal.type, value.type, 'res.type')
 
 def check_triple_with_resource():
-	subject   = metadata.RDFResource('http://example.com/test.html', None)
-	predicate = metadata.RDFResource('http://purl.org/dc/elements/1.1/creator', None)
-	object    = metadata.RDFResource('http://example.com/users/jane-bloggs', None)
+	subject   = metadata.RDFResource('http://example.com/test.html')
+	predicate = metadata.RDFResource('http://purl.org/dc/elements/1.1/creator')
+	object    = metadata.RDFResource('http://example.com/users/jane-bloggs')
 
 	triple = metadata.RDFTriple(subject, predicate, object)
 	check_resource(triple.subject, subject)
@@ -47,8 +47,8 @@ def check_triple_with_resource():
 	check_resource(triple.object, object)
 
 def check_triple_with_literal():
-	subject   = metadata.RDFResource('http://example.com/test.html', None)
-	predicate = metadata.RDFResource('http://purl.org/dc/elements/1.1/title', None)
+	subject   = metadata.RDFResource('http://example.com/test.html')
+	predicate = metadata.RDFResource('http://purl.org/dc/elements/1.1/title')
 	object    = metadata.RDFLiteral('Test page')
 
 	triple = metadata.RDFTriple(subject, predicate, object)
