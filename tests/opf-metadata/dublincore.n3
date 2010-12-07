@@ -1,0 +1,17 @@
+fs:dublincore.opf dc:title "Dublin Core Elements Tests" .
+fs:dublincore.opf dc:creator "Anne Onymous" .
+fs:dublincore.opf dc:creator "Jane Bloggs" .
+fs:dublincore.opf dc:subject "test" .
+fs:dublincore.opf dc:subject "non-fiction" .
+fs:dublincore.opf dc:description "Test cases for using Dublin Core elements in epub document metadata." .
+fs:dublincore.opf dc:publisher "The Pub" .
+fs:dublincore.opf dc:contributor "Anne Other" .
+fs:dublincore.opf dc:date "2010-12-02" .
+fs:dublincore.opf dc:type "TestCase" .
+fs:dublincore.opf dc:format "xhtml" .
+fs:dublincore.opf dc:identifier "http://www.example.org/tests/opf-metadata/dublincore.opf" .
+fs:dublincore.opf dc:source "tests/opf-metadata/dublincore.opf" .
+fs:dublincore.opf dc:language "en" .
+fs:dublincore.opf dc:relation "tests/opf-metadata" .
+fs:dublincore.opf dc:coverage "USA" .
+fs:dublincore.opf dc:rights "GPLv3+" .
