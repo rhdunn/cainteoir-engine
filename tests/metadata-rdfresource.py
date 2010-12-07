@@ -63,6 +63,13 @@ def check_packed_http_resource():
 	test.equal(res.uri, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'res.uri')
 	test.equal(str(res), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'str(res)')
 
+def check_packed_filesystem_resource():
+	res = metadata.RDFResource('/home/test/cainteoir/test.rdf', None)
+	test.equal(res.ref, 'test.rdf', 'res.ref')
+	test.equal(res.base, '/home/test/cainteoir/', 'res.base')
+	test.equal(res.uri, '/home/test/cainteoir/test.rdf', 'res.uri')
+	test.equal(str(res), '/home/test/cainteoir/test.rdf', 'str(res)')
+
 def check_formatting_resource():
 	prefixes1 = {'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf'}
 	prefixes2 = {'http://purl.org/dc/terms/': 'dc'}
@@ -81,5 +88,6 @@ def check_formatting_resource():
 if __name__ == '__main__':
 	check_unpacked_http_resource()
 	check_packed_http_resource()
+	check_packed_filesystem_resource()
 	check_formatting_resource()
 

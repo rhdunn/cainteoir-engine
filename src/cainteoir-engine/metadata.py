@@ -25,7 +25,7 @@ import os
 
 class RDFResource:
 	def __init__(self, ref, base=None):
-		if ref.startswith('http://'):
+		if ref.startswith('http://') or ref.startswith('/'):
 			if '#' in ref:
 				self.base, self.ref = ref.split('#')
 				self.base = '%s#' % self.base
