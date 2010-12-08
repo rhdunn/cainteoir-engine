@@ -1,0 +1,25 @@
+doc: dc:title "Test Case" .
+doc: dc:identifier "dublincore-creator.opf" .
+doc: dc:language "en" .
+doc: dc:creator "Anne Onymous" .
+doc: dc:creator doc:id1 .
+doc:id1 rdf:value "Jane Bloggs" .
+doc:id1 opf:role "aut" .
+doc: dc:creator doc:id2 .
+doc:id2 rdf:value "Joan Bloggs" .
+doc:id2 opf:file-as "Bloggs, Joan" .
+doc: dc:creator doc:id3 .
+doc:id3 rdf:value "Rev. Dr. Martin Luther King Jr." .
+doc:id3 opf:role "aut" .
+doc:id3 opf:file-as "King, Martin Luther Jr." .
+doc: dc:creator "Anne Onymous"@en .
+doc: dc:creator doc:id4 .
+doc:id4 rdf:value "Jane Bloggs"@en .
+doc:id4 opf:role "aut" .
+doc: dc:creator doc:id5 .
+doc:id5 rdf:value "Joan Bloggs"@en .
+doc:id5 opf:file-as "Bloggs, Joan" .
+doc: dc:creator doc:id6 .
+doc:id6 rdf:value "Rev. Dr. Martin Luther King Jr."@en .
+doc:id6 opf:role "aut" .
+doc:id6 opf:file-as "King, Martin Luther Jr." .

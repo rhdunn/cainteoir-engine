@@ -30,6 +30,12 @@ class OpfMetadata:
 	def __init__(self, filename, docpath):
 		self.subject = metadata.RDFResource('%s#' % docpath, None)
 		self.dom = minidom.parse(filename).documentElement
+		self.nextAvailableNode = 1
+
+	def generateNode(self):
+		nodeid = 'id%s' % self.nextAvailableNode
+		self.nextAvailableNode = self.nextAvailableNode + 1
+		return metadata.RDFResource(nodeid, self.subject.base)
 
 	def triples(self):
 		for node in self.dom.getElementsByTagName('metadata')[0].childNodes:
@@ -37,7 +43,24 @@ class OpfMetadata:
 				predicate = metadata.RDFResource(node.localName, node.namespaceURI)
 				lang = node.getAttribute('xml:lang')
 				object = metadata.RDFLiteral(node.childNodes[0].nodeValue, language=lang)
-				yield metadata.RDFTriple(self.subject, predicate, object)
+				if predicate.base == 'http://purl.org/dc/elements/1.1/':
+					if predicate.ref == 'creator':
+						role = node.getAttribute('opf:role')
+						fileas = node.getAttribute('opf:file-as')
+						if role or fileas:
+							temp = self.generateNode()
+							yield metadata.RDFTriple(self.subject, predicate, temp)
+							yield metadata.RDFTriple(temp, metadata.RDFResource('http://www.w3.org/1999/02/22-rdf-syntax-ns#value'), object)
+							if role:
+								yield metadata.RDFTriple(temp, metadata.RDFResource('http://www.idpf.org/2007/opf#role'), metadata.RDFLiteral(role))
+							if fileas:
+								yield metadata.RDFTriple(temp, metadata.RDFResource('http://www.idpf.org/2007/opf#file-as'), metadata.RDFLiteral(fileas))
+						else:
+							yield metadata.RDFTriple(self.subject, predicate, object)
+					else:
+						yield metadata.RDFTriple(self.subject, predicate, object)
+				else:
+					yield metadata.RDFTriple(self.subject, predicate, object)
 
 	def format(self, prefixes={}):
 		for triple in self.triples():

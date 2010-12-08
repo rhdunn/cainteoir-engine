@@ -28,8 +28,9 @@ import harness as test
 def check_metadata(filename, expect):
 	filename = os.path.join(sys.path[0], filename)
 	prefixes = {
-		'http://www.idpf.org/2007/opf': 'opf',
+		'http://www.idpf.org/2007/opf#': 'opf',
 		'http://purl.org/dc/elements/1.1/': 'dc',
+		'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf',
 		'%s#' % filename: 'doc',
 	}
 
@@ -44,3 +45,4 @@ def check_metadata(filename, expect):
 
 if __name__ == '__main__':
 	check_metadata('opf-metadata/dublincore-title.opf', 'opf-metadata/dublincore-title.n3')
+	check_metadata('opf-metadata/dublincore-creator.opf', 'opf-metadata/dublincore-creator.n3')
