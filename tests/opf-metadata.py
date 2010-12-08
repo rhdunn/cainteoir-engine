@@ -26,14 +26,13 @@ import epub
 import harness as test
 
 def check_metadata(filename, expect):
-	fsbase = '%s/' % os.path.abspath(os.path.join(sys.path[0], 'opf-metadata'))
+	filename = os.path.join(sys.path[0], filename)
 	prefixes = {
 		'http://www.idpf.org/2007/opf': 'opf',
 		'http://purl.org/dc/elements/1.1/': 'dc',
-		fsbase: 'fs',
+		'%s#' % filename: 'doc',
 	}
 
-	filename = os.path.join(sys.path[0], filename)
 	opf = epub.OpfMetadata(filename, filename)
 
 	with open(os.path.join(sys.path[0], expect), 'r') as f:
@@ -41,7 +40,7 @@ def check_metadata(filename, expect):
 
 	got = [ x for x in opf.format(prefixes) ]
 
-	test.equal(expected, got, 'opf.format(file=%s)' % filename)
+	test.equal(got, expected, 'opf.format(file=%s)' % filename)
 
 if __name__ == '__main__':
 	check_metadata('opf-metadata/dublincore.opf', 'opf-metadata/dublincore.n3')
