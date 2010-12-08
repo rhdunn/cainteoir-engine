@@ -43,6 +43,4 @@ def check_metadata(filename, expect):
 	test.equal(got, expected, 'opf.format(file=%s)' % filename)
 
 if __name__ == '__main__':
-	check_metadata('opf-metadata/dublincore.opf', 'opf-metadata/dublincore.n3')
-	check_metadata('opf-metadata/dublincore-with-language.opf', 'opf-metadata/dublincore-with-language.n3')
-
+	check_metadata('opf-metadata/dublincore-title.opf', 'opf-metadata/dublincore-title.n3')

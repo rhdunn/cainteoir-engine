@@ -1,0 +1,7 @@
+doc: dc:title "Test Case" .
+doc: dc:identifier "dublincore-title.opf" .
+doc: dc:language "en" .
+doc: dc:title "Dublin Core" .
+doc: dc:title "Dublin Core English"@en .
+doc: dc:title "Dublin Core British"@en-GB .
+doc: dc:title "Dublin Core Chinese (Taiwan)"@zh-TW .
