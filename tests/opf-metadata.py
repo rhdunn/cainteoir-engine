@@ -44,4 +44,5 @@ def check_metadata(filename, expect):
 
 if __name__ == '__main__':
 	check_metadata('opf-metadata/dublincore.opf', 'opf-metadata/dublincore.n3')
+	check_metadata('opf-metadata/dublincore-with-language.opf', 'opf-metadata/dublincore-with-language.n3')
 

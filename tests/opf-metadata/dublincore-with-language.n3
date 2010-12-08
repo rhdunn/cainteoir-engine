@@ -1,0 +1,15 @@
+doc: dc:title "Dublin Core Elements Tests"@en .
+doc: dc:creator "Anne Onymous"@en .
+doc: dc:subject "test"@en .
+doc: dc:description "Test cases for using xml:lang on Dublin Core elements in epub document metadata."@en .
+doc: dc:publisher "The Pub"@en .
+doc: dc:contributor "Anne Other"@en .
+doc: dc:date "2010-12-02" .
+doc: dc:type "TestCase" .
+doc: dc:format "xhtml" .
+doc: dc:identifier "http://www.example.org/tests/opf-metadata/dublincore.opf" .
+doc: dc:source "tests/opf-metadata/dublincore.opf"@en .
+doc: dc:language "en" .
+doc: dc:relation "tests/opf-metadata"@en .
+doc: dc:coverage "USA"@en .
+doc: dc:rights "Copyright (C) 2010 Anne Onymous"@en .

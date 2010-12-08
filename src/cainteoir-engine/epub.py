@@ -35,7 +35,8 @@ class OpfMetadata:
 		for node in self.dom.getElementsByTagName('metadata')[0].childNodes:
 			if node.nodeType == Node.ELEMENT_NODE:
 				predicate = metadata.RDFResource(node.localName, node.namespaceURI)
-				object = metadata.RDFLiteral(node.childNodes[0].nodeValue)
+				lang = node.getAttribute('xml:lang')
+				object = metadata.RDFLiteral(node.childNodes[0].nodeValue, language=lang)
 				yield metadata.RDFTriple(self.subject, predicate, object)
 
 	def format(self, prefixes={}):
