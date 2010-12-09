@@ -46,7 +46,7 @@ def check_metadata(filename, expect):
 
 if __name__ == '__main__':
 	rootdir = os.path.join(sys.path[0], 'opf-metadata')
-	for filename in os.listdir(rootdir):
+	for filename in sorted(os.listdir(rootdir)):
 		if filename.endswith('.opf'):
 			opffile = os.path.join(rootdir, filename)
 			n3file = os.path.join(rootdir, filename.replace('.opf', '.n3'))
