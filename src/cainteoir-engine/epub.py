@@ -44,7 +44,7 @@ class OpfMetadata:
 				lang = node.getAttribute('xml:lang')
 				object = metadata.RDFLiteral(node.childNodes[0].nodeValue, language=lang)
 				if predicate.base == 'http://purl.org/dc/elements/1.1/':
-					if predicate.ref == 'creator':
+					if predicate.ref == 'creator' or predicate.ref == 'contributor':
 						role = node.getAttributeNS('http://www.idpf.org/2007/opf', 'role')
 						fileas = node.getAttributeNS('http://www.idpf.org/2007/opf', 'file-as')
 						if role or fileas:
