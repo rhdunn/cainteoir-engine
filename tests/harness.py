@@ -17,9 +17,16 @@
 # You should have received a copy of the GNU General Public License
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
+class EqualityException(Exception):
+	def __init__(self, expected, actual, message):
+		Exception.__init__(self, '%s : values are not equal\n\texpected: %s\n\tactual:   %s' % (message, expected, actual))
+		self.expected = expected
+		self.actual = actual
+
 def ok(cond, message):
 	if (not cond):
 		raise Exception(message)
 
 def equal(a, b, message):
-	ok(a == b, '%s : expected "%s", got "%s"' % (message, b, a))
+	if (not a == b):
+		raise EqualityException(expected=b, actual=a, message=message)
