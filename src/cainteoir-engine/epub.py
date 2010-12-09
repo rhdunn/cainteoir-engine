@@ -45,8 +45,8 @@ class OpfMetadata:
 				object = metadata.RDFLiteral(node.childNodes[0].nodeValue, language=lang)
 				if predicate.base == 'http://purl.org/dc/elements/1.1/':
 					if predicate.ref == 'creator':
-						role = node.getAttribute('opf:role')
-						fileas = node.getAttribute('opf:file-as')
+						role = node.getAttributeNS('http://www.idpf.org/2007/opf', 'role')
+						fileas = node.getAttributeNS('http://www.idpf.org/2007/opf', 'file-as')
 						if role or fileas:
 							temp = self.generateNode()
 							yield metadata.RDFTriple(self.subject, predicate, temp)

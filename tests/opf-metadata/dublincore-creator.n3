@@ -23,3 +23,13 @@ doc: dc:creator doc:id6 .
 doc:id6 rdf:value "Rev. Dr. Martin Luther King Jr."@en .
 doc:id6 opf:role "aut" .
 doc:id6 opf:file-as "King, Martin Luther Jr." .
+doc: dc:creator doc:id7 .
+doc:id7 rdf:value "Jane Bloggs" .
+doc:id7 opf:role "aut" .
+doc: dc:creator doc:id8 .
+doc:id8 rdf:value "Joan Bloggs" .
+doc:id8 opf:file-as "Bloggs, Joan" .
+doc: dc:creator doc:id9 .
+doc:id9 rdf:value "Rev. Dr. Martin Luther King Jr." .
+doc:id9 opf:role "aut" .
+doc:id9 opf:file-as "King, Martin Luther Jr." .

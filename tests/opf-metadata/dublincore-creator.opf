@@ -20,20 +20,25 @@
 	along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="id">
-	<metadata xmlns:opf="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<metadata xmlns:opf="http://www.idpf.org/2007/opf" xmlns:opf2="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/">
 		<!-- required elements -->
 		<dc:title>Test Case</dc:title>
 		<dc:identifier id="id">dublincore-creator.opf</dc:identifier>
 		<dc:language>en</dc:language>
-		<!-- test case: -->
+		<!-- test case: basic attributes/usage -->
 		<dc:creator>Anne Onymous</dc:creator>
 		<dc:creator opf:role="aut">Jane Bloggs</dc:creator>
 		<dc:creator opf:file-as="Bloggs, Joan">Joan Bloggs</dc:creator>
 		<dc:creator opf:file-as="King, Martin Luther Jr." opf:role="aut">Rev. Dr. Martin Luther King Jr.</dc:creator>
+		<!-- test case: xml:lang -->
 		<dc:creator xml:lang="en">Anne Onymous</dc:creator>
 		<dc:creator xml:lang="en" opf:role="aut">Jane Bloggs</dc:creator>
 		<dc:creator xml:lang="en" opf:file-as="Bloggs, Joan">Joan Bloggs</dc:creator>
 		<dc:creator xml:lang="en" opf:file-as="King, Martin Luther Jr." opf:role="aut">Rev. Dr. Martin Luther King Jr.</dc:creator>
+		<!-- test case: checking namespace on opf:role and opf:file-as attributes -->
+		<dc:creator opf2:role="aut">Jane Bloggs</dc:creator>
+		<dc:creator opf2:file-as="Bloggs, Joan">Joan Bloggs</dc:creator>
+		<dc:creator opf2:file-as="King, Martin Luther Jr." opf2:role="aut">Rev. Dr. Martin Luther King Jr.</dc:creator>
 	</metadata>
 	<manifest>
 		<item id="test" href="test.html" media-type="application/xhtml+xml" />
