@@ -17,25 +17,29 @@
 # You should have received a copy of the GNU General Public License
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
-class EqualityException(Exception):
-	def __init__(self, expected, actual, message):
-		Exception.__init__(self, '%s : values are not equal\n\texpected -- %s\n\tactual   -- %s' % (message, expected, actual))
-		self.expected = expected
-		self.actual = actual
-
 def ok(cond, message):
 	if (not cond):
 		raise Exception(message)
 
-def assert_equal(a, b, message):
+def check_equal(a, b, message):
 	if (not a == b):
-		raise EqualityException(expected=b, actual=a, message=message)
+		print message
+		print '\texpected -- %s' % b
+		print '\tactual   -- %s' % a
+		return False
+	return True
 
 def equal(a, b, message):
-	assert_equal(type(a).__name__, type(b).__name__, '%s -- type' % message)
+	are_equal = True
+	if not check_equal(type(a).__name__, type(b).__name__, '%s -- type' % message):
+		are_equal = False
 	if isinstance(a, list) and isinstance(b, list):
-		assert_equal(len(a), len(b), '%s -- length' % message)
+		if not check_equal(len(a), len(b), '%s -- length' % message):
+			are_equal = False
 		for i, avalue in enumerate(a):
-			assert_equal(avalue, b[i], '%s -- item #%d' % (message, i + 1))
+			if not check_equal(avalue, b[i], '%s -- item #%d' % (message, i + 1)):
+				are_equal = False
 	else:
-		assert_equal(a, b, '%s -- value' % message)
+		if not check_equal(a, b, '%s -- value' % message):
+			are_equal = False
+	ok(are_equal, '%s : values are not equal' % message)
