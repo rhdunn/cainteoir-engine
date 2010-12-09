@@ -46,4 +46,5 @@ def check_metadata(filename, expect):
 if __name__ == '__main__':
 	check_metadata('opf-metadata/dublincore-contributor.opf', 'opf-metadata/dublincore-contributor.n3')
 	check_metadata('opf-metadata/dublincore-creator.opf', 'opf-metadata/dublincore-creator.n3')
+	check_metadata('opf-metadata/dublincore-subject.opf', 'opf-metadata/dublincore-subject.n3')
 	check_metadata('opf-metadata/dublincore-title.opf', 'opf-metadata/dublincore-title.n3')
