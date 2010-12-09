@@ -1,0 +1,7 @@
+doc: dc:title "Test Case" .
+doc: dc:identifier "dublincore-publisher.opf" .
+doc: dc:language "en" .
+doc: dc:publisher "ThePub" .
+doc: dc:publisher "ThePub (US)"@en .
+doc: dc:publisher "ThePub (UK)"@en-GB .
+doc: dc:publisher "ThePub (Taiwan)"@zh-TW .
