@@ -1,0 +1,7 @@
+doc: dc:title "Test Case" .
+doc: dc:identifier "dublincore-source.opf" .
+doc: dc:language "en" .
+doc: dc:source "Cainteoir Engine" .
+doc: dc:source "Cainteoir Engine"@en .
+doc: dc:source "Cainteoir Engine"@en-GB .
+doc: dc:source "Cainteoir Engine"@zh-TW .
