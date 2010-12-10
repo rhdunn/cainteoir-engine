@@ -1,0 +1,10 @@
+doc: dc:title "Test Case" .
+doc: dc:identifier "dublincore-identifier.opf" .
+doc: dc:language "en" .
+doc: dc:identifier "ABCDEF" .
+doc: dc:identifier doc:id1 .
+doc:id1 rdf:value "12345678" .
+doc:id1 opf:scheme "ISBN" .
+doc: dc:identifier doc:id2 .
+doc:id2 rdf:value "12345678" .
+doc:id2 opf:scheme "ISBN" .

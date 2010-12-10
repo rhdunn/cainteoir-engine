@@ -66,6 +66,15 @@ class OpfMetadata:
 							yield metadata.RDFTriple(temp, metadata.RDFResource('http://www.idpf.org/2007/opf#event'), metadata.RDFLiteral(event))
 						else:
 							yield metadata.RDFTriple(self.subject, predicate, object)
+					elif predicate.ref == 'identifier':
+						scheme = node.getAttributeNS('http://www.idpf.org/2007/opf', 'scheme')
+						if scheme:
+							temp = self.generateNode()
+							yield metadata.RDFTriple(self.subject, predicate, temp)
+							yield metadata.RDFTriple(temp, metadata.RDFResource('http://www.w3.org/1999/02/22-rdf-syntax-ns#value'), object)
+							yield metadata.RDFTriple(temp, metadata.RDFResource('http://www.idpf.org/2007/opf#scheme'), metadata.RDFLiteral(scheme))
+						else:
+							yield metadata.RDFTriple(self.subject, predicate, object)
 					else:
 						yield metadata.RDFTriple(self.subject, predicate, object)
 				else:
