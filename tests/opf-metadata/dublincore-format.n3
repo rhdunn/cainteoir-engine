@@ -1,0 +1,5 @@
+doc: dc:title "Test Case" .
+doc: dc:identifier "dublincore-format.opf" .
+doc: dc:language "en" .
+doc: dc:format "xhtml" .
+doc: dc:format "text/html" .
