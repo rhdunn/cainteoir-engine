@@ -1,0 +1,7 @@
+doc: dc:title "Test Case" .
+doc: dc:identifier "dublincore-relation.opf" .
+doc: dc:language "en" .
+doc: dc:relation "related" .
+doc: dc:relation "related (english)"@en .
+doc: dc:relation "related (uk)"@en-GB .
+doc: dc:relation "related (taiwan)"@zh-TW .
