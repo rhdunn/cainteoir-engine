@@ -1,0 +1,5 @@
+doc: dc:title "Test Case" .
+doc: dc:identifier "dublincore-language.opf" .
+doc: dc:language "en" .
+doc: dc:language "en-GB" .
+doc: dc:language "es" .
