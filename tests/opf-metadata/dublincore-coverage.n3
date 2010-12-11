@@ -1,0 +1,7 @@
+doc: dc:title "Test Case" .
+doc: dc:identifier "dublincore-coverage.opf" .
+doc: dc:language "en" .
+doc: dc:coverage "covered" .
+doc: dc:coverage "covered (english)"@en .
+doc: dc:coverage "covered (uk)"@en-GB .
+doc: dc:coverage "covered (taiwan)"@zh-TW .
