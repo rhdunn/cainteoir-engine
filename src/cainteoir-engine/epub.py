@@ -23,6 +23,7 @@ the Cainteoir Text-to-Speech engine using RDF.
 
 import os
 from xml.dom import minidom, Node
+import zipfile
 
 import metadata
 
@@ -84,3 +85,27 @@ class OpfMetadata:
 		for triple in self.triples():
 			yield triple.format(prefixes)
 
+class EpubDocument:
+	def __init__(self, filename):
+		self.opf = None
+		self.metadata = None
+		self.filename = filename
+
+		zf = zipfile.ZipFile(filename)
+		if not zf.read('mimetype').startswith('application/epub+zip'):
+			raise Exception('Invalid mimetype "%s".' % zf.read('mimetype'))
+
+		container = minidom.parseString(zf.read('META-INF/container.xml')).documentElement
+		for node in container.getElementsByTagName('rootfile'):
+			if node.getAttribute('media-type') == 'application/oebps-package+xml':
+				self.opf = minidom.parseString(zf.read(node.getAttribute('full-path'))).documentElement
+				self.metadata = OpfMetadata(self.opf, self.filename)
+				return
+
+		raise Exception('Unable to find the OPF data file.')
+
+	def triples(self):
+		return self.metadata.triples()
+
+	def format(self, prefixes={}):
+		return self.metadata.format(prefixes)
