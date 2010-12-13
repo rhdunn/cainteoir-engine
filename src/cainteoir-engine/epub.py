@@ -27,9 +27,9 @@ from xml.dom import minidom, Node
 import metadata
 
 class OpfMetadata:
-	def __init__(self, filename, docpath):
+	def __init__(self, dom, docpath):
 		self.subject = metadata.RDFResource('%s#' % docpath, None)
-		self.dom = minidom.parse(filename).documentElement
+		self.dom = dom
 		self.nextAvailableNode = 1
 
 	def generateNode(self):

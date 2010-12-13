@@ -19,6 +19,7 @@
 
 import sys
 import os
+from xml.dom import minidom
 
 sys.path.append(os.path.join(sys.path[0], '../src/cainteoir-engine'))
 
@@ -35,7 +36,8 @@ def check_metadata(filename, expect):
 		'%s#' % filename: 'doc',
 	}
 
-	opf = epub.OpfMetadata(filename, filename)
+	dom = minidom.parse(filename).documentElement
+	opf = epub.OpfMetadata(dom, filename)
 
 	with open(expect, 'r') as f:
 		expected = [ unicode(x) for x in f.read().split('\n') if not x == '' ]
