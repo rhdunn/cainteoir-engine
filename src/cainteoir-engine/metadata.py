@@ -56,13 +56,14 @@ class RDFLiteral:
 			self.type = None
 
 	def format(self, prefixes={}):
+		text = self.text.replace('"', '\\"')
 		if self.language and self.type:
-			return '"%s"@%s^^%s' % (self.text, self.language, self.type.format(prefixes))
+			return '"%s"@%s^^%s' % (text, self.language, self.type.format(prefixes))
 		if self.language:
-			return '"%s"@%s' % (self.text, self.language)
+			return '"%s"@%s' % (text, self.language)
 		if self.type:
-			return '"%s"^^%s' % (self.text, self.type.format(prefixes))
-		return '"%s"' % self.text
+			return '"%s"^^%s' % (text, self.type.format(prefixes))
+		return '"%s"' % text
 
 	def __str__(self):
 		return self.text

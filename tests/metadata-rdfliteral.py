@@ -109,10 +109,38 @@ def check_typed_literal_with_language():
 	test.equal(literal.format(), '"test"@en^^<http://www.w3.org/2001/XMLSchema#string>', 'literal.format()')
 	test.equal(literal.format(prefixes), '"test"@en^^xsd:string', 'literal.format()')
 
+def check_literal_with_quotes():
+	prefixes = {'http://www.w3.org/2001/XMLSchema#': 'xsd'}
+
+	literal = metadata.RDFLiteral('Quoth the raven, "Nevermore!"')
+	test.equal(literal.text, 'Quoth the raven, "Nevermore!"', 'literal.text')
+	test.equal(str(literal), 'Quoth the raven, "Nevermore!"', 'str(literal)')
+	test.equal(literal.format(), '"Quoth the raven, \\"Nevermore!\\""', 'literal.format()')
+	test.equal(literal.format(prefixes), '"Quoth the raven, \\"Nevermore!\\""', 'literal.format()')
+
+	literal = metadata.RDFLiteral('Quoth the raven, "Nevermore!"', language='en-GB')
+	test.equal(literal.text, 'Quoth the raven, "Nevermore!"', 'literal.text')
+	test.equal(str(literal), 'Quoth the raven, "Nevermore!"', 'str(literal)')
+	test.equal(literal.format(), '"Quoth the raven, \\"Nevermore!\\""@en-GB', 'literal.format()')
+	test.equal(literal.format(prefixes), '"Quoth the raven, \\"Nevermore!\\""@en-GB', 'literal.format()')
+
+	literal = metadata.RDFLiteral('Quoth the raven, "Nevermore!"', type='http://www.w3.org/2001/XMLSchema#string')
+	test.equal(literal.text, 'Quoth the raven, "Nevermore!"', 'literal.text')
+	test.equal(str(literal), 'Quoth the raven, "Nevermore!"', 'str(literal)')
+	test.equal(literal.format(), '"Quoth the raven, \\"Nevermore!\\""^^<http://www.w3.org/2001/XMLSchema#string>', 'literal.format()')
+	test.equal(literal.format(prefixes), '"Quoth the raven, \\"Nevermore!\\""^^xsd:string', 'literal.format()')
+
+	literal = metadata.RDFLiteral('Quoth the raven, "Nevermore!"', 'en', 'http://www.w3.org/2001/XMLSchema#string')
+	test.equal(literal.text, 'Quoth the raven, "Nevermore!"', 'literal.text')
+	test.equal(str(literal), 'Quoth the raven, "Nevermore!"', 'str(literal)')
+	test.equal(literal.format(), '"Quoth the raven, \\"Nevermore!\\""@en^^<http://www.w3.org/2001/XMLSchema#string>', 'literal.format()')
+	test.equal(literal.format(prefixes), '"Quoth the raven, \\"Nevermore!\\""@en^^xsd:string', 'literal.format()')
+
 if __name__ == '__main__':
 	check_basic_literal()
 	check_literal_text_normalisation()
 	check_literal_with_language()
 	check_typed_literal()
 	check_typed_literal_with_language()
+	check_literal_with_quotes()
 
