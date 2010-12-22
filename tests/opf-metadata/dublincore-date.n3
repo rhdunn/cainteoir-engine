@@ -6,6 +6,7 @@ doc: dc:date "2010-12" .
 doc: dc:date "2010-12-09" .
 doc: dc:date "2010-12-31" .
 doc: dc:date "2010-07-02" .
+doc: dc:date "2009-12-04" .
 doc: dc:date doc:id1 .
 doc:id1 rdf:value "2010" .
 doc:id1 opf:event "creation" .

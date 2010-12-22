@@ -31,6 +31,8 @@
 		<dc:date>2010-12-09</dc:date>
 		<dc:date>2010-12-31</dc:date> <!-- day greater-than month -->
 		<dc:date>2010-07-02</dc:date> <!-- day / month ordering -->
+		<!-- test case (some epub documents use DD/MM/YYYY format instead of YYYY-MM-DD) -->
+		<dc:date>04/12/2009</dc:date>
 		<!-- test case (opf:event - creation): -->
 		<dc:date opf:event="creation">2010</dc:date>
 		<dc:date opf:event="creation">2010-12</dc:date>

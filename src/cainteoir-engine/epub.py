@@ -59,6 +59,9 @@ class OpfMetadata:
 						else:
 							yield metadata.RDFTriple(self.subject, predicate, object)
 					elif predicate.ref == 'date':
+						if '/' in object.text:
+							day, month, year = object.text.split('/')
+							object.text = '%s-%s-%s' % (year, month, day)
 						event = node.getAttributeNS('http://www.idpf.org/2007/opf', 'event')
 						if event:
 							temp = self.generateNode()
