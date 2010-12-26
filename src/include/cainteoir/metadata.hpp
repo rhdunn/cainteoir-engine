@@ -86,6 +86,29 @@ namespace cainteoir { namespace rdf
 	{
 		return uri("http://purl.org/dc/terms/", aRef);
 	}
+
+	/** @brief RDF literal node
+	  */
+	class literal
+	{
+	public:
+		const std::string value;    /**< @brief The content of the literal string. */
+		const std::string language; /**< @brief The language the literal string is written in [optional]. */
+		const uri type;             /**< @brief The type of the literal string [optional]. */
+
+		literal(const std::string &aValue, const std::string &aLanguage = std::string(), const uri &aType = uri(std::string(), std::string()))
+			: value(aValue)
+			, language(aLanguage)
+			, type(aType)
+		{
+		}
+
+		literal(const std::string &aValue, const uri &aType)
+			: value(aValue)
+			, type(aType)
+		{
+		}
+	};
 }}
 
 namespace cainteoir

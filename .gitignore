@@ -7,6 +7,7 @@ src/apps/cainteoir/cainteoir
 src/libcainteoir/libcainteoir.a
 
 tests/rdfuri
+tests/rdfliteral
 
 Makefile
 Makefile.in
