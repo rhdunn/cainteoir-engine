@@ -47,7 +47,7 @@ def check_metadata(filename, expect):
 	test.equal(got, expected, 'opf.format()')
 
 if __name__ == '__main__':
-	rootdir = os.path.join(sys.path[0], 'opf-metadata')
+	rootdir = os.path.join(sys.path[0], 'opf/metadata')
 	for filename in sorted(os.listdir(rootdir)):
 		if filename.endswith('.opf'):
 			opffile = os.path.join(rootdir, filename)
