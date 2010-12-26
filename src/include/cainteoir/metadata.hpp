@@ -25,9 +25,17 @@
 
 namespace cainteoir { namespace rdf
 {
+	class node
+	{
+	public:
+		virtual ~node()
+		{
+		}
+	};
+
 	/** @brief RDF URI resource
 	  */
-	class uri
+	class uri : public node
 	{
 	public:
 		const std::string value; /**< @brief The full path of the URI resource. */
@@ -89,7 +97,7 @@ namespace cainteoir { namespace rdf
 
 	/** @brief RDF literal node
 	  */
-	class literal
+	class literal : public node
 	{
 	public:
 		const std::string value;    /**< @brief The content of the literal string. */

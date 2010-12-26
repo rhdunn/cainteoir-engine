@@ -1,4 +1,4 @@
-/* RDF URI tests.
+/* RDF literal tests.
  *
  * Copyright (C) 2010 Reece H. Dunn
  *
@@ -40,16 +40,19 @@ void equal_(const char *fn, const char *ref, const T1 &a, const T2 &b, int linen
 
 #define equal(a, b) equal_(__FUNCTION__, #a, a, b, __LINE__)
 
-void test_literal(const rdf::literal &test, const std::string value, const std::string &language, const rdf::uri &uri)
+void test_literal(const rdf::node &node, const std::string value, const std::string &language, const rdf::uri &uri)
 {
-	equal(test.value,      value);
-	equal(test.language,   language);
-	equal(test.type.value, uri.value);
-	equal(test.type.ns,    uri.ns);
-	equal(test.type.ref,   uri.ref);
+	const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&node);
+	assert(literal);
+
+	equal(literal->value,      value);
+	equal(literal->language,   language);
+	equal(literal->type.value, uri.value);
+	equal(literal->type.ns,    uri.ns);
+	equal(literal->type.ref,   uri.ref);
 }
 
-void test_literal()
+int main(int argc, char ** argv)
 {
 	const rdf::uri nulluri = rdf::uri(std::string(), std::string());
 
@@ -58,11 +61,6 @@ void test_literal()
 	test_literal(rdf::literal("This is a test.", "en-GB"), "This is a test.", "en-GB", nulluri);
 	test_literal(rdf::literal("This is a test.", "en-GB", rdf::xsd("string")), "This is a test.", "en-GB", rdf::xsd("string"));
 	test_literal(rdf::literal("This is a test.", rdf::xsd("string")), "This is a test.", std::string(), rdf::xsd("string"));
-}
-
-int main(int argc, char ** argv)
-{
-	test_literal();
 
 	return 0;
 }

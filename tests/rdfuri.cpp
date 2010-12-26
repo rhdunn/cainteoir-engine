@@ -40,52 +40,23 @@ void equal_(const char *fn, const char *ref, const T1 &a, const T2 &b, int linen
 
 #define equal(a, b) equal_(__FUNCTION__, #a, a, b, __LINE__)
 
-void test_rdfns()
+void test_uri(const rdf::node &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
-	const rdf::uri test = rdf::rdf("type");
-	equal(test.value, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-	equal(test.ns,    "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-	equal(test.ref,   "type");
-}
+	const rdf::uri *uri = dynamic_cast<const rdf::uri *>(&node);
+	assert(uri);
 
-void test_rdfsns()
-{
-	const rdf::uri test = rdf::rdfs("Class");
-	equal(test.value, "http://www.w3.org/2000/01/rdf-schema#Class");
-	equal(test.ns,    "http://www.w3.org/2000/01/rdf-schema#");
-	equal(test.ref,   "Class");
-}
-
-void test_xsdns()
-{
-	const rdf::uri test = rdf::xsd("string");
-	equal(test.value, "http://www.w3.org/2001/XMLSchema#string");
-	equal(test.ns,    "http://www.w3.org/2001/XMLSchema#");
-	equal(test.ref,   "string");
-}
-
-void test_dcns()
-{
-	const rdf::uri test = rdf::dc("title");
-	equal(test.value, "http://purl.org/dc/elements/1.1/title");
-	equal(test.ns,    "http://purl.org/dc/elements/1.1/");
-	equal(test.ref,   "title");
-}
-
-void test_dctermsns()
-{
-	const rdf::uri test = rdf::dc("title");
-	equal(test.value, "http://purl.org/dc/terms/title");
-	equal(test.ns,    "http://purl.org/dc/terms/");
-	equal(test.ref,   "title");
+	equal(uri->value, value);
+	equal(uri->ns,    ns);
+	equal(uri->ref,   ref);
 }
 
 int main(int argc, char ** argv)
 {
-	test_rdfns();
-	test_rdfsns();
-	test_xsdns();
-	test_dcns();
+	test_uri(rdf::rdf("type"), "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "type");
+	test_uri(rdf::rdfs("Class"), "http://www.w3.org/2000/01/rdf-schema#Class", "http://www.w3.org/2000/01/rdf-schema#", "Class");
+	test_uri(rdf::xsd("string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(rdf::dc("title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(rdf::dcterms("title"), "http://purl.org/dc/terms/title", "http://purl.org/dc/terms/", "title");
 
 	return 0;
 }
