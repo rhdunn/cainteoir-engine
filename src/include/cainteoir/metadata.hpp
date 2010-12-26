@@ -21,6 +21,73 @@
 #ifndef CAINTEOIR_ENGINE_METADATA_HPP
 #define CAINTEOIR_ENGINE_METADATA_HPP
 
+#include <string>
+
+namespace cainteoir { namespace rdf
+{
+	/** @brief RDF URI resource
+	  */
+	class uri
+	{
+	public:
+		const std::string value; /**< @brief The full path of the URI resource. */
+		const std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
+		const std::string ref;   /**< @brief The URI reference. */
+
+		uri(const std::string &aNS, const std::string &aRef)
+			: value(aNS + aRef)
+			, ns(aNS)
+			, ref(aRef)
+		{
+		}
+	};
+
+	/** @brief rdf namespace node
+	  *
+	  * @param aRef The URI reference beonging to the rdf resource namespace.
+	  */
+	inline const uri rdf(const std::string &aRef)
+	{
+		return uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#", aRef);
+	}
+
+	/** @brief rdfs namespace node
+	  *
+	  * @param aRef The URI reference beonging to the rdfs resource namespace.
+	  */
+	inline const uri rdfs(const std::string &aRef)
+	{
+		return uri("http://www.w3.org/2000/01/rdf-schema#", aRef);
+	}
+
+	/** @brief xsd namespace node
+	  *
+	  * @param aRef The URI reference beonging to the xsd (XMLSchema) resource namespace.
+	  */
+	inline const uri xsd(const std::string &aRef)
+	{
+		return uri("http://www.w3.org/2001/XMLSchema#", aRef);
+	}
+
+	/** @brief dc namespace node
+	  *
+	  * @param aRef The URI reference beonging to the dc (Dublin Core: Elements) resource namespace.
+	  */
+	inline const uri dc(const std::string &aRef)
+	{
+		return uri("http://purl.org/dc/elements/1.1/", aRef);
+	}
+
+	/** @brief dcterms namespace node
+	  *
+	  * @param aRef The URI reference beonging to the dcterms (Dublin Core: Terms) resource namespace.
+	  */
+	inline const uri dcterms(const std::string &aRef)
+	{
+		return uri("http://purl.org/dc/terms/", aRef);
+	}
+}}
+
 namespace cainteoir
 {
 	enum metadata_tag
