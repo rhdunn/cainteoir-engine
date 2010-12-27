@@ -69,16 +69,9 @@ class ogg_audio : public cainteoir::audio
 		}
 	}
 public:
-	ogg_audio(FILE *f, cainteoir::metadata *data, float quality) : m_file(f)
+	ogg_audio(FILE *f, cainteoir::audio_format format, int channels, int frequency, float quality) : m_file(f)
 	{
-		int channels;
-		int frequency;
-
 		vorbis_info_init(&vi);
-
-		channels = !strcmp(data->get_metadata(cainteoir::channels), "mono") ? 1 : 2;
-		sscanf(data->get_metadata(cainteoir::frequency), "%dHz", &frequency);
-
 		vorbis_encode_init_vbr(&vi, channels, frequency, quality);
 
 		vorbis_comment_init(&vc);
@@ -153,15 +146,15 @@ public:
 	}
 };
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::metadata *data, float quality)
+std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
-	return std::auto_ptr<cainteoir::audio>(new ogg_audio(file, data, quality));
+	return std::auto_ptr<cainteoir::audio>(new ogg_audio(file, format, channels, frequency, quality));
 }
 
 #else
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::metadata *data, float quality)
+std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality)
 {
 	return std::auto_ptr<cainteoir::audio>();
 }

@@ -39,14 +39,12 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
 
 class espeak_engine : public cainteoir::tts_engine
 {
-	char m_frequency[20];
+	int m_frequency;
 public:
 	espeak_engine()
 	{
-		int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, 0);
+		m_frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, 0);
 		espeak_SetSynthCallback(espeak_tts_callback);
-
-		snprintf(m_frequency, 20, "%dHz", frequency);
 	}
 
 	~espeak_engine()
@@ -54,24 +52,23 @@ public:
 		espeak_Terminate();
 	}
 
-	/** @name cainteoir::metadata */
-	//@{
-
-	const char *get_metadata(cainteoir::metadata_tag tag) const
-	{
-		switch (tag)
-		{
-		case cainteoir::title:        return "espeak";
-		case cainteoir::channels:     return "mono";
-		case cainteoir::frequency:    return m_frequency;
-		case cainteoir::audio_format: return "S16_LE";
-		default:                      return NULL;
-		}
-	}
-
-	//@}
 	/** @name cainteoir::tts_engine */
 	//@{
+
+	int get_channels() const
+	{
+		return 1;
+	}
+
+	int get_frequency() const
+	{
+		return m_frequency;
+	}
+
+	cainteoir::audio_format get_audioformat() const
+	{
+		return cainteoir::S16_LE;
+	}
 
 	bool set_voice_by_name(const char *name)
 	{

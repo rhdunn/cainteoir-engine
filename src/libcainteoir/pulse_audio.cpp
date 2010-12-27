@@ -29,16 +29,15 @@ class pulse_audio : public cainteoir::audio
 	pa_sample_spec ss;
 	const char *m_device;
 public:
-	pulse_audio(const char *device, cainteoir::metadata *data)
+	pulse_audio(const char *device, cainteoir::audio_format format, int channels, int frequency)
 		: pa(NULL)
 		, m_device(device)
 	{
-
-		if (!strcmp(data->get_metadata(cainteoir::audio_format), "S16_LE"))
+		if (format == cainteoir::S16_LE)
 			ss.format = PA_SAMPLE_S16LE;
 
-		ss.channels = !strcmp(data->get_metadata(cainteoir::channels), "mono") ? 1 : 2;
-		sscanf(data->get_metadata(cainteoir::frequency), "%dHz", &ss.rate);
+		ss.channels = channels;
+		ss.rate = frequency;
 	}
 
 	~pulse_audio()
@@ -67,8 +66,8 @@ public:
 	}
 };
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_pulseaudio_device(const char *device, cainteoir::metadata *data)
+std::auto_ptr<cainteoir::audio> cainteoir::create_pulseaudio_device(const char *device, cainteoir::audio_format format, int channels, int frequency)
 {
-	return std::auto_ptr<cainteoir::audio>(new pulse_audio(device, data));
+	return std::auto_ptr<cainteoir::audio>(new pulse_audio(device, format, channels, frequency));
 }
 

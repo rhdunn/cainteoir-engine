@@ -48,7 +48,7 @@ class wav_audio : public cainteoir::audio
 	FILE *m_file;
 	WaveHeader m_header;
 public:
-	wav_audio(FILE *f, cainteoir::metadata *data) : m_file(f)
+	wav_audio(FILE *f, cainteoir::audio_format format, int channels, int frequency) : m_file(f)
 	{
 		WaveHeader header = {
 			{ 'R', 'I', 'F', 'F' }, 0x7FFFFFFF, { 'W', 'A', 'V', 'E' },
@@ -56,10 +56,10 @@ public:
 			{ 'd', 'a', 't', 'a' }, 0x7FFFFFFF - sizeof(WaveHeader)
 		};
 
-		header.channels = !strcmp(data->get_metadata(cainteoir::channels), "mono") ? 1 : 2;
-		sscanf(data->get_metadata(cainteoir::frequency), "%dHz", &header.frequency);
+		header.channels = channels;
+		header.frequency = frequency;
 
-		if (!strcmp(data->get_metadata(cainteoir::audio_format), "S16_LE"))
+		if (format == cainteoir::S16_LE)
 			header.sample_size = 16;
 
 		header.byte_rate = header.frequency * header.channels * (header.sample_size / 8);
@@ -101,9 +101,9 @@ public:
 	}
 };
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_wav_file(const char *filename, cainteoir::metadata *data)
+std::auto_ptr<cainteoir::audio> cainteoir::create_wav_file(const char *filename, cainteoir::audio_format format, int channels, int frequency)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
-	return std::auto_ptr<cainteoir::audio>(new wav_audio(file, data));
+	return std::auto_ptr<cainteoir::audio>(new wav_audio(file, format, channels, frequency));
 }
 

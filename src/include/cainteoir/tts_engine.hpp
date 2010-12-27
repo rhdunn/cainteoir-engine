@@ -28,9 +28,13 @@
 
 namespace cainteoir
 {
-	struct tts_engine : public metadata
+	struct tts_engine
 	{
 		virtual ~tts_engine() {}
+
+		virtual int get_channels() const = 0;
+		virtual int get_frequency() const = 0;
+		virtual cainteoir::audio_format get_audioformat() const = 0;
 
 		virtual bool set_voice_by_name(const char *name) = 0;
 

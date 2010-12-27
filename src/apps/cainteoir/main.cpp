@@ -88,6 +88,10 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
+		cainteoir::audio_format audioformat = tts->get_audioformat();
+		int channels = tts->get_channels();
+		int frequency = tts->get_frequency();
+
 		std::auto_ptr<cainteoir::audio> out;
 		if (outfile)
 		{
@@ -95,9 +99,9 @@ int main(int argc, char ** argv)
 				outfile = NULL;
 
 			if (!strcmp(outformat, "wave"))
-				out = cainteoir::create_wav_file(outfile, tts.get());
+				out = cainteoir::create_wav_file(outfile, audioformat, channels, frequency);
 			else if (!strcmp(outformat, "ogg"))
-				out = cainteoir::create_ogg_file(outfile, tts.get(), 0.3);
+				out = cainteoir::create_ogg_file(outfile, audioformat, channels, frequency, 0.3);
 
 			if (!out.get())
 			{
@@ -106,13 +110,7 @@ int main(int argc, char ** argv)
 			}
 		}
 		else
-			out = cainteoir::create_pulseaudio_device(NULL, tts.get());
-
-		fprintf(stderr, "... using text-to-speech engine %s (%s %s %s)\n",
-			tts->get_metadata(cainteoir::title),
-			tts->get_metadata(cainteoir::frequency),
-			tts->get_metadata(cainteoir::audio_format),
-			tts->get_metadata(cainteoir::channels));
+			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency);
 
 		tts->speak(text_buffer.get(), out.get());
 	}
