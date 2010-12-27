@@ -8,6 +8,7 @@ src/libcainteoir/libcainteoir.a
 
 tests/rdfmodel
 tests/ntriple_formatter
+tests/turtle_formatter
 
 Makefile
 Makefile.in

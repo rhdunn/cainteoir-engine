@@ -48,19 +48,18 @@ src_apps_cainteoir_cainteoir_SOURCES = \
 
 bin_PROGRAMS += tests/rdfmodel
 
-tests_rdfmodel_LDADD = \
-	src/libcainteoir/libcainteoir.a
-
-tests_rdfmodel_SOURCES = \
-	tests/rdfmodel.cpp
+tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.a
+tests_rdfmodel_SOURCES = tests/rdfmodel.cpp
 
 bin_PROGRAMS += tests/ntriple_formatter
 
-tests_ntriple_formatter_LDADD = \
-	src/libcainteoir/libcainteoir.a
+tests_ntriple_formatter_LDADD   = src/libcainteoir/libcainteoir.a
+tests_ntriple_formatter_SOURCES = tests/ntriple_formatter.cpp
 
-tests_ntriple_formatter_SOURCES = \
-	tests/ntriple_formatter.cpp
+bin_PROGRAMS += tests/turtle_formatter
+
+tests_turtle_formatter_LDADD   = src/libcainteoir/libcainteoir.a
+tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp
 
 ############################# tests ###########################################
 
@@ -73,5 +72,6 @@ TESTS = \
 	tests/metadata-rdftriple.py \
 	tests/opf-metadata.py \
 	tests/rdfmodel \
-	tests/ntriple_formatter
+	tests/ntriple_formatter \
+	tests/turtle_formatter
 

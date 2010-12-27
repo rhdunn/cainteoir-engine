@@ -1,4 +1,4 @@
-/* RDF NTriple formatter tests.
+/* RDF turtle formatter tests.
  *
  * Copyright (C) 2010 Reece H. Dunn
  *
@@ -44,7 +44,7 @@ template<typename T>
 std::string format(const T &value)
 {
 	std::ostringstream s;
-	(*rdf::create_formatter(s, rdf::formatter::ntriple))
+	(*rdf::create_formatter(s, rdf::formatter::turtle))
 		<< value;
 	return s.str();
 }
@@ -53,7 +53,7 @@ template<typename T>
 std::string format_ns(const T &value)
 {
 	std::ostringstream s;
-	(*rdf::create_formatter(s, rdf::formatter::ntriple))
+	(*rdf::create_formatter(s, rdf::formatter::turtle))
 		.add_namespace("rdf",  "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 		.add_namespace("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
 		.add_namespace("xsd",  "http://www.w3.org/2001/XMLSchema#")
@@ -65,7 +65,7 @@ void test_uri()
 {
 	equal(format(rdf::rdf("type")), "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>");
 
-	equal(format_ns(rdf::rdf("type")), "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>");
+	equal(format_ns(rdf::rdf("type")), "rdf:type");
 }
 
 void test_literal()
@@ -77,8 +77,8 @@ void test_literal()
 
 	equal(format_ns(rdf::literal("Nevermore!")), "\"Nevermore!\"");
 	equal(format_ns(rdf::literal("Nevermore!", "en")), "\"Nevermore!\"@en");
-	equal(format_ns(rdf::literal("Nevermore!", rdf::xsd("string"))), "\"Nevermore!\"^^<http://www.w3.org/2001/XMLSchema#string>");
-	equal(format_ns(rdf::literal("Nevermore!", "en", rdf::xsd("string"))), "\"Nevermore!\"@en^^<http://www.w3.org/2001/XMLSchema#string>");
+	equal(format_ns(rdf::literal("Nevermore!", rdf::xsd("string"))), "\"Nevermore!\"^^xsd:string");
+	equal(format_ns(rdf::literal("Nevermore!", "en", rdf::xsd("string"))), "\"Nevermore!\"@en^^xsd:string");
 }
 
 void test_statement()
@@ -96,16 +96,16 @@ void test_statement()
 	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .\n");
 
 	equal(format_ns(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class"))),
-	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\" .\n");
+	      "rdfs:Class rdf:value \"Class\" .\n");
 	equal(format_ns(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", "en-GB"))),
-	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"@en-GB .\n");
+	      "rdfs:Class rdf:value \"Class\"@en-GB .\n");
 	equal(format_ns(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", rdf::xsd("string")))),
-	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"^^<http://www.w3.org/2001/XMLSchema#string> .\n");
+	      "rdfs:Class rdf:value \"Class\"^^xsd:string .\n");
 	equal(format_ns(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", "en", rdf::xsd("string")))),
-	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"@en^^<http://www.w3.org/2001/XMLSchema#string> .\n");
+	      "rdfs:Class rdf:value \"Class\"@en^^xsd:string .\n");
 
 	equal(format_ns(rdf::statement(rdf::rdfs("Property"), rdf::rdf("type"), rdf::rdfs("Class"))),
-	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .\n");
+	      "rdfs:Property rdf:type rdfs:Class .\n");
 }
 
 void test_model()
@@ -126,11 +126,11 @@ void test_model()
 	     );
 
 	equal(format_ns(model),
-	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Property\" .\n"
-	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Property\"@en .\n"
-	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Property\"^^<http://www.w3.org/2001/XMLSchema#string> .\n"
-	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Property\"@en^^<http://www.w3.org/2001/XMLSchema#string> .\n"
-	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .\n"
+	      "rdfs:Property rdf:value \"Property\" .\n"
+	      "rdfs:Property rdf:value \"Property\"@en .\n"
+	      "rdfs:Property rdf:value \"Property\"^^xsd:string .\n"
+	      "rdfs:Property rdf:value \"Property\"@en^^xsd:string .\n"
+	      "rdfs:Property rdf:type rdfs:Class .\n"
 	     );
 }
 

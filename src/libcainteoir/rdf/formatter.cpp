@@ -20,23 +20,31 @@
 
 #include <cainteoir/metadata.hpp>
 #include <iostream>
+#include <map>
 
-class ntriple_formatter : public cainteoir::rdf::formatter
+class n3_formatter : public cainteoir::rdf::formatter
 {
 public:
-	ntriple_formatter(std::ostream &aStream)
+	n3_formatter(std::ostream &aStream, format_type aFormatType)
 		: os(aStream)
+		, format(aFormatType)
 	{
 	}
 
 	cainteoir::rdf::formatter &add_namespace(const std::string &aPrefix, const std::string &aNS)
 	{
+		if (format == turtle)
+			namespaces[aNS] = aPrefix;
 		return *this;
 	}
 
 	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::uri &uri)
 	{
-		os << '<' << uri.value << '>';
+		std::string &prefix = namespaces[uri.ns];
+		if (prefix.empty())
+			os << '<' << uri.value << '>';
+		else
+			os << prefix << ':' << uri.ref;
 		return *this;
 	}
 
@@ -79,9 +87,11 @@ public:
 	}
 private:
 	std::ostream &os;
+	format_type format;
+	std::map<std::string, std::string> namespaces;
 };
 
-std::tr1::shared_ptr<cainteoir::rdf::formatter> cainteoir::rdf::ntriple_formatter(std::ostream &os)
+std::tr1::shared_ptr<cainteoir::rdf::formatter> cainteoir::rdf::create_formatter(std::ostream &aStream, cainteoir::rdf::formatter::format_type aFormatType)
 {
-	return std::tr1::shared_ptr<cainteoir::rdf::formatter>(new ::ntriple_formatter(os));
+	return std::tr1::shared_ptr<cainteoir::rdf::formatter>(new ::n3_formatter(aStream, aFormatType));
 }

@@ -145,8 +145,22 @@ namespace cainteoir { namespace rdf
 	  */
 	typedef std::list<statement> model;
 
+	/** @brief RDF formatter (serialisation support)
+	  */
 	struct formatter
 	{
+		enum format_type
+		{
+			/** @brief N-Triple format
+			  * @see   http://www.w3.org/TR/rdf-testcases/#ntriples
+			  */
+			ntriple,
+			/** @brief turtle format
+			  * @see   http://www.w3.org/TeamSubmission/turtle/
+			  */
+			turtle,
+		};
+
 		virtual formatter &add_namespace(const std::string &aPrefix, const std::string &aNS) = 0;
 
 		virtual formatter &operator<<(const uri &uri) = 0;
@@ -157,7 +171,7 @@ namespace cainteoir { namespace rdf
 		virtual ~formatter() {}
 	};
 
-	std::tr1::shared_ptr<formatter> ntriple_formatter(std::ostream &os);
+	std::tr1::shared_ptr<formatter> create_formatter(std::ostream &aStream, formatter::format_type aFormatType);
 }}
 
 #endif
