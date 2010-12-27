@@ -82,19 +82,15 @@ void test_literal()
 	test_literal(rdf::literal("This is a test.", rdf::xsd("string")), "This is a test.", std::string(), rdf::xsd("string"));
 }
 
-void test_statement(const rdf::uri &subject, const rdf::uri &predicate, const rdf::literal &object)
+void test_statement(const rdf::statement &s, const rdf::uri &subject, const rdf::uri &predicate, const rdf::literal &object)
 {
-	const rdf::statement s(subject, predicate, object);
-
 	test_uri(s.subject, subject.value, subject.ns, subject.ref);
 	test_uri(s.predicate, predicate.value, predicate.ns, predicate.ref);
 	test_literal(*s.object, object.value, object.language, object.type);
 }
 
-void test_statement(const rdf::uri &subject, const rdf::uri &predicate, const rdf::uri &object)
+void test_statement(const rdf::statement &s, const rdf::uri &subject, const rdf::uri &predicate, const rdf::uri &object)
 {
-	const rdf::statement s(subject, predicate, object);
-
 	test_uri(s.subject, subject.value, subject.ns, subject.ref);
 	test_uri(s.predicate, predicate.value, predicate.ns, predicate.ref);
 	test_uri(*s.object, object.value, object.ns, object.ref);
@@ -102,8 +98,34 @@ void test_statement(const rdf::uri &subject, const rdf::uri &predicate, const rd
 
 void test_statement()
 {
-	test_statement(rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en"));
-	test_statement(rdf::dc("date"), rdf::rdf("type"), rdf::xsd("date"));
+	test_statement(rdf::statement(rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en")),
+	               rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en"));
+	test_statement(rdf::statement(rdf::dc("date"), rdf::rdf("type"), rdf::xsd("date")),
+	               rdf::dc("date"), rdf::rdf("type"), rdf::xsd("date"));
+}
+
+void test_model()
+{
+	rdf::model model;
+	assert(model.empty());
+	equal(model.size(), 0);
+	assert(model.begin() == model.end());
+
+	model.push_back(rdf::statement(rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property")));
+	assert(!model.empty());
+	equal(model.size(), 1);
+	assert(model.begin() != model.end());
+
+	test_statement(model.front(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
+	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
+
+	model.push_back(rdf::statement(rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB", rdf::xsd("string"))));
+	assert(!model.empty());
+	equal(model.size(), 2);
+	assert(model.begin() != model.end());
+
+	test_statement(model.front(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
+	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB", rdf::xsd("string")));
 }
 
 int main(int argc, char ** argv)
@@ -111,6 +133,7 @@ int main(int argc, char ** argv)
 	test_uri();
 	test_literal();
 	test_statement();
+	test_model();
 
 	return 0;
 }

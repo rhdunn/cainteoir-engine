@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_METADATA_HPP
 
 #include <string>
+#include <list>
 
 namespace cainteoir { namespace rdf
 {
@@ -127,18 +128,28 @@ namespace cainteoir { namespace rdf
 		const uri   predicate;
 		const node *object;
 
-		statement(const uri &aSubject, const uri &aPredicate, const literal &aObject)
+		statement(const uri &aSubject, const uri &aPredicate, const node &aObject)
 			: subject(aSubject)
 			, predicate(aPredicate)
-			, object(new rdf::literal(aObject))
+			, object(NULL)
 		{
+			const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&aObject);
+			if (literal)
+				object = new rdf::literal(*literal);
+			else
+				object = new rdf::uri(*dynamic_cast<const rdf::uri *>(&aObject));
 		}
 
-		statement(const uri &aSubject, const uri &aPredicate, const uri &aObject)
-			: subject(aSubject)
-			, predicate(aPredicate)
-			, object(new rdf::uri(aObject))
+		statement(const statement &s)
+			: subject(s.subject)
+			, predicate(s.predicate)
+			, object(NULL)
 		{
+			const rdf::literal *literal = dynamic_cast<const rdf::literal *>(s.object);
+			if (literal)
+				object = new rdf::literal(*literal);
+			else
+				object = new rdf::uri(*dynamic_cast<const rdf::uri *>(s.object));
 		}
 
 		~statement()
@@ -146,6 +157,10 @@ namespace cainteoir { namespace rdf
 			delete object;
 		}
 	};
+
+	/** @brief RDF model
+	  */
+	typedef std::list<statement> model;
 }}
 
 namespace cainteoir
