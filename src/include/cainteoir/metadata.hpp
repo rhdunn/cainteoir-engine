@@ -27,12 +27,9 @@
 
 namespace cainteoir { namespace rdf
 {
-	class node
+	struct node
 	{
-	public:
-		virtual ~node()
-		{
-		}
+		virtual ~node() {}
 	};
 
 	/** @brief RDF URI resource
@@ -147,6 +144,18 @@ namespace cainteoir { namespace rdf
 	/** @brief RDF model
 	  */
 	typedef std::list<statement> model;
+
+	struct formatter
+	{
+		virtual formatter &operator<<(const uri &uri) = 0;
+		virtual formatter &operator<<(const literal &literal) = 0;
+		virtual formatter &operator<<(const statement &statement) = 0;
+		virtual formatter &operator<<(const model &model) = 0;
+
+		virtual ~formatter() {}
+	};
+
+	std::tr1::shared_ptr<formatter> ntriple_formatter(std::ostream &os);
 }}
 
 #endif

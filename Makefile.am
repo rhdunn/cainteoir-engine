@@ -27,6 +27,7 @@ EXTRA_DIST += ChangeLog
 noinst_LIBRARIES += src/libcainteoir/libcainteoir.a
 
 src_libcainteoir_libcainteoir_a_SOURCES = \
+	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/pulse_audio.cpp \
 	src/libcainteoir/wav_audio.cpp \
 	src/libcainteoir/ogg_audio.cpp \
@@ -53,6 +54,14 @@ tests_rdfmodel_LDADD = \
 tests_rdfmodel_SOURCES = \
 	tests/rdfmodel.cpp
 
+bin_PROGRAMS += tests/ntriple_formatter
+
+tests_ntriple_formatter_LDADD = \
+	src/libcainteoir/libcainteoir.a
+
+tests_ntriple_formatter_SOURCES = \
+	tests/ntriple_formatter.cpp
+
 ############################# tests ###########################################
 
 TEST_EXTENSIONS = .py
@@ -63,5 +72,6 @@ TESTS = \
 	tests/metadata-rdfliteral.py \
 	tests/metadata-rdftriple.py \
 	tests/opf-metadata.py \
-	tests/rdfmodel
+	tests/rdfmodel \
+	tests/ntriple_formatter
 
