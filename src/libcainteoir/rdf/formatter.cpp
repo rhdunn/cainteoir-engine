@@ -38,6 +38,12 @@ public:
 		return *this;
 	}
 
+	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::bnode &bnode)
+	{
+		os << "_:" << bnode.id;
+		return *this;
+	}
+
 	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::uri &uri)
 	{
 		std::string &prefix = namespaces[uri.ns];
@@ -63,16 +69,33 @@ public:
 
 	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::statement &statement)
 	{
-		*this << statement.subject;
+		{
+			const cainteoir::rdf::bnode *bnode = dynamic_cast<const cainteoir::rdf::bnode *>(statement.subject.get());
+			if (bnode)
+				*this << *bnode;
+
+			const cainteoir::rdf::uri *uri = dynamic_cast<const cainteoir::rdf::uri *>(statement.subject.get());
+			if (uri)
+				*this << *uri;
+		}
+
 		os << ' ';
 		*this << statement.predicate;
 		os << ' ';
 
-		const cainteoir::rdf::literal *literal = dynamic_cast<const cainteoir::rdf::literal *>(statement.object.get());
-		if (literal)
-			*this << *literal;
-		else
-			*this << *dynamic_cast<const cainteoir::rdf::uri *>(statement.object.get());
+		{
+			const cainteoir::rdf::bnode *bnode = dynamic_cast<const cainteoir::rdf::bnode *>(statement.object.get());
+			if (bnode)
+				*this << *bnode;
+
+			const cainteoir::rdf::literal *literal = dynamic_cast<const cainteoir::rdf::literal *>(statement.object.get());
+			if (literal)
+				*this << *literal;
+
+			const cainteoir::rdf::uri *uri = dynamic_cast<const cainteoir::rdf::uri *>(statement.object.get());
+			if (uri)
+				*this << *uri;
+		}
 
 		os << " ." << std::endl;
 

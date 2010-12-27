@@ -27,14 +27,42 @@
 
 namespace cainteoir { namespace rdf
 {
+	/** @brief RDF node
+	  */
 	struct node
 	{
+		virtual const node *clone() const = 0;
+
 		virtual ~node() {}
+	};
+
+	/** @brief RDF resource
+	  */
+	struct resource : public node
+	{
+	};
+
+	/** @brief RDF blank node resource
+	  */
+	class bnode : public resource
+	{
+	public:
+		const std::string id; /**< @brief The ID for the blank node. */
+
+		bnode(const std::string &aID)
+			: id(aID)
+		{
+		}
+
+		const resource *clone() const
+		{
+			return new bnode(*this);
+		}
 	};
 
 	/** @brief RDF URI resource
 	  */
-	class uri : public node
+	class uri : public resource
 	{
 	public:
 		const std::string value; /**< @brief The full path of the URI resource. */
@@ -46,6 +74,11 @@ namespace cainteoir { namespace rdf
 			, ns(aNS)
 			, ref(aRef)
 		{
+		}
+
+		const resource *clone() const
+		{
+			return new uri(*this);
 		}
 	};
 
@@ -121,6 +154,11 @@ namespace cainteoir { namespace rdf
 			, type(aType)
 		{
 		}
+
+		const node *clone() const
+		{
+			return new literal(*this);
+		}
 	};
 
 	/** @brief An RDF statement (triple)
@@ -128,21 +166,15 @@ namespace cainteoir { namespace rdf
 	class statement
 	{
 	public:
-		const uri subject;
+		const std::tr1::shared_ptr<const resource> subject;
 		const uri predicate;
 		const std::tr1::shared_ptr<const node> object;
 
-		statement(const uri &aSubject, const uri &aPredicate, const uri &aObject)
-			: subject(aSubject)
+		template<typename Resource, typename Object>
+		statement(const Resource &aSubject, const uri &aPredicate, const Object &aObject)
+			: subject(aSubject.clone())
 			, predicate(aPredicate)
-			, object(new rdf::uri(aObject))
-		{
-		}
-
-		statement(const uri &aSubject, const uri &aPredicate, const literal &aObject)
-			: subject(aSubject)
-			, predicate(aPredicate)
-			, object(new rdf::literal(aObject))
+			, object(aObject.clone())
 		{
 		}
 	};
@@ -169,6 +201,7 @@ namespace cainteoir { namespace rdf
 
 		virtual formatter &add_namespace(const std::string &aPrefix, const std::string &aNS) = 0;
 
+		virtual formatter &operator<<(const bnode &bnode) = 0;
 		virtual formatter &operator<<(const uri &uri) = 0;
 		virtual formatter &operator<<(const literal &literal) = 0;
 		virtual formatter &operator<<(const statement &statement) = 0;

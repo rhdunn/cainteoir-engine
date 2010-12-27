@@ -40,6 +40,20 @@ void equal_(const char *fn, const char *ref, const T1 &a, const T2 &b, int linen
 
 #define equal(a, b) equal_(__FUNCTION__, #a, a, b, __LINE__)
 
+void test_bnode(const rdf::node &node, const std::string &id)
+{
+	const rdf::bnode *bnode = dynamic_cast<const rdf::bnode *>(&node);
+	assert(bnode);
+
+	equal(bnode->id, id);
+}
+
+void test_bnode()
+{
+	test_bnode(rdf::bnode("a"), "a");
+	test_bnode(rdf::bnode("temp"), "temp");
+}
+
 void test_uri(const rdf::node &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	const rdf::uri *uri = dynamic_cast<const rdf::uri *>(&node);
@@ -82,26 +96,54 @@ void test_literal()
 	test_literal(rdf::literal("27", rdf::xsd("int")), "27", std::string(), rdf::xsd("int"));
 }
 
-void test_statement(const rdf::statement &s, const rdf::uri &subject, const rdf::uri &predicate, const rdf::literal &object)
+void test_item(const rdf::node &a, const rdf::bnode &b)
 {
-	test_uri(s.subject, subject.value, subject.ns, subject.ref);
-	test_uri(s.predicate, predicate.value, predicate.ns, predicate.ref);
-	test_literal(*s.object, object.value, object.language, object.type);
+	test_bnode(a, b.id);
 }
 
-void test_statement(const rdf::statement &s, const rdf::uri &subject, const rdf::uri &predicate, const rdf::uri &object)
+void test_item(const rdf::node &a, const rdf::uri &b)
 {
-	test_uri(s.subject, subject.value, subject.ns, subject.ref);
-	test_uri(s.predicate, predicate.value, predicate.ns, predicate.ref);
-	test_uri(*s.object, object.value, object.ns, object.ref);
+	test_uri(a, b.value, b.ns, b.ref);
+}
+
+void test_item(const rdf::node &a, const rdf::literal &b)
+{
+	test_literal(a, b.value, b.language, b.type);
+}
+
+template<typename Subject, typename Object>
+void test_statement(const rdf::statement &s, const Subject &subject, const rdf::uri &predicate, const Object &object)
+{
+	test_item(*s.subject, subject);
+	test_item(s.predicate, predicate);
+	test_item(*s.object, object);
 }
 
 void test_statement()
 {
-	test_statement(rdf::statement(rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en")),
-	               rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en"));
+	test_statement(rdf::statement(rdf::dc("date"), rdf::rdf("type"), rdf::bnode("tmp")),
+	               rdf::dc("date"), rdf::rdf("type"), rdf::bnode("tmp"));
+
 	test_statement(rdf::statement(rdf::dc("date"), rdf::rdf("type"), rdf::xsd("date")),
 	               rdf::dc("date"), rdf::rdf("type"), rdf::xsd("date"));
+
+	test_statement(rdf::statement(rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en")),
+	               rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en"));
+
+	test_statement(rdf::statement(rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string"))),
+	               rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string")));
+
+	test_statement(rdf::statement(rdf::bnode("a"), rdf::rdf("type"), rdf::bnode("tmp")),
+	               rdf::bnode("a"), rdf::rdf("type"), rdf::bnode("tmp"));
+
+	test_statement(rdf::statement(rdf::bnode("b"), rdf::rdf("type"), rdf::xsd("date")),
+	               rdf::bnode("b"), rdf::rdf("type"), rdf::xsd("date"));
+
+	test_statement(rdf::statement(rdf::bnode("c"), rdf::dc("title"), rdf::literal("value", "en")),
+	               rdf::bnode("c"), rdf::dc("title"), rdf::literal("value", "en"));
+
+	test_statement(rdf::statement(rdf::bnode("d"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string"))),
+	               rdf::bnode("d"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string")));
 }
 
 void test_model()
@@ -130,6 +172,7 @@ void test_model()
 
 int main(int argc, char ** argv)
 {
+	test_bnode();
 	test_uri();
 	test_literal();
 	test_statement();
