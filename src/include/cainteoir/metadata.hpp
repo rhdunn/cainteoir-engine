@@ -147,6 +147,8 @@ namespace cainteoir { namespace rdf
 
 	struct formatter
 	{
+		virtual formatter &add_namespace(const std::string &aPrefix, const std::string &aNS) = 0;
+
 		virtual formatter &operator<<(const uri &uri) = 0;
 		virtual formatter &operator<<(const literal &literal) = 0;
 		virtual formatter &operator<<(const statement &statement) = 0;

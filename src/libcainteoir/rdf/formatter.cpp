@@ -23,12 +23,15 @@
 
 class ntriple_formatter : public cainteoir::rdf::formatter
 {
-private:
-	std::ostream &os;
 public:
 	ntriple_formatter(std::ostream &aStream)
 		: os(aStream)
 	{
+	}
+
+	cainteoir::rdf::formatter &add_namespace(const std::string &aPrefix, const std::string &aNS)
+	{
+		return *this;
 	}
 
 	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::uri &uri)
@@ -74,6 +77,8 @@ public:
 			*this << *statement;
 		return *this;
 	}
+private:
+	std::ostream &os;
 };
 
 std::tr1::shared_ptr<cainteoir::rdf::formatter> cainteoir::rdf::ntriple_formatter(std::ostream &os)
