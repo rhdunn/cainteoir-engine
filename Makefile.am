@@ -45,29 +45,13 @@ src_apps_cainteoir_cainteoir_SOURCES = \
 
 ############################# metadata test ###################################
 
-bin_PROGRAMS += tests/rdfuri
+bin_PROGRAMS += tests/rdfmodel
 
-tests_rdfuri_LDADD = \
+tests_rdfmodel_LDADD = \
 	src/libcainteoir/libcainteoir.a
 
-tests_rdfuri_SOURCES = \
-	tests/rdfuri.cpp
-
-bin_PROGRAMS += tests/rdfliteral
-
-tests_rdfliteral_LDADD = \
-	src/libcainteoir/libcainteoir.a
-
-tests_rdfliteral_SOURCES = \
-	tests/rdfliteral.cpp
-
-bin_PROGRAMS += tests/rdfstatement
-
-tests_rdfstatement_LDADD = \
-	src/libcainteoir/libcainteoir.a
-
-tests_rdfstatement_SOURCES = \
-	tests/rdfstatement.cpp
+tests_rdfmodel_SOURCES = \
+	tests/rdfmodel.cpp
 
 ############################# tests ###########################################
 
@@ -79,7 +63,5 @@ TESTS = \
 	tests/metadata-rdfliteral.py \
 	tests/metadata-rdftriple.py \
 	tests/opf-metadata.py \
-	tests/rdfuri \
-	tests/rdfliteral \
-	tests/rdfstatement
+	tests/rdfmodel
 

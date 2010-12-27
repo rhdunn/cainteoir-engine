@@ -50,6 +50,15 @@ void test_uri(const rdf::node &node, const std::string &value, const std::string
 	equal(uri->ref,   ref);
 }
 
+void test_uri()
+{
+	test_uri(rdf::rdf("type"), "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "type");
+	test_uri(rdf::rdfs("Class"), "http://www.w3.org/2000/01/rdf-schema#Class", "http://www.w3.org/2000/01/rdf-schema#", "Class");
+	test_uri(rdf::xsd("string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(rdf::dc("title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(rdf::dcterms("title"), "http://purl.org/dc/terms/title", "http://purl.org/dc/terms/", "title");
+}
+
 void test_literal(const rdf::node &node, const std::string value, const std::string &language, const rdf::uri &uri)
 {
 	const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&node);
@@ -60,6 +69,17 @@ void test_literal(const rdf::node &node, const std::string value, const std::str
 	equal(literal->type.value, uri.value);
 	equal(literal->type.ns,    uri.ns);
 	equal(literal->type.ref,   uri.ref);
+}
+
+void test_literal()
+{
+	const rdf::uri nulluri = rdf::uri(std::string(), std::string());
+
+	test_literal(rdf::literal("This is a test."), "This is a test.", std::string(), nulluri);
+	test_literal(rdf::literal("This is a test.", "en"), "This is a test.", "en", nulluri);
+	test_literal(rdf::literal("This is a test.", "en-GB"), "This is a test.", "en-GB", nulluri);
+	test_literal(rdf::literal("This is a test.", "en-GB", rdf::xsd("string")), "This is a test.", "en-GB", rdf::xsd("string"));
+	test_literal(rdf::literal("This is a test.", rdf::xsd("string")), "This is a test.", std::string(), rdf::xsd("string"));
 }
 
 void test_statement(const rdf::uri &subject, const rdf::uri &predicate, const rdf::literal &object)
@@ -80,10 +100,17 @@ void test_statement(const rdf::uri &subject, const rdf::uri &predicate, const rd
 	test_uri(*s.object, object.value, object.ns, object.ref);
 }
 
-int main(int argc, char ** argv)
+void test_statement()
 {
 	test_statement(rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en"));
 	test_statement(rdf::dc("date"), rdf::rdf("type"), rdf::xsd("date"));
+}
+
+int main(int argc, char ** argv)
+{
+	test_uri();
+	test_literal();
+	test_statement();
 
 	return 0;
 }
