@@ -78,8 +78,8 @@ void test_literal()
 	test_literal(rdf::literal("This is a test."), "This is a test.", std::string(), nulluri);
 	test_literal(rdf::literal("This is a test.", "en"), "This is a test.", "en", nulluri);
 	test_literal(rdf::literal("This is a test.", "en-GB"), "This is a test.", "en-GB", nulluri);
-	test_literal(rdf::literal("This is a test.", "en-GB", rdf::xsd("string")), "This is a test.", std::string(), rdf::xsd("string"));
 	test_literal(rdf::literal("This is a test.", rdf::xsd("string")), "This is a test.", std::string(), rdf::xsd("string"));
+	test_literal(rdf::literal("27", rdf::xsd("int")), "27", std::string(), rdf::xsd("int"));
 }
 
 void test_statement(const rdf::statement &s, const rdf::uri &subject, const rdf::uri &predicate, const rdf::literal &object)
@@ -119,13 +119,13 @@ void test_model()
 	test_statement(model.front(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
 	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
 
-	model.push_back(rdf::statement(rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB", rdf::xsd("string"))));
+	model.push_back(rdf::statement(rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB")));
 	assert(!model.empty());
 	equal(model.size(), 2);
 	assert(model.begin() != model.end());
 
 	test_statement(model.front(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
-	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB", rdf::xsd("string")));
+	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB"));
 }
 
 int main(int argc, char ** argv)

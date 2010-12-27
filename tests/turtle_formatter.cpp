@@ -73,12 +73,10 @@ void test_literal()
 	equal(format(rdf::literal("Nevermore!")), "\"Nevermore!\"");
 	equal(format(rdf::literal("Nevermore!", "en")), "\"Nevermore!\"@en");
 	equal(format(rdf::literal("Nevermore!", rdf::xsd("string"))), "\"Nevermore!\"^^<http://www.w3.org/2001/XMLSchema#string>");
-	equal(format(rdf::literal("Nevermore!", "en", rdf::xsd("string"))), "\"Nevermore!\"^^<http://www.w3.org/2001/XMLSchema#string>");
 
 	equal(format_ns(rdf::literal("Nevermore!")), "\"Nevermore!\"");
 	equal(format_ns(rdf::literal("Nevermore!", "en")), "\"Nevermore!\"@en");
 	equal(format_ns(rdf::literal("Nevermore!", rdf::xsd("string"))), "\"Nevermore!\"^^xsd:string");
-	equal(format_ns(rdf::literal("Nevermore!", "en", rdf::xsd("string"))), "\"Nevermore!\"^^xsd:string");
 }
 
 void test_statement()
@@ -89,8 +87,6 @@ void test_statement()
 	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"@en-GB .\n");
 	equal(format(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", rdf::xsd("string")))),
 	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"^^<http://www.w3.org/2001/XMLSchema#string> .\n");
-	equal(format(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", "en", rdf::xsd("string")))),
-	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"^^<http://www.w3.org/2001/XMLSchema#string> .\n");
 
 	equal(format(rdf::statement(rdf::rdfs("Property"), rdf::rdf("type"), rdf::rdfs("Class"))),
 	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .\n");
@@ -100,8 +96,6 @@ void test_statement()
 	equal(format_ns(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", "en-GB"))),
 	      "rdfs:Class rdf:value \"Class\"@en-GB .\n");
 	equal(format_ns(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", rdf::xsd("string")))),
-	      "rdfs:Class rdf:value \"Class\"^^xsd:string .\n");
-	equal(format_ns(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", "en", rdf::xsd("string")))),
 	      "rdfs:Class rdf:value \"Class\"^^xsd:string .\n");
 
 	equal(format_ns(rdf::statement(rdf::rdfs("Property"), rdf::rdf("type"), rdf::rdfs("Class"))),
@@ -114,13 +108,11 @@ void test_model()
 	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")));
 	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", "en")));
 	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))));
-	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", "en", rdf::xsd("string"))));
 	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("type"), rdf::rdfs("Class")));
 
 	equal(format(model),
 	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Property\" .\n"
 	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Property\"@en .\n"
-	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Property\"^^<http://www.w3.org/2001/XMLSchema#string> .\n"
 	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Property\"^^<http://www.w3.org/2001/XMLSchema#string> .\n"
 	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .\n"
 	     );
@@ -132,7 +124,6 @@ void test_model()
 	      "\n"
 	      "rdfs:Property rdf:value \"Property\" .\n"
 	      "rdfs:Property rdf:value \"Property\"@en .\n"
-	      "rdfs:Property rdf:value \"Property\"^^xsd:string .\n"
 	      "rdfs:Property rdf:value \"Property\"^^xsd:string .\n"
 	      "rdfs:Property rdf:type rdfs:Class .\n"
 	     );
