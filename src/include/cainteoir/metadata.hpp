@@ -103,10 +103,16 @@ namespace cainteoir { namespace rdf
 		const std::string language; /**< @brief The language the literal string is written in [optional]. */
 		const uri type;             /**< @brief The type of the literal string [optional]. */
 
-		literal(const std::string &aValue, const std::string &aLanguage = std::string(), const uri &aType = uri(std::string(), std::string()))
+		literal(const std::string &aValue, const std::string &aLanguage, const uri &aType)
+			: value(aValue)
+			, type(aType)
+		{
+		}
+
+		literal(const std::string &aValue, const std::string &aLanguage = std::string())
 			: value(aValue)
 			, language(aLanguage)
-			, type(aType)
+			, type(std::string(), std::string())
 		{
 		}
 

@@ -78,7 +78,7 @@ void test_literal()
 	test_literal(rdf::literal("This is a test."), "This is a test.", std::string(), nulluri);
 	test_literal(rdf::literal("This is a test.", "en"), "This is a test.", "en", nulluri);
 	test_literal(rdf::literal("This is a test.", "en-GB"), "This is a test.", "en-GB", nulluri);
-	test_literal(rdf::literal("This is a test.", "en-GB", rdf::xsd("string")), "This is a test.", "en-GB", rdf::xsd("string"));
+	test_literal(rdf::literal("This is a test.", "en-GB", rdf::xsd("string")), "This is a test.", std::string(), rdf::xsd("string"));
 	test_literal(rdf::literal("This is a test.", rdf::xsd("string")), "This is a test.", std::string(), rdf::xsd("string"));
 }
 
