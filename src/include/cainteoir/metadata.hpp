@@ -117,6 +117,35 @@ namespace cainteoir { namespace rdf
 		{
 		}
 	};
+
+	/** @brief An RDF statement (triple)
+	  */
+	class statement
+	{
+	public:
+		const uri   subject;
+		const uri   predicate;
+		const node *object;
+
+		statement(const uri &aSubject, const uri &aPredicate, const literal &aObject)
+			: subject(aSubject)
+			, predicate(aPredicate)
+			, object(new rdf::literal(aObject))
+		{
+		}
+
+		statement(const uri &aSubject, const uri &aPredicate, const uri &aObject)
+			: subject(aSubject)
+			, predicate(aPredicate)
+			, object(new rdf::uri(aObject))
+		{
+		}
+
+		~statement()
+		{
+			delete object;
+		}
+	};
 }}
 
 namespace cainteoir

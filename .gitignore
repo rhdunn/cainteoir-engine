@@ -8,6 +8,7 @@ src/libcainteoir/libcainteoir.a
 
 tests/rdfuri
 tests/rdfliteral
+tests/rdfstatement
 
 Makefile
 Makefile.in

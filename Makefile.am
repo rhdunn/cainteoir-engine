@@ -61,6 +61,14 @@ tests_rdfliteral_LDADD = \
 tests_rdfliteral_SOURCES = \
 	tests/rdfliteral.cpp
 
+bin_PROGRAMS += tests/rdfstatement
+
+tests_rdfstatement_LDADD = \
+	src/libcainteoir/libcainteoir.a
+
+tests_rdfstatement_SOURCES = \
+	tests/rdfstatement.cpp
+
 ############################# tests ###########################################
 
 TEST_EXTENSIONS = .py
@@ -72,5 +80,6 @@ TESTS = \
 	tests/metadata-rdftriple.py \
 	tests/opf-metadata.py \
 	tests/rdfuri \
-	tests/rdfliteral
+	tests/rdfliteral \
+	tests/rdfstatement
 
