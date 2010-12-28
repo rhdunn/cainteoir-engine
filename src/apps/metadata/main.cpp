@@ -65,6 +65,7 @@ int main(int argc, char ** argv)
 				.add_namespace("dc",   "http://purl.org/dc/elements/1.1/")
 				.add_namespace("foaf", "http://xmlns.com/foaf/0.1/")
 				.add_namespace("tts",  "http://rhdunn.github.com/2010/12/text-to-speech#")
+				.add_namespace("opf",  "http://www.idpf.org/2007/opf")
 				<< metadata;
 		}
 	}

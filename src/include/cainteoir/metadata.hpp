@@ -82,77 +82,38 @@ namespace cainteoir { namespace rdf
 		}
 	};
 
-	/** @brief rdf namespace node
-	  *
-	  * @param aRef The URI reference beonging to the rdf resource namespace.
+	/** @breif RDF namespace.
 	  */
-	inline const uri rdf(const std::string &aRef)
+	class ns
 	{
-		return uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#", aRef);
-	}
+	public:
+		const std::string href;   /**< @brief The path of the namespace. */
+		const std::string prefix; /**< @brief The default prefix for the namespace. */
 
-	/** @brief rdfs namespace node
-	  *
-	  * @param aRef The URI reference beonging to the rdfs resource namespace.
-	  */
-	inline const uri rdfs(const std::string &aRef)
-	{
-		return uri("http://www.w3.org/2000/01/rdf-schema#", aRef);
-	}
+		ns(const std::string &aPrefix, const std::string &aHref)
+			: href(aHref)
+			, prefix(aPrefix)
+		{
+		}
 
-	/** @brief xsd namespace node
-	  *
-	  * @param aRef The URI reference beonging to the xsd (XMLSchema) resource namespace.
-	  */
-	inline const uri xsd(const std::string &aRef)
-	{
-		return uri("http://www.w3.org/2001/XMLSchema#", aRef);
-	}
+		/** @brief Create a URI in the namespace.
+		  *
+		  * @param aRef The URI reference relative to the namespace.
+		  */
+		uri operator()(const std::string &aRef) const
+		{
+			return uri(href, aRef);
+		}
+	};
 
-	/** @brief dc namespace node
-	  *
-	  * @param aRef The URI reference beonging to the dc (Dublin Core: Elements) resource namespace.
-	  */
-	inline const uri dc(const std::string &aRef)
-	{
-		return uri("http://purl.org/dc/elements/1.1/", aRef);
-	}
-
-	/** @brief dcterms namespace node
-	  *
-	  * @param aRef The URI reference beonging to the dcterms (Dublin Core: Terms) resource namespace.
-	  */
-	inline const uri dcterms(const std::string &aRef)
-	{
-		return uri("http://purl.org/dc/terms/", aRef);
-	}
-
-	/** @brief foaf namespace node
-	  *
-	  * @param aRef The URI reference beonging to the foaf (Friend of a Friend) resource namespace.
-	  */
-	inline const uri foaf(const std::string &aRef)
-	{
-		return uri("http://xmlns.com/foaf/0.1/", aRef);
-	}
-
-	/** @brief opf namespace node
-	  *
-	  * @param aRef The URI reference beonging to the OPF resource namespace.
-	  */
-	inline const uri opf(const std::string &aRef)
-	{
-		return uri("http://www.idpf.org/2007/opf", aRef);
-	}
-
-	/** @brief xml namespace node
-	  *
-	  * @param aRef The URI reference beonging to the XML resource namespace.
-	  */
-	inline const uri xml(const std::string &aRef)
-	{
-		return uri("http://www.w3.org/XML/1998/namespace", aRef);
-	}
+	extern const ns rdf;     /**< @brief RDF syntax namespace. */
+	extern const ns rdfs;    /**< @brief RDF schema namespace. */
+	extern const ns xsd;     /**< @brief XMLSchema namespace. */
+	extern const ns dc;      /**< @brief Dublin Core: Elements namespace. */
+	extern const ns dcterms; /**< @brief Dublin Core: Terms namespace. */
+	extern const ns foaf;    /**< @brief Friend of a Family (FOAF) namespace. */
+	extern const ns opf;     /**< @brief Open Publication Format (OPF) namespace. */
+	extern const ns xml;     /**< @brief XML namespace. */
 
 	/** @brief RDF literal node
 	  */
