@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
-AM_LDFLAGS  = ${PULSE_LIBS}   ${VORBIS_LIBS}   ${ESPEAK_LIBS}
-AM_CXXFLAGS = ${PULSE_CFLAGS} ${VORBIS_CFLAGS} ${ESPEAK_CFLAGS} -Isrc/include
+AM_LDFLAGS  = ${PULSE_LIBS}   ${VORBIS_LIBS}   ${MAGIC_LIBS}   ${LIBXML2_LIBS}   ${ESPEAK_LIBS}
+AM_CXXFLAGS = ${PULSE_CFLAGS} ${VORBIS_CFLAGS} ${MAGIC_CFLAGS} ${LIBXML2_CFLAGS} ${ESPEAK_CFLAGS} -Isrc/include
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -34,15 +34,17 @@ src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/libcainteoir/espeak_engine.cpp \
 	src/libcainteoir/mmap_buffer.cpp
 
-############################# cainteoir #######################################
+############################# applications ####################################
 
 bin_PROGRAMS += src/apps/cainteoir/cainteoir
 
-src_apps_cainteoir_cainteoir_LDADD = \
-	src/libcainteoir/libcainteoir.a
+src_apps_cainteoir_cainteoir_LDADD   = src/libcainteoir/libcainteoir.a
+src_apps_cainteoir_cainteoir_SOURCES = src/apps/cainteoir/main.cpp
 
-src_apps_cainteoir_cainteoir_SOURCES = \
-	src/apps/cainteoir/main.cpp
+bin_PROGRAMS += src/apps/metadata/metadata
+
+src_apps_metadata_metadata_LDADD   = src/libcainteoir/libcainteoir.a
+src_apps_metadata_metadata_SOURCES = src/apps/metadata/main.cpp
 
 ############################# metadata test ###################################
 

@@ -3,8 +3,10 @@
 
 .*.swp
 
-src/apps/cainteoir/cainteoir
 src/libcainteoir/libcainteoir.a
+
+src/apps/cainteoir/cainteoir
+src/apps/metadata/metadata
 
 tests/rdfmodel
 tests/ntriple_formatter

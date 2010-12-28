@@ -14,11 +14,32 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 
 dnl ================================================================
-dnl getopt
+dnl getopt checks.
 dnl ================================================================
 
 AC_CHECK_HEADERS([getopt.h])
 AC_CHECK_FUNCS([getopt_long])
+
+dnl ================================================================
+dnl libmagic checks.
+dnl ================================================================
+
+AC_CHECK_HEADERS(magic.h,
+    [
+        MAGIC_CFLAGS=""
+        MAGIC_LIBS="-lmagic"
+    ], [AC_MSG_ERROR([libmagic is required.])])
+
+AC_SUBST(MAGIC_CFLAGS)
+AC_SUBST(MAGIC_LIBS)
+
+dnl ================================================================
+dnl libxml2 checks.
+dnl ================================================================
+
+PKG_CHECK_MODULES(LIBXML2, [libxml-2.0 >= 2.0])
+AC_SUBST(LIBXML2_CFLAGS)
+AC_SUBST(LIBXML2_LIBS)
 
 dnl ================================================================
 dnl espeak tts engine checks.
