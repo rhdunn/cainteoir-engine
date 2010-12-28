@@ -107,7 +107,7 @@ public:
 		if (!namespaces.empty())
 		{
 			for (std::map<std::string, std::string>::const_iterator ns = namespaces.begin(), last = namespaces.end(); ns != last; ++ns)
-				os << "@prefix " << ns->second << " : <" << ns->first << "> ." << std::endl;
+				os << "@prefix " << ns->second << ": <" << ns->first << "> ." << std::endl;
 			os << std::endl;
 		}
 
