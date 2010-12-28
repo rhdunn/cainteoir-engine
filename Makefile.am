@@ -28,6 +28,7 @@ noinst_LIBRARIES += src/libcainteoir/libcainteoir.a
 
 src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/libcainteoir/rdf/formatter.cpp \
+	src/libcainteoir/parsers/opf.cpp \
 	src/libcainteoir/pulse_audio.cpp \
 	src/libcainteoir/wav_audio.cpp \
 	src/libcainteoir/ogg_audio.cpp \
