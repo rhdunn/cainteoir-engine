@@ -19,6 +19,7 @@
  */
 
 #include <cainteoir/tts_engine.hpp>
+#include <iostream>
 #include <cstdio>
 #include <memory>
 #include <getopt.h>
@@ -26,14 +27,16 @@
 enum args
 {
 	ARG_STDOUT = 300,
+	ARG_METADATA = 301,
 };
 
 static struct option options[] =
 {
-	{ "output", required_argument, 0, 'o' },
-	{ "stdout", no_argument,       0, ARG_STDOUT },
-	{ "type",   required_argument, 0, 't' },
-	{ "voice",  required_argument, 0, 'v' },
+	{ "output",   required_argument, 0, 'o' },
+	{ "stdout",   no_argument,       0, ARG_STDOUT },
+	{ "type",     required_argument, 0, 't' },
+	{ "voice",    required_argument, 0, 'v' },
+	{ "metadata", no_argument,       0, ARG_METADATA },
 	{ 0, 0, 0, 0 }
 };
 
@@ -41,6 +44,12 @@ int main(int argc, char ** argv)
 {
 	try
 	{
+		enum
+		{
+			speak,
+			show_metadata,
+		} action = speak;
+
 		const char *voice = NULL;
 		const char *outfile = NULL;
 		const char *outformat = "wave";
@@ -67,11 +76,34 @@ int main(int argc, char ** argv)
 			case ARG_STDOUT:
 				outfile = "-";
 				break;
+			case ARG_METADATA:
+				action = show_metadata;
+				break;
 			}
 		}
 
 		argc -= optind;
 		argv += optind;
+
+		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine();
+		if (!tts->set_voice_by_name(voice))
+		{
+			fprintf(stderr, "error: unrecognised voice %s\n", voice);
+			return 0;
+		}
+
+		if (action == show_metadata)
+		{
+			(*cainteoir::rdf::create_formatter(std::cout, cainteoir::rdf::formatter::turtle))
+				.add_namespace("rdf",  "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+				.add_namespace("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
+				.add_namespace("xsd",  "http://www.w3.org/2001/XMLSchema#")
+				.add_namespace("dc",   "http://purl.org/dc/elements/1.1/")
+				.add_namespace("foaf", "http://xmlns.com/foaf/0.1/")
+				.add_namespace("tts",  "http://rhdunn.github.com/2010/12/text-to-speech#")
+				<< tts->get_metadata();
+			return 0;
+		}
 
 		if (argc != 1)
 		{
@@ -80,13 +112,6 @@ int main(int argc, char ** argv)
 		}
 
 		text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0]));
-
-		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine();
-		if (!tts->set_voice_by_name(voice))
-		{
-			fprintf(stderr, "error: unrecognised voice %s\n", voice);
-			return 0;
-		}
 
 		cainteoir::audio_format audioformat = tts->get_audioformat();
 		int channels = tts->get_channels();

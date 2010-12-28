@@ -26,11 +26,31 @@
 #include "metadata.hpp"
 #include <memory>
 
+namespace cainteoir { namespace tts
+{
+	inline const rdf::uri tts(const std::string &aRef)
+	{
+		return rdf::uri("http://rhdunn.github.com/2010/12/text-to-speech#", aRef);
+	}
+
+	inline const rdf::uri engine(const std::string &aRef)
+	{
+		return rdf::uri("http://rhdunn.github.com/cainteoir-engine/metadata/engines#", aRef);
+	}
+
+	inline const rdf::uri voice(const std::string &aRef)
+	{
+		return rdf::uri("http://rhdunn.github.com/cainteoir-engine/metadata/voices#", aRef);
+	}
+}}
+
 namespace cainteoir
 {
 	struct tts_engine
 	{
 		virtual ~tts_engine() {}
+
+		virtual const rdf::model &get_metadata() const = 0;
 
 		virtual int get_channels() const = 0;
 		virtual int get_frequency() const = 0;

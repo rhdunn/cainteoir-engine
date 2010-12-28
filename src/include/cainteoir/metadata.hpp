@@ -127,6 +127,15 @@ namespace cainteoir { namespace rdf
 		return uri("http://purl.org/dc/terms/", aRef);
 	}
 
+	/** @brief foaf namespace node
+	  *
+	  * @param aRef The URI reference beonging to the foaf (Friend of a Friend) resource namespace.
+	  */
+	inline const uri foaf(const std::string &aRef)
+	{
+		return uri("http://xmlns.com/foaf/0.1/", aRef);
+	}
+
 	/** @brief RDF literal node
 	  */
 	class literal : public node

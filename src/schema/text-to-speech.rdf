@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xml:base="http://rhdunn.github.com/2010/12/text-to-speech"
+>
+
+<rdf:Description rdf:about="#">
+	<dc:title>Text-to-Speech Schema</dc:title>
+	<dc:publisher>Reece H. Dunn</dc:publisher>
+	<dc:creator>Reece H. Dunn</dc:creator>
+</rdf:Description>
+
+<rdfs:Class rdf:ID="Engine">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>Engine</rdfs:label>
+	<rdfs:comment>A text-to-speech engine.</rdfs:comment>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Voice">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>Voice</rdfs:label>
+	<rdfs:comment>A voice usable by an engine.</rdfs:comment>
+</rdfs:Class>
+
+</rdf:RDF>

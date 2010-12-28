@@ -37,14 +37,33 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
 	return 0;
 }
 
+namespace rdf = cainteoir::rdf;
+namespace tts = cainteoir::tts;
+
 class espeak_engine : public cainteoir::tts_engine
 {
 	int m_frequency;
+	rdf::model metadata;
 public:
 	espeak_engine()
 	{
 		m_frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, 0);
 		espeak_SetSynthCallback(espeak_tts_callback);
+
+		rdf::uri espeak = tts::engine("espeak");
+		rdf::bnode jsond = rdf::bnode("jsond");
+
+		metadata.push_back(rdf::statement(espeak, rdf::rdf("type"), tts::tts("Engine")));
+		metadata.push_back(rdf::statement(espeak, rdf::dc("title"), rdf::literal("eSpeak")));
+		metadata.push_back(rdf::statement(espeak, rdf::dc("creator"), jsond));
+
+		metadata.push_back(rdf::statement(jsond, rdf::rdf("type"), rdf::foaf("Person")));
+		metadata.push_back(rdf::statement(jsond, rdf::foaf("name"), rdf::literal("Jonathan Duddington")));
+		metadata.push_back(rdf::statement(jsond, rdf::foaf("title"), rdf::literal("Mr.")));
+		metadata.push_back(rdf::statement(jsond, rdf::foaf("givenName"), rdf::literal("Jonathan")));
+		metadata.push_back(rdf::statement(jsond, rdf::foaf("familyName"), rdf::literal("Duddington")));
+		metadata.push_back(rdf::statement(jsond, rdf::foaf("gender"), rdf::literal("male")));
+		metadata.push_back(rdf::statement(jsond, rdf::foaf("isPrimaryTopicOf"), rdf::uri("http://sourceforge.net/users/jonsd", std::string())));
 	}
 
 	~espeak_engine()
@@ -54,6 +73,11 @@ public:
 
 	/** @name cainteoir::tts_engine */
 	//@{
+
+	const rdf::model &get_metadata() const
+	{
+		return metadata;
+	}
 
 	int get_channels() const
 	{
