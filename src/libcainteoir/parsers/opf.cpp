@@ -27,7 +27,7 @@ void parseOpfMetadata(xml::node &opf, const rdf::uri &subject, rdf::model &metad
 {
 	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
 	{
-		if (node.type() == XML_ELEMENT_NODE && !strcmp(node.namespaceURI(), "http://purl.org/dc/elements/1.1/"))
+		if (node.type() == XML_ELEMENT_NODE && node.namespaceURI() == rdf::dc)
 		{
 			std::string lang;
 

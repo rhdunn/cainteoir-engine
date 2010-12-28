@@ -106,6 +106,16 @@ namespace cainteoir { namespace rdf
 		}
 	};
 
+	inline bool operator==(const ns &a, const char *b)
+	{
+		return a.href == b;
+	}
+
+	inline bool operator==(const char *a, const ns &b)
+	{
+		return b == a;
+	}
+
 	extern const ns rdf;     /**< @brief RDF syntax namespace. */
 	extern const ns rdfs;    /**< @brief RDF schema namespace. */
 	extern const ns xsd;     /**< @brief XMLSchema namespace. */
