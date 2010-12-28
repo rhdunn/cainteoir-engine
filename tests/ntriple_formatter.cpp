@@ -54,9 +54,7 @@ std::string format_ns(const T &value)
 {
 	std::ostringstream s;
 	(*rdf::create_formatter(s, rdf::formatter::ntriple))
-		.add_namespace("rdf",  "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
-		.add_namespace("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
-		.add_namespace("xsd",  "http://www.w3.org/2001/XMLSchema#")
+		<< rdf::rdf << rdf::rdfs << rdf::xsd
 		<< value;
 	return s.str();
 }

@@ -28,11 +28,6 @@
 
 namespace cainteoir { namespace tts
 {
-	inline const rdf::uri tts(const std::string &aRef)
-	{
-		return rdf::uri("http://rhdunn.github.com/2010/12/text-to-speech#", aRef);
-	}
-
 	inline const rdf::uri engine(const std::string &aRef)
 	{
 		return rdf::uri("http://rhdunn.github.com/cainteoir-engine/metadata/engines#", aRef);

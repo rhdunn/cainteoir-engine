@@ -109,11 +109,14 @@ namespace cainteoir { namespace rdf
 	extern const ns rdf;     /**< @brief RDF syntax namespace. */
 	extern const ns rdfs;    /**< @brief RDF schema namespace. */
 	extern const ns xsd;     /**< @brief XMLSchema namespace. */
+	extern const ns xml;     /**< @brief XML namespace. */
+
 	extern const ns dc;      /**< @brief Dublin Core: Elements namespace. */
 	extern const ns dcterms; /**< @brief Dublin Core: Terms namespace. */
+
 	extern const ns foaf;    /**< @brief Friend of a Family (FOAF) namespace. */
 	extern const ns opf;     /**< @brief Open Publication Format (OPF) namespace. */
-	extern const ns xml;     /**< @brief XML namespace. */
+	extern const ns tts;     /**< @brief Cainteoir Text-to-Speech RDF namespace. */
 
 	/** @brief RDF literal node
 	  */
@@ -187,8 +190,7 @@ namespace cainteoir { namespace rdf
 			turtle,
 		};
 
-		virtual formatter &add_namespace(const std::string &aPrefix, const std::string &aNS) = 0;
-
+		virtual formatter &operator<<(const ns &aNS) = 0;
 		virtual formatter &operator<<(const bnode &bnode) = 0;
 		virtual formatter &operator<<(const uri &uri) = 0;
 		virtual formatter &operator<<(const literal &literal) = 0;

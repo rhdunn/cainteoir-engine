@@ -59,13 +59,13 @@ int main(int argc, char ** argv)
 		if (!metadata.empty())
 		{
 			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
-				.add_namespace("rdf",  "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
-				.add_namespace("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
-				.add_namespace("xsd",  "http://www.w3.org/2001/XMLSchema#")
-				.add_namespace("dc",   "http://purl.org/dc/elements/1.1/")
-				.add_namespace("foaf", "http://xmlns.com/foaf/0.1/")
-				.add_namespace("tts",  "http://rhdunn.github.com/2010/12/text-to-speech#")
-				.add_namespace("opf",  "http://www.idpf.org/2007/opf")
+				<< rdf::rdf
+				<< rdf::rdfs
+				<< rdf::xsd
+				<< rdf::dc
+				<< rdf::foaf
+				<< rdf::tts
+				<< rdf::opf
 				<< metadata;
 		}
 	}

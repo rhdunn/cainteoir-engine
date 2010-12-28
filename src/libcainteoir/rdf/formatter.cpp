@@ -31,10 +31,10 @@ public:
 	{
 	}
 
-	cainteoir::rdf::formatter &add_namespace(const std::string &aPrefix, const std::string &aNS)
+	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::ns &aNS)
 	{
 		if (format == turtle)
-			namespaces[aNS] = aPrefix;
+			namespaces[aNS.href] = aNS.prefix;
 		return *this;
 	}
 

@@ -53,7 +53,7 @@ public:
 		rdf::uri espeak = tts::engine("espeak");
 		rdf::bnode jsond = rdf::bnode("jsond");
 
-		metadata.push_back(rdf::statement(espeak, rdf::rdf("type"), tts::tts("Engine")));
+		metadata.push_back(rdf::statement(espeak, rdf::rdf("type"), rdf::tts("Engine")));
 		metadata.push_back(rdf::statement(espeak, rdf::dc("title"), rdf::literal("eSpeak")));
 		metadata.push_back(rdf::statement(espeak, rdf::dc("creator"), jsond));
 
