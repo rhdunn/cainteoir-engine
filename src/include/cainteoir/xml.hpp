@@ -22,12 +22,13 @@
 #define CAINTEOIR_ENGINE_INTERNAL_XML_HPP
 
 #include <cainteoir/buffer.hpp>
+#include <cainteoir/metadata.hpp>
 #include <stdexcept>
 
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
-namespace cainteoir { namespace xml
+namespace cainteoir { namespace xmldom
 {
 	class string
 	{
@@ -87,6 +88,16 @@ namespace cainteoir { namespace xml
 		xmlAttrPtr attr;
 	};
 
+	inline bool operator==(const attribute &a, const rdf::uri &b)
+	{
+		return b.ns == a.namespaceURI() && b.ref == a.name();
+	}
+
+	inline bool operator==(const rdf::uri &a, const attribute &b)
+	{
+		return b == a;
+	}
+
 	class node
 	{
 	public:
@@ -138,6 +149,16 @@ namespace cainteoir { namespace xml
 	private:
 		xmlNodePtr item;
 	};
+
+	inline bool operator==(const node &a, const rdf::uri &b)
+	{
+		return b.ns == a.namespaceURI() && b.ref == a.name();
+	}
+
+	inline bool operator==(const rdf::uri &a, const node &b)
+	{
+		return b == a;
+	}
 
 	class document
 	{

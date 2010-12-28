@@ -26,7 +26,7 @@
 
 namespace cainteoir
 {
-	void parseOpfDocument(xml::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
+	void parseOpfDocument(xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
 }
 
 #endif

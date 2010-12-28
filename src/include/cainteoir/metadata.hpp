@@ -136,6 +136,24 @@ namespace cainteoir { namespace rdf
 		return uri("http://xmlns.com/foaf/0.1/", aRef);
 	}
 
+	/** @brief opf namespace node
+	  *
+	  * @param aRef The URI reference beonging to the OPF resource namespace.
+	  */
+	inline const uri opf(const std::string &aRef)
+	{
+		return uri("http://www.idpf.org/2007/opf", aRef);
+	}
+
+	/** @brief xml namespace node
+	  *
+	  * @param aRef The URI reference beonging to the XML resource namespace.
+	  */
+	inline const uri xml(const std::string &aRef)
+	{
+		return uri("http://www.w3.org/XML/1998/namespace", aRef);
+	}
+
 	/** @brief RDF literal node
 	  */
 	class literal : public node

@@ -24,10 +24,8 @@
 #include <iostream>
 #include <cstdio>
 
-#define OPF_NS "http://www.idpf.org/2007/opf"
-
 namespace rdf = cainteoir::rdf;
-namespace xml = cainteoir::xml;
+namespace xml = cainteoir::xmldom;
 
 int main(int argc, char ** argv)
 {
@@ -55,7 +53,7 @@ int main(int argc, char ** argv)
 		rdf::model metadata;
 		const rdf::uri subject = rdf::uri(argv[0], std::string());
 
-		if (!strcmp(root.namespaceURI(), OPF_NS) && !strcmp(root.name(), "package"))
+		if (root == rdf::opf("package"))
 			cainteoir::parseOpfDocument(root, subject, metadata);
 
 		if (!metadata.empty())

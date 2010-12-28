@@ -20,10 +20,8 @@
 
 #include <cainteoir/parsers.hpp>
 
-#define OPF_NS "http://www.idpf.org/2007/opf"
-
 namespace rdf = cainteoir::rdf;
-namespace xml = cainteoir::xml;
+namespace xml = cainteoir::xmldom;
 
 void parseOpfMetadata(xml::node &opf, const rdf::uri &subject, rdf::model &metadata)
 {
@@ -35,7 +33,7 @@ void parseOpfMetadata(xml::node &opf, const rdf::uri &subject, rdf::model &metad
 
 			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 			{
-				if (!strcmp(attr.namespaceURI(), "http://www.w3.org/XML/1998/namespace") && !strcmp(attr.name(), "lang"))
+				if (attr == rdf::xml("lang"))
 					lang = attr.content().c_str();
 			}
 
@@ -50,9 +48,9 @@ void cainteoir::parseOpfDocument(xml::node &opf, const rdf::uri &subject, rdf::m
 {
 	for (xml::node section = opf.firstChild(); section.isValid(); section.next())
 	{
-		if (section.type() == XML_ELEMENT_NODE && !strcmp(section.namespaceURI(), OPF_NS))
+		if (section.type() == XML_ELEMENT_NODE)
 		{
-			if (!strcmp(section.name(), "metadata"))
+			if (section == rdf::opf("metadata"))
 				parseOpfMetadata(section, subject, metadata);
 		}
 	}
