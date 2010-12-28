@@ -1,4 +1,4 @@
-/* Metadata Extractor.
+/* Mime Type detector -- libmagic wrapper.
  *
  * Copyright (C) 2010 Reece H. Dunn
  *
@@ -18,32 +18,35 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cainteoir/metadata.hpp>
-#include <cainteoir/mimetypes.hpp>
-#include <cstdio>
+#ifndef CAINTEOIR_ENGINE_MIMETYPES_HPP
+#define CAINTEOIR_ENGINE_MIMETYPES_HPP
 
-int main(int argc, char ** argv)
+#include "buffer.hpp"
+#include <magic.h>
+
+namespace cainteoir
 {
-	try
+	class mimetypes
 	{
-		++argv;
-		--argc;
-
-		if (argc != 1)
+	public:
+		mimetypes(const char *filename = NULL)
 		{
-			fprintf(stderr, "error: no document specified\n");
-			return 0;
+			cookie = magic_open(MAGIC_MIME);
+			magic_load(cookie, NULL);
 		}
 
-		std::auto_ptr<cainteoir::buffer> text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0]));
+		~mimetypes()
+		{
+			magic_close(cookie);
+		}
 
-		cainteoir::mimetypes mime;
-		fprintf(stderr, "mime: %s\n", mime(text_buffer.get()));
-	}
-	catch (std::exception &e)
-	{
-		fprintf(stderr, "error: %s\n", e.what());
-	}
-
-	return 0;
+		const char * operator()(const cainteoir::buffer *data)
+		{
+			return magic_buffer(cookie, data->begin(), data->size());
+		}
+	private:
+		magic_t cookie;
+	};
 }
+
+#endif
