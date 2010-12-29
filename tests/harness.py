@@ -17,15 +17,17 @@
 # You should have received a copy of the GNU General Public License
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
+import sys
+
 def ok(cond, message):
 	if (not cond):
 		raise Exception(message)
 
 def check_equal(a, b, message):
 	if (not a == b):
-		print message
-		print '\texpected -- %s' % b
-		print '\tactual   -- %s' % a
+		sys.stderr.write('%s\n' % message)
+		sys.stderr.write('\texpected -- %s\n' % b)
+		sys.stderr.write('\tactual   -- %s\n' % a)
 		return False
 	return True
 
