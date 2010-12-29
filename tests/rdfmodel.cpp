@@ -208,6 +208,22 @@ void test_model_namespaces()
 	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::dc("creator"), rdf::bnode("Class")), rdf::dc);
 }
 
+void test_genid()
+{
+	rdf::model model1;
+	rdf::model model2;
+
+	test_bnode(model1.genid(), "id1");
+	test_bnode(model1.genid(), "id2");
+	test_bnode(model1.genid(), "id3");
+	test_bnode(model2.genid(), "id1");
+	test_bnode(model2.genid(), "id2");
+	test_bnode(model1.genid(), "id4");
+	test_bnode(model1.genid(), "id5");
+	test_bnode(model2.genid(), "id3");
+	test_bnode(model2.genid(), "id4");
+}
+
 int main(int argc, char ** argv)
 {
 	test_bnode();
@@ -216,6 +232,7 @@ int main(int argc, char ** argv)
 	test_statement();
 	test_model();
 	test_model_namespaces();
+	test_genid();
 
 	return 0;
 }

@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_METADATA_HPP
 
 #include <tr1/memory>
+#include <sstream>
 #include <string>
 #include <list>
 #include <set>
@@ -186,6 +187,19 @@ namespace cainteoir { namespace rdf
 	class model : public std::list<statement>
 	{
 	public:
+		model()
+			: nextid(1)
+		{
+		}
+
+		const rdf::bnode genid()
+		{
+			std::ostringstream id;
+			id << "id" << nextid;
+			++nextid;
+			return rdf::bnode(id.str());
+		}
+
 		bool contains(const ns &uri) const
 		{
 			return namespaces.find(uri.href) != namespaces.end();
@@ -212,6 +226,7 @@ namespace cainteoir { namespace rdf
 		}
 	private:
 		std::set<std::string> namespaces;
+		int nextid;
 	};
 
 	/** @brief RDF formatter (serialisation support)
