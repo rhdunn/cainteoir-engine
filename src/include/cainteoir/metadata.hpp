@@ -24,6 +24,7 @@
 #include <tr1/memory>
 #include <string>
 #include <list>
+#include <set>
 
 namespace cainteoir { namespace rdf
 {
@@ -182,7 +183,32 @@ namespace cainteoir { namespace rdf
 
 	/** @brief RDF model
 	  */
-	typedef std::list<statement> model;
+	class model : public std::list<statement>
+	{
+	public:
+		bool contains(const ns &uri) const
+		{
+			return namespaces.find(uri.href) != namespaces.end();
+		}
+
+		void push_back(const statement &s)
+		{
+			{
+				const rdf::uri *uri = dynamic_cast<const rdf::uri *>(s.subject.get());
+				if (uri)
+					namespaces.insert(uri->ns);
+			}
+			namespaces.insert(s.predicate.ns);
+			{
+				const rdf::uri *uri = dynamic_cast<const rdf::uri *>(s.object.get());
+				if (uri)
+					namespaces.insert(uri->ns);
+			}
+			std::list<statement>::push_back(s);
+		}
+	private:
+		std::set<std::string> namespaces;
+	};
 
 	/** @brief RDF formatter (serialisation support)
 	  */

@@ -170,6 +170,37 @@ void test_model()
 	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB"));
 }
 
+void test_model_namespace(const rdf::statement &s, const rdf::ns &ns)
+{
+	rdf::model model;
+	assert(!model.contains(ns));
+	assert(!model.contains(rdf::tts));
+
+	model.push_back(s);
+	assert(model.contains(ns));
+	assert(!model.contains(rdf::tts));
+}
+
+void test_model_namespaces()
+{
+	test_model_namespace(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")), rdf::dc);
+	test_model_namespace(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")), rdf::rdf);
+	test_model_namespace(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")), rdf::rdfs);
+
+	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")), rdf::rdf);
+	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")), rdf::rdfs);
+
+	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::dc("creator"), rdf::bnode("a")), rdf::dc);
+	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::dc("creator"), rdf::bnode("a")), rdf::rdfs);
+
+	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("value"),  rdf::literal("test")), rdf::rdf);
+
+	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("type"),   rdf::rdfs("Class")), rdf::rdf);
+	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("type"),   rdf::rdfs("Class")), rdf::rdfs);
+
+	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::dc("creator"), rdf::bnode("Class")), rdf::dc);
+}
+
 int main(int argc, char ** argv)
 {
 	test_bnode();
@@ -177,6 +208,7 @@ int main(int argc, char ** argv)
 	test_literal();
 	test_statement();
 	test_model();
+	test_model_namespaces();
 
 	return 0;
 }
