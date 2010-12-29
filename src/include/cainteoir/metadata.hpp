@@ -203,6 +203,10 @@ namespace cainteoir { namespace rdf
 				const rdf::uri *uri = dynamic_cast<const rdf::uri *>(s.object.get());
 				if (uri)
 					namespaces.insert(uri->ns);
+
+				const rdf::literal *literal = dynamic_cast<const rdf::literal *>(s.object.get());
+				if (literal && !literal->type.ns.empty())
+					namespaces.insert(literal->type.ns);
 			}
 			std::list<statement>::push_back(s);
 		}

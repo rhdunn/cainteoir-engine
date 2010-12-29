@@ -190,10 +190,17 @@ void test_model_namespaces()
 	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")), rdf::rdf);
 	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")), rdf::rdfs);
 
+	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))), rdf::rdf);
+	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))), rdf::rdfs);
+	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))), rdf::xsd);
+
 	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::dc("creator"), rdf::bnode("a")), rdf::dc);
 	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::dc("creator"), rdf::bnode("a")), rdf::rdfs);
 
 	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("value"),  rdf::literal("test")), rdf::rdf);
+
+	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("value"),  rdf::literal("test", rdf::xsd("string"))), rdf::rdf);
+	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("value"),  rdf::literal("test", rdf::xsd("string"))), rdf::xsd);
 
 	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("type"),   rdf::rdfs("Class")), rdf::rdf);
 	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("type"),   rdf::rdfs("Class")), rdf::rdfs);
