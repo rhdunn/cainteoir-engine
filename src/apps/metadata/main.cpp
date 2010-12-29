@@ -40,21 +40,21 @@ int main(int argc, char ** argv)
 			throw std::runtime_error("no document specified");
 
 		std::auto_ptr<cainteoir::buffer> text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0]));
-
-		cainteoir::mimetypes mime;
-
-		const char *type = mime(text_buffer.get());
-		if (strncmp(type, "application/xml", 15))
-			throw std::runtime_error("file is not an XML document");
-
-		xml::document doc(text_buffer.get());
-		xml::node root = doc.root();
+		std::string type = cainteoir::mimetypes()(text_buffer.get());
 
 		rdf::model metadata;
 		const rdf::uri subject = rdf::uri(argv[0], std::string());
 
-		if (root == rdf::opf("package"))
-			cainteoir::parseOpfDocument(root, subject, metadata);
+		if (type == "application/xml")
+		{
+			xml::document doc(text_buffer.get());
+			xml::node root = doc.root();
+
+			if (root == rdf::opf("package"))
+				cainteoir::parseOpfDocument(root, subject, metadata);
+		}
+		else
+			fprintf(stderr, "unsupported document format: %s\n", type.c_str());
 
 		if (!metadata.empty())
 		{

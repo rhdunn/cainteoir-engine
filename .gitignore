@@ -3,6 +3,8 @@
 
 .*.swp
 
+data/magic.mgc
+
 src/libcainteoir/libcainteoir.a
 
 src/apps/cainteoir/cainteoir

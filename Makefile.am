@@ -24,6 +24,13 @@ EXTRA_DIST += ChangeLog
 
 ############################# libcainteoir ####################################
 
+EXTRA_DIST += data/magic
+
+pkgdata_DATA = data/magic.mgc
+
+data/magic.mgc: data/magic
+	cd data && file -C -m magic
+
 noinst_LIBRARIES += src/libcainteoir/libcainteoir.a
 
 src_libcainteoir_libcainteoir_a_SOURCES = \

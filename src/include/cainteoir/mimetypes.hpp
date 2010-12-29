@@ -23,16 +23,27 @@
 
 #include "buffer.hpp"
 #include <magic.h>
+#include <stdexcept>
+#include <cstdlib>
 
 namespace cainteoir
 {
 	class mimetypes
 	{
 	public:
-		mimetypes(const char *filename = NULL)
+		mimetypes()
 		{
-			cookie = magic_open(MAGIC_MIME);
-			magic_load(cookie, NULL);
+			cookie = magic_open(MAGIC_MIME|MAGIC_CHECK);
+			if (cookie == NULL)
+				throw std::runtime_error("unable to initialise the mimetype database (libmagic).");
+
+			const char *basedir = getenv("CAINTEOIR_DATADIR");
+			if (!basedir)
+				throw std::runtime_error("CAINTEOIR_DATADIR environment variable not set.");
+
+			std::string filename = std::string(basedir) + "/data/magic.mgc";
+			if (magic_load(cookie, filename.c_str()) == -1)
+				throw std::runtime_error(magic_error(cookie));
 		}
 
 		~mimetypes()
@@ -40,9 +51,14 @@ namespace cainteoir
 			magic_close(cookie);
 		}
 
-		const char * operator()(const cainteoir::buffer *data)
+		std::string operator()(const cainteoir::buffer *data)
 		{
-			return magic_buffer(cookie, data->begin(), data->size());
+			const char * type = magic_buffer(cookie, data->begin(), data->size());
+			if (type == NULL)
+				throw std::runtime_error(magic_error(cookie));
+
+			std::string mime = type;
+			return mime.substr(0, mime.find(';'));
 		}
 	private:
 		magic_t cookie;
