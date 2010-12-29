@@ -54,7 +54,7 @@ std::string format_ns(const T &value)
 {
 	std::ostringstream s;
 	(*rdf::create_formatter(s, rdf::formatter::turtle))
-		<< rdf::rdf << rdf::rdfs << rdf::xsd
+		<< rdf::rdf << rdf::rdfs << rdf::xsd << rdf::dc << rdf::opf
 		<< value;
 	return s.str();
 }
