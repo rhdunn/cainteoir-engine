@@ -21,9 +21,6 @@ import sys
 import os
 from xml.dom import minidom
 
-sys.path.append(os.path.join(sys.path[0], '../src/cainteoir-engine'))
-
-import epub
 import harness as test
 
 def check_metadata(filename, expect):

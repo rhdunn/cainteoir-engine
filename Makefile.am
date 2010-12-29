@@ -71,11 +71,8 @@ TEST_EXTENSIONS = .py
 PY_LOG_COMPILER = $(PYTHON)
 
 TESTS = \
-	tests/metadata-rdfresource.py \
-	tests/metadata-rdfliteral.py \
-	tests/metadata-rdftriple.py \
-	tests/opf-metadata.py \
 	tests/rdfmodel \
 	tests/ntriple_formatter \
-	tests/turtle_formatter
+	tests/turtle_formatter \
+	tests/opf-metadata.py
 
