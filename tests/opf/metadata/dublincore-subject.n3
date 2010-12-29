@@ -1,7 +1,9 @@
-doc: dc:title "Test Case" .
-doc: dc:identifier "dublincore-subject.opf" .
-doc: dc:language "en" .
-doc: dc:subject "testcase" .
-doc: dc:subject "testcase-en"@en .
-doc: dc:subject "testcase-uk"@en-GB .
-doc: dc:subject "testcase-tw"@zh-TW .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<> dc:title "Test Case" .
+<> dc:identifier "dublincore-subject.opf" .
+<> dc:language "en" .
+<> dc:subject "testcase" .
+<> dc:subject "testcase-en"@en .
+<> dc:subject "testcase-uk"@en-GB .
+<> dc:subject "testcase-tw"@zh-TW .

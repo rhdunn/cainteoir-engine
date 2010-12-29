@@ -29,17 +29,67 @@ void parseOpfMetadata(xml::node &opf, const rdf::uri &subject, rdf::model &metad
 	{
 		if (node.type() == XML_ELEMENT_NODE && node.namespaceURI() == rdf::dc)
 		{
-			std::string lang;
+			std::string lang = node.attr(rdf::xml("lang")).content().c_str();
+			std::string value = node.content().c_str();
 
-			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+			const rdf::uri predicate = rdf::uri(node.namespaceURI(), node.name());
+
+			if (!strcmp(node.name(), "creator") || !strcmp(node.name(), "contributor"))
 			{
-				if (attr == rdf::xml("lang"))
-					lang = attr.content().c_str();
+				std::string role = node.attr(rdf::opf("role")).content().c_str();
+				std::string fileas = node.attr(rdf::opf("file-as")).content().c_str();
+				if (!role.empty() || !fileas.empty())
+				{
+					const rdf::bnode temp = metadata.genid();
+					metadata.push_back(rdf::statement(subject, predicate, temp));
+					metadata.push_back(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
+					if (!role.empty())
+						metadata.push_back(rdf::statement(temp, rdf::opf("role"), rdf::literal(role)));
+					if (!fileas.empty())
+						metadata.push_back(rdf::statement(temp, rdf::opf("file-as"), rdf::literal(fileas)));
+					continue;
+				}
+			}
+			else if (!strcmp(node.name(), "date"))
+			{
+				std::string::size_type dm = value.find('/');
+				std::string::size_type my = value.find('/', dm+1);
+
+				if (dm != std::string::npos && my != std::string::npos)
+				{
+					std::string day   = value.substr(0, dm);
+					std::string month = value.substr(dm+1, my-dm-1);
+					std::string year  = value.substr(my+1);
+
+					std::ostringstream date;
+					date << year << '-' << month << '-' << day;
+					value = date.str();
+				}
+
+				std::string event = node.attr(rdf::opf("event")).content().c_str();
+				if (!event.empty())
+				{
+					const rdf::bnode temp = metadata.genid();
+					metadata.push_back(rdf::statement(subject, predicate, temp));
+					metadata.push_back(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
+					metadata.push_back(rdf::statement(temp, rdf::opf("event"), rdf::literal(event)));
+					continue;
+				}
+			}
+			else if (!strcmp(node.name(), "identifier"))
+			{
+				std::string scheme = node.attr(rdf::opf("scheme")).content().c_str();
+				if (!scheme.empty())
+				{
+					const rdf::bnode temp = metadata.genid();
+					metadata.push_back(rdf::statement(subject, predicate, temp));
+					metadata.push_back(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
+					metadata.push_back(rdf::statement(temp, rdf::opf("scheme"), rdf::literal(scheme)));
+					continue;
+				}
 			}
 
-			rdf::uri predicate = rdf::uri(node.namespaceURI(), node.name());
-			rdf::literal value = rdf::literal(node.content().c_str(), lang);
-			metadata.push_back(rdf::statement(subject, predicate, value));
+			metadata.push_back(rdf::statement(subject, predicate, rdf::literal(value, lang)));
 		}
 	}
 }

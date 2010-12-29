@@ -1,5 +1,7 @@
-doc: dc:title "Test Case" .
-doc: dc:identifier "dublincore-language.opf" .
-doc: dc:language "en" .
-doc: dc:language "en-GB" .
-doc: dc:language "es" .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<> dc:title "Test Case" .
+<> dc:identifier "dublincore-language.opf" .
+<> dc:language "en" .
+<> dc:language "en-GB" .
+<> dc:language "es" .

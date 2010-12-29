@@ -1,7 +1,9 @@
-doc: dc:title "Test Case" .
-doc: dc:identifier "dublincore-source.opf" .
-doc: dc:language "en" .
-doc: dc:source "Cainteoir Engine" .
-doc: dc:source "Cainteoir Engine"@en .
-doc: dc:source "Cainteoir Engine"@en-GB .
-doc: dc:source "Cainteoir Engine"@zh-TW .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<> dc:title "Test Case" .
+<> dc:identifier "dublincore-source.opf" .
+<> dc:language "en" .
+<> dc:source "Cainteoir Engine" .
+<> dc:source "Cainteoir Engine"@en .
+<> dc:source "Cainteoir Engine"@en-GB .
+<> dc:source "Cainteoir Engine"@zh-TW .

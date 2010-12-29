@@ -1,5 +1,7 @@
-doc: dc:title "Test Case" .
-doc: dc:identifier "dublincore-format.opf" .
-doc: dc:language "en" .
-doc: dc:format "xhtml" .
-doc: dc:format "text/html" .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<> dc:title "Test Case" .
+<> dc:identifier "dublincore-format.opf" .
+<> dc:language "en" .
+<> dc:format "xhtml" .
+<> dc:format "text/html" .

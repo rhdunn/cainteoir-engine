@@ -1,35 +1,39 @@
-doc: dc:title "Test Case" .
-doc: dc:identifier "dublincore-contributor.opf" .
-doc: dc:language "en" .
-doc: dc:contributor "Anne Onymous" .
-doc: dc:contributor doc:id1 .
-doc:id1 rdf:value "Jane Bloggs" .
-doc:id1 opf:role "aut" .
-doc: dc:contributor doc:id2 .
-doc:id2 rdf:value "Joan Bloggs" .
-doc:id2 opf:file-as "Bloggs, Joan" .
-doc: dc:contributor doc:id3 .
-doc:id3 rdf:value "Rev. Dr. Martin Luther King Jr." .
-doc:id3 opf:role "aut" .
-doc:id3 opf:file-as "King, Martin Luther Jr." .
-doc: dc:contributor "Anne Onymous"@en .
-doc: dc:contributor doc:id4 .
-doc:id4 rdf:value "Jane Bloggs"@en .
-doc:id4 opf:role "aut" .
-doc: dc:contributor doc:id5 .
-doc:id5 rdf:value "Joan Bloggs"@en .
-doc:id5 opf:file-as "Bloggs, Joan" .
-doc: dc:contributor doc:id6 .
-doc:id6 rdf:value "Rev. Dr. Martin Luther King Jr."@en .
-doc:id6 opf:role "aut" .
-doc:id6 opf:file-as "King, Martin Luther Jr." .
-doc: dc:contributor doc:id7 .
-doc:id7 rdf:value "Jane Bloggs" .
-doc:id7 opf:role "aut" .
-doc: dc:contributor doc:id8 .
-doc:id8 rdf:value "Joan Bloggs" .
-doc:id8 opf:file-as "Bloggs, Joan" .
-doc: dc:contributor doc:id9 .
-doc:id9 rdf:value "Rev. Dr. Martin Luther King Jr." .
-doc:id9 opf:role "aut" .
-doc:id9 opf:file-as "King, Martin Luther Jr." .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix opf: <http://www.idpf.org/2007/opf> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<> dc:title "Test Case" .
+<> dc:identifier "dublincore-contributor.opf" .
+<> dc:language "en" .
+<> dc:contributor "Anne Onymous" .
+<> dc:contributor _:id1 .
+_:id1 rdf:value "Jane Bloggs" .
+_:id1 opf:role "aut" .
+<> dc:contributor _:id2 .
+_:id2 rdf:value "Joan Bloggs" .
+_:id2 opf:file-as "Bloggs, Joan" .
+<> dc:contributor _:id3 .
+_:id3 rdf:value "Rev. Dr. Martin Luther King Jr." .
+_:id3 opf:role "aut" .
+_:id3 opf:file-as "King, Martin Luther Jr." .
+<> dc:contributor "Anne Onymous"@en .
+<> dc:contributor _:id4 .
+_:id4 rdf:value "Jane Bloggs"@en .
+_:id4 opf:role "aut" .
+<> dc:contributor _:id5 .
+_:id5 rdf:value "Joan Bloggs"@en .
+_:id5 opf:file-as "Bloggs, Joan" .
+<> dc:contributor _:id6 .
+_:id6 rdf:value "Rev. Dr. Martin Luther King Jr."@en .
+_:id6 opf:role "aut" .
+_:id6 opf:file-as "King, Martin Luther Jr." .
+<> dc:contributor _:id7 .
+_:id7 rdf:value "Jane Bloggs" .
+_:id7 opf:role "aut" .
+<> dc:contributor _:id8 .
+_:id8 rdf:value "Joan Bloggs" .
+_:id8 opf:file-as "Bloggs, Joan" .
+<> dc:contributor _:id9 .
+_:id9 rdf:value "Rev. Dr. Martin Luther King Jr." .
+_:id9 opf:role "aut" .
+_:id9 opf:file-as "King, Martin Luther Jr." .

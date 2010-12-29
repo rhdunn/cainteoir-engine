@@ -45,7 +45,7 @@ namespace cainteoir { namespace xmldom
 
 		const char * c_str() const
 		{
-			return (const char *)data;
+			return data ? (const char *)data : "";
 		}
 	private:
 		xmlChar *data;
@@ -71,6 +71,7 @@ namespace cainteoir { namespace xmldom
 
 		const char *name() const
 		{
+			if (!attr) return "";
 			return (const char *)attr->name;
 		}
 
@@ -82,6 +83,7 @@ namespace cainteoir { namespace xmldom
 
 		string content() const
 		{
+			if (!attr) return string(NULL);
 			return string(xmlNodeListGetString(attr->doc, attr->children, 1));
 		}
 	private:
@@ -126,6 +128,16 @@ namespace cainteoir { namespace xmldom
 			return attribute(item->properties);
 		}
 
+		attribute attr(const rdf::uri &aUri)
+		{
+			for (attribute attr = firstAttribute(); attr.isValid(); attr.next())
+			{
+				if (attr == aUri)
+					return attr;
+			}
+			return attribute(NULL);
+		}
+
 		xmlElementType type() const
 		{
 			return item->type;
@@ -133,6 +145,7 @@ namespace cainteoir { namespace xmldom
 
 		const char *name() const
 		{
+			if (!item) return "";
 			return (const char *)item->name;
 		}
 
@@ -144,6 +157,7 @@ namespace cainteoir { namespace xmldom
 
 		string content() const
 		{
+			if (!item) return string(NULL);
 			return string(xmlNodeGetContent(item));
 		}
 	private:

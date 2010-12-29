@@ -27,28 +27,24 @@ import epub
 import harness as test
 
 def check_metadata(filename, expect):
-	print '... checking opf metadata for file "%s"' % filename
+	tmpfile = '/tmp/metadata.n3'
 
-	prefixes = {
-		'http://www.idpf.org/2007/opf#': 'opf',
-		'http://purl.org/dc/elements/1.1/': 'dc',
-		'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf',
-		'%s#' % filename: 'doc',
-	}
-
-	dom = minidom.parse(filename).documentElement
-	opf = epub.OpfMetadata(dom, filename)
+	print '... checking %s' % filename
+	os.system('%s "%s" > %s' % (os.path.join(sys.path[0], '../src/apps/metadata/metadata'), filename, tmpfile))
 
 	with open(expect, 'r') as f:
 		expected = [ unicode(x) for x in f.read().split('\n') if not x == '' ]
 
-	got = [ x for x in opf.format(prefixes) ]
+	with open(tmpfile, 'r') as f:
+		got = [ unicode(x.replace('<%s>' % filename, '<>')) for x in f.read().split('\n') if not x == '' ]
 
-	test.equal(got, expected, 'opf.format()')
+	test.equal(got, expected, 'opf.format(%s)' % filename)
 
 if __name__ == '__main__':
 	rootdir = os.path.join(sys.path[0], 'opf/metadata')
-	for filename in sorted(os.listdir(rootdir)):
+	testcases = sorted(os.listdir(rootdir))
+
+	for filename in testcases:
 		if filename.endswith('.opf'):
 			opffile = os.path.join(rootdir, filename)
 			n3file = os.path.join(rootdir, filename.replace('.opf', '.n3'))

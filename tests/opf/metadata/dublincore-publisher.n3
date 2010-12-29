@@ -1,7 +1,9 @@
-doc: dc:title "Test Case" .
-doc: dc:identifier "dublincore-publisher.opf" .
-doc: dc:language "en" .
-doc: dc:publisher "ThePub" .
-doc: dc:publisher "ThePub (US)"@en .
-doc: dc:publisher "ThePub (UK)"@en-GB .
-doc: dc:publisher "ThePub (Taiwan)"@zh-TW .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<> dc:title "Test Case" .
+<> dc:identifier "dublincore-publisher.opf" .
+<> dc:language "en" .
+<> dc:publisher "ThePub" .
+<> dc:publisher "ThePub (US)"@en .
+<> dc:publisher "ThePub (UK)"@en-GB .
+<> dc:publisher "ThePub (Taiwan)"@zh-TW .
