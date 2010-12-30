@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+	Test case for epub document metadata.
+
+	Copyright (C) 2010 Reece H. Dunn
+
+	This file is part of cainteoir-engine.
+
+	cainteoir-engine is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	cainteoir-engine is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="id">
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+		<!-- required elements -->
+		<dc:title>Test Case</dc:title>
+		<dc:identifier id="id">whitespace.opf</dc:identifier>
+		<dc:language>en</dc:language>
+
+		<!-- whitespace at the start: -->
+
+		<!-- test case: U+0020 (SPACE) -->
+		<dc:title> pre-space</dc:title>
+		<dc:title>    pre-space</dc:title>
+		<dc:title>&#x20;pre-space</dc:title>
+		<dc:title>&#x20;&#x20;&#x20;&#x20;&#x20;pre-space</dc:title>
+		<!-- test case: U+0009 (TAB) -->
+		<dc:title>&#x09;pre-tab</dc:title>
+		<dc:title>&#x09;&#x09;&#x09;pre-tab</dc:title>
+		<!-- test case: U+000A (LINE FEED) - *nix line ending (LF) -->
+		<dc:title>&#x0A;pre-lf</dc:title>
+		<dc:title>&#x0A;&#x0A;&#x0A;pre-lf</dc:title>
+		<!-- test case: U+000D (CARRIDGE RETURN) - old mac line ending (CR) -->
+		<dc:title>&#x0D;pre-cr</dc:title>
+		<dc:title>&#x0D;&#x0D;&#x0D;pre-cr</dc:title>
+		<!-- test case: windows line ending (CR LF) -->
+		<dc:title>&#x0D;&#x0A;pre-crlf</dc:title>
+		<dc:title>&#x0D;&#x0A;&#x0D;&#x0A;pre-crlf</dc:title>
+
+		<!-- whitespace at the end: -->
+
+		<!-- test case: U+0020 (SPACE) -->
+		<dc:title>post-space </dc:title>
+		<dc:title>post-space    </dc:title>
+		<dc:title>post-space&#x20;</dc:title>
+		<dc:title>post-space&#x20;&#x20;&#x20;&#x20;</dc:title>
+		<!-- test case: U+0009 (TAB) -->
+		<dc:title>post-tab&#x09;</dc:title>
+		<dc:title>post-tab&#x09;&#x09;&#x09;</dc:title>
+		<!-- test case: U+000A (LINE FEED) - *nix line ending (LF) -->
+		<dc:title>post-lf&#x0A;</dc:title>
+		<dc:title>post-lf&#x0A;&#x0A;&#x0A;</dc:title>
+		<!-- test case: U+000D (CARRIDGE RETURN) - old mac line ending (CR) -->
+		<dc:title>post-cr&#x0D;</dc:title>
+		<dc:title>post-cr&#x0D;&#x0D;&#x0D;</dc:title>
+		<!-- test case: windows line ending (CR LF) -->
+		<dc:title>post-crlf&#x0D;&#x0A;</dc:title>
+		<dc:title>post-crlf&#x0D;&#x0A;&#x0D;&#x0A;</dc:title>
+	</metadata>
+	<manifest>
+		<item id="test" href="test.html" media-type="application/xhtml+xml" />
+		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
+	</manifest>
+	<spine toc="ncx">
+		<itemref idref="test" />
+	</spine>
+</package>
