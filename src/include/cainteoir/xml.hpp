@@ -177,7 +177,8 @@ namespace cainteoir { namespace xmldom
 	class document
 	{
 	public:
-		document(buffer *data)
+		document(std::tr1::shared_ptr<buffer> aBuffer)
+			: data(aBuffer)
 		{
 			doc = xmlParseMemory(data->begin(), data->size());
 			if (doc == NULL)
@@ -194,6 +195,7 @@ namespace cainteoir { namespace xmldom
 			return node(xmlDocGetRootElement(doc));
 		}
 	private:
+		std::tr1::shared_ptr<buffer> data;
 		xmlDocPtr doc;
 	};
 }}

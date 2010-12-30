@@ -39,7 +39,7 @@ int main(int argc, char ** argv)
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
-		std::auto_ptr<cainteoir::buffer> text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0]));
+		std::tr1::shared_ptr<cainteoir::buffer> text_buffer = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0]));
 		std::string type = cainteoir::mimetypes()(text_buffer.get());
 
 		rdf::model metadata;
@@ -47,7 +47,7 @@ int main(int argc, char ** argv)
 
 		if (type == "application/xml")
 		{
-			xml::document doc(text_buffer.get());
+			xml::document doc(text_buffer);
 			xml::node root = doc.root();
 
 			if (root == rdf::opf("package"))
