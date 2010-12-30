@@ -1,0 +1,95 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+rdf: rdf:type owl:Ontology .
+rdf: dc:title "The RDF Vocabulary (RDF)" .
+rdf: dc:description "This is the RDF Schema for the RDF vocabulary defined in the RDF namespace." .
+rdf:PlainLiteral rdf:type rdfs:Datatype .
+rdf:PlainLiteral rdfs:subClassOf rdfs:Literal .
+rdf:PlainLiteral rdfs:isDefinedBy <http://www.w3.org/TR/rdf-plain-literal/> .
+rdf:PlainLiteral rdfs:label "PlainLiteral" .
+rdf:PlainLiteral rdfs:comment "The class of plain (i.e. untyped) literal values." .
+rdf:type rdf:type rdf:Property .
+rdf:type rdfs:isDefinedBy rdf: .
+rdf:type rdfs:label "type" .
+rdf:type rdfs:comment "The subject is an instance of a class." .
+rdf:type rdfs:range rdfs:Class .
+rdf:type rdfs:domain rdfs:Resource .
+rdf:Property rdf:type rdfs:Class .
+rdf:Property rdfs:isDefinedBy rdf: .
+rdf:Property rdfs:label "Property" .
+rdf:Property rdfs:comment "The class of RDF properties." .
+rdf:Property rdfs:subClassOf rdfs:Resource .
+rdf:Statement rdf:type rdfs:Class .
+rdf:Statement rdfs:isDefinedBy rdf: .
+rdf:Statement rdfs:label "Statement" .
+rdf:Statement rdfs:subClassOf rdfs:Resource .
+rdf:Statement rdfs:comment "The class of RDF statements." .
+rdf:subject rdf:type rdf:Property .
+rdf:subject rdfs:isDefinedBy rdf: .
+rdf:subject rdfs:label "subject" .
+rdf:subject rdfs:comment "The subject of the subject RDF statement." .
+rdf:subject rdfs:domain rdf:Statement .
+rdf:subject rdfs:range rdfs:Resource .
+rdf:predicate rdf:type rdf:Property .
+rdf:predicate rdfs:isDefinedBy rdf: .
+rdf:predicate rdfs:label "predicate" .
+rdf:predicate rdfs:comment "The predicate of the subject RDF statement." .
+rdf:predicate rdfs:domain rdf:Statement .
+rdf:predicate rdfs:range rdfs:Resource .
+rdf:object rdf:type rdf:Property .
+rdf:object rdfs:isDefinedBy rdf: .
+rdf:object rdfs:label "object" .
+rdf:object rdfs:comment "The object of the subject RDF statement." .
+rdf:object rdfs:domain rdf:Statement .
+rdf:object rdfs:range rdfs:Resource .
+rdf:Bag rdf:type rdfs:Class .
+rdf:Bag rdfs:isDefinedBy rdf: .
+rdf:Bag rdfs:label "Bag" .
+rdf:Bag rdfs:comment "The class of unordered containers." .
+rdf:Bag rdfs:subClassOf rdfs:Container .
+rdf:Seq rdf:type rdfs:Class .
+rdf:Seq rdfs:isDefinedBy rdf: .
+rdf:Seq rdfs:label "Seq" .
+rdf:Seq rdfs:comment "The class of ordered containers." .
+rdf:Seq rdfs:subClassOf rdfs:Container .
+rdf:Alt rdf:type rdfs:Class .
+rdf:Alt rdfs:isDefinedBy rdf: .
+rdf:Alt rdfs:label "Alt" .
+rdf:Alt rdfs:comment "The class of containers of alternatives." .
+rdf:Alt rdfs:subClassOf rdfs:Container .
+rdf:value rdf:type rdf:Property .
+rdf:value rdfs:isDefinedBy rdf: .
+rdf:value rdfs:label "value" .
+rdf:value rdfs:comment "Idiomatic property used for structured values." .
+rdf:value rdfs:domain rdfs:Resource .
+rdf:value rdfs:range rdfs:Resource .
+rdf:List rdf:type rdfs:Class .
+rdf:List rdfs:isDefinedBy rdf: .
+rdf:List rdfs:label "List" .
+rdf:List rdfs:comment "The class of RDF Lists." .
+rdf:List rdfs:subClassOf rdfs:Resource .
+rdf:nil rdf:type rdf:List .
+rdf:nil rdfs:isDefinedBy rdf: .
+rdf:nil rdfs:label "nil" .
+rdf:nil rdfs:comment "The empty list, with no items in it. If the rest of a list is nil then the list has no more items in it." .
+rdf:first rdf:type rdf:Property .
+rdf:first rdfs:isDefinedBy rdf: .
+rdf:first rdfs:label "first" .
+rdf:first rdfs:comment "The first item in the subject RDF list." .
+rdf:first rdfs:domain rdf:List .
+rdf:first rdfs:range rdfs:Resource .
+rdf:rest rdf:type rdf:Property .
+rdf:rest rdfs:isDefinedBy rdf: .
+rdf:rest rdfs:label "rest" .
+rdf:rest rdfs:comment "The rest of the subject RDF list after the first item." .
+rdf:rest rdfs:domain rdf:List .
+rdf:rest rdfs:range rdf:List .
+rdf:XMLLiteral rdf:type rdfs:Datatype .
+rdf:XMLLiteral rdfs:subClassOf rdfs:Literal .
+rdf:XMLLiteral rdfs:isDefinedBy rdf: .
+rdf:XMLLiteral rdfs:label "XMLLiteral" .
+rdf:XMLLiteral rdfs:comment "The class of XML literal values." .
+rdf: rdfs:seeAlso <http://www.w3.org/2000/01/rdf-schema-more> .

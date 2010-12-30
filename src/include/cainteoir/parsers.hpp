@@ -31,6 +31,8 @@ namespace cainteoir
 	std::map<std::string, std::string> parseOcfDocument(const xmldom::node &aRoot);
 
 	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
+
+	void parseRdfXmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
 }
 
 #endif

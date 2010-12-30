@@ -53,6 +53,8 @@ int main(int argc, char ** argv)
 
 			if (root == rdf::opf("package"))
 				cainteoir::parseOpfDocument(root, subject, metadata);
+			else if (root == rdf::rdf("RDF"))
+				cainteoir::parseRdfXmlDocument(root, subject, metadata);
 		}
 		else if (type == "application/epub+zip")
 		{
