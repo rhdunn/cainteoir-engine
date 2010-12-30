@@ -26,6 +26,7 @@ const rdf::ns rdf::rdf( "rdf",  "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 const rdf::ns rdf::rdfs("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
 const rdf::ns rdf::xsd( "xsd",  "http://www.w3.org/2001/XMLSchema#");
 const rdf::ns rdf::xml( "xml",  "http://www.w3.org/XML/1998/namespace");
+const rdf::ns rdf::owl( "owl",  "http://www.w3.org/2002/07/owl#");
 
 const rdf::ns rdf::dc(     "dc",      "http://purl.org/dc/elements/1.1/");
 const rdf::ns rdf::dcterms("dcterms", "http://purl.org/dc/terms/");

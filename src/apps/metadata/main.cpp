@@ -75,6 +75,7 @@ int main(int argc, char ** argv)
 				<< rdf::rdf
 				<< rdf::rdfs
 				<< rdf::xsd
+				<< rdf::owl
 				<< rdf::dc
 				<< rdf::foaf
 				<< rdf::tts

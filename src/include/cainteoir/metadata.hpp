@@ -136,6 +136,7 @@ namespace cainteoir { namespace rdf
 	extern const ns rdfs;    /**< @brief RDF schema namespace. */
 	extern const ns xsd;     /**< @brief XMLSchema namespace. */
 	extern const ns xml;     /**< @brief XML namespace. */
+	extern const ns owl;     /**< @brief OWL Ontology namespace. */
 
 	extern const ns dc;      /**< @brief Dublin Core: Elements namespace. */
 	extern const ns dcterms; /**< @brief Dublin Core: Terms namespace. */
