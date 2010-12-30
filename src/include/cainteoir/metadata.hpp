@@ -103,6 +103,16 @@ namespace cainteoir { namespace rdf
 		}
 	};
 
+	inline bool operator==(const uri &a, const uri &b)
+	{
+		return a.ns == b.ns && a.ref == b.ref;
+	}
+
+	inline bool operator!=(const uri &a, const uri &b)
+	{
+		return !(a == b);
+	}
+
 	inline const uri href(const std::string &aHref)
 	{
 		{

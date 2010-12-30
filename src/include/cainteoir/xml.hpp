@@ -121,28 +121,36 @@ namespace cainteoir { namespace xmldom
 			if (!attr) return std::string();
 			return string(xmlNodeListGetString(attr->doc, attr->children, 1)).str();
 		}
+
+		const rdf::uri uri() const
+		{
+			std::string ns = namespaceURI();
+			if (*(--ns.end()) == '#')
+				return rdf::uri(ns.substr(0, ns.size()-1), name());
+			return rdf::uri(ns, name());
+		}
 	private:
 		xmlAttrPtr attr;
 	};
 
 	inline bool operator==(const attribute &a, const rdf::uri &b)
 	{
-		return b.ns == a.namespaceURI() && b.ref == a.name();
+		return a.uri() == b;
 	}
 
 	inline bool operator==(const rdf::uri &a, const attribute &b)
 	{
-		return b == a;
+		return a == b.uri();
 	}
 
 	inline bool operator!=(const attribute &a, const rdf::uri &b)
 	{
-		return !(a == b);
+		return !(a.uri() == b);
 	}
 
 	inline bool operator!=(const rdf::uri &a, const attribute &b)
 	{
-		return !(b == a);
+		return !(a == b.uri());
 	}
 
 	class node
@@ -205,28 +213,36 @@ namespace cainteoir { namespace xmldom
 			if (!item) return std::string();
 			return string(xmlNodeGetContent(item)).str();
 		}
+
+		const rdf::uri uri() const
+		{
+			std::string ns = namespaceURI();
+			if (*(--ns.end()) == '#')
+				return rdf::uri(ns.substr(0, ns.size()-1), name());
+			return rdf::uri(ns, name());
+		}
 	private:
 		xmlNodePtr item;
 	};
 
 	inline bool operator==(const node &a, const rdf::uri &b)
 	{
-		return b.ns == a.namespaceURI() && b.ref == a.name();
+		return a.uri() == b;
 	}
 
 	inline bool operator==(const rdf::uri &a, const node &b)
 	{
-		return b == a;
+		return a == b.uri();
 	}
 
 	inline bool operator!=(const node &a, const rdf::uri &b)
 	{
-		return !(a == b);
+		return !(a.uri() == b);
 	}
 
 	inline bool operator!=(const rdf::uri &a, const node &b)
 	{
-		return !(b == a);
+		return !(a == b.uri());
 	}
 
 	class document
