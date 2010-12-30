@@ -66,12 +66,18 @@ namespace cainteoir { namespace rdf
 	  */
 	class uri : public resource
 	{
+		static const std::string normalise_ns(const std::string &aNS)
+		{
+			if (*(--aNS.end()) == '#')
+				return aNS.substr(0, aNS.size()-1);
+			return aNS;
+		}
 	public:
 		const std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
 		const std::string ref;   /**< @brief The URI reference. */
 
 		uri(const std::string &aNS, const std::string &aRef)
-			: ns(aNS)
+			: ns(normalise_ns(aNS))
 			, ref(aRef)
 		{
 		}
@@ -83,11 +89,10 @@ namespace cainteoir { namespace rdf
 
 		std::string str() const
 		{
-			if (empty())
-				return std::string();
+			if (ref.empty())
+				return ns;
 
-			char nstype = *(--ns.end());
-			if (nstype == '#' || nstype == '/')
+			if (*(--ns.end()) == '/')
 				return ns + ref;
 			return ns + "#" + ref;
 		}

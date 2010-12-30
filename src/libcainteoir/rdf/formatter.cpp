@@ -108,7 +108,12 @@ public:
 		{
 			for (std::map<std::string, std::string>::const_iterator ns = namespaces.begin(), last = namespaces.end(); ns != last; ++ns)
 				if (model.contains(cainteoir::rdf::ns(ns->second, ns->first)))
-					os << "@prefix " << ns->second << ": <" << ns->first << "> ." << std::endl;
+				{
+					if (*(--ns->first.end()) == '/')
+						os << "@prefix " << ns->second << ": <" << ns->first << "> ." << std::endl;
+					else
+						os << "@prefix " << ns->second << ": <" << ns->first << "#> ." << std::endl;
+				}
 			os << std::endl;
 		}
 
