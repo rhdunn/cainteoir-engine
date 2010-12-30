@@ -30,62 +30,6 @@
 
 namespace cainteoir { namespace xmldom
 {
-	namespace utf8
-	{
-		inline bool isspace(xmlChar *c)
-		{
-			switch (*c)
-			{
-			case '\t': // U+0009 -- HORIZONTAL TAB
-			case '\n': // U+000A -- LINE FEED
-			case '\r': // U+000D -- CARRIDGE RETURN
-			case ' ':  // U+0020 -- SPACE
-				return true;
-			}
-			return false;
-		}
-	}
-
-	class string
-	{
-	public:
-		string(xmlChar *aString)
-			: buffer(aString)
-			, data(aString)
-		{
-			// trim space at the start:
-
-			while (utf8::isspace(data))
-				++data;
-
-			// read the string content:
-
-			xmlChar *current = data;
-			while (*current)
-				++current;
-
-			// trim space at the end:
-
-			while (utf8::isspace(--current))
-				;
-			*++current = '\0';
-		}
-
-		~string()
-		{
-			xmlFree(buffer);
-		}
-
-		std::string str() const
-		{
-			if (!data) return std::string();
-			return (const char *)data;
-		}
-	private:
-		xmlChar *buffer;
-		xmlChar *data;
-	};
-
 	class attribute
 	{
 	public:
@@ -116,11 +60,7 @@ namespace cainteoir { namespace xmldom
 			return (const char *)attr->ns->href;
 		}
 
-		std::string content() const
-		{
-			if (!attr) return std::string();
-			return string(xmlNodeListGetString(attr->doc, attr->children, 1)).str();
-		}
+		std::string content() const;
 
 		const rdf::uri uri() const
 		{
@@ -208,11 +148,7 @@ namespace cainteoir { namespace xmldom
 			return (const char *)item->ns->href;
 		}
 
-		std::string content() const
-		{
-			if (!item) return std::string();
-			return string(xmlNodeGetContent(item)).str();
-		}
+		std::string content() const;
 
 		const rdf::uri uri() const
 		{

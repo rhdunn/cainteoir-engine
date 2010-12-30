@@ -38,6 +38,7 @@ src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/rdf/namespaces.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
+	src/libcainteoir/parsers/xml.cpp \
 	src/libcainteoir/parsers/ocf.cpp \
 	src/libcainteoir/parsers/opf.cpp \
 	src/libcainteoir/parsers/rdfxml.cpp \
