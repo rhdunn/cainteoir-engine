@@ -96,6 +96,18 @@ void test_namespaces()
 	test_uri(rdf::tts("Engine"), "http://rhdunn.github.com/2010/12/text-to-speech#Engine", "http://rhdunn.github.com/2010/12/text-to-speech", "Engine");
 }
 
+void test_href()
+{
+	test_uri(rdf::href("http://www.example.com/"), "http://www.example.com/", "http://www.example.com/", "");
+	test_uri(rdf::href("http://www.example.com/value"), "http://www.example.com/value", "http://www.example.com/", "value");
+
+	test_uri(rdf::href("http://www.example.com/abc/"), "http://www.example.com/abc/", "http://www.example.com/abc/", "");
+	test_uri(rdf::href("http://www.example.com/abc/value"), "http://www.example.com/abc/value", "http://www.example.com/abc/", "value");
+
+	test_uri(rdf::href("http://www.example.com/def#"), "http://www.example.com/def", "http://www.example.com/def", "");
+	test_uri(rdf::href("http://www.example.com/def#value"), "http://www.example.com/def#value", "http://www.example.com/def", "value");
+}
+
 void test_literal(const rdf::node &node, const std::string value, const std::string &language, const rdf::uri &uri)
 {
 	const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&node);
@@ -251,6 +263,7 @@ int main(int argc, char ** argv)
 	test_bnode();
 	test_uri();
 	test_namespaces();
+	test_href();
 	test_literal();
 	test_statement();
 	test_model();

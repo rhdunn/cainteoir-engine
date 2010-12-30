@@ -103,6 +103,23 @@ namespace cainteoir { namespace rdf
 		}
 	};
 
+	inline const uri href(const std::string &aHref)
+	{
+		{
+			std::string::size_type index = aHref.rfind('#');
+			if (index == aHref.size()-1)
+				return uri(aHref, std::string());
+			else if (index != std::string::npos)
+				return uri(aHref.substr(0, index), aHref.substr(index+1));
+		}
+		{
+			std::string::size_type index = aHref.rfind('/');
+			if (index != std::string::npos && index != aHref.size()-1)
+				return uri(aHref.substr(0, index+1), aHref.substr(index+1));
+		}
+		return uri(aHref, std::string());
+	}
+
 	/** @breif RDF namespace.
 	  */
 	class ns
