@@ -23,11 +23,16 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::model &metadata)
+void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::model &metadata, bool recurse)
 {
 	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
 	{
-		if (node.type() == XML_ELEMENT_NODE && node.namespaceURI() == rdf::dc)
+		if (node.type() != XML_ELEMENT_NODE)
+			continue;
+
+		if (node == rdf::opf("dc-metadata") && recurse)
+			parseOpfMetadata(node, subject, metadata, false);
+		else if (node.namespaceURI() == rdf::dc)
 		{
 			std::string lang = node.attr(rdf::xml("lang")).content().c_str();
 			std::string value = node.content().c_str();
@@ -103,8 +108,8 @@ void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, 
 	{
 		if (section.type() == XML_ELEMENT_NODE)
 		{
-			if (section == rdf::opf("metadata") || section == rdf::opf("dc-metadata"))
-				parseOpfMetadata(section, subject, metadata);
+			if (section == rdf::opf("metadata"))
+				parseOpfMetadata(section, subject, metadata, true);
 		}
 	}
 }

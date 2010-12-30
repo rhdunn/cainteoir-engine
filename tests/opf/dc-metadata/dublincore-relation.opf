@@ -20,17 +20,19 @@
 	along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="id">
-	<dc-metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-		<!-- required elements -->
-		<dc:title>Test Case</dc:title>
-		<dc:identifier id="id">dublincore-relation.opf</dc:identifier>
-		<dc:language>en</dc:language>
-		<!-- test case: -->
-		<dc:relation>related</dc:relation>
-		<dc:relation xml:lang="en">related (english)</dc:relation>
-		<dc:relation xml:lang="en-GB">related (uk)</dc:relation>
-		<dc:relation xml:lang="zh-TW">related (taiwan)</dc:relation>
-	</dc-metadata>
+	<metadata>
+		<dc-metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+			<!-- required elements -->
+			<dc:title>Test Case</dc:title>
+			<dc:identifier id="id">dublincore-relation.opf</dc:identifier>
+			<dc:language>en</dc:language>
+			<!-- test case: -->
+			<dc:relation>related</dc:relation>
+			<dc:relation xml:lang="en">related (english)</dc:relation>
+			<dc:relation xml:lang="en-GB">related (uk)</dc:relation>
+			<dc:relation xml:lang="zh-TW">related (taiwan)</dc:relation>
+		</dc-metadata>
+	</metadata>
 	<manifest>
 		<item id="test" href="test.html" media-type="application/xhtml+xml" />
 		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
