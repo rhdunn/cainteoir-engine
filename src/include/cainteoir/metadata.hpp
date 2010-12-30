@@ -66,13 +66,24 @@ namespace cainteoir { namespace rdf
 	  */
 	class uri : public resource
 	{
+	private:
+		static const std::string make_uri(const std::string &aNS, const std::string &aRef)
+		{
+			if (aNS.empty() && aRef.empty())
+				return std::string();
+
+			char nstype = *(--aNS.end());
+			if (nstype == '#' || nstype == '/')
+				return aNS + aRef;
+			return aNS + "#" + aRef;
+		}
 	public:
 		const std::string value; /**< @brief The full path of the URI resource. */
 		const std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
 		const std::string ref;   /**< @brief The URI reference. */
 
 		uri(const std::string &aNS, const std::string &aRef)
-			: value(aNS + aRef)
+			: value(make_uri(aNS, aRef))
 			, ns(aNS)
 			, ref(aRef)
 		{
