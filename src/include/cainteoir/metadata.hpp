@@ -126,8 +126,10 @@ namespace cainteoir { namespace rdf
 	extern const ns dc;      /**< @brief Dublin Core: Elements namespace. */
 	extern const ns dcterms; /**< @brief Dublin Core: Terms namespace. */
 
-	extern const ns foaf;    /**< @brief Friend of a Family (FOAF) namespace. */
+	extern const ns ocf;     /**< @brief Open Container Format (OCF) namespace. */
 	extern const ns opf;     /**< @brief Open Publication Format (OPF) namespace. */
+
+	extern const ns foaf;    /**< @brief Friend of a Family (FOAF) namespace. */
 	extern const ns tts;     /**< @brief Cainteoir Text-to-Speech RDF namespace. */
 
 	/** @brief RDF literal node
