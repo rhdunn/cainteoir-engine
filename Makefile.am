@@ -34,6 +34,7 @@ data/magic.mgc: data/magic
 noinst_LIBRARIES += src/libcainteoir/libcainteoir.a
 
 src_libcainteoir_libcainteoir_a_SOURCES = \
+	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/rdf/namespaces.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/parsers/opf.cpp \

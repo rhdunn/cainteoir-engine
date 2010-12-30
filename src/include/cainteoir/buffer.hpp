@@ -53,6 +53,13 @@ namespace cainteoir
 		mmap_buffer(const char *path);
 		~mmap_buffer();
 	};
+
+	class data_buffer : public buffer
+	{
+	public:
+		data_buffer(unsigned int aSize);
+		~data_buffer();
+	};
 }
 
 #endif
