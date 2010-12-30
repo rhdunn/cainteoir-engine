@@ -44,8 +44,8 @@ def check_metadata(epubfiles, expect):
 
 	test.equal(got, expected, 'opf.format(%s)' % filename)
 
-if __name__ == '__main__':
-	rootdir = os.path.join(sys.path[0], 'opf/metadata')
+def test_dir(basedir):
+	rootdir = os.path.join(sys.path[0], basedir)
 	testcases = sorted(os.listdir(rootdir))
 
 	for filename in testcases:
@@ -59,3 +59,7 @@ if __name__ == '__main__':
 					('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
 					('OEBPS/test.html', 'xhtml1/simple.xhtml')
 				])
+
+if __name__ == '__main__':
+	test_dir('opf/metadata')
+	test_dir('opf/dc-metadata')

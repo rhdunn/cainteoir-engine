@@ -1,0 +1,6 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<> dc:title "Test Case" .
+<> dc:identifier "dublincore-type.opf" .
+<> dc:language "en" .
+<> dc:type "http://purl.org/dc/dcmitype/Text" .

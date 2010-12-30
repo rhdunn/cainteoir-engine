@@ -37,8 +37,8 @@ def check_metadata(filename, expect):
 
 	test.equal(got, expected, 'opf.format(%s)' % filename)
 
-if __name__ == '__main__':
-	rootdir = os.path.join(sys.path[0], 'opf/metadata')
+def test_dir(basedir):
+	rootdir = os.path.join(sys.path[0], basedir)
 	testcases = sorted(os.listdir(rootdir))
 
 	for filename in testcases:
@@ -46,3 +46,7 @@ if __name__ == '__main__':
 			opffile = os.path.join(rootdir, filename)
 			n3file = os.path.join(rootdir, filename.replace('.opf', '.n3'))
 			check_metadata(opffile, n3file)
+
+if __name__ == '__main__':
+	test_dir('opf/metadata')
+	test_dir('opf/dc-metadata')

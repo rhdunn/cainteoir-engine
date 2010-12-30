@@ -1,0 +1,14 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix opf: <http://www.idpf.org/2007/opf> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<> dc:title "Test Case" .
+<> dc:identifier "dublincore-identifier.opf" .
+<> dc:language "en" .
+<> dc:identifier "ABCDEF" .
+<> dc:identifier _:id1 .
+_:id1 rdf:value "12345678" .
+_:id1 opf:scheme "ISBN" .
+<> dc:identifier _:id2 .
+_:id2 rdf:value "12345678" .
+_:id2 opf:scheme "ISBN" .

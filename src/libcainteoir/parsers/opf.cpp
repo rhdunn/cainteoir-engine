@@ -103,7 +103,7 @@ void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, 
 	{
 		if (section.type() == XML_ELEMENT_NODE)
 		{
-			if (section == rdf::opf("metadata"))
+			if (section == rdf::opf("metadata") || section == rdf::opf("dc-metadata"))
 				parseOpfMetadata(section, subject, metadata);
 		}
 	}
