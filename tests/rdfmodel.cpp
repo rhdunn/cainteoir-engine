@@ -59,7 +59,7 @@ void test_uri(const rdf::node &node, const std::string &value, const std::string
 	const rdf::uri *uri = dynamic_cast<const rdf::uri *>(&node);
 	assert(uri);
 
-	equal(uri->value, value);
+	equal(uri->str(), value);
 	equal(uri->ns,    ns);
 	equal(uri->ref,   ref);
 }
@@ -95,7 +95,6 @@ void test_literal(const rdf::node &node, const std::string value, const std::str
 
 	equal(literal->value,      value);
 	equal(literal->language,   language);
-	equal(literal->type.value, uri.value);
 	equal(literal->type.ns,    uri.ns);
 	equal(literal->type.ref,   uri.ref);
 }
@@ -118,7 +117,7 @@ void test_item(const rdf::node &a, const rdf::bnode &b)
 
 void test_item(const rdf::node &a, const rdf::uri &b)
 {
-	test_uri(a, b.value, b.ns, b.ref);
+	test_uri(a, b.str(), b.ns, b.ref);
 }
 
 void test_item(const rdf::node &a, const rdf::literal &b)

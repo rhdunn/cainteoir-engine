@@ -48,7 +48,7 @@ public:
 	{
 		std::string &prefix = namespaces[uri.ns];
 		if (prefix.empty())
-			os << '<' << uri.value << '>';
+			os << '<' << uri.str() << '>';
 		else
 			os << prefix << ':' << uri.ref;
 		return *this;
@@ -59,7 +59,7 @@ public:
 		os << '"' << literal.value << '"';
 		if (!literal.language.empty())
 			os << '@' << literal.language;
-		if (!literal.type.value.empty())
+		if (!literal.type.empty())
 		{
 			os << "^^";
 			*this << literal.type;
