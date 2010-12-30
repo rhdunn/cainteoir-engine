@@ -43,9 +43,9 @@ namespace cainteoir { namespace xmldom
 			xmlFree(data);
 		}
 
-		const char * c_str() const
+		std::string str() const
 		{
-			return data ? (const char *)data : "";
+			return data ? (const char *)data : std::string();
 		}
 	private:
 		xmlChar *data;
@@ -81,10 +81,10 @@ namespace cainteoir { namespace xmldom
 			return (const char *)attr->ns->href;
 		}
 
-		string content() const
+		std::string content() const
 		{
-			if (!attr) return string(NULL);
-			return string(xmlNodeListGetString(attr->doc, attr->children, 1));
+			if (!attr) return std::string();
+			return string(xmlNodeListGetString(attr->doc, attr->children, 1)).str();
 		}
 	private:
 		xmlAttrPtr attr;
@@ -165,10 +165,10 @@ namespace cainteoir { namespace xmldom
 			return (const char *)item->ns->href;
 		}
 
-		string content() const
+		std::string content() const
 		{
-			if (!item) return string(NULL);
-			return string(xmlNodeGetContent(item));
+			if (!item) return std::string();
+			return string(xmlNodeGetContent(item)).str();
 		}
 	private:
 		xmlNodePtr item;

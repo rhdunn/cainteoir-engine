@@ -34,15 +34,15 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::model 
 			parseOpfMetadata(node, subject, metadata, false);
 		else if (node.namespaceURI() == rdf::dc)
 		{
-			std::string lang = node.attr(rdf::xml("lang")).content().c_str();
-			std::string value = node.content().c_str();
+			std::string lang = node.attr(rdf::xml("lang")).content();
+			std::string value = node.content();
 
 			const rdf::uri predicate = rdf::uri(node.namespaceURI(), node.name());
 
 			if (!strcmp(node.name(), "creator") || !strcmp(node.name(), "contributor"))
 			{
-				std::string role = node.attr(rdf::opf("role")).content().c_str();
-				std::string fileas = node.attr(rdf::opf("file-as")).content().c_str();
+				std::string role = node.attr(rdf::opf("role")).content();
+				std::string fileas = node.attr(rdf::opf("file-as")).content();
 				if (!role.empty() || !fileas.empty())
 				{
 					const rdf::bnode temp = metadata.genid();
@@ -71,7 +71,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::model 
 					value = date.str();
 				}
 
-				std::string event = node.attr(rdf::opf("event")).content().c_str();
+				std::string event = node.attr(rdf::opf("event")).content();
 				if (!event.empty())
 				{
 					const rdf::bnode temp = metadata.genid();
@@ -83,7 +83,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::model 
 			}
 			else if (!strcmp(node.name(), "identifier"))
 			{
-				std::string scheme = node.attr(rdf::opf("scheme")).content().c_str();
+				std::string scheme = node.attr(rdf::opf("scheme")).content();
 				if (!scheme.empty())
 				{
 					const rdf::bnode temp = metadata.genid();

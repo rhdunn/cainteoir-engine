@@ -31,8 +31,8 @@ std::map<std::string, std::string> parseOcfRootFiles(const xml::node &ocf)
 	{
 		if (node.type() == XML_ELEMENT_NODE && node == rdf::ocf("rootfile"))
 		{
-			std::string path = node.attr(rdf::uri(std::string(), "full-path")).content().c_str();
-			std::string mimetype = node.attr(rdf::uri(std::string(), "media-type")).content().c_str();
+			std::string path = node.attr(rdf::uri(std::string(), "full-path")).content();
+			std::string mimetype = node.attr(rdf::uri(std::string(), "media-type")).content();
 			files[mimetype] = path;
 		}
 	}
