@@ -38,6 +38,7 @@ src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/rdf/namespaces.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
+	src/libcainteoir/parsers/ocf.cpp \
 	src/libcainteoir/parsers/opf.cpp \
 	src/libcainteoir/pulse_audio.cpp \
 	src/libcainteoir/wav_audio.cpp \
@@ -82,5 +83,6 @@ TESTS = \
 	tests/rdfmodel \
 	tests/ntriple_formatter \
 	tests/turtle_formatter \
-	tests/opf-metadata.py
+	tests/opf-metadata.py \
+	tests/epub-metadata.py
 

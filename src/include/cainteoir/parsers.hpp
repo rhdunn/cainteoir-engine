@@ -24,8 +24,12 @@
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/xml.hpp>
 
+#include <map>
+
 namespace cainteoir
 {
+	std::map<std::string, std::string> parseOcfDocument(const xmldom::node &aRoot);
+
 	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
 }
 

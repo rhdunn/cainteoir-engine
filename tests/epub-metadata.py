@@ -26,12 +26,23 @@ import harness as test
 
 def check_metadata(epubfiles, expect):
 	epubfile = '/tmp/test.epub'
+	tmpfile = '/tmp/metadata.n3'
 
 	zf = zipfile.ZipFile(epubfile, mode='w', compression=zipfile.ZIP_STORED)
 	zf.writestr('mimetype', 'application/epub+zip')
 	for location, filename in epubfiles:
-		zf.write(filename, location, compress_type=zipfile.ZIP_DEFLATED)
+		zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
 	zf.close()
+
+	os.system('CAINTEOIR_DATADIR=%s %s "%s" > %s' % (os.path.dirname(sys.path[0]), os.path.join(sys.path[0], '../src/apps/metadata/metadata'), epubfile, tmpfile))
+
+	with open(expect, 'r') as f:
+		expected = [ unicode(x) for x in f.read().split('\n') if not x == '' ]
+
+	with open(tmpfile, 'r') as f:
+		got = [ unicode(x.replace('<%s#>' % epubfile, '<>')) for x in f.read().split('\n') if not x == '' ]
+
+	test.equal(got, expected, 'opf.format(%s)' % filename)
 
 if __name__ == '__main__':
 	rootdir = os.path.join(sys.path[0], 'opf/metadata')
@@ -39,9 +50,9 @@ if __name__ == '__main__':
 
 	for filename in testcases:
 		if filename.endswith('.opf'):
-			print filename
 			opffile = os.path.join(rootdir, filename)
 			n3file = os.path.join(rootdir, filename.replace('.opf', '.n3'))
+			print '... checking epub metadata for OPF file %s' % opffile
 			check_metadata(expect=n3file, epubfiles=[
 					('META-INF/container.xml', 'ocf/simple.ocf'),
 					('OEBPS/content.opf', opffile),

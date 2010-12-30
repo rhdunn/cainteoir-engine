@@ -21,6 +21,7 @@
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/mimetypes.hpp>
 #include <cainteoir/parsers.hpp>
+#include <cainteoir/zip.hpp>
 #include <iostream>
 #include <cstdio>
 
@@ -52,6 +53,18 @@ int main(int argc, char ** argv)
 
 			if (root == rdf::opf("package"))
 				cainteoir::parseOpfDocument(root, subject, metadata);
+		}
+		else if (type == "application/epub+zip")
+		{
+			cainteoir::zip::archive epub(argv[0]);
+
+			xml::document ocf(epub.read("META-INF/container.xml"));
+			std::string opffile = cainteoir::parseOcfDocument(ocf.root())["application/oebps-package+xml"];
+			if (opffile.empty())
+				throw std::runtime_error("Unsupported ePub content: OPF file not found.");
+
+			xml::document opf(epub.read(opffile.c_str()));
+			cainteoir::parseOpfDocument(opf.root(), subject, metadata);
 		}
 		else
 			fprintf(stderr, "unsupported document format: %s\n", type.c_str());
