@@ -42,6 +42,14 @@ AC_SUBST(LIBXML2_CFLAGS)
 AC_SUBST(LIBXML2_LIBS)
 
 dnl ================================================================
+dnl libzip checks.
+dnl ================================================================
+
+PKG_CHECK_MODULES(LIBZIP, [libzip >= 0.9])
+AC_SUBST(LIBZIP_CFLAGS)
+AC_SUBST(LIBZIP_LIBS)
+
+dnl ================================================================
 dnl espeak tts engine checks.
 dnl ================================================================
 

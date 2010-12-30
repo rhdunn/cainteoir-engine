@@ -18,8 +18,8 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAINTEOIR_ENGINE_INTERNAL_XML_HPP
-#define CAINTEOIR_ENGINE_INTERNAL_XML_HPP
+#ifndef CAINTEOIR_ENGINE_XML_HPP
+#define CAINTEOIR_ENGINE_XML_HPP
 
 #include <cainteoir/buffer.hpp>
 #include <cainteoir/metadata.hpp>
