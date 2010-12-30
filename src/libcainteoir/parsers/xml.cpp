@@ -81,6 +81,29 @@ xml::string::string(xmlChar *aString)
 	while (utf8::isspace(--current))
 		;
 	*++current = '\0';
+
+	// normalize the string content:
+	{
+		xmlChar *current = data;
+		xmlChar *next = data+1;
+		xmlChar *marker = data;
+		while (*current)
+		{
+			if (utf8::isspace(current) && utf8::isspace(next))
+			{
+				++current;
+				++next;
+			}
+			else
+			{
+				*marker = *current;
+				++marker;
+				++current;
+				++next;
+			}
+		}
+		*marker = '\0';
+	}
 }
 
 std::string xml::attribute::content() const
