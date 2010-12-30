@@ -128,17 +128,17 @@ namespace cainteoir { namespace xmldom
 			return item != NULL;
 		}
 
-		node firstChild()
+		node firstChild() const
 		{
 			return node(item->children);
 		}
 
-		attribute firstAttribute()
+		attribute firstAttribute() const
 		{
 			return attribute(item->properties);
 		}
 
-		attribute attr(const rdf::uri &aUri)
+		attribute attr(const rdf::uri &aUri) const
 		{
 			for (attribute attr = firstAttribute(); attr.isValid(); attr.next())
 			{
