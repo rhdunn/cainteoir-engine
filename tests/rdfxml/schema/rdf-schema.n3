@@ -1,0 +1,92 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+rdfs: rdf:type owl:Ontology .
+rdfs: dc:title "The RDF Schema vocabulary (RDFS)" .
+rdfs:Resource rdf:type rdfs:Class .
+rdfs:Resource rdfs:isDefinedBy rdfs: .
+rdfs:Resource rdfs:label "Resource" .
+rdfs:Resource rdfs:comment "The class resource, everything." .
+rdfs:Class rdf:type rdfs:Class .
+rdfs:Class rdfs:isDefinedBy rdfs: .
+rdfs:Class rdfs:label "Class" .
+rdfs:Class rdfs:comment "The class of classes." .
+rdfs:Class rdfs:subClassOf rdfs:Resource .
+rdfs:subClassOf rdf:type rdf:Property .
+rdfs:subClassOf rdfs:isDefinedBy rdfs: .
+rdfs:subClassOf rdfs:label "subClassOf" .
+rdfs:subClassOf rdfs:comment "The subject is a subclass of a class." .
+rdfs:subClassOf rdfs:range rdfs:Class .
+rdfs:subClassOf rdfs:domain rdfs:Class .
+rdfs:subPropertyOf rdf:type rdf:Property .
+rdfs:subPropertyOf rdfs:isDefinedBy rdfs: .
+rdfs:subPropertyOf rdfs:label "subPropertyOf" .
+rdfs:subPropertyOf rdfs:comment "The subject is a subproperty of a property." .
+rdfs:subPropertyOf rdfs:range rdf:Property .
+rdfs:subPropertyOf rdfs:domain rdf:Property .
+rdfs:comment rdf:type rdf:Property .
+rdfs:comment rdfs:isDefinedBy rdfs: .
+rdfs:comment rdfs:label "comment" .
+rdfs:comment rdfs:comment "A description of the subject resource." .
+rdfs:comment rdfs:domain rdfs:Resource .
+rdfs:comment rdfs:range rdfs:Literal .
+rdfs:label rdf:type rdf:Property .
+rdfs:label rdfs:isDefinedBy rdfs: .
+rdfs:label rdfs:label "label" .
+rdfs:label rdfs:comment "A human-readable name for the subject." .
+rdfs:label rdfs:domain rdfs:Resource .
+rdfs:label rdfs:range rdfs:Literal .
+rdfs:domain rdf:type rdf:Property .
+rdfs:domain rdfs:isDefinedBy rdfs: .
+rdfs:domain rdfs:label "domain" .
+rdfs:domain rdfs:comment "A domain of the subject property." .
+rdfs:domain rdfs:range rdfs:Class .
+rdfs:domain rdfs:domain rdf:Property .
+rdfs:range rdf:type rdf:Property .
+rdfs:range rdfs:isDefinedBy rdfs: .
+rdfs:range rdfs:label "range" .
+rdfs:range rdfs:comment "A range of the subject property." .
+rdfs:range rdfs:range rdfs:Class .
+rdfs:range rdfs:domain rdf:Property .
+rdfs:seeAlso rdf:type rdf:Property .
+rdfs:seeAlso rdfs:isDefinedBy rdfs: .
+rdfs:seeAlso rdfs:label "seeAlso" .
+rdfs:seeAlso rdfs:comment "Further information about the subject resource." .
+rdfs:seeAlso rdfs:range rdfs:Resource .
+rdfs:seeAlso rdfs:domain rdfs:Resource .
+rdfs:isDefinedBy rdf:type rdf:Property .
+rdfs:isDefinedBy rdfs:isDefinedBy rdfs: .
+rdfs:isDefinedBy rdfs:subPropertyOf rdfs:seeAlso .
+rdfs:isDefinedBy rdfs:label "isDefinedBy" .
+rdfs:isDefinedBy rdfs:comment "The defininition of the subject resource." .
+rdfs:isDefinedBy rdfs:range rdfs:Resource .
+rdfs:isDefinedBy rdfs:domain rdfs:Resource .
+rdfs:Literal rdf:type rdfs:Class .
+rdfs:Literal rdfs:isDefinedBy rdfs: .
+rdfs:Literal rdfs:label "Literal" .
+rdfs:Literal rdfs:comment "The class of literal values, eg. textual strings and integers." .
+rdfs:Literal rdfs:subClassOf rdfs:Resource .
+rdfs:Container rdf:type rdfs:Class .
+rdfs:Container rdfs:isDefinedBy rdfs: .
+rdfs:Container rdfs:label "Container" .
+rdfs:Container rdfs:subClassOf rdfs:Resource .
+rdfs:Container rdfs:comment "The class of RDF containers." .
+rdfs:ContainerMembershipProperty rdf:type rdfs:Class .
+rdfs:ContainerMembershipProperty rdfs:isDefinedBy rdfs: .
+rdfs:ContainerMembershipProperty rdfs:label "ContainerMembershipProperty" .
+rdfs:ContainerMembershipProperty rdfs:comment "The class of container membership properties, rdf:_1, rdf:_2, ..., all of which are sub-properties of 'member'." .
+rdfs:ContainerMembershipProperty rdfs:subClassOf rdf:Property .
+rdfs:member rdf:type rdf:Property .
+rdfs:member rdfs:isDefinedBy rdfs: .
+rdfs:member rdfs:label "member" .
+rdfs:member rdfs:comment "A member of the subject resource." .
+rdfs:member rdfs:domain rdfs:Resource .
+rdfs:member rdfs:range rdfs:Resource .
+rdfs:Datatype rdf:type rdfs:Class .
+rdfs:Datatype rdfs:isDefinedBy rdfs: .
+rdfs:Datatype rdfs:label "Datatype" .
+rdfs:Datatype rdfs:comment "The class of RDF datatypes." .
+rdfs:Datatype rdfs:subClassOf rdfs:Class .
+rdfs: rdfs:seeAlso <http://www.w3.org/2000/01/rdf-schema-more> .
