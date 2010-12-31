@@ -19,13 +19,30 @@
  */
 
 #include <cainteoir/metadata.hpp>
+#include <cainteoir/audio.hpp>
 #include <cainteoir/mimetypes.hpp>
 #include <cainteoir/parsers.hpp>
 #include <iostream>
 #include <cstdio>
+#include <getopt.h>
 
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
+
+enum args
+{
+	ARG_NTRIPLE = 300,
+	ARG_TURTLE = 301,
+	ARG_VORBIS_COMMENTS = 302,
+};
+
+static struct option options[] =
+{
+	{ "ntriple", no_argument, 0, ARG_NTRIPLE },
+	{ "turtle",  no_argument, 0, ARG_TURTLE },
+	{ "vorbis",  no_argument, 0, ARG_VORBIS_COMMENTS },
+	{ 0, 0, 0, 0 }
+};
 
 int main(int argc, char ** argv)
 {
@@ -33,8 +50,39 @@ int main(int argc, char ** argv)
 
 	try
 	{
-		++argv;
-		--argc;
+		enum
+		{
+			rdf_metadata,
+			vorbis_comments,
+		} output_type = rdf_metadata;
+
+		rdf::formatter::format_type format = rdf::formatter::ntriple;
+
+		while (1)
+		{
+			int option_index = 0;
+			int c = getopt_long(argc, argv, "", options, &option_index);
+			if (c == -1)
+				break;
+
+			switch (c)
+			{
+			case ARG_NTRIPLE:
+				output_type = rdf_metadata;
+				format = rdf::formatter::ntriple;
+				break;
+			case ARG_TURTLE:
+				output_type = rdf_metadata;
+				format = rdf::formatter::turtle;
+				break;
+			case ARG_VORBIS_COMMENTS:
+				output_type = vorbis_comments;
+				break;
+			}
+		}
+
+		argc -= optind;
+		argv += optind;
 
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
@@ -63,16 +111,27 @@ int main(int argc, char ** argv)
 
 		if (!metadata.empty())
 		{
-			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
-				<< rdf::rdf
-				<< rdf::rdfs
-				<< rdf::xsd
-				<< rdf::owl
-				<< rdf::dc
-				<< rdf::foaf
-				<< rdf::tts
-				<< rdf::opf
-				<< metadata;
+			if (output_type == rdf_metadata)
+			{
+				(*rdf::create_formatter(std::cout, format))
+					<< rdf::rdf
+					<< rdf::rdfs
+					<< rdf::xsd
+					<< rdf::owl
+					<< rdf::dc
+					<< rdf::foaf
+					<< rdf::tts
+					<< rdf::opf
+					<< metadata;
+			}
+			else
+			{
+				const rdf::uri subject = rdf::uri(argv[0], std::string());
+
+				std::list<cainteoir::vorbis_comment> comments = cainteoir::vorbis_comments(metadata, subject);
+				for (std::list<cainteoir::vorbis_comment>::const_iterator comment = comments.begin(), last = comments.end(); comment != last; ++comment)
+					std::cout << comment->label << "=" << comment->value << std::endl;
+			}
 		}
 	}
 	catch (std::exception &e)

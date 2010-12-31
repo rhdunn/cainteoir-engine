@@ -24,6 +24,8 @@
 #include "metadata.hpp"
 #include <stdint.h>
 #include <memory>
+#include <string>
+#include <list>
 
 namespace cainteoir
 {
@@ -43,10 +45,55 @@ namespace cainteoir
 		S16_LE,
 	};
 
+	/** @name  Metadata
+	  * @brief Converters to map RDF metadata to metadata used by various audio formats.
+	  */
+	//@{
+
+	/** @brief A vorbis comment.
+	  * @see   http://www.xiph.org/vorbis/doc/v-comment.html
+	  */
+	class vorbis_comment
+	{
+	public:
+		const std::string label; /**< @brief The name of the comment, e.g. TITLE. */
+		const std::string value; /**< @brief The content of the comment, e.g. "Moonlight Sonata". */
+
+		vorbis_comment(const std::string &aLabel, const std::string &aValue)
+			: label(aLabel)
+			, value(aValue)
+		{
+		}
+	};
+
+	/** @brief Convert an RDF model to a set of Vorbis Comments.
+	  * @see   http://www.xiph.org/vorbis/doc/v-comment.html
+	  * @see   http://wiki.xiph.org/Metadata
+	  *
+	  * @param aMetadata The RDF metadata used to create the vorbis comments.
+	  * @param aDocument The URI of the document in the RDF model to get the data for.
+	  * @return          The vorbis comments in (label, value) form.
+	  */
+	std::list<vorbis_comment> vorbis_comments(const rdf::model &aMetadata, const rdf::uri &aDocument);
+
+	//@}
+	/** @name  Audio Devices
+	  * @brief Create audio streams for various audio APIs.
+	  */
+	//@{
+
 	std::auto_ptr<audio> create_pulseaudio_device(const char *device, audio_format format, int channels, int frequency);
+
+	//@}
+	/** @name  Audio Files
+	  * @brief Create audio streams for various audio file formats.
+	  */
+	//@{
 
 	std::auto_ptr<audio> create_wav_file(const char *filename, audio_format format, int channels, int frequency);
 	std::auto_ptr<audio> create_ogg_file(const char *filename, audio_format format, int channels, int frequency, float quality);
+
+	//@}
 }
 
 #endif

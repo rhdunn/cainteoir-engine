@@ -34,7 +34,7 @@ def check_metadata(epubfiles, expect):
 		zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
 	zf.close()
 
-	os.system('CAINTEOIR_DATADIR=%s %s "%s" > %s' % (os.path.dirname(sys.path[0]), os.path.join(sys.path[0], '../src/apps/metadata/metadata'), epubfile, tmpfile))
+	os.system('CAINTEOIR_DATADIR=%s %s --turtle "%s" > %s' % (os.path.dirname(sys.path[0]), os.path.join(sys.path[0], '../src/apps/metadata/metadata'), epubfile, tmpfile))
 
 	with open(expect, 'r') as f:
 		expected = [ unicode(x) for x in f.read().split('\n') if not x == '' ]

@@ -20,6 +20,49 @@
 
 #include "config.h"
 #include <cainteoir/audio.hpp>
+#include <stdio.h>
+#include <time.h>
+
+std::string now()
+{
+	time_t now;
+	time(&now);
+
+	struct tm *d = localtime(&now);
+
+	char date[13];
+	strftime(date, 15, "%Y/%m/%d", d);
+
+	return date;
+}
+
+std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model &aMetadata, const rdf::uri &aDocument)
+{
+	std::list<vorbis_comment> comments;
+
+	for (rdf::model::const_iterator statement = aMetadata.begin(), last = aMetadata.end(); statement != last; ++statement)
+	{
+		const rdf::uri     *subject = dynamic_cast<const rdf::uri *>(statement->subject.get());
+		const rdf::literal *object  = dynamic_cast<const rdf::literal *>(statement->object.get());
+		if (subject && object && aDocument == *subject)
+		{
+			if (statement->predicate == rdf::dc("creator"))
+				comments.push_back(vorbis_comment("ARTIST", object->value));
+			else if (statement->predicate == rdf::dc("title"))
+				comments.push_back(vorbis_comment("ALBUM", object->value));
+			else if (statement->predicate == rdf::dc("description"))
+				comments.push_back(vorbis_comment("DESCRIPTION", object->value));
+		}
+	}
+
+	comments.push_back(vorbis_comment("GENRE", "Vocal"));
+	comments.push_back(vorbis_comment("DATE", now()));
+
+	comments.push_back(vorbis_comment("PERFORMER", "Cainteoir(TM) Text-to-Speech"));
+	comments.push_back(vorbis_comment("LICENSE", "http://creativecommons.org/licenses/by-sa/3.0/"));
+	comments.push_back(vorbis_comment("CONTACT", "http://rhdunn.github.com/cainteoir/"));
+	return comments;
+}
 
 #if defined(HAVE_VORBISENC)
 
