@@ -25,6 +25,17 @@ namespace xml = cainteoir::xmldom;
 
 void parseRdfXmlMetadata(const xml::node &rdfxml, const rdf::uri &subject, rdf::model &metadata)
 {
+	std::string lang = rdfxml.attr(rdf::xml("lang")).content();
+
+	for (xml::attribute attr = rdfxml.firstAttribute(); attr.isValid(); attr.next())
+	{
+		if (attr != rdf::rdf("about"))
+		{
+			std::string value = attr.content();
+			metadata.push_back(rdf::statement(subject, rdf::uri(attr.namespaceURI(), attr.name()), rdf::literal(value, lang)));
+		}
+	}
+
 	for (xml::node node = rdfxml.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() != XML_ELEMENT_NODE)
