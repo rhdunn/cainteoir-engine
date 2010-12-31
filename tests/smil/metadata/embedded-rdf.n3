@@ -1,0 +1,4 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://www.example.com/meta.smil> dc:title "Example SMIL Document" .
+<http://www.example.com/videos/meta-1999.mpg> dc:title "Meta #1 1999" .

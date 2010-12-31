@@ -42,10 +42,10 @@ def test_dir(basedir):
 	testcases = sorted(os.listdir(rootdir))
 
 	for filename in testcases:
-		if filename.endswith('.rdf'):
+		if filename.endswith('.smil'):
 			testfile = os.path.join(rootdir, filename)
-			n3file = os.path.join(rootdir, filename.replace('.rdf', '.n3'))
+			n3file = os.path.join(rootdir, filename.replace('.smil', '.n3'))
 			check_metadata(testfile, n3file)
 
 if __name__ == '__main__':
-	test_dir('rdfxml/schema')
+	test_dir('smil/metadata')

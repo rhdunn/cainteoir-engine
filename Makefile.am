@@ -42,6 +42,7 @@ src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/libcainteoir/parsers/ocf.cpp \
 	src/libcainteoir/parsers/opf.cpp \
 	src/libcainteoir/parsers/rdfxml.cpp \
+	src/libcainteoir/parsers/smil.cpp \
 	src/libcainteoir/pulse_audio.cpp \
 	src/libcainteoir/wav_audio.cpp \
 	src/libcainteoir/ogg_audio.cpp \
@@ -87,5 +88,6 @@ TESTS = \
 	tests/turtle_formatter \
 	tests/opf-metadata.py \
 	tests/epub-metadata.py \
-	tests/rdfxml-metadata.py
+	tests/rdfxml-metadata.py \
+	tests/smil-metadata.py
 

@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<!-- Based on http://www.w3.org/TR/SMIL/smil-metadata.html section 10.5 -->
+<smil xmlns="http://www.w3.org/ns/SMIL" version="3.0" baseProfile="Language" xml:base="http://example.org/metaInf/assets/" >
+	<head>
+		<meta xml:id="meta-smil1.0-a" name="Publisher" content="W3C" />
+		<meta xml:id="meta-smil1.0-b" name="Date" content="2007-01-03" />
+		<meta xml:id="meta-smil1.0-c" name="Rights" content="Copyright 2007 John Smith" />
+		<meta xml:id="meta-smil1.0-d" http-equiv="Expires" content="16 Apr 2051 12:00:00 UTC"/>
+
+		<metadata xml:id="meta-rdf">
+			<rdf:RDF
+				xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+				xmlns:rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+				xmlns:dc = "http://purl.org/dc/elements/1.1/">
+
+				<rdf:Description rdf:about="http://www.example.com/meta.smil">
+					<dc:title>Example SMIL Document</dc:title>
+				</rdf:Description>
+
+				<rdf:Description rdf:about="http://www.example.com/videos/meta-1999.mpg">
+					<dc:title>Meta #1 1999</dc:title>
+				</rdf:Description>
+			</rdf:RDF>
+		</metadata>
+		<layout>
+			<region xml:id="a" top="5" />
+		</layout>
+	</head>
+	<body>
+		<video region="a" src="/videos/meta-1999.mpg" >
+			<area xml:id="scene1" begin="0s" end ="30s"/>
+			<area xml:id="scene2" begin="30s" end ="60s"/>
+		</video>
+		<video region="a" src="/videos/meta2-1999.mpg"/>
+	</body>
+</smil>
