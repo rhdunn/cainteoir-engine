@@ -76,6 +76,7 @@ void test_uri()
 	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema", "string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema", "string");
 	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema/", "string"), "http://www.w3.org/2001/XMLSchema/string", "http://www.w3.org/2001/XMLSchema/", "string");
 	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema#", "string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema", "string");
+	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema/#", "string"), "http://www.w3.org/2001/XMLSchema/#string", "http://www.w3.org/2001/XMLSchema/", "string");
 }
 
 void test_namespaces()
@@ -108,6 +109,9 @@ void test_href()
 
 	test_uri(rdf::href("http://www.example.com/def#"), "http://www.example.com/def", "http://www.example.com/def", "");
 	test_uri(rdf::href("http://www.example.com/def#value"), "http://www.example.com/def#value", "http://www.example.com/def", "value");
+
+	test_uri(rdf::href("http://www.example.com/def/#"), "http://www.example.com/def/", "http://www.example.com/def/", "");
+	test_uri(rdf::href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/", "value");
 }
 
 void test_literal(const rdf::node &node, const std::string value, const std::string &language, const rdf::uri &uri)

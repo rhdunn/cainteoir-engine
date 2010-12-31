@@ -75,10 +75,12 @@ namespace cainteoir { namespace rdf
 	public:
 		const std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
 		const std::string ref;   /**< @brief The URI reference. */
+		const char suffix;       /**< @brief The URI suffix type ('#' or '/'). */
 
 		uri(const std::string &aNS, const std::string &aRef)
 			: ns(normalise_ns(aNS))
 			, ref(aRef)
+			, suffix(*(--aNS.end()) == '/' ? '/' : '#')
 		{
 		}
 
@@ -92,7 +94,7 @@ namespace cainteoir { namespace rdf
 			if (ref.empty())
 				return ns;
 
-			if (*(--ns.end()) == '/')
+			if (suffix == '/')
 				return ns + ref;
 			return ns + "#" + ref;
 		}
@@ -120,7 +122,7 @@ namespace cainteoir { namespace rdf
 			if (index == aHref.size()-1)
 				return uri(aHref, std::string());
 			else if (index != std::string::npos)
-				return uri(aHref.substr(0, index), aHref.substr(index+1));
+				return uri(aHref.substr(0, index+1), aHref.substr(index+1));
 		}
 		{
 			std::string::size_type index = aHref.rfind('/');
