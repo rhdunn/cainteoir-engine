@@ -23,6 +23,8 @@
 #include <stdio.h>
 #include <time.h>
 
+namespace rdf = cainteoir::rdf;
+
 std::string now()
 {
 	time_t now;
@@ -36,22 +38,48 @@ std::string now()
 	return date;
 }
 
+void vorbis_comments_author(const rdf::model &aMetadata, const rdf::bnode &aDocument, std::list<cainteoir::vorbis_comment> &comments)
+{
+	for (rdf::model::const_iterator statement = aMetadata.begin(), last = aMetadata.end(); statement != last; ++statement)
+	{
+		const rdf::bnode *subject = dynamic_cast<const rdf::bnode *>(statement->subject.get());
+		if (subject && aDocument.id == subject->id)
+		{
+			const rdf::literal *object = dynamic_cast<const rdf::literal *>(statement->object.get());
+			if (object)
+			{
+				if (statement->predicate == rdf::rdf("value"))
+					comments.push_back(cainteoir::vorbis_comment("ARTIST", object->value));
+			}
+		}
+	}
+}
+
 std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model &aMetadata, const rdf::uri &aDocument)
 {
 	std::list<vorbis_comment> comments;
 
 	for (rdf::model::const_iterator statement = aMetadata.begin(), last = aMetadata.end(); statement != last; ++statement)
 	{
-		const rdf::uri     *subject = dynamic_cast<const rdf::uri *>(statement->subject.get());
-		const rdf::literal *object  = dynamic_cast<const rdf::literal *>(statement->object.get());
-		if (subject && object && aDocument == *subject)
+		const rdf::uri *subject = dynamic_cast<const rdf::uri *>(statement->subject.get());
+		if (subject && aDocument == *subject)
 		{
-			if (statement->predicate == rdf::dc("creator"))
-				comments.push_back(vorbis_comment("ARTIST", object->value));
-			else if (statement->predicate == rdf::dc("title"))
-				comments.push_back(vorbis_comment("ALBUM", object->value));
-			else if (statement->predicate == rdf::dc("description"))
-				comments.push_back(vorbis_comment("DESCRIPTION", object->value));
+			const rdf::literal *object = dynamic_cast<const rdf::literal *>(statement->object.get());
+			if (object)
+			{
+				if (statement->predicate == rdf::dc("creator"))
+					comments.push_back(vorbis_comment("ARTIST", object->value));
+				else if (statement->predicate == rdf::dc("title"))
+					comments.push_back(vorbis_comment("ALBUM", object->value));
+				else if (statement->predicate == rdf::dc("description"))
+					comments.push_back(vorbis_comment("DESCRIPTION", object->value));
+			}
+			else if (statement->predicate == rdf::dc("creator"))
+			{
+				const rdf::bnode *bnode = dynamic_cast<const rdf::bnode *>(statement->object.get());
+				if (bnode)
+					vorbis_comments_author(aMetadata, *bnode, comments);
+			}
 		}
 	}
 
