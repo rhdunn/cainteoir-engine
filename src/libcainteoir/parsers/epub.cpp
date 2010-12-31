@@ -1,4 +1,4 @@
-/* Document Parser API.
+/* ePub Document Parser.
  *
  * Copyright (C) 2010 Reece H. Dunn
  *
@@ -18,25 +18,22 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAINTEOIR_ENGINE_PARSERS_HPP
-#define CAINTEOIR_ENGINE_PARSERS_HPP
+#include <cainteoir/parsers.hpp>
+#include <cainteoir/zip.hpp>
 
-#include <cainteoir/metadata.hpp>
-#include <cainteoir/xml.hpp>
+namespace xml = cainteoir::xmldom;
+namespace rdf = cainteoir::rdf;
 
-#include <map>
-
-namespace cainteoir
+void cainteoir::parseEpubDocument(const char *aFilename, rdf::model &aMetadata)
 {
-	std::map<std::string, std::string> parseOcfDocument(const xmldom::node &aRoot);
+	cainteoir::zip::archive epub(aFilename);
 
-	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
+	xml::document ocf(epub.read("META-INF/container.xml"));
+	std::string opffile = cainteoir::parseOcfDocument(ocf.root())["application/oebps-package+xml"];
+	if (opffile.empty())
+		throw std::runtime_error("Unsupported ePub content: OPF file not found.");
 
-	void parseRdfXmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
-
-	void parseSmilDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
-
-	void parseEpubDocument(const char *aFilename, rdf::model &aMetadata);
+	xml::document opf(epub.read(opffile.c_str()));
+	cainteoir::parseOpfDocument(opf.root(), rdf::uri(aFilename, std::string()), aMetadata);
 }
 
-#endif

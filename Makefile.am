@@ -41,6 +41,7 @@ src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/libcainteoir/parsers/xml.cpp \
 	src/libcainteoir/parsers/ocf.cpp \
 	src/libcainteoir/parsers/opf.cpp \
+	src/libcainteoir/parsers/epub.cpp \
 	src/libcainteoir/parsers/rdfxml.cpp \
 	src/libcainteoir/parsers/smil.cpp \
 	src/libcainteoir/pulse_audio.cpp \

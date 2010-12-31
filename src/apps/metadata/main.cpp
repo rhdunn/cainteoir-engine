@@ -21,7 +21,6 @@
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/mimetypes.hpp>
 #include <cainteoir/parsers.hpp>
-#include <cainteoir/zip.hpp>
 #include <iostream>
 #include <cstdio>
 
@@ -44,10 +43,11 @@ int main(int argc, char ** argv)
 		std::string type = cainteoir::mimetypes()(text_buffer.get());
 
 		rdf::model metadata;
-		const rdf::uri subject = rdf::uri(argv[0], std::string());
 
 		if (type == "application/xml")
 		{
+			const rdf::uri subject = rdf::uri(argv[0], std::string());
+
 			xml::document doc(text_buffer);
 			xml::node root = doc.root();
 
@@ -59,17 +59,7 @@ int main(int argc, char ** argv)
 				cainteoir::parseSmilDocument(root, subject, metadata);
 		}
 		else if (type == "application/epub+zip")
-		{
-			cainteoir::zip::archive epub(argv[0]);
-
-			xml::document ocf(epub.read("META-INF/container.xml"));
-			std::string opffile = cainteoir::parseOcfDocument(ocf.root())["application/oebps-package+xml"];
-			if (opffile.empty())
-				throw std::runtime_error("Unsupported ePub content: OPF file not found.");
-
-			xml::document opf(epub.read(opffile.c_str()));
-			cainteoir::parseOpfDocument(opf.root(), subject, metadata);
-		}
+			cainteoir::parseEpubDocument(argv[0], metadata);
 		else
 			fprintf(stderr, "unsupported document format: %s\n", type.c_str());
 
