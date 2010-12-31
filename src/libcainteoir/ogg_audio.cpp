@@ -40,6 +40,9 @@ std::string now()
 
 void vorbis_comments_author(const rdf::model &aMetadata, const rdf::bnode &aDocument, std::list<cainteoir::vorbis_comment> &comments)
 {
+	std::string author;
+	std::string role;
+
 	for (rdf::model::const_iterator statement = aMetadata.begin(), last = aMetadata.end(); statement != last; ++statement)
 	{
 		const rdf::bnode *subject = dynamic_cast<const rdf::bnode *>(statement->subject.get());
@@ -49,10 +52,15 @@ void vorbis_comments_author(const rdf::model &aMetadata, const rdf::bnode &aDocu
 			if (object)
 			{
 				if (statement->predicate == rdf::rdf("value"))
-					comments.push_back(cainteoir::vorbis_comment("ARTIST", object->value));
+					author = object->value;
+				else if (statement->predicate == rdf::opf("role"))
+					role = object->value;
 			}
 		}
 	}
+
+	if (!author.empty() && role == "aut")
+		comments.push_back(cainteoir::vorbis_comment("ARTIST", author));
 }
 
 std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model &aMetadata, const rdf::uri &aDocument)
