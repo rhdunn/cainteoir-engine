@@ -35,5 +35,6 @@ const rdf::ns rdf::opf( "opf",  "http://www.idpf.org/2007/opf");
 const rdf::ns rdf::ocf( "ocf",  "urn:oasis:names:tc:opendocument:xmlns:container");
 const rdf::ns rdf::smil("smil", "http://www.w3.org/ns/SMIL");
 
+const rdf::ns rdf::skos("skos", "http://www.w3.org/2004/02/skos/core");
 const rdf::ns rdf::foaf("foaf", "http://xmlns.com/foaf/0.1/");
 const rdf::ns rdf::tts( "tts",  "http://rhdunn.github.com/2010/12/text-to-speech");

@@ -119,6 +119,7 @@ int main(int argc, char ** argv)
 					<< rdf::xsd
 					<< rdf::owl
 					<< rdf::dc
+					<< rdf::skos
 					<< rdf::foaf
 					<< rdf::tts
 					<< rdf::opf
