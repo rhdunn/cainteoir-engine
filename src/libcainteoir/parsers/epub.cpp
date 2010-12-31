@@ -19,7 +19,7 @@
  */
 
 #include <cainteoir/parsers.hpp>
-#include <cainteoir/zip.hpp>
+#include "zip.hpp"
 
 namespace xml = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
