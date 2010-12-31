@@ -100,10 +100,15 @@ int main(int argc, char ** argv)
 				<< rdf::rdf
 				<< rdf::rdfs
 				<< rdf::xsd
+				<< rdf::owl
 				<< rdf::dc
+				<< rdf::dcterms
+				<< rdf::ocf
+				<< rdf::opf
+				<< rdf::smil
+				<< rdf::skos
 				<< rdf::foaf
 				<< rdf::tts
-				<< rdf::opf
 				<< tts->get_metadata();
 			return 0;
 		}
