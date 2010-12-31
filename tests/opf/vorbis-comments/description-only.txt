@@ -1,0 +1,6 @@
+DESCRIPTION=Lorem ipsum dolor
+GENRE=Vocal
+DATE=<DATETIME>
+PERFORMER=Cainteoir(TM) Text-to-Speech
+LICENSE=http://creativecommons.org/licenses/by-sa/3.0/
+CONTACT=http://rhdunn.github.com/cainteoir/

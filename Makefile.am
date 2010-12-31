@@ -83,12 +83,20 @@ tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp
 TEST_EXTENSIONS = .py
 PY_LOG_COMPILER = $(PYTHON)
 
+# RDF API tests:
 TESTS = \
 	tests/rdfmodel \
 	tests/ntriple_formatter \
-	tests/turtle_formatter \
+	tests/turtle_formatter
+
+# RDF metadata extraction tests:
+TESTS += \
 	tests/opf-metadata.py \
 	tests/epub-metadata.py \
 	tests/rdfxml-metadata.py \
 	tests/smil-metadata.py
+
+# RDF metadata to audio specific metadata conversion tests:
+TESTS += \
+	tests/vorbis-comments.py
 
