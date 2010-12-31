@@ -28,14 +28,49 @@
 
 namespace cainteoir
 {
+	/** @brief Open Container Format (OCF)
+	  * @see   http://www.idpf.org/ocf/ocf1.0/download/ocf10.htm
+	  * @see   http://www.idpf.org/specs.htm
+	  *
+	  * @param aRoot The root node of the OCF XML document.
+	  * @return      The list of (media-type => full-path) entries.
+	  */
 	std::map<std::string, std::string> parseOcfDocument(const xmldom::node &aRoot);
 
+	/** @brief Open Publication Format (OPF)
+	  * @see   http://www.idpf.org/2007/opf/opf2.0/download/
+	  * @see   http://www.idpf.org/specs.htm
+	  *
+	  * @param aRoot     The root node of the OPF XML document.
+	  * @param aSubject  The subject to use for any Dublin Core metadata.
+	  * @param aMetadata The RDF model to add any metadata to.
+	  */
 	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
 
+	/** @brief RDF/XML
+	  * @see   http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/
+	  *
+	  * @param aRoot     The root node of the RDF/XML document.
+	  * @param aSubject  The base to use for any relative URIs.
+	  * @param aMetadata The RDF model to add any metadata to.
+	  */
 	void parseRdfXmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
 
+	/** @brief Synchronized Multimedia Integration Language (SMIL)
+	  * @see   http://www.w3.org/TR/2008/REC-SMIL3-20081201/
+	  *
+	  * @param aRoot     The root node of the SMIL XML document.
+	  * @param aSubject  The base to use for any relative URIs.
+	  * @param aMetadata The RDF model to add any metadata to.
+	  */
 	void parseSmilDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
 
+	/** @brief ePub
+	  * @see   http://www.idpf.org/specs.htm
+	  *
+	  * @param aFilename The path to the ePub document.
+	  * @param aMetadata The RDF model to add any metadata to.
+	  */
 	void parseEpubDocument(const char *aFilename, rdf::model &aMetadata);
 }
 
