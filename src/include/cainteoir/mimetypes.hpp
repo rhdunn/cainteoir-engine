@@ -60,6 +60,16 @@ namespace cainteoir
 			std::string mime = type;
 			return mime.substr(0, mime.find(';'));
 		}
+
+		std::string operator()(const char *aFilename)
+		{
+			const char * type = magic_file(cookie, aFilename);
+			if (type == NULL)
+				throw std::runtime_error(magic_error(cookie));
+
+			std::string mime = type;
+			return mime.substr(0, mime.find(';'));
+		}
 	private:
 		magic_t cookie;
 	};
