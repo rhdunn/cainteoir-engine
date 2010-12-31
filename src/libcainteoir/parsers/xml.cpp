@@ -70,40 +70,32 @@ xml::string::string(xmlChar *aString)
 	while (utf8::isspace(data))
 		++data;
 
-	// read the string content:
+	// normalise the space within the string:
 
 	xmlChar *current = data;
+	xmlChar *next = data+1;
+	xmlChar *marker = data;
 	while (*current)
-		++current;
+	{
+		if (utf8::isspace(current) && utf8::isspace(next))
+		{
+			++current;
+			++next;
+		}
+		else
+		{
+			*marker = *current;
+			++marker;
+			++current;
+			++next;
+		}
+	}
 
 	// trim space at the end:
 
-	while (utf8::isspace(--current))
+	while (utf8::isspace(--marker))
 		;
-	*++current = '\0';
-
-	// normalize the string content:
-	{
-		xmlChar *current = data;
-		xmlChar *next = data+1;
-		xmlChar *marker = data;
-		while (*current)
-		{
-			if (utf8::isspace(current) && utf8::isspace(next))
-			{
-				++current;
-				++next;
-			}
-			else
-			{
-				*marker = *current;
-				++marker;
-				++current;
-				++next;
-			}
-		}
-		*marker = '\0';
-	}
+	*++marker = '\0';
 }
 
 std::string xml::attribute::content() const
