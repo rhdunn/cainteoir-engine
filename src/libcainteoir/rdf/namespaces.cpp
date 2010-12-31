@@ -33,6 +33,7 @@ const rdf::ns rdf::dcterms("dcterms", "http://purl.org/dc/terms/");
 
 const rdf::ns rdf::opf( "opf",  "http://www.idpf.org/2007/opf");
 const rdf::ns rdf::ocf( "ocf",  "urn:oasis:names:tc:opendocument:xmlns:container");
+const rdf::ns rdf::smil("smil", "http://www.w3.org/ns/SMIL");
 
 const rdf::ns rdf::foaf("foaf", "http://xmlns.com/foaf/0.1/");
 const rdf::ns rdf::tts( "tts",  "http://rhdunn.github.com/2010/12/text-to-speech");

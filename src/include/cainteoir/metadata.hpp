@@ -185,6 +185,7 @@ namespace cainteoir { namespace rdf
 
 	extern const ns ocf;     /**< @brief Open Container Format (OCF) namespace. */
 	extern const ns opf;     /**< @brief Open Publication Format (OPF) namespace. */
+	extern const ns smil;    /**< @brief SMIL namespace. */
 
 	extern const ns foaf;    /**< @brief Friend of a Family (FOAF) namespace. */
 	extern const ns tts;     /**< @brief Cainteoir Text-to-Speech RDF namespace. */
