@@ -42,7 +42,7 @@ void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subj
 
 	for (xml::attribute attr = rdfxml.firstAttribute(); attr.isValid(); attr.next())
 	{
-		if (attr != rdf::rdf("about"))
+		if (attr != rdf::rdf("about") && attr != rdf::rdf("nodeID"))
 		{
 			std::string value = attr.content();
 			metadata.push_back(rdf::statement(subject, rdf::uri(attr.namespaceURI(), attr.name()), rdf::literal(value, lang)));
@@ -55,12 +55,15 @@ void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subj
 			continue;
 
 		std::string resource = node.attr(rdf::rdf("resource")).content();
+		std::string nodeID   = node.attr(rdf::rdf("nodeID")).content();
 		std::string datatype = node.attr(rdf::rdf("datatype")).content();
 
 		const rdf::uri predicate = rdf::uri(node.namespaceURI(), node.name());
 
 		if (!resource.empty())
 			metadata.push_back(rdf::statement(subject, predicate, rdf::href(resource)));
+		else if (!nodeID.empty())
+			metadata.push_back(rdf::statement(subject, predicate, rdf::bnode(nodeID)));
 		else if (hasSubElements(node))
 		{
 			const rdf::bnode temp = metadata.genid();
@@ -80,6 +83,14 @@ void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subj
 	}
 }
 
+void parseRdfXmlMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata)
+{
+	if (rdfxml != rdf::rdf("Description"))
+		metadata.push_back(rdf::statement(subject, rdf::rdf("type"), rdf::uri(rdfxml.namespaceURI(), rdfxml.name())));
+
+	parseRdfXmlInnerMetadata(rdfxml, subject, metadata);
+}
+
 void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata)
 {
 	for (xml::node node = rdfxml.firstChild(); node.isValid(); node.next())
@@ -91,11 +102,12 @@ void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subj
 				parseRdfXmlInnerMetadata(node, subject, metadata);
 			else
 			{
-				const rdf::uri about = rdf::href(node.attr(rdf::rdf("about")).content());
-				if (node != rdf::rdf("Description"))
-					metadata.push_back(rdf::statement(about, rdf::rdf("type"), rdf::uri(node.namespaceURI(), node.name())));
-
-				parseRdfXmlInnerMetadata(node, about, metadata);
+				std::string about = node.attr(rdf::rdf("about")).content();
+				std::string nodeID = node.attr(rdf::rdf("nodeID")).content();
+				if (!about.empty())
+					parseRdfXmlMetadata(node, rdf::href(about), metadata);
+				else if (!nodeID.empty())
+					parseRdfXmlMetadata(node, rdf::bnode(nodeID), metadata);
 			}
 		}
 	}
