@@ -120,6 +120,7 @@ int main(int argc, char ** argv)
 					<< rdf::owl
 					<< rdf::dc
 					<< rdf::dcterms
+					<< rdf::dcam
 					<< rdf::ocf
 					<< rdf::opf
 					<< rdf::smil

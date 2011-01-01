@@ -1,3 +1,4 @@
+@prefix dcam: <http://purl.org/dc/dcam/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -805,14 +806,14 @@ dct:LCSH rdfs:comment "The set of labeled concepts specified by the Library of C
 dct:LCSH rdfs:isDefinedBy dct: .
 dct:LCSH dct:issued "2000-07-11" .
 dct:LCSH dct:modified "2008-01-14" .
-dct:LCSH rdf:type <http://purl.org/dc/dcam/VocabularyEncodingScheme> .
+dct:LCSH rdf:type dcam:VocabularyEncodingScheme .
 dct:LCSH dct:hasVersion <http://dublincore.org/usage/terms/history/#LCSH-003> .
 dct:MESH rdfs:label "MeSH"@en-US .
 dct:MESH rdfs:comment "The set of labeled concepts specified by the Medical Subject Headings."@en-US .
 dct:MESH rdfs:isDefinedBy dct: .
 dct:MESH dct:issued "2000-07-11" .
 dct:MESH dct:modified "2008-01-14" .
-dct:MESH rdf:type <http://purl.org/dc/dcam/VocabularyEncodingScheme> .
+dct:MESH rdf:type dcam:VocabularyEncodingScheme .
 dct:MESH dct:hasVersion <http://dublincore.org/usage/terms/history/#MESH-003> .
 dct:MESH rdfs:seeAlso <http://www.nlm.nih.gov/mesh/meshhome.html> .
 dct:DDC rdfs:label "DDC"@en-US .
@@ -820,7 +821,7 @@ dct:DDC rdfs:comment "The set of conceptual resources specified by the Dewey Dec
 dct:DDC rdfs:isDefinedBy dct: .
 dct:DDC dct:issued "2000-07-11" .
 dct:DDC dct:modified "2008-01-14" .
-dct:DDC rdf:type <http://purl.org/dc/dcam/VocabularyEncodingScheme> .
+dct:DDC rdf:type dcam:VocabularyEncodingScheme .
 dct:DDC dct:hasVersion <http://dublincore.org/usage/terms/history/#DDC-003> .
 dct:DDC rdfs:seeAlso <http://www.oclc.org/dewey/> .
 dct:LCC rdfs:label "LCC"@en-US .
@@ -828,7 +829,7 @@ dct:LCC rdfs:comment "The set of conceptual resources specified by the Library o
 dct:LCC rdfs:isDefinedBy dct: .
 dct:LCC dct:issued "2000-07-11" .
 dct:LCC dct:modified "2008-01-14" .
-dct:LCC rdf:type <http://purl.org/dc/dcam/VocabularyEncodingScheme> .
+dct:LCC rdf:type dcam:VocabularyEncodingScheme .
 dct:LCC dct:hasVersion <http://dublincore.org/usage/terms/history/#LCC-003> .
 dct:LCC rdfs:seeAlso <http://lcweb.loc.gov/catdir/cpso/lcco/lcco.html> .
 dct:UDC rdfs:label "UDC"@en-US .
@@ -836,7 +837,7 @@ dct:UDC rdfs:comment "The set of conceptual resources specified by the Universal
 dct:UDC rdfs:isDefinedBy dct: .
 dct:UDC dct:issued "2000-07-11" .
 dct:UDC dct:modified "2008-01-14" .
-dct:UDC rdf:type <http://purl.org/dc/dcam/VocabularyEncodingScheme> .
+dct:UDC rdf:type dcam:VocabularyEncodingScheme .
 dct:UDC dct:hasVersion <http://dublincore.org/usage/terms/history/#UDC-003> .
 dct:UDC rdfs:seeAlso <http://www.udcc.org/> .
 dct:DCMIType rdfs:label "DCMI Type Vocabulary"@en-US .
@@ -844,7 +845,7 @@ dct:DCMIType rdfs:comment "The set of classes specified by the DCMI Type Vocabul
 dct:DCMIType rdfs:isDefinedBy dct: .
 dct:DCMIType dct:issued "2000-07-11" .
 dct:DCMIType dct:modified "2010-10-11" .
-dct:DCMIType rdf:type <http://purl.org/dc/dcam/VocabularyEncodingScheme> .
+dct:DCMIType rdf:type dcam:VocabularyEncodingScheme .
 dct:DCMIType dct:hasVersion <http://dublincore.org/usage/terms/history/#DCMIType-003> .
 dct:DCMIType rdfs:seeAlso <http://dublincore.org/documents/dcmi-type-vocabulary/> .
 dct:DCMIType rdfs:seeAlso <http://purl.org/dc/dcmitype/> .
@@ -853,7 +854,7 @@ dct:IMT rdfs:comment "The set of media types specified by the Internet Assigned 
 dct:IMT rdfs:isDefinedBy dct: .
 dct:IMT dct:issued "2000-07-11" .
 dct:IMT dct:modified "2008-01-14" .
-dct:IMT rdf:type <http://purl.org/dc/dcam/VocabularyEncodingScheme> .
+dct:IMT rdf:type dcam:VocabularyEncodingScheme .
 dct:IMT dct:hasVersion <http://dublincore.org/usage/terms/history/#IMT-004> .
 dct:IMT rdfs:seeAlso <http://www.iana.org/assignments/media-types/> .
 dct:TGN rdfs:label "TGN"@en-US .
@@ -861,7 +862,7 @@ dct:TGN rdfs:comment "The set of places specified by the Getty Thesaurus of Geog
 dct:TGN rdfs:isDefinedBy dct: .
 dct:TGN dct:issued "2000-07-11" .
 dct:TGN dct:modified "2008-01-14" .
-dct:TGN rdf:type <http://purl.org/dc/dcam/VocabularyEncodingScheme> .
+dct:TGN rdf:type dcam:VocabularyEncodingScheme .
 dct:TGN dct:hasVersion <http://dublincore.org/usage/terms/history/#TGN-003> .
 dct:TGN rdfs:seeAlso <http://www.getty.edu/research/tools/vocabulary/tgn/index.html> .
 dct:NLM rdfs:label "NLM"@en-US .
@@ -869,6 +870,6 @@ dct:NLM rdfs:comment "The set of conceptual resources specified by the National 
 dct:NLM rdfs:isDefinedBy dct: .
 dct:NLM dct:issued "2005-06-13" .
 dct:NLM dct:modified "2008-01-14" .
-dct:NLM rdf:type <http://purl.org/dc/dcam/VocabularyEncodingScheme> .
+dct:NLM rdf:type dcam:VocabularyEncodingScheme .
 dct:NLM dct:hasVersion <http://dublincore.org/usage/terms/history/#NLM-002> .
 dct:NLM rdfs:seeAlso <http://wwwcf.nlm.nih.gov/class/> .
