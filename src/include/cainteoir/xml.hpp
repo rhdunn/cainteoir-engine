@@ -187,7 +187,10 @@ namespace cainteoir { namespace xmldom
 		document(std::tr1::shared_ptr<buffer> aBuffer)
 			: data(aBuffer)
 		{
+			int substitute = xmlSubstituteEntitiesDefault(1);
 			doc = xmlParseMemory(data->begin(), data->size());
+			xmlSubstituteEntitiesDefault(substitute);
+
 			if (doc == NULL)
 				throw std::runtime_error("unable to parse XML document");
 		}
