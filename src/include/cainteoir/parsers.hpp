@@ -80,6 +80,30 @@ namespace cainteoir
 	  * @param aRoot     The root node of the RDF/XML document.
 	  * @param aSubject  The base to use for any relative URIs.
 	  * @param aMetadata The RDF model to add any metadata to.
+	  *
+	  * Conformance/Implementation Notes:
+	  *
+	  *     -  xml:lang attributes preserve case, so xml:lang="en-US" resolves to "en-US", not "en-us".
+	  *
+	  *        This is so that the language attributes conform with their ISO specifications for the
+	  *        5-letter language codes.
+	  *
+	  *     -  RDF literals contents is normalised so that it does not contain spaces at the beginning
+	  *        and end, and spaces in the middle only has one space for any given run of spaces.
+	  *
+	  *        This is to normalise the representation of values that are written to span multiple lines
+	  *        in the RDF/XML file.
+	  *
+	  *     -  rdf:parseType="Collection" on http://www.w3.org/TR/REC-rdf-syntax/#example19 generates
+	  *        the same triples, but in a different order.
+	  *
+	  *        This is due to the algorithm used to process the collection nodes.
+	  *
+	  * The following examples in http://www.w3.org/TR/REC-rdf-syntax/ are not currently parsed correctly:
+	  *     -  example08.rdf
+	  *     -  example09.rdf
+	  *     -  example13.rdf
+	  *     -  example20.rdf
 	  */
 	void parseRdfXmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
 

@@ -36,6 +36,42 @@ bool hasSubElements(const xml::node &rdfxml)
 	return false;
 }
 
+void parseRdfXmlMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata, const std::string &base)
+{
+	if (rdfxml != rdf::rdf("Description"))
+		metadata.push_back(rdf::statement(subject, rdf::rdf("type"), rdf::uri(rdfxml.namespaceURI(), rdfxml.name())));
+
+	parseRdfXmlInnerMetadata(rdfxml, subject, metadata, base);
+}
+
+rdf::bnode parseRdfXmlCollectionMetadata(xml::node node, const rdf::resource &subject, rdf::model &metadata, const std::string &base)
+{
+	for (; node.isValid(); node.next())
+	{
+		if (node.type() == XML_ELEMENT_NODE)
+		{
+			std::string about = node.attr(rdf::rdf("about")).content();
+			if (!about.empty())
+			{
+				const rdf::bnode temp = metadata.genid();
+				metadata.push_back(rdf::statement(temp, rdf::rdf("first"), rdf::href(about)));
+
+				node.next();
+				if (node.isValid())
+				{
+					const rdf::bnode rest = parseRdfXmlCollectionMetadata(node, subject, metadata, base);
+					if (rest.id.empty())
+						metadata.push_back(rdf::statement(temp, rdf::rdf("rest"), rdf::rdf("nil")));
+					else
+						metadata.push_back(rdf::statement(temp, rdf::rdf("rest"), rest));
+				}
+				return temp;
+			}
+		}
+	}
+	return rdf::bnode(std::string());
+}
+
 void parseRdfXmlMetadataFromNode(const xml::node &node, const rdf::resource &subject, const rdf::uri &predicate, rdf::model &metadata, const std::string &base)
 {
 	std::string resource = node.attr(rdf::rdf("resource")).content();
@@ -55,12 +91,23 @@ void parseRdfXmlMetadataFromNode(const xml::node &node, const rdf::resource &sub
 	{
 		std::string parseType = node.attr(rdf::rdf("parseType")).content();
 
-		const rdf::bnode temp = metadata.genid();
 		if (parseType == "Resource")
+		{
+			const rdf::bnode temp = metadata.genid();
 			parseRdfXmlInnerMetadata(node, temp, metadata, base);
+			metadata.push_back(rdf::statement(subject, predicate, temp));
+		}
+		else if (parseType == "Collection")
+		{
+			const rdf::bnode first = parseRdfXmlCollectionMetadata(node.firstChild(), subject, metadata, base);
+			metadata.push_back(rdf::statement(subject, predicate, first));
+		}
 		else
+		{
+			const rdf::bnode temp = metadata.genid();
 			parseRdfXmlOuterMetadata(node, temp, metadata, base);
-		metadata.push_back(rdf::statement(subject, predicate, temp));
+			metadata.push_back(rdf::statement(subject, predicate, temp));
+		}
 	}
 	else
 	{
@@ -112,14 +159,6 @@ void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subj
 		else
 			parseRdfXmlMetadataFromNode(node, subject, predicate, metadata, base);
 	}
-}
-
-void parseRdfXmlMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata, const std::string &base)
-{
-	if (rdfxml != rdf::rdf("Description"))
-		metadata.push_back(rdf::statement(subject, rdf::rdf("type"), rdf::uri(rdfxml.namespaceURI(), rdfxml.name())));
-
-	parseRdfXmlInnerMetadata(rdfxml, subject, metadata, base);
 }
 
 void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata, const std::string &base)
