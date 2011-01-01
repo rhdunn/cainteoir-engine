@@ -46,7 +46,7 @@ void vorbis_comments_author(const rdf::model &aMetadata, const rdf::bnode &aDocu
 	for (rdf::model::const_iterator statement = aMetadata.begin(), last = aMetadata.end(); statement != last; ++statement)
 	{
 		const rdf::bnode *subject = dynamic_cast<const rdf::bnode *>(statement->subject.get());
-		if (subject && aDocument.id == subject->id)
+		if (subject && aDocument == *subject)
 		{
 			const rdf::literal *object = dynamic_cast<const rdf::literal *>(statement->object.get());
 			if (object)

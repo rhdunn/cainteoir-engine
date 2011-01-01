@@ -63,6 +63,16 @@ namespace cainteoir { namespace rdf
 		}
 	};
 
+	inline bool operator==(const bnode &a, const bnode &b)
+	{
+		return a.id == b.id;
+	}
+
+	inline bool operator!=(const bnode &a, const bnode &b)
+	{
+		return !(a == b);
+	}
+
 	/** @brief RDF URI resource
 	  */
 	class uri : public resource
