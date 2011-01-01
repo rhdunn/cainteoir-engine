@@ -254,15 +254,15 @@ void test_genid()
 	rdf::model model1;
 	rdf::model model2;
 
-	test_bnode(model1.genid(), "id1");
-	test_bnode(model1.genid(), "id2");
-	test_bnode(model1.genid(), "id3");
-	test_bnode(model2.genid(), "id1");
-	test_bnode(model2.genid(), "id2");
-	test_bnode(model1.genid(), "id4");
-	test_bnode(model1.genid(), "id5");
-	test_bnode(model2.genid(), "id3");
-	test_bnode(model2.genid(), "id4");
+	test_bnode(model1.genid(), "genid1");
+	test_bnode(model1.genid(), "genid2");
+	test_bnode(model1.genid(), "genid3");
+	test_bnode(model2.genid(), "genid1");
+	test_bnode(model2.genid(), "genid2");
+	test_bnode(model1.genid(), "genid4");
+	test_bnode(model1.genid(), "genid5");
+	test_bnode(model2.genid(), "genid3");
+	test_bnode(model2.genid(), "genid4");
 }
 
 int main(int argc, char ** argv)

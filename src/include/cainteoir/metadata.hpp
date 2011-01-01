@@ -259,7 +259,7 @@ namespace cainteoir { namespace rdf
 		const rdf::bnode genid()
 		{
 			std::ostringstream id;
-			id << "id" << nextid;
+			id << "genid" << nextid;
 			++nextid;
 			return rdf::bnode(id.str());
 		}
