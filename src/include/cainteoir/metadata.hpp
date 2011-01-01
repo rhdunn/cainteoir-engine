@@ -42,6 +42,7 @@ namespace cainteoir { namespace rdf
 	  */
 	struct resource : public node
 	{
+		virtual const resource *clone() const = 0;
 	};
 
 	/** @brief RDF blank node resource

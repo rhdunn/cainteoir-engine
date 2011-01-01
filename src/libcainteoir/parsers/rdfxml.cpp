@@ -23,7 +23,20 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseRdfXmlMetadata(const xml::node &rdfxml, const rdf::uri &subject, rdf::model &metadata)
+static void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata);
+static void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata);
+
+bool hasSubElements(const xml::node &rdfxml)
+{
+	for (xml::node node = rdfxml.firstChild(); node.isValid(); node.next())
+	{
+		if (node.type() == XML_ELEMENT_NODE)
+			return true;
+	}
+	return false;
+}
+
+void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata)
 {
 	std::string lang = rdfxml.attr(rdf::xml("lang")).content();
 
@@ -41,20 +54,50 @@ void parseRdfXmlMetadata(const xml::node &rdfxml, const rdf::uri &subject, rdf::
 		if (node.type() != XML_ELEMENT_NODE)
 			continue;
 
-		std::string lang = node.attr(rdf::xml("lang")).content();
-		std::string value = node.content();
-
 		std::string resource = node.attr(rdf::rdf("resource")).content();
 		std::string datatype = node.attr(rdf::rdf("datatype")).content();
 
 		const rdf::uri predicate = rdf::uri(node.namespaceURI(), node.name());
 
-		if (!datatype.empty())
-			metadata.push_back(rdf::statement(subject, predicate, rdf::literal(value, rdf::href(datatype))));
-		else if (!resource.empty())
+		if (!resource.empty())
 			metadata.push_back(rdf::statement(subject, predicate, rdf::href(resource)));
-		else if (!value.empty())
-			metadata.push_back(rdf::statement(subject, predicate, rdf::literal(value, lang)));
+		else if (hasSubElements(node))
+		{
+			const rdf::bnode temp = metadata.genid();
+			parseRdfXmlOuterMetadata(node, temp, metadata);
+			metadata.push_back(rdf::statement(subject, predicate, temp));
+		}
+		else
+		{
+			std::string lang = node.attr(rdf::xml("lang")).content();
+			std::string value = node.content();
+
+			if (!datatype.empty())
+				metadata.push_back(rdf::statement(subject, predicate, rdf::literal(value, rdf::href(datatype))));
+			else if (!value.empty())
+				metadata.push_back(rdf::statement(subject, predicate, rdf::literal(value, lang)));
+		}
+	}
+}
+
+void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata)
+{
+	for (xml::node node = rdfxml.firstChild(); node.isValid(); node.next())
+	{
+		if (node.type() == XML_ELEMENT_NODE)
+		{
+			const cainteoir::rdf::bnode *bnode = dynamic_cast<const cainteoir::rdf::bnode *>(&subject);
+			if (bnode)
+				parseRdfXmlInnerMetadata(node, subject, metadata);
+			else
+			{
+				const rdf::uri about = rdf::href(node.attr(rdf::rdf("about")).content());
+				if (node != rdf::rdf("Description"))
+					metadata.push_back(rdf::statement(about, rdf::rdf("type"), rdf::uri(node.namespaceURI(), node.name())));
+
+				parseRdfXmlInnerMetadata(node, about, metadata);
+			}
+		}
 	}
 }
 
@@ -63,15 +106,5 @@ void cainteoir::parseRdfXmlDocument(const xml::node &rdfxml, const rdf::uri &sub
 	if (rdfxml != rdf::rdf("RDF"))
 		throw std::runtime_error("RDF/XML document is not of a recognised format.");
 
-	for (xml::node node = rdfxml.firstChild(); node.isValid(); node.next())
-	{
-		if (node.type() == XML_ELEMENT_NODE)
-		{
-			const rdf::uri about = rdf::href(node.attr(rdf::rdf("about")).content());
-			if (node != rdf::rdf("Description"))
-				metadata.push_back(rdf::statement(about, rdf::rdf("type"), rdf::uri(node.namespaceURI(), node.name())));
-
-			parseRdfXmlMetadata(node, about, metadata);
-		}
-	}
+	parseRdfXmlOuterMetadata(rdfxml, subject, metadata);
 }
