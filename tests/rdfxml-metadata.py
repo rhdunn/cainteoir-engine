@@ -23,11 +23,11 @@ from xml.dom import minidom
 
 import harness as test
 
-def check_metadata(filename, expect):
-	tmpfile = '/tmp/metadata.n3'
+def check_metadata(filename, expect, formatarg):
+	tmpfile = '/tmp/metadata.out'
 
-	print '... checking %s' % filename
-	os.system('CAINTEOIR_DATADIR=%s %s --turtle "%s" > %s' % (os.path.dirname(sys.path[0]), os.path.join(sys.path[0], '../src/apps/metadata/metadata'), filename, tmpfile))
+	print '... checking %s => %s' % (filename, expect)
+	os.system('CAINTEOIR_DATADIR=%s %s %s "%s" > %s' % (os.path.dirname(sys.path[0]), os.path.join(sys.path[0], '../src/apps/metadata/metadata'), formatarg, filename, tmpfile))
 
 	with open(expect, 'r') as f:
 		expected = [ unicode(x) for x in f.read().split('\n') if not x == '' ]
@@ -44,8 +44,12 @@ def test_dir(basedir):
 	for filename in testcases:
 		if filename.endswith('.rdf'):
 			testfile = os.path.join(rootdir, filename)
+			ntfile = os.path.join(rootdir, filename.replace('.rdf', '.nt'))
+			if os.path.exists(ntfile):
+				check_metadata(testfile, ntfile, '--triple')
 			n3file = os.path.join(rootdir, filename.replace('.rdf', '.n3'))
-			check_metadata(testfile, n3file)
+			if os.path.exists(n3file):
+				check_metadata(testfile, n3file, '--turtle')
 
 if __name__ == '__main__':
 	test_dir('rdfxml/schema')
