@@ -38,14 +38,19 @@ bool hasSubElements(const xml::node &rdfxml)
 
 void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata, const std::string &base)
 {
-	std::string lang = rdfxml.attr(rdf::xml("lang")).content();
+	std::string lang;
 
 	for (xml::attribute attr = rdfxml.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (attr != rdf::rdf("about") && attr != rdf::rdf("nodeID") && attr != rdf::rdf("parseType") && attr != rdf::rdf("ID"))
 		{
-			std::string value = attr.content();
-			metadata.push_back(rdf::statement(subject, rdf::uri(attr.namespaceURI(), attr.name()), rdf::literal(value, lang)));
+			if (attr == rdf::xml("lang"))
+				lang = attr.content();
+			else
+			{
+				std::string value = attr.content();
+				metadata.push_back(rdf::statement(subject, rdf::uri(attr.namespaceURI(), attr.name()), rdf::literal(value, lang)));
+			}
 		}
 	}
 
