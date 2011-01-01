@@ -167,7 +167,7 @@ void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subj
 	{
 		if (node.type() == XML_ELEMENT_NODE)
 		{
-			const cainteoir::rdf::bnode *bnode = dynamic_cast<const cainteoir::rdf::bnode *>(&subject);
+			const cainteoir::rdf::bnode *bnode = rdf::query::cast<rdf::bnode>(subject);
 			if (bnode)
 				parseRdfXmlInnerMetadata(node, subject, metadata, base);
 			else

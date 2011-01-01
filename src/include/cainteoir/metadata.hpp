@@ -257,6 +257,39 @@ namespace cainteoir { namespace rdf
 		}
 	};
 
+	namespace query
+	{
+		template <typename T>
+		inline const T *cast(const rdf::node *value)
+		{
+			return dynamic_cast<const T *>(value);
+		}
+
+		template <typename T>
+		inline const T *cast(const rdf::node &value)
+		{
+			return cast<T>(&value);
+		}
+
+		template <typename T, typename U>
+		inline const T *cast(const std::tr1::shared_ptr<U> &value)
+		{
+			return cast<T>(value.get());
+		}
+
+		template <typename T>
+		inline const T *subject(const rdf::statement &statement)
+		{
+			return cast<T>(statement.subject);
+		}
+
+		template <typename T>
+		inline const T *object(const rdf::statement &statement)
+		{
+			return cast<T>(statement.object);
+		}
+	}
+
 	/** @brief RDF model
 	  */
 	class model : public std::list<statement>
@@ -283,17 +316,17 @@ namespace cainteoir { namespace rdf
 		void push_back(const statement &s)
 		{
 			{
-				const rdf::uri *uri = dynamic_cast<const rdf::uri *>(s.subject.get());
+				const rdf::uri *uri = rdf::query::subject<rdf::uri>(s);
 				if (uri)
 					namespaces.insert(uri->ns);
 			}
 			namespaces.insert(s.predicate.ns);
 			{
-				const rdf::uri *uri = dynamic_cast<const rdf::uri *>(s.object.get());
+				const rdf::uri *uri = rdf::query::object<rdf::uri>(s);
 				if (uri)
 					namespaces.insert(uri->ns);
 
-				const rdf::literal *literal = dynamic_cast<const rdf::literal *>(s.object.get());
+				const rdf::literal *literal = rdf::query::object<rdf::literal>(s);
 				if (literal && !literal->type.ns.empty())
 					namespaces.insert(literal->type.ns);
 			}

@@ -22,6 +22,8 @@
 #include <iostream>
 #include <map>
 
+namespace rdf = cainteoir::rdf;
+
 class n3_formatter : public cainteoir::rdf::formatter
 {
 public:
@@ -83,11 +85,11 @@ public:
 	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::statement &statement)
 	{
 		{
-			const cainteoir::rdf::bnode *bnode = dynamic_cast<const cainteoir::rdf::bnode *>(statement.subject.get());
+			const rdf::bnode *bnode = rdf::query::subject<rdf::bnode>(statement);
 			if (bnode)
 				*this << *bnode;
 
-			const cainteoir::rdf::uri *uri = dynamic_cast<const cainteoir::rdf::uri *>(statement.subject.get());
+			const rdf::uri *uri = rdf::query::subject<rdf::uri>(statement);
 			if (uri)
 				*this << *uri;
 		}
@@ -97,15 +99,15 @@ public:
 		os << ' ';
 
 		{
-			const cainteoir::rdf::bnode *bnode = dynamic_cast<const cainteoir::rdf::bnode *>(statement.object.get());
+			const rdf::bnode *bnode = rdf::query::object<rdf::bnode>(statement);
 			if (bnode)
 				*this << *bnode;
 
-			const cainteoir::rdf::literal *literal = dynamic_cast<const cainteoir::rdf::literal *>(statement.object.get());
+			const rdf::literal *literal = rdf::query::object<rdf::literal>(statement);
 			if (literal)
 				*this << *literal;
 
-			const cainteoir::rdf::uri *uri = dynamic_cast<const cainteoir::rdf::uri *>(statement.object.get());
+			const rdf::uri *uri = rdf::query::object<rdf::uri>(statement);
 			if (uri)
 				*this << *uri;
 		}
