@@ -1,0 +1,26 @@
+@prefix dcam: <http://purl.org/dc/dcam/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+dcam: dct:title "Metadata terms related to the DCMI Abstract Model"@en-US .
+dcam: dct:publisher <http://purl.org/dc/aboutdcmi#DCMI> .
+dcam: dct:modified "2010-10-11" .
+dcam:memberOf rdf:type rdf:Property .
+dcam:memberOf rdfs:label "Member Of"@en-US .
+dcam:memberOf rdfs:comment "A relationship between a resource and a vocabulary encoding scheme which indicates that the resource is a member of a set."@en-US .
+dcam:memberOf rdfs:isDefinedBy dcam: .
+dcam:memberOf dct:issued "2008-01-14" .
+dcam:memberOf dct:modified "2010-10-11" .
+dcam:memberOf rdf:type rdf:Property .
+dcam:memberOf dct:hasVersion <http://dublincore.org/usage/terms/history/#memberOf-002> .
+dcam:memberOf rdfs:seeAlso <http://dublincore.org/documents/2007/06/04/abstract-model/> .
+dcam:memberOf rdfs:range dcam:VocabularyEncodingScheme .
+dcam:VocabularyEncodingScheme rdf:type rdfs:Class .
+dcam:VocabularyEncodingScheme rdfs:label "Vocabulary Encoding Scheme"@en-US .
+dcam:VocabularyEncodingScheme rdfs:comment "An enumerated set of resources."@en-US .
+dcam:VocabularyEncodingScheme rdfs:isDefinedBy dcam: .
+dcam:VocabularyEncodingScheme dct:issued "2008-01-14" .
+dcam:VocabularyEncodingScheme rdf:type rdfs:Class .
+dcam:VocabularyEncodingScheme dct:hasVersion <http://dublincore.org/usage/terms/history/#VocabularyEncodingScheme-001> .
+dcam:VocabularyEncodingScheme rdfs:seeAlso <http://dublincore.org/documents/2007/06/04/abstract-model/> .
