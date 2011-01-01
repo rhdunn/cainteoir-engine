@@ -46,10 +46,11 @@ def test_dir(basedir):
 			testfile = os.path.join(rootdir, filename)
 			ntfile = os.path.join(rootdir, filename.replace('.rdf', '.nt'))
 			if os.path.exists(ntfile):
-				check_metadata(testfile, ntfile, '--triple')
+				check_metadata(testfile, ntfile, '--ntriple')
 			n3file = os.path.join(rootdir, filename.replace('.rdf', '.n3'))
 			if os.path.exists(n3file):
 				check_metadata(testfile, n3file, '--turtle')
 
 if __name__ == '__main__':
+	test_dir('rdfxml/syntax')
 	test_dir('rdfxml/schema')

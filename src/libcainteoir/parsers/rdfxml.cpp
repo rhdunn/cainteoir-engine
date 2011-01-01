@@ -45,10 +45,13 @@ void parseRdfXmlMetadata(const xml::node &rdfxml, const rdf::uri &subject, rdf::
 		std::string value = node.content();
 
 		std::string resource = node.attr(rdf::rdf("resource")).content();
+		std::string datatype = node.attr(rdf::rdf("datatype")).content();
 
 		const rdf::uri predicate = rdf::uri(node.namespaceURI(), node.name());
 
-		if (!resource.empty())
+		if (!datatype.empty())
+			metadata.push_back(rdf::statement(subject, predicate, rdf::literal(value, rdf::href(datatype))));
+		else if (!resource.empty())
 			metadata.push_back(rdf::statement(subject, predicate, rdf::href(resource)));
 		else if (!value.empty())
 			metadata.push_back(rdf::statement(subject, predicate, rdf::literal(value, lang)));
