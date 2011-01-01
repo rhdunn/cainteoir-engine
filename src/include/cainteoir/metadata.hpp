@@ -299,6 +299,22 @@ namespace cainteoir { namespace rdf
 			return cast<T>(value.get());
 		}
 
+		/** @name RDF node attribute selectors
+		  */
+		//@{
+
+		static const std::string nil;
+
+		inline const std::string &value(const rdf::literal *literal)
+		{
+			return literal ? literal->value : nil;
+		}
+
+		//@}
+		/** @name RDF statement selectors
+		  */
+		//@{
+
 		template <typename T>
 		inline maybe_type<T> subject(const rdf::statement &statement)
 		{
@@ -310,6 +326,8 @@ namespace cainteoir { namespace rdf
 		{
 			return cast<T>(statement.object);
 		}
+
+		//@}
 	}
 
 	/** @brief RDF model

@@ -47,14 +47,11 @@ void vorbis_comments_author(const rdf::model &aMetadata, const rdf::bnode &aDocu
 	{
 		if (rdf::query::subject<rdf::bnode>(*statement) == aDocument)
 		{
-			const rdf::literal *object = rdf::query::object<rdf::literal>(*statement);
-			if (object)
-			{
-				if (statement->predicate == rdf::rdf("value"))
-					author = object->value;
-				else if (statement->predicate == rdf::opf("role"))
-					role = object->value;
-			}
+			const std::string &object = rdf::query::value(rdf::query::object<rdf::literal>(*statement));
+			if (statement->predicate == rdf::rdf("value"))
+				author = object;
+			else if (statement->predicate == rdf::opf("role"))
+				role = object;
 		}
 	}
 
@@ -70,15 +67,15 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 	{
 		if (rdf::query::subject<rdf::uri>(*statement) == aDocument)
 		{
-			const rdf::literal *object = rdf::query::object<rdf::literal>(*statement);
-			if (object)
+			const std::string &object = rdf::query::value(rdf::query::object<rdf::literal>(*statement));
+			if (!object.empty())
 			{
 				if (statement->predicate == rdf::dc("creator"))
-					comments.push_back(vorbis_comment("ARTIST", object->value));
+					comments.push_back(vorbis_comment("ARTIST", object));
 				else if (statement->predicate == rdf::dc("title"))
-					comments.push_back(vorbis_comment("ALBUM", object->value));
+					comments.push_back(vorbis_comment("ALBUM", object));
 				else if (statement->predicate == rdf::dc("description"))
-					comments.push_back(vorbis_comment("DESCRIPTION", object->value));
+					comments.push_back(vorbis_comment("DESCRIPTION", object));
 			}
 			else if (statement->predicate == rdf::dc("creator"))
 			{
