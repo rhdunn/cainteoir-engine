@@ -99,6 +99,11 @@ namespace cainteoir
 	  *
 	  *        This is due to the algorithm used to process the collection nodes.
 	  *
+	  *     -  Parsing the skos:member rdfs:range (S32) property does not handle the types on the generated
+	  *        node, nor the items in its owl:unionOf relation.
+	  *
+	  *        This is a bug/limitation of the existing RDF/XML parser.
+	  *
 	  * The following examples in http://www.w3.org/TR/REC-rdf-syntax/ are not currently parsed correctly:
 	  *     -  example08.rdf
 	  *     -  example09.rdf
