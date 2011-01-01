@@ -56,7 +56,20 @@ public:
 
 	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::literal &literal)
 	{
-		os << '"' << literal.value << '"';
+		os << '"';
+		for (std::string::const_iterator s = literal.value.begin(), last = literal.value.end(); s != last; ++s)
+		{
+			switch (*s)
+			{
+			case '"':
+				os << "\\\"";
+				break;
+			default:
+				os << *s;
+				break;
+			}
+		}
+		os << '"';
 		if (!literal.language.empty())
 			os << '@' << literal.language;
 		if (!literal.type.empty())

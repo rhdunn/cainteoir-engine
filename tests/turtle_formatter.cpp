@@ -79,9 +79,17 @@ void test_literal()
 	equal(format(rdf::literal("Nevermore!", "en")), "\"Nevermore!\"@en");
 	equal(format(rdf::literal("Nevermore!", rdf::xsd("string"))), "\"Nevermore!\"^^<http://www.w3.org/2001/XMLSchema#string>");
 
+	equal(format(rdf::literal("Quoth the raven: \"Nevermore!\"")), "\"Quoth the raven: \\\"Nevermore!\\\"\"");
+	equal(format(rdf::literal("Quoth the raven: \"Nevermore!\"", "en")), "\"Quoth the raven: \\\"Nevermore!\\\"\"@en");
+	equal(format(rdf::literal("Quoth the raven: \"Nevermore!\"", rdf::xsd("string"))), "\"Quoth the raven: \\\"Nevermore!\\\"\"^^<http://www.w3.org/2001/XMLSchema#string>");
+
 	equal(format_ns(rdf::literal("Nevermore!")), "\"Nevermore!\"");
 	equal(format_ns(rdf::literal("Nevermore!", "en")), "\"Nevermore!\"@en");
 	equal(format_ns(rdf::literal("Nevermore!", rdf::xsd("string"))), "\"Nevermore!\"^^xsd:string");
+
+	equal(format_ns(rdf::literal("Quoth the raven: \"Nevermore!\"")), "\"Quoth the raven: \\\"Nevermore!\\\"\"");
+	equal(format_ns(rdf::literal("Quoth the raven: \"Nevermore!\"", "en")), "\"Quoth the raven: \\\"Nevermore!\\\"\"@en");
+	equal(format_ns(rdf::literal("Quoth the raven: \"Nevermore!\"", rdf::xsd("string"))), "\"Quoth the raven: \\\"Nevermore!\\\"\"^^xsd:string");
 }
 
 void test_statement()
