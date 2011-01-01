@@ -103,6 +103,8 @@ int main(int argc, char ** argv)
 				cainteoir::parseRdfXmlDocument(root, subject, metadata);
 			else if (root == rdf::smil("smil"))
 				cainteoir::parseSmilDocument(root, subject, metadata);
+			else
+				fprintf(stderr, "unrecognised XML document root: [%s]%s\n", root.namespaceURI(), root.name());
 		}
 		else if (type == "application/epub+zip")
 			cainteoir::parseEpubDocument(argv[0], metadata);
