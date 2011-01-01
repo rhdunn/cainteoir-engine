@@ -176,7 +176,7 @@ void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subj
 				std::string nodeID = node.attr(rdf::rdf("nodeID")).content();
 				std::string ID = node.attr(rdf::rdf("ID")).content();
 				if (!about.empty())
-					parseRdfXmlMetadata(node, rdf::href(about), metadata, base);
+					parseRdfXmlMetadata(node, rdf::href((*about.begin()) == '#' ? base + about : about), metadata, base);
 				else if (!nodeID.empty())
 					parseRdfXmlMetadata(node, rdf::bnode(nodeID), metadata, base);
 				else if (!ID.empty())
