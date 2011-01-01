@@ -45,8 +45,7 @@ void vorbis_comments_author(const rdf::model &aMetadata, const rdf::bnode &aDocu
 
 	for (rdf::model::const_iterator statement = aMetadata.begin(), last = aMetadata.end(); statement != last; ++statement)
 	{
-		const rdf::bnode *subject = rdf::query::subject<rdf::bnode>(*statement);
-		if (subject && aDocument == *subject)
+		if (rdf::query::subject<rdf::bnode>(*statement) == aDocument)
 		{
 			const rdf::literal *object = rdf::query::object<rdf::literal>(*statement);
 			if (object)
@@ -69,8 +68,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 
 	for (rdf::model::const_iterator statement = aMetadata.begin(), last = aMetadata.end(); statement != last; ++statement)
 	{
-		const rdf::uri *subject = rdf::query::subject<rdf::uri>(*statement);
-		if (subject && aDocument == *subject)
+		if (rdf::query::subject<rdf::uri>(*statement) == aDocument)
 		{
 			const rdf::literal *object = rdf::query::object<rdf::literal>(*statement);
 			if (object)

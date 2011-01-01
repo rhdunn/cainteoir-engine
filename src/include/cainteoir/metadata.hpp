@@ -259,32 +259,54 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		template <typename T>
-		inline const T *cast(const rdf::node *value)
+		template<typename T>
+		class maybe_type
 		{
-			return dynamic_cast<const T *>(value);
+		public:
+			explicit maybe_type(const T *aValue)
+				: value(aValue)
+			{
+			}
+
+			operator const T *() const
+			{
+				return value;
+			}
+
+			bool operator==(const T &rhs) const
+			{
+				return value && *value == rhs;
+			}
+		private:
+			const T *value;
+		};
+
+		template <typename T>
+		inline maybe_type<T> cast(const rdf::node *value)
+		{
+			return maybe_type<T>(dynamic_cast<const T *>(value));
 		}
 
 		template <typename T>
-		inline const T *cast(const rdf::node &value)
+		inline maybe_type<T> cast(const rdf::node &value)
 		{
 			return cast<T>(&value);
 		}
 
 		template <typename T, typename U>
-		inline const T *cast(const std::tr1::shared_ptr<U> &value)
+		inline maybe_type<T> cast(const std::tr1::shared_ptr<U> &value)
 		{
 			return cast<T>(value.get());
 		}
 
 		template <typename T>
-		inline const T *subject(const rdf::statement &statement)
+		inline maybe_type<T> subject(const rdf::statement &statement)
 		{
 			return cast<T>(statement.subject);
 		}
 
 		template <typename T>
-		inline const T *object(const rdf::statement &statement)
+		inline maybe_type<T> object(const rdf::statement &statement)
 		{
 			return cast<T>(statement.object);
 		}
