@@ -42,7 +42,7 @@ void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subj
 
 	for (xml::attribute attr = rdfxml.firstAttribute(); attr.isValid(); attr.next())
 	{
-		if (attr != rdf::rdf("about") && attr != rdf::rdf("nodeID"))
+		if (attr != rdf::rdf("about") && attr != rdf::rdf("nodeID") && attr != rdf::rdf("parseType"))
 		{
 			std::string value = attr.content();
 			metadata.push_back(rdf::statement(subject, rdf::uri(attr.namespaceURI(), attr.name()), rdf::literal(value, lang)));
@@ -66,8 +66,13 @@ void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subj
 			metadata.push_back(rdf::statement(subject, predicate, rdf::bnode(nodeID)));
 		else if (hasSubElements(node))
 		{
+			std::string parseType = node.attr(rdf::rdf("parseType")).content();
+
 			const rdf::bnode temp = metadata.genid();
-			parseRdfXmlOuterMetadata(node, temp, metadata);
+			if (parseType == "Resource")
+				parseRdfXmlInnerMetadata(node, temp, metadata);
+			else
+				parseRdfXmlOuterMetadata(node, temp, metadata);
 			metadata.push_back(rdf::statement(subject, predicate, temp));
 		}
 		else
