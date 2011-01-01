@@ -19,6 +19,7 @@
 
 import sys
 import os
+import codecs
 from xml.dom import minidom
 
 import harness as test
@@ -29,10 +30,10 @@ def check_metadata(filename, expect, formatarg):
 	print '... checking %s => %s' % (filename, expect)
 	os.system('CAINTEOIR_DATADIR=%s %s %s "%s" > %s' % (os.path.dirname(sys.path[0]), os.path.join(sys.path[0], '../src/apps/metadata/metadata'), formatarg, filename, tmpfile))
 
-	with open(expect, 'r') as f:
+	with codecs.open(expect, 'r', 'utf-8') as f:
 		expected = [ unicode(x) for x in f.read().split('\n') if not x == '' ]
 
-	with open(tmpfile, 'r') as f:
+	with codecs.open(tmpfile, 'r', 'utf-8') as f:
 		got = [ unicode(x.replace('<%s#>' % filename, '<>')) for x in f.read().split('\n') if not x == '' ]
 
 	test.equal(got, expected, 'opf.format(%s)' % filename)
