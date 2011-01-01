@@ -54,7 +54,7 @@ rdf::bnode parseRdfXmlCollectionMetadata(xml::node node, const rdf::resource &su
 			if (!about.empty())
 			{
 				const rdf::bnode temp = metadata.genid();
-				metadata.push_back(rdf::statement(temp, rdf::rdf("first"), rdf::href(about)));
+				metadata.push_back(rdf::statement(temp, rdf::rdf("first"), rdf::href((*about.begin()) == '#' ? base + about : about)));
 
 				node.next();
 				if (node.isValid())
