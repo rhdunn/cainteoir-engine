@@ -310,6 +310,16 @@ namespace cainteoir { namespace rdf
 			return literal ? literal->value : nil;
 		}
 
+		inline const std::string &ns(const rdf::uri *uri)
+		{
+			return uri ? uri->ns : nil;
+		}
+
+		inline const std::string &ns(const rdf::literal *literal)
+		{
+			return literal ? literal->type.ns : nil;
+		}
+
 		//@}
 		/** @name RDF statement selectors
 		  */
@@ -356,19 +366,19 @@ namespace cainteoir { namespace rdf
 		void push_back(const statement &s)
 		{
 			{
-				const rdf::uri *uri = rdf::query::subject<rdf::uri>(s);
-				if (uri)
-					namespaces.insert(uri->ns);
+				const std::string &uri = rdf::query::ns(rdf::query::object<rdf::uri>(s));
+				if (!uri.empty())
+					namespaces.insert(uri);
 			}
 			namespaces.insert(s.predicate.ns);
 			{
-				const rdf::uri *uri = rdf::query::object<rdf::uri>(s);
-				if (uri)
-					namespaces.insert(uri->ns);
+				const std::string &uri = rdf::query::ns(rdf::query::object<rdf::uri>(s));
+				if (!uri.empty())
+					namespaces.insert(uri);
 
-				const rdf::literal *literal = rdf::query::object<rdf::literal>(s);
-				if (literal && !literal->type.ns.empty())
-					namespaces.insert(literal->type.ns);
+				const std::string &literal = rdf::query::ns(rdf::query::object<rdf::literal>(s));
+				if (!literal.empty())
+					namespaces.insert(literal);
 			}
 			std::list<statement>::push_back(s);
 		}
