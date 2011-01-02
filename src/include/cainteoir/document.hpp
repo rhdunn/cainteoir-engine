@@ -22,13 +22,32 @@
 #define CAINTEOIR_ENGINE_DOCUMENT_HPP
 
 #include <cainteoir/metadata.hpp>
+#include <cainteoir/buffer.hpp>
 
 namespace cainteoir
 {
+	enum event_type
+	{
+		text_event,
+	};
+
+	struct event
+	{
+		event_type type;
+		std::tr1::shared_ptr<cainteoir::buffer> data;
+
+		event(event_type aType, std::tr1::shared_ptr<cainteoir::buffer> aData)
+			: type(aType)
+			, data(aData)
+		{
+		}
+	};
+
 	/** @brief Read the contents of a document.
 	  *
 	  * @param aFilename The path to the ePub document.
 	  * @param aMetadata The RDF model to add any metadata to.
+	  * @param aEvents   The list of reading events that make up the document.
 	  *
 	  * @retval true  If aFilename contains a supported document format.
 	  * @retval false If aFilename contains an unsupported document format.
@@ -53,7 +72,7 @@ namespace cainteoir
 	  *    -  SMIL:    extract text information from the SMIL document.
 	  *    -  ePub:    extract text information from the ePub document (requires complete OPF, NCX and (X)HTML parsers).
 	  */
-	bool parseDocument(const char *aFilename, rdf::model &aMetadata);
+	bool parseDocument(const char *aFilename, rdf::model &aMetadata, std::list<event> &aEvents);
 }
 
 #endif

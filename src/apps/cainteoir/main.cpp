@@ -122,11 +122,10 @@ int main(int argc, char ** argv)
 			throw std::runtime_error("no document specified");
 
 		rdf::model metadata;
-		cainteoir::parseDocument(argv[0], metadata);
+		std::list<cainteoir::event> events;
+		cainteoir::parseDocument(argv[0], metadata, events);
 
 		const rdf::uri subject = rdf::uri(argv[0], std::string());
-
-		text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0]));
 
 		cainteoir::audio_format audioformat = tts->get_audioformat();
 		int channels = tts->get_channels();
@@ -149,7 +148,11 @@ int main(int argc, char ** argv)
 		else
 			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency);
 
-		tts->speak(text_buffer.get(), out.get());
+		for (std::list<cainteoir::event>::const_iterator event = events.begin(), last = events.end(); event != last; ++event)
+		{
+			if (event->type == cainteoir::text_event)
+				tts->speak(event->data.get(), out.get());
+		}
 	}
 	catch (std::exception &e)
 	{
