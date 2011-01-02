@@ -45,9 +45,9 @@ src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/libcainteoir/parsers/rdfxml.cpp \
 	src/libcainteoir/parsers/smil.cpp \
 	src/libcainteoir/parsers/document.cpp \
-	src/libcainteoir/pulse_audio.cpp \
-	src/libcainteoir/wav_audio.cpp \
-	src/libcainteoir/ogg_audio.cpp \
+	src/libcainteoir/audio/pulse.cpp \
+	src/libcainteoir/audio/wav.cpp \
+	src/libcainteoir/audio/ogg.cpp \
 	src/libcainteoir/espeak_engine.cpp
 
 ############################# applications ####################################
