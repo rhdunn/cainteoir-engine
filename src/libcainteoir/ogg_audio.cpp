@@ -63,6 +63,8 @@ std::string select_rdfvalue(const rdf::model &aMetadata, const rdf::bnode *aDocu
 std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model &aMetadata, const rdf::uri &aDocument)
 {
 	std::list<vorbis_comment> comments;
+	std::string year;
+	std::string created;
 
 	for (rdf::query::selector query(aMetadata); query; ++query)
 	{
@@ -77,6 +79,8 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 					comments.push_back(vorbis_comment("ALBUM", object));
 				else if (query->predicate == rdf::dc("description"))
 					comments.push_back(vorbis_comment("DESCRIPTION", object));
+				else if (query->predicate == rdf::dc("date") && year.empty())
+					year = object;
 			}
 			else if (query->predicate == rdf::dc("creator"))
 			{
@@ -84,11 +88,23 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 				if (!author.empty())
 					comments.push_back(cainteoir::vorbis_comment("ARTIST", author));
 			}
+			else if (query->predicate == rdf::dc("date"))
+				created = select_rdfvalue(aMetadata, rdf::query::object(*query), rdf::opf("event"), "creation");
 		}
 	}
 
+	if (!created.empty())
+		year = created;
+
+	if (year.empty())
+		year = now();
+
+	std::string::size_type ym = year.find('-');
+	if (ym != std::string::npos)
+		year = year.substr(0, ym);
+
 	comments.push_back(vorbis_comment("GENRE", "Vocal"));
-	comments.push_back(vorbis_comment("DATE", now()));
+	comments.push_back(vorbis_comment("DATE", year));
 
 	comments.push_back(vorbis_comment("PERFORMER", "Cainteoir(TM) Text-to-Speech"));
 	comments.push_back(vorbis_comment("LICENSE", "http://creativecommons.org/licenses/by-sa/3.0/"));
