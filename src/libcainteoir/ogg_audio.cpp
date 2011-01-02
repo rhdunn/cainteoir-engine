@@ -143,13 +143,15 @@ class ogg_audio : public cainteoir::audio
 		}
 	}
 public:
-	ogg_audio(FILE *f, cainteoir::audio_format format, int channels, int frequency, float quality) : m_file(f)
+	ogg_audio(FILE *f, cainteoir::audio_format format, int channels, int frequency, float quality, const std::list<cainteoir::vorbis_comment> &comments)
+		: m_file(f)
 	{
 		vorbis_info_init(&vi);
 		vorbis_encode_init_vbr(&vi, channels, frequency, quality);
 
 		vorbis_comment_init(&vc);
-		vorbis_comment_add_tag(&vc, "ENCODER", "Cainteoir Text-to-Speech");
+		for (std::list<cainteoir::vorbis_comment>::const_iterator comment = comments.begin(), last = comments.end(); comment != last; ++comment)
+			vorbis_comment_add_tag(&vc, comment->label.c_str(), comment->value.c_str());
 
 		vorbis_analysis_init(&vd, &vi);
 		vorbis_block_init(&vd, &vb);
@@ -220,15 +222,15 @@ public:
 	}
 };
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality)
+std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::model &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
-	return std::auto_ptr<cainteoir::audio>(new ogg_audio(file, format, channels, frequency, quality));
+	return std::auto_ptr<cainteoir::audio>(new ogg_audio(file, format, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument)));
 }
 
 #else
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality)
+std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::model &aMetadata, const rdf::uri &aDocument)
 {
 	return std::auto_ptr<cainteoir::audio>();
 }

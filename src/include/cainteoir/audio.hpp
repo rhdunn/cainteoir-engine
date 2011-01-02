@@ -91,7 +91,7 @@ namespace cainteoir
 	//@{
 
 	std::auto_ptr<audio> create_wav_file(const char *filename, audio_format format, int channels, int frequency);
-	std::auto_ptr<audio> create_ogg_file(const char *filename, audio_format format, int channels, int frequency, float quality);
+	std::auto_ptr<audio> create_ogg_file(const char *filename, audio_format format, int channels, int frequency, float quality, const rdf::model &aMetadata, const rdf::uri &aDocument);
 
 	//@}
 }

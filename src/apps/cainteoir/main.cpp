@@ -120,6 +120,9 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
+		rdf::model metadata;
+		const rdf::uri subject = rdf::uri(argv[0], std::string());
+
 		text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0]));
 
 		cainteoir::audio_format audioformat = tts->get_audioformat();
@@ -135,7 +138,7 @@ int main(int argc, char ** argv)
 			if (!strcmp(outformat, "wave"))
 				out = cainteoir::create_wav_file(outfile, audioformat, channels, frequency);
 			else if (!strcmp(outformat, "ogg"))
-				out = cainteoir::create_ogg_file(outfile, audioformat, channels, frequency, 0.3);
+				out = cainteoir::create_ogg_file(outfile, audioformat, channels, frequency, 0.3, metadata, subject);
 
 			if (!out.get())
 			{
