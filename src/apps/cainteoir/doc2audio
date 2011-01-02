@@ -89,10 +89,13 @@ epub2ogg()
 
 	rm -rf /tmp/epub
 	mkdir /tmp/epub && unzip "$SRC" -d /tmp/epub >/dev/null
-	DC_CREATOR=`cat /tmp/epub/*/content.opf | grep -F "dc:creator" | sed -e 's,.*<dc:creator>,,' -e 's,</dc:creator>.*,,'`
-	DC_TITLE=`cat /tmp/epub/*/content.opf | grep -F "dc:title" | sed -e 's,.*<dc:title>,,' -e 's,</dc:title>.*,,'`
 
-	dir2ogg /tmp/epub "$DEST" "`basename $SRC | sed -e 's,\.epub,,'`" "$DC_TITLE" "$DC_CREATOR"
+	CAINTEOIR_DATADIR=/usr/share/cainteoir-engine metadata --vorbis "$SRC" > /tmp/metadata.txt
+
+	ARTIST=`cat /tmp/metadata.txt | grep -F "ARTIST=" | sed -e 's,ARTIST=,,'`
+	ALBUM=`cat /tmp/metadata.txt | grep -F "ALBUM=" | sed -e 's,ALBUM=,,'`
+
+	dir2ogg /tmp/epub "$DEST" "`basename $SRC | sed -e 's,\.epub,,'`" "$ALBUM" "$ARTIST"
 	rm -rf /tmp/epub
 }
 
