@@ -132,8 +132,8 @@ public:
 			os << std::endl;
 		}
 
-		for (cainteoir::rdf::model::const_iterator statement = model.begin(), last = model.end(); statement != last; ++statement)
-			*this << *statement;
+		for (rdf::query::selector query(model); query; ++query)
+			*this << *query;
 
 		return *this;
 	}

@@ -43,14 +43,14 @@ void vorbis_comments_author(const rdf::model &aMetadata, const rdf::bnode &aDocu
 	std::string author;
 	std::string role;
 
-	for (rdf::model::const_iterator statement = aMetadata.begin(), last = aMetadata.end(); statement != last; ++statement)
+	for (rdf::query::selector query(aMetadata); query; ++query)
 	{
-		if (rdf::query::subject(*statement) == aDocument)
+		if (rdf::query::subject(*query) == aDocument)
 		{
-			const std::string &object = rdf::query::value(rdf::query::object(*statement));
-			if (statement->predicate == rdf::rdf("value"))
+			const std::string &object = rdf::query::value(rdf::query::object(*query));
+			if (query->predicate == rdf::rdf("value"))
 				author = object;
-			else if (statement->predicate == rdf::opf("role"))
+			else if (query->predicate == rdf::opf("role"))
 				role = object;
 		}
 	}
@@ -63,23 +63,23 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 {
 	std::list<vorbis_comment> comments;
 
-	for (rdf::model::const_iterator statement = aMetadata.begin(), last = aMetadata.end(); statement != last; ++statement)
+	for (rdf::query::selector query(aMetadata); query; ++query)
 	{
-		if (rdf::query::subject(*statement) == aDocument)
+		if (rdf::query::subject(*query) == aDocument)
 		{
-			const std::string &object = rdf::query::value(rdf::query::object(*statement));
+			const std::string &object = rdf::query::value(rdf::query::object(*query));
 			if (!object.empty())
 			{
-				if (statement->predicate == rdf::dc("creator"))
+				if (query->predicate == rdf::dc("creator"))
 					comments.push_back(vorbis_comment("ARTIST", object));
-				else if (statement->predicate == rdf::dc("title"))
+				else if (query->predicate == rdf::dc("title"))
 					comments.push_back(vorbis_comment("ALBUM", object));
-				else if (statement->predicate == rdf::dc("description"))
+				else if (query->predicate == rdf::dc("description"))
 					comments.push_back(vorbis_comment("DESCRIPTION", object));
 			}
-			else if (statement->predicate == rdf::dc("creator"))
+			else if (query->predicate == rdf::dc("creator"))
 			{
-				const rdf::bnode *bnode = rdf::query::object(*statement);
+				const rdf::bnode *bnode = rdf::query::object(*query);
 				if (bnode)
 					vorbis_comments_author(aMetadata, *bnode, comments);
 			}
