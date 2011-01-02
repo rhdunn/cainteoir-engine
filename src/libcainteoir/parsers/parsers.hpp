@@ -22,10 +22,33 @@
 #define CAINTEOIR_ENGINE_PARSERS_HPP
 
 #include "xml.hpp"
+#include <list>
 #include <map>
 
 namespace cainteoir
 {
+	struct fileinfo
+	{
+		std::string filename; /**< @brief The name of the file. */
+		std::string mimetype; /**< @brief The mime type of the file */
+
+		fileinfo(const std::string &aFileName, const std::string &aMimeType)
+			: filename(aFileName)
+			, mimetype(aMimeType)
+		{
+		}
+
+		fileinfo()
+		{
+		}
+	};
+
+	struct opffiles
+	{
+		fileinfo toc;
+		std::list<fileinfo> spine;
+	};
+
 	/** @brief Open Container Format (OCF)
 	  * @see   http://www.idpf.org/ocf/ocf1.0/download/ocf10.htm
 	  * @see   http://www.idpf.org/specs.htm
@@ -43,7 +66,7 @@ namespace cainteoir
 	  * @param aSubject  The subject to use for any Dublin Core metadata.
 	  * @param aMetadata The RDF model to add any metadata to.
 	  */
-	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
+	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata, opffiles &aOpfFiles);
 
 	/** @brief RDF/XML
 	  * @see   http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/

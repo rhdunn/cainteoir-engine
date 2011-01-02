@@ -99,10 +99,54 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::model 
 	}
 }
 
-void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, rdf::model &metadata)
+void parseOpfManifest(const xml::node &opf, const rdf::uri &subject, std::map<std::string, cainteoir::fileinfo> &aItemSet)
+{
+	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
+	{
+		if (node.type() == XML_ELEMENT_NODE && node == rdf::opf("item"))
+		{
+			std::string id;
+			std::string href;
+			std::string mediatype;
+
+			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+			{
+				if (!strcmp(attr.name(), "id"))
+					id = attr.content();
+				else if (!strcmp(attr.name(), "href"))
+					href = attr.content();
+				else if (!strcmp(attr.name(), "media-type"))
+					mediatype = attr.content();
+			}
+
+			aItemSet[id] = cainteoir::fileinfo(href, mediatype);
+		}
+	}
+}
+
+void parseOpfSpine(const xml::node &opf, const rdf::uri &subject, std::list<std::string> &aSpine)
+{
+	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
+	{
+		if (node.type() == XML_ELEMENT_NODE && node == rdf::opf("itemref"))
+		{
+			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+			{
+				if (!strcmp(attr.name(), "idref"))
+					aSpine.push_back(attr.content());
+			}
+		}
+	}
+}
+
+void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, rdf::model &metadata, opffiles &aOpfFiles)
 {
 	if (opf != rdf::opf("package"))
 		throw std::runtime_error("OPF file is not of a recognised format.");
+
+	std::string toc;
+	std::list<std::string> spine;
+	std::map<std::string, fileinfo> files;
 
 	for (xml::node section = opf.firstChild(); section.isValid(); section.next())
 	{
@@ -110,7 +154,22 @@ void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, 
 		{
 			if (section == rdf::opf("metadata"))
 				parseOpfMetadata(section, subject, metadata, true);
+			else if (section == rdf::opf("manifest"))
+				parseOpfManifest(section, subject, files);
+			else if (section == rdf::opf("spine"))
+			{
+				for (xml::attribute attr = section.firstAttribute(); attr.isValid(); attr.next())
+				{
+					if (!strcmp(attr.name(), "toc"))
+						toc = attr.content();
+				}
+				parseOpfSpine(section, subject, spine);
+			}
 		}
 	}
-}
 
+	aOpfFiles.toc = files[toc];
+
+	for (std::list<std::string>::const_iterator id = spine.begin(), last = spine.end(); id != last; ++id)
+		aOpfFiles.spine.push_back(files[*id]);
+}

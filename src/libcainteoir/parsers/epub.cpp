@@ -33,7 +33,9 @@ void cainteoir::parseEpubDocument(const char *aFilename, rdf::model &aMetadata)
 	if (opffile.empty())
 		throw std::runtime_error("Unsupported ePub content: OPF file not found.");
 
+	cainteoir::opffiles files;
+
 	xml::document opf(epub.read(opffile.c_str()));
-	cainteoir::parseOpfDocument(opf.root(), rdf::uri(aFilename, std::string()), aMetadata);
+	cainteoir::parseOpfDocument(opf.root(), rdf::uri(aFilename, std::string()), aMetadata, files);
 }
 

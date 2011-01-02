@@ -50,8 +50,6 @@ namespace cainteoir
 	  *    -  DOCX:    Microsoft Word document format (XML-based).
 	  *
 	  * The following existing parsers need work to be complete:
-	  *    -  OPF:     extract the information in the manifest and spine sections.
-	  *    -  RDF/XML: complete the parser so that it is to spec (use test cases from the spec?).
 	  *    -  SMIL:    extract text information from the SMIL document.
 	  *    -  ePub:    extract text information from the ePub document (requires complete OPF, NCX and (X)HTML parsers).
 	  */
