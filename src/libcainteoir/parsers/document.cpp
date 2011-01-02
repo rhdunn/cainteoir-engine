@@ -19,7 +19,7 @@
  */
 
 #include <cainteoir/parsers.hpp>
-#include <cainteoir/mimetypes.hpp>
+#include "mimetypes.hpp"
 
 namespace xml = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;

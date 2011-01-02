@@ -21,7 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_MIMETYPES_HPP
 #define CAINTEOIR_ENGINE_MIMETYPES_HPP
 
-#include "buffer.hpp"
+#include <cainteoir/buffer.hpp>
 #include <magic.h>
 #include <stdexcept>
 #include <cstdlib>
