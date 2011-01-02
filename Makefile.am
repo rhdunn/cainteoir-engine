@@ -48,7 +48,7 @@ src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/libcainteoir/audio/pulse.cpp \
 	src/libcainteoir/audio/wav.cpp \
 	src/libcainteoir/audio/ogg.cpp \
-	src/libcainteoir/espeak_engine.cpp
+	src/libcainteoir/tts/espeak.cpp
 
 ############################# applications ####################################
 
