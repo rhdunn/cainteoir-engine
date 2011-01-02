@@ -38,25 +38,26 @@ std::string now()
 	return date;
 }
 
-void vorbis_comments_author(const rdf::model &aMetadata, const rdf::bnode &aDocument, std::list<cainteoir::vorbis_comment> &comments)
+std::string select_rdfvalue(const rdf::model &aMetadata, const rdf::bnode *aDocument, const rdf::uri &predicate, const std::string &value)
 {
-	std::string author;
-	std::string role;
+	if (!aDocument) return std::string();
+
+	std::string text;
+	bool match = false;
 
 	for (rdf::query::selector query(aMetadata); query; ++query)
 	{
-		if (rdf::query::subject(*query) == aDocument)
+		if (rdf::query::subject(*query) == *aDocument)
 		{
 			const std::string &object = rdf::query::value(rdf::query::object(*query));
 			if (query->predicate == rdf::rdf("value"))
-				author = object;
-			else if (query->predicate == rdf::opf("role"))
-				role = object;
+				text = object;
+			else if (query->predicate == predicate)
+				match = (object == value);
 		}
 	}
 
-	if (!author.empty() && role == "aut")
-		comments.push_back(cainteoir::vorbis_comment("ARTIST", author));
+	return match ? text : std::string();
 }
 
 std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model &aMetadata, const rdf::uri &aDocument)
@@ -79,9 +80,9 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 			}
 			else if (query->predicate == rdf::dc("creator"))
 			{
-				const rdf::bnode *bnode = rdf::query::object(*query);
-				if (bnode)
-					vorbis_comments_author(aMetadata, *bnode, comments);
+				std::string author = select_rdfvalue(aMetadata, rdf::query::object(*query), rdf::opf("role"), "aut");
+				if (!author.empty())
+					comments.push_back(cainteoir::vorbis_comment("ARTIST", author));
 			}
 		}
 	}
