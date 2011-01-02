@@ -55,8 +55,8 @@ html2ogg_ext()
 	else
 		TITLE=`cat "$SRC" | grep -F "<title>" | sed -e 's,.*<title>,,' -e 's,</title>.*,,'`
 		echo "author |$4| album |$3| chapter |$TITLE|"
-		lynx -dump -nonumbers -nolist "$SRC" > /tmp/text.txt
-		cainteoir /tmp/text.txt --type wave -o- | oggenc - -o "$OUT.ogg" -c "ALBUM=$ALBUM" -c "ARTIST=$ARTIST" -c "GENRE=Vocal" -c "TITLE=$TITLE" -c "TRACKNUMBER=$N"
+		html2ogg "$SRC" "$OUT.ogg"
+		vorbiscomment -a -t "ALBUM=$ALBUM" -t "ARTIST=$ARTIST" -t "TITLE=$TITLE" -t "TRACKNUMBER=$N" "$OUT.ogg"
 	fi
 }
 
