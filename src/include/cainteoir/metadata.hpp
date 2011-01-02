@@ -29,6 +29,11 @@
 
 namespace cainteoir { namespace rdf
 {
+	namespace query
+	{
+		static const std::string nil;
+	}
+
 	/** @brief RDF node
 	  */
 	struct node
@@ -279,6 +284,14 @@ namespace cainteoir { namespace rdf
 		}
 	};
 
+	namespace query
+	{
+		inline const std::string &value(const rdf::literal *literal)
+		{
+			return literal ? literal->value : nil;
+		}
+	}
+
 	/** @brief An RDF statement (triple)
 	  */
 	class statement
@@ -299,22 +312,6 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		/** @name RDF node attribute selectors
-		  */
-		//@{
-
-		static const std::string nil;
-
-		inline const std::string &value(const rdf::literal *literal)
-		{
-			return literal ? literal->value : nil;
-		}
-
-		//@}
-		/** @name RDF statement selectors
-		  */
-		//@{
-
 		template <typename T>
 		inline maybe_type<T> subject(const rdf::statement &statement)
 		{
@@ -326,8 +323,6 @@ namespace cainteoir { namespace rdf
 		{
 			return cast<T>(statement.object);
 		}
-
-		//@}
 	}
 
 	/** @brief RDF model
