@@ -38,6 +38,46 @@ namespace cainteoir { namespace rdf
 		virtual ~node() {}
 	};
 
+	template<typename T>
+	class maybe_type
+	{
+	public:
+		explicit maybe_type(const T *aValue)
+			: value(aValue)
+		{
+		}
+
+		operator const T *() const
+		{
+			return value;
+		}
+
+		bool operator==(const T &rhs) const
+		{
+			return value && *value == rhs;
+		}
+	private:
+		const T *value;
+	};
+
+	template <typename T>
+	inline maybe_type<T> cast(const rdf::node *value)
+	{
+		return maybe_type<T>(dynamic_cast<const T *>(value));
+	}
+
+	template <typename T>
+	inline maybe_type<T> cast(const rdf::node &value)
+	{
+		return cast<T>(&value);
+	}
+
+	template <typename T, typename U>
+	inline maybe_type<T> cast(const std::tr1::shared_ptr<U> &value)
+	{
+		return cast<T>(value.get());
+	}
+
 	/** @brief RDF resource
 	  */
 	struct resource : public node
@@ -259,46 +299,6 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		template<typename T>
-		class maybe_type
-		{
-		public:
-			explicit maybe_type(const T *aValue)
-				: value(aValue)
-			{
-			}
-
-			operator const T *() const
-			{
-				return value;
-			}
-
-			bool operator==(const T &rhs) const
-			{
-				return value && *value == rhs;
-			}
-		private:
-			const T *value;
-		};
-
-		template <typename T>
-		inline maybe_type<T> cast(const rdf::node *value)
-		{
-			return maybe_type<T>(dynamic_cast<const T *>(value));
-		}
-
-		template <typename T>
-		inline maybe_type<T> cast(const rdf::node &value)
-		{
-			return cast<T>(&value);
-		}
-
-		template <typename T, typename U>
-		inline maybe_type<T> cast(const std::tr1::shared_ptr<U> &value)
-		{
-			return cast<T>(value.get());
-		}
-
 		/** @name RDF node attribute selectors
 		  */
 		//@{
