@@ -28,7 +28,7 @@ def check_metadata(filename, expect):
 	tmpfile = '/tmp/metadata.txt'
 
 	print '... checking %s' % filename
-	os.system('CAINTEOIR_DATADIR=%s %s --vorbis "%s" > %s' % (os.path.dirname(sys.path[0]), os.path.join(sys.path[0], '../src/apps/metadata/metadata'), filename, tmpfile))
+	os.system('CAINTEOIR_DATADIR=%s %s --vorbis "%s" > %s' % (os.path.join(sys.path[0], '../data'), os.path.join(sys.path[0], '../src/apps/metadata/metadata'), filename, tmpfile))
 
 	with open(expect, 'r') as f:
 		expected = [ unicode(x.replace('<DATETIME>', date.today().strftime('%Y/%m/%d'))) for x in f.read().split('\n') if not x == '' ]

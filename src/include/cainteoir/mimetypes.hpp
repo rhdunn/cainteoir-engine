@@ -41,7 +41,7 @@ namespace cainteoir
 			if (!basedir)
 				throw std::runtime_error("CAINTEOIR_DATADIR environment variable not set.");
 
-			std::string filename = std::string(basedir) + "/data/magic.mgc";
+			std::string filename = std::string(basedir) + "/magic.mgc";
 			if (magic_load(cookie, filename.c_str()) == -1)
 				throw std::runtime_error(magic_error(cookie));
 		}
