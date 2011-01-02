@@ -18,7 +18,8 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cainteoir/parsers.hpp>
+#include <cainteoir/document.hpp>
+#include "parsers.hpp"
 #include "mimetypes.hpp"
 
 namespace xml = cainteoir::xmldom;

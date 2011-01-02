@@ -20,13 +20,16 @@
 
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
-#include <cainteoir/parsers.hpp>
+#include <cainteoir/document.hpp>
+#include <stdexcept>
 #include <iostream>
 #include <cstdio>
 #include <getopt.h>
 
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
+
 namespace rdf = cainteoir::rdf;
-namespace xml = cainteoir::xmldom;
 
 enum args
 {
