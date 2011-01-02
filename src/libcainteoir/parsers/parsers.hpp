@@ -21,7 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_PARSERS_HPP
 #define CAINTEOIR_ENGINE_PARSERS_HPP
 
-#include <cainteoir/xml.hpp>
+#include "xml.hpp"
 #include <map>
 
 namespace cainteoir

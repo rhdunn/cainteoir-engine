@@ -18,7 +18,7 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cainteoir/xml.hpp>
+#include "xml.hpp"
 
 namespace cainteoir { namespace xmldom
 {
