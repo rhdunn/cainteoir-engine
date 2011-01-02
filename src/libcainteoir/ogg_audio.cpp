@@ -45,9 +45,9 @@ void vorbis_comments_author(const rdf::model &aMetadata, const rdf::bnode &aDocu
 
 	for (rdf::model::const_iterator statement = aMetadata.begin(), last = aMetadata.end(); statement != last; ++statement)
 	{
-		if (rdf::query::subject<rdf::bnode>(*statement) == aDocument)
+		if (rdf::query::subject(*statement) == aDocument)
 		{
-			const std::string &object = rdf::query::value(rdf::query::object<rdf::literal>(*statement));
+			const std::string &object = rdf::query::value(rdf::query::object(*statement));
 			if (statement->predicate == rdf::rdf("value"))
 				author = object;
 			else if (statement->predicate == rdf::opf("role"))
@@ -65,9 +65,9 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 
 	for (rdf::model::const_iterator statement = aMetadata.begin(), last = aMetadata.end(); statement != last; ++statement)
 	{
-		if (rdf::query::subject<rdf::uri>(*statement) == aDocument)
+		if (rdf::query::subject(*statement) == aDocument)
 		{
-			const std::string &object = rdf::query::value(rdf::query::object<rdf::literal>(*statement));
+			const std::string &object = rdf::query::value(rdf::query::object(*statement));
 			if (!object.empty())
 			{
 				if (statement->predicate == rdf::dc("creator"))
@@ -79,7 +79,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 			}
 			else if (statement->predicate == rdf::dc("creator"))
 			{
-				const rdf::bnode *bnode = rdf::query::object<rdf::bnode>(*statement);
+				const rdf::bnode *bnode = rdf::query::object(*statement);
 				if (bnode)
 					vorbis_comments_author(aMetadata, *bnode, comments);
 			}

@@ -85,11 +85,11 @@ public:
 	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::statement &statement)
 	{
 		{
-			const rdf::bnode *bnode = rdf::query::subject<rdf::bnode>(statement);
+			const rdf::bnode *bnode = rdf::query::subject(statement);
 			if (bnode)
 				*this << *bnode;
 
-			const rdf::uri *uri = rdf::query::subject<rdf::uri>(statement);
+			const rdf::uri *uri = rdf::query::subject(statement);
 			if (uri)
 				*this << *uri;
 		}
@@ -99,15 +99,15 @@ public:
 		os << ' ';
 
 		{
-			const rdf::bnode *bnode = rdf::query::object<rdf::bnode>(statement);
+			const rdf::bnode *bnode = rdf::query::object(statement);
 			if (bnode)
 				*this << *bnode;
 
-			const rdf::literal *literal = rdf::query::object<rdf::literal>(statement);
+			const rdf::literal *literal = rdf::query::object(statement);
 			if (literal)
 				*this << *literal;
 
-			const rdf::uri *uri = rdf::query::object<rdf::uri>(statement);
+			const rdf::uri *uri = rdf::query::object(statement);
 			if (uri)
 				*this << *uri;
 		}

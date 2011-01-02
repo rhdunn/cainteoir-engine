@@ -43,45 +43,29 @@ namespace cainteoir { namespace rdf
 		virtual ~node() {}
 	};
 
-	template<typename T>
-	class maybe_type
+	class any_type
 	{
 	public:
-		explicit maybe_type(const T *aValue)
+		explicit any_type(const rdf::node *aValue)
 			: value(aValue)
 		{
 		}
 
+		template<typename T>
 		operator const T *() const
 		{
-			return value;
+			return dynamic_cast<const T *>(value);
 		}
 
+		template<typename T>
 		bool operator==(const T &rhs) const
 		{
-			return value && *value == rhs;
+			const T * lhs = dynamic_cast<const T *>(value);
+			return lhs && *lhs == rhs;
 		}
 	private:
-		const T *value;
+		const rdf::node *value;
 	};
-
-	template <typename T>
-	inline maybe_type<T> cast(const rdf::node *value)
-	{
-		return maybe_type<T>(dynamic_cast<const T *>(value));
-	}
-
-	template <typename T>
-	inline maybe_type<T> cast(const rdf::node &value)
-	{
-		return cast<T>(&value);
-	}
-
-	template <typename T, typename U>
-	inline maybe_type<T> cast(const std::tr1::shared_ptr<U> &value)
-	{
-		return cast<T>(value.get());
-	}
 
 	/** @brief RDF resource
 	  */
@@ -312,16 +296,14 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		template <typename T>
-		inline maybe_type<T> subject(const rdf::statement &statement)
+		inline any_type subject(const rdf::statement &statement)
 		{
-			return cast<T>(statement.subject);
+			return any_type(statement.subject.get());
 		}
 
-		template <typename T>
-		inline maybe_type<T> object(const rdf::statement &statement)
+		inline any_type object(const rdf::statement &statement)
 		{
-			return cast<T>(statement.object);
+			return any_type(statement.object.get());
 		}
 	}
 
@@ -351,17 +333,17 @@ namespace cainteoir { namespace rdf
 		void push_back(const statement &s)
 		{
 			{
-				const rdf::uri *uri = rdf::query::subject<rdf::uri>(s);
+				const rdf::uri *uri = rdf::query::subject(s);
 				if (uri)
 					namespaces.insert(uri->ns);
 			}
 			namespaces.insert(s.predicate.ns);
 			{
-				const rdf::uri *uri = rdf::query::object<rdf::uri>(s);
+				const rdf::uri *uri = rdf::query::object(s);
 				if (uri)
 					namespaces.insert(uri->ns);
 
-				const rdf::literal *literal = rdf::query::object<rdf::literal>(s);
+				const rdf::literal *literal = rdf::query::object(s);
 				if (literal && !literal->type.ns.empty())
 					namespaces.insert(literal->type.ns);
 			}
