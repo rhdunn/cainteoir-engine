@@ -20,10 +20,14 @@
 
 #include <cainteoir/tts_engine.hpp>
 #include <cainteoir/parsers.hpp>
+#include <stdexcept>
 #include <iostream>
 #include <cstdio>
 #include <memory>
 #include <getopt.h>
+
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
 
 namespace rdf = cainteoir::rdf;
 
@@ -45,6 +49,8 @@ static struct option options[] =
 
 int main(int argc, char ** argv)
 {
+	LIBXML_TEST_VERSION
+
 	try
 	{
 		enum
@@ -90,10 +96,7 @@ int main(int argc, char ** argv)
 
 		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine();
 		if (!tts->set_voice_by_name(voice))
-		{
-			fprintf(stderr, "error: unrecognised voice %s\n", voice);
-			return 0;
-		}
+			throw std::runtime_error("unrecognised voice");
 
 		if (action == show_metadata)
 		{
@@ -116,10 +119,7 @@ int main(int argc, char ** argv)
 		}
 
 		if (argc != 1)
-		{
-			fprintf(stderr, "error: no document specified\n");
-			return 0;
-		}
+			throw std::runtime_error("no document specified");
 
 		rdf::model metadata;
 		cainteoir::parseDocument(argv[0], metadata);
@@ -144,10 +144,7 @@ int main(int argc, char ** argv)
 				out = cainteoir::create_ogg_file(outfile, audioformat, channels, frequency, 0.3, metadata, subject);
 
 			if (!out.get())
-			{
-				fprintf(stderr, "error: unsupported audio file format\n");
-				return 0;
-			}
+				throw std::runtime_error("unsupported audio file format");
 		}
 		else
 			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency);
@@ -159,5 +156,6 @@ int main(int argc, char ** argv)
 		fprintf(stderr, "error: %s\n", e.what());
 	}
 
+	xmlCleanupParser();
 	return 0;
 }
