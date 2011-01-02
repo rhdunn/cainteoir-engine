@@ -20,7 +20,6 @@
 
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
-#include <cainteoir/mimetypes.hpp>
 #include <cainteoir/parsers.hpp>
 #include <iostream>
 #include <cstdio>
@@ -88,28 +87,8 @@ int main(int argc, char ** argv)
 			throw std::runtime_error("no document specified");
 
 		rdf::model metadata;
-
-		std::string type = cainteoir::mimetypes()(argv[0]);
-		if (type == "application/xml")
-		{
-			const rdf::uri subject = rdf::uri(argv[0], std::string());
-
-			xml::document doc(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0])));
-			xml::node root = doc.root();
-
-			if (root == rdf::opf("package"))
-				cainteoir::parseOpfDocument(root, subject, metadata);
-			else if (root == rdf::rdf("RDF"))
-				cainteoir::parseRdfXmlDocument(root, subject, metadata);
-			else if (root == rdf::smil("smil"))
-				cainteoir::parseSmilDocument(root, subject, metadata);
-			else
-				fprintf(stderr, "unrecognised XML document root: [%s]%s\n", root.namespaceURI(), root.name());
-		}
-		else if (type == "application/epub+zip")
-			cainteoir::parseEpubDocument(argv[0], metadata);
-		else
-			fprintf(stderr, "unsupported document format: %s\n", type.c_str());
+		if (!cainteoir::parseDocument(argv[0], metadata))
+			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
 
 		if (!metadata.empty())
 		{

@@ -19,6 +19,7 @@
  */
 
 #include <cainteoir/tts_engine.hpp>
+#include <cainteoir/parsers.hpp>
 #include <iostream>
 #include <cstdio>
 #include <memory>
@@ -121,6 +122,8 @@ int main(int argc, char ** argv)
 		}
 
 		rdf::model metadata;
+		cainteoir::parseDocument(argv[0], metadata);
+
 		const rdf::uri subject = rdf::uri(argv[0], std::string());
 
 		text_buffer = std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0]));

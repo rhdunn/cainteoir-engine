@@ -129,6 +129,18 @@ namespace cainteoir
 	  */
 	void parseEpubDocument(const char *aFilename, rdf::model &aMetadata);
 
+	/** @brief Any supported document type.
+	  *
+	  * This is the main API to use to extract information from a document.
+	  *
+	  * @param aFilename The path to the ePub document.
+	  * @param aMetadata The RDF model to add any metadata to.
+	  *
+	  * @retval true  If aFilename contains a supported document format.
+	  * @retval false If aFilename contains an unsupported document format.
+	  */
+	bool parseDocument(const char *aFilename, rdf::model &aMetadata);
+
 	//@}
 }
 
