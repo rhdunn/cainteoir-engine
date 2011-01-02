@@ -30,7 +30,7 @@
 html2ogg()
 {
 	lynx -dump -nonumbers -nolist "$1" > /tmp/text.txt
-	cainteoir /tmp/text.txt --type ogg -o "$2"
+	CAINTEOIR_DATADIR=/usr/share/cainteoir-engine cainteoir /tmp/text.txt --type ogg -o "$2"
 }
 
 # This is a temporary workaround until cainteoir supports html documents
@@ -103,7 +103,7 @@ SRC=$2
 DEST=$1
 
 case "$SRC" in
-	*.txt)          cainteoir "$SRC" --type ogg -o "$DEST" ;;
+	*.txt)          CAINTEOIR_DATADIR=/usr/share/cainteoir-engine cainteoir "$SRC" --type ogg -o "$DEST" ;;
 	*.html|*.xhtml) html2ogg "$SRC" "$DEST" ;;
 	*.epub)		epub2ogg "$SRC" "$DEST" ;;
 	*)		dir2ogg "$SRC" "$DEST" "`basename $SRC`" "Unknown" "Unknown" ;;
