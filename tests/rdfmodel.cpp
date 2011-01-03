@@ -126,15 +126,27 @@ void test_literal(const rdf::node &node, const std::string value, const std::str
 	equal(literal->type.ref,   uri.ref);
 }
 
-void test_literal()
+template<typename T>
+void test_literal(const T &value, const std::string &expected, const rdf::uri &uri)
 {
 	const rdf::uri nulluri = rdf::uri(std::string(), std::string());
 
-	test_literal(rdf::literal("This is a test."), "This is a test.", std::string(), nulluri);
-	test_literal(rdf::literal("This is a test.", "en"), "This is a test.", "en", nulluri);
-	test_literal(rdf::literal("This is a test.", "en-GB"), "This is a test.", "en-GB", nulluri);
-	test_literal(rdf::literal("This is a test.", rdf::xsd("string")), "This is a test.", std::string(), rdf::xsd("string"));
-	test_literal(rdf::literal("27", rdf::xsd("int")), "27", std::string(), rdf::xsd("int"));
+	test_literal(rdf::literal(value), expected, std::string(), nulluri);
+	test_literal(rdf::literal(value, "en"), expected, "en", nulluri);
+	test_literal(rdf::literal(value, "en-GB"), expected, "en-GB", nulluri);
+	test_literal(rdf::literal(value, uri), expected, std::string(), uri);
+}
+
+void test_literal()
+{
+	test_literal("This is a test.", "This is a test.", rdf::xsd("string"));
+	test_literal("27", "27", rdf::xsd("int"));
+
+	test_literal(std::string("This is a test."), "This is a test.", rdf::xsd("string"));
+	test_literal(27, "27", rdf::xsd("int"));
+	test_literal(27l, "27", rdf::xsd("int"));
+	test_literal(27u, "27", rdf::xsd("int"));
+	test_literal(3.2, "3.2", rdf::xsd("string"));
 }
 
 void test_item(const rdf::node &a, const rdf::bnode &b)

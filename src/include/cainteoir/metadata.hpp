@@ -238,26 +238,46 @@ namespace cainteoir { namespace rdf
 	  */
 	class literal : public node
 	{
+		template<typename T>
+		static const std::string to_string(const T &value)
+		{
+			std::ostringstream ss;
+			ss << value;
+			return ss.str();
+		}
+
+		static const std::string &to_string(const std::string &value)
+		{
+			return value;
+		}
+
+		static const char *to_string(const char *value)
+		{
+			return value;
+		}
 	public:
 		const std::string value;    /**< @brief The content of the literal string. */
 		const std::string language; /**< @brief The language the literal string is written in [optional]. */
 		const uri type;             /**< @brief The type of the literal string [optional]. */
 
-		literal(const std::string &aValue)
-			: value(aValue)
+		template<typename T>
+		literal(const T &aValue)
+			: value(to_string(aValue))
 			, type(std::string(), std::string())
 		{
 		}
 
-		literal(const std::string &aValue, const std::string &aLanguage)
-			: value(aValue)
+		template<typename T>
+		literal(const T &aValue, const std::string &aLanguage)
+			: value(to_string(aValue))
 			, language(aLanguage)
 			, type(std::string(), std::string())
 		{
 		}
 
-		literal(const std::string &aValue, const uri &aType)
-			: value(aValue)
+		template<typename T>
+		literal(const T &aValue, const uri &aType)
+			: value(to_string(aValue))
 			, type(aType)
 		{
 		}
