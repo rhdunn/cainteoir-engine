@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<smil xmlns="http://www.w3.org/ns/SMIL" version="3.0" baseProfile="Language" xml:base="http://example.org/metaInf/assets/" xml:lang="es">
+	<head>
+		<metadata xml:id="meta-rdf">
+			<rdf:RDF
+				xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+				xmlns:dc ="http://purl.org/dc/elements/1.1/">
+
+				<rdf:Description rdf:about="http://www.example.com/test.smil">
+					<dc:title>Example SMIL Document</dc:title>
+				</rdf:Description>
+			</rdf:RDF>
+		</metadata>
+		<layout>
+			<region xml:id="Captions" top="215px" left="10%" width="80%" height="35px" textFontFamily="serif" textColor="orange" backgroundColor="blue"/>
+		</layout>
+	</head>
+	<body>
+		<seq>
+			<par>
+				<smilText region="Captions" textAlign="start" dur="8s">
+					Buenos dias!
+				</smilText>
+			</par>
+		</seq>
+  	</body>
+</smil>

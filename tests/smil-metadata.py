@@ -33,7 +33,7 @@ def check_metadata(filename, expect):
 		expected = [ unicode(x) for x in f.read().split('\n') if not x == '' ]
 
 	with open(tmpfile, 'r') as f:
-		got = [ unicode(x.replace('<%s#>' % filename, '<>')) for x in f.read().split('\n') if not x == '' ]
+		got = [ unicode(x.replace('<%s>' % filename, '<>')) for x in f.read().split('\n') if not x == '' ]
 
 	test.equal(got, expected, 'opf.format(%s)' % filename)
 

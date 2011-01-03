@@ -23,6 +23,20 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
+bool have_dclanguage(const rdf::model &aMetadata, const rdf::uri &aDocument)
+{
+	for (rdf::query::selector query(aMetadata); query; ++query)
+	{
+		if (rdf::query::subject(*query) == aDocument)
+		{
+			if (query->predicate == rdf::dc("language"))
+				return true;
+		}
+	}
+
+	return false;
+}
+
 void parseSmilMetadata(const xml::node &smil, const rdf::uri &subject, rdf::model &metadata)
 {
 	for (xml::node node = smil.firstChild(); node.isValid(); node.next())
@@ -52,4 +66,13 @@ void cainteoir::parseSmilDocument(const xml::node &smil, const rdf::uri &subject
 		throw std::runtime_error("SMIL document is not of a recognised format.");
 
 	parseSmilData(smil, subject, metadata);
+
+	if (!have_dclanguage(metadata, subject))
+	{
+		for (xml::attribute attr = smil.firstAttribute(); attr.isValid(); attr.next())
+		{
+			if (attr == rdf::xml("lang"))
+				metadata.push_back(rdf::statement(subject, rdf::dc("language"), rdf::literal(attr.content())));
+		}
+	}
 }

@@ -1,0 +1,4 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://www.example.com/test.smil> dc:title "Example SMIL Document" .
+<> dc:language "es" .
