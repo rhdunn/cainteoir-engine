@@ -26,14 +26,6 @@
 #include "metadata.hpp"
 #include <memory>
 
-namespace cainteoir { namespace tts
-{
-	inline const rdf::uri engine(const std::string &aRef)
-	{
-		return rdf::uri("http://rhdunn.github.com/cainteoir-engine/metadata/engines#", aRef);
-	}
-}}
-
 namespace cainteoir
 {
 	struct tts_engine

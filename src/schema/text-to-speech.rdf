@@ -7,7 +7,7 @@
 >
 
 <rdf:Description rdf:about="#">
-	<dc:title>Text-to-Speech Schema</dc:title>
+	<dc:title xml:lang="en">Text-to-Speech Schema</dc:title>
 	<dc:publisher>Reece H. Dunn</dc:publisher>
 	<dc:creator>Reece H. Dunn</dc:creator>
 </rdf:Description>
@@ -17,13 +17,13 @@
 <rdfs:Class rdf:ID="Engine">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>Engine</rdfs:label>
-	<rdfs:comment>A text-to-speech engine.</rdfs:comment>
+	<rdfs:comment xml:lang="en">A text-to-speech engine.</rdfs:comment>
 </rdfs:Class>
 
 <rdfs:Class rdf:ID="Voice">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>Voice</rdfs:label>
-	<rdfs:comment>A voice usable by an engine.</rdfs:comment>
+	<rdfs:comment xml:lang="en">A voice usable by an engine.</rdfs:comment>
 </rdfs:Class>
 
 <!-- properties -->
@@ -31,19 +31,43 @@
 <rdf:Property rdf:ID="frequency">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>frequency</rdfs:label>
-	<rdfs:comment>The frequency of the audio provided by the engine or voice.</rdfs:comment>
+	<rdfs:comment xml:lang="en">The frequency of the audio provided by the engine or voice.</rdfs:comment>
 </rdf:Property>
 
 <rdf:Property rdf:ID="channels">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>channels</rdfs:label>
-	<rdfs:comment>The number of audio channels provided by the engine or voice.</rdfs:comment>
+	<rdfs:comment xml:lang="en">The number of audio channels provided by the engine or voice.</rdfs:comment>
 </rdf:Property>
 
 <rdf:Property rdf:ID="audio-format">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>audio-format</rdfs:label>
-	<rdfs:comment>The format the audio data is encoded in.</rdfs:comment>
+	<rdfs:comment xml:lang="en">The format the audio data is encoded in.</rdfs:comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="hasVoice">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>hasVoice</rdfs:label>
+	<rdfs:comment xml:lang="en">A voice provided by the engine.</rdfs:comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="voiceOf">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>voiceOf</rdfs:label>
+	<rdfs:comment xml:lang="en">The engine the voice belongs to.</rdfs:comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="age">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>age</rdfs:label>
+	<rdfs:comment xml:lang="en">The approximate age of the voice.</rdfs:comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="gender">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>gender</rdfs:label>
+	<rdfs:comment xml:lang="en">The gender of the voice.</rdfs:comment>
 </rdf:Property>
 
 <!-- data types -->
@@ -52,14 +76,24 @@
 	<rdfs:subClassOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/> 
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>hertz</rdfs:label>
-	<rdfs:comment>The number of cycles per second.</rdfs:comment>
+	<rdfs:comment xml:lang="en">The number of cycles per second.</rdfs:comment>
 </rdf:Datatype>
 
 <!-- audio formats -->
 
 <skos:Concept rdf:ID="s16le">
-	<skos:prefLabel>16-bit signed little endian audio</skos:prefLabel>
+	<skos:prefLabel xml:lang="en">16-bit signed little endian audio</skos:prefLabel>
 	<skos:altLabel>S16_LE</skos:altLabel>
+</skos:Concept>
+
+<!-- gender -->
+
+<skos:Concept rdf:ID="male">
+	<skos:prefLabel xml:lang="en">male</skos:prefLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="female">
+	<skos:prefLabel xml:lang="en">female</skos:prefLabel>
 </skos:Concept>
 
 </rdf:RDF>

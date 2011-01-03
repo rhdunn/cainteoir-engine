@@ -38,7 +38,6 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
 }
 
 namespace rdf = cainteoir::rdf;
-namespace tts = cainteoir::tts;
 
 class espeak_engine : public cainteoir::tts_engine
 {
@@ -47,14 +46,16 @@ class espeak_engine : public cainteoir::tts_engine
 public:
 	espeak_engine()
 	{
+		std::string baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
+
 		m_frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, 0);
 		espeak_SetSynthCallback(espeak_tts_callback);
 
-		rdf::uri espeak = tts::engine("espeak");
+		rdf::uri espeak = rdf::uri(baseuri, std::string());
 		rdf::bnode jonsd = metadata.genid();
 
 		metadata.push_back(rdf::statement(espeak, rdf::rdf("type"), rdf::tts("Engine")));
-		metadata.push_back(rdf::statement(espeak, rdf::dc("title"), rdf::literal("eSpeak")));
+		metadata.push_back(rdf::statement(espeak, rdf::tts("name"), rdf::literal("eSpeak")));
 		metadata.push_back(rdf::statement(espeak, rdf::tts("frequency"), rdf::literal(m_frequency, rdf::tts("hertz"))));
 		metadata.push_back(rdf::statement(espeak, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int"))));
 		metadata.push_back(rdf::statement(espeak, rdf::tts("audio-format"),  rdf::tts("s16le")));
@@ -67,6 +68,22 @@ public:
 		metadata.push_back(rdf::statement(jonsd, rdf::foaf("familyName"), rdf::literal("Duddington")));
 		metadata.push_back(rdf::statement(jonsd, rdf::foaf("gender"), rdf::literal("male")));
 		metadata.push_back(rdf::statement(jonsd, rdf::foaf("isPrimaryTopicOf"), rdf::uri("http://sourceforge.net/users/jonsd", std::string())));
+
+		for (const espeak_VOICE **data = espeak_ListVoices(NULL); *data; ++data)
+		{
+			const char *lang = (*data)->languages+1;
+
+			rdf::uri voice = rdf::uri(baseuri, lang);
+			metadata.push_back(rdf::statement(voice, rdf::rdf("type"), rdf::tts("Voice")));
+			metadata.push_back(rdf::statement(voice, rdf::dc("language"), rdf::literal(lang)));
+			metadata.push_back(rdf::statement(voice, rdf::tts("name"), rdf::literal(lang)));
+			metadata.push_back(rdf::statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male")));
+			if ((*data)->age)
+				metadata.push_back(rdf::statement(voice, rdf::tts("age"), rdf::literal((*data)->age, rdf::xsd("int"))));
+
+			metadata.push_back(rdf::statement(espeak, rdf::tts("hasVoice"), voice));
+			metadata.push_back(rdf::statement(voice, rdf::tts("voiceOf"), espeak));
+		}
 	}
 
 	~espeak_engine()
