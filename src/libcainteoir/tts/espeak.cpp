@@ -55,6 +55,7 @@ public:
 
 		metadata.push_back(rdf::statement(espeak, rdf::rdf("type"), rdf::tts("Engine")));
 		metadata.push_back(rdf::statement(espeak, rdf::dc("title"), rdf::literal("eSpeak")));
+		metadata.push_back(rdf::statement(espeak, rdf::tts("frequency"), rdf::literal(m_frequency, rdf::tts("hertz"))));
 		metadata.push_back(rdf::statement(espeak, rdf::dc("creator"), jsond));
 
 		metadata.push_back(rdf::statement(jsond, rdf::rdf("type"), rdf::foaf("Person")));

@@ -12,6 +12,8 @@
 	<dc:creator>Reece H. Dunn</dc:creator>
 </rdf:Description>
 
+<!-- classes -->
+
 <rdfs:Class rdf:ID="Engine">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>Engine</rdfs:label>
@@ -23,5 +25,22 @@
 	<rdfs:label>Voice</rdfs:label>
 	<rdfs:comment>A voice usable by an engine.</rdfs:comment>
 </rdfs:Class>
+
+<!-- properties -->
+
+<rdf:Property rdf:ID="frequency">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>frequency</rdfs:label>
+	<rdfs:comment>The frequency of the audio provided by the engine or voice.</rdfs:comment>
+</rdf:Property>
+
+<!-- data types -->
+
+<rdf:Datatype rdf:ID="hertz">
+	<rdfs:subClassOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/> 
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>hertz</rdfs:label>
+	<rdfs:comment>The number of cycles per second.</rdfs:comment>
+</rdf:Datatype>
 
 </rdf:RDF>
