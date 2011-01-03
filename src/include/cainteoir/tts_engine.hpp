@@ -32,8 +32,6 @@ namespace cainteoir
 	{
 		virtual ~tts_engine() {}
 
-		virtual const rdf::model &get_metadata() const = 0;
-
 		virtual int get_channels() const = 0;
 		virtual int get_frequency() const = 0;
 		virtual cainteoir::audio_format get_audioformat() const = 0;
@@ -43,7 +41,7 @@ namespace cainteoir
 		virtual void speak(buffer *text, audio *out) = 0;
 	};
 
-	std::auto_ptr<tts_engine> create_espeak_engine();
+	std::auto_ptr<tts_engine> create_espeak_engine(rdf::model &aMetadata);
 }
 
 #endif

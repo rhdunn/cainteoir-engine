@@ -94,7 +94,9 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine();
+		rdf::model metadata;
+
+		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine(metadata);
 		if (!tts->set_voice_by_name(voice))
 			throw std::runtime_error("unrecognised voice");
 
@@ -114,14 +116,13 @@ int main(int argc, char ** argv)
 				<< rdf::skos
 				<< rdf::foaf
 				<< rdf::tts
-				<< tts->get_metadata();
+				<< metadata;
 			return 0;
 		}
 
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
-		rdf::model metadata;
 		std::list<cainteoir::event> events;
 		cainteoir::parseDocument(argv[0], metadata, events);
 

@@ -42,9 +42,8 @@ namespace rdf = cainteoir::rdf;
 class espeak_engine : public cainteoir::tts_engine
 {
 	int m_frequency;
-	rdf::model metadata;
 public:
-	espeak_engine()
+	espeak_engine(rdf::model &metadata)
 	{
 		std::string baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
 
@@ -95,11 +94,6 @@ public:
 	/** @name cainteoir::tts_engine */
 	//@{
 
-	const rdf::model &get_metadata() const
-	{
-		return metadata;
-	}
-
 	int get_channels() const
 	{
 		return 1;
@@ -131,8 +125,8 @@ public:
 	//@}
 };
 
-std::auto_ptr<cainteoir::tts_engine> cainteoir::create_espeak_engine()
+std::auto_ptr<cainteoir::tts_engine> cainteoir::create_espeak_engine(rdf::model &aMetadata)
 {
-	return std::auto_ptr<cainteoir::tts_engine>(new espeak_engine());
+	return std::auto_ptr<cainteoir::tts_engine>(new espeak_engine(aMetadata));
 }
 
