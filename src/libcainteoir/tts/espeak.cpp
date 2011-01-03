@@ -51,20 +51,20 @@ public:
 		espeak_SetSynthCallback(espeak_tts_callback);
 
 		rdf::uri espeak = tts::engine("espeak");
-		rdf::bnode jsond = metadata.genid();
+		rdf::bnode jonsd = metadata.genid();
 
 		metadata.push_back(rdf::statement(espeak, rdf::rdf("type"), rdf::tts("Engine")));
 		metadata.push_back(rdf::statement(espeak, rdf::dc("title"), rdf::literal("eSpeak")));
 		metadata.push_back(rdf::statement(espeak, rdf::tts("frequency"), rdf::literal(m_frequency, rdf::tts("hertz"))));
-		metadata.push_back(rdf::statement(espeak, rdf::dc("creator"), jsond));
+		metadata.push_back(rdf::statement(espeak, rdf::dc("creator"), jonsd));
 
-		metadata.push_back(rdf::statement(jsond, rdf::rdf("type"), rdf::foaf("Person")));
-		metadata.push_back(rdf::statement(jsond, rdf::foaf("name"), rdf::literal("Jonathan Duddington")));
-		metadata.push_back(rdf::statement(jsond, rdf::foaf("title"), rdf::literal("Mr.")));
-		metadata.push_back(rdf::statement(jsond, rdf::foaf("givenName"), rdf::literal("Jonathan")));
-		metadata.push_back(rdf::statement(jsond, rdf::foaf("familyName"), rdf::literal("Duddington")));
-		metadata.push_back(rdf::statement(jsond, rdf::foaf("gender"), rdf::literal("male")));
-		metadata.push_back(rdf::statement(jsond, rdf::foaf("isPrimaryTopicOf"), rdf::uri("http://sourceforge.net/users/jonsd", std::string())));
+		metadata.push_back(rdf::statement(jonsd, rdf::rdf("type"), rdf::foaf("Person")));
+		metadata.push_back(rdf::statement(jonsd, rdf::foaf("name"), rdf::literal("Jonathan Duddington")));
+		metadata.push_back(rdf::statement(jonsd, rdf::foaf("title"), rdf::literal("Mr.")));
+		metadata.push_back(rdf::statement(jonsd, rdf::foaf("givenName"), rdf::literal("Jonathan")));
+		metadata.push_back(rdf::statement(jonsd, rdf::foaf("familyName"), rdf::literal("Duddington")));
+		metadata.push_back(rdf::statement(jonsd, rdf::foaf("gender"), rdf::literal("male")));
+		metadata.push_back(rdf::statement(jonsd, rdf::foaf("isPrimaryTopicOf"), rdf::uri("http://sourceforge.net/users/jonsd", std::string())));
 	}
 
 	~espeak_engine()
