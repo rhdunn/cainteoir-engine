@@ -57,6 +57,7 @@ public:
 		metadata.push_back(rdf::statement(espeak, rdf::dc("title"), rdf::literal("eSpeak")));
 		metadata.push_back(rdf::statement(espeak, rdf::tts("frequency"), rdf::literal(m_frequency, rdf::tts("hertz"))));
 		metadata.push_back(rdf::statement(espeak, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int"))));
+		metadata.push_back(rdf::statement(espeak, rdf::tts("audio-format"),  rdf::tts("s16le")));
 		metadata.push_back(rdf::statement(espeak, rdf::dc("creator"), jonsd));
 
 		metadata.push_back(rdf::statement(jonsd, rdf::rdf("type"), rdf::foaf("Person")));

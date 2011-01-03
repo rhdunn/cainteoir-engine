@@ -40,6 +40,12 @@
 	<rdfs:comment>The number of audio channels provided by the engine or voice.</rdfs:comment>
 </rdf:Property>
 
+<rdf:Property rdf:ID="audio-format">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>audio-format</rdfs:label>
+	<rdfs:comment>The format the audio data is encoded in.</rdfs:comment>
+</rdf:Property>
+
 <!-- data types -->
 
 <rdf:Datatype rdf:ID="hertz">
@@ -48,5 +54,12 @@
 	<rdfs:label>hertz</rdfs:label>
 	<rdfs:comment>The number of cycles per second.</rdfs:comment>
 </rdf:Datatype>
+
+<!-- audio formats -->
+
+<skos:Concept rdf:ID="s16le">
+	<skos:prefLabel>16-bit signed little endian audio</skos:prefLabel>
+	<skos:altLabel>S16_LE</skos:altLabel>
+</skos:Concept>
 
 </rdf:RDF>
