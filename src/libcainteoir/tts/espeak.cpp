@@ -56,9 +56,6 @@ public:
 
 		metadata.push_back(rdf::statement(espeak, rdf::rdf("type"), rdf::tts("Engine")));
 		metadata.push_back(rdf::statement(espeak, rdf::tts("name"), rdf::literal("eSpeak")));
-		metadata.push_back(rdf::statement(espeak, rdf::tts("frequency"), rdf::literal(m_frequency, rdf::tts("hertz"))));
-		metadata.push_back(rdf::statement(espeak, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int"))));
-		metadata.push_back(rdf::statement(espeak, rdf::tts("audio-format"),  rdf::tts("s16le")));
 		metadata.push_back(rdf::statement(espeak, rdf::dc("creator"), jonsd));
 
 		metadata.push_back(rdf::statement(jonsd, rdf::rdf("type"), rdf::foaf("Person")));
@@ -80,6 +77,10 @@ public:
 			metadata.push_back(rdf::statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male")));
 			if ((*data)->age)
 				metadata.push_back(rdf::statement(voice, rdf::tts("age"), rdf::literal((*data)->age, rdf::xsd("int"))));
+
+			metadata.push_back(rdf::statement(voice, rdf::tts("frequency"), rdf::literal(m_frequency, rdf::tts("hertz"))));
+			metadata.push_back(rdf::statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int"))));
+			metadata.push_back(rdf::statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le")));
 
 			metadata.push_back(rdf::statement(espeak, rdf::tts("hasVoice"), voice));
 			metadata.push_back(rdf::statement(voice, rdf::tts("voiceOf"), espeak));
