@@ -32,11 +32,6 @@ namespace cainteoir { namespace tts
 	{
 		return rdf::uri("http://rhdunn.github.com/cainteoir-engine/metadata/engines#", aRef);
 	}
-
-	inline const rdf::uri voice(const std::string &aRef)
-	{
-		return rdf::uri("http://rhdunn.github.com/cainteoir-engine/metadata/voices#", aRef);
-	}
 }}
 
 namespace cainteoir

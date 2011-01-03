@@ -34,6 +34,12 @@
 	<rdfs:comment>The frequency of the audio provided by the engine or voice.</rdfs:comment>
 </rdf:Property>
 
+<rdf:Property rdf:ID="channels">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>channels</rdfs:label>
+	<rdfs:comment>The number of audio channels provided by the engine or voice.</rdfs:comment>
+</rdf:Property>
+
 <!-- data types -->
 
 <rdf:Datatype rdf:ID="hertz">
