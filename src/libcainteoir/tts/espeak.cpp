@@ -51,7 +51,7 @@ public:
 		espeak_SetSynthCallback(espeak_tts_callback);
 
 		rdf::uri espeak = tts::engine("espeak");
-		rdf::bnode jsond = rdf::bnode("jsond");
+		rdf::bnode jsond = metadata.genid();
 
 		metadata.push_back(rdf::statement(espeak, rdf::rdf("type"), rdf::tts("Engine")));
 		metadata.push_back(rdf::statement(espeak, rdf::dc("title"), rdf::literal("eSpeak")));
