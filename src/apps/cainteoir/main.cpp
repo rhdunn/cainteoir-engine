@@ -44,11 +44,12 @@ static struct option options[] =
 	{ "stdout",   no_argument,       0, ARG_STDOUT },
 	{ "type",     required_argument, 0, 't' },
 	{ "voice",    required_argument, 0, 'v' },
+	{ "language", required_argument, 0, 'l' },
 	{ "metadata", no_argument,       0, ARG_METADATA },
 	{ 0, 0, 0, 0 }
 };
 
-rdf::any_type select_voice(const rdf::model &aMetadata, const std::string &voicename)
+rdf::any_type select_voice(const rdf::model &aMetadata, const rdf::uri &predicate, const std::string &voicename)
 {
 	rql::results voices = rql::select(
 		rql::select(aMetadata, rql::predicate, rdf::rdf("type")),
@@ -62,7 +63,7 @@ rdf::any_type select_voice(const rdf::model &aMetadata, const std::string &voice
 			rql::results statements = rql::select(aMetadata, rql::subject, *uri);
 			foreach_iter(statement, statements)
 			{
-				if (rql::predicate(*statement) == rdf::tts("name") && rql::value(rql::object(*statement)) == voicename)
+				if (rql::predicate(*statement) == predicate && rql::value(rql::object(*statement)) == voicename)
 					return rql::subject(*statement);
 			}
 		}
@@ -84,6 +85,7 @@ int main(int argc, char ** argv)
 		} action = speak;
 
 		const char *voicename = NULL;
+		const char *language = NULL;
 		const char *outfile = NULL;
 		const char *outformat = "wave";
 		std::auto_ptr<cainteoir::buffer> text_buffer;
@@ -91,12 +93,15 @@ int main(int argc, char ** argv)
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "o:t:v:", options, &option_index);
+			int c = getopt_long(argc, argv, "o:t:v:l:", options, &option_index);
 			if (c == -1)
 				break;
 
 			switch (c)
 			{
+			case 'l':
+				language = optarg;
+				break;
 			case 'v':
 				voicename = optarg;
 				break;
@@ -144,7 +149,14 @@ int main(int argc, char ** argv)
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
-		rdf::any_type voice = select_voice(metadata, voicename ? voicename : "default");
+		rdf::any_type voice(NULL);
+		if (language)
+			voice = select_voice(metadata, rdf::dc("language"), language);
+		else if (voicename)
+			voice = select_voice(metadata, rdf::tts("name"), voicename);
+		else
+			voice = select_voice(metadata, rdf::tts("name"), "default");
+
 		if (!tts->select_voice(metadata, voice))
 			throw std::runtime_error("unrecognised voice");
 
