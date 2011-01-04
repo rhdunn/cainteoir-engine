@@ -27,9 +27,14 @@
 #include <list>
 #include <set>
 
-#define foreach_iter(a, b) \
+#define join_strings2(a, b) a ## b
+#define join_strings(a, b) join_strings2(a, b)
+
+#define foreach_iter_impl(a, b, c) \
 	const auto &c = b; \
 	for (auto a = c.begin(), last = c.end(); a != last; ++a)
+#define foreach_iter(a, b) \
+	foreach_iter_impl(a, b, join_strings(__c, __LINE__))
 
 namespace cainteoir { namespace rdf
 {
