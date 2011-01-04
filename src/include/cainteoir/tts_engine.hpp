@@ -36,7 +36,7 @@ namespace cainteoir
 		virtual int get_frequency() const = 0;
 		virtual cainteoir::audio_format get_audioformat() const = 0;
 
-		virtual bool select_voice(const rdf::model &aMetadata, rdf::any_type aVoice) = 0;
+		virtual bool select_voice(const rdf::model &aMetadata, const rdf::uri &aVoice) = 0;
 
 		virtual void speak(buffer *text, audio *out) = 0;
 	};

@@ -60,7 +60,7 @@ std::string select_value(const rdf::model &aMetadata, const rdf::uri &uri, const
 	return std::string();
 }
 
-rdf::any_type select_voice(const rdf::model &aMetadata, const rdf::uri &predicate, const std::string &value)
+const rdf::uri *select_voice(const rdf::model &aMetadata, const rdf::uri &predicate, const std::string &value)
 {
 	rql::results voices = rql::select(
 		rql::select(aMetadata, rql::predicate, rdf::rdf("type")),
@@ -75,12 +75,12 @@ rdf::any_type select_voice(const rdf::model &aMetadata, const rdf::uri &predicat
 			foreach_iter(statement, statements)
 			{
 				if (rql::predicate(*statement) == predicate && rql::value(rql::object(*statement)) == value)
-					return rql::subject(*statement);
+					return uri;
 			}
 		}
 	}
 
-	return rdf::any_type(NULL);
+	return NULL;
 }
 
 int main(int argc, char ** argv)
@@ -165,7 +165,7 @@ int main(int argc, char ** argv)
 
 		const rdf::uri subject = rdf::uri(argv[0], std::string());
 
-		rdf::any_type voice(NULL);
+		const rdf::uri *voice = NULL;
 		if (language)
 			voice = select_voice(metadata, rdf::dc("language"), language);
 		else if (voicename)
@@ -180,7 +180,7 @@ int main(int argc, char ** argv)
 				voice = select_voice(metadata, rdf::tts("name"), "default");
 		}
 
-		if (!tts->select_voice(metadata, voice))
+		if (!voice || !tts->select_voice(metadata, *voice))
 			throw std::runtime_error("unrecognised voice");
 
 		cainteoir::audio_format audioformat = tts->get_audioformat();

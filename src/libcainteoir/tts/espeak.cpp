@@ -112,12 +112,9 @@ public:
 		return cainteoir::S16_LE;
 	}
 
-	bool select_voice(const rdf::model &aMetadata, rdf::any_type aVoice)
+	bool select_voice(const rdf::model &aMetadata, const rdf::uri &aVoice)
 	{
-		const rdf::uri *uri = aVoice;
-		if (!uri) return false;
-
-		foreach_iter(statement, rql::select(aMetadata, rql::subject, *uri))
+		foreach_iter(statement, rql::select(aMetadata, rql::subject, aVoice))
 		{
 			if (rql::predicate(*statement) == rdf::tts("name"))
 			{
