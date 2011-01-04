@@ -59,7 +59,7 @@ public:
 	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::literal &literal)
 	{
 		os << '"';
-		for (std::string::const_iterator s = literal.value.begin(), last = literal.value.end(); s != last; ++s)
+		foreach_iter(s, literal.value)
 		{
 			switch (*s)
 			{
@@ -121,7 +121,7 @@ public:
 	{
 		if (!namespaces.empty())
 		{
-			for (std::map<std::string, std::string>::const_iterator ns = namespaces.begin(), last = namespaces.end(); ns != last; ++ns)
+			foreach_iter(ns, namespaces)
 				if (model.contains(cainteoir::rdf::ns(ns->second, ns->first)))
 				{
 					if (*(--ns->first.end()) == '/')
@@ -132,7 +132,7 @@ public:
 			os << std::endl;
 		}
 
-		for (rdf::query::selector query(model); query; ++query)
+		foreach_iter(query, model)
 			*this << *query;
 
 		return *this;

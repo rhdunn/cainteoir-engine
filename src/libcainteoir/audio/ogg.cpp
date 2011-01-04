@@ -45,7 +45,7 @@ std::string select_rdfvalue(const rdf::model &aMetadata, const rdf::bnode *aDocu
 	std::string text;
 	bool match = false;
 
-	for (rdf::query::selector query(aMetadata); query; ++query)
+	foreach_iter(query, aMetadata)
 	{
 		if (rdf::query::subject(*query) == *aDocument)
 		{
@@ -66,7 +66,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 	std::string year;
 	std::string created;
 
-	for (rdf::query::selector query(aMetadata); query; ++query)
+	foreach_iter(query, aMetadata)
 	{
 		if (rdf::query::subject(*query) == aDocument)
 		{
@@ -167,7 +167,7 @@ public:
 		vorbis_encode_init_vbr(&vi, channels, frequency, quality);
 
 		vorbis_comment_init(&vc);
-		for (std::list<cainteoir::vorbis_comment>::const_iterator comment = comments.begin(), last = comments.end(); comment != last; ++comment)
+		foreach_iter(comment, comments)
 			vorbis_comment_add_tag(&vc, comment->label.c_str(), comment->value.c_str());
 
 		vorbis_analysis_init(&vd, &vi);

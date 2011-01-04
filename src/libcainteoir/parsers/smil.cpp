@@ -25,7 +25,7 @@ namespace xml = cainteoir::xmldom;
 
 bool have_dclanguage(const rdf::model &aMetadata, const rdf::uri &aDocument)
 {
-	for (rdf::query::selector query(aMetadata); query; ++query)
+	foreach_iter(query, aMetadata)
 	{
 		if (rdf::query::subject(*query) == aDocument)
 		{

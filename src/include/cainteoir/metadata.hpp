@@ -27,6 +27,8 @@
 #include <list>
 #include <set>
 
+#define foreach_iter(a, b) for (auto a = b.begin(), last = b.end(); a != last; ++a)
+
 namespace cainteoir { namespace rdf
 {
 	namespace query
@@ -373,43 +375,6 @@ namespace cainteoir { namespace rdf
 		std::set<std::string> namespaces;
 		int nextid;
 	};
-
-	namespace query
-	{
-		struct selector
-		{
-		public:
-			selector(const rdf::model &aModel)
-				: current(aModel.begin())
-				, last(aModel.end())
-			{
-			}
-
-			inline operator bool() const
-			{
-				return current != last;
-			}
-
-			inline selector &operator++()
-			{
-				++current;
-				return *this;
-			}
-
-			inline const rdf::statement &operator*() const
-			{
-				return *current;
-			}
-
-			inline const rdf::statement *operator->() const
-			{
-				return &*current;
-			}
-		private:
-			rdf::model::const_iterator current;
-			rdf::model::const_iterator last;
-		};
-	}
 
 	/** @brief RDF formatter (serialisation support)
 	  */

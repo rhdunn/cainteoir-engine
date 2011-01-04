@@ -170,6 +170,6 @@ void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, 
 
 	aOpfFiles.toc = files[toc];
 
-	for (std::list<std::string>::const_iterator id = spine.begin(), last = spine.end(); id != last; ++id)
+	foreach_iter(id, spine)
 		aOpfFiles.spine.push_back(files[*id]);
 }

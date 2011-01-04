@@ -119,7 +119,7 @@ int main(int argc, char ** argv)
 				const rdf::uri subject = rdf::uri(argv[0], std::string());
 
 				std::list<cainteoir::vorbis_comment> comments = cainteoir::vorbis_comments(metadata, subject);
-				for (std::list<cainteoir::vorbis_comment>::const_iterator comment = comments.begin(), last = comments.end(); comment != last; ++comment)
+				foreach_iter(comment, comments)
 					std::cout << comment->label << "=" << comment->value << std::endl;
 			}
 		}
