@@ -68,11 +68,13 @@ public:
 
 		for (const espeak_VOICE **data = espeak_ListVoices(NULL); *data; ++data)
 		{
-			const char *lang = (*data)->languages+1;
+			std::string id = (*data)->name;
+			if (id == "french (Belgium)")
+				id = "french-belgium";
 
-			rdf::uri voice = rdf::uri(baseuri, lang);
+			rdf::uri voice = rdf::uri(baseuri, id);
 			metadata.push_back(rdf::statement(voice, rdf::rdf("type"), rdf::tts("Voice")));
-			metadata.push_back(rdf::statement(voice, rdf::dc("language"), rdf::literal(lang)));
+			metadata.push_back(rdf::statement(voice, rdf::dc("language"), rdf::literal((*data)->languages+1)));
 			metadata.push_back(rdf::statement(voice, rdf::tts("name"), rdf::literal((*data)->name)));
 			metadata.push_back(rdf::statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male")));
 			if ((*data)->age)
@@ -82,8 +84,8 @@ public:
 			metadata.push_back(rdf::statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int"))));
 			metadata.push_back(rdf::statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le")));
 
-			metadata.push_back(rdf::statement(espeak, rdf::tts("hasVoice"), voice));
 			metadata.push_back(rdf::statement(voice, rdf::tts("voiceOf"), espeak));
+			metadata.push_back(rdf::statement(espeak, rdf::tts("hasVoice"), voice));
 		}
 	}
 
