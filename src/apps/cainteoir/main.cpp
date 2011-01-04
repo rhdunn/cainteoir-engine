@@ -144,7 +144,7 @@ int main(int argc, char ** argv)
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
-		rdf::any_type voice = select_voice(metadata, voicename ? voicename : "en");
+		rdf::any_type voice = select_voice(metadata, voicename ? voicename : "default");
 		if (!tts->select_voice(metadata, voice))
 			throw std::runtime_error("unrecognised voice");
 

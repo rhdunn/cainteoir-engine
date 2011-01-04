@@ -73,7 +73,7 @@ public:
 			rdf::uri voice = rdf::uri(baseuri, lang);
 			metadata.push_back(rdf::statement(voice, rdf::rdf("type"), rdf::tts("Voice")));
 			metadata.push_back(rdf::statement(voice, rdf::dc("language"), rdf::literal(lang)));
-			metadata.push_back(rdf::statement(voice, rdf::tts("name"), rdf::literal(lang)));
+			metadata.push_back(rdf::statement(voice, rdf::tts("name"), rdf::literal((*data)->name)));
 			metadata.push_back(rdf::statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male")));
 			if ((*data)->age)
 				metadata.push_back(rdf::statement(voice, rdf::tts("age"), rdf::literal((*data)->age, rdf::xsd("int"))));
