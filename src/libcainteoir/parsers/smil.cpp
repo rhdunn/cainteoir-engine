@@ -26,13 +26,9 @@ namespace xml = cainteoir::xmldom;
 
 bool have_dclanguage(const rdf::model &aMetadata, const rdf::uri &aDocument)
 {
-	foreach_iter(query, rql::select(aMetadata, rql::subject, aDocument))
-	{
-		if (rql::predicate(*query) == rdf::dc("language"))
-			return true;
-	}
-
-	return false;
+	return rql::contains(
+		rql::select(aMetadata, rql::subject, aDocument),
+		rql::predicate, rdf::dc("language"));
 }
 
 void parseSmilMetadata(const xml::node &smil, const rdf::uri &subject, rdf::model &metadata)

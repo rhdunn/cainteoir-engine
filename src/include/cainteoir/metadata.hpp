@@ -413,6 +413,17 @@ namespace cainteoir { namespace rdf
 			}
 			return ret;
 		}
+
+		template<typename Value>
+		inline bool contains(const results &metadata, any_type (*selector)(const rdf::statement *), const Value &value)
+		{
+			foreach_iter(query, metadata)
+			{
+				if (selector(*query) == value)
+					return true;
+			}
+			return false;
+		}
 	}
 
 	/** @brief RDF formatter (serialisation support)
