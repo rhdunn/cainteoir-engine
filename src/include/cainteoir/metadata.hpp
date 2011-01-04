@@ -323,9 +323,29 @@ namespace cainteoir { namespace rdf
 			return any_type(statement.subject.get());
 		}
 
+		inline any_type subject(const rdf::statement *statement)
+		{
+			return any_type(statement->subject.get());
+		}
+
+		inline any_type predicate(const rdf::statement &statement)
+		{
+			return any_type(&statement.predicate);
+		}
+
+		inline any_type predicate(const rdf::statement *statement)
+		{
+			return any_type(&statement->predicate);
+		}
+
 		inline any_type object(const rdf::statement &statement)
 		{
 			return any_type(statement.object.get());
+		}
+
+		inline any_type object(const rdf::statement *statement)
+		{
+			return any_type(statement->object.get());
 		}
 	}
 
@@ -375,6 +395,23 @@ namespace cainteoir { namespace rdf
 		std::set<std::string> namespaces;
 		int nextid;
 	};
+
+	namespace query
+	{
+		typedef std::list<const rdf::statement *> results;
+
+		template<typename Value>
+		inline results select(const rdf::model &metadata, any_type (*selector)(const rdf::statement &), const Value &value)
+		{
+			results ret;
+			foreach_iter(query, metadata)
+			{
+				if (selector(*query) == value)
+					ret.push_back(&*query);
+			}
+			return ret;
+		}
+	}
 
 	/** @brief RDF formatter (serialisation support)
 	  */

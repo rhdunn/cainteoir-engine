@@ -21,17 +21,16 @@
 #include "parsers.hpp"
 
 namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
 namespace xml = cainteoir::xmldom;
 
 bool have_dclanguage(const rdf::model &aMetadata, const rdf::uri &aDocument)
 {
-	foreach_iter(query, aMetadata)
+	rql::results data = rql::select(aMetadata, rql::subject, aDocument);
+	foreach_iter(query, data)
 	{
-		if (rdf::query::subject(*query) == aDocument)
-		{
-			if (query->predicate == rdf::dc("language"))
-				return true;
-		}
+		if (rql::predicate(*query) == rdf::dc("language"))
+			return true;
 	}
 
 	return false;

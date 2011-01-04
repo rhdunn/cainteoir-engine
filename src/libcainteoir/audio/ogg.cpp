@@ -24,6 +24,7 @@
 #include <time.h>
 
 namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
 
 std::string now()
 {
@@ -45,16 +46,14 @@ std::string select_rdfvalue(const rdf::model &aMetadata, const rdf::bnode *aDocu
 	std::string text;
 	bool match = false;
 
-	foreach_iter(query, aMetadata)
+	rql::results data = rql::select(aMetadata, rql::subject, *aDocument);
+	foreach_iter(query, data)
 	{
-		if (rdf::query::subject(*query) == *aDocument)
-		{
-			const std::string &object = rdf::query::value(rdf::query::object(*query));
-			if (query->predicate == rdf::rdf("value"))
-				text = object;
-			else if (query->predicate == predicate)
-				match = (object == value);
-		}
+		const std::string &object = rql::value(rql::object(*query));
+		if (rql::predicate(*query) == rdf::rdf("value"))
+			text = object;
+		else if (rql::predicate(*query) == predicate)
+			match = (object == value);
 	}
 
 	return match ? text : std::string();
@@ -66,31 +65,29 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 	std::string year;
 	std::string created;
 
-	foreach_iter(query, aMetadata)
+	rql::results data = rql::select(aMetadata, rql::subject, aDocument);
+	foreach_iter(query, data)
 	{
-		if (rdf::query::subject(*query) == aDocument)
+		const std::string &object = rql::value(rql::object(*query));
+		if (!object.empty())
 		{
-			const std::string &object = rdf::query::value(rdf::query::object(*query));
-			if (!object.empty())
-			{
-				if (query->predicate == rdf::dc("creator"))
-					comments.push_back(vorbis_comment("ARTIST", object));
-				else if (query->predicate == rdf::dc("title"))
-					comments.push_back(vorbis_comment("ALBUM", object));
-				else if (query->predicate == rdf::dc("description"))
-					comments.push_back(vorbis_comment("DESCRIPTION", object));
-				else if (query->predicate == rdf::dc("date") && year.empty())
-					year = object;
-			}
-			else if (query->predicate == rdf::dc("creator"))
-			{
-				std::string author = select_rdfvalue(aMetadata, rdf::query::object(*query), rdf::opf("role"), "aut");
-				if (!author.empty())
-					comments.push_back(cainteoir::vorbis_comment("ARTIST", author));
-			}
-			else if (query->predicate == rdf::dc("date"))
-				created = select_rdfvalue(aMetadata, rdf::query::object(*query), rdf::opf("event"), "creation");
+			if (rql::predicate(*query) == rdf::dc("creator"))
+				comments.push_back(vorbis_comment("ARTIST", object));
+			else if (rql::predicate(*query) == rdf::dc("title"))
+				comments.push_back(vorbis_comment("ALBUM", object));
+			else if (rql::predicate(*query) == rdf::dc("description"))
+				comments.push_back(vorbis_comment("DESCRIPTION", object));
+			else if (rql::predicate(*query) == rdf::dc("date") && year.empty())
+				year = object;
 		}
+		else if (rql::predicate(*query) == rdf::dc("creator"))
+		{
+			std::string author = select_rdfvalue(aMetadata, rql::object(*query), rdf::opf("role"), "aut");
+			if (!author.empty())
+				comments.push_back(cainteoir::vorbis_comment("ARTIST", author));
+		}
+		else if (rql::predicate(*query) == rdf::dc("date"))
+			created = select_rdfvalue(aMetadata, rql::object(*query), rdf::opf("event"), "creation");
 	}
 
 	if (!created.empty())
