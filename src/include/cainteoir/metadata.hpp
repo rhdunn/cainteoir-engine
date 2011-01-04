@@ -407,6 +407,13 @@ namespace cainteoir { namespace rdf
 	{
 		typedef std::list<const rdf::statement *> results;
 
+		/** @brief select statements matching the query.
+		  *
+		  * @param metadata The RDF model to select statements from.
+		  * @param selector The part of the RDF statement to query from, i.e. the subject, predicate or object.
+		  * @param value    The value of the selector to match for.
+		  * @return         The result set matching the query.
+		  */
 		template<typename Value>
 		inline results select(const rdf::model &metadata, any_type (*selector)(const rdf::statement &), const Value &value)
 		{
@@ -415,6 +422,25 @@ namespace cainteoir { namespace rdf
 			{
 				if (selector(*query) == value)
 					ret.push_back(&*query);
+			}
+			return ret;
+		}
+
+		/** @brief select statements matching the query.
+		  *
+		  * @param metadata The RDF result set to select statements from.
+		  * @param selector The part of the RDF statement to query from, i.e. the subject, predicate or object.
+		  * @param value    The value of the selector to match for.
+		  * @return         The result set matching the query.
+		  */
+		template<typename Value>
+		inline results select(const results &metadata, any_type (*selector)(const rdf::statement *), const Value &value)
+		{
+			results ret;
+			foreach_iter(query, metadata)
+			{
+				if (selector(*query) == value)
+					ret.push_back(*query);
 			}
 			return ret;
 		}
