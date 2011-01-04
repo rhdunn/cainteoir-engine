@@ -21,6 +21,9 @@
 #include <cainteoir/tts_engine.hpp>
 #include <espeak/speak_lib.h>
 
+namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
+
 static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
 {
 	cainteoir::audio *out = (cainteoir::audio *)events->user_data;
@@ -36,8 +39,6 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
 
 	return 0;
 }
-
-namespace rdf = cainteoir::rdf;
 
 class espeak_engine : public cainteoir::tts_engine
 {
@@ -109,10 +110,22 @@ public:
 		return cainteoir::S16_LE;
 	}
 
-	bool set_voice_by_name(const char *name)
+	bool select_voice(const rdf::model &aMetadata, rdf::any_type aVoice)
 	{
-		if (!name) name = "default";
-		return espeak_SetVoiceByName(name) == EE_OK;
+		const rdf::uri *uri = aVoice;
+		if (!uri) return false;
+
+		foreach_iter(statement, rql::select(aMetadata, rql::subject, *uri))
+		{
+			if (rql::predicate(*statement) == rdf::tts("name"))
+			{
+				const std::string &value = rql::value(rql::object(*statement));
+				if (!value.empty())
+					return espeak_SetVoiceByName(value.c_str()) == EE_OK;
+			}
+		}
+
+		return false;
 	}
 
 	void speak(cainteoir::buffer *text, cainteoir::audio *out)

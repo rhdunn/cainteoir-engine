@@ -30,6 +30,7 @@
 #include <libxml/parser.h>
 
 namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
 
 enum args
 {
@@ -47,6 +48,29 @@ static struct option options[] =
 	{ 0, 0, 0, 0 }
 };
 
+rdf::any_type select_voice(const rdf::model &aMetadata, const std::string &voicename)
+{
+	rql::results voices = rql::select(
+		rql::select(aMetadata, rql::predicate, rdf::rdf("type")),
+		rql::object, rdf::tts("Voice"));
+
+	foreach_iter(voice, voices)
+	{
+		const rdf::uri *uri = rql::subject(*voice);
+		if (uri)
+		{
+			rql::results statements = rql::select(aMetadata, rql::subject, *uri);
+			foreach_iter(statement, statements)
+			{
+				if (rql::predicate(*statement) == rdf::tts("name") && rql::value(rql::object(*statement)) == voicename)
+					return rql::subject(*statement);
+			}
+		}
+	}
+
+	return rdf::any_type(NULL);
+}
+
 int main(int argc, char ** argv)
 {
 	LIBXML_TEST_VERSION
@@ -59,7 +83,7 @@ int main(int argc, char ** argv)
 			show_metadata,
 		} action = speak;
 
-		const char *voice = NULL;
+		const char *voicename = NULL;
 		const char *outfile = NULL;
 		const char *outformat = "wave";
 		std::auto_ptr<cainteoir::buffer> text_buffer;
@@ -74,7 +98,7 @@ int main(int argc, char ** argv)
 			switch (c)
 			{
 			case 'v':
-				voice = optarg;
+				voicename = optarg;
 				break;
 			case 'o':
 				outfile = optarg;
@@ -97,9 +121,6 @@ int main(int argc, char ** argv)
 		rdf::model metadata;
 
 		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine(metadata);
-		if (!tts->set_voice_by_name(voice))
-			throw std::runtime_error("unrecognised voice");
-
 		if (action == show_metadata)
 		{
 			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
@@ -122,6 +143,10 @@ int main(int argc, char ** argv)
 
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
+
+		rdf::any_type voice = select_voice(metadata, voicename ? voicename : "en");
+		if (!tts->select_voice(metadata, voice))
+			throw std::runtime_error("unrecognised voice");
 
 		std::list<cainteoir::event> events;
 		cainteoir::parseDocument(argv[0], metadata, events);
