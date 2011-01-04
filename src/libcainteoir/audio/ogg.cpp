@@ -46,8 +46,7 @@ std::string select_rdfvalue(const rdf::model &aMetadata, const rdf::bnode *aDocu
 	std::string text;
 	bool match = false;
 
-	rql::results data = rql::select(aMetadata, rql::subject, *aDocument);
-	foreach_iter(query, data)
+	foreach_iter(query, rql::select(aMetadata, rql::subject, *aDocument))
 	{
 		const std::string &object = rql::value(rql::object(*query));
 		if (rql::predicate(*query) == rdf::rdf("value"))
@@ -65,8 +64,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 	std::string year;
 	std::string created;
 
-	rql::results data = rql::select(aMetadata, rql::subject, aDocument);
-	foreach_iter(query, data)
+	foreach_iter(query, rql::select(aMetadata, rql::subject, aDocument))
 	{
 		const std::string &object = rql::value(rql::object(*query));
 		if (!object.empty())

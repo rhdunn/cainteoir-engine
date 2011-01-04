@@ -27,7 +27,9 @@
 #include <list>
 #include <set>
 
-#define foreach_iter(a, b) for (auto a = b.begin(), last = b.end(); a != last; ++a)
+#define foreach_iter(a, b) \
+	const auto &c = b; \
+	for (auto a = c.begin(), last = c.end(); a != last; ++a)
 
 namespace cainteoir { namespace rdf
 {
