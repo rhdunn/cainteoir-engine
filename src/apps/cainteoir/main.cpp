@@ -49,7 +49,18 @@ static struct option options[] =
 	{ 0, 0, 0, 0 }
 };
 
-rdf::any_type select_voice(const rdf::model &aMetadata, const rdf::uri &predicate, const std::string &voicename)
+std::string select_value(const rdf::model &aMetadata, const rdf::uri &uri, const rdf::uri &predicate)
+{
+	foreach_iter(query, rql::select(aMetadata, rql::subject, uri))
+	{
+		if (rql::predicate(*query) == predicate)
+			return rql::value(rql::object(*query));
+	}
+
+	return std::string();
+}
+
+rdf::any_type select_voice(const rdf::model &aMetadata, const rdf::uri &predicate, const std::string &value)
 {
 	rql::results voices = rql::select(
 		rql::select(aMetadata, rql::predicate, rdf::rdf("type")),
@@ -63,7 +74,7 @@ rdf::any_type select_voice(const rdf::model &aMetadata, const rdf::uri &predicat
 			rql::results statements = rql::select(aMetadata, rql::subject, *uri);
 			foreach_iter(statement, statements)
 			{
-				if (rql::predicate(*statement) == predicate && rql::value(rql::object(*statement)) == voicename)
+				if (rql::predicate(*statement) == predicate && rql::value(rql::object(*statement)) == value)
 					return rql::subject(*statement);
 			}
 		}
@@ -149,21 +160,28 @@ int main(int argc, char ** argv)
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
+		std::list<cainteoir::event> events;
+		cainteoir::parseDocument(argv[0], metadata, events);
+
+		const rdf::uri subject = rdf::uri(argv[0], std::string());
+
 		rdf::any_type voice(NULL);
 		if (language)
 			voice = select_voice(metadata, rdf::dc("language"), language);
 		else if (voicename)
 			voice = select_voice(metadata, rdf::tts("name"), voicename);
 		else
-			voice = select_voice(metadata, rdf::tts("name"), "default");
+		{
+			std::string lang = select_value(metadata, subject, rdf::dc("language"));
+			if (!lang.empty())
+				voice = select_voice(metadata, rdf::dc("language"), lang);
+
+			if (!voice)
+				voice = select_voice(metadata, rdf::tts("name"), "default");
+		}
 
 		if (!tts->select_voice(metadata, voice))
 			throw std::runtime_error("unrecognised voice");
-
-		std::list<cainteoir::event> events;
-		cainteoir::parseDocument(argv[0], metadata, events);
-
-		const rdf::uri subject = rdf::uri(argv[0], std::string());
 
 		cainteoir::audio_format audioformat = tts->get_audioformat();
 		int channels = tts->get_channels();

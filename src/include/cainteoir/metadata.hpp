@@ -60,6 +60,11 @@ namespace cainteoir { namespace rdf
 		{
 		}
 
+		bool operator!() const
+		{
+			return !value;
+		}
+
 		template<typename T>
 		operator const T *() const
 		{
