@@ -213,7 +213,7 @@ int main(int argc, char ** argv)
 		}
 		out->close();
 	}
-	catch (std::exception &e)
+	catch (std::runtime_error &e)
 	{
 		fprintf(stderr, "error: %s\n", e.what());
 	}
