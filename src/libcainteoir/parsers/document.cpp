@@ -50,7 +50,7 @@ bool cainteoir::parseDocument(const char *aFilename, rdf::model &aMetadata, std:
 			return false;
 	}
 	else if (type == "application/epub+zip")
-		cainteoir::parseEpubDocument(aFilename, aMetadata);
+		cainteoir::parseEpubDocument(aFilename, aMetadata, aEvents);
 	else if (type == "text/plain")
 		aEvents.push_back(event(text_event, std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename))));
 	else

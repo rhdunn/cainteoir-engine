@@ -131,8 +131,9 @@ namespace cainteoir
 	  *
 	  * @param aFilename The path to the ePub document.
 	  * @param aMetadata The RDF model to add any metadata to.
+	  * @param aEvents   The speech events that make up the ePub document.
 	  */
-	void parseEpubDocument(const char *aFilename, rdf::model &aMetadata);
+	void parseEpubDocument(const char *aFilename, rdf::model &aMetadata, std::list<event> &aEvents);
 }
 
 #endif
