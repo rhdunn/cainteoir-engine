@@ -63,6 +63,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 	std::list<vorbis_comment> comments;
 	std::string year;
 	std::string created;
+	std::string published;
 
 	foreach_iter(query, rql::select(aMetadata, rql::subject, aDocument))
 	{
@@ -96,10 +97,32 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model
 				comments.push_back(cainteoir::vorbis_comment("ARTIST", author));
 		}
 		else if (rql::predicate(*query) == rdf::dc("date"))
-			created = select_rdfvalue(aMetadata, rql::object(*query), rdf::opf("event"), "creation");
+		{
+			std::string event;
+			std::string date;
+
+			foreach_iter(data, rql::select(aMetadata, rql::subject, *(const rdf::bnode *)rql::object(*query)))
+			{
+				const std::string &object = rql::value(rql::object(*data));
+				if (rql::predicate(*data) == rdf::rdf("value"))
+					date = object;
+				else if (rql::predicate(*data) == rdf::opf("event"))
+					event = object;
+			}
+
+			if (!date.empty())
+			{
+				if (event == "creation")
+					created = date;
+				else if (event == "publication")
+					published = date;
+			}
+		}
 	}
 
-	if (!created.empty())
+	if (!published.empty())
+		year = published;
+	else if (!created.empty())
 		year = created;
 
 	if (year.empty())
