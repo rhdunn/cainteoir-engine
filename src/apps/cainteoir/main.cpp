@@ -204,11 +204,13 @@ int main(int argc, char ** argv)
 		else
 			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency);
 
+		out->open();
 		foreach_iter(event, events)
 		{
 			if (event->type == cainteoir::text_event)
 				tts.speak(event->data.get(), out.get());
 		}
+		out->close();
 	}
 	catch (std::exception &e)
 	{
