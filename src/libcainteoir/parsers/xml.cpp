@@ -28,8 +28,10 @@ std::string xml::attribute::content() const
 	return xmlstring_buffer((const char *)xmlNodeListGetString(attr->doc, attr->children, 1)).str();
 }
 
-std::string xml::node::content() const
+std::tr1::shared_ptr<cainteoir::buffer> xml::node::content() const
 {
-	if (!item) return std::string();
-	return xmlstring_buffer((const char *)xmlNodeGetContent(item)).str();
+	const char *data = NULL;
+	if (item)
+		data = (const char *)xmlNodeGetContent(item);
+	return std::tr1::shared_ptr<cainteoir::buffer>(new xmlstring_buffer(data));
 }

@@ -112,7 +112,7 @@ void parseRdfXmlMetadataFromNode(const xml::node &node, const rdf::resource &sub
 	else
 	{
 		std::string lang = node.attr(rdf::xml("lang")).content();
-		std::string value = node.content();
+		std::string value = node.content()->str();
 
 		if (!datatype.empty())
 			metadata.push_back(rdf::statement(subject, predicate, rdf::literal(value, rdf::href(datatype))));

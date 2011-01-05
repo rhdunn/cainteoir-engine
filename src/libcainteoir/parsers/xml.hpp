@@ -147,7 +147,7 @@ namespace cainteoir { namespace xmldom
 			return (const char *)item->ns->href;
 		}
 
-		std::string content() const;
+		std::tr1::shared_ptr<cainteoir::buffer> content() const;
 
 		const rdf::uri uri() const
 		{

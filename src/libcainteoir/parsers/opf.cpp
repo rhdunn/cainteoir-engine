@@ -35,7 +35,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::model 
 		else if (node.namespaceURI() == rdf::dc)
 		{
 			std::string lang = node.attr(rdf::xml("lang")).content();
-			std::string value = node.content();
+			std::string value = node.content()->str();
 
 			const rdf::uri predicate = rdf::uri(node.namespaceURI(), node.name());
 
