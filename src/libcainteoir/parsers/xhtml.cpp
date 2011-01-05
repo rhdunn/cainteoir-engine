@@ -30,7 +30,7 @@ void cainteoir::parseXHtmlDocument(const xml::node &html, const rdf::uri &subjec
 
 	for (xml::attribute attr = html.firstAttribute(); attr.isValid(); attr.next())
 	{
-		if (attr == rdf::xml("lang"))
+		if (attr == rdf::xml("lang") || attr == rdf::uri(std::string(), "lang"))
 			metadata.push_back(rdf::statement(subject, rdf::dc("language"), rdf::literal(attr.content())));
 	}
 }
