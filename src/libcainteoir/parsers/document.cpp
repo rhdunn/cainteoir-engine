@@ -41,7 +41,7 @@ bool cainteoir::parseDocument(const char *aFilename, rdf::model &aMetadata, std:
 			cainteoir::parseOpfDocument(root, subject, aMetadata, files);
 		}
 		else if (root == rdf::xhtml("html"))
-			cainteoir::parseXHtmlDocument(root, subject, aMetadata);
+			cainteoir::parseXHtmlDocument(root, subject, aMetadata, aEvents);
 		else if (root == rdf::rdf("RDF"))
 			cainteoir::parseRdfXmlDocument(root, subject, aMetadata);
 		else if (root == rdf::smil("smil"))

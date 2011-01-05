@@ -21,6 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_PARSERS_HPP
 #define CAINTEOIR_ENGINE_PARSERS_HPP
 
+#include <cainteoir/document.hpp>
 #include "xml.hpp"
 #include <list>
 #include <map>
@@ -74,8 +75,9 @@ namespace cainteoir
 	  * @param aRoot     The root node of the XHTML XML document.
 	  * @param aSubject  The base to use for any relative URIs.
 	  * @param aMetadata The RDF model to add any metadata to.
+	  * @param aEvents   The speech events that make up the XHTML document.
 	  */
-	void parseXHtmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
+	void parseXHtmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata, std::list<cainteoir::event> &aEvents);
 
 	/** @brief RDF/XML
 	  * @see   http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/

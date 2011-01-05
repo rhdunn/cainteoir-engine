@@ -23,7 +23,7 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void cainteoir::parseXHtmlDocument(const xml::node &html, const rdf::uri &subject, rdf::model &metadata)
+void cainteoir::parseXHtmlDocument(const xml::node &html, const rdf::uri &subject, rdf::model &metadata, std::list<cainteoir::event> &aEvents)
 {
 	if (html != rdf::xhtml("html"))
 		throw std::runtime_error("XHTML document is not of a recognised format.");
