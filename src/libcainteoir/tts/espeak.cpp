@@ -44,9 +44,9 @@ class espeak_engine : public cainteoir::tts::engine
 {
 	int m_frequency;
 public:
-	espeak_engine(rdf::model &metadata)
+	espeak_engine(rdf::model &metadata, std::string &baseuri)
 	{
-		std::string baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
+		baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
 
 		m_frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, 0);
 		espeak_SetSynthCallback(espeak_tts_callback);
@@ -127,8 +127,8 @@ public:
 	//@}
 };
 
-cainteoir::tts::engine *cainteoir::tts::create_espeak_engine(rdf::model &aMetadata)
+cainteoir::tts::engine *cainteoir::tts::create_espeak_engine(rdf::model &aMetadata, std::string &uri)
 {
-	return new espeak_engine(aMetadata);
+	return new espeak_engine(aMetadata, uri);
 }
 

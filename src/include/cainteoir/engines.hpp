@@ -24,7 +24,7 @@
 #include "buffer.hpp"
 #include "audio.hpp"
 #include "metadata.hpp"
-#include <memory>
+#include <map>
 
 namespace cainteoir { namespace tts
 {
@@ -44,7 +44,8 @@ namespace cainteoir { namespace tts
 
 		void speak(buffer *text, audio *out);
 	private:
-		engine *espeak;
+		std::map<std::string, engine *> enginelist;
+		engine *active;
 	};
 }}
 

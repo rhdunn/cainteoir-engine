@@ -41,7 +41,7 @@ namespace cainteoir { namespace tts
 		virtual void speak(buffer *text, audio *out) = 0;
 	};
 
-	engine *create_espeak_engine(rdf::model &aMetadata);
+	engine *create_espeak_engine(rdf::model &aMetadata, std::string &uri);
 }}
 
 #endif

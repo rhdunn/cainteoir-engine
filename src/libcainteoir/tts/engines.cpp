@@ -28,34 +28,38 @@ namespace tts = cainteoir::tts;
 
 tts::engines::engines(rdf::model &metadata)
 {
-	espeak = tts::create_espeak_engine(metadata);
-	if (!espeak)
+	std::string uri;
+	active = tts::create_espeak_engine(metadata, uri);
+	enginelist[uri] = active;
+
+	if (!active)
 		throw std::runtime_error("no text-to-speech voices found.");
 }
 
 tts::engines::~engines()
 {
-	delete espeak;
+	foreach_iter(engine, enginelist)
+		delete engine->second;
 }
 
 int tts::engines::get_channels() const
 {
-	return espeak->get_channels();
+	return active->get_channels();
 }
 
 int tts::engines::get_frequency() const
 {
-	return espeak->get_frequency();
+	return active->get_frequency();
 }
 
 cainteoir::audio_format tts::engines::get_audioformat() const
 {
-	return espeak->get_audioformat();
+	return active->get_audioformat();
 }
 
 bool tts::engines::select_voice(const rdf::model &aMetadata, const rdf::uri &aVoice)
 {
-	std::string engine;
+	engine *engine = NULL;
 	std::string voice;
 
 	foreach_iter(statement, rql::select(aMetadata, rql::subject, aVoice))
@@ -64,19 +68,22 @@ bool tts::engines::select_voice(const rdf::model &aMetadata, const rdf::uri &aVo
 			voice = rql::value(rql::object(*statement));
 		else if (rql::predicate(*statement) == rdf::tts("voiceOf"))
 		{
-			const rdf::uri *uri = rql::subject(*statement);
+			const rdf::uri *uri = rql::object(*statement);
 			if (uri)
-				engine = uri->str();
+				engine = enginelist[ uri->str() ];
 		}
 	}
 
-	if (!voice.empty())
-		return espeak->select_voice(voice.c_str());
+	if (engine && !voice.empty() && engine->select_voice(voice.c_str()))
+	{
+		active = engine;
+		return true;
+	}
 
 	return false;
 }
 
 void tts::engines::speak(buffer *text, audio *out)
 {
-	espeak->speak(text, out);
+	active->speak(text, out);
 }
