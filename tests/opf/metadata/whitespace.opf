@@ -65,6 +65,10 @@
 		<!-- test case: windows line ending (CR LF) -->
 		<dc:title>post-crlf&#x0D;&#x0A;</dc:title>
 		<dc:title>post-crlf&#x0D;&#x0A;&#x0D;&#x0A;</dc:title>
+
+		<!-- only whitespace -->
+
+		<dc:title> </dc:title>
 	</metadata>
 	<manifest>
 		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />

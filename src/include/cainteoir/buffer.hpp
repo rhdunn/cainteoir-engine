@@ -48,6 +48,7 @@ namespace cainteoir
 
 		std::string str() const
 		{
+			if (first == last || *first == '\0') return std::string();
 			return std::string(first, last);
 		}
 	};

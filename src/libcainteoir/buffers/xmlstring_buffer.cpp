@@ -65,7 +65,7 @@ cainteoir::xmlstring_buffer::xmlstring_buffer(const char *str)
 
 	// trim space at the end:
 
-	while (utf8::isspace(--last))
+	while (last > first && utf8::isspace(--last))
 		;
 	*(char *)++last = '\0';
 }
