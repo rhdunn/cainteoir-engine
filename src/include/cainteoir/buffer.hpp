@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_BUFFER_HPP
 
 #include <cstring>
+#include <string>
 
 namespace cainteoir
 {
@@ -44,6 +45,11 @@ namespace cainteoir
 		size_type size() const { return last - first; }
 
 		bool empty() const { return first == last; }
+
+		std::string str() const
+		{
+			return std::string(first, last);
+		}
 	};
 
 	class mmap_buffer : public buffer
@@ -59,6 +65,15 @@ namespace cainteoir
 	public:
 		data_buffer(unsigned int aSize);
 		~data_buffer();
+	};
+
+	class xmlstring_buffer : public buffer
+	{
+	public:
+		xmlstring_buffer(const char *str);
+		~xmlstring_buffer();
+	private:
+		const char *data;
 	};
 }
 

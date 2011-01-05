@@ -20,93 +20,16 @@
 
 #include "xml.hpp"
 
-namespace cainteoir { namespace xmldom
-{
-	namespace utf8
-	{
-		inline bool isspace(xmlChar *c)
-		{
-			switch (*c)
-			{
-			case '\t': // U+0009 -- HORIZONTAL TAB
-			case '\n': // U+000A -- LINE FEED
-			case '\r': // U+000D -- CARRIDGE RETURN
-			case ' ':  // U+0020 -- SPACE
-				return true;
-			}
-			return false;
-		}
-	}
-
-	class string
-	{
-	public:
-		string(xmlChar *aString);
-
-		~string()
-		{
-			xmlFree(buffer);
-		}
-
-		std::string str() const
-		{
-			if (!data) return std::string();
-			return (const char *)data;
-		}
-	private:
-		xmlChar *buffer;
-		xmlChar *data;
-	};
-}}
-
 namespace xml = cainteoir::xmldom;
-
-xml::string::string(xmlChar *aString)
-	: buffer(aString)
-	, data(aString)
-{
-	// trim space at the start:
-
-	while (utf8::isspace(data))
-		++data;
-
-	// normalise the space within the string:
-
-	xmlChar *current = data;
-	xmlChar *next = data+1;
-	xmlChar *marker = data;
-	while (*current)
-	{
-		if (utf8::isspace(current) && utf8::isspace(next))
-		{
-			++current;
-			++next;
-		}
-		else
-		{
-			*marker = *current;
-			++marker;
-			++current;
-			++next;
-		}
-	}
-
-	// trim space at the end:
-
-	while (utf8::isspace(--marker))
-		;
-	*++marker = '\0';
-}
 
 std::string xml::attribute::content() const
 {
 	if (!attr) return std::string();
-	return xml::string(xmlNodeListGetString(attr->doc, attr->children, 1)).str();
+	return xmlstring_buffer((const char *)xmlNodeListGetString(attr->doc, attr->children, 1)).str();
 }
 
 std::string xml::node::content() const
 {
 	if (!item) return std::string();
-	return xml::string(xmlNodeGetContent(item)).str();
+	return xmlstring_buffer((const char *)xmlNodeGetContent(item)).str();
 }
-

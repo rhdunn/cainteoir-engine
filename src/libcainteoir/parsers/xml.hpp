@@ -25,7 +25,6 @@
 #include <cainteoir/metadata.hpp>
 #include <stdexcept>
 
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
 namespace cainteoir { namespace xmldom
