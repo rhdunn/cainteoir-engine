@@ -21,15 +21,7 @@
 #include "parsers.hpp"
 
 namespace rdf = cainteoir::rdf;
-namespace rql = cainteoir::rdf::query;
 namespace xml = cainteoir::xmldom;
-
-bool have_dclanguage(const rdf::model &aMetadata, const rdf::uri &aDocument)
-{
-	return rql::contains(
-		rql::select(aMetadata, rql::subject, aDocument),
-		rql::predicate, rdf::dc("language"));
-}
 
 void parseSmilMetadata(const xml::node &smil, const rdf::uri &subject, rdf::model &metadata)
 {
@@ -61,12 +53,9 @@ void cainteoir::parseSmilDocument(const xml::node &smil, const rdf::uri &subject
 
 	parseSmilData(smil, subject, metadata);
 
-	if (!have_dclanguage(metadata, subject))
+	for (xml::attribute attr = smil.firstAttribute(); attr.isValid(); attr.next())
 	{
-		for (xml::attribute attr = smil.firstAttribute(); attr.isValid(); attr.next())
-		{
-			if (attr == rdf::xml("lang"))
-				metadata.push_back(rdf::statement(subject, rdf::dc("language"), rdf::literal(attr.content())));
-		}
+		if (attr == rdf::xml("lang"))
+			metadata.push_back(rdf::statement(subject, rdf::dc("language"), rdf::literal(attr.content())));
 	}
 }
