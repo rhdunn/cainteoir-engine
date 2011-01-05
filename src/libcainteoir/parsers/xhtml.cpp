@@ -23,10 +23,42 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
+void parseXHtmlBody(const xml::node &html, const rdf::uri &subject, rdf::model &metadata, std::list<cainteoir::event> &aEvents)
+{
+	for (xml::node node = html.firstChild(); node.isValid(); node.next())
+	{
+		if (node.type() == XML_ELEMENT_NODE)
+		{
+			if (node == rdf::xhtml("p"))
+			{
+				aEvents.push_back(cainteoir::event(cainteoir::text_event, node.content()));
+			}
+			else if (node == rdf::xhtml("h1") ||
+			         node == rdf::xhtml("h2") ||
+			         node == rdf::xhtml("h3") ||
+			         node == rdf::xhtml("h4") ||
+			         node == rdf::xhtml("h5") ||
+			         node == rdf::xhtml("h6"))
+			{
+				aEvents.push_back(cainteoir::event(cainteoir::text_event, node.content()));
+			}
+		}
+	}
+}
+
 void cainteoir::parseXHtmlDocument(const xml::node &html, const rdf::uri &subject, rdf::model &metadata, std::list<cainteoir::event> &aEvents)
 {
 	if (html != rdf::xhtml("html"))
 		throw std::runtime_error("XHTML document is not of a recognised format.");
+
+	for (xml::node node = html.firstChild(); node.isValid(); node.next())
+	{
+		if (node.type() == XML_ELEMENT_NODE)
+		{
+			if (node == rdf::xhtml("body"))
+				parseXHtmlBody(node, subject, metadata, aEvents);
+		}
+	}
 
 	for (xml::attribute attr = html.firstAttribute(); attr.isValid(); attr.next())
 	{
