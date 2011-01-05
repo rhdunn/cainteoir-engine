@@ -68,6 +68,15 @@ namespace cainteoir
 	  */
 	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata, opffiles &aOpfFiles);
 
+	/** @brief XML encoded HTML (XHTML)
+	  * @see   http://www.w3.org/TR/xhtml1/
+	  *
+	  * @param aRoot     The root node of the XHTML XML document.
+	  * @param aSubject  The base to use for any relative URIs.
+	  * @param aMetadata The RDF model to add any metadata to.
+	  */
+	void parseXHtmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
+
 	/** @brief RDF/XML
 	  * @see   http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/
 	  *

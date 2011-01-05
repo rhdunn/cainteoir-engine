@@ -41,6 +41,7 @@ src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/libcainteoir/rdf/namespaces.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/parsers/xml.cpp \
+	src/libcainteoir/parsers/xhtml.cpp \
 	src/libcainteoir/parsers/ocf.cpp \
 	src/libcainteoir/parsers/opf.cpp \
 	src/libcainteoir/parsers/epub.cpp \
@@ -98,7 +99,8 @@ TESTS += \
 	tests/opf-metadata.py \
 	tests/epub-metadata.py \
 	tests/rdfxml-metadata.py \
-	tests/smil-metadata.py
+	tests/smil-metadata.py \
+	tests/xhtml-metadata.py
 
 # RDF metadata to audio specific metadata conversion tests:
 TESTS += \
