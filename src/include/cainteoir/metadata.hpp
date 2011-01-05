@@ -243,6 +243,7 @@ namespace cainteoir { namespace rdf
 	extern const ns ocf;     /**< @brief Open Container Format (OCF) namespace. */
 	extern const ns opf;     /**< @brief Open Publication Format (OPF) namespace. */
 	extern const ns smil;    /**< @brief SMIL namespace. */
+	extern const ns xhtml;   /**< @brief XHTML namespace. */
 
 	extern const ns skos;    /**< @brief SKOS namespace. */
 	extern const ns foaf;    /**< @brief Friend of a Family (FOAF) namespace. */

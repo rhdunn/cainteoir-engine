@@ -150,6 +150,7 @@ int main(int argc, char ** argv)
 				<< rdf::ocf
 				<< rdf::opf
 				<< rdf::smil
+				<< rdf::xhtml
 				<< rdf::skos
 				<< rdf::foaf
 				<< rdf::tts

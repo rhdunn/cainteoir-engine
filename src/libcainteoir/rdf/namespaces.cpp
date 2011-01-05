@@ -32,9 +32,10 @@ const rdf::ns rdf::dc(     "dc",   "http://purl.org/dc/elements/1.1/");
 const rdf::ns rdf::dcterms("dct",  "http://purl.org/dc/terms/");
 const rdf::ns rdf::dcam(   "dcam", "http://purl.org/dc/dcam/");
 
-const rdf::ns rdf::opf( "opf",  "http://www.idpf.org/2007/opf");
-const rdf::ns rdf::ocf( "ocf",  "urn:oasis:names:tc:opendocument:xmlns:container");
-const rdf::ns rdf::smil("smil", "http://www.w3.org/ns/SMIL");
+const rdf::ns rdf::opf(  "opf",  "http://www.idpf.org/2007/opf");
+const rdf::ns rdf::ocf(  "ocf",  "urn:oasis:names:tc:opendocument:xmlns:container");
+const rdf::ns rdf::smil( "smil", "http://www.w3.org/ns/SMIL");
+const rdf::ns rdf::xhtml("h",    "http://www.w3.org/1999/xhtml");
 
 const rdf::ns rdf::skos("skos", "http://www.w3.org/2004/02/skos/core");
 const rdf::ns rdf::foaf("foaf", "http://xmlns.com/foaf/0.1/");
