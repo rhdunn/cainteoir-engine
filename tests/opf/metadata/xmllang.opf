@@ -26,10 +26,8 @@
 		<dc:identifier id="id">dublincore-language.opf</dc:identifier>
 	</metadata>
 	<manifest>
-		<item id="test" href="test.html" media-type="application/xhtml+xml" />
 		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
 	</manifest>
 	<spine toc="ncx">
-		<itemref idref="test" />
 	</spine>
 </package>
