@@ -49,22 +49,17 @@ cainteoir::xmlstring_buffer::xmlstring_buffer(const char *str)
 	// normalise the space within the string:
 
 	const char *current = first;
-	const char *next = first+1;
 
 	last = first;
 	while (*current)
 	{
-		if (utf8::isspace(current) && utf8::isspace(next))
-		{
+		if (utf8::isspace(current) && utf8::isspace(current+1))
 			++current;
-			++next;
-		}
 		else
 		{
 			*(char *)last = *current;
 			++last;
 			++current;
-			++next;
 		}
 	}
 
