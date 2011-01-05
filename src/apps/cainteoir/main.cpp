@@ -18,7 +18,7 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cainteoir/tts_engine.hpp>
+#include <cainteoir/engines.hpp>
 #include <cainteoir/document.hpp>
 #include <stdexcept>
 #include <iostream>
@@ -136,7 +136,7 @@ int main(int argc, char ** argv)
 
 		rdf::model metadata;
 
-		std::auto_ptr<cainteoir::tts_engine> tts = cainteoir::create_espeak_engine(metadata);
+		cainteoir::tts::engines tts(metadata);
 		if (action == show_metadata)
 		{
 			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
@@ -180,12 +180,12 @@ int main(int argc, char ** argv)
 				voice = select_voice(metadata, rdf::tts("name"), "default");
 		}
 
-		if (!voice || !tts->select_voice(metadata, *voice))
+		if (!voice || !tts.select_voice(metadata, *voice))
 			throw std::runtime_error("unrecognised voice");
 
-		cainteoir::audio_format audioformat = tts->get_audioformat();
-		int channels = tts->get_channels();
-		int frequency = tts->get_frequency();
+		cainteoir::audio_format audioformat = tts.get_audioformat();
+		int channels = tts.get_channels();
+		int frequency = tts.get_frequency();
 
 		std::auto_ptr<cainteoir::audio> out;
 		if (outfile)
@@ -207,7 +207,7 @@ int main(int argc, char ** argv)
 		foreach_iter(event, events)
 		{
 			if (event->type == cainteoir::text_event)
-				tts->speak(event->data.get(), out.get());
+				tts.speak(event->data.get(), out.get());
 		}
 	}
 	catch (std::exception &e)

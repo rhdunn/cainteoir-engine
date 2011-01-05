@@ -21,27 +21,27 @@
 #ifndef CAINTEOIR_ENGINE_TTS_ENGINE_HPP
 #define CAINTEOIR_ENGINE_TTS_ENGINE_HPP
 
-#include "buffer.hpp"
-#include "audio.hpp"
-#include "metadata.hpp"
+#include <cainteoir/buffer.hpp>
+#include <cainteoir/audio.hpp>
+#include <cainteoir/metadata.hpp>
 #include <memory>
 
-namespace cainteoir
+namespace cainteoir { namespace tts
 {
-	struct tts_engine
+	struct engine
 	{
-		virtual ~tts_engine() {}
+		virtual ~engine() {}
 
 		virtual int get_channels() const = 0;
 		virtual int get_frequency() const = 0;
 		virtual cainteoir::audio_format get_audioformat() const = 0;
 
-		virtual bool select_voice(const rdf::model &aMetadata, const rdf::uri &aVoice) = 0;
+		virtual bool select_voice(const char *voicename) = 0;
 
 		virtual void speak(buffer *text, audio *out) = 0;
 	};
 
-	std::auto_ptr<tts_engine> create_espeak_engine(rdf::model &aMetadata);
-}
+	engine *create_espeak_engine(rdf::model &aMetadata);
+}}
 
 #endif

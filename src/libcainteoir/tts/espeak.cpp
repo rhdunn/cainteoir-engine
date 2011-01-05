@@ -18,7 +18,7 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cainteoir/tts_engine.hpp>
+#include "tts_engine.hpp"
 #include <espeak/speak_lib.h>
 
 namespace rdf = cainteoir::rdf;
@@ -40,7 +40,7 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
 	return 0;
 }
 
-class espeak_engine : public cainteoir::tts_engine
+class espeak_engine : public cainteoir::tts::engine
 {
 	int m_frequency;
 public:
@@ -112,19 +112,9 @@ public:
 		return cainteoir::S16_LE;
 	}
 
-	bool select_voice(const rdf::model &aMetadata, const rdf::uri &aVoice)
+	bool select_voice(const char *voicename)
 	{
-		foreach_iter(statement, rql::select(aMetadata, rql::subject, aVoice))
-		{
-			if (rql::predicate(*statement) == rdf::tts("name"))
-			{
-				const std::string &value = rql::value(rql::object(*statement));
-				if (!value.empty())
-					return espeak_SetVoiceByName(value.c_str()) == EE_OK;
-			}
-		}
-
-		return false;
+		return espeak_SetVoiceByName(voicename) == EE_OK;
 	}
 
 	void speak(cainteoir::buffer *text, cainteoir::audio *out)
@@ -137,8 +127,8 @@ public:
 	//@}
 };
 
-std::auto_ptr<cainteoir::tts_engine> cainteoir::create_espeak_engine(rdf::model &aMetadata)
+cainteoir::tts::engine *cainteoir::tts::create_espeak_engine(rdf::model &aMetadata)
 {
-	return std::auto_ptr<cainteoir::tts_engine>(new espeak_engine(aMetadata));
+	return new espeak_engine(aMetadata);
 }
 
