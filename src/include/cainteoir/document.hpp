@@ -55,14 +55,13 @@ namespace cainteoir
 	  * The following document formats require adding parsers to support them:
 	  *    -  Atom:    extract syndication information from Atom feeds.
 	  *    -  DocBook: extract information from DocBook 4.0 (SGML) and DocBook 5.0 (XML) documents.
-	  *    -  (X)HTML: extract information from HTML4, HTML5 and XHTML documents (including meta+DC and RDF/a metadata).
+	  *    -  HTML:    extract information from HTML4, HTML5 and XHTML documents (including meta+DC and RDF/a metadata).
 	  *    -  NCX:     extract Table of Content information from NCX documents (needed for complete ePub support).
 	  *    -  ODT:     extract information from ODF/text documents.
 	  *    -  PLS:     extract pronunciation information from Pronunciation Lexicon Specification documents.
 	  *    -  RSS:     extract syndication information from RSS 1.0 (RSS/RDF/XML) and 2.0 (RSS/XML) feeds.
 	  *    -  RTF:     extract information from Rich Text Format documents.
 	  *    -  SSML:    extract information from Speech Synthesis Markup Language documents.
-	  *    -  TXT:     extract information from plain text documents.
 	  *
 	  * The following document formats will not be supported:
 	  *    -  DOC:     Microsoft Word document format.
