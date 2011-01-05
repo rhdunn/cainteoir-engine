@@ -48,6 +48,6 @@ void cainteoir::parseEpubDocument(const char *aFilename, rdf::model &aMetadata, 
 			filename = opffile.substr(0, pos + 1) + file->filename;
 
 		xml::document html(epub.read(filename.c_str()));
-		cainteoir::parseXHtmlDocument(html.root(), rdf::uri(filename, std::string()), aMetadata, aEvents);
+		cainteoir::parseXHtmlDocument(html.root(), rdf::uri(aFilename, file->id), aMetadata, aEvents);
 	}
 }

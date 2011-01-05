@@ -119,7 +119,7 @@ void parseOpfManifest(const xml::node &opf, const rdf::uri &subject, std::map<st
 					mediatype = attr.content();
 			}
 
-			aItemSet[id] = cainteoir::fileinfo(href, mediatype);
+			aItemSet[id] = cainteoir::fileinfo(href, mediatype, id);
 		}
 	}
 }

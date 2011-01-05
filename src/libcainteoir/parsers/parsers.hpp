@@ -31,11 +31,13 @@ namespace cainteoir
 	struct fileinfo
 	{
 		std::string filename; /**< @brief The name of the file. */
-		std::string mimetype; /**< @brief The mime type of the file */
+		std::string mimetype; /**< @brief The mime type of the file. */
+		std::string id;       /**< @brief The unique id for the file within the current document. */
 
-		fileinfo(const std::string &aFileName, const std::string &aMimeType)
+		fileinfo(const std::string &aFileName, const std::string &aMimeType, const std::string &aId)
 			: filename(aFileName)
 			, mimetype(aMimeType)
+			, id(aId)
 		{
 		}
 
