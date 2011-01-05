@@ -1,4 +1,4 @@
-/* SMIL Document Parser.
+/* XHTML Document Parser.
  *
  * Copyright (C) 2010 Reece H. Dunn
  *
