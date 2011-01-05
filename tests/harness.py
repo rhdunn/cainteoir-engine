@@ -18,6 +18,7 @@
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+import difflib
 
 def ok(cond, message):
 	if (not cond):
@@ -36,11 +37,13 @@ def equal(a, b, message):
 	if not check_equal(type(a).__name__, type(b).__name__, '%s -- type' % message):
 		are_equal = False
 	if isinstance(a, list) and isinstance(b, list):
-		if not check_equal(len(a), len(b), '%s -- length' % message):
+		if not a == b:
+			print '%s -- lists are not equal:' % message
+			print '-'*40
+			for line in difflib.unified_diff(a, b, fromfile='expected', tofile='got'):
+				print line.replace('\n', '')
+			print '-'*40
 			are_equal = False
-		for i, avalue in enumerate(a):
-			if not check_equal(avalue, b[i], '%s -- item #%d' % (message, i + 1)):
-				are_equal = False
 	else:
 		if not check_equal(a, b, '%s -- value' % message):
 			are_equal = False
