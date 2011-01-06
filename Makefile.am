@@ -36,11 +36,22 @@ data/magic.mgc: data/magic
 noinst_LIBRARIES += src/libcainteoir/libcainteoir.a
 
 src_libcainteoir_libcainteoir_a_SOURCES = \
+	src/include/cainteoir/audio.hpp \
+	src/include/cainteoir/buffer.hpp \
+	src/include/cainteoir/document.hpp \
+	src/include/cainteoir/engines.hpp \
+	src/include/cainteoir/metadata.hpp
+
+src_libcainteoir_libcainteoir_a_SOURCES += \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/xmlstring_buffer.cpp \
 	src/libcainteoir/rdf/namespaces.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
+	src/libcainteoir/parsers/mimetypes.hpp \
+	src/libcainteoir/parsers/parsers.hpp \
+	src/libcainteoir/parsers/xml.hpp \
+	src/libcainteoir/parsers/zip.hpp \
 	src/libcainteoir/parsers/xml.cpp \
 	src/libcainteoir/parsers/xhtml.cpp \
 	src/libcainteoir/parsers/ocf.cpp \
@@ -52,6 +63,7 @@ src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/libcainteoir/audio/pulse.cpp \
 	src/libcainteoir/audio/wav.cpp \
 	src/libcainteoir/audio/ogg.cpp \
+	src/libcainteoir/tts/tts_engine.hpp \
 	src/libcainteoir/tts/engines.cpp \
 	src/libcainteoir/tts/espeak.cpp
 
