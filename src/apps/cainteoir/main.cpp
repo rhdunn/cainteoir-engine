@@ -49,7 +49,7 @@ static struct option options[] =
 	{ 0, 0, 0, 0 }
 };
 
-std::string select_value(const rdf::model &aMetadata, const rdf::uri &uri, const rdf::uri &predicate)
+std::string select_value(const rdf::graph &aMetadata, const rdf::uri &uri, const rdf::uri &predicate)
 {
 	foreach_iter(query, rql::select(aMetadata, rql::subject, uri))
 	{
@@ -60,7 +60,7 @@ std::string select_value(const rdf::model &aMetadata, const rdf::uri &uri, const
 	return std::string();
 }
 
-const rdf::uri *select_voice(const rdf::model &aMetadata, const rdf::uri &predicate, const std::string &value)
+const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predicate, const std::string &value)
 {
 	rql::results voices = rql::select(
 		rql::select(aMetadata, rql::predicate, rdf::rdf("type")),
@@ -134,7 +134,7 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		rdf::model metadata;
+		rdf::graph metadata;
 
 		cainteoir::tts::engines tts(metadata);
 		if (action == show_metadata)

@@ -26,7 +26,7 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
-tts::engines::engines(rdf::model &metadata)
+tts::engines::engines(rdf::graph &metadata)
 {
 	std::string uri;
 	active = tts::create_espeak_engine(metadata, uri);
@@ -57,7 +57,7 @@ cainteoir::audio_format tts::engines::get_audioformat() const
 	return active->get_audioformat();
 }
 
-bool tts::engines::select_voice(const rdf::model &aMetadata, const rdf::uri &aVoice)
+bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice)
 {
 	engine *engine = NULL;
 	std::string voice;

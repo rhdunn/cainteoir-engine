@@ -25,7 +25,7 @@
 namespace xml = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
 
-bool cainteoir::parseDocument(const char *aFilename, rdf::model &aMetadata, std::list<event> &aEvents)
+bool cainteoir::parseDocument(const char *aFilename, rdf::graph &aMetadata, std::list<event> &aEvents)
 {
 	std::string type = cainteoir::mimetypes()(aFilename);
 	if (type == "application/xml")

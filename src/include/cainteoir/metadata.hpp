@@ -362,12 +362,12 @@ namespace cainteoir { namespace rdf
 		}
 	}
 
-	/** @brief RDF model
+	/** @brief RDF graph
 	  */
-	class model : public std::list<statement>
+	class graph : public std::list<statement>
 	{
 	public:
-		model()
+		graph()
 			: nextid(1)
 		{
 		}
@@ -421,7 +421,7 @@ namespace cainteoir { namespace rdf
 		  * @return         The result set matching the query.
 		  */
 		template<typename Value>
-		inline results select(const rdf::model &metadata, any_type (*selector)(const rdf::statement &), const Value &value)
+		inline results select(const rdf::graph &metadata, any_type (*selector)(const rdf::statement &), const Value &value)
 		{
 			results ret;
 			foreach_iter(query, metadata)
@@ -484,7 +484,7 @@ namespace cainteoir { namespace rdf
 		virtual formatter &operator<<(const uri &uri) = 0;
 		virtual formatter &operator<<(const literal &literal) = 0;
 		virtual formatter &operator<<(const statement &statement) = 0;
-		virtual formatter &operator<<(const model &model) = 0;
+		virtual formatter &operator<<(const graph &aGraph) = 0;
 
 		virtual ~formatter() {}
 	};

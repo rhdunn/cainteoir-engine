@@ -23,8 +23,8 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-static void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata, const std::string &base);
-static void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata, const std::string &base);
+static void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::graph &metadata, const std::string &base);
+static void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::graph &metadata, const std::string &base);
 
 bool hasSubElements(const xml::node &rdfxml)
 {
@@ -36,7 +36,7 @@ bool hasSubElements(const xml::node &rdfxml)
 	return false;
 }
 
-void parseRdfXmlMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata, const std::string &base)
+void parseRdfXmlMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::graph &metadata, const std::string &base)
 {
 	if (rdfxml != rdf::rdf("Description"))
 		metadata.push_back(rdf::statement(subject, rdf::rdf("type"), rdf::uri(rdfxml.namespaceURI(), rdfxml.name())));
@@ -44,7 +44,7 @@ void parseRdfXmlMetadata(const xml::node &rdfxml, const rdf::resource &subject, 
 	parseRdfXmlInnerMetadata(rdfxml, subject, metadata, base);
 }
 
-rdf::bnode parseRdfXmlCollectionMetadata(xml::node node, const rdf::resource &subject, rdf::model &metadata, const std::string &base)
+rdf::bnode parseRdfXmlCollectionMetadata(xml::node node, const rdf::resource &subject, rdf::graph &metadata, const std::string &base)
 {
 	for (; node.isValid(); node.next())
 	{
@@ -72,7 +72,7 @@ rdf::bnode parseRdfXmlCollectionMetadata(xml::node node, const rdf::resource &su
 	return rdf::bnode(std::string());
 }
 
-void parseRdfXmlMetadataFromNode(const xml::node &node, const rdf::resource &subject, const rdf::uri &predicate, rdf::model &metadata, const std::string &base)
+void parseRdfXmlMetadataFromNode(const xml::node &node, const rdf::resource &subject, const rdf::uri &predicate, rdf::graph &metadata, const std::string &base)
 {
 	std::string resource = node.attr(rdf::rdf("resource")).content();
 	std::string nodeID   = node.attr(rdf::rdf("nodeID")).content();
@@ -121,7 +121,7 @@ void parseRdfXmlMetadataFromNode(const xml::node &node, const rdf::resource &sub
 	}
 }
 
-void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata, const std::string &base)
+void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::graph &metadata, const std::string &base)
 {
 	std::string lang;
 
@@ -161,7 +161,7 @@ void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::resource &subj
 	}
 }
 
-void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::model &metadata, const std::string &base)
+void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subject, rdf::graph &metadata, const std::string &base)
 {
 	for (xml::node node = rdfxml.firstChild(); node.isValid(); node.next())
 	{
@@ -186,7 +186,7 @@ void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subj
 	}
 }
 
-void cainteoir::parseRdfXmlDocument(const xml::node &rdfxml, const rdf::uri &subject, rdf::model &metadata)
+void cainteoir::parseRdfXmlDocument(const xml::node &rdfxml, const rdf::uri &subject, rdf::graph &metadata)
 {
 	if (rdfxml != rdf::rdf("RDF"))
 		throw std::runtime_error("RDF/XML document is not of a recognised format.");

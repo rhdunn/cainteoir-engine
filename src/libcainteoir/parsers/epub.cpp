@@ -24,7 +24,7 @@
 namespace xml = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
 
-void cainteoir::parseEpubDocument(const char *aFilename, rdf::model &aMetadata, std::list<event> &aEvents)
+void cainteoir::parseEpubDocument(const char *aFilename, rdf::graph &aMetadata, std::list<event> &aEvents)
 {
 	cainteoir::zip::archive epub(aFilename);
 

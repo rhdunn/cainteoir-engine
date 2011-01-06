@@ -23,7 +23,7 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseXHtmlHead(const xml::node &html, const rdf::uri &subject, rdf::model &metadata, std::string &title)
+void parseXHtmlHead(const xml::node &html, const rdf::uri &subject, rdf::graph &metadata, std::string &title)
 {
 	for (xml::node node = html.firstChild(); node.isValid(); node.next())
 	{
@@ -35,7 +35,7 @@ void parseXHtmlHead(const xml::node &html, const rdf::uri &subject, rdf::model &
 	}
 }
 
-void parseXHtmlBody(const xml::node &html, const rdf::uri &subject, rdf::model &metadata, std::list<cainteoir::event> &aEvents)
+void parseXHtmlBody(const xml::node &html, const rdf::uri &subject, rdf::graph &metadata, std::list<cainteoir::event> &aEvents)
 {
 	for (xml::node node = html.firstChild(); node.isValid(); node.next())
 	{
@@ -58,7 +58,7 @@ void parseXHtmlBody(const xml::node &html, const rdf::uri &subject, rdf::model &
 	}
 }
 
-void cainteoir::parseXHtmlDocument(const xml::node &html, const rdf::uri &subject, rdf::model &metadata, std::list<cainteoir::event> &aEvents)
+void cainteoir::parseXHtmlDocument(const xml::node &html, const rdf::uri &subject, rdf::graph &metadata, std::list<cainteoir::event> &aEvents)
 {
 	if (html != rdf::xhtml("html"))
 		throw std::runtime_error("XHTML document is not of a recognised format.");

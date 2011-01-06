@@ -23,7 +23,7 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseSmilMetadata(const xml::node &smil, const rdf::uri &subject, rdf::model &metadata)
+void parseSmilMetadata(const xml::node &smil, const rdf::uri &subject, rdf::graph &metadata)
 {
 	for (xml::node node = smil.firstChild(); node.isValid(); node.next())
 	{
@@ -32,7 +32,7 @@ void parseSmilMetadata(const xml::node &smil, const rdf::uri &subject, rdf::mode
 	}
 }
 
-void parseSmilData(const xml::node &smil, const rdf::uri &subject, rdf::model &metadata)
+void parseSmilData(const xml::node &smil, const rdf::uri &subject, rdf::graph &metadata)
 {
 	for (xml::node node = smil.firstChild(); node.isValid(); node.next())
 	{
@@ -46,7 +46,7 @@ void parseSmilData(const xml::node &smil, const rdf::uri &subject, rdf::model &m
 	}
 }
 
-void cainteoir::parseSmilDocument(const xml::node &smil, const rdf::uri &subject, rdf::model &metadata)
+void cainteoir::parseSmilDocument(const xml::node &smil, const rdf::uri &subject, rdf::graph &metadata)
 {
 	if (smil != rdf::smil("smil"))
 		throw std::runtime_error("SMIL document is not of a recognised format.");

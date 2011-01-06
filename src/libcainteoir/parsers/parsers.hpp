@@ -69,7 +69,7 @@ namespace cainteoir
 	  * @param aSubject  The subject to use for any Dublin Core metadata.
 	  * @param aMetadata The RDF model to add any metadata to.
 	  */
-	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata, opffiles &aOpfFiles);
+	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::graph &aMetadata, opffiles &aOpfFiles);
 
 	/** @brief XML encoded HTML (XHTML)
 	  * @see   http://www.w3.org/TR/xhtml1/
@@ -79,7 +79,7 @@ namespace cainteoir
 	  * @param aMetadata The RDF model to add any metadata to.
 	  * @param aEvents   The speech events that make up the XHTML document.
 	  */
-	void parseXHtmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata, std::list<cainteoir::event> &aEvents);
+	void parseXHtmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::graph &aMetadata, std::list<cainteoir::event> &aEvents);
 
 	/** @brief RDF/XML
 	  * @see   http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/
@@ -117,7 +117,7 @@ namespace cainteoir
 	  *     -  example13.rdf
 	  *     -  example20.rdf
 	  */
-	void parseRdfXmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
+	void parseRdfXmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::graph &aMetadata);
 
 	/** @brief Synchronized Multimedia Integration Language (SMIL)
 	  * @see   http://www.w3.org/TR/2008/REC-SMIL3-20081201/
@@ -126,7 +126,7 @@ namespace cainteoir
 	  * @param aSubject  The base to use for any relative URIs.
 	  * @param aMetadata The RDF model to add any metadata to.
 	  */
-	void parseSmilDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::model &aMetadata);
+	void parseSmilDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::graph &aMetadata);
 
 	/** @brief ePub
 	  * @see   http://www.idpf.org/specs.htm
@@ -135,7 +135,7 @@ namespace cainteoir
 	  * @param aMetadata The RDF model to add any metadata to.
 	  * @param aEvents   The speech events that make up the ePub document.
 	  */
-	void parseEpubDocument(const char *aFilename, rdf::model &aMetadata, std::list<event> &aEvents);
+	void parseEpubDocument(const char *aFilename, rdf::graph &aMetadata, std::list<event> &aEvents);
 }
 
 #endif

@@ -117,12 +117,12 @@ public:
 		return *this;
 	}
 
-	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::model &model)
+	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::graph &aGraph)
 	{
 		if (!namespaces.empty())
 		{
 			foreach_iter(ns, namespaces)
-				if (model.contains(cainteoir::rdf::ns(ns->second, ns->first)))
+				if (aGraph.contains(cainteoir::rdf::ns(ns->second, ns->first)))
 				{
 					if (*(--ns->first.end()) == '/')
 						os << "@prefix " << ns->second << ": <" << ns->first << "> ." << std::endl;
@@ -132,8 +132,8 @@ public:
 			os << std::endl;
 		}
 
-		foreach_iter(query, model)
-			*this << *query;
+		foreach_iter(statement, aGraph)
+			*this << *statement;
 
 		return *this;
 	}

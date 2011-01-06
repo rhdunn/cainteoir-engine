@@ -39,7 +39,7 @@ std::string now()
 	return date;
 }
 
-std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model &aMetadata, const rdf::uri &aDocument)
+std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	std::list<vorbis_comment> comments;
 	std::string year;
@@ -249,7 +249,7 @@ public:
 	}
 };
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::model &aMetadata, const rdf::uri &aDocument)
+std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
 	return std::auto_ptr<cainteoir::audio>(new ogg_audio(file, format, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument)));
@@ -257,7 +257,7 @@ std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename,
 
 #else
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::model &aMetadata, const rdf::uri &aDocument)
+std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	return std::auto_ptr<cainteoir::audio>();
 }

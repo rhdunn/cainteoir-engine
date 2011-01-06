@@ -145,7 +145,7 @@ void test_statement()
 
 void test_model()
 {
-	rdf::model model;
+	rdf::graph model;
 	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")));
 	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", "en")));
 	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))));

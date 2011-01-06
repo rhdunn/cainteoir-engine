@@ -52,7 +52,7 @@ namespace cainteoir
 	  * @retval true  If aFilename contains a supported document format.
 	  * @retval false If aFilename contains an unsupported document format.
 	  */
-	bool parseDocument(const char *aFilename, rdf::model &aMetadata, std::list<event> &aEvents);
+	bool parseDocument(const char *aFilename, rdf::graph &aMetadata, std::list<event> &aEvents);
 }
 
 #endif

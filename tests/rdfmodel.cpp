@@ -202,7 +202,7 @@ void test_statement()
 
 void test_model()
 {
-	rdf::model model;
+	rdf::graph model;
 	assert(model.empty());
 	equal(model.size(), 0);
 	assert(model.begin() == model.end());
@@ -226,7 +226,7 @@ void test_model()
 
 void test_model_namespace(const rdf::statement &s, const rdf::ns &ns)
 {
-	rdf::model model;
+	rdf::graph model;
 	assert(!model.contains(ns));
 	assert(!model.contains(rdf::tts));
 
@@ -264,8 +264,8 @@ void test_model_namespaces()
 
 void test_genid()
 {
-	rdf::model model1;
-	rdf::model model2;
+	rdf::graph model1;
+	rdf::graph model2;
 
 	test_bnode(model1.genid(), "genid1");
 	test_bnode(model1.genid(), "genid2");

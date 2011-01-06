@@ -34,14 +34,14 @@ namespace cainteoir { namespace tts
 	class engines
 	{
 	public:
-		engines(rdf::model &metadata);
+		engines(rdf::graph &metadata);
 		~engines();
 
 		int get_channels() const;
 		int get_frequency() const;
 		cainteoir::audio_format get_audioformat() const;
 
-		bool select_voice(const rdf::model &aMetadata, const rdf::uri &aVoice);
+		bool select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice);
 
 		void speak(buffer *text, audio *out);
 		void speak(const std::list<event> &events, audio *out);

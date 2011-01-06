@@ -89,7 +89,7 @@ int main(int argc, char ** argv)
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
-		rdf::model metadata;
+		rdf::graph metadata;
 		std::list<cainteoir::event> events;
 		if (!cainteoir::parseDocument(argv[0], metadata, events))
 			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);

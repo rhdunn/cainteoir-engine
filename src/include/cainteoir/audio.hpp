@@ -74,7 +74,7 @@ namespace cainteoir
 	  * @param aDocument The URI of the document in the RDF model to get the data for.
 	  * @return          The vorbis comments in (label, value) form.
 	  */
-	std::list<vorbis_comment> vorbis_comments(const rdf::model &aMetadata, const rdf::uri &aDocument);
+	std::list<vorbis_comment> vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 	//@}
 	/** @name  Audio Devices
@@ -91,7 +91,7 @@ namespace cainteoir
 	//@{
 
 	std::auto_ptr<audio> create_wav_file(const char *filename, audio_format format, int channels, int frequency);
-	std::auto_ptr<audio> create_ogg_file(const char *filename, audio_format format, int channels, int frequency, float quality, const rdf::model &aMetadata, const rdf::uri &aDocument);
+	std::auto_ptr<audio> create_ogg_file(const char *filename, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 	//@}
 }

@@ -23,7 +23,7 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::model &metadata, bool recurse)
+void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::graph &metadata, bool recurse)
 {
 	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
 	{
@@ -139,7 +139,7 @@ void parseOpfSpine(const xml::node &opf, const rdf::uri &subject, std::list<std:
 	}
 }
 
-void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, rdf::model &metadata, opffiles &aOpfFiles)
+void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, rdf::graph &metadata, opffiles &aOpfFiles)
 {
 	if (opf != rdf::opf("package"))
 		throw std::runtime_error("OPF file is not of a recognised format.");
