@@ -39,25 +39,6 @@ std::string now()
 	return date;
 }
 
-std::string select_rdfvalue(const rdf::model &aMetadata, const rdf::bnode *aDocument, const rdf::uri &predicate, const std::string &value)
-{
-	if (!aDocument) return std::string();
-
-	std::string text;
-	bool match = false;
-
-	foreach_iter(query, rql::select(aMetadata, rql::subject, *aDocument))
-	{
-		const std::string &object = rql::value(rql::object(*query));
-		if (rql::predicate(*query) == rdf::rdf("value"))
-			text = object;
-		else if (rql::predicate(*query) == predicate)
-			match = (object == value);
-	}
-
-	return match ? text : std::string();
-}
-
 std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::model &aMetadata, const rdf::uri &aDocument)
 {
 	std::list<vorbis_comment> comments;
