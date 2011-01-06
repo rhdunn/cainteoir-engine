@@ -1,7 +1,14 @@
+# build artefacts:
+
 *.o
 *.pyc
 
+# vi/vim editor files:
+
+*~
 .*.swp
+
+# build output:
 
 data/magic.mgc
 
@@ -14,6 +21,8 @@ tests/rdfmodel
 tests/ntriple_formatter
 tests/turtle_formatter
 
+# autotools output:
+
 Makefile
 Makefile.in
 
@@ -23,6 +32,7 @@ Makefile.in
 INSTALL
 aclocal.m4
 autom4te.cache/
+ChangeLog
 config.h
 config.h.in
 config.h.in~
@@ -34,3 +44,4 @@ install-sh
 missing
 stamp-h1
 
+cainteoir-engine-*
