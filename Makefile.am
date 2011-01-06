@@ -98,6 +98,20 @@ tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp
 
 ############################# tests ###########################################
 
+EXTRA_DIST += \
+	tests/epub/metadata/* \
+	tests/ncx/* \
+	tests/ocf/* \
+	tests/opf/dc-metadata/* \
+	tests/opf/metadata/* \
+	tests/opf/vorbis-comments/* \
+	tests/rdfxml/schema/* \
+	tests/rdfxml/syntax/* \
+	tests/smil/metadata/* \
+	tests/xhtml1/simple.xhtml \
+	tests/xhtml1/metadata/* \
+	tests/*.py
+
 TEST_EXTENSIONS = .py
 PY_LOG_COMPILER = $(PYTHON)
 
