@@ -10,7 +10,7 @@ ACLOCAL_AMFLAGS = -I m4
 bin_PROGRAMS =
 noinst_LIBRARIES =
 
-EXTRA_DIST = config.rpath
+EXTRA_DIST = 
 CLEANFILES =
 
 ############################# ChangeLog #######################################
