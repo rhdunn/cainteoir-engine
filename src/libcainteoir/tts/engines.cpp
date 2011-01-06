@@ -87,3 +87,14 @@ void tts::engines::speak(buffer *text, audio *out)
 {
 	active->speak(text, out);
 }
+
+void tts::engines::speak(const std::list<event> &events, audio *out)
+{
+	out->open();
+	foreach_iter(event, events)
+	{
+		if (event->type == cainteoir::text_event)
+			speak(event->data.get(), out);
+	}
+	out->close();
+}

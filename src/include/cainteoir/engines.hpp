@@ -24,6 +24,7 @@
 #include "buffer.hpp"
 #include "audio.hpp"
 #include "metadata.hpp"
+#include "document.hpp"
 #include <map>
 
 namespace cainteoir { namespace tts
@@ -43,6 +44,7 @@ namespace cainteoir { namespace tts
 		bool select_voice(const rdf::model &aMetadata, const rdf::uri &aVoice);
 
 		void speak(buffer *text, audio *out);
+		void speak(const std::list<event> &events, audio *out);
 	private:
 		std::map<std::string, engine *> enginelist;
 		engine *active;
