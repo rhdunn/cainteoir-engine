@@ -17,8 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
 import sys
 import difflib
+
+from datetime import date
 
 def ok(cond, message):
 	if (not cond):
@@ -48,3 +51,19 @@ def equal(a, b, message):
 		if not check_equal(a, b, '%s -- value' % message):
 			are_equal = False
 	ok(are_equal, '%s : values are not equal' % message)
+
+def check_metadata(filename, expect, formattype, displayas=None):
+	tmpfile = '/tmp/metadata.txt'
+
+	print '... checking %s' % (displayas or filename)
+	print '         ==> %s' % expect
+	print '          as %s metadata' % formattype
+	os.system('CAINTEOIR_DATADIR=%s %s --%s "%s" > %s' % (os.path.join(sys.path[0], '../data'), os.path.join(sys.path[0], '../src/apps/metadata/metadata'), formattype, filename, tmpfile))
+
+	with open(expect, 'r') as f:
+		expected = [ unicode(x.replace('<DATETIME>', date.today().strftime('%Y'))) for x in f.read().split('\n') if not x == '' ]
+
+	with open(tmpfile, 'r') as f:
+		got = [ unicode(x.replace('<%s' % filename, '<')) for x in f.read().split('\n') if not x == '' ]
+
+	equal(got, expected, 'metadata for %s' % filename)

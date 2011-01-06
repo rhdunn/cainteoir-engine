@@ -20,23 +20,8 @@
 import sys
 import os
 from xml.dom import minidom
-from datetime import date
 
 import harness as test
-
-def check_metadata(filename, expect):
-	tmpfile = '/tmp/metadata.txt'
-
-	print '... checking %s' % filename
-	os.system('CAINTEOIR_DATADIR=%s %s --vorbis "%s" > %s' % (os.path.join(sys.path[0], '../data'), os.path.join(sys.path[0], '../src/apps/metadata/metadata'), filename, tmpfile))
-
-	with open(expect, 'r') as f:
-		expected = [ unicode(x.replace('<DATETIME>', date.today().strftime('%Y'))) for x in f.read().split('\n') if not x == '' ]
-
-	with open(tmpfile, 'r') as f:
-		got = [ unicode(x) for x in f.read().split('\n') if not x == '' ]
-
-	test.equal(got, expected, filename)
 
 def test_dir(basedir):
 	rootdir = os.path.join(sys.path[0], basedir)
@@ -46,7 +31,7 @@ def test_dir(basedir):
 		if filename.endswith('.opf'):
 			opffile = os.path.join(rootdir, filename)
 			n3file = os.path.join(rootdir, filename.replace('.opf', '.txt'))
-			check_metadata(opffile, n3file)
+			test.check_metadata(opffile, n3file, 'vorbis')
 
 if __name__ == '__main__':
 	test_dir('opf/vorbis-comments')

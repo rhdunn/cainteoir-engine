@@ -24,7 +24,7 @@ from xml.dom import minidom
 
 import harness as test
 
-def check_metadata(epubfiles, expect):
+def check_metadata(epubfiles, expect, metadata):
 	epubfile = '/tmp/test.epub'
 	tmpfile = '/tmp/metadata.n3'
 
@@ -34,15 +34,7 @@ def check_metadata(epubfiles, expect):
 		zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
 	zf.close()
 
-	os.system('CAINTEOIR_DATADIR=%s %s --turtle "%s" > %s' % (os.path.join(sys.path[0], '../data'), os.path.join(sys.path[0], '../src/apps/metadata/metadata'), epubfile, tmpfile))
-
-	with open(expect, 'r') as f:
-		expected = [ unicode(x) for x in f.read().split('\n') if not x == '' ]
-
-	with open(tmpfile, 'r') as f:
-		got = [ unicode(x.replace('<%s' % epubfile, '<')) for x in f.read().split('\n') if not x == '' ]
-
-	test.equal(got, expected, 'opf.format(%s)' % filename)
+	test.check_metadata(epubfile, expect, 'turtle', displayas='%s in %s' % (metadata, epubfile))
 
 def test_dir(basedir):
 	rootdir = os.path.join(sys.path[0], basedir)
@@ -52,8 +44,7 @@ def test_dir(basedir):
 		if filename.endswith('.opf'):
 			opffile = os.path.join(rootdir, filename)
 			n3file = os.path.join(rootdir, filename.replace('.opf', '.n3'))
-			print '... checking epub metadata for OPF file %s' % opffile
-			check_metadata(expect=n3file, epubfiles=[
+			check_metadata(expect=n3file, metadata=opffile, epubfiles=[
 					('META-INF/container.xml', 'ocf/simple.ocf'),
 					('OEBPS/content.opf', opffile),
 					('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
