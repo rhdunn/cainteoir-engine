@@ -54,7 +54,11 @@ class TestSuite:
 			print 'failed'
 
 	def summary(self):
+		print
 		print '========== test summary =========='
-		print '%d passed, %d failed, %d total' % (self.passed, self.failed, (self.passed + self.failed))
+		print '  %s passed' % str(self.passed).rjust(4)
+		print '  %s failed' % str(self.failed).rjust(4)
+		print '  %s total'  % str(self.passed + self.failed).rjust(4)
+		print
 		if self.failed != 0:
 			raise Exception('Some of the tests failed.')
