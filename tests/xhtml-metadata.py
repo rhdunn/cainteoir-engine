@@ -19,9 +19,9 @@
 
 import sys
 import os
-from xml.dom import minidom
+import harness
 
-import harness as test
+test = harness.TestSuite()
 
 def test_dir(basedir):
 	rootdir = os.path.join(sys.path[0], basedir)
@@ -35,3 +35,4 @@ def test_dir(basedir):
 
 if __name__ == '__main__':
 	test_dir('xhtml1/metadata')
+	test.summary()

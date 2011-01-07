@@ -20,9 +20,9 @@
 import sys
 import os
 import zipfile
-from xml.dom import minidom
+import harness
 
-import harness as test
+test = harness.TestSuite()
 
 def check_metadata(epubfiles, expect, metadata):
 	epubfile = '/tmp/test.epub'
@@ -55,3 +55,4 @@ if __name__ == '__main__':
 	test_dir('opf/metadata')
 	test_dir('opf/dc-metadata')
 	test_dir('epub/metadata')
+	test.summary()
