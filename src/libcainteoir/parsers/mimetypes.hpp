@@ -21,6 +21,8 @@
 #ifndef CAINTEOIR_ENGINE_MIMETYPES_HPP
 #define CAINTEOIR_ENGINE_MIMETYPES_HPP
 
+#include "config.h"
+
 #include <cainteoir/buffer.hpp>
 #include <magic.h>
 #include <stdexcept>
@@ -39,7 +41,7 @@ namespace cainteoir
 
 			const char *basedir = getenv("CAINTEOIR_DATADIR");
 			if (!basedir)
-				throw std::runtime_error("CAINTEOIR_DATADIR environment variable not set.");
+				basedir = DATADIR "/" PACKAGE; // e.g. /usr/share/cainteoir-engine
 
 			std::string filename = std::string(basedir) + "/magic.mgc";
 			if (magic_load(cookie, filename.c_str()) == -1)
