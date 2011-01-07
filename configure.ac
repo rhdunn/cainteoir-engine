@@ -101,3 +101,13 @@ dnl ================================================================
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 
+AC_MSG_NOTICE([
+
+    Configuration for Cainteoir Text-to-Speech engine complete.
+
+        Source code location:          ${srcdir}
+        Compiler:                      ${CXX}
+        Compiler flags:                ${CXXFLAGS}
+
+        Ogg/Vorbis support:            ${have_vorbisenc}
+])
