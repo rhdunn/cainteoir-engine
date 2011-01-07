@@ -21,12 +21,13 @@ import sys
 import os
 import harness
 
-test = harness.TestSuite()
+test = harness.TestSuite('VorbisComments')
 
 def test_dir(basedir):
 	rootdir = os.path.join(sys.path[0], basedir)
 	testcases = sorted(os.listdir(rootdir))
 
+	print 'testing VorbisComment metadata creation for files in directory %s:' % basedir
 	for filename in testcases:
 		if filename.endswith('.opf'):
 			opffile = os.path.join(rootdir, filename)

@@ -24,9 +24,10 @@ import difflib
 from datetime import date
 
 class TestSuite:
-	def __init__(self):
+	def __init__(self, name):
 		self.passed = 0
 		self.failed = 0
+		self.name = name
 
 	def check_metadata(self, filename, expect, formattype, displayas=None):
 		tmpfile = '/tmp/metadata.txt'
@@ -55,7 +56,7 @@ class TestSuite:
 
 	def summary(self):
 		print
-		print '========== test summary =========='
+		print '========== summary of the %s test results ==========' % self.name
 		print '  %s passed' % str(self.passed).rjust(4)
 		print '  %s failed' % str(self.failed).rjust(4)
 		print '  %s total'  % str(self.passed + self.failed).rjust(4)

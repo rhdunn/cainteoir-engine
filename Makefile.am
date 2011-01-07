@@ -115,21 +115,10 @@ EXTRA_DIST += \
 TEST_EXTENSIONS = .py
 PY_LOG_COMPILER = $(PYTHON)
 
-# RDF API tests:
 TESTS = \
 	tests/rdfmodel \
 	tests/ntriple_formatter \
-	tests/turtle_formatter
-
-# RDF metadata extraction tests:
-TESTS += \
-	tests/opf-metadata.py \
-	tests/epub-metadata.py \
-	tests/rdfxml-metadata.py \
-	tests/smil-metadata.py \
-	tests/xhtml-metadata.py
-
-# RDF metadata to audio specific metadata conversion tests:
-TESTS += \
+	tests/turtle_formatter \
+	tests/metadata.py \
 	tests/vorbis-comments.py
 
