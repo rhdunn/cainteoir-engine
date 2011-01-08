@@ -82,7 +82,7 @@ bin_PROGRAMS += src/apps/metadata/metadata
 src_apps_metadata_metadata_LDADD   = src/libcainteoir/libcainteoir.a
 src_apps_metadata_metadata_SOURCES = src/apps/metadata/main.cpp
 
-############################# metadata test ###################################
+############################# tests ###########################################
 
 noinst_bin_PROGRAMS += tests/rdfmodel
 
@@ -99,7 +99,10 @@ noinst_bin_PROGRAMS += tests/turtle_formatter
 tests_turtle_formatter_LDADD   = src/libcainteoir/libcainteoir.a
 tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp
 
-############################# tests ###########################################
+noinst_bin_PROGRAMS += tests/events
+
+tests_events_LDADD   = src/libcainteoir/libcainteoir.a
+tests_events_SOURCES = tests/events.cpp
 
 EXTRA_DIST += \
 	tests/epub/metadata/* \
@@ -123,5 +126,6 @@ TESTS = \
 	tests/ntriple_formatter \
 	tests/turtle_formatter \
 	tests/metadata.py \
-	tests/vorbis-comments.py
+	tests/vorbis-comments.py \
+	tests/events.py
 

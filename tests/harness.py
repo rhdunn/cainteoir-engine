@@ -29,15 +29,12 @@ class TestSuite:
 		self.failed = 0
 		self.name = name
 
-	def check_metadata(self, filename, expect, formattype, displayas=None):
+	def check_command(self, filename, expect, command):
 		tmpfile = '/tmp/metadata.txt'
 
-		sys.stdout.write('... checking %s as %s metadata ... ' % ((displayas or filename), formattype))
-
-		os.system('CAINTEOIR_DATADIR=%s %s --%s "%s" > %s' % (
+		os.system('CAINTEOIR_DATADIR=%s %s "%s" > %s' % (
 			os.path.join(sys.path[0], '../data'),
-			os.path.join(sys.path[0], '../src/apps/metadata/metadata'),
-			formattype,
+			command,
 			filename,
 			tmpfile))
 
@@ -53,6 +50,15 @@ class TestSuite:
 		else:
 			self.failed = self.failed + 1
 			print 'failed'
+
+	def check_metadata(self, filename, expect, formattype, displayas=None):
+		sys.stdout.write('... checking %s as %s metadata ... ' % ((displayas or filename), formattype))
+		self.check_command(filename=filename, expect=expect,
+			command='%s --%s' % (os.path.join(sys.path[0], '../src/apps/metadata/metadata'), formattype))
+
+	def check_events(self, filename, expect, displayas=None):
+		sys.stdout.write('... checking %s as text/speech events ... ' % (displayas or filename))
+		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'events'))
 
 	def summary(self):
 		print
