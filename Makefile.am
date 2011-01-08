@@ -8,7 +8,10 @@ AM_CXXFLAGS += -std=c++0x -DDATADIR='"$(datadir)"'
 ACLOCAL_AMFLAGS = -I m4
 
 bin_PROGRAMS =
+noinst_bin_PROGRAMS =
 noinst_LIBRARIES =
+
+noinst_bindir =
 
 EXTRA_DIST = 
 CLEANFILES =
@@ -81,17 +84,17 @@ src_apps_metadata_metadata_SOURCES = src/apps/metadata/main.cpp
 
 ############################# metadata test ###################################
 
-bin_PROGRAMS += tests/rdfmodel
+noinst_bin_PROGRAMS += tests/rdfmodel
 
 tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.a
 tests_rdfmodel_SOURCES = tests/rdfmodel.cpp
 
-bin_PROGRAMS += tests/ntriple_formatter
+noinst_bin_PROGRAMS += tests/ntriple_formatter
 
 tests_ntriple_formatter_LDADD   = src/libcainteoir/libcainteoir.a
 tests_ntriple_formatter_SOURCES = tests/ntriple_formatter.cpp
 
-bin_PROGRAMS += tests/turtle_formatter
+noinst_bin_PROGRAMS += tests/turtle_formatter
 
 tests_turtle_formatter_LDADD   = src/libcainteoir/libcainteoir.a
 tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp
