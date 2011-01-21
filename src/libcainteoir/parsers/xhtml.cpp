@@ -41,7 +41,7 @@ void parseXHtmlBody(const xml::node &html, const rdf::uri &subject, rdf::graph &
 	{
 		if (node.type() == XML_ELEMENT_NODE)
 		{
-			if (node == rdf::xhtml("p"))
+			if (node == rdf::xhtml("p") || node == rdf::xhtml("div"))
 			{
 				aEvents.push_back(cainteoir::event(cainteoir::text_event, node.content()));
 			}
