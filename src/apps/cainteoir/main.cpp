@@ -98,7 +98,7 @@ int main(int argc, char ** argv)
 		const char *voicename = NULL;
 		const char *language = NULL;
 		const char *outfile = NULL;
-		const char *outformat = "wave";
+		const char *outformat = NULL;
 		std::auto_ptr<cainteoir::buffer> text_buffer;
 
 		while (1)
@@ -121,6 +121,8 @@ int main(int argc, char ** argv)
 				break;
 			case 't':
 				outformat = optarg;
+				if (!strcmp(outformat, "wave"))
+					outformat = "wav";
 				break;
 			case ARG_STDOUT:
 				outfile = "-";
@@ -189,12 +191,25 @@ int main(int argc, char ** argv)
 		int frequency = tts.get_frequency();
 
 		std::auto_ptr<cainteoir::audio> out;
-		if (outfile)
+		if (outformat || outfile)
 		{
-			if (!strcmp(outfile, "-"))
-				outfile = NULL;
+			std::stringstream file;
 
-			if (!strcmp(outformat, "wave"))
+			if (outfile)
+				file << outfile;
+			else
+			{
+				file << select_value(metadata, subject, rdf::dc("creator"))
+				     << " - "
+				     << select_value(metadata, subject, rdf::dc("title"))
+				     << "."
+				     << outformat
+				     ;
+			}
+
+			outfile = (file.str() == "-") ? NULL : file.str().c_str();
+
+			if (!outformat || !strcmp(outformat, "wav"))
 				out = cainteoir::create_wav_file(outfile, audioformat, channels, frequency);
 			else if (!strcmp(outformat, "ogg"))
 				out = cainteoir::create_ogg_file(outfile, audioformat, channels, frequency, 0.3, metadata, subject);
