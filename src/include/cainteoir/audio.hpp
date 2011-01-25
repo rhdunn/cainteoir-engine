@@ -43,6 +43,7 @@ namespace cainteoir
 	enum audio_format
 	{
 		S16_LE,
+		FLOAT32_LE,
 	};
 
 	/** @name  Metadata

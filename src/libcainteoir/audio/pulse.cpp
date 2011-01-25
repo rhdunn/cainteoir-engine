@@ -33,8 +33,15 @@ public:
 		: pa(NULL)
 		, m_device(device)
 	{
-		if (format == cainteoir::S16_LE)
+		switch (format)
+		{
+		case cainteoir::S16_LE:
 			ss.format = PA_SAMPLE_S16LE;
+			break;
+		case cainteoir::FLOAT32_LE:
+			ss.format = PA_SAMPLE_FLOAT32LE;
+			break;
+		}
 
 		ss.channels = channels;
 		ss.rate = frequency;

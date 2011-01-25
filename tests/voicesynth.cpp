@@ -18,8 +18,7 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// NOTE: Use `aplay -c 1 -f FLOAT_LE -r 44100` to hear the audio.
-
+#include <cainteoir/audio.hpp>
 #include <cstdio>
 #include <cmath>
 #include <stdexcept>
@@ -33,11 +32,22 @@ int main(int argc, char ** argv)
 		long  R = 44100;  // sample rate (samples per second)
 		long  s = 3;      // length of the sample in seconds
 
+		/* NOTE: The PulseAudio API produces a click at the boundary of each
+		 * frame if the frame length is set to 1 second and that 3 frames are
+		 * written to.
+		 */
+
+		float * frame = new float[s*R]; // 1 second of audio
+
 		for (long i = 0; i < s*R; ++i)
-		{
-			float res = A * std::sin((2 * M_PI * i * f)/R);
-			fwrite(&res, sizeof(res), 1, stdout);
-		}
+			frame[i] = A * std::sin((2 * M_PI * i * f)/R);
+
+		std::auto_ptr<cainteoir::audio> audio = cainteoir::create_pulseaudio_device(NULL, cainteoir::FLOAT32_LE, 1, R);
+		audio->open();
+		audio->write((const char *)frame, sizeof(float) * s*R);
+		audio->close();
+
+		delete [] frame;
 	}
 	catch (std::runtime_error &e)
 	{
