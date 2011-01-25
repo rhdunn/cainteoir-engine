@@ -104,6 +104,11 @@ noinst_bin_PROGRAMS += tests/events
 tests_events_LDADD   = src/libcainteoir/libcainteoir.a
 tests_events_SOURCES = tests/events.cpp
 
+noinst_bin_PROGRAMS += tests/voicesynth
+
+tests_voicesynth_LDADD   = src/libcainteoir/libcainteoir.a
+tests_voicesynth_SOURCES = tests/voicesynth.cpp
+
 EXTRA_DIST += \
 	tests/epub/metadata/* \
 	tests/ncx/* \

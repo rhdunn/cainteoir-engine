@@ -21,6 +21,7 @@ tests/rdfmodel
 tests/ntriple_formatter
 tests/turtle_formatter
 tests/events
+tests/voicesynth
 
 # autotools output:
 
