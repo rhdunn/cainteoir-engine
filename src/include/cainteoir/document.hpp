@@ -26,6 +26,15 @@
 
 namespace cainteoir
 {
+	struct document_events
+	{
+		virtual void metadata(const rdf::statement &aStatement) = 0;
+
+		virtual const rdf::bnode genid() = 0;
+
+		virtual ~document_events() {}
+	};
+
 	enum event_type
 	{
 		text_event,

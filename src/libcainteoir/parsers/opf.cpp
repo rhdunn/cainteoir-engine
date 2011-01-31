@@ -23,7 +23,7 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::graph &metadata, bool recurse)
+void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::document_events &events, bool recurse)
 {
 	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
 	{
@@ -31,7 +31,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::graph 
 			continue;
 
 		if (node == rdf::opf("dc-metadata") && recurse)
-			parseOpfMetadata(node, subject, metadata, false);
+			parseOpfMetadata(node, subject, events, false);
 		else if (node.namespaceURI() == rdf::dc)
 		{
 			std::string lang = node.attr(rdf::xml("lang")).content();
@@ -45,13 +45,13 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::graph 
 				std::string fileas = node.attr(rdf::opf("file-as")).content();
 				if (!role.empty() || !fileas.empty())
 				{
-					const rdf::bnode temp = metadata.genid();
-					metadata.push_back(rdf::statement(subject, predicate, temp));
-					metadata.push_back(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
+					const rdf::bnode temp = events.genid();
+					events.metadata(rdf::statement(subject, predicate, temp));
+					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
 					if (!role.empty())
-						metadata.push_back(rdf::statement(temp, rdf::opf("role"), rdf::literal(role)));
+						events.metadata(rdf::statement(temp, rdf::opf("role"), rdf::literal(role)));
 					if (!fileas.empty())
-						metadata.push_back(rdf::statement(temp, rdf::opf("file-as"), rdf::literal(fileas)));
+						events.metadata(rdf::statement(temp, rdf::opf("file-as"), rdf::literal(fileas)));
 					continue;
 				}
 			}
@@ -74,10 +74,10 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::graph 
 				std::string event = node.attr(rdf::opf("event")).content();
 				if (!event.empty())
 				{
-					const rdf::bnode temp = metadata.genid();
-					metadata.push_back(rdf::statement(subject, predicate, temp));
-					metadata.push_back(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
-					metadata.push_back(rdf::statement(temp, rdf::opf("event"), rdf::literal(event)));
+					const rdf::bnode temp = events.genid();
+					events.metadata(rdf::statement(subject, predicate, temp));
+					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
+					events.metadata(rdf::statement(temp, rdf::opf("event"), rdf::literal(event)));
 					continue;
 				}
 			}
@@ -86,15 +86,15 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, rdf::graph 
 				std::string scheme = node.attr(rdf::opf("scheme")).content();
 				if (!scheme.empty())
 				{
-					const rdf::bnode temp = metadata.genid();
-					metadata.push_back(rdf::statement(subject, predicate, temp));
-					metadata.push_back(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
-					metadata.push_back(rdf::statement(temp, rdf::opf("scheme"), rdf::literal(scheme)));
+					const rdf::bnode temp = events.genid();
+					events.metadata(rdf::statement(subject, predicate, temp));
+					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
+					events.metadata(rdf::statement(temp, rdf::opf("scheme"), rdf::literal(scheme)));
 					continue;
 				}
 			}
 
-			metadata.push_back(rdf::statement(subject, predicate, rdf::literal(value, lang)));
+			events.metadata(rdf::statement(subject, predicate, rdf::literal(value, lang)));
 		}
 	}
 }
@@ -139,7 +139,7 @@ void parseOpfSpine(const xml::node &opf, const rdf::uri &subject, std::list<std:
 	}
 }
 
-void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, rdf::graph &metadata, opffiles &aOpfFiles)
+void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, cainteoir::document_events &events, opffiles &aOpfFiles)
 {
 	if (opf != rdf::opf("package"))
 		throw std::runtime_error("OPF file is not of a recognised format.");
@@ -153,7 +153,7 @@ void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, 
 		if (section.type() == XML_ELEMENT_NODE)
 		{
 			if (section == rdf::opf("metadata"))
-				parseOpfMetadata(section, subject, metadata, true);
+				parseOpfMetadata(section, subject, events, true);
 			else if (section == rdf::opf("manifest"))
 				parseOpfManifest(section, subject, files);
 			else if (section == rdf::opf("spine"))

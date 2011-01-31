@@ -23,7 +23,7 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseXHtmlHead(const xml::node &html, const rdf::uri &subject, rdf::graph &metadata, std::string &title)
+void parseXHtmlHead(const xml::node &html, const rdf::uri &subject, cainteoir::document_events &events, std::string &title)
 {
 	for (xml::node node = html.firstChild(); node.isValid(); node.next())
 	{
@@ -35,7 +35,7 @@ void parseXHtmlHead(const xml::node &html, const rdf::uri &subject, rdf::graph &
 	}
 }
 
-void parseXHtmlBody(const xml::node &html, const rdf::uri &subject, rdf::graph &metadata, std::list<cainteoir::event> &aEvents)
+void parseXHtmlBody(const xml::node &html, const rdf::uri &subject, cainteoir::document_events &events, std::list<cainteoir::event> &aEvents)
 {
 	for (xml::node node = html.firstChild(); node.isValid(); node.next())
 	{
@@ -58,7 +58,7 @@ void parseXHtmlBody(const xml::node &html, const rdf::uri &subject, rdf::graph &
 	}
 }
 
-void cainteoir::parseXHtmlDocument(const xml::node &html, const rdf::uri &subject, rdf::graph &metadata, std::list<cainteoir::event> &aEvents)
+void cainteoir::parseXHtmlDocument(const xml::node &html, const rdf::uri &subject, cainteoir::document_events &events, std::list<cainteoir::event> &aEvents)
 {
 	if (html != rdf::xhtml("html"))
 		throw std::runtime_error("XHTML document is not of a recognised format.");
@@ -70,18 +70,18 @@ void cainteoir::parseXHtmlDocument(const xml::node &html, const rdf::uri &subjec
 		if (node.type() == XML_ELEMENT_NODE)
 		{
 			if (node == rdf::xhtml("head"))
-				parseXHtmlHead(node, subject, metadata, title);
+				parseXHtmlHead(node, subject, events, title);
 			else if (node == rdf::xhtml("body"))
-				parseXHtmlBody(node, subject, metadata, aEvents);
+				parseXHtmlBody(node, subject, events, aEvents);
 		}
 	}
 
 	if (!title.empty())
-		metadata.push_back(rdf::statement(subject, rdf::dc("title"), rdf::literal(title)));
+		events.metadata(rdf::statement(subject, rdf::dc("title"), rdf::literal(title)));
 
 	for (xml::attribute attr = html.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (attr == rdf::xml("lang") || attr == rdf::uri(std::string(), "lang"))
-			metadata.push_back(rdf::statement(subject, rdf::dc("language"), rdf::literal(attr.content())));
+			events.metadata(rdf::statement(subject, rdf::dc("language"), rdf::literal(attr.content())));
 	}
 }

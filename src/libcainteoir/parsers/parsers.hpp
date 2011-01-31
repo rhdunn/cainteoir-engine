@@ -67,26 +67,26 @@ namespace cainteoir
 	  *
 	  * @param aRoot     The root node of the OPF XML document.
 	  * @param aSubject  The subject to use for any Dublin Core metadata.
-	  * @param aMetadata The RDF model to add any metadata to.
+	  * @param events    The events callback to handle document events.
 	  */
-	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::graph &aMetadata, opffiles &aOpfFiles);
+	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, opffiles &aOpfFiles);
 
 	/** @brief XML encoded HTML (XHTML)
 	  * @see   http://www.w3.org/TR/xhtml1/
 	  *
 	  * @param aRoot     The root node of the XHTML XML document.
 	  * @param aSubject  The base to use for any relative URIs.
-	  * @param aMetadata The RDF model to add any metadata to.
+	  * @param events    The events callback to handle document events.
 	  * @param aEvents   The speech events that make up the XHTML document.
 	  */
-	void parseXHtmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::graph &aMetadata, std::list<cainteoir::event> &aEvents);
+	void parseXHtmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, std::list<cainteoir::event> &aEvents);
 
 	/** @brief RDF/XML
 	  * @see   http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/
 	  *
 	  * @param aRoot     The root node of the RDF/XML document.
 	  * @param aSubject  The base to use for any relative URIs.
-	  * @param aMetadata The RDF model to add any metadata to.
+	  * @param events    The events callback to handle document events.
 	  *
 	  * Conformance/Implementation Notes:
 	  *
@@ -117,25 +117,25 @@ namespace cainteoir
 	  *     -  example13.rdf
 	  *     -  example20.rdf
 	  */
-	void parseRdfXmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::graph &aMetadata);
+	void parseRdfXmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events);
 
 	/** @brief Synchronized Multimedia Integration Language (SMIL)
 	  * @see   http://www.w3.org/TR/2008/REC-SMIL3-20081201/
 	  *
 	  * @param aRoot     The root node of the SMIL XML document.
 	  * @param aSubject  The base to use for any relative URIs.
-	  * @param aMetadata The RDF model to add any metadata to.
+	  * @param events    The events callback to handle document events.
 	  */
-	void parseSmilDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, rdf::graph &aMetadata);
+	void parseSmilDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events);
 
 	/** @brief ePub
 	  * @see   http://www.idpf.org/specs.htm
 	  *
 	  * @param aFilename The path to the ePub document.
-	  * @param aMetadata The RDF model to add any metadata to.
+	  * @param events    The events callback to handle document events.
 	  * @param aEvents   The speech events that make up the ePub document.
 	  */
-	void parseEpubDocument(const char *aFilename, rdf::graph &aMetadata, std::list<event> &aEvents);
+	void parseEpubDocument(const char *aFilename, document_events &events, std::list<event> &aEvents);
 }
 
 #endif
