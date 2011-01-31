@@ -25,37 +25,8 @@
 namespace xml = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
 
-struct rdfgraph_builder : public cainteoir::document_events
+bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events)
 {
-	rdfgraph_builder(rdf::graph &aMetadata, std::list<cainteoir::event> &aEvents)
-		: m_graph(aMetadata)
-		, m_events(aEvents)
-	{
-	}
-
-	void metadata(const rdf::statement &aStatement)
-	{
-		m_graph.push_back(aStatement);
-	}
-
-	const rdf::bnode genid()
-	{
-		return m_graph.genid();
-	}
-
-	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
-	{
-		m_events.push_back(cainteoir::event(cainteoir::text_event, aText));
-	}
-private:
-	rdf::graph &m_graph;
-	std::list<cainteoir::event> &m_events;
-};
-
-bool cainteoir::parseDocument(const char *aFilename, rdf::graph &aMetadata, std::list<event> &aEvents)
-{
-	rdfgraph_builder events(aMetadata, aEvents);
-
 	std::string type = cainteoir::mimetypes()(aFilename);
 	if (type == "application/xml")
 	{

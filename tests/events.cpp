@@ -31,6 +31,23 @@
 
 namespace rdf = cainteoir::rdf;
 
+struct events : public cainteoir::document_events
+{
+	void metadata(const rdf::statement &aStatement)
+	{
+	}
+
+	const rdf::bnode genid()
+	{
+		return rdf::bnode(std::string());
+	}
+
+	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
+	{
+		fprintf(stdout, "text(%d): \"\"\"%s\"\"\"\n", aText->size(), aText->begin());
+	}
+};
+
 int main(int argc, char ** argv)
 {
 	LIBXML_TEST_VERSION
@@ -43,20 +60,9 @@ int main(int argc, char ** argv)
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
-		rdf::graph metadata;
-		std::list<cainteoir::event> events;
-		if (!cainteoir::parseDocument(argv[0], metadata, events))
+		events events;
+		if (!cainteoir::parseDocument(argv[0], events))
 			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
-
-		foreach_iter(event, events)
-		{
-			switch (event->type)
-			{
-			case cainteoir::text_event:
-				fprintf(stdout, "text(%d): \"\"\"%s\"\"\"\n", event->data->size(), event->data->begin());
-				break;
-			}
-		}
 	}
 	catch (std::runtime_error &e)
 	{

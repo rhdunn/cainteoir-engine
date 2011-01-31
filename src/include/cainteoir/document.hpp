@@ -57,13 +57,12 @@ namespace cainteoir
 	/** @brief Read the contents of a document.
 	  *
 	  * @param aFilename The path to the ePub document.
-	  * @param aMetadata The RDF model to add any metadata to.
-	  * @param aEvents   The list of reading events that make up the document.
+	  * @param events    The events callback to handle document events.
 	  *
 	  * @retval true  If aFilename contains a supported document format.
 	  * @retval false If aFilename contains an unsupported document format.
 	  */
-	bool parseDocument(const char *aFilename, rdf::graph &aMetadata, std::list<event> &aEvents);
+	bool parseDocument(const char *aFilename, document_events &events);
 }
 
 #endif
