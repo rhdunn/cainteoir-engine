@@ -77,9 +77,8 @@ namespace cainteoir
 	  * @param aRoot     The root node of the XHTML XML document.
 	  * @param aSubject  The base to use for any relative URIs.
 	  * @param events    The events callback to handle document events.
-	  * @param aEvents   The speech events that make up the XHTML document.
 	  */
-	void parseXHtmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, std::list<cainteoir::event> &aEvents);
+	void parseXHtmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events);
 
 	/** @brief RDF/XML
 	  * @see   http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/
@@ -133,9 +132,8 @@ namespace cainteoir
 	  *
 	  * @param aFilename The path to the ePub document.
 	  * @param events    The events callback to handle document events.
-	  * @param aEvents   The speech events that make up the ePub document.
 	  */
-	void parseEpubDocument(const char *aFilename, document_events &events, std::list<event> &aEvents);
+	void parseEpubDocument(const char *aFilename, document_events &events);
 }
 
 #endif

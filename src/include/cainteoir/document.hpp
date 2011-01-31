@@ -32,6 +32,8 @@ namespace cainteoir
 
 		virtual const rdf::bnode genid() = 0;
 
+		virtual void text(std::tr1::shared_ptr<cainteoir::buffer> aText) = 0;
+
 		virtual ~document_events() {}
 	};
 

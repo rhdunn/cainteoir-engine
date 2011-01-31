@@ -27,7 +27,9 @@ namespace rdf = cainteoir::rdf;
 
 struct rdfgraph_builder : public cainteoir::document_events
 {
-	rdfgraph_builder(rdf::graph &aMetadata) : m_graph(aMetadata)
+	rdfgraph_builder(rdf::graph &aMetadata, std::list<cainteoir::event> &aEvents)
+		: m_graph(aMetadata)
+		, m_events(aEvents)
 	{
 	}
 
@@ -40,13 +42,19 @@ struct rdfgraph_builder : public cainteoir::document_events
 	{
 		return m_graph.genid();
 	}
+
+	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
+	{
+		m_events.push_back(cainteoir::event(cainteoir::text_event, aText));
+	}
 private:
 	rdf::graph &m_graph;
+	std::list<cainteoir::event> &m_events;
 };
 
 bool cainteoir::parseDocument(const char *aFilename, rdf::graph &aMetadata, std::list<event> &aEvents)
 {
-	rdfgraph_builder events(aMetadata);
+	rdfgraph_builder events(aMetadata, aEvents);
 
 	std::string type = cainteoir::mimetypes()(aFilename);
 	if (type == "application/xml")
@@ -62,7 +70,7 @@ bool cainteoir::parseDocument(const char *aFilename, rdf::graph &aMetadata, std:
 			cainteoir::parseOpfDocument(root, subject, events, files);
 		}
 		else if (root == rdf::xhtml("html"))
-			cainteoir::parseXHtmlDocument(root, subject, events, aEvents);
+			cainteoir::parseXHtmlDocument(root, subject, events);
 		else if (root == rdf::rdf("RDF"))
 			cainteoir::parseRdfXmlDocument(root, subject, events);
 		else if (root == rdf::smil("smil"))
@@ -71,9 +79,9 @@ bool cainteoir::parseDocument(const char *aFilename, rdf::graph &aMetadata, std:
 			return false;
 	}
 	else if (type == "application/epub+zip")
-		cainteoir::parseEpubDocument(aFilename, events, aEvents);
+		cainteoir::parseEpubDocument(aFilename, events);
 	else if (type == "text/plain")
-		aEvents.push_back(event(text_event, std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename))));
+		events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename)));
 	else
 		return false;
 

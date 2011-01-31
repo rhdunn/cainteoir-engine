@@ -24,7 +24,7 @@
 namespace xml = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
 
-void cainteoir::parseEpubDocument(const char *aFilename, cainteoir::document_events &events, std::list<event> &aEvents)
+void cainteoir::parseEpubDocument(const char *aFilename, cainteoir::document_events &events)
 {
 	cainteoir::zip::archive epub(aFilename);
 
@@ -48,6 +48,6 @@ void cainteoir::parseEpubDocument(const char *aFilename, cainteoir::document_eve
 			filename = opffile.substr(0, pos + 1) + file->filename;
 
 		xml::document html(epub.read(filename.c_str()));
-		cainteoir::parseXHtmlDocument(html.root(), rdf::uri(aFilename, file->id), events, aEvents);
+		cainteoir::parseXHtmlDocument(html.root(), rdf::uri(aFilename, file->id), events);
 	}
 }
