@@ -23,24 +23,9 @@
 #include <sstream>
 #include <cstdlib>
 
+#include "tester.hpp"
+
 namespace rdf = cainteoir::rdf;
-
-template<typename T1, typename T2>
-void equal_(const char *fn, const char *ref, const T1 &a, const T2 &b, int lineno)
-{
-	if (a != b)
-	{
-		std::cout << fn << " @ line " << lineno << " : " << ref << " -- types are not equal" << std::endl
-		          << "   expected: " << b << std::endl
-		          << "   actual:   " << a << std::endl
-		          ;
-		exit(1);
-	}
-}
-
-#define equal(a, b) equal_(__FUNCTION__, #a, a, b, __LINE__)
-
-typedef void (*test_function)();
 
 template<typename T>
 std::string format(const T &value)
