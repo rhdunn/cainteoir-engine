@@ -40,6 +40,8 @@ void equal_(const char *fn, const char *ref, const T1 &a, const T2 &b, int linen
 
 #define equal(a, b) equal_(__FUNCTION__, #a, a, b, __LINE__)
 
+typedef void (*test_function)();
+
 template<typename T>
 std::string format(const T &value)
 {
@@ -166,12 +168,17 @@ void test_model()
 	     );
 }
 
+static test_function tests[] = {
+	test_uri,
+	test_literal,
+	test_statement,
+	test_model,
+};
+
 int main(int argc, char ** argv)
 {
-	test_uri();
-	test_literal();
-	test_statement();
-	test_model();
+	for (int i = 0; i < sizeof(tests)/sizeof(tests[0]); ++i)
+		(*tests[i])();
 
 	return 0;
 }
