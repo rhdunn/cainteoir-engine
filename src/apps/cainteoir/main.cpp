@@ -85,13 +85,18 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 
 struct document : public cainteoir::document_events
 {
-	document()
+	document(const rdf::uri &aSubject)
+		: tts(m_metadata)
+		, subject(aSubject)
 	{
 	}
 
 	void metadata(const rdf::statement &aStatement)
 	{
 		m_metadata.push_back(aStatement);
+
+		if (rql::subject(aStatement) == subject && rql::predicate(aStatement) == rdf::dc("language"))
+			select_voice(rdf::dc("language"), rql::value(rql::object(aStatement)));
 	}
 
 	const rdf::bnode genid()
@@ -104,8 +109,16 @@ struct document : public cainteoir::document_events
 		m_events.push_back(cainteoir::event(cainteoir::text_event, aText));
 	}
 
+	bool select_voice(const rdf::uri &predicate, const std::string &value)
+	{
+		const rdf::uri *voice = ::select_voice(m_metadata, predicate, value);
+		return tts.select_voice(m_metadata, *voice);
+	}
+
+	const rdf::uri subject;
 	rdf::graph m_metadata;
 	std::list<cainteoir::event> m_events;
+	cainteoir::tts::engines tts;
 };
 
 int main(int argc, char ** argv)
@@ -161,9 +174,7 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		document doc;
-
-		cainteoir::tts::engines tts(doc.m_metadata);
+		document doc(rdf::uri(argv[0], std::string()));
 		if (action == show_metadata)
 		{
 			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
@@ -188,31 +199,16 @@ int main(int argc, char ** argv)
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
+		if (language)
+			doc.select_voice(rdf::dc("language"), language);
+		else if (voicename)
+			doc.select_voice(rdf::tts("name"), voicename);
+
 		cainteoir::parseDocument(argv[0], doc);
 
-		const rdf::uri subject = rdf::uri(argv[0], std::string());
-
-		const rdf::uri *voice = NULL;
-		if (language)
-			voice = select_voice(doc.m_metadata, rdf::dc("language"), language);
-		else if (voicename)
-			voice = select_voice(doc.m_metadata, rdf::tts("name"), voicename);
-		else
-		{
-			std::string lang = select_value(doc.m_metadata, subject, rdf::dc("language"));
-			if (!lang.empty())
-				voice = select_voice(doc.m_metadata, rdf::dc("language"), lang);
-
-			if (!voice)
-				voice = select_voice(doc.m_metadata, rdf::tts("name"), "default");
-		}
-
-		if (!voice || !tts.select_voice(doc.m_metadata, *voice))
-			throw std::runtime_error("unrecognised voice");
-
-		cainteoir::audio_format audioformat = tts.get_audioformat();
-		int channels = tts.get_channels();
-		int frequency = tts.get_frequency();
+		cainteoir::audio_format audioformat = doc.tts.get_audioformat();
+		int channels = doc.tts.get_channels();
+		int frequency = doc.tts.get_frequency();
 
 		std::auto_ptr<cainteoir::audio> out;
 		if (outformat || outfile)
@@ -223,9 +219,9 @@ int main(int argc, char ** argv)
 				file << outfile;
 			else
 			{
-				file << select_value(doc.m_metadata, subject, rdf::dc("creator"))
+				file << select_value(doc.m_metadata, doc.subject, rdf::dc("creator"))
 				     << " - "
-				     << select_value(doc.m_metadata, subject, rdf::dc("title"))
+				     << select_value(doc.m_metadata, doc.subject, rdf::dc("title"))
 				     << "."
 				     << outformat
 				     ;
@@ -236,7 +232,7 @@ int main(int argc, char ** argv)
 			if (!outformat || !strcmp(outformat, "wav"))
 				out = cainteoir::create_wav_file(outfile, audioformat, channels, frequency);
 			else if (!strcmp(outformat, "ogg"))
-				out = cainteoir::create_ogg_file(outfile, audioformat, channels, frequency, 0.3, doc.m_metadata, subject);
+				out = cainteoir::create_ogg_file(outfile, audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
 
 			if (!out.get())
 				throw std::runtime_error("unsupported audio file format");
@@ -244,7 +240,7 @@ int main(int argc, char ** argv)
 		else
 			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency);
 
-		tts.speak(doc.m_events, out.get());
+		doc.tts.speak(doc.m_events, out.get());
 	}
 	catch (std::runtime_error &e)
 	{
