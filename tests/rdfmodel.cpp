@@ -35,7 +35,7 @@ void test_bnode(const rdf::node &node, const std::string &id)
 	equal(bnode->id, id);
 }
 
-void test_bnode()
+TEST_CASE("rdf::bnode")
 {
 	test_bnode(rdf::bnode("a"), "a");
 	test_bnode(rdf::bnode("temp"), "temp");
@@ -51,7 +51,7 @@ void test_uri(const rdf::node &node, const std::string &value, const std::string
 	equal(uri->ref,   ref);
 }
 
-void test_uri()
+TEST_CASE("rdf::uri")
 {
 	test_uri(rdf::uri(std::string(), std::string()), "", "", "");
 	test_uri(rdf::uri(std::string(), "test"), "#test", "", "test");
@@ -66,7 +66,7 @@ void test_uri()
 	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema/#", "string"), "http://www.w3.org/2001/XMLSchema/#string", "http://www.w3.org/2001/XMLSchema/", "string");
 }
 
-void test_namespaces()
+TEST_CASE("RDF namespaces")
 {
 	test_uri(rdf::rdf("type"), "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.w3.org/1999/02/22-rdf-syntax-ns", "type");
 	test_uri(rdf::rdfs("Class"), "http://www.w3.org/2000/01/rdf-schema#Class", "http://www.w3.org/2000/01/rdf-schema", "Class");
@@ -88,7 +88,7 @@ void test_namespaces()
 	test_uri(rdf::tts("Engine"), "http://rhdunn.github.com/2010/12/text-to-speech#Engine", "http://rhdunn.github.com/2010/12/text-to-speech", "Engine");
 }
 
-void test_href()
+TEST_CASE("rdf::href")
 {
 	test_uri(rdf::href("http://www.example.com/"), "http://www.example.com/", "http://www.example.com/", "");
 	test_uri(rdf::href("http://www.example.com/value"), "http://www.example.com/value", "http://www.example.com/", "value");
@@ -125,7 +125,7 @@ void test_literal(const T &value, const std::string &expected, const rdf::uri &u
 	test_literal(rdf::literal(value, uri), expected, std::string(), uri);
 }
 
-void test_literal()
+TEST_CASE("rdf::literal")
 {
 	test_literal("This is a test.", "This is a test.", rdf::xsd("string"));
 	test_literal("27", "27", rdf::xsd("int"));
@@ -160,7 +160,7 @@ void test_statement(const rdf::statement &s, const Subject &subject, const rdf::
 	test_item(*s.object, object);
 }
 
-void test_statement()
+TEST_CASE("rdf::statement")
 {
 	test_statement(rdf::statement(rdf::dc("date"), rdf::rdf("type"), rdf::bnode("tmp")),
 	               rdf::dc("date"), rdf::rdf("type"), rdf::bnode("tmp"));
@@ -187,7 +187,7 @@ void test_statement()
 	               rdf::bnode("d"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string")));
 }
 
-void test_model()
+TEST_CASE("rdf::graph")
 {
 	rdf::graph model;
 	assert(model.empty());
@@ -222,7 +222,7 @@ void test_model_namespace(const rdf::statement &s, const rdf::ns &ns)
 	assert(!model.contains(rdf::tts));
 }
 
-void test_model_namespaces()
+TEST_CASE("rdf::graph -- RDF namespaces")
 {
 	test_model_namespace(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")), rdf::dc);
 	test_model_namespace(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")), rdf::rdf);
@@ -249,7 +249,7 @@ void test_model_namespaces()
 	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::dc("creator"), rdf::bnode("Class")), rdf::dc);
 }
 
-void test_genid()
+TEST_CASE("rdf::graph -- genid()")
 {
 	rdf::graph model1;
 	rdf::graph model2;
@@ -263,24 +263,4 @@ void test_genid()
 	test_bnode(model1.genid(), "genid5");
 	test_bnode(model2.genid(), "genid3");
 	test_bnode(model2.genid(), "genid4");
-}
-
-static test_function tests[] = {
-	test_bnode,
-	test_uri,
-	test_namespaces,
-	test_href,
-	test_literal,
-	test_statement,
-	test_model,
-	test_model_namespaces,
-	test_genid,
-};
-
-int main(int argc, char ** argv)
-{
-	for (int i = 0; i < sizeof(tests)/sizeof(tests[0]); ++i)
-		(*tests[i])();
-
-	return 0;
 }

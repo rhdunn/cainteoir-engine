@@ -40,4 +40,45 @@ void equal_(const char *fn, const char *ref, const T1 &a, const T2 &b, int linen
 
 typedef void (*test_function)();
 
+struct test_case;
+
+test_case *test_case_first = NULL;
+test_case *test_case_last = NULL;
+
+struct test_case
+{
+	const char *name;
+	test_function test;
+	test_case *next;
+
+	test_case(const char *aName, test_function aTest) : name(aName), test(aTest)
+	{
+		if (!test_case_first)
+			test_case_first = test_case_last = this;
+
+		test_case_last->next = this;
+		test_case_last = this;
+
+		next = NULL;
+	}
+};
+
+#define TEST_CASE_IMPL(name, line) \
+	void test_fn##line(); \
+	static const test_case testcase_data##line (name, test_fn##line); \
+	void test_fn##line()
+#define TEST_CASE_(name, line) TEST_CASE_IMPL(name, line)
+
+#define TEST_CASE(name) TEST_CASE_(name, __LINE__)
+
+int main(int argc, const char ** argv)
+{
+	for (test_case *test = test_case_first; test; test = test->next)
+	{
+		std::cout << "... testing " << test->name << std::endl;
+		(*test->test)();
+	}
+	return 0;
+}
+
 #endif

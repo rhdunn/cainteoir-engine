@@ -46,21 +46,21 @@ std::string format_ns(const T &value)
 	return s.str();
 }
 
-void test_bnode()
+TEST_CASE("rdf::bnode")
 {
 	equal(format(rdf::bnode("id1234")), "_:id1234");
 
 	equal(format_ns(rdf::bnode("id1234")), "_:id1234");
 }
 
-void test_uri()
+TEST_CASE("rdf::uri")
 {
 	equal(format(rdf::rdf("type")), "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>");
 
 	equal(format_ns(rdf::rdf("type")), "rdf:type");
 }
 
-void test_literal()
+TEST_CASE("rdf::literal")
 {
 	equal(format(rdf::literal("Nevermore!")), "\"Nevermore!\"");
 	equal(format(rdf::literal("Nevermore!", "en")), "\"Nevermore!\"@en");
@@ -79,7 +79,7 @@ void test_literal()
 	equal(format_ns(rdf::literal("Quoth the raven: \"Nevermore!\"", rdf::xsd("string"))), "\"Quoth the raven: \\\"Nevermore!\\\"\"^^xsd:string");
 }
 
-void test_statement()
+TEST_CASE("rdf::statement")
 {
 	equal(format(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class"))),
 	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\" .\n");
@@ -130,7 +130,7 @@ void test_statement()
 	      "_:a rdf:type rdfs:Class .\n");
 }
 
-void test_model()
+TEST_CASE("rdf::graph")
 {
 	rdf::graph model;
 	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")));
@@ -155,20 +155,4 @@ void test_model()
 	      "rdfs:Property rdf:value \"Property\"^^xsd:string .\n"
 	      "rdfs:Property rdf:type rdfs:Class .\n"
 	     );
-}
-
-static test_function tests[] = {
-	test_bnode,
-	test_uri,
-	test_literal,
-	test_statement,
-	test_model,
-};
-
-int main(int argc, char ** argv)
-{
-	for (int i = 0; i < sizeof(tests)/sizeof(tests[0]); ++i)
-		(*tests[i])();
-
-	return 0;
 }
