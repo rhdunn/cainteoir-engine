@@ -76,10 +76,8 @@ bool cainteoir::xml::reader::read()
 				mBeginMatch = ++mCurrent;
 				while (mCurrent != mData->end() && (mCurrent[0] != '-' && mCurrent[1] != '-' && mCurrent[2] != '>'))
 					++mCurrent;
-				mEndMatch = mCurrent;
-				++mCurrent;
-				++mCurrent;
-				++mCurrent;
+				mEndMatch = ++mCurrent;
+				++mCurrent += 3;
 			}
 			else
 			{
@@ -164,7 +162,7 @@ int main(int argc, char ** argv)
 				fprintf(stdout, "|processing-instruction|%s\n", reader.nodeValue().c_str());
 				break;
 			case xml::reader::commentNode:
-				fprintf(stdout, "|comment|%s\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|comment| \"\"\"%s\"\"\"\n", reader.nodeValue().c_str());
 				break;
 			case xml::reader::textNode:
 				fprintf(stdout, "|text|%s\n", reader.nodeValue().c_str());

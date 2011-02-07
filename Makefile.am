@@ -137,5 +137,6 @@ TESTS = \
 	tests/turtle_formatter \
 	tests/metadata.py \
 	tests/vorbis-comments.py \
-	tests/events.py
+	tests/events.py \
+	tests/xmlreader.py
 

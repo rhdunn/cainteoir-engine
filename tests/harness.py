@@ -60,6 +60,10 @@ class TestSuite:
 		sys.stdout.write('... checking %s as text/speech events ... ' % (displayas or filename))
 		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'events'))
 
+	def check_xmlreader(self, filename, expect, displayas=None):
+		sys.stdout.write('... checking %s as xmlreader tags ... ' % (displayas or filename))
+		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'))
+
 	def summary(self):
 		print
 		print '========== summary of the %s test results ==========' % self.name
