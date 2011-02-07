@@ -27,39 +27,108 @@ namespace cainteoir { namespace xml
 	class reader
 	{
 	public:
-		reader(std::auto_ptr<cainteoir::buffer> aData)
-			: data(aData)
+		enum node_type
 		{
-			current = match = data->begin();
+			beginTagNode,
+			endTagNode,
+			tagNode, // isolated -- begin and end tag node
+			processingInstructionNode,
+			commentNode,
+			textNode,
+		};
+
+		reader(std::auto_ptr<cainteoir::buffer> aData)
+			: mData(aData)
+		{
+			mCurrent = mBeginMatch = mEndMatch = mData->begin();
+			mNodeType = textNode;
 		}
 
 		bool read();
 
-		std::string nodeValue() const { return std::string(match, current); }
+		std::string nodeValue() const { return std::string(mBeginMatch, mEndMatch); }
+
+		node_type nodeType() const { return mNodeType; }
 	private:
-		std::auto_ptr<cainteoir::buffer> data;
-		const char * current;
-		const char * match;
+		std::auto_ptr<cainteoir::buffer> mData;
+		const char * mCurrent;
+		const char * mBeginMatch;
+		const char * mEndMatch;
+		node_type mNodeType;
 	};
 }}
 
 bool cainteoir::xml::reader::read()
 {
-	if (current == data->end())
+	if (mCurrent == mData->end())
 		return false;
 
-	match = current;
-
-	if (*current == '<')
+	if (*mCurrent == '<')
 	{
-		while (current != data->end() && *current != '>')
-			++current;
-		++current;
+		switch (*++mCurrent)
+		{
+		case '!':
+			if (mCurrent[1] == '-' && mCurrent[2] == '-')
+			{
+				++mCurrent;
+				++mCurrent;
+				mNodeType = commentNode;
+				mBeginMatch = ++mCurrent;
+				while (mCurrent != mData->end() && (mCurrent[0] != '-' && mCurrent[1] != '-' && mCurrent[2] != '>'))
+					++mCurrent;
+				mEndMatch = mCurrent;
+				++mCurrent;
+				++mCurrent;
+				++mCurrent;
+			}
+			else
+			{
+				mNodeType = beginTagNode;
+				mBeginMatch = ++mCurrent;
+				while (mCurrent != mData->end() && *mCurrent != '>')
+					++mCurrent;
+				mEndMatch = mCurrent;
+			}
+			break;
+		case '?':
+			mNodeType = processingInstructionNode;
+			mBeginMatch = ++mCurrent;
+			while (mCurrent != mData->end() && (mCurrent[0] != '?' && mCurrent[1] != '>'))
+				++mCurrent;
+			mEndMatch = mCurrent;
+			++mCurrent;
+			++mCurrent;
+			break;
+		case '/':
+			mNodeType = endTagNode;
+			mBeginMatch = ++mCurrent;
+			while (mCurrent != mData->end() && *mCurrent != '>')
+				++mCurrent;
+			mEndMatch = mCurrent;
+			++mCurrent;
+			break;
+		default:
+			mNodeType = beginTagNode;
+			mBeginMatch = mCurrent;
+			while (mCurrent != mData->end() && *mCurrent != '>')
+				++mCurrent;
+			mEndMatch = mCurrent;
+			if (*(mCurrent - 1) == '/')
+			{
+				mNodeType = tagNode;
+				--mEndMatch;
+			}
+			++mCurrent;
+			break;
+		}
 	}
 	else
 	{
-		while (current != data->end() && *current != '<')
-			++current;
+		mNodeType = textNode;
+		mBeginMatch = mCurrent;
+		while (mCurrent != mData->end() && *mCurrent != '<')
+			++mCurrent;
+		mEndMatch = mCurrent;
 	}
 
 	return true;
@@ -80,7 +149,27 @@ int main(int argc, char ** argv)
 		xml::reader reader(std::auto_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0])));
 		while (reader.read())
 		{
-			fprintf(stdout, "|data|%s\n", reader.nodeValue().c_str());
+			switch (reader.nodeType())
+			{
+			case xml::reader::beginTagNode:
+				fprintf(stdout, "|begin-tag|%s\n", reader.nodeValue().c_str());
+				break;
+			case xml::reader::endTagNode:
+				fprintf(stdout, "|end-tag|%s\n", reader.nodeValue().c_str());
+				break;
+			case xml::reader::tagNode:
+				fprintf(stdout, "|tag|%s\n", reader.nodeValue().c_str());
+				break;
+			case xml::reader::processingInstructionNode:
+				fprintf(stdout, "|processing-instruction|%s\n", reader.nodeValue().c_str());
+				break;
+			case xml::reader::commentNode:
+				fprintf(stdout, "|comment|%s\n", reader.nodeValue().c_str());
+				break;
+			case xml::reader::textNode:
+				fprintf(stdout, "|text|%s\n", reader.nodeValue().c_str());
+				break;
+			}
 		}
 	}
 	catch (std::runtime_error &e)
