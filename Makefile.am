@@ -104,6 +104,11 @@ noinst_bin_PROGRAMS += tests/events
 tests_events_LDADD   = src/libcainteoir/libcainteoir.a
 tests_events_SOURCES = tests/events.cpp
 
+noinst_bin_PROGRAMS += tests/xmlreader
+
+tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.a
+tests_xmlreader_SOURCES = tests/xmlreader.cpp
+
 noinst_bin_PROGRAMS += tests/voicesynth
 
 tests_voicesynth_LDADD   = src/libcainteoir/libcainteoir.a
