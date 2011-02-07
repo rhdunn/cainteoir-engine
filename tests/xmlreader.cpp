@@ -74,10 +74,10 @@ bool cainteoir::xml::reader::read()
 				++mCurrent;
 				mNodeType = commentNode;
 				mBeginMatch = ++mCurrent;
-				while (mCurrent != mData->end() && (mCurrent[0] != '-' && mCurrent[1] != '-' && mCurrent[2] != '>'))
+				while (mCurrent != mData->end() && !(mCurrent[0] == '-' && mCurrent[1] == '-' && mCurrent[2] == '>'))
 					++mCurrent;
-				mEndMatch = ++mCurrent;
-				++mCurrent += 3;
+				mEndMatch = mCurrent;
+				mCurrent += 4;
 			}
 			else
 			{
