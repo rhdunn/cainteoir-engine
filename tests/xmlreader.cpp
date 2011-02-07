@@ -77,7 +77,7 @@ bool cainteoir::xml::reader::read()
 				while (mCurrent != mData->end() && !(mCurrent[0] == '-' && mCurrent[1] == '-' && mCurrent[2] == '>'))
 					++mCurrent;
 				mEndMatch = mCurrent;
-				mCurrent += 4;
+				mCurrent += 3;
 			}
 			else
 			{
@@ -150,22 +150,22 @@ int main(int argc, char ** argv)
 			switch (reader.nodeType())
 			{
 			case xml::reader::beginTagNode:
-				fprintf(stdout, "|begin-tag|%s\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|begin-tag| %s\n", reader.nodeValue().c_str());
 				break;
 			case xml::reader::endTagNode:
-				fprintf(stdout, "|end-tag|%s\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|end-tag| %s\n", reader.nodeValue().c_str());
 				break;
 			case xml::reader::tagNode:
-				fprintf(stdout, "|tag|%s\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|tag| %s\n", reader.nodeValue().c_str());
 				break;
 			case xml::reader::processingInstructionNode:
-				fprintf(stdout, "|processing-instruction|%s\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|processing-instruction| %s\n", reader.nodeValue().c_str());
 				break;
 			case xml::reader::commentNode:
 				fprintf(stdout, "|comment| \"\"\"%s\"\"\"\n", reader.nodeValue().c_str());
 				break;
 			case xml::reader::textNode:
-				fprintf(stdout, "|text|%s\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|text| \"\"\"%s\"\"\"\n", reader.nodeValue().c_str());
 				break;
 			}
 		}

@@ -1,3 +1,5 @@
+|begin-tag| atag
 |comment| """ This is a comment. """
+|end-tag| atag
 |text| """
 """
