@@ -126,6 +126,7 @@ EXTRA_DIST += \
 	tests/smil/metadata/* \
 	tests/xhtml1/simple.xhtml \
 	tests/xhtml1/metadata/* \
+	tests/xmlparser/* \
 	tests/*.py
 
 TEST_EXTENSIONS = .py
