@@ -50,6 +50,10 @@ class TestSuite:
 		else:
 			self.failed = self.failed + 1
 			print 'failed'
+			print '    %s' % ('>'*75)
+			for line in difflib.unified_diff(expected, got, fromfile='expected', tofile='got'):
+				print '    | %s' % line.replace('\n', '')
+			print '    %s' % ('<'*75)
 
 	def check_metadata(self, filename, expect, formattype, displayas=None):
 		sys.stdout.write('... checking %s as %s metadata ... ' % ((displayas or filename), formattype))
