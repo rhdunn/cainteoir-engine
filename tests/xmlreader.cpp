@@ -39,21 +39,21 @@ namespace cainteoir { namespace xml
 
 		reader(std::auto_ptr<cainteoir::buffer> aData)
 			: mData(aData)
+			, mNodeValue(NULL, NULL)
 		{
-			mCurrent = mBeginMatch = mEndMatch = mData->begin();
+			mCurrent = mData->begin();
 			mNodeType = textNode;
 		}
 
 		bool read();
 
-		std::string nodeValue() const { return std::string(mBeginMatch, mEndMatch); }
+		const cainteoir::buffer &nodeValue() const { return mNodeValue; }
 
 		node_type nodeType() const { return mNodeType; }
 	private:
 		std::auto_ptr<cainteoir::buffer> mData;
+		cainteoir::buffer mNodeValue;
 		const char * mCurrent;
-		const char * mBeginMatch;
-		const char * mEndMatch;
 		node_type mNodeType;
 	};
 }}
@@ -62,6 +62,8 @@ bool cainteoir::xml::reader::read()
 {
 	if (mCurrent == mData->end())
 		return false;
+
+	const char * startPos = NULL;
 
 	if (*mCurrent == '<')
 	{
@@ -73,49 +75,50 @@ bool cainteoir::xml::reader::read()
 				++mCurrent;
 				++mCurrent;
 				mNodeType = commentNode;
-				mBeginMatch = ++mCurrent;
+				startPos = ++mCurrent;
 				while (mCurrent != mData->end() && !(mCurrent[0] == '-' && mCurrent[1] == '-' && mCurrent[2] == '>'))
 					++mCurrent;
-				mEndMatch = mCurrent;
+				mNodeValue = cainteoir::buffer(startPos, mCurrent);
 				mCurrent += 3;
 			}
 			else
 			{
 				mNodeType = beginTagNode;
-				mBeginMatch = ++mCurrent;
+				startPos = ++mCurrent;
 				while (mCurrent != mData->end() && *mCurrent != '>')
 					++mCurrent;
-				mEndMatch = mCurrent;
+				mNodeValue = cainteoir::buffer(startPos, mCurrent);
 			}
 			break;
 		case '?':
 			mNodeType = processingInstructionNode;
-			mBeginMatch = ++mCurrent;
+			startPos = ++mCurrent;
 			while (mCurrent != mData->end() && (mCurrent[0] != '?' && mCurrent[1] != '>'))
 				++mCurrent;
-			mEndMatch = mCurrent;
+			mNodeValue = cainteoir::buffer(startPos, mCurrent);
 			++mCurrent;
 			++mCurrent;
 			break;
 		case '/':
 			mNodeType = endTagNode;
-			mBeginMatch = ++mCurrent;
+			startPos = ++mCurrent;
 			while (mCurrent != mData->end() && *mCurrent != '>')
 				++mCurrent;
-			mEndMatch = mCurrent;
+			mNodeValue = cainteoir::buffer(startPos, mCurrent);
 			++mCurrent;
 			break;
 		default:
 			mNodeType = beginTagNode;
-			mBeginMatch = mCurrent;
+			startPos = mCurrent;
 			while (mCurrent != mData->end() && *mCurrent != '>')
 				++mCurrent;
-			mEndMatch = mCurrent;
 			if (*(mCurrent - 1) == '/')
 			{
 				mNodeType = tagNode;
-				--mEndMatch;
+				mNodeValue = cainteoir::buffer(startPos, mCurrent - 1);
 			}
+			else
+				mNodeValue = cainteoir::buffer(startPos, mCurrent);
 			++mCurrent;
 			break;
 		}
@@ -123,10 +126,10 @@ bool cainteoir::xml::reader::read()
 	else
 	{
 		mNodeType = textNode;
-		mBeginMatch = mCurrent;
+		startPos = mCurrent;
 		while (mCurrent != mData->end() && *mCurrent != '<')
 			++mCurrent;
-		mEndMatch = mCurrent;
+		mNodeValue = cainteoir::buffer(startPos, mCurrent);
 	}
 
 	return true;
@@ -150,22 +153,22 @@ int main(int argc, char ** argv)
 			switch (reader.nodeType())
 			{
 			case xml::reader::beginTagNode:
-				fprintf(stdout, "|begin-tag| %s\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|begin-tag| %s\n", reader.nodeValue().str().c_str());
 				break;
 			case xml::reader::endTagNode:
-				fprintf(stdout, "|end-tag| %s\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|end-tag| %s\n", reader.nodeValue().str().c_str());
 				break;
 			case xml::reader::tagNode:
-				fprintf(stdout, "|tag| %s\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|tag| %s\n", reader.nodeValue().str().c_str());
 				break;
 			case xml::reader::processingInstructionNode:
-				fprintf(stdout, "|processing-instruction| %s\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|processing-instruction| %s\n", reader.nodeValue().str().c_str());
 				break;
 			case xml::reader::commentNode:
-				fprintf(stdout, "|comment| \"\"\"%s\"\"\"\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|comment| \"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
 				break;
 			case xml::reader::textNode:
-				fprintf(stdout, "|text| \"\"\"%s\"\"\"\n", reader.nodeValue().c_str());
+				fprintf(stdout, "|text| \"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
 				break;
 			}
 		}
