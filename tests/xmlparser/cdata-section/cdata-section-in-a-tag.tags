@@ -1,0 +1,5 @@
+|begin-tag| atag
+|cdata| """ This is a cdata section. """
+|end-tag| atag
+|text| """
+"""

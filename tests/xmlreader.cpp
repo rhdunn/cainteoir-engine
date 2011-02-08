@@ -34,6 +34,7 @@ namespace cainteoir { namespace xml
 			tagNode, // isolated -- begin and end tag node
 			processingInstructionNode,
 			commentNode,
+			cdataNode,
 			textNode,
 		};
 
@@ -77,6 +78,16 @@ bool cainteoir::xml::reader::read()
 				mNodeType = commentNode;
 				startPos = ++mCurrent;
 				while (mCurrent != mData->end() && !(mCurrent[0] == '-' && mCurrent[1] == '-' && mCurrent[2] == '>'))
+					++mCurrent;
+				mNodeValue = cainteoir::buffer(startPos, mCurrent);
+				mCurrent += 3;
+			}
+			else if (mCurrent[1] == '[' && mCurrent[2] == 'C' && mCurrent[3] == 'D' && mCurrent[4] == 'A' && mCurrent[5] == 'T' && mCurrent[6] == 'A' && mCurrent[7] == '[')
+			{
+				mCurrent += 8;
+				mNodeType = cdataNode;
+				startPos = mCurrent;
+				while (mCurrent != mData->end() && !(mCurrent[0] == ']' && mCurrent[1] == ']' && mCurrent[2] == '>'))
 					++mCurrent;
 				mNodeValue = cainteoir::buffer(startPos, mCurrent);
 				mCurrent += 3;
@@ -166,6 +177,9 @@ int main(int argc, char ** argv)
 				break;
 			case xml::reader::commentNode:
 				fprintf(stdout, "|comment| \"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
+				break;
+			case xml::reader::cdataNode:
+				fprintf(stdout, "|cdata| \"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
 				break;
 			case xml::reader::textNode:
 				fprintf(stdout, "|text| \"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
