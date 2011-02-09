@@ -52,6 +52,8 @@ namespace cainteoir { namespace xml
 
 		node_type nodeType() const { return mNodeType; }
 	private:
+		void read_tag(node_type aType);
+
 		std::auto_ptr<cainteoir::buffer> mData;
 		cainteoir::buffer mNodeValue;
 		const char * mCurrent;
@@ -111,26 +113,11 @@ bool cainteoir::xml::reader::read()
 			++mCurrent;
 			break;
 		case '/':
-			mNodeType = endTagNode;
-			startPos = ++mCurrent;
-			while (mCurrent != mData->end() && *mCurrent != '>')
-				++mCurrent;
-			mNodeValue = cainteoir::buffer(startPos, mCurrent);
 			++mCurrent;
+			read_tag(endTagNode);
 			break;
 		default:
-			mNodeType = beginTagNode;
-			startPos = mCurrent;
-			while (mCurrent != mData->end() && *mCurrent != '>')
-				++mCurrent;
-			if (*(mCurrent - 1) == '/')
-			{
-				mNodeType = tagNode;
-				mNodeValue = cainteoir::buffer(startPos, mCurrent - 1);
-			}
-			else
-				mNodeValue = cainteoir::buffer(startPos, mCurrent);
-			++mCurrent;
+			read_tag(beginTagNode);
 			break;
 		}
 	}
@@ -144,6 +131,22 @@ bool cainteoir::xml::reader::read()
 	}
 
 	return true;
+}
+
+void cainteoir::xml::reader::read_tag(node_type aType)
+{
+	mNodeType = aType;
+	const char * startPos = mCurrent;
+	while (mCurrent != mData->end() && *mCurrent != '>')
+		++mCurrent;
+	if (*(mCurrent - 1) == '/')
+	{
+		mNodeType = tagNode;
+		mNodeValue = cainteoir::buffer(startPos, mCurrent - 1);
+	}
+	else
+		mNodeValue = cainteoir::buffer(startPos, mCurrent);
+	++mCurrent;
 }
 
 namespace xml = cainteoir::xml;
