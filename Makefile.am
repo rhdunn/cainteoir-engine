@@ -41,6 +41,7 @@ noinst_LIBRARIES += src/libcainteoir/libcainteoir.a
 src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
+	src/include/cainteoir/xmlreader.hpp \
 	src/include/cainteoir/document.hpp \
 	src/include/cainteoir/engines.hpp \
 	src/include/cainteoir/metadata.hpp
@@ -55,6 +56,7 @@ src_libcainteoir_libcainteoir_a_SOURCES += \
 	src/libcainteoir/parsers/parsers.hpp \
 	src/libcainteoir/parsers/xml.hpp \
 	src/libcainteoir/parsers/zip.hpp \
+	src/libcainteoir/parsers/xmlreader.cpp \
 	src/libcainteoir/parsers/xml.cpp \
 	src/libcainteoir/parsers/xhtml.cpp \
 	src/libcainteoir/parsers/ocf.cpp \
