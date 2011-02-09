@@ -37,4 +37,6 @@ def test_dir(basedir):
 if __name__ == '__main__':
 	test_dir('xmlparser/comments')
 	test_dir('xmlparser/cdata-section')
+	test_dir('xmlparser/element')
+	test_dir('xmlparser/empty-element')
 	test.summary()
