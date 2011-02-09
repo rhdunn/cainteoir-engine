@@ -20,10 +20,41 @@
 
 #include <cainteoir/xmlreader.hpp>
 
+cainteoir::xml::reader::reader(std::auto_ptr<cainteoir::buffer> aData)
+	: mData(aData)
+	, mNodeValue(NULL, NULL)
+{
+	mCurrent = mData->begin();
+	mNodeType = textNode;
+
+	while (mCurrent != mData->end() && (*mCurrent == ' ' || *mCurrent == '\t' || *mCurrent == '\r' || *mCurrent == '\n'))
+		++mCurrent;
+
+	const char * startPos = mCurrent;
+	if (*mCurrent == '<' && read() && mNodeType != error)
+	{
+		mCurrent = startPos;
+		mParseAsText = false; // looks like XML or HTML
+	}
+	else
+	{
+		mCurrent = mData->begin();
+		mParseAsText = true; // looks like text
+	}
+}
+
 bool cainteoir::xml::reader::read()
 {
 	if (mCurrent >= mData->end())
 		return false;
+
+	if (mParseAsText)
+	{
+		mNodeType = textNode;
+		mNodeValue = cainteoir::buffer(mCurrent, mData->end());
+		mCurrent = mData->end();
+		return true;
+	}
 
 	const char * startPos = NULL;
 

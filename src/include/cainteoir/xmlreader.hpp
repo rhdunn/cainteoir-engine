@@ -38,15 +38,10 @@ namespace cainteoir { namespace xml
 			commentNode,
 			cdataNode,
 			textNode,
+			error,
 		};
 
-		reader(std::auto_ptr<cainteoir::buffer> aData)
-			: mData(aData)
-			, mNodeValue(NULL, NULL)
-		{
-			mCurrent = mData->begin();
-			mNodeType = textNode;
-		}
+		reader(std::auto_ptr<cainteoir::buffer> aData);
 
 		bool read();
 
@@ -60,6 +55,7 @@ namespace cainteoir { namespace xml
 		cainteoir::buffer mNodeValue;
 		const char * mCurrent;
 		node_type mNodeType;
+		bool mParseAsText;
 	};
 }}
 
