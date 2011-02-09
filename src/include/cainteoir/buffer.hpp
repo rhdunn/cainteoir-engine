@@ -23,6 +23,7 @@
 
 #include <cstring>
 #include <string>
+#include <tr1/memory>
 
 namespace cainteoir
 {
@@ -51,6 +52,15 @@ namespace cainteoir
 			if (first == last || *first == '\0') return std::string();
 			return std::string(first, last);
 		}
+	};
+
+	class range_buffer : public buffer
+	{
+		std::tr1::shared_ptr<cainteoir::buffer> anchor;
+	public:
+		range_buffer(const std::tr1::shared_ptr<cainteoir::buffer> &a, const char *f, const char *l) : buffer(f, l), anchor(a) {}
+		range_buffer(const std::tr1::shared_ptr<cainteoir::buffer> &a, const char *f) : buffer(f, a->end()), anchor(a) {}
+		range_buffer(const std::tr1::shared_ptr<cainteoir::buffer> &a, const cainteoir::buffer &range) : buffer(range.begin(), range.end()), anchor(a) {}
 	};
 
 	class mmap_buffer : public buffer

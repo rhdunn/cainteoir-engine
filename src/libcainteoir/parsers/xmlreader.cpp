@@ -20,7 +20,7 @@
 
 #include <cainteoir/xmlreader.hpp>
 
-cainteoir::xml::reader::reader(std::auto_ptr<cainteoir::buffer> aData)
+cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	: mData(aData)
 	, mNodeValue(NULL, NULL)
 {

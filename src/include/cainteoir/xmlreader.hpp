@@ -22,7 +22,6 @@
 #define CAINTEOIR_ENGINE_XMLREADER_HPP
 
 #include <cainteoir/buffer.hpp>
-#include <memory>
 
 namespace cainteoir { namespace xml
 {
@@ -41,7 +40,7 @@ namespace cainteoir { namespace xml
 			error,
 		};
 
-		reader(std::auto_ptr<cainteoir::buffer> aData);
+		reader(std::tr1::shared_ptr<cainteoir::buffer> aData);
 
 		bool read();
 
@@ -51,7 +50,7 @@ namespace cainteoir { namespace xml
 	private:
 		void read_tag(node_type aType);
 
-		std::auto_ptr<cainteoir::buffer> mData;
+		std::tr1::shared_ptr<cainteoir::buffer> mData;
 		cainteoir::buffer mNodeValue;
 		const char * mCurrent;
 		node_type mNodeType;

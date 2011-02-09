@@ -19,10 +19,12 @@
  */
 
 #include <cainteoir/document.hpp>
+#include <cainteoir/xmlreader.hpp>
 #include "parsers.hpp"
 #include "mimetypes.hpp"
 
-namespace xml = cainteoir::xmldom;
+namespace xmldom = cainteoir::xmldom;
+namespace xml = cainteoir::xml;
 namespace rdf = cainteoir::rdf;
 
 bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events)
@@ -32,8 +34,8 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 	{
 		const rdf::uri subject = rdf::uri(aFilename, std::string());
 
-		xml::document doc(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename)));
-		xml::node root = doc.root();
+		xmldom::document doc(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename)));
+		xmldom::node root = doc.root();
 
 		if (root == rdf::opf("package"))
 		{
@@ -51,10 +53,18 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 	}
 	else if (type == "application/epub+zip")
 		cainteoir::parseEpubDocument(aFilename, events);
-	else if (type == "text/plain")
-		events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename)));
-	else
-		return false;
+	else // plain text or html
+	{
+		std::tr1::shared_ptr<cainteoir::buffer> data((new cainteoir::mmap_buffer(aFilename)));
+		xml::reader reader(data);
+
+		while (reader.read()) switch (reader.nodeType())
+		{
+		case xml::reader::textNode:
+			events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::range_buffer(data, reader.nodeValue())));
+			break;
+		}
+	}
 
 	return true;
 }
