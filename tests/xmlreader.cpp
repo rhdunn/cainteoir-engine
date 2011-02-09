@@ -63,7 +63,7 @@ namespace cainteoir { namespace xml
 
 bool cainteoir::xml::reader::read()
 {
-	if (mCurrent == mData->end())
+	if (mCurrent >= mData->end())
 		return false;
 
 	const char * startPos = NULL;
