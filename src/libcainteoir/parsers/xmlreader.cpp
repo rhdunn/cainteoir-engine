@@ -19,6 +19,7 @@
  */
 
 #include <cainteoir/xmlreader.hpp>
+#include <list>
 
 cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	: mData(aData)
@@ -114,10 +115,53 @@ bool cainteoir::xml::reader::read()
 	else
 	{
 		mNodeType = textNode;
-		startPos = mCurrent;
-		while (mCurrent != mData->end() && *mCurrent != '<')
-			++mCurrent;
-		mNodeValue = cainteoir::buffer(startPos, mCurrent);
+
+		std::list<cainteoir::buffer> rope;
+		long len = 0;
+
+		do
+		{
+			startPos = mCurrent;
+			if (*mCurrent == '&')
+			{
+				while (mCurrent != mData->end() && !(*mCurrent == ';' || *mCurrent == '<'))
+					++mCurrent;
+
+				if (*mCurrent == ';')
+				{
+					++mCurrent;
+					if (!strncmp(startPos, "&amp;", 5))
+					{
+						rope.push_back(cainteoir::buffer("&"));
+						len += rope.back().size();
+					}
+				}
+			}
+			else
+			{
+				while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == '<'))
+					++mCurrent;
+				rope.push_back(cainteoir::buffer(startPos, mCurrent));
+				len += rope.back().size();
+			}
+		} while (mCurrent != mData->end() && *mCurrent != '<');
+
+		switch (rope.size())
+		{
+		case 0: mNodeValue = cainteoir::buffer(NULL, NULL); break;
+		case 1: mNodeValue = rope.back(); break;
+		default:
+			{
+				mNodeValueBuffer = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::data_buffer(len));
+				char * startPos = (char *)mNodeValueBuffer->begin();
+				for (auto node = rope.begin(), last = rope.end(); node != last; ++node)
+				{
+					strncpy(startPos, node->begin(), node->size());
+					startPos += node->size();
+				}
+				mNodeValue = *mNodeValueBuffer;
+			} break;
+		}
 	}
 
 	return true;

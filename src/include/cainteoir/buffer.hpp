@@ -34,7 +34,7 @@ namespace cainteoir
 		const char *last;
 	public:
 		buffer(const char *f, const char *l) : first(f), last(l) {}
-		buffer(const char *f) : first(f), last(f+strlen(f)+1) {}
+		buffer(const char *f) : first(f), last(f+strlen(f)) {}
 		virtual ~buffer() {}
 
 		typedef const char * iterator;

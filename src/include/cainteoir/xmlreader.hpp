@@ -52,6 +52,7 @@ namespace cainteoir { namespace xml
 
 		std::tr1::shared_ptr<cainteoir::buffer> mData;
 		cainteoir::buffer mNodeValue;
+		std::tr1::shared_ptr<cainteoir::buffer> mNodeValueBuffer;
 		const char * mCurrent;
 		node_type mNodeType;
 		bool mParseAsText;
