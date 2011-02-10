@@ -21,6 +21,30 @@
 #include <cainteoir/xmlreader.hpp>
 #include <list>
 
+struct entity
+{
+	const char * name;
+	const char * value;
+};
+
+static const entity html_entities[] = {
+	{ "&amp;",    "&" },
+	{ "&lt;",     "<" },
+	{ NULL,       NULL },
+};
+
+const char * resolve_entity(const entity *entities, const cainteoir::buffer &data)
+{
+	while (entities->name)
+	{
+		if (!strncmp(entities->name, data.begin(), data.size()))
+			return entities->value;
+		++entities;
+	}
+
+	return NULL;
+}
+
 cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	: mData(aData)
 	, mNodeValue(NULL, NULL)
@@ -130,9 +154,10 @@ bool cainteoir::xml::reader::read()
 				if (*mCurrent == ';')
 				{
 					++mCurrent;
-					if (!strncmp(startPos, "&amp;", 5))
+					const char * value = resolve_entity(html_entities, cainteoir::buffer(startPos, mCurrent));
+					if (value)
 					{
-						rope.push_back(cainteoir::buffer("&"));
+						rope.push_back(cainteoir::buffer(value));
 						len += rope.back().size();
 					}
 				}
