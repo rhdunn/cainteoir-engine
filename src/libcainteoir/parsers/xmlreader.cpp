@@ -33,7 +33,6 @@ static const entity xml10_entities[] = {
 	{ "gt",     ">" },
 	{ "lt",     "<" },
 	{ "quot",   "\"" },
-	{ NULL,     NULL }, // End of Entity List
 };
 
 static const entity html_entities[] = {
@@ -45,24 +44,34 @@ static const entity html_entities[] = {
 	{ "curren", "\xC2\xA4" }, // U+00A4
 	{ "gt",     ">" },
 	{ "iexcl",  "\xC2\xA1" }, // U+00A1
+	{ "laquo",  "\xC2\xAB" }, // U+00AB
 	{ "lt",     "<" },
 	{ "nbsp",   "\xC2\xA0" }, // U+00A0
 	{ "ordf",   "\xC2\xAA" }, // U+00AA
 	{ "pound",  "\xC2\xA3" }, // U+00A3
 	{ "quot",   "\"" },
+	{ "raquo",  "\xC2\xBB" }, // U+00BB
 	{ "sect",   "\xC2\xA7" }, // U+00A7
 	{ "uml",    "\xC2\xA8" }, // U+00A8
 	{ "yen",    "\xC2\xA5" }, // U+00A5
-	{ NULL,     NULL }, // End of Entity List
 };
 
-const char * resolve_entity(const entity *entities, const cainteoir::buffer &data)
+const char * resolve_entity(const entity *first, const entity *last, const cainteoir::buffer &data)
 {
-	while (entities->name)
+	int begin = 0;
+	int end = last - first;
+
+	while (begin <= end)
 	{
-		if (!strncmp(entities->name, data.begin(), data.size()))
-			return entities->value;
-		++entities;
+		int pos = (begin + end) / 2;
+		int comp = strncmp((first + pos)->name, data.begin(), data.size());
+
+		if (comp == 0)
+			return (first + pos)->value;
+		else if (comp < 0)
+			begin = pos + 1;
+		else
+			end = pos - 1;
 	}
 
 	return NULL;
@@ -179,7 +188,7 @@ bool cainteoir::xml::reader::read()
 					cainteoir::buffer entity(startPos+1, mCurrent);
 					++mCurrent;
 
-					const char * value = resolve_entity(html_entities, entity);
+					const char * value = resolve_entity(html_entities, html_entities + (sizeof(html_entities)/sizeof(html_entities[0])), entity);
 					if (value)
 					{
 						rope.push_back(cainteoir::buffer(value));
