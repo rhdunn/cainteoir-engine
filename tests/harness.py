@@ -20,7 +20,6 @@
 import os
 import sys
 import difflib
-import codecs
 
 from datetime import date
 
@@ -39,11 +38,11 @@ class TestSuite:
 			filename,
 			tmpfile))
 
-		with codecs.open(expect, 'r', 'utf-8') as f:
-			expected = [ unicode(x.replace('<DATETIME>', date.today().strftime('%Y'))) for x in f.read().split('\n') if not x == '' ]
+		with open(expect, 'r') as f:
+			expected = [ repr(x.replace('<DATETIME>', date.today().strftime('%Y'))) for x in f.read().split('\n') if not x == '' ]
 
-		with codecs.open(tmpfile, 'r', 'utf-8') as f:
-			got = [ unicode(x.replace('<%s' % filename, '<')) for x in f.read().split('\n') if not x == '' ]
+		with open(tmpfile, 'r') as f:
+			got = [ repr(x.replace('<%s' % filename, '<')) for x in f.read().split('\n') if not x == '' ]
 
 		if expected == got:
 			self.passed = self.passed + 1
