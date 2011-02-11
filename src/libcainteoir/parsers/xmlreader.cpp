@@ -46,12 +46,16 @@ static const entity html_entities[] = {
 	{ "iexcl",  "\xC2\xA1" }, // U+00A1
 	{ "laquo",  "\xC2\xAB" }, // U+00AB
 	{ "lt",     "<" },
+	{ "macr",   "\xC2\xAF" }, // U+00AF
 	{ "nbsp",   "\xC2\xA0" }, // U+00A0
+	{ "not",    "\xC2\xAC" }, // U+00AC
 	{ "ordf",   "\xC2\xAA" }, // U+00AA
 	{ "pound",  "\xC2\xA3" }, // U+00A3
 	{ "quot",   "\"" },
 	{ "raquo",  "\xC2\xBB" }, // U+00BB
+	{ "reg",    "\xC2\xAE" }, // U+00AE
 	{ "sect",   "\xC2\xA7" }, // U+00A7
+	{ "shy",    "\xC2\xAD" }, // U+00AD
 	{ "uml",    "\xC2\xA8" }, // U+00A8
 	{ "yen",    "\xC2\xA5" }, // U+00A5
 };
