@@ -27,10 +27,24 @@ struct entity
 	const char * value;
 };
 
+static const entity xml10_entities[] = {
+	{ "&amp;",    "&" },
+	{ "&apos;",   "'" },
+	{ "&gt;",     ">" },
+	{ "&lt;",     "<" },
+	{ "&quot;",   "\"" },
+	{ NULL,       NULL }, // End of Entity List
+};
+
 static const entity html_entities[] = {
 	{ "&amp;",    "&" },
+	{ "&apos;",   "'" },
+	{ "&gt;",     ">" },
 	{ "&lt;",     "<" },
-	{ NULL,       NULL },
+	{ "&quot;",   "\"" },
+	{ "&nbsp;",   "\302\240" }, // U+00A0
+	{ "&iexcl;",  "\302\241" }, // U+00A1
+	{ NULL,       NULL }, // End of Entity List
 };
 
 const char * resolve_entity(const entity *entities, const cainteoir::buffer &data)
@@ -154,12 +168,16 @@ bool cainteoir::xml::reader::read()
 				if (*mCurrent == ';')
 				{
 					++mCurrent;
-					const char * value = resolve_entity(html_entities, cainteoir::buffer(startPos, mCurrent));
+					cainteoir::buffer entity(startPos, mCurrent);
+
+					const char * value = resolve_entity(html_entities, entity);
 					if (value)
 					{
 						rope.push_back(cainteoir::buffer(value));
 						len += rope.back().size();
 					}
+					else
+						fprintf(stderr, "unrecognised entity '%s'\n", entity.str().c_str());
 				}
 			}
 			else
