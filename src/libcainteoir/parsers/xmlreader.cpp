@@ -36,26 +36,41 @@ static const entity xml10_entities[] = {
 };
 
 static const entity html_entities[] = {
+	{ "acute",  "\xC2\xB4" }, // U+00B4
 	{ "amp",    "&" },
 	{ "apos",   "'" },
 	{ "brvbar", "\xC2\xA6" }, // U+00A6
+	{ "cedil",  "\xC2\xB8" }, // U+00B8
 	{ "cent",   "\xC2\xA2" }, // U+00A2
 	{ "copy",   "\xC2\xA9" }, // U+00A9
 	{ "curren", "\xC2\xA4" }, // U+00A4
+	{ "deg",    "\xC2\xB0" }, // U+00B0
+	{ "frac12", "\xC2\xBD" }, // U+00BD
+	{ "frac14", "\xC2\xBC" }, // U+00BC
+	{ "frac34", "\xC2\xBE" }, // U+00BE
 	{ "gt",     ">" },
 	{ "iexcl",  "\xC2\xA1" }, // U+00A1
+	{ "iquest", "\xC2\xBF" }, // U+00BF
 	{ "laquo",  "\xC2\xAB" }, // U+00AB
 	{ "lt",     "<" },
 	{ "macr",   "\xC2\xAF" }, // U+00AF
+	{ "micro",  "\xC2\xB5" }, // U+00B5
+	{ "middot", "\xC2\xB7" }, // U+00B7
 	{ "nbsp",   "\xC2\xA0" }, // U+00A0
 	{ "not",    "\xC2\xAC" }, // U+00AC
 	{ "ordf",   "\xC2\xAA" }, // U+00AA
+	{ "ordm",   "\xC2\xBA" }, // U+00BA
+	{ "para",   "\xC2\xB6" }, // U+00B6
+	{ "plusmn", "\xC2\xB1" }, // U+00B1
 	{ "pound",  "\xC2\xA3" }, // U+00A3
 	{ "quot",   "\"" },
 	{ "raquo",  "\xC2\xBB" }, // U+00BB
 	{ "reg",    "\xC2\xAE" }, // U+00AE
 	{ "sect",   "\xC2\xA7" }, // U+00A7
 	{ "shy",    "\xC2\xAD" }, // U+00AD
+	{ "sup1",   "\xC2\xB9" }, // U+00B9
+	{ "sup2",   "\xC2\xB2" }, // U+00B2
+	{ "sup3",   "\xC2\xB3" }, // U+00B3
 	{ "uml",    "\xC2\xA8" }, // U+00A8
 	{ "yen",    "\xC2\xA5" }, // U+00A5
 };
