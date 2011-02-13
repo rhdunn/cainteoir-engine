@@ -36,21 +36,53 @@ static const entity xml10_entities[] = {
 };
 
 static const entity html_entities[] = {
+	{ "AElig",  "\xC3\x86" }, // U+00C6
+	{ "Aacute", "\xC3\x81" }, // U+00C1
+	{ "Acirc",  "\xC3\x82" }, // U+00C2
+	{ "Agrave", "\xC3\x80" }, // U+00C0
+	{ "Aring",  "\xC3\x85" }, // U+00C5
+	{ "Atilde", "\xC3\x83" }, // U+00C3
+	{ "Auml",   "\xC3\x84" }, // U+00C4
+	{ "Ccedil", "\xC3\x87" }, // U+00C7
+	{ "Eacute", "\xC3\x89" }, // U+00C9
+	{ "Ecirc",  "\xC3\x8A" }, // U+00CA
+	{ "Egrave", "\xC3\x88" }, // U+00C8
+	{ "Euml",   "\xC3\x8B" }, // U+00CB
+	{ "Iacute", "\xC3\x8D" }, // U+00CD
+	{ "Icirc",  "\xC3\x8E" }, // U+00CE
+	{ "Igrave", "\xC3\x8C" }, // U+00CC
+	{ "Iuml",   "\xC3\x8F" }, // U+00CF
+	{ "aacute", "\xC3\xA1" }, // U+00E1
+	{ "acirc",  "\xC3\xA2" }, // U+00E2
 	{ "acute",  "\xC2\xB4" }, // U+00B4
+	{ "aelig",  "\xC3\xA6" }, // U+00E6
+	{ "agrave", "\xC3\xA0" }, // U+00E0
 	{ "amp",    "&" },
 	{ "apos",   "'" },
+	{ "aring",  "\xC3\xA5" }, // U+00E5
+	{ "atilde", "\xC3\xA3" }, // U+00E3
+	{ "auml",   "\xC3\xA4" }, // U+00E4
 	{ "brvbar", "\xC2\xA6" }, // U+00A6
+	{ "ccedil", "\xC3\xA7" }, // U+00E7
 	{ "cedil",  "\xC2\xB8" }, // U+00B8
 	{ "cent",   "\xC2\xA2" }, // U+00A2
 	{ "copy",   "\xC2\xA9" }, // U+00A9
 	{ "curren", "\xC2\xA4" }, // U+00A4
 	{ "deg",    "\xC2\xB0" }, // U+00B0
+	{ "eacute", "\xC3\xA9" }, // U+00E9
+	{ "ecirc",  "\xC3\xAA" }, // U+00EA
+	{ "egrave", "\xC3\xA8" }, // U+00E8
+	{ "euml",   "\xC3\xAB" }, // U+00EB
 	{ "frac12", "\xC2\xBD" }, // U+00BD
 	{ "frac14", "\xC2\xBC" }, // U+00BC
 	{ "frac34", "\xC2\xBE" }, // U+00BE
 	{ "gt",     ">" },
+	{ "iacute", "\xC3\xAD" }, // U+00ED
+	{ "icirc",  "\xC3\xAE" }, // U+00EE
 	{ "iexcl",  "\xC2\xA1" }, // U+00A1
+	{ "igrave", "\xC3\xAC" }, // U+00EC
 	{ "iquest", "\xC2\xBF" }, // U+00BF
+	{ "iuml",   "\xC3\xAF" }, // U+00EF
 	{ "laquo",  "\xC2\xAB" }, // U+00AB
 	{ "lt",     "<" },
 	{ "macr",   "\xC2\xAF" }, // U+00AF
