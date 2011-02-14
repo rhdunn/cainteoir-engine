@@ -1,0 +1,5 @@
+|begin-tag| div
+|text| """ß"""
+|end-tag| div
+|text| """
+"""

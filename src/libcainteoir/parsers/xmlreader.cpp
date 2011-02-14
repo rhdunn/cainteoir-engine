@@ -44,6 +44,7 @@ static const entity html_entities[] = {
 	{ "Atilde", "\xC3\x83" }, // U+00C3
 	{ "Auml",   "\xC3\x84" }, // U+00C4
 	{ "Ccedil", "\xC3\x87" }, // U+00C7
+	{ "ETH",    "\xC3\x90" }, // U+00D0
 	{ "Eacute", "\xC3\x89" }, // U+00C9
 	{ "Ecirc",  "\xC3\x8A" }, // U+00CA
 	{ "Egrave", "\xC3\x88" }, // U+00C8
@@ -52,6 +53,19 @@ static const entity html_entities[] = {
 	{ "Icirc",  "\xC3\x8E" }, // U+00CE
 	{ "Igrave", "\xC3\x8C" }, // U+00CC
 	{ "Iuml",   "\xC3\x8F" }, // U+00CF
+	{ "Ntilde", "\xC3\x91" }, // U+00D1
+	{ "Oacute", "\xC3\x93" }, // U+00D3
+	{ "Ocirc",  "\xC3\x94" }, // U+00D4
+	{ "Ograve", "\xC3\x92" }, // U+00D2
+	{ "Oslash", "\xC3\x98" }, // U+00D8
+	{ "Otilde", "\xC3\x95" }, // U+00D5
+	{ "Ouml",   "\xC3\x96" }, // U+00D6
+	{ "THORN",  "\xC3\x9E" }, // U+00DE
+	{ "Uacute", "\xC3\x9A" }, // U+00DA
+	{ "Ucirc",  "\xC3\x9B" }, // U+00DB
+	{ "Ugrave", "\xC3\x99" }, // U+00D9
+	{ "Uuml",   "\xC3\x9C" }, // U+00DC
+	{ "Yacute", "\xC3\x9D" }, // U+00DD
 	{ "aacute", "\xC3\xA1" }, // U+00E1
 	{ "acirc",  "\xC3\xA2" }, // U+00E2
 	{ "acute",  "\xC2\xB4" }, // U+00B4
@@ -69,9 +83,11 @@ static const entity html_entities[] = {
 	{ "copy",   "\xC2\xA9" }, // U+00A9
 	{ "curren", "\xC2\xA4" }, // U+00A4
 	{ "deg",    "\xC2\xB0" }, // U+00B0
+	{ "divide", "\xC3\xB7" }, // U+00F7
 	{ "eacute", "\xC3\xA9" }, // U+00E9
 	{ "ecirc",  "\xC3\xAA" }, // U+00EA
 	{ "egrave", "\xC3\xA8" }, // U+00E8
+	{ "eth",    "\xC3\xB0" }, // U+00F0
 	{ "euml",   "\xC3\xAB" }, // U+00EB
 	{ "frac12", "\xC2\xBD" }, // U+00BD
 	{ "frac14", "\xC2\xBC" }, // U+00BC
@@ -90,8 +106,15 @@ static const entity html_entities[] = {
 	{ "middot", "\xC2\xB7" }, // U+00B7
 	{ "nbsp",   "\xC2\xA0" }, // U+00A0
 	{ "not",    "\xC2\xAC" }, // U+00AC
+	{ "ntilde", "\xC3\xB1" }, // U+00F1
+	{ "oacute", "\xC3\xB3" }, // U+00F3
+	{ "ocirc",  "\xC3\xB4" }, // U+00F4
+	{ "ograve", "\xC3\xB2" }, // U+00F2
 	{ "ordf",   "\xC2\xAA" }, // U+00AA
 	{ "ordm",   "\xC2\xBA" }, // U+00BA
+	{ "oslash", "\xC3\xB8" }, // U+00F8
+	{ "otilde", "\xC3\xB5" }, // U+00F5
+	{ "ouml",   "\xC3\xB6" }, // U+00F6
 	{ "para",   "\xC2\xB6" }, // U+00B6
 	{ "plusmn", "\xC2\xB1" }, // U+00B1
 	{ "pound",  "\xC2\xA3" }, // U+00A3
@@ -103,8 +126,17 @@ static const entity html_entities[] = {
 	{ "sup1",   "\xC2\xB9" }, // U+00B9
 	{ "sup2",   "\xC2\xB2" }, // U+00B2
 	{ "sup3",   "\xC2\xB3" }, // U+00B3
+	{ "szlig",  "\xC3\x9F" }, // U+00DF
+	{ "thorn",  "\xC3\xBE" }, // U+00FE
+	{ "times",  "\xC3\x97" }, // U+00D7
+	{ "uacute", "\xC3\xBA" }, // U+00FA
+	{ "ucirc",  "\xC3\xBB" }, // U+00FB
+	{ "ugrave", "\xC3\xB9" }, // U+00F9
 	{ "uml",    "\xC2\xA8" }, // U+00A8
+	{ "uuml",   "\xC3\xBC" }, // U+00FC
+	{ "yacute", "\xC3\xBD" }, // U+00FD
 	{ "yen",    "\xC2\xA5" }, // U+00A5
+	{ "yuml",   "\xC3\xBF" }, // U+00FF
 };
 
 const char * resolve_entity(const entity *first, const entity *last, const cainteoir::buffer &data)
