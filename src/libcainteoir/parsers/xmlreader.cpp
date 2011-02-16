@@ -47,6 +47,7 @@ static const entity html_entities[] = {
 	{ "Beta",     "\xCE\x92" }, // U+0392
 	{ "Ccedil",   "\xC3\x87" }, // U+00C7
 	{ "Chi",      "\xCE\xA7" }, // U+0397
+	{ "Dagger",   "\xE2\x80\xA1" }, // U+2021
 	{ "Delta",    "\xCE\x94" }, // U+0394
 	{ "ETH",      "\xC3\x90" }, // U+00D0
 	{ "Eacute",   "\xC3\x89" }, // U+00C9
@@ -77,6 +78,7 @@ static const entity html_entities[] = {
 	{ "Ouml",     "\xC3\x96" }, // U+00D6
 	{ "Phi",      "\xCE\xA6" }, // U+0396
 	{ "Pi",       "\xCE\xA0" }, // U+03A0
+	{ "Prime",    "\xE2\x80\xB3" }, // U+2033
 	{ "Psi",      "\xCE\xA8" }, // U+0398
 	{ "Rho",      "\xCE\xA1" }, // U+03A1
 	{ "Scaron",   "\xC5\xA0" }, // U+0160
@@ -98,104 +100,194 @@ static const entity html_entities[] = {
 	{ "acute",    "\xC2\xB4" }, // U+00B4
 	{ "aelig",    "\xC3\xA6" }, // U+00E6
 	{ "agrave",   "\xC3\xA0" }, // U+00E0
+	{ "alefsym",  "\xE2\x84\xB5" }, // U+2135
 	{ "alpha",    "\xCE\xB1" }, // U+03B1
 	{ "amp",      "&" },
+	{ "and",      "\xE2\x88\xA7" }, // U+2227
+	{ "ang",      "\xE2\x88\xA0" }, // U+2220
 	{ "apos",     "'" },
 	{ "aring",    "\xC3\xA5" }, // U+00E5
+	{ "asymp",    "\xE2\x89\x88" }, // U+2248
 	{ "atilde",   "\xC3\xA3" }, // U+00E3
 	{ "auml",     "\xC3\xA4" }, // U+00E4
+	{ "bdquo",    "\xE2\x80\x9E" }, // U+201E
 	{ "beta",     "\xCE\xB2" }, // U+03B2
 	{ "brvbar",   "\xC2\xA6" }, // U+00A6
+	{ "bull",     "\xE2\x80\xA2" }, // U+2022
+	{ "cap",      "\xE2\x88\xA9" }, // U+2229
 	{ "ccedil",   "\xC3\xA7" }, // U+00E7
 	{ "cedil",    "\xC2\xB8" }, // U+00B8
 	{ "cent",     "\xC2\xA2" }, // U+00A2
 	{ "chi",      "\xCF\x87" }, // U+03C7
 	{ "circ",     "\xCB\x86" }, // U+02C6
+	{ "clubs",    "\xE2\x99\xA3" }, // U+2663
+	{ "cong",     "\xE2\x89\x85" }, // U+2245
 	{ "copy",     "\xC2\xA9" }, // U+00A9
+	{ "crarr",    "\xE2\x86\xB5" }, // U+21B5
+	{ "cup",      "\xE2\x88\xAA" }, // U+222A
 	{ "curren",   "\xC2\xA4" }, // U+00A4
+	{ "dArr",     "\xE2\x87\x93" }, // U+21D3
+	{ "dagger",   "\xE2\x80\xA0" }, // U+2020
+	{ "darr",     "\xE2\x86\x93" }, // U+2193
 	{ "deg",      "\xC2\xB0" }, // U+00B0
 	{ "delta",    "\xCE\xB4" }, // U+03B4
+	{ "diams",    "\xE2\x99\xA6" }, // U+2666
 	{ "divide",   "\xC3\xB7" }, // U+00F7
 	{ "eacute",   "\xC3\xA9" }, // U+00E9
 	{ "ecirc",    "\xC3\xAA" }, // U+00EA
 	{ "egrave",   "\xC3\xA8" }, // U+00E8
+	{ "empty",    "\xE2\x88\x85" }, // U+2205
+	{ "emsp",     "\xE2\x80\x83" }, // U+2003
+	{ "ensp",     "\xE2\x80\x82" }, // U+2002
 	{ "epsilon",  "\xCE\xB5" }, // U+03B5
+	{ "equiv",    "\xE2\x89\xA1" }, // U+2261
 	{ "eta",      "\xCE\xB7" }, // U+03B7
 	{ "eth",      "\xC3\xB0" }, // U+00F0
 	{ "euml",     "\xC3\xAB" }, // U+00EB
+	{ "euro",     "\xE2\x82\xAC" }, // U+20AC
+	{ "exist",    "\xE2\x88\x83" }, // U+2203
 	{ "fnof",     "\xC6\x92" }, // U+0192
+	{ "forall",   "\xE2\x88\x80" }, // U+2200
 	{ "frac12",   "\xC2\xBD" }, // U+00BD
 	{ "frac14",   "\xC2\xBC" }, // U+00BC
 	{ "frac34",   "\xC2\xBE" }, // U+00BE
+	{ "frasl",    "\xE2\x81\x84" }, // U+2044
 	{ "gamma",    "\xCE\xB3" }, // U+03B3
+	{ "ge",       "\xE2\x89\xA5" }, // U+2265
 	{ "gt",       ">" },
+	{ "hArr",     "\xE2\x87\x94" }, // U+21D4
+	{ "harr",     "\xE2\x86\x94" }, // U+2194
+	{ "hearts",   "\xE2\x99\xA5" }, // U+2665
+	{ "hellip",   "\xE2\x80\xA6" }, // U+2026
 	{ "iacute",   "\xC3\xAD" }, // U+00ED
 	{ "icirc",    "\xC3\xAE" }, // U+00EE
 	{ "iexcl",    "\xC2\xA1" }, // U+00A1
 	{ "igrave",   "\xC3\xAC" }, // U+00EC
+	{ "image",    "\xE2\x84\x91" }, // U+2111
+	{ "infin",    "\xE2\x88\x9E" }, // U+221E
+	{ "int",      "\xE2\x88\xAB" }, // U+222B
 	{ "iota",     "\xCE\xB9" }, // U+03B9
 	{ "iquest",   "\xC2\xBF" }, // U+00BF
+	{ "isin",     "\xE2\x88\x88" }, // U+2208
 	{ "iuml",     "\xC3\xAF" }, // U+00EF
 	{ "kappa",    "\xCE\xBA" }, // U+03BA
+	{ "lArr",     "\xE2\x87\x90" }, // U+21D0
 	{ "lambda",   "\xCE\xBB" }, // U+03BB
+	{ "lang",     "\xE2\x9F\xA8" }, // U+27E8
 	{ "laquo",    "\xC2\xAB" }, // U+00AB
+	{ "larr",     "\xE2\x86\x90" }, // U+2190
+	{ "lceil",    "\xE2\x8C\x88" }, // U+2308
+	{ "ldquo",    "\xE2\x80\x9C" }, // U+201C
+	{ "le",       "\xE2\x89\xA4" }, // U+2264
+	{ "lfloor",   "\xE2\x8C\x8A" }, // U+230A
+	{ "lowast",   "\xE2\x88\x97" }, // U+2217
+	{ "loz",      "\xE2\x97\x8A" }, // U+25CA
+	{ "lrm",      "\xE2\x80\x8E" }, // U+200E
+	{ "lsaquo",   "\xE2\x80\xB9" }, // U+2039
+	{ "lsquo",    "\xE2\x80\x98" }, // U+2018
 	{ "lt",       "<" },
 	{ "macr",     "\xC2\xAF" }, // U+00AF
+	{ "mdash",    "\xE2\x80\x94" }, // U+2014
 	{ "micro",    "\xC2\xB5" }, // U+00B5
 	{ "middot",   "\xC2\xB7" }, // U+00B7
+	{ "minus",    "\xE2\x88\x92" }, // U+2212
 	{ "mu",       "\xCE\xBC" }, // U+03BC
+	{ "nabla",    "\xE2\x88\x87" }, // U+2207
 	{ "nbsp",     "\xC2\xA0" }, // U+00A0
+	{ "ndash",    "\xE2\x80\x93" }, // U+2013
+	{ "ne",       "\xE2\x89\xA0" }, // U+2260
+	{ "ni",       "\xE2\x88\x8B" }, // U+220B
 	{ "not",      "\xC2\xAC" }, // U+00AC
+	{ "notin",    "\xE2\x88\x89" }, // U+2209
+	{ "nsub",     "\xE2\x8A\x84" }, // U+2284
 	{ "ntilde",   "\xC3\xB1" }, // U+00F1
 	{ "nu",       "\xCE\xBD" }, // U+03BD
 	{ "oacute",   "\xC3\xB3" }, // U+00F3
 	{ "ocirc",    "\xC3\xB4" }, // U+00F4
 	{ "oelig",    "\xC5\x93" }, // U+0153
 	{ "ograve",   "\xC3\xB2" }, // U+00F2
+	{ "oline",    "\xE2\x80\xBE" }, // U+203E
 	{ "omega",    "\xCF\x89" }, // U+03C9
 	{ "omicron",  "\xCE\xBF" }, // U+03BF
+	{ "oplus",    "\xE2\x8A\x95" }, // U+2295
+	{ "or",       "\xE2\x88\xA8" }, // U+2228
 	{ "ordf",     "\xC2\xAA" }, // U+00AA
 	{ "ordm",     "\xC2\xBA" }, // U+00BA
 	{ "oslash",   "\xC3\xB8" }, // U+00F8
 	{ "otilde",   "\xC3\xB5" }, // U+00F5
+	{ "otimes",   "\xE2\x8A\x97" }, // U+2297
 	{ "ouml",     "\xC3\xB6" }, // U+00F6
 	{ "para",     "\xC2\xB6" }, // U+00B6
+	{ "part",     "\xE2\x88\x82" }, // U+2202
+	{ "permil",   "\xE2\x80\xB0" }, // U+2030
+	{ "perp",     "\xE2\x8A\xA5" }, // U+22A5
 	{ "phi",      "\xCF\x86" }, // U+03C6
 	{ "pi",       "\xCF\x80" }, // U+03C0
 	{ "piv",      "\xCF\x96" }, // U+03D6
 	{ "plusmn",   "\xC2\xB1" }, // U+00B1
 	{ "pound",    "\xC2\xA3" }, // U+00A3
+	{ "prime",    "\xE2\x80\xB2" }, // U+2032
+	{ "prod",     "\xE2\x88\x8F" }, // U+220F
+	{ "prop",     "\xE2\x88\x9D" }, // U+221D
 	{ "psi",      "\xCF\x88" }, // U+03C8
 	{ "quot",     "\"" },
+	{ "rArr",     "\xE2\x87\x92" }, // U+21D2
+	{ "radic",    "\xE2\x88\x9A" }, // U+221A
+	{ "rang",     "\xE2\x9F\xA9" }, // U+27E9
 	{ "raquo",    "\xC2\xBB" }, // U+00BB
+	{ "rarr",     "\xE2\x86\x92" }, // U+2192
+	{ "rceil",    "\xE2\x8C\x89" }, // U+2309
+	{ "rdquo",    "\xE2\x80\x9D" }, // U+201D
+	{ "real",     "\xE2\x84\x9C" }, // U+211C
 	{ "reg",      "\xC2\xAE" }, // U+00AE
+	{ "rfloor",   "\xE2\x8C\x8B" }, // U+230B
 	{ "rho",      "\xCF\x81" }, // U+03C1
+	{ "rlm",      "\xE2\x80\x8F" }, // U+200F
+	{ "rsaquo",   "\xE2\x80\xBA" }, // U+203A
+	{ "rsquo",    "\xE2\x80\x99" }, // U+2019
+	{ "sbquo",    "\xE2\x80\x9A" }, // U+201A
 	{ "scaron",   "\xC5\xA1" }, // U+0161
+	{ "sdot",     "\xE2\x8B\x85" }, // U+22C5
 	{ "sect",     "\xC2\xA7" }, // U+00A7
 	{ "shy",      "\xC2\xAD" }, // U+00AD
 	{ "sigma",    "\xCF\x83" }, // U+03C3
+	{ "sim",      "\xE2\x88\xBC" }, // U+223C
+	{ "spades",   "\xE2\x99\xA0" }, // U+2660
+	{ "sub",      "\xE2\x8A\x82" }, // U+2282
+	{ "sube",     "\xE2\x8A\x86" }, // U+2286
+	{ "sum",      "\xE2\x88\x91" }, // U+2211
+	{ "sup",      "\xE2\x8A\x83" }, // U+2283
 	{ "sup1",     "\xC2\xB9" }, // U+00B9
 	{ "sup2",     "\xC2\xB2" }, // U+00B2
 	{ "sup3",     "\xC2\xB3" }, // U+00B3
+	{ "supe",     "\xE2\x8A\x87" }, // U+2287
 	{ "szlig",    "\xC3\x9F" }, // U+00DF
 	{ "tau",      "\xCF\x84" }, // U+03C4
+	{ "there4",   "\xE2\x88\xB4" }, // U+2234
 	{ "theta",    "\xCE\xB8" }, // U+03B8
 	{ "thetasym", "\xCF\x91" }, // U+03D1
+	{ "thinsp",   "\xE2\x80\x89" }, // U+2009
 	{ "thorn",    "\xC3\xBE" }, // U+00FE
 	{ "tilde",    "\xCB\x9C" }, // U+02DC
 	{ "times",    "\xC3\x97" }, // U+00D7
+	{ "trade",    "\xE2\x84\xA2" }, // U+2122
+	{ "uArr",     "\xE2\x87\x91" }, // U+21D1
 	{ "uacute",   "\xC3\xBA" }, // U+00FA
+	{ "uarr",     "\xE2\x86\x91" }, // U+2191
 	{ "ucirc",    "\xC3\xBB" }, // U+00FB
 	{ "ugrave",   "\xC3\xB9" }, // U+00F9
 	{ "uml",      "\xC2\xA8" }, // U+00A8
 	{ "upsih",    "\xCF\x92" }, // U+03D2
 	{ "upsilon",  "\xCF\x85" }, // U+03B5
 	{ "uuml",     "\xC3\xBC" }, // U+00FC
+	{ "weierp",   "\xE2\x84\x98" }, // U+2118
 	{ "xi",       "\xCE\xBE" }, // U+03BE
 	{ "yacute",   "\xC3\xBD" }, // U+00FD
 	{ "yen",      "\xC2\xA5" }, // U+00A5
 	{ "yuml",     "\xC3\xBF" }, // U+00FF
 	{ "zeta",     "\xCE\xB6" }, // U+03B6
+	{ "zwj",      "\xE2\x80\x8D" }, // U+200D
+	{ "zwnj",     "\xE2\x80\x8C" }, // U+200C
 };
 
 const char * resolve_entity(const entity *first, const entity *last, const cainteoir::buffer &data)
@@ -208,7 +300,7 @@ const char * resolve_entity(const entity *first, const entity *last, const caint
 		int pos = (begin + end) / 2;
 		int comp = strncmp((first + pos)->name, data.begin(), data.size());
 
-		if (comp == 0)
+		if (comp == 0 && data.size() == strlen((first + pos)->name))
 			return (first + pos)->value;
 		else if (comp < 0)
 			begin = pos + 1;
