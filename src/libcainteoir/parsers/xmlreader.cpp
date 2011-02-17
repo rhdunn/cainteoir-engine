@@ -311,14 +311,56 @@ const char * resolve_entity(const entity *first, const entity *last, const caint
 	return NULL;
 }
 
-cainteoir::buffer parse_entity(const cainteoir::buffer &entity)
+void write_utf8(char * out, long c)
 {
+	if (c < 0x80)
+		*out++ = c;
+	else if (c < 0x800)
+	{
+		*out++ = 0xC0 | (c >> 6);
+		*out++ = 0x80 + (c & 0x3F);
+	}
+	else if (c < 0x10000)
+	{
+		*out++ = 0xE0 | (c >> 12);
+		*out++ = 0x80 + ((c >> 6) & 0x3F);
+		*out++ = 0x80 + (c & 0x3F);
+	}
+	else if (c < 0x200000)
+	{
+		*out++ = 0xF0 | (c >> 18);
+		*out++ = 0x80 + ((c >> 12) & 0x3F);
+		*out++ = 0x80 + ((c >>  6) & 0x3F);
+		*out++ = 0x80 + (c & 0x3F);
+	}
+	*out = '\0';
+}
+
+std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity)
+{
+	const char * str = entity.begin();
+	if (*str == '#')
+	{
+		char utf8[10];
+		if (*++str == 'x')
+			write_utf8(utf8, strtol(++str, NULL, 16));
+		else
+			write_utf8(utf8, strtol(str, NULL, 10));
+
+		if (utf8[0])
+		{
+			std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(strlen(utf8)));
+			strcpy((char *)data->begin(), utf8);
+			return data;
+		}
+	}
+
 	const char * value = resolve_entity(html_entities, html_entities + (sizeof(html_entities)/sizeof(html_entities[0])), entity);
 	if (value)
-		return cainteoir::buffer(value);
+		return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(value));
 
 	fprintf(stderr, "unrecognised entity '%s'\n", entity.str().c_str());
-	return cainteoir::buffer(NULL, NULL);
+	return std::tr1::shared_ptr<cainteoir::buffer>();
 }
 
 inline bool xmlspace(char c)
@@ -421,7 +463,7 @@ bool cainteoir::xml::reader::read()
 	{
 		mNodeType = textNode;
 
-		std::list<cainteoir::buffer> rope;
+		std::list< std::tr1::shared_ptr<cainteoir::buffer> > rope;
 		long len = 0;
 
 		do
@@ -434,11 +476,11 @@ bool cainteoir::xml::reader::read()
 
 				if (*mCurrent == ';')
 				{
-					cainteoir::buffer entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent));
-					if (!entity.empty())
+					std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent));
+					if (entity)
 					{
 						rope.push_back(entity);
-						len += rope.back().size();
+						len += rope.back()->size();
 					}
 					++mCurrent;
 				}
@@ -447,23 +489,29 @@ bool cainteoir::xml::reader::read()
 			{
 				while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == '<'))
 					++mCurrent;
-				rope.push_back(cainteoir::buffer(startPos, mCurrent));
-				len += rope.back().size();
+				rope.push_back(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent)));
+				len += rope.back()->size();
 			}
 		} while (mCurrent != mData->end() && *mCurrent != '<');
 
 		switch (rope.size())
 		{
-		case 0: mNodeValue = cainteoir::buffer(NULL, NULL); break;
-		case 1: mNodeValue = rope.back(); break;
+		case 0:
+			mNodeValueBuffer = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(NULL, NULL));
+			mNodeValue = *mNodeValueBuffer;
+			break;
+		case 1:
+			mNodeValueBuffer = rope.back();
+			mNodeValue = *mNodeValueBuffer;
+			break;
 		default:
 			{
 				mNodeValueBuffer = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::data_buffer(len));
 				char * startPos = (char *)mNodeValueBuffer->begin();
 				for (auto node = rope.begin(), last = rope.end(); node != last; ++node)
 				{
-					strncpy(startPos, node->begin(), node->size());
-					startPos += node->size();
+					strncpy(startPos, (*node)->begin(), (*node)->size());
+					startPos += (*node)->size();
 				}
 				mNodeValue = *mNodeValueBuffer;
 			} break;

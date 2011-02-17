@@ -41,4 +41,5 @@ if __name__ == '__main__':
 	test_dir('xmlparser/empty-element')
 	test_dir('xmlparser/text')
 	test_dir('xmlparser/html-entity')
+	test_dir('xmlparser/entity')
 	test.summary()
