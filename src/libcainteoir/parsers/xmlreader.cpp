@@ -311,6 +311,16 @@ const char * resolve_entity(const entity *first, const entity *last, const caint
 	return NULL;
 }
 
+cainteoir::buffer parse_entity(const cainteoir::buffer &entity)
+{
+	const char * value = resolve_entity(html_entities, html_entities + (sizeof(html_entities)/sizeof(html_entities[0])), entity);
+	if (value)
+		return cainteoir::buffer(value);
+
+	fprintf(stderr, "unrecognised entity '%s'\n", entity.str().c_str());
+	return cainteoir::buffer(NULL, NULL);
+}
+
 inline bool xmlspace(char c)
 {
 	return c == ' ' || c == '\t' || c == '\r' || c == '\n';
@@ -424,17 +434,13 @@ bool cainteoir::xml::reader::read()
 
 				if (*mCurrent == ';')
 				{
-					cainteoir::buffer entity(startPos+1, mCurrent);
-					++mCurrent;
-
-					const char * value = resolve_entity(html_entities, html_entities + (sizeof(html_entities)/sizeof(html_entities[0])), entity);
-					if (value)
+					cainteoir::buffer entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent));
+					if (!entity.empty())
 					{
-						rope.push_back(cainteoir::buffer(value));
+						rope.push_back(entity);
 						len += rope.back().size();
 					}
-					else
-						fprintf(stderr, "unrecognised entity '%s'\n", entity.str().c_str());
+					++mCurrent;
 				}
 			}
 			else
