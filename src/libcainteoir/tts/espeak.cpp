@@ -115,7 +115,8 @@ public:
 
 	void speak(cainteoir::buffer *text, cainteoir::audio *out)
 	{
-		espeak_Synth(text->begin(), text->size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, out);
+		std::string txt = text->str();
+		espeak_Synth(txt.c_str(), txt.size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, out);
 		espeak_Synchronize();
 	}
 
