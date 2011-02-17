@@ -74,11 +74,11 @@ namespace cainteoir
 	/** @brief XML encoded HTML (XHTML)
 	  * @see   http://www.w3.org/TR/xhtml1/
 	  *
-	  * @param aRoot     The root node of the XHTML XML document.
+	  * @param aData     The document content.
 	  * @param aSubject  The base to use for any relative URIs.
 	  * @param events    The events callback to handle document events.
 	  */
-	void parseXHtmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events);
+	void parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events);
 
 	/** @brief RDF/XML
 	  * @see   http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/

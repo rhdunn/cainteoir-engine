@@ -19,22 +19,22 @@
  */
 
 #include <cainteoir/document.hpp>
-#include <cainteoir/xmlreader.hpp>
 #include "parsers.hpp"
 #include "mimetypes.hpp"
 
 namespace xmldom = cainteoir::xmldom;
-namespace xml = cainteoir::xml;
 namespace rdf = cainteoir::rdf;
 
 bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events)
 {
+	const rdf::uri subject = rdf::uri(aFilename, std::string());
+
 	std::string type = cainteoir::mimetypes()(aFilename);
+	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::mmap_buffer(aFilename));
+
 	if (type == "application/xml")
 	{
-		const rdf::uri subject = rdf::uri(aFilename, std::string());
-
-		xmldom::document doc(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename)));
+		xmldom::document doc(data);
 		xmldom::node root = doc.root();
 
 		if (root == rdf::opf("package"))
@@ -43,7 +43,7 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 			cainteoir::parseOpfDocument(root, subject, events, files);
 		}
 		else if (root == rdf::xhtml("html"))
-			cainteoir::parseXHtmlDocument(root, subject, events);
+			parseXHtmlDocument(data, subject, events);
 		else if (root == rdf::rdf("RDF"))
 			cainteoir::parseRdfXmlDocument(root, subject, events);
 		else if (root == rdf::smil("smil"))
@@ -53,18 +53,8 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 	}
 	else if (type == "application/epub+zip")
 		cainteoir::parseEpubDocument(aFilename, events);
-	else // plain text or html
-	{
-		std::tr1::shared_ptr<cainteoir::buffer> data((new cainteoir::mmap_buffer(aFilename)));
-		xml::reader reader(data);
-
-		while (reader.read()) switch (reader.nodeType())
-		{
-		case xml::reader::textNode:
-			events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::range_buffer(data, reader.nodeValue())));
-			break;
-		}
-	}
+	else
+		parseXHtmlDocument(data, subject, events);
 
 	return true;
 }
