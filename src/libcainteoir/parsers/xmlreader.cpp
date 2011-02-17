@@ -311,6 +311,11 @@ const char * resolve_entity(const entity *first, const entity *last, const caint
 	return NULL;
 }
 
+inline bool xmlspace(char c)
+{
+	return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+}
+
 cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	: mData(aData)
 	, mNodeValue(NULL, NULL)
@@ -318,7 +323,7 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	mCurrent = mData->begin();
 	mNodeType = textNode;
 
-	while (mCurrent != mData->end() && (*mCurrent == ' ' || *mCurrent == '\t' || *mCurrent == '\r' || *mCurrent == '\n'))
+	while (mCurrent != mData->end() && xmlspace(*mCurrent))
 		++mCurrent;
 
 	const char * startPos = mCurrent;
@@ -477,3 +482,9 @@ void cainteoir::xml::reader::read_tag(node_type aType)
 		mNodeValue = cainteoir::buffer(startPos, mCurrent);
 	++mCurrent;
 }
+
+/** References
+  *
+  *    [1] http://www.w3.org/TR/2008/REC-xml-20081126/
+  *        Extensible Markup Language (XML) 1.0 (Fifth Edition)
+  */
