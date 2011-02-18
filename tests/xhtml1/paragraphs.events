@@ -1,4 +1,3 @@
-text(9): """Test File"""
 text(18): """Lorem ipsum dolor."""
 text(18): """Dolor ipsum lorem."""
 text(18): """Ipsum lorem dolor."""
