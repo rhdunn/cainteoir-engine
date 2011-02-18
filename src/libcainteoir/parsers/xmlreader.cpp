@@ -354,10 +354,12 @@ std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &en
 			return data;
 		}
 	}
-
-	const char * value = resolve_entity(html_entities, html_entities + (sizeof(html_entities)/sizeof(html_entities[0])), entity);
-	if (value)
-		return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(value));
+	else
+	{
+		const char * value = resolve_entity(html_entities, html_entities + (sizeof(html_entities)/sizeof(html_entities[0])), entity);
+		if (value)
+			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(value));
+	}
 
 	fprintf(stderr, "unrecognised entity '%s'\n", entity.str().c_str());
 	return std::tr1::shared_ptr<cainteoir::buffer>();
