@@ -23,7 +23,7 @@
 
 namespace xml = cainteoir::xml;
 
-void skipNode(xml::reader & reader, const char * name)
+void skipNode(xml::reader & reader, const std::string & name)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -40,8 +40,11 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
-		if (reader.nodeName().str() == "head")
-			skipNode(reader, "head");
+		{
+			std::string name = reader.nodeName().str();
+			if (name == "head" || name == "script" || name == "style")
+				skipNode(reader, name);
+		}
 		break;
 	case xml::reader::textNode:
 		{
