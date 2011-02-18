@@ -373,6 +373,7 @@ inline bool xmlspace(char c)
 cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	: mData(aData)
 	, mNodeValue(NULL, NULL)
+	, mNodeName(NULL, NULL)
 {
 	mCurrent = mData->begin();
 	mNodeType = textNode;
@@ -398,6 +399,7 @@ bool cainteoir::xml::reader::read()
 	if (mCurrent >= mData->end())
 		return false;
 
+	mNodeName = cainteoir::buffer(NULL, NULL);
 	if (mParseAsText)
 	{
 		mNodeType = textNode;
@@ -532,10 +534,10 @@ void cainteoir::xml::reader::read_tag(node_type aType)
 	if (*(mCurrent - 1) == '/')
 	{
 		mNodeType = tagNode;
-		mNodeValue = cainteoir::buffer(startPos, mCurrent - 1);
+		mNodeName = cainteoir::buffer(startPos, mCurrent - 1);
 	}
 	else
-		mNodeValue = cainteoir::buffer(startPos, mCurrent);
+		mNodeName = cainteoir::buffer(startPos, mCurrent);
 	++mCurrent;
 }
 

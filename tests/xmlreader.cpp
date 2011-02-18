@@ -23,6 +23,21 @@
 
 namespace xml = cainteoir::xml;
 
+const char * node_type_name(xml::reader::node_type type)
+{
+	switch (type)
+	{
+	case xml::reader::beginTagNode:              return "begin-tag";
+	case xml::reader::endTagNode:                return "end-tag";
+	case xml::reader::tagNode:                   return "tag";
+	case xml::reader::processingInstructionNode: return "processing-instruction";
+	case xml::reader::commentNode:               return "comment";
+	case xml::reader::cdataNode:                 return "cdata";
+	case xml::reader::textNode:                  return "text";
+	default:                                     return "unknown";
+	}
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -39,25 +54,15 @@ int main(int argc, char ** argv)
 			switch (reader.nodeType())
 			{
 			case xml::reader::beginTagNode:
-				fprintf(stdout, "|begin-tag| %s\n", reader.nodeValue().str().c_str());
-				break;
 			case xml::reader::endTagNode:
-				fprintf(stdout, "|end-tag| %s\n", reader.nodeValue().str().c_str());
-				break;
 			case xml::reader::tagNode:
-				fprintf(stdout, "|tag| %s\n", reader.nodeValue().str().c_str());
-				break;
 			case xml::reader::processingInstructionNode:
-				fprintf(stdout, "|processing-instruction| %s\n", reader.nodeValue().str().c_str());
+				fprintf(stdout, "|%s| %s\n", node_type_name(reader.nodeType()), reader.nodeName().str().c_str());
 				break;
 			case xml::reader::commentNode:
-				fprintf(stdout, "|comment| \"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
-				break;
 			case xml::reader::cdataNode:
-				fprintf(stdout, "|cdata| \"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
-				break;
 			case xml::reader::textNode:
-				fprintf(stdout, "|text| \"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
+				fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n", node_type_name(reader.nodeType()), reader.nodeValue().str().c_str());
 				break;
 			}
 		}

@@ -46,16 +46,20 @@ namespace cainteoir { namespace xml
 
 		const cainteoir::buffer &nodeValue() const { return mNodeValue; }
 
+		const cainteoir::buffer &nodeName() const { return mNodeName; }
+
 		node_type nodeType() const { return mNodeType; }
 	private:
 		void read_tag(node_type aType);
 
 		std::tr1::shared_ptr<cainteoir::buffer> mData;
-		cainteoir::buffer mNodeValue;
 		std::tr1::shared_ptr<cainteoir::buffer> mNodeValueBuffer;
 		const char * mCurrent;
-		node_type mNodeType;
 		bool mParseAsText;
+
+		cainteoir::buffer mNodeValue;
+		cainteoir::buffer mNodeName;
+		node_type mNodeType;
 	};
 }}
 
