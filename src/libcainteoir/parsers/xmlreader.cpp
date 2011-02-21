@@ -535,10 +535,15 @@ bool cainteoir::xml::reader::read()
 
 void cainteoir::xml::reader::read_tag(node_type aType)
 {
+	while (mCurrent != mData->end() && xmlspace(*mCurrent))
+		++mCurrent;
+
 	mNodeType = aType;
 	const char * startPos = mCurrent;
+
 	while (mCurrent != mData->end() && *mCurrent != '>')
 		++mCurrent;
+
 	if (*(mCurrent - 1) == '/')
 	{
 		mNodeType = tagNode;
