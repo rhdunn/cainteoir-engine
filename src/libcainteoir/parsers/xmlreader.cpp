@@ -541,16 +541,18 @@ void cainteoir::xml::reader::read_tag(node_type aType)
 	mNodeType = aType;
 	const char * startPos = mCurrent;
 
+	while (mCurrent != mData->end() && xmlalnum(*mCurrent))
+		++mCurrent;
+
+	const char * endPos = mCurrent;
+
 	while (mCurrent != mData->end() && *mCurrent != '>')
 		++mCurrent;
 
 	if (*(mCurrent - 1) == '/')
-	{
 		mNodeType = tagNode;
-		mNodeName = cainteoir::buffer(startPos, mCurrent - 1);
-	}
-	else
-		mNodeName = cainteoir::buffer(startPos, mCurrent);
+
+	mNodeName = cainteoir::buffer(startPos, endPos);
 	++mCurrent;
 }
 
