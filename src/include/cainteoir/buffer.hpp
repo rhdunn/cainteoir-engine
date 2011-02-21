@@ -47,6 +47,14 @@ namespace cainteoir
 
 		bool empty() const { return first == last; }
 
+		int compare(const char *str) const
+		{
+			int n = strncmp(str, first, size());
+			if (n == 0)
+				return -(size() - strlen(str));
+			return n;
+		}
+
 		std::string str() const
 		{
 			if (first == last || *first == '\0') return std::string();

@@ -298,9 +298,9 @@ const char * resolve_entity(const entity *first, const entity *last, const caint
 	while (begin <= end)
 	{
 		int pos = (begin + end) / 2;
-		int comp = strncmp((first + pos)->name, data.begin(), data.size());
 
-		if (comp == 0 && data.size() == strlen((first + pos)->name))
+		int comp = data.compare((first + pos)->name);
+		if (comp == 0)
 			return (first + pos)->value;
 		else if (comp < 0)
 			begin = pos + 1;
