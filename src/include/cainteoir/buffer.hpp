@@ -55,6 +55,14 @@ namespace cainteoir
 			return n;
 		}
 
+		int compare(const buffer &str) const
+		{
+			int n = strncmp(str.begin(), first, size());
+			if (n == 0)
+				return -(size() - str.size());
+			return n;
+		}
+
 		std::string str() const
 		{
 			if (first == last || *first == '\0') return std::string();
