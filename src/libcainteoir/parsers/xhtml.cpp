@@ -40,7 +40,9 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
-		if (!reader.nodeName().compare("head") || !reader.nodeName().compare("script") || !reader.nodeName().compare("style"))
+		if (!reader.nodeName().comparei("head") ||
+		    !reader.nodeName().comparei("script") ||
+		    !reader.nodeName().comparei("style"))
 			skipNode(reader, reader.nodeName());
 		break;
 	case xml::reader::textNode:

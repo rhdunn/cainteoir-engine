@@ -23,6 +23,7 @@
 
 #include <cstring>
 #include <string>
+#include <strings.h>
 #include <tr1/memory>
 
 namespace cainteoir
@@ -47,26 +48,26 @@ namespace cainteoir
 
 		bool empty() const { return first == last; }
 
-		int compare(const char *str) const
-		{
-			int n = strncmp(str, first, size());
-			if (n == 0)
-				return -(size() - strlen(str));
-			return n;
-		}
+		int compare(const char *str) const { return compare(str, strlen(str), strncmp); }
 
-		int compare(const buffer &str) const
-		{
-			int n = strncmp(str.begin(), first, size());
-			if (n == 0)
-				return -(size() - str.size());
-			return n;
-		}
+		int compare(const buffer & str) const { return compare(str.begin(), str.size(),  strncmp); }
+
+		int comparei(const char *str) const { return compare(str, strlen(str), strncasecmp); }
+
+		int comparei(const buffer & str) const { return compare(str.begin(), str.size(), strncasecmp); }
 
 		std::string str() const
 		{
 			if (first == last || *first == '\0') return std::string();
 			return std::string(first, last);
+		}
+	private:
+		int compare(const char *str, int len, int (*cmp)(const char *s1, const char *s2, size_t n)) const
+		{
+			int n = cmp(str, first, size());
+			if (n == 0)
+				return -(size() - len);
+			return n;
 		}
 	};
 

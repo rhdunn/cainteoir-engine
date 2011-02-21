@@ -126,8 +126,9 @@ EXTRA_DIST += \
 	tests/rdfxml/schema/* \
 	tests/rdfxml/syntax/* \
 	tests/smil/metadata/* \
-	tests/xhtml1/simple.xhtml \
+	tests/xhtml1/* \
 	tests/xhtml1/metadata/* \
+	tests/html/* \
 	tests/xmlparser/* \
 	tests/*.py
 

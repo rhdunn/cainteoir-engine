@@ -23,17 +23,18 @@ import harness
 
 test = harness.TestSuite('events')
 
-def test_dir(basedir):
+def test_dir(basedir, ext):
 	rootdir = os.path.join(sys.path[0], basedir)
 	testcases = sorted(os.listdir(rootdir))
 
 	print 'testing speech/text events for files in directory %s:' % basedir
 	for filename in testcases:
-		if filename.endswith('.xhtml'):
+		if filename.endswith(ext):
 			srcfile = os.path.join(rootdir, filename)
-			eventfile = os.path.join(rootdir, filename.replace('.xhtml', '.events'))
+			eventfile = os.path.join(rootdir, filename.replace(ext, '.events'))
 			test.check_events(srcfile, eventfile)
 
 if __name__ == '__main__':
-	test_dir('xhtml1')
+	test_dir('xhtml1', ext='.xhtml')
+	test_dir('html',   ext='.html')
 	test.summary()
