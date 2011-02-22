@@ -44,7 +44,7 @@ namespace cainteoir { namespace xml
 
 		bool read();
 
-		const cainteoir::buffer &nodeValue() const { return mNodeValue; }
+		const cainteoir::rope &nodeValue() const { return mNodeValue; }
 
 		const cainteoir::buffer &nodeName() const { return mNodeName; }
 
@@ -53,11 +53,10 @@ namespace cainteoir { namespace xml
 		void read_tag(node_type aType);
 
 		std::tr1::shared_ptr<cainteoir::buffer> mData;
-		std::tr1::shared_ptr<cainteoir::buffer> mNodeValueBuffer;
 		const char * mCurrent;
 		bool mParseAsText;
 
-		cainteoir::buffer mNodeValue;
+		cainteoir::rope mNodeValue;
 		cainteoir::buffer mNodeName;
 		node_type mNodeType;
 	};

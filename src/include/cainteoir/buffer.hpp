@@ -116,19 +116,29 @@ namespace cainteoir
 
 		bool empty() const { return len == 0; }
 
+		void clear()
+		{
+			data.clear();
+			len = 0;
+		}
+
+		rope &operator=(const std::tr1::shared_ptr<cainteoir::buffer> &item)
+		{
+			data.clear();
+			add(item);
+			return *this;
+		}
+
 		void add(const std::tr1::shared_ptr<cainteoir::buffer> &item)
 		{
 			data.push_back(item);
 			len += item->size();
 		}
 
-		std::tr1::shared_ptr<cainteoir::buffer> buffer()
+		std::tr1::shared_ptr<cainteoir::buffer> buffer() const
 		{
-			switch (data.size())
-			{
-			case 0: return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(NULL, NULL));
-			case 1: return data.back();
-			}
+			if (data.size() == 0)
+				return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(NULL, NULL));
 
 			std::tr1::shared_ptr<cainteoir::buffer> temp(new cainteoir::data_buffer(len));
 			char * startPos = (char *)temp->begin();
@@ -138,11 +148,11 @@ namespace cainteoir
 				startPos += (*node)->size();
 			}
 
-			data.clear();
-			data.push_back(temp);
-
+			*const_cast<rope *>(this) = temp;
 			return temp;
 		}
+
+		std::string str() const { return buffer()->str(); }
 	};
 }
 

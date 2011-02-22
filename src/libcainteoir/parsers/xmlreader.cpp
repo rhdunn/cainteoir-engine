@@ -376,7 +376,6 @@ inline bool xmlspace(char c)
 
 cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	: mData(aData)
-	, mNodeValue(NULL, NULL)
 	, mNodeName(NULL, NULL)
 {
 	mCurrent = mData->begin();
@@ -407,7 +406,7 @@ bool cainteoir::xml::reader::read()
 	if (mParseAsText)
 	{
 		mNodeType = textNode;
-		mNodeValue = cainteoir::buffer(mCurrent, mData->end());
+		mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mCurrent, mData->end()));
 		mCurrent = mData->end();
 		return true;
 	}
@@ -427,7 +426,7 @@ bool cainteoir::xml::reader::read()
 				startPos = ++mCurrent;
 				while (mCurrent != mData->end() && !(mCurrent[0] == '-' && mCurrent[1] == '-' && mCurrent[2] == '>'))
 					++mCurrent;
-				mNodeValue = cainteoir::buffer(startPos, mCurrent);
+				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
 				mCurrent += 3;
 			}
 			else if (mCurrent[1] == '[' && mCurrent[2] == 'C' && mCurrent[3] == 'D' && mCurrent[4] == 'A' && mCurrent[5] == 'T' && mCurrent[6] == 'A' && mCurrent[7] == '[')
@@ -437,7 +436,7 @@ bool cainteoir::xml::reader::read()
 				startPos = mCurrent;
 				while (mCurrent != mData->end() && !(mCurrent[0] == ']' && mCurrent[1] == ']' && mCurrent[2] == '>'))
 					++mCurrent;
-				mNodeValue = cainteoir::buffer(startPos, mCurrent);
+				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
 				mCurrent += 3;
 			}
 			else
@@ -446,7 +445,7 @@ bool cainteoir::xml::reader::read()
 				startPos = ++mCurrent;
 				while (mCurrent != mData->end() && *mCurrent != '>')
 					++mCurrent;
-				mNodeValue = cainteoir::buffer(startPos, mCurrent);
+				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
 			}
 			break;
 		case '?':
@@ -454,7 +453,7 @@ bool cainteoir::xml::reader::read()
 			startPos = ++mCurrent;
 			while (mCurrent != mData->end() && (mCurrent[0] != '?' && mCurrent[1] != '>'))
 				++mCurrent;
-			mNodeValue = cainteoir::buffer(startPos, mCurrent);
+			mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
 			++mCurrent;
 			++mCurrent;
 			break;
@@ -470,8 +469,8 @@ bool cainteoir::xml::reader::read()
 	else
 	{
 		mNodeType = textNode;
+		mNodeValue.clear();
 
-		cainteoir::rope text;
 		do
 		{
 			startPos = mCurrent;
@@ -488,7 +487,7 @@ bool cainteoir::xml::reader::read()
 				{
 					std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent));
 					if (entity)
-						text.add(entity);
+						mNodeValue.add(entity);
 					++mCurrent;
 					continue;
 				}
@@ -496,11 +495,8 @@ bool cainteoir::xml::reader::read()
 
 			while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == '<'))
 				++mCurrent;
-			text.add(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent)));
+			mNodeValue.add(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent)));
 		} while (mCurrent != mData->end() && *mCurrent != '<');
-
-		mNodeValueBuffer = text.buffer();
-		mNodeValue = *mNodeValueBuffer;
 	}
 
 	return true;

@@ -47,13 +47,15 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 		break;
 	case xml::reader::textNode:
 		{
-			const char * str = reader.nodeValue().begin();
-			const char * end = reader.nodeValue().end();
+			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
+
+			const char * str = text->begin();
+			const char * end = text->end();
 			while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
 				++str;
 
 			if (str != end)
-				events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::range_buffer(data, reader.nodeValue())));
+				events.text(text);
 		}
 		break;
 	}
