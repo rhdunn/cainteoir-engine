@@ -25,6 +25,7 @@
 #include <string>
 #include <strings.h>
 #include <tr1/memory>
+#include <list>
 
 namespace cainteoir
 {
@@ -102,6 +103,46 @@ namespace cainteoir
 		~xmlstring_buffer();
 	private:
 		const char *data;
+	};
+
+	class rope
+	{
+		std::list< std::tr1::shared_ptr<cainteoir::buffer> > data;
+		std::size_t len;
+	public:
+		rope(): len(0) {}
+
+		std::size_t size() const { return len; }
+
+		bool empty() const { return len == 0; }
+
+		void add(const std::tr1::shared_ptr<cainteoir::buffer> &item)
+		{
+			data.push_back(item);
+			len += item->size();
+		}
+
+		std::tr1::shared_ptr<cainteoir::buffer> buffer()
+		{
+			switch (data.size())
+			{
+			case 0: return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(NULL, NULL));
+			case 1: return data.back();
+			}
+
+			std::tr1::shared_ptr<cainteoir::buffer> temp(new cainteoir::data_buffer(len));
+			char * startPos = (char *)temp->begin();
+			for (auto node = data.begin(), last = data.end(); node != last; ++node)
+			{
+				strncpy(startPos, (*node)->begin(), (*node)->size());
+				startPos += (*node)->size();
+			}
+
+			data.clear();
+			data.push_back(temp);
+
+			return temp;
+		}
 	};
 }
 

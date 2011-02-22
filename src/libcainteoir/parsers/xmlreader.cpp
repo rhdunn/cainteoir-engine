@@ -19,7 +19,6 @@
  */
 
 #include <cainteoir/xmlreader.hpp>
-#include <list>
 
 struct entity
 {
@@ -472,9 +471,7 @@ bool cainteoir::xml::reader::read()
 	{
 		mNodeType = textNode;
 
-		std::list< std::tr1::shared_ptr<cainteoir::buffer> > rope;
-		long len = 0;
-
+		cainteoir::rope text;
 		do
 		{
 			startPos = mCurrent;
@@ -491,10 +488,7 @@ bool cainteoir::xml::reader::read()
 				{
 					std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent));
 					if (entity)
-					{
-						rope.push_back(entity);
-						len += rope.back()->size();
-					}
+						text.add(entity);
 					++mCurrent;
 					continue;
 				}
@@ -502,32 +496,11 @@ bool cainteoir::xml::reader::read()
 
 			while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == '<'))
 				++mCurrent;
-			rope.push_back(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent)));
-			len += rope.back()->size();
+			text.add(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent)));
 		} while (mCurrent != mData->end() && *mCurrent != '<');
 
-		switch (rope.size())
-		{
-		case 0:
-			mNodeValueBuffer = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(NULL, NULL));
-			mNodeValue = *mNodeValueBuffer;
-			break;
-		case 1:
-			mNodeValueBuffer = rope.back();
-			mNodeValue = *mNodeValueBuffer;
-			break;
-		default:
-			{
-				mNodeValueBuffer = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::data_buffer(len));
-				char * startPos = (char *)mNodeValueBuffer->begin();
-				for (auto node = rope.begin(), last = rope.end(); node != last; ++node)
-				{
-					strncpy(startPos, (*node)->begin(), (*node)->size());
-					startPos += (*node)->size();
-				}
-				mNodeValue = *mNodeValueBuffer;
-			} break;
-		}
+		mNodeValueBuffer = text.buffer();
+		mNodeValue = *mNodeValueBuffer;
 	}
 
 	return true;
