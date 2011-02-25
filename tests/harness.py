@@ -29,7 +29,7 @@ class TestSuite:
 		self.failed = 0
 		self.name = name
 
-	def check_command(self, filename, expect, command):
+	def check_command(self, filename, expect, command, test_expect):
 		tmpfile = '/tmp/metadata.txt'
 
 		os.system('CAINTEOIR_DATADIR=%s %s "%s" > %s' % (
@@ -44,29 +44,34 @@ class TestSuite:
 		with open(tmpfile, 'r') as f:
 			got = [ repr(x.replace('<%s' % filename, '<')) for x in f.read().split('\n') if not x == '' ]
 
-		if expected == got:
+		if test_expect == 'expect-pass':
+			ret = expected == got
+		else:
+			ret = expected != got
+
+		if ret:
 			self.passed = self.passed + 1
-			print 'passed'
+			print 'passed [%s]' % test_expect
 		else:
 			self.failed = self.failed + 1
-			print 'failed'
+			print 'failed [%s]' % test_expect
 			print '    %s' % ('>'*75)
 			for line in difflib.unified_diff(expected, got, fromfile='expected', tofile='got'):
 				print '    | %s' % line.replace('\n', '')
 			print '    %s' % ('<'*75)
 
-	def check_metadata(self, filename, expect, formattype, displayas=None):
+	def check_metadata(self, filename, expect, formattype, displayas=None, test_expect='expect-pass'):
 		sys.stdout.write('... checking %s as %s metadata ... ' % ((displayas or filename), formattype))
-		self.check_command(filename=filename, expect=expect,
+		self.check_command(filename=filename, expect=expect, test_expect=test_expect,
 			command='%s --%s' % (os.path.join(sys.path[0], '../src/apps/metadata/metadata'), formattype))
 
-	def check_events(self, filename, expect, displayas=None):
+	def check_events(self, filename, expect, displayas=None, test_expect='expect-pass'):
 		sys.stdout.write('... checking %s as text/speech events ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'events'))
+		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'events'), test_expect=test_expect)
 
-	def check_xmlreader(self, filename, expect, displayas=None):
+	def check_xmlreader(self, filename, expect, displayas=None, test_expect='expect-pass'):
 		sys.stdout.write('... checking %s as xmlreader tags ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'))
+		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'), test_expect=test_expect)
 
 	def summary(self):
 		print

@@ -60,8 +60,27 @@ def test_dir(path, name, prefix):
 				if os.path.exists(n3file):
 					test.check_metadata(testfile, n3file, 'turtle')
 
+def run_tests(name, tests=[]):
+	print 'testing metadata for %s:' % name
+	for doc, nt, expect in tests:
+		test.check_metadata(os.path.join(sys.path[0], doc), os.path.join(sys.path[0], nt), 'ntriple', test_expect=expect)
+
 if __name__ == '__main__':
-	test_dir(path='rdfxml/syntax',   name='RDF/XML', prefix='.rdf')
+	run_tests(name='RDF/XML -- syntax', tests=[
+		('rdfxml/syntax/example02.rdf', 'rdfxml/syntax/example02.nt', 'expect-fail'),
+		('rdfxml/syntax/example05.rdf', 'rdfxml/syntax/example05.nt', 'expect-pass'),
+		('rdfxml/syntax/example07.rdf', 'rdfxml/syntax/example07.nt', 'expect-pass'),
+		('rdfxml/syntax/example10.rdf', 'rdfxml/syntax/example10.nt', 'expect-pass'),
+		('rdfxml/syntax/example11.rdf', 'rdfxml/syntax/example11.nt', 'expect-pass'),
+		('rdfxml/syntax/example12.rdf', 'rdfxml/syntax/example12.nt', 'expect-pass'),
+		('rdfxml/syntax/example14.rdf', 'rdfxml/syntax/example14.nt', 'expect-pass'),
+		('rdfxml/syntax/example15.rdf', 'rdfxml/syntax/example15.nt', 'expect-pass'),
+		('rdfxml/syntax/example16.rdf', 'rdfxml/syntax/example16.nt', 'expect-pass'),
+		('rdfxml/syntax/example17.rdf', 'rdfxml/syntax/example17.nt', 'expect-pass'),
+		('rdfxml/syntax/example18.rdf', 'rdfxml/syntax/example18.nt', 'expect-pass'),
+		('rdfxml/syntax/example19.rdf', 'rdfxml/syntax/example19.nt', 'expect-pass'),
+	])
+
 	test_dir(path='rdfxml/schema',   name='RDF/XML', prefix='.rdf')
 	test_dir(path='xhtml1/metadata', name='XHTML',   prefix='.xhtml')
 	test_dir(path='smil/metadata',   name='SMIL',    prefix='.smil')
