@@ -69,17 +69,21 @@ if __name__ == '__main__':
 	run_tests(name='RDF/XML -- syntax', tests=[
 		('rdfxml/syntax/example02.rdf', 'rdfxml/syntax/example02.nt', 'expect-fail'),
 		('rdfxml/syntax/example05.rdf', 'rdfxml/syntax/example05.nt', 'expect-pass'),
+		('rdfxml/syntax/example06.rdf', 'rdfxml/syntax/example06.nt', 'expect-pass'),
 		('rdfxml/syntax/example07.rdf', 'rdfxml/syntax/example07.nt', 'expect-pass'),
 		('rdfxml/syntax/example08.rdf', 'rdfxml/syntax/example08.nt', 'expect-fail'),
+		('rdfxml/syntax/example09.rdf', 'rdfxml/syntax/example09.nt', 'expect-fail'),
 		('rdfxml/syntax/example10.rdf', 'rdfxml/syntax/example10.nt', 'expect-pass'),
 		('rdfxml/syntax/example11.rdf', 'rdfxml/syntax/example11.nt', 'expect-pass'),
 		('rdfxml/syntax/example12.rdf', 'rdfxml/syntax/example12.nt', 'expect-pass'),
+		('rdfxml/syntax/example13.rdf', 'rdfxml/syntax/example13.nt', 'expect-fail'),
 		('rdfxml/syntax/example14.rdf', 'rdfxml/syntax/example14.nt', 'expect-pass'),
 		('rdfxml/syntax/example15.rdf', 'rdfxml/syntax/example15.nt', 'expect-pass'),
 		('rdfxml/syntax/example16.rdf', 'rdfxml/syntax/example16.nt', 'expect-pass'),
 		('rdfxml/syntax/example17.rdf', 'rdfxml/syntax/example17.nt', 'expect-pass'),
 		('rdfxml/syntax/example18.rdf', 'rdfxml/syntax/example18.nt', 'expect-pass'),
 		('rdfxml/syntax/example19.rdf', 'rdfxml/syntax/example19.nt', 'expect-pass'),
+		('rdfxml/syntax/example20.rdf', 'rdfxml/syntax/example20.nt', 'expect-fail'),
 	])
 
 	test_dir(path='rdfxml/schema',   name='RDF/XML', prefix='.rdf')
