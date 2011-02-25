@@ -70,6 +70,7 @@ if __name__ == '__main__':
 		('rdfxml/syntax/example02.rdf', 'rdfxml/syntax/example02.nt', 'expect-fail'),
 		('rdfxml/syntax/example05.rdf', 'rdfxml/syntax/example05.nt', 'expect-pass'),
 		('rdfxml/syntax/example07.rdf', 'rdfxml/syntax/example07.nt', 'expect-pass'),
+		('rdfxml/syntax/example08.rdf', 'rdfxml/syntax/example08.nt', 'expect-fail'),
 		('rdfxml/syntax/example10.rdf', 'rdfxml/syntax/example10.nt', 'expect-pass'),
 		('rdfxml/syntax/example11.rdf', 'rdfxml/syntax/example11.nt', 'expect-pass'),
 		('rdfxml/syntax/example12.rdf', 'rdfxml/syntax/example12.nt', 'expect-pass'),
