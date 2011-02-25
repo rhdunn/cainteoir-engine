@@ -55,6 +55,8 @@ class TestSuite:
 		else:
 			self.failed = self.failed + 1
 			print 'failed [%s]' % test_expect
+
+		if not ret or test_expect == 'expect-fail':
 			print '    %s' % ('>'*75)
 			for line in difflib.unified_diff(expected, got, fromfile='expected', tofile='got'):
 				print '    | %s' % line.replace('\n', '')
