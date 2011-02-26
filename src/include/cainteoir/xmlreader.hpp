@@ -38,6 +38,7 @@ namespace cainteoir { namespace xml
 			cdataNode,
 			textNode,
 			error,
+			doctypeNode,
 		};
 
 		reader(std::tr1::shared_ptr<cainteoir::buffer> aData);

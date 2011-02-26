@@ -441,11 +441,30 @@ bool cainteoir::xml::reader::read()
 			}
 			else
 			{
-				mNodeType = beginTagNode;
 				startPos = ++mCurrent;
+				while (mCurrent != mData->end() && xmlalnum(*mCurrent))
+					++mCurrent;
+
+				cainteoir::buffer type(startPos, mCurrent);
+
+				while (mCurrent != mData->end() && xmlspace(*mCurrent))
+					++mCurrent;
+				startPos = mCurrent;
+
+				while (mCurrent != mData->end() && xmlalnum(*mCurrent))
+					++mCurrent;
+
+				if (!type.comparei("DOCTYPE"))
+				{
+					mNodeName = cainteoir::buffer(startPos, mCurrent);
+					mNodeType = doctypeNode;
+				}
+				else
+					mNodeType = error;
+
 				while (mCurrent != mData->end() && *mCurrent != '>')
 					++mCurrent;
-				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
+				++mCurrent;
 			}
 			break;
 		case '?':
