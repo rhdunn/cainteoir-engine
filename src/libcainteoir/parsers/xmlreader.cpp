@@ -36,11 +36,22 @@ static const entity xml10_entities[] = {
 
 static const entity html_entities[] = {
 	{ "AElig",    "\xC3\x86" }, // U+00C6
+	{ "AMP",      "&" }, // U+0026
 	{ "Aacute",   "\xC3\x81" }, // U+00C1
+	{ "Abreve",   "\xC4\x82" }, // U+0102
 	{ "Acirc",    "\xC3\x82" }, // U+00C2
+	{ "Acy",      "\xD0\x90" }, // U+0410
+	{ "Afr",      "\xF0\x9D\x94\x84" }, // U+1D504
 	{ "Agrave",   "\xC3\x80" }, // U+00C0
 	{ "Alpha",    "\xCE\x91" }, // U+0391
+	{ "Amacr",    "\xC4\x80" }, // U+0100
+	{ "And",      "\xE2\xA9\x93" }, // U+2A53
+	{ "Aogon",    "\xC4\x84" }, // U+0104
+	{ "Aopf",     "\xF0\x9D\x94\xB8" }, // U+1D538
+	{ "ApplyFunction", "\xE2\x81\xA1" }, // U+2061
 	{ "Aring",    "\xC3\x85" }, // U+00C5
+	{ "Ascr",     "\xF0\x9D\x92\x9C" }, // U+1D49C
+	{ "Assign",   "\xE2\x89\x94" }, // U+2254
 	{ "Atilde",   "\xC3\x83" }, // U+00C3
 	{ "Auml",     "\xC3\x84" }, // U+00C4
 	{ "Beta",     "\xCE\x92" }, // U+0392
