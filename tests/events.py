@@ -17,19 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
-import os
 import harness
 
-test = harness.TestSuite('events')
-
-def run_tests(name, tests=[]):
-	print 'testing events for %s:' % name
-	for doc, events, expect in tests:
-		test.check_events(os.path.join(sys.path[0], doc), os.path.join(sys.path[0], events), test_expect=expect)
-
 if __name__ == '__main__':
-	run_tests(name='HTML -- semantics', tests=[
+	test = harness.TestSuite('events')
+	test.run_tests(name='HTML -- semantics', testtype='events', tests=[
 		('html/semantics/simple.html',  'html/semantics/simple.events', 'expect-pass'),
 		('html/semantics/simple.xhtml', 'html/semantics/simple.events', 'expect-pass'),
 		('html/semantics/with-style.html',  'html/semantics/with-style.events', 'expect-pass'),
@@ -37,13 +29,13 @@ if __name__ == '__main__':
 		('html/semantics/with-style-type.html',  'html/semantics/with-style-type.events', 'expect-pass'),
 		('html/semantics/with-style-type.xhtml', 'html/semantics/with-style-type.events', 'expect-pass'),
 	])
-	run_tests(name='HTML -- scripting', tests=[
+	test.run_tests(name='HTML -- scripting', testtype='events', tests=[
 		('html/scripting/with-script.html',  'html/scripting/with-script.events', 'expect-pass'),
 		('html/scripting/with-script.xhtml', 'html/scripting/with-script.events', 'expect-pass'),
 		('html/scripting/with-script-type.html',  'html/scripting/with-script-type.events', 'expect-pass'),
 		('html/scripting/with-script-type.xhtml', 'html/scripting/with-script-type.events', 'expect-pass'),
 	])
-	run_tests(name='HTML -- sections', tests=[
+	test.run_tests(name='HTML -- sections', testtype='events', tests=[
 		('html/sections/headings.html',  'html/sections/headings.events', 'expect-pass'),
 		('html/sections/headings.xhtml', 'html/sections/headings.events', 'expect-pass'),
 		('html/sections/paragraphs.html',  'html/sections/paragraphs.events', 'expect-pass'),

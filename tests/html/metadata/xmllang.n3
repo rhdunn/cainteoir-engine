@@ -1,0 +1,4 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<> dc:language "fr" .
+<> dc:title "Test Case" .

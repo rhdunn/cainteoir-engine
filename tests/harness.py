@@ -20,6 +20,7 @@
 import os
 import sys
 import difflib
+import zipfile
 
 from datetime import date
 
@@ -74,6 +75,40 @@ class TestSuite:
 	def check_xmlreader(self, filename, expect, displayas=None, test_expect='expect-pass'):
 		sys.stdout.write('... checking %s as xmlreader tags ... ' % (displayas or filename))
 		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'), test_expect=test_expect)
+
+	def run_tests(self, name, testtype, tests=[]):
+		print 'testing %s:' % name
+		if testtype == 'events':
+			for doc, events, expect in tests:
+				self.check_events(os.path.join(sys.path[0], doc), os.path.join(sys.path[0], events), test_expect=expect)
+		elif testtype == 'xmlreader':
+			for doc, events, expect in tests:
+				self.check_xmlreader(os.path.join(sys.path[0], doc), os.path.join(sys.path[0], events), test_expect=expect)
+		else:
+			for doc, nt, expect in tests:
+				self.check_metadata(os.path.join(sys.path[0], doc), os.path.join(sys.path[0], nt), testtype, test_expect=expect)
+
+	def run_epub_tests(self, name, testtype, tests=[]):
+		print 'testing %s:' % name
+		for doc, out, expect in tests:
+			epubfile = '/tmp/test.epub'
+			epubfiles=[
+				('META-INF/container.xml', 'ocf/simple.ocf'),
+				('OEBPS/content.opf', doc),
+				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
+				('OEBPS/test.html', 'html/semantics/simple.xhtml')
+			]
+
+			zf = zipfile.ZipFile(epubfile, mode='w', compression=zipfile.ZIP_STORED)
+			zf.writestr('mimetype', 'application/epub+zip')
+			for location, filename in epubfiles:
+				zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
+			zf.close()
+
+			if testtype == 'events':
+				self.check_events(epubfile, os.path.join(sys.path[0], out), test_expect=expect, displayas='epub://%s' % doc)
+			else:
+				self.check_metadata(epubfile, os.path.join(sys.path[0], out), testtype, test_expect=expect, displayas='epub://%s' % doc)
 
 	def summary(self):
 		print

@@ -17,23 +17,26 @@
 # You should have received a copy of the GNU General Public License
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
-import os
 import harness
 
-test = harness.TestSuite('VorbisComments')
-
-def test_dir(basedir):
-	rootdir = os.path.join(sys.path[0], basedir)
-	testcases = sorted(os.listdir(rootdir))
-
-	print 'testing VorbisComment metadata creation for files in directory %s:' % basedir
-	for filename in testcases:
-		if filename.endswith('.opf'):
-			opffile = os.path.join(rootdir, filename)
-			n3file = os.path.join(rootdir, filename.replace('.opf', '.txt'))
-			test.check_metadata(opffile, n3file, 'vorbis')
-
 if __name__ == '__main__':
-	test_dir('opf/vorbis-comments')
+	test = harness.TestSuite('VorbisComments')
+	test.run_tests(name='Vorbis Comments', testtype='vorbis', tests=[
+		('opf/vorbis-comments/simple.opf', 'opf/vorbis-comments/simple.txt', 'expect-pass'),
+		('opf/vorbis-comments/creator-only.opf', 'opf/vorbis-comments/creator-only.txt', 'expect-pass'),
+		('opf/vorbis-comments/creator-file-as.opf', 'opf/vorbis-comments/creator-file-as.txt', 'expect-pass'),
+		('opf/vorbis-comments/creator-role-aut.opf', 'opf/vorbis-comments/creator-role-aut.txt', 'expect-pass'),
+		('opf/vorbis-comments/creator-roles.opf', 'opf/vorbis-comments/creator-roles.txt', 'expect-pass'),
+		('opf/vorbis-comments/date-only-yyyy.opf', 'opf/vorbis-comments/date-only-yyyy.txt', 'expect-pass'),
+		('opf/vorbis-comments/date-only-yyyy-mm.opf', 'opf/vorbis-comments/date-only-yyyy-mm.txt', 'expect-pass'),
+		('opf/vorbis-comments/date-only-yyyy-mm-dd.opf', 'opf/vorbis-comments/date-only-yyyy-mm-dd.txt', 'expect-pass'),
+		('opf/vorbis-comments/date-created-yyyy.opf', 'opf/vorbis-comments/date-created-yyyy.txt', 'expect-pass'),
+		('opf/vorbis-comments/date-created-yyyy-mm.opf', 'opf/vorbis-comments/date-created-yyyy-mm.txt', 'expect-pass'),
+		('opf/vorbis-comments/date-created-yyyy-mm-dd.opf', 'opf/vorbis-comments/date-created-yyyy-mm-dd.txt', 'expect-pass'),
+		('opf/vorbis-comments/date-published-yyyy.opf', 'opf/vorbis-comments/date-published-yyyy.txt', 'expect-pass'),
+		('opf/vorbis-comments/date-published-yyyy-mm.opf', 'opf/vorbis-comments/date-published-yyyy-mm.txt', 'expect-pass'),
+		('opf/vorbis-comments/date-published-yyyy-mm-dd.opf', 'opf/vorbis-comments/date-published-yyyy-mm-dd.txt', 'expect-pass'),
+		('opf/vorbis-comments/description-only.opf', 'opf/vorbis-comments/description-only.txt', 'expect-pass'),
+		('opf/vorbis-comments/title-only.opf', 'opf/vorbis-comments/title-only.txt', 'expect-pass'),
+	])
 	test.summary()
