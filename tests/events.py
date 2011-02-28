@@ -23,18 +23,30 @@ import harness
 
 test = harness.TestSuite('events')
 
-def test_dir(basedir, ext):
-	rootdir = os.path.join(sys.path[0], basedir)
-	testcases = sorted(os.listdir(rootdir))
-
-	print 'testing speech/text events for files in directory %s:' % basedir
-	for filename in testcases:
-		if filename.endswith(ext):
-			srcfile = os.path.join(rootdir, filename)
-			eventfile = os.path.join(rootdir, filename.replace(ext, '.events'))
-			test.check_events(srcfile, eventfile)
+def run_tests(name, tests=[]):
+	print 'testing events for %s:' % name
+	for doc, events, expect in tests:
+		test.check_events(os.path.join(sys.path[0], doc), os.path.join(sys.path[0], events), test_expect=expect)
 
 if __name__ == '__main__':
-	test_dir('xhtml1', ext='.xhtml')
-	test_dir('html',   ext='.html')
+	run_tests(name='HTML -- semantics', tests=[
+		('html/semantics/simple.html',  'html/semantics/simple.events', 'expect-pass'),
+		('html/semantics/simple.xhtml', 'html/semantics/simple.events', 'expect-pass'),
+		('html/semantics/with-style.html',  'html/semantics/with-style.events', 'expect-pass'),
+		('html/semantics/with-style.xhtml', 'html/semantics/with-style.events', 'expect-pass'),
+		('html/semantics/with-style-type.html',  'html/semantics/with-style-type.events', 'expect-pass'),
+		('html/semantics/with-style-type.xhtml', 'html/semantics/with-style-type.events', 'expect-pass'),
+	])
+	run_tests(name='HTML -- scripting', tests=[
+		('html/scripting/with-script.html',  'html/scripting/with-script.events', 'expect-pass'),
+		('html/scripting/with-script.xhtml', 'html/scripting/with-script.events', 'expect-pass'),
+		('html/scripting/with-script-type.html',  'html/scripting/with-script-type.events', 'expect-pass'),
+		('html/scripting/with-script-type.xhtml', 'html/scripting/with-script-type.events', 'expect-pass'),
+	])
+	run_tests(name='HTML -- sections', tests=[
+		('html/sections/headings.html',  'html/sections/headings.events', 'expect-pass'),
+		('html/sections/headings.xhtml', 'html/sections/headings.events', 'expect-pass'),
+		('html/sections/paragraphs.html',  'html/sections/paragraphs.events', 'expect-pass'),
+		('html/sections/paragraphs.xhtml', 'html/sections/paragraphs.events', 'expect-pass'),
+	])
 	test.summary()
