@@ -57,6 +57,7 @@ src_libcainteoir_libcainteoir_a_SOURCES += \
 	src/libcainteoir/parsers/xml.hpp \
 	src/libcainteoir/parsers/zip.hpp \
 	src/libcainteoir/parsers/xmlreader.cpp \
+	src/libcainteoir/parsers/html-entities.h \
 	src/libcainteoir/parsers/xml.cpp \
 	src/libcainteoir/parsers/xhtml.cpp \
 	src/libcainteoir/parsers/ocf.cpp \
@@ -89,17 +90,17 @@ src_apps_metadata_metadata_SOURCES = src/apps/metadata/main.cpp
 noinst_bin_PROGRAMS += tests/rdfmodel
 
 tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.a
-tests_rdfmodel_SOURCES = tests/rdfmodel.cpp
+tests_rdfmodel_SOURCES = tests/rdfmodel.cpp tests/tester.hpp
 
 noinst_bin_PROGRAMS += tests/ntriple_formatter
 
 tests_ntriple_formatter_LDADD   = src/libcainteoir/libcainteoir.a
-tests_ntriple_formatter_SOURCES = tests/ntriple_formatter.cpp
+tests_ntriple_formatter_SOURCES = tests/ntriple_formatter.cpp tests/tester.hpp
 
 noinst_bin_PROGRAMS += tests/turtle_formatter
 
 tests_turtle_formatter_LDADD   = src/libcainteoir/libcainteoir.a
-tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp
+tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp tests/tester.hpp
 
 noinst_bin_PROGRAMS += tests/events
 
@@ -126,8 +127,6 @@ EXTRA_DIST += \
 	tests/rdfxml/schema/* \
 	tests/rdfxml/syntax/* \
 	tests/smil/metadata/* \
-	tests/xhtml1/* \
-	tests/xhtml1/metadata/* \
 	tests/html/* \
 	tests/xmlparser/* \
 	tests/*.py
