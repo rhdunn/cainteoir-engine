@@ -20,8 +20,17 @@
 
 #include <cainteoir/xmlreader.hpp>
 #include <stdexcept>
+#include <getopt.h>
 
 namespace xml = cainteoir::xml;
+
+static struct option options[] =
+{
+	{ "repeat", required_argument, 0, 'n' },
+	{ "time",   no_argument,       0, 't' },
+	{ "silent", no_argument,       0, 's' },
+	{ 0, 0, 0, 0 }
+};
 
 const char * node_type_name(xml::reader::node_type type)
 {
@@ -43,31 +52,65 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		argc -= 1;
-		argv += 1;
+		int repeatCount = 1;
+		bool time = false;
+		bool silent = false;
+
+		while (1)
+		{
+			int option_index = 0;
+			int c = getopt_long(argc, argv, "n:st", options, &option_index);
+			if (c == -1)
+				break;
+
+			switch (c)
+			{
+			case 'n':
+				repeatCount = atoi(optarg);
+				break;
+			case 's':
+				silent = true;
+				break;
+			case 't':
+				time = true;
+				break;
+			}
+		}
+
+		argc -= optind;
+		argv += optind;
 
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
-		xml::reader reader(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0])));
-		while (reader.read())
+		clock_t start_time = ::clock();
+
+		for (int i = 0; i != repeatCount; ++i)
 		{
-			switch (reader.nodeType())
+			xml::reader reader(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0])));
+			while (reader.read())
 			{
-			case xml::reader::beginTagNode:
-			case xml::reader::endTagNode:
-			case xml::reader::tagNode:
-			case xml::reader::processingInstructionNode:
-			case xml::reader::doctypeNode:
-				fprintf(stdout, "|%s| %s\n", node_type_name(reader.nodeType()), reader.nodeName().str().c_str());
-				break;
-			case xml::reader::commentNode:
-			case xml::reader::cdataNode:
-			case xml::reader::textNode:
-				fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n", node_type_name(reader.nodeType()), reader.nodeValue().str().c_str());
-				break;
+				if (!silent) switch (reader.nodeType())
+				{
+				case xml::reader::beginTagNode:
+				case xml::reader::endTagNode:
+				case xml::reader::tagNode:
+				case xml::reader::processingInstructionNode:
+				case xml::reader::doctypeNode:
+					fprintf(stdout, "|%s| %s\n", node_type_name(reader.nodeType()), reader.nodeName().str().c_str());
+					break;
+				case xml::reader::commentNode:
+				case xml::reader::cdataNode:
+				case xml::reader::textNode:
+					fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n", node_type_name(reader.nodeType()), reader.nodeValue().str().c_str());
+					break;
+				}
 			}
 		}
+
+		clock_t end_time = ::clock();
+		if (time)
+			fprintf(stderr, "elapsed time: %G\n", (float(end_time - start_time) / CLOCKS_PER_SEC));
 	}
 	catch (std::runtime_error &e)
 	{
