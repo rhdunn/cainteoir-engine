@@ -112,6 +112,8 @@ struct document : public cainteoir::document_events
 	bool select_voice(const rdf::uri &predicate, const std::string &value)
 	{
 		const rdf::uri *voice = ::select_voice(m_metadata, predicate, value);
+		if (!voice)
+			return false;
 		return tts.select_voice(m_metadata, *voice);
 	}
 
