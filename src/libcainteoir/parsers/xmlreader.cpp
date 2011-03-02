@@ -26,22 +26,34 @@ struct entity
 	const char * value;
 };
 
-static const entity html_entities[] = {
-#include "html-entities.h"
+struct entity_set
+{
+	const entity * first;
+	const entity * last;
 };
 
-const char * resolve_entity(const entity *first, const entity *last, const cainteoir::buffer &data)
+#include "html-entities.h"
+
+const char * resolve_entity(const entity_set **entities, const cainteoir::buffer &data)
 {
+	char c = *data.begin();
+
+	const entity_set * ent = NULL;
+	if (c >= 'a' && c <= 'z')
+		ent = entities[c - 'a' + 26];
+	else
+		ent = entities[c - 'A'];
+
 	int begin = 0;
-	int end = last - first;
+	int end = ent->last - ent->first;
 
 	while (begin <= end)
 	{
 		int pos = (begin + end) / 2;
 
-		int comp = data.compare((first + pos)->name);
+		int comp = data.compare((ent->first + pos)->name);
 		if (comp == 0)
-			return (first + pos)->value;
+			return (ent->first + pos)->value;
 		else if (comp < 0)
 			begin = pos + 1;
 		else
@@ -96,7 +108,7 @@ std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &en
 	}
 	else
 	{
-		const char * value = resolve_entity(html_entities, html_entities + (sizeof(html_entities)/sizeof(html_entities[0])), entity);
+		const char * value = resolve_entity(html_entities, entity);
 		if (value)
 			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(value));
 	}

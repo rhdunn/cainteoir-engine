@@ -1,4 +1,5 @@
 // Generated from http://svn.whatwg.org/webapps/entities-unicode.inc
+static const entity html_entities_A[] = {
 { "AElig", "\xc3\x86" },
 { "AMP", "&" },
 { "Aacute", "\xc3\x81" },
@@ -18,6 +19,12 @@
 { "Assign", "\xe2\x89\x94" },
 { "Atilde", "\xc3\x83" },
 { "Auml", "\xc3\x84" },
+};
+static const entity_set html_entity_set_A = {
+html_entities_A,
+html_entities_A + (sizeof(html_entities_A) / sizeof(html_entities_A[0]))
+};
+static const entity html_entities_B[] = {
 { "Backslash", "\xe2\x88\x96" },
 { "Barv", "\xe2\xab\xa7" },
 { "Barwed", "\xe2\x8c\x86" },
@@ -30,6 +37,12 @@
 { "Breve", "\xcb\x98" },
 { "Bscr", "\xe2\x84\xac" },
 { "Bumpeq", "\xe2\x89\x8e" },
+};
+static const entity_set html_entity_set_B = {
+html_entities_B,
+html_entities_B + (sizeof(html_entities_B) / sizeof(html_entities_B[0]))
+};
+static const entity html_entities_C[] = {
 { "CHcy", "\xd0\xa7" },
 { "COPY", "\xc2\xa9" },
 { "Cacute", "\xc4\x86" },
@@ -64,6 +77,12 @@
 { "Cscr", "\xf0\x9d\x92\x9e" },
 { "Cup", "\xe2\x8b\x93" },
 { "CupCap", "\xe2\x89\x8d" },
+};
+static const entity_set html_entity_set_C = {
+html_entities_C,
+html_entities_C + (sizeof(html_entities_C) / sizeof(html_entities_C[0]))
+};
+static const entity html_entities_D[] = {
 { "DD", "\xe2\x85\x85" },
 { "DDotrahd", "\xe2\xa4\x91" },
 { "DJcy", "\xd0\x82" },
@@ -118,6 +137,12 @@
 { "Downarrow", "\xe2\x87\x93" },
 { "Dscr", "\xf0\x9d\x92\x9f" },
 { "Dstrok", "\xc4\x90" },
+};
+static const entity_set html_entity_set_D = {
+html_entities_D,
+html_entities_D + (sizeof(html_entities_D) / sizeof(html_entities_D[0]))
+};
+static const entity html_entities_E[] = {
 { "ENG", "\xc5\x8a" },
 { "ETH", "\xc3\x90" },
 { "Eacute", "\xc3\x89" },
@@ -143,6 +168,12 @@
 { "Euml", "\xc3\x8b" },
 { "Exists", "\xe2\x88\x83" },
 { "ExponentialE", "\xe2\x85\x87" },
+};
+static const entity_set html_entity_set_E = {
+html_entities_E,
+html_entities_E + (sizeof(html_entities_E) / sizeof(html_entities_E[0]))
+};
+static const entity html_entities_F[] = {
 { "Fcy", "\xd0\xa4" },
 { "Ffr", "\xf0\x9d\x94\x89" },
 { "FilledSmallSquare", "\xe2\x97\xbc" },
@@ -151,6 +182,12 @@
 { "ForAll", "\xe2\x88\x80" },
 { "Fouriertrf", "\xe2\x84\xb1" },
 { "Fscr", "\xe2\x84\xb1" },
+};
+static const entity_set html_entity_set_F = {
+html_entities_F,
+html_entities_F + (sizeof(html_entities_F) / sizeof(html_entities_F[0]))
+};
+static const entity html_entities_G[] = {
 { "GJcy", "\xd0\x83" },
 { "GT", ">" },
 { "Gamma", "\xce\x93" },
@@ -172,6 +209,12 @@
 { "GreaterTilde", "\xe2\x89\xb3" },
 { "Gscr", "\xf0\x9d\x92\xa2" },
 { "Gt", "\xe2\x89\xab" },
+};
+static const entity_set html_entity_set_G = {
+html_entities_G,
+html_entities_G + (sizeof(html_entities_G) / sizeof(html_entities_G[0]))
+};
+static const entity html_entities_H[] = {
 { "HARDcy", "\xd0\xaa" },
 { "Hacek", "\xcb\x87" },
 { "Hat", "^" },
@@ -184,6 +227,12 @@
 { "Hstrok", "\xc4\xa6" },
 { "HumpDownHump", "\xe2\x89\x8e" },
 { "HumpEqual", "\xe2\x89\x8f" },
+};
+static const entity_set html_entity_set_H = {
+html_entities_H,
+html_entities_H + (sizeof(html_entities_H) / sizeof(html_entities_H[0]))
+};
+static const entity html_entities_I[] = {
 { "IEcy", "\xd0\x95" },
 { "IJlig", "\xc4\xb2" },
 { "IOcy", "\xd0\x81" },
@@ -209,6 +258,12 @@
 { "Itilde", "\xc4\xa8" },
 { "Iukcy", "\xd0\x86" },
 { "Iuml", "\xc3\x8f" },
+};
+static const entity_set html_entity_set_I = {
+html_entities_I,
+html_entities_I + (sizeof(html_entities_I) / sizeof(html_entities_I[0]))
+};
+static const entity html_entities_J[] = {
 { "Jcirc", "\xc4\xb4" },
 { "Jcy", "\xd0\x99" },
 { "Jfr", "\xf0\x9d\x94\x8d" },
@@ -216,6 +271,12 @@
 { "Jscr", "\xf0\x9d\x92\xa5" },
 { "Jsercy", "\xd0\x88" },
 { "Jukcy", "\xd0\x84" },
+};
+static const entity_set html_entity_set_J = {
+html_entities_J,
+html_entities_J + (sizeof(html_entities_J) / sizeof(html_entities_J[0]))
+};
+static const entity html_entities_K[] = {
 { "KHcy", "\xd0\xa5" },
 { "KJcy", "\xd0\x8c" },
 { "Kappa", "\xce\x9a" },
@@ -224,6 +285,12 @@
 { "Kfr", "\xf0\x9d\x94\x8e" },
 { "Kopf", "\xf0\x9d\x95\x82" },
 { "Kscr", "\xf0\x9d\x92\xa6" },
+};
+static const entity_set html_entity_set_K = {
+html_entities_K,
+html_entities_K + (sizeof(html_entities_K) / sizeof(html_entities_K[0]))
+};
+static const entity html_entities_L[] = {
 { "LJcy", "\xd0\x89" },
 { "LT", "<" },
 { "Lacute", "\xc4\xb9" },
@@ -283,6 +350,12 @@
 { "Lsh", "\xe2\x86\xb0" },
 { "Lstrok", "\xc5\x81" },
 { "Lt", "\xe2\x89\xaa" },
+};
+static const entity_set html_entity_set_L = {
+html_entities_L,
+html_entities_L + (sizeof(html_entities_L) / sizeof(html_entities_L[0]))
+};
+static const entity html_entities_M[] = {
 { "Map", "\xe2\xa4\x85" },
 { "Mcy", "\xd0\x9c" },
 { "MediumSpace", "\xe2\x81\x9f" },
@@ -292,6 +365,12 @@
 { "Mopf", "\xf0\x9d\x95\x84" },
 { "Mscr", "\xe2\x84\xb3" },
 { "Mu", "\xce\x9c" },
+};
+static const entity_set html_entity_set_M = {
+html_entities_M,
+html_entities_M + (sizeof(html_entities_M) / sizeof(html_entities_M[0]))
+};
+static const entity html_entities_N[] = {
 { "NJcy", "\xd0\x8a" },
 { "Nacute", "\xc5\x83" },
 { "Ncaron", "\xc5\x87" },
@@ -363,6 +442,12 @@
 { "Nscr", "\xf0\x9d\x92\xa9" },
 { "Ntilde", "\xc3\x91" },
 { "Nu", "\xce\x9d" },
+};
+static const entity_set html_entity_set_N = {
+html_entities_N,
+html_entities_N + (sizeof(html_entities_N) / sizeof(html_entities_N[0]))
+};
+static const entity html_entities_O[] = {
 { "OElig", "\xc5\x92" },
 { "Oacute", "\xc3\x93" },
 { "Ocirc", "\xc3\x94" },
@@ -386,6 +471,12 @@
 { "OverBrace", "\xe2\x8f\x9e" },
 { "OverBracket", "\xe2\x8e\xb4" },
 { "OverParenthesis", "\xe2\x8f\x9c" },
+};
+static const entity_set html_entity_set_O = {
+html_entities_O,
+html_entities_O + (sizeof(html_entities_O) / sizeof(html_entities_O[0]))
+};
+static const entity html_entities_P[] = {
 { "PartialD", "\xe2\x88\x82" },
 { "Pcy", "\xd0\x9f" },
 { "Pfr", "\xf0\x9d\x94\x93" },
@@ -405,10 +496,22 @@
 { "Proportional", "\xe2\x88\x9d" },
 { "Pscr", "\xf0\x9d\x92\xab" },
 { "Psi", "\xce\xa8" },
+};
+static const entity_set html_entity_set_P = {
+html_entities_P,
+html_entities_P + (sizeof(html_entities_P) / sizeof(html_entities_P[0]))
+};
+static const entity html_entities_Q[] = {
 { "QUOT", "\"" },
 { "Qfr", "\xf0\x9d\x94\x94" },
 { "Qopf", "\xe2\x84\x9a" },
 { "Qscr", "\xf0\x9d\x92\xac" },
+};
+static const entity_set html_entity_set_Q = {
+html_entities_Q,
+html_entities_Q + (sizeof(html_entities_Q) / sizeof(html_entities_Q[0]))
+};
+static const entity html_entities_R[] = {
 { "RBarr", "\xe2\xa4\x90" },
 { "REG", "\xc2\xae" },
 { "Racute", "\xc5\x94" },
@@ -453,6 +556,12 @@
 { "Rscr", "\xe2\x84\x9b" },
 { "Rsh", "\xe2\x86\xb1" },
 { "RuleDelayed", "\xe2\xa7\xb4" },
+};
+static const entity_set html_entity_set_R = {
+html_entities_R,
+html_entities_R + (sizeof(html_entities_R) / sizeof(html_entities_R[0]))
+};
+static const entity html_entities_S[] = {
 { "SHCHcy", "\xd0\xa9" },
 { "SHcy", "\xd0\xa8" },
 { "SOFTcy", "\xd0\xac" },
@@ -493,6 +602,12 @@
 { "Superset", "\xe2\x8a\x83" },
 { "SupersetEqual", "\xe2\x8a\x87" },
 { "Supset", "\xe2\x8b\x91" },
+};
+static const entity_set html_entity_set_S = {
+html_entities_S,
+html_entities_S + (sizeof(html_entities_S) / sizeof(html_entities_S[0]))
+};
+static const entity html_entities_T[] = {
 { "THORN", "\xc3\x9e" },
 { "TRADE", "\xe2\x84\xa2" },
 { "TSHcy", "\xd0\x8b" },
@@ -515,6 +630,12 @@
 { "TripleDot", "\xe2\x83\x9b" },
 { "Tscr", "\xf0\x9d\x92\xaf" },
 { "Tstrok", "\xc5\xa6" },
+};
+static const entity_set html_entity_set_T = {
+html_entities_T,
+html_entities_T + (sizeof(html_entities_T) / sizeof(html_entities_T[0]))
+};
+static const entity html_entities_U[] = {
 { "Uacute", "\xc3\x9a" },
 { "Uarr", "\xe2\x86\x9f" },
 { "Uarrocir", "\xe2\xa5\x89" },
@@ -551,6 +672,12 @@
 { "Uscr", "\xf0\x9d\x92\xb0" },
 { "Utilde", "\xc5\xa8" },
 { "Uuml", "\xc3\x9c" },
+};
+static const entity_set html_entity_set_U = {
+html_entities_U,
+html_entities_U + (sizeof(html_entities_U) / sizeof(html_entities_U[0]))
+};
+static const entity html_entities_V[] = {
 { "VDash", "\xe2\x8a\xab" },
 { "Vbar", "\xe2\xab\xab" },
 { "Vcy", "\xd0\x92" },
@@ -568,15 +695,33 @@
 { "Vopf", "\xf0\x9d\x95\x8d" },
 { "Vscr", "\xf0\x9d\x92\xb1" },
 { "Vvdash", "\xe2\x8a\xaa" },
+};
+static const entity_set html_entity_set_V = {
+html_entities_V,
+html_entities_V + (sizeof(html_entities_V) / sizeof(html_entities_V[0]))
+};
+static const entity html_entities_W[] = {
 { "Wcirc", "\xc5\xb4" },
 { "Wedge", "\xe2\x8b\x80" },
 { "Wfr", "\xf0\x9d\x94\x9a" },
 { "Wopf", "\xf0\x9d\x95\x8e" },
 { "Wscr", "\xf0\x9d\x92\xb2" },
+};
+static const entity_set html_entity_set_W = {
+html_entities_W,
+html_entities_W + (sizeof(html_entities_W) / sizeof(html_entities_W[0]))
+};
+static const entity html_entities_X[] = {
 { "Xfr", "\xf0\x9d\x94\x9b" },
 { "Xi", "\xce\x9e" },
 { "Xopf", "\xf0\x9d\x95\x8f" },
 { "Xscr", "\xf0\x9d\x92\xb3" },
+};
+static const entity_set html_entity_set_X = {
+html_entities_X,
+html_entities_X + (sizeof(html_entities_X) / sizeof(html_entities_X[0]))
+};
+static const entity html_entities_Y[] = {
 { "YAcy", "\xd0\xaf" },
 { "YIcy", "\xd0\x87" },
 { "YUcy", "\xd0\xae" },
@@ -587,6 +732,12 @@
 { "Yopf", "\xf0\x9d\x95\x90" },
 { "Yscr", "\xf0\x9d\x92\xb4" },
 { "Yuml", "\xc5\xb8" },
+};
+static const entity_set html_entity_set_Y = {
+html_entities_Y,
+html_entities_Y + (sizeof(html_entities_Y) / sizeof(html_entities_Y[0]))
+};
+static const entity html_entities_Z[] = {
 { "ZHcy", "\xd0\x96" },
 { "Zacute", "\xc5\xb9" },
 { "Zcaron", "\xc5\xbd" },
@@ -597,6 +748,12 @@
 { "Zfr", "\xe2\x84\xa8" },
 { "Zopf", "\xe2\x84\xa4" },
 { "Zscr", "\xf0\x9d\x92\xb5" },
+};
+static const entity_set html_entity_set_Z = {
+html_entities_Z,
+html_entities_Z + (sizeof(html_entities_Z) / sizeof(html_entities_Z[0]))
+};
+static const entity html_entities_a[] = {
 { "aacute", "\xc3\xa1" },
 { "abreve", "\xc4\x83" },
 { "ac", "\xe2\x88\xbe" },
@@ -657,6 +814,12 @@
 { "auml", "\xc3\xa4" },
 { "awconint", "\xe2\x88\xb3" },
 { "awint", "\xe2\xa8\x91" },
+};
+static const entity_set html_entity_set_a = {
+html_entities_a,
+html_entities_a + (sizeof(html_entities_a) / sizeof(html_entities_a[0]))
+};
+static const entity html_entities_b[] = {
 { "bNot", "\xe2\xab\xad" },
 { "backcong", "\xe2\x89\x8c" },
 { "backepsilon", "\xcf\xb6" },
@@ -772,6 +935,12 @@
 { "bumpE", "\xe2\xaa\xae" },
 { "bumpe", "\xe2\x89\x8f" },
 { "bumpeq", "\xe2\x89\x8f" },
+};
+static const entity_set html_entity_set_b = {
+html_entities_b,
+html_entities_b + (sizeof(html_entities_b) / sizeof(html_entities_b[0]))
+};
+static const entity html_entities_c[] = {
 { "cacute", "\xc4\x87" },
 { "cap", "\xe2\x88\xa9" },
 { "capand", "\xe2\xa9\x84" },
@@ -866,6 +1035,12 @@
 { "cwconint", "\xe2\x88\xb2" },
 { "cwint", "\xe2\x88\xb1" },
 { "cylcty", "\xe2\x8c\xad" },
+};
+static const entity_set html_entity_set_c = {
+html_entities_c,
+html_entities_c + (sizeof(html_entities_c) / sizeof(html_entities_c[0]))
+};
+static const entity html_entities_d[] = {
 { "dArr", "\xe2\x87\x93" },
 { "dHar", "\xe2\xa5\xa5" },
 { "dagger", "\xe2\x80\xa0" },
@@ -930,6 +1105,12 @@
 { "dwangle", "\xe2\xa6\xa6" },
 { "dzcy", "\xd1\x9f" },
 { "dzigrarr", "\xe2\x9f\xbf" },
+};
+static const entity_set html_entity_set_d = {
+html_entities_d,
+html_entities_d + (sizeof(html_entities_d) / sizeof(html_entities_d[0]))
+};
+static const entity html_entities_e[] = {
 { "eDDot", "\xe2\xa9\xb7" },
 { "eDot", "\xe2\x89\x91" },
 { "eacute", "\xc3\xa9" },
@@ -992,6 +1173,12 @@
 { "exist", "\xe2\x88\x83" },
 { "expectation", "\xe2\x84\xb0" },
 { "exponentiale", "\xe2\x85\x87" },
+};
+static const entity_set html_entity_set_e = {
+html_entities_e,
+html_entities_e + (sizeof(html_entities_e) / sizeof(html_entities_e[0]))
+};
+static const entity html_entities_f[] = {
 { "fallingdotseq", "\xe2\x89\x92" },
 { "fcy", "\xd1\x84" },
 { "female", "\xe2\x99\x80" },
@@ -1028,6 +1215,12 @@
 { "frasl", "\xe2\x81\x84" },
 { "frown", "\xe2\x8c\xa2" },
 { "fscr", "\xf0\x9d\x92\xbb" },
+};
+static const entity_set html_entity_set_f = {
+html_entities_f,
+html_entities_f + (sizeof(html_entities_f) / sizeof(html_entities_f[0]))
+};
+static const entity html_entities_g[] = {
 { "gE", "\xe2\x89\xa7" },
 { "gEl", "\xe2\xaa\x8c" },
 { "gacute", "\xc7\xb5" },
@@ -1087,6 +1280,12 @@
 { "gtrsim", "\xe2\x89\xb3" },
 { "gvertneqq", "\xe2\x89\xa9\xef\xb8\x80" },
 { "gvnE", "\xe2\x89\xa9\xef\xb8\x80" },
+};
+static const entity_set html_entity_set_g = {
+html_entities_g,
+html_entities_g + (sizeof(html_entities_g) / sizeof(html_entities_g[0]))
+};
+static const entity html_entities_h[] = {
 { "hArr", "\xe2\x87\x94" },
 { "hairsp", "\xe2\x80\x8a" },
 { "half", "\xc2\xbd" },
@@ -1115,6 +1314,12 @@
 { "hstrok", "\xc4\xa7" },
 { "hybull", "\xe2\x81\x83" },
 { "hyphen", "\xe2\x80\x90" },
+};
+static const entity_set html_entity_set_h = {
+html_entities_h,
+html_entities_h + (sizeof(html_entities_h) / sizeof(html_entities_h[0]))
+};
+static const entity html_entities_i[] = {
 { "iacute", "\xc3\xad" },
 { "ic", "\xe2\x81\xa3" },
 { "icirc", "\xc3\xae" },
@@ -1165,6 +1370,12 @@
 { "itilde", "\xc4\xa9" },
 { "iukcy", "\xd1\x96" },
 { "iuml", "\xc3\xaf" },
+};
+static const entity_set html_entity_set_i = {
+html_entities_i,
+html_entities_i + (sizeof(html_entities_i) / sizeof(html_entities_i[0]))
+};
+static const entity html_entities_j[] = {
 { "jcirc", "\xc4\xb5" },
 { "jcy", "\xd0\xb9" },
 { "jfr", "\xf0\x9d\x94\xa7" },
@@ -1173,6 +1384,12 @@
 { "jscr", "\xf0\x9d\x92\xbf" },
 { "jsercy", "\xd1\x98" },
 { "jukcy", "\xd1\x94" },
+};
+static const entity_set html_entity_set_j = {
+html_entities_j,
+html_entities_j + (sizeof(html_entities_j) / sizeof(html_entities_j[0]))
+};
+static const entity html_entities_k[] = {
 { "kappa", "\xce\xba" },
 { "kappav", "\xcf\xb0" },
 { "kcedil", "\xc4\xb7" },
@@ -1183,6 +1400,12 @@
 { "kjcy", "\xd1\x9c" },
 { "kopf", "\xf0\x9d\x95\x9c" },
 { "kscr", "\xf0\x9d\x93\x80" },
+};
+static const entity_set html_entity_set_k = {
+html_entities_k,
+html_entities_k + (sizeof(html_entities_k) / sizeof(html_entities_k[0]))
+};
+static const entity html_entities_l[] = {
 { "lAarr", "\xe2\x87\x9a" },
 { "lArr", "\xe2\x87\x90" },
 { "lAtail", "\xe2\xa4\x9b" },
@@ -1335,6 +1558,12 @@
 { "luruhar", "\xe2\xa5\xa6" },
 { "lvertneqq", "\xe2\x89\xa8\xef\xb8\x80" },
 { "lvnE", "\xe2\x89\xa8\xef\xb8\x80" },
+};
+static const entity_set html_entity_set_l = {
+html_entities_l,
+html_entities_l + (sizeof(html_entities_l) / sizeof(html_entities_l[0]))
+};
+static const entity html_entities_m[] = {
 { "mDDot", "\xe2\x88\xba" },
 { "macr", "\xc2\xaf" },
 { "male", "\xe2\x99\x82" },
@@ -1372,6 +1601,12 @@
 { "mu", "\xce\xbc" },
 { "multimap", "\xe2\x8a\xb8" },
 { "mumap", "\xe2\x8a\xb8" },
+};
+static const entity_set html_entity_set_m = {
+html_entities_m,
+html_entities_m + (sizeof(html_entities_m) / sizeof(html_entities_m[0]))
+};
+static const entity html_entities_n[] = {
 { "nGg", "\xe2\x8b\x99\xcc\xb8" },
 { "nGt", "\xe2\x89\xab\xe2\x83\x92" },
 { "nGtv", "\xe2\x89\xab\xcc\xb8" },
@@ -1537,6 +1772,12 @@
 { "nwarr", "\xe2\x86\x96" },
 { "nwarrow", "\xe2\x86\x96" },
 { "nwnear", "\xe2\xa4\xa7" },
+};
+static const entity_set html_entity_set_n = {
+html_entities_n,
+html_entities_n + (sizeof(html_entities_n) / sizeof(html_entities_n[0]))
+};
+static const entity html_entities_o[] = {
 { "oS", "\xe2\x93\x88" },
 { "oacute", "\xc3\xb3" },
 { "oast", "\xe2\x8a\x9b" },
@@ -1590,6 +1831,12 @@
 { "otimesas", "\xe2\xa8\xb6" },
 { "ouml", "\xc3\xb6" },
 { "ovbar", "\xe2\x8c\xbd" },
+};
+static const entity_set html_entity_set_o = {
+html_entities_o,
+html_entities_o + (sizeof(html_entities_o) / sizeof(html_entities_o[0]))
+};
+static const entity html_entities_p[] = {
 { "par", "\xe2\x88\xa5" },
 { "para", "\xc2\xb6" },
 { "parallel", "\xe2\x88\xa5" },
@@ -1656,6 +1903,12 @@
 { "pscr", "\xf0\x9d\x93\x85" },
 { "psi", "\xcf\x88" },
 { "puncsp", "\xe2\x80\x88" },
+};
+static const entity_set html_entity_set_p = {
+html_entities_p,
+html_entities_p + (sizeof(html_entities_p) / sizeof(html_entities_p[0]))
+};
+static const entity html_entities_q[] = {
 { "qfr", "\xf0\x9d\x94\xae" },
 { "qint", "\xe2\xa8\x8c" },
 { "qopf", "\xf0\x9d\x95\xa2" },
@@ -1666,6 +1919,12 @@
 { "quest", "?" },
 { "questeq", "\xe2\x89\x9f" },
 { "quot", "\"" },
+};
+static const entity_set html_entity_set_q = {
+html_entities_q,
+html_entities_q + (sizeof(html_entities_q) / sizeof(html_entities_q[0]))
+};
+static const entity html_entities_r[] = {
 { "rAarr", "\xe2\x87\x9b" },
 { "rArr", "\xe2\x87\x92" },
 { "rAtail", "\xe2\xa4\x9c" },
@@ -1768,6 +2027,12 @@
 { "rtriltri", "\xe2\xa7\x8e" },
 { "ruluhar", "\xe2\xa5\xa8" },
 { "rx", "\xe2\x84\x9e" },
+};
+static const entity_set html_entity_set_r = {
+html_entities_r,
+html_entities_r + (sizeof(html_entities_r) / sizeof(html_entities_r[0]))
+};
+static const entity html_entities_s[] = {
 { "sacute", "\xc5\x9b" },
 { "sbquo", "\xe2\x80\x9a" },
 { "sc", "\xe2\x89\xbb" },
@@ -1920,6 +2185,12 @@
 { "swarrow", "\xe2\x86\x99" },
 { "swnwar", "\xe2\xa4\xaa" },
 { "szlig", "\xc3\x9f" },
+};
+static const entity_set html_entity_set_s = {
+html_entities_s,
+html_entities_s + (sizeof(html_entities_s) / sizeof(html_entities_s[0]))
+};
+static const entity html_entities_t[] = {
 { "target", "\xe2\x8c\x96" },
 { "tau", "\xcf\x84" },
 { "tbrk", "\xe2\x8e\xb4" },
@@ -1976,6 +2247,12 @@
 { "twixt", "\xe2\x89\xac" },
 { "twoheadleftarrow", "\xe2\x86\x9e" },
 { "twoheadrightarrow", "\xe2\x86\xa0" },
+};
+static const entity_set html_entity_set_t = {
+html_entities_t,
+html_entities_t + (sizeof(html_entities_t) / sizeof(html_entities_t[0]))
+};
+static const entity html_entities_u[] = {
 { "uArr", "\xe2\x87\x91" },
 { "uHar", "\xe2\xa5\xa3" },
 { "uacute", "\xc3\xba" },
@@ -2023,6 +2300,12 @@
 { "uuarr", "\xe2\x87\x88" },
 { "uuml", "\xc3\xbc" },
 { "uwangle", "\xe2\xa6\xa7" },
+};
+static const entity_set html_entity_set_u = {
+html_entities_u,
+html_entities_u + (sizeof(html_entities_u) / sizeof(html_entities_u[0]))
+};
+static const entity html_entities_v[] = {
 { "vArr", "\xe2\x87\x95" },
 { "vBar", "\xe2\xab\xa8" },
 { "vBarv", "\xe2\xab\xa9" },
@@ -2065,6 +2348,12 @@
 { "vsupnE", "\xe2\xab\x8c\xef\xb8\x80" },
 { "vsupne", "\xe2\x8a\x8b\xef\xb8\x80" },
 { "vzigzag", "\xe2\xa6\x9a" },
+};
+static const entity_set html_entity_set_v = {
+html_entities_v,
+html_entities_v + (sizeof(html_entities_v) / sizeof(html_entities_v[0]))
+};
+static const entity html_entities_w[] = {
 { "wcirc", "\xc5\xb5" },
 { "wedbar", "\xe2\xa9\x9f" },
 { "wedge", "\xe2\x88\xa7" },
@@ -2076,6 +2365,12 @@
 { "wr", "\xe2\x89\x80" },
 { "wreath", "\xe2\x89\x80" },
 { "wscr", "\xf0\x9d\x93\x8c" },
+};
+static const entity_set html_entity_set_w = {
+html_entities_w,
+html_entities_w + (sizeof(html_entities_w) / sizeof(html_entities_w[0]))
+};
+static const entity html_entities_x[] = {
 { "xcap", "\xe2\x8b\x82" },
 { "xcirc", "\xe2\x97\xaf" },
 { "xcup", "\xe2\x8b\x83" },
@@ -2100,6 +2395,12 @@
 { "xutri", "\xe2\x96\xb3" },
 { "xvee", "\xe2\x8b\x81" },
 { "xwedge", "\xe2\x8b\x80" },
+};
+static const entity_set html_entity_set_x = {
+html_entities_x,
+html_entities_x + (sizeof(html_entities_x) / sizeof(html_entities_x[0]))
+};
+static const entity html_entities_y[] = {
 { "yacute", "\xc3\xbd" },
 { "yacy", "\xd1\x8f" },
 { "ycirc", "\xc5\xb7" },
@@ -2111,6 +2412,12 @@
 { "yscr", "\xf0\x9d\x93\x8e" },
 { "yucy", "\xd1\x8e" },
 { "yuml", "\xc3\xbf" },
+};
+static const entity_set html_entity_set_y = {
+html_entities_y,
+html_entities_y + (sizeof(html_entities_y) / sizeof(html_entities_y[0]))
+};
+static const entity html_entities_z[] = {
 { "zacute", "\xc5\xba" },
 { "zcaron", "\xc5\xbe" },
 { "zcy", "\xd0\xb7" },
@@ -2124,3 +2431,62 @@
 { "zscr", "\xf0\x9d\x93\x8f" },
 { "zwj", "\xe2\x80\x8d" },
 { "zwnj", "\xe2\x80\x8c" },
+};
+static const entity_set html_entity_set_z = {
+html_entities_z,
+html_entities_z + (sizeof(html_entities_z) / sizeof(html_entities_z[0]))
+};
+static const entity_set * html_entities[] = {
+&html_entity_set_A,
+&html_entity_set_B,
+&html_entity_set_C,
+&html_entity_set_D,
+&html_entity_set_E,
+&html_entity_set_F,
+&html_entity_set_G,
+&html_entity_set_H,
+&html_entity_set_I,
+&html_entity_set_J,
+&html_entity_set_K,
+&html_entity_set_L,
+&html_entity_set_M,
+&html_entity_set_N,
+&html_entity_set_O,
+&html_entity_set_P,
+&html_entity_set_Q,
+&html_entity_set_R,
+&html_entity_set_S,
+&html_entity_set_T,
+&html_entity_set_U,
+&html_entity_set_V,
+&html_entity_set_W,
+&html_entity_set_X,
+&html_entity_set_Y,
+&html_entity_set_Z,
+&html_entity_set_a,
+&html_entity_set_b,
+&html_entity_set_c,
+&html_entity_set_d,
+&html_entity_set_e,
+&html_entity_set_f,
+&html_entity_set_g,
+&html_entity_set_h,
+&html_entity_set_i,
+&html_entity_set_j,
+&html_entity_set_k,
+&html_entity_set_l,
+&html_entity_set_m,
+&html_entity_set_n,
+&html_entity_set_o,
+&html_entity_set_p,
+&html_entity_set_q,
+&html_entity_set_r,
+&html_entity_set_s,
+&html_entity_set_t,
+&html_entity_set_u,
+&html_entity_set_v,
+&html_entity_set_w,
+&html_entity_set_x,
+&html_entity_set_y,
+&html_entity_set_z,
+};
