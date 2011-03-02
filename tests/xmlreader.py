@@ -69,6 +69,7 @@ if __name__ == '__main__':
 		('xmlparser/entity/3byte-utf8-int.xml', 'xmlparser/entity/3byte-utf8-int.tags', 'expect-pass'),
 		('xmlparser/entity/4byte-utf8-int.xml', 'xmlparser/entity/4byte-utf8-int.tags', 'expect-pass'),
 		('xmlparser/entity/invalid-char.xml', 'xmlparser/entity/invalid-char.tags', 'expect-pass'),
+		('xmlparser/entity/unknown.xml', 'xmlparser/entity/unknown.tags', 'expect-pass'),
 		('xmlparser/entity/xml.xml', 'xmlparser/entity/xml.tags', 'expect-pass'),
 		('xmlparser/entity/html.xml', 'xmlparser/entity/html.tags', 'expect-pass'),
 	])

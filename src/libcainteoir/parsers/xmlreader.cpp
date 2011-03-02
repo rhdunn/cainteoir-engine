@@ -41,8 +41,10 @@ const char * resolve_entity(const entity_set **entities, const cainteoir::buffer
 	const entity_set * ent = NULL;
 	if (c >= 'a' && c <= 'z')
 		ent = entities[c - 'a' + 26];
-	else
+	else if (c >= 'A' && c <= 'Z')
 		ent = entities[c - 'A'];
+	else
+		return NULL;
 
 	int begin = 0;
 	int end = ent->last - ent->first;
