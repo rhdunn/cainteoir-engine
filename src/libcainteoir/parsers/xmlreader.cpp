@@ -132,6 +132,7 @@ inline bool xmlspace(char c)
 cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	: mData(aData)
 	, mNodeName(NULL, NULL)
+	, mParseAsText(false)
 {
 	mCurrent = mData->begin();
 	mNodeType = textNode;
@@ -141,10 +142,7 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 
 	const char * startPos = mCurrent;
 	if (*mCurrent == '<' && read() && mNodeType != error)
-	{
 		mCurrent = startPos;
-		mParseAsText = false; // looks like XML or HTML
-	}
 	else
 	{
 		mCurrent = mData->begin();
