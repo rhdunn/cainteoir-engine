@@ -26,7 +26,7 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
-struct speech_impl : public tts::speech
+struct speech_impl : public tts::speech , public tts::callback
 {
 	tts::engine *engine;
 	cainteoir::audio *audio;
@@ -37,7 +37,18 @@ struct speech_impl : public tts::speech
 	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::list<cainteoir::event> &aEvents);
 	~speech_impl();
 
+	/** @name tts::speech */
+	//@{
+
 	void wait();
+
+	//@}
+	/** @name tts::callback */
+	//@{
+
+	void onaudiodata(short *data, int nsamples);
+
+	//@}
 };
 
 void * speak_tts_thread(void *data)
@@ -49,7 +60,7 @@ void * speak_tts_thread(void *data)
 	foreach_iter(event, speak->events)
 	{
 		if (event->type == cainteoir::text_event)
-			speak->engine->speak(event->data.get(), speak->audio);
+			speak->engine->speak(event->data.get(), speak);
 	}
 
 	speak->audio->close();
@@ -71,6 +82,11 @@ speech_impl::~speech_impl()
 void speech_impl::wait()
 {
 	pthread_join(threadId, NULL);
+}
+
+void speech_impl::onaudiodata(short *data, int nsamples)
+{
+	audio->write((const char *)data, nsamples*2);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -130,11 +146,6 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	}
 
 	return false;
-}
-
-void tts::engines::speak(buffer *text, audio *out)
-{
-	active->speak(text, out);
 }
 
 std::auto_ptr<tts::speech> tts::engines::speak(const std::list<event> &events, audio *out)

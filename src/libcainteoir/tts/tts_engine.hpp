@@ -28,6 +28,13 @@
 
 namespace cainteoir { namespace tts
 {
+	struct callback
+	{
+		virtual ~callback() {}
+
+		virtual void onaudiodata(short *data, int nsamples) = 0;
+	};
+
 	struct engine
 	{
 		virtual ~engine() {}
@@ -38,7 +45,7 @@ namespace cainteoir { namespace tts
 
 		virtual bool select_voice(const char *voicename) = 0;
 
-		virtual void speak(buffer *text, audio *out) = 0;
+		virtual void speak(buffer *text, callback *callback) = 0;
 	};
 
 	engine *create_espeak_engine(rdf::graph &aMetadata, std::string &uri);

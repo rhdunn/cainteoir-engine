@@ -28,10 +28,10 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
 {
 	if (!wav) return 0;
 
-	cainteoir::audio *out = (cainteoir::audio *)events->user_data;
+	cainteoir::tts::callback *callback = (cainteoir::tts::callback *)events->user_data;
 
 	if (numsamples > 0)
-		out->write((const char *)wav, numsamples*2);
+		callback->onaudiodata(wav, numsamples);
 
 	return 0;
 }
@@ -113,10 +113,10 @@ public:
 		return espeak_SetVoiceByName(voicename) == EE_OK;
 	}
 
-	void speak(cainteoir::buffer *text, cainteoir::audio *out)
+	void speak(cainteoir::buffer *text, cainteoir::tts::callback *callback)
 	{
 		std::string txt = text->str();
-		espeak_Synth(txt.c_str(), txt.size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, out);
+		espeak_Synth(txt.c_str(), txt.size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, callback);
 		espeak_Synchronize();
 	}
 
