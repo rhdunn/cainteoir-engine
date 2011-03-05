@@ -35,6 +35,9 @@ namespace cainteoir { namespace tts
 	{
 		virtual ~speech() {}
 
+		virtual bool is_speaking() const = 0;
+
+		virtual void stop() = 0;
 		virtual void wait() = 0;
 	};
 

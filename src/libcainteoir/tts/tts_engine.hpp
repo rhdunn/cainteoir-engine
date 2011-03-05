@@ -28,9 +28,18 @@
 
 namespace cainteoir { namespace tts
 {
+	enum state
+	{
+		stopped,
+		speaking,
+		paused,
+	};
+
 	struct callback
 	{
 		virtual ~callback() {}
+
+		virtual tts::state state() const = 0;
 
 		virtual void onaudiodata(short *data, int nsamples) = 0;
 	};

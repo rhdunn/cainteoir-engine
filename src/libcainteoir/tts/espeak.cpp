@@ -26,9 +26,10 @@ namespace rql = cainteoir::rdf::query;
 
 static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
 {
-	if (!wav) return 0;
-
 	cainteoir::tts::callback *callback = (cainteoir::tts::callback *)events->user_data;
+	if (!callback) return 0;
+
+	if (callback->state() == cainteoir::tts::stopped) return 1;
 
 	if (numsamples > 0)
 		callback->onaudiodata(wav, numsamples);

@@ -32,19 +32,27 @@ struct speech_impl : public tts::speech , public tts::callback
 	cainteoir::audio *audio;
 	std::list<cainteoir::event> events;
 
+	tts::state speechState;
 	pthread_t threadId;
 
 	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::list<cainteoir::event> &aEvents);
 	~speech_impl();
 
+	void finished();
+
 	/** @name tts::speech */
 	//@{
 
+	bool is_speaking() const;
+
+	void stop();
 	void wait();
 
 	//@}
 	/** @name tts::callback */
 	//@{
+
+	tts::state state() const;
 
 	void onaudiodata(short *data, int nsamples);
 
@@ -59,11 +67,15 @@ void * speak_tts_thread(void *data)
 
 	foreach_iter(event, speak->events)
 	{
+		if (speak->state() == tts::stopped)
+			break;
+
 		if (event->type == cainteoir::text_event)
 			speak->engine->speak(event->data.get(), speak);
 	}
 
 	speak->audio->close();
+	speak->finished();
 	return NULL;
 }
 
@@ -71,6 +83,7 @@ speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const s
 	: engine(aEngine)
 	, audio(aAudio)
 	, events(aEvents)
+	, speechState(cainteoir::tts::speaking)
 {
 	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)this);
 }
@@ -79,9 +92,31 @@ speech_impl::~speech_impl()
 {
 }
 
+void speech_impl::finished()
+{
+	speechState = cainteoir::tts::stopped;
+}
+
+bool speech_impl::is_speaking() const
+{
+	return state() == cainteoir::tts::speaking;
+}
+
+void speech_impl::stop()
+{
+	finished();
+	pthread_join(threadId, NULL);
+}
+
 void speech_impl::wait()
 {
 	pthread_join(threadId, NULL);
+	finished();
+}
+
+tts::state speech_impl::state() const
+{
+	return speechState;
 }
 
 void speech_impl::onaudiodata(short *data, int nsamples)

@@ -25,6 +25,12 @@
 #include <cstdio>
 #include <memory>
 #include <getopt.h>
+#include <cmath>
+
+#include <termios.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
 
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
@@ -48,6 +54,55 @@ static struct option options[] =
 	{ "metadata", no_argument,       0, ARG_METADATA },
 	{ 0, 0, 0, 0 }
 };
+
+bool kbhit(void)
+{
+	struct termios oldt, newt;
+	int ch;
+	int oldf;
+
+	tcgetattr(STDIN_FILENO, &oldt);
+	newt = oldt;
+	newt.c_lflag &= ~(ICANON | ECHO);
+	tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+	oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
+	fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
+
+	ch = getchar();
+
+	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+	fcntl(STDIN_FILENO, F_SETFL, oldf);
+
+	if (ch != EOF)
+	{
+		ungetc(ch, stdin);
+		return true;
+	}
+
+	return false;
+}
+void format_time(char *s, int n, double seconds)
+{
+	double minutes = floor(seconds / 60.0);
+	seconds = seconds - (minutes * 60.0);
+
+	double hours = floor(minutes / 60.0);
+	minutes = minutes - (hours * 60.0);
+
+	snprintf(s, n, "%02.0f:%02.0f:%02.0f", hours, minutes, seconds);
+}
+
+void status_line(time_t start, const char *state)
+{
+	double elapsed = difftime(time(NULL), start);
+
+	char time[80];
+	format_time(time, 80, elapsed);
+
+	fprintf(stdout, " : %s [%s]                         \r", time, state);
+	fflush(stdout);
+}
 
 std::string select_value(const rdf::graph &aMetadata, const rdf::uri &uri, const rdf::uri &predicate)
 {
@@ -213,8 +268,10 @@ int main(int argc, char ** argv)
 		int frequency = doc.tts.get_frequency();
 
 		std::auto_ptr<cainteoir::audio> out;
+		const char *state;
 		if (outformat || outfile)
 		{
+			state = "recording";
 			std::stringstream file;
 
 			if (outfile)
@@ -240,10 +297,30 @@ int main(int argc, char ** argv)
 				throw std::runtime_error("unsupported audio file format");
 		}
 		else
+		{
+			state = "reading";
 			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency);
+		}
 
-		std::auto_ptr<cainteoir::tts::speech> speaking = doc.tts.speak(doc.m_events, out.get());
-		speaking->wait();
+		std::auto_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_events, out.get());
+		time_t start = time(NULL);
+
+		while (speech->is_speaking())
+		{
+			status_line(start, state);
+
+			if (kbhit()) switch (fgetc(stdin))
+			{
+			case 'q':
+				speech->stop();
+				break;
+			}
+			else
+				usleep(100);
+		}
+
+		status_line(start, "stopped");
+		fprintf(stdout, "\n");
 	}
 	catch (std::runtime_error &e)
 	{
