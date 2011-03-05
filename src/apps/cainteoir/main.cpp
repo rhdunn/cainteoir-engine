@@ -93,10 +93,8 @@ void format_time(char *s, int n, double seconds)
 	snprintf(s, n, "%02.0f:%02.0f:%02.0f", hours, minutes, seconds);
 }
 
-void status_line(time_t start, const char *state)
+void status_line(double elapsed, const char *state)
 {
-	double elapsed = difftime(time(NULL), start);
-
 	char time[80];
 	format_time(time, 80, elapsed);
 
@@ -303,11 +301,9 @@ int main(int argc, char ** argv)
 		}
 
 		std::auto_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_events, out.get());
-		time_t start = time(NULL);
-
 		while (speech->is_speaking())
 		{
-			status_line(start, state);
+			status_line(speech->elapsed(), state);
 
 			if (kbhit()) switch (fgetc(stdin))
 			{
@@ -319,7 +315,7 @@ int main(int argc, char ** argv)
 				usleep(100);
 		}
 
-		status_line(start, "stopped");
+		status_line(speech->elapsed(), "stopped");
 		fprintf(stdout, "\n");
 	}
 	catch (std::runtime_error &e)

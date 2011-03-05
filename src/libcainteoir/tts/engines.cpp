@@ -34,6 +34,7 @@ struct speech_impl : public tts::speech , public tts::callback
 
 	tts::state speechState;
 	pthread_t threadId;
+	time_t startTime;
 
 	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::list<cainteoir::event> &aEvents);
 	~speech_impl();
@@ -47,6 +48,8 @@ struct speech_impl : public tts::speech , public tts::callback
 
 	void stop();
 	void wait();
+
+	double elapsed() const;
 
 	//@}
 	/** @name tts::callback */
@@ -84,6 +87,7 @@ speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const s
 	, audio(aAudio)
 	, events(aEvents)
 	, speechState(cainteoir::tts::speaking)
+	, startTime(time(NULL))
 {
 	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)this);
 }
@@ -112,6 +116,11 @@ void speech_impl::wait()
 {
 	pthread_join(threadId, NULL);
 	finished();
+}
+
+double speech_impl::elapsed() const
+{
+	return difftime(time(NULL), startTime);
 }
 
 tts::state speech_impl::state() const
