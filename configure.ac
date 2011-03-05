@@ -21,6 +21,18 @@ AC_CHECK_HEADERS([getopt.h])
 AC_CHECK_FUNCS([getopt_long])
 
 dnl ================================================================
+dnl pthread checks.
+dnl ================================================================
+
+AC_CHECK_HEADERS([pthread.h])
+AC_CHECK_LIB( pthread, pthread_create, [],
+    [LDFLAGS="-pthread $LDFLAGS"
+     AC_TRY_LINK([char pthread_create();],
+         pthread_create();,
+         [], [AC_MSG_ERROR([Missing pthread])])
+    ])
+
+dnl ================================================================
 dnl libmagic checks.
 dnl ================================================================
 

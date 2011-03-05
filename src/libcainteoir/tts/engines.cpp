@@ -26,6 +26,36 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
+struct speak_data
+{
+	tts::engine *engine;
+	cainteoir::audio *audio;
+	std::list<cainteoir::event> events;
+
+	speak_data(tts::engine *aEngine, cainteoir::audio *aAudio, const std::list<cainteoir::event> &aEvents)
+		: engine(aEngine)
+		, audio(aAudio)
+		, events(aEvents)
+	{
+	}
+};
+
+void * speak_tts_thread(void *data)
+{
+	speak_data *speak = (speak_data *)data;
+
+	speak->audio->open();
+
+	foreach_iter(event, speak->events)
+	{
+		if (event->type == cainteoir::text_event)
+			speak->engine->speak(event->data.get(), speak->audio);
+	}
+
+	speak->audio->close();
+	delete speak;
+}
+
 tts::engines::engines(rdf::graph &metadata)
 {
 	std::string uri;
@@ -90,11 +120,7 @@ void tts::engines::speak(buffer *text, audio *out)
 
 void tts::engines::speak(const std::list<event> &events, audio *out)
 {
-	out->open();
-	foreach_iter(event, events)
-	{
-		if (event->type == cainteoir::text_event)
-			speak(event->data.get(), out);
-	}
-	out->close();
+	pthread_t threadId;
+	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)new speak_data(active, out, events));
+	pthread_join(threadId, NULL);
 }
