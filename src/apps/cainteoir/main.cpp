@@ -55,7 +55,7 @@ static struct option options[] =
 	{ 0, 0, 0, 0 }
 };
 
-bool kbhit(void)
+int termchar()
 {
 	struct termios oldt, newt;
 	int ch;
@@ -74,13 +74,7 @@ bool kbhit(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 	fcntl(STDIN_FILENO, F_SETFL, oldf);
 
-	if (ch != EOF)
-	{
-		ungetc(ch, stdin);
-		return true;
-	}
-
-	return false;
+	return ch;
 }
 void format_time(char *s, int n, double seconds)
 {
@@ -305,14 +299,15 @@ int main(int argc, char ** argv)
 		{
 			status_line(speech->elapsed(), state);
 
-			if (kbhit()) switch (fgetc(stdin))
+			switch (termchar())
 			{
 			case 'q':
 				speech->stop();
 				break;
-			}
-			else
+			default:
 				usleep(100);
+				break;
+			}
 		}
 
 		status_line(speech->elapsed(), "stopped");
