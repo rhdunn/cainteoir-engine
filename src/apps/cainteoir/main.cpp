@@ -242,7 +242,8 @@ int main(int argc, char ** argv)
 		else
 			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency);
 
-		doc.tts.speak(doc.m_events, out.get());
+		std::auto_ptr<cainteoir::tts::speech> speaking = doc.tts.speak(doc.m_events, out.get());
+		speaking->wait();
 	}
 	catch (std::runtime_error &e)
 	{

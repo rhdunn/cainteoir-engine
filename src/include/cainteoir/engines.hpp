@@ -31,6 +31,13 @@ namespace cainteoir { namespace tts
 {
 	struct engine;
 
+	struct speech
+	{
+		virtual void wait() = 0;
+
+		virtual ~speech() {}
+	};
+
 	class engines
 	{
 	public:
@@ -44,7 +51,7 @@ namespace cainteoir { namespace tts
 		bool select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice);
 
 		void speak(buffer *text, audio *out);
-		void speak(const std::list<event> &events, audio *out);
+		std::auto_ptr<speech> speak(const std::list<event> &events, audio *out);
 	private:
 		std::map<std::string, engine *> enginelist;
 		engine *active;

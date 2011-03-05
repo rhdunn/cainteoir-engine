@@ -26,23 +26,23 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
-struct speak_data
+struct speech_impl : public tts::speech
 {
 	tts::engine *engine;
 	cainteoir::audio *audio;
 	std::list<cainteoir::event> events;
 
-	speak_data(tts::engine *aEngine, cainteoir::audio *aAudio, const std::list<cainteoir::event> &aEvents)
-		: engine(aEngine)
-		, audio(aAudio)
-		, events(aEvents)
-	{
-	}
+	pthread_t threadId;
+
+	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::list<cainteoir::event> &aEvents);
+	~speech_impl();
+
+	void wait();
 };
 
 void * speak_tts_thread(void *data)
 {
-	speak_data *speak = (speak_data *)data;
+	speech_impl *speak = (speech_impl *)data;
 
 	speak->audio->open();
 
@@ -53,8 +53,27 @@ void * speak_tts_thread(void *data)
 	}
 
 	speak->audio->close();
-	delete speak;
+	return NULL;
 }
+
+speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::list<cainteoir::event> &aEvents)
+	: engine(aEngine)
+	, audio(aAudio)
+	, events(aEvents)
+{
+	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)this);
+}
+
+speech_impl::~speech_impl()
+{
+}
+
+void speech_impl::wait()
+{
+	pthread_join(threadId, NULL);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 
 tts::engines::engines(rdf::graph &metadata)
 {
@@ -118,9 +137,7 @@ void tts::engines::speak(buffer *text, audio *out)
 	active->speak(text, out);
 }
 
-void tts::engines::speak(const std::list<event> &events, audio *out)
+std::auto_ptr<tts::speech> tts::engines::speak(const std::list<event> &events, audio *out)
 {
-	pthread_t threadId;
-	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)new speak_data(active, out, events));
-	pthread_join(threadId, NULL);
+	return std::auto_ptr<tts::speech>(new speech_impl(active, out, events));
 }
