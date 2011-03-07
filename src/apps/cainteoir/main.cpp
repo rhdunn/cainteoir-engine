@@ -314,7 +314,7 @@ int main(int argc, char ** argv)
 				speech->stop();
 				break;
 			default:
-				usleep(100);
+				usleep(250);
 				break;
 			}
 		}
