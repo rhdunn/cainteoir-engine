@@ -26,7 +26,7 @@ namespace rql = cainteoir::rdf::query;
 
 static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
 {
-	cainteoir::tts::callback *callback = (cainteoir::tts::callback *)events->user_data;
+	cainteoir::tts::engine_callback *callback = (cainteoir::tts::engine_callback *)events->user_data;
 	if (!callback) return 0;
 
 	if (callback->state() == cainteoir::tts::stopped) return 1;
@@ -114,7 +114,7 @@ public:
 		return espeak_SetVoiceByName(voicename) == EE_OK;
 	}
 
-	void speak(cainteoir::buffer *text, cainteoir::tts::callback *callback)
+	void speak(cainteoir::buffer *text, cainteoir::tts::engine_callback *callback)
 	{
 		std::string txt = text->str();
 		espeak_Synth(txt.c_str(), txt.size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, callback);

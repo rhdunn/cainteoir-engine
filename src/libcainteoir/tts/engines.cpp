@@ -26,7 +26,7 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
-struct speech_impl : public tts::speech , public tts::callback
+struct speech_impl : public tts::speech , public tts::engine_callback
 {
 	tts::engine *engine;
 	cainteoir::audio *audio;
