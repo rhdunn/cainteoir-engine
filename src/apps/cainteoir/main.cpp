@@ -76,6 +76,7 @@ int termchar()
 
 	return ch;
 }
+
 void format_time(char *s, int n, double seconds)
 {
 	double minutes = floor(seconds / 60.0);
@@ -92,7 +93,12 @@ void status_line(double elapsed, size_t size, size_t pos, const char *state)
 	char time[80];
 	format_time(time, 80, elapsed);
 
-	fprintf(stdout, " : %s [%.2f%%] -- %zu of %zu -- %s                         \r", time, (double(pos)/size*100.0), pos, size, state);
+#define HIDE_CURSOR "\033[?25l"
+#define SHOW_CURSOR "\033[?25h"
+	fprintf(stdout, HIDE_CURSOR " : %s [%.2f%%] : %zu of %zu : %s     \r" SHOW_CURSOR, time, (double(pos)/size*100.0), pos, size, state);
+#undef  SHOW_CURSOR
+#undef  HIDE_CURSOR
+
 	fflush(stdout);
 }
 
