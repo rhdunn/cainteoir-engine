@@ -41,6 +41,8 @@ namespace cainteoir { namespace tts
 		virtual void wait() = 0;
 
 		virtual double elapsed() const = 0;
+
+		virtual size_t position() const = 0;
 	};
 
 	class engines

@@ -87,12 +87,12 @@ void format_time(char *s, int n, double seconds)
 	snprintf(s, n, "%02.0f:%02.0f:%02.0f", hours, minutes, seconds);
 }
 
-void status_line(double elapsed, const char *state)
+void status_line(double elapsed, size_t size, size_t pos, const char *state)
 {
 	char time[80];
 	format_time(time, 80, elapsed);
 
-	fprintf(stdout, " : %s [%s]                         \r", time, state);
+	fprintf(stdout, " : %s [%.2f%%] -- %zu of %zu -- %s                         \r", time, (double(pos)/size*100.0), pos, size, state);
 	fflush(stdout);
 }
 
@@ -295,10 +295,12 @@ int main(int argc, char ** argv)
 			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency);
 		}
 
+		size_t length = doc.m_doc->length();
+
 		std::auto_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get());
 		while (speech->is_speaking())
 		{
-			status_line(speech->elapsed(), state);
+			status_line(speech->elapsed(), length, speech->position(), state);
 
 			switch (termchar())
 			{
@@ -311,7 +313,7 @@ int main(int argc, char ** argv)
 			}
 		}
 
-		status_line(speech->elapsed(), "stopped");
+		status_line(speech->elapsed(), length, speech->position(), "stopped");
 		fprintf(stdout, "\n");
 	}
 	catch (std::runtime_error &e)

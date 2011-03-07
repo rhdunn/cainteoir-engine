@@ -38,10 +38,13 @@ struct speech_impl : public tts::speech , public tts::callback
 	time_t startTime;
 	double elapsedTime;
 
+	size_t currentOffset;
+
 	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc);
 	~speech_impl();
 
 	void started();
+	void progress(size_t n);
 	void finished();
 
 	/** @name tts::speech */
@@ -53,6 +56,8 @@ struct speech_impl : public tts::speech , public tts::callback
 	void wait();
 
 	double elapsed() const;
+
+	size_t position() const;
 
 	//@}
 	/** @name tts::callback */
@@ -72,12 +77,16 @@ void * speak_tts_thread(void *data)
 	speak->audio->open();
 	speak->started();
 
+	size_t n = 0;
 	foreach_iter(node, speak->doc->children())
 	{
 		if (speak->state() == tts::stopped)
 			break;
 
 		speak->engine->speak(node->get(), speak);
+
+		n += (*node)->size();
+		speak->progress(n);
 	}
 
 	speak->audio->close();
@@ -103,6 +112,12 @@ void speech_impl::started()
 {
 	startTime = time(NULL);
 	elapsedTime = 0.0;
+	currentOffset = 0;
+}
+
+void speech_impl::progress(size_t n)
+{
+	currentOffset = n;
 }
 
 void speech_impl::finished()
@@ -132,6 +147,11 @@ double speech_impl::elapsed() const
 	if (is_speaking())
 		const_cast<speech_impl *>(this)->elapsedTime = difftime(time(NULL), startTime);
 	return elapsedTime;
+}
+
+size_t speech_impl::position() const
+{
+	return currentOffset;
 }
 
 tts::state speech_impl::state() const
