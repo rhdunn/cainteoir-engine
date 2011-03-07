@@ -34,11 +34,14 @@ struct speech_impl : public tts::speech , public tts::callback
 
 	tts::state speechState;
 	pthread_t threadId;
+
 	time_t startTime;
+	double elapsedTime;
 
 	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc);
 	~speech_impl();
 
+	void started();
 	void finished();
 
 	/** @name tts::speech */
@@ -67,6 +70,7 @@ void * speak_tts_thread(void *data)
 	speech_impl *speak = (speech_impl *)data;
 
 	speak->audio->open();
+	speak->started();
 
 	foreach_iter(node, speak->doc->children())
 	{
@@ -86,13 +90,19 @@ speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const s
 	, audio(aAudio)
 	, doc(aDoc)
 	, speechState(cainteoir::tts::speaking)
-	, startTime(time(NULL))
 {
+	started();
 	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)this);
 }
 
 speech_impl::~speech_impl()
 {
+}
+
+void speech_impl::started()
+{
+	startTime = time(NULL);
+	elapsedTime = 0.0;
 }
 
 void speech_impl::finished()
@@ -119,7 +129,9 @@ void speech_impl::wait()
 
 double speech_impl::elapsed() const
 {
-	return difftime(time(NULL), startTime);
+	if (is_speaking())
+		const_cast<speech_impl *>(this)->elapsedTime = difftime(time(NULL), startTime);
+	return elapsedTime;
 }
 
 tts::state speech_impl::state() const
