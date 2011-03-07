@@ -30,13 +30,13 @@ struct speech_impl : public tts::speech , public tts::callback
 {
 	tts::engine *engine;
 	cainteoir::audio *audio;
-	std::list<cainteoir::event> events;
+	std::tr1::shared_ptr<cainteoir::document> doc;
 
 	tts::state speechState;
 	pthread_t threadId;
 	time_t startTime;
 
-	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::list<cainteoir::event> &aEvents);
+	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc);
 	~speech_impl();
 
 	void finished();
@@ -68,13 +68,12 @@ void * speak_tts_thread(void *data)
 
 	speak->audio->open();
 
-	foreach_iter(event, speak->events)
+	foreach_iter(node, speak->doc->children())
 	{
 		if (speak->state() == tts::stopped)
 			break;
 
-		if (event->type == cainteoir::text_event)
-			speak->engine->speak(event->data.get(), speak);
+		speak->engine->speak(node->get(), speak);
 	}
 
 	speak->audio->close();
@@ -82,10 +81,10 @@ void * speak_tts_thread(void *data)
 	return NULL;
 }
 
-speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::list<cainteoir::event> &aEvents)
+speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc)
 	: engine(aEngine)
 	, audio(aAudio)
-	, events(aEvents)
+	, doc(aDoc)
 	, speechState(cainteoir::tts::speaking)
 	, startTime(time(NULL))
 {
@@ -192,7 +191,7 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	return false;
 }
 
-std::auto_ptr<tts::speech> tts::engines::speak(const std::list<event> &events, audio *out)
+std::auto_ptr<tts::speech> tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc, audio *out)
 {
-	return std::auto_ptr<tts::speech>(new speech_impl(active, out, events));
+	return std::auto_ptr<tts::speech>(new speech_impl(active, out, doc));
 }

@@ -135,6 +135,7 @@ struct document : public cainteoir::document_events
 	document(const rdf::uri &aSubject)
 		: tts(m_metadata)
 		, subject(aSubject)
+		, m_doc(new cainteoir::document())
 	{
 	}
 
@@ -153,7 +154,7 @@ struct document : public cainteoir::document_events
 
 	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
 	{
-		m_events.push_back(cainteoir::event(cainteoir::text_event, aText));
+		m_doc->add(aText);
 	}
 
 	bool select_voice(const rdf::uri &predicate, const std::string &value)
@@ -166,7 +167,7 @@ struct document : public cainteoir::document_events
 
 	const rdf::uri subject;
 	rdf::graph m_metadata;
-	std::list<cainteoir::event> m_events;
+	std::tr1::shared_ptr<cainteoir::document> m_doc;
 	cainteoir::tts::engines tts;
 };
 
@@ -294,7 +295,7 @@ int main(int argc, char ** argv)
 			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency);
 		}
 
-		std::auto_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_events, out.get());
+		std::auto_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get());
 		while (speech->is_speaking())
 		{
 			status_line(speech->elapsed(), state);

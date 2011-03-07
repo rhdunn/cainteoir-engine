@@ -55,7 +55,7 @@ namespace cainteoir { namespace tts
 
 		bool select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice);
 
-		std::auto_ptr<speech> speak(const std::list<event> &events, audio *out);
+		std::auto_ptr<speech> speak(const std::tr1::shared_ptr<document> &doc, audio *out);
 	private:
 		std::map<std::string, engine *> enginelist;
 		engine *active;

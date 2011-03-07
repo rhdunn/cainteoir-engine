@@ -37,21 +37,26 @@ namespace cainteoir
 		virtual ~document_events() {}
 	};
 
-	enum event_type
+	class document
 	{
-		text_event,
-	};
+	public:
+		typedef std::list< std::tr1::shared_ptr<cainteoir::buffer> > list_type;
+		typedef list_type::const_iterator const_iterator;
 
-	struct event
-	{
-		event_type type;
-		std::tr1::shared_ptr<cainteoir::buffer> data;
+		document() : mLength(0) {}
 
-		event(event_type aType, std::tr1::shared_ptr<cainteoir::buffer> aData)
-			: type(aType)
-			, data(aData)
+		size_t length() const { return mLength; }
+
+		void add(const std::tr1::shared_ptr<cainteoir::buffer> &text)
 		{
+			mLength += text->size();
+			mChildren.push_back(text);
 		}
+
+		const list_type children() const { return mChildren; }
+	private:
+		size_t mLength;
+		list_type mChildren;
 	};
 
 	/** @brief Read the contents of a document.
