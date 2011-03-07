@@ -223,6 +223,9 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
+		if (argc != 1)
+			throw std::runtime_error("no document specified");
+
 		document doc(rdf::uri(argv[0], std::string()));
 		if (action == show_metadata)
 		{
@@ -244,9 +247,6 @@ int main(int argc, char ** argv)
 				<< doc.m_metadata;
 			return 0;
 		}
-
-		if (argc != 1)
-			throw std::runtime_error("no document specified");
 
 		if (language)
 			doc.select_voice(rdf::dc("language"), language);
