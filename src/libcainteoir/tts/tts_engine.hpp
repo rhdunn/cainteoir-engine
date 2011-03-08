@@ -42,6 +42,8 @@ namespace cainteoir { namespace tts
 		virtual tts::state state() const = 0;
 
 		virtual void onaudiodata(short *data, int nsamples) = 0;
+
+		virtual void onspeaking(size_t pos, size_t len) = 0;
 	};
 
 	struct engine

@@ -24,12 +24,22 @@
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 
-static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *events)
+static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 {
-	cainteoir::tts::engine_callback *callback = (cainteoir::tts::engine_callback *)events->user_data;
+	cainteoir::tts::engine_callback *callback = (cainteoir::tts::engine_callback *)event->user_data;
 	if (!callback) return 0;
 
 	if (callback->state() == cainteoir::tts::stopped) return 1;
+
+	for (; event->type != espeakEVENT_LIST_TERMINATED; ++event) switch (event->type)
+	{
+	case espeakEVENT_WORD:
+		callback->onspeaking(event->text_position - 1, event->length);
+		break;
+	case espeakEVENT_END:
+		callback->onspeaking(event->text_position - 1, 0);
+		break;
+	}
 
 	if (numsamples > 0)
 		callback->onaudiodata(wav, numsamples);

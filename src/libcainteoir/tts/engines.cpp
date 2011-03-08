@@ -39,6 +39,8 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	double elapsedTime;
 
 	size_t currentOffset;
+	size_t speakingPos;
+	size_t speakingLen;
 
 	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc);
 	~speech_impl();
@@ -66,6 +68,8 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	tts::state state() const;
 
 	void onaudiodata(short *data, int nsamples);
+
+	void onspeaking(size_t pos, size_t len);
 
 	//@}
 };
@@ -99,6 +103,8 @@ speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const s
 	, audio(aAudio)
 	, doc(aDoc)
 	, speechState(cainteoir::tts::speaking)
+	, speakingPos(0)
+	, speakingLen(0)
 {
 	started();
 	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)this);
@@ -151,7 +157,7 @@ double speech_impl::elapsed() const
 
 size_t speech_impl::position() const
 {
-	return currentOffset;
+	return currentOffset + speakingPos;
 }
 
 tts::state speech_impl::state() const
@@ -162,6 +168,12 @@ tts::state speech_impl::state() const
 void speech_impl::onaudiodata(short *data, int nsamples)
 {
 	audio->write((const char *)data, nsamples*2);
+}
+
+void speech_impl::onspeaking(size_t pos, size_t len)
+{
+	speakingPos = pos;
+	speakingLen = len;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
