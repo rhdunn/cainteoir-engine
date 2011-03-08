@@ -124,6 +124,8 @@ void speech_impl::started()
 void speech_impl::progress(size_t n)
 {
 	currentOffset = n;
+	speakingPos = 0;
+	speakingLen = 0;
 }
 
 void speech_impl::finished()
