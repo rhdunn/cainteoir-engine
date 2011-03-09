@@ -277,6 +277,9 @@ int main(int argc, char ** argv)
 		int channels = doc.tts.get_channels();
 		int frequency = doc.tts.get_frequency();
 
+		std::string author = select_value(doc.m_metadata, doc.subject, rdf::dc("creator"));
+		std::string title  = select_value(doc.m_metadata, doc.subject, rdf::dc("title"));
+
 		std::auto_ptr<cainteoir::audio> out;
 		const char *state;
 		if (outformat || outfile)
@@ -287,32 +290,36 @@ int main(int argc, char ** argv)
 			if (outfile)
 				file << outfile;
 			else
-			{
-				file << select_value(doc.m_metadata, doc.subject, rdf::dc("creator"))
-				     << " - "
-				     << select_value(doc.m_metadata, doc.subject, rdf::dc("title"))
-				     << "."
-				     << outformat
-				     ;
-			}
+				file << author << " - " << title << "." << outformat;
 
-			outfile = (file.str() == "-") ? NULL : file.str().c_str();
+			std::string outfile = file.str();
 
 			if (!outformat || !strcmp(outformat, "wav"))
-				out = cainteoir::create_wav_file(outfile, audioformat, channels, frequency);
+				out = cainteoir::create_wav_file(outfile == "-" ? NULL : outfile.c_str(), audioformat, channels, frequency);
 			else if (!strcmp(outformat, "ogg"))
-				out = cainteoir::create_ogg_file(outfile, audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
+				out = cainteoir::create_ogg_file(outfile == "-" ? NULL : outfile.c_str(), audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
 
 			if (!out.get())
 				throw std::runtime_error("unsupported audio file format");
+
+			if (outfile != "-")
+			{
+				fprintf(stdout, "Recording \"%s\"\n", doc.subject.str().c_str());
+				fprintf(stdout, "       to \"%s\"\n\n", outfile.c_str());
+			}
 		}
 		else
 		{
 			state = "reading";
 			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency);
+
+			fprintf(stdout, "Reading \"%s\"\n\n", doc.subject.str().c_str());
 		}
 
 		size_t length = doc.m_doc->length();
+
+		fprintf(stdout, "Author : %s\n", author.c_str());
+		fprintf(stdout, "Title  : %s\n\n", title.c_str());
 
 		std::auto_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get());
 		while (speech->is_speaking())
