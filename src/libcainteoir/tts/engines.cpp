@@ -84,10 +84,10 @@ void * speak_tts_thread(void *data)
 	size_t n = 0;
 	foreach_iter(node, speak->doc->children())
 	{
+		speak->engine->speak(node->get(), speak);
+
 		if (speak->state() == tts::stopped)
 			break;
-
-		speak->engine->speak(node->get(), speak);
 
 		n += (*node)->size();
 		speak->progress(n);
