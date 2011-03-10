@@ -88,25 +88,17 @@ void format_time(char *s, int n, double seconds)
 	snprintf(s, n, "%02.0f:%02.0f:%02.0f", hours, minutes, seconds);
 }
 
-void status_line(double elapsed, size_t size, size_t pos, const char *state)
+void status_line(double elapsed, double total, double progress, const char *state)
 {
 	char elapsed_time[80];
 	char total_time[80];
 
-	double progress = (double(pos)/size*100.0);
-
 	format_time(elapsed_time, 80, elapsed);
-	if (elapsed < 1.0)
-		snprintf(total_time, 80, "--:--:--");
-	else
-	{
-		double total = (elapsed / progress) * 100.0;
-		format_time(total_time, 80, total);
-	}
+	format_time(total_time, 80, total);
 
 #define HIDE_CURSOR "\033[?25l"
 #define SHOW_CURSOR "\033[?25h"
-	fprintf(stdout, HIDE_CURSOR " : %s of %s [%.2f%%] : %zu of %zu : %s     \r" SHOW_CURSOR, elapsed_time, total_time, progress, pos, size, state);
+	fprintf(stdout, HIDE_CURSOR " : %s of %s [%.2f%%] : %s     \r" SHOW_CURSOR, elapsed_time, total_time, progress, state);
 #undef  SHOW_CURSOR
 #undef  HIDE_CURSOR
 
@@ -324,7 +316,7 @@ int main(int argc, char ** argv)
 		std::auto_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get(), 0);
 		while (speech->is_speaking())
 		{
-			status_line(speech->elapsed(), length, speech->position(), state);
+			status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), state);
 
 			switch (termchar())
 			{
@@ -337,7 +329,7 @@ int main(int argc, char ** argv)
 			}
 		}
 
-		status_line(speech->elapsed(), length, speech->position(), "stopped");
+		status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), "stopped");
 		fprintf(stdout, "\n");
 	}
 	catch (std::runtime_error &e)

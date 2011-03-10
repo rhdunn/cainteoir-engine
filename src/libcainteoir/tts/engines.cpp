@@ -35,8 +35,10 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	tts::state speechState;
 	pthread_t threadId;
 
-	time_t startTime;
-	double elapsedTime;
+	time_t mStartTime;
+	double mElapsedTime;
+	double mTotalTime;
+	double mCompleted;
 
 	size_t currentOffset;
 	size_t speakingPos;
@@ -58,7 +60,10 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	void stop();
 	void wait();
 
-	double elapsed() const;
+	double elapsedTime() const;
+	double totalTime() const;
+
+	double completed() const;
 
 	size_t position() const;
 
@@ -137,16 +142,17 @@ speech_impl::~speech_impl()
 
 void speech_impl::started()
 {
-	startTime = time(NULL);
-	elapsedTime = 0.0;
+	mStartTime = time(NULL);
+	mElapsedTime = 0.0;
+	mTotalTime = 0.0;
+	mCompleted = 0.0;
 	currentOffset = 0;
 }
 
 void speech_impl::progress(size_t n)
 {
 	currentOffset = n;
-	speakingPos = 0;
-	speakingLen = 0;
+	onspeaking(0, 0);
 }
 
 void speech_impl::finished()
@@ -171,11 +177,21 @@ void speech_impl::wait()
 	finished();
 }
 
-double speech_impl::elapsed() const
+double speech_impl::elapsedTime() const
 {
 	if (is_speaking())
-		const_cast<speech_impl *>(this)->elapsedTime = difftime(time(NULL), startTime);
-	return elapsedTime;
+		const_cast<speech_impl *>(this)->mElapsedTime = difftime(time(NULL), mStartTime);
+	return mElapsedTime;
+}
+
+double speech_impl::totalTime() const
+{
+	return mTotalTime;
+}
+
+double speech_impl::completed() const
+{
+	return mCompleted;
 }
 
 size_t speech_impl::position() const
@@ -197,6 +213,10 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 {
 	speakingPos = pos;
 	speakingLen = len;
+
+	mCompleted = double(currentOffset + speakingPos) / doc->length() * 100.0;
+	if (mElapsedTime > 0.0)
+		mTotalTime = (mElapsedTime / mCompleted) * 100.0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

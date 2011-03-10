@@ -40,7 +40,10 @@ namespace cainteoir { namespace tts
 		virtual void stop() = 0;
 		virtual void wait() = 0;
 
-		virtual double elapsed() const = 0;
+		virtual double elapsedTime() const = 0;
+		virtual double totalTime() const = 0;
+
+		virtual double completed() const = 0;
 
 		virtual size_t position() const = 0;
 	};
