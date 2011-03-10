@@ -41,8 +41,9 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	size_t currentOffset;
 	size_t speakingPos;
 	size_t speakingLen;
+	size_t offset;
 
-	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc);
+	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset);
 	~speech_impl();
 
 	void started();
@@ -80,17 +81,36 @@ void * speak_tts_thread(void *data)
 
 	speak->audio->open();
 	speak->started();
+	speak->progress(speak->offset);
 
 	size_t n = 0;
 	foreach_iter(node, speak->doc->children())
 	{
-		speak->engine->speak(node->get(), speak);
+		size_t len = (*node)-> size();
 
-		if (speak->state() == tts::stopped)
-			break;
+		if (len <= speak->offset)
+		{
+			n += len;
+			speak->offset -= len;
+		}
+		else
+		{
+			if (speak->offset > 0)
+			{
+				n += speak->offset;
+				len -= speak->offset;
+				speak->progress(n);
+			}
 
-		n += (*node)->size();
-		speak->progress(n);
+			speak->engine->speak(node->get(), speak->offset, speak);
+			speak->offset = 0;
+
+			if (speak->state() == tts::stopped)
+				break;
+
+			n += len;
+			speak->progress(n);
+		}
 	}
 
 	speak->audio->close();
@@ -98,13 +118,14 @@ void * speak_tts_thread(void *data)
 	return NULL;
 }
 
-speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc)
+speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset)
 	: engine(aEngine)
 	, audio(aAudio)
 	, doc(aDoc)
 	, speechState(cainteoir::tts::speaking)
 	, speakingPos(0)
 	, speakingLen(0)
+	, offset(aOffset)
 {
 	started();
 	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)this);
@@ -237,7 +258,7 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	return false;
 }
 
-std::auto_ptr<tts::speech> tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc, audio *out)
+std::auto_ptr<tts::speech> tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc, audio *out, size_t offset)
 {
-	return std::auto_ptr<tts::speech>(new speech_impl(active, out, doc));
+	return std::auto_ptr<tts::speech>(new speech_impl(active, out, doc, offset));
 }

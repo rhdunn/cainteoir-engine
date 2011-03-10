@@ -124,10 +124,10 @@ public:
 		return espeak_SetVoiceByName(voicename) == EE_OK;
 	}
 
-	void speak(cainteoir::buffer *text, cainteoir::tts::engine_callback *callback)
+	void speak(cainteoir::buffer *text, size_t offset, cainteoir::tts::engine_callback *callback)
 	{
 		std::string txt = text->str();
-		espeak_Synth(txt.c_str(), txt.size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, callback);
+		espeak_Synth(txt.c_str() + offset, txt.size() - offset, 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, callback);
 		espeak_Synchronize();
 	}
 

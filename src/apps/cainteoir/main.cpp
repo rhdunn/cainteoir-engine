@@ -321,7 +321,7 @@ int main(int argc, char ** argv)
 		fprintf(stdout, "Author : %s\n", author.c_str());
 		fprintf(stdout, "Title  : %s\n\n", title.c_str());
 
-		std::auto_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get());
+		std::auto_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get(), 0);
 		while (speech->is_speaking())
 		{
 			status_line(speech->elapsed(), length, speech->position(), state);
