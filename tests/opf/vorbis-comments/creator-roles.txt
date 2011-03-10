@@ -1,6 +1,7 @@
 ALBUM=A Christmas Carol
 ARTIST=Charles Dickens
 DESCRIPTION=The ghosts of christmas past, present and future haunt Ebenezer Scrooge.
+COMMENT=The ghosts of christmas past, present and future haunt Ebenezer Scrooge.
 GENRE=Vocal
 DATE=<DATETIME>
 PERFORMER=Cainteoir(TM) Text-to-Speech

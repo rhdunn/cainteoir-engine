@@ -1,4 +1,5 @@
 DESCRIPTION=Lorem ipsum dolor
+COMMENT=Lorem ipsum dolor
 GENRE=Vocal
 DATE=<DATETIME>
 PERFORMER=Cainteoir(TM) Text-to-Speech

@@ -56,7 +56,10 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 			else if (rql::predicate(*query) == rdf::dc("title"))
 				comments.push_back(vorbis_comment("ALBUM", object));
 			else if (rql::predicate(*query) == rdf::dc("description"))
+			{
 				comments.push_back(vorbis_comment("DESCRIPTION", object));
+				comments.push_back(vorbis_comment("COMMENT", object));
+			}
 			else if (rql::predicate(*query) == rdf::dc("date") && year.empty())
 				year = object;
 		}
