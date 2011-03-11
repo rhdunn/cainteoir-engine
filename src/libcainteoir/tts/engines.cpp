@@ -35,15 +35,17 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	tts::state speechState;
 	pthread_t threadId;
 
-	time_t mStartTime;
-	double mElapsedTime;
-	double mTotalTime;
-	double mCompleted;
+	time_t mStartTime;    /**< @brief The time when reading was started. */
+	double mElapsedTime;  /**< @brief The amount of time elapsed since |mStartTime|. */
+	double mTotalTime;    /**< @brief The (estimated) total amount of time to read the document. */
 
-	size_t currentOffset;
-	size_t speakingPos;
-	size_t speakingLen;
-	size_t offset;
+	double mCompleted; /**< @brief The percentage of the document read from the starting position. */
+	double mProgress;  /**< @brief The percentage of the document read from the beginning. */
+
+	size_t currentOffset; /**< @brief The current offset from the beginning to the current block being read. */
+	size_t speakingPos;   /**< @brief The position within the block where the speaking is upto. */
+	size_t speakingLen;   /**< @brief The length of the word/fragment being spoken. */
+	size_t mOffset;       /**< @brief The offset to the position where speaking is to start. */
 
 	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset);
 	~speech_impl();
@@ -86,29 +88,30 @@ void * speak_tts_thread(void *data)
 
 	speak->audio->open();
 	speak->started();
-	speak->progress(speak->offset);
+	speak->progress(speak->mOffset);
 
 	size_t n = 0;
+	size_t offset = speak->mOffset;
 	foreach_iter(node, speak->doc->children())
 	{
 		size_t len = (*node)-> size();
 
-		if (len <= speak->offset)
+		if (len <= offset)
 		{
 			n += len;
-			speak->offset -= len;
+			offset -= len;
 		}
 		else
 		{
-			if (speak->offset > 0)
+			if (offset > 0)
 			{
-				n += speak->offset;
-				len -= speak->offset;
+				n += offset;
+				len -= offset;
 				speak->progress(n);
 			}
 
-			speak->engine->speak(node->get(), speak->offset, speak);
-			speak->offset = 0;
+			speak->engine->speak(node->get(), offset, speak);
+			offset = 0;
 
 			if (speak->state() == tts::stopped)
 				break;
@@ -130,7 +133,7 @@ speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const s
 	, speechState(cainteoir::tts::speaking)
 	, speakingPos(0)
 	, speakingLen(0)
-	, offset(aOffset)
+	, mOffset(aOffset)
 {
 	started();
 	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)this);
@@ -146,6 +149,7 @@ void speech_impl::started()
 	mElapsedTime = 0.0;
 	mTotalTime = 0.0;
 	mCompleted = 0.0;
+	mProgress = 0.0;
 	currentOffset = 0;
 }
 
@@ -181,7 +185,10 @@ double speech_impl::elapsedTime() const
 {
 	if (is_speaking())
 		const_cast<speech_impl *>(this)->mElapsedTime = difftime(time(NULL), mStartTime);
-	return mElapsedTime;
+
+	if (mOffset == 0)
+		return mElapsedTime;
+	return (mTotalTime * mProgress) / 100.0;
 }
 
 double speech_impl::totalTime() const
@@ -191,7 +198,7 @@ double speech_impl::totalTime() const
 
 double speech_impl::completed() const
 {
-	return mCompleted;
+	return mProgress;
 }
 
 size_t speech_impl::position() const
@@ -214,9 +221,14 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 	speakingPos = pos;
 	speakingLen = len;
 
-	mCompleted = double(currentOffset + speakingPos) / doc->length() * 100.0;
-	if (mElapsedTime > 0.0)
+	size_t actualPos = currentOffset + speakingPos;
+
+	mProgress = double(actualPos) / doc->length() * 100.0;
+	if (mElapsedTime > 0.0 && actualPos >= mOffset)
+	{
+		mCompleted = double(actualPos - mOffset) / doc->length() * 100.0;
 		mTotalTime = (mElapsedTime / mCompleted) * 100.0;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
