@@ -28,7 +28,7 @@ namespace tts = cainteoir::tts;
 
 inline double percentageof(size_t a, size_t b)
 {
-	return long(((double(a) / b) * 10000.0) + 0.5) / 100.0;
+	return (double(a) / b) * 100.0;
 }
 
 struct speech_impl : public tts::speech , public tts::engine_callback
