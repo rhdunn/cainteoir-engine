@@ -26,6 +26,11 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
+inline double percentageof(size_t a, size_t b)
+{
+	return long(((double(a) / b) * 10000.0) + 0.5) / 100.0;
+}
+
 struct speech_impl : public tts::speech , public tts::engine_callback
 {
 	tts::engine *engine;
@@ -223,10 +228,10 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 
 	size_t actualPos = currentOffset + speakingPos;
 
-	mProgress = double(actualPos) / doc->length() * 100.0;
+	mProgress = percentageof(actualPos, doc->length());
 	if (mElapsedTime > 0.0 && actualPos >= mOffset)
 	{
-		mCompleted = double(actualPos - mOffset) / doc->length() * 100.0;
+		mCompleted = percentageof(actualPos - mOffset, doc->length());
 		mTotalTime = (mElapsedTime / mCompleted) * 100.0;
 	}
 }
