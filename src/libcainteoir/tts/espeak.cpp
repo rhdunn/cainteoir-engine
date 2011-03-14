@@ -69,6 +69,7 @@ public:
 		metadata.push_back(rdf::statement(espeak, rdf::rdf("type"), rdf::tts("Engine")));
 		metadata.push_back(rdf::statement(espeak, rdf::tts("name"), rdf::literal("eSpeak")));
 		metadata.push_back(rdf::statement(espeak, rdf::tts("version"), rdf::literal(info.substr(0, info.find(' ')))));
+		metadata.push_back(rdf::statement(espeak, rdf::dc("source"), rdf::uri("http://espeak.sourceforge.net/", std::string())));
 		metadata.push_back(rdf::statement(espeak, rdf::dc("creator"), jonsd));
 
 		metadata.push_back(rdf::statement(jonsd, rdf::rdf("type"), rdf::foaf("Person")));
