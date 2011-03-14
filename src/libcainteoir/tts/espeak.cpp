@@ -21,6 +21,10 @@
 #include "tts_engine.hpp"
 #include <espeak/speak_lib.h>
 
+#ifndef espeakINITIALIZE_DONT_EXIT
+#define espeakINITIALIZE_DONT_EXIT 0x8000
+#endif
+
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 
@@ -55,7 +59,7 @@ public:
 	{
 		baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
 
-		m_frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, 0);
+		m_frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, espeakINITIALIZE_DONT_EXIT);
 		espeak_SetSynthCallback(espeak_tts_callback);
 
 		rdf::uri espeak = rdf::uri(baseuri, std::string());
