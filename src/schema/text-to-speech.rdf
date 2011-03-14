@@ -70,6 +70,18 @@
 	<rdfs:comment xml:lang="en">The gender of the voice.</rdfs:comment>
 </rdf:Property>
 
+<rdf:Property rdf:ID="name">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>name</rdfs:label>
+	<rdfs:comment xml:lang="en">The name of the voice or engine.</rdfs:comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="version">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>version</rdfs:label>
+	<rdfs:comment xml:lang="en">The version of the engine.</rdfs:comment>
+</rdf:Property>
+
 <!-- data types -->
 
 <rdf:Datatype rdf:ID="hertz">
