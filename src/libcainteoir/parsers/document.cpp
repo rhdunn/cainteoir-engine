@@ -29,11 +29,11 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 {
 	const rdf::uri subject = rdf::uri(aFilename, std::string());
 
-	std::string type = cainteoir::mimetypes()(aFilename);
+	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::mmap_buffer(aFilename));
+	std::string type = cainteoir::mimetypes()(data);
 
 	if (type == "application/xml")
 	{
-		std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::mmap_buffer(aFilename));
 		xmldom::document doc(data);
 		xmldom::node root = doc.root();
 
@@ -52,12 +52,9 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 			return false;
 	}
 	else if (type == "application/epub+zip")
-		cainteoir::parseEpubDocument(aFilename, events);
+		cainteoir::parseEpubDocument(data, subject, events);
 	else
-	{
-		std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::mmap_buffer(aFilename));
 		parseXHtmlDocument(data, subject, events);
-	}
 
 	return true;
 }

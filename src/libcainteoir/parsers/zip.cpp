@@ -107,12 +107,10 @@ err:
 	}
 }
 
-cainteoir::zip::archive::archive(const char *aFilename)
+cainteoir::zip::archive::archive(std::tr1::shared_ptr<cainteoir::buffer> aData)
 {
-	cainteoir::mmap_buffer zf(aFilename);
-
-	const zip_header * hdr = (const zip_header *)zf.begin();
-	while ((const char *)hdr < zf.end() && hdr->magic == ZIP_HEADER_MAGIC)
+	const zip_header * hdr = (const zip_header *)aData->begin();
+	while ((const char *)hdr < aData->end() && hdr->magic == ZIP_HEADER_MAGIC)
 	{
 		const char *ptr = (const char *)hdr;
 		ptr += sizeof(zip_header);

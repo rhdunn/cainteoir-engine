@@ -24,9 +24,9 @@
 namespace xml = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
 
-void cainteoir::parseEpubDocument(const char *aFilename, cainteoir::document_events &events)
+void cainteoir::parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events)
 {
-	cainteoir::zip::archive epub(aFilename);
+	cainteoir::zip::archive epub(aData);
 
 	xml::document ocf(epub.read("META-INF/container.xml"));
 	std::string opffile = cainteoir::parseOcfDocument(ocf.root())["application/oebps-package+xml"];
@@ -36,7 +36,7 @@ void cainteoir::parseEpubDocument(const char *aFilename, cainteoir::document_eve
 	cainteoir::opffiles files;
 
 	xml::document opf(epub.read(opffile.c_str()));
-	cainteoir::parseOpfDocument(opf.root(), rdf::uri(aFilename, std::string()), events, files);
+	cainteoir::parseOpfDocument(opf.root(), aSubject, events, files);
 
 	foreach_iter(file, files.spine)
 	{
@@ -47,6 +47,6 @@ void cainteoir::parseEpubDocument(const char *aFilename, cainteoir::document_eve
 		else
 			filename = opffile.substr(0, pos + 1) + file->filename;
 
-		cainteoir::parseXHtmlDocument(epub.read(filename.c_str()), rdf::uri(aFilename, file->id), events);
+		cainteoir::parseXHtmlDocument(epub.read(filename.c_str()), rdf::uri(aSubject.str(), file->id), events);
 	}
 }

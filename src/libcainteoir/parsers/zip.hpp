@@ -29,7 +29,7 @@ namespace cainteoir { namespace zip
 	class archive : public std::map<std::string, std::tr1::shared_ptr<cainteoir::buffer> >
 	{
 	public:
-		archive(const char *aFilename);
+		archive(std::tr1::shared_ptr<cainteoir::buffer> aData);
 
 		std::tr1::shared_ptr<cainteoir::buffer> read(const char *aFilename)
 		{

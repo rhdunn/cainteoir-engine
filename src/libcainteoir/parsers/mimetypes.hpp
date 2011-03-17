@@ -53,7 +53,7 @@ namespace cainteoir
 			magic_close(cookie);
 		}
 
-		std::string operator()(const cainteoir::buffer *data)
+		std::string operator()(const std::tr1::shared_ptr<cainteoir::buffer> &data)
 		{
 			const char * type = magic_buffer(cookie, data->begin(), data->size());
 			if (type == NULL)

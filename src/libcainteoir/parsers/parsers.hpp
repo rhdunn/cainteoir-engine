@@ -130,10 +130,10 @@ namespace cainteoir
 	/** @brief ePub
 	  * @see   http://www.idpf.org/specs.htm
 	  *
-	  * @param aFilename The path to the ePub document.
-	  * @param events    The events callback to handle document events.
+	  * @param aData  The ePub document.
+	  * @param events The events callback to handle document events.
 	  */
-	void parseEpubDocument(const char *aFilename, document_events &events);
+	void parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events);
 }
 
 #endif
