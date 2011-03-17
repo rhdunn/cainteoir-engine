@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
-AM_LDFLAGS  = ${PULSE_LIBS}   ${VORBIS_LIBS}   ${MAGIC_LIBS}   ${LIBXML2_LIBS}   ${LIBZIP_LIBS}   ${ESPEAK_LIBS}
-AM_CXXFLAGS = ${PULSE_CFLAGS} ${VORBIS_CFLAGS} ${MAGIC_CFLAGS} ${LIBXML2_CFLAGS} ${LIBZIP_CFLAGS} ${ESPEAK_CFLAGS} -Isrc/include
+AM_LDFLAGS  = ${PULSE_LIBS}   ${VORBIS_LIBS}   ${MAGIC_LIBS}   ${LIBXML2_LIBS}   ${ZLIB_LIBS}   ${ESPEAK_LIBS}
+AM_CXXFLAGS = ${PULSE_CFLAGS} ${VORBIS_CFLAGS} ${MAGIC_CFLAGS} ${LIBXML2_CFLAGS} ${ZLIB_CFLAGS} ${ESPEAK_CFLAGS} -Isrc/include
 
 AM_CXXFLAGS += -std=c++0x -DDATADIR='"$(datadir)"'
 
@@ -56,6 +56,7 @@ src_libcainteoir_libcainteoir_a_SOURCES += \
 	src/libcainteoir/parsers/parsers.hpp \
 	src/libcainteoir/parsers/xml.hpp \
 	src/libcainteoir/parsers/zip.hpp \
+	src/libcainteoir/parsers/zip.cpp \
 	src/libcainteoir/parsers/xmlreader.cpp \
 	src/libcainteoir/parsers/html-entities.h \
 	src/libcainteoir/parsers/xml.cpp \
