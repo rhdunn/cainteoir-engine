@@ -144,7 +144,7 @@ namespace cainteoir
 			char * startPos = (char *)temp->begin();
 			for (auto node = data.begin(), last = data.end(); node != last; ++node)
 			{
-				strncpy(startPos, (*node)->begin(), (*node)->size());
+				memcpy(startPos, (*node)->begin(), (*node)->size());
 				startPos += (*node)->size();
 			}
 
