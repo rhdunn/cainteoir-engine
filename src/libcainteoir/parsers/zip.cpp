@@ -65,15 +65,8 @@ std::tr1::shared_ptr<cainteoir::buffer> zip_inflate(const cainteoir::buffer & co
 {
 	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(uncompressed));
 
-	int ret;
-	z_stream strm;
-
-	strm.zalloc = Z_NULL;
-	strm.zfree = Z_NULL;
-	strm.opaque = Z_NULL;
-	strm.avail_in = 0;
-	strm.next_in = Z_NULL;
-	ret = inflateInit2(&strm, -MAX_WBITS);
+	z_stream strm = {0};
+	int ret = inflateInit2(&strm, -MAX_WBITS);
 	if (ret != Z_OK)
 		goto err;
 
