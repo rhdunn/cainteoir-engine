@@ -25,11 +25,32 @@
 namespace xmldom = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
 
+std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
+{
+	cainteoir::rope data;
+	char buffer[1024];
+
+	size_t read;
+	while ((read = fread(buffer, 1, sizeof(buffer), stdin)) != 0)
+	{
+		std::tr1::shared_ptr<cainteoir::buffer> fiber(new cainteoir::data_buffer(read));
+		memcpy((void *)fiber->begin(), buffer, read);
+		data.add(fiber);
+	}
+
+	return data.buffer();
+}
+
 bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events)
 {
-	const rdf::uri subject = rdf::uri(aFilename, std::string());
+	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
 
-	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::mmap_buffer(aFilename));
+	std::tr1::shared_ptr<cainteoir::buffer> data;
+	if (aFilename)
+		data = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename));
+	else
+		data = buffer_from_stdin();
+
 	std::string type = cainteoir::mimetypes()(data);
 
 	if (type == "application/xml")

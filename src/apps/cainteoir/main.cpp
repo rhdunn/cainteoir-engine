@@ -255,15 +255,15 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
-		if (argc != 1)
-			throw std::runtime_error("no document specified");
-
 		if (language)
 			doc.select_voice(rdf::dc("language"), language);
 		else if (voicename)
 			doc.select_voice(rdf::tts("name"), voicename);
 
-		cainteoir::parseDocument(argv[0], doc);
+		if (argc == 1)
+			cainteoir::parseDocument(argv[0], doc);
+		else
+			cainteoir::parseDocument(NULL, doc);
 
 		cainteoir::audio_format audioformat = doc.tts.get_audioformat();
 		int channels = doc.tts.get_channels();
