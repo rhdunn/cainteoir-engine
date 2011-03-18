@@ -112,29 +112,27 @@ cainteoir::zip::archive::archive(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	const zip_header * hdr = (const zip_header *)aData->begin();
 	while ((const char *)hdr < aData->end() && hdr->magic == ZIP_HEADER_MAGIC)
 	{
-		const char *ptr = (const char *)hdr;
-		ptr += sizeof(zip_header);
+		const char *ptr = (const char *)hdr + sizeof(zip_header);
 
-		cainteoir::buffer filename(ptr, ptr + hdr->len_filename);
+		(*this)[ std::string(ptr, ptr + hdr->len_filename) ] = hdr;
 
-		ptr += hdr->len_filename + hdr->len_extra;
+		hdr = (const zip_header *)(ptr + hdr->len_filename + hdr->len_extra + hdr->compressed);
+	}
+}
 
-		cainteoir::buffer compressed(ptr, ptr + hdr->compressed);
+std::tr1::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char *aFilename)
+{
+	const zip_header * hdr = (const zip_header *)((*this)[aFilename]);
+	const char *ptr = (const char *)hdr + sizeof(zip_header) + hdr->len_filename + hdr->len_extra;
 
-		ptr += hdr->compressed;
-
-		switch (hdr->compression_type)
-		{
-		case zip_uncompressed:
-			(*this)[ filename.str() ] = zip_copy(compressed, hdr->uncompressed);
-			break;
-		case zip_deflated:
-			(*this)[ filename.str() ] = zip_inflate(compressed, hdr->uncompressed);
-			break;
-		default:
-			throw std::runtime_error("decompression failed (unsupported compression type)");
-		}
-
-		hdr = (const zip_header *)ptr;
+	cainteoir::buffer compressed(ptr, ptr + hdr->compressed);
+	switch (hdr->compression_type)
+	{
+	case zip_uncompressed:
+		return zip_copy(compressed, hdr->uncompressed);
+	case zip_deflated:
+		return zip_inflate(compressed, hdr->uncompressed);
+	default:
+		throw std::runtime_error("decompression failed (unsupported compression type)");
 	}
 }
