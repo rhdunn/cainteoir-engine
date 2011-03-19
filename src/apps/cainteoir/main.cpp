@@ -79,13 +79,15 @@ int termchar()
 
 void format_time(char *s, int n, double seconds)
 {
+	int ms = int(seconds * 100.0) % 100;
+
 	double minutes = floor(seconds / 60.0);
 	seconds = seconds - (minutes * 60.0);
 
 	double hours = floor(minutes / 60.0);
 	minutes = minutes - (hours * 60.0);
 
-	snprintf(s, n, "%02.0f:%02.0f:%02.0f", hours, minutes, seconds);
+	snprintf(s, n, "%02.0f:%02.0f:%02.0f.%02d", hours, minutes, seconds, ms);
 }
 
 void status_line(double elapsed, double total, double progress, const char *state)
@@ -98,7 +100,7 @@ void status_line(double elapsed, double total, double progress, const char *stat
 
 #define HIDE_CURSOR "\033[?25l"
 #define SHOW_CURSOR "\033[?25h"
-	fprintf(stdout, HIDE_CURSOR " : %s of %s [%.2f%%] : %s     \r" SHOW_CURSOR, elapsed_time, total_time, progress, state);
+	fprintf(stdout, HIDE_CURSOR " : %s of %s [%.2f%%] : %s        \r" SHOW_CURSOR, elapsed_time, total_time, progress, state);
 #undef  SHOW_CURSOR
 #undef  HIDE_CURSOR
 

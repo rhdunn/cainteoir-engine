@@ -22,6 +22,42 @@
 #include "tts_engine.hpp"
 #include <stdexcept>
 
+#define USE_GETTIMEOFDAY 1
+
+#if USE_GETTIMEOFDAY
+	#include <sys/time.h>
+
+	double timeofday()
+	{
+		timeval tv;
+		gettimeofday(&tv, NULL);
+
+		return tv.tv_sec + (double(tv.tv_usec) / 1000000.0);
+	}
+
+	class stopwatch
+	{
+	public:
+		stopwatch() { mStart = timeofday(); }
+
+		double elapsed() const { return timeofday() - mStart; }
+	private:
+		double mStart;
+	};
+#else
+	#include <ctime>
+
+	class stopwatch
+	{
+	public:
+		stopwatch() { mStart = time(NULL); }
+
+		double elapsed() const { return difftime(time(NULL), mStart); }
+	private:
+		time_t mStart;
+	};
+#endif
+
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
@@ -40,9 +76,9 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	tts::state speechState;
 	pthread_t threadId;
 
-	time_t mStartTime;    /**< @brief The time when reading was started. */
-	double mElapsedTime;  /**< @brief The amount of time elapsed since |mStartTime|. */
-	double mTotalTime;    /**< @brief The (estimated) total amount of time to read the document. */
+	stopwatch mTimer;    /**< @brief The time taken to read the document. */
+	double mElapsedTime; /**< @brief The amount of time elapsed since |mStartTime|. */
+	double mTotalTime;   /**< @brief The (estimated) total amount of time to read the document. */
 
 	double mCompleted; /**< @brief The percentage of the document read from the starting position. */
 	double mProgress;  /**< @brief The percentage of the document read from the beginning. */
@@ -150,7 +186,6 @@ speech_impl::~speech_impl()
 
 void speech_impl::started()
 {
-	mStartTime = time(NULL);
 	mElapsedTime = 0.0;
 	mTotalTime = 0.0;
 	mCompleted = 0.0;
@@ -189,7 +224,7 @@ void speech_impl::wait()
 double speech_impl::elapsedTime() const
 {
 	if (is_speaking())
-		const_cast<speech_impl *>(this)->mElapsedTime = difftime(time(NULL), mStartTime);
+		const_cast<speech_impl *>(this)->mElapsedTime = mTimer.elapsed();
 
 	if (mOffset == 0)
 		return mElapsedTime;
@@ -228,7 +263,9 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 
 	size_t actualPos = currentOffset + speakingPos;
 
+	mElapsedTime = mTimer.elapsed();
 	mProgress = percentageof(actualPos, doc->length());
+
 	if (mElapsedTime > 0.0 && actualPos >= mOffset)
 	{
 		mCompleted = percentageof(actualPos - mOffset, doc->length());
