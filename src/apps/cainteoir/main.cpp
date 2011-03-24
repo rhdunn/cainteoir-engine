@@ -81,13 +81,13 @@ void format_time(char *s, int n, double seconds)
 {
 	int ms = int(seconds * 100.0) % 100;
 
-	double minutes = floor(seconds / 60.0);
+	int minutes = floor(seconds / 60.0);
 	seconds = seconds - (minutes * 60.0);
 
-	double hours = floor(minutes / 60.0);
+	int hours = floor(minutes / 60.0);
 	minutes = minutes - (hours * 60.0);
 
-	snprintf(s, n, "%02.0f:%02.0f:%02.0f.%02d", hours, minutes, seconds, ms);
+	snprintf(s, n, "%02d:%02d:%02d.%02d", hours, minutes, (int)floor(seconds), ms);
 }
 
 void status_line(double elapsed, double total, double progress, const char *state)
