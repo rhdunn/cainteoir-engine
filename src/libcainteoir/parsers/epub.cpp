@@ -47,6 +47,10 @@ void cainteoir::parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData,
 		else
 			filename = opffile.substr(0, pos + 1) + file->filename;
 
-		cainteoir::parseXHtmlDocument(epub.read(filename.c_str()), rdf::uri(aSubject.str(), file->id), events);
+		std::tr1::shared_ptr<cainteoir::buffer> doc = epub.read(filename.c_str());
+		if (doc)
+			cainteoir::parseXHtmlDocument(doc, rdf::uri(aSubject.str(), file->id), events);
+		else
+			fprintf(stderr, "document '%s' not found in ePub archive.\n", filename.c_str());
 	}
 }

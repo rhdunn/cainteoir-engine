@@ -41,4 +41,8 @@ if __name__ == '__main__':
 		('html/sections/paragraphs.html',  'html/sections/paragraphs.events', 'expect-pass'),
 		('html/sections/paragraphs.xhtml', 'html/sections/paragraphs.events', 'expect-pass'),
 	])
+	test.run_epub_tests(name='ePub -- html files', testtype='events', tests=[
+		('epub/metadata/htmlfile-in-spine.opf', 'html/semantics/simple.events', 'expect-pass'),
+		('epub/missing-html-file.opf', 'html/semantics/simple.events', 'expect-pass'),
+	])
 	test.summary()

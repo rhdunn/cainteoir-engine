@@ -116,6 +116,9 @@ cainteoir::zip::archive::archive(std::tr1::shared_ptr<cainteoir::buffer> aData)
 std::tr1::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char *aFilename)
 {
 	const zip_header * hdr = (const zip_header *)((*this)[aFilename]);
+	if (!hdr)
+		return std::tr1::shared_ptr<cainteoir::buffer>();
+
 	const char *ptr = (const char *)hdr + sizeof(zip_header) + hdr->len_filename + hdr->len_extra;
 
 	cainteoir::buffer compressed(ptr, ptr + hdr->compressed);
