@@ -21,22 +21,24 @@ import harness
 
 if __name__ == '__main__':
 	test = harness.TestSuite('VorbisComments')
-	test.run_tests(name='Vorbis Comments', testtype='vorbis', tests=[
-		('opf/vorbis-comments/simple.opf', 'opf/vorbis-comments/simple.txt', 'expect-pass'),
-		('opf/vorbis-comments/creator-only.opf', 'opf/vorbis-comments/creator-only.txt', 'expect-pass'),
-		('opf/vorbis-comments/creator-file-as.opf', 'opf/vorbis-comments/creator-file-as.txt', 'expect-pass'),
-		('opf/vorbis-comments/creator-role-aut.opf', 'opf/vorbis-comments/creator-role-aut.txt', 'expect-pass'),
-		('opf/vorbis-comments/creator-roles.opf', 'opf/vorbis-comments/creator-roles.txt', 'expect-pass'),
-		('opf/vorbis-comments/date-only-yyyy.opf', 'opf/vorbis-comments/date-only-yyyy.txt', 'expect-pass'),
-		('opf/vorbis-comments/date-only-yyyy-mm.opf', 'opf/vorbis-comments/date-only-yyyy-mm.txt', 'expect-pass'),
-		('opf/vorbis-comments/date-only-yyyy-mm-dd.opf', 'opf/vorbis-comments/date-only-yyyy-mm-dd.txt', 'expect-pass'),
-		('opf/vorbis-comments/date-created-yyyy.opf', 'opf/vorbis-comments/date-created-yyyy.txt', 'expect-pass'),
-		('opf/vorbis-comments/date-created-yyyy-mm.opf', 'opf/vorbis-comments/date-created-yyyy-mm.txt', 'expect-pass'),
-		('opf/vorbis-comments/date-created-yyyy-mm-dd.opf', 'opf/vorbis-comments/date-created-yyyy-mm-dd.txt', 'expect-pass'),
-		('opf/vorbis-comments/date-published-yyyy.opf', 'opf/vorbis-comments/date-published-yyyy.txt', 'expect-pass'),
-		('opf/vorbis-comments/date-published-yyyy-mm.opf', 'opf/vorbis-comments/date-published-yyyy-mm.txt', 'expect-pass'),
-		('opf/vorbis-comments/date-published-yyyy-mm-dd.opf', 'opf/vorbis-comments/date-published-yyyy-mm-dd.txt', 'expect-pass'),
-		('opf/vorbis-comments/description-only.opf', 'opf/vorbis-comments/description-only.txt', 'expect-pass'),
-		('opf/vorbis-comments/title-only.opf', 'opf/vorbis-comments/title-only.txt', 'expect-pass'),
-	])
+	test.run({'name': 'Vorbis Comments', 'groups': [
+		{'name': 'Dublin Core', 'type': 'vorbis', 'tests': [
+			{'test': 'opf/vorbis-comments/simple.opf', 'result': 'opf/vorbis-comments/simple.txt'},
+			{'test': 'opf/vorbis-comments/creator-only.opf', 'result': 'opf/vorbis-comments/creator-only.txt'},
+			{'test': 'opf/vorbis-comments/creator-file-as.opf', 'result': 'opf/vorbis-comments/creator-file-as.txt'},
+			{'test': 'opf/vorbis-comments/creator-role-aut.opf', 'result': 'opf/vorbis-comments/creator-role-aut.txt'},
+			{'test': 'opf/vorbis-comments/creator-roles.opf', 'result': 'opf/vorbis-comments/creator-roles.txt'},
+			{'test': 'opf/vorbis-comments/date-only-yyyy.opf', 'result': 'opf/vorbis-comments/date-only-yyyy.txt'},
+			{'test': 'opf/vorbis-comments/date-only-yyyy-mm.opf', 'result': 'opf/vorbis-comments/date-only-yyyy-mm.txt'},
+			{'test': 'opf/vorbis-comments/date-only-yyyy-mm-dd.opf', 'result': 'opf/vorbis-comments/date-only-yyyy-mm-dd.txt'},
+			{'test': 'opf/vorbis-comments/date-created-yyyy.opf', 'result': 'opf/vorbis-comments/date-created-yyyy.txt'},
+			{'test': 'opf/vorbis-comments/date-created-yyyy-mm.opf', 'result': 'opf/vorbis-comments/date-created-yyyy-mm.txt'},
+			{'test': 'opf/vorbis-comments/date-created-yyyy-mm-dd.opf', 'result': 'opf/vorbis-comments/date-created-yyyy-mm-dd.txt'},
+			{'test': 'opf/vorbis-comments/date-published-yyyy.opf', 'result': 'opf/vorbis-comments/date-published-yyyy.txt'},
+			{'test': 'opf/vorbis-comments/date-published-yyyy-mm.opf', 'result': 'opf/vorbis-comments/date-published-yyyy-mm.txt'},
+			{'test': 'opf/vorbis-comments/date-published-yyyy-mm-dd.opf', 'result': 'opf/vorbis-comments/date-published-yyyy-mm-dd.txt'},
+			{'test': 'opf/vorbis-comments/description-only.opf', 'result': 'opf/vorbis-comments/description-only.txt'},
+			{'test': 'opf/vorbis-comments/title-only.opf', 'result': 'opf/vorbis-comments/title-only.txt'},
+		]},
+	]})
 	test.summary()

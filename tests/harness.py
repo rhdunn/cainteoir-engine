@@ -76,39 +76,38 @@ class TestSuite:
 		sys.stdout.write('... checking %s as xmlreader tags ... ' % (displayas or filename))
 		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'), test_expect=test_expect)
 
-	def run_tests(self, name, testtype, tests=[]):
-		print 'testing %s:' % name
-		if testtype == 'events':
-			for doc, events, expect in tests:
-				self.check_events(os.path.join(sys.path[0], doc), os.path.join(sys.path[0], events), test_expect=expect)
-		elif testtype == 'xmlreader':
-			for doc, events, expect in tests:
-				self.check_xmlreader(os.path.join(sys.path[0], doc), os.path.join(sys.path[0], events), test_expect=expect)
-		else:
-			for doc, nt, expect in tests:
-				self.check_metadata(os.path.join(sys.path[0], doc), os.path.join(sys.path[0], nt), testtype, test_expect=expect)
+	def run(self, data):
+		for group in data['groups']:
+			print 'testing %s :: %s ...' % (data['name'], group['name'])
+			if group['type'] in ['ntriple', 'turtle', 'vorbis']:
+				check = lambda got, exp, expect, displayas: self.check_metadata(got, exp, group['type'], test_expect=expect, displayas=displayas)
+			elif group['type'] == 'events':
+				check = lambda got, exp, expect, displayas: self.check_events(got, exp, test_expect=expect, displayas=displayas)
+			elif group['type'] == 'xmlreader':
+				check = lambda got, exp, expect, displayas: self.check_xmlreader(got, exp, test_expect=expect, displayas=displayas)
 
-	def run_epub_tests(self, name, testtype, tests=[]):
-		print 'testing %s:' % name
-		for doc, out, expect in tests:
-			epubfile = '/tmp/test.epub'
-			epubfiles=[
-				('META-INF/container.xml', 'ocf/simple.ocf'),
-				('OEBPS/content.opf', doc),
-				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/semantics/simple.xhtml')
-			]
+			for test in group['tests']:
+				expect = 'pass'
+				if 'expect' in test.keys():
+					expect = test['expect']
 
-			zf = zipfile.ZipFile(epubfile, mode='w', compression=zipfile.ZIP_STORED)
-			zf.writestr('mimetype', 'application/epub+zip')
-			for location, filename in epubfiles:
-				zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
-			zf.close()
+				got = os.path.join(sys.path[0], test['test'])
+				exp = os.path.join(sys.path[0], test['result'])
 
-			if testtype == 'events':
-				self.check_events(epubfile, os.path.join(sys.path[0], out), test_expect=expect, displayas='epub://%s' % doc)
-			else:
-				self.check_metadata(epubfile, os.path.join(sys.path[0], out), testtype, test_expect=expect, displayas='epub://%s' % doc)
+				if 'archive' in data.keys():
+					archive = '/tmp/test.zip'
+					zf = zipfile.ZipFile(archive, mode='w', compression=zipfile.ZIP_STORED)
+					for location, filename in data['archive']:
+						if location == 'mimetype':
+							zf.writestr('mimetype', filename)
+						else:
+							if filename.startswith('@'):
+								filename = test[ filename.replace('@', '') ]
+							zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
+					zf.close()
+					check(archive, exp, expect='expect-%s' % expect, displayas=test['test'])
+				else:
+					check(got, exp, expect='expect-%s' % expect, displayas=got)
 
 	def summary(self):
 		print

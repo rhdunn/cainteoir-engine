@@ -21,28 +21,42 @@ import harness
 
 if __name__ == '__main__':
 	test = harness.TestSuite('events')
-	test.run_tests(name='HTML -- semantics', testtype='events', tests=[
-		('html/semantics/simple.html',  'html/semantics/simple.events', 'expect-pass'),
-		('html/semantics/simple.xhtml', 'html/semantics/simple.events', 'expect-pass'),
-		('html/semantics/with-style.html',  'html/semantics/with-style.events', 'expect-pass'),
-		('html/semantics/with-style.xhtml', 'html/semantics/with-style.events', 'expect-pass'),
-		('html/semantics/with-style-type.html',  'html/semantics/with-style-type.events', 'expect-pass'),
-		('html/semantics/with-style-type.xhtml', 'html/semantics/with-style-type.events', 'expect-pass'),
-	])
-	test.run_tests(name='HTML -- scripting', testtype='events', tests=[
-		('html/scripting/with-script.html',  'html/scripting/with-script.events', 'expect-pass'),
-		('html/scripting/with-script.xhtml', 'html/scripting/with-script.events', 'expect-pass'),
-		('html/scripting/with-script-type.html',  'html/scripting/with-script-type.events', 'expect-pass'),
-		('html/scripting/with-script-type.xhtml', 'html/scripting/with-script-type.events', 'expect-pass'),
-	])
-	test.run_tests(name='HTML -- sections', testtype='events', tests=[
-		('html/sections/headings.html',  'html/sections/headings.events', 'expect-pass'),
-		('html/sections/headings.xhtml', 'html/sections/headings.events', 'expect-pass'),
-		('html/sections/paragraphs.html',  'html/sections/paragraphs.events', 'expect-pass'),
-		('html/sections/paragraphs.xhtml', 'html/sections/paragraphs.events', 'expect-pass'),
-	])
-	test.run_epub_tests(name='ePub -- html files', testtype='events', tests=[
-		('epub/metadata/htmlfile-in-spine.opf', 'html/semantics/simple.events', 'expect-pass'),
-		('epub/missing-html-file.opf', 'html/semantics/simple.events', 'expect-pass'),
-	])
+	test.run({'name': 'HTML', 'groups': [
+		{'name': 'semantics', 'type': 'events', 'tests': [
+			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events'},
+			{'test': 'html/semantics/simple.xhtml', 'result': 'html/semantics/simple.events'},
+			{'test': 'html/semantics/with-style.html', 'result': 'html/semantics/with-style.events'},
+			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
+			{'test': 'html/semantics/with-style-type.html', 'result': 'html/semantics/with-style-type.events'},
+			{'test': 'html/semantics/with-style-type.xhtml', 'result': 'html/semantics/with-style-type.events'},
+		]},
+		{'name': 'scripting', 'type': 'events', 'tests': [
+			{'test': 'html/scripting/with-script.html', 'result': 'html/scripting/with-script.events'},
+			{'test': 'html/scripting/with-script.xhtml', 'result': 'html/scripting/with-script.events'},
+			{'test': 'html/scripting/with-script-type.html', 'result': 'html/scripting/with-script-type.events'},
+			{'test': 'html/scripting/with-script-type.xhtml', 'result': 'html/scripting/with-script-type.events'},
+		]},
+		{'name': 'sections', 'type': 'events', 'tests': [
+			{'test': 'html/sections/headings.html', 'result': 'html/sections/headings.events'},
+			{'test': 'html/sections/headings.xhtml', 'result': 'html/sections/headings.events'},
+			{'test': 'html/sections/paragraphs.html', 'result': 'html/sections/paragraphs.events'},
+			{'test': 'html/sections/paragraphs.xhtml', 'result': 'html/sections/paragraphs.events'},
+		]},
+	]})
+	test.run({ 'name': 'ePub',
+		'archive':
+			[
+				('mimetype', 'application/epub+zip'),
+				('META-INF/container.xml', 'ocf/simple.ocf'),
+				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
+				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
+				('OEBPS/test.html', 'html/semantics/simple.xhtml')
+			],
+		'groups': [
+			{'name': 'with-content', 'type': 'events', 'tests': [
+				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'html/semantics/simple.events'},
+				{'test': 'epub/missing-html-file.opf', 'result': 'html/semantics/simple.events'},
+			]},
+		]
+	})
 	test.summary()
