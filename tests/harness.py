@@ -106,6 +106,17 @@ class TestSuite:
 							zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
 					zf.close()
 					check(archive, exp, expect='expect-%s' % expect, displayas=test['test'])
+				elif 'compress' in group.keys():
+					if group['compress'] == 'gzip':
+						filename = '/tmp/test.gz'
+						os.system('gzip -c %s > %s' % (got, filename))
+					elif group['compress'] == 'bzip2':
+						filename = '/tmp/test.bz2'
+						os.system('bzip2 -c %s > %s' % (got, filename))
+					elif group['compress'] == 'lzma':
+						filename = '/tmp/test.lzma'
+						os.system('lzma -c %s > %s' % (got, filename))
+					check(filename, exp, expect='expect-%s' % expect, displayas=test['test'])
 				else:
 					check(got, exp, expect='expect-%s' % expect, displayas=got)
 

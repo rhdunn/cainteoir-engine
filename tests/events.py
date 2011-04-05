@@ -59,4 +59,15 @@ if __name__ == '__main__':
 			]},
 		]
 	})
+	test.run({'name': 'Compressed', 'groups': [
+		{'name': 'gzip', 'type': 'events', 'compress': 'gzip', 'tests': [
+			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events', 'expect': 'fail'},
+		]},
+		{'name': 'bzip2', 'type': 'events', 'compress': 'bzip2', 'tests': [
+			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events', 'expect': 'fail'},
+		]},
+		{'name': 'lzma', 'type': 'events', 'compress': 'lzma', 'tests': [
+			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events', 'expect': 'fail'},
+		]},
+	]})
 	test.summary()
