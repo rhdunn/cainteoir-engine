@@ -59,6 +59,12 @@ namespace cainteoir
 		list_type mChildren;
 	};
 
+	/** @brief Get the document formats that are supported by libcainteoir.
+	  *
+	  * @metadata The RDF graph to write the format support to.
+	  */
+	void supportedDocumentFormats(rdf::graph &metadata);
+
 	/** @brief Read the contents of a document.
 	  *
 	  * @param aFilename The path to the ePub document.

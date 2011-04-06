@@ -26,6 +26,12 @@
 	<rdfs:comment xml:lang="en">A voice usable by an engine.</rdfs:comment>
 </rdfs:Class>
 
+<rdfs:Class rdf:ID="DocumentFormat">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>DocumentFormat</rdfs:label>
+	<rdfs:comment xml:lang="en">A document format that can be handled by the text-to-speech engine.</rdfs:comment>
+</rdfs:Class>
+
 <!-- properties -->
 
 <rdf:Property rdf:ID="frequency">
@@ -80,6 +86,18 @@
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>version</rdfs:label>
 	<rdfs:comment xml:lang="en">The version of the engine.</rdfs:comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="mimetype">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>mimetype</rdfs:label>
+	<rdfs:comment xml:lang="en">The mimetype of a file format.</rdfs:comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="extension">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>mimetype</rdfs:label>
+	<rdfs:comment xml:lang="en">A file extension commonly associated with a file format.</rdfs:comment>
 </rdf:Property>
 
 <!-- data types -->

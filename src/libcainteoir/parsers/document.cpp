@@ -79,6 +79,42 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 	return true;
 }
 
+void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
+{
+	std::string baseuri = "http://rhdunn.github.com/cainteoir/formats/document";
+
+	// only lists filetypes that are properly supported, excluding intermedate/internal formats ...
+
+	rdf::uri text = rdf::uri(baseuri, "text");
+	metadata.push_back(rdf::statement(text, rdf::rdf("type"), rdf::tts("DocumentFormat")));
+	metadata.push_back(rdf::statement(text, rdf::dc("title"), rdf::literal("text document")));
+	metadata.push_back(rdf::statement(text, rdf::tts("mimetype"), rdf::literal("text/plain")));
+	metadata.push_back(rdf::statement(text, rdf::tts("extension"), rdf::literal("*.txt")));
+
+	rdf::uri html = rdf::uri(baseuri, "html");
+	metadata.push_back(rdf::statement(html, rdf::rdf("type"), rdf::tts("DocumentFormat")));
+	metadata.push_back(rdf::statement(html, rdf::dc("title"), rdf::literal("html document")));
+	metadata.push_back(rdf::statement(html, rdf::tts("mimetype"), rdf::literal("text/html")));
+	metadata.push_back(rdf::statement(html, rdf::tts("mimetype"), rdf::literal("application/xhtml+xml")));
+	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.htm")));
+	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.html")));
+	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.xhtml")));
+	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.xht")));
+	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.xml")));
+
+	rdf::uri epub = rdf::uri(baseuri, "epub");
+	metadata.push_back(rdf::statement(epub, rdf::rdf("type"), rdf::tts("DocumentFormat")));
+	metadata.push_back(rdf::statement(epub, rdf::dc("title"), rdf::literal("epub document")));
+	metadata.push_back(rdf::statement(epub, rdf::tts("mimetype"), rdf::literal("application/epub+zip")));
+	metadata.push_back(rdf::statement(epub, rdf::tts("extension"), rdf::literal("*.epub")));
+
+	rdf::uri gzip = rdf::uri(baseuri, "gzip");
+	metadata.push_back(rdf::statement(gzip, rdf::rdf("type"), rdf::tts("DocumentFormat")));
+	metadata.push_back(rdf::statement(gzip, rdf::dc("title"), rdf::literal("gzip compressed document")));
+	metadata.push_back(rdf::statement(gzip, rdf::tts("mimetype"), rdf::literal("application/x-gzip")));
+	metadata.push_back(rdf::statement(gzip, rdf::tts("extension"), rdf::literal("*.gz")));
+}
+
 bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events)
 {
 	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
