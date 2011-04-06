@@ -41,16 +41,8 @@ std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 	return data.buffer();
 }
 
-bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events)
+bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events)
 {
-	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
-
-	std::tr1::shared_ptr<cainteoir::buffer> data;
-	if (aFilename)
-		data = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename));
-	else
-		data = buffer_from_stdin();
-
 	std::string type = cainteoir::mimetypes()(data);
 
 	if (type == "application/xml")
@@ -78,4 +70,17 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 		parseXHtmlDocument(data, subject, events);
 
 	return true;
+}
+
+bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events)
+{
+	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
+
+	std::tr1::shared_ptr<cainteoir::buffer> data;
+	if (aFilename)
+		data = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename));
+	else
+		data = buffer_from_stdin();
+
+	return parseDocumentBuffer(data, subject, events);
 }
