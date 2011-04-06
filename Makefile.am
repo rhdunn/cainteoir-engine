@@ -54,6 +54,7 @@ src_libcainteoir_libcainteoir_a_SOURCES += \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/parsers/mimetypes.hpp \
 	src/libcainteoir/parsers/parsers.hpp \
+	src/libcainteoir/parsers/compressed.cpp \
 	src/libcainteoir/parsers/xml.hpp \
 	src/libcainteoir/parsers/zip.hpp \
 	src/libcainteoir/parsers/zip.cpp \

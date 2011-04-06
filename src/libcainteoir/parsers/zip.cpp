@@ -19,8 +19,8 @@
  */
 
 #include "zip.hpp"
+#include "parsers.hpp"
 
-#include <zlib.h>
 #include <stdexcept>
 
 #define ZIP_HEADER_MAGIC 0x04034b50
@@ -53,53 +53,6 @@ enum zip_compression
 	zip_bzip2compressed = 12,
 };
 
-std::tr1::shared_ptr<cainteoir::buffer> zip_copy(const cainteoir::buffer & compressed, uint32_t uncompressed)
-{
-	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(uncompressed));
-	memcpy((char *)data->begin(), compressed.begin(), compressed.size());
-
-	return data;
-}
-
-std::tr1::shared_ptr<cainteoir::buffer> zip_inflate(const cainteoir::buffer & compressed, uint32_t uncompressed)
-{
-	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(uncompressed));
-
-	z_stream strm = {0};
-	int ret = inflateInit2(&strm, -MAX_WBITS);
-	if (ret != Z_OK)
-		goto err;
-
-	strm.avail_in = compressed.size();
-	strm.next_in = (Bytef *)compressed.begin();
-
-	strm.avail_out = uncompressed;
-	strm.next_out = (Bytef *)data->begin();
-
-	ret = inflate(&strm, Z_SYNC_FLUSH);
-	(void)inflateEnd(&strm);
-
-	if (ret != Z_STREAM_END)
-		goto err;
-
-	return data;
-
-err:
-	switch (ret)
-	{
-	case Z_STREAM_ERROR:
-		throw std::runtime_error("decompression failed (invalid compression level)");
-	case Z_DATA_ERROR:
-		throw std::runtime_error("decompression failed (invalid or incomplete deflate data)");
-	case Z_MEM_ERROR:
-		throw std::runtime_error("decompression failed (out of memory)");
-	case Z_VERSION_ERROR:
-		throw std::runtime_error("decompression failed (zlib version mismatch)");
-	default:
-		throw std::runtime_error("decompression failed (unspecified error)");
-	}
-}
-
 cainteoir::zip::archive::archive(std::tr1::shared_ptr<cainteoir::buffer> aData)
 {
 	const zip_header * hdr = (const zip_header *)aData->begin();
@@ -125,9 +78,11 @@ std::tr1::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char
 	switch (hdr->compression_type)
 	{
 	case zip_uncompressed:
-		return zip_copy(compressed, hdr->uncompressed);
+		if (hdr->compressed != hdr->uncompressed)
+			throw std::runtime_error("uncompressed zip stream mismatch between compressed and decompressed size");
+		return strm_copy(compressed);
 	case zip_deflated:
-		return zip_inflate(compressed, hdr->uncompressed);
+		return strm_inflate(compressed, hdr->uncompressed);
 	default:
 		throw std::runtime_error("decompression failed (unsupported compression type)");
 	}
