@@ -83,7 +83,7 @@ namespace cainteoir
 	  */
 	//@{
 
-	std::auto_ptr<audio> create_pulseaudio_device(const char *device, audio_format format, int channels, int frequency);
+	std::auto_ptr<audio> create_pulseaudio_device(const char *device, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 	//@}
 	/** @name  Audio Files
@@ -91,7 +91,7 @@ namespace cainteoir
 	  */
 	//@{
 
-	std::auto_ptr<audio> create_wav_file(const char *filename, audio_format format, int channels, int frequency);
+	std::auto_ptr<audio> create_wav_file(const char *filename, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 	std::auto_ptr<audio> create_ogg_file(const char *filename, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 	//@}

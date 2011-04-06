@@ -73,7 +73,7 @@ public:
 	}
 };
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_pulseaudio_device(const char *device, cainteoir::audio_format format, int channels, int frequency)
+std::auto_ptr<cainteoir::audio> cainteoir::create_pulseaudio_device(const char *device, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	return std::auto_ptr<cainteoir::audio>(new pulse_audio(device, format, channels, frequency));
 }

@@ -289,7 +289,7 @@ int main(int argc, char ** argv)
 			std::string outfile = file.str();
 
 			if (!outformat || !strcmp(outformat, "wav"))
-				out = cainteoir::create_wav_file(outfile == "-" ? NULL : outfile.c_str(), audioformat, channels, frequency);
+				out = cainteoir::create_wav_file(outfile == "-" ? NULL : outfile.c_str(), audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
 			else if (!strcmp(outformat, "ogg"))
 				out = cainteoir::create_ogg_file(outfile == "-" ? NULL : outfile.c_str(), audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
 
@@ -305,7 +305,7 @@ int main(int argc, char ** argv)
 		else
 		{
 			state = "reading";
-			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency);
+			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
 
 			fprintf(stdout, "Reading \"%s\"\n\n", doc.subject.str().c_str());
 		}

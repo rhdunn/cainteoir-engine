@@ -42,7 +42,10 @@ int main(int argc, char ** argv)
 		for (long i = 0; i < s*R; ++i)
 			frame[i] = A * std::sin((2 * M_PI * i * f)/R);
 
-		std::auto_ptr<cainteoir::audio> audio = cainteoir::create_pulseaudio_device(NULL, cainteoir::FLOAT32_LE, 1, R);
+		cainteoir::rdf::graph metadata;
+		cainteoir::rdf::uri subject = cainteoir::rdf::uri(std::string(), std::string());
+
+		std::auto_ptr<cainteoir::audio> audio = cainteoir::create_pulseaudio_device(NULL, cainteoir::FLOAT32_LE, 1, R, 0.3, metadata, subject);
 		audio->open();
 		audio->write((const char *)frame, sizeof(float) * s*R);
 		audio->close();
