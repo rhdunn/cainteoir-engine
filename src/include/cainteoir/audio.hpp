@@ -79,6 +79,8 @@ namespace cainteoir
 
 	//@}
 
+	void supportedAudioFormats(rdf::graph &metadata);
+
 	std::auto_ptr<audio> create_audio_file(const char *filename, const char *type, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 	std::auto_ptr<audio> open_audio_device(const char *device, const char *type, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);

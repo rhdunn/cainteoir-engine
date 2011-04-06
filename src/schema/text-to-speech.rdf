@@ -8,6 +8,7 @@
 
 <rdf:Description rdf:about="#">
 	<dc:title xml:lang="en">Text-to-Speech Schema</dc:title>
+	<dc:description xml:lang="en">The RDF ontology used internally by the Cainteoir Text-to-Speech engine to describe information about the system, such as the supported audio formats and text-to-speech voices.</dc:description>
 	<dc:publisher>Reece H. Dunn</dc:publisher>
 	<dc:creator>Reece H. Dunn</dc:creator>
 </rdf:Description>
@@ -26,10 +27,24 @@
 	<rdfs:comment xml:lang="en">A voice usable by an engine.</rdfs:comment>
 </rdfs:Class>
 
+<rdfs:Class rdf:ID="FileFormat">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>FileFormat</rdfs:label>
+	<rdfs:comment xml:lang="en">A file format that is supported by the text-to-speech engine.</rdfs:comment>
+</rdfs:Class>
+
 <rdfs:Class rdf:ID="DocumentFormat">
 	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:subClassOf rdf:resource="#FileFormat"/>
 	<rdfs:label>DocumentFormat</rdfs:label>
 	<rdfs:comment xml:lang="en">A document format that can be handled by the text-to-speech engine.</rdfs:comment>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="AudioFormat">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:subClassOf rdf:resource="#FileFormat"/>
+	<rdfs:label>AudioFormat</rdfs:label>
+	<rdfs:comment xml:lang="en">An audio file format that is supported by the text-to-speech engine.</rdfs:comment>
 </rdfs:Class>
 
 <!-- properties -->

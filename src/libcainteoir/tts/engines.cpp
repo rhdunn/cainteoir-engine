@@ -1,6 +1,6 @@
 /* Espeak Text-to-Speech Engine.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -20,6 +20,7 @@
 
 #include <cainteoir/engines.hpp>
 #include <cainteoir/document.hpp>
+#include <cainteoir/audio.hpp>
 #include "tts_engine.hpp"
 #include <stdexcept>
 
@@ -286,6 +287,7 @@ tts::engines::engines(rdf::graph &metadata)
 		throw std::runtime_error("no text-to-speech voices found.");
 
 	cainteoir::supportedDocumentFormats(metadata);
+	cainteoir::supportedAudioFormats(metadata);
 }
 
 tts::engines::~engines()
