@@ -1,6 +1,6 @@
 /* PulseAudio Support.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -22,6 +22,8 @@
 #include <pulse/simple.h>
 #include <string.h>
 #include <stdio.h>
+
+namespace rdf = cainteoir::rdf;
 
 class pulse_audio : public cainteoir::audio
 {
@@ -73,7 +75,7 @@ public:
 	}
 };
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_pulseaudio_device(const char *device, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::auto_ptr<cainteoir::audio> create_pulseaudio_device(const char *device, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	return std::auto_ptr<cainteoir::audio>(new pulse_audio(device, format, channels, frequency));
 }

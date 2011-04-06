@@ -1,6 +1,6 @@
 /* Audio API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -78,23 +78,10 @@ namespace cainteoir
 	std::list<vorbis_comment> vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 	//@}
-	/** @name  Audio Devices
-	  * @brief Create audio streams for various audio APIs.
-	  */
-	//@{
 
-	std::auto_ptr<audio> create_pulseaudio_device(const char *device, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
+	std::auto_ptr<audio> create_audio_file(const char *filename, const char *type, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
-	//@}
-	/** @name  Audio Files
-	  * @brief Create audio streams for various audio file formats.
-	  */
-	//@{
-
-	std::auto_ptr<audio> create_wav_file(const char *filename, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
-	std::auto_ptr<audio> create_ogg_file(const char *filename, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
-
-	//@}
+	std::auto_ptr<audio> open_audio_device(const char *device, const char *type, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 }
 
 #endif

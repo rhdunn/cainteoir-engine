@@ -1,6 +1,6 @@
 /* WAVE Audio File.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -22,6 +22,8 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
+
+namespace rdf = cainteoir::rdf;
 
 struct WaveHeader
 {
@@ -101,7 +103,7 @@ public:
 	}
 };
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_wav_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::auto_ptr<cainteoir::audio> create_wav_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
 	return std::auto_ptr<cainteoir::audio>(new wav_audio(file, format, channels, frequency));

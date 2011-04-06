@@ -1,6 +1,6 @@
 /* Ogg+Vorbis Audio File.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -252,7 +252,7 @@ public:
 	}
 };
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::auto_ptr<cainteoir::audio> create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
 	return std::auto_ptr<cainteoir::audio>(new ogg_audio(file, format, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument)));
@@ -260,7 +260,7 @@ std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename,
 
 #else
 
-std::auto_ptr<cainteoir::audio> cainteoir::create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::auto_ptr<cainteoir::audio> create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	return std::auto_ptr<cainteoir::audio>();
 }

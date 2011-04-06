@@ -1,6 +1,6 @@
 /* Cainteoir Command-Line Application.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -288,11 +288,10 @@ int main(int argc, char ** argv)
 
 			std::string outfile = file.str();
 
-			if (!outformat || !strcmp(outformat, "wav"))
-				out = cainteoir::create_wav_file(outfile == "-" ? NULL : outfile.c_str(), audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
-			else if (!strcmp(outformat, "ogg"))
-				out = cainteoir::create_ogg_file(outfile == "-" ? NULL : outfile.c_str(), audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
+			if (!outformat)
+				outformat = "wav";
 
+			out = cainteoir::create_audio_file(outfile.c_str(), outformat, audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
 			if (!out.get())
 				throw std::runtime_error("unsupported audio file format");
 
@@ -305,7 +304,7 @@ int main(int argc, char ** argv)
 		else
 		{
 			state = "reading";
-			out = cainteoir::create_pulseaudio_device(NULL, audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
+			out = cainteoir::open_audio_device(NULL, "pulse", audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
 
 			fprintf(stdout, "Reading \"%s\"\n\n", doc.subject.str().c_str());
 		}
