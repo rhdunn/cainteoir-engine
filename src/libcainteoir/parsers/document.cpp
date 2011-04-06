@@ -66,6 +66,13 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 	}
 	else if (type == "application/epub+zip")
 		cainteoir::parseEpubDocument(data, subject, events);
+	else if (type == "application/x-gzip")
+	{
+		std::tr1::shared_ptr<cainteoir::buffer> decompressed = cainteoir::strm_gzip_decompress(*data);
+		return parseDocumentBuffer(decompressed, subject, events);
+	}
+	else if (type == "application/octet-stream")
+		return false;
 	else
 		parseXHtmlDocument(data, subject, events);
 

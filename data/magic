@@ -11,3 +11,8 @@
 !:mime	application/vnd.oasis.opendocument.text
 >>50	string		epub+zip				ePub Document
 !:mime	application/epub+zip
+
+# GZip compressed document
+
+0	string		\037\213				gzip compressed data
+!:mime	application/x-gzip

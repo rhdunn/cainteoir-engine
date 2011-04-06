@@ -61,10 +61,18 @@ namespace cainteoir
 
 	/** @brief Inflate a zlib compressed data buffer.
 	  *
-	  * @param data         The compressed data buffer.
+	  * @param data The compressed data buffer.
 	  * @param uncompressed The size of the uncompressed data buffer.
+	  * @return The uncompressed data buffer.
 	  */
 	std::tr1::shared_ptr<cainteoir::buffer> strm_inflate(const cainteoir::buffer &data, uint32_t uncompressed);
+
+	/** @brief Decompress a gzip buffer.
+	  *
+	  * @param data The gzip compressed data.
+	  * @return     The uncompressed data buffer.
+	  */
+	std::tr1::shared_ptr<cainteoir::buffer> strm_gzip_decompress(const cainteoir::buffer &data);
 
 	/** @brief Open Container Format (OCF)
 	  * @see   http://www.idpf.org/ocf/ocf1.0/download/ocf10.htm

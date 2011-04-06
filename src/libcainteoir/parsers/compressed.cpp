@@ -23,20 +23,12 @@
 #include <zlib.h>
 #include <stdexcept>
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::strm_copy(const cainteoir::buffer &compressed)
-{
-	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(compressed.size()));
-	memcpy((char *)data->begin(), compressed.begin(), compressed.size());
-
-	return data;
-}
-
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::strm_inflate(const cainteoir::buffer &compressed, uint32_t uncompressed)
+std::tr1::shared_ptr<cainteoir::buffer> inflateBuffer(const cainteoir::buffer &compressed, uint32_t uncompressed, int window)
 {
 	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(uncompressed));
 
 	z_stream strm = {0};
-	int ret = inflateInit2(&strm, -MAX_WBITS);
+	int ret = inflateInit2(&strm, window);
 	if (ret != Z_OK)
 		goto err;
 
@@ -68,4 +60,23 @@ err:
 	default:
 		throw std::runtime_error("decompression failed (unspecified error)");
 	}
+}
+
+std::tr1::shared_ptr<cainteoir::buffer> cainteoir::strm_copy(const cainteoir::buffer &compressed)
+{
+	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(compressed.size()));
+	memcpy((char *)data->begin(), compressed.begin(), compressed.size());
+
+	return data;
+}
+
+std::tr1::shared_ptr<cainteoir::buffer> cainteoir::strm_inflate(const cainteoir::buffer &compressed, uint32_t uncompressed)
+{
+	return inflateBuffer(compressed, uncompressed, -MAX_WBITS);
+}
+
+std::tr1::shared_ptr<cainteoir::buffer> cainteoir::strm_gzip_decompress(const cainteoir::buffer &compressed)
+{
+	uint32_t uncompressed = *((uint32_t *)(compressed.end() - 4));
+	return inflateBuffer(compressed, uncompressed, 16 + MAX_WBITS);
 }

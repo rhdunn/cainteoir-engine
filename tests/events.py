@@ -61,7 +61,7 @@ if __name__ == '__main__':
 	})
 	test.run({'name': 'Compressed', 'groups': [
 		{'name': 'gzip', 'type': 'events', 'compress': 'gzip', 'tests': [
-			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events', 'expect': 'fail'},
+			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events'},
 		]},
 		{'name': 'bzip2', 'type': 'events', 'compress': 'bzip2', 'tests': [
 			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events', 'expect': 'fail'},
