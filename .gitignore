@@ -71,3 +71,12 @@ po/remove-potcdate.sed
 po/remove-potcdate.sin
 po/cainteoir-engine.pot
 po/stamp-po
+
+# debian output:
+
+debian/cainteoir.debhelper.log
+debian/cainteoir.substvars
+debian/cainteoir/
+debian/debhelper.log
+debian/files
+debian/substvars
