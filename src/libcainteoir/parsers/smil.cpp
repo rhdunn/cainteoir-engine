@@ -19,6 +19,7 @@
  */
 
 #include "parsers.hpp"
+#include <cainteoir/platform.hpp>
 
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
@@ -49,7 +50,7 @@ void parseSmilData(const xml::node &smil, const rdf::uri &subject, cainteoir::do
 void cainteoir::parseSmilDocument(const xml::node &smil, const rdf::uri &subject, cainteoir::document_events &events)
 {
 	if (smil != rdf::smil("smil"))
-		throw std::runtime_error("SMIL document is not of a recognised format.");
+		throw std::runtime_error(_("SMIL document is not of a recognised format."));
 
 	parseSmilData(smil, subject, events);
 

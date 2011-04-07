@@ -19,6 +19,7 @@
  */
 
 #include "parsers.hpp"
+#include <cainteoir/platform.hpp>
 
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
@@ -142,7 +143,7 @@ void parseOpfSpine(const xml::node &opf, const rdf::uri &subject, std::list<std:
 void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, cainteoir::document_events &events, opffiles &aOpfFiles)
 {
 	if (opf != rdf::opf("package"))
-		throw std::runtime_error("OPF file is not of a recognised format.");
+		throw std::runtime_error(_("OPF file is not of a recognised format."));
 
 	std::string toc;
 	std::list<std::string> spine;

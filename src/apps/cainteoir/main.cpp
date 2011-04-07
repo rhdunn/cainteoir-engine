@@ -18,8 +18,10 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <config.h>
 #include <cainteoir/engines.hpp>
 #include <cainteoir/document.hpp>
+#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
@@ -186,6 +188,10 @@ int main(int argc, char ** argv)
 {
 	LIBXML_TEST_VERSION
 
+	setlocale(LC_MESSAGES, "");
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
+
 	try
 	{
 		enum
@@ -278,7 +284,7 @@ int main(int argc, char ** argv)
 		const char *state;
 		if (outformat || outfile)
 		{
-			state = "recording";
+			state = _("recording");
 			std::stringstream file;
 
 			if (outfile)
@@ -293,12 +299,12 @@ int main(int argc, char ** argv)
 
 			out = cainteoir::create_audio_file(outfile.c_str(), outformat, audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
 			if (!out.get())
-				throw std::runtime_error("unsupported audio file format");
+				throw std::runtime_error(_("unsupported audio file format"));
 
 			if (outfile != "-")
 			{
-				fprintf(stdout, "Recording \"%s\"\n", doc.subject.str().c_str());
-				fprintf(stdout, "       to \"%s\"\n\n", outfile.c_str());
+				fprintf(stdout, _("Recording \"%s\"\n"), doc.subject.str().c_str());
+				fprintf(stdout, _("       to \"%s\"\n\n"), outfile.c_str());
 			}
 		}
 		else
@@ -306,13 +312,13 @@ int main(int argc, char ** argv)
 			state = "reading";
 			out = cainteoir::open_audio_device(NULL, "pulse", audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
 
-			fprintf(stdout, "Reading \"%s\"\n\n", doc.subject.str().c_str());
+			fprintf(stdout, _("Reading \"%s\"\n\n"), doc.subject.str().c_str());
 		}
 
 		size_t length = doc.m_doc->length();
 
-		fprintf(stdout, "Author : %s\n", author.c_str());
-		fprintf(stdout, "Title  : %s\n\n", title.c_str());
+		fprintf(stdout, _("Author : %s\n"), author.c_str());
+		fprintf(stdout, _("Title  : %s\n\n"), title.c_str());
 
 		std::auto_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get(), 0);
 		while (speech->is_speaking())
@@ -330,12 +336,12 @@ int main(int argc, char ** argv)
 			}
 		}
 
-		status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), "stopped");
+		status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), _("stopped"));
 		fprintf(stdout, "\n");
 	}
 	catch (std::runtime_error &e)
 	{
-		fprintf(stderr, "error: %s\n", e.what());
+		fprintf(stderr, _("error: %s\n"), e.what());
 	}
 
 	xmlCleanupParser();

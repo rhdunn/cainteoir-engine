@@ -20,6 +20,7 @@
 
 #include "zip.hpp"
 #include "parsers.hpp"
+#include <cainteoir/platform.hpp>
 
 #include <stdexcept>
 
@@ -79,11 +80,11 @@ std::tr1::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char
 	{
 	case zip_uncompressed:
 		if (hdr->compressed != hdr->uncompressed)
-			throw std::runtime_error("uncompressed zip stream mismatch between compressed and decompressed size");
+			throw std::runtime_error(_("uncompressed zip stream mismatch between compressed and decompressed size"));
 		return strm_copy(compressed);
 	case zip_deflated:
 		return strm_inflate(compressed, hdr->uncompressed);
 	default:
-		throw std::runtime_error("decompression failed (unsupported compression type)");
+		throw std::runtime_error(_("decompression failed (unsupported compression type)"));
 	}
 }

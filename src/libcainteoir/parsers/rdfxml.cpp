@@ -19,6 +19,7 @@
  */
 
 #include "parsers.hpp"
+#include <cainteoir/platform.hpp>
 
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
@@ -198,7 +199,7 @@ void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::resource &subj
 void cainteoir::parseRdfXmlDocument(const xml::node &rdfxml, const rdf::uri &subject, cainteoir::document_events &events)
 {
 	if (rdfxml != rdf::rdf("RDF"))
-		throw std::runtime_error("RDF/XML document is not of a recognised format.");
+		throw std::runtime_error(_("RDF/XML document is not of a recognised format."));
 
 	parseRdfXmlOuterMetadata(rdfxml, subject, events, rdfxml.attr(rdf::xml("base")).content(), std::string());
 }

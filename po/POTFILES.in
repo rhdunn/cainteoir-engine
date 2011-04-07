@@ -1,0 +1,17 @@
+# List of source files which contain translatable strings.
+src/apps/cainteoir/main.cpp
+src/apps/metadata/main.cpp
+src/libcainteoir/audio/audio.cpp
+src/libcainteoir/audio/ogg.cpp
+src/libcainteoir/audio/pulse.cpp
+src/libcainteoir/parsers/compressed.cpp
+src/libcainteoir/parsers/document.cpp
+src/libcainteoir/parsers/epub.cpp
+src/libcainteoir/parsers/mimetypes.hpp
+src/libcainteoir/parsers/ocf.cpp
+src/libcainteoir/parsers/opf.cpp
+src/libcainteoir/parsers/rdfxml.cpp
+src/libcainteoir/parsers/smil.cpp
+src/libcainteoir/parsers/xmlreader.cpp
+src/libcainteoir/parsers/zip.cpp
+src/libcainteoir/tts/engines.cpp

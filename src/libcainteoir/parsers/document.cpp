@@ -19,6 +19,7 @@
  */
 
 #include <cainteoir/document.hpp>
+#include <cainteoir/platform.hpp>
 #include "parsers.hpp"
 #include "mimetypes.hpp"
 
@@ -87,13 +88,13 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
 
 	rdf::uri text = rdf::uri(baseuri, "text");
 	metadata.push_back(rdf::statement(text, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(text, rdf::dc("title"), rdf::literal("text document")));
+	metadata.push_back(rdf::statement(text, rdf::dc("title"), rdf::literal(_("text document"))));
 	metadata.push_back(rdf::statement(text, rdf::tts("mimetype"), rdf::literal("text/plain")));
 	metadata.push_back(rdf::statement(text, rdf::tts("extension"), rdf::literal("*.txt")));
 
 	rdf::uri html = rdf::uri(baseuri, "html");
 	metadata.push_back(rdf::statement(html, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(html, rdf::dc("title"), rdf::literal("html document")));
+	metadata.push_back(rdf::statement(html, rdf::dc("title"), rdf::literal(_("html document"))));
 	metadata.push_back(rdf::statement(html, rdf::tts("mimetype"), rdf::literal("text/html")));
 	metadata.push_back(rdf::statement(html, rdf::tts("mimetype"), rdf::literal("application/xhtml+xml")));
 	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.htm")));
@@ -104,13 +105,13 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
 
 	rdf::uri epub = rdf::uri(baseuri, "epub");
 	metadata.push_back(rdf::statement(epub, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(epub, rdf::dc("title"), rdf::literal("epub document")));
+	metadata.push_back(rdf::statement(epub, rdf::dc("title"), rdf::literal(_("epub document"))));
 	metadata.push_back(rdf::statement(epub, rdf::tts("mimetype"), rdf::literal("application/epub+zip")));
 	metadata.push_back(rdf::statement(epub, rdf::tts("extension"), rdf::literal("*.epub")));
 
 	rdf::uri gzip = rdf::uri(baseuri, "gzip");
 	metadata.push_back(rdf::statement(gzip, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(gzip, rdf::dc("title"), rdf::literal("gzip compressed document")));
+	metadata.push_back(rdf::statement(gzip, rdf::dc("title"), rdf::literal(_("gzip compressed document"))));
 	metadata.push_back(rdf::statement(gzip, rdf::tts("mimetype"), rdf::literal("application/x-gzip")));
 	metadata.push_back(rdf::statement(gzip, rdf::tts("extension"), rdf::literal("*.gz")));
 }

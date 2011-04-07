@@ -20,6 +20,7 @@
 
 #include "config.h"
 #include <cainteoir/audio.hpp>
+#include <cainteoir/platform.hpp>
 #include <stdio.h>
 #include <time.h>
 
@@ -119,7 +120,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 	comments.push_back(vorbis_comment("GENRE", "Vocal"));
 	comments.push_back(vorbis_comment("DATE", year));
 
-	comments.push_back(vorbis_comment("PERFORMER", "Cainteoir(TM) Text-to-Speech"));
+	comments.push_back(vorbis_comment("PERFORMER", _("Cainteoir(TM) Text-to-Speech")));
 	comments.push_back(vorbis_comment("LICENSE", "http://creativecommons.org/licenses/by-sa/3.0/"));
 	comments.push_back(vorbis_comment("CONTACT", "http://rhdunn.github.com/cainteoir/"));
 	return comments;

@@ -1,9 +1,11 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
-AM_LDFLAGS  = ${PULSE_LIBS}   ${VORBIS_LIBS}   ${MAGIC_LIBS}   ${LIBXML2_LIBS}   ${ZLIB_LIBS}   ${ESPEAK_LIBS}
+localedir = $(datadir)/locale
+
+AM_LDFLAGS  = ${PULSE_LIBS}   ${VORBIS_LIBS}   ${MAGIC_LIBS}   ${LIBXML2_LIBS}   ${ZLIB_LIBS}   ${ESPEAK_LIBS}   ${LTLIBINTL}
 AM_CXXFLAGS = ${PULSE_CFLAGS} ${VORBIS_CFLAGS} ${MAGIC_CFLAGS} ${LIBXML2_CFLAGS} ${ZLIB_CFLAGS} ${ESPEAK_CFLAGS} -Isrc/include
 
-AM_CXXFLAGS += -std=c++0x -DDATADIR='"$(datadir)"'
+AM_CXXFLAGS += -std=c++0x -DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -13,8 +15,41 @@ noinst_LIBRARIES =
 
 noinst_bindir =
 
-EXTRA_DIST = 
+EXTRA_DIST = config.rpath m4/ChangeLog  
 CLEANFILES =
+SUBDIRS = po
+
+############################# gettext #########################################
+
+EXTRA_DIST += mkinstalldirs m4/Makefile.in src/gettext.h
+
+check-gettext:
+	@if test x$(USE_NLS) != "xyes" ; then echo "Missing gettext. Rerun configure and check for" \
+	"'checking whether to use NLS... yes'!" ; exit 1 ; fi
+
+update-po: check-gettext
+	@find $(srcdir)/src/ -name "*.cpp" -print | sort > $(srcdir)/po/POTFILES.in.2 ; \
+	if diff $(srcdir)/po/POTFILES.in $(srcdir)/po/POTFILES.in.2 >/dev/null 2>&1 ; then \
+		rm -f $(srcdir)/po/POTFILES.in.2 ; \
+	else \
+		mv $(srcdir)/po/POTFILES.in.2 $(srcdir)/po/POTFILES.in ; \
+	fi
+	cd po && $(MAKE) $(AM_MAKEFLAGS) update-po
+
+update-gmo: check-gettext
+	cd po && $(MAKE) $(AM_MAKEFLAGS) update-gmo
+
+force-update-gmo: check-gettext
+	touch po/*.po
+	cd po && $(MAKE) $(AM_MAKEFLAGS) update-gmo
+
+force-update-gmo-%: check-gettext
+	@language=`echo $@ | sed s/force-update-gmo-//` ; \
+	if test ! -f po/$$language.po ; then echo "file po/$$language.po does not exist" ; exit 1 ; fi ; \
+	touch po/$$language.po ; \
+	cd po && $(MAKE) $(AM_MAKEFLAGS) update-gmo
+
+.PHONY: check-gettext update-po update-gmo force-update-gmo
 
 ############################# ChangeLog #######################################
 
@@ -39,6 +74,7 @@ data/magic.mgc: data/magic
 noinst_LIBRARIES += src/libcainteoir/libcainteoir.a
 
 src_libcainteoir_libcainteoir_a_SOURCES = \
+	src/include/cainteoir/platform.hpp \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
 	src/include/cainteoir/xmlreader.hpp \

@@ -24,6 +24,7 @@
 #include "config.h"
 
 #include <cainteoir/buffer.hpp>
+#include <cainteoir/platform.hpp>
 #include <magic.h>
 #include <stdexcept>
 #include <cstdlib>
@@ -37,7 +38,7 @@ namespace cainteoir
 		{
 			cookie = magic_open(MAGIC_MIME|MAGIC_CHECK);
 			if (cookie == NULL)
-				throw std::runtime_error("unable to initialise the mimetype database (libmagic).");
+				throw std::runtime_error(_("unable to initialise the mimetype database (libmagic)."));
 
 			const char *basedir = getenv("CAINTEOIR_DATADIR");
 			if (!basedir)

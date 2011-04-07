@@ -20,6 +20,7 @@
 
 #include "parsers.hpp"
 #include "zip.hpp"
+#include <cainteoir/platform.hpp>
 
 namespace xml = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
@@ -31,7 +32,7 @@ void cainteoir::parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData,
 	xml::document ocf(epub.read("META-INF/container.xml"));
 	std::string opffile = cainteoir::parseOcfDocument(ocf.root())["application/oebps-package+xml"];
 	if (opffile.empty())
-		throw std::runtime_error("Unsupported ePub content: OPF file not found.");
+		throw std::runtime_error(_("Unsupported ePub content: OPF file not found."));
 
 	cainteoir::opffiles files;
 
@@ -51,6 +52,6 @@ void cainteoir::parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData,
 		if (doc)
 			cainteoir::parseXHtmlDocument(doc, rdf::uri(aSubject.str(), file->id), events);
 		else
-			fprintf(stderr, "document '%s' not found in ePub archive.\n", filename.c_str());
+			fprintf(stderr, _("document '%s' not found in ePub archive.\n"), filename.c_str());
 	}
 }

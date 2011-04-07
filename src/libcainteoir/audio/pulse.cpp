@@ -19,6 +19,7 @@
  */
 
 #include <cainteoir/audio.hpp>
+#include <cainteoir/platform.hpp>
 #include <pulse/simple.h>
 #include <string.h>
 #include <stdio.h>
@@ -57,7 +58,7 @@ public:
 	void open()
 	{
 		if (!pa)
-			pa = pa_simple_new(m_device, "Cainteoir Text-to-Speech", PA_STREAM_PLAYBACK, NULL, "Music", &ss, NULL, NULL, NULL);
+			pa = pa_simple_new(m_device, _("Cainteoir Text-to-Speech"), PA_STREAM_PLAYBACK, NULL, "Music", &ss, NULL, NULL, NULL);
 	}
 
 	void close()

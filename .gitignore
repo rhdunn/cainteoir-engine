@@ -48,3 +48,26 @@ missing
 stamp-h1
 
 cainteoir-engine-*
+
+# gettext/libintl/autopoint output:
+
+ABOUT-NLS
+config.guess
+config.rpath
+config.sub
+m4/
+po/*~
+
+po/Makefile.in.in
+po/Makevars.template
+po/POTFILES
+po/Rules-quot
+po/boldquot.sed
+po/en@boldquot.header
+po/en@quot.header
+po/insert-header.sin
+po/quot.sed
+po/remove-potcdate.sed
+po/remove-potcdate.sin
+po/cainteoir-engine.pot
+po/stamp-po

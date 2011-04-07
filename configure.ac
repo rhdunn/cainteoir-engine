@@ -5,6 +5,9 @@ AC_CONFIG_SRCDIR([src])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
 
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION(0.18)
+
 dnl ================================================================
 dnl Program checks.
 dnl ================================================================
@@ -110,7 +113,7 @@ dnl ================================================================
 dnl Generate output.
 dnl ================================================================
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile po/Makefile.in])
 AC_OUTPUT
 
 AC_MSG_NOTICE([

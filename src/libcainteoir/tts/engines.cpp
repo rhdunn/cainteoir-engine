@@ -21,6 +21,7 @@
 #include <cainteoir/engines.hpp>
 #include <cainteoir/document.hpp>
 #include <cainteoir/audio.hpp>
+#include <cainteoir/platform.hpp>
 #include "tts_engine.hpp"
 #include <stdexcept>
 
@@ -284,7 +285,7 @@ tts::engines::engines(rdf::graph &metadata)
 	enginelist[uri] = active;
 
 	if (!active)
-		throw std::runtime_error("no text-to-speech voices found.");
+		throw std::runtime_error(_("no text-to-speech voices found."));
 
 	cainteoir::supportedDocumentFormats(metadata);
 	cainteoir::supportedAudioFormats(metadata);

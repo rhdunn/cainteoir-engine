@@ -19,6 +19,7 @@
  */
 
 #include <cainteoir/xmlreader.hpp>
+#include <cainteoir/platform.hpp>
 
 struct entity
 {
@@ -115,7 +116,7 @@ std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &en
 			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(value));
 	}
 
-	fprintf(stderr, "unrecognised entity '%s'\n", entity.str().c_str());
+	fprintf(stderr, _("unrecognised entity '%s'\n"), entity.str().c_str());
 	return std::tr1::shared_ptr<cainteoir::buffer>();
 }
 

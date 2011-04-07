@@ -19,6 +19,7 @@
  */
 
 #include "parsers.hpp"
+#include <cainteoir/platform.hpp>
 
 namespace xml = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
@@ -43,7 +44,7 @@ std::map<std::string, std::string> parseOcfRootFiles(const xml::node &ocf)
 std::map<std::string, std::string> cainteoir::parseOcfDocument(const xml::node &ocf)
 {
 	if (ocf != rdf::ocf("container"))
-		throw std::runtime_error("OCF file is not of a recognised format.");
+		throw std::runtime_error(_("OCF file is not of a recognised format."));
 
 	for (xml::node node = ocf.firstChild(); node.isValid(); node.next())
 	{

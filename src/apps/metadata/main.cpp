@@ -21,6 +21,7 @@
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
 #include <cainteoir/document.hpp>
+#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
@@ -106,11 +107,11 @@ int main(int argc, char ** argv)
 		argv += optind;
 
 		if (argc != 1)
-			throw std::runtime_error("no document specified");
+			throw std::runtime_error(_("no document specified"));
 
 		rdfmetadata metadata;
 		if (!cainteoir::parseDocument(argv[0], metadata))
-			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
+			fprintf(stderr, _("unsupported document format for file \"%s\"\n"), argv[0]);
 
 		if (!metadata.empty())
 		{
@@ -144,7 +145,7 @@ int main(int argc, char ** argv)
 	}
 	catch (std::runtime_error &e)
 	{
-		fprintf(stderr, "error: %s\n", e.what());
+		fprintf(stderr, _("error: %s\n"), e.what());
 	}
 
 	xmlCleanupParser();

@@ -19,6 +19,7 @@
  */
 
 #include <cainteoir/audio.hpp>
+#include <cainteoir/platform.hpp>
 #include <string.h>
 
 namespace rdf = cainteoir::rdf;
@@ -36,7 +37,7 @@ void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 
 	rdf::uri wav = rdf::uri(baseuri, "wav");
 	metadata.push_back(rdf::statement(wav, rdf::rdf("type"), rdf::tts("AudioFormat")));
-	metadata.push_back(rdf::statement(wav, rdf::dc("title"), rdf::literal("wave audio")));
+	metadata.push_back(rdf::statement(wav, rdf::dc("title"), rdf::literal(_("wave audio"))));
 	metadata.push_back(rdf::statement(wav, rdf::tts("mimetype"), rdf::literal("audio/vnd.wav")));
 	metadata.push_back(rdf::statement(wav, rdf::tts("mimetype"), rdf::literal("audio/wav")));
 	metadata.push_back(rdf::statement(wav, rdf::tts("mimetype"), rdf::literal("audio/wave")));
@@ -45,7 +46,7 @@ void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 
 	rdf::uri ogg = rdf::uri(baseuri, "ogg");
 	metadata.push_back(rdf::statement(ogg, rdf::rdf("type"), rdf::tts("AudioFormat")));
-	metadata.push_back(rdf::statement(ogg, rdf::dc("title"), rdf::literal("ogg+vorbis audio")));
+	metadata.push_back(rdf::statement(ogg, rdf::dc("title"), rdf::literal(_("ogg+vorbis audio"))));
 	metadata.push_back(rdf::statement(ogg, rdf::tts("mimetype"), rdf::literal("application/ogg")));
 	metadata.push_back(rdf::statement(ogg, rdf::tts("mimetype"), rdf::literal("audio/ogg")));
 	metadata.push_back(rdf::statement(ogg, rdf::tts("extension"), rdf::literal("*.ogg")));
