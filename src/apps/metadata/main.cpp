@@ -18,6 +18,7 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <config.h>
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
 #include <cainteoir/document.hpp>
@@ -44,8 +45,24 @@ static struct option options[] =
 	{ "ntriple", no_argument, 0, ARG_NTRIPLE },
 	{ "turtle",  no_argument, 0, ARG_TURTLE },
 	{ "vorbis",  no_argument, 0, ARG_VORBIS_COMMENTS },
+	{ "help",    no_argument, 0, 'h' },
 	{ 0, 0, 0, 0 }
 };
+
+void help()
+{
+	fprintf(stdout, _("usage: metadata [OPTION..] document\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("Formats:\n"));
+	fprintf(stdout, _(" --ntriple              Output RDF N-Triples statements\n"));
+	fprintf(stdout, _(" --turtle               Output RDF Turtle statements\n"));
+	fprintf(stdout, _(" --vorbis               Output VorbisComment entries\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("General:\n"));
+	fprintf(stdout, _(" -h, --help             This help text\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("Report bugs to msclrhd@gmail.com\n"));
+}
 
 struct rdfmetadata
 	: public cainteoir::document_events
@@ -70,6 +87,10 @@ int main(int argc, char ** argv)
 {
 	LIBXML_TEST_VERSION
 
+	setlocale(LC_MESSAGES, "");
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
+
 	try
 	{
 		enum
@@ -83,7 +104,7 @@ int main(int argc, char ** argv)
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "", options, &option_index);
+			int c = getopt_long(argc, argv, "h", options, &option_index);
 			if (c == -1)
 				break;
 
@@ -100,6 +121,9 @@ int main(int argc, char ** argv)
 			case ARG_VORBIS_COMMENTS:
 				output_type = vorbis_comments;
 				break;
+			case 'h':
+				help();
+				return 0;
 			}
 		}
 
