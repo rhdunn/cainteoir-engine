@@ -10,6 +10,7 @@ AM_CXXFLAGS += -std=c++0x -DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
 ACLOCAL_AMFLAGS = -I m4
 
 bin_PROGRAMS =
+man1_MANS =
 noinst_bin_PROGRAMS =
 noinst_LIBRARIES =
 
@@ -115,11 +116,13 @@ src_libcainteoir_libcainteoir_a_SOURCES += \
 ############################# applications ####################################
 
 bin_PROGRAMS += src/apps/cainteoir/cainteoir
+man1_MANS += src/apps/cainteoir/cainteoir.man
 
 src_apps_cainteoir_cainteoir_LDADD   = src/libcainteoir/libcainteoir.a
 src_apps_cainteoir_cainteoir_SOURCES = src/apps/cainteoir/main.cpp
 
 bin_PROGRAMS += src/apps/metadata/metadata
+man1_MANS += src/apps/metadata/metadata.man
 
 src_apps_metadata_metadata_LDADD   = src/libcainteoir/libcainteoir.a
 src_apps_metadata_metadata_SOURCES = src/apps/metadata/main.cpp

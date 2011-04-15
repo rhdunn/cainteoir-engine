@@ -1,0 +1,36 @@
+.\" Process this file with
+.\" groff -man -Tascii foo.1
+.\"
+.TH CAINTEOIR 1 "APRIL 2011" Linux "User Manuals"
+.SH NAME
+cainteoir \- listen to and record electronic books and documents
+.SH SYNOPSIS
+.B cainteoir [OPTION..]
+.I document
+.SH DESCRIPTION
+.B cainteoir
+A command\-line interface for Cainteoir Text-to-Speech.
+.SH OPTIONS
+.IP "--metadata"
+Output the RDF metadata for the Cainteoir Text-to-Speech engine
+and supported voices. This is output as RDF N-Triple statements.
+.IP "-v VOICE, --voice=VOICE"
+Select the text-to-speech voice with the specified name.
+.IP "-l LANG, --language=LANG"
+Select a text-to-speech voice that can speak in the specified
+language.
+.IP "-o FILE, --output=FILE"
+The file to output to when recording audio. If not specified,
+the author and title are used to create a file in the current
+directory.
+.IP "--stdout"
+When recording, write the audio data to standard output instead
+of a file.
+.IP "-f [FORMAT], --format[=FORMAT]"
+Record the document to the specified audio format ('wav' for wave
+audio, 'ogg' for Ogg/Vorbis audio). If no format is specified,
+wave audio is generated.
+.SH AUTHOR
+Reece H. Dunn <msclrhd@gmail.com>
+.SH "SEE ALSO"
+.BR espeak (1)
