@@ -50,12 +50,36 @@ static struct option options[] =
 {
 	{ "output",   required_argument, 0, 'o' },
 	{ "stdout",   no_argument,       0, ARG_STDOUT },
-	{ "type",     required_argument, 0, 't' },
+	{ "format",   required_argument, 0, 'f' },
 	{ "voice",    required_argument, 0, 'v' },
 	{ "language", required_argument, 0, 'l' },
 	{ "metadata", no_argument,       0, ARG_METADATA },
+	{ "help",     no_argument,       0, 'h' },
 	{ 0, 0, 0, 0 }
 };
+
+void help()
+{
+	fprintf(stdout, _("usage: cainteoir [OPTION..] document\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("     --metadata         Show the RDF metadata for the engine and voices\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("Speech:\n"));
+	fprintf(stdout, _(" -v, --voice=VOICE      Use the voice named VOICE\n"));
+	fprintf(stdout, _(" -l, --language=LANG    Use a voice that speaks the language LANG\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("Recording audio:\n"));
+	fprintf(stdout, _(" -o, --output=FILE      Record the audio to FILE\n"));
+	fprintf(stdout, _("     --stdout           Record the audio to the standard output\n"));
+	fprintf(stdout, _(" -f, --format=FORMAT    The format of the generated audio (default: wav)\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("General:\n"));
+	fprintf(stdout, _(" -h, --help             This help text\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("The arguments to the long options also apply to their short option equivalents.\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("Report bugs to msclrhd@gmail.com\n"));
+}
 
 int termchar()
 {
@@ -198,6 +222,7 @@ int main(int argc, char ** argv)
 		{
 			speak,
 			show_metadata,
+			show_help,
 		} action = speak;
 
 		const char *voicename = NULL;
@@ -209,12 +234,15 @@ int main(int argc, char ** argv)
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "o:t:v:l:", options, &option_index);
+			int c = getopt_long(argc, argv, "f:hl:o:v:", options, &option_index);
 			if (c == -1)
 				break;
 
 			switch (c)
 			{
+			case 'h':
+				action = show_help;
+				break;
 			case 'l':
 				language = optarg;
 				break;
@@ -224,7 +252,7 @@ int main(int argc, char ** argv)
 			case 'o':
 				outfile = optarg;
 				break;
-			case 't':
+			case 'f':
 				outformat = optarg;
 				if (!strcmp(outformat, "wave"))
 					outformat = "wav";
@@ -260,6 +288,11 @@ int main(int argc, char ** argv)
 				<< rdf::foaf
 				<< rdf::tts
 				<< doc.m_metadata;
+			return 0;
+		}
+		else if (action == show_help)
+		{
+			help();
 			return 0;
 		}
 
