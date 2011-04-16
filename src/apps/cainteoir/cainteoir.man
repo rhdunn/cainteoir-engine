@@ -26,7 +26,7 @@ directory.
 .IP "--stdout"
 When recording, write the audio data to standard output instead
 of a file.
-.IP "-f [FORMAT], --format[=FORMAT]"
+.IP "-r [FORMAT], --record[=FORMAT]"
 Record the document to the specified audio format ('wav' for wave
 audio, 'ogg' for Ogg/Vorbis audio). If no format is specified,
 wave audio is generated.

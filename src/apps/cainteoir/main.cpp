@@ -50,7 +50,7 @@ static struct option options[] =
 {
 	{ "output",   required_argument, 0, 'o' },
 	{ "stdout",   no_argument,       0, ARG_STDOUT },
-	{ "format",   required_argument, 0, 'f' },
+	{ "record",   required_argument, 0, 'r' },
 	{ "voice",    required_argument, 0, 'v' },
 	{ "language", required_argument, 0, 'l' },
 	{ "metadata", no_argument,       0, ARG_METADATA },
@@ -69,9 +69,9 @@ void help()
 	fprintf(stdout, _(" -l, --language=LANG    Use a voice that speaks the language LANG\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("Recording audio:\n"));
-	fprintf(stdout, _(" -o, --output=FILE      Record the audio to FILE\n"));
-	fprintf(stdout, _("     --stdout           Record the audio to the standard output\n"));
-	fprintf(stdout, _(" -f, --format=FORMAT    The format of the generated audio (default: wav)\n"));
+	fprintf(stdout, _(" -o, --output=FILE      Recorded audio is written to FILE\n"));
+	fprintf(stdout, _("     --stdout           Recorded audio is written to the standard output\n"));
+	fprintf(stdout, _(" -r, --record=FORMAT    Record the audio as a FORMAT file (default: wav)\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("General:\n"));
 	fprintf(stdout, _(" -h, --help             This help text\n"));
@@ -234,7 +234,7 @@ int main(int argc, char ** argv)
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "f:hl:o:v:", options, &option_index);
+			int c = getopt_long(argc, argv, "hl:o:r:v:", options, &option_index);
 			if (c == -1)
 				break;
 
@@ -252,7 +252,7 @@ int main(int argc, char ** argv)
 			case 'o':
 				outfile = optarg;
 				break;
-			case 'f':
+			case 'r':
 				outformat = optarg;
 				if (!strcmp(outformat, "wave"))
 					outformat = "wav";
