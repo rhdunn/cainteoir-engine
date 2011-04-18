@@ -2,10 +2,9 @@ AUTOMAKE_OPTIONS = subdir-objects
 
 localedir = $(datadir)/locale
 
-AM_LDFLAGS  = ${PULSE_LIBS}   ${VORBIS_LIBS}   ${MAGIC_LIBS}   ${LIBXML2_LIBS}   ${ZLIB_LIBS}   ${ESPEAK_LIBS}   ${LTLIBINTL}
-AM_CXXFLAGS = ${PULSE_CFLAGS} ${VORBIS_CFLAGS} ${MAGIC_CFLAGS} ${LIBXML2_CFLAGS} ${ZLIB_CFLAGS} ${ESPEAK_CFLAGS} -Isrc/include
-
-AM_CXXFLAGS += -std=c++0x -DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
+AM_LDFLAGS  = ${LTLIBINTL}
+AM_CXXFLAGS = -Isrc/include ${LIBXML2_CFLAGS} \
+	-std=c++0x -DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -102,7 +101,22 @@ libcainteoir_include_HEADERS = \
 
 lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
 
-src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION)
+src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION) \
+	${PULSE_LIBS} \
+	${VORBIS_LIBS} \
+	${MAGIC_LIBS} \
+	${LIBXML2_LIBS} \
+	${ZLIB_LIBS} \
+	${ESPEAK_LIBS} \
+	${LTLIBINTL}
+
+src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
+	${PULSE_CFLAGS} \
+	${VORBIS_CFLAGS} \
+	${MAGIC_CFLAGS} \
+	${ZLIB_CFLAGS} \
+	${ESPEAK_CFLAGS}
+
 src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
