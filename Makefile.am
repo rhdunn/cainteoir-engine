@@ -90,10 +90,8 @@ pkgdata_DATA = data/magic.mgc
 data/magic.mgc: data/magic
 	cd data && file -C -m magic
 
-lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
-
-src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION)
-src_libcainteoir_libcainteoir_la_SOURCES = \
+libcainteoir_includedir = $(includedir)/cainteoir
+libcainteoir_include_HEADERS = \
 	src/include/cainteoir/platform.hpp \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
@@ -102,7 +100,10 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/include/cainteoir/engines.hpp \
 	src/include/cainteoir/metadata.hpp
 
-src_libcainteoir_libcainteoir_la_SOURCES += \
+lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
+
+src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION)
+src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/xmlstring_buffer.cpp \
