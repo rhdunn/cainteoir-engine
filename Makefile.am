@@ -10,15 +10,33 @@ AM_CXXFLAGS += -std=c++0x -DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
 ACLOCAL_AMFLAGS = -I m4
 
 bin_PROGRAMS =
+lib_LTLIBRARIES =
 man1_MANS =
 noinst_bin_PROGRAMS =
 noinst_LIBRARIES =
 
 noinst_bindir =
 
-EXTRA_DIST = config.rpath m4/ChangeLog  
+EXTRA_DIST = config.rpath m4/ChangeLog
 CLEANFILES =
 SUBDIRS = po
+
+############################# libtool #########################################
+
+EXTRA_DIST += config.guess config.sub ltconfig ltmain.sh
+
+# Increment if the interface has changed and is backward compatible
+CURRENT=0
+
+# Increment  if source files have changed
+# Reset to 0 if the interface has changed
+REVISION=0
+
+# Increment  if the interface is backward compatible (superset)
+# Reset to 0 if the interface is not backward compatible
+AGE=0
+
+LIBCAINTEOIR_VERSION=$(CURRENT):$(REVISION):$(AGE)
 
 ############################# gettext #########################################
 
@@ -72,9 +90,10 @@ pkgdata_DATA = data/magic.mgc
 data/magic.mgc: data/magic
 	cd data && file -C -m magic
 
-noinst_LIBRARIES += src/libcainteoir/libcainteoir.a
+lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
 
-src_libcainteoir_libcainteoir_a_SOURCES = \
+src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION)
+src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/include/cainteoir/platform.hpp \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
@@ -83,7 +102,7 @@ src_libcainteoir_libcainteoir_a_SOURCES = \
 	src/include/cainteoir/engines.hpp \
 	src/include/cainteoir/metadata.hpp
 
-src_libcainteoir_libcainteoir_a_SOURCES += \
+src_libcainteoir_libcainteoir_la_SOURCES += \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/xmlstring_buffer.cpp \
@@ -118,45 +137,45 @@ src_libcainteoir_libcainteoir_a_SOURCES += \
 bin_PROGRAMS += src/apps/cainteoir/cainteoir
 man1_MANS += src/apps/cainteoir/cainteoir.man
 
-src_apps_cainteoir_cainteoir_LDADD   = src/libcainteoir/libcainteoir.a
+src_apps_cainteoir_cainteoir_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_cainteoir_cainteoir_SOURCES = src/apps/cainteoir/main.cpp
 
 bin_PROGRAMS += src/apps/metadata/metadata
 man1_MANS += src/apps/metadata/metadata.man
 
-src_apps_metadata_metadata_LDADD   = src/libcainteoir/libcainteoir.a
+src_apps_metadata_metadata_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_metadata_metadata_SOURCES = src/apps/metadata/main.cpp
 
 ############################# tests ###########################################
 
 noinst_bin_PROGRAMS += tests/rdfmodel
 
-tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.a
+tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.la
 tests_rdfmodel_SOURCES = tests/rdfmodel.cpp tests/tester.hpp
 
 noinst_bin_PROGRAMS += tests/ntriple_formatter
 
-tests_ntriple_formatter_LDADD   = src/libcainteoir/libcainteoir.a
+tests_ntriple_formatter_LDADD   = src/libcainteoir/libcainteoir.la
 tests_ntriple_formatter_SOURCES = tests/ntriple_formatter.cpp tests/tester.hpp
 
 noinst_bin_PROGRAMS += tests/turtle_formatter
 
-tests_turtle_formatter_LDADD   = src/libcainteoir/libcainteoir.a
+tests_turtle_formatter_LDADD   = src/libcainteoir/libcainteoir.la
 tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp tests/tester.hpp
 
 noinst_bin_PROGRAMS += tests/events
 
-tests_events_LDADD   = src/libcainteoir/libcainteoir.a
+tests_events_LDADD   = src/libcainteoir/libcainteoir.la
 tests_events_SOURCES = tests/events.cpp
 
 noinst_bin_PROGRAMS += tests/xmlreader
 
-tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.a
+tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
 tests_xmlreader_SOURCES = tests/xmlreader.cpp
 
 noinst_bin_PROGRAMS += tests/voicesynth
 
-tests_voicesynth_LDADD   = src/libcainteoir/libcainteoir.a
+tests_voicesynth_LDADD   = src/libcainteoir/libcainteoir.la
 tests_voicesynth_SOURCES = tests/voicesynth.cpp
 
 EXTRA_DIST += \

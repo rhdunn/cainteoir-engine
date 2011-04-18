@@ -12,13 +12,15 @@ AC_CONFIG_HEADERS([config.h])
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION(0.18)
 
+LT_INIT
+
 dnl ================================================================
 dnl Program checks.
 dnl ================================================================
 
 AC_PROG_CXX
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
+AC_PROG_LIBTOOL
 
 dnl ================================================================
 dnl getopt checks.

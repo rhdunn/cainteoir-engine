@@ -1,6 +1,7 @@
 # build artefacts:
 
 *.o
+*.lo
 *.pyc
 
 # vi/vim editor files:
@@ -13,6 +14,7 @@
 data/magic.mgc
 
 src/libcainteoir/libcainteoir.a
+src/libcainteoir/libcainteoir.la
 
 src/apps/cainteoir/cainteoir
 src/apps/metadata/metadata
@@ -29,6 +31,7 @@ tests/voicesynth
 Makefile
 Makefile.in
 
+.libs/
 .deps/
 .dirstamp
 
@@ -46,6 +49,8 @@ depcomp
 install-sh
 missing
 stamp-h1
+libtool
+ltmain.sh
 
 cainteoir-engine-*
 
@@ -74,6 +79,7 @@ po/stamp-po
 
 # debian output:
 
+debian/cainteoir.*.debhelper
 debian/cainteoir.debhelper.log
 debian/cainteoir.substvars
 debian/cainteoir/
