@@ -338,7 +338,7 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	return false;
 }
 
-std::auto_ptr<tts::speech> tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc, audio *out, size_t offset)
+std::shared_ptr<tts::speech> tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc, audio *out, size_t offset)
 {
-	return std::auto_ptr<tts::speech>(new speech_impl(active, out, doc, offset));
+	return std::shared_ptr<tts::speech>(new speech_impl(active, out, doc, offset));
 }

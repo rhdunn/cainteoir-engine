@@ -45,7 +45,7 @@ int main(int argc, char ** argv)
 		cainteoir::rdf::graph metadata;
 		cainteoir::rdf::uri subject = cainteoir::rdf::uri(std::string(), std::string());
 
-		std::auto_ptr<cainteoir::audio> audio = cainteoir::open_audio_device(NULL, "pulse", cainteoir::FLOAT32_LE, 1, R, 0.3, metadata, subject);
+		std::shared_ptr<cainteoir::audio> audio = cainteoir::open_audio_device(NULL, "pulse", cainteoir::FLOAT32_LE, 1, R, 0.3, metadata, subject);
 		audio->open();
 		audio->write((const char *)frame, sizeof(float) * s*R);
 		audio->close();

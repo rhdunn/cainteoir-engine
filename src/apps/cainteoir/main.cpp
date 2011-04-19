@@ -25,7 +25,6 @@
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
-#include <memory>
 #include <getopt.h>
 #include <cmath>
 
@@ -229,7 +228,6 @@ int main(int argc, char ** argv)
 		const char *language = NULL;
 		const char *outfile = NULL;
 		const char *outformat = NULL;
-		std::auto_ptr<cainteoir::buffer> text_buffer;
 
 		while (1)
 		{
@@ -313,7 +311,7 @@ int main(int argc, char ** argv)
 		std::string author = select_value(doc.m_metadata, doc.subject, rdf::dc("creator"));
 		std::string title  = select_value(doc.m_metadata, doc.subject, rdf::dc("title"));
 
-		std::auto_ptr<cainteoir::audio> out;
+		std::shared_ptr<cainteoir::audio> out;
 		const char *state;
 		if (outformat || outfile)
 		{
@@ -353,7 +351,7 @@ int main(int argc, char ** argv)
 		fprintf(stdout, _("Author : %s\n"), author.c_str());
 		fprintf(stdout, _("Title  : %s\n\n"), title.c_str());
 
-		std::auto_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get(), 0);
+		std::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get(), 0);
 		while (speech->is_speaking())
 		{
 			status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), state);
