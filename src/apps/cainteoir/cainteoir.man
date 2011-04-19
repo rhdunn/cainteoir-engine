@@ -1,6 +1,3 @@
-.\" Process this file with
-.\" groff -man -Tascii foo.1
-.\"
 .TH CAINTEOIR 1 "APRIL 2011" Linux "User Manuals"
 .SH NAME
 cainteoir \- listen to and record electronic books and documents
