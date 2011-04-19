@@ -16,13 +16,13 @@ noinst_LIBRARIES =
 
 noinst_bindir =
 
-EXTRA_DIST = config.rpath m4/ChangeLog
+EXTRA_DIST = config.rpath ChangeLog
 CLEANFILES =
 SUBDIRS = po
 
 ############################# libtool #########################################
 
-EXTRA_DIST += config.guess config.sub ltconfig ltmain.sh
+EXTRA_DIST += config.guess config.sub ltmain.sh
 
 # Increment if the interface has changed and is backward compatible
 CURRENT=0
@@ -38,8 +38,6 @@ AGE=0
 LIBCAINTEOIR_VERSION=$(CURRENT):$(REVISION):$(AGE)
 
 ############################# gettext #########################################
-
-EXTRA_DIST += mkinstalldirs m4/Makefile.in src/gettext.h
 
 check-gettext:
 	@if test x$(USE_NLS) != "xyes" ; then echo "Missing gettext. Rerun configure and check for" \
@@ -161,6 +159,8 @@ man1_MANS += src/apps/metadata/metadata.man
 src_apps_metadata_metadata_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_metadata_metadata_SOURCES = src/apps/metadata/main.cpp
 
+EXTRA_DIST += ${man1_MANS}
+
 ############################# tests ###########################################
 
 noinst_bin_PROGRAMS += tests/rdfmodel
@@ -194,15 +194,12 @@ tests_voicesynth_LDADD   = src/libcainteoir/libcainteoir.la
 tests_voicesynth_SOURCES = tests/voicesynth.cpp
 
 EXTRA_DIST += \
-	tests/epub/metadata/* \
+	tests/epub/* \
 	tests/ncx/* \
 	tests/ocf/* \
-	tests/opf/dc-metadata/* \
-	tests/opf/metadata/* \
-	tests/opf/vorbis-comments/* \
-	tests/rdfxml/schema/* \
-	tests/rdfxml/syntax/* \
-	tests/smil/metadata/* \
+	tests/opf/* \
+	tests/rdfxml/* \
+	tests/smil/* \
 	tests/html/* \
 	tests/xmlparser/* \
 	tests/*.py
