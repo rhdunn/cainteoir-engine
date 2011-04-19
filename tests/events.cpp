@@ -44,7 +44,7 @@ struct events : public cainteoir::document_events
 
 	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
 	{
-		fprintf(stdout, "text(%d): \"\"\"", aText->size());
+		fprintf(stdout, "text(%zu): \"\"\"", aText->size());
 		fwrite(aText->begin(), 1, aText->size(), stdout);
 		fwrite("\"\"\"\n", 1, 4, stdout);
 	}
