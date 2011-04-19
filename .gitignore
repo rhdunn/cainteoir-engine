@@ -79,10 +79,15 @@ po/stamp-po
 
 # debian output:
 
-debian/cainteoir.*.debhelper
-debian/cainteoir.debhelper.log
-debian/cainteoir.substvars
+debian/tmp/
+debian/libcainteoir0/
+debian/libcainteoir-dev/
 debian/cainteoir/
+debian/metadata/
+
+debian/*.debhelper.log
+debian/*.substvars
+debian/*.debhelper
 debian/debhelper.log
 debian/files
 debian/substvars
