@@ -6,7 +6,12 @@ cainteoir \- listen to and record electronic books and documents
 .I document
 .SH DESCRIPTION
 .B cainteoir
-A command\-line interface for Cainteoir Text-to-Speech.
+is a command\-line interface for Cainteoir Text-to-Speech.
+
+The voice used to speak the document is determined in the following
+order: the voice passed on the command-line; the language passed on
+the command-line; the language specified by the document. If no
+voice is found, the default voice is used.
 .SH OPTIONS
 .IP "--metadata"
 Output the RDF metadata for the Cainteoir Text-to-Speech engine

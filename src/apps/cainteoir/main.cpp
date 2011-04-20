@@ -171,6 +171,7 @@ struct document : public cainteoir::document_events
 	document(const rdf::uri &aSubject)
 		: tts(m_metadata)
 		, subject(aSubject)
+		, voiceSelected(false)
 		, m_doc(new cainteoir::document())
 	{
 	}
@@ -193,18 +194,21 @@ struct document : public cainteoir::document_events
 		m_doc->add(aText);
 	}
 
-	bool select_voice(const rdf::uri &predicate, const std::string &value)
+	void select_voice(const rdf::uri &predicate, const std::string &value)
 	{
+		if (voiceSelected)
+			return;
+
 		const rdf::uri *voice = ::select_voice(m_metadata, predicate, value);
-		if (!voice)
-			return false;
-		return tts.select_voice(m_metadata, *voice);
+		if (voice)
+			voiceSelected = tts.select_voice(m_metadata, *voice);
 	}
 
 	const rdf::uri subject;
 	rdf::graph m_metadata;
 	std::tr1::shared_ptr<cainteoir::document> m_doc;
 	cainteoir::tts::engines tts;
+	bool voiceSelected;
 };
 
 int main(int argc, char ** argv)
@@ -294,10 +298,11 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
+		if (voicename)
+			doc.select_voice(rdf::tts("name"), voicename);
+
 		if (language)
 			doc.select_voice(rdf::dc("language"), language);
-		else if (voicename)
-			doc.select_voice(rdf::tts("name"), voicename);
 
 		if (argc == 1)
 			cainteoir::parseDocument(argv[0], doc);
