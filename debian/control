@@ -2,7 +2,8 @@ Source: cainteoir-engine
 Section: sound
 Priority: extra
 Maintainer: Reece H. Dunn <msclrhd@gmail.com>
-Build-Depends: debhelper (>= 7.0.50~), autopoint, gettext,
+Build-Depends: debhelper (>= 7.0.50~),
+               autoconf, automake, libtool, autopoint, gettext,
                libpulse-dev, libxml2-dev, libvorbis-dev, libmagic-dev
 Standards-Version: 3.9.1
 Vcs-Git: git://github.com/rhdunn/cainteoir-engine.git
