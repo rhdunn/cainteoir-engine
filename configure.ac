@@ -74,11 +74,23 @@ dnl ================================================================
 dnl espeak tts engine checks.
 dnl ================================================================
 
-AC_CHECK_HEADERS(espeak/speak_lib.h,
-    [
-        ESPEAK_CFLAGS="-DHAVE_ESPEAK"
-        ESPEAK_LIBS="-lespeak"
-    ])
+AC_ARG_WITH([espeak],
+    [AS_HELP_STRING([--with-espeak], [support for espeak text-to-speech @<:@default=yes@:>@])],
+    [])
+
+if test "$with_espeak" = "no"; then
+    echo "Disabling espeak support"
+    have_espeak=no
+else
+    AC_CHECK_HEADERS(espeak/speak_lib.h,
+        [
+            ESPEAK_CFLAGS="-DHAVE_ESPEAK"
+            ESPEAK_LIBS="-lespeak"
+            have_espeak=yes
+        ],[
+            have_espeak=no
+        ])
+fi
 
 AC_SUBST(ESPEAK_CFLAGS)
 AC_SUBST(ESPEAK_LIBS)
@@ -130,5 +142,6 @@ AC_MSG_NOTICE([
         Compiler:                      ${CXX}
         Compiler flags:                ${CXXFLAGS}
 
+        eSpeak support:                ${have_espeak}
         Ogg/Vorbis support:            ${have_vorbisenc}
 ])

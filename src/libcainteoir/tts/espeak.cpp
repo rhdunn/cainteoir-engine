@@ -18,7 +18,10 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <config.h>
 #include "tts_engine.hpp"
+
+#if defined(HAVE_ESPEAK_SPEAK_LIB_H)
 #include <espeak/speak_lib.h>
 
 #ifndef espeakINITIALIZE_DONT_EXIT
@@ -146,3 +149,11 @@ cainteoir::tts::engine *cainteoir::tts::create_espeak_engine(rdf::graph &aMetada
 	return new espeak_engine(aMetadata, uri);
 }
 
+#else
+
+cainteoir::tts::engine *cainteoir::tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
+{
+	return NULL;
+}
+
+#endif
