@@ -45,6 +45,7 @@ case "$1" in
 	deb)       dodeb ;;
 	debsrc)    dodebsrc ;;
 	dist)      dodist ;;
+	release)   dorelease ;;
 	install)   doinstall ;;
 	uninstall) douninstall ;;
 	help|*)
