@@ -5,7 +5,7 @@ Maintainer: Reece H. Dunn <msclrhd@gmail.com>
 Build-Depends: debhelper (>= 7.0.50~),
                autoconf, automake, libtool, autopoint, gettext,
                libpulse-dev, libxml2-dev, libvorbis-dev, libmagic-dev,
-               python (>= 2.6)
+               libespeak-dev, python (>= 2.6)
 Standards-Version: 3.9.1
 Vcs-Git: git://github.com/rhdunn/cainteoir-engine.git
 Vcs-browser: https://github.com/rhdunn/cainteoir-engine
