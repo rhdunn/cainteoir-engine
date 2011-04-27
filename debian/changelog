@@ -1,3 +1,9 @@
+cainteoir-engine (0.1~1) maverick; urgency=low
+
+  * Use the correct distro name for the Ubuntu PPA.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Thu, 27 Apr 2011 08:45:00 +0000
+
 cainteoir-engine (0.1) unstable; urgency=low
  
   * Initial upstream release.
