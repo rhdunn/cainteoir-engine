@@ -40,11 +40,16 @@ douninstall() {
 	yes | sudo apt-get remove libcainteoir{0,-dev} cainteoir metadata
 }
 
+doppa() {
+	dput ppa:msclrhd-gmail/cainteoir ../${PACKAGE}_*_source.changes
+}
+
 case "$1" in
 	clean)     doclean ;;
 	deb)       dodeb ;;
 	debsrc)    dodebsrc ;;
 	dist)      dodist ;;
+	ppa)       doppa ;;
 	release)   dorelease ;;
 	install)   doinstall ;;
 	uninstall) douninstall ;;
@@ -59,8 +64,20 @@ where <command> is one of:
     dist           Create (and test) a distribution source tarball.
     help           Show this help screen.
     install        Installs the built debian packages.
+    ppa            Publish to the Cainteoir Text-to-Speech Ubuntu PPA.
     release        Create a (release build) debian binary package.
     uninstall      Uninstalls the debian packages installed by 'install'.
+
+To publish in source form (for GNU/Linux distributions), run:
+    `basename $0` dist
+
+To build and install locally on a Debian system, run:
+    `basename $0` deb
+    `basename $0` install
+
+To publish to the Ubuntu PPA, run:
+    `basename $0` release
+    `basename $0` ppa
 "
 		;;
 esac
