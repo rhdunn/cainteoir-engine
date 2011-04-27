@@ -1,0 +1,17 @@
+
+-------------------------------------------------------------------------------
+VERSION 0.1 -- Wednesday April 27th 2011
+
+cainteoir:
+  *  command-line text-to-speech program;
+  *  support for using espeak text-to-speech voices;
+  *  listen to text, html and epub documents on the command line;
+  *  record text, html and epub documents to ogg/vorbis and wave audio;
+  *  see the reading/recording progress and (estimated) total time;
+  *  preserve metadata from document to audio (currently epub to ogg/vorbis).
+
+metadata:
+  *  extract metadata from epub, smil, rdf/xml and other documents;
+  *  generate RDF N-Triples
+  *  generate RDF Turtle statements
+  *  generate VorbisComment metadata
