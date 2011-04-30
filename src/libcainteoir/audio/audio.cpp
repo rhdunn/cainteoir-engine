@@ -48,9 +48,9 @@ void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 
 	rdf::uri ogg = rdf::uri(baseuri, "ogg");
 	metadata.push_back(rdf::statement(ogg, rdf::rdf("type"), rdf::tts("AudioFormat")));
-	metadata.push_back(rdf::statement(wav, rdf::tts("name"), rdf::literal("ogg")));
+	metadata.push_back(rdf::statement(ogg, rdf::tts("name"), rdf::literal("ogg")));
 	metadata.push_back(rdf::statement(ogg, rdf::dc("title"), rdf::literal(_("ogg vorbis audio"))));
-	metadata.push_back(rdf::statement(wav, rdf::dc("description"), rdf::literal(_("Ogg/Vorbis audio"))));
+	metadata.push_back(rdf::statement(ogg, rdf::dc("description"), rdf::literal(_("Ogg/Vorbis audio"))));
 	metadata.push_back(rdf::statement(ogg, rdf::tts("mimetype"), rdf::literal("application/ogg")));
 	metadata.push_back(rdf::statement(ogg, rdf::tts("mimetype"), rdf::literal("audio/ogg")));
 	metadata.push_back(rdf::statement(ogg, rdf::tts("extension"), rdf::literal("*.ogg")));

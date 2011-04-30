@@ -57,22 +57,62 @@ static struct option options[] =
 	{ 0, 0, 0, 0 }
 };
 
-void help()
+std::string select_value(const rdf::graph &aMetadata, const rdf::uri &uri, const rdf::uri &predicate)
 {
-	fprintf(stdout, _("usage: cainteoir [OPTION..] document\n"));
+	foreach_iter(query, rql::select(aMetadata, rql::subject, uri))
+	{
+		if (rql::predicate(*query) == predicate)
+			return rql::value(rql::object(*query));
+	}
+
+	return std::string();
+}
+
+void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showName)
+{
+	rql::results formats = rql::select(
+		rql::select(aMetadata, rql::predicate, rdf::rdf("type")),
+		rql::object, aType);
+
+	foreach_iter(format, formats)
+	{
+		const rdf::uri * uri = rql::subject(*format);
+		if (showName)
+		{
+			std::string name = select_value(aMetadata, *uri, rdf::tts("name"));
+			std::string description = select_value(aMetadata, *uri, rdf::dc("description"));
+			fprintf(stdout, "            %-5s - %s\n", name.c_str(), description.c_str());
+		}
+		else
+		{
+			std::string description = select_value(aMetadata, *uri, rdf::dc("description"));
+			fprintf(stdout, "          *  %s\n", description.c_str());
+		}
+	}
+}
+
+void help(const rdf::graph &aMetadata)
+{
+	fprintf(stdout, _("usage: cainteoir [OPTION..] DOCUMENT\n"));
+	fprintf(stdout, _("       where DOCUMENT is one of:\n"));
+	list_formats(aMetadata, rdf::tts("DocumentFormat"), false);
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("     --metadata         Show the RDF metadata for the engine and voices\n"));
+	fprintf(stdout, _("Speech options:\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Speech:\n"));
 	fprintf(stdout, _(" -v, --voice=VOICE      Use the voice named VOICE\n"));
 	fprintf(stdout, _(" -l, --language=LANG    Use a voice that speaks the language LANG\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Recording audio:\n"));
+	fprintf(stdout, _("Recording audio options:\n"));
+	fprintf(stdout, "\n");
 	fprintf(stdout, _(" -o, --output=FILE      Recorded audio is written to FILE\n"));
 	fprintf(stdout, _("     --stdout           Recorded audio is written to the standard output\n"));
 	fprintf(stdout, _(" -r, --record=FORMAT    Record the audio as a FORMAT file (default: wav)\n"));
+	fprintf(stdout, _("       where FORMAT is one of:\n"));
+	list_formats(aMetadata, rdf::tts("AudioFormat"), true);
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("General:\n"));
+	fprintf(stdout, _("General options:\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("     --metadata         Show the RDF metadata for the engine and voices\n"));
 	fprintf(stdout, _(" -h, --help             This help text\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("The arguments to the long options also apply to their short option equivalents.\n"));
@@ -130,17 +170,6 @@ void status_line(double elapsed, double total, double progress, const char *stat
 #undef  HIDE_CURSOR
 
 	fflush(stdout);
-}
-
-std::string select_value(const rdf::graph &aMetadata, const rdf::uri &uri, const rdf::uri &predicate)
-{
-	foreach_iter(query, rql::select(aMetadata, rql::subject, uri))
-	{
-		if (rql::predicate(*query) == predicate)
-			return rql::value(rql::object(*query));
-	}
-
-	return std::string();
 }
 
 const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predicate, const std::string &value)
@@ -294,7 +323,7 @@ int main(int argc, char ** argv)
 		}
 		else if (action == show_help)
 		{
-			help();
+			help(doc.m_metadata);
 			return 0;
 		}
 

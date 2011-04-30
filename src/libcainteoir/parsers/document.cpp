@@ -96,7 +96,7 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
 
 	rdf::uri html = rdf::uri(baseuri, "html");
 	metadata.push_back(rdf::statement(html, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(text, rdf::tts("name"), rdf::literal("html")));
+	metadata.push_back(rdf::statement(html, rdf::tts("name"), rdf::literal("html")));
 	metadata.push_back(rdf::statement(html, rdf::dc("title"), rdf::literal(_("(x)html document"))));
 	metadata.push_back(rdf::statement(html, rdf::dc("description"), rdf::literal(_("(x)html document"))));
 	metadata.push_back(rdf::statement(html, rdf::tts("mimetype"), rdf::literal("text/html")));
@@ -109,17 +109,17 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
 
 	rdf::uri epub = rdf::uri(baseuri, "epub");
 	metadata.push_back(rdf::statement(epub, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(text, rdf::tts("name"), rdf::literal("epub")));
+	metadata.push_back(rdf::statement(epub, rdf::tts("name"), rdf::literal("epub")));
 	metadata.push_back(rdf::statement(epub, rdf::dc("title"), rdf::literal(_("epub document"))));
-	metadata.push_back(rdf::statement(html, rdf::dc("description"), rdf::literal(_("electronic publication (ePub) document"))));
+	metadata.push_back(rdf::statement(epub, rdf::dc("description"), rdf::literal(_("electronic publication (ePub) document"))));
 	metadata.push_back(rdf::statement(epub, rdf::tts("mimetype"), rdf::literal("application/epub+zip")));
 	metadata.push_back(rdf::statement(epub, rdf::tts("extension"), rdf::literal("*.epub")));
 
 	rdf::uri gzip = rdf::uri(baseuri, "gzip");
 	metadata.push_back(rdf::statement(gzip, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(text, rdf::tts("name"), rdf::literal("gzip")));
+	metadata.push_back(rdf::statement(gzip, rdf::tts("name"), rdf::literal("gzip")));
 	metadata.push_back(rdf::statement(gzip, rdf::dc("title"), rdf::literal(_("gzip compressed document"))));
-	metadata.push_back(rdf::statement(html, rdf::dc("description"), rdf::literal(_("gzip compressed document"))));
+	metadata.push_back(rdf::statement(gzip, rdf::dc("description"), rdf::literal(_("gzip compressed document"))));
 	metadata.push_back(rdf::statement(gzip, rdf::tts("mimetype"), rdf::literal("application/x-gzip")));
 	metadata.push_back(rdf::statement(gzip, rdf::tts("extension"), rdf::literal("*.gz")));
 }
