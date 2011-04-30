@@ -163,12 +163,12 @@
 
 <!-- data types -->
 
-<rdf:Datatype rdf:ID="hertz">
+<rdfs:Datatype rdf:ID="hertz">
 	<rdfs:subClassOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/> 
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>hertz</rdfs:label>
 	<rdfs:comment xml:lang="en">The number of cycles per second.</rdfs:comment>
-</rdf:Datatype>
+</rdfs:Datatype>
 
 <!-- audio formats -->
 
