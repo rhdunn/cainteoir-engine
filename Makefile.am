@@ -11,6 +11,8 @@ ACLOCAL_AMFLAGS = -I m4
 bin_PROGRAMS =
 lib_LTLIBRARIES =
 man1_MANS =
+pkgdata_DATA =
+
 noinst_bin_PROGRAMS =
 noinst_LIBRARIES =
 
@@ -78,14 +80,20 @@ dist-hook: ChangeLog
 
 EXTRA_DIST += ChangeLog
 
-############################# libcainteoir ####################################
+############################# data ############################################
 
-EXTRA_DIST += data/magic
+EXTRA_DIST += \
+	data/magic \
+	src/schema/text-to-speech.rdf
 
-pkgdata_DATA = data/magic.mgc
+pkgdata_DATA += \
+	data/magic.mgc \
+	src/schema/text-to-speech.rdf
 
 data/magic.mgc: data/magic
 	cd data && file -C -m magic
+
+############################# libcainteoir ####################################
 
 libcainteoir_includedir = $(includedir)/cainteoir
 libcainteoir_include_HEADERS = \
