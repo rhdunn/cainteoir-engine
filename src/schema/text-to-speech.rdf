@@ -30,6 +30,7 @@
 	<rdfs:label>Engine</rdfs:label>
 	<rdfs:comment xml:lang="en">A text-to-speech engine.</rdfs:comment>
 	<owl:disjointWith rdf:resource="#Voice"/>
+	<owl:disjointWith rdf:resource="#FileFormat"/>
 </owl:Class>
 
 <owl:Class rdf:ID="Voice">
@@ -38,12 +39,16 @@
 	<rdfs:label>Voice</rdfs:label>
 	<rdfs:comment xml:lang="en">A voice usable by an engine.</rdfs:comment>
 	<owl:disjointWith rdf:resource="#Engine"/>
+	<owl:disjointWith rdf:resource="#FileFormat"/>
 </owl:Class>
 
 <owl:Class rdf:ID="FileFormat">
 	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:subClassOf rdf:resource="#Object"/>
 	<rdfs:label>FileFormat</rdfs:label>
 	<rdfs:comment xml:lang="en">A file format that is supported by the text-to-speech engine.</rdfs:comment>
+	<owl:disjointWith rdf:resource="#Voice"/>
+	<owl:disjointWith rdf:resource="#Engine"/>
 </owl:Class>
 
 <owl:Class rdf:ID="DocumentFormat">
