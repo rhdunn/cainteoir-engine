@@ -461,6 +461,17 @@ namespace cainteoir { namespace rdf
 			}
 			return false;
 		}
+
+		template<typename Graph>
+		std::string select_value(const Graph &aMetadata, const rdf::uri &aUri, const rdf::uri &aPredicate)
+		{
+			foreach_iter(query, select(aMetadata, subject, aUri))
+			{
+				if (predicate(*query) == aPredicate)
+					return value(object(*query));
+			}
+			return std::string();
+		}
 	}
 
 	/** @brief RDF formatter (serialisation support)

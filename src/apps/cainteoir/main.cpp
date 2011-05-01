@@ -57,17 +57,6 @@ static struct option options[] =
 	{ 0, 0, 0, 0 }
 };
 
-std::string select_value(const rdf::graph &aMetadata, const rdf::uri &uri, const rdf::uri &predicate)
-{
-	foreach_iter(query, rql::select(aMetadata, rql::subject, uri))
-	{
-		if (rql::predicate(*query) == predicate)
-			return rql::value(rql::object(*query));
-	}
-
-	return std::string();
-}
-
 void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showName)
 {
 	rql::results formats = rql::select(
@@ -79,13 +68,13 @@ void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showN
 		const rdf::uri * uri = rql::subject(*format);
 		if (showName)
 		{
-			std::string name = select_value(aMetadata, *uri, rdf::tts("name"));
-			std::string description = select_value(aMetadata, *uri, rdf::dc("description"));
+			std::string name = rql::select_value(aMetadata, *uri, rdf::tts("name"));
+			std::string description = rql::select_value(aMetadata, *uri, rdf::dc("description"));
 			fprintf(stdout, "            %-5s - %s\n", name.c_str(), description.c_str());
 		}
 		else
 		{
-			std::string description = select_value(aMetadata, *uri, rdf::dc("description"));
+			std::string description = rql::select_value(aMetadata, *uri, rdf::dc("description"));
 			fprintf(stdout, "          *  %s\n", description.c_str());
 		}
 	}
@@ -342,8 +331,8 @@ int main(int argc, char ** argv)
 		int channels = doc.tts.get_channels();
 		int frequency = doc.tts.get_frequency();
 
-		std::string author = select_value(doc.m_metadata, doc.subject, rdf::dc("creator"));
-		std::string title  = select_value(doc.m_metadata, doc.subject, rdf::dc("title"));
+		std::string author = rql::select_value(doc.m_metadata, doc.subject, rdf::dc("creator"));
+		std::string title  = rql::select_value(doc.m_metadata, doc.subject, rdf::dc("title"));
 
 		std::shared_ptr<cainteoir::audio> out;
 		const char *state;
