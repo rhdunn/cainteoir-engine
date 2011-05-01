@@ -19,6 +19,8 @@
  */
 
 #include <cainteoir/audio.hpp>
+#include <cainteoir/platform.hpp>
+#include <stdexcept>
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
@@ -50,7 +52,7 @@ class wav_audio : public cainteoir::audio
 	FILE *m_file;
 	WaveHeader m_header;
 public:
-	wav_audio(FILE *f, cainteoir::audio_format format, int channels, int frequency) : m_file(f)
+	wav_audio(FILE *f, const rdf::uri &format, int channels, int frequency) : m_file(f)
 	{
 		WaveHeader header = {
 			{ 'R', 'I', 'F', 'F' }, 0x7FFFFFFF, { 'W', 'A', 'V', 'E' },
@@ -61,8 +63,10 @@ public:
 		header.channels = channels;
 		header.frequency = frequency;
 
-		if (format == cainteoir::S16_LE)
+		if (format == rdf::tts("s16le"))
 			header.sample_size = 16;
+		else
+			throw std::runtime_error(_("unsupported audio format."));
 
 		header.byte_rate = header.frequency * header.channels * (header.sample_size / 8);
 		header.block_align = header.channels * (header.sample_size / 8);
@@ -103,7 +107,7 @@ public:
 	}
 };
 
-std::shared_ptr<cainteoir::audio> create_wav_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::shared_ptr<cainteoir::audio> create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
 	return std::shared_ptr<cainteoir::audio>(new wav_audio(file, format, channels, frequency));

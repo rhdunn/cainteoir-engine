@@ -327,8 +327,7 @@ int main(int argc, char ** argv)
 		rql::results data = rql::select(doc.m_metadata, rql::subject, doc.tts.voice());
 		int channels  = rql::select_value<int>(data, rdf::tts("channels"));
 		int frequency = rql::select_value<int>(data, rdf::tts("frequency"));
-
-		cainteoir::audio_format audioformat = doc.tts.get_audioformat();
+		const rdf::uri * audioformat = rql::object(rql::select(data, rql::predicate, rdf::tts("audio-format")).front());
 
 		std::string author = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("creator"));
 		std::string title  = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("title"));
@@ -350,7 +349,7 @@ int main(int argc, char ** argv)
 			if (!outformat)
 				outformat = "wav";
 
-			out = cainteoir::create_audio_file(outfile.c_str(), outformat, audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
+			out = cainteoir::create_audio_file(outfile.c_str(), outformat, *audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
 			if (!out.get())
 				throw std::runtime_error(_("unsupported audio file format"));
 
@@ -363,7 +362,7 @@ int main(int argc, char ** argv)
 		else
 		{
 			state = "reading";
-			out = cainteoir::open_audio_device(NULL, "pulse", audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
+			out = cainteoir::open_audio_device(NULL, "pulse", *audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
 
 			fprintf(stdout, _("Reading \"%s\"\n\n"), doc.subject.str().c_str());
 		}

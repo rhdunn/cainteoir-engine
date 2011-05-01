@@ -302,11 +302,6 @@ tts::engines::~engines()
 		delete engine->second;
 }
 
-cainteoir::audio_format tts::engines::get_audioformat() const
-{
-	return active->get_audioformat();
-}
-
 bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice)
 {
 	engine *engine = NULL;

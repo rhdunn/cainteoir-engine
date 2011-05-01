@@ -20,6 +20,7 @@
 
 #include <cainteoir/audio.hpp>
 #include <cainteoir/platform.hpp>
+#include <stdexcept>
 #include <pulse/simple.h>
 #include <string.h>
 #include <stdio.h>
@@ -32,19 +33,16 @@ class pulse_audio : public cainteoir::audio
 	pa_sample_spec ss;
 	const char *m_device;
 public:
-	pulse_audio(const char *device, cainteoir::audio_format format, int channels, int frequency)
+	pulse_audio(const char *device, const rdf::uri &format, int channels, int frequency)
 		: pa(NULL)
 		, m_device(device)
 	{
-		switch (format)
-		{
-		case cainteoir::S16_LE:
+		if (format == rdf::tts("s16le"))
 			ss.format = PA_SAMPLE_S16LE;
-			break;
-		case cainteoir::FLOAT32_LE:
+		else if (format == rdf::tts("float32le"))
 			ss.format = PA_SAMPLE_FLOAT32LE;
-			break;
-		}
+		else
+			throw std::runtime_error(_("unsupported audio format."));
 
 		ss.channels = channels;
 		ss.rate = frequency;
@@ -76,7 +74,7 @@ public:
 	}
 };
 
-std::shared_ptr<cainteoir::audio> create_pulseaudio_device(const char *device, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::shared_ptr<cainteoir::audio> create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	return std::shared_ptr<cainteoir::audio>(new pulse_audio(device, format, channels, frequency));
 }

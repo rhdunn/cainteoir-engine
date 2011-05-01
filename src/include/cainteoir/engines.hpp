@@ -1,6 +1,6 @@
 /* Text-to-Speech Engine API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -53,8 +53,6 @@ namespace cainteoir { namespace tts
 	public:
 		engines(rdf::graph &metadata);
 		~engines();
-
-		cainteoir::audio_format get_audioformat() const;
 
 		bool select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice);
 

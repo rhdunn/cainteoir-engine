@@ -1,6 +1,6 @@
 /* Espeak Text-to-Speech Engine.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -112,11 +112,6 @@ public:
 
 	/** @name cainteoir::tts_engine */
 	//@{
-
-	cainteoir::audio_format get_audioformat() const
-	{
-		return cainteoir::S16_LE;
-	}
 
 	bool select_voice(const char *voicename)
 	{
