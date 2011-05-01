@@ -362,8 +362,6 @@ int main(int argc, char ** argv)
 			fprintf(stdout, _("Reading \"%s\"\n\n"), doc.subject.str().c_str());
 		}
 
-		size_t length = doc.m_doc->length();
-
 		fprintf(stdout, _("Author : %s\n"), author.c_str());
 		fprintf(stdout, _("Title  : %s\n\n"), title.c_str());
 

@@ -267,11 +267,11 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 	size_t actualPos = currentOffset + speakingPos;
 
 	mElapsedTime = mTimer.elapsed();
-	mProgress = percentageof(actualPos, doc->length());
+	mProgress = percentageof(actualPos, doc->text_length());
 
 	if (mElapsedTime > 0.1 && actualPos >= mOffset)
 	{
-		mCompleted = percentageof(actualPos - mOffset, doc->length());
+		mCompleted = percentageof(actualPos - mOffset, doc->text_length());
 		mTotalTime = (mElapsedTime / mCompleted) * 100.0;
 	}
 }
