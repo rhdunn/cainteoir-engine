@@ -66,17 +66,14 @@ void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showN
 	foreach_iter(format, formats)
 	{
 		const rdf::uri * uri = rql::subject(*format);
+		std::string description = rql::select_value<std::string>(aMetadata, *uri, rdf::dc("description"));
 		if (showName)
 		{
-			std::string name = rql::select_value(aMetadata, *uri, rdf::tts("name"));
-			std::string description = rql::select_value(aMetadata, *uri, rdf::dc("description"));
+			std::string name = rql::select_value<std::string>(aMetadata, *uri, rdf::tts("name"));
 			fprintf(stdout, "            %-5s - %s\n", name.c_str(), description.c_str());
 		}
 		else
-		{
-			std::string description = rql::select_value(aMetadata, *uri, rdf::dc("description"));
 			fprintf(stdout, "          *  %s\n", description.c_str());
-		}
 	}
 }
 
@@ -327,12 +324,14 @@ int main(int argc, char ** argv)
 		else
 			cainteoir::parseDocument(NULL, doc);
 
-		cainteoir::audio_format audioformat = doc.tts.get_audioformat();
-		int channels = doc.tts.get_channels();
-		int frequency = doc.tts.get_frequency();
+		rql::results data = rql::select(doc.m_metadata, rql::subject, doc.tts.voice());
+		int channels  = rql::select_value<int>(data, rdf::tts("channels"));
+		int frequency = rql::select_value<int>(data, rdf::tts("frequency"));
 
-		std::string author = rql::select_value(doc.m_metadata, doc.subject, rdf::dc("creator"));
-		std::string title  = rql::select_value(doc.m_metadata, doc.subject, rdf::dc("title"));
+		cainteoir::audio_format audioformat = doc.tts.get_audioformat();
+
+		std::string author = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("creator"));
+		std::string title  = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("title"));
 
 		std::shared_ptr<cainteoir::audio> out;
 		const char *state;

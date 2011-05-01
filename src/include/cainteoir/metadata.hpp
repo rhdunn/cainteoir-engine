@@ -488,15 +488,41 @@ namespace cainteoir { namespace rdf
 			return false;
 		}
 
-		template<typename Graph>
-		std::string select_value(const Graph &aMetadata, const rdf::uri &aUri, const rdf::uri &aPredicate)
+		template<typename T>
+		struct value_cast
 		{
-			foreach_iter(query, select(aMetadata, subject, aUri))
+			static T cast(const std::string &value)
+			{
+				T ret;
+				std::istringstream(value) >> ret;
+				return ret;
+			}
+		};
+
+		template<>
+		struct value_cast<std::string>
+		{
+			static const std::string & cast(const std::string &value)
+			{
+				return value;
+			}
+		};
+
+		template<typename T>
+		inline T select_value(const results &metadata, const rdf::uri &aPredicate)
+		{
+			foreach_iter(query, metadata)
 			{
 				if (predicate(*query) == aPredicate)
-					return value(*query);
+					return value_cast<T>::cast(value(*query));
 			}
-			return std::string();
+			return T();
+		}
+
+		template<typename T, typename Graph>
+		T select_value(const Graph &aMetadata, const rdf::uri &aUri, const rdf::uri &aPredicate)
+		{
+			return select_value<T>(select(aMetadata, subject, aUri), aPredicate);
 		}
 	}
 

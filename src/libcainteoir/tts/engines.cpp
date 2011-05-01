@@ -278,11 +278,16 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-tts::engines::engines(rdf::graph &metadata)
+tts::engines::engines(rdf::graph &metadata) : selectedVoice(NULL)
 {
 	std::string uri;
 	active = tts::create_espeak_engine(metadata, uri);
-	enginelist[uri] = active;
+	if (active)
+	{
+		enginelist[uri] = active;
+		if (!select_voice(metadata, rdf::uri(uri, "default")))
+			throw std::runtime_error(_("default voice not found."));
+	}
 
 	if (!active)
 		throw std::runtime_error(_("no text-to-speech voices found."));
@@ -295,16 +300,6 @@ tts::engines::~engines()
 {
 	foreach_iter(engine, enginelist)
 		delete engine->second;
-}
-
-int tts::engines::get_channels() const
-{
-	return active->get_channels();
-}
-
-int tts::engines::get_frequency() const
-{
-	return active->get_frequency();
 }
 
 cainteoir::audio_format tts::engines::get_audioformat() const
@@ -332,6 +327,7 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	if (engine && !voice.empty() && engine->select_voice(voice.c_str()))
 	{
 		active = engine;
+		selectedVoice = &aVoice;
 		return true;
 	}
 

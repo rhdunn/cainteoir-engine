@@ -50,8 +50,6 @@ namespace cainteoir { namespace tts
 	{
 		virtual ~engine() {}
 
-		virtual int get_channels() const = 0;
-		virtual int get_frequency() const = 0;
 		virtual cainteoir::audio_format get_audioformat() const = 0;
 
 		virtual bool select_voice(const char *voicename) = 0;
