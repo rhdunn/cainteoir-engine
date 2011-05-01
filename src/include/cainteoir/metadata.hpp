@@ -66,6 +66,12 @@ namespace cainteoir { namespace rdf
 		}
 
 		template<typename T>
+		const T * as() const
+		{
+			return dynamic_cast<const T *>(value);
+		}
+
+		template<typename T>
 		operator const T *() const
 		{
 			return dynamic_cast<const T *>(value);
@@ -309,6 +315,16 @@ namespace cainteoir { namespace rdf
 		{
 			return literal ? literal->value : nil;
 		}
+
+		inline const std::string &value(const rdf::literal &literal)
+		{
+			return literal.value;
+		}
+
+		inline const std::string &value(const any_type &literal)
+		{
+			return value(literal.as<rdf::literal>());
+		}
 	}
 
 	/** @brief An RDF statement (triple)
@@ -359,6 +375,16 @@ namespace cainteoir { namespace rdf
 		inline any_type object(const rdf::statement *statement)
 		{
 			return any_type(statement->object.get());
+		}
+
+		inline const std::string &value(const rdf::statement &statement)
+		{
+			return value(object(statement));
+		}
+
+		inline const std::string &value(const rdf::statement *statement)
+		{
+			return value(object(statement));
 		}
 	}
 
@@ -468,7 +494,7 @@ namespace cainteoir { namespace rdf
 			foreach_iter(query, select(aMetadata, subject, aUri))
 			{
 				if (predicate(*query) == aPredicate)
-					return value(object(*query));
+					return value(*query);
 			}
 			return std::string();
 		}

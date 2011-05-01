@@ -175,7 +175,7 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 			rql::results statements = rql::select(aMetadata, rql::subject, *uri);
 			foreach_iter(statement, statements)
 			{
-				if (rql::predicate(*statement) == predicate && rql::value(rql::object(*statement)) == value)
+				if (rql::predicate(*statement) == predicate && rql::value(*statement) == value)
 					return uri;
 			}
 		}
@@ -199,7 +199,7 @@ struct document : public cainteoir::document_events
 		m_metadata.push_back(aStatement);
 
 		if (rql::subject(aStatement) == subject && rql::predicate(aStatement) == rdf::dc("language"))
-			select_voice(rdf::dc("language"), rql::value(rql::object(aStatement)));
+			select_voice(rdf::dc("language"), rql::value(aStatement));
 	}
 
 	const rdf::bnode genid()
