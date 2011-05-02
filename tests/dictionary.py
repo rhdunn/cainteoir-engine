@@ -20,39 +20,48 @@
 import sys
 import os
 
-def test_dictionary(dictionary):
-	data = []
-	with open(os.path.join(sys.path[0], dictionary)) as f:
-		for line in f:
-			if line != '\n' and not line.startswith('#'):
-				word, pronunciation = line.split()
-				data.append({ 'word': word, 'pronunciation': pronunciation })
+class Tester:
+	def __init__(self):
+		self.passed = 0
+		self.failed = 0
 
-	with open('/tmp/words.lst', 'w') as f:
-		for item in data:
-			f.write('%s\n\n' % item['word'])
+	def test_dictionary(self, dictionary):
+		data = []
+		with open(os.path.join(sys.path[0], dictionary)) as f:
+			for line in f:
+				if line != '\n' and not line.startswith('#'):
+					word, pronunciation, rest = line.split('/')
+					word = ' '.join(word.split())
+					pronunciation = ' '.join(pronunciation.split())
+					data.append({ 'word': word, 'pronunciation': pronunciation })
 
-	os.system('espeak -v en -xq -f /tmp/words.lst > /tmp/pronunciation.lst')
+		with open('/tmp/words.lst', 'w') as f:
+			for item in data:
+				f.write('%s\n\n' % item['word'])
 
-	with open('/tmp/pronunciation.lst') as f:
-		espeak = f.read().split()
+		os.system('espeak -v en -xq -f /tmp/words.lst > /tmp/pronunciation.lst')
 
-	passed = 0
-	failed = 0
+		with open('/tmp/pronunciation.lst') as f:
+			espeak = [ ' '.join(x.split()) for x in f.read().split('\n') ]
 
-	for i in range(0, len(data)):
-		word = data[i]['word']
-		expected = data[i]['pronunciation']
-		actual = '/%s/' % espeak[i]
+		for i in range(0, len(data)):
+			word     = data[i]['word']
+			expected = '/%s/' % data[i]['pronunciation']
+			actual   = '/%s/' % espeak[i]
 
-		if expected == actual:
-			print '%s %s ... pass' % (word, expected)
-			passed = passed + 1
-		else:
-			print '%s %s got: %s ... fail' % (word, expected, actual)
-			failed = failed + 1
+			if expected == actual:
+				print '%s %s ... pass' % (word, expected)
+				self.passed = self.passed + 1
+			else:
+				print '%s %s got: %s ... fail' % (word, expected, actual)
+				self.failed = self.failed + 1
 
-	print '%d passed %d failed %d total' % (passed, failed, passed + failed)
+	def summary(self):
+		print '%d passed %d failed %d total' % (self.passed, self.failed, self.passed + self.failed)
 
 if __name__ == '__main__':
-	test_dictionary('../data/dictionary/names.dict')
+	test = Tester()
+	test.test_dictionary('../data/dictionary/names.dict')
+	test.test_dictionary('../data/dictionary/en/places.dict')
+	test.test_dictionary('../data/dictionary/en/words.dict')
+	test.summary()
