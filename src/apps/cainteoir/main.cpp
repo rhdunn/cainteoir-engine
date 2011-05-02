@@ -329,6 +329,7 @@ int main(int argc, char ** argv)
 
 		std::shared_ptr<cainteoir::audio> out;
 		const char *state;
+		bool show_progress = true;
 		if (outformat || outfile)
 		{
 			state = _("recording");
@@ -353,6 +354,8 @@ int main(int argc, char ** argv)
 				fprintf(stdout, _("Recording \"%s\"\n"), doc.subject.str().c_str());
 				fprintf(stdout, _("       to \"%s\"\n\n"), outfile.c_str());
 			}
+			else
+				show_progress = false;
 		}
 		else
 		{
@@ -362,13 +365,17 @@ int main(int argc, char ** argv)
 			fprintf(stdout, _("Reading \"%s\"\n\n"), doc.subject.str().c_str());
 		}
 
-		fprintf(stdout, _("Author : %s\n"), author.c_str());
-		fprintf(stdout, _("Title  : %s\n\n"), title.c_str());
+		if (show_progress)
+		{
+			fprintf(stdout, _("Author : %s\n"), author.c_str());
+			fprintf(stdout, _("Title  : %s\n\n"), title.c_str());
+		}
 
 		std::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get(), 0);
 		while (speech->is_speaking())
 		{
-			status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), state);
+			if (show_progress)
+				status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), state);
 
 			switch (termchar())
 			{
@@ -381,8 +388,11 @@ int main(int argc, char ** argv)
 			}
 		}
 
-		status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), _("stopped"));
-		fprintf(stdout, "\n");
+		if (show_progress)
+		{
+			status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), _("stopped"));
+			fprintf(stdout, "\n");
+		}
 	}
 	catch (std::runtime_error &e)
 	{
