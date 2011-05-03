@@ -39,7 +39,7 @@ class Tester:
 			for item in data:
 				f.write('%s\n\n' % item['word'])
 
-		os.system('espeak -v en -xq -f /tmp/words.lst > /tmp/pronunciation.lst')
+		os.system('espeak -v en -xq --ipa -f /tmp/words.lst > /tmp/pronunciation.lst')
 
 		with open('/tmp/pronunciation.lst') as f:
 			espeak = [ ' '.join(x.split()) for x in f.read().split('\n') ]
