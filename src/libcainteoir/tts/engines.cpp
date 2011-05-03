@@ -306,11 +306,15 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 {
 	engine *engine = NULL;
 	std::string voice;
+	const rdf::uri * voiceUri = NULL;
 
 	foreach_iter(statement, rql::select(aMetadata, rql::subject, aVoice))
 	{
 		if (rql::predicate(*statement) == rdf::tts("name"))
-			voice = rql::value(rql::object(*statement));
+		{
+			voice = rql::value(*statement);
+			voiceUri = rql::subject(*statement);
+		}
 		else if (rql::predicate(*statement) == rdf::tts("voiceOf"))
 		{
 			const rdf::uri *uri = rql::object(*statement);
@@ -322,7 +326,7 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	if (engine && !voice.empty() && engine->select_voice(voice.c_str()))
 	{
 		active = engine;
-		selectedVoice = &aVoice;
+		selectedVoice = voiceUri;
 		return true;
 	}
 
