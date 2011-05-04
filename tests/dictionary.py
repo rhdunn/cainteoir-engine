@@ -62,6 +62,7 @@ class Tester:
 if __name__ == '__main__':
 	test = Tester()
 	test.test_dictionary('../data/dictionary/names.dict')
+	test.test_dictionary('../data/dictionary/en/brands.dict')
 	test.test_dictionary('../data/dictionary/en/places.dict')
 	test.test_dictionary('../data/dictionary/en/words.dict')
 	test.summary()
