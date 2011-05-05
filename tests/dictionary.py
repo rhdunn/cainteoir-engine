@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2011 Reece H. Dunn
 #
@@ -49,7 +50,7 @@ class Tester:
 			expected = '/%s/' % data[i]['pronunciation']
 			actual   = '/%s/' % espeak[i]
 
-			if expected == actual:
+			if expected == actual or expected.replace('iː', 'ɪ') == actual:
 				print '%s %s ... pass' % (word, expected)
 				self.passed = self.passed + 1
 			else:
