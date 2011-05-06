@@ -50,6 +50,9 @@ class Tester:
 			expected = '/%s/' % data[i]['pronunciation']
 			actual   = '/%s/' % espeak[i]
 
+			# espeak does not correctly generate the IPA for reduced vowels ...
+			actual = actual.replace('əL', 'əl')
+
 			if expected == actual or expected.replace('iː', 'ɪ') == actual:
 				print '%s %s ... pass' % (word, expected)
 				self.passed = self.passed + 1

@@ -20,7 +20,7 @@
 ###############################################################################
 #
 # The pronunciation of this word list has been tested using:
-#    `espeak [[pronunciation]]`
+#    `espeak --ipa [[pronunciation]]`
 #
 # These pronunciations have been matched to the speaker Reece H. Dunn.
 #
@@ -34,6 +34,10 @@ Adams              /ˈadəmz/
 Adriana            /ˌadɹiːˈanə/
 Aimee              /ˈeɪmiː/
 Aimée              /ˈeɪmiː/
+Aislinn            /ˈaʃliːŋ/
+Aisling            /ˈaʃliːŋ/
+Alana              /ɐlˈanə/
+Alannah            /ɐlˈanə/
 Amy                /ˈeɪmiː/
 Angie              /ˈandʒiː/
 Ann                /ˈan/
@@ -42,32 +46,59 @@ Anne               /ˈan/
 Annette            /anˈɛt/
 Aoife              /ˈiːfə/
 Aoiffe             /ˈiːfə/
+Ashlyn             /ˈaʃlɪn/
+Ashlynn            /ˈaʃlɪn/
 Barraza            /bəɹˈasə/
 Beethoven          /bˈeɪtəʊvən/
 Bening             /bˈɛnɪŋ/
 Beth               /bˈɛθ/
 Bette              /bˈɛt/
 Blanchett          /blˈantʃɛt/
+Brandon            /bɹˈandən/
+Brenna             /bɹˈɛnə/
 Breslin            /bɹˈɛslɪn/
+Brianna            /bɹɪˈanə/
+Bullock            /bˈʊlək/
+Caeli              /kˈeɪliː/
+Cailiey            /kˈeɪliː/
+Caitlin            /kˈeɪtlɪn/
+Caitlín            /kˈeɪtlɪn/
 Cara               /kˈɑːɹə/
+Carey              /kˈeəɹɪ/
 Cate               /kˈeɪt/
+Caylee             /kˈeɪliː/
+Celidh             /kˈeɪliː/
+Ceilidh            /kˈeɪliː/
 Charlie            /tʃˈɑːliː/
 Charles            /tʃˈɑːlz/
+Chris              /kɹˈɪs/
+Christie           /kɹˈɪstɪ/
+Ciara              /kˈiːɑːɹə/
 Circe              /sˈɜːsiː/
+Clodagh            /klˈəʊdə/
 Colleen            /kɒlˈiːn/
 Cotillard          /kˈəʊtiːˌɑː/
+Dana               /dˈanə/
 DeNiro             /də nˈiəɹəʊ/
 Draco              /dɹˈeɪkəʊ/
+Duana              /dˈuːanə/
+Einín              /ˈɛniːn/
+Eireen             /ˈaɪɹiːn/
 Elisa              /ɪlˈɪsə/
 Elisabeth          /ɪlˈɪzəbəθ/
 Eliza              /ɪlˈaɪzə/
 Elizabeth          /ɪlˈɪzəbəθ/
 Emily              /ˈɛmɪlˌiː/
 Emma               /ˈɛmə/
+Erin               /ˈɛɹɪn/
+Fainne             /fˈanjə/
 Fisher             /fˈɪʃə/
 Fiona              /fɪˈəʊnə/
 Fíona              /fɪˈəʊnə/
+Fírinne            /fˈiːɹɪnjə/
 Gail               /ɡˈeɪl/
+Gina               /dʒˈiːnə/
+Gloria             /ɡlˈɔːɹiːə/
 Gwen               /ɡwˈɛn/
 Gwenog             /ɡwˈɛnɒɡ/
 Gyllenhaal         /dʒˈɪlənhˌɑːl/
@@ -76,9 +107,13 @@ Hecate             /hˈɛkəteɪ/
 Hekate             /hˈɛkəteɪ/
 Hermes             /hˈɜːmiːz/
 Hermione           /hɜːmˈaɪəniː/
+Imogen             /ˈɪmədʒən/
+Imogene            /ˈɪmədʒən/
 Isla               /ˈaɪlə/
 Juan               /hwˈɑːn/
 Juanita            /hwɑːnˈiːtə/
+Jules              /dʒˈuːlz/
+Julie              /dʒˈuːlɪ/
 Kara               /kˈɑːɹə/
 Karen              /kˈaɹən/
 Katarina           /kˌatəɹˈiːnə/
@@ -86,22 +121,49 @@ Kataryna           /kˌatəɹˈiːnə/
 Katerina           /kˌatəɹˈiːnə/
 Kateryna           /kˌatəɹˈiːnə/
 Kate               /kˈeɪt/
+Katelyn            /kˈeɪtlɪn/
+Katie              /kˈeɪtiː/
 Katrina            /katɹˈiːnə/
+Kaylee             /kˈeɪliː/
+Kayleigh           /kˈeɪliː/
+Keigh              /kˈiːθ/
+Keighli            /kˈeɪliː/
+Keith              /kˈiːθ/
+Kerry              /kˈɛɹiː/
+Kyla               /kˈaɪlə/
+Kyle               /kˈaɪl/
 Laoise             /lˈiːʃə/
 Leann              /liːˈan/
 LeAnn              /liː ˈan/
 Leanne             /liːˈan/
 Lee                /lˈiː/
+Leigh              /lˈiː/
 Lenore             /lɛnˈɔː/
 Lisa               /lˈiːsə/
 Liza               /lˈiːsə/
+Loinnir            /lˈʌniə/
 Maggie             /mˈaɡiː/
+Mackenna           /məkˈɛnə/
+Makenna            /məkˈɛnə/
 Marion             /mˈaɹiən/
 Mary               /mˈeəɹiː/
 Maryann            /mˈeəɹiːˌan/
 Maryanne           /mˈeəɹiːˌan/
+Mckenna            /məkˈɛnə/
+McKenna            /mə kˈɛnə/
+Meagan             /mˈiːɡən/
+Meaghan            /mˈiːɡən/
+Meegan             /mˈiːɡən/
+Meeghan            /mˈiːɡən/
+Meehan             /mˈiːhən/
+Megan              /mˈɛɡən/
 Mindy              /mˈɪndiː/
+Mulligan           /mˈʌlɪɡən/
 Naoise             /nˈiːʃə/
+Natalie            /nˈatɐlˌɪ/
+Neil               /nˈiːl/
+Neila              /nˈiːlə/
+Nelda              /nˈɛldə/
 Pete               /pˈiːt/
 Peter              /pˈiːtə/
 Trina              /tɹˈiːnə/
@@ -111,25 +173,31 @@ Rhys               /ɹˈiːs/
 Rita               /ɹˈiːtə/
 Robin              /ɹˈɒbɪn/
 Robyn              /ɹˈɒbɪn/
+Ronan              /ɹˈəʊnən/
 Roni               /ɹˈɒniː/
 Ronni              /ɹˈɒniː/
 Rowan              /ɹˈəʊən/
 Ryan               /ɹˈaɪən/
 Sabine             /sɐbˈiːn/
+Sandra             /sˈandɹə/
 Sara               /sˈɑːɹə/
 Sarah              /sˈeəɹə/
-Saoirse            /sˈeəʃə/
+Saoirse            /sˈiəʃə/
 Seamus             /ʃˈeɪməs/
 Selma              /sˈɛlmə/
 Sharon             /ʃˈaɹən/
 Siobhan            /ʃəvˈɔːn/
 Siobhán            /ʃəvˈɔːn/
+Síofra             /ʃˈiːfɹə/
 Sue                /sˈuː/
 Susan              /sˈuːzən/
 Susie              /sˈuːziː/
 Suzie              /sˈuːziː/
+Tara               /tˈɑːɹə/
+Taryn              /tˈɑːɹɪn/
 Tegan              /tˈiːɡən/
 Tim                /tˈɪm/
 Toni               /tˈəʊniː/
 Tony               /tˈəʊniː/
 Voldemort          /vˈəʊldəmˌɔː/
+Zelda              /zˈɛldə/

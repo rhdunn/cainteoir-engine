@@ -20,7 +20,7 @@
 ###############################################################################
 #
 # The pronunciation of this word list has been tested using:
-#    `espeak [[pronunciation]]`
+#    `espeak --ipa [[pronunciation]]`
 #
 # These pronunciations have been matched to the speaker Reece H. Dunn.
 #
