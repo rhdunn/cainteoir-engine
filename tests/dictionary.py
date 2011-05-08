@@ -50,14 +50,21 @@ class Tester:
 			expected = '/%s/' % data[i]['pronunciation']
 			actual   = '/%s/' % espeak[i]
 
-			# espeak does not correctly generate the IPA for reduced vowels ...
+			# espeak notes:
+			#   .     - IPA syllable annotations are not supported, so ignore
+			#   əl    - espeak does not generate 'əl' for '@L' reduced vowel
+			#           transcriptions
+			#   ɪ     - sometimes (e.g. at the end of a word), espeak uses the 'ɪ'
+			#           reduced form; allow iː or ɪ transcriptions
+
+			expected = expected.replace('.', '')
 			actual = actual.replace('əL', 'əl')
 
 			if expected == actual or expected.replace('iː', 'ɪ') == actual:
-				print '%s %s ... pass' % (word, expected)
+				print '%s %s ... pass' % (word, '/%s/' % data[i]['pronunciation'])
 				self.passed = self.passed + 1
 			else:
-				print '%s %s got: %s ... fail' % (word, expected, actual)
+				print '%s %s got: %s ... fail' % (word, '/%s/' % data[i]['pronunciation'], actual)
 				self.failed = self.failed + 1
 
 	def summary(self):
