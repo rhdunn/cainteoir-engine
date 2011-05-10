@@ -21,12 +21,46 @@
 import sys
 import os
 
+def print_exception(word, pronunciation, ipa=True):
+	if ipa:
+		print '%-30s %s' % (word, pronunciation)
+	else:
+		replacements = [
+			('.',  ''),
+			('ː',  ':'),
+			('ˈ',  '\''),
+			('ˌ',  ','),
+			('ɡ',  'g'),
+			('ʃ',  'S'),
+			('ʒ',  'Z'),
+			('θ',  'T'),
+			('ŋ',  'N'),
+			('ɹ',  'r'),
+			('ɐ',  'a#'),
+			('ɑ',  'A'),
+			('ɒ',  '0'),
+			('ɜ',  '3'),
+			('ɛ',  'E'),
+			('ʌ',  'V'),
+			('ɔ',  'O'),
+			('aʊ', 'aU'),
+			('əʊ', 'oU'),
+			('ə',  '@'),
+			('ɪ',  'I'),
+			('ʊ',  'U'),
+		]
+
+		for a, b in replacements:
+			pronunciation = pronunciation.replace(a, b)
+
+		print '%-30s %s' % (word, pronunciation.replace('/', ''))
+
 class Tester:
 	def __init__(self):
 		self.passed = 0
 		self.failed = 0
 
-	def test_dictionary(self, dictionary):
+	def test_dictionary(self, dictionary, generate_exception_dictionary=False, ipa=True):
 		data = []
 		with open(os.path.join(sys.path[0], dictionary)) as f:
 			for line in f:
@@ -61,19 +95,24 @@ class Tester:
 			actual = actual.replace('əL', 'əl')
 
 			if expected == actual or expected.replace('iː', 'ɪ') == actual:
-				print '%s %s ... pass' % (word, '/%s/' % data[i]['pronunciation'])
+				if not generate_exception_dictionary:
+					print '%s %s ... pass' % (word, '/%s/' % data[i]['pronunciation'])
 				self.passed = self.passed + 1
 			else:
-				print '%s %s got: %s ... fail' % (word, '/%s/' % data[i]['pronunciation'], actual)
+				if generate_exception_dictionary:
+					print_exception(word, '/%s/' % data[i]['pronunciation'], ipa=ipa)
+				else:
+					print '%s %s got: %s ... fail' % (word, '/%s/' % data[i]['pronunciation'], actual)
 				self.failed = self.failed + 1
 
 	def summary(self):
 		print '%d passed %d failed %d total' % (self.passed, self.failed, self.passed + self.failed)
 
 if __name__ == '__main__':
+	dictionaries = ['names.dict', 'en/brands.dict', 'en/places.dict', 'en/words.dict']
+
 	test = Tester()
-	test.test_dictionary('../data/dictionary/names.dict')
-	test.test_dictionary('../data/dictionary/en/brands.dict')
-	test.test_dictionary('../data/dictionary/en/places.dict')
-	test.test_dictionary('../data/dictionary/en/words.dict')
-	test.summary()
+	for dictionary in dictionaries:
+		test.test_dictionary(os.path.join('../data/dictionary', dictionary), generate_exception_dictionary='--exception-dictionary' in sys.argv, ipa='--ipa' in sys.argv)
+	if not '--exception-dictionary' in sys.argv:
+		test.summary()
