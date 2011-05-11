@@ -65,7 +65,7 @@ class Tester:
 
 	def test_dictionary(self, dictionary, generate_exception_dictionary=False, ipa=True):
 		data = []
-		with open(os.path.join(sys.path[0], dictionary)) as f:
+		with open(dictionary) as f:
 			for line in f:
 				if line != '\n' and not line.startswith('#'):
 					word, pronunciation, rest = line.split('/')
@@ -112,10 +112,11 @@ class Tester:
 		print '%d passed %d failed %d total' % (self.passed, self.failed, self.passed + self.failed)
 
 if __name__ == '__main__':
-	dictionaries = ['names.dict', 'en/brands.dict', 'en/places.dict', 'en/words.dict']
+	dictionarydir = os.path.join(sys.path[0], '../data/dictionary/en')
+	dictionaries = [ x for x in os.listdir(dictionarydir) if x.endswith('.dict') ]
 
 	test = Tester()
 	for dictionary in dictionaries:
-		test.test_dictionary(os.path.join('../data/dictionary', dictionary), generate_exception_dictionary='--exception-dictionary' in sys.argv, ipa='--ipa' in sys.argv)
+		test.test_dictionary(os.path.join(dictionarydir, dictionary), generate_exception_dictionary='--exception-dictionary' in sys.argv, ipa='--ipa' in sys.argv)
 	if not '--exception-dictionary' in sys.argv:
 		test.summary()
