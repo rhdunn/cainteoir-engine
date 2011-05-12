@@ -167,6 +167,11 @@ man1_MANS += src/apps/metadata/metadata.man
 src_apps_metadata_metadata_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_metadata_metadata_SOURCES = src/apps/metadata/main.cpp
 
+bin_PROGRAMS += src/apps/tagcloud/tagcloud
+
+src_apps_tagcloud_tagcloud_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_tagcloud_tagcloud_SOURCES = src/apps/tagcloud/main.cpp
+
 EXTRA_DIST += ${man1_MANS}
 
 ############################# tests ###########################################
