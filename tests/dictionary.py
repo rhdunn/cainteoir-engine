@@ -97,7 +97,7 @@ class Tester:
 			expected = expected.replace('.', '')
 			actual = actual.replace('əL', 'əl')
 
-			if expected == actual or expected.replace('iː', 'ɪ') == actual:
+			if expected == actual or expected.replace('iː/', 'ɪ/') == actual:
 				if not generate_exception_dictionary:
 					print '%s %s ... pass' % (word, '/%s/' % data[i]['pronunciation'])
 				self.passed = self.passed + 1
