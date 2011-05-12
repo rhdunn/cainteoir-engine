@@ -178,8 +178,8 @@ forgave            /fəɡˈeɪv/
 forge              /fˈɔːdʒ/
 forged             /fˈɔːdʒd/
 forger             /fˈɔːdʒə/
-forgeries          /fˈɔːdʒəɹiːz/
-forgery            /fˈɔːdʒəɹiː/
+forgeries          /fˈɔːdʒəɹˌiːz/
+forgery            /fˈɔːdʒəɹˌiː/
 forget             /fəɡˈɛt/
 forgot             /fəɡˈɒt/
 forgotten          /fəɡˈɒtən/
@@ -249,6 +249,14 @@ meow               /mɪˈaʊ/
 meowed             /mɪˈaʊd/
 meowing            /mɪˈaʊɪŋ/
 meows              /mɪˈaʊz/
+mind               /mˈaɪnd/
+minder             /mˈaɪndə/
+minders            /mˈaɪndəz/
+minding            /mˈaɪndɪŋ/
+minds              /mˈaɪndz/
+mindreader         /mˈaɪndɹiːdə/
+mindreaders        /mˈaɪndɹiːdəz/
+mindreading        /mˈaɪndɹiːdˌɪŋ/
 miserable          /mˈɪzɹəbəl/
 miserably          /mˈɪzɹəblˌiː/
 moat               /mˈəʊt/
@@ -311,6 +319,12 @@ protegé            /pɹˈɒtəʒˌeɪ/
 protégé            /pɹˈɒtəʒˌeɪ/
 radish             /ɹˈadɪʃ/
 radishes           /ɹˈadɪʃəz/
+read               /ɹˈiːd/
+#read              /ɹˈɛd/ -- disambiguate the forms of 'read' (e.g. "I will read the book." vs. "I have read the book.")
+reader             /ɹˈiːdə/
+readers            /ɹˈiːdəz/
+reading            /ɹˈiːdɪŋ/
+red                /ɹˈɛd/
 retina             /ɹˈɛtɪnə/
 retinas            /ɹˈɛtɪnəz/
 reverie            /ɹˈɛvɜːɹˌiː/
