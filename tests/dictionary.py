@@ -87,13 +87,10 @@ class Tester:
 			expected = '/%s/' % data[i]['pronunciation']
 			actual   = '/%s/' % espeak[i]
 
-			# espeak notes:
-			#   .     - IPA syllable annotations are not supported, so ignore
-			#   əl    - espeak does not generate 'əl' for '@L' reduced vowel
-			#           transcriptions
+			expected = expected.replace('.', '')    # espeak does not support syllabic annotations, so ignore
 
-			expected = expected.replace('.', '')
-			actual = actual.replace('əL', 'əl')
+			actual = actual.replace('əL',   'əl')   # espeak --ipa does not map '@L' correctly (NOTE: should use the syllabic l here instead)
+			actual = actual.replace('ɪˈɑː', 'iˈɑː') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
 
 			if expected == actual:
 				if not generate_exception_dictionary:
