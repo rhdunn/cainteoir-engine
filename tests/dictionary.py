@@ -91,13 +91,11 @@ class Tester:
 			#   .     - IPA syllable annotations are not supported, so ignore
 			#   əl    - espeak does not generate 'əl' for '@L' reduced vowel
 			#           transcriptions
-			#   ɪ     - sometimes (e.g. at the end of a word), espeak uses the 'ɪ'
-			#           reduced form; allow iː or ɪ transcriptions
 
 			expected = expected.replace('.', '')
 			actual = actual.replace('əL', 'əl')
 
-			if expected == actual or expected.replace('iː/', 'ɪ/') == actual:
+			if expected == actual:
 				if not generate_exception_dictionary:
 					print '%s %s ... pass' % (word, '/%s/' % data[i]['pronunciation'])
 				self.passed = self.passed + 1
