@@ -29,6 +29,7 @@
 ace                /ˈeɪs/
 aced               /ˈeɪsd/
 aces               /ˈeɪsəz/
+advertisement      /ɐdvˈɜːtɪsmənt/
 aid                /ˈeɪd/
 alliance           /ɐlˈaɪəns/
 alliances          /ɐlˈaɪənsəz/
@@ -53,6 +54,7 @@ auntie             /ˈantiː/
 aunts              /ˈants/
 baker              /bˈeɪkə/
 bakers             /bˈeɪkəz/
+ballet             /balˈeɪ/
 banshee            /bˈanʃiː/
 bar                /bˈɑː/
 bard               /bˈɑːd/
@@ -116,6 +118,8 @@ breeze             /bɹˈiːz/
 breezes            /bɹˈiːzəz/
 breezeblock        /bɹˈiːzblɒk/
 breezeblocks       /bɹˈiːzblɒks/
+cafe               /kˈafeɪ/
+cafes              /kˈafeɪz/
 camisole           /kˈamɪsˌəʊl/
 camomile           /kˈaməmˌaɪl/
 cannon             /kˈanən/
@@ -177,12 +181,22 @@ counterfeits       /kˈaʊntəfˌɪts/
 cussion            /kˈʌʃən/
 dalliance          /dˈaliːəns/
 dalliances         /dˈaliːənsəz/
+demon              /dˈiːmən/
+demoness           /dˈɛmənˌɛs/
+demons             /dˈiːmənz/
 diaper             /dˈaɪpə/
 diapers            /dˈaɪpəz/
 dice               /dˈaɪs/
 die                /dˈaɪ/
 dish               /dˈɪʃ/
 dishes             /dˈɪʃəz/
+doc                /dˈɒk/
+dock               /dˈɒk/
+docked             /dˈɒkt/
+docking            /dˈɒkɪŋ/
+docks              /dˈɒks/
+doctor             /dˈɒktə/
+doctors            /dˈɒktəz/
 drug               /dɹˈʌɡ/
 drugged            /dɹˈʌɡd/
 drugs              /dɹˈʌɡz/
@@ -196,6 +210,7 @@ erased             /əɹˈeɪzd/
 eraser             /əɹˈeɪzə/
 erasers            /əɹˈeɪzəz/
 erasing            /əɹˈeɪzɪŋ/
+fay                /fˈeɪ/
 fi                 /fˈaɪ/
 for                /fˈɔː/
 forgave            /fəɡˈeɪv/
@@ -218,6 +233,7 @@ gape               /ɡˈeɪp/
 gaped              /ɡˈeɪpt/
 gapes              /ɡˈeɪps/
 gaping             /ɡˈeɪpɪŋ/
+garage             /ɡˈaɹɪdʒ/
 gator              /ɡˈeɪtə/
 gators             /ɡˈeɪtəz/
 gave               /ɡˈeɪv/
@@ -265,6 +281,7 @@ keying             /kˈiːɪŋ/
 keys               /kˈiːz/
 later              /lˈeɪtə/
 latter             /lˈatə/
+lieutenant         /lɛftˈɛnənt/
 lingerie           /lˈɒnʒəɹˌeɪ/
 light              /lˈaɪt/
 lights             /lˈaɪts/
@@ -323,10 +340,13 @@ panther            /pˈanθə/
 panthers           /pˈanθəz/
 parliament         /pˈɑːləmənt/
 parliaments        /pˈɑːləmənts/
+patriot            /pˈatɹɪət/
 pear               /pˈeə/
 pears              /pˈeəz/
 pearl              /pˈɜːl/
 pearls             /pˈɜːlz/
+pecan              /pˈiːkən/
+pecans             /pˈiːkənz/
 pedal              /pˈɛdəl/
 pedaled            /pˈɛdəld/
 pedaler            /pˈɛdələ/
@@ -340,6 +360,8 @@ pedals             /pˈɛdəlz/
 per                /pˈɜː/
 percussion         /pəkˈʌʃən/
 perfect            /pˈɜːfɛkt/
+pie                /pˈaɪ/
+pies               /pˈaɪz/
 pile               /pˈaɪl/
 piles              /pˈaɪlz/
 pileup             /pˈaɪlʌp/
@@ -372,6 +394,10 @@ protegé            /pɹˈɒtəʒˌeɪ/
 protégé            /pɹˈɒtəʒˌeɪ/
 radish             /ɹˈadɪʃ/
 radishes           /ɹˈadɪʃəz/
+rag                /ɹˈaɡ/
+ragged             /ɹˈaɡɪd/
+raggedy            /ɹˈaɡɪdˌiː/
+rags               /ɹˈaɡz/
 read               /ɹˈiːd/
 #read              /ɹˈɛd/ -- disambiguate the forms of 'read' (e.g. "I will read the book." vs. "I have read the book.")
 reader             /ɹˈiːdə/
@@ -403,6 +429,7 @@ saloon             /səlˈuːn/
 saloons            /səlˈuːnz/
 sarcophagi         /sɑːkˈɒfəɡˌaɪ/
 sarcophagus        /sɑːkˈɒfəɡəs/
+schedule           /ʃˈɛdjuːl/
 semper             /sˈɛmpə/
 shanghai           /ʃaŋhˈaɪ/
 shanghaied         /ʃaŋhˈaɪd/
@@ -430,6 +457,11 @@ take               /tˈeɪk/
 taker              /tˈeɪkə/
 takers             /tˈeɪkəz/
 taking             /tˈeɪkɪŋ/
+temper             /tˈɛmpə/
+temperament        /tˈɛmpɹəmənt/
+temperamental      /tˈɛmpɹəməntəl/
+tempered           /tˈɛmpəd/
+tempers            /tˈɛmpəz/
 tiara              /tiˈɑːɹə/
 tiaras             /tiˈɑːɹəz/
 tone               /tˈəʊn/
