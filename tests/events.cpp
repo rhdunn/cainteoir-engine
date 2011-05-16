@@ -21,13 +21,11 @@
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
 #include <cainteoir/document.hpp>
+#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
 #include <getopt.h>
-
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
 
 namespace rdf = cainteoir::rdf;
 
@@ -52,7 +50,7 @@ struct events : public cainteoir::document_events
 
 int main(int argc, char ** argv)
 {
-	LIBXML_TEST_VERSION
+	cainteoir::initialise();
 
 	try
 	{
@@ -71,6 +69,6 @@ int main(int argc, char ** argv)
 		fprintf(stderr, "error: %s\n", e.what());
 	}
 
-	xmlCleanupParser();
+	cainteoir::cleanup();
 	return 0;
 }

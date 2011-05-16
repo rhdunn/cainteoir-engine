@@ -124,6 +124,7 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 	${ESPEAK_CFLAGS}
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
+	src/libcainteoir/platform.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/xmlstring_buffer.cpp \

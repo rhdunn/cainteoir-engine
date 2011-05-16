@@ -1,6 +1,6 @@
-/* Platform API Abstractions.
+/* Cainteoir Engine.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,18 +18,17 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAINTEOIR_PLATFORM_HPP
-#define CAINTEOIR_PLATFORM_HPP
+#include <cainteoir/platform.hpp>
 
-#include <libintl.h>
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
 
-#define _(text) gettext(text)
-
-namespace cainteoir
+void cainteoir::initialise()
 {
-	void initialise();
-
-	void cleanup();
+	LIBXML_TEST_VERSION
 }
 
-#endif
+void cainteoir::cleanup()
+{
+	xmlCleanupParser();
+}
