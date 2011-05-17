@@ -53,7 +53,7 @@ int main(int argc, char ** argv)
 		metadata.push_back(rdf::statement(audioformat, rdf::tts("frequency"), rdf::literal(R, rdf::tts("hertz"))));
 		metadata.push_back(rdf::statement(audioformat, rdf::tts("audio-format"), rdf::tts("float32le")));
 
-		std::shared_ptr<cainteoir::audio> audio = cainteoir::open_audio_device(NULL, "pulse", 0.3, metadata, subject, audioformat);
+		std::tr1::shared_ptr<cainteoir::audio> audio = cainteoir::open_audio_device(NULL, "pulse", 0.3, metadata, subject, audioformat);
 		audio->open();
 		audio->write((const char *)frame, sizeof(float) * s*R);
 		audio->close();

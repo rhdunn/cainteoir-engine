@@ -73,7 +73,7 @@ inline double percentageof(size_t a, size_t b)
 struct speech_impl : public tts::speech , public tts::engine_callback
 {
 	tts::engine *engine;
-	cainteoir::audio *audio;
+	std::tr1::shared_ptr<cainteoir::audio> audio;
 	std::tr1::shared_ptr<cainteoir::document> doc;
 
 	tts::state speechState;
@@ -91,7 +91,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	size_t speakingLen;   /**< @brief The length of the word/fragment being spoken. */
 	size_t mOffset;       /**< @brief The offset to the position where speaking is to start. */
 
-	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset);
+	speech_impl(tts::engine *aEngine, std::tr1::shared_ptr<cainteoir::audio> aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset);
 	~speech_impl();
 
 	void started();
@@ -170,7 +170,7 @@ void * speak_tts_thread(void *data)
 	return NULL;
 }
 
-speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset)
+speech_impl::speech_impl(tts::engine *aEngine, std::tr1::shared_ptr<cainteoir::audio> aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset)
 	: engine(aEngine)
 	, audio(aAudio)
 	, doc(aDoc)
@@ -333,7 +333,7 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	return false;
 }
 
-std::shared_ptr<tts::speech> tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc, audio *out, size_t offset)
+std::tr1::shared_ptr<tts::speech> tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc, std::tr1::shared_ptr<audio> out, size_t offset)
 {
-	return std::shared_ptr<tts::speech>(new speech_impl(active, out, doc, offset));
+	return std::tr1::shared_ptr<tts::speech>(new speech_impl(active, out, doc, offset));
 }

@@ -324,7 +324,7 @@ int main(int argc, char ** argv)
 		std::string author = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("creator"));
 		std::string title  = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("title"));
 
-		std::shared_ptr<cainteoir::audio> out;
+		std::tr1::shared_ptr<cainteoir::audio> out;
 		const char *state;
 		bool show_progress = true;
 		if (outformat || outfile)
@@ -368,7 +368,7 @@ int main(int argc, char ** argv)
 			fprintf(stdout, _("Title  : %s\n\n"), title.c_str());
 		}
 
-		std::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get(), 0);
+		std::tr1::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out, 0);
 		while (speech->is_speaking())
 		{
 			if (show_progress)

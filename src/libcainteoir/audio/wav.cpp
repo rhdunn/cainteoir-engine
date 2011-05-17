@@ -107,9 +107,10 @@ public:
 	}
 };
 
-std::shared_ptr<cainteoir::audio> create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::tr1::shared_ptr<cainteoir::audio>
+create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
-	return std::shared_ptr<cainteoir::audio>(new wav_audio(file, format, channels, frequency));
+	return std::tr1::shared_ptr<cainteoir::audio>(new wav_audio(file, format, channels, frequency));
 }
 

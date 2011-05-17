@@ -74,8 +74,9 @@ public:
 	}
 };
 
-std::shared_ptr<cainteoir::audio> create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::tr1::shared_ptr<cainteoir::audio>
+create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
-	return std::shared_ptr<cainteoir::audio>(new pulse_audio(device, format, channels, frequency));
+	return std::tr1::shared_ptr<cainteoir::audio>(new pulse_audio(device, format, channels, frequency));
 }
 
