@@ -45,6 +45,12 @@ namespace cainteoir
 
 		document() : mLength(0) {}
 
+		void clear()
+		{
+			mLength = 0;
+			mChildren.clear();
+		}
+
 		size_t text_length() const { return mLength; }
 
 		void add(const std::tr1::shared_ptr<cainteoir::buffer> &text)
