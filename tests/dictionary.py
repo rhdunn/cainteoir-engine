@@ -107,7 +107,9 @@ class Tester:
 		print '%d passed %d failed %d total' % (self.passed, self.failed, self.passed + self.failed)
 
 if __name__ == '__main__':
-	dictionarydir = os.path.join(sys.path[0], '../data/dictionary/en')
+	args = [ x for x in sys.argv if not x.startswith('--') ]
+
+	dictionarydir = args[1]
 	dictionaries = [ x for x in os.listdir(dictionarydir) if x.endswith('.dict') ]
 
 	test = Tester()
