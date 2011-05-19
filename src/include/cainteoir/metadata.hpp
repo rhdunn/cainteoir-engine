@@ -133,9 +133,9 @@ namespace cainteoir { namespace rdf
 			return aNS;
 		}
 	public:
-		const std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
-		const std::string ref;   /**< @brief The URI reference. */
-		const char suffix;       /**< @brief The URI suffix type ('#' or '/'). */
+		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
+		std::string ref;   /**< @brief The URI reference. */
+		char suffix;       /**< @brief The URI suffix type ('#' or '/'). */
 
 		uri(const std::string &aNS, const std::string &aRef)
 			: ns(normalise_ns(aNS))
@@ -197,8 +197,8 @@ namespace cainteoir { namespace rdf
 	class ns
 	{
 	public:
-		const std::string href;   /**< @brief The path of the namespace. */
-		const std::string prefix; /**< @brief The default prefix for the namespace. */
+		std::string href;   /**< @brief The path of the namespace. */
+		std::string prefix; /**< @brief The default prefix for the namespace. */
 
 		ns(const std::string &aPrefix, const std::string &aHref)
 			: href(aHref)
@@ -277,9 +277,14 @@ namespace cainteoir { namespace rdf
 			return value;
 		}
 	public:
-		const std::string value;    /**< @brief The content of the literal string. */
-		const std::string language; /**< @brief The language the literal string is written in [optional]. */
-		const uri type;             /**< @brief The type of the literal string [optional]. */
+		std::string value;    /**< @brief The content of the literal string. */
+		std::string language; /**< @brief The language the literal string is written in [optional]. */
+		uri type;             /**< @brief The type of the literal string [optional]. */
+
+		literal()
+			: type(std::string(), std::string())
+		{
+		}
 
 		template<typename T>
 		literal(const T &aValue)
@@ -303,11 +308,36 @@ namespace cainteoir { namespace rdf
 		{
 		}
 
+		template<typename T>
+		literal & operator=(const T &aValue)
+		{
+			value = to_string(aValue);
+			return *this;
+		}
+
+		template<typename T>
+		T as() const;
+
 		const node *clone() const
 		{
 			return new literal(*this);
 		}
 	};
+
+	template<typename T>
+	inline T literal::as() const
+	{
+		std::istringstream ss(value);
+		T value;
+		ss >> value;
+		return value;
+	}
+
+	template<>
+	inline std::string literal::as<std::string>() const
+	{
+		return value;
+	}
 
 	namespace query
 	{
