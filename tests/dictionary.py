@@ -26,7 +26,7 @@ def print_exception(word, pronunciation, ipa=True):
 		print '%-30s %s' % (word, pronunciation)
 	else:
 		replacements = [
-			('əl/', '@L/'),
+			('əl', '@L'),
 
 			('aʊ', 'aU'),
 			('əʊ', 'oU'),
