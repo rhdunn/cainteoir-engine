@@ -77,6 +77,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 	else
 		parseXHtmlDocument(data, subject, events);
 
+	events.metadata(rdf::statement(subject, rdf::tts("mimetype"), rdf::literal(type)));
 	return true;
 }
 

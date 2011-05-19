@@ -160,7 +160,7 @@
 <owl:ObjectProperty rdf:ID="mimetype">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>mimetype</rdfs:label>
-	<rdfs:comment xml:lang="en">The mimetype of a file format.</rdfs:comment>
+	<rdfs:comment xml:lang="en">The mimetype of a file format or document.</rdfs:comment>
 	<rdfs:domain rdf:resource="#FileFormat"/>
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
 </owl:ObjectProperty>
