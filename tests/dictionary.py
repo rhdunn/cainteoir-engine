@@ -41,6 +41,7 @@ def print_exception(word, pronunciation, ipa=True):
 			('θ', 'T'),
 			('ŋ', 'N'),
 			('ɹ', 'r'),
+			('ʔ', '?'),
 			('ɐ', 'a#'),
 			('ɑ', 'A'),
 			('ɒ', '0'),
