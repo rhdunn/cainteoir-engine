@@ -84,10 +84,12 @@ EXTRA_DIST += ChangeLog
 
 EXTRA_DIST += \
 	data/magic \
+	data/languages.rdf \
 	src/schema/text-to-speech.rdf
 
 pkgdata_DATA += \
 	data/magic.mgc \
+	data/languages.rdf \
 	src/schema/text-to-speech.rdf
 
 data/magic.mgc: data/magic
@@ -98,6 +100,7 @@ data/magic.mgc: data/magic
 libcainteoir_includedir = $(includedir)/cainteoir
 libcainteoir_include_HEADERS = \
 	src/include/cainteoir/platform.hpp \
+	src/include/cainteoir/languages.hpp \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
 	src/include/cainteoir/xmlreader.hpp \
@@ -125,6 +128,7 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/platform.cpp \
+	src/libcainteoir/languages.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/xmlstring_buffer.cpp \
