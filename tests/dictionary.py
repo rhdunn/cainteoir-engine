@@ -93,6 +93,11 @@ class Tester:
 
 			actual = actual.replace('əL',   'əl')   # espeak --ipa does not map '@L' correctly (NOTE: should use the syllabic l here instead)
 			actual = actual.replace('ɪˈɑː', 'iˈɑː') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
+			actual = actual.replace('ɪ/', 'i/') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
+			actual = actual.replace('ai/', 'aɪ/') # ... but correct 'aɪ' usage
+			actual = actual.replace('ei/', 'eɪ/') # ... and 'eɪ' usage
+			actual = actual.replace('ɔi/', 'ɔɪ/') # ... and 'ɔɪ' usage
+			actual = actual.replace('əʊi/', 'əʊɪ/') # ... and 'əʊɪ' usage
 
 			if expected == actual:
 				if not generate_exception_dictionary:
