@@ -26,7 +26,7 @@ def print_exception(word, pronunciation, ipa=True):
 		print '%-30s %s' % (word, pronunciation)
 	else:
 		replacements = [
-			('əl', '@L'),
+			('l̩', '@L'),
 
 			('aʊ', 'aU'),
 			('əʊ', 'oU'),
@@ -91,7 +91,7 @@ class Tester:
 
 			expected = expected.replace('.', '')    # espeak does not support syllabic annotations, so ignore
 
-			actual = actual.replace('əL',   'əl')   # espeak --ipa does not map '@L' correctly (NOTE: should use the syllabic l here instead)
+			actual = actual.replace('əL',   'l̩')   # espeak --ipa does not map '@L' correctly, so use the syllabic form (different to 'əl')
 			actual = actual.replace('ɪˈɑː', 'iˈɑː') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
 			actual = actual.replace('ɪ/', 'i/') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
 			actual = actual.replace('ai/', 'aɪ/') # ... but correct 'aɪ' usage
