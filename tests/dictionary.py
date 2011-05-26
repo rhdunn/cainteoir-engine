@@ -58,7 +58,10 @@ def print_exception(word, pronunciation, ipa=True):
 		for a, b in replacements:
 			pronunciation = pronunciation.replace(a, b)
 
-		print '%-30s %s' % (word, pronunciation.replace('/', ''))
+		if '-' in word:
+			print '(%s)%30s%s' % (word, ' ', pronunciation.replace('/', ''))
+		else:
+			print '%s%30s%s' % (word, ' ', pronunciation.replace('/', ''))
 
 class Tester:
 	def __init__(self):
