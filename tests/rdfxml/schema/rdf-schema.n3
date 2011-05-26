@@ -1,4 +1,5 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -90,3 +91,4 @@ rdfs:Datatype rdfs:label "Datatype" .
 rdfs:Datatype rdfs:comment "The class of RDF datatypes." .
 rdfs:Datatype rdfs:subClassOf rdfs:Class .
 rdfs: rdfs:seeAlso <http://www.w3.org/2000/01/rdf-schema-more> .
+<> tts:mimetype "application/xml" .

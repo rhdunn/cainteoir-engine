@@ -1,5 +1,6 @@
 @prefix dcam: <http://purl.org/dc/dcam/> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
@@ -24,3 +25,4 @@ dcam:VocabularyEncodingScheme dct:issued "2008-01-14" .
 dcam:VocabularyEncodingScheme rdf:type rdfs:Class .
 dcam:VocabularyEncodingScheme dct:hasVersion <http://dublincore.org/usage/terms/history/#VocabularyEncodingScheme-001> .
 dcam:VocabularyEncodingScheme rdfs:seeAlso <http://dublincore.org/documents/2007/06/04/abstract-model/> .
+<> tts:mimetype "application/xml" .

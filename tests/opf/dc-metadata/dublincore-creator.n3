@@ -1,4 +1,5 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 @prefix opf: <http://www.idpf.org/2007/opf#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
@@ -37,3 +38,4 @@ _:genid8 opf:file-as "Bloggs, Joan" .
 _:genid9 rdf:value "Rev. Dr. Martin Luther King Jr." .
 _:genid9 opf:role "aut" .
 _:genid9 opf:file-as "King, Martin Luther Jr." .
+<> tts:mimetype "@mimetype@" .

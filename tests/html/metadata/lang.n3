@@ -1,4 +1,6 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 
 <> dc:language "en-GB" .
 <> dc:title "Test Case" .
+<> tts:mimetype "@mimetype@" .

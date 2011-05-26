@@ -51,17 +51,17 @@ if __name__ == '__main__':
 			{'test': 'rdfxml/schema/skos.rdf', 'result': 'rdfxml/schema/skos.n3'},
 		]},
 	]})
-	test.run({'name': 'HTML', 'groups': [
+	test.run({'name': 'HTML', 'replace': ['mimetype'], 'groups': [
 		{'name': 'title metadata', 'type': 'turtle', 'tests': [
-			{'test': 'html/metadata/title.html', 'result': 'html/metadata/title.n3', 'expect': 'fail'},
-			{'test': 'html/metadata/title.xhtml', 'result': 'html/metadata/title.n3', 'expect': 'fail'},
-			{'test': 'html/metadata/empty-title.html', 'result': 'html/metadata/empty-title.n3'},
-			{'test': 'html/metadata/empty-title.xhtml', 'result': 'html/metadata/empty-title.n3'},
+			{'test': 'html/metadata/title.html', 'result': 'html/metadata/title.n3', 'expect': 'fail', 'mimetype': 'text/html'},
+			{'test': 'html/metadata/title.xhtml', 'result': 'html/metadata/title.n3', 'expect': 'fail', 'mimetype': 'application/xml'},
+			{'test': 'html/metadata/empty-title.html', 'result': 'html/metadata/empty-title.n3', 'mimetype': 'text/html'},
+			{'test': 'html/metadata/empty-title.xhtml', 'result': 'html/metadata/empty-title.n3', 'mimetype': 'application/xml'},
 		]},
 		{'name': 'lang metadata', 'type': 'turtle', 'tests': [
-			{'test': 'html/metadata/lang.html', 'result': 'html/metadata/lang.n3', 'expect': 'fail'},
-			{'test': 'html/metadata/lang.xhtml', 'result': 'html/metadata/lang.n3', 'expect': 'fail'},
-			{'test': 'html/metadata/xmllang.xhtml', 'result': 'html/metadata/xmllang.n3', 'expect': 'fail'},
+			{'test': 'html/metadata/lang.html', 'result': 'html/metadata/lang.n3', 'expect': 'fail', 'mimetype': 'text/html'},
+			{'test': 'html/metadata/lang.xhtml', 'result': 'html/metadata/lang.n3', 'expect': 'fail', 'mimetype': 'application/xml'},
+			{'test': 'html/metadata/xmllang.xhtml', 'result': 'html/metadata/xmllang.n3', 'expect': 'fail', 'mimetype': 'application/xml'},
 		]},
 	]})
 	test.run({'name': 'SMIL', 'groups': [
@@ -70,7 +70,7 @@ if __name__ == '__main__':
 			{'test': 'smil/metadata/xmllang.smil', 'result': 'smil/metadata/xmllang.n3'},
 		]},
 	]})
-	test.run({'name': 'OPF', 'groups': [
+	test.run({'name': 'OPF', 'replace': ['mimetype'], 'mimetype': 'application/xml', 'groups': [
 		{'name': 'metadata', 'type': 'turtle', 'tests': [
 			{'test': 'opf/metadata/dublincore-contributor.opf', 'result': 'opf/metadata/dublincore-contributor.n3'},
 			{'test': 'opf/metadata/dublincore-coverage.opf', 'result': 'opf/metadata/dublincore-coverage.n3'},
@@ -109,7 +109,7 @@ if __name__ == '__main__':
 			{'test': 'opf/dc-metadata/xmllang.opf', 'result': 'opf/dc-metadata/xmllang.n3'},
 		]},
 	]})
-	test.run({ 'name': 'ePub',
+	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
 		'archive':
 			[
 				('mimetype', 'application/epub+zip'),

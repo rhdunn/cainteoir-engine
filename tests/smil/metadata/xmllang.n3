@@ -1,4 +1,6 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 
 <http://www.example.com/test.smil> dc:title "Example SMIL Document" .
 <> dc:language "es" .
+<> tts:mimetype "application/xml" .

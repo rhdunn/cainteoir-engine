@@ -1,4 +1,5 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 @prefix opf: <http://www.idpf.org/2007/opf#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
@@ -47,3 +48,4 @@ _:genid11 opf:event "creation" .
 <> dc:date _:genid12 .
 _:genid12 rdf:value "2010-12-31" .
 _:genid12 opf:event "creation" .
+<> tts:mimetype "@mimetype@" .
