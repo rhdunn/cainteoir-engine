@@ -59,6 +59,7 @@
 <skos:Concept rdf:ID="en-gb">
 	<skos:prefLabel xml:lang="en">English (UK)</skos:prefLabel>
 	<skos:altLabel>en-gb</skos:altLabel>
+	<skos:altLabel>en-GB</skos:altLabel>
 	<skos:altLabel>en-uk</skos:altLabel> <!-- eSpeak Language Code -->
 	<skos:altLabel>en-uk-north</skos:altLabel> <!-- eSpeak Language Code -->
 	<skos:altLabel>en-uk-rp</skos:altLabel> <!-- eSpeak Language Code -->
@@ -73,6 +74,7 @@
 <skos:Concept rdf:ID="en-us">
 	<skos:prefLabel xml:lang="en">English (US)</skos:prefLabel>
 	<skos:altLabel>en-us</skos:altLabel>
+	<skos:altLabel>en-US</skos:altLabel>
 </skos:Concept>
 
 <skos:Concept rdf:ID="en-wi"> <!-- eSpeak Language Code -->
