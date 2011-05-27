@@ -51,6 +51,43 @@ struct mime_headers : public cainteoir::buffer
 {
 	std::tr1::shared_ptr<cainteoir::buffer> mOriginal;
 
+	bool parse_headers()
+	{
+		while (first <= last)
+		{
+			cainteoir::buffer name(first, first);
+			cainteoir::buffer value(first, first);
+
+			while (first <= last && is_mime_header_char(*first))
+				++first;
+
+			name = cainteoir::buffer(name.begin(), first);
+			if (name.empty())
+			{
+				if (*first == '\n')
+				{
+					++first;
+					return true;
+				}
+				return false;
+			}
+
+			if (first[0] == ':' && first[1] == ' ')
+			{
+				const char * start = first;
+				while (first <= last && *first != '\n')
+					++first;
+
+				value = cainteoir::buffer(start + 2, first);
+				++first;
+			}
+			else
+				return false;
+		}
+
+		return false;
+	}
+
 	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data)
 		: cainteoir::buffer(*data)
 		, mOriginal(data)
@@ -62,34 +99,7 @@ struct mime_headers : public cainteoir::buffer
 			++first;
 		}
 
-		bool valid = true;
-
-		while (valid && first <= last && *first != '\n')
-		{
-			cainteoir::buffer name(first, first);
-			cainteoir::buffer value(first, first);
-
-			while (first <= last && is_mime_header_char(*first))
-				++first;
-
-			name = cainteoir::buffer(name.begin(), first);
-
-			if (first[0] == ':' && first[1] == ' ')
-			{
-				const char * start = ++first;
-				while (first <= last && *first != '\n')
-					++first;
-
-				++first;
-				value = cainteoir::buffer(start, first);
-			}
-			else
-				valid = false;
-		}
-
-		++first;
-
-		if (!valid)
+		if (!parse_headers())
 			first = mOriginal->begin();
 	}
 };
