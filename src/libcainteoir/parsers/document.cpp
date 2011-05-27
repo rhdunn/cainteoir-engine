@@ -42,6 +42,58 @@ std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 	return data.buffer();
 }
 
+inline bool is_mime_header_char(char c)
+{
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '-';
+}
+
+struct mime_headers : public cainteoir::buffer
+{
+	std::tr1::shared_ptr<cainteoir::buffer> mOriginal;
+
+	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data)
+		: cainteoir::buffer(*data)
+		, mOriginal(data)
+	{
+		if (!strncmp(first, "HTTP/1.0 ", 9) || !strncmp(first, "HTTP/1.1 ", 9))
+		{
+			while (first <= last && *first != '\n')
+				++first;
+			++first;
+		}
+
+		bool valid = true;
+
+		while (valid && first <= last && *first != '\n')
+		{
+			cainteoir::buffer name(first, first);
+			cainteoir::buffer value(first, first);
+
+			while (first <= last && is_mime_header_char(*first))
+				++first;
+
+			name = cainteoir::buffer(name.begin(), first);
+
+			if (first[0] == ':' && first[1] == ' ')
+			{
+				const char * start = ++first;
+				while (first <= last && *first != '\n')
+					++first;
+
+				++first;
+				value = cainteoir::buffer(start, first);
+			}
+			else
+				valid = false;
+		}
+
+		++first;
+
+		if (!valid)
+			first = mOriginal->begin();
+	}
+};
+
 bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events)
 {
 	std::string type = cainteoir::mimetypes()(data);
@@ -75,7 +127,10 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 	else if (type == "application/octet-stream")
 		return false;
 	else
-		parseXHtmlDocument(data, subject, events);
+	{
+		std::tr1::shared_ptr<cainteoir::buffer> content(new mime_headers(data));
+		parseXHtmlDocument(content, subject, events);
+	}
 
 	events.metadata(rdf::statement(subject, rdf::tts("mimetype"), rdf::literal(type)));
 	return true;

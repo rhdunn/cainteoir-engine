@@ -43,13 +43,18 @@ if __name__ == '__main__':
 			{'test': 'html/sections/paragraphs.xhtml', 'result': 'html/sections/paragraphs.events'},
 		]},
 	]})
+	test.run({'name': 'MIME', 'groups': [
+		{'name': 'headers', 'type': 'events', 'tests': [
+			{'test': 'mime/headers/basic.txt', 'result': 'mime/headers/basic.events'},
+		]},
+	]})
 	test.run({'name': 'HTTP', 'groups': [
 		{'name': '1.0', 'type': 'events', 'tests': [
-			{'test': 'http/header-only-1.0.txt', 'result': 'http/header-only.events'},
+			{'test': 'http/header-only-1.0.txt', 'result': 'http/header-only-1.0.events'},
 			{'test': 'http/basic-1.0.txt', 'result': 'http/basic.events'},
 		]},
 		{'name': '1.1', 'type': 'events', 'tests': [
-			{'test': 'http/header-only-1.1.txt', 'result': 'http/header-only.events'},
+			{'test': 'http/header-only-1.1.txt', 'result': 'http/header-only-1.1.events'},
 			{'test': 'http/basic-1.1.txt', 'result': 'http/basic.events'},
 		]},
 	]})
