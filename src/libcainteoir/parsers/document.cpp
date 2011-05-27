@@ -64,9 +64,11 @@ struct mime_headers : public cainteoir::buffer
 			name = cainteoir::buffer(name.begin(), first);
 			if (name.empty())
 			{
-				if (*first == '\n')
+				if (*first == '\n' || *first == '\r')
 				{
 					++first;
+					if (*first == '\n')
+						++first;
 					return true;
 				}
 				return false;
@@ -75,7 +77,7 @@ struct mime_headers : public cainteoir::buffer
 			if (first[0] == ':' && first[1] == ' ')
 			{
 				const char * start = first;
-				while (first <= last && *first != '\n')
+				while (first <= last && (*first != '\n' || *first == '\r'))
 					++first;
 
 				value = cainteoir::buffer(start + 2, first);
