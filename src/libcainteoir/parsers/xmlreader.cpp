@@ -147,6 +147,15 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	else
 	{
 		mCurrent = mData->begin();
+		if (mCurrent[0] == 'H' && mCurrent[1] == 'T' && mCurrent[2] == 'T' && mCurrent[3] == 'P' && mCurrent[4] == '/' && mCurrent[5] == '1' && mCurrent[6] == '.')
+		{
+			// Skip the HTTP content header ...
+
+			while (mCurrent != mData->end() && !(mCurrent[0] == '\n' && mCurrent[1] == '\n'))
+				++mCurrent;
+			mCurrent += 2;
+		}
+
 		mParseAsText = true; // looks like text
 	}
 }
