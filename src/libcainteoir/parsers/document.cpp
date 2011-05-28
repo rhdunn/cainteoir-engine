@@ -96,7 +96,41 @@ struct mime_headers : public cainteoir::buffer
 			else if (!name.comparei("Subject"))
 				events.metadata(rdf::statement(subject, rdf::dc("title"), rdf::literal(value.str())));
 			else if (!name.comparei("From"))
-				events.metadata(rdf::statement(subject, rdf::dc("creator"), rdf::literal(value.str())));
+			{
+				// name ...
+
+				const char * name_begin = value.begin();
+				const char * name_end = value.begin();
+
+				while (name_end <= value.end() && *name_end == ' ')
+					++name_end;
+
+				while (name_end <= value.end() && *name_end != '<')
+					++name_end;
+
+				// email address
+
+				const char * mbox_begin = name_end + 1;
+				const char * mbox_end = value.end();
+
+				while (mbox_end > mbox_begin && *mbox_end != '>')
+					--mbox_end;
+
+				// clean-up name ...
+
+				--name_end;
+				while (name_end > value.begin() && *name_end == ' ')
+					--name_end;
+				++name_end;
+
+				// metadata ...
+
+				const rdf::bnode from = events.genid();
+				events.metadata(rdf::statement(subject, rdf::dc("creator"), from));
+				events.metadata(rdf::statement(from, rdf::rdf("type"), rdf::foaf("Person")));
+				events.metadata(rdf::statement(from, rdf::rdf("value"), rdf::literal(std::string(name_begin, name_end))));
+				events.metadata(rdf::statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(mbox_begin, mbox_end))));
+			}
 		}
 
 		return false;
