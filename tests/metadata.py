@@ -64,6 +64,14 @@ if __name__ == '__main__':
 			{'test': 'html/metadata/xmllang.xhtml', 'result': 'html/metadata/xmllang.n3', 'expect': 'fail', 'mimetype': 'application/xml'},
 		]},
 	]})
+	test.run({'name': 'MIME', 'groups': [
+		{'name': 'metadata', 'type': 'turtle', 'tests': [
+			{'test': 'mime/metadata/subject.txt', 'result': 'mime/metadata/subject.n3'},
+			{'test': 'mime/metadata/subject-lfonly.txt', 'result': 'mime/metadata/subject.n3'},
+			{'test': 'mime/metadata/from.txt', 'result': 'mime/metadata/from.n3'},
+			{'test': 'mime/metadata/from-lfonly.txt', 'result': 'mime/metadata/from.n3'},
+		]},
+	]})
 	test.run({'name': 'SMIL', 'groups': [
 		{'name': 'metadata', 'type': 'turtle', 'tests': [
 			{'test': 'smil/metadata/embedded-rdf.smil', 'result': 'smil/metadata/embedded-rdf.n3'},

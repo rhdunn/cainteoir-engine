@@ -51,7 +51,7 @@ struct mime_headers : public cainteoir::buffer
 {
 	std::tr1::shared_ptr<cainteoir::buffer> mOriginal;
 
-	bool parse_headers(std::string &mimetype)
+	bool parse_headers(std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events)
 	{
 		while (first <= last)
 		{
@@ -80,7 +80,7 @@ struct mime_headers : public cainteoir::buffer
 				while (first <= last && !(first[0] == '\n' && first[1] != ' ' && first[1] != '\t'))
 					++first;
 
-				value = cainteoir::buffer(start + 2, first);
+				value = cainteoir::buffer(start + 2, *(first-1) == '\r' ? first-1 : first);
 				++first;
 			}
 			else
@@ -93,12 +93,16 @@ struct mime_headers : public cainteoir::buffer
 					++type;
 				mimetype = std::string(value.begin(), type);
 			}
+			else if (!name.comparei("Subject"))
+				events.metadata(rdf::statement(subject, rdf::dc("title"), rdf::literal(value.str())));
+			else if (!name.comparei("From"))
+				events.metadata(rdf::statement(subject, rdf::dc("creator"), rdf::literal(value.str())));
 		}
 
 		return false;
 	}
 
-	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data, std::string &mimetype)
+	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data, std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events)
 		: cainteoir::buffer(*data)
 		, mOriginal(data)
 	{
@@ -112,7 +116,7 @@ struct mime_headers : public cainteoir::buffer
 			++first;
 		}
 
-		if (!parse_headers(mimetype))
+		if (!parse_headers(mimetype, subject, events))
 			first = mOriginal->begin();
 	}
 };
@@ -150,7 +154,7 @@ bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &da
 		return false;
 	else
 	{
-		std::tr1::shared_ptr<cainteoir::buffer> content(new mime_headers(data, type));
+		std::tr1::shared_ptr<cainteoir::buffer> content(new mime_headers(data, type, subject, events));
 		if (content->begin() == data->begin())
 			parseXHtmlDocument(data, subject, events);
 		else
