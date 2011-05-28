@@ -2,5 +2,5 @@
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 
 <> dc:language "en-GB" .
-<> dc:title "Test Case" .
+<> dc:title "Test File" .
 <> tts:mimetype "@mimetype@" .

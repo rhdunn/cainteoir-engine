@@ -3,4 +3,5 @@
 
 <> dc:title "Test Case" .
 <> dc:identifier "dublincore-language.opf" .
+<#test> dc:title "Test File" .
 <> tts:mimetype "@mimetype@" .

@@ -54,8 +54,8 @@ if __name__ == '__main__':
 	]})
 	test.run({'name': 'HTML', 'replace': ['mimetype'], 'groups': [
 		{'name': 'title metadata', 'type': 'turtle', 'tests': [
-			{'test': 'html/metadata/title.html', 'result': 'html/metadata/title.n3', 'expect': 'fail', 'mimetype': 'text/html'},
-			{'test': 'html/metadata/title.xhtml', 'result': 'html/metadata/title.n3', 'expect': 'fail', 'mimetype': 'application/xml'},
+			{'test': 'html/metadata/title.html', 'result': 'html/metadata/title.n3', 'mimetype': 'text/html'},
+			{'test': 'html/metadata/title.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xml'},
 			{'test': 'html/metadata/empty-title.html', 'result': 'html/metadata/empty-title.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/empty-title.xhtml', 'result': 'html/metadata/empty-title.n3', 'mimetype': 'application/xml'},
 		]},
