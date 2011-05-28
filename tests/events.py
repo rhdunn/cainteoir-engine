@@ -47,6 +47,7 @@ if __name__ == '__main__':
 		{'name': 'headers', 'type': 'events', 'tests': [
 			{'test': 'mime/headers/basic.txt', 'result': 'mime/headers/basic.events'},
 			{'test': 'mime/headers/leading-whitespace.txt', 'result': 'mime/headers/basic.events'},
+			{'test': 'mime/headers/wrapped-header-item.txt', 'result': 'mime/headers/basic.events'},
 		]},
 	]})
 	test.run({'name': 'HTTP', 'groups': [
