@@ -51,7 +51,7 @@ struct mime_headers : public cainteoir::buffer
 {
 	std::tr1::shared_ptr<cainteoir::buffer> mOriginal;
 
-	bool parse_headers()
+	bool parse_headers(std::string &mimetype)
 	{
 		while (first <= last)
 		{
@@ -85,12 +85,20 @@ struct mime_headers : public cainteoir::buffer
 			}
 			else
 				return false;
+
+			if (!name.comparei("Content-Type"))
+			{
+				const char * type = value.begin();
+				while (type <= value.end() && !(*type == ';' || *type == '\n'))
+					++type;
+				mimetype = std::string(value.begin(), type);
+			}
 		}
 
 		return false;
 	}
 
-	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data)
+	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data, std::string &mimetype)
 		: cainteoir::buffer(*data)
 		, mOriginal(data)
 	{
@@ -101,15 +109,13 @@ struct mime_headers : public cainteoir::buffer
 			++first;
 		}
 
-		if (!parse_headers())
+		if (!parse_headers(mimetype))
 			first = mOriginal->begin();
 	}
 };
 
-bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events)
+bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, std::string type)
 {
-	std::string type = cainteoir::mimetypes()(data);
-
 	if (type == "application/xml")
 	{
 		xmldom::document doc(data);
@@ -134,18 +140,28 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 	else if (type == "application/x-gzip")
 	{
 		std::tr1::shared_ptr<cainteoir::buffer> decompressed = cainteoir::strm_gzip_decompress(*data);
-		return parseDocumentBuffer(decompressed, subject, events);
+		type = cainteoir::mimetypes()(decompressed);
+		return parseDocumentBufferWithMimeType(decompressed, subject, events, type);
 	}
 	else if (type == "application/octet-stream")
 		return false;
 	else
 	{
-		std::tr1::shared_ptr<cainteoir::buffer> content(new mime_headers(data));
-		parseXHtmlDocument(content, subject, events);
+		std::tr1::shared_ptr<cainteoir::buffer> content(new mime_headers(data, type));
+		if (content->begin() == data->begin())
+			parseXHtmlDocument(data, subject, events);
+		else
+			return parseDocumentBufferWithMimeType(content, subject, events, type);
 	}
 
 	events.metadata(rdf::statement(subject, rdf::tts("mimetype"), rdf::literal(type)));
 	return true;
+}
+
+bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events)
+{
+	std::string type = cainteoir::mimetypes()(data);
+	return parseDocumentBufferWithMimeType(data, subject, events, type);
 }
 
 void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
