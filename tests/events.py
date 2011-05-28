@@ -46,7 +46,6 @@ if __name__ == '__main__':
 	test.run({'name': 'MIME', 'groups': [
 		{'name': 'headers', 'type': 'events', 'tests': [
 			{'test': 'mime/headers/basic.txt', 'result': 'mime/headers/basic.events'},
-			{'test': 'mime/headers/crlf.txt', 'result': 'mime/headers/crlf.events'},
 		]},
 	]})
 	test.run({'name': 'HTTP', 'groups': [
