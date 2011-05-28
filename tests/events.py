@@ -69,6 +69,11 @@ if __name__ == '__main__':
 			{'test': 'http/basic-1.1-lfonly.txt', 'result': 'http/basic.events'},
 		]},
 	]})
+	test.run({'name': 'RTF', 'groups': [
+		{'name': 'document', 'type': 'events', 'tests': [
+			{'test': 'rtf/simple.rtf', 'result': 'rtf/simple.events'},
+		]},
+	]})
 	test.run({ 'name': 'ePub',
 		'archive':
 			[

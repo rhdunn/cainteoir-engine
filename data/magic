@@ -16,3 +16,8 @@
 
 0	string		\037\213				gzip compressed data
 !:mime	application/x-gzip
+
+# Rich Text Format document
+
+0	string		{\\rtf					rich text document
+!:mime	text/rtf

@@ -186,6 +186,8 @@ bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &da
 	}
 	else if (type == "application/octet-stream")
 		return false;
+	else if (type == "text/rtf")
+		cainteoir::parseRtfDocument(data, subject, events);
 	else
 	{
 		std::tr1::shared_ptr<cainteoir::buffer> content(new mime_headers(data, type, subject, events));
@@ -259,6 +261,15 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
 	metadata.push_back(rdf::statement(gzip, rdf::dc("description"), rdf::literal(_("gzip compressed document"))));
 	metadata.push_back(rdf::statement(gzip, rdf::tts("mimetype"), rdf::literal("application/x-gzip")));
 	metadata.push_back(rdf::statement(gzip, rdf::tts("extension"), rdf::literal("*.gz")));
+
+	rdf::uri rtf = rdf::uri(baseuri, "rtf");
+	metadata.push_back(rdf::statement(rtf, rdf::rdf("type"), rdf::tts("DocumentFormat")));
+	metadata.push_back(rdf::statement(rtf, rdf::tts("name"), rdf::literal("rtf")));
+	metadata.push_back(rdf::statement(rtf, rdf::dc("title"), rdf::literal(_("rich text document"))));
+	metadata.push_back(rdf::statement(rtf, rdf::dc("description"), rdf::literal(_("rich text document"))));
+	metadata.push_back(rdf::statement(rtf, rdf::tts("mimetype"), rdf::literal("text/rtf")));
+	metadata.push_back(rdf::statement(rtf, rdf::tts("mimetype"), rdf::literal("application/rtf")));
+	metadata.push_back(rdf::statement(rtf, rdf::tts("extension"), rdf::literal("*.rtf")));
 }
 
 bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events)

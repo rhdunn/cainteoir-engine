@@ -1,6 +1,6 @@
 /* Document Parser API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -153,9 +153,18 @@ namespace cainteoir
 	  * @see   http://www.idpf.org/specs.htm
 	  *
 	  * @param aData  The ePub document.
+	  * @param aSubject  The base to use for any relative URIs.
 	  * @param events The events callback to handle document events.
 	  */
 	void parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events);
+
+	/** @brief RTF
+	  *
+	  * @param aData  The RichText document.
+	  * @param aSubject  The base to use for any relative URIs.
+	  * @param events The events callback to handle document events.
+	  */
+	void parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events);
 }
 
 #endif
