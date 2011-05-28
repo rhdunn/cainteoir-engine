@@ -199,6 +199,18 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
 	metadata.push_back(rdf::statement(epub, rdf::tts("mimetype"), rdf::literal("application/epub+zip")));
 	metadata.push_back(rdf::statement(epub, rdf::tts("extension"), rdf::literal("*.epub")));
 
+	rdf::uri email = rdf::uri(baseuri, "email");
+	metadata.push_back(rdf::statement(email, rdf::rdf("type"), rdf::tts("DocumentFormat")));
+	metadata.push_back(rdf::statement(email, rdf::tts("name"), rdf::literal("email")));
+	metadata.push_back(rdf::statement(email, rdf::dc("title"), rdf::literal(_("email document"))));
+	metadata.push_back(rdf::statement(email, rdf::dc("description"), rdf::literal(_("electronic mail document (raw mbox format)"))));
+	metadata.push_back(rdf::statement(email, rdf::tts("mimetype"), rdf::literal("text/x-mail")));
+	metadata.push_back(rdf::statement(email, rdf::tts("mimetype"), rdf::literal("message/rfc822")));
+	metadata.push_back(rdf::statement(email, rdf::tts("extension"), rdf::literal("*.eml")));
+	metadata.push_back(rdf::statement(email, rdf::tts("extension"), rdf::literal("*.emlx")));
+	metadata.push_back(rdf::statement(email, rdf::tts("extension"), rdf::literal("*.msg")));
+	metadata.push_back(rdf::statement(email, rdf::tts("extension"), rdf::literal("*.mbx")));
+
 	rdf::uri gzip = rdf::uri(baseuri, "gzip");
 	metadata.push_back(rdf::statement(gzip, rdf::rdf("type"), rdf::tts("DocumentFormat")));
 	metadata.push_back(rdf::statement(gzip, rdf::tts("name"), rdf::literal("gzip")));
