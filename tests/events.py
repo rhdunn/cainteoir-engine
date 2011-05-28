@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2010 Reece H. Dunn
+# Copyright (C) 2010-2011 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -18,9 +18,10 @@
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
 import harness
+import sys
 
 if __name__ == '__main__':
-	test = harness.TestSuite('events')
+	test = harness.TestSuite('events', sys.argv)
 	test.run({'name': 'HTML', 'groups': [
 		{'name': 'semantics', 'type': 'events', 'tests': [
 			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events'},

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2010 Reece H. Dunn
+# Copyright (C) 2010-2011 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -30,10 +30,14 @@ def replace_strings(string, replacements):
 	return string
 
 class TestSuite:
-	def __init__(self, name):
+	def __init__(self, name, args):
 		self.passed = 0
 		self.failed = 0
 		self.name = name
+		if len(args) == 2:
+			self.run_only = args[1]
+		else:
+			self.run_only = None
 
 	def check_command(self, filename, expect, command, test_expect, replacements):
 		tmpfile = '/tmp/metadata.txt'
@@ -82,6 +86,9 @@ class TestSuite:
 		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'), test_expect=test_expect, replacements=replacements)
 
 	def run(self, data):
+		if self.run_only and data['name'] != self.run_only:
+			return
+
 		for group in data['groups']:
 			print 'testing %s :: %s ...' % (data['name'], group['name'])
 			if group['type'] in ['ntriple', 'turtle', 'vorbis']:
