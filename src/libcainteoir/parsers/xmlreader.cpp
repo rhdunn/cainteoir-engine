@@ -188,7 +188,7 @@ bool cainteoir::xml::reader::read()
 		{
 			const char * startPos = mCurrent;
 
-			while (mCurrent != mData->end() && xmlalnum(*mCurrent))
+			while (mCurrent != mData->end() && (xmlalnum(*mCurrent) || *mCurrent == ':'))
 				++mCurrent;
 
 			mNodeType = attribute;

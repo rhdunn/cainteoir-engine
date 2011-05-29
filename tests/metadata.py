@@ -60,9 +60,9 @@ if __name__ == '__main__':
 			{'test': 'html/metadata/empty-title.xhtml', 'result': 'html/metadata/empty-title.n3', 'mimetype': 'application/xml'},
 		]},
 		{'name': 'lang metadata', 'type': 'turtle', 'tests': [
-			{'test': 'html/metadata/lang.html', 'result': 'html/metadata/lang.n3', 'expect': 'fail', 'mimetype': 'text/html'},
-			{'test': 'html/metadata/lang.xhtml', 'result': 'html/metadata/lang.n3', 'expect': 'fail', 'mimetype': 'application/xml'},
-			{'test': 'html/metadata/xmllang.xhtml', 'result': 'html/metadata/xmllang.n3', 'expect': 'fail', 'mimetype': 'application/xml'},
+			{'test': 'html/metadata/lang.html', 'result': 'html/metadata/lang.n3', 'mimetype': 'text/html'},
+			{'test': 'html/metadata/lang.xhtml', 'result': 'html/metadata/lang.n3', 'mimetype': 'application/xml'},
+			{'test': 'html/metadata/xmllang.xhtml', 'result': 'html/metadata/xmllang.n3', 'mimetype': 'application/xml'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
