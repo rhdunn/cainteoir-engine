@@ -50,6 +50,8 @@ namespace cainteoir { namespace xml
 		const cainteoir::buffer &nodeName() const { return mNodeName; }
 
 		node_type nodeType() const { return mNodeType; }
+
+		bool isPlainText() const { return mParseAsText; }
 	private:
 		void read_tag(node_type aType);
 		bool expect_next(char c);

@@ -128,6 +128,13 @@ void parseHtmlNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events)
 {
 	xml::reader reader(data);
+
+	if (reader.isPlainText())
+	{
+		events.text(data);
+		return;
+	}
+
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
