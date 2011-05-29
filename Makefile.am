@@ -26,7 +26,7 @@ SUBDIRS = po
 
 EXTRA_DIST += config.guess config.sub ltmain.sh
 
-# Increment if the interface has changed and is backward compatible
+# Increment if the interface has changed and is not backward compatible
 CURRENT=0
 
 # Increment  if source files have changed
