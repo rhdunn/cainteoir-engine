@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2010 Reece H. Dunn
+# Copyright (C) 2010-2011 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -18,9 +18,10 @@
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
 import harness
+import sys
 
 if __name__ == '__main__':
-	test = harness.TestSuite('events')
+	test = harness.TestSuite('events', sys.argv)
 	test.run({'name': 'HTML', 'groups': [
 		{'name': 'semantics', 'type': 'events', 'tests': [
 			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events'},
@@ -41,6 +42,36 @@ if __name__ == '__main__':
 			{'test': 'html/sections/headings.xhtml', 'result': 'html/sections/headings.events'},
 			{'test': 'html/sections/paragraphs.html', 'result': 'html/sections/paragraphs.events'},
 			{'test': 'html/sections/paragraphs.xhtml', 'result': 'html/sections/paragraphs.events'},
+		]},
+	]})
+	test.run({'name': 'MIME', 'groups': [
+		{'name': 'headers', 'type': 'events', 'tests': [
+			{'test': 'mime/headers/basic.txt', 'result': 'mime/headers/basic.events'},
+			{'test': 'mime/headers/leading-whitespace.txt', 'result': 'mime/headers/basic.events'},
+			{'test': 'mime/headers/wrapped-header-item.txt', 'result': 'mime/headers/basic.events'},
+			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
+			{'test': 'mime/headers/basic-lfonly.txt', 'result': 'mime/headers/basic.events'},
+			{'test': 'mime/headers/leading-whitespace-lfonly.txt', 'result': 'mime/headers/basic.events'},
+			{'test': 'mime/headers/wrapped-header-item-lfonly.txt', 'result': 'mime/headers/basic.events'},
+		]},
+	]})
+	test.run({'name': 'HTTP', 'groups': [
+		{'name': '1.0', 'type': 'events', 'tests': [
+			{'test': 'http/header-only-1.0.txt', 'result': 'http/header-only-1.0.events'},
+			{'test': 'http/basic-1.0.txt', 'result': 'http/basic.events'},
+			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
+			{'test': 'http/basic-1.0-lfonly.txt', 'result': 'http/basic.events'},
+		]},
+		{'name': '1.1', 'type': 'events', 'tests': [
+			{'test': 'http/header-only-1.1.txt', 'result': 'http/header-only-1.1.events'},
+			{'test': 'http/basic-1.1.txt', 'result': 'http/basic.events'},
+			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
+			{'test': 'http/basic-1.1-lfonly.txt', 'result': 'http/basic.events'},
+		]},
+	]})
+	test.run({'name': 'RTF', 'groups': [
+		{'name': 'document', 'type': 'events', 'tests': [
+			{'test': 'rtf/simple.rtf', 'result': 'rtf/simple.events'},
 		]},
 	]})
 	test.run({ 'name': 'ePub',

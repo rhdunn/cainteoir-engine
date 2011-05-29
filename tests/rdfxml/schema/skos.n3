@@ -1,4 +1,5 @@
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -255,3 +256,4 @@ skos:closeMatch rdf:type owl:ObjectProperty .
 skos:closeMatch rdfs:subPropertyOf skos:mappingRelation .
 skos:closeMatch rdf:type owl:SymmetricProperty .
 skos:closeMatch rdf:type rdf:Property .
+<> tts:mimetype "application/xml" .

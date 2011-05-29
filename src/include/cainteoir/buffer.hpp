@@ -124,7 +124,7 @@ namespace cainteoir
 
 		rope &operator=(const std::tr1::shared_ptr<cainteoir::buffer> &item)
 		{
-			data.clear();
+			clear();
 			add(item);
 			return *this;
 		}

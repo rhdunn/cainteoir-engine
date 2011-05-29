@@ -1,6 +1,6 @@
 /* Text-to-Speech Engine API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -54,16 +54,15 @@ namespace cainteoir { namespace tts
 		engines(rdf::graph &metadata);
 		~engines();
 
-		int get_channels() const;
-		int get_frequency() const;
-		cainteoir::audio_format get_audioformat() const;
-
 		bool select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice);
 
-		std::shared_ptr<speech> speak(const std::tr1::shared_ptr<document> &doc, audio *out, size_t offset = 0);
+		const rdf::uri & voice() const { return *selectedVoice; }
+
+		std::tr1::shared_ptr<speech> speak(const std::tr1::shared_ptr<document> &doc, std::tr1::shared_ptr<audio> out, size_t offset = 0);
 	private:
 		std::map<std::string, engine *> enginelist;
 		engine *active;
+		const rdf::uri *selectedVoice;
 	};
 }}
 

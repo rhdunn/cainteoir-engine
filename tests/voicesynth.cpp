@@ -19,9 +19,12 @@
  */
 
 #include <cainteoir/audio.hpp>
+#include <cainteoir/metadata.hpp>
 #include <cstdio>
 #include <cmath>
 #include <stdexcept>
+
+namespace rdf = cainteoir::rdf;
 
 int main(int argc, char ** argv)
 {
@@ -44,8 +47,13 @@ int main(int argc, char ** argv)
 
 		cainteoir::rdf::graph metadata;
 		cainteoir::rdf::uri subject = cainteoir::rdf::uri(std::string(), std::string());
+		cainteoir::rdf::uri audioformat = cainteoir::rdf::uri(std::string(), std::string("audio"));
 
-		std::shared_ptr<cainteoir::audio> audio = cainteoir::open_audio_device(NULL, "pulse", cainteoir::FLOAT32_LE, 1, R, 0.3, metadata, subject);
+		metadata.push_back(rdf::statement(audioformat, rdf::tts("channels"), rdf::literal(1, rdf::xsd("int"))));
+		metadata.push_back(rdf::statement(audioformat, rdf::tts("frequency"), rdf::literal(R, rdf::tts("hertz"))));
+		metadata.push_back(rdf::statement(audioformat, rdf::tts("audio-format"), rdf::tts("float32le")));
+
+		std::tr1::shared_ptr<cainteoir::audio> audio = cainteoir::open_audio_device(NULL, "pulse", 0.3, metadata, subject, audioformat);
 		audio->open();
 		audio->write((const char *)frame, sizeof(float) * s*R);
 		audio->close();

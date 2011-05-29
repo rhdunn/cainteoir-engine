@@ -1,6 +1,6 @@
 /* MetaData API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -66,6 +66,12 @@ namespace cainteoir { namespace rdf
 		}
 
 		template<typename T>
+		const T * as() const
+		{
+			return dynamic_cast<const T *>(value);
+		}
+
+		template<typename T>
 		operator const T *() const
 		{
 			return dynamic_cast<const T *>(value);
@@ -127,9 +133,9 @@ namespace cainteoir { namespace rdf
 			return aNS;
 		}
 	public:
-		const std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
-		const std::string ref;   /**< @brief The URI reference. */
-		const char suffix;       /**< @brief The URI suffix type ('#' or '/'). */
+		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
+		std::string ref;   /**< @brief The URI reference. */
+		char suffix;       /**< @brief The URI suffix type ('#' or '/'). */
 
 		uri(const std::string &aNS, const std::string &aRef)
 			: ns(normalise_ns(aNS))
@@ -191,8 +197,8 @@ namespace cainteoir { namespace rdf
 	class ns
 	{
 	public:
-		const std::string href;   /**< @brief The path of the namespace. */
-		const std::string prefix; /**< @brief The default prefix for the namespace. */
+		std::string href;   /**< @brief The path of the namespace. */
+		std::string prefix; /**< @brief The default prefix for the namespace. */
 
 		ns(const std::string &aPrefix, const std::string &aHref)
 			: href(aHref)
@@ -271,9 +277,14 @@ namespace cainteoir { namespace rdf
 			return value;
 		}
 	public:
-		const std::string value;    /**< @brief The content of the literal string. */
-		const std::string language; /**< @brief The language the literal string is written in [optional]. */
-		const uri type;             /**< @brief The type of the literal string [optional]. */
+		std::string value;    /**< @brief The content of the literal string. */
+		std::string language; /**< @brief The language the literal string is written in [optional]. */
+		uri type;             /**< @brief The type of the literal string [optional]. */
+
+		literal()
+			: type(std::string(), std::string())
+		{
+		}
 
 		template<typename T>
 		literal(const T &aValue)
@@ -297,17 +308,52 @@ namespace cainteoir { namespace rdf
 		{
 		}
 
+		template<typename T>
+		literal & operator=(const T &aValue)
+		{
+			value = to_string(aValue);
+			return *this;
+		}
+
+		template<typename T>
+		T as() const;
+
 		const node *clone() const
 		{
 			return new literal(*this);
 		}
 	};
 
+	template<typename T>
+	inline T literal::as() const
+	{
+		std::istringstream ss(value);
+		T value;
+		ss >> value;
+		return value;
+	}
+
+	template<>
+	inline std::string literal::as<std::string>() const
+	{
+		return value;
+	}
+
 	namespace query
 	{
 		inline const std::string &value(const rdf::literal *literal)
 		{
 			return literal ? literal->value : nil;
+		}
+
+		inline const std::string &value(const rdf::literal &literal)
+		{
+			return literal.value;
+		}
+
+		inline const std::string &value(const any_type &literal)
+		{
+			return value(literal.as<rdf::literal>());
 		}
 	}
 
@@ -359,6 +405,16 @@ namespace cainteoir { namespace rdf
 		inline any_type object(const rdf::statement *statement)
 		{
 			return any_type(statement->object.get());
+		}
+
+		inline const std::string &value(const rdf::statement &statement)
+		{
+			return value(object(statement));
+		}
+
+		inline const std::string &value(const rdf::statement *statement)
+		{
+			return value(object(statement));
 		}
 	}
 
@@ -460,6 +516,43 @@ namespace cainteoir { namespace rdf
 					return true;
 			}
 			return false;
+		}
+
+		template<typename T>
+		struct value_cast
+		{
+			static T cast(const std::string &value)
+			{
+				T ret;
+				std::istringstream(value) >> ret;
+				return ret;
+			}
+		};
+
+		template<>
+		struct value_cast<std::string>
+		{
+			static const std::string & cast(const std::string &value)
+			{
+				return value;
+			}
+		};
+
+		template<typename T>
+		inline T select_value(const results &metadata, const rdf::uri &aPredicate)
+		{
+			foreach_iter(query, metadata)
+			{
+				if (predicate(*query) == aPredicate)
+					return value_cast<T>::cast(value(*query));
+			}
+			return T();
+		}
+
+		template<typename T, typename Graph>
+		T select_value(const Graph &aMetadata, const rdf::uri &aUri, const rdf::uri &aPredicate)
+		{
+			return select_value<T>(select(aMetadata, subject, aUri), aPredicate);
 		}
 	}
 

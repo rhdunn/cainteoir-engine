@@ -33,9 +33,6 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
-
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 
@@ -57,22 +54,48 @@ static struct option options[] =
 	{ 0, 0, 0, 0 }
 };
 
-void help()
+void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showName)
 {
-	fprintf(stdout, _("usage: cainteoir [OPTION..] document\n"));
+	rql::results formats = rql::select(
+		rql::select(aMetadata, rql::predicate, rdf::rdf("type")),
+		rql::object, aType);
+
+	foreach_iter(format, formats)
+	{
+		const rdf::uri * uri = rql::subject(*format);
+		std::string description = rql::select_value<std::string>(aMetadata, *uri, rdf::dc("description"));
+		if (showName)
+		{
+			std::string name = rql::select_value<std::string>(aMetadata, *uri, rdf::tts("name"));
+			fprintf(stdout, "            %-5s - %s\n", name.c_str(), description.c_str());
+		}
+		else
+			fprintf(stdout, "          *  %s\n", description.c_str());
+	}
+}
+
+void help(const rdf::graph &aMetadata)
+{
+	fprintf(stdout, _("usage: cainteoir [OPTION..] DOCUMENT\n"));
+	fprintf(stdout, _("       where DOCUMENT is one of:\n"));
+	list_formats(aMetadata, rdf::tts("DocumentFormat"), false);
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("     --metadata         Show the RDF metadata for the engine and voices\n"));
+	fprintf(stdout, _("Speech options:\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Speech:\n"));
 	fprintf(stdout, _(" -v, --voice=VOICE      Use the voice named VOICE\n"));
 	fprintf(stdout, _(" -l, --language=LANG    Use a voice that speaks the language LANG\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Recording audio:\n"));
+	fprintf(stdout, _("Recording audio options:\n"));
+	fprintf(stdout, "\n");
 	fprintf(stdout, _(" -o, --output=FILE      Recorded audio is written to FILE\n"));
 	fprintf(stdout, _("     --stdout           Recorded audio is written to the standard output\n"));
 	fprintf(stdout, _(" -r, --record=FORMAT    Record the audio as a FORMAT file (default: wav)\n"));
+	fprintf(stdout, _("       where FORMAT is one of:\n"));
+	list_formats(aMetadata, rdf::tts("AudioFormat"), true);
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("General:\n"));
+	fprintf(stdout, _("General options:\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("     --metadata         Show the RDF metadata for the engine and voices\n"));
 	fprintf(stdout, _(" -h, --help             This help text\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("The arguments to the long options also apply to their short option equivalents.\n"));
@@ -104,7 +127,7 @@ int termchar()
 
 void format_time(char *s, int n, double seconds)
 {
-	int ms = int(seconds * 100.0) % 100;
+	int ms = int(seconds * 10.0) % 10;
 
 	int minutes = floor(seconds / 60.0);
 	seconds = seconds - (minutes * 60.0);
@@ -112,7 +135,7 @@ void format_time(char *s, int n, double seconds)
 	int hours = floor(minutes / 60.0);
 	minutes = minutes - (hours * 60.0);
 
-	snprintf(s, n, "%02d:%02d:%02d.%02d", hours, minutes, (int)floor(seconds), ms);
+	snprintf(s, n, "%02d:%02d:%02d.%01d", hours, minutes, (int)floor(seconds), ms);
 }
 
 void status_line(double elapsed, double total, double progress, const char *state)
@@ -132,17 +155,6 @@ void status_line(double elapsed, double total, double progress, const char *stat
 	fflush(stdout);
 }
 
-std::string select_value(const rdf::graph &aMetadata, const rdf::uri &uri, const rdf::uri &predicate)
-{
-	foreach_iter(query, rql::select(aMetadata, rql::subject, uri))
-	{
-		if (rql::predicate(*query) == predicate)
-			return rql::value(rql::object(*query));
-	}
-
-	return std::string();
-}
-
 const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predicate, const std::string &value)
 {
 	rql::results voices = rql::select(
@@ -157,7 +169,7 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 			rql::results statements = rql::select(aMetadata, rql::subject, *uri);
 			foreach_iter(statement, statements)
 			{
-				if (rql::predicate(*statement) == predicate && rql::value(rql::object(*statement)) == value)
+				if (rql::predicate(*statement) == predicate && rql::value(*statement) == value)
 					return uri;
 			}
 		}
@@ -181,7 +193,7 @@ struct document : public cainteoir::document_events
 		m_metadata.push_back(aStatement);
 
 		if (rql::subject(aStatement) == subject && rql::predicate(aStatement) == rdf::dc("language"))
-			select_voice(rdf::dc("language"), rql::value(rql::object(aStatement)));
+			select_voice(rdf::dc("language"), rql::value(aStatement));
 	}
 
 	const rdf::bnode genid()
@@ -213,7 +225,7 @@ struct document : public cainteoir::document_events
 
 int main(int argc, char ** argv)
 {
-	LIBXML_TEST_VERSION
+	cainteoir::initialise();
 
 	setlocale(LC_MESSAGES, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
@@ -294,7 +306,7 @@ int main(int argc, char ** argv)
 		}
 		else if (action == show_help)
 		{
-			help();
+			help(doc.m_metadata);
 			return 0;
 		}
 
@@ -309,15 +321,12 @@ int main(int argc, char ** argv)
 		else
 			cainteoir::parseDocument(NULL, doc);
 
-		cainteoir::audio_format audioformat = doc.tts.get_audioformat();
-		int channels = doc.tts.get_channels();
-		int frequency = doc.tts.get_frequency();
+		std::string author = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("creator"));
+		std::string title  = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("title"));
 
-		std::string author = select_value(doc.m_metadata, doc.subject, rdf::dc("creator"));
-		std::string title  = select_value(doc.m_metadata, doc.subject, rdf::dc("title"));
-
-		std::shared_ptr<cainteoir::audio> out;
+		std::tr1::shared_ptr<cainteoir::audio> out;
 		const char *state;
+		bool show_progress = true;
 		if (outformat || outfile)
 		{
 			state = _("recording");
@@ -333,7 +342,7 @@ int main(int argc, char ** argv)
 			if (!outformat)
 				outformat = "wav";
 
-			out = cainteoir::create_audio_file(outfile.c_str(), outformat, audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
+			out = cainteoir::create_audio_file(outfile.c_str(), outformat, 0.3, doc.m_metadata, doc.subject, doc.tts.voice());
 			if (!out.get())
 				throw std::runtime_error(_("unsupported audio file format"));
 
@@ -342,24 +351,28 @@ int main(int argc, char ** argv)
 				fprintf(stdout, _("Recording \"%s\"\n"), doc.subject.str().c_str());
 				fprintf(stdout, _("       to \"%s\"\n\n"), outfile.c_str());
 			}
+			else
+				show_progress = false;
 		}
 		else
 		{
 			state = "reading";
-			out = cainteoir::open_audio_device(NULL, "pulse", audioformat, channels, frequency, 0.3, doc.m_metadata, doc.subject);
+			out = cainteoir::open_audio_device(NULL, "pulse", 0.3, doc.m_metadata, doc.subject, doc.tts.voice());
 
 			fprintf(stdout, _("Reading \"%s\"\n\n"), doc.subject.str().c_str());
 		}
 
-		size_t length = doc.m_doc->length();
+		if (show_progress)
+		{
+			fprintf(stdout, _("Author : %s\n"), author.c_str());
+			fprintf(stdout, _("Title  : %s\n\n"), title.c_str());
+		}
 
-		fprintf(stdout, _("Author : %s\n"), author.c_str());
-		fprintf(stdout, _("Title  : %s\n\n"), title.c_str());
-
-		std::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out.get(), 0);
+		std::tr1::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out, 0);
 		while (speech->is_speaking())
 		{
-			status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), state);
+			if (show_progress)
+				status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), state);
 
 			switch (termchar())
 			{
@@ -372,14 +385,17 @@ int main(int argc, char ** argv)
 			}
 		}
 
-		status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), _("stopped"));
-		fprintf(stdout, "\n");
+		if (show_progress)
+		{
+			status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), _("stopped"));
+			fprintf(stdout, "\n");
+		}
 	}
 	catch (std::runtime_error &e)
 	{
 		fprintf(stderr, _("error: %s\n"), e.what());
 	}
 
-	xmlCleanupParser();
+	cainteoir::cleanup();
 	return 0;
 }

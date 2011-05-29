@@ -40,12 +40,6 @@ namespace cainteoir
 		virtual uint32_t write(const char *data, uint32_t len) = 0;
 	};
 
-	enum audio_format
-	{
-		S16_LE,
-		FLOAT32_LE,
-	};
-
 	/** @name  Metadata
 	  * @brief Converters to map RDF metadata to metadata used by various audio formats.
 	  */
@@ -81,9 +75,11 @@ namespace cainteoir
 
 	void supportedAudioFormats(rdf::graph &metadata);
 
-	std::shared_ptr<audio> create_audio_file(const char *filename, const char *type, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
+	std::tr1::shared_ptr<audio>
+	create_audio_file(const char *filename, const char *type, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument, const rdf::uri &aVoice);
 
-	std::shared_ptr<audio> open_audio_device(const char *device, const char *type, audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
+	std::tr1::shared_ptr<audio>
+	open_audio_device(const char *device, const char *type, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument, const rdf::uri &aVoice);
 }
 
 #endif

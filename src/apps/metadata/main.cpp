@@ -28,9 +28,6 @@
 #include <cstdio>
 #include <getopt.h>
 
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
-
 namespace rdf = cainteoir::rdf;
 
 enum args
@@ -85,7 +82,7 @@ struct rdfmetadata
 
 int main(int argc, char ** argv)
 {
-	LIBXML_TEST_VERSION
+	cainteoir::initialise();
 
 	setlocale(LC_MESSAGES, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
@@ -172,6 +169,6 @@ int main(int argc, char ** argv)
 		fprintf(stderr, _("error: %s\n"), e.what());
 	}
 
-	xmlCleanupParser();
+	cainteoir::cleanup();
 	return 0;
 }

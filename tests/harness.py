@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2010 Reece H. Dunn
+# Copyright (C) 2010-2011 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -24,13 +24,22 @@ import zipfile
 
 from datetime import date
 
+def replace_strings(string, replacements):
+	for (key, value) in replacements.items():
+		string = string.replace('@%s@' % key, value)
+	return string
+
 class TestSuite:
-	def __init__(self, name):
+	def __init__(self, name, args):
 		self.passed = 0
 		self.failed = 0
 		self.name = name
+		if len(args) == 2:
+			self.run_only = args[1]
+		else:
+			self.run_only = None
 
-	def check_command(self, filename, expect, command, test_expect):
+	def check_command(self, filename, expect, command, test_expect, replacements):
 		tmpfile = '/tmp/metadata.txt'
 
 		os.system('CAINTEOIR_DATADIR=%s %s "%s" > %s' % (
@@ -40,7 +49,7 @@ class TestSuite:
 			tmpfile))
 
 		with open(expect, 'r') as f:
-			expected = [ repr(x.replace('<DATETIME>', date.today().strftime('%Y'))) for x in f.read().split('\n') if not x == '' ]
+			expected = [ repr(replace_strings(x.replace('<DATETIME>', date.today().strftime('%Y')), replacements)) for x in f.read().split('\n') if not x == '' ]
 
 		with open(tmpfile, 'r') as f:
 			got = [ repr(x.replace('<%s' % filename, '<')) for x in f.read().split('\n') if not x == '' ]
@@ -63,28 +72,31 @@ class TestSuite:
 				print '    | %s' % line.replace('\n', '')
 			print '    %s' % ('<'*75)
 
-	def check_metadata(self, filename, expect, formattype, displayas=None, test_expect='expect-pass'):
+	def check_metadata(self, filename, expect, formattype, displayas=None, test_expect='expect-pass', replacements={}):
 		sys.stdout.write('... checking %s as %s metadata ... ' % ((displayas or filename), formattype))
 		self.check_command(filename=filename, expect=expect, test_expect=test_expect,
-			command='%s --%s' % (os.path.join(sys.path[0], '../src/apps/metadata/metadata'), formattype))
+			command='%s --%s' % (os.path.join(sys.path[0], '../src/apps/metadata/metadata'), formattype), replacements=replacements)
 
-	def check_events(self, filename, expect, displayas=None, test_expect='expect-pass'):
+	def check_events(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
 		sys.stdout.write('... checking %s as text/speech events ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'events'), test_expect=test_expect)
+		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'events'), test_expect=test_expect, replacements=replacements)
 
-	def check_xmlreader(self, filename, expect, displayas=None, test_expect='expect-pass'):
+	def check_xmlreader(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
 		sys.stdout.write('... checking %s as xmlreader tags ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'), test_expect=test_expect)
+		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'), test_expect=test_expect, replacements=replacements)
 
 	def run(self, data):
+		if self.run_only and data['name'] != self.run_only:
+			return
+
 		for group in data['groups']:
 			print 'testing %s :: %s ...' % (data['name'], group['name'])
 			if group['type'] in ['ntriple', 'turtle', 'vorbis']:
-				check = lambda got, exp, expect, displayas: self.check_metadata(got, exp, group['type'], test_expect=expect, displayas=displayas)
+				check = lambda got, exp, expect, displayas, replacements: self.check_metadata(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'events':
-				check = lambda got, exp, expect, displayas: self.check_events(got, exp, test_expect=expect, displayas=displayas)
+				check = lambda got, exp, expect, displayas, replacements: self.check_events(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'xmlreader':
-				check = lambda got, exp, expect, displayas: self.check_xmlreader(got, exp, test_expect=expect, displayas=displayas)
+				check = lambda got, exp, expect, displayas, replacements: self.check_xmlreader(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 
 			for test in group['tests']:
 				expect = 'pass'
@@ -93,6 +105,14 @@ class TestSuite:
 
 				got = os.path.join(sys.path[0], test['test'])
 				exp = os.path.join(sys.path[0], test['result'])
+
+				replacements = {}
+				if 'replace' in data.keys():
+					for replacement in data['replace']:
+						if replacement in test.keys():
+							replacements[replacement] = test[replacement]
+						else:
+							replacements[replacement] = data[replacement]
 
 				if 'archive' in data.keys():
 					archive = '/tmp/test.zip'
@@ -105,7 +125,7 @@ class TestSuite:
 								filename = test[ filename.replace('@', '') ]
 							zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
 					zf.close()
-					check(archive, exp, expect='expect-%s' % expect, displayas=test['test'])
+					check(archive, exp, expect='expect-%s' % expect, displayas=test['test'], replacements=replacements)
 				elif 'compress' in group.keys():
 					if group['compress'] == 'gzip':
 						filename = '/tmp/test.gz'
@@ -116,9 +136,9 @@ class TestSuite:
 					elif group['compress'] == 'lzma':
 						filename = '/tmp/test.lzma'
 						os.system('lzma -c %s > %s' % (got, filename))
-					check(filename, exp, expect='expect-%s' % expect, displayas=test['test'])
+					check(filename, exp, expect='expect-%s' % expect, displayas=test['test'], replacements=replacements)
 				else:
-					check(got, exp, expect='expect-%s' % expect, displayas=got)
+					check(got, exp, expect='expect-%s' % expect, displayas=got, replacements=replacements)
 
 	def summary(self):
 		print

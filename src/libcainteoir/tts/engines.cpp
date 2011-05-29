@@ -73,7 +73,7 @@ inline double percentageof(size_t a, size_t b)
 struct speech_impl : public tts::speech , public tts::engine_callback
 {
 	tts::engine *engine;
-	cainteoir::audio *audio;
+	std::tr1::shared_ptr<cainteoir::audio> audio;
 	std::tr1::shared_ptr<cainteoir::document> doc;
 
 	tts::state speechState;
@@ -91,7 +91,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	size_t speakingLen;   /**< @brief The length of the word/fragment being spoken. */
 	size_t mOffset;       /**< @brief The offset to the position where speaking is to start. */
 
-	speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset);
+	speech_impl(tts::engine *aEngine, std::tr1::shared_ptr<cainteoir::audio> aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset);
 	~speech_impl();
 
 	void started();
@@ -170,7 +170,7 @@ void * speak_tts_thread(void *data)
 	return NULL;
 }
 
-speech_impl::speech_impl(tts::engine *aEngine, cainteoir::audio *aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset)
+speech_impl::speech_impl(tts::engine *aEngine, std::tr1::shared_ptr<cainteoir::audio> aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset)
 	: engine(aEngine)
 	, audio(aAudio)
 	, doc(aDoc)
@@ -267,22 +267,27 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 	size_t actualPos = currentOffset + speakingPos;
 
 	mElapsedTime = mTimer.elapsed();
-	mProgress = percentageof(actualPos, doc->length());
+	mProgress = percentageof(actualPos, doc->text_length());
 
 	if (mElapsedTime > 0.1 && actualPos >= mOffset)
 	{
-		mCompleted = percentageof(actualPos - mOffset, doc->length());
+		mCompleted = percentageof(actualPos - mOffset, doc->text_length());
 		mTotalTime = (mElapsedTime / mCompleted) * 100.0;
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-tts::engines::engines(rdf::graph &metadata)
+tts::engines::engines(rdf::graph &metadata) : selectedVoice(NULL)
 {
 	std::string uri;
 	active = tts::create_espeak_engine(metadata, uri);
-	enginelist[uri] = active;
+	if (active)
+	{
+		enginelist[uri] = active;
+		if (!select_voice(metadata, rdf::uri(uri, "default")))
+			throw std::runtime_error(_("default voice not found."));
+	}
 
 	if (!active)
 		throw std::runtime_error(_("no text-to-speech voices found."));
@@ -297,30 +302,19 @@ tts::engines::~engines()
 		delete engine->second;
 }
 
-int tts::engines::get_channels() const
-{
-	return active->get_channels();
-}
-
-int tts::engines::get_frequency() const
-{
-	return active->get_frequency();
-}
-
-cainteoir::audio_format tts::engines::get_audioformat() const
-{
-	return active->get_audioformat();
-}
-
 bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice)
 {
 	engine *engine = NULL;
 	std::string voice;
+	const rdf::uri * voiceUri = NULL;
 
 	foreach_iter(statement, rql::select(aMetadata, rql::subject, aVoice))
 	{
 		if (rql::predicate(*statement) == rdf::tts("name"))
-			voice = rql::value(rql::object(*statement));
+		{
+			voice = rql::value(*statement);
+			voiceUri = rql::subject(*statement);
+		}
 		else if (rql::predicate(*statement) == rdf::tts("voiceOf"))
 		{
 			const rdf::uri *uri = rql::object(*statement);
@@ -332,13 +326,14 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	if (engine && !voice.empty() && engine->select_voice(voice.c_str()))
 	{
 		active = engine;
+		selectedVoice = voiceUri;
 		return true;
 	}
 
 	return false;
 }
 
-std::shared_ptr<tts::speech> tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc, audio *out, size_t offset)
+std::tr1::shared_ptr<tts::speech> tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc, std::tr1::shared_ptr<audio> out, size_t offset)
 {
-	return std::shared_ptr<tts::speech>(new speech_impl(active, out, doc, offset));
+	return std::tr1::shared_ptr<tts::speech>(new speech_impl(active, out, doc, offset));
 }

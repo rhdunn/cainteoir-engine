@@ -1,4 +1,5 @@
 |begin-tag| elem
+|attribute| arg="""1"""
 |end-tag| elem
 |text| """
 """

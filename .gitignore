@@ -18,6 +18,7 @@ src/libcainteoir/libcainteoir.la
 
 src/apps/cainteoir/cainteoir
 src/apps/metadata/metadata
+src/apps/tagcloud/tagcloud
 
 tests/rdfmodel
 tests/ntriple_formatter

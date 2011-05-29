@@ -21,6 +21,7 @@
 #include "config.h"
 #include <cainteoir/audio.hpp>
 #include <cainteoir/platform.hpp>
+#include <stdexcept>
 #include <stdio.h>
 #include <time.h>
 
@@ -49,7 +50,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 
 	foreach_iter(query, rql::select(aMetadata, rql::subject, aDocument))
 	{
-		const std::string &object = rql::value(rql::object(*query));
+		const std::string &object = rql::value(*query);
 		if (!object.empty())
 		{
 			if (rql::predicate(*query) == rdf::dc("creator"))
@@ -69,9 +70,9 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 			std::string role;
 			std::string author;
 
-			foreach_iter(data, rql::select(aMetadata, rql::subject, *(const rdf::bnode *)rql::object(*query)))
+			foreach_iter(data, rql::select(aMetadata, rql::subject, *rql::object(*query).as<rdf::bnode>()))
 			{
-				const std::string &object = rql::value(rql::object(*data));
+				const std::string &object = rql::value(*data);
 				if (rql::predicate(*data) == rdf::rdf("value"))
 					author = object;
 				else if (rql::predicate(*data) == rdf::opf("role"))
@@ -86,9 +87,9 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 			std::string event;
 			std::string date;
 
-			foreach_iter(data, rql::select(aMetadata, rql::subject, *(const rdf::bnode *)rql::object(*query)))
+			foreach_iter(data, rql::select(aMetadata, rql::subject, *rql::object(*query).as<rdf::bnode>()))
 			{
-				const std::string &object = rql::value(rql::object(*data));
+				const std::string &object = rql::value(*data);
 				if (rql::predicate(*data) == rdf::rdf("value"))
 					date = object;
 				else if (rql::predicate(*data) == rdf::opf("event"))
@@ -174,7 +175,7 @@ class ogg_audio : public cainteoir::audio
 		}
 	}
 public:
-	ogg_audio(FILE *f, cainteoir::audio_format format, int channels, int frequency, float quality, const std::list<cainteoir::vorbis_comment> &comments)
+	ogg_audio(FILE *f, int channels, int frequency, float quality, const std::list<cainteoir::vorbis_comment> &comments)
 		: m_file(f)
 	{
 		vorbis_info_init(&vi);
@@ -253,17 +254,21 @@ public:
 	}
 };
 
-std::shared_ptr<cainteoir::audio> create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::tr1::shared_ptr<cainteoir::audio>
+create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
-	return std::shared_ptr<cainteoir::audio>(new ogg_audio(file, format, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument)));
+	if (format != rdf::tts("s16le"))
+		throw std::runtime_error(_("unsupported audio format."));
+	return std::tr1::shared_ptr<cainteoir::audio>(new ogg_audio(file, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument)));
 }
 
 #else
 
-std::shared_ptr<cainteoir::audio> create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::tr1::shared_ptr<cainteoir::audio>
+create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
-	return std::shared_ptr<cainteoir::audio>();
+	return std::tr1::shared_ptr<cainteoir::audio>();
 }
 
 #endif

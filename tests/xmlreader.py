@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2010 Reece H. Dunn
+# Copyright (C) 2010-2011 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -18,9 +18,10 @@
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
 import harness
+import sys
 
 if __name__ == '__main__':
-	test = harness.TestSuite('XMLReader')
+	test = harness.TestSuite('XMLReader', sys.argv)
 	test.run({'name': 'XMLReader', 'groups': [
 		{'name': 'text', 'type': 'xmlreader', 'tests': [
 			{'test': 'xmlparser/text/basic.xml', 'result': 'xmlparser/text/basic.tags'},
@@ -42,6 +43,8 @@ if __name__ == '__main__':
 		{'name': 'element', 'type': 'xmlreader', 'tests': [
 			{'test': 'xmlparser/element/no-args.xml', 'result': 'xmlparser/element/no-args.tags'},
 			{'test': 'xmlparser/element/args.xml', 'result': 'xmlparser/element/args.tags'},
+			{'test': 'xmlparser/element/args-xmllang.xml', 'result': 'xmlparser/element/args-xmllang.tags'},
+			{'test': 'xmlparser/element/args-with-dash.xml', 'result': 'xmlparser/element/args-with-dash.tags'},
 			{'test': 'xmlparser/element/space-before.xml', 'result': 'xmlparser/element/space-before.tags'},
 			{'test': 'xmlparser/element/partial.xml', 'result': 'xmlparser/element/partial.tags'},
 		]},

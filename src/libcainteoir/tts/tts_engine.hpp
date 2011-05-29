@@ -1,6 +1,6 @@
 /* Text-to-Speech Engine API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -49,10 +49,6 @@ namespace cainteoir { namespace tts
 	struct engine
 	{
 		virtual ~engine() {}
-
-		virtual int get_channels() const = 0;
-		virtual int get_frequency() const = 0;
-		virtual cainteoir::audio_format get_audioformat() const = 0;
 
 		virtual bool select_voice(const char *voicename) = 0;
 

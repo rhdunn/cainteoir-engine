@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xml:base="http://rhdunn.github.com/cainteoir/data/languages"
+>
+
+<skos:ConceptScheme rdf:about="#">
+	<dc:title>Document MetaData Language Codes</dc:title>
+	<dc:description>This document contains the mapping from the dc:language property (skos:altLabel) to its display name (skos:prefLabel).</dc:description>
+</skos:ConceptScheme>
+
+<skos:Concept rdf:ID="af">
+	<skos:prefLabel xml:lang="en">Afrikaans</skos:prefLabel>
+	<skos:altLabel>af</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="bs">
+	<skos:prefLabel xml:lang="en">Bosnian</skos:prefLabel>
+	<skos:altLabel>bs</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="ca">
+	<skos:prefLabel xml:lang="en">Catalan</skos:prefLabel>
+	<skos:altLabel>ca</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="cs">
+	<skos:prefLabel xml:lang="en">Czech</skos:prefLabel>
+	<skos:altLabel>cs</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="cy">
+	<skos:prefLabel xml:lang="en">Welsh</skos:prefLabel>
+	<skos:altLabel>cy</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="da">
+	<skos:prefLabel xml:lang="en">Danish</skos:prefLabel>
+	<skos:altLabel>da</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="de">
+	<skos:prefLabel xml:lang="en">German</skos:prefLabel>
+	<skos:altLabel>de</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="el">
+	<skos:prefLabel xml:lang="en">Greek</skos:prefLabel>
+	<skos:altLabel>el</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="en">
+	<skos:prefLabel xml:lang="en">English</skos:prefLabel>
+	<skos:altLabel>en</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="en-gb">
+	<skos:prefLabel xml:lang="en">English (UK)</skos:prefLabel>
+	<skos:altLabel>en-gb</skos:altLabel>
+	<skos:altLabel>en-GB</skos:altLabel>
+	<skos:altLabel>en-uk</skos:altLabel> <!-- eSpeak Language Code -->
+	<skos:altLabel>en-uk-north</skos:altLabel> <!-- eSpeak Language Code -->
+	<skos:altLabel>en-uk-rp</skos:altLabel> <!-- eSpeak Language Code -->
+	<skos:altLabel>en-uk-wmids</skos:altLabel> <!-- eSpeak Language Code -->
+</skos:Concept>
+
+<skos:Concept rdf:ID="en-sc"> <!-- eSpeak Language Code -->
+	<skos:prefLabel xml:lang="en">English (Scottish)</skos:prefLabel>
+	<skos:altLabel>en-sc</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="en-us">
+	<skos:prefLabel xml:lang="en">English (US)</skos:prefLabel>
+	<skos:altLabel>en-us</skos:altLabel>
+	<skos:altLabel>en-US</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="en-wi"> <!-- eSpeak Language Code -->
+	<skos:prefLabel xml:lang="en">English (West Indies)</skos:prefLabel>
+	<skos:altLabel>en-wi</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="eo">
+	<skos:prefLabel xml:lang="en">Esperanto</skos:prefLabel>
+	<skos:altLabel>eo</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="es">
+	<skos:prefLabel xml:lang="en">Spanish</skos:prefLabel>
+	<skos:altLabel>es</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="es-la">
+	<skos:prefLabel xml:lang="en">Spanish (Latin American)</skos:prefLabel>
+	<skos:altLabel>es-la</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="fi">
+	<skos:prefLabel xml:lang="en">Finnish</skos:prefLabel>
+	<skos:altLabel>fi</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="fr">
+	<skos:prefLabel xml:lang="en">French</skos:prefLabel>
+	<skos:altLabel>fr</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="fr-be">
+	<skos:prefLabel xml:lang="en">French (Belgian)</skos:prefLabel>
+	<skos:altLabel>fr-be</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="grc">
+	<skos:prefLabel xml:lang="en">Greek (Ancient)</skos:prefLabel>
+	<skos:altLabel>grc</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="hi">
+	<skos:prefLabel xml:lang="en">Hindi</skos:prefLabel>
+	<skos:altLabel>hi</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="hr">
+	<skos:prefLabel xml:lang="en">Croatian</skos:prefLabel>
+	<skos:altLabel>hr</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="hu">
+	<skos:prefLabel xml:lang="en">Hungarian</skos:prefLabel>
+	<skos:altLabel>hu</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="hy">
+	<skos:prefLabel xml:lang="en">Armenian</skos:prefLabel>
+	<skos:altLabel>hy</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="id">
+	<skos:prefLabel xml:lang="en">Indonesian</skos:prefLabel>
+	<skos:altLabel>id</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="is">
+	<skos:prefLabel xml:lang="en">Icelandic</skos:prefLabel>
+	<skos:altLabel>is</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="it">
+	<skos:prefLabel xml:lang="en">Italian</skos:prefLabel>
+	<skos:altLabel>it</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="jbo">
+	<skos:prefLabel xml:lang="en">Lojban</skos:prefLabel>
+	<skos:altLabel>jbo</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="ka">
+	<skos:prefLabel xml:lang="en">Georgian</skos:prefLabel>
+	<skos:altLabel>ka</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="kn">
+	<skos:prefLabel xml:lang="en">Kannada</skos:prefLabel>
+	<skos:altLabel>kn</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="ku">
+	<skos:prefLabel xml:lang="en">Kurdish</skos:prefLabel>
+	<skos:altLabel>ku</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="la">
+	<skos:prefLabel xml:lang="en">Latin</skos:prefLabel>
+	<skos:altLabel>la</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="lv">
+	<skos:prefLabel xml:lang="en">Latvian</skos:prefLabel>
+	<skos:altLabel>lv</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="mk">
+	<skos:prefLabel xml:lang="en">Macedonian</skos:prefLabel>
+	<skos:altLabel>mk</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="ml">
+	<skos:prefLabel xml:lang="en">Malayalam</skos:prefLabel>
+	<skos:altLabel>ml</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="nci">
+	<skos:prefLabel xml:lang="en">Nahuatl (Classial)</skos:prefLabel>
+	<skos:altLabel>nci</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="nl">
+	<skos:prefLabel xml:lang="en">Dutch</skos:prefLabel>
+	<skos:altLabel>nl</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="no">
+	<skos:prefLabel xml:lang="en">Norwegian</skos:prefLabel>
+	<skos:altLabel>no</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="pap">
+	<skos:prefLabel xml:lang="en">Papiamento</skos:prefLabel>
+	<skos:altLabel>pap</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="pl">
+	<skos:prefLabel xml:lang="en">Polish</skos:prefLabel>
+	<skos:altLabel>pl</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="pt">
+	<skos:prefLabel xml:lang="en">Portuguese</skos:prefLabel>
+	<skos:altLabel>pt</skos:altLabel>
+	<skos:altLabel>pt-pt</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="ro">
+	<skos:prefLabel xml:lang="en">Romanian</skos:prefLabel>
+	<skos:altLabel>ro</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="ru">
+	<skos:prefLabel xml:lang="en">Russian</skos:prefLabel>
+	<skos:altLabel>ru</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="sk">
+	<skos:prefLabel xml:lang="en">Slovak</skos:prefLabel>
+	<skos:altLabel>sk</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="sq">
+	<skos:prefLabel xml:lang="en">Albanian</skos:prefLabel>
+	<skos:altLabel>sq</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="sr">
+	<skos:prefLabel xml:lang="en">Serbian</skos:prefLabel>
+	<skos:altLabel>sr</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="sv">
+	<skos:prefLabel xml:lang="en">Swedish</skos:prefLabel>
+	<skos:altLabel>sv</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="sw">
+	<skos:prefLabel xml:lang="en">Swahili</skos:prefLabel>
+	<skos:altLabel>sw</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="ta">
+	<skos:prefLabel xml:lang="en">Tamil</skos:prefLabel>
+	<skos:altLabel>ta</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="tr">
+	<skos:prefLabel xml:lang="en">Turkish</skos:prefLabel>
+	<skos:altLabel>tr</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="vi">
+	<skos:prefLabel xml:lang="en">Vietnamese</skos:prefLabel>
+	<skos:altLabel>vi</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="zh">
+	<skos:prefLabel xml:lang="en">Chinese (Manderin)</skos:prefLabel>
+	<skos:altLabel>zh</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="zh-yue">
+	<skos:prefLabel xml:lang="en">Cantonese</skos:prefLabel>
+	<skos:altLabel>zh-yue</skos:altLabel>
+</skos:Concept>
+
+</rdf:RDF>

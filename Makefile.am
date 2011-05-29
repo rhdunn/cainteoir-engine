@@ -11,6 +11,8 @@ ACLOCAL_AMFLAGS = -I m4
 bin_PROGRAMS =
 lib_LTLIBRARIES =
 man1_MANS =
+pkgdata_DATA =
+
 noinst_bin_PROGRAMS =
 noinst_LIBRARIES =
 
@@ -24,7 +26,7 @@ SUBDIRS = po
 
 EXTRA_DIST += config.guess config.sub ltmain.sh
 
-# Increment if the interface has changed and is backward compatible
+# Increment if the interface has changed and is not backward compatible
 CURRENT=0
 
 # Increment  if source files have changed
@@ -78,18 +80,27 @@ dist-hook: ChangeLog
 
 EXTRA_DIST += ChangeLog
 
-############################# libcainteoir ####################################
+############################# data ############################################
 
-EXTRA_DIST += data/magic
+EXTRA_DIST += \
+	data/magic \
+	data/languages.rdf \
+	src/schema/text-to-speech.rdf
 
-pkgdata_DATA = data/magic.mgc
+pkgdata_DATA += \
+	data/magic.mgc \
+	data/languages.rdf \
+	src/schema/text-to-speech.rdf
 
 data/magic.mgc: data/magic
 	cd data && file -C -m magic
 
+############################# libcainteoir ####################################
+
 libcainteoir_includedir = $(includedir)/cainteoir
 libcainteoir_include_HEADERS = \
 	src/include/cainteoir/platform.hpp \
+	src/include/cainteoir/languages.hpp \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
 	src/include/cainteoir/xmlreader.hpp \
@@ -116,6 +127,8 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 	${ESPEAK_CFLAGS}
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
+	src/libcainteoir/platform.cpp \
+	src/libcainteoir/languages.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/xmlstring_buffer.cpp \
@@ -136,6 +149,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/parsers/epub.cpp \
 	src/libcainteoir/parsers/rdfxml.cpp \
 	src/libcainteoir/parsers/smil.cpp \
+	src/libcainteoir/parsers/rtf.cpp \
 	src/libcainteoir/parsers/document.cpp \
 	src/libcainteoir/audio/audio.cpp \
 	src/libcainteoir/audio/pulse.cpp \
@@ -158,6 +172,11 @@ man1_MANS += src/apps/metadata/metadata.man
 
 src_apps_metadata_metadata_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_metadata_metadata_SOURCES = src/apps/metadata/main.cpp
+
+bin_PROGRAMS += src/apps/tagcloud/tagcloud
+
+src_apps_tagcloud_tagcloud_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_tagcloud_tagcloud_SOURCES = src/apps/tagcloud/main.cpp
 
 EXTRA_DIST += ${man1_MANS}
 
@@ -199,8 +218,11 @@ EXTRA_DIST += \
 	tests/ocf/* \
 	tests/opf/* \
 	tests/rdfxml/* \
+	tests/rtf/* \
 	tests/smil/* \
 	tests/html/* \
+	tests/http/* \
+	tests/mime/* \
 	tests/xmlparser/* \
 	tests/*.py
 

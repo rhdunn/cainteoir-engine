@@ -1,6 +1,6 @@
 /* Test for parsing XML/HTML documents.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -38,12 +38,12 @@ const char * node_type_name(xml::reader::node_type type)
 	{
 	case xml::reader::beginTagNode:              return "begin-tag";
 	case xml::reader::endTagNode:                return "end-tag";
-	case xml::reader::tagNode:                   return "tag";
 	case xml::reader::processingInstructionNode: return "processing-instruction";
 	case xml::reader::commentNode:               return "comment";
 	case xml::reader::cdataNode:                 return "cdata";
 	case xml::reader::textNode:                  return "text";
 	case xml::reader::doctypeNode:               return "doctype";
+	case xml::reader::attribute:                 return "attribute";
 	default:                                     return "unknown";
 	}
 }
@@ -94,7 +94,6 @@ int main(int argc, char ** argv)
 				{
 				case xml::reader::beginTagNode:
 				case xml::reader::endTagNode:
-				case xml::reader::tagNode:
 				case xml::reader::processingInstructionNode:
 				case xml::reader::doctypeNode:
 					fprintf(stdout, "|%s| %s\n", node_type_name(reader.nodeType()), reader.nodeName().str().c_str());
@@ -103,6 +102,12 @@ int main(int argc, char ** argv)
 				case xml::reader::cdataNode:
 				case xml::reader::textNode:
 					fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n", node_type_name(reader.nodeType()), reader.nodeValue().str().c_str());
+					break;
+				case xml::reader::attribute:
+					fprintf(stdout, "|%s| %s=\"\"\"%s\"\"\"\n", node_type_name(reader.nodeType()), reader.nodeName().str().c_str(), reader.nodeValue().str().c_str());
+					break;
+				case xml::reader::error:
+					fprintf(stdout, "|error| internal parser error\n");
 					break;
 				}
 			}

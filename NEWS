@@ -1,5 +1,23 @@
 
 -------------------------------------------------------------------------------
+VERSION 0.2 -- Sunday April 29th 2011
+
+file formats:
+  *  support email (RFC822) mbox format;
+  *  basic support for RTF documents.
+
+metadata:
+  *  add rdfs:domain, rdfs:range and OWL markup to the text-to-speech schema;
+  *  install the text-to-speech RDF schema used by the Cainteoir Engine;
+  *  extract language and title metadata from HTML documents;
+  *  extract metadata from email From and Subject headers.
+
+cainteoir:
+  *  list supported document and audio formats in the --help output;
+  *  don't output progress when writing audio data to stdout;
+  *  don't crash when using the default voice (no dc:language metadata).
+
+-------------------------------------------------------------------------------
 VERSION 0.1 -- Wednesday April 27th 2011
 
 cainteoir:

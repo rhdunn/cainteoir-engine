@@ -2,143 +2,201 @@
 <rdf:RDF
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+	xmlns:tts="http://rhdunn.github.com/2010/12/text-to-speech#"
 	xml:base="http://rhdunn.github.com/2010/12/text-to-speech"
 >
 
-<rdf:Description rdf:about="#">
+<owl:Ontology rdf:about="#">
 	<dc:title xml:lang="en">Text-to-Speech Schema</dc:title>
 	<dc:description xml:lang="en">The RDF ontology used internally by the Cainteoir Text-to-Speech engine to describe information about the system, such as the supported audio formats and text-to-speech voices.</dc:description>
 	<dc:publisher>Reece H. Dunn</dc:publisher>
 	<dc:creator>Reece H. Dunn</dc:creator>
-</rdf:Description>
+</owl:Ontology>
 
 <!-- classes -->
 
-<rdfs:Class rdf:ID="Engine">
+<owl:Class rdf:ID="Object">
 	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:label>Object</rdfs:label>
+	<rdfs:comment xml:lang="en">An object in the text-to-speech system.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:ID="Engine">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:subClassOf rdf:resource="#Object"/>
 	<rdfs:label>Engine</rdfs:label>
 	<rdfs:comment xml:lang="en">A text-to-speech engine.</rdfs:comment>
-</rdfs:Class>
+	<owl:disjointWith rdf:resource="#Voice"/>
+	<owl:disjointWith rdf:resource="#FileFormat"/>
+</owl:Class>
 
-<rdfs:Class rdf:ID="Voice">
+<owl:Class rdf:ID="Voice">
 	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:subClassOf rdf:resource="#Object"/>
 	<rdfs:label>Voice</rdfs:label>
 	<rdfs:comment xml:lang="en">A voice usable by an engine.</rdfs:comment>
-</rdfs:Class>
+	<owl:disjointWith rdf:resource="#Engine"/>
+	<owl:disjointWith rdf:resource="#FileFormat"/>
+</owl:Class>
 
-<rdfs:Class rdf:ID="FileFormat">
+<owl:Class rdf:ID="FileFormat">
 	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:subClassOf rdf:resource="#Object"/>
 	<rdfs:label>FileFormat</rdfs:label>
 	<rdfs:comment xml:lang="en">A file format that is supported by the text-to-speech engine.</rdfs:comment>
-</rdfs:Class>
+	<owl:disjointWith rdf:resource="#Voice"/>
+	<owl:disjointWith rdf:resource="#Engine"/>
+</owl:Class>
 
-<rdfs:Class rdf:ID="DocumentFormat">
+<owl:Class rdf:ID="DocumentFormat">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:subClassOf rdf:resource="#FileFormat"/>
 	<rdfs:label>DocumentFormat</rdfs:label>
 	<rdfs:comment xml:lang="en">A document format that can be handled by the text-to-speech engine.</rdfs:comment>
-</rdfs:Class>
+	<owl:disjointWith rdf:resource="#AudioFormat"/>
+</owl:Class>
 
-<rdfs:Class rdf:ID="AudioFormat">
+<owl:Class rdf:ID="AudioFormat">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:subClassOf rdf:resource="#FileFormat"/>
 	<rdfs:label>AudioFormat</rdfs:label>
 	<rdfs:comment xml:lang="en">An audio file format that is supported by the text-to-speech engine.</rdfs:comment>
-</rdfs:Class>
+	<owl:disjointWith rdf:resource="#DocumentFormat"/>
+</owl:Class>
+
+<owl:Class rdf:ID="RawAudioFormat">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:subClassOf rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<rdfs:label>RawAudioFormat</rdfs:label>
+	<rdfs:comment xml:lang="en">The format of the raw audio data bitstream.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:ID="Gender">
+	<rdfs:isDefinedBy rdf:resource="#"/>
+	<rdfs:subClassOf rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<rdfs:label>Gender</rdfs:label>
+	<rdfs:comment xml:lang="en">The gender of a text-to-speech voice.</rdfs:comment>
+</owl:Class>
 
 <!-- properties -->
 
-<rdf:Property rdf:ID="frequency">
+<owl:ObjectProperty rdf:ID="frequency">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>frequency</rdfs:label>
-	<rdfs:comment xml:lang="en">The frequency of the audio provided by the engine or voice.</rdfs:comment>
-</rdf:Property>
+	<rdfs:comment xml:lang="en">The frequency of the audio provided by a text-to-speech voice.</rdfs:comment>
+	<rdfs:domain rdf:resource="#Voice"/>
+	<rdfs:range rdf:resource="#hertz"/>
+</owl:ObjectProperty>
 
-<rdf:Property rdf:ID="channels">
+<owl:ObjectProperty rdf:ID="channels">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>channels</rdfs:label>
-	<rdfs:comment xml:lang="en">The number of audio channels provided by the engine or voice.</rdfs:comment>
-</rdf:Property>
+	<rdfs:comment xml:lang="en">The number of audio channels provided by a text-to-speech voice.</rdfs:comment>
+	<rdfs:domain rdf:resource="#Voice"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</owl:ObjectProperty>
 
-<rdf:Property rdf:ID="audio-format">
+<owl:ObjectProperty rdf:ID="audio-format">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>audio-format</rdfs:label>
 	<rdfs:comment xml:lang="en">The format the audio data is encoded in.</rdfs:comment>
-</rdf:Property>
+	<rdfs:domain rdf:resource="#Voice"/>
+	<rdfs:range rdf:resource="#RawAudioFormat"/>
+</owl:ObjectProperty>
 
-<rdf:Property rdf:ID="hasVoice">
+<owl:ObjectProperty rdf:ID="hasVoice">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>hasVoice</rdfs:label>
 	<rdfs:comment xml:lang="en">A voice provided by the engine.</rdfs:comment>
-</rdf:Property>
+	<rdfs:domain rdf:resource="#Engine"/>
+	<rdfs:range rdf:resource="#Voice"/>
+	<owl:inverseOf rdf:resource="#voiceOf"/>
+</owl:ObjectProperty>
 
-<rdf:Property rdf:ID="voiceOf">
+<owl:ObjectProperty rdf:ID="voiceOf">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>voiceOf</rdfs:label>
 	<rdfs:comment xml:lang="en">The engine the voice belongs to.</rdfs:comment>
-</rdf:Property>
+	<rdfs:domain rdf:resource="#Voice"/>
+	<rdfs:range rdf:resource="#Engine"/>
+	<owl:inverseOf rdf:resource="#hasVoice"/>
+</owl:ObjectProperty>
 
-<rdf:Property rdf:ID="age">
+<owl:ObjectProperty rdf:ID="age">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>age</rdfs:label>
 	<rdfs:comment xml:lang="en">The approximate age of the voice.</rdfs:comment>
-</rdf:Property>
+	<rdfs:domain rdf:resource="#Voice"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</owl:ObjectProperty>
 
-<rdf:Property rdf:ID="gender">
+<owl:ObjectProperty rdf:ID="gender">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>gender</rdfs:label>
 	<rdfs:comment xml:lang="en">The gender of the voice.</rdfs:comment>
-</rdf:Property>
+	<rdfs:domain rdf:resource="#Voice"/>
+	<rdfs:range rdf:resource="#Gender"/>
+</owl:ObjectProperty>
 
-<rdf:Property rdf:ID="name">
+<owl:ObjectProperty rdf:ID="name">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>name</rdfs:label>
 	<rdfs:comment xml:lang="en">The name of the voice or engine.</rdfs:comment>
-</rdf:Property>
+	<rdfs:domain rdf:resource="#Object"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</owl:ObjectProperty>
 
-<rdf:Property rdf:ID="version">
+<owl:ObjectProperty rdf:ID="version">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>version</rdfs:label>
 	<rdfs:comment xml:lang="en">The version of the engine.</rdfs:comment>
-</rdf:Property>
+	<rdfs:domain rdf:resource="#Engine"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</owl:ObjectProperty>
 
-<rdf:Property rdf:ID="mimetype">
+<owl:ObjectProperty rdf:ID="mimetype">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>mimetype</rdfs:label>
-	<rdfs:comment xml:lang="en">The mimetype of a file format.</rdfs:comment>
-</rdf:Property>
+	<rdfs:comment xml:lang="en">The mimetype of a file format or document.</rdfs:comment>
+	<rdfs:domain rdf:resource="#FileFormat"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</owl:ObjectProperty>
 
-<rdf:Property rdf:ID="extension">
+<owl:ObjectProperty rdf:ID="extension">
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>mimetype</rdfs:label>
 	<rdfs:comment xml:lang="en">A file extension commonly associated with a file format.</rdfs:comment>
-</rdf:Property>
+	<rdfs:domain rdf:resource="#FileFormat"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</owl:ObjectProperty>
 
 <!-- data types -->
 
-<rdf:Datatype rdf:ID="hertz">
-	<rdfs:subClassOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/> 
+<rdfs:Datatype rdf:ID="hertz">
+	<rdfs:subClassOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
 	<rdfs:isDefinedBy rdf:resource="#"/>
 	<rdfs:label>hertz</rdfs:label>
 	<rdfs:comment xml:lang="en">The number of cycles per second.</rdfs:comment>
-</rdf:Datatype>
+</rdfs:Datatype>
 
 <!-- audio formats -->
 
-<skos:Concept rdf:ID="s16le">
+<tts:RawAudioFormat rdf:ID="s16le">
 	<skos:prefLabel xml:lang="en">16-bit signed little endian audio</skos:prefLabel>
 	<skos:altLabel>S16_LE</skos:altLabel>
-</skos:Concept>
+</tts:RawAudioFormat>
 
 <!-- gender -->
 
-<skos:Concept rdf:ID="male">
+<tts:Gender rdf:ID="male">
 	<skos:prefLabel xml:lang="en">male</skos:prefLabel>
-</skos:Concept>
+</tts:Gender>
 
-<skos:Concept rdf:ID="female">
+<tts:Gender rdf:ID="female">
 	<skos:prefLabel xml:lang="en">female</skos:prefLabel>
-</skos:Concept>
+</tts:Gender>
 
 </rdf:RDF>

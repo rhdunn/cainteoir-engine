@@ -1,6 +1,6 @@
 /* XHTML Document Parser.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -22,8 +22,9 @@
 #include <cainteoir/xmlreader.hpp>
 
 namespace xml = cainteoir::xml;
+namespace rdf = cainteoir::rdf;
 
-void skipNode(xml::reader & reader, const cainteoir::buffer &name)
+void skipNode(xml::reader & reader, const cainteoir::buffer name)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -34,14 +35,50 @@ void skipNode(xml::reader & reader, const cainteoir::buffer &name)
 	}
 }
 
-void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events)
+void parseTitleNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events)
 {
-	xml::reader reader(data);
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::endTagNode:
+		if (!reader.nodeName().compare(name))
+			return;
+		break;
+	case xml::reader::textNode:
+		{
+			std::string title = reader.nodeValue().buffer()->str();
+			std::string::iterator begin = title.begin();
+			while (begin != title.end() && (*begin == ' ' || *begin == '\t' || *begin == '\r' || *begin == '\n'))
+				++begin;
+
+			if (begin != title.end())
+				events.metadata(rdf::statement(aSubject, rdf::dc("title"), rdf::literal(title)));
+		}
+		break;
+	}
+}
+
+void parseHeadNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events)
+{
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
-		if (!reader.nodeName().comparei("head") ||
-		    !reader.nodeName().comparei("script") ||
+		if (!reader.nodeName().comparei("title"))
+			parseTitleNode(reader, reader.nodeName(), aSubject, events);
+		else
+			skipNode(reader, reader.nodeName());
+	case xml::reader::endTagNode:
+		if (!reader.nodeName().compare(name))
+			return;
+		break;
+	}
+}
+
+void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (!reader.nodeName().comparei("script") ||
 		    !reader.nodeName().comparei("style"))
 			skipNode(reader, reader.nodeName());
 		break;
@@ -57,6 +94,52 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 			if (str != end)
 				events.text(text);
 		}
+		break;
+	case xml::reader::endTagNode:
+		if (!reader.nodeName().compare(name))
+			return;
+		break;
+	}
+}
+
+void parseHtmlNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (!reader.nodeName().comparei("head"))
+			parseHeadNode(reader, reader.nodeName(), aSubject, events);
+		else if (!reader.nodeName().comparei("body"))
+			parseBodyNode(reader, reader.nodeName(), aSubject, events);
+		else
+			skipNode(reader, reader.nodeName());
+		break;
+	case xml::reader::attribute:
+		if (!reader.nodeName().comparei("lang") || !reader.nodeName().comparei("xml:lang"))
+			events.metadata(rdf::statement(aSubject, rdf::dc("language"), rdf::literal(reader.nodeValue().buffer()->str())));
+		break;
+	case xml::reader::endTagNode:
+		if (!reader.nodeName().compare(name))
+			return;
+		break;
+	}
+}
+
+void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events)
+{
+	xml::reader reader(data);
+
+	if (reader.isPlainText())
+	{
+		events.text(data);
+		return;
+	}
+
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (!reader.nodeName().comparei("html"))
+			parseHtmlNode(reader, reader.nodeName(), aSubject, events);
 		break;
 	}
 }

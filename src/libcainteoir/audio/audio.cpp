@@ -23,12 +23,16 @@
 #include <string.h>
 
 namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
 
-std::shared_ptr<cainteoir::audio> create_wav_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
+std::tr1::shared_ptr<cainteoir::audio>
+create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
-std::shared_ptr<cainteoir::audio> create_ogg_file(const char *filename, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
+std::tr1::shared_ptr<cainteoir::audio>
+create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
-std::shared_ptr<cainteoir::audio> create_pulseaudio_device(const char *device, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
+std::tr1::shared_ptr<cainteoir::audio>
+create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 
 void cainteoir::supportedAudioFormats(rdf::graph &metadata)
@@ -37,7 +41,9 @@ void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 
 	rdf::uri wav = rdf::uri(baseuri, "wav");
 	metadata.push_back(rdf::statement(wav, rdf::rdf("type"), rdf::tts("AudioFormat")));
+	metadata.push_back(rdf::statement(wav, rdf::tts("name"), rdf::literal("wav")));
 	metadata.push_back(rdf::statement(wav, rdf::dc("title"), rdf::literal(_("wave audio"))));
+	metadata.push_back(rdf::statement(wav, rdf::dc("description"), rdf::literal(_("uncompressed WAVE audio"))));
 	metadata.push_back(rdf::statement(wav, rdf::tts("mimetype"), rdf::literal("audio/vnd.wav")));
 	metadata.push_back(rdf::statement(wav, rdf::tts("mimetype"), rdf::literal("audio/wav")));
 	metadata.push_back(rdf::statement(wav, rdf::tts("mimetype"), rdf::literal("audio/wave")));
@@ -46,30 +52,44 @@ void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 
 	rdf::uri ogg = rdf::uri(baseuri, "ogg");
 	metadata.push_back(rdf::statement(ogg, rdf::rdf("type"), rdf::tts("AudioFormat")));
-	metadata.push_back(rdf::statement(ogg, rdf::dc("title"), rdf::literal(_("ogg+vorbis audio"))));
+	metadata.push_back(rdf::statement(ogg, rdf::tts("name"), rdf::literal("ogg")));
+	metadata.push_back(rdf::statement(ogg, rdf::dc("title"), rdf::literal(_("ogg vorbis audio"))));
+	metadata.push_back(rdf::statement(ogg, rdf::dc("description"), rdf::literal(_("Ogg/Vorbis audio"))));
 	metadata.push_back(rdf::statement(ogg, rdf::tts("mimetype"), rdf::literal("application/ogg")));
 	metadata.push_back(rdf::statement(ogg, rdf::tts("mimetype"), rdf::literal("audio/ogg")));
 	metadata.push_back(rdf::statement(ogg, rdf::tts("extension"), rdf::literal("*.ogg")));
 }
 
-std::shared_ptr<cainteoir::audio> cainteoir::create_audio_file(const char *filename, const char *type, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::tr1::shared_ptr<cainteoir::audio>
+cainteoir::create_audio_file(const char *filename, const char *type, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument, const rdf::uri &aVoice)
 {
 	if (filename && !strcmp(filename, "-"))
 		filename = NULL;
 
-	if (!strcmp(type, "wav"))
-		return create_wav_file(filename, format, channels, frequency, quality, aMetadata, aDocument);
-	if (!strcmp(type, "ogg"))
-		return create_ogg_file(filename, format, channels, frequency, quality, aMetadata, aDocument);
+	rql::results data = rql::select(aMetadata, rql::subject, aVoice);
+	int channels  = rql::select_value<int>(data, rdf::tts("channels"));
+	int frequency = rql::select_value<int>(data, rdf::tts("frequency"));
+	const rdf::uri * format = rql::object(rql::select(data, rql::predicate, rdf::tts("audio-format")).front());
 
-	return std::shared_ptr<cainteoir::audio>();
+	if (!strcmp(type, "wav"))
+		return create_wav_file(filename, *format, channels, frequency, quality, aMetadata, aDocument);
+	if (!strcmp(type, "ogg"))
+		return create_ogg_file(filename, *format, channels, frequency, quality, aMetadata, aDocument);
+
+	return std::tr1::shared_ptr<cainteoir::audio>();
 }
 
-std::shared_ptr<cainteoir::audio> cainteoir::open_audio_device(const char *device, const char *type, cainteoir::audio_format format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+std::tr1::shared_ptr<cainteoir::audio>
+cainteoir::open_audio_device(const char *device, const char *type, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument, const rdf::uri &aVoice)
 {
-	if (!strcmp(type, "pulse"))
-		return create_pulseaudio_device(device, format, channels, frequency, quality, aMetadata, aDocument);
+	rql::results data = rql::select(aMetadata, rql::subject, aVoice);
+	int channels  = rql::select_value<int>(data, rdf::tts("channels"));
+	int frequency = rql::select_value<int>(data, rdf::tts("frequency"));
+	const rdf::uri * format = rql::object(rql::select(data, rql::predicate, rdf::tts("audio-format")).front());
 
-	return std::shared_ptr<cainteoir::audio>();
+	if (!strcmp(type, "pulse"))
+		return create_pulseaudio_device(device, *format, channels, frequency, quality, aMetadata, aDocument);
+
+	return std::tr1::shared_ptr<cainteoir::audio>();
 }
 

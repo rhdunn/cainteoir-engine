@@ -1,6 +1,6 @@
 /* Espeak Text-to-Speech Engine.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -56,13 +56,12 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 
 class espeak_engine : public cainteoir::tts::engine
 {
-	int m_frequency;
 public:
 	espeak_engine(rdf::graph &metadata, std::string &baseuri)
 	{
 		baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
 
-		m_frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, espeakINITIALIZE_DONT_EXIT);
+		int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, espeakINITIALIZE_DONT_EXIT);
 		espeak_SetSynthCallback(espeak_tts_callback);
 
 		rdf::uri espeak = rdf::uri(baseuri, std::string());
@@ -97,7 +96,7 @@ public:
 			if ((*data)->age)
 				metadata.push_back(rdf::statement(voice, rdf::tts("age"), rdf::literal((*data)->age, rdf::xsd("int"))));
 
-			metadata.push_back(rdf::statement(voice, rdf::tts("frequency"), rdf::literal(m_frequency, rdf::tts("hertz"))));
+			metadata.push_back(rdf::statement(voice, rdf::tts("frequency"), rdf::literal(frequency, rdf::tts("hertz"))));
 			metadata.push_back(rdf::statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int"))));
 			metadata.push_back(rdf::statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le")));
 
@@ -113,21 +112,6 @@ public:
 
 	/** @name cainteoir::tts_engine */
 	//@{
-
-	int get_channels() const
-	{
-		return 1;
-	}
-
-	int get_frequency() const
-	{
-		return m_frequency;
-	}
-
-	cainteoir::audio_format get_audioformat() const
-	{
-		return cainteoir::S16_LE;
-	}
 
 	bool select_voice(const char *voicename)
 	{

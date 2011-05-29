@@ -1,4 +1,5 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 
 <> dc:title "Test Case" .
 <> dc:identifier "dublincore-subject.opf" .
@@ -7,3 +8,4 @@
 <> dc:subject "testcase-en"@en .
 <> dc:subject "testcase-uk"@en-GB .
 <> dc:subject "testcase-tw"@zh-TW .
+<> tts:mimetype "@mimetype@" .

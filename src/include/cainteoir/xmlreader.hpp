@@ -1,6 +1,6 @@
 /* XML Reader API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -32,13 +32,13 @@ namespace cainteoir { namespace xml
 		{
 			beginTagNode,
 			endTagNode,
-			tagNode, // isolated -- begin and end tag node
 			processingInstructionNode,
 			commentNode,
 			cdataNode,
 			textNode,
 			error,
 			doctypeNode,
+			attribute,
 		};
 
 		reader(std::tr1::shared_ptr<cainteoir::buffer> aData);
@@ -50,8 +50,11 @@ namespace cainteoir { namespace xml
 		const cainteoir::buffer &nodeName() const { return mNodeName; }
 
 		node_type nodeType() const { return mNodeType; }
+
+		bool isPlainText() const { return mParseAsText; }
 	private:
 		void read_tag(node_type aType);
+		bool expect_next(char c);
 
 		std::tr1::shared_ptr<cainteoir::buffer> mData;
 		const char * mCurrent;
@@ -59,6 +62,7 @@ namespace cainteoir { namespace xml
 
 		cainteoir::rope mNodeValue;
 		cainteoir::buffer mNodeName;
+		cainteoir::buffer mTagNodeName;
 		node_type mNodeType;
 	};
 }}
