@@ -1,6 +1,6 @@
 /* Test for parsing XML/HTML documents.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -38,7 +38,6 @@ const char * node_type_name(xml::reader::node_type type)
 	{
 	case xml::reader::beginTagNode:              return "begin-tag";
 	case xml::reader::endTagNode:                return "end-tag";
-	case xml::reader::tagNode:                   return "tag";
 	case xml::reader::processingInstructionNode: return "processing-instruction";
 	case xml::reader::commentNode:               return "comment";
 	case xml::reader::cdataNode:                 return "cdata";
@@ -94,7 +93,6 @@ int main(int argc, char ** argv)
 				{
 				case xml::reader::beginTagNode:
 				case xml::reader::endTagNode:
-				case xml::reader::tagNode:
 				case xml::reader::processingInstructionNode:
 				case xml::reader::doctypeNode:
 					fprintf(stdout, "|%s| %s\n", node_type_name(reader.nodeType()), reader.nodeName().str().c_str());

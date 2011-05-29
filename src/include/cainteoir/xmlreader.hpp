@@ -1,6 +1,6 @@
 /* XML Reader API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -32,7 +32,6 @@ namespace cainteoir { namespace xml
 		{
 			beginTagNode,
 			endTagNode,
-			tagNode, // isolated -- begin and end tag node
 			processingInstructionNode,
 			commentNode,
 			cdataNode,
@@ -59,6 +58,7 @@ namespace cainteoir { namespace xml
 
 		cainteoir::rope mNodeValue;
 		cainteoir::buffer mNodeName;
+		cainteoir::buffer mTagNodeName;
 		node_type mNodeType;
 	};
 }}

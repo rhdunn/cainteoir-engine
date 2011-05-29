@@ -1,6 +1,6 @@
 /* XML Reader API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -133,6 +133,7 @@ inline bool xmlspace(char c)
 cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	: mData(aData)
 	, mNodeName(NULL, NULL)
+	, mTagNodeName(NULL, NULL)
 	, mParseAsText(false)
 {
 	mCurrent = mData->begin();
@@ -143,7 +144,10 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 
 	const char * startPos = mCurrent;
 	if (*mCurrent == '<' && read() && mNodeType != error)
+	{
 		mCurrent = startPos;
+		mTagNodeName = cainteoir::buffer(NULL, NULL);
+	}
 	else
 	{
 		mCurrent = mData->begin();
@@ -166,6 +170,26 @@ bool cainteoir::xml::reader::read()
 	}
 
 	const char * startPos = NULL;
+
+	if (mTagNodeName.begin())
+	{
+		while (mCurrent != mData->end() && *mCurrent != '>')
+			++mCurrent;
+
+		++mCurrent;
+		if (mCurrent >= mData->end())
+			return false;
+
+		if (*(mCurrent-2) == '/')
+		{
+			mNodeName = mTagNodeName;
+			mNodeType = endTagNode;
+			mTagNodeName = cainteoir::buffer(NULL, NULL);
+			return true;
+		}
+
+		mTagNodeName = cainteoir::buffer(NULL, NULL);
+	}
 
 	if (*mCurrent == '<')
 	{
@@ -280,22 +304,13 @@ void cainteoir::xml::reader::read_tag(node_type aType)
 	while (mCurrent != mData->end() && xmlspace(*mCurrent))
 		++mCurrent;
 
-	mNodeType = aType;
 	const char * startPos = mCurrent;
 
 	while (mCurrent != mData->end() && xmlalnum(*mCurrent))
 		++mCurrent;
 
-	const char * endPos = mCurrent;
-
-	while (mCurrent != mData->end() && *mCurrent != '>')
-		++mCurrent;
-
-	if (*(mCurrent - 1) == '/')
-		mNodeType = tagNode;
-
-	mNodeName = cainteoir::buffer(startPos, endPos);
-	++mCurrent;
+	mNodeType = aType;
+	mTagNodeName = mNodeName = cainteoir::buffer(startPos, mCurrent);
 }
 
 /** References
