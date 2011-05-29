@@ -38,6 +38,7 @@ namespace cainteoir { namespace xml
 			textNode,
 			error,
 			doctypeNode,
+			attribute,
 		};
 
 		reader(std::tr1::shared_ptr<cainteoir::buffer> aData);
@@ -51,6 +52,7 @@ namespace cainteoir { namespace xml
 		node_type nodeType() const { return mNodeType; }
 	private:
 		void read_tag(node_type aType);
+		bool expect_next(char c);
 
 		std::tr1::shared_ptr<cainteoir::buffer> mData;
 		const char * mCurrent;

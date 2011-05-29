@@ -173,22 +173,57 @@ bool cainteoir::xml::reader::read()
 
 	if (mTagNodeName.begin())
 	{
-		while (mCurrent != mData->end() && *mCurrent != '>')
+		while (mCurrent != mData->end() && xmlspace(*mCurrent))
 			++mCurrent;
 
-		++mCurrent;
-		if (mCurrent >= mData->end())
-			return false;
-
-		if (*(mCurrent-2) == '/')
+		if (mCurrent[0] == '/' && mCurrent[1] == '>')
 		{
 			mNodeName = mTagNodeName;
 			mNodeType = endTagNode;
-			mTagNodeName = cainteoir::buffer(NULL, NULL);
+			++mCurrent;
 			return true;
 		}
 
-		mTagNodeName = cainteoir::buffer(NULL, NULL);
+		if (xmlalnum(*mCurrent))
+		{
+			const char * startPos = mCurrent;
+
+			while (mCurrent != mData->end() && xmlalnum(*mCurrent))
+				++mCurrent;
+
+			mNodeType = attribute;
+			mNodeName = cainteoir::buffer(startPos, mCurrent);
+
+			if (expect_next('=') && expect_next('"'))
+			{
+				const char * startPos = mCurrent;
+
+				while (mCurrent != mData->end() && *mCurrent != '"')
+					++mCurrent;
+
+				mNodeType = attribute;
+				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
+				++mCurrent;
+			}
+
+			return true;
+		}
+
+		if (*mCurrent == '>')
+		{
+			++mCurrent;
+			mTagNodeName = cainteoir::buffer(NULL, NULL);
+		}
+		else
+		{
+			while (mCurrent != mData->end() && *mCurrent != '>')
+				++mCurrent;
+			++mCurrent;
+
+			mNodeType = error;
+			mTagNodeName = cainteoir::buffer(NULL, NULL);
+			return true;
+		}
 	}
 
 	if (*mCurrent == '<')
@@ -311,6 +346,21 @@ void cainteoir::xml::reader::read_tag(node_type aType)
 
 	mNodeType = aType;
 	mTagNodeName = mNodeName = cainteoir::buffer(startPos, mCurrent);
+}
+
+bool cainteoir::xml::reader::expect_next(char c)
+{
+	while (mCurrent != mData->end() && xmlspace(*mCurrent))
+		++mCurrent;
+
+	if (*mCurrent == c)
+	{
+		++mCurrent;
+		return true;
+	}
+
+	mNodeType = error;
+	return false;
 }
 
 /** References

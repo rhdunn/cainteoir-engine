@@ -43,6 +43,7 @@ const char * node_type_name(xml::reader::node_type type)
 	case xml::reader::cdataNode:                 return "cdata";
 	case xml::reader::textNode:                  return "text";
 	case xml::reader::doctypeNode:               return "doctype";
+	case xml::reader::attribute:                 return "attribute";
 	default:                                     return "unknown";
 	}
 }
@@ -101,6 +102,12 @@ int main(int argc, char ** argv)
 				case xml::reader::cdataNode:
 				case xml::reader::textNode:
 					fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n", node_type_name(reader.nodeType()), reader.nodeValue().str().c_str());
+					break;
+				case xml::reader::attribute:
+					fprintf(stdout, "|%s| %s=\"\"\"%s\"\"\"\n", node_type_name(reader.nodeType()), reader.nodeName().str().c_str(), reader.nodeValue().str().c_str());
+					break;
+				case xml::reader::error:
+					fprintf(stdout, "|error| internal parser error\n");
 					break;
 				}
 			}
