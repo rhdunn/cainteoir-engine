@@ -30,6 +30,8 @@ if __name__ == '__main__':
 			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style-type.html', 'result': 'html/semantics/with-style-type.events'},
 			{'test': 'html/semantics/with-style-type.xhtml', 'result': 'html/semantics/with-style-type.events'},
+			{'test': 'html/semantics/meta-content-type.html', 'result': 'html/semantics/meta-content-type.events'},
+			{'test': 'html/semantics/meta-content-type.xhtml', 'result': 'html/semantics/meta-content-type.events'},
 		]},
 		{'name': 'scripting', 'type': 'events', 'tests': [
 			{'test': 'html/scripting/with-script.html', 'result': 'html/scripting/with-script.events'},

@@ -64,6 +64,8 @@ void parseHeadNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 	case xml::reader::beginTagNode:
 		if (!reader.nodeName().comparei("title"))
 			parseTitleNode(reader, reader.nodeName(), aSubject, events);
+		else if (!reader.nodeName().comparei("meta"))
+			;
 		else
 			skipNode(reader, reader.nodeName());
 	case xml::reader::endTagNode:
