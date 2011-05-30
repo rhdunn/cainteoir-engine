@@ -104,6 +104,7 @@ void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 
 void parseHtmlNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events)
 {
+	std::string lang;
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
@@ -115,8 +116,11 @@ void parseHtmlNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 			skipNode(reader, reader.nodeName());
 		break;
 	case xml::reader::attribute:
-		if (!reader.nodeName().comparei("lang") || !reader.nodeName().comparei("xml:lang"))
-			events.metadata(rdf::statement(aSubject, rdf::dc("language"), rdf::literal(reader.nodeValue().buffer()->str())));
+		if ((!reader.nodeName().comparei("lang") || !reader.nodeName().comparei("xml:lang")) && lang.empty())
+		{
+			lang = reader.nodeValue().buffer()->str();
+			events.metadata(rdf::statement(aSubject, rdf::dc("language"), rdf::literal(lang)));
+		}
 		break;
 	case xml::reader::endTagNode:
 		if (!reader.nodeName().compare(name))
