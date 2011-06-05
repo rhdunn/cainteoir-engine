@@ -275,7 +275,8 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 	if (mElapsedTime > 0.1 && actualPos >= mOffset)
 	{
 		mCompleted = percentageof(actualPos - mOffset, doc->text_length());
-		mTotalTime = (mElapsedTime / mCompleted) * 100.0;
+		if (mCompleted >= 0.1)
+			mTotalTime = (mElapsedTime / mCompleted) * 100.0;
 	}
 }
 
