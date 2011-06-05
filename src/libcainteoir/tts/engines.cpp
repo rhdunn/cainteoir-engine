@@ -25,6 +25,9 @@
 #include "tts_engine.hpp"
 #include <stdexcept>
 
+static const int CHARACTERS_PER_WORD = 6;
+static const int WORDS_PER_MINUTE = 170;
+
 #define USE_GETTIMEOFDAY 1
 
 #if USE_GETTIMEOFDAY
@@ -190,7 +193,7 @@ speech_impl::~speech_impl()
 void speech_impl::started()
 {
 	mElapsedTime = 0.0;
-	mTotalTime = 0.0;
+	mTotalTime = (double(doc->text_length()) / CHARACTERS_PER_WORD / WORDS_PER_MINUTE * 60.0);
 	mCompleted = 0.0;
 	mProgress = 0.0;
 	currentOffset = 0;
