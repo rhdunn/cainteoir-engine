@@ -32,6 +32,8 @@ if __name__ == '__main__':
 			{'test': 'html/semantics/with-style-type.xhtml', 'result': 'html/semantics/with-style-type.events'},
 			{'test': 'html/semantics/meta-content-type.html', 'result': 'html/semantics/meta-content-type.events'},
 			{'test': 'html/semantics/meta-content-type.xhtml', 'result': 'html/semantics/meta-content-type.events'},
+			{'test': 'html/semantics/link-rel-stylesheet.html', 'result': 'html/semantics/link-rel-stylesheet.events'},
+			{'test': 'html/semantics/link-rel-stylesheet.xhtml', 'result': 'html/semantics/link-rel-stylesheet.events'},
 		]},
 		{'name': 'scripting', 'type': 'events', 'tests': [
 			{'test': 'html/scripting/with-script.html', 'result': 'html/scripting/with-script.events'},
