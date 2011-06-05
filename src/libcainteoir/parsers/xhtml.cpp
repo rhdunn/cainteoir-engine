@@ -113,10 +113,8 @@ void parseHtmlNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 	case xml::reader::beginTagNode:
 		if (!reader.nodeName().comparei("head"))
 			parseHeadNode(reader, reader.nodeName(), aSubject, events);
-		else if (!reader.nodeName().comparei("body"))
-			parseBodyNode(reader, reader.nodeName(), aSubject, events);
 		else
-			skipNode(reader, reader.nodeName());
+			parseBodyNode(reader, reader.nodeName(), aSubject, events);
 		break;
 	case xml::reader::attribute:
 		if ((!reader.nodeName().comparei("lang") || !reader.nodeName().comparei("xml:lang")) && lang.empty())
