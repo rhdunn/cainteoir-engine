@@ -43,6 +43,7 @@ static struct option options[] =
 {
 	{ "html", no_argument, 0, ARG_HTML },
 	{ "text", no_argument, 0, ARG_TEXT },
+	{ "all",  no_argument, 0, 'a' },
 	{ "help", no_argument, 0, 'h' },
 	{ 0, 0, 0, 0 }
 };
@@ -56,6 +57,7 @@ void help()
 	fprintf(stdout, _(" --text                 Output a text word list\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("General:\n"));
+	fprintf(stdout, _(" -a, --all              Show all words\n"));
 	fprintf(stdout, _(" -h, --help             This help text\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("Report bugs to msclrhd@gmail.com\n"));
@@ -146,6 +148,8 @@ int main(int argc, char ** argv)
 			text_format,
 		} format = html_format;
 
+		bool show_all = false;
+
 		while (1)
 		{
 			int option_index = 0;
@@ -160,6 +164,9 @@ int main(int argc, char ** argv)
 				break;
 			case ARG_TEXT:
 				format = text_format;
+				break;
+			case 'a':
+				show_all = true;
 				break;
 			case 'h':
 				help();
@@ -182,7 +189,7 @@ int main(int argc, char ** argv)
 			printf("<html><body><p>\n");
 			foreach_iter(word, cloud.words)
 			{
-				if (word->second > 3 && !common(word->first))
+				if (show_all || (word->second > 3 && !common(word->first)))
 				{
 					int size = (log(word->second) * 30) + 80;
 					printf("<span style=\"font-size: %d%%;\">%s</span>\n", size, word->first.c_str());
@@ -194,7 +201,7 @@ int main(int argc, char ** argv)
 		{
 			foreach_iter(word, cloud.words)
 			{
-				if (word->second > 3 && !common(word->first))
+				if (show_all || (word->second > 3 && !common(word->first)))
 					printf("%8d %s\n", word->second, word->first.c_str());
 			}
 		}
