@@ -195,7 +195,7 @@ int main(int argc, char ** argv)
 			foreach_iter(word, cloud.words)
 			{
 				if (word->second > 3 && !common(word->first))
-					printf("%d %s\n", word->second, word->first.c_str());
+					printf("%8d %s\n", word->second, word->first.c_str());
 			}
 		}
 	}
