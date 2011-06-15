@@ -344,6 +344,14 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
 	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.xht")));
 	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.xml")));
 
+	rdf::uri mhtml = rdf::uri(baseuri, "mhtml");
+	metadata.push_back(rdf::statement(mhtml, rdf::rdf("type"), rdf::tts("DocumentFormat")));
+	metadata.push_back(rdf::statement(mhtml, rdf::tts("name"), rdf::literal("mhtml")));
+	metadata.push_back(rdf::statement(mhtml, rdf::dc("title"), rdf::literal(_("mhtml document"))));
+	metadata.push_back(rdf::statement(mhtml, rdf::dc("description"), rdf::literal(_("single-file HTML document"))));
+	metadata.push_back(rdf::statement(mhtml, rdf::tts("mimetype"), rdf::literal("multipart/related")));
+	metadata.push_back(rdf::statement(mhtml, rdf::tts("extension"), rdf::literal("*.mht")));
+
 	rdf::uri epub = rdf::uri(baseuri, "epub");
 	metadata.push_back(rdf::statement(epub, rdf::rdf("type"), rdf::tts("DocumentFormat")));
 	metadata.push_back(rdf::statement(epub, rdf::tts("name"), rdf::literal("epub")));
