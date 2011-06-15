@@ -42,6 +42,52 @@ std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 	return data.buffer();
 }
 
+inline int hex_to_value(char c)
+{
+	if (c >= '0' && c <= '9')
+		return c - 0;
+	if (c >= 'a' && c <= 'f')
+		return (c - 'a') + 10;
+	if (c >= 'A' && c <= 'F')
+		return (c - 'A') + 10;
+	return 0;
+}
+
+std::tr1::shared_ptr<cainteoir::buffer> decode_quoted_printable(std::tr1::shared_ptr<cainteoir::buffer> stream)
+{
+	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(stream->size()));
+	char * first = (char *)data->begin();
+	char * next  = first;
+
+	memcpy(first, stream->begin(), stream->size());
+
+	while (next <= data->end())
+	{
+		if (*next == '=')
+		{
+			++next;
+			if (*next == '\n')
+				++next;
+			else if (next[0] == '\r' && next[1] == '\n')
+				next += 2;
+			else
+			{
+				*first = (hex_to_value(next[0]) << 4) | hex_to_value(next[1]);
+				++first;
+				next += 2;
+			}
+		}
+		else
+		{
+			*first = *next;
+			++first;
+			++next;
+		}
+	}
+
+	return data;
+}
+
 inline bool is_mime_header_char(char c)
 {
 	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '-';
@@ -50,6 +96,7 @@ inline bool is_mime_header_char(char c)
 struct mime_headers : public cainteoir::buffer
 {
 	std::tr1::shared_ptr<cainteoir::buffer> mOriginal;
+	std::string encoding;
 
 	bool parse_headers(std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events, cainteoir::buffer &boundary)
 	{
@@ -86,7 +133,14 @@ struct mime_headers : public cainteoir::buffer
 			else
 				return false;
 
-			if (!name.comparei("Content-Type"))
+			if (!name.comparei("Content-Transfer-Encoding"))
+			{
+				const char * type = value.begin();
+				while (type <= value.end() && !(*type == ';' || *type == '\n'))
+					++type;
+				encoding = std::string(value.begin(), *(type-1) == '\r' ? type-1 : type);
+			}
+			else if (!name.comparei("Content-Type"))
 			{
 				const char * type = value.begin();
 				while (type <= value.end() && !(*type == ';' || *type == '\n'))
@@ -237,11 +291,20 @@ bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &da
 		cainteoir::parseRtfDocument(data, subject, events);
 	else
 	{
-		std::tr1::shared_ptr<cainteoir::buffer> content(new mime_headers(data, type, subject, events));
-		if (content->begin() == data->begin())
+		std::tr1::shared_ptr<mime_headers> mime(new mime_headers(data, type, subject, events));
+		if (mime->begin() == data->begin())
 			parseXHtmlDocument(data, subject, events);
-		else
+		else if (!mime->encoding.empty())
+		{
+			std::tr1::shared_ptr<cainteoir::buffer> encoded(mime);
+			std::tr1::shared_ptr<cainteoir::buffer> content = decode_quoted_printable(encoded);
 			return parseDocumentBufferWithMimeType(content, subject, events, type);
+		}
+		else
+		{
+			std::tr1::shared_ptr<cainteoir::buffer> content(mime);
+			return parseDocumentBufferWithMimeType(content, subject, events, type);
+		}
 	}
 
 	events.metadata(rdf::statement(subject, rdf::tts("mimetype"), rdf::literal(type)));
