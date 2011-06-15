@@ -51,7 +51,7 @@ struct mime_headers : public cainteoir::buffer
 {
 	std::tr1::shared_ptr<cainteoir::buffer> mOriginal;
 
-	bool parse_headers(std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events)
+	bool parse_headers(std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events, cainteoir::buffer &boundary)
 	{
 		while (first <= last)
 		{
@@ -92,6 +92,28 @@ struct mime_headers : public cainteoir::buffer
 				while (type <= value.end() && !(*type == ';' || *type == '\n'))
 					++type;
 				mimetype = std::string(value.begin(), type);
+
+				if (mimetype == "multipart/mixed" || mimetype == "multipart/related")
+				{
+					++type;
+					while (type <= value.end() && (*type == ' ' || *type == '\t'))
+						++type;
+
+					const char * name = type;
+					while (type <= value.end() && *type != '=')
+						++type;
+
+					cainteoir::buffer arg(name, type);
+					++type;
+
+					if (*type != '"') continue;
+					++type;
+
+					const char * bounds = type;
+					while (type <= value.end() && *type != '"')
+						++type;
+					boundary = cainteoir::buffer(bounds, type);
+				}
 			}
 			else if (!name.comparei("Subject"))
 				events.metadata(rdf::statement(subject, rdf::dc("title"), rdf::literal(value.str())));
@@ -150,8 +172,33 @@ struct mime_headers : public cainteoir::buffer
 			++first;
 		}
 
-		if (!parse_headers(mimetype, subject, events))
+		cainteoir::buffer boundary(NULL, NULL);
+		if (!parse_headers(mimetype, subject, events, boundary))
 			first = mOriginal->begin();
+		else if (!boundary.empty())
+		{
+			const char * begin = NULL;
+
+			while (first <= last)
+			{
+				if (first[0] == '-' && first[1] == '-' && !strncmp(first + 2, boundary.begin(), boundary.size()))
+				{
+					if (begin == NULL)
+					{
+						first += 2;
+						first += boundary.size();
+						begin = first;
+					}
+					else
+					{
+						last = first;
+						first = begin;
+						return;
+					}
+				}
+				++first;
+			}
+		}
 	}
 };
 

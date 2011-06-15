@@ -60,6 +60,12 @@ if __name__ == '__main__':
 			{'test': 'mime/headers/leading-whitespace-lfonly.txt', 'result': 'mime/headers/basic.events'},
 			{'test': 'mime/headers/wrapped-header-item-lfonly.txt', 'result': 'mime/headers/basic.events'},
 		]},
+		{'name': 'multipart', 'type': 'events', 'tests': [
+			{'test': 'mime/multipart/mixed-1.txt', 'result': 'mime/multipart/mixed.events'},
+			{'test': 'mime/multipart/mixed-2.txt', 'result': 'mime/multipart/mixed.events'},
+			{'test': 'mime/multipart/related-1.txt', 'result': 'mime/multipart/related.events'},
+			{'test': 'mime/multipart/related-2.txt', 'result': 'mime/multipart/related.events'},
+		]},
 	]})
 	test.run({'name': 'HTTP', 'groups': [
 		{'name': '1.0', 'type': 'events', 'tests': [
