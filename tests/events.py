@@ -66,6 +66,12 @@ if __name__ == '__main__':
 			{'test': 'mime/multipart/related-1.txt', 'result': 'mime/multipart/related.events'},
 			{'test': 'mime/multipart/related-2.txt', 'result': 'mime/multipart/related.events'},
 		]},
+		{'name': 'quoted-printable', 'type': 'events', 'tests': [
+			{'test': 'mime/quoted-printable/ascii.txt', 'result': 'mime/quoted-printable/ascii.events'},
+			{'test': 'mime/quoted-printable/escaped-upper.txt', 'result': 'mime/quoted-printable/escaped.events'},
+			{'test': 'mime/quoted-printable/escaped-lower.txt', 'result': 'mime/quoted-printable/escaped.events'},
+			{'test': 'mime/quoted-printable/eol.txt', 'result': 'mime/quoted-printable/eol.events'},
+		]},
 	]})
 	test.run({'name': 'HTTP', 'groups': [
 		{'name': '1.0', 'type': 'events', 'tests': [

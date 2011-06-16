@@ -1,0 +1,3 @@
+text(55): """This is basic ascii text
+without any escape sequences.
+"""

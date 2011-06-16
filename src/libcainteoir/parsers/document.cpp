@@ -53,40 +53,43 @@ inline int hex_to_value(char c)
 	return 0;
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> decode_quoted_printable(std::tr1::shared_ptr<cainteoir::buffer> stream)
+struct quoted_printable : public cainteoir::data_buffer
 {
-	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(stream->size()));
-	char * first = (char *)data->begin();
-	char * next  = first;
-
-	memcpy(first, stream->begin(), stream->size());
-
-	while (next <= data->end())
+	quoted_printable(std::tr1::shared_ptr<cainteoir::buffer> stream)
+		: cainteoir::data_buffer(stream->size())
 	{
-		if (*next == '=')
+		memcpy((char *)first, stream->begin(), stream->size());
+
+		char * current = (char *)first;
+		char * next    = (char *)first;
+
+		while (next < last)
 		{
-			++next;
-			if (*next == '\n')
+			if (*next == '=')
+			{
 				++next;
-			else if (next[0] == '\r' && next[1] == '\n')
-				next += 2;
+				if (*next == '\n')
+					++next;
+				else if (next[0] == '\r' && next[1] == '\n')
+					next += 2;
+				else
+				{
+					*current = (hex_to_value(next[0]) << 4) | hex_to_value(next[1]);
+					++current;
+					next += 2;
+				}
+			}
 			else
 			{
-				*first = (hex_to_value(next[0]) << 4) | hex_to_value(next[1]);
-				++first;
-				next += 2;
+				*current = *next;
+				++current;
+				++next;
 			}
 		}
-		else
-		{
-			*first = *next;
-			++first;
-			++next;
-		}
-	}
 
-	return data;
-}
+		last = current;
+	}
+};
 
 inline bool is_mime_header_char(char c)
 {
@@ -297,7 +300,7 @@ bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &da
 		else if (!mime->encoding.empty())
 		{
 			std::tr1::shared_ptr<cainteoir::buffer> encoded(mime);
-			std::tr1::shared_ptr<cainteoir::buffer> content = decode_quoted_printable(encoded);
+			std::tr1::shared_ptr<cainteoir::buffer> content(new quoted_printable(encoded));
 			return parseDocumentBufferWithMimeType(content, subject, events, type);
 		}
 		else
