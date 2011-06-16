@@ -161,6 +161,13 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 			if (!rtf.data()->comparei("stylesheet") ||
 			    !rtf.data()->comparei("fonttbl") ||
 			    !rtf.data()->comparei("colortbl") ||
+			    !rtf.data()->comparei("pict") ||
+			    !rtf.data()->comparei("header") ||
+			    !rtf.data()->comparei("footer") ||
+			    !rtf.data()->comparei("field") ||
+			    !rtf.data()->comparei("xe") ||
+			    !rtf.data()->comparei("tc") ||
+			    !rtf.data()->comparei("object") ||
 			    !rtf.data()->comparei("info") || // FIXME: Process this block to extract metadata information.
 			    !rtf.data()->comparei("*"))
 			{
