@@ -45,11 +45,33 @@ struct rtf_reader : public cainteoir::buffer
 	token_type token() const { return mToken; }
 
 	const std::tr1::shared_ptr<cainteoir::buffer> & data() const { return mData; }
+
+	int parameter() const { return mParameter; }
 private:
 	const char * mCurrent;
 	token_type mToken;
 	std::tr1::shared_ptr<cainteoir::buffer> mData;
+	int mParameter;
 };
+
+void printToken(rtf_reader &rtf)
+{
+	switch (rtf.token())
+	{
+	case rtf_reader::begin_block:
+		printf("begin-block\n");
+		break;
+	case rtf_reader::end_block:
+		printf("end-block\n");
+		break;
+	case rtf_reader::instruction:
+		printf("instruction: %s (parameter: %d)\n", rtf.data()->str().c_str(), rtf.parameter());
+		break;
+	case rtf_reader::text:
+		printf("text: %s\n", rtf.data()->str().c_str());
+		break;
+	}
+}
 
 bool rtf_reader::read()
 {
@@ -74,11 +96,18 @@ bool rtf_reader::read()
 			const char * control = mCurrent;
 			while (mCurrent <= end() &&
 			      ((*mCurrent >= 'a' && *mCurrent <= 'z') || (*mCurrent >= 'A' && *mCurrent <= 'Z') ||
-			       (*mCurrent >= '0' && *mCurrent <= '9') ||
-			       *mCurrent == '-'))
+			       *mCurrent == '-'  || *mCurrent == '*'))
 				++mCurrent;
 
 			*mData = cainteoir::buffer(control, mCurrent);
+
+			mParameter = 0;
+			while (mCurrent <= end() && (*mCurrent >= '0' && *mCurrent <= '9'))
+			{
+				mParameter *= 10;
+				mParameter += (*mCurrent - '0');
+				++mCurrent;
+			}
 		}
 		break;
 	default:
@@ -110,6 +139,9 @@ void skipRtfBlock(rtf_reader &rtf)
 {
 	while (rtf.read()) switch (rtf.token())
 	{
+	case rtf_reader::begin_block:
+		skipRtfBlock(rtf);
+		break;
 	case rtf_reader::end_block:
 		return;
 	}
@@ -121,13 +153,20 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 	{
 		if (mainRtfBlock)
 		{
-			if (rtf.data()->comparei("rtf1"))
-				throw std::runtime_error(_("invalid rtf stream (1)"));
+			if (rtf.data()->comparei("rtf") || rtf.parameter() != 1)
+				throw std::runtime_error(_("unrecognised rtf data stream or version"));
 		}
 		else
 		{
-			skipRtfBlock(rtf);
-			return;
+			if (!rtf.data()->comparei("stylesheet") ||
+			    !rtf.data()->comparei("fonttbl") ||
+			    !rtf.data()->comparei("colortbl") ||
+			    !rtf.data()->comparei("info") || // FIXME: Process this block to extract metadata information.
+			    !rtf.data()->comparei("*"))
+			{
+				skipRtfBlock(rtf);
+				return;
+			}
 		}
 
 		while (rtf.read()) switch (rtf.token())
@@ -143,7 +182,7 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 		}
 	}
 
-	throw std::runtime_error(_("invalid rtf stream (2)"));
+	throw std::runtime_error(_("unexpected end of rtf stream"));
 }
 
 void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events)
@@ -153,5 +192,5 @@ void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, 
 	if (rtf.read() && rtf.token() == rtf_reader::begin_block)
 		parseRtfBlock(rtf, aSubject, events, true);
 	else
-		throw std::runtime_error(_("invalid rtf stream (3)"));
+		throw std::runtime_error(_("unrecognised rtf data stream"));
 }
