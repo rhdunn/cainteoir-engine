@@ -108,6 +108,11 @@ bool rtf_reader::read()
 				mParameter += (*mCurrent - '0');
 				++mCurrent;
 			}
+
+			if (*mCurrent == ' ' || *mCurrent == '\t' || *mCurrent == '\n')
+				++mCurrent;
+			else if (mCurrent[0] == '\r' && mCurrent[1] == '\n')
+				mCurrent += 2;
 		}
 		break;
 	default:
