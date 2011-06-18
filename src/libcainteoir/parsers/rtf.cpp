@@ -93,31 +93,39 @@ bool rtf_reader::read()
 			mToken = instruction;
 			++mCurrent;
 
-			const char * control = mCurrent;
-			while (mCurrent <= end() &&
-			      ((*mCurrent >= 'a' && *mCurrent <= 'z') || (*mCurrent >= 'A' && *mCurrent <= 'Z') ||
-			       *mCurrent == '-'  || *mCurrent == '*'))
-				++mCurrent;
+			if (mCurrent >= end()) return false;
 
-			*mData = cainteoir::buffer(control, mCurrent);
-
-			if (mCurrent <= end() && (*mCurrent >= '0' && *mCurrent <= '9'))
+			if ((*mCurrent >= 'a' && *mCurrent <= 'z') || (*mCurrent >= 'A' && *mCurrent <= 'Z')) // control word
 			{
-				mParameter = 0;
-				while (mCurrent <= end() && (*mCurrent >= '0' && *mCurrent <= '9'))
-				{
-					mParameter *= 10;
-					mParameter += (*mCurrent - '0');
+				const char * control = mCurrent;
+				while (mCurrent <= end() && ((*mCurrent >= 'a' && *mCurrent <= 'z') || (*mCurrent >= 'A' && *mCurrent <= 'Z')))
 					++mCurrent;
-				}
-			}
-			else
-				mParameter = 1; // toggle property, e.g. \b
 
-			if (*mCurrent == ' ' || *mCurrent == '\t' || *mCurrent == '\n')
+				*mData = cainteoir::buffer(control, mCurrent);
+
+				if (mCurrent <= end() && (*mCurrent >= '0' && *mCurrent <= '9'))
+				{
+					mParameter = 0;
+					while (mCurrent <= end() && (*mCurrent >= '0' && *mCurrent <= '9'))
+					{
+						mParameter *= 10;
+						mParameter += (*mCurrent - '0');
+						++mCurrent;
+					}
+				}
+				else
+					mParameter = 1; // toggle property, e.g. \b
+
+				if (*mCurrent == ' ' || *mCurrent == '\t' || *mCurrent == '\n')
+					++mCurrent;
+				else if (mCurrent[0] == '\r' && mCurrent[1] == '\n')
+					mCurrent += 2;
+			}
+			else // control symbol
+			{
+				*mData = cainteoir::buffer(mCurrent, mCurrent+1);
 				++mCurrent;
-			else if (mCurrent[0] == '\r' && mCurrent[1] == '\n')
-				mCurrent += 2;
+			}
 		}
 		break;
 	default:
