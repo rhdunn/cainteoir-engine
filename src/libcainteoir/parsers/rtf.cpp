@@ -131,21 +131,21 @@ bool rtf_reader::read()
 	default:
 		{
 			mToken = text;
+			const char * text = mCurrent;
+
 			while (mCurrent <= end() && (*mCurrent == ' ' || *mCurrent == '\n' || *mCurrent == '\r' || *mCurrent == '\t'))
 				++mCurrent;
 
-			const char * text = mCurrent;
-			while (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}')
-				++mCurrent;
+			if (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}')
+			{
+				while (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}')
+					++mCurrent;
 
-			const char * eot = mCurrent;
-			while (eot > text && (*eot == ' ' || *eot == '\t' || *eot == '\r' || *eot == '\n'))
-				--eot;
-
-			if (text == eot)
+				*mData = cainteoir::buffer(text, mCurrent);
+			}
+			else
 				return read();
 
-			*mData = cainteoir::buffer(text, mCurrent);
 		}
 		break;
 	}
