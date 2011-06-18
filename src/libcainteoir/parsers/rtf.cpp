@@ -101,13 +101,18 @@ bool rtf_reader::read()
 
 			*mData = cainteoir::buffer(control, mCurrent);
 
-			mParameter = 0;
-			while (mCurrent <= end() && (*mCurrent >= '0' && *mCurrent <= '9'))
+			if (mCurrent <= end() && (*mCurrent >= '0' && *mCurrent <= '9'))
 			{
-				mParameter *= 10;
-				mParameter += (*mCurrent - '0');
-				++mCurrent;
+				mParameter = 0;
+				while (mCurrent <= end() && (*mCurrent >= '0' && *mCurrent <= '9'))
+				{
+					mParameter *= 10;
+					mParameter += (*mCurrent - '0');
+					++mCurrent;
+				}
 			}
+			else
+				mParameter = 1; // toggle property, e.g. \b
 
 			if (*mCurrent == ' ' || *mCurrent == '\t' || *mCurrent == '\n')
 				++mCurrent;
