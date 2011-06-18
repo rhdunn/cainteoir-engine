@@ -90,6 +90,7 @@ if __name__ == '__main__':
 	test.run({'name': 'RTF', 'groups': [
 		{'name': 'document', 'type': 'events', 'tests': [
 			{'test': 'rtf/simple.rtf', 'result': 'rtf/simple.events'},
+			{'test': 'rtf/escaped.rtf', 'result': 'rtf/escaped.events'},
 			{'test': 'rtf/libreoffice.rtf', 'result': 'rtf/simple.events'},
 		]},
 	]})

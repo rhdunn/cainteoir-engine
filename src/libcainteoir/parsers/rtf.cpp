@@ -123,6 +123,9 @@ bool rtf_reader::read()
 			}
 			else // control symbol
 			{
+				if (*mCurrent == '\\' || *mCurrent == '{' || *mCurrent == '}')
+					mToken = text;
+
 				*mData = cainteoir::buffer(mCurrent, mCurrent+1);
 				++mCurrent;
 			}
