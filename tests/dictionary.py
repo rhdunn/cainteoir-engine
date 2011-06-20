@@ -116,14 +116,32 @@ class Tester:
 	def summary(self):
 		print '%d passed %d failed %d total' % (self.passed, self.failed, self.passed + self.failed)
 
+def list_words(path, files):
+	words = []
+	for dictionary in files:
+		with open(os.path.join(path, dictionary)) as f:
+			for line in f:
+				if line != '\n' and not line.startswith('#'):
+					word, pronunciation, rest = line.split('/')
+					words.append((''.join(word.split()).lower()))
+	return words
+
 if __name__ == '__main__':
 	args = [ x for x in sys.argv if not x.startswith('--') ]
 
 	dictionarydir = args[1]
 	dictionaries = [ x for x in os.listdir(dictionarydir) if x.endswith('.dict') ]
 
-	test = Tester()
-	for dictionary in dictionaries:
-		test.test_dictionary(os.path.join(dictionarydir, dictionary), generate_exception_dictionary='--exception-dictionary' in sys.argv, ipa='--ipa' in sys.argv)
-	if not '--exception-dictionary' in sys.argv:
-		test.summary()
+	if '--new-words' in sys.argv:
+		have_words = list_words(dictionarydir, dictionaries)
+		with open(args[2]) as f:
+			for line in f:
+				line = line.replace('\n', '')
+				if line.lower() not in have_words:
+					print line
+	else:
+		test = Tester()
+		for dictionary in dictionaries:
+			test.test_dictionary(os.path.join(dictionarydir, dictionary), generate_exception_dictionary='--exception-dictionary' in sys.argv, ipa='--ipa' in sys.argv)
+		if not '--exception-dictionary' in sys.argv:
+			test.summary()
