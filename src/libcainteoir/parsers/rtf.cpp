@@ -23,6 +23,43 @@
 
 namespace rdf = cainteoir::rdf;
 
+struct replacement
+{
+	const char * token;
+	const char * text;
+};
+
+static const replacement replacements[] = {
+	{ "\\",         "\\" },
+	{ "{",          "{" },
+	{ "}",          "}" },
+	{ "-",          NULL }, // optional hyphen
+	{ "_",          "-" },  // non-breaking hyphen
+	{ "~",          "\xC0\xA0" }, // NON-BREAKING SPACE
+	{ "bullet",     "\xE2\x80\xA2" },
+	{ "emdash",     "\xE2\x80\x94" },
+	{ "endash",     "\xE2\x80\x93" },
+	{ "ldblquote",  "\xE2\x80\x9C" },
+	{ "lquote",     "\xE2\x80\x98" },
+	{ "rdblquote",  "\xE2\x80\x9D" },
+	{ "rquote",     "\xE2\x80\x99" },
+	{ "tab",        "\x09" },
+};
+
+#define countof(a) (sizeof(a)/sizeof(a[0]))
+
+const char * lookupReplacementText(const std::tr1::shared_ptr<cainteoir::buffer> & token)
+{
+	for (const replacement * first = replacements, * last = replacements + countof(replacements); first != last; ++first)
+	{
+		if (!token->compare(first->token))
+		{
+			return first->text;
+		}
+	}
+	return NULL;
+}
+
 struct rtf_reader : public cainteoir::buffer
 {
 	enum token_type
@@ -123,9 +160,6 @@ bool rtf_reader::read()
 			}
 			else // control symbol
 			{
-				if (*mCurrent == '\\' || *mCurrent == '{' || *mCurrent == '}')
-					mToken = text;
-
 				*mData = cainteoir::buffer(mCurrent, mCurrent+1);
 				++mCurrent;
 			}
@@ -204,6 +238,13 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 			break;
 		case rtf_reader::end_block:
 			return;
+		case rtf_reader::instruction:
+			{
+				const char * text = lookupReplacementText(rtf.data());
+				if (text)
+					events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text)));
+			}
+			break;
 		case rtf_reader::text:
 			events.text(rtf.data());
 			break;
