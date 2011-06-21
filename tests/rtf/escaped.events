@@ -1,7 +1,1 @@
-text(13): """RTF uses the """
-text(1): """\"""
-text(2): """, """
-text(1): """{"""
-text(5): """ and """
-text(1): """}"""
-text(12): """ characters."""
+text(35): """RTF uses the \, { and } characters."""
