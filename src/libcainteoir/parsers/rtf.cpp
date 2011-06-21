@@ -29,6 +29,14 @@ struct replacement
 	const char * text;
 };
 
+inline int hex_to_int(char c)
+{
+	if (c >= '0' && c <= '9') return c - '0';
+	if (c >= 'A' && c <= 'Z') return (c - 'A') + 10;
+	if (c >= 'a' && c <= 'z') return (c - 'a') + 10;
+	return -1;
+}
+
 static const replacement replacements[] = {
 	{ "\\",         "\\" },
 	{ "{",          "{" },
@@ -48,9 +56,26 @@ static const replacement replacements[] = {
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
 
-const char * lookupReplacementText(const std::tr1::shared_ptr<cainteoir::buffer> & token)
+static const char * codepage_ascii[128] = {
+//	0     1     2     3     4     5     6     7     8     9     A     B     C     D     E     F
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "\t", "\n", NULL, "\r", NULL, NULL, NULL, // 0
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, // 1
+	" ",  "!",  "\"", "#",  "$",  "%",  "&",  "'",  "(",  ")",  "*",  "+",  ",",  "-",  ".",  "/",  // 2
+	"0",  "1",  "2",  "3",  "4",  "5",  "6",  "7",  "8",  "9",  ":",  ";",  "<",  "=",  ">",  "?",  // 3
+	"@",  "A",  "B",  "C",  "D",  "E",  "F",  "G",  "H",  "I",  "J",  "K",  "L",  "M",  "N",  "O",  // 4
+	"P",  "Q",  "R",  "S",  "T",  "U",  "V",  "W",  "X",  "Y",  "Z",  "[",  "\\", "]",  "^",  "_",  // 5
+	"`",  "a",  "b",  "c",  "d",  "e",  "f",  "g",  "h",  "i",  "j",  "k",  "l",  "m",  "n",  "o",  // 6
+	"p",  "q",  "r",  "s",  "t",  "u",  "v",  "w",  "x",  "y",  "z",  "{",  "|",  "}",  "~",  NULL, // 7
+};
+
+const char * lookupReplacementText(const std::tr1::shared_ptr<cainteoir::buffer> & token, int value)
 {
-	for (const replacement * first = replacements, * last = replacements + countof(replacements); first != last; ++first)
+	if (!token->compare("'"))
+	{
+		if (value < 128) return codepage_ascii[value];
+		return NULL; // FIXME: Return the correct character code for the codepage (\ansi, \mac, \pc, \pca)
+	}
+	else for (const replacement * first = replacements, * last = replacements + countof(replacements); first != last; ++first)
 	{
 		if (!token->compare(first->token))
 		{
@@ -161,7 +186,25 @@ bool rtf_reader::read()
 			else // control symbol
 			{
 				*mData = cainteoir::buffer(mCurrent, mCurrent+1);
-				++mCurrent;
+				if (*mCurrent == '\'') // \'hh token
+				{
+					++mCurrent;
+					if ((mCurrent + 2) <= end())
+					{
+						int a = hex_to_int(mCurrent[0]);
+						int b = hex_to_int(mCurrent[1]);
+						if (a > 0 && b > 0)
+						{
+							mParameter = (a << 4) + b;
+							mCurrent += 2;
+							return true;
+						}
+					}
+
+					return read(); // skip invalid \'hh token
+				}
+				else
+					++mCurrent;
 			}
 		}
 		break;
@@ -240,7 +283,7 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 			return;
 		case rtf_reader::instruction:
 			{
-				const char * text = lookupReplacementText(rtf.data());
+				const char * text = lookupReplacementText(rtf.data(), rtf.parameter());
 				if (text)
 					events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text)));
 			}
