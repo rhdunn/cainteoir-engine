@@ -165,8 +165,15 @@ bool rtf_reader::read()
 
 				mData = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(control, mCurrent));
 
-				if (mCurrent <= end() && (*mCurrent >= '0' && *mCurrent <= '9'))
+				if (mCurrent <= end() && ((*mCurrent >= '0' && *mCurrent <= '9') || *mCurrent == '-'))
 				{
+					bool isNegative = false;
+					if (*mCurrent == '-')
+					{
+						isNegative = true;
+						++mCurrent;
+					}
+
 					mParameter = 0;
 					while (mCurrent <= end() && (*mCurrent >= '0' && *mCurrent <= '9'))
 					{
@@ -174,6 +181,9 @@ bool rtf_reader::read()
 						mParameter += (*mCurrent - '0');
 						++mCurrent;
 					}
+
+					if (isNegative)
+						mParameter = -mParameter;
 				}
 				else
 					mParameter = 1; // toggle property, e.g. \b
