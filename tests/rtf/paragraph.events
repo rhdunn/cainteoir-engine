@@ -1,0 +1,5 @@
+text(48): """This is the first paragraph in the rtf document."""
+text(29): """This is the second paragraph."""
+text(21): """line 1
+line 2
+line 3"""

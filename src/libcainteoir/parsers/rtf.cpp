@@ -41,6 +41,8 @@ static const replacement replacements[] = {
 	{ "\\",         "\\" },
 	{ "{",          "{" },
 	{ "}",          "}" },
+	{ "\r",         "\r" },
+	{ "\n",         "\n" },
 	{ "-",          NULL }, // optional hyphen
 	{ "_",          "-" },  // non-breaking hyphen
 	{ "~",          "\xC0\xA0" }, // NON-BREAKING SPACE
@@ -218,17 +220,22 @@ bool rtf_reader::read()
 			}
 		}
 		break;
+	case '\r':
+	case '\n':
+		while (mCurrent <= end() && (*mCurrent == '\r' || *mCurrent == '\n'))
+			++mCurrent;
+		return read();
 	default:
 		{
 			mToken = text;
 			const char * text = mCurrent;
 
-			while (mCurrent <= end() && (*mCurrent == ' ' || *mCurrent == '\n' || *mCurrent == '\r' || *mCurrent == '\t'))
+			while (mCurrent <= end() && (*mCurrent == ' ' || *mCurrent == '\t'))
 				++mCurrent;
 
 			if (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}')
 			{
-				while (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}')
+				while (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}' && *mCurrent != '\r' && *mCurrent != '\n')
 					++mCurrent;
 
 				mData = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text, mCurrent));
@@ -304,6 +311,7 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 			}
 			break;
 		case rtf_reader::text:
+			//printf("rtftext[%s]\n", rtf.data()->str().c_str());
 			aText.add(rtf.data());
 			break;
 		}
