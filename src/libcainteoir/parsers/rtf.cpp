@@ -309,7 +309,7 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 		}
 	}
 
-	throw std::runtime_error(_("unexpected end of rtf stream"));
+	fprintf(stderr, _("warning: unexpected end of rtf stream\n"));
 }
 
 void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events)
