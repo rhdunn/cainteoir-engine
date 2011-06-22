@@ -264,7 +264,9 @@ void skipRtfBlock(rtf_reader &rtf)
 
 void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::document_events &events, cainteoir::rope &aText, bool mainRtfBlock)
 {
-	if (rtf.read() && rtf.token() == rtf_reader::instruction)
+	if (!rtf.read()) return;
+
+	if (rtf.token() == rtf_reader::instruction)
 	{
 		if (mainRtfBlock)
 		{
@@ -291,33 +293,34 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 			}
 		}
 
-		while (rtf.read()) switch (rtf.token())
-		{
-		case rtf_reader::begin_block:
-			parseRtfBlock(rtf, aSubject, events, aText, false);
-			break;
-		case rtf_reader::end_block:
-			return;
-		case rtf_reader::instruction:
-			{
-				const char * text = lookupReplacementText(rtf.data(), rtf.parameter());
-				if (text)
-					aText.add(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text)));
-				else if (!rtf.data()->compare("par") && !aText.empty())
-				{
-					events.text(aText.buffer());
-					aText.clear();
-				}
-			}
-			break;
-		case rtf_reader::text:
-			//printf("rtftext[%s]\n", rtf.data()->str().c_str());
-			aText.add(rtf.data());
-			break;
-		}
+		if (!rtf.read()) return;
 	}
 
-	fprintf(stderr, _("warning: unexpected end of rtf stream\n"));
+	do switch (rtf.token())
+	{
+	case rtf_reader::begin_block:
+		parseRtfBlock(rtf, aSubject, events, aText, false);
+		break;
+	case rtf_reader::end_block:
+		return;
+	case rtf_reader::instruction:
+		{
+			const char * text = lookupReplacementText(rtf.data(), rtf.parameter());
+			if (text)
+				aText.add(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text)));
+			else if (!rtf.data()->compare("par") && !aText.empty())
+			{
+				events.text(aText.buffer());
+				aText.clear();
+			}
+		}
+		break;
+	case rtf_reader::text:
+		aText.add(rtf.data());
+		break;
+	} while (rtf.read());
+
+	throw std::runtime_error(_("warning: unexpected end of rtf stream\n"));
 }
 
 void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events)
