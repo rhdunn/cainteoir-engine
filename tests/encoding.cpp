@@ -1,4 +1,4 @@
-/* Encoding Conversion Support.
+/* Test for text encodings.
  *
  * Copyright (C) 2011 Reece H. Dunn
  *
@@ -18,29 +18,29 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAINTEOIR_ENGINE_ENCODING_HPP
-#define CAINTEOIR_ENGINE_ENCODING_HPP
+#include <cainteoir/encoding.hpp>
+#include <cainteoir/platform.hpp>
+#include <stdexcept>
+#include <cstdio>
 
-#include "buffer.hpp"
-
-namespace cainteoir
+int main(int argc, char ** argv)
 {
-	struct decoder
+	try
 	{
-		virtual const char * lookup(uint8_t c) const = 0;
+		argc -= 1;
+		argv += 1;
 
-		virtual ~decoder() {}
-	};
+		if (argc != 1)
+			throw std::runtime_error("no document specified");
 
-	class encoding
+		cainteoir::encoding codepage(atoi(argv[0]));
+		for (int c = 0; c < 256; ++c)
+			printf("%02x : %s\n", c, codepage.lookup((uint8_t)c));
+	}
+	catch (std::runtime_error &e)
 	{
-	public:
-		encoding(int aCodepage = 0);
+		fprintf(stderr, "error: %s\n", e.what());
+	}
 
-		const char * lookup(uint8_t c) const { return mDecoder->lookup(c); }
-	private:
-		std::shared_ptr<decoder> mDecoder;
-	};
+	return 0;
 }
-
-#endif

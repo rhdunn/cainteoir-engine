@@ -25,6 +25,7 @@ tests/ntriple_formatter
 tests/turtle_formatter
 tests/events
 tests/xmlreader
+tests/encoding
 tests/voicesynth
 
 # autotools output:
