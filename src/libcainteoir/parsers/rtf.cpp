@@ -301,6 +301,14 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 			}
 			else if (!rtf.data()->compare("ansi"))
 				codepage.set_encoding(1252);
+			else if (!rtf.data()->compare("ansicpg"))
+				codepage.set_encoding(rtf.parameter());
+			else if (!rtf.data()->compare("pc"))
+				codepage.set_encoding(437);
+			else if (!rtf.data()->compare("pca"))
+				codepage.set_encoding(850);
+			else if (!rtf.data()->compare("mac"))
+				codepage.set_encoding(10000);
 		}
 		break;
 	case rtf_reader::text:
