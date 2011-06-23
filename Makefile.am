@@ -103,6 +103,7 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/languages.hpp \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
+	src/include/cainteoir/encoding.hpp \
 	src/include/cainteoir/xmlreader.hpp \
 	src/include/cainteoir/document.hpp \
 	src/include/cainteoir/engines.hpp \
@@ -129,6 +130,7 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/platform.cpp \
 	src/libcainteoir/languages.cpp \
+	src/libcainteoir/encoding.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/xmlstring_buffer.cpp \

@@ -20,6 +20,7 @@
 
 #include "parsers.hpp"
 #include <cainteoir/platform.hpp>
+#include <cainteoir/encoding.hpp>
 
 namespace rdf = cainteoir::rdf;
 
@@ -58,25 +59,10 @@ static const replacement replacements[] = {
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
 
-static const char * codepage_ascii[128] = {
-//	0     1     2     3     4     5     6     7     8     9     A     B     C     D     E     F
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "\t", "\n", NULL, "\r", NULL, NULL, NULL, // 0
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, // 1
-	" ",  "!",  "\"", "#",  "$",  "%",  "&",  "'",  "(",  ")",  "*",  "+",  ",",  "-",  ".",  "/",  // 2
-	"0",  "1",  "2",  "3",  "4",  "5",  "6",  "7",  "8",  "9",  ":",  ";",  "<",  "=",  ">",  "?",  // 3
-	"@",  "A",  "B",  "C",  "D",  "E",  "F",  "G",  "H",  "I",  "J",  "K",  "L",  "M",  "N",  "O",  // 4
-	"P",  "Q",  "R",  "S",  "T",  "U",  "V",  "W",  "X",  "Y",  "Z",  "[",  "\\", "]",  "^",  "_",  // 5
-	"`",  "a",  "b",  "c",  "d",  "e",  "f",  "g",  "h",  "i",  "j",  "k",  "l",  "m",  "n",  "o",  // 6
-	"p",  "q",  "r",  "s",  "t",  "u",  "v",  "w",  "x",  "y",  "z",  "{",  "|",  "}",  "~",  NULL, // 7
-};
-
-const char * lookupReplacementText(const std::tr1::shared_ptr<cainteoir::buffer> & token, int value)
+const char * lookupReplacementText(const cainteoir::encoding & aEncoding, const std::tr1::shared_ptr<cainteoir::buffer> & token, int value)
 {
 	if (!token->compare("'"))
-	{
-		if (value < 128) return codepage_ascii[value];
-		return NULL; // FIXME: Return the correct character code for the codepage (\ansi, \mac, \pc, \pca)
-	}
+		return aEncoding.lookup((char)value);
 	else for (const replacement * first = replacements, * last = replacements + countof(replacements); first != last; ++first)
 	{
 		if (!token->compare(first->token))
@@ -262,7 +248,7 @@ void skipRtfBlock(rtf_reader &rtf)
 	}
 }
 
-void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::document_events &events, cainteoir::rope &aText, bool mainRtfBlock)
+void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::document_events &events, cainteoir::rope &aText, cainteoir::encoding &codepage, bool mainRtfBlock)
 {
 	if (!rtf.read()) return;
 
@@ -299,13 +285,13 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 	do switch (rtf.token())
 	{
 	case rtf_reader::begin_block:
-		parseRtfBlock(rtf, aSubject, events, aText, false);
+		parseRtfBlock(rtf, aSubject, events, aText, codepage, false);
 		break;
 	case rtf_reader::end_block:
 		return;
 	case rtf_reader::instruction:
 		{
-			const char * text = lookupReplacementText(rtf.data(), rtf.parameter());
+			const char * text = lookupReplacementText(codepage, rtf.data(), rtf.parameter());
 			if (text)
 				aText.add(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text)));
 			else if (!rtf.data()->compare("par") && !aText.empty())
@@ -327,10 +313,11 @@ void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, 
 {
 	rtf_reader rtf(aData);
 	cainteoir::rope text;
+	cainteoir::encoding codepage;
 
 	if (rtf.read() && rtf.token() == rtf_reader::begin_block)
 	{
-		parseRtfBlock(rtf, aSubject, events, text, true);
+		parseRtfBlock(rtf, aSubject, events, text, codepage, true);
 		if (!text.empty())
 			events.text(text.buffer());
 	}
