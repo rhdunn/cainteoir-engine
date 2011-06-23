@@ -1,1 +1,2 @@
 text(49): """RTF can escape characters with the "'" character."""
+text(18): """This … and that."""

@@ -299,6 +299,8 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 				events.text(aText.buffer());
 				aText.clear();
 			}
+			else if (!rtf.data()->compare("ansi"))
+				codepage.set_encoding(1252);
 		}
 		break;
 	case rtf_reader::text:
@@ -313,7 +315,7 @@ void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, 
 {
 	rtf_reader rtf(aData);
 	cainteoir::rope text;
-	cainteoir::encoding codepage;
+	cainteoir::encoding codepage(1252);
 
 	if (rtf.read() && rtf.token() == rtf_reader::begin_block)
 	{

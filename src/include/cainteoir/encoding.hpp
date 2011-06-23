@@ -35,11 +35,13 @@ namespace cainteoir
 	class encoding
 	{
 	public:
-		encoding(int aCodepage = 0);
+		encoding(int aCodepage);
+
+		void set_encoding(int aCodepage);
 
 		const char * lookup(uint8_t c) const { return mDecoder->lookup(c); }
 	private:
-		std::shared_ptr<decoder> mDecoder;
+		std::tr1::shared_ptr<decoder> mDecoder;
 	};
 }
 
