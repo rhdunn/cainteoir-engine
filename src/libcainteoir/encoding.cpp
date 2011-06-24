@@ -20,7 +20,7 @@
 
 #include <cainteoir/encoding.hpp>
 
-static const char * encoding_ascii[128] = {
+static const char * encoding_ascii_lower[128] = {
 //	0     1     2     3     4     5     6     7     8     9     A     B     C     D     E     F
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "\t", "\n", NULL, "\r", NULL, NULL, NULL, // 0
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, // 1
@@ -32,7 +32,7 @@ static const char * encoding_ascii[128] = {
 	"p",  "q",  "r",  "s",  "t",  "u",  "v",  "w",  "x",  "y",  "z",  "{",  "|",  "}",  "~",  NULL, // 7
 };
 
-static const char * encoding_unknown[128] = {
+static const char * encoding_ascii[128] = {
 //	0     1     2     3     4     5     6     7     8     9     A     B     C     D     E     F
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, // 8
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, // 9
@@ -44,7 +44,7 @@ static const char * encoding_unknown[128] = {
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, // F
 };
 
-static const char * encoding_iso8859_1[128] = {
+static const char * encoding_iso_8859_1[128] = {
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, // 8
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, // 9
 	// Ax
@@ -94,10 +94,46 @@ static const char * encoding_cp1252[128] = { // http://www.unicode.org/Public/MA
 	"\xc3\xb8",     "\xc3\xb9",     "\xc3\xba",     "\xc3\xbb",     "\xc3\xbc",     "\xc3\xbd",     "\xc3\xbe",     "\xc3\xbf",
 };
 
+static const char ** encoding_unknown = encoding_ascii;
+
+struct encoding
+{
+	const char * name;
+	const char ** table;
+};
+
+static const encoding encodings[] = { // http://www.iana.org/assignments/character-sets
+	{ "ansi_x3.4-1968",   encoding_ascii },
+	{ "ansi_x3.4-1986",   encoding_ascii },
+	{ "ascii",            encoding_ascii },
+	{ "cp367",            encoding_ascii },
+	{ "cp819",            encoding_iso_8859_1 },
+	{ "csascii",          encoding_ascii },
+	{ "csisolatin1",      encoding_iso_8859_1 },
+	{ "ibm367",           encoding_ascii },
+	{ "ibm819",           encoding_iso_8859_1 },
+	{ "iso646-us",        encoding_ascii },
+	{ "iso-8859-1",       encoding_iso_8859_1 },
+	{ "iso-ir-100",       encoding_iso_8859_1 },
+	{ "iso-ir-6",         encoding_ascii },
+	{ "iso_646.irv:1991", encoding_ascii },
+	{ "iso_8859-1",       encoding_iso_8859_1 },
+	{ "iso_8859-1:1987",  encoding_iso_8859_1 },
+	{ "l1",               encoding_iso_8859_1 },
+	{ "latin1",           encoding_iso_8859_1 },
+	{ "windows-1252",     encoding_cp1252 },
+	{ "us",               encoding_ascii },
+	{ "us-ascii",         encoding_ascii },
+};
+
+#define countof(a) (sizeof(a)/sizeof(a[0]))
+
 const char ** get_encoding_table(int aCodepage)
 {
 	switch (aCodepage)
 	{
+	case   367: return encoding_ascii;
+	case   819: return encoding_iso_8859_1;
 	case  1252: return encoding_cp1252;
 	default:    return encoding_unknown;
 	}
@@ -112,7 +148,7 @@ struct single_byte_decoder : public cainteoir::decoder
 
 	const char * lookup(uint8_t c) const
 	{
-		if (c < 0x80) return encoding_ascii[c];
+		if (c < 0x80) return encoding_ascii_lower[c];
 		return mLookupTable[c - 128];
 	}
 
@@ -124,7 +160,25 @@ cainteoir::encoding::encoding(int aCodepage)
 	set_encoding(aCodepage);
 }
 
+cainteoir::encoding::encoding(buffer aName)
+{
+	set_encoding(aName);
+}
+
 void cainteoir::encoding::set_encoding(int aCodepage)
 {
 	mDecoder = std::tr1::shared_ptr<cainteoir::decoder>(new single_byte_decoder(get_encoding_table(aCodepage)));
+}
+
+void cainteoir::encoding::set_encoding(buffer aName)
+{
+	for (const ::encoding * first = encodings, * last = encodings + countof(encodings); first != last; ++first)
+	{
+		if (aName.comparei(first->name))
+		{
+			mDecoder = std::tr1::shared_ptr<cainteoir::decoder>(new single_byte_decoder(first->table));
+			return;
+		}
+	}
+	mDecoder = std::tr1::shared_ptr<cainteoir::decoder>(new single_byte_decoder(encoding_unknown));
 }

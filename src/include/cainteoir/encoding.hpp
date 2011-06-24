@@ -37,7 +37,11 @@ namespace cainteoir
 	public:
 		encoding(int aCodepage);
 
+		encoding(buffer aName);
+
 		void set_encoding(int aCodepage);
+
+		void set_encoding(buffer aName);
 
 		const char * lookup(uint8_t c) const { return mDecoder->lookup(c); }
 	private:
