@@ -1,13 +1,12 @@
-&name     iso_8859_1
-&source   http://tools.ietf.org/html/rfc1345
-&charset  ISO_8859-1:1987
-&alias    iso-ir-100
-&alias    ISO_8859-1
-&alias    ISO-8859-1
-&alias    latin1
-&alias    l1
-&alias    IBM819
-&alias    CP819
+&name     iso_8859_14
+&source   http://www.iana.org/assignments/charset-reg/ISO-8859-14
+&charset  ISO-8859-14
+&alias    iso-ir-199
+&alias    ISO_8859-14:1998
+&alias    ISO_8859-14
+&alias    latin8
+&alias    iso-celtic
+&alias    l8
 &code     0
 
 NU SH SX EX ET EQ AK BL BS HT LF VT FF CR SO SI
@@ -20,9 +19,9 @@ P  Q  R  S  T  U  V  W  X  Y  Z  <( // )> '> _
 p  q  r  s  t  u  v  w  x  y  z  (! !! !) '? DT
 PA HO BH NH IN NL SA ES HS HJ VS PD PU RI S2 S3
 DC P1 P2 TS CC MW SG EG SS GC SC CI ST OC PM AC
-NS !I Ct Pd Cu Ye BB SE ': Co -a << NO -- Rg '-
-DG +- 2S 3S '' My PI .M ', 1S -o >> 14 12 34 ?I
+NS B. b. Pd C. c. D. SE W! Co W' d. Y! -- Rg s.
+F. f. G. g. M. m. PI P. w! p. w' S. y! W: w: Y:
 A! A' A> A? A: AA AE C, E! E' E> E: I! I' I> I:
-D- N? O! O' O> O? O: *X O/ U! U' U> U: Y' TH ss
+W> N? O! O' O> O? O: T. O/ U! U' U> U: Y' Y> ss
 a! a' a> a? a: aa ae c, e! e' e> e: i! i' i> i:
-d- n? o! o' o> o? o: -: o/ u! u' u> u: y' th y:
+w> n? o! o' o> o? o: t. o/ u! u' u> u: y' y> y:
