@@ -13,6 +13,8 @@
 
 data/magic.mgc
 
+src/libcainteoir/encoding/encodings.h
+
 src/libcainteoir/libcainteoir.a
 src/libcainteoir/libcainteoir.la
 

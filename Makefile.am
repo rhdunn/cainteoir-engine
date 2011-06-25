@@ -97,6 +97,16 @@ data/magic.mgc: data/magic
 
 ############################# libcainteoir ####################################
 
+EXTRA_DIST += \
+	src/libcainteoir/encoding/encodings.py \
+	src/libcainteoir/encoding/mnemonics.lst \
+	src/libcainteoir/encoding/*.txt
+
+src/libcainteoir/encoding/encodings.h: src/libcainteoir/encoding/encodings.py src/libcainteoir/encoding/mnemonics.lst src/libcainteoir/encoding/*.txt
+	src/libcainteoir/encoding/encodings.py src/libcainteoir/encoding > $@
+
+src/libcainteoir/encoding.cpp: src/libcainteoir/encoding/encodings.h
+
 libcainteoir_includedir = $(includedir)/cainteoir
 libcainteoir_include_HEADERS = \
 	src/include/cainteoir/platform.hpp \
@@ -130,6 +140,7 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/platform.cpp \
 	src/libcainteoir/languages.cpp \
+	src/libcainteoir/encoding/encodings.h \
 	src/libcainteoir/encoding.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
