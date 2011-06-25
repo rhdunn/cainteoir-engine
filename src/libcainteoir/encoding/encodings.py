@@ -31,7 +31,7 @@ def u(x):
 	return repr(c).replace('\'', '')
 
 def read_mnemonics(filename):
-	mnemonics = {}
+	mnemonics = {'??': None}
 	with open(filename) as f:
 		for line in f:
 			data = line.split()
@@ -102,7 +102,7 @@ struct codepage_t
 	const char ** table;
 };"""
 
-for name, data in encodings.items():
+for name, data in sorted(encodings.items()):
 	print
 	print 'static const char * encoding_%s[256] = { // %s : %s' % (name, data['charset'], data['source'])
 	for c in data['data']:
@@ -110,6 +110,8 @@ for name, data in encodings.items():
 			print '\t"%s",' % u(c)
 		else:
 			print '\tNULL,'
+	for i in range(0, 256 - len(data['data'])):
+		print '\tNULL,'
 	print '};'
 
 print
