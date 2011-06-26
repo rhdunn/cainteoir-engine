@@ -82,6 +82,7 @@ if __name__ == '__main__':
 	]})
 	test.run({'name': 'RTF', 'groups': [
 		{'name': 'metadata', 'type': 'turtle', 'tests': [
+			{'test': 'rtf/info/title.rtf', 'result': 'rtf/info/title.n3'},
 			{'test': 'rtf/info/author.rtf', 'result': 'rtf/info/author.n3'},
 			{'test': 'rtf/info/operator.rtf', 'result': 'rtf/info/operator.n3'},
 		]},
