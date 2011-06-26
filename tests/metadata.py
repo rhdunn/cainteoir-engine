@@ -80,6 +80,11 @@ if __name__ == '__main__':
 			{'test': 'smil/metadata/xmllang.smil', 'result': 'smil/metadata/xmllang.n3'},
 		]},
 	]})
+	test.run({'name': 'RTF', 'groups': [
+		{'name': 'metadata', 'type': 'turtle', 'tests': [
+			{'test': 'rtf/info/author.rtf', 'result': 'rtf/info/author.n3'},
+		]},
+	]})
 	test.run({'name': 'OPF', 'replace': ['mimetype'], 'mimetype': 'application/xml', 'groups': [
 		{'name': 'metadata', 'type': 'turtle', 'tests': [
 			{'test': 'opf/metadata/dublincore-contributor.opf', 'result': 'opf/metadata/dublincore-contributor.n3'},

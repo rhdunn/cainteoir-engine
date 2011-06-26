@@ -239,16 +239,30 @@ void skipRtfBlock(rtf_reader &rtf)
 	}
 }
 
-void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::document_events &events, cainteoir::rope &aText, cainteoir::encoding &codepage, bool mainRtfBlock)
+enum BlockState
+{
+	RtfBlock,
+	InfoBlock,
+	OtherBlock,
+};
+
+void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::document_events &events, cainteoir::rope &aText, cainteoir::encoding &codepage, BlockState blockState)
 {
 	if (!rtf.read()) return;
 
+	std::string context;
+
 	if (rtf.token() == rtf_reader::instruction)
 	{
-		if (mainRtfBlock)
+		if (blockState == RtfBlock)
 		{
 			if (rtf.data()->comparei("rtf") || rtf.parameter() != 1)
 				throw std::runtime_error(_("unrecognised rtf data stream or version"));
+			blockState = OtherBlock;
+		}
+		else if (blockState == InfoBlock)
+		{
+			context = rtf.data()->str();
 		}
 		else
 		{
@@ -262,11 +276,14 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 			    !rtf.data()->comparei("xe") ||
 			    !rtf.data()->comparei("tc") ||
 			    !rtf.data()->comparei("object") ||
-			    !rtf.data()->comparei("info") || // FIXME: Process this block to extract metadata information.
 			    !rtf.data()->comparei("*"))
 			{
 				skipRtfBlock(rtf);
 				return;
+			}
+			else if (!rtf.data()->comparei("info"))
+			{
+				blockState = InfoBlock;
 			}
 		}
 
@@ -276,7 +293,7 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 	do switch (rtf.token())
 	{
 	case rtf_reader::begin_block:
-		parseRtfBlock(rtf, aSubject, events, aText, codepage, false);
+		parseRtfBlock(rtf, aSubject, events, aText, codepage, blockState);
 		break;
 	case rtf_reader::end_block:
 		return;
@@ -303,7 +320,18 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 		}
 		break;
 	case rtf_reader::text:
-		aText.add(rtf.data());
+		if (blockState == InfoBlock)
+		{
+			if (context == "author")
+			{
+				const rdf::bnode temp = events.genid();
+				events.metadata(rdf::statement(aSubject, rdf::dc("creator"), temp));
+				events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str())));
+				events.metadata(rdf::statement(temp, rdf::opf("role"), rdf::literal("aut")));
+			}
+		}
+		else
+			aText.add(rtf.data());
 		break;
 	} while (rtf.read());
 
@@ -318,7 +346,7 @@ void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, 
 
 	if (rtf.read() && rtf.token() == rtf_reader::begin_block)
 	{
-		parseRtfBlock(rtf, aSubject, events, text, codepage, true);
+		parseRtfBlock(rtf, aSubject, events, text, codepage, RtfBlock);
 		if (!text.empty())
 			events.text(text.buffer());
 	}
