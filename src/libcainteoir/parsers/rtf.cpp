@@ -21,6 +21,7 @@
 #include "parsers.hpp"
 #include <cainteoir/platform.hpp>
 #include <cainteoir/encoding.hpp>
+#include <sstream>
 
 namespace rdf = cainteoir::rdf;
 
@@ -340,6 +341,13 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 				events.metadata(rdf::statement(aSubject, rdf::dc("title"), rdf::literal(rtf.data()->str())));
 			else if (context == "subject")
 				events.metadata(rdf::statement(aSubject, rdf::dc("description"), rdf::literal(rtf.data()->str())));
+			else if (context == "keywords")
+			{
+				std::istringstream keywords(rtf.data()->str());
+				std::string keyword;
+				while (keywords >> keyword)
+					events.metadata(rdf::statement(aSubject, rdf::dc("subject"), rdf::literal(keyword)));
+			}
 		}
 		else
 			aText.add(rtf.data());
