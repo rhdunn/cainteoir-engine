@@ -216,19 +216,10 @@ bool rtf_reader::read()
 			mToken = text;
 			const char * text = mCurrent;
 
-			while (mCurrent <= end() && (*mCurrent == ' ' || *mCurrent == '\t'))
+			while (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}' && *mCurrent != '\r' && *mCurrent != '\n')
 				++mCurrent;
 
-			if (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}')
-			{
-				while (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}' && *mCurrent != '\r' && *mCurrent != '\n')
-					++mCurrent;
-
-				mData = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text, mCurrent));
-			}
-			else
-				return read();
-
+			mData = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text, mCurrent));
 		}
 		break;
 	}
