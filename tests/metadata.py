@@ -85,6 +85,7 @@ if __name__ == '__main__':
 			{'test': 'rtf/info/author.rtf', 'result': 'rtf/info/author.n3'},
 			{'test': 'rtf/info/comment.rtf', 'result': 'rtf/info/comment.n3'},
 			{'test': 'rtf/info/operator.rtf', 'result': 'rtf/info/operator.n3'},
+			{'test': 'rtf/info/subject.rtf', 'result': 'rtf/info/subject.n3'},
 			{'test': 'rtf/info/title.rtf', 'result': 'rtf/info/title.n3'},
 		]},
 	]})

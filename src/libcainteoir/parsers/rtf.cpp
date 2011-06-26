@@ -338,6 +338,8 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 			}
 			else if (context == "title")
 				events.metadata(rdf::statement(aSubject, rdf::dc("title"), rdf::literal(rtf.data()->str())));
+			else if (context == "subject")
+				events.metadata(rdf::statement(aSubject, rdf::dc("description"), rdf::literal(rtf.data()->str())));
 		}
 		else
 			aText.add(rtf.data());
