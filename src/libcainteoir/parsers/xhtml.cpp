@@ -24,6 +24,42 @@
 namespace xml = cainteoir::xml;
 namespace rdf = cainteoir::rdf;
 
+struct context_node
+{
+	const char * name;
+	cainteoir::document_events::context context;
+	uint32_t parameter;
+};
+
+static const context_node context_nodes[] =
+{
+	{ "b",      cainteoir::document_events::span,      cainteoir::document_events::strong },
+	{ "div",    cainteoir::document_events::paragraph, 0 },
+	{ "em",     cainteoir::document_events::span,      cainteoir::document_events::emphasized },
+	{ "h1",     cainteoir::document_events::heading,   1 },
+	{ "h2",     cainteoir::document_events::heading,   2 },
+	{ "h3",     cainteoir::document_events::heading,   3 },
+	{ "h4",     cainteoir::document_events::heading,   4 },
+	{ "h5",     cainteoir::document_events::heading,   5 },
+	{ "h6",     cainteoir::document_events::heading,   6 },
+	{ "i",      cainteoir::document_events::span,      cainteoir::document_events::emphasized },
+	{ "p",      cainteoir::document_events::paragraph, 0 },
+	{ "pre",    cainteoir::document_events::paragraph, cainteoir::document_events::monospace },
+	{ "strong", cainteoir::document_events::span,      cainteoir::document_events::strong },
+};
+
+#define countof(a) (sizeof(a)/sizeof(a[0]))
+
+const context_node * lookup_context(const cainteoir::buffer & node)
+{
+	for (auto item = context_nodes, last = context_nodes + countof(context_nodes); item != last; ++item)
+	{
+		if (!node.comparei(item->name))
+			return item;
+	}
+	return NULL;
+}
+
 void skipNode(xml::reader & reader, const cainteoir::buffer name)
 {
 	while (reader.read()) switch (reader.nodeType())
@@ -84,29 +120,12 @@ void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 		if (!reader.nodeName().comparei("script") ||
 		    !reader.nodeName().comparei("style"))
 			skipNode(reader, reader.nodeName());
-		else if (!reader.nodeName().comparei("p") ||
-		         !reader.nodeName().comparei("div"))
-			events.begin_context(cainteoir::document_events::paragraph);
-		else if (!reader.nodeName().comparei("pre"))
-			events.begin_context(cainteoir::document_events::paragraph, cainteoir::document_events::monospace);
-		else if (!reader.nodeName().comparei("em") ||
-		         !reader.nodeName().comparei("i"))
-			events.begin_context(cainteoir::document_events::span, cainteoir::document_events::emphasized);
-		else if (!reader.nodeName().comparei("strong") ||
-		         !reader.nodeName().comparei("b"))
-			events.begin_context(cainteoir::document_events::span, cainteoir::document_events::strong);
-		else if (!reader.nodeName().comparei("h1"))
-			events.begin_context(cainteoir::document_events::heading, 1);
-		else if (!reader.nodeName().comparei("h2"))
-			events.begin_context(cainteoir::document_events::heading, 2);
-		else if (!reader.nodeName().comparei("h3"))
-			events.begin_context(cainteoir::document_events::heading, 3);
-		else if (!reader.nodeName().comparei("h4"))
-			events.begin_context(cainteoir::document_events::heading, 4);
-		else if (!reader.nodeName().comparei("h5"))
-			events.begin_context(cainteoir::document_events::heading, 5);
-		else if (!reader.nodeName().comparei("h6"))
-			events.begin_context(cainteoir::document_events::heading, 6);
+		else
+		{
+			const context_node * node = lookup_context(reader.nodeName());
+			if (node)
+				events.begin_context(node->context, node->parameter);
+		}
 		break;
 	case xml::reader::textNode:
 		{
@@ -124,19 +143,7 @@ void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 	case xml::reader::endTagNode:
 		if (!reader.nodeName().compare(name))
 			return;
-		if (!reader.nodeName().comparei("p") ||
-		    !reader.nodeName().comparei("div") ||
-		    !reader.nodeName().comparei("pre") ||
-		    !reader.nodeName().comparei("em") ||
-		    !reader.nodeName().comparei("strong") ||
-		    !reader.nodeName().comparei("i") ||
-		    !reader.nodeName().comparei("b") ||
-		    !reader.nodeName().comparei("h1") ||
-		    !reader.nodeName().comparei("h2") ||
-		    !reader.nodeName().comparei("h3") ||
-		    !reader.nodeName().comparei("h4") ||
-		    !reader.nodeName().comparei("h5") ||
-		    !reader.nodeName().comparei("h6"))
+		if (lookup_context(reader.nodeName()))
 			events.end_context();
 		break;
 	}
