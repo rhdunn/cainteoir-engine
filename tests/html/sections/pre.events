@@ -1,0 +1,3 @@
+begin-context paragraph +monospace
+text(18): """Lorem ipsum dolor."""
+end-context

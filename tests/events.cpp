@@ -46,6 +46,34 @@ struct events : public cainteoir::document_events
 		fwrite(aText->begin(), 1, aText->size(), stdout);
 		fwrite("\"\"\"\n", 1, 4, stdout);
 	}
+
+	void begin_context(context aContext, uint32_t aParameter)
+	{
+		fprintf(stdout, "begin-context ");
+		switch (aContext)
+		{
+		case paragraph: fprintf(stdout, "paragraph"); break;
+		case heading:   fprintf(stdout, "heading %d", aParameter); break;
+		case span:      fprintf(stdout, "span"); break;
+		case list:      fprintf(stdout, "list"); break;
+		case list_item: fprintf(stdout, "list-item"); break;
+		}
+		if (aContext != heading)
+		{
+			if (aParameter & superscript) fprintf(stdout, " +superscript");
+			if (aParameter & subscript)   fprintf(stdout, " +subscript");
+			if (aParameter & emphasized)  fprintf(stdout, " +emphasized");
+			if (aParameter & strong)      fprintf(stdout, " +strong");
+			if (aParameter & underline)   fprintf(stdout, " +underline");
+			if (aParameter & monospace)   fprintf(stdout, " +monospace");
+		}
+		fprintf(stdout, "\n");
+	}
+
+	void end_context()
+	{
+		fprintf(stdout, "end-context\n");
+	}
 };
 
 int main(int argc, char ** argv)

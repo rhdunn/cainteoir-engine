@@ -1,6 +1,20 @@
 
 -------------------------------------------------------------------------------
-VERSION 0.2 -- Sunday April 29th 2011
+VERSION 0.3 -- Friday July 1st 2011 [Jun 2011]
+
+file formats:
+  *  support for single-file HTML pages (MHTML, MHT);
+  *  support for RTF documents;
+  *  enhanced HTML support.
+
+bug fixes:
+  *  don't segfault if the OPF document is missing from an epub file.
+
+cainteoir:
+  *  improved total reading time estimating heuristics.
+
+-------------------------------------------------------------------------------
+VERSION 0.2 -- Sunday May 29th 2011 [May 2011]
 
 file formats:
   *  support email (RFC822) mbox format;
@@ -18,7 +32,7 @@ cainteoir:
   *  don't crash when using the default voice (no dc:language metadata).
 
 -------------------------------------------------------------------------------
-VERSION 0.1 -- Wednesday April 27th 2011
+VERSION 0.1 -- Wednesday April 27th 2011 [Apr 2011]
 
 cainteoir:
   *  command-line text-to-speech program;

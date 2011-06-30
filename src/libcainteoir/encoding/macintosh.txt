@@ -1,0 +1,22 @@
+&name     macintosh
+&source   http://tools.ietf.org/html/rfc1345
+&charset  macintosh
+&alias    mac
+&code     0
+
+NU SH SX EX ET EQ AK BL BS HT LF VT FF CR SO SI
+DL D1 D2 D3 D4 NK SY EB CN EM SB EC FS GS RS US
+SP !  "  Nb DO %  &  '  (  )  *  +  ,  -  .  /
+0  1  2  3  4  5  6  7  8  9  :  ;  <  =  >  ?
+At A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+P  Q  R  S  T  U  V  W  X  Y  Z  <( // )> '> _
+'! a  b  c  d  e  f  g  h  i  j  k  l  m  n  o
+p  q  r  s  t  u  v  w  x  y  z  (! !! !) '? DT
+A: AA C, E' N? O: U: a' a! a> a: a? aa c, e' e!
+e> e: i' i! i> i: n? o' o! o> o: o? u' u! u> u:
+/- DG Ct Pd SE Sb PI ss Rg Co TM '' ': != AE O/
+00 +- =< >= Ye My dP +Z *P p* In -a -o W* ae o/
+?I !I NO RT Fl ?2 D* << >> .3 NS A! A? O? OE oe
+-M -N "6 "9 '6 '9 -: Db y: Y: /f Cu <1 >1 fi fl
+/= .M .9 :9 %0 A> E> A' E: E! I' I> I: I! O' O>
+?? O! U' U> U! i. ?? ?? '- '( '. '0 ', '" '; '<

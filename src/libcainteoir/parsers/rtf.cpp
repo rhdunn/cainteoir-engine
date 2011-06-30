@@ -20,91 +20,361 @@
 
 #include "parsers.hpp"
 #include <cainteoir/platform.hpp>
+#include <cainteoir/encoding.hpp>
+#include <sstream>
 
 namespace rdf = cainteoir::rdf;
 
-inline bool is_control_char(char c)
+struct replacement
 {
-	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '-';
+	const char * token;
+	const char * text;
+};
+
+inline int hex_to_int(char c)
+{
+	if (c >= '0' && c <= '9') return c - '0';
+	if (c >= 'A' && c <= 'Z') return (c - 'A') + 10;
+	if (c >= 'a' && c <= 'z') return (c - 'a') + 10;
+	return -1;
 }
 
-const char * skipRtfBlock(const char * begin, const char * end)
+static const replacement replacements[] = {
+	{ "\\",         "\\" },
+	{ "{",          "{" },
+	{ "}",          "}" },
+	{ "\r",         "\r" },
+	{ "\n",         "\n" },
+	{ "-",          NULL }, // optional hyphen
+	{ "_",          "-" },  // non-breaking hyphen
+	{ "~",          "\xC0\xA0" }, // NON-BREAKING SPACE
+	{ "bullet",     "\xE2\x80\xA2" },
+	{ "emdash",     "\xE2\x80\x94" },
+	{ "endash",     "\xE2\x80\x93" },
+	{ "ldblquote",  "\xE2\x80\x9C" },
+	{ "lquote",     "\xE2\x80\x98" },
+	{ "rdblquote",  "\xE2\x80\x9D" },
+	{ "rquote",     "\xE2\x80\x99" },
+	{ "tab",        "\x09" },
+};
+
+#define countof(a) (sizeof(a)/sizeof(a[0]))
+
+const char * lookupReplacementText(const cainteoir::encoding & aEncoding, const std::tr1::shared_ptr<cainteoir::buffer> & token, int value)
 {
-	while (begin <= end && *begin != '}')
-		++begin;
-	return ++begin;
-}
-
-const char * parseRtfBlock(const char * begin, const char * end, const rdf::uri &aSubject, cainteoir::document_events &events)
-{
-	if (*begin != '{')
-		throw std::runtime_error(_("unrecognised rich text document format"));
-
-	bool initial_control = true;
-	cainteoir::rope data;
-
-	++begin;
-	while (begin <= end && *begin != '}')
+	if (!token->compare("'"))
+		return aEncoding.lookup((char)value);
+	else for (const replacement * first = replacements, * last = replacements + countof(replacements); first != last; ++first)
 	{
-		if (*begin == '{')
+		if (!token->compare(first->token))
 		{
-			if (!data.empty())
-			{
-				events.text(data.buffer());
-				data.clear();
-			}
-			begin = parseRtfBlock(begin, end, aSubject, events);
+			return first->text;
 		}
-		else if (*begin == '\\')
+	}
+	return NULL;
+}
+
+struct rtf_reader : public cainteoir::buffer
+{
+	enum token_type
+	{
+		begin_block,
+		end_block,
+		instruction,
+		text,
+	};
+
+	rtf_reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
+		: cainteoir::buffer(aData->begin(), aData->end())
+		, mCurrent(aData->begin())
+		, mData(new cainteoir::buffer(NULL, NULL))
+	{
+	}
+
+	bool read();
+
+	token_type token() const { return mToken; }
+
+	const std::tr1::shared_ptr<cainteoir::buffer> & data() const { return mData; }
+
+	int parameter() const { return mParameter; }
+private:
+	const char * mCurrent;
+	token_type mToken;
+	std::tr1::shared_ptr<cainteoir::buffer> mData;
+	int mParameter;
+};
+
+void printToken(rtf_reader &rtf)
+{
+	switch (rtf.token())
+	{
+	case rtf_reader::begin_block:
+		printf("begin-block\n");
+		break;
+	case rtf_reader::end_block:
+		printf("end-block\n");
+		break;
+	case rtf_reader::instruction:
+		printf("instruction: %s (parameter: %d)\n", rtf.data()->str().c_str(), rtf.parameter());
+		break;
+	case rtf_reader::text:
+		printf("text: %s\n", rtf.data()->str().c_str());
+		break;
+	}
+}
+
+bool rtf_reader::read()
+{
+	if (mCurrent >= end())
+		return false;
+
+	switch (*mCurrent)
+	{
+	case '{':
+		mToken = begin_block;
+		++mCurrent;
+		break;
+	case '}':
+		mToken = end_block;
+		++mCurrent;
+		break;
+	case '\\':
 		{
-			++begin;
+			mToken = instruction;
+			++mCurrent;
 
-			const char * control = begin;
-			while (begin <= end && is_control_char(*begin))
-				++begin;
+			if (mCurrent >= end()) return false;
 
-			if (!strncmp(control, "par", 3) && !data.empty())
+			if ((*mCurrent >= 'a' && *mCurrent <= 'z') || (*mCurrent >= 'A' && *mCurrent <= 'Z')) // control word
 			{
-				events.text(data.buffer());
-				data.clear();
+				const char * control = mCurrent;
+				while (mCurrent <= end() && ((*mCurrent >= 'a' && *mCurrent <= 'z') || (*mCurrent >= 'A' && *mCurrent <= 'Z')))
+					++mCurrent;
+
+				mData = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(control, mCurrent));
+
+				if (mCurrent <= end() && ((*mCurrent >= '0' && *mCurrent <= '9') || *mCurrent == '-'))
+				{
+					bool isNegative = false;
+					if (*mCurrent == '-')
+					{
+						isNegative = true;
+						++mCurrent;
+					}
+
+					mParameter = 0;
+					while (mCurrent <= end() && (*mCurrent >= '0' && *mCurrent <= '9'))
+					{
+						mParameter *= 10;
+						mParameter += (*mCurrent - '0');
+						++mCurrent;
+					}
+
+					if (isNegative)
+						mParameter = -mParameter;
+				}
+				else
+					mParameter = 1; // toggle property, e.g. \b
+
+				if (*mCurrent == ' ' || *mCurrent == '\t' || *mCurrent == '\n')
+					++mCurrent;
+				else if (mCurrent[0] == '\r' && mCurrent[1] == '\n')
+					mCurrent += 2;
 			}
+			else // control symbol
+			{
+				mData = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mCurrent, mCurrent+1));
+				if (*mCurrent == '\'') // \'hh token
+				{
+					++mCurrent;
+					if ((mCurrent + 2) <= end())
+					{
+						int a = hex_to_int(mCurrent[0]);
+						int b = hex_to_int(mCurrent[1]);
+						if (a > 0 && b > 0)
+						{
+							mParameter = (a << 4) + b;
+							mCurrent += 2;
+							return true;
+						}
+					}
 
-			if (initial_control && !(!strncmp(control, "rtf1", 4)))
-				return skipRtfBlock(begin, end);
+					return read(); // skip invalid \'hh token
+				}
+				else
+					++mCurrent;
+			}
+		}
+		break;
+	case '\r':
+	case '\n':
+		while (mCurrent <= end() && (*mCurrent == '\r' || *mCurrent == '\n'))
+			++mCurrent;
+		return read();
+	default:
+		{
+			mToken = text;
+			const char * text = mCurrent;
 
-			initial_control = false;
+			while (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}' && *mCurrent != '\r' && *mCurrent != '\n')
+				++mCurrent;
+
+			mData = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text, mCurrent));
+		}
+		break;
+	}
+
+	return true;
+}
+
+void skipRtfBlock(rtf_reader &rtf)
+{
+	while (rtf.read()) switch (rtf.token())
+	{
+	case rtf_reader::begin_block:
+		skipRtfBlock(rtf);
+		break;
+	case rtf_reader::end_block:
+		return;
+	}
+}
+
+enum BlockState
+{
+	RtfBlock,
+	InfoBlock,
+	OtherBlock,
+};
+
+void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::document_events &events, cainteoir::rope &aText, cainteoir::encoding &codepage, BlockState blockState)
+{
+	if (!rtf.read()) return;
+
+	std::string context;
+
+	if (rtf.token() == rtf_reader::instruction)
+	{
+		if (blockState == RtfBlock)
+		{
+			if (rtf.data()->comparei("rtf") || rtf.parameter() != 1)
+				throw std::runtime_error(_("unrecognised rtf data stream or version"));
+			blockState = OtherBlock;
+		}
+		else if (blockState == InfoBlock)
+		{
+			context = rtf.data()->str();
 		}
 		else
 		{
-			while (begin <= end && (*begin == ' ' || *begin == '\n' || *begin == '\r' || *begin == '\t'))
-				++begin;
-
-			const char * text = begin;
-			while (begin <= end && *begin != '{' && *begin != '\\' && *begin != '}')
-				++begin;
-
-			data.add(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text, begin)));
+			if (!rtf.data()->comparei("stylesheet") ||
+			    !rtf.data()->comparei("fonttbl") ||
+			    !rtf.data()->comparei("colortbl") ||
+			    !rtf.data()->comparei("pict") ||
+			    !rtf.data()->comparei("header") ||
+			    !rtf.data()->comparei("footer") ||
+			    !rtf.data()->comparei("field") ||
+			    !rtf.data()->comparei("xe") ||
+			    !rtf.data()->comparei("tc") ||
+			    !rtf.data()->comparei("object") ||
+			    !rtf.data()->comparei("*"))
+			{
+				skipRtfBlock(rtf);
+				return;
+			}
+			else if (!rtf.data()->comparei("info"))
+			{
+				blockState = InfoBlock;
+			}
 		}
+
+		if (!rtf.read()) return;
 	}
 
-	if (*begin != '}')
-		throw std::runtime_error(_("unrecognised rich text document format"));
-
-	if (!data.empty())
+	do switch (rtf.token())
 	{
-		events.text(data.buffer());
-		data.clear();
-	}
+	case rtf_reader::begin_block:
+		parseRtfBlock(rtf, aSubject, events, aText, codepage, blockState);
+		break;
+	case rtf_reader::end_block:
+		return;
+	case rtf_reader::instruction:
+		{
+			const char * text = lookupReplacementText(codepage, rtf.data(), rtf.parameter());
+			if (text)
+				aText.add(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text)));
+			else if (!rtf.data()->compare("par") && !aText.empty())
+			{
+				events.begin_context(cainteoir::document_events::paragraph);
+				events.text(aText.buffer());
+				aText.clear();
+				events.end_context();
+			}
+			else if (!rtf.data()->compare("ansi"))
+				codepage.set_encoding(1252);
+			else if (!rtf.data()->compare("ansicpg"))
+				codepage.set_encoding(rtf.parameter());
+			else if (!rtf.data()->compare("pc"))
+				codepage.set_encoding(437);
+			else if (!rtf.data()->compare("pca"))
+				codepage.set_encoding(850);
+			else if (!rtf.data()->compare("mac"))
+				codepage.set_encoding(10000);
+		}
+		break;
+	case rtf_reader::text:
+		if (blockState == InfoBlock)
+		{
+			if (context == "author")
+			{
+				const rdf::bnode temp = events.genid();
+				events.metadata(rdf::statement(aSubject, rdf::dc("creator"), temp));
+				events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str())));
+				events.metadata(rdf::statement(temp, rdf::opf("role"), rdf::literal("aut")));
+			}
+			else if (context == "operator")
+			{
+				const rdf::bnode temp = events.genid();
+				events.metadata(rdf::statement(aSubject, rdf::dc("contributor"), temp));
+				events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str())));
+				events.metadata(rdf::statement(temp, rdf::opf("role"), rdf::literal("edt")));
+			}
+			else if (context == "title")
+				events.metadata(rdf::statement(aSubject, rdf::dc("title"), rdf::literal(rtf.data()->str())));
+			else if (context == "subject")
+				events.metadata(rdf::statement(aSubject, rdf::dc("description"), rdf::literal(rtf.data()->str())));
+			else if (context == "keywords")
+			{
+				std::istringstream keywords(rtf.data()->str());
+				std::string keyword;
+				while (keywords >> keyword)
+					events.metadata(rdf::statement(aSubject, rdf::dc("subject"), rdf::literal(keyword)));
+			}
+		}
+		else
+			aText.add(rtf.data());
+		break;
+	} while (rtf.read());
 
-	return ++begin;
+	throw std::runtime_error(_("warning: unexpected end of rtf stream\n"));
 }
 
 void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events)
 {
-	const char * end = parseRtfBlock(aData->begin(), aData->end(), aSubject, events);
-	if ((end + 1) != aData->end())
+	rtf_reader rtf(aData);
+	cainteoir::rope text;
+	cainteoir::encoding codepage(1252);
+
+	if (rtf.read() && rtf.token() == rtf_reader::begin_block)
 	{
-		fprintf(stderr, "rtf: end=%p; data-end=%p\n", end, aData->end());
-		throw std::runtime_error(_("unexpected end of the rich text document"));
+		parseRtfBlock(rtf, aSubject, events, text, codepage, RtfBlock);
+		if (!text.empty())
+		{
+			events.begin_context(cainteoir::document_events::paragraph);
+			events.text(text.buffer());
+			events.end_context();
+		}
 	}
+	else
+		throw std::runtime_error(_("unrecognised rtf data stream"));
 }

@@ -63,6 +63,7 @@ if __name__ == '__main__':
 			{'test': 'html/metadata/lang.html', 'result': 'html/metadata/lang.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/lang.xhtml', 'result': 'html/metadata/lang.n3', 'mimetype': 'application/xml'},
 			{'test': 'html/metadata/xmllang.xhtml', 'result': 'html/metadata/xmllang.n3', 'mimetype': 'application/xml'},
+			{'test': 'html/metadata/lang-and-xmllang.xhtml', 'result': 'html/metadata/lang.n3', 'mimetype': 'application/xml'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
@@ -77,6 +78,16 @@ if __name__ == '__main__':
 		{'name': 'metadata', 'type': 'turtle', 'tests': [
 			{'test': 'smil/metadata/embedded-rdf.smil', 'result': 'smil/metadata/embedded-rdf.n3'},
 			{'test': 'smil/metadata/xmllang.smil', 'result': 'smil/metadata/xmllang.n3'},
+		]},
+	]})
+	test.run({'name': 'RTF', 'groups': [
+		{'name': 'metadata', 'type': 'turtle', 'tests': [
+			{'test': 'rtf/info/author.rtf', 'result': 'rtf/info/author.n3'},
+			{'test': 'rtf/info/comment.rtf', 'result': 'rtf/info/comment.n3'},
+			{'test': 'rtf/info/keywords.rtf', 'result': 'rtf/info/keywords.n3'},
+			{'test': 'rtf/info/operator.rtf', 'result': 'rtf/info/operator.n3'},
+			{'test': 'rtf/info/subject.rtf', 'result': 'rtf/info/subject.n3'},
+			{'test': 'rtf/info/title.rtf', 'result': 'rtf/info/title.n3'},
 		]},
 	]})
 	test.run({'name': 'OPF', 'replace': ['mimetype'], 'mimetype': 'application/xml', 'groups': [

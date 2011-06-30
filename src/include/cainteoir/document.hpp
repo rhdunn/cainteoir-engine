@@ -28,11 +28,67 @@ namespace cainteoir
 {
 	struct document_events
 	{
+		enum context
+		{
+			paragraph, /** @brief A paragraph of text (display). */
+			heading,   /** @brief The text forms a section heading (display). */
+			span,      /** @brief A span of text within a paragraph (display). */
+			list,      /** @brief A sequence of numbered or unnumbered items (display). */
+			list_item, /** @brief An item in a list (display). */
+		};
+
+		enum style
+		{
+			nostyle     = 0x00000000, /** @brief The text does not have any special styling. */
+			superscript = 0x00000001, /** @brief The text is aligned below the line (display). */
+			subscript   = 0x00000002, /** @brief The text is aligned above the line (display). */
+			emphasized  = 0x00000004, /** @brief The text is emphasized in the document (display=italic, prosody). */
+			strong      = 0x00000008, /** @brief The text should stand out (display=bold, prosody). */
+			underline   = 0x00000010, /** @brief The text is underlined (display). */
+			monospace   = 0x00000020, /** @brief The text is formatted using a monospace font (display). */
+		};
+
+		/** @brief A metadata item was encountered in the document.
+		  *
+		  * @param aStatement The RDF statement for the metadata item.
+		  */
 		virtual void metadata(const rdf::statement &aStatement) = 0;
 
+		/** @brief Generate a new RDF BNode id.
+		  *
+		  * @return The new BNode id.
+		  */
 		virtual const rdf::bnode genid() = 0;
 
-		virtual void text(std::tr1::shared_ptr<cainteoir::buffer> aText) = 0;
+		/** @brief A block of text in the document.
+		  *
+		  * @param aText The text at the current point in the document.
+		  */
+		virtual void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
+		{
+		}
+
+		/** @brief The start of a new context.
+		  *
+		  * @param aContext   The type of the context encountered.
+		  * @param aParameter A context-dependent parameter.
+		  *
+		  * A context defines a range of text in the document that is to be
+		  * interpreted in the way defined by the context. Contexts can nest
+		  * to form complex documents.
+		  *
+		  * If |aContext| is |heading| then |aParameter| is the heading depth,
+		  * otherwise it is a set of |style| flags that apply to this context.
+		  */
+		virtual void begin_context(context aContext, uint32_t aParameter=0)
+		{
+		}
+
+		/** @brief The end of the current context.
+		  */
+		virtual void end_context()
+		{
+		}
 
 		virtual ~document_events() {}
 	};
@@ -59,7 +115,7 @@ namespace cainteoir
 			mChildren.push_back(text);
 		}
 
-		const list_type children() const { return mChildren; }
+		const list_type & children() const { return mChildren; }
 	private:
 		size_t mLength;
 		list_type mChildren;

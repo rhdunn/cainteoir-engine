@@ -1,0 +1,8 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+
+<> dc:subject "test" .
+<> dc:subject "case" .
+<> dc:subject "rtf" .
+<> dc:subject "metadata" .
+<> tts:mimetype "text/rtf" .

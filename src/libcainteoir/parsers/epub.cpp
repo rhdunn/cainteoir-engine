@@ -32,11 +32,15 @@ void cainteoir::parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData,
 	xml::document ocf(epub.read("META-INF/container.xml"));
 	std::string opffile = cainteoir::parseOcfDocument(ocf.root())["application/oebps-package+xml"];
 	if (opffile.empty())
-		throw std::runtime_error(_("Unsupported ePub content: OPF file not found."));
+		throw std::runtime_error(_("Unsupported ePub content: OPF file not specified."));
 
 	cainteoir::opffiles files;
 
-	xml::document opf(epub.read(opffile.c_str()));
+	std::tr1::shared_ptr<cainteoir::buffer> data = epub.read(opffile.c_str());
+	if (!data)
+		throw std::runtime_error(_("Unsupported ePub content: OPF file not found."));
+
+	xml::document opf(data);
 	cainteoir::parseOpfDocument(opf.root(), aSubject, events, files);
 
 	foreach_iter(file, files.spine)

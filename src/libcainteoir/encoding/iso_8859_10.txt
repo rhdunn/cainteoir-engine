@@ -1,0 +1,27 @@
+&name     iso_8859_10
+&source   http://tools.ietf.org/html/rfc1345
+&charset  latin6
+&alias    ISO-8859-10
+&alias    iso-ir-157
+&alias    l6
+&alias    ISO_8859-10:1992
+&alias    csISOLatin6
+&alias    latin6
+&code     0
+
+NU SH SX EX ET EQ AK BL BS HT LF VT FF CR SO SI
+DL D1 D2 D3 D4 NK SY EB CN EM SB EC FS GS RS US
+SP !  "  Nb DO %  &  '  (  )  *  +  ,  -  .  /
+0  1  2  3  4  5  6  7  8  9  :  ;  <  =  >  ?
+At A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+P  Q  R  S  T  U  V  W  X  Y  Z  <( // )> '> _
+'! a  b  c  d  e  f  g  h  i  j  k  l  m  n  o
+p  q  r  s  t  u  v  w  x  y  z  (! !! !) '? DT
+PA HO BH NH IN NL SA ES HS HJ VS PD PU RI S2 S3
+DC P1 P2 TS CC MW SG EG SS GC SC CI ST OC PM AC
+NS A; E- G, I- I? K, L, N' R, S< T/ Z< -- kk NG
+d/ a; e- g, i- i? k, l, n' r, s< t/ z< SE ss ng
+A- A' A> A? A: AA AE I; C< E' E; E: E. I' I> I:
+D/ N, O- O' O> O? O: U? O/ U; U' U> U: Y' TH U-
+a- a' a> a? a: aa ae i; c< e' e; e: e. i' i> i:
+d- n, o- o' o> o? o: u? o/ u; u' u> u: y' th u-

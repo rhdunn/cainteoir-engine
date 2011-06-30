@@ -1,0 +1,6 @@
+begin-context paragraph
+text(49): """RTF can escape characters with the "'" character."""
+end-context
+begin-context paragraph
+text(18): """This … and that."""
+end-context
