@@ -1,0 +1,7 @@
+begin-context paragraph
+text(6): """Lorem """
+begin-context span +strong
+text(5): """ipsum"""
+end-context
+text(7): """ dolor."""
+end-context
