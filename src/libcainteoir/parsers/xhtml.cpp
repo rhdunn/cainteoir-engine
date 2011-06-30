@@ -34,6 +34,8 @@ struct context_node
 static const context_node context_nodes[] =
 {
 	{ "b",      cainteoir::document_events::span,      cainteoir::document_events::strong },
+	{ "cite",   cainteoir::document_events::span,      cainteoir::document_events::emphasized },
+	{ "code",   cainteoir::document_events::span,      cainteoir::document_events::monospace },
 	{ "div",    cainteoir::document_events::paragraph, 0 },
 	{ "em",     cainteoir::document_events::span,      cainteoir::document_events::emphasized },
 	{ "h1",     cainteoir::document_events::heading,   1 },
@@ -46,6 +48,8 @@ static const context_node context_nodes[] =
 	{ "p",      cainteoir::document_events::paragraph, 0 },
 	{ "pre",    cainteoir::document_events::paragraph, cainteoir::document_events::monospace },
 	{ "strong", cainteoir::document_events::span,      cainteoir::document_events::strong },
+	{ "sub",    cainteoir::document_events::span,      cainteoir::document_events::subscript },
+	{ "sup",    cainteoir::document_events::span,      cainteoir::document_events::superscript },
 };
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))

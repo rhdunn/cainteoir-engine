@@ -58,10 +58,18 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/em.xhtml', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/strong.html', 'result': 'html/text-level-semantics/strong.events'},
 			{'test': 'html/text-level-semantics/strong.xhtml', 'result': 'html/text-level-semantics/strong.events'},
+			{'test': 'html/text-level-semantics/cite.html', 'result': 'html/text-level-semantics/cite.events'},
+			{'test': 'html/text-level-semantics/cite.xhtml', 'result': 'html/text-level-semantics/cite.events'},
 			{'test': 'html/text-level-semantics/i.html', 'result': 'html/text-level-semantics/i.events'},
 			{'test': 'html/text-level-semantics/i.xhtml', 'result': 'html/text-level-semantics/i.events'},
 			{'test': 'html/text-level-semantics/b.html', 'result': 'html/text-level-semantics/b.events'},
 			{'test': 'html/text-level-semantics/b.xhtml', 'result': 'html/text-level-semantics/b.events'},
+			{'test': 'html/text-level-semantics/code.html', 'result': 'html/text-level-semantics/code.events'},
+			{'test': 'html/text-level-semantics/code.xhtml', 'result': 'html/text-level-semantics/code.events'},
+			{'test': 'html/text-level-semantics/sub.html', 'result': 'html/text-level-semantics/sub.events'},
+			{'test': 'html/text-level-semantics/sub.xhtml', 'result': 'html/text-level-semantics/sub.events'},
+			{'test': 'html/text-level-semantics/sup.html', 'result': 'html/text-level-semantics/sup.events'},
+			{'test': 'html/text-level-semantics/sup.xhtml', 'result': 'html/text-level-semantics/sup.events'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
