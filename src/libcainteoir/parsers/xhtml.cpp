@@ -86,6 +86,8 @@ void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 			skipNode(reader, reader.nodeName());
 		else if (!reader.nodeName().comparei("p"))
 			events.begin_context(cainteoir::document_events::paragraph);
+		else if (!reader.nodeName().comparei("pre"))
+			events.begin_context(cainteoir::document_events::paragraph, cainteoir::document_events::monospace);
 		else if (!reader.nodeName().comparei("h1"))
 			events.begin_context(cainteoir::document_events::heading, 1);
 		else if (!reader.nodeName().comparei("h2"))
@@ -116,6 +118,7 @@ void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 		if (!reader.nodeName().compare(name))
 			return;
 		if (!reader.nodeName().comparei("p") ||
+		    !reader.nodeName().comparei("pre") ||
 		    !reader.nodeName().comparei("h1") ||
 		    !reader.nodeName().comparei("h2") ||
 		    !reader.nodeName().comparei("h3") ||
