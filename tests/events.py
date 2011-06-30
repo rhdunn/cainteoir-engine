@@ -53,6 +53,12 @@ if __name__ == '__main__':
 			{'test': 'html/sections/div.html', 'result': 'html/sections/div.events'},
 			{'test': 'html/sections/div.xhtml', 'result': 'html/sections/div.events'},
 		]},
+		{'name': 'text-level semantics', 'type': 'events', 'tests': [
+			{'test': 'html/text-level-semantics/em.html', 'result': 'html/text-level-semantics/em.events'},
+			{'test': 'html/text-level-semantics/em.xhtml', 'result': 'html/text-level-semantics/em.events'},
+			{'test': 'html/text-level-semantics/i.html', 'result': 'html/text-level-semantics/i.events'},
+			{'test': 'html/text-level-semantics/i.xhtml', 'result': 'html/text-level-semantics/i.events'},
+		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
 		{'name': 'headers', 'type': 'events', 'tests': [
