@@ -52,6 +52,10 @@ if __name__ == '__main__':
 			{'test': 'html/sections/pre.xhtml', 'result': 'html/sections/pre.events'},
 			{'test': 'html/sections/div.html', 'result': 'html/sections/div.events'},
 			{'test': 'html/sections/div.xhtml', 'result': 'html/sections/div.events'},
+			{'test': 'html/sections/ul.html', 'result': 'html/sections/ul.events'},
+			{'test': 'html/sections/ul.xhtml', 'result': 'html/sections/ul.events'},
+			{'test': 'html/sections/ol.html', 'result': 'html/sections/ol.events'},
+			{'test': 'html/sections/ol.xhtml', 'result': 'html/sections/ol.events'},
 		]},
 		{'name': 'text-level semantics', 'type': 'events', 'tests': [
 			{'test': 'html/text-level-semantics/em.html', 'result': 'html/text-level-semantics/em.events'},

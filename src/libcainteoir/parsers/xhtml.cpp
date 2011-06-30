@@ -31,6 +31,12 @@ struct context_node
 	uint32_t parameter;
 };
 
+enum list_type
+{
+	bullet_list = 0x00000000,
+	number_list = 0x80000000,
+};
+
 static const context_node context_nodes[] =
 {
 	{ "b",      cainteoir::document_events::span,      cainteoir::document_events::strong },
@@ -45,11 +51,13 @@ static const context_node context_nodes[] =
 	{ "h5",     cainteoir::document_events::heading,   5 },
 	{ "h6",     cainteoir::document_events::heading,   6 },
 	{ "i",      cainteoir::document_events::span,      cainteoir::document_events::emphasized },
+	{ "ol",     cainteoir::document_events::list,      number_list },
 	{ "p",      cainteoir::document_events::paragraph, 0 },
 	{ "pre",    cainteoir::document_events::paragraph, cainteoir::document_events::monospace },
 	{ "strong", cainteoir::document_events::span,      cainteoir::document_events::strong },
 	{ "sub",    cainteoir::document_events::span,      cainteoir::document_events::subscript },
 	{ "sup",    cainteoir::document_events::span,      cainteoir::document_events::superscript },
+	{ "ul",     cainteoir::document_events::list,      bullet_list },
 };
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
@@ -116,6 +124,57 @@ void parseHeadNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 	}
 }
 
+void parseListNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events, uint32_t type)
+{
+	int number = 1;
+
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (!reader.nodeName().comparei("li"))
+		{
+			events.begin_context(cainteoir::document_events::list_item);
+			if (type == bullet_list)
+				events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("\xE2\x80\xA2 ")));
+			else
+			{
+				char text[100];
+				int len = snprintf(text, sizeof(text), "%d. ", number);
+				text[len] = '\0';
+
+				std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(len));
+				strcpy((char *)data->begin(), text);
+				events.text(data);
+
+				++number;
+			}
+		}
+		break;
+	case xml::reader::textNode:
+		{
+			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
+
+			const char * str = text->begin();
+			const char * end = text->end();
+			while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
+				++str;
+
+			if (str != end)
+				events.text(text);
+		}
+		break;
+	case xml::reader::endTagNode:
+		if (!reader.nodeName().compare(name))
+		{
+			events.end_context();
+			return;
+		}
+		if (!reader.nodeName().comparei("li"))
+			events.end_context();
+		break;
+	}
+}
+
 void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events)
 {
 	while (reader.read()) switch (reader.nodeType())
@@ -128,7 +187,11 @@ void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 		{
 			const context_node * node = lookup_context(reader.nodeName());
 			if (node)
+			{
 				events.begin_context(node->context, node->parameter);
+				if (node->context == cainteoir::document_events::list)
+					parseListNode(reader, reader.nodeName(), aSubject, events, node->parameter);
+			}
 		}
 		break;
 	case xml::reader::textNode:
