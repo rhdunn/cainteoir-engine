@@ -50,6 +50,8 @@ if __name__ == '__main__':
 			{'test': 'html/sections/no-body.xhtml', 'result': 'html/sections/no-body.events'},
 			{'test': 'html/sections/pre.html', 'result': 'html/sections/pre.events'},
 			{'test': 'html/sections/pre.xhtml', 'result': 'html/sections/pre.events'},
+			{'test': 'html/sections/div.html', 'result': 'html/sections/div.events'},
+			{'test': 'html/sections/div.xhtml', 'result': 'html/sections/div.events'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
