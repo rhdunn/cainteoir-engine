@@ -1,9 +1,27 @@
+begin-context paragraph
 text(46): """RTF uses the \, { and } characters internally."""
+end-context
+begin-context paragraph
 text(23): """The tab character: '	'."""
+end-context
+begin-context paragraph
 text(33): """Dashes em — and en – in text."""
+end-context
+begin-context paragraph
 text(25): """The bullet symbol: '•'."""
+end-context
+begin-context paragraph
 text(18): """‘single quote’"""
+end-context
+begin-context paragraph
 text(18): """“double quote”"""
+end-context
+begin-context paragraph
 text(13): """A softhyphen."""
+end-context
+begin-context paragraph
 text(14): """A hard-hyphen."""
+end-context
+begin-context paragraph
 text(20): """Non-breaking��space."""
+end-context

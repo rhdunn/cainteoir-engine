@@ -305,8 +305,10 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 				aText.add(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text)));
 			else if (!rtf.data()->compare("par") && !aText.empty())
 			{
+				events.begin_context(cainteoir::document_events::paragraph);
 				events.text(aText.buffer());
 				aText.clear();
+				events.end_context();
 			}
 			else if (!rtf.data()->compare("ansi"))
 				codepage.set_encoding(1252);
@@ -367,7 +369,11 @@ void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, 
 	{
 		parseRtfBlock(rtf, aSubject, events, text, codepage, RtfBlock);
 		if (!text.empty())
+		{
+			events.begin_context(cainteoir::document_events::paragraph);
 			events.text(text.buffer());
+			events.end_context();
+		}
 	}
 	else
 		throw std::runtime_error(_("unrecognised rtf data stream"));

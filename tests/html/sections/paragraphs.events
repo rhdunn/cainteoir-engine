@@ -1,3 +1,9 @@
+begin-context paragraph
 text(18): """Lorem ipsum dolor."""
+end-context
+begin-context paragraph
 text(18): """Dolor ipsum lorem."""
+end-context
+begin-context paragraph
 text(18): """Ipsum lorem dolor."""
+end-context

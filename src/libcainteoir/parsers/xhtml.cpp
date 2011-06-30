@@ -84,6 +84,20 @@ void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 		if (!reader.nodeName().comparei("script") ||
 		    !reader.nodeName().comparei("style"))
 			skipNode(reader, reader.nodeName());
+		else if (!reader.nodeName().comparei("p"))
+			events.begin_context(cainteoir::document_events::paragraph);
+		else if (!reader.nodeName().comparei("h1"))
+			events.begin_context(cainteoir::document_events::heading, 1);
+		else if (!reader.nodeName().comparei("h2"))
+			events.begin_context(cainteoir::document_events::heading, 2);
+		else if (!reader.nodeName().comparei("h3"))
+			events.begin_context(cainteoir::document_events::heading, 3);
+		else if (!reader.nodeName().comparei("h4"))
+			events.begin_context(cainteoir::document_events::heading, 4);
+		else if (!reader.nodeName().comparei("h5"))
+			events.begin_context(cainteoir::document_events::heading, 5);
+		else if (!reader.nodeName().comparei("h6"))
+			events.begin_context(cainteoir::document_events::heading, 6);
 		break;
 	case xml::reader::textNode:
 		{
@@ -101,6 +115,14 @@ void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 	case xml::reader::endTagNode:
 		if (!reader.nodeName().compare(name))
 			return;
+		if (!reader.nodeName().comparei("p") ||
+		    !reader.nodeName().comparei("h1") ||
+		    !reader.nodeName().comparei("h2") ||
+		    !reader.nodeName().comparei("h3") ||
+		    !reader.nodeName().comparei("h4") ||
+		    !reader.nodeName().comparei("h5") ||
+		    !reader.nodeName().comparei("h6"))
+			events.end_context();
 		break;
 	}
 }
