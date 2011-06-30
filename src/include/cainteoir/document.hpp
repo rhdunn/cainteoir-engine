@@ -59,7 +59,7 @@ namespace cainteoir
 			mChildren.push_back(text);
 		}
 
-		const list_type children() const { return mChildren; }
+		const list_type & children() const { return mChildren; }
 	private:
 		size_t mLength;
 		list_type mChildren;

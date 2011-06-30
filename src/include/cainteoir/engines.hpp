@@ -58,7 +58,16 @@ namespace cainteoir { namespace tts
 
 		const rdf::uri & voice() const { return *selectedVoice; }
 
-		std::tr1::shared_ptr<speech> speak(const std::tr1::shared_ptr<document> &doc, std::tr1::shared_ptr<audio> out, size_t offset = 0);
+		std::tr1::shared_ptr<speech>
+		speak(const std::tr1::shared_ptr<document> &doc,
+		      std::tr1::shared_ptr<audio> out,
+		      size_t offset = 0);
+
+		std::tr1::shared_ptr<speech>
+		speak(const std::tr1::shared_ptr<document> &doc,
+		      std::tr1::shared_ptr<audio> out,
+		      cainteoir::document::const_iterator from,
+		      cainteoir::document::const_iterator to);
 	private:
 		std::map<std::string, engine *> enginelist;
 		engine *active;
