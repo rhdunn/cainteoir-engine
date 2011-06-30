@@ -1,0 +1,26 @@
+&name     iso_8859_3
+&source   http://tools.ietf.org/html/rfc1345
+&charset  ISO_8859-3:1988
+&alias    iso-ir-109
+&alias    ISO_8859-3
+&alias    ISO-8859-3
+&alias    latin3
+&alias    l3
+&code     0
+
+NU SH SX EX ET EQ AK BL BS HT LF VT FF CR SO SI
+DL D1 D2 D3 D4 NK SY EB CN EM SB EC FS GS RS US
+SP !  "  Nb DO %  &  '  (  )  *  +  ,  -  .  /
+0  1  2  3  4  5  6  7  8  9  :  ;  <  =  >  ?
+At A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+P  Q  R  S  T  U  V  W  X  Y  Z  <( // )> '> _
+'! a  b  c  d  e  f  g  h  i  j  k  l  m  n  o
+p  q  r  s  t  u  v  w  x  y  z  (! !! !) '? DT
+PA HO BH NH IN NL SA ES HS HJ VS PD PU RI S2 S3
+DC P1 P2 TS CC MW SG EG SS GC SC CI ST OC PM AC
+NS H/ '( Pd Cu ?? H> SE ': I. S, G( J> -- ?? Z.
+DG h/ 2S 3S '' My h> .M ', i. s, g( j> 12 ?? z.
+A! A' A> ?? A: C. C> C, E! E' E> E: I! I' I> I:
+?? N? O! O' O> G. O: *X G> U! U' U> U: U( S> ss
+a! a' a> ?? a: c. c> c, e! e' e> e: i! i' i> i:
+?? n? o! o' o> g. o: -: g> u! u' u> u: u( s> '.

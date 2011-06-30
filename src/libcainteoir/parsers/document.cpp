@@ -42,6 +42,55 @@ std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 	return data.buffer();
 }
 
+inline int hex_to_value(char c)
+{
+	if (c >= '0' && c <= '9')
+		return c - 0;
+	if (c >= 'a' && c <= 'f')
+		return (c - 'a') + 10;
+	if (c >= 'A' && c <= 'F')
+		return (c - 'A') + 10;
+	return 0;
+}
+
+struct quoted_printable : public cainteoir::data_buffer
+{
+	quoted_printable(std::tr1::shared_ptr<cainteoir::buffer> stream)
+		: cainteoir::data_buffer(stream->size())
+	{
+		memcpy((char *)first, stream->begin(), stream->size());
+
+		char * current = (char *)first;
+		char * next    = (char *)first;
+
+		while (next < last)
+		{
+			if (*next == '=')
+			{
+				++next;
+				if (*next == '\n')
+					++next;
+				else if (next[0] == '\r' && next[1] == '\n')
+					next += 2;
+				else
+				{
+					*current = (hex_to_value(next[0]) << 4) | hex_to_value(next[1]);
+					++current;
+					next += 2;
+				}
+			}
+			else
+			{
+				*current = *next;
+				++current;
+				++next;
+			}
+		}
+
+		last = current;
+	}
+};
+
 inline bool is_mime_header_char(char c)
 {
 	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '-';
@@ -50,8 +99,9 @@ inline bool is_mime_header_char(char c)
 struct mime_headers : public cainteoir::buffer
 {
 	std::tr1::shared_ptr<cainteoir::buffer> mOriginal;
+	std::string encoding;
 
-	bool parse_headers(std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events)
+	bool parse_headers(std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events, cainteoir::buffer &boundary)
 	{
 		while (first <= last)
 		{
@@ -86,12 +136,41 @@ struct mime_headers : public cainteoir::buffer
 			else
 				return false;
 
-			if (!name.comparei("Content-Type"))
+			if (!name.comparei("Content-Transfer-Encoding"))
+			{
+				const char * type = value.begin();
+				while (type <= value.end() && !(*type == ';' || *type == '\n'))
+					++type;
+				encoding = std::string(value.begin(), *(type-1) == '\r' ? type-1 : type);
+			}
+			else if (!name.comparei("Content-Type"))
 			{
 				const char * type = value.begin();
 				while (type <= value.end() && !(*type == ';' || *type == '\n'))
 					++type;
 				mimetype = std::string(value.begin(), type);
+
+				if (mimetype == "multipart/mixed" || mimetype == "multipart/related")
+				{
+					++type;
+					while (type <= value.end() && (*type == ' ' || *type == '\t'))
+						++type;
+
+					const char * name = type;
+					while (type <= value.end() && *type != '=')
+						++type;
+
+					cainteoir::buffer arg(name, type);
+					++type;
+
+					if (*type != '"') continue;
+					++type;
+
+					const char * bounds = type;
+					while (type <= value.end() && *type != '"')
+						++type;
+					boundary = cainteoir::buffer(bounds, type);
+				}
 			}
 			else if (!name.comparei("Subject"))
 				events.metadata(rdf::statement(subject, rdf::dc("title"), rdf::literal(value.str())));
@@ -150,8 +229,33 @@ struct mime_headers : public cainteoir::buffer
 			++first;
 		}
 
-		if (!parse_headers(mimetype, subject, events))
+		cainteoir::buffer boundary(NULL, NULL);
+		if (!parse_headers(mimetype, subject, events, boundary))
 			first = mOriginal->begin();
+		else if (!boundary.empty())
+		{
+			const char * begin = NULL;
+
+			while (first <= last)
+			{
+				if (first[0] == '-' && first[1] == '-' && !strncmp(first + 2, boundary.begin(), boundary.size()))
+				{
+					if (begin == NULL)
+					{
+						first += 2;
+						first += boundary.size();
+						begin = first;
+					}
+					else
+					{
+						last = first;
+						first = begin;
+						return;
+					}
+				}
+				++first;
+			}
+		}
 	}
 };
 
@@ -190,11 +294,20 @@ bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &da
 		cainteoir::parseRtfDocument(data, subject, events);
 	else
 	{
-		std::tr1::shared_ptr<cainteoir::buffer> content(new mime_headers(data, type, subject, events));
-		if (content->begin() == data->begin())
+		std::tr1::shared_ptr<mime_headers> mime(new mime_headers(data, type, subject, events));
+		if (mime->begin() == data->begin())
 			parseXHtmlDocument(data, subject, events);
-		else
+		else if (!mime->encoding.empty())
+		{
+			std::tr1::shared_ptr<cainteoir::buffer> encoded(mime);
+			std::tr1::shared_ptr<cainteoir::buffer> content(new quoted_printable(encoded));
 			return parseDocumentBufferWithMimeType(content, subject, events, type);
+		}
+		else
+		{
+			std::tr1::shared_ptr<cainteoir::buffer> content(mime);
+			return parseDocumentBufferWithMimeType(content, subject, events, type);
+		}
 	}
 
 	events.metadata(rdf::statement(subject, rdf::tts("mimetype"), rdf::literal(type)));
@@ -233,6 +346,14 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
 	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.xhtml")));
 	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.xht")));
 	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.xml")));
+
+	rdf::uri mhtml = rdf::uri(baseuri, "mhtml");
+	metadata.push_back(rdf::statement(mhtml, rdf::rdf("type"), rdf::tts("DocumentFormat")));
+	metadata.push_back(rdf::statement(mhtml, rdf::tts("name"), rdf::literal("mhtml")));
+	metadata.push_back(rdf::statement(mhtml, rdf::dc("title"), rdf::literal(_("mhtml document"))));
+	metadata.push_back(rdf::statement(mhtml, rdf::dc("description"), rdf::literal(_("single-file HTML document"))));
+	metadata.push_back(rdf::statement(mhtml, rdf::tts("mimetype"), rdf::literal("multipart/related")));
+	metadata.push_back(rdf::statement(mhtml, rdf::tts("extension"), rdf::literal("*.mht")));
 
 	rdf::uri epub = rdf::uri(baseuri, "epub");
 	metadata.push_back(rdf::statement(epub, rdf::rdf("type"), rdf::tts("DocumentFormat")));

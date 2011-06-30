@@ -1,0 +1,3 @@
+begin-context paragraph
+text(18): """Lorem ipsum dolor."""
+end-context

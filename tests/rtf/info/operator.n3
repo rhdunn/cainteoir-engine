@@ -1,0 +1,9 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix opf: <http://www.idpf.org/2007/opf#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<> dc:contributor _:genid1 .
+_:genid1 rdf:value "Joe Bloggs" .
+_:genid1 opf:role "edt" .
+<> tts:mimetype "text/rtf" .

@@ -13,6 +13,8 @@
 
 data/magic.mgc
 
+src/libcainteoir/encoding/encodings.h
+
 src/libcainteoir/libcainteoir.a
 src/libcainteoir/libcainteoir.la
 
@@ -25,6 +27,7 @@ tests/ntriple_formatter
 tests/turtle_formatter
 tests/events
 tests/xmlreader
+tests/encoding
 tests/voicesynth
 
 # autotools output:

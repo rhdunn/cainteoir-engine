@@ -1,0 +1,26 @@
+&name     iso_8859_4
+&source   http://tools.ietf.org/html/rfc1345
+&charset  ISO_8859-4:1988
+&alias    iso-ir-110
+&alias    ISO_8859-4
+&alias    ISO-8859-4
+&alias    latin4
+&alias    l4
+&code     0
+
+NU SH SX EX ET EQ AK BL BS HT LF VT FF CR SO SI
+DL D1 D2 D3 D4 NK SY EB CN EM SB EC FS GS RS US
+SP !  "  Nb DO %  &  '  (  )  *  +  ,  -  .  /
+0  1  2  3  4  5  6  7  8  9  :  ;  <  =  >  ?
+At A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+P  Q  R  S  T  U  V  W  X  Y  Z  <( // )> '> _
+'! a  b  c  d  e  f  g  h  i  j  k  l  m  n  o
+p  q  r  s  t  u  v  w  x  y  z  (! !! !) '? DT
+PA HO BH NH IN NL SA ES HS HJ VS PD PU RI S2 S3
+DC P1 P2 TS CC MW SG EG SS GC SC CI ST OC PM AC
+NS A; kk R, Cu I? L, SE ': S< E- G, T/ -- Z< '-
+DG a; '; r, '' i? l, '< ', s< e- g, t/ NG z< ng
+A- A' A> A? A: AA AE I; C< E' E; E: E. I' I> I-
+D/ N, O- K, O> O? O: *X O/ U; U' U> U: U? U- ss
+a- a' a> a? a: aa ae i; c< e' e; e: e. i' i> i-
+d/ n, o- k, o> o? o: -: o/ u; u' u> u: u? u- '.

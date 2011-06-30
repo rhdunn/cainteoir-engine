@@ -1,0 +1,26 @@
+&name     iso_8859_9
+&source   http://tools.ietf.org/html/rfc1345
+&charset  ISO_8859-9:1989
+&alias    iso-ir-148
+&alias    ISO_8859-9
+&alias    ISO-8859-9
+&alias    latin5
+&alias    l5
+&code     0
+
+NU SH SX EX ET EQ AK BL BS HT LF VT FF CR SO SI
+DL D1 D2 D3 D4 NK SY EB CN EM SB EC FS GS RS US
+SP !  "  Nb DO %  &  '  (  )  *  +  ,  -  .  /
+0  1  2  3  4  5  6  7  8  9  :  ;  <  =  >  ?
+At A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+P  Q  R  S  T  U  V  W  X  Y  Z  <( // )> '> _
+'! a  b  c  d  e  f  g  h  i  j  k  l  m  n  o
+p  q  r  s  t  u  v  w  x  y  z  (! !! !) '? DT
+PA HO BH NH IN NL SA ES HS HJ VS PD PU RI S2 S3
+DC P1 P2 TS CC MW SG EG SS GC SC CI ST OC PM AC
+NS !I Ct Pd Cu Ye BB SE ': Co -a << NO -- Rg '-
+DG +- 2S 3S '' My PI .M ', 1S -o >> 14 12 34 ?I
+A! A' A> A? A: AA AE C, E! E' E> E: I! I' I> I:
+G( N? O! O' O> O? O: *X O/ U! U' U> U: I. S, ss
+a! a' a> a? a: aa ae c, e! e' e; e: e. i' i> i-
+g( n? o! o' o> o? o: -: o/ u! u' u> u: i. s, y:

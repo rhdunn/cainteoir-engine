@@ -30,6 +30,10 @@ if __name__ == '__main__':
 			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style-type.html', 'result': 'html/semantics/with-style-type.events'},
 			{'test': 'html/semantics/with-style-type.xhtml', 'result': 'html/semantics/with-style-type.events'},
+			{'test': 'html/semantics/meta-content-type.html', 'result': 'html/semantics/meta-content-type.events'},
+			{'test': 'html/semantics/meta-content-type.xhtml', 'result': 'html/semantics/meta-content-type.events'},
+			{'test': 'html/semantics/link-rel-stylesheet.html', 'result': 'html/semantics/link-rel-stylesheet.events'},
+			{'test': 'html/semantics/link-rel-stylesheet.xhtml', 'result': 'html/semantics/link-rel-stylesheet.events'},
 		]},
 		{'name': 'scripting', 'type': 'events', 'tests': [
 			{'test': 'html/scripting/with-script.html', 'result': 'html/scripting/with-script.events'},
@@ -42,6 +46,34 @@ if __name__ == '__main__':
 			{'test': 'html/sections/headings.xhtml', 'result': 'html/sections/headings.events'},
 			{'test': 'html/sections/paragraphs.html', 'result': 'html/sections/paragraphs.events'},
 			{'test': 'html/sections/paragraphs.xhtml', 'result': 'html/sections/paragraphs.events'},
+			{'test': 'html/sections/no-body.html', 'result': 'html/sections/no-body.events'},
+			{'test': 'html/sections/no-body.xhtml', 'result': 'html/sections/no-body.events'},
+			{'test': 'html/sections/pre.html', 'result': 'html/sections/pre.events'},
+			{'test': 'html/sections/pre.xhtml', 'result': 'html/sections/pre.events'},
+			{'test': 'html/sections/div.html', 'result': 'html/sections/div.events'},
+			{'test': 'html/sections/div.xhtml', 'result': 'html/sections/div.events'},
+			{'test': 'html/sections/ul.html', 'result': 'html/sections/ul.events'},
+			{'test': 'html/sections/ul.xhtml', 'result': 'html/sections/ul.events'},
+			{'test': 'html/sections/ol.html', 'result': 'html/sections/ol.events'},
+			{'test': 'html/sections/ol.xhtml', 'result': 'html/sections/ol.events'},
+		]},
+		{'name': 'text-level semantics', 'type': 'events', 'tests': [
+			{'test': 'html/text-level-semantics/em.html', 'result': 'html/text-level-semantics/em.events'},
+			{'test': 'html/text-level-semantics/em.xhtml', 'result': 'html/text-level-semantics/em.events'},
+			{'test': 'html/text-level-semantics/strong.html', 'result': 'html/text-level-semantics/strong.events'},
+			{'test': 'html/text-level-semantics/strong.xhtml', 'result': 'html/text-level-semantics/strong.events'},
+			{'test': 'html/text-level-semantics/cite.html', 'result': 'html/text-level-semantics/cite.events'},
+			{'test': 'html/text-level-semantics/cite.xhtml', 'result': 'html/text-level-semantics/cite.events'},
+			{'test': 'html/text-level-semantics/i.html', 'result': 'html/text-level-semantics/i.events'},
+			{'test': 'html/text-level-semantics/i.xhtml', 'result': 'html/text-level-semantics/i.events'},
+			{'test': 'html/text-level-semantics/b.html', 'result': 'html/text-level-semantics/b.events'},
+			{'test': 'html/text-level-semantics/b.xhtml', 'result': 'html/text-level-semantics/b.events'},
+			{'test': 'html/text-level-semantics/code.html', 'result': 'html/text-level-semantics/code.events'},
+			{'test': 'html/text-level-semantics/code.xhtml', 'result': 'html/text-level-semantics/code.events'},
+			{'test': 'html/text-level-semantics/sub.html', 'result': 'html/text-level-semantics/sub.events'},
+			{'test': 'html/text-level-semantics/sub.xhtml', 'result': 'html/text-level-semantics/sub.events'},
+			{'test': 'html/text-level-semantics/sup.html', 'result': 'html/text-level-semantics/sup.events'},
+			{'test': 'html/text-level-semantics/sup.xhtml', 'result': 'html/text-level-semantics/sup.events'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
@@ -53,6 +85,18 @@ if __name__ == '__main__':
 			{'test': 'mime/headers/basic-lfonly.txt', 'result': 'mime/headers/basic.events'},
 			{'test': 'mime/headers/leading-whitespace-lfonly.txt', 'result': 'mime/headers/basic.events'},
 			{'test': 'mime/headers/wrapped-header-item-lfonly.txt', 'result': 'mime/headers/basic.events'},
+		]},
+		{'name': 'multipart', 'type': 'events', 'tests': [
+			{'test': 'mime/multipart/mixed-1.txt', 'result': 'mime/multipart/mixed.events'},
+			{'test': 'mime/multipart/mixed-2.txt', 'result': 'mime/multipart/mixed.events'},
+			{'test': 'mime/multipart/related-1.txt', 'result': 'mime/multipart/related.events'},
+			{'test': 'mime/multipart/related-2.txt', 'result': 'mime/multipart/related.events'},
+		]},
+		{'name': 'quoted-printable', 'type': 'events', 'tests': [
+			{'test': 'mime/quoted-printable/ascii.txt', 'result': 'mime/quoted-printable/ascii.events'},
+			{'test': 'mime/quoted-printable/escaped-upper.txt', 'result': 'mime/quoted-printable/escaped.events'},
+			{'test': 'mime/quoted-printable/escaped-lower.txt', 'result': 'mime/quoted-printable/escaped.events'},
+			{'test': 'mime/quoted-printable/eol.txt', 'result': 'mime/quoted-printable/eol.events'},
 		]},
 	]})
 	test.run({'name': 'HTTP', 'groups': [
@@ -72,6 +116,10 @@ if __name__ == '__main__':
 	test.run({'name': 'RTF', 'groups': [
 		{'name': 'document', 'type': 'events', 'tests': [
 			{'test': 'rtf/simple.rtf', 'result': 'rtf/simple.events'},
+			{'test': 'rtf/paragraph.rtf', 'result': 'rtf/paragraph.events'},
+			{'test': 'rtf/escaped.rtf', 'result': 'rtf/escaped.events'},
+			{'test': 'rtf/hex-ansi.rtf', 'result': 'rtf/hex-ansi.events'},
+			{'test': 'rtf/libreoffice.rtf', 'result': 'rtf/simple.events'},
 		]},
 	]})
 	test.run({ 'name': 'ePub',

@@ -1,14 +1,20 @@
+cainteoir-engine (0.3) maverick; urgency=low
+ 
+  * New upstream release.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Fri, 1 Jul 2011 00:55:00 +0000
+
 cainteoir-engine (0.2~maverick1) maverick; urgency=low
  
   * Ubuntu maverick release of cainteoir-engine 0.2.
  
- -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 30 Apr 2011 00:06:00 +0000
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 30 May 2011 00:06:00 +0000
 
 cainteoir-engine (0.2) unstable; urgency=low
  
   * New upstream release.
  
- -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 29 Apr 2011 11:00:00 +0000
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 29 May 2011 11:00:00 +0000
 
 cainteoir-engine (0.1~1) maverick; urgency=low
 

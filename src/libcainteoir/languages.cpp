@@ -39,10 +39,6 @@ struct language_rdf
 	{
 		return rdf::graph::genid();
 	}
-
-	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
-	{
-	}
 };
 
 cainteoir::languages::languages(const char * locale)

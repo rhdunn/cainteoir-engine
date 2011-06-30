@@ -1,0 +1,14 @@
+begin-context list
+begin-context list-item
+text(4): """• """
+text(5): """Lorem"""
+end-context
+begin-context list-item
+text(4): """• """
+text(5): """ipsum"""
+end-context
+begin-context list-item
+text(4): """• """
+text(5): """dolor"""
+end-context
+end-context

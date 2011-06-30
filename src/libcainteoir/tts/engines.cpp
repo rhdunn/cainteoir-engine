@@ -25,6 +25,9 @@
 #include "tts_engine.hpp"
 #include <stdexcept>
 
+static const int CHARACTERS_PER_WORD = 6;
+static const int WORDS_PER_MINUTE = 170;
+
 #define USE_GETTIMEOFDAY 1
 
 #if USE_GETTIMEOFDAY
@@ -76,6 +79,9 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	std::tr1::shared_ptr<cainteoir::audio> audio;
 	std::tr1::shared_ptr<cainteoir::document> doc;
 
+	cainteoir::document::const_iterator mFrom;
+	cainteoir::document::const_iterator mTo;
+
 	tts::state speechState;
 	pthread_t threadId;
 
@@ -89,10 +95,16 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	size_t currentOffset; /**< @brief The current offset from the beginning to the current block being read. */
 	size_t speakingPos;   /**< @brief The position within the block where the speaking is upto. */
 	size_t speakingLen;   /**< @brief The length of the word/fragment being spoken. */
-	size_t mOffset;       /**< @brief The offset to the position where speaking is to start. */
 
-	speech_impl(tts::engine *aEngine, std::tr1::shared_ptr<cainteoir::audio> aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset);
+	speech_impl(tts::engine *aEngine,
+	            std::tr1::shared_ptr<cainteoir::audio> aAudio,
+	            const std::tr1::shared_ptr<cainteoir::document> &aDoc,
+	            cainteoir::document::const_iterator aFrom,
+	            cainteoir::document::const_iterator aTo);
 	~speech_impl();
+
+	cainteoir::document::const_iterator begin() const { return mFrom; }
+	cainteoir::document::const_iterator end()   const { return mTo; }
 
 	void started();
 	void progress(size_t n);
@@ -132,13 +144,12 @@ void * speak_tts_thread(void *data)
 
 	speak->audio->open();
 	speak->started();
-	speak->progress(speak->mOffset);
 
 	size_t n = 0;
-	size_t offset = speak->mOffset;
-	foreach_iter(node, speak->doc->children())
+	size_t offset = 0;
+	foreach_iter(node, *speak)
 	{
-		size_t len = (*node)-> size();
+		size_t len = (*node)->size();
 
 		if (len <= offset)
 		{
@@ -170,14 +181,19 @@ void * speak_tts_thread(void *data)
 	return NULL;
 }
 
-speech_impl::speech_impl(tts::engine *aEngine, std::tr1::shared_ptr<cainteoir::audio> aAudio, const std::tr1::shared_ptr<cainteoir::document> &aDoc, size_t aOffset)
+speech_impl::speech_impl(tts::engine *aEngine,
+                         std::tr1::shared_ptr<cainteoir::audio> aAudio,
+                         const std::tr1::shared_ptr<cainteoir::document> &aDoc,
+                         cainteoir::document::const_iterator aFrom,
+                         cainteoir::document::const_iterator aTo)
 	: engine(aEngine)
 	, audio(aAudio)
 	, doc(aDoc)
 	, speechState(cainteoir::tts::speaking)
 	, speakingPos(0)
 	, speakingLen(0)
-	, mOffset(aOffset)
+	, mFrom(aFrom)
+	, mTo(aTo)
 {
 	started();
 	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)this);
@@ -190,7 +206,7 @@ speech_impl::~speech_impl()
 void speech_impl::started()
 {
 	mElapsedTime = 0.0;
-	mTotalTime = 0.0;
+	mTotalTime = (double(doc->text_length()) / CHARACTERS_PER_WORD / WORDS_PER_MINUTE * 60.0);
 	mCompleted = 0.0;
 	mProgress = 0.0;
 	currentOffset = 0;
@@ -229,9 +245,7 @@ double speech_impl::elapsedTime() const
 	if (is_speaking())
 		const_cast<speech_impl *>(this)->mElapsedTime = mTimer.elapsed();
 
-	if (mOffset == 0)
-		return mElapsedTime;
-	return (mTotalTime * mProgress) / 100.0;
+	return mElapsedTime;
 }
 
 double speech_impl::totalTime() const
@@ -269,10 +283,11 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 	mElapsedTime = mTimer.elapsed();
 	mProgress = percentageof(actualPos, doc->text_length());
 
-	if (mElapsedTime > 0.1 && actualPos >= mOffset)
+	if (mElapsedTime > 0.1)
 	{
-		mCompleted = percentageof(actualPos - mOffset, doc->text_length());
-		mTotalTime = (mElapsedTime / mCompleted) * 100.0;
+		mCompleted = percentageof(actualPos, doc->text_length());
+		if (mCompleted >= 0.1)
+			mTotalTime = (mElapsedTime / mCompleted) * 100.0;
 	}
 }
 
@@ -333,7 +348,29 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	return false;
 }
 
-std::tr1::shared_ptr<tts::speech> tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc, std::tr1::shared_ptr<audio> out, size_t offset)
+std::tr1::shared_ptr<tts::speech>
+tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc,
+                    std::tr1::shared_ptr<audio> out,
+                    size_t offset)
 {
-	return std::tr1::shared_ptr<tts::speech>(new speech_impl(active, out, doc, offset));
+	auto from = doc->children().begin();
+	auto end  = doc->children().end();
+
+	size_t n = 0;
+	while (from != end && n < offset)
+	{
+		n += (*from)->size();
+		++from;
+	}
+
+	return speak(doc, out, from, end);
+}
+
+std::tr1::shared_ptr<tts::speech>
+tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc,
+                    std::tr1::shared_ptr<audio> out,
+                    cainteoir::document::const_iterator from,
+                    cainteoir::document::const_iterator to)
+{
+	return std::tr1::shared_ptr<tts::speech>(new speech_impl(active, out, doc, from, to));
 }
