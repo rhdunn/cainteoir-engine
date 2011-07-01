@@ -11,7 +11,7 @@
 
 configure:
 	dh_testdir
-	if [ ! -e ./configure ]; then ./autogen.sh; fi
+	./autogen.sh
 	dh_auto_configure
 
 %:
