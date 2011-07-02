@@ -23,6 +23,7 @@
 
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/buffer.hpp>
+#include <map>
 
 namespace cainteoir
 {
@@ -108,6 +109,7 @@ namespace cainteoir
 	public:
 		typedef std::list< std::tr1::shared_ptr<cainteoir::buffer> > list_type;
 		typedef list_type::const_iterator const_iterator;
+		typedef std::pair<const_iterator, const_iterator> range_type;
 
 		document() : mLength(0) {}
 
@@ -115,6 +117,7 @@ namespace cainteoir
 		{
 			mLength = 0;
 			mChildren.clear();
+			mAnchors.clear();
 		}
 
 		size_t text_length() const { return mLength; }
@@ -125,10 +128,50 @@ namespace cainteoir
 			mChildren.push_back(text);
 		}
 
-		const list_type & children() const { return mChildren; }
+		void add_anchor(const rdf::uri &aAnchor)
+		{
+			mAnchors[aAnchor.str()] = mChildren.size();
+		}
+
+		size_t anchor(const rdf::uri &aAnchor) const
+		{
+			auto at = mAnchors.find(aAnchor.str());
+			return (at == mAnchors.end()) ? size_t(-1) : at->second;
+		}
+
+		const list_type & children() const
+		{
+			return mChildren;
+		}
+
+		range_type children(const rdf::uri &aFrom, const rdf::uri &aTo) const
+		{
+			size_t from = anchor(aFrom);
+			size_t to   = anchor(aTo);
+
+			if (from == size_t(-1)) from = 0;
+			if (from > to) std::swap(from, to);
+
+			return range_type(get_child(from), get_child(to));
+		}
+
+		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const
+		{
+			return children(aAnchors.first, aAnchors.second);
+		}
 	private:
+		const_iterator get_child(size_t index) const
+		{
+			if (index == size_t(-1)) return children().end();
+
+			const_iterator pos = children().begin();
+			std::advance(pos, index);
+			return pos;
+		}
+
 		size_t mLength;
 		list_type mChildren;
+		std::map<std::string, size_t> mAnchors;
 	};
 
 	/** @brief Get the document formats that are supported by libcainteoir.
