@@ -34,6 +34,57 @@ static std::string path_to(const std::string &filename, const std::string &opffi
 		return opffile.substr(0, pos + 1) + filename;
 }
 
+struct epub_document : public cainteoir::document_events
+{
+	epub_document(cainteoir::document_events &aEvents, const rdf::uri &aSubject, const std::string &aOpfFile)
+		: mEvents(aEvents)
+		, mSubject(aSubject)
+		, mOpfFile(aOpfFile)
+	{
+	}
+
+	void metadata(const rdf::statement &aStatement)
+	{
+		mEvents.metadata(aStatement);
+	}
+
+	const rdf::bnode genid()
+	{
+		return mEvents.genid();
+	}
+
+	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
+	{
+		return mEvents.text(aText);
+	}
+
+	void begin_context(context aContext, uint32_t aParameter)
+	{
+		mEvents.begin_context(aContext, aParameter);
+	}
+
+	void end_context()
+	{
+		mEvents.end_context();
+	}
+
+	void toc_entry(int depth, const rdf::uri &aLocation, const std::string &title)
+	{
+		const rdf::uri location = rdf::uri(mSubject.str() + "!/" + path_to(aLocation.ns, mOpfFile), aLocation.ref);
+		mEvents.toc_entry(depth, location, title);
+	}
+
+	void anchor(const rdf::uri &aLocation)
+	{
+		const rdf::uri location = rdf::uri(mSubject.str() + "!/" + path_to(aLocation.ns, mOpfFile), aLocation.ref);
+		mEvents.anchor(location);
+	}
+
+	cainteoir::document_events &mEvents;
+	const rdf::uri mSubject;
+	std::string mOpfFile;
+};
+
 void cainteoir::parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events)
 {
 	cainteoir::zip::archive epub(aData);
@@ -55,8 +106,9 @@ void cainteoir::parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData,
 	std::tr1::shared_ptr<cainteoir::buffer> ncx = epub.read(path_to(files.toc.filename, opffile).c_str());
 	if (ncx)
 	{
+		epub_document doc_events(events, aSubject, opffile);
 		xml::document doc(ncx);
-		cainteoir::parseNcxDocument(doc.root(), aSubject, events);
+		cainteoir::parseNcxDocument(doc.root(), aSubject, doc_events);
 	}
 
 	foreach_iter(file, files.spine)
