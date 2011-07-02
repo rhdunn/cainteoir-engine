@@ -79,6 +79,11 @@ struct events : public cainteoir::document_events
 	{
 		fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n", location.ns.c_str(), location.ref.c_str(), depth, title.c_str());
 	}
+
+	void anchor(const rdf::uri &location)
+	{
+		fprintf(stdout, "anchor [%s]%s\n", location.ns.c_str(), location.ref.c_str());
+	}
 };
 
 int main(int argc, char ** argv)

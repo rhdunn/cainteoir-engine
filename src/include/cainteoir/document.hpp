@@ -64,9 +64,7 @@ namespace cainteoir
 		  *
 		  * @param aText The text at the current point in the document.
 		  */
-		virtual void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
-		{
-		}
+		virtual void text(std::tr1::shared_ptr<cainteoir::buffer> aText) {}
 
 		/** @brief The start of a new context.
 		  *
@@ -80,19 +78,27 @@ namespace cainteoir
 		  * If |aContext| is |heading| then |aParameter| is the heading depth,
 		  * otherwise it is a set of |style| flags that apply to this context.
 		  */
-		virtual void begin_context(context aContext, uint32_t aParameter=0)
-		{
-		}
+		virtual void begin_context(context aContext, uint32_t aParameter=0) {}
 
 		/** @brief The end of the current context.
 		  */
-		virtual void end_context()
-		{
-		}
+		virtual void end_context() {}
 
-		virtual void toc_entry(int depth, const rdf::uri &location, const std::string &title)
-		{
-		}
+		/** @brief A table of contents entry.
+		  *
+		  * @param depth    The indentation level of the entry.
+		  * @param location The anchor to which this entry points to.
+		  * @param title    The text to display for this entry.
+		  */
+		virtual void toc_entry(int depth, const rdf::uri &location, const std::string &title) {}
+
+		/** @brief An anchor point in the document.
+		  *
+		  * @param location The uri for this point in the document.
+		  *
+		  * The anchor binds to the next document event.
+		  */
+		virtual void anchor(const rdf::uri &location) {}
 
 		virtual ~document_events() {}
 	};

@@ -141,8 +141,8 @@ if __name__ == '__main__':
 			],
 		'groups': [
 			{'name': 'with-content', 'type': 'events', 'tests': [
-				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'html/semantics/simple.events'},
-				{'test': 'epub/missing-html-file.opf', 'result': 'html/semantics/simple.events'},
+				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
+				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
 			]},
 		]
 	})
