@@ -1,14 +1,23 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 @prefix dtb: <http://www.daisy.org/z3986/2005/> .
+@prefix opf: <http://www.idpf.org/2007/opf#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <> dc:title "Test Case" .
-<> dc:identifier "dublincore-language.opf" .
+<> dc:identifier "dublincore-identifier.opf" .
+<> dc:language "en" .
+<> dc:identifier "ABCDEF" .
+<> dc:identifier _:genid1 .
+_:genid1 rdf:value "12345678" .
+_:genid1 opf:scheme "ISBN" .
+<> dc:identifier _:genid2 .
+_:genid2 rdf:value "12345678" .
+_:genid2 opf:scheme "ISBN" .
 <> dtb:uid "12345" .
 <> dtb:depth "1"^^xsd:int .
 <> dtb:totalPageCount "0"^^xsd:int .
 <> dtb:maxPageNumber "0"^^xsd:int .
 <> dc:title "Test File" .
-<#test> dc:title "Test File" .
 <> tts:mimetype "@mimetype@" .

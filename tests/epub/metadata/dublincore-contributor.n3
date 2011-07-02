@@ -1,0 +1,48 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix dtb: <http://www.daisy.org/z3986/2005/> .
+@prefix opf: <http://www.idpf.org/2007/opf#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<> dc:title "Test Case" .
+<> dc:identifier "dublincore-contributor.opf" .
+<> dc:language "en" .
+<> dc:contributor "Anne Onymous" .
+<> dc:contributor _:genid1 .
+_:genid1 rdf:value "Jane Bloggs" .
+_:genid1 opf:role "aut" .
+<> dc:contributor _:genid2 .
+_:genid2 rdf:value "Joan Bloggs" .
+_:genid2 opf:file-as "Bloggs, Joan" .
+<> dc:contributor _:genid3 .
+_:genid3 rdf:value "Rev. Dr. Martin Luther King Jr." .
+_:genid3 opf:role "aut" .
+_:genid3 opf:file-as "King, Martin Luther Jr." .
+<> dc:contributor "Anne Onymous"@en .
+<> dc:contributor _:genid4 .
+_:genid4 rdf:value "Jane Bloggs"@en .
+_:genid4 opf:role "aut" .
+<> dc:contributor _:genid5 .
+_:genid5 rdf:value "Joan Bloggs"@en .
+_:genid5 opf:file-as "Bloggs, Joan" .
+<> dc:contributor _:genid6 .
+_:genid6 rdf:value "Rev. Dr. Martin Luther King Jr."@en .
+_:genid6 opf:role "aut" .
+_:genid6 opf:file-as "King, Martin Luther Jr." .
+<> dc:contributor _:genid7 .
+_:genid7 rdf:value "Jane Bloggs" .
+_:genid7 opf:role "aut" .
+<> dc:contributor _:genid8 .
+_:genid8 rdf:value "Joan Bloggs" .
+_:genid8 opf:file-as "Bloggs, Joan" .
+<> dc:contributor _:genid9 .
+_:genid9 rdf:value "Rev. Dr. Martin Luther King Jr." .
+_:genid9 opf:role "aut" .
+_:genid9 opf:file-as "King, Martin Luther Jr." .
+<> dtb:uid "12345" .
+<> dtb:depth "1"^^xsd:int .
+<> dtb:totalPageCount "0"^^xsd:int .
+<> dtb:maxPageNumber "0"^^xsd:int .
+<> dc:title "Test File" .
+<> tts:mimetype "@mimetype@" .

@@ -10,5 +10,4 @@
 <> dtb:totalPageCount "0"^^xsd:int .
 <> dtb:maxPageNumber "0"^^xsd:int .
 <> dc:title "Test File" .
-<#test> dc:title "Test File" .
 <> tts:mimetype "@mimetype@" .

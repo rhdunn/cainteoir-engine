@@ -4,11 +4,15 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <> dc:title "Test Case" .
-<> dc:identifier "dublincore-language.opf" .
+<> dc:identifier "dublincore-subject.opf" .
+<> dc:language "en" .
+<> dc:subject "testcase" .
+<> dc:subject "testcase-en"@en .
+<> dc:subject "testcase-uk"@en-GB .
+<> dc:subject "testcase-tw"@zh-TW .
 <> dtb:uid "12345" .
 <> dtb:depth "1"^^xsd:int .
 <> dtb:totalPageCount "0"^^xsd:int .
 <> dtb:maxPageNumber "0"^^xsd:int .
 <> dc:title "Test File" .
-<#test> dc:title "Test File" .
 <> tts:mimetype "@mimetype@" .
