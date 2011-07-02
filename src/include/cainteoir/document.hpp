@@ -90,6 +90,10 @@ namespace cainteoir
 		{
 		}
 
+		virtual void toc_entry(int depth, const rdf::uri &location, const std::string &title)
+		{
+		}
+
 		virtual ~document_events() {}
 	};
 

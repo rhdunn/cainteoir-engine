@@ -37,6 +37,61 @@ std::string parseNcxText(const xml::node &ncx)
 	return std::string();
 }
 
+void parseNavPoint(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events, int depth)
+{
+	std::string label;
+	rdf::uri location = rdf::uri(std::string(), std::string());
+	bool fired = false;
+
+	for (xml::node node = ncx.firstChild(); node.isValid(); node.next())
+	{
+		if (node.type() == XML_ELEMENT_NODE)
+		{
+			if (node == rdf::ncx("navLabel"))
+				label = node.content()->str();
+			else if (node == rdf::ncx("content"))
+			{
+				for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+				{
+					if (!strcmp(attr.name(), "src"))
+					{
+						std::string src = attr.content();
+						std::string::size_type ref = src.find('#');
+						if (ref == std::string::npos)
+							location = rdf::uri(src, std::string());
+						else
+							location = rdf::uri(src.substr(0, ref), src.substr(ref+1));
+					}
+				}
+			}
+			else if (node == rdf::ncx("navPoint"))
+			{
+				if (!fired)
+				{
+					events.toc_entry(depth, location, label);
+					fired = true;
+				}
+				parseNavPoint(node, subject, events, depth+1);
+			}
+		}
+	}
+
+	if (!fired)
+		events.toc_entry(depth, location, label);
+}
+
+void parseNavMap(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events)
+{
+	for (xml::node node = ncx.firstChild(); node.isValid(); node.next())
+	{
+		if (node.type() == XML_ELEMENT_NODE)
+		{
+			if (node == rdf::ncx("navPoint"))
+				parseNavPoint(node, subject, events, 1);
+		}
+	}
+}
+
 void parseNcxHead(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events)
 {
 	for (xml::node node = ncx.firstChild(); node.isValid(); node.next())
@@ -83,6 +138,8 @@ void cainteoir::parseNcxDocument(const xml::node &ncx, const rdf::uri &subject, 
 				events.metadata(rdf::statement(subject, rdf::dc("creator"), rdf::literal(parseNcxText(section))));
 			else if (section == rdf::ncx("docTitle"))
 				events.metadata(rdf::statement(subject, rdf::dc("title"), rdf::literal(parseNcxText(section))));
+			else if (section == rdf::ncx("navMap"))
+				parseNavMap(section, subject, events);
 		}
 	}
 }
