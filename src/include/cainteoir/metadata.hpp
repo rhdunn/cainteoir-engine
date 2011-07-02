@@ -137,7 +137,7 @@ namespace cainteoir { namespace rdf
 		std::string ref;   /**< @brief The URI reference. */
 		char suffix;       /**< @brief The URI suffix type ('#' or '/'). */
 
-		uri(const std::string &aNS, const std::string &aRef)
+		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string())
 			: ns(normalise_ns(aNS))
 			, ref(aRef)
 			, suffix(*(--aNS.end()) == '/' ? '/' : '#')
