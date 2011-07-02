@@ -148,6 +148,8 @@ int main(int argc, char ** argv)
 					<< rdf::dcam
 					<< rdf::ocf
 					<< rdf::opf
+					<< rdf::ncx
+					<< rdf::dtb
 					<< rdf::smil
 					<< rdf::xhtml
 					<< rdf::skos

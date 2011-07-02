@@ -66,6 +66,13 @@ if __name__ == '__main__':
 			{'test': 'html/metadata/lang-and-xmllang.xhtml', 'result': 'html/metadata/lang.n3', 'mimetype': 'application/xml'},
 		]},
 	]})
+	test.run({'name': 'NCX', 'groups': [
+		{'name': 'metadata', 'type': 'turtle', 'tests': [
+			{'test': 'ncx/metadata/meta.ncx', 'result': 'ncx/metadata/meta.n3'},
+			{'test': 'ncx/metadata/author.ncx', 'result': 'ncx/metadata/author.n3'},
+			{'test': 'ncx/metadata/title.ncx', 'result': 'ncx/metadata/title.n3'},
+		]},
+	]})
 	test.run({'name': 'MIME', 'groups': [
 		{'name': 'metadata', 'type': 'turtle', 'tests': [
 			{'test': 'mime/metadata/subject.txt', 'result': 'mime/metadata/subject.n3'},

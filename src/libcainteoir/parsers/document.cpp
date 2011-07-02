@@ -277,6 +277,8 @@ bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &da
 			cainteoir::parseRdfXmlDocument(root, subject, events);
 		else if (root == rdf::smil("smil"))
 			cainteoir::parseSmilDocument(root, subject, events);
+		else if (root == rdf::ncx("ncx"))
+			cainteoir::parseNcxDocument(root, subject, events);
 		else
 			return false;
 	}

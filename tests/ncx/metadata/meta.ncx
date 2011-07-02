@@ -2,10 +2,10 @@
 <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="en">
 	<head>
 		<meta content="12345" name="dtb:uid"/>
+		<meta content="cainteoir-engine" name="dtb:generator"/>
 		<meta content="1" name="dtb:depth"/>
 		<meta content="0" name="dtb:totalPageCount"/>
 		<meta content="0" name="dtb:maxPageNumber"/>
+		<meta content="12345" name="ref"/>
 	</head>
-	<docTitle><text>Test File</text></docTitle>
-	<navMap/>
 </ncx>

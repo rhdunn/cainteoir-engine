@@ -79,6 +79,8 @@ TEST_CASE("RDF namespaces")
 	test_uri(rdf::dcam("memberOf"), "http://purl.org/dc/dcam/memberOf", "http://purl.org/dc/dcam/", "memberOf");
 
 	test_uri(rdf::dtb("uid"), "http://www.daisy.org/z3986/2005/uid", "http://www.daisy.org/z3986/2005/", "uid");
+	test_uri(rdf::ncx("meta"), "http://www.daisy.org/z3986/2005/ncx/meta", "http://www.daisy.org/z3986/2005/ncx/", "meta");
+
 	test_uri(rdf::opf("package"), "http://www.idpf.org/2007/opf#package", "http://www.idpf.org/2007/opf", "package");
 	test_uri(rdf::ocf("container"), "urn:oasis:names:tc:opendocument:xmlns:container#container", "urn:oasis:names:tc:opendocument:xmlns:container", "container");
 	test_uri(rdf::smil("smil"), "http://www.w3.org/ns/SMIL#smil", "http://www.w3.org/ns/SMIL", "smil");
