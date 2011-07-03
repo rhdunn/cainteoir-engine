@@ -72,29 +72,31 @@ def print_exception(word, pronunciation, ipa=True):
 		else:
 			print '%s%30s%s' % (word, ' ', pronunciation.replace('/', ''))
 
+def parse_dictionaries(dictionaries):
+	data = []
+	for dictionary in dictionaries:
+		with open(dictionary) as f:
+			for line in f:
+				if line == '\n' or line.startswith('#'):
+					pass
+				elif '"' in line:
+					word, pronunciation, rest = line.split('"')
+					word = ' '.join(word.split())
+					pronunciation = ' '.join(pronunciation.split())
+					data.append({ 'word': word, 'replacement': pronunciation })
+				else:
+					word, pronunciation, rest = line.split('/')
+					word = ' '.join(word.split())
+					pronunciation = ' '.join(pronunciation.split())
+					data.append({ 'word': word, 'pronunciation': pronunciation })
+	return data
+
 class Tester:
 	def __init__(self):
 		self.passed = 0
 		self.failed = 0
 
-	def test_dictionary(self, dictionaries, generate_exception_dictionary=False, ipa=True):
-		data = []
-		for dictionary in dictionaries:
-			with open(dictionary) as f:
-				for line in f:
-					if line == '\n' or line.startswith('#'):
-						pass
-					elif '"' in line:
-						word, pronunciation, rest = line.split('"')
-						word = ' '.join(word.split())
-						pronunciation = ' '.join(pronunciation.split())
-						data.append({ 'word': word, 'replacement': pronunciation })
-					else:
-						word, pronunciation, rest = line.split('/')
-						word = ' '.join(word.split())
-						pronunciation = ' '.join(pronunciation.split())
-						data.append({ 'word': word, 'pronunciation': pronunciation })
-
+	def test_dictionary(self, data, generate_exception_dictionary=False, ipa=True):
 		with open('/tmp/words.lst', 'w') as f:
 			for item in data:
 				f.write('%s\n\n' % item['word'])
@@ -139,24 +141,15 @@ class Tester:
 	def summary(self):
 		print '%d passed %d failed %d total' % (self.passed, self.failed, self.passed + self.failed)
 
-def list_words(files):
-	words = []
-	for dictionary in files:
-		with open(dictionary) as f:
-			for line in f:
-				if line != '\n' and not line.startswith('#'):
-					word, pronunciation, rest = line.split('/')
-					words.append((''.join(word.split()).lower()))
-	return words
-
 if __name__ == '__main__':
 	args = [ x for x in sys.argv if not x.startswith('--') ]
 
 	dictionarydir = args[1]
 	dictionaries = [ os.path.join(dictionarydir, x) for x in os.listdir(dictionarydir) if x.endswith('.dict') ]
+	words = parse_dictionaries(dictionaries)
 
 	if '--new-words' in sys.argv:
-		have_words = list_words(dictionaries)
+		have_words = [ data['word'] for data in words ]
 		with open(args[2]) as f:
 			for line in f:
 				line = line.replace('\n', '')
@@ -164,6 +157,6 @@ if __name__ == '__main__':
 					print line
 	else:
 		test = Tester()
-		test.test_dictionary(dictionaries, generate_exception_dictionary='--exception-dictionary' in sys.argv, ipa='--ipa' in sys.argv)
+		test.test_dictionary(words, generate_exception_dictionary='--exception-dictionary' in sys.argv, ipa='--ipa' in sys.argv)
 		if not '--exception-dictionary' in sys.argv:
 			test.summary()
