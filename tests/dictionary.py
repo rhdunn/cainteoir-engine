@@ -88,7 +88,13 @@ def parse_dictionaries(dictionaries):
 					word, pronunciation, rest = line.split('/')
 					word = ' '.join(word.split())
 					pronunciation = ' '.join(pronunciation.split())
-					data.append({ 'word': word, 'pronunciation': pronunciation })
+					if '(' in word and ')' in word and '|' in word:
+						parts_left  = word.split('(')
+						parts_right = parts_left[1].split(')')
+						for part in parts_right[0].split('|'):
+							data.append({ 'word': ''.join([ parts_left[0], part, parts_right[1] ]), 'pronunciation': pronunciation })
+					else:
+						data.append({ 'word': word, 'pronunciation': pronunciation })
 	return data
 
 class Tester:
