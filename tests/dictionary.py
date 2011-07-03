@@ -72,6 +72,21 @@ def print_exception(word, pronunciation, ipa=True):
 		else:
 			print '%s%30s%s' % (word, ' ', pronunciation.replace('/', ''))
 
+def expand(expr):
+	if '(' in expr and ')' in expr and '|' in expr:
+		parts_left  = expr.split('(')
+		parts_right = parts_left[1].split(')')
+		words = []
+		for left in expand(parts_left[0]):
+			for right in expand(parts_right[1]):
+				words.extend([ ''.join([left, part, right]) for part in parts_right[0].split('|') ])
+		return words
+	if '[' in expr and ']' in expr:
+		parts_left  = expr.split('[')
+		parts_right = parts_left[1].split(']')
+		return [ ''.join([parts_left[0], part, parts_right[1]]) for part in parts_right[0] ]
+	return [ expr ]
+
 def parse_dictionaries(dictionaries):
 	data = []
 	for dictionary in dictionaries:
@@ -85,20 +100,9 @@ def parse_dictionaries(dictionaries):
 					pronunciation = ' '.join(pronunciation.split())
 					data.append({ 'word': word, 'replacement': pronunciation })
 				else:
-					word, pronunciation, rest = line.split('/')
-					word = ' '.join(word.split())
+					expr, pronunciation, rest = line.split('/')
 					pronunciation = ' '.join(pronunciation.split())
-					if '(' in word and ')' in word and '|' in word:
-						parts_left  = word.split('(')
-						parts_right = parts_left[1].split(')')
-						for part in parts_right[0].split('|'):
-							data.append({ 'word': ''.join([ parts_left[0], part, parts_right[1] ]), 'pronunciation': pronunciation })
-					elif '[' in word and ']' in word:
-						parts_left  = word.split('[')
-						parts_right = parts_left[1].split(']')
-						for part in parts_right[0]:
-							data.append({ 'word': ''.join([ parts_left[0], part, parts_right[1] ]), 'pronunciation': pronunciation })
-					else:
+					for word in expand(' '.join(expr.split())):
 						data.append({ 'word': word, 'pronunciation': pronunciation })
 	return data
 
