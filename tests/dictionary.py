@@ -58,7 +58,16 @@ def print_exception(word, pronunciation, ipa=True):
 		for a, b in replacements:
 			pronunciation = pronunciation.replace(a, b)
 
-		if '-' in word:
+		wordlist = []
+		for i, c in enumerate(word):
+			if c >= 'A' and c <= 'Z' and i != 0:
+				wordlist.append(' ')
+				wordlist.append(c.lower())
+			else:
+				wordlist.append(c)
+		word = ''.join(wordlist)
+
+		if '-' in word or ' ' in word:
 			print '(%s)%30s%s' % (word, ' ', pronunciation.replace('/', ''))
 		else:
 			print '%s%30s%s' % (word, ' ', pronunciation.replace('/', ''))
