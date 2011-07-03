@@ -93,6 +93,11 @@ def parse_dictionaries(dictionaries):
 						parts_right = parts_left[1].split(')')
 						for part in parts_right[0].split('|'):
 							data.append({ 'word': ''.join([ parts_left[0], part, parts_right[1] ]), 'pronunciation': pronunciation })
+					elif '[' in word and ']' in word:
+						parts_left  = word.split('[')
+						parts_right = parts_left[1].split(']')
+						for part in parts_right[0]:
+							data.append({ 'word': ''.join([ parts_left[0], part, parts_right[1] ]), 'pronunciation': pronunciation })
 					else:
 						data.append({ 'word': word, 'pronunciation': pronunciation })
 	return data
