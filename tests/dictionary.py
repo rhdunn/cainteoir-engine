@@ -72,13 +72,19 @@ def print_exception(word, pronunciation, ipa=True):
 		else:
 			print '%s%30s%s' % (word, ' ', pronunciation.replace('/', ''))
 
-def expand(expr):
+def expand(expr, refs):
+	if '+' in expr:
+		parts = expr.split('+')
+		words = []
+		for left in expand(parts[0], refs):
+			words.extend([ ''.join([left, right]) for right in expand(refs[parts[1]], refs) ])
+		return words
 	if '(' in expr and ')' in expr and '|' in expr:
 		parts_left  = expr.split('(')
 		parts_right = parts_left[1].split(')')
 		words = []
-		for left in expand(parts_left[0]):
-			for right in expand(parts_right[1]):
+		for left in expand(parts_left[0], refs):
+			for right in expand(parts_right[1], refs):
 				words.extend([ ''.join([left, part, right]) for part in parts_right[0].split('|') ])
 		return words
 	if '[' in expr and ']' in expr:
@@ -89,11 +95,15 @@ def expand(expr):
 
 def parse_dictionaries(dictionaries):
 	data = []
+	refs = {}
 	for dictionary in dictionaries:
 		with open(dictionary) as f:
 			for line in f:
 				if line == '\n' or line.startswith('#'):
 					pass
+				elif '=' in line:
+					ref = line.replace('\n', '').split('=')
+					refs[ ref[0] ] = ref[1]
 				elif '"' in line:
 					word, pronunciation, rest = line.split('"')
 					word = ' '.join(word.split())
@@ -102,7 +112,7 @@ def parse_dictionaries(dictionaries):
 				else:
 					expr, pronunciation, rest = line.split('/')
 					pronunciation = ' '.join(pronunciation.split())
-					for word in expand(' '.join(expr.split())):
+					for word in expand(' '.join(expr.split()), refs):
 						data.append({ 'word': word, 'pronunciation': pronunciation })
 	return data
 
@@ -164,7 +174,8 @@ if __name__ == '__main__':
 	words = parse_dictionaries(dictionaries)
 
 	if '--new-words' in sys.argv:
-		have_words = [ data['word'] for data in words ]
+		have_words = [ data['word'].lower() for data in words ]
+		#print '\n'.join(have_words)
 		with open(args[2]) as f:
 			for line in f:
 				line = line.replace('\n', '')
