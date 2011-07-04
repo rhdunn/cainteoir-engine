@@ -79,6 +79,14 @@ def expand(expr, refs):
 		for left in expand(parts[0], refs):
 			words.extend([ ''.join([left, right]) for right in expand(refs[parts[1]], refs) ])
 		return words
+	if '<' in expr and '>' in expr:
+		parts_left  = expr.split('<')
+		parts_right = parts_left[1].split('>')
+		words = []
+		for left in expand(parts_left[0], refs):
+			for right in expand(parts_right[1], refs):
+				words.extend([ ''.join([left, part, right]) for part in expand(refs[parts_right[0]], refs) ])
+		return words
 	if '(' in expr and ')' in expr and '|' in expr:
 		parts_left  = expr.split('(')
 		parts_right = parts_left[1].split(')')
