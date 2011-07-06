@@ -102,6 +102,18 @@ def expand(expr, refs):
 	return [ expr ]
 
 def parse_dictionaries(dictionaries):
+	""" Dictionary format:
+		repl=expr		-- define the named replacement 'repl' as the word set 'expr'
+		expr			-- the word set is the set of all word combinations in 'expr'
+		expr+repl		-- the word set is the set of all word combinations in 'expr'
+					   combined with replacement 'repl'
+
+		where expr is a combination of:
+			text		-- use 'text' in the word
+			(aa|bb|cc)	-- use 'aa' or 'bb' or 'cc' in the word
+			[abc]		-- use the character 'a' or 'b' or 'c' in the word
+			<repl>		-- use the result of the replacement 'repl' in the word
+	"""
 	data = []
 	refs = {}
 	for dictionary in dictionaries:
