@@ -32,7 +32,7 @@ const rdf::ns rdf::dc(     "dc",   "http://purl.org/dc/elements/1.1/");
 const rdf::ns rdf::dcterms("dct",  "http://purl.org/dc/terms/");
 const rdf::ns rdf::dcam(   "dcam", "http://purl.org/dc/dcam/");
 
-const rdf::ns rdf::dtb("dtb", "http://www.daisy.org/z3986/2005/");
+const rdf::ns rdf::dtb("dtb", "http://www.daisy.org/z3986/2005/dtbook/");
 const rdf::ns rdf::ncx("ncx", "http://www.daisy.org/z3986/2005/ncx/");
 
 const rdf::ns rdf::opf(  "opf",  "http://www.idpf.org/2007/opf");
