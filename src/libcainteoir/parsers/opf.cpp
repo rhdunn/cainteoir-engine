@@ -37,6 +37,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::
 		{
 			std::string name;
 			std::string content;
+			std::string property;
 
 			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 			{
@@ -44,10 +45,14 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::
 					name = attr.content();
 				else if (!strcmp(attr.name(), "content"))
 					content = attr.content();
+				else if (!strcmp(attr.name(), "property"))
+					property = attr.content();
 			}
 
 			if (!name.empty() && !content.empty())
 				events.metadata(rdf::statement(subject, rdfa(name), rdf::literal(content)));
+			else if (!property.empty())
+				events.metadata(rdf::statement(subject, rdfa(property), rdf::literal(node.content()->str())));
 		}
 		else if (node.namespaceURI() == rdf::dc)
 		{

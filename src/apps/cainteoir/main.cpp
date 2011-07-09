@@ -296,8 +296,12 @@ int main(int argc, char ** argv)
 				<< rdf::dcterms
 				<< rdf::dcam
 				<< rdf::epub
-				<< rdf::ocf
 				<< rdf::opf
+				<< rdf::ocf
+				<< rdf::pkg
+				<< rdf::media
+				<< rdf::ncx
+				<< rdf::dtb
 				<< rdf::smil
 				<< rdf::xhtml
 				<< rdf::skos
