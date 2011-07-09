@@ -140,6 +140,7 @@ if __name__ == '__main__':
 			{'test': 'opf/meta/property.opf', 'result': 'opf/meta/property.n3'},
 			{'test': 'opf/meta/property-id.opf', 'result': 'opf/meta/property-id.n3'},
 			{'test': 'opf/meta/property-about.opf', 'result': 'opf/meta/property-about.n3'},
+			{'test': 'opf/meta/property-datatype.opf', 'result': 'opf/meta/property-datatype.n3'},
 		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',

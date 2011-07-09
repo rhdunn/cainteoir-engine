@@ -40,6 +40,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::
 			std::string property;
 			std::string id;
 			std::string about;
+			std::string datatype;
 
 			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 			{
@@ -53,22 +54,30 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::
 					id = attr.content();
 				else if (!strcmp(attr.name(), "about"))
 					about = attr.content();
+				else if (!strcmp(attr.name(), "datatype"))
+					datatype = attr.content();
 			}
 
 			if (!name.empty() && !content.empty())
 				events.metadata(rdf::statement(subject, rdfa(name), rdf::literal(content)));
 			else if (!property.empty())
 			{
+				rdf::literal object;
+				if (datatype.empty())
+					object = rdf::literal(node.content()->str());
+				else
+					object = rdf::literal(node.content()->str(), rdfa(datatype));
+
 				if (!id.empty())
 				{
 					const rdf::uri base(subject.str(), id);
 					events.metadata(rdf::statement(subject, rdfa(property), base));
-					events.metadata(rdf::statement(base, rdf::rdf("value"), rdf::literal(node.content()->str())));
+					events.metadata(rdf::statement(base, rdf::rdf("value"), object));
 				}
 				else if (!about.empty())
-					events.metadata(rdf::statement(rdf::uri(subject.str(), about.substr(1)), rdfa(property), rdf::literal(node.content()->str())));
+					events.metadata(rdf::statement(rdf::uri(subject.str(), about.substr(1)), rdfa(property), object));
 				else
-					events.metadata(rdf::statement(subject, rdfa(property), rdf::literal(node.content()->str())));
+					events.metadata(rdf::statement(subject, rdfa(property), object));
 			}
 		}
 		else if (node.namespaceURI() == rdf::dc)
