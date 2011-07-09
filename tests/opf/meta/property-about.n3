@@ -1,0 +1,9 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix pkg: <http://www.idpf.org/epub/vocab/package/#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<> dct:creator <#author> .
+<#author> rdf:value "Jane Bloggs" .
+<#author> pkg:file-as "Bloggs, Jane" .
+<> tts:mimetype "@mimetype@" .
