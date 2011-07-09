@@ -24,7 +24,7 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::document_events &events, rdf::namespaces &rdfa, bool recurse)
+void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::namespaces &rdfa, bool recurse)
 {
 	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
 	{
@@ -32,15 +32,15 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::
 			continue;
 
 		if (node == rdf::opf("dc-metadata") && recurse)
-			parseOpfMetadata(node, subject, events, rdfa, false);
+			parseOpfMetadata(node, aSubject, events, rdfa, false);
 		else if (node == rdf::opf("meta"))
 		{
 			std::string name;
 			std::string content;
 			std::string property;
 			std::string id;
-			std::string about;
-			std::string datatype;
+			rdf::uri about = aSubject;
+			rdf::uri datatype;
 
 			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 			{
@@ -53,31 +53,25 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::
 				else if (!strcmp(attr.name(), "id"))
 					id = attr.content();
 				else if (!strcmp(attr.name(), "about"))
-					about = attr.content();
+					about = rdf::uri(aSubject.str(), attr.content().substr(1));
 				else if (!strcmp(attr.name(), "datatype"))
-					datatype = attr.content();
+					datatype = rdfa(attr.content());
 			}
 
 			if (!name.empty() && !content.empty())
-				events.metadata(rdf::statement(subject, rdfa(name), rdf::literal(content)));
+				events.metadata(rdf::statement(aSubject, rdfa(name), rdf::literal(content)));
 			else if (!property.empty())
 			{
-				rdf::literal object;
-				if (datatype.empty())
-					object = rdf::literal(node.content()->str());
-				else
-					object = rdf::literal(node.content()->str(), rdfa(datatype));
+				rdf::literal object = rdf::literal(node.content()->str(), datatype);
 
 				if (!id.empty())
 				{
-					const rdf::uri base(subject.str(), id);
-					events.metadata(rdf::statement(subject, rdfa(property), base));
+					const rdf::uri base(aSubject.str(), id);
+					events.metadata(rdf::statement(about, rdfa(property), base));
 					events.metadata(rdf::statement(base, rdf::rdf("value"), object));
 				}
-				else if (!about.empty())
-					events.metadata(rdf::statement(rdf::uri(subject.str(), about.substr(1)), rdfa(property), object));
 				else
-					events.metadata(rdf::statement(subject, rdfa(property), object));
+					events.metadata(rdf::statement(about, rdfa(property), object));
 			}
 		}
 		else if (node.namespaceURI() == rdf::dc)
@@ -94,7 +88,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::
 				if (!role.empty() || !fileas.empty())
 				{
 					const rdf::bnode temp = events.genid();
-					events.metadata(rdf::statement(subject, predicate, temp));
+					events.metadata(rdf::statement(aSubject, predicate, temp));
 					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
 					if (!role.empty())
 						events.metadata(rdf::statement(temp, rdf::opf("role"), rdf::literal(role)));
@@ -123,7 +117,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::
 				if (!event.empty())
 				{
 					const rdf::bnode temp = events.genid();
-					events.metadata(rdf::statement(subject, predicate, temp));
+					events.metadata(rdf::statement(aSubject, predicate, temp));
 					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
 					events.metadata(rdf::statement(temp, rdf::opf("event"), rdf::literal(event)));
 					continue;
@@ -135,14 +129,14 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::
 				if (!scheme.empty())
 				{
 					const rdf::bnode temp = events.genid();
-					events.metadata(rdf::statement(subject, predicate, temp));
+					events.metadata(rdf::statement(aSubject, predicate, temp));
 					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
 					events.metadata(rdf::statement(temp, rdf::opf("scheme"), rdf::literal(scheme)));
 					continue;
 				}
 			}
 
-			events.metadata(rdf::statement(subject, predicate, rdf::literal(value, lang)));
+			events.metadata(rdf::statement(aSubject, predicate, rdf::literal(value, lang)));
 		}
 	}
 }
