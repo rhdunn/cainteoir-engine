@@ -143,6 +143,76 @@ TEST_CASE("rdf::namespaces -- base uri")
 	test_uri(test("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
 
 	test_uri(test("dc:title"), "dc:title", "dc:title", "");
+
+	test.set_base("http://www.example.org/base");
+	test_uri(test("_:test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
+
+	test.set_base("http://www.example.org/base/");
+	test_uri(test("_:test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
+
+	test.set_base("http://www.example.org/base#");
+	test_uri(test("_:test"), "http://www.example.org/base#test", "http://www.example.org/base#", "test");
+
+	test.set_base("http://www.example.org/base/#");
+	test_uri(test("_:test"), "http://www.example.org/base/#test", "http://www.example.org/base/#", "test");
+}
+
+TEST_CASE("rdf::namespaces -- add_namespaces(prefix, href)")
+{
+	rdf::namespaces test;
+	test.set_base("http://www.example.org/base/");
+
+	test_uri(test("dc:title"), "dc:title", "dc:title", "");
+	test_uri(test("xsd:string"), "xsd:string", "xsd:string", "");
+	test_uri(test("xml:lang"), "xml:lang", "xml:lang", "");
+	test_uri(test("dct:title"), "dct:title", "dct:title", "");
+
+	test.add_namespace("dc", "http://purl.org/dc/elements/1.1/");
+	test.add_namespace("xsd", "http://www.w3.org/2001/XMLSchema");
+	test.add_namespace("xml", "http://www.w3.org/XML/1998/namespace#");
+
+	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	test_uri(test("dct:title"), "dct:title", "dct:title", "");
+}
+
+TEST_CASE("rdf::namespaces -- add_namespaces(ns)")
+{
+	rdf::namespaces test;
+	test.set_base("http://www.example.org/base/");
+
+	test_uri(test("dc:title"), "dc:title", "dc:title", "");
+	test_uri(test("xsd:string"), "xsd:string", "xsd:string", "");
+	test_uri(test("xml:lang"), "xml:lang", "xml:lang", "");
+	test_uri(test("dct:title"), "dct:title", "dct:title", "");
+
+	test.add_namespace(rdf::dc);
+	test.add_namespace(rdf::xsd);
+	test.add_namespace(rdf::xml);
+
+	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	test_uri(test("dct:title"), "dct:title", "dct:title", "");
+}
+
+TEST_CASE("rdf::namespaces -- namespaces << ns")
+{
+	rdf::namespaces test;
+	test.set_base("http://www.example.org/base/");
+
+	test_uri(test("dc:title"), "dc:title", "dc:title", "");
+	test_uri(test("xsd:string"), "xsd:string", "xsd:string", "");
+	test_uri(test("xml:lang"), "xml:lang", "xml:lang", "");
+	test_uri(test("dct:title"), "dct:title", "dct:title", "");
+
+	test << rdf::dc << rdf::xsd << rdf::xml;
+
+	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	test_uri(test("dct:title"), "dct:title", "dct:title", "");
 }
 
 void test_literal(const rdf::node &node, const std::string value, const std::string &language, const rdf::uri &uri)

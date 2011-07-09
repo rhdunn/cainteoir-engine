@@ -97,16 +97,32 @@ const rdf::uri rdf::href(const std::string &aHref)
 	return uri(aHref, std::string());
 }
 
-void rdf::namespaces::set_base(const std::string &aBase)
+rdf::namespaces &rdf::namespaces::set_base(const std::string &aBase)
 {
-	mBaseUri = aBase;
+	mNamespaces["_"] = mBaseUri = aBase;
+	return *this;
+}
+
+rdf::namespaces &rdf::namespaces::add_namespace(const std::string &aPrefix, const std::string &aHref)
+{
+	if (*(--aHref.end()) != '#' && *(--aHref.end()) != '/')
+		mNamespaces[aPrefix] = aHref + '#';
+	else
+		mNamespaces[aPrefix] = aHref;
+	return *this;
 }
 
 const rdf::uri rdf::namespaces::operator()(const std::string &aCurie) const
 {
-	std::string::size_type pos = aCurie.find(':');
-	if (pos != std::string::npos)
+	std::string::size_type index = aCurie.find(':');
+	if (index != std::string::npos)
 	{
+		std::string prefix = aCurie.substr(0, index);
+		std::string ref = aCurie.substr(index+1);
+
+		auto ns = mNamespaces.find(prefix);
+		if (ns != mNamespaces.end())
+			return href(ns->second + ref);
 		return href(aCurie);
 	}
 	return href(mBaseUri + aCurie);

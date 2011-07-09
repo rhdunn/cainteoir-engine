@@ -26,6 +26,7 @@
 #include <string>
 #include <list>
 #include <set>
+#include <map>
 
 #define join_strings2(a, b) a ## b
 #define join_strings(a, b) join_strings2(a, b)
@@ -235,10 +236,23 @@ namespace cainteoir { namespace rdf
 	class namespaces
 	{
 	public:
-		void set_base(const std::string &aBase);
+		namespaces &set_base(const std::string &aBase);
+
+		namespaces &add_namespace(const std::string &aPrefix, const std::string &aHref);
+
+		namespaces &add_namespace(const ns &aNS)
+		{
+			return add_namespace(aNS.prefix, aNS.href);
+		}
+
+		namespaces &operator<<(const ns &aNS)
+		{
+			return add_namespace(aNS.prefix, aNS.href);
+		}
 
 		const uri operator()(const std::string &aCurie) const;
 	private:
+		std::map<std::string, std::string> mNamespaces;
 		std::string mBaseUri;
 	};
 
