@@ -110,6 +110,41 @@ TEST_CASE("rdf::href")
 	test_uri(rdf::href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
 }
 
+TEST_CASE("rdf::namespaces -- empty")
+{
+	rdf::namespaces test;
+
+	test_uri(test(""), "", "", "");
+
+	test_uri(test("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");
+	test_uri(test("http://www.example.org/test/value"), "http://www.example.org/test/value", "http://www.example.org/test/", "value");
+	test_uri(test("http://www.example.org/test#"), "http://www.example.org/test#", "http://www.example.org/test#", "");
+	test_uri(test("http://www.example.org/test#value"), "http://www.example.org/test#value", "http://www.example.org/test#", "value");
+	test_uri(test("http://www.example.org/test/#"), "http://www.example.org/test/#", "http://www.example.org/test/#", "");
+	test_uri(test("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
+
+	test_uri(test("dc:title"), "dc:title", "dc:title", "");
+}
+
+TEST_CASE("rdf::namespaces -- base uri")
+{
+	rdf::namespaces test;
+	test.set_base("http://www.example.org/base");
+
+	test_uri(test("test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
+	test_uri(test("/test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
+	test_uri(test("#test"), "http://www.example.org/base#test", "http://www.example.org/base#", "test");
+
+	test_uri(test("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");
+	test_uri(test("http://www.example.org/test/value"), "http://www.example.org/test/value", "http://www.example.org/test/", "value");
+	test_uri(test("http://www.example.org/test#"), "http://www.example.org/test#", "http://www.example.org/test#", "");
+	test_uri(test("http://www.example.org/test#value"), "http://www.example.org/test#value", "http://www.example.org/test#", "value");
+	test_uri(test("http://www.example.org/test/#"), "http://www.example.org/test/#", "http://www.example.org/test/#", "");
+	test_uri(test("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
+
+	test_uri(test("dc:title"), "dc:title", "dc:title", "");
+}
+
 void test_literal(const rdf::node &node, const std::string value, const std::string &language, const rdf::uri &uri)
 {
 	const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&node);

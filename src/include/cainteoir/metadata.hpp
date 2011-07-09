@@ -185,7 +185,7 @@ namespace cainteoir { namespace rdf
 		return uri(aHref, std::string());
 	}
 
-	/** @breif RDF namespace.
+	/** @brief RDF namespace.
 	  */
 	class ns
 	{
@@ -262,6 +262,33 @@ namespace cainteoir { namespace rdf
 	extern const ns skos;    /**< @brief SKOS namespace. */
 	extern const ns foaf;    /**< @brief Friend of a Family (FOAF) namespace. */
 	extern const ns tts;     /**< @brief Cainteoir Text-to-Speech RDF namespace. */
+
+	/** @brief CURIE/XML namespaces.
+	  *
+	  * Defines a set of namespaces. This has two applications:
+	  *    -  xmlns and xml:base URI expansion in XML documents;
+	  *    -  curies and prefix data in RDFa data.
+	  */
+	class namespaces
+	{
+	public:
+		void set_base(const std::string &aBase)
+		{
+			mBaseUri = aBase;
+		}
+
+		const uri operator()(const std::string &aCurie) const
+		{
+			std::string::size_type pos = aCurie.find(':');
+			if (pos != std::string::npos)
+			{
+				return href(aCurie);
+			}
+			return href(mBaseUri + aCurie);
+		}
+	private:
+		std::string mBaseUri;
+	};
 
 	/** @brief RDF literal node
 	  */
