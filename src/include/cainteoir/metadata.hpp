@@ -101,15 +101,12 @@ namespace cainteoir { namespace rdf
 	public:
 		const std::string id; /**< @brief The ID for the blank node. */
 
-		bnode(const std::string &aID)
+		explicit bnode(const std::string &aID)
 			: id(aID)
 		{
 		}
 
-		const resource *clone() const
-		{
-			return new bnode(*this);
-		}
+		const resource *clone() const;
 	};
 
 	inline bool operator==(const bnode &a, const bnode &b)
@@ -130,32 +127,13 @@ namespace cainteoir { namespace rdf
 		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
 		std::string ref;   /**< @brief The URI reference. */
 
-		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string())
-			: ns(aNS)
-			, ref(aRef)
-		{
-			auto last = --ns.end();
-			if (!ref.empty() && *last != '#' && *last != '/')
-				ns.push_back('#');
-		}
+		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string());
 
-		bool empty() const
-		{
-			return ns.empty() && ref.empty();
-		}
+		bool empty() const;
 
-		std::string str() const
-		{
-			if (ref.empty())
-				return ns;
+		std::string str() const;
 
-			return ns + ref;
-		}
-
-		const resource *clone() const
-		{
-			return new uri(*this);
-		}
+		const resource *clone() const;
 	};
 
 	inline bool operator==(const uri &a, const uri &b)
@@ -168,22 +146,7 @@ namespace cainteoir { namespace rdf
 		return !(a == b);
 	}
 
-	inline const uri href(const std::string &aHref)
-	{
-		{
-			std::string::size_type index = aHref.rfind('#');
-			if (index == aHref.size()-1)
-				return uri(aHref, std::string());
-			else if (index != std::string::npos)
-				return uri(aHref.substr(0, index+1), aHref.substr(index+1));
-		}
-		{
-			std::string::size_type index = aHref.rfind('/');
-			if (index != std::string::npos && index != aHref.size()-1)
-				return uri(aHref.substr(0, index+1), aHref.substr(index+1));
-		}
-		return uri(aHref, std::string());
-	}
+	const uri href(const std::string &aHref);
 
 	/** @brief RDF namespace.
 	  */
@@ -272,20 +235,9 @@ namespace cainteoir { namespace rdf
 	class namespaces
 	{
 	public:
-		void set_base(const std::string &aBase)
-		{
-			mBaseUri = aBase;
-		}
+		void set_base(const std::string &aBase);
 
-		const uri operator()(const std::string &aCurie) const
-		{
-			std::string::size_type pos = aCurie.find(':');
-			if (pos != std::string::npos)
-			{
-				return href(aCurie);
-			}
-			return href(mBaseUri + aCurie);
-		}
+		const uri operator()(const std::string &aCurie) const;
 	private:
 		std::string mBaseUri;
 	};
@@ -353,10 +305,7 @@ namespace cainteoir { namespace rdf
 		template<typename T>
 		T as() const;
 
-		const node *clone() const
-		{
-			return new literal(*this);
-		}
+		const node *clone() const;
 	};
 
 	template<typename T>
@@ -463,38 +412,11 @@ namespace cainteoir { namespace rdf
 		{
 		}
 
-		const rdf::bnode genid()
-		{
-			std::ostringstream id;
-			id << "genid" << nextid;
-			++nextid;
-			return rdf::bnode(id.str());
-		}
+		const rdf::bnode genid();
 
-		bool contains(const ns &uri) const
-		{
-			return namespaces.find(uri.href) != namespaces.end();
-		}
+		bool contains(const ns &uri) const;
 
-		void push_back(const statement &s)
-		{
-			{
-				const rdf::uri *uri = rdf::query::subject(s);
-				if (uri)
-					namespaces.insert(uri->ns);
-			}
-			namespaces.insert(s.predicate.ns);
-			{
-				const rdf::uri *uri = rdf::query::object(s);
-				if (uri)
-					namespaces.insert(uri->ns);
-
-				const rdf::literal *literal = rdf::query::object(s);
-				if (literal && !literal->type.ns.empty())
-					namespaces.insert(literal->type.ns);
-			}
-			std::list<statement>::push_back(s);
-		}
+		void push_back(const statement &s);
 	private:
 		std::set<std::string> namespaces;
 		int nextid;

@@ -145,7 +145,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/xmlstring_buffer.cpp \
-	src/libcainteoir/rdf/namespaces.cpp \
+	src/libcainteoir/rdf/metadata.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/parsers/mimetypes.hpp \
 	src/libcainteoir/parsers/parsers.hpp \
