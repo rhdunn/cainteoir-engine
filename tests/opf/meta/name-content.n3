@@ -1,0 +1,5 @@
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix pkg: <http://www.idpf.org/epub/vocab/package/#> .
+
+<> pkg:price "£5.99" .
+<> tts:mimetype "@mimetype@" .

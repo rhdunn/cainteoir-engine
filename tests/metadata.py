@@ -135,6 +135,9 @@ if __name__ == '__main__':
 			{'test': 'opf/dc-metadata/dublincore-type.opf', 'result': 'opf/metadata/dublincore-type.n3'},
 			{'test': 'opf/dc-metadata/xmllang.opf', 'result': 'opf/metadata/xmllang.n3'},
 		]},
+		{'name': 'meta', 'type': 'turtle', 'tests': [
+			{'test': 'opf/meta/name-content.opf', 'result': 'opf/meta/name-content.n3'},
+		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
 		'archive':

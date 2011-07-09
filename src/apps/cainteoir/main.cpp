@@ -290,10 +290,12 @@ int main(int argc, char ** argv)
 				<< rdf::rdf
 				<< rdf::rdfs
 				<< rdf::xsd
+				<< rdf::xml
 				<< rdf::owl
 				<< rdf::dc
 				<< rdf::dcterms
 				<< rdf::dcam
+				<< rdf::epub
 				<< rdf::ocf
 				<< rdf::opf
 				<< rdf::smil

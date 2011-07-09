@@ -142,12 +142,16 @@ int main(int argc, char ** argv)
 					<< rdf::rdf
 					<< rdf::rdfs
 					<< rdf::xsd
+					<< rdf::xml
 					<< rdf::owl
 					<< rdf::dc
 					<< rdf::dcterms
 					<< rdf::dcam
-					<< rdf::ocf
+					<< rdf::epub
 					<< rdf::opf
+					<< rdf::ocf
+					<< rdf::pkg
+					<< rdf::media
 					<< rdf::ncx
 					<< rdf::dtb
 					<< rdf::smil

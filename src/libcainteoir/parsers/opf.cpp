@@ -24,7 +24,7 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::document_events &events, bool recurse)
+void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::document_events &events, rdf::namespaces &rdfa, bool recurse)
 {
 	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
 	{
@@ -32,9 +32,22 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::
 			continue;
 
 		if (node == rdf::opf("dc-metadata") && recurse)
-			parseOpfMetadata(node, subject, events, false);
+			parseOpfMetadata(node, subject, events, rdfa, false);
 		else if (node == rdf::opf("meta"))
 		{
+			std::string name;
+			std::string content;
+
+			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+			{
+				if (!strcmp(attr.name(), "name"))
+					name = attr.content();
+				else if (!strcmp(attr.name(), "content"))
+					content = attr.content();
+			}
+
+			if (!name.empty() && !content.empty())
+				events.metadata(rdf::statement(subject, rdfa(name), rdf::literal(content)));
 		}
 		else if (node.namespaceURI() == rdf::dc)
 		{
@@ -152,12 +165,21 @@ void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, 
 	std::list<std::string> spine;
 	std::map<std::string, fileinfo> files;
 
+	rdf::namespaces rdfa;
+	rdfa.set_base(rdf::pkg.href);
+
+	for (xml::attribute attr = opf.firstAttribute(); attr.isValid(); attr.next())
+	{
+		if (!strcmp(attr.name(), "profile") && attr.content() == "http://www.idpf.org/epub/30/profile/package/")
+			rdfa << rdf::ns("dcterms", rdf::dcterms.href) << rdf::media << rdf::xsd;
+	}
+
 	for (xml::node section = opf.firstChild(); section.isValid(); section.next())
 	{
 		if (section.type() == XML_ELEMENT_NODE)
 		{
 			if (section == rdf::opf("metadata"))
-				parseOpfMetadata(section, subject, events, true);
+				parseOpfMetadata(section, subject, events, rdfa, true);
 			else if (section == rdf::opf("manifest"))
 				parseOpfManifest(section, subject, files);
 			else if (section == rdf::opf("spine"))
