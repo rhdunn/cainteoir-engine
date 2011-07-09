@@ -124,10 +124,7 @@ public:
 			foreach_iter(ns, namespaces)
 				if (aGraph.contains(cainteoir::rdf::ns(ns->second, ns->first)))
 				{
-					if (*(--ns->first.end()) == '/')
-						os << "@prefix " << ns->second << ": <" << ns->first << "> ." << std::endl;
-					else
-						os << "@prefix " << ns->second << ": <" << ns->first << "#> ." << std::endl;
+					os << "@prefix " << ns->second << ": <" << ns->first << "> ." << std::endl;
 				}
 			os << std::endl;
 		}

@@ -33,6 +33,9 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &subject, cainteoir::
 
 		if (node == rdf::opf("dc-metadata") && recurse)
 			parseOpfMetadata(node, subject, events, false);
+		else if (node == rdf::opf("meta"))
+		{
+		}
 		else if (node.namespaceURI() == rdf::dc)
 		{
 			std::string lang = node.attr(rdf::xml("lang")).content();

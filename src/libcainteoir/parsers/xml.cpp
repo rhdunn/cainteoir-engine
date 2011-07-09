@@ -24,8 +24,8 @@ namespace xml = cainteoir::xmldom;
 
 std::string xml::attribute::content() const
 {
-	if (!attr) return std::string();
-	return xmlstring_buffer((const char *)xmlNodeListGetString(attr->doc, attr->children, 1)).str();
+	if (!item) return std::string();
+	return xmlstring_buffer((const char *)xmlNodeListGetString(item->doc, item->children, 1)).str();
 }
 
 std::tr1::shared_ptr<cainteoir::buffer> xml::node::content() const

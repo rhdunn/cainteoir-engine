@@ -126,22 +126,17 @@ namespace cainteoir { namespace rdf
 	  */
 	class uri : public resource
 	{
-		static const std::string normalise_ns(const std::string &aNS)
-		{
-			if (*(--aNS.end()) == '#')
-				return aNS.substr(0, aNS.size()-1);
-			return aNS;
-		}
 	public:
 		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
 		std::string ref;   /**< @brief The URI reference. */
-		char suffix;       /**< @brief The URI suffix type ('#' or '/'). */
 
 		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string())
-			: ns(normalise_ns(aNS))
+			: ns(aNS)
 			, ref(aRef)
-			, suffix(*(--aNS.end()) == '/' ? '/' : '#')
 		{
+			auto last = --ns.end();
+			if (!ref.empty() && *last != '#' && *last != '/')
+				ns.push_back('#');
 		}
 
 		bool empty() const
@@ -154,9 +149,7 @@ namespace cainteoir { namespace rdf
 			if (ref.empty())
 				return ns;
 
-			if (suffix == '/')
-				return ns + ref;
-			return ns + "#" + ref;
+			return ns + ref;
 		}
 
 		const resource *clone() const
@@ -221,19 +214,27 @@ namespace cainteoir { namespace rdf
 		return a.href == b;
 	}
 
-	inline bool operator==(const char *a, const ns &b)
+	inline bool operator==(const ns &a, const std::string &b)
 	{
-		return b.href == a;
+		return a.href == b;
 	}
 
-	inline bool operator!=(const ns &a, const char *b)
+	template <typename T>
+	inline bool operator==(const T & a, const ns &b)
 	{
-		return a.href != b;
+		return b == a;
 	}
 
-	inline bool operator!=(const char *a, const ns &b)
+	template <typename T>
+	inline bool operator!=(const ns &a, const T &b)
 	{
-		return b.href != a;
+		return !(a == b);
+	}
+
+	template <typename T>
+	inline bool operator!=(const T &a, const ns &b)
+	{
+		return !(b == a);
 	}
 
 	extern const ns rdf;     /**< @brief RDF syntax namespace. */
@@ -251,6 +252,7 @@ namespace cainteoir { namespace rdf
 
 	extern const ns ocf;     /**< @brief Open Container Format (OCF) namespace. */
 	extern const ns opf;     /**< @brief Open Publication Format (OPF) namespace. */
+
 	extern const ns smil;    /**< @brief SMIL namespace. */
 	extern const ns xhtml;   /**< @brief XHTML namespace. */
 

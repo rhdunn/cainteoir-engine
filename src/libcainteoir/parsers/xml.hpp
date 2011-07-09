@@ -29,47 +29,56 @@
 
 namespace cainteoir { namespace xmldom
 {
-	class attribute
+	template <typename T>
+	class xmlnode
 	{
 	public:
-		attribute(xmlAttrPtr aAttr)
-			: attr(aAttr)
+		xmlnode(T aItem) : item(aItem)
 		{
 		}
 
 		void next()
 		{
-			attr = attr->next;
+			item = item->next;
 		}
 
 		bool isValid() const
 		{
-			return attr != NULL;
+			return item != NULL;
 		}
 
 		const char *name() const
 		{
-			if (!attr) return "";
-			return (const char *)attr->name;
+			if (!item) return "";
+			return (const char *)item->name;
 		}
 
-		const char *namespaceURI() const
+		std::string namespaceURI() const
 		{
-			if (!attr->ns) return "";
-			return (const char *)attr->ns->href;
+			if (!item->ns) return "";
+			std::string ns = (const char *)item->ns->href;
+			if (*(--ns.end()) != '#' && *(--ns.end()) != '/')
+				ns.push_back('#');
+			return ns;
 		}
-
-		std::string content() const;
 
 		const rdf::uri uri() const
 		{
-			std::string ns = namespaceURI();
-			if (*(--ns.end()) == '#')
-				return rdf::uri(ns.substr(0, ns.size()-1), name());
-			return rdf::uri(ns, name());
+			return rdf::uri(namespaceURI(), name());
 		}
-	private:
-		xmlAttrPtr attr;
+	protected:
+		T item;
+	};
+
+	class attribute : public xmlnode<xmlAttrPtr>
+	{
+	public:
+		attribute(xmlAttrPtr aAttr)
+			: xmlnode<xmlAttrPtr>(aAttr)
+		{
+		}
+
+		std::string content() const;
 	};
 
 	inline bool operator==(const attribute &a, const rdf::uri &b)
@@ -92,22 +101,12 @@ namespace cainteoir { namespace xmldom
 		return !(a == b.uri());
 	}
 
-	class node
+	class node : public xmlnode<xmlNodePtr>
 	{
 	public:
 		node(xmlNodePtr aNode)
-			: item(aNode)
+			: xmlnode<xmlNodePtr>(aNode)
 		{
-		}
-
-		void next()
-		{
-			item = item->next;
-		}
-
-		bool isValid() const
-		{
-			return item != NULL;
 		}
 
 		node firstChild() const
@@ -135,29 +134,7 @@ namespace cainteoir { namespace xmldom
 			return item->type;
 		}
 
-		const char *name() const
-		{
-			if (!item) return "";
-			return (const char *)item->name;
-		}
-
-		const char *namespaceURI() const
-		{
-			if (!item->ns) return "";
-			return (const char *)item->ns->href;
-		}
-
 		std::tr1::shared_ptr<cainteoir::buffer> content() const;
-
-		const rdf::uri uri() const
-		{
-			std::string ns = namespaceURI();
-			if (*(--ns.end()) == '#')
-				return rdf::uri(ns.substr(0, ns.size()-1), name());
-			return rdf::uri(ns, name());
-		}
-	private:
-		xmlNodePtr item;
 	};
 
 	inline bool operator==(const node &a, const rdf::uri &b)
