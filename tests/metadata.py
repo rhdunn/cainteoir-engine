@@ -138,6 +138,7 @@ if __name__ == '__main__':
 		{'name': 'meta', 'type': 'turtle', 'tests': [
 			{'test': 'opf/meta/name-content.opf', 'result': 'opf/meta/name-content.n3'},
 			{'test': 'opf/meta/property.opf', 'result': 'opf/meta/property.n3'},
+			{'test': 'opf/meta/property-id.opf', 'result': 'opf/meta/property-id.n3'},
 		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
