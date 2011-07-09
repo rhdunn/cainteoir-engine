@@ -250,8 +250,11 @@ namespace cainteoir { namespace rdf
 	extern const ns dtb;     /**< @brief Daisy Talking Book (DTB) namespace. */
 	extern const ns ncx;     /**< @brief Navigation Control File (NCX) namespace. */
 
+	extern const ns epub;    /**< @brief ePub 3.0 (OPS) namespace. */
 	extern const ns ocf;     /**< @brief Open Container Format (OCF) namespace. */
 	extern const ns opf;     /**< @brief Open Publication Format (OPF) namespace. */
+	extern const ns pkg;     /**< @brief ePub 3.0 package vocabulary namespace. */
+	extern const ns media;   /**< @brief ePub 3.0 media overlay vocabulary namespace. */
 
 	extern const ns smil;    /**< @brief SMIL namespace. */
 	extern const ns xhtml;   /**< @brief XHTML namespace. */

@@ -35,8 +35,11 @@ const rdf::ns rdf::dcam(   "dcam", "http://purl.org/dc/dcam/");
 const rdf::ns rdf::dtb("dtb", "http://www.daisy.org/z3986/2005/dtbook/");
 const rdf::ns rdf::ncx("ncx", "http://www.daisy.org/z3986/2005/ncx/");
 
-const rdf::ns rdf::opf(  "opf",  "http://www.idpf.org/2007/opf#");
-const rdf::ns rdf::ocf(  "ocf",  "urn:oasis:names:tc:opendocument:xmlns:container#");
+const rdf::ns rdf::epub( "epub",  "http://www.idpf.org/2007/ops#");
+const rdf::ns rdf::opf(  "opf",   "http://www.idpf.org/2007/opf#");
+const rdf::ns rdf::ocf(  "ocf",   "urn:oasis:names:tc:opendocument:xmlns:container#");
+const rdf::ns rdf::pkg(  "pkg",   "http://www.idpf.org/epub/vocab/package/#");
+const rdf::ns rdf::media("media", "http://www.idpf.org/epub/vocab/overlays/#");
 
 const rdf::ns rdf::smil( "smil", "http://www.w3.org/ns/SMIL#");
 const rdf::ns rdf::xhtml("h",    "http://www.w3.org/1999/xhtml#");
