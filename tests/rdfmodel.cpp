@@ -1,6 +1,6 @@
 /* RDF statement tests.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -30,9 +30,10 @@ namespace rdf = cainteoir::rdf;
 void test_bnode(const rdf::node &node, const std::string &id)
 {
 	const rdf::bnode *bnode = dynamic_cast<const rdf::bnode *>(&node);
-	assert(bnode);
-
-	equal(bnode->id, id);
+	if (assert(bnode))
+	{
+		equal(bnode->id, id);
+	}
 }
 
 TEST_CASE("rdf::bnode")
@@ -44,11 +45,12 @@ TEST_CASE("rdf::bnode")
 void test_uri(const rdf::node &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	const rdf::uri *uri = dynamic_cast<const rdf::uri *>(&node);
-	assert(uri);
-
-	equal(uri->str(), value);
-	equal(uri->ns,    ns);
-	equal(uri->ref,   ref);
+	if (assert(uri))
+	{
+		equal(uri->str(), value);
+		equal(uri->ns,    ns);
+		equal(uri->ref,   ref);
+	}
 }
 
 TEST_CASE("rdf::uri")
@@ -110,6 +112,16 @@ TEST_CASE("rdf::href")
 	test_uri(rdf::href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
 }
 
+void test_bnode(const std::tr1::shared_ptr<const rdf::resource> &node, const std::string &id)
+{
+	test_bnode(*node, id);
+}
+
+void test_uri(const std::tr1::shared_ptr<const rdf::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
+{
+	test_uri(*node, value, ns, ref);
+}
+
 TEST_CASE("rdf::namespaces -- empty")
 {
 	rdf::namespaces test;
@@ -143,18 +155,31 @@ TEST_CASE("rdf::namespaces -- base uri")
 	test_uri(test("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
 
 	test_uri(test("dc:title"), "dc:title", "dc:title", "");
+}
+
+TEST_CASE("rdf::namespaces -- BNode CURIEs")
+{
+	rdf::namespaces test;
 
 	test.set_base("http://www.example.org/base");
-	test_uri(test("_:test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
+	test_bnode(test("_:test"), "test");
+	test_bnode(test("_:joe"), "joe");
+	test_bnode(test("_:sue"), "sue");
 
 	test.set_base("http://www.example.org/base/");
-	test_uri(test("_:test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
+	test_bnode(test("_:test"), "test");
+	test_bnode(test("_:joe"), "joe");
+	test_bnode(test("_:sue"), "sue");
 
 	test.set_base("http://www.example.org/base#");
-	test_uri(test("_:test"), "http://www.example.org/base#test", "http://www.example.org/base#", "test");
+	test_bnode(test("_:test"), "test");
+	test_bnode(test("_:joe"), "joe");
+	test_bnode(test("_:sue"), "sue");
 
 	test.set_base("http://www.example.org/base/#");
-	test_uri(test("_:test"), "http://www.example.org/base/#test", "http://www.example.org/base/#", "test");
+	test_bnode(test("_:test"), "test");
+	test_bnode(test("_:joe"), "joe");
+	test_bnode(test("_:sue"), "sue");
 }
 
 TEST_CASE("rdf::namespaces -- add_namespaces(prefix, href)")
@@ -215,15 +240,22 @@ TEST_CASE("rdf::namespaces -- namespaces << ns")
 	test_uri(test("dct:title"), "dct:title", "dct:title", "");
 }
 
+TEST_CASE("rdf::namespaces -- add_prefix")
+{
+	rdf::namespaces test;
+	test.set_base("http://www.example.org/base/");
+}
+
 void test_literal(const rdf::node &node, const std::string value, const std::string &language, const rdf::uri &uri)
 {
 	const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&node);
-	assert(literal);
-
-	equal(literal->value,      value);
-	equal(literal->language,   language);
-	equal(literal->type.ns,    uri.ns);
-	equal(literal->type.ref,   uri.ref);
+	if (assert(literal))
+	{
+		equal(literal->value,      value);
+		equal(literal->language,   language);
+		equal(literal->type.ns,    uri.ns);
+		equal(literal->type.ref,   uri.ref);
+	}
 }
 
 template<typename T>

@@ -55,7 +55,12 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				else if (!strcmp(attr.name(), "about"))
 					about = rdf::uri(aSubject.str(), attr.content().substr(1));
 				else if (!strcmp(attr.name(), "datatype"))
-					datatype = rdfa(attr.content());
+				{
+					std::tr1::shared_ptr<const rdf::resource> type = rdfa(attr.content());
+					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
+					if (uri)
+						datatype = *uri;
+				}
 			}
 
 			if (!name.empty() && !content.empty())

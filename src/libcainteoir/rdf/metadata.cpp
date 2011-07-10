@@ -99,7 +99,7 @@ const rdf::uri rdf::href(const std::string &aHref)
 
 rdf::namespaces &rdf::namespaces::set_base(const std::string &aBase)
 {
-	mNamespaces["_"] = mBaseUri = aBase;
+	mBaseUri = aBase;
 	return *this;
 }
 
@@ -112,20 +112,29 @@ rdf::namespaces &rdf::namespaces::add_namespace(const std::string &aPrefix, cons
 	return *this;
 }
 
-const rdf::uri rdf::namespaces::operator()(const std::string &aCurie) const
+std::tr1::shared_ptr<const rdf::resource>
+rdf::namespaces::operator()(const std::string &aCurie) const
 {
+	std::string uri;
+
 	std::string::size_type index = aCurie.find(':');
 	if (index != std::string::npos)
 	{
 		std::string prefix = aCurie.substr(0, index);
 		std::string ref = aCurie.substr(index+1);
 
+		if (prefix == "_")
+			return std::tr1::shared_ptr<const rdf::bnode>(new rdf::bnode(ref));
+
 		auto ns = mNamespaces.find(prefix);
 		if (ns != mNamespaces.end())
-			return href(ns->second + ref);
-		return href(aCurie);
+			uri = ns->second + ref;
+		else
+			uri = aCurie;
 	}
-	return href(mBaseUri + aCurie);
+	else
+		uri = mBaseUri + aCurie;
+	return std::tr1::shared_ptr<const rdf::resource>(new rdf::uri(href(uri)));
 }
 
 const rdf::node *rdf::literal::clone() const

@@ -250,7 +250,8 @@ namespace cainteoir { namespace rdf
 			return add_namespace(aNS.prefix, aNS.href);
 		}
 
-		const uri operator()(const std::string &aCurie) const;
+		std::tr1::shared_ptr<const resource>
+		operator()(const std::string &aCurie) const;
 	private:
 		std::map<std::string, std::string> mNamespaces;
 		std::string mBaseUri;
@@ -378,6 +379,19 @@ namespace cainteoir { namespace rdf
 	{
 		return std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const resource>(aSubject.clone()),
 		                                                     aPredicate,
+		                                                     std::tr1::shared_ptr<const node>(aObject.clone())));
+	}
+
+	template<typename Resource, typename Object>
+	std::tr1::shared_ptr<const triple>
+	statement(const Resource &aSubject, const std::tr1::shared_ptr<const resource> &aPredicate, const Object &aObject)
+	{
+		const uri *predicate = dynamic_cast<const uri *>(aPredicate.get());
+		if (!predicate)
+			return std::tr1::shared_ptr<const triple>();
+
+		return std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const resource>(aSubject.clone()),
+		                                                     *predicate,
 		                                                     std::tr1::shared_ptr<const node>(aObject.clone())));
 	}
 
