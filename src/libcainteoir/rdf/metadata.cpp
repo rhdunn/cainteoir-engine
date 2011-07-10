@@ -98,6 +98,11 @@ const rdf::uri rdf::href(const std::string &aHref)
 	return uri(aHref, std::string());
 }
 
+rdf::namespaces::namespaces()
+{
+	mNamespaces["http"] = "http:";
+}
+
 rdf::namespaces &rdf::namespaces::set_base(const std::string &aBase)
 {
 	mBaseUri = aBase;
@@ -125,13 +130,13 @@ rdf::namespaces::operator()(const std::string &aCurie) const
 		std::string ref = aCurie.substr(index+1);
 
 		if (prefix == "_")
-			return std::tr1::shared_ptr<const rdf::bnode>(new rdf::bnode(ref));
+			return std::tr1::shared_ptr<const rdf::resource>(new rdf::bnode(ref));
 
 		auto ns = mNamespaces.find(prefix);
-		if (ns != mNamespaces.end())
-			uri = ns->second + ref;
-		else
-			uri = aCurie;
+		if (ns == mNamespaces.end())
+			return std::tr1::shared_ptr<const rdf::resource>();
+
+		uri = ns->second + ref;
 	}
 	else
 		uri = mBaseUri + aCurie;

@@ -35,21 +35,31 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 			parseOpfMetadata(node, aSubject, events, rdfa, false);
 		else if (node == rdf::opf("meta"))
 		{
-			std::string name;
 			std::string content;
-			std::string property;
 			std::string id;
+			rdf::uri name;
+			rdf::uri property;
 			rdf::uri about = aSubject;
 			rdf::uri datatype;
 
 			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 			{
 				if (!strcmp(attr.name(), "name"))
-					name = attr.content();
+				{
+					std::tr1::shared_ptr<const rdf::resource> type = rdfa(attr.content());
+					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
+					if (uri)
+						name = *uri;
+				}
 				else if (!strcmp(attr.name(), "content"))
 					content = attr.content();
 				else if (!strcmp(attr.name(), "property"))
-					property = attr.content();
+				{
+					std::tr1::shared_ptr<const rdf::resource> type = rdfa(attr.content());
+					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
+					if (uri)
+						property = *uri;
+				}
 				else if (!strcmp(attr.name(), "id"))
 					id = attr.content();
 				else if (!strcmp(attr.name(), "about"))
@@ -64,7 +74,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 			}
 
 			if (!name.empty() && !content.empty())
-				events.metadata(rdf::statement(aSubject, rdfa(name), rdf::literal(content)));
+				events.metadata(rdf::statement(aSubject, name, rdf::literal(content)));
 			else if (!property.empty())
 			{
 				rdf::literal object = rdf::literal(node.content()->str(), datatype);
@@ -72,11 +82,11 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				if (!id.empty())
 				{
 					const rdf::uri base(aSubject.str(), id);
-					events.metadata(rdf::statement(about, rdfa(property), base));
+					events.metadata(rdf::statement(about, property, base));
 					events.metadata(rdf::statement(base, rdf::rdf("value"), object));
 				}
 				else
-					events.metadata(rdf::statement(about, rdfa(property), object));
+					events.metadata(rdf::statement(about, property, object));
 			}
 		}
 		else if (node.namespaceURI() == rdf::dc)

@@ -237,6 +237,8 @@ namespace cainteoir { namespace rdf
 	class namespaces
 	{
 	public:
+		namespaces();
+
 		namespaces &set_base(const std::string &aBase);
 
 		namespaces &add_namespace(const std::string &aPrefix, const std::string &aHref);
