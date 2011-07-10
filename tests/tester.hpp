@@ -89,6 +89,11 @@ struct test_case
 
 #define TEST_CASE(name) TEST_CASE_(name, __LINE__)
 
+extern const char *testsuite_name;
+
+#define REGISTER_TESTSUITE(name) \
+	const char *testsuite_name = name;
+
 int main(int argc, const char ** argv)
 {
 	for (test_case *test = test_case_first; test; test = test->next)
@@ -97,12 +102,10 @@ int main(int argc, const char ** argv)
 		(*test->test)();
 	}
 
-	std::cout << std::endl
-	          << "======================================================================" << std::endl
-	          << "   passed: " << passed << std::endl
-	          << "   failed: " << failed << std::endl
-	          << "   total:  " << (passed + failed) << std::endl
-	          ;
+	printf("\n========== summary of the %s test results ==========\n", testsuite_name);
+	printf(" %5d passed\n", passed);
+	printf(" %5d failed\n", failed);
+	printf(" %5d total\n\n",  (passed + failed));
 
 	return failed == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }

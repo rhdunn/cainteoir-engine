@@ -27,6 +27,8 @@
 
 namespace rdf = cainteoir::rdf;
 
+REGISTER_TESTSUITE("RDF Model");
+
 void test_bnode(const rdf::node &node, const std::string &id)
 {
 	const rdf::bnode *bnode = dynamic_cast<const rdf::bnode *>(&node);
