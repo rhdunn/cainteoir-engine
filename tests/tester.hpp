@@ -22,17 +22,35 @@
 #define TESTER_HPP
 
 #include <iostream>
+#include <cassert>
+
+int passed;
+int failed;
+
+bool assert_(const char *fn, const char *ref, bool cond, int lineno)
+{
+	if (cond)
+	{
+		++passed;
+		return true;
+	}
+
+	std::cout << fn << " @ line " << lineno << " : " << ref << " -- assertion failure" << std::endl;
+	++failed;
+	return false;
+}
+
+#undef  assert
+#define assert(cond) assert_(__FUNCTION__, #cond, cond, __LINE__)
 
 template<typename T1, typename T2>
 void equal_(const char *fn, const char *ref, const T1 &a, const T2 &b, int lineno)
 {
-	if (a != b)
+	if (!assert_(fn, ref, a == b, lineno))
 	{
-		std::cout << fn << " @ line " << lineno << " : " << ref << " -- types are not equal" << std::endl
-		          << "   expected: " << b << std::endl
-		          << "   actual:   " << a << std::endl
+		std::cout << "    expected: " << b << std::endl
+		          << "    actual:   " << a << std::endl
 		          ;
-		exit(1);
 	}
 }
 
@@ -78,7 +96,15 @@ int main(int argc, const char ** argv)
 		std::cout << "... testing " << test->name << std::endl;
 		(*test->test)();
 	}
-	return 0;
+
+	std::cout << std::endl
+	          << "======================================================================" << std::endl
+	          << "   passed: " << passed << std::endl
+	          << "   failed: " << failed << std::endl
+	          << "   total:  " << (passed + failed) << std::endl
+	          ;
+
+	return failed == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
 #endif
