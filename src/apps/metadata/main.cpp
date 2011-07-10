@@ -65,7 +65,7 @@ struct rdfmetadata
 	: public cainteoir::document_events
 	, public rdf::graph
 {
-	void metadata(const rdf::statement &aStatement)
+	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
 	{
 		push_back(aStatement);
 	}

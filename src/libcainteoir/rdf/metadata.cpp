@@ -146,14 +146,14 @@ bool rdf::graph::contains(const ns &uri) const
 	return namespaces.find(uri.href) != namespaces.end();
 }
 
-void rdf::graph::push_back(const statement &s)
+void rdf::graph::push_back(const std::tr1::shared_ptr<const triple> &s)
 {
 	{
 		const rdf::uri *uri = rdf::query::subject(s);
 		if (uri)
 			namespaces.insert(uri->ns);
 	}
-	namespaces.insert(s.predicate.ns);
+	namespaces.insert(s->predicate.ns);
 	{
 		const rdf::uri *uri = rdf::query::object(s);
 		if (uri)
@@ -163,5 +163,5 @@ void rdf::graph::push_back(const statement &s)
 		if (literal && !literal->type.ns.empty())
 			namespaces.insert(literal->type.ns);
 	}
-	std::list<statement>::push_back(s);
+	rdf::subgraph::push_back(s);
 }

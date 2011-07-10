@@ -265,11 +265,11 @@ void test_item(const rdf::node &a, const rdf::literal &b)
 }
 
 template<typename Subject, typename Object>
-void test_statement(const rdf::statement &s, const Subject &subject, const rdf::uri &predicate, const Object &object)
+void test_statement(const std::tr1::shared_ptr<const rdf::triple> &s, const Subject &subject, const rdf::uri &predicate, const Object &object)
 {
-	test_item(*s.subject, subject);
-	test_item(s.predicate, predicate);
-	test_item(*s.object, object);
+	test_item(*s->subject, subject);
+	test_item(s->predicate, predicate);
+	test_item(*s->object, object);
 }
 
 TEST_CASE("rdf::statement")
@@ -323,7 +323,7 @@ TEST_CASE("rdf::graph")
 	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB"));
 }
 
-void test_model_namespace(const rdf::statement &s, const rdf::ns &ns)
+void test_model_namespace(const std::tr1::shared_ptr<const rdf::triple> &s, const rdf::ns &ns)
 {
 	rdf::graph model;
 	assert(!model.contains(ns));

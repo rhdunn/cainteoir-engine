@@ -188,7 +188,7 @@ struct document : public cainteoir::document_events
 	{
 	}
 
-	void metadata(const rdf::statement &aStatement)
+	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
 	{
 		m_metadata.push_back(aStatement);
 

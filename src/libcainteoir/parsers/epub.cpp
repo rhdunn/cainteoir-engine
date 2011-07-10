@@ -43,7 +43,7 @@ struct epub_document : public cainteoir::document_events
 	{
 	}
 
-	void metadata(const rdf::statement &aStatement)
+	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
 	{
 		mEvents.metadata(aStatement);
 	}

@@ -357,68 +357,59 @@ namespace cainteoir { namespace rdf
 
 	/** @brief An RDF statement (triple)
 	  */
-	class statement
+	class triple
 	{
 	public:
 		const std::tr1::shared_ptr<const resource> subject;
 		const uri predicate;
 		const std::tr1::shared_ptr<const node> object;
 
-		template<typename Resource, typename Object>
-		statement(const Resource &aSubject, const uri &aPredicate, const Object &aObject)
-			: subject(aSubject.clone())
+		triple(const std::tr1::shared_ptr<const resource> &aSubject, const uri &aPredicate, const std::tr1::shared_ptr<const node> &aObject)
+			: subject(aSubject)
 			, predicate(aPredicate)
-			, object(aObject.clone())
+			, object(aObject)
 		{
 		}
 	};
 
+	template<typename Resource, typename Object>
+	std::tr1::shared_ptr<const triple>
+	statement(const Resource &aSubject, const uri &aPredicate, const Object &aObject)
+	{
+		return std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const resource>(aSubject.clone()),
+		                                                     aPredicate,
+		                                                     std::tr1::shared_ptr<const node>(aObject.clone())));
+	}
+
 	namespace query
 	{
-		inline any_type subject(const rdf::statement &statement)
-		{
-			return any_type(statement.subject.get());
-		}
-
-		inline any_type subject(const rdf::statement *statement)
+		inline any_type subject(const std::tr1::shared_ptr<const rdf::triple> &statement)
 		{
 			return any_type(statement->subject.get());
 		}
 
-		inline any_type predicate(const rdf::statement &statement)
-		{
-			return any_type(&statement.predicate);
-		}
-
-		inline any_type predicate(const rdf::statement *statement)
+		inline any_type predicate(const std::tr1::shared_ptr<const rdf::triple> &statement)
 		{
 			return any_type(&statement->predicate);
 		}
 
-		inline any_type object(const rdf::statement &statement)
-		{
-			return any_type(statement.object.get());
-		}
-
-		inline any_type object(const rdf::statement *statement)
+		inline any_type object(const std::tr1::shared_ptr<const rdf::triple> &statement)
 		{
 			return any_type(statement->object.get());
 		}
 
-		inline const std::string &value(const rdf::statement &statement)
-		{
-			return value(object(statement));
-		}
-
-		inline const std::string &value(const rdf::statement *statement)
+		inline const std::string &value(const std::tr1::shared_ptr<const rdf::triple> &statement)
 		{
 			return value(object(statement));
 		}
 	}
 
+	typedef std::list< std::tr1::shared_ptr<const triple> >
+	        subgraph;
+
 	/** @brief RDF graph
 	  */
-	class graph : public std::list<statement>
+	class graph : public subgraph
 	{
 	public:
 		graph()
@@ -430,7 +421,7 @@ namespace cainteoir { namespace rdf
 
 		bool contains(const ns &uri) const;
 
-		void push_back(const statement &s);
+		void push_back(const std::tr1::shared_ptr<const triple> &s);
 	private:
 		std::set<std::string> namespaces;
 		int nextid;
@@ -438,7 +429,7 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		typedef std::list<const rdf::statement *> results;
+		typedef rdf::subgraph results;
 
 		/** @brief select statements matching the query.
 		  *
@@ -448,26 +439,7 @@ namespace cainteoir { namespace rdf
 		  * @return         The result set matching the query.
 		  */
 		template<typename Value>
-		inline results select(const rdf::graph &metadata, any_type (*selector)(const rdf::statement &), const Value &value)
-		{
-			results ret;
-			foreach_iter(query, metadata)
-			{
-				if (selector(*query) == value)
-					ret.push_back(&*query);
-			}
-			return ret;
-		}
-
-		/** @brief select statements matching the query.
-		  *
-		  * @param metadata The RDF result set to select statements from.
-		  * @param selector The part of the RDF statement to query from, i.e. the subject, predicate or object.
-		  * @param value    The value of the selector to match for.
-		  * @return         The result set matching the query.
-		  */
-		template<typename Value>
-		inline results select(const results &metadata, any_type (*selector)(const rdf::statement *), const Value &value)
+		inline results select(const rdf::subgraph &metadata, any_type (*selector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &value)
 		{
 			results ret;
 			foreach_iter(query, metadata)
@@ -479,7 +451,7 @@ namespace cainteoir { namespace rdf
 		}
 
 		template<typename Value>
-		inline bool contains(const results &metadata, any_type (*selector)(const rdf::statement *), const Value &value)
+		inline bool contains(const rdf::subgraph &metadata, any_type (*selector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &value)
 		{
 			foreach_iter(query, metadata)
 			{
@@ -510,7 +482,7 @@ namespace cainteoir { namespace rdf
 		};
 
 		template<typename T>
-		inline T select_value(const results &metadata, const rdf::uri &aPredicate)
+		inline T select_value(const rdf::subgraph &metadata, const rdf::uri &aPredicate)
 		{
 			foreach_iter(query, metadata)
 			{
@@ -520,8 +492,8 @@ namespace cainteoir { namespace rdf
 			return T();
 		}
 
-		template<typename T, typename Graph>
-		T select_value(const Graph &aMetadata, const rdf::uri &aUri, const rdf::uri &aPredicate)
+		template<typename T>
+		T select_value(const rdf::subgraph &aMetadata, const rdf::uri &aUri, const rdf::uri &aPredicate)
 		{
 			return select_value<T>(select(aMetadata, subject, aUri), aPredicate);
 		}
@@ -547,7 +519,7 @@ namespace cainteoir { namespace rdf
 		virtual formatter &operator<<(const bnode &bnode) = 0;
 		virtual formatter &operator<<(const uri &uri) = 0;
 		virtual formatter &operator<<(const literal &literal) = 0;
-		virtual formatter &operator<<(const statement &statement) = 0;
+		virtual formatter &operator<<(const std::tr1::shared_ptr<const triple> &statement) = 0;
 		virtual formatter &operator<<(const graph &aGraph) = 0;
 
 		virtual ~formatter() {}

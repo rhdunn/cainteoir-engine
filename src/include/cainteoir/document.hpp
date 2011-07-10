@@ -53,7 +53,7 @@ namespace cainteoir
 		  *
 		  * @param aStatement The RDF statement for the metadata item.
 		  */
-		virtual void metadata(const rdf::statement &aStatement) = 0;
+		virtual void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement) = 0;
 
 		/** @brief Generate a new RDF BNode id.
 		  *

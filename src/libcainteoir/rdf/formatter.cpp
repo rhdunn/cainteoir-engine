@@ -24,7 +24,7 @@
 
 namespace rdf = cainteoir::rdf;
 
-class n3_formatter : public cainteoir::rdf::formatter
+class n3_formatter : public rdf::formatter
 {
 public:
 	n3_formatter(std::ostream &aStream, format_type aFormatType)
@@ -33,20 +33,20 @@ public:
 	{
 	}
 
-	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::ns &aNS)
+	rdf::formatter &operator<<(const rdf::ns &aNS)
 	{
 		if (format == turtle)
 			namespaces[aNS.href] = aNS.prefix;
 		return *this;
 	}
 
-	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::bnode &bnode)
+	rdf::formatter &operator<<(const rdf::bnode &bnode)
 	{
 		os << "_:" << bnode.id;
 		return *this;
 	}
 
-	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::uri &uri)
+	rdf::formatter &operator<<(const rdf::uri &uri)
 	{
 		std::string &prefix = namespaces[uri.ns];
 		if (prefix.empty())
@@ -56,7 +56,7 @@ public:
 		return *this;
 	}
 
-	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::literal &literal)
+	rdf::formatter &operator<<(const rdf::literal &literal)
 	{
 		os << '"';
 		foreach_iter(s, literal.value)
@@ -82,7 +82,7 @@ public:
 		return *this;
 	}
 
-	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::statement &statement)
+	rdf::formatter &operator<<(const std::tr1::shared_ptr<const rdf::triple> &statement)
 	{
 		{
 			const rdf::bnode *bnode = rdf::query::subject(statement);
@@ -95,7 +95,7 @@ public:
 		}
 
 		os << ' ';
-		*this << statement.predicate;
+		*this << statement->predicate;
 		os << ' ';
 
 		{
@@ -117,12 +117,12 @@ public:
 		return *this;
 	}
 
-	cainteoir::rdf::formatter &operator<<(const cainteoir::rdf::graph &aGraph)
+	rdf::formatter &operator<<(const rdf::graph &aGraph)
 	{
 		if (!namespaces.empty())
 		{
 			foreach_iter(ns, namespaces)
-				if (aGraph.contains(cainteoir::rdf::ns(ns->second, ns->first)))
+				if (aGraph.contains(rdf::ns(ns->second, ns->first)))
 				{
 					os << "@prefix " << ns->second << ": <" << ns->first << "> ." << std::endl;
 				}
@@ -140,7 +140,7 @@ private:
 	std::map<std::string, std::string> namespaces;
 };
 
-std::tr1::shared_ptr<cainteoir::rdf::formatter> cainteoir::rdf::create_formatter(std::ostream &aStream, cainteoir::rdf::formatter::format_type aFormatType)
+std::tr1::shared_ptr<rdf::formatter> rdf::create_formatter(std::ostream &aStream, rdf::formatter::format_type aFormatType)
 {
-	return std::tr1::shared_ptr<cainteoir::rdf::formatter>(new ::n3_formatter(aStream, aFormatType));
+	return std::tr1::shared_ptr<rdf::formatter>(new ::n3_formatter(aStream, aFormatType));
 }
