@@ -23,6 +23,7 @@
 namespace rdf = cainteoir::rdf;
 
 const rdf::ns rdf::rdf( "rdf",  "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+const rdf::ns rdf::rdfa("rdfa", "http://www.w3.org/ns/rdfa#");
 const rdf::ns rdf::rdfs("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
 const rdf::ns rdf::xsd( "xsd",  "http://www.w3.org/2001/XMLSchema#");
 const rdf::ns rdf::xml( "xml",  "http://www.w3.org/XML/1998/namespace#");

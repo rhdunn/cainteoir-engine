@@ -202,6 +202,7 @@ namespace cainteoir { namespace rdf
 	}
 
 	extern const ns rdf;     /**< @brief RDF syntax namespace. */
+	extern const ns rdfa;    /**< @brief RDF attributes (RDFa) namespace. */
 	extern const ns rdfs;    /**< @brief RDF schema namespace. */
 	extern const ns xsd;     /**< @brief XMLSchema namespace. */
 	extern const ns xml;     /**< @brief XML namespace. */

@@ -140,6 +140,7 @@ int main(int argc, char ** argv)
 			{
 				(*rdf::create_formatter(std::cout, format))
 					<< rdf::rdf
+					<< rdf::rdfa
 					<< rdf::rdfs
 					<< rdf::xsd
 					<< rdf::xml
