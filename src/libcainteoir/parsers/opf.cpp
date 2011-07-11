@@ -26,6 +26,12 @@ namespace xml = cainteoir::xmldom;
 
 void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::namespaces &rdfa, bool recurse)
 {
+	for (xml::attribute attr = opf.firstAttribute(); attr.isValid(); attr.next())
+	{
+		if (!strcmp(attr.name(), "prefix"))
+			rdfa.add_prefix(attr.content());
+	}
+
 	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() != XML_ELEMENT_NODE)
@@ -212,6 +218,8 @@ void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, 
 	{
 		if (!strcmp(attr.name(), "profile") && attr.content() == "http://www.idpf.org/epub/30/profile/package/")
 			rdfa << rdf::ns("dcterms", rdf::dcterms.href) << rdf::media << rdf::xsd;
+		else if (!strcmp(attr.name(), "prefix"))
+			rdfa.add_prefix(attr.content());
 	}
 
 	for (xml::node section = opf.firstChild(); section.isValid(); section.next())

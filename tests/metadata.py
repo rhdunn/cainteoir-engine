@@ -142,6 +142,9 @@ if __name__ == '__main__':
 			{'test': 'opf/meta/property-id.opf', 'result': 'opf/meta/property-id.n3'},
 			{'test': 'opf/meta/property-about.opf', 'result': 'opf/meta/property-about.n3'},
 			{'test': 'opf/meta/property-datatype.opf', 'result': 'opf/meta/property-datatype.n3'},
+			# @prefix
+			{'test': 'opf/meta/package-prefix.opf', 'result': 'opf/meta/prefix.n3'},
+			{'test': 'opf/meta/metadata-prefix.opf', 'result': 'opf/meta/prefix.n3'},
 			# metadata examples
 			{'test': 'opf/meta/creator.opf', 'result': 'opf/meta/creator.n3'},
 		]},
