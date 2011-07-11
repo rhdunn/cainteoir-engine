@@ -148,6 +148,10 @@ if __name__ == '__main__':
 			# metadata examples
 			{'test': 'opf/meta/creator.opf', 'result': 'opf/meta/creator.n3'},
 		]},
+		{'name': 'link', 'type': 'turtle', 'tests': [
+			{'test': 'opf/link/rel.opf', 'result': 'opf/link/rel.n3'},
+			{'test': 'opf/link/rel-multicurie.opf', 'result': 'opf/link/rel-multicurie.n3'},
+		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
 		'archive':

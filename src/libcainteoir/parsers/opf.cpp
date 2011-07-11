@@ -95,6 +95,33 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 					events.metadata(rdf::statement(about, property, object));
 			}
 		}
+		else if (node == rdf::opf("link"))
+		{
+			std::string rel;
+			rdf::uri href;
+
+			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+			{
+				if (!strcmp(attr.name(), "rel"))
+					rel = attr.content();
+				else if (!strcmp(attr.name(), "href"))
+					href = rdf::href(attr.content());
+			}
+
+			if (!rel.empty() && !href.empty())
+			{
+				std::istringstream ss(rel);
+				while (ss >> rel)
+				{
+					std::tr1::shared_ptr<const rdf::resource> type = rdfa(rel);
+					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
+					if (uri)
+					{
+						events.metadata(rdf::statement(aSubject, *uri, href));
+					}
+				}
+			}
+		}
 		else if (node.namespaceURI() == rdf::dc)
 		{
 			std::string lang = node.attr(rdf::xml("lang")).content();
