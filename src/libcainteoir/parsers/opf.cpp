@@ -98,6 +98,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 		else if (node == rdf::opf("link"))
 		{
 			std::string rel;
+			std::string id;
 			rdf::uri href;
 
 			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
@@ -106,6 +107,8 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 					rel = attr.content();
 				else if (!strcmp(attr.name(), "href"))
 					href = rdf::href(attr.content());
+				else if (!strcmp(attr.name(), "id"))
+					id = attr.content();
 			}
 
 			if (!rel.empty() && !href.empty())
@@ -117,7 +120,14 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
 					if (uri)
 					{
-						events.metadata(rdf::statement(aSubject, *uri, href));
+						if (!id.empty())
+						{
+							const rdf::uri base(aSubject.str(), id);
+							events.metadata(rdf::statement(aSubject, *uri, base));
+							events.metadata(rdf::statement(base, rdf::rdf("value"), href));
+						}
+						else
+							events.metadata(rdf::statement(aSubject, *uri, href));
 					}
 				}
 			}

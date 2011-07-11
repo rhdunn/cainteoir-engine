@@ -151,6 +151,7 @@ if __name__ == '__main__':
 		{'name': 'link', 'type': 'turtle', 'tests': [
 			{'test': 'opf/link/rel.opf', 'result': 'opf/link/rel.n3'},
 			{'test': 'opf/link/rel-multicurie.opf', 'result': 'opf/link/rel-multicurie.n3'},
+			{'test': 'opf/link/rel-id.opf', 'result': 'opf/link/rel-id.n3'},
 		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
