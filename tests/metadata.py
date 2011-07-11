@@ -153,6 +153,7 @@ if __name__ == '__main__':
 			{'test': 'opf/link/rel-multicurie.opf', 'result': 'opf/link/rel-multicurie.n3'},
 			{'test': 'opf/link/rel-id.opf', 'result': 'opf/link/rel-id.n3'},
 			{'test': 'opf/link/rel-about.opf', 'result': 'opf/link/rel-about.n3'},
+			{'test': 'opf/link/rel-mediatype.opf', 'result': 'opf/link/rel-mediatype.n3'},
 		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
