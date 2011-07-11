@@ -137,6 +137,15 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 		}
 		else if (node.namespaceURI() == rdf::dc)
 		{
+			bool preferOther = false;
+			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+			{
+				if (!strcmp(attr.name(), "prefer"))
+					preferOther = true;
+			}
+			if (preferOther)
+				continue;
+
 			std::string lang = node.attr(rdf::xml("lang")).content();
 			std::string value = node.content()->str();
 

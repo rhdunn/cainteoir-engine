@@ -20,9 +20,11 @@
 	along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <package xmlns="http://www.idpf.org/2007/opf" version="3.0" profile="http://www.idpf.org/epub/30/profile/package/">
-	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-		<meta property="dcterms:creator" id="creator">Joe Bloggs</meta>
-		<meta about="#creator" property="file-as">Bloggs, Joe</meta>
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+		<dc:creator opf:role="aut" opf:file-as="Bloggs, Jane" prefer="creator">Jane Bloggs</dc:creator>
+
+		<meta property="dcterms:creator" id="creator">Jane Bloggs</meta>
+		<meta about="#creator" property="file-as">Bloggs, Jane</meta>
 		<meta about="#creator" property="role" id="role">aut</meta>
 		<meta about="#role" property="scheme" datatype="xsd:anyURI">http://id.loc.gov/vocabulary/relators</meta>
 	</metadata>

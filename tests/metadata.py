@@ -145,8 +145,6 @@ if __name__ == '__main__':
 			# @prefix
 			{'test': 'opf/meta/package-prefix.opf', 'result': 'opf/meta/prefix.n3'},
 			{'test': 'opf/meta/metadata-prefix.opf', 'result': 'opf/meta/prefix.n3'},
-			# metadata examples
-			{'test': 'opf/meta/creator.opf', 'result': 'opf/meta/creator.n3'},
 		]},
 		{'name': 'link', 'type': 'turtle', 'tests': [
 			{'test': 'opf/link/rel.opf', 'result': 'opf/link/rel.n3'},
@@ -154,6 +152,9 @@ if __name__ == '__main__':
 			{'test': 'opf/link/rel-id.opf', 'result': 'opf/link/rel-id.n3'},
 			{'test': 'opf/link/rel-about.opf', 'result': 'opf/link/rel-about.n3'},
 			{'test': 'opf/link/rel-mediatype.opf', 'result': 'opf/link/rel-mediatype.n3'},
+		]},
+		{'name': 'metadata30', 'type': 'turtle', 'tests': [
+			{'test': 'opf/metadata30/creator.opf', 'result': 'opf/metadata30/creator.n3'},
 		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',

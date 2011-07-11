@@ -5,8 +5,8 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <> dct:creator <#creator> .
-<#creator> rdf:value "Joe Bloggs" .
-<#creator> pkg:file-as "Bloggs, Joe" .
+<#creator> rdf:value "Jane Bloggs" .
+<#creator> pkg:file-as "Bloggs, Jane" .
 <#creator> pkg:role <#role> .
 <#role> rdf:value "aut" .
 <#role> pkg:scheme "http://id.loc.gov/vocabulary/relators"^^xsd:anyURI .
