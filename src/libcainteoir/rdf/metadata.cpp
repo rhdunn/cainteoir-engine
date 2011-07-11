@@ -101,6 +101,9 @@ const rdf::uri rdf::href(const std::string &aHref)
 rdf::namespaces::namespaces()
 {
 	mNamespaces["http"] = "http:";
+	mNamespaces["https"] = "https:";
+	mNamespaces["mailto"] = "mailto:";
+	mNamespaces["file"] = "file:";
 }
 
 rdf::namespaces &rdf::namespaces::set_base(const std::string &aBase)

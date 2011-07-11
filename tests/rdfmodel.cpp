@@ -131,13 +131,6 @@ TEST_CASE("rdf::namespaces -- empty")
 
 	test_uri(test(""), "", "", "");
 
-	test_uri(test("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");
-	test_uri(test("http://www.example.org/test/value"), "http://www.example.org/test/value", "http://www.example.org/test/", "value");
-	test_uri(test("http://www.example.org/test#"), "http://www.example.org/test#", "http://www.example.org/test#", "");
-	test_uri(test("http://www.example.org/test#value"), "http://www.example.org/test#value", "http://www.example.org/test#", "value");
-	test_uri(test("http://www.example.org/test/#"), "http://www.example.org/test/#", "http://www.example.org/test/#", "");
-	test_uri(test("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
-
 	assert(!test("dc:title").get());
 }
 
@@ -149,6 +142,12 @@ TEST_CASE("rdf::namespaces -- base uri")
 	test_uri(test("test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
 	test_uri(test("/test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
 	test_uri(test("#test"), "http://www.example.org/base#test", "http://www.example.org/base#", "test");
+}
+
+TEST_CASE("rdf::namespaces -- uri schemes")
+{
+	rdf::namespaces test;
+	test.set_base("http://www.example.org/base");
 
 	test_uri(test("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");
 	test_uri(test("http://www.example.org/test/value"), "http://www.example.org/test/value", "http://www.example.org/test/", "value");
@@ -157,7 +156,21 @@ TEST_CASE("rdf::namespaces -- base uri")
 	test_uri(test("http://www.example.org/test/#"), "http://www.example.org/test/#", "http://www.example.org/test/#", "");
 	test_uri(test("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
 
-	assert(!test("dc:title").get());
+	test_uri(test("https://www.example.org/test/"), "https://www.example.org/test/", "https://www.example.org/test/", "");
+	test_uri(test("https://www.example.org/test/value"), "https://www.example.org/test/value", "https://www.example.org/test/", "value");
+	test_uri(test("https://www.example.org/test#"), "https://www.example.org/test#", "https://www.example.org/test#", "");
+	test_uri(test("https://www.example.org/test#value"), "https://www.example.org/test#value", "https://www.example.org/test#", "value");
+	test_uri(test("https://www.example.org/test/#"), "https://www.example.org/test/#", "https://www.example.org/test/#", "");
+	test_uri(test("https://www.example.org/test/#value"), "https://www.example.org/test/#value", "https://www.example.org/test/#", "value");
+
+	test_uri(test("mailto:abc@example.com"), "mailto:abc@example.com", "mailto:abc@example.com", "");
+
+	test_uri(test("file:///home/test/"), "file:///home/test/", "file:///home/test/", "");
+	test_uri(test("file:///home/test/value"), "file:///home/test/value", "file:///home/test/", "value");
+	test_uri(test("file:///home/test#"), "file:///home/test#", "file:///home/test#", "");
+	test_uri(test("file:///home/test#value"), "file:///home/test#value", "file:///home/test#", "value");
+	test_uri(test("file:///home/test/#"), "file:///home/test/#", "file:///home/test/#", "");
+	test_uri(test("file:///home/test/#value"), "file:///home/test/#value", "file:///home/test/#", "value");
 }
 
 TEST_CASE("rdf::namespaces -- BNode CURIEs")
