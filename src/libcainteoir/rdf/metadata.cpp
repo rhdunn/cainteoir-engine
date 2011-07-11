@@ -121,6 +121,18 @@ rdf::namespaces &rdf::namespaces::add_namespace(const std::string &aPrefix, cons
 	return *this;
 }
 
+rdf::namespaces &rdf::namespaces::add_prefix(const std::string &aPrefix)
+{
+	std::string prefix;
+	std::string href;
+
+	std::istringstream ss(aPrefix);
+	while (ss >> prefix >> href)
+		add_namespace(prefix.substr(0, prefix.find(':')), href);
+
+	return *this;
+}
+
 std::tr1::shared_ptr<const rdf::resource>
 rdf::namespaces::operator()(const std::string &aCurie) const
 {

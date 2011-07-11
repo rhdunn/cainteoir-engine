@@ -260,6 +260,25 @@ TEST_CASE("rdf::namespaces -- add_prefix")
 {
 	rdf::namespaces test;
 	test.set_base("http://www.example.org/base/");
+
+	assert(!test("dc:title").get());
+	assert(!test("xsd:string").get());
+	assert(!test("xml:lang").get());
+	assert(!test("dct:title").get());
+
+	test.add_prefix("dc: http://purl.org/dc/elements/1.1/");
+
+	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	assert(!test("xsd:string").get());
+	assert(!test("xml:lang").get());
+	assert(!test("dct:title").get());
+
+	test.add_prefix("xsd: http://www.w3.org/2001/XMLSchema# xml: http://www.w3.org/XML/1998/namespace#");
+
+	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	assert(!test("dct:title").get());
 }
 
 void test_literal(const rdf::node &node, const std::string value, const std::string &language, const rdf::uri &uri)

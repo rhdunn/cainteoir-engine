@@ -253,6 +253,8 @@ namespace cainteoir { namespace rdf
 			return add_namespace(aNS.prefix, aNS.href);
 		}
 
+		namespaces &add_prefix(const std::string &aPrefix);
+
 		std::tr1::shared_ptr<const resource>
 		operator()(const std::string &aCurie) const;
 	private:
