@@ -96,13 +96,11 @@ namespace cainteoir
 		~data_buffer();
 	};
 
-	class xmlstring_buffer : public buffer
+	class normalized_text_buffer : public buffer
 	{
 	public:
-		xmlstring_buffer(const char *str);
-		~xmlstring_buffer();
-	private:
-		const char *data;
+		normalized_text_buffer(const char *str);
+		~normalized_text_buffer();
 	};
 
 	class rope

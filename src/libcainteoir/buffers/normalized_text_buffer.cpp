@@ -1,6 +1,6 @@
-/* Memory (Data) Buffer.
+/* Text Normalization Buffer for XML Strings.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -19,7 +19,6 @@
  */
 
 #include <cainteoir/buffer.hpp>
-#include <libxml/xmlmemory.h>
 
 namespace utf8
 {
@@ -37,29 +36,29 @@ namespace utf8
 	}
 }
 
-cainteoir::xmlstring_buffer::xmlstring_buffer(const char *str)
-	: buffer(str, str)
-	, data(str)
+cainteoir::normalized_text_buffer::normalized_text_buffer(const char *str)
+	: buffer(NULL, NULL)
 {
 	// trim space at the start:
 
-	while (utf8::isspace(first))
-		++first;
+	while (utf8::isspace(str))
+		++str;
+
+	size_t len = strlen(str);
+
+	first = last = new char[len+1];
 
 	// normalise the space within the string:
 
-	const char *current = first;
-
-	last = first;
-	while (*current)
+	while (*str)
 	{
-		if (utf8::isspace(current) && utf8::isspace(current+1))
-			++current;
+		if (utf8::isspace(str) && utf8::isspace(str+1))
+			++str;
 		else
 		{
-			*(char *)last = *current;
+			*(char *)last = *str;
 			++last;
-			++current;
+			++str;
 		}
 	}
 
@@ -70,7 +69,7 @@ cainteoir::xmlstring_buffer::xmlstring_buffer(const char *str)
 	*(char *)++last = '\0';
 }
 
-cainteoir::xmlstring_buffer::~xmlstring_buffer()
+cainteoir::normalized_text_buffer::~normalized_text_buffer()
 {
-	xmlFree((char *)data);
+	delete [] first;
 }
