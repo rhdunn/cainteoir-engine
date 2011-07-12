@@ -526,7 +526,7 @@ namespace cainteoir { namespace rdf
 		};
 
 		template<typename T>
-		inline T select_value(const rdf::subgraph &metadata, const rdf::uri &aPredicate)
+		T select_value(const rdf::subgraph &metadata, const rdf::uri &aPredicate)
 		{
 			foreach_iter(query, metadata)
 			{

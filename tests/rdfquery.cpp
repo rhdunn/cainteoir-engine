@@ -212,3 +212,19 @@ TEST_CASE("rql::select(graph, selector, value)")
 	match(rql::predicate(e.front()), rdf::rdf("type"));
 	match(rql::object(e.front()), rdf::rdf("Property"));
 }
+
+TEST_CASE("rql::contains(graph, selector, value)")
+{
+	rdfdoc dcterms("src/schema/dcterms.rdf");
+	equal(dcterms.size(), 867);
+
+	rql::results a = rql::select(dcterms, rql::subject, rdf::dcterms("title"));
+	equal(a.size(), 9);
+	assert(!a.empty());
+
+	assert(rql::contains(dcterms, rql::subject, rdf::dcterms("title")));
+	assert(!rql::contains(dcterms, rql::subject, rdf::dc("title")));
+
+	assert(rql::contains(a, rql::subject, rdf::dcterms("title")));
+	assert(!rql::contains(a, rql::subject, rdf::dcterms("creator")));
+}
