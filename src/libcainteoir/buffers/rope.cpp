@@ -29,14 +29,14 @@ void cainteoir::rope::clear()
 cainteoir::rope &cainteoir::rope::operator=(const std::tr1::shared_ptr<cainteoir::buffer> &item)
 {
 	clear();
-	add(item);
-	return *this;
+	return *this += item;
 }
 
-void cainteoir::rope::add(const std::tr1::shared_ptr<cainteoir::buffer> &item)
+cainteoir::rope &cainteoir::rope::operator+=(const std::tr1::shared_ptr<cainteoir::buffer> &item)
 {
 	data.push_back(item);
 	len += item->size();
+	return *this;
 }
 
 std::tr1::shared_ptr<cainteoir::buffer> cainteoir::rope::buffer() const

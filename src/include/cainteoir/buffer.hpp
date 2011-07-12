@@ -118,7 +118,7 @@ namespace cainteoir
 
 		rope &operator=(const std::tr1::shared_ptr<cainteoir::buffer> &item);
 
-		void add(const std::tr1::shared_ptr<cainteoir::buffer> &item);
+		rope &operator+=(const std::tr1::shared_ptr<cainteoir::buffer> &item);
 
 		std::tr1::shared_ptr<cainteoir::buffer> buffer() const;
 

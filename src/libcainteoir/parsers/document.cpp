@@ -36,7 +36,7 @@ std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 	{
 		std::tr1::shared_ptr<cainteoir::buffer> fiber(new cainteoir::data_buffer(read));
 		memcpy((void *)fiber->begin(), buffer, read);
-		data.add(fiber);
+		data += fiber;
 	}
 
 	return data.buffer();
