@@ -328,7 +328,7 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	std::string voice;
 	const rdf::uri * voiceUri = NULL;
 
-	foreach_iter(statement, rql::select(aMetadata, rql::subject, aVoice))
+	foreach_iter(statement, rql::select(aMetadata, rql::matches(rql::subject, aVoice)))
 	{
 		if (rql::predicate(*statement) == rdf::tts("name"))
 		{

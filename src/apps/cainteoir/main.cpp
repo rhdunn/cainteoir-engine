@@ -56,17 +56,17 @@ static struct option options[] =
 
 void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showName)
 {
-	rql::results formats = rql::select(
-		rql::select(aMetadata, rql::predicate, rdf::rdf("type")),
-		rql::object, aType);
+	rql::results formats = rql::select(aMetadata,
+		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
+		          rql::matches(rql::object, aType)));
 
 	foreach_iter(format, formats)
 	{
-		const rdf::uri * uri = rql::subject(*format);
-		std::string description = rql::select_value<std::string>(aMetadata, *uri, rdf::dc("description"));
+		rql::results data = rql::select(aMetadata, rql::matches(rql::subject, rql::subject(*format)));
+		std::string description = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::dc("description")));
 		if (showName)
 		{
-			std::string name = rql::select_value<std::string>(aMetadata, *uri, rdf::tts("name"));
+			std::string name = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::tts("name")));
 			fprintf(stdout, "            %-5s - %s\n", name.c_str(), description.c_str());
 		}
 		else
@@ -157,16 +157,16 @@ void status_line(double elapsed, double total, double progress, const char *stat
 
 const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predicate, const std::string &value)
 {
-	rql::results voices = rql::select(
-		rql::select(aMetadata, rql::predicate, rdf::rdf("type")),
-		rql::object, rdf::tts("Voice"));
+	rql::results voices = rql::select(aMetadata,
+		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
+		          rql::matches(rql::object, rdf::tts("Voice"))));
 
 	foreach_iter(voice, voices)
 	{
 		const rdf::uri *uri = rql::subject(*voice);
 		if (uri)
 		{
-			rql::results statements = rql::select(aMetadata, rql::subject, *uri);
+			rql::results statements = rql::select(aMetadata, rql::matches(rql::subject, *uri));
 			foreach_iter(statement, statements)
 			{
 				if (rql::predicate(*statement) == predicate && rql::value(*statement) == value)
@@ -328,8 +328,9 @@ int main(int argc, char ** argv)
 		else
 			cainteoir::parseDocument(NULL, doc);
 
-		std::string author = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("creator"));
-		std::string title  = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("title"));
+		rql::results data = rql::select(doc.m_metadata, rql::matches(rql::subject, doc.subject));
+		std::string author = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::dc("creator")));
+		std::string title  = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::dc("title")));
 
 		std::tr1::shared_ptr<cainteoir::audio> out;
 		const char *state;

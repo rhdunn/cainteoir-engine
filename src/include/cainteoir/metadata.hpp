@@ -450,6 +450,117 @@ namespace cainteoir { namespace rdf
 	{
 		typedef rdf::subgraph results;
 
+		namespace detail
+		{
+			template<typename Value>
+			class matches_t : public std::unary_function< bool, const std::tr1::shared_ptr<const rdf::triple> & >
+			{
+			public:
+				matches_t(any_type (*aSelector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &aValue)
+					: selector(aSelector)
+					, value(aValue)
+				{
+				}
+
+				bool operator()(const std::tr1::shared_ptr<const rdf::triple> &s) const
+				{
+					return selector(s) == value;
+				}
+			private:
+				any_type (*selector)(const std::tr1::shared_ptr<const rdf::triple> &);
+				const Value &value;
+			};
+		}
+
+		/** @brief Match statements whos selector matches the value.
+		  *
+		  * @param aSelector The selector to extract data from the statement.
+		  * @param aValue    The value to match against.
+		  *
+		  * @return The selector functor.
+		  */
+		template<typename Value>
+		detail::matches_t<Value> matches(any_type (*aSelector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &aValue)
+		{
+			return detail::matches_t<Value>(aSelector, aValue);
+		}
+
+		namespace detail
+		{
+			template<typename Selector1, typename Selector2>
+			class both_t : public std::unary_function< bool, const std::tr1::shared_ptr<const rdf::triple> & >
+			{
+			public:
+				both_t(const Selector1 &s1, const Selector2 &s2)
+					: a(s1)
+					, b(s2)
+				{
+				}
+
+				bool operator()(const std::tr1::shared_ptr<const rdf::triple> &s) const
+				{
+					return a(s) && b(s);
+				}
+			private:
+				Selector1 a;
+				Selector2 b;
+			};
+		}
+
+		/** @brief Match statements that match both selectors.
+		  *
+		  * @param a The first selector to match a statement against.
+		  * @param b The second selector to match a statement against.
+		  *
+		  * @return The selector functor.
+		  */
+		template<typename Selector1, typename Selector2>
+		detail::both_t<Selector1, Selector2> both(const Selector1 &a, const Selector2 &b)
+		{
+			return detail::both_t<Selector1, Selector2>(a, b);
+		}
+
+		namespace detail
+		{
+			template<typename Selector1, typename Selector2>
+			class either_t : public std::unary_function< bool, const std::tr1::shared_ptr<const rdf::triple> & >
+			{
+			public:
+				either_t(const Selector1 &s1, const Selector2 &s2)
+					: a(s1)
+					, b(s2)
+				{
+				}
+
+				bool operator()(const std::tr1::shared_ptr<const rdf::triple> &s) const
+				{
+					return a(s) || b(s);
+				}
+			private:
+				Selector1 a;
+				Selector2 b;
+			};
+		}
+
+		/** @brief Match statements that match either selector.
+		  *
+		  * @param a The first selector to match a statement against.
+		  * @param b The second selector to match a statement against.
+		  *
+		  * @return The selector functor.
+		  */
+		template<typename Selector1, typename Selector2>
+		detail::either_t<Selector1, Selector2> either(const Selector1 &a, const Selector2 &b)
+		{
+			return detail::either_t<Selector1, Selector2>(a, b);
+		}
+
+		/** @brief Select statements matching the selector.
+		  *
+		  * @param metadata The subgraph to select statements from.
+		  * @param selector The selector used to choose statements in the graph.
+		  * @param results  The subgraph to add matching statements to.
+		  */
 		template<typename Selector>
 		inline void select(const rdf::subgraph &metadata, const Selector &selector, rdf::subgraph &results)
 		{
@@ -460,86 +571,79 @@ namespace cainteoir { namespace rdf
 			}
 		}
 
-		template<typename Value>
-		class match : public std::unary_function< bool, const std::tr1::shared_ptr<const rdf::triple> & >
-		{
-		public:
-			match(any_type (*aSelector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &aValue)
-				: selector(aSelector)
-				, value(aValue)
-			{
-			}
-
-			bool operator()(const std::tr1::shared_ptr<const rdf::triple> &s) const
-			{
-				return selector(s) == value;
-			}
-		private:
-			any_type (*selector)(const std::tr1::shared_ptr<const rdf::triple> &);
-			const Value &value;
-		};
-
-		/** @brief select statements matching the query.
+		/** @brief Select statements matching the selector.
 		  *
-		  * @param metadata The RDF model to select statements from.
-		  * @param selector The part of the RDF statement to query from, i.e. the subject, predicate or object.
-		  * @param value    The value of the selector to match for.
-		  * @return         The result set matching the query.
+		  * @param metadata The subgraph to select statements from.
+		  * @param selector The selector used to choose statements in the graph.
+		  *
+		  * @return A subgraph containing all matching statements.
 		  */
-		template<typename Value>
-		inline results select(const rdf::subgraph &metadata, any_type (*selector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &value)
+		template<typename Selector>
+		inline results select(const rdf::subgraph &metadata, const Selector &selector)
 		{
 			results ret;
-			select(metadata, match<Value>(selector, value), ret);
+			select(metadata, selector, ret);
 			return ret;
 		}
 
-		template<typename Value>
-		inline bool contains(const rdf::subgraph &metadata, any_type (*selector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &value)
+		/** @brief Check if the graph contains any of the specified statements.
+		  *
+		  * @param metadata The subgraph to check.
+		  * @param selector The selector used to choose statements in the graph.
+		  *
+		  * @retval true  If the graph contains a statement matching the selector.
+		  * @retval false If the graph does not contain a statement matching the selector.
+		  */
+		template<typename Selector>
+		inline bool contains(const rdf::subgraph &metadata, const Selector &selector)
 		{
 			foreach_iter(query, metadata)
 			{
-				if (selector(*query) == value)
+				if (selector(*query))
 					return true;
 			}
 			return false;
 		}
 
-		template<typename T>
-		struct value_cast
+		namespace detail
 		{
-			static T cast(const std::string &value)
+			template<typename T>
+			struct value_cast
 			{
-				T ret;
-				std::istringstream(value) >> ret;
-				return ret;
-			}
-		};
+				static T cast(const std::string &value)
+				{
+					T ret;
+					std::istringstream(value) >> ret;
+					return ret;
+				}
+			};
 
-		template<>
-		struct value_cast<std::string>
-		{
-			static const std::string & cast(const std::string &value)
+			template<>
+			struct value_cast<std::string>
 			{
-				return value;
-			}
-		};
+				static const std::string & cast(const std::string &value)
+				{
+					return value;
+				}
+			};
+		}
 
-		template<typename T>
-		T select_value(const rdf::subgraph &metadata, const rdf::uri &aPredicate)
+		/** @brief Select a value matching the selector.
+		  *
+		  * @param metadata The subgraph to select statements from.
+		  * @param selector The selector used to choose statements in the graph.
+		  *
+		  * @return The first literal value matching the selector.
+		  */
+		template<typename T, typename Selector>
+		T select_value(const rdf::subgraph &metadata, const Selector &selector)
 		{
 			foreach_iter(query, metadata)
 			{
-				if (predicate(*query) == aPredicate)
-					return value_cast<T>::cast(value(*query));
+				if (selector(*query))
+					return detail::value_cast<T>::cast(value(*query));
 			}
 			return T();
-		}
-
-		template<typename T>
-		T select_value(const rdf::subgraph &aMetadata, const rdf::uri &aUri, const rdf::uri &aPredicate)
-		{
-			return select_value<T>(select(aMetadata, subject, aUri), aPredicate);
 		}
 	}
 

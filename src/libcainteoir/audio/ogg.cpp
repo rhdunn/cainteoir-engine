@@ -48,7 +48,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 	std::string created;
 	std::string published;
 
-	foreach_iter(query, rql::select(aMetadata, rql::subject, aDocument))
+	foreach_iter(query, rql::select(aMetadata, rql::matches(rql::subject, aDocument)))
 	{
 		const std::string &object = rql::value(*query);
 		if (!object.empty())
@@ -70,7 +70,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 			std::string role;
 			std::string author;
 
-			foreach_iter(data, rql::select(aMetadata, rql::subject, *rql::object(*query).as<rdf::bnode>()))
+			foreach_iter(data, rql::select(aMetadata, rql::matches(rql::subject, *rql::object(*query).as<rdf::bnode>())))
 			{
 				const std::string &object = rql::value(*data);
 				if (rql::predicate(*data) == rdf::rdf("value"))
@@ -87,7 +87,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 			std::string event;
 			std::string date;
 
-			foreach_iter(data, rql::select(aMetadata, rql::subject, *rql::object(*query).as<rdf::bnode>()))
+			foreach_iter(data, rql::select(aMetadata, rql::matches(rql::subject, *rql::object(*query).as<rdf::bnode>())))
 			{
 				const std::string &object = rql::value(*data);
 				if (rql::predicate(*data) == rdf::rdf("value"))

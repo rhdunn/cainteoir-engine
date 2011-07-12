@@ -135,15 +135,15 @@ TEST_CASE("rql::value")
 	                 "Property");
 }
 
-TEST_CASE("rql::match")
+TEST_CASE("rql::matches")
 {
-	assert(rql::match<rdf::uri>(rql::subject, rdf::dc("title"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
-	assert(rql::match<rdf::uri>(rql::predicate, rdf::rdf("type"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
-	assert(rql::match<rdf::uri>(rql::object, rdf::rdf("Property"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	assert(rql::matches(rql::subject, rdf::dc("title"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	assert(rql::matches(rql::predicate, rdf::rdf("type"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	assert(rql::matches(rql::object, rdf::rdf("Property"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
 
-	assert(!rql::match<rdf::uri>(rql::subject, rdf::dc("creator"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
-	assert(!rql::match<rdf::uri>(rql::predicate, rdf::rdf("label"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
-	assert(!rql::match<rdf::uri>(rql::object, rdf::rdf("Class"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	assert(!rql::matches(rql::subject, rdf::dc("creator"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	assert(!rql::matches(rql::predicate, rdf::rdf("label"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	assert(!rql::matches(rql::object, rdf::rdf("Class"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
 }
 
 TEST_CASE("rql::select(graph, selector, results)")
@@ -162,7 +162,7 @@ TEST_CASE("rql::select(graph, selector, results)")
 	assert(b.empty());
 
 	rql::results c;
-	rql::select(dcterms, rql::match<rdf::uri>(rql::subject, rdf::dcterms("title")), c);
+	rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")), c);
 	equal(c.size(), 9);
 	assert(!c.empty());
 
@@ -180,7 +180,7 @@ TEST_CASE("rql::select(graph, selector, value)")
 	rdfdoc dcterms("src/schema/dcterms.rdf");
 	equal(dcterms.size(), 867);
 
-	rql::results a = rql::select(dcterms, rql::subject, rdf::dcterms("title"));
+	rql::results a = rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")));
 	equal(a.size(), 9);
 	assert(!a.empty());
 
@@ -192,19 +192,19 @@ TEST_CASE("rql::select(graph, selector, value)")
 	match(rql::predicate(a.back()), rdf::rdfs("subPropertyOf"));
 	match(rql::object(a.back()), rdf::dc("title"));
 
-	rql::results b = rql::select(dcterms, rql::predicate, rdf::dcterms("issued"));
+	rql::results b = rql::select(dcterms, rql::matches(rql::predicate, rdf::dcterms("issued")));
 	equal(b.size(), 98);
 	assert(!b.empty());
 
-	rql::results c = rql::select(dcterms, rql::object, rdf::rdf("Property"));
+	rql::results c = rql::select(dcterms, rql::matches(rql::object, rdf::rdf("Property")));
 	equal(c.size(), 55);
 	assert(!c.empty());
 
-	rql::results d = rql::select(dcterms, rql::object, rdf::rdf("Class"));
+	rql::results d = rql::select(dcterms, rql::matches(rql::object, rdf::rdf("Class")));
 	equal(d.size(), 0);
 	assert(d.empty());
 
-	rql::results e = rql::select(a, rql::predicate, rdf::rdf("type"));
+	rql::results e = rql::select(a, rql::matches(rql::predicate, rdf::rdf("type")));
 	equal(e.size(), 1);
 	assert(!e.empty());
 
@@ -218,15 +218,15 @@ TEST_CASE("rql::contains")
 	rdfdoc dcterms("src/schema/dcterms.rdf");
 	equal(dcterms.size(), 867);
 
-	rql::results a = rql::select(dcterms, rql::subject, rdf::dcterms("title"));
+	rql::results a = rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")));
 	equal(a.size(), 9);
 	assert(!a.empty());
 
-	assert(rql::contains(dcterms, rql::subject, rdf::dcterms("title")));
-	assert(!rql::contains(dcterms, rql::subject, rdf::dc("title")));
+	assert(rql::contains(dcterms, rql::matches(rql::subject, rdf::dcterms("title"))));
+	assert(!rql::contains(dcterms, rql::matches(rql::subject, rdf::dc("title"))));
 
-	assert(rql::contains(a, rql::subject, rdf::dcterms("title")));
-	assert(!rql::contains(a, rql::subject, rdf::dcterms("creator")));
+	assert(rql::contains(a, rql::matches(rql::subject, rdf::dcterms("title"))));
+	assert(!rql::contains(a, rql::matches(rql::subject, rdf::dcterms("creator"))));
 }
 
 TEST_CASE("rql::select_value")
@@ -234,13 +234,19 @@ TEST_CASE("rql::select_value")
 	rdfdoc dcterms("src/schema/dcterms.rdf");
 	equal(dcterms.size(), 867);
 
-	rql::results a = rql::select(dcterms, rql::subject, rdf::dcterms("title"));
+	rql::results a = rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")));
 	equal(a.size(), 9);
 	assert(!a.empty());
 
-	equal(rql::select_value<std::string>(a, rdf::rdfs("label")), "Title");
-	equal(rql::select_value<std::string>(a, rdf::skos("prefLabel")), "");
+	equal(rql::select_value<std::string>(a, rql::matches(rql::predicate, rdf::rdfs("label"))), "Title");
+	equal(rql::select_value<std::string>(a, rql::matches(rql::predicate, rdf::skos("prefLabel"))), "");
 
-	equal(rql::select_value<std::string>(dcterms, rdf::dcterms("creator"), rdf::rdfs("label")), "Creator");
-	equal(rql::select_value<std::string>(dcterms, rdf::dcterms("creator"), rdf::skos("prefLabel")), "");
+	equal(rql::select_value<std::string>(dcterms,
+	                                     rql::both(rql::matches(rql::subject, rdf::dcterms("creator")),
+	                                               rql::matches(rql::predicate, rdf::rdfs("label")))),
+	      "Creator");
+	equal(rql::select_value<std::string>(dcterms,
+	                                     rql::both(rql::matches(rql::subject, rdf::dcterms("creator")),
+	                                               rql::matches(rql::predicate, rdf::skos("prefLabel")))),
+	      "");
 }

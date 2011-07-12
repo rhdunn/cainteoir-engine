@@ -56,23 +56,17 @@ cainteoir::languages::languages(const char * locale)
 		printf("error: %s\n", e.what());
 	}
 
-	rql::results languages = rql::select(
-		rql::select(data, rql::predicate, rdf::rdf("type")),
-		rql::object, rdf::skos("Concept"));
+	rql::results languages = rql::select(data,
+		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
+		          rql::matches(rql::object, rdf::skos("Concept"))));
 
 	foreach_iter(lang, languages)
 	{
 		const rdf::uri *uri = rql::subject(*lang);
 		if (uri)
 		{
-			rql::results statements = rql::select(data, rql::subject, *uri);
-			std::string name;
-
-			foreach_iter(statement, statements)
-			{
-				if (rql::predicate(*statement) == rdf::skos("prefLabel"))
-					name = rql::value(*statement);
-			}
+			rql::results statements = rql::select(data, rql::matches(rql::subject, *uri));
+			std::string name = rql::select_value<std::string>(statements, rql::matches(rql::predicate, rdf::skos("prefLabel")));
 
 			foreach_iter(statement, statements)
 			{
