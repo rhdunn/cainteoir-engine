@@ -227,11 +227,6 @@ noinst_bin_PROGRAMS += tests/xmlreader
 tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
 tests_xmlreader_SOURCES = tests/xmlreader.cpp
 
-noinst_bin_PROGRAMS += tests/voicesynth
-
-tests_voicesynth_LDADD   = src/libcainteoir/libcainteoir.la
-tests_voicesynth_SOURCES = tests/voicesynth.cpp
-
 EXTRA_DIST += \
 	tests/epub/* \
 	tests/ncx/* \
