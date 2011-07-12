@@ -19,6 +19,7 @@
  */
 
 #include <cainteoir/metadata.hpp>
+#include <cainteoir/document.hpp>
 #include <iostream>
 #include <cassert>
 #include <cstdlib>
@@ -64,6 +65,24 @@ void match_(const rdf::any_type &a, const rdf::literal &b, const char *fn, const
 
 #define match(a, b) match_(a, b, __FUNCTION__, #a " == " #b, __LINE__)
 
+struct rdfdoc : public rdf::graph, public cainteoir::document_events
+{
+	rdfdoc(const char *filename)
+	{
+		parseDocument(filename, *this);
+	}
+
+	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
+	{
+		push_back(aStatement);
+	}
+
+	const rdf::bnode genid()
+	{
+		return rdf::graph::genid();
+	}
+};
+
 TEST_CASE("rql::subject")
 {
 	match(rql::subject(rdf::statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class"))),
@@ -104,4 +123,42 @@ TEST_CASE("rql::value")
 	                 "Property");
 	equal(rql::value(rdf::statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", rdf::xsd("string")))),
 	                 "Property");
+}
+
+TEST_CASE("rql::select(graph, selector, value)")
+{
+	rdfdoc dcterms("src/schema/dcterms.rdf");
+	equal(dcterms.size(), 867);
+
+	rql::results a = rql::select(dcterms, rql::subject, rdf::dcterms("title"));
+	equal(a.size(), 9);
+	assert(!a.empty());
+
+	match(rql::subject(a.front()), rdf::dcterms("title"));
+	match(rql::predicate(a.front()), rdf::rdfs("label"));
+	match(rql::object(a.front()), rdf::literal("Title", "en-US"));
+
+	match(rql::subject(a.back()), rdf::dcterms("title"));
+	match(rql::predicate(a.back()), rdf::rdfs("subPropertyOf"));
+	match(rql::object(a.back()), rdf::dc("title"));
+
+	rql::results b = rql::select(dcterms, rql::predicate, rdf::dcterms("issued"));
+	equal(b.size(), 98);
+	assert(!b.empty());
+
+	rql::results c = rql::select(dcterms, rql::object, rdf::rdf("Property"));
+	equal(c.size(), 55);
+	assert(!c.empty());
+
+	rql::results d = rql::select(dcterms, rql::object, rdf::rdf("Class"));
+	equal(d.size(), 0);
+	assert(d.empty());
+
+	rql::results e = rql::select(a, rql::predicate, rdf::rdf("type"));
+	equal(e.size(), 1);
+	assert(!e.empty());
+
+	match(rql::subject(e.front()), rdf::dcterms("title"));
+	match(rql::predicate(e.front()), rdf::rdf("type"));
+	match(rql::object(e.front()), rdf::rdf("Property"));
 }
