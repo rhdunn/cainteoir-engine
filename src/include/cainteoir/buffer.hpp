@@ -114,41 +114,13 @@ namespace cainteoir
 
 		bool empty() const { return len == 0; }
 
-		void clear()
-		{
-			data.clear();
-			len = 0;
-		}
+		void clear();
 
-		rope &operator=(const std::tr1::shared_ptr<cainteoir::buffer> &item)
-		{
-			clear();
-			add(item);
-			return *this;
-		}
+		rope &operator=(const std::tr1::shared_ptr<cainteoir::buffer> &item);
 
-		void add(const std::tr1::shared_ptr<cainteoir::buffer> &item)
-		{
-			data.push_back(item);
-			len += item->size();
-		}
+		void add(const std::tr1::shared_ptr<cainteoir::buffer> &item);
 
-		std::tr1::shared_ptr<cainteoir::buffer> buffer() const
-		{
-			if (data.size() == 0)
-				return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(NULL, NULL));
-
-			std::tr1::shared_ptr<cainteoir::buffer> temp(new cainteoir::data_buffer(len));
-			char * startPos = (char *)temp->begin();
-			for (auto node = data.begin(), last = data.end(); node != last; ++node)
-			{
-				memcpy(startPos, (*node)->begin(), (*node)->size());
-				startPos += (*node)->size();
-			}
-
-			*const_cast<rope *>(this) = temp;
-			return temp;
-		}
+		std::tr1::shared_ptr<cainteoir::buffer> buffer() const;
 
 		std::string str() const { return buffer()->str(); }
 	};

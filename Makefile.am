@@ -145,6 +145,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/normalized_text_buffer.cpp \
+	src/libcainteoir/buffers/rope.cpp \
 	src/libcainteoir/rdf/metadata.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/parsers/mimetypes.hpp \
