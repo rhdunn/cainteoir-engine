@@ -225,7 +225,7 @@ namespace cainteoir { namespace rdf
 	extern const ns xhtml;   /**< @brief XHTML namespace. */
 
 	extern const ns skos;    /**< @brief SKOS namespace. */
-	extern const ns foaf;    /**< @brief Friend of a Family (FOAF) namespace. */
+	extern const ns foaf;    /**< @brief Friend of a Friend (FOAF) namespace. */
 	extern const ns tts;     /**< @brief Cainteoir Text-to-Speech RDF namespace. */
 
 	/** @brief CURIE/XML namespaces.
