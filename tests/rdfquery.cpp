@@ -213,7 +213,7 @@ TEST_CASE("rql::select(graph, selector, value)")
 	match(rql::object(e.front()), rdf::rdf("Property"));
 }
 
-TEST_CASE("rql::contains(graph, selector, value)")
+TEST_CASE("rql::contains")
 {
 	rdfdoc dcterms("src/schema/dcterms.rdf");
 	equal(dcterms.size(), 867);
@@ -227,4 +227,20 @@ TEST_CASE("rql::contains(graph, selector, value)")
 
 	assert(rql::contains(a, rql::subject, rdf::dcterms("title")));
 	assert(!rql::contains(a, rql::subject, rdf::dcterms("creator")));
+}
+
+TEST_CASE("rql::select_value")
+{
+	rdfdoc dcterms("src/schema/dcterms.rdf");
+	equal(dcterms.size(), 867);
+
+	rql::results a = rql::select(dcterms, rql::subject, rdf::dcterms("title"));
+	equal(a.size(), 9);
+	assert(!a.empty());
+
+	equal(rql::select_value<std::string>(a, rdf::rdfs("label")), "Title");
+	equal(rql::select_value<std::string>(a, rdf::skos("prefLabel")), "");
+
+	equal(rql::select_value<std::string>(dcterms, rdf::dcterms("creator"), rdf::rdfs("label")), "Creator");
+	equal(rql::select_value<std::string>(dcterms, rdf::dcterms("creator"), rdf::skos("prefLabel")), "");
 }
