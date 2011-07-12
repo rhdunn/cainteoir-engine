@@ -85,7 +85,7 @@ EXTRA_DIST += ChangeLog
 EXTRA_DIST += \
 	data/magic \
 	data/languages.rdf \
-	src/schema/text-to-speech.rdf
+	src/schema/*.rdf
 
 pkgdata_DATA += \
 	data/magic.mgc \

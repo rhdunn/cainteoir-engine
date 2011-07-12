@@ -43,13 +43,13 @@ if __name__ == '__main__':
 			{'test': 'rdfxml/syntax/example20.rdf', 'result': 'rdfxml/syntax/example20.nt', 'expect': 'fail'},
 		]},
 		{'name': 'schema', 'type': 'turtle', 'tests': [
-			{'test': 'rdfxml/schema/dcam.rdf', 'result': 'rdfxml/schema/dcam.n3'},
-			{'test': 'rdfxml/schema/dcelements.rdf', 'result': 'rdfxml/schema/dcelements.n3'},
-			{'test': 'rdfxml/schema/dcterms.rdf', 'result': 'rdfxml/schema/dcterms.n3'},
-			{'test': 'rdfxml/schema/owl.rdf', 'result': 'rdfxml/schema/owl.n3'},
-			{'test': 'rdfxml/schema/rdf-schema.rdf', 'result': 'rdfxml/schema/rdf-schema.n3'},
-			{'test': 'rdfxml/schema/rdf-syntax-ns.rdf', 'result': 'rdfxml/schema/rdf-syntax-ns.n3'},
-			{'test': 'rdfxml/schema/skos.rdf', 'result': 'rdfxml/schema/skos.n3'},
+			{'test': '../src/schema/dcam.rdf', 'result': 'rdfxml/schema/dcam.n3'},
+			{'test': '../src/schema/dcelements.rdf', 'result': 'rdfxml/schema/dcelements.n3'},
+			{'test': '../src/schema/dcterms.rdf', 'result': 'rdfxml/schema/dcterms.n3'},
+			{'test': '../src/schema/owl.rdf', 'result': 'rdfxml/schema/owl.n3'},
+			{'test': '../src/schema/rdf-schema.rdf', 'result': 'rdfxml/schema/rdf-schema.n3'},
+			{'test': '../src/schema/rdf-syntax-ns.rdf', 'result': 'rdfxml/schema/rdf-syntax-ns.n3'},
+			{'test': '../src/schema/skos.rdf', 'result': 'rdfxml/schema/skos.n3'},
 		]},
 	]})
 	test.run({'name': 'HTML', 'replace': ['mimetype'], 'groups': [
