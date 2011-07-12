@@ -83,6 +83,16 @@ struct rdfdoc : public rdf::graph, public cainteoir::document_events
 	}
 };
 
+bool select_all(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
+{
+	return true;
+}
+
+bool select_none(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
+{
+	return false;
+}
+
 TEST_CASE("rql::subject")
 {
 	match(rql::subject(rdf::statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class"))),
@@ -123,6 +133,46 @@ TEST_CASE("rql::value")
 	                 "Property");
 	equal(rql::value(rdf::statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", rdf::xsd("string")))),
 	                 "Property");
+}
+
+TEST_CASE("rql::match")
+{
+	assert(rql::match<rdf::uri>(rql::subject, rdf::dc("title"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	assert(rql::match<rdf::uri>(rql::predicate, rdf::rdf("type"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	assert(rql::match<rdf::uri>(rql::object, rdf::rdf("Property"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+
+	assert(!rql::match<rdf::uri>(rql::subject, rdf::dc("creator"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	assert(!rql::match<rdf::uri>(rql::predicate, rdf::rdf("label"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	assert(!rql::match<rdf::uri>(rql::object, rdf::rdf("Class"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+}
+
+TEST_CASE("rql::select(graph, selector, results)")
+{
+	rdfdoc dcterms("src/schema/dcterms.rdf");
+	equal(dcterms.size(), 867);
+
+	rql::results a;
+	rql::select(dcterms, select_all, a);
+	equal(a.size(), 867);
+	assert(!a.empty());
+
+	rql::results b;
+	rql::select(dcterms, select_none, b);
+	equal(b.size(), 0);
+	assert(b.empty());
+
+	rql::results c;
+	rql::select(dcterms, rql::match<rdf::uri>(rql::subject, rdf::dcterms("title")), c);
+	equal(c.size(), 9);
+	assert(!c.empty());
+
+	match(rql::subject(c.front()), rdf::dcterms("title"));
+	match(rql::predicate(c.front()), rdf::rdfs("label"));
+	match(rql::object(c.front()), rdf::literal("Title", "en-US"));
+
+	match(rql::subject(c.back()), rdf::dcterms("title"));
+	match(rql::predicate(c.back()), rdf::rdfs("subPropertyOf"));
+	match(rql::object(c.back()), rdf::dc("title"));
 }
 
 TEST_CASE("rql::select(graph, selector, value)")

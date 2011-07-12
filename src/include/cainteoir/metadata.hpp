@@ -450,6 +450,35 @@ namespace cainteoir { namespace rdf
 	{
 		typedef rdf::subgraph results;
 
+		template<typename Selector>
+		inline void select(const rdf::subgraph &metadata, const Selector &selector, rdf::subgraph &results)
+		{
+			foreach_iter(query, metadata)
+			{
+				if (selector(*query))
+					results.push_back(*query);
+			}
+		}
+
+		template<typename Value>
+		class match : public std::unary_function< bool, const std::tr1::shared_ptr<const rdf::triple> & >
+		{
+		public:
+			match(any_type (*aSelector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &aValue)
+				: selector(aSelector)
+				, value(aValue)
+			{
+			}
+
+			bool operator()(const std::tr1::shared_ptr<const rdf::triple> &s) const
+			{
+				return selector(s) == value;
+			}
+		private:
+			any_type (*selector)(const std::tr1::shared_ptr<const rdf::triple> &);
+			const Value &value;
+		};
+
 		/** @brief select statements matching the query.
 		  *
 		  * @param metadata The RDF model to select statements from.
@@ -461,11 +490,7 @@ namespace cainteoir { namespace rdf
 		inline results select(const rdf::subgraph &metadata, any_type (*selector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &value)
 		{
 			results ret;
-			foreach_iter(query, metadata)
-			{
-				if (selector(*query) == value)
-					ret.push_back(*query);
-			}
+			select(metadata, match<Value>(selector, value), ret);
 			return ret;
 		}
 
