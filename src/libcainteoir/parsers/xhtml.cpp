@@ -93,12 +93,8 @@ void parseTitleNode(xml::reader & reader, const cainteoir::buffer name, const rd
 		break;
 	case xml::reader::textNode:
 		{
-			std::string title = reader.nodeValue().buffer()->str();
-			std::string::iterator begin = title.begin();
-			while (begin != title.end() && (*begin == ' ' || *begin == '\t' || *begin == '\r' || *begin == '\n'))
-				++begin;
-
-			if (begin != title.end())
+			std::string title = reader.nodeValue().normalize()->str();
+			if (!title.empty())
 				events.metadata(rdf::statement(aSubject, rdf::dc("title"), rdf::literal(title)));
 		}
 		break;

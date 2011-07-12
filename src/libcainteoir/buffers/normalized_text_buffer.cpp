@@ -39,18 +39,43 @@ namespace utf8
 cainteoir::normalized_text_buffer::normalized_text_buffer(const char *str)
 	: buffer(NULL, NULL)
 {
+	if (str)
+		normalize(str, str+strlen(str));
+}
+
+cainteoir::normalized_text_buffer::normalized_text_buffer(const char *f, const char *l)
+	: buffer(NULL, NULL)
+{
+	if (f != l)
+		normalize(f, l);
+}
+
+cainteoir::normalized_text_buffer::normalized_text_buffer(const std::tr1::shared_ptr<cainteoir::buffer> &str)
+	: buffer(NULL, NULL)
+{
+	normalize(str->begin(), str->end());
+}
+
+cainteoir::normalized_text_buffer::~normalized_text_buffer()
+{
+	delete [] first;
+}
+
+void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l)
+{
 	// trim space at the start:
 
 	while (utf8::isspace(str))
 		++str;
 
-	size_t len = strlen(str);
+	if (str >= l)
+		return;
 
-	first = last = new char[len+1];
+	first = last = new char[l-str+1];
 
 	// normalise the space within the string:
 
-	while (*str)
+	while (str != l)
 	{
 		if (utf8::isspace(str) && utf8::isspace(str+1))
 			++str;
@@ -67,9 +92,4 @@ cainteoir::normalized_text_buffer::normalized_text_buffer(const char *str)
 	while (last > first && utf8::isspace(--last))
 		;
 	*(char *)++last = '\0';
-}
-
-cainteoir::normalized_text_buffer::~normalized_text_buffer()
-{
-	delete [] first;
 }

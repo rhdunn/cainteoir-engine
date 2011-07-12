@@ -99,8 +99,13 @@ namespace cainteoir
 	class normalized_text_buffer : public buffer
 	{
 	public:
+		normalized_text_buffer(const char *f, const char *l);
 		normalized_text_buffer(const char *str);
+		normalized_text_buffer(const std::tr1::shared_ptr<cainteoir::buffer> &str);
+
 		~normalized_text_buffer();
+	private:
+		void normalize(const char *f, const char *l);
 	};
 
 	class rope
@@ -121,6 +126,11 @@ namespace cainteoir
 		rope &operator+=(const std::tr1::shared_ptr<cainteoir::buffer> &item);
 
 		std::tr1::shared_ptr<cainteoir::buffer> buffer() const;
+
+		std::tr1::shared_ptr<cainteoir::buffer> normalize() const
+		{
+			return std::tr1::shared_ptr<cainteoir::buffer>(new normalized_text_buffer(buffer()));
+		}
 
 		std::string str() const { return buffer()->str(); }
 	};
