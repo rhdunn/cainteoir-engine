@@ -202,6 +202,11 @@ noinst_bin_PROGRAMS += tests/rdfmodel
 tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.la
 tests_rdfmodel_SOURCES = tests/rdfmodel.cpp tests/tester.hpp
 
+noinst_bin_PROGRAMS += tests/rdfquery
+
+tests_rdfquery_LDADD   = src/libcainteoir/libcainteoir.la
+tests_rdfquery_SOURCES = tests/rdfquery.cpp tests/tester.hpp
+
 noinst_bin_PROGRAMS += tests/ntriple_formatter
 
 tests_ntriple_formatter_LDADD   = src/libcainteoir/libcainteoir.la
@@ -246,10 +251,10 @@ PY_LOG_COMPILER = $(PYTHON)
 
 TESTS = \
 	tests/rdfmodel \
+	tests/rdfquery \
 	tests/ntriple_formatter \
 	tests/turtle_formatter \
 	tests/metadata.py \
 	tests/vorbis-comments.py \
 	tests/events.py \
 	tests/xmlreader.py
-

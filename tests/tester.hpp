@@ -27,7 +27,7 @@
 int passed;
 int failed;
 
-bool assert_(const char *fn, const char *ref, bool cond, int lineno)
+bool assert_(bool cond, const char *fn, const char *ref, int lineno)
 {
 	if (cond)
 	{
@@ -41,12 +41,12 @@ bool assert_(const char *fn, const char *ref, bool cond, int lineno)
 }
 
 #undef  assert
-#define assert(cond) assert_(__FUNCTION__, #cond, cond, __LINE__)
+#define assert(cond) assert_(cond, __FUNCTION__, #cond, __LINE__)
 
 template<typename T1, typename T2>
-void equal_(const char *fn, const char *ref, const T1 &a, const T2 &b, int lineno)
+void equal_(const T1 &a, const T2 &b, const char *fn, const char *ref, int lineno)
 {
-	if (!assert_(fn, ref, a == b, lineno))
+	if (!assert_(a == b, fn, ref, lineno))
 	{
 		std::cout << "    expected: " << b << std::endl
 		          << "    actual:   " << a << std::endl
@@ -54,7 +54,7 @@ void equal_(const char *fn, const char *ref, const T1 &a, const T2 &b, int linen
 	}
 }
 
-#define equal(a, b) equal_(__FUNCTION__, #a, a, b, __LINE__)
+#define equal(a, b) equal_(a, b, __FUNCTION__, #a " == " #b, __LINE__)
 
 typedef void (*test_function)();
 
