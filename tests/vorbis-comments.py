@@ -42,11 +42,15 @@ if __name__ == '__main__':
 			{'test': 'opf/vorbis-comments/title-only.opf', 'result': 'opf/vorbis-comments/title-only.txt'},
 		]},
 		{'name': 'ePub 3.0', 'type': 'vorbis', 'tests': [
+			{'test': 'opf/metadata30/contributor-role.opf', 'result': 'opf/metadata30/contributor-role.txt'},
+			{'test': 'opf/metadata30/contributor-file-as.opf', 'result': 'opf/metadata30/contributor-file-as.txt'},
+			{'test': 'opf/metadata30/contributor-alternate-script.opf', 'result': 'opf/metadata30/contributor-alternate-script.txt'},
 			{'test': 'opf/metadata30/creator-role.opf', 'result': 'opf/metadata30/creator-role.txt'},
 			{'test': 'opf/metadata30/creator-file-as.opf', 'result': 'opf/metadata30/creator-file-as.txt'},
 			{'test': 'opf/metadata30/creator-alternate-script.opf', 'result': 'opf/metadata30/creator-alternate-script.txt'},
 			{'test': 'opf/metadata30/identifier.opf', 'result': 'opf/metadata30/identifier.txt'},
 			{'test': 'opf/metadata30/source-identifier.opf', 'result': 'opf/metadata30/source-identifier.txt'},
+			{'test': 'opf/metadata30/contributor-alternate-script.opf', 'result': 'opf/metadata30/contributor-alternate-script.txt'},
 		]},
 	]})
 	test.summary()
