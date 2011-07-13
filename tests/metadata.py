@@ -161,7 +161,12 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/creator-file-as.opf', 'result': 'opf/metadata30/creator-file-as.n3'},
 			{'test': 'opf/metadata30/creator-alternate-script.opf', 'result': 'opf/metadata30/creator-alternate-script.n3'},
 			{'test': 'opf/metadata30/identifier.opf', 'result': 'opf/metadata30/identifier.n3'},
+			{'test': 'opf/metadata30/publication-type.opf', 'result': 'opf/metadata30/publication-type.n3'},
 			{'test': 'opf/metadata30/source-identifier.opf', 'result': 'opf/metadata30/source-identifier.n3'},
+			{'test': 'opf/metadata30/title-title-type.opf', 'result': 'opf/metadata30/title-title-type.n3'},
+			{'test': 'opf/metadata30/title-display-seq.opf', 'result': 'opf/metadata30/title-display-seq.n3'},
+			{'test': 'opf/metadata30/title-file-as.opf', 'result': 'opf/metadata30/title-file-as.n3'},
+			{'test': 'opf/metadata30/title-group-position.opf', 'result': 'opf/metadata30/title-group-position.n3'},
 		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',

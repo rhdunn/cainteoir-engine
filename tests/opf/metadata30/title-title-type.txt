@@ -1,0 +1,9 @@
+ALBUM=Main Title
+ALBUM=The Collection
+ALBUM=The Series
+ALBUM=3rd Edition
+GENRE=Vocal
+DATE=<DATETIME>
+PERFORMER=Cainteoir(TM) Text-to-Speech
+LICENSE=http://creativecommons.org/licenses/by-sa/3.0/
+CONTACT=http://rhdunn.github.com/cainteoir/

@@ -123,6 +123,29 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 					published = date;
 			}
 		}
+		else if (rql::predicate(*query).as<rdf::uri>()->ns == rdf::dcterms)
+		{
+			rdf::any_type object = rql::object(*query);
+			rql::results selection;
+			if (object.as<rdf::bnode>())
+				selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::bnode>()));
+			else if (object.as<rdf::uri>())
+				selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::uri>()));
+
+			std::string value;
+
+			foreach_iter(data, selection)
+			{
+				if (rql::predicate(*data) == rdf::rdf("value"))
+					value = rql::value(*data);
+			}
+
+			if (!value.empty())
+			{
+				if (rql::predicate(*query) == rdf::dcterms("title"))
+					comments.push_back(vorbis_comment("ALBUM", value));
+			}
+		}
 	}
 
 	if (!published.empty())

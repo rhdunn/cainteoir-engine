@@ -49,8 +49,12 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/creator-file-as.opf', 'result': 'opf/metadata30/creator-file-as.txt'},
 			{'test': 'opf/metadata30/creator-alternate-script.opf', 'result': 'opf/metadata30/creator-alternate-script.txt'},
 			{'test': 'opf/metadata30/identifier.opf', 'result': 'opf/metadata30/identifier.txt'},
+			{'test': 'opf/metadata30/publication-type.opf', 'result': 'opf/metadata30/publication-type.txt'},
 			{'test': 'opf/metadata30/source-identifier.opf', 'result': 'opf/metadata30/source-identifier.txt'},
-			{'test': 'opf/metadata30/contributor-alternate-script.opf', 'result': 'opf/metadata30/contributor-alternate-script.txt'},
+			{'test': 'opf/metadata30/title-title-type.opf', 'result': 'opf/metadata30/title-title-type.txt'},
+			{'test': 'opf/metadata30/title-display-seq.opf', 'result': 'opf/metadata30/title-display-seq.txt'},
+			{'test': 'opf/metadata30/title-file-as.opf', 'result': 'opf/metadata30/title-file-as.txt'},
+			{'test': 'opf/metadata30/title-group-position.opf', 'result': 'opf/metadata30/title-group-position.txt'},
 		]},
 	]})
 	test.summary()

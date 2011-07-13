@@ -64,7 +64,11 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 					std::tr1::shared_ptr<const rdf::resource> type = rdfa(attr.content());
 					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
 					if (uri)
+					{
 						property = *uri;
+						if (datatype.empty() && property == rdf::pkg("display-seq"))
+							datatype = rdf::xsd("unsignedInt");
+					}
 				}
 				else if (!strcmp(attr.name(), "id"))
 					id = attr.content();

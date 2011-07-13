@@ -21,9 +21,6 @@
 -->
 <package xmlns="http://www.idpf.org/2007/opf" version="3.0" profile="http://www.idpf.org/epub/30/profile/package/">
 	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
-		<dc:contributor opf:role="edt" opf:file-as="Bloggs, Jane" prefer="contributor">Jane Bloggs</dc:contributor>
-
-		<meta property="dcterms:contributor" id="contributor">Jane Bloggs</meta>
-		<meta about="#contributor" property="alternate-script">JANE BLOGGS</meta>
+		<meta property="publication-type">dictionary</meta>
 	</metadata>
 </package>
