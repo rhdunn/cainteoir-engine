@@ -157,6 +157,8 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/creator-role.opf', 'result': 'opf/metadata30/creator-role.n3'},
 			{'test': 'opf/metadata30/creator-file-as.opf', 'result': 'opf/metadata30/creator-file-as.n3'},
 			{'test': 'opf/metadata30/creator-alternate-script.opf', 'result': 'opf/metadata30/creator-alternate-script.n3'},
+			{'test': 'opf/metadata30/identifier.opf', 'result': 'opf/metadata30/identifier.n3'},
+			{'test': 'opf/metadata30/source-identifier.opf', 'result': 'opf/metadata30/source-identifier.n3'},
 		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
