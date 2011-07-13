@@ -328,9 +328,57 @@ int main(int argc, char ** argv)
 		else
 			cainteoir::parseDocument(NULL, doc);
 
-		rql::results data = rql::select(doc.m_metadata, rql::matches(rql::subject, doc.subject));
-		std::string author = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::dc("creator")));
-		std::string title  = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::dc("title")));
+		std::string author;
+		std::string title;
+
+		foreach_iter (query, rql::select(doc.m_metadata, rql::matches(rql::subject, doc.subject)))
+		{
+			if (rql::predicate(*query).as<rdf::uri>()->ns == rdf::dc || rql::predicate(*query).as<rdf::uri>()->ns == rdf::dcterms)
+			{
+				rdf::any_type object = rql::object(*query);
+				if (object.as<rdf::literal>())
+				{
+					if (rql::predicate(*query).as<rdf::uri>()->ref == "title")
+						title = rql::value(object);
+					else if (rql::predicate(*query).as<rdf::uri>()->ref == "creator")
+						author = rql::value(object);
+				}
+				else
+				{
+					rql::results selection;
+					if (object.as<rdf::bnode>())
+						selection = rql::select(doc.m_metadata, rql::matches(rql::subject, *object.as<rdf::bnode>()));
+					else if (object.as<rdf::uri>())
+						selection = rql::select(doc.m_metadata, rql::matches(rql::subject, *object.as<rdf::uri>()));
+
+					if (rql::predicate(*query).as<rdf::uri>()->ref == "creator")
+					{
+						std::string role;
+						std::string value;
+
+						for(auto data = selection.begin(), last = selection.end(); data != last; ++data)
+						{
+							const std::string &object = rql::value(*data);
+							if (rql::predicate(*data) == rdf::rdf("value"))
+								value = object;
+							else if (rql::predicate(*data) == rdf::opf("role") || rql::predicate(*data) == rdf::pkg("role"))
+								role = object;
+						}
+
+						if (!value.empty() && (role == "aut" || role.empty()))
+							author = value;
+					}
+					else if (rql::predicate(*query).as<rdf::uri>()->ref == "title")
+					{
+						for(auto data = selection.begin(), last = selection.end(); data != last; ++data)
+						{
+							if (rql::predicate(*data) == rdf::rdf("value"))
+								title = rql::value(*data);
+						}
+					}
+				}
+			}
+		}
 
 		std::tr1::shared_ptr<cainteoir::audio> out;
 		const char *state;
