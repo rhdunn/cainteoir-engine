@@ -1,0 +1,17 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix pkg: <http://www.idpf.org/epub/vocab/package/#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<> dct:creator <#creator> .
+<#creator> rdf:value "Jane Bloggs" .
+<#creator> pkg:role <#aut-role> .
+<#aut-role> rdf:value "aut" .
+<#aut-role> pkg:scheme "http://id.loc.gov/vocabulary/relators"^^xsd:anyURI .
+<> dct:creator <#illustrator> .
+<#illustrator> rdf:value "Joe Bloggs" .
+<#illustrator> pkg:role <#ill-role> .
+<#ill-role> rdf:value "ill" .
+<#ill-role> pkg:scheme "http://id.loc.gov/vocabulary/relators"^^xsd:anyURI .
+<> tts:mimetype "application/xml" .

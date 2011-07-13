@@ -25,7 +25,5 @@
 
 		<meta property="dcterms:creator" id="creator">Jane Bloggs</meta>
 		<meta about="#creator" property="file-as">Bloggs, Jane</meta>
-		<meta about="#creator" property="role" id="role">aut</meta>
-		<meta about="#role" property="scheme" datatype="xsd:anyURI">http://id.loc.gov/vocabulary/relators</meta>
 	</metadata>
 </package>

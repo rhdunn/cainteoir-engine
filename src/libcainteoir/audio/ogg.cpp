@@ -65,18 +65,37 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 			else if (rql::predicate(*query) == rdf::dc("date") && year.empty())
 				year = object;
 		}
-		else if (rql::predicate(*query) == rdf::dc("creator"))
+		else if (rql::predicate(*query) == rdf::dc("creator") || rql::predicate(*query) == rdf::dcterms("creator"))
 		{
+			rdf::any_type object = rql::object(*query);
+			rql::results selection;
+			if (object.as<rdf::bnode>())
+				selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::bnode>()));
+			else if (object.as<rdf::uri>())
+				selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::uri>()));
+
 			std::string role;
 			std::string author;
 
-			foreach_iter(data, rql::select(aMetadata, rql::matches(rql::subject, *rql::object(*query).as<rdf::bnode>())))
+			foreach_iter(data, selection)
 			{
-				const std::string &object = rql::value(*data);
 				if (rql::predicate(*data) == rdf::rdf("value"))
-					author = object;
+					author = rql::value(*data);
 				else if (rql::predicate(*data) == rdf::opf("role"))
-					role = object;
+					role = rql::value(*data);
+				else if (rql::predicate(*data) == rdf::pkg("role"))
+				{
+					object = rql::object(*data);
+					rql::results selection;
+					if (object.as<rdf::bnode>())
+						selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::bnode>()));
+					else if (object.as<rdf::uri>())
+						selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::uri>()));
+
+					selection = rql::select(selection, rql::matches(rql::predicate, rdf::rdf("value")));
+					if (!selection.empty())
+						role = rql::value(selection.front());
+				}
 			}
 
 			if (!author.empty() && (role == "aut" || role.empty()))

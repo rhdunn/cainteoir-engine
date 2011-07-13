@@ -153,8 +153,9 @@ if __name__ == '__main__':
 			{'test': 'opf/link/rel-about.opf', 'result': 'opf/link/rel-about.n3'},
 			{'test': 'opf/link/rel-mediatype.opf', 'result': 'opf/link/rel-mediatype.n3'},
 		]},
-		{'name': 'metadata30', 'type': 'turtle', 'tests': [
-			{'test': 'opf/metadata30/creator.opf', 'result': 'opf/metadata30/creator.n3'},
+		{'name': 'metadata 3.0', 'type': 'turtle', 'tests': [
+			{'test': 'opf/metadata30/creator-role.opf', 'result': 'opf/metadata30/creator-role.n3'},
+			{'test': 'opf/metadata30/creator-file-as.opf', 'result': 'opf/metadata30/creator-file-as.n3'},
 		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
