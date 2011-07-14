@@ -126,11 +126,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 		else if (rql::predicate(*query).as<rdf::uri>()->ns == rdf::dcterms)
 		{
 			rdf::any_type object = rql::object(*query);
-			rql::results selection;
-			if (object.as<rdf::bnode>())
-				selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::bnode>()));
-			else if (object.as<rdf::uri>())
-				selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::uri>()));
+			rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, object));
 
 			std::string value;
 

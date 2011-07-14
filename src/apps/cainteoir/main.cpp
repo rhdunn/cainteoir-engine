@@ -345,11 +345,7 @@ int main(int argc, char ** argv)
 				}
 				else
 				{
-					rql::results selection;
-					if (object.as<rdf::bnode>())
-						selection = rql::select(doc.m_metadata, rql::matches(rql::subject, *object.as<rdf::bnode>()));
-					else if (object.as<rdf::uri>())
-						selection = rql::select(doc.m_metadata, rql::matches(rql::subject, *object.as<rdf::uri>()));
+					rql::results selection = rql::select(doc.m_metadata, rql::matches(rql::subject, object));
 
 					if (rql::predicate(*query).as<rdf::uri>()->ref == "creator")
 					{
