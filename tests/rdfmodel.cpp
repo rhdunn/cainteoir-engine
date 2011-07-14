@@ -339,6 +339,28 @@ void test_statement(const std::tr1::shared_ptr<const rdf::triple> &s, const Subj
 	test_item(*s->object, object);
 }
 
+TEST_CASE("rdf::any_type -- empty")
+{
+	rdf::any_type a(NULL);
+	assert(!a);
+
+	assert(a.as<rdf::node>() == NULL);
+	assert(a.as<rdf::resource>() == NULL);
+	assert(a.as<rdf::uri>() == NULL);
+	assert(a.as<rdf::bnode>() == NULL);
+	assert(a.as<rdf::literal>() == NULL);
+
+	assert((const rdf::node *)a == NULL);
+	assert((const rdf::resource *)a == NULL);
+	assert((const rdf::uri *)a == NULL);
+	assert((const rdf::bnode *)a == NULL);
+	assert((const rdf::literal *)a == NULL);
+
+	assert(!(a == rdf::uri(std::string(), std::string())));
+	assert(!(a == rdf::bnode(std::string())));
+	assert(!(a == rdf::literal(std::string())));
+}
+
 TEST_CASE("rdf::statement")
 {
 	test_statement(rdf::statement(rdf::dc("date"), rdf::rdf("type"), rdf::bnode("tmp")),

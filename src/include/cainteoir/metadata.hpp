@@ -343,6 +343,11 @@ namespace cainteoir { namespace rdf
 		return value;
 	}
 
+	inline bool operator==(const literal &lhs, const literal &rhs)
+	{
+		return lhs.value == rhs.value && lhs.language == rhs.language && lhs.type == rhs.type;
+	}
+
 	namespace query
 	{
 		inline const std::string &value(const rdf::literal *literal)
