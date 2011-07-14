@@ -49,6 +49,32 @@ const rdf::ns rdf::skos("skos", "http://www.w3.org/2004/02/skos/core#");
 const rdf::ns rdf::foaf("foaf", "http://xmlns.com/foaf/0.1/");
 const rdf::ns rdf::tts( "tts",  "http://rhdunn.github.com/2010/12/text-to-speech#");
 
+bool rdf::any_type::operator==(const any_type &rhs) const
+{
+	{
+		const rdf::uri *a = dynamic_cast<const rdf::uri *>(value);
+		const rdf::uri *b = dynamic_cast<const rdf::uri *>(rhs.value);
+		if (a && b)
+			return a == b || *a == *b;
+	}
+
+	{
+		const rdf::bnode *a = dynamic_cast<const rdf::bnode *>(value);
+		const rdf::bnode *b = dynamic_cast<const rdf::bnode *>(rhs.value);
+		if (a && b)
+			return a == b || *a == *b;
+	}
+
+	{
+		const rdf::literal *a = dynamic_cast<const rdf::literal *>(value);
+		const rdf::literal *b = dynamic_cast<const rdf::literal *>(rhs.value);
+		if (a && b)
+			return a == b || *a == *b;
+	}
+
+	return value == rhs.value;
+}
+
 const rdf::resource *rdf::bnode::clone() const
 {
 	return new bnode(*this);

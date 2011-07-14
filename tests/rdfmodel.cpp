@@ -359,11 +359,15 @@ TEST_CASE("rdf::any_type -- empty")
 	assert(!(a == rdf::uri(std::string(), std::string())));
 	assert(!(a == rdf::bnode(std::string())));
 	assert(!(a == rdf::literal(std::string())));
+
+	assert(a == a);
+	assert(a == rdf::any_type(NULL));
 }
 
 TEST_CASE("rdf::any_type -- uri")
 {
 	rdf::uri value = rdf::rdf("Class");
+
 	rdf::any_type a(&value);
 	assert(!!a);
 
@@ -386,11 +390,26 @@ TEST_CASE("rdf::any_type -- uri")
 
 	assert(!(a == rdf::bnode(std::string())));
 	assert(!(a == rdf::literal(std::string())));
+
+	rdf::uri same  = rdf::rdf("Class");
+	rdf::uri other = rdf::rdf("Property");
+	rdf::bnode bnode = rdf::bnode("Class");
+	rdf::literal literal = rdf::literal("Class");
+
+	assert(!(a == rdf::any_type(NULL)));
+	assert(!(a == rdf::any_type(&other)));
+	assert(!(a == rdf::any_type(&bnode)));
+	assert(!(a == rdf::any_type(&literal)));
+
+	assert(a == a);
+	assert(a == rdf::any_type(&value));
+	assert(a == rdf::any_type(&same));
 }
 
 TEST_CASE("rdf::any_type -- bnode")
 {
 	rdf::bnode value = rdf::bnode("test");
+
 	rdf::any_type a(&value);
 	assert(!!a);
 
@@ -412,11 +431,26 @@ TEST_CASE("rdf::any_type -- bnode")
 
 	assert(!(a == rdf::uri(std::string(), std::string())));
 	assert(!(a == rdf::literal(std::string())));
+
+	rdf::bnode same  = rdf::bnode("test");
+	rdf::bnode other = rdf::bnode("other");
+	rdf::uri uri = rdf::rdf("Class");
+	rdf::literal literal = rdf::literal("Class");
+
+	assert(!(a == rdf::any_type(NULL)));
+	assert(!(a == rdf::any_type(&other)));
+	assert(!(a == rdf::any_type(&uri)));
+	assert(!(a == rdf::any_type(&literal)));
+
+	assert(a == a);
+	assert(a == rdf::any_type(&value));
+	assert(a == rdf::any_type(&same));
 }
 
 TEST_CASE("rdf::any_type -- literal")
 {
 	rdf::literal value("test");
+
 	rdf::any_type a(&value);
 	assert(!!a);
 
@@ -440,6 +474,20 @@ TEST_CASE("rdf::any_type -- literal")
 	assert(!(a == rdf::literal("test", rdf::xsd("string"))));
 	assert(a == value);
 	assert(a == rdf::literal("test"));
+
+	rdf::literal same = rdf::literal("test");
+	rdf::literal other = rdf::literal("other");
+	rdf::uri uri = rdf::rdf("Property");
+	rdf::bnode bnode = rdf::bnode("test");
+
+	assert(!(a == rdf::any_type(NULL)));
+	assert(!(a == rdf::any_type(&other)));
+	assert(!(a == rdf::any_type(&uri)));
+	assert(!(a == rdf::any_type(&bnode)));
+
+	assert(a == a);
+	assert(a == rdf::any_type(&value));
+	assert(a == rdf::any_type(&same));
 }
 
 TEST_CASE("rdf::statement")

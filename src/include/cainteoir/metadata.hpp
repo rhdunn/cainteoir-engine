@@ -84,6 +84,8 @@ namespace cainteoir { namespace rdf
 			const T * lhs = dynamic_cast<const T *>(value);
 			return lhs && *lhs == rhs;
 		}
+
+		bool operator==(const any_type &rhs) const;
 	private:
 		const rdf::node *value;
 	};
