@@ -67,12 +67,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 		}
 		else if (rql::predicate(*query) == rdf::dc("creator") || rql::predicate(*query) == rdf::dcterms("creator"))
 		{
-			rdf::any_type object = rql::object(*query);
-			rql::results selection;
-			if (object.as<rdf::bnode>())
-				selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::bnode>()));
-			else if (object.as<rdf::uri>())
-				selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::uri>()));
+			rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(*query)));
 
 			std::string role;
 			std::string author;
@@ -85,12 +80,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 					role = rql::value(*data);
 				else if (rql::predicate(*data) == rdf::pkg("role"))
 				{
-					object = rql::object(*data);
-					rql::results selection;
-					if (object.as<rdf::bnode>())
-						selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::bnode>()));
-					else if (object.as<rdf::uri>())
-						selection = rql::select(aMetadata, rql::matches(rql::subject, *object.as<rdf::uri>()));
+					rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(*data)));
 
 					selection = rql::select(selection, rql::matches(rql::predicate, rdf::rdf("value")));
 					if (!selection.empty())
@@ -106,7 +96,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 			std::string event;
 			std::string date;
 
-			foreach_iter(data, rql::select(aMetadata, rql::matches(rql::subject, *rql::object(*query).as<rdf::bnode>())))
+			foreach_iter(data, rql::select(aMetadata, rql::matches(rql::subject, rql::object(*query))))
 			{
 				const std::string &object = rql::value(*data);
 				if (rql::predicate(*data) == rdf::rdf("value"))
@@ -125,12 +115,10 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 		}
 		else if (rql::predicate(*query).as<rdf::uri>()->ns == rdf::dcterms)
 		{
-			rdf::any_type object = rql::object(*query);
-			rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, object));
+			rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(*query)));
 
 			std::string value;
-
-			foreach_iter(data, selection)
+			foreach_iter(data, selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(*query))))
 			{
 				if (rql::predicate(*data) == rdf::rdf("value"))
 					value = rql::value(*data);
