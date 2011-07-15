@@ -1,11 +1,11 @@
-Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
-Name: cainteoir-engine
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?revision=174
+Upstream-Name: cainteoir-engine
+Upstream-Contact: Reece H. Dunn <msclrhd@gmail.com>
 Maintainer: Reece H. Dunn <msclrhd@gmail.com>
 Source: https://github.com/rhdunn/cainteoir-engine
 
+Files: *
 Copyright: 2010-2011 Reece H. Dunn <msclrhd@gmail.com>
-License: GPL-3+
-
 License: GPL-3+
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -24,3 +24,39 @@ License: GPL-3+
  On Debian systems, the full text of the GNU General Public
  License version 3 can be found in the file
  `/usr/share/common-licenses/GPL-3'.
+
+Files: src/schema/text-to-speech.rdf
+Copyright: 2011 Reece H. Dunn <msclrhd@gmail.com>
+License: CC-BY-3.0
+
+Files: src/schema/dcam.rdf tests/schema/dcam.n3
+Copyright: 2008-2010 Dublin Core Metadata Initiative
+License: CC-BY-3.0
+
+Files: src/schema/dcelements.rdf tests/schema/dcelements.n3
+Copyright: 1999-2010 Dublin Core Metadata Initiative
+License: CC-BY-3.0
+
+Files: src/schema/dcterms.rdf tests/schema/dcterms.n3
+Copyright: 2008-2010 Dublin Core Metadata Initiative
+License: CC-BY-3.0
+
+Files: src/schema/owl.rdf tests/schema/owl.n3
+Copyright: 2009 W3C
+License: W3C
+
+Files: src/schema/rdf-schema.rdf tests/schema/rdf-schema.n3
+Copyright: 2000 W3C
+License: W3C
+
+Files: src/schema/rdf-syntax-ns.rdf tests/schema/rdf-syntax-ns.n3
+Copyright: 1999 W3C
+License: W3C
+
+Files: src/schema/skos.rdf tests/schema/skos.n3
+Copyright: 2004 W3C
+License: W3C
+
+Files: tests/syntax/*
+Copyright: 1999 W3C
+License: W3C
