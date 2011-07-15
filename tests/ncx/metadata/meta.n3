@@ -1,0 +1,10 @@
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix dtb: <http://www.daisy.org/z3986/2005/dtbook/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<> dtb:uid "12345" .
+<> dtb:generator "cainteoir-engine" .
+<> dtb:depth "1"^^xsd:int .
+<> dtb:totalPageCount "0"^^xsd:int .
+<> dtb:maxPageNumber "0"^^xsd:int .
+<> tts:mimetype "application/xml" .

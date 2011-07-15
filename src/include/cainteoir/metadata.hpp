@@ -26,6 +26,7 @@
 #include <string>
 #include <list>
 #include <set>
+#include <map>
 
 #define join_strings2(a, b) a ## b
 #define join_strings(a, b) join_strings2(a, b)
@@ -83,6 +84,8 @@ namespace cainteoir { namespace rdf
 			const T * lhs = dynamic_cast<const T *>(value);
 			return lhs && *lhs == rhs;
 		}
+
+		bool operator==(const any_type &rhs) const;
 	private:
 		const rdf::node *value;
 	};
@@ -101,15 +104,12 @@ namespace cainteoir { namespace rdf
 	public:
 		const std::string id; /**< @brief The ID for the blank node. */
 
-		bnode(const std::string &aID)
+		explicit bnode(const std::string &aID)
 			: id(aID)
 		{
 		}
 
-		const resource *clone() const
-		{
-			return new bnode(*this);
-		}
+		const resource *clone() const;
 	};
 
 	inline bool operator==(const bnode &a, const bnode &b)
@@ -126,43 +126,17 @@ namespace cainteoir { namespace rdf
 	  */
 	class uri : public resource
 	{
-		static const std::string normalise_ns(const std::string &aNS)
-		{
-			if (*(--aNS.end()) == '#')
-				return aNS.substr(0, aNS.size()-1);
-			return aNS;
-		}
 	public:
 		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
 		std::string ref;   /**< @brief The URI reference. */
-		char suffix;       /**< @brief The URI suffix type ('#' or '/'). */
 
-		uri(const std::string &aNS, const std::string &aRef)
-			: ns(normalise_ns(aNS))
-			, ref(aRef)
-			, suffix(*(--aNS.end()) == '/' ? '/' : '#')
-		{
-		}
+		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string());
 
-		bool empty() const
-		{
-			return ns.empty() && ref.empty();
-		}
+		bool empty() const;
 
-		std::string str() const
-		{
-			if (ref.empty())
-				return ns;
+		std::string str() const;
 
-			if (suffix == '/')
-				return ns + ref;
-			return ns + "#" + ref;
-		}
-
-		const resource *clone() const
-		{
-			return new uri(*this);
-		}
+		const resource *clone() const;
 	};
 
 	inline bool operator==(const uri &a, const uri &b)
@@ -175,24 +149,9 @@ namespace cainteoir { namespace rdf
 		return !(a == b);
 	}
 
-	inline const uri href(const std::string &aHref)
-	{
-		{
-			std::string::size_type index = aHref.rfind('#');
-			if (index == aHref.size()-1)
-				return uri(aHref, std::string());
-			else if (index != std::string::npos)
-				return uri(aHref.substr(0, index+1), aHref.substr(index+1));
-		}
-		{
-			std::string::size_type index = aHref.rfind('/');
-			if (index != std::string::npos && index != aHref.size()-1)
-				return uri(aHref.substr(0, index+1), aHref.substr(index+1));
-		}
-		return uri(aHref, std::string());
-	}
+	const uri href(const std::string &aHref);
 
-	/** @breif RDF namespace.
+	/** @brief RDF namespace.
 	  */
 	class ns
 	{
@@ -221,22 +180,31 @@ namespace cainteoir { namespace rdf
 		return a.href == b;
 	}
 
-	inline bool operator==(const char *a, const ns &b)
+	inline bool operator==(const ns &a, const std::string &b)
 	{
-		return b.href == a;
+		return a.href == b;
 	}
 
-	inline bool operator!=(const ns &a, const char *b)
+	template <typename T>
+	inline bool operator==(const T & a, const ns &b)
 	{
-		return a.href != b;
+		return b == a;
 	}
 
-	inline bool operator!=(const char *a, const ns &b)
+	template <typename T>
+	inline bool operator!=(const ns &a, const T &b)
 	{
-		return b.href != a;
+		return !(a == b);
+	}
+
+	template <typename T>
+	inline bool operator!=(const T &a, const ns &b)
+	{
+		return !(b == a);
 	}
 
 	extern const ns rdf;     /**< @brief RDF syntax namespace. */
+	extern const ns rdfa;    /**< @brief RDF attributes (RDFa) namespace. */
 	extern const ns rdfs;    /**< @brief RDF schema namespace. */
 	extern const ns xsd;     /**< @brief XMLSchema namespace. */
 	extern const ns xml;     /**< @brief XML namespace. */
@@ -246,14 +214,55 @@ namespace cainteoir { namespace rdf
 	extern const ns dcterms; /**< @brief Dublin Core: Terms namespace. */
 	extern const ns dcam;    /**< @brief DCMI Abstract Model namespace. */
 
+	extern const ns dtb;     /**< @brief Daisy Talking Book (DTB) namespace. */
+	extern const ns ncx;     /**< @brief Navigation Control File (NCX) namespace. */
+
+	extern const ns epub;    /**< @brief ePub 3.0 (OPS) namespace. */
 	extern const ns ocf;     /**< @brief Open Container Format (OCF) namespace. */
 	extern const ns opf;     /**< @brief Open Publication Format (OPF) namespace. */
+	extern const ns pkg;     /**< @brief ePub 3.0 package vocabulary namespace. */
+	extern const ns media;   /**< @brief ePub 3.0 media overlay vocabulary namespace. */
+
 	extern const ns smil;    /**< @brief SMIL namespace. */
 	extern const ns xhtml;   /**< @brief XHTML namespace. */
 
 	extern const ns skos;    /**< @brief SKOS namespace. */
-	extern const ns foaf;    /**< @brief Friend of a Family (FOAF) namespace. */
+	extern const ns foaf;    /**< @brief Friend of a Friend (FOAF) namespace. */
 	extern const ns tts;     /**< @brief Cainteoir Text-to-Speech RDF namespace. */
+
+	/** @brief CURIE/XML namespaces.
+	  *
+	  * Defines a set of namespaces. This has two applications:
+	  *    -  xmlns and xml:base URI expansion in XML documents;
+	  *    -  curies and prefix data in RDFa data.
+	  */
+	class namespaces
+	{
+	public:
+		namespaces();
+
+		namespaces &set_base(const std::string &aBase);
+
+		namespaces &add_namespace(const std::string &aPrefix, const std::string &aHref);
+
+		namespaces &add_namespace(const ns &aNS)
+		{
+			return add_namespace(aNS.prefix, aNS.href);
+		}
+
+		namespaces &operator<<(const ns &aNS)
+		{
+			return add_namespace(aNS.prefix, aNS.href);
+		}
+
+		namespaces &add_prefix(const std::string &aPrefix);
+
+		std::tr1::shared_ptr<const resource>
+		operator()(const std::string &aCurie) const;
+	private:
+		std::map<std::string, std::string> mNamespaces;
+		std::string mBaseUri;
+	};
 
 	/** @brief RDF literal node
 	  */
@@ -318,10 +327,7 @@ namespace cainteoir { namespace rdf
 		template<typename T>
 		T as() const;
 
-		const node *clone() const
-		{
-			return new literal(*this);
-		}
+		const node *clone() const;
 	};
 
 	template<typename T>
@@ -337,6 +343,11 @@ namespace cainteoir { namespace rdf
 	inline std::string literal::as<std::string>() const
 	{
 		return value;
+	}
+
+	inline bool operator==(const literal &lhs, const literal &rhs)
+	{
+		return lhs.value == rhs.value && lhs.language == rhs.language && lhs.type == rhs.type;
 	}
 
 	namespace query
@@ -359,68 +370,72 @@ namespace cainteoir { namespace rdf
 
 	/** @brief An RDF statement (triple)
 	  */
-	class statement
+	class triple
 	{
 	public:
 		const std::tr1::shared_ptr<const resource> subject;
 		const uri predicate;
 		const std::tr1::shared_ptr<const node> object;
 
-		template<typename Resource, typename Object>
-		statement(const Resource &aSubject, const uri &aPredicate, const Object &aObject)
-			: subject(aSubject.clone())
+		triple(const std::tr1::shared_ptr<const resource> &aSubject, const uri &aPredicate, const std::tr1::shared_ptr<const node> &aObject)
+			: subject(aSubject)
 			, predicate(aPredicate)
-			, object(aObject.clone())
+			, object(aObject)
 		{
 		}
 	};
 
+	template<typename Resource, typename Object>
+	std::tr1::shared_ptr<const triple>
+	statement(const Resource &aSubject, const uri &aPredicate, const Object &aObject)
+	{
+		return std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const resource>(aSubject.clone()),
+		                                                     aPredicate,
+		                                                     std::tr1::shared_ptr<const node>(aObject.clone())));
+	}
+
+	template<typename Resource, typename Object>
+	std::tr1::shared_ptr<const triple>
+	statement(const Resource &aSubject, const std::tr1::shared_ptr<const resource> &aPredicate, const Object &aObject)
+	{
+		const uri *predicate = dynamic_cast<const uri *>(aPredicate.get());
+		if (!predicate)
+			return std::tr1::shared_ptr<const triple>();
+
+		return std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const resource>(aSubject.clone()),
+		                                                     *predicate,
+		                                                     std::tr1::shared_ptr<const node>(aObject.clone())));
+	}
+
 	namespace query
 	{
-		inline any_type subject(const rdf::statement &statement)
-		{
-			return any_type(statement.subject.get());
-		}
-
-		inline any_type subject(const rdf::statement *statement)
+		inline any_type subject(const std::tr1::shared_ptr<const rdf::triple> &statement)
 		{
 			return any_type(statement->subject.get());
 		}
 
-		inline any_type predicate(const rdf::statement &statement)
-		{
-			return any_type(&statement.predicate);
-		}
-
-		inline any_type predicate(const rdf::statement *statement)
+		inline any_type predicate(const std::tr1::shared_ptr<const rdf::triple> &statement)
 		{
 			return any_type(&statement->predicate);
 		}
 
-		inline any_type object(const rdf::statement &statement)
-		{
-			return any_type(statement.object.get());
-		}
-
-		inline any_type object(const rdf::statement *statement)
+		inline any_type object(const std::tr1::shared_ptr<const rdf::triple> &statement)
 		{
 			return any_type(statement->object.get());
 		}
 
-		inline const std::string &value(const rdf::statement &statement)
-		{
-			return value(object(statement));
-		}
-
-		inline const std::string &value(const rdf::statement *statement)
+		inline const std::string &value(const std::tr1::shared_ptr<const rdf::triple> &statement)
 		{
 			return value(object(statement));
 		}
 	}
 
+	typedef std::list< std::tr1::shared_ptr<const triple> >
+	        subgraph;
+
 	/** @brief RDF graph
 	  */
-	class graph : public std::list<statement>
+	class graph : public subgraph
 	{
 	public:
 		graph()
@@ -428,38 +443,11 @@ namespace cainteoir { namespace rdf
 		{
 		}
 
-		const rdf::bnode genid()
-		{
-			std::ostringstream id;
-			id << "genid" << nextid;
-			++nextid;
-			return rdf::bnode(id.str());
-		}
+		const rdf::bnode genid();
 
-		bool contains(const ns &uri) const
-		{
-			return namespaces.find(uri.href) != namespaces.end();
-		}
+		bool contains(const ns &uri) const;
 
-		void push_back(const statement &s)
-		{
-			{
-				const rdf::uri *uri = rdf::query::subject(s);
-				if (uri)
-					namespaces.insert(uri->ns);
-			}
-			namespaces.insert(s.predicate.ns);
-			{
-				const rdf::uri *uri = rdf::query::object(s);
-				if (uri)
-					namespaces.insert(uri->ns);
-
-				const rdf::literal *literal = rdf::query::object(s);
-				if (literal && !literal->type.ns.empty())
-					namespaces.insert(literal->type.ns);
-			}
-			std::list<statement>::push_back(s);
-		}
+		void push_back(const std::tr1::shared_ptr<const triple> &s);
 	private:
 		std::set<std::string> namespaces;
 		int nextid;
@@ -467,92 +455,202 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		typedef std::list<const rdf::statement *> results;
+		typedef rdf::subgraph results;
 
-		/** @brief select statements matching the query.
+		namespace detail
+		{
+			template<typename Value>
+			class matches_t : public std::unary_function< bool, const std::tr1::shared_ptr<const rdf::triple> & >
+			{
+			public:
+				matches_t(any_type (*aSelector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &aValue)
+					: selector(aSelector)
+					, value(aValue)
+				{
+				}
+
+				bool operator()(const std::tr1::shared_ptr<const rdf::triple> &s) const
+				{
+					return selector(s) == value;
+				}
+			private:
+				any_type (*selector)(const std::tr1::shared_ptr<const rdf::triple> &);
+				const Value &value;
+			};
+		}
+
+		/** @brief Match statements whos selector matches the value.
 		  *
-		  * @param metadata The RDF model to select statements from.
-		  * @param selector The part of the RDF statement to query from, i.e. the subject, predicate or object.
-		  * @param value    The value of the selector to match for.
-		  * @return         The result set matching the query.
+		  * @param aSelector The selector to extract data from the statement.
+		  * @param aValue    The value to match against.
+		  *
+		  * @return The selector functor.
 		  */
 		template<typename Value>
-		inline results select(const rdf::graph &metadata, any_type (*selector)(const rdf::statement &), const Value &value)
+		detail::matches_t<Value> matches(any_type (*aSelector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &aValue)
 		{
-			results ret;
+			return detail::matches_t<Value>(aSelector, aValue);
+		}
+
+		namespace detail
+		{
+			template<typename Selector1, typename Selector2>
+			class both_t : public std::unary_function< bool, const std::tr1::shared_ptr<const rdf::triple> & >
+			{
+			public:
+				both_t(const Selector1 &s1, const Selector2 &s2)
+					: a(s1)
+					, b(s2)
+				{
+				}
+
+				bool operator()(const std::tr1::shared_ptr<const rdf::triple> &s) const
+				{
+					return a(s) && b(s);
+				}
+			private:
+				Selector1 a;
+				Selector2 b;
+			};
+		}
+
+		/** @brief Match statements that match both selectors.
+		  *
+		  * @param a The first selector to match a statement against.
+		  * @param b The second selector to match a statement against.
+		  *
+		  * @return The selector functor.
+		  */
+		template<typename Selector1, typename Selector2>
+		detail::both_t<Selector1, Selector2> both(const Selector1 &a, const Selector2 &b)
+		{
+			return detail::both_t<Selector1, Selector2>(a, b);
+		}
+
+		namespace detail
+		{
+			template<typename Selector1, typename Selector2>
+			class either_t : public std::unary_function< bool, const std::tr1::shared_ptr<const rdf::triple> & >
+			{
+			public:
+				either_t(const Selector1 &s1, const Selector2 &s2)
+					: a(s1)
+					, b(s2)
+				{
+				}
+
+				bool operator()(const std::tr1::shared_ptr<const rdf::triple> &s) const
+				{
+					return a(s) || b(s);
+				}
+			private:
+				Selector1 a;
+				Selector2 b;
+			};
+		}
+
+		/** @brief Match statements that match either selector.
+		  *
+		  * @param a The first selector to match a statement against.
+		  * @param b The second selector to match a statement against.
+		  *
+		  * @return The selector functor.
+		  */
+		template<typename Selector1, typename Selector2>
+		detail::either_t<Selector1, Selector2> either(const Selector1 &a, const Selector2 &b)
+		{
+			return detail::either_t<Selector1, Selector2>(a, b);
+		}
+
+		/** @brief Select statements matching the selector.
+		  *
+		  * @param metadata The subgraph to select statements from.
+		  * @param selector The selector used to choose statements in the graph.
+		  * @param results  The subgraph to add matching statements to.
+		  */
+		template<typename Selector>
+		inline void select(const rdf::subgraph &metadata, const Selector &selector, rdf::subgraph &results)
+		{
 			foreach_iter(query, metadata)
 			{
-				if (selector(*query) == value)
-					ret.push_back(&*query);
+				if (selector(*query))
+					results.push_back(*query);
 			}
+		}
+
+		/** @brief Select statements matching the selector.
+		  *
+		  * @param metadata The subgraph to select statements from.
+		  * @param selector The selector used to choose statements in the graph.
+		  *
+		  * @return A subgraph containing all matching statements.
+		  */
+		template<typename Selector>
+		inline results select(const rdf::subgraph &metadata, const Selector &selector)
+		{
+			results ret;
+			select(metadata, selector, ret);
 			return ret;
 		}
 
-		/** @brief select statements matching the query.
+		/** @brief Check if the graph contains any of the specified statements.
 		  *
-		  * @param metadata The RDF result set to select statements from.
-		  * @param selector The part of the RDF statement to query from, i.e. the subject, predicate or object.
-		  * @param value    The value of the selector to match for.
-		  * @return         The result set matching the query.
+		  * @param metadata The subgraph to check.
+		  * @param selector The selector used to choose statements in the graph.
+		  *
+		  * @retval true  If the graph contains a statement matching the selector.
+		  * @retval false If the graph does not contain a statement matching the selector.
 		  */
-		template<typename Value>
-		inline results select(const results &metadata, any_type (*selector)(const rdf::statement *), const Value &value)
-		{
-			results ret;
-			foreach_iter(query, metadata)
-			{
-				if (selector(*query) == value)
-					ret.push_back(*query);
-			}
-			return ret;
-		}
-
-		template<typename Value>
-		inline bool contains(const results &metadata, any_type (*selector)(const rdf::statement *), const Value &value)
+		template<typename Selector>
+		inline bool contains(const rdf::subgraph &metadata, const Selector &selector)
 		{
 			foreach_iter(query, metadata)
 			{
-				if (selector(*query) == value)
+				if (selector(*query))
 					return true;
 			}
 			return false;
 		}
 
-		template<typename T>
-		struct value_cast
+		namespace detail
 		{
-			static T cast(const std::string &value)
+			template<typename T>
+			struct value_cast
 			{
-				T ret;
-				std::istringstream(value) >> ret;
-				return ret;
-			}
-		};
+				static T cast(const std::string &value)
+				{
+					T ret;
+					std::istringstream(value) >> ret;
+					return ret;
+				}
+			};
 
-		template<>
-		struct value_cast<std::string>
-		{
-			static const std::string & cast(const std::string &value)
+			template<>
+			struct value_cast<std::string>
 			{
-				return value;
-			}
-		};
+				static const std::string & cast(const std::string &value)
+				{
+					return value;
+				}
+			};
+		}
 
-		template<typename T>
-		inline T select_value(const results &metadata, const rdf::uri &aPredicate)
+		/** @brief Select a value matching the selector.
+		  *
+		  * @param metadata The subgraph to select statements from.
+		  * @param selector The selector used to choose statements in the graph.
+		  *
+		  * @return The first literal value matching the selector.
+		  */
+		template<typename T, typename Selector>
+		T select_value(const rdf::subgraph &metadata, const Selector &selector)
 		{
 			foreach_iter(query, metadata)
 			{
-				if (predicate(*query) == aPredicate)
-					return value_cast<T>::cast(value(*query));
+				if (selector(*query))
+					return detail::value_cast<T>::cast(value(*query));
 			}
 			return T();
-		}
-
-		template<typename T, typename Graph>
-		T select_value(const Graph &aMetadata, const rdf::uri &aUri, const rdf::uri &aPredicate)
-		{
-			return select_value<T>(select(aMetadata, subject, aUri), aPredicate);
 		}
 	}
 
@@ -576,7 +674,7 @@ namespace cainteoir { namespace rdf
 		virtual formatter &operator<<(const bnode &bnode) = 0;
 		virtual formatter &operator<<(const uri &uri) = 0;
 		virtual formatter &operator<<(const literal &literal) = 0;
-		virtual formatter &operator<<(const statement &statement) = 0;
+		virtual formatter &operator<<(const std::tr1::shared_ptr<const triple> &statement) = 0;
 		virtual formatter &operator<<(const graph &aGraph) = 0;
 
 		virtual ~formatter() {}

@@ -23,12 +23,12 @@ src/apps/metadata/metadata
 src/apps/tagcloud/tagcloud
 
 tests/rdfmodel
+tests/rdfquery
 tests/ntriple_formatter
 tests/turtle_formatter
 tests/events
 tests/xmlreader
 tests/encoding
-tests/voicesynth
 
 # autotools output:
 

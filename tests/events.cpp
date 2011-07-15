@@ -31,7 +31,7 @@ namespace rdf = cainteoir::rdf;
 
 struct events : public cainteoir::document_events
 {
-	void metadata(const rdf::statement &aStatement)
+	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
 	{
 	}
 
@@ -73,6 +73,16 @@ struct events : public cainteoir::document_events
 	void end_context()
 	{
 		fprintf(stdout, "end-context\n");
+	}
+
+	void toc_entry(int depth, const rdf::uri &location, const std::string &title)
+	{
+		fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n", location.ns.c_str(), location.ref.c_str(), depth, title.c_str());
+	}
+
+	void anchor(const rdf::uri &location)
+	{
+		fprintf(stdout, "anchor [%s]%s\n", location.ns.c_str(), location.ref.c_str());
 	}
 };
 

@@ -56,17 +56,17 @@ static struct option options[] =
 
 void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showName)
 {
-	rql::results formats = rql::select(
-		rql::select(aMetadata, rql::predicate, rdf::rdf("type")),
-		rql::object, aType);
+	rql::results formats = rql::select(aMetadata,
+		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
+		          rql::matches(rql::object, aType)));
 
 	foreach_iter(format, formats)
 	{
-		const rdf::uri * uri = rql::subject(*format);
-		std::string description = rql::select_value<std::string>(aMetadata, *uri, rdf::dc("description"));
+		rql::results data = rql::select(aMetadata, rql::matches(rql::subject, rql::subject(*format)));
+		std::string description = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::dc("description")));
 		if (showName)
 		{
-			std::string name = rql::select_value<std::string>(aMetadata, *uri, rdf::tts("name"));
+			std::string name = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::tts("name")));
 			fprintf(stdout, "            %-5s - %s\n", name.c_str(), description.c_str());
 		}
 		else
@@ -157,16 +157,16 @@ void status_line(double elapsed, double total, double progress, const char *stat
 
 const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predicate, const std::string &value)
 {
-	rql::results voices = rql::select(
-		rql::select(aMetadata, rql::predicate, rdf::rdf("type")),
-		rql::object, rdf::tts("Voice"));
+	rql::results voices = rql::select(aMetadata,
+		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
+		          rql::matches(rql::object, rdf::tts("Voice"))));
 
 	foreach_iter(voice, voices)
 	{
 		const rdf::uri *uri = rql::subject(*voice);
 		if (uri)
 		{
-			rql::results statements = rql::select(aMetadata, rql::subject, *uri);
+			rql::results statements = rql::select(aMetadata, rql::matches(rql::subject, *uri));
 			foreach_iter(statement, statements)
 			{
 				if (rql::predicate(*statement) == predicate && rql::value(*statement) == value)
@@ -188,7 +188,7 @@ struct document : public cainteoir::document_events
 	{
 	}
 
-	void metadata(const rdf::statement &aStatement)
+	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
 	{
 		m_metadata.push_back(aStatement);
 
@@ -288,14 +288,21 @@ int main(int argc, char ** argv)
 		{
 			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
 				<< rdf::rdf
+				<< rdf::rdfa
 				<< rdf::rdfs
 				<< rdf::xsd
+				<< rdf::xml
 				<< rdf::owl
 				<< rdf::dc
 				<< rdf::dcterms
 				<< rdf::dcam
-				<< rdf::ocf
+				<< rdf::epub
 				<< rdf::opf
+				<< rdf::ocf
+				<< rdf::pkg
+				<< rdf::media
+				<< rdf::ncx
+				<< rdf::dtb
 				<< rdf::smil
 				<< rdf::xhtml
 				<< rdf::skos
@@ -321,8 +328,53 @@ int main(int argc, char ** argv)
 		else
 			cainteoir::parseDocument(NULL, doc);
 
-		std::string author = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("creator"));
-		std::string title  = rql::select_value<std::string>(doc.m_metadata, doc.subject, rdf::dc("title"));
+		std::string author;
+		std::string title;
+
+		foreach_iter (query, rql::select(doc.m_metadata, rql::matches(rql::subject, doc.subject)))
+		{
+			if (rql::predicate(*query).as<rdf::uri>()->ns == rdf::dc || rql::predicate(*query).as<rdf::uri>()->ns == rdf::dcterms)
+			{
+				rdf::any_type object = rql::object(*query);
+				if (object.as<rdf::literal>())
+				{
+					if (rql::predicate(*query).as<rdf::uri>()->ref == "title")
+						title = rql::value(object);
+					else if (rql::predicate(*query).as<rdf::uri>()->ref == "creator")
+						author = rql::value(object);
+				}
+				else
+				{
+					rql::results selection = rql::select(doc.m_metadata, rql::matches(rql::subject, object));
+
+					if (rql::predicate(*query).as<rdf::uri>()->ref == "creator")
+					{
+						std::string role;
+						std::string value;
+
+						for(auto data = selection.begin(), last = selection.end(); data != last; ++data)
+						{
+							const std::string &object = rql::value(*data);
+							if (rql::predicate(*data) == rdf::rdf("value"))
+								value = object;
+							else if (rql::predicate(*data) == rdf::opf("role") || rql::predicate(*data) == rdf::pkg("role"))
+								role = object;
+						}
+
+						if (!value.empty() && (role == "aut" || role.empty()))
+							author = value;
+					}
+					else if (rql::predicate(*query).as<rdf::uri>()->ref == "title")
+					{
+						for(auto data = selection.begin(), last = selection.end(); data != last; ++data)
+						{
+							if (rql::predicate(*data) == rdf::rdf("value"))
+								title = rql::value(*data);
+						}
+					}
+				}
+			}
+		}
 
 		std::tr1::shared_ptr<cainteoir::audio> out;
 		const char *state;

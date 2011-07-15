@@ -22,21 +22,39 @@
 #define TESTER_HPP
 
 #include <iostream>
+#include <cassert>
+
+int passed;
+int failed;
+
+bool assert_(bool cond, const char *fn, const char *ref, int lineno)
+{
+	if (cond)
+	{
+		++passed;
+		return true;
+	}
+
+	std::cout << fn << " @ line " << lineno << " : " << ref << " -- assertion failure" << std::endl;
+	++failed;
+	return false;
+}
+
+#undef  assert
+#define assert(cond) assert_(cond, __FUNCTION__, #cond, __LINE__)
 
 template<typename T1, typename T2>
-void equal_(const char *fn, const char *ref, const T1 &a, const T2 &b, int lineno)
+void equal_(const T1 &a, const T2 &b, const char *fn, const char *ref, int lineno)
 {
-	if (a != b)
+	if (!assert_(a == b, fn, ref, lineno))
 	{
-		std::cout << fn << " @ line " << lineno << " : " << ref << " -- types are not equal" << std::endl
-		          << "   expected: " << b << std::endl
-		          << "   actual:   " << a << std::endl
+		std::cout << "    expected: " << b << std::endl
+		          << "    actual:   " << a << std::endl
 		          ;
-		exit(1);
 	}
 }
 
-#define equal(a, b) equal_(__FUNCTION__, #a, a, b, __LINE__)
+#define equal(a, b) equal_(a, b, __FUNCTION__, #a " == " #b, __LINE__)
 
 typedef void (*test_function)();
 
@@ -71,6 +89,11 @@ struct test_case
 
 #define TEST_CASE(name) TEST_CASE_(name, __LINE__)
 
+extern const char *testsuite_name;
+
+#define REGISTER_TESTSUITE(name) \
+	const char *testsuite_name = name;
+
 int main(int argc, const char ** argv)
 {
 	for (test_case *test = test_case_first; test; test = test->next)
@@ -78,7 +101,13 @@ int main(int argc, const char ** argv)
 		std::cout << "... testing " << test->name << std::endl;
 		(*test->test)();
 	}
-	return 0;
+
+	printf("\n========== summary of the %s test results ==========\n", testsuite_name);
+	printf(" %5d passed\n", passed);
+	printf(" %5d failed\n", failed);
+	printf(" %5d total\n\n",  (passed + failed));
+
+	return failed == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
 #endif

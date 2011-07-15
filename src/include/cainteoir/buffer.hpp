@@ -96,13 +96,16 @@ namespace cainteoir
 		~data_buffer();
 	};
 
-	class xmlstring_buffer : public buffer
+	class normalized_text_buffer : public buffer
 	{
 	public:
-		xmlstring_buffer(const char *str);
-		~xmlstring_buffer();
+		normalized_text_buffer(const char *f, const char *l);
+		normalized_text_buffer(const char *str);
+		normalized_text_buffer(const std::tr1::shared_ptr<cainteoir::buffer> &str);
+
+		~normalized_text_buffer();
 	private:
-		const char *data;
+		void normalize(const char *f, const char *l);
 	};
 
 	class rope
@@ -116,40 +119,17 @@ namespace cainteoir
 
 		bool empty() const { return len == 0; }
 
-		void clear()
+		void clear();
+
+		rope &operator=(const std::tr1::shared_ptr<cainteoir::buffer> &item);
+
+		rope &operator+=(const std::tr1::shared_ptr<cainteoir::buffer> &item);
+
+		std::tr1::shared_ptr<cainteoir::buffer> buffer() const;
+
+		std::tr1::shared_ptr<cainteoir::buffer> normalize() const
 		{
-			data.clear();
-			len = 0;
-		}
-
-		rope &operator=(const std::tr1::shared_ptr<cainteoir::buffer> &item)
-		{
-			clear();
-			add(item);
-			return *this;
-		}
-
-		void add(const std::tr1::shared_ptr<cainteoir::buffer> &item)
-		{
-			data.push_back(item);
-			len += item->size();
-		}
-
-		std::tr1::shared_ptr<cainteoir::buffer> buffer() const
-		{
-			if (data.size() == 0)
-				return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(NULL, NULL));
-
-			std::tr1::shared_ptr<cainteoir::buffer> temp(new cainteoir::data_buffer(len));
-			char * startPos = (char *)temp->begin();
-			for (auto node = data.begin(), last = data.end(); node != last; ++node)
-			{
-				memcpy(startPos, (*node)->begin(), (*node)->size());
-				startPos += (*node)->size();
-			}
-
-			*const_cast<rope *>(this) = temp;
-			return temp;
+			return std::tr1::shared_ptr<cainteoir::buffer>(new normalized_text_buffer(buffer()));
 		}
 
 		std::string str() const { return buffer()->str(); }

@@ -1,0 +1,5 @@
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<#id> foaf:homepage <http://www.example.com> .
+<> tts:mimetype "@mimetype@" .

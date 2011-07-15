@@ -1,0 +1,6 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<> dct:modified "2011-01-01T12:00:00Z"^^xsd:date .
+<> tts:mimetype "@mimetype@" .

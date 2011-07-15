@@ -83,6 +83,15 @@ namespace cainteoir
 	  */
 	std::map<std::string, std::string> parseOcfDocument(const xmldom::node &aRoot);
 
+	/** @brief Navigation Control File (NCX)
+	  * @see   http://www.niso.org/workrooms/daisy/Z39-86-2005.html#NCX
+	  *
+	  * @param aRoot     The root node of the NCX XML document.
+	  * @param aSubject  The subject to use for any metadata.
+	  * @param events    The events callback to handle document events.
+	  */
+	void parseNcxDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events);
+
 	/** @brief Open Publication Format (OPF)
 	  * @see   http://www.idpf.org/2007/opf/opf2.0/download/
 	  * @see   http://www.idpf.org/specs.htm

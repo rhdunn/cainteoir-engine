@@ -26,6 +26,8 @@
 
 namespace rdf = cainteoir::rdf;
 
+REGISTER_TESTSUITE("RDF NTriple Formatter");
+
 template<typename T>
 std::string format(const T &value)
 {

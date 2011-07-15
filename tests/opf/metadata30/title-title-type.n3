@@ -1,0 +1,18 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix pkg: <http://www.idpf.org/epub/vocab/package/#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<> dct:title <#main> .
+<#main> rdf:value "Main Title" .
+<#main> pkg:title-type "primary" .
+<> dct:title <#coll> .
+<#coll> rdf:value "The Collection" .
+<#coll> pkg:title-type "collection" .
+<> dct:title <#series> .
+<#series> rdf:value "The Series" .
+<#series> pkg:title-type "series" .
+<> dct:title <#ed> .
+<#ed> rdf:value "3rd Edition" .
+<#ed> pkg:title-type "edition" .
+<> tts:mimetype "application/xml" .

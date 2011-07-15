@@ -22,16 +22,36 @@
 
 namespace xml = cainteoir::xmldom;
 
+class xmlstring
+{
+public:
+	explicit xmlstring(xmlChar *aData) : data(aData)
+	{
+	}
+
+	~xmlstring()
+	{
+		xmlFree(data);
+	}
+
+	operator const char *() const
+	{
+		return (const char *)data;
+	}
+private:
+	xmlChar *data;
+};
+
 std::string xml::attribute::content() const
 {
-	if (!attr) return std::string();
-	return xmlstring_buffer((const char *)xmlNodeListGetString(attr->doc, attr->children, 1)).str();
+	if (!item) return std::string();
+
+	xmlstring s(xmlNodeListGetString(item->doc, item->children, 1));
+	return normalized_text_buffer(s).str();
 }
 
 std::tr1::shared_ptr<cainteoir::buffer> xml::node::content() const
 {
-	const char *data = NULL;
-	if (item)
-		data = (const char *)xmlNodeGetContent(item);
-	return std::tr1::shared_ptr<cainteoir::buffer>(new xmlstring_buffer(data));
+	xmlstring s(item ? xmlNodeGetContent(item) : NULL);
+	return std::tr1::shared_ptr<cainteoir::buffer>(new normalized_text_buffer(s));
 }

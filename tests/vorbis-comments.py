@@ -23,7 +23,7 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('VorbisComments', sys.argv)
 	test.run({'name': 'Vorbis Comments', 'groups': [
-		{'name': 'Dublin Core', 'type': 'vorbis', 'tests': [
+		{'name': 'ePub 2.0 Dublin Core', 'type': 'vorbis', 'tests': [
 			{'test': 'opf/vorbis-comments/simple.opf', 'result': 'opf/vorbis-comments/simple.txt'},
 			{'test': 'opf/vorbis-comments/creator-only.opf', 'result': 'opf/vorbis-comments/creator-only.txt'},
 			{'test': 'opf/vorbis-comments/creator-file-as.opf', 'result': 'opf/vorbis-comments/creator-file-as.txt'},
@@ -40,6 +40,22 @@ if __name__ == '__main__':
 			{'test': 'opf/vorbis-comments/date-published-yyyy-mm-dd.opf', 'result': 'opf/vorbis-comments/date-published-yyyy-mm-dd.txt'},
 			{'test': 'opf/vorbis-comments/description-only.opf', 'result': 'opf/vorbis-comments/description-only.txt'},
 			{'test': 'opf/vorbis-comments/title-only.opf', 'result': 'opf/vorbis-comments/title-only.txt'},
+		]},
+		{'name': 'ePub 3.0', 'type': 'vorbis', 'tests': [
+			{'test': 'opf/metadata30/contributor-role.opf', 'result': 'opf/metadata30/contributor-role.txt'},
+			{'test': 'opf/metadata30/contributor-file-as.opf', 'result': 'opf/metadata30/contributor-file-as.txt'},
+			{'test': 'opf/metadata30/contributor-alternate-script.opf', 'result': 'opf/metadata30/contributor-alternate-script.txt'},
+			{'test': 'opf/metadata30/creator-role.opf', 'result': 'opf/metadata30/creator-role.txt'},
+			{'test': 'opf/metadata30/creator-file-as.opf', 'result': 'opf/metadata30/creator-file-as.txt'},
+			{'test': 'opf/metadata30/creator-alternate-script.opf', 'result': 'opf/metadata30/creator-alternate-script.txt'},
+			{'test': 'opf/metadata30/meta-auth.opf', 'result': 'opf/metadata30/meta-auth.txt'},
+			{'test': 'opf/metadata30/identifier.opf', 'result': 'opf/metadata30/identifier.txt'},
+			{'test': 'opf/metadata30/publication-type.opf', 'result': 'opf/metadata30/publication-type.txt'},
+			{'test': 'opf/metadata30/source-identifier.opf', 'result': 'opf/metadata30/source-identifier.txt'},
+			{'test': 'opf/metadata30/title-title-type.opf', 'result': 'opf/metadata30/title-title-type.txt'},
+			{'test': 'opf/metadata30/title-display-seq.opf', 'result': 'opf/metadata30/title-display-seq.txt'},
+			{'test': 'opf/metadata30/title-file-as.opf', 'result': 'opf/metadata30/title-file-as.txt'},
+			{'test': 'opf/metadata30/title-group-position.opf', 'result': 'opf/metadata30/title-group-position.txt'},
 		]},
 	]})
 	test.summary()

@@ -85,7 +85,7 @@ EXTRA_DIST += ChangeLog
 EXTRA_DIST += \
 	data/magic \
 	data/languages.rdf \
-	src/schema/text-to-speech.rdf
+	src/schema/*.rdf
 
 pkgdata_DATA += \
 	data/magic.mgc \
@@ -144,8 +144,9 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/encoding.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
-	src/libcainteoir/buffers/xmlstring_buffer.cpp \
-	src/libcainteoir/rdf/namespaces.cpp \
+	src/libcainteoir/buffers/normalized_text_buffer.cpp \
+	src/libcainteoir/buffers/rope.cpp \
+	src/libcainteoir/rdf/metadata.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/parsers/mimetypes.hpp \
 	src/libcainteoir/parsers/parsers.hpp \
@@ -157,6 +158,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/parsers/html-entities.h \
 	src/libcainteoir/parsers/xml.cpp \
 	src/libcainteoir/parsers/xhtml.cpp \
+	src/libcainteoir/parsers/ncx.cpp \
 	src/libcainteoir/parsers/ocf.cpp \
 	src/libcainteoir/parsers/opf.cpp \
 	src/libcainteoir/parsers/epub.cpp \
@@ -200,6 +202,11 @@ noinst_bin_PROGRAMS += tests/rdfmodel
 tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.la
 tests_rdfmodel_SOURCES = tests/rdfmodel.cpp tests/tester.hpp
 
+noinst_bin_PROGRAMS += tests/rdfquery
+
+tests_rdfquery_LDADD   = src/libcainteoir/libcainteoir.la
+tests_rdfquery_SOURCES = tests/rdfquery.cpp tests/tester.hpp
+
 noinst_bin_PROGRAMS += tests/ntriple_formatter
 
 tests_ntriple_formatter_LDADD   = src/libcainteoir/libcainteoir.la
@@ -225,11 +232,6 @@ noinst_bin_PROGRAMS += tests/xmlreader
 tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
 tests_xmlreader_SOURCES = tests/xmlreader.cpp
 
-noinst_bin_PROGRAMS += tests/voicesynth
-
-tests_voicesynth_LDADD   = src/libcainteoir/libcainteoir.la
-tests_voicesynth_SOURCES = tests/voicesynth.cpp
-
 EXTRA_DIST += \
 	tests/epub/* \
 	tests/ncx/* \
@@ -249,10 +251,10 @@ PY_LOG_COMPILER = $(PYTHON)
 
 TESTS = \
 	tests/rdfmodel \
+	tests/rdfquery \
 	tests/ntriple_formatter \
 	tests/turtle_formatter \
 	tests/metadata.py \
 	tests/vorbis-comments.py \
 	tests/events.py \
 	tests/xmlreader.py
-

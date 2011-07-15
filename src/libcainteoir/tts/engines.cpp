@@ -95,6 +95,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	size_t currentOffset; /**< @brief The current offset from the beginning to the current block being read. */
 	size_t speakingPos;   /**< @brief The position within the block where the speaking is upto. */
 	size_t speakingLen;   /**< @brief The length of the word/fragment being spoken. */
+	size_t textLen;       /**< @brief The length of the text range being read. */
 
 	speech_impl(tts::engine *aEngine,
 	            std::tr1::shared_ptr<cainteoir::audio> aAudio,
@@ -192,9 +193,13 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	, speechState(cainteoir::tts::speaking)
 	, speakingPos(0)
 	, speakingLen(0)
+	, textLen(0)
 	, mFrom(aFrom)
 	, mTo(aTo)
 {
+	for (auto node = aFrom; node != aTo; ++node)
+		textLen += (*node)->size();
+
 	started();
 	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)this);
 }
@@ -206,7 +211,7 @@ speech_impl::~speech_impl()
 void speech_impl::started()
 {
 	mElapsedTime = 0.0;
-	mTotalTime = (double(doc->text_length()) / CHARACTERS_PER_WORD / WORDS_PER_MINUTE * 60.0);
+	mTotalTime = (double(textLen) / CHARACTERS_PER_WORD / WORDS_PER_MINUTE * 60.0);
 	mCompleted = 0.0;
 	mProgress = 0.0;
 	currentOffset = 0;
@@ -281,11 +286,11 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 	size_t actualPos = currentOffset + speakingPos;
 
 	mElapsedTime = mTimer.elapsed();
-	mProgress = percentageof(actualPos, doc->text_length());
+	mProgress = percentageof(actualPos, textLen);
 
 	if (mElapsedTime > 0.1)
 	{
-		mCompleted = percentageof(actualPos, doc->text_length());
+		mCompleted = percentageof(actualPos, textLen);
 		if (mCompleted >= 0.1)
 			mTotalTime = (mElapsedTime / mCompleted) * 100.0;
 	}
@@ -323,7 +328,7 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	std::string voice;
 	const rdf::uri * voiceUri = NULL;
 
-	foreach_iter(statement, rql::select(aMetadata, rql::subject, aVoice))
+	foreach_iter(statement, rql::select(aMetadata, rql::matches(rql::subject, aVoice)))
 	{
 		if (rql::predicate(*statement) == rdf::tts("name"))
 		{

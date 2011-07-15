@@ -319,7 +319,7 @@ bool cainteoir::xml::reader::read()
 				{
 					std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent));
 					if (entity)
-						mNodeValue.add(entity);
+						mNodeValue += entity;
 					++mCurrent;
 					continue;
 				}
@@ -327,7 +327,7 @@ bool cainteoir::xml::reader::read()
 
 			while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == '<'))
 				++mCurrent;
-			mNodeValue.add(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent)));
+			mNodeValue += std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
 		} while (mCurrent != mData->end() && *mCurrent != '<');
 	}
 

@@ -302,7 +302,7 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 		{
 			const char * text = lookupReplacementText(codepage, rtf.data(), rtf.parameter());
 			if (text)
-				aText.add(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text)));
+				aText += std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text));
 			else if (!rtf.data()->compare("par") && !aText.empty())
 			{
 				events.begin_context(cainteoir::document_events::paragraph);
@@ -352,7 +352,7 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 			}
 		}
 		else
-			aText.add(rtf.data());
+			aText += rtf.data();
 		break;
 	} while (rtf.read());
 

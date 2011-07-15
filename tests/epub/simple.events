@@ -1,0 +1,4 @@
+anchor [/tmp/test.zip!/OEBPS/test.html]
+begin-context paragraph
+text(20): """This is a test file."""
+end-context

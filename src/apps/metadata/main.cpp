@@ -65,7 +65,7 @@ struct rdfmetadata
 	: public cainteoir::document_events
 	, public rdf::graph
 {
-	void metadata(const rdf::statement &aStatement)
+	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
 	{
 		push_back(aStatement);
 	}
@@ -140,14 +140,21 @@ int main(int argc, char ** argv)
 			{
 				(*rdf::create_formatter(std::cout, format))
 					<< rdf::rdf
+					<< rdf::rdfa
 					<< rdf::rdfs
 					<< rdf::xsd
+					<< rdf::xml
 					<< rdf::owl
 					<< rdf::dc
 					<< rdf::dcterms
 					<< rdf::dcam
-					<< rdf::ocf
+					<< rdf::epub
 					<< rdf::opf
+					<< rdf::ocf
+					<< rdf::pkg
+					<< rdf::media
+					<< rdf::ncx
+					<< rdf::dtb
 					<< rdf::smil
 					<< rdf::xhtml
 					<< rdf::skos
