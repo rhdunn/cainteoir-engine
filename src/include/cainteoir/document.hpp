@@ -48,6 +48,7 @@ namespace cainteoir
 			strong      = 0x00000008, /** @brief The text should stand out (display=bold, prosody). */
 			underline   = 0x00000010, /** @brief The text is underlined (display). */
 			monospace   = 0x00000020, /** @brief The text is formatted using a monospace font (display). */
+			reduced     = 0x00000040, /** @brief The text is reduced in emphasis in the document (display=normal, prosody). */
 		};
 
 		/** @brief A metadata item was encountered in the document.

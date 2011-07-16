@@ -50,8 +50,27 @@ std::string xml::attribute::content() const
 	return normalized_text_buffer(s).str();
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> xml::node::content() const
+std::tr1::shared_ptr<cainteoir::buffer> xml::node::content(bool normalize) const
 {
-	xmlstring s(item ? xmlNodeGetContent(item) : NULL);
-	return std::tr1::shared_ptr<cainteoir::buffer>(new normalized_text_buffer(s));
+	if (item)
+	{
+		xmlstring s(xmlNodeGetContent(item));
+		if (normalize)
+			return std::tr1::shared_ptr<cainteoir::buffer>(new normalized_text_buffer(s));
+		else
+		{
+			const char * str = s;
+			while (*str && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
+				++str;
+
+			if (*str)
+			{
+				size_t len = strlen(s);
+				std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(len));
+				memcpy((void *)data->begin(), (const char *)s, len);
+				return data;
+			}
+		}
+	}
+	return std::tr1::shared_ptr<cainteoir::buffer>(new buffer(NULL, NULL));
 }

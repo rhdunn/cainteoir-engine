@@ -67,6 +67,7 @@ struct events : public cainteoir::document_events
 			if (aParameter & strong)      fprintf(stdout, " +strong");
 			if (aParameter & underline)   fprintf(stdout, " +underline");
 			if (aParameter & monospace)   fprintf(stdout, " +monospace");
+			if (aParameter & reduced)     fprintf(stdout, " +reduced");
 		}
 		fprintf(stdout, "\n");
 	}

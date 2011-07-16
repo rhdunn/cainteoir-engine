@@ -33,14 +33,14 @@ void parseSsmlMetadata(const xml::node &ssml, const rdf::uri &subject, cainteoir
 	}
 }
 
-void parseSsmlContext(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events, cainteoir::document_events::context context)
+void parseSsmlContext(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events, cainteoir::document_events::context context, int32_t parameter = 0)
 {
-	events.begin_context(context);
+	events.begin_context(context, parameter);
 	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_TEXT_NODE)
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = node.content();
+			std::tr1::shared_ptr<cainteoir::buffer> text = node.content(false);
 			if (!text->empty())
 				events.text(text);
 		}
@@ -48,6 +48,24 @@ void parseSsmlContext(const xml::node &ssml, const rdf::uri &subject, cainteoir:
 		{
 			if (node == rdf::ssml("s"))
 				parseSsmlContext(node, subject, events, cainteoir::document_events::sentence);
+			else if (node == rdf::ssml("emphasis"))
+			{
+				int32_t style = cainteoir::document_events::emphasized;
+				for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+				{
+					if (!strcmp(attr.name(), "level"))
+					{
+						std::string value = attr.content();
+						if (value == "strong")
+							style = cainteoir::document_events::strong;
+						else if (value == "reduced")
+							style = cainteoir::document_events::reduced;
+						else if (value == "none")
+							style = cainteoir::document_events::nostyle;
+					}
+				}
+				parseSsmlContext(node, subject, events, cainteoir::document_events::span, style);
+			}
 		}
 	}
 	events.end_context();
@@ -68,7 +86,7 @@ void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject
 	{
 		if (node.type() == XML_TEXT_NODE)
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = node.content();
+			std::tr1::shared_ptr<cainteoir::buffer> text = node.content(false);
 			if (!text->empty())
 				events.text(text);
 		}
