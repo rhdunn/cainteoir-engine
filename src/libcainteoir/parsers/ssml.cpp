@@ -24,6 +24,15 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
+void parseSsmlMetadata(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events)
+{
+	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
+	{
+		if (node.type() == XML_ELEMENT_NODE && node == rdf::rdf("RDF"))
+			cainteoir::parseRdfXmlDocument(node, subject, events);
+	}
+}
+
 void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events)
 {
 	if (ssml != rdf::ssml("speak"))
@@ -58,6 +67,8 @@ void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject
 				if (name == "seeAlso" && !content.empty())
 					events.metadata(rdf::statement(subject, rdf::rdfs("seeAlso"), rdf::href(content)));
 			}
+			else if (node == rdf::ssml("metadata"))
+				parseSsmlMetadata(node, subject, events);
 		}
 	}
 }
