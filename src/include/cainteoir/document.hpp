@@ -31,11 +31,12 @@ namespace cainteoir
 	{
 		enum context
 		{
-			paragraph, /** @brief A paragraph of text (display). */
+			paragraph, /** @brief A paragraph of text (display, parsing). */
 			heading,   /** @brief The text forms a section heading (display). */
 			span,      /** @brief A span of text within a paragraph (display). */
 			list,      /** @brief A sequence of numbered or unnumbered items (display). */
 			list_item, /** @brief An item in a list (display). */
+			sentence,  /** @brief A sentence of text (display, parsing). */
 		};
 
 		enum style

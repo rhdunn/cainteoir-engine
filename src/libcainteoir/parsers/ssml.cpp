@@ -33,9 +33,9 @@ void parseSsmlMetadata(const xml::node &ssml, const rdf::uri &subject, cainteoir
 	}
 }
 
-void parseSsmlParagraph(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events)
+void parseSsmlContext(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events, cainteoir::document_events::context context)
 {
-	events.begin_context(cainteoir::document_events::paragraph);
+	events.begin_context(context);
 	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_TEXT_NODE)
@@ -43,6 +43,11 @@ void parseSsmlParagraph(const xml::node &ssml, const rdf::uri &subject, cainteoi
 			std::tr1::shared_ptr<cainteoir::buffer> text = node.content();
 			if (!text->empty())
 				events.text(text);
+		}
+		else if (node.type() == XML_ELEMENT_NODE && node.namespaceURI() == rdf::ssml)
+		{
+			if (node == rdf::ssml("s"))
+				parseSsmlContext(node, subject, events, cainteoir::document_events::sentence);
 		}
 	}
 	events.end_context();
@@ -87,7 +92,7 @@ void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject
 			else if (node == rdf::ssml("metadata"))
 				parseSsmlMetadata(node, subject, events);
 			else if (node == rdf::ssml("p"))
-				parseSsmlParagraph(node, subject, events);
+				parseSsmlContext(node, subject, events, cainteoir::document_events::paragraph);
 		}
 	}
 }

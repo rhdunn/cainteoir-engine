@@ -57,6 +57,7 @@ struct events : public cainteoir::document_events
 		case span:      fprintf(stdout, "span"); break;
 		case list:      fprintf(stdout, "list"); break;
 		case list_item: fprintf(stdout, "list-item"); break;
+		case sentence:  fprintf(stdout, "sentence"); break;
 		}
 		if (aContext != heading)
 		{
