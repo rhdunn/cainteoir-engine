@@ -130,6 +130,12 @@ if __name__ == '__main__':
 			{'test': 'rtf/libreoffice.rtf', 'result': 'rtf/simple.events'},
 		]},
 	]})
+	test.run({'name': 'SSML', 'groups': [
+		{'name': 'document', 'type': 'events', 'tests': [
+			{'test': 'ssml/speak.ssml', 'result': 'ssml/speak.events'},
+			{'test': 'ssml/speak-with-schema.ssml', 'result': 'ssml/speak.events'},
+		]},
+	]})
 	test.run({ 'name': 'ePub',
 		'archive':
 			[

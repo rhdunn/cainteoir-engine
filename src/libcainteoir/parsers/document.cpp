@@ -277,6 +277,8 @@ bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &da
 			cainteoir::parseRdfXmlDocument(root, subject, events);
 		else if (root == rdf::smil("smil"))
 			cainteoir::parseSmilDocument(root, subject, events);
+		else if (root == rdf::ssml("speak"))
+			cainteoir::parseSsmlDocument(root, subject, events);
 		else if (root == rdf::ncx("ncx"))
 			cainteoir::parseNcxDocument(root, subject, events);
 		else
@@ -393,6 +395,14 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
 	metadata.push_back(rdf::statement(rtf, rdf::tts("mimetype"), rdf::literal("text/rtf")));
 	metadata.push_back(rdf::statement(rtf, rdf::tts("mimetype"), rdf::literal("application/rtf")));
 	metadata.push_back(rdf::statement(rtf, rdf::tts("extension"), rdf::literal("*.rtf")));
+
+	rdf::uri ssml = rdf::uri(baseuri, "ssml");
+	metadata.push_back(rdf::statement(ssml, rdf::rdf("type"), rdf::tts("DocumentFormat")));
+	metadata.push_back(rdf::statement(ssml, rdf::tts("name"), rdf::literal("ssml")));
+	metadata.push_back(rdf::statement(ssml, rdf::dc("title"), rdf::literal(_("speech synthesis markup document"))));
+	metadata.push_back(rdf::statement(ssml, rdf::dc("description"), rdf::literal(_("speech synthesis markup document"))));
+	metadata.push_back(rdf::statement(ssml, rdf::tts("mimetype"), rdf::literal("application/ssml+xml")));
+	metadata.push_back(rdf::statement(ssml, rdf::tts("extension"), rdf::literal("*.ssml")));
 }
 
 bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events)
