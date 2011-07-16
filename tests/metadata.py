@@ -87,6 +87,11 @@ if __name__ == '__main__':
 			{'test': 'smil/metadata/xmllang.smil', 'result': 'smil/metadata/xmllang.n3'},
 		]},
 	]})
+	test.run({'name': 'SSML', 'groups': [
+		{'name': 'metadata', 'type': 'turtle', 'tests': [
+			{'test': 'ssml/metadata/xmllang.ssml', 'result': 'ssml/metadata/xmllang.n3'},
+		]},
+	]})
 	test.run({'name': 'RTF', 'groups': [
 		{'name': 'metadata', 'type': 'turtle', 'tests': [
 			{'test': 'rtf/info/author.rtf', 'result': 'rtf/info/author.n3'},

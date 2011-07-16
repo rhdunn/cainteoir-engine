@@ -29,6 +29,12 @@ void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject
 	if (ssml != rdf::ssml("speak"))
 		throw std::runtime_error(_("SSML document is not of a recognised format."));
 
+	for (xml::attribute attr = ssml.firstAttribute(); attr.isValid(); attr.next())
+	{
+		if (attr == rdf::xml("lang"))
+			events.metadata(rdf::statement(subject, rdf::dc("language"), rdf::literal(attr.content())));
+	}
+
 	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_TEXT_NODE)
