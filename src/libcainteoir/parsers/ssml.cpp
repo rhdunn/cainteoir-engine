@@ -41,5 +41,23 @@ void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject
 		{
 			events.text(node.content());
 		}
+		else if (node.type() == XML_ELEMENT_NODE && node.namespaceURI() == rdf::ssml)
+		{
+			if (node == rdf::ssml("meta"))
+			{
+				std::string name;
+				std::string content;
+				for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+				{
+					if (!strcmp(attr.name(), "name"))
+						name = attr.content();
+					else if (!strcmp(attr.name(), "content"))
+						content = attr.content();
+				}
+
+				if (name == "seeAlso" && !content.empty())
+					events.metadata(rdf::statement(subject, rdf::rdfs("seeAlso"), rdf::href(content)));
+			}
+		}
 	}
 }
