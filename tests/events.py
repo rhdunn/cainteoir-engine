@@ -134,6 +134,7 @@ if __name__ == '__main__':
 		{'name': 'document', 'type': 'events', 'tests': [
 			{'test': 'ssml/speak.ssml', 'result': 'ssml/speak.events'},
 			{'test': 'ssml/speak-with-schema.ssml', 'result': 'ssml/speak.events'},
+			{'test': 'ssml/p.ssml', 'result': 'ssml/p.events'},
 		]},
 	]})
 	test.run({ 'name': 'ePub',
