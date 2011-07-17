@@ -19,6 +19,7 @@
  */
 
 #include <config.h>
+#include <cainteoir/platform.hpp>
 #include "tts_engine.hpp"
 
 #if defined(HAVE_ESPEAK_SPEAK_LIB_H)
@@ -30,13 +31,14 @@
 
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
+namespace tts = cainteoir::tts;
 
 static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 {
-	cainteoir::tts::engine_callback *callback = (cainteoir::tts::engine_callback *)event->user_data;
+	tts::engine_callback *callback = (tts::engine_callback *)event->user_data;
 	if (!callback) return 0;
 
-	if (callback->state() == cainteoir::tts::stopped) return 1;
+	if (callback->state() == tts::stopped) return 1;
 
 	for (; event->type != espeakEVENT_LIST_TERMINATED; ++event) switch (event->type)
 	{
@@ -54,10 +56,71 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 	return 0;
 }
 
-class espeak_engine : public cainteoir::tts::engine
+class espeak_parameter : public tts::parameter
+{
+public:
+	espeak_parameter(const char *aName, const char *aUnits, espeak_PARAMETER aParameter, int aMinimum, int aMaximum, int aScale)
+		: mName(aName)
+		, mUnits(aUnits)
+		, mParameter(aParameter)
+		, mMinimum(aMinimum)
+		, mMaximum(aMaximum)
+		, mScale(aScale)
+	{
+	}
+
+	const char *name() const
+	{
+		return mName;
+	}
+
+	const char *units() const
+	{
+		return mUnits;
+	}
+
+	int minimum() const
+	{
+		return mMinimum;
+	}
+
+	int maximum() const
+	{
+		return mMaximum;
+	}
+
+	int default_value() const
+	{
+		return espeak_GetParameter(mParameter, 0) * mScale;
+	}
+
+	int value() const
+	{
+		return espeak_GetParameter(mParameter, 1) * mScale;
+	}
+
+	bool set_value(int value)
+	{
+		return espeak_SetParameter(mParameter, value / mScale, 0);
+	}
+private:
+	const char *mName;
+	const char *mUnits;
+	espeak_PARAMETER mParameter;
+	int mMinimum;
+	int mMaximum;
+	int mScale;
+};
+
+class espeak_engine : public tts::engine
 {
 public:
 	espeak_engine(rdf::graph &metadata, std::string &baseuri)
+		: mRate(new espeak_parameter(_("Speed"), "wpm", espeakRATE, 80, 450, 1))
+		, mVolume(new espeak_parameter(_("Volume"), "", espeakVOLUME, 0, 200, 1))
+		, mPitch(new espeak_parameter(_("Base Pitch"), "", espeakPITCH, 0, 100, 1))
+		, mPitchRange(new espeak_parameter(_("Pitch Variation"), "", espeakPITCH, 0, 100, 1))
+		, mWordGap(new espeak_parameter(_("Word Gap"), "ms", espeakWORDGAP, 0, 500, 10))
 	{
 		baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
 
@@ -118,24 +181,44 @@ public:
 		return espeak_SetVoiceByName(voicename) == EE_OK;
 	}
 
-	void speak(cainteoir::buffer *text, size_t offset, cainteoir::tts::engine_callback *callback)
+	void speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback)
 	{
 		std::string txt = text->str();
 		espeak_Synth(txt.c_str() + offset, txt.size() - offset, 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, callback);
 		espeak_Synchronize();
 	}
 
+	std::tr1::shared_ptr<tts::parameter>
+	parameter(tts::parameter::type aType)
+	{
+		switch (aType)
+		{
+		case tts::parameter::rate:        return mRate;
+		case tts::parameter::volume:      return mVolume;
+		case tts::parameter::pitch:       return mPitch;
+		case tts::parameter::pitch_range: return mPitchRange;
+		case tts::parameter::word_gap:    return mWordGap;
+		default:                          return std::tr1::shared_ptr<tts::parameter>();
+		}
+	}
+
 	//@}
+private:
+	std::tr1::shared_ptr<tts::parameter> mRate;
+	std::tr1::shared_ptr<tts::parameter> mVolume;
+	std::tr1::shared_ptr<tts::parameter> mPitch;
+	std::tr1::shared_ptr<tts::parameter> mPitchRange;
+	std::tr1::shared_ptr<tts::parameter> mWordGap;
 };
 
-cainteoir::tts::engine *cainteoir::tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
+tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
 {
 	return new espeak_engine(aMetadata, uri);
 }
 
 #else
 
-cainteoir::tts::engine *cainteoir::tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
+tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
 {
 	return NULL;
 }

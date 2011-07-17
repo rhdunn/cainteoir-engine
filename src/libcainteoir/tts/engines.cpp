@@ -379,3 +379,11 @@ tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc,
 {
 	return std::tr1::shared_ptr<tts::speech>(new speech_impl(active, out, doc, from, to));
 }
+
+std::tr1::shared_ptr<tts::parameter>
+tts::engines::parameter(tts::parameter::type aType)
+{
+	if (!active)
+		return std::tr1::shared_ptr<tts::parameter>();
+	return active->parameter(aType);
+}
