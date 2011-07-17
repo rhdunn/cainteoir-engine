@@ -26,7 +26,6 @@
 #include <stdexcept>
 
 static const int CHARACTERS_PER_WORD = 6;
-static const int WORDS_PER_MINUTE = 170;
 
 #define USE_GETTIMEOFDAY 1
 
@@ -96,12 +95,14 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	size_t speakingPos;   /**< @brief The position within the block where the speaking is upto. */
 	size_t speakingLen;   /**< @brief The length of the word/fragment being spoken. */
 	size_t textLen;       /**< @brief The length of the text range being read. */
+	int wordsPerMinute;   /**< @brief The speech rate of the current voice. */
 
 	speech_impl(tts::engine *aEngine,
 	            std::tr1::shared_ptr<cainteoir::audio> aAudio,
 	            const std::tr1::shared_ptr<cainteoir::document> &aDoc,
 	            cainteoir::document::const_iterator aFrom,
-	            cainteoir::document::const_iterator aTo);
+	            cainteoir::document::const_iterator aTo,
+	            std::tr1::shared_ptr<tts::parameter> aRate);
 	~speech_impl();
 
 	cainteoir::document::const_iterator begin() const { return mFrom; }
@@ -186,7 +187,8 @@ speech_impl::speech_impl(tts::engine *aEngine,
                          std::tr1::shared_ptr<cainteoir::audio> aAudio,
                          const std::tr1::shared_ptr<cainteoir::document> &aDoc,
                          cainteoir::document::const_iterator aFrom,
-                         cainteoir::document::const_iterator aTo)
+                         cainteoir::document::const_iterator aTo,
+                         std::tr1::shared_ptr<tts::parameter> aRate)
 	: engine(aEngine)
 	, audio(aAudio)
 	, doc(aDoc)
@@ -194,6 +196,7 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	, speakingPos(0)
 	, speakingLen(0)
 	, textLen(0)
+	, wordsPerMinute(aRate ? aRate->value() : 170)
 	, mFrom(aFrom)
 	, mTo(aTo)
 {
@@ -211,7 +214,7 @@ speech_impl::~speech_impl()
 void speech_impl::started()
 {
 	mElapsedTime = 0.0;
-	mTotalTime = (double(textLen) / CHARACTERS_PER_WORD / WORDS_PER_MINUTE * 60.0);
+	mTotalTime = (double(textLen) / CHARACTERS_PER_WORD / wordsPerMinute * 60.0);
 	mCompleted = 0.0;
 	mProgress = 0.0;
 	currentOffset = 0;
@@ -377,7 +380,7 @@ tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc,
                     cainteoir::document::const_iterator from,
                     cainteoir::document::const_iterator to)
 {
-	return std::tr1::shared_ptr<tts::speech>(new speech_impl(active, out, doc, from, to));
+	return std::tr1::shared_ptr<tts::speech>(new speech_impl(active, out, doc, from, to, parameter(tts::parameter::rate)));
 }
 
 std::tr1::shared_ptr<tts::parameter>
