@@ -117,7 +117,7 @@ class espeak_engine : public tts::engine
 public:
 	espeak_engine(rdf::graph &metadata, std::string &baseuri)
 		: mRate(new espeak_parameter(_("Speed"), "wpm", espeakRATE, 80, 450, 1))
-		, mVolume(new espeak_parameter(_("Volume"), "", espeakVOLUME, 0, 200, 1))
+		, mVolume(new espeak_parameter(_("Volume"), "%", espeakVOLUME, 0, 200, 1))
 		, mPitch(new espeak_parameter(_("Base Pitch"), "", espeakPITCH, 0, 100, 1))
 		, mPitchRange(new espeak_parameter(_("Pitch Variation"), "", espeakPITCH, 0, 100, 1))
 		, mWordGap(new espeak_parameter(_("Word Gap"), "ms", espeakWORDGAP, 0, 500, 10))
