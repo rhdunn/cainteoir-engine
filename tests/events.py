@@ -44,6 +44,8 @@ if __name__ == '__main__':
 		{'name': 'sections', 'type': 'events', 'tests': [
 			{'test': 'html/sections/headings.html', 'result': 'html/sections/headings.events'},
 			{'test': 'html/sections/headings.xhtml', 'result': 'html/sections/headings.events'},
+			{'test': 'html/sections/headings-with-id.html', 'result': 'html/sections/headings-with-id.events'},
+			{'test': 'html/sections/headings-with-id.xhtml', 'result': 'html/sections/headings-with-id.events'},
 			{'test': 'html/sections/paragraphs.html', 'result': 'html/sections/paragraphs.events'},
 			{'test': 'html/sections/paragraphs.xhtml', 'result': 'html/sections/paragraphs.events'},
 			{'test': 'html/sections/no-body.html', 'result': 'html/sections/no-body.events'},

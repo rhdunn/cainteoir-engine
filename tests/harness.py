@@ -52,7 +52,7 @@ class TestSuite:
 			expected = [ repr(replace_strings(x.replace('<DATETIME>', date.today().strftime('%Y')), replacements)) for x in f.read().split('\n') if not x == '' ]
 
 		with open(tmpfile, 'r') as f:
-			got = [ repr(x.replace('<%s' % filename, '<')) for x in f.read().split('\n') if not x == '' ]
+			got = [ repr(x.replace('<%s' % filename, '<').replace('[%s' % filename, '[')) for x in f.read().split('\n') if not x == '' ]
 
 		if test_expect == 'expect-pass':
 			ret = expected == got
