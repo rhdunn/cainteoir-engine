@@ -38,8 +38,17 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
+enum actions
+{
+	speak,
+	show_metadata,
+	show_help,
+	show_contents,
+};
+
 enum args
 {
+	ARG_CONTENTS = 'c',
 	ARG_HELP = 'h',
 	ARG_LANGUAGE = 'l',
 	ARG_METADATA = 'M',
@@ -54,10 +63,11 @@ enum args
 	ARG_VOLUME = 'V',
 };
 
-const char *options_short = "hl:mo:p:r:s:v:MP:V:";
+const char *options_short = "chl:mo:p:r:s:v:MP:V:";
 
 static struct option options[] =
 {
+	{ "contents",    no_argument,       0, ARG_CONTENTS },
 	{ "help",        no_argument,       0, ARG_HELP },
 	{ "language",    required_argument, 0, ARG_LANGUAGE },
 	{ "metadata",    no_argument,       0, ARG_METADATA },
@@ -108,6 +118,10 @@ void help(const rdf::graph &aMetadata)
 	fprintf(stdout, _(" -P, --pitch-range=RANGE Set the voice's pitch to vary by RANGE\n"));
 	fprintf(stdout, _(" -V, --volume=VOLUME     Set the voice's volume to VOLUME percent\n"));
 	fprintf(stdout, _(" -m, --monotone          Set the voice to monotone (pitch varies by 0)\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _("Table of content options:\n"));
+	fprintf(stdout, "\n");
+	fprintf(stdout, _(" -c, --contents          List the table of contents for the specified document\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("Recording audio options:\n"));
 	fprintf(stdout, "\n");
@@ -204,11 +218,13 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 
 struct document : public cainteoir::document_events
 {
-	document(const rdf::uri &aSubject)
+	document(const rdf::uri &aSubject, actions aAction)
 		: tts(m_metadata)
 		, subject(aSubject)
 		, voiceSelected(false)
 		, m_doc(new cainteoir::document())
+		, action(aAction)
+		, toc_number(1)
 	{
 	}
 
@@ -240,11 +256,25 @@ struct document : public cainteoir::document_events
 			voiceSelected = tts.select_voice(m_metadata, *voice);
 	}
 
+	void toc_entry(int depth, const rdf::uri &location, const std::string &title)
+	{
+		if (action == show_contents)
+		{
+			printf(" %4d ", toc_number);
+			for (int i = 0; i < depth; ++i)
+				printf("... ");
+			printf("%s\n", title.c_str());
+			++toc_number;
+		}
+	}
+
 	const rdf::uri subject;
 	rdf::graph m_metadata;
 	std::tr1::shared_ptr<cainteoir::document> m_doc;
 	cainteoir::tts::engines tts;
 	bool voiceSelected;
+	actions action;
+	int toc_number;
 };
 
 int main(int argc, char ** argv)
@@ -257,12 +287,7 @@ int main(int argc, char ** argv)
 
 	try
 	{
-		enum
-		{
-			speak,
-			show_metadata,
-			show_help,
-		} action = speak;
+		actions action = speak;
 
 		const char *voicename = NULL;
 		const char *language = NULL;
@@ -283,6 +308,9 @@ int main(int argc, char ** argv)
 
 			switch (c)
 			{
+			case ARG_CONTENTS:
+				action = show_contents;
+				break;
 			case ARG_HELP:
 				action = show_help;
 				break;
@@ -327,7 +355,7 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		document doc(rdf::uri(argc == 1 ? argv[0] : std::string(), std::string()));
+		document doc(rdf::uri(argc == 1 ? argv[0] : std::string(), std::string()), action);
 		if (action == show_metadata)
 		{
 			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
@@ -376,6 +404,9 @@ int main(int argc, char ** argv)
 			cainteoir::parseDocument(argv[0], doc);
 		else
 			cainteoir::parseDocument(NULL, doc);
+
+		if (action == show_contents)
+			return 0;
 
 		std::string author;
 		std::string title;

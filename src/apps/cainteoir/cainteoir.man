@@ -13,6 +13,8 @@ order: the voice passed on the command-line; the language passed on
 the command-line; the language specified by the document. If no
 voice is found, the default voice is used.
 .SH OPTIONS
+.IP "-c, --contents"
+List the table of contents for the specified document.
 .IP "-l LANG, --language=LANG"
 Select a text-to-speech voice that can speak in the specified
 language.
