@@ -32,26 +32,45 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <limits.h>
 
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
+namespace tts = cainteoir::tts;
 
 enum args
 {
+	ARG_HELP = 'h',
+	ARG_LANGUAGE = 'l',
+	ARG_METADATA = 'M',
+	ARG_MONOTONE = 'm',
+	ARG_OUTPUT_FILE = 'o',
+	ARG_PITCH = 'p',
+	ARG_PITCH_RANGE = 'P',
+	ARG_RECORD = 'r',
+	ARG_SPEED = 's',
 	ARG_STDOUT = 300,
-	ARG_METADATA = 301,
+	ARG_VOICE_NAME = 'v',
+	ARG_VOLUME = 'V',
 };
+
+const char *options_short = "hl:mo:p:r:s:v:MP:V:";
 
 static struct option options[] =
 {
-	{ "output",   required_argument, 0, 'o' },
-	{ "stdout",   no_argument,       0, ARG_STDOUT },
-	{ "record",   required_argument, 0, 'r' },
-	{ "voice",    required_argument, 0, 'v' },
-	{ "language", required_argument, 0, 'l' },
-	{ "metadata", no_argument,       0, ARG_METADATA },
-	{ "help",     no_argument,       0, 'h' },
-	{ 0, 0, 0, 0 }
+	{ "help",        no_argument,       0, ARG_HELP },
+	{ "language",    required_argument, 0, ARG_LANGUAGE },
+	{ "metadata",    no_argument,       0, ARG_METADATA },
+	{ "monotone",    no_argument,       0, ARG_MONOTONE },
+	{ "output",      required_argument, 0, ARG_OUTPUT_FILE },
+	{ "pitch",       required_argument, 0, ARG_PITCH },
+	{ "pitch-range", required_argument, 0, ARG_PITCH_RANGE },
+	{ "record",      required_argument, 0, ARG_RECORD },
+	{ "speed",       required_argument, 0, ARG_SPEED },
+	{ "stdout",      no_argument,       0, ARG_STDOUT },
+	{ "voice",       required_argument, 0, ARG_VOICE_NAME },
+	{ "volume",      required_argument, 0, ARG_VOLUME },
+	{ 0,             0,                 0, 0   }
 };
 
 void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showName)
@@ -82,21 +101,26 @@ void help(const rdf::graph &aMetadata)
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("Speech options:\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _(" -v, --voice=VOICE      Use the voice named VOICE\n"));
-	fprintf(stdout, _(" -l, --language=LANG    Use a voice that speaks the language LANG\n"));
+	fprintf(stdout, _(" -v, --voice=VOICE       Use the voice named VOICE\n"));
+	fprintf(stdout, _(" -l, --language=LANG     Use a voice that speaks the language LANG\n"));
+	fprintf(stdout, _(" -s, --speed=SPEED       Set the voice's speed to SPEED words per minute\n"));
+	fprintf(stdout, _(" -p, --pitch=PITCH       Set the voice's base pitch to PITCH\n"));
+	fprintf(stdout, _(" -P, --pitch-range=RANGE Set the voice's pitch to vary by RANGE\n"));
+	fprintf(stdout, _(" -V, --volume=VOLUME     Set the voice's volume to VOLUME percent\n"));
+	fprintf(stdout, _(" -m, --monotone          Set the voice to monotone (pitch varies by 0)\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("Recording audio options:\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _(" -o, --output=FILE      Recorded audio is written to FILE\n"));
-	fprintf(stdout, _("     --stdout           Recorded audio is written to the standard output\n"));
-	fprintf(stdout, _(" -r, --record=FORMAT    Record the audio as a FORMAT file (default: wav)\n"));
+	fprintf(stdout, _(" -o, --output=FILE       Recorded audio is written to FILE\n"));
+	fprintf(stdout, _("     --stdout            Recorded audio is written to the standard output\n"));
+	fprintf(stdout, _(" -r, --record=FORMAT     Record the audio as a FORMAT file (default: wav)\n"));
 	fprintf(stdout, _("       where FORMAT is one of:\n"));
 	list_formats(aMetadata, rdf::tts("AudioFormat"), true);
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("General options:\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("     --metadata         Show the RDF metadata for the engine and voices\n"));
-	fprintf(stdout, _(" -h, --help             This help text\n"));
+	fprintf(stdout, _(" -M, --metadata          Show the RDF metadata for the engine and voices\n"));
+	fprintf(stdout, _(" -h, --help              This help text\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("The arguments to the long options also apply to their short option equivalents.\n"));
 	fprintf(stdout, "\n");
@@ -245,37 +269,57 @@ int main(int argc, char ** argv)
 		const char *outfile = NULL;
 		const char *outformat = NULL;
 
+		int speed = INT_MAX;
+		int pitch = INT_MAX;
+		int range = INT_MAX;
+		int volume = INT_MAX;
+
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "hl:o:r:v:", options, &option_index);
+			int c = getopt_long(argc, argv, options_short, options, &option_index);
 			if (c == -1)
 				break;
 
 			switch (c)
 			{
-			case 'h':
+			case ARG_HELP:
 				action = show_help;
 				break;
-			case 'l':
+			case ARG_LANGUAGE:
 				language = optarg;
 				break;
-			case 'v':
-				voicename = optarg;
+			case ARG_METADATA:
+				action = show_metadata;
 				break;
-			case 'o':
+			case ARG_MONOTONE:
+				range = 0;
+				break;
+			case ARG_OUTPUT_FILE:
 				outfile = optarg;
 				break;
-			case 'r':
+			case ARG_PITCH:
+				pitch = atoi(optarg);
+				break;
+			case ARG_PITCH_RANGE:
+				range = atoi(optarg);
+				break;
+			case ARG_RECORD:
 				outformat = optarg;
 				if (!strcmp(outformat, "wave"))
 					outformat = "wav";
 				break;
+			case ARG_SPEED:
+				speed = atoi(optarg);
+				break;
 			case ARG_STDOUT:
 				outfile = "-";
 				break;
-			case ARG_METADATA:
-				action = show_metadata;
+			case ARG_VOICE_NAME:
+				voicename = optarg;
+				break;
+			case ARG_VOLUME:
+				volume = atoi(optarg);
 				break;
 			}
 		}
@@ -322,6 +366,11 @@ int main(int argc, char ** argv)
 
 		if (language)
 			doc.select_voice(rdf::dc("language"), language);
+
+		if (speed  != INT_MAX) doc.tts.parameter(tts::parameter::rate)->set_value(speed);
+		if (pitch  != INT_MAX) doc.tts.parameter(tts::parameter::pitch)->set_value(pitch);
+		if (range  != INT_MAX) doc.tts.parameter(tts::parameter::pitch_range)->set_value(range);
+		if (volume != INT_MAX) doc.tts.parameter(tts::parameter::volume)->set_value(volume);
 
 		if (argc == 1)
 			cainteoir::parseDocument(argv[0], doc);
