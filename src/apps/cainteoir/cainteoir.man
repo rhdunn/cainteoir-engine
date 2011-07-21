@@ -15,6 +15,10 @@ voice is found, the default voice is used.
 .SH OPTIONS
 .IP "-c, --contents"
 List the table of contents for the specified document.
+.IP "-f FROM, --from=FROM"
+Start reading/recording from the specified table of content entry.
+If not specified, this defaults to the start of the document. The
+value is the number provided from the table of contents output.
 .IP "-l LANG, --language=LANG"
 Select a text-to-speech voice that can speak in the specified
 language.
@@ -43,6 +47,10 @@ per minute.
 .IP "--stdout"
 When recording, write the audio data to standard output instead
 of a file.
+.IP "-t TO, --to=TO"
+Read/record upto the specified table of content entry. If not
+specified, this defaults to the end of the document. The value
+is the number provided from the table of contents output.
 .IP "-v VOICE, --voice=VOICE"
 Select the text-to-speech voice with the specified name.
 .IP "-V VOLUME, --volume=VOLUME"

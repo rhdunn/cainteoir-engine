@@ -49,6 +49,7 @@ enum actions
 enum args
 {
 	ARG_CONTENTS = 'c',
+	ARG_FROM = 'f',
 	ARG_HELP = 'h',
 	ARG_LANGUAGE = 'l',
 	ARG_METADATA = 'M',
@@ -59,11 +60,12 @@ enum args
 	ARG_RECORD = 'r',
 	ARG_SPEED = 's',
 	ARG_STDOUT = 300,
+	ARG_TO = 't',
 	ARG_VOICE_NAME = 'v',
 	ARG_VOLUME = 'V',
 };
 
-const char *options_short = "chl:mo:p:r:s:v:MP:V:";
+const char *options_short = "cf:hl:mo:p:r:s:t:v:MP:V:";
 
 static struct option options[] =
 {
@@ -122,6 +124,8 @@ void help(const rdf::graph &aMetadata)
 	fprintf(stdout, _("Table of content options:\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, _(" -c, --contents          List the table of contents for the specified document\n"));
+	fprintf(stdout, _(" -f, --from=FROM         Start reading/recoding from contents marker FROM\n"));
+	fprintf(stdout, _(" -t, --to=TO             Finish reading/recording after contents marker TO\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, _("Recording audio options:\n"));
 	fprintf(stdout, "\n");
@@ -218,13 +222,15 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 
 struct document : public cainteoir::document_events
 {
-	document(const rdf::uri &aSubject, actions aAction)
+	document(const rdf::uri &aSubject, actions aAction, int aFrom, int aTo)
 		: tts(m_metadata)
 		, subject(aSubject)
 		, voiceSelected(false)
 		, m_doc(new cainteoir::document())
 		, action(aAction)
 		, toc_number(1)
+		, fromIndex(aFrom)
+		, toIndex(aTo)
 	{
 	}
 
@@ -264,8 +270,25 @@ struct document : public cainteoir::document_events
 			for (int i = 0; i < depth; ++i)
 				printf("... ");
 			printf("%s\n", title.c_str());
-			++toc_number;
 		}
+
+		if (fromIndex == toc_number)
+			from = location;
+
+		if (toIndex == toc_number)
+			to = location;
+
+		++toc_number;
+	}
+
+	void anchor(const rdf::uri &location)
+	{
+		m_doc->add_anchor(location);
+	}
+
+	cainteoir::document::range_type selection() const
+	{
+		return m_doc->children(std::make_pair(from, to));
 	}
 
 	const rdf::uri subject;
@@ -275,6 +298,11 @@ struct document : public cainteoir::document_events
 	bool voiceSelected;
 	actions action;
 	int toc_number;
+
+	rdf::uri from;
+	rdf::uri to;
+	int fromIndex;
+	int toIndex;
 };
 
 int main(int argc, char ** argv)
@@ -299,6 +327,9 @@ int main(int argc, char ** argv)
 		int range = INT_MAX;
 		int volume = INT_MAX;
 
+		int from = -1;
+		int to = -1;
+
 		while (1)
 		{
 			int option_index = 0;
@@ -310,6 +341,9 @@ int main(int argc, char ** argv)
 			{
 			case ARG_CONTENTS:
 				action = show_contents;
+				break;
+			case ARG_FROM:
+				from = atoi(optarg);
 				break;
 			case ARG_HELP:
 				action = show_help;
@@ -343,6 +377,9 @@ int main(int argc, char ** argv)
 			case ARG_STDOUT:
 				outfile = "-";
 				break;
+			case ARG_TO:
+				to = atoi(optarg) + 1;
+				break;
 			case ARG_VOICE_NAME:
 				voicename = optarg;
 				break;
@@ -355,7 +392,7 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		document doc(rdf::uri(argc == 1 ? argv[0] : std::string(), std::string()), action);
+		document doc(rdf::uri(argc == 1 ? argv[0] : std::string(), std::string()), action, from, to);
 		if (action == show_metadata)
 		{
 			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
@@ -500,7 +537,8 @@ int main(int argc, char ** argv)
 			fprintf(stdout, _("Title  : %s\n\n"), title.c_str());
 		}
 
-		std::tr1::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out, 0);
+		cainteoir::document::range_type selection = doc.selection();
+		std::tr1::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out, selection.first, selection.second);
 		while (speech->is_speaking())
 		{
 			if (show_progress)
