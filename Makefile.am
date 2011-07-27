@@ -233,7 +233,7 @@ noinst_bin_PROGRAMS += tests/xmlreader
 tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
 tests_xmlreader_SOURCES = tests/xmlreader.cpp
 
-EXTRA_DIST += \
+TEST_FILES = \
 	tests/epub/* \
 	tests/ncx/* \
 	tests/ocf/* \
@@ -248,15 +248,14 @@ EXTRA_DIST += \
 	tests/xmlparser/* \
 	tests/*.py
 
-TEST_EXTENSIONS = .py
-PY_LOG_COMPILER = $(PYTHON)
+EXTRA_DIST += $(TEST_FILES)
 
-TESTS = \
-	tests/rdfmodel \
-	tests/rdfquery \
-	tests/ntriple_formatter \
-	tests/turtle_formatter \
-	tests/metadata.py \
-	tests/vorbis-comments.py \
-	tests/events.py \
-	tests/xmlreader.py
+check: tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/turtle_formatter src/apps/metadata/metadata tests/events tests/xmlreader $(TEST_FILES)
+	tests/rdfmodel
+	tests/rdfquery
+	tests/ntriple_formatter
+	tests/turtle_formatter
+	python tests/xmlreader.py
+	python tests/metadata.py
+	python tests/vorbis-comments.py
+	python tests/events.py
