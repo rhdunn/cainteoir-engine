@@ -134,7 +134,7 @@ namespace cainteoir { namespace xmldom
 			return item->type;
 		}
 
-		std::tr1::shared_ptr<cainteoir::buffer> content() const;
+		std::tr1::shared_ptr<cainteoir::buffer> content(bool normalize = true) const;
 	};
 
 	inline bool operator==(const node &a, const rdf::uri &b)

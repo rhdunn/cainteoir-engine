@@ -1,0 +1,5 @@
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<> rdfs:seeAlso <http://www.example.com/ssml.rdf> .
+<> tts:mimetype "application/xml" .

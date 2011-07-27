@@ -163,6 +163,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/parsers/opf.cpp \
 	src/libcainteoir/parsers/epub.cpp \
 	src/libcainteoir/parsers/rdfxml.cpp \
+	src/libcainteoir/parsers/ssml.cpp \
 	src/libcainteoir/parsers/smil.cpp \
 	src/libcainteoir/parsers/rtf.cpp \
 	src/libcainteoir/parsers/document.cpp \
@@ -239,6 +240,7 @@ EXTRA_DIST += \
 	tests/opf/* \
 	tests/rdfxml/* \
 	tests/rtf/* \
+	tests/ssml/* \
 	tests/smil/* \
 	tests/html/* \
 	tests/http/* \

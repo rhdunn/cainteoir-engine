@@ -1,0 +1,8 @@
+begin-context paragraph
+begin-context sentence
+text(10): """sentence 1"""
+end-context
+begin-context sentence
+text(10): """sentence 2"""
+end-context
+end-context

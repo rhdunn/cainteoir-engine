@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis"xml:lang="en-US">
+	<p>This is <emphasis>emphasized</emphasis> text, as is <emphasis level="moderate">this</emphasis>.</p>
+	<p>This is <emphasis level="strong">strong</emphasis> text.</p>
+	<p>This is <emphasis level="reduced">reduced</emphasis> text.</p>
+	<p>This text is <emphasis level="none">not emphasized</emphasis>.</p>
+	<p>This text is <emphasis level="unspecified">emphasized</emphasis> despite having an unrecognised level attribute.</p>
+</speak>

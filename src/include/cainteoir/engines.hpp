@@ -48,6 +48,35 @@ namespace cainteoir { namespace tts
 		virtual size_t position() const = 0;
 	};
 
+	struct parameter
+	{
+		virtual ~parameter() {}
+
+		virtual const char *name() const = 0;
+
+		virtual const char *units() const = 0;
+
+		virtual int minimum() const = 0;
+
+		virtual int maximum() const = 0;
+
+		virtual int default_value() const = 0;
+
+		virtual int value() const = 0;
+
+		virtual bool set_value(int value) = 0;
+
+		enum type
+		{
+			rate, /** @brief How fast the voice speaks. */
+			volume, /** @brief The volume of the voice audio. */
+			pitch, /** @brief The base pitch to render the voice at. */
+			pitch_range, /** @brief How varied the pitch is due to prosody variations. */
+			word_gap, /** @brief How long to pause between each word. */
+			number_of_parameters
+		};
+	};
+
 	class engines
 	{
 	public:
@@ -68,6 +97,9 @@ namespace cainteoir { namespace tts
 		      std::tr1::shared_ptr<audio> out,
 		      cainteoir::document::const_iterator from,
 		      cainteoir::document::const_iterator to);
+
+		std::tr1::shared_ptr<cainteoir::tts::parameter>
+		parameter(cainteoir::tts::parameter::type aType);
 	private:
 		std::map<std::string, engine *> enginelist;
 		engine *active;

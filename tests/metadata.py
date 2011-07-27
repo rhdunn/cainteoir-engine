@@ -87,6 +87,15 @@ if __name__ == '__main__':
 			{'test': 'smil/metadata/xmllang.smil', 'result': 'smil/metadata/xmllang.n3'},
 		]},
 	]})
+	test.run({'name': 'SSML', 'groups': [
+		{'name': 'metadata', 'type': 'turtle', 'tests': [
+			{'test': 'ssml/metadata/xmllang.ssml', 'result': 'ssml/metadata/xmllang.n3'},
+			{'test': 'ssml/metadata/meta-see-also.ssml', 'result': 'ssml/metadata/meta-see-also.n3'},
+			{'test': 'ssml/metadata/meta-http-equiv.ssml', 'result': 'ssml/metadata/meta-http-equiv.n3'},
+			{'test': 'ssml/metadata/meta-other.ssml', 'result': 'ssml/metadata/meta-other.n3'},
+			{'test': 'ssml/metadata/metadata-rdfxml.ssml', 'result': 'ssml/metadata/metadata-rdfxml.n3'},
+		]},
+	]})
 	test.run({'name': 'RTF', 'groups': [
 		{'name': 'metadata', 'type': 'turtle', 'tests': [
 			{'test': 'rtf/info/author.rtf', 'result': 'rtf/info/author.n3'},

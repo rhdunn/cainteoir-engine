@@ -31,11 +31,12 @@ namespace cainteoir
 	{
 		enum context
 		{
-			paragraph, /** @brief A paragraph of text (display). */
+			paragraph, /** @brief A paragraph of text (display, parsing). */
 			heading,   /** @brief The text forms a section heading (display). */
 			span,      /** @brief A span of text within a paragraph (display). */
 			list,      /** @brief A sequence of numbered or unnumbered items (display). */
 			list_item, /** @brief An item in a list (display). */
+			sentence,  /** @brief A sentence of text (display, parsing). */
 		};
 
 		enum style
@@ -47,6 +48,7 @@ namespace cainteoir
 			strong      = 0x00000008, /** @brief The text should stand out (display=bold, prosody). */
 			underline   = 0x00000010, /** @brief The text is underlined (display). */
 			monospace   = 0x00000020, /** @brief The text is formatted using a monospace font (display). */
+			reduced     = 0x00000040, /** @brief The text is reduced in emphasis in the document (display=normal, prosody). */
 		};
 
 		/** @brief A metadata item was encountered in the document.

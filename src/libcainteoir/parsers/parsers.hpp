@@ -158,6 +158,15 @@ namespace cainteoir
 	  */
 	void parseSmilDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events);
 
+	/** @brief Speech Synthesis Markup Language (SSML)
+	  * @see   http://www.w3.org/TR/speech-synthesis/
+	  *
+	  * @param aRoot     The root node of the SSML XML document.
+	  * @param aSubject  The base to use for any relative URIs.
+	  * @param events    The events callback to handle document events.
+	  */
+	void parseSsmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events);
+
 	/** @brief ePub
 	  * @see   http://www.idpf.org/specs.htm
 	  *

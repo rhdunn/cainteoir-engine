@@ -1,0 +1,28 @@
+begin-context heading 1
+anchor [#]h1
+text(9): """Heading 1"""
+end-context
+begin-context paragraph
+text(4): """Text"""
+end-context
+begin-context heading 2
+anchor [#]h11
+text(11): """Heading 1.1"""
+end-context
+begin-context paragraph
+text(4): """Text"""
+end-context
+begin-context heading 2
+anchor [#]h12
+text(11): """Heading 1.2"""
+end-context
+begin-context paragraph
+text(4): """Text"""
+end-context
+begin-context heading 1
+anchor [#]h2
+text(9): """Heading 2"""
+end-context
+begin-context paragraph
+text(4): """Text"""
+end-context

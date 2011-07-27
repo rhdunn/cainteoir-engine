@@ -223,6 +223,7 @@ namespace cainteoir { namespace rdf
 	extern const ns pkg;     /**< @brief ePub 3.0 package vocabulary namespace. */
 	extern const ns media;   /**< @brief ePub 3.0 media overlay vocabulary namespace. */
 
+	extern const ns ssml;    /**< @brief SSML namespace. */
 	extern const ns smil;    /**< @brief SMIL namespace. */
 	extern const ns xhtml;   /**< @brief XHTML namespace. */
 

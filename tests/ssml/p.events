@@ -1,0 +1,6 @@
+begin-context paragraph
+text(11): """paragraph 1"""
+end-context
+begin-context paragraph
+text(11): """paragraph 2"""
+end-context

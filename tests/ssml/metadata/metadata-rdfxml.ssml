@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis">
+	<metadata>
+		<rdf:RDF xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc = "http://purl.org/dc/elements/1.1/">
+			<rdf:Description rdf:about="http://www.example.com/meta.ssml"
+				dc:title="Speech Synthesis"
+				dc:language="en-US"
+				dc:format="application/ssml+xml"/>
+		</rdf:RDF>
+	</metadata>
+</speak>

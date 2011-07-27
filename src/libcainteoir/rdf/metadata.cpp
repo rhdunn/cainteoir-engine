@@ -42,6 +42,7 @@ const rdf::ns rdf::ocf(  "ocf",   "urn:oasis:names:tc:opendocument:xmlns:contain
 const rdf::ns rdf::pkg(  "pkg",   "http://www.idpf.org/epub/vocab/package/#");
 const rdf::ns rdf::media("media", "http://www.idpf.org/epub/vocab/overlays/#");
 
+const rdf::ns rdf::ssml( "ssml", "http://www.w3.org/2001/10/synthesis#");
 const rdf::ns rdf::smil( "smil", "http://www.w3.org/ns/SMIL#");
 const rdf::ns rdf::xhtml("h",    "http://www.w3.org/1999/xhtml#");
 

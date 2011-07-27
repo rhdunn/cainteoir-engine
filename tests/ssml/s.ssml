@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
+	<p>
+		<s>sentence 1</s>
+		<s>sentence 2</s>
+	</p>
+</speak>
