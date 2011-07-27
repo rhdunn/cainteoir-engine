@@ -1,3 +1,9 @@
+cainteoir-engine (0.4) unstable; urgency=low
+ 
+  * New upstream release.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Wed, 26 Jul 2011 07:24:00 +0000
+
 cainteoir-engine (0.3-1) unstable; urgency=low
  
   * Always run autogen.sh in debian/rules.
