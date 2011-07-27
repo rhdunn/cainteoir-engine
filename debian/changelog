@@ -1,3 +1,9 @@
+cainteoir-engine (0.4-1) unstable; urgency=low
+ 
+  * Fix the non-empty-dependency_libs-in-la-file lintian error.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Wed, 26 Jul 2011 08:14:00 +0000
+
 cainteoir-engine (0.4) unstable; urgency=low
  
   * New upstream release.
