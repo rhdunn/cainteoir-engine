@@ -1,5 +1,18 @@
 
 -------------------------------------------------------------------------------
+VERSION 0.4 -- Tuesday July 26th 2011 [Jul 2011]
+
+file formats:
+  *  support ncx-based table of content in epub documents;
+  *  support epub 3.0 metadata;
+  *  basic support for SSML.
+
+cainteoir application and engine:
+  *  support listing a document's table of contents and read/record a
+     specified content range;
+  *  support setting the voice reading speed, pitch and volume.
+
+-------------------------------------------------------------------------------
 VERSION 0.3 -- Friday July 1st 2011 [Jun 2011]
 
 file formats:
