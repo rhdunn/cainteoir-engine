@@ -1,3 +1,9 @@
+cainteoir-engine (0.4-3) unstable; urgency=low
+ 
+  * Fix running the rdfquery tests on a clean machine/setup.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Wed, 27 Jul 2011 18:02:00 +0000
+
 cainteoir-engine (0.4-2) unstable; urgency=low
  
   * Potential fix for running 'make check' when building the package.
