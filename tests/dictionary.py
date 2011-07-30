@@ -114,7 +114,7 @@ def parse_dictionaries(dictionaries):
 			[abc]		-- use the character 'a' or 'b' or 'c' in the word
 			<repl>		-- use the result of the replacement 'repl' in the word
 	"""
-	data = []
+	data = {}
 	refs = {}
 	for dictionary in dictionaries:
 		with open(dictionary) as f:
@@ -128,12 +128,14 @@ def parse_dictionaries(dictionaries):
 					word, pronunciation, rest = line.split('"')
 					word = ' '.join(word.split())
 					pronunciation = ' '.join(pronunciation.split())
-					data.append({ 'word': word, 'replacement': pronunciation })
+					data[word] = { 'word': word, 'replacement': pronunciation }
 				else:
 					expr, pronunciation, rest = line.split('/')
 					pronunciation = ' '.join(pronunciation.split())
 					for word in expand(' '.join(expr.split()), refs):
-						data.append({ 'word': word, 'pronunciation': pronunciation })
+						if word in data.keys() and data[word]['pronunciation'] != pronunciation:
+							raise Exception('Mismatched pronunciation for duplicate word "%s"' % word)
+						data[word] = { 'word': word, 'pronunciation': pronunciation }
 	return data
 
 class Tester:
@@ -141,22 +143,20 @@ class Tester:
 		self.passed = 0
 		self.failed = 0
 
-	def test_dictionary(self, data, generate_exception_dictionary=False, ipa=True):
+	def test_dictionary(self, words, generate_exception_dictionary=False, ipa=True):
 		with open('/tmp/words.lst', 'w') as f:
-			for item in data:
-				f.write('%s\n\n' % item['word'])
+			for item in words.keys():
+				f.write('%s\n\n' % item)
 
 		os.system('espeak -v en -xq --ipa -f /tmp/words.lst > /tmp/pronunciation.lst')
 
 		with open('/tmp/pronunciation.lst') as f:
 			espeak = [ ' '.join(x.split()) for x in f.read().split('\n') ]
 
+		data = words.values()
 		for i in range(0, len(data)):
 			if not 'pronunciation' in data[i].keys():
-				result = [ x['pronunciation'] for x in data if x['word'] == data[i]['replacement'] ]
-				if len(result) == 0:
-					raise Exception('no pronunciation for "%s" found using "%s"' % (data[i]['word'], data[i]['replacement']))
-				data[i]['pronunciation'] = result[0]
+				data[i]['pronunciation'] = words[ data[i]['replacement'] ]['pronunciation']
 
 			word     = data[i]['word']
 			expected = '/%s/' % data[i]['pronunciation']
