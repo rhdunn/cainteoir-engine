@@ -194,7 +194,7 @@ if __name__ == '__main__':
 	words = parse_dictionaries(dictionaries)
 
 	if '--new-words' in sys.argv:
-		have_words = [ data['word'].lower() for data in words ]
+		have_words = [ data['word'].lower() for data in words.values() ]
 		#print '\n'.join(have_words)
 		with open(args[2]) as f:
 			for line in f:
