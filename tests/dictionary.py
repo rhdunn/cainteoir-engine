@@ -31,6 +31,7 @@ def print_exception(word, pronunciation, ipa=True):
 			('aʊ', 'aU'),
 			('əʊ', 'oU'),
 
+			(' ', '||'),
 			('.', ''),
 			('ː', ':'),
 			('ˈ', '\''),
@@ -114,7 +115,7 @@ def parse_dictionaries(dictionaries):
 			[abc]		-- use the character 'a' or 'b' or 'c' in the word
 			<repl>		-- use the result of the replacement 'repl' in the word
 	"""
-	data = []
+	data = {}
 	refs = {}
 	for dictionary in dictionaries:
 		with open(dictionary) as f:
@@ -128,12 +129,14 @@ def parse_dictionaries(dictionaries):
 					word, pronunciation, rest = line.split('"')
 					word = ' '.join(word.split())
 					pronunciation = ' '.join(pronunciation.split())
-					data.append({ 'word': word, 'replacement': pronunciation })
+					data[word] = { 'word': word, 'replacement': pronunciation }
 				else:
 					expr, pronunciation, rest = line.split('/')
 					pronunciation = ' '.join(pronunciation.split())
 					for word in expand(' '.join(expr.split()), refs):
-						data.append({ 'word': word, 'pronunciation': pronunciation })
+						if word in data.keys() and data[word]['pronunciation'] != pronunciation:
+							raise Exception('Mismatched pronunciation for duplicate word "%s"' % word)
+						data[word] = { 'word': word, 'pronunciation': pronunciation }
 	return data
 
 class Tester:
@@ -141,30 +144,27 @@ class Tester:
 		self.passed = 0
 		self.failed = 0
 
-	def test_dictionary(self, data, generate_exception_dictionary=False, ipa=True):
+	def test_dictionary(self, words, generate_exception_dictionary=False, ipa=True):
 		with open('/tmp/words.lst', 'w') as f:
-			for item in data:
-				f.write('%s\n\n' % item['word'])
+			for item in sorted(words.keys()):
+				f.write('%s\n\n' % item)
 
 		os.system('espeak -v en -xq --ipa -f /tmp/words.lst > /tmp/pronunciation.lst')
 
 		with open('/tmp/pronunciation.lst') as f:
 			espeak = [ ' '.join(x.split()) for x in f.read().split('\n') ]
 
-		for i in range(0, len(data)):
-			if not 'pronunciation' in data[i].keys():
-				result = [ x['pronunciation'] for x in data if x['word'] == data[i]['replacement'] ]
-				if len(result) == 0:
-					raise Exception('no pronunciation for "%s" found using "%s"' % (data[i]['word'], data[i]['replacement']))
-				data[i]['pronunciation'] = result[0]
+		for i, word in enumerate(sorted(words.keys())):
+			data = words[word]
+			if not 'pronunciation' in data.keys():
+				data['pronunciation'] = words[ data['replacement'] ]['pronunciation']
 
-			word     = data[i]['word']
-			expected = '/%s/' % data[i]['pronunciation']
+			expected = '/%s/' % data['pronunciation']
 			actual   = '/%s/' % espeak[i]
 
-			expected = expected.replace('.', '')    # espeak does not support syllabic annotations, so ignore
+			expected = expected.replace('.', '') # espeak does not support syllabic annotations, so ignore
 
-			actual = actual.replace('əL',   'l̩')   # espeak --ipa does not map '@L' correctly, so use the syllabic form (different to 'əl')
+			actual = actual.replace('əL',   'l̩') # espeak --ipa does not map '@L' correctly, so use the syllabic form (different to 'əl')
 			actual = actual.replace('ɪˈɑː', 'iˈɑː') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
 			actual = actual.replace('ɪ/', 'i/') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
 			actual = actual.replace('ai/', 'aɪ/') # ... but correct 'aɪ' usage
@@ -174,13 +174,13 @@ class Tester:
 
 			if expected == actual:
 				if not generate_exception_dictionary:
-					print '%s %s ... pass' % (word, '/%s/' % data[i]['pronunciation'])
+					print '%s %s ... pass' % (word, '/%s/' % data['pronunciation'])
 				self.passed = self.passed + 1
 			else:
 				if generate_exception_dictionary:
-					print_exception(word, '/%s/' % data[i]['pronunciation'], ipa=ipa)
+					print_exception(word, '/%s/' % data['pronunciation'], ipa=ipa)
 				else:
-					print '%s %s got: %s ... fail' % (word, '/%s/' % data[i]['pronunciation'], actual)
+					print '%s %s got: %s ... fail' % (word, '/%s/' % data['pronunciation'], actual)
 				self.failed = self.failed + 1
 
 	def summary(self):
@@ -194,7 +194,7 @@ if __name__ == '__main__':
 	words = parse_dictionaries(dictionaries)
 
 	if '--new-words' in sys.argv:
-		have_words = [ data['word'].lower() for data in words ]
+		have_words = [ data['word'].lower() for data in words.values() ]
 		#print '\n'.join(have_words)
 		with open(args[2]) as f:
 			for line in f:
