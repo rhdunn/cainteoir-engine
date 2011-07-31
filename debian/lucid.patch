@@ -1,0 +1,13 @@
+diff --git a/debian/control b/debian/control
+index 3884339..1674133 100644
+--- a/debian/control
++++ b/debian/control
+@@ -3,7 +3,7 @@ Section: sound
+ Priority: extra
+ Maintainer: Reece H. Dunn <msclrhd@gmail.com>
+ Build-Depends: debhelper (>= 7.0.50~),
+-               autoconf, automake, libtool, autopoint, gettext,
++               autoconf, automake, libtool, gettext,
+                libpulse-dev, libxml2-dev, libvorbis-dev, libmagic-dev,
+                libespeak-dev, python (>= 2.6)
+ Standards-Version: 3.9.1
