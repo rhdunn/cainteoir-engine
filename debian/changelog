@@ -1,3 +1,9 @@
+cainteoir-engine (0.4-7) unstable; urgency=low
+ 
+  * autopoint 0.17 on lucid requires cvs.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 31 Jul 2011 20:09:00 +0000
+
 cainteoir-engine (0.4-6) unstable; urgency=low
  
   * autoconf: request gettext version 0.17 to fix Lucid builds.
