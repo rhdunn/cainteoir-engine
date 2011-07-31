@@ -19,6 +19,7 @@ dodist() {
 builddeb() {
 	DIST=$1
 	shift
+	git clean -fxd
 	sed -i -e "s/) unstable;/~${DIST}1) ${DIST};/" debian/changelog
 	if [[ -e debian/$DIST.patch ]] ; then
 		patch -f -p1 -i debian/$DIST.patch || touch builddeb.failed

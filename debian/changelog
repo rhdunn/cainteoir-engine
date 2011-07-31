@@ -1,3 +1,9 @@
+cainteoir-engine (0.4-5) unstable; urgency=low
+ 
+  * Lucid requires a dependency on zlib1g-dev.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 31 Jul 2011 19:11:00 +0000
+
 cainteoir-engine (0.4-4) unstable; urgency=low
  
   * Fix building on Lucid (remove autopoint dependency).
