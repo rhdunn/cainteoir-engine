@@ -1,8 +1,14 @@
+cainteoir-engine (0.4-8) unstable; urgency=low
+ 
+  * Fallback zlib detection for Ubuntu lucid (zlib.pc not present).
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 31 Jul 2011 21:57:00 +0000
+
 cainteoir-engine (0.4-7) unstable; urgency=low
  
   * autopoint 0.17 on lucid requires cvs.
  
- -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 31 Jul 2011 20:09:00 +0000
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 31 Jul 2011 21:11:00 +0000
 
 cainteoir-engine (0.4-6) unstable; urgency=low
  
