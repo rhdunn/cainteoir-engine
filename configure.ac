@@ -66,7 +66,38 @@ dnl ================================================================
 dnl zlib checks.
 dnl ================================================================
 
-PKG_CHECK_MODULES(ZLIB, [zlib >= 1.2.3])
+PKG_CHECK_MODULES(ZLIB, [zlib >= 1.2.3], [], [
+    # Fallback for distributions that don't install zlib.pc (e.g. Ubuntu Lucid) ...
+    ZLIB_HOME=/usr/local
+    if test ! -f "${ZLIB_HOME}/include/zlib.h"
+    then
+        ZLIB_HOME=/usr
+    fi
+    ZLIB_OLD_LDFLAGS=$LDFLAGS
+    ZLIB_OLD_CPPFLAGS=$LDFLAGS
+    LDFLAGS="$LDFLAGS -L${ZLIB_HOME}/lib"
+    CPPFLAGS="$CPPFLAGS -I${ZLIB_HOME}/include"
+    # Check for zlib ...
+    AC_LANG_SAVE
+    AC_LANG_C
+    AC_CHECK_LIB(z, inflateEnd, [zlib_cv_libz=yes], [zlib_cv_libz=no])
+    AC_CHECK_HEADER(zlib.h, [zlib_cv_zlib_h=yes], [zlib_cv_zlib_h=no])
+    AC_LANG_RESTORE
+    # And determine if zlib is present and working ...
+    AC_MSG_CHECKING(zlib in ${ZLIB_HOME})
+    LDFLAGS="$ZLIB_OLD_LDFLAGS"
+    CPPFLAGS="$ZLIB_OLD_CPPFLAGS"
+    if test "$zlib_cv_libz" = "yes" -a "$zlib_cv_zlib_h" = "yes"
+    then
+        AC_MSG_RESULT(yes)
+        ZLIB_CFLAGS="-L${ZLIB_HOME}/include"
+        ZLIB_LIBS="-L${ZLIB_HOME}/lib"
+    else
+        AC_MSG_RESULT(no)
+        AC_MSG_ERROR(could not locate the zlib package)
+    fi
+])
+
 AC_SUBST(ZLIB_CFLAGS)
 AC_SUBST(ZLIB_LIBS)
 
