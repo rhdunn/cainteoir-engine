@@ -1,3 +1,9 @@
+cainteoir-engine (0.4-9) unstable; urgency=low
+ 
+  * Install libcainteoir.so.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 07 Aug 2011 22:49:00 +0000
+
 cainteoir-engine (0.4-8) unstable; urgency=low
  
   * Fallback zlib detection for Ubuntu lucid (zlib.pc not present).
