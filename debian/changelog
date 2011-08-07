@@ -1,3 +1,9 @@
+cainteoir-engine (0.4-10) unstable; urgency=low
+ 
+  * Install languages.rdf.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 07 Aug 2011 23:52:00 +0000
+
 cainteoir-engine (0.4-9) unstable; urgency=low
  
   * Install libcainteoir.so.
