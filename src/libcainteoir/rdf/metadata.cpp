@@ -173,7 +173,7 @@ rdf::namespaces::operator()(const std::string &aCurie) const
 	return std::tr1::shared_ptr<const rdf::resource>(new rdf::uri(href(uri)));
 }
 
-const rdf::node *rdf::literal::clone() const
+const rdf::resource *rdf::literal::clone() const
 {
 	return new literal(*this);
 }

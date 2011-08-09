@@ -44,19 +44,19 @@ namespace cainteoir { namespace rdf
 		static const std::string nil;
 	}
 
-	/** @brief RDF node
+	/** @brief RDF resource
 	  */
-	struct node
+	struct resource
 	{
-		virtual const node *clone() const = 0;
+		virtual const resource *clone() const = 0;
 
-		virtual ~node() {}
+		virtual ~resource() {}
 	};
 
 	class any_type
 	{
 	public:
-		explicit any_type(const rdf::node *aValue)
+		explicit any_type(const rdf::resource *aValue)
 			: value(aValue)
 		{
 		}
@@ -87,14 +87,7 @@ namespace cainteoir { namespace rdf
 
 		bool operator==(const any_type &rhs) const;
 	private:
-		const rdf::node *value;
-	};
-
-	/** @brief RDF resource
-	  */
-	struct resource : public node
-	{
-		virtual const resource *clone() const = 0;
+		const rdf::resource *value;
 	};
 
 	/** @brief RDF URI resource
@@ -247,7 +240,7 @@ namespace cainteoir { namespace rdf
 
 	/** @brief RDF literal node
 	  */
-	class literal : public node
+	class literal : public resource
 	{
 		template<typename T>
 		static const std::string to_string(const T &value)
@@ -308,7 +301,7 @@ namespace cainteoir { namespace rdf
 		template<typename T>
 		T as() const;
 
-		const node *clone() const;
+		const resource *clone() const;
 	};
 
 	template<typename T>
@@ -356,9 +349,9 @@ namespace cainteoir { namespace rdf
 	public:
 		const std::tr1::shared_ptr<const resource> subject;
 		const uri predicate;
-		const std::tr1::shared_ptr<const node> object;
+		const std::tr1::shared_ptr<const resource> object;
 
-		triple(const std::tr1::shared_ptr<const resource> &aSubject, const uri &aPredicate, const std::tr1::shared_ptr<const node> &aObject)
+		triple(const std::tr1::shared_ptr<const resource> &aSubject, const uri &aPredicate, const std::tr1::shared_ptr<const resource> &aObject)
 			: subject(aSubject)
 			, predicate(aPredicate)
 			, object(aObject)
@@ -372,7 +365,7 @@ namespace cainteoir { namespace rdf
 	{
 		return std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const resource>(aSubject.clone()),
 		                                                     aPredicate,
-		                                                     std::tr1::shared_ptr<const node>(aObject.clone())));
+		                                                     std::tr1::shared_ptr<const resource>(aObject.clone())));
 	}
 
 	template<typename Resource, typename Object>
@@ -385,7 +378,7 @@ namespace cainteoir { namespace rdf
 
 		return std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const resource>(aSubject.clone()),
 		                                                     *predicate,
-		                                                     std::tr1::shared_ptr<const node>(aObject.clone())));
+		                                                     std::tr1::shared_ptr<const resource>(aObject.clone())));
 	}
 
 	namespace query

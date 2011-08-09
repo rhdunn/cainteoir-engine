@@ -29,7 +29,7 @@ namespace rdf = cainteoir::rdf;
 
 REGISTER_TESTSUITE("RDF Model");
 
-void test_uri(const rdf::node &node, const std::string &value, const std::string &ns, const std::string &ref)
+void test_uri(const rdf::resource &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	const rdf::uri *uri = dynamic_cast<const rdf::uri *>(&node);
 	if (assert(uri))
@@ -40,7 +40,7 @@ void test_uri(const rdf::node &node, const std::string &value, const std::string
 	}
 }
 
-void test_bnode(const rdf::node &node, const std::string &id)
+void test_bnode(const rdf::resource &node, const std::string &id)
 {
 	test_uri(node, id, std::string(), id);
 }
@@ -278,7 +278,7 @@ TEST_CASE("rdf::namespaces -- add_prefix")
 	assert(!test("dct:title").get());
 }
 
-void test_literal(const rdf::node &node, const std::string value, const std::string &language, const rdf::uri &uri)
+void test_literal(const rdf::resource &node, const std::string value, const std::string &language, const rdf::uri &uri)
 {
 	const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&node);
 	if (assert(literal))
@@ -313,12 +313,12 @@ TEST_CASE("rdf::literal")
 	test_literal(3.2, "3.2", rdf::xsd("string"));
 }
 
-void test_item(const rdf::node &a, const rdf::uri &b)
+void test_item(const rdf::resource &a, const rdf::uri &b)
 {
 	test_uri(a, b.str(), b.ns, b.ref);
 }
 
-void test_item(const rdf::node &a, const rdf::literal &b)
+void test_item(const rdf::resource &a, const rdf::literal &b)
 {
 	test_literal(a, b.value, b.language, b.type);
 }
@@ -336,12 +336,10 @@ TEST_CASE("rdf::any_type -- empty")
 	rdf::any_type a(NULL);
 	assert(!a);
 
-	assert(a.as<rdf::node>() == NULL);
 	assert(a.as<rdf::resource>() == NULL);
 	assert(a.as<rdf::uri>() == NULL);
 	assert(a.as<rdf::literal>() == NULL);
 
-	assert((const rdf::node *)a == NULL);
 	assert((const rdf::resource *)a == NULL);
 	assert((const rdf::uri *)a == NULL);
 	assert((const rdf::literal *)a == NULL);
@@ -361,12 +359,10 @@ TEST_CASE("rdf::any_type -- uri")
 	rdf::any_type a(&value);
 	assert(!!a);
 
-	assert(a.as<rdf::node>() == (const rdf::node *)&value);
 	assert(a.as<rdf::resource>() == (const rdf::resource *)&value);
 	assert(a.as<rdf::uri>() == &value);
 	assert(a.as<rdf::literal>() == NULL);
 
-	assert((const rdf::node *)a == (const rdf::node *)&value);
 	assert((const rdf::resource *)a == (const rdf::resource *)&value);
 	assert((const rdf::uri *)a == &value);
 	assert((const rdf::literal *)a == NULL);
@@ -399,12 +395,10 @@ TEST_CASE("rdf::any_type -- bnode")
 	rdf::any_type a(&value);
 	assert(!!a);
 
-	assert(a.as<rdf::node>() == (const rdf::node *)&value);
 	assert(a.as<rdf::resource>() == (const rdf::resource *)&value);
 	assert(a.as<rdf::uri>() == &value);
 	assert(a.as<rdf::literal>() == NULL);
 
-	assert((const rdf::node *)a == (const rdf::node *)&value);
 	assert((const rdf::resource *)a == (const rdf::resource *)&value);
 	assert((const rdf::uri *)a == &value);
 	assert((const rdf::literal *)a == NULL);
@@ -438,13 +432,11 @@ TEST_CASE("rdf::any_type -- literal")
 	rdf::any_type a(&value);
 	assert(!!a);
 
-	assert(a.as<rdf::node>() == (const rdf::node *)&value);
-	assert(a.as<rdf::resource>() == NULL);
+	assert(a.as<rdf::resource>() == (const rdf::resource *)&value);
 	assert(a.as<rdf::uri>() == NULL);
 	assert(a.as<rdf::literal>() == &value);
 
-	assert((const rdf::node *)a == (const rdf::node *)&value);
-	assert((const rdf::resource *)a == NULL);
+	assert((const rdf::resource *)a == (const rdf::resource *)&value);
 	assert((const rdf::uri *)a == NULL);
 	assert((const rdf::literal *)a == &value);
 
