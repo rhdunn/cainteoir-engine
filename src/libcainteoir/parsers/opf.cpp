@@ -52,7 +52,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 			{
 				if (!strcmp(attr.name(), "name"))
 				{
-					std::tr1::shared_ptr<const rdf::resource> type = rdfa(attr.content());
+					std::tr1::shared_ptr<const rdf::detail::resource> type = rdfa(attr.content());
 					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
 					if (uri)
 						name = *uri;
@@ -61,7 +61,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 					content = attr.content();
 				else if (!strcmp(attr.name(), "property"))
 				{
-					std::tr1::shared_ptr<const rdf::resource> type = rdfa(attr.content());
+					std::tr1::shared_ptr<const rdf::detail::resource> type = rdfa(attr.content());
 					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
 					if (uri)
 					{
@@ -76,7 +76,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 					about = rdf::uri(aSubject.str(), attr.content().substr(1));
 				else if (!strcmp(attr.name(), "datatype"))
 				{
-					std::tr1::shared_ptr<const rdf::resource> type = rdfa(attr.content());
+					std::tr1::shared_ptr<const rdf::detail::resource> type = rdfa(attr.content());
 					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
 					if (uri)
 						datatype = *uri;
@@ -123,7 +123,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				std::istringstream ss(rel);
 				while (ss >> rel)
 				{
-					std::tr1::shared_ptr<const rdf::resource> type = rdfa(rel);
+					std::tr1::shared_ptr<const rdf::detail::resource> type = rdfa(rel);
 					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
 					if (uri)
 					{

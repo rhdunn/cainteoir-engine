@@ -50,7 +50,7 @@ const rdf::ns rdf::skos("skos", "http://www.w3.org/2004/02/skos/core#");
 const rdf::ns rdf::foaf("foaf", "http://xmlns.com/foaf/0.1/");
 const rdf::ns rdf::tts( "tts",  "http://rhdunn.github.com/2010/12/text-to-speech#");
 
-bool rdf::any_type::operator==(const any_type &rhs) const
+bool rdf::resource::operator==(const resource &rhs) const
 {
 	{
 		const rdf::uri *a = dynamic_cast<const rdf::uri *>(value);
@@ -91,7 +91,7 @@ std::string rdf::uri::str() const
 	return ns + ref;
 }
 
-const rdf::resource *rdf::uri::clone() const
+const rdf::detail::resource *rdf::uri::clone() const
 {
 	return new uri(*this);
 }
@@ -148,7 +148,7 @@ rdf::namespaces &rdf::namespaces::add_prefix(const std::string &aPrefix)
 	return *this;
 }
 
-std::tr1::shared_ptr<const rdf::resource>
+std::tr1::shared_ptr<const rdf::detail::resource>
 rdf::namespaces::operator()(const std::string &aCurie) const
 {
 	std::string uri;
@@ -160,20 +160,20 @@ rdf::namespaces::operator()(const std::string &aCurie) const
 		std::string ref = aCurie.substr(index+1);
 
 		if (prefix == "_")
-			return std::tr1::shared_ptr<const rdf::resource>(new rdf::uri(std::string(), ref));
+			return std::tr1::shared_ptr<const rdf::detail::resource>(new rdf::uri(std::string(), ref));
 
 		auto ns = mNamespaces.find(prefix);
 		if (ns == mNamespaces.end())
-			return std::tr1::shared_ptr<const rdf::resource>();
+			return std::tr1::shared_ptr<const rdf::detail::resource>();
 
 		uri = ns->second + ref;
 	}
 	else
 		uri = mBaseUri + aCurie;
-	return std::tr1::shared_ptr<const rdf::resource>(new rdf::uri(href(uri)));
+	return std::tr1::shared_ptr<const rdf::detail::resource>(new rdf::uri(href(uri)));
 }
 
-const rdf::resource *rdf::literal::clone() const
+const rdf::detail::resource *rdf::literal::clone() const
 {
 	return new literal(*this);
 }

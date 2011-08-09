@@ -31,7 +31,7 @@ namespace rql = cainteoir::rdf::query;
 
 REGISTER_TESTSUITE("RDF Query");
 
-void match_(const rdf::any_type &a, const rdf::uri &b, const char *fn, const char *ref, int lineno)
+void match_(const rdf::resource &a, const rdf::uri &b, const char *fn, const char *ref, int lineno)
 {
 	const rdf::uri *uri = a.as<rdf::uri>();
 	if (assert_(uri, fn, ref, lineno))
@@ -42,7 +42,7 @@ void match_(const rdf::any_type &a, const rdf::uri &b, const char *fn, const cha
 	}
 }
 
-void match_(const rdf::any_type &a, const rdf::literal &b, const char *fn, const char *ref, int lineno)
+void match_(const rdf::resource &a, const rdf::literal &b, const char *fn, const char *ref, int lineno)
 {
 	const rdf::literal *literal = a.as<rdf::literal>();
 	if (assert_(literal, fn, ref, lineno))
