@@ -364,25 +364,15 @@ namespace cainteoir { namespace rdf
 		}
 	};
 
-	template<typename Resource, typename Object>
+	template<typename Object>
 	std::tr1::shared_ptr<const triple>
-	statement(const Resource &aSubject, const uri &aPredicate, const Object &aObject)
+	statement(const uri &aSubject, const uri &aPredicate, const Object &aObject)
 	{
-		return std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const detail::resource>(aSubject.clone()),
-		                                                     aPredicate,
-		                                                     std::tr1::shared_ptr<const detail::resource>(aObject.clone())));
-	}
-
-	template<typename Resource, typename Object>
-	std::tr1::shared_ptr<const triple>
-	statement(const Resource &aSubject, const std::tr1::shared_ptr<const detail::resource> &aPredicate, const Object &aObject)
-	{
-		const uri *predicate = dynamic_cast<const uri *>(aPredicate.get());
-		if (!predicate)
+		if (aPredicate.ns.empty())
 			return std::tr1::shared_ptr<const triple>();
 
 		return std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const detail::resource>(aSubject.clone()),
-		                                                     *predicate,
+		                                                     aPredicate,
 		                                                     std::tr1::shared_ptr<const detail::resource>(aObject.clone())));
 	}
 
