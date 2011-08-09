@@ -35,7 +35,7 @@ struct events : public cainteoir::document_events
 	{
 	}
 
-	const rdf::bnode genid()
+	const rdf::uri genid()
 	{
 		return rdf::bnode(std::string());
 	}

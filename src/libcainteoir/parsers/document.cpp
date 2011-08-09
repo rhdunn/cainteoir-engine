@@ -204,7 +204,7 @@ struct mime_headers : public cainteoir::buffer
 
 				// metadata ...
 
-				const rdf::bnode from = events.genid();
+				const rdf::uri from = events.genid();
 				events.metadata(rdf::statement(subject, rdf::dc("creator"), from));
 				events.metadata(rdf::statement(from, rdf::rdf("type"), rdf::foaf("Person")));
 				events.metadata(rdf::statement(from, rdf::rdf("value"), rdf::literal(std::string(name_begin, name_end))));

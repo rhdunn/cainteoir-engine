@@ -242,7 +242,7 @@ struct document : public cainteoir::document_events
 			select_voice(rdf::dc("language"), rql::value(aStatement));
 	}
 
-	const rdf::bnode genid()
+	const rdf::uri genid()
 	{
 		return m_metadata.genid();
 	}

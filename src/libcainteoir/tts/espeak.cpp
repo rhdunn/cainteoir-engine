@@ -128,7 +128,7 @@ public:
 		espeak_SetSynthCallback(espeak_tts_callback);
 
 		rdf::uri espeak = rdf::uri(baseuri, std::string());
-		rdf::bnode jonsd = metadata.genid();
+		rdf::uri jonsd = metadata.genid();
 		std::string info = espeak_Info(NULL);
 
 		metadata.push_back(rdf::statement(espeak, rdf::rdf("type"), rdf::tts("Engine")));

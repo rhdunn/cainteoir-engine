@@ -35,7 +35,7 @@ struct language_rdf
 		push_back(aStatement);
 	}
 
-	const rdf::bnode genid()
+	const rdf::uri genid()
 	{
 		return rdf::graph::genid();
 	}

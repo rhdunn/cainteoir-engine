@@ -60,13 +60,6 @@ bool rdf::any_type::operator==(const any_type &rhs) const
 	}
 
 	{
-		const rdf::bnode *a = dynamic_cast<const rdf::bnode *>(value);
-		const rdf::bnode *b = dynamic_cast<const rdf::bnode *>(rhs.value);
-		if (a && b)
-			return a == b || *a == *b;
-	}
-
-	{
 		const rdf::literal *a = dynamic_cast<const rdf::literal *>(value);
 		const rdf::literal *b = dynamic_cast<const rdf::literal *>(rhs.value);
 		if (a && b)
@@ -76,17 +69,12 @@ bool rdf::any_type::operator==(const any_type &rhs) const
 	return value == rhs.value;
 }
 
-const rdf::resource *rdf::bnode::clone() const
-{
-	return new bnode(*this);
-}
-
 rdf::uri::uri(const std::string &aNS, const std::string &aRef)
 	: ns(aNS)
 	, ref(aRef)
 {
 	auto last = --ns.end();
-	if (!ref.empty() && *last != '#' && *last != '/')
+	if (!ns.empty() && !ref.empty() && *last != '#' && *last != '/')
 		ns.push_back('#');
 }
 
@@ -172,7 +160,7 @@ rdf::namespaces::operator()(const std::string &aCurie) const
 		std::string ref = aCurie.substr(index+1);
 
 		if (prefix == "_")
-			return std::tr1::shared_ptr<const rdf::resource>(new rdf::bnode(ref));
+			return std::tr1::shared_ptr<const rdf::resource>(new rdf::uri(std::string(), ref));
 
 		auto ns = mNamespaces.find(prefix);
 		if (ns == mNamespaces.end())
@@ -190,7 +178,7 @@ const rdf::node *rdf::literal::clone() const
 	return new literal(*this);
 }
 
-const rdf::bnode rdf::graph::genid()
+const rdf::uri rdf::graph::genid()
 {
 	std::ostringstream id;
 	id << "genid" << nextid;

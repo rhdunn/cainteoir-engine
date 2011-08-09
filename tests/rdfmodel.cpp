@@ -29,21 +29,6 @@ namespace rdf = cainteoir::rdf;
 
 REGISTER_TESTSUITE("RDF Model");
 
-void test_bnode(const rdf::node &node, const std::string &id)
-{
-	const rdf::bnode *bnode = dynamic_cast<const rdf::bnode *>(&node);
-	if (assert(bnode))
-	{
-		equal(bnode->id, id);
-	}
-}
-
-TEST_CASE("rdf::bnode")
-{
-	test_bnode(rdf::bnode("a"), "a");
-	test_bnode(rdf::bnode("temp"), "temp");
-}
-
 void test_uri(const rdf::node &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	const rdf::uri *uri = dynamic_cast<const rdf::uri *>(&node);
@@ -55,10 +40,21 @@ void test_uri(const rdf::node &node, const std::string &value, const std::string
 	}
 }
 
+void test_bnode(const rdf::node &node, const std::string &id)
+{
+	test_uri(node, id, std::string(), id);
+}
+
+TEST_CASE("rdf::bnode")
+{
+	test_bnode(rdf::bnode("a"), "a");
+	test_bnode(rdf::bnode("temp"), "temp");
+}
+
 TEST_CASE("rdf::uri")
 {
 	test_uri(rdf::uri(std::string(), std::string()), "", "", "");
-	test_uri(rdf::uri(std::string(), "test"), "#test", "#", "test");
+	test_uri(rdf::uri(std::string(), "test"), "test", "", "test");
 
 	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema", std::string()), "http://www.w3.org/2001/XMLSchema", "http://www.w3.org/2001/XMLSchema", "");
 	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema/", std::string()), "http://www.w3.org/2001/XMLSchema/", "http://www.w3.org/2001/XMLSchema/", "");
@@ -317,11 +313,6 @@ TEST_CASE("rdf::literal")
 	test_literal(3.2, "3.2", rdf::xsd("string"));
 }
 
-void test_item(const rdf::node &a, const rdf::bnode &b)
-{
-	test_bnode(a, b.id);
-}
-
 void test_item(const rdf::node &a, const rdf::uri &b)
 {
 	test_uri(a, b.str(), b.ns, b.ref);
@@ -348,13 +339,11 @@ TEST_CASE("rdf::any_type -- empty")
 	assert(a.as<rdf::node>() == NULL);
 	assert(a.as<rdf::resource>() == NULL);
 	assert(a.as<rdf::uri>() == NULL);
-	assert(a.as<rdf::bnode>() == NULL);
 	assert(a.as<rdf::literal>() == NULL);
 
 	assert((const rdf::node *)a == NULL);
 	assert((const rdf::resource *)a == NULL);
 	assert((const rdf::uri *)a == NULL);
-	assert((const rdf::bnode *)a == NULL);
 	assert((const rdf::literal *)a == NULL);
 
 	assert(!(a == rdf::uri(std::string(), std::string())));
@@ -375,13 +364,11 @@ TEST_CASE("rdf::any_type -- uri")
 	assert(a.as<rdf::node>() == (const rdf::node *)&value);
 	assert(a.as<rdf::resource>() == (const rdf::resource *)&value);
 	assert(a.as<rdf::uri>() == &value);
-	assert(a.as<rdf::bnode>() == NULL);
 	assert(a.as<rdf::literal>() == NULL);
 
 	assert((const rdf::node *)a == (const rdf::node *)&value);
 	assert((const rdf::resource *)a == (const rdf::resource *)&value);
 	assert((const rdf::uri *)a == &value);
-	assert((const rdf::bnode *)a == NULL);
 	assert((const rdf::literal *)a == NULL);
 
 	assert(!(a == rdf::uri(std::string(), std::string())));
@@ -394,12 +381,10 @@ TEST_CASE("rdf::any_type -- uri")
 
 	rdf::uri same  = rdf::rdf("Class");
 	rdf::uri other = rdf::rdf("Property");
-	rdf::bnode bnode = rdf::bnode("Class");
 	rdf::literal literal = rdf::literal("Class");
 
 	assert(!(a == rdf::any_type(NULL)));
 	assert(!(a == rdf::any_type(&other)));
-	assert(!(a == rdf::any_type(&bnode)));
 	assert(!(a == rdf::any_type(&literal)));
 
 	assert(a == a);
@@ -409,21 +394,19 @@ TEST_CASE("rdf::any_type -- uri")
 
 TEST_CASE("rdf::any_type -- bnode")
 {
-	rdf::bnode value = rdf::bnode("test");
+	rdf::uri value = rdf::bnode("test");
 
 	rdf::any_type a(&value);
 	assert(!!a);
 
 	assert(a.as<rdf::node>() == (const rdf::node *)&value);
 	assert(a.as<rdf::resource>() == (const rdf::resource *)&value);
-	assert(a.as<rdf::uri>() == NULL);
-	assert(a.as<rdf::bnode>() == &value);
+	assert(a.as<rdf::uri>() == &value);
 	assert(a.as<rdf::literal>() == NULL);
 
 	assert((const rdf::node *)a == (const rdf::node *)&value);
 	assert((const rdf::resource *)a == (const rdf::resource *)&value);
-	assert((const rdf::uri *)a == NULL);
-	assert((const rdf::bnode *)a == &value);
+	assert((const rdf::uri *)a == &value);
 	assert((const rdf::literal *)a == NULL);
 
 	assert(!(a == rdf::bnode(std::string())));
@@ -433,8 +416,8 @@ TEST_CASE("rdf::any_type -- bnode")
 	assert(!(a == rdf::uri(std::string(), std::string())));
 	assert(!(a == rdf::literal(std::string())));
 
-	rdf::bnode same  = rdf::bnode("test");
-	rdf::bnode other = rdf::bnode("other");
+	rdf::uri same  = rdf::bnode("test");
+	rdf::uri other = rdf::bnode("other");
 	rdf::uri uri = rdf::rdf("Class");
 	rdf::literal literal = rdf::literal("Class");
 
@@ -458,13 +441,11 @@ TEST_CASE("rdf::any_type -- literal")
 	assert(a.as<rdf::node>() == (const rdf::node *)&value);
 	assert(a.as<rdf::resource>() == NULL);
 	assert(a.as<rdf::uri>() == NULL);
-	assert(a.as<rdf::bnode>() == NULL);
 	assert(a.as<rdf::literal>() == &value);
 
 	assert((const rdf::node *)a == (const rdf::node *)&value);
 	assert((const rdf::resource *)a == NULL);
 	assert((const rdf::uri *)a == NULL);
-	assert((const rdf::bnode *)a == NULL);
 	assert((const rdf::literal *)a == &value);
 
 	assert(!(a == rdf::uri(std::string(), std::string())));
@@ -479,7 +460,7 @@ TEST_CASE("rdf::any_type -- literal")
 	rdf::literal same = rdf::literal("test");
 	rdf::literal other = rdf::literal("other");
 	rdf::uri uri = rdf::rdf("Property");
-	rdf::bnode bnode = rdf::bnode("test");
+	rdf::uri bnode = rdf::bnode("test");
 
 	assert(!(a == rdf::any_type(NULL)));
 	assert(!(a == rdf::any_type(&other)));

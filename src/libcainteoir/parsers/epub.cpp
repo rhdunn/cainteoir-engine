@@ -48,7 +48,7 @@ struct epub_document : public cainteoir::document_events
 		mEvents.metadata(aStatement);
 	}
 
-	const rdf::bnode genid()
+	const rdf::uri genid()
 	{
 		return mEvents.genid();
 	}

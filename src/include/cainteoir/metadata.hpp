@@ -97,31 +97,6 @@ namespace cainteoir { namespace rdf
 		virtual const resource *clone() const = 0;
 	};
 
-	/** @brief RDF blank node resource
-	  */
-	class bnode : public resource
-	{
-	public:
-		const std::string id; /**< @brief The ID for the blank node. */
-
-		explicit bnode(const std::string &aID)
-			: id(aID)
-		{
-		}
-
-		const resource *clone() const;
-	};
-
-	inline bool operator==(const bnode &a, const bnode &b)
-	{
-		return a.id == b.id;
-	}
-
-	inline bool operator!=(const bnode &a, const bnode &b)
-	{
-		return !(a == b);
-	}
-
 	/** @brief RDF URI resource
 	  */
 	class uri : public resource
@@ -147,6 +122,11 @@ namespace cainteoir { namespace rdf
 	inline bool operator!=(const uri &a, const uri &b)
 	{
 		return !(a == b);
+	}
+
+	inline const uri bnode(const std::string &aRef)
+	{
+		return uri(std::string(), aRef);
 	}
 
 	const uri href(const std::string &aHref);
@@ -444,7 +424,7 @@ namespace cainteoir { namespace rdf
 		{
 		}
 
-		const rdf::bnode genid();
+		const rdf::uri genid();
 
 		bool contains(const ns &uri) const;
 
@@ -672,7 +652,6 @@ namespace cainteoir { namespace rdf
 		};
 
 		virtual formatter &operator<<(const ns &aNS) = 0;
-		virtual formatter &operator<<(const bnode &bnode) = 0;
 		virtual formatter &operator<<(const uri &uri) = 0;
 		virtual formatter &operator<<(const literal &literal) = 0;
 		virtual formatter &operator<<(const std::tr1::shared_ptr<const triple> &statement) = 0;

@@ -327,14 +327,14 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 		{
 			if (context == "author")
 			{
-				const rdf::bnode temp = events.genid();
+				const rdf::uri temp = events.genid();
 				events.metadata(rdf::statement(aSubject, rdf::dc("creator"), temp));
 				events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str())));
 				events.metadata(rdf::statement(temp, rdf::opf("role"), rdf::literal("aut")));
 			}
 			else if (context == "operator")
 			{
-				const rdf::bnode temp = events.genid();
+				const rdf::uri temp = events.genid();
 				events.metadata(rdf::statement(aSubject, rdf::dc("contributor"), temp));
 				events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str())));
 				events.metadata(rdf::statement(temp, rdf::opf("role"), rdf::literal("edt")));

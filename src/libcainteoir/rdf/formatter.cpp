@@ -40,19 +40,18 @@ public:
 		return *this;
 	}
 
-	rdf::formatter &operator<<(const rdf::bnode &bnode)
-	{
-		os << "_:" << bnode.id;
-		return *this;
-	}
-
 	rdf::formatter &operator<<(const rdf::uri &uri)
 	{
-		std::string &prefix = namespaces[uri.ns];
-		if (prefix.empty())
-			os << '<' << uri.str() << '>';
+		if (uri.ns == std::string())
+			os << "_:" << uri.ref;
 		else
-			os << prefix << ':' << uri.ref;
+		{
+			std::string &prefix = namespaces[uri.ns];
+			if (prefix.empty())
+				os << '<' << uri.str() << '>';
+			else
+				os << prefix << ':' << uri.ref;
+		}
 		return *this;
 	}
 
@@ -85,10 +84,6 @@ public:
 	rdf::formatter &operator<<(const std::tr1::shared_ptr<const rdf::triple> &statement)
 	{
 		{
-			const rdf::bnode *bnode = rdf::query::subject(statement);
-			if (bnode)
-				*this << *bnode;
-
 			const rdf::uri *uri = rdf::query::subject(statement);
 			if (uri)
 				*this << *uri;
@@ -99,10 +94,6 @@ public:
 		os << ' ';
 
 		{
-			const rdf::bnode *bnode = rdf::query::object(statement);
-			if (bnode)
-				*this << *bnode;
-
 			const rdf::literal *literal = rdf::query::object(statement);
 			if (literal)
 				*this << *literal;

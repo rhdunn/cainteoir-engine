@@ -61,7 +61,7 @@ namespace cainteoir
 		  *
 		  * @return The new BNode id.
 		  */
-		virtual const rdf::bnode genid() = 0;
+		virtual const rdf::uri genid() = 0;
 
 		/** @brief A block of text in the document.
 		  *

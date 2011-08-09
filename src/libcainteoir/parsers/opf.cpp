@@ -161,7 +161,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				std::string fileas = node.attr(rdf::opf("file-as")).content();
 				if (!role.empty() || !fileas.empty())
 				{
-					const rdf::bnode temp = events.genid();
+					const rdf::uri temp = events.genid();
 					events.metadata(rdf::statement(aSubject, predicate, temp));
 					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
 					if (!role.empty())
@@ -190,7 +190,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				std::string event = node.attr(rdf::opf("event")).content();
 				if (!event.empty())
 				{
-					const rdf::bnode temp = events.genid();
+					const rdf::uri temp = events.genid();
 					events.metadata(rdf::statement(aSubject, predicate, temp));
 					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
 					events.metadata(rdf::statement(temp, rdf::opf("event"), rdf::literal(event)));
@@ -202,7 +202,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				std::string scheme = node.attr(rdf::opf("scheme")).content();
 				if (!scheme.empty())
 				{
-					const rdf::bnode temp = events.genid();
+					const rdf::uri temp = events.genid();
 					events.metadata(rdf::statement(aSubject, predicate, temp));
 					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
 					events.metadata(rdf::statement(temp, rdf::opf("scheme"), rdf::literal(scheme)));

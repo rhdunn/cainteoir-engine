@@ -31,15 +31,6 @@ namespace rql = cainteoir::rdf::query;
 
 REGISTER_TESTSUITE("RDF Query");
 
-void match_(const rdf::any_type &a, const rdf::bnode &b, const char *fn, const char *ref, int lineno)
-{
-	const rdf::bnode *bnode = a.as<rdf::bnode>();
-	if (assert_(bnode, fn, ref, lineno))
-	{
-		equal_(bnode->id, b.id, fn, ref, lineno);
-	}
-}
-
 void match_(const rdf::any_type &a, const rdf::uri &b, const char *fn, const char *ref, int lineno)
 {
 	const rdf::uri *uri = a.as<rdf::uri>();
@@ -77,7 +68,7 @@ struct rdfdoc : public rdf::graph, public cainteoir::document_events
 		push_back(aStatement);
 	}
 
-	const rdf::bnode genid()
+	const rdf::uri genid()
 	{
 		return rdf::graph::genid();
 	}
