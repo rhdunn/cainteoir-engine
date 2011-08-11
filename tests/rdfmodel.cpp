@@ -464,41 +464,14 @@ TEST_CASE("rdf::resource -- literal")
 	assert(a == rdf::resource(&same));
 }
 
-TEST_CASE("rdf::statement")
-{
-	test_statement(rdf::statement(rdf::dc("date"), rdf::rdf("type"), rdf::bnode("tmp")),
-	               rdf::dc("date"), rdf::rdf("type"), rdf::bnode("tmp"));
-
-	test_statement(rdf::statement(rdf::dc("date"), rdf::rdf("type"), rdf::xsd("date")),
-	               rdf::dc("date"), rdf::rdf("type"), rdf::xsd("date"));
-
-	test_statement(rdf::statement(rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en")),
-	               rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en"));
-
-	test_statement(rdf::statement(rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string"))),
-	               rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string")));
-
-	test_statement(rdf::statement(rdf::bnode("a"), rdf::rdf("type"), rdf::bnode("tmp")),
-	               rdf::bnode("a"), rdf::rdf("type"), rdf::bnode("tmp"));
-
-	test_statement(rdf::statement(rdf::bnode("b"), rdf::rdf("type"), rdf::xsd("date")),
-	               rdf::bnode("b"), rdf::rdf("type"), rdf::xsd("date"));
-
-	test_statement(rdf::statement(rdf::bnode("c"), rdf::dc("title"), rdf::literal("value", "en")),
-	               rdf::bnode("c"), rdf::dc("title"), rdf::literal("value", "en"));
-
-	test_statement(rdf::statement(rdf::bnode("d"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string"))),
-	               rdf::bnode("d"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string")));
-}
-
-TEST_CASE("rdf::graph")
+TEST_CASE("rdf::graph -- statement")
 {
 	rdf::graph model;
 	assert(model.empty());
 	equal(model.size(), 0);
 	assert(model.begin() == model.end());
 
-	model.push_back(rdf::statement(rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property")));
+	assert(model.statement(rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property")));
 	assert(!model.empty());
 	equal(model.size(), 1);
 	assert(model.begin() != model.end());
@@ -506,7 +479,12 @@ TEST_CASE("rdf::graph")
 	test_statement(model.front(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
 	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
 
-	model.push_back(rdf::statement(rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB")));
+	assert(!model.statement(rdf::rdf("value"), rdf::bnode("test"), rdf::rdfs("Property")));
+	assert(!model.empty());
+	equal(model.size(), 1);
+	assert(model.begin() != model.end());
+
+	assert(model.statement(rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB")));
 	assert(!model.empty());
 	equal(model.size(), 2);
 	assert(model.begin() != model.end());
@@ -515,42 +493,43 @@ TEST_CASE("rdf::graph")
 	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB"));
 }
 
-void test_model_namespace(const std::tr1::shared_ptr<const rdf::triple> &s, const rdf::ns &ns)
+template <typename Object>
+void test_model_namespace(const rdf::uri &s, const rdf::uri &p, const Object &o, const rdf::ns &ns)
 {
 	rdf::graph model;
 	assert(!model.contains(ns));
 	assert(!model.contains(rdf::tts));
 
-	model.push_back(s);
+	assert(model.statement(s, p, o));
 	assert(model.contains(ns));
 	assert(!model.contains(rdf::tts));
 }
 
 TEST_CASE("rdf::graph -- RDF namespaces")
 {
-	test_model_namespace(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")), rdf::dc);
-	test_model_namespace(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")), rdf::rdf);
-	test_model_namespace(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")), rdf::rdfs);
+	test_model_namespace(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property"), rdf::dc);
+	test_model_namespace(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property"), rdf::rdf);
+	test_model_namespace(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property"), rdf::rdfs);
 
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")), rdf::rdf);
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")), rdf::rdfs);
+	test_model_namespace(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property"), rdf::rdf);
+	test_model_namespace(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property"), rdf::rdfs);
 
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))), rdf::rdf);
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))), rdf::rdfs);
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))), rdf::xsd);
+	test_model_namespace(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string")), rdf::rdf);
+	test_model_namespace(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string")), rdf::rdfs);
+	test_model_namespace(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string")), rdf::xsd);
 
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::dc("creator"), rdf::bnode("a")), rdf::dc);
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::dc("creator"), rdf::bnode("a")), rdf::rdfs);
+	test_model_namespace(rdf::rdfs("Property"), rdf::dc("creator"), rdf::bnode("a"), rdf::dc);
+	test_model_namespace(rdf::rdfs("Property"), rdf::dc("creator"), rdf::bnode("a"), rdf::rdfs);
 
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("value"),  rdf::literal("test")), rdf::rdf);
+	test_model_namespace(rdf::bnode("a"), rdf::rdf("value"), rdf::literal("test"), rdf::rdf);
 
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("value"),  rdf::literal("test", rdf::xsd("string"))), rdf::rdf);
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("value"),  rdf::literal("test", rdf::xsd("string"))), rdf::xsd);
+	test_model_namespace(rdf::bnode("a"), rdf::rdf("value"), rdf::literal("test", rdf::xsd("string")), rdf::rdf);
+	test_model_namespace(rdf::bnode("a"), rdf::rdf("value"), rdf::literal("test", rdf::xsd("string")), rdf::xsd);
 
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("type"),   rdf::rdfs("Class")), rdf::rdf);
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("type"),   rdf::rdfs("Class")), rdf::rdfs);
+	test_model_namespace(rdf::bnode("a"), rdf::rdf("type"), rdf::rdfs("Class"), rdf::rdf);
+	test_model_namespace(rdf::bnode("a"), rdf::rdf("type"), rdf::rdfs("Class"), rdf::rdfs);
 
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::dc("creator"), rdf::bnode("Class")), rdf::dc);
+	test_model_namespace(rdf::bnode("a"), rdf::dc("creator"), rdf::bnode("Class"), rdf::dc);
 }
 
 TEST_CASE("rdf::graph -- genid()")

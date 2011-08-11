@@ -24,16 +24,20 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseSsmlMetadata(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events)
+void parseSsmlMetadata(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_ELEMENT_NODE && node == rdf::rdf("RDF"))
-			cainteoir::parseRdfXmlDocument(node, subject, events);
+			cainteoir::parseRdfXmlDocument(node, subject, events, aGraph);
 	}
 }
 
-void parseSsmlContext(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events, cainteoir::document_events::context context, int32_t parameter = 0)
+void parseSsmlContext(const xml::node &ssml,
+                      const rdf::uri &subject,
+                      cainteoir::document_events &events,
+                      cainteoir::document_events::context context,
+                      int32_t parameter = 0)
 {
 	events.begin_context(context, parameter);
 	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
@@ -71,7 +75,7 @@ void parseSsmlContext(const xml::node &ssml, const rdf::uri &subject, cainteoir:
 	events.end_context();
 }
 
-void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events)
+void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	if (ssml != rdf::ssml("speak"))
 		throw std::runtime_error(_("SSML document is not of a recognised format."));
@@ -79,7 +83,7 @@ void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject
 	for (xml::attribute attr = ssml.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (attr == rdf::xml("lang"))
-			events.metadata(rdf::statement(subject, rdf::dc("language"), rdf::literal(attr.content())));
+			aGraph.statement(subject, rdf::dc("language"), rdf::literal(attr.content()));
 	}
 
 	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
@@ -105,10 +109,10 @@ void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject
 				}
 
 				if (name == "seeAlso" && !content.empty())
-					events.metadata(rdf::statement(subject, rdf::rdfs("seeAlso"), rdf::href(content)));
+					aGraph.statement(subject, rdf::rdfs("seeAlso"), rdf::href(content));
 			}
 			else if (node == rdf::ssml("metadata"))
-				parseSsmlMetadata(node, subject, events);
+				parseSsmlMetadata(node, subject, events, aGraph);
 			else if (node == rdf::ssml("p"))
 				parseSsmlContext(node, subject, events, cainteoir::document_events::paragraph);
 		}

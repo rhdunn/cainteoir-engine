@@ -26,30 +26,16 @@
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 
-struct language_rdf
-	: public cainteoir::document_events
-	, public rdf::graph
-{
-	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
-	{
-		push_back(aStatement);
-	}
-
-	const rdf::uri genid()
-	{
-		return rdf::graph::genid();
-	}
-};
-
 cainteoir::languages::languages(const char * locale)
 {
-	language_rdf data;
+	cainteoir::document_events events;
+	rdf::graph data;
 	try
 	{
 		const char * filename = DATADIR "/" PACKAGE "/languages.rdf";
 		printf("loading language data from %s\n", filename);
 
-		cainteoir::parseDocument(filename, data);
+		cainteoir::parseDocument(filename, events, data);
 	}
 	catch (const std::exception & e)
 	{

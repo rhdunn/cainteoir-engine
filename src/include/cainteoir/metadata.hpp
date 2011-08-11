@@ -364,18 +364,6 @@ namespace cainteoir { namespace rdf
 		}
 	};
 
-	template<typename Object>
-	std::tr1::shared_ptr<const triple>
-	statement(const uri &aSubject, const uri &aPredicate, const Object &aObject)
-	{
-		if (aPredicate.ns.empty())
-			return std::tr1::shared_ptr<const triple>();
-
-		return std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const detail::resource>(aSubject.clone()),
-		                                                     aPredicate,
-		                                                     std::tr1::shared_ptr<const detail::resource>(aObject.clone())));
-	}
-
 	namespace query
 	{
 		inline rdf::resource subject(const std::tr1::shared_ptr<const rdf::triple> &statement)
@@ -416,7 +404,9 @@ namespace cainteoir { namespace rdf
 
 		bool contains(const ns &uri) const;
 
-		void push_back(const std::tr1::shared_ptr<const triple> &s);
+		bool statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject);
+
+		bool statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::literal &aObject);
 	private:
 		std::set<std::string> namespaces;
 		int nextid;

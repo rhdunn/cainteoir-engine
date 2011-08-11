@@ -438,9 +438,9 @@ int main(int argc, char ** argv)
 		if (volume != INT_MAX) doc.tts.parameter(tts::parameter::volume)->set_value(volume);
 
 		if (argc == 1)
-			cainteoir::parseDocument(argv[0], doc);
+			cainteoir::parseDocument(argv[0], doc, doc.m_metadata);
 		else
-			cainteoir::parseDocument(NULL, doc);
+			cainteoir::parseDocument(NULL, doc, doc.m_metadata);
 
 		if (action == show_contents)
 			return 0;

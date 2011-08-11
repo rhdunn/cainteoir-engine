@@ -191,22 +191,40 @@ bool rdf::graph::contains(const ns &uri) const
 	return namespaces.find(uri.href) != namespaces.end();
 }
 
-void rdf::graph::push_back(const std::tr1::shared_ptr<const triple> &s)
+bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject)
 {
-	{
-		const rdf::uri *uri = rdf::query::subject(s);
-		if (uri)
-			namespaces.insert(uri->ns);
-	}
-	namespaces.insert(s->predicate.ns);
-	{
-		const rdf::uri *uri = rdf::query::object(s);
-		if (uri)
-			namespaces.insert(uri->ns);
+	if (aPredicate.ns.empty())
+		return false;
 
-		const rdf::literal *literal = rdf::query::object(s);
-		if (literal && !literal->type.ns.empty())
-			namespaces.insert(literal->type.ns);
-	}
-	rdf::subgraph::push_back(s);
+	if (!aSubject.ns.empty())
+		namespaces.insert(aSubject.ns);
+
+	namespaces.insert(aPredicate.ns);
+
+	if (!aObject.ns.empty())
+		namespaces.insert(aObject.ns);
+
+	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const detail::resource>(aSubject.clone()),
+	                                                        aPredicate,
+	                                                        std::tr1::shared_ptr<const detail::resource>(aObject.clone()))));
+	return true;
+}
+
+bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::literal &aObject)
+{
+	if (aPredicate.ns.empty())
+		return false;
+
+	if (!aSubject.ns.empty())
+		namespaces.insert(aSubject.ns);
+
+	namespaces.insert(aPredicate.ns);
+
+	if (!aObject.type.ns.empty())
+		namespaces.insert(aObject.type.ns);
+
+	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const detail::resource>(aSubject.clone()),
+	                                                        aPredicate,
+	                                                        std::tr1::shared_ptr<const detail::resource>(aObject.clone()))));
+	return true;
 }

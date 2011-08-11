@@ -31,15 +31,6 @@ namespace rdf = cainteoir::rdf;
 
 struct events : public cainteoir::document_events
 {
-	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
-	{
-	}
-
-	const rdf::uri genid()
-	{
-		return rdf::bnode(std::string());
-	}
-
 	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
 	{
 		fprintf(stdout, "text(%zu): \"\"\"", aText->size());
@@ -101,7 +92,8 @@ int main(int argc, char ** argv)
 			throw std::runtime_error("no document specified");
 
 		events events;
-		if (!cainteoir::parseDocument(argv[0], events))
+		rdf::graph metadata;
+		if (!cainteoir::parseDocument(argv[0], events, metadata))
 			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
 	}
 	catch (std::runtime_error &e)

@@ -51,18 +51,6 @@ namespace cainteoir
 			reduced     = 0x00000040, /** @brief The text is reduced in emphasis in the document (display=normal, prosody). */
 		};
 
-		/** @brief A metadata item was encountered in the document.
-		  *
-		  * @param aStatement The RDF statement for the metadata item.
-		  */
-		virtual void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement) = 0;
-
-		/** @brief Generate a new RDF BNode id.
-		  *
-		  * @return The new BNode id.
-		  */
-		virtual const rdf::uri genid() = 0;
-
 		/** @brief A block of text in the document.
 		  *
 		  * @param aText The text at the current point in the document.
@@ -190,7 +178,7 @@ namespace cainteoir
 	  * @retval true  If aFilename contains a supported document format.
 	  * @retval false If aFilename contains an unsupported document format.
 	  */
-	bool parseDocument(const char *aFilename, document_events &events);
+	bool parseDocument(const char *aFilename, document_events &events, rdf::graph &aGraph);
 }
 
 #endif

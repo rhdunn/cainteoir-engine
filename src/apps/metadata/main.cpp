@@ -61,25 +61,6 @@ void help()
 	fprintf(stdout, _("Report bugs to msclrhd@gmail.com\n"));
 }
 
-struct rdfmetadata
-	: public cainteoir::document_events
-	, public rdf::graph
-{
-	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
-	{
-		push_back(aStatement);
-	}
-
-	const rdf::uri genid()
-	{
-		return rdf::graph::genid();
-	}
-
-	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
-	{
-	}
-};
-
 int main(int argc, char ** argv)
 {
 	cainteoir::initialise();
@@ -130,8 +111,9 @@ int main(int argc, char ** argv)
 		if (argc != 1)
 			throw std::runtime_error(_("no document specified"));
 
-		rdfmetadata metadata;
-		if (!cainteoir::parseDocument(argv[0], metadata))
+		cainteoir::document_events events;
+		rdf::graph metadata;
+		if (!cainteoir::parseDocument(argv[0], events, metadata))
 			fprintf(stderr, _("unsupported document format for file \"%s\"\n"), argv[0]);
 
 		if (!metadata.empty())

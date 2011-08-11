@@ -60,17 +60,7 @@ struct rdfdoc : public rdf::graph, public cainteoir::document_events
 {
 	rdfdoc(const char *filename)
 	{
-		parseDocument(filename, *this);
-	}
-
-	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
-	{
-		push_back(aStatement);
-	}
-
-	const rdf::uri genid()
-	{
-		return rdf::graph::genid();
+		parseDocument(filename, *this, *this);
 	}
 };
 
@@ -86,55 +76,75 @@ bool select_none(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
 
 TEST_CASE("rql::subject")
 {
-	match(rql::subject(rdf::statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class"))),
-	                   rdf::rdf("Property"));
-	match(rql::subject(rdf::statement(rdf::bnode("prop"), rdf::rdf("type"), rdf::rdf("Class"))),
-	                   rdf::bnode("prop"));
+	rdf::graph g;
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class")));
+	match(rql::subject(g.back()), rdf::rdf("Property"));
+
+	assert(g.statement(rdf::bnode("prop"), rdf::rdf("type"), rdf::rdf("Class")));
+	match(rql::subject(g.back()), rdf::bnode("prop"));
 }
 
 TEST_CASE("rql::predicate")
 {
-	match(rql::predicate(rdf::statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class"))),
-	                     rdf::rdf("type"));
+	rdf::graph g;
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class")));
+	match(rql::predicate(g.back()), rdf::rdf("type"));
 }
 
 TEST_CASE("rql::object")
 {
-	match(rql::object(rdf::statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class"))),
-	                  rdf::rdf("Class"));
-	match(rql::object(rdf::statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::bnode("class"))),
-	                  rdf::bnode("class"));
-	match(rql::object(rdf::statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property"))),
-	                  rdf::literal("Property"));
-	match(rql::object(rdf::statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", "en"))),
-	                  rdf::literal("Property", "en"));
-	match(rql::object(rdf::statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", rdf::xsd("string")))),
-	                  rdf::literal("Property", rdf::xsd("string")));
+	rdf::graph g;
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class")));
+	match(rql::object(g.back()), rdf::rdf("Class"));
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::bnode("class")));
+	match(rql::object(g.back()), rdf::bnode("class"));
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property")));
+	match(rql::object(g.back()), rdf::literal("Property"));
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", "en")));
+	match(rql::object(g.back()), rdf::literal("Property", "en"));
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", rdf::xsd("string"))));
+	match(rql::object(g.back()), rdf::literal("Property", rdf::xsd("string")));
 }
 
 TEST_CASE("rql::value")
 {
-	equal(rql::value(rdf::statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class"))),
-	                 "");
-	equal(rql::value(rdf::statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::bnode("class"))),
-	                 "");
-	equal(rql::value(rdf::statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property"))),
-	                 "Property");
-	equal(rql::value(rdf::statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", "en"))),
-	                 "Property");
-	equal(rql::value(rdf::statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", rdf::xsd("string")))),
-	                 "Property");
+	rdf::graph g;
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class")));
+	equal(rql::value(g.back()), "");
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::bnode("class")));
+	equal(rql::value(g.back()), "");
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property")));
+	equal(rql::value(g.back()), "Property");
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", "en")));
+	equal(rql::value(g.back()), "Property");
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", rdf::xsd("string"))));
+	equal(rql::value(g.back()), "Property");
 }
 
 TEST_CASE("rql::matches")
 {
-	assert(rql::matches(rql::subject, rdf::dc("title"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
-	assert(rql::matches(rql::predicate, rdf::rdf("type"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
-	assert(rql::matches(rql::object, rdf::rdf("Property"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	rdf::graph g;
+	assert(g.statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property")));
 
-	assert(!rql::matches(rql::subject, rdf::dc("creator"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
-	assert(!rql::matches(rql::predicate, rdf::rdf("label"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
-	assert(!rql::matches(rql::object, rdf::rdf("Class"))(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property"))));
+	assert(rql::matches(rql::subject,   rdf::dc("title"))(g.back()));
+	assert(rql::matches(rql::predicate, rdf::rdf("type"))(g.back()));
+	assert(rql::matches(rql::object,    rdf::rdf("Property"))(g.back()));
+
+	assert(!rql::matches(rql::subject,   rdf::dc("creator"))(g.back()));
+	assert(!rql::matches(rql::predicate, rdf::rdf("label"))(g.back()));
+	assert(!rql::matches(rql::object,    rdf::rdf("Class"))(g.back()));
 }
 
 TEST_CASE("rql::select(graph, selector, results)")

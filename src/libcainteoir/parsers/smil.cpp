@@ -24,39 +24,39 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseSmilMetadata(const xml::node &smil, const rdf::uri &subject, cainteoir::document_events &events)
+void parseSmilMetadata(const xml::node &smil, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	for (xml::node node = smil.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_ELEMENT_NODE && node == rdf::rdf("RDF"))
-			cainteoir::parseRdfXmlDocument(node, subject, events);
+			cainteoir::parseRdfXmlDocument(node, subject, events, aGraph);
 	}
 }
 
-void parseSmilData(const xml::node &smil, const rdf::uri &subject, cainteoir::document_events &events)
+void parseSmilData(const xml::node &smil, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	for (xml::node node = smil.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_ELEMENT_NODE && node.namespaceURI() == rdf::smil)
 		{
 			if (node == rdf::smil("metadata"))
-				parseSmilMetadata(node, subject, events);
+				parseSmilMetadata(node, subject, events, aGraph);
 			else
-				parseSmilData(node, subject, events);
+				parseSmilData(node, subject, events, aGraph);
 		}
 	}
 }
 
-void cainteoir::parseSmilDocument(const xml::node &smil, const rdf::uri &subject, cainteoir::document_events &events)
+void cainteoir::parseSmilDocument(const xml::node &smil, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	if (smil != rdf::smil("smil"))
 		throw std::runtime_error(_("SMIL document is not of a recognised format."));
 
-	parseSmilData(smil, subject, events);
+	parseSmilData(smil, subject, events, aGraph);
 
 	for (xml::attribute attr = smil.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (attr == rdf::xml("lang"))
-			events.metadata(rdf::statement(subject, rdf::dc("language"), rdf::literal(attr.content())));
+			aGraph.statement(subject, rdf::dc("language"), rdf::literal(attr.content()));
 	}
 }

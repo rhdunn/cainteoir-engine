@@ -101,7 +101,7 @@ struct mime_headers : public cainteoir::buffer
 	std::tr1::shared_ptr<cainteoir::buffer> mOriginal;
 	std::string encoding;
 
-	bool parse_headers(std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events, cainteoir::buffer &boundary)
+	bool parse_headers(std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph, cainteoir::buffer &boundary)
 	{
 		while (first <= last)
 		{
@@ -173,7 +173,7 @@ struct mime_headers : public cainteoir::buffer
 				}
 			}
 			else if (!name.comparei("Subject"))
-				events.metadata(rdf::statement(subject, rdf::dc("title"), rdf::literal(value.str())));
+				aGraph.statement(subject, rdf::dc("title"), rdf::literal(value.str()));
 			else if (!name.comparei("From"))
 			{
 				// name ...
@@ -204,18 +204,18 @@ struct mime_headers : public cainteoir::buffer
 
 				// metadata ...
 
-				const rdf::uri from = events.genid();
-				events.metadata(rdf::statement(subject, rdf::dc("creator"), from));
-				events.metadata(rdf::statement(from, rdf::rdf("type"), rdf::foaf("Person")));
-				events.metadata(rdf::statement(from, rdf::rdf("value"), rdf::literal(std::string(name_begin, name_end))));
-				events.metadata(rdf::statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(mbox_begin, mbox_end))));
+				const rdf::uri from = aGraph.genid();
+				aGraph.statement(subject, rdf::dc("creator"), from);
+				aGraph.statement(from, rdf::rdf("type"), rdf::foaf("Person"));
+				aGraph.statement(from, rdf::rdf("value"), rdf::literal(std::string(name_begin, name_end)));
+				aGraph.statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(mbox_begin, mbox_end)));
 			}
 		}
 
 		return false;
 	}
 
-	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data, std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events)
+	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data, std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 		: cainteoir::buffer(*data)
 		, mOriginal(data)
 	{
@@ -230,7 +230,7 @@ struct mime_headers : public cainteoir::buffer
 		}
 
 		cainteoir::buffer boundary(NULL, NULL);
-		if (!parse_headers(mimetype, subject, events, boundary))
+		if (!parse_headers(mimetype, subject, events, aGraph, boundary))
 			first = mOriginal->begin();
 		else if (!boundary.empty())
 		{
@@ -259,7 +259,7 @@ struct mime_headers : public cainteoir::buffer
 	}
 };
 
-bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, std::string type)
+bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, std::string type, rdf::graph &aGraph)
 {
 	if (type == "application/xml")
 	{
@@ -269,59 +269,59 @@ bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &da
 		if (root == rdf::opf("package"))
 		{
 			cainteoir::opffiles files;
-			cainteoir::parseOpfDocument(root, subject, events, files);
+			cainteoir::parseOpfDocument(root, subject, events, aGraph, files);
 		}
 		else if (root == rdf::xhtml("html"))
-			parseXHtmlDocument(data, subject, events);
+			parseXHtmlDocument(data, subject, events, aGraph);
 		else if (root == rdf::rdf("RDF"))
-			cainteoir::parseRdfXmlDocument(root, subject, events);
+			cainteoir::parseRdfXmlDocument(root, subject, events, aGraph);
 		else if (root == rdf::smil("smil"))
-			cainteoir::parseSmilDocument(root, subject, events);
+			cainteoir::parseSmilDocument(root, subject, events, aGraph);
 		else if (root == rdf::ssml("speak"))
-			cainteoir::parseSsmlDocument(root, subject, events);
+			cainteoir::parseSsmlDocument(root, subject, events, aGraph);
 		else if (root == rdf::ncx("ncx"))
-			cainteoir::parseNcxDocument(root, subject, events);
+			cainteoir::parseNcxDocument(root, subject, events, aGraph);
 		else
 			return false;
 	}
 	else if (type == "application/epub+zip")
-		cainteoir::parseEpubDocument(data, subject, events);
+		cainteoir::parseEpubDocument(data, subject, events, aGraph);
 	else if (type == "application/x-gzip")
 	{
 		std::tr1::shared_ptr<cainteoir::buffer> decompressed = cainteoir::strm_gzip_decompress(*data);
 		type = cainteoir::mimetypes()(decompressed);
-		return parseDocumentBufferWithMimeType(decompressed, subject, events, type);
+		return parseDocumentBufferWithMimeType(decompressed, subject, events, type, aGraph);
 	}
 	else if (type == "application/octet-stream")
 		return false;
 	else if (type == "text/rtf")
-		cainteoir::parseRtfDocument(data, subject, events);
+		cainteoir::parseRtfDocument(data, subject, events, aGraph);
 	else
 	{
-		std::tr1::shared_ptr<mime_headers> mime(new mime_headers(data, type, subject, events));
+		std::tr1::shared_ptr<mime_headers> mime(new mime_headers(data, type, subject, events, aGraph));
 		if (mime->begin() == data->begin())
-			parseXHtmlDocument(data, subject, events);
+			parseXHtmlDocument(data, subject, events, aGraph);
 		else if (!mime->encoding.empty())
 		{
 			std::tr1::shared_ptr<cainteoir::buffer> encoded(mime);
 			std::tr1::shared_ptr<cainteoir::buffer> content(new quoted_printable(encoded));
-			return parseDocumentBufferWithMimeType(content, subject, events, type);
+			return parseDocumentBufferWithMimeType(content, subject, events, type, aGraph);
 		}
 		else
 		{
 			std::tr1::shared_ptr<cainteoir::buffer> content(mime);
-			return parseDocumentBufferWithMimeType(content, subject, events, type);
+			return parseDocumentBufferWithMimeType(content, subject, events, type, aGraph);
 		}
 	}
 
-	events.metadata(rdf::statement(subject, rdf::tts("mimetype"), rdf::literal(type)));
+	aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(type));
 	return true;
 }
 
-bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events)
+bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	std::string type = cainteoir::mimetypes()(data);
-	return parseDocumentBufferWithMimeType(data, subject, events, type);
+	return parseDocumentBufferWithMimeType(data, subject, events, type, aGraph);
 }
 
 void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
@@ -331,81 +331,81 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
 	// only lists filetypes that are properly supported, excluding intermedate/internal formats ...
 
 	rdf::uri text = rdf::uri(baseuri, "text");
-	metadata.push_back(rdf::statement(text, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(text, rdf::tts("name"), rdf::literal("text")));
-	metadata.push_back(rdf::statement(text, rdf::dc("title"), rdf::literal(_("text document"))));
-	metadata.push_back(rdf::statement(text, rdf::dc("description"), rdf::literal(_("plain text document"))));
-	metadata.push_back(rdf::statement(text, rdf::tts("mimetype"), rdf::literal("text/plain")));
-	metadata.push_back(rdf::statement(text, rdf::tts("extension"), rdf::literal("*.txt")));
+	metadata.statement(text, rdf::rdf("type"), rdf::tts("DocumentFormat"));
+	metadata.statement(text, rdf::tts("name"), rdf::literal("text"));
+	metadata.statement(text, rdf::dc("title"), rdf::literal(_("text document")));
+	metadata.statement(text, rdf::dc("description"), rdf::literal(_("plain text document")));
+	metadata.statement(text, rdf::tts("mimetype"), rdf::literal("text/plain"));
+	metadata.statement(text, rdf::tts("extension"), rdf::literal("*.txt"));
 
 	rdf::uri html = rdf::uri(baseuri, "html");
-	metadata.push_back(rdf::statement(html, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(html, rdf::tts("name"), rdf::literal("html")));
-	metadata.push_back(rdf::statement(html, rdf::dc("title"), rdf::literal(_("(x)html document"))));
-	metadata.push_back(rdf::statement(html, rdf::dc("description"), rdf::literal(_("(x)html document"))));
-	metadata.push_back(rdf::statement(html, rdf::tts("mimetype"), rdf::literal("text/html")));
-	metadata.push_back(rdf::statement(html, rdf::tts("mimetype"), rdf::literal("application/xhtml+xml")));
-	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.htm")));
-	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.html")));
-	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.xhtml")));
-	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.xht")));
-	metadata.push_back(rdf::statement(html, rdf::tts("extension"), rdf::literal("*.xml")));
+	metadata.statement(html, rdf::rdf("type"), rdf::tts("DocumentFormat"));
+	metadata.statement(html, rdf::tts("name"), rdf::literal("html"));
+	metadata.statement(html, rdf::dc("title"), rdf::literal(_("(x)html document")));
+	metadata.statement(html, rdf::dc("description"), rdf::literal(_("(x)html document")));
+	metadata.statement(html, rdf::tts("mimetype"), rdf::literal("text/html"));
+	metadata.statement(html, rdf::tts("mimetype"), rdf::literal("application/xhtml+xml"));
+	metadata.statement(html, rdf::tts("extension"), rdf::literal("*.htm"));
+	metadata.statement(html, rdf::tts("extension"), rdf::literal("*.html"));
+	metadata.statement(html, rdf::tts("extension"), rdf::literal("*.xhtml"));
+	metadata.statement(html, rdf::tts("extension"), rdf::literal("*.xht"));
+	metadata.statement(html, rdf::tts("extension"), rdf::literal("*.xml"));
 
 	rdf::uri mhtml = rdf::uri(baseuri, "mhtml");
-	metadata.push_back(rdf::statement(mhtml, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(mhtml, rdf::tts("name"), rdf::literal("mhtml")));
-	metadata.push_back(rdf::statement(mhtml, rdf::dc("title"), rdf::literal(_("mhtml document"))));
-	metadata.push_back(rdf::statement(mhtml, rdf::dc("description"), rdf::literal(_("single-file HTML document"))));
-	metadata.push_back(rdf::statement(mhtml, rdf::tts("mimetype"), rdf::literal("multipart/related")));
-	metadata.push_back(rdf::statement(mhtml, rdf::tts("extension"), rdf::literal("*.mht")));
+	metadata.statement(mhtml, rdf::rdf("type"), rdf::tts("DocumentFormat"));
+	metadata.statement(mhtml, rdf::tts("name"), rdf::literal("mhtml"));
+	metadata.statement(mhtml, rdf::dc("title"), rdf::literal(_("mhtml document")));
+	metadata.statement(mhtml, rdf::dc("description"), rdf::literal(_("single-file HTML document")));
+	metadata.statement(mhtml, rdf::tts("mimetype"), rdf::literal("multipart/related"));
+	metadata.statement(mhtml, rdf::tts("extension"), rdf::literal("*.mht"));
 
 	rdf::uri epub = rdf::uri(baseuri, "epub");
-	metadata.push_back(rdf::statement(epub, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(epub, rdf::tts("name"), rdf::literal("epub")));
-	metadata.push_back(rdf::statement(epub, rdf::dc("title"), rdf::literal(_("epub document"))));
-	metadata.push_back(rdf::statement(epub, rdf::dc("description"), rdf::literal(_("electronic publication (ePub) document"))));
-	metadata.push_back(rdf::statement(epub, rdf::tts("mimetype"), rdf::literal("application/epub+zip")));
-	metadata.push_back(rdf::statement(epub, rdf::tts("extension"), rdf::literal("*.epub")));
+	metadata.statement(epub, rdf::rdf("type"), rdf::tts("DocumentFormat"));
+	metadata.statement(epub, rdf::tts("name"), rdf::literal("epub"));
+	metadata.statement(epub, rdf::dc("title"), rdf::literal(_("epub document")));
+	metadata.statement(epub, rdf::dc("description"), rdf::literal(_("electronic publication (ePub) document")));
+	metadata.statement(epub, rdf::tts("mimetype"), rdf::literal("application/epub+zip"));
+	metadata.statement(epub, rdf::tts("extension"), rdf::literal("*.epub"));
 
 	rdf::uri email = rdf::uri(baseuri, "email");
-	metadata.push_back(rdf::statement(email, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(email, rdf::tts("name"), rdf::literal("email")));
-	metadata.push_back(rdf::statement(email, rdf::dc("title"), rdf::literal(_("email document"))));
-	metadata.push_back(rdf::statement(email, rdf::dc("description"), rdf::literal(_("electronic mail document (raw mbox format)"))));
-	metadata.push_back(rdf::statement(email, rdf::tts("mimetype"), rdf::literal("text/x-mail")));
-	metadata.push_back(rdf::statement(email, rdf::tts("mimetype"), rdf::literal("message/rfc822")));
-	metadata.push_back(rdf::statement(email, rdf::tts("extension"), rdf::literal("*.eml")));
-	metadata.push_back(rdf::statement(email, rdf::tts("extension"), rdf::literal("*.emlx")));
-	metadata.push_back(rdf::statement(email, rdf::tts("extension"), rdf::literal("*.msg")));
-	metadata.push_back(rdf::statement(email, rdf::tts("extension"), rdf::literal("*.mbx")));
+	metadata.statement(email, rdf::rdf("type"), rdf::tts("DocumentFormat"));
+	metadata.statement(email, rdf::tts("name"), rdf::literal("email"));
+	metadata.statement(email, rdf::dc("title"), rdf::literal(_("email document")));
+	metadata.statement(email, rdf::dc("description"), rdf::literal(_("electronic mail document (raw mbox format)")));
+	metadata.statement(email, rdf::tts("mimetype"), rdf::literal("text/x-mail"));
+	metadata.statement(email, rdf::tts("mimetype"), rdf::literal("message/rfc822"));
+	metadata.statement(email, rdf::tts("extension"), rdf::literal("*.eml"));
+	metadata.statement(email, rdf::tts("extension"), rdf::literal("*.emlx"));
+	metadata.statement(email, rdf::tts("extension"), rdf::literal("*.msg"));
+	metadata.statement(email, rdf::tts("extension"), rdf::literal("*.mbx"));
 
 	rdf::uri gzip = rdf::uri(baseuri, "gzip");
-	metadata.push_back(rdf::statement(gzip, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(gzip, rdf::tts("name"), rdf::literal("gzip")));
-	metadata.push_back(rdf::statement(gzip, rdf::dc("title"), rdf::literal(_("gzip compressed document"))));
-	metadata.push_back(rdf::statement(gzip, rdf::dc("description"), rdf::literal(_("gzip compressed document"))));
-	metadata.push_back(rdf::statement(gzip, rdf::tts("mimetype"), rdf::literal("application/x-gzip")));
-	metadata.push_back(rdf::statement(gzip, rdf::tts("extension"), rdf::literal("*.gz")));
+	metadata.statement(gzip, rdf::rdf("type"), rdf::tts("DocumentFormat"));
+	metadata.statement(gzip, rdf::tts("name"), rdf::literal("gzip"));
+	metadata.statement(gzip, rdf::dc("title"), rdf::literal(_("gzip compressed document")));
+	metadata.statement(gzip, rdf::dc("description"), rdf::literal(_("gzip compressed document")));
+	metadata.statement(gzip, rdf::tts("mimetype"), rdf::literal("application/x-gzip"));
+	metadata.statement(gzip, rdf::tts("extension"), rdf::literal("*.gz"));
 
 	rdf::uri rtf = rdf::uri(baseuri, "rtf");
-	metadata.push_back(rdf::statement(rtf, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(rtf, rdf::tts("name"), rdf::literal("rtf")));
-	metadata.push_back(rdf::statement(rtf, rdf::dc("title"), rdf::literal(_("rich text document"))));
-	metadata.push_back(rdf::statement(rtf, rdf::dc("description"), rdf::literal(_("rich text document"))));
-	metadata.push_back(rdf::statement(rtf, rdf::tts("mimetype"), rdf::literal("text/rtf")));
-	metadata.push_back(rdf::statement(rtf, rdf::tts("mimetype"), rdf::literal("application/rtf")));
-	metadata.push_back(rdf::statement(rtf, rdf::tts("extension"), rdf::literal("*.rtf")));
+	metadata.statement(rtf, rdf::rdf("type"), rdf::tts("DocumentFormat"));
+	metadata.statement(rtf, rdf::tts("name"), rdf::literal("rtf"));
+	metadata.statement(rtf, rdf::dc("title"), rdf::literal(_("rich text document")));
+	metadata.statement(rtf, rdf::dc("description"), rdf::literal(_("rich text document")));
+	metadata.statement(rtf, rdf::tts("mimetype"), rdf::literal("text/rtf"));
+	metadata.statement(rtf, rdf::tts("mimetype"), rdf::literal("application/rtf"));
+	metadata.statement(rtf, rdf::tts("extension"), rdf::literal("*.rtf"));
 
 	rdf::uri ssml = rdf::uri(baseuri, "ssml");
-	metadata.push_back(rdf::statement(ssml, rdf::rdf("type"), rdf::tts("DocumentFormat")));
-	metadata.push_back(rdf::statement(ssml, rdf::tts("name"), rdf::literal("ssml")));
-	metadata.push_back(rdf::statement(ssml, rdf::dc("title"), rdf::literal(_("speech synthesis markup document"))));
-	metadata.push_back(rdf::statement(ssml, rdf::dc("description"), rdf::literal(_("speech synthesis markup document"))));
-	metadata.push_back(rdf::statement(ssml, rdf::tts("mimetype"), rdf::literal("application/ssml+xml")));
-	metadata.push_back(rdf::statement(ssml, rdf::tts("extension"), rdf::literal("*.ssml")));
+	metadata.statement(ssml, rdf::rdf("type"), rdf::tts("DocumentFormat"));
+	metadata.statement(ssml, rdf::tts("name"), rdf::literal("ssml"));
+	metadata.statement(ssml, rdf::dc("title"), rdf::literal(_("speech synthesis markup document")));
+	metadata.statement(ssml, rdf::dc("description"), rdf::literal(_("speech synthesis markup document")));
+	metadata.statement(ssml, rdf::tts("mimetype"), rdf::literal("application/ssml+xml"));
+	metadata.statement(ssml, rdf::tts("extension"), rdf::literal("*.ssml"));
 }
 
-bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events)
+bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
 
@@ -415,5 +415,5 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 	else
 		data = buffer_from_stdin();
 
-	return parseDocumentBuffer(data, subject, events);
+	return parseDocumentBuffer(data, subject, events, aGraph);
 }
