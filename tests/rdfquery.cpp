@@ -81,8 +81,8 @@ TEST_CASE("rql::subject")
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class")));
 	match(rql::subject(g.back()), rdf::rdf("Property"));
 
-	assert(g.statement(rdf::bnode("prop"), rdf::rdf("type"), rdf::rdf("Class")));
-	match(rql::subject(g.back()), rdf::bnode("prop"));
+	assert(g.statement(g.bnode("prop"), rdf::rdf("type"), rdf::rdf("Class")));
+	match(rql::subject(g.back()), g.bnode("prop"));
 }
 
 TEST_CASE("rql::predicate")
@@ -100,8 +100,8 @@ TEST_CASE("rql::object")
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class")));
 	match(rql::object(g.back()), rdf::rdf("Class"));
 
-	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::bnode("class")));
-	match(rql::object(g.back()), rdf::bnode("class"));
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), g.bnode("class")));
+	match(rql::object(g.back()), g.bnode("class"));
 
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property")));
 	match(rql::object(g.back()), rdf::literal("Property"));
@@ -120,7 +120,7 @@ TEST_CASE("rql::value")
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class")));
 	equal(rql::value(g.back()), "");
 
-	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::bnode("class")));
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), g.bnode("class")));
 	equal(rql::value(g.back()), "");
 
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property")));

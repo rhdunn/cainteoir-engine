@@ -70,7 +70,7 @@ rdf::uri parseRdfXmlCollectionMetadata(xml::node node, const rdf::uri &subject, 
 			}
 		}
 	}
-	return rdf::bnode(std::string());
+	return aGraph.bnode(std::string());
 }
 
 void parseRdfXmlMetadataFromNode(
@@ -93,7 +93,7 @@ void parseRdfXmlMetadataFromNode(
 			aGraph.statement(subject, predicate, rdf::href(resource));
 	}
 	else if (!nodeID.empty())
-		aGraph.statement(subject, predicate, rdf::bnode(nodeID));
+		aGraph.statement(subject, predicate, aGraph.bnode(nodeID));
 	else if (hasSubElements(node))
 	{
 		std::string parseType = node.attr(rdf::rdf("parseType")).content();
@@ -187,7 +187,7 @@ void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::uri &subject, 
 				if (!about.empty())
 					parseRdfXmlMetadata(node, rdf::href((*about.begin()) == '#' ? base + about : about), aGraph, base, lang);
 				else if (!nodeID.empty())
-					parseRdfXmlMetadata(node, rdf::bnode(nodeID), aGraph, base, lang);
+					parseRdfXmlMetadata(node, aGraph.bnode(nodeID), aGraph, base, lang);
 				else if (!ID.empty())
 					parseRdfXmlMetadata(node, rdf::href(base + "#" + ID), aGraph, base, lang);
 			}

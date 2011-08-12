@@ -120,11 +120,6 @@ namespace cainteoir { namespace rdf
 		return !(a == b);
 	}
 
-	inline const uri bnode(const std::string &aRef)
-	{
-		return uri(std::string(), aRef);
-	}
-
 	const uri href(const std::string &aHref);
 
 	/** @brief RDF namespace.
@@ -398,6 +393,11 @@ namespace cainteoir { namespace rdf
 		graph()
 			: nextid(1)
 		{
+		}
+
+		inline const uri bnode(const std::string &aRef)
+		{
+			return uri(std::string(), aRef);
 		}
 
 		const rdf::uri genid();

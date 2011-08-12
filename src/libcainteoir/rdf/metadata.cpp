@@ -183,7 +183,7 @@ const rdf::uri rdf::graph::genid()
 	std::ostringstream id;
 	id << "genid" << nextid;
 	++nextid;
-	return rdf::bnode(id.str());
+	return bnode(id.str());
 }
 
 bool rdf::graph::contains(const ns &uri) const
