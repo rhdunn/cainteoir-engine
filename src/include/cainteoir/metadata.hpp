@@ -202,40 +202,6 @@ namespace cainteoir { namespace rdf
 	extern const ns foaf;    /**< @brief Friend of a Friend (FOAF) namespace. */
 	extern const ns tts;     /**< @brief Cainteoir Text-to-Speech RDF namespace. */
 
-	/** @brief CURIE/XML namespaces.
-	  *
-	  * Defines a set of namespaces. This has two applications:
-	  *    -  xmlns and xml:base URI expansion in XML documents;
-	  *    -  curies and prefix data in RDFa data.
-	  */
-	class namespaces
-	{
-	public:
-		namespaces();
-
-		namespaces &set_base(const std::string &aBase);
-
-		namespaces &add_namespace(const std::string &aPrefix, const std::string &aHref);
-
-		namespaces &add_namespace(const ns &aNS)
-		{
-			return add_namespace(aNS.prefix, aNS.href);
-		}
-
-		namespaces &operator<<(const ns &aNS)
-		{
-			return add_namespace(aNS.prefix, aNS.href);
-		}
-
-		namespaces &add_prefix(const std::string &aPrefix);
-
-		std::tr1::shared_ptr<const detail::resource>
-		operator()(const std::string &aCurie) const;
-	private:
-		std::map<std::string, std::string> mNamespaces;
-		std::string mBaseUri;
-	};
-
 	/** @brief RDF literal node
 	  */
 	class literal : public detail::resource
@@ -390,24 +356,57 @@ namespace cainteoir { namespace rdf
 	class graph : public subgraph
 	{
 	public:
-		graph()
-			: nextid(1)
+		graph();
+
+		/** @name Namespaces */
+		//@{
+
+		bool contains(const ns &uri) const;
+
+		rdf::graph &set_base(const std::string &aBase);
+
+		rdf::graph &add_namespace(const std::string &aPrefix, const std::string &aHref);
+
+		rdf::graph &add_namespace(const ns &aNS)
 		{
+			return add_namespace(aNS.prefix, aNS.href);
 		}
+
+		rdf::graph &operator<<(const ns &aNS)
+		{
+			return add_namespace(aNS.prefix, aNS.href);
+		}
+
+		/** @brief Add namespaces in an RDFa @prefix attribute.
+		  */
+		rdf::graph &add_prefix(const std::string &aPrefix);
+
+		//@}
+		/** @name URIs */
+		//@{
+
+		const rdf::uri genid();
 
 		inline const uri bnode(const std::string &aRef)
 		{
 			return uri(std::string(), aRef);
 		}
 
-		const rdf::uri genid();
+		std::tr1::shared_ptr<const uri>
+		curie(const std::string &aCurie) const;
 
-		bool contains(const ns &uri) const;
+		//@}
+		/** @name Statements */
+		//@{
 
 		bool statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject);
 
 		bool statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::literal &aObject);
+
+		//@}
 	private:
+		std::map<std::string, std::string> mNamespaces;
+		std::string mBaseUri;
 		std::set<std::string> namespaces;
 		int nextid;
 	};

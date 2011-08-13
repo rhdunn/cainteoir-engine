@@ -113,21 +113,13 @@ const rdf::uri rdf::href(const std::string &aHref)
 	return uri(aHref, std::string());
 }
 
-rdf::namespaces::namespaces()
-{
-	mNamespaces["http"] = "http:";
-	mNamespaces["https"] = "https:";
-	mNamespaces["mailto"] = "mailto:";
-	mNamespaces["file"] = "file:";
-}
-
-rdf::namespaces &rdf::namespaces::set_base(const std::string &aBase)
+rdf::graph &rdf::graph::set_base(const std::string &aBase)
 {
 	mBaseUri = aBase;
 	return *this;
 }
 
-rdf::namespaces &rdf::namespaces::add_namespace(const std::string &aPrefix, const std::string &aHref)
+rdf::graph &rdf::graph::add_namespace(const std::string &aPrefix, const std::string &aHref)
 {
 	if (*(--aHref.end()) != '#' && *(--aHref.end()) != '/')
 		mNamespaces[aPrefix] = aHref + '#';
@@ -136,7 +128,7 @@ rdf::namespaces &rdf::namespaces::add_namespace(const std::string &aPrefix, cons
 	return *this;
 }
 
-rdf::namespaces &rdf::namespaces::add_prefix(const std::string &aPrefix)
+rdf::graph &rdf::graph::add_prefix(const std::string &aPrefix)
 {
 	std::string prefix;
 	std::string href;
@@ -148,8 +140,8 @@ rdf::namespaces &rdf::namespaces::add_prefix(const std::string &aPrefix)
 	return *this;
 }
 
-std::tr1::shared_ptr<const rdf::detail::resource>
-rdf::namespaces::operator()(const std::string &aCurie) const
+std::tr1::shared_ptr<const rdf::uri>
+rdf::graph::curie(const std::string &aCurie) const
 {
 	std::string uri;
 
@@ -160,22 +152,30 @@ rdf::namespaces::operator()(const std::string &aCurie) const
 		std::string ref = aCurie.substr(index+1);
 
 		if (prefix == "_")
-			return std::tr1::shared_ptr<const rdf::detail::resource>(new rdf::uri(std::string(), ref));
+			return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(std::string(), ref));
 
 		auto ns = mNamespaces.find(prefix);
 		if (ns == mNamespaces.end())
-			return std::tr1::shared_ptr<const rdf::detail::resource>();
+			return std::tr1::shared_ptr<const rdf::uri>();
 
 		uri = ns->second + ref;
 	}
 	else
 		uri = mBaseUri + aCurie;
-	return std::tr1::shared_ptr<const rdf::detail::resource>(new rdf::uri(href(uri)));
+	return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(href(uri)));
 }
 
 const rdf::detail::resource *rdf::literal::clone() const
 {
 	return new literal(*this);
+}
+
+rdf::graph::graph() : nextid(1)
+{
+	mNamespaces["http"] = "http:";
+	mNamespaces["https"] = "https:";
+	mNamespaces["mailto"] = "mailto:";
+	mNamespaces["file"] = "file:";
 }
 
 const rdf::uri rdf::graph::genid()

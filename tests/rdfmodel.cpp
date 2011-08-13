@@ -124,160 +124,160 @@ void test_uri(const std::tr1::shared_ptr<const rdf::detail::resource> &node, con
 	test_uri(*node, value, ns, ref);
 }
 
-TEST_CASE("rdf::namespaces -- empty")
+TEST_CASE("rdf::graph -- curie: empty namespaces")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 
-	test_uri(test(""), "", "", "");
+	test_uri(test.curie(""), "", "", "");
 
-	assert(!test("dc:title").get());
+	assert(!test.curie("dc:title").get());
 }
 
-TEST_CASE("rdf::namespaces -- base uri")
+TEST_CASE("rdf::graph -- curie: base uri")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base");
 
-	test_uri(test("test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
-	test_uri(test("/test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
-	test_uri(test("#test"), "http://www.example.org/base#test", "http://www.example.org/base#", "test");
+	test_uri(test.curie("test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
+	test_uri(test.curie("/test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
+	test_uri(test.curie("#test"), "http://www.example.org/base#test", "http://www.example.org/base#", "test");
 }
 
-TEST_CASE("rdf::namespaces -- uri schemes")
+TEST_CASE("rdf::graph -- curie: uri schemes")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base");
 
-	test_uri(test("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");
-	test_uri(test("http://www.example.org/test/value"), "http://www.example.org/test/value", "http://www.example.org/test/", "value");
-	test_uri(test("http://www.example.org/test#"), "http://www.example.org/test#", "http://www.example.org/test#", "");
-	test_uri(test("http://www.example.org/test#value"), "http://www.example.org/test#value", "http://www.example.org/test#", "value");
-	test_uri(test("http://www.example.org/test/#"), "http://www.example.org/test/#", "http://www.example.org/test/#", "");
-	test_uri(test("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
+	test_uri(test.curie("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");
+	test_uri(test.curie("http://www.example.org/test/value"), "http://www.example.org/test/value", "http://www.example.org/test/", "value");
+	test_uri(test.curie("http://www.example.org/test#"), "http://www.example.org/test#", "http://www.example.org/test#", "");
+	test_uri(test.curie("http://www.example.org/test#value"), "http://www.example.org/test#value", "http://www.example.org/test#", "value");
+	test_uri(test.curie("http://www.example.org/test/#"), "http://www.example.org/test/#", "http://www.example.org/test/#", "");
+	test_uri(test.curie("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
 
-	test_uri(test("https://www.example.org/test/"), "https://www.example.org/test/", "https://www.example.org/test/", "");
-	test_uri(test("https://www.example.org/test/value"), "https://www.example.org/test/value", "https://www.example.org/test/", "value");
-	test_uri(test("https://www.example.org/test#"), "https://www.example.org/test#", "https://www.example.org/test#", "");
-	test_uri(test("https://www.example.org/test#value"), "https://www.example.org/test#value", "https://www.example.org/test#", "value");
-	test_uri(test("https://www.example.org/test/#"), "https://www.example.org/test/#", "https://www.example.org/test/#", "");
-	test_uri(test("https://www.example.org/test/#value"), "https://www.example.org/test/#value", "https://www.example.org/test/#", "value");
+	test_uri(test.curie("https://www.example.org/test/"), "https://www.example.org/test/", "https://www.example.org/test/", "");
+	test_uri(test.curie("https://www.example.org/test/value"), "https://www.example.org/test/value", "https://www.example.org/test/", "value");
+	test_uri(test.curie("https://www.example.org/test#"), "https://www.example.org/test#", "https://www.example.org/test#", "");
+	test_uri(test.curie("https://www.example.org/test#value"), "https://www.example.org/test#value", "https://www.example.org/test#", "value");
+	test_uri(test.curie("https://www.example.org/test/#"), "https://www.example.org/test/#", "https://www.example.org/test/#", "");
+	test_uri(test.curie("https://www.example.org/test/#value"), "https://www.example.org/test/#value", "https://www.example.org/test/#", "value");
 
-	test_uri(test("mailto:abc@example.com"), "mailto:abc@example.com", "mailto:abc@example.com", "");
+	test_uri(test.curie("mailto:abc@example.com"), "mailto:abc@example.com", "mailto:abc@example.com", "");
 
-	test_uri(test("file:///home/test/"), "file:///home/test/", "file:///home/test/", "");
-	test_uri(test("file:///home/test/value"), "file:///home/test/value", "file:///home/test/", "value");
-	test_uri(test("file:///home/test#"), "file:///home/test#", "file:///home/test#", "");
-	test_uri(test("file:///home/test#value"), "file:///home/test#value", "file:///home/test#", "value");
-	test_uri(test("file:///home/test/#"), "file:///home/test/#", "file:///home/test/#", "");
-	test_uri(test("file:///home/test/#value"), "file:///home/test/#value", "file:///home/test/#", "value");
+	test_uri(test.curie("file:///home/test/"), "file:///home/test/", "file:///home/test/", "");
+	test_uri(test.curie("file:///home/test/value"), "file:///home/test/value", "file:///home/test/", "value");
+	test_uri(test.curie("file:///home/test#"), "file:///home/test#", "file:///home/test#", "");
+	test_uri(test.curie("file:///home/test#value"), "file:///home/test#value", "file:///home/test#", "value");
+	test_uri(test.curie("file:///home/test/#"), "file:///home/test/#", "file:///home/test/#", "");
+	test_uri(test.curie("file:///home/test/#value"), "file:///home/test/#value", "file:///home/test/#", "value");
 }
 
-TEST_CASE("rdf::namespaces -- BNode CURIEs")
+TEST_CASE("rdf::graph -- curie: bnodes")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 
 	test.set_base("http://www.example.org/base");
-	test_bnode(test("_:test"), "test");
-	test_bnode(test("_:joe"), "joe");
-	test_bnode(test("_:sue"), "sue");
+	test_bnode(test.curie("_:test"), "test");
+	test_bnode(test.curie("_:joe"), "joe");
+	test_bnode(test.curie("_:sue"), "sue");
 
 	test.set_base("http://www.example.org/base/");
-	test_bnode(test("_:test"), "test");
-	test_bnode(test("_:joe"), "joe");
-	test_bnode(test("_:sue"), "sue");
+	test_bnode(test.curie("_:test"), "test");
+	test_bnode(test.curie("_:joe"), "joe");
+	test_bnode(test.curie("_:sue"), "sue");
 
 	test.set_base("http://www.example.org/base#");
-	test_bnode(test("_:test"), "test");
-	test_bnode(test("_:joe"), "joe");
-	test_bnode(test("_:sue"), "sue");
+	test_bnode(test.curie("_:test"), "test");
+	test_bnode(test.curie("_:joe"), "joe");
+	test_bnode(test.curie("_:sue"), "sue");
 
 	test.set_base("http://www.example.org/base/#");
-	test_bnode(test("_:test"), "test");
-	test_bnode(test("_:joe"), "joe");
-	test_bnode(test("_:sue"), "sue");
+	test_bnode(test.curie("_:test"), "test");
+	test_bnode(test.curie("_:joe"), "joe");
+	test_bnode(test.curie("_:sue"), "sue");
 }
 
-TEST_CASE("rdf::namespaces -- add_namespaces(prefix, href)")
+TEST_CASE("rdf::graph -- curie: add_namespaces(prefix, href)")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base/");
 
-	assert(!test("dc:title").get());
-	assert(!test("xsd:string").get());
-	assert(!test("xml:lang").get());
-	assert(!test("dct:title").get());
+	assert(!test.curie("dc:title").get());
+	assert(!test.curie("xsd:string").get());
+	assert(!test.curie("xml:lang").get());
+	assert(!test.curie("dct:title").get());
 
 	test.add_namespace("dc", "http://purl.org/dc/elements/1.1/");
 	test.add_namespace("xsd", "http://www.w3.org/2001/XMLSchema");
 	test.add_namespace("xml", "http://www.w3.org/XML/1998/namespace#");
 
-	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
-	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
-	assert(!test("dct:title").get());
+	test_uri(test.curie("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test.curie("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test.curie("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	assert(!test.curie("dct:title").get());
 }
 
-TEST_CASE("rdf::namespaces -- add_namespaces(ns)")
+TEST_CASE("rdf::graph -- curie: add_namespaces(ns)")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base/");
 
-	assert(!test("dc:title").get());
-	assert(!test("xsd:string").get());
-	assert(!test("xml:lang").get());
-	assert(!test("dct:title").get());
+	assert(!test.curie("dc:title").get());
+	assert(!test.curie("xsd:string").get());
+	assert(!test.curie("xml:lang").get());
+	assert(!test.curie("dct:title").get());
 
 	test.add_namespace(rdf::dc);
 	test.add_namespace(rdf::xsd);
 	test.add_namespace(rdf::xml);
 
-	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
-	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
-	assert(!test("dct:title").get());
+	test_uri(test.curie("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test.curie("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test.curie("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	assert(!test.curie("dct:title").get());
 }
 
-TEST_CASE("rdf::namespaces -- namespaces << ns")
+TEST_CASE("rdf::graph -- curie: namespaces << ns")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base/");
 
-	assert(!test("dc:title").get());
-	assert(!test("xsd:string").get());
-	assert(!test("xml:lang").get());
-	assert(!test("dct:title").get());
+	assert(!test.curie("dc:title").get());
+	assert(!test.curie("xsd:string").get());
+	assert(!test.curie("xml:lang").get());
+	assert(!test.curie("dct:title").get());
 
 	test << rdf::dc << rdf::xsd << rdf::xml;
 
-	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
-	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
-	assert(!test("dct:title").get());
+	test_uri(test.curie("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test.curie("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test.curie("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	assert(!test.curie("dct:title").get());
 }
 
-TEST_CASE("rdf::namespaces -- add_prefix")
+TEST_CASE("rdf::graph -- curie: add_prefix")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base/");
 
-	assert(!test("dc:title").get());
-	assert(!test("xsd:string").get());
-	assert(!test("xml:lang").get());
-	assert(!test("dct:title").get());
+	assert(!test.curie("dc:title").get());
+	assert(!test.curie("xsd:string").get());
+	assert(!test.curie("xml:lang").get());
+	assert(!test.curie("dct:title").get());
 
 	test.add_prefix("dc: http://purl.org/dc/elements/1.1/");
 
-	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	assert(!test("xsd:string").get());
-	assert(!test("xml:lang").get());
-	assert(!test("dct:title").get());
+	test_uri(test.curie("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	assert(!test.curie("xsd:string").get());
+	assert(!test.curie("xml:lang").get());
+	assert(!test.curie("dct:title").get());
 
 	test.add_prefix("xsd: http://www.w3.org/2001/XMLSchema# xml: http://www.w3.org/XML/1998/namespace#");
 
-	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
-	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
-	assert(!test("dct:title").get());
+	test_uri(test.curie("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test.curie("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test.curie("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	assert(!test.curie("dct:title").get());
 }
 
 void test_literal(const rdf::detail::resource &node, const std::string value, const std::string &language, const rdf::uri &uri)
