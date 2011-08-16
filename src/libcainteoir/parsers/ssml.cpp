@@ -109,7 +109,7 @@ void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject
 				}
 
 				if (name == "seeAlso" && !content.empty())
-					aGraph.statement(subject, rdf::rdfs("seeAlso"), rdf::href(content));
+					aGraph.statement(subject, rdf::rdfs("seeAlso"), aGraph.href(content));
 			}
 			else if (node == rdf::ssml("metadata"))
 				parseSsmlMetadata(node, subject, events, aGraph);

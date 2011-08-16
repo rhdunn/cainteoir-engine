@@ -108,7 +108,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				if (!strcmp(attr.name(), "rel"))
 					rel = attr.content();
 				else if (!strcmp(attr.name(), "href"))
-					href = rdf::href(attr.content());
+					href = aGraph.href(attr.content());
 				else if (!strcmp(attr.name(), "id"))
 					id = attr.content();
 				else if (!strcmp(attr.name(), "about"))

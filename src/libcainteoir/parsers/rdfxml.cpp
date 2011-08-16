@@ -55,7 +55,7 @@ rdf::uri parseRdfXmlCollectionMetadata(xml::node node, const rdf::uri &subject, 
 			if (!about.empty())
 			{
 				const rdf::uri temp = aGraph.genid();
-				aGraph.statement(temp, rdf::rdf("first"), rdf::href((*about.begin()) == '#' ? base + about : about));
+				aGraph.statement(temp, rdf::rdf("first"), aGraph.href((*about.begin()) == '#' ? base + about : about));
 
 				node.next();
 				if (node.isValid())
@@ -88,9 +88,9 @@ void parseRdfXmlMetadataFromNode(
 	if (!resource.empty())
 	{
 		if (resource.find("://") == std::string::npos)
-			aGraph.statement(subject, predicate, rdf::href(base + resource));
+			aGraph.statement(subject, predicate, aGraph.href(base + resource));
 		else
-			aGraph.statement(subject, predicate, rdf::href(resource));
+			aGraph.statement(subject, predicate, aGraph.href(resource));
 	}
 	else if (!nodeID.empty())
 		aGraph.statement(subject, predicate, aGraph.bnode(nodeID));
@@ -122,7 +122,7 @@ void parseRdfXmlMetadataFromNode(
 		std::string value = node.content()->str();
 
 		if (!datatype.empty())
-			aGraph.statement(subject, predicate, rdf::literal(value, rdf::href(datatype)));
+			aGraph.statement(subject, predicate, rdf::literal(value, aGraph.href(datatype)));
 		else if (!value.empty())
 		{
 			if (!lang.empty())
@@ -185,11 +185,11 @@ void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::uri &subject, 
 				std::string nodeID = node.attr(rdf::rdf("nodeID")).content();
 				std::string ID = node.attr(rdf::rdf("ID")).content();
 				if (!about.empty())
-					parseRdfXmlMetadata(node, rdf::href((*about.begin()) == '#' ? base + about : about), aGraph, base, lang);
+					parseRdfXmlMetadata(node, aGraph.href((*about.begin()) == '#' ? base + about : about), aGraph, base, lang);
 				else if (!nodeID.empty())
 					parseRdfXmlMetadata(node, aGraph.bnode(nodeID), aGraph, base, lang);
 				else if (!ID.empty())
-					parseRdfXmlMetadata(node, rdf::href(base + "#" + ID), aGraph, base, lang);
+					parseRdfXmlMetadata(node, aGraph.href(base + "#" + ID), aGraph, base, lang);
 			}
 		}
 	}

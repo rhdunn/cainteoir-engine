@@ -96,7 +96,7 @@ const rdf::detail::resource *rdf::uri::clone() const
 	return new uri(*this);
 }
 
-const rdf::uri rdf::href(const std::string &aHref)
+const rdf::uri rdf::graph::href(const std::string &aHref)
 {
 	std::string::size_type index;
 
@@ -141,7 +141,7 @@ rdf::graph &rdf::graph::add_prefix(const std::string &aPrefix)
 }
 
 std::tr1::shared_ptr<const rdf::uri>
-rdf::graph::curie(const std::string &aCurie) const
+rdf::graph::curie(const std::string &aCurie)
 {
 	std::string uri;
 

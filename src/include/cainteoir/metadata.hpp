@@ -120,8 +120,6 @@ namespace cainteoir { namespace rdf
 		return !(a == b);
 	}
 
-	const uri href(const std::string &aHref);
-
 	/** @brief RDF namespace.
 	  */
 	class ns
@@ -385,6 +383,8 @@ namespace cainteoir { namespace rdf
 		/** @name URIs */
 		//@{
 
+		const uri href(const std::string &aHref);
+
 		const rdf::uri genid();
 
 		inline const uri bnode(const std::string &aRef)
@@ -393,7 +393,7 @@ namespace cainteoir { namespace rdf
 		}
 
 		std::tr1::shared_ptr<const uri>
-		curie(const std::string &aCurie) const;
+		curie(const std::string &aCurie);
 
 		//@}
 		/** @name Statements */

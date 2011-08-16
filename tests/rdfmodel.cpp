@@ -101,17 +101,19 @@ TEST_CASE("RDF namespaces")
 
 TEST_CASE("rdf::href")
 {
-	test_uri(rdf::href("http://www.example.com/"), "http://www.example.com/", "http://www.example.com/", "");
-	test_uri(rdf::href("http://www.example.com/value"), "http://www.example.com/value", "http://www.example.com/", "value");
+	rdf::graph g;
 
-	test_uri(rdf::href("http://www.example.com/abc/"), "http://www.example.com/abc/", "http://www.example.com/abc/", "");
-	test_uri(rdf::href("http://www.example.com/abc/value"), "http://www.example.com/abc/value", "http://www.example.com/abc/", "value");
+	test_uri(g.href("http://www.example.com/"), "http://www.example.com/", "http://www.example.com/", "");
+	test_uri(g.href("http://www.example.com/value"), "http://www.example.com/value", "http://www.example.com/", "value");
 
-	test_uri(rdf::href("http://www.example.com/def#"), "http://www.example.com/def#", "http://www.example.com/def#", "");
-	test_uri(rdf::href("http://www.example.com/def#value"), "http://www.example.com/def#value", "http://www.example.com/def#", "value");
+	test_uri(g.href("http://www.example.com/abc/"), "http://www.example.com/abc/", "http://www.example.com/abc/", "");
+	test_uri(g.href("http://www.example.com/abc/value"), "http://www.example.com/abc/value", "http://www.example.com/abc/", "value");
 
-	test_uri(rdf::href("http://www.example.com/def/#"), "http://www.example.com/def/#", "http://www.example.com/def/#", "");
-	test_uri(rdf::href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
+	test_uri(g.href("http://www.example.com/def#"), "http://www.example.com/def#", "http://www.example.com/def#", "");
+	test_uri(g.href("http://www.example.com/def#value"), "http://www.example.com/def#value", "http://www.example.com/def#", "value");
+
+	test_uri(g.href("http://www.example.com/def/#"), "http://www.example.com/def/#", "http://www.example.com/def/#", "");
+	test_uri(g.href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
 }
 
 void test_bnode(const std::tr1::shared_ptr<const rdf::detail::resource> &node, const std::string &id)
