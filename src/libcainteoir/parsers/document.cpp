@@ -271,7 +271,7 @@ bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &da
 			cainteoir::opffiles files;
 			cainteoir::parseOpfDocument(root, subject, events, aGraph, files);
 		}
-		else if (root == rdf::xhtml("html"))
+		else if (root == rdf::xhtml("html") || root == rdf::uri(std::string(), "html"))
 			parseXHtmlDocument(data, subject, events, aGraph);
 		else if (root == rdf::rdf("RDF"))
 			cainteoir::parseRdfXmlDocument(root, subject, events, aGraph);

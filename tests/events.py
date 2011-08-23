@@ -26,6 +26,7 @@ if __name__ == '__main__':
 		{'name': 'semantics', 'type': 'events', 'tests': [
 			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/simple.xhtml', 'result': 'html/semantics/simple.events'},
+			{'test': 'html/semantics/simple-no-namespace.xhtml', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/with-style.html', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style-type.html', 'result': 'html/semantics/with-style-type.events'},
