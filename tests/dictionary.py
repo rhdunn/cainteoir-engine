@@ -117,6 +117,7 @@ def parse_dictionaries(dictionaries):
 	"""
 	data = {}
 	refs = {}
+	aliases = {}
 	for dictionary in dictionaries:
 		with open(dictionary) as f:
 			for line in f:
@@ -129,7 +130,7 @@ def parse_dictionaries(dictionaries):
 					word, pronunciation, rest = line.split('"')
 					word = ' '.join(word.split())
 					pronunciation = ' '.join(pronunciation.split())
-					data[word] = { 'word': word, 'replacement': pronunciation }
+					aliases[word] = pronunciation
 				else:
 					expr, pronunciation, rest = line.split('/')
 					pronunciation = ' '.join(pronunciation.split())
@@ -137,6 +138,26 @@ def parse_dictionaries(dictionaries):
 						if word in data.keys() and data[word]['pronunciation'] != pronunciation:
 							raise Exception('Mismatched pronunciation for duplicate word "%s"' % word)
 						data[word] = { 'word': word, 'pronunciation': pronunciation }
+	for expr, alias in aliases.items():
+		pronunciation = []
+		for subword in alias.replace('-', ' -').split():
+			combine = subword.startswith('-')
+			subword = subword.replace('-', '')
+
+			if subword.startswith('\''): # retain stress (with)
+				p = data[subword.replace('\'', '')]['pronunciation']
+			elif subword.startswith(','): # invert stress (against)
+				p = data[subword.replace(',', '')]['pronunciation'].replace('ˈ', ',').replace('ˌ', 'ˈ').replace(',', 'ˌ')
+			else: # no stress
+				p = data[subword]['pronunciation'].replace('ˈ', '').replace('ˌ', '')
+
+			if combine:
+				pronunciation.append('-%s' % p)
+			else:
+				pronunciation.append(p)
+
+		for word in expand(' '.join(expr.split()), refs):
+			data[word] = { 'word': word, 'pronunciation': ' '.join(pronunciation).replace(' -', '') }
 	return data
 
 class Tester:
@@ -167,10 +188,11 @@ class Tester:
 			actual = actual.replace('əL',   'l̩') # espeak --ipa does not map '@L' correctly, so use the syllabic form (different to 'əl')
 			actual = actual.replace('ɪˈɑː', 'iˈɑː') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
 			actual = actual.replace('ɪ/', 'i/') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
-			actual = actual.replace('ai/', 'aɪ/') # ... but correct 'aɪ' usage
-			actual = actual.replace('ei/', 'eɪ/') # ... and 'eɪ' usage
-			actual = actual.replace('ɔi/', 'ɔɪ/') # ... and 'ɔɪ' usage
-			actual = actual.replace('əʊi/', 'əʊɪ/') # ... and 'əʊɪ' usage
+			actual = actual.replace('ɪ ', 'i ') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
+			actual = actual.replace('ai', 'aɪ') # ... but correct 'aɪ' usage
+			actual = actual.replace('ei', 'eɪ') # ... and 'eɪ' usage
+			actual = actual.replace('ɔi', 'ɔɪ') # ... and 'ɔɪ' usage
+			actual = actual.replace('əʊi', 'əʊɪ') # ... and 'əʊɪ' usage
 
 			if expected == actual:
 				if not generate_exception_dictionary:
