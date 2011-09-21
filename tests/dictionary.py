@@ -68,10 +68,11 @@ def print_exception(word, pronunciation, ipa=True):
 				wordlist.append(c)
 		word = ''.join(wordlist)
 
-		if '-' in word or ' ' in word:
-			print '(%s)%30s%s' % (word, ' ', pronunciation.replace('/', ''))
-		else:
-			print '%s%30s%s' % (word, ' ', pronunciation.replace('/', ''))
+		if word not in ['a', 'of']: # not a word which espeak annotates with properties
+			if '-' in word or ' ' in word:
+				print '(%s)%30s%s' % (word, ' ', pronunciation.replace('/', ''))
+			else:
+				print '%s%30s%s' % (word, ' ', pronunciation.replace('/', ''))
 
 def expand(expr, refs):
 	if '+' in expr:
@@ -193,6 +194,7 @@ class Tester:
 			actual = actual.replace('ei', 'eɪ') # ... and 'eɪ' usage
 			actual = actual.replace('ɔi', 'ɔɪ') # ... and 'ɔɪ' usage
 			actual = actual.replace('əʊi', 'əʊɪ') # ... and 'əʊɪ' usage
+			actual = actual.replace('/ˈə/', '/ə/') # espeak stresses the schwa which is typically unstressed
 
 			if expected == actual:
 				if not generate_exception_dictionary:
