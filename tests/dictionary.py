@@ -74,41 +74,78 @@ def print_exception(word, pronunciation, ipa=True):
 			else:
 				print '%s%30s%s' % (word, ' ', pronunciation.replace('/', ''))
 
+def lex_expression(expr):
+	ret = []
+	for c in expr:
+		if c in '[]<>(|)':
+			yield ''.join(ret)
+			ret = []
+			yield c
+		else:
+			ret.append(c)
+	if len(ret) != 0:
+		yield ''.join(ret)
+
+EXPR_STRING     = 1 # abc
+EXPR_IN_CHOICE  = 2 # (a|b|c)
+EXPR_IN_ONEOF   = 3 # [abc]
+EXPR_IN_REPLACE = 4 # <abc>
+
 def expand(expr, refs):
-	if '+' in expr:
-		parts = expr.split('+')
-		words = []
-		for left in expand(parts[0], refs):
-			words.extend([ ''.join([left, right]) for right in expand(refs[parts[1]], refs) ])
-		return words
-	if '<' in expr and '>' in expr:
-		parts_left  = expr.split('<')
-		parts_right = parts_left[1].split('>')
-		words = []
-		for left in expand(parts_left[0], refs):
-			for right in expand(parts_right[1], refs):
-				words.extend([ ''.join([left, part, right]) for part in expand(refs[parts_right[0]], refs) ])
-		return words
-	if '(' in expr and ')' in expr and '|' in expr:
-		parts_left  = expr.split('(')
-		parts_right = parts_left[1].split(')')
-		words = []
-		for left in expand(parts_left[0], refs):
-			for right in expand(parts_right[1], refs):
-				words.extend([ ''.join([left, part, right]) for part in parts_right[0].split('|') ])
-		return words
-	if '[' in expr and ']' in expr:
-		parts_left  = expr.split('[')
-		parts_right = parts_left[1].split(']')
-		return [ ''.join([parts_left[0], part, parts_right[1]]) for part in parts_right[0] ]
-	return [ expr ]
+	words = ['']
+	state = EXPR_STRING
+	fragment = None
+
+	for token in lex_expression(expr):
+		if state == EXPR_STRING:
+			if token == '(':
+				state = EXPR_IN_CHOICE
+				fragment = []
+			elif token == '[':
+				state = EXPR_IN_ONEOF
+			elif token == '<':
+				state = EXPR_IN_REPLACE
+			else:
+				words = [word + token for word in words]
+		elif state == EXPR_IN_CHOICE:
+			if token == '|':
+				pass
+			elif token == ')':
+				newwords = []
+				for f in fragment:
+					newwords.extend([word + f for word in words])
+				words = newwords
+				state = EXPR_STRING
+				fragment = None
+			else:
+				fragment.append(token)
+		elif state == EXPR_IN_ONEOF:
+			if token == ']':
+				newwords = []
+				for f in fragment:
+					newwords.extend([word + f for word in words])
+				words = newwords
+				state = EXPR_STRING
+			else:
+				fragment = token
+		elif state == EXPR_IN_REPLACE:
+			if token == '>':
+				newwords = []
+				for f in refs[fragment]:
+					newwords.extend([word + f for word in words])
+				words = newwords
+				state = EXPR_STRING
+			else:
+				fragment = token
+
+	return words
 
 def parse_dictionaries(dictionaries):
 	""" Dictionary format:
+		# comment		-- an ignored line
 		repl=expr		-- define the named replacement 'repl' as the word set 'expr'
-		expr			-- the word set is the set of all word combinations in 'expr'
-		expr+repl		-- the word set is the set of all word combinations in 'expr'
-					   combined with replacement 'repl'
+		expr /phon/		-- the word set is the set of all word combinations in 'expr' pronounced using the phonemes 'phon'
+		expr "say as"		-- the word set is the set of all word combinations in 'expr' pronounced the same as "say as"
 
 		where expr is a combination of:
 			text		-- use 'text' in the word
@@ -126,7 +163,7 @@ def parse_dictionaries(dictionaries):
 					pass
 				elif '=' in line:
 					ref = line.replace('\n', '').split('=')
-					refs[ ref[0] ] = ref[1]
+					refs[ ref[0] ] = expand(ref[1], refs)
 				elif '"' in line:
 					word, pronunciation, rest = line.split('"')
 					word = ' '.join(word.split())
@@ -225,6 +262,9 @@ if __name__ == '__main__':
 				line = line.replace('\n', '')
 				if line.lower() not in have_words:
 					print line
+	elif '--list-words' in sys.argv:
+		for word in words.values():
+			print word['word']
 	else:
 		test = Tester()
 		test.test_dictionary(words, generate_exception_dictionary='--exception-dictionary' in sys.argv, ipa='--ipa' in sys.argv)
