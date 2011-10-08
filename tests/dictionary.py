@@ -97,11 +97,10 @@ def print_exception(word, pronunciation, ipa=True):
 			prev = c
 		w = ''.join(wordlist)
 
-		if w not in ['a', 'of']: # not a word which espeak annotates with properties
-			if '-' in w or ' ' in w:
-				print '(%s)%30s%s %s' % (w, ' ', pronunciation.replace('/', ''), ' '.join(['$%s' % a for a in word.attributes]))
-			else:
-				print '%s%30s%s %s' %   (w, ' ', pronunciation.replace('/', ''), ' '.join(['$%s' % a for a in word.attributes]))
+		if '-' in w or ' ' in w:
+			print '(%s)%30s%s %s' % (w, ' ', pronunciation.replace('/', ''), ' '.join(['$%s' % a for a in word.attributes]))
+		else:
+			print '%s%30s%s %s' %   (w, ' ', pronunciation.replace('/', ''), ' '.join(['$%s' % a for a in word.attributes]))
 
 def lex_expression(expr):
 	ret = []
@@ -208,28 +207,27 @@ def parse_dictionaries(dictionaries):
 						data[word] = { 'word': word, 'pronunciation': pronunciation }
 	for expr, alias in aliases.items():
 		pronunciation = []
-		for subword in alias.replace('-', ' -').split():
-			combine = subword.startswith('-')
-			subword = subword.replace('-', '')
-
-			if subword.startswith('\''): # retain stress (with)
-				sw = Word(subword.replace('\'', ''))
-				p = data[sw]['pronunciation']
-			elif subword.startswith(','): # invert stress (against)
-				sw = Word(subword.replace(',', ''))
-				p = data[sw]['pronunciation'].replace('ˈ', ',').replace('ˌ', 'ˈ').replace(',', 'ˌ')
-			else: # no stress
-				sw = Word(subword)
-				p = data[sw]['pronunciation'].replace('ˈ', '').replace('ˌ', '')
-
-			if combine:
-				pronunciation.append('-%s' % p)
-			else:
-				pronunciation.append(p)
+		for sub in alias.split(' '):
+			pron = []
+			for subword in sub.split('-'):
+				try:
+					if subword.startswith('\''): # retain stress (with)
+						sw = Word(subword.replace('\'', ''))
+						p = data[sw]['pronunciation']
+					elif subword.startswith(','): # invert stress (against)
+						sw = Word(subword.replace(',', ''))
+						p = data[sw]['pronunciation'].replace('ˈ', ',').replace('ˌ', 'ˈ').replace(',', 'ˌ')
+					else: # no stress
+						sw = Word(subword)
+						p = data[sw]['pronunciation'].replace('ˈ', '').replace('ˌ', '')
+				except KeyError:
+					raise Exception('No entry found for "%s" when expanding the pronunciation "%s"' % (sw.word, alias))
+				pron.append(p)
+			pronunciation.append('-'.join(pron))
 
 		for word in expand(' '.join(expr.word.split()), refs):
 			word = Word(word)
-			data[word] = { 'word': word, 'pronunciation': ' '.join(pronunciation).replace(' -', '') }
+			data[word] = { 'word': word, 'pronunciation': ' '.join(pronunciation) }
 	return data
 
 class Tester:
@@ -255,8 +253,6 @@ class Tester:
 			expected = '/%s/' % data['pronunciation']
 			actual   = '/%s/' % espeak[i]
 
-			expected = expected.replace('.', '') # espeak does not support syllabic annotations, so ignore
-
 			actual = actual.replace('əL',   'l̩') # espeak --ipa does not map '@L' correctly, so use the syllabic form (different to 'əl')
 			actual = actual.replace('ɪˈɑː', 'iˈɑː') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
 			actual = actual.replace('ɪ/', 'i/') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
@@ -267,6 +263,11 @@ class Tester:
 			actual = actual.replace('əʊi', 'əʊɪ') # ... and 'əʊɪ' usage
 			actual = actual.replace('/ˈə/', '/ə/') # espeak stresses the schwa which is typically unstressed
 
+			expected = expected.replace('i-', 'ɪ') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
+
+			expected = expected.replace('.', '') # espeak does not support syllabic annotations, so ignore
+			expected = expected.replace('-', '') # ignore run-on expressions for "say-as" pronunciations
+
 			if expected == actual:
 				if not generate_exception_dictionary:
 					print '%s %s ... pass' % (word, '/%s/' % data['pronunciation'])
@@ -275,7 +276,7 @@ class Tester:
 				if generate_exception_dictionary:
 					print_exception(word, '/%s/' % data['pronunciation'], ipa=ipa)
 				else:
-					print '%s %s got: %s ... fail' % (word, '/%s/' % data['pronunciation'], actual)
+					print '%s %s expected: %s got: %s ... fail' % (word, '/%s/' % data['pronunciation'], expected, actual)
 				self.failed = self.failed + 1
 
 	def summary(self):
