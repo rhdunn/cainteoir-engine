@@ -86,12 +86,15 @@ def print_exception(word, pronunciation, ipa=True):
 			w = w.lower() # ... espeak uses lower case for matching abbreviations (NATO, USA, UK, ...)
 
 		wordlist = []
+		prev = ' '
 		for i, c in enumerate(w):
 			if c >= 'A' and c <= 'Z' and i != 0:
-				wordlist.append(' ')
+				if prev != '\'': # for A'B, e.g. in the name "O'Connell"
+					wordlist.append(' ')
 				wordlist.append(c.lower())
 			else:
 				wordlist.append(c)
+			prev = c
 		w = ''.join(wordlist)
 
 		if w not in ['a', 'of']: # not a word which espeak annotates with properties
