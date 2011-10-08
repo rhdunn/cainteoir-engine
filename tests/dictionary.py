@@ -80,19 +80,19 @@ def print_exception(word, pronunciation, ipa=True):
 			pronunciation = pronunciation.replace(a, b)
 
 		wordlist = []
-		for i, c in enumerate(word):
+		for i, c in enumerate(str(word)):
 			if c >= 'A' and c <= 'Z' and i != 0:
 				wordlist.append(' ')
 				wordlist.append(c.lower())
 			else:
 				wordlist.append(c)
-		word = ''.join(wordlist)
+		w = ''.join(wordlist)
 
-		if word not in ['a', 'of']: # not a word which espeak annotates with properties
-			if '-' in word or ' ' in word:
-				print '(%s)%30s%s' % (word, ' ', pronunciation.replace('/', ''))
+		if w not in ['a', 'of']: # not a word which espeak annotates with properties
+			if '-' in w or ' ' in w:
+				print '(%s)%30s%s %s' % (w, ' ', pronunciation.replace('/', ''), ' '.join(['$%s' % a for a in word.attributes]))
 			else:
-				print '%s%30s%s' % (word, ' ', pronunciation.replace('/', ''))
+				print '%s%30s%s %s' %   (w, ' ', pronunciation.replace('/', ''), ' '.join(['$%s' % a for a in word.attributes]))
 
 def lex_expression(expr):
 	ret = []
