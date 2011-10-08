@@ -53,6 +53,7 @@ def print_exception(word, pronunciation, ipa=True):
 
 			(' ', '||'),
 			('.', ''),
+			('-', ''),
 			('ː', ':'),
 			('ˈ', '\''),
 			('ˌ', ','),
