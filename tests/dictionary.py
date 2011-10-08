@@ -21,6 +21,26 @@
 import sys
 import os
 
+
+class Word:
+	def __init__(self, word, attributes=[]):
+		self.word = word
+		self.attributes = attributes
+
+	def __str__(self):
+		return self.word
+
+	def __hash__(self):
+		return self.word.__hash__()
+
+	def __eq__(self, other): return self.word == other.word
+	def __ne__(self, other): return self.word != other.word
+	def __lt__(self, other): return self.word <  other.word
+	def __le__(self, other): return self.word <= other.word
+	def __gt__(self, other): return self.word >  other.word
+	def __ge__(self, other): return self.word >= other.word
+
+
 def print_exception(word, pronunciation, ipa=True):
 	if ipa:
 		print '%-30s %s' % (word, pronunciation)
@@ -165,14 +185,15 @@ def parse_dictionaries(dictionaries):
 					ref = line.replace('\n', '').split('=')
 					refs[ ref[0] ] = expand(ref[1], refs)
 				elif '"' in line:
-					word, pronunciation, rest = line.split('"')
-					word = ' '.join(word.split())
+					word, pronunciation, attributes = line.split('"')
+					word = Word(' '.join(word.split()), attributes.split())
 					pronunciation = ' '.join(pronunciation.split())
 					aliases[word] = pronunciation
 				else:
-					expr, pronunciation, rest = line.split('/')
+					expr, pronunciation, attributes = line.split('/')
 					pronunciation = ' '.join(pronunciation.split())
 					for word in expand(' '.join(expr.split()), refs):
+						word = Word(word, attributes.split())
 						if word in data.keys() and data[word]['pronunciation'] != pronunciation:
 							raise Exception('Mismatched pronunciation for duplicate word "%s"' % word)
 						data[word] = { 'word': word, 'pronunciation': pronunciation }
@@ -183,18 +204,22 @@ def parse_dictionaries(dictionaries):
 			subword = subword.replace('-', '')
 
 			if subword.startswith('\''): # retain stress (with)
-				p = data[subword.replace('\'', '')]['pronunciation']
+				sw = Word(subword.replace('\'', ''))
+				p = data[sw]['pronunciation']
 			elif subword.startswith(','): # invert stress (against)
-				p = data[subword.replace(',', '')]['pronunciation'].replace('ˈ', ',').replace('ˌ', 'ˈ').replace(',', 'ˌ')
+				sw = Word(subword.replace(',', ''))
+				p = data[sw]['pronunciation'].replace('ˈ', ',').replace('ˌ', 'ˈ').replace(',', 'ˌ')
 			else: # no stress
-				p = data[subword]['pronunciation'].replace('ˈ', '').replace('ˌ', '')
+				sw = Word(subword)
+				p = data[sw]['pronunciation'].replace('ˈ', '').replace('ˌ', '')
 
 			if combine:
 				pronunciation.append('-%s' % p)
 			else:
 				pronunciation.append(p)
 
-		for word in expand(' '.join(expr.split()), refs):
+		for word in expand(' '.join(expr.word.split()), refs):
+			word = Word(word)
 			data[word] = { 'word': word, 'pronunciation': ' '.join(pronunciation).replace(' -', '') }
 	return data
 
