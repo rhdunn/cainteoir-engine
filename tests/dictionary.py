@@ -83,6 +83,15 @@ def print_exception(word, pronunciation, ipa=True):
 		for a, b in replacements:
 			pronunciation = pronunciation.replace(a, b)
 
+		if pronunciation.startswith('\'') and not ',' in pronunciation:
+			# When stress is explicitly specified in a word, espeak uses that stress
+			# regardless of any prosody information. This causes the small words to
+			# read in a non-natural way.
+			#
+			# This strips stress information if the word only has a primary stress and
+			# that stress is at the beginning to allow espeak prosody to work.
+			pronunciation = pronunciation.replace('\'', '')
+
 		w = str(word)
 		if w == w.upper(): # all upper case
 			w = w.lower() # ... espeak uses lower case for matching abbreviations (NATO, USA, UK, ...)
