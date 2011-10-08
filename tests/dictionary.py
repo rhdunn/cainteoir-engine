@@ -20,6 +20,7 @@
 
 import sys
 import os
+import re
 
 
 class Word:
@@ -291,13 +292,13 @@ if __name__ == '__main__':
 	words = parse_dictionaries(dictionaries)
 
 	if '--new-words' in sys.argv:
-		have_words = [ data['word'].lower() for data in words.values() ]
-		#print '\n'.join(have_words)
+		have_words = [ str(data['word']).lower() for data in words.values() ]
 		with open(args[2]) as f:
 			for line in f:
-				line = line.replace('\n', '')
-				if line.lower() not in have_words:
-					print line
+				for m in re.compile('([\\w\']+)').finditer(line):
+					word = m.group(1).lower()
+					if word not in have_words:
+						print word
 	elif '--list-words' in sys.argv:
 		for word in words.values():
 			print word['word']
