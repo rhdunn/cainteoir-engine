@@ -81,8 +81,12 @@ def print_exception(word, pronunciation, ipa=True):
 		for a, b in replacements:
 			pronunciation = pronunciation.replace(a, b)
 
+		w = str(word)
+		if w == w.upper(): # all upper case
+			w = w.lower() # ... espeak uses lower case for matching abbreviations (NATO, USA, UK, ...)
+
 		wordlist = []
-		for i, c in enumerate(str(word)):
+		for i, c in enumerate(w):
 			if c >= 'A' and c <= 'Z' and i != 0:
 				wordlist.append(' ')
 				wordlist.append(c.lower())
