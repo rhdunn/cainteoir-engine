@@ -289,13 +289,17 @@ class Tester:
 			actual = actual.replace('əʊi', 'əʊɪ') # ... and 'əʊɪ' usage
 			if actual.startswith('/ˈə') and not actual.startswith('/ˈəʊ'):
 				actual = actual.replace('/ˈə', '/ə') # espeak stresses the schwa which is typically unstressed
+			actual = actual.replace('ˈə/', 'ə/') # espeak stresses the schwa which is typically unstressed
 
 			expected = expected.replace('i-', 'ɪ') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
 
 			expected = expected.replace('.', '') # espeak does not support syllabic annotations, so ignore
 			expected = expected.replace('-', '') # ignore run-on expressions for "say-as" pronunciations
 
-			if expected == actual:
+			if 'ˌ' in expected and not 'ˈ' in expected:
+				expected = expected.replace('ˌ', 'ˈ') # espeak uses a primary stress if there is only a secondary stress present
+
+			if expected == actual or 'speakletter' in word.attributes:
 				if not generate_exception_dictionary:
 					print '%s %s ... pass' % (word, '/%s/' % data['pronunciation'])
 				self.passed = self.passed + 1
