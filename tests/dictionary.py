@@ -95,6 +95,8 @@ def print_exception(word, pronunciation, ipa=True):
 		w = str(word)
 		if w == w.upper(): # all upper case
 			w = w.lower() # ... espeak uses lower case for matching abbreviations (NATO, USA, UK, ...)
+			if 'allcaps' not in word.attributes:
+				word.attributes.append('allcaps')
 
 		wordlist = []
 		prev = ' '
