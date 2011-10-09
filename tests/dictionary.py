@@ -101,6 +101,9 @@ def print_exception(word, pronunciation, ipa=True):
 			pronunciation = pronunciation.replace('@/', '@2/')
 			word.attributes.remove('norcolouring')
 
+		if 'breathstop' in word.attributes:
+			word.attributes.remove('breathstop')
+
 		if pronunciation.startswith('/\'')  and not ',' in pronunciation:
 			# When stress is explicitly specified in a word, espeak uses that stress
 			# regardless of any prosody information. This causes the small words to
