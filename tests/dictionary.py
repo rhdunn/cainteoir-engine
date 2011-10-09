@@ -299,7 +299,7 @@ class Tester:
 			if 'ˌ' in expected and not 'ˈ' in expected:
 				expected = expected.replace('ˌ', 'ˈ') # espeak uses a primary stress if there is only a secondary stress present
 
-			if expected == actual or 'speakletter' in word.attributes:
+			if expected == actual or (word.attributes and 'speakletter' in word.attributes):
 				if not generate_exception_dictionary:
 					print '%s %s ... pass' % (word, '/%s/' % data['pronunciation'])
 				self.passed = self.passed + 1
