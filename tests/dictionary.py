@@ -31,15 +31,14 @@ class Word:
 	def __str__(self):
 		return self.word
 
-	def __hash__(self):
-		return self.word.__hash__()
+	def __repr__(self):
+		return repr((self.word, self.attributes))
 
-	def __eq__(self, other): return self.word == other.word
-	def __ne__(self, other): return self.word != other.word
-	def __lt__(self, other): return self.word <  other.word
-	def __le__(self, other): return self.word <= other.word
-	def __gt__(self, other): return self.word >  other.word
-	def __ge__(self, other): return self.word >= other.word
+	def __hash__(self):
+		return repr(self).__hash__()
+
+	def __eq__(self, other): return self.word == other.word and self.attributes == other.attributes
+	def __ne__(self, other): return self.word != other.word or  self.attributes != other.attributes
 
 
 def print_exception(word, pronunciation, ipa=True):
@@ -97,6 +96,10 @@ def print_exception(word, pronunciation, ipa=True):
 			w = w.lower() # ... espeak uses lower case for matching abbreviations (NATO, USA, UK, ...)
 			if 'allcaps' not in word.attributes:
 				word.attributes.append('allcaps')
+
+		if 'speakletter' in word.attributes:
+			w = '_%s' % w
+			word.attributes.remove('speakletter')
 
 		wordlist = []
 		prev = ' '
