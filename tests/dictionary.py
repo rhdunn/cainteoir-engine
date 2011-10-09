@@ -83,14 +83,14 @@ def print_exception(word, pronunciation, ipa=True):
 		for a, b in replacements:
 			pronunciation = pronunciation.replace(a, b)
 
-		if pronunciation.startswith('\'') and not ',' in pronunciation:
+		if pronunciation.startswith('/\'')  and not ',' in pronunciation:
 			# When stress is explicitly specified in a word, espeak uses that stress
 			# regardless of any prosody information. This causes the small words to
 			# read in a non-natural way.
 			#
 			# This strips stress information if the word only has a primary stress and
 			# that stress is at the beginning to allow espeak prosody to work.
-			pronunciation = pronunciation.replace('\'', '')
+			pronunciation = pronunciation.replace('/\'', '/')
 
 		w = str(word)
 		if w == w.upper(): # all upper case
@@ -272,7 +272,8 @@ class Tester:
 			actual = actual.replace('ei', 'eɪ') # ... and 'eɪ' usage
 			actual = actual.replace('ɔi', 'ɔɪ') # ... and 'ɔɪ' usage
 			actual = actual.replace('əʊi', 'əʊɪ') # ... and 'əʊɪ' usage
-			actual = actual.replace('/ˈə/', '/ə/') # espeak stresses the schwa which is typically unstressed
+			if actual.startswith('/ˈə') and not actual.startswith('/ˈəʊ'):
+				actual = actual.replace('/ˈə', '/ə') # espeak stresses the schwa which is typically unstressed
 
 			expected = expected.replace('i-', 'ɪ') # espeak does not differ in sound, but preserve the /i/ vs /ɪ/ distinction
 
