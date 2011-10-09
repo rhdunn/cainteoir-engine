@@ -24,7 +24,7 @@ import re
 
 
 class Word:
-	def __init__(self, word, attributes=[]):
+	def __init__(self, word, attributes=None):
 		self.word = word
 		self.attributes = attributes
 
@@ -35,10 +35,12 @@ class Word:
 		return repr((self.word, self.attributes))
 
 	def __hash__(self):
-		return repr(self).__hash__()
+		return self.word.__hash__()
 
-	def __eq__(self, other): return self.word == other.word and self.attributes == other.attributes
-	def __ne__(self, other): return self.word != other.word or  self.attributes != other.attributes
+	def __eq__(self, other):
+		if self.attributes == None or other.attributes == None:
+			return self.word == other.word
+		return self.word == other.word and self.attributes == other.attributes
 
 
 def print_exception(word, pronunciation, ipa=True):
@@ -82,6 +84,19 @@ def print_exception(word, pronunciation, ipa=True):
 		for a, b in replacements:
 			pronunciation = pronunciation.replace(a, b)
 
+		if not word.attributes:
+			word.attributes = []
+
+		w = str(word)
+
+		if 'speakletter' in word.attributes:
+			w = '_%s' % w
+			word.attributes.remove('speakletter')
+
+		if 'weak' in word.attributes:
+			pronunciation = pronunciation.replace('\'', '%')
+			word.attributes.remove('weak')
+
 		if pronunciation.startswith('/\'')  and not ',' in pronunciation:
 			# When stress is explicitly specified in a word, espeak uses that stress
 			# regardless of any prosody information. This causes the small words to
@@ -91,15 +106,10 @@ def print_exception(word, pronunciation, ipa=True):
 			# that stress is at the beginning to allow espeak prosody to work.
 			pronunciation = pronunciation.replace('/\'', '/')
 
-		w = str(word)
 		if w == w.upper(): # all upper case
 			w = w.lower() # ... espeak uses lower case for matching abbreviations (NATO, USA, UK, ...)
 			if 'allcaps' not in word.attributes:
 				word.attributes.append('allcaps')
-
-		if 'speakletter' in word.attributes:
-			w = '_%s' % w
-			word.attributes.remove('speakletter')
 
 		wordlist = []
 		prev = ' '
