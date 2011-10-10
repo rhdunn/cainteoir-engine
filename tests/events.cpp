@@ -31,15 +31,35 @@ namespace rdf = cainteoir::rdf;
 
 struct events : public cainteoir::document_events
 {
+	events(bool aTextOnly) : mTextOnly(aTextOnly)
+	{
+	}
+
 	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
 	{
-		fprintf(stdout, "text(%zu): \"\"\"", aText->size());
+		if (!mTextOnly)
+			fprintf(stdout, "text(%zu): \"\"\"", aText->size());
 		fwrite(aText->begin(), 1, aText->size(), stdout);
-		fwrite("\"\"\"\n", 1, 4, stdout);
+		if (!mTextOnly)
+			fwrite("\"\"\"\n", 1, 4, stdout);
 	}
 
 	void begin_context(context aContext, uint32_t aParameter)
 	{
+		if (mTextOnly)
+		{
+			switch (aContext)
+			{
+			case paragraph:
+			case heading:
+			case list:
+			case list_item:
+				fwrite("\n\n", 1, 2, stdout);
+				break;
+			}
+			return;
+		}
+
 		fprintf(stdout, "begin-context ");
 		switch (aContext)
 		{
@@ -65,18 +85,23 @@ struct events : public cainteoir::document_events
 
 	void end_context()
 	{
-		fprintf(stdout, "end-context\n");
+		if (!mTextOnly)
+			fprintf(stdout, "end-context\n");
 	}
 
 	void toc_entry(int depth, const rdf::uri &location, const std::string &title)
 	{
-		fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n", location.ns.c_str(), location.ref.c_str(), depth, title.c_str());
+		if (!mTextOnly)
+			fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n", location.ns.c_str(), location.ref.c_str(), depth, title.c_str());
 	}
 
 	void anchor(const rdf::uri &location)
 	{
-		fprintf(stdout, "anchor [%s]%s\n", location.ns.c_str(), location.ref.c_str());
+		if (!mTextOnly)
+			fprintf(stdout, "anchor [%s]%s\n", location.ns.c_str(), location.ref.c_str());
 	}
+
+	bool mTextOnly;
 };
 
 int main(int argc, char ** argv)
@@ -88,10 +113,10 @@ int main(int argc, char ** argv)
 		argc -= 1;
 		argv += 1;
 
-		if (argc != 1)
+		if (argc == 0)
 			throw std::runtime_error("no document specified");
 
-		events events;
+		events events(argc > 1 && !strcmp(argv[1], "--text-only"));
 		rdf::graph metadata;
 		if (!cainteoir::parseDocument(argv[0], events, metadata))
 			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
