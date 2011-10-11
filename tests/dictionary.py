@@ -42,6 +42,9 @@ class Word:
 			return self.word == other.word
 		return self.word == other.word and self.attributes == other.attributes
 
+	def __lt__(self, other):
+		return self.word < other.word
+
 
 def print_exception(word, pronunciation, ipa=True):
 	if ipa:
@@ -278,6 +281,8 @@ class Tester:
 		with open('/tmp/pronunciation.lst') as f:
 			espeak = [ ' '.join(x.split()) for x in f.read().split('\n') ]
 
+		exceptions = {}
+
 		for i, word in enumerate(sorted(words.keys())):
 			data = words[word]
 			if not 'pronunciation' in data.keys():
@@ -313,12 +318,15 @@ class Tester:
 			else:
 				if generate_exception_dictionary:
 					if use_actual:
-						print_exception(word, actual, ipa=ipa)
+						exceptions[word] = actual
 					else:
-						print_exception(word, '/%s/' % data['pronunciation'], ipa=ipa)
+						exceptions[word] = '/%s/' % data['pronunciation']
 				else:
 					print '%s %s expected: %s got: %s ... fail' % (word, '/%s/' % data['pronunciation'], expected, actual)
 				self.failed = self.failed + 1
+
+		for word, pronunciation in sorted(exceptions.items()):
+			print_exception(word, pronunciation, ipa=ipa)
 
 	def summary(self):
 		print '%d passed %d failed %d total' % (self.passed, self.failed, self.passed + self.failed)
