@@ -268,7 +268,7 @@ class Tester:
 		self.passed = 0
 		self.failed = 0
 
-	def test_dictionary(self, words, generate_exception_dictionary=False, ipa=True):
+	def test_dictionary(self, words, generate_exception_dictionary=False, use_actual=False, ipa=True, show_all=False):
 		with open('/tmp/words.lst', 'w') as f:
 			for item in sorted(words.keys()):
 				f.write('%s\n\n' % item)
@@ -312,7 +312,10 @@ class Tester:
 				self.passed = self.passed + 1
 			else:
 				if generate_exception_dictionary:
-					print_exception(word, '/%s/' % data['pronunciation'], ipa=ipa)
+					if use_actual:
+						print_exception(word, actual, ipa=ipa)
+					else:
+						print_exception(word, '/%s/' % data['pronunciation'], ipa=ipa)
 				else:
 					print '%s %s expected: %s got: %s ... fail' % (word, '/%s/' % data['pronunciation'], expected, actual)
 				self.failed = self.failed + 1
@@ -329,12 +332,19 @@ if __name__ == '__main__':
 
 	if '--new-words' in sys.argv:
 		have_words = [ str(data['word']).lower() for data in words.values() ]
+		new_words  = {}
 		with open(args[2]) as f:
 			for line in f:
 				for m in re.compile('([\\w\']+)').finditer(line):
-					word = m.group(1).lower()
-					if word not in have_words:
-						print word
+					word = Word(m.group(1).lower())
+					if word.word not in have_words:
+						new_words[word] = {'word': word, 'pronunciation': ''}
+		if '--list-words' in sys.argv:
+			for word in new_words.keys():
+				print word
+		else:
+			test = Tester()
+			test.test_dictionary(words=new_words, generate_exception_dictionary=True, use_actual=True, ipa='--ipa' in sys.argv)
 	elif '--list-words' in sys.argv:
 		for word in words.values():
 			print word['word']
