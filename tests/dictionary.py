@@ -147,7 +147,7 @@ def print_exception(word, pronunciation, ipa=True):
 def lex_expression(expr):
 	ret = []
 	for c in expr:
-		if c in '[]<>(|)':
+		if c in '[]<>|(){}':
 			yield ''.join(ret)
 			ret = []
 			yield c
@@ -160,9 +160,12 @@ EXPR_STRING     = 1 # abc
 EXPR_IN_CHOICE  = 2 # (a|b|c)
 EXPR_IN_ONEOF   = 3 # [abc]
 EXPR_IN_REPLACE = 4 # <abc>
+EXPR_IN_SEGMENT = 5 # {a|b|c}
 
 def parse_expression(expr, refs):
 	words = []
+	endings = ['']
+
 	state = EXPR_STRING
 	fragment = None
 
@@ -170,6 +173,9 @@ def parse_expression(expr, refs):
 		if state == EXPR_STRING:
 			if token == '(':
 				state = EXPR_IN_CHOICE
+				fragment = []
+			elif token == '{':
+				state = EXPR_IN_SEGMENT
 				fragment = []
 			elif token == '[':
 				state = EXPR_IN_ONEOF
@@ -198,8 +204,17 @@ def parse_expression(expr, refs):
 				state = EXPR_STRING
 			else:
 				fragment = token
+		elif state == EXPR_IN_SEGMENT:
+			if token == '|':
+				pass
+			elif token == '}':
+				endings = fragment
+				state = EXPR_STRING
+				fragment = None
+			else:
+				fragment.append(token)
 
-	return words
+	return words, endings
 
 def expand(expr):
 	words = []
@@ -250,7 +265,8 @@ def parse_dictionaries(dictionaries):
 					ref = m.group(1)
 					expression = m.group(2)
 
-					refs[ref] = expand(parse_expression(expression, refs))
+					words, endings = parse_expression(expression, refs)
+					refs[ref] = expand(words)
 					continue
 
 				m = re_alias.match(line)
@@ -265,15 +281,18 @@ def parse_dictionaries(dictionaries):
 
 				m = re_pron.match(line)
 				if m:
-					words = parse_expression(' '.join(m.group(1).split()), refs)
-					pronunciation = m.group(2)
+					words, endings = parse_expression(' '.join(m.group(1).split()), refs)
+					words = sorted(expand(words))
+					pronunciation, pronunciation_endings = parse_expression(m.group(2), {})
 					attributes = m.group(3).split()
 
-					for word in expand(words):
-						word = Word(word, attributes)
-						if word in data.keys() and data[word]['pronunciation'] != pronunciation:
-							raise Exception('Mismatched pronunciation for duplicate word "%s"' % word)
-						data[word] = { 'word': word, 'pronunciation': pronunciation }
+					for ending, pronunciation_ending in zip(endings, pronunciation_endings):
+						for word in words:
+							word = Word(word + ending, attributes)
+							pron = pronunciation[0] + pronunciation_ending
+							if word in data.keys() and data[word]['pronunciation'] != pron:
+								raise Exception('Mismatched pronunciation for duplicate word "%s"' % word)
+							data[word] = { 'word': word, 'pronunciation': pron }
 					continue
 
 	for expr, alias in aliases.items():
@@ -296,7 +315,8 @@ def parse_dictionaries(dictionaries):
 				pron.append(p)
 			pronunciation.append('-'.join(pron))
 
-		for word in expand(parse_expression(' '.join(expr.word.split()), refs)):
+		words, endings = parse_expression(' '.join(expr.word.split()), refs)
+		for word in expand(words):
 			word = Word(word)
 			data[word] = { 'word': word, 'pronunciation': ' '.join(pronunciation) }
 	return data
