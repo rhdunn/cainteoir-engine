@@ -223,6 +223,10 @@ def parse_dictionaries(dictionaries):
 			[abc]		-- use the character 'a' or 'b' or 'c' in the word
 			<repl>		-- use the result of the replacement 'repl' in the word
 	"""
+	re_ref   = re.compile('([a-zA-Z]+)=(.*)')
+	re_alias = re.compile('([^"]+) "([^"]+)"(.*)')
+	re_pron  = re.compile('([^/]+) /([^/]+)/(.*)')
+
 	data = {}
 	refs = {}
 	aliases = {}
@@ -230,23 +234,39 @@ def parse_dictionaries(dictionaries):
 		with open(dictionary) as f:
 			for line in f:
 				if line == '\n' or line.startswith('#'):
-					pass
-				elif '=' in line:
-					ref = line.replace('\n', '').split('=')
-					refs[ ref[0] ] = expand(ref[1], refs)
-				elif '"' in line:
-					word, pronunciation, attributes = line.split('"')
-					word = Word(' '.join(word.split()), attributes.split())
-					pronunciation = ' '.join(pronunciation.split())
-					aliases[word] = pronunciation
-				else:
-					expr, pronunciation, attributes = line.split('/')
-					pronunciation = ' '.join(pronunciation.split())
-					for word in expand(' '.join(expr.split()), refs):
-						word = Word(word, attributes.split())
+					continue
+
+				m = re_ref.match(line)
+				if m:
+					ref = m.group(1)
+					expression = m.group(2)
+
+					refs[ref] = expand(expression, refs)
+					continue
+
+				m = re_alias.match(line)
+				if m:
+					words = ' '.join(m.group(1).split())
+					alias = m.group(2)
+					attributes = m.group(3).split()
+
+					word = Word(words, attributes)
+					aliases[word] = alias
+					continue
+
+				m = re_pron.match(line)
+				if m:
+					words = ' '.join(m.group(1).split())
+					pronunciation = m.group(2)
+					attributes = m.group(3).split()
+
+					for word in expand(words, refs):
+						word = Word(word, attributes)
 						if word in data.keys() and data[word]['pronunciation'] != pronunciation:
 							raise Exception('Mismatched pronunciation for duplicate word "%s"' % word)
 						data[word] = { 'word': word, 'pronunciation': pronunciation }
+					continue
+
 	for expr, alias in aliases.items():
 		pronunciation = []
 		for sub in alias.split(' '):
