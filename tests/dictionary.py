@@ -51,17 +51,33 @@ def print_exception(word, pronunciation, ipa=True):
 		print '%-30s %s' % (word, pronunciation)
 	else:
 		replacements = [
-			('l̩', '@L'),
-
-			('aʊ', 'aU'),
-			('əʊ', 'oU'),
-
 			(' ', '||'),
 			('.', ''),
 			('-', ''),
 			('ː', ':'),
 			('ˈ', '\''),
 			('ˌ', ','),
+
+			# espeak bug: espeak cannot handle '@L' following a two-character phomeme
+			# such as 'aI' -- it treats the '@L' as an '@' phoneme.
+			#
+			# Using ';@L' does not work as it introduces a pause and maps 'U;' as
+			# being an aspirated 'U' ('U^j').
+			#
+			# Using '-@L' causes the '@L' to be stressed, even if another phoneme is
+			# explicitly stressed.
+			#
+			# Therefore (for now) map the '@L' to 'l' in the phoneme pairs ...
+			('aʊl̩', 'aUl'),
+			('əʊl̩', 'oUl'),
+			('aɪl̩', 'aIl'),
+			('eɪl̩', 'eIl'),
+
+			('l̩', '@L'),
+
+			('aʊ', 'aU'),
+			('əʊ', 'oU'),
+
 			('ɡ', 'g'),
 			('ʃ', 'S'),
 			('ʒ', 'Z'),
