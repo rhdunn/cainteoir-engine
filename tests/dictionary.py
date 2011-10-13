@@ -161,8 +161,8 @@ EXPR_IN_CHOICE  = 2 # (a|b|c)
 EXPR_IN_ONEOF   = 3 # [abc]
 EXPR_IN_REPLACE = 4 # <abc>
 
-def expand(expr, refs):
-	words = ['']
+def parse_expression(expr, refs):
+	words = []
 	state = EXPR_STRING
 	fragment = None
 
@@ -175,39 +175,48 @@ def expand(expr, refs):
 				state = EXPR_IN_ONEOF
 			elif token == '<':
 				state = EXPR_IN_REPLACE
-			else:
-				words = [word + token for word in words]
+			elif token != '':
+				words.append(token)
 		elif state == EXPR_IN_CHOICE:
 			if token == '|':
 				pass
 			elif token == ')':
-				newwords = []
-				for f in fragment:
-					newwords.extend([word + f for word in words])
-				words = newwords
+				words.append(fragment)
 				state = EXPR_STRING
 				fragment = None
 			else:
 				fragment.append(token)
 		elif state == EXPR_IN_ONEOF:
 			if token == ']':
-				newwords = []
-				for f in fragment:
-					newwords.extend([word + f for word in words])
-				words = newwords
+				words.append(list(fragment))
 				state = EXPR_STRING
 			else:
 				fragment = token
 		elif state == EXPR_IN_REPLACE:
 			if token == '>':
-				newwords = []
-				for f in refs[fragment]:
-					newwords.extend([word + f for word in words])
-				words = newwords
+				words.append(refs[fragment])
 				state = EXPR_STRING
 			else:
 				fragment = token
 
+	return words
+
+def expand(expr):
+	words = []
+	for fragment in expr:
+		if type(fragment).__name__ == 'list':
+			if len(words) == 0:
+				words = fragment
+			else:
+				newwords = []
+				for word in words:
+					newwords.extend([word + x for x in fragment])
+				words = newwords
+		elif type(fragment).__name__ == 'str':
+			if len(words) == 0:
+				words = [fragment]
+			else:
+				words = [word + fragment for word in words]
 	return words
 
 def parse_dictionaries(dictionaries):
@@ -241,7 +250,7 @@ def parse_dictionaries(dictionaries):
 					ref = m.group(1)
 					expression = m.group(2)
 
-					refs[ref] = expand(expression, refs)
+					refs[ref] = expand(parse_expression(expression, refs))
 					continue
 
 				m = re_alias.match(line)
@@ -256,11 +265,11 @@ def parse_dictionaries(dictionaries):
 
 				m = re_pron.match(line)
 				if m:
-					words = ' '.join(m.group(1).split())
+					words = parse_expression(' '.join(m.group(1).split()), refs)
 					pronunciation = m.group(2)
 					attributes = m.group(3).split()
 
-					for word in expand(words, refs):
+					for word in expand(words):
 						word = Word(word, attributes)
 						if word in data.keys() and data[word]['pronunciation'] != pronunciation:
 							raise Exception('Mismatched pronunciation for duplicate word "%s"' % word)
@@ -287,7 +296,7 @@ def parse_dictionaries(dictionaries):
 				pron.append(p)
 			pronunciation.append('-'.join(pron))
 
-		for word in expand(' '.join(expr.word.split()), refs):
+		for word in expand(parse_expression(' '.join(expr.word.split()), refs)):
 			word = Word(word)
 			data[word] = { 'word': word, 'pronunciation': ' '.join(pronunciation) }
 	return data
