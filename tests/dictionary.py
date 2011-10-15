@@ -144,99 +144,119 @@ def print_exception(word, pronunciation, ipa=True):
 		else:
 			print '%s%30s%s %s' %   (w, ' ', pronunciation.replace('/', ''), ' '.join(['$%s' % a for a in word.attributes]))
 
+expr_tokens = '[]<>|(){}'
+
 def lex_expression(expr):
 	ret = []
 	for c in expr:
-		if c in '[]<>|(){}':
-			yield ''.join(ret)
-			ret = []
+		if c in expr_tokens:
+			if len(ret) != 0:
+				yield ''.join(ret)
+				ret = []
 			yield c
 		else:
 			ret.append(c)
 	if len(ret) != 0:
 		yield ''.join(ret)
 
-# oneof : [abc] ==> ['a', 'b', 'c']
-def parse_oneof_expr(expr, token, refs):
+def expand_words(words, extend):
+	ret = []
+	for x in extend:
+		ret.extend([ word + x for word in words ])
+	return ret
+
+# oneof : '[' , character+ , ']'
+#
+# e.g. [abc] ==> ['a', 'b', 'c']
+def parse_oneof_expr(expr, token, refs, words):
 	val = expr.next()
 	token = expr.next()
 	if token != ']':
 		raise Exception('syntax error: expected "]" in oneof expression.')
-	return list(val)
+	return expand_words(words, list(val))
 
-# replace : <a> ==> refs['a']
-def parse_replace_expr(expr, token, refs):
+# replace : '<' , character+ , '>'
+#
+# e.g. <a> ==> refs['a']
+def parse_replace_expr(expr, token, refs, words):
 	val = expr.next()
 	token = expr.next()
 	if token != '>':
 		raise Exception('syntax error: expected ">" in replace expression.')
-	return refs[val]
+	return expand_words(words, refs[val])
 
-# segment : {a|b|c} ==> ['a', 'b', 'c']
+# sub-expression : ( literal | oneof | replace )+
+def parse_sub_expr(expr, token, refs):
+	ret = ['']
+	while True:
+		token = expr.next()
+		if token == '<':
+			ret = parse_replace_expr(expr, token, refs, words=ret)
+		elif token == '[':
+			ret = parse_oneof_expr(expr, token, refs, words=ret)
+		elif token in expr_tokens:
+			return ret, token
+		else:
+			ret = [word + token for word in ret]
+
+# segment-seq : sub-expression | ( segment-seq , '|' , sub-expression )
+# segment     : '{' , segment-seq , '}'
+#
+# e.g. {a|b|c} ==> ['a', 'b', 'c']
 def parse_segment_expr(expr, token, refs):
 	ret = []
 	while True:
 		val = expr.next()
-		token = expr.next()
+		if val in '|}': # empty segment, e.g. {|s}
+			token = val
+			val = ''
+		else:
+			token = expr.next()
 		if token not in '|}':
 			raise Exception('syntax error: expected "|" or "}" in segment expression.')
 		ret.append(val)
 		if token == '}':
 			return ret
 
-# choice : (a|b|c) ==> ['a', 'b', 'c']
-def parse_choice_expr(expr, token, refs):
+# choice-seq : sub-expression | ( choice-seq , '|' , sub-expression )
+# choice     : '(' , choice-seq , ')'
+#
+# e.g. (a|b|c) ==> ['a', 'b', 'c']
+def parse_choice_expr(expr, token, refs, words):
 	ret = []
 	while True:
-		val = expr.next()
-		token = expr.next()
+		val, token = parse_sub_expr(expr, token, refs)
 		if token not in '|)':
 			raise Exception('syntax error: expected "|" or ")" in choice expression.')
-		ret.append(val)
+		for x in val:
+			ret.extend([word + x for word in words])
 		if token == ')':
 			return ret
 
+# expression : ( literal | oneof | replace | choice )+ , segment?
 def parse_expr(expr, token, refs):
-	ret = []
+	ret = ['']
 	end = ['']
 	try:
 		while True:
 			if token == '(':
-				ret.append(parse_choice_expr(expr, token, refs))
+				ret = parse_choice_expr(expr, token, refs, words=ret)
+			elif token == '<':
+				ret = parse_replace_expr(expr, token, refs, words=ret)
+			elif token == '[':
+				ret = parse_oneof_expr(expr, token, refs, words=ret)
 			elif token == '{':
 				end = parse_segment_expr(expr, token, refs)
-			elif token == '<':
-				ret.append(parse_replace_expr(expr, token, refs))
-			elif token == '[':
-				ret.append(parse_oneof_expr(expr, token, refs))
 			else:
-				ret.append(token)
+				ret = [word + token for word in ret]
 			token = expr.next()
 	except StopIteration:
 		pass
 	return ret, end
 
-def parse_expression(expr, refs):
+def expand_expression(expr, refs):
 	tokens = lex_expression(expr)
 	return parse_expr(tokens, tokens.next(), refs)
-
-def expand(expr):
-	words = []
-	for fragment in expr:
-		if type(fragment).__name__ == 'list':
-			if len(words) == 0:
-				words = fragment
-			else:
-				newwords = []
-				for word in words:
-					newwords.extend([word + x for x in fragment])
-				words = newwords
-		elif type(fragment).__name__ == 'str':
-			if len(words) == 0:
-				words = [fragment]
-			else:
-				words = [word + fragment for word in words]
-	return words
 
 def parse_dictionaries(dictionaries):
 	""" Dictionary format:
@@ -269,8 +289,8 @@ def parse_dictionaries(dictionaries):
 					ref = m.group(1)
 					expression = m.group(2)
 
-					words, endings = parse_expression(expression, refs)
-					refs[ref] = expand(words)
+					words, endings = expand_expression(expression, refs)
+					refs[ref] = words
 					continue
 
 				m = re_alias.match(line)
@@ -285,13 +305,12 @@ def parse_dictionaries(dictionaries):
 
 				m = re_pron.match(line)
 				if m:
-					words, endings = parse_expression(' '.join(m.group(1).split()), refs)
-					words = sorted(expand(words))
-					pronunciation, pronunciation_endings = parse_expression(m.group(2), {})
+					words, endings = expand_expression(' '.join(m.group(1).split()), refs)
+					pronunciation, pronunciation_endings = expand_expression(m.group(2), {})
 					attributes = m.group(3).split()
 
 					for ending, pronunciation_ending in zip(endings, pronunciation_endings):
-						for word in words:
+						for word in sorted(words):
 							word = Word(word + ending, attributes)
 							pron = pronunciation[0] + pronunciation_ending
 							if word in data.keys() and data[word]['pronunciation'] != pron:
@@ -319,8 +338,8 @@ def parse_dictionaries(dictionaries):
 				pron.append(p)
 			pronunciation.append('-'.join(pron))
 
-		words, endings = parse_expression(' '.join(expr.word.split()), refs)
-		for word in expand(words):
+		words, endings = expand_expression(' '.join(expr.word.split()), refs)
+		for word in words:
 			word = Word(word)
 			data[word] = { 'word': word, 'pronunciation': ' '.join(pronunciation) }
 	return data
