@@ -159,50 +159,76 @@ def lex_expression(expr):
 	if len(ret) != 0:
 		yield ''.join(ret)
 
-def expand_words(words, extend):
-	ret = []
-	for x in extend:
-		ret.extend([ word + x for word in words ])
-	return ret
+class Literal:
+	def __init__(self, value):
+		self.value = value
+
+	def expand(self, words):
+		return [ word + self.value for word in words ]
+
+	def __repr__(self):
+		return '"%s"' % self.value
+
+class Choice:
+	def __init__(self, sel):
+		self.sel = sel
+
+	def expand(self, words):
+		ret = []
+		for x in self.sel:
+			ret.extend(x.expand(words))
+		return ret
+
+	def __repr__(self):
+		return '(C %s)' % self.sel
+
+class Sequence:
+	def __init__(self, seq):
+		self.seq = seq
+
+	def expand(self, words):
+		ret = words
+		for x in self.seq:
+			ret = x.expand(ret)
+		return ret
+
+	def __repr__(self):
+		return '(S %s)' % self.seq
 
 # oneof : '[' , character+ , ']'
-#
-# e.g. [abc] ==> ['a', 'b', 'c']
-def parse_oneof_expr(expr, token, refs, words):
+def parse_oneof_expr(expr, token, refs):
 	val = expr.next()
 	token = expr.next()
 	if token != ']':
 		raise Exception('syntax error: expected "]" in oneof expression.')
-	return expand_words(words, list(val))
+	return Choice([Literal(x) for x in val])
 
 # replace : '<' , character+ , '>'
-#
-# e.g. <a> ==> refs['a']
-def parse_replace_expr(expr, token, refs, words):
+def parse_replace_expr(expr, token, refs):
 	val = expr.next()
 	token = expr.next()
 	if token != '>':
 		raise Exception('syntax error: expected ">" in replace expression.')
-	return expand_words(words, refs[val])
+	return Choice([Literal(x) for x in refs[val]])
 
 # sub-expression : ( literal | oneof | replace )+
 def parse_sub_expr(expr, token, refs):
-	ret = ['']
+	seq = []
 	while True:
 		token = expr.next()
 		if token == '<':
-			ret = parse_replace_expr(expr, token, refs, words=ret)
+			seq.append(parse_replace_expr(expr, token, refs))
 		elif token == '[':
-			ret = parse_oneof_expr(expr, token, refs, words=ret)
+			seq.append(parse_oneof_expr(expr, token, refs))
 		elif token in expr_tokens:
-			return ret, token
+			if len(seq) == 1:
+				return seq[0], token
+			return Sequence(seq), token
 		else:
-			ret = [word + token for word in ret]
+			seq.append(Literal(token))
 
 # segment-seq : sub-expression | ( segment-seq , '|' , sub-expression )
 # segment     : '{' , segment-seq , '}'
-#
-# e.g. {a|b|c} ==> ['a', 'b', 'c']
 def parse_segment_expr(expr, token, refs):
 	ret = []
 	while True:
@@ -214,49 +240,47 @@ def parse_segment_expr(expr, token, refs):
 			token = expr.next()
 		if token not in '|}':
 			raise Exception('syntax error: expected "|" or "}" in segment expression.')
-		ret.append(val)
+		ret.append(Literal(val))
 		if token == '}':
-			return ret
+			return Choice(ret)
 
 # choice-seq : sub-expression | ( choice-seq , '|' , sub-expression )
 # choice     : '(' , choice-seq , ')'
-#
-# e.g. (a|b|c) ==> ['a', 'b', 'c']
-def parse_choice_expr(expr, token, refs, words):
+def parse_choice_expr(expr, token, refs):
 	ret = []
 	while True:
 		val, token = parse_sub_expr(expr, token, refs)
 		if token not in '|)':
 			raise Exception('syntax error: expected "|" or ")" in choice expression.')
-		for x in val:
-			ret.extend([word + x for word in words])
+		ret.append(val)
 		if token == ')':
-			return ret
+			return Choice(ret)
 
 # expression : ( literal | oneof | replace | choice )+ , segment?
 def parse_expr(expr, token, refs):
-	ret = ['']
-	end = ['']
+	ret = []
+	end = Literal('')
 	try:
 		while True:
 			if token == '(':
-				ret = parse_choice_expr(expr, token, refs, words=ret)
+				ret.append(parse_choice_expr(expr, token, refs))
 			elif token == '<':
-				ret = parse_replace_expr(expr, token, refs, words=ret)
+				ret.append(parse_replace_expr(expr, token, refs))
 			elif token == '[':
-				ret = parse_oneof_expr(expr, token, refs, words=ret)
+				ret.append(parse_oneof_expr(expr, token, refs))
 			elif token == '{':
 				end = parse_segment_expr(expr, token, refs)
 			else:
-				ret = [word + token for word in ret]
+				ret.append(Literal(token))
 			token = expr.next()
 	except StopIteration:
 		pass
-	return ret, end
+	return Sequence(ret), end
 
 def expand_expression(expr, refs):
 	tokens = lex_expression(expr)
-	return parse_expr(tokens, tokens.next(), refs)
+	ret, end = parse_expr(tokens, tokens.next(), refs)
+	return ret.expand(['']), end.expand([''])
 
 def parse_dictionaries(dictionaries):
 	""" Dictionary format:
