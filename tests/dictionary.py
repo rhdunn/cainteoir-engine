@@ -23,6 +23,9 @@ import os
 import re
 
 
+debug = False
+
+
 class Word:
 	def __init__(self, word, attributes=None):
 		self.word = word
@@ -144,7 +147,7 @@ def print_exception(word, pronunciation, ipa=True):
 		else:
 			print '%s%30s%s %s' %   (w, ' ', pronunciation.replace('/', ''), ' '.join(['$%s' % a for a in word.attributes]))
 
-expr_tokens = '[]<>|(){}'
+expr_tokens = '[]<>|(){}?'
 
 def lex_expression(expr):
 	ret = []
@@ -182,6 +185,18 @@ class Choice:
 	def __repr__(self):
 		return '(C %s)' % self.sel
 
+class Optional:
+	def __init__(self, opt):
+		self.opt = opt
+
+	def expand(self, words):
+		ret = words
+		ret.extend(self.opt.expand(words))
+		return ret
+
+	def __repr__(self):
+		return '(O %s)' % self.opt
+
 class Sequence:
 	def __init__(self, seq):
 		self.seq = seq
@@ -211,7 +226,7 @@ def parse_replace_expr(expr, token, refs):
 		raise Exception('syntax error: expected ">" in replace expression.')
 	return Choice([Literal(x) for x in refs[val]])
 
-# sub-expression : ( literal | oneof | replace )+
+# sub-expression : (( literal | oneof | replace ) , '?'? )+
 def parse_sub_expr(expr, token, refs):
 	seq = []
 	while True:
@@ -220,6 +235,17 @@ def parse_sub_expr(expr, token, refs):
 			seq.append(parse_replace_expr(expr, token, refs))
 		elif token == '[':
 			seq.append(parse_oneof_expr(expr, token, refs))
+		elif token == '?':
+			opt = seq[-1]
+			seq = seq[:-1]
+			if isinstance(opt, Literal):
+				# Optional on literals applies to the last character only ...
+				c = opt.value[-1]
+				opt.value = opt.value[:-1]
+				if opt.value != '':
+					seq.append(opt)
+				opt = Literal(c)
+			seq.append(Optional(opt))
 		elif token in expr_tokens:
 			if len(seq) == 1:
 				return seq[0], token
@@ -256,30 +282,43 @@ def parse_choice_expr(expr, token, refs):
 		if token == ')':
 			return Choice(ret)
 
-# expression : ( literal | oneof | replace | choice )+ , segment?
+# expression : (( literal | oneof | replace | choice ) , '?'? )+ , segment?
 def parse_expr(expr, token, refs):
-	ret = []
+	seq = []
 	end = Literal('')
 	try:
 		while True:
 			if token == '(':
-				ret.append(parse_choice_expr(expr, token, refs))
+				seq.append(parse_choice_expr(expr, token, refs))
 			elif token == '<':
-				ret.append(parse_replace_expr(expr, token, refs))
+				seq.append(parse_replace_expr(expr, token, refs))
 			elif token == '[':
-				ret.append(parse_oneof_expr(expr, token, refs))
+				seq.append(parse_oneof_expr(expr, token, refs))
 			elif token == '{':
 				end = parse_segment_expr(expr, token, refs)
+			elif token == '?':
+				opt = seq[-1]
+				seq = seq[:-1]
+				if isinstance(opt, Literal):
+					# Optional on literals applies to the last character only ...
+					c = opt.value[-1]
+					opt.value = opt.value[:-1]
+					if opt.value != '':
+						seq.append(opt)
+					opt = Literal(c)
+				seq.append(Optional(opt))
 			else:
-				ret.append(Literal(token))
+				seq.append(Literal(token))
 			token = expr.next()
 	except StopIteration:
 		pass
-	return Sequence(ret), end
+	return Sequence(seq), end
 
 def expand_expression(expr, refs):
 	tokens = lex_expression(expr)
 	ret, end = parse_expr(tokens, tokens.next(), refs)
+	if debug:
+		print '%s => %s' % (ret, ret.expand(['']))
 	return ret.expand(['']), end.expand([''])
 
 def parse_dictionaries(dictionaries):
