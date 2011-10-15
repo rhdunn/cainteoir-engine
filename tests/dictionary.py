@@ -156,65 +156,69 @@ def lex_expression(expr):
 	if len(ret) != 0:
 		yield ''.join(ret)
 
-EXPR_STRING     = 1 # abc
-EXPR_IN_CHOICE  = 2 # (a|b|c)
-EXPR_IN_ONEOF   = 3 # [abc]
-EXPR_IN_REPLACE = 4 # <abc>
-EXPR_IN_SEGMENT = 5 # {a|b|c}
+# oneof : [abc] ==> ['a', 'b', 'c']
+def parse_oneof_expr(expr, token, refs):
+	val = expr.next()
+	token = expr.next()
+	if token != ']':
+		raise Exception('syntax error: expected "]" in oneof expression.')
+	return list(val)
+
+# replace : <a> ==> refs['a']
+def parse_replace_expr(expr, token, refs):
+	val = expr.next()
+	token = expr.next()
+	if token != '>':
+		raise Exception('syntax error: expected ">" in replace expression.')
+	return refs[val]
+
+# segment : {a|b|c} ==> ['a', 'b', 'c']
+def parse_segment_expr(expr, token, refs):
+	ret = []
+	while True:
+		val = expr.next()
+		token = expr.next()
+		if token not in '|}':
+			raise Exception('syntax error: expected "|" or "}" in segment expression.')
+		ret.append(val)
+		if token == '}':
+			return ret
+
+# choice : (a|b|c) ==> ['a', 'b', 'c']
+def parse_choice_expr(expr, token, refs):
+	ret = []
+	while True:
+		val = expr.next()
+		token = expr.next()
+		if token not in '|)':
+			raise Exception('syntax error: expected "|" or ")" in choice expression.')
+		ret.append(val)
+		if token == ')':
+			return ret
+
+def parse_expr(expr, token, refs):
+	ret = []
+	end = ['']
+	try:
+		while True:
+			if token == '(':
+				ret.append(parse_choice_expr(expr, token, refs))
+			elif token == '{':
+				end = parse_segment_expr(expr, token, refs)
+			elif token == '<':
+				ret.append(parse_replace_expr(expr, token, refs))
+			elif token == '[':
+				ret.append(parse_oneof_expr(expr, token, refs))
+			else:
+				ret.append(token)
+			token = expr.next()
+	except StopIteration:
+		pass
+	return ret, end
 
 def parse_expression(expr, refs):
-	words = []
-	endings = ['']
-
-	state = EXPR_STRING
-	fragment = None
-
-	for token in lex_expression(expr):
-		if state == EXPR_STRING:
-			if token == '(':
-				state = EXPR_IN_CHOICE
-				fragment = []
-			elif token == '{':
-				state = EXPR_IN_SEGMENT
-				fragment = []
-			elif token == '[':
-				state = EXPR_IN_ONEOF
-			elif token == '<':
-				state = EXPR_IN_REPLACE
-			elif token != '':
-				words.append(token)
-		elif state == EXPR_IN_CHOICE:
-			if token == '|':
-				pass
-			elif token == ')':
-				words.append(fragment)
-				state = EXPR_STRING
-				fragment = None
-			else:
-				fragment.append(token)
-		elif state == EXPR_IN_ONEOF:
-			if token == ']':
-				words.append(list(fragment))
-				state = EXPR_STRING
-			else:
-				fragment = token
-		elif state == EXPR_IN_REPLACE:
-			if token == '>':
-				words.append(refs[fragment])
-				state = EXPR_STRING
-			else:
-				fragment = token
-		elif state == EXPR_IN_SEGMENT:
-			if token == '|':
-				pass
-			elif token == '}':
-				endings = fragment
-				state = EXPR_STRING
-				fragment = None
-			else:
-				fragment.append(token)
-
-	return words, endings
+	tokens = lex_expression(expr)
+	return parse_expr(tokens, tokens.next(), refs)
 
 def expand(expr):
 	words = []
