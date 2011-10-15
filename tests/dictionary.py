@@ -334,9 +334,9 @@ def parse_dictionaries(dictionaries):
 			[abc]		-- use the character 'a' or 'b' or 'c' in the word
 			<repl>		-- use the result of the replacement 'repl' in the word
 	"""
-	re_ref   = re.compile('([a-zA-Z]+)=(.*)')
-	re_alias = re.compile('([^"]+) "([^"]+)"(.*)')
-	re_pron  = re.compile('([^/]+) /([^/]+)/(.*)')
+	re_ref   = re.compile('([a-zA-Z]+)=(.*)(#.*)?')
+	re_alias = re.compile('([^"]+) "([^"]+)"(.*)(#.*)?')
+	re_pron  = re.compile('([^/]+) /([^/]+)/(.*)(#.*)?')
 
 	data = {}
 	refs = {}
