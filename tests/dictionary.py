@@ -211,30 +211,30 @@ class Sequence:
 		return '(S %s)' % self.seq
 
 # oneof : '[' , character+ , ']'
-def parse_oneof_expr(expr, token, refs):
+def parse_oneof_expr(e, expr, token, refs):
 	val = expr.next()
 	token = expr.next()
 	if token != ']':
-		raise Exception('syntax error: expected "]" in oneof expression.')
+		raise Exception('syntax error: expected "]" in oneof expression -- %s' % e)
 	return Choice([Literal(x) for x in val])
 
 # replace : '<' , character+ , '>'
-def parse_replace_expr(expr, token, refs):
+def parse_replace_expr(e, expr, token, refs):
 	val = expr.next()
 	token = expr.next()
 	if token != '>':
-		raise Exception('syntax error: expected ">" in replace expression.')
+		raise Exception('syntax error: expected ">" in replace expression -- %s' % e)
 	return Choice([Literal(x) for x in refs[val]])
 
 # sub-expression : (( literal | oneof | replace ) , '?'? )+
-def parse_sub_expr(expr, token, refs):
+def parse_sub_expr(e, expr, token, refs):
 	seq = []
 	while True:
 		token = expr.next()
 		if token == '<':
-			seq.append(parse_replace_expr(expr, token, refs))
+			seq.append(parse_replace_expr(e, expr, token, refs))
 		elif token == '[':
-			seq.append(parse_oneof_expr(expr, token, refs))
+			seq.append(parse_oneof_expr(e, expr, token, refs))
 		elif token == '?':
 			opt = seq[-1]
 			seq = seq[:-1]
@@ -255,7 +255,7 @@ def parse_sub_expr(expr, token, refs):
 
 # segment-seq : sub-expression | ( segment-seq , '|' , sub-expression )
 # segment     : '{' , segment-seq , '}'
-def parse_segment_expr(expr, token, refs):
+def parse_segment_expr(e, expr, token, refs):
 	ret = []
 	while True:
 		val = expr.next()
@@ -265,37 +265,37 @@ def parse_segment_expr(expr, token, refs):
 		else:
 			token = expr.next()
 		if token not in '|}':
-			raise Exception('syntax error: expected "|" or "}" in segment expression.')
+			raise Exception('syntax error: expected "|" or "}" in segment expression -- %s' % e)
 		ret.append(Literal(val))
 		if token == '}':
 			return Choice(ret)
 
 # choice-seq : sub-expression | ( choice-seq , '|' , sub-expression )
 # choice     : '(' , choice-seq , ')'
-def parse_choice_expr(expr, token, refs):
+def parse_choice_expr(e, expr, token, refs):
 	ret = []
 	while True:
-		val, token = parse_sub_expr(expr, token, refs)
+		val, token = parse_sub_expr(e, expr, token, refs)
 		if token not in '|)':
-			raise Exception('syntax error: expected "|" or ")" in choice expression.')
+			raise Exception('syntax error: expected "|" or ")" in choice expression -- %s' % e)
 		ret.append(val)
 		if token == ')':
 			return Choice(ret)
 
 # expression : (( literal | oneof | replace | choice ) , '?'? )+ , segment?
-def parse_expr(expr, token, refs):
+def parse_expr(e, expr, token, refs):
 	seq = []
 	end = Literal('')
 	try:
 		while True:
 			if token == '(':
-				seq.append(parse_choice_expr(expr, token, refs))
+				seq.append(parse_choice_expr(e, expr, token, refs))
 			elif token == '<':
-				seq.append(parse_replace_expr(expr, token, refs))
+				seq.append(parse_replace_expr(e, expr, token, refs))
 			elif token == '[':
-				seq.append(parse_oneof_expr(expr, token, refs))
+				seq.append(parse_oneof_expr(e, expr, token, refs))
 			elif token == '{':
-				end = parse_segment_expr(expr, token, refs)
+				end = parse_segment_expr(e, expr, token, refs)
 			elif token == '?':
 				opt = seq[-1]
 				seq = seq[:-1]
@@ -316,7 +316,7 @@ def parse_expr(expr, token, refs):
 
 def expand_expression(expr, refs):
 	tokens = lex_expression(expr)
-	ret, end = parse_expr(tokens, tokens.next(), refs)
+	ret, end = parse_expr(expr, tokens, tokens.next(), refs)
 	if debug:
 		print '%s => %s' % (ret, ret.expand(['']))
 	return ret.expand(['']), end.expand([''])
