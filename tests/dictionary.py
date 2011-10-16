@@ -51,7 +51,7 @@ class Word:
 
 def print_exception(word, pronunciation, ipa=True):
 	if ipa:
-		print '%-30s %s' % (word, pronunciation)
+		print '%-18s %s' % (word, pronunciation)
 	else:
 		replacements = [
 			(' ', '||'),
