@@ -381,6 +381,8 @@ def parse_dictionaries(dictionaries):
 							data[word] = { 'word': word, 'pronunciation': pron }
 					continue
 
+				raise Exception('syntax error: unrecognised line -- %s' % line.replace('\n', ''))
+
 	for expr, alias in aliases.items():
 		pronunciation = []
 		for sub in alias.split(' '):
