@@ -283,4 +283,10 @@
 	<skos:altLabel>zh-yue</skos:altLabel>
 </skos:Concept>
 
+<skos:Concept rdf:ID="UND">
+	<skos:prefLabel xml:lang="en">Unknown</skos:prefLabel>
+	<skos:altLabel>UND</skos:altLabel> <!-- Calibri defaults to this for dc:language entries. -->
+	<skos:altLabel>default</skos:altLabel>
+</skos:Concept>
+
 </rdf:RDF>
