@@ -259,7 +259,7 @@ struct mime_headers : public cainteoir::buffer
 	}
 };
 
-bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, std::string type, rdf::graph &aGraph)
+bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, std::string type, rdf::graph &aGraph)
 {
 	if (type == "application/xml")
 	{
@@ -290,7 +290,7 @@ bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &da
 	{
 		std::tr1::shared_ptr<cainteoir::buffer> decompressed = cainteoir::strm_gzip_decompress(*data);
 		type = cainteoir::mimetypes()(decompressed);
-		return parseDocumentBufferWithMimeType(decompressed, subject, events, type, aGraph);
+		return parseDocumentBuffer(decompressed, subject, events, type, aGraph);
 	}
 	else if (type == "application/octet-stream")
 		return false;
@@ -305,23 +305,17 @@ bool parseDocumentBufferWithMimeType(std::tr1::shared_ptr<cainteoir::buffer> &da
 		{
 			std::tr1::shared_ptr<cainteoir::buffer> encoded(mime);
 			std::tr1::shared_ptr<cainteoir::buffer> content(new quoted_printable(encoded));
-			return parseDocumentBufferWithMimeType(content, subject, events, type, aGraph);
+			return parseDocumentBuffer(content, subject, events, type, aGraph);
 		}
 		else
 		{
 			std::tr1::shared_ptr<cainteoir::buffer> content(mime);
-			return parseDocumentBufferWithMimeType(content, subject, events, type, aGraph);
+			return parseDocumentBuffer(content, subject, events, type, aGraph);
 		}
 	}
 
 	aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(type));
 	return true;
-}
-
-bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	std::string type = cainteoir::mimetypes()(data);
-	return parseDocumentBufferWithMimeType(data, subject, events, type, aGraph);
 }
 
 void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
@@ -415,5 +409,6 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 	else
 		data = buffer_from_stdin();
 
-	return parseDocumentBuffer(data, subject, events, aGraph);
+	std::string type = cainteoir::mimetypes()(data);
+	return parseDocumentBuffer(data, subject, events, type, aGraph);
 }
