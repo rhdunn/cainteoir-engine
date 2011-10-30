@@ -148,6 +148,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/buffers/rope.cpp \
 	src/libcainteoir/compression/none.cpp \
 	src/libcainteoir/compression/gzip.cpp \
+	src/libcainteoir/compression/base64.cpp \
 	src/libcainteoir/compression/quoted_printable.cpp \
 	src/libcainteoir/rdf/metadata.cpp \
 	src/libcainteoir/rdf/formatter.cpp \

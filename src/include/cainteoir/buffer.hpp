@@ -183,6 +183,15 @@ namespace cainteoir
 	  */
 	std::tr1::shared_ptr<cainteoir::buffer> decode_quoted_printable(const cainteoir::buffer &data, uint32_t size);
 
+	/** @brief Decode a base64 encoded data buffer.
+	  *
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
+	  *
+	  * @return The decoded data buffer.
+	  */
+	std::tr1::shared_ptr<cainteoir::buffer> decode_base64(const cainteoir::buffer &data, uint32_t size);
+
 	//@}
 }
 

@@ -258,6 +258,8 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 			std::tr1::shared_ptr<cainteoir::buffer> decoded;
 			if (mime->encoding == "quoted-printable")
 				decoded = cainteoir::decode_quoted_printable(*mime, 0);
+			else if (mime->encoding == "base64")
+				decoded = cainteoir::decode_base64(*mime, 0);
 			else if (mime->encoding == "7bit" || mime->encoding == "7BIT")
 				decoded = mime;
 			else if (mime->encoding == "8bit" || mime->encoding == "8BIT")
@@ -266,7 +268,6 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 				decoded = mime;
 			else
 				throw std::runtime_error(_("unsupported content-transfer-encoding"));
-			// FIXME: support the 'base64' encoding type.
 
 			return parseDocumentBuffer(decoded, subject, events, type, aGraph);
 		}

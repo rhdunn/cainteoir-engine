@@ -101,6 +101,11 @@ if __name__ == '__main__':
 			{'test': 'mime/quoted-printable/escaped-lower.txt', 'result': 'mime/quoted-printable/escaped.events'},
 			{'test': 'mime/quoted-printable/eol.txt', 'result': 'mime/quoted-printable/eol.events'},
 		]},
+		{'name': 'base64', 'type': 'events', 'tests': [
+			{'test': 'mime/base64/simple.txt',  'result': 'mime/base64/simple.events'},
+			{'test': 'mime/base64/padding.txt', 'result': 'mime/base64/padding.events'},
+			{'test': 'mime/base64/wrapped.txt', 'result': 'mime/base64/wrapped.events'},
+		]},
 	]})
 	test.run({'name': 'HTTP', 'groups': [
 		{'name': '1.0', 'type': 'events', 'tests': [
