@@ -63,11 +63,7 @@ static const replacement replacements[] = {
 std::tr1::shared_ptr<cainteoir::buffer> lookupReplacementText(const cainteoir::encoding & aEncoding, const std::tr1::shared_ptr<cainteoir::buffer> & token, int value)
 {
 	if (!token->compare("'"))
-	{
-		const char *text = aEncoding.lookup((char)value);
-		if (text)
-			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text));
-	}
+		return aEncoding.lookup((char)value);
 	else for (const replacement * first = replacements, * last = replacements + countof(replacements); first != last; ++first)
 	{
 		if (!token->compare(first->token) && first->text)

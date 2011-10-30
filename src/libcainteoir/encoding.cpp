@@ -19,25 +19,58 @@
  */
 
 #include <cainteoir/encoding.hpp>
-#include "encoding/encodings.h"
+#include <cainteoir/platform.hpp>
+#include <stdexcept>
+#include <iconv.h>
+#include <errno.h>
 
-#define countof(a) (sizeof(a)/sizeof(a[0]))
-
-static const char ** encoding_unknown = encoding_ascii;
-
-struct single_byte_decoder : public cainteoir::decoder
+struct iconv_decoder : public cainteoir::decoder
 {
-	single_byte_decoder(const char ** aLookupTable)
-		: mLookupTable(aLookupTable)
+	iconv_decoder(const char *aEncoding)
 	{
+		cvt = iconv_open("UTF-8", aEncoding);
+		if (cvt == (iconv_t)-1)
+		{
+			if (errno == EINVAL)
+				throw std::runtime_error(_("unsupported character set (no conversion found)"));
+			throw std::runtime_error(_("unsupported character set (failed to initialise iconv)"));
+		}
 	}
 
-	const char * lookup(uint8_t c) const
+	~iconv_decoder()
 	{
-		return mLookupTable[c];
+		if (cvt != (iconv_t)-1)
+			iconv_close(cvt);
 	}
 
-	const char ** mLookupTable;
+	std::tr1::shared_ptr<cainteoir::buffer> decode(const cainteoir::buffer &data) const
+	{
+		cainteoir::rope ret;
+
+		char *in = (char *)data.begin();
+		size_t inlen = data.size();
+
+		char buffer[1024] = {0};
+		while (inlen != 0)
+		{
+			char *out = buffer;
+			size_t outlen = sizeof(buffer);
+
+			if (iconv(cvt, &in, &inlen, &out, &outlen) == (size_t)-1)
+				throw std::runtime_error(strerror(errno));
+
+			if (outlen != sizeof(buffer))
+			{
+				std::tr1::shared_ptr<cainteoir::buffer> fiber(new cainteoir::data_buffer(sizeof(buffer) - outlen));
+				memcpy((void *)fiber->begin(), buffer, sizeof(buffer) - outlen);
+				ret += fiber;
+			}
+		}
+
+		return ret.buffer();
+	}
+
+	iconv_t cvt;
 };
 
 cainteoir::encoding::encoding(int aCodepage)
@@ -45,33 +78,24 @@ cainteoir::encoding::encoding(int aCodepage)
 	set_encoding(aCodepage);
 }
 
-cainteoir::encoding::encoding(buffer aName)
+cainteoir::encoding::encoding(const char *aEncoding)
 {
-	set_encoding(aName);
+	set_encoding(aEncoding);
 }
 
 void cainteoir::encoding::set_encoding(int aCodepage)
 {
-	for (const codepage_t * first = codepages, * last = codepages + countof(codepages); first != last; ++first)
+	switch (aCodepage)
 	{
-		if (aCodepage == first->codepage)
-		{
-			mDecoder = std::tr1::shared_ptr<cainteoir::decoder>(new single_byte_decoder(first->table));
-			return;
-		}
+	case   437: set_encoding("437"); break;
+	case   850: set_encoding("850"); break;
+	case  1252: set_encoding("windows-1252"); break;
+	case 10000: set_encoding("macintosh"); break;
+	default:    throw std::runtime_error(_("unsupported character set (codepage not recognised)"));
 	}
-	mDecoder = std::tr1::shared_ptr<cainteoir::decoder>(new single_byte_decoder(encoding_unknown));
 }
 
-void cainteoir::encoding::set_encoding(buffer aName)
+void cainteoir::encoding::set_encoding(const char *aEncoding)
 {
-	for (const encoding_t * first = encodings, * last = encodings + countof(encodings); first != last; ++first)
-	{
-		if (aName.comparei(first->name))
-		{
-			mDecoder = std::tr1::shared_ptr<cainteoir::decoder>(new single_byte_decoder(first->table));
-			return;
-		}
-	}
-	mDecoder = std::tr1::shared_ptr<cainteoir::decoder>(new single_byte_decoder(encoding_unknown));
+	mDecoder = std::tr1::shared_ptr<cainteoir::decoder>(new iconv_decoder(aEncoding));
 }

@@ -97,16 +97,6 @@ data/magic.mgc: data/magic
 
 ############################# libcainteoir ####################################
 
-EXTRA_DIST += \
-	src/libcainteoir/encoding/encodings.py \
-	src/libcainteoir/encoding/mnemonics.lst \
-	src/libcainteoir/encoding/*.txt
-
-src/libcainteoir/encoding/encodings.h: src/libcainteoir/encoding/encodings.py src/libcainteoir/encoding/mnemonics.lst src/libcainteoir/encoding/*.txt
-	src/libcainteoir/encoding/encodings.py src/libcainteoir/encoding > $@
-
-src/libcainteoir/encoding.cpp: src/libcainteoir/encoding/encodings.h
-
 libcainteoir_includedir = $(includedir)/cainteoir
 libcainteoir_include_HEADERS = \
 	src/include/cainteoir/platform.hpp \
