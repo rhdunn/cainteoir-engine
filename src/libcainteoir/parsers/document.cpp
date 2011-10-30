@@ -169,6 +169,7 @@ struct mime_headers : public cainteoir::buffer
 	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data, std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 		: cainteoir::buffer(*data)
 		, mOriginal(data)
+		, encoding("8bit")
 	{
 		while (first <= last && (*first == ' ' || *first == '\t' || *first == '\r' || *first == '\n'))
 			++first;
@@ -252,15 +253,22 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 		std::tr1::shared_ptr<mime_headers> mime(new mime_headers(data, type, subject, events, aGraph));
 		if (mime->begin() == data->begin())
 			parseXHtmlDocument(data, subject, events, aGraph);
-		else if (!mime->encoding.empty())
-		{
-			std::tr1::shared_ptr<cainteoir::buffer> decoded = cainteoir::decode_quoted_printable(*mime, 0);
-			return parseDocumentBuffer(decoded, subject, events, type, aGraph);
-		}
 		else
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> content(mime);
-			return parseDocumentBuffer(content, subject, events, type, aGraph);
+			std::tr1::shared_ptr<cainteoir::buffer> decoded;
+			if (mime->encoding == "quoted-printable")
+				decoded = cainteoir::decode_quoted_printable(*mime, 0);
+			else if (mime->encoding == "7bit" || mime->encoding == "7BIT")
+				decoded = mime;
+			else if (mime->encoding == "8bit" || mime->encoding == "8BIT")
+				decoded = mime;
+			else if (mime->encoding == "binary")
+				decoded = mime;
+			else
+				throw std::runtime_error(_("unsupported content-transfer-encoding"));
+			// FIXME: support the 'base64' encoding type.
+
+			return parseDocumentBuffer(decoded, subject, events, type, aGraph);
 		}
 	}
 
