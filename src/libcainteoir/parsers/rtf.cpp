@@ -60,18 +60,20 @@ static const replacement replacements[] = {
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
 
-const char * lookupReplacementText(const cainteoir::encoding & aEncoding, const std::tr1::shared_ptr<cainteoir::buffer> & token, int value)
+std::tr1::shared_ptr<cainteoir::buffer> lookupReplacementText(const cainteoir::encoding & aEncoding, const std::tr1::shared_ptr<cainteoir::buffer> & token, int value)
 {
 	if (!token->compare("'"))
-		return aEncoding.lookup((char)value);
+	{
+		const char *text = aEncoding.lookup((char)value);
+		if (text)
+			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text));
+	}
 	else for (const replacement * first = replacements, * last = replacements + countof(replacements); first != last; ++first)
 	{
-		if (!token->compare(first->token))
-		{
-			return first->text;
-		}
+		if (!token->compare(first->token) && first->text)
+			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(first->text));
 	}
-	return NULL;
+	return std::tr1::shared_ptr<cainteoir::buffer>();
 }
 
 struct rtf_reader : public cainteoir::buffer
@@ -306,9 +308,9 @@ void parseRtfBlock(rtf_reader &rtf,
 		return;
 	case rtf_reader::instruction:
 		{
-			const char * text = lookupReplacementText(codepage, rtf.data(), rtf.parameter());
-			if (text)
-				aText += std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text));
+			std::tr1::shared_ptr<cainteoir::buffer> text = lookupReplacementText(codepage, rtf.data(), rtf.parameter());
+			if (text.get())
+				aText += text;
 			else if (!rtf.data()->compare("par") && !aText.empty())
 			{
 				events.begin_context(cainteoir::document_events::paragraph);
