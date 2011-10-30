@@ -42,55 +42,6 @@ std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 	return data.buffer();
 }
 
-inline int hex_to_value(char c)
-{
-	if (c >= '0' && c <= '9')
-		return c - 0;
-	if (c >= 'a' && c <= 'f')
-		return (c - 'a') + 10;
-	if (c >= 'A' && c <= 'F')
-		return (c - 'A') + 10;
-	return 0;
-}
-
-struct quoted_printable : public cainteoir::data_buffer
-{
-	quoted_printable(std::tr1::shared_ptr<cainteoir::buffer> stream)
-		: cainteoir::data_buffer(stream->size())
-	{
-		memcpy((char *)first, stream->begin(), stream->size());
-
-		char * current = (char *)first;
-		char * next    = (char *)first;
-
-		while (next < last)
-		{
-			if (*next == '=')
-			{
-				++next;
-				if (*next == '\n')
-					++next;
-				else if (next[0] == '\r' && next[1] == '\n')
-					next += 2;
-				else
-				{
-					*current = (hex_to_value(next[0]) << 4) | hex_to_value(next[1]);
-					++current;
-					next += 2;
-				}
-			}
-			else
-			{
-				*current = *next;
-				++current;
-				++next;
-			}
-		}
-
-		last = current;
-	}
-};
-
 inline bool is_mime_header_char(char c)
 {
 	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '-';
@@ -303,9 +254,8 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 			parseXHtmlDocument(data, subject, events, aGraph);
 		else if (!mime->encoding.empty())
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> encoded(mime);
-			std::tr1::shared_ptr<cainteoir::buffer> content(new quoted_printable(encoded));
-			return parseDocumentBuffer(content, subject, events, type, aGraph);
+			std::tr1::shared_ptr<cainteoir::buffer> decoded = cainteoir::decode_quoted_printable(*mime, 0);
+			return parseDocumentBuffer(decoded, subject, events, type, aGraph);
 		}
 		else
 		{

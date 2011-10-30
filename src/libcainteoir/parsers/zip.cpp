@@ -46,7 +46,7 @@ struct zip_header
 
 #pragma pack(pop)
 
-static const cainteoir::decompression_ptr zip_compression[] = {
+static const cainteoir::decoder_ptr zip_compression[] = {
 	&cainteoir::copy, // 0 - uncompressed
 	NULL, // 1
 	NULL, // 2

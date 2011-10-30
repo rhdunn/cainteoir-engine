@@ -135,45 +135,53 @@ namespace cainteoir
 		std::string str() const { return buffer()->str(); }
 	};
 
-	/** @name Decompression API
-	  */
+	/** @name Decoding/Decompression API */
 	//@{
 
-	/** @brief Pointer to a decompression algorithm.
+	/** @brief Pointer to a decoding/decompression algorithm.
 	  *
-	  * @param compressed   The data buffer to be decompressed.
-	  * @param uncompressed The size of the uncompressed data buffer.
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
 	  *
 	  * @return The new data buffer.
 	  */
-	typedef std::tr1::shared_ptr<buffer> (*decompression_ptr)(const buffer &data, uint32_t uncompressed);
+	typedef std::tr1::shared_ptr<buffer> (*decoder_ptr)(const buffer &data, uint32_t size);
 
 	/** @brief Copy the data in buffer to a memory buffer.
 	  *
-	  * @param compressed   The data buffer to be copied.
-	  * @param uncompressed The size of the uncompressed data buffer (not used).
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
 	  *
 	  * @return The new data buffer.
 	  */
-	std::tr1::shared_ptr<cainteoir::buffer> copy(const cainteoir::buffer &compressed, uint32_t uncompressed);
+	std::tr1::shared_ptr<cainteoir::buffer> copy(const cainteoir::buffer &data, uint32_t size);
 
 	/** @brief Inflate a zlib compressed data buffer.
 	  *
-	  * @param compressed   The compressed data buffer.
-	  * @param uncompressed The size of the uncompressed data buffer.
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
 	  *
 	  * @return The uncompressed data buffer.
 	  */
-	std::tr1::shared_ptr<cainteoir::buffer> inflate_zlib(const cainteoir::buffer &data, uint32_t uncompressed);
+	std::tr1::shared_ptr<cainteoir::buffer> inflate_zlib(const cainteoir::buffer &data, uint32_t size);
 
 	/** @brief Inflate a gzip compressed data buffer.
 	  *
-	  * @param compressed   The compressed data buffer.
-	  * @param uncompressed The size of the uncompressed data buffer (not used).
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
 	  *
 	  * @return The uncompressed data buffer.
 	  */
-	std::tr1::shared_ptr<cainteoir::buffer> inflate_gzip(const cainteoir::buffer &data, uint32_t uncompressed);
+	std::tr1::shared_ptr<cainteoir::buffer> inflate_gzip(const cainteoir::buffer &data, uint32_t size);
+
+	/** @brief Decode a quoted printable encoded data buffer.
+	  *
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
+	  *
+	  * @return The decoded data buffer.
+	  */
+	std::tr1::shared_ptr<cainteoir::buffer> decode_quoted_printable(const cainteoir::buffer &data, uint32_t size);
 
 	//@}
 }
