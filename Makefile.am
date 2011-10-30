@@ -146,11 +146,12 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/normalized_text_buffer.cpp \
 	src/libcainteoir/buffers/rope.cpp \
+	src/libcainteoir/compression/none.cpp \
+	src/libcainteoir/compression/gzip.cpp \
 	src/libcainteoir/rdf/metadata.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/parsers/mimetypes.hpp \
 	src/libcainteoir/parsers/parsers.hpp \
-	src/libcainteoir/parsers/compressed.cpp \
 	src/libcainteoir/parsers/xml.hpp \
 	src/libcainteoir/parsers/zip.hpp \
 	src/libcainteoir/parsers/zip.cpp \

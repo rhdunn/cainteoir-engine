@@ -1,6 +1,6 @@
-/* ZIP File Reader API.
+/* Compressed Stream (GZip)
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,9 +18,8 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "parsers.hpp"
+#include <cainteoir/buffer.hpp>
 #include <cainteoir/platform.hpp>
-
 #include <zlib.h>
 #include <stdexcept>
 
@@ -63,21 +62,13 @@ err:
 	}
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::strm_copy(const cainteoir::buffer &compressed)
-{
-	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(compressed.size()));
-	memcpy((char *)data->begin(), compressed.begin(), compressed.size());
-
-	return data;
-}
-
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::strm_inflate(const cainteoir::buffer &compressed, uint32_t uncompressed)
+std::tr1::shared_ptr<cainteoir::buffer> cainteoir::inflate_zlib(const cainteoir::buffer &compressed, uint32_t uncompressed)
 {
 	return inflateBuffer(compressed, uncompressed, -MAX_WBITS);
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::strm_gzip_decompress(const cainteoir::buffer &compressed)
+std::tr1::shared_ptr<cainteoir::buffer> cainteoir::inflate_gzip(const cainteoir::buffer &compressed, uint32_t uncompressed)
 {
-	uint32_t uncompressed = *((uint32_t *)(compressed.end() - 4));
+	uncompressed = *((uint32_t *)(compressed.end() - 4));
 	return inflateBuffer(compressed, uncompressed, 16 + MAX_WBITS);
 }

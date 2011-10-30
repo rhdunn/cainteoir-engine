@@ -134,6 +134,48 @@ namespace cainteoir
 
 		std::string str() const { return buffer()->str(); }
 	};
+
+	/** @name Decompression API
+	  */
+	//@{
+
+	/** @brief Pointer to a decompression algorithm.
+	  *
+	  * @param compressed   The data buffer to be decompressed.
+	  * @param uncompressed The size of the uncompressed data buffer.
+	  *
+	  * @return The new data buffer.
+	  */
+	typedef std::tr1::shared_ptr<buffer> (*decompression_ptr)(const buffer &data, uint32_t uncompressed);
+
+	/** @brief Copy the data in buffer to a memory buffer.
+	  *
+	  * @param compressed   The data buffer to be copied.
+	  * @param uncompressed The size of the uncompressed data buffer (not used).
+	  *
+	  * @return The new data buffer.
+	  */
+	std::tr1::shared_ptr<cainteoir::buffer> copy(const cainteoir::buffer &compressed, uint32_t uncompressed);
+
+	/** @brief Inflate a zlib compressed data buffer.
+	  *
+	  * @param compressed   The compressed data buffer.
+	  * @param uncompressed The size of the uncompressed data buffer.
+	  *
+	  * @return The uncompressed data buffer.
+	  */
+	std::tr1::shared_ptr<cainteoir::buffer> inflate_zlib(const cainteoir::buffer &data, uint32_t uncompressed);
+
+	/** @brief Inflate a gzip compressed data buffer.
+	  *
+	  * @param compressed   The compressed data buffer.
+	  * @param uncompressed The size of the uncompressed data buffer (not used).
+	  *
+	  * @return The uncompressed data buffer.
+	  */
+	std::tr1::shared_ptr<cainteoir::buffer> inflate_gzip(const cainteoir::buffer &data, uint32_t uncompressed);
+
+	//@}
 }
 
 #endif
