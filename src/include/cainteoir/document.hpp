@@ -164,11 +164,17 @@ namespace cainteoir
 		std::map<std::string, size_t> mAnchors;
 	};
 
+	enum capability_types
+	{
+		metadata_support = 1,
+		text_support     = 2,
+	};
+
 	/** @brief Get the document formats that are supported by libcainteoir.
 	  *
 	  * @metadata The RDF graph to write the format support to.
 	  */
-	void supportedDocumentFormats(rdf::graph &metadata);
+	void supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities);
 
 	/** @brief Read the contents of a document.
 	  *

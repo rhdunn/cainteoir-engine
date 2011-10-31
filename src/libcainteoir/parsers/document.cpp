@@ -70,11 +70,14 @@ namespace cainteoir { namespace mime
 	const magic    mime_magic[] = { { 1, mime_pattern1 }, { 2, mime_pattern2 } };
 	const mimetype mime = { "mime", NULL, 2, mime_magic, NULL, NULL };
 
-	const mimetype ncx = { "ncx", "application/x-dtbncx+xml", 0, NULL, "http://www.daisy.org/z3986/2005/ncx/", "ncx" };
+	const char *   ncx_globs[] = { "*.ncx", NULL };
+	const mimetype ncx = { "ncx", "application/x-dtbncx+xml", 0, NULL, "http://www.daisy.org/z3986/2005/ncx/", "ncx", _("navigation control document"), ncx_globs, NULL };
 
-	const mimetype opf = { "opf", "application/oebps-package+xml", 0, NULL, "http://www.idpf.org/2007/opf", "package" };
+	const char *   opf_globs[] = { "*.opf", NULL };
+	const mimetype opf = { "opf", "application/oebps-package+xml", 0, NULL, "http://www.idpf.org/2007/opf", "package", _("open package format document"), opf_globs, NULL };
 
-	const mimetype rdfml = { "rdf", "application/rdf+xml", 0, NULL, "http://www.w3.org/1999/02/22-rdf-syntax-ns", "RDF" };
+	const char *   rdfxml_globs[] = { "*.rdf", NULL };
+	const mimetype rdfxml = { "rdf", "application/rdf+xml", 0, NULL, "http://www.w3.org/1999/02/22-rdf-syntax-ns", "RDF", _("resource description framework document"), rdfxml_globs, NULL };
 
 	const matchlet rtf_pattern[] = { { 0, 0, 5, "{\\rtf" } };
 	const magic    rtf_magic[] = { { 1, rtf_pattern } };
@@ -82,7 +85,8 @@ namespace cainteoir { namespace mime
 	const char *   rtf_globs[] = { "*.rtf", NULL };
 	const mimetype rtf = { "rtf", "application/rtf", 1, rtf_magic, NULL, NULL, _("rich text document"), rtf_globs, rtf_aliases };
 
-	const mimetype smil = { "smil", "application/smil", 0, NULL, "http://www.w3.org/ns/SMIL", "smil" };
+	const char *   smil_globs[] = { "*.smil", NULL };
+	const mimetype smil = { "smil", "application/smil", 0, NULL, "http://www.w3.org/ns/SMIL", "smil", _("SMIL document"), smil_globs, NULL };
 
 	const char *   ssml_globs[] = { "*.ssml", NULL };
 	const mimetype ssml = { "ssml", "application/ssml+xml", 0, NULL, "http://www.w3.org/2001/10/synthesis", "speak", _("speech synthesis markup document"), ssml_globs, NULL };
@@ -131,13 +135,13 @@ static const ParseDocument doc_handlers[] = {
 };
 
 static const XmlDocument xml_handlers[] = {
-	{ &mime::ncx,   &cainteoir::parseNcxDocument },
-	{ &mime::opf,   NULL }, // FIXME: Align the OPF parser with the rest of the XML parsers.
-	{ &mime::rdfml, &cainteoir::parseRdfXmlDocument },
-	{ &mime::smil,  &cainteoir::parseSmilDocument },
-	{ &mime::ssml,  &cainteoir::parseSsmlDocument },
-	{ &mime::xhtml, NULL }, // FIXME: Align the (X)HTML parser with the rest of the XML parsers.
-	{ &mime::html,  NULL }, // FIXME: Align the (X)HTML parser with the rest of the XML parsers.
+	{ &mime::ncx,    &cainteoir::parseNcxDocument },
+	{ &mime::opf,    NULL }, // FIXME: Align the OPF parser with the rest of the XML parsers.
+	{ &mime::rdfxml, &cainteoir::parseRdfXmlDocument },
+	{ &mime::smil,   &cainteoir::parseSmilDocument },
+	{ &mime::ssml,   &cainteoir::parseSsmlDocument },
+	{ &mime::xhtml,  NULL }, // FIXME: Align the (X)HTML parser with the rest of the XML parsers.
+	{ &mime::html,   NULL }, // FIXME: Align the (X)HTML parser with the rest of the XML parsers.
 };
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
@@ -428,21 +432,34 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 	return true;
 }
 
-void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
+void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities)
 {
 	std::string baseuri = "http://rhdunn.github.com/cainteoir/formats/document";
 
-	// only lists filetypes that are properly supported, excluding intermedate/internal formats ...
+	if (capabilities & (cainteoir::metadata_support | cainteoir::text_support))
+	{
+		mime::epub .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::xhtml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::html .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::mhtml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::email.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::rtf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::ssml .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::gzip .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	}
 
-	mime::text .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-	mime::xhtml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-	mime::html .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-	mime::mhtml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-	mime::email.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-	mime::epub .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-	mime::gzip .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-	mime::rtf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-	mime::ssml .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	if (capabilities & cainteoir::metadata_support)
+	{
+		mime::rdfxml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::opf   .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::ncx   .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::smil  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	}
+
+	if (capabilities & cainteoir::text_support)
+	{
+		mime::text.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	}
 }
 
 bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events, rdf::graph &aGraph)

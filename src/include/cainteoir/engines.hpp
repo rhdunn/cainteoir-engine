@@ -80,7 +80,7 @@ namespace cainteoir { namespace tts
 	class engines
 	{
 	public:
-		engines(rdf::graph &metadata);
+		engines(rdf::graph &metadata, capability_types capabilities);
 		~engines();
 
 		bool select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice);
