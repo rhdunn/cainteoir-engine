@@ -1,6 +1,6 @@
 /* Document Parser.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2011 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -189,8 +189,9 @@ struct mime_headers : public cainteoir::buffer
 {
 	std::tr1::shared_ptr<cainteoir::buffer> mOriginal;
 	std::string encoding;
+	std::string mimetype;
 
-	bool parse_headers(std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph, cainteoir::buffer &boundary)
+	bool parse_headers(const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph, cainteoir::buffer &boundary)
 	{
 		while (first <= last)
 		{
@@ -304,7 +305,7 @@ struct mime_headers : public cainteoir::buffer
 		return false;
 	}
 
-	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data, std::string &mimetype, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 		: cainteoir::buffer(*data)
 		, mOriginal(data)
 		, encoding("8bit")
@@ -320,7 +321,7 @@ struct mime_headers : public cainteoir::buffer
 		}
 
 		cainteoir::buffer boundary(NULL, NULL);
-		if (!parse_headers(mimetype, subject, events, aGraph, boundary))
+		if (!parse_headers(subject, events, aGraph, boundary))
 			first = mOriginal->begin();
 		else if (!boundary.empty())
 		{
@@ -349,7 +350,7 @@ struct mime_headers : public cainteoir::buffer
 	}
 };
 
-bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, std::string type, rdf::graph &aGraph)
+bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	// Encoded documents ...
 
@@ -358,8 +359,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 		if (decode->mimetype->match(data))
 		{
 			std::tr1::shared_ptr<cainteoir::buffer> decompressed = decode->decoder(*data, 0);
-			type = cainteoir::mimetypes()(decompressed);
-			return parseDocumentBuffer(decompressed, subject, events, type, aGraph);
+			return parseDocumentBuffer(decompressed, subject, events, aGraph);
 		}
 	}
 
@@ -367,6 +367,8 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 
 	if (xml.match(data))
 	{
+		std::string type = cainteoir::mimetypes()(data);
+
 		xmldom::document doc(data);
 		xmldom::node root = doc.root();
 
@@ -396,7 +398,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 
 	if (email.match(data) || mime.match(data) || http.match(data))
 	{
-		std::tr1::shared_ptr<mime_headers> mime(new mime_headers(data, type, subject, events, aGraph));
+		std::tr1::shared_ptr<mime_headers> mime(new mime_headers(data, subject, events, aGraph));
 
 		std::tr1::shared_ptr<cainteoir::buffer> decoded;
 		if (mime->encoding == "quoted-printable")
@@ -413,7 +415,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 			throw std::runtime_error(_("unsupported content-transfer-encoding"));
 
 		if (mime->begin() != data->begin()) // Avoid an infinite loop when there is just the mime header.
-			return parseDocumentBuffer(decoded, subject, events, type, aGraph);
+			return parseDocumentBuffer(decoded, subject, events, aGraph);
 	}
 
 	// Other documents ...
@@ -540,6 +542,5 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 	else
 		data = buffer_from_stdin();
 
-	std::string type = cainteoir::mimetypes()(data);
-	return parseDocumentBuffer(data, subject, events, type, aGraph);
+	return parseDocumentBuffer(data, subject, events, aGraph);
 }
