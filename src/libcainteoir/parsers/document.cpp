@@ -35,40 +35,106 @@ namespace rdf = cainteoir::rdf;
   */
 //@{
 
-struct MimeMagic
+struct MimeMatchlet
 {
-	uint32_t offset;
-	uint32_t pattern_length;
-	const char *pattern;
+	uint32_t offset;         /** @brief The position where the pattern starts. */
+	uint32_t range;          /** @brief The number of bytes after offset the pattern can occur. */
+	uint32_t pattern_length; /** @brief Number of bytes to match in the pattern string. */
+	const char *pattern;     /** @brief The pattern to match against. */
+
+	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const;
 };
 
-struct MimeType
+bool MimeMatchlet::match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
 {
-	const char *name;
-	const char *mimetype;
-	uint32_t magic_length;
-	const MimeMagic *magic;
-
-	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &buffer) const;
-};
-
-bool MimeType::match(const std::tr1::shared_ptr<cainteoir::buffer> &buffer) const
-{
-	for (const MimeMagic *matchlet = magic; matchlet != magic + magic_length; ++matchlet)
+	const char *begin = data->begin() + offset;
+	for (const char *start = begin; start != begin + range + 1; ++start)
 	{
-		const char *start = buffer->begin();
-		if (start + matchlet->offset + matchlet->pattern_length >= buffer->end())
+		if (start + pattern_length >= data->end())
 			return false; // out of range!
 
-		if (strncmp(start + matchlet->offset, matchlet->pattern, matchlet->pattern_length))
+		if (!strncmp(start, pattern, pattern_length))
+			return true;
+	}
+	return false;
+}
+
+struct MimeMagic
+{
+	uint32_t length;               /** @brief The number of patterns to match against. */
+	const MimeMatchlet *matchlets; /** @brief The patterns to match against. */
+
+	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const;
+};
+
+bool MimeMagic::match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
+{
+	for (const MimeMatchlet *matchlet = matchlets; matchlet != matchlets + length; ++matchlet)
+	{
+		if (!matchlet->match(data))
 			return false;
 	}
 
 	return true;
 }
 
-const MimeMagic gzip_magic[] = { { 0, 2, "\x1f\x8b" } };
-const MimeType  gzip = { "gzip", "application/x-gzip", 1, gzip_magic };
+struct MimeType
+{
+	const char *name;       /** @brief The name of this mimetype/content. */
+	const char *mimetype;   /** @brief The primary mimetype string. */
+	uint32_t magic_length;  /** @brief The number of possible content identifiers. */
+	const MimeMagic *magic; /** @brief The magic data that identifies this mimetype/content. */
+
+	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &buffer) const;
+};
+
+bool MimeType::match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
+{
+	for (const MimeMagic *matchlet = magic; matchlet != magic + magic_length; ++matchlet)
+	{
+		if (matchlet->match(data))
+			return true;
+	}
+
+	return false;
+}
+
+const MimeMatchlet email_pattern1[] = { { 0, 0, 6, "From: " } };
+const MimeMatchlet email_pattern2[] = { { 0, 0, 9, "Subject: " } };
+const MimeMagic    email_magic[] = { { 1, email_pattern1 }, { 1, email_pattern2 } };
+const MimeType     email = { "email", "message/rfc822", 2, email_magic };
+
+const MimeMatchlet epub_pattern[] = { { 0, 0, 2, "PK" }, { 30, 0, 8, "mimetype" }, { 38, 0, 20, "application/epub+zip" } };
+const MimeMagic    epub_magic[] = { { 3, epub_pattern } };
+const MimeType     epub = { "epub", "application/epub+zip", 1, epub_magic };
+
+const MimeMatchlet gzip_pattern[] = { { 0, 0, 2, "\037\213" } };
+const MimeMagic    gzip_magic[] = { { 1, gzip_pattern } };
+const MimeType     gzip = { "gzip", "application/x-gzip", 1, gzip_magic };
+
+const MimeMatchlet html_pattern1[] = { { 0, 0, 5, "<html" } };
+const MimeMatchlet html_pattern2[] = { { 0, 0, 5, "<HTML" } };
+const MimeMatchlet html_pattern3[] = { { 0, 0, 4, "<!--" } };
+const MimeMagic    html_magic[] = { { 1, html_pattern1 }, { 1, html_pattern2 }, { 1, html_pattern3 } };
+const MimeType     html = { "html", "text/html", 3, html_magic };
+
+const MimeMatchlet http_pattern1[] = { { 0, 0, 8, "HTTP/1.0" } };
+const MimeMatchlet http_pattern2[] = { { 0, 0, 8, "HTTP/1.1" } };
+const MimeMagic    http_magic[] = { { 1, http_pattern1 }, { 1, http_pattern2 } };
+const MimeType     http = { "http", NULL, 2, http_magic };
+
+const MimeMatchlet mime_pattern1[] = { { 0,  4, 14, "Content-Type: " } }; // for multipart mime documents (e.g. mhtml)
+const MimeMatchlet mime_pattern2[] = { { 0, 80, 17, "MIME-Version: 1.0" }, { 18, 80, 14, "Content-Type: " } };
+const MimeMagic    mime_magic[] = { { 1, mime_pattern1 }, { 2, mime_pattern2 } };
+const MimeType     mime = { "mime", NULL, 2, mime_magic };
+
+const MimeMatchlet rtf_pattern[] = { { 0, 0, 5, "{\\rtf" } };
+const MimeMagic    rtf_magic[] = { { 1, rtf_pattern } };
+const MimeType     rtf = { "rtf", "application/rtf", 1, rtf_magic };
+
+const MimeMatchlet xml_pattern[] = { { 0, 0, 14, "<?xml version=" } };
+const MimeMagic    xml_magic[] = { { 1, xml_pattern } };
+const MimeType     xml = { "xml", "application/xml", 1, xml_magic };
 
 //@}
 
@@ -80,6 +146,20 @@ struct DecodeDocument
 
 static const DecodeDocument decode_handlers[] = {
 	{ &gzip, &cainteoir::inflate_gzip },
+};
+
+typedef void (*parsedoc_ptr)(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
+
+struct ParseDocument
+{
+	const MimeType *mimetype;
+	parsedoc_ptr parser;
+};
+
+static const ParseDocument doc_handlers[] = {
+	{ &epub, &cainteoir::parseEpubDocument },
+	{ &html, &cainteoir::parseXHtmlDocument },
+	{ &rtf,  &cainteoir::parseRtfDocument },
 };
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
@@ -283,9 +363,9 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 		}
 	}
 
-	// Other documents ...
+	// XML documents ...
 
-	if (type == "application/xml")
+	if (xml.match(data))
 	{
 		xmldom::document doc(data);
 		xmldom::node root = doc.root();
@@ -307,39 +387,65 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 			cainteoir::parseNcxDocument(root, subject, events, aGraph);
 		else
 			return false;
+
+		aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(type));
+		return true;
 	}
-	else if (type == "application/epub+zip")
-		cainteoir::parseEpubDocument(data, subject, events, aGraph);
-	else if (type == "application/octet-stream")
-		return false;
-	else if (type == "text/rtf")
-		cainteoir::parseRtfDocument(data, subject, events, aGraph);
-	else
+
+	// Documents with MIME headers ...
+
+	if (email.match(data) || mime.match(data) || http.match(data))
 	{
 		std::tr1::shared_ptr<mime_headers> mime(new mime_headers(data, type, subject, events, aGraph));
-		if (mime->begin() == data->begin())
-			parseXHtmlDocument(data, subject, events, aGraph);
-		else
-		{
-			std::tr1::shared_ptr<cainteoir::buffer> decoded;
-			if (mime->encoding == "quoted-printable")
-				decoded = cainteoir::decode_quoted_printable(*mime, 0);
-			else if (mime->encoding == "base64")
-				decoded = cainteoir::decode_base64(*mime, 0);
-			else if (mime->encoding == "7bit" || mime->encoding == "7BIT")
-				decoded = mime;
-			else if (mime->encoding == "8bit" || mime->encoding == "8BIT")
-				decoded = mime;
-			else if (mime->encoding == "binary")
-				decoded = mime;
-			else
-				throw std::runtime_error(_("unsupported content-transfer-encoding"));
 
+		std::tr1::shared_ptr<cainteoir::buffer> decoded;
+		if (mime->encoding == "quoted-printable")
+			decoded = cainteoir::decode_quoted_printable(*mime, 0);
+		else if (mime->encoding == "base64")
+			decoded = cainteoir::decode_base64(*mime, 0);
+		else if (mime->encoding == "7bit" || mime->encoding == "7BIT")
+			decoded = mime;
+		else if (mime->encoding == "8bit" || mime->encoding == "8BIT")
+			decoded = mime;
+		else if (mime->encoding == "binary")
+			decoded = mime;
+		else
+			throw std::runtime_error(_("unsupported content-transfer-encoding"));
+
+		if (mime->begin() != data->begin()) // Avoid an infinite loop when there is just the mime header.
 			return parseDocumentBuffer(decoded, subject, events, type, aGraph);
+	}
+
+	// Other documents ...
+
+	for (const ParseDocument *parse = doc_handlers; parse != doc_handlers + countof(doc_handlers); ++parse)
+	{
+		if (parse->mimetype->match(data))
+		{
+			parse->parser(data, subject, events, aGraph);
+			aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(parse->mimetype->mimetype));
+			return true;
 		}
 	}
 
-	aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(type));
+	// Octet Stream ...
+
+	const char *begin = data->begin();
+	const char *end   = data->end();
+	if (begin + 101 < end) // only check the first 100 bytes
+		end = begin + 101;
+
+	while (begin < end)
+	{
+		if (*begin < 0x20 && !(*begin == '\r' || *begin == '\n' || *begin == '\t'))
+			return false; // looks like an octet/binary stream
+		++begin;
+	}
+
+	// Plain Text ...
+
+	events.text(data);
+	aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal("text/plain"));
 	return true;
 }
 

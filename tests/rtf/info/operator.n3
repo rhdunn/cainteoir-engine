@@ -6,4 +6,4 @@
 <> dc:contributor _:genid1 .
 _:genid1 rdf:value "Joe Bloggs" .
 _:genid1 opf:role "edt" .
-<> tts:mimetype "text/rtf" .
+<> tts:mimetype "application/rtf" .

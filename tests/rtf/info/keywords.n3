@@ -5,4 +5,4 @@
 <> dc:subject "case" .
 <> dc:subject "rtf" .
 <> dc:subject "metadata" .
-<> tts:mimetype "text/rtf" .
+<> tts:mimetype "application/rtf" .

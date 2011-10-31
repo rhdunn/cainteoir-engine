@@ -6,4 +6,4 @@
 <> dc:creator _:genid1 .
 _:genid1 rdf:value "Anne Onymous" .
 _:genid1 opf:role "aut" .
-<> tts:mimetype "text/rtf" .
+<> tts:mimetype "application/rtf" .
