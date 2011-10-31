@@ -26,6 +26,18 @@
 namespace xmldom = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
 
+struct DecodeDocument
+{
+	const char *mimetype;
+	cainteoir::decoder_ptr decoder;
+};
+
+static const DecodeDocument decode_handlers[] = {
+	{ "application/x-gzip", &cainteoir::inflate_gzip },
+};
+
+#define countof(a) (sizeof(a)/sizeof(a[0]))
+
 std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 {
 	cainteoir::rope data;
@@ -213,6 +225,20 @@ struct mime_headers : public cainteoir::buffer
 
 bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, std::string type, rdf::graph &aGraph)
 {
+	// Encoded documents ...
+
+	for (const DecodeDocument *decode = decode_handlers; decode != decode_handlers + countof(decode_handlers); ++decode)
+	{
+		if (type == decode->mimetype)
+		{
+			std::tr1::shared_ptr<cainteoir::buffer> decompressed = decode->decoder(*data, 0);
+			type = cainteoir::mimetypes()(decompressed);
+			return parseDocumentBuffer(decompressed, subject, events, type, aGraph);
+		}
+	}
+
+	// Other documents ...
+
 	if (type == "application/xml")
 	{
 		xmldom::document doc(data);
@@ -238,12 +264,6 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 	}
 	else if (type == "application/epub+zip")
 		cainteoir::parseEpubDocument(data, subject, events, aGraph);
-	else if (type == "application/x-gzip")
-	{
-		std::tr1::shared_ptr<cainteoir::buffer> decompressed = cainteoir::inflate_gzip(*data, 0);
-		type = cainteoir::mimetypes()(decompressed);
-		return parseDocumentBuffer(decompressed, subject, events, type, aGraph);
-	}
 	else if (type == "application/octet-stream")
 		return false;
 	else if (type == "text/rtf")
