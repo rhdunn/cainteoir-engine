@@ -26,14 +26,60 @@
 namespace xmldom = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
 
+/** @name Mime Data
+  *
+  * This will be refactored to load the mime data from the shared-mime-info database and
+  * moved into a separate header/source file. The intention here is to build the API to
+  * the point where the data structures are sufficient for what is needed below and the
+  * algorithms are in place.
+  */
+//@{
+
+struct MimeMagic
+{
+	uint32_t offset;
+	uint32_t pattern_length;
+	const char *pattern;
+};
+
+struct MimeType
+{
+	const char *name;
+	const char *mimetype;
+	uint32_t magic_length;
+	const MimeMagic *magic;
+
+	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &buffer) const;
+};
+
+bool MimeType::match(const std::tr1::shared_ptr<cainteoir::buffer> &buffer) const
+{
+	for (const MimeMagic *matchlet = magic; matchlet != magic + magic_length; ++matchlet)
+	{
+		const char *start = buffer->begin();
+		if (start + matchlet->offset + matchlet->pattern_length >= buffer->end())
+			return false; // out of range!
+
+		if (strncmp(start + matchlet->offset, matchlet->pattern, matchlet->pattern_length))
+			return false;
+	}
+
+	return true;
+}
+
+const MimeMagic gzip_magic[] = { { 0, 2, "\x1f\x8b" } };
+const MimeType  gzip = { "gzip", "application/x-gzip", 1, gzip_magic };
+
+//@}
+
 struct DecodeDocument
 {
-	const char *mimetype;
+	const MimeType *mimetype;
 	cainteoir::decoder_ptr decoder;
 };
 
 static const DecodeDocument decode_handlers[] = {
-	{ "application/x-gzip", &cainteoir::inflate_gzip },
+	{ &gzip, &cainteoir::inflate_gzip },
 };
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
@@ -229,7 +275,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 
 	for (const DecodeDocument *decode = decode_handlers; decode != decode_handlers + countof(decode_handlers); ++decode)
 	{
-		if (type == decode->mimetype)
+		if (decode->mimetype->match(data))
 		{
 			std::tr1::shared_ptr<cainteoir::buffer> decompressed = decode->decoder(*data, 0);
 			type = cainteoir::mimetypes()(decompressed);
