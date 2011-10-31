@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_MIMETYPE_HPP
 
 #include "buffer.hpp"
+#include "metadata.hpp"
 
 namespace cainteoir { namespace mime
 {
@@ -73,9 +74,20 @@ namespace cainteoir { namespace mime
 		/** @brief The XML local name associated with the mimetype (for XML documents only). */
 		const char *localname;
 
+		/** @brief The mimetype description (comment field). */
+		const char *label;
+
+		/** @brief The filename patterns for files matching this mimetype (null terminated). */
+		const char **globs;
+
+		/** @brief The mimetype aliases for this mimetype (null terminated). */
+		const char **aliases;
+
 		bool match(const std::tr1::shared_ptr<cainteoir::buffer> &buffer) const;
 
 		bool match(const std::string &uri, const std::string &name) const;
+
+		void metadata(rdf::graph &aGraph, const std::string &baseuri, const rdf::uri &type) const;
 	};
 }}
 

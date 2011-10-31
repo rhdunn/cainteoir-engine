@@ -36,26 +36,34 @@ namespace cainteoir { namespace mime
 	const matchlet email_pattern1[] = { { 0, 0, 6, "From: " } };
 	const matchlet email_pattern2[] = { { 0, 0, 9, "Subject: " } };
 	const magic    email_magic[] = { { 1, email_pattern1 }, { 1, email_pattern2 } };
-	const mimetype email = { "email", "message/rfc822", 2, email_magic, NULL, NULL };
+	const char *   email_aliases[] = { "text/x-mail", NULL };
+	const char *   email_globs[] = { "*.eml", "*.emlx", "*.msg", "*.mbx", NULL };
+	const mimetype email = { "email", "message/rfc822", 2, email_magic, NULL, NULL, _("electronic mail document"), email_globs, email_aliases };
 
 	const matchlet epub_pattern[] = { { 0, 0, 2, "PK" }, { 30, 0, 8, "mimetype" }, { 38, 0, 20, "application/epub+zip" } };
 	const magic    epub_magic[] = { { 3, epub_pattern } };
-	const mimetype epub = { "epub", "application/epub+zip", 1, epub_magic, NULL, NULL };
+	const char *   epub_globs[] = { "*.epub", NULL };
+	const mimetype epub = { "epub", "application/epub+zip", 1, epub_magic, NULL, NULL, _("electronic publication document"), epub_globs, NULL };
 
 	const matchlet gzip_pattern[] = { { 0, 0, 2, "\037\213" } };
 	const magic    gzip_magic[] = { { 1, gzip_pattern } };
-	const mimetype gzip = { "gzip", "application/x-gzip", 1, gzip_magic, NULL, NULL };
+	const char *   gzip_globs[] = { "*.gz", NULL };
+	const mimetype gzip = { "gzip", "application/x-gzip", 1, gzip_magic, NULL, NULL, _("gzip compressed document"), gzip_globs, NULL };
 
 	const matchlet html_pattern1[] = { { 0, 0, 5, "<html" } };
 	const matchlet html_pattern2[] = { { 0, 0, 5, "<HTML" } };
 	const matchlet html_pattern3[] = { { 0, 0, 4, "<!--" } };
 	const magic    html_magic[] = { { 1, html_pattern1 }, { 1, html_pattern2 }, { 1, html_pattern3 } };
-	const mimetype html = { "html", "text/html", 3, html_magic, NULL, "html" };
+	const char *   html_globs[] = { "*.html", "*.htm", NULL };
+	const mimetype html = { "html", "text/html", 3, html_magic, NULL, "html", _("html document"), html_globs, NULL };
 
 	const matchlet http_pattern1[] = { { 0, 0, 8, "HTTP/1.0" } };
 	const matchlet http_pattern2[] = { { 0, 0, 8, "HTTP/1.1" } };
 	const magic    http_magic[] = { { 1, http_pattern1 }, { 1, http_pattern2 } };
 	const mimetype http = { "http", NULL, 2, http_magic, NULL, NULL };
+
+	const char *   mhtml_globs[] = { "*.mht", NULL };
+	const mimetype mhtml = { "mhtml", "multipart/related", 0, NULL, NULL, NULL, _("mhtml document"), mhtml_globs, NULL };
 
 	const matchlet mime_pattern1[] = { { 0,  4, 14, "Content-Type: " } }; // for multipart mime documents (e.g. mhtml)
 	const matchlet mime_pattern2[] = { { 0, 80, 17, "MIME-Version: 1.0" }, { 18, 80, 14, "Content-Type: " } };
@@ -70,13 +78,20 @@ namespace cainteoir { namespace mime
 
 	const matchlet rtf_pattern[] = { { 0, 0, 5, "{\\rtf" } };
 	const magic    rtf_magic[] = { { 1, rtf_pattern } };
-	const mimetype rtf = { "rtf", "application/rtf", 1, rtf_magic, NULL, NULL };
+	const char *   rtf_aliases[] = { "text/rtf", NULL };
+	const char *   rtf_globs[] = { "*.rtf", NULL };
+	const mimetype rtf = { "rtf", "application/rtf", 1, rtf_magic, NULL, NULL, _("rich text document"), rtf_globs, rtf_aliases };
 
 	const mimetype smil = { "smil", "application/smil", 0, NULL, "http://www.w3.org/ns/SMIL", "smil" };
 
-	const mimetype ssml = { "ssml", "application/ssml+xml", 0, NULL, "http://www.w3.org/2001/10/synthesis", "speak" };
+	const char *   ssml_globs[] = { "*.ssml", NULL };
+	const mimetype ssml = { "ssml", "application/ssml+xml", 0, NULL, "http://www.w3.org/2001/10/synthesis", "speak", _("speech synthesis markup document"), ssml_globs, NULL };
 
-	const mimetype xhtml = { "xhtml", "application/html+xml", 0, NULL, "http://www.w3.org/1999/xhtml", "html" };
+	const char *   text_globs[] = { "*.txt", NULL };
+	const mimetype text = { "text", "text/plain", 0, NULL, NULL, NULL, _("plain text document"), text_globs, NULL };
+
+	const char *   xhtml_globs[] = { "*.xhtml", "*.xht", NULL };
+	const mimetype xhtml = { "xhtml", "application/html+xml", 0, NULL, "http://www.w3.org/1999/xhtml", "html", _("xhtml document"), xhtml_globs, NULL };
 
 	const matchlet xml_pattern[] = { { 0, 0, 14, "<?xml version=" } };
 	const magic    xml_magic[] = { { 1, xml_pattern } };
@@ -419,79 +434,15 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata)
 
 	// only lists filetypes that are properly supported, excluding intermedate/internal formats ...
 
-	rdf::uri text = rdf::uri(baseuri, "text");
-	metadata.statement(text, rdf::rdf("type"), rdf::tts("DocumentFormat"));
-	metadata.statement(text, rdf::tts("name"), rdf::literal("text"));
-	metadata.statement(text, rdf::dc("title"), rdf::literal(_("text document")));
-	metadata.statement(text, rdf::dc("description"), rdf::literal(_("plain text document")));
-	metadata.statement(text, rdf::tts("mimetype"), rdf::literal("text/plain"));
-	metadata.statement(text, rdf::tts("extension"), rdf::literal("*.txt"));
-
-	rdf::uri html = rdf::uri(baseuri, "html");
-	metadata.statement(html, rdf::rdf("type"), rdf::tts("DocumentFormat"));
-	metadata.statement(html, rdf::tts("name"), rdf::literal("html"));
-	metadata.statement(html, rdf::dc("title"), rdf::literal(_("(x)html document")));
-	metadata.statement(html, rdf::dc("description"), rdf::literal(_("(x)html document")));
-	metadata.statement(html, rdf::tts("mimetype"), rdf::literal("text/html"));
-	metadata.statement(html, rdf::tts("mimetype"), rdf::literal("application/xhtml+xml"));
-	metadata.statement(html, rdf::tts("extension"), rdf::literal("*.htm"));
-	metadata.statement(html, rdf::tts("extension"), rdf::literal("*.html"));
-	metadata.statement(html, rdf::tts("extension"), rdf::literal("*.xhtml"));
-	metadata.statement(html, rdf::tts("extension"), rdf::literal("*.xht"));
-	metadata.statement(html, rdf::tts("extension"), rdf::literal("*.xml"));
-
-	rdf::uri mhtml = rdf::uri(baseuri, "mhtml");
-	metadata.statement(mhtml, rdf::rdf("type"), rdf::tts("DocumentFormat"));
-	metadata.statement(mhtml, rdf::tts("name"), rdf::literal("mhtml"));
-	metadata.statement(mhtml, rdf::dc("title"), rdf::literal(_("mhtml document")));
-	metadata.statement(mhtml, rdf::dc("description"), rdf::literal(_("single-file HTML document")));
-	metadata.statement(mhtml, rdf::tts("mimetype"), rdf::literal("multipart/related"));
-	metadata.statement(mhtml, rdf::tts("extension"), rdf::literal("*.mht"));
-
-	rdf::uri epub = rdf::uri(baseuri, "epub");
-	metadata.statement(epub, rdf::rdf("type"), rdf::tts("DocumentFormat"));
-	metadata.statement(epub, rdf::tts("name"), rdf::literal("epub"));
-	metadata.statement(epub, rdf::dc("title"), rdf::literal(_("epub document")));
-	metadata.statement(epub, rdf::dc("description"), rdf::literal(_("electronic publication (ePub) document")));
-	metadata.statement(epub, rdf::tts("mimetype"), rdf::literal("application/epub+zip"));
-	metadata.statement(epub, rdf::tts("extension"), rdf::literal("*.epub"));
-
-	rdf::uri email = rdf::uri(baseuri, "email");
-	metadata.statement(email, rdf::rdf("type"), rdf::tts("DocumentFormat"));
-	metadata.statement(email, rdf::tts("name"), rdf::literal("email"));
-	metadata.statement(email, rdf::dc("title"), rdf::literal(_("email document")));
-	metadata.statement(email, rdf::dc("description"), rdf::literal(_("electronic mail document (raw mbox format)")));
-	metadata.statement(email, rdf::tts("mimetype"), rdf::literal("text/x-mail"));
-	metadata.statement(email, rdf::tts("mimetype"), rdf::literal("message/rfc822"));
-	metadata.statement(email, rdf::tts("extension"), rdf::literal("*.eml"));
-	metadata.statement(email, rdf::tts("extension"), rdf::literal("*.emlx"));
-	metadata.statement(email, rdf::tts("extension"), rdf::literal("*.msg"));
-	metadata.statement(email, rdf::tts("extension"), rdf::literal("*.mbx"));
-
-	rdf::uri gzip = rdf::uri(baseuri, "gzip");
-	metadata.statement(gzip, rdf::rdf("type"), rdf::tts("DocumentFormat"));
-	metadata.statement(gzip, rdf::tts("name"), rdf::literal("gzip"));
-	metadata.statement(gzip, rdf::dc("title"), rdf::literal(_("gzip compressed document")));
-	metadata.statement(gzip, rdf::dc("description"), rdf::literal(_("gzip compressed document")));
-	metadata.statement(gzip, rdf::tts("mimetype"), rdf::literal("application/x-gzip"));
-	metadata.statement(gzip, rdf::tts("extension"), rdf::literal("*.gz"));
-
-	rdf::uri rtf = rdf::uri(baseuri, "rtf");
-	metadata.statement(rtf, rdf::rdf("type"), rdf::tts("DocumentFormat"));
-	metadata.statement(rtf, rdf::tts("name"), rdf::literal("rtf"));
-	metadata.statement(rtf, rdf::dc("title"), rdf::literal(_("rich text document")));
-	metadata.statement(rtf, rdf::dc("description"), rdf::literal(_("rich text document")));
-	metadata.statement(rtf, rdf::tts("mimetype"), rdf::literal("text/rtf"));
-	metadata.statement(rtf, rdf::tts("mimetype"), rdf::literal("application/rtf"));
-	metadata.statement(rtf, rdf::tts("extension"), rdf::literal("*.rtf"));
-
-	rdf::uri ssml = rdf::uri(baseuri, "ssml");
-	metadata.statement(ssml, rdf::rdf("type"), rdf::tts("DocumentFormat"));
-	metadata.statement(ssml, rdf::tts("name"), rdf::literal("ssml"));
-	metadata.statement(ssml, rdf::dc("title"), rdf::literal(_("speech synthesis markup document")));
-	metadata.statement(ssml, rdf::dc("description"), rdf::literal(_("speech synthesis markup document")));
-	metadata.statement(ssml, rdf::tts("mimetype"), rdf::literal("application/ssml+xml"));
-	metadata.statement(ssml, rdf::tts("extension"), rdf::literal("*.ssml"));
+	mime::text .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	mime::xhtml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	mime::html .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	mime::mhtml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	mime::email.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	mime::epub .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	mime::gzip .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	mime::rtf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	mime::ssml .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 }
 
 bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events, rdf::graph &aGraph)

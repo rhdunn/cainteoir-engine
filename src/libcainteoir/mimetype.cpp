@@ -65,3 +65,20 @@ bool cainteoir::mime::mimetype::match(const std::string &uri, const std::string 
 	}
 	return localname == name;
 }
+
+void cainteoir::mime::mimetype::metadata(rdf::graph &aGraph, const std::string &baseuri, const rdf::uri &type) const
+{
+	rdf::uri ref = rdf::uri(baseuri, name);
+	aGraph.statement(ref, rdf::rdf("type"), type);
+	aGraph.statement(ref, rdf::tts("name"), rdf::literal(name));
+	aGraph.statement(ref, rdf::dc("title"), rdf::literal(label));
+	aGraph.statement(ref, rdf::dc("description"), rdf::literal(label));
+	aGraph.statement(ref, rdf::tts("mimetype"), rdf::literal(mimetype));
+	if (aliases)
+	{
+		for (const char **alias = aliases; *alias; ++alias)
+			aGraph.statement(ref, rdf::tts("mimetype"), rdf::literal(*alias));
+	}
+	for (const char **glob = globs; *glob; ++glob)
+		aGraph.statement(ref, rdf::tts("extension"), rdf::literal(*glob));
+}
