@@ -19,11 +19,13 @@
  */
 
 #include <cainteoir/audio.hpp>
+#include <cainteoir/mimetype.hpp>
 #include <cainteoir/platform.hpp>
 #include <string.h>
 
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
+namespace mime = cainteoir::mime;
 
 std::tr1::shared_ptr<cainteoir::audio>
 create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
@@ -34,30 +36,22 @@ create_ogg_file(const char *filename, const rdf::uri &format, int channels, int 
 std::tr1::shared_ptr<cainteoir::audio>
 create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
+namespace cainteoir { namespace mime {
+	const char *   wav_aliases[] = { "audio/vnd.wav", "audio/wav", "audio/wave", NULL };
+	const char *   wav_globs[] = { "*.wav", NULL };
+	const mimetype wav = { "wav", "audio/x-wav", 0, NULL, NULL, NULL, _("wave audio"), wav_globs, wav_aliases };
+
+	const char *   ogg_aliases[] = { "audio/ogg", NULL };
+	const char *   ogg_globs[] = { "*.ogg", NULL };
+	const mimetype ogg = { "ogg", "application/ogg", 0, NULL, NULL, NULL, _("ogg vorbis audio"), ogg_globs, ogg_aliases };
+}}
 
 void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 {
 	std::string baseuri = "http://rhdunn.github.com/cainteoir/formats/audio";
 
-	rdf::uri wav = rdf::uri(baseuri, "wav");
-	metadata.statement(wav, rdf::rdf("type"), rdf::tts("AudioFormat"));
-	metadata.statement(wav, rdf::tts("name"), rdf::literal("wav"));
-	metadata.statement(wav, rdf::dc("title"), rdf::literal(_("wave audio")));
-	metadata.statement(wav, rdf::dc("description"), rdf::literal(_("uncompressed WAVE audio")));
-	metadata.statement(wav, rdf::tts("mimetype"), rdf::literal("audio/vnd.wav"));
-	metadata.statement(wav, rdf::tts("mimetype"), rdf::literal("audio/wav"));
-	metadata.statement(wav, rdf::tts("mimetype"), rdf::literal("audio/wave"));
-	metadata.statement(wav, rdf::tts("mimetype"), rdf::literal("audio/x-wav"));
-	metadata.statement(wav, rdf::tts("extension"), rdf::literal("*.wav"));
-
-	rdf::uri ogg = rdf::uri(baseuri, "ogg");
-	metadata.statement(ogg, rdf::rdf("type"), rdf::tts("AudioFormat"));
-	metadata.statement(ogg, rdf::tts("name"), rdf::literal("ogg"));
-	metadata.statement(ogg, rdf::dc("title"), rdf::literal(_("ogg vorbis audio")));
-	metadata.statement(ogg, rdf::dc("description"), rdf::literal(_("Ogg/Vorbis audio")));
-	metadata.statement(ogg, rdf::tts("mimetype"), rdf::literal("application/ogg"));
-	metadata.statement(ogg, rdf::tts("mimetype"), rdf::literal("audio/ogg"));
-	metadata.statement(ogg, rdf::tts("extension"), rdf::literal("*.ogg"));
+	mime::wav.metadata(metadata, baseuri, rdf::tts("AudioFormat"));
+	mime::ogg.metadata(metadata, baseuri, rdf::tts("AudioFormat"));
 }
 
 std::tr1::shared_ptr<cainteoir::audio>
