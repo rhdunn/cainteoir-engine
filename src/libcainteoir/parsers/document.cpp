@@ -89,10 +89,6 @@ struct DecodeDocument
 	cainteoir::decoder_ptr decoder;
 };
 
-static const DecodeDocument decode_handlers[] = {
-	{ &mime::gzip, &cainteoir::inflate_gzip },
-};
-
 typedef void (*parsedoc_ptr)(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
 
 struct ParseDocument
@@ -101,18 +97,22 @@ struct ParseDocument
 	parsedoc_ptr parser;
 };
 
-static const ParseDocument doc_handlers[] = {
-	{ &mime::epub, &cainteoir::parseEpubDocument },
-	{ &mime::html, &cainteoir::parseXHtmlDocument },
-	{ &mime::rtf,  &cainteoir::parseRtfDocument },
-};
-
 typedef void (*parsexml_ptr)(const xmldom::node &aRoot, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
 
 struct XmlDocument
 {
 	const mime::mimetype *mimetype;
 	parsexml_ptr parser;
+};
+
+static const DecodeDocument decode_handlers[] = {
+	{ &mime::gzip, &cainteoir::inflate_gzip },
+};
+
+static const ParseDocument doc_handlers[] = {
+	{ &mime::epub, &cainteoir::parseEpubDocument },
+	{ &mime::html, &cainteoir::parseXHtmlDocument },
+	{ &mime::rtf,  &cainteoir::parseRtfDocument },
 };
 
 static const XmlDocument xml_handlers[] = {
