@@ -49,19 +49,6 @@ AC_CHECK_LIB( pthread, pthread_create, [],
     ])
 
 dnl ================================================================
-dnl libmagic checks.
-dnl ================================================================
-
-AC_CHECK_HEADERS(magic.h,
-    [
-        MAGIC_CFLAGS=""
-        MAGIC_LIBS="-lmagic"
-    ], [AC_MSG_ERROR([libmagic is required.])])
-
-AC_SUBST(MAGIC_CFLAGS)
-AC_SUBST(MAGIC_LIBS)
-
-dnl ================================================================
 dnl libxml2 checks.
 dnl ================================================================
 

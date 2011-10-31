@@ -83,17 +83,12 @@ EXTRA_DIST += ChangeLog
 ############################# data ############################################
 
 EXTRA_DIST += \
-	data/magic \
 	data/languages.rdf \
 	src/schema/*.rdf
 
 pkgdata_DATA += \
-	data/magic.mgc \
 	data/languages.rdf \
 	src/schema/text-to-speech.rdf
-
-data/magic.mgc: data/magic
-	cd data && file -C -m magic
 
 ############################# libcainteoir ####################################
 
@@ -115,7 +110,6 @@ lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
 src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION) \
 	${PULSE_LIBS} \
 	${VORBIS_LIBS} \
-	${MAGIC_LIBS} \
 	${LIBXML2_LIBS} \
 	${ZLIB_LIBS} \
 	${ESPEAK_LIBS} \
@@ -124,7 +118,6 @@ src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION)
 src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 	${PULSE_CFLAGS} \
 	${VORBIS_CFLAGS} \
-	${MAGIC_CFLAGS} \
 	${ZLIB_CFLAGS} \
 	${ESPEAK_CFLAGS}
 
@@ -143,7 +136,6 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/compression/quoted_printable.cpp \
 	src/libcainteoir/rdf/metadata.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
-	src/libcainteoir/parsers/mimetypes.hpp \
 	src/libcainteoir/parsers/parsers.hpp \
 	src/libcainteoir/parsers/xml.hpp \
 	src/libcainteoir/parsers/zip.hpp \
