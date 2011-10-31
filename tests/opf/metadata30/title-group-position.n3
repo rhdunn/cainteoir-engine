@@ -8,4 +8,4 @@
 <> dct:title <#series> .
 <#series> rdf:value "The Series" .
 <#series> pkg:group-position "2" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/oebps-package+xml" .

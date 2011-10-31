@@ -1,2 +1,2 @@
 <http://example.org/here/#snack> <http://example.org/stuff/1.0/prop> <http://example.org/here/fruit/apple> .
-<> <http://rhdunn.github.com/2010/12/text-to-speech#mimetype> "application/xml" .
+<> <http://rhdunn.github.com/2010/12/text-to-speech#mimetype> "application/rdf+xml" .

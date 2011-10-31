@@ -4,4 +4,4 @@
 <http://www.example.com/meta.ssml> dc:title "Speech Synthesis" .
 <http://www.example.com/meta.ssml> dc:language "en-US" .
 <http://www.example.com/meta.ssml> dc:format "application/ssml+xml" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/ssml+xml" .

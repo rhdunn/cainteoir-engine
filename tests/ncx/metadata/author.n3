@@ -2,4 +2,4 @@
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 
 <> dc:creator "John Doe" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/x-dtbncx+xml" .

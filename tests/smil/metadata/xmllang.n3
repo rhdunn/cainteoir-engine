@@ -3,4 +3,4 @@
 
 <http://www.example.com/test.smil> dc:title "Example SMIL Document" .
 <> dc:language "es" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/smil" .

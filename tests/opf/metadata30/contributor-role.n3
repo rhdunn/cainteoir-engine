@@ -9,4 +9,4 @@
 <#contributor> pkg:role <#edt-role> .
 <#edt-role> rdf:value "edt" .
 <#edt-role> pkg:scheme "http://id.loc.gov/vocabulary/relators"^^xsd:anyURI .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/oebps-package+xml" .

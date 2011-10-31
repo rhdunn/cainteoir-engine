@@ -245,9 +245,9 @@ EXTRA_DIST += $(TEST_FILES)
 
 check: tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/turtle_formatter src/apps/metadata/metadata tests/events tests/xmlreader $(TEST_FILES)
 	tests/rdfmodel
-	CAINTEOIR_DATADIR=`pwd`/data tests/rdfquery
 	tests/ntriple_formatter
 	tests/turtle_formatter
+	tests/rdfquery
 	python tests/xmlreader.py
 	python tests/metadata.py
 	python tests/vorbis-comments.py

@@ -2,4 +2,4 @@
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 
 <> dc:language "en-US" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/ssml+xml" .

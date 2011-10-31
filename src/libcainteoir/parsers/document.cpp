@@ -84,8 +84,12 @@ struct MimeType
 	const char *mimetype;   /** @brief The primary mimetype string. */
 	uint32_t magic_length;  /** @brief The number of possible content identifiers. */
 	const MimeMagic *magic; /** @brief The magic data that identifies this mimetype/content. */
+	const char *xmlns;      /** @brief The XML namespace associated with the mimetype (for XML documents only). */
+	const char *localname;  /** @brief The XML local name associated with the mimetype (for XML documents only). */
 
 	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &buffer) const;
+
+	bool match(const xmldom::node &root) const;
 };
 
 bool MimeType::match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
@@ -99,42 +103,65 @@ bool MimeType::match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
 	return false;
 }
 
+bool MimeType::match(const xmldom::node &root) const
+{
+	if (xmlns)
+	{
+		std::string uri = root.namespaceURI();
+		if (!(uri == xmlns || uri == std::string(xmlns) + "#"))
+			return false;
+	}
+	return !strcmp(localname, root.name());
+}
+
 const MimeMatchlet email_pattern1[] = { { 0, 0, 6, "From: " } };
 const MimeMatchlet email_pattern2[] = { { 0, 0, 9, "Subject: " } };
 const MimeMagic    email_magic[] = { { 1, email_pattern1 }, { 1, email_pattern2 } };
-const MimeType     email = { "email", "message/rfc822", 2, email_magic };
+const MimeType     email = { "email", "message/rfc822", 2, email_magic, NULL, NULL };
 
 const MimeMatchlet epub_pattern[] = { { 0, 0, 2, "PK" }, { 30, 0, 8, "mimetype" }, { 38, 0, 20, "application/epub+zip" } };
 const MimeMagic    epub_magic[] = { { 3, epub_pattern } };
-const MimeType     epub = { "epub", "application/epub+zip", 1, epub_magic };
+const MimeType     epub = { "epub", "application/epub+zip", 1, epub_magic, NULL, NULL };
 
 const MimeMatchlet gzip_pattern[] = { { 0, 0, 2, "\037\213" } };
 const MimeMagic    gzip_magic[] = { { 1, gzip_pattern } };
-const MimeType     gzip = { "gzip", "application/x-gzip", 1, gzip_magic };
+const MimeType     gzip = { "gzip", "application/x-gzip", 1, gzip_magic, NULL, NULL };
 
 const MimeMatchlet html_pattern1[] = { { 0, 0, 5, "<html" } };
 const MimeMatchlet html_pattern2[] = { { 0, 0, 5, "<HTML" } };
 const MimeMatchlet html_pattern3[] = { { 0, 0, 4, "<!--" } };
 const MimeMagic    html_magic[] = { { 1, html_pattern1 }, { 1, html_pattern2 }, { 1, html_pattern3 } };
-const MimeType     html = { "html", "text/html", 3, html_magic };
+const MimeType     html = { "html", "text/html", 3, html_magic, NULL, "html" };
 
 const MimeMatchlet http_pattern1[] = { { 0, 0, 8, "HTTP/1.0" } };
 const MimeMatchlet http_pattern2[] = { { 0, 0, 8, "HTTP/1.1" } };
 const MimeMagic    http_magic[] = { { 1, http_pattern1 }, { 1, http_pattern2 } };
-const MimeType     http = { "http", NULL, 2, http_magic };
+const MimeType     http = { "http", NULL, 2, http_magic, NULL, NULL };
 
 const MimeMatchlet mime_pattern1[] = { { 0,  4, 14, "Content-Type: " } }; // for multipart mime documents (e.g. mhtml)
 const MimeMatchlet mime_pattern2[] = { { 0, 80, 17, "MIME-Version: 1.0" }, { 18, 80, 14, "Content-Type: " } };
 const MimeMagic    mime_magic[] = { { 1, mime_pattern1 }, { 2, mime_pattern2 } };
-const MimeType     mime = { "mime", NULL, 2, mime_magic };
+const MimeType     mime = { "mime", NULL, 2, mime_magic, NULL, NULL };
+
+const MimeType ncx = { "ncx", "application/x-dtbncx+xml", 0, NULL, "http://www.daisy.org/z3986/2005/ncx/", "ncx" };
+
+const MimeType opf = { "opf", "application/oebps-package+xml", 0, NULL, "http://www.idpf.org/2007/opf", "package" };
+
+const MimeType rdfml = { "rdf", "application/rdf+xml", 0, NULL, "http://www.w3.org/1999/02/22-rdf-syntax-ns", "RDF" };
 
 const MimeMatchlet rtf_pattern[] = { { 0, 0, 5, "{\\rtf" } };
 const MimeMagic    rtf_magic[] = { { 1, rtf_pattern } };
-const MimeType     rtf = { "rtf", "application/rtf", 1, rtf_magic };
+const MimeType     rtf = { "rtf", "application/rtf", 1, rtf_magic, NULL, NULL };
+
+const MimeType smil = { "smil", "application/smil", 0, NULL, "http://www.w3.org/ns/SMIL", "smil" };
+
+const MimeType ssml = { "ssml", "application/ssml+xml", 0, NULL, "http://www.w3.org/2001/10/synthesis", "speak" };
+
+const MimeType xhtml = { "xhtml", "application/html+xml", 0, NULL, "http://www.w3.org/1999/xhtml", "html" };
 
 const MimeMatchlet xml_pattern[] = { { 0, 0, 14, "<?xml version=" } };
 const MimeMagic    xml_magic[] = { { 1, xml_pattern } };
-const MimeType     xml = { "xml", "application/xml", 1, xml_magic };
+const MimeType     xml = { "xml", "application/xml", 1, xml_magic, NULL, NULL };
 
 //@}
 
@@ -160,6 +187,24 @@ static const ParseDocument doc_handlers[] = {
 	{ &epub, &cainteoir::parseEpubDocument },
 	{ &html, &cainteoir::parseXHtmlDocument },
 	{ &rtf,  &cainteoir::parseRtfDocument },
+};
+
+typedef void (*parsexml_ptr)(const xmldom::node &aRoot, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
+
+struct XmlDocument
+{
+	const MimeType *mimetype;
+	parsexml_ptr parser;
+};
+
+static const XmlDocument xml_handlers[] = {
+	{ &ncx,   &cainteoir::parseNcxDocument },
+	{ &opf,   NULL }, // FIXME: Align the OPF parser with the rest of the XML parsers.
+	{ &rdfml, &cainteoir::parseRdfXmlDocument },
+	{ &smil,  &cainteoir::parseSmilDocument },
+	{ &ssml,  &cainteoir::parseSsmlDocument },
+	{ &xhtml, NULL }, // FIXME: Align the (X)HTML parser with the rest of the XML parsers.
+	{ &html,  NULL }, // FIXME: Align the (X)HTML parser with the rest of the XML parsers.
 };
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
@@ -367,31 +412,30 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 
 	if (xml.match(data))
 	{
-		std::string type = cainteoir::mimetypes()(data);
-
 		xmldom::document doc(data);
 		xmldom::node root = doc.root();
 
-		if (root == rdf::opf("package"))
+		for (const XmlDocument *xml = xml_handlers; xml != xml_handlers + countof(xml_handlers); ++xml)
 		{
-			cainteoir::opffiles files;
-			cainteoir::parseOpfDocument(root, subject, events, aGraph, files);
+			if (xml->mimetype->match(root))
+			{
+				if (!xml->parser) // FIXME: Temporary cludge for parsers that don't follow the xml parser signature ...
+				{
+					if (root == rdf::opf("package"))
+					{
+						cainteoir::opffiles files;
+						cainteoir::parseOpfDocument(root, subject, events, aGraph, files);
+					}
+					else if (root == rdf::xhtml("html") || root == rdf::uri(std::string(), "html"))
+						parseXHtmlDocument(data, subject, events, aGraph);
+				}
+				else
+					xml->parser(root, subject, events, aGraph);
+				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(xml->mimetype->mimetype));
+				return true;
+			}
 		}
-		else if (root == rdf::xhtml("html") || root == rdf::uri(std::string(), "html"))
-			parseXHtmlDocument(data, subject, events, aGraph);
-		else if (root == rdf::rdf("RDF"))
-			cainteoir::parseRdfXmlDocument(root, subject, events, aGraph);
-		else if (root == rdf::smil("smil"))
-			cainteoir::parseSmilDocument(root, subject, events, aGraph);
-		else if (root == rdf::ssml("speak"))
-			cainteoir::parseSsmlDocument(root, subject, events, aGraph);
-		else if (root == rdf::ncx("ncx"))
-			cainteoir::parseNcxDocument(root, subject, events, aGraph);
-		else
-			return false;
-
-		aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(type));
-		return true;
+		return false;
 	}
 
 	// Documents with MIME headers ...

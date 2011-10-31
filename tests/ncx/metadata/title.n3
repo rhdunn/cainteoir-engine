@@ -2,4 +2,4 @@
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 
 <> dc:title "Lorem Ipsum" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/x-dtbncx+xml" .

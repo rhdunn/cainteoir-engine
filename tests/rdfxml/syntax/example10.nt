@@ -1,2 +1,2 @@
 <http://example.org/item01> <http://example.org/stuff/1.0/size> "123"^^<http://www.w3.org/2001/XMLSchema#int> .
-<> <http://rhdunn.github.com/2010/12/text-to-speech#mimetype> "application/xml" .
+<> <http://rhdunn.github.com/2010/12/text-to-speech#mimetype> "application/rdf+xml" .
