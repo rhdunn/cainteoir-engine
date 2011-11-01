@@ -36,16 +36,6 @@ create_ogg_file(const char *filename, const rdf::uri &format, int channels, int 
 std::tr1::shared_ptr<cainteoir::audio>
 create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
-namespace cainteoir { namespace mime {
-	const char *   wav_aliases[] = { "audio/vnd.wav", "audio/wav", "audio/wave", NULL };
-	const char *   wav_globs[] = { "*.wav", NULL };
-	const mimetype wav = { "wav", "audio/x-wav", 0, NULL, NULL, NULL, _("wave audio"), wav_globs, wav_aliases };
-
-	const char *   ogg_aliases[] = { "audio/ogg", NULL };
-	const char *   ogg_globs[] = { "*.ogg", NULL };
-	const mimetype ogg = { "ogg", "application/ogg", 0, NULL, NULL, NULL, _("ogg vorbis audio"), ogg_globs, ogg_aliases };
-}}
-
 void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 {
 	std::string baseuri = "http://rhdunn.github.com/cainteoir/formats/audio";
