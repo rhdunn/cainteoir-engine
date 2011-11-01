@@ -26,68 +26,29 @@
 
 namespace cainteoir { namespace mime
 {
-	struct matchlet
-	{
-		/** @brief The position where the pattern starts. */
-		uint32_t offset;
-
-		/** @brief The number of bytes after offset the pattern can occur. */
-		uint32_t range;
-
-		/** @brief Number of bytes to match in the pattern string. */
-		uint32_t pattern_length;
-
-		/** @brief The pattern to match against. */
-		const char *pattern;
-
-		bool match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const;
-	};
-
-	struct magic
-	{
-		/** @brief The number of patterns to match against. */
-		uint32_t length;
-
-		/** @brief The patterns to match against. */
-		const matchlet *matchlets;
-
-		bool match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const;
-	};
-
 	struct mimetype
 	{
 		/** @brief The name of this mimetype/content. */
 		const char *name;
 
 		/** @brief The primary mimetype string. */
-		const char *mimetype;
+		const char *mime_type;
 
-		/** @brief The number of possible content identifiers. */
-		uint32_t magic_length;
-
-		/** @brief The magic data that identifies this mimetype/content. */
-		const cainteoir::mime::magic *magic;
-
-		/** @brief The XML namespace associated with the mimetype (for XML documents only). */
-		const char *xmlns;
-
-		/** @brief The XML local name associated with the mimetype (for XML documents only). */
-		const char *localname;
-
-		/** @brief The mimetype description (comment field). */
-		const char *label;
-
-		/** @brief The filename patterns for files matching this mimetype (null terminated). */
-		const char **globs;
-
-		/** @brief The mimetype aliases for this mimetype (null terminated). */
-		const char **aliases;
+		mimetype(const char *aName, const char *aMimeType, const void *aInfo)
+			: name(aName)
+			, mime_type(aMimeType)
+			, info(aInfo)
+		{
+		}
 
 		bool match(const std::tr1::shared_ptr<cainteoir::buffer> &buffer) const;
 
 		bool match(const std::string &uri, const std::string &name) const;
 
 		void metadata(rdf::graph &aGraph, const std::string &baseuri, const rdf::uri &type) const;
+	private:
+		/** @brief Internal mimetype information. */
+		const void *info;
 	};
 
 	/** @name Mime Data

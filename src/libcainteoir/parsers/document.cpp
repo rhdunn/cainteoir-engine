@@ -293,7 +293,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 				}
 				else
 					xml->parser(root, subject, events, aGraph);
-				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(xml->mimetype->mimetype));
+				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(xml->mimetype->mime_type));
 				return true;
 			}
 		}
@@ -331,7 +331,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 		if (parse->mimetype->match(data))
 		{
 			parse->parser(data, subject, events, aGraph);
-			aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(parse->mimetype->mimetype));
+			aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(parse->mimetype->mime_type));
 			return true;
 		}
 	}
