@@ -97,7 +97,6 @@ bool cainteoir::mime::mimetype::match(const std::tr1::shared_ptr<cainteoir::buff
 		if (magic->match(data))
 			return true;
 	}
-
 	return false;
 }
 
@@ -106,7 +105,7 @@ bool cainteoir::mime::mimetype::match(const std::string &uri, const std::string 
 	const mime_info *mime = (const mime_info *)info;
 	if (!mime->xmlns.empty())
 	{
-		if (!(uri == mime->xmlns || uri == std::string(mime->xmlns) + "#"))
+		if (!(uri == mime->xmlns || uri == mime->xmlns + "#"))
 			return false;
 	}
 	return mime->localname == name;
