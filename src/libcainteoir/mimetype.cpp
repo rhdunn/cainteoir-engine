@@ -20,11 +20,14 @@
 
 #include <cainteoir/mimetype.hpp>
 #include <cainteoir/platform.hpp>
+#include <cainteoir/xmlreader.hpp>
 
 #include <netinet/in.h> // for ntohs and ntohl
 #include <stdexcept>
 #include <vector>
 #include <map>
+
+namespace xml = cainteoir::xml;
 
 static const char *email_mimetype  = "message/rfc822";
 static const char *epub_mimetype   = "application/epub+zip";
@@ -319,6 +322,63 @@ struct mimetype_database : public std::map<std::string, mime_info>
 		}
 	}
 
+	std::string read_comment_from_mimeinfo_file(const std::string &filename)
+	{
+		try
+		{
+			std::map<std::string, std::string> comments;
+
+			std::tr1::shared_ptr<cainteoir::buffer> mimeinfo(new cainteoir::mmap_buffer(filename.c_str()));
+			xml::reader reader(mimeinfo);
+
+			bool in_comment = false;
+			std::string lang;
+			while (reader.read()) switch (reader.nodeType())
+			{
+			case xml::reader::beginTagNode:
+				if (!reader.nodeName().compare("comment"))
+				{
+					lang = "--";
+					in_comment = true;
+				}
+				break;
+			case xml::reader::attribute:
+				if (in_comment && !reader.nodeName().compare("xml:lang"))
+					lang = reader.nodeValue().buffer()->str();
+				break;
+			case xml::reader::textNode:
+				if (in_comment)
+					comments[lang] = reader.nodeValue().buffer()->str();
+				break;
+			case xml::reader::endTagNode:
+				if (!reader.nodeName().compare("comment"))
+					in_comment = false;
+				break;
+			}
+
+			const char *lang_env = getenv("LANG");
+			if (lang_env)
+			{
+				std::string lang = lang_env;
+				if (!comments[lang].empty())
+					return comments[lang];
+				lang = lang.substr(0, lang.find('.'));
+				if (!comments[lang].empty())
+					return comments[lang];
+				lang = lang.substr(0, lang.find('_'));
+				if (!comments[lang].empty())
+					return comments[lang];
+			}
+			return comments["--"];
+		}
+		catch (std::runtime_error &)
+		{
+			// The mimetype information file was not found, or there was
+			// a problem reading it, so ignore this file data.
+		}
+		return "";
+	}
+
 	mimetype_database()
 	{
 		foreach_iter (dir, get_mime_dirs())
@@ -333,6 +393,9 @@ struct mimetype_database : public std::map<std::string, mime_info>
 				read_globs_from_cache(cache);
 				read_magic_from_cache(cache);
 				read_xmlns_from_cache(cache);
+
+				foreach_iter (mimetype, mimetype_list)
+					(*this)[*mimetype].label = read_comment_from_mimeinfo_file(*dir + *mimetype + ".xml");
 			}
 			catch (const std::runtime_error &)
 			{
@@ -343,28 +406,19 @@ struct mimetype_database : public std::map<std::string, mime_info>
 
 		/** @name Mime Data
 		  *
-		  * This will be refactored to load the mime data from the shared-mime-info database.
+		  * This information is not located in the mime data from the shared-mime-info database.
+		  * This will be added to a cainteoir.xml mime-info package file.
 		  */
 		//@{
 
-		(*this)[email_mimetype].label = _("electronic mail document");
-
-		(*this)[epub_mimetype].label = _("electronic publication document");
-
-		(*this)[gzip_mimetype].label = _("gzip compressed document");
-
 		(*this)[html_mimetype].localname = "html";
-		(*this)[html_mimetype].label = _("html document");
 
-		(*this)[mhtml_mimetype].label = _("mhtml document");
 		(*this)[mhtml_mimetype].globs = { "*.mht" };
 
 		(*this)[ncx_mimetype].xmlns = "http://www.daisy.org/z3986/2005/ncx/";
 		(*this)[ncx_mimetype].localname = "ncx";
 		(*this)[ncx_mimetype].label = _("navigation control document");
 		(*this)[ncx_mimetype].globs = { "*.ncx" };
-
-		(*this)[ogg_mimetype].label = _("ogg vorbis audio");
 
 		(*this)[opf_mimetype].xmlns = "http://www.idpf.org/2007/opf";
 		(*this)[opf_mimetype].localname = "package";
@@ -373,24 +427,14 @@ struct mimetype_database : public std::map<std::string, mime_info>
 
 		(*this)[rdfxml_mimetype].xmlns = "http://www.w3.org/1999/02/22-rdf-syntax-ns";
 		(*this)[rdfxml_mimetype].localname = "RDF";
-		(*this)[rdfxml_mimetype].label = _("RDF/XML document");
-
-		(*this)[rtf_mimetype].label = _("rich text document");
 
 		(*this)[smil_mimetype].xmlns = "http://www.w3.org/ns/SMIL";
 		(*this)[smil_mimetype].localname = "smil";
-		(*this)[smil_mimetype].label = _("SMIL document");
 
 		(*this)[ssml_mimetype].xmlns = "http://www.w3.org/2001/10/synthesis";
 		(*this)[ssml_mimetype].localname = "speak";
 		(*this)[ssml_mimetype].label = _("speech synthesis markup document");
 		(*this)[ssml_mimetype].globs = { "*.ssml" };
-
-		(*this)[text_mimetype].label = _("plain text document");
-
-		(*this)[wav_mimetype].label = _("wave audio");
-
-		(*this)[xhtml_mimetype].label = _("xhtml document");
 
 		//@}
 	}
