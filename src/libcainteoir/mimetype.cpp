@@ -50,14 +50,16 @@ struct matchlet
 	}
 };
 
-struct magic
+struct magic : public std::vector<matchlet>
 {
-	/** @brief The patterns to match against. */
-	const std::vector<matchlet> matchlets;
+	magic(const std::initializer_list<matchlet> &matchlets)
+		: std::vector<matchlet>(matchlets)
+	{
+	}
 
 	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
 	{
-		foreach_iter (matchlet, matchlets)
+		foreach_iter (matchlet, *this)
 		{
 			if (!matchlet->match(data))
 				return false;
@@ -136,31 +138,31 @@ namespace m = cainteoir::mime;
 
 static const std::initializer_list<matchlet> email_pattern1 = { { 0, 0, "From: " } };
 static const std::initializer_list<matchlet> email_pattern2 = { { 0, 0, "Subject: " } };
-static const std::initializer_list<magic> email_magic = { { email_pattern1 }, { email_pattern2 } };
+static const std::initializer_list<magic> email_magic = { email_pattern1, email_pattern2 };
 static const std::initializer_list<std::string> email_aliases = { "text/x-mail" };
 static const std::initializer_list<std::string> email_globs = { "*.eml", "*.emlx", "*.msg", "*.mbx" };
 static const mime_info email_data = { email_magic, "", "", _("electronic mail document"), email_globs, email_aliases };
 
 static const std::initializer_list<matchlet> epub_pattern = { { 0, 0, "PK" }, { 30, 0, "mimetype" }, { 38, 0, "application/epub+zip" } };
-static const std::initializer_list<magic> epub_magic = { { epub_pattern } };
+static const std::initializer_list<magic> epub_magic = { epub_pattern };
 static const std::initializer_list<std::string> epub_globs = { "*.epub" };
 static const mime_info epub_data = { epub_magic, "", "", _("electronic publication document"), epub_globs, {} };
 
 static const std::initializer_list<matchlet> gzip_pattern = { { 0, 0, "\037\213" } };
-static const std::initializer_list<magic> gzip_magic = { { gzip_pattern } };
+static const std::initializer_list<magic> gzip_magic = { gzip_pattern };
 static const std::initializer_list<std::string> gzip_globs = { "*.gz" };
 static const mime_info gzip_data = { gzip_magic, "", "", _("gzip compressed document"), gzip_globs, {} };
 
 static const std::initializer_list<matchlet> html_pattern1 = { { 0, 0, "<html" } };
 static const std::initializer_list<matchlet> html_pattern2 = { { 0, 0, "<HTML" } };
 static const std::initializer_list<matchlet> html_pattern3 = { { 0, 0, "<!--" } };
-static const std::initializer_list<magic> html_magic = { { html_pattern1 }, { html_pattern2 }, { html_pattern3 } };
+static const std::initializer_list<magic> html_magic = { html_pattern1, html_pattern2, html_pattern3 };
 static const std::initializer_list<std::string> html_globs = { "*.html", "*.htm" };
 static const mime_info html_data = { html_magic, "", "html", _("html document"), html_globs, {} };
 
 static const std::initializer_list<matchlet> http_pattern1 = { { 0, 0, "HTTP/1.0" } };
 static const std::initializer_list<matchlet> http_pattern2 = { { 0, 0, "HTTP/1.1" } };
-static const std::initializer_list<magic> http_magic = { { http_pattern1 }, { http_pattern2 } };
+static const std::initializer_list<magic> http_magic = { http_pattern1, http_pattern2 };
 static const mime_info http_data = { http_magic, "", "", "", {}, {} };
 
 static const std::initializer_list<std::string> mhtml_globs = { "*.mht" };
@@ -168,7 +170,7 @@ static const mime_info mhtml_data = { {}, "", "", _("mhtml document"), mhtml_glo
 
 static const std::initializer_list<matchlet> mime_pattern1 = { { 0,  4, "Content-Type: " } }; // for multipart mime documents (e.g. mhtml)
 static const std::initializer_list<matchlet> mime_pattern2 = { { 0, 80, "MIME-Version: 1.0" }, { 18, 80, "Content-Type: " } };
-static const std::initializer_list<magic> mime_magic = { { mime_pattern1 }, { mime_pattern2 } };
+static const std::initializer_list<magic> mime_magic = { mime_pattern1, mime_pattern2 };
 static const mime_info mime_data = { mime_magic, "", "", "", {}, {} };
 
 static const std::initializer_list<std::string> ncx_globs = { "*.ncx" };
@@ -185,7 +187,7 @@ static const std::initializer_list<std::string> rdfxml_globs = { "*.rdf" };
 static const mime_info rdfxml_data = { {}, "http://www.w3.org/1999/02/22-rdf-syntax-ns", "RDF", _("RDF/XML document"), rdfxml_globs, {} };
 
 static const std::initializer_list<matchlet> rtf_pattern = { { 0, 0, "{\\rtf" } };
-static const std::initializer_list<magic> rtf_magic = { { rtf_pattern } };
+static const std::initializer_list<magic> rtf_magic = { rtf_pattern };
 static const std::initializer_list<std::string> rtf_aliases = { "text/rtf" };
 static const std::initializer_list<std::string> rtf_globs = { "*.rtf" };
 static const mime_info rtf_data = { rtf_magic, "", "", _("rich text document"), rtf_globs, rtf_aliases };
@@ -207,7 +209,7 @@ static const std::initializer_list<std::string> xhtml_globs = { "*.xhtml", "*.xh
 static const mime_info xhtml_data = { {}, "http://www.w3.org/1999/xhtml", "html", _("xhtml document"), xhtml_globs, {} };
 
 static const std::initializer_list<matchlet> xml_pattern = { { 0, 0, "<?xml version=" } };
-static const std::initializer_list<magic> xml_magic = { { xml_pattern } };
+static const std::initializer_list<magic> xml_magic = { xml_pattern };
 static const mime_info xml_data = { xml_magic, "", "", "", {}, {} };
 
 //@}
