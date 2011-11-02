@@ -22,6 +22,24 @@
 #include <cainteoir/platform.hpp>
 
 #include <vector>
+#include <map>
+
+static const char *email_mimetype  = "message/rfc822";
+static const char *epub_mimetype   = "application/epub+zip";
+static const char *gzip_mimetype   = "application/x-gzip";
+static const char *html_mimetype   = "text/html";
+static const char *mhtml_mimetype  = "multipart/related";
+static const char *ncx_mimetype    = "application/x-dtbncx+xml";
+static const char *ogg_mimetype    = "application/ogg";
+static const char *opf_mimetype    = "application/oebps-package+xml";
+static const char *rdfxml_mimetype = "application/rdf+xml";
+static const char *rtf_mimetype    = "application/rtf";
+static const char *smil_mimetype   = "application/smil";
+static const char *ssml_mimetype   = "application/ssml+xml";
+static const char *text_mimetype   = "text/plain";
+static const char *wav_mimetype    = "audio/x-wav";
+static const char *xhtml_mimetype  = "application/html+xml";
+static const char *xml_mimetype    = "application/xml";
 
 struct matchlet
 {
@@ -32,7 +50,15 @@ struct matchlet
 	uint32_t range;
 
 	/** @brief The pattern to match against. */
-	const std::string pattern;
+	std::string pattern;
+
+	matchlet &operator=(const matchlet &m)
+	{
+		offset  = m.offset;
+		range   = m.range;
+		pattern = m.pattern;
+		return *this;
+	}
 
 	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
 	{
@@ -71,23 +97,117 @@ struct magic : public std::vector<matchlet>
 struct mime_info
 {
 	/** @brief The magic data that identifies this mimetype/content. */
-	const std::vector<struct magic> magic;
+	std::vector<struct magic> magic;
 
 	/** @brief The XML namespace associated with the mimetype (for XML documents only). */
-	const std::string xmlns;
+	std::string xmlns;
 
 	/** @brief The XML local name associated with the mimetype (for XML documents only). */
-	const std::string localname;
+	std::string localname;
 
 	/** @brief The mimetype description (comment field). */
-	const std::string label;
+	std::string label;
 
-	/** @brief The filename patterns for files matching this mimetype (null terminated). */
+	/** @brief The filename patterns for files matching this mimetype. */
 	std::vector<std::string> globs;
 
 	/** @brief The mimetype aliases for this mimetype. */
 	std::vector<std::string> aliases;
 };
+
+struct mimetype_database : public std::map<std::string, mime_info>
+{
+	mimetype_database()
+	{
+		/** @name Mime Data
+		  *
+		  * This will be refactored to load the mime data from the shared-mime-info database.
+		  */
+		//@{
+
+		const std::initializer_list<matchlet> email_pattern1 = { { 0, 0, "From: " } };
+		const std::initializer_list<matchlet> email_pattern2 = { { 0, 0, "Subject: " } };
+		(*this)[email_mimetype].label = _("electronic mail document");
+		(*this)[email_mimetype].globs = { "*.eml", "*.emlx", "*.msg", "*.mbx" };
+		(*this)[email_mimetype].aliases = { "text/x-mail" };
+		(*this)[email_mimetype].magic = { email_pattern1, email_pattern2 };
+
+		const std::initializer_list<matchlet> epub_pattern = { { 0, 0, "PK" }, { 30, 0, "mimetype" }, { 38, 0, "application/epub+zip" } };
+		(*this)[epub_mimetype].label = _("electronic publication document");
+		(*this)[epub_mimetype].globs = { "*.epub" };
+		(*this)[epub_mimetype].magic = { epub_pattern };
+
+		const std::initializer_list<matchlet> gzip_pattern = { { 0, 0, "\037\213" } };
+		(*this)[gzip_mimetype].label = _("gzip compressed document");
+		(*this)[gzip_mimetype].globs = { "*.gz" };
+		(*this)[gzip_mimetype].magic = { gzip_pattern };
+
+		const std::initializer_list<matchlet> html_pattern1 = { { 0, 0, "<html" } };
+		const std::initializer_list<matchlet> html_pattern2 = { { 0, 0, "<HTML" } };
+		const std::initializer_list<matchlet> html_pattern3 = { { 0, 0, "<!--" } };
+		(*this)[html_mimetype].localname = "html";
+		(*this)[html_mimetype].label = _("html document");
+		(*this)[html_mimetype].globs = { "*.html", "*.htm" };
+		(*this)[html_mimetype].magic = { html_pattern1, html_pattern2, html_pattern3 };
+
+		(*this)[mhtml_mimetype].label = _("mhtml document");
+		(*this)[mhtml_mimetype].globs = { "*.mht" };
+
+		(*this)[ncx_mimetype].xmlns = "http://www.daisy.org/z3986/2005/ncx/";
+		(*this)[ncx_mimetype].localname = "ncx";
+		(*this)[ncx_mimetype].label = _("navigation control document");
+		(*this)[ncx_mimetype].globs = { "*.ncx" };
+
+		(*this)[ogg_mimetype].label = _("ogg vorbis audio");
+		(*this)[ogg_mimetype].globs = { "*.ogg" };
+		(*this)[ogg_mimetype].aliases = { "audio/ogg" };
+
+		(*this)[opf_mimetype].xmlns = "http://www.idpf.org/2007/opf";
+		(*this)[opf_mimetype].localname = "package";
+		(*this)[opf_mimetype].label = _("open package format document");
+		(*this)[opf_mimetype].globs = { "*.opf" };
+
+		(*this)[rdfxml_mimetype].xmlns = "http://www.w3.org/1999/02/22-rdf-syntax-ns";
+		(*this)[rdfxml_mimetype].localname = "RDF";
+		(*this)[rdfxml_mimetype].label = _("RDF/XML document");
+		(*this)[rdfxml_mimetype].globs = { "*.rdf" };
+
+		const std::initializer_list<matchlet> rtf_pattern = { { 0, 0, "{\\rtf" } };
+		(*this)[rtf_mimetype].label = _("rich text document");
+		(*this)[rtf_mimetype].globs = { "*.rtf" };
+		(*this)[rtf_mimetype].aliases = { "text/rtf" };
+		(*this)[rtf_mimetype].magic = { rtf_pattern };
+
+		(*this)[smil_mimetype].xmlns = "http://www.w3.org/ns/SMIL";
+		(*this)[smil_mimetype].localname = "smil";
+		(*this)[smil_mimetype].label = _("SMIL document");
+		(*this)[smil_mimetype].globs = { "*.smil" };
+
+		(*this)[ssml_mimetype].xmlns = "http://www.w3.org/2001/10/synthesis";
+		(*this)[ssml_mimetype].localname = "speak";
+		(*this)[ssml_mimetype].label = _("speech synthesis markup document");
+		(*this)[ssml_mimetype].globs = { "*.ssml" };
+
+		(*this)[text_mimetype].label = _("plain text document");
+		(*this)[text_mimetype].globs = { "*.txt" };
+
+		(*this)[wav_mimetype].label = _("wave audio");
+		(*this)[wav_mimetype].globs = { "*.wav" };
+		(*this)[wav_mimetype].aliases = { "audio/vnd.wav", "audio/wav", "audio/wave" };
+
+		(*this)[xhtml_mimetype].xmlns = "http://www.w3.org/1999/xhtml";
+		(*this)[xhtml_mimetype].localname = "html";
+		(*this)[xhtml_mimetype].label = _("xhtml document");
+		(*this)[xhtml_mimetype].globs = { "*.xhtml", "*.xht" };
+
+		const std::initializer_list<matchlet> xml_pattern = { { 0, 0, "<?xml version=" } };
+		(*this)[xml_mimetype].magic = { xml_pattern };
+
+		//@}
+	}
+};
+
+mimetype_database mimetypes;
 
 bool cainteoir::mime::mimetype::match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
 {
@@ -129,105 +249,29 @@ void cainteoir::mime::mimetype::metadata(rdf::graph &aGraph, const std::string &
 
 namespace m = cainteoir::mime;
 
-/** @name Mime Data
-  *
-  * This will be refactored to load the mime data from the shared-mime-info database.
-  */
-//@{
-
-static const std::initializer_list<matchlet> email_pattern1 = { { 0, 0, "From: " } };
-static const std::initializer_list<matchlet> email_pattern2 = { { 0, 0, "Subject: " } };
-static const std::initializer_list<magic> email_magic = { email_pattern1, email_pattern2 };
-static const std::initializer_list<std::string> email_aliases = { "text/x-mail" };
-static const std::initializer_list<std::string> email_globs = { "*.eml", "*.emlx", "*.msg", "*.mbx" };
-static const mime_info email_data = { email_magic, "", "", _("electronic mail document"), email_globs, email_aliases };
-
-static const std::initializer_list<matchlet> epub_pattern = { { 0, 0, "PK" }, { 30, 0, "mimetype" }, { 38, 0, "application/epub+zip" } };
-static const std::initializer_list<magic> epub_magic = { epub_pattern };
-static const std::initializer_list<std::string> epub_globs = { "*.epub" };
-static const mime_info epub_data = { epub_magic, "", "", _("electronic publication document"), epub_globs, {} };
-
-static const std::initializer_list<matchlet> gzip_pattern = { { 0, 0, "\037\213" } };
-static const std::initializer_list<magic> gzip_magic = { gzip_pattern };
-static const std::initializer_list<std::string> gzip_globs = { "*.gz" };
-static const mime_info gzip_data = { gzip_magic, "", "", _("gzip compressed document"), gzip_globs, {} };
-
-static const std::initializer_list<matchlet> html_pattern1 = { { 0, 0, "<html" } };
-static const std::initializer_list<matchlet> html_pattern2 = { { 0, 0, "<HTML" } };
-static const std::initializer_list<matchlet> html_pattern3 = { { 0, 0, "<!--" } };
-static const std::initializer_list<magic> html_magic = { html_pattern1, html_pattern2, html_pattern3 };
-static const std::initializer_list<std::string> html_globs = { "*.html", "*.htm" };
-static const mime_info html_data = { html_magic, "", "html", _("html document"), html_globs, {} };
-
 static const std::initializer_list<matchlet> http_pattern1 = { { 0, 0, "HTTP/1.0" } };
 static const std::initializer_list<matchlet> http_pattern2 = { { 0, 0, "HTTP/1.1" } };
-static const std::initializer_list<magic> http_magic = { http_pattern1, http_pattern2 };
-static const mime_info http_data = { http_magic, "", "", "", {}, {} };
-
-static const std::initializer_list<std::string> mhtml_globs = { "*.mht" };
-static const mime_info mhtml_data = { {}, "", "", _("mhtml document"), mhtml_globs, {} };
+static const mime_info http_data = { { http_pattern1, http_pattern2 }, "", "", "", {}, {} };
 
 static const std::initializer_list<matchlet> mime_pattern1 = { { 0,  4, "Content-Type: " } }; // for multipart mime documents (e.g. mhtml)
 static const std::initializer_list<matchlet> mime_pattern2 = { { 0, 80, "MIME-Version: 1.0" }, { 18, 80, "Content-Type: " } };
-static const std::initializer_list<magic> mime_magic = { mime_pattern1, mime_pattern2 };
-static const mime_info mime_data = { mime_magic, "", "", "", {}, {} };
+static const mime_info mime_data = { { mime_pattern1, mime_pattern2 }, "", "", "", {}, {} };
 
-static const std::initializer_list<std::string> ncx_globs = { "*.ncx" };
-static const mime_info ncx_data = { {}, "http://www.daisy.org/z3986/2005/ncx/", "ncx", _("navigation control document"), ncx_globs, {} };
-
-static const std::initializer_list<std::string> ogg_aliases = { "audio/ogg" };
-static const std::initializer_list<std::string> ogg_globs = { "*.ogg" };
-static const mime_info ogg_data = { {}, "", "", _("ogg vorbis audio"), ogg_globs, ogg_aliases };
-
-static const std::initializer_list<std::string> opf_globs = { "*.opf" };
-static const mime_info opf_data = { {}, "http://www.idpf.org/2007/opf", "package", _("open package format document"), opf_globs, {} };
-
-static const std::initializer_list<std::string> rdfxml_globs = { "*.rdf" };
-static const mime_info rdfxml_data = { {}, "http://www.w3.org/1999/02/22-rdf-syntax-ns", "RDF", _("RDF/XML document"), rdfxml_globs, {} };
-
-static const std::initializer_list<matchlet> rtf_pattern = { { 0, 0, "{\\rtf" } };
-static const std::initializer_list<magic> rtf_magic = { rtf_pattern };
-static const std::initializer_list<std::string> rtf_aliases = { "text/rtf" };
-static const std::initializer_list<std::string> rtf_globs = { "*.rtf" };
-static const mime_info rtf_data = { rtf_magic, "", "", _("rich text document"), rtf_globs, rtf_aliases };
-
-static const std::initializer_list<std::string> smil_globs = { "*.smil" };
-static const mime_info smil_data = { {}, "http://www.w3.org/ns/SMIL", "smil", _("SMIL document"), smil_globs, {} };
-
-static const std::initializer_list<std::string> ssml_globs = { "*.ssml" };
-static const mime_info ssml_data = { {}, "http://www.w3.org/2001/10/synthesis", "speak", _("speech synthesis markup document"), ssml_globs, {} };
-
-static const std::initializer_list<std::string> text_globs = { "*.txt" };
-static const mime_info text_data = { {}, "", "", _("plain text document"), text_globs, {} };
-
-static const std::initializer_list<std::string> wav_aliases = { "audio/vnd.wav", "audio/wav", "audio/wave" };
-static const std::initializer_list<std::string> wav_globs = { "*.wav" };
-static const mime_info wav_data = { {}, "", "", _("wave audio"), wav_globs, wav_aliases };
-
-static const std::initializer_list<std::string> xhtml_globs = { "*.xhtml", "*.xht" };
-static const mime_info xhtml_data = { {}, "http://www.w3.org/1999/xhtml", "html", _("xhtml document"), xhtml_globs, {} };
-
-static const std::initializer_list<matchlet> xml_pattern = { { 0, 0, "<?xml version=" } };
-static const std::initializer_list<magic> xml_magic = { xml_pattern };
-static const mime_info xml_data = { xml_magic, "", "", "", {}, {} };
-
-//@}
-
-const m::mimetype m::email( "email", "message/rfc822",                &email_data);
-const m::mimetype m::epub(  "epub",  "application/epub+zip",          &epub_data);
-const m::mimetype m::gzip(  "gzip",  "application/x-gzip",            &gzip_data);
-const m::mimetype m::html(  "html",  "text/html",                     &html_data);
-const m::mimetype m::http(  "http",  NULL,                            &http_data);
-const m::mimetype m::mhtml( "mhtml", "multipart/related",             &mhtml_data);
-const m::mimetype m::mime(  "mime",  NULL,                            &mime_data);
-const m::mimetype m::ncx(   "ncx",   "application/x-dtbncx+xml",      &ncx_data);
-const m::mimetype m::ogg(   "ogg",   "application/ogg",               &ogg_data);
-const m::mimetype m::opf(   "opf",   "application/oebps-package+xml", &opf_data);
-const m::mimetype m::rdfxml("rdf",   "application/rdf+xml",           &rdfxml_data);
-const m::mimetype m::rtf(   "rtf",   "application/rtf",               &rtf_data);
-const m::mimetype m::smil(  "smil",  "application/smil",              &smil_data);
-const m::mimetype m::ssml(  "ssml",  "application/ssml+xml",          &ssml_data);
-const m::mimetype m::text(  "text",  "text/plain",                    &text_data);
-const m::mimetype m::wav(   "wav",   "audio/x-wav",                   &wav_data);
-const m::mimetype m::xhtml( "xhtml", "application/html+xml",          &xhtml_data);
-const m::mimetype m::xml(   "xml",   "application/xml",               &xml_data);
+const m::mimetype m::email( "email", email_mimetype,  &mimetypes[email_mimetype]);
+const m::mimetype m::epub(  "epub",  epub_mimetype,   &mimetypes[epub_mimetype]);
+const m::mimetype m::gzip(  "gzip",  gzip_mimetype,   &mimetypes[gzip_mimetype]);
+const m::mimetype m::html(  "html",  html_mimetype,   &mimetypes[html_mimetype]);
+const m::mimetype m::http(  "http",  NULL,            &http_data);
+const m::mimetype m::mhtml( "mhtml", mhtml_mimetype,  &mimetypes[mhtml_mimetype]);
+const m::mimetype m::mime(  "mime",  NULL,            &mime_data);
+const m::mimetype m::ncx(   "ncx",   ncx_mimetype,    &mimetypes[ncx_mimetype]);
+const m::mimetype m::ogg(   "ogg",   ogg_mimetype,    &mimetypes[ogg_mimetype]);
+const m::mimetype m::opf(   "opf",   opf_mimetype,    &mimetypes[opf_mimetype]);
+const m::mimetype m::rdfxml("rdf",   rdfxml_mimetype, &mimetypes[rdfxml_mimetype]);
+const m::mimetype m::rtf(   "rtf",   rtf_mimetype,    &mimetypes[rtf_mimetype]);
+const m::mimetype m::smil(  "smil",  smil_mimetype,   &mimetypes[smil_mimetype]);
+const m::mimetype m::ssml(  "ssml",  ssml_mimetype,   &mimetypes[ssml_mimetype]);
+const m::mimetype m::text(  "text",  text_mimetype,   &mimetypes[text_mimetype]);
+const m::mimetype m::wav(   "wav",   wav_mimetype,    &mimetypes[wav_mimetype]);
+const m::mimetype m::xhtml( "xhtml", xhtml_mimetype,  &mimetypes[xhtml_mimetype]);
+const m::mimetype m::xml(   "xml",   xml_mimetype,    &mimetypes[xml_mimetype]);
