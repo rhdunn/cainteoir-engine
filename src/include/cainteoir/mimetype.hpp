@@ -60,9 +60,8 @@ namespace cainteoir { namespace mime
 	extern const mimetype epub;   /**< @brief electronic publication document */
 	extern const mimetype gzip;   /**< @brief gzip compressed document */
 	extern const mimetype html;   /**< @brief html document */
-	extern const mimetype http;   /**< @brief http (mime) headers */
 	extern const mimetype mhtml;  /**< @brief single-page html document */
-	extern const mimetype mime;   /**< @brief mime headers */
+	extern const mimetype mime;   /**< @brief mime/http headers */
 	extern const mimetype ncx;    /**< @brief navigation control document */
 	extern const mimetype ogg;    /**< @brief Ogg+Vorbis audio */
 	extern const mimetype opf;    /**< @brief open package format document */

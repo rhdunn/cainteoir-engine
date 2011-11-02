@@ -302,7 +302,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 
 	// Documents with MIME headers ...
 
-	if (mime::email.match(data) || mime::mime.match(data) || mime::http.match(data))
+	if (mime::email.match(data) || mime::mime.match(data))
 	{
 		std::tr1::shared_ptr<mime_headers> mime(new mime_headers(data, subject, events, aGraph));
 

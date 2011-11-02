@@ -249,21 +249,30 @@ void cainteoir::mime::mimetype::metadata(rdf::graph &aGraph, const std::string &
 
 namespace m = cainteoir::mime;
 
-static const std::initializer_list<matchlet> http_pattern1 = { { 0, 0, "HTTP/1.0" } };
-static const std::initializer_list<matchlet> http_pattern2 = { { 0, 0, "HTTP/1.1" } };
-static const mime_info http_data = { { http_pattern1, http_pattern2 }, "", "", "", {}, {} };
+/** === MIME Header Handling ===
+  * The magic to detect MIME header content from HTTP, SMTP and MHTML documents.
+  *
+  * This information is stored statically here and not loaded from the shared-mime-info
+  * database as the MIME document headers don't have a mimetype themselves (the mimetype
+  * governs the content).
+  */
+//{{{
 
-static const std::initializer_list<matchlet> mime_pattern1 = { { 0,  4, "Content-Type: " } }; // for multipart mime documents (e.g. mhtml)
-static const std::initializer_list<matchlet> mime_pattern2 = { { 0, 80, "MIME-Version: 1.0" }, { 18, 80, "Content-Type: " } };
-static const mime_info mime_data = { { mime_pattern1, mime_pattern2 }, "", "", "", {}, {} };
+static const std::initializer_list<matchlet> http_pattern1 = { { 0,  0, "HTTP/1.0" },          {  8, 80, "\nContent-Type:" } };
+static const std::initializer_list<matchlet> http_pattern2 = { { 0,  0, "HTTP/1.1" },          {  8, 80, "\nContent-Type:" } };
+static const std::initializer_list<matchlet> mime_pattern1 = { { 0, 80, "MIME-Version: 1.0" }, { 16, 80, "\nContent-Type:" } }; // for multipart/mhtml documents
+static const std::initializer_list<matchlet> mime_pattern2 = { { 0,  4, "\nContent-Type:" } }; // for multipart mime documents (e.g. mhtml)
+static const mime_info mime_data = { { mime_pattern1, mime_pattern2, http_pattern1, http_pattern2 }, "", "", "", {}, {} };
+
+//}}}
+
+const m::mimetype m::mime("mime",  NULL, &mime_data);
 
 const m::mimetype m::email( "email", email_mimetype,  &mimetypes[email_mimetype]);
 const m::mimetype m::epub(  "epub",  epub_mimetype,   &mimetypes[epub_mimetype]);
 const m::mimetype m::gzip(  "gzip",  gzip_mimetype,   &mimetypes[gzip_mimetype]);
 const m::mimetype m::html(  "html",  html_mimetype,   &mimetypes[html_mimetype]);
-const m::mimetype m::http(  "http",  NULL,            &http_data);
 const m::mimetype m::mhtml( "mhtml", mhtml_mimetype,  &mimetypes[mhtml_mimetype]);
-const m::mimetype m::mime(  "mime",  NULL,            &mime_data);
 const m::mimetype m::ncx(   "ncx",   ncx_mimetype,    &mimetypes[ncx_mimetype]);
 const m::mimetype m::ogg(   "ogg",   ogg_mimetype,    &mimetypes[ogg_mimetype]);
 const m::mimetype m::opf(   "opf",   opf_mimetype,    &mimetypes[opf_mimetype]);
