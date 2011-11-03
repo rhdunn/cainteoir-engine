@@ -98,8 +98,10 @@ pkgdata_DATA += \
 EXTRA_DIST += data/cainteoir.xml
 
 mimetypes: data/cainteoir.xml
-	${SUDO} cp data/cainteoir.xml ${MIME_DIR}/packages
+	${SUDO} /usr/bin/install -c -m 644 data/cainteoir.xml ${MIME_DIR}/packages
 	${SUDO} update-mime-database ${MIME_DIR}
+
+install-exec-local: mimetypes
 
 ############################# libcainteoir ####################################
 
