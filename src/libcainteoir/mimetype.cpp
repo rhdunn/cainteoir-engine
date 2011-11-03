@@ -403,40 +403,6 @@ struct mimetype_database : public std::map<std::string, mime_info>
 				// e.g. /usr/share/gnome, so just ignore that path.
 			}
 		}
-
-		/** @name Mime Data
-		  *
-		  * This information is not located in the mime data from the shared-mime-info database.
-		  * This will be added to a cainteoir.xml mime-info package file.
-		  */
-		//@{
-
-		(*this)[html_mimetype].localname = "html";
-
-		(*this)[mhtml_mimetype].globs = { "*.mht" };
-
-		(*this)[ncx_mimetype].xmlns = "http://www.daisy.org/z3986/2005/ncx/";
-		(*this)[ncx_mimetype].localname = "ncx";
-		(*this)[ncx_mimetype].label = _("navigation control document");
-		(*this)[ncx_mimetype].globs = { "*.ncx" };
-
-		(*this)[opf_mimetype].xmlns = "http://www.idpf.org/2007/opf";
-		(*this)[opf_mimetype].localname = "package";
-		(*this)[opf_mimetype].label = _("open package format document");
-		(*this)[opf_mimetype].globs = { "*.opf" };
-
-		(*this)[rdfxml_mimetype].xmlns = "http://www.w3.org/1999/02/22-rdf-syntax-ns";
-		(*this)[rdfxml_mimetype].localname = "RDF";
-
-		(*this)[smil_mimetype].xmlns = "http://www.w3.org/ns/SMIL";
-		(*this)[smil_mimetype].localname = "smil";
-
-		(*this)[ssml_mimetype].xmlns = "http://www.w3.org/2001/10/synthesis";
-		(*this)[ssml_mimetype].localname = "speak";
-		(*this)[ssml_mimetype].label = _("speech synthesis markup document");
-		(*this)[ssml_mimetype].globs = { "*.ssml" };
-
-		//@}
 	}
 };
 

@@ -1,5 +1,8 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
+MIME_DIR=/usr/share/mime
+SUDO=sudo
+
 localedir = $(datadir)/locale
 
 AM_LDFLAGS  = ${LTLIBINTL}
@@ -89,6 +92,14 @@ EXTRA_DIST += \
 pkgdata_DATA += \
 	data/languages.rdf \
 	src/schema/text-to-speech.rdf
+
+############################# mimetypes #######################################
+
+EXTRA_DIST += data/cainteoir.xml
+
+mimetypes: data/cainteoir.xml
+	${SUDO} cp data/cainteoir.xml ${MIME_DIR}/packages
+	${SUDO} update-mime-database ${MIME_DIR}
 
 ############################# libcainteoir ####################################
 
@@ -236,7 +247,7 @@ TEST_FILES = \
 
 EXTRA_DIST += $(TEST_FILES)
 
-check: tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/turtle_formatter src/apps/metadata/metadata tests/events tests/xmlreader $(TEST_FILES)
+check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/turtle_formatter src/apps/metadata/metadata tests/events tests/xmlreader $(TEST_FILES)
 	tests/rdfmodel
 	tests/ntriple_formatter
 	tests/turtle_formatter
