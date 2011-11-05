@@ -139,7 +139,7 @@
 </skos:Concept>
 
 <skos:Concept rdf:ID="fr-be">
-	<skos:prefLabel xml:lang="en">French (Belgian)</skos:prefLabel>
+	<skos:prefLabel xml:lang="en">French (Belgium)</skos:prefLabel>
 	<skos:altLabel>fr-be</skos:altLabel>
 </skos:Concept>
 
