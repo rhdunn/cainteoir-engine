@@ -94,6 +94,8 @@ if __name__ == '__main__':
 			{'test': 'mime/multipart/mixed-2.txt', 'result': 'mime/multipart/mixed.events'},
 			{'test': 'mime/multipart/related-1.txt', 'result': 'mime/multipart/related.events'},
 			{'test': 'mime/multipart/related-2.txt', 'result': 'mime/multipart/related.events'},
+			{'test': 'mime/multipart/related-3.txt', 'result': 'mime/multipart/related.events'},
+			{'test': 'mime/multipart/related-4.txt', 'result': 'mime/multipart/related.events'},
 		]},
 		{'name': 'quoted-printable', 'type': 'events', 'tests': [
 			{'test': 'mime/quoted-printable/ascii.txt', 'result': 'mime/quoted-printable/ascii.events'},

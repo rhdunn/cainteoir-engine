@@ -1,0 +1,14 @@
+MIME-Version: 1.0
+Content-Type: multipart/related; boundary="mimetest"
+
+This should be ignored!
+--mimetest
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+
+This is a test file.
+--mimetest
+Content-Type: text/plain
+
+This is related.
+--mimetest--

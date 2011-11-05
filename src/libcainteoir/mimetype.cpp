@@ -460,8 +460,20 @@ namespace m = cainteoir::mime;
 static const std::initializer_list<matchlet> http_pattern1 = { { 0,  1, "HTTP/1.0" },          {  8, 81, "\nContent-Type:" } };
 static const std::initializer_list<matchlet> http_pattern2 = { { 0,  1, "HTTP/1.1" },          {  8, 81, "\nContent-Type:" } };
 static const std::initializer_list<matchlet> mime_pattern1 = { { 0, 81, "MIME-Version: 1.0" }, { 16, 81, "\nContent-Type:" } }; // for multipart/mhtml documents
-static const std::initializer_list<matchlet> mime_pattern2 = { { 0,  4, "\nContent-Type:" } }; // for multipart mime documents (e.g. mhtml)
-static const mime_info mime_data = { { mime_pattern1, mime_pattern2, http_pattern1, http_pattern2 }, "", "", "", {}, {} };
+static const std::initializer_list<matchlet> mime_pattern2 = { { 0,  2, "\nContent-Type:" } }; // for multipart mime documents (e.g. mhtml)
+static const std::initializer_list<matchlet> mime_pattern3 = { { 0,  2, "\nContent-Transfer-Encoding:" } }; // for multipart mime documents (e.g. mhtml)
+static const std::initializer_list<matchlet> mime_pattern4 = { { 0,  2, "\nContent-Location:" } }; // for multipart mime documents (e.g. mhtml)
+static const mime_info mime_data = {
+	{
+		mime_pattern1,
+		mime_pattern2,
+		mime_pattern3,
+		mime_pattern4,
+		http_pattern1,
+		http_pattern2
+	},
+	"", "", "", {}, {}
+};
 
 //}}}
 
