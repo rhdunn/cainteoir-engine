@@ -22,7 +22,8 @@
 		<glob pattern="*.ncx"/>
 	</mime-type>
 	<mime-type type="multipart/related">
-		<glob pattern="*.mht"/> <!-- MHTML document -->
+		<glob pattern="*.mht"/>   <!-- MHTML document -->
+		<glob pattern="*.mhtml"/> <!-- MHTML document -->
 	</mime-type>
 	<mime-type type="text/html">
 		<root-XML namespaceURI="" localName="html"/>
