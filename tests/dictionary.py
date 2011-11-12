@@ -110,7 +110,7 @@ def print_exception(word, pronunciation, ipa=True):
 			word.attributes.remove('weak')
 
 		if 'norcolouring' in word.attributes:
-			pronunciation = pronunciation.replace('@/', '@2/')
+			pronunciation = pronunciation.replace('@/', '@;/')
 			word.attributes.remove('norcolouring')
 
 		if 'breathstop' in word.attributes:
