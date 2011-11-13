@@ -458,7 +458,7 @@ class Tester:
 
 			if expected == actual or (word.attributes and 'speakletter' in word.attributes):
 				if generate_exception_dictionary:
-					if (' ' in str(word)) or word.attributes != None:
+					if word.attributes:
 						if use_actual:
 							exceptions[word] = actual
 						else:
