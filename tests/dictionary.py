@@ -54,6 +54,8 @@ def print_exception(word, pronunciation, ipa=True):
 		print '%-18s %s' % (word, pronunciation)
 	else:
 		replacements = [
+			('ɔː/', 'o@/'), # support r-colouring for /O:/ at the end of a word.
+
 			(' ', '||'),
 			('.', ''),
 			('-', ''),
@@ -61,10 +63,10 @@ def print_exception(word, pronunciation, ipa=True):
 			('ˈ', '\''),
 			('ˌ', ','),
 
-			('aʊl̩', 'aU|@L'),
-			('əʊl̩', 'oU|@L'),
-			('aɪl̩', 'aI|@L'),
-			('eɪl̩', 'eI|@L'),
+			('aʊl̩', 'aU|@L'), # /aU/ and /@L/, not /aU@/ and /L/
+			('əʊl̩', 'oU|@L'), # /oU/ and /@L/, not /oU@/ and /L/
+			('aɪl̩', 'aI|@L'), # /aI/ and /@L/, not /aI@/ and /L/
+			('eɪl̩', 'eI|@L'), # /eI/ and /@L/, not /eI@/ and /L/
 
 			('l̩', '@L'),
 
