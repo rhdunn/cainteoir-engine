@@ -46,6 +46,8 @@ namespace cainteoir { namespace tts
 		virtual double completed() const = 0;
 
 		virtual size_t position() const = 0;
+
+		virtual std::string error_message() const = 0;
 	};
 
 	struct parameter
