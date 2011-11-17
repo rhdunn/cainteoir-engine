@@ -113,15 +113,6 @@ std::string normalise(const std::string & word)
 
 struct cloud : public cainteoir::document_events
 {
-	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
-	{
-	}
-
-	const rdf::bnode genid()
-	{
-		return rdf::bnode(std::string());
-	}
-
 	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
 	{
 		std::istringstream ss(aText->str());
@@ -181,7 +172,8 @@ int main(int argc, char ** argv)
 			throw std::runtime_error("no document specified");
 
 		cloud cloud;
-		if (!cainteoir::parseDocument(argv[0], cloud))
+		rdf::graph metadata;
+		if (!cainteoir::parseDocument(argv[0], cloud, metadata))
 			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
 
 		if (format == html_format)

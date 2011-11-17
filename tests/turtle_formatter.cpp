@@ -50,9 +50,10 @@ std::string format_ns(const T &value)
 
 TEST_CASE("rdf::bnode")
 {
-	equal(format(rdf::bnode("id1234")), "_:id1234");
+	rdf::graph g;
 
-	equal(format_ns(rdf::bnode("id1234")), "_:id1234");
+	equal(format(g.bnode("id1234")),    "_:id1234");
+	equal(format_ns(g.bnode("id1234")), "_:id1234");
 }
 
 TEST_CASE("rdf::uri")
@@ -83,62 +84,56 @@ TEST_CASE("rdf::literal")
 
 TEST_CASE("rdf::statement")
 {
-	equal(format(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class"))),
-	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\" .\n");
-	equal(format(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", "en-GB"))),
-	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"@en-GB .\n");
-	equal(format(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", rdf::xsd("string")))),
-	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"^^<http://www.w3.org/2001/XMLSchema#string> .\n");
+	rdf::graph g;
 
-	equal(format(rdf::statement(rdf::bnode("a"), rdf::rdf("value"), rdf::literal("Class"))),
-	      "_:a <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\" .\n");
-	equal(format(rdf::statement(rdf::bnode("a"), rdf::rdf("value"), rdf::literal("Class", "en-GB"))),
-	      "_:a <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"@en-GB .\n");
-	equal(format(rdf::statement(rdf::bnode("a"), rdf::rdf("value"), rdf::literal("Class", rdf::xsd("string")))),
-	      "_:a <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"^^<http://www.w3.org/2001/XMLSchema#string> .\n");
+	assert(g.statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class")));
+	equal(format(g.back()),    "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\" .\n");
+	equal(format_ns(g.back()), "rdfs:Class rdf:value \"Class\" .\n");
 
-	equal(format(rdf::statement(rdf::rdfs("Class"), rdf::rdf("type"), rdf::bnode("tmp"))),
-	      "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> _:tmp .\n");
-	equal(format(rdf::statement(rdf::rdfs("Property"), rdf::rdf("type"), rdf::rdfs("Class"))),
-	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .\n");
+	assert(g.statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", "en-GB")));
+	equal(format(g.back()),    "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"@en-GB .\n");
+	equal(format_ns(g.back()), "rdfs:Class rdf:value \"Class\"@en-GB .\n");
 
-	equal(format(rdf::statement(rdf::bnode("a"), rdf::rdf("type"), rdf::bnode("tmp"))),
-	      "_:a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> _:tmp .\n");
-	equal(format(rdf::statement(rdf::bnode("a"), rdf::rdf("type"), rdf::rdfs("Class"))),
-	      "_:a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .\n");
+	assert(g.statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", rdf::xsd("string"))));
+	equal(format(g.back()),    "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"^^<http://www.w3.org/2001/XMLSchema#string> .\n");
+	equal(format_ns(g.back()), "rdfs:Class rdf:value \"Class\"^^xsd:string .\n");
 
-	equal(format_ns(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class"))),
-	      "rdfs:Class rdf:value \"Class\" .\n");
-	equal(format_ns(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", "en-GB"))),
-	      "rdfs:Class rdf:value \"Class\"@en-GB .\n");
-	equal(format_ns(rdf::statement(rdf::rdfs("Class"), rdf::rdf("value"), rdf::literal("Class", rdf::xsd("string")))),
-	      "rdfs:Class rdf:value \"Class\"^^xsd:string .\n");
+	assert(g.statement(g.bnode("a"), rdf::rdf("value"), rdf::literal("Class")));
+	equal(format(g.back()),    "_:a <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\" .\n");
+	equal(format_ns(g.back()), "_:a rdf:value \"Class\" .\n");
 
-	equal(format_ns(rdf::statement(rdf::bnode("a"), rdf::rdf("value"), rdf::literal("Class"))),
-	      "_:a rdf:value \"Class\" .\n");
-	equal(format_ns(rdf::statement(rdf::bnode("a"), rdf::rdf("value"), rdf::literal("Class", "en-GB"))),
-	      "_:a rdf:value \"Class\"@en-GB .\n");
-	equal(format_ns(rdf::statement(rdf::bnode("a"), rdf::rdf("value"), rdf::literal("Class", rdf::xsd("string")))),
-	      "_:a rdf:value \"Class\"^^xsd:string .\n");
+	assert(g.statement(g.bnode("a"), rdf::rdf("value"), rdf::literal("Class", "en-GB")));
+	equal(format(g.back()),    "_:a <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"@en-GB .\n");
+	equal(format_ns(g.back()), "_:a rdf:value \"Class\"@en-GB .\n");
 
-	equal(format_ns(rdf::statement(rdf::rdfs("Class"), rdf::rdf("type"), rdf::bnode("tmp"))),
-	      "rdfs:Class rdf:type _:tmp .\n");
-	equal(format_ns(rdf::statement(rdf::rdfs("Property"), rdf::rdf("type"), rdf::rdfs("Class"))),
-	      "rdfs:Property rdf:type rdfs:Class .\n");
+	assert(g.statement(g.bnode("a"), rdf::rdf("value"), rdf::literal("Class", rdf::xsd("string"))));
+	equal(format(g.back()),    "_:a <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Class\"^^<http://www.w3.org/2001/XMLSchema#string> .\n");
+	equal(format_ns(g.back()), "_:a rdf:value \"Class\"^^xsd:string .\n");
 
-	equal(format_ns(rdf::statement(rdf::bnode("a"), rdf::rdf("type"), rdf::bnode("tmp"))),
-	      "_:a rdf:type _:tmp .\n");
-	equal(format_ns(rdf::statement(rdf::bnode("a"), rdf::rdf("type"), rdf::rdfs("Class"))),
-	      "_:a rdf:type rdfs:Class .\n");
+	assert(g.statement(rdf::rdfs("Class"), rdf::rdf("type"), g.bnode("tmp")));
+	equal(format(g.back()),    "<http://www.w3.org/2000/01/rdf-schema#Class> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> _:tmp .\n");
+	equal(format_ns(g.back()), "rdfs:Class rdf:type _:tmp .\n");
+
+	assert(g.statement(rdf::rdfs("Property"), rdf::rdf("type"), rdf::rdfs("Class")));
+	equal(format(g.back()),    "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .\n");
+	equal(format_ns(g.back()), "rdfs:Property rdf:type rdfs:Class .\n");
+
+	assert(g.statement(g.bnode("a"), rdf::rdf("type"), g.bnode("tmp")));
+	equal(format(g.back()),    "_:a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> _:tmp .\n");
+	equal(format_ns(g.back()), "_:a rdf:type _:tmp .\n");
+
+	assert(g.statement(g.bnode("a"), rdf::rdf("type"), rdf::rdfs("Class")));
+	equal(format(g.back()),    "_:a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .\n");
+	equal(format_ns(g.back()), "_:a rdf:type rdfs:Class .\n");
 }
 
 TEST_CASE("rdf::graph")
 {
 	rdf::graph model;
-	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")));
-	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", "en")));
-	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))));
-	model.push_back(rdf::statement(rdf::rdfs("Property"), rdf::rdf("type"), rdf::rdfs("Class")));
+	model.statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property"));
+	model.statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", "en"));
+	model.statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string")));
+	model.statement(rdf::rdfs("Property"), rdf::rdf("type"), rdf::rdfs("Class"));
 
 	equal(format(model),
 	      "<http://www.w3.org/2000/01/rdf-schema#Property> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> \"Property\" .\n"

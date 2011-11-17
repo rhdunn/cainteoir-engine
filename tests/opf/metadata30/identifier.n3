@@ -4,4 +4,4 @@
 
 <> dct:identifier <#ident> .
 <#ident> rdf:value "urn:uuid:12345" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/oebps-package+xml" .

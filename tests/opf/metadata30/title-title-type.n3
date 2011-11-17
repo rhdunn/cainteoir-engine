@@ -15,4 +15,4 @@
 <> dct:title <#ed> .
 <#ed> rdf:value "3rd Edition" .
 <#ed> pkg:title-type "edition" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/oebps-package+xml" .

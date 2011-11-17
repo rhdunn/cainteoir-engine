@@ -256,4 +256,4 @@ skos:closeMatch rdf:type owl:ObjectProperty .
 skos:closeMatch rdfs:subPropertyOf skos:mappingRelation .
 skos:closeMatch rdf:type owl:SymmetricProperty .
 skos:closeMatch rdf:type rdf:Property .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/rdf+xml" .

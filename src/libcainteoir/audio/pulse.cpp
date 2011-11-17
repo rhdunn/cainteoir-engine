@@ -22,6 +22,7 @@
 #include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <pulse/simple.h>
+#include <pulse/error.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -42,7 +43,7 @@ public:
 		else if (format == rdf::tts("float32le"))
 			ss.format = PA_SAMPLE_FLOAT32LE;
 		else
-			throw std::runtime_error(_("unsupported audio format."));
+			throw std::runtime_error(_("pulseaudio: unsupported audio format."));
 
 		ss.channels = channels;
 		ss.rate = frequency;
@@ -55,8 +56,12 @@ public:
 
 	void open()
 	{
+		if (pa) return;
+
+		int error = 0;
+		pa = pa_simple_new(m_device, _("Cainteoir Text-to-Speech"), PA_STREAM_PLAYBACK, NULL, "Music", &ss, NULL, NULL, &error);
 		if (!pa)
-			pa = pa_simple_new(m_device, _("Cainteoir Text-to-Speech"), PA_STREAM_PLAYBACK, NULL, "Music", &ss, NULL, NULL, NULL);
+			throw std::runtime_error(std::string(_("pulseaudio: ")) + pa_strerror(error));
 	}
 
 	void close()

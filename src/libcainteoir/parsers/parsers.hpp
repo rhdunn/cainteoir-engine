@@ -52,28 +52,6 @@ namespace cainteoir
 		std::list<fileinfo> spine;
 	};
 
-	/** @brief Copy the data in buffer to a memory buffer.
-	  *
-	  * @param data The data buffer to be copied.
-	  * @return     The new data buffer.
-	  */
-	std::tr1::shared_ptr<cainteoir::buffer> strm_copy(const cainteoir::buffer &data);
-
-	/** @brief Inflate a zlib compressed data buffer.
-	  *
-	  * @param data The compressed data buffer.
-	  * @param uncompressed The size of the uncompressed data buffer.
-	  * @return The uncompressed data buffer.
-	  */
-	std::tr1::shared_ptr<cainteoir::buffer> strm_inflate(const cainteoir::buffer &data, uint32_t uncompressed);
-
-	/** @brief Decompress a gzip buffer.
-	  *
-	  * @param data The gzip compressed data.
-	  * @return     The uncompressed data buffer.
-	  */
-	std::tr1::shared_ptr<cainteoir::buffer> strm_gzip_decompress(const cainteoir::buffer &data);
-
 	/** @brief Open Container Format (OCF)
 	  * @see   http://www.idpf.org/ocf/ocf1.0/download/ocf10.htm
 	  * @see   http://www.idpf.org/specs.htm
@@ -90,7 +68,7 @@ namespace cainteoir
 	  * @param aSubject  The subject to use for any metadata.
 	  * @param events    The events callback to handle document events.
 	  */
-	void parseNcxDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events);
+	void parseNcxDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief Open Publication Format (OPF)
 	  * @see   http://www.idpf.org/2007/opf/opf2.0/download/
@@ -100,7 +78,7 @@ namespace cainteoir
 	  * @param aSubject  The subject to use for any Dublin Core metadata.
 	  * @param events    The events callback to handle document events.
 	  */
-	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, opffiles &aOpfFiles);
+	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph, opffiles &aOpfFiles);
 
 	/** @brief XML encoded HTML (XHTML)
 	  * @see   http://www.w3.org/TR/xhtml1/
@@ -109,7 +87,7 @@ namespace cainteoir
 	  * @param aSubject  The base to use for any relative URIs.
 	  * @param events    The events callback to handle document events.
 	  */
-	void parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events);
+	void parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
 
 	/** @brief RDF/XML
 	  * @see   http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/
@@ -147,7 +125,7 @@ namespace cainteoir
 	  *     -  example13.rdf
 	  *     -  example20.rdf
 	  */
-	void parseRdfXmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events);
+	void parseRdfXmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief Synchronized Multimedia Integration Language (SMIL)
 	  * @see   http://www.w3.org/TR/2008/REC-SMIL3-20081201/
@@ -156,7 +134,7 @@ namespace cainteoir
 	  * @param aSubject  The base to use for any relative URIs.
 	  * @param events    The events callback to handle document events.
 	  */
-	void parseSmilDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events);
+	void parseSmilDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief Speech Synthesis Markup Language (SSML)
 	  * @see   http://www.w3.org/TR/speech-synthesis/
@@ -165,7 +143,7 @@ namespace cainteoir
 	  * @param aSubject  The base to use for any relative URIs.
 	  * @param events    The events callback to handle document events.
 	  */
-	void parseSsmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events);
+	void parseSsmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief ePub
 	  * @see   http://www.idpf.org/specs.htm
@@ -174,7 +152,7 @@ namespace cainteoir
 	  * @param aSubject  The base to use for any relative URIs.
 	  * @param events The events callback to handle document events.
 	  */
-	void parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events);
+	void parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief RTF
 	  *
@@ -182,7 +160,7 @@ namespace cainteoir
 	  * @param aSubject  The base to use for any relative URIs.
 	  * @param events The events callback to handle document events.
 	  */
-	void parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events);
+	void parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 }
 
 #endif

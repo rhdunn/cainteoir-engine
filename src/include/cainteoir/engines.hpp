@@ -46,6 +46,8 @@ namespace cainteoir { namespace tts
 		virtual double completed() const = 0;
 
 		virtual size_t position() const = 0;
+
+		virtual std::string error_message() const = 0;
 	};
 
 	struct parameter
@@ -80,7 +82,7 @@ namespace cainteoir { namespace tts
 	class engines
 	{
 	public:
-		engines(rdf::graph &metadata);
+		engines(rdf::graph &metadata, capability_types capabilities);
 		~engines();
 
 		bool select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice);

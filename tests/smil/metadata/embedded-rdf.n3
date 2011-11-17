@@ -3,4 +3,4 @@
 
 <http://www.example.com/meta.smil> dc:title "Example SMIL Document" .
 <http://www.example.com/videos/meta-1999.mpg> dc:title "Meta #1 1999" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/smil" .

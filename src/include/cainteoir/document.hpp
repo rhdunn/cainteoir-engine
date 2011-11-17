@@ -51,18 +51,6 @@ namespace cainteoir
 			reduced     = 0x00000040, /** @brief The text is reduced in emphasis in the document (display=normal, prosody). */
 		};
 
-		/** @brief A metadata item was encountered in the document.
-		  *
-		  * @param aStatement The RDF statement for the metadata item.
-		  */
-		virtual void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement) = 0;
-
-		/** @brief Generate a new RDF BNode id.
-		  *
-		  * @return The new BNode id.
-		  */
-		virtual const rdf::bnode genid() = 0;
-
 		/** @brief A block of text in the document.
 		  *
 		  * @param aText The text at the current point in the document.
@@ -176,11 +164,17 @@ namespace cainteoir
 		std::map<std::string, size_t> mAnchors;
 	};
 
+	enum capability_types
+	{
+		metadata_support = 1,
+		text_support     = 2,
+	};
+
 	/** @brief Get the document formats that are supported by libcainteoir.
 	  *
 	  * @metadata The RDF graph to write the format support to.
 	  */
-	void supportedDocumentFormats(rdf::graph &metadata);
+	void supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities);
 
 	/** @brief Read the contents of a document.
 	  *
@@ -190,7 +184,7 @@ namespace cainteoir
 	  * @retval true  If aFilename contains a supported document format.
 	  * @retval false If aFilename contains an unsupported document format.
 	  */
-	bool parseDocument(const char *aFilename, document_events &events);
+	bool parseDocument(const char *aFilename, document_events &events, rdf::graph &aGraph);
 }
 
 #endif

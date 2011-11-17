@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+	<mime-type type="application/oebps-package+xml">
+		<comment>open package format document</comment>
+		<root-XML namespaceURI="http://www.idpf.org/2007/opf" localName="package"/>
+		<glob pattern="*.opf"/>
+	</mime-type>
+	<mime-type type="application/rdf+xml">
+		<root-XML namespaceURI="http://www.w3.org/1999/02/22-rdf-syntax-ns" localName="RDF"/>
+	</mime-type>
+	<mime-type type="application/smil">
+		<root-XML namespaceURI="http://www.w3.org/ns/SMIL" localName="smil"/>
+	</mime-type>
+	<mime-type type="application/ssml+xml">
+		<comment>speech synthesis document</comment>
+		<root-XML namespaceURI="http://www.w3.org/2001/10/synthesis" localName="speak"/>
+		<glob pattern="*.ssml"/>
+	</mime-type>
+	<mime-type type="application/x-dtbncx+xml">
+		<comment>navigation control document</comment>
+		<root-XML namespaceURI="http://www.daisy.org/z3986/2005/ncx/" localName="ncx"/>
+		<glob pattern="*.ncx"/>
+	</mime-type>
+	<mime-type type="multipart/related">
+		<glob pattern="*.mht"/>   <!-- MHTML document -->
+		<glob pattern="*.mhtml"/> <!-- MHTML document -->
+	</mime-type>
+	<mime-type type="text/html">
+		<root-XML namespaceURI="" localName="html"/>
+	</mime-type>
+</mime-info>

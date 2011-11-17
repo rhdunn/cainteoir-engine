@@ -128,22 +128,22 @@ public:
 		espeak_SetSynthCallback(espeak_tts_callback);
 
 		rdf::uri espeak = rdf::uri(baseuri, std::string());
-		rdf::bnode jonsd = metadata.genid();
+		rdf::uri jonsd = metadata.genid();
 		std::string info = espeak_Info(NULL);
 
-		metadata.push_back(rdf::statement(espeak, rdf::rdf("type"), rdf::tts("Engine")));
-		metadata.push_back(rdf::statement(espeak, rdf::tts("name"), rdf::literal("eSpeak")));
-		metadata.push_back(rdf::statement(espeak, rdf::tts("version"), rdf::literal(info.substr(0, info.find(' ')))));
-		metadata.push_back(rdf::statement(espeak, rdf::dc("source"), rdf::uri("http://espeak.sourceforge.net/", std::string())));
-		metadata.push_back(rdf::statement(espeak, rdf::dc("creator"), jonsd));
+		metadata.statement(espeak, rdf::rdf("type"), rdf::tts("Engine"));
+		metadata.statement(espeak, rdf::tts("name"), rdf::literal("eSpeak"));
+		metadata.statement(espeak, rdf::tts("version"), rdf::literal(info.substr(0, info.find(' '))));
+		metadata.statement(espeak, rdf::dc("source"), rdf::uri("http://espeak.sourceforge.net/", std::string()));
+		metadata.statement(espeak, rdf::dc("creator"), jonsd);
 
-		metadata.push_back(rdf::statement(jonsd, rdf::rdf("type"), rdf::foaf("Person")));
-		metadata.push_back(rdf::statement(jonsd, rdf::foaf("name"), rdf::literal("Jonathan Duddington")));
-		metadata.push_back(rdf::statement(jonsd, rdf::foaf("title"), rdf::literal("Mr.")));
-		metadata.push_back(rdf::statement(jonsd, rdf::foaf("givenName"), rdf::literal("Jonathan")));
-		metadata.push_back(rdf::statement(jonsd, rdf::foaf("familyName"), rdf::literal("Duddington")));
-		metadata.push_back(rdf::statement(jonsd, rdf::foaf("gender"), rdf::literal("male")));
-		metadata.push_back(rdf::statement(jonsd, rdf::foaf("isPrimaryTopicOf"), rdf::uri("http://sourceforge.net/users/jonsd", std::string())));
+		metadata.statement(jonsd, rdf::rdf("type"), rdf::foaf("Person"));
+		metadata.statement(jonsd, rdf::foaf("name"), rdf::literal("Jonathan Duddington"));
+		metadata.statement(jonsd, rdf::foaf("title"), rdf::literal("Mr."));
+		metadata.statement(jonsd, rdf::foaf("givenName"), rdf::literal("Jonathan"));
+		metadata.statement(jonsd, rdf::foaf("familyName"), rdf::literal("Duddington"));
+		metadata.statement(jonsd, rdf::foaf("gender"), rdf::literal("male"));
+		metadata.statement(jonsd, rdf::foaf("isPrimaryTopicOf"), rdf::uri("http://sourceforge.net/users/jonsd", std::string()));
 
 		for (const espeak_VOICE **data = espeak_ListVoices(NULL); *data; ++data)
 		{
@@ -152,19 +152,19 @@ public:
 				id = "french-belgium";
 
 			rdf::uri voice = rdf::uri(baseuri, id);
-			metadata.push_back(rdf::statement(voice, rdf::rdf("type"), rdf::tts("Voice")));
-			metadata.push_back(rdf::statement(voice, rdf::dc("language"), rdf::literal((*data)->languages+1)));
-			metadata.push_back(rdf::statement(voice, rdf::tts("name"), rdf::literal((*data)->name)));
-			metadata.push_back(rdf::statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male")));
+			metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
+			metadata.statement(voice, rdf::dc("language"), rdf::literal((*data)->languages+1));
+			metadata.statement(voice, rdf::tts("name"), rdf::literal((*data)->name));
+			metadata.statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male"));
 			if ((*data)->age)
-				metadata.push_back(rdf::statement(voice, rdf::tts("age"), rdf::literal((*data)->age, rdf::xsd("int"))));
+				metadata.statement(voice, rdf::tts("age"), rdf::literal((*data)->age, rdf::xsd("int")));
 
-			metadata.push_back(rdf::statement(voice, rdf::tts("frequency"), rdf::literal(frequency, rdf::tts("hertz"))));
-			metadata.push_back(rdf::statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int"))));
-			metadata.push_back(rdf::statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le")));
+			metadata.statement(voice, rdf::tts("frequency"), rdf::literal(frequency, rdf::tts("hertz")));
+			metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
+			metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
 
-			metadata.push_back(rdf::statement(voice, rdf::tts("voiceOf"), espeak));
-			metadata.push_back(rdf::statement(espeak, rdf::tts("hasVoice"), voice));
+			metadata.statement(voice, rdf::tts("voiceOf"), espeak);
+			metadata.statement(espeak, rdf::tts("hasVoice"), voice);
 		}
 	}
 

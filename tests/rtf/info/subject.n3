@@ -2,4 +2,4 @@
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 
 <> dc:description "RTF metadata test case." .
-<> tts:mimetype "text/rtf" .
+<> tts:mimetype "application/rtf" .

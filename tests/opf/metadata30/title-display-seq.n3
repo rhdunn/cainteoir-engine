@@ -10,4 +10,4 @@
 <> dct:title <#coll> .
 <#coll> rdf:value "The Collection" .
 <#coll> pkg:display-seq "1"^^xsd:unsignedInt .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/oebps-package+xml" .

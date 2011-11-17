@@ -7,4 +7,4 @@
 <> dtb:depth "1"^^xsd:int .
 <> dtb:totalPageCount "0"^^xsd:int .
 <> dtb:maxPageNumber "0"^^xsd:int .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/x-dtbncx+xml" .

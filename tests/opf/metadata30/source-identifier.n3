@@ -4,4 +4,4 @@
 
 <> pkg:source-identifier <#src-id> .
 <#src-id> rdf:value "urn:uuid:12345" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/oebps-package+xml" .

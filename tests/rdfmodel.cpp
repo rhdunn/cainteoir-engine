@@ -29,22 +29,7 @@ namespace rdf = cainteoir::rdf;
 
 REGISTER_TESTSUITE("RDF Model");
 
-void test_bnode(const rdf::node &node, const std::string &id)
-{
-	const rdf::bnode *bnode = dynamic_cast<const rdf::bnode *>(&node);
-	if (assert(bnode))
-	{
-		equal(bnode->id, id);
-	}
-}
-
-TEST_CASE("rdf::bnode")
-{
-	test_bnode(rdf::bnode("a"), "a");
-	test_bnode(rdf::bnode("temp"), "temp");
-}
-
-void test_uri(const rdf::node &node, const std::string &value, const std::string &ns, const std::string &ref)
+void test_uri(const rdf::detail::resource &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	const rdf::uri *uri = dynamic_cast<const rdf::uri *>(&node);
 	if (assert(uri))
@@ -55,10 +40,23 @@ void test_uri(const rdf::node &node, const std::string &value, const std::string
 	}
 }
 
+void test_bnode(const rdf::detail::resource &node, const std::string &id)
+{
+	test_uri(node, id, std::string(), id);
+}
+
+TEST_CASE("rdf::bnode")
+{
+	rdf::graph g;
+
+	test_bnode(g.bnode("a"), "a");
+	test_bnode(g.bnode("temp"), "temp");
+}
+
 TEST_CASE("rdf::uri")
 {
 	test_uri(rdf::uri(std::string(), std::string()), "", "", "");
-	test_uri(rdf::uri(std::string(), "test"), "#test", "#", "test");
+	test_uri(rdf::uri(std::string(), "test"), "test", "", "test");
 
 	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema", std::string()), "http://www.w3.org/2001/XMLSchema", "http://www.w3.org/2001/XMLSchema", "");
 	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema/", std::string()), "http://www.w3.org/2001/XMLSchema/", "http://www.w3.org/2001/XMLSchema/", "");
@@ -103,186 +101,188 @@ TEST_CASE("RDF namespaces")
 
 TEST_CASE("rdf::href")
 {
-	test_uri(rdf::href("http://www.example.com/"), "http://www.example.com/", "http://www.example.com/", "");
-	test_uri(rdf::href("http://www.example.com/value"), "http://www.example.com/value", "http://www.example.com/", "value");
+	rdf::graph g;
 
-	test_uri(rdf::href("http://www.example.com/abc/"), "http://www.example.com/abc/", "http://www.example.com/abc/", "");
-	test_uri(rdf::href("http://www.example.com/abc/value"), "http://www.example.com/abc/value", "http://www.example.com/abc/", "value");
+	test_uri(g.href("http://www.example.com/"), "http://www.example.com/", "http://www.example.com/", "");
+	test_uri(g.href("http://www.example.com/value"), "http://www.example.com/value", "http://www.example.com/", "value");
 
-	test_uri(rdf::href("http://www.example.com/def#"), "http://www.example.com/def#", "http://www.example.com/def#", "");
-	test_uri(rdf::href("http://www.example.com/def#value"), "http://www.example.com/def#value", "http://www.example.com/def#", "value");
+	test_uri(g.href("http://www.example.com/abc/"), "http://www.example.com/abc/", "http://www.example.com/abc/", "");
+	test_uri(g.href("http://www.example.com/abc/value"), "http://www.example.com/abc/value", "http://www.example.com/abc/", "value");
 
-	test_uri(rdf::href("http://www.example.com/def/#"), "http://www.example.com/def/#", "http://www.example.com/def/#", "");
-	test_uri(rdf::href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
+	test_uri(g.href("http://www.example.com/def#"), "http://www.example.com/def#", "http://www.example.com/def#", "");
+	test_uri(g.href("http://www.example.com/def#value"), "http://www.example.com/def#value", "http://www.example.com/def#", "value");
+
+	test_uri(g.href("http://www.example.com/def/#"), "http://www.example.com/def/#", "http://www.example.com/def/#", "");
+	test_uri(g.href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
 }
 
-void test_bnode(const std::tr1::shared_ptr<const rdf::resource> &node, const std::string &id)
+void test_bnode(const std::tr1::shared_ptr<const rdf::detail::resource> &node, const std::string &id)
 {
 	test_bnode(*node, id);
 }
 
-void test_uri(const std::tr1::shared_ptr<const rdf::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
+void test_uri(const std::tr1::shared_ptr<const rdf::detail::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	test_uri(*node, value, ns, ref);
 }
 
-TEST_CASE("rdf::namespaces -- empty")
+TEST_CASE("rdf::graph -- curie: empty namespaces")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 
-	test_uri(test(""), "", "", "");
+	test_uri(test.curie(""), "", "", "");
 
-	assert(!test("dc:title").get());
+	assert(!test.curie("dc:title").get());
 }
 
-TEST_CASE("rdf::namespaces -- base uri")
+TEST_CASE("rdf::graph -- curie: base uri")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base");
 
-	test_uri(test("test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
-	test_uri(test("/test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
-	test_uri(test("#test"), "http://www.example.org/base#test", "http://www.example.org/base#", "test");
+	test_uri(test.curie("test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
+	test_uri(test.curie("/test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
+	test_uri(test.curie("#test"), "http://www.example.org/base#test", "http://www.example.org/base#", "test");
 }
 
-TEST_CASE("rdf::namespaces -- uri schemes")
+TEST_CASE("rdf::graph -- curie: uri schemes")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base");
 
-	test_uri(test("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");
-	test_uri(test("http://www.example.org/test/value"), "http://www.example.org/test/value", "http://www.example.org/test/", "value");
-	test_uri(test("http://www.example.org/test#"), "http://www.example.org/test#", "http://www.example.org/test#", "");
-	test_uri(test("http://www.example.org/test#value"), "http://www.example.org/test#value", "http://www.example.org/test#", "value");
-	test_uri(test("http://www.example.org/test/#"), "http://www.example.org/test/#", "http://www.example.org/test/#", "");
-	test_uri(test("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
+	test_uri(test.curie("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");
+	test_uri(test.curie("http://www.example.org/test/value"), "http://www.example.org/test/value", "http://www.example.org/test/", "value");
+	test_uri(test.curie("http://www.example.org/test#"), "http://www.example.org/test#", "http://www.example.org/test#", "");
+	test_uri(test.curie("http://www.example.org/test#value"), "http://www.example.org/test#value", "http://www.example.org/test#", "value");
+	test_uri(test.curie("http://www.example.org/test/#"), "http://www.example.org/test/#", "http://www.example.org/test/#", "");
+	test_uri(test.curie("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
 
-	test_uri(test("https://www.example.org/test/"), "https://www.example.org/test/", "https://www.example.org/test/", "");
-	test_uri(test("https://www.example.org/test/value"), "https://www.example.org/test/value", "https://www.example.org/test/", "value");
-	test_uri(test("https://www.example.org/test#"), "https://www.example.org/test#", "https://www.example.org/test#", "");
-	test_uri(test("https://www.example.org/test#value"), "https://www.example.org/test#value", "https://www.example.org/test#", "value");
-	test_uri(test("https://www.example.org/test/#"), "https://www.example.org/test/#", "https://www.example.org/test/#", "");
-	test_uri(test("https://www.example.org/test/#value"), "https://www.example.org/test/#value", "https://www.example.org/test/#", "value");
+	test_uri(test.curie("https://www.example.org/test/"), "https://www.example.org/test/", "https://www.example.org/test/", "");
+	test_uri(test.curie("https://www.example.org/test/value"), "https://www.example.org/test/value", "https://www.example.org/test/", "value");
+	test_uri(test.curie("https://www.example.org/test#"), "https://www.example.org/test#", "https://www.example.org/test#", "");
+	test_uri(test.curie("https://www.example.org/test#value"), "https://www.example.org/test#value", "https://www.example.org/test#", "value");
+	test_uri(test.curie("https://www.example.org/test/#"), "https://www.example.org/test/#", "https://www.example.org/test/#", "");
+	test_uri(test.curie("https://www.example.org/test/#value"), "https://www.example.org/test/#value", "https://www.example.org/test/#", "value");
 
-	test_uri(test("mailto:abc@example.com"), "mailto:abc@example.com", "mailto:abc@example.com", "");
+	test_uri(test.curie("mailto:abc@example.com"), "mailto:abc@example.com", "mailto:abc@example.com", "");
 
-	test_uri(test("file:///home/test/"), "file:///home/test/", "file:///home/test/", "");
-	test_uri(test("file:///home/test/value"), "file:///home/test/value", "file:///home/test/", "value");
-	test_uri(test("file:///home/test#"), "file:///home/test#", "file:///home/test#", "");
-	test_uri(test("file:///home/test#value"), "file:///home/test#value", "file:///home/test#", "value");
-	test_uri(test("file:///home/test/#"), "file:///home/test/#", "file:///home/test/#", "");
-	test_uri(test("file:///home/test/#value"), "file:///home/test/#value", "file:///home/test/#", "value");
+	test_uri(test.curie("file:///home/test/"), "file:///home/test/", "file:///home/test/", "");
+	test_uri(test.curie("file:///home/test/value"), "file:///home/test/value", "file:///home/test/", "value");
+	test_uri(test.curie("file:///home/test#"), "file:///home/test#", "file:///home/test#", "");
+	test_uri(test.curie("file:///home/test#value"), "file:///home/test#value", "file:///home/test#", "value");
+	test_uri(test.curie("file:///home/test/#"), "file:///home/test/#", "file:///home/test/#", "");
+	test_uri(test.curie("file:///home/test/#value"), "file:///home/test/#value", "file:///home/test/#", "value");
 }
 
-TEST_CASE("rdf::namespaces -- BNode CURIEs")
+TEST_CASE("rdf::graph -- curie: bnodes")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 
 	test.set_base("http://www.example.org/base");
-	test_bnode(test("_:test"), "test");
-	test_bnode(test("_:joe"), "joe");
-	test_bnode(test("_:sue"), "sue");
+	test_bnode(test.curie("_:test"), "test");
+	test_bnode(test.curie("_:joe"), "joe");
+	test_bnode(test.curie("_:sue"), "sue");
 
 	test.set_base("http://www.example.org/base/");
-	test_bnode(test("_:test"), "test");
-	test_bnode(test("_:joe"), "joe");
-	test_bnode(test("_:sue"), "sue");
+	test_bnode(test.curie("_:test"), "test");
+	test_bnode(test.curie("_:joe"), "joe");
+	test_bnode(test.curie("_:sue"), "sue");
 
 	test.set_base("http://www.example.org/base#");
-	test_bnode(test("_:test"), "test");
-	test_bnode(test("_:joe"), "joe");
-	test_bnode(test("_:sue"), "sue");
+	test_bnode(test.curie("_:test"), "test");
+	test_bnode(test.curie("_:joe"), "joe");
+	test_bnode(test.curie("_:sue"), "sue");
 
 	test.set_base("http://www.example.org/base/#");
-	test_bnode(test("_:test"), "test");
-	test_bnode(test("_:joe"), "joe");
-	test_bnode(test("_:sue"), "sue");
+	test_bnode(test.curie("_:test"), "test");
+	test_bnode(test.curie("_:joe"), "joe");
+	test_bnode(test.curie("_:sue"), "sue");
 }
 
-TEST_CASE("rdf::namespaces -- add_namespaces(prefix, href)")
+TEST_CASE("rdf::graph -- curie: add_namespaces(prefix, href)")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base/");
 
-	assert(!test("dc:title").get());
-	assert(!test("xsd:string").get());
-	assert(!test("xml:lang").get());
-	assert(!test("dct:title").get());
+	assert(!test.curie("dc:title").get());
+	assert(!test.curie("xsd:string").get());
+	assert(!test.curie("xml:lang").get());
+	assert(!test.curie("dct:title").get());
 
 	test.add_namespace("dc", "http://purl.org/dc/elements/1.1/");
 	test.add_namespace("xsd", "http://www.w3.org/2001/XMLSchema");
 	test.add_namespace("xml", "http://www.w3.org/XML/1998/namespace#");
 
-	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
-	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
-	assert(!test("dct:title").get());
+	test_uri(test.curie("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test.curie("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test.curie("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	assert(!test.curie("dct:title").get());
 }
 
-TEST_CASE("rdf::namespaces -- add_namespaces(ns)")
+TEST_CASE("rdf::graph -- curie: add_namespaces(ns)")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base/");
 
-	assert(!test("dc:title").get());
-	assert(!test("xsd:string").get());
-	assert(!test("xml:lang").get());
-	assert(!test("dct:title").get());
+	assert(!test.curie("dc:title").get());
+	assert(!test.curie("xsd:string").get());
+	assert(!test.curie("xml:lang").get());
+	assert(!test.curie("dct:title").get());
 
 	test.add_namespace(rdf::dc);
 	test.add_namespace(rdf::xsd);
 	test.add_namespace(rdf::xml);
 
-	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
-	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
-	assert(!test("dct:title").get());
+	test_uri(test.curie("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test.curie("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test.curie("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	assert(!test.curie("dct:title").get());
 }
 
-TEST_CASE("rdf::namespaces -- namespaces << ns")
+TEST_CASE("rdf::graph -- curie: namespaces << ns")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base/");
 
-	assert(!test("dc:title").get());
-	assert(!test("xsd:string").get());
-	assert(!test("xml:lang").get());
-	assert(!test("dct:title").get());
+	assert(!test.curie("dc:title").get());
+	assert(!test.curie("xsd:string").get());
+	assert(!test.curie("xml:lang").get());
+	assert(!test.curie("dct:title").get());
 
 	test << rdf::dc << rdf::xsd << rdf::xml;
 
-	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
-	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
-	assert(!test("dct:title").get());
+	test_uri(test.curie("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test.curie("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test.curie("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	assert(!test.curie("dct:title").get());
 }
 
-TEST_CASE("rdf::namespaces -- add_prefix")
+TEST_CASE("rdf::graph -- curie: add_prefix")
 {
-	rdf::namespaces test;
+	rdf::graph test;
 	test.set_base("http://www.example.org/base/");
 
-	assert(!test("dc:title").get());
-	assert(!test("xsd:string").get());
-	assert(!test("xml:lang").get());
-	assert(!test("dct:title").get());
+	assert(!test.curie("dc:title").get());
+	assert(!test.curie("xsd:string").get());
+	assert(!test.curie("xml:lang").get());
+	assert(!test.curie("dct:title").get());
 
 	test.add_prefix("dc: http://purl.org/dc/elements/1.1/");
 
-	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	assert(!test("xsd:string").get());
-	assert(!test("xml:lang").get());
-	assert(!test("dct:title").get());
+	test_uri(test.curie("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	assert(!test.curie("xsd:string").get());
+	assert(!test.curie("xml:lang").get());
+	assert(!test.curie("dct:title").get());
 
 	test.add_prefix("xsd: http://www.w3.org/2001/XMLSchema# xml: http://www.w3.org/XML/1998/namespace#");
 
-	test_uri(test("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	test_uri(test("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
-	test_uri(test("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
-	assert(!test("dct:title").get());
+	test_uri(test.curie("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(test.curie("xsd:string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
+	test_uri(test.curie("xml:lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	assert(!test.curie("dct:title").get());
 }
 
-void test_literal(const rdf::node &node, const std::string value, const std::string &language, const rdf::uri &uri)
+void test_literal(const rdf::detail::resource &node, const std::string value, const std::string &language, const rdf::uri &uri)
 {
 	const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&node);
 	if (assert(literal))
@@ -317,17 +317,12 @@ TEST_CASE("rdf::literal")
 	test_literal(3.2, "3.2", rdf::xsd("string"));
 }
 
-void test_item(const rdf::node &a, const rdf::bnode &b)
-{
-	test_bnode(a, b.id);
-}
-
-void test_item(const rdf::node &a, const rdf::uri &b)
+void test_item(const rdf::detail::resource &a, const rdf::uri &b)
 {
 	test_uri(a, b.str(), b.ns, b.ref);
 }
 
-void test_item(const rdf::node &a, const rdf::literal &b)
+void test_item(const rdf::detail::resource &a, const rdf::literal &b)
 {
 	test_literal(a, b.value, b.language, b.type);
 }
@@ -340,48 +335,44 @@ void test_statement(const std::tr1::shared_ptr<const rdf::triple> &s, const Subj
 	test_item(*s->object, object);
 }
 
-TEST_CASE("rdf::any_type -- empty")
+TEST_CASE("rdf::resource -- empty")
 {
-	rdf::any_type a(NULL);
+	rdf::graph g;
+
+	rdf::resource a(NULL);
 	assert(!a);
 
-	assert(a.as<rdf::node>() == NULL);
-	assert(a.as<rdf::resource>() == NULL);
+	assert(a.as<rdf::detail::resource>() == NULL);
 	assert(a.as<rdf::uri>() == NULL);
-	assert(a.as<rdf::bnode>() == NULL);
 	assert(a.as<rdf::literal>() == NULL);
 
-	assert((const rdf::node *)a == NULL);
-	assert((const rdf::resource *)a == NULL);
+	assert((const rdf::detail::resource *)a == NULL);
 	assert((const rdf::uri *)a == NULL);
-	assert((const rdf::bnode *)a == NULL);
 	assert((const rdf::literal *)a == NULL);
 
 	assert(!(a == rdf::uri(std::string(), std::string())));
-	assert(!(a == rdf::bnode(std::string())));
+	assert(!(a == g.bnode(std::string())));
 	assert(!(a == rdf::literal(std::string())));
 
 	assert(a == a);
-	assert(a == rdf::any_type(NULL));
+	assert(a == rdf::resource(NULL));
 }
 
-TEST_CASE("rdf::any_type -- uri")
+TEST_CASE("rdf::resource -- uri")
 {
+	rdf::graph g;
+
 	rdf::uri value = rdf::rdf("Class");
 
-	rdf::any_type a(&value);
+	rdf::resource a(&value);
 	assert(!!a);
 
-	assert(a.as<rdf::node>() == (const rdf::node *)&value);
-	assert(a.as<rdf::resource>() == (const rdf::resource *)&value);
+	assert(a.as<rdf::detail::resource>() == (const rdf::detail::resource *)&value);
 	assert(a.as<rdf::uri>() == &value);
-	assert(a.as<rdf::bnode>() == NULL);
 	assert(a.as<rdf::literal>() == NULL);
 
-	assert((const rdf::node *)a == (const rdf::node *)&value);
-	assert((const rdf::resource *)a == (const rdf::resource *)&value);
+	assert((const rdf::detail::resource *)a == (const rdf::detail::resource *)&value);
 	assert((const rdf::uri *)a == &value);
-	assert((const rdf::bnode *)a == NULL);
 	assert((const rdf::literal *)a == NULL);
 
 	assert(!(a == rdf::uri(std::string(), std::string())));
@@ -389,86 +380,80 @@ TEST_CASE("rdf::any_type -- uri")
 	assert(a == value);
 	assert(a == rdf::rdf("Class"));
 
-	assert(!(a == rdf::bnode(std::string())));
+	assert(!(a == g.bnode(std::string())));
 	assert(!(a == rdf::literal(std::string())));
 
 	rdf::uri same  = rdf::rdf("Class");
 	rdf::uri other = rdf::rdf("Property");
-	rdf::bnode bnode = rdf::bnode("Class");
 	rdf::literal literal = rdf::literal("Class");
 
-	assert(!(a == rdf::any_type(NULL)));
-	assert(!(a == rdf::any_type(&other)));
-	assert(!(a == rdf::any_type(&bnode)));
-	assert(!(a == rdf::any_type(&literal)));
+	assert(!(a == rdf::resource(NULL)));
+	assert(!(a == rdf::resource(&other)));
+	assert(!(a == rdf::resource(&literal)));
 
 	assert(a == a);
-	assert(a == rdf::any_type(&value));
-	assert(a == rdf::any_type(&same));
+	assert(a == rdf::resource(&value));
+	assert(a == rdf::resource(&same));
 }
 
-TEST_CASE("rdf::any_type -- bnode")
+TEST_CASE("rdf::resource -- bnode")
 {
-	rdf::bnode value = rdf::bnode("test");
+	rdf::graph g;
 
-	rdf::any_type a(&value);
+	rdf::uri value = g.bnode("test");
+
+	rdf::resource a(&value);
 	assert(!!a);
 
-	assert(a.as<rdf::node>() == (const rdf::node *)&value);
-	assert(a.as<rdf::resource>() == (const rdf::resource *)&value);
-	assert(a.as<rdf::uri>() == NULL);
-	assert(a.as<rdf::bnode>() == &value);
+	assert(a.as<rdf::detail::resource>() == (const rdf::detail::resource *)&value);
+	assert(a.as<rdf::uri>() == &value);
 	assert(a.as<rdf::literal>() == NULL);
 
-	assert((const rdf::node *)a == (const rdf::node *)&value);
-	assert((const rdf::resource *)a == (const rdf::resource *)&value);
-	assert((const rdf::uri *)a == NULL);
-	assert((const rdf::bnode *)a == &value);
+	assert((const rdf::detail::resource *)a == (const rdf::detail::resource *)&value);
+	assert((const rdf::uri *)a == &value);
 	assert((const rdf::literal *)a == NULL);
 
-	assert(!(a == rdf::bnode(std::string())));
+	assert(!(a == g.bnode(std::string())));
 	assert(a == value);
-	assert(a == rdf::bnode("test"));
+	assert(a == g.bnode("test"));
 
 	assert(!(a == rdf::uri(std::string(), std::string())));
 	assert(!(a == rdf::literal(std::string())));
 
-	rdf::bnode same  = rdf::bnode("test");
-	rdf::bnode other = rdf::bnode("other");
+	rdf::uri same  = g.bnode("test");
+	rdf::uri other = g.bnode("other");
 	rdf::uri uri = rdf::rdf("Class");
 	rdf::literal literal = rdf::literal("Class");
 
-	assert(!(a == rdf::any_type(NULL)));
-	assert(!(a == rdf::any_type(&other)));
-	assert(!(a == rdf::any_type(&uri)));
-	assert(!(a == rdf::any_type(&literal)));
+	assert(!(a == rdf::resource(NULL)));
+	assert(!(a == rdf::resource(&other)));
+	assert(!(a == rdf::resource(&uri)));
+	assert(!(a == rdf::resource(&literal)));
 
 	assert(a == a);
-	assert(a == rdf::any_type(&value));
-	assert(a == rdf::any_type(&same));
+	assert(a == rdf::resource(&value));
+	assert(a == rdf::resource(&same));
 }
 
-TEST_CASE("rdf::any_type -- literal")
+TEST_CASE("rdf::resource -- literal")
 {
+	rdf::graph g;
+
 	rdf::literal value("test");
 
-	rdf::any_type a(&value);
+	rdf::resource a(&value);
 	assert(!!a);
 
-	assert(a.as<rdf::node>() == (const rdf::node *)&value);
-	assert(a.as<rdf::resource>() == NULL);
+	assert(a.as<rdf::detail::resource>() == (const rdf::detail::resource *)&value);
 	assert(a.as<rdf::uri>() == NULL);
-	assert(a.as<rdf::bnode>() == NULL);
 	assert(a.as<rdf::literal>() == &value);
 
-	assert((const rdf::node *)a == (const rdf::node *)&value);
-	assert((const rdf::resource *)a == NULL);
+	assert((const rdf::detail::resource *)a == (const rdf::detail::resource *)&value);
 	assert((const rdf::uri *)a == NULL);
-	assert((const rdf::bnode *)a == NULL);
 	assert((const rdf::literal *)a == &value);
 
 	assert(!(a == rdf::uri(std::string(), std::string())));
-	assert(!(a == rdf::bnode(std::string())));
+	assert(!(a == g.bnode(std::string())));
 
 	assert(!(a == rdf::literal(std::string())));
 	assert(!(a == rdf::literal("test", "en")));
@@ -479,53 +464,26 @@ TEST_CASE("rdf::any_type -- literal")
 	rdf::literal same = rdf::literal("test");
 	rdf::literal other = rdf::literal("other");
 	rdf::uri uri = rdf::rdf("Property");
-	rdf::bnode bnode = rdf::bnode("test");
+	rdf::uri bnode = g.bnode("test");
 
-	assert(!(a == rdf::any_type(NULL)));
-	assert(!(a == rdf::any_type(&other)));
-	assert(!(a == rdf::any_type(&uri)));
-	assert(!(a == rdf::any_type(&bnode)));
+	assert(!(a == rdf::resource(NULL)));
+	assert(!(a == rdf::resource(&other)));
+	assert(!(a == rdf::resource(&uri)));
+	assert(!(a == rdf::resource(&bnode)));
 
 	assert(a == a);
-	assert(a == rdf::any_type(&value));
-	assert(a == rdf::any_type(&same));
+	assert(a == rdf::resource(&value));
+	assert(a == rdf::resource(&same));
 }
 
-TEST_CASE("rdf::statement")
-{
-	test_statement(rdf::statement(rdf::dc("date"), rdf::rdf("type"), rdf::bnode("tmp")),
-	               rdf::dc("date"), rdf::rdf("type"), rdf::bnode("tmp"));
-
-	test_statement(rdf::statement(rdf::dc("date"), rdf::rdf("type"), rdf::xsd("date")),
-	               rdf::dc("date"), rdf::rdf("type"), rdf::xsd("date"));
-
-	test_statement(rdf::statement(rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en")),
-	               rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", "en"));
-
-	test_statement(rdf::statement(rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string"))),
-	               rdf::rdf("value"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string")));
-
-	test_statement(rdf::statement(rdf::bnode("a"), rdf::rdf("type"), rdf::bnode("tmp")),
-	               rdf::bnode("a"), rdf::rdf("type"), rdf::bnode("tmp"));
-
-	test_statement(rdf::statement(rdf::bnode("b"), rdf::rdf("type"), rdf::xsd("date")),
-	               rdf::bnode("b"), rdf::rdf("type"), rdf::xsd("date"));
-
-	test_statement(rdf::statement(rdf::bnode("c"), rdf::dc("title"), rdf::literal("value", "en")),
-	               rdf::bnode("c"), rdf::dc("title"), rdf::literal("value", "en"));
-
-	test_statement(rdf::statement(rdf::bnode("d"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string"))),
-	               rdf::bnode("d"), rdf::dc("title"), rdf::literal("value", rdf::xsd("string")));
-}
-
-TEST_CASE("rdf::graph")
+TEST_CASE("rdf::graph -- statement")
 {
 	rdf::graph model;
 	assert(model.empty());
 	equal(model.size(), 0);
 	assert(model.begin() == model.end());
 
-	model.push_back(rdf::statement(rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property")));
+	assert(model.statement(rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property")));
 	assert(!model.empty());
 	equal(model.size(), 1);
 	assert(model.begin() != model.end());
@@ -533,7 +491,12 @@ TEST_CASE("rdf::graph")
 	test_statement(model.front(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
 	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
 
-	model.push_back(rdf::statement(rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB")));
+	assert(!model.statement(rdf::rdf("value"), model.bnode("test"), rdf::rdfs("Property")));
+	assert(!model.empty());
+	equal(model.size(), 1);
+	assert(model.begin() != model.end());
+
+	assert(model.statement(rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB")));
 	assert(!model.empty());
 	equal(model.size(), 2);
 	assert(model.begin() != model.end());
@@ -542,42 +505,96 @@ TEST_CASE("rdf::graph")
 	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB"));
 }
 
-void test_model_namespace(const std::tr1::shared_ptr<const rdf::triple> &s, const rdf::ns &ns)
-{
-	rdf::graph model;
-	assert(!model.contains(ns));
-	assert(!model.contains(rdf::tts));
-
-	model.push_back(s);
-	assert(model.contains(ns));
-	assert(!model.contains(rdf::tts));
-}
-
 TEST_CASE("rdf::graph -- RDF namespaces")
 {
-	test_model_namespace(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")), rdf::dc);
-	test_model_namespace(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")), rdf::rdf);
-	test_model_namespace(rdf::statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")), rdf::rdfs);
+	{
+		rdf::graph model;
+		assert(!model.contains(rdf::dc));
+		assert(!model.contains(rdf::rdf));
+		assert(!model.contains(rdf::rdfs));
+		assert(!model.contains(rdf::xsd));
+		assert(!model.contains(rdf::tts));
+	}
 
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")), rdf::rdf);
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")), rdf::rdfs);
+	{
+		rdf::graph model;
+		assert(model.statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdfs("Property")));
+		assert(model.contains(rdf::dc));
+		assert(model.contains(rdf::rdf));
+		assert(model.contains(rdf::rdfs));
+		assert(!model.contains(rdf::xsd));
+		assert(!model.contains(rdf::tts));
+	}
 
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))), rdf::rdf);
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))), rdf::rdfs);
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))), rdf::xsd);
+	{
+		rdf::graph model;
+		assert(model.statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property")));
+		assert(!model.contains(rdf::dc));
+		assert(model.contains(rdf::rdf));
+		assert(model.contains(rdf::rdfs));
+		assert(!model.contains(rdf::xsd));
+		assert(!model.contains(rdf::tts));
+	}
 
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::dc("creator"), rdf::bnode("a")), rdf::dc);
-	test_model_namespace(rdf::statement(rdf::rdfs("Property"), rdf::dc("creator"), rdf::bnode("a")), rdf::rdfs);
+	{
+		rdf::graph model;
+		assert(model.statement(rdf::rdfs("Property"), rdf::rdf("value"), rdf::literal("Property", rdf::xsd("string"))));
+		assert(!model.contains(rdf::dc));
+		assert(model.contains(rdf::rdf));
+		assert(model.contains(rdf::rdfs));
+		assert(model.contains(rdf::xsd));
+		assert(!model.contains(rdf::tts));
+	}
 
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("value"),  rdf::literal("test")), rdf::rdf);
+	{
+		rdf::graph model;
+		assert(model.statement(rdf::rdfs("Property"), rdf::dc("creator"), model.bnode("a")));
+		assert(model.contains(rdf::dc));
+		assert(!model.contains(rdf::rdf));
+		assert(model.contains(rdf::rdfs));
+		assert(!model.contains(rdf::xsd));
+		assert(!model.contains(rdf::tts));
+	}
 
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("value"),  rdf::literal("test", rdf::xsd("string"))), rdf::rdf);
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("value"),  rdf::literal("test", rdf::xsd("string"))), rdf::xsd);
+	{
+		rdf::graph model;
+		assert(model.statement(model.bnode("a"), rdf::rdf("value"), rdf::literal("test")));
+		assert(!model.contains(rdf::dc));
+		assert(model.contains(rdf::rdf));
+		assert(!model.contains(rdf::rdfs));
+		assert(!model.contains(rdf::xsd));
+		assert(!model.contains(rdf::tts));
+	}
 
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("type"),   rdf::rdfs("Class")), rdf::rdf);
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::rdf("type"),   rdf::rdfs("Class")), rdf::rdfs);
+	{
+		rdf::graph model;
+		assert(model.statement(model.bnode("a"), rdf::rdf("value"), rdf::literal("test", rdf::xsd("string"))));
+		assert(!model.contains(rdf::dc));
+		assert(model.contains(rdf::rdf));
+		assert(!model.contains(rdf::rdfs));
+		assert(model.contains(rdf::xsd));
+		assert(!model.contains(rdf::tts));
+	}
 
-	test_model_namespace(rdf::statement(rdf::bnode("a"), rdf::dc("creator"), rdf::bnode("Class")), rdf::dc);
+	{
+		rdf::graph model;
+		assert(model.statement(model.bnode("a"), rdf::rdf("type"), rdf::rdfs("Class")));
+		assert(!model.contains(rdf::dc));
+		assert(model.contains(rdf::rdf));
+		assert(model.contains(rdf::rdfs));
+		assert(!model.contains(rdf::xsd));
+		assert(!model.contains(rdf::tts));
+	}
+
+	{
+		rdf::graph model;
+		assert(model.statement(model.bnode("a"), rdf::dc("creator"), model.bnode("John")));
+		assert(model.contains(rdf::dc));
+		assert(!model.contains(rdf::rdf));
+		assert(!model.contains(rdf::rdfs));
+		assert(!model.contains(rdf::xsd));
+		assert(!model.contains(rdf::tts));
+	}
 }
 
 TEST_CASE("rdf::graph -- genid()")

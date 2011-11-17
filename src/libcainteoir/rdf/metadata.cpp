@@ -50,18 +50,11 @@ const rdf::ns rdf::skos("skos", "http://www.w3.org/2004/02/skos/core#");
 const rdf::ns rdf::foaf("foaf", "http://xmlns.com/foaf/0.1/");
 const rdf::ns rdf::tts( "tts",  "http://rhdunn.github.com/2010/12/text-to-speech#");
 
-bool rdf::any_type::operator==(const any_type &rhs) const
+bool rdf::resource::operator==(const resource &rhs) const
 {
 	{
 		const rdf::uri *a = dynamic_cast<const rdf::uri *>(value);
 		const rdf::uri *b = dynamic_cast<const rdf::uri *>(rhs.value);
-		if (a && b)
-			return a == b || *a == *b;
-	}
-
-	{
-		const rdf::bnode *a = dynamic_cast<const rdf::bnode *>(value);
-		const rdf::bnode *b = dynamic_cast<const rdf::bnode *>(rhs.value);
 		if (a && b)
 			return a == b || *a == *b;
 	}
@@ -76,17 +69,12 @@ bool rdf::any_type::operator==(const any_type &rhs) const
 	return value == rhs.value;
 }
 
-const rdf::resource *rdf::bnode::clone() const
-{
-	return new bnode(*this);
-}
-
 rdf::uri::uri(const std::string &aNS, const std::string &aRef)
 	: ns(aNS)
 	, ref(aRef)
 {
 	auto last = --ns.end();
-	if (!ref.empty() && *last != '#' && *last != '/')
+	if (!ns.empty() && !ref.empty() && *last != '#' && *last != '/')
 		ns.push_back('#');
 }
 
@@ -103,12 +91,12 @@ std::string rdf::uri::str() const
 	return ns + ref;
 }
 
-const rdf::resource *rdf::uri::clone() const
+const rdf::detail::resource *rdf::uri::clone() const
 {
 	return new uri(*this);
 }
 
-const rdf::uri rdf::href(const std::string &aHref)
+const rdf::uri rdf::graph::href(const std::string &aHref)
 {
 	std::string::size_type index;
 
@@ -125,21 +113,13 @@ const rdf::uri rdf::href(const std::string &aHref)
 	return uri(aHref, std::string());
 }
 
-rdf::namespaces::namespaces()
-{
-	mNamespaces["http"] = "http:";
-	mNamespaces["https"] = "https:";
-	mNamespaces["mailto"] = "mailto:";
-	mNamespaces["file"] = "file:";
-}
-
-rdf::namespaces &rdf::namespaces::set_base(const std::string &aBase)
+rdf::graph &rdf::graph::set_base(const std::string &aBase)
 {
 	mBaseUri = aBase;
 	return *this;
 }
 
-rdf::namespaces &rdf::namespaces::add_namespace(const std::string &aPrefix, const std::string &aHref)
+rdf::graph &rdf::graph::add_namespace(const std::string &aPrefix, const std::string &aHref)
 {
 	if (*(--aHref.end()) != '#' && *(--aHref.end()) != '/')
 		mNamespaces[aPrefix] = aHref + '#';
@@ -148,7 +128,7 @@ rdf::namespaces &rdf::namespaces::add_namespace(const std::string &aPrefix, cons
 	return *this;
 }
 
-rdf::namespaces &rdf::namespaces::add_prefix(const std::string &aPrefix)
+rdf::graph &rdf::graph::add_prefix(const std::string &aPrefix)
 {
 	std::string prefix;
 	std::string href;
@@ -160,8 +140,8 @@ rdf::namespaces &rdf::namespaces::add_prefix(const std::string &aPrefix)
 	return *this;
 }
 
-std::tr1::shared_ptr<const rdf::resource>
-rdf::namespaces::operator()(const std::string &aCurie) const
+std::tr1::shared_ptr<const rdf::uri>
+rdf::graph::curie(const std::string &aCurie)
 {
 	std::string uri;
 
@@ -172,30 +152,38 @@ rdf::namespaces::operator()(const std::string &aCurie) const
 		std::string ref = aCurie.substr(index+1);
 
 		if (prefix == "_")
-			return std::tr1::shared_ptr<const rdf::resource>(new rdf::bnode(ref));
+			return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(std::string(), ref));
 
 		auto ns = mNamespaces.find(prefix);
 		if (ns == mNamespaces.end())
-			return std::tr1::shared_ptr<const rdf::resource>();
+			return std::tr1::shared_ptr<const rdf::uri>();
 
 		uri = ns->second + ref;
 	}
 	else
 		uri = mBaseUri + aCurie;
-	return std::tr1::shared_ptr<const rdf::resource>(new rdf::uri(href(uri)));
+	return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(href(uri)));
 }
 
-const rdf::node *rdf::literal::clone() const
+const rdf::detail::resource *rdf::literal::clone() const
 {
 	return new literal(*this);
 }
 
-const rdf::bnode rdf::graph::genid()
+rdf::graph::graph() : nextid(1)
+{
+	mNamespaces["http"] = "http:";
+	mNamespaces["https"] = "https:";
+	mNamespaces["mailto"] = "mailto:";
+	mNamespaces["file"] = "file:";
+}
+
+const rdf::uri rdf::graph::genid()
 {
 	std::ostringstream id;
 	id << "genid" << nextid;
 	++nextid;
-	return rdf::bnode(id.str());
+	return bnode(id.str());
 }
 
 bool rdf::graph::contains(const ns &uri) const
@@ -203,22 +191,40 @@ bool rdf::graph::contains(const ns &uri) const
 	return namespaces.find(uri.href) != namespaces.end();
 }
 
-void rdf::graph::push_back(const std::tr1::shared_ptr<const triple> &s)
+bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject)
 {
-	{
-		const rdf::uri *uri = rdf::query::subject(s);
-		if (uri)
-			namespaces.insert(uri->ns);
-	}
-	namespaces.insert(s->predicate.ns);
-	{
-		const rdf::uri *uri = rdf::query::object(s);
-		if (uri)
-			namespaces.insert(uri->ns);
+	if (aPredicate.ns.empty())
+		return false;
 
-		const rdf::literal *literal = rdf::query::object(s);
-		if (literal && !literal->type.ns.empty())
-			namespaces.insert(literal->type.ns);
-	}
-	rdf::subgraph::push_back(s);
+	if (!aSubject.ns.empty())
+		namespaces.insert(aSubject.ns);
+
+	namespaces.insert(aPredicate.ns);
+
+	if (!aObject.ns.empty())
+		namespaces.insert(aObject.ns);
+
+	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const detail::resource>(aSubject.clone()),
+	                                                        aPredicate,
+	                                                        std::tr1::shared_ptr<const detail::resource>(aObject.clone()))));
+	return true;
+}
+
+bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::literal &aObject)
+{
+	if (aPredicate.ns.empty())
+		return false;
+
+	if (!aSubject.ns.empty())
+		namespaces.insert(aSubject.ns);
+
+	namespaces.insert(aPredicate.ns);
+
+	if (!aObject.type.ns.empty())
+		namespaces.insert(aObject.type.ns);
+
+	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const detail::resource>(aSubject.clone()),
+	                                                        aPredicate,
+	                                                        std::tr1::shared_ptr<const detail::resource>(aObject.clone()))));
+	return true;
 }

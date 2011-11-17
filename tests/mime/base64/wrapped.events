@@ -1,0 +1,2 @@
+text(60): """This is a long line that is wrapped in the base64 encoding.
+"""

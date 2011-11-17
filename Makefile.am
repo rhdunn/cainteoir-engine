@@ -1,5 +1,8 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
+MIME_DIR=/usr/share/mime
+SUDO=sudo
+
 localedir = $(datadir)/locale
 
 AM_LDFLAGS  = ${LTLIBINTL}
@@ -83,29 +86,24 @@ EXTRA_DIST += ChangeLog
 ############################# data ############################################
 
 EXTRA_DIST += \
-	data/magic \
 	data/languages.rdf \
 	src/schema/*.rdf
 
 pkgdata_DATA += \
-	data/magic.mgc \
 	data/languages.rdf \
 	src/schema/text-to-speech.rdf
 
-data/magic.mgc: data/magic
-	cd data && file -C -m magic
+############################# mimetypes #######################################
+
+EXTRA_DIST += data/cainteoir.xml
+
+mimetypes: data/cainteoir.xml
+	${SUDO} /usr/bin/install -c -m 644 data/cainteoir.xml ${MIME_DIR}/packages
+	${SUDO} update-mime-database ${MIME_DIR}
+
+install-exec-local: mimetypes
 
 ############################# libcainteoir ####################################
-
-EXTRA_DIST += \
-	src/libcainteoir/encoding/encodings.py \
-	src/libcainteoir/encoding/mnemonics.lst \
-	src/libcainteoir/encoding/*.txt
-
-src/libcainteoir/encoding/encodings.h: src/libcainteoir/encoding/encodings.py src/libcainteoir/encoding/mnemonics.lst src/libcainteoir/encoding/*.txt
-	src/libcainteoir/encoding/encodings.py src/libcainteoir/encoding > $@
-
-src/libcainteoir/encoding.cpp: src/libcainteoir/encoding/encodings.h
 
 libcainteoir_includedir = $(includedir)/cainteoir
 libcainteoir_include_HEADERS = \
@@ -117,6 +115,7 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/xmlreader.hpp \
 	src/include/cainteoir/document.hpp \
 	src/include/cainteoir/engines.hpp \
+	src/include/cainteoir/mimetype.hpp \
 	src/include/cainteoir/metadata.hpp
 
 lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
@@ -124,7 +123,6 @@ lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
 src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION) \
 	${PULSE_LIBS} \
 	${VORBIS_LIBS} \
-	${MAGIC_LIBS} \
 	${LIBXML2_LIBS} \
 	${ZLIB_LIBS} \
 	${ESPEAK_LIBS} \
@@ -133,24 +131,25 @@ src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION)
 src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 	${PULSE_CFLAGS} \
 	${VORBIS_CFLAGS} \
-	${MAGIC_CFLAGS} \
 	${ZLIB_CFLAGS} \
 	${ESPEAK_CFLAGS}
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/platform.cpp \
 	src/libcainteoir/languages.cpp \
-	src/libcainteoir/encoding/encodings.h \
+	src/libcainteoir/mimetype.cpp \
 	src/libcainteoir/encoding.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/normalized_text_buffer.cpp \
 	src/libcainteoir/buffers/rope.cpp \
+	src/libcainteoir/compression/none.cpp \
+	src/libcainteoir/compression/gzip.cpp \
+	src/libcainteoir/compression/base64.cpp \
+	src/libcainteoir/compression/quoted_printable.cpp \
 	src/libcainteoir/rdf/metadata.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
-	src/libcainteoir/parsers/mimetypes.hpp \
 	src/libcainteoir/parsers/parsers.hpp \
-	src/libcainteoir/parsers/compressed.cpp \
 	src/libcainteoir/parsers/xml.hpp \
 	src/libcainteoir/parsers/zip.hpp \
 	src/libcainteoir/parsers/zip.cpp \
@@ -250,11 +249,11 @@ TEST_FILES = \
 
 EXTRA_DIST += $(TEST_FILES)
 
-check: tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/turtle_formatter src/apps/metadata/metadata tests/events tests/xmlreader $(TEST_FILES)
+check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/turtle_formatter src/apps/metadata/metadata tests/events tests/xmlreader $(TEST_FILES)
 	tests/rdfmodel
-	CAINTEOIR_DATADIR=`pwd`/data tests/rdfquery
 	tests/ntriple_formatter
 	tests/turtle_formatter
+	tests/rdfquery
 	python tests/xmlreader.py
 	python tests/metadata.py
 	python tests/vorbis-comments.py

@@ -26,6 +26,7 @@ if __name__ == '__main__':
 		{'name': 'semantics', 'type': 'events', 'tests': [
 			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/simple.xhtml', 'result': 'html/semantics/simple.events'},
+			{'test': 'html/semantics/simple-no-namespace.xhtml', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/with-style.html', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style-type.html', 'result': 'html/semantics/with-style-type.events'},
@@ -93,12 +94,19 @@ if __name__ == '__main__':
 			{'test': 'mime/multipart/mixed-2.txt', 'result': 'mime/multipart/mixed.events'},
 			{'test': 'mime/multipart/related-1.txt', 'result': 'mime/multipart/related.events'},
 			{'test': 'mime/multipart/related-2.txt', 'result': 'mime/multipart/related.events'},
+			{'test': 'mime/multipart/related-3.txt', 'result': 'mime/multipart/related.events'},
+			{'test': 'mime/multipart/related-4.txt', 'result': 'mime/multipart/related.events'},
 		]},
 		{'name': 'quoted-printable', 'type': 'events', 'tests': [
 			{'test': 'mime/quoted-printable/ascii.txt', 'result': 'mime/quoted-printable/ascii.events'},
 			{'test': 'mime/quoted-printable/escaped-upper.txt', 'result': 'mime/quoted-printable/escaped.events'},
 			{'test': 'mime/quoted-printable/escaped-lower.txt', 'result': 'mime/quoted-printable/escaped.events'},
 			{'test': 'mime/quoted-printable/eol.txt', 'result': 'mime/quoted-printable/eol.events'},
+		]},
+		{'name': 'base64', 'type': 'events', 'tests': [
+			{'test': 'mime/base64/simple.txt',  'result': 'mime/base64/simple.events'},
+			{'test': 'mime/base64/padding.txt', 'result': 'mime/base64/padding.events'},
+			{'test': 'mime/base64/wrapped.txt', 'result': 'mime/base64/wrapped.events'},
 		]},
 	]})
 	test.run({'name': 'HTTP', 'groups': [

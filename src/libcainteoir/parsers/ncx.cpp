@@ -92,7 +92,7 @@ void parseNavMap(const xml::node &ncx, const rdf::uri &subject, cainteoir::docum
 	}
 }
 
-void parseNcxHead(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events)
+void parseNcxHead(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	for (xml::node node = ncx.firstChild(); node.isValid(); node.next())
 	{
@@ -114,16 +114,16 @@ void parseNcxHead(const xml::node &ncx, const rdf::uri &subject, cainteoir::docu
 				{
 					std::string meta = name.substr(4);
 					if (meta == "depth" || meta == "totalPageCount" || meta == "maxPageNumber")
-						events.metadata(rdf::statement(subject, rdf::dtb(meta), rdf::literal(content, rdf::xsd("int"))));
+						aGraph.statement(subject, rdf::dtb(meta), rdf::literal(content, rdf::xsd("int")));
 					else
-						events.metadata(rdf::statement(subject, rdf::dtb(meta), rdf::literal(content)));
+						aGraph.statement(subject, rdf::dtb(meta), rdf::literal(content));
 				}
 			}
 		}
 	}
 }
 
-void cainteoir::parseNcxDocument(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events)
+void cainteoir::parseNcxDocument(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	if (ncx != rdf::ncx("ncx"))
 		throw std::runtime_error(_("NCX file is not of a recognised format."));
@@ -133,11 +133,11 @@ void cainteoir::parseNcxDocument(const xml::node &ncx, const rdf::uri &subject, 
 		if (section.type() == XML_ELEMENT_NODE)
 		{
 			if (section == rdf::ncx("head"))
-				parseNcxHead(section, subject, events);
+				parseNcxHead(section, subject, events, aGraph);
 			else if (section == rdf::ncx("docAuthor"))
-				events.metadata(rdf::statement(subject, rdf::dc("creator"), rdf::literal(parseNcxText(section))));
+				aGraph.statement(subject, rdf::dc("creator"), rdf::literal(parseNcxText(section)));
 			else if (section == rdf::ncx("docTitle"))
-				events.metadata(rdf::statement(subject, rdf::dc("title"), rdf::literal(parseNcxText(section))));
+				aGraph.statement(subject, rdf::dc("title"), rdf::literal(parseNcxText(section)));
 			else if (section == rdf::ncx("navMap"))
 				parseNavMap(section, subject, events);
 		}

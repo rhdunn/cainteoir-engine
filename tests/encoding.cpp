@@ -35,7 +35,16 @@ int main(int argc, char ** argv)
 
 		cainteoir::encoding codepage(atoi(argv[0]));
 		for (int c = 0; c < 256; ++c)
-			printf("%02x : %s\n", c, codepage.lookup((uint8_t)c));
+		{
+			try
+			{
+				printf("%02x : %s\n", c, codepage.lookup((uint8_t)c)->begin());
+			}
+			catch (std::runtime_error &e)
+			{
+				printf("%02x : (INVALID)\n", c);
+			}
+		}
 	}
 	catch (std::runtime_error &e)
 	{

@@ -25,4 +25,4 @@ dcam:VocabularyEncodingScheme dct:issued "2008-01-14" .
 dcam:VocabularyEncodingScheme rdf:type rdfs:Class .
 dcam:VocabularyEncodingScheme dct:hasVersion <http://dublincore.org/usage/terms/history/#VocabularyEncodingScheme-001> .
 dcam:VocabularyEncodingScheme rdfs:seeAlso <http://dublincore.org/documents/2007/06/04/abstract-model/> .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/rdf+xml" .

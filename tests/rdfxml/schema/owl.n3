@@ -455,4 +455,4 @@ owl:withRestrictions rdfs:domain rdfs:Datatype .
 owl:withRestrictions rdfs:isDefinedBy owl: .
 owl:withRestrictions rdfs:label "withRestrictions" .
 owl:withRestrictions rdfs:range rdf:List .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/rdf+xml" .

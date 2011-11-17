@@ -2,4 +2,4 @@
 @prefix pkg: <http://www.idpf.org/epub/vocab/package/#> .
 
 <> pkg:meta-auth "Joe Bloggs" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/oebps-package+xml" .

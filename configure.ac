@@ -30,6 +30,13 @@ AC_CHECK_HEADERS([getopt.h])
 AC_CHECK_FUNCS([getopt_long])
 
 dnl ================================================================
+dnl iconv checks.
+dnl ================================================================
+
+AC_CHECK_HEADERS([iconv.h])
+AC_CHECK_FUNCS([iconv_open])
+
+dnl ================================================================
 dnl pthread checks.
 dnl ================================================================
 
@@ -40,19 +47,6 @@ AC_CHECK_LIB( pthread, pthread_create, [],
          pthread_create();,
          [], [AC_MSG_ERROR([Missing pthread])])
     ])
-
-dnl ================================================================
-dnl libmagic checks.
-dnl ================================================================
-
-AC_CHECK_HEADERS(magic.h,
-    [
-        MAGIC_CFLAGS=""
-        MAGIC_LIBS="-lmagic"
-    ], [AC_MSG_ERROR([libmagic is required.])])
-
-AC_SUBST(MAGIC_CFLAGS)
-AC_SUBST(MAGIC_LIBS)
 
 dnl ================================================================
 dnl libxml2 checks.

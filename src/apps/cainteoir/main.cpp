@@ -223,7 +223,7 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 struct document : public cainteoir::document_events
 {
 	document(const rdf::uri &aSubject, actions aAction, int aFrom, int aTo)
-		: tts(m_metadata)
+		: tts(m_metadata, cainteoir::text_support)
 		, subject(aSubject)
 		, voiceSelected(false)
 		, m_doc(new cainteoir::document())
@@ -242,7 +242,7 @@ struct document : public cainteoir::document_events
 			select_voice(rdf::dc("language"), rql::value(aStatement));
 	}
 
-	const rdf::bnode genid()
+	const rdf::uri genid()
 	{
 		return m_metadata.genid();
 	}
@@ -438,9 +438,9 @@ int main(int argc, char ** argv)
 		if (volume != INT_MAX) doc.tts.parameter(tts::parameter::volume)->set_value(volume);
 
 		if (argc == 1)
-			cainteoir::parseDocument(argv[0], doc);
+			cainteoir::parseDocument(argv[0], doc, doc.m_metadata);
 		else
-			cainteoir::parseDocument(NULL, doc);
+			cainteoir::parseDocument(NULL, doc, doc.m_metadata);
 
 		if (action == show_contents)
 			return 0;
@@ -452,7 +452,7 @@ int main(int argc, char ** argv)
 		{
 			if (rql::predicate(*query).as<rdf::uri>()->ns == rdf::dc || rql::predicate(*query).as<rdf::uri>()->ns == rdf::dcterms)
 			{
-				rdf::any_type object = rql::object(*query);
+				rdf::resource object = rql::object(*query);
 				if (object.as<rdf::literal>())
 				{
 					if (rql::predicate(*query).as<rdf::uri>()->ref == "title")

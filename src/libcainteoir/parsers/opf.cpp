@@ -24,12 +24,12 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::namespaces &rdfa, bool recurse)
+void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph, bool recurse)
 {
 	for (xml::attribute attr = opf.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (!strcmp(attr.name(), "prefix"))
-			rdfa.add_prefix(attr.content());
+			aGraph.add_prefix(attr.content());
 	}
 
 	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
@@ -38,7 +38,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 			continue;
 
 		if (node == rdf::opf("dc-metadata") && recurse)
-			parseOpfMetadata(node, aSubject, events, rdfa, false);
+			parseOpfMetadata(node, aSubject, events, aGraph, false);
 		else if (node == rdf::opf("meta"))
 		{
 			std::string content;
@@ -52,18 +52,16 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 			{
 				if (!strcmp(attr.name(), "name"))
 				{
-					std::tr1::shared_ptr<const rdf::resource> type = rdfa(attr.content());
-					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
-					if (uri)
+					std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(attr.content());
+					if (uri.get() && !uri->ns.empty())
 						name = *uri;
 				}
 				else if (!strcmp(attr.name(), "content"))
 					content = attr.content();
 				else if (!strcmp(attr.name(), "property"))
 				{
-					std::tr1::shared_ptr<const rdf::resource> type = rdfa(attr.content());
-					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
-					if (uri)
+					std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(attr.content());
+					if (uri.get() && !uri->ns.empty())
 					{
 						property = *uri;
 						if (datatype.empty() && property == rdf::pkg("display-seq"))
@@ -76,15 +74,14 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 					about = rdf::uri(aSubject.str(), attr.content().substr(1));
 				else if (!strcmp(attr.name(), "datatype"))
 				{
-					std::tr1::shared_ptr<const rdf::resource> type = rdfa(attr.content());
-					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
-					if (uri)
+					std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(attr.content());
+					if (uri.get() && !uri->ns.empty())
 						datatype = *uri;
 				}
 			}
 
 			if (!name.empty() && !content.empty())
-				events.metadata(rdf::statement(aSubject, name, rdf::literal(content)));
+				aGraph.statement(aSubject, name, rdf::literal(content));
 			else if (!property.empty())
 			{
 				rdf::literal object = rdf::literal(node.content()->str(), datatype);
@@ -92,11 +89,11 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				if (!id.empty())
 				{
 					const rdf::uri base(aSubject.str(), id);
-					events.metadata(rdf::statement(about, property, base));
-					events.metadata(rdf::statement(base, rdf::rdf("value"), object));
+					aGraph.statement(about, property, base);
+					aGraph.statement(base, rdf::rdf("value"), object);
 				}
 				else
-					events.metadata(rdf::statement(about, property, object));
+					aGraph.statement(about, property, object);
 			}
 		}
 		else if (node == rdf::opf("link"))
@@ -111,7 +108,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				if (!strcmp(attr.name(), "rel"))
 					rel = attr.content();
 				else if (!strcmp(attr.name(), "href"))
-					href = rdf::href(attr.content());
+					href = aGraph.href(attr.content());
 				else if (!strcmp(attr.name(), "id"))
 					id = attr.content();
 				else if (!strcmp(attr.name(), "about"))
@@ -123,18 +120,17 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				std::istringstream ss(rel);
 				while (ss >> rel)
 				{
-					std::tr1::shared_ptr<const rdf::resource> type = rdfa(rel);
-					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(type.get());
-					if (uri)
+					std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(rel);
+					if (uri.get() && !uri->ns.empty())
 					{
 						if (!id.empty())
 						{
 							const rdf::uri base(aSubject.str(), id);
-							events.metadata(rdf::statement(about, *uri, base));
-							events.metadata(rdf::statement(base, rdf::rdf("value"), href));
+							aGraph.statement(about, *uri, base);
+							aGraph.statement(base, rdf::rdf("value"), href);
 						}
 						else
-							events.metadata(rdf::statement(about, *uri, href));
+							aGraph.statement(about, *uri, href);
 					}
 				}
 			}
@@ -161,13 +157,13 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				std::string fileas = node.attr(rdf::opf("file-as")).content();
 				if (!role.empty() || !fileas.empty())
 				{
-					const rdf::bnode temp = events.genid();
-					events.metadata(rdf::statement(aSubject, predicate, temp));
-					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
+					const rdf::uri temp = aGraph.genid();
+					aGraph.statement(aSubject, predicate, temp);
+					aGraph.statement(temp, rdf::rdf("value"), rdf::literal(value, lang));
 					if (!role.empty())
-						events.metadata(rdf::statement(temp, rdf::opf("role"), rdf::literal(role)));
+						aGraph.statement(temp, rdf::opf("role"), rdf::literal(role));
 					if (!fileas.empty())
-						events.metadata(rdf::statement(temp, rdf::opf("file-as"), rdf::literal(fileas)));
+						aGraph.statement(temp, rdf::opf("file-as"), rdf::literal(fileas));
 					continue;
 				}
 			}
@@ -190,10 +186,10 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				std::string event = node.attr(rdf::opf("event")).content();
 				if (!event.empty())
 				{
-					const rdf::bnode temp = events.genid();
-					events.metadata(rdf::statement(aSubject, predicate, temp));
-					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
-					events.metadata(rdf::statement(temp, rdf::opf("event"), rdf::literal(event)));
+					const rdf::uri temp = aGraph.genid();
+					aGraph.statement(aSubject, predicate, temp);
+					aGraph.statement(temp, rdf::rdf("value"), rdf::literal(value, lang));
+					aGraph.statement(temp, rdf::opf("event"), rdf::literal(event));
 					continue;
 				}
 			}
@@ -202,15 +198,15 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 				std::string scheme = node.attr(rdf::opf("scheme")).content();
 				if (!scheme.empty())
 				{
-					const rdf::bnode temp = events.genid();
-					events.metadata(rdf::statement(aSubject, predicate, temp));
-					events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(value, lang)));
-					events.metadata(rdf::statement(temp, rdf::opf("scheme"), rdf::literal(scheme)));
+					const rdf::uri temp = aGraph.genid();
+					aGraph.statement(aSubject, predicate, temp);
+					aGraph.statement(temp, rdf::rdf("value"), rdf::literal(value, lang));
+					aGraph.statement(temp, rdf::opf("scheme"), rdf::literal(scheme));
 					continue;
 				}
 			}
 
-			events.metadata(rdf::statement(aSubject, predicate, rdf::literal(value, lang)));
+			aGraph.statement(aSubject, predicate, rdf::literal(value, lang));
 		}
 	}
 }
@@ -255,7 +251,7 @@ void parseOpfSpine(const xml::node &opf, const rdf::uri &subject, std::list<std:
 	}
 }
 
-void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, cainteoir::document_events &events, opffiles &aOpfFiles)
+void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph, opffiles &aOpfFiles)
 {
 	if (opf != rdf::opf("package"))
 		throw std::runtime_error(_("OPF file is not of a recognised format."));
@@ -264,15 +260,14 @@ void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, 
 	std::list<std::string> spine;
 	std::map<std::string, fileinfo> files;
 
-	rdf::namespaces rdfa;
-	rdfa.set_base(rdf::pkg.href);
+	aGraph.set_base(rdf::pkg.href);
 
 	for (xml::attribute attr = opf.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (!strcmp(attr.name(), "profile") && attr.content() == "http://www.idpf.org/epub/30/profile/package/")
-			rdfa << rdf::ns("dcterms", rdf::dcterms.href) << rdf::media << rdf::xsd;
+			aGraph << rdf::ns("dcterms", rdf::dcterms.href) << rdf::media << rdf::xsd;
 		else if (!strcmp(attr.name(), "prefix"))
-			rdfa.add_prefix(attr.content());
+			aGraph.add_prefix(attr.content());
 	}
 
 	for (xml::node section = opf.firstChild(); section.isValid(); section.next())
@@ -280,7 +275,7 @@ void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, 
 		if (section.type() == XML_ELEMENT_NODE)
 		{
 			if (section == rdf::opf("metadata"))
-				parseOpfMetadata(section, subject, events, rdfa, true);
+				parseOpfMetadata(section, subject, events, aGraph, true);
 			else if (section == rdf::opf("manifest"))
 				parseOpfManifest(section, subject, files);
 			else if (section == rdf::opf("spine"))

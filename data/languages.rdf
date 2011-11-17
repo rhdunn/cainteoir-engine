@@ -16,6 +16,26 @@
 	<skos:altLabel>af</skos:altLabel>
 </skos:Concept>
 
+<skos:Concept rdf:ID="ak">
+	<skos:prefLabel xml:lang="en">Akan</skos:prefLabel>
+	<skos:altLabel>ak</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="am">
+	<skos:prefLabel xml:lang="en">Amharic</skos:prefLabel>
+	<skos:altLabel>am</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="az">
+	<skos:prefLabel xml:lang="en">Azerbaijani</skos:prefLabel>
+	<skos:altLabel>az</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="bg">
+	<skos:prefLabel xml:lang="en">Bulgarian</skos:prefLabel>
+	<skos:altLabel>bg</skos:altLabel>
+</skos:Concept>
+
 <skos:Concept rdf:ID="bs">
 	<skos:prefLabel xml:lang="en">Bosnian</skos:prefLabel>
 	<skos:altLabel>bs</skos:altLabel>
@@ -44,6 +64,11 @@
 <skos:Concept rdf:ID="de">
 	<skos:prefLabel xml:lang="en">German</skos:prefLabel>
 	<skos:altLabel>de</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="dv">
+	<skos:prefLabel xml:lang="en">Divehi</skos:prefLabel>
+	<skos:altLabel>dv</skos:altLabel>
 </skos:Concept>
 
 <skos:Concept rdf:ID="el">
@@ -97,6 +122,11 @@
 	<skos:altLabel>es-la</skos:altLabel>
 </skos:Concept>
 
+<skos:Concept rdf:ID="et">
+	<skos:prefLabel xml:lang="en">Estonian</skos:prefLabel>
+	<skos:altLabel>et</skos:altLabel>
+</skos:Concept>
+
 <skos:Concept rdf:ID="fi">
 	<skos:prefLabel xml:lang="en">Finnish</skos:prefLabel>
 	<skos:altLabel>fi</skos:altLabel>
@@ -105,10 +135,11 @@
 <skos:Concept rdf:ID="fr">
 	<skos:prefLabel xml:lang="en">French</skos:prefLabel>
 	<skos:altLabel>fr</skos:altLabel>
+	<skos:altLabel>fr-fr</skos:altLabel>
 </skos:Concept>
 
 <skos:Concept rdf:ID="fr-be">
-	<skos:prefLabel xml:lang="en">French (Belgian)</skos:prefLabel>
+	<skos:prefLabel xml:lang="en">French (Belgium)</skos:prefLabel>
 	<skos:altLabel>fr-be</skos:altLabel>
 </skos:Concept>
 
@@ -127,6 +158,11 @@
 	<skos:altLabel>hr</skos:altLabel>
 </skos:Concept>
 
+<skos:Concept rdf:ID="ht">
+	<skos:prefLabel xml:lang="en">Haitian</skos:prefLabel>
+	<skos:altLabel>ht</skos:altLabel>
+</skos:Concept>
+
 <skos:Concept rdf:ID="hu">
 	<skos:prefLabel xml:lang="en">Hungarian</skos:prefLabel>
 	<skos:altLabel>hu</skos:altLabel>
@@ -135,6 +171,7 @@
 <skos:Concept rdf:ID="hy">
 	<skos:prefLabel xml:lang="en">Armenian</skos:prefLabel>
 	<skos:altLabel>hy</skos:altLabel>
+	<skos:altLabel>hy-west</skos:altLabel> <!-- eSpeak Language Code -->
 </skos:Concept>
 
 <skos:Concept rdf:ID="id">
@@ -192,9 +229,19 @@
 	<skos:altLabel>ml</skos:altLabel>
 </skos:Concept>
 
+<skos:Concept rdf:ID="mt">
+	<skos:prefLabel xml:lang="en">Maltese</skos:prefLabel>
+	<skos:altLabel>mt</skos:altLabel>
+</skos:Concept>
+
 <skos:Concept rdf:ID="nci">
 	<skos:prefLabel xml:lang="en">Nahuatl (Classial)</skos:prefLabel>
 	<skos:altLabel>nci</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="ne">
+	<skos:prefLabel xml:lang="en">Nepali</skos:prefLabel>
+	<skos:altLabel>ne</skos:altLabel>
 </skos:Concept>
 
 <skos:Concept rdf:ID="nl">
@@ -207,6 +254,16 @@
 	<skos:altLabel>no</skos:altLabel>
 </skos:Concept>
 
+<skos:Concept rdf:ID="nso">
+	<skos:prefLabel xml:lang="en">Sotho (Northern)</skos:prefLabel>
+	<skos:altLabel>nso</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="pa">
+	<skos:prefLabel xml:lang="en">Punjabi</skos:prefLabel>
+	<skos:altLabel>pa</skos:altLabel>
+</skos:Concept>
+
 <skos:Concept rdf:ID="pap">
 	<skos:prefLabel xml:lang="en">Papiamento</skos:prefLabel>
 	<skos:altLabel>pap</skos:altLabel>
@@ -217,10 +274,20 @@
 	<skos:altLabel>pl</skos:altLabel>
 </skos:Concept>
 
+<skos:Concept rdf:ID="prs">
+	<skos:prefLabel xml:lang="en">Dari</skos:prefLabel>
+	<skos:altLabel>prs</skos:altLabel>
+</skos:Concept>
+
 <skos:Concept rdf:ID="pt">
 	<skos:prefLabel xml:lang="en">Portuguese</skos:prefLabel>
 	<skos:altLabel>pt</skos:altLabel>
 	<skos:altLabel>pt-pt</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="pt-br">
+	<skos:prefLabel xml:lang="en">Portuguese (Brazillian)</skos:prefLabel>
+	<skos:altLabel>pt-br</skos:altLabel>
 </skos:Concept>
 
 <skos:Concept rdf:ID="ro">
@@ -233,9 +300,24 @@
 	<skos:altLabel>ru</skos:altLabel>
 </skos:Concept>
 
+<skos:Concept rdf:ID="rw">
+	<skos:prefLabel xml:lang="en">Kinyarwanda</skos:prefLabel>
+	<skos:altLabel>rw</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="si">
+	<skos:prefLabel xml:lang="en">Sinhalese</skos:prefLabel>
+	<skos:altLabel>si</skos:altLabel>
+</skos:Concept>
+
 <skos:Concept rdf:ID="sk">
 	<skos:prefLabel xml:lang="en">Slovak</skos:prefLabel>
 	<skos:altLabel>sk</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="sl">
+	<skos:prefLabel xml:lang="en">Slovenian</skos:prefLabel>
+	<skos:altLabel>sl</skos:altLabel>
 </skos:Concept>
 
 <skos:Concept rdf:ID="sq">
@@ -263,14 +345,34 @@
 	<skos:altLabel>ta</skos:altLabel>
 </skos:Concept>
 
+<skos:Concept rdf:ID="te">
+	<skos:prefLabel xml:lang="en">Telugu</skos:prefLabel>
+	<skos:altLabel>te</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="tn">
+	<skos:prefLabel xml:lang="en">Setswana</skos:prefLabel>
+	<skos:altLabel>tn</skos:altLabel>
+</skos:Concept>
+
 <skos:Concept rdf:ID="tr">
 	<skos:prefLabel xml:lang="en">Turkish</skos:prefLabel>
 	<skos:altLabel>tr</skos:altLabel>
 </skos:Concept>
 
+<skos:Concept rdf:ID="ur">
+	<skos:prefLabel xml:lang="en">Urdu</skos:prefLabel>
+	<skos:altLabel>ur</skos:altLabel>
+</skos:Concept>
+
 <skos:Concept rdf:ID="vi">
 	<skos:prefLabel xml:lang="en">Vietnamese</skos:prefLabel>
 	<skos:altLabel>vi</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="wo">
+	<skos:prefLabel xml:lang="en">Wolof</skos:prefLabel>
+	<skos:altLabel>wo</skos:altLabel>
 </skos:Concept>
 
 <skos:Concept rdf:ID="zh">
@@ -281,6 +383,12 @@
 <skos:Concept rdf:ID="zh-yue">
 	<skos:prefLabel xml:lang="en">Cantonese</skos:prefLabel>
 	<skos:altLabel>zh-yue</skos:altLabel>
+</skos:Concept>
+
+<skos:Concept rdf:ID="UND">
+	<skos:prefLabel xml:lang="en">Unknown</skos:prefLabel>
+	<skos:altLabel>UND</skos:altLabel> <!-- Calibri defaults to this for dc:language entries. -->
+	<skos:altLabel>default</skos:altLabel>
 </skos:Concept>
 
 </rdf:RDF>

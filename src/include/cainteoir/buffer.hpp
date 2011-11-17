@@ -134,6 +134,65 @@ namespace cainteoir
 
 		std::string str() const { return buffer()->str(); }
 	};
+
+	/** @name Decoding/Decompression API */
+	//@{
+
+	/** @brief Pointer to a decoding/decompression algorithm.
+	  *
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
+	  *
+	  * @return The new data buffer.
+	  */
+	typedef std::tr1::shared_ptr<buffer> (*decoder_ptr)(const buffer &data, uint32_t size);
+
+	/** @brief Copy the data in buffer to a memory buffer.
+	  *
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
+	  *
+	  * @return The new data buffer.
+	  */
+	std::tr1::shared_ptr<cainteoir::buffer> copy(const cainteoir::buffer &data, uint32_t size);
+
+	/** @brief Inflate a zlib compressed data buffer.
+	  *
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
+	  *
+	  * @return The uncompressed data buffer.
+	  */
+	std::tr1::shared_ptr<cainteoir::buffer> inflate_zlib(const cainteoir::buffer &data, uint32_t size);
+
+	/** @brief Inflate a gzip compressed data buffer.
+	  *
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
+	  *
+	  * @return The uncompressed data buffer.
+	  */
+	std::tr1::shared_ptr<cainteoir::buffer> inflate_gzip(const cainteoir::buffer &data, uint32_t size);
+
+	/** @brief Decode a quoted printable encoded data buffer.
+	  *
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
+	  *
+	  * @return The decoded data buffer.
+	  */
+	std::tr1::shared_ptr<cainteoir::buffer> decode_quoted_printable(const cainteoir::buffer &data, uint32_t size);
+
+	/** @brief Decode a base64 encoded data buffer.
+	  *
+	  * @param data The data buffer to be decoded/decompressed.
+	  * @param size The size of the decoded/decompressed data buffer.
+	  *
+	  * @return The decoded data buffer.
+	  */
+	std::tr1::shared_ptr<cainteoir::buffer> decode_base64(const cainteoir::buffer &data, uint32_t size);
+
+	//@}
 }
 
 #endif

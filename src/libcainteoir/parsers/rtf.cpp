@@ -60,18 +60,16 @@ static const replacement replacements[] = {
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
 
-const char * lookupReplacementText(const cainteoir::encoding & aEncoding, const std::tr1::shared_ptr<cainteoir::buffer> & token, int value)
+std::tr1::shared_ptr<cainteoir::buffer> lookupReplacementText(const cainteoir::encoding & aEncoding, const std::tr1::shared_ptr<cainteoir::buffer> & token, int value)
 {
 	if (!token->compare("'"))
 		return aEncoding.lookup((char)value);
 	else for (const replacement * first = replacements, * last = replacements + countof(replacements); first != last; ++first)
 	{
-		if (!token->compare(first->token))
-		{
-			return first->text;
-		}
+		if (!token->compare(first->token) && first->text)
+			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(first->text));
 	}
-	return NULL;
+	return std::tr1::shared_ptr<cainteoir::buffer>();
 }
 
 struct rtf_reader : public cainteoir::buffer
@@ -247,7 +245,13 @@ enum BlockState
 	OtherBlock,
 };
 
-void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::document_events &events, cainteoir::rope &aText, cainteoir::encoding &codepage, BlockState blockState)
+void parseRtfBlock(rtf_reader &rtf,
+                   const rdf::uri &aSubject,
+                   cainteoir::document_events &events,
+                   rdf::graph &aGraph,
+                   cainteoir::rope &aText,
+                   cainteoir::encoding &codepage,
+                   BlockState blockState)
 {
 	if (!rtf.read()) return;
 
@@ -294,15 +298,15 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 	do switch (rtf.token())
 	{
 	case rtf_reader::begin_block:
-		parseRtfBlock(rtf, aSubject, events, aText, codepage, blockState);
+		parseRtfBlock(rtf, aSubject, events, aGraph, aText, codepage, blockState);
 		break;
 	case rtf_reader::end_block:
 		return;
 	case rtf_reader::instruction:
 		{
-			const char * text = lookupReplacementText(codepage, rtf.data(), rtf.parameter());
-			if (text)
-				aText += std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text));
+			std::tr1::shared_ptr<cainteoir::buffer> text = lookupReplacementText(codepage, rtf.data(), rtf.parameter());
+			if (text.get())
+				aText += text;
 			else if (!rtf.data()->compare("par") && !aText.empty())
 			{
 				events.begin_context(cainteoir::document_events::paragraph);
@@ -327,28 +331,28 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 		{
 			if (context == "author")
 			{
-				const rdf::bnode temp = events.genid();
-				events.metadata(rdf::statement(aSubject, rdf::dc("creator"), temp));
-				events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str())));
-				events.metadata(rdf::statement(temp, rdf::opf("role"), rdf::literal("aut")));
+				const rdf::uri temp = aGraph.genid();
+				aGraph.statement(aSubject, rdf::dc("creator"), temp);
+				aGraph.statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str()));
+				aGraph.statement(temp, rdf::opf("role"), rdf::literal("aut"));
 			}
 			else if (context == "operator")
 			{
-				const rdf::bnode temp = events.genid();
-				events.metadata(rdf::statement(aSubject, rdf::dc("contributor"), temp));
-				events.metadata(rdf::statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str())));
-				events.metadata(rdf::statement(temp, rdf::opf("role"), rdf::literal("edt")));
+				const rdf::uri temp = aGraph.genid();
+				aGraph.statement(aSubject, rdf::dc("contributor"), temp);
+				aGraph.statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str()));
+				aGraph.statement(temp, rdf::opf("role"), rdf::literal("edt"));
 			}
 			else if (context == "title")
-				events.metadata(rdf::statement(aSubject, rdf::dc("title"), rdf::literal(rtf.data()->str())));
+				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(rtf.data()->str()));
 			else if (context == "subject")
-				events.metadata(rdf::statement(aSubject, rdf::dc("description"), rdf::literal(rtf.data()->str())));
+				aGraph.statement(aSubject, rdf::dc("description"), rdf::literal(rtf.data()->str()));
 			else if (context == "keywords")
 			{
 				std::istringstream keywords(rtf.data()->str());
 				std::string keyword;
 				while (keywords >> keyword)
-					events.metadata(rdf::statement(aSubject, rdf::dc("subject"), rdf::literal(keyword)));
+					aGraph.statement(aSubject, rdf::dc("subject"), rdf::literal(keyword));
 			}
 		}
 		else
@@ -359,7 +363,7 @@ void parseRtfBlock(rtf_reader &rtf, const rdf::uri &aSubject, cainteoir::documen
 	throw std::runtime_error(_("warning: unexpected end of rtf stream\n"));
 }
 
-void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events)
+void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	rtf_reader rtf(aData);
 	cainteoir::rope text;
@@ -367,7 +371,7 @@ void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, 
 
 	if (rtf.read() && rtf.token() == rtf_reader::begin_block)
 	{
-		parseRtfBlock(rtf, aSubject, events, text, codepage, RtfBlock);
+		parseRtfBlock(rtf, aSubject, events, aGraph, text, codepage, RtfBlock);
 		if (!text.empty())
 		{
 			events.begin_context(cainteoir::document_events::paragraph);

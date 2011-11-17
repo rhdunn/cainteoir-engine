@@ -6,4 +6,4 @@
 <> dct:creator <#creator> .
 <#creator> rdf:value "Jane Bloggs" .
 <#creator> pkg:alternate-script "JANE BLOGGS" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/oebps-package+xml" .

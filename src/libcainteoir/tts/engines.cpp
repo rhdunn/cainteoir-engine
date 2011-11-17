@@ -83,6 +83,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 
 	tts::state speechState;
 	pthread_t threadId;
+	std::string mErrorMessage;
 
 	stopwatch mTimer;    /**< @brief The time taken to read the document. */
 	double mElapsedTime; /**< @brief The amount of time elapsed since |mStartTime|. */
@@ -127,6 +128,8 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 
 	size_t position() const;
 
+	std::string error_message() const;
+
 	//@}
 	/** @name tts::callback */
 	//@{
@@ -144,38 +147,46 @@ void * speak_tts_thread(void *data)
 {
 	speech_impl *speak = (speech_impl *)data;
 
-	speak->audio->open();
-	speak->started();
-
-	size_t n = 0;
-	size_t offset = 0;
-	foreach_iter(node, *speak)
+	try
 	{
-		size_t len = (*node)->size();
+		speak->audio->open();
+		speak->started();
 
-		if (len <= offset)
+		size_t n = 0;
+		size_t offset = 0;
+		foreach_iter(node, *speak)
 		{
-			n += len;
-			offset -= len;
-		}
-		else
-		{
-			if (offset > 0)
+			size_t len = (*node)->size();
+
+			if (len <= offset)
 			{
-				n += offset;
-				len -= offset;
+				n += len;
+				offset -= len;
+			}
+			else
+			{
+				if (offset > 0)
+				{
+					n += offset;
+					len -= offset;
+					speak->progress(n);
+				}
+
+				speak->engine->speak(node->get(), offset, speak);
+				offset = 0;
+
+				if (speak->state() == tts::stopped)
+					break;
+
+				n += len;
 				speak->progress(n);
 			}
-
-			speak->engine->speak(node->get(), offset, speak);
-			offset = 0;
-
-			if (speak->state() == tts::stopped)
-				break;
-
-			n += len;
-			speak->progress(n);
 		}
+	}
+	catch (const std::exception &e)
+	{
+		fprintf(stderr, "error: %s\n", e.what());
+		speak->mErrorMessage = e.what();
 	}
 
 	speak->audio->close();
@@ -271,6 +282,11 @@ size_t speech_impl::position() const
 	return currentOffset + speakingPos;
 }
 
+std::string speech_impl::error_message() const
+{
+	return mErrorMessage;
+}
+
 tts::state speech_impl::state() const
 {
 	return speechState;
@@ -301,7 +317,8 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-tts::engines::engines(rdf::graph &metadata) : selectedVoice(NULL)
+tts::engines::engines(rdf::graph &metadata, capability_types capabilities)
+	: selectedVoice(NULL)
 {
 	std::string uri;
 	active = tts::create_espeak_engine(metadata, uri);
@@ -315,7 +332,7 @@ tts::engines::engines(rdf::graph &metadata) : selectedVoice(NULL)
 	if (!active)
 		throw std::runtime_error(_("no text-to-speech voices found."));
 
-	cainteoir::supportedDocumentFormats(metadata);
+	cainteoir::supportedDocumentFormats(metadata, capabilities);
 	cainteoir::supportedAudioFormats(metadata);
 }
 

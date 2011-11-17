@@ -6,4 +6,4 @@
 <> dct:contributor <#contributor> .
 <#contributor> rdf:value "Jane Bloggs" .
 <#contributor> pkg:file-as "Bloggs, Jane" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/oebps-package+xml" .

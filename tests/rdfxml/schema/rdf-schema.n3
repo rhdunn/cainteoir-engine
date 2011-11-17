@@ -91,4 +91,4 @@ rdfs:Datatype rdfs:label "Datatype" .
 rdfs:Datatype rdfs:comment "The class of RDF datatypes." .
 rdfs:Datatype rdfs:subClassOf rdfs:Class .
 rdfs: rdfs:seeAlso <http://www.w3.org/2000/01/rdf-schema-more> .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/rdf+xml" .

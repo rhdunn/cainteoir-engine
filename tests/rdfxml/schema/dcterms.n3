@@ -874,4 +874,4 @@ dct:NLM dct:modified "2008-01-14" .
 dct:NLM rdf:type dcam:VocabularyEncodingScheme .
 dct:NLM dct:hasVersion <http://dublincore.org/usage/terms/history/#NLM-002> .
 dct:NLM rdfs:seeAlso <http://wwwcf.nlm.nih.gov/class/> .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/rdf+xml" .

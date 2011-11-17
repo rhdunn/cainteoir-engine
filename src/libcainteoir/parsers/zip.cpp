@@ -46,13 +46,23 @@ struct zip_header
 
 #pragma pack(pop)
 
-enum zip_compression
-{
-	zip_uncompressed = 0,
-	zip_imploded = 6,
-	zip_deflated = 8,
-	zip_bzip2compressed = 12,
+static const cainteoir::decoder_ptr zip_compression[] = {
+	&cainteoir::copy, // 0 - uncompressed
+	NULL, // 1
+	NULL, // 2
+	NULL, // 3
+	NULL, // 4
+	NULL, // 5
+	NULL, // 6 - imploded
+	NULL, // 7
+	&cainteoir::inflate_zlib, // 8 - deflated
+	NULL, // 9
+	NULL, // 10
+	NULL, // 11
+	NULL, // 12 - bzip2 compressed
 };
+
+#define countof(a) (sizeof(a)/sizeof(a[0]))
 
 cainteoir::zip::archive::archive(std::tr1::shared_ptr<cainteoir::buffer> aData)
 {
@@ -73,18 +83,9 @@ std::tr1::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char
 	if (!hdr)
 		return std::tr1::shared_ptr<cainteoir::buffer>();
 
-	const char *ptr = (const char *)hdr + sizeof(zip_header) + hdr->len_filename + hdr->len_extra;
-
-	cainteoir::buffer compressed(ptr, ptr + hdr->compressed);
-	switch (hdr->compression_type)
-	{
-	case zip_uncompressed:
-		if (hdr->compressed != hdr->uncompressed)
-			throw std::runtime_error(_("uncompressed zip stream mismatch between compressed and decompressed size"));
-		return strm_copy(compressed);
-	case zip_deflated:
-		return strm_inflate(compressed, hdr->uncompressed);
-	default:
+	if (hdr->compression_type >= countof(zip_compression) || zip_compression[hdr->compression_type] == NULL)
 		throw std::runtime_error(_("decompression failed (unsupported compression type)"));
-	}
+
+	const char *ptr = (const char *)hdr + sizeof(zip_header) + hdr->len_filename + hdr->len_extra;
+	return zip_compression[hdr->compression_type](cainteoir::buffer(ptr, ptr + hdr->compressed), hdr->uncompressed);
 }

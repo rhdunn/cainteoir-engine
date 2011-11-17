@@ -1,3 +1,3 @@
 _:genid1 <http://example.org/stuff/1.0/homePage> <http://purl.org/net/dajobe/> .
 <http://www.w3.org/TR/rdf-syntax-grammar> <http://example.org/stuff/1.0/editor> _:genid1 .
-<> <http://rhdunn.github.com/2010/12/text-to-speech#mimetype> "application/xml" .
+<> <http://rhdunn.github.com/2010/12/text-to-speech#mimetype> "application/rdf+xml" .

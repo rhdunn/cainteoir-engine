@@ -6,4 +6,4 @@
 <> dct:title <#main> .
 <#main> rdf:value "Main Title" .
 <#main> pkg:file-as "Title, Main" .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/oebps-package+xml" .

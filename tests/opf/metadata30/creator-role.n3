@@ -14,4 +14,4 @@
 <#illustrator> pkg:role <#ill-role> .
 <#ill-role> rdf:value "ill" .
 <#ill-role> pkg:scheme "http://id.loc.gov/vocabulary/relators"^^xsd:anyURI .
-<> tts:mimetype "application/xml" .
+<> tts:mimetype "application/oebps-package+xml" .
