@@ -95,9 +95,12 @@ pkgdata_DATA += \
 
 ############################# mimetypes #######################################
 
-EXTRA_DIST += data/cainteoir.xml
+EXTRA_DIST += data/mime/packages/cainteoir.xml
 
-xml_DATA = data/cainteoir.xml
+xml_DATA = data/mime/packages/cainteoir.xml
+
+mimetypes:
+	$(UPDATE_MIME_DATABASE) data/mime/
 
 install-data-hook:
 if ENABLE_UPDATE_MIME_DATABASE
@@ -255,11 +258,11 @@ TEST_FILES = \
 
 EXTRA_DIST += $(TEST_FILES)
 
-check: tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/turtle_formatter src/apps/metadata/metadata tests/events tests/xmlreader $(TEST_FILES)
+check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/turtle_formatter src/apps/metadata/metadata tests/events tests/xmlreader $(TEST_FILES)
 	tests/rdfmodel
 	tests/ntriple_formatter
 	tests/turtle_formatter
-	tests/rdfquery
+	XDG_DATA_HOME=`pwd`/data tests/rdfquery
 	python tests/xmlreader.py
 	python tests/metadata.py
 	python tests/vorbis-comments.py
