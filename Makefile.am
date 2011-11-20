@@ -1,9 +1,9 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
-MIME_DIR=/usr/share/mime
-SUDO=sudo
-
-localedir = $(datadir)/locale
+localedir  = $(datadir)/locale
+xdgdatadir = @XDGDATADIR@
+mimedir    = $(xdgdatadir)/mime
+xmldir     = $(mimedir)/packages
 
 AM_LDFLAGS  = ${LTLIBINTL}
 AM_CXXFLAGS = -Isrc/include ${LIBXML2_CFLAGS} \
@@ -95,14 +95,23 @@ pkgdata_DATA += \
 
 ############################# mimetypes #######################################
 
-EXTRA_DIST += data/cainteoir.xml
+EXTRA_DIST += data/mime/packages/cainteoir.xml
 
-mimetypes: data/cainteoir.xml
-	${SUDO} /usr/bin/install -c -m 644 data/cainteoir.xml ${MIME_DIR}/packages
-	${SUDO} update-mime-database ${MIME_DIR}
+xml_DATA = data/mime/packages/cainteoir.xml
 
-install-exec-local: mimetypes
+mimetypes:
+	$(UPDATE_MIME_DATABASE) data/mime/
 
+install-data-hook:
+if ENABLE_UPDATE_MIME_DATABASE
+	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
+endif
+ 
+uninstall-hook:
+if ENABLE_UPDATE_MIME_DATABASE
+	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
+endif
+ 
 ############################# libcainteoir ####################################
 
 libcainteoir_includedir = $(includedir)/cainteoir
@@ -253,7 +262,7 @@ check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/tur
 	tests/rdfmodel
 	tests/ntriple_formatter
 	tests/turtle_formatter
-	tests/rdfquery
+	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ tests/rdfquery
 	python tests/xmlreader.py
 	python tests/metadata.py
 	python tests/vorbis-comments.py

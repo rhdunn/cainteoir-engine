@@ -95,3 +95,21 @@ debian/*.debhelper
 debian/debhelper.log
 debian/files
 debian/substvars
+
+# mime database (for the tests):
+
+data/mime/application/
+data/mime/multipart/
+data/mime/text/
+
+data/mime/XMLnamespaces
+data/mime/aliases
+data/mime/generic-icons
+data/mime/globs
+data/mime/globs2
+data/mime/icons
+data/mime/magic
+data/mime/mime.cache
+data/mime/subclasses
+data/mime/treemagic
+data/mime/types

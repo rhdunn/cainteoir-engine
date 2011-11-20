@@ -153,6 +153,33 @@ AC_SUBST(VORBIS_CFLAGS)
 AC_SUBST(VORBIS_LIBS)
 
 dnl ================================================================
+dnl MIME Type Integration.
+dnl ================================================================
+
+AC_ARG_WITH([xdgdatadir],
+    [AS_HELP_STRING([--with-xdgdatadir=path], [Change where the theme icons and mime registrations are installed [DATADIR]])],
+    [opt_xdgdatadir=$withval])
+
+if test x$opt_xdgdatadir = x; then
+        XDGDATADIR='${datadir}'
+else
+        XDGDATADIR="$opt_xdgdatadir"
+fi
+AC_SUBST(XDGDATADIR)
+
+AC_ARG_ENABLE(update-mime-database,
+    AC_HELP_STRING([--disable-update-mime-database],[do not update mime database after installation]),,
+    enable_update_mime_database=yes)
+AM_CONDITIONAL(ENABLE_UPDATE_MIME_DATABASE, test x$enable_update_mime_database = xyes)
+ 
+if test x$enable_update_mime_database = xyes ; then
+    AC_PATH_PROG(UPDATE_MIME_DATABASE, [update-mime-database], no)
+    if test $UPDATE_MIME_DATABASE = no; then
+        AC_MSG_ERROR([Cannot find update-mime-database, make sure it is installed and in your PATH, or configure with --disable-update-mime-database])
+    fi
+fi
+
+dnl ================================================================
 dnl Generate output.
 dnl ================================================================
 
@@ -164,6 +191,8 @@ AC_MSG_NOTICE([
     Configuration for Cainteoir Text-to-Speech engine complete.
 
         Source code location:          ${srcdir}
+        XDG data location:             ${XDGDATADIR}
+
         Compiler:                      ${CXX}
         Compiler flags:                ${CXXFLAGS}
 
