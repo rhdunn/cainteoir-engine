@@ -84,6 +84,7 @@ po/stamp-po
 # debian output:
 
 debian/tmp/
+debian/cainteoir-data/
 debian/libcainteoir0/
 debian/libcainteoir-dev/
 debian/cainteoir/
@@ -95,7 +96,7 @@ debian/*.debhelper
 debian/debhelper.log
 debian/files
 debian/substvars
-debian/libcainteoir0.sharedmimeinfo
+debian/cainteoir-data.sharedmimeinfo
 
 # mime database (for the tests):
 

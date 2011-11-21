@@ -11,10 +11,21 @@ Vcs-Git: git://github.com/rhdunn/cainteoir-engine.git
 Vcs-browser: https://github.com/rhdunn/cainteoir-engine
 Homepage: http://rhdunn.github.com/cainteoir
 
+Package: cainteoir-data
+Architecture: all
+Section: libs
+Depends: ${misc:Depends}
+Description: Read and record documents using text-to-speech.
+ Read and record different document formats (such as ePub and HTML) to various
+ audio output formats (such as PulseAudio, WAV and OGG/Vorbis).
+ .
+ This package provides the common data files for the Cainteoir Text-to-Speech
+ engine.
+
 Package: libcainteoir0
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, cainteoir-data (= ${binary:Version})
 Description: Read and record documents using text-to-speech.
  Read and record different document formats (such as ePub and HTML) to various
  audio output formats (such as PulseAudio, WAV and OGG/Vorbis).

@@ -9,7 +9,7 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-debian/libcainteoir0.sharedmimeinfo: data/mime/packages/cainteoir.xml
+debian/cainteoir-data.sharedmimeinfo: data/mime/packages/cainteoir-data.xml
 	cp -v $< $@
 
 configure:
@@ -20,5 +20,5 @@ configure:
 %:
 	dh $@
 
-build: configure debian/libcainteoir0.sharedmimeinfo
+build: configure debian/cainteoir-data.sharedmimeinfo
 	dh build

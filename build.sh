@@ -3,7 +3,7 @@
 PACKAGE=cainteoir-engine
 
 doclean() {
-	rm -vf ../{libcainteoir{0,-dev},cainteoir,metadata}_*.deb
+	rm -vf ../{libcainteoir{0,-dev},cainteoir-data,cainteoir,metadata}_*.deb
 	rm -vf ../${PACKAGE}_*.{tar.gz,dsc,build,changes}
 	git clean -fxd
 }
@@ -49,13 +49,13 @@ dorelease() {
 }
 
 doinstall() {
-	sudo dpkg --install ../{libcainteoir{0,-dev},cainteoir,metadata}_*.deb
+	sudo dpkg --install ../{libcainteoir{0,-dev},cainteoir-data,cainteoir,metadata}_*.deb
 }
- 
+
 douninstall() {
-	yes | sudo apt-get remove libcainteoir{0,-dev} cainteoir metadata
+	yes | sudo apt-get remove libcainteoir{0,-dev} cainteoir-data cainteoir metadata
 }
- 
+
 doppa() {
 	# Ubuntu supports a single upload building on multiple distros, but only if the
 	# package is in bazaar and hosted on Launchpad. The only other way to specify
