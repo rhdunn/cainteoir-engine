@@ -1,7 +1,6 @@
-Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?revision=174
+Format: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?revision=174
 Upstream-Name: cainteoir-engine
 Upstream-Contact: Reece H. Dunn <msclrhd@gmail.com>
-Maintainer: Reece H. Dunn <msclrhd@gmail.com>
 Source: https://github.com/rhdunn/cainteoir-engine
 
 Files: *
