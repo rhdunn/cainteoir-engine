@@ -1,5 +1,16 @@
 
 -------------------------------------------------------------------------------
+VERSION 0.5 -- Monday November 21st 2011 [Nov 2011]
+
+  *  use the shared-mime-info database for MIME type detection.
+  *  use iconv for character encoding conversions.
+  *  support all Content-Transfer-Encoding types for MIME headers, including base64.
+  *  improve audio error handling during reading/recording.
+  *  support more language code mappings for new espeak voices.
+  *  support UND as a language identifier (for Calibri eBooks).
+  *  support XML encoded HTML without an associated xmlns.
+
+-------------------------------------------------------------------------------
 VERSION 0.4 -- Tuesday July 26th 2011 [Jul 2011]
 
 file formats:
