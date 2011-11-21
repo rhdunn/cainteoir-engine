@@ -9,6 +9,9 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+debian/libcainteoir0.sharedmimeinfo: data/mime/packages/cainteoir.xml
+	cp -v $< $@
+
 configure:
 	dh_testdir
 	./autogen.sh
@@ -17,5 +20,5 @@ configure:
 %:
 	dh $@
 
-build: configure
+build: configure debian/libcainteoir0.sharedmimeinfo
 	dh build

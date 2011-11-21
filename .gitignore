@@ -95,6 +95,7 @@ debian/*.debhelper
 debian/debhelper.log
 debian/files
 debian/substvars
+debian/libcainteoir0.sharedmimeinfo
 
 # mime database (for the tests):
 
