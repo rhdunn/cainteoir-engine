@@ -95,9 +95,9 @@ pkgdata_DATA += \
 
 ############################# mimetypes #######################################
 
-EXTRA_DIST += data/mime/packages/cainteoir.xml
+EXTRA_DIST += data/mime/packages/cainteoir-data.xml
 
-xml_DATA = data/mime/packages/cainteoir.xml
+xml_DATA = data/mime/packages/cainteoir-data.xml
 
 mimetypes:
 	$(UPDATE_MIME_DATABASE) data/mime/
