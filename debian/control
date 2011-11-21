@@ -15,10 +15,7 @@ Package: cainteoir-data
 Architecture: all
 Section: libs
 Depends: ${misc:Depends}
-Description: Read and record documents using text-to-speech.
- Read and record different document formats (such as ePub and HTML) to various
- audio output formats (such as PulseAudio, WAV and OGG/Vorbis).
- .
+Description: Common data files for Cainteoir Text-to-Speech.
  This package provides the common data files for the Cainteoir Text-to-Speech
  engine.
 
@@ -26,22 +23,16 @@ Package: libcainteoir0
 Architecture: any
 Section: libs
 Depends: ${shlibs:Depends}, ${misc:Depends}, cainteoir-data (= ${source:Version})
-Description: Read and record documents using text-to-speech.
- Read and record different document formats (such as ePub and HTML) to various
- audio output formats (such as PulseAudio, WAV and OGG/Vorbis).
- .
+Description: Shared library for Cainteoir Text-to-Speech.
  This package provides the runtime libraries for the Cainteoir Text-to-Speech
- engine.
+ engine. It exposes document processing and text-to-speech functionality.
 
 Package: libcainteoir-dev
 Architecture: any
 Section: libdevel
 Priority: optional
 Depends: libc-dev, ${misc:Depends}, libcainteoir0 (= ${binary:Version})
-Description: Read and record documents using text-to-speech.
- Read and record different document formats (such as ePub and HTML) to various
- audio output formats (such as PulseAudio, WAV and OGG/Vorbis).
- .
+Description: Development headers for the Cainteoir Text-to-Speech engine.
  This package provides the development libraries and headers for interfacing
  with the Cainteoir Text-to-Speech engine.
 
