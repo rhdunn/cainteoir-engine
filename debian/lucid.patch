@@ -10,4 +10,4 @@ index 3884339..1674133 100644
 +               autoconf, automake, libtool, cvs, gettext, zlib1g-dev,
                 libpulse-dev, libxml2-dev, libvorbis-dev,
                 libespeak-dev, python (>= 2.6)
- Standards-Version: 3.9.1
+ Standards-Version: 3.9.2
