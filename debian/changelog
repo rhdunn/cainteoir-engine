@@ -1,3 +1,9 @@
+cainteoir-engine (0.5) unstable; urgency=low
+ 
+  * New upstream release.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Mon, 21 Nov 2011 20:26:00 +0000
+
 cainteoir-engine (0.4-10) unstable; urgency=low
  
   * Install languages.rdf.
