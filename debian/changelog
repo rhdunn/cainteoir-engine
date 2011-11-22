@@ -1,3 +1,10 @@
+cainteoir-engine (0.5-2) unstable; urgency=low
+ 
+  * Install languages.rdf and text-to-speech.rdf as part of the
+    cainteoir-data package.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Tue, 22 Nov 2011 07:09:00 +0000
+
 cainteoir-engine (0.5-1) unstable; urgency=low
  
   * Fix lintian warnings and errors.
