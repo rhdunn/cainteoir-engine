@@ -171,12 +171,11 @@ AC_ARG_ENABLE(update-mime-database,
     AC_HELP_STRING([--disable-update-mime-database],[do not update mime database after installation]),,
     enable_update_mime_database=yes)
 AM_CONDITIONAL(ENABLE_UPDATE_MIME_DATABASE, test x$enable_update_mime_database = xyes)
- 
-if test x$enable_update_mime_database = xyes ; then
-    AC_PATH_PROG(UPDATE_MIME_DATABASE, [update-mime-database], no)
-    if test $UPDATE_MIME_DATABASE = no; then
-        AC_MSG_ERROR([Cannot find update-mime-database, make sure it is installed and in your PATH, or configure with --disable-update-mime-database])
-    fi
+
+# update-mime-info is required to run the tests, so always look for it ...
+AC_PATH_PROG(UPDATE_MIME_DATABASE, [update-mime-database], no)
+if test $UPDATE_MIME_DATABASE = no; then
+    AC_MSG_ERROR([Cannot find update-mime-database, make sure it is installed and in your PATH])
 fi
 
 dnl ================================================================
