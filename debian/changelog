@@ -1,3 +1,9 @@
+cainteoir-engine (0.5-3) unstable; urgency=low
+ 
+  * Fix shared-mime-info dependency for the build and install.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Wed, 23 Nov 2011 08:32:00 +0000
+
 cainteoir-engine (0.5-2) unstable; urgency=low
  
   * Install languages.rdf and text-to-speech.rdf as part of the
