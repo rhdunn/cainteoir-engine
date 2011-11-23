@@ -1,3 +1,10 @@
+cainteoir-engine (0.5-4) unstable; urgency=low
+ 
+  * Fix gcc build issues on gcc 4.4.x and 4.5.x for lucid, maveric
+    and natty builds.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Wed, 23 Nov 2011 19:49:00 +0000
+
 cainteoir-engine (0.5-3) unstable; urgency=low
  
   * Fix shared-mime-info dependency for the build and install.
