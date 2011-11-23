@@ -147,7 +147,7 @@ struct mime_info
 std::string get_mime_dir(std::string basedir)
 {
 	// Handle paths like "/usr/share/" that have a trailing '/' ...
-	if (basedir.back() == '/')
+	if ((*--basedir.end()) == '/')
 		return basedir + "mime/";
 	// Handle paths like "/usr/share/ubuntu" that don't have a trailing '/' ...
 	return basedir + "/mime/";
