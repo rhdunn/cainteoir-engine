@@ -463,17 +463,8 @@ static const std::initializer_list<matchlet> mime_pattern1 = { { 0, 81, "MIME-Ve
 static const std::initializer_list<matchlet> mime_pattern2 = { { 0,  2, "\nContent-Type:" } }; // for multipart mime documents (e.g. mhtml)
 static const std::initializer_list<matchlet> mime_pattern3 = { { 0,  2, "\nContent-Transfer-Encoding:" } }; // for multipart mime documents (e.g. mhtml)
 static const std::initializer_list<matchlet> mime_pattern4 = { { 0,  2, "\nContent-Location:" } }; // for multipart mime documents (e.g. mhtml)
-static const mime_info mime_data = {
-	{
-		mime_pattern1,
-		mime_pattern2,
-		mime_pattern3,
-		mime_pattern4,
-		http_pattern1,
-		http_pattern2
-	},
-	"", "", "", {}, {}
-};
+static const std::initializer_list<magic>    mime_magic = { mime_pattern1, mime_pattern2, mime_pattern3, mime_pattern4, http_pattern1, http_pattern2 };
+static const mime_info mime_data = { mime_magic, "", "", "", {}, {} };
 
 //}}}
 
