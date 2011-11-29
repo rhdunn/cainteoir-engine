@@ -24,6 +24,24 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
+struct fileinfo
+{
+	std::string filename; /**< @brief The name of the file. */
+	std::string mimetype; /**< @brief The mime type of the file. */
+	std::string id;       /**< @brief The unique id for the file within the current document. */
+
+	fileinfo(const std::string &aFileName, const std::string &aMimeType, const std::string &aId)
+		: filename(aFileName)
+		, mimetype(aMimeType)
+		, id(aId)
+	{
+	}
+
+	fileinfo()
+	{
+	}
+};
+
 void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph, bool recurse)
 {
 	for (xml::attribute attr = opf.firstAttribute(); attr.isValid(); attr.next())
@@ -211,7 +229,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 	}
 }
 
-void parseOpfManifest(const xml::node &opf, const rdf::uri &subject, std::map<std::string, cainteoir::fileinfo> &aItemSet)
+void parseOpfManifest(const xml::node &opf, const rdf::uri &subject, std::map<std::string, fileinfo> &aItemSet)
 {
 	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
 	{
@@ -231,7 +249,7 @@ void parseOpfManifest(const xml::node &opf, const rdf::uri &subject, std::map<st
 					mediatype = attr.content();
 			}
 
-			aItemSet[id] = cainteoir::fileinfo(href, mediatype, id);
+			aItemSet[id] = fileinfo(href, mediatype, id);
 		}
 	}
 }
