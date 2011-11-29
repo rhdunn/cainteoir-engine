@@ -61,7 +61,7 @@ static const ParseDocument doc_handlers[] = {
 
 static const XmlDocument xml_handlers[] = {
 	{ &mime::ncx,    &cainteoir::parseNcxDocument },
-	{ &mime::opf,    NULL }, // FIXME: Align the OPF parser with the rest of the XML parsers.
+	{ &mime::opf,    &cainteoir::parseOpfDocument },
 	{ &mime::rdfxml, &cainteoir::parseRdfXmlDocument },
 	{ &mime::smil,   &cainteoir::parseSmilDocument },
 	{ &mime::ssml,   &cainteoir::parseSsmlDocument },
@@ -283,12 +283,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 			{
 				if (!xml->parser) // FIXME: Temporary cludge for parsers that don't follow the xml parser signature ...
 				{
-					if (root == rdf::opf("package"))
-					{
-						cainteoir::opffiles files;
-						cainteoir::parseOpfDocument(root, subject, events, aGraph, files);
-					}
-					else if (root == rdf::xhtml("html") || root == rdf::uri(std::string(), "html"))
+					if (root == rdf::xhtml("html") || root == rdf::uri(std::string(), "html"))
 						parseXHtmlDocument(data, subject, events, aGraph);
 				}
 				else

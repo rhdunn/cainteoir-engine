@@ -177,7 +177,7 @@ void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf
 	{
 	case xml::reader::attribute:
 		if (!reader.nodeName().comparei("id"))
-			events.anchor(rdf::uri(aSubject.str(), reader.nodeValue().str()));
+			events.anchor(rdf::uri(aSubject.str(), reader.nodeValue().str()), std::string());
 		break;
 	case xml::reader::beginTagNode:
 		if (!reader.nodeName().comparei("script") ||

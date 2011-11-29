@@ -78,7 +78,7 @@ namespace cainteoir
 	  * @param aSubject  The subject to use for any Dublin Core metadata.
 	  * @param events    The events callback to handle document events.
 	  */
-	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph, opffiles &aOpfFiles);
+	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief XML encoded HTML (XHTML)
 	  * @see   http://www.w3.org/TR/xhtml1/

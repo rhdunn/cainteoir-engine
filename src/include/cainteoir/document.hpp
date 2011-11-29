@@ -86,10 +86,12 @@ namespace cainteoir
 		/** @brief An anchor point in the document.
 		  *
 		  * @param location The uri for this point in the document.
+		  * @param mimetype The mimetype of the document if this is a root document,
+		  *                 an empty string otherwise.
 		  *
 		  * The anchor binds to the next document event.
 		  */
-		virtual void anchor(const rdf::uri &location) {}
+		virtual void anchor(const rdf::uri &location, const std::string &mimetype) {}
 
 		virtual ~document_events() {}
 	};
