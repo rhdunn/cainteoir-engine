@@ -115,6 +115,9 @@ def print_exception(word, pronunciation, ipa=True):
 			pronunciation = pronunciation.replace('@/', '@;/')
 			word.attributes.remove('norcolouring')
 
+		if 'noerror' in word.attributes:
+			word.attributes.remove('noerror')
+
 		if 'breathstop' in word.attributes:
 			word.attributes.remove('breathstop')
 
@@ -456,7 +459,12 @@ class Tester:
 			if 'ˌ' in expected and not 'ˈ' in expected:
 				expected = expected.replace('ˌ', 'ˈ') # espeak uses a primary stress if there is only a secondary stress present
 
-			if expected == actual or (word.attributes and 'speakletter' in word.attributes):
+			if 'ˈ' in expected and not 'ˌ' in expected and word.attributes and 'weak' in word.attributes:
+				# espeak does not emit stress for weakly stressed words in some cases, so ignore ...
+				expected = expected.replace('ˈ', '')
+				actual = actual.replace('ˈ', '')
+
+			if expected == actual or (word.attributes and ('speakletter' in word.attributes or 'noerror' in word.attributes)):
 				if generate_exception_dictionary:
 					if word.attributes:
 						if use_actual:
