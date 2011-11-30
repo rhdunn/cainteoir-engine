@@ -123,8 +123,11 @@ void parseNcxHead(const xml::node &ncx, const rdf::uri &subject, cainteoir::docu
 	}
 }
 
-void cainteoir::parseNcxDocument(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+void cainteoir::parseNcxDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
+	xmldom::document doc(aData);
+	xmldom::node ncx = doc.root();
+
 	if (ncx != rdf::ncx("ncx"))
 		throw std::runtime_error(_("NCX file is not of a recognised format."));
 
@@ -133,13 +136,13 @@ void cainteoir::parseNcxDocument(const xml::node &ncx, const rdf::uri &subject, 
 		if (section.type() == XML_ELEMENT_NODE)
 		{
 			if (section == rdf::ncx("head"))
-				parseNcxHead(section, subject, events, aGraph);
+				parseNcxHead(section, aSubject, events, aGraph);
 			else if (section == rdf::ncx("docAuthor"))
-				aGraph.statement(subject, rdf::dc("creator"), rdf::literal(parseNcxText(section)));
+				aGraph.statement(aSubject, rdf::dc("creator"), rdf::literal(parseNcxText(section)));
 			else if (section == rdf::ncx("docTitle"))
-				aGraph.statement(subject, rdf::dc("title"), rdf::literal(parseNcxText(section)));
+				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(parseNcxText(section)));
 			else if (section == rdf::ncx("navMap"))
-				parseNavMap(section, subject, events);
+				parseNavMap(section, aSubject, events);
 		}
 	}
 }

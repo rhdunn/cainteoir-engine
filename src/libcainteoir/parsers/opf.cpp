@@ -269,8 +269,11 @@ void parseOpfSpine(const xml::node &opf, const rdf::uri &subject, std::list<std:
 	}
 }
 
-void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+void cainteoir::parseOpfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
+	xmldom::document doc(aData);
+	xmldom::node opf = doc.root();
+
 	if (opf != rdf::opf("package"))
 		throw std::runtime_error(_("OPF file is not of a recognised format."));
 
@@ -293,9 +296,9 @@ void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, 
 		if (section.type() == XML_ELEMENT_NODE)
 		{
 			if (section == rdf::opf("metadata"))
-				parseOpfMetadata(section, subject, events, aGraph, true);
+				parseOpfMetadata(section, aSubject, events, aGraph, true);
 			else if (section == rdf::opf("manifest"))
-				parseOpfManifest(section, subject, files);
+				parseOpfManifest(section, aSubject, files);
 			else if (section == rdf::opf("spine"))
 			{
 				for (xml::attribute attr = section.firstAttribute(); attr.isValid(); attr.next())
@@ -306,7 +309,7 @@ void cainteoir::parseOpfDocument(const xml::node &opf, const rdf::uri &subject, 
 						events.anchor(rdf::uri(toc.filename, std::string()), toc.mimetype);
 					}
 				}
-				parseOpfSpine(section, subject, spine);
+				parseOpfSpine(section, aSubject, spine);
 			}
 		}
 	}

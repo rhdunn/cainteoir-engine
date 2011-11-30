@@ -24,15 +24,6 @@
 namespace rdf = cainteoir::rdf;
 namespace xml = cainteoir::xmldom;
 
-void parseSsmlMetadata(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
-	{
-		if (node.type() == XML_ELEMENT_NODE && node == rdf::rdf("RDF"))
-			cainteoir::parseRdfXmlDocument(node, subject, events, aGraph);
-	}
-}
-
 void parseSsmlContext(const xml::node &ssml,
                       const rdf::uri &subject,
                       cainteoir::document_events &events,
@@ -75,15 +66,18 @@ void parseSsmlContext(const xml::node &ssml,
 	events.end_context();
 }
 
-void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+void cainteoir::parseSsmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
+	xmldom::document doc(aData);
+	xmldom::node ssml = doc.root();
+
 	if (ssml != rdf::ssml("speak"))
 		throw std::runtime_error(_("SSML document is not of a recognised format."));
 
 	for (xml::attribute attr = ssml.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (attr == rdf::xml("lang"))
-			aGraph.statement(subject, rdf::dc("language"), rdf::literal(attr.content()));
+			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(attr.content()));
 	}
 
 	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
@@ -109,12 +103,10 @@ void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject
 				}
 
 				if (name == "seeAlso" && !content.empty())
-					aGraph.statement(subject, rdf::rdfs("seeAlso"), aGraph.href(content));
+					aGraph.statement(aSubject, rdf::rdfs("seeAlso"), aGraph.href(content));
 			}
-			else if (node == rdf::ssml("metadata"))
-				parseSsmlMetadata(node, subject, events, aGraph);
 			else if (node == rdf::ssml("p"))
-				parseSsmlContext(node, subject, events, cainteoir::document_events::paragraph);
+				parseSsmlContext(node, aSubject, events, cainteoir::document_events::paragraph);
 		}
 	}
 }

@@ -40,72 +40,72 @@ namespace cainteoir
 	/** @brief Navigation Control File (NCX)
 	  * @see   http://www.niso.org/workrooms/daisy/Z39-86-2005.html#NCX
 	  *
-	  * @param aRoot     The root node of the NCX XML document.
-	  * @param aSubject  The subject to use for any metadata.
-	  * @param events    The events callback to handle document events.
+	  * @param aData    The document data.
+	  * @param aSubject The subject to use for any metadata.
+	  * @param events   The events callback to handle document events.
 	  */
-	void parseNcxDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	void parseNcxDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief Open Publication Format (OPF)
 	  * @see   http://www.idpf.org/2007/opf/opf2.0/download/
 	  * @see   http://www.idpf.org/specs.htm
 	  *
-	  * @param aRoot     The root node of the OPF XML document.
-	  * @param aSubject  The subject to use for any Dublin Core metadata.
-	  * @param events    The events callback to handle document events.
+	  * @param aData    The document data.
+	  * @param aSubject The subject to use for any Dublin Core metadata.
+	  * @param events   The events callback to handle document events.
 	  */
-	void parseOpfDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	void parseOpfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief XML encoded HTML (XHTML)
 	  * @see   http://www.w3.org/TR/xhtml1/
 	  *
-	  * @param aData     The document content.
-	  * @param aSubject  The base to use for any relative URIs.
-	  * @param events    The events callback to handle document events.
+	  * @param aData    The document data.
+	  * @param aSubject The base to use for any relative URIs.
+	  * @param events   The events callback to handle document events.
 	  */
 	void parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
 
 	/** @brief RDF/XML
 	  * @see   http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/
 	  *
-	  * @param aRoot     The root node of the RDF/XML document.
-	  * @param aSubject  The base to use for any relative URIs.
-	  * @param events    The events callback to handle document events.
+	  * @param aData    The document data.
+	  * @param aSubject The base to use for any relative URIs.
+	  * @param events   The events callback to handle document events.
 	  */
-	void parseRdfXmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	void parseRdfXmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief Synchronized Multimedia Integration Language (SMIL)
 	  * @see   http://www.w3.org/TR/2008/REC-SMIL3-20081201/
 	  *
-	  * @param aRoot     The root node of the SMIL XML document.
-	  * @param aSubject  The base to use for any relative URIs.
-	  * @param events    The events callback to handle document events.
+	  * @param aData    The document data.
+	  * @param aSubject The base to use for any relative URIs.
+	  * @param events   The events callback to handle document events.
 	  */
-	void parseSmilDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	void parseSmilDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief Speech Synthesis Markup Language (SSML)
 	  * @see   http://www.w3.org/TR/speech-synthesis/
 	  *
-	  * @param aRoot     The root node of the SSML XML document.
-	  * @param aSubject  The base to use for any relative URIs.
-	  * @param events    The events callback to handle document events.
+	  * @param aData    The document data.
+	  * @param aSubject The base to use for any relative URIs.
+	  * @param events   The events callback to handle document events.
 	  */
-	void parseSsmlDocument(const xmldom::node &aRoot, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	void parseSsmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief ePub
 	  * @see   http://www.idpf.org/specs.htm
 	  *
-	  * @param aData  The ePub document.
-	  * @param aSubject  The base to use for any relative URIs.
-	  * @param events The events callback to handle document events.
+	  * @param aData    The document data.
+	  * @param aSubject The base to use for any relative URIs.
+	  * @param events   The events callback to handle document events.
 	  */
 	void parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief RTF
 	  *
-	  * @param aData  The RichText document.
-	  * @param aSubject  The base to use for any relative URIs.
-	  * @param events The events callback to handle document events.
+	  * @param aData    The document data.
+	  * @param aSubject The base to use for any relative URIs.
+	  * @param events   The events callback to handle document events.
 	  */
 	void parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 }

@@ -76,10 +76,7 @@ struct epub_document : public cainteoir::document_events
 		{
 			std::tr1::shared_ptr<cainteoir::buffer> ncx = mEpub.read(filename.c_str());
 			if (ncx)
-			{
-				xml::document doc(ncx);
-				cainteoir::parseNcxDocument(doc.root(), mSubject, *this, mGraph);
-			}
+				cainteoir::parseNcxDocument(ncx, mSubject, *this, mGraph);
 		}
 		else if (mimetype == "application/xhtml+xml")
 		{
@@ -116,6 +113,5 @@ void cainteoir::parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData,
 	if (!data)
 		throw std::runtime_error(_("Unsupported ePub content: OPF file not found."));
 
-	xml::document opf(data);
-	cainteoir::parseOpfDocument(opf.root(), aSubject, epub, aGraph);
+	cainteoir::parseOpfDocument(data, aSubject, epub, aGraph);
 }
