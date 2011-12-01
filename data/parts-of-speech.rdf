@@ -9,6 +9,8 @@
 <skos:ConceptScheme rdf:about="#">
 	<dc:title>Parts of Speech</dc:title>
 	<dc:description>This document contains a description of parts of speech in languages.</dc:description>
+	<dc:publisher>Reece H. Dunn</dc:publisher>
+	<dc:creator>Reece H. Dunn</dc:creator>
 	<skos:hasTopConcept rdf:resource="#adjective"/>
 	<skos:hasTopConcept rdf:resource="#adverb"/>
 	<skos:hasTopConcept rdf:resource="#conjunction"/>
