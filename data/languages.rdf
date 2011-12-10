@@ -576,6 +576,195 @@
 	<skos:hasTopConcept rdf:resource="iso-639#zul"/>
 </skos:ConceptScheme>
 
+<skos:ConceptScheme rdf:about="iso-639-3">
+	<dc:title>ISO 639-3</dc:title>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes"/>
+	<skos:hasTopConcept rdf:resource="iso-639#aar"/>
+	<skos:hasTopConcept rdf:resource="iso-639#abk"/>
+	<skos:hasTopConcept rdf:resource="iso-639#afr"/>
+	<skos:hasTopConcept rdf:resource="iso-639#aka"/>
+	<skos:hasTopConcept rdf:resource="iso-639#amh"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ara"/>
+	<skos:hasTopConcept rdf:resource="iso-639#arg"/>
+	<skos:hasTopConcept rdf:resource="iso-639#asm"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ava"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ave"/>
+	<skos:hasTopConcept rdf:resource="iso-639#aym"/>
+	<skos:hasTopConcept rdf:resource="iso-639#aze"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bak"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bam"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bel"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ben"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bis"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bod"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bos"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bre"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bul"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cat"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ces"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cha"/>
+	<skos:hasTopConcept rdf:resource="iso-639#che"/>
+	<skos:hasTopConcept rdf:resource="iso-639#chu"/>
+	<skos:hasTopConcept rdf:resource="iso-639#chv"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cor"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cos"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cre"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cym"/>
+	<skos:hasTopConcept rdf:resource="iso-639#dan"/>
+	<skos:hasTopConcept rdf:resource="iso-639#deu"/>
+	<skos:hasTopConcept rdf:resource="iso-639#div"/>
+	<skos:hasTopConcept rdf:resource="iso-639#dzo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ell"/>
+	<skos:hasTopConcept rdf:resource="iso-639#eng"/>
+	<skos:hasTopConcept rdf:resource="iso-639#epo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#est"/>
+	<skos:hasTopConcept rdf:resource="iso-639#eus"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ewe"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fao"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fas"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fij"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fin"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fra"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fry"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ful"/>
+	<skos:hasTopConcept rdf:resource="iso-639#gla"/>
+	<skos:hasTopConcept rdf:resource="iso-639#gle"/>
+	<skos:hasTopConcept rdf:resource="iso-639#glg"/>
+	<skos:hasTopConcept rdf:resource="iso-639#glv"/>
+	<skos:hasTopConcept rdf:resource="iso-639#grn"/>
+	<skos:hasTopConcept rdf:resource="iso-639#gsw"/>
+	<skos:hasTopConcept rdf:resource="iso-639#guj"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hat"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hau"/>
+	<skos:hasTopConcept rdf:resource="iso-639#heb"/>
+	<skos:hasTopConcept rdf:resource="iso-639#her"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hin"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hmo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hrv"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hun"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hye"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ibo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ido"/>
+	<skos:hasTopConcept rdf:resource="iso-639#iii"/>
+	<skos:hasTopConcept rdf:resource="iso-639#iku"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ile"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ina"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ind"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ipk"/>
+	<skos:hasTopConcept rdf:resource="iso-639#isl"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ita"/>
+	<skos:hasTopConcept rdf:resource="iso-639#jav"/>
+	<skos:hasTopConcept rdf:resource="iso-639#jpn"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kal"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kan"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kas"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kat"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kau"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kaz"/>
+	<skos:hasTopConcept rdf:resource="iso-639#khm"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kik"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kin"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kir"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kom"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kon"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kor"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kua"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kur"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lao"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lat"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lav"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lim"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lin"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lit"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ltz"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lub"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lug"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mah"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mal"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mar"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mkd"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mlg"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mlt"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mon"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mri"/>
+	<skos:hasTopConcept rdf:resource="iso-639#msa"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mya"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nau"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nav"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nbl"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nde"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ndo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nep"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nld"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nno"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nob"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nor"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nya"/>
+	<skos:hasTopConcept rdf:resource="iso-639#oci"/>
+	<skos:hasTopConcept rdf:resource="iso-639#oji"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ori"/>
+	<skos:hasTopConcept rdf:resource="iso-639#orm"/>
+	<skos:hasTopConcept rdf:resource="iso-639#oss"/>
+	<skos:hasTopConcept rdf:resource="iso-639#pan"/>
+	<skos:hasTopConcept rdf:resource="iso-639#pli"/>
+	<skos:hasTopConcept rdf:resource="iso-639#pol"/>
+	<skos:hasTopConcept rdf:resource="iso-639#por"/>
+	<skos:hasTopConcept rdf:resource="iso-639#pus"/>
+	<skos:hasTopConcept rdf:resource="iso-639#que"/>
+	<skos:hasTopConcept rdf:resource="iso-639#roh"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ron"/>
+	<skos:hasTopConcept rdf:resource="iso-639#run"/>
+	<skos:hasTopConcept rdf:resource="iso-639#rus"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sag"/>
+	<skos:hasTopConcept rdf:resource="iso-639#san"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sin"/>
+	<skos:hasTopConcept rdf:resource="iso-639#slk"/>
+	<skos:hasTopConcept rdf:resource="iso-639#slv"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sme"/>
+	<skos:hasTopConcept rdf:resource="iso-639#smo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sna"/>
+	<skos:hasTopConcept rdf:resource="iso-639#snd"/>
+	<skos:hasTopConcept rdf:resource="iso-639#som"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sot"/>
+	<skos:hasTopConcept rdf:resource="iso-639#spa"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sqi"/>
+	<skos:hasTopConcept rdf:resource="iso-639#srd"/>
+	<skos:hasTopConcept rdf:resource="iso-639#srp"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ssw"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sun"/>
+	<skos:hasTopConcept rdf:resource="iso-639#swa"/>
+	<skos:hasTopConcept rdf:resource="iso-639#swe"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tah"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tam"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tat"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tel"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tgk"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tgl"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tha"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tir"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ton"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tsn"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tso"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tuk"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tur"/>
+	<skos:hasTopConcept rdf:resource="iso-639#twi"/>
+	<skos:hasTopConcept rdf:resource="iso-639#uig"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ukr"/>
+	<skos:hasTopConcept rdf:resource="iso-639#urd"/>
+	<skos:hasTopConcept rdf:resource="iso-639#uzb"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ven"/>
+	<skos:hasTopConcept rdf:resource="iso-639#vie"/>
+	<skos:hasTopConcept rdf:resource="iso-639#vol"/>
+	<skos:hasTopConcept rdf:resource="iso-639#wln"/>
+	<skos:hasTopConcept rdf:resource="iso-639#wol"/>
+	<skos:hasTopConcept rdf:resource="iso-639#xho"/>
+	<skos:hasTopConcept rdf:resource="iso-639#yid"/>
+	<skos:hasTopConcept rdf:resource="iso-639#yor"/>
+	<skos:hasTopConcept rdf:resource="iso-639#zha"/>
+	<skos:hasTopConcept rdf:resource="iso-639#zho"/>
+	<skos:hasTopConcept rdf:resource="iso-639#zul"/>
+</skos:ConceptScheme>
+
 <skos:Concept rdf:about="iso-639#aa">
 	<skos:prefLabel xml:lang="en">Afar</skos:prefLabel>
 	<skos:altLabel>aa</skos:altLabel>
@@ -587,6 +776,7 @@
 	<skos:altLabel>aar</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ab">
@@ -600,6 +790,7 @@
 	<skos:altLabel>abk</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ae">
@@ -619,6 +810,7 @@
 	<skos:altLabel>afr</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ak">
@@ -632,6 +824,7 @@
 	<skos:altLabel>aka</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#alb">
@@ -651,6 +844,7 @@
 	<skos:altLabel>amh</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#an">
@@ -670,6 +864,7 @@
 	<skos:altLabel>ara</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#arg">
@@ -677,6 +872,7 @@
 	<skos:altLabel>arg</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#arm">
@@ -696,6 +892,7 @@
 	<skos:altLabel>asm</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#av">
@@ -709,6 +906,7 @@
 	<skos:altLabel>ava</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ave">
@@ -716,6 +914,7 @@
 	<skos:altLabel>ave</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ay">
@@ -729,6 +928,7 @@
 	<skos:altLabel>aym</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#az">
@@ -742,6 +942,7 @@
 	<skos:altLabel>aze</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ba">
@@ -755,6 +956,7 @@
 	<skos:altLabel>bak</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#bam">
@@ -762,6 +964,7 @@
 	<skos:altLabel>bam</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#baq">
@@ -781,6 +984,7 @@
 	<skos:altLabel>bel</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ben">
@@ -788,6 +992,7 @@
 	<skos:altLabel>ben</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#bg">
@@ -820,6 +1025,7 @@
 	<skos:altLabel>bis</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#bm">
@@ -844,6 +1050,7 @@
 	<skos:prefLabel xml:lang="en">Tibetan</skos:prefLabel>
 	<skos:altLabel>bod</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#bos">
@@ -851,6 +1058,7 @@
 	<skos:altLabel>bos</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#br">
@@ -864,6 +1072,7 @@
 	<skos:altLabel>bre</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#bs">
@@ -877,6 +1086,7 @@
 	<skos:altLabel>bul</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#bur">
@@ -896,6 +1106,7 @@
 	<skos:altLabel>cat</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ce">
@@ -908,6 +1119,7 @@
 	<skos:prefLabel xml:lang="en">Czech</skos:prefLabel>
 	<skos:altLabel>ces</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ch">
@@ -921,6 +1133,7 @@
 	<skos:altLabel>cha</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#che">
@@ -928,6 +1141,7 @@
 	<skos:altLabel>che</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#chi">
@@ -941,6 +1155,7 @@
 	<skos:altLabel>chu</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#chv">
@@ -948,6 +1163,7 @@
 	<skos:altLabel>chv</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#co">
@@ -961,6 +1177,7 @@
 	<skos:altLabel>cor</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#cos">
@@ -968,6 +1185,7 @@
 	<skos:altLabel>cos</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#cr">
@@ -981,6 +1199,7 @@
 	<skos:altLabel>cre</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#cs">
@@ -1011,6 +1230,7 @@
 	<skos:prefLabel xml:lang="en">Welsh</skos:prefLabel>
 	<skos:altLabel>cym</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#cze">
@@ -1030,6 +1250,7 @@
 	<skos:altLabel>dan</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#de">
@@ -1042,6 +1263,7 @@
 	<skos:prefLabel xml:lang="en">German</skos:prefLabel>
 	<skos:altLabel>deu</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#div">
@@ -1049,6 +1271,7 @@
 	<skos:altLabel>div</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#dut">
@@ -1074,6 +1297,7 @@
 	<skos:altLabel>dzo</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ee">
@@ -1092,6 +1316,7 @@
 	<skos:prefLabel xml:lang="en">Greek</skos:prefLabel>
 	<skos:altLabel>ell</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#en">
@@ -1105,6 +1330,7 @@
 	<skos:altLabel>eng</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#eo">
@@ -1118,6 +1344,7 @@
 	<skos:altLabel>epo</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#es">
@@ -1131,6 +1358,7 @@
 	<skos:altLabel>est</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#et">
@@ -1149,6 +1377,7 @@
 	<skos:prefLabel xml:lang="en">Basque</skos:prefLabel>
 	<skos:altLabel>eus</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ewe">
@@ -1156,6 +1385,7 @@
 	<skos:altLabel>ewe</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#fa">
@@ -1169,12 +1399,14 @@
 	<skos:altLabel>fao</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#fas">
 	<skos:prefLabel xml:lang="en">Persian</skos:prefLabel>
 	<skos:altLabel>fas</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ff">
@@ -1194,6 +1426,7 @@
 	<skos:altLabel>fij</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#fin">
@@ -1201,6 +1434,7 @@
 	<skos:altLabel>fin</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#fj">
@@ -1225,6 +1459,7 @@
 	<skos:prefLabel xml:lang="en">French</skos:prefLabel>
 	<skos:altLabel>fra</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#fre">
@@ -1238,6 +1473,7 @@
 	<skos:altLabel>fry</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ful">
@@ -1245,6 +1481,7 @@
 	<skos:altLabel>ful</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#fy">
@@ -1288,6 +1525,7 @@
 	<skos:altLabel>gla</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#gle">
@@ -1295,6 +1533,7 @@
 	<skos:altLabel>gle</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#glg">
@@ -1302,6 +1541,7 @@
 	<skos:altLabel>glg</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#glv">
@@ -1309,6 +1549,7 @@
 	<skos:altLabel>glv</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#gn">
@@ -1328,6 +1569,7 @@
 	<skos:altLabel>grn</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#gsw">
@@ -1335,6 +1577,7 @@
 	<skos:altLabel>gsw</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#gu">
@@ -1348,6 +1591,7 @@
 	<skos:altLabel>guj</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#gv">
@@ -1367,6 +1611,7 @@
 	<skos:altLabel>hat</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#hau">
@@ -1374,6 +1619,7 @@
 	<skos:altLabel>hau</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#he">
@@ -1387,6 +1633,7 @@
 	<skos:altLabel>heb</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#her">
@@ -1394,6 +1641,7 @@
 	<skos:altLabel>her</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#hi">
@@ -1407,6 +1655,7 @@
 	<skos:altLabel>hin</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#hmo">
@@ -1414,6 +1663,7 @@
 	<skos:altLabel>hmo</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ho">
@@ -1433,6 +1683,7 @@
 	<skos:altLabel>hrv</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ht">
@@ -1452,6 +1703,7 @@
 	<skos:altLabel>hun</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#hy">
@@ -1464,6 +1716,7 @@
 	<skos:prefLabel xml:lang="en">Armenian</skos:prefLabel>
 	<skos:altLabel>hye</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#hz">
@@ -1483,6 +1736,7 @@
 	<skos:altLabel>ibo</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ice">
@@ -1502,6 +1756,7 @@
 	<skos:altLabel>ido</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ie">
@@ -1527,6 +1782,7 @@
 	<skos:altLabel>iii</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ik">
@@ -1540,6 +1796,7 @@
 	<skos:altLabel>iku</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ile">
@@ -1547,6 +1804,7 @@
 	<skos:altLabel>ile</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ina">
@@ -1554,6 +1812,7 @@
 	<skos:altLabel>ina</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ind">
@@ -1561,6 +1820,7 @@
 	<skos:altLabel>ind</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#io">
@@ -1574,6 +1834,7 @@
 	<skos:altLabel>ipk</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#is">
@@ -1586,6 +1847,7 @@
 	<skos:prefLabel xml:lang="en">Icelandic</skos:prefLabel>
 	<skos:altLabel>isl</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#it">
@@ -1599,6 +1861,7 @@
 	<skos:altLabel>ita</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#iu">
@@ -1618,6 +1881,7 @@
 	<skos:altLabel>jav</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#jpn">
@@ -1625,6 +1889,7 @@
 	<skos:altLabel>jpn</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#jv">
@@ -1644,6 +1909,7 @@
 	<skos:altLabel>kal</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kan">
@@ -1651,6 +1917,7 @@
 	<skos:altLabel>kan</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kas">
@@ -1658,12 +1925,14 @@
 	<skos:altLabel>kas</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kat">
 	<skos:prefLabel xml:lang="en">Georgian</skos:prefLabel>
 	<skos:altLabel>kat</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kau">
@@ -1671,6 +1940,7 @@
 	<skos:altLabel>kau</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kaz">
@@ -1678,6 +1948,7 @@
 	<skos:altLabel>kaz</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kg">
@@ -1691,6 +1962,7 @@
 	<skos:altLabel>khm</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ki">
@@ -1704,6 +1976,7 @@
 	<skos:altLabel>kik</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kin">
@@ -1711,6 +1984,7 @@
 	<skos:altLabel>kin</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kir">
@@ -1718,6 +1992,7 @@
 	<skos:altLabel>kir</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kj">
@@ -1761,6 +2036,7 @@
 	<skos:altLabel>kom</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kon">
@@ -1768,6 +2044,7 @@
 	<skos:altLabel>kon</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kor">
@@ -1775,6 +2052,7 @@
 	<skos:altLabel>kor</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kr">
@@ -1800,6 +2078,7 @@
 	<skos:altLabel>kua</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kur">
@@ -1807,6 +2086,7 @@
 	<skos:altLabel>kur</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kv">
@@ -1838,6 +2118,7 @@
 	<skos:altLabel>lao</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#lat">
@@ -1845,6 +2126,7 @@
 	<skos:altLabel>lat</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#lav">
@@ -1852,6 +2134,7 @@
 	<skos:altLabel>lav</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#lb">
@@ -1877,6 +2160,7 @@
 	<skos:altLabel>lim</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#lin">
@@ -1884,6 +2168,7 @@
 	<skos:altLabel>lin</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#lit">
@@ -1891,6 +2176,7 @@
 	<skos:altLabel>lit</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ln">
@@ -1916,6 +2202,7 @@
 	<skos:altLabel>ltz</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#lu">
@@ -1929,6 +2216,7 @@
 	<skos:altLabel>lub</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#lug">
@@ -1936,6 +2224,7 @@
 	<skos:altLabel>lug</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#lv">
@@ -1955,6 +2244,7 @@
 	<skos:altLabel>mah</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#mal">
@@ -1962,6 +2252,7 @@
 	<skos:altLabel>mal</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#mao">
@@ -1975,6 +2266,7 @@
 	<skos:altLabel>mar</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#may">
@@ -2011,6 +2303,7 @@
 	<skos:prefLabel xml:lang="en">Macedonian</skos:prefLabel>
 	<skos:altLabel>mkd</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ml">
@@ -2024,6 +2317,7 @@
 	<skos:altLabel>mlg</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#mlt">
@@ -2031,6 +2325,7 @@
 	<skos:altLabel>mlt</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#mn">
@@ -2044,6 +2339,7 @@
 	<skos:altLabel>mon</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#mr">
@@ -2056,6 +2352,7 @@
 	<skos:prefLabel xml:lang="en">Māori</skos:prefLabel>
 	<skos:altLabel>mri</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ms">
@@ -2068,6 +2365,7 @@
 	<skos:prefLabel xml:lang="en">Malay</skos:prefLabel>
 	<skos:altLabel>msa</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#mt">
@@ -2086,6 +2384,7 @@
 	<skos:prefLabel xml:lang="en">Burmese</skos:prefLabel>
 	<skos:altLabel>mya</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#na">
@@ -2099,6 +2398,7 @@
 	<skos:altLabel>nau</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#nav">
@@ -2106,6 +2406,7 @@
 	<skos:altLabel>nav</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#nb">
@@ -2119,6 +2420,7 @@
 	<skos:altLabel>nbl</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#nd">
@@ -2132,6 +2434,7 @@
 	<skos:altLabel>nde</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ndo">
@@ -2139,6 +2442,7 @@
 	<skos:altLabel>ndo</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ne">
@@ -2152,6 +2456,7 @@
 	<skos:altLabel>nep</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ng">
@@ -2170,6 +2475,7 @@
 	<skos:prefLabel xml:lang="en">Dutch</skos:prefLabel>
 	<skos:altLabel>nld</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#nn">
@@ -2183,6 +2489,7 @@
 	<skos:altLabel>nno</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#no">
@@ -2196,6 +2503,7 @@
 	<skos:altLabel>nob</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#nor">
@@ -2203,6 +2511,7 @@
 	<skos:altLabel>nor</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#nr">
@@ -2228,6 +2537,7 @@
 	<skos:altLabel>nya</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#oc">
@@ -2241,6 +2551,7 @@
 	<skos:altLabel>oci</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#oj">
@@ -2254,6 +2565,7 @@
 	<skos:altLabel>oji</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#om">
@@ -2273,6 +2585,7 @@
 	<skos:altLabel>ori</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#orm">
@@ -2280,6 +2593,7 @@
 	<skos:altLabel>orm</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#os">
@@ -2293,6 +2607,7 @@
 	<skos:altLabel>oss</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#pa">
@@ -2306,6 +2621,7 @@
 	<skos:altLabel>pan</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#per">
@@ -2331,6 +2647,7 @@
 	<skos:altLabel>pli</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#pol">
@@ -2338,6 +2655,7 @@
 	<skos:altLabel>pol</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#por">
@@ -2345,6 +2663,7 @@
 	<skos:altLabel>por</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ps">
@@ -2364,6 +2683,7 @@
 	<skos:altLabel>pus</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#qu">
@@ -2377,6 +2697,7 @@
 	<skos:altLabel>que</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#rm">
@@ -2402,12 +2723,14 @@
 	<skos:altLabel>roh</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ron">
 	<skos:prefLabel xml:lang="en">Romanian</skos:prefLabel>
 	<skos:altLabel>ron</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ru">
@@ -2427,6 +2750,7 @@
 	<skos:altLabel>run</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#rus">
@@ -2434,6 +2758,7 @@
 	<skos:altLabel>rus</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#rw">
@@ -2453,6 +2778,7 @@
 	<skos:altLabel>sag</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#san">
@@ -2460,6 +2786,7 @@
 	<skos:altLabel>san</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sc">
@@ -2497,6 +2824,7 @@
 	<skos:altLabel>sin</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sk">
@@ -2515,6 +2843,7 @@
 	<skos:prefLabel xml:lang="en">Slovak</skos:prefLabel>
 	<skos:altLabel>slk</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#slo">
@@ -2528,6 +2857,7 @@
 	<skos:altLabel>slv</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sm">
@@ -2541,6 +2871,7 @@
 	<skos:altLabel>sme</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#smo">
@@ -2548,6 +2879,7 @@
 	<skos:altLabel>smo</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sn">
@@ -2561,6 +2893,7 @@
 	<skos:altLabel>sna</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#snd">
@@ -2568,6 +2901,7 @@
 	<skos:altLabel>snd</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#so">
@@ -2581,6 +2915,7 @@
 	<skos:altLabel>som</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sot">
@@ -2588,6 +2923,7 @@
 	<skos:altLabel>sot</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#spa">
@@ -2595,6 +2931,7 @@
 	<skos:altLabel>spa</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sq">
@@ -2607,6 +2944,7 @@
 	<skos:prefLabel xml:lang="en">Albanian</skos:prefLabel>
 	<skos:altLabel>sqi</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sr">
@@ -2620,6 +2958,7 @@
 	<skos:altLabel>srd</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#srp">
@@ -2627,6 +2966,7 @@
 	<skos:altLabel>srp</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ss">
@@ -2640,6 +2980,7 @@
 	<skos:altLabel>ssw</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#st">
@@ -2659,6 +3000,7 @@
 	<skos:altLabel>sun</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sv">
@@ -2678,6 +3020,7 @@
 	<skos:altLabel>swa</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#swe">
@@ -2685,6 +3028,7 @@
 	<skos:altLabel>swe</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ta">
@@ -2698,6 +3042,7 @@
 	<skos:altLabel>tah</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#tam">
@@ -2705,6 +3050,7 @@
 	<skos:altLabel>tam</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#tat">
@@ -2712,6 +3058,7 @@
 	<skos:altLabel>tat</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#te">
@@ -2725,6 +3072,7 @@
 	<skos:altLabel>tel</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#tg">
@@ -2738,6 +3086,7 @@
 	<skos:altLabel>tgk</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#tgl">
@@ -2745,6 +3094,7 @@
 	<skos:altLabel>tgl</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#th">
@@ -2758,6 +3108,7 @@
 	<skos:altLabel>tha</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ti">
@@ -2777,6 +3128,7 @@
 	<skos:altLabel>tir</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#tk">
@@ -2808,6 +3160,7 @@
 	<skos:altLabel>ton</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#tr">
@@ -2827,6 +3180,7 @@
 	<skos:altLabel>tsn</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#tso">
@@ -2834,6 +3188,7 @@
 	<skos:altLabel>tso</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#tt">
@@ -2847,6 +3202,7 @@
 	<skos:altLabel>tuk</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#tur">
@@ -2854,6 +3210,7 @@
 	<skos:altLabel>tur</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#tw">
@@ -2867,6 +3224,7 @@
 	<skos:altLabel>twi</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ty">
@@ -2886,6 +3244,7 @@
 	<skos:altLabel>uig</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#uk">
@@ -2899,6 +3258,7 @@
 	<skos:altLabel>ukr</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ur">
@@ -2912,6 +3272,7 @@
 	<skos:altLabel>urd</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#uz">
@@ -2925,6 +3286,7 @@
 	<skos:altLabel>uzb</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ve">
@@ -2938,6 +3300,7 @@
 	<skos:altLabel>ven</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#vi">
@@ -2951,6 +3314,7 @@
 	<skos:altLabel>vie</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#vo">
@@ -2964,6 +3328,7 @@
 	<skos:altLabel>vol</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#wa">
@@ -2983,6 +3348,7 @@
 	<skos:altLabel>wln</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#wo">
@@ -2996,6 +3362,7 @@
 	<skos:altLabel>wol</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#xh">
@@ -3009,6 +3376,7 @@
 	<skos:altLabel>xho</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#yi">
@@ -3022,6 +3390,7 @@
 	<skos:altLabel>yid</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#yo">
@@ -3035,6 +3404,7 @@
 	<skos:altLabel>yor</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#za">
@@ -3054,12 +3424,14 @@
 	<skos:altLabel>zha</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#zho">
 	<skos:prefLabel xml:lang="en">Chinese</skos:prefLabel>
 	<skos:altLabel>zho</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#zu">
@@ -3073,6 +3445,7 @@
 	<skos:altLabel>zul</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
 </rdf:RDF>
