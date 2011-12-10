@@ -196,16 +196,218 @@
 	<skos:hasTopConcept rdf:resource="iso-639#zu"/>
 </skos:ConceptScheme>
 
+<skos:ConceptScheme rdf:about="iso-639-2t">
+	<dc:title>ISO 639-2/T</dc:title>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes"/>
+	<skos:hasTopConcept rdf:resource="iso-639#abk"/>
+	<skos:hasTopConcept rdf:resource="iso-639#aar"/>
+	<skos:hasTopConcept rdf:resource="iso-639#afr"/>
+	<skos:hasTopConcept rdf:resource="iso-639#aka"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sqi"/>
+	<skos:hasTopConcept rdf:resource="iso-639#gsw"/>
+	<skos:hasTopConcept rdf:resource="iso-639#amh"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ara"/>
+	<skos:hasTopConcept rdf:resource="iso-639#arg"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hye"/>
+	<skos:hasTopConcept rdf:resource="iso-639#asm"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ava"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ave"/>
+	<skos:hasTopConcept rdf:resource="iso-639#aym"/>
+	<skos:hasTopConcept rdf:resource="iso-639#aze"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bam"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bak"/>
+	<skos:hasTopConcept rdf:resource="iso-639#eus"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bel"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ben"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bih"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bis"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bos"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bre"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bul"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mya"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cat"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cha"/>
+	<skos:hasTopConcept rdf:resource="iso-639#che"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nya"/>
+	<skos:hasTopConcept rdf:resource="iso-639#zho"/>
+	<skos:hasTopConcept rdf:resource="iso-639#chv"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cor"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cos"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cre"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hrv"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ces"/>
+	<skos:hasTopConcept rdf:resource="iso-639#dan"/>
+	<skos:hasTopConcept rdf:resource="iso-639#div"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nld"/>
+	<skos:hasTopConcept rdf:resource="iso-639#dzo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#eng"/>
+	<skos:hasTopConcept rdf:resource="iso-639#epo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#est"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ewe"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fao"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fij"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fin"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fra"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ful"/>
+	<skos:hasTopConcept rdf:resource="iso-639#glg"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kat"/>
+	<skos:hasTopConcept rdf:resource="iso-639#deu"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ell"/>
+	<skos:hasTopConcept rdf:resource="iso-639#grn"/>
+	<skos:hasTopConcept rdf:resource="iso-639#guj"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hat"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hau"/>
+	<skos:hasTopConcept rdf:resource="iso-639#heb"/>
+	<skos:hasTopConcept rdf:resource="iso-639#her"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hin"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hmo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hun"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ina"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ind"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ile"/>
+	<skos:hasTopConcept rdf:resource="iso-639#gle"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ibo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ipk"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ido"/>
+	<skos:hasTopConcept rdf:resource="iso-639#isl"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ita"/>
+	<skos:hasTopConcept rdf:resource="iso-639#iku"/>
+	<skos:hasTopConcept rdf:resource="iso-639#jpn"/>
+	<skos:hasTopConcept rdf:resource="iso-639#jav"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kal"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kan"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kau"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kas"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kaz"/>
+	<skos:hasTopConcept rdf:resource="iso-639#khm"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kik"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kin"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kir"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kom"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kon"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kor"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kur"/>
+	<skos:hasTopConcept rdf:resource="iso-639#kua"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lat"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ltz"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lug"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lim"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lin"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lao"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lit"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lub"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lav"/>
+	<skos:hasTopConcept rdf:resource="iso-639#glv"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mkd"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mlg"/>
+	<skos:hasTopConcept rdf:resource="iso-639#msa"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mal"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mlt"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mri"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mar"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mah"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mon"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nau"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nav"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nob"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nde"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nep"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ndo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nno"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nor"/>
+	<skos:hasTopConcept rdf:resource="iso-639#iii"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nbl"/>
+	<skos:hasTopConcept rdf:resource="iso-639#oci"/>
+	<skos:hasTopConcept rdf:resource="iso-639#oji"/>
+	<skos:hasTopConcept rdf:resource="iso-639#chu"/>
+	<skos:hasTopConcept rdf:resource="iso-639#orm"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ori"/>
+	<skos:hasTopConcept rdf:resource="iso-639#oss"/>
+	<skos:hasTopConcept rdf:resource="iso-639#pan"/>
+	<skos:hasTopConcept rdf:resource="iso-639#pli"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fas"/>
+	<skos:hasTopConcept rdf:resource="iso-639#pol"/>
+	<skos:hasTopConcept rdf:resource="iso-639#pus"/>
+	<skos:hasTopConcept rdf:resource="iso-639#por"/>
+	<skos:hasTopConcept rdf:resource="iso-639#que"/>
+	<skos:hasTopConcept rdf:resource="iso-639#roh"/>
+	<skos:hasTopConcept rdf:resource="iso-639#run"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ron"/>
+	<skos:hasTopConcept rdf:resource="iso-639#rus"/>
+	<skos:hasTopConcept rdf:resource="iso-639#san"/>
+	<skos:hasTopConcept rdf:resource="iso-639#srd"/>
+	<skos:hasTopConcept rdf:resource="iso-639#snd"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sme"/>
+	<skos:hasTopConcept rdf:resource="iso-639#smo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sag"/>
+	<skos:hasTopConcept rdf:resource="iso-639#srp"/>
+	<skos:hasTopConcept rdf:resource="iso-639#gla"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sna"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sin"/>
+	<skos:hasTopConcept rdf:resource="iso-639#slk"/>
+	<skos:hasTopConcept rdf:resource="iso-639#slv"/>
+	<skos:hasTopConcept rdf:resource="iso-639#som"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sot"/>
+	<skos:hasTopConcept rdf:resource="iso-639#spa"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sun"/>
+	<skos:hasTopConcept rdf:resource="iso-639#swa"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ssw"/>
+	<skos:hasTopConcept rdf:resource="iso-639#swe"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tam"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tel"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tgk"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tha"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tir"/>
+	<skos:hasTopConcept rdf:resource="iso-639#bod"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tuk"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tgl"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tsn"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ton"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tur"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tso"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tat"/>
+	<skos:hasTopConcept rdf:resource="iso-639#twi"/>
+	<skos:hasTopConcept rdf:resource="iso-639#tah"/>
+	<skos:hasTopConcept rdf:resource="iso-639#uig"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ukr"/>
+	<skos:hasTopConcept rdf:resource="iso-639#urd"/>
+	<skos:hasTopConcept rdf:resource="iso-639#uzb"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ven"/>
+	<skos:hasTopConcept rdf:resource="iso-639#vie"/>
+	<skos:hasTopConcept rdf:resource="iso-639#vol"/>
+	<skos:hasTopConcept rdf:resource="iso-639#wln"/>
+	<skos:hasTopConcept rdf:resource="iso-639#cym"/>
+	<skos:hasTopConcept rdf:resource="iso-639#wol"/>
+	<skos:hasTopConcept rdf:resource="iso-639#fry"/>
+	<skos:hasTopConcept rdf:resource="iso-639#xho"/>
+	<skos:hasTopConcept rdf:resource="iso-639#yid"/>
+	<skos:hasTopConcept rdf:resource="iso-639#yor"/>
+	<skos:hasTopConcept rdf:resource="iso-639#zha"/>
+	<skos:hasTopConcept rdf:resource="iso-639#zul"/>
+</skos:ConceptScheme>
+
 <skos:Concept rdf:about="iso-639#aa">
 	<skos:prefLabel xml:lang="en">Afar</skos:prefLabel>
 	<skos:altLabel>aa</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#aar">
+	<skos:prefLabel xml:lang="en">Afar</skos:prefLabel>
+	<skos:altLabel>aar</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ab">
 	<skos:prefLabel xml:lang="en">Abkhaz</skos:prefLabel>
 	<skos:altLabel>ab</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#abk">
+	<skos:prefLabel xml:lang="en">Abkhaz</skos:prefLabel>
+	<skos:altLabel>abk</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ae">
@@ -220,16 +422,34 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#afr">
+	<skos:prefLabel xml:lang="en">Afrikaans</skos:prefLabel>
+	<skos:altLabel>afr</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ak">
 	<skos:prefLabel xml:lang="en">Akan</skos:prefLabel>
 	<skos:altLabel>ak</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#aka">
+	<skos:prefLabel xml:lang="en">Akan</skos:prefLabel>
+	<skos:altLabel>aka</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#am">
 	<skos:prefLabel xml:lang="en">Amharic</skos:prefLabel>
 	<skos:altLabel>am</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#amh">
+	<skos:prefLabel xml:lang="en">Amharic</skos:prefLabel>
+	<skos:altLabel>amh</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#an">
@@ -244,10 +464,28 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#ara">
+	<skos:prefLabel xml:lang="en">Arabic</skos:prefLabel>
+	<skos:altLabel>ara</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#arg">
+	<skos:prefLabel xml:lang="en">Aragonese</skos:prefLabel>
+	<skos:altLabel>arg</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#as">
 	<skos:prefLabel xml:lang="en">Assamese</skos:prefLabel>
 	<skos:altLabel>as</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#asm">
+	<skos:prefLabel xml:lang="en">Assamese</skos:prefLabel>
+	<skos:altLabel>asm</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#av">
@@ -256,10 +494,28 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#ava">
+	<skos:prefLabel xml:lang="en">Avaric</skos:prefLabel>
+	<skos:altLabel>ava</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ave">
+	<skos:prefLabel xml:lang="en">Avestan</skos:prefLabel>
+	<skos:altLabel>ave</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ay">
 	<skos:prefLabel xml:lang="en">Aymara</skos:prefLabel>
 	<skos:altLabel>ay</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#aym">
+	<skos:prefLabel xml:lang="en">Aymara</skos:prefLabel>
+	<skos:altLabel>aym</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#az">
@@ -268,16 +524,46 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#aze">
+	<skos:prefLabel xml:lang="en">Azerbaijani</skos:prefLabel>
+	<skos:altLabel>aze</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ba">
 	<skos:prefLabel xml:lang="en">Bashkir</skos:prefLabel>
 	<skos:altLabel>ba</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#bak">
+	<skos:prefLabel xml:lang="en">Bashkir</skos:prefLabel>
+	<skos:altLabel>bak</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#bam">
+	<skos:prefLabel xml:lang="en">Bambara</skos:prefLabel>
+	<skos:altLabel>bam</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#be">
 	<skos:prefLabel xml:lang="en">Belarusian</skos:prefLabel>
 	<skos:altLabel>be</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#bel">
+	<skos:prefLabel xml:lang="en">Belarusian</skos:prefLabel>
+	<skos:altLabel>bel</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ben">
+	<skos:prefLabel xml:lang="en">Bengali</skos:prefLabel>
+	<skos:altLabel>ben</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#bg">
@@ -298,6 +584,18 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#bih">
+	<skos:prefLabel xml:lang="en">Bihari</skos:prefLabel>
+	<skos:altLabel>bih</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#bis">
+	<skos:prefLabel xml:lang="en">Bislama</skos:prefLabel>
+	<skos:altLabel>bis</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#bm">
 	<skos:prefLabel xml:lang="en">Bambara</skos:prefLabel>
 	<skos:altLabel>bm</skos:altLabel>
@@ -316,10 +614,28 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#bod">
+	<skos:prefLabel xml:lang="en">Tibetan</skos:prefLabel>
+	<skos:altLabel>bod</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#bos">
+	<skos:prefLabel xml:lang="en">Bosnian</skos:prefLabel>
+	<skos:altLabel>bos</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#br">
 	<skos:prefLabel xml:lang="en">Breton</skos:prefLabel>
 	<skos:altLabel>br</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#bre">
+	<skos:prefLabel xml:lang="en">Breton</skos:prefLabel>
+	<skos:altLabel>bre</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#bs">
@@ -328,10 +644,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#bul">
+	<skos:prefLabel xml:lang="en">Bulgarian</skos:prefLabel>
+	<skos:altLabel>bul</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ca">
 	<skos:prefLabel xml:lang="en">Catalan</skos:prefLabel>
 	<skos:altLabel>ca</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#cat">
+	<skos:prefLabel xml:lang="en">Catalan</skos:prefLabel>
+	<skos:altLabel>cat</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ce">
@@ -340,10 +668,40 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#ces">
+	<skos:prefLabel xml:lang="en">Czech</skos:prefLabel>
+	<skos:altLabel>ces</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ch">
 	<skos:prefLabel xml:lang="en">Chamorro</skos:prefLabel>
 	<skos:altLabel>ch</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#cha">
+	<skos:prefLabel xml:lang="en">Chamorro</skos:prefLabel>
+	<skos:altLabel>cha</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#che">
+	<skos:prefLabel xml:lang="en">Chechen</skos:prefLabel>
+	<skos:altLabel>che</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#chu">
+	<skos:prefLabel xml:lang="en">Slavonic (Old Church)</skos:prefLabel>
+	<skos:altLabel>chu</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#chv">
+	<skos:prefLabel xml:lang="en">Chuvash</skos:prefLabel>
+	<skos:altLabel>chv</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#co">
@@ -352,10 +710,28 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#cor">
+	<skos:prefLabel xml:lang="en">Cornish</skos:prefLabel>
+	<skos:altLabel>cor</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#cos">
+	<skos:prefLabel xml:lang="en">Corsican</skos:prefLabel>
+	<skos:altLabel>cos</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#cr">
 	<skos:prefLabel xml:lang="en">Cree</skos:prefLabel>
 	<skos:altLabel>cr</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#cre">
+	<skos:prefLabel xml:lang="en">Cree</skos:prefLabel>
+	<skos:altLabel>cre</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#cs">
@@ -382,16 +758,40 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#cym">
+	<skos:prefLabel xml:lang="en">Welsh</skos:prefLabel>
+	<skos:altLabel>cym</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#da">
 	<skos:prefLabel xml:lang="en">Danish</skos:prefLabel>
 	<skos:altLabel>da</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#dan">
+	<skos:prefLabel xml:lang="en">Danish</skos:prefLabel>
+	<skos:altLabel>dan</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#de">
 	<skos:prefLabel xml:lang="en">German</skos:prefLabel>
 	<skos:altLabel>de</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#deu">
+	<skos:prefLabel xml:lang="en">German</skos:prefLabel>
+	<skos:altLabel>deu</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#div">
+	<skos:prefLabel xml:lang="en">Divehi</skos:prefLabel>
+	<skos:altLabel>div</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#dv">
@@ -406,6 +806,12 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#dzo">
+	<skos:prefLabel xml:lang="en">Dzongkha</skos:prefLabel>
+	<skos:altLabel>dzo</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ee">
 	<skos:prefLabel xml:lang="en">Ewe</skos:prefLabel>
 	<skos:altLabel>ee</skos:altLabel>
@@ -418,10 +824,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#ell">
+	<skos:prefLabel xml:lang="en">Greek</skos:prefLabel>
+	<skos:altLabel>ell</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#en">
 	<skos:prefLabel xml:lang="en">English</skos:prefLabel>
 	<skos:altLabel>en</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#eng">
+	<skos:prefLabel xml:lang="en">English</skos:prefLabel>
+	<skos:altLabel>eng</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#eo">
@@ -430,10 +848,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#epo">
+	<skos:prefLabel xml:lang="en">Esperanto</skos:prefLabel>
+	<skos:altLabel>epo</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#es">
 	<skos:prefLabel xml:lang="en">Spanish</skos:prefLabel>
 	<skos:altLabel>es</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#est">
+	<skos:prefLabel xml:lang="en">Estonian</skos:prefLabel>
+	<skos:altLabel>est</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#et">
@@ -448,10 +878,34 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#eus">
+	<skos:prefLabel xml:lang="en">Basque</skos:prefLabel>
+	<skos:altLabel>eus</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ewe">
+	<skos:prefLabel xml:lang="en">Ewe</skos:prefLabel>
+	<skos:altLabel>ewe</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#fa">
 	<skos:prefLabel xml:lang="en">Persian</skos:prefLabel>
 	<skos:altLabel>fa</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#fao">
+	<skos:prefLabel xml:lang="en">Faroese</skos:prefLabel>
+	<skos:altLabel>fao</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#fas">
+	<skos:prefLabel xml:lang="en">Persian</skos:prefLabel>
+	<skos:altLabel>fas</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ff">
@@ -464,6 +918,18 @@
 	<skos:prefLabel xml:lang="en">Finnish</skos:prefLabel>
 	<skos:altLabel>fi</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#fij">
+	<skos:prefLabel xml:lang="en">Fijian</skos:prefLabel>
+	<skos:altLabel>fij</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#fin">
+	<skos:prefLabel xml:lang="en">Finnish</skos:prefLabel>
+	<skos:altLabel>fin</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#fj">
@@ -482,6 +948,24 @@
 	<skos:prefLabel xml:lang="en">French</skos:prefLabel>
 	<skos:altLabel>fr</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#fra">
+	<skos:prefLabel xml:lang="en">French</skos:prefLabel>
+	<skos:altLabel>fra</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#fry">
+	<skos:prefLabel xml:lang="en">Frisian (Western)</skos:prefLabel>
+	<skos:altLabel>fry</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ful">
+	<skos:prefLabel xml:lang="en">Fula</skos:prefLabel>
+	<skos:altLabel>ful</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#fy">
@@ -508,16 +992,58 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#gla">
+	<skos:prefLabel xml:lang="en">Gaelic (Scottish)</skos:prefLabel>
+	<skos:altLabel>gla</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#gle">
+	<skos:prefLabel xml:lang="en">Gaelic (Irish)</skos:prefLabel>
+	<skos:altLabel>gle</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#glg">
+	<skos:prefLabel xml:lang="en">Galician</skos:prefLabel>
+	<skos:altLabel>glg</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#glv">
+	<skos:prefLabel xml:lang="en">Manx</skos:prefLabel>
+	<skos:altLabel>glv</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#gn">
 	<skos:prefLabel xml:lang="en">Guaraní</skos:prefLabel>
 	<skos:altLabel>gn</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#grn">
+	<skos:prefLabel xml:lang="en">Guaraní</skos:prefLabel>
+	<skos:altLabel>grn</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#gsw">
+	<skos:prefLabel xml:lang="en">German (Swiss)</skos:prefLabel>
+	<skos:altLabel>gsw</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#gu">
 	<skos:prefLabel xml:lang="en">Gujarati</skos:prefLabel>
 	<skos:altLabel>gu</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#guj">
+	<skos:prefLabel xml:lang="en">Gujarati</skos:prefLabel>
+	<skos:altLabel>guj</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#gv">
@@ -532,16 +1058,52 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#hat">
+	<skos:prefLabel xml:lang="en">Creole (Haitian)</skos:prefLabel>
+	<skos:altLabel>hat</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#hau">
+	<skos:prefLabel xml:lang="en">Hausa</skos:prefLabel>
+	<skos:altLabel>hau</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#he">
 	<skos:prefLabel xml:lang="en">Hebrew</skos:prefLabel>
 	<skos:altLabel>he</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#heb">
+	<skos:prefLabel xml:lang="en">Hebrew</skos:prefLabel>
+	<skos:altLabel>heb</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#her">
+	<skos:prefLabel xml:lang="en">Herero</skos:prefLabel>
+	<skos:altLabel>her</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#hi">
 	<skos:prefLabel xml:lang="en">Hindi</skos:prefLabel>
 	<skos:altLabel>hi</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#hin">
+	<skos:prefLabel xml:lang="en">Hindi</skos:prefLabel>
+	<skos:altLabel>hin</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#hmo">
+	<skos:prefLabel xml:lang="en">Hiri Motu</skos:prefLabel>
+	<skos:altLabel>hmo</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ho">
@@ -556,6 +1118,12 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#hrv">
+	<skos:prefLabel xml:lang="en">Croatian</skos:prefLabel>
+	<skos:altLabel>hrv</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ht">
 	<skos:prefLabel xml:lang="en">Creole (Haitian)</skos:prefLabel>
 	<skos:altLabel>ht</skos:altLabel>
@@ -568,10 +1136,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#hun">
+	<skos:prefLabel xml:lang="en">Hungarian</skos:prefLabel>
+	<skos:altLabel>hun</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#hy">
 	<skos:prefLabel xml:lang="en">Armenian</skos:prefLabel>
 	<skos:altLabel>hy</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#hye">
+	<skos:prefLabel xml:lang="en">Armenian</skos:prefLabel>
+	<skos:altLabel>hye</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#hz">
@@ -586,10 +1166,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#ibo">
+	<skos:prefLabel xml:lang="en">Igbo</skos:prefLabel>
+	<skos:altLabel>ibo</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#id">
 	<skos:prefLabel xml:lang="en">Indonesian</skos:prefLabel>
 	<skos:altLabel>id</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ido">
+	<skos:prefLabel xml:lang="en">Ido</skos:prefLabel>
+	<skos:altLabel>ido</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ie">
@@ -610,10 +1202,40 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#iii">
+	<skos:prefLabel xml:lang="en">Nuosu</skos:prefLabel>
+	<skos:altLabel>iii</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ik">
 	<skos:prefLabel xml:lang="en">Inupiaq</skos:prefLabel>
 	<skos:altLabel>ik</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#iku">
+	<skos:prefLabel xml:lang="en">Inuktitut</skos:prefLabel>
+	<skos:altLabel>iku</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ile">
+	<skos:prefLabel xml:lang="en">Interlingue</skos:prefLabel>
+	<skos:altLabel>ile</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ina">
+	<skos:prefLabel xml:lang="en">Interlingua</skos:prefLabel>
+	<skos:altLabel>ina</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ind">
+	<skos:prefLabel xml:lang="en">Indonesian</skos:prefLabel>
+	<skos:altLabel>ind</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#io">
@@ -622,16 +1244,34 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#ipk">
+	<skos:prefLabel xml:lang="en">Inupiaq</skos:prefLabel>
+	<skos:altLabel>ipk</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#is">
 	<skos:prefLabel xml:lang="en">Icelandic</skos:prefLabel>
 	<skos:altLabel>is</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#isl">
+	<skos:prefLabel xml:lang="en">Icelandic</skos:prefLabel>
+	<skos:altLabel>isl</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#it">
 	<skos:prefLabel xml:lang="en">Italian</skos:prefLabel>
 	<skos:altLabel>it</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ita">
+	<skos:prefLabel xml:lang="en">Italian</skos:prefLabel>
+	<skos:altLabel>ita</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#iu">
@@ -646,6 +1286,18 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#jav">
+	<skos:prefLabel xml:lang="en">Javanese</skos:prefLabel>
+	<skos:altLabel>jav</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#jpn">
+	<skos:prefLabel xml:lang="en">Japanese</skos:prefLabel>
+	<skos:altLabel>jpn</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#jv">
 	<skos:prefLabel xml:lang="en">Javanese</skos:prefLabel>
 	<skos:altLabel>jv</skos:altLabel>
@@ -658,16 +1310,76 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#kal">
+	<skos:prefLabel xml:lang="en">Kalaallisut</skos:prefLabel>
+	<skos:altLabel>kal</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kan">
+	<skos:prefLabel xml:lang="en">Kannada</skos:prefLabel>
+	<skos:altLabel>kan</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kas">
+	<skos:prefLabel xml:lang="en">Kashmiri</skos:prefLabel>
+	<skos:altLabel>kas</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kat">
+	<skos:prefLabel xml:lang="en">Georgian</skos:prefLabel>
+	<skos:altLabel>kat</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kau">
+	<skos:prefLabel xml:lang="en">Kanuri</skos:prefLabel>
+	<skos:altLabel>kau</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kaz">
+	<skos:prefLabel xml:lang="en">Kazakh</skos:prefLabel>
+	<skos:altLabel>kaz</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#kg">
 	<skos:prefLabel xml:lang="en">Kongo</skos:prefLabel>
 	<skos:altLabel>kg</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#khm">
+	<skos:prefLabel xml:lang="en">Khmer</skos:prefLabel>
+	<skos:altLabel>khm</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ki">
 	<skos:prefLabel xml:lang="en">Kikuyu</skos:prefLabel>
 	<skos:altLabel>ki</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kik">
+	<skos:prefLabel xml:lang="en">Kikuyu</skos:prefLabel>
+	<skos:altLabel>kik</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kin">
+	<skos:prefLabel xml:lang="en">Kinyarwanda</skos:prefLabel>
+	<skos:altLabel>kin</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kir">
+	<skos:prefLabel xml:lang="en">Kirghiz</skos:prefLabel>
+	<skos:altLabel>kir</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kj">
@@ -706,6 +1418,24 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#kom">
+	<skos:prefLabel xml:lang="en">Komi</skos:prefLabel>
+	<skos:altLabel>kom</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kon">
+	<skos:prefLabel xml:lang="en">Kongo</skos:prefLabel>
+	<skos:altLabel>kon</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kor">
+	<skos:prefLabel xml:lang="en">Korean</skos:prefLabel>
+	<skos:altLabel>kor</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#kr">
 	<skos:prefLabel xml:lang="en">Kanuri</skos:prefLabel>
 	<skos:altLabel>kr</skos:altLabel>
@@ -722,6 +1452,18 @@
 	<skos:prefLabel xml:lang="en">Kurdish</skos:prefLabel>
 	<skos:altLabel>ku</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kua">
+	<skos:prefLabel xml:lang="en">Kwanyama</skos:prefLabel>
+	<skos:altLabel>kua</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#kur">
+	<skos:prefLabel xml:lang="en">Kurdish</skos:prefLabel>
+	<skos:altLabel>kur</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#kv">
@@ -748,6 +1490,24 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#lao">
+	<skos:prefLabel xml:lang="en">Lao</skos:prefLabel>
+	<skos:altLabel>lao</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#lat">
+	<skos:prefLabel xml:lang="en">Latin</skos:prefLabel>
+	<skos:altLabel>lat</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#lav">
+	<skos:prefLabel xml:lang="en">Latvian</skos:prefLabel>
+	<skos:altLabel>lav</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#lb">
 	<skos:prefLabel xml:lang="en">Luxembourgish</skos:prefLabel>
 	<skos:altLabel>lb</skos:altLabel>
@@ -764,6 +1524,24 @@
 	<skos:prefLabel xml:lang="en">Limburgish</skos:prefLabel>
 	<skos:altLabel>li</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#lim">
+	<skos:prefLabel xml:lang="en">Limburgish</skos:prefLabel>
+	<skos:altLabel>lim</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#lin">
+	<skos:prefLabel xml:lang="en">Lingala</skos:prefLabel>
+	<skos:altLabel>lin</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#lit">
+	<skos:prefLabel xml:lang="en">Lithuanian</skos:prefLabel>
+	<skos:altLabel>lit</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ln">
@@ -784,16 +1562,52 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#ltz">
+	<skos:prefLabel xml:lang="en">Luxembourgish</skos:prefLabel>
+	<skos:altLabel>ltz</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#lu">
 	<skos:prefLabel xml:lang="en">Luba-Katanga</skos:prefLabel>
 	<skos:altLabel>lu</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#lub">
+	<skos:prefLabel xml:lang="en">Luba-Katanga</skos:prefLabel>
+	<skos:altLabel>lub</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#lug">
+	<skos:prefLabel xml:lang="en">Ganda</skos:prefLabel>
+	<skos:altLabel>lug</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#lv">
 	<skos:prefLabel xml:lang="en">Latvian</skos:prefLabel>
 	<skos:altLabel>lv</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#mah">
+	<skos:prefLabel xml:lang="en">Marshallese</skos:prefLabel>
+	<skos:altLabel>mah</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#mal">
+	<skos:prefLabel xml:lang="en">Malayalam</skos:prefLabel>
+	<skos:altLabel>mal</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#mar">
+	<skos:prefLabel xml:lang="en">Marathi</skos:prefLabel>
+	<skos:altLabel>mar</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#mg">
@@ -820,10 +1634,28 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#mkd">
+	<skos:prefLabel xml:lang="en">Macedonian</skos:prefLabel>
+	<skos:altLabel>mkd</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ml">
 	<skos:prefLabel xml:lang="en">Malayalam</skos:prefLabel>
 	<skos:altLabel>ml</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#mlg">
+	<skos:prefLabel xml:lang="en">Malagasy</skos:prefLabel>
+	<skos:altLabel>mlg</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#mlt">
+	<skos:prefLabel xml:lang="en">Maltese</skos:prefLabel>
+	<skos:altLabel>mlt</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#mn">
@@ -832,16 +1664,34 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#mon">
+	<skos:prefLabel xml:lang="en">Mongolian</skos:prefLabel>
+	<skos:altLabel>mon</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#mr">
 	<skos:prefLabel xml:lang="en">Marathi</skos:prefLabel>
 	<skos:altLabel>mr</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#mri">
+	<skos:prefLabel xml:lang="en">Māori</skos:prefLabel>
+	<skos:altLabel>mri</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ms">
 	<skos:prefLabel xml:lang="en">Malay</skos:prefLabel>
 	<skos:altLabel>ms</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#msa">
+	<skos:prefLabel xml:lang="en">Malay</skos:prefLabel>
+	<skos:altLabel>msa</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#mt">
@@ -856,10 +1706,28 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#mya">
+	<skos:prefLabel xml:lang="en">Burmese</skos:prefLabel>
+	<skos:altLabel>mya</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#na">
 	<skos:prefLabel xml:lang="en">Nauru</skos:prefLabel>
 	<skos:altLabel>na</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#nau">
+	<skos:prefLabel xml:lang="en">Nauru</skos:prefLabel>
+	<skos:altLabel>nau</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#nav">
+	<skos:prefLabel xml:lang="en">Navajo</skos:prefLabel>
+	<skos:altLabel>nav</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#nb">
@@ -868,16 +1736,40 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#nbl">
+	<skos:prefLabel xml:lang="en">Ndebele (South)</skos:prefLabel>
+	<skos:altLabel>nbl</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#nd">
 	<skos:prefLabel xml:lang="en">Ndebele (North)</skos:prefLabel>
 	<skos:altLabel>nd</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#nde">
+	<skos:prefLabel xml:lang="en">Ndebele (North)</skos:prefLabel>
+	<skos:altLabel>nde</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ndo">
+	<skos:prefLabel xml:lang="en">Ndonga</skos:prefLabel>
+	<skos:altLabel>ndo</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ne">
 	<skos:prefLabel xml:lang="en">Nepali</skos:prefLabel>
 	<skos:altLabel>ne</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#nep">
+	<skos:prefLabel xml:lang="en">Nepali</skos:prefLabel>
+	<skos:altLabel>nep</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ng">
@@ -892,16 +1784,40 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#nld">
+	<skos:prefLabel xml:lang="en">Dutch</skos:prefLabel>
+	<skos:altLabel>nld</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#nn">
 	<skos:prefLabel xml:lang="en">Norwegian Nynorsk</skos:prefLabel>
 	<skos:altLabel>nn</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#nno">
+	<skos:prefLabel xml:lang="en">Norwegian Nynorsk</skos:prefLabel>
+	<skos:altLabel>nno</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#no">
 	<skos:prefLabel xml:lang="en">Norwegian</skos:prefLabel>
 	<skos:altLabel>no</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#nob">
+	<skos:prefLabel xml:lang="en">Norwegian Bokmål</skos:prefLabel>
+	<skos:altLabel>nob</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#nor">
+	<skos:prefLabel xml:lang="en">Norwegian</skos:prefLabel>
+	<skos:altLabel>nor</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#nr">
@@ -922,16 +1838,34 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#nya">
+	<skos:prefLabel xml:lang="en">Chichewa</skos:prefLabel>
+	<skos:altLabel>nya</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#oc">
 	<skos:prefLabel xml:lang="en">Occitan</skos:prefLabel>
 	<skos:altLabel>oc</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#oci">
+	<skos:prefLabel xml:lang="en">Occitan</skos:prefLabel>
+	<skos:altLabel>oci</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#oj">
 	<skos:prefLabel xml:lang="en">Ojibwe</skos:prefLabel>
 	<skos:altLabel>oj</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#oji">
+	<skos:prefLabel xml:lang="en">Ojibwe</skos:prefLabel>
+	<skos:altLabel>oji</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#om">
@@ -946,16 +1880,40 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#ori">
+	<skos:prefLabel xml:lang="en">Oriya</skos:prefLabel>
+	<skos:altLabel>ori</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#orm">
+	<skos:prefLabel xml:lang="en">Oromo</skos:prefLabel>
+	<skos:altLabel>orm</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#os">
 	<skos:prefLabel xml:lang="en">Ossetian</skos:prefLabel>
 	<skos:altLabel>os</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#oss">
+	<skos:prefLabel xml:lang="en">Ossetian</skos:prefLabel>
+	<skos:altLabel>oss</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#pa">
 	<skos:prefLabel xml:lang="en">Punjabi</skos:prefLabel>
 	<skos:altLabel>pa</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#pan">
+	<skos:prefLabel xml:lang="en">Punjabi</skos:prefLabel>
+	<skos:altLabel>pan</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#pi">
@@ -970,6 +1928,24 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#pli">
+	<skos:prefLabel xml:lang="en">Pāli</skos:prefLabel>
+	<skos:altLabel>pli</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#pol">
+	<skos:prefLabel xml:lang="en">Polish</skos:prefLabel>
+	<skos:altLabel>pol</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#por">
+	<skos:prefLabel xml:lang="en">Portuguese</skos:prefLabel>
+	<skos:altLabel>por</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ps">
 	<skos:prefLabel xml:lang="en">Pushto</skos:prefLabel>
 	<skos:altLabel>ps</skos:altLabel>
@@ -982,10 +1958,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#pus">
+	<skos:prefLabel xml:lang="en">Pushto</skos:prefLabel>
+	<skos:altLabel>pus</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#qu">
 	<skos:prefLabel xml:lang="en">Quechua</skos:prefLabel>
 	<skos:altLabel>qu</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#que">
+	<skos:prefLabel xml:lang="en">Quechua</skos:prefLabel>
+	<skos:altLabel>que</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#rm">
@@ -1006,10 +1994,34 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#roh">
+	<skos:prefLabel xml:lang="en">Romansh</skos:prefLabel>
+	<skos:altLabel>roh</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ron">
+	<skos:prefLabel xml:lang="en">Romanian</skos:prefLabel>
+	<skos:altLabel>ron</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ru">
 	<skos:prefLabel xml:lang="en">Russian</skos:prefLabel>
 	<skos:altLabel>ru</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#run">
+	<skos:prefLabel xml:lang="en">Kirundi</skos:prefLabel>
+	<skos:altLabel>run</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#rus">
+	<skos:prefLabel xml:lang="en">Russian</skos:prefLabel>
+	<skos:altLabel>rus</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#rw">
@@ -1022,6 +2034,18 @@
 	<skos:prefLabel xml:lang="en">Sanskrit</skos:prefLabel>
 	<skos:altLabel>sa</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#sag">
+	<skos:prefLabel xml:lang="en">Sango</skos:prefLabel>
+	<skos:altLabel>sag</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#san">
+	<skos:prefLabel xml:lang="en">Sanskrit</skos:prefLabel>
+	<skos:altLabel>san</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sc">
@@ -1054,6 +2078,12 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#sin">
+	<skos:prefLabel xml:lang="en">Sinhalese</skos:prefLabel>
+	<skos:altLabel>sin</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#sk">
 	<skos:prefLabel xml:lang="en">Slovak</skos:prefLabel>
 	<skos:altLabel>sk</skos:altLabel>
@@ -1066,10 +2096,34 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#slk">
+	<skos:prefLabel xml:lang="en">Slovak</skos:prefLabel>
+	<skos:altLabel>slk</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#slv">
+	<skos:prefLabel xml:lang="en">Slovene</skos:prefLabel>
+	<skos:altLabel>slv</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#sm">
 	<skos:prefLabel xml:lang="en">Samoan</skos:prefLabel>
 	<skos:altLabel>sm</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#sme">
+	<skos:prefLabel xml:lang="en">Sami (Northern)</skos:prefLabel>
+	<skos:altLabel>sme</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#smo">
+	<skos:prefLabel xml:lang="en">Samoan</skos:prefLabel>
+	<skos:altLabel>smo</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sn">
@@ -1078,10 +2132,40 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#sna">
+	<skos:prefLabel xml:lang="en">Shona</skos:prefLabel>
+	<skos:altLabel>sna</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#snd">
+	<skos:prefLabel xml:lang="en">Sindhi</skos:prefLabel>
+	<skos:altLabel>snd</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#so">
 	<skos:prefLabel xml:lang="en">Somali</skos:prefLabel>
 	<skos:altLabel>so</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#som">
+	<skos:prefLabel xml:lang="en">Somali</skos:prefLabel>
+	<skos:altLabel>som</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#sot">
+	<skos:prefLabel xml:lang="en">Sotho (Southern)</skos:prefLabel>
+	<skos:altLabel>sot</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#spa">
+	<skos:prefLabel xml:lang="en">Spanish</skos:prefLabel>
+	<skos:altLabel>spa</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sq">
@@ -1090,16 +2174,40 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#sqi">
+	<skos:prefLabel xml:lang="en">Albanian</skos:prefLabel>
+	<skos:altLabel>sqi</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#sr">
 	<skos:prefLabel xml:lang="en">Serbian</skos:prefLabel>
 	<skos:altLabel>sr</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#srd">
+	<skos:prefLabel xml:lang="en">Sardinian</skos:prefLabel>
+	<skos:altLabel>srd</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#srp">
+	<skos:prefLabel xml:lang="en">Serbian</skos:prefLabel>
+	<skos:altLabel>srp</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ss">
 	<skos:prefLabel xml:lang="en">Swati</skos:prefLabel>
 	<skos:altLabel>ss</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ssw">
+	<skos:prefLabel xml:lang="en">Swati</skos:prefLabel>
+	<skos:altLabel>ssw</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#st">
@@ -1114,6 +2222,12 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#sun">
+	<skos:prefLabel xml:lang="en">Sundanese</skos:prefLabel>
+	<skos:altLabel>sun</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#sv">
 	<skos:prefLabel xml:lang="en">Swedish</skos:prefLabel>
 	<skos:altLabel>sv</skos:altLabel>
@@ -1126,10 +2240,40 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#swa">
+	<skos:prefLabel xml:lang="en">Swahili</skos:prefLabel>
+	<skos:altLabel>swa</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#swe">
+	<skos:prefLabel xml:lang="en">Swedish</skos:prefLabel>
+	<skos:altLabel>swe</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ta">
 	<skos:prefLabel xml:lang="en">Tamil</skos:prefLabel>
 	<skos:altLabel>ta</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#tah">
+	<skos:prefLabel xml:lang="en">Tahitian</skos:prefLabel>
+	<skos:altLabel>tah</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#tam">
+	<skos:prefLabel xml:lang="en">Tamil</skos:prefLabel>
+	<skos:altLabel>tam</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#tat">
+	<skos:prefLabel xml:lang="en">Tatar</skos:prefLabel>
+	<skos:altLabel>tat</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#te">
@@ -1138,10 +2282,28 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#tel">
+	<skos:prefLabel xml:lang="en">Telugu</skos:prefLabel>
+	<skos:altLabel>tel</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#tg">
 	<skos:prefLabel xml:lang="en">Tajik</skos:prefLabel>
 	<skos:altLabel>tg</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#tgk">
+	<skos:prefLabel xml:lang="en">Tajik</skos:prefLabel>
+	<skos:altLabel>tgk</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#tgl">
+	<skos:prefLabel xml:lang="en">Tagalog</skos:prefLabel>
+	<skos:altLabel>tgl</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#th">
@@ -1150,10 +2312,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#tha">
+	<skos:prefLabel xml:lang="en">Thai</skos:prefLabel>
+	<skos:altLabel>tha</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#ti">
 	<skos:prefLabel xml:lang="en">Tigrinya</skos:prefLabel>
 	<skos:altLabel>ti</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#tir">
+	<skos:prefLabel xml:lang="en">Tigrinya</skos:prefLabel>
+	<skos:altLabel>tir</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#tk">
@@ -1180,6 +2354,12 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#ton">
+	<skos:prefLabel xml:lang="en">Tonga</skos:prefLabel>
+	<skos:altLabel>ton</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#tr">
 	<skos:prefLabel xml:lang="en">Turkish</skos:prefLabel>
 	<skos:altLabel>tr</skos:altLabel>
@@ -1192,16 +2372,46 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#tsn">
+	<skos:prefLabel xml:lang="en">Tswana</skos:prefLabel>
+	<skos:altLabel>tsn</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#tso">
+	<skos:prefLabel xml:lang="en">Tsonga</skos:prefLabel>
+	<skos:altLabel>tso</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#tt">
 	<skos:prefLabel xml:lang="en">Tatar</skos:prefLabel>
 	<skos:altLabel>tt</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#tuk">
+	<skos:prefLabel xml:lang="en">Turkmen</skos:prefLabel>
+	<skos:altLabel>tuk</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#tur">
+	<skos:prefLabel xml:lang="en">Turkish</skos:prefLabel>
+	<skos:altLabel>tur</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#tw">
 	<skos:prefLabel xml:lang="en">Twi</skos:prefLabel>
 	<skos:altLabel>tw</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#twi">
+	<skos:prefLabel xml:lang="en">Twi</skos:prefLabel>
+	<skos:altLabel>twi</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ty">
@@ -1216,10 +2426,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#uig">
+	<skos:prefLabel xml:lang="en">Uighur</skos:prefLabel>
+	<skos:altLabel>uig</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#uk">
 	<skos:prefLabel xml:lang="en">Ukrainian</skos:prefLabel>
 	<skos:altLabel>uk</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ukr">
+	<skos:prefLabel xml:lang="en">Ukrainian</skos:prefLabel>
+	<skos:altLabel>ukr</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ur">
@@ -1228,10 +2450,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#urd">
+	<skos:prefLabel xml:lang="en">Urdu</skos:prefLabel>
+	<skos:altLabel>urd</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#uz">
 	<skos:prefLabel xml:lang="en">Uzbek</skos:prefLabel>
 	<skos:altLabel>uz</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#uzb">
+	<skos:prefLabel xml:lang="en">Uzbek</skos:prefLabel>
+	<skos:altLabel>uzb</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#ve">
@@ -1240,10 +2474,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#ven">
+	<skos:prefLabel xml:lang="en">Venda</skos:prefLabel>
+	<skos:altLabel>ven</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#vi">
 	<skos:prefLabel xml:lang="en">Vietnamese</skos:prefLabel>
 	<skos:altLabel>vi</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#vie">
+	<skos:prefLabel xml:lang="en">Vietnamese</skos:prefLabel>
+	<skos:altLabel>vie</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#vo">
@@ -1252,10 +2498,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#vol">
+	<skos:prefLabel xml:lang="en">Volapük</skos:prefLabel>
+	<skos:altLabel>vol</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#wa">
 	<skos:prefLabel xml:lang="en">Walloon</skos:prefLabel>
 	<skos:altLabel>wa</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#wln">
+	<skos:prefLabel xml:lang="en">Walloon</skos:prefLabel>
+	<skos:altLabel>wln</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#wo">
@@ -1264,10 +2522,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#wol">
+	<skos:prefLabel xml:lang="en">Wolof</skos:prefLabel>
+	<skos:altLabel>wol</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#xh">
 	<skos:prefLabel xml:lang="en">Xhosa</skos:prefLabel>
 	<skos:altLabel>xh</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#xho">
+	<skos:prefLabel xml:lang="en">Xhosa</skos:prefLabel>
+	<skos:altLabel>xho</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#yi">
@@ -1276,10 +2546,22 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#yid">
+	<skos:prefLabel xml:lang="en">Yiddish</skos:prefLabel>
+	<skos:altLabel>yid</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#yo">
 	<skos:prefLabel xml:lang="en">Yoruba</skos:prefLabel>
 	<skos:altLabel>yo</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#yor">
+	<skos:prefLabel xml:lang="en">Yoruba</skos:prefLabel>
+	<skos:altLabel>yor</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#za">
@@ -1294,10 +2576,28 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#zha">
+	<skos:prefLabel xml:lang="en">Zhuang</skos:prefLabel>
+	<skos:altLabel>zha</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#zho">
+	<skos:prefLabel xml:lang="en">Chinese</skos:prefLabel>
+	<skos:altLabel>zho</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#zu">
 	<skos:prefLabel xml:lang="en">Zulu</skos:prefLabel>
 	<skos:altLabel>zu</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-1"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#zul">
+	<skos:prefLabel xml:lang="en">Zulu</skos:prefLabel>
+	<skos:altLabel>zul</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-2t"/>
 </skos:Concept>
 
 </rdf:RDF>
