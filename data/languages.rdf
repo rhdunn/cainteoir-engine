@@ -4,8 +4,25 @@
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:cc="http://web.resource.org/cc/"
 	xml:base="http://rhdunn.github.com/cainteoir/data/languages/"
 >
+
+<rdf:Description rdf:about="">
+	<dc:title xml:lang="en">Languages</dc:title>
+	<dc:description xml:lang="en">Language tags from multiple sources, with each source specified as a SKOS ConceptScheme.</dc:description>
+	<dc:creator>Reece H. Dunn</dc:creator>
+	<dc:publisher>Reece H. Dunn</dc:publisher>
+	<dc:rights>
+		<cc:Agent>
+			<dc:title>Reece H. Dunn</dc:title>
+			<dc:date>2011</dc:date>
+		</cc:Agent>
+	</dc:rights>
+	<cc:license rdf:resource="http://creativecommons.org/licenses/by-sa/3.0/"/>
+	<dc:source>http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes</dc:source>
+	<dc:source>http://en.wikipedia.org/wiki/List_of_ISO_639-5_codes</dc:source>
+</rdf:Description>
 
 <skos:ConceptScheme rdf:about="calibri">
 	<dc:title>Calibri</dc:title>
