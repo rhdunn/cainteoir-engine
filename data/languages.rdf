@@ -4,6 +4,7 @@
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:dct="http://purl.org/dc/terms/"
 	xmlns:cc="http://web.resource.org/cc/"
 	xml:base="http://rhdunn.github.com/cainteoir/data/languages/"
 >
@@ -774,6 +775,7 @@
 	<skos:hasTopConcept rdf:resource="iso-639#ltz"/>
 	<skos:hasTopConcept rdf:resource="iso-639#lub"/>
 	<skos:hasTopConcept rdf:resource="iso-639#lug"/>
+	<skos:hasTopConcept rdf:resource="iso-639#lzh"/>
 	<skos:hasTopConcept rdf:resource="iso-639#mah"/>
 	<skos:hasTopConcept rdf:resource="iso-639#mal"/>
 	<skos:hasTopConcept rdf:resource="iso-639#mar"/>
@@ -784,6 +786,7 @@
 	<skos:hasTopConcept rdf:resource="iso-639#mri"/>
 	<skos:hasTopConcept rdf:resource="iso-639#msa"/>
 	<skos:hasTopConcept rdf:resource="iso-639#mya"/>
+	<skos:hasTopConcept rdf:resource="iso-639#nan"/>
 	<skos:hasTopConcept rdf:resource="iso-639#nau"/>
 	<skos:hasTopConcept rdf:resource="iso-639#nav"/>
 	<skos:hasTopConcept rdf:resource="iso-639#nbl"/>
@@ -865,6 +868,7 @@
 	<skos:hasTopConcept rdf:resource="iso-639#xho"/>
 	<skos:hasTopConcept rdf:resource="iso-639#yid"/>
 	<skos:hasTopConcept rdf:resource="iso-639#yor"/>
+	<skos:hasTopConcept rdf:resource="iso-639#yue"/>
 	<skos:hasTopConcept rdf:resource="iso-639#zha"/>
 	<skos:hasTopConcept rdf:resource="iso-639#zho"/>
 	<skos:hasTopConcept rdf:resource="iso-639#zul"/>
@@ -899,6 +903,32 @@
 	<skos:hasTopConcept rdf:resource="iso-639#tai"/>
 	<skos:hasTopConcept rdf:resource="iso-639#tut"/>
 	<skos:hasTopConcept rdf:resource="iso-639#urj"/>
+</skos:ConceptScheme>
+
+<skos:ConceptScheme rdf:about="rfc4646">
+	<dc:title>RFC4646</dc:title>
+	<rdf:seeAlso rdf:resource="http://www.ietf.org/rfc/rfc3066.txt"/>
+	<rdf:seeAlso rdf:resource="http://www.ietf.org/rfc/rfc4646.txt"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#art-lojban"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#art-nav"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#bat-smg"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#be-x-old"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#cel-bry"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#cel-gae"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#cel-gaulish"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#en-sc"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#en-uk"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#en-us"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#en-wi"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#es-la"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#fr-be"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#fr-fr"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#hy-west"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#pt-br"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#pt-pt"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#zh-classical"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#zh-min-nan"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#zh-yue"/>
 </skos:ConceptScheme>
 
 <skos:ConceptScheme rdf:about="wikimedia">
@@ -1119,6 +1149,7 @@
 <skos:Concept rdf:about="iso-639#art">
 	<skos:prefLabel xml:lang="en">Artificial Languages</skos:prefLabel>
 	<skos:altLabel>art</skos:altLabel>
+	<skos:narrower rdf:resource="rfc4646#art-lojban"/>
 	<skos:narrower rdf:resource="rfc4646#art-nav"/>
 	<skos:inScheme rdf:resource="iso-639-5"/>
 </skos:Concept>
@@ -1499,6 +1530,7 @@
 	<skos:altLabel>cel</skos:altLabel>
 	<skos:narrower rdf:resource="rfc4646#cel-bry"/>
 	<skos:narrower rdf:resource="rfc4646#cel-gae"/>
+	<skos:narrower rdf:resource="rfc4646#cel-gaulish"/>
 	<skos:inScheme rdf:resource="iso-639-5"/>
 </skos:Concept>
 
@@ -1776,6 +1808,12 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#egl">
+	<skos:prefLabel xml:lang="en">Emilian</skos:prefLabel>
+	<skos:altLabel>egl</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-3"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#egx">
 	<skos:prefLabel xml:lang="en">Egyptian Languages</skos:prefLabel>
 	<skos:altLabel>egx</skos:altLabel>
@@ -1800,6 +1838,10 @@
 <skos:Concept rdf:about="iso-639#eml">
 	<skos:prefLabel xml:lang="en">Emilian-Ramagnol</skos:prefLabel>
 	<skos:altLabel>eml</skos:altLabel>
+	<dct:isReplacedBy rdf:resource="iso-639#egl"/>
+	<dct:isReplacedBy rdf:resource="iso-639#rgn"/>
+	<skos:narrower rdf:resource="iso-639#egl"/>
+	<skos:narrower rdf:resource="iso-639#rgn"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
@@ -2984,6 +3026,12 @@
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#lzh">
+	<skos:prefLabel xml:lang="en">Chinese (Literary)</skos:prefLabel>
+	<skos:altLabel>lzh</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-3"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#mac">
 	<skos:prefLabel xml:lang="en">Macedonian</skos:prefLabel>
 	<skos:altLabel>mac</skos:altLabel>
@@ -3219,6 +3267,12 @@
 	<skos:altLabel>nau</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#nan">
+	<skos:prefLabel xml:lang="en">Min Nan</skos:prefLabel>
+	<skos:altLabel>nan</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
@@ -3697,6 +3751,12 @@
 	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#rgn">
+	<skos:prefLabel xml:lang="en">Ramagnol</skos:prefLabel>
+	<skos:altLabel>rgn</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-3"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#rm">
 	<skos:prefLabel xml:lang="en">Romansh</skos:prefLabel>
 	<skos:altLabel>rm</skos:altLabel>
@@ -3869,6 +3929,8 @@
 <skos:Concept rdf:about="iso-639#sh">
 	<skos:prefLabel xml:lang="en">Serbo-Croatian</skos:prefLabel>
 	<skos:altLabel>hbs</skos:altLabel>
+	<skos:exactMatch rdf:resource="iso-639#hbs"/>
+	<dct:isReplacedBy rdf:resource="iso-639#hbs"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
@@ -4669,6 +4731,12 @@
 	<skos:inScheme rdf:resource="iso-639-5"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#yue">
+	<skos:prefLabel xml:lang="en">Cantonese</skos:prefLabel>
+	<skos:altLabel>yue</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-3"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#za">
 	<skos:prefLabel xml:lang="en">Zhuang</skos:prefLabel>
 	<skos:altLabel>za</skos:altLabel>
@@ -4747,40 +4815,62 @@
 	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="rfc4646#art-lojban">
+	<skos:prefLabel xml:lang="en">Lojban</skos:prefLabel>
+	<skos:altLabel>art-lojban</skos:altLabel>
+	<dct:isReplacedBy rdf:resource="iso-639#jbo"/>
+	<skos:exactMatch rdf:resource="iso-639#jbo"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="rfc4646#art-nav">
 	<skos:prefLabel xml:lang="en">Na'vi</skos:prefLabel>
 	<skos:altLabel>art-nav</skos:altLabel>
+	<skos:inScheme rdf:resource="rfc4646"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#bat-smg">
 	<skos:prefLabel xml:lang="en">Samogitian</skos:prefLabel>
 	<skos:altLabel>bat-smg</skos:altLabel>
+	<dct:isReplacedBy rdf:resource="iso-639#sgs"/>
+	<skos:exactMatch rdf:resource="iso-639#sgs"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#be-x-old">
 	<skos:prefLabel xml:lang="en">Belarusian (Tarashkevitsa)</skos:prefLabel>
 	<skos:altLabel>be-x-old</skos:altLabel>
+	<skos:inScheme rdf:resource="rfc4646"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#cel-bry">
 	<skos:prefLabel xml:lang="en">Brythonic Languages</skos:prefLabel>
 	<skos:altLabel>cel-bry</skos:altLabel>
+	<skos:inScheme rdf:resource="rfc4646"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#cel-gae">
 	<skos:prefLabel xml:lang="en">Gaelic Languages</skos:prefLabel>
 	<skos:altLabel>cel-gae</skos:altLabel>
+	<skos:inScheme rdf:resource="rfc4646"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="rfc4646#cel-gaulish">
+	<skos:prefLabel xml:lang="en">Gaulish</skos:prefLabel>
+	<skos:altLabel>cel-gaulish</skos:altLabel>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-sc">
 	<skos:prefLabel xml:lang="en">English (Scottish)</skos:prefLabel>
 	<skos:altLabel>en-sc</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-uk">
@@ -4790,90 +4880,111 @@
 	<skos:narrower rdf:resource="rfc4646#en-uk-rp"/>
 	<skos:narrower rdf:resource="rfc4646#en-uk-wmids"/>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-uk-north">
 	<skos:prefLabel xml:lang="en">English (Lancashire)</skos:prefLabel>
 	<skos:altLabel>en-uk-north</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-uk-rp">
 	<skos:prefLabel xml:lang="en">English (Received Pronunciation)</skos:prefLabel>
 	<skos:altLabel>en-uk-rp</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-uk-wmids">
 	<skos:prefLabel xml:lang="en">English (West Midlands)</skos:prefLabel>
 	<skos:altLabel>en-uk-wmids</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-us">
 	<skos:prefLabel xml:lang="en">English (American)</skos:prefLabel>
 	<skos:altLabel>en-us</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-wi">
 	<skos:prefLabel xml:lang="en">English (West Indies)</skos:prefLabel>
 	<skos:altLabel>en-wi</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#es-la">
 	<skos:prefLabel xml:lang="en">Spanish (Latin American)</skos:prefLabel>
 	<skos:altLabel>es-la</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#fr-be">
 	<skos:prefLabel xml:lang="en">French (Belgium)</skos:prefLabel>
 	<skos:altLabel>fr-be</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#fr-fr">
 	<skos:prefLabel xml:lang="en">French (France)</skos:prefLabel>
 	<skos:altLabel>fr-fr</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#hy-west">
 	<skos:prefLabel xml:lang="en">Armenian (West)</skos:prefLabel>
 	<skos:altLabel>hy-west</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#pt-br">
 	<skos:prefLabel xml:lang="en">Portuguese (Brazillian)</skos:prefLabel>
 	<skos:altLabel>pt-br</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#pt-pt">
 	<skos:prefLabel xml:lang="en">Portuguese (Portugal)</skos:prefLabel>
 	<skos:altLabel>pt-pt</skos:altLabel>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#zh-classical">
 	<skos:prefLabel xml:lang="en">Chinese (Literary)</skos:prefLabel>
 	<skos:altLabel>zh-classical</skos:altLabel>
+	<dct:isReplacedBy rdf:resource="iso-639#lzh"/>
+	<skos:exactMatch rdf:resource="iso-639#lzh"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#zh-min-nan">
 	<skos:prefLabel xml:lang="en">Min Nan</skos:prefLabel>
 	<skos:altLabel>zh-min-nan</skos:altLabel>
+	<dct:isReplacedBy rdf:resource="iso-639#nan"/>
+	<skos:exactMatch rdf:resource="iso-639#nan"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#zh-yue">
 	<skos:prefLabel xml:lang="en">Cantonese</skos:prefLabel>
 	<skos:altLabel>zh-yue</skos:altLabel>
+	<dct:isReplacedBy rdf:resource="iso-639#yue"/>
+	<skos:exactMatch rdf:resource="iso-639#yue"/>
 	<skos:inScheme rdf:resource="espeak"/>
+	<skos:inScheme rdf:resource="rfc4646"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
