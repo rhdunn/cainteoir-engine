@@ -9,6 +9,73 @@
 	xml:base="http://rhdunn.github.com/cainteoir/data/languages/"
 >
 
+<!--
+
+Language Codes
+
+	Each language code is located in one of two namespaces:
+
+		iso-639# : for any ISO 639-x codes like zh or gla
+		rfc4646# : for any derived codes like es-la or bs-cyrl
+
+	The exception for this are calibri#und and wikimedia#simple that do not
+	fit any of the above classifications.
+
+Language Code Collections
+
+	Each language code is a part of one or more collections. These are expressed
+	as ConceptScheme objects.
+
+	So, for a given language code L in a collection C, the relation is expressed
+	as:
+
+		C skos:hasTopConcept L . # unless L is accessible via skos:narrower.
+		L skos:inScheme C .
+
+Language Code Equivalence
+
+	Where an ISO 639-1, ISO 639-2/B or RFC4646 language code A has an equivalent
+	ISO 639-3 code B, it is expressed through an exact match relation:
+
+		A skos:exactMatch B .
+
+	The inverse is not included to keep the mappings clean.
+
+Language Code Heirarchy
+
+	When language code C is a member of another language code P, this
+	relationship is expressed as:
+
+		P skos:narrower C
+
+	The skos:broader mapping is not included to keep the mappings clean.
+
+	This is used in several cases, such as:
+
+		1.	to express the heirarchy of ISO 639-5 codes;
+		2.	to associate RFC4646 codes with their parent codes.
+
+	NOTE: This is the language code heirarchy, not the language family
+	heirarchy.
+
+Language Code Deprecation
+
+	When a language code A has been retired in favour of another language
+	code B (usually an ISO 639-3 code) it is expressed as:
+
+		A skos:exactMatch B , dct:isReplacedBy B .
+
+	If however language code A has been retired, but has been split into
+	two (or more) language codes B and C it is expressed as:
+
+		A skos:narrower B , dct:isReplacedBy B .
+		A skos:narrower C , dct:isReplacedBy C .
+
+	This is to preserve the SKOS relationships which describe how the
+	language code has been replaced.
+
+-->
+
 <rdf:Description rdf:about="">
 	<dc:title xml:lang="en">Languages</dc:title>
 	<dc:description xml:lang="en">Language tags from multiple sources, with each source specified as a SKOS ConceptScheme.</dc:description>
