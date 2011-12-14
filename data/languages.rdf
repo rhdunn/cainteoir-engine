@@ -1414,6 +1414,7 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#bh">
 	<skos:prefLabel xml:lang="en">Bihari</skos:prefLabel>
 	<skos:altLabel>bh</skos:altLabel>
+	<skos:exactMatch rdf:resource="iso-639#bih"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1921,6 +1922,8 @@ Language Code Deprecation
 	<skos:narrower rdf:resource="rfc4646#en-uk"/>
 	<skos:narrower rdf:resource="rfc4646#en-us"/>
 	<skos:narrower rdf:resource="rfc4646#en-wi"/>
+	<skos:narrower rdf:resource="wikimedia#simple"/>
+	<skos:exactMatch rdf:resource="iso-639#eng"/>
 	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
@@ -1953,6 +1956,7 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Spanish</skos:prefLabel>
 	<skos:altLabel>es</skos:altLabel>
 	<skos:narrower rdf:resource="rfc4646#es-la"/>
+	<skos:exactMatch rdf:resource="iso-639#spa"/>
 	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
@@ -2093,6 +2097,7 @@ Language Code Deprecation
 	<skos:altLabel>fr</skos:altLabel>
 	<skos:narrower rdf:resource="rfc4646#fr-be"/>
 	<skos:narrower rdf:resource="rfc4646#fr-fr"/>
+	<skos:exactMatch rdf:resource="iso-639#fra"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3788,6 +3793,7 @@ Language Code Deprecation
 	<skos:altLabel>pt</skos:altLabel>
 	<skos:narrower rdf:resource="rfc4646#pt-br"/>
 	<skos:narrower rdf:resource="rfc4646#pt-pt"/>
+	<skos:exactMatch rdf:resource="iso-639#por"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4831,6 +4837,7 @@ Language Code Deprecation
 	<skos:narrower rdf:resource="rfc4646#zh-classical"/>
 	<skos:narrower rdf:resource="rfc4646#zh-min-nan"/>
 	<skos:narrower rdf:resource="rfc4646#zh-yue"/>
+	<skos:exactMatch rdf:resource="iso-639#zho"/>
 	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
