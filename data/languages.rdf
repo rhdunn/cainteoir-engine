@@ -1,13 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:owl ="http://www.w3.org/2002/07/owl#"
 	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
-	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:dct="http://purl.org/dc/terms/"
-	xmlns:cc="http://web.resource.org/cc/"
-	xml:base="http://rhdunn.github.com/cainteoir/data/languages/"
+	xmlns:lang="http://rhdunn.github.com/cainteoir/data/languages/schema#"
+	xmlns:dc  ="http://purl.org/dc/elements/1.1/"
+	xmlns:dct ="http://purl.org/dc/terms/"
+	xmlns:cc  ="http://web.resource.org/cc/"
+	xml:base  ="http://rhdunn.github.com/cainteoir/data/languages/"
 >
+
+<owl:Class rdf:about="schema#Code">
+	<rdfs:label>Code</rdfs:label>
+	<rdfs:comment>A language code, typically used by @dc:language and @xml:lang.</rdfs:comment>
+	<owl:disjointWith rdf:resource="schema#Language"/>
+	<owl:disjointWith rdf:resource="schema#LanguageFamily"/>
+	<owl:disjointWith rdf:resource="schema#Dialect"/>
+	<owl:disjointWith rdf:resource="schema#Script"/>
+</owl:Class>
+
+<owl:Class rdf:about="schema#Language">
+	<rdfs:label>Language</rdfs:label>
+	<rdfs:comment>A spoken and/or written language.</rdfs:comment>
+	<owl:disjointWith rdf:resource="schema#Code"/>
+	<owl:disjointWith rdf:resource="schema#LanguageFamily"/>
+	<owl:disjointWith rdf:resource="schema#Dialect"/>
+	<owl:disjointWith rdf:resource="schema#Script"/>
+</owl:Class>
+
+<owl:Class rdf:about="schema#LanguageFamily">
+	<rdfs:label>LanguageFamily</rdfs:label>
+	<rdfs:comment>A group of related languages.</rdfs:comment>
+	<owl:disjointWith rdf:resource="schema#Code"/>
+	<owl:disjointWith rdf:resource="schema#Language"/>
+	<owl:disjointWith rdf:resource="schema#Dialect"/>
+	<owl:disjointWith rdf:resource="schema#Script"/>
+</owl:Class>
+
+<owl:Class rdf:about="schema#Dialect">
+	<rdfs:label>Dialect</rdfs:label>
+	<rdfs:comment>A dialect of a given language.</rdfs:comment>
+	<owl:disjointWith rdf:resource="schema#Code"/>
+	<owl:disjointWith rdf:resource="schema#Language"/>
+	<owl:disjointWith rdf:resource="schema#LanguageFamily"/>
+	<owl:disjointWith rdf:resource="schema#Script"/>
+</owl:Class>
+
+<owl:Class rdf:about="schema#Script">
+	<rdfs:label>Script</rdfs:label>
+	<rdfs:comment>A writing scheme for one or more languages.</rdfs:comment>
+	<owl:disjointWith rdf:resource="schema#Code"/>
+	<owl:disjointWith rdf:resource="schema#Language"/>
+	<owl:disjointWith rdf:resource="schema#LanguageFamily"/>
+	<owl:disjointWith rdf:resource="schema#Script"/>
+</owl:Class>
+
+<owl:ObjectProperty rdf:about="schema#defines">
+	<rdfs:label>defines</rdfs:label>
+	<rdfs:comment>Associates a language code with the language it defines.</rdfs:comment>
+	<rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#exactMatch"/>
+	<rdfs:domain rdf:resource="schema#Code"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="schema#usesScript">
+	<rdfs:label>usesScript</rdfs:label>
+	<rdfs:comment>Associates a language with a written script.</rdfs:comment>
+	<rdfs:subPropertyOf rdf:resource="http://www.w3.org/2004/02/skos/core#related"/>
+	<rdfs:domain rdf:resource="schema#Language"/>
+	<rdfs:range  rdf:resource="schema#Script"/>
+</owl:ObjectProperty>
 
 <!--
 
