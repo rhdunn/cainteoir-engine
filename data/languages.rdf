@@ -97,77 +97,6 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="calibri#und"/>
 </skos:ConceptScheme>
 
-<skos:ConceptScheme rdf:about="espeak">
-	<dc:title>eSpeak</dc:title>
-	<skos:hasTopConcept rdf:resource="iso-639#af"/>
-	<skos:hasTopConcept rdf:resource="iso-639#ak"/>
-	<skos:hasTopConcept rdf:resource="iso-639#am"/>
-	<skos:hasTopConcept rdf:resource="iso-639#az"/>
-	<skos:hasTopConcept rdf:resource="iso-639#bg"/>
-	<skos:hasTopConcept rdf:resource="iso-639#bs"/>
-	<skos:hasTopConcept rdf:resource="iso-639#ca"/>
-	<skos:hasTopConcept rdf:resource="iso-639#cs"/>
-	<skos:hasTopConcept rdf:resource="iso-639#cy"/>
-	<skos:hasTopConcept rdf:resource="iso-639#da"/>
-	<skos:hasTopConcept rdf:resource="iso-639#de"/>
-	<skos:hasTopConcept rdf:resource="iso-639#dv"/>
-	<skos:hasTopConcept rdf:resource="iso-639#el"/>
-	<skos:hasTopConcept rdf:resource="iso-639#en"/>
-	<skos:hasTopConcept rdf:resource="iso-639#eo"/>
-	<skos:hasTopConcept rdf:resource="iso-639#es"/>
-	<skos:hasTopConcept rdf:resource="iso-639#et"/>
-	<skos:hasTopConcept rdf:resource="iso-639#fi"/>
-	<skos:hasTopConcept rdf:resource="iso-639#grc"/>
-	<skos:hasTopConcept rdf:resource="iso-639#hi"/>
-	<skos:hasTopConcept rdf:resource="iso-639#hr"/>
-	<skos:hasTopConcept rdf:resource="iso-639#ht"/>
-	<skos:hasTopConcept rdf:resource="iso-639#hu"/>
-	<skos:hasTopConcept rdf:resource="iso-639#hy"/>
-	<skos:hasTopConcept rdf:resource="iso-639#id"/>
-	<skos:hasTopConcept rdf:resource="iso-639#is"/>
-	<skos:hasTopConcept rdf:resource="iso-639#it"/>
-	<skos:hasTopConcept rdf:resource="iso-639#jbo"/>
-	<skos:hasTopConcept rdf:resource="iso-639#ka"/>
-	<skos:hasTopConcept rdf:resource="iso-639#kn"/>
-	<skos:hasTopConcept rdf:resource="iso-639#ku"/>
-	<skos:hasTopConcept rdf:resource="iso-639#la"/>
-	<skos:hasTopConcept rdf:resource="iso-639#lv"/>
-	<skos:hasTopConcept rdf:resource="iso-639#mk"/>
-	<skos:hasTopConcept rdf:resource="iso-639#ml"/>
-	<skos:hasTopConcept rdf:resource="iso-639#mt"/>
-	<skos:hasTopConcept rdf:resource="iso-639#nci"/>
-	<skos:hasTopConcept rdf:resource="iso-639#ne"/>
-	<skos:hasTopConcept rdf:resource="iso-639#nl"/>
-	<skos:hasTopConcept rdf:resource="iso-639#no"/>
-	<skos:hasTopConcept rdf:resource="iso-639#nso"/>
-	<skos:hasTopConcept rdf:resource="iso-639#pa"/>
-	<skos:hasTopConcept rdf:resource="iso-639#pap"/>
-	<skos:hasTopConcept rdf:resource="iso-639#pl"/>
-	<skos:hasTopConcept rdf:resource="iso-639#prs"/>
-	<skos:hasTopConcept rdf:resource="iso-639#ro"/>
-	<skos:hasTopConcept rdf:resource="iso-639#ru"/>
-	<skos:hasTopConcept rdf:resource="iso-639#rw"/>
-	<skos:hasTopConcept rdf:resource="iso-639#si"/>
-	<skos:hasTopConcept rdf:resource="iso-639#sk"/>
-	<skos:hasTopConcept rdf:resource="iso-639#sl"/>
-	<skos:hasTopConcept rdf:resource="iso-639#sq"/>
-	<skos:hasTopConcept rdf:resource="iso-639#sr"/>
-	<skos:hasTopConcept rdf:resource="iso-639#sv"/>
-	<skos:hasTopConcept rdf:resource="iso-639#sw"/>
-	<skos:hasTopConcept rdf:resource="iso-639#ta"/>
-	<skos:hasTopConcept rdf:resource="iso-639#te"/>
-	<skos:hasTopConcept rdf:resource="iso-639#tn"/>
-	<skos:hasTopConcept rdf:resource="iso-639#tr"/>
-	<skos:hasTopConcept rdf:resource="iso-639#ur"/>
-	<skos:hasTopConcept rdf:resource="iso-639#vi"/>
-	<skos:hasTopConcept rdf:resource="iso-639#wo"/>
-	<skos:hasTopConcept rdf:resource="iso-639#zh"/>
-	<skos:hasTopConcept rdf:resource="rfc4646#fr-be"/>
-	<skos:hasTopConcept rdf:resource="rfc4646#fr-fr"/>
-	<skos:hasTopConcept rdf:resource="rfc4646#pt-br"/>
-	<skos:hasTopConcept rdf:resource="rfc4646#pt-pt"/>
-</skos:ConceptScheme>
-
 <skos:ConceptScheme rdf:about="iso-639-1">
 	<dc:title>ISO 639-1</dc:title>
 	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes"/>
@@ -1078,7 +1007,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Afrikaans</skos:prefLabel>
 	<skos:altLabel>af</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#afr"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1106,7 +1034,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Akan</skos:prefLabel>
 	<skos:altLabel>ak</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#aka"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1147,7 +1074,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Amharic</skos:prefLabel>
 	<skos:altLabel>am</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#amh"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1306,7 +1232,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Azerbaijani</skos:prefLabel>
 	<skos:altLabel>az</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#aze"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1407,7 +1332,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Bulgarian</skos:prefLabel>
 	<skos:altLabel>bg</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#bul"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1501,7 +1425,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Bosnian</skos:prefLabel>
 	<skos:altLabel>bs</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#bos"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1530,7 +1453,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Catalan</skos:prefLabel>
 	<skos:altLabel>ca</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#cat"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1732,7 +1654,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Czech</skos:prefLabel>
 	<skos:altLabel>cs</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#ces"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1766,7 +1687,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Welsh</skos:prefLabel>
 	<skos:altLabel>cy</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#cym"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1788,7 +1708,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Danish</skos:prefLabel>
 	<skos:altLabel>da</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#dan"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1810,7 +1729,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">German</skos:prefLabel>
 	<skos:altLabel>de</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#deu"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1852,7 +1770,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Divehi</skos:prefLabel>
 	<skos:altLabel>dv</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#div"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1894,7 +1811,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Greek</skos:prefLabel>
 	<skos:altLabel>el</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#ell"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1924,7 +1840,6 @@ Language Code Deprecation
 	<skos:narrower rdf:resource="rfc4646#en-wi"/>
 	<skos:narrower rdf:resource="wikimedia#simple"/>
 	<skos:exactMatch rdf:resource="iso-639#eng"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1940,7 +1855,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Esperanto</skos:prefLabel>
 	<skos:altLabel>eo</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#epo"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1957,7 +1871,6 @@ Language Code Deprecation
 	<skos:altLabel>es</skos:altLabel>
 	<skos:narrower rdf:resource="rfc4646#es-la"/>
 	<skos:exactMatch rdf:resource="iso-639#spa"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -1980,7 +1893,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Estonian</skos:prefLabel>
 	<skos:altLabel>et</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#est"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2045,7 +1957,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Finnish</skos:prefLabel>
 	<skos:altLabel>fi</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#fin"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2243,7 +2154,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#grc">
 	<skos:prefLabel xml:lang="en">Greek (Ancient)</skos:prefLabel>
 	<skos:altLabel>grc</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
@@ -2354,7 +2264,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Hindi</skos:prefLabel>
 	<skos:altLabel>hi</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#hin"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2397,7 +2306,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Croatian</skos:prefLabel>
 	<skos:altLabel>hr</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#hrv"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2413,7 +2321,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Creole (Haitian)</skos:prefLabel>
 	<skos:altLabel>ht</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#hat"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2421,7 +2328,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Hungarian</skos:prefLabel>
 	<skos:altLabel>hu</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#hun"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2437,7 +2343,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Armenian</skos:prefLabel>
 	<skos:altLabel>hy</skos:altLabel>
 	<skos:narrower rdf:resource="rfc4646#hy-west"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2487,7 +2392,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Indonesian</skos:prefLabel>
 	<skos:altLabel>id</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#ind"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2634,7 +2538,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Icelandic</skos:prefLabel>
 	<skos:altLabel>is</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#isl"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2649,7 +2552,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Italian</skos:prefLabel>
 	<skos:altLabel>it</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#ita"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2693,7 +2595,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#jbo">
 	<skos:prefLabel xml:lang="en">Lojban</skos:prefLabel>
 	<skos:altLabel>jbo</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
@@ -2722,7 +2623,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Georgian</skos:prefLabel>
 	<skos:altLabel>ka</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#kat"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2869,7 +2769,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Kannada</skos:prefLabel>
 	<skos:altLabel>kn</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#kan"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2928,7 +2827,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Kurdish</skos:prefLabel>
 	<skos:altLabel>ku</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#kur"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -2973,7 +2871,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Latin</skos:prefLabel>
 	<skos:altLabel>la</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#lat"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3102,7 +2999,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Latvian</skos:prefLabel>
 	<skos:altLabel>lv</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#lav"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3190,7 +3086,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Macedonian</skos:prefLabel>
 	<skos:altLabel>mk</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#mkd"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3211,7 +3106,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Malayalam</skos:prefLabel>
 	<skos:altLabel>ml</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#mal"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3284,7 +3178,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Maltese</skos:prefLabel>
 	<skos:altLabel>mt</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#mlt"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3382,7 +3275,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#nci">
 	<skos:prefLabel xml:lang="en">Nahuatl (Classical)</skos:prefLabel>
 	<skos:altLabel>nci</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
@@ -3419,7 +3311,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Nepali</skos:prefLabel>
 	<skos:altLabel>ne</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#nep"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3457,7 +3348,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Dutch</skos:prefLabel>
 	<skos:altLabel>nl</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#nld"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3487,7 +3377,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Norwegian</skos:prefLabel>
 	<skos:altLabel>no</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#nor"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3517,7 +3406,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#nso">
 	<skos:prefLabel xml:lang="en">Sotho (Northern)</skos:prefLabel>
 	<skos:altLabel>nso</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
@@ -3647,7 +3535,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Punjabi</skos:prefLabel>
 	<skos:altLabel>pa</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#pan"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3675,7 +3562,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#pap">
 	<skos:prefLabel xml:lang="en">Papiamento</skos:prefLabel>
 	<skos:altLabel>pap</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
@@ -3710,7 +3596,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Polish</skos:prefLabel>
 	<skos:altLabel>pl</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#pol"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3777,7 +3662,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#prs">
 	<skos:prefLabel xml:lang="en">Dari</skos:prefLabel>
 	<skos:altLabel>prs</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
@@ -3856,7 +3740,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Romanian</skos:prefLabel>
 	<skos:altLabel>ro</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#ron"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3885,7 +3768,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Russian</skos:prefLabel>
 	<skos:altLabel>ru</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#rus"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -3916,7 +3798,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Kinyarwanda</skos:prefLabel>
 	<skos:altLabel>rw</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#kin"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4025,7 +3906,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Sinhalese</skos:prefLabel>
 	<skos:altLabel>si</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#sin"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4061,7 +3941,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Slovak</skos:prefLabel>
 	<skos:altLabel>sk</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#slk"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4069,7 +3948,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Slovenian</skos:prefLabel>
 	<skos:altLabel>sl</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#slv"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4197,7 +4075,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Albanian</skos:prefLabel>
 	<skos:altLabel>sq</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#sqi"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4218,7 +4095,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Serbian</skos:prefLabel>
 	<skos:altLabel>sr</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#srp"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4288,7 +4164,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Swedish</skos:prefLabel>
 	<skos:altLabel>sv</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#swe"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4296,7 +4171,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Swahili</skos:prefLabel>
 	<skos:altLabel>sw</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#swa"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4326,7 +4200,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Tamil</skos:prefLabel>
 	<skos:altLabel>ta</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#tam"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4371,7 +4244,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Telugu</skos:prefLabel>
 	<skos:altLabel>te</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#tel"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4467,7 +4339,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Setswana</skos:prefLabel>
 	<skos:altLabel>tn</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#tsn"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4490,7 +4361,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Turkish</skos:prefLabel>
 	<skos:altLabel>tr</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#tur"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4623,7 +4493,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Urdu</skos:prefLabel>
 	<skos:altLabel>ur</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#urd"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4677,7 +4546,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Vietnamese</skos:prefLabel>
 	<skos:altLabel>vi</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#vie"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4742,7 +4610,6 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Wolof</skos:prefLabel>
 	<skos:altLabel>wo</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#wol"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4838,7 +4705,6 @@ Language Code Deprecation
 	<skos:narrower rdf:resource="rfc4646#zh-min-nan"/>
 	<skos:narrower rdf:resource="rfc4646#zh-yue"/>
 	<skos:exactMatch rdf:resource="iso-639#zho"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
 
@@ -4957,7 +4823,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="rfc4646#en-sc">
 	<skos:prefLabel xml:lang="en">English (Scottish)</skos:prefLabel>
 	<skos:altLabel>en-sc</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
@@ -4967,84 +4832,72 @@ Language Code Deprecation
 	<skos:narrower rdf:resource="rfc4646#en-uk-north"/>
 	<skos:narrower rdf:resource="rfc4646#en-uk-rp"/>
 	<skos:narrower rdf:resource="rfc4646#en-uk-wmids"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-uk-north">
 	<skos:prefLabel xml:lang="en">English (Lancashire)</skos:prefLabel>
 	<skos:altLabel>en-uk-north</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-uk-rp">
 	<skos:prefLabel xml:lang="en">English (Received Pronunciation)</skos:prefLabel>
 	<skos:altLabel>en-uk-rp</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-uk-wmids">
 	<skos:prefLabel xml:lang="en">English (West Midlands)</skos:prefLabel>
 	<skos:altLabel>en-uk-wmids</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-us">
 	<skos:prefLabel xml:lang="en">English (American)</skos:prefLabel>
 	<skos:altLabel>en-us</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#en-wi">
 	<skos:prefLabel xml:lang="en">English (West Indies)</skos:prefLabel>
 	<skos:altLabel>en-wi</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#es-la">
 	<skos:prefLabel xml:lang="en">Spanish (Latin American)</skos:prefLabel>
 	<skos:altLabel>es-la</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#fr-be">
 	<skos:prefLabel xml:lang="en">French (Belgium)</skos:prefLabel>
 	<skos:altLabel>fr-be</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#fr-fr">
 	<skos:prefLabel xml:lang="en">French (France)</skos:prefLabel>
 	<skos:altLabel>fr-fr</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#hy-west">
 	<skos:prefLabel xml:lang="en">Armenian (West)</skos:prefLabel>
 	<skos:altLabel>hy-west</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#pt-br">
 	<skos:prefLabel xml:lang="en">Portuguese (Brazillian)</skos:prefLabel>
 	<skos:altLabel>pt-br</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="rfc4646#pt-pt">
 	<skos:prefLabel xml:lang="en">Portuguese (Portugal)</skos:prefLabel>
 	<skos:altLabel>pt-pt</skos:altLabel>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 </skos:Concept>
 
@@ -5071,7 +4924,6 @@ Language Code Deprecation
 	<skos:altLabel>zh-yue</skos:altLabel>
 	<dct:isReplacedBy rdf:resource="iso-639#yue"/>
 	<skos:exactMatch rdf:resource="iso-639#yue"/>
-	<skos:inScheme rdf:resource="espeak"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
