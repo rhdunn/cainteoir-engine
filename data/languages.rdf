@@ -1011,6 +1011,7 @@ Language Code Deprecation
 <skos:Concept rdf:about="calibri#und">
 	<skos:prefLabel xml:lang="en">Unknown</skos:prefLabel>
 	<skos:altLabel>und</skos:altLabel>
+	<skos:exactMatch rdf:resource="iso-639#eng"/>
 	<skos:inScheme rdf:resource="calibri"/>
 </skos:Concept>
 
