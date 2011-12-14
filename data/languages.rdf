@@ -798,6 +798,7 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="iso-639#guj"/>
 	<skos:hasTopConcept rdf:resource="iso-639#hat"/>
 	<skos:hasTopConcept rdf:resource="iso-639#hau"/>
+	<skos:hasTopConcept rdf:resource="iso-639#hbs"/>
 	<skos:hasTopConcept rdf:resource="iso-639#heb"/>
 	<skos:hasTopConcept rdf:resource="iso-639#her"/>
 	<skos:hasTopConcept rdf:resource="iso-639#hin"/>
@@ -890,6 +891,7 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="iso-639#rus"/>
 	<skos:hasTopConcept rdf:resource="iso-639#sag"/>
 	<skos:hasTopConcept rdf:resource="iso-639#san"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sgs"/>
 	<skos:hasTopConcept rdf:resource="iso-639#sin"/>
 	<skos:hasTopConcept rdf:resource="iso-639#sjn"/>
 	<skos:hasTopConcept rdf:resource="iso-639#slk"/>
@@ -2311,6 +2313,12 @@ Language Code Deprecation
 	<skos:altLabel>hau</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
+	<skos:inScheme rdf:resource="iso-639-3"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#hbs">
+	<skos:prefLabel xml:lang="en">Serbo-Croatian</skos:prefLabel>
+	<skos:altLabel>hbs</skos:altLabel>
 	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
 
@@ -3993,9 +4001,15 @@ Language Code Deprecation
 	<skos:inScheme rdf:resource="iso-639-5"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#sgs">
+	<skos:prefLabel xml:lang="en">Samogitian</skos:prefLabel>
+	<skos:altLabel>sgs</skos:altLabel>
+	<skos:inScheme rdf:resource="iso-639-3"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#sh">
 	<skos:prefLabel xml:lang="en">Serbo-Croatian</skos:prefLabel>
-	<skos:altLabel>hbs</skos:altLabel>
+	<skos:altLabel>sh</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#hbs"/>
 	<dct:isReplacedBy rdf:resource="iso-639#hbs"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
