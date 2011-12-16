@@ -1009,7 +1009,7 @@ Language Code Deprecation
 </skos:ConceptScheme>
 
 <skos:Concept rdf:about="calibri#und">
-	<skos:prefLabel xml:lang="en">Unknown</skos:prefLabel>
+	<skos:prefLabel xml:lang="en">English</skos:prefLabel>
 	<skos:altLabel>und</skos:altLabel>
 	<skos:exactMatch rdf:resource="iso-639#eng"/>
 	<skos:inScheme rdf:resource="calibri"/>
@@ -1061,9 +1061,9 @@ Language Code Deprecation
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#aeg">
-	<skos:prefLabel xml:lang="en">Alemanic</skos:prefLabel>
+	<skos:prefLabel xml:lang="en">Alemannic Languages</skos:prefLabel>
 	<skos:altLabel>aeg</skos:altLabel>
-	<lang:defines  rdf:resource="languages#alemanic"/>
+	<lang:defines  rdf:resource="languages#alemannic"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
@@ -5009,8 +5009,8 @@ Language Code Deprecation
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
-<lang:Language rdf:about="languages#alemanic">
-	<skos:prefLabel xml:lang="en">Alemanic Languages</skos:prefLabel>
+<lang:Language rdf:about="languages#alemannic">
+	<skos:prefLabel xml:lang="en">Alemannic Languages</skos:prefLabel>
 	<skos:narrower rdf:resource="language#german-swiss"/>
 	<skos:inScheme rdf:resource="languages#"/>
 </lang:Language>
@@ -5136,6 +5136,5 @@ Language Code Deprecation
 	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
 	<skos:inScheme rdf:resource="languages#"/>
 </lang:Language>
-
 
 </rdf:RDF>
