@@ -1063,7 +1063,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#aeg">
 	<skos:prefLabel xml:lang="en">Alemannic Languages</skos:prefLabel>
 	<skos:altLabel>aeg</skos:altLabel>
-	<lang:defines  rdf:resource="languages#alemannic"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
 
@@ -1480,7 +1479,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#bre">
 	<skos:prefLabel xml:lang="en">Breton</skos:prefLabel>
 	<skos:altLabel>bre</skos:altLabel>
-	<lang:defines  rdf:resource="language#breton"/>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
@@ -1585,7 +1583,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#cel">
 	<skos:prefLabel xml:lang="en">Celtic Languages</skos:prefLabel>
 	<skos:altLabel>cel</skos:altLabel>
-	<lang:defines  rdf:resource="languages#celtic"/>
 	<skos:narrower rdf:resource="rfc4646#cel-bry"/>
 	<skos:narrower rdf:resource="rfc4646#cel-gae"/>
 	<skos:narrower rdf:resource="rfc4646#cel-gaulish"/>
@@ -1661,7 +1658,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#cor">
 	<skos:prefLabel xml:lang="en">Cornish</skos:prefLabel>
 	<skos:altLabel>cor</skos:altLabel>
-	<lang:defines  rdf:resource="language#cornish"/>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
@@ -1760,7 +1756,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#cym">
 	<skos:prefLabel xml:lang="en">Welsh</skos:prefLabel>
 	<skos:altLabel>cym</skos:altLabel>
-	<lang:defines  rdf:resource="language#welsh"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
 </skos:Concept>
@@ -2164,7 +2159,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#gla">
 	<skos:prefLabel xml:lang="en">Gaelic (Scottish)</skos:prefLabel>
 	<skos:altLabel>gla</skos:altLabel>
-	<lang:defines  rdf:resource="language#scottish"/>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
@@ -2173,7 +2167,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#gle">
 	<skos:prefLabel xml:lang="en">Gaelic (Irish)</skos:prefLabel>
 	<skos:altLabel>gle</skos:altLabel>
-	<lang:defines  rdf:resource="language#irish"/>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
@@ -2190,7 +2183,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#glv">
 	<skos:prefLabel xml:lang="en">Manx</skos:prefLabel>
 	<skos:altLabel>glv</skos:altLabel>
-	<lang:defines  rdf:resource="language#manx"/>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
@@ -2252,7 +2244,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#gsw">
 	<skos:prefLabel xml:lang="en">German (Swiss)</skos:prefLabel>
 	<skos:altLabel>gsw</skos:altLabel>
-	<lang:defines  rdf:resource="language#german-swiss"/>
 	<skos:inScheme rdf:resource="iso-639-2b"/>
 	<skos:inScheme rdf:resource="iso-639-2t"/>
 	<skos:inScheme rdf:resource="iso-639-3"/>
@@ -2577,7 +2568,6 @@ Language Code Deprecation
 	<skos:narrower rdf:resource="iso-639#itc"/>
 	<skos:narrower rdf:resource="iso-639#sla"/>
 	<skos:narrower rdf:resource="iso-639#sqj"/>
-	<lang:defines  rdf:resource="languages#indo-european"/>
 	<skos:inScheme rdf:resource="iso-639-5"/>
 </skos:Concept>
 
@@ -4877,7 +4867,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="rfc4646#cel-bry">
 	<skos:prefLabel xml:lang="en">Brythonic Languages</skos:prefLabel>
 	<skos:altLabel>cel-bry</skos:altLabel>
-	<lang:defines  rdf:resource="languages#brythonic"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
@@ -4885,7 +4874,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="rfc4646#cel-gae">
 	<skos:prefLabel xml:lang="en">Gaelic Languages</skos:prefLabel>
 	<skos:altLabel>cel-gae</skos:altLabel>
-	<lang:defines  rdf:resource="languages#goidelic"/>
 	<skos:inScheme rdf:resource="rfc4646"/>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
@@ -5009,133 +4997,5 @@ Language Code Deprecation
 	<skos:altLabel>simple</skos:altLabel>
 	<skos:inScheme rdf:resource="wikimedia"/>
 </skos:Concept>
-
-<lang:Language rdf:about="languages#alemannic">
-	<skos:prefLabel xml:lang="en">Alemannic Languages</skos:prefLabel>
-	<skos:narrower rdf:resource="language#german-swiss"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="languages#brythonic">
-	<skos:prefLabel xml:lang="en">Brythonic Languages</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:narrower rdf:resource="language#welsh-old"/>
-	<skos:narrower rdf:resource="languages#brythonic-southwestern"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="languages#brythonic-southwestern">
-	<skos:prefLabel xml:lang="en">Brythonic (Southwestern) Languages</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:narrower rdf:resource="language#breton"/>
-	<skos:narrower rdf:resource="language#cornish"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="languages#celtic">
-	<skos:prefLabel xml:lang="en">Celtic Languages</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:narrower rdf:resource="languages#celtic-insular"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="languages#celtic-insular">
-	<skos:prefLabel xml:lang="en">Celtic (Insular) Languages</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:narrower rdf:resource="languages#brythonic"/>
-	<skos:narrower rdf:resource="languages#goidelic"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="languages#goidelic">
-	<skos:prefLabel xml:lang="en">Goidelic Languages</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:narrower rdf:resource="language#irish-primitive"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="languages#indo-european">
-	<skos:prefLabel xml:lang="en">Indo-European Languages</skos:prefLabel>
-	<skos:narrower rdf:resource="languages#celtic"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#breton">
-	<skos:prefLabel xml:lang="en">Breton</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#cornish">
-	<skos:prefLabel xml:lang="en">Cornish</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#german-swiss">
-	<skos:prefLabel xml:lang="en">German (Swiss)</skos:prefLabel>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#irish-primitive">
-	<skos:prefLabel xml:lang="en">Gaelic (Primitive Irish)</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:narrower rdf:resource="language#irish-old"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#irish-old">
-	<skos:prefLabel xml:lang="en">Gaelic (Old Irish)</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:narrower rdf:resource="language#irish-middle"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#irish-middle">
-	<skos:prefLabel xml:lang="en">Gaelic (Middle Irish)</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:narrower rdf:resource="language#irish"/>
-	<skos:narrower rdf:resource="language#manx"/>
-	<skos:narrower rdf:resource="language#scottish"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#irish">
-	<skos:prefLabel xml:lang="en">Gaelic (Irish)</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#manx">
-	<skos:prefLabel xml:lang="en">Manx</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#scottish">
-	<skos:prefLabel xml:lang="en">Gaelic (Scottish)</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#welsh-old">
-	<skos:prefLabel xml:lang="en">Welsh (Old)</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:narrower rdf:resource="language#welsh-middle"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#welsh-middle">
-	<skos:prefLabel xml:lang="en">Welsh (Middle)</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:narrower rdf:resource="language#welsh"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
-
-<lang:Language rdf:about="language#welsh">
-	<skos:prefLabel xml:lang="en">Welsh</skos:prefLabel>
-	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
-	<skos:inScheme rdf:resource="languages#"/>
-</lang:Language>
 
 </rdf:RDF>
