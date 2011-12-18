@@ -2414,6 +2414,7 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#hy">
 	<skos:prefLabel xml:lang="en">Armenian</skos:prefLabel>
 	<skos:altLabel>hy</skos:altLabel>
+	<skos:exactMatch rdf:resource="iso-639#hye"/>
 	<skos:narrower rdf:resource="rfc4646#hy-west"/>
 	<skos:inScheme rdf:resource="iso-639-1"/>
 </skos:Concept>
