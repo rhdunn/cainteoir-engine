@@ -154,6 +154,7 @@ Language Code Deprecation
 	<dc:source>http://en.wikipedia.org/wiki/List_of_ISO_639-5_codes</dc:source>
 </rdf:Description>
 
+<![CDATA[
 <skos:ConceptScheme rdf:about="calibri#">
 	<dc:title>Calibri</dc:title>
 	<skos:hasTopConcept rdf:resource="calibri#und"/>
@@ -736,6 +737,7 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="iso-639#afr"/>
 	<skos:hasTopConcept rdf:resource="iso-639#aka"/>
 	<skos:hasTopConcept rdf:resource="iso-639#amh"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ang"/>
 	<skos:hasTopConcept rdf:resource="iso-639#ara"/>
 	<skos:hasTopConcept rdf:resource="iso-639#arg"/>
 	<skos:hasTopConcept rdf:resource="iso-639#asm"/>
@@ -765,9 +767,11 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="iso-639#dan"/>
 	<skos:hasTopConcept rdf:resource="iso-639#deu"/>
 	<skos:hasTopConcept rdf:resource="iso-639#div"/>
+	<skos:hasTopConcept rdf:resource="iso-639#dum"/>
 	<skos:hasTopConcept rdf:resource="iso-639#dzo"/>
 	<skos:hasTopConcept rdf:resource="iso-639#ell"/>
 	<skos:hasTopConcept rdf:resource="iso-639#eng"/>
+	<skos:hasTopConcept rdf:resource="iso-639#enm"/>
 	<skos:hasTopConcept rdf:resource="iso-639#epo"/>
 	<skos:hasTopConcept rdf:resource="iso-639#est"/>
 	<skos:hasTopConcept rdf:resource="iso-639#eus"/>
@@ -777,12 +781,15 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="iso-639#fij"/>
 	<skos:hasTopConcept rdf:resource="iso-639#fin"/>
 	<skos:hasTopConcept rdf:resource="iso-639#fra"/>
+	<skos:hasTopConcept rdf:resource="iso-639#frk"/>
 	<skos:hasTopConcept rdf:resource="iso-639#fry"/>
 	<skos:hasTopConcept rdf:resource="iso-639#ful"/>
 	<skos:hasTopConcept rdf:resource="iso-639#gla"/>
 	<skos:hasTopConcept rdf:resource="iso-639#gle"/>
 	<skos:hasTopConcept rdf:resource="iso-639#glg"/>
 	<skos:hasTopConcept rdf:resource="iso-639#glv"/>
+	<skos:hasTopConcept rdf:resource="iso-639#gmh"/>
+	<skos:hasTopConcept rdf:resource="iso-639#goh"/>
 	<skos:hasTopConcept rdf:resource="iso-639#grc"/>
 	<skos:hasTopConcept rdf:resource="iso-639#grn"/>
 	<skos:hasTopConcept rdf:resource="iso-639#gsw"/>
@@ -838,6 +845,7 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="iso-639#mah"/>
 	<skos:hasTopConcept rdf:resource="iso-639#mal"/>
 	<skos:hasTopConcept rdf:resource="iso-639#mar"/>
+	<skos:hasTopConcept rdf:resource="iso-639#mga"/>
 	<skos:hasTopConcept rdf:resource="iso-639#mkd"/>
 	<skos:hasTopConcept rdf:resource="iso-639#mlg"/>
 	<skos:hasTopConcept rdf:resource="iso-639#mlt"/>
@@ -861,14 +869,19 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="iso-639#nso"/>
 	<skos:hasTopConcept rdf:resource="iso-639#nya"/>
 	<skos:hasTopConcept rdf:resource="iso-639#oci"/>
+	<skos:hasTopConcept rdf:resource="iso-639#odt"/>
+	<skos:hasTopConcept rdf:resource="iso-639#ofs"/>
 	<skos:hasTopConcept rdf:resource="iso-639#oji"/>
 	<skos:hasTopConcept rdf:resource="iso-639#ori"/>
 	<skos:hasTopConcept rdf:resource="iso-639#orm"/>
 	<skos:hasTopConcept rdf:resource="iso-639#oss"/>
+	<skos:hasTopConcept rdf:resource="iso-639#osx"/>
+	<skos:hasTopConcept rdf:resource="iso-639#owl"/>
 	<skos:hasTopConcept rdf:resource="iso-639#pal"/>
 	<skos:hasTopConcept rdf:resource="iso-639#pan"/>
 	<skos:hasTopConcept rdf:resource="iso-639#pap"/>
 	<skos:hasTopConcept rdf:resource="iso-639#peo"/>
+	<skos:hasTopConcept rdf:resource="iso-639#pgl"/>
 	<skos:hasTopConcept rdf:resource="iso-639#pli"/>
 	<skos:hasTopConcept rdf:resource="iso-639#pol"/>
 	<skos:hasTopConcept rdf:resource="iso-639#por"/>
@@ -882,6 +895,7 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="iso-639#rus"/>
 	<skos:hasTopConcept rdf:resource="iso-639#sag"/>
 	<skos:hasTopConcept rdf:resource="iso-639#san"/>
+	<skos:hasTopConcept rdf:resource="iso-639#sga"/>
 	<skos:hasTopConcept rdf:resource="iso-639#sgs"/>
 	<skos:hasTopConcept rdf:resource="iso-639#sin"/>
 	<skos:hasTopConcept rdf:resource="iso-639#sjn"/>
@@ -923,6 +937,7 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="iso-639#ven"/>
 	<skos:hasTopConcept rdf:resource="iso-639#vie"/>
 	<skos:hasTopConcept rdf:resource="iso-639#vol"/>
+	<skos:hasTopConcept rdf:resource="iso-639#wlm"/>
 	<skos:hasTopConcept rdf:resource="iso-639#wln"/>
 	<skos:hasTopConcept rdf:resource="iso-639#wol"/>
 	<skos:hasTopConcept rdf:resource="iso-639#xho"/>
@@ -977,6 +992,7 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="rfc4646#cel-gae"/>
 	<skos:hasTopConcept rdf:resource="rfc4646#cel-gaulish"/>
 	<skos:hasTopConcept rdf:resource="rfc4646#en-sc"/>
+	<skos:hasTopConcept rdf:resource="rfc4646#en-gb"/>
 	<skos:hasTopConcept rdf:resource="rfc4646#en-uk"/>
 	<skos:hasTopConcept rdf:resource="rfc4646#en-us"/>
 	<skos:hasTopConcept rdf:resource="rfc4646#en-wi"/>
@@ -1007,6 +1023,7 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="rfc4646#zh-yue"/>
 	<skos:hasTopConcept rdf:resource="wikimedia#simple"/>
 </skos:ConceptScheme>
+]]>
 
 <skos:Concept rdf:about="calibri#und">
 	<skos:prefLabel>und</skos:prefLabel>
@@ -1058,7 +1075,9 @@ Language Code Deprecation
 
 <skos:Concept rdf:about="iso-639#aeg">
 	<skos:prefLabel>aeg</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Alemannic_language"/>
 	<lang:defines  rdf:resource="language#aeg"/>
+	<skos:narrower rdf:resource="iso-639#gsw"/>
 	<skos:inScheme rdf:resource="wikimedia#"/>
 </skos:Concept>
 
@@ -1144,6 +1163,13 @@ Language Code Deprecation
 	<skos:prefLabel>an</skos:prefLabel>
 	<skos:exactMatch rdf:resource="iso-639#arg"/>
 	<skos:inScheme rdf:resource="iso-639-1#"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ang">
+	<skos:prefLabel>ang</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_English_language"/>
+	<lang:defines  rdf:resource="language#ang"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#apa">
@@ -1771,6 +1797,12 @@ Language Code Deprecation
 	<skos:inScheme rdf:resource="iso-639-3#"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#dum">
+	<skos:prefLabel>dum</skos:prefLabel>
+	<lang:defines  rdf:resource="language#dum"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#dmn">
 	<skos:prefLabel>dmn</skos:prefLabel>
 	<lang:defines  rdf:resource="language#dmn"/>
@@ -1855,6 +1887,7 @@ Language Code Deprecation
 	<skos:exactMatch rdf:resource="iso-639#eng"/>
 	<skos:narrower rdf:resource="rfc4646#en-sc"/>
 	<skos:narrower rdf:resource="rfc4646#en-uk"/>
+	<skos:narrower rdf:resource="rfc4646#en-gb"/>
 	<skos:narrower rdf:resource="rfc4646#en-us"/>
 	<skos:narrower rdf:resource="rfc4646#en-wi"/>
 	<skos:narrower rdf:resource="wikimedia#simple"/>
@@ -1866,6 +1899,12 @@ Language Code Deprecation
 	<lang:defines  rdf:resource="language#eng"/>
 	<skos:inScheme rdf:resource="iso-639-2b#"/>
 	<skos:inScheme rdf:resource="iso-639-2t#"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#enm">
+	<skos:prefLabel>enm</skos:prefLabel>
+	<lang:defines  rdf:resource="language#enm"/>
 	<skos:inScheme rdf:resource="iso-639-3#"/>
 </skos:Concept>
 
@@ -2033,6 +2072,12 @@ Language Code Deprecation
 	<skos:inScheme rdf:resource="iso-639-2b#"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#frk">
+	<skos:prefLabel>frk</skos:prefLabel>
+	<lang:defines  rdf:resource="language#frk"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#fry">
 	<skos:prefLabel>fry</skos:prefLabel>
 	<lang:defines  rdf:resource="language#fry"/>
@@ -2132,6 +2177,12 @@ Language Code Deprecation
 	<skos:inScheme rdf:resource="iso-639-5#"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#gmh">
+	<skos:prefLabel>gmh</skos:prefLabel>
+	<lang:defines  rdf:resource="language#gmh"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#gmq">
 	<skos:prefLabel>gmq</skos:prefLabel>
 	<lang:defines  rdf:resource="language#gmq"/>
@@ -2141,7 +2192,6 @@ Language Code Deprecation
 <skos:Concept rdf:about="iso-639#gmw">
 	<skos:prefLabel>gmw</skos:prefLabel>
 	<lang:defines  rdf:resource="language#gmw"/>
-	<skos:narrower rdf:resource="iso-639#aeg"/>
 	<skos:inScheme rdf:resource="iso-639-5#"/>
 </skos:Concept>
 
@@ -2149,6 +2199,12 @@ Language Code Deprecation
 	<skos:prefLabel>gn</skos:prefLabel>
 	<skos:exactMatch rdf:resource="iso-639#grn"/>
 	<skos:inScheme rdf:resource="iso-639-1#"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#goh">
+	<skos:prefLabel>goh</skos:prefLabel>
+	<lang:defines  rdf:resource="language#goh"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#grc">
@@ -3016,6 +3072,13 @@ Language Code Deprecation
 	<skos:inScheme rdf:resource="iso-639-1#"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#mga">
+	<skos:prefLabel>mga</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Middle_Irish_language"/>
+	<lang:defines  rdf:resource="language#mga"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#mh">
 	<skos:prefLabel>mh</skos:prefLabel>
 	<skos:exactMatch rdf:resource="iso-639#mah"/>
@@ -3379,6 +3442,18 @@ Language Code Deprecation
 	<skos:inScheme rdf:resource="iso-639-3#"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#odt">
+	<skos:prefLabel>odt</skos:prefLabel>
+	<lang:defines  rdf:resource="language#odt"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#ofs">
+	<skos:prefLabel>ofs</skos:prefLabel>
+	<lang:defines  rdf:resource="language#ofs"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#oj">
 	<skos:prefLabel>oj</skos:prefLabel>
 	<skos:exactMatch rdf:resource="iso-639#oji"/>
@@ -3448,10 +3523,24 @@ Language Code Deprecation
 	<skos:inScheme rdf:resource="iso-639-3#"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#osx">
+	<skos:prefLabel>osx</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_Saxon"/>
+	<lang:defines  rdf:resource="language#osx"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#oto">
 	<skos:prefLabel>oto</skos:prefLabel>
 	<lang:defines  rdf:resource="language#oto"/>
 	<skos:inScheme rdf:resource="iso-639-5#"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#owl">
+	<skos:prefLabel>owl</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_Welsh_language"/>
+	<lang:defines  rdf:resource="language#owl"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#pa">
@@ -3469,6 +3558,7 @@ Language Code Deprecation
 
 <skos:Concept rdf:about="iso-639#pal">
 	<skos:prefLabel>pal</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Middle_Persian"/>
 	<lang:defines  rdf:resource="language#pal"/>
 	<skos:inScheme rdf:resource="iso-639-3#"/>
 </skos:Concept>
@@ -3489,6 +3579,7 @@ Language Code Deprecation
 
 <skos:Concept rdf:about="iso-639#peo">
 	<skos:prefLabel>peo</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_Persian"/>
 	<lang:defines  rdf:resource="language#peo"/>
 	<skos:inScheme rdf:resource="iso-639-3#"/>
 </skos:Concept>
@@ -3497,6 +3588,13 @@ Language Code Deprecation
 	<skos:prefLabel>per</skos:prefLabel>
 	<skos:exactMatch rdf:resource="iso-639#fas"/>
 	<skos:inScheme rdf:resource="iso-639-2b#"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#pgl">
+	<skos:prefLabel>pgl</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Primitive_Irish_language"/>
+	<lang:defines  rdf:resource="language#pgl"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#phi">
@@ -3785,6 +3883,13 @@ Language Code Deprecation
 	<skos:prefLabel>sg</skos:prefLabel>
 	<skos:exactMatch rdf:resource="iso-639#sag"/>
 	<skos:inScheme rdf:resource="iso-639-1#"/>
+</skos:Concept>
+
+<skos:Concept rdf:about="iso-639#sga">
+	<skos:prefLabel>sga</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_Irish_language"/>
+	<lang:defines  rdf:resource="language#sga"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
 </skos:Concept>
 
 <skos:Concept rdf:about="iso-639#sgn">
@@ -4464,6 +4569,13 @@ Language Code Deprecation
 	<skos:inScheme rdf:resource="iso-639-5#"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="iso-639#wlm">
+	<skos:prefLabel>wlm</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Middle_Welsh_language"/>
+	<lang:defines  rdf:resource="language#wlm"/>
+	<skos:inScheme rdf:resource="iso-639-3#"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="iso-639#wln">
 	<skos:prefLabel>wln</skos:prefLabel>
 	<lang:defines  rdf:resource="language#wln"/>
@@ -4677,6 +4789,12 @@ Language Code Deprecation
 	<skos:inScheme rdf:resource="rfc4646#"/>
 </skos:Concept>
 
+<skos:Concept rdf:about="rfc4646#en-gb">
+	<skos:prefLabel>en-gb</skos:prefLabel>
+	<lang:defines  rdf:resource="language#en-gb"/>
+	<skos:inScheme rdf:resource="rfc4646#"/>
+</skos:Concept>
+
 <skos:Concept rdf:about="rfc4646#en-sc">
 	<skos:prefLabel>en-sc</skos:prefLabel>
 	<lang:defines  rdf:resource="language#en-sc"/>
@@ -4685,7 +4803,8 @@ Language Code Deprecation
 
 <skos:Concept rdf:about="rfc4646#en-uk">
 	<skos:prefLabel>en-uk</skos:prefLabel>
-	<lang:defines  rdf:resource="language#en-uk"/>
+	<skos:exactMatch rdf:resource="rfc4646#en-gb"/>
+	<dct:isReplacedBy rdf:resource="rfc4646#en-gb"/>
 	<skos:narrower rdf:resource="rfc4646#en-uk-north"/>
 	<skos:narrower rdf:resource="rfc4646#en-uk-rp"/>
 	<skos:narrower rdf:resource="rfc4646#en-uk-wmids"/>
@@ -4784,7 +4903,7 @@ Language Code Deprecation
 
 <skos:Concept rdf:about="wikimedia#simple">
 	<skos:prefLabel>simple</skos:prefLabel>
-	<lang:defines  rdf:resource="language#simple"/>
+	<lang:defines  rdf:resource="language#eng"/>
 	<skos:inScheme rdf:resource="wikimedia#"/>
 </skos:Concept>
 
@@ -4804,6 +4923,8 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#aeg">
 	<skos:prefLabel xml:lang="en">Alemannic Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Alemannic_language"/>
+	<skos:narrower rdf:resource="language#gsw"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#afa">
@@ -4842,6 +4963,12 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Amharic</skos:prefLabel>
 </lang:Language>
 
+<lang:Language rdf:about="language#ang">
+	<skos:prefLabel xml:lang="en">Anglo-Saxon</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_English_language"/>
+	<skos:narrower rdf:resource="language#enm"/>
+</lang:Language>
+
 <lang:Language rdf:about="language#apa">
 	<skos:prefLabel xml:lang="en">Apache Languages</skos:prefLabel>
 </lang:Language>
@@ -4865,6 +4992,8 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#art">
 	<skos:prefLabel xml:lang="en">Artificial Languages</skos:prefLabel>
+	<skos:narrower rdf:resource="language#art-nav"/>
+	<skos:narrower rdf:resource="language#jbo"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#art-nav">
@@ -4976,6 +5105,21 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#bre">
 	<skos:prefLabel xml:lang="en">Breton</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
+</lang:Language>
+
+<lang:Language rdf:about="language#brythonic">
+	<skos:prefLabel xml:lang="en">British</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
+	<skos:narrower rdf:resource="language#brythonic-southwestern"/>
+	<skos:narrower rdf:resource="language#owl"/>
+</lang:Language>
+
+<lang:Language rdf:about="language#brythonic-southwestern">
+	<skos:prefLabel xml:lang="en">Brythonic (Southwestern) Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
+	<skos:narrower rdf:resource="language#bre"/>
+	<skos:narrower rdf:resource="language#cor"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#btk">
@@ -5024,14 +5168,22 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#cel">
 	<skos:prefLabel xml:lang="en">Celtic Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
+	<skos:narrower rdf:resource="language#cel-bry"/>
+	<skos:narrower rdf:resource="language#cel-gae"/>
+	<skos:narrower rdf:resource="language#cel-gaulish"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#cel-bry">
 	<skos:prefLabel xml:lang="en">Brythonic Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
+	<skos:narrower rdf:resource="language#brythonic"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#cel-gae">
 	<skos:prefLabel xml:lang="en">Gaelic Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
+	<skos:narrower rdf:resource="language#pgl"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#cel-gaulish">
@@ -5064,6 +5216,7 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#cor">
 	<skos:prefLabel xml:lang="en">Cornish</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#cos">
@@ -5115,10 +5268,18 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#deu">
 	<skos:prefLabel xml:lang="en">German</skos:prefLabel>
+	<skos:narrower rdf:resource="language#german-high"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#div">
 	<skos:prefLabel xml:lang="en">Divehi</skos:prefLabel>
+</lang:Language>
+
+<lang:Language rdf:about="language#dum">
+	<skos:prefLabel xml:lang="en">Dutch (Middle)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Middle_Dutch"/>
+	<skos:narrower rdf:resource="language#afr"/>
+	<skos:narrower rdf:resource="language#nld"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#dmn">
@@ -5155,8 +5316,11 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">English (Scottish)</skos:prefLabel>
 </lang:Language>
 
-<lang:Language rdf:about="language#en-uk">
+<lang:Language rdf:about="language#en-gb">
 	<skos:prefLabel xml:lang="en">English (British)</skos:prefLabel>
+	<skos:narrower rdf:resource="language#en-uk-north"/>
+	<skos:narrower rdf:resource="language#en-uk-rp"/>
+	<skos:narrower rdf:resource="language#en-uk-wmids"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#en-uk-north">
@@ -5181,10 +5345,26 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#eng">
 	<skos:prefLabel xml:lang="en">English</skos:prefLabel>
+	<skos:narrower rdf:resource="language#en-sc"/>
+	<skos:narrower rdf:resource="language#en-gb"/>
+	<skos:narrower rdf:resource="language#en-us"/>
+	<skos:narrower rdf:resource="language#en-wi"/>
+</lang:Language>
+
+<lang:Language rdf:about="language#enm">
+	<skos:prefLabel xml:lang="en">English (Middle)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Middle_English"/>
+	<skos:narrower rdf:resource="language#eng"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#epo">
 	<skos:prefLabel xml:lang="en">Esperanto</skos:prefLabel>
+</lang:Language>
+
+<lang:Language rdf:about="language#erminonic">
+	<skos:prefLabel xml:lang="en">Erminonic Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/West_Germanic_languages"/>
+	<skos:narrower rdf:resource="language#goh"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#es-la">
@@ -5218,6 +5398,7 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#fas">
 	<skos:prefLabel xml:lang="en">Persian</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Persian_language"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#fij">
@@ -5247,6 +5428,14 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#fra">
 	<skos:prefLabel xml:lang="en">French</skos:prefLabel>
+	<skos:narrower rdf:resource="language#fr-be"/>
+	<skos:narrower rdf:resource="language#fr-fr"/>
+</lang:Language>
+
+<lang:Language rdf:about="language#frk">
+	<skos:prefLabel xml:lang="en">Frankish (Old)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_Frankish"/>
+	<skos:narrower rdf:resource="language#odt"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#fry">
@@ -5264,12 +5453,19 @@ Language Code Deprecation
 	<skos:narrower rdf:resource="language#gmw"/>
 </lang:Language>
 
+<lang:Language rdf:about="language#german-high">
+	<skos:prefLabel xml:lang="en">German (High) Languages</skos:prefLabel>
+	<skos:narrower rdf:resource="language#aeg"/>
+</lang:Language>
+
 <lang:Language rdf:about="language#gla">
 	<skos:prefLabel xml:lang="en">Gaelic (Scottish)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#gle">
 	<skos:prefLabel xml:lang="en">Gaelic (Irish)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#glg">
@@ -5278,10 +5474,17 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#glv">
 	<skos:prefLabel xml:lang="en">Manx</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#gme">
 	<skos:prefLabel xml:lang="en">Germanic (East) Languages</skos:prefLabel>
+</lang:Language>
+
+<lang:Language rdf:about="language#gmh">
+	<skos:prefLabel xml:lang="en">German (Middle High) Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Middle_High_German"/>
+	<skos:narrower rdf:resource="language#deu"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#gmq">
@@ -5290,7 +5493,17 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#gmw">
 	<skos:prefLabel xml:lang="en">Germanic (West) Languages</skos:prefLabel>
-	<skos:narrower rdf:resource="language#aeg"/>
+	<skos:narrower rdf:resource="language#osx"/>
+	<skos:narrower rdf:resource="language#istvaeonic"/>
+	<skos:narrower rdf:resource="language#ingvaeonic"/>
+	<skos:narrower rdf:resource="language#erminonic"/>
+</lang:Language>
+
+<lang:Language rdf:about="language#goh">
+	<skos:prefLabel xml:lang="en">German (Old High) Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_High_German"/>
+	<skos:narrower rdf:resource="language#gmh"/>
+	<skos:narrower rdf:resource="language#yid"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#grc">
@@ -5425,12 +5638,32 @@ Language Code Deprecation
 	<skos:narrower rdf:resource="language#sqj"/>
 </lang:Language>
 
+<lang:Language rdf:about="language#ingvaeonic">
+	<skos:prefLabel xml:lang="en">Ingvaeonic Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/West_Germanic_languages"/>
+	<skos:narrower rdf:resource="language#ang"/>
+	<skos:narrower rdf:resource="language#ofs"/>
+</lang:Language>
+
 <lang:Language rdf:about="language#ipk">
 	<skos:prefLabel xml:lang="en">Inupiaq</skos:prefLabel>
 </lang:Language>
 
 <lang:Language rdf:about="language#ira">
 	<skos:prefLabel xml:lang="en">Iranian Languages</skos:prefLabel>
+	<skos:narrower rdf:resource="language#iranian-western"/>
+</lang:Language>
+
+<lang:Language rdf:about="language#iranian-southwestern">
+	<skos:prefLabel xml:lang="en">Iranian (Southwestern) Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/West_Iranian_languages"/>
+	<skos:narrower rdf:resource="language#peo"/>
+</lang:Language>
+
+<lang:Language rdf:about="language#iranian-western">
+	<skos:prefLabel xml:lang="en">Iranian (Western) Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/West_Iranian_languages"/>
+	<skos:narrower rdf:resource="language#iranian-southwestern"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#iro">
@@ -5441,13 +5674,19 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Icelandic</skos:prefLabel>
 </lang:Language>
 
+<lang:Language rdf:about="language#istvaeonic">
+	<skos:prefLabel xml:lang="en">Istvaeonic Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/West_Germanic_languages"/>
+	<skos:narrower rdf:resource="language#frk"/>
+</lang:Language>
+
 <lang:Language rdf:about="language#ita">
 	<skos:prefLabel xml:lang="en">Italian</skos:prefLabel>
 </lang:Language>
 
 <lang:Language rdf:about="language#itc">
 	<skos:prefLabel xml:lang="en">Italic Languages</skos:prefLabel>
-	<skos:narrower rdf:resource="language#roa"/>
+	<skos:narrower rdf:resource="language#latino-faliscan"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#jav">
@@ -5548,6 +5787,14 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#lat">
 	<skos:prefLabel xml:lang="en">Latin</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Latin"/>
+	<skos:narrower rdf:resource="language#roa"/>
+</lang:Language>
+
+<lang:Language rdf:about="language#latino-faliscan">
+	<skos:prefLabel xml:lang="en">Latino-Faliscan</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Latin"/>
+	<skos:narrower rdf:resource="language#lat"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#lav">
@@ -5598,6 +5845,14 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#mar">
 	<skos:prefLabel xml:lang="en">Marathi</skos:prefLabel>
+</lang:Language>
+
+<lang:Language rdf:about="language#mga">
+	<skos:prefLabel xml:lang="en">Gaelic (Middle Irish)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
+	<skos:narrower rdf:resource="language#gla"/>
+	<skos:narrower rdf:resource="language#gle"/>
+	<skos:narrower rdf:resource="language#glv"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#mkd">
@@ -5740,6 +5995,19 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Occitan</skos:prefLabel>
 </lang:Language>
 
+<lang:Language rdf:about="language#odt">
+	<skos:prefLabel xml:lang="en">Dutch (Old)</skos:prefLabel>
+	<skos:altLabel  xml:lang="en">Franconian (Old Low)</skos:altLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_Dutch"/>
+	<skos:narrower rdf:resource="language#dum"/>
+</lang:Language>
+
+<lang:Language rdf:about="language#ofs">
+	<skos:prefLabel xml:lang="en">Frisian (Old)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_Frisian"/>
+	<skos:narrower rdf:resource="language#fry"/>
+</lang:Language>
+
 <lang:Language rdf:about="language#oji">
 	<skos:prefLabel xml:lang="en">Ojibwe</skos:prefLabel>
 </lang:Language>
@@ -5765,8 +6033,20 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Ossetian</skos:prefLabel>
 </lang:Language>
 
+<lang:Language rdf:about="language#osx">
+	<skos:prefLabel xml:lang="en">Saxon (Old) Languages</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_Saxon"/>
+	<skos:narrower rdf:resource="language#nds"/>
+</lang:Language>
+
 <lang:Language rdf:about="language#oto">
 	<skos:prefLabel xml:lang="en">Otomian Languages</skos:prefLabel>
+</lang:Language>
+
+<lang:Language rdf:about="language#owl">
+	<skos:prefLabel xml:lang="en">Welsh (Old)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
+	<skos:narrower rdf:resource="language#wlm"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#paa">
@@ -5776,6 +6056,8 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#pal">
 	<skos:prefLabel xml:lang="en">Persian (Middle)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Middle_Persian"/>
+	<skos:narrower rdf:resource="language#fas"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#pan">
@@ -5788,6 +6070,14 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#peo">
 	<skos:prefLabel xml:lang="en">Persian (Old)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Old_Persian"/>
+	<skos:narrower rdf:resource="language#pal"/>
+</lang:Language>
+
+<lang:Language rdf:about="language#pgl">
+	<skos:prefLabel xml:lang="en">Gaelic (Primitive Irish)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
+	<skos:narrower rdf:resource="language#sga"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#phi">
@@ -5809,6 +6099,8 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#por">
 	<skos:prefLabel xml:lang="en">Portuguese</skos:prefLabel>
+	<skos:narrower rdf:resource="language#pt-pt"/>
+	<skos:narrower rdf:resource="language#pt-br"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#poz">
@@ -5915,16 +6207,18 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Semitic Languages</skos:prefLabel>
 </lang:Language>
 
+<lang:Language rdf:about="language#sga">
+	<skos:prefLabel xml:lang="en">Gaelic (Old Irish)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
+	<skos:narrower rdf:resource="language#mga"/>
+</lang:Language>
+
 <lang:Language rdf:about="language#sgn">
 	<skos:prefLabel xml:lang="en">Sign Languages</skos:prefLabel>
 </lang:Language>
 
 <lang:Language rdf:about="language#sgs">
 	<skos:prefLabel xml:lang="en">Samogitian</skos:prefLabel>
-</lang:Language>
-
-<lang:Language rdf:about="language#simple">
-	<skos:prefLabel xml:lang="en">English (Simple)</skos:prefLabel>
 </lang:Language>
 
 <lang:Language rdf:about="language#sin">
@@ -5994,6 +6288,7 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#spa">
 	<skos:prefLabel xml:lang="en">Spanish</skos:prefLabel>
+	<skos:narrower rdf:resource="language#es-la"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#sqi">
@@ -6169,6 +6464,12 @@ Language Code Deprecation
 	<skos:prefLabel xml:lang="en">Sorbian Languages</skos:prefLabel>
 </lang:Language>
 
+<lang:Language rdf:about="language#wlm">
+	<skos:prefLabel xml:lang="en">Welsh (Middle)</skos:prefLabel>
+	<rdf:seeAlso rdf:resource="http://en.wikipedia.org/wiki/Insular_Celtic_languages"/>
+	<skos:narrower rdf:resource="language#cym"/>
+</lang:Language>
+
 <lang:Language rdf:about="language#wln">
 	<skos:prefLabel xml:lang="en">Walloon</skos:prefLabel>
 </lang:Language>
@@ -6212,6 +6513,9 @@ Language Code Deprecation
 
 <lang:Language rdf:about="language#zho">
 	<skos:prefLabel xml:lang="en">Chinese</skos:prefLabel>
+	<skos:narrower rdf:resource="language#lzh"/>
+	<skos:narrower rdf:resource="language#nan"/>
+	<skos:narrower rdf:resource="language#yue"/>
 </lang:Language>
 
 <lang:Language rdf:about="language#zhx">
