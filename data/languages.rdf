@@ -154,6 +154,7 @@ Language Code Deprecation
 	<dc:source>http://en.wikipedia.org/wiki/List_of_ISO_639-5_codes</dc:source>
 </rdf:Description>
 
+<![CDATA[
 <skos:ConceptScheme rdf:about="calibri#">
 	<dc:title>Calibri</dc:title>
 	<skos:hasTopConcept rdf:resource="calibri#und"/>
@@ -1022,6 +1023,7 @@ Language Code Deprecation
 	<skos:hasTopConcept rdf:resource="rfc4646#zh-yue"/>
 	<skos:hasTopConcept rdf:resource="wikimedia#simple"/>
 </skos:ConceptScheme>
+]]>
 
 <skos:Concept rdf:about="calibri#und">
 	<skos:prefLabel>und</skos:prefLabel>
