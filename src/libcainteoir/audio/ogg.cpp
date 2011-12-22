@@ -258,7 +258,7 @@ public:
 		vorbis_comment_clear(&vc);
 		vorbis_info_clear(&vi);
 
-		if (m_file == stdout)
+		if (m_file != stdout)
 			fclose(m_file);
 		m_file = NULL;
 	}
