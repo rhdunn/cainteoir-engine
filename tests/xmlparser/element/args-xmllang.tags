@@ -1,5 +1,5 @@
 |begin-tag| elem
-|attribute| xml:lang="""de"""
+|attribute| [xml]lang="""de"""
 |end-tag| elem
 |text| """
 """

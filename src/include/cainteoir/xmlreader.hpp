@@ -49,6 +49,8 @@ namespace cainteoir { namespace xml
 
 		const cainteoir::buffer &nodeName() const { return mNodeName; }
 
+		const cainteoir::buffer &nodePrefix() const { return mNodePrefix; }
+
 		node_type nodeType() const { return mNodeType; }
 
 		bool isPlainText() const { return mParseAsText; }
@@ -70,7 +72,9 @@ namespace cainteoir { namespace xml
 
 		cainteoir::rope mNodeValue;
 		cainteoir::buffer mNodeName;
+		cainteoir::buffer mNodePrefix;
 		cainteoir::buffer mTagNodeName;
+		cainteoir::buffer mTagNodePrefix;
 		node_type mNodeType;
 	};
 }}

@@ -94,17 +94,49 @@ int main(int argc, char ** argv)
 				{
 				case xml::reader::beginTagNode:
 				case xml::reader::endTagNode:
+					if (reader.nodePrefix().empty())
+					{
+						fprintf(stdout, "|%s| %s\n",
+						        node_type_name(reader.nodeType()),
+						        reader.nodeName().str().c_str());
+					}
+					else
+					{
+						fprintf(stdout, "|%s| [%s]%s\n",
+						        node_type_name(reader.nodeType()),
+						        reader.nodePrefix().str().c_str(),
+						        reader.nodeName().str().c_str());
+					}
+					break;
 				case xml::reader::processingInstructionNode:
 				case xml::reader::doctypeNode:
-					fprintf(stdout, "|%s| %s\n", node_type_name(reader.nodeType()), reader.nodeName().str().c_str());
+					fprintf(stdout, "|%s| %s\n",
+					        node_type_name(reader.nodeType()),
+					        reader.nodeName().str().c_str());
 					break;
 				case xml::reader::commentNode:
 				case xml::reader::cdataNode:
 				case xml::reader::textNode:
-					fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n", node_type_name(reader.nodeType()), reader.nodeValue().str().c_str());
+					fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n",
+					        node_type_name(reader.nodeType()),
+					        reader.nodeValue().str().c_str());
 					break;
 				case xml::reader::attribute:
-					fprintf(stdout, "|%s| %s=\"\"\"%s\"\"\"\n", node_type_name(reader.nodeType()), reader.nodeName().str().c_str(), reader.nodeValue().str().c_str());
+					if (reader.nodePrefix().empty())
+					{
+						fprintf(stdout, "|%s| %s=\"\"\"%s\"\"\"\n",
+						        node_type_name(reader.nodeType()),
+						        reader.nodeName().str().c_str(),
+						        reader.nodeValue().str().c_str());
+					}
+					else
+					{
+						fprintf(stdout, "|%s| [%s]%s=\"\"\"%s\"\"\"\n",
+						        node_type_name(reader.nodeType()),
+						        reader.nodePrefix().str().c_str(),
+						        reader.nodeName().str().c_str(),
+						        reader.nodeValue().str().c_str());
+					}
 					break;
 				case xml::reader::error:
 					fprintf(stdout, "|error| internal parser error\n");
