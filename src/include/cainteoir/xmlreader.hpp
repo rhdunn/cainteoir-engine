@@ -53,6 +53,8 @@ namespace cainteoir { namespace xml
 
 		bool isPlainText() const { return mParseAsText; }
 	private:
+		void skip_whitespace();
+
 		bool expect_next(char c);
 
 		cainteoir::buffer identifier();

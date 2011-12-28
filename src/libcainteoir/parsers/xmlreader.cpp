@@ -139,8 +139,7 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	mCurrent = mData->begin();
 	mNodeType = textNode;
 
-	while (mCurrent != mData->end() && xmlspace(*mCurrent))
-		++mCurrent;
+	skip_whitespace();
 
 	const char * startPos = mCurrent;
 	if (*mCurrent == '<' && read() && mNodeType != error)
@@ -173,8 +172,7 @@ bool cainteoir::xml::reader::read()
 
 	if (mTagNodeName.begin())
 	{
-		while (mCurrent != mData->end() && xmlspace(*mCurrent))
-			++mCurrent;
+		skip_whitespace();
 
 		if (mCurrent[0] == '/' && mCurrent[1] == '>')
 		{
@@ -326,10 +324,15 @@ bool cainteoir::xml::reader::read()
 	return true;
 }
 
-bool cainteoir::xml::reader::expect_next(char c)
+void cainteoir::xml::reader::skip_whitespace()
 {
 	while (mCurrent != mData->end() && xmlspace(*mCurrent))
 		++mCurrent;
+}
+
+bool cainteoir::xml::reader::expect_next(char c)
+{
+	skip_whitespace();
 
 	if (*mCurrent == c)
 	{
@@ -343,8 +346,7 @@ bool cainteoir::xml::reader::expect_next(char c)
 
 cainteoir::buffer cainteoir::xml::reader::identifier()
 {
-	while (mCurrent != mData->end() && xmlspace(*mCurrent))
-		++mCurrent;
+	skip_whitespace();
 
 	const char * startPos = mCurrent;
 
