@@ -254,22 +254,12 @@ bool cainteoir::xml::reader::read()
 			}
 			else
 			{
-				startPos = ++mCurrent;
-				while (mCurrent != mData->end() && xmlalnum(*mCurrent))
-					++mCurrent;
-
-				cainteoir::buffer type(startPos, mCurrent);
-
-				while (mCurrent != mData->end() && xmlspace(*mCurrent))
-					++mCurrent;
-				startPos = mCurrent;
-
-				while (mCurrent != mData->end() && xmlalnum(*mCurrent))
-					++mCurrent;
+				++mCurrent;
+				cainteoir::buffer type = identifier();
 
 				if (!type.comparei("DOCTYPE"))
 				{
-					mNodeName = cainteoir::buffer(startPos, mCurrent);
+					mNodeName = identifier();
 					mNodeType = doctypeNode;
 				}
 				else
@@ -291,10 +281,12 @@ bool cainteoir::xml::reader::read()
 			break;
 		case '/':
 			++mCurrent;
-			read_tag(endTagNode);
+			mNodeType = endTagNode;
+			mTagNodeName = mNodeName = identifier();
 			break;
 		default:
-			read_tag(beginTagNode);
+			mNodeType = beginTagNode;
+			mTagNodeName = mNodeName = identifier();
 			break;
 		}
 	}
@@ -334,20 +326,6 @@ bool cainteoir::xml::reader::read()
 	return true;
 }
 
-void cainteoir::xml::reader::read_tag(node_type aType)
-{
-	while (mCurrent != mData->end() && xmlspace(*mCurrent))
-		++mCurrent;
-
-	const char * startPos = mCurrent;
-
-	while (mCurrent != mData->end() && xmlalnum(*mCurrent))
-		++mCurrent;
-
-	mNodeType = aType;
-	mTagNodeName = mNodeName = cainteoir::buffer(startPos, mCurrent);
-}
-
 bool cainteoir::xml::reader::expect_next(char c)
 {
 	while (mCurrent != mData->end() && xmlspace(*mCurrent))
@@ -361,6 +339,19 @@ bool cainteoir::xml::reader::expect_next(char c)
 
 	mNodeType = error;
 	return false;
+}
+
+cainteoir::buffer cainteoir::xml::reader::identifier()
+{
+	while (mCurrent != mData->end() && xmlspace(*mCurrent))
+		++mCurrent;
+
+	const char * startPos = mCurrent;
+
+	while (mCurrent != mData->end() && xmlalnum(*mCurrent))
+		++mCurrent;
+
+	return cainteoir::buffer(startPos, mCurrent);
 }
 
 /** References

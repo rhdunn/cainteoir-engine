@@ -53,8 +53,9 @@ namespace cainteoir { namespace xml
 
 		bool isPlainText() const { return mParseAsText; }
 	private:
-		void read_tag(node_type aType);
 		bool expect_next(char c);
+
+		cainteoir::buffer identifier();
 
 		std::tr1::shared_ptr<cainteoir::buffer> mData;
 		const char * mCurrent;
