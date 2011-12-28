@@ -20,7 +20,6 @@
 
 #include <cainteoir/xmlreader.hpp>
 #include <cainteoir/platform.hpp>
-#include <limits.h>
 
 struct entity
 {
@@ -153,9 +152,9 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 		mTagNodeName = cainteoir::buffer(NULL, NULL);
 		mNodeType = textNode;
 
-		mNamespaces.clear();
-		mNamespaces.push_back({ LONG_MAX, "xml", std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("http://www.w3.org/XML/1998/namespace")) });
 		mBlockNumber = -1;
+		mNamespaces.clear();
+		add_namespace("xml", std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("http://www.w3.org/XML/1998/namespace")));
 	}
 	else
 	{
@@ -325,9 +324,9 @@ cainteoir::buffer cainteoir::xml::reader::namespaceUri() const
 {
 	if (mNodeName.compare("xmlns"))
 	{
-		for (auto ns = mNamespaces.begin(), last = mNamespaces.end(); ns != last; ++ns)
+		for (auto ns = mNamespaces.rbegin(), last = mNamespaces.rend(); ns != last; ++ns)
 		{
-			if (!mNodePrefix.compare(ns->prefix) && ns->block >= mBlockNumber)
+			if (!mNodePrefix.compare(ns->prefix) && ns->block <= mBlockNumber)
 				return *ns->uri;
 		}
 	}

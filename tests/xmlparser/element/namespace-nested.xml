@@ -1,1 +1,1 @@
-<e:outer xmlns:e="http://www.example.com/"><e:inner xmlns:e="http://www.example.co.uk/"/></e:outer>
+<e:outer xmlns:e="http://www.example.com/"><e:inner/></e:outer>
