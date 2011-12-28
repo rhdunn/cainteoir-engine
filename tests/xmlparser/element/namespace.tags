@@ -1,0 +1,5 @@
+|begin-tag| e:elem
+|attribute| xmlns:e="""http://www.example.com/"""
+|end-tag| e:elem
+|text| """
+"""

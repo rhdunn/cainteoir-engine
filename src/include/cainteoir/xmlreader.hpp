@@ -56,10 +56,13 @@ namespace cainteoir { namespace xml
 		void skip_whitespace();
 
 		bool expect_next(char c);
+		bool check_next(char c);
 
 		cainteoir::buffer identifier();
 
 		void read_node_value(char terminator);
+
+		void read_tag(node_type aType);
 
 		std::tr1::shared_ptr<cainteoir::buffer> mData;
 		const char * mCurrent;
