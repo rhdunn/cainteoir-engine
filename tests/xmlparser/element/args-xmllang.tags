@@ -1,5 +1,5 @@
 |begin-tag| elem
-|attribute| [xml]lang="""de"""
+|attribute| [xml|http://www.w3.org/XML/1998/namespace]lang="""de"""
 |end-tag| elem
 |text| """
 """

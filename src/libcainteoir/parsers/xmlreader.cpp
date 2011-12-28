@@ -20,6 +20,7 @@
 
 #include <cainteoir/xmlreader.hpp>
 #include <cainteoir/platform.hpp>
+#include <limits.h>
 
 struct entity
 {
@@ -137,6 +138,8 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	, mTagNodeName(NULL, NULL)
 	, mTagNodePrefix(NULL, NULL)
 	, mParseAsText(false)
+	, mParseNamespaces(false)
+	, mBlockNumber(-1)
 {
 	mCurrent = mData->begin();
 	mNodeType = textNode;
@@ -148,6 +151,11 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	{
 		mCurrent = startPos;
 		mTagNodeName = cainteoir::buffer(NULL, NULL);
+		mNodeType = textNode;
+
+		mNamespaces.clear();
+		mNamespaces.push_back({ LONG_MAX, "xml", std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("http://www.w3.org/XML/1998/namespace")) });
+		mBlockNumber = -1;
 	}
 	else
 	{
@@ -163,6 +171,9 @@ bool cainteoir::xml::reader::read()
 
 	mNodeName = cainteoir::buffer(NULL, NULL);
 	mNodePrefix = cainteoir::buffer(NULL, NULL);
+
+	if (mNodeType == endTagNode && !mParseNamespaces)
+		pop_ns_block();
 
 	if (mParseAsText)
 	{
@@ -274,7 +285,30 @@ bool cainteoir::xml::reader::read()
 			read_tag(endTagNode);
 			break;
 		default:
-			read_tag(beginTagNode);
+			if (!mParseNamespaces)
+			{
+				push_ns_block();
+				read_tag(beginTagNode);
+
+				cainteoir::buffer tagName = mNodeName;
+				cainteoir::buffer tagPrefix = mNodePrefix;
+				startPos = mCurrent;
+
+				mParseNamespaces = true;
+				while (read() && mNodeType == attribute)
+				{
+					if (!mNodePrefix.compare("xmlns"))
+						add_namespace(mNodeName, mNodeValue.buffer());
+					else if (!mNodeName.compare("xmlns") && mNodePrefix.empty())
+						add_namespace(cainteoir::buffer(NULL, NULL), mNodeValue.buffer());
+				}
+				mParseNamespaces = false;
+
+				mCurrent = startPos;
+				mNodeType = beginTagNode;
+				mTagNodeName = mNodeName = tagName;
+				mTagNodePrefix = mNodePrefix = tagPrefix;
+			}
 			break;
 		}
 	}
@@ -285,6 +319,38 @@ bool cainteoir::xml::reader::read()
 	}
 
 	return true;
+}
+
+cainteoir::buffer cainteoir::xml::reader::namespaceUri() const
+{
+	if (mNodeName.compare("xmlns"))
+	{
+		for (auto ns = mNamespaces.begin(), last = mNamespaces.end(); ns != last; ++ns)
+		{
+			if (!mNodePrefix.compare(ns->prefix) && ns->block >= mBlockNumber)
+				return *ns->uri;
+		}
+	}
+	return cainteoir::buffer(NULL, NULL);
+}
+
+void cainteoir::xml::reader::add_namespace(const cainteoir::buffer &aPrefix, const std::tr1::shared_ptr<cainteoir::buffer> &aUri)
+{
+	mNamespaces.push_back({ mBlockNumber, aPrefix, aUri });
+}
+
+void cainteoir::xml::reader::push_ns_block()
+{
+	++mBlockNumber;
+}
+
+void cainteoir::xml::reader::pop_ns_block()
+{
+	--mBlockNumber;
+	while (mNamespaces.back().block > mBlockNumber)
+	{
+		mNamespaces.pop_back();
+	}
 }
 
 void cainteoir::xml::reader::skip_whitespace()

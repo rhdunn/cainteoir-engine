@@ -49,6 +49,8 @@ if __name__ == '__main__':
 			# namespaces:
 			{'test': 'xmlparser/element/args-xmllang.xml', 'result': 'xmlparser/element/args-xmllang.tags'},
 			{'test': 'xmlparser/element/namespace.xml', 'result': 'xmlparser/element/namespace.tags'},
+			{'test': 'xmlparser/element/namespace-default.xml', 'result': 'xmlparser/element/namespace-default.tags'},
+			{'test': 'xmlparser/element/namespace-nested.xml', 'result': 'xmlparser/element/namespace-nested.tags'},
 		]},
 		{'name': 'empty element', 'type': 'xmlreader', 'tests': [
 			{'test': 'xmlparser/empty-element/no-args.xml', 'result': 'xmlparser/empty-element/no-args.tags'},
