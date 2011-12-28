@@ -194,13 +194,7 @@ bool cainteoir::xml::reader::read()
 
 			if (expect_next('=') && expect_next('"'))
 			{
-				const char * startPos = mCurrent;
-
-				while (mCurrent != mData->end() && *mCurrent != '"')
-					++mCurrent;
-
-				mNodeType = attribute;
-				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
+				read_node_value('"');
 				++mCurrent;
 			}
 
@@ -291,34 +285,7 @@ bool cainteoir::xml::reader::read()
 	else
 	{
 		mNodeType = textNode;
-		mNodeValue.clear();
-
-		do
-		{
-			startPos = mCurrent;
-			if (*mCurrent == '&')
-			{
-				++mCurrent;
-				if (*mCurrent == '#')
-					++mCurrent;
-
-				while (mCurrent != mData->end() && xmlalnum(*mCurrent))
-					++mCurrent;
-
-				if (*mCurrent == ';')
-				{
-					std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent));
-					if (entity)
-						mNodeValue += entity;
-					++mCurrent;
-					continue;
-				}
-			}
-
-			while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == '<'))
-				++mCurrent;
-			mNodeValue += std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
-		} while (mCurrent != mData->end() && *mCurrent != '<');
+		read_node_value('<');
 	}
 
 	return true;
@@ -354,6 +321,37 @@ cainteoir::buffer cainteoir::xml::reader::identifier()
 		++mCurrent;
 
 	return cainteoir::buffer(startPos, mCurrent);
+}
+
+void cainteoir::xml::reader::read_node_value(char terminator)
+{
+	mNodeValue.clear();
+	do
+	{
+		const char *startPos = mCurrent;
+		if (*mCurrent == '&')
+		{
+			++mCurrent;
+			if (*mCurrent == '#')
+				++mCurrent;
+
+			while (mCurrent != mData->end() && xmlalnum(*mCurrent))
+				++mCurrent;
+
+			if (*mCurrent == ';')
+			{
+				std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent));
+				if (entity)
+					mNodeValue += entity;
+				++mCurrent;
+				continue;
+			}
+		}
+
+		while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == terminator))
+			++mCurrent;
+		mNodeValue += std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
+	} while (mCurrent != mData->end() && *mCurrent != terminator);
 }
 
 /** References

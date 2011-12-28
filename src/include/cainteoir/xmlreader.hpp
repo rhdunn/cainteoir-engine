@@ -59,6 +59,8 @@ namespace cainteoir { namespace xml
 
 		cainteoir::buffer identifier();
 
+		void read_node_value(char terminator);
+
 		std::tr1::shared_ptr<cainteoir::buffer> mData;
 		const char * mCurrent;
 		bool mParseAsText;

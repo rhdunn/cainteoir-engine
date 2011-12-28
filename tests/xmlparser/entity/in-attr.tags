@@ -1,0 +1,5 @@
+|begin-tag| test
+|attribute| value="""this & that"""
+|end-tag| test
+|text| """
+"""

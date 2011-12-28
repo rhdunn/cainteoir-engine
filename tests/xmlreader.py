@@ -76,6 +76,7 @@ if __name__ == '__main__':
 			{'test': 'xmlparser/entity/unknown.xml', 'result': 'xmlparser/entity/unknown.tags'},
 			{'test': 'xmlparser/entity/xml.xml', 'result': 'xmlparser/entity/xml.tags'},
 			{'test': 'xmlparser/entity/html.xml', 'result': 'xmlparser/entity/html.tags'},
+			{'test': 'xmlparser/entity/in-attr.xml', 'result': 'xmlparser/entity/in-attr.tags'},
 		]},
 	]})
 	test.summary()
