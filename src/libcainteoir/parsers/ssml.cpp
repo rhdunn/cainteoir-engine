@@ -22,16 +22,16 @@
 #include <cainteoir/platform.hpp>
 
 namespace rdf = cainteoir::rdf;
-namespace xml = cainteoir::xmldom;
+namespace xmldom = cainteoir::xmldom;
 
-void parseSsmlContext(const xml::node &ssml,
+void parseSsmlContext(const xmldom::node &ssml,
                       const rdf::uri &subject,
                       cainteoir::document_events &events,
                       cainteoir::document_events::context context,
                       int32_t parameter = 0)
 {
 	events.begin_context(context, parameter);
-	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = ssml.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_TEXT_NODE)
 		{
@@ -46,7 +46,7 @@ void parseSsmlContext(const xml::node &ssml,
 			else if (node == rdf::ssml("emphasis"))
 			{
 				int32_t style = cainteoir::document_events::emphasized;
-				for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+				for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 				{
 					if (!strcmp(attr.name(), "level"))
 					{
@@ -74,13 +74,13 @@ void cainteoir::parseSsmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData,
 	if (ssml != rdf::ssml("speak"))
 		throw std::runtime_error(_("SSML document is not of a recognised format."));
 
-	for (xml::attribute attr = ssml.firstAttribute(); attr.isValid(); attr.next())
+	for (xmldom::attribute attr = ssml.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (attr == rdf::xml("lang"))
 			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(attr.content()));
 	}
 
-	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = ssml.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_TEXT_NODE)
 		{
@@ -94,7 +94,7 @@ void cainteoir::parseSsmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData,
 			{
 				std::string name;
 				std::string content;
-				for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+				for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 				{
 					if (!strcmp(attr.name(), "name"))
 						name = attr.content();

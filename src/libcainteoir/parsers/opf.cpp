@@ -22,7 +22,7 @@
 #include <cainteoir/platform.hpp>
 
 namespace rdf = cainteoir::rdf;
-namespace xml = cainteoir::xmldom;
+namespace xmldom = cainteoir::xmldom;
 
 struct fileinfo
 {
@@ -42,15 +42,15 @@ struct fileinfo
 	}
 };
 
-void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph, bool recurse)
+void parseOpfMetadata(const xmldom::node &opf, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph, bool recurse)
 {
-	for (xml::attribute attr = opf.firstAttribute(); attr.isValid(); attr.next())
+	for (xmldom::attribute attr = opf.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (!strcmp(attr.name(), "prefix"))
 			aGraph.add_prefix(attr.content());
 	}
 
-	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = opf.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() != XML_ELEMENT_NODE)
 			continue;
@@ -66,7 +66,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 			rdf::uri about = aSubject;
 			rdf::uri datatype;
 
-			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+			for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 			{
 				if (!strcmp(attr.name(), "name"))
 				{
@@ -121,7 +121,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 			rdf::uri href;
 			rdf::uri about = aSubject;
 
-			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+			for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 			{
 				if (!strcmp(attr.name(), "rel"))
 					rel = attr.content();
@@ -156,7 +156,7 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 		else if (node.namespaceURI() == rdf::dc)
 		{
 			bool preferOther = false;
-			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+			for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 			{
 				if (!strcmp(attr.name(), "prefer"))
 					preferOther = true;
@@ -229,9 +229,9 @@ void parseOpfMetadata(const xml::node &opf, const rdf::uri &aSubject, cainteoir:
 	}
 }
 
-void parseOpfManifest(const xml::node &opf, const rdf::uri &subject, std::map<std::string, fileinfo> &aItemSet)
+void parseOpfManifest(const xmldom::node &opf, const rdf::uri &subject, std::map<std::string, fileinfo> &aItemSet)
 {
-	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = opf.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_ELEMENT_NODE && node == rdf::opf("item"))
 		{
@@ -239,7 +239,7 @@ void parseOpfManifest(const xml::node &opf, const rdf::uri &subject, std::map<st
 			std::string href;
 			std::string mediatype;
 
-			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+			for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 			{
 				if (!strcmp(attr.name(), "id"))
 					id = attr.content();
@@ -254,13 +254,13 @@ void parseOpfManifest(const xml::node &opf, const rdf::uri &subject, std::map<st
 	}
 }
 
-void parseOpfSpine(const xml::node &opf, const rdf::uri &subject, std::list<std::string> &aSpine)
+void parseOpfSpine(const xmldom::node &opf, const rdf::uri &subject, std::list<std::string> &aSpine)
 {
-	for (xml::node node = opf.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = opf.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_ELEMENT_NODE && node == rdf::opf("itemref"))
 		{
-			for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+			for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 			{
 				if (!strcmp(attr.name(), "idref"))
 					aSpine.push_back(attr.content());
@@ -283,7 +283,7 @@ void cainteoir::parseOpfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, 
 
 	aGraph.set_base(rdf::pkg.href);
 
-	for (xml::attribute attr = opf.firstAttribute(); attr.isValid(); attr.next())
+	for (xmldom::attribute attr = opf.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (!strcmp(attr.name(), "profile") && attr.content() == "http://www.idpf.org/epub/30/profile/package/")
 			aGraph << rdf::ns("dcterms", rdf::dcterms.href) << rdf::media << rdf::xsd;
@@ -291,7 +291,7 @@ void cainteoir::parseOpfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, 
 			aGraph.add_prefix(attr.content());
 	}
 
-	for (xml::node section = opf.firstChild(); section.isValid(); section.next())
+	for (xmldom::node section = opf.firstChild(); section.isValid(); section.next())
 	{
 		if (section.type() == XML_ELEMENT_NODE)
 		{
@@ -301,7 +301,7 @@ void cainteoir::parseOpfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, 
 				parseOpfManifest(section, aSubject, files);
 			else if (section == rdf::opf("spine"))
 			{
-				for (xml::attribute attr = section.firstAttribute(); attr.isValid(); attr.next())
+				for (xmldom::attribute attr = section.firstAttribute(); attr.isValid(); attr.next())
 				{
 					if (!strcmp(attr.name(), "toc"))
 					{

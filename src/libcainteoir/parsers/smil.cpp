@@ -22,7 +22,6 @@
 #include <cainteoir/platform.hpp>
 
 namespace rdf = cainteoir::rdf;
-namespace xml = cainteoir::xmldom;
 
 void cainteoir::parseSmilDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
@@ -32,7 +31,7 @@ void cainteoir::parseSmilDocument(std::tr1::shared_ptr<cainteoir::buffer> aData,
 	if (smil != rdf::smil("smil"))
 		throw std::runtime_error(_("SMIL document is not of a recognised format."));
 
-	for (xml::attribute attr = smil.firstAttribute(); attr.isValid(); attr.next())
+	for (xmldom::attribute attr = smil.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (attr == rdf::xml("lang"))
 			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(attr.content()));

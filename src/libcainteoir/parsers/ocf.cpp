@@ -21,14 +21,14 @@
 #include "parsers.hpp"
 #include <cainteoir/platform.hpp>
 
-namespace xml = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
+namespace xmldom = cainteoir::xmldom;
 
-std::map<std::string, std::string> parseOcfRootFiles(const xml::node &ocf)
+std::map<std::string, std::string> parseOcfRootFiles(const xmldom::node &ocf)
 {
 	std::map<std::string, std::string> files;
 
-	for (xml::node node = ocf.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = ocf.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_ELEMENT_NODE && node == rdf::ocf("rootfile"))
 		{
@@ -41,12 +41,12 @@ std::map<std::string, std::string> parseOcfRootFiles(const xml::node &ocf)
 	return files;
 }
 
-std::map<std::string, std::string> cainteoir::parseOcfDocument(const xml::node &ocf)
+std::map<std::string, std::string> cainteoir::parseOcfDocument(const xmldom::node &ocf)
 {
 	if (ocf != rdf::ocf("container"))
 		throw std::runtime_error(_("OCF file is not of a recognised format."));
 
-	for (xml::node node = ocf.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = ocf.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_ELEMENT_NODE)
 		{

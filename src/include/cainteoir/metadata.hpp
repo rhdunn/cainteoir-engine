@@ -21,6 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_METADATA_HPP
 #define CAINTEOIR_ENGINE_METADATA_HPP
 
+#include <cainteoir/xmlreader.hpp>
 #include <tr1/memory>
 #include <sstream>
 #include <string>
@@ -95,30 +96,16 @@ namespace cainteoir { namespace rdf
 
 	/** @brief RDF URI resource
 	  */
-	class uri : public detail::resource
+	class uri : public detail::resource , public cainteoir::xml::uri
 	{
 	public:
-		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
-		std::string ref;   /**< @brief The URI reference. */
-
-		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string());
-
-		bool empty() const;
-
-		std::string str() const;
+		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string())
+			: cainteoir::xml::uri(aNS, aRef)
+		{
+		}
 
 		const detail::resource *clone() const;
 	};
-
-	inline bool operator==(const uri &a, const uri &b)
-	{
-		return a.ns == b.ns && a.ref == b.ref;
-	}
-
-	inline bool operator!=(const uri &a, const uri &b)
-	{
-		return !(a == b);
-	}
 
 	/** @brief RDF namespace.
 	  */

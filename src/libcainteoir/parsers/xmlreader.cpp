@@ -130,6 +130,28 @@ inline bool xmlspace(char c)
 	return c == ' ' || c == '\t' || c == '\r' || c == '\n';
 }
 
+cainteoir::xml::uri::uri(const std::string &aNS, const std::string &aRef)
+	: ns(aNS)
+	, ref(aRef)
+{
+	auto last = --ns.end();
+	if (!ns.empty() && !ref.empty() && *last != '#' && *last != '/')
+		ns.push_back('#');
+}
+
+bool cainteoir::xml::uri::empty() const
+{
+	return ns.empty() && ref.empty();
+}
+
+std::string cainteoir::xml::uri::str() const
+{
+	if (ref.empty())
+		return ns;
+
+	return ns + ref;
+}
+
 cainteoir::xml::namespaces::namespaces()
 	: mBlockNumber(-1)
 {
