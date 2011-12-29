@@ -42,8 +42,7 @@ struct epub_document : public cainteoir::document_events
 		, mSubject(aSubject)
 		, mGraph(aGraph)
 	{
-		xml::document ocf(mEpub.read("META-INF/container.xml"));
-		mOpfFile = cainteoir::parseOcfDocument(ocf.root())["application/oebps-package+xml"];
+		mOpfFile = cainteoir::parseOcfDocument(mEpub.read("META-INF/container.xml"))["application/oebps-package+xml"];
 		if (mOpfFile.empty())
 			throw std::runtime_error(_("Unsupported ePub content: OPF file not specified."));
 	}

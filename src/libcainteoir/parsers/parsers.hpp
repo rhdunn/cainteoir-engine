@@ -32,10 +32,10 @@ namespace cainteoir
 	  * @see   http://www.idpf.org/ocf/ocf1.0/download/ocf10.htm
 	  * @see   http://www.idpf.org/specs.htm
 	  *
-	  * @param aRoot The root node of the OCF XML document.
+	  * @param aData The document data.
 	  * @return      The list of (media-type => full-path) entries.
 	  */
-	std::map<std::string, std::string> parseOcfDocument(const xmldom::node &aRoot);
+	std::map<std::string, std::string> parseOcfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData);
 
 	/** @brief Navigation Control File (NCX)
 	  * @see   http://www.niso.org/workrooms/daisy/Z39-86-2005.html#NCX

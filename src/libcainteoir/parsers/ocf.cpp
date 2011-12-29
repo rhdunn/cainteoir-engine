@@ -22,39 +22,62 @@
 #include <cainteoir/platform.hpp>
 
 namespace rdf = cainteoir::rdf;
-namespace xmldom = cainteoir::xmldom;
+namespace xml = cainteoir::xml;
 
-std::map<std::string, std::string> parseOcfRootFiles(const xmldom::node &ocf)
+std::map<std::string, std::string> parseOcfRootFiles(xml::reader &ocf)
 {
 	std::map<std::string, std::string> files;
+	bool is_rootfile = false;
+	std::string path;
+	std::string mimetype;
 
-	for (xmldom::node node = ocf.firstChild(); node.isValid(); node.next())
+	while (ocf.read()) switch (ocf.nodeType())
 	{
-		if (node.type() == XML_ELEMENT_NODE && node == rdf::ocf("rootfile"))
+	case xml::reader::beginTagNode:
+		if (ocf == rdf::ocf("rootfile"))
 		{
-			std::string path = node.attr(rdf::uri(std::string(), "full-path")).content();
-			std::string mimetype = node.attr(rdf::uri(std::string(), "media-type")).content();
-			files[mimetype] = path;
+			is_rootfile = true;
+			path.clear();
+			mimetype.clear();
 		}
+		break;
+	case xml::reader::endTagNode:
+		if (ocf == rdf::ocf("rootfile"))
+		{
+			files[mimetype] = path;
+			is_rootfile = false;
+		}
+		else if (ocf == rdf::ocf("rootfiles"))
+			return files;
+		break;
+	case xml::reader::attribute:
+		if (is_rootfile)
+		{
+			     if (ocf == rdf::ocf("full-path"))
+				path = ocf.nodeValue().str();
+			else if (ocf == rdf::ocf("media-type"))
+				mimetype = ocf.nodeValue().str();
+		}
+		break;
 	}
 
 	return files;
 }
 
-std::map<std::string, std::string> cainteoir::parseOcfDocument(const xmldom::node &ocf)
+std::map<std::string, std::string> cainteoir::parseOcfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData)
 {
+	xml::reader ocf(aData);
+	while (ocf.read() && ocf.nodeType() != xml::reader::beginTagNode)
+		;
+
 	if (ocf != rdf::ocf("container"))
 		throw std::runtime_error(_("OCF file is not of a recognised format."));
 
-	for (xmldom::node node = ocf.firstChild(); node.isValid(); node.next())
+	do
 	{
-		if (node.type() == XML_ELEMENT_NODE)
-		{
-			if (node == rdf::ocf("rootfiles"))
-				return parseOcfRootFiles(node);
-		}
-	}
+		if (ocf.nodeType() == xml::reader::beginTagNode && ocf == rdf::ocf("rootfiles"))
+			return parseOcfRootFiles(ocf);
+	} while (ocf.read());
 
 	return std::map<std::string, std::string>();
 }
-
