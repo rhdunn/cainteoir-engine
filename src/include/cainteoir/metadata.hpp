@@ -264,7 +264,7 @@ namespace cainteoir { namespace rdf
 
 	/** @brief RDF graph
 	  */
-	class graph : public subgraph
+	class graph : public subgraph , public cainteoir::xml::namespaces
 	{
 	public:
 		graph();
@@ -278,14 +278,14 @@ namespace cainteoir { namespace rdf
 
 		rdf::graph &add_namespace(const std::string &aPrefix, const std::string &aHref);
 
-		rdf::graph &add_namespace(const ns &aNS)
+		rdf::graph &add_namespace(const ns &ns)
 		{
-			return add_namespace(aNS.prefix, aNS.href);
+			return add_namespace(ns.prefix, ns.href);
 		}
 
-		rdf::graph &operator<<(const ns &aNS)
+		rdf::graph &operator<<(const ns &ns)
 		{
-			return add_namespace(aNS.prefix, aNS.href);
+			return add_namespace(ns.prefix, ns.href);
 		}
 
 		/** @brief Add namespaces in an RDFa @prefix attribute.
@@ -318,7 +318,6 @@ namespace cainteoir { namespace rdf
 
 		//@}
 	private:
-		std::map<std::string, std::string> mNamespaces;
 		std::string mBaseUri;
 		std::set<std::string> namespaces;
 		int nextid;

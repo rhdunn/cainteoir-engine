@@ -94,10 +94,11 @@ rdf::graph &rdf::graph::set_base(const std::string &aBase)
 
 rdf::graph &rdf::graph::add_namespace(const std::string &aPrefix, const std::string &aHref)
 {
-	if (*(--aHref.end()) != '#' && *(--aHref.end()) != '/')
-		mNamespaces[aPrefix] = aHref + '#';
+	char end = *(--aHref.end());
+	if (end != '#' && end != '/' && end != ':')
+		namespaces::add_namespace(aPrefix, aHref + '#');
 	else
-		mNamespaces[aPrefix] = aHref;
+		namespaces::add_namespace(aPrefix, aHref);
 	return *this;
 }
 
@@ -127,11 +128,11 @@ rdf::graph::curie(const std::string &aCurie)
 		if (prefix == "_")
 			return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(std::string(), ref));
 
-		auto ns = mNamespaces.find(prefix);
-		if (ns == mNamespaces.end())
+		std::string ns = lookup(prefix);
+		if (ns.empty())
 			return std::tr1::shared_ptr<const rdf::uri>();
 
-		uri = ns->second + ref;
+		uri = ns + ref;
 	}
 	else
 		uri = mBaseUri + aCurie;
@@ -145,10 +146,10 @@ const cainteoir::xml::resource *rdf::literal::clone() const
 
 rdf::graph::graph() : nextid(1)
 {
-	mNamespaces["http"] = "http:";
-	mNamespaces["https"] = "https:";
-	mNamespaces["mailto"] = "mailto:";
-	mNamespaces["file"] = "file:";
+	add_namespace("http",   "http:");
+	add_namespace("https",  "https:");
+	add_namespace("mailto", "mailto:");
+	add_namespace("file",   "file:");
 }
 
 const rdf::uri rdf::graph::genid()

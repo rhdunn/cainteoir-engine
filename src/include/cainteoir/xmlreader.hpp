@@ -90,6 +90,11 @@ namespace cainteoir { namespace xml
 		return a.href == b;
 	}
 
+	inline bool operator==(const ns &a, const ns &b)
+	{
+		return a.prefix == b.prefix && a.href == b.href;
+	}
+
 	template <typename T>
 	inline bool operator==(const T & a, const ns &b)
 	{
@@ -113,12 +118,22 @@ namespace cainteoir { namespace xml
 	public:
 		namespaces();
 
-		void add_namespace(const cainteoir::buffer &aPrefix, const std::tr1::shared_ptr<cainteoir::buffer> &aUri);
+		namespaces &add_namespace(const std::string &aPrefix, const std::string &aHref);
+
+		namespaces &add_namespace(const cainteoir::buffer &aPrefix, const std::tr1::shared_ptr<cainteoir::buffer> &aHref)
+		{
+			return add_namespace(aPrefix.str(), aHref->str());
+		}
 
 		void push_block();
 		void pop_block();
 
-		std::string lookup(const cainteoir::buffer &aPrefix) const;
+		std::string lookup(const std::string &aPrefix) const;
+
+		std::string lookup(const cainteoir::buffer &aPrefix) const
+		{
+			return lookup(aPrefix.str());
+		}
 	private:
 		struct namespace_item
 		{

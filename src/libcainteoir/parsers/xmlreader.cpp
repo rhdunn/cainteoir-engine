@@ -160,12 +160,13 @@ const cainteoir::xml::resource *cainteoir::xml::uri::clone() const
 cainteoir::xml::namespaces::namespaces()
 	: mBlockNumber(-1)
 {
-	add_namespace("xml", std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("http://www.w3.org/XML/1998/namespace")));
+	add_namespace("xml", "http://www.w3.org/XML/1998/namespace");
 }
 
-void cainteoir::xml::namespaces::add_namespace(const cainteoir::buffer &aPrefix, const std::tr1::shared_ptr<cainteoir::buffer> &aUri)
+cainteoir::xml::namespaces &cainteoir::xml::namespaces::add_namespace(const std::string &aPrefix, const std::string &aHref)
 {
-	mNamespaces.push_back({ mBlockNumber, ns(aPrefix.str(), aUri->str()) });
+	mNamespaces.push_back({ mBlockNumber, ns(aPrefix, aHref) });
+	return *this;
 }
 
 void cainteoir::xml::namespaces::push_block()
@@ -182,12 +183,11 @@ void cainteoir::xml::namespaces::pop_block()
 	}
 }
 
-std::string cainteoir::xml::namespaces::lookup(const cainteoir::buffer &aPrefix) const
+std::string cainteoir::xml::namespaces::lookup(const std::string &aPrefix) const
 {
-	std::string prefix = aPrefix.str();
 	for (auto ns = mNamespaces.rbegin(), last = mNamespaces.rend(); ns != last; ++ns)
 	{
-		if (ns->item.prefix == prefix && ns->block <= mBlockNumber)
+		if (ns->item.prefix == aPrefix && ns->block <= mBlockNumber)
 			return ns->item.href;
 	}
 	return std::string();

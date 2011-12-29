@@ -207,7 +207,7 @@ TEST_CASE("rdf::graph -- curie: add_namespaces(prefix, href)")
 
 	assert(!test.curie("dc:title").get());
 	assert(!test.curie("xsd:string").get());
-	assert(!test.curie("xml:lang").get());
+	assert(test.curie("xml:lang").get());
 	assert(!test.curie("dct:title").get());
 
 	test.add_namespace("dc", "http://purl.org/dc/elements/1.1/");
@@ -227,7 +227,7 @@ TEST_CASE("rdf::graph -- curie: add_namespaces(ns)")
 
 	assert(!test.curie("dc:title").get());
 	assert(!test.curie("xsd:string").get());
-	assert(!test.curie("xml:lang").get());
+	assert(test.curie("xml:lang").get());
 	assert(!test.curie("dct:title").get());
 
 	test.add_namespace(rdf::dc);
@@ -247,7 +247,7 @@ TEST_CASE("rdf::graph -- curie: namespaces << ns")
 
 	assert(!test.curie("dc:title").get());
 	assert(!test.curie("xsd:string").get());
-	assert(!test.curie("xml:lang").get());
+	assert(test.curie("xml:lang").get());
 	assert(!test.curie("dct:title").get());
 
 	test << rdf::dc << rdf::xsd << rdf::xml;
@@ -265,14 +265,14 @@ TEST_CASE("rdf::graph -- curie: add_prefix")
 
 	assert(!test.curie("dc:title").get());
 	assert(!test.curie("xsd:string").get());
-	assert(!test.curie("xml:lang").get());
+	assert(test.curie("xml:lang").get());
 	assert(!test.curie("dct:title").get());
 
 	test.add_prefix("dc: http://purl.org/dc/elements/1.1/");
 
 	test_uri(test.curie("dc:title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
 	assert(!test.curie("xsd:string").get());
-	assert(!test.curie("xml:lang").get());
+	assert(test.curie("xml:lang").get());
 	assert(!test.curie("dct:title").get());
 
 	test.add_prefix("xsd: http://www.w3.org/2001/XMLSchema# xml: http://www.w3.org/XML/1998/namespace#");
