@@ -26,6 +26,29 @@
 
 namespace cainteoir { namespace xml
 {
+	class namespaces
+	{
+	public:
+		namespaces();
+
+		void add_namespace(const cainteoir::buffer &aPrefix, const std::tr1::shared_ptr<cainteoir::buffer> &aUri);
+
+		void push_block();
+		void pop_block();
+
+		std::tr1::shared_ptr<cainteoir::buffer> lookup(const cainteoir::buffer &aPrefix) const;
+	private:
+		struct namespace_item
+		{
+			long block;
+			cainteoir::buffer prefix;
+			std::tr1::shared_ptr<cainteoir::buffer> uri;
+		};
+
+		std::list<namespace_item> mNamespaces;
+		long mBlockNumber;
+	};
+
 	class reader
 	{
 	public:
@@ -58,25 +81,6 @@ namespace cainteoir { namespace xml
 
 		bool isPlainText() const { return mParseAsText; }
 	private:
-		/** @name namespace stack */
-		//@{
-
-		struct namespace_item
-		{
-			long block;
-			cainteoir::buffer prefix;
-			std::tr1::shared_ptr<cainteoir::buffer> uri;
-		};
-
-		void add_namespace(const cainteoir::buffer &aPrefix, const std::tr1::shared_ptr<cainteoir::buffer> &aUri);
-
-		void push_ns_block();
-		void pop_ns_block();
-
-		std::list<namespace_item> mNamespaces;
-		long mBlockNumber;
-
-		//@}
 		/** @name parser internals/helpers */
 		//@{
 
@@ -96,6 +100,7 @@ namespace cainteoir { namespace xml
 		bool mParseAsText;
 		bool mParseNamespaces;
 
+		namespaces mNamespaces;
 		cainteoir::buffer mTagNodeName;
 		cainteoir::buffer mTagNodePrefix;
 
