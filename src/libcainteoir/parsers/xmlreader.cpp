@@ -165,7 +165,7 @@ cainteoir::xml::namespaces::namespaces()
 
 void cainteoir::xml::namespaces::add_namespace(const cainteoir::buffer &aPrefix, const std::tr1::shared_ptr<cainteoir::buffer> &aUri)
 {
-	mNamespaces.push_back({ mBlockNumber, aPrefix, aUri });
+	mNamespaces.push_back({ mBlockNumber, ns(aPrefix.str(), aUri->str()) });
 }
 
 void cainteoir::xml::namespaces::push_block()
@@ -182,14 +182,15 @@ void cainteoir::xml::namespaces::pop_block()
 	}
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::xml::namespaces::lookup(const cainteoir::buffer &aPrefix) const
+std::string cainteoir::xml::namespaces::lookup(const cainteoir::buffer &aPrefix) const
 {
+	std::string prefix = aPrefix.str();
 	for (auto ns = mNamespaces.rbegin(), last = mNamespaces.rend(); ns != last; ++ns)
 	{
-		if (!aPrefix.compare(ns->prefix) && ns->block <= mBlockNumber)
-			return ns->uri;
+		if (ns->item.prefix == prefix && ns->block <= mBlockNumber)
+			return ns->item.href;
 	}
-	return std::tr1::shared_ptr<cainteoir::buffer>();
+	return std::string();
 }
 
 cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
@@ -380,15 +381,11 @@ bool cainteoir::xml::reader::read()
 	return true;
 }
 
-cainteoir::buffer cainteoir::xml::reader::namespaceUri() const
+std::string cainteoir::xml::reader::namespaceUri() const
 {
 	if (mNodeName.compare("xmlns"))
-	{
-		std::tr1::shared_ptr<cainteoir::buffer> uri = mNamespaces.lookup(mNodePrefix);
-		if (uri)
-			return *uri;
-	}
-	return cainteoir::buffer(NULL, NULL);
+		return mNamespaces.lookup(mNodePrefix);
+	return std::string();
 }
 
 void cainteoir::xml::reader::skip_whitespace()

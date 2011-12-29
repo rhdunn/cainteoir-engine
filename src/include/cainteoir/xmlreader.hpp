@@ -118,13 +118,12 @@ namespace cainteoir { namespace xml
 		void push_block();
 		void pop_block();
 
-		std::tr1::shared_ptr<cainteoir::buffer> lookup(const cainteoir::buffer &aPrefix) const;
+		std::string lookup(const cainteoir::buffer &aPrefix) const;
 	private:
 		struct namespace_item
 		{
 			long block;
-			cainteoir::buffer prefix;
-			std::tr1::shared_ptr<cainteoir::buffer> uri;
+			ns   item;
 		};
 
 		std::list<namespace_item> mNamespaces;
@@ -157,7 +156,7 @@ namespace cainteoir { namespace xml
 
 		const cainteoir::buffer &nodePrefix() const { return mNodePrefix; }
 
-		cainteoir::buffer namespaceUri() const;
+		std::string namespaceUri() const;
 
 		node_type nodeType() const { return mNodeType; }
 
