@@ -67,6 +67,9 @@ TEST_CASE("rdf::uri")
 	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema/", "string"), "http://www.w3.org/2001/XMLSchema/string", "http://www.w3.org/2001/XMLSchema/", "string");
 	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema#", "string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
 	test_uri(rdf::uri("http://www.w3.org/2001/XMLSchema/#", "string"), "http://www.w3.org/2001/XMLSchema/#string", "http://www.w3.org/2001/XMLSchema/#", "string");
+
+	test_uri(rdf::uri("http:", "//www.example.org"), "http://www.example.org", "http:", "//www.example.org");
+	test_uri(rdf::uri("mailto:", "test@example.com"), "mailto:test@example.com", "mailto:", "test@example.com");
 }
 
 TEST_CASE("RDF namespaces")

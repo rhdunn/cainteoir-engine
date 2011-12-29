@@ -135,7 +135,7 @@ cainteoir::xml::uri::uri(const std::string &aNS, const std::string &aRef)
 	, ref(aRef)
 {
 	auto last = --ns.end();
-	if (!ns.empty() && !ref.empty() && *last != '#' && *last != '/')
+	if (!ns.empty() && !ref.empty() && *last != '#' && *last != '/' && *last != ':')
 		ns.push_back('#');
 }
 
