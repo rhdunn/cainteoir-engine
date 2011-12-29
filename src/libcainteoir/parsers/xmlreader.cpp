@@ -152,6 +152,11 @@ std::string cainteoir::xml::uri::str() const
 	return ns + ref;
 }
 
+const cainteoir::xml::resource *cainteoir::xml::uri::clone() const
+{
+	return new uri(*this);
+}
+
 cainteoir::xml::namespaces::namespaces()
 	: mBlockNumber(-1)
 {

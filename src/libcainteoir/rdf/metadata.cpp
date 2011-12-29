@@ -69,11 +69,6 @@ bool rdf::resource::operator==(const resource &rhs) const
 	return value == rhs.value;
 }
 
-const rdf::detail::resource *rdf::uri::clone() const
-{
-	return new uri(*this);
-}
-
 const rdf::uri rdf::graph::href(const std::string &aHref)
 {
 	std::string::size_type index;
@@ -143,7 +138,7 @@ rdf::graph::curie(const std::string &aCurie)
 	return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(href(uri)));
 }
 
-const rdf::detail::resource *rdf::literal::clone() const
+const cainteoir::xml::resource *rdf::literal::clone() const
 {
 	return new literal(*this);
 }
@@ -182,9 +177,9 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.ns.empty())
 		namespaces.insert(aObject.ns);
 
-	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const detail::resource>(aSubject.clone()),
+	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
 	                                                        aPredicate,
-	                                                        std::tr1::shared_ptr<const detail::resource>(aObject.clone()))));
+	                                                        std::tr1::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
 	return true;
 }
 
@@ -201,8 +196,8 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.type.ns.empty())
 		namespaces.insert(aObject.type.ns);
 
-	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const detail::resource>(aSubject.clone()),
+	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
 	                                                        aPredicate,
-	                                                        std::tr1::shared_ptr<const detail::resource>(aObject.clone()))));
+	                                                        std::tr1::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
 	return true;
 }

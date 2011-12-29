@@ -26,10 +26,11 @@
 #include "tester.hpp"
 
 namespace rdf = cainteoir::rdf;
+namespace xml = cainteoir::xml;
 
 REGISTER_TESTSUITE("RDF Model");
 
-void test_uri(const rdf::detail::resource &node, const std::string &value, const std::string &ns, const std::string &ref)
+void test_uri(const xml::resource &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	const rdf::uri *uri = dynamic_cast<const rdf::uri *>(&node);
 	if (assert(uri))
@@ -40,7 +41,7 @@ void test_uri(const rdf::detail::resource &node, const std::string &value, const
 	}
 }
 
-void test_bnode(const rdf::detail::resource &node, const std::string &id)
+void test_bnode(const xml::resource &node, const std::string &id)
 {
 	test_uri(node, id, std::string(), id);
 }
@@ -116,12 +117,12 @@ TEST_CASE("rdf::href")
 	test_uri(g.href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
 }
 
-void test_bnode(const std::tr1::shared_ptr<const rdf::detail::resource> &node, const std::string &id)
+void test_bnode(const std::tr1::shared_ptr<const xml::resource> &node, const std::string &id)
 {
 	test_bnode(*node, id);
 }
 
-void test_uri(const std::tr1::shared_ptr<const rdf::detail::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
+void test_uri(const std::tr1::shared_ptr<const xml::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	test_uri(*node, value, ns, ref);
 }
@@ -282,7 +283,7 @@ TEST_CASE("rdf::graph -- curie: add_prefix")
 	assert(!test.curie("dct:title").get());
 }
 
-void test_literal(const rdf::detail::resource &node, const std::string value, const std::string &language, const rdf::uri &uri)
+void test_literal(const xml::resource &node, const std::string value, const std::string &language, const rdf::uri &uri)
 {
 	const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&node);
 	if (assert(literal))
@@ -317,12 +318,12 @@ TEST_CASE("rdf::literal")
 	test_literal(3.2, "3.2", rdf::xsd("string"));
 }
 
-void test_item(const rdf::detail::resource &a, const rdf::uri &b)
+void test_item(const xml::resource &a, const rdf::uri &b)
 {
 	test_uri(a, b.str(), b.ns, b.ref);
 }
 
-void test_item(const rdf::detail::resource &a, const rdf::literal &b)
+void test_item(const xml::resource &a, const rdf::literal &b)
 {
 	test_literal(a, b.value, b.language, b.type);
 }
@@ -342,11 +343,11 @@ TEST_CASE("rdf::resource -- empty")
 	rdf::resource a(NULL);
 	assert(!a);
 
-	assert(a.as<rdf::detail::resource>() == NULL);
+	assert(a.as<xml::resource>() == NULL);
 	assert(a.as<rdf::uri>() == NULL);
 	assert(a.as<rdf::literal>() == NULL);
 
-	assert((const rdf::detail::resource *)a == NULL);
+	assert((const xml::resource *)a == NULL);
 	assert((const rdf::uri *)a == NULL);
 	assert((const rdf::literal *)a == NULL);
 
@@ -367,11 +368,11 @@ TEST_CASE("rdf::resource -- uri")
 	rdf::resource a(&value);
 	assert(!!a);
 
-	assert(a.as<rdf::detail::resource>() == (const rdf::detail::resource *)&value);
+	assert(a.as<xml::resource>() == (const xml::resource *)&value);
 	assert(a.as<rdf::uri>() == &value);
 	assert(a.as<rdf::literal>() == NULL);
 
-	assert((const rdf::detail::resource *)a == (const rdf::detail::resource *)&value);
+	assert((const xml::resource *)a == (const xml::resource *)&value);
 	assert((const rdf::uri *)a == &value);
 	assert((const rdf::literal *)a == NULL);
 
@@ -405,11 +406,11 @@ TEST_CASE("rdf::resource -- bnode")
 	rdf::resource a(&value);
 	assert(!!a);
 
-	assert(a.as<rdf::detail::resource>() == (const rdf::detail::resource *)&value);
+	assert(a.as<xml::resource>() == (const xml::resource *)&value);
 	assert(a.as<rdf::uri>() == &value);
 	assert(a.as<rdf::literal>() == NULL);
 
-	assert((const rdf::detail::resource *)a == (const rdf::detail::resource *)&value);
+	assert((const xml::resource *)a == (const xml::resource *)&value);
 	assert((const rdf::uri *)a == &value);
 	assert((const rdf::literal *)a == NULL);
 
@@ -444,11 +445,11 @@ TEST_CASE("rdf::resource -- literal")
 	rdf::resource a(&value);
 	assert(!!a);
 
-	assert(a.as<rdf::detail::resource>() == (const rdf::detail::resource *)&value);
+	assert(a.as<xml::resource>() == (const xml::resource *)&value);
 	assert(a.as<rdf::uri>() == NULL);
 	assert(a.as<rdf::literal>() == &value);
 
-	assert((const rdf::detail::resource *)a == (const rdf::detail::resource *)&value);
+	assert((const xml::resource *)a == (const xml::resource *)&value);
 	assert((const rdf::uri *)a == NULL);
 	assert((const rdf::literal *)a == &value);
 

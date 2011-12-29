@@ -26,7 +26,14 @@
 
 namespace cainteoir { namespace xml
 {
-	class uri
+	struct resource
+	{
+		virtual const resource *clone() const = 0;
+
+		virtual ~resource() {}
+	};
+
+	class uri : public resource
 	{
 	public:
 		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
@@ -37,6 +44,8 @@ namespace cainteoir { namespace xml
 		bool empty() const;
 
 		std::string str() const;
+
+		const resource *clone() const;
 	};
 
 	inline bool operator==(const uri &a, const uri &b)
@@ -47,6 +56,56 @@ namespace cainteoir { namespace xml
 	inline bool operator!=(const uri &a, const uri &b)
 	{
 		return !(a == b);
+	}
+
+	class ns
+	{
+	public:
+		std::string href;   /**< @brief The path of the namespace. */
+		std::string prefix; /**< @brief The default prefix for the namespace. */
+
+		ns(const std::string &aPrefix, const std::string &aHref)
+			: href(aHref)
+			, prefix(aPrefix)
+		{
+		}
+
+		/** @brief Create a URI in the namespace.
+		  *
+		  * @param aRef The URI reference relative to the namespace.
+		  */
+		uri operator()(const std::string &aRef) const
+		{
+			return uri(href, aRef);
+		}
+	};
+
+	inline bool operator==(const ns &a, const char *b)
+	{
+		return a.href == b;
+	}
+
+	inline bool operator==(const ns &a, const std::string &b)
+	{
+		return a.href == b;
+	}
+
+	template <typename T>
+	inline bool operator==(const T & a, const ns &b)
+	{
+		return b == a;
+	}
+
+	template <typename T>
+	inline bool operator!=(const ns &a, const T &b)
+	{
+		return !(a == b);
+	}
+
+	template <typename T>
+	inline bool operator!=(const T &a, const ns &b)
+	{
+		return !(b == a);
 	}
 
 	class namespaces
