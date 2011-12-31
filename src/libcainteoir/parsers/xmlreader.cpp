@@ -201,6 +201,7 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	, mTagNodePrefix(NULL, NULL)
 	, mParseAsText(false)
 	, mParseNamespaces(false)
+	, mImplicitEndTag(false)
 {
 	mCurrent = mData->begin();
 	mNodeType = textNode;
@@ -229,6 +230,8 @@ bool cainteoir::xml::reader::read()
 	if (mCurrent >= mData->end())
 		return false;
 
+	cainteoir::buffer oldName = mNodeName;
+
 	mNodeName = cainteoir::buffer(NULL, NULL);
 	mNodePrefix = cainteoir::buffer(NULL, NULL);
 
@@ -249,11 +252,16 @@ bool cainteoir::xml::reader::read()
 	{
 		skip_whitespace();
 
-		if (mCurrent[0] == '/' && mCurrent[1] == '>')
+		if ((mCurrent[0] == '/' && mCurrent[1] == '>') || (mCurrent[0] == '>' && mImplicitEndTag))
 		{
 			mNodeName = mTagNodeName;
 			mNodePrefix = mTagNodePrefix;
 			mNodeType = endTagNode;
+			if (mImplicitEndTag)
+			{
+				mImplicitEndTag = false;
+				mTagNodeName = cainteoir::buffer(NULL, NULL);
+			}
 			++mCurrent;
 			return true;
 		}

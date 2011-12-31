@@ -195,6 +195,7 @@ namespace cainteoir { namespace xml
 		const char * mCurrent;
 		bool mParseAsText;
 		bool mParseNamespaces;
+		bool mImplicitEndTag;
 
 		namespaces mNamespaces;
 		cainteoir::buffer mTagNodeName;
@@ -210,6 +211,8 @@ namespace cainteoir { namespace xml
 		node_type mNodeType;
 
 		//@}
+	protected:
+		void hasImplicitEndTag() { mImplicitEndTag = true; }
 	};
 
 	inline bool operator==(const reader &a, const uri &b)
