@@ -37,6 +37,7 @@ namespace cainteoir
 			list,      /** @brief A sequence of numbered or unnumbered items (display). */
 			list_item, /** @brief An item in a list (display). */
 			sentence,  /** @brief A sentence of text (display, parsing). */
+			unknown,   /** @brief Another unspecified context. */
 		};
 
 		enum style

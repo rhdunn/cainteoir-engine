@@ -24,9 +24,25 @@
 namespace xml = cainteoir::xml;
 namespace rdf = cainteoir::rdf;
 
+enum html_node
+{
+	attr_id,
+	attr_lang,
+	node_head,
+	node_html,
+	node_li,
+	node_link,
+	node_meta,
+	node_script,
+	node_style,
+	node_title,
+	node_unknown,
+};
+
 struct context_node
 {
 	const char * name;
+	html_node node;
 	cainteoir::document_events::context context;
 	uint32_t parameter;
 };
@@ -39,26 +55,39 @@ enum list_type
 
 static const context_node context_nodes[] =
 {
-	{ "b",      cainteoir::document_events::span,      cainteoir::document_events::strong },
-	{ "cite",   cainteoir::document_events::span,      cainteoir::document_events::emphasized },
-	{ "code",   cainteoir::document_events::span,      cainteoir::document_events::monospace },
-	{ "div",    cainteoir::document_events::paragraph, 0 },
-	{ "em",     cainteoir::document_events::span,      cainteoir::document_events::emphasized },
-	{ "h1",     cainteoir::document_events::heading,   1 },
-	{ "h2",     cainteoir::document_events::heading,   2 },
-	{ "h3",     cainteoir::document_events::heading,   3 },
-	{ "h4",     cainteoir::document_events::heading,   4 },
-	{ "h5",     cainteoir::document_events::heading,   5 },
-	{ "h6",     cainteoir::document_events::heading,   6 },
-	{ "i",      cainteoir::document_events::span,      cainteoir::document_events::emphasized },
-	{ "ol",     cainteoir::document_events::list,      number_list },
-	{ "p",      cainteoir::document_events::paragraph, 0 },
-	{ "pre",    cainteoir::document_events::paragraph, cainteoir::document_events::monospace },
-	{ "strong", cainteoir::document_events::span,      cainteoir::document_events::strong },
-	{ "sub",    cainteoir::document_events::span,      cainteoir::document_events::subscript },
-	{ "sup",    cainteoir::document_events::span,      cainteoir::document_events::superscript },
-	{ "ul",     cainteoir::document_events::list,      bullet_list },
+	{ "b",        node_unknown, cainteoir::document_events::span,      cainteoir::document_events::strong },
+	{ "cite",     node_unknown, cainteoir::document_events::span,      cainteoir::document_events::emphasized },
+	{ "code",     node_unknown, cainteoir::document_events::span,      cainteoir::document_events::monospace },
+	{ "div",      node_unknown, cainteoir::document_events::paragraph, 0 },
+	{ "em",       node_unknown, cainteoir::document_events::span,      cainteoir::document_events::emphasized },
+	{ "h1",       node_unknown, cainteoir::document_events::heading,   1 },
+	{ "h2",       node_unknown, cainteoir::document_events::heading,   2 },
+	{ "h3",       node_unknown, cainteoir::document_events::heading,   3 },
+	{ "h4",       node_unknown, cainteoir::document_events::heading,   4 },
+	{ "h5",       node_unknown, cainteoir::document_events::heading,   5 },
+	{ "h6",       node_unknown, cainteoir::document_events::heading,   6 },
+	{ "head",     node_head,    cainteoir::document_events::unknown,   0 },
+	{ "html",     node_html,    cainteoir::document_events::unknown,   0 },
+	{ "i",        node_unknown, cainteoir::document_events::span,      cainteoir::document_events::emphasized },
+	{ "id",       attr_id,      cainteoir::document_events::unknown,   0 },
+	{ "lang",     attr_lang,    cainteoir::document_events::unknown,   0 },
+	{ "li",       node_li,      cainteoir::document_events::unknown,   0 },
+	{ "link",     node_link,    cainteoir::document_events::unknown,   0 },
+	{ "meta",     node_meta,    cainteoir::document_events::unknown,   0 },
+	{ "ol",       node_unknown, cainteoir::document_events::list,      number_list },
+	{ "p",        node_unknown, cainteoir::document_events::paragraph, 0 },
+	{ "pre",      node_unknown, cainteoir::document_events::paragraph, cainteoir::document_events::monospace },
+	{ "script",   node_script,  cainteoir::document_events::unknown,   0 },
+	{ "style",    node_style,   cainteoir::document_events::unknown,   0 },
+	{ "strong",   node_unknown, cainteoir::document_events::span,      cainteoir::document_events::strong },
+	{ "sub",      node_unknown, cainteoir::document_events::span,      cainteoir::document_events::subscript },
+	{ "sup",      node_unknown, cainteoir::document_events::span,      cainteoir::document_events::superscript },
+	{ "title",    node_title,   cainteoir::document_events::unknown,   0 },
+	{ "ul",       node_unknown, cainteoir::document_events::list,      bullet_list },
+	{ "xml:lang", attr_lang,    cainteoir::document_events::unknown,   0 },
 };
+
+static const context_node unknown_context = { NULL, node_unknown, cainteoir::document_events::unknown, 0 };
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
 
@@ -69,7 +98,7 @@ const context_node * lookup_context(const cainteoir::buffer & node)
 		if (!node.comparei(item->name))
 			return item;
 	}
-	return NULL;
+	return &unknown_context;
 }
 
 void skipNode(xml::reader & reader, const cainteoir::buffer name)
@@ -83,161 +112,175 @@ void skipNode(xml::reader & reader, const cainteoir::buffer name)
 	}
 }
 
-void parseTitleNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void parseTitleNode(xml::reader & reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
-	while (reader.read()) switch (reader.nodeType())
+	while (reader.read())
 	{
-	case xml::reader::endTagNode:
-		if (!reader.nodeName().compare(name))
-			return;
-		break;
-	case xml::reader::textNode:
+		const context_node *context = lookup_context(reader.nodeName());
+		switch (reader.nodeType())
 		{
-			std::string title = reader.nodeValue().normalize()->str();
-			if (!title.empty())
-				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
+		case xml::reader::endTagNode:
+			if (context->node == node_title)
+				return;
+			break;
+		case xml::reader::textNode:
+			{
+				std::string title = reader.nodeValue().normalize()->str();
+				if (!title.empty())
+					aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
+			}
+			break;
 		}
-		break;
 	}
 }
 
-void parseHeadNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void parseHeadNode(xml::reader & reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
-	while (reader.read()) switch (reader.nodeType())
+	while (reader.read())
 	{
-	case xml::reader::beginTagNode:
-		if (!reader.nodeName().comparei("title"))
-			parseTitleNode(reader, reader.nodeName(), aSubject, events, aGraph);
-		else if (!reader.nodeName().comparei("meta") ||
-		         !reader.nodeName().comparei("link"))
-			;
-		else
-			skipNode(reader, reader.nodeName());
-	case xml::reader::endTagNode:
-		if (!reader.nodeName().compare(name))
-			return;
-		break;
+		const context_node *context = lookup_context(reader.nodeName());
+		switch (reader.nodeType())
+		{
+		case xml::reader::beginTagNode:
+			if (context->node == node_title)
+				parseTitleNode(reader, aSubject, events, aGraph);
+			else if (context->node == node_meta || context->node == node_link)
+				;
+			else
+				skipNode(reader, reader.nodeName());
+		case xml::reader::endTagNode:
+			if (context->node == node_head)
+				return;
+			break;
+		}
 	}
 }
 
-void parseListNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events, uint32_t type)
+void parseListNode(xml::reader & reader, const rdf::uri &aSubject, cainteoir::document_events &events, const context_node *list_ctx)
 {
 	int number = 1;
 
-	while (reader.read()) switch (reader.nodeType())
+	while (reader.read())
 	{
-	case xml::reader::beginTagNode:
-		if (!reader.nodeName().comparei("li"))
+		const context_node *context = lookup_context(reader.nodeName());
+		switch (reader.nodeType())
 		{
-			events.begin_context(cainteoir::document_events::list_item);
-			if (type == bullet_list)
-				events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("\xE2\x80\xA2 ")));
-			else
+		case xml::reader::beginTagNode:
+			if (context->node == node_li)
 			{
-				char text[100];
-				int len = snprintf(text, sizeof(text), "%d. ", number);
-				text[len] = '\0';
+				events.begin_context(cainteoir::document_events::list_item);
+				if (list_ctx->parameter == bullet_list)
+					events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("\xE2\x80\xA2 ")));
+				else
+				{
+					char text[100];
+					int len = snprintf(text, sizeof(text), "%d. ", number);
+					text[len] = '\0';
 
-				std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(len));
-				strcpy((char *)data->begin(), text);
-				events.text(data);
+					std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(len));
+					strcpy((char *)data->begin(), text);
+					events.text(data);
 
-				++number;
+					++number;
+				}
 			}
-		}
-		break;
-	case xml::reader::textNode:
-		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
+			break;
+		case xml::reader::textNode:
+			{
+				std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
 
-			const char * str = text->begin();
-			const char * end = text->end();
-			while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
-				++str;
+				const char * str = text->begin();
+				const char * end = text->end();
+				while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
+					++str;
 
-			if (str != end)
-				events.text(text);
+				if (str != end)
+					events.text(text);
+			}
+			break;
+		case xml::reader::endTagNode:
+			if (context == list_ctx)
+			{
+				events.end_context();
+				return;
+			}
+			if (context->node == node_li)
+				events.end_context();
+			break;
 		}
-		break;
-	case xml::reader::endTagNode:
-		if (!reader.nodeName().compare(name))
-		{
-			events.end_context();
-			return;
-		}
-		if (!reader.nodeName().comparei("li"))
-			events.end_context();
-		break;
 	}
 }
 
-void parseBodyNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events)
+void parseBodyNode(xml::reader & reader, const rdf::uri &aSubject, cainteoir::document_events &events, const context_node *body_ctx)
 {
-	while (reader.read()) switch (reader.nodeType())
+	while (reader.read())
 	{
-	case xml::reader::attribute:
-		if (!reader.nodeName().comparei("id"))
-			events.anchor(rdf::uri(aSubject.str(), reader.nodeValue().str()), std::string());
-		break;
-	case xml::reader::beginTagNode:
-		if (!reader.nodeName().comparei("script") ||
-		    !reader.nodeName().comparei("style"))
-			skipNode(reader, reader.nodeName());
-		else
+		const context_node *context = lookup_context(reader.nodeName());
+		switch (reader.nodeType())
 		{
-			const context_node * node = lookup_context(reader.nodeName());
-			if (node)
+		case xml::reader::attribute:
+			if (context->node == attr_id)
+				events.anchor(rdf::uri(aSubject.str(), reader.nodeValue().str()), std::string());
+			break;
+		case xml::reader::beginTagNode:
+			if (context->node == node_script || context->node == node_style)
+				skipNode(reader, reader.nodeName());
+			else if (context->context != cainteoir::document_events::unknown)
 			{
-				events.begin_context(node->context, node->parameter);
-				if (node->context == cainteoir::document_events::list)
-					parseListNode(reader, reader.nodeName(), aSubject, events, node->parameter);
+				events.begin_context(context->context, context->parameter);
+				if (context->context == cainteoir::document_events::list)
+					parseListNode(reader, aSubject, events, context);
 			}
-		}
-		break;
-	case xml::reader::textNode:
-		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
+			break;
+		case xml::reader::textNode:
+			{
+				std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
 
-			const char * str = text->begin();
-			const char * end = text->end();
-			while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
-				++str;
+				const char * str = text->begin();
+				const char * end = text->end();
+				while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
+					++str;
 
-			if (str != end)
-				events.text(text);
+				if (str != end)
+					events.text(text);
+			}
+			break;
+		case xml::reader::endTagNode:
+			if (context == body_ctx)
+				return;
+			if (context->context != cainteoir::document_events::unknown)
+				events.end_context();
+			break;
 		}
-		break;
-	case xml::reader::endTagNode:
-		if (!reader.nodeName().compare(name))
-			return;
-		if (lookup_context(reader.nodeName()))
-			events.end_context();
-		break;
 	}
 }
 
-void parseHtmlNode(xml::reader & reader, const cainteoir::buffer name, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void parseHtmlNode(xml::reader & reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	std::string lang;
-	while (reader.read()) switch (reader.nodeType())
+	while (reader.read())
 	{
-	case xml::reader::beginTagNode:
-		if (!reader.nodeName().comparei("head"))
-			parseHeadNode(reader, reader.nodeName(), aSubject, events, aGraph);
-		else
-			parseBodyNode(reader, reader.nodeName(), aSubject, events);
-		break;
-	case xml::reader::attribute:
-		if ((!reader.nodeName().comparei("lang") || !reader.nodeName().comparei("xml:lang")) && lang.empty())
+		const context_node *context = lookup_context(reader.nodeName());
+		switch (reader.nodeType())
 		{
-			lang = reader.nodeValue().buffer()->str();
-			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
+		case xml::reader::beginTagNode:
+			if (context->node == node_head)
+				parseHeadNode(reader, aSubject, events, aGraph);
+			else
+				parseBodyNode(reader, aSubject, events, context);
+			break;
+		case xml::reader::attribute:
+			if (context->node == attr_lang && lang.empty())
+			{
+				lang = reader.nodeValue().buffer()->str();
+				aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
+			}
+			break;
+		case xml::reader::endTagNode:
+			if (context->node == node_html)
+				return;
+			break;
 		}
-		break;
-	case xml::reader::endTagNode:
-		if (!reader.nodeName().compare(name))
-			return;
-		break;
 	}
 }
 
@@ -251,11 +294,15 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 		return;
 	}
 
-	while (reader.read()) switch (reader.nodeType())
+	while (reader.read())
 	{
-	case xml::reader::beginTagNode:
-		if (!reader.nodeName().comparei("html"))
-			parseHtmlNode(reader, reader.nodeName(), aSubject, events, aGraph);
-		break;
+		const context_node *context = lookup_context(reader.nodeName());
+		switch (reader.nodeType())
+		{
+		case xml::reader::beginTagNode:
+			if (context->node == node_html)
+				parseHtmlNode(reader, aSubject, events, aGraph);
+			break;
+		}
 	}
 }
