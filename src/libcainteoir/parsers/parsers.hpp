@@ -31,11 +31,22 @@ namespace cainteoir
 	/** @brief Open Container Format (OCF)
 	  * @see   http://www.idpf.org/ocf/ocf1.0/download/ocf10.htm
 	  * @see   http://www.idpf.org/specs.htm
-	  *
-	  * @param aData The document data.
-	  * @return      The list of (media-type => full-path) entries.
 	  */
-	std::map<std::string, std::string> parseOcfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData);
+	class ocf_reader
+	{
+	public:
+		ocf_reader(std::tr1::shared_ptr<cainteoir::buffer> aData);
+
+		bool read();
+
+		const std::string &mediaType() const { return mMediaType; }
+
+		const std::string &path() const { return mPath; }
+	private:
+		xml::reader mReader;
+		std::string mMediaType;
+		std::string mPath;
+	};
 
 	/** @brief Navigation Control File (NCX)
 	  * @see   http://www.niso.org/workrooms/daisy/Z39-86-2005.html#NCX
