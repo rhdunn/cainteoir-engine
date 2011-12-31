@@ -199,6 +199,8 @@ public:
 	}
 
 	bool read();
+
+	const context_node *context() const { return ctx.top(); }
 private:
 	std::stack<const context_node *> ctx;
 };
@@ -242,28 +244,6 @@ void skipNode(html_reader &reader, const cainteoir::buffer name)
 	}
 }
 
-void parseTitleNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	while (reader.read())
-	{
-		const context_node *context = lookup_context(reader.nodeName());
-		switch (reader.nodeType())
-		{
-		case xml::reader::endTagNode:
-			if (context->node == node_title)
-				return;
-			break;
-		case xml::reader::textNode:
-			{
-				std::string title = reader.nodeValue().normalize()->str();
-				if (!title.empty())
-					aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
-			}
-			break;
-		}
-	}
-}
-
 void parseHeadNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	while (reader.read())
@@ -272,15 +252,20 @@ void parseHeadNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		switch (reader.nodeType())
 		{
 		case xml::reader::beginTagNode:
-			if (context->node == node_title)
-				parseTitleNode(reader, aSubject, events, aGraph);
-			else if (context->node == node_meta || context->node == node_link)
-				;
-			else
+			if (context->node != node_title && context->node != node_meta && context->node != node_link)
 				skipNode(reader, reader.nodeName());
+			break;
 		case xml::reader::endTagNode:
 			if (context->node == node_head)
 				return;
+			break;
+		case xml::reader::textNode:
+			if (reader.context()->node == node_title)
+			{
+				std::string title = reader.nodeValue().normalize()->str();
+				if (!title.empty())
+					aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
+			}
 			break;
 		}
 	}
