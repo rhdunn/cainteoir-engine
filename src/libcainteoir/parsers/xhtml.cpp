@@ -1,6 +1,6 @@
 /* XHTML Document Parser.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -370,35 +370,6 @@ void parseBodyNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
-void parseHtmlNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	std::string lang;
-	while (reader.read())
-	{
-		const context_node *context = lookup_context(reader.nodeName());
-		switch (reader.nodeType())
-		{
-		case xml::reader::beginTagNode:
-			if (context->node == node_head)
-				parseHeadNode(reader, aSubject, events, aGraph);
-			else
-				parseBodyNode(reader, aSubject, events, context);
-			break;
-		case xml::reader::attribute:
-			if (context->node == attr_lang && lang.empty())
-			{
-				lang = reader.nodeValue().buffer()->str();
-				aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
-			}
-			break;
-		case xml::reader::endTagNode:
-			if (context->node == node_html)
-				return;
-			break;
-		}
-	}
-}
-
 void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	html_reader reader(data);
@@ -409,14 +380,31 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 		return;
 	}
 
+	std::string lang;
 	while (reader.read())
 	{
 		const context_node *context = lookup_context(reader.nodeName());
 		switch (reader.nodeType())
 		{
 		case xml::reader::beginTagNode:
-			if (context->node == node_html)
-				parseHtmlNode(reader, aSubject, events, aGraph);
+			switch (context->node)
+			{
+			case node_html:
+				break;
+			case node_head:
+				parseHeadNode(reader, aSubject, events, aGraph);
+				break;
+			default:
+				parseBodyNode(reader, aSubject, events, context);
+				break;
+			}
+			break;
+		case xml::reader::attribute:
+			if (reader.context()->node == node_html && context->node == attr_lang && lang.empty())
+			{
+				lang = reader.nodeValue().buffer()->str();
+				aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
+			}
 			break;
 		}
 	}
