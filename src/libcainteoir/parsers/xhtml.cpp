@@ -169,6 +169,7 @@ static const context_node context_nodes[] =
 	{ "th",         node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "tr",         node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "track",      node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "u",          node_unknown, cainteoir::document_events::span,      cainteoir::document_events::underline },
 	{ "ul",         node_unknown, cainteoir::document_events::list,      bullet_list },
 	{ "var",        node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "video",      node_unknown, cainteoir::document_events::unknown,   0 },

@@ -71,6 +71,8 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/i.xhtml', 'result': 'html/text-level-semantics/i.events'},
 			{'test': 'html/text-level-semantics/b.html', 'result': 'html/text-level-semantics/b.events'},
 			{'test': 'html/text-level-semantics/b.xhtml', 'result': 'html/text-level-semantics/b.events'},
+			{'test': 'html/text-level-semantics/u.html', 'result': 'html/text-level-semantics/u.events'},
+			{'test': 'html/text-level-semantics/u.xhtml', 'result': 'html/text-level-semantics/u.events'},
 			{'test': 'html/text-level-semantics/code.html', 'result': 'html/text-level-semantics/code.events'},
 			{'test': 'html/text-level-semantics/code.xhtml', 'result': 'html/text-level-semantics/code.events'},
 			{'test': 'html/text-level-semantics/sub.html', 'result': 'html/text-level-semantics/sub.events'},
