@@ -247,7 +247,8 @@ bool html_reader::read()
 			fprintf(stderr, "html parser: unclosed tag '%s'\n", ctx.top()->name);
 			ctx.pop();
 		}
-		ctx.pop();
+		if (!ctx.empty())
+			ctx.pop();
 		break;
 	case xml::reader::attribute:
 		mContext = lookup_context(nodeName(), context_attrs, context_attrs + countof(context_attrs));
