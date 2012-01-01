@@ -152,20 +152,20 @@ static const context_node context_nodes[] =
 	{ "select",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "small",      node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "source",     node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
-	{ "style",      node_style,   cainteoir::document_events::unknown,   0 },
 	{ "strong",     node_unknown, cainteoir::document_events::span,      cainteoir::document_events::strong },
+	{ "style",      node_style,   cainteoir::document_events::unknown,   0 },
 	{ "sub",        node_unknown, cainteoir::document_events::span,      cainteoir::document_events::subscript },
 	{ "summary",    node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "sup",        node_unknown, cainteoir::document_events::span,      cainteoir::document_events::superscript },
 	{ "table",      node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "tbody",      node_unknown, cainteoir::document_events::unknown,   0 },
+	{ "td",         node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "textarea",   node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "tfoot",      node_unknown, cainteoir::document_events::unknown,   0 },
+	{ "th",         node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "thead",      node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "time",       node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "title",      node_title,   cainteoir::document_events::unknown,   0 },
-	{ "td",         node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "th",         node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "tr",         node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "track",      node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
 	{ "u",          node_unknown, cainteoir::document_events::span,      cainteoir::document_events::underline },
@@ -188,11 +188,22 @@ static const context_node unknown_context = { NULL, node_unknown, cainteoir::doc
 
 const context_node * lookup_context(const cainteoir::buffer & node, const context_node *first, const context_node *last)
 {
-	for (const context_node *item = first; item != last; ++item)
+	int begin = 0;
+	int end = last - first - 1;
+
+	while (begin <= end)
 	{
-		if (!node.comparei(item->name))
-			return item;
+		int pos = (begin + end) / 2;
+
+		int comp = node.comparei((first + pos)->name);
+		if (comp == 0)
+			return (first + pos);
+		else if (comp < 0)
+			begin = pos + 1;
+		else
+			end = pos - 1;
 	}
+
 	return &unknown_context;
 }
 
