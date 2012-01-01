@@ -152,6 +152,7 @@ static const context_node context_nodes[] =
 	{ "select",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "small",      node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "source",     node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "span",       node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "strong",     node_unknown, cainteoir::document_events::span,      cainteoir::document_events::strong },
 	{ "style",      node_style,   cainteoir::document_events::unknown,   0 },
 	{ "sub",        node_unknown, cainteoir::document_events::span,      cainteoir::document_events::subscript },
