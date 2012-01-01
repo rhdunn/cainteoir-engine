@@ -85,6 +85,7 @@ static const context_node context_nodes[] =
 	{ "col",        node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
 	{ "colgroup",   node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
 	{ "command",    node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "data",       node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "datalist",   node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "dd",         node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "del",        node_unknown, cainteoir::document_events::unknown,   0 },
