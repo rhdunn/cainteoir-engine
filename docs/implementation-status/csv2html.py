@@ -28,7 +28,10 @@ def parse_csv(filename):
 			elif line.startswith('@'):
 				key, value = line.replace('@', '').split(',')
 				if key == 'references':
-					data[key] = value.split(' ')
+					if value == '':
+						data[key] = []
+					else:
+						data[key] = value.split(' ')
 				else:
 					data[key] = value
 			else:
@@ -49,13 +52,30 @@ def parse_csv(filename):
 						"implemented": status(s[2]),
 						"comments": s[3]
 					})
+				elif data['type'] == 'format':
+					data['support'].append({
+						"title": s[0],
+						"version": s[1],
+						"url": url(s[2]),
+						"implemented": status(s[3]),
+						"tts": status(s[4]),
+						"rdf": status(s[5]),
+						"toc": status(s[6]),
+						"comments": s[7]
+					})
 	return ref, data
 
-def print_url(data, ref):
+def print_url(data, ref, classname=None):
 	if data['url'] == '':
-		f.write('\t\t<td>%s</td>\n' % data[ref])
+		if classname:
+			f.write('\t\t<td class="%s">%s</td>\n' % (classname, data[ref].replace(' ', '&#xA0;')))
+		else:
+			f.write('\t\t<td>%s</td>\n' % data[ref].replace(' ', '&#xA0;'))
 	else:
-		f.write('\t\t<td><a href="%s">%s</a></td>\n' % (data['url'], data[ref]))
+		if classname:
+			f.write('\t\t<td class="%s"><a href="%s">%s</a></td>\n' % (classname, data['url'], data[ref].replace(' ', '&#xA0;')))
+		else:
+			f.write('\t\t<td><a href="%s">%s</a></td>\n' % (data['url'], data[ref].replace(' ', '&#xA0;')))
 
 def print_status(data, ref):
 	status, label = data[ref]
@@ -85,16 +105,17 @@ for ref, spec in specs.items():
 		f.write('\t<a href="listen.html">Document Format Support</a>\n')
 		f.write('\t&raquo;\n')
 		if spec['type'] == 'spec':
-			f.write('\t<a href="%s.html">%s</a>\n' % (spec['name'].lower(), spec['name']))
+			f.write('\t<a href="%s.html">%s</a>\n' % (spec['name'].lower().replace('/', ''), spec['name']))
 			f.write('\t&raquo;\n')
 			f.write('\t<span>%s</span>\n' % spec['version'])
 		else:
 			f.write('\t<span>%s</span>\n' % spec['name'])
 		f.write('</div>\n')
-		f.write('<ol class="toc">\n')
-		f.write('\t<li><a href="#status">Implementation Status</a></li>\n')
-		f.write('\t<li><a href="#references">References</a></li>\n')
-		f.write('</ol>\n')
+		if len(spec['references']) != 0:
+			f.write('<ol class="toc">\n')
+			f.write('\t<li><a href="#status">Implementation Status</a></li>\n')
+			f.write('\t<li><a href="#references">References</a></li>\n')
+			f.write('</ol>\n')
 		f.write('<h2 id="status">Implementation Status</h2>\n')
 		f.write('<table style="width: 100%;">\n')
 		f.write('\t<tr>\n')
@@ -103,6 +124,13 @@ for ref, spec in specs.items():
 			f.write('\t\t<th width="25%">Title</th>\n')
 			f.write('\t\t<th width="10%">Implemented</th>\n')
 			f.write('\t\t<th width="10%">Tests</th>\n')
+			f.write('\t\t<th width="50%">Comments</th>\n')
+		elif spec['type'] == 'format':
+			f.write('\t\t<th width="10%">Name</th>\n')
+			f.write('\t\t<th width="10%">Version</th>\n')
+			f.write('\t\t<th width="10%">Text</th>\n')
+			f.write('\t\t<th width="10%">Metadata</th>\n')
+			f.write('\t\t<th width="10%">Table-of-Content</th>\n')
 			f.write('\t\t<th width="50%">Comments</th>\n')
 		else:
 			f.write('\t\t<th width= "5%">Version</th>\n')
@@ -117,15 +145,23 @@ for ref, spec in specs.items():
 				print_status(data, 'implemented')
 				print_status(data, 'tests')
 				f.write('\t\t<td>%s</td>\n' % data['comments'])
+			elif spec['type'] == 'format':
+				print_url(data, 'title', classname=data['implemented'][0])
+				f.write('\t\t<td>%s</td>\n' % data['version'])
+				print_status(data, 'tts')
+				print_status(data, 'rdf')
+				print_status(data, 'toc')
+				f.write('\t\t<td>%s</td>\n' % data['comments'])
 			else:
 				print_url(data, 'version')
 				print_status(data, 'implemented')
 				f.write('\t\t<td>%s</td>\n' % data['comments'])
 			f.write('\t</tr>\n')
 		f.write('</table>\n')
-		f.write('<h2 id="references">References</h2>\n')
-		f.write('<ol class="references">\n')
-		for ref in spec['references']:
-			with open('%s.xml' % ref) as r:
-				f.write(r.read())
-		f.write('</ol>\n')
+		if len(spec['references']) != 0:
+			f.write('<h2 id="references">References</h2>\n')
+			f.write('<ol class="references">\n')
+			for ref in spec['references']:
+				with open('%s.xml' % ref) as r:
+					f.write(r.read())
+			f.write('</ol>\n')
