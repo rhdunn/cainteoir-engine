@@ -1,0 +1,15 @@
+<li id="html401" rel="dct:references">
+	<span typeof="foaf:Document" about="http://www.w3.org/TR/html401/">
+		<span property="dc:creator">Dave Raggett</span>,
+		<span property="dc:creator">Arnaud Le Hors</span>,
+		<span property="dc:creator">Ian Jacobs</span>,
+		<a property="dc:title" href="http://www.w3.org/TR/html401/">HTML 4.01 Specification</a>.
+		<span rel="dc:publisher" resource="_:pub_html401"/>
+		<span typeof="foaf:Organisation" about="_:pub_html401">
+			<span rel="foaf:homepage" resource="http://www.w3.org"/>
+			<span property="foaf:name">World Wide Web Consortium</span>
+			(<span property="foaf:name">W3C</span>),
+		</span>
+		<span property="dc:date" datatype="xsd:date" content="1999-12-24">1999</span>.
+	</span>
+</li>

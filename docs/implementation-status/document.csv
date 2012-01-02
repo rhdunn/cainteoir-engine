@@ -7,7 +7,8 @@
 
 # title,url,implemented,tts,rdf,toc,comments
 
-HTML,,html.csv,*0.1,*0.1,*0.1,no,
+HTML,4.0-5.0,html.csv,*0.1,*0.1,*0.1,no,
 Plain Text,,,0.1,0.1,na,na,
 RDF/XML,2004/02/10,rdfxml.csv,0.1,na,0.1,na,
+XHTML,1.0,html.csv,*0.1,*0.1,*0.1,no,
 XML,1.0-1.1,xml.csv,*0.1,na,na,na,Used by XML/HTML document handlers.
