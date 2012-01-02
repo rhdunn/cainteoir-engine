@@ -1,0 +1,12 @@
+<li id="html-whatwg" rel="dct:references">
+	<span typeof="foaf:Document" about="http://www.whatwg.org/specs/web-apps/current-work/multipage/index.html">
+		<span property="dc:creator">Ian Hickson</span>,
+		<a property="dc:title" href="http://www.whatwg.org/specs/web-apps/current-work/multipage/index.html">HTML Living Standard</a>.
+		<span rel="dc:publisher" resource="_:pub_html_whatwg"/>
+		<span typeof="foaf:Organisation" about="_:pub_html_whatwg">
+			<span rel="foaf:homepage" resource="http://www.whatwg.org"/>
+			<span property="foaf:name">WHATWG</span>,
+		</span>
+		<span property="dc:date" datatype="xsd:date" content="2011-12-16">2011</span>.
+	</span>
+</li>

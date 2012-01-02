@@ -130,7 +130,7 @@ for ref, spec in specs.items():
 			f.write('\t\t<th width="10%">Version</th>\n')
 			f.write('\t\t<th width="10%">Text</th>\n')
 			f.write('\t\t<th width="10%">Metadata</th>\n')
-			f.write('\t\t<th width="10%">Table-of-Content</th>\n')
+			f.write('\t\t<th width="10%">Table of Content</th>\n')
 			f.write('\t\t<th width="50%">Comments</th>\n')
 		else:
 			f.write('\t\t<th width= "5%">Version</th>\n')
