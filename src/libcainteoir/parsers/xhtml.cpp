@@ -65,6 +65,7 @@ static const context_node context_nodes[] =
 	{ "a",          node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "abbr",       node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "address",    node_unknown, cainteoir::document_events::unknown,   0 },
+	{ "acronym",    node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "applet",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "area",       node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
 	{ "article",    node_unknown, cainteoir::document_events::unknown,   0 },
@@ -72,8 +73,10 @@ static const context_node context_nodes[] =
 	{ "audio",      node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "b",          node_unknown, cainteoir::document_events::span,      cainteoir::document_events::strong },
 	{ "base",       node_unknown, cainteoir::document_events::unknown,   0 },
+	{ "basefont",   node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "bdi",        node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "bdo",        node_unknown, cainteoir::document_events::unknown,   0 },
+	{ "big",        node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "blockquote", node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "body",       node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "br",         node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
@@ -99,8 +102,11 @@ static const context_node context_nodes[] =
 	{ "fieldset",   node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "figcaption", node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "figure",     node_unknown, cainteoir::document_events::unknown,   0 },
+	{ "font",       node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "footer",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "form",       node_unknown, cainteoir::document_events::unknown,   0 },
+	{ "frame",      node_unknown, cainteoir::document_events::unknown,   0 }, // html4
+	{ "frameset",   node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "h1",         node_unknown, cainteoir::document_events::heading,   1 },
 	{ "h2",         node_unknown, cainteoir::document_events::heading,   2 },
 	{ "h3",         node_unknown, cainteoir::document_events::heading,   3 },
@@ -117,6 +123,7 @@ static const context_node context_nodes[] =
 	{ "img",        node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
 	{ "input",      node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
 	{ "ins",        node_unknown, cainteoir::document_events::unknown,   0 },
+	{ "isindex",    node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "kbd",        node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "keygen",     node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
 	{ "label",      node_unknown, cainteoir::document_events::unknown,   0 },
@@ -131,6 +138,7 @@ static const context_node context_nodes[] =
 	{ "meter",      node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "nav",        node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "noad",       node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag }, // adsense, e.g. m.fanfiction.net
+	{ "noframes",   node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "noscript",   node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "object",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "ol",         node_unknown, cainteoir::document_events::list,      number_list },
@@ -153,6 +161,7 @@ static const context_node context_nodes[] =
 	{ "small",      node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "source",     node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
 	{ "span",       node_unknown, cainteoir::document_events::unknown,   0 },
+	{ "strike",     node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "strong",     node_unknown, cainteoir::document_events::span,      cainteoir::document_events::strong },
 	{ "style",      node_style,   cainteoir::document_events::unknown,   0 },
 	{ "sub",        node_unknown, cainteoir::document_events::span,      cainteoir::document_events::subscript },
@@ -169,6 +178,7 @@ static const context_node context_nodes[] =
 	{ "title",      node_title,   cainteoir::document_events::unknown,   0 },
 	{ "tr",         node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "track",      node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "tt",         node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "u",          node_unknown, cainteoir::document_events::span,      cainteoir::document_events::underline },
 	{ "ul",         node_unknown, cainteoir::document_events::list,      bullet_list },
 	{ "var",        node_unknown, cainteoir::document_events::unknown,   0 },
