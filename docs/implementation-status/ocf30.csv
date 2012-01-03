@@ -1,0 +1,23 @@
+@type,spec
+@name,OCF
+@version,3.0
+@references,ocf30
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# section,title,url,implemented,tests,comments
+
+2.2,ZIP Container,,0.1,0.1,
+2.2,/mimetype,,0.1,0.1,
+2.2,/META-INF,,0.1,0.1,
+2.5.1,/META-INF/container.xml,,0.1,0.1,
+2.5.1,container/rootfiles/rootfile,,0.1,0.1,
+2.5.1,rootfile - application/oebps-package+xml,,2.0,0.1,0.1,
+2.5.1,rootfile - other,,no,no,
+2.5.2,/META-INF/encryption.xml,,no,no,
+2.5.3,/META-INF/manifest.xml,,na,na,Reserved file (not specified).
+2.5.4,/META-INF/metadata.xml,,na,na,Reserved file (not specified).
+2.5.5,/META-INF/rights.xml,,no,no,
+2.5.6,/META-INF/signatures.xml,,no,no,
+3.3,ZIP Container Mime Type,,0.1,0.1,application/epub+zip
+4,Font Obfuscation,,no,no,

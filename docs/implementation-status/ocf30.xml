@@ -1,0 +1,13 @@
+<li id="ocf201" rel="dct:references">
+		<span typeof="foaf:Document" about="http://idpf.org/epub/30/spec/epub30-ocf.html">
+			<a property="dc:title" href="http://idpf.org/epub/30/spec/epub30-ocf.html">EPUB Open Container Format (OCF) 3.0</a>.
+			<span rel="dc:publisher" resource="_:IDPF"/>
+			<span typeof="foaf:Organisation" about="_:IDPF">
+				<span rel="foaf:homepage" resource="http://idpf.org"/>
+				<span property="foaf:name">International Digital Publishing Forum</span>
+				(<span property="foaf:name">IDPF</span>),
+			</span>
+			<span property="dc:date" datatype="xsd:date" content="2011-10-11">2011</span>.
+		</span>
+	</li>
+</li>

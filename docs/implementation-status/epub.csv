@@ -1,0 +1,11 @@
+@type,format
+@name,ePub
+@version,
+@references,ocf201 ocf30
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# title,version,url,implemented,tts,rdf,toc,comments
+
+ePub,2.0.1,epub201.csv,*0.1,na,na,na,
+ePub,3.0,epub30.csv,*0.1,na,na,na,
