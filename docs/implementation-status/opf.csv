@@ -1,12 +1,12 @@
 @type,format
-@name,ePub
-@version,2.0.1
-@references,ocf201 opf201 ncx2005
+@name,OPF
+@version,
+@references,opf201 opf30
 @copyright,Copyright (C) 2012 Reece H. Dunn
 @license,http://creativecommons.org/licenses/by-sa/2.0/uk/
 
 # title,version,url,implemented,tts,rdf,toc,comments
 
-OCF,2.0.1,ocf201.csv,*0.1,na,na,na,
 OPF,2.0.1,opf201.csv,*0.1,0.1,0.1,na,
-NCX,2005,ncx2005.csv,*0.4,na,0.4,0.4,
+OPF,3.0 (2011/05/23),opf30-20110523.csv,*0.4,0.1,0.4,na,
+OPF,3.0,opf30.csv,*0.4,0.1,*0.4,na,
