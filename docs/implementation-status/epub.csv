@@ -1,7 +1,7 @@
 @type,format
 @name,ePub
 @version,
-@references,ocf201 ocf30
+@references,ocf201 ocf30 ncx2005
 @copyright,Copyright (C) 2012 Reece H. Dunn
 @license,http://creativecommons.org/licenses/by-sa/2.0/uk/
 

@@ -1,9 +1,9 @@
-<li id="rdfxml" rel="dct:references">
+<li id="rdfxml2004" rel="dct:references">
 	<span typeof="foaf:Document" about="http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/">
 		<span property="dc:creator">Dave Beckett</span>,
 		<a property="dc:title" href="http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/">RDF/XML Syntax Specification (Revised)</a>.
-		<span rel="dc:publisher" resource="_:pub_rdfxml"/>
-		<span typeof="foaf:Organisation" about="_:pub_rdfxml">
+		<span rel="dc:publisher" resource="_:pub_rdfxml2004"/>
+		<span typeof="foaf:Organisation" about="_:pub_rdfxml2004">
 			<span rel="foaf:homepage" resource="http://www.w3.org"/>
 			<span property="foaf:name">World Wide Web Consortium</span>
 			(<span property="foaf:name">W3C</span>),
