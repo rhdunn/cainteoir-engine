@@ -26,43 +26,49 @@ def parse_csv(filename):
 			if line == '' or line.startswith('#'): # comment or blank line
 				pass
 			elif line.startswith('@'):
-				key, value = line.replace('@', '').split(',')
-				if key == 'references':
-					if value == '':
-						data[key] = []
+				try:
+					key, value = line.replace('@', '').split(',')
+					if key == 'references':
+						if value == '':
+							data[key] = []
+						else:
+							data[key] = value.split(' ')
 					else:
-						data[key] = value.split(' ')
-				else:
-					data[key] = value
+						data[key] = value
+				except ValueError:
+					raise Exception('line "%s" contains too many \',\'s' % line)
 			else:
-				s = line.split(',')
-				if data['type'] == 'spec':
-					data['support'].append({
-						"section": s[0],
-						"title": s[1],
-						"url": url(s[2]),
-						"implemented": status(s[3]),
-						"tests": status(s[4]),
-						"comments": s[5]
-					})
-				elif data['type'] == 'standard':
-					data['support'].append({
-						"version": s[0],
-						"url": url(s[1]),
-						"implemented": status(s[2]),
-						"comments": s[3]
-					})
-				elif data['type'] == 'format':
-					data['support'].append({
-						"title": s[0],
-						"version": s[1],
-						"url": url(s[2]),
-						"implemented": status(s[3]),
-						"tts": status(s[4]),
-						"rdf": status(s[5]),
-						"toc": status(s[6]),
-						"comments": s[7]
-					})
+				try:
+					s = line.split(',')
+					if data['type'] == 'spec':
+						data['support'].append({
+							"section": s[0],
+							"title": s[1],
+							"url": url(s[2]),
+							"implemented": status(s[3]),
+							"tests": status(s[4]),
+							"comments": s[5]
+						})
+					elif data['type'] == 'standard':
+						data['support'].append({
+							"version": s[0],
+							"url": url(s[1]),
+							"implemented": status(s[2]),
+							"comments": s[3]
+						})
+					elif data['type'] == 'format':
+						data['support'].append({
+							"title": s[0],
+							"version": s[1],
+							"url": url(s[2]),
+							"implemented": status(s[3]),
+							"tts": status(s[4]),
+							"rdf": status(s[5]),
+							"toc": status(s[6]),
+							"comments": s[7]
+						})
+				except ValueError:
+					raise Exception('line "%s" contains too many \',\'s' % line)
 	return ref, data
 
 def print_url(data, ref, classname=None):
