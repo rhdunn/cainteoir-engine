@@ -110,12 +110,12 @@ for ref, spec in specs.items():
 		f.write('\t&raquo;\n')
 		f.write('\t<a href="listen.html">Document Format Support</a>\n')
 		f.write('\t&raquo;\n')
-		if spec['type'] == 'spec':
+		if spec['version'] == '':
+			f.write('\t<span>%s</span>\n' % spec['name'])
+		else:
 			f.write('\t<a href="%s.html">%s</a>\n' % (spec['name'].lower().replace('/', ''), spec['name']))
 			f.write('\t&raquo;\n')
 			f.write('\t<span>%s</span>\n' % spec['version'])
-		else:
-			f.write('\t<span>%s</span>\n' % spec['name'])
 		f.write('</div>\n')
 		if len(spec['references']) != 0:
 			f.write('<ol class="toc">\n')
