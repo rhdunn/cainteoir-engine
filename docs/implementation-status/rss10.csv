@@ -1,7 +1,7 @@
 @type,spec
 @name,RSS
 @version,1.0
-@references,xml10 xml11 rdfxml rss10
+@references,xml10 xml11 rdfxml2004 rss10
 @copyright,Copyright (C) 2012 Reece H. Dunn
 @license,http://creativecommons.org/licenses/by-sa/2.0/uk/
 

@@ -1,7 +1,7 @@
 @type,spec
 @name,SSML
 @version,1.0
-@references,ssml10
+@references,ssml10 rdfxml2004
 @copyright,Copyright (C) 2012 Reece H. Dunn
 @license,http://creativecommons.org/licenses/by-sa/2.0/uk/
 
