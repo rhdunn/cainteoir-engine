@@ -1,0 +1,12 @@
+<li id="ops30" rel="dct:references">
+	<span typeof="foaf:Document" about="http://idpf.org/epub/30/spec/epub30-contentdocs.html">
+		<a property="dc:title" href="http://idpf.org/epub/30/spec/epub30-contentdocs.html">EPUB Content Documents 3.0</a>.
+		<span rel="dc:publisher" resource="_:pub_ops30"/>
+		<span typeof="foaf:Organisation" about="_:pub_ops30">
+			<span rel="foaf:homepage" resource="http://idpf.org"/>
+			<span property="foaf:name">International Digital Publishing Forum</span>
+			(<span property="foaf:name">IDPF</span>),
+		</span>
+		<span property="dc:date" datatype="xsd:date" content="2011-10-11">2011</span>.
+	</span>
+</li>

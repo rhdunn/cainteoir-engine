@@ -1,13 +1,14 @@
 @type,format
 @name,ePub
 @version,3.0
-@references,ocf30 opf30 opf30-20110523 ncx2005
+@references,ocf30 ops30 opf30 opf30-20110523 ncx2005
 @copyright,Copyright (C) 2012 Reece H. Dunn
 @license,http://creativecommons.org/licenses/by-sa/2.0/uk/
 
 # title,version,url,implemented,tts,rdf,toc,comments
 
 OCF,3.0,ocf30.csv,*0.1,na,na,na,
+OPS,3.0,ops201.csv,*0.1,*0.1,na,no,
 OPF,3.0 (2011/05/23),opf30-20110523.csv,*0.4,0.1,0.4,na,
 OPF,3.0,opf30.csv,*0.4,0.1,*0.4,na,
 NCX,2005,ncx2005.csv,*0.4,na,0.4,0.4,For compatibility with ePub 2.0 documents.
