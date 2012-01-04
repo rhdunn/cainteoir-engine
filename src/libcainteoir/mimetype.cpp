@@ -28,6 +28,7 @@
 #include <map>
 
 namespace xml = cainteoir::xml;
+namespace rdf = cainteoir::rdf;
 
 static const char *email_mimetype  = "message/rfc822";
 static const char *epub_mimetype   = "application/epub+zip";
@@ -343,7 +344,7 @@ struct mimetype_database : public std::map<std::string, mime_info>
 				}
 				break;
 			case xml::reader::attribute:
-				if (in_comment && !reader.nodeName().compare("xml:lang"))
+				if (in_comment && reader == rdf::uri("http://www.w3.org/XML/1998/namespace#", "lang"))
 					lang = reader.nodeValue().buffer()->str();
 				break;
 			case xml::reader::textNode:
