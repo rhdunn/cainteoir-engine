@@ -71,6 +71,7 @@ static const xml::context::entry html_node_data[] =
 	{ "button",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "canvas",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "caption",    node_unknown, cainteoir::document_events::unknown,   0 },
+	{ "center",     node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "cite",       node_unknown, cainteoir::document_events::span,      cainteoir::document_events::emphasized },
 	{ "code",       node_unknown, cainteoir::document_events::span,      cainteoir::document_events::monospace },
 	{ "col",        node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
