@@ -195,10 +195,7 @@ public:
 	bool read();
 
 	const xml::context::entry *context() const { return mContext; }
-
-	const xml::context::entry *top() const { return ctx.top(); }
 private:
-	std::stack<const xml::context::entry *> ctx;
 	const xml::context::entry *mContext;
 };
 
@@ -213,17 +210,9 @@ bool html_reader::read()
 			hasImplicitEndTag();
 		if (!mContext->name)
 			fprintf(stderr, "html parser: unknown html tag '%s'\n", nodeName().str().c_str());
-		ctx.push(mContext);
 		break;
 	case xml::reader::endTagNode:
 		mContext = xml::html_nodes.lookup(nodeName());
-		while (!ctx.empty() && mContext != ctx.top())
-		{
-			fprintf(stderr, "html parser: unclosed tag '%s' (got '%s')\n", ctx.top()->name, nodeName().str().c_str());
-			ctx.pop();
-		}
-		if (!ctx.empty())
-			ctx.pop();
 		break;
 	case xml::reader::attribute:
 		mContext = xml::html_attrs.lookup(nodeName());
@@ -246,27 +235,43 @@ void skipNode(html_reader &reader, const cainteoir::buffer name)
 	}
 }
 
-void parseHeadNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void parseTitleNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
-	case xml::reader::beginTagNode:
-		if (reader.context()->id != node_title &&
-		    reader.context()->id != node_meta &&
-		    reader.context()->id != node_link)
-			skipNode(reader, reader.nodeName());
-		break;
 	case xml::reader::endTagNode:
-		if (reader.context()->id == node_head)
+		if (reader.context()->id == node_title)
 			return;
 		break;
 	case xml::reader::textNode:
-		if (reader.top()->id == node_title)
 		{
 			std::string title = reader.nodeValue().normalize()->str();
 			if (!title.empty())
 				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
 		}
+		break;
+	}
+}
+
+void parseHeadNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		switch (reader.context()->id)
+		{
+		case node_title:
+			parseTitleNode(reader, aSubject, events, aGraph);
+			break;
+		case node_meta:
+		case node_link:
+			skipNode(reader, reader.nodeName());
+			break;
+		}
+		break;
+	case xml::reader::endTagNode:
+		if (reader.context()->id == node_head)
+			return;
 		break;
 	}
 }
@@ -363,6 +368,35 @@ void parseBodyNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
+void parseHtmlNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+{
+	std::string lang;
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		switch (reader.context()->id)
+		{
+		case node_head:
+			parseHeadNode(reader, aSubject, events, aGraph);
+			break;
+		default:
+			parseBodyNode(reader, aSubject, events, reader.context());
+			break;
+		}
+		break;
+	case xml::reader::attribute:
+		if (reader.context()->id == attr_lang && lang.empty())
+		{
+			lang = reader.nodeValue().buffer()->str();
+			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
+		}
+		break;
+	case xml::reader::endTagNode:
+		if (reader.context()->id == node_html)
+			return;
+	}
+}
+
 void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	html_reader reader(data);
@@ -373,13 +407,13 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 		return;
 	}
 
-	std::string lang;
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
 		switch (reader.context()->id)
 		{
 		case node_html:
+			parseHtmlNode(reader, aSubject, events, aGraph);
 			break;
 		case node_head:
 			parseHeadNode(reader, aSubject, events, aGraph);
@@ -387,13 +421,6 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 		default:
 			parseBodyNode(reader, aSubject, events, reader.context());
 			break;
-		}
-		break;
-	case xml::reader::attribute:
-		if (reader.top()->id == node_html && reader.context()->id == attr_lang && lang.empty())
-		{
-			lang = reader.nodeValue().buffer()->str();
-			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
 		}
 		break;
 	}
