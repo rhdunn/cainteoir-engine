@@ -292,12 +292,14 @@ bool cainteoir::xml::reader::read()
 		if (xmlalnum(*mCurrent))
 		{
 			read_tag(attribute);
-			if (expect_next('=') && expect_next('"'))
+			if (expect_next('='))
 			{
-				read_node_value('"');
+				if (check_next('"'))
+					read_node_value('"');
+				else if (expect_next('\''))
+					read_node_value('\'');
 				++mCurrent;
 			}
-
 			return true;
 		}
 
