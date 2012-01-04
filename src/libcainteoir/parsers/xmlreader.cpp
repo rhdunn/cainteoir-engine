@@ -295,10 +295,17 @@ bool cainteoir::xml::reader::read()
 			if (expect_next('='))
 			{
 				if (check_next('"'))
+				{
 					read_node_value('"');
-				else if (expect_next('\''))
+					++mCurrent;
+				}
+				else if (check_next('\''))
+				{
 					read_node_value('\'');
-				++mCurrent;
+					++mCurrent;
+				}
+				else
+					mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(identifier()));
 			}
 			return true;
 		}
