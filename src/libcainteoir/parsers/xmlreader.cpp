@@ -193,6 +193,29 @@ std::string cainteoir::xml::namespaces::lookup(const std::string &aPrefix) const
 	return std::string();
 }
 
+const cainteoir::xml::context::entry cainteoir::xml::unknown_context = { NULL, 0, 0, 0 };
+
+const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const cainteoir::buffer & node) const
+{
+	int begin = 0;
+	int end = mLast - mFirst - 1;
+
+	while (begin <= end)
+	{
+		int pos = (begin + end) / 2;
+
+		int comp = node.comparei((mFirst + pos)->name);
+		if (comp == 0)
+			return (mFirst + pos);
+		else if (comp < 0)
+			begin = pos + 1;
+		else
+			end = pos - 1;
+	}
+
+	return &unknown_context;
+}
+
 cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	: mData(aData)
 	, mNodeName(NULL, NULL)

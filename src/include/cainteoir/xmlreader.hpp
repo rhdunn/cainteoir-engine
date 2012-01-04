@@ -145,6 +145,40 @@ namespace cainteoir { namespace xml
 		long mBlockNumber;
 	};
 
+	class context
+	{
+	public:
+		enum parse_flags
+		{
+			implicit_end_tag = 1, // implicit close tag -- <node> is the same as <node/>
+		};
+
+		struct entry
+		{
+			const char *name;
+			uint32_t id;
+			uint32_t context;
+			uint32_t parameter;
+			parse_flags parse_type;
+		};
+
+		context(const entry *first, const entry *last)
+			: mFirst(first)
+			, mLast(last)
+		{
+		}
+
+		const entry *lookup(const cainteoir::buffer & node) const;
+	private:
+		const entry *mFirst;
+		const entry *mLast;
+	};
+
+	extern const context html_nodes;
+	extern const context html_attrs;
+
+	extern const context::entry unknown_context;
+
 	class reader
 	{
 	public:

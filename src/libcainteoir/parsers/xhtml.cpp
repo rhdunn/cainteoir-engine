@@ -22,11 +22,14 @@
 #include <cainteoir/xmlreader.hpp>
 #include <stack>
 
+#define countof(a) (sizeof(a)/sizeof(a[0]))
+
 namespace xml = cainteoir::xml;
 namespace rdf = cainteoir::rdf;
 
 enum html_node
 {
+	node_unknown,
 	attr_id,
 	attr_lang,
 	node_head,
@@ -37,21 +40,6 @@ enum html_node
 	node_script,
 	node_style,
 	node_title,
-	node_unknown,
-};
-
-enum parse_flags
-{
-	implicit_end_tag = 1, // implicit close tag -- <node> is the same as <node/>
-};
-
-struct context_node
-{
-	const char * name;
-	html_node node;
-	cainteoir::document_events::context context;
-	uint32_t parameter;
-	parse_flags parse_type;
 };
 
 enum list_type
@@ -60,14 +48,14 @@ enum list_type
 	number_list = 0x80000000,
 };
 
-static const context_node context_nodes[] =
+static const xml::context::entry html_node_data[] =
 {
 	{ "a",          node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "abbr",       node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "address",    node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "acronym",    node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "applet",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "area",       node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "area",       node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 	{ "article",    node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "aside",      node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "audio",      node_unknown, cainteoir::document_events::unknown,   0 },
@@ -79,15 +67,15 @@ static const context_node context_nodes[] =
 	{ "big",        node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "blockquote", node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "body",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "br",         node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "br",         node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 	{ "button",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "canvas",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "caption",    node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "cite",       node_unknown, cainteoir::document_events::span,      cainteoir::document_events::emphasized },
 	{ "code",       node_unknown, cainteoir::document_events::span,      cainteoir::document_events::monospace },
-	{ "col",        node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
-	{ "colgroup",   node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
-	{ "command",    node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "col",        node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
+	{ "colgroup",   node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
+	{ "command",    node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 	{ "data",       node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "datalist",   node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "dd",         node_unknown, cainteoir::document_events::unknown,   0 },
@@ -98,7 +86,7 @@ static const context_node context_nodes[] =
 	{ "dl",         node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "dt",         node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "em",         node_unknown, cainteoir::document_events::span,      cainteoir::document_events::emphasized },
-	{ "embed",      node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "embed",      node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 	{ "fieldset",   node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "figcaption", node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "figure",     node_unknown, cainteoir::document_events::unknown,   0 },
@@ -116,28 +104,28 @@ static const context_node context_nodes[] =
 	{ "head",       node_head,    cainteoir::document_events::unknown,   0 },
 	{ "header",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "hgroup",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "hr",         node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "hr",         node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 	{ "html",       node_html,    cainteoir::document_events::unknown,   0 },
 	{ "i",          node_unknown, cainteoir::document_events::span,      cainteoir::document_events::emphasized },
 	{ "iframe",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "img",        node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
-	{ "input",      node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "img",        node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
+	{ "input",      node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 	{ "ins",        node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "isindex",    node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "kbd",        node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "keygen",     node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "keygen",     node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 	{ "label",      node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "legend",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "li",         node_li,      cainteoir::document_events::unknown,   0 },
-	{ "link",       node_link,    cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "link",       node_link,    cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 	{ "map",        node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "mark",       node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "marquee",    node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "menu",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "meta",       node_meta,    cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "meta",       node_meta,    cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 	{ "meter",      node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "nav",        node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "noad",       node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag }, // adsense, e.g. m.fanfiction.net
+	{ "noad",       node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag }, // adsense, e.g. m.fanfiction.net
 	{ "noframes",   node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "noscript",   node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "object",     node_unknown, cainteoir::document_events::unknown,   0 },
@@ -159,7 +147,7 @@ static const context_node context_nodes[] =
 	{ "section",    node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "select",     node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "small",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "source",     node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "source",     node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 	{ "span",       node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "strike",     node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "strong",     node_unknown, cainteoir::document_events::span,      cainteoir::document_events::strong },
@@ -177,64 +165,41 @@ static const context_node context_nodes[] =
 	{ "time",       node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "title",      node_title,   cainteoir::document_events::unknown,   0 },
 	{ "tr",         node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "track",      node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "track",      node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 	{ "tt",         node_unknown, cainteoir::document_events::unknown,   0 }, // html4
 	{ "u",          node_unknown, cainteoir::document_events::span,      cainteoir::document_events::underline },
 	{ "ul",         node_unknown, cainteoir::document_events::list,      bullet_list },
 	{ "var",        node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "video",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "wbr",        node_unknown, cainteoir::document_events::unknown,   0, implicit_end_tag },
+	{ "wbr",        node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 };
 
-static const context_node context_attrs[] =
+static const xml::context::entry html_attr_data[] =
 {
-	{ "id",         attr_id,      cainteoir::document_events::unknown,   0 },
-	{ "lang",       attr_lang,    cainteoir::document_events::unknown,   0 },
-	{ "xml:lang",   attr_lang,    cainteoir::document_events::unknown,   0 },
+	{ "id",   attr_id,   cainteoir::document_events::unknown, 0 },
+	{ "lang", attr_lang, cainteoir::document_events::unknown, 0 },
 };
 
-static const context_node unknown_context = { NULL, node_unknown, cainteoir::document_events::unknown, 0 };
-
-#define countof(a) (sizeof(a)/sizeof(a[0]))
-
-const context_node * lookup_context(const cainteoir::buffer & node, const context_node *first, const context_node *last)
-{
-	int begin = 0;
-	int end = last - first - 1;
-
-	while (begin <= end)
-	{
-		int pos = (begin + end) / 2;
-
-		int comp = node.comparei((first + pos)->name);
-		if (comp == 0)
-			return (first + pos);
-		else if (comp < 0)
-			begin = pos + 1;
-		else
-			end = pos - 1;
-	}
-
-	return &unknown_context;
-}
+const xml::context xml::html_nodes(html_node_data, html_node_data+countof(html_node_data));
+const xml::context xml::html_attrs(html_attr_data, html_attr_data+countof(html_attr_data));
 
 class html_reader : public xml::reader
 {
 public:
 	html_reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 		: xml::reader(aData)
-		, mContext(&unknown_context)
+		, mContext(&xml::unknown_context)
 	{
 	}
 
 	bool read();
 
-	const context_node *context() const { return mContext; }
+	const xml::context::entry *context() const { return mContext; }
 
-	const context_node *top() const { return ctx.top(); }
+	const xml::context::entry *top() const { return ctx.top(); }
 private:
-	std::stack<const context_node *> ctx;
-	const context_node *mContext;
+	std::stack<const xml::context::entry *> ctx;
+	const xml::context::entry *mContext;
 };
 
 bool html_reader::read()
@@ -243,28 +208,28 @@ bool html_reader::read()
 	if (ret) switch (nodeType())
 	{
 	case xml::reader::beginTagNode:
-		mContext = lookup_context(nodeName(), context_nodes, context_nodes + countof(context_nodes));
-		if (mContext->parse_type == implicit_end_tag)
+		mContext = xml::html_nodes.lookup(nodeName());
+		if (mContext->parse_type == xml::context::implicit_end_tag)
 			hasImplicitEndTag();
 		if (!mContext->name)
 			fprintf(stderr, "html parser: unknown html tag '%s'\n", nodeName().str().c_str());
 		ctx.push(mContext);
 		break;
 	case xml::reader::endTagNode:
-		mContext = lookup_context(nodeName(), context_nodes, context_nodes + countof(context_nodes));
+		mContext = xml::html_nodes.lookup(nodeName());
 		while (!ctx.empty() && mContext != ctx.top())
 		{
-			fprintf(stderr, "html parser: unclosed tag '%s'\n", ctx.top()->name);
+			fprintf(stderr, "html parser: unclosed tag '%s' (got '%s')\n", ctx.top()->name, nodeName().str().c_str());
 			ctx.pop();
 		}
 		if (!ctx.empty())
 			ctx.pop();
 		break;
 	case xml::reader::attribute:
-		mContext = lookup_context(nodeName(), context_attrs, context_attrs + countof(context_attrs));
+		mContext = xml::html_attrs.lookup(nodeName());
 		break;
 	default:
-		mContext = &unknown_context;
+		mContext = &xml::unknown_context;
 		break;
 	}
 	return ret;
@@ -286,17 +251,17 @@ void parseHeadNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
-		if (reader.context()->node != node_title &&
-		    reader.context()->node != node_meta &&
-		    reader.context()->node != node_link)
+		if (reader.context()->id != node_title &&
+		    reader.context()->id != node_meta &&
+		    reader.context()->id != node_link)
 			skipNode(reader, reader.nodeName());
 		break;
 	case xml::reader::endTagNode:
-		if (reader.context()->node == node_head)
+		if (reader.context()->id == node_head)
 			return;
 		break;
 	case xml::reader::textNode:
-		if (reader.top()->node == node_title)
+		if (reader.top()->id == node_title)
 		{
 			std::string title = reader.nodeValue().normalize()->str();
 			if (!title.empty())
@@ -306,14 +271,14 @@ void parseHeadNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
-void parseListNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const context_node *list_ctx)
+void parseListNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *list_ctx)
 {
 	int number = 1;
 
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
-		if (reader.context()->node == node_li)
+		if (reader.context()->id == node_li)
 		{
 			events.begin_context(cainteoir::document_events::list_item);
 			if (list_ctx->parameter == bullet_list)
@@ -351,27 +316,27 @@ void parseListNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::doc
 			events.end_context();
 			return;
 		}
-		if (reader.context()->node == node_li)
+		if (reader.context()->id == node_li)
 			events.end_context();
 		break;
 	}
 }
 
-void parseBodyNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const context_node *body_ctx)
+void parseBodyNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *body_ctx)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
-		if (reader.context()->node == attr_id)
+		if (reader.context()->id == attr_id)
 			events.anchor(rdf::uri(aSubject.str(), reader.nodeValue().str()), std::string());
 		break;
 	case xml::reader::beginTagNode:
-		if (reader.context()->node == node_script ||
-		    reader.context()->node == node_style)
+		if (reader.context()->id == node_script ||
+		    reader.context()->id == node_style)
 			skipNode(reader, reader.nodeName());
 		else if (reader.context()->context != cainteoir::document_events::unknown)
 		{
-			events.begin_context(reader.context()->context, reader.context()->parameter);
+			events.begin_context((cainteoir::document_events::context)reader.context()->context, reader.context()->parameter);
 			if (reader.context()->context == cainteoir::document_events::list)
 				parseListNode(reader, aSubject, events, reader.context());
 		}
@@ -412,7 +377,7 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
-		switch (reader.context()->node)
+		switch (reader.context()->id)
 		{
 		case node_html:
 			break;
@@ -425,7 +390,7 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 		}
 		break;
 	case xml::reader::attribute:
-		if (reader.top()->node == node_html && reader.context()->node == attr_lang && lang.empty())
+		if (reader.top()->id == node_html && reader.context()->id == attr_lang && lang.empty())
 		{
 			lang = reader.nodeValue().buffer()->str();
 			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
