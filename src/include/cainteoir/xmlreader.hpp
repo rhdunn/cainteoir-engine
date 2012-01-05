@@ -23,6 +23,7 @@
 
 #include <cainteoir/buffer.hpp>
 #include <list>
+#include <map>
 
 namespace cainteoir { namespace xml
 {
@@ -61,8 +62,8 @@ namespace cainteoir { namespace xml
 	class ns
 	{
 	public:
-		std::string href;   /**< @brief The path of the namespace. */
 		std::string prefix; /**< @brief The default prefix for the namespace. */
+		std::string href;   /**< @brief The path of the namespace. */
 
 		ns(const std::string &aPrefix, const std::string &aHref)
 			: href(aHref)
@@ -113,6 +114,12 @@ namespace cainteoir { namespace xml
 		return !(b == a);
 	}
 
+	namespace xmlns
+	{
+		extern const ns xhtml;
+		extern const ns xml;
+	}
+
 	class namespaces
 	{
 	public:
@@ -123,6 +130,11 @@ namespace cainteoir { namespace xml
 		namespaces &add_namespace(const cainteoir::buffer &aPrefix, const std::tr1::shared_ptr<cainteoir::buffer> &aHref)
 		{
 			return add_namespace(aPrefix.str(), aHref->str());
+		}
+
+		namespaces &add_namespace(const ns &aNS)
+		{
+			return add_namespace(aNS.prefix, aNS.href);
 		}
 
 		void push_block();
@@ -162,18 +174,41 @@ namespace cainteoir { namespace xml
 			parse_flags parse_type;
 		};
 
-		context(const std::initializer_list<const entry> &aEntries)
-			: mEntries(aEntries)
+		void set_nodes(const std::string &ns, const std::initializer_list<const entry> &entries)
 		{
+			mNodes[ns] = entries;
 		}
 
-		const entry *lookup(const cainteoir::buffer & node) const;
-	private:
-		std::initializer_list<const entry> mEntries;
-	};
+		void set_nodes(const ns &aNS, const std::initializer_list<const entry> &entries)
+		{
+			mNodes[aNS.href] = entries;
+		}
 
-	extern const context html_nodes;
-	extern const context html_attrs;
+		void set_attrs(const std::string &ns, const std::initializer_list<const entry> &entries)
+		{
+			mAttrs[ns] = entries;
+		}
+
+		void set_attrs(const ns &aNS, const std::initializer_list<const entry> &entries)
+		{
+			mAttrs[aNS.href] = entries;
+		}
+
+		const entry *lookup_node(const std::string &ns, const cainteoir::buffer &node) const
+		{
+			return lookup(ns, node, mNodes);
+		}
+
+		const entry *lookup_attr(const std::string &ns, const cainteoir::buffer &node) const
+		{
+			return lookup(ns, node, mAttrs);
+		}
+	private:
+		const entry *lookup(const std::string &ns, const cainteoir::buffer &node, const std::map<std::string, std::initializer_list<const entry>> &entries) const;
+
+		std::map<std::string, std::initializer_list<const entry>> mNodes;
+		std::map<std::string, std::initializer_list<const entry>> mAttrs;
+	};
 
 	extern const context::entry unknown_context;
 

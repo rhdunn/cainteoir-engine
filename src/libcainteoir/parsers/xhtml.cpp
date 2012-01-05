@@ -24,8 +24,9 @@
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
 
-namespace xml = cainteoir::xml;
-namespace rdf = cainteoir::rdf;
+namespace xml   = cainteoir::xml;
+namespace xmlns = cainteoir::xml::xmlns;
+namespace rdf   = cainteoir::rdf;
 
 enum html_node
 {
@@ -48,7 +49,7 @@ enum list_type
 	number_list = 0x80000000,
 };
 
-static const std::initializer_list<const xml::context::entry> html_node_data =
+static const std::initializer_list<const xml::context::entry> html_nodes =
 {
 	{ "a",          node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "abbr",       node_unknown, cainteoir::document_events::unknown,   0 },
@@ -175,14 +176,16 @@ static const std::initializer_list<const xml::context::entry> html_node_data =
 	{ "wbr",        node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 };
 
-static const std::initializer_list<const xml::context::entry> html_attr_data =
+static const std::initializer_list<const xml::context::entry> html_attrs =
 {
 	{ "id",   attr_id,   cainteoir::document_events::unknown, 0 },
 	{ "lang", attr_lang, cainteoir::document_events::unknown, 0 },
 };
 
-const xml::context xml::html_nodes(html_node_data);
-const xml::context xml::html_attrs(html_attr_data);
+static const std::initializer_list<const xml::context::entry> xml_attrs =
+{
+	{ "lang", attr_lang, cainteoir::document_events::unknown, 0 },
+};
 
 class html_reader : public xml::reader
 {
@@ -191,12 +194,18 @@ public:
 		: xml::reader(aData)
 		, mContext(&xml::unknown_context)
 	{
+		mContexts.set_nodes(std::string(), html_nodes);
+		mContexts.set_attrs(std::string(), html_attrs);
+		mContexts.set_nodes(xmlns::xhtml,  html_nodes);
+		mContexts.set_attrs(xmlns::xhtml,  html_attrs);
+		mContexts.set_attrs(xmlns::xml,    xml_attrs);
 	}
 
 	bool read();
 
 	const xml::context::entry *context() const { return mContext; }
 private:
+	xml::context mContexts;
 	const xml::context::entry *mContext;
 };
 
@@ -206,17 +215,17 @@ bool html_reader::read()
 	if (ret) switch (nodeType())
 	{
 	case xml::reader::beginTagNode:
-		mContext = xml::html_nodes.lookup(nodeName());
+		mContext = mContexts.lookup_node(namespaceUri(), nodeName());
 		if (mContext->parse_type == xml::context::implicit_end_tag)
 			hasImplicitEndTag();
 		if (!mContext->name)
 			fprintf(stderr, "html parser: unknown html tag '%s'\n", nodeName().str().c_str());
 		break;
 	case xml::reader::endTagNode:
-		mContext = xml::html_nodes.lookup(nodeName());
+		mContext = mContexts.lookup_node(namespaceUri(), nodeName());
 		break;
 	case xml::reader::attribute:
-		mContext = xml::html_attrs.lookup(nodeName());
+		mContext = mContexts.lookup_attr(namespaceUri(), nodeName());
 		break;
 	default:
 		mContext = &xml::unknown_context;

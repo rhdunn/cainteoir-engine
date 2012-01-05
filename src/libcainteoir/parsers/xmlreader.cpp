@@ -157,6 +157,9 @@ const cainteoir::xml::resource *cainteoir::xml::uri::clone() const
 	return new uri(*this);
 }
 
+const cainteoir::xml::ns cainteoir::xml::xmlns::xhtml("h",   "http://www.w3.org/1999/xhtml");
+const cainteoir::xml::ns cainteoir::xml::xmlns::xml(  "xml", "http://www.w3.org/XML/1998/namespace");
+
 cainteoir::xml::namespaces::namespaces()
 	: mBlockNumber(-1)
 {
@@ -195,18 +198,22 @@ std::string cainteoir::xml::namespaces::lookup(const std::string &aPrefix) const
 
 const cainteoir::xml::context::entry cainteoir::xml::unknown_context = { NULL, 0, 0, 0 };
 
-const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const cainteoir::buffer & node) const
+const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &ns, const cainteoir::buffer &node, const std::map<std::string, std::initializer_list<const entry>> &entries) const
 {
+	auto entryset = entries.find(ns);
+	if (entryset == entries.end())
+		return &unknown_context;
+
 	int begin = 0;
-	int end = mEntries.size() - 1;
+	int end = entryset->second.size() - 1;
 
 	while (begin <= end)
 	{
 		int pos = (begin + end) / 2;
 
-		int comp = node.comparei((*(mEntries.begin() + pos)).name);
+		int comp = node.comparei((*(entryset->second.begin() + pos)).name);
 		if (comp == 0)
-			return &*(mEntries.begin() + pos);
+			return &*(entryset->second.begin() + pos);
 		else if (comp < 0)
 			begin = pos + 1;
 		else
