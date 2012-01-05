@@ -303,21 +303,23 @@ bool cainteoir::xml::reader::read()
 		{
 			read_tag(attribute);
 			mContext = lookup_attr(namespaceUri(), nodeName());
-			if (expect_next('='))
+			if (check_next('='))
 			{
-				if (check_next('"'))
+				if (check_next('"')) // double-quoted attribute value (HTML)
 				{
 					read_node_value('"');
 					++mCurrent;
 				}
-				else if (check_next('\''))
+				else if (check_next('\'')) // single-quoted attribute value (HTML)
 				{
 					read_node_value('\'');
 					++mCurrent;
 				}
-				else
+				else // unquoted attribute value (HTML)
 					mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(identifier()));
 			}
+			else // empty attribute (HTML)
+				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mNodeName));
 			return true;
 		}
 

@@ -1,0 +1,5 @@
+|begin-tag| elem
+|attribute| arg="""arg"""
+|end-tag| elem
+|text| """
+"""
