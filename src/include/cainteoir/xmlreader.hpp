@@ -162,16 +162,14 @@ namespace cainteoir { namespace xml
 			parse_flags parse_type;
 		};
 
-		context(const entry *first, const entry *last)
-			: mFirst(first)
-			, mLast(last)
+		context(const std::initializer_list<const entry> &aEntries)
+			: mEntries(aEntries)
 		{
 		}
 
 		const entry *lookup(const cainteoir::buffer & node) const;
 	private:
-		const entry *mFirst;
-		const entry *mLast;
+		std::initializer_list<const entry> mEntries;
 	};
 
 	extern const context html_nodes;

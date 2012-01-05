@@ -48,7 +48,7 @@ enum list_type
 	number_list = 0x80000000,
 };
 
-static const xml::context::entry html_node_data[] =
+static const std::initializer_list<const xml::context::entry> html_node_data =
 {
 	{ "a",          node_unknown, cainteoir::document_events::unknown,   0 },
 	{ "abbr",       node_unknown, cainteoir::document_events::unknown,   0 },
@@ -175,14 +175,14 @@ static const xml::context::entry html_node_data[] =
 	{ "wbr",        node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
 };
 
-static const xml::context::entry html_attr_data[] =
+static const std::initializer_list<const xml::context::entry> html_attr_data =
 {
 	{ "id",   attr_id,   cainteoir::document_events::unknown, 0 },
 	{ "lang", attr_lang, cainteoir::document_events::unknown, 0 },
 };
 
-const xml::context xml::html_nodes(html_node_data, html_node_data+countof(html_node_data));
-const xml::context xml::html_attrs(html_attr_data, html_attr_data+countof(html_attr_data));
+const xml::context xml::html_nodes(html_node_data);
+const xml::context xml::html_attrs(html_attr_data);
 
 class html_reader : public xml::reader
 {

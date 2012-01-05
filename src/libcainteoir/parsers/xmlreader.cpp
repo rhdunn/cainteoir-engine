@@ -198,15 +198,15 @@ const cainteoir::xml::context::entry cainteoir::xml::unknown_context = { NULL, 0
 const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const cainteoir::buffer & node) const
 {
 	int begin = 0;
-	int end = mLast - mFirst - 1;
+	int end = mEntries.size() - 1;
 
 	while (begin <= end)
 	{
 		int pos = (begin + end) / 2;
 
-		int comp = node.comparei((mFirst + pos)->name);
+		int comp = node.comparei((*(mEntries.begin() + pos)).name);
 		if (comp == 0)
-			return (mFirst + pos);
+			return &*(mEntries.begin() + pos);
 		else if (comp < 0)
 			begin = pos + 1;
 		else
