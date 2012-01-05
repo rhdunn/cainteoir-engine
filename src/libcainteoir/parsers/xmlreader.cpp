@@ -231,6 +231,7 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	, mTagNodePrefix(NULL, NULL)
 	, mParseAsText(false)
 	, mParseNamespaces(false)
+	, mContext(&unknown_context)
 	, mImplicitEndTag(false)
 {
 	mCurrent = mData->begin();
@@ -257,13 +258,14 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 
 bool cainteoir::xml::reader::read()
 {
+	mNodeName = cainteoir::buffer(NULL, NULL);
+	mNodePrefix = cainteoir::buffer(NULL, NULL);
+	mContext = &unknown_context;
+
 	if (mCurrent >= mData->end())
 		return false;
 
 	cainteoir::buffer oldName = mNodeName;
-
-	mNodeName = cainteoir::buffer(NULL, NULL);
-	mNodePrefix = cainteoir::buffer(NULL, NULL);
 
 	if (mNodeType == endTagNode && !mParseNamespaces)
 		mNamespaces.pop_block();
@@ -287,6 +289,7 @@ bool cainteoir::xml::reader::read()
 			mNodeName = mTagNodeName;
 			mNodePrefix = mTagNodePrefix;
 			mNodeType = endTagNode;
+			mContext = lookup_node(namespaceUri(), nodeName());
 			if (mImplicitEndTag)
 			{
 				mImplicitEndTag = false;
@@ -299,6 +302,7 @@ bool cainteoir::xml::reader::read()
 		if (xmlalnum(*mCurrent))
 		{
 			read_tag(attribute);
+			mContext = lookup_attr(namespaceUri(), nodeName());
 			if (expect_next('='))
 			{
 				if (check_next('"'))
@@ -390,6 +394,7 @@ bool cainteoir::xml::reader::read()
 		case '/':
 			++mCurrent;
 			read_tag(endTagNode);
+			mContext = lookup_node(namespaceUri(), nodeName());
 			break;
 		default:
 			if (!mParseNamespaces)
@@ -415,6 +420,9 @@ bool cainteoir::xml::reader::read()
 				mNodeType = beginTagNode;
 				mTagNodeName = mNodeName = tagName;
 				mTagNodePrefix = mNodePrefix = tagPrefix;
+				mContext = lookup_node(namespaceUri(), nodeName());
+				if (mContext->parse_type == xml::context::implicit_end_tag)
+					mImplicitEndTag = true;
 			}
 			break;
 		}

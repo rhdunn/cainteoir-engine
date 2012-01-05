@@ -187,54 +187,7 @@ static const std::initializer_list<const xml::context::entry> xml_attrs =
 	{ "lang", attr_lang, cainteoir::document_events::unknown, 0 },
 };
 
-class html_reader : public xml::reader
-{
-public:
-	html_reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
-		: xml::reader(aData)
-		, mContext(&xml::unknown_context)
-	{
-		mContexts.set_nodes(std::string(), html_nodes);
-		mContexts.set_attrs(std::string(), html_attrs);
-		mContexts.set_nodes(xmlns::xhtml,  html_nodes);
-		mContexts.set_attrs(xmlns::xhtml,  html_attrs);
-		mContexts.set_attrs(xmlns::xml,    xml_attrs);
-	}
-
-	bool read();
-
-	const xml::context::entry *context() const { return mContext; }
-private:
-	xml::context mContexts;
-	const xml::context::entry *mContext;
-};
-
-bool html_reader::read()
-{
-	bool ret = xml::reader::read();
-	if (ret) switch (nodeType())
-	{
-	case xml::reader::beginTagNode:
-		mContext = mContexts.lookup_node(namespaceUri(), nodeName());
-		if (mContext->parse_type == xml::context::implicit_end_tag)
-			hasImplicitEndTag();
-		if (!mContext->name)
-			fprintf(stderr, "html parser: unknown html tag '%s'\n", nodeName().str().c_str());
-		break;
-	case xml::reader::endTagNode:
-		mContext = mContexts.lookup_node(namespaceUri(), nodeName());
-		break;
-	case xml::reader::attribute:
-		mContext = mContexts.lookup_attr(namespaceUri(), nodeName());
-		break;
-	default:
-		mContext = &xml::unknown_context;
-		break;
-	}
-	return ret;
-}
-
-void skipNode(html_reader &reader, const cainteoir::buffer name)
+void skipNode(xml::reader &reader, const cainteoir::buffer name)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -245,7 +198,7 @@ void skipNode(html_reader &reader, const cainteoir::buffer name)
 	}
 }
 
-void parseTitleNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void parseTitleNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -263,7 +216,7 @@ void parseTitleNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::do
 	}
 }
 
-void parseHeadNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -286,7 +239,7 @@ void parseHeadNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
-void parseListNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *list_ctx)
+void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *list_ctx)
 {
 	int number = 1;
 
@@ -337,7 +290,7 @@ void parseListNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
-void parseBodyNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *body_ctx)
+void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *body_ctx)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -378,7 +331,7 @@ void parseBodyNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
-void parseHtmlNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void parseHtmlNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	std::string lang;
 	while (reader.read()) switch (reader.nodeType())
@@ -409,7 +362,12 @@ void parseHtmlNode(html_reader &reader, const rdf::uri &aSubject, cainteoir::doc
 
 void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
-	html_reader reader(data);
+	xml::reader reader(data);
+	reader.set_nodes(std::string(), html_nodes);
+	reader.set_attrs(std::string(), html_attrs);
+	reader.set_nodes(xmlns::xhtml,  html_nodes);
+	reader.set_attrs(xmlns::xhtml,  html_attrs);
+	reader.set_attrs(xmlns::xml,    xml_attrs);
 
 	if (reader.isPlainText())
 	{

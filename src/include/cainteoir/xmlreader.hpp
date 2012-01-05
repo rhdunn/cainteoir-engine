@@ -212,7 +212,7 @@ namespace cainteoir { namespace xml
 
 	extern const context::entry unknown_context;
 
-	class reader
+	class reader : public context
 	{
 	public:
 		enum node_type
@@ -243,6 +243,8 @@ namespace cainteoir { namespace xml
 		node_type nodeType() const { return mNodeType; }
 
 		bool isPlainText() const { return mParseAsText; }
+
+		const context::entry *context() const { return mContext; }
 	private:
 		/** @name parser internals/helpers */
 		//@{
@@ -276,10 +278,9 @@ namespace cainteoir { namespace xml
 		cainteoir::buffer mNodeName;
 		cainteoir::buffer mNodePrefix;
 		node_type mNodeType;
+		const xml::context::entry *mContext;
 
 		//@}
-	protected:
-		void hasImplicitEndTag() { mImplicitEndTag = true; }
 	};
 
 	inline bool operator==(const reader &a, const uri &b)
