@@ -170,7 +170,7 @@ namespace html
 	static const cainteoir::xml::context::entry title_node      = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry tr_node         = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry track_node      = { events::unknown,   0, xml::context::implicit_end_tag };
-	static const cainteoir::xml::context::entry tt_node         = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry tt_node         = { events::span,      events::monospace };
 	static const cainteoir::xml::context::entry u_node          = { events::span,      events::underline };
 	static const cainteoir::xml::context::entry ul_node         = { events::list,      bullet_list };
 	static const cainteoir::xml::context::entry var_node        = { events::unknown,   0 };
