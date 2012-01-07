@@ -28,7 +28,7 @@
 3.4.7,metadata/meta/{@property},,0.4,0.4,
 3.4.7,metadata/meta/{@property+@id},,0.4,0.4,
 3.4.7,metadata/meta/{@property+@refines},,0.6,0.6,
-3.4.7,metadata/meta/{@property+@scheme},,no,no,
+3.4.7,metadata/meta/{@property+@scheme},,0.6,0.6,
 3.4.8,meta/{@name+@content},,0.4,0.4,
 3.4.9,metadata/link/{@rel+@href},,0.4,0.4,
 3.4.9,metadata/link/{@rel+@href+@id},,0.4,0.4,

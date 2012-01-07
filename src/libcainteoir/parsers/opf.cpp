@@ -90,7 +90,7 @@ void parseOpfMetadata(const xmldom::node &opf, const rdf::uri &aSubject, cainteo
 					id = attr.content();
 				else if (!strcmp(attr.name(), "about") || !strcmp(attr.name(), "refines"))
 					about = rdf::uri(aSubject.str(), attr.content().substr(1));
-				else if (!strcmp(attr.name(), "datatype"))
+				else if (!strcmp(attr.name(), "datatype") || !strcmp(attr.name(), "scheme"))
 				{
 					std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(attr.content());
 					if (uri.get() && !uri->ns.empty())
