@@ -213,22 +213,22 @@ const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir:
 	{ "space", &xml::space_attr },
 };
 
-const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &ns, const cainteoir::buffer &node, const std::map<std::string, std::initializer_list<const entry_ref>> &entries) const
+const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &aNS, const cainteoir::buffer &aNode, const entries &aEntries) const
 {
-	auto entryset = entries.find(ns);
-	if (entryset == entries.end())
+	auto entryset = aEntries.find(aNS);
+	if (entryset == aEntries.end())
 		return &unknown_context;
 
 	int begin = 0;
-	int end = entryset->second.size() - 1;
+	int end = entryset->second.first.size() - 1;
 
 	while (begin <= end)
 	{
 		int pos = (begin + end) / 2;
 
-		int comp = node.comparei((*(entryset->second.begin() + pos)).name);
+		int comp = aNode.compare((*(entryset->second.first.begin() + pos)).name, entryset->second.second);
 		if (comp == 0)
-			return (*(entryset->second.begin() + pos)).data;
+			return (entryset->second.first.begin() + pos)->data;
 		else if (comp < 0)
 			begin = pos + 1;
 		else

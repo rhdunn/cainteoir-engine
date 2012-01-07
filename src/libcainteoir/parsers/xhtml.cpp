@@ -475,8 +475,8 @@ void parseHtmlNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	xml::reader reader(data);
-	reader.set_nodes(std::string(), html_nodes);
-	reader.set_attrs(std::string(), html_attrs);
+	reader.set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
+	reader.set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
 	reader.set_nodes(xmlns::xhtml,  html_nodes);
 	reader.set_attrs(xmlns::xhtml,  html_attrs);
 	reader.set_attrs(xmlns::xml,    xml::attrs);

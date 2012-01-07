@@ -186,24 +186,24 @@ namespace cainteoir { namespace xml
 			const entry *data;
 		};
 
-		void set_nodes(const std::string &ns, const std::initializer_list<const entry_ref> &entries)
+		void set_nodes(const std::string &ns, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
 		{
-			mNodes[ns] = entries;
+			mNodes[ns] = std::make_pair(entries, match);
 		}
 
-		void set_nodes(const ns &aNS, const std::initializer_list<const entry_ref> &entries)
+		void set_nodes(const ns &aNS, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
 		{
-			mNodes[aNS.href] = entries;
+			mNodes[aNS.href] = std::make_pair(entries, match);
 		}
 
-		void set_attrs(const std::string &ns, const std::initializer_list<const entry_ref> &entries)
+		void set_attrs(const std::string &ns, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
 		{
-			mAttrs[ns] = entries;
+			mAttrs[ns] = std::make_pair(entries, match);
 		}
 
-		void set_attrs(const ns &aNS, const std::initializer_list<const entry_ref> &entries)
+		void set_attrs(const ns &aNS, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
 		{
-			mAttrs[aNS.href] = entries;
+			mAttrs[aNS.href] = std::make_pair(entries, match);
 		}
 
 		const entry *lookup_node(const std::string &ns, const cainteoir::buffer &node) const
@@ -216,10 +216,13 @@ namespace cainteoir { namespace xml
 			return lookup(ns, node, mAttrs);
 		}
 	private:
-		const entry *lookup(const std::string &ns, const cainteoir::buffer &node, const std::map<std::string, std::initializer_list<const entry_ref>> &entries) const;
+		typedef std::map<std::string, std::pair<std::initializer_list<const entry_ref>, buffer::match_type>>
+		        entries;
 
-		std::map<std::string, std::initializer_list<const entry_ref>> mNodes;
-		std::map<std::string, std::initializer_list<const entry_ref>> mAttrs;
+		const entry *lookup(const std::string &aNS, const cainteoir::buffer &aNode, const entries &aEntries) const;
+
+		entries mNodes;
+		entries mAttrs;
 	};
 
 	extern const context::entry unknown_context;

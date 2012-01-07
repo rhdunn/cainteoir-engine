@@ -23,7 +23,6 @@
 
 #include <cstring>
 #include <string>
-#include <strings.h>
 #include <tr1/memory>
 #include <list>
 
@@ -49,13 +48,15 @@ namespace cainteoir
 
 		bool empty() const { return first == last; }
 
-		int compare(const char *str) const { return compare(str, strlen(str), strncmp); }
+		typedef int (*match_type)(const char *s1, const char *s2, size_t n);
+		static const match_type match_case;
+		static const match_type ignore_case;
 
-		int compare(const buffer & str) const { return compare(str.begin(), str.size(),  strncmp); }
+		int compare(const char   *str, match_type match = match_case) const { return compare(str,         strlen(str), match); }
+		int compare(const buffer &str, match_type match = match_case) const { return compare(str.begin(), str.size(),  match); }
 
-		int comparei(const char *str) const { return compare(str, strlen(str), strncasecmp); }
-
-		int comparei(const buffer & str) const { return compare(str.begin(), str.size(), strncasecmp); }
+		int comparei(const char   *str) const { return compare(str,         strlen(str), ignore_case); }
+		int comparei(const buffer &str) const { return compare(str.begin(), str.size(),  ignore_case); }
 
 		std::string str() const
 		{
@@ -63,9 +64,9 @@ namespace cainteoir
 			return std::string(first, last);
 		}
 	private:
-		int compare(const char *str, int len, int (*cmp)(const char *s1, const char *s2, size_t n)) const
+		int compare(const char *str, int len, match_type match) const
 		{
-			int n = cmp(str, first, size());
+			int n = match(str, first, size());
 			if (n == 0)
 				return -(size() - len);
 			return n;
