@@ -30,9 +30,20 @@ namespace dc
 	typedef cainteoir::document_events events;
 
 	static const cainteoir::xml::context::entry contributor_node = { events::unknown, 0 };
+	static const cainteoir::xml::context::entry coverage_node    = { events::unknown, 0 };
 	static const cainteoir::xml::context::entry creator_node     = { events::unknown, 0 };
 	static const cainteoir::xml::context::entry date_node        = { events::unknown, 0 };
+	static const cainteoir::xml::context::entry description_node = { events::unknown, 0 };
+	static const cainteoir::xml::context::entry format_node      = { events::unknown, 0 };
 	static const cainteoir::xml::context::entry identifier_node  = { events::unknown, 0 };
+	static const cainteoir::xml::context::entry language_node    = { events::unknown, 0 };
+	static const cainteoir::xml::context::entry publisher_node   = { events::unknown, 0 };
+	static const cainteoir::xml::context::entry relation_node    = { events::unknown, 0 };
+	static const cainteoir::xml::context::entry rights_node      = { events::unknown, 0 };
+	static const cainteoir::xml::context::entry source_node      = { events::unknown, 0 };
+	static const cainteoir::xml::context::entry subject_node     = { events::unknown, 0 };
+	static const cainteoir::xml::context::entry title_node       = { events::unknown, 0 };
+	static const cainteoir::xml::context::entry type_node        = { events::unknown, 0 };
 }
 
 namespace opf
@@ -73,9 +84,20 @@ namespace opf
 static const std::initializer_list<const xml::context::entry_ref> dc_nodes =
 {
 	{ "contributor", &dc::contributor_node },
+	{ "coverage",    &dc::coverage_node },
 	{ "creator",     &dc::creator_node },
 	{ "date",        &dc::date_node },
+	{ "description", &dc::description_node },
+	{ "format",      &dc::format_node },
 	{ "identifier",  &dc::identifier_node },
+	{ "language",    &dc::language_node },
+	{ "publisher",   &dc::publisher_node },
+	{ "relation",    &dc::relation_node },
+	{ "rights",      &dc::rights_node },
+	{ "source",      &dc::source_node },
+	{ "subject",     &dc::subject_node },
+	{ "title",       &dc::title_node },
+	{ "type",        &dc::type_node },
 };
 
 static const std::initializer_list<const xml::context::entry_ref> opf_nodes =
@@ -350,10 +372,10 @@ void parseOpfMetadata(xml::reader &reader, const rdf::uri &aSubject, cainteoir::
 				parseOpfMeta(reader, aSubject, events, aGraph);
 			else if (reader.context() == &opf::link_node)
 				parseOpfLink(reader, aSubject, events, aGraph);
-			else if (reader.namespaceUri() == xmlns::dc)
+			else if (reader.namespaceUri() == xmlns::dc && reader.context() != &xml::unknown_context)
 				parseOpfDublinCore(reader, aSubject, events, aGraph, reader.context());
 		}
-		else if (reader.namespaceUri() == xmlns::dc)
+		else if (reader.namespaceUri() == xmlns::dc && reader.context() != &xml::unknown_context)
 			parseOpfDublinCore(reader, aSubject, events, aGraph, reader.context());
 		break;
 	case xml::reader::endTagNode:
