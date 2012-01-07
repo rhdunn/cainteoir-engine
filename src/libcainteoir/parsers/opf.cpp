@@ -88,7 +88,7 @@ void parseOpfMetadata(const xmldom::node &opf, const rdf::uri &aSubject, cainteo
 				}
 				else if (!strcmp(attr.name(), "id"))
 					id = attr.content();
-				else if (!strcmp(attr.name(), "about"))
+				else if (!strcmp(attr.name(), "about") || !strcmp(attr.name(), "refines"))
 					about = rdf::uri(aSubject.str(), attr.content().substr(1));
 				else if (!strcmp(attr.name(), "datatype"))
 				{
@@ -129,7 +129,7 @@ void parseOpfMetadata(const xmldom::node &opf, const rdf::uri &aSubject, cainteo
 					href = aGraph.href(attr.content());
 				else if (!strcmp(attr.name(), "id"))
 					id = attr.content();
-				else if (!strcmp(attr.name(), "about"))
+				else if (!strcmp(attr.name(), "about") || !strcmp(attr.name(), "refines"))
 					about = rdf::uri(aSubject.str(), attr.content().substr(1));
 			}
 

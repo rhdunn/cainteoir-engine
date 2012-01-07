@@ -150,6 +150,7 @@ if __name__ == '__main__':
 			{'test': 'opf/meta/property.opf', 'result': 'opf/meta/property.n3'},
 			{'test': 'opf/meta/property-id.opf', 'result': 'opf/meta/property-id.n3'},
 			{'test': 'opf/meta/property-about.opf', 'result': 'opf/meta/property-about.n3'},
+			{'test': 'opf/meta/property-refines.opf', 'result': 'opf/meta/property-about.n3'},
 			{'test': 'opf/meta/property-datatype.opf', 'result': 'opf/meta/property-datatype.n3'},
 			# @prefix
 			{'test': 'opf/meta/package-prefix.opf', 'result': 'opf/meta/prefix.n3'},
@@ -160,6 +161,7 @@ if __name__ == '__main__':
 			{'test': 'opf/link/rel-multicurie.opf', 'result': 'opf/link/rel-multicurie.n3'},
 			{'test': 'opf/link/rel-id.opf', 'result': 'opf/link/rel-id.n3'},
 			{'test': 'opf/link/rel-about.opf', 'result': 'opf/link/rel-about.n3'},
+			{'test': 'opf/link/rel-refines.opf', 'result': 'opf/link/rel-about.n3'},
 			{'test': 'opf/link/rel-mediatype.opf', 'result': 'opf/link/rel-mediatype.n3'},
 		]},
 		{'name': 'metadata 3.0', 'type': 'turtle', 'tests': [
