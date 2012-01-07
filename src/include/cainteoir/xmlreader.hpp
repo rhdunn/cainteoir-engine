@@ -160,36 +160,46 @@ namespace cainteoir { namespace xml
 	class context
 	{
 	public:
+		/** @brief Special parse flags that control how xmlreader behaves.
+		  */
 		enum parse_flags
 		{
-			implicit_end_tag = 1, // implicit close tag -- <node> is the same as <node/>
+			/** @brief The tag has an implicit end tag.
+			  *
+			  * This makes <node> behave the same was as <node/>.
+			  */
+			implicit_end_tag = 1,
 		};
 
 		struct entry
 		{
-			const char *name;
-			uint32_t id;
 			uint32_t context;
 			uint32_t parameter;
 			parse_flags parse_type;
 		};
 
-		void set_nodes(const std::string &ns, const std::initializer_list<const entry> &entries)
+		struct entry_ref
+		{
+			const char  *name;
+			const entry *data;
+		};
+
+		void set_nodes(const std::string &ns, const std::initializer_list<const entry_ref> &entries)
 		{
 			mNodes[ns] = entries;
 		}
 
-		void set_nodes(const ns &aNS, const std::initializer_list<const entry> &entries)
+		void set_nodes(const ns &aNS, const std::initializer_list<const entry_ref> &entries)
 		{
 			mNodes[aNS.href] = entries;
 		}
 
-		void set_attrs(const std::string &ns, const std::initializer_list<const entry> &entries)
+		void set_attrs(const std::string &ns, const std::initializer_list<const entry_ref> &entries)
 		{
 			mAttrs[ns] = entries;
 		}
 
-		void set_attrs(const ns &aNS, const std::initializer_list<const entry> &entries)
+		void set_attrs(const ns &aNS, const std::initializer_list<const entry_ref> &entries)
 		{
 			mAttrs[aNS.href] = entries;
 		}
@@ -204,13 +214,18 @@ namespace cainteoir { namespace xml
 			return lookup(ns, node, mAttrs);
 		}
 	private:
-		const entry *lookup(const std::string &ns, const cainteoir::buffer &node, const std::map<std::string, std::initializer_list<const entry>> &entries) const;
+		const entry *lookup(const std::string &ns, const cainteoir::buffer &node, const std::map<std::string, std::initializer_list<const entry_ref>> &entries) const;
 
-		std::map<std::string, std::initializer_list<const entry>> mNodes;
-		std::map<std::string, std::initializer_list<const entry>> mAttrs;
+		std::map<std::string, std::initializer_list<const entry_ref>> mNodes;
+		std::map<std::string, std::initializer_list<const entry_ref>> mAttrs;
 	};
 
 	extern const context::entry unknown_context;
+
+	extern const context::entry base_attr;
+	extern const context::entry id_attr;
+	extern const context::entry lang_attr;
+	extern const context::entry space_attr;
 
 	class reader : public context
 	{

@@ -49,142 +49,274 @@ enum list_type
 	number_list = 0x80000000,
 };
 
-static const std::initializer_list<const xml::context::entry> html_nodes =
+namespace html
 {
-	{ "a",          node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "abbr",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "address",    node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "acronym",    node_unknown, cainteoir::document_events::unknown,   0 }, // html4
-	{ "applet",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "area",       node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "article",    node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "aside",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "audio",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "b",          node_unknown, cainteoir::document_events::span,      cainteoir::document_events::strong },
-	{ "base",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "basefont",   node_unknown, cainteoir::document_events::unknown,   0 }, // html4
-	{ "bdi",        node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "bdo",        node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "big",        node_unknown, cainteoir::document_events::unknown,   0 }, // html4
-	{ "blockquote", node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "body",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "br",         node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "button",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "canvas",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "caption",    node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "center",     node_unknown, cainteoir::document_events::unknown,   0 }, // html4
-	{ "cite",       node_unknown, cainteoir::document_events::span,      cainteoir::document_events::emphasized },
-	{ "code",       node_unknown, cainteoir::document_events::span,      cainteoir::document_events::monospace },
-	{ "col",        node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "colgroup",   node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "command",    node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "data",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "datalist",   node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "dd",         node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "del",        node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "details",    node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "dfn",        node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "div",        node_unknown, cainteoir::document_events::paragraph, 0 },
-	{ "dl",         node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "dt",         node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "em",         node_unknown, cainteoir::document_events::span,      cainteoir::document_events::emphasized },
-	{ "embed",      node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "fieldset",   node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "figcaption", node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "figure",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "font",       node_unknown, cainteoir::document_events::unknown,   0 }, // html4
-	{ "footer",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "form",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "frame",      node_unknown, cainteoir::document_events::unknown,   0 }, // html4
-	{ "frameset",   node_unknown, cainteoir::document_events::unknown,   0 }, // html4
-	{ "h1",         node_unknown, cainteoir::document_events::heading,   1 },
-	{ "h2",         node_unknown, cainteoir::document_events::heading,   2 },
-	{ "h3",         node_unknown, cainteoir::document_events::heading,   3 },
-	{ "h4",         node_unknown, cainteoir::document_events::heading,   4 },
-	{ "h5",         node_unknown, cainteoir::document_events::heading,   5 },
-	{ "h6",         node_unknown, cainteoir::document_events::heading,   6 },
-	{ "head",       node_head,    cainteoir::document_events::unknown,   0 },
-	{ "header",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "hgroup",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "hr",         node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "html",       node_html,    cainteoir::document_events::unknown,   0 },
-	{ "i",          node_unknown, cainteoir::document_events::span,      cainteoir::document_events::emphasized },
-	{ "iframe",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "img",        node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "input",      node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "ins",        node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "isindex",    node_unknown, cainteoir::document_events::unknown,   0 }, // html4
-	{ "kbd",        node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "keygen",     node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "label",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "legend",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "li",         node_li,      cainteoir::document_events::unknown,   0 },
-	{ "link",       node_link,    cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "map",        node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "mark",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "marquee",    node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "menu",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "meta",       node_meta,    cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "meter",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "nav",        node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "noad",       node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag }, // adsense, e.g. m.fanfiction.net
-	{ "noframes",   node_unknown, cainteoir::document_events::unknown,   0 }, // html4
-	{ "noscript",   node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "object",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "ol",         node_unknown, cainteoir::document_events::list,      number_list },
-	{ "optgroup",   node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "option",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "output",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "p",          node_unknown, cainteoir::document_events::paragraph, 0 },
-	{ "param",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "pre",        node_unknown, cainteoir::document_events::paragraph, cainteoir::document_events::monospace },
-	{ "progress",   node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "q",          node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "rp",         node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "rt",         node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "ruby",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "s",          node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "samp",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "script",     node_script,  cainteoir::document_events::unknown,   0 },
-	{ "section",    node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "select",     node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "small",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "source",     node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "span",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "strike",     node_unknown, cainteoir::document_events::unknown,   0 }, // html4
-	{ "strong",     node_unknown, cainteoir::document_events::span,      cainteoir::document_events::strong },
-	{ "style",      node_style,   cainteoir::document_events::unknown,   0 },
-	{ "sub",        node_unknown, cainteoir::document_events::span,      cainteoir::document_events::subscript },
-	{ "summary",    node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "sup",        node_unknown, cainteoir::document_events::span,      cainteoir::document_events::superscript },
-	{ "table",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "tbody",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "td",         node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "textarea",   node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "tfoot",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "th",         node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "thead",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "time",       node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "title",      node_title,   cainteoir::document_events::unknown,   0 },
-	{ "tr",         node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "track",      node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
-	{ "tt",         node_unknown, cainteoir::document_events::unknown,   0 }, // html4
-	{ "u",          node_unknown, cainteoir::document_events::span,      cainteoir::document_events::underline },
-	{ "ul",         node_unknown, cainteoir::document_events::list,      bullet_list },
-	{ "var",        node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "video",      node_unknown, cainteoir::document_events::unknown,   0 },
-	{ "wbr",        node_unknown, cainteoir::document_events::unknown,   0, xml::context::implicit_end_tag },
+	typedef cainteoir::document_events events;
+
+	static const cainteoir::xml::context::entry a_node          = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry abbr_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry address_node    = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry acronym_node    = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry applet_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry area_node       = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry article_node    = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry aside_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry audio_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry b_node          = { events::span,      events::strong };
+	static const cainteoir::xml::context::entry base_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry basefont_node   = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry bdi_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry bdo_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry big_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry blockquote_node = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry body_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry br_node         = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry button_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry canvas_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry caption_node    = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry center_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry cite_node       = { events::span,      events::emphasized };
+	static const cainteoir::xml::context::entry code_node       = { events::span,      events::monospace };
+	static const cainteoir::xml::context::entry col_node        = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry colgroup_node   = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry command_node    = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry data_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry datalist_node   = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry dd_node         = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry del_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry details_node    = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry dfn_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry div_node        = { events::paragraph, 0 };
+	static const cainteoir::xml::context::entry dl_node         = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry dt_node         = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry em_node         = { events::span,      events::emphasized };
+	static const cainteoir::xml::context::entry embed_node      = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry fieldset_node   = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry figcaption_node = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry figure_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry font_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry footer_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry form_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry frame_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry frameset_node   = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry h1_node         = { events::heading,   1 };
+	static const cainteoir::xml::context::entry h2_node         = { events::heading,   2 };
+	static const cainteoir::xml::context::entry h3_node         = { events::heading,   3 };
+	static const cainteoir::xml::context::entry h4_node         = { events::heading,   4 };
+	static const cainteoir::xml::context::entry h5_node         = { events::heading,   5 };
+	static const cainteoir::xml::context::entry h6_node         = { events::heading,   6 };
+	static const cainteoir::xml::context::entry head_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry header_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry hgroup_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry hr_node         = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry html_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry i_node          = { events::span,      events::emphasized };
+	static const cainteoir::xml::context::entry iframe_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry img_node        = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry input_node      = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry ins_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry isindex_node    = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry kbd_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry keygen_node     = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry label_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry legend_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry li_node         = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry link_node       = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry map_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry mark_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry marquee_node    = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry menu_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry meta_node       = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry meter_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry nav_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry noad_node       = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry noframes_node   = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry noscript_node   = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry object_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry ol_node         = { events::list,      number_list };
+	static const cainteoir::xml::context::entry optgroup_node   = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry option_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry output_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry p_node          = { events::paragraph, 0 };
+	static const cainteoir::xml::context::entry param_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry pre_node        = { events::paragraph, events::monospace };
+	static const cainteoir::xml::context::entry progress_node   = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry q_node          = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry rp_node         = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry rt_node         = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry ruby_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry s_node          = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry samp_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry script_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry section_node    = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry select_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry small_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry source_node     = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry span_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry strike_node     = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry strong_node     = { events::span,      events::strong };
+	static const cainteoir::xml::context::entry style_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry sub_node        = { events::span,      events::subscript };
+	static const cainteoir::xml::context::entry summary_node    = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry sup_node        = { events::span,      events::superscript };
+	static const cainteoir::xml::context::entry table_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry tbody_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry td_node         = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry textarea_node   = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry tfoot_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry th_node         = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry thead_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry time_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry title_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry tr_node         = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry track_node      = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry tt_node         = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry u_node          = { events::span,      events::underline };
+	static const cainteoir::xml::context::entry ul_node         = { events::list,      bullet_list };
+	static const cainteoir::xml::context::entry var_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry video_node      = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry wbr_node        = { events::unknown,   0, xml::context::implicit_end_tag };
+}
+
+static const std::initializer_list<const xml::context::entry_ref> html_nodes =
+{
+	{ "a",          &html::a_node },
+	{ "abbr",       &html::abbr_node },
+	{ "address",    &html::address_node },
+	{ "acronym",    &html::acronym_node }, // html4
+	{ "applet",     &html::applet_node },
+	{ "area",       &html::area_node },
+	{ "article",    &html::article_node },
+	{ "aside",      &html::aside_node },
+	{ "audio",      &html::audio_node },
+	{ "b",          &html::b_node },
+	{ "base",       &html::base_node },
+	{ "basefont",   &html::basefont_node }, // html4
+	{ "bdi",        &html::bdi_node },
+	{ "bdo",        &html::bdo_node },
+	{ "big",        &html::big_node }, // html4
+	{ "blockquote", &html::blockquote_node },
+	{ "body",       &html::body_node },
+	{ "br",         &html::br_node },
+	{ "button",     &html::button_node },
+	{ "canvas",     &html::canvas_node },
+	{ "caption",    &html::caption_node },
+	{ "center",     &html::center_node }, // html4
+	{ "cite",       &html::cite_node },
+	{ "code",       &html::code_node },
+	{ "col",        &html::col_node },
+	{ "colgroup",   &html::colgroup_node },
+	{ "command",    &html::command_node },
+	{ "data",       &html::data_node },
+	{ "datalist",   &html::datalist_node },
+	{ "dd",         &html::dd_node },
+	{ "del",        &html::del_node },
+	{ "details",    &html::details_node },
+	{ "dfn",        &html::dfn_node },
+	{ "div",        &html::div_node },
+	{ "dl",         &html::dl_node },
+	{ "dt",         &html::dt_node },
+	{ "em",         &html::em_node },
+	{ "embed",      &html::embed_node },
+	{ "fieldset",   &html::fieldset_node },
+	{ "figcaption", &html::figcaption_node },
+	{ "figure",     &html::figure_node },
+	{ "font",       &html::font_node }, // html4
+	{ "footer",     &html::footer_node },
+	{ "form",       &html::form_node },
+	{ "frame",      &html::frame_node }, // html4
+	{ "frameset",   &html::frameset_node }, // html4
+	{ "h1",         &html::h1_node },
+	{ "h2",         &html::h2_node },
+	{ "h3",         &html::h3_node },
+	{ "h4",         &html::h4_node },
+	{ "h5",         &html::h5_node },
+	{ "h6",         &html::h6_node },
+	{ "head",       &html::head_node },
+	{ "header",     &html::header_node },
+	{ "hgroup",     &html::hgroup_node },
+	{ "hr",         &html::hr_node },
+	{ "html",       &html::html_node },
+	{ "i",          &html::i_node },
+	{ "iframe",     &html::iframe_node },
+	{ "img",        &html::img_node },
+	{ "input",      &html::input_node },
+	{ "ins",        &html::ins_node },
+	{ "isindex",    &html::isindex_node }, // html4
+	{ "kbd",        &html::kbd_node },
+	{ "keygen",     &html::keygen_node },
+	{ "label",      &html::label_node },
+	{ "legend",     &html::legend_node },
+	{ "li",         &html::li_node },
+	{ "link",       &html::link_node },
+	{ "map",        &html::map_node },
+	{ "mark",       &html::mark_node },
+	{ "marquee",    &html::marquee_node },
+	{ "menu",       &html::menu_node },
+	{ "meta",       &html::meta_node },
+	{ "meter",      &html::meter_node },
+	{ "nav",        &html::nav_node },
+	{ "noad",       &html::noad_node }, // adsense, e.g. m.fanfiction.net
+	{ "noframes",   &html::noframes_node }, // html4
+	{ "noscript",   &html::noscript_node },
+	{ "object",     &html::object_node },
+	{ "ol",         &html::ol_node },
+	{ "optgroup",   &html::optgroup_node },
+	{ "option",     &html::option_node },
+	{ "output",     &html::output_node },
+	{ "p",          &html::p_node },
+	{ "param",      &html::param_node },
+	{ "pre",        &html::pre_node },
+	{ "progress",   &html::progress_node },
+	{ "q",          &html::q_node },
+	{ "rp",         &html::rp_node },
+	{ "rt",         &html::rt_node },
+	{ "ruby",       &html::ruby_node },
+	{ "s",          &html::s_node },
+	{ "samp",       &html::samp_node },
+	{ "script",     &html::script_node },
+	{ "section",    &html::section_node },
+	{ "select",     &html::select_node },
+	{ "small",      &html::small_node },
+	{ "source",     &html::source_node },
+	{ "span",       &html::span_node },
+	{ "strike",     &html::strike_node }, // html4
+	{ "strong",     &html::strong_node },
+	{ "style",      &html::style_node },
+	{ "sub",        &html::sub_node },
+	{ "summary",    &html::summary_node },
+	{ "sup",        &html::sup_node },
+	{ "table",      &html::table_node },
+	{ "tbody",      &html::tbody_node },
+	{ "td",         &html::td_node },
+	{ "textarea",   &html::textarea_node },
+	{ "tfoot",      &html::tfoot_node },
+	{ "th",         &html::th_node },
+	{ "thead",      &html::thead_node },
+	{ "time",       &html::time_node },
+	{ "title",      &html::title_node },
+	{ "tr",         &html::tr_node },
+	{ "track",      &html::track_node },
+	{ "tt",         &html::tt_node },
+	{ "u",          &html::u_node },
+	{ "ul",         &html::ul_node },
+	{ "var",        &html::var_node },
+	{ "video",      &html::video_node },
+	{ "wbr",        &html::wbr_node },
 };
 
-static const std::initializer_list<const xml::context::entry> html_attrs =
+static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 {
-	{ "id",   attr_id,   cainteoir::document_events::unknown, 0 },
-	{ "lang", attr_lang, cainteoir::document_events::unknown, 0 },
+	{ "id",   &xml::id_attr },
+	{ "lang", &xml::lang_attr },
 };
 
-static const std::initializer_list<const xml::context::entry> xml_attrs =
+static const std::initializer_list<const xml::context::entry_ref> xml_attrs =
 {
-	{ "lang", attr_lang, cainteoir::document_events::unknown, 0 },
+	{ "base",  &xml::base_attr },
+	{ "id",    &xml::id_attr },
+	{ "lang",  &xml::lang_attr },
+	{ "space", &xml::space_attr },
 };
 
 void skipNode(xml::reader &reader, const cainteoir::buffer name)
@@ -203,7 +335,7 @@ void parseTitleNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::do
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::endTagNode:
-		if (reader.context()->id == node_title)
+		if (reader.context() == &html::title_node)
 			return;
 		break;
 	case xml::reader::textNode:
@@ -221,19 +353,13 @@ void parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
-		switch (reader.context()->id)
-		{
-		case node_title:
+		if (reader.context() == &html::title_node)
 			parseTitleNode(reader, aSubject, events, aGraph);
-			break;
-		case node_meta:
-		case node_link:
+		else if (reader.context() == &html::meta_node || reader.context() == &html::link_node)
 			skipNode(reader, reader.nodeName());
-			break;
-		}
 		break;
 	case xml::reader::endTagNode:
-		if (reader.context()->id == node_head)
+		if (reader.context() == &html::head_node)
 			return;
 		break;
 	}
@@ -246,7 +372,7 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
-		if (reader.context()->id == node_li)
+		if (reader.context() == &html::li_node)
 		{
 			events.begin_context(cainteoir::document_events::list_item);
 			if (list_ctx->parameter == bullet_list)
@@ -284,7 +410,7 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 			events.end_context();
 			return;
 		}
-		if (reader.context()->id == node_li)
+		if (reader.context() == &html::li_node)
 			events.end_context();
 		break;
 	}
@@ -295,12 +421,11 @@ void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
-		if (reader.context()->id == attr_id)
+		if (reader.context() == &xml::id_attr)
 			events.anchor(rdf::uri(aSubject.str(), reader.nodeValue().str()), std::string());
 		break;
 	case xml::reader::beginTagNode:
-		if (reader.context()->id == node_script ||
-		    reader.context()->id == node_style)
+		if (reader.context() == &html::script_node || reader.context() == &html::style_node)
 			skipNode(reader, reader.nodeName());
 		else if (reader.context()->context != cainteoir::document_events::unknown)
 		{
@@ -337,25 +462,20 @@ void parseHtmlNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
-		switch (reader.context()->id)
-		{
-		case node_head:
+		if (reader.context() == &html::head_node)
 			parseHeadNode(reader, aSubject, events, aGraph);
-			break;
-		default:
+		else
 			parseBodyNode(reader, aSubject, events, reader.context());
-			break;
-		}
 		break;
 	case xml::reader::attribute:
-		if (reader.context()->id == attr_lang && lang.empty())
+		if (reader.context() == &xml::lang_attr && lang.empty())
 		{
 			lang = reader.nodeValue().buffer()->str();
 			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
 		}
 		break;
 	case xml::reader::endTagNode:
-		if (reader.context()->id == node_html)
+		if (reader.context() == &html::html_node)
 			return;
 	}
 }
@@ -378,18 +498,12 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
-		switch (reader.context()->id)
-		{
-		case node_html:
+		if (reader.context() == &html::html_node)
 			parseHtmlNode(reader, aSubject, events, aGraph);
-			break;
-		case node_head:
+		else if (reader.context() == &html::head_node)
 			parseHeadNode(reader, aSubject, events, aGraph);
-			break;
-		default:
+		else
 			parseBodyNode(reader, aSubject, events, reader.context());
-			break;
-		}
 		break;
 	}
 }

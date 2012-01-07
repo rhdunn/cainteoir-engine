@@ -196,9 +196,14 @@ std::string cainteoir::xml::namespaces::lookup(const std::string &aPrefix) const
 	return std::string();
 }
 
-const cainteoir::xml::context::entry cainteoir::xml::unknown_context = { NULL, 0, 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::unknown_context = { 0, 0 };
 
-const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &ns, const cainteoir::buffer &node, const std::map<std::string, std::initializer_list<const entry>> &entries) const
+const cainteoir::xml::context::entry cainteoir::xml::base_attr  = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::id_attr    = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::lang_attr  = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::space_attr = { 0, 0 };
+
+const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &ns, const cainteoir::buffer &node, const std::map<std::string, std::initializer_list<const entry_ref>> &entries) const
 {
 	auto entryset = entries.find(ns);
 	if (entryset == entries.end())
@@ -213,7 +218,7 @@ const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std:
 
 		int comp = node.comparei((*(entryset->second.begin() + pos)).name);
 		if (comp == 0)
-			return &*(entryset->second.begin() + pos);
+			return (*(entryset->second.begin() + pos)).data;
 		else if (comp < 0)
 			begin = pos + 1;
 		else
