@@ -285,7 +285,7 @@ void cainteoir::parseOpfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, 
 
 	for (xmldom::attribute attr = opf.firstAttribute(); attr.isValid(); attr.next())
 	{
-		if (!strcmp(attr.name(), "profile") && attr.content() == "http://www.idpf.org/epub/30/profile/package/")
+		if (!strcmp(attr.name(), "version") && attr.content() == "3.0")
 			aGraph << rdf::ns("dcterms", rdf::dcterms.href) << rdf::media << rdf::xsd;
 		else if (!strcmp(attr.name(), "prefix"))
 			aGraph.add_prefix(attr.content());

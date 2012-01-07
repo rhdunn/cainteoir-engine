@@ -19,7 +19,7 @@
 	You should have received a copy of the GNU General Public License
 	along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<package xmlns="http://www.idpf.org/2007/opf" version="3.0" profile="http://www.idpf.org/epub/30/profile/package/">
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0">
 	<metadata prefix="foaf: http://xmlns.com/foaf/0.1/">
 		<link refines="#id" rel="foaf:homepage" href="http://www.example.com"/>
 	</metadata>
