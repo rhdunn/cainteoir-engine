@@ -311,14 +311,6 @@ static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 	{ "lang", &xml::lang_attr },
 };
 
-static const std::initializer_list<const xml::context::entry_ref> xml_attrs =
-{
-	{ "base",  &xml::base_attr },
-	{ "id",    &xml::id_attr },
-	{ "lang",  &xml::lang_attr },
-	{ "space", &xml::space_attr },
-};
-
 void skipNode(xml::reader &reader, const cainteoir::buffer name)
 {
 	while (reader.read()) switch (reader.nodeType())
@@ -487,7 +479,7 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 	reader.set_attrs(std::string(), html_attrs);
 	reader.set_nodes(xmlns::xhtml,  html_nodes);
 	reader.set_attrs(xmlns::xhtml,  html_attrs);
-	reader.set_attrs(xmlns::xml,    xml_attrs);
+	reader.set_attrs(xmlns::xml,    xml::attrs);
 
 	if (reader.isPlainText())
 	{

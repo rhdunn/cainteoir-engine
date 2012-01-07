@@ -157,6 +157,8 @@ const cainteoir::xml::resource *cainteoir::xml::uri::clone() const
 	return new uri(*this);
 }
 
+const cainteoir::xml::ns cainteoir::xml::xmlns::dc(   "dc",  "http://purl.org/dc/elements/1.1/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::opf(  "opf", "http://www.idpf.org/2007/opf");
 const cainteoir::xml::ns cainteoir::xml::xmlns::xhtml("h",   "http://www.w3.org/1999/xhtml");
 const cainteoir::xml::ns cainteoir::xml::xmlns::xml(  "xml", "http://www.w3.org/XML/1998/namespace");
 
@@ -202,6 +204,14 @@ const cainteoir::xml::context::entry cainteoir::xml::base_attr  = { 0, 0 };
 const cainteoir::xml::context::entry cainteoir::xml::id_attr    = { 0, 0 };
 const cainteoir::xml::context::entry cainteoir::xml::lang_attr  = { 0, 0 };
 const cainteoir::xml::context::entry cainteoir::xml::space_attr = { 0, 0 };
+
+const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir::xml::attrs =
+{
+	{ "base",  &xml::base_attr },
+	{ "id",    &xml::id_attr },
+	{ "lang",  &xml::lang_attr },
+	{ "space", &xml::space_attr },
+};
 
 const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &ns, const cainteoir::buffer &node, const std::map<std::string, std::initializer_list<const entry_ref>> &entries) const
 {

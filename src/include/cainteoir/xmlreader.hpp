@@ -116,6 +116,8 @@ namespace cainteoir { namespace xml
 
 	namespace xmlns
 	{
+		extern const ns dc;
+		extern const ns opf;
 		extern const ns xhtml;
 		extern const ns xml;
 	}
@@ -226,6 +228,8 @@ namespace cainteoir { namespace xml
 	extern const context::entry id_attr;
 	extern const context::entry lang_attr;
 	extern const context::entry space_attr;
+
+	extern const std::initializer_list<const context::entry_ref> attrs;
 
 	class reader : public context
 	{
