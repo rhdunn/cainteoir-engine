@@ -82,6 +82,9 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/u.html', 'result': 'html/text-level-semantics/u.events'},
 			{'test': 'html/text-level-semantics/u.xhtml', 'result': 'html/text-level-semantics/u.events'},
 		]},
+		{'name': 'entities', 'type': 'events', 'tests': [
+			{'test': 'html/entities.html', 'result': 'html/entities.events'},
+		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
 		{'name': 'headers', 'type': 'events', 'tests': [

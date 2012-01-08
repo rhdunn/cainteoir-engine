@@ -80,7 +80,7 @@ with open('html-entities.h', 'w') as f:
 		f.write('html_entities_%s + (sizeof(html_entities_%s) / sizeof(html_entities_%s[0]))\n' % (idx, idx, idx))
 		f.write('};\n')
 
-	f.write('static const entity_set * html_entities[] = {\n')
+	f.write('const entity_set *cainteoir::xml::html_entities[52] = {\n')
 	for idx in sorted(entities.keys()):
 		f.write('&html_entity_set_%s,\n' % idx)
 	f.write('};\n')

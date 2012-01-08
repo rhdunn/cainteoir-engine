@@ -21,21 +21,13 @@
 #include <cainteoir/xmlreader.hpp>
 #include <cainteoir/platform.hpp>
 
-struct entity
-{
-	const char * name;
-	const char * value;
-};
+using cainteoir::xml::entity;
+using cainteoir::xml::entity_set;
 
-struct entity_set
-{
-	const entity * first;
-	const entity * last;
-};
-
+#include "xml-entities.h"
 #include "html-entities.h"
 
-const char * resolve_entity(const entity_set **entities, const cainteoir::buffer &data)
+const char * cainteoir::xml::lookup_entity(const entity_set **entities, const cainteoir::buffer &data)
 {
 	char c = *data.begin();
 
@@ -44,7 +36,8 @@ const char * resolve_entity(const entity_set **entities, const cainteoir::buffer
 		ent = entities[c - 'a' + 26];
 	else if (c >= 'A' && c <= 'Z')
 		ent = entities[c - 'A'];
-	else
+
+	if (!ent)
 		return NULL;
 
 	int begin = 0;
@@ -91,7 +84,7 @@ void write_utf8(char * out, long c)
 	*out = '\0';
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity)
+std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity, const cainteoir::xml::entity_set **entities)
 {
 	const char * str = entity.begin();
 	if (*str == '#')
@@ -111,7 +104,7 @@ std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &en
 	}
 	else
 	{
-		const char * value = resolve_entity(html_entities, entity);
+		const char * value = cainteoir::xml::lookup_entity(entities, entity);
 		if (value)
 			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(value));
 	}
@@ -239,7 +232,7 @@ const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std:
 	return &unknown_context;
 }
 
-cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
+cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52])
 	: mData(aData)
 	, mNodeName(NULL, NULL)
 	, mNodePrefix(NULL, NULL)
@@ -249,6 +242,7 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	, mParseNamespaces(false)
 	, mContext(&unknown_context)
 	, mImplicitEndTag(false)
+	, mPredefinedEntities(aPredefinedEntities)
 {
 	mCurrent = mData->begin();
 	mNodeType = textNode;
@@ -523,7 +517,7 @@ void cainteoir::xml::reader::read_node_value(char terminator)
 
 			if (*mCurrent == ';')
 			{
-				std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent));
+				std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent), mPredefinedEntities);
 				if (entity)
 					mNodeValue += entity;
 				++mCurrent;

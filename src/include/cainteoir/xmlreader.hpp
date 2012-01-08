@@ -160,6 +160,23 @@ namespace cainteoir { namespace xml
 		long mBlockNumber;
 	};
 
+	struct entity
+	{
+		const char * name;
+		const char * value;
+	};
+
+	struct entity_set
+	{
+		const entity * first;
+		const entity * last;
+	};
+
+	extern const entity_set *xml_entities[52];
+	extern const entity_set *html_entities[52];
+
+	const char *lookup_entity(const entity_set *entities[52], const cainteoir::buffer &data);
+
 	class context
 	{
 	public:
@@ -251,7 +268,7 @@ namespace cainteoir { namespace xml
 			attribute,
 		};
 
-		reader(std::tr1::shared_ptr<cainteoir::buffer> aData);
+		reader(std::tr1::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52] = xml_entities);
 
 		bool read();
 
@@ -288,6 +305,7 @@ namespace cainteoir { namespace xml
 		bool mParseAsText;
 		bool mParseNamespaces;
 		bool mImplicitEndTag;
+		const entity_set **mPredefinedEntities;
 
 		namespaces mNamespaces;
 		cainteoir::buffer mTagNodeName;
