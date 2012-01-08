@@ -117,6 +117,7 @@ namespace cainteoir { namespace xml
 	namespace xmlns
 	{
 		extern const ns dc;
+		extern const ns ocf;
 		extern const ns opf;
 		extern const ns xhtml;
 		extern const ns xml;

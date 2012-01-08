@@ -21,47 +21,77 @@
 #include "parsers.hpp"
 #include <cainteoir/platform.hpp>
 
-namespace rdf = cainteoir::rdf;
-namespace xml = cainteoir::xml;
+namespace rdf   = cainteoir::rdf;
+namespace xmlns = cainteoir::xml::xmlns;
+namespace xml   = cainteoir::xml;
+
+namespace ocf
+{
+	typedef cainteoir::document_events events;
+
+	static const xml::context::entry container_node = { events::unknown, 0 };
+	static const xml::context::entry rootfile_node  = { events::unknown, 0 };
+	static const xml::context::entry rootfiles_node = { events::unknown, 0 };
+
+	static const xml::context::entry fullpath_attr  = { events::unknown, 0 };
+	static const xml::context::entry mediatype_attr = { events::unknown, 0 };
+}
+
+static const std::initializer_list<const xml::context::entry_ref> ocf_nodes =
+{
+	{ "container", &ocf::container_node },
+	{ "rootfile",  &ocf::rootfile_node },
+	{ "rootfiles", &ocf::rootfiles_node },
+};
+
+static const std::initializer_list<const xml::context::entry_ref> ocf_attrs =
+{
+	{ "full-path",  &ocf::fullpath_attr },
+	{ "media-type", &ocf::mediatype_attr },
+};
 
 cainteoir::ocf_reader::ocf_reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	: mReader(aData)
 {
+	mReader.set_nodes(xmlns::ocf, ocf_nodes);
+	mReader.set_attrs(xmlns::ocf, ocf_attrs);
+
 	while (mReader.read() && mReader.nodeType() != xml::reader::beginTagNode)
 		;
 
-	if (mReader != rdf::ocf("container"))
+	if (mReader.context() != &ocf::container_node)
 		throw std::runtime_error(_("OCF file is not of a recognised format."));
 
 	do {
-		if (mReader.nodeType() == xml::reader::beginTagNode && mReader == rdf::ocf("rootfiles"))
+		if (mReader.nodeType() == xml::reader::beginTagNode && mReader.context() == &ocf::rootfiles_node)
 			break;
 	} while (mReader.read());
 }
 
 bool cainteoir::ocf_reader::read()
 {
-	bool is_rootfile = false;
 	mPath.clear();
 	mMediaType.clear();
+
+	const xml::context::entry *ctx = &xml::unknown_context;
 
 	while (mReader.read()) switch (mReader.nodeType())
 	{
 	case xml::reader::beginTagNode:
-		is_rootfile = mReader == rdf::ocf("rootfile");
+		ctx = mReader.context();
 		break;
 	case xml::reader::endTagNode:
-		if (mReader == rdf::ocf("rootfile"))
+		if (mReader.context() == &ocf::rootfile_node)
 			return true;
-		if (mReader == rdf::ocf("rootfiles"))
+		if (mReader.context() == &ocf::rootfiles_node)
 			return false;
 		break;
 	case xml::reader::attribute:
-		if (is_rootfile)
+		if (ctx == &ocf::rootfile_node)
 		{
-			     if (mReader == rdf::ocf("full-path"))
+			if (mReader.context() == &ocf::fullpath_attr)
 				mPath = mReader.nodeValue().str();
-			else if (mReader == rdf::ocf("media-type"))
+			else if (mReader.context() == &ocf::mediatype_attr)
 				mMediaType = mReader.nodeValue().str();
 		}
 		break;

@@ -158,6 +158,7 @@ const cainteoir::xml::resource *cainteoir::xml::uri::clone() const
 }
 
 const cainteoir::xml::ns cainteoir::xml::xmlns::dc(   "dc",  "http://purl.org/dc/elements/1.1/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::ocf(  "ocf", "urn:oasis:names:tc:opendocument:xmlns:container");
 const cainteoir::xml::ns cainteoir::xml::xmlns::opf(  "opf", "http://www.idpf.org/2007/opf");
 const cainteoir::xml::ns cainteoir::xml::xmlns::xhtml("h",   "http://www.w3.org/1999/xhtml");
 const cainteoir::xml::ns cainteoir::xml::xmlns::xml(  "xml", "http://www.w3.org/XML/1998/namespace");
