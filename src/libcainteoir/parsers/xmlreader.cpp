@@ -150,11 +150,28 @@ const cainteoir::xml::resource *cainteoir::xml::uri::clone() const
 	return new uri(*this);
 }
 
-const cainteoir::xml::ns cainteoir::xml::xmlns::dc(   "dc",  "http://purl.org/dc/elements/1.1/");
-const cainteoir::xml::ns cainteoir::xml::xmlns::ocf(  "ocf", "urn:oasis:names:tc:opendocument:xmlns:container");
-const cainteoir::xml::ns cainteoir::xml::xmlns::opf(  "opf", "http://www.idpf.org/2007/opf");
-const cainteoir::xml::ns cainteoir::xml::xmlns::xhtml("h",   "http://www.w3.org/1999/xhtml");
-const cainteoir::xml::ns cainteoir::xml::xmlns::xml(  "xml", "http://www.w3.org/XML/1998/namespace");
+const cainteoir::xml::ns cainteoir::xml::xmlns::dc(   "dc",    "http://purl.org/dc/elements/1.1/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::dcam( "dcam",  "http://purl.org/dc/dcam/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::dct(  "dct",   "http://purl.org/dc/terms/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::dtb(  "dtb",   "http://www.daisy.org/z3986/2005/dtbook/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::epub( "epub",  "http://www.idpf.org/2007/ops");
+const cainteoir::xml::ns cainteoir::xml::xmlns::foaf( "foaf",  "http://xmlns.com/foaf/0.1/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::media("media", "http://www.idpf.org/epub/vocab/overlays/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::ncx(  "ncx",   "http://www.daisy.org/z3986/2005/ncx/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::ocf(  "ocf",   "urn:oasis:names:tc:opendocument:xmlns:container");
+const cainteoir::xml::ns cainteoir::xml::xmlns::opf(  "opf",   "http://www.idpf.org/2007/opf");
+const cainteoir::xml::ns cainteoir::xml::xmlns::owl(  "owl",   "http://www.w3.org/2002/07/owl");
+const cainteoir::xml::ns cainteoir::xml::xmlns::pkg(  "pkg",   "http://www.idpf.org/epub/vocab/package/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::rdf(  "rdf",   "http://www.w3.org/1999/02/22-rdf-syntax-ns");
+const cainteoir::xml::ns cainteoir::xml::xmlns::rdfa( "rdfa",  "http://www.w3.org/ns/rdfa");
+const cainteoir::xml::ns cainteoir::xml::xmlns::rdfs( "rdfs",  "http://www.w3.org/2000/01/rdf-schema");
+const cainteoir::xml::ns cainteoir::xml::xmlns::skos( "skos",  "http://www.w3.org/2004/02/skos/core");
+const cainteoir::xml::ns cainteoir::xml::xmlns::smil( "smil",  "http://www.w3.org/ns/SMIL");
+const cainteoir::xml::ns cainteoir::xml::xmlns::ssml( "ssml",  "http://www.w3.org/2001/10/synthesis");
+const cainteoir::xml::ns cainteoir::xml::xmlns::tts(  "tts",   "http://rhdunn.github.com/2010/12/text-to-speech");
+const cainteoir::xml::ns cainteoir::xml::xmlns::xhtml("h",     "http://www.w3.org/1999/xhtml");
+const cainteoir::xml::ns cainteoir::xml::xmlns::xml(  "xml",   "http://www.w3.org/XML/1998/namespace");
+const cainteoir::xml::ns cainteoir::xml::xmlns::xsd(  "xsd",   "http://www.w3.org/2001/XMLSchema");
 
 cainteoir::xml::namespaces::namespaces()
 	: mBlockNumber(-1)

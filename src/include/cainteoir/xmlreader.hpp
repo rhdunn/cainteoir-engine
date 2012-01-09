@@ -116,11 +116,28 @@ namespace cainteoir { namespace xml
 
 	namespace xmlns
 	{
-		extern const ns dc;
-		extern const ns ocf;
-		extern const ns opf;
-		extern const ns xhtml;
-		extern const ns xml;
+		extern const ns dc;    /**< Dublin Core Elements namespace */
+		extern const ns dcam;  /**< Dublin Core Abstract Model namespace */
+		extern const ns dct;   /**< Dublin Core Terms namespace */
+		extern const ns dtb;   /**< Daisy Talking Book namespace */
+		extern const ns epub;  /**< ePub (Open Package Specification) namespace */
+		extern const ns foaf;  /**< Friend of a Friend namespace */
+		extern const ns media; /**< ePub Media Overlays namespace */
+		extern const ns ncx;   /**< Navigation Control File namespace */
+		extern const ns ocf;   /**< Open Container Format namespace */
+		extern const ns opf;   /**< Open Packaging Format namespace */
+		extern const ns owl;   /**< Ontology Web Language namespace */
+		extern const ns pkg;   /**< ePub Package namespace */
+		extern const ns rdf;   /**< Resource Description Framework namespace */
+		extern const ns rdfa;  /**< RDF/attributes namespace */
+		extern const ns rdfs;  /**< RDF Schema namespace */
+		extern const ns skos;  /**< Simple Knowledge Organization System namespace */
+		extern const ns smil;  /**< Synchronized Multimedia Integration Language namespace */
+		extern const ns ssml;  /**< Speech Synthesis Markup Language namespace */
+		extern const ns tts;   /**< Cainteoir Text-to-Speech namespace */
+		extern const ns xhtml; /**< XML-based Hyper-Text Markup Language namespace */
+		extern const ns xml;   /**< eXtensible Markup Language namespace */
+		extern const ns xsd;   /**< XML Schema namespace */
 	}
 
 	class namespaces
