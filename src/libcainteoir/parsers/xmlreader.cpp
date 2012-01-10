@@ -525,7 +525,7 @@ void cainteoir::xml::reader::read_node_value(char terminator)
 	do
 	{
 		const char *startPos = mCurrent;
-		if (*mCurrent == '&') // XML§4.1 -- character and entity references
+		if (*mCurrent == '&') // XML§4.1 ; HTML§12.1.4 -- character and entity references
 		{
 			++mCurrent;
 			if (*mCurrent == '#')
