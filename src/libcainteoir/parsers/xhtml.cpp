@@ -53,33 +53,36 @@ namespace html
 {
 	typedef cainteoir::document_events events;
 
+	// HTML§12.1.2 -- void elements
+	// HTML§14.3.* -- default rendering (styles)
+
 	static const cainteoir::xml::context::entry a_node          = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry abbr_node       = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry address_node    = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry acronym_node    = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry applet_node     = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry area_node       = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry area_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry article_node    = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry aside_node      = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry audio_node      = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry b_node          = { events::span,      events::strong };
-	static const cainteoir::xml::context::entry base_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry b_node          = { events::span,      events::strong }; // HTML§14.3.4
+	static const cainteoir::xml::context::entry base_node       = { events::unknown,   0, xml::content::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry basefont_node   = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry bdi_node        = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry bdo_node        = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry big_node        = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry blockquote_node = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry body_node       = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry br_node         = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry br_node         = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry button_node     = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry canvas_node     = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry caption_node    = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry center_node     = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry cite_node       = { events::span,      events::emphasized };
-	static const cainteoir::xml::context::entry code_node       = { events::span,      events::monospace };
-	static const cainteoir::xml::context::entry col_node        = { events::unknown,   0, xml::context::implicit_end_tag };
-	static const cainteoir::xml::context::entry colgroup_node   = { events::unknown,   0, xml::context::implicit_end_tag };
-	static const cainteoir::xml::context::entry command_node    = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry cite_node       = { events::span,      events::emphasized }; // HTML§14.3.4
+	static const cainteoir::xml::context::entry code_node       = { events::span,      events::monospace  }; // HTML§14.3.4
+	static const cainteoir::xml::context::entry col_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const cainteoir::xml::context::entry colgroup_node   = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry command_node    = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry data_node       = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry datalist_node   = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry dd_node         = { events::unknown,   0 };
@@ -89,8 +92,8 @@ namespace html
 	static const cainteoir::xml::context::entry div_node        = { events::paragraph, 0 };
 	static const cainteoir::xml::context::entry dl_node         = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry dt_node         = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry em_node         = { events::span,      events::emphasized };
-	static const cainteoir::xml::context::entry embed_node      = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry em_node         = { events::span,      events::emphasized }; // HTML§14.3.4
+	static const cainteoir::xml::context::entry embed_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry fieldset_node   = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry figcaption_node = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry figure_node     = { events::unknown,   0 };
@@ -108,38 +111,38 @@ namespace html
 	static const cainteoir::xml::context::entry head_node       = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry header_node     = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry hgroup_node     = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry hr_node         = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry hr_node         = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry html_node       = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry i_node          = { events::span,      events::emphasized };
+	static const cainteoir::xml::context::entry i_node          = { events::span,      events::emphasized }; // HTML§14.3.4
 	static const cainteoir::xml::context::entry iframe_node     = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry img_node        = { events::unknown,   0, xml::context::implicit_end_tag };
-	static const cainteoir::xml::context::entry input_node      = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry img_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const cainteoir::xml::context::entry input_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry ins_node        = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry isindex_node    = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry kbd_node        = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry keygen_node     = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry keygen_node     = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry label_node      = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry legend_node     = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry li_node         = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry link_node       = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry link_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry map_node        = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry mark_node       = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry marquee_node    = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry menu_node       = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry meta_node       = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry meta_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry meter_node      = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry nav_node        = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry noad_node       = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry noad_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // ad-sense markup? (e.g. m.fanfiction.net)
 	static const cainteoir::xml::context::entry noframes_node   = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry noscript_node   = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry object_node     = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry ol_node         = { events::list,      number_list };
+	static const cainteoir::xml::context::entry ol_node         = { events::list,      number_list }; // HTML§14.3.8
 	static const cainteoir::xml::context::entry optgroup_node   = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry option_node     = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry output_node     = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry p_node          = { events::paragraph, 0 };
-	static const cainteoir::xml::context::entry param_node      = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry pre_node        = { events::paragraph, events::monospace };
+	static const cainteoir::xml::context::entry param_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const cainteoir::xml::context::entry pre_node        = { events::paragraph, events::monospace }; // HTML§14.3.3
 	static const cainteoir::xml::context::entry progress_node   = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry q_node          = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry rp_node         = { events::unknown,   0 };
@@ -151,14 +154,14 @@ namespace html
 	static const cainteoir::xml::context::entry section_node    = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry select_node     = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry small_node      = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry source_node     = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry source_node     = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry span_node       = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry strike_node     = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry strong_node     = { events::span,      events::strong };
+	static const cainteoir::xml::context::entry strong_node     = { events::span,      events::strong }; // HTML§14.3.4
 	static const cainteoir::xml::context::entry style_node      = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry sub_node        = { events::span,      events::subscript };
+	static const cainteoir::xml::context::entry sub_node        = { events::span,      events::subscript }; // HTML§14.3.4
 	static const cainteoir::xml::context::entry summary_node    = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry sup_node        = { events::span,      events::superscript };
+	static const cainteoir::xml::context::entry sup_node        = { events::span,      events::superscript }; // HTML§14.3.4
 	static const cainteoir::xml::context::entry table_node      = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry tbody_node      = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry td_node         = { events::unknown,   0 };
@@ -169,13 +172,13 @@ namespace html
 	static const cainteoir::xml::context::entry time_node       = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry title_node      = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry tr_node         = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry track_node      = { events::unknown,   0, xml::context::implicit_end_tag };
-	static const cainteoir::xml::context::entry tt_node         = { events::span,      events::monospace };
-	static const cainteoir::xml::context::entry u_node          = { events::span,      events::underline };
-	static const cainteoir::xml::context::entry ul_node         = { events::list,      bullet_list };
+	static const cainteoir::xml::context::entry track_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const cainteoir::xml::context::entry tt_node         = { events::span,      events::monospace }; // HTML§14.3.4
+	static const cainteoir::xml::context::entry u_node          = { events::span,      events::underline }; // HTML§14.3.4
+	static const cainteoir::xml::context::entry ul_node         = { events::list,      bullet_list }; // HTML§14.3.8
 	static const cainteoir::xml::context::entry var_node        = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry video_node      = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry wbr_node        = { events::unknown,   0, xml::context::implicit_end_tag };
+	static const cainteoir::xml::context::entry wbr_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 }
 
 static const std::initializer_list<const xml::context::entry_ref> html_nodes =
@@ -499,3 +502,8 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 		break;
 	}
 }
+
+/** References
+  *
+  *    HTML [http://www.whatwg.org/specs/web-apps/current-work/multipage/] -- HTML Living Standard
+  */
