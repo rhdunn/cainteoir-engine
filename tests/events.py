@@ -73,6 +73,8 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/cite.xhtml', 'result': 'html/text-level-semantics/cite.events'},
 			{'test': 'html/text-level-semantics/code.html', 'result': 'html/text-level-semantics/code.events'},
 			{'test': 'html/text-level-semantics/code.xhtml', 'result': 'html/text-level-semantics/code.events'},
+			{'test': 'html/text-level-semantics/dfn.html', 'result': 'html/text-level-semantics/em.events'},
+			{'test': 'html/text-level-semantics/dfn.xhtml', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/em.html', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/em.xhtml', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/i.html', 'result': 'html/text-level-semantics/i.events'},

@@ -88,7 +88,7 @@ namespace html
 	static const cainteoir::xml::context::entry dd_node         = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry del_node        = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry details_node    = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry dfn_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry dfn_node        = { events::span,      events::emphasized }; // HTML§14.3.4
 	static const cainteoir::xml::context::entry dir_node        = { events::list,      bullet_list }; // HTML§14.3.8
 	static const cainteoir::xml::context::entry div_node        = { events::paragraph, 0 };
 	static const cainteoir::xml::context::entry dl_node         = { events::unknown,   0 };
