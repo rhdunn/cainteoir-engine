@@ -177,7 +177,7 @@ namespace html
 	static const cainteoir::xml::context::entry tt_node         = { events::span,      events::monospace }; // HTML§14.3.4
 	static const cainteoir::xml::context::entry u_node          = { events::span,      events::underline }; // HTML§14.3.4
 	static const cainteoir::xml::context::entry ul_node         = { events::list,      bullet_list }; // HTML§14.3.8
-	static const cainteoir::xml::context::entry var_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry var_node        = { events::span,      events::emphasized }; // HTML§14.3.4
 	static const cainteoir::xml::context::entry video_node      = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry wbr_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 }

@@ -89,6 +89,8 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/tt.xhtml', 'result': 'html/text-level-semantics/tt.events'},
 			{'test': 'html/text-level-semantics/u.html', 'result': 'html/text-level-semantics/u.events'},
 			{'test': 'html/text-level-semantics/u.xhtml', 'result': 'html/text-level-semantics/u.events'},
+			{'test': 'html/text-level-semantics/var.html', 'result': 'html/text-level-semantics/em.events'},
+			{'test': 'html/text-level-semantics/var.xhtml', 'result': 'html/text-level-semantics/em.events'},
 		]},
 		{'name': 'entities', 'type': 'events', 'tests': [
 			{'test': 'html/entities.html', 'result': 'html/entities.events'},
