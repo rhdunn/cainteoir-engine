@@ -1,4 +1,4 @@
-/* XML Reader API.
+/* XML/HTML Reader API.
  *
  * Copyright (C) 2010-2012 Reece H. Dunn
  *
@@ -311,7 +311,8 @@ bool cainteoir::xml::reader::read()
 	{
 		skip_whitespace();
 
-		if ((mCurrent[0] == '/' && mCurrent[1] == '>') || (mCurrent[0] == '>' && mImplicitEndTag))
+		if ((mCurrent[0] == '/' && mCurrent[1] == '>') || // XML§3.1     -- Empty-Element Tag
+		    (mCurrent[0] == '>' && mImplicitEndTag))      // HTML§12.1.2 -- void elements
 		{
 			mNodeName = mTagNodeName;
 			mNodePrefix = mTagNodePrefix;
@@ -326,36 +327,36 @@ bool cainteoir::xml::reader::read()
 			return true;
 		}
 
-		if (xmlalnum(*mCurrent))
+		if (xmlalnum(*mCurrent)) // XML§3.1 ; HTML§12.1.2.3
 		{
 			read_tag(attribute);
 			mContext = lookup_attr(namespaceUri(), nodeName());
 			if (check_next('='))
 			{
-				if (check_next('"')) // double-quoted attribute value (HTML)
+				if (check_next('"')) // XML§3.1 ; HTML§12.1.2.3 -- double-quoted attribute value
 				{
 					read_node_value('"');
 					++mCurrent;
 				}
-				else if (check_next('\'')) // single-quoted attribute value (HTML)
+				else if (check_next('\'')) // XML§3.1 ; HTML§12.1.2.3 -- single-quoted attribute value
 				{
 					read_node_value('\'');
 					++mCurrent;
 				}
-				else // unquoted attribute value (HTML)
+				else // HTML§12.1.2.3 -- unquoted attribute value
 					mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(identifier()));
 			}
-			else // empty attribute (HTML)
+			else // HTML§12.1.2.3 -- empty attribute
 				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mNodeName));
 			return true;
 		}
 
-		if (*mCurrent == '>')
+		if (*mCurrent == '>') // XML§3.1 ; HTML§12.1.2.1-2 -- end of start/end tag
 		{
 			++mCurrent;
 			mTagNodeName = cainteoir::buffer(NULL, NULL);
 		}
-		else
+		else // error -- skip to end of element tag
 		{
 			while (mCurrent != mData->end() && *mCurrent != '>')
 				++mCurrent;
@@ -372,7 +373,7 @@ bool cainteoir::xml::reader::read()
 		switch (*++mCurrent)
 		{
 		case '!':
-			if (mCurrent[1] == '-' && mCurrent[2] == '-')
+			if (mCurrent[1] == '-' && mCurrent[2] == '-') // XML§2.5 ; HTML§12.1.6 -- comment
 			{
 				++mCurrent;
 				++mCurrent;
@@ -383,7 +384,8 @@ bool cainteoir::xml::reader::read()
 				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
 				mCurrent += 3;
 			}
-			else if (mCurrent[1] == '[' && mCurrent[2] == 'C' && mCurrent[3] == 'D' && mCurrent[4] == 'A' && mCurrent[5] == 'T' && mCurrent[6] == 'A' && mCurrent[7] == '[')
+			else if (mCurrent[1] == '[' && mCurrent[2] == 'C' && mCurrent[3] == 'D' && mCurrent[4] == 'A' &&
+			         mCurrent[5] == 'T' && mCurrent[6] == 'A' && mCurrent[7] == '[') // XML§2.7 ; HTML§12.1.5 -- CDATA section
 			{
 				mCurrent += 8;
 				mNodeType = cdataNode;
@@ -393,12 +395,12 @@ bool cainteoir::xml::reader::read()
 				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
 				mCurrent += 3;
 			}
-			else
+			else // DTD
 			{
 				++mCurrent;
 				cainteoir::buffer type = identifier();
 
-				if (!type.comparei("DOCTYPE"))
+				if (!type.comparei("DOCTYPE")) // XML§2.8 ; HTML§12.1.1
 				{
 					mNodeName = identifier();
 					mNodeType = doctypeNode;
@@ -411,7 +413,7 @@ bool cainteoir::xml::reader::read()
 				++mCurrent;
 			}
 			break;
-		case '?':
+		case '?': // XML§2.6 -- processing instruction
 			mNodeType = processingInstructionNode;
 			startPos = ++mCurrent;
 			while (mCurrent != mData->end() && (mCurrent[0] != '?' && mCurrent[1] != '>'))
@@ -420,12 +422,12 @@ bool cainteoir::xml::reader::read()
 			++mCurrent;
 			++mCurrent;
 			break;
-		case '/':
+		case '/': // XML§3.1 ; HTML§12.1.2.2 -- End Tag
 			++mCurrent;
 			read_tag(endTagNode);
 			mContext = lookup_node(namespaceUri(), nodeName());
 			break;
-		default:
+		default: // XML§3.1 ; HTML§12.1.2.1 -- Start Tag
 			if (!mParseNamespaces)
 			{
 				mNamespaces.push_block();
@@ -456,7 +458,7 @@ bool cainteoir::xml::reader::read()
 			break;
 		}
 	}
-	else
+	else // HTML§12.1.3 -- text
 	{
 		mNodeType = textNode;
 		read_node_value('<');
@@ -523,7 +525,7 @@ void cainteoir::xml::reader::read_node_value(char terminator)
 	do
 	{
 		const char *startPos = mCurrent;
-		if (*mCurrent == '&')
+		if (*mCurrent == '&') // XML§4.1 -- character and entity references
 		{
 			++mCurrent;
 			if (*mCurrent == '#')
@@ -569,6 +571,6 @@ void cainteoir::xml::reader::read_tag(node_type aType)
 
 /** References
   *
-  *    [1] http://www.w3.org/TR/2008/REC-xml-20081126/
-  *        Extensible Markup Language (XML) 1.0 (Fifth Edition)
+  *    XML  [http://www.w3.org/TR/2008/REC-xml-20081126/] -- Extensible Markup Language (XML) 1.0 (Fifth Edition)
+  *    HTML [http://www.whatwg.org/specs/web-apps/current-work/multipage/] -- HTML Living Standard
   */

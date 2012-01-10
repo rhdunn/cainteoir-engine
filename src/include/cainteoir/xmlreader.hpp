@@ -1,4 +1,4 @@
-/* XML Reader API.
+/* XML/HTML Reader API.
  *
  * Copyright (C) 2010-2012 Reece H. Dunn
  *
@@ -203,7 +203,8 @@ namespace cainteoir { namespace xml
 		{
 			/** @brief The tag has an implicit end tag.
 			  *
-			  * This makes <node> behave the same was as <node/>.
+			  * This makes <node> behave the same was as <node/>. This is to support void elements
+			  * as per HTML§12.1.2.
 			  */
 			implicit_end_tag = 1,
 		};
@@ -361,5 +362,11 @@ namespace cainteoir { namespace xml
 		return !(b == a);
 	}
 }}
+
+/** References
+  *
+  *    XML  [http://www.w3.org/TR/2008/REC-xml-20081126/] -- Extensible Markup Language (XML) 1.0 (Fifth Edition)
+  *    HTML [http://www.whatwg.org/specs/web-apps/current-work/multipage/] -- HTML Living Standard
+  */
 
 #endif
