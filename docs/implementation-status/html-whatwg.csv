@@ -27,7 +27,7 @@
 4.4.7,hgroup,,no,no,
 4.4.8,header,,no,no,
 4.4.9,footer,,no,no,
-4.4.10,address,,no,no,
+4.4.10,address,,0.6,0.6,
 4.5.1,p,,0.1,0.1,
 4.5.2,hr,,no,no,
 4.5.3,pre,,0.3,0.3,

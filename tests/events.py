@@ -65,6 +65,8 @@ if __name__ == '__main__':
 			{'test': 'html/sections/ul.xhtml', 'result': 'html/sections/ul.events'},
 		]},
 		{'name': 'text-level semantics', 'type': 'events', 'tests': [
+			{'test': 'html/text-level-semantics/address.html', 'result': 'html/text-level-semantics/address.events'},
+			{'test': 'html/text-level-semantics/address.xhtml', 'result': 'html/text-level-semantics/address.events'},
 			{'test': 'html/text-level-semantics/b.html', 'result': 'html/text-level-semantics/b.events'},
 			{'test': 'html/text-level-semantics/b.xhtml', 'result': 'html/text-level-semantics/b.events'},
 			{'test': 'html/text-level-semantics/cite.html', 'result': 'html/text-level-semantics/cite.events'},

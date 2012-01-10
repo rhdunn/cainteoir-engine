@@ -58,7 +58,7 @@ namespace html
 
 	static const cainteoir::xml::context::entry a_node          = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry abbr_node       = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry address_node    = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry address_node    = { events::paragraph, events::emphasized }; // HTML§14.3.3
 	static const cainteoir::xml::context::entry acronym_node    = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry applet_node     = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry area_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
