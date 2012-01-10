@@ -66,7 +66,7 @@ namespace html
 	static const cainteoir::xml::context::entry aside_node      = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry audio_node      = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry b_node          = { events::span,      events::strong }; // HTML§14.3.4
-	static const cainteoir::xml::context::entry base_node       = { events::unknown,   0, xml::content::implicit_end_tag }; // HTML§12.1.2
+	static const cainteoir::xml::context::entry base_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry basefont_node   = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry bdi_node        = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry bdo_node        = { events::unknown,   0 };
