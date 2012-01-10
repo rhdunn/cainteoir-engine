@@ -44,7 +44,7 @@
 10.3,dt,,no,no,
 10.3,dd,,no,no,
 10.4,dir,,0.6,0.6,
-10.4,menu,,no,no,same as ul
+10.4,menu,,*0.6,*0.6,@title attribute not supported
 11.2.1,table,,no,no,
 11.2.2,caption,,no,no,
 11.2.3,tbody,,no,no,

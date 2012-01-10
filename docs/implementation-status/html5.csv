@@ -113,7 +113,7 @@
 4.11.1,details,,no,no,
 4.11.2,summary,,no,no,
 4.11.3,command,,no,no,
-4.11.4,menu,,no,no,
+4.11.4,menu,,*0.6,*0.6,@label attribute not supported; html4 rendering
 8.1.1,DOCTYPE,,*0.1,*0.1,
 8.1.2,Elements,,0.6,*0.6,Missing tests for void/raw text/RCDATA elements.
 8.1.2.1,Start Tags,,0.1,0.1,

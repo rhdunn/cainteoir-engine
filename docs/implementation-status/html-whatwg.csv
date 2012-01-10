@@ -114,7 +114,7 @@
 4.11.1,details,,no,no,
 4.11.2,summary,,no,no,
 4.11.3,command,,no,no,
-4.11.4,menu,,no,no,
+4.11.4,menu,,*0.6,*0.6,@label attribute not supported; html4 rendering
 5.1.2,@itemscope,,no,no,microdata
 5.1.2,@itemprop,,no,no,microdata
 5.1.2,time/@datetime,,no,no,microdata

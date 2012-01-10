@@ -129,7 +129,7 @@ namespace html
 	static const cainteoir::xml::context::entry map_node        = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry mark_node       = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry marquee_node    = { events::unknown,   0 };
-	static const cainteoir::xml::context::entry menu_node       = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry menu_node       = { events::list,      bullet_list }; // HTML§14.3.8
 	static const cainteoir::xml::context::entry meta_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const cainteoir::xml::context::entry meter_node      = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry nav_node        = { events::unknown,   0 };
