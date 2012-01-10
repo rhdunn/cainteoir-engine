@@ -89,6 +89,7 @@ namespace html
 	static const cainteoir::xml::context::entry del_node        = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry details_node    = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry dfn_node        = { events::unknown,   0 };
+	static const cainteoir::xml::context::entry dir_node        = { events::list,      bullet_list }; // HTML§14.3.8
 	static const cainteoir::xml::context::entry div_node        = { events::paragraph, 0 };
 	static const cainteoir::xml::context::entry dl_node         = { events::unknown,   0 };
 	static const cainteoir::xml::context::entry dt_node         = { events::unknown,   0 };
@@ -216,6 +217,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 	{ "del",        &html::del_node },
 	{ "details",    &html::details_node },
 	{ "dfn",        &html::dfn_node },
+	{ "dir",        &html::dir_node },
 	{ "div",        &html::div_node },
 	{ "dl",         &html::dl_node },
 	{ "dt",         &html::dt_node },
