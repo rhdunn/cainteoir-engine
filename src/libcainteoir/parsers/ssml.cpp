@@ -27,7 +27,7 @@ namespace xmldom = cainteoir::xmldom;
 void parseSsmlContext(const xmldom::node &ssml,
                       const rdf::uri &subject,
                       cainteoir::document_events &events,
-                      cainteoir::document_events::context context,
+                      cainteoir::events::context context,
                       int32_t parameter = 0)
 {
 	events.begin_context(context, parameter);
@@ -42,24 +42,24 @@ void parseSsmlContext(const xmldom::node &ssml,
 		else if (node.type() == XML_ELEMENT_NODE && node.namespaceURI() == rdf::ssml)
 		{
 			if (node == rdf::ssml("s"))
-				parseSsmlContext(node, subject, events, cainteoir::document_events::sentence);
+				parseSsmlContext(node, subject, events, cainteoir::events::sentence);
 			else if (node == rdf::ssml("emphasis"))
 			{
-				int32_t style = cainteoir::document_events::emphasized;
+				int32_t style = cainteoir::events::emphasized;
 				for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 				{
 					if (!strcmp(attr.name(), "level"))
 					{
 						std::string value = attr.content();
 						if (value == "strong")
-							style = cainteoir::document_events::strong;
+							style = cainteoir::events::strong;
 						else if (value == "reduced")
-							style = cainteoir::document_events::reduced;
+							style = cainteoir::events::reduced;
 						else if (value == "none")
-							style = cainteoir::document_events::nostyle;
+							style = cainteoir::events::nostyle;
 					}
 				}
-				parseSsmlContext(node, subject, events, cainteoir::document_events::span, style);
+				parseSsmlContext(node, subject, events, cainteoir::events::span, style);
 			}
 		}
 	}
@@ -106,7 +106,7 @@ void cainteoir::parseSsmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData,
 					aGraph.statement(aSubject, rdf::rdfs("seeAlso"), aGraph.href(content));
 			}
 			else if (node == rdf::ssml("p"))
-				parseSsmlContext(node, aSubject, events, cainteoir::document_events::paragraph);
+				parseSsmlContext(node, aSubject, events, cainteoir::events::paragraph);
 		}
 	}
 }

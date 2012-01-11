@@ -27,7 +27,7 @@ namespace xml   = cainteoir::xml;
 
 namespace ocf
 {
-	typedef cainteoir::document_events events;
+	namespace events = cainteoir::events;
 
 	static const xml::context::entry container_node = { events::unknown, 0 };
 	static const xml::context::entry rootfile_node  = { events::unknown, 0 };

@@ -309,7 +309,7 @@ void parseRtfBlock(rtf_reader &rtf,
 				aText += text;
 			else if (!rtf.data()->compare("par") && !aText.empty())
 			{
-				events.begin_context(cainteoir::document_events::paragraph);
+				events.begin_context(cainteoir::events::paragraph);
 				events.text(aText.buffer());
 				aText.clear();
 				events.end_context();
@@ -374,7 +374,7 @@ void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, 
 		parseRtfBlock(rtf, aSubject, events, aGraph, text, codepage, RtfBlock);
 		if (!text.empty())
 		{
-			events.begin_context(cainteoir::document_events::paragraph);
+			events.begin_context(cainteoir::events::paragraph);
 			events.text(text.buffer());
 			events.end_context();
 		}

@@ -58,7 +58,7 @@ struct epub_document : public cainteoir::document_events
 		return mEvents.text(aText);
 	}
 
-	void begin_context(context aContext, uint32_t aParameter)
+	void begin_context(cainteoir::events::context aContext, uint32_t aParameter)
 	{
 		mEvents.begin_context(aContext, aParameter);
 	}

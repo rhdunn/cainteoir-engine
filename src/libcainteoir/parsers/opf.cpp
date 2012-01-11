@@ -27,58 +27,58 @@ namespace rdf   = cainteoir::rdf;
 
 namespace dc
 {
-	typedef cainteoir::document_events events;
+	namespace events = cainteoir::events;
 
-	static const cainteoir::xml::context::entry contributor_node = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry coverage_node    = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry creator_node     = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry date_node        = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry description_node = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry format_node      = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry identifier_node  = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry language_node    = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry publisher_node   = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry relation_node    = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry rights_node      = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry source_node      = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry subject_node     = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry title_node       = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry type_node        = { events::unknown, 0 };
+	static const xml::context::entry contributor_node = { events::unknown, 0 };
+	static const xml::context::entry coverage_node    = { events::unknown, 0 };
+	static const xml::context::entry creator_node     = { events::unknown, 0 };
+	static const xml::context::entry date_node        = { events::unknown, 0 };
+	static const xml::context::entry description_node = { events::unknown, 0 };
+	static const xml::context::entry format_node      = { events::unknown, 0 };
+	static const xml::context::entry identifier_node  = { events::unknown, 0 };
+	static const xml::context::entry language_node    = { events::unknown, 0 };
+	static const xml::context::entry publisher_node   = { events::unknown, 0 };
+	static const xml::context::entry relation_node    = { events::unknown, 0 };
+	static const xml::context::entry rights_node      = { events::unknown, 0 };
+	static const xml::context::entry source_node      = { events::unknown, 0 };
+	static const xml::context::entry subject_node     = { events::unknown, 0 };
+	static const xml::context::entry title_node       = { events::unknown, 0 };
+	static const xml::context::entry type_node        = { events::unknown, 0 };
 }
 
 namespace opf
 {
-	typedef cainteoir::document_events events;
+	namespace events = cainteoir::events;
 
-	static const cainteoir::xml::context::entry dcmetadata_node = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry item_node       = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry itemref_node    = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry link_node       = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry manifest_node   = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry meta_node       = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry metadata_node   = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry package_node    = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry spine_node      = { events::unknown, 0 };
+	static const xml::context::entry dcmetadata_node = { events::unknown, 0 };
+	static const xml::context::entry item_node       = { events::unknown, 0 };
+	static const xml::context::entry itemref_node    = { events::unknown, 0 };
+	static const xml::context::entry link_node       = { events::unknown, 0 };
+	static const xml::context::entry manifest_node   = { events::unknown, 0 };
+	static const xml::context::entry meta_node       = { events::unknown, 0 };
+	static const xml::context::entry metadata_node   = { events::unknown, 0 };
+	static const xml::context::entry package_node    = { events::unknown, 0 };
+	static const xml::context::entry spine_node      = { events::unknown, 0 };
 
-	static const cainteoir::xml::context::entry about_attr     = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry content_attr   = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry datatype_attr  = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry event_attr     = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry fileas_attr    = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry href_attr      = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry id_attr        = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry idref_attr     = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry mediatype_attr = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry name_attr      = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry prefer_attr    = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry prefix_attr    = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry property_attr  = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry refines_attr   = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry rel_attr       = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry role_attr      = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry scheme_attr    = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry toc_attr       = { events::unknown, 0 };
-	static const cainteoir::xml::context::entry version_attr   = { events::unknown, 0 };
+	static const xml::context::entry about_attr     = { events::unknown, 0 };
+	static const xml::context::entry content_attr   = { events::unknown, 0 };
+	static const xml::context::entry datatype_attr  = { events::unknown, 0 };
+	static const xml::context::entry event_attr     = { events::unknown, 0 };
+	static const xml::context::entry fileas_attr    = { events::unknown, 0 };
+	static const xml::context::entry href_attr      = { events::unknown, 0 };
+	static const xml::context::entry id_attr        = { events::unknown, 0 };
+	static const xml::context::entry idref_attr     = { events::unknown, 0 };
+	static const xml::context::entry mediatype_attr = { events::unknown, 0 };
+	static const xml::context::entry name_attr      = { events::unknown, 0 };
+	static const xml::context::entry prefer_attr    = { events::unknown, 0 };
+	static const xml::context::entry prefix_attr    = { events::unknown, 0 };
+	static const xml::context::entry property_attr  = { events::unknown, 0 };
+	static const xml::context::entry refines_attr   = { events::unknown, 0 };
+	static const xml::context::entry rel_attr       = { events::unknown, 0 };
+	static const xml::context::entry role_attr      = { events::unknown, 0 };
+	static const xml::context::entry scheme_attr    = { events::unknown, 0 };
+	static const xml::context::entry toc_attr       = { events::unknown, 0 };
+	static const xml::context::entry version_attr   = { events::unknown, 0 };
 }
 
 static const std::initializer_list<const xml::context::entry_ref> dc_nodes =

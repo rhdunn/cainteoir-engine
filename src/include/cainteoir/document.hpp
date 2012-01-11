@@ -27,31 +27,256 @@
 
 namespace cainteoir
 {
-	struct document_events
+	namespace events
 	{
+		/** @brief The rendering context.
+		  *
+		  * This forms the basis for the abstract document rendering model used by the Cainteoir
+		  * Text-to-Speech engine. All document formats (RTF, HTML, SSML, PDF, ...) get converted
+		  * to this form.
+		  *
+		  * The rendering model includes both presentation (display) and text-to-speech (tts)
+		  * elements.
+		  */
 		enum context
 		{
-			unknown,   /** @brief An unspecified context. */
-			paragraph, /** @brief A paragraph of text (display, parsing). */
-			heading,   /** @brief The text forms a section heading (display). */
-			span,      /** @brief A span of text within a paragraph (display). */
-			list,      /** @brief A sequence of numbered or unnumbered items (display). */
-			list_item, /** @brief An item in a list (display). */
-			sentence,  /** @brief A sentence of text (display, parsing). */
+			/** @brief An unspecified context.
+			  */
+			unknown,
+
+			/** @brief Paragraph
+			  *
+			  * A paragraph is a block of text that is spoken and displayed as a single continuous
+			  * unit. This applies to all blocks of text.
+			  *
+			  * @begincode
+			  *   context paragraph +nostyle
+			  *     text "This is a paragraph."
+			  *   end
+			  * @endcode
+			  */
+			paragraph,
+
+			/** @brief Heading
+			  *
+			  * A heading is a line of text that denotes a book, part, chapter or section title.
+			  *
+			  * @begincode
+			  *   context heading 1
+			  *     text "Frankenstein"
+			  *   end
+			  * @endcode
+			  */
+			heading,
+
+			/** @brief Inline Text
+			  *
+			  * A span is a section of text within a paragraph that is spoken and displayed as
+			  * part of that block, as if the span was not present. This is used to control the
+			  * presentation and speech of the span text.
+			  *
+			  * @begincode
+			  *   context paragraph +nostyle
+			  *     text "This is "
+			  *     context span +strong
+			  *       text "bold"
+			  *     end
+			  *     text "text."
+			  *   end
+			  * @endcode
+			  */
+			span,
+
+			/** @brief List
+			  *
+			  * A list is a sequence of list items.
+			  *
+			  * @begincode
+			  *   context list
+			  *     context list-item
+			  *       text "1. "
+			  *       text "Lorem"
+			  *     end
+			  *     context list-item
+			  *       text "2. "
+			  *       text "ipsum"
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			list,
+
+			/** @brief List Item
+			  *
+			  * A list item consists of a text node that denotes the item gutter label and
+			  * the item content. The list item content has an implicit pargraph.
+			  *
+			  * @begincode
+			  *   context list-item
+			  *     text "1. "
+			  *     text "List item text."
+			  *   end
+			  * @endcode
+			  *
+			  * If the item contains explicit paragraphs, the first paragraph is displayed
+			  * at the same level as the list item label.
+			  *
+			  * @begincode
+			  *   context list-item
+			  *     text "iv. "
+			  *     context paragraph
+			  *       text "List item text."
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			list_item,
+
+			/** @brief Sentence
+			  *
+			  * A sentence is an explicitly marked up sentence within a paragraph block.
+			  * If provided, the text-to-speech processor will not attempt to identify
+			  * sentences within that text, but will treat it as part of a single sentence.
+			  *
+			  * @begincode
+			  *   context paragraph
+			  *     text "'"
+			  *     context sentence
+			  *       text "How are you?"
+			  *     end
+			  *     text "'"
+			  *     context sentence
+			  *       text "said Mr. Davis."
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			sentence,
 		};
 
+		/** @brief The style of the paragraph or span context.
+		  */
 		enum style
 		{
-			nostyle     = 0x00000000, /** @brief The text does not have any special styling. */
-			superscript = 0x00000001, /** @brief The text is aligned below the line (display). */
-			subscript   = 0x00000002, /** @brief The text is aligned above the line (display). */
-			emphasized  = 0x00000004, /** @brief The text is emphasized in the document (display=italic, prosody). */
-			strong      = 0x00000008, /** @brief The text should stand out (display=bold, prosody). */
-			underline   = 0x00000010, /** @brief The text is underlined (display). */
-			monospace   = 0x00000020, /** @brief The text is formatted using a monospace font (display). */
-			reduced     = 0x00000040, /** @brief The text is reduced in emphasis in the document (display=normal, prosody). */
-		};
+			/** @brief No explicit styling
+			  *
+			  * The context does not provide any specific custom styling.
+			  */
+			nostyle = 0x00000000,
 
+			/** @brief Superscript
+			  *
+			  * The context is raised above the text in a smaller font.
+			  *
+			  * @begincode
+			  *   context paragraph
+			  *     text "The 1"
+			  *     context span +superscript
+			  *       text "st"
+			  *     end
+			  *     text " of May."
+			  *   end
+			  * @endcode
+			  */
+			superscript = 0x00000001,
+
+			/** @brief Subscript
+			  *
+			  * The context is lowered below the text in a smaller font.
+			  *
+			  * @begincode
+			  *   context paragraph
+			  *     text "a"
+			  *     context span +subscript
+			  *       text "1"
+			  *     end
+			  *     text " is the first item."
+			  *   end
+			  * @endcode
+			  */
+			subscript = 0x00000002,
+
+			/** @brief Emphasized
+			  *
+			  * The context is displayed in an italic font and is spoken with
+			  * more emphasis.
+			  *
+			  * @begincode
+			  *   context paragraph
+			  *     text "This "
+			  *     context span +emphasized
+			  *       text "and"
+			  *     end
+			  *     text " that."
+			  *   end
+			  * @endcode
+			  */
+			emphasized = 0x00000004,
+
+			/** @brief Strong
+			  *
+			  * The context is displayed in a bold font and is spoken louder.
+			  *
+			  * @begincode
+			  *   context paragraph
+			  *     text "One, "
+			  *     context span +strong
+			  *       text "two"
+			  *     end
+			  *     text ", three."
+			  *   end
+			  * @endcode
+			  */
+			strong = 0x00000008,
+
+			/** @brief Underline
+			  *
+			  * The context is displayed with a solid line below the text.
+			  *
+			  * @begincode
+			  *   context paragraph
+			  *     text "This "
+			  *     context span +underline
+			  *       text "and"
+			  *     end
+			  *     text " that."
+			  *   end
+			  * @endcode
+			  */
+			underline = 0x00000010,
+
+			/** @brief Monospace
+			  *
+			  * The context is displayed in a monospace font.
+			  *
+			  * @begincode
+			  *   context paragraph +monospace
+			  *     text "if (a < b) { printf("Hello\n"); }"
+			  *   end
+			  * @endcode
+			  */
+			monospace = 0x00000020,
+
+			/** @brief Reduced
+			  *
+			  * The context is displayed with a normal (non-italic, non-bold) font and
+			  * is spoken quieter.
+			  *
+			  * @begincode
+			  *   context paragraph
+			  *     text "This and "
+			  *     context span +reduced
+			  *       text "that."
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			reduced = 0x00000040,
+		};
+	}
+
+	struct document_events
+	{
 		/** @brief A block of text in the document.
 		  *
 		  * @param aText The text at the current point in the document.
@@ -70,7 +295,7 @@ namespace cainteoir
 		  * If |aContext| is |heading| then |aParameter| is the heading depth,
 		  * otherwise it is a set of |style| flags that apply to this context.
 		  */
-		virtual void begin_context(context aContext, uint32_t aParameter=0) {}
+		virtual void begin_context(events::context aContext, uint32_t aParameter=0) {}
 
 		/** @brief The end of the current context.
 		  */
