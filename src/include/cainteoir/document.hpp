@@ -166,7 +166,8 @@ namespace cainteoir
 
 			/** @brief Superscript
 			  *
-			  * The context is raised above the text in a smaller font.
+			  * The context is raised above the text in a smaller font and is
+			  * placed to the side of the previous text.
 			  *
 			  * @begincode
 			  *   context paragraph
@@ -182,7 +183,8 @@ namespace cainteoir
 
 			/** @brief Subscript
 			  *
-			  * The context is lowered below the text in a smaller font.
+			  * The context is lowered below the text in a smaller font and is
+			  * placed to the side of the previous text.
 			  *
 			  * @begincode
 			  *   context paragraph
@@ -195,6 +197,75 @@ namespace cainteoir
 			  * @endcode
 			  */
 			subscript = 0x00000002,
+
+			/** @brief Over
+			  *
+			  * The context is rendered as the superscript text, but is placed
+			  * above (over) the previous text. This is used to render ruby
+			  * annotations and mathematical markup.
+			  *
+			  * @begincode
+			  *   context paragraph
+			  *     context span +overunder
+			  *       text "a"
+			  *       context span +over
+			  *         text "1"
+			  *       end
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			over = superscript,
+
+			/** @brief Under
+			  *
+			  * The context is rendered as the subscript text, but is placed
+			  * below (under) the previous text. This is used to render ruby
+			  * annotations and mathematical markup.
+			  *
+			  * @begincode
+			  *   context paragraph
+			  *     context span +overunder
+			  *       text "a"
+			  *       context span +under
+			  *         text "1"
+			  *       end
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			under = subscript,
+
+			/** @brief Over/Under
+			  *
+			  * The context denotes a section of text which contains text above
+			  * and/or below it. This is used to render ruby annotations and
+			  * mathematical markup.
+			  *
+			  * This context contains a text or context node that is not annotated
+			  * with the under or over style. This is the primary text element
+			  * that forms the root of the over/under markup.
+			  *
+			  * In addition to this, the context contains either:
+			  *     -  a span with the over style
+			  *     -  a span with the under style
+			  *     -  a span with the over style and a span with the under style
+			  *
+			  * @begincode
+			  *   context paragraph
+			  *     context span +overunder
+			  *       text "a"
+			  *       context span +over
+			  *         text "n"
+			  *       end
+			  *       context span +under
+			  *         text "i = 0"
+			  *       end
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			overunder = over | under,
 
 			/** @brief Emphasized
 			  *
