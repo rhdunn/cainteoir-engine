@@ -1,0 +1,15 @@
+<li id="xhtml11" rel="dct:references">
+	<span typeof="foaf:Document" about="http://www.w3.org/TR/xhtml11/xhtml11.html">
+		<span property="dc:creator">Shane McCarron</span>,
+		<span property="dc:creator">Masayasu Ishikawa</span>,
+		<span property="dc:creator">Murray Altheim</span>,
+		<a property="dc:title" href="http://www.w3.org/TR/xhtml11/xhtml11.html">XHTML 1.1 - Module-based XHTML - Second Edition</a>.
+		<span rel="dc:publisher" resource="_:pub_xhtml11"/>
+		<span typeof="foaf:Organisation" about="_:pub_xhtml11">
+			<span rel="foaf:homepage" resource="http://www.w3.org"/>
+			<span property="foaf:name">World Wide Web Consortium</span>
+			(<span property="foaf:name">W3C</span>),
+		</span>
+		<span property="dc:date" datatype="xsd:date" content="2010-11-23">2010</span>.
+	</span>
+</li>

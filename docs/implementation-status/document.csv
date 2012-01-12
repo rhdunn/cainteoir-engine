@@ -24,4 +24,4 @@ RTF,1.0,rtf.csv,*0.3,*0.3,*0.3,no,
 SSML,1.0-1.1,ssml.csv,*0.4,*0.4,0.4,na,
 # TeX / LaTeX
 # troff / mandoc (man pages)
-XHTML,1.0,html.csv,*0.1,*0.1,*0.1,no,
+XHTML,1.0-1.1,html.csv,*0.1,*0.1,*0.1,no,

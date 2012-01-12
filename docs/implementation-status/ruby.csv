@@ -1,0 +1,15 @@
+@type,spec
+@name,Ruby
+@version,
+@references,ruby
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# section,title,url,implemented,tests,comments
+
+2.2,ruby,,no,no,
+2.3,rbc,,no,no,
+2.4,rtc,,no,no,
+2.5,rb,,no,no,
+2.6,rt,,no,no,
+2.7,rp,,no,no,
