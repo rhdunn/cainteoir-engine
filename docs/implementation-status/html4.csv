@@ -64,7 +64,7 @@
 13.4,applet,,no,no,
 13.6.1,map,,no,no,
 13.6.1,area,,no,no,
-14.2.3,style,,0.1,0.1,
+14.2.3,style,,0.1,0.1,CSS styles are not processed or applied.
 15.2.1,tt,,0.6,0.6,
 15.2.1,i,,0.3,0.3,
 15.2.1,b,,0.3,0.3,
@@ -91,6 +91,6 @@
 17.9.1,label,,no,no,
 17.10,fieldset,,no,no,
 17.10,legend,,no,no,
-18.2.1,script,,0.1,0.1,
+18.2.1,script,,0.1,0.1,Scripts are not executed.
 18.3.1,noscript,,no,no,
 24,named character references,,0.1,0.1,
