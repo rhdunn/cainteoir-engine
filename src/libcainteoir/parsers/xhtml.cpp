@@ -43,12 +43,6 @@ enum html_node
 	node_title,
 };
 
-enum list_type
-{
-	bullet_list = 0x00000000,
-	number_list = 0x80000000,
-};
-
 namespace html
 {
 	namespace events = cainteoir::events;
@@ -89,7 +83,7 @@ namespace html
 	static const xml::context::entry del_node        = { events::unknown,   0 };
 	static const xml::context::entry details_node    = { events::unknown,   0 };
 	static const xml::context::entry dfn_node        = { events::span,      events::emphasized }; // HTML§14.3.4
-	static const xml::context::entry dir_node        = { events::list,      bullet_list }; // HTML§14.3.8
+	static const xml::context::entry dir_node        = { events::list,      events::bullet }; // HTML§14.3.8
 	static const xml::context::entry div_node        = { events::paragraph, 0 };
 	static const xml::context::entry dl_node         = { events::unknown,   0 };
 	static const xml::context::entry dt_node         = { events::unknown,   0 };
@@ -129,7 +123,7 @@ namespace html
 	static const xml::context::entry map_node        = { events::unknown,   0 };
 	static const xml::context::entry mark_node       = { events::unknown,   0 };
 	static const xml::context::entry marquee_node    = { events::unknown,   0 };
-	static const xml::context::entry menu_node       = { events::list,      bullet_list }; // HTML§14.3.8
+	static const xml::context::entry menu_node       = { events::list,      events::bullet }; // HTML§14.3.8
 	static const xml::context::entry meta_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const xml::context::entry meter_node      = { events::unknown,   0 };
 	static const xml::context::entry nav_node        = { events::unknown,   0 };
@@ -137,7 +131,7 @@ namespace html
 	static const xml::context::entry noframes_node   = { events::unknown,   0 };
 	static const xml::context::entry noscript_node   = { events::unknown,   0 };
 	static const xml::context::entry object_node     = { events::unknown,   0 };
-	static const xml::context::entry ol_node         = { events::list,      number_list }; // HTML§14.3.8
+	static const xml::context::entry ol_node         = { events::list,      events::number }; // HTML§14.3.8
 	static const xml::context::entry optgroup_node   = { events::unknown,   0 };
 	static const xml::context::entry option_node     = { events::unknown,   0 };
 	static const xml::context::entry output_node     = { events::unknown,   0 };
@@ -151,7 +145,7 @@ namespace html
 	static const xml::context::entry ruby_node       = { events::unknown,   0 };
 	static const xml::context::entry s_node          = { events::unknown,   0 };
 	static const xml::context::entry samp_node       = { events::unknown,   0 };
-	static const xml::context::entry script_node     = { events::unknown,   0 };
+	static const xml::context::entry script_node     = { events::unknown,   0 }; // HTML§14.3.1
 	static const xml::context::entry section_node    = { events::unknown,   0 };
 	static const xml::context::entry select_node     = { events::unknown,   0 };
 	static const xml::context::entry small_node      = { events::unknown,   0 };
@@ -159,7 +153,7 @@ namespace html
 	static const xml::context::entry span_node       = { events::unknown,   0 };
 	static const xml::context::entry strike_node     = { events::unknown,   0 };
 	static const xml::context::entry strong_node     = { events::span,      events::strong }; // HTML§14.3.4
-	static const xml::context::entry style_node      = { events::unknown,   0 };
+	static const xml::context::entry style_node      = { events::unknown,   0 }; // HTML§14.3.1
 	static const xml::context::entry sub_node        = { events::span,      events::subscript }; // HTML§14.3.4
 	static const xml::context::entry summary_node    = { events::unknown,   0 };
 	static const xml::context::entry sup_node        = { events::span,      events::superscript }; // HTML§14.3.4
@@ -176,7 +170,7 @@ namespace html
 	static const xml::context::entry track_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const xml::context::entry tt_node         = { events::span,      events::monospace }; // HTML§14.3.4
 	static const xml::context::entry u_node          = { events::span,      events::underline }; // HTML§14.3.4
-	static const xml::context::entry ul_node         = { events::list,      bullet_list }; // HTML§14.3.8
+	static const xml::context::entry ul_node         = { events::list,      events::bullet }; // HTML§14.3.8
 	static const xml::context::entry var_node        = { events::span,      events::emphasized }; // HTML§14.3.4
 	static const xml::context::entry video_node      = { events::unknown,   0 };
 	static const xml::context::entry wbr_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
@@ -372,7 +366,7 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		if (reader.context() == &html::li_node)
 		{
 			events.begin_context(cainteoir::events::list_item);
-			if (list_ctx->parameter == bullet_list)
+			if (list_ctx->parameter == cainteoir::events::bullet)
 				events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("\xE2\x80\xA2 ")));
 			else
 			{

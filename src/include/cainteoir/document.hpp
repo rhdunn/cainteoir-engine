@@ -92,7 +92,7 @@ namespace cainteoir
 			  * A list is a sequence of list items.
 			  *
 			  * @begincode
-			  *   context list
+			  *   context list +number
 			  *     context list-item
 			  *       text "1. "
 			  *       text "Lorem"
@@ -343,6 +343,78 @@ namespace cainteoir
 			  * @endcode
 			  */
 			reduced = 0x00000040,
+		};
+
+		/** @brief The type of the list context.
+		  *
+		  * This is used to inform the document consumer what style list is presented. This
+		  * allows the consumer to process the lists differently.
+		  */
+		enum list_type
+		{
+			/** @brief Bullet List
+			  *
+			  * A bullet list is an unordered list of items. It is typically rendered in
+			  * the same way a number (ordered) list is with the bullet appearing in the
+			  * list gutter, but the bullet glyphs are not spoken.
+			  *
+			  * @begincode
+			  *   context list +bullet
+			  *     context list-item
+			  *       text "* "
+			  *       text "Lorem"
+			  *     end
+			  *     context list-item
+			  *       text "* "
+			  *       text "ipsum"
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			bullet = 0x10000000,
+
+			/** @brief Number List
+			  *
+			  * A number list is an ordered list of items. It is typically rendered in
+			  * the same way as a bullet (unordered) list with the number appearing in
+			  * the list gutter, and the number is spoken with a short pause afterward.
+			  *
+			  * @begincode
+			  *   context list +number
+			  *     context list-item
+			  *       text "1. "
+			  *       text "Lorem"
+			  *     end
+			  *     context list-item
+			  *       text "2. "
+			  *       text "ipsum"
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			number = 0x20000000,
+
+			/** @brief Definition List
+			  *
+			  * A definition list is a list of glossary or terminology definitions. It
+			  * is typically rendered with the definition body indented from the label
+			  * and both the label and body are spoken, with a short pause after the
+			  * label.
+			  *
+			  * @begincode
+			  *   context list +definition
+			  *     context list-item
+			  *       text "HTML "
+			  *       text "HyperText Markup Language"
+			  *     end
+			  *     context list-item
+			  *       text "RDF "
+			  *       text "Resource Description Framework"
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			definition = 0x30000000,
 		};
 	}
 
