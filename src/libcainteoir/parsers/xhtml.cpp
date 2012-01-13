@@ -145,7 +145,7 @@ namespace html
 	static const xml::context::entry ruby_node       = { events::unknown,   0 };
 	static const xml::context::entry s_node          = { events::unknown,   0 };
 	static const xml::context::entry samp_node       = { events::unknown,   0 };
-	static const xml::context::entry script_node     = { events::unknown,   0 }; // HTML§14.3.1
+	static const xml::context::entry script_node     = { events::unknown,   0, xml::context::hidden }; // HTML§14.3.1
 	static const xml::context::entry section_node    = { events::unknown,   0 };
 	static const xml::context::entry select_node     = { events::unknown,   0 };
 	static const xml::context::entry small_node      = { events::unknown,   0 };
@@ -153,7 +153,7 @@ namespace html
 	static const xml::context::entry span_node       = { events::unknown,   0 };
 	static const xml::context::entry strike_node     = { events::unknown,   0 };
 	static const xml::context::entry strong_node     = { events::span,      events::strong }; // HTML§14.3.4
-	static const xml::context::entry style_node      = { events::unknown,   0 }; // HTML§14.3.1
+	static const xml::context::entry style_node      = { events::unknown,   0, xml::context::hidden }; // HTML§14.3.1
 	static const xml::context::entry sub_node        = { events::span,      events::subscript }; // HTML§14.3.4
 	static const xml::context::entry summary_node    = { events::unknown,   0 };
 	static const xml::context::entry sup_node        = { events::span,      events::superscript }; // HTML§14.3.4
@@ -346,7 +346,7 @@ void parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	case xml::reader::beginTagNode:
 		if (reader.context() == &html::title_node)
 			parseTitleNode(reader, aSubject, events, aGraph);
-		else if (reader.context() == &html::meta_node || reader.context() == &html::link_node)
+		else if (reader.context()->parse_type == xml::context::hidden)
 			skipNode(reader, reader.nodeName());
 		break;
 	case xml::reader::endTagNode:

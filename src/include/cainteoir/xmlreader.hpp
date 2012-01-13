@@ -207,6 +207,13 @@ namespace cainteoir { namespace xml
 			  * as per HTML§12.1.2.
 			  */
 			implicit_end_tag = 1,
+
+			/** @brief Hidden content.
+			  *
+			  * This indicates content that does not get displayed or spoken. The processing of this
+			  * is done by consumers of the xmlreader.
+			  */
+			hidden = 2,
 		};
 
 		struct entry
