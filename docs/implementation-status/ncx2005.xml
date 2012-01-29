@@ -1,0 +1,7 @@
+<li id="ncx2005" rel="dct:references">
+	<span typeof="foaf:Document" about="http://www.niso.org/workrooms/daisy/Z39-86-2005.html#NCX">
+		<a property="dc:title" href="http://www.niso.org/workrooms/daisy/Z39-86-2005.html#NCX">Navigation Control File (NCX) 2005</a>.
+		<span rel="dc:publisher">NISO</span>,
+		<span property="dc:date" datatype="xsd:date" content="2005">2005</span>.
+	</span>
+</li>

@@ -1,0 +1,11 @@
+@type,format
+@name,OPS
+@version,
+@references,ops201 ops30
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# title,version,url,implemented,tts,rdf,toc,comments
+
+OPS,2.0.1,ops201.csv,*0.1,0,na,na,na,
+OPS,3.0,ops30.csv,*0.4,na,na,na,

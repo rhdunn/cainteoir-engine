@@ -1,0 +1,11 @@
+@type,format
+@name,SSML
+@version,
+@references,ssml10 ssml11
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# title,version,url,implemented,tts,rdf,toc,comments
+
+SSML,1.0,ssml10.csv,*0.4,*0.4,0.4,na,
+SSML,1.1,ssml11.csv,*0.4,*0.4,0.4,na,

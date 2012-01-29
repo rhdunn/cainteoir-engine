@@ -1,0 +1,31 @@
+@type,spec
+@name,NCX
+@version,2005
+@references,ncx2005 opf201
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# section,title,url,implemented,tests,comments
+
+8.3,ncx,,0.4,0.4,
+8.3,head,,0.4,0.4,
+8.3,smilCustomTest,,no,no,Not used in OPF (OPF 2.0.1§2.4.2).
+8.3,meta,,0.4,0.4,
+8.3,docTitle / text,,0.4,0.4,
+8.3,docAuthor / text,,0.4,0.4,
+8.3,audio,,no,no,Not used in OPF (OPF 2.0.1§2.4.2).
+8.3,img,,no,no,
+8.3,navMap,,0.4,0.4,
+8.3,navPoint,,0.4,0.4,Points to an XML element in OPF (OPF 2.0.1§2.4.2).
+8.3,navLabel / text,,0.4,0.4,
+8.3,navInfo / text,,no,no,
+8.3,content,,0.4,0.4,
+8.3,pageList,,no,no,Not required in OPF (OPF 2.0.1§2.4.2).
+8.3,pageTarget,,no,no,Points to an XML element in OPF (OPF 2.0.1§2.4.2).
+8.3,navList,,no,no,
+8.3,navTarget,,no,no,
+8.4.1,dtb:uid,,0.4,0.4,
+8.4.1,dtb:depth,,0.4,0.4,Not required in OPF (OPF 2.0.1§2.4.2).
+8.4.1,dtb:generator,,0.4,0.4,Not required in OPF (OPF 2.0.1§2.4.2).
+8.4.1,dtb:totalPageCount,,0.4,0.4,Not required in OPF (OPF 2.0.1§2.4.2).
+8.4.1,dtb:maxPageNumber,,0.4,0.4,Not required in OPF (OPF 2.0.1§2.4.2).

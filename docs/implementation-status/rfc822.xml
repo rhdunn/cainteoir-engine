@@ -1,0 +1,7 @@
+<li id="rfc822" rel="dct:references">
+	<span typeof="foaf:Document" about="http://www.rfc-editor.org/rfc/rfc822.txt">
+		<span property="dc:creator">David H. Crocker</span>,
+		<a property="dc:title" href="http://www.rfc-editor.org/rfc/rfc822.txt">Standard for the Format of ARPA Internet Text Messages</a>.
+		<span property="dc:date" datatype="xsd:date" content="1982-08-13">1982</span>.
+	</span>
+</li>

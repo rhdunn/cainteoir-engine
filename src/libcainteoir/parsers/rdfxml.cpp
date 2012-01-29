@@ -195,10 +195,13 @@ void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::uri &subject, 
 	}
 }
 
-void cainteoir::parseRdfXmlDocument(const xml::node &rdfxml, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+void cainteoir::parseRdfXmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
+	xmldom::document doc(aData);
+	xmldom::node rdfxml = doc.root();
+
 	if (rdfxml != rdf::rdf("RDF"))
 		throw std::runtime_error(_("RDF/XML document is not of a recognised format."));
 
-	parseRdfXmlOuterMetadata(rdfxml, subject, aGraph, rdfxml.attr(rdf::xml("base")).content(), std::string());
+	parseRdfXmlOuterMetadata(rdfxml, aSubject, aGraph, rdfxml.attr(rdf::xml("base")).content(), std::string());
 }

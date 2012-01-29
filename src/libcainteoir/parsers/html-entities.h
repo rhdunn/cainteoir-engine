@@ -2436,7 +2436,7 @@ static const entity_set html_entity_set_z = {
 html_entities_z,
 html_entities_z + (sizeof(html_entities_z) / sizeof(html_entities_z[0]))
 };
-static const entity_set * html_entities[] = {
+const entity_set *cainteoir::xml::html_entities[52] = {
 &html_entity_set_A,
 &html_entity_set_B,
 &html_entity_set_C,

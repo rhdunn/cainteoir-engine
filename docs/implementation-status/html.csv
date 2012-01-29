@@ -1,0 +1,14 @@
+@type,format
+@name,HTML
+@version,
+@references,html40 html401 html5 html-whatwg xhtml10 xhtml11 ruby xml10 xml11
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# title,version,url,implemented,tts,rdf,toc,comments
+
+HTML,4.0-4.01,html4.csv,*0.1,*0.1,*0.1,no,Includes XHTML 1.0-1.1
+HTML,5.0,html5.csv,*0.1,*0.1,*0.1,no,HTML 5.0 Working Draft 2011/05/25.
+HTML,2011/12/16,html-whatwg.csv,*0.1,*0.1,*0.1,no,WHATWG HTML Living Standard.
+Ruby,,ruby.csv,no,no,no,na,
+XML,1.0-1.1,xml.csv,*0.1,na,na,na,XML/SGML parser for (X)HTML documents.

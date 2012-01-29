@@ -27,11 +27,12 @@
 #include <cstdio>
 #include <getopt.h>
 
-namespace rdf = cainteoir::rdf;
+namespace rdf    = cainteoir::rdf;
+namespace events = cainteoir::events;
 
-struct events : public cainteoir::document_events
+struct event_printer : public cainteoir::document_events
 {
-	events(bool aTextOnly) : mTextOnly(aTextOnly)
+	event_printer(bool aTextOnly) : mTextOnly(aTextOnly)
 	{
 	}
 
@@ -44,16 +45,16 @@ struct events : public cainteoir::document_events
 			fwrite("\"\"\"\n", 1, 4, stdout);
 	}
 
-	void begin_context(context aContext, uint32_t aParameter)
+	void begin_context(events::context aContext, uint32_t aParameter)
 	{
 		if (mTextOnly)
 		{
 			switch (aContext)
 			{
-			case paragraph:
-			case heading:
-			case list:
-			case list_item:
+			case events::paragraph:
+			case events::heading:
+			case events::list:
+			case events::list_item:
 				fwrite("\n\n", 1, 2, stdout);
 				break;
 			}
@@ -63,22 +64,22 @@ struct events : public cainteoir::document_events
 		fprintf(stdout, "begin-context ");
 		switch (aContext)
 		{
-		case paragraph: fprintf(stdout, "paragraph"); break;
-		case heading:   fprintf(stdout, "heading %d", aParameter); break;
-		case span:      fprintf(stdout, "span"); break;
-		case list:      fprintf(stdout, "list"); break;
-		case list_item: fprintf(stdout, "list-item"); break;
-		case sentence:  fprintf(stdout, "sentence"); break;
+		case events::paragraph: fprintf(stdout, "paragraph"); break;
+		case events::heading:   fprintf(stdout, "heading %d", aParameter); break;
+		case events::span:      fprintf(stdout, "span"); break;
+		case events::list:      fprintf(stdout, "list"); break;
+		case events::list_item: fprintf(stdout, "list-item"); break;
+		case events::sentence:  fprintf(stdout, "sentence"); break;
 		}
-		if (aContext != heading)
+		if (aContext != events::heading)
 		{
-			if (aParameter & superscript) fprintf(stdout, " +superscript");
-			if (aParameter & subscript)   fprintf(stdout, " +subscript");
-			if (aParameter & emphasized)  fprintf(stdout, " +emphasized");
-			if (aParameter & strong)      fprintf(stdout, " +strong");
-			if (aParameter & underline)   fprintf(stdout, " +underline");
-			if (aParameter & monospace)   fprintf(stdout, " +monospace");
-			if (aParameter & reduced)     fprintf(stdout, " +reduced");
+			if (aParameter & events::superscript) fprintf(stdout, " +superscript");
+			if (aParameter & events::subscript)   fprintf(stdout, " +subscript");
+			if (aParameter & events::emphasized)  fprintf(stdout, " +emphasized");
+			if (aParameter & events::strong)      fprintf(stdout, " +strong");
+			if (aParameter & events::underline)   fprintf(stdout, " +underline");
+			if (aParameter & events::monospace)   fprintf(stdout, " +monospace");
+			if (aParameter & events::reduced)     fprintf(stdout, " +reduced");
 		}
 		fprintf(stdout, "\n");
 	}
@@ -95,7 +96,7 @@ struct events : public cainteoir::document_events
 			fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n", location.ns.c_str(), location.ref.c_str(), depth, title.c_str());
 	}
 
-	void anchor(const rdf::uri &location)
+	void anchor(const rdf::uri &location, const std::string &mimetype)
 	{
 		if (!mTextOnly)
 			fprintf(stdout, "anchor [%s]%s\n", location.ns.c_str(), location.ref.c_str());
@@ -116,7 +117,7 @@ int main(int argc, char ** argv)
 		if (argc == 0)
 			throw std::runtime_error("no document specified");
 
-		events events(argc > 1 && !strcmp(argv[1], "--text-only"));
+		event_printer events(argc > 1 && !strcmp(argv[1], "--text-only"));
 		rdf::graph metadata;
 		if (!cainteoir::parseDocument(argv[0], events, metadata))
 			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);

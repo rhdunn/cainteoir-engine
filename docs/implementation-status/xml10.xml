@@ -1,0 +1,17 @@
+<li id="xml10" rel="dct:references">
+	<span typeof="foaf:Document" about="http://www.w3.org/TR/2008/REC-xml-20081126/">
+		<span property="dc:creator">Tim Bray</span>,
+		<span property="dc:creator">Jean Paoli</span>,
+		<span property="dc:creator">C. M. Sperberg-McQueen</span>,
+		<span property="dc:creator">Eve Maler</span>,
+		<span property="dc:creator">François Yergeau</span>,
+		<a property="dc:title" href="http://www.w3.org/TR/2008/REC-xml-20081126/">Extensible Markup Language (XML) 1.0 (Fifth Edition)</a>.
+		<span rel="dc:publisher" resource="_:pub_xml10"/>
+		<span typeof="foaf:Organisation" about="_:pub_xml10">
+			<span rel="foaf:homepage" resource="http://www.w3.org"/>
+			<span property="foaf:name">World Wide Web Consortium</span>
+			(<span property="foaf:name">W3C</span>),
+		</span>
+		<span property="dc:date" datatype="xsd:date" content="2008-11-26">2008</span>.
+	</span>
+</li>

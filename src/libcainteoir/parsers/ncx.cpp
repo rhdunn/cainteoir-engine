@@ -22,11 +22,11 @@
 #include <cainteoir/platform.hpp>
 
 namespace rdf = cainteoir::rdf;
-namespace xml = cainteoir::xmldom;
+namespace xmldom = cainteoir::xmldom;
 
-std::string parseNcxText(const xml::node &ncx)
+std::string parseNcxText(const xmldom::node &ncx)
 {
-	for (xml::node node = ncx.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = ncx.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_ELEMENT_NODE)
 		{
@@ -37,13 +37,13 @@ std::string parseNcxText(const xml::node &ncx)
 	return std::string();
 }
 
-void parseNavPoint(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events, int depth)
+void parseNavPoint(const xmldom::node &ncx, const rdf::uri &subject, cainteoir::document_events &events, int depth)
 {
 	std::string label;
 	rdf::uri location = rdf::uri(std::string(), std::string());
 	bool fired = false;
 
-	for (xml::node node = ncx.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = ncx.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_ELEMENT_NODE)
 		{
@@ -51,7 +51,7 @@ void parseNavPoint(const xml::node &ncx, const rdf::uri &subject, cainteoir::doc
 				label = node.content()->str();
 			else if (node == rdf::ncx("content"))
 			{
-				for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+				for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 				{
 					if (!strcmp(attr.name(), "src"))
 					{
@@ -80,9 +80,9 @@ void parseNavPoint(const xml::node &ncx, const rdf::uri &subject, cainteoir::doc
 		events.toc_entry(depth, location, label);
 }
 
-void parseNavMap(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events)
+void parseNavMap(const xmldom::node &ncx, const rdf::uri &subject, cainteoir::document_events &events)
 {
-	for (xml::node node = ncx.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = ncx.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_ELEMENT_NODE)
 		{
@@ -92,9 +92,9 @@ void parseNavMap(const xml::node &ncx, const rdf::uri &subject, cainteoir::docum
 	}
 }
 
-void parseNcxHead(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+void parseNcxHead(const xmldom::node &ncx, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
-	for (xml::node node = ncx.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = ncx.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_ELEMENT_NODE)
 		{
@@ -102,7 +102,7 @@ void parseNcxHead(const xml::node &ncx, const rdf::uri &subject, cainteoir::docu
 			{
 				std::string name;
 				std::string content;
-				for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+				for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 				{
 					if (!strcmp(attr.name(), "name"))
 						name = attr.content();
@@ -123,23 +123,26 @@ void parseNcxHead(const xml::node &ncx, const rdf::uri &subject, cainteoir::docu
 	}
 }
 
-void cainteoir::parseNcxDocument(const xml::node &ncx, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+void cainteoir::parseNcxDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
+	xmldom::document doc(aData);
+	xmldom::node ncx = doc.root();
+
 	if (ncx != rdf::ncx("ncx"))
 		throw std::runtime_error(_("NCX file is not of a recognised format."));
 
-	for (xml::node section = ncx.firstChild(); section.isValid(); section.next())
+	for (xmldom::node section = ncx.firstChild(); section.isValid(); section.next())
 	{
 		if (section.type() == XML_ELEMENT_NODE)
 		{
 			if (section == rdf::ncx("head"))
-				parseNcxHead(section, subject, events, aGraph);
+				parseNcxHead(section, aSubject, events, aGraph);
 			else if (section == rdf::ncx("docAuthor"))
-				aGraph.statement(subject, rdf::dc("creator"), rdf::literal(parseNcxText(section)));
+				aGraph.statement(aSubject, rdf::dc("creator"), rdf::literal(parseNcxText(section)));
 			else if (section == rdf::ncx("docTitle"))
-				aGraph.statement(subject, rdf::dc("title"), rdf::literal(parseNcxText(section)));
+				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(parseNcxText(section)));
 			else if (section == rdf::ncx("navMap"))
-				parseNavMap(section, subject, events);
+				parseNavMap(section, aSubject, events);
 		}
 	}
 }

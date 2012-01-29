@@ -1,0 +1,9 @@
+<li id="rfc2557" rel="dct:references">
+	<span typeof="foaf:Document" about="http://www.rfc-editor.org/rfc/rfc2557.txt">
+		<span property="dc:creator">J. Palme</span>,
+		<span property="dc:creator">A. Hopmann</span>,
+		<span property="dc:creator">N. Shelness</span>,
+		<a property="dc:title" href="http://www.rfc-editor.org/rfc/rfc2557.txt">MIME Encapsulation of Aggregate Documents, such as HTML (MHTML)</a>.
+		<span property="dc:date" datatype="xsd:date" content="1999-03">1999</span>.
+	</span>
+</li>

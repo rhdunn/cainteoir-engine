@@ -69,33 +69,6 @@ bool rdf::resource::operator==(const resource &rhs) const
 	return value == rhs.value;
 }
 
-rdf::uri::uri(const std::string &aNS, const std::string &aRef)
-	: ns(aNS)
-	, ref(aRef)
-{
-	auto last = --ns.end();
-	if (!ns.empty() && !ref.empty() && *last != '#' && *last != '/')
-		ns.push_back('#');
-}
-
-bool rdf::uri::empty() const
-{
-	return ns.empty() && ref.empty();
-}
-
-std::string rdf::uri::str() const
-{
-	if (ref.empty())
-		return ns;
-
-	return ns + ref;
-}
-
-const rdf::detail::resource *rdf::uri::clone() const
-{
-	return new uri(*this);
-}
-
 const rdf::uri rdf::graph::href(const std::string &aHref)
 {
 	std::string::size_type index;
@@ -121,10 +94,11 @@ rdf::graph &rdf::graph::set_base(const std::string &aBase)
 
 rdf::graph &rdf::graph::add_namespace(const std::string &aPrefix, const std::string &aHref)
 {
-	if (*(--aHref.end()) != '#' && *(--aHref.end()) != '/')
-		mNamespaces[aPrefix] = aHref + '#';
+	char end = *(--aHref.end());
+	if (end != '#' && end != '/' && end != ':')
+		namespaces::add_namespace(aPrefix, aHref + '#');
 	else
-		mNamespaces[aPrefix] = aHref;
+		namespaces::add_namespace(aPrefix, aHref);
 	return *this;
 }
 
@@ -154,28 +128,28 @@ rdf::graph::curie(const std::string &aCurie)
 		if (prefix == "_")
 			return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(std::string(), ref));
 
-		auto ns = mNamespaces.find(prefix);
-		if (ns == mNamespaces.end())
+		std::string ns = lookup(prefix);
+		if (ns.empty())
 			return std::tr1::shared_ptr<const rdf::uri>();
 
-		uri = ns->second + ref;
+		uri = ns + ref;
 	}
 	else
 		uri = mBaseUri + aCurie;
 	return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(href(uri)));
 }
 
-const rdf::detail::resource *rdf::literal::clone() const
+const cainteoir::xml::resource *rdf::literal::clone() const
 {
 	return new literal(*this);
 }
 
 rdf::graph::graph() : nextid(1)
 {
-	mNamespaces["http"] = "http:";
-	mNamespaces["https"] = "https:";
-	mNamespaces["mailto"] = "mailto:";
-	mNamespaces["file"] = "file:";
+	add_namespace("http",   "http:");
+	add_namespace("https",  "https:");
+	add_namespace("mailto", "mailto:");
+	add_namespace("file",   "file:");
 }
 
 const rdf::uri rdf::graph::genid()
@@ -204,9 +178,9 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.ns.empty())
 		namespaces.insert(aObject.ns);
 
-	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const detail::resource>(aSubject.clone()),
+	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
 	                                                        aPredicate,
-	                                                        std::tr1::shared_ptr<const detail::resource>(aObject.clone()))));
+	                                                        std::tr1::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
 	return true;
 }
 
@@ -223,8 +197,8 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.type.ns.empty())
 		namespaces.insert(aObject.type.ns);
 
-	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const detail::resource>(aSubject.clone()),
+	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
 	                                                        aPredicate,
-	                                                        std::tr1::shared_ptr<const detail::resource>(aObject.clone()))));
+	                                                        std::tr1::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
 	return true;
 }

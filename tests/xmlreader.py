@@ -43,10 +43,18 @@ if __name__ == '__main__':
 		{'name': 'element', 'type': 'xmlreader', 'tests': [
 			{'test': 'xmlparser/element/no-args.xml', 'result': 'xmlparser/element/no-args.tags'},
 			{'test': 'xmlparser/element/args.xml', 'result': 'xmlparser/element/args.tags'},
-			{'test': 'xmlparser/element/args-xmllang.xml', 'result': 'xmlparser/element/args-xmllang.tags'},
 			{'test': 'xmlparser/element/args-with-dash.xml', 'result': 'xmlparser/element/args-with-dash.tags'},
+			{'test': 'xmlparser/element/args-singlequote.xml', 'result': 'xmlparser/element/args.tags'},
+			{'test': 'xmlparser/element/args-noquote.xml', 'result': 'xmlparser/element/args.tags'},
+			{'test': 'xmlparser/element/args-novalue.xml', 'result': 'xmlparser/element/args-novalue.tags'},
 			{'test': 'xmlparser/element/space-before.xml', 'result': 'xmlparser/element/space-before.tags'},
 			{'test': 'xmlparser/element/partial.xml', 'result': 'xmlparser/element/partial.tags'},
+			# namespaces:
+			{'test': 'xmlparser/element/args-xmllang.xml', 'result': 'xmlparser/element/args-xmllang.tags'},
+			{'test': 'xmlparser/element/namespace.xml', 'result': 'xmlparser/element/namespace.tags'},
+			{'test': 'xmlparser/element/namespace-default.xml', 'result': 'xmlparser/element/namespace-default.tags'},
+			{'test': 'xmlparser/element/namespace-nested.xml', 'result': 'xmlparser/element/namespace-nested.tags'},
+			{'test': 'xmlparser/element/namespace-scoped.xml', 'result': 'xmlparser/element/namespace-scoped.tags'},
 		]},
 		{'name': 'empty element', 'type': 'xmlreader', 'tests': [
 			{'test': 'xmlparser/empty-element/no-args.xml', 'result': 'xmlparser/empty-element/no-args.tags'},
@@ -75,7 +83,7 @@ if __name__ == '__main__':
 			{'test': 'xmlparser/entity/invalid-char.xml', 'result': 'xmlparser/entity/invalid-char.tags'},
 			{'test': 'xmlparser/entity/unknown.xml', 'result': 'xmlparser/entity/unknown.tags'},
 			{'test': 'xmlparser/entity/xml.xml', 'result': 'xmlparser/entity/xml.tags'},
-			{'test': 'xmlparser/entity/html.xml', 'result': 'xmlparser/entity/html.tags'},
+			{'test': 'xmlparser/entity/in-attr.xml', 'result': 'xmlparser/entity/in-attr.tags'},
 		]},
 	]})
 	test.summary()

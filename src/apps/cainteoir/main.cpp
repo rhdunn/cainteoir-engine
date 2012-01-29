@@ -281,7 +281,7 @@ struct document : public cainteoir::document_events
 		++toc_number;
 	}
 
-	void anchor(const rdf::uri &location)
+	void anchor(const rdf::uri &location, const std::string &mimetype)
 	{
 		m_doc->add_anchor(location);
 	}
@@ -511,7 +511,7 @@ int main(int argc, char ** argv)
 			if (!outformat)
 				outformat = "wav";
 
-			out = cainteoir::create_audio_file(outfile.c_str(), outformat, 0.3, doc.m_metadata, doc.subject, doc.tts.voice());
+			out = cainteoir::create_audio_file(outfile.c_str(), outformat, 0.3, doc.m_metadata, doc.subject, doc.m_metadata, doc.tts.voice());
 			if (!out.get())
 				throw std::runtime_error(_("unsupported audio file format"));
 
@@ -526,7 +526,7 @@ int main(int argc, char ** argv)
 		else
 		{
 			state = "reading";
-			out = cainteoir::open_audio_device(NULL, "pulse", 0.3, doc.m_metadata, doc.subject, doc.tts.voice());
+			out = cainteoir::open_audio_device(NULL, "pulse", 0.3, doc.m_metadata, doc.subject, doc.m_metadata, doc.tts.voice());
 
 			fprintf(stdout, _("Reading \"%s\"\n\n"), doc.subject.str().c_str());
 		}

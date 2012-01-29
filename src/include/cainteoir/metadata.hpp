@@ -21,6 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_METADATA_HPP
 #define CAINTEOIR_ENGINE_METADATA_HPP
 
+#include <cainteoir/xmlreader.hpp>
 #include <tr1/memory>
 #include <sstream>
 #include <string>
@@ -44,22 +45,10 @@ namespace cainteoir { namespace rdf
 		static const std::string nil;
 	}
 
-	namespace detail
-	{
-		/** @brief RDF resource
-		  */
-		struct resource
-		{
-			virtual const resource *clone() const = 0;
-
-			virtual ~resource() {}
-		};
-	}
-
 	class resource
 	{
 	public:
-		explicit resource(const detail::resource *aValue)
+		explicit resource(const cainteoir::xml::resource *aValue)
 			: value(aValue)
 		{
 		}
@@ -90,87 +79,11 @@ namespace cainteoir { namespace rdf
 
 		bool operator==(const resource &rhs) const;
 	private:
-		const detail::resource *value;
+		const cainteoir::xml::resource *value;
 	};
 
-	/** @brief RDF URI resource
-	  */
-	class uri : public detail::resource
-	{
-	public:
-		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
-		std::string ref;   /**< @brief The URI reference. */
-
-		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string());
-
-		bool empty() const;
-
-		std::string str() const;
-
-		const detail::resource *clone() const;
-	};
-
-	inline bool operator==(const uri &a, const uri &b)
-	{
-		return a.ns == b.ns && a.ref == b.ref;
-	}
-
-	inline bool operator!=(const uri &a, const uri &b)
-	{
-		return !(a == b);
-	}
-
-	/** @brief RDF namespace.
-	  */
-	class ns
-	{
-	public:
-		std::string href;   /**< @brief The path of the namespace. */
-		std::string prefix; /**< @brief The default prefix for the namespace. */
-
-		ns(const std::string &aPrefix, const std::string &aHref)
-			: href(aHref)
-			, prefix(aPrefix)
-		{
-		}
-
-		/** @brief Create a URI in the namespace.
-		  *
-		  * @param aRef The URI reference relative to the namespace.
-		  */
-		uri operator()(const std::string &aRef) const
-		{
-			return uri(href, aRef);
-		}
-	};
-
-	inline bool operator==(const ns &a, const char *b)
-	{
-		return a.href == b;
-	}
-
-	inline bool operator==(const ns &a, const std::string &b)
-	{
-		return a.href == b;
-	}
-
-	template <typename T>
-	inline bool operator==(const T & a, const ns &b)
-	{
-		return b == a;
-	}
-
-	template <typename T>
-	inline bool operator!=(const ns &a, const T &b)
-	{
-		return !(a == b);
-	}
-
-	template <typename T>
-	inline bool operator!=(const T &a, const ns &b)
-	{
-		return !(b == a);
-	}
+	typedef cainteoir::xml::uri uri;
+	typedef cainteoir::xml::ns  ns;
 
 	extern const ns rdf;     /**< @brief RDF syntax namespace. */
 	extern const ns rdfa;    /**< @brief RDF attributes (RDFa) namespace. */
@@ -202,7 +115,7 @@ namespace cainteoir { namespace rdf
 
 	/** @brief RDF literal node
 	  */
-	class literal : public detail::resource
+	class literal : public cainteoir::xml::resource
 	{
 		template<typename T>
 		static const std::string to_string(const T &value)
@@ -263,7 +176,7 @@ namespace cainteoir { namespace rdf
 		template<typename T>
 		T as() const;
 
-		const detail::resource *clone() const;
+		const cainteoir::xml::resource *clone() const;
 	};
 
 	template<typename T>
@@ -309,13 +222,13 @@ namespace cainteoir { namespace rdf
 	class triple
 	{
 	public:
-		const std::tr1::shared_ptr<const detail::resource> subject;
+		const std::tr1::shared_ptr<const cainteoir::xml::resource> subject;
 		const uri predicate;
-		const std::tr1::shared_ptr<const detail::resource> object;
+		const std::tr1::shared_ptr<const cainteoir::xml::resource> object;
 
-		triple(const std::tr1::shared_ptr<const detail::resource> &aSubject,
+		triple(const std::tr1::shared_ptr<const cainteoir::xml::resource> &aSubject,
 		       const uri &aPredicate,
-		       const std::tr1::shared_ptr<const detail::resource> &aObject)
+		       const std::tr1::shared_ptr<const cainteoir::xml::resource> &aObject)
 			: subject(aSubject)
 			, predicate(aPredicate)
 			, object(aObject)
@@ -351,7 +264,7 @@ namespace cainteoir { namespace rdf
 
 	/** @brief RDF graph
 	  */
-	class graph : public subgraph
+	class graph : public subgraph , public cainteoir::xml::namespaces
 	{
 	public:
 		graph();
@@ -365,14 +278,14 @@ namespace cainteoir { namespace rdf
 
 		rdf::graph &add_namespace(const std::string &aPrefix, const std::string &aHref);
 
-		rdf::graph &add_namespace(const ns &aNS)
+		rdf::graph &add_namespace(const ns &ns)
 		{
-			return add_namespace(aNS.prefix, aNS.href);
+			return add_namespace(ns.prefix, ns.href);
 		}
 
-		rdf::graph &operator<<(const ns &aNS)
+		rdf::graph &operator<<(const ns &ns)
 		{
-			return add_namespace(aNS.prefix, aNS.href);
+			return add_namespace(ns.prefix, ns.href);
 		}
 
 		/** @brief Add namespaces in an RDFa @prefix attribute.
@@ -405,7 +318,6 @@ namespace cainteoir { namespace rdf
 
 		//@}
 	private:
-		std::map<std::string, std::string> mNamespaces;
 		std::string mBaseUri;
 		std::set<std::string> namespaces;
 		int nextid;

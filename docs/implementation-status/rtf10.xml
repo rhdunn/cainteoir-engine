@@ -1,0 +1,11 @@
+<li id="rtf10" rel="dct:references">
+	<span typeof="foaf:Document" about="http://latex2rtf.sourceforge.net/RTF-Spec-1.0.txt">
+		<a property="dc:title" href="http://latex2rtf.sourceforge.net/RTF-Spec-1.0.txt">Rich-Text Format (RTF) Specification 1.0</a>.
+		<span rel="dc:publisher" resource="_:pub_rtf10"/>
+		<span typeof="foaf:Organisation" about="_:pub_rtf10">
+			<span rel="foaf:homepage" resource="http://www.microsoft.com"/>
+			<span property="foaf:name">Microsoft</span>
+		</span>
+		<span property="dc:date" datatype="xsd:date" content="1992-06">1992</span>.
+	</span>
+</li>

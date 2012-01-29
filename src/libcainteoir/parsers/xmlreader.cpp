@@ -1,6 +1,6 @@
-/* XML Reader API.
+/* XML/HTML Reader API.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -21,21 +21,13 @@
 #include <cainteoir/xmlreader.hpp>
 #include <cainteoir/platform.hpp>
 
-struct entity
-{
-	const char * name;
-	const char * value;
-};
+using cainteoir::xml::entity;
+using cainteoir::xml::entity_set;
 
-struct entity_set
-{
-	const entity * first;
-	const entity * last;
-};
-
+#include "xml-entities.h"
 #include "html-entities.h"
 
-const char * resolve_entity(const entity_set **entities, const cainteoir::buffer &data)
+const char * cainteoir::xml::lookup_entity(const entity_set **entities, const cainteoir::buffer &data)
 {
 	char c = *data.begin();
 
@@ -44,7 +36,8 @@ const char * resolve_entity(const entity_set **entities, const cainteoir::buffer
 		ent = entities[c - 'a' + 26];
 	else if (c >= 'A' && c <= 'Z')
 		ent = entities[c - 'A'];
-	else
+
+	if (!ent)
 		return NULL;
 
 	int begin = 0;
@@ -91,7 +84,7 @@ void write_utf8(char * out, long c)
 	*out = '\0';
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity)
+std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity, const cainteoir::xml::entity_set **entities)
 {
 	const char * str = entity.begin();
 	if (*str == '#')
@@ -111,7 +104,7 @@ std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &en
 	}
 	else
 	{
-		const char * value = resolve_entity(html_entities, entity);
+		const char * value = cainteoir::xml::lookup_entity(entities, entity);
 		if (value)
 			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(value));
 	}
@@ -130,23 +123,158 @@ inline bool xmlspace(char c)
 	return c == ' ' || c == '\t' || c == '\r' || c == '\n';
 }
 
-cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
+cainteoir::xml::uri::uri(const std::string &aNS, const std::string &aRef)
+	: ns(aNS)
+	, ref(aRef)
+{
+	auto last = --ns.end();
+	if (!ns.empty() && !ref.empty() && *last != '#' && *last != '/' && *last != ':')
+		ns.push_back('#');
+}
+
+bool cainteoir::xml::uri::empty() const
+{
+	return ns.empty() && ref.empty();
+}
+
+std::string cainteoir::xml::uri::str() const
+{
+	if (ref.empty())
+		return ns;
+
+	return ns + ref;
+}
+
+const cainteoir::xml::resource *cainteoir::xml::uri::clone() const
+{
+	return new uri(*this);
+}
+
+const cainteoir::xml::ns cainteoir::xml::xmlns::dc(   "dc",    "http://purl.org/dc/elements/1.1/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::dcam( "dcam",  "http://purl.org/dc/dcam/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::dct(  "dct",   "http://purl.org/dc/terms/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::dtb(  "dtb",   "http://www.daisy.org/z3986/2005/dtbook/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::epub( "epub",  "http://www.idpf.org/2007/ops");
+const cainteoir::xml::ns cainteoir::xml::xmlns::foaf( "foaf",  "http://xmlns.com/foaf/0.1/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::media("media", "http://www.idpf.org/epub/vocab/overlays/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::ncx(  "ncx",   "http://www.daisy.org/z3986/2005/ncx/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::ocf(  "ocf",   "urn:oasis:names:tc:opendocument:xmlns:container");
+const cainteoir::xml::ns cainteoir::xml::xmlns::opf(  "opf",   "http://www.idpf.org/2007/opf");
+const cainteoir::xml::ns cainteoir::xml::xmlns::owl(  "owl",   "http://www.w3.org/2002/07/owl");
+const cainteoir::xml::ns cainteoir::xml::xmlns::pkg(  "pkg",   "http://www.idpf.org/epub/vocab/package/");
+const cainteoir::xml::ns cainteoir::xml::xmlns::rdf(  "rdf",   "http://www.w3.org/1999/02/22-rdf-syntax-ns");
+const cainteoir::xml::ns cainteoir::xml::xmlns::rdfa( "rdfa",  "http://www.w3.org/ns/rdfa");
+const cainteoir::xml::ns cainteoir::xml::xmlns::rdfs( "rdfs",  "http://www.w3.org/2000/01/rdf-schema");
+const cainteoir::xml::ns cainteoir::xml::xmlns::skos( "skos",  "http://www.w3.org/2004/02/skos/core");
+const cainteoir::xml::ns cainteoir::xml::xmlns::smil( "smil",  "http://www.w3.org/ns/SMIL");
+const cainteoir::xml::ns cainteoir::xml::xmlns::ssml( "ssml",  "http://www.w3.org/2001/10/synthesis");
+const cainteoir::xml::ns cainteoir::xml::xmlns::tts(  "tts",   "http://rhdunn.github.com/2010/12/text-to-speech");
+const cainteoir::xml::ns cainteoir::xml::xmlns::xhtml("h",     "http://www.w3.org/1999/xhtml");
+const cainteoir::xml::ns cainteoir::xml::xmlns::xml(  "xml",   "http://www.w3.org/XML/1998/namespace");
+const cainteoir::xml::ns cainteoir::xml::xmlns::xsd(  "xsd",   "http://www.w3.org/2001/XMLSchema");
+
+cainteoir::xml::namespaces::namespaces()
+	: mBlockNumber(-1)
+{
+	add_namespace("xml", "http://www.w3.org/XML/1998/namespace");
+}
+
+cainteoir::xml::namespaces &cainteoir::xml::namespaces::add_namespace(const std::string &aPrefix, const std::string &aHref)
+{
+	mNamespaces.push_back({ mBlockNumber, ns(aPrefix, aHref) });
+	return *this;
+}
+
+void cainteoir::xml::namespaces::push_block()
+{
+	++mBlockNumber;
+}
+
+void cainteoir::xml::namespaces::pop_block()
+{
+	--mBlockNumber;
+	while (mNamespaces.back().block > mBlockNumber)
+	{
+		mNamespaces.pop_back();
+	}
+}
+
+std::string cainteoir::xml::namespaces::lookup(const std::string &aPrefix) const
+{
+	for (auto ns = mNamespaces.rbegin(), last = mNamespaces.rend(); ns != last; ++ns)
+	{
+		if (ns->item.prefix == aPrefix && ns->block <= mBlockNumber)
+			return ns->item.href;
+	}
+	return std::string();
+}
+
+const cainteoir::xml::context::entry cainteoir::xml::unknown_context = { 0, 0 };
+
+const cainteoir::xml::context::entry cainteoir::xml::base_attr  = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::id_attr    = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::lang_attr  = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::space_attr = { 0, 0 };
+
+const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir::xml::attrs =
+{
+	{ "base",  &xml::base_attr },
+	{ "id",    &xml::id_attr },
+	{ "lang",  &xml::lang_attr },
+	{ "space", &xml::space_attr },
+};
+
+const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &aNS, const cainteoir::buffer &aNode, const entries &aEntries) const
+{
+	auto entryset = aEntries.find(aNS);
+	if (entryset == aEntries.end())
+		return &unknown_context;
+
+	int begin = 0;
+	int end = entryset->second.first.size() - 1;
+
+	while (begin <= end)
+	{
+		int pos = (begin + end) / 2;
+
+		int comp = aNode.compare((*(entryset->second.first.begin() + pos)).name, entryset->second.second);
+		if (comp == 0)
+			return (entryset->second.first.begin() + pos)->data;
+		else if (comp < 0)
+			begin = pos + 1;
+		else
+			end = pos - 1;
+	}
+
+	return &unknown_context;
+}
+
+cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52])
 	: mData(aData)
 	, mNodeName(NULL, NULL)
+	, mNodePrefix(NULL, NULL)
 	, mTagNodeName(NULL, NULL)
+	, mTagNodePrefix(NULL, NULL)
 	, mParseAsText(false)
+	, mParseNamespaces(false)
+	, mContext(&unknown_context)
+	, mImplicitEndTag(false)
+	, mPredefinedEntities(aPredefinedEntities)
 {
 	mCurrent = mData->begin();
 	mNodeType = textNode;
 
-	while (mCurrent != mData->end() && xmlspace(*mCurrent))
-		++mCurrent;
+	skip_whitespace();
 
 	const char * startPos = mCurrent;
 	if (*mCurrent == '<' && read() && mNodeType != error)
 	{
+		if (mNodeType == beginTagNode)
+			mNamespaces.pop_block();
+
 		mCurrent = startPos;
 		mTagNodeName = cainteoir::buffer(NULL, NULL);
+		mNodeType = textNode;
 	}
 	else
 	{
@@ -157,10 +285,18 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
 
 bool cainteoir::xml::reader::read()
 {
+	mNodeName = cainteoir::buffer(NULL, NULL);
+	mNodePrefix = cainteoir::buffer(NULL, NULL);
+	mContext = &unknown_context;
+
 	if (mCurrent >= mData->end())
 		return false;
 
-	mNodeName = cainteoir::buffer(NULL, NULL);
+	cainteoir::buffer oldName = mNodeName;
+
+	if (mNodeType == endTagNode && !mParseNamespaces)
+		mNamespaces.pop_block();
+
 	if (mParseAsText)
 	{
 		mNodeType = textNode;
@@ -173,48 +309,54 @@ bool cainteoir::xml::reader::read()
 
 	if (mTagNodeName.begin())
 	{
-		while (mCurrent != mData->end() && xmlspace(*mCurrent))
-			++mCurrent;
+		skip_whitespace();
 
-		if (mCurrent[0] == '/' && mCurrent[1] == '>')
+		if ((mCurrent[0] == '/' && mCurrent[1] == '>') || // XML§3.1     -- Empty-Element Tag
+		    (mCurrent[0] == '>' && mImplicitEndTag))      // HTML§12.1.2 -- void elements
 		{
 			mNodeName = mTagNodeName;
+			mNodePrefix = mTagNodePrefix;
 			mNodeType = endTagNode;
+			mContext = lookup_node(namespaceUri(), nodeName());
+			if (mImplicitEndTag)
+			{
+				mImplicitEndTag = false;
+				mTagNodeName = cainteoir::buffer(NULL, NULL);
+			}
 			++mCurrent;
 			return true;
 		}
 
-		if (xmlalnum(*mCurrent))
+		if (xmlalnum(*mCurrent)) // XML§3.1 ; HTML§12.1.2.3
 		{
-			const char * startPos = mCurrent;
-
-			while (mCurrent != mData->end() && (xmlalnum(*mCurrent) || *mCurrent == ':' || *mCurrent == '-'))
-				++mCurrent;
-
-			mNodeType = attribute;
-			mNodeName = cainteoir::buffer(startPos, mCurrent);
-
-			if (expect_next('=') && expect_next('"'))
+			read_tag(attribute);
+			mContext = lookup_attr(namespaceUri(), nodeName());
+			if (check_next('='))
 			{
-				const char * startPos = mCurrent;
-
-				while (mCurrent != mData->end() && *mCurrent != '"')
+				if (check_next('"')) // XML§3.1 ; HTML§12.1.2.3 -- double-quoted attribute value
+				{
+					read_node_value('"');
 					++mCurrent;
-
-				mNodeType = attribute;
-				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
-				++mCurrent;
+				}
+				else if (check_next('\'')) // XML§3.1 ; HTML§12.1.2.3 -- single-quoted attribute value
+				{
+					read_node_value('\'');
+					++mCurrent;
+				}
+				else // HTML§12.1.2.3 -- unquoted attribute value
+					mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(identifier()));
 			}
-
+			else // HTML§12.1.2.3 -- empty attribute
+				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mNodeName));
 			return true;
 		}
 
-		if (*mCurrent == '>')
+		if (*mCurrent == '>') // XML§3.1 ; HTML§12.1.2.1-2 -- end of start/end tag
 		{
 			++mCurrent;
 			mTagNodeName = cainteoir::buffer(NULL, NULL);
 		}
-		else
+		else // error -- skip to end of element tag
 		{
 			while (mCurrent != mData->end() && *mCurrent != '>')
 				++mCurrent;
@@ -231,7 +373,7 @@ bool cainteoir::xml::reader::read()
 		switch (*++mCurrent)
 		{
 		case '!':
-			if (mCurrent[1] == '-' && mCurrent[2] == '-')
+			if (mCurrent[1] == '-' && mCurrent[2] == '-') // XML§2.5 ; HTML§12.1.6 -- comment
 			{
 				++mCurrent;
 				++mCurrent;
@@ -242,7 +384,8 @@ bool cainteoir::xml::reader::read()
 				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
 				mCurrent += 3;
 			}
-			else if (mCurrent[1] == '[' && mCurrent[2] == 'C' && mCurrent[3] == 'D' && mCurrent[4] == 'A' && mCurrent[5] == 'T' && mCurrent[6] == 'A' && mCurrent[7] == '[')
+			else if (mCurrent[1] == '[' && mCurrent[2] == 'C' && mCurrent[3] == 'D' && mCurrent[4] == 'A' &&
+			         mCurrent[5] == 'T' && mCurrent[6] == 'A' && mCurrent[7] == '[') // XML§2.7 ; HTML§12.1.5 -- CDATA section
 			{
 				mCurrent += 8;
 				mNodeType = cdataNode;
@@ -252,24 +395,14 @@ bool cainteoir::xml::reader::read()
 				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
 				mCurrent += 3;
 			}
-			else
+			else // DTD
 			{
-				startPos = ++mCurrent;
-				while (mCurrent != mData->end() && xmlalnum(*mCurrent))
-					++mCurrent;
+				++mCurrent;
+				cainteoir::buffer type = identifier();
 
-				cainteoir::buffer type(startPos, mCurrent);
-
-				while (mCurrent != mData->end() && xmlspace(*mCurrent))
-					++mCurrent;
-				startPos = mCurrent;
-
-				while (mCurrent != mData->end() && xmlalnum(*mCurrent))
-					++mCurrent;
-
-				if (!type.comparei("DOCTYPE"))
+				if (!type.comparei("DOCTYPE")) // XML§2.8 ; HTML§12.1.1
 				{
-					mNodeName = cainteoir::buffer(startPos, mCurrent);
+					mNodeName = identifier();
 					mNodeType = doctypeNode;
 				}
 				else
@@ -280,7 +413,7 @@ bool cainteoir::xml::reader::read()
 				++mCurrent;
 			}
 			break;
-		case '?':
+		case '?': // XML§2.6 -- processing instruction
 			mNodeType = processingInstructionNode;
 			startPos = ++mCurrent;
 			while (mCurrent != mData->end() && (mCurrent[0] != '?' && mCurrent[1] != '>'))
@@ -289,69 +422,67 @@ bool cainteoir::xml::reader::read()
 			++mCurrent;
 			++mCurrent;
 			break;
-		case '/':
+		case '/': // XML§3.1 ; HTML§12.1.2.2 -- End Tag
 			++mCurrent;
 			read_tag(endTagNode);
+			mContext = lookup_node(namespaceUri(), nodeName());
 			break;
-		default:
-			read_tag(beginTagNode);
+		default: // XML§3.1 ; HTML§12.1.2.1 -- Start Tag
+			if (!mParseNamespaces)
+			{
+				mNamespaces.push_block();
+				read_tag(beginTagNode);
+
+				cainteoir::buffer tagName = mNodeName;
+				cainteoir::buffer tagPrefix = mNodePrefix;
+				startPos = mCurrent;
+
+				mParseNamespaces = true;
+				while (read() && mNodeType == attribute)
+				{
+					if (!mNodePrefix.compare("xmlns"))
+						mNamespaces.add_namespace(mNodeName, mNodeValue.buffer());
+					else if (!mNodeName.compare("xmlns") && mNodePrefix.empty())
+						mNamespaces.add_namespace(cainteoir::buffer(NULL, NULL), mNodeValue.buffer());
+				}
+				mParseNamespaces = false;
+
+				mCurrent = startPos;
+				mNodeType = beginTagNode;
+				mTagNodeName = mNodeName = tagName;
+				mTagNodePrefix = mNodePrefix = tagPrefix;
+				mContext = lookup_node(namespaceUri(), nodeName());
+				if (mContext->parse_type == xml::context::implicit_end_tag)
+					mImplicitEndTag = true;
+			}
 			break;
 		}
 	}
-	else
+	else // HTML§12.1.3 -- text
 	{
 		mNodeType = textNode;
-		mNodeValue.clear();
-
-		do
-		{
-			startPos = mCurrent;
-			if (*mCurrent == '&')
-			{
-				++mCurrent;
-				if (*mCurrent == '#')
-					++mCurrent;
-
-				while (mCurrent != mData->end() && xmlalnum(*mCurrent))
-					++mCurrent;
-
-				if (*mCurrent == ';')
-				{
-					std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent));
-					if (entity)
-						mNodeValue += entity;
-					++mCurrent;
-					continue;
-				}
-			}
-
-			while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == '<'))
-				++mCurrent;
-			mNodeValue += std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
-		} while (mCurrent != mData->end() && *mCurrent != '<');
+		read_node_value('<');
 	}
 
 	return true;
 }
 
-void cainteoir::xml::reader::read_tag(node_type aType)
+std::string cainteoir::xml::reader::namespaceUri() const
+{
+	if (mNodeName.compare("xmlns"))
+		return mNamespaces.lookup(mNodePrefix);
+	return std::string();
+}
+
+void cainteoir::xml::reader::skip_whitespace()
 {
 	while (mCurrent != mData->end() && xmlspace(*mCurrent))
 		++mCurrent;
-
-	const char * startPos = mCurrent;
-
-	while (mCurrent != mData->end() && xmlalnum(*mCurrent))
-		++mCurrent;
-
-	mNodeType = aType;
-	mTagNodeName = mNodeName = cainteoir::buffer(startPos, mCurrent);
 }
 
 bool cainteoir::xml::reader::expect_next(char c)
 {
-	while (mCurrent != mData->end() && xmlspace(*mCurrent))
-		++mCurrent;
+	skip_whitespace();
 
 	if (*mCurrent == c)
 	{
@@ -363,8 +494,83 @@ bool cainteoir::xml::reader::expect_next(char c)
 	return false;
 }
 
+bool cainteoir::xml::reader::check_next(char c)
+{
+	skip_whitespace();
+
+	if (mCurrent != mData->end() && *mCurrent == c)
+	{
+		++mCurrent;
+		return true;
+	}
+
+	return false;
+}
+
+cainteoir::buffer cainteoir::xml::reader::identifier()
+{
+	skip_whitespace();
+
+	const char * startPos = mCurrent;
+
+	while (mCurrent != mData->end() && (xmlalnum(*mCurrent)) || *mCurrent == '-')
+		++mCurrent;
+
+	return cainteoir::buffer(startPos, mCurrent);
+}
+
+void cainteoir::xml::reader::read_node_value(char terminator)
+{
+	mNodeValue.clear();
+	do
+	{
+		const char *startPos = mCurrent;
+		if (*mCurrent == '&') // XML§4.1 ; HTML§12.1.4 -- character and entity references
+		{
+			++mCurrent;
+			if (*mCurrent == '#')
+				++mCurrent;
+
+			while (mCurrent != mData->end() && xmlalnum(*mCurrent))
+				++mCurrent;
+
+			if (*mCurrent == ';')
+			{
+				std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent), mPredefinedEntities);
+				if (entity)
+					mNodeValue += entity;
+				++mCurrent;
+				continue;
+			}
+		}
+
+		while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == terminator))
+			++mCurrent;
+		mNodeValue += std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
+	} while (mCurrent != mData->end() && *mCurrent != terminator);
+}
+
+void cainteoir::xml::reader::read_tag(node_type aType)
+{
+	skip_whitespace();
+
+	mNodeName = identifier();
+	if (check_next(':'))
+	{
+		mNodePrefix = mNodeName;
+		mNodeName   = identifier();
+	}
+
+	mNodeType = aType;
+	if (aType != attribute)
+	{
+		mTagNodeName = mNodeName;
+		mTagNodePrefix = mNodePrefix;
+	}
+}
+
 /** References
   *
-  *    [1] http://www.w3.org/TR/2008/REC-xml-20081126/
-  *        Extensible Markup Language (XML) 1.0 (Fifth Edition)
+  *    XML  [http://www.w3.org/TR/2008/REC-xml-20081126/] -- Extensible Markup Language (XML) 1.0 (Fifth Edition)
+  *    HTML [http://www.whatwg.org/specs/web-apps/current-work/multipage/] -- HTML Living Standard
   */

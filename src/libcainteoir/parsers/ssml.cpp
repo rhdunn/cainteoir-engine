@@ -22,25 +22,16 @@
 #include <cainteoir/platform.hpp>
 
 namespace rdf = cainteoir::rdf;
-namespace xml = cainteoir::xmldom;
+namespace xmldom = cainteoir::xmldom;
 
-void parseSsmlMetadata(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
-	{
-		if (node.type() == XML_ELEMENT_NODE && node == rdf::rdf("RDF"))
-			cainteoir::parseRdfXmlDocument(node, subject, events, aGraph);
-	}
-}
-
-void parseSsmlContext(const xml::node &ssml,
+void parseSsmlContext(const xmldom::node &ssml,
                       const rdf::uri &subject,
                       cainteoir::document_events &events,
-                      cainteoir::document_events::context context,
+                      cainteoir::events::context context,
                       int32_t parameter = 0)
 {
 	events.begin_context(context, parameter);
-	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = ssml.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_TEXT_NODE)
 		{
@@ -51,42 +42,45 @@ void parseSsmlContext(const xml::node &ssml,
 		else if (node.type() == XML_ELEMENT_NODE && node.namespaceURI() == rdf::ssml)
 		{
 			if (node == rdf::ssml("s"))
-				parseSsmlContext(node, subject, events, cainteoir::document_events::sentence);
+				parseSsmlContext(node, subject, events, cainteoir::events::sentence);
 			else if (node == rdf::ssml("emphasis"))
 			{
-				int32_t style = cainteoir::document_events::emphasized;
-				for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+				int32_t style = cainteoir::events::emphasized;
+				for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 				{
 					if (!strcmp(attr.name(), "level"))
 					{
 						std::string value = attr.content();
 						if (value == "strong")
-							style = cainteoir::document_events::strong;
+							style = cainteoir::events::strong;
 						else if (value == "reduced")
-							style = cainteoir::document_events::reduced;
+							style = cainteoir::events::reduced;
 						else if (value == "none")
-							style = cainteoir::document_events::nostyle;
+							style = cainteoir::events::nostyle;
 					}
 				}
-				parseSsmlContext(node, subject, events, cainteoir::document_events::span, style);
+				parseSsmlContext(node, subject, events, cainteoir::events::span, style);
 			}
 		}
 	}
 	events.end_context();
 }
 
-void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+void cainteoir::parseSsmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
+	xmldom::document doc(aData);
+	xmldom::node ssml = doc.root();
+
 	if (ssml != rdf::ssml("speak"))
 		throw std::runtime_error(_("SSML document is not of a recognised format."));
 
-	for (xml::attribute attr = ssml.firstAttribute(); attr.isValid(); attr.next())
+	for (xmldom::attribute attr = ssml.firstAttribute(); attr.isValid(); attr.next())
 	{
 		if (attr == rdf::xml("lang"))
-			aGraph.statement(subject, rdf::dc("language"), rdf::literal(attr.content()));
+			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(attr.content()));
 	}
 
-	for (xml::node node = ssml.firstChild(); node.isValid(); node.next())
+	for (xmldom::node node = ssml.firstChild(); node.isValid(); node.next())
 	{
 		if (node.type() == XML_TEXT_NODE)
 		{
@@ -100,7 +94,7 @@ void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject
 			{
 				std::string name;
 				std::string content;
-				for (xml::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
+				for (xmldom::attribute attr = node.firstAttribute(); attr.isValid(); attr.next())
 				{
 					if (!strcmp(attr.name(), "name"))
 						name = attr.content();
@@ -109,12 +103,10 @@ void cainteoir::parseSsmlDocument(const xml::node &ssml, const rdf::uri &subject
 				}
 
 				if (name == "seeAlso" && !content.empty())
-					aGraph.statement(subject, rdf::rdfs("seeAlso"), aGraph.href(content));
+					aGraph.statement(aSubject, rdf::rdfs("seeAlso"), aGraph.href(content));
 			}
-			else if (node == rdf::ssml("metadata"))
-				parseSsmlMetadata(node, subject, events, aGraph);
 			else if (node == rdf::ssml("p"))
-				parseSsmlContext(node, subject, events, cainteoir::document_events::paragraph);
+				parseSsmlContext(node, aSubject, events, cainteoir::events::paragraph);
 		}
 	}
 }

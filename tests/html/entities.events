@@ -1,5 +1,5 @@
-|begin-tag| div
-|text| """
+begin-context paragraph
+text(8342): """
 Æ
 &
 Á
@@ -2127,6 +2127,4 @@ _
 ‍
 ‌
 """
-|end-tag| div
-|text| """
-"""
+end-context

@@ -1,5 +1,28 @@
 
 -------------------------------------------------------------------------------
+VERSION 0.6 -- Sunday January 29th 2012 [Jan 2012]
+
+  *  languages.rdf -- represent ISO-639-2/B, ISO-639-2/T, ISO-639-3, ISO-639-5,
+     espeak and wikimedia language codes;
+  *  add document format implementation status documentation.
+
+xmlreader xml parsing support:
+  *  parse entities in attribues;
+  *  support single-quote and html-style attributes;
+  *  parse xml namespaces;
+  *  unify xml and rdf namespace/uri support;
+  *  support element/attribute mapping to context entry objects.
+
+document parsers:
+  *  epub  -- support epub 3 @refines and @datatype metadata;
+  *  html  -- support all known implicit close tags and recognise more elements;
+  *  ocf   -- use the xmlreader api and expose a reader api;
+  *  opf   -- use the xmlreader api.
+
+bug fixes:
+  *  release the file handle when finished recording ogg files.
+
+-------------------------------------------------------------------------------
 VERSION 0.5 -- Monday November 21st 2011 [Nov 2011]
 
   *  use the shared-mime-info database for MIME type detection.

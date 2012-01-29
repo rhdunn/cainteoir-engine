@@ -1,0 +1,7 @@
+|begin-tag| [e|http://www.example.com/]outer
+|attribute| [xmlns|]e="""http://www.example.com/"""
+|begin-tag| [e|http://www.example.com/]inner
+|end-tag| [e|http://www.example.com/]inner
+|end-tag| [e|http://www.example.com/]outer
+|text| """
+"""

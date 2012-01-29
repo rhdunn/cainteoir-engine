@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xml:base="http://rhdunn.github.com/cainteoir/data/parts-of-speech"
+>
+
+<skos:ConceptScheme rdf:about="#">
+	<dc:title>Parts of Speech</dc:title>
+	<dc:description>This document contains a description of parts of speech in languages.</dc:description>
+	<dc:publisher>Reece H. Dunn</dc:publisher>
+	<dc:creator>Reece H. Dunn</dc:creator>
+	<skos:hasTopConcept rdf:resource="#adjective"/>
+	<skos:hasTopConcept rdf:resource="#adverb"/>
+	<skos:hasTopConcept rdf:resource="#conjunction"/>
+	<skos:hasTopConcept rdf:resource="#interjection"/>
+	<skos:hasTopConcept rdf:resource="#noun"/>
+	<skos:hasTopConcept rdf:resource="#preposition"/>
+	<skos:hasTopConcept rdf:resource="#pronoun"/>
+	<skos:hasTopConcept rdf:resource="#verb"/>
+</skos:ConceptScheme>
+
+<skos:Concept rdf:ID="adjective">
+	<skos:prefLabel xml:lang="en">Adjective</skos:prefLabel>
+	<skos:definition xml:lang="en">Descriptive property for a noun.</skos:definition>
+	<skos:example xml:lang="en">The green dress.</skos:example>
+	<skos:narrower rdf:resource="#determiner"/>
+	<skos:inScheme rdf:resource="#"/>
+</skos:Concept>
+
+<skos:Concept rdf:ID="adverb">
+	<skos:prefLabel xml:lang="en">Adverb</skos:prefLabel>
+	<skos:definition xml:lang="en">Descriptive property for a verb, adjective or adverb.</skos:definition>
+	<skos:example xml:lang="en">She runs quickly.</skos:example>
+	<skos:inScheme rdf:resource="#"/>
+</skos:Concept>
+
+<skos:Concept rdf:ID="conjunction">
+	<skos:prefLabel xml:lang="en">Conjunction</skos:prefLabel>
+	<skos:definition xml:lang="en">Combine two elements (clauses, words, sentences) through a logical or structural relation.</skos:definition>
+	<skos:example xml:lang="en">To and fro.</skos:example>
+	<skos:inScheme rdf:resource="#"/>
+</skos:Concept>
+
+<skos:Concept rdf:ID="determiner">
+	<skos:prefLabel xml:lang="en">Determiner</skos:prefLabel>
+	<skos:broader rdf:resource="#adjective"/>
+	<skos:inScheme rdf:resource="#"/>
+</skos:Concept>
+
+<skos:Concept rdf:ID="interjection">
+	<skos:prefLabel xml:lang="en">Interjection</skos:prefLabel>
+	<skos:definition xml:lang="en">Short exclamation.</skos:definition>
+	<skos:example xml:lang="en">Oops!</skos:example>
+	<skos:inScheme rdf:resource="#"/>
+</skos:Concept>
+
+<skos:Concept rdf:ID="noun">
+	<skos:prefLabel xml:lang="en">Noun</skos:prefLabel>
+	<skos:definition xml:lang="en">A person, place or thing.</skos:definition>
+	<skos:example xml:lang="en">shoes</skos:example>
+	<skos:inScheme rdf:resource="#"/>
+</skos:Concept>
+
+<skos:Concept rdf:ID="preposition">
+	<skos:prefLabel xml:lang="en">Preposition</skos:prefLabel>
+	<skos:definition xml:lang="en">Associate a noun, pronoun or phrase with other words in the sentence.</skos:definition>
+	<skos:example xml:lang="en">He went to the dentist.</skos:example>
+	<skos:inScheme rdf:resource="#"/>
+</skos:Concept>
+
+<skos:Concept rdf:ID="pronoun">
+	<skos:prefLabel xml:lang="en">Pronoun</skos:prefLabel>
+	<skos:definition xml:lang="en">Used in place of a noun to indicate who or what the phrase applies to, usually from the previous phrase.</skos:definition>
+	<skos:example xml:lang="en">Karl smiled. He was happy.</skos:example>
+	<skos:inScheme rdf:resource="#"/>
+</skos:Concept>
+
+<skos:Concept rdf:ID="verb">
+	<skos:prefLabel xml:lang="en">Verb</skos:prefLabel>
+	<skos:definition xml:lang="en">An action or state.</skos:definition>
+	<skos:example xml:lang="en">They read the book.</skos:example>
+	<skos:inScheme rdf:resource="#"/>
+</skos:Concept>
+
+</rdf:RDF>

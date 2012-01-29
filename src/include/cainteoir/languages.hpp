@@ -21,11 +21,23 @@
 #ifndef CAINTEOIR_ENGINE_LANGUAGES_HPP
 #define CAINTEOIR_ENGINE_LANGUAGES_HPP
 
+#include <string.h>
 #include <string>
 #include <map>
 
 namespace cainteoir
 {
+	namespace ci /**< @name Case Insensitive Operations */
+	{
+		struct less
+		{
+			bool operator()(const std::string &a, const std::string &b)
+			{
+				return strcasecmp(a.c_str(), b.c_str()) < 0;
+			}
+		};
+	}
+
 	class languages
 	{
 	public:
@@ -33,7 +45,7 @@ namespace cainteoir
 
 		std::string operator()(const std::string & langid);
 	private:
-		std::map<std::string, std::string> m_languages;
+		std::map<std::string, std::string, ci::less> m_languages;
 	};
 }
 

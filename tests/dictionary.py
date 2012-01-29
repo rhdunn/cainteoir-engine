@@ -115,6 +115,9 @@ def print_exception(word, pronunciation, ipa=True):
 			pronunciation = pronunciation.replace('@/', '@;/')
 			word.attributes.remove('norcolouring')
 
+		if 'noerror' in word.attributes:
+			word.attributes.remove('noerror')
+
 		if 'breathstop' in word.attributes:
 			word.attributes.remove('breathstop')
 
@@ -350,7 +353,7 @@ def parse_dictionaries(dictionaries):
 					continue
 
 				m = re_ref.match(line)
-				if m:
+				if m: # repl=expr
 					ref = m.group(1)
 					expression = m.group(2)
 
@@ -359,7 +362,7 @@ def parse_dictionaries(dictionaries):
 					continue
 
 				m = re_alias.match(line)
-				if m:
+				if m: # expr "say as"
 					words = ' '.join(m.group(1).split())
 					alias = m.group(2)
 					attributes = m.group(3).split()
@@ -369,7 +372,7 @@ def parse_dictionaries(dictionaries):
 					continue
 
 				m = re_pron.match(line)
-				if m:
+				if m: # expr /phon/
 					words, endings = expand_expression(' '.join(m.group(1).split()), refs)
 					pronunciation, pronunciation_endings = expand_expression(m.group(2), {})
 					attributes = m.group(3).split()
@@ -407,7 +410,7 @@ def parse_dictionaries(dictionaries):
 
 		words, endings = expand_expression(' '.join(expr.word.split()), refs)
 		for word in words:
-			word = Word(word)
+			word = Word(word, expr.attributes)
 			data[word] = { 'word': word, 'pronunciation': ' '.join(pronunciation) }
 	return data
 
@@ -456,7 +459,12 @@ class Tester:
 			if 'ˌ' in expected and not 'ˈ' in expected:
 				expected = expected.replace('ˌ', 'ˈ') # espeak uses a primary stress if there is only a secondary stress present
 
-			if expected == actual or (word.attributes and 'speakletter' in word.attributes):
+			if 'ˈ' in expected and not 'ˌ' in expected and word.attributes and 'weak' in word.attributes:
+				# espeak does not emit stress for weakly stressed words in some cases, so ignore ...
+				expected = expected.replace('ˈ', '')
+				actual = actual.replace('ˈ', '')
+
+			if expected == actual or (word.attributes and ('speakletter' in word.attributes or 'noerror' in word.attributes)):
 				if generate_exception_dictionary:
 					if word.attributes:
 						if use_actual:

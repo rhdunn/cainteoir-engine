@@ -30,6 +30,10 @@ tests/events
 tests/xmlreader
 tests/encoding
 
+# docs output:
+
+docs/implementation-status/*.html
+
 # autotools output:
 
 Makefile
@@ -115,3 +119,4 @@ data/mime/mime.cache
 data/mime/subclasses
 data/mime/treemagic
 data/mime/types
+data/mime/version

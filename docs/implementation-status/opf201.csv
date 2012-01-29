@@ -1,0 +1,37 @@
+@type,spec
+@name,OPF
+@version,2.0.1
+@references,opf201
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# section,title,url,implemented,tests,comments
+
+2.1,package,,0.1,0.1,
+2.2,metadata/dc-metadata,,0.1,0.1,
+2.2,meta/{@name+@content},,0.4,0.4,
+2.2.1,dc:title,,0.1,0.1,
+2.2.2,dc:creator,,0.1,0.1,
+2.2.3,dc:subject,,0.1,0.1,
+2.2.4,dc:description,,0.1,0.1,
+2.2.5,dc:publisher,,0.1,0.1,
+2.2.6,dc:contributor,,0.1,0.1,
+2.2.7,dc:date,,0.1,0.1,
+2.2.8,dc:type,,0.1,0.1,
+2.2.9,dc:format,,0.1,0.1,
+2.2.10,dc:identifier,,0.1,0.1,
+2.2.11,dc:source,,0.1,0.1,
+2.2.12,dc:language,,0.1,0.1,
+2.2.13,dc:relation,,0.1,0.1,
+2.2.14,dc:coverage,,0.1,0.1,
+2.2.15,dc:rights,,0.1,0.1,
+2.3,manifest,,0.1,0.1,
+2.3,manifest/item,,0.1,0.1,
+2.4,spine,,0.1,0.1,
+2.4,spine/@toc,,0.4,0.4,Navigation Control File
+2.4,spine/itemref,,0.1,0.1,
+2.5,tours,,no,no,
+2.5,tours/tour,,no,no,
+2.5,tours/tour/site,,no,no,
+2.6,guide,,no,no,
+2.6,guide/reference,,no,no,

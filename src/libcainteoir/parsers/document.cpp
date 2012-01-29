@@ -33,6 +33,10 @@ struct DecodeDocument
 	cainteoir::decoder_ptr decoder;
 };
 
+static const DecodeDocument decode_handlers[] = {
+	{ &mime::gzip, &cainteoir::inflate_gzip },
+};
+
 typedef void (*parsedoc_ptr)(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
 
 struct ParseDocument
@@ -41,32 +45,22 @@ struct ParseDocument
 	parsedoc_ptr parser;
 };
 
-typedef void (*parsexml_ptr)(const xmldom::node &aRoot, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
-
-struct XmlDocument
-{
-	const mime::mimetype *mimetype;
-	parsexml_ptr parser;
+// magic = xml ; match namespaceUri and rootName on XML document ...
+static const ParseDocument xml_handlers[] = {
+	{ &mime::ncx,    &cainteoir::parseNcxDocument },
+	{ &mime::opf,    &cainteoir::parseOpfDocument },
+	{ &mime::rdfxml, &cainteoir::parseRdfXmlDocument },
+	{ &mime::smil,   &cainteoir::parseSmilDocument },
+	{ &mime::ssml,   &cainteoir::parseSsmlDocument },
+	{ &mime::xhtml,  &cainteoir::parseXHtmlDocument },
+	{ &mime::html,   &cainteoir::parseXHtmlDocument },
 };
 
-static const DecodeDocument decode_handlers[] = {
-	{ &mime::gzip, &cainteoir::inflate_gzip },
-};
-
+// magic = document specific ...
 static const ParseDocument doc_handlers[] = {
 	{ &mime::epub, &cainteoir::parseEpubDocument },
 	{ &mime::html, &cainteoir::parseXHtmlDocument },
 	{ &mime::rtf,  &cainteoir::parseRtfDocument },
-};
-
-static const XmlDocument xml_handlers[] = {
-	{ &mime::ncx,    &cainteoir::parseNcxDocument },
-	{ &mime::opf,    NULL }, // FIXME: Align the OPF parser with the rest of the XML parsers.
-	{ &mime::rdfxml, &cainteoir::parseRdfXmlDocument },
-	{ &mime::smil,   &cainteoir::parseSmilDocument },
-	{ &mime::ssml,   &cainteoir::parseSsmlDocument },
-	{ &mime::xhtml,  NULL }, // FIXME: Align the (X)HTML parser with the rest of the XML parsers.
-	{ &mime::html,   NULL }, // FIXME: Align the (X)HTML parser with the rest of the XML parsers.
 };
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
@@ -274,25 +268,23 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 
 	if (mime::xml.match(data))
 	{
-		xmldom::document doc(data);
-		xmldom::node root = doc.root();
+		std::string namespaceUri;
+		std::string rootName;
 
-		for (const XmlDocument *xml = xml_handlers; xml != xml_handlers + countof(xml_handlers); ++xml)
+		// FIXME: Use the xmlreader API to extract this information.
+		//        Requires DOCTYPE & ATTRIBUTE support for some RDF/XML documents.
 		{
-			if (xml->mimetype->match(root.namespaceURI(), root.name()))
+			xmldom::document doc(data);
+			xmldom::node root = doc.root();
+			namespaceUri = root.namespaceURI();
+			rootName = root.name();
+		}
+
+		for (const ParseDocument *xml = xml_handlers; xml != xml_handlers + countof(xml_handlers); ++xml)
+		{
+			if (xml->mimetype->match(namespaceUri, rootName))
 			{
-				if (!xml->parser) // FIXME: Temporary cludge for parsers that don't follow the xml parser signature ...
-				{
-					if (root == rdf::opf("package"))
-					{
-						cainteoir::opffiles files;
-						cainteoir::parseOpfDocument(root, subject, events, aGraph, files);
-					}
-					else if (root == rdf::xhtml("html") || root == rdf::uri(std::string(), "html"))
-						parseXHtmlDocument(data, subject, events, aGraph);
-				}
-				else
-					xml->parser(root, subject, events, aGraph);
+				xml->parser(data, subject, events, aGraph);
 				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(xml->mimetype->mime_type));
 				return true;
 			}

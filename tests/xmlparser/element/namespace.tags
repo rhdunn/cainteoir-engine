@@ -1,0 +1,5 @@
+|begin-tag| [e|http://www.example.com/]elem
+|attribute| [xmlns|]e="""http://www.example.com/"""
+|end-tag| [e|http://www.example.com/]elem
+|text| """
+"""
