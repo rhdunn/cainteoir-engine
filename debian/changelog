@@ -1,3 +1,9 @@
+cainteoir-engine (0.6~unstable1) unstable; urgency=low
+ 
+  * Fix gcc build issue for natty builds.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Mon, 29 Jan 2012 22:20:00 +0000
+
 cainteoir-engine (0.6~unstable0) unstable; urgency=low
  
   * New upstream release.
