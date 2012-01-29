@@ -20,6 +20,8 @@ builddeb() {
 	DIST=$1
 	shift
 	doclean
+	cp debian/changelog{,.downstream}
+	sed -i -e "s/~unstable\([0-9]*\)) unstable;/~${DIST}\1) ${DIST};/" debian/changelog
 	sed -i -e "s/) unstable;/~${DIST}1) ${DIST};/" debian/changelog
 	if [[ -e debian/$DIST.patch ]] ; then
 		patch -f -p1 -i debian/$DIST.patch || touch builddeb.failed
@@ -35,7 +37,7 @@ builddeb() {
 	if [[ -e debian/$DIST.patch ]] ; then
 		patch -Rf -p1 -i debian/$DIST.patch || touch builddeb.failed
 	fi
-	sed -i -e "s/~${DIST}1) ${DIST};/) unstable;/" debian/changelog
+	mv debian/changelog{.downstream,}
 	if [[ -e builddeb.failed ]] ; then
 		rm builddeb.failed
 		exit 1
