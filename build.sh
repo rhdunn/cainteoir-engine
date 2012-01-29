@@ -75,7 +75,7 @@ doppa() {
 }
 
 doallppa() {
-	for DISTRO in lucid maverick natty oneiric ; do
+	for DISTRO in natty oneiric precise ; do
 		doppa ${DISTRO}
 	done
 }
