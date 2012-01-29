@@ -171,6 +171,12 @@ namespace cainteoir { namespace xml
 		{
 			long block;
 			ns   item;
+
+			namespace_item(long aBlock, const ns &aItem)
+				: block(aBlock)
+				, item(aItem)
+			{
+			}
 		};
 
 		std::list<namespace_item> mNamespaces;

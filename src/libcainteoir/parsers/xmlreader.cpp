@@ -181,7 +181,7 @@ cainteoir::xml::namespaces::namespaces()
 
 cainteoir::xml::namespaces &cainteoir::xml::namespaces::add_namespace(const std::string &aPrefix, const std::string &aHref)
 {
-	mNamespaces.push_back({ mBlockNumber, ns(aPrefix, aHref) });
+	mNamespaces.push_back(namespace_item(mBlockNumber, ns(aPrefix, aHref)));
 	return *this;
 }
 
