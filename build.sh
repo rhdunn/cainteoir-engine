@@ -68,10 +68,11 @@ doppa() {
 	# |dput| command does not.
 	#
 	# In addition to this, it is advised that a version identifier is used for ppa
-	# files, so a "~<distro-name>1" is appended.
+	# files, so a "~<distro-name>N" is appended.
 	DIST=$1
+	VER=`cat debian/changelog | grep ") unstable" | head -n 1 | sed -e "s/.*(//" -e "s/~unstable\([0-9]*\)) unstable;.*/~${DIST}\1/" -e "s/) unstable;.*/~${DIST}1/"`
 	builddeb $DIST -S -sa || exit 1
-	dput ppa:msclrhd-gmail/cainteoir ../${PACKAGE}_*~${DIST}1_source.changes
+	dput ppa:msclrhd-gmail/cainteoir ../${PACKAGE}_${VER}_source.changes
 }
 
 doallppa() {
