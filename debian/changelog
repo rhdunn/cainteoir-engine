@@ -1,3 +1,9 @@
+cainteoir-engine (0.6~unstable0) unstable; urgency=low
+ 
+  * New upstream release.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Mon, 29 Jan 2012 20:41:00 +0000
+
 cainteoir-engine (0.5-4) unstable; urgency=low
  
   * Fix gcc build issues on gcc 4.4.x and 4.5.x for lucid, maveric
