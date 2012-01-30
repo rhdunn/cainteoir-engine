@@ -273,11 +273,17 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 
 		// FIXME: Use the xmlreader API to extract this information.
 		//        Requires DOCTYPE & ATTRIBUTE support for some RDF/XML documents.
+		try
 		{
 			xmldom::document doc(data);
 			xmldom::node root = doc.root();
 			namespaceUri = root.namespaceURI();
 			rootName = root.name();
+		}
+		catch (const std::exception &e)
+		{
+			// assume that malformed xml is actually html ...
+			rootName = "html";
 		}
 
 		for (const ParseDocument *xml = xml_handlers; xml != xml_handlers + countof(xml_handlers); ++xml)
