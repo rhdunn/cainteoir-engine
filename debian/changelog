@@ -1,14 +1,21 @@
+cainteoir-engine (0.6~unstable2) unstable; urgency=low
+ 
+  * Support reading arbitary html fragments without head or body tags.
+  * Don't crash when html/xml contains unbalanced element tags.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Tue, 31 Jan 2012 08:34:00 +0000
+
 cainteoir-engine (0.6~unstable1) unstable; urgency=low
  
   * Fix gcc build issue for natty builds.
  
- -- Reece H. Dunn <msclrhd@gmail.com>  Mon, 29 Jan 2012 22:20:00 +0000
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 29 Jan 2012 22:20:00 +0000
 
 cainteoir-engine (0.6~unstable0) unstable; urgency=low
  
   * New upstream release.
  
- -- Reece H. Dunn <msclrhd@gmail.com>  Mon, 29 Jan 2012 20:41:00 +0000
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 29 Jan 2012 20:41:00 +0000
 
 cainteoir-engine (0.5-4) unstable; urgency=low
  
