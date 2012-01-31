@@ -193,7 +193,7 @@ void cainteoir::xml::namespaces::push_block()
 void cainteoir::xml::namespaces::pop_block()
 {
 	--mBlockNumber;
-	while (mNamespaces.back().block > mBlockNumber)
+	while (mNamespaces.back().block > mBlockNumber && !mNamespaces.empty())
 	{
 		mNamespaces.pop_back();
 	}
