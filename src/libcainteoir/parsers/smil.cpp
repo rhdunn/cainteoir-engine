@@ -1,6 +1,6 @@
 /* SMIL Document Parser.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -21,19 +21,60 @@
 #include "parsers.hpp"
 #include <cainteoir/platform.hpp>
 
-namespace rdf = cainteoir::rdf;
+namespace xml   = cainteoir::xml;
+namespace xmlns = cainteoir::xml::xmlns;
+namespace rdf   = cainteoir::rdf;
+
+namespace smil
+{
+	namespace events = cainteoir::events;
+
+	static const xml::context::entry smil_node = { events::unknown, 0 };
+
+	static const xml::context::entry lang_attr = { events::unknown, 0 };
+}
+
+static const std::initializer_list<const xml::context::entry_ref> smil_nodes =
+{
+	{ "smil", &smil::smil_node },
+};
+
+static const std::initializer_list<const xml::context::entry_ref> smil_attrs =
+{
+	{ "lang", &smil::lang_attr },
+};
+
+void skipNodes(xml::reader &reader, const xml::context::entry *ctx)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::endTagNode:
+		if (reader.context() == ctx)
+			return;
+		break;
+	}
+}
 
 void cainteoir::parseSmilDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
-	xmldom::document doc(aData);
-	xmldom::node smil = doc.root();
+	xml::reader reader(aData);
+	reader.set_nodes(xmlns::smil, smil_nodes);
+	reader.set_attrs(xmlns::smil, smil_attrs);
 
-	if (smil != rdf::smil("smil"))
+	while (reader.read() && reader.nodeType() != xml::reader::beginTagNode)
+		;
+
+	if (reader.context() != &smil::smil_node)
 		throw std::runtime_error(_("SMIL document is not of a recognised format."));
 
-	for (xmldom::attribute attr = smil.firstAttribute(); attr.isValid(); attr.next())
+	while (reader.read()) switch (reader.nodeType())
 	{
-		if (attr == rdf::xml("lang"))
-			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(attr.content()));
+	case xml::reader::attribute:
+		if (reader.context() == &smil::lang_attr)
+			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(reader.nodeValue().str()));
+		break;
+	case xml::reader::beginTagNode:
+		skipNodes(reader, reader.context());
+		break;
 	}
 }
