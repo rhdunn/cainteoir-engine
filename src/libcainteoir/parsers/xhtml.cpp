@@ -330,6 +330,7 @@ void parseTitleNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::do
 			return;
 		break;
 	case xml::reader::textNode:
+	case xml::reader::cdataNode:
 		{
 			std::string title = reader.nodeValue().normalize()->str();
 			if (!title.empty())
@@ -383,6 +384,7 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		}
 		break;
 	case xml::reader::textNode:
+	case xml::reader::cdataNode:
 		{
 			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
 
@@ -426,6 +428,7 @@ void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		}
 		break;
 	case xml::reader::textNode:
+	case xml::reader::cdataNode:
 		{
 			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
 

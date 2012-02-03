@@ -56,6 +56,7 @@ if __name__ == '__main__':
 		{'name': 'title metadata', 'type': 'turtle', 'tests': [
 			{'test': 'html/metadata/title.html', 'result': 'html/metadata/title.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/title.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml'},
+			{'test': 'html/metadata/title-cdata.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/empty-title.html', 'result': 'html/metadata/empty-title.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/empty-title.xhtml', 'result': 'html/metadata/empty-title.n3', 'mimetype': 'application/xhtml+xml'},
 		]},
