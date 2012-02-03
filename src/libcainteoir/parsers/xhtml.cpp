@@ -386,14 +386,8 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
-
-			const char * str = text->begin();
-			const char * end = text->end();
-			while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
-				++str;
-
-			if (str != end)
+			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
+			if (text)
 				events.text(text);
 		}
 		break;
@@ -430,14 +424,8 @@ void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
-
-			const char * str = text->begin();
-			const char * end = text->end();
-			while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
-				++str;
-
-			if (str != end)
+			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
+			if (text)
 				events.text(text);
 		}
 		break;

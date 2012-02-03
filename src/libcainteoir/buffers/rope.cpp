@@ -1,6 +1,6 @@
 /* Rope Buffer API.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -54,4 +54,16 @@ std::tr1::shared_ptr<cainteoir::buffer> cainteoir::rope::buffer() const
 
 	*const_cast<rope *>(this) = temp;
 	return temp;
+}
+
+std::tr1::shared_ptr<cainteoir::buffer> cainteoir::rope::content() const
+{
+	std::tr1::shared_ptr<cainteoir::buffer> text = buffer();
+
+	const char * str = text->begin();
+	const char * end = text->end();
+	while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
+		++str;
+
+	return (str == end) ? std::tr1::shared_ptr<cainteoir::buffer>() : text;
 }

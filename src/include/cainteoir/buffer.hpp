@@ -128,6 +128,8 @@ namespace cainteoir
 
 		std::tr1::shared_ptr<cainteoir::buffer> buffer() const;
 
+		std::tr1::shared_ptr<cainteoir::buffer> content() const;
+
 		std::tr1::shared_ptr<cainteoir::buffer> normalize() const
 		{
 			return std::tr1::shared_ptr<cainteoir::buffer>(new normalized_text_buffer(buffer()));
