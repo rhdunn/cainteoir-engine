@@ -335,12 +335,12 @@ namespace cainteoir { namespace xml
 		{
 			ParsingText,
 			ParsingXml,
+			ParsingXmlNamespaces,
 		};
 
 		std::tr1::shared_ptr<cainteoir::buffer> mData;
 		const char * mCurrent;
 		ParserState mState;
-		bool mParseNamespaces;
 		bool mImplicitEndTag;
 		const entity_set **mPredefinedEntities;
 

@@ -256,7 +256,6 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData, co
 	, mTagNodeName(NULL, NULL)
 	, mTagNodePrefix(NULL, NULL)
 	, mState(ParsingXml)
-	, mParseNamespaces(false)
 	, mContext(&unknown_context)
 	, mImplicitEndTag(false)
 	, mPredefinedEntities(aPredefinedEntities)
@@ -294,7 +293,7 @@ bool cainteoir::xml::reader::read()
 
 	cainteoir::buffer oldName = mNodeName;
 
-	if (mNodeType == endTagNode && !mParseNamespaces)
+	if (mNodeType == endTagNode && mState != ParsingXmlNamespaces)
 		mNamespaces.pop_block();
 
 	if (mState == ParsingText)
@@ -433,7 +432,7 @@ bool cainteoir::xml::reader::read()
 			mContext = lookup_node(namespaceUri(), nodeName());
 			break;
 		default: // XML§3.1 ; HTML§12.1.2.1 -- Start Tag
-			if (!mParseNamespaces)
+			if (mState != ParsingXmlNamespaces)
 			{
 				mNamespaces.push_block();
 				read_tag(beginTagNode);
@@ -442,7 +441,7 @@ bool cainteoir::xml::reader::read()
 				cainteoir::buffer tagPrefix = mNodePrefix;
 				startPos = mCurrent;
 
-				mParseNamespaces = true;
+				mState = ParsingXmlNamespaces;
 				while (read() && mNodeType == attribute)
 				{
 					if (!mNodePrefix.compare("xmlns"))
@@ -450,7 +449,7 @@ bool cainteoir::xml::reader::read()
 					else if (!mNodeName.compare("xmlns") && mNodePrefix.empty())
 						mNamespaces.add_namespace(cainteoir::buffer(NULL, NULL), mNodeValue.buffer());
 				}
-				mParseNamespaces = false;
+				mState = ParsingXml;
 
 				mCurrent = startPos;
 				mNodeType = beginTagNode;
