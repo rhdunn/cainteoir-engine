@@ -403,6 +403,11 @@ bool cainteoir::xml::reader::read()
 				if (!type.comparei("DOCTYPE")) // XML§2.8 ; HTML§12.1.1
 				{
 					mNodeName = identifier();
+					if (check_next(':'))
+					{
+						mNodePrefix = mNodeName;
+						mNodeName   = identifier();
+					}
 					mNodeType = doctypeNode;
 				}
 				else
