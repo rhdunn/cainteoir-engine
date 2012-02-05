@@ -255,7 +255,7 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData, co
 	, mNodePrefix(NULL, NULL)
 	, mTagNodeName(NULL, NULL)
 	, mTagNodePrefix(NULL, NULL)
-	, mParseAsText(false)
+	, mState(ParsingXml)
 	, mParseNamespaces(false)
 	, mContext(&unknown_context)
 	, mImplicitEndTag(false)
@@ -279,7 +279,7 @@ cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData, co
 	else
 	{
 		mCurrent = mData->begin();
-		mParseAsText = true; // looks like text
+		mState = ParsingText; // looks like text
 	}
 }
 
@@ -297,7 +297,7 @@ bool cainteoir::xml::reader::read()
 	if (mNodeType == endTagNode && !mParseNamespaces)
 		mNamespaces.pop_block();
 
-	if (mParseAsText)
+	if (mState == ParsingText)
 	{
 		mNodeType = textNode;
 		mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mCurrent, mData->end()));

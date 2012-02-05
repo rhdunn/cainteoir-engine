@@ -313,7 +313,7 @@ namespace cainteoir { namespace xml
 
 		node_type nodeType() const { return mNodeType; }
 
-		bool isPlainText() const { return mParseAsText; }
+		bool isPlainText() const { return mState == ParsingText; }
 
 		const context::entry *context() const { return mContext; }
 	private:
@@ -331,9 +331,15 @@ namespace cainteoir { namespace xml
 
 		void read_tag(node_type aType);
 
+		enum ParserState
+		{
+			ParsingText,
+			ParsingXml,
+		};
+
 		std::tr1::shared_ptr<cainteoir::buffer> mData;
 		const char * mCurrent;
-		bool mParseAsText;
+		ParserState mState;
 		bool mParseNamespaces;
 		bool mImplicitEndTag;
 		const entity_set **mPredefinedEntities;
