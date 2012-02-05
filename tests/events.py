@@ -146,6 +146,7 @@ if __name__ == '__main__':
 	test.run({'name': 'NCX', 'groups': [
 		{'name': 'toc', 'type': 'events', 'tests': [
 			{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/navMap/linear.events'},
+			{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'ncx/navMap/linear.events'},
 			{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'ncx/navMap/in-subdir.events'},
 			{'test': 'ncx/navMap/named-uri.ncx', 'result': 'ncx/navMap/named-uri.events'},
 			{'test': 'ncx/navMap/nested.ncx', 'result': 'ncx/navMap/nested.events'},

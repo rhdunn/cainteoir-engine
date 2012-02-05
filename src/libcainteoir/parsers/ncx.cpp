@@ -76,7 +76,10 @@ std::string parseNcxText(xml::reader &reader, const xml::context::entry *ctx)
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		if (current == &ncx::text_node)
+		{
 			value = reader.nodeValue().str();
+			current = NULL;
+		}
 		break;
 	case xml::reader::beginTagNode:
 		current = reader.context();
