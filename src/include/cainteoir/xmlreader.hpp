@@ -327,7 +327,7 @@ namespace cainteoir { namespace xml
 
 		cainteoir::buffer identifier();
 
-		void read_node_value(char terminator);
+		void read_node_value(char terminator1, char terminator2 = '\0');
 
 		void read_tag(node_type aType);
 
@@ -336,6 +336,7 @@ namespace cainteoir { namespace xml
 			ParsingText,
 			ParsingXml,
 			ParsingXmlNamespaces,
+			ParsingDtd,
 		};
 
 		std::tr1::shared_ptr<cainteoir::buffer> mData;

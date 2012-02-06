@@ -414,11 +414,21 @@ bool cainteoir::xml::reader::read()
 
 					if (*mCurrent == '[')
 					{
-						++mCurrent;
-						while (mCurrent != mData->end() && !(mCurrent[0] == ']' && mCurrent[1] == '>'))
-							++mCurrent;
-						++mCurrent;
+						cainteoir::buffer tagName = mNodeName;
+						cainteoir::buffer tagPrefix = mNodePrefix;
+
+						mState = ParsingDtd;
+						while (read() && mState == ParsingDtd)
+						{
+						}
+						mState = ParsingXml;
+
+						mNodeType = doctypeNode;
+						mNodeName = tagName;
+						mNodePrefix = tagPrefix;
 					}
+					else
+						++mCurrent;
 				}
 				else
 				{
@@ -426,8 +436,8 @@ bool cainteoir::xml::reader::read()
 
 					while (mCurrent != mData->end() && *mCurrent != '>')
 						++mCurrent;
+					++mCurrent;
 				}
-				++mCurrent;
 			}
 			break;
 		case '?': // XML§2.6 -- processing instruction
@@ -473,6 +483,19 @@ bool cainteoir::xml::reader::read()
 					mImplicitEndTag = true;
 			}
 			break;
+		}
+	}
+	else if (mState == ParsingDtd) // DOCTYPE DTD
+	{
+		if (mCurrent[0] == ']' && mCurrent[1] == '>')
+		{
+			mState = ParsingXml;
+			mCurrent += 2;
+		}
+		else
+		{
+			mNodeType = textNode;
+			read_node_value('<', ']');
 		}
 	}
 	else // HTML§12.1.3 -- text
@@ -536,7 +559,7 @@ cainteoir::buffer cainteoir::xml::reader::identifier()
 	return cainteoir::buffer(startPos, mCurrent);
 }
 
-void cainteoir::xml::reader::read_node_value(char terminator)
+void cainteoir::xml::reader::read_node_value(char terminator1, char terminator2)
 {
 	mNodeValue.clear();
 	do
@@ -561,10 +584,10 @@ void cainteoir::xml::reader::read_node_value(char terminator)
 			}
 		}
 
-		while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == terminator))
+		while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == terminator1 || *mCurrent == terminator2))
 			++mCurrent;
 		mNodeValue += std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
-	} while (mCurrent != mData->end() && *mCurrent != terminator);
+	} while (mCurrent != mData->end() && !(*mCurrent == terminator1 || *mCurrent == terminator2));
 }
 
 void cainteoir::xml::reader::read_tag(node_type aType)
