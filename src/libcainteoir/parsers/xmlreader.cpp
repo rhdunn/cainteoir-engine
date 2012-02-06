@@ -408,12 +408,25 @@ bool cainteoir::xml::reader::read()
 						mNodeName   = identifier();
 					}
 					mNodeType = doctypeNode;
+
+					while (mCurrent != mData->end() && !(*mCurrent == '>' || *mCurrent == '['))
+						++mCurrent;
+
+					if (*mCurrent == '[')
+					{
+						++mCurrent;
+						while (mCurrent != mData->end() && !(mCurrent[0] == ']' && mCurrent[1] == '>'))
+							++mCurrent;
+						++mCurrent;
+					}
 				}
 				else
+				{
 					mNodeType = error;
 
-				while (mCurrent != mData->end() && *mCurrent != '>')
-					++mCurrent;
+					while (mCurrent != mData->end() && *mCurrent != '>')
+						++mCurrent;
+				}
 				++mCurrent;
 			}
 			break;

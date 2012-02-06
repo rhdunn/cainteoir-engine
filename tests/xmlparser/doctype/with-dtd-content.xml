@@ -1,0 +1,6 @@
+<!DOCTYPE test [
+
+<!ELEMENT a EMPTY>
+<!ELEMENT b EMPTY>
+
+]>

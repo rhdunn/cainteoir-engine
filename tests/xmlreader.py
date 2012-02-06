@@ -71,6 +71,7 @@ if __name__ == '__main__':
 			{'test': 'xmlparser/doctype/html5-compat-double-quote.xml', 'result': 'xmlparser/doctype/html5-compat-double-quote.tags'},
 			{'test': 'xmlparser/doctype/html5-compat-single-quote.xml', 'result': 'xmlparser/doctype/html5-compat-single-quote.tags'},
 			{'test': 'xmlparser/doctype/namespace.xml', 'result': 'xmlparser/doctype/namespace.tags'},
+			{'test': 'xmlparser/doctype/with-dtd-content.xml', 'result': 'xmlparser/doctype/with-dtd-content.tags'},
 		]},
 		{'name': 'entity', 'type': 'xmlreader', 'tests': [
 			{'test': 'xmlparser/entity/1byte-utf8-hex.xml', 'result': 'xmlparser/entity/1byte-utf8-hex.tags'},
