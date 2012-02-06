@@ -471,12 +471,6 @@ void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data,
 	reader.set_attrs(xmlns::xhtml,  html_attrs);
 	reader.set_attrs(xmlns::xml,    xml::attrs);
 
-	if (reader.isPlainText())
-	{
-		events.text(data);
-		return;
-	}
-
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
