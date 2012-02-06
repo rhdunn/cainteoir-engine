@@ -288,6 +288,8 @@ namespace cainteoir { namespace xml
 	public:
 		enum node_type
 		{
+			// xml node types ...
+
 			beginTagNode,
 			endTagNode,
 			processingInstructionNode,
@@ -297,6 +299,10 @@ namespace cainteoir { namespace xml
 			error,
 			doctypeNode,
 			attribute,
+
+			// dtd node types ...
+
+			dtdEntity,
 		};
 
 		reader(std::tr1::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52] = xml_entities);
@@ -348,6 +354,8 @@ namespace cainteoir { namespace xml
 		namespaces mNamespaces;
 		cainteoir::buffer mTagNodeName;
 		cainteoir::buffer mTagNodePrefix;
+
+		std::map<std::string, std::string> mDoctypeEntities;
 
 		//@}
 		/** @name reader data */
