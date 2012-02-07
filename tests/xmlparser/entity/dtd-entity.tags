@@ -1,0 +1,12 @@
+|doctype| div
+|text| """
+"""
+|begin-tag| div
+|text| """
+A test.
+A & B
+A & B
+"""
+|end-tag| div
+|text| """
+"""

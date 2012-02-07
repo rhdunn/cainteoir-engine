@@ -86,6 +86,9 @@ if __name__ == '__main__':
 			{'test': 'xmlparser/entity/unknown.xml', 'result': 'xmlparser/entity/unknown.tags'},
 			{'test': 'xmlparser/entity/xml.xml', 'result': 'xmlparser/entity/xml.tags'},
 			{'test': 'xmlparser/entity/in-attr.xml', 'result': 'xmlparser/entity/in-attr.tags'},
+			{'test': 'xmlparser/entity/dtd-entity.xml', 'result': 'xmlparser/entity/dtd-entity.tags'},
+			{'test': 'xmlparser/entity/dtd-entity-in-attr.xml', 'result': 'xmlparser/entity/dtd-entity-in-attr.tags'},
+			{'test': 'xmlparser/entity/dtd-entity-in-xmlns.xml', 'result': 'xmlparser/entity/dtd-entity-in-xmlns.tags'},
 		]},
 	]})
 	test.summary()
