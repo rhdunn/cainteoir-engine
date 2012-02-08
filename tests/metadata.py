@@ -40,7 +40,6 @@ if __name__ == '__main__':
 			{'test': 'rdfxml/syntax/example17.rdf', 'result': 'rdfxml/syntax/example17.nt'},
 			{'test': 'rdfxml/syntax/example18.rdf', 'result': 'rdfxml/syntax/example18.nt'},
 			{'test': 'rdfxml/syntax/example19.rdf', 'result': 'rdfxml/syntax/example19.nt'},
-			{'test': 'rdfxml/syntax/example20.rdf', 'result': 'rdfxml/syntax/example20.nt', 'expect': 'fail'},
 		]},
 		{'name': 'schema', 'type': 'turtle', 'tests': [
 			{'test': '../src/schema/dcam.rdf', 'result': 'rdfxml/schema/dcam.n3'},
