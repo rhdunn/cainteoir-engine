@@ -1,0 +1,2 @@
+<http://example.org/test> <http://example.org/schema/position> "4"^^<http://www.w3.org/2001/XMLSchema#int> .
+<> <http://rhdunn.github.com/2010/12/text-to-speech#mimetype> "application/rdf+xml" .

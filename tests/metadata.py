@@ -23,6 +23,13 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('metadata', sys.argv)
 	test.run({'name': 'RDF/XML', 'groups': [
+		{'name': 'metadata', 'type': 'ntriple', 'tests': [
+			{'test': 'rdfxml/metadata/empty.rdf', 'result': 'rdfxml/metadata/empty.nt'},
+			{'test': 'rdfxml/metadata/description-empty.rdf', 'result': 'rdfxml/metadata/description-empty.nt'},
+			{'test': 'rdfxml/metadata/about-datatype.rdf', 'result': 'rdfxml/metadata/about-datatype.nt'},
+			{'test': 'rdfxml/metadata/about-predicate_attribute-last_attribute.rdf',  'result': 'rdfxml/metadata/about-predicate_attribute.nt'},
+			{'test': 'rdfxml/metadata/about-predicate_attribute-first_attribute.rdf', 'result': 'rdfxml/metadata/about-predicate_attribute.nt'},
+		]},
 		{'name': 'syntax', 'type': 'ntriple', 'tests': [
 			{'test': 'rdfxml/syntax/example02.rdf', 'result': 'rdfxml/syntax/example02.nt', 'expect': 'fail'},
 			{'test': 'rdfxml/syntax/example05.rdf', 'result': 'rdfxml/syntax/example05.nt'},
