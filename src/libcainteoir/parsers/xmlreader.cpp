@@ -494,7 +494,7 @@ bool cainteoir::xml::reader::read()
 				mNamespaces.push_block();
 				read_tag(beginTagNode);
 
-				mSavedState = mState;
+				save();
 				mState.state = ParsingXmlNamespaces;
 
 				while (read() && mNodeType == attribute)
@@ -505,9 +505,7 @@ bool cainteoir::xml::reader::read()
 						mNamespaces.add_namespace(cainteoir::buffer(NULL, NULL), mNodeValue.buffer());
 				}
 
-				mState = mSavedState;
-				mTagNodeName = mState.nodeName;
-				mTagNodePrefix = mState.nodePrefix;
+				restore();
 
 				mNodeType = beginTagNode;
 				mContext = lookup_node(namespaceUri(), nodeName());
@@ -639,6 +637,18 @@ void cainteoir::xml::reader::read_tag(node_type aType)
 		mTagNodeName = mState.nodeName;
 		mTagNodePrefix = mState.nodePrefix;
 	}
+}
+
+void cainteoir::xml::reader::save()
+{
+	mSavedState = mState;
+}
+
+void cainteoir::xml::reader::restore()
+{
+	mState = mSavedState;
+	mTagNodeName = mState.nodeName;
+	mTagNodePrefix = mState.nodePrefix;
 }
 
 /** References

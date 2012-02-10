@@ -322,6 +322,10 @@ namespace cainteoir { namespace xml
 		bool isPlainText() const { return mState.state == ParsingText; }
 
 		const context::entry *context() const { return mContext; }
+
+		void save();
+
+		void restore();
 	private:
 		/** @name parser internals/helpers */
 		//@{
