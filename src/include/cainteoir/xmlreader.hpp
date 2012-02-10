@@ -311,15 +311,15 @@ namespace cainteoir { namespace xml
 
 		const cainteoir::rope &nodeValue() const { return mNodeValue; }
 
-		const cainteoir::buffer &nodeName() const { return mNodeName; }
+		const cainteoir::buffer &nodeName() const { return mState.nodeName; }
 
-		const cainteoir::buffer &nodePrefix() const { return mNodePrefix; }
+		const cainteoir::buffer &nodePrefix() const { return mState.nodePrefix; }
 
 		std::string namespaceUri() const;
 
 		node_type nodeType() const { return mNodeType; }
 
-		bool isPlainText() const { return mState == ParsingText; }
+		bool isPlainText() const { return mState.state == ParsingText; }
 
 		const context::entry *context() const { return mContext; }
 	private:
@@ -341,13 +341,30 @@ namespace cainteoir { namespace xml
 		{
 			ParsingText,
 			ParsingXml,
+			ParsingXmlAttributes,
 			ParsingXmlNamespaces,
 			ParsingDtd,
 		};
 
+		struct ParserContext
+		{
+			ParserState state;
+			const char *current;
+			cainteoir::buffer nodeName;
+			cainteoir::buffer nodePrefix;
+
+			ParserContext(ParserState aState, const char *aCurrent)
+				: state(aState)
+				, current(aCurrent)
+				, nodeName(NULL, NULL)
+				, nodePrefix(NULL, NULL)
+			{
+			}
+		};
+
 		std::tr1::shared_ptr<cainteoir::buffer> mData;
-		const char * mCurrent;
-		ParserState mState;
+		ParserContext mState;
+		ParserContext mSavedState;
 		bool mImplicitEndTag;
 		const entity_set **mPredefinedEntities;
 
@@ -362,8 +379,6 @@ namespace cainteoir { namespace xml
 		//@{
 
 		cainteoir::rope mNodeValue;
-		cainteoir::buffer mNodeName;
-		cainteoir::buffer mNodePrefix;
 		node_type mNodeType;
 		const xml::context::entry *mContext;
 
