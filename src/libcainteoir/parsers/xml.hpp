@@ -86,19 +86,9 @@ namespace cainteoir { namespace xmldom
 		return a.uri() == b;
 	}
 
-	inline bool operator==(const rdf::uri &a, const attribute &b)
-	{
-		return a == b.uri();
-	}
-
 	inline bool operator!=(const attribute &a, const rdf::uri &b)
 	{
 		return !(a.uri() == b);
-	}
-
-	inline bool operator!=(const rdf::uri &a, const attribute &b)
-	{
-		return !(a == b.uri());
 	}
 
 	class node : public xmlnode<xmlNodePtr>
@@ -142,19 +132,9 @@ namespace cainteoir { namespace xmldom
 		return a.uri() == b;
 	}
 
-	inline bool operator==(const rdf::uri &a, const node &b)
-	{
-		return a == b.uri();
-	}
-
 	inline bool operator!=(const node &a, const rdf::uri &b)
 	{
 		return !(a.uri() == b);
-	}
-
-	inline bool operator!=(const rdf::uri &a, const node &b)
-	{
-		return !(a == b.uri());
 	}
 
 	class document
