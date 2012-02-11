@@ -132,7 +132,6 @@ lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
 src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION) \
 	${PULSE_LIBS} \
 	${VORBIS_LIBS} \
-	${LIBXML2_LIBS} \
 	${ZLIB_LIBS} \
 	${ESPEAK_LIBS} \
 	${LTLIBINTL}
@@ -160,12 +159,10 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/rdf/metadata.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/parsers/parsers.hpp \
-	src/libcainteoir/parsers/xml.hpp \
 	src/libcainteoir/parsers/zip.hpp \
 	src/libcainteoir/parsers/zip.cpp \
 	src/libcainteoir/parsers/xmlreader.cpp \
 	src/libcainteoir/parsers/html-entities.h \
-	src/libcainteoir/parsers/xml.cpp \
 	src/libcainteoir/parsers/xhtml.cpp \
 	src/libcainteoir/parsers/ncx.cpp \
 	src/libcainteoir/parsers/ocf.cpp \
