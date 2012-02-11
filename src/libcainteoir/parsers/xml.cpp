@@ -1,6 +1,6 @@
 /* XML DOM API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -22,52 +22,32 @@
 
 namespace xml = cainteoir::xmldom;
 
-class xmlstring
-{
-public:
-	explicit xmlstring(xmlChar *aData) : data(aData)
-	{
-	}
-
-	~xmlstring()
-	{
-		xmlFree(data);
-	}
-
-	operator const char *() const
-	{
-		return (const char *)data;
-	}
-private:
-	xmlChar *data;
-};
-
 std::string xml::attribute::content() const
 {
 	if (!item) return std::string();
 
-	xmlstring s(xmlNodeListGetString(item->doc, item->children, 1));
-	return normalized_text_buffer(s).str();
+	std::shared_ptr<xmlChar> s(xmlNodeListGetString(item->doc, item->children, 1), xmlFree);
+	return normalized_text_buffer((const char *)s.get()).str();
 }
 
 std::tr1::shared_ptr<cainteoir::buffer> xml::node::content(bool normalize) const
 {
 	if (item)
 	{
-		xmlstring s(xmlNodeGetContent(item));
+		std::shared_ptr<xmlChar> s(xmlNodeGetContent(item), xmlFree);
 		if (normalize)
-			return std::tr1::shared_ptr<cainteoir::buffer>(new normalized_text_buffer(s));
+			return std::tr1::shared_ptr<cainteoir::buffer>(new normalized_text_buffer((const char *)s.get()));
 		else
 		{
-			const char * str = s;
+			const char * str = (const char *)s.get();
 			while (*str && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
 				++str;
 
 			if (*str)
 			{
-				size_t len = strlen(s);
+				size_t len = strlen((const char *)s.get());
 				std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(len));
-				memcpy((void *)data->begin(), (const char *)s, len);
+				memcpy((void *)data->begin(), (const char *)s.get(), len);
 				return data;
 			}
 		}
