@@ -17,7 +17,7 @@
 2.9,@rdf:datatype,,0.1,0.1,
 2.10,@rdf:nodeType,,0.1,0.1,
 2.11,@rdf:parseType="Resource",,0.1,0.1,
-2.12,Property Attributes on an empty Property Element,,no,0.1,
+2.12,Property Attributes on an empty Property Element,,0.7,0.1,
 2.13,Typed Node Elements,,0.1,0.1,
 2.14,@rdf:ID and @xml:base,,0.1,0.1,
 2.15,rdf:li and rdf:_n,,0.1,0.1,

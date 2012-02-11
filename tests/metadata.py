@@ -40,7 +40,7 @@ if __name__ == '__main__':
 			{'test': 'rdfxml/syntax/example10.rdf', 'result': 'rdfxml/syntax/example10.nt'},
 			{'test': 'rdfxml/syntax/example11.rdf', 'result': 'rdfxml/syntax/example11.nt'},
 			{'test': 'rdfxml/syntax/example12.rdf', 'result': 'rdfxml/syntax/example12.nt'},
-			{'test': 'rdfxml/syntax/example13.rdf', 'result': 'rdfxml/syntax/example13.nt', 'expect': 'fail'},
+			{'test': 'rdfxml/syntax/example13.rdf', 'result': 'rdfxml/syntax/example13.nt'},
 			{'test': 'rdfxml/syntax/example14.rdf', 'result': 'rdfxml/syntax/example14.nt'},
 			{'test': 'rdfxml/syntax/example15.rdf', 'result': 'rdfxml/syntax/example15.nt'},
 			{'test': 'rdfxml/syntax/example16.rdf', 'result': 'rdfxml/syntax/example16.nt'},

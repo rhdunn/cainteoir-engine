@@ -87,59 +87,78 @@ void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf::graph 
 
 	rdf::uri context;
 
-	while (reader.read()) switch (reader.nodeType())
+	std::list<std::pair<rdf::uri, rdf::literal>> inline_metadata;
+	bool processed_metadata = false;
+
+	while (reader.read())
 	{
-	case xml::reader::attribute:
-		if (reader.context() == &rdf::datatype_attr)
-			datatype = reader.nodeValue().str();
-		else if (reader.context() == &rdf::resource_attr)
-			resource = reader.nodeValue().str();
-		else if (reader.context() == &rdf::nodeID_attr)
-			nodeID = reader.nodeValue().str();
-		else if (reader.context() == &xml::lang_attr)
-			lang = reader.nodeValue().str();
-		else if (reader.context() == &rdf::parseType_attr)
+		if (reader.nodeType() == xml::reader::attribute)
 		{
-			parseType = reader.nodeValue().str();
-			context = aGraph.genid();
-		}
-		else
-			aGraph.statement(aSubject, uri(reader), rdf::literal(reader.nodeValue().str(), lang));
-		break;
-	case xml::reader::textNode:
-	case xml::reader::cdataNode:
-		value = reader.nodeValue().normalize()->str();
-		break;
-	case xml::reader::beginTagNode:
-		if (parseType == "Resource")
-			parseInnerRdfXml(reader, context, aGraph, uri(reader), base, lang);
-		else
-		{
-			rdf::uri context = parseOuterRdfXml(reader, aGraph, uri(reader), base, lang);
-			aGraph.statement(aSubject, self, context);
-		}
-		break;
-	case xml::reader::endTagNode:
-		if (uri(reader) == self)
-		{
-			if (parseType == "Resource")
-				aGraph.statement(aSubject, self, context);
-			if (!resource.empty())
+			if (reader.context() == &rdf::datatype_attr)
+				datatype = reader.nodeValue().str();
+			else if (reader.context() == &rdf::resource_attr)
+				resource = reader.nodeValue().str();
+			else if (reader.context() == &rdf::nodeID_attr)
+				nodeID = reader.nodeValue().str();
+			else if (reader.context() == &xml::lang_attr)
+				lang = reader.nodeValue().str();
+			else if (reader.context() == &rdf::parseType_attr)
 			{
-				if (resource.find("://") == std::string::npos)
-					aGraph.statement(aSubject, self, aGraph.href(base + resource));
-				else
-					aGraph.statement(aSubject, self, aGraph.href(resource));
+				parseType = reader.nodeValue().str();
+				context = aGraph.genid();
 			}
-			else if (!nodeID.empty())
-				aGraph.statement(aSubject, self, aGraph.bnode(nodeID));
-			else if (!datatype.empty())
-				aGraph.statement(aSubject, self, rdf::literal(value, aGraph.href(datatype)));
-			else if (!value.empty())
-				aGraph.statement(aSubject, self, rdf::literal(value, lang));
-			return;
+			else
+				inline_metadata.push_back(std::make_pair(uri(reader), rdf::literal(reader.nodeValue().str(), lang)));
 		}
-		break;
+		else
+		{
+			if (!processed_metadata && !inline_metadata.empty())
+			{
+				processed_metadata = true;
+				rdf::uri subject = aGraph.genid();
+				foreach_iter (metadata, inline_metadata)
+					aGraph.statement(subject, metadata->first, metadata->second);
+				aGraph.statement(aSubject, self, subject);
+			}
+
+			switch (reader.nodeType())
+			{
+			case xml::reader::textNode:
+			case xml::reader::cdataNode:
+				value = reader.nodeValue().normalize()->str();
+				break;
+			case xml::reader::beginTagNode:
+				if (parseType == "Resource")
+					parseInnerRdfXml(reader, context, aGraph, uri(reader), base, lang);
+				else
+				{
+					rdf::uri context = parseOuterRdfXml(reader, aGraph, uri(reader), base, lang);
+					aGraph.statement(aSubject, self, context);
+				}
+				break;
+			case xml::reader::endTagNode:
+				if (uri(reader) == self)
+				{
+					if (parseType == "Resource")
+						aGraph.statement(aSubject, self, context);
+					if (!resource.empty())
+					{
+						if (resource.find("://") == std::string::npos)
+							aGraph.statement(aSubject, self, aGraph.href(base + resource));
+						else
+							aGraph.statement(aSubject, self, aGraph.href(resource));
+					}
+					else if (!nodeID.empty())
+						aGraph.statement(aSubject, self, aGraph.bnode(nodeID));
+					else if (!datatype.empty())
+						aGraph.statement(aSubject, self, rdf::literal(value, aGraph.href(datatype)));
+					else if (!value.empty())
+						aGraph.statement(aSubject, self, rdf::literal(value, lang));
+					return;
+				}
+				break;
+			}
+		}
 	}
 }
 
