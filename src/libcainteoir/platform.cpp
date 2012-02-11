@@ -1,6 +1,6 @@
 /* Cainteoir Engine.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -20,15 +20,10 @@
 
 #include <cainteoir/platform.hpp>
 
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
-
 void cainteoir::initialise()
 {
-	LIBXML_TEST_VERSION
 }
 
 void cainteoir::cleanup()
 {
-	xmlCleanupParser();
 }

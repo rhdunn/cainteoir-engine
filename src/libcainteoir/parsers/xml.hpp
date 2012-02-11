@@ -138,6 +138,8 @@ namespace cainteoir { namespace xmldom
 		document(std::tr1::shared_ptr<buffer> aBuffer)
 			: data(aBuffer)
 		{
+			LIBXML_TEST_VERSION
+
 			int substitute = xmlSubstituteEntitiesDefault(1);
 			doc = xmlParseMemory(data->begin(), data->size());
 			xmlSubstituteEntitiesDefault(substitute);
@@ -149,6 +151,7 @@ namespace cainteoir { namespace xmldom
 		~document()
 		{
 			xmlFreeDoc(doc);
+			xmlCleanupParser();
 		}
 
 		node root()
