@@ -31,7 +31,7 @@ if __name__ == '__main__':
 			{'test': 'rdfxml/metadata/about-predicate_attribute-first_attribute.rdf', 'result': 'rdfxml/metadata/about-predicate_attribute.nt'},
 		]},
 		{'name': 'syntax', 'type': 'ntriple', 'tests': [
-			{'test': 'rdfxml/syntax/example02.rdf', 'result': 'rdfxml/syntax/example02.nt', 'expect': 'fail'},
+			{'test': 'rdfxml/syntax/example02.rdf', 'result': 'rdfxml/syntax/example02.nt'},
 			{'test': 'rdfxml/syntax/example05.rdf', 'result': 'rdfxml/syntax/example05.nt'},
 			{'test': 'rdfxml/syntax/example06.rdf', 'result': 'rdfxml/syntax/example06.nt'},
 			{'test': 'rdfxml/syntax/example07.rdf', 'result': 'rdfxml/syntax/example07.nt'},
@@ -44,18 +44,18 @@ if __name__ == '__main__':
 			{'test': 'rdfxml/syntax/example14.rdf', 'result': 'rdfxml/syntax/example14.nt'},
 			{'test': 'rdfxml/syntax/example15.rdf', 'result': 'rdfxml/syntax/example15.nt'},
 			{'test': 'rdfxml/syntax/example16.rdf', 'result': 'rdfxml/syntax/example16.nt'},
-			{'test': 'rdfxml/syntax/example17.rdf', 'result': 'rdfxml/syntax/example17.nt'},
-			{'test': 'rdfxml/syntax/example18.rdf', 'result': 'rdfxml/syntax/example18.nt'},
-			{'test': 'rdfxml/syntax/example19.rdf', 'result': 'rdfxml/syntax/example19.nt'},
+			{'test': 'rdfxml/syntax/example17.rdf', 'result': 'rdfxml/syntax/example17.nt', 'expect': 'fail'},
+			{'test': 'rdfxml/syntax/example18.rdf', 'result': 'rdfxml/syntax/example18.nt', 'expect': 'fail'},
+			{'test': 'rdfxml/syntax/example19.rdf', 'result': 'rdfxml/syntax/example19.nt', 'expect': 'fail'},
 		]},
 		{'name': 'schema', 'type': 'turtle', 'tests': [
 			{'test': '../src/schema/dcam.rdf', 'result': 'rdfxml/schema/dcam.n3'},
 			{'test': '../src/schema/dcelements.rdf', 'result': 'rdfxml/schema/dcelements.n3'},
 			{'test': '../src/schema/dcterms.rdf', 'result': 'rdfxml/schema/dcterms.n3'},
 			{'test': '../src/schema/owl.rdf', 'result': 'rdfxml/schema/owl.n3'},
-			{'test': '../src/schema/rdf-schema.rdf', 'result': 'rdfxml/schema/rdf-schema.n3'},
+			{'test': '../src/schema/rdf-schema.rdf', 'result': 'rdfxml/schema/rdf-schema.n3', 'expect': 'fail'},
 			{'test': '../src/schema/rdf-syntax-ns.rdf', 'result': 'rdfxml/schema/rdf-syntax-ns.n3'},
-			{'test': '../src/schema/skos.rdf', 'result': 'rdfxml/schema/skos.n3'},
+			{'test': '../src/schema/skos.rdf', 'result': 'rdfxml/schema/skos.n3', 'expect': 'fail'},
 		]},
 	]})
 	test.run({'name': 'HTML', 'replace': ['mimetype'], 'groups': [

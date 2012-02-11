@@ -1,6 +1,6 @@
 /* RDF/XML Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -19,190 +19,213 @@
  */
 
 #include "parsers.hpp"
-#include "xml.hpp"
 #include <cainteoir/platform.hpp>
+#include <stdexcept>
 
-namespace rdf = cainteoir::rdf;
-namespace xml = cainteoir::xmldom;
+namespace xml   = cainteoir::xml;
+namespace xmlns = cainteoir::xml::xmlns;
+namespace rdf   = cainteoir::rdf;
 
-static void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::uri &subject, rdf::graph &aGraph, const std::string &base, std::string lang);
-static void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::uri &subject, rdf::graph &aGraph, const std::string &base, std::string lang);
-
-bool hasSubElements(const xml::node &rdfxml)
+namespace cainteoir { namespace rdf
 {
-	for (xml::node node = rdfxml.firstChild(); node.isValid(); node.next())
-	{
-		if (node.type() == XML_ELEMENT_NODE)
-			return true;
-	}
-	return false;
+	namespace events = cainteoir::events;
+
+	static const xml::context::entry li_node          = { events::unknown, 0 };
+	static const xml::context::entry type_node        = { events::unknown, 0 };
+	static const xml::context::entry Alt_node         = { events::unknown, 0 };
+	static const xml::context::entry Bag_node         = { events::unknown, 0 };
+	static const xml::context::entry Description_node = { events::unknown, 0 };
+	static const xml::context::entry Seq_node         = { events::unknown, 0 };
+	static const xml::context::entry RDF_node         = { events::unknown, 0 };
+
+	static const xml::context::entry about_attr     = { events::unknown, 0 };
+	static const xml::context::entry datatype_attr  = { events::unknown, 0 };
+	static const xml::context::entry nodeID_attr    = { events::unknown, 0 };
+	static const xml::context::entry parseType_attr = { events::unknown, 0 };
+	static const xml::context::entry resource_attr  = { events::unknown, 0 };
+	static const xml::context::entry ID_attr        = { events::unknown, 0 };
+}}
+
+static const std::initializer_list<const xml::context::entry_ref> rdf_nodes =
+{
+	{ "Alt",         &rdf::Alt_node },
+	{ "Bag",         &rdf::Bag_node },
+	{ "Description", &rdf::Description_node },
+	{ "RDF",         &rdf::RDF_node },
+	{ "Seq",         &rdf::Seq_node },
+	//{ "_nnn",      &rdf::_nnn_node }, // _1, _2, _3, ... -- "_(:int)"
+	{ "li",          &rdf::li_node },
+	{ "type",        &rdf::type_node },
+};
+
+static const std::initializer_list<const xml::context::entry_ref> rdf_attrs =
+{
+	{ "ID",        &rdf::ID_attr },
+	{ "about",     &rdf::about_attr },
+	{ "datatype",  &rdf::datatype_attr },
+	{ "nodeID",    &rdf::nodeID_attr },
+	{ "parseType", &rdf::parseType_attr },
+	{ "resource",  &rdf::resource_attr },
+};
+
+inline rdf::uri uri(xml::reader &reader)
+{
+	return rdf::uri(reader.namespaceUri(), reader.nodeName().str());
 }
 
-void parseRdfXmlMetadata(const xml::node &rdfxml, const rdf::uri &subject, rdf::graph &aGraph, const std::string &base, const std::string &lang)
-{
-	if (rdfxml != rdf::rdf("Description"))
-		aGraph.statement(subject, rdf::rdf("type"), rdf::uri(rdfxml.namespaceURI(), rdfxml.name()));
+static void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph, const rdf::uri &self, const std::string &base, std::string lang);
 
-	parseRdfXmlInnerMetadata(rdfxml, subject, aGraph, base, lang);
-}
+static rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::uri &self, const std::string &base, std::string lang);
 
-rdf::uri parseRdfXmlCollectionMetadata(xml::node node, const rdf::uri &subject, rdf::graph &aGraph, const std::string &base, const std::string &lang)
+void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph, const rdf::uri &self, const std::string &base, std::string lang)
 {
-	for (; node.isValid(); node.next())
+	std::string resource;
+	std::string nodeID;
+	std::string parseType;
+	std::string datatype;
+	std::string value;
+
+	rdf::uri context;
+
+	while (reader.read()) switch (reader.nodeType())
 	{
-		if (node.type() == XML_ELEMENT_NODE)
+	case xml::reader::attribute:
+		if (reader.context() == &rdf::datatype_attr)
+			datatype = reader.nodeValue().str();
+		else if (reader.context() == &rdf::resource_attr)
+			resource = reader.nodeValue().str();
+		else if (reader.context() == &rdf::nodeID_attr)
+			nodeID = reader.nodeValue().str();
+		else if (reader.context() == &xml::lang_attr)
+			lang = reader.nodeValue().str();
+		else if (reader.context() == &rdf::parseType_attr)
 		{
-			std::string about = node.attr(rdf::rdf("about")).content();
-			if (!about.empty())
-			{
-				const rdf::uri temp = aGraph.genid();
-				aGraph.statement(temp, rdf::rdf("first"), aGraph.href((*about.begin()) == '#' ? base + about : about));
-
-				node.next();
-				if (node.isValid())
-				{
-					const rdf::uri rest = parseRdfXmlCollectionMetadata(node, subject, aGraph, base, lang);
-					if (rest.ref.empty())
-						aGraph.statement(temp, rdf::rdf("rest"), rdf::rdf("nil"));
-					else
-						aGraph.statement(temp, rdf::rdf("rest"), rest);
-				}
-				return temp;
-			}
+			parseType = reader.nodeValue().str();
+			context = aGraph.genid();
 		}
-	}
-	return aGraph.bnode(std::string());
-}
-
-void parseRdfXmlMetadataFromNode(
-	const xml::node &node,
-	const rdf::uri &subject,
-	const rdf::uri &predicate,
-	rdf::graph &aGraph,
-	const std::string &base,
-	const std::string &baseLang)
-{
-	std::string resource = node.attr(rdf::rdf("resource")).content();
-	std::string nodeID   = node.attr(rdf::rdf("nodeID")).content();
-	std::string datatype = node.attr(rdf::rdf("datatype")).content();
-
-	if (!resource.empty())
-	{
-		if (resource.find("://") == std::string::npos)
-			aGraph.statement(subject, predicate, aGraph.href(base + resource));
 		else
-			aGraph.statement(subject, predicate, aGraph.href(resource));
-	}
-	else if (!nodeID.empty())
-		aGraph.statement(subject, predicate, aGraph.bnode(nodeID));
-	else if (hasSubElements(node))
-	{
-		std::string parseType = node.attr(rdf::rdf("parseType")).content();
-
+			aGraph.statement(aSubject, uri(reader), rdf::literal(reader.nodeValue().str(), lang));
+		break;
+	case xml::reader::textNode:
+	case xml::reader::cdataNode:
+		value = reader.nodeValue().normalize()->str();
+		break;
+	case xml::reader::beginTagNode:
 		if (parseType == "Resource")
-		{
-			const rdf::uri temp = aGraph.genid();
-			parseRdfXmlInnerMetadata(node, temp, aGraph, base, baseLang);
-			aGraph.statement(subject, predicate, temp);
-		}
-		else if (parseType == "Collection")
-		{
-			const rdf::uri first = parseRdfXmlCollectionMetadata(node.firstChild(), subject, aGraph, base, baseLang);
-			aGraph.statement(subject, predicate, first);
-		}
+			parseInnerRdfXml(reader, context, aGraph, uri(reader), base, lang);
 		else
 		{
-			const rdf::uri temp = aGraph.genid();
-			parseRdfXmlOuterMetadata(node, temp, aGraph, base, baseLang);
-			aGraph.statement(subject, predicate, temp);
+			rdf::uri context = parseOuterRdfXml(reader, aGraph, uri(reader), base, lang);
+			aGraph.statement(aSubject, self, context);
 		}
-	}
-	else
-	{
-		std::string lang = node.attr(rdf::xml("lang")).content();
-		std::string value = node.content()->str();
-
-		if (!datatype.empty())
-			aGraph.statement(subject, predicate, rdf::literal(value, aGraph.href(datatype)));
-		else if (!value.empty())
+		break;
+	case xml::reader::endTagNode:
+		if (uri(reader) == self)
 		{
-			if (!lang.empty())
-				aGraph.statement(subject, predicate, rdf::literal(value, lang));
-			else
-				aGraph.statement(subject, predicate, rdf::literal(value, baseLang));
+			if (parseType == "Resource")
+				aGraph.statement(aSubject, self, context);
+			if (!resource.empty())
+			{
+				if (resource.find("://") == std::string::npos)
+					aGraph.statement(aSubject, self, aGraph.href(base + resource));
+				else
+					aGraph.statement(aSubject, self, aGraph.href(resource));
+			}
+			else if (!nodeID.empty())
+				aGraph.statement(aSubject, self, aGraph.bnode(nodeID));
+			else if (!datatype.empty())
+				aGraph.statement(aSubject, self, rdf::literal(value, aGraph.href(datatype)));
+			else if (!value.empty())
+				aGraph.statement(aSubject, self, rdf::literal(value, lang));
+			return;
 		}
+		break;
 	}
 }
 
-void parseRdfXmlInnerMetadata(const xml::node &rdfxml, const rdf::uri &subject, rdf::graph &aGraph, const std::string &base, std::string lang)
+rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::uri &self, const std::string &base, std::string lang)
 {
-	for (xml::attribute attr = rdfxml.firstAttribute(); attr.isValid(); attr.next())
+	reader.save();
+
+	rdf::uri subject;
+	while (reader.read() && reader.nodeType() == xml::reader::attribute)
 	{
-		if (attr != rdf::rdf("about") && attr != rdf::rdf("nodeID") && attr != rdf::rdf("parseType") && attr != rdf::rdf("ID"))
+		if (reader.context() == &rdf::about_attr)
 		{
-			if (attr == rdf::xml("lang"))
-				lang = attr.content();
-			else
-			{
-				std::string value = attr.content();
-				aGraph.statement(subject, rdf::uri(attr.namespaceURI(), attr.name()), rdf::literal(value, lang));
-			}
+			std::string about = reader.nodeValue().str();
+			subject = aGraph.href((*about.begin()) == '#' ? base + about : about);
 		}
+		else if (reader.context() == &rdf::nodeID_attr)
+		{
+			std::string nodeID = reader.nodeValue().str();
+			subject = aGraph.bnode(nodeID);
+		}
+		else if (reader.context() == &rdf::ID_attr)
+		{
+			std::string ID = reader.nodeValue().str();
+			subject = aGraph.href(base + '#' + ID);
+		}
+		else if (reader.context() == &xml::lang_attr)
+			lang = reader.nodeValue().str();
 	}
 
-	bool isseq = (rdfxml == rdf::rdf("Seq"));
-	int  index = 1;
+	if (subject.empty())
+		subject = aGraph.genid();
 
-	for (xml::node node = rdfxml.firstChild(); node.isValid(); node.next())
+	reader.restore();
+
+	if (self != rdf::rdf("Description"))
+		aGraph.statement(subject, rdf::rdf("type"), self);
+
+	while (reader.read()) switch (reader.nodeType())
 	{
-		if (node.type() != XML_ELEMENT_NODE)
-			continue;
-
-		const rdf::uri predicate = rdf::uri(node.namespaceURI(), node.name());
-		if (isseq && predicate == rdf::rdf("li"))
-		{
-			std::ostringstream ss;
-			ss << '_' << index;
-			++index;
-
-			parseRdfXmlMetadataFromNode(node, subject, rdf::rdf(ss.str()), aGraph, base, lang);
-		}
-		else
-			parseRdfXmlMetadataFromNode(node, subject, predicate, aGraph, base, lang);
+	case xml::reader::attribute:
+		if (reader.context() != &rdf::about_attr &&
+		    reader.context() != &rdf::nodeID_attr &&
+		    reader.context() != &rdf::ID_attr &&
+		    reader.context() != &xml::lang_attr)
+			aGraph.statement(subject, uri(reader), rdf::literal(reader.nodeValue().str(), lang));
+		break;
+	case xml::reader::beginTagNode:
+		parseInnerRdfXml(reader, subject, aGraph, uri(reader), base, lang);
+		break;
+	case xml::reader::endTagNode:
+		if (uri(reader) == self)
+			return subject;
+		break;
 	}
-}
 
-void parseRdfXmlOuterMetadata(const xml::node &rdfxml, const rdf::uri &subject, rdf::graph &aGraph, const std::string &base, std::string lang)
-{
-	for (xml::node node = rdfxml.firstChild(); node.isValid(); node.next())
-	{
-		if (node.type() == XML_ELEMENT_NODE)
-		{
-			if (subject.ns.empty())
-				parseRdfXmlInnerMetadata(node, subject, aGraph, base, lang);
-			else
-			{
-				std::string about = node.attr(rdf::rdf("about")).content();
-				std::string nodeID = node.attr(rdf::rdf("nodeID")).content();
-				std::string ID = node.attr(rdf::rdf("ID")).content();
-				if (!about.empty())
-					parseRdfXmlMetadata(node, aGraph.href((*about.begin()) == '#' ? base + about : about), aGraph, base, lang);
-				else if (!nodeID.empty())
-					parseRdfXmlMetadata(node, aGraph.bnode(nodeID), aGraph, base, lang);
-				else if (!ID.empty())
-					parseRdfXmlMetadata(node, aGraph.href(base + "#" + ID), aGraph, base, lang);
-			}
-		}
-	}
+	return subject;
 }
 
 void cainteoir::parseRdfXmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
-	xmldom::document doc(aData);
-	xmldom::node rdfxml = doc.root();
+	xml::reader reader(aData);
+	reader.set_nodes(xmlns::rdf, rdf_nodes);
+	reader.set_attrs(xmlns::rdf, rdf_attrs);
+	reader.set_attrs(xmlns::xml, xml::attrs);
 
-	if (rdfxml != rdf::rdf("RDF"))
+	while (reader.read() && reader.nodeType() != xml::reader::beginTagNode)
+		;
+
+	if (reader.context() != &rdf::RDF_node)
 		throw std::runtime_error(_("RDF/XML document is not of a recognised format."));
 
-	parseRdfXmlOuterMetadata(rdfxml, aSubject, aGraph, rdfxml.attr(rdf::xml("base")).content(), std::string());
+	std::string base;
+
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &xml::base_attr)
+			base = reader.nodeValue().str();
+		break;
+	case xml::reader::textNode:
+	case xml::reader::cdataNode:
+		break;
+	case xml::reader::beginTagNode:
+		parseOuterRdfXml(reader, aGraph, uri(reader), base, std::string());
+		break;
+	case xml::reader::endTagNode:
+		break;
+	}
 }
