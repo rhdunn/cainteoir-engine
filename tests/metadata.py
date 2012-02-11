@@ -53,7 +53,7 @@ if __name__ == '__main__':
 			{'test': '../src/schema/dcelements.rdf', 'result': 'rdfxml/schema/dcelements.n3'},
 			{'test': '../src/schema/dcterms.rdf', 'result': 'rdfxml/schema/dcterms.n3'},
 			{'test': '../src/schema/owl.rdf', 'result': 'rdfxml/schema/owl.n3'},
-			{'test': '../src/schema/rdf-schema.rdf', 'result': 'rdfxml/schema/rdf-schema.n3', 'expect': 'fail'},
+			{'test': '../src/schema/rdf-schema.rdf', 'result': 'rdfxml/schema/rdf-schema.n3'},
 			{'test': '../src/schema/rdf-syntax-ns.rdf', 'result': 'rdfxml/schema/rdf-syntax-ns.n3'},
 			{'test': '../src/schema/skos.rdf', 'result': 'rdfxml/schema/skos.n3', 'expect': 'fail'},
 		]},
