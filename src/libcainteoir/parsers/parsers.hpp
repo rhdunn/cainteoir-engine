@@ -22,7 +22,6 @@
 #define CAINTEOIR_ENGINE_PARSERS_HPP
 
 #include <cainteoir/document.hpp>
-#include "xml.hpp"
 #include <list>
 #include <map>
 

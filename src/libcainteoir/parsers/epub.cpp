@@ -21,8 +21,8 @@
 #include "parsers.hpp"
 #include "zip.hpp"
 #include <cainteoir/platform.hpp>
+#include <stdexcept>
 
-namespace xml = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
 
 static std::string path_to(const std::string &filename, const std::string &opffile)

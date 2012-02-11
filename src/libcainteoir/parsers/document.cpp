@@ -22,8 +22,8 @@
 #include <cainteoir/document.hpp>
 #include <cainteoir/platform.hpp>
 #include "parsers.hpp"
+#include <stdexcept>
 
-namespace xmldom = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
 namespace mime = cainteoir::mime;
 

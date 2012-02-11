@@ -19,6 +19,7 @@
  */
 
 #include "parsers.hpp"
+#include "xml.hpp"
 #include <cainteoir/platform.hpp>
 
 namespace rdf = cainteoir::rdf;

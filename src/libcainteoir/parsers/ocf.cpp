@@ -20,6 +20,7 @@
 
 #include "parsers.hpp"
 #include <cainteoir/platform.hpp>
+#include <stdexcept>
 
 namespace rdf   = cainteoir::rdf;
 namespace xmlns = cainteoir::xml::xmlns;
