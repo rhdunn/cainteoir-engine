@@ -77,6 +77,40 @@ static void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf:
 
 static rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::uri &self, const std::string &base, std::string lang);
 
+rdf::uri parseRdfXmlCollection(xml::reader &reader, rdf::uri first, rdf::graph &aGraph, const rdf::uri &self, const std::string &base)
+{
+	rdf::uri subject;
+	rdf::uri prev;
+	rdf::uri current = uri(reader);
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &rdf::about_attr)
+		{
+			std::string about = reader.nodeValue().str();
+			subject = aGraph.href((*about.begin()) == '#' ? base + about : about);
+		}
+		break;
+	case xml::reader::beginTagNode:
+		prev  = first;
+		first = aGraph.genid();
+		aGraph.statement(prev, rdf::rdf("rest"), first);
+		current = uri(reader);
+		break;
+	case xml::reader::endTagNode:
+		if (uri(reader) == self)
+		{
+			aGraph.statement(first, rdf::rdf("rest"), rdf::rdf("nil"));
+			return subject;
+		}
+		aGraph.statement(first, rdf::rdf("first"), subject);
+		if (current != rdf::rdf("Description"))
+			aGraph.statement(subject, rdf::rdf("type"), current);
+		break;
+	}
+	return subject;
+}
+
 void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph, const rdf::uri &self, const std::string &base, std::string lang)
 {
 	std::string resource;
@@ -130,6 +164,12 @@ void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf::graph 
 			case xml::reader::beginTagNode:
 				if (parseType == "Resource")
 					parseInnerRdfXml(reader, context, aGraph, uri(reader), base, lang);
+				else if (parseType == "Collection")
+				{
+					parseRdfXmlCollection(reader, context, aGraph, self, base);
+					aGraph.statement(aSubject, self, context);
+					return;
+				}
 				else
 				{
 					rdf::uri context = parseOuterRdfXml(reader, aGraph, uri(reader), base, lang);

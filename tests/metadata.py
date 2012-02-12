@@ -46,7 +46,7 @@ if __name__ == '__main__':
 			{'test': 'rdfxml/syntax/example16.rdf', 'result': 'rdfxml/syntax/example16.nt'},
 			{'test': 'rdfxml/syntax/example17.rdf', 'result': 'rdfxml/syntax/example17.nt', 'expect': 'fail'},
 			{'test': 'rdfxml/syntax/example18.rdf', 'result': 'rdfxml/syntax/example18.nt', 'expect': 'fail'},
-			{'test': 'rdfxml/syntax/example19.rdf', 'result': 'rdfxml/syntax/example19.nt', 'expect': 'fail'},
+			{'test': 'rdfxml/syntax/example19.rdf', 'result': 'rdfxml/syntax/example19.nt'},
 		]},
 		{'name': 'schema', 'type': 'turtle', 'tests': [
 			{'test': '../src/schema/dcam.rdf', 'result': 'rdfxml/schema/dcam.n3'},
@@ -55,7 +55,7 @@ if __name__ == '__main__':
 			{'test': '../src/schema/owl.rdf', 'result': 'rdfxml/schema/owl.n3'},
 			{'test': '../src/schema/rdf-schema.rdf', 'result': 'rdfxml/schema/rdf-schema.n3'},
 			{'test': '../src/schema/rdf-syntax-ns.rdf', 'result': 'rdfxml/schema/rdf-syntax-ns.n3'},
-			{'test': '../src/schema/skos.rdf', 'result': 'rdfxml/schema/skos.n3', 'expect': 'fail'},
+			{'test': '../src/schema/skos.rdf', 'result': 'rdfxml/schema/skos.n3'},
 		]},
 	]})
 	test.run({'name': 'HTML', 'replace': ['mimetype'], 'groups': [
