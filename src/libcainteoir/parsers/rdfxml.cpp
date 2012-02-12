@@ -77,7 +77,7 @@ static void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf:
 
 static rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::uri &self, const std::string &base, std::string lang);
 
-rdf::uri parseRdfXmlCollection(xml::reader &reader, rdf::uri first, rdf::graph &aGraph, const rdf::uri &self, const std::string &base)
+void parseRdfXmlCollection(xml::reader &reader, rdf::uri first, rdf::graph &aGraph, const rdf::uri &self, const std::string &base)
 {
 	rdf::uri subject;
 	rdf::uri prev;
@@ -101,14 +101,57 @@ rdf::uri parseRdfXmlCollection(xml::reader &reader, rdf::uri first, rdf::graph &
 		if (uri(reader) == self)
 		{
 			aGraph.statement(first, rdf::rdf("rest"), rdf::rdf("nil"));
-			return subject;
+			return;
 		}
 		aGraph.statement(first, rdf::rdf("first"), subject);
 		if (current != rdf::rdf("Description"))
 			aGraph.statement(subject, rdf::rdf("type"), current);
 		break;
 	}
-	return subject;
+}
+
+void parseRdfXmlContainer(xml::reader &reader, rdf::graph &aGraph, const rdf::uri &self, const std::string &base)
+{
+	rdf::uri subject;
+	rdf::uri ref;
+	long item = 1;
+
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &rdf::about_attr)
+		{
+			std::string about = reader.nodeValue().str();
+			subject = aGraph.href((*about.begin()) == '#' ? base + about : about);
+			aGraph.statement(subject, rdf::rdf("type"), self);
+		}
+		else if (reader.context() == &rdf::resource_attr)
+		{
+			std::string resource = reader.nodeValue().str();
+			if (resource.find("://") == std::string::npos)
+				aGraph.statement(subject, ref, aGraph.href(base + resource));
+			else
+				aGraph.statement(subject, ref, aGraph.href(resource));
+		}
+		break;
+	case xml::reader::beginTagNode:
+		if (reader.context() == &rdf::li_node)
+		{
+			std::ostringstream id;
+			id << '_' << item;
+			ref = rdf::rdf(id.str());
+			++item;
+		}
+		else
+			ref = uri(reader);
+		break;
+	case xml::reader::endTagNode:
+		if (uri(reader) == self)
+		{
+			return;
+		}
+		break;
+	}
 }
 
 void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph, const rdf::uri &self, const std::string &base, std::string lang)
@@ -209,7 +252,12 @@ rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::ur
 	std::list<std::pair<rdf::uri, rdf::literal>> inline_metadata;
 	bool processed_metadata = false;
 
-	while (reader.read())
+	if (reader.context() == &rdf::Seq_node)
+	{
+		parseRdfXmlContainer(reader, aGraph, self, base);
+		return self;
+	}
+	else while (reader.read())
 	{
 		if (reader.nodeType() == xml::reader::attribute)
 		{

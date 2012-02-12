@@ -585,7 +585,7 @@ cainteoir::buffer cainteoir::xml::reader::identifier()
 
 	const char * startPos = mState.current;
 
-	while (mState.current != mData->end() && (xmlalnum(*mState.current)) || *mState.current == '-')
+	while (mState.current != mData->end() && (xmlalnum(*mState.current)) || *mState.current == '-' || *mState.current == '_')
 		++mState.current;
 
 	return cainteoir::buffer(startPos, mState.current);
