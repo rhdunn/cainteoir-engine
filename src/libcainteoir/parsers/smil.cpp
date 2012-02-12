@@ -56,17 +56,10 @@ void skipNodes(xml::reader &reader, const xml::context::entry *ctx)
 	}
 }
 
-void cainteoir::parseSmilDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
+void cainteoir::parseSmilDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
-	xml::reader reader(aData);
 	reader.set_nodes(xmlns::smil, smil_nodes);
 	reader.set_attrs(xmlns::smil, smil_attrs);
-
-	while (reader.read() && reader.nodeType() != xml::reader::beginTagNode)
-		;
-
-	if (reader.context() != &smil::smil_node)
-		throw std::runtime_error(_("SMIL document is not of a recognised format."));
 
 	while (reader.read()) switch (reader.nodeType())
 	{

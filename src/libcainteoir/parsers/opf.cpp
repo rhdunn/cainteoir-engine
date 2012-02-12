@@ -462,19 +462,12 @@ void parseOpfSpine(xml::reader &reader, cainteoir::document_events &events, std:
 	}
 }
 
-void cainteoir::parseOpfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
+void cainteoir::parseOpfDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
-	xml::reader reader(aData);
 	reader.set_nodes(xmlns::opf, opf_nodes);
 	reader.set_attrs(xmlns::opf, opf_attrs);
 	reader.set_nodes(xmlns::dc,  dc_nodes);
 	reader.set_attrs(xmlns::xml, xml::attrs);
-
-	while (reader.read() && reader.nodeType() != xml::reader::beginTagNode)
-		;
-
-	if (reader.context() != &opf::package_node)
-		throw std::runtime_error(_("OPF file is not of a recognised format."));
 
 	std::string toc;
 	std::list<std::string> spine;

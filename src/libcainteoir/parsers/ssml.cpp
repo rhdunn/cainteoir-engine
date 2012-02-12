@@ -122,20 +122,13 @@ void parseSsmlContext(xml::reader &reader, const rdf::uri &aSubject, cainteoir::
 	events.end_context();
 }
 
-void cainteoir::parseSsmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
+void cainteoir::parseSsmlDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
-	xml::reader reader(aData);
 	reader.set_nodes(xmlns::ssml, ssml_nodes);
 	reader.set_attrs(xmlns::ssml, ssml_attrs);
 	reader.set_attrs(xmlns::xml,  xml::attrs);
 
-	while (reader.read() && reader.nodeType() != xml::reader::beginTagNode)
-		;
-
-	if (reader.context() != &ssml::speak_node)
-		throw std::runtime_error(_("SSML document is not of a recognised format."));
-
-	const xml::context::entry *ctx = reader.context();
+	const xml::context::entry *ctx = &ssml::speak_node;
 	std::string name;
 	std::string content;
 

@@ -191,17 +191,10 @@ void parseNcxHead(xml::reader &reader, const rdf::uri &subject, cainteoir::docum
 	}
 }
 
-void cainteoir::parseNcxDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
+void cainteoir::parseNcxDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
-	xml::reader reader(aData);
 	reader.set_nodes(xmlns::ncx, ncx_nodes);
 	reader.set_attrs(xmlns::ncx, ncx_attrs);
-
-	while (reader.read() && reader.nodeType() != xml::reader::beginTagNode)
-		;
-
-	if (reader.context() != &ncx::ncx_node)
-		throw std::runtime_error(_("NCX file is not of a recognised format."));
 
 	while (reader.read()) switch (reader.nodeType())
 	{

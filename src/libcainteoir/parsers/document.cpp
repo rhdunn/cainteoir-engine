@@ -37,16 +37,14 @@ static const DecodeDocument decode_handlers[] = {
 	{ &mime::gzip, &cainteoir::inflate_gzip },
 };
 
-typedef void (*parsedoc_ptr)(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
-
-struct ParseDocument
+struct ParseXmlDocument
 {
 	const mime::mimetype *mimetype;
-	parsedoc_ptr parser;
+	decltype(cainteoir::parseNcxDocument) *parser;
 };
 
 // magic = xml ; match namespaceUri and rootName on XML document ...
-static const ParseDocument xml_handlers[] = {
+static const ParseXmlDocument xml_handlers[] = {
 	{ &mime::ncx,    &cainteoir::parseNcxDocument },
 	{ &mime::opf,    &cainteoir::parseOpfDocument },
 	{ &mime::rdfxml, &cainteoir::parseRdfXmlDocument },
@@ -56,10 +54,16 @@ static const ParseDocument xml_handlers[] = {
 	{ &mime::html,   &cainteoir::parseXHtmlDocument },
 };
 
+struct ParseDocument
+{
+	const mime::mimetype *mimetype;
+	decltype(cainteoir::parseEpubDocument) *parser;
+};
+
 // magic = document specific ...
 static const ParseDocument doc_handlers[] = {
 	{ &mime::epub, &cainteoir::parseEpubDocument },
-	{ &mime::html, &cainteoir::parseXHtmlDocument },
+	{ &mime::html, &cainteoir::parseHtmlDocument },
 	{ &mime::rtf,  &cainteoir::parseRtfDocument },
 };
 
@@ -251,7 +255,7 @@ struct mime_headers : public cainteoir::buffer
 	}
 };
 
-bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph, bool includeMimetypeMetadata)
 {
 	// Encoded documents ...
 
@@ -260,7 +264,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 		if (decode->mimetype->match(data))
 		{
 			std::tr1::shared_ptr<cainteoir::buffer> decompressed = decode->decoder(*data, 0);
-			return parseDocumentBuffer(decompressed, subject, events, aGraph);
+			return parseDocumentBuffer(decompressed, subject, events, aGraph, includeMimetypeMetadata);
 		}
 	}
 
@@ -276,12 +280,13 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 		std::string namespaceUri = reader.namespaceUri();
 		std::string rootName     = reader.nodeName().str();
 
-		for (const ParseDocument *xml = xml_handlers; xml != xml_handlers + countof(xml_handlers); ++xml)
+		for (const ParseXmlDocument *xml = xml_handlers; xml != xml_handlers + countof(xml_handlers); ++xml)
 		{
 			if (xml->mimetype->match(namespaceUri, rootName))
 			{
-				xml->parser(data, subject, events, aGraph);
-				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(xml->mimetype->mime_type));
+				xml->parser(reader, subject, events, aGraph);
+				if (includeMimetypeMetadata)
+					aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(xml->mimetype->mime_type));
 				return true;
 			}
 		}
@@ -309,7 +314,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 			throw std::runtime_error(_("unsupported content-transfer-encoding"));
 
 		if (mime->begin() != data->begin()) // Avoid an infinite loop when there is just the mime header.
-			return parseDocumentBuffer(decoded, subject, events, aGraph);
+			return parseDocumentBuffer(decoded, subject, events, aGraph, includeMimetypeMetadata);
 	}
 
 	// Other documents ...
@@ -319,7 +324,8 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 		if (parse->mimetype->match(data))
 		{
 			parse->parser(data, subject, events, aGraph);
-			aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(parse->mimetype->mime_type));
+			if (includeMimetypeMetadata)
+				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(parse->mimetype->mime_type));
 			return true;
 		}
 	}
@@ -341,7 +347,8 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 	// Plain Text ...
 
 	events.text(data);
-	aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal("text/plain"));
+	if (includeMimetypeMetadata)
+		aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal("text/plain"));
 	return true;
 }
 
@@ -385,5 +392,5 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 	else
 		data = buffer_from_stdin();
 
-	return parseDocumentBuffer(data, subject, events, aGraph);
+	return parseDocumentBuffer(data, subject, events, aGraph, true);
 }
