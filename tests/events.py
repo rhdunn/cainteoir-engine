@@ -97,6 +97,7 @@ if __name__ == '__main__':
 		]},
 		{'name': 'entities', 'type': 'events', 'tests': [
 			{'test': 'html/entities.html', 'result': 'html/entities.events'},
+			{'test': 'html/entities.xhtml', 'result': 'html/entities.events'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [

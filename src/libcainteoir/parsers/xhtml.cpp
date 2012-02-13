@@ -464,6 +464,7 @@ void parseHtmlNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 
 void cainteoir::parseXHtmlDocument(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
+	reader.set_predefined_entities(xml::html_entities);
 	reader.set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
 	reader.set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
 	reader.set_nodes(xmlns::xhtml,  html_nodes);

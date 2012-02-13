@@ -307,6 +307,8 @@ namespace cainteoir { namespace xml
 
 		reader(std::tr1::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52] = xml_entities);
 
+		void set_predefined_entities(const entity_set *aPredefinedEntities[52]) { mPredefinedEntities = aPredefinedEntities; }
+
 		bool read();
 
 		const cainteoir::rope &nodeValue() const { return mNodeValue; }
