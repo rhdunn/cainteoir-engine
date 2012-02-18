@@ -85,10 +85,12 @@ if __name__ == '__main__':
 			{'test': 'mime/email/subject.txt', 'result': 'mime/email/subject.n3'},
 			{'test': 'mime/email/from.txt', 'result': 'mime/email/from.n3'},
 			{'test': 'mime/email/from-no-email.txt', 'result': 'mime/email/from-no-email.n3'},
+			{'test': 'mime/email/newsgroups.txt', 'result': 'mime/email/newsgroups.n3'},
 			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
 			{'test': 'mime/email/subject-lfonly.txt', 'result': 'mime/email/subject.n3'},
 			{'test': 'mime/email/from-lfonly.txt', 'result': 'mime/email/from.n3'},
 			{'test': 'mime/email/from-no-email-lfonly.txt', 'result': 'mime/email/from-no-email.n3'},
+			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/newsgroups.n3'},
 		]},
 	]})
 	test.run({'name': 'SMIL', 'groups': [

@@ -210,6 +210,8 @@ struct mime_headers : public cainteoir::buffer
 					aGraph.statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(mbox_begin, mbox_end)));
 				}
 			}
+			else if (!name.comparei("Newsgroups"))
+				aGraph.statement(subject, rdf::dc("publisher"), rdf::literal(value.str()));
 		}
 
 		return false;
