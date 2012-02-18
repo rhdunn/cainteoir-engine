@@ -182,28 +182,33 @@ struct mime_headers : public cainteoir::buffer
 				while (name_end <= value.end() && *name_end != '<')
 					++name_end;
 
-				// email address
+				if (name_end > value.end()) // name only (no email address)
+					aGraph.statement(subject, rdf::dc("creator"), rdf::literal(std::string(name_begin, value.end())));
+				else
+				{
+					// email address ...
 
-				const char * mbox_begin = name_end + 1;
-				const char * mbox_end = value.end();
+					const char * mbox_begin = name_end + 1;
+					const char * mbox_end = value.end();
 
-				while (mbox_end > mbox_begin && *mbox_end != '>')
-					--mbox_end;
+					while (mbox_end > mbox_begin && *mbox_end != '>')
+						--mbox_end;
 
-				// clean-up name ...
+					// clean-up name ...
 
-				--name_end;
-				while (name_end > value.begin() && *name_end == ' ')
 					--name_end;
-				++name_end;
+					while (name_end > value.begin() && *name_end == ' ')
+						--name_end;
+					++name_end;
 
-				// metadata ...
+					// metadata ...
 
-				const rdf::uri from = aGraph.genid();
-				aGraph.statement(subject, rdf::dc("creator"), from);
-				aGraph.statement(from, rdf::rdf("type"), rdf::foaf("Person"));
-				aGraph.statement(from, rdf::rdf("value"), rdf::literal(std::string(name_begin, name_end)));
-				aGraph.statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(mbox_begin, mbox_end)));
+					const rdf::uri from = aGraph.genid();
+					aGraph.statement(subject, rdf::dc("creator"), from);
+					aGraph.statement(from, rdf::rdf("type"), rdf::foaf("Person"));
+					aGraph.statement(from, rdf::rdf("value"), rdf::literal(std::string(name_begin, name_end)));
+					aGraph.statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(mbox_begin, mbox_end)));
+				}
 			}
 		}
 
