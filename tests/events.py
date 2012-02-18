@@ -113,9 +113,11 @@ if __name__ == '__main__':
 		{'name': 'email', 'type': 'events', 'tests': [
 			{'test': 'mime/email/subject.txt', 'result': 'mime/email/content.events'},
 			{'test': 'mime/email/from.txt', 'result': 'mime/email/content.events'},
+			{'test': 'mime/email/from-subject.txt', 'result': 'mime/email/content.events'},
 			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
 			{'test': 'mime/email/subject-lfonly.txt', 'result': 'mime/email/content.events'},
 			{'test': 'mime/email/from-lfonly.txt', 'result': 'mime/email/content.events'},
+			{'test': 'mime/email/from-subject-lfonly.txt', 'result': 'mime/email/content.events'},
 		]},
 		{'name': 'multipart', 'type': 'events', 'tests': [
 			{'test': 'mime/multipart/mixed-1.txt', 'result': 'mime/multipart/mixed.events'},
