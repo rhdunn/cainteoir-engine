@@ -81,11 +81,11 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
-		{'name': 'metadata', 'type': 'turtle', 'tests': [
-			{'test': 'mime/metadata/subject.txt', 'result': 'mime/metadata/subject.n3'},
-			{'test': 'mime/metadata/subject-lfonly.txt', 'result': 'mime/metadata/subject.n3'},
-			{'test': 'mime/metadata/from.txt', 'result': 'mime/metadata/from.n3'},
-			{'test': 'mime/metadata/from-lfonly.txt', 'result': 'mime/metadata/from.n3'},
+		{'name': 'email', 'type': 'turtle', 'tests': [
+			{'test': 'mime/email/subject.txt', 'result': 'mime/email/subject.n3'},
+			{'test': 'mime/email/subject-lfonly.txt', 'result': 'mime/email/subject.n3'},
+			{'test': 'mime/email/from.txt', 'result': 'mime/email/from.n3'},
+			{'test': 'mime/email/from-lfonly.txt', 'result': 'mime/email/from.n3'},
 		]},
 	]})
 	test.run({'name': 'SMIL', 'groups': [
