@@ -467,19 +467,14 @@ static const std::initializer_list<matchlet> mime_pattern2 = { { 0,  2, "\nConte
 static const std::initializer_list<matchlet> mime_pattern3 = { { 0,  2, "\nContent-Transfer-Encoding:" } };
 static const std::initializer_list<matchlet> mime_pattern4 = { { 0,  2, "\nContent-Location:" } };
 
-// for some saved email documents (esp. from newsgroup archives) ...
-static const std::initializer_list<matchlet> email_pattern1 = { { 0,  1, "Date: " } };
-static const std::initializer_list<matchlet> email_pattern2 = { { 0,  1, "Newsgroups: " } };
+// for newsgroup archives ...
+static const std::initializer_list<matchlet> news_pattern1 = { { 0,  1, "Date: " } };
+static const std::initializer_list<matchlet> news_pattern2 = { { 0,  1, "Newsgroups: " } };
 
 static const std::initializer_list<magic> mime_magic = {
-	mime_pattern1,
-	mime_pattern2,
-	mime_pattern3,
-	mime_pattern4,
-	http_pattern1,
-	http_pattern2,
-	email_pattern1,
-	email_pattern2,
+	mime_pattern1, mime_pattern2, mime_pattern3, mime_pattern4,
+	news_pattern1, news_pattern2,
+	http_pattern1, http_pattern2,
 };
 
 static const mime_info mime_data = { mime_magic, "", "", "", {}, {} };
