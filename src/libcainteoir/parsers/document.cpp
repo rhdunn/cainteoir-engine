@@ -339,8 +339,8 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 
 	// Octet Stream ...
 
-	const char *begin = data->begin();
-	const char *end   = data->end();
+	const uint8_t *begin = (const uint8_t *)data->begin();
+	const uint8_t *end   = (const uint8_t *)data->end();
 	if (begin + 101 < end) // only check the first 100 bytes
 		end = begin + 101;
 
