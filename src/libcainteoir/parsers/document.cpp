@@ -297,6 +297,15 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 				return true;
 			}
 		}
+
+		if (mime::html.match(data))
+		{
+			cainteoir::parseHtmlDocument(data, subject, events, aGraph);
+			if (includeMimetypeMetadata)
+				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(mime::html.mime_type));
+			return true;
+		}
+
 		return false;
 	}
 
