@@ -141,7 +141,7 @@ phoneme_decl = re.compile("""
 	$""", re.VERBOSE)
 
 def load_scheme(filename):
-	scheme = {}
+	scheme = []
 	with open(filename) as f:
 		for line in f:
 			line = line.replace('\n', '')
@@ -152,7 +152,7 @@ def load_scheme(filename):
 			if m:
 				phon = m.group(1)
 				feat = m.group(2).split(',')
-				scheme[phon] = feat
+				scheme.append((phon, feat))
 	return scheme
 
 scheme = load_scheme(sys.argv[1])
@@ -161,7 +161,7 @@ scheme = load_scheme(sys.argv[1])
 
 def lookup_transcription(scheme, codes):
 	x = '|'.join(sorted(codes))
-	for phoneme, featureset in scheme.items():
+	for phoneme, featureset in scheme:
 		y = '|'.join(sorted(featureset))
 		if x == y:
 			return phoneme
