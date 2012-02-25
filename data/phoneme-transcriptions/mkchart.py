@@ -5,6 +5,7 @@ import os
 import re
 
 features = {
+	'afr': 'affricate',
 	'alv': 'alveolar',
 	'apr': 'approximant',
 	'asp': 'aspirated',
@@ -18,6 +19,7 @@ features = {
 	'fnt': 'front',
 	'frc': 'fricative',
 	'fzd': 'pharyngealized',
+	'gld': 'glide',
 	'glt': 'glottal',
 	'hgh': 'high',
 	'imp': 'implosive',
@@ -27,6 +29,7 @@ features = {
 	'lmd': 'lower-mid',
 	'lng': 'long',
 	'low': 'low',
+	'lqd': 'liquid',
 	'lzd': 'labialized',
 	'mid': 'mid',
 	'mrm': 'murmured',
@@ -40,6 +43,7 @@ features = {
 	'rnd': 'rounded',
 	'rzd': 'rhoticized',
 	'smh': 'semi-high',
+	'smv': 'semi-vowel',
 	'syl': 'syllabic',
 	'stp': 'stop',
 	'trl': 'trill',
@@ -56,7 +60,8 @@ features = {
 annotations = [ # extra features, properties and modifiers
 	'asp',
 	'fzd',
-	'lng',
+	'gld',
+	'lqd',
 	'lzd',
 	'mrm',
 	'nzd',
@@ -64,6 +69,12 @@ annotations = [ # extra features, properties and modifiers
 	'smv',
 	'unx',
 	'vzd',
+]
+
+aspects = [ # change the pronunciation, so should not be annotations ...
+	'lng',
+	'rzd',
+	'syl',
 ]
 
 ##### Consonant Table Features ...
@@ -87,6 +98,7 @@ manner_of_articulation = [
 	'nas',
 	'stp',
 	'frc',
+	'afr',
 	'apr',
 	'lat',
 	'trl',
