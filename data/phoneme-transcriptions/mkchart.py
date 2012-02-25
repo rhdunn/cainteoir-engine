@@ -152,6 +152,9 @@ def load_scheme(filename):
 			if m:
 				phon = m.group(1)
 				feat = m.group(2).split(',')
+				for f in feat:
+					if f not in features.keys():
+						raise Exception('Unrecognised phoneme feature "%s".' % f)
 				scheme.append((phon, feat))
 	return scheme
 
