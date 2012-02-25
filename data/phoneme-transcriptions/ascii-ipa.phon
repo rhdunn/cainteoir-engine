@@ -1,0 +1,167 @@
+rights:      Copyright (C) 2012 Reece H. Dunn
+license:     [CC-BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/]
+reference:   [Representing IPA Phonetics in ASCII|http://www.hpl.hp.com/personal/Evan_Kirshenbaum/IPA/faq.html]
+
+name:        ascii-ipa
+name:        kirshenbaum
+description: Evan Kirshenbaum ASCII transcription of IPA phonemes
+
+# Appendix B : Segment Symbols
+
+/a/      {low,cnt,unr,vwl}
+/b/      {vcd,blb,stp}
+/c/      {vls,pal,stp}
+/d/      {vcd,alv,stp}
+/e/      {umd,fnt,urd,vwl}
+/f/      {vls,lbd,frc}
+/g/      {vcd,vel,stp}
+/h/      {glt,apr}
+/i/      {hgh,fnt,unr,vwl}
+/j/      {pal,apr}
+/j/      {vcd,pal,frc}
+/k/      {vls,vel,stp}
+/l/      {vcd,alv,lat}
+/m/      {blb,nas}
+/n/      {alv,nas}
+/o/      {umd,bck,rnd,vwl}
+/p/      {vls,blb,stp}
+/q/      {vls,uvl,stp}
+/r/      {alv,apr}
+/s/      {vls,alv,frc}
+/t/      {vls,alv,stp}
+/u/      {hgh,bck,rnd,vwl}
+/v/      {vcd,lbd,frc}
+/w/      {lbv,apr}
+/w/      {vcd,lbv,frc}
+/x/      {vls,vel,frc}
+/y/      {hgh,fnt,rnd,vwl}
+/z/      {vcd,alv,frc}
+
+/A/      {low,bck,unr,vwl}
+/B/      {vcd,blb,frc}
+/C/      {vls,pal,frc}
+/D/      {vcd,dnt,frc}
+/E/      {lmd,fnt,unr,vwl}
+/G/      {vcd,uvl,stp}
+/H/      {vls,phr,frc}
+/I/      {smh,fnt,unr,vwl}
+/J/      {vcd,pal,stp}
+/L/      {vcd,vel,lat}
+/L/      {vls,alv,lat,frc}
+/M/      {lbd,nas}
+/N/      {vel,nas}
+/O/      {lmd,bck,rnd,vwl}
+/P/      {vls,blb,frc}
+/Q/      {vcd,vel,frc}
+/R/      {mid,cnt,rzd,vwl}
+/R/      {alv,trl}
+/S/      {vls,pla,frc}
+/T/      {vls,dnt,frc}
+/U/      {smh,bck,rnd,vwl}
+/V/      {lmd,bck,unr,vwl}
+/W/      {lmd,fnt,rnd,vwl}
+/X/      {vls,uvl,frc}
+/Y/      {umd,fnt,rnd,vwl}
+/Y/      {lmd,fnt,rnd,vwl}
+/Z/      {vcd,pla,frc}
+
+/?/      {glt,stp}
+/@/      {mid,cnt,unr,vwl}
+/&/      {low,fnt,unr,vwl}
+/*/      {vcd,alv,flp}
+
+# Appendix C : Diacritics
+
+/~/      {nzd} vowel
+/~/      {vzd} consonant
+/:/      {lng}
+/-/      {unr} vowel
+/-/      {syl} consonant
+/!/      {clk}
+/./      {rnd} vowel
+/./      {rfx} consonant
+/`/      {ejc} voiceless
+/`/      {imp} voiced
+/[/      {dnt}
+/;/      {pzd}
+/"/      {cnt} vowel
+/"/      {uvl} consonant
+/^/      {pal}
+
+/<H>/    {fzd}
+/<h>/    {asp}
+#/<o>/   {unx} -- kirshenbaum is unsure and ambiguous about this transcription
+#/<o>/   {vls} -- kirshenbaum is unsure and ambiguous about this transcription
+/<r>/    {rxd}
+/<w>/    {lzd}
+/<?>/    {mrm}
+
+# Appendix E : Segment List
+#
+# NOTE: These can be formed using combinations of the above (segment + diacritics);
+# they are included here for completeness.
+
+/b<trl>/ {blb,trl}
+/b`/     {blb,imp}
+/c!/     {alv,clk}
+/d<lbv>/ {vcd,lbv,stp}
+/d`/     {alv,imp}
+/d[/     {vcd,dnt,stp}
+/d`/     {dnt,imp}
+/d./     {vcd,rfx,stp}
+/g`/     {cel,imp}
+/g"/     {vcd,uvl,frc}
+/g"/     {uvl,apr}
+/h<?>/   {mrm,glt,frc}
+/i"/     {hgh,cnt,unr,vwl}
+/j<rnd>/ {rnd,pal,apr}
+/j<vel>/ {vel,apr}
+/k'/     {vel,ejc}             -- typo in Kirshenbaum (should this be /k`/ instead)?
+/k!/     {vel,clk}
+/l[/     {dnt,lat}
+/l./     {rfx,lat}
+/l^/     {pal,lat}
+/l!/     {lat,clk}
+/n<lbv>/ {lbv,nas}
+/n[/     {dnt,nas}
+/n./     {rfx,nas}
+/n^/     {pal,nas}
+/n"/     {uvl,nas}
+/o-/     {umd,bck,unr,vwl}
+/p`/     {blb,ejc}
+/p!/     {blb,clk}
+/q`/     {vls,uvl,imp}
+/r<lbd>/ {lbd,apr}
+/r<trl>/ {alv,trl}
+/r[/     {dnt,apr}
+/r./     {rfx,apr}
+/r"/     {uvl,trl}
+/s<lat>/ {vls,alv,lat,frc}
+/s./     {vls,rfx,frc}
+/t<lbv>/ {vls,lbv,stp}
+/t`/     {alv,ejc}
+/t[/     {vls,dnt,stp}
+/t[`/    {dnt,ejc}
+/t!/     {dnt,clk}
+/t./     {vls,rfx,stp}
+/u"/     {hgh,cnt,rnd,vwl}
+/u-/     {hgh,bck,unr,vwl}
+/w<vls>/ {vls,lbv,frc}
+/z<lat>/ {vcd,alv,lat,frc}
+/z./     {vcd,rfx,frc}
+
+/A./     {low,bck,rnd,vwl}
+/C<vcd>/ {vcd,pal,frc}
+/G`/     {vcd,uvl,imp}
+/H<vcd>/ {vcd,phr,frc}
+/I./     {smh,fnt,rnd,vwl}
+/J`/     {pal,imp}
+/O"/     {lmd,cnt,rnd,vwl}
+/R<umd>/ {umd,cnt,unr,vwl,rzd}
+/V"/     {lmd,cnt,unr,vwl}
+
+/*<lat>/ {vcd,lat,flp}
+/*./     {rfx,flp}
+/&./     {low,fnt,rnd,vwl}
+/@<umd>/ {umd,cnt,unr,vwl}
+/@./     {mid,cnt,rnd,vwl}
