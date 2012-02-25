@@ -4,7 +4,7 @@ import sys
 import os
 import re
 
-features = { # From [ASCII-IPA | Appendix A] ...
+features = {
 	'alv': 'alveolar',
 	'apr': 'approximant',
 	'asp': 'aspirated',
@@ -12,7 +12,6 @@ features = { # From [ASCII-IPA | Appendix A] ...
 	'blb': 'bilabial',
 	'clk': 'click',
 	'cnt': 'center',
-	'ctl': 'central', # not referenced outside the feature list
 	'dnt': 'dental',
 	'ejc': 'ejective',
 	'flp': 'flap',
@@ -33,7 +32,6 @@ features = { # From [ASCII-IPA | Appendix A] ...
 	'mrm': 'murmured',
 	'nas': 'nasal',
 	'nzd': 'nasalized',
-	'orl': 'oral', # not referenced outside the feature list
 	'pal': 'palatal',
 	'phr': 'pharyngeal',
 	'pla': 'palato-alveolar',
@@ -47,7 +45,6 @@ features = { # From [ASCII-IPA | Appendix A] ...
 	'trl': 'trill',
 	'umd': 'upper-mid',
 	'unr': 'unrounded',
-	'unx': 'unexploded',
 	'uvl': 'uvular',
 	'vcd': 'voiced',
 	'vel': 'velar',
