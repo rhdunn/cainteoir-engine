@@ -53,6 +53,19 @@ features = {
 	'vzd': 'velarized',
 }
 
+annotations = [ # extra features, properties and modifiers
+	'asp',
+	'fzd',
+	'lng',
+	'lzd',
+	'mrm',
+	'nzd',
+	'pzd',
+	'smv',
+	'unx',
+	'vzd',
+]
+
 ##### Consonant Table Features ...
 
 place_of_articulation = [
@@ -160,9 +173,9 @@ scheme = load_scheme(sys.argv[1])
 ##### HTML-Based IPA Table Generation ...
 
 def lookup_transcription(scheme, codes):
-	x = '|'.join(sorted(codes))
+	x = '|'.join(sorted([f for f in codes if not f in annotations]))
 	for phoneme, featureset in scheme:
-		y = '|'.join(sorted(featureset))
+		y = '|'.join(sorted([f for f in featureset if not f in annotations]))
 		if x == y:
 			return phoneme
 	return None
