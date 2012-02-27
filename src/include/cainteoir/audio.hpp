@@ -23,7 +23,7 @@
 
 #include "metadata.hpp"
 #include <stdint.h>
-#include <tr1/memory>
+#include <memory>
 #include <string>
 #include <list>
 
@@ -75,7 +75,7 @@ namespace cainteoir
 
 	void supportedAudioFormats(rdf::graph &metadata);
 
-	std::tr1::shared_ptr<audio>
+	std::shared_ptr<audio>
 	create_audio_file(
 		const char *filename,
 		const char *type,
@@ -85,7 +85,7 @@ namespace cainteoir
 		const rdf::graph &aVoiceMetadata,
 		const rdf::uri &aVoice);
 
-	std::tr1::shared_ptr<audio>
+	std::shared_ptr<audio>
 	open_audio_device(
 		const char *device,
 		const char *type,

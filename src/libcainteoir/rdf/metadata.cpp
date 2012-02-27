@@ -114,7 +114,7 @@ rdf::graph &rdf::graph::add_prefix(const std::string &aPrefix)
 	return *this;
 }
 
-std::tr1::shared_ptr<const rdf::uri>
+std::shared_ptr<const rdf::uri>
 rdf::graph::curie(const std::string &aCurie)
 {
 	std::string uri;
@@ -126,17 +126,17 @@ rdf::graph::curie(const std::string &aCurie)
 		std::string ref = aCurie.substr(index+1);
 
 		if (prefix == "_")
-			return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(std::string(), ref));
+			return std::shared_ptr<const rdf::uri>(new rdf::uri(std::string(), ref));
 
 		std::string ns = lookup(prefix);
 		if (ns.empty())
-			return std::tr1::shared_ptr<const rdf::uri>();
+			return std::shared_ptr<const rdf::uri>();
 
 		uri = ns + ref;
 	}
 	else
 		uri = mBaseUri + aCurie;
-	return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(href(uri)));
+	return std::shared_ptr<const rdf::uri>(new rdf::uri(href(uri)));
 }
 
 const cainteoir::xml::resource *rdf::literal::clone() const
@@ -178,9 +178,9 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.ns.empty())
 		namespaces.insert(aObject.ns);
 
-	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
+	push_back(std::shared_ptr<const triple>(new triple(std::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
 	                                                        aPredicate,
-	                                                        std::tr1::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
+	                                                        std::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
 	return true;
 }
 
@@ -197,8 +197,8 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.type.ns.empty())
 		namespaces.insert(aObject.type.ns);
 
-	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
+	push_back(std::shared_ptr<const triple>(new triple(std::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
 	                                                        aPredicate,
-	                                                        std::tr1::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
+	                                                        std::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
 	return true;
 }

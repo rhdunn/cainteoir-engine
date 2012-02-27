@@ -51,7 +51,7 @@ static const std::initializer_list<const xml::context::entry_ref> ocf_attrs =
 	{ "media-type", &ocf::mediatype_attr },
 };
 
-cainteoir::ocf_reader::ocf_reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
+cainteoir::ocf_reader::ocf_reader(std::shared_ptr<cainteoir::buffer> aData)
 	: mReader(aData)
 {
 	mReader.set_nodes(xmlns::ocf, ocf_nodes);

@@ -368,14 +368,14 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		{
 			events.begin_context(cainteoir::events::list_item);
 			if (list_ctx->parameter == cainteoir::events::bullet)
-				events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("\xE2\x80\xA2 ")));
+				events.text(std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("\xE2\x80\xA2 ")));
 			else
 			{
 				char text[100];
 				int len = snprintf(text, sizeof(text), "%d. ", number);
 				text[len] = '\0';
 
-				std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(len));
+				std::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(len));
 				strcpy((char *)data->begin(), text);
 				events.text(data);
 
@@ -386,7 +386,7 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
+			std::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
 			if (text)
 				events.text(text);
 		}
@@ -424,7 +424,7 @@ void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
+			std::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
 			if (text)
 				events.text(text);
 		}
@@ -474,7 +474,7 @@ void cainteoir::parseXHtmlDocument(xml::reader &reader, const rdf::uri &aSubject
 	parseHtmlNode(reader, aSubject, events, aGraph);
 }
 
-void cainteoir::parseHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void cainteoir::parseHtmlDocument(std::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	xml::reader reader(data, xml::html_entities);
 	reader.set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);

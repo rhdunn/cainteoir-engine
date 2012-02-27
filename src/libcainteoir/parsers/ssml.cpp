@@ -94,7 +94,7 @@ void parseSsmlContext(xml::reader &reader, const rdf::uri &aSubject, cainteoir::
 				events.begin_context((cainteoir::events::context)emphasis->context, emphasis->parameter);
 				emphasis = NULL;
 			}
-			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
+			std::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
 			if (text)
 				events.text(text);
 		}
@@ -151,7 +151,7 @@ void cainteoir::parseSsmlDocument(xml::reader &reader, const rdf::uri &aSubject,
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
+			std::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
 			if (text)
 				events.text(text);
 		}

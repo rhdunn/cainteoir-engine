@@ -43,7 +43,7 @@ struct iconv_decoder : public cainteoir::decoder
 			iconv_close(cvt);
 	}
 
-	std::tr1::shared_ptr<cainteoir::buffer> decode(const cainteoir::buffer &data) const
+	std::shared_ptr<cainteoir::buffer> decode(const cainteoir::buffer &data) const
 	{
 		cainteoir::rope ret;
 
@@ -61,7 +61,7 @@ struct iconv_decoder : public cainteoir::decoder
 
 			if (outlen != sizeof(buffer))
 			{
-				std::tr1::shared_ptr<cainteoir::buffer> fiber(new cainteoir::data_buffer(sizeof(buffer) - outlen));
+				std::shared_ptr<cainteoir::buffer> fiber(new cainteoir::data_buffer(sizeof(buffer) - outlen));
 				memcpy((void *)fiber->begin(), buffer, sizeof(buffer) - outlen);
 				ret += fiber;
 			}
@@ -143,5 +143,5 @@ void cainteoir::encoding::set_encoding(int aCodepage)
 
 void cainteoir::encoding::set_encoding(const char *aEncoding)
 {
-	mDecoder = std::tr1::shared_ptr<cainteoir::decoder>(new iconv_decoder(aEncoding));
+	mDecoder = std::shared_ptr<cainteoir::decoder>(new iconv_decoder(aEncoding));
 }

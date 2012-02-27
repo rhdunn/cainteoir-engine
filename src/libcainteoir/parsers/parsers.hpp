@@ -25,7 +25,7 @@
 #include <list>
 #include <map>
 
-bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const cainteoir::rdf::uri &subject, cainteoir::document_events &events, cainteoir::rdf::graph &aGraph, bool includeMimetypeMetadata);
+bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const cainteoir::rdf::uri &subject, cainteoir::document_events &events, cainteoir::rdf::graph &aGraph, bool includeMimetypeMetadata);
 
 namespace cainteoir
 {
@@ -36,7 +36,7 @@ namespace cainteoir
 	class ocf_reader
 	{
 	public:
-		ocf_reader(std::tr1::shared_ptr<cainteoir::buffer> aData);
+		ocf_reader(std::shared_ptr<cainteoir::buffer> aData);
 
 		bool read();
 
@@ -111,7 +111,7 @@ namespace cainteoir
 	  * @param aSubject The base to use for any relative URIs.
 	  * @param events   The events callback to handle document events.
 	  */
-	void parseEpubDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	void parseEpubDocument(std::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 
 	/** @brief HTML
 	  *
@@ -119,7 +119,7 @@ namespace cainteoir
 	  * @param aSubject The base to use for any relative URIs.
 	  * @param events   The events callback to handle document events.
 	  */
-	void parseHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
+	void parseHtmlDocument(std::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
 
 	/** @brief RTF
 	  *
@@ -127,7 +127,7 @@ namespace cainteoir
 	  * @param aSubject The base to use for any relative URIs.
 	  * @param events   The events callback to handle document events.
 	  */
-	void parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	void parseRtfDocument(std::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
 }
 
 #endif

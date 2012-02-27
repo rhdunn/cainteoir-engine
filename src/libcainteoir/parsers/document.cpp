@@ -69,7 +69,7 @@ static const ParseDocument doc_handlers[] = {
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
 
-std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
+std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 {
 	cainteoir::rope data;
 	char buffer[1024];
@@ -77,7 +77,7 @@ std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 	size_t read;
 	while ((read = fread(buffer, 1, sizeof(buffer), stdin)) != 0)
 	{
-		std::tr1::shared_ptr<cainteoir::buffer> fiber(new cainteoir::data_buffer(read));
+		std::shared_ptr<cainteoir::buffer> fiber(new cainteoir::data_buffer(read));
 		memcpy((void *)fiber->begin(), buffer, read);
 		data += fiber;
 	}
@@ -92,7 +92,7 @@ inline bool is_mime_header_char(char c)
 
 struct mime_headers : public cainteoir::buffer
 {
-	std::tr1::shared_ptr<cainteoir::buffer> mOriginal;
+	std::shared_ptr<cainteoir::buffer> mOriginal;
 	std::string encoding;
 	std::string mimetype;
 
@@ -217,7 +217,7 @@ struct mime_headers : public cainteoir::buffer
 		return false;
 	}
 
-	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+	mime_headers(std::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 		: cainteoir::buffer(*data)
 		, mOriginal(data)
 		, encoding("8bit")
@@ -262,7 +262,7 @@ struct mime_headers : public cainteoir::buffer
 	}
 };
 
-bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph, bool includeMimetypeMetadata)
+bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph, bool includeMimetypeMetadata)
 {
 	// Encoded documents ...
 
@@ -270,7 +270,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 	{
 		if (decode->mimetype->match(data))
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> decompressed = decode->decoder(*data, 0);
+			std::shared_ptr<cainteoir::buffer> decompressed = decode->decoder(*data, 0);
 			return parseDocumentBuffer(decompressed, subject, events, aGraph, includeMimetypeMetadata);
 		}
 	}
@@ -313,9 +313,9 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 
 	if (mime::email.match(data) || mime::mime.match(data))
 	{
-		std::tr1::shared_ptr<mime_headers> mime(new mime_headers(data, subject, events, aGraph));
+		std::shared_ptr<mime_headers> mime(new mime_headers(data, subject, events, aGraph));
 
-		std::tr1::shared_ptr<cainteoir::buffer> decoded;
+		std::shared_ptr<cainteoir::buffer> decoded;
 		if (mime->encoding == "quoted-printable")
 			decoded = cainteoir::decode_quoted_printable(*mime, 0);
 		else if (mime->encoding == "base64")
@@ -402,9 +402,9 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 {
 	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
 
-	std::tr1::shared_ptr<cainteoir::buffer> data;
+	std::shared_ptr<cainteoir::buffer> data;
 	if (aFilename)
-		data = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename));
+		data = std::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename));
 	else
 		data = buffer_from_stdin();
 

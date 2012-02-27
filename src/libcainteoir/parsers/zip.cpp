@@ -64,7 +64,7 @@ static const cainteoir::decoder_ptr zip_compression[] = {
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
 
-cainteoir::zip::archive::archive(std::tr1::shared_ptr<cainteoir::buffer> aData)
+cainteoir::zip::archive::archive(std::shared_ptr<cainteoir::buffer> aData)
 {
 	const zip_header * hdr = (const zip_header *)aData->begin();
 	while ((const char *)hdr < aData->end() && hdr->magic == ZIP_HEADER_MAGIC)
@@ -77,11 +77,11 @@ cainteoir::zip::archive::archive(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	}
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char *aFilename)
+std::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char *aFilename)
 {
 	const zip_header * hdr = (const zip_header *)((*this)[aFilename]);
 	if (!hdr)
-		return std::tr1::shared_ptr<cainteoir::buffer>();
+		return std::shared_ptr<cainteoir::buffer>();
 
 	if (hdr->compression_type >= countof(zip_compression) || zip_compression[hdr->compression_type] == NULL)
 		throw std::runtime_error(_("decompression failed (unsupported compression type)"));

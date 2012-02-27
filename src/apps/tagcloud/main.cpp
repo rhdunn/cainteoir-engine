@@ -113,7 +113,7 @@ std::string normalise(const std::string & word)
 
 struct cloud : public cainteoir::document_events
 {
-	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
+	void text(std::shared_ptr<cainteoir::buffer> aText)
 	{
 		std::istringstream ss(aText->str());
 

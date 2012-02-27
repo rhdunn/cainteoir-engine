@@ -84,7 +84,7 @@ void write_utf8(char * out, long c)
 	*out = '\0';
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity, const cainteoir::xml::entity_set **entities, const std::map<std::string, std::string> &doctypeEntities)
+std::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity, const cainteoir::xml::entity_set **entities, const std::map<std::string, std::string> &doctypeEntities)
 {
 	const char * str = entity.begin();
 	if (*str == '#')
@@ -97,7 +97,7 @@ std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &en
 
 		if (utf8[0])
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(strlen(utf8)));
+			std::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(strlen(utf8)));
 			strcpy((char *)data->begin(), utf8);
 			return data;
 		}
@@ -107,18 +107,18 @@ std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &en
 		auto match = doctypeEntities.find(entity.str());
 		if (match != doctypeEntities.end())
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(match->second.size()));
+			std::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(match->second.size()));
 			strcpy((char *)data->begin(), match->second.c_str());
 			return data;
 		}
 
 		const char * value = cainteoir::xml::lookup_entity(entities, entity);
 		if (value)
-			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(value));
+			return std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(value));
 	}
 
 	fprintf(stderr, _("unrecognised entity '%s'\n"), entity.str().c_str());
-	return std::tr1::shared_ptr<cainteoir::buffer>();
+	return std::shared_ptr<cainteoir::buffer>();
 }
 
 inline bool xmlalnum(char c)
@@ -260,7 +260,7 @@ const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std:
 	return &unknown_context;
 }
 
-cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52])
+cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52])
 	: mData(aData)
 	, mTagNodeName(NULL, NULL)
 	, mTagNodePrefix(NULL, NULL)
@@ -308,7 +308,7 @@ bool cainteoir::xml::reader::read()
 	if (mState.state == ParsingText)
 	{
 		mNodeType = textNode;
-		mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mState.current, mData->end()));
+		mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mState.current, mData->end()));
 		mState.current = mData->end();
 		return true;
 	}
@@ -352,10 +352,10 @@ bool cainteoir::xml::reader::read()
 					++mState.current;
 				}
 				else // HTML§12.1.2.3 -- unquoted attribute value
-					mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(identifier()));
+					mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(identifier()));
 			}
 			else // HTML§12.1.2.3 -- empty attribute
-				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mState.nodeName));
+				mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mState.nodeName));
 			return true;
 		}
 
@@ -389,7 +389,7 @@ bool cainteoir::xml::reader::read()
 				startPos = ++mState.current;
 				while (mState.current != mData->end() && !(mState.current[0] == '-' && mState.current[1] == '-' && mState.current[2] == '>'))
 					++mState.current;
-				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
+				mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
 				mState.current += 3;
 			}
 			else if (mState.current[1] == '[' && mState.current[2] == 'C' && mState.current[3] == 'D' && mState.current[4] == 'A' &&
@@ -400,7 +400,7 @@ bool cainteoir::xml::reader::read()
 				startPos = mState.current;
 				while (mState.current != mData->end() && !(mState.current[0] == ']' && mState.current[1] == ']' && mState.current[2] == '>'))
 					++mState.current;
-				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
+				mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
 				mState.current += 3;
 			}
 			else // DTD
@@ -479,7 +479,7 @@ bool cainteoir::xml::reader::read()
 			startPos = ++mState.current;
 			while (mState.current != mData->end() && (mState.current[0] != '?' && mState.current[1] != '>'))
 				++mState.current;
-			mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
+			mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
 			++mState.current;
 			++mState.current;
 			break;
@@ -608,7 +608,7 @@ void cainteoir::xml::reader::read_node_value(char terminator1, char terminator2)
 
 			if (*mState.current == ';')
 			{
-				std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mState.current), mPredefinedEntities, mDoctypeEntities);
+				std::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mState.current), mPredefinedEntities, mDoctypeEntities);
 				if (entity)
 					mNodeValue += entity;
 				++mState.current;
@@ -618,7 +618,7 @@ void cainteoir::xml::reader::read_node_value(char terminator1, char terminator2)
 
 		while (mState.current != mData->end() && !(*mState.current == '&' || *mState.current == terminator1 || *mState.current == terminator2))
 			++mState.current;
-		mNodeValue += std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
+		mNodeValue += std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
 	} while (mState.current != mData->end() && !(*mState.current == terminator1 || *mState.current == terminator2));
 }
 

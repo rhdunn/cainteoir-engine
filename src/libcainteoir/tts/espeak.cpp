@@ -188,7 +188,7 @@ public:
 		espeak_Synchronize();
 	}
 
-	std::tr1::shared_ptr<tts::parameter>
+	std::shared_ptr<tts::parameter>
 	parameter(tts::parameter::type aType)
 	{
 		switch (aType)
@@ -198,17 +198,17 @@ public:
 		case tts::parameter::pitch:       return mPitch;
 		case tts::parameter::pitch_range: return mPitchRange;
 		case tts::parameter::word_gap:    return mWordGap;
-		default:                          return std::tr1::shared_ptr<tts::parameter>();
+		default:                          return std::shared_ptr<tts::parameter>();
 		}
 	}
 
 	//@}
 private:
-	std::tr1::shared_ptr<tts::parameter> mRate;
-	std::tr1::shared_ptr<tts::parameter> mVolume;
-	std::tr1::shared_ptr<tts::parameter> mPitch;
-	std::tr1::shared_ptr<tts::parameter> mPitchRange;
-	std::tr1::shared_ptr<tts::parameter> mWordGap;
+	std::shared_ptr<tts::parameter> mRate;
+	std::shared_ptr<tts::parameter> mVolume;
+	std::shared_ptr<tts::parameter> mPitch;
+	std::shared_ptr<tts::parameter> mPitchRange;
+	std::shared_ptr<tts::parameter> mWordGap;
 };
 
 tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)

@@ -29,9 +29,9 @@ namespace cainteoir { namespace zip
 	class archive : public std::map<std::string, const void *>
 	{
 	public:
-		archive(std::tr1::shared_ptr<cainteoir::buffer> aData);
+		archive(std::shared_ptr<cainteoir::buffer> aData);
 
-		std::tr1::shared_ptr<cainteoir::buffer> read(const char *aFilename);
+		std::shared_ptr<cainteoir::buffer> read(const char *aFilename);
 	};
 }}
 

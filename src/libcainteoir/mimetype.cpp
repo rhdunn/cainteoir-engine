@@ -85,7 +85,7 @@ struct matchlet
 		return *this;
 	}
 
-	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
+	bool match(const std::shared_ptr<cainteoir::buffer> &data) const
 	{
 		std::string::size_type pattern_length = pattern.size();
 		const char *begin = data->begin() + offset;
@@ -113,7 +113,7 @@ struct magic : public std::vector<matchlet>
 	{
 	}
 
-	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
+	bool match(const std::shared_ptr<cainteoir::buffer> &data) const
 	{
 		foreach_iter (matchlet, *this)
 		{
@@ -329,7 +329,7 @@ struct mimetype_database : public std::map<std::string, mime_info>
 		{
 			std::map<std::string, std::string> comments;
 
-			std::tr1::shared_ptr<cainteoir::buffer> mimeinfo(new cainteoir::mmap_buffer(filename.c_str()));
+			std::shared_ptr<cainteoir::buffer> mimeinfo(new cainteoir::mmap_buffer(filename.c_str()));
 			xml::reader reader(mimeinfo);
 
 			bool in_comment = false;
@@ -409,7 +409,7 @@ struct mimetype_database : public std::map<std::string, mime_info>
 
 mimetype_database mimetypes;
 
-bool cainteoir::mime::mimetype::match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
+bool cainteoir::mime::mimetype::match(const std::shared_ptr<cainteoir::buffer> &data) const
 {
 	const mime_info *mime = (const mime_info *)info;
 	foreach_iter (magic, mime->magic)

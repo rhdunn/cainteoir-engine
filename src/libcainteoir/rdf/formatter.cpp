@@ -81,7 +81,7 @@ public:
 		return *this;
 	}
 
-	rdf::formatter &operator<<(const std::tr1::shared_ptr<const rdf::triple> &statement)
+	rdf::formatter &operator<<(const std::shared_ptr<const rdf::triple> &statement)
 	{
 		{
 			const rdf::uri *uri = rdf::query::subject(statement);
@@ -131,7 +131,7 @@ private:
 	std::map<std::string, std::string> namespaces;
 };
 
-std::tr1::shared_ptr<rdf::formatter> rdf::create_formatter(std::ostream &aStream, rdf::formatter::format_type aFormatType)
+std::shared_ptr<rdf::formatter> rdf::create_formatter(std::ostream &aStream, rdf::formatter::format_type aFormatType)
 {
-	return std::tr1::shared_ptr<rdf::formatter>(new ::n3_formatter(aStream, aFormatType));
+	return std::shared_ptr<rdf::formatter>(new ::n3_formatter(aStream, aFormatType));
 }

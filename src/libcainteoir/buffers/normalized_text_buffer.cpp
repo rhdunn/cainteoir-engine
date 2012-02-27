@@ -50,7 +50,7 @@ cainteoir::normalized_text_buffer::normalized_text_buffer(const char *f, const c
 		normalize(f, l);
 }
 
-cainteoir::normalized_text_buffer::normalized_text_buffer(const std::tr1::shared_ptr<cainteoir::buffer> &str)
+cainteoir::normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &str)
 	: buffer(NULL, NULL)
 {
 	normalize(str->begin(), str->end());

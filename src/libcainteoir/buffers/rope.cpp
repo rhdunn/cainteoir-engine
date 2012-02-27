@@ -26,25 +26,25 @@ void cainteoir::rope::clear()
 	len = 0;
 }
 
-cainteoir::rope &cainteoir::rope::operator=(const std::tr1::shared_ptr<cainteoir::buffer> &item)
+cainteoir::rope &cainteoir::rope::operator=(const std::shared_ptr<cainteoir::buffer> &item)
 {
 	clear();
 	return *this += item;
 }
 
-cainteoir::rope &cainteoir::rope::operator+=(const std::tr1::shared_ptr<cainteoir::buffer> &item)
+cainteoir::rope &cainteoir::rope::operator+=(const std::shared_ptr<cainteoir::buffer> &item)
 {
 	data.push_back(item);
 	len += item->size();
 	return *this;
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::rope::buffer() const
+std::shared_ptr<cainteoir::buffer> cainteoir::rope::buffer() const
 {
 	if (data.size() == 0)
-		return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(NULL, NULL));
+		return std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(NULL, NULL));
 
-	std::tr1::shared_ptr<cainteoir::buffer> temp(new cainteoir::data_buffer(len));
+	std::shared_ptr<cainteoir::buffer> temp(new cainteoir::data_buffer(len));
 	char * startPos = (char *)temp->begin();
 	for (auto node = data.begin(), last = data.end(); node != last; ++node)
 	{
@@ -56,14 +56,14 @@ std::tr1::shared_ptr<cainteoir::buffer> cainteoir::rope::buffer() const
 	return temp;
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::rope::content() const
+std::shared_ptr<cainteoir::buffer> cainteoir::rope::content() const
 {
-	std::tr1::shared_ptr<cainteoir::buffer> text = buffer();
+	std::shared_ptr<cainteoir::buffer> text = buffer();
 
 	const char * str = text->begin();
 	const char * end = text->end();
 	while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
 		++str;
 
-	return (str == end) ? std::tr1::shared_ptr<cainteoir::buffer>() : text;
+	return (str == end) ? std::shared_ptr<cainteoir::buffer>() : text;
 }

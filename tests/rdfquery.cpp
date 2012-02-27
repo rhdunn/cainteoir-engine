@@ -64,12 +64,12 @@ struct rdfdoc : public rdf::graph, public cainteoir::document_events
 	}
 };
 
-bool select_all(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
+bool select_all(const std::shared_ptr<const rdf::triple> &aStatement)
 {
 	return true;
 }
 
-bool select_none(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
+bool select_none(const std::shared_ptr<const rdf::triple> &aStatement)
 {
 	return false;
 }

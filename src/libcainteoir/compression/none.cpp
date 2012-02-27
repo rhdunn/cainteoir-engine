@@ -20,9 +20,9 @@
 
 #include <cainteoir/buffer.hpp>
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::copy(const cainteoir::buffer &compressed, uint32_t uncompressed)
+std::shared_ptr<cainteoir::buffer> cainteoir::copy(const cainteoir::buffer &compressed, uint32_t uncompressed)
 {
-	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(compressed.size()));
+	std::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(compressed.size()));
 	memcpy((char *)data->begin(), compressed.begin(), compressed.size());
 	return data;
 }

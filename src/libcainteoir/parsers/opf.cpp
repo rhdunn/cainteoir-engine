@@ -170,7 +170,7 @@ void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, cainteoir::docu
 	case xml::reader::attribute:
 		if (reader.context() == &opf::name_attr)
 		{
-			std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
+			std::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
 			if (uri.get() && !uri->ns.empty())
 				name = *uri;
 		}
@@ -178,7 +178,7 @@ void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, cainteoir::docu
 			content = reader.nodeValue().str();
 		else if (reader.context() == &opf::property_attr)
 		{
-			std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
+			std::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
 			if (uri.get() && !uri->ns.empty())
 			{
 				property = *uri;
@@ -192,7 +192,7 @@ void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, cainteoir::docu
 			about = rdf::uri(aSubject.str(), reader.nodeValue().str().substr(1));
 		else if (reader.context() == &opf::datatype_attr || reader.context() == &opf::scheme_attr)
 		{
-			std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
+			std::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
 			if (uri.get() && !uri->ns.empty())
 				datatype = *uri;
 		}
@@ -251,7 +251,7 @@ void parseOpfLink(xml::reader &reader, const rdf::uri &aSubject, cainteoir::docu
 				std::istringstream ss(rel);
 				while (ss >> rel)
 				{
-					std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(rel);
+					std::shared_ptr<const rdf::uri> uri = aGraph.curie(rel);
 					if (uri.get() && !uri->ns.empty())
 					{
 						if (!id.empty())

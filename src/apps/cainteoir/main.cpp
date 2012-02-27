@@ -234,7 +234,7 @@ struct document : public cainteoir::document_events
 	{
 	}
 
-	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
+	void metadata(const std::shared_ptr<const rdf::triple> &aStatement)
 	{
 		m_metadata.push_back(aStatement);
 
@@ -247,7 +247,7 @@ struct document : public cainteoir::document_events
 		return m_metadata.genid();
 	}
 
-	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
+	void text(std::shared_ptr<cainteoir::buffer> aText)
 	{
 		m_doc->add(aText);
 	}
@@ -293,7 +293,7 @@ struct document : public cainteoir::document_events
 
 	const rdf::uri subject;
 	rdf::graph m_metadata;
-	std::tr1::shared_ptr<cainteoir::document> m_doc;
+	std::shared_ptr<cainteoir::document> m_doc;
 	cainteoir::tts::engines tts;
 	bool voiceSelected;
 	actions action;
@@ -493,7 +493,7 @@ int main(int argc, char ** argv)
 			}
 		}
 
-		std::tr1::shared_ptr<cainteoir::audio> out;
+		std::shared_ptr<cainteoir::audio> out;
 		const char *state;
 		bool show_progress = true;
 		if (outformat || outfile)
@@ -538,7 +538,7 @@ int main(int argc, char ** argv)
 		}
 
 		cainteoir::document::range_type selection = doc.selection();
-		std::tr1::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out, selection.first, selection.second);
+		std::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out, selection.first, selection.second);
 		while (speech->is_speaking())
 		{
 			if (show_progress)

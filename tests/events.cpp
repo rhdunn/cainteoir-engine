@@ -36,7 +36,7 @@ struct event_printer : public cainteoir::document_events
 	{
 	}
 
-	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
+	void text(std::shared_ptr<cainteoir::buffer> aText)
 	{
 		if (!mTextOnly)
 			fprintf(stdout, "text(%zu): \"\"\"", aText->size());

@@ -147,7 +147,7 @@ namespace cainteoir { namespace xml
 
 		namespaces &add_namespace(const std::string &aPrefix, const std::string &aHref);
 
-		namespaces &add_namespace(const cainteoir::buffer &aPrefix, const std::tr1::shared_ptr<cainteoir::buffer> &aHref)
+		namespaces &add_namespace(const cainteoir::buffer &aPrefix, const std::shared_ptr<cainteoir::buffer> &aHref)
 		{
 			return add_namespace(aPrefix.str(), aHref->str());
 		}
@@ -305,7 +305,7 @@ namespace cainteoir { namespace xml
 			dtdEntity,
 		};
 
-		reader(std::tr1::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52] = xml_entities);
+		reader(std::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52] = xml_entities);
 
 		void set_predefined_entities(const entity_set *aPredefinedEntities[52]) { mPredefinedEntities = aPredefinedEntities; }
 
@@ -364,7 +364,7 @@ namespace cainteoir { namespace xml
 			}
 		};
 
-		std::tr1::shared_ptr<cainteoir::buffer> mData;
+		std::shared_ptr<cainteoir::buffer> mData;
 		ParserContext mState;
 		ParserContext mSavedState;
 		bool mImplicitEndTag;

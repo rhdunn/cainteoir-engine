@@ -120,12 +120,12 @@ TEST_CASE("rdf::href")
 	test_uri(g.href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
 }
 
-void test_bnode(const std::tr1::shared_ptr<const xml::resource> &node, const std::string &id)
+void test_bnode(const std::shared_ptr<const xml::resource> &node, const std::string &id)
 {
 	test_bnode(*node, id);
 }
 
-void test_uri(const std::tr1::shared_ptr<const xml::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
+void test_uri(const std::shared_ptr<const xml::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	test_uri(*node, value, ns, ref);
 }
@@ -332,7 +332,7 @@ void test_item(const xml::resource &a, const rdf::literal &b)
 }
 
 template<typename Subject, typename Object>
-void test_statement(const std::tr1::shared_ptr<const rdf::triple> &s, const Subject &subject, const rdf::uri &predicate, const Object &object)
+void test_statement(const std::shared_ptr<const rdf::triple> &s, const Subject &subject, const rdf::uri &predicate, const Object &object)
 {
 	test_item(*s->subject, subject);
 	test_item(s->predicate, predicate);
