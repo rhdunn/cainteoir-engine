@@ -358,8 +358,8 @@ namespace cainteoir { namespace xml
 			ParserContext(ParserState aState, const char *aCurrent)
 				: state(aState)
 				, current(aCurrent)
-				, nodeName(NULL, NULL)
-				, nodePrefix(NULL, NULL)
+				, nodeName(nullptr, nullptr)
+				, nodePrefix(nullptr, nullptr)
 			{
 			}
 		};

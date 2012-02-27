@@ -63,7 +63,7 @@ static const std::initializer_list<const xml::context::entry_ref> ssml_attrs =
 
 void parseSsmlContext(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph, const xml::context::entry *ctx)
 {
-	const xml::context::entry *emphasis = NULL;
+	const xml::context::entry *emphasis = nullptr;
 	if (ctx == &ssml::emphasis_node)
 		emphasis = ctx;
 	else
@@ -74,7 +74,7 @@ void parseSsmlContext(xml::reader &reader, const rdf::uri &aSubject, cainteoir::
 	case xml::reader::attribute:
 		if (ctx == &ssml::emphasis_node)
 		{
-			if (reader.context() == &ssml::level_attr && emphasis != NULL)
+			if (reader.context() == &ssml::level_attr && emphasis != nullptr)
 			{
 				std::string value = reader.nodeValue().str();
 				if (value == "strong")
@@ -89,10 +89,10 @@ void parseSsmlContext(xml::reader &reader, const rdf::uri &aSubject, cainteoir::
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		{
-			if (emphasis != NULL)
+			if (emphasis != nullptr)
 			{
 				events.begin_context((cainteoir::events::context)emphasis->context, emphasis->parameter);
-				emphasis = NULL;
+				emphasis = nullptr;
 			}
 			std::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
 			if (text)
@@ -100,7 +100,7 @@ void parseSsmlContext(xml::reader &reader, const rdf::uri &aSubject, cainteoir::
 		}
 		break;
 	case xml::reader::endTagNode:
-		if (reader.context() == ctx && emphasis == NULL)
+		if (reader.context() == ctx && emphasis == nullptr)
 		{
 			events.end_context();
 			return;
@@ -109,10 +109,10 @@ void parseSsmlContext(xml::reader &reader, const rdf::uri &aSubject, cainteoir::
 	case xml::reader::beginTagNode:
 		if (reader.context()->context != cainteoir::events::unknown)
 		{
-			if (emphasis != NULL)
+			if (emphasis != nullptr)
 			{
 				events.begin_context((cainteoir::events::context)emphasis->context, emphasis->parameter);
-				emphasis = NULL;
+				emphasis = nullptr;
 			}
 			parseSsmlContext(reader, aSubject, events, aGraph, reader.context());
 		}

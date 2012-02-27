@@ -181,7 +181,7 @@ class ogg_audio : public cainteoir::audio
 
 		while (vorbis_analysis_blockout(&vd, &vb) == 1)
 		{
-			vorbis_analysis(&vb, NULL);
+			vorbis_analysis(&vb, nullptr);
 			vorbis_bitrate_addblock(&vb);
 
 			while (vorbis_bitrate_flushpacket(&vd, &op))
@@ -214,7 +214,7 @@ public:
 		vorbis_analysis_init(&vd, &vi);
 		vorbis_block_init(&vd, &vb);
 
-		srand(time(NULL));
+		srand(time(nullptr));
 		ogg_stream_init(&os, rand());
 	}
 
@@ -260,7 +260,7 @@ public:
 
 		if (m_file != stdout)
 			fclose(m_file);
-		m_file = NULL;
+		m_file = nullptr;
 	}
 
 	uint32_t write(const char *data, uint32_t len)

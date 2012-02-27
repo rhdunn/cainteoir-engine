@@ -48,18 +48,18 @@ struct zip_header
 
 static const std::initializer_list<cainteoir::decoder_ptr> zip_compression = {
 	&cainteoir::copy, // 0 - uncompressed
-	NULL, // 1
-	NULL, // 2
-	NULL, // 3
-	NULL, // 4
-	NULL, // 5
-	NULL, // 6 - imploded
-	NULL, // 7
+	nullptr, // 1
+	nullptr, // 2
+	nullptr, // 3
+	nullptr, // 4
+	nullptr, // 5
+	nullptr, // 6 - imploded
+	nullptr, // 7
 	&cainteoir::inflate_zlib, // 8 - deflated
-	NULL, // 9
-	NULL, // 10
-	NULL, // 11
-	NULL, // 12 - bzip2 compressed
+	nullptr, // 9
+	nullptr, // 10
+	nullptr, // 11
+	nullptr, // 12 - bzip2 compressed
 };
 
 cainteoir::zip::archive::archive(std::shared_ptr<cainteoir::buffer> aData)
@@ -81,7 +81,7 @@ std::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char *aFi
 	if (!hdr)
 		return std::shared_ptr<cainteoir::buffer>();
 
-	if (hdr->compression_type >= zip_compression.size() || *(zip_compression.begin() + hdr->compression_type) == NULL)
+	if (hdr->compression_type >= zip_compression.size() || *(zip_compression.begin() + hdr->compression_type) == nullptr)
 		throw std::runtime_error(_("decompression failed (unsupported compression type)"));
 
 	const char *ptr = (const char *)hdr + sizeof(zip_header) + hdr->len_filename + hdr->len_extra;

@@ -217,7 +217,7 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 struct document : public cainteoir::document_events
@@ -317,10 +317,10 @@ int main(int argc, char ** argv)
 	{
 		actions action = speak;
 
-		const char *voicename = NULL;
-		const char *language = NULL;
-		const char *outfile = NULL;
-		const char *outformat = NULL;
+		const char *voicename = nullptr;
+		const char *language = nullptr;
+		const char *outfile = nullptr;
+		const char *outformat = nullptr;
 
 		int speed = INT_MAX;
 		int pitch = INT_MAX;
@@ -440,7 +440,7 @@ int main(int argc, char ** argv)
 		if (argc == 1)
 			cainteoir::parseDocument(argv[0], doc, doc.m_metadata);
 		else
-			cainteoir::parseDocument(NULL, doc, doc.m_metadata);
+			cainteoir::parseDocument(nullptr, doc, doc.m_metadata);
 
 		if (action == show_contents)
 			return 0;
@@ -526,7 +526,7 @@ int main(int argc, char ** argv)
 		else
 		{
 			state = "reading";
-			out = cainteoir::open_audio_device(NULL, "pulse", 0.3, doc.m_metadata, doc.subject, doc.m_metadata, doc.tts.voice());
+			out = cainteoir::open_audio_device(nullptr, "pulse", 0.3, doc.m_metadata, doc.subject, doc.m_metadata, doc.tts.voice());
 
 			fprintf(stdout, _("Reading \"%s\"\n\n"), doc.subject.str().c_str());
 		}

@@ -46,7 +46,7 @@ static const replacement replacements[] = {
 	{ "}",          "}" },
 	{ "\r",         "\r" },
 	{ "\n",         "\n" },
-	{ "-",          NULL }, // optional hyphen
+	{ "-",          nullptr }, // optional hyphen
 	{ "_",          "-" },  // non-breaking hyphen
 	{ "~",          "\xC0\xA0" }, // NON-BREAKING SPACE
 	{ "bullet",     "\xE2\x80\xA2" },

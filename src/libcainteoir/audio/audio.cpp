@@ -55,7 +55,7 @@ cainteoir::create_audio_file(
 	const rdf::uri &aVoice)
 {
 	if (filename && !strcmp(filename, "-"))
-		filename = NULL;
+		filename = nullptr;
 
 	rql::results data = rql::select(aVoiceMetadata, rql::matches(rql::subject, aVoice));
 	int channels  = rql::select_value<int>(data, rql::matches(rql::predicate, rdf::tts("channels")));

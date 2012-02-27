@@ -35,7 +35,7 @@ static const int CHARACTERS_PER_WORD = 6;
 	double timeofday()
 	{
 		timeval tv;
-		gettimeofday(&tv, NULL);
+		gettimeofday(&tv, nullptr);
 
 		return tv.tv_sec + (double(tv.tv_usec) / 1000000.0);
 	}
@@ -55,9 +55,9 @@ static const int CHARACTERS_PER_WORD = 6;
 	class stopwatch
 	{
 	public:
-		stopwatch() { mStart = time(NULL); }
+		stopwatch() { mStart = time(nullptr); }
 
-		double elapsed() const { return difftime(time(NULL), mStart); }
+		double elapsed() const { return difftime(time(nullptr), mStart); }
 	private:
 		time_t mStart;
 	};
@@ -191,7 +191,7 @@ void * speak_tts_thread(void *data)
 
 	speak->audio->close();
 	speak->finished();
-	return NULL;
+	return nullptr;
 }
 
 speech_impl::speech_impl(tts::engine *aEngine,
@@ -215,7 +215,7 @@ speech_impl::speech_impl(tts::engine *aEngine,
 		textLen += (*node)->size();
 
 	started();
-	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)this);
+	int ret = pthread_create(&threadId, nullptr, speak_tts_thread, (void *)this);
 }
 
 speech_impl::~speech_impl()
@@ -250,12 +250,12 @@ bool speech_impl::is_speaking() const
 void speech_impl::stop()
 {
 	finished();
-	pthread_join(threadId, NULL);
+	pthread_join(threadId, nullptr);
 }
 
 void speech_impl::wait()
 {
-	pthread_join(threadId, NULL);
+	pthread_join(threadId, nullptr);
 	finished();
 }
 
@@ -318,7 +318,7 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 ///////////////////////////////////////////////////////////////////////////////
 
 tts::engines::engines(rdf::graph &metadata, capability_types capabilities)
-	: selectedVoice(NULL)
+	: selectedVoice(nullptr)
 {
 	std::string uri;
 	active = tts::create_espeak_engine(metadata, uri);
@@ -344,9 +344,9 @@ tts::engines::~engines()
 
 bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice)
 {
-	engine *engine = NULL;
+	engine *engine = nullptr;
 	std::string voice;
-	const rdf::uri * voiceUri = NULL;
+	const rdf::uri * voiceUri = nullptr;
 
 	foreach_iter(statement, rql::select(aMetadata, rql::matches(rql::subject, aVoice)))
 	{

@@ -31,14 +31,14 @@ const char * cainteoir::xml::lookup_entity(const entity_set **entities, const ca
 {
 	char c = *data.begin();
 
-	const entity_set * ent = NULL;
+	const entity_set * ent = nullptr;
 	if (c >= 'a' && c <= 'z')
 		ent = entities[c - 'a' + 26];
 	else if (c >= 'A' && c <= 'Z')
 		ent = entities[c - 'A'];
 
 	if (!ent)
-		return NULL;
+		return nullptr;
 
 	int begin = 0;
 	int end = ent->last - ent->first;
@@ -56,7 +56,7 @@ const char * cainteoir::xml::lookup_entity(const entity_set **entities, const ca
 			end = pos - 1;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void write_utf8(char * out, long c)
@@ -91,9 +91,9 @@ std::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity,
 	{
 		char utf8[10];
 		if (*++str == 'x')
-			write_utf8(utf8, strtol(++str, NULL, 16));
+			write_utf8(utf8, strtol(++str, nullptr, 16));
 		else
-			write_utf8(utf8, strtol(str, NULL, 10));
+			write_utf8(utf8, strtol(str, nullptr, 10));
 
 		if (utf8[0])
 		{
@@ -262,8 +262,8 @@ const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std:
 
 cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52])
 	: mData(aData)
-	, mTagNodeName(NULL, NULL)
-	, mTagNodePrefix(NULL, NULL)
+	, mTagNodeName(nullptr, nullptr)
+	, mTagNodePrefix(nullptr, nullptr)
 	, mState(ParsingXml, aData->begin())
 	, mSavedState(ParsingXml, aData->begin())
 	, mContext(&unknown_context)
@@ -281,7 +281,7 @@ cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const e
 			mNamespaces.pop_block();
 
 		mState.current = startPos;
-		mTagNodeName = cainteoir::buffer(NULL, NULL);
+		mTagNodeName = cainteoir::buffer(nullptr, nullptr);
 		mNodeType = textNode;
 	}
 	else
@@ -293,8 +293,8 @@ cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const e
 
 bool cainteoir::xml::reader::read()
 {
-	mState.nodeName = cainteoir::buffer(NULL, NULL);
-	mState.nodePrefix = cainteoir::buffer(NULL, NULL);
+	mState.nodeName = cainteoir::buffer(nullptr, nullptr);
+	mState.nodePrefix = cainteoir::buffer(nullptr, nullptr);
 	mContext = &unknown_context;
 
 	if (mState.current >= mData->end())
@@ -313,7 +313,7 @@ bool cainteoir::xml::reader::read()
 		return true;
 	}
 
-	const char * startPos = NULL;
+	const char * startPos = nullptr;
 
 	if (mTagNodeName.begin())
 	{
@@ -329,7 +329,7 @@ bool cainteoir::xml::reader::read()
 			if (mImplicitEndTag)
 			{
 				mImplicitEndTag = false;
-				mTagNodeName = cainteoir::buffer(NULL, NULL);
+				mTagNodeName = cainteoir::buffer(nullptr, nullptr);
 			}
 			++mState.current;
 			return true;
@@ -362,7 +362,7 @@ bool cainteoir::xml::reader::read()
 		if (*mState.current == '>') // XML§3.1 ; HTML§12.1.2.1-2 -- end of start/end tag
 		{
 			++mState.current;
-			mTagNodeName = cainteoir::buffer(NULL, NULL);
+			mTagNodeName = cainteoir::buffer(nullptr, nullptr);
 		}
 		else // error -- skip to end of element tag
 		{
@@ -371,7 +371,7 @@ bool cainteoir::xml::reader::read()
 			++mState.current;
 
 			mNodeType = error;
-			mTagNodeName = cainteoir::buffer(NULL, NULL);
+			mTagNodeName = cainteoir::buffer(nullptr, nullptr);
 			return true;
 		}
 	}
@@ -502,7 +502,7 @@ bool cainteoir::xml::reader::read()
 					if (!mState.nodePrefix.compare("xmlns"))
 						mNamespaces.add_namespace(mState.nodeName, mNodeValue.buffer());
 					else if (!mState.nodeName.compare("xmlns") && mState.nodePrefix.empty())
-						mNamespaces.add_namespace(cainteoir::buffer(NULL, NULL), mNodeValue.buffer());
+						mNamespaces.add_namespace(cainteoir::buffer(nullptr, nullptr), mNodeValue.buffer());
 				}
 
 				mState = mSavedState;

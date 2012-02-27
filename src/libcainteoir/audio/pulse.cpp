@@ -35,7 +35,7 @@ class pulse_audio : public cainteoir::audio
 	const char *m_device;
 public:
 	pulse_audio(const char *device, const rdf::uri &format, int channels, int frequency)
-		: pa(NULL)
+		: pa(nullptr)
 		, m_device(device)
 	{
 		if (format == rdf::tts("s16le"))
@@ -59,7 +59,7 @@ public:
 		if (pa) return;
 
 		int error = 0;
-		pa = pa_simple_new(m_device, _("Cainteoir Text-to-Speech"), PA_STREAM_PLAYBACK, NULL, "Music", &ss, NULL, NULL, &error);
+		pa = pa_simple_new(m_device, _("Cainteoir Text-to-Speech"), PA_STREAM_PLAYBACK, nullptr, "Music", &ss, nullptr, nullptr, &error);
 		if (!pa)
 			throw std::runtime_error(std::string(_("pulseaudio: ")) + pa_strerror(error));
 	}
@@ -69,13 +69,13 @@ public:
 		if (pa)
 		{
 			pa_simple_free(pa);
-			pa = NULL;
+			pa = nullptr;
 		}
 	}
 
 	uint32_t write(const char *data, uint32_t len)
 	{
-		return pa_simple_write(pa, data, len, NULL);
+		return pa_simple_write(pa, data, len, nullptr);
 	}
 };
 

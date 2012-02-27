@@ -79,7 +79,7 @@ std::string parseNcxText(xml::reader &reader, const xml::context::entry *ctx)
 		if (current == &ncx::text_node)
 		{
 			value = reader.nodeValue().str();
-			current = NULL;
+			current = nullptr;
 		}
 		break;
 	case xml::reader::beginTagNode:
@@ -99,7 +99,7 @@ void parseNavPoint(xml::reader &reader, const rdf::uri &subject, cainteoir::docu
 	std::string label;
 	rdf::uri location = rdf::uri(std::string(), std::string());
 	bool fired = false;
-	const xml::context::entry *current = NULL;
+	const xml::context::entry *current = nullptr;
 
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -156,7 +156,7 @@ void parseNcxHead(xml::reader &reader, const rdf::uri &subject, cainteoir::docum
 {
 	std::string name;
 	std::string content;
-	const xml::context::entry *current = NULL;
+	const xml::context::entry *current = nullptr;
 
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -186,7 +186,7 @@ void parseNcxHead(xml::reader &reader, const rdf::uri &subject, cainteoir::docum
 		}
 		else if (reader.context() == &ncx::head_node)
 			return;
-		current = NULL;
+		current = nullptr;
 		break;
 	}
 }

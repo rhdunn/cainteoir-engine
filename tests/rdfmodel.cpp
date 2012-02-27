@@ -343,23 +343,23 @@ TEST_CASE("rdf::resource -- empty")
 {
 	rdf::graph g;
 
-	rdf::resource a(NULL);
+	rdf::resource a(nullptr);
 	assert(!a);
 
-	assert(a.as<xml::resource>() == NULL);
-	assert(a.as<rdf::uri>() == NULL);
-	assert(a.as<rdf::literal>() == NULL);
+	assert(a.as<xml::resource>() == nullptr);
+	assert(a.as<rdf::uri>() == nullptr);
+	assert(a.as<rdf::literal>() == nullptr);
 
-	assert((const xml::resource *)a == NULL);
-	assert((const rdf::uri *)a == NULL);
-	assert((const rdf::literal *)a == NULL);
+	assert((const xml::resource *)a == nullptr);
+	assert((const rdf::uri *)a == nullptr);
+	assert((const rdf::literal *)a == nullptr);
 
 	assert(!(a == rdf::uri(std::string(), std::string())));
 	assert(!(a == g.bnode(std::string())));
 	assert(!(a == rdf::literal(std::string())));
 
 	assert(a == a);
-	assert(a == rdf::resource(NULL));
+	assert(a == rdf::resource(nullptr));
 }
 
 TEST_CASE("rdf::resource -- uri")
@@ -373,11 +373,11 @@ TEST_CASE("rdf::resource -- uri")
 
 	assert(a.as<xml::resource>() == (const xml::resource *)&value);
 	assert(a.as<rdf::uri>() == &value);
-	assert(a.as<rdf::literal>() == NULL);
+	assert(a.as<rdf::literal>() == nullptr);
 
 	assert((const xml::resource *)a == (const xml::resource *)&value);
 	assert((const rdf::uri *)a == &value);
-	assert((const rdf::literal *)a == NULL);
+	assert((const rdf::literal *)a == nullptr);
 
 	assert(!(a == rdf::uri(std::string(), std::string())));
 	assert(!(a == rdf::rdf("Property")));
@@ -391,7 +391,7 @@ TEST_CASE("rdf::resource -- uri")
 	rdf::uri other = rdf::rdf("Property");
 	rdf::literal literal = rdf::literal("Class");
 
-	assert(!(a == rdf::resource(NULL)));
+	assert(!(a == rdf::resource(nullptr)));
 	assert(!(a == rdf::resource(&other)));
 	assert(!(a == rdf::resource(&literal)));
 
@@ -411,11 +411,11 @@ TEST_CASE("rdf::resource -- bnode")
 
 	assert(a.as<xml::resource>() == (const xml::resource *)&value);
 	assert(a.as<rdf::uri>() == &value);
-	assert(a.as<rdf::literal>() == NULL);
+	assert(a.as<rdf::literal>() == nullptr);
 
 	assert((const xml::resource *)a == (const xml::resource *)&value);
 	assert((const rdf::uri *)a == &value);
-	assert((const rdf::literal *)a == NULL);
+	assert((const rdf::literal *)a == nullptr);
 
 	assert(!(a == g.bnode(std::string())));
 	assert(a == value);
@@ -429,7 +429,7 @@ TEST_CASE("rdf::resource -- bnode")
 	rdf::uri uri = rdf::rdf("Class");
 	rdf::literal literal = rdf::literal("Class");
 
-	assert(!(a == rdf::resource(NULL)));
+	assert(!(a == rdf::resource(nullptr)));
 	assert(!(a == rdf::resource(&other)));
 	assert(!(a == rdf::resource(&uri)));
 	assert(!(a == rdf::resource(&literal)));
@@ -449,11 +449,11 @@ TEST_CASE("rdf::resource -- literal")
 	assert(!!a);
 
 	assert(a.as<xml::resource>() == (const xml::resource *)&value);
-	assert(a.as<rdf::uri>() == NULL);
+	assert(a.as<rdf::uri>() == nullptr);
 	assert(a.as<rdf::literal>() == &value);
 
 	assert((const xml::resource *)a == (const xml::resource *)&value);
-	assert((const rdf::uri *)a == NULL);
+	assert((const rdf::uri *)a == nullptr);
 	assert((const rdf::literal *)a == &value);
 
 	assert(!(a == rdf::uri(std::string(), std::string())));
@@ -470,7 +470,7 @@ TEST_CASE("rdf::resource -- literal")
 	rdf::uri uri = rdf::rdf("Property");
 	rdf::uri bnode = g.bnode("test");
 
-	assert(!(a == rdf::resource(NULL)));
+	assert(!(a == rdf::resource(nullptr)));
 	assert(!(a == rdf::resource(&other)));
 	assert(!(a == rdf::resource(&uri)));
 	assert(!(a == rdf::resource(&bnode)));

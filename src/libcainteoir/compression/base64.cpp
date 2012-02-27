@@ -43,7 +43,7 @@ struct base64 : public cainteoir::data_buffer
 		while (next < last)
 		{
 			char *idx = strchr(base64_chars, *next);
-			if (idx != NULL)
+			if (idx != nullptr)
 			{
 				in[i++] = (intptr_t)idx - (intptr_t)base64_chars;
 				if (i == 4)

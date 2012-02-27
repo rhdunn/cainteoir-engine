@@ -83,7 +83,7 @@ static const char * common_words[] = {
 	"up",
 	"was", "with", "were", "would", "what", "which", "when", "we", "who", "woman",
 	"you",
-	NULL,
+	nullptr,
 };
 
 bool common(const std::string & word)

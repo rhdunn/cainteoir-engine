@@ -481,7 +481,7 @@ static const mime_info mime_data = { mime_magic, "", "", "", {}, {} };
 
 //}}}
 
-const m::mimetype m::mime("mime",  NULL, &mime_data);
+const m::mimetype m::mime("mime",  nullptr, &mime_data);
 
 const m::mimetype m::email( "email", email_mimetype,  &mimetypes[email_mimetype]);
 const m::mimetype m::epub(  "epub",  epub_mimetype,   &mimetypes[epub_mimetype]);

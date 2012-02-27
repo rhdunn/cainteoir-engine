@@ -232,18 +232,18 @@ struct mime_headers : public cainteoir::buffer
 			++first;
 		}
 
-		cainteoir::buffer boundary(NULL, NULL);
+		cainteoir::buffer boundary(nullptr, nullptr);
 		if (!parse_headers(subject, events, aGraph, boundary))
 			first = mOriginal->begin();
 		else if (!boundary.empty())
 		{
-			const char * begin = NULL;
+			const char * begin = nullptr;
 
 			while (first <= last)
 			{
 				if (first[0] == '-' && first[1] == '-' && !strncmp(first + 2, boundary.begin(), boundary.size()))
 				{
-					if (begin == NULL)
+					if (begin == nullptr)
 					{
 						first += 2;
 						first += boundary.size();

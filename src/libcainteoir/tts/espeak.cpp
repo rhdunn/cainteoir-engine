@@ -124,12 +124,12 @@ public:
 	{
 		baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
 
-		int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, espeakINITIALIZE_DONT_EXIT);
+		int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, nullptr, espeakINITIALIZE_DONT_EXIT);
 		espeak_SetSynthCallback(espeak_tts_callback);
 
 		rdf::uri espeak = rdf::uri(baseuri, std::string());
 		rdf::uri jonsd = metadata.genid();
-		std::string info = espeak_Info(NULL);
+		std::string info = espeak_Info(nullptr);
 
 		metadata.statement(espeak, rdf::rdf("type"), rdf::tts("Engine"));
 		metadata.statement(espeak, rdf::tts("name"), rdf::literal("eSpeak"));
@@ -145,7 +145,7 @@ public:
 		metadata.statement(jonsd, rdf::foaf("gender"), rdf::literal("male"));
 		metadata.statement(jonsd, rdf::foaf("isPrimaryTopicOf"), rdf::uri("http://sourceforge.net/users/jonsd", std::string()));
 
-		for (const espeak_VOICE **data = espeak_ListVoices(NULL); *data; ++data)
+		for (const espeak_VOICE **data = espeak_ListVoices(nullptr); *data; ++data)
 		{
 			std::string id = (*data)->name;
 			if (id == "french (Belgium)")
@@ -184,7 +184,7 @@ public:
 	void speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback)
 	{
 		std::string txt = text->str();
-		espeak_Synth(txt.c_str() + offset, txt.size() - offset, 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, callback);
+		espeak_Synth(txt.c_str() + offset, txt.size() - offset, 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, nullptr, callback);
 		espeak_Synchronize();
 	}
 
@@ -220,7 +220,7 @@ tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
 
 tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
 {
-	return NULL;
+	return nullptr;
 }
 
 #endif

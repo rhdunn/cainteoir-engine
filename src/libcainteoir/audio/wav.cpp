@@ -95,7 +95,7 @@ public:
 		fwrite(&m_header, 1, sizeof(m_header), m_file);
 
 		fclose(m_file);
-		m_file = NULL;
+		m_file = nullptr;
 	}
 
 	uint32_t write(const char *data, uint32_t len)
