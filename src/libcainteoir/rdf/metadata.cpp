@@ -1,6 +1,6 @@
 /* RDF metadata.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -139,9 +139,9 @@ rdf::graph::curie(const std::string &aCurie)
 	return std::make_shared<rdf::uri>(href(uri));
 }
 
-const cainteoir::xml::resource *rdf::literal::clone() const
+std::shared_ptr<const cainteoir::xml::resource> rdf::literal::clone() const
 {
-	return new literal(*this);
+	return std::make_shared<literal>(*this);
 }
 
 rdf::graph::graph() : nextid(1)
@@ -178,9 +178,7 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.ns.empty())
 		namespaces.insert(aObject.ns);
 
-	push_back(std::make_shared<triple>(std::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
-	                                   aPredicate,
-	                                   std::shared_ptr<const cainteoir::xml::resource>(aObject.clone())));
+	push_back(std::make_shared<triple>(aSubject.clone(), aPredicate, aObject.clone()));
 	return true;
 }
 
@@ -197,8 +195,6 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.type.ns.empty())
 		namespaces.insert(aObject.type.ns);
 
-	push_back(std::make_shared<triple>(std::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
-	                                   aPredicate,
-	                                   std::shared_ptr<const cainteoir::xml::resource>(aObject.clone())));
+	push_back(std::make_shared<triple>(aSubject.clone(), aPredicate, aObject.clone()));
 	return true;
 }

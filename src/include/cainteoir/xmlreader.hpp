@@ -29,7 +29,7 @@ namespace cainteoir { namespace xml
 {
 	struct resource
 	{
-		virtual const resource *clone() const = 0;
+		virtual std::shared_ptr<const resource> clone() const = 0;
 
 		virtual ~resource() {}
 	};
@@ -46,7 +46,7 @@ namespace cainteoir { namespace xml
 
 		std::string str() const;
 
-		const resource *clone() const;
+		std::shared_ptr<const resource> clone() const;
 	};
 
 	inline bool operator==(const uri &a, const uri &b)

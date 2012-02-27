@@ -153,9 +153,9 @@ std::string cainteoir::xml::uri::str() const
 	return ns + ref;
 }
 
-const cainteoir::xml::resource *cainteoir::xml::uri::clone() const
+std::shared_ptr<const cainteoir::xml::resource> cainteoir::xml::uri::clone() const
 {
-	return new uri(*this);
+	return std::make_shared<uri>(*this);
 }
 
 const cainteoir::xml::ns cainteoir::xml::xmlns::dc(   "dc",    "http://purl.org/dc/elements/1.1/");
