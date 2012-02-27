@@ -68,7 +68,7 @@ std::shared_ptr<cainteoir::buffer> lookupReplacementText(const cainteoir::encodi
 	else for (const replacement * first = replacements, * last = replacements + countof(replacements); first != last; ++first)
 	{
 		if (!token->compare(first->token) && first->text)
-			return std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(first->text));
+			return std::make_shared<cainteoir::buffer>(first->text);
 	}
 	return std::shared_ptr<cainteoir::buffer>();
 }
@@ -86,7 +86,7 @@ struct rtf_reader : public cainteoir::buffer
 	rtf_reader(std::shared_ptr<cainteoir::buffer> aData)
 		: cainteoir::buffer(aData->begin(), aData->end())
 		, mCurrent(aData->begin())
-		, mData(new cainteoir::buffer(NULL, NULL))
+		, mData(std::make_shared<cainteoir::buffer>(nullptr, nullptr))
 	{
 	}
 
@@ -151,7 +151,7 @@ bool rtf_reader::read()
 				while (mCurrent <= end() && ((*mCurrent >= 'a' && *mCurrent <= 'z') || (*mCurrent >= 'A' && *mCurrent <= 'Z')))
 					++mCurrent;
 
-				mData = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(control, mCurrent));
+				mData = std::make_shared<cainteoir::buffer>(control, mCurrent);
 
 				if (mCurrent <= end() && ((*mCurrent >= '0' && *mCurrent <= '9') || *mCurrent == '-'))
 				{
@@ -183,7 +183,7 @@ bool rtf_reader::read()
 			}
 			else // control symbol
 			{
-				mData = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mCurrent, mCurrent+1));
+				mData = std::make_shared<cainteoir::buffer>(mCurrent, mCurrent+1);
 				if (*mCurrent == '\'') // \'hh token
 				{
 					++mCurrent;
@@ -219,7 +219,7 @@ bool rtf_reader::read()
 			while (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}' && *mCurrent != '\r' && *mCurrent != '\n')
 				++mCurrent;
 
-			mData = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text, mCurrent));
+			mData = std::make_shared<cainteoir::buffer>(text, mCurrent);
 		}
 		break;
 	}

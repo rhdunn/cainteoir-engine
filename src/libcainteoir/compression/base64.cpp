@@ -80,5 +80,5 @@ struct base64 : public cainteoir::data_buffer
 
 std::shared_ptr<cainteoir::buffer> cainteoir::decode_base64(const cainteoir::buffer &data, uint32_t size)
 {
-	return std::shared_ptr<cainteoir::buffer>(new base64(data));
+	return std::make_shared<base64>(data);
 }

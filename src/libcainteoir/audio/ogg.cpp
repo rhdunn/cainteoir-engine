@@ -286,7 +286,7 @@ create_ogg_file(const char *filename, const rdf::uri &format, int channels, int 
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
 	if (format != rdf::tts("s16le"))
 		throw std::runtime_error(_("unsupported audio format."));
-	return std::shared_ptr<cainteoir::audio>(new ogg_audio(file, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument)));
+	return std::make_shared<ogg_audio>(file, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument));
 }
 
 #else

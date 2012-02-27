@@ -132,7 +132,7 @@ namespace cainteoir
 
 		std::shared_ptr<cainteoir::buffer> normalize() const
 		{
-			return std::shared_ptr<cainteoir::buffer>(new normalized_text_buffer(buffer()));
+			return std::make_shared<normalized_text_buffer>(buffer());
 		}
 
 		std::string str() const { return buffer()->str(); }

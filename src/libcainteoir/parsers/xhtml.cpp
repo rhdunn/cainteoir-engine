@@ -368,14 +368,14 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		{
 			events.begin_context(cainteoir::events::list_item);
 			if (list_ctx->parameter == cainteoir::events::bullet)
-				events.text(std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("\xE2\x80\xA2 ")));
+				events.text(std::make_shared<cainteoir::buffer>("\xE2\x80\xA2 "));
 			else
 			{
 				char text[100];
 				int len = snprintf(text, sizeof(text), "%d. ", number);
 				text[len] = '\0';
 
-				std::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(len));
+				std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(len);
 				strcpy((char *)data->begin(), text);
 				events.text(data);
 

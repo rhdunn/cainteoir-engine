@@ -25,7 +25,7 @@
 
 std::shared_ptr<cainteoir::buffer> inflateBuffer(const cainteoir::buffer &compressed, uint32_t uncompressed, int window)
 {
-	std::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(uncompressed));
+	std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(uncompressed);
 
 	z_stream strm = {0};
 	int ret = inflateInit2(&strm, window);

@@ -133,5 +133,5 @@ private:
 
 std::shared_ptr<rdf::formatter> rdf::create_formatter(std::ostream &aStream, rdf::formatter::format_type aFormatType)
 {
-	return std::shared_ptr<rdf::formatter>(new ::n3_formatter(aStream, aFormatType));
+	return std::make_shared<n3_formatter>(aStream, aFormatType);
 }

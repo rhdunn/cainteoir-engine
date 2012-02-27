@@ -126,7 +126,7 @@ rdf::graph::curie(const std::string &aCurie)
 		std::string ref = aCurie.substr(index+1);
 
 		if (prefix == "_")
-			return std::shared_ptr<const rdf::uri>(new rdf::uri(std::string(), ref));
+			return std::make_shared<rdf::uri>(std::string(), ref);
 
 		std::string ns = lookup(prefix);
 		if (ns.empty())
@@ -136,7 +136,7 @@ rdf::graph::curie(const std::string &aCurie)
 	}
 	else
 		uri = mBaseUri + aCurie;
-	return std::shared_ptr<const rdf::uri>(new rdf::uri(href(uri)));
+	return std::make_shared<rdf::uri>(href(uri));
 }
 
 const cainteoir::xml::resource *rdf::literal::clone() const
@@ -178,9 +178,9 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.ns.empty())
 		namespaces.insert(aObject.ns);
 
-	push_back(std::shared_ptr<const triple>(new triple(std::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
-	                                                        aPredicate,
-	                                                        std::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
+	push_back(std::make_shared<triple>(std::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
+	                                   aPredicate,
+	                                   std::shared_ptr<const cainteoir::xml::resource>(aObject.clone())));
 	return true;
 }
 
@@ -197,8 +197,8 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.type.ns.empty())
 		namespaces.insert(aObject.type.ns);
 
-	push_back(std::shared_ptr<const triple>(new triple(std::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
-	                                                        aPredicate,
-	                                                        std::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
+	push_back(std::make_shared<triple>(std::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
+	                                   aPredicate,
+	                                   std::shared_ptr<const cainteoir::xml::resource>(aObject.clone())));
 	return true;
 }

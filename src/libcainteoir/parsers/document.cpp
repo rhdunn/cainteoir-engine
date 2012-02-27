@@ -77,7 +77,7 @@ std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 	size_t read;
 	while ((read = fread(buffer, 1, sizeof(buffer), stdin)) != 0)
 	{
-		std::shared_ptr<cainteoir::buffer> fiber(new cainteoir::data_buffer(read));
+		std::shared_ptr<cainteoir::buffer> fiber = std::make_shared<cainteoir::data_buffer>(read);
 		memcpy((void *)fiber->begin(), buffer, read);
 		data += fiber;
 	}
@@ -313,7 +313,7 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::ur
 
 	if (mime::email.match(data) || mime::mime.match(data))
 	{
-		std::shared_ptr<mime_headers> mime(new mime_headers(data, subject, events, aGraph));
+		std::shared_ptr<mime_headers> mime = std::make_shared<mime_headers>(data, subject, events, aGraph);
 
 		std::shared_ptr<cainteoir::buffer> decoded;
 		if (mime->encoding == "quoted-printable")
@@ -404,7 +404,7 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 
 	std::shared_ptr<cainteoir::buffer> data;
 	if (aFilename)
-		data = std::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename));
+		data = std::make_shared<cainteoir::mmap_buffer>(aFilename);
 	else
 		data = buffer_from_stdin();
 

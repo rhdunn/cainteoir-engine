@@ -97,7 +97,7 @@ std::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity,
 
 		if (utf8[0])
 		{
-			std::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(strlen(utf8)));
+			std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(strlen(utf8));
 			strcpy((char *)data->begin(), utf8);
 			return data;
 		}
@@ -107,14 +107,14 @@ std::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity,
 		auto match = doctypeEntities.find(entity.str());
 		if (match != doctypeEntities.end())
 		{
-			std::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(match->second.size()));
+			std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(match->second.size());
 			strcpy((char *)data->begin(), match->second.c_str());
 			return data;
 		}
 
 		const char * value = cainteoir::xml::lookup_entity(entities, entity);
 		if (value)
-			return std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(value));
+			return std::make_shared<cainteoir::buffer>(value);
 	}
 
 	fprintf(stderr, _("unrecognised entity '%s'\n"), entity.str().c_str());
@@ -308,7 +308,7 @@ bool cainteoir::xml::reader::read()
 	if (mState.state == ParsingText)
 	{
 		mNodeType = textNode;
-		mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mState.current, mData->end()));
+		mNodeValue = std::make_shared<cainteoir::buffer>(mState.current, mData->end());
 		mState.current = mData->end();
 		return true;
 	}
@@ -352,10 +352,10 @@ bool cainteoir::xml::reader::read()
 					++mState.current;
 				}
 				else // HTML§12.1.2.3 -- unquoted attribute value
-					mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(identifier()));
+					mNodeValue = std::make_shared<cainteoir::buffer>(identifier());
 			}
 			else // HTML§12.1.2.3 -- empty attribute
-				mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mState.nodeName));
+				mNodeValue = std::make_shared<cainteoir::buffer>(mState.nodeName);
 			return true;
 		}
 
@@ -389,7 +389,7 @@ bool cainteoir::xml::reader::read()
 				startPos = ++mState.current;
 				while (mState.current != mData->end() && !(mState.current[0] == '-' && mState.current[1] == '-' && mState.current[2] == '>'))
 					++mState.current;
-				mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
+				mNodeValue = std::make_shared<cainteoir::buffer>(startPos, mState.current);
 				mState.current += 3;
 			}
 			else if (mState.current[1] == '[' && mState.current[2] == 'C' && mState.current[3] == 'D' && mState.current[4] == 'A' &&
@@ -400,7 +400,7 @@ bool cainteoir::xml::reader::read()
 				startPos = mState.current;
 				while (mState.current != mData->end() && !(mState.current[0] == ']' && mState.current[1] == ']' && mState.current[2] == '>'))
 					++mState.current;
-				mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
+				mNodeValue = std::make_shared<cainteoir::buffer>(startPos, mState.current);
 				mState.current += 3;
 			}
 			else // DTD
@@ -479,7 +479,7 @@ bool cainteoir::xml::reader::read()
 			startPos = ++mState.current;
 			while (mState.current != mData->end() && (mState.current[0] != '?' && mState.current[1] != '>'))
 				++mState.current;
-			mNodeValue = std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
+			mNodeValue = std::make_shared<cainteoir::buffer>(startPos, mState.current);
 			++mState.current;
 			++mState.current;
 			break;
@@ -618,7 +618,7 @@ void cainteoir::xml::reader::read_node_value(char terminator1, char terminator2)
 
 		while (mState.current != mData->end() && !(*mState.current == '&' || *mState.current == terminator1 || *mState.current == terminator2))
 			++mState.current;
-		mNodeValue += std::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mState.current));
+		mNodeValue += std::make_shared<cainteoir::buffer>(startPos, mState.current);
 	} while (mState.current != mData->end() && !(*mState.current == terminator1 || *mState.current == terminator2));
 }
 

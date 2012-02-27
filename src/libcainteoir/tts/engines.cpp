@@ -397,7 +397,7 @@ tts::engines::speak(const std::shared_ptr<cainteoir::document> &doc,
                     cainteoir::document::const_iterator from,
                     cainteoir::document::const_iterator to)
 {
-	return std::shared_ptr<tts::speech>(new speech_impl(active, out, doc, from, to, parameter(tts::parameter::rate)));
+	return std::make_shared<speech_impl>(active, out, doc, from, to, parameter(tts::parameter::rate));
 }
 
 std::shared_ptr<tts::parameter>
