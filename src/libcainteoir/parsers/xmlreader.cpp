@@ -328,6 +328,8 @@ bool cainteoir::xml::reader::read()
 			mContext = lookup_node(namespaceUri(), nodeName());
 			if (mImplicitEndTag)
 			{
+				if (*mState.current == '/')
+					++mState.current;
 				mImplicitEndTag = false;
 				mTagNodeName = cainteoir::buffer(nullptr, nullptr);
 			}

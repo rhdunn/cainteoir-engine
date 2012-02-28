@@ -95,6 +95,10 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/var.html', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/var.xhtml', 'result': 'html/text-level-semantics/em.events'},
 		]},
+		{'name': 'phrasing content', 'type': 'events', 'tests': [
+			{'test': 'html/phrasing-content/br.html', 'result': 'html/phrasing-content/br.events'},
+			{'test': 'html/phrasing-content/br.xhtml', 'result': 'html/phrasing-content/br.events'},
+		]},
 		{'name': 'entities', 'type': 'events', 'tests': [
 			{'test': 'html/entities.html', 'result': 'html/entities.events'},
 			{'test': 'html/entities.xhtml', 'result': 'html/entities.events'},
