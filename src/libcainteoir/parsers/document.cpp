@@ -168,7 +168,11 @@ struct mime_headers : public cainteoir::buffer
 				}
 			}
 			else if (!name.comparei("Subject"))
-				aGraph.statement(subject, rdf::dc("title"), rdf::literal(value.str()));
+			{
+				std::string title = value.str();
+				aGraph.statement(subject, rdf::dc("title"), rdf::literal(title));
+				events.toc_entry(0, subject, title);
+			}
 			else if (!name.comparei("From"))
 			{
 				// name ...
