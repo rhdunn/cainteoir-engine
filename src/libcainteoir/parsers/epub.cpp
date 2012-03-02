@@ -70,8 +70,13 @@ struct epub_document : public cainteoir::document_events
 
 	void toc_entry(int depth, const rdf::uri &aLocation, const std::string &title)
 	{
-		const rdf::uri location = rdf::uri(mSubject.str() + "!/" + path_to(aLocation.ns, mOpfFile), aLocation.ref);
-		mEvents.toc_entry(depth, location, title);
+		if (aLocation == mSubject)
+			mEvents.toc_entry(depth, aLocation, title);
+		else
+		{
+			const rdf::uri location = rdf::uri(mSubject.str() + "!/" + path_to(aLocation.ns, mOpfFile), aLocation.ref);
+			mEvents.toc_entry(depth, location, title);
+		}
 	}
 
 	void anchor(const rdf::uri &aLocation, const std::string &mimetype)

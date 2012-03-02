@@ -204,7 +204,11 @@ void cainteoir::parseNcxDocument(xml::reader &reader, const rdf::uri &aSubject, 
 		else if (reader.context() == &ncx::docAuthor_node)
 			aGraph.statement(aSubject, rdf::dc("creator"), rdf::literal(parseNcxText(reader, reader.context())));
 		else if (reader.context() == &ncx::docTitle_node)
-			aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(parseNcxText(reader, reader.context())));
+		{
+			std::string title = parseNcxText(reader, reader.context());
+			events.toc_entry(0, aSubject, title);
+			aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
+		}
 		else if (reader.context() == &ncx::navMap_node)
 			parseNavMap(reader, aSubject, events);
 		break;
