@@ -1,6 +1,6 @@
 /* Espeak Text-to-Speech Engine.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -32,6 +32,60 @@
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
+
+struct mbrola_voice
+{
+	const char *name;
+	const char *language;
+	int frequency;
+	const char *gender;
+};
+
+const std::initializer_list<const mbrola_voice> mbrola_voices = {
+	{ "mb-af1",     "af",    16000, "male" },
+	{ "mb-af1-en",  "en",    16000, "male" },
+	{ "mb-br1",     "pt-br", 16000, "male" },
+	{ "mb-br3",     "pt-br", 22050, "male" },
+	{ "mb-br4",     "pt-br", 22050, "female" },
+	{ "mb-cr1",     "hr",    16000, "male" },
+	{ "mb-cz1",     "cs",    16000, "male" },
+	{ "mb-de4",     "de",    16000, "male" },
+	{ "mb-de4-en",  "en",    16000, "male" },
+	{ "mb-de5",     "de",    22050, "female" },
+	{ "mb-de5-en",  "en",    22050, "female" },
+	{ "mb-de6",     "de",    22050, "male" },
+	{ "mb-de6-grc", "el",    22050, "male" },
+	{ "mb-de7",     "de",    22050, "female" },
+	{ "mb-en1",     "en-uk", 16000, "male" },
+	{ "mb-es1",     "es",    16000, "male" },
+	{ "mb-es2",     "es",    22050, "male" },
+	{ "mb-fr1",     "fr",    16000, "male" },
+	{ "mb-fr1-en",  "en",    16000, "male" },
+	{ "mb-fr4",     "fr",    16000, "female" },
+	{ "mb-fr4-en",  "en",    16000, "female" },
+	{ "mb-gr2",     "el",    22050, "male" },
+	{ "mb-gr2-en",  "en",    22050, "male" },
+	{ "mb-hu1",     "hu",    16000, "female" },
+	{ "mb-hu1-en",  "en",    16000, "female" },
+	{ "mb-id1",     "id",    16000, "male" },
+	{ "mb-it3",     "it",    16000, "male" },
+	{ "mb-it4",     "it",    16000, "female" },
+	{ "mb-la1",     "la",    16000, "male" },
+	{ "mb-nl2",     "nl",    16000, "male" },
+	{ "mb-nl2-en",  "en",    16000, "male" },
+	{ "mb-pl1",     "pl",    16000, "female" },
+	{ "mb-pl1-en",  "en",    16000, "female" },
+	{ "mb-pt1",     "pt-pt", 22050, "female" },
+	{ "mb-ro1",     "ro",    16000, "male" },
+	{ "mb-ro1-en",  "en",    16000, "male" },
+	{ "mb-sw1",     "sv",    16000, "male" },
+	{ "mb-sw1-en",  "en",    16000, "male" },
+	{ "mb-sw2",     "sv",    16000, "female" },
+	{ "mb-sw2-en",  "en",    16000, "female" },
+	{ "mb-us1",     "en-us", 16000, "female" },
+	{ "mb-us2",     "en-us", 16000, "male" },
+	{ "mb-us3",     "en-us", 16000, "male" },
+};
 
 static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 {
@@ -127,15 +181,9 @@ public:
 		int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, nullptr, espeakINITIALIZE_DONT_EXIT);
 		espeak_SetSynthCallback(espeak_tts_callback);
 
-		rdf::uri espeak = rdf::uri(baseuri, std::string());
-		rdf::uri jonsd = metadata.genid();
-		std::string info = espeak_Info(nullptr);
-
-		metadata.statement(espeak, rdf::rdf("type"), rdf::tts("Engine"));
-		metadata.statement(espeak, rdf::tts("name"), rdf::literal("eSpeak"));
-		metadata.statement(espeak, rdf::tts("version"), rdf::literal(info.substr(0, info.find(' '))));
-		metadata.statement(espeak, rdf::dc("source"), rdf::uri("http://espeak.sourceforge.net/", std::string()));
-		metadata.statement(espeak, rdf::dc("creator"), jonsd);
+		rdf::uri    espeak = rdf::uri(baseuri, std::string());
+		rdf::uri    jonsd  = metadata.genid();
+		std::string info   = espeak_Info(nullptr);
 
 		metadata.statement(jonsd, rdf::rdf("type"), rdf::foaf("Person"));
 		metadata.statement(jonsd, rdf::foaf("name"), rdf::literal("Jonathan Duddington"));
@@ -144,6 +192,12 @@ public:
 		metadata.statement(jonsd, rdf::foaf("familyName"), rdf::literal("Duddington"));
 		metadata.statement(jonsd, rdf::foaf("gender"), rdf::literal("male"));
 		metadata.statement(jonsd, rdf::foaf("isPrimaryTopicOf"), rdf::uri("http://sourceforge.net/users/jonsd", std::string()));
+
+		metadata.statement(espeak, rdf::rdf("type"), rdf::tts("Engine"));
+		metadata.statement(espeak, rdf::tts("name"), rdf::literal("eSpeak"));
+		metadata.statement(espeak, rdf::tts("version"), rdf::literal(info.substr(0, info.find(' '))));
+		metadata.statement(espeak, rdf::dc("source"), rdf::uri("http://espeak.sourceforge.net/", std::string()));
+		metadata.statement(espeak, rdf::dc("creator"), jonsd);
 
 		for (const espeak_VOICE **data = espeak_ListVoices(nullptr); *data; ++data)
 		{
@@ -165,6 +219,21 @@ public:
 
 			metadata.statement(voice, rdf::tts("voiceOf"), espeak);
 			metadata.statement(espeak, rdf::tts("hasVoice"), voice);
+		}
+
+		for (auto mbrola = mbrola_voices.begin(), last = mbrola_voices.end(); mbrola != last; ++mbrola)
+		{
+			rdf::uri voice = rdf::uri(baseuri, mbrola->name);
+			metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
+			metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola->language));
+			metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola->name));
+			metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola->gender));
+
+			metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola->frequency, rdf::tts("hertz")));
+			metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
+			metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
+
+			metadata.statement(voice, rdf::tts("voiceOf"), espeak);
 		}
 	}
 
