@@ -24,6 +24,7 @@
 
 #if defined(HAVE_ESPEAK_SPEAK_LIB_H)
 #include <espeak/speak_lib.h>
+#include <unistd.h>
 
 #ifndef espeakINITIALIZE_DONT_EXIT
 #define espeakINITIALIZE_DONT_EXIT 0x8000
@@ -36,56 +37,63 @@ namespace tts = cainteoir::tts;
 struct mbrola_voice
 {
 	const char *name;
+	const char *voice;
 	const char *language;
 	int frequency;
 	const char *gender;
 };
 
 const std::initializer_list<const mbrola_voice> mbrola_voices = {
-	{ "mb-af1",     "af",    16000, "male" },
-	{ "mb-af1-en",  "en",    16000, "male" },
-	{ "mb-br1",     "pt-br", 16000, "male" },
-	{ "mb-br3",     "pt-br", 22050, "male" },
-	{ "mb-br4",     "pt-br", 22050, "female" },
-	{ "mb-cr1",     "hr",    16000, "male" },
-	{ "mb-cz1",     "cs",    16000, "male" },
-	{ "mb-de4",     "de",    16000, "male" },
-	{ "mb-de4-en",  "en",    16000, "male" },
-	{ "mb-de5",     "de",    22050, "female" },
-	{ "mb-de5-en",  "en",    22050, "female" },
-	{ "mb-de6",     "de",    22050, "male" },
-	{ "mb-de6-grc", "el",    22050, "male" },
-	{ "mb-de7",     "de",    22050, "female" },
-	{ "mb-en1",     "en-uk", 16000, "male" },
-	{ "mb-es1",     "es",    16000, "male" },
-	{ "mb-es2",     "es",    22050, "male" },
-	{ "mb-fr1",     "fr",    16000, "male" },
-	{ "mb-fr1-en",  "en",    16000, "male" },
-	{ "mb-fr4",     "fr",    16000, "female" },
-	{ "mb-fr4-en",  "en",    16000, "female" },
-	{ "mb-gr2",     "el",    22050, "male" },
-	{ "mb-gr2-en",  "en",    22050, "male" },
-	{ "mb-hu1",     "hu",    16000, "female" },
-	{ "mb-hu1-en",  "en",    16000, "female" },
-	{ "mb-id1",     "id",    16000, "male" },
-	{ "mb-it3",     "it",    16000, "male" },
-	{ "mb-it4",     "it",    16000, "female" },
-	{ "mb-la1",     "la",    16000, "male" },
-	{ "mb-nl2",     "nl",    16000, "male" },
-	{ "mb-nl2-en",  "en",    16000, "male" },
-	{ "mb-pl1",     "pl",    16000, "female" },
-	{ "mb-pl1-en",  "en",    16000, "female" },
-	{ "mb-pt1",     "pt-pt", 22050, "female" },
-	{ "mb-ro1",     "ro",    16000, "male" },
-	{ "mb-ro1-en",  "en",    16000, "male" },
-	{ "mb-sw1",     "sv",    16000, "male" },
-	{ "mb-sw1-en",  "en",    16000, "male" },
-	{ "mb-sw2",     "sv",    16000, "female" },
-	{ "mb-sw2-en",  "en",    16000, "female" },
-	{ "mb-us1",     "en-us", 16000, "female" },
-	{ "mb-us2",     "en-us", 16000, "male" },
-	{ "mb-us3",     "en-us", 16000, "male" },
+	{ "mb-af1",     "af1/af1", "af",    16000, "male" },
+	{ "mb-af1-en",  "af1/af1", "en",    16000, "male" },
+	{ "mb-br1",     "br1/br1", "pt-br", 16000, "male" },
+	{ "mb-br3",     "br3/br3", "pt-br", 22050, "male" },
+	{ "mb-br4",     "br4/br4", "pt-br", 22050, "female" },
+	{ "mb-cr1",     "cr1/cr1", "hr",    16000, "male" },
+	{ "mb-cz1",     "cz1/cz1", "cs",    16000, "male" },
+	{ "mb-de4",     "de4/de4", "de",    16000, "male" },
+	{ "mb-de4-en",  "de4/de4", "en",    16000, "male" },
+	{ "mb-de5",     "de5/de5", "de",    22050, "female" },
+	{ "mb-de5-en",  "de5/de5", "en",    22050, "female" },
+	{ "mb-de6",     "de6/de6", "de",    22050, "male" },
+	{ "mb-de6-grc", "de6/de6", "el",    22050, "male" },
+	{ "mb-de7",     "de7/de7", "de",    22050, "female" },
+	{ "mb-en1",     "en1/en1", "en-uk", 16000, "male" },
+	{ "mb-es1",     "es1/es1", "es",    16000, "male" },
+	{ "mb-es2",     "es2/es2", "es",    22050, "male" },
+	{ "mb-fr1",     "fr1/fr1", "fr",    16000, "male" },
+	{ "mb-fr1-en",  "fr1/fr1", "en",    16000, "male" },
+	{ "mb-fr4",     "fr4/fr4", "fr",    16000, "female" },
+	{ "mb-fr4-en",  "fr4/fr4", "en",    16000, "female" },
+	{ "mb-gr2",     "gr2/gr2", "el",    22050, "male" },
+	{ "mb-gr2-en",  "gr2/gr2", "en",    22050, "male" },
+	{ "mb-hu1",     "hu1/hu1", "hu",    16000, "female" },
+	{ "mb-hu1-en",  "hu1/hu1", "en",    16000, "female" },
+	{ "mb-id1",     "id1/id1", "id",    16000, "male" },
+	{ "mb-it3",     "it3/it3", "it",    16000, "male" },
+	{ "mb-it4",     "it4/it4", "it",    16000, "female" },
+	{ "mb-la1",     "la1/la1", "la",    16000, "male" },
+	{ "mb-nl2",     "nl2/nl2", "nl",    16000, "male" },
+	{ "mb-nl2-en",  "nl2/nl2", "en",    16000, "male" },
+	{ "mb-pl1",     "pl1/pl1", "pl",    16000, "female" },
+	{ "mb-pl1-en",  "pl1/pl1", "en",    16000, "female" },
+	{ "mb-pt1",     "pt1/pt1", "pt-pt", 22050, "female" },
+	{ "mb-ro1",     "ro1/ro1", "ro",    16000, "male" },
+	{ "mb-ro1-en",  "ro1/ro1", "en",    16000, "male" },
+	{ "mb-sw1",     "sw1/sw1", "sv",    16000, "male" },
+	{ "mb-sw1-en",  "sw1/sw1", "en",    16000, "male" },
+	{ "mb-sw2",     "sw2/sw2", "sv",    16000, "female" },
+	{ "mb-sw2-en",  "sw2/sw2", "en",    16000, "female" },
+	{ "mb-us1",     "us1/us1", "en-us", 16000, "female" },
+	{ "mb-us2",     "us2/us2", "en-us", 16000, "male" },
+	{ "mb-us3",     "us3/us3", "en-us", 16000, "male" },
 };
+
+static bool is_mbrola_voice_available(const char *voice)
+{
+	std::string path = std::string("/usr/share/mbrola/") + voice;
+	return access(path.c_str(), R_OK) == 0;
+}
 
 static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 {
@@ -223,17 +231,20 @@ public:
 
 		for (auto mbrola = mbrola_voices.begin(), last = mbrola_voices.end(); mbrola != last; ++mbrola)
 		{
-			rdf::uri voice = rdf::uri(baseuri, mbrola->name);
-			metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
-			metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola->language));
-			metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola->name));
-			metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola->gender));
+			if (is_mbrola_voice_available(mbrola->voice))
+			{
+				rdf::uri voice = rdf::uri(baseuri, mbrola->name);
+				metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
+				metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola->language));
+				metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola->name));
+				metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola->gender));
 
-			metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola->frequency, rdf::tts("hertz")));
-			metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
-			metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
+				metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola->frequency, rdf::tts("hertz")));
+				metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
+				metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
 
-			metadata.statement(voice, rdf::tts("voiceOf"), espeak);
+				metadata.statement(voice, rdf::tts("voiceOf"), espeak);
+			}
 		}
 	}
 
