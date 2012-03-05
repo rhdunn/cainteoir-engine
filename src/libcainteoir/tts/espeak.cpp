@@ -56,7 +56,7 @@ const std::initializer_list<const mbrola_voice> mbrola_voices = {
 	{ "mb-af1-en",  "af1/af1", "en",    16000, "male" },
 	{ "mb-br1",     "br1/br1", "pt-br", 16000, "male" },
 	{ "mb-br3",     "br3/br3", "pt-br", 22050, "male" },
-	{ "mb-br4",     "br4/br4", "pt-br", 22050, "female" },
+	{ "mb-br4",     "br4/br4", "pt-br", 16000, "female" },
 	{ "mb-cr1",     "cr1/cr1", "hr",    16000, "male" },
 	{ "mb-cz1",     "cz1/cz1", "cs",    16000, "male" },
 	{ "mb-de2",     "de2/de2", "de",    16000, "male" },
