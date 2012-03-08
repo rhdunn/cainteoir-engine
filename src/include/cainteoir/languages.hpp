@@ -1,6 +1,6 @@
 /* Language Mapping Support.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -24,6 +24,36 @@
 #include <string.h>
 #include <string>
 #include <map>
+
+namespace cainteoir { namespace language
+{
+	/** @brief BCP 47 / RFC 5646 language tag.
+	  * @see   http://www.ietf.org/rfc/rfc5646.txt
+	  */
+	struct tag
+	{
+		/** @brief ISO 639 language code.
+		  */
+		std::string lang;
+
+		/** @brief ISO 15924 script code.
+		  */
+		std::string script;
+
+		/** @brief ISO 3166 or UN M.49 region code.
+		  */
+		std::string region;
+	};
+
+	/** @brief Extract language tag information from a BCP 47 language id.
+	  * @see   http://www.ietf.org/rfc/rfc5646.txt
+	  *
+	  * @param[in] lang The language string, e.g. "es-LA".
+	  *
+	  * @return The extracted language, script and country codes.
+	  */
+	tag make_lang(const std::string &lang);
+}}
 
 namespace cainteoir
 {

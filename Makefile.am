@@ -239,6 +239,11 @@ noinst_bin_PROGRAMS += tests/xmlreader
 tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
 tests_xmlreader_SOURCES = tests/xmlreader.cpp
 
+noinst_bin_PROGRAMS += tests/languages
+
+tests_languages_LDADD   = src/libcainteoir/libcainteoir.la
+tests_languages_SOURCES = tests/languages.cpp
+
 TEST_FILES = \
 	tests/epub/* \
 	tests/ncx/* \
@@ -261,6 +266,7 @@ check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/tur
 	tests/ntriple_formatter
 	tests/turtle_formatter
 	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ tests/rdfquery
+	tests/languages
 	python tests/xmlreader.py
 	python tests/metadata.py
 	python tests/vorbis-comments.py

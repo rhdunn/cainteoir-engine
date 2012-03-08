@@ -29,6 +29,7 @@ tests/turtle_formatter
 tests/events
 tests/xmlreader
 tests/encoding
+tests/languages
 
 # docs output:
 
