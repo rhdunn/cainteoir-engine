@@ -68,7 +68,7 @@ const std::initializer_list<const mbrola_voice> mbrola_voices = {
 	{ "mb-de6-grc", "de6/de6", "el",    22050, "male" },
 	{ "mb-de7",     "de7/de7", "de",    22050, "female" },
 	{ "mb-ee1",     "ee1/ee1", "et",    16000, "male" },
-	{ "mb-en1",     "en1/en1", "en-uk", 16000, "male" },
+	{ "mb-en1",     "en1/en1", "en-gb", 16000, "male" },
 	{ "mb-es1",     "es1/es1", "es",    16000, "male" },
 	{ "mb-es2",     "es2/es2", "es",    22050, "male" },
 	{ "mb-fr1",     "fr1/fr1", "fr",    16000, "male" },
@@ -102,7 +102,7 @@ const std::initializer_list<const mbrola_voice> mbrola_voices = {
 	{ "mb-us1",     "us1/us1", "en-us", 16000, "female" },
 	{ "mb-us2",     "us2/us2", "en-us", 16000, "male" },
 	{ "mb-us3",     "us3/us3", "en-us", 16000, "male" },
-	{ "mb-vz1",     "vz1/vz1", "es-vz", 16000, "male" },
+	{ "mb-vz1",     "vz1/vz1", "es-ve", 16000, "male" },
 };
 
 static bool is_mbrola_voice_available(const char *voice)
