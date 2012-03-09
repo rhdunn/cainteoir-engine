@@ -37,6 +37,12 @@ void compare(const lang::tag &a, const lang::tag &b)
 	equal(a.variant, b.variant);
 }
 
+TEST_CASE("empty")
+{
+	compare(lang::make_lang(std::string()), {});
+	compare(lang::make_lang(""), {});
+}
+
 TEST_CASE("language")
 {
 	compare(lang::make_lang("en"), { "en" });
