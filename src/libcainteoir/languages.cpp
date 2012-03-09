@@ -1,6 +1,6 @@
 /* Cainteoir Engine.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -52,38 +52,47 @@ static std::string capitalize(std::string s)
 }
 
 std::initializer_list<std::pair<std::string, lang::tag>> alias2tag = {
-	{ "art-lojban",  { "jbo", "", "" } },
-	{ "cel-gaulish", { "cel-gaulish", "", "" } }, // parent=cel, children=[xtg, xcg, xlp, xga]
-	{ "i-ami",       { "ami", "", "" } },
-	{ "i-bnn",       { "bnn", "", "" } },
-	{ "i-default",   { "und", "", "" } },
-	{ "i-enochian",  { "i-enochian", "", "" } }, // no corresponding preferred tag
-	{ "i-hak",       { "hak", "", "" } },
-	{ "i-klingon",   { "tlh", "", "" } },
-	{ "i-lux",       { "lb",  "", "" } },
-	{ "i-mingo",     { "i-mingo",  "", "" } }, // no corresponding preferred tag
-	{ "i-navajo",    { "nv",  "", "" } },
-	{ "i-pwn",       { "pwn", "", "" } },
-	{ "i-tao",       { "tao", "", "" } },
-	{ "i-tay",       { "tay", "", "" } },
-	{ "i-tsu",       { "tsu", "", "" } },
-	{ "no-bok",      { "nb",  "", "" } },
-	{ "no-nyn",      { "nn",  "", "" } },
-	{ "zh-cmn",      { "cmn", "", "" } },
-	{ "zh-guoyu",    { "cmn", "", "" } },
-	{ "zh-hak",      { "hak", "", "" } },
-	{ "zh-hakka",    { "hak", "", "" } },
-	{ "zh-min",      { "nan", "", "" } },
-	{ "zh-nan",      { "nan", "", "" } },
-	{ "zh-xiang",    { "hsn", "", "" } },
+	{ "art-lojban",  { "jbo" } },
+	{ "cel-gaulish", { "cel-gaulish" } }, // parent=cel, children=[xtg, xcg, xlp, xga]
+	{ "en-sc",       { "en", "", "", "scotland" } },
+	{ "en-uk",       { "en", "", "GB" } },
+	{ "en-wi",       { "en", "", "029" } }, // Caribbean
+	{ "es-la",       { "es", "", "419" } }, // Latin America & Caribbean
+	{ "hy-west",     { "hy" } },
+	{ "i-ami",       { "ami" } },
+	{ "i-bnn",       { "bnn" } },
+	{ "i-default",   { "und" } },
+	{ "i-enochian",  { "i-enochian" } }, // no corresponding preferred tag
+	{ "i-hak",       { "hak" } },
+	{ "i-klingon",   { "tlh" } },
+	{ "i-lux",       { "lb" } },
+	{ "i-mingo",     { "i-mingo" } }, // no corresponding preferred tag
+	{ "i-navajo",    { "nv" } },
+	{ "i-pwn",       { "pwn" } },
+	{ "i-tao",       { "tao" } },
+	{ "i-tay",       { "tay" } },
+	{ "i-tsu",       { "tsu" } },
+	{ "no-bok",      { "nb" } },
+	{ "no-nyn",      { "nn" } },
+	{ "zh-cmn",      { "cmn" } },
+	{ "zh-guoyu",    { "cmn" } },
+	{ "zh-hak",      { "hak" } },
+	{ "zh-hakka",    { "hak" } },
+	{ "zh-min",      { "nan" } },
+	{ "zh-nan",      { "nan" } },
+	{ "zh-xiang",    { "hsn" } },
+	{ "zh-yue",      { "yue" } },
 };
 
 std::initializer_list<std::pair<std::string, lang::tag>> alias3tag = {
-	{ "en-gb-oed",  { "en",  "", "GB" } },
-	{ "sgn-be-fr",  { "sfb", "", "" } },
-	{ "sgn-be-nl",  { "vgt", "", "" } },
-	{ "sgn-ch-de",  { "sgg", "", "" } },
-	{ "zh-min-nan", { "nan", "", "" } },
+	{ "en-gb-oed",   { "en", "", "GB" } },
+	{ "en-uk-north", { "en", "", "GB" } },
+	{ "en-uk-rp",    { "en", "", "GB" } },
+	{ "en-uk-wmids", { "en", "", "GB" } },
+	{ "sgn-be-fr",   { "sfb" } },
+	{ "sgn-be-nl",   { "vgt" } },
+	{ "sgn-ch-de",   { "sgg" } },
+	{ "zh-min-nan",  { "nan" } },
 };
 
 lang::tag lang::make_lang(const std::string &lang)
@@ -136,31 +145,41 @@ cainteoir::languages::languages(const char * locale)
 		printf("error: %s\n", e.what());
 	}
 
-	rql::results languages = rql::select(data,
-		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
-		          rql::matches(rql::object, rdf::skos("Concept"))));
+	// This should construct the m_subtags map directly from the RDF metadata.
+	// However, with the current list-based implementation lookup of sublists
+	// (e.g. all statements with a specific subject) is slow when lookup is
+	// chained, especially for large statement sets like the subtag registry.
+	//
+	// This implementation performs a single pass over the data so the performance
+	// is O(n) where n is the number of statements, not O(n^2) or O(n^3).
 
-	foreach_iter(lang, languages)
+	std::map<std::string, std::pair<std::string, std::string>> mapping;
+	foreach_iter(lang, data)
 	{
-		const rdf::uri *uri = rql::subject(*lang);
-		if (uri)
-		{
-			rql::results statements = rql::select(data, rql::matches(rql::subject, *uri));
-			std::string name = rql::select_value<std::string>(statements, rql::matches(rql::predicate, rdf::skos("prefLabel")));
+		if (rql::predicate(*lang) == rdf::rdf("value"))
+			mapping[rql::subject(*lang).as<rdf::uri>()->str()].first = rql::value(*lang);
+		else if (rql::predicate(*lang) == rdf::dcterms("title"))
+			mapping[rql::subject(*lang).as<rdf::uri>()->str()].second = rql::value(*lang);
+	}
 
-			foreach_iter(statement, statements)
-			{
-				if (rql::predicate(*statement) == rdf::skos("altLabel"))
-					m_languages[ rql::value(*statement) ] = name;
-			}
-		}
+	foreach_iter(lang, mapping)
+	{
+		const auto &entry = lang->second;
+		if (!entry.first.empty() && !entry.second.empty())
+			m_subtags[entry.first] = entry.second;
 	}
 }
 
 std::string cainteoir::languages::operator()(const std::string & langid)
 {
-	std::string & lang = m_languages[langid];
-	if (lang.empty())
-		lang = langid;
-	return lang;
+	lang::tag lang = lang::make_lang(langid);
+
+	std::ostringstream name;
+	name << m_subtags[lang.lang];
+	if (!lang.region.empty())
+		name << " (" << m_subtags[lang.region] << ")";
+	else if (!lang.variant.empty())
+		name << " (" << m_subtags[lang.variant] << ")";
+
+	return name.str();
 }

@@ -31,15 +31,16 @@ REGISTER_TESTSUITE("Language Tags");
 
 void compare(const lang::tag &a, const lang::tag &b)
 {
-	equal(a.lang,   b.lang);
-	equal(a.script, b.script);
-	equal(a.region, b.region);
+	equal(a.lang,    b.lang);
+	equal(a.script,  b.script);
+	equal(a.region,  b.region);
+	equal(a.variant, b.variant);
 }
 
 TEST_CASE("language")
 {
-	compare(lang::make_lang("en"), { "en", "", "" });
-	compare(lang::make_lang("EN"), { "en", "", "" });
+	compare(lang::make_lang("en"), { "en" });
+	compare(lang::make_lang("EN"), { "en" });
 }
 
 TEST_CASE("language-region")
@@ -50,9 +51,9 @@ TEST_CASE("language-region")
 
 TEST_CASE("language-script")
 {
-	compare(lang::make_lang("zh-Hans"), { "zh", "Hans", "" });
-	compare(lang::make_lang("zh-HANS"), { "zh", "Hans", "" });
-	compare(lang::make_lang("ZH-hans"), { "zh", "Hans", "" });
+	compare(lang::make_lang("zh-Hans"), { "zh", "Hans" });
+	compare(lang::make_lang("zh-HANS"), { "zh", "Hans" });
+	compare(lang::make_lang("ZH-hans"), { "zh", "Hans" });
 }
 
 TEST_CASE("language-script-region")
@@ -64,37 +65,50 @@ TEST_CASE("language-script-region")
 
 TEST_CASE("grandfathered")
 {
-	compare(lang::make_lang("art-lojban"),  { "jbo", "", "" });
-	compare(lang::make_lang("cel-gaulish"), { "cel-gaulish", "", "" });
+	compare(lang::make_lang("art-lojban"),  { "jbo" });
+	compare(lang::make_lang("cel-gaulish"), { "cel-gaulish" });
 	compare(lang::make_lang("en-GB-oed"),   { "en",  "", "GB" });
-	compare(lang::make_lang("i-ami"),       { "ami", "", "" });
-	compare(lang::make_lang("i-bnn"),       { "bnn", "", "" });
-	compare(lang::make_lang("i-default"),   { "und", "", "" });
-	compare(lang::make_lang("i-enochian"),  { "i-enochian", "", "" });
-	compare(lang::make_lang("i-hak"),       { "hak", "", "" });
-	compare(lang::make_lang("i-klingon"),   { "tlh", "", "" });
-	compare(lang::make_lang("i-lux"),       { "lb",  "", "" });
-	compare(lang::make_lang("i-mingo"),     { "i-mingo", "", "" });
-	compare(lang::make_lang("i-navajo"),    { "nv",  "", "" });
-	compare(lang::make_lang("i-pwn"),       { "pwn", "", "" });
-	compare(lang::make_lang("i-tao"),       { "tao", "", "" });
-	compare(lang::make_lang("i-tay"),       { "tay", "", "" });
-	compare(lang::make_lang("i-tsu"),       { "tsu", "", "" });
-	compare(lang::make_lang("no-bok"),      { "nb",  "", "" });
-	compare(lang::make_lang("no-nyn"),      { "nn",  "", "" });
-	compare(lang::make_lang("sgn-BE-FR"),   { "sfb", "", "" });
-	compare(lang::make_lang("sgn-BE-NL"),   { "vgt", "", "" });
-	compare(lang::make_lang("sgn-CH-DE"),   { "sgg", "", "" });
-	compare(lang::make_lang("zh-guoyu"),    { "cmn", "", "" });
-	compare(lang::make_lang("zh-hakka"),    { "hak", "", "" });
-	compare(lang::make_lang("zh-min"),      { "nan", "", "" });
-	compare(lang::make_lang("zh-min-nan"),  { "nan", "", "" });
-	compare(lang::make_lang("zh-xiang"),    { "hsn", "", "" });
+	compare(lang::make_lang("i-ami"),       { "ami" });
+	compare(lang::make_lang("i-bnn"),       { "bnn" });
+	compare(lang::make_lang("i-default"),   { "und" });
+	compare(lang::make_lang("i-enochian"),  { "i-enochian" });
+	compare(lang::make_lang("i-hak"),       { "hak" });
+	compare(lang::make_lang("i-klingon"),   { "tlh" });
+	compare(lang::make_lang("i-lux"),       { "lb" });
+	compare(lang::make_lang("i-mingo"),     { "i-mingo" });
+	compare(lang::make_lang("i-navajo"),    { "nv" });
+	compare(lang::make_lang("i-pwn"),       { "pwn" });
+	compare(lang::make_lang("i-tao"),       { "tao" });
+	compare(lang::make_lang("i-tay"),       { "tay" });
+	compare(lang::make_lang("i-tsu"),       { "tsu" });
+	compare(lang::make_lang("no-bok"),      { "nb" });
+	compare(lang::make_lang("no-nyn"),      { "nn" });
+	compare(lang::make_lang("sgn-BE-FR"),   { "sfb" });
+	compare(lang::make_lang("sgn-BE-NL"),   { "vgt" });
+	compare(lang::make_lang("sgn-CH-DE"),   { "sgg" });
+	compare(lang::make_lang("zh-guoyu"),    { "cmn" });
+	compare(lang::make_lang("zh-hakka"),    { "hak" });
+	compare(lang::make_lang("zh-min"),      { "nan" });
+	compare(lang::make_lang("zh-min-nan"),  { "nan" });
+	compare(lang::make_lang("zh-xiang"),    { "hsn" });
 }
 
 TEST_CASE("redundant")
 {
-	compare(lang::make_lang("zh-cmn"), { "cmn", "", "" });
-	compare(lang::make_lang("zh-hak"), { "hak", "", "" });
-	compare(lang::make_lang("zh-nan"), { "nan", "", "" });
+	compare(lang::make_lang("zh-cmn"), { "cmn" });
+	compare(lang::make_lang("zh-hak"), { "hak" });
+	compare(lang::make_lang("zh-nan"), { "nan" });
+	compare(lang::make_lang("zh-yue"), { "yue" });
+}
+
+TEST_CASE("eSpeak") // language codes used by eSpeak voices ...
+{
+	compare(lang::make_lang("es-la"),       { "es", "", "419" });
+	compare(lang::make_lang("en-sc"),       { "en", "", "", "scotland" });
+	compare(lang::make_lang("en-uk"),       { "en", "", "GB" });
+	compare(lang::make_lang("en-uk-north"), { "en", "", "GB" });
+	compare(lang::make_lang("en-uk-rp"),    { "en", "", "GB" });
+	compare(lang::make_lang("en-uk-wmids"), { "en", "", "GB" });
+	compare(lang::make_lang("en-wi"),       { "en", "", "029" });
+	compare(lang::make_lang("hy-west"),     { "hy" });
 }

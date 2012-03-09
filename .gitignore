@@ -9,11 +9,12 @@
 *~
 .*.swp
 
+# code generation data:
+
+data/languages.dat
+src/libcainteoir/parsers/html-entities.dat
+
 # build output:
-
-data/magic.mgc
-
-src/libcainteoir/encoding/encodings.h
 
 src/libcainteoir/libcainteoir.a
 src/libcainteoir/libcainteoir.la
