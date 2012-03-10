@@ -52,12 +52,7 @@ def iana_subtag_entries(path):
 			# that have multiple descriptions (e.g. 'es' maps to "Spanish"
 			# and "Castilian").
 			if not key in tag.keys():
-				# Some descriptions have date ranges in parenthesis, so
-				# remove the date information from those entries.
-				if ' (' in value:
-					tag[key] = value.split(' (')[0]
-				else:
-					tag[key] = value
+				tag[key] = value
 		else:
 			tag[key] = value
 	yield tag
@@ -107,6 +102,8 @@ def read_iana_subtags(path):
 			tags[ref] = tag
 	return tags
 
+tags=read_iana_subtags('languages.dat')
+
 tagnames = {
 	'Added':           ('date',      'iana:added'),
 	'Comments':        ('string:en', 'dct:description'),
@@ -130,7 +127,6 @@ print """<?xml version="1.0" encoding="utf-8"?>
 	xmlns:cc  ="http://web.resource.org/cc/"
 >"""
 
-tags=read_iana_subtags('languages.dat')
 for name, tag in sorted(tags.items()):
 	print '<iana:%s rdf:about="%s%s">' % (tag['Type'], subtag_uri, name)
 	print '	<rdf:value>%s</rdf:value>' % name
