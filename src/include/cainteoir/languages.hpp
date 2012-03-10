@@ -66,6 +66,27 @@ namespace cainteoir
 	public:
 		languages(const char * locale);
 
+		/** @brief Get the translated language string.
+		  *
+		  * @param[in] id The language tag to translate.
+		  * @return    The translated name of the language code.
+		  */
+		const char *language(const language::tag &id) const;
+
+		/** @brief Get the translated language string.
+		  *
+		  * @param[in] id The language tag to translate.
+		  * @return    The translated name of the language code.
+		  */
+		const char *script(const language::tag &id) const;
+
+		/** @brief Get the translated language string.
+		  *
+		  * @param[in] id The language tag to translate.
+		  * @return    The translated name of the language code.
+		  */
+		const char *region(const language::tag &id) const;
+
 		std::string operator()(const std::string & langid);
 	private:
 		std::map<std::string, std::string> m_subtags;

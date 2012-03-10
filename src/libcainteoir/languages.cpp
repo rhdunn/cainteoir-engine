@@ -23,6 +23,7 @@
 #include <cainteoir/languages.hpp>
 #include <cainteoir/document.hpp>
 #include <algorithm>
+#include <libintl.h>
 
 namespace rdf  = cainteoir::rdf;
 namespace rql  = cainteoir::rdf::query;
@@ -170,16 +171,38 @@ cainteoir::languages::languages(const char * locale)
 	}
 }
 
+const char *cainteoir::languages::language(const lang::tag &id) const
+{
+	auto entry = m_subtags.find(id.lang);
+	if (entry == m_subtags.end())
+		return id.lang.c_str();
+	return dgettext("iso_639", entry->second.c_str());
+}
+
+const char *cainteoir::languages::script(const lang::tag &id) const
+{
+	auto entry = m_subtags.find(id.script);
+	if (entry == m_subtags.end())
+		return id.script.c_str();
+	return dgettext("iso_15924", entry->second.c_str());
+}
+
+const char *cainteoir::languages::region(const lang::tag &id) const
+{
+	auto entry = m_subtags.find(id.region);
+	if (entry == m_subtags.end())
+		return id.region.c_str();
+	return dgettext("iso_3166", entry->second.c_str());
+}
+
 std::string cainteoir::languages::operator()(const std::string & langid)
 {
 	lang::tag lang = lang::make_lang(langid);
 
 	std::ostringstream name;
-	name << m_subtags[lang.lang];
+	name << language(lang);
 	if (!lang.region.empty())
-		name << " (" << m_subtags[lang.region] << ")";
-	else if (!lang.variant.empty())
-		name << " (" << m_subtags[lang.variant] << ")";
+		name << " (" << region(lang) << ")";
 
 	return name.str();
 }
