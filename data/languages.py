@@ -62,6 +62,23 @@ def iana_subtag_entries(path):
 			tag[key] = value
 	yield tag
 
+typemap = {
+	'extlang':       'ExtLang',
+	'grandfathered': 'Grandfathered',
+	'language':      'Language',
+	'redundant':     'Redundant',
+	'region':        'Region',
+	'script':        'Script',
+	'variant':       'Variant',
+}
+
+scopemap = {
+	'collection':    'Collection',
+	'macrolanguage': 'MacroLanguage',
+	'special':       'Special',
+	'private-use':   'PrivateUse',
+}
+
 def read_iana_subtags(path):
 	datasrc='http://www.iana.org/assignments/language-subtag-registry'
 	if not os.path.exists(path):
@@ -77,25 +94,18 @@ def read_iana_subtags(path):
 			ref = tag['Tag']
 			del tag['Tag']
 
+		if 'Scope' in tag.keys():
+			if tag['Type'] != 'language':
+				raise Exception('"Scope" property unexpected for Type="%s"' % tag['Type'])
+
+			tag['Type'] = scopemap[ tag['Scope'] ]
+			del tag['Scope']
+		else:
+			tag['Type'] = typemap[ tag['Type'] ]
+
 		if '..' not in ref: # exclude private use definitions
 			tags[ref] = tag
 	return tags
-
-typemap = {
-	'extlang':       'ExtLang',
-	'grandfathered': 'Grandfathered',
-	'language':      'Language',
-	'redundant':     'Redundant',
-	'region':        'Region',
-	'script':        'Script',
-	'variant':       'Variant',
-}
-
-scopemap = {
-	'collection':    'Collection',
-	'macrolanguage': 'MacroLanguage',
-	'special':       'Special',
-}
 
 tagnames = {
 	'Added':           ('date',      'iana:added'),
@@ -122,17 +132,10 @@ print """<?xml version="1.0" encoding="utf-8"?>
 
 tags=read_iana_subtags('languages.dat')
 for name, tag in sorted(tags.items()):
-	if 'Scope' in tag.keys():
-		if tag['Type'] != 'language':
-			raise Exception('"Scope" property unexpected for Type="%s"' % tag['Type'])
-		typename = scopemap[ tag['Scope'] ]
-	else:
-		typename = typemap[ tag['Type'] ]
-
-	print '<iana:%s rdf:about="%s%s">' % (typename, subtag_uri, name)
+	print '<iana:%s rdf:about="%s%s">' % (tag['Type'], subtag_uri, name)
 	print '	<rdf:value>%s</rdf:value>' % name
 	for key, value in sorted(tag.items()):
-		if key not in ['Type', 'Scope']:
+		if key != 'Type':
 			reftype, ref = tagnames[key]
 			if reftype in ['date', 'string']:
 				print '	<%s>%s</%s>' % (ref, value, ref)
@@ -140,5 +143,5 @@ for name, tag in sorted(tags.items()):
 				print '	<%s xml:lang="en">%s</%s>' % (ref, value, ref)
 			elif reftype in ['resource']:
 				print '	<%s rdf:resource="%s%s"/>' % (ref, subtag_uri, value)
-	print '</iana:%s>' % typename
+	print '</iana:%s>' % tag['Type']
 print '</rdf:RDF>'
