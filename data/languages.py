@@ -20,7 +20,7 @@
 import os
 import json
 
-##### IANA Subtag Registry parser
+from xml.dom import minidom
 
 def fold_lines(path):
 	next_line = None
@@ -102,7 +102,68 @@ def read_iana_subtags(path):
 			tags[ref] = tag
 	return tags
 
-tags=read_iana_subtags('languages.dat')
+def attr(tag, attr):
+	value = tag.getAttribute(attr)
+	if type(value).__name__ == 'unicode':
+		return value.encode('utf-8')
+	return value
+
+def read_iso_639(path):
+	doc = minidom.parse(path).documentElement
+	tags = {}
+	for tag in doc.getElementsByTagName('iso_639_entry'):
+		iso_639_1  = attr(tag, 'iso_639_1_code')
+		iso_639_2b = attr(tag, 'iso_639_2B_code')
+		iso_639_2t = attr(tag, 'iso_639_2T_code')
+		name       = attr(tag, 'name')
+
+		if iso_639_1  != '': tags[iso_639_1]  = name
+		if iso_639_2b != '': tags[iso_639_2b] = name
+		if iso_639_2t != '': tags[iso_639_2t] = name
+	return tags
+
+def read_iso_3166(path):
+	doc = minidom.parse(path).documentElement
+	tags = {}
+	for tag in doc.getElementsByTagName('iso_3166_entry'):
+		alpha2  = attr(tag, 'alpha_2_code')
+		numeric = attr(tag, 'numeric_code')
+		name    = attr(tag, 'name')
+
+		tags[alpha2]  = name
+		tags[numeric] = name
+	return tags
+
+def read_iso_15924(path):
+	doc = minidom.parse(path).documentElement
+	tags = {}
+	for tag in doc.getElementsByTagName('iso_15924_entry'):
+		alpha4  = attr(tag, 'alpha_4_code')
+		name    = attr(tag, 'name')
+
+		tags[alpha4] = name
+	return tags
+
+tags            = read_iana_subtags('languages.dat')
+iso_639_codes   = read_iso_639('../../iso-codes/iso_639/iso_639.xml')
+iso_3166_codes  = read_iso_3166('../../iso-codes/iso_3166/iso_3166.xml')
+iso_15924_codes = read_iso_15924('../../iso-codes/iso_15924/iso_15924.xml')
+
+for name, tag in sorted(tags.items()):
+	try:
+		iso_name = None
+		if tag['Type'] in ['Script']:
+			iso_name = iso_15924_codes[ name ]
+		if tag['Type'] in ['Region']:
+			iso_name = iso_3166_codes[ name ]
+		if tag['Type'] in ['Special', 'MacroLanguage', 'Language', 'Collection']:
+			iso_name = iso_639_codes[ name ]
+
+		if iso_name and iso_name != tag['Description']:
+			tag['Description'] = iso_name
+
+	except KeyError:
+		pass
 
 tagnames = {
 	'Added':           ('date',      'iana:added'),
