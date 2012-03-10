@@ -17,23 +17,14 @@
 # You should have received a copy of the GNU General Public License
 # along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 
-
-# Processing for the IANA language codes listed at http://www.iana.org/assignments/language-subtag-registry:
-#    wget -O languages.dat http://www.iana.org/assignments/language-subtag-registry
-
 import os
 import json
 
-data='languages.dat'
-datasrc='http://www.iana.org/assignments/language-subtag-registry'
+##### IANA Subtag Registry parser
 
-if not os.path.exists(data):
-	print 'downloading entity data file "%s" to "%s" ...' % (datasrc, data)
-	os.system('wget -O %s %s' % (data, datasrc))
-
-def fold_lines(name):
+def fold_lines(path):
 	next_line = None
-	with open(data) as f:
+	with open(path) as f:
 		for line in f:
 			line = line.replace('\n', '')
 			if line.startswith(' '):
@@ -43,9 +34,9 @@ def fold_lines(name):
 				yield next_line
 			next_line = line
 
-def tag_entries(name):
+def iana_subtag_entries(path):
 	tag = {}
-	for line in fold_lines(data):
+	for line in fold_lines(path):
 		if line == '%%':
 			if 'Type' in tag:
 				yield tag
@@ -71,17 +62,24 @@ def tag_entries(name):
 			tag[key] = value
 	yield tag
 
-tags = {}
-for tag in tag_entries(data):
-	if 'Subtag' in tag.keys():
-		ref = tag['Subtag']
-		del tag['Subtag']
-	else:
-		ref = tag['Tag']
-		del tag['Tag']
+def read_iana_subtags(path):
+	datasrc='http://www.iana.org/assignments/language-subtag-registry'
+	if not os.path.exists(path):
+		print 'downloading IANA subtag registry file "%s" to "%s" ...' % (datasrc, path)
+		os.system('wget -O %s %s' % (path, datasrc))
 
-	if '..' not in ref: # exclude private use definitions
-		tags[ref] = tag
+	tags = {}
+	for tag in iana_subtag_entries(path):
+		if 'Subtag' in tag.keys():
+			ref = tag['Subtag']
+			del tag['Subtag']
+		else:
+			ref = tag['Tag']
+			del tag['Tag']
+
+		if '..' not in ref: # exclude private use definitions
+			tags[ref] = tag
+	return tags
 
 typemap = {
 	'extlang':       'ExtLang',
@@ -122,6 +120,7 @@ print """<?xml version="1.0" encoding="utf-8"?>
 	xmlns:cc  ="http://web.resource.org/cc/"
 >"""
 
+tags=read_iana_subtags('languages.dat')
 for name, tag in sorted(tags.items()):
 	if 'Scope' in tag.keys():
 		if tag['Type'] != 'language':
