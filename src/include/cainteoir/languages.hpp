@@ -66,24 +66,24 @@ namespace cainteoir
 	public:
 		languages(const char * locale);
 
-		/** @brief Get the translated language string.
+		/** @brief Get the translated ISO 639 language code.
 		  *
 		  * @param[in] id The language tag to translate.
-		  * @return    The translated name of the language code.
+		  * @return    The translated name.
 		  */
 		const char *language(const language::tag &id) const;
 
-		/** @brief Get the translated language string.
+		/** @brief Get the translated ISO 15924 script code.
 		  *
 		  * @param[in] id The language tag to translate.
-		  * @return    The translated name of the language code.
+		  * @return    The translated name.
 		  */
 		const char *script(const language::tag &id) const;
 
-		/** @brief Get the translated language string.
+		/** @brief Get the translated ISO 3166 region code.
 		  *
 		  * @param[in] id The language tag to translate.
-		  * @return    The translated name of the language code.
+		  * @return    The translated name.
 		  */
 		const char *region(const language::tag &id) const;
 
