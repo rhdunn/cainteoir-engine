@@ -118,3 +118,16 @@ TEST_CASE("eSpeak") // language codes used by eSpeak voices ...
 	compare(lang::make_lang("en-wi"),       { "en", "", "029" });
 	compare(lang::make_lang("hy-west"),     { "hy" });
 }
+
+TEST_CASE("posix locales") // locale codes in /usr/share/locale
+{
+	compare(lang::make_lang("be@latin"),    { "be", "Latn" });
+	compare(lang::make_lang("ca@valencia"), { "ca", "", "", "valencia" });
+	compare(lang::make_lang("en@boldquot"), { "en" });
+	compare(lang::make_lang("en@quot"),     { "en" });
+	compare(lang::make_lang("en@shaw"),     { "en" });
+	compare(lang::make_lang("sr@ije"),      { "sr" });
+	compare(lang::make_lang("sr@latin"),    { "sr", "Latn" });
+	compare(lang::make_lang("sr@Latn"),     { "sr", "Latn" });
+	compare(lang::make_lang("uz@cyrillic"), { "uz", "Cyrl" });
+}

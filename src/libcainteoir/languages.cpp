@@ -52,6 +52,18 @@ static std::string capitalize(std::string s)
 	return s;
 }
 
+std::initializer_list<std::pair<std::string, lang::tag>> alias1tag = {
+	{ "be@latin",    { "be", "Latn" } },
+	{ "ca@valencia", { "ca", "", "", "valencia" } },
+	{ "en@boldquot", { "en" } },
+	{ "en@quot",     { "en" } },
+	{ "en@shaw",     { "en" } },
+	{ "sr@ije",      { "sr" } },
+	{ "sr@latin",    { "sr", "Latn" } },
+	{ "sr@latn",     { "sr", "Latn" } },
+	{ "uz@cyrillic", { "uz", "Cyrl" } },
+};
+
 std::initializer_list<std::pair<std::string, lang::tag>> alias2tag = {
 	{ "art-lojban",  { "jbo" } },
 	{ "cel-gaulish", { "cel-gaulish" } }, // parent=cel, children=[xtg, xcg, xlp, xga]
@@ -100,7 +112,16 @@ lang::tag lang::make_lang(const std::string &lang)
 {
 	std::string::size_type a = lang.find('-');
 	if (a == std::string::npos)
+	{
+		std::string langid = to_lower(lang);
+		for (auto id = alias1tag.begin(), last = alias1tag.end(); id != last; ++id)
+		{
+			if (id->first == langid)
+				return id->second;
+		}
+
 		return { to_lower(lang), "", "" };
+	}
 
 	std::string::size_type b = lang.find('-', a+1);
 	if (b == std::string::npos)
