@@ -20,9 +20,10 @@ the dialect can map the words in the text to use the dialect variants to
 force the text to be spoken in the specified dialect.
 
 An accent is either a general accent (such as Canadian French) or a regional
-accent (such as Scouse English) of a specific language. The accent defines:
+accent (such as Scouse (Liverpudlian) English) of a specific language. The
+accent defines:
 
-  1.  a set of phoneme-to-phoneme rules (e.g. /Vk/ => /Vx/ for Liverpudlian English);
+  1.  a set of phoneme-to-phoneme rules (e.g. /Vk/ => /Vx/ for Scouse English);
   2.  a set of letter-to-phoneme rules;
   3.  an exception dictionary.
 
