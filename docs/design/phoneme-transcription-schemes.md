@@ -86,3 +86,23 @@ of the following on each line:
 
 where the (position, frequency) pairs are optional and form the frequency
 contour shape, with position being the percentage through the phoneme.
+
+## Japanese
+
+Japanese is interesting as it comes with its own phonetic system. This
+system has several transcriptions:
+
+  1.  [hiragana](http://en.wikipedia.org/wiki/Hiragana)
+  2.  [katakana](http://en.wikipedia.org/wiki/Katakana)
+  3.  [romaji](http://en.wikipedia.org/wiki/Hepburn_romanization)
+
+Here, the Chinese characters used in Japanese can be transcribed
+phonetically using Hiragana.
+
+Likewise, Katakana can be mapped onto the equivalent Hiragana syllables.
+
+There are then three ways the Hiragana phonemes can be pronounced:
+
+  1.  directly from the hiragana (for native Japanese voices);
+  2.  via the IPA equivalents;
+  3.  via Westernized variants of the IPA (equivalent to their romaji form).
