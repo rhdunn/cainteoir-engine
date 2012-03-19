@@ -85,6 +85,8 @@ namespace cainteoir { namespace rdf
 	typedef cainteoir::xml::uri uri;
 	typedef cainteoir::xml::ns  ns;
 
+	extern const ns bnode;    /**< @brief RDF blank node. */
+
 	extern const ns rdf;     /**< @brief RDF syntax namespace. */
 	extern const ns rdfa;    /**< @brief RDF attributes (RDFa) namespace. */
 	extern const ns rdfs;    /**< @brief RDF schema namespace. */
@@ -299,11 +301,6 @@ namespace cainteoir { namespace rdf
 		const uri href(const std::string &aHref);
 
 		const rdf::uri genid();
-
-		inline const uri bnode(const std::string &aRef)
-		{
-			return uri(std::string(), aRef);
-		}
 
 		std::shared_ptr<const uri>
 		curie(const std::string &aCurie);

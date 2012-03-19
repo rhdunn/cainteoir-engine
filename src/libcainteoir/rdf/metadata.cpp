@@ -22,6 +22,8 @@
 
 namespace rdf = cainteoir::rdf;
 
+const rdf::ns rdf::bnode("_", "_:");
+
 const rdf::ns rdf::rdf( "rdf",  "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 const rdf::ns rdf::rdfa("rdfa", "http://www.w3.org/ns/rdfa#");
 const rdf::ns rdf::rdfs("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
@@ -126,7 +128,7 @@ rdf::graph::curie(const std::string &aCurie)
 		std::string ref = aCurie.substr(index+1);
 
 		if (prefix == "_")
-			return std::make_shared<rdf::uri>(std::string(), ref);
+			return std::make_shared<rdf::uri>("_:", ref);
 
 		std::string ns = lookup(prefix);
 		if (ns.empty())
@@ -167,7 +169,7 @@ bool rdf::graph::contains(const ns &uri) const
 
 bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject)
 {
-	if (aPredicate.ns.empty())
+	if (aPredicate.ns == rdf::bnode.href)
 		return false;
 
 	if (!aSubject.ns.empty())
@@ -184,7 +186,7 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 
 bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::literal &aObject)
 {
-	if (aPredicate.ns.empty())
+	if (aPredicate.ns == rdf::bnode.href)
 		return false;
 
 	if (!aSubject.ns.empty())

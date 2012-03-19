@@ -42,7 +42,7 @@ public:
 
 	rdf::formatter &operator<<(const rdf::uri &uri)
 	{
-		if (uri.ns == std::string())
+		if (uri.ns == "_:")
 			os << "_:" << uri.ref;
 		else
 		{

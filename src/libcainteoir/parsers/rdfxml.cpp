@@ -232,7 +232,7 @@ void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf::graph 
 							aGraph.statement(aSubject, self, aGraph.href(resource));
 					}
 					else if (!nodeID.empty())
-						aGraph.statement(aSubject, self, aGraph.bnode(nodeID));
+						aGraph.statement(aSubject, self, rdf::bnode(nodeID));
 					else if (!datatype.empty())
 						aGraph.statement(aSubject, self, rdf::literal(value, aGraph.href(datatype)));
 					else if (!value.empty())
@@ -269,7 +269,7 @@ rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::ur
 			else if (reader.context() == &rdf::nodeID_attr)
 			{
 				std::string nodeID = reader.nodeValue().str();
-				subject = aGraph.bnode(nodeID);
+				subject = rdf::bnode(nodeID);
 			}
 			else if (reader.context() == &rdf::ID_attr)
 			{
