@@ -386,26 +386,6 @@ namespace cainteoir { namespace xml
 
 		//@}
 	};
-
-	inline bool operator==(const reader &a, const uri &b)
-	{
-		return uri(a.namespaceUri(), a.nodeName().str()) == b;
-	}
-
-	inline bool operator==(const uri &a, const reader &b)
-	{
-		return b == a;
-	}
-
-	inline bool operator!=(const reader &a, const uri &b)
-	{
-		return !(a == b);
-	}
-
-	inline bool operator!=(const uri &a, const reader &b)
-	{
-		return !(b == a);
-	}
 }}
 
 /** References
