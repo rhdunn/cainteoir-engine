@@ -83,7 +83,25 @@ namespace cainteoir { namespace rdf
 	};
 
 	typedef cainteoir::xml::uri uri;
-	typedef cainteoir::xml::ns  ns;
+
+	class ns : public cainteoir::xml::ns
+	{
+	public:
+		ns(const std::string &aPrefix, const std::string &aHref)
+			: cainteoir::xml::ns(aPrefix, aHref)
+		{
+		}
+
+		/** @brief Create a URI in the namespace.
+		  *
+		  * @param aRef The URI reference relative to the namespace.
+		  */
+		uri operator()(const std::string &aRef) const
+		{
+			return uri(href, aRef);
+		}
+	};
+
 
 	extern const ns bnode;    /**< @brief RDF blank node. */
 

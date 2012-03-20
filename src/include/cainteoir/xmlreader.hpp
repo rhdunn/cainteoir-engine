@@ -70,15 +70,6 @@ namespace cainteoir { namespace xml
 			, prefix(aPrefix)
 		{
 		}
-
-		/** @brief Create a URI in the namespace.
-		  *
-		  * @param aRef The URI reference relative to the namespace.
-		  */
-		uri operator()(const std::string &aRef) const
-		{
-			return uri(href, aRef);
-		}
 	};
 
 	inline bool operator==(const ns &a, const char *b)
