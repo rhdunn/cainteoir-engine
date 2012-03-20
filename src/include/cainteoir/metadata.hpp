@@ -102,6 +102,15 @@ namespace cainteoir { namespace rdf
 		}
 	};
 
+	inline bool operator==(const std::string &a, const ns &b)
+	{
+		return a == b.href;
+	}
+
+	inline bool operator==(const ns &a, const std::string &b)
+	{
+		return a.href == b;
+	}
 
 	extern const ns bnode;    /**< @brief RDF blank node. */
 

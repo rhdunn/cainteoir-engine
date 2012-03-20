@@ -373,10 +373,10 @@ void parseOpfMetadata(xml::reader &reader, const rdf::uri &aSubject, cainteoir::
 				parseOpfMeta(reader, aSubject, events, aGraph);
 			else if (reader.context() == &opf::link_node)
 				parseOpfLink(reader, aSubject, events, aGraph);
-			else if (reader.namespaceUri() == xmlns::dc && reader.context() != &xml::unknown_context)
+			else if (reader.namespaceUri() == xmlns::dc.href && reader.context() != &xml::unknown_context)
 				parseOpfDublinCore(reader, aSubject, events, aGraph, reader.context());
 		}
-		else if (reader.namespaceUri() == xmlns::dc && reader.context() != &xml::unknown_context)
+		else if (reader.namespaceUri() == xmlns::dc.href && reader.context() != &xml::unknown_context)
 			parseOpfDublinCore(reader, aSubject, events, aGraph, reader.context());
 		break;
 	case xml::reader::endTagNode:

@@ -72,39 +72,6 @@ namespace cainteoir { namespace xml
 		}
 	};
 
-	inline bool operator==(const ns &a, const char *b)
-	{
-		return a.href == b;
-	}
-
-	inline bool operator==(const ns &a, const std::string &b)
-	{
-		return a.href == b;
-	}
-
-	inline bool operator==(const ns &a, const ns &b)
-	{
-		return a.prefix == b.prefix && a.href == b.href;
-	}
-
-	template <typename T>
-	inline bool operator==(const T & a, const ns &b)
-	{
-		return b == a;
-	}
-
-	template <typename T>
-	inline bool operator!=(const ns &a, const T &b)
-	{
-		return !(a == b);
-	}
-
-	template <typename T>
-	inline bool operator!=(const T &a, const ns &b)
-	{
-		return !(b == a);
-	}
-
 	namespace xmlns
 	{
 		extern const ns dc;    /**< Dublin Core Elements namespace */
