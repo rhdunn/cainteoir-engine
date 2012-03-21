@@ -41,15 +41,10 @@ void test_uri(const xml::resource &node, const std::string &value, const std::st
 	}
 }
 
-void test_bnode(const xml::resource &node, const std::string &id)
-{
-	test_uri(node, "_:" + id, "_:", id);
-}
-
 TEST_CASE("rdf::bnode")
 {
-	test_bnode(rdf::bnode("a"),    "a");
-	test_bnode(rdf::bnode("temp"), "temp");
+	test_uri(rdf::bnode("a"),    "_:a",    "_:", "a");
+	test_uri(rdf::bnode("temp"), "_:temp", "_:", "temp");
 }
 
 TEST_CASE("rdf::uri")
@@ -118,11 +113,6 @@ TEST_CASE("rdf::href")
 	test_uri(g.href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
 }
 
-void test_bnode(const std::shared_ptr<const xml::resource> &node, const std::string &id)
-{
-	test_bnode(*node, id);
-}
-
 void test_uri(const std::shared_ptr<const xml::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	test_uri(*node, value, ns, ref);
@@ -181,24 +171,24 @@ TEST_CASE("rdf::graph -- curie: bnodes")
 	rdf::graph test;
 
 	test.set_base("http://www.example.org/base");
-	test_bnode(test.curie("_:test"), "test");
-	test_bnode(test.curie("_:joe"), "joe");
-	test_bnode(test.curie("_:sue"), "sue");
+	test_uri(test.curie("_:test"), "_:test", "_:", "test");
+	test_uri(test.curie("_:joe"),  "_:joe",  "_:", "joe");
+	test_uri(test.curie("_:sue"),  "_:sue",  "_:", "sue");
 
 	test.set_base("http://www.example.org/base/");
-	test_bnode(test.curie("_:test"), "test");
-	test_bnode(test.curie("_:joe"), "joe");
-	test_bnode(test.curie("_:sue"), "sue");
+	test_uri(test.curie("_:test"), "_:test", "_:", "test");
+	test_uri(test.curie("_:joe"),  "_:joe",  "_:", "joe");
+	test_uri(test.curie("_:sue"),  "_:sue",  "_:", "sue");
 
 	test.set_base("http://www.example.org/base#");
-	test_bnode(test.curie("_:test"), "test");
-	test_bnode(test.curie("_:joe"), "joe");
-	test_bnode(test.curie("_:sue"), "sue");
+	test_uri(test.curie("_:test"), "_:test", "_:", "test");
+	test_uri(test.curie("_:joe"),  "_:joe",  "_:", "joe");
+	test_uri(test.curie("_:sue"),  "_:sue",  "_:", "sue");
 
 	test.set_base("http://www.example.org/base/#");
-	test_bnode(test.curie("_:test"), "test");
-	test_bnode(test.curie("_:joe"), "joe");
-	test_bnode(test.curie("_:sue"), "sue");
+	test_uri(test.curie("_:test"), "_:test", "_:", "test");
+	test_uri(test.curie("_:joe"),  "_:joe",  "_:", "joe");
+	test_uri(test.curie("_:sue"),  "_:sue",  "_:", "sue");
 }
 
 TEST_CASE("rdf::graph -- curie: add_namespaces(prefix, href)")
@@ -596,13 +586,13 @@ TEST_CASE("rdf::graph -- genid()")
 	rdf::graph model1;
 	rdf::graph model2;
 
-	test_bnode(model1.genid(), "genid1");
-	test_bnode(model1.genid(), "genid2");
-	test_bnode(model1.genid(), "genid3");
-	test_bnode(model2.genid(), "genid1");
-	test_bnode(model2.genid(), "genid2");
-	test_bnode(model1.genid(), "genid4");
-	test_bnode(model1.genid(), "genid5");
-	test_bnode(model2.genid(), "genid3");
-	test_bnode(model2.genid(), "genid4");
+	test_uri(model1.genid(), "_:genid1", "_:", "genid1");
+	test_uri(model1.genid(), "_:genid2", "_:", "genid2");
+	test_uri(model1.genid(), "_:genid3", "_:", "genid3");
+	test_uri(model2.genid(), "_:genid1", "_:", "genid1");
+	test_uri(model2.genid(), "_:genid2", "_:", "genid2");
+	test_uri(model1.genid(), "_:genid4", "_:", "genid4");
+	test_uri(model1.genid(), "_:genid5", "_:", "genid5");
+	test_uri(model2.genid(), "_:genid3", "_:", "genid3");
+	test_uri(model2.genid(), "_:genid4", "_:", "genid4");
 }
