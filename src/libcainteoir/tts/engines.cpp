@@ -353,7 +353,7 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 		if (rql::predicate(*statement) == rdf::tts("name"))
 		{
 			voice = rql::value(*statement);
-			voiceUri = rql::subject(*statement);
+			voiceUri = &rql::subject(*statement);
 		}
 		else if (rql::predicate(*statement) == rdf::tts("voiceOf"))
 		{

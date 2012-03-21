@@ -290,9 +290,9 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		inline rdf::resource subject(const std::shared_ptr<const rdf::triple> &statement)
+		inline const rdf::uri &subject(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			return rdf::resource(&statement->subject);
+			return statement->subject;
 		}
 
 		inline rdf::resource predicate(const std::shared_ptr<const rdf::triple> &statement)
@@ -376,11 +376,11 @@ namespace cainteoir { namespace rdf
 
 		namespace detail
 		{
-			template<typename Value>
-			class matches_t : public std::unary_function< bool, const std::shared_ptr<const rdf::triple> & >
+			template<typename ResourceType, typename Value>
+			class matches_t : public std::unary_function<bool, const std::shared_ptr<const rdf::triple> &>
 			{
 			public:
-				matches_t(rdf::resource (*aSelector)(const std::shared_ptr<const rdf::triple> &), const Value &aValue)
+				matches_t(ResourceType (*aSelector)(const std::shared_ptr<const rdf::triple> &), const Value &aValue)
 					: selector(aSelector)
 					, value(aValue)
 				{
@@ -391,7 +391,7 @@ namespace cainteoir { namespace rdf
 					return selector(s) == value;
 				}
 			private:
-				rdf::resource (*selector)(const std::shared_ptr<const rdf::triple> &);
+				ResourceType (*selector)(const std::shared_ptr<const rdf::triple> &);
 				const Value &value;
 			};
 		}
@@ -403,10 +403,10 @@ namespace cainteoir { namespace rdf
 		  *
 		  * @return The selector functor.
 		  */
-		template<typename Value>
-		detail::matches_t<Value> matches(rdf::resource (*aSelector)(const std::shared_ptr<const rdf::triple> &), const Value &aValue)
+		template<typename ResourceType, typename Value>
+		detail::matches_t<ResourceType, Value> matches(ResourceType (*aSelector)(const std::shared_ptr<const rdf::triple> &), const Value &aValue)
 		{
-			return detail::matches_t<Value>(aSelector, aValue);
+			return detail::matches_t<ResourceType, Value>(aSelector, aValue);
 		}
 
 		namespace detail

@@ -179,9 +179,9 @@ cainteoir::languages::languages(const char * locale)
 	foreach_iter(lang, data)
 	{
 		if (rql::predicate(*lang) == rdf::rdf("value"))
-			mapping[rql::subject(*lang).as<rdf::uri>()->str()].first = rql::value(*lang);
+			mapping[rql::subject(*lang).str()].first = rql::value(*lang);
 		else if (rql::predicate(*lang) == rdf::dcterms("title"))
-			mapping[rql::subject(*lang).as<rdf::uri>()->str()].second = rql::value(*lang);
+			mapping[rql::subject(*lang).str()].second = rql::value(*lang);
 	}
 
 	foreach_iter(lang, mapping)

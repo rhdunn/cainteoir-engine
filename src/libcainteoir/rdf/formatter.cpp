@@ -83,11 +83,7 @@ public:
 
 	rdf::formatter &operator<<(const std::shared_ptr<const rdf::triple> &statement)
 	{
-		{
-			const rdf::uri *uri = rdf::query::subject(statement);
-			if (uri)
-				*this << *uri;
-		}
+		*this << rdf::query::subject(statement);
 
 		os << ' ';
 		*this << statement->predicate;

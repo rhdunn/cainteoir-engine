@@ -31,27 +31,33 @@ namespace rql = cainteoir::rdf::query;
 
 REGISTER_TESTSUITE("RDF Query");
 
+void match_(const rdf::uri &a, const rdf::uri &b, const char *fn, const char *ref, int lineno)
+{
+	equal_(a.str(), b.str(), fn, ref, lineno);
+	equal_(a.ns,    b.ns,    fn, ref, lineno);
+	equal_(a.ref,   b.ref,   fn, ref, lineno);
+}
+
 void match_(const rdf::resource &a, const rdf::uri &b, const char *fn, const char *ref, int lineno)
 {
 	const rdf::uri *uri = a.as<rdf::uri>();
 	if (assert_(uri, fn, ref, lineno))
-	{
-		equal_(uri->str(), b.str(), fn, ref, lineno);
-		equal_(uri->ns,    b.ns,    fn, ref, lineno);
-		equal_(uri->ref,   b.ref,   fn, ref, lineno);
-	}
+		match_(*uri, b, fn, ref, lineno);
+}
+
+void match_(const rdf::literal &a, const rdf::literal &b, const char *fn, const char *ref, int lineno)
+{
+	equal_(a.value,      b.value,    fn, ref, lineno);
+	equal_(a.language,   b.language, fn, ref, lineno);
+	equal_(a.type.ns,    b.type.ns,  fn, ref, lineno);
+	equal_(a.type.ref,   b.type.ref, fn, ref, lineno);
 }
 
 void match_(const rdf::resource &a, const rdf::literal &b, const char *fn, const char *ref, int lineno)
 {
 	const rdf::literal *literal = a.as<rdf::literal>();
 	if (assert_(literal, fn, ref, lineno))
-	{
-		equal_(literal->value,      b.value,    fn, ref, lineno);
-		equal_(literal->language,   b.language, fn, ref, lineno);
-		equal_(literal->type.ns,    b.type.ns,  fn, ref, lineno);
-		equal_(literal->type.ref,   b.type.ref, fn, ref, lineno);
-	}
+		match_(*literal, b, fn, ref, lineno);
 }
 
 #define match(a, b) match_(a, b, __FUNCTION__, #a " == " #b, __LINE__)

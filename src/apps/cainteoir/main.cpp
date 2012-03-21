@@ -205,15 +205,12 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 
 	foreach_iter(voice, voices)
 	{
-		const rdf::uri *uri = rql::subject(*voice);
-		if (uri)
+		const rdf::uri &uri = rql::subject(*voice);
+		rql::results statements = rql::select(aMetadata, rql::matches(rql::subject, uri));
+		foreach_iter(statement, statements)
 		{
-			rql::results statements = rql::select(aMetadata, rql::matches(rql::subject, *uri));
-			foreach_iter(statement, statements)
-			{
-				if (rql::predicate(*statement) == predicate && rql::value(*statement) == value)
-					return uri;
-			}
+			if (rql::predicate(*statement) == predicate && rql::value(*statement) == value)
+				return &uri;
 		}
 	}
 
@@ -462,7 +459,7 @@ int main(int argc, char ** argv)
 				}
 				else
 				{
-					rql::results selection = rql::select(doc.m_metadata, rql::matches(rql::subject, object));
+					rql::results selection = rql::select(doc.m_metadata, rql::matches(rql::subject, *object.as<rdf::uri>()));
 
 					if (rql::predicate(*query).as<rdf::uri>()->ref == "creator")
 					{
