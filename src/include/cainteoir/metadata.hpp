@@ -274,11 +274,11 @@ namespace cainteoir { namespace rdf
 	class triple
 	{
 	public:
-		const std::shared_ptr<const cainteoir::xml::resource> subject;
+		const uri subject;
 		const uri predicate;
 		const std::shared_ptr<const cainteoir::xml::resource> object;
 
-		triple(const std::shared_ptr<const cainteoir::xml::resource> &aSubject,
+		triple(const uri &aSubject,
 		       const uri &aPredicate,
 		       const std::shared_ptr<const cainteoir::xml::resource> &aObject)
 			: subject(aSubject)
@@ -292,7 +292,7 @@ namespace cainteoir { namespace rdf
 	{
 		inline rdf::resource subject(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			return rdf::resource(statement->subject.get());
+			return rdf::resource(&statement->subject);
 		}
 
 		inline rdf::resource predicate(const std::shared_ptr<const rdf::triple> &statement)

@@ -322,9 +322,9 @@ void test_item(const xml::resource &a, const rdf::literal &b)
 template<typename Subject, typename Object>
 void test_statement(const std::shared_ptr<const rdf::triple> &s, const Subject &subject, const rdf::uri &predicate, const Object &object)
 {
-	test_item(*s->subject, subject);
+	test_item(s->subject,   subject);
 	test_item(s->predicate, predicate);
-	test_item(*s->object, object);
+	test_item(*s->object,   object);
 }
 
 TEST_CASE("rdf::resource -- empty")
