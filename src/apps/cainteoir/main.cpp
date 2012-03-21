@@ -447,21 +447,21 @@ int main(int argc, char ** argv)
 
 		foreach_iter (query, rql::select(doc.m_metadata, rql::matches(rql::subject, doc.subject)))
 		{
-			if (rql::predicate(*query).as<rdf::uri>()->ns == rdf::dc || rql::predicate(*query).as<rdf::uri>()->ns == rdf::dcterms)
+			if (rql::predicate(*query).ns == rdf::dc || rql::predicate(*query).ns == rdf::dcterms)
 			{
 				rdf::resource object = rql::object(*query);
 				if (object.as<rdf::literal>())
 				{
-					if (rql::predicate(*query).as<rdf::uri>()->ref == "title")
+					if (rql::predicate(*query).ref == "title")
 						title = rql::value(object);
-					else if (rql::predicate(*query).as<rdf::uri>()->ref == "creator")
+					else if (rql::predicate(*query).ref == "creator")
 						author = rql::value(object);
 				}
 				else
 				{
 					rql::results selection = rql::select(doc.m_metadata, rql::matches(rql::subject, *object.as<rdf::uri>()));
 
-					if (rql::predicate(*query).as<rdf::uri>()->ref == "creator")
+					if (rql::predicate(*query).ref == "creator")
 					{
 						std::string role;
 						std::string value;
@@ -478,7 +478,7 @@ int main(int argc, char ** argv)
 						if (!value.empty() && (role == "aut" || role.empty()))
 							author = value;
 					}
-					else if (rql::predicate(*query).as<rdf::uri>()->ref == "title")
+					else if (rql::predicate(*query).ref == "title")
 					{
 						for(auto data = selection.begin(), last = selection.end(); data != last; ++data)
 						{

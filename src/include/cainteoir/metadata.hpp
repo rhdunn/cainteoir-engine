@@ -295,9 +295,9 @@ namespace cainteoir { namespace rdf
 			return statement->subject;
 		}
 
-		inline rdf::resource predicate(const std::shared_ptr<const rdf::triple> &statement)
+		inline const rdf::uri &predicate(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			return rdf::resource(&statement->predicate);
+			return statement->predicate;
 		}
 
 		inline rdf::resource object(const std::shared_ptr<const rdf::triple> &statement)

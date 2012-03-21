@@ -113,7 +113,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 					published = date;
 			}
 		}
-		else if (rql::predicate(*query).as<rdf::uri>()->ns == rdf::dcterms)
+		else if (rql::predicate(*query).ns == rdf::dcterms)
 		{
 			rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, *rql::object(*query).as<rdf::uri>()));
 
