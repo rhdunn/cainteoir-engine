@@ -251,24 +251,6 @@ namespace cainteoir { namespace rdf
 		return lhs.value == rhs.value && lhs.language == rhs.language && lhs.type == rhs.type;
 	}
 
-	namespace query
-	{
-		inline const std::string &value(const rdf::literal *literal)
-		{
-			return literal ? literal->value : nil;
-		}
-
-		inline const std::string &value(const rdf::literal &literal)
-		{
-			return literal.value;
-		}
-
-		inline const std::string &value(const rdf::resource &literal)
-		{
-			return value(literal.as<rdf::literal>());
-		}
-	}
-
 	/** @brief An RDF statement (triple)
 	  */
 	class triple
@@ -307,7 +289,8 @@ namespace cainteoir { namespace rdf
 
 		inline const std::string &value(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			return value(object(statement));
+			const rdf::literal *literal = object(statement).as<rdf::literal>();
+			return literal ? literal->value : nil;
 		}
 	}
 

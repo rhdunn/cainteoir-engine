@@ -453,9 +453,9 @@ int main(int argc, char ** argv)
 				if (object.as<rdf::literal>())
 				{
 					if (rql::predicate(*query).ref == "title")
-						title = rql::value(object);
+						title = rql::value(*query);
 					else if (rql::predicate(*query).ref == "creator")
-						author = rql::value(object);
+						author = rql::value(*query);
 				}
 				else
 				{
