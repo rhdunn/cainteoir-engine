@@ -82,7 +82,30 @@ namespace cainteoir { namespace rdf
 		const cainteoir::xml::resource *value;
 	};
 
-	typedef cainteoir::xml::uri uri;
+	class uri : public cainteoir::xml::resource
+	{
+	public:
+		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
+		std::string ref;   /**< @brief The URI reference. */
+
+		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string());
+
+		bool empty() const;
+
+		std::string str() const;
+
+		std::shared_ptr<const cainteoir::xml::resource> clone() const;
+	};
+
+	inline bool operator==(const uri &a, const uri &b)
+	{
+		return a.ns == b.ns && a.ref == b.ref;
+	}
+
+	inline bool operator!=(const uri &a, const uri &b)
+	{
+		return !(a == b);
+	}
 
 	class ns : public cainteoir::xml::ns
 	{

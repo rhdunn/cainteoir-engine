@@ -71,6 +71,33 @@ bool rdf::resource::operator==(const resource &rhs) const
 	return value == rhs.value;
 }
 
+rdf::uri::uri(const std::string &aNS, const std::string &aRef)
+	: ns(aNS)
+	, ref(aRef)
+{
+	auto last = --ns.end();
+	if (!ns.empty() && !ref.empty() && *last != '#' && *last != '/' && *last != ':')
+		ns.push_back('#');
+}
+
+bool rdf::uri::empty() const
+{
+	return ns.empty() && ref.empty();
+}
+
+std::string rdf::uri::str() const
+{
+	if (ref.empty())
+		return ns;
+
+	return ns + ref;
+}
+
+std::shared_ptr<const cainteoir::xml::resource> rdf::uri::clone() const
+{
+	return std::make_shared<uri>(*this);
+}
+
 const rdf::uri rdf::graph::href(const std::string &aHref)
 {
 	std::string::size_type index;
