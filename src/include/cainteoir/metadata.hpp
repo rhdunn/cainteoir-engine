@@ -324,11 +324,13 @@ namespace cainteoir { namespace rdf
 
 		namespace detail
 		{
-			template<typename ResourceType, typename Value>
+			template<typename Value>
 			class matches_t : public std::unary_function<bool, const std::shared_ptr<const rdf::triple> &>
 			{
 			public:
-				matches_t(ResourceType (*aSelector)(const std::shared_ptr<const rdf::triple> &), const Value &aValue)
+				typedef decltype(subject) selector_type;
+
+				matches_t(selector_type *aSelector, const Value &aValue)
 					: selector(aSelector)
 					, value(aValue)
 				{
@@ -336,10 +338,10 @@ namespace cainteoir { namespace rdf
 
 				bool operator()(const std::shared_ptr<const rdf::triple> &s) const
 				{
-					return selector(s) == value;
+					return (*selector)(s) == value;
 				}
 			private:
-				ResourceType (*selector)(const std::shared_ptr<const rdf::triple> &);
+				selector_type *selector;
 				const Value &value;
 			};
 		}
@@ -351,10 +353,10 @@ namespace cainteoir { namespace rdf
 		  *
 		  * @return The selector functor.
 		  */
-		template<typename ResourceType, typename Value>
-		detail::matches_t<ResourceType, Value> matches(ResourceType (*aSelector)(const std::shared_ptr<const rdf::triple> &), const Value &aValue)
+		template<typename Value>
+		detail::matches_t<Value> matches(decltype(subject) aSelector, const Value &aValue)
 		{
-			return detail::matches_t<ResourceType, Value>(aSelector, aValue);
+			return detail::matches_t<Value>(aSelector, aValue);
 		}
 
 		namespace detail
