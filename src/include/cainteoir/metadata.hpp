@@ -45,43 +45,6 @@ namespace cainteoir { namespace rdf
 		static const std::string nil;
 	}
 
-	class resource
-	{
-	public:
-		explicit resource(const cainteoir::xml::resource *aValue)
-			: value(aValue)
-		{
-		}
-
-		bool operator!() const
-		{
-			return !value;
-		}
-
-		template<typename T>
-		const T * as() const
-		{
-			return dynamic_cast<const T *>(value);
-		}
-
-		template<typename T>
-		operator const T *() const
-		{
-			return dynamic_cast<const T *>(value);
-		}
-
-		template<typename T>
-		bool operator==(const T &rhs) const
-		{
-			const T * lhs = dynamic_cast<const T *>(value);
-			return lhs && *lhs == rhs;
-		}
-
-		bool operator==(const resource &rhs) const;
-	private:
-		const cainteoir::xml::resource *value;
-	};
-
 	class uri : public cainteoir::xml::resource
 	{
 	public:
