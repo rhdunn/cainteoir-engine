@@ -110,13 +110,13 @@ TEST_CASE("rql::object")
 	match(rql::object(g.back()), rdf::bnode("class"));
 
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property")));
-	match(rql::object(g.back()), rdf::literal("Property"));
+	match(rql::object(g.back()), rdf::uri(std::string(), std::string()));
 
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", "en")));
-	match(rql::object(g.back()), rdf::literal("Property", "en"));
+	match(rql::object(g.back()), rdf::uri(std::string(), std::string()));
 
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", rdf::xsd("string"))));
-	match(rql::object(g.back()), rdf::literal("Property", rdf::xsd("string")));
+	match(rql::object(g.back()), rdf::uri(std::string(), std::string()));
 }
 
 TEST_CASE("rql::value")
@@ -175,11 +175,13 @@ TEST_CASE("rql::select(graph, selector, results)")
 
 	match(rql::subject(c.front()), rdf::dcterms("title"));
 	match(rql::predicate(c.front()), rdf::rdfs("label"));
-	match(rql::object(c.front()), rdf::literal("Title", "en-US"));
+	match(rql::object(c.front()), rdf::uri(std::string(), std::string()));
+	equal(rql::value(c.front()), "Title");
 
 	match(rql::subject(c.back()), rdf::dcterms("title"));
 	match(rql::predicate(c.back()), rdf::rdfs("subPropertyOf"));
 	match(rql::object(c.back()), rdf::dc("title"));
+	equal(rql::value(c.back()), std::string());
 }
 
 TEST_CASE("rql::select(graph, selector, value)")
@@ -193,11 +195,13 @@ TEST_CASE("rql::select(graph, selector, value)")
 
 	match(rql::subject(a.front()), rdf::dcterms("title"));
 	match(rql::predicate(a.front()), rdf::rdfs("label"));
-	match(rql::object(a.front()), rdf::literal("Title", "en-US"));
+	match(rql::object(a.front()), rdf::uri(std::string(), std::string()));
+	equal(rql::value(a.front()), "Title");
 
 	match(rql::subject(a.back()), rdf::dcterms("title"));
 	match(rql::predicate(a.back()), rdf::rdfs("subPropertyOf"));
 	match(rql::object(a.back()), rdf::dc("title"));
+	equal(rql::value(a.back()), std::string());
 
 	rql::results b = rql::select(dcterms, rql::matches(rql::predicate, rdf::dcterms("issued")));
 	equal(b.size(), 98);
@@ -218,6 +222,7 @@ TEST_CASE("rql::select(graph, selector, value)")
 	match(rql::subject(e.front()), rdf::dcterms("title"));
 	match(rql::predicate(e.front()), rdf::rdf("type"));
 	match(rql::object(e.front()), rdf::rdf("Property"));
+	equal(rql::value(e.front()), std::string());
 }
 
 TEST_CASE("rql::contains")

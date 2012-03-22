@@ -449,8 +449,8 @@ int main(int argc, char ** argv)
 		{
 			if (rql::predicate(*query).ns == rdf::dc || rql::predicate(*query).ns == rdf::dcterms)
 			{
-				rdf::resource object = rql::object(*query);
-				if (object.as<rdf::literal>())
+				const rdf::uri &object = rql::object(*query);
+				if (object.empty())
 				{
 					if (rql::predicate(*query).ref == "title")
 						title = rql::value(*query);
@@ -459,7 +459,7 @@ int main(int argc, char ** argv)
 				}
 				else
 				{
-					rql::results selection = rql::select(doc.m_metadata, rql::matches(rql::subject, *object.as<rdf::uri>()));
+					rql::results selection = rql::select(doc.m_metadata, rql::matches(rql::subject, object));
 
 					if (rql::predicate(*query).ref == "creator")
 					{

@@ -357,9 +357,9 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 		}
 		else if (rql::predicate(*statement) == rdf::tts("voiceOf"))
 		{
-			const rdf::uri *uri = rql::object(*statement);
-			if (uri)
-				engine = enginelist[ uri->str() ];
+			const rdf::uri &uri = rql::object(*statement);
+			if (!uri.empty())
+				engine = enginelist[ uri.str() ];
 		}
 	}
 

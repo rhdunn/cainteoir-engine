@@ -282,14 +282,16 @@ namespace cainteoir { namespace rdf
 			return statement->predicate;
 		}
 
-		inline rdf::resource object(const std::shared_ptr<const rdf::triple> &statement)
+		inline const rdf::uri &object(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			return rdf::resource(statement->object.get());
+			static const rdf::uri nulluri{ std::string(), std::string() };
+			const rdf::uri *uri = dynamic_cast<const rdf::uri *>(statement->object.get());
+			return uri ? *uri : nulluri;
 		}
 
 		inline const std::string &value(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			const rdf::literal *literal = object(statement).as<rdf::literal>();
+			const rdf::literal *literal = dynamic_cast<const rdf::literal *>(statement->object.get());
 			return literal ? literal->value : nil;
 		}
 	}

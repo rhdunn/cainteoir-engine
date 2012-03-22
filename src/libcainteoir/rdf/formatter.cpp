@@ -90,11 +90,11 @@ public:
 		os << ' ';
 
 		{
-			const rdf::literal *literal = rdf::query::object(statement);
+			const rdf::literal *literal = dynamic_cast<const rdf::literal *>(statement->object.get());
 			if (literal)
 				*this << *literal;
 
-			const rdf::uri *uri = rdf::query::object(statement);
+			const rdf::uri *uri = dynamic_cast<const rdf::uri *>(statement->object.get());
 			if (uri)
 				*this << *uri;
 		}

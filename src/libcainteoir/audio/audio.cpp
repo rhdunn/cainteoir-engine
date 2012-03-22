@@ -60,12 +60,12 @@ cainteoir::create_audio_file(
 	rql::results data = rql::select(aVoiceMetadata, rql::matches(rql::subject, aVoice));
 	int channels  = rql::select_value<int>(data, rql::matches(rql::predicate, rdf::tts("channels")));
 	int frequency = rql::select_value<int>(data, rql::matches(rql::predicate, rdf::tts("frequency")));
-	const rdf::uri * format = rql::object(rql::select(data, rql::matches(rql::predicate, rdf::tts("audio-format"))).front());
+	const rdf::uri &format = rql::object(rql::select(data, rql::matches(rql::predicate, rdf::tts("audio-format"))).front());
 
 	if (!strcmp(type, "wav"))
-		return create_wav_file(filename, *format, channels, frequency, quality, aDocMetadata, aDocument);
+		return create_wav_file(filename, format, channels, frequency, quality, aDocMetadata, aDocument);
 	if (!strcmp(type, "ogg"))
-		return create_ogg_file(filename, *format, channels, frequency, quality, aDocMetadata, aDocument);
+		return create_ogg_file(filename, format, channels, frequency, quality, aDocMetadata, aDocument);
 
 	return std::shared_ptr<cainteoir::audio>();
 }
@@ -83,10 +83,10 @@ cainteoir::open_audio_device(
 	rql::results data = rql::select(aVoiceMetadata, rql::matches(rql::subject, aVoice));
 	int channels  = rql::select_value<int>(data, rql::matches(rql::predicate, rdf::tts("channels")));
 	int frequency = rql::select_value<int>(data, rql::matches(rql::predicate, rdf::tts("frequency")));
-	const rdf::uri * format = rql::object(rql::select(data, rql::matches(rql::predicate, rdf::tts("audio-format"))).front());
+	const rdf::uri &format = rql::object(rql::select(data, rql::matches(rql::predicate, rdf::tts("audio-format"))).front());
 
 	if (!strcmp(type, "pulse"))
-		return create_pulseaudio_device(device, *format, channels, frequency, quality, aDocMetadata, aDocument);
+		return create_pulseaudio_device(device, format, channels, frequency, quality, aDocMetadata, aDocument);
 
 	return std::shared_ptr<cainteoir::audio>();
 }
