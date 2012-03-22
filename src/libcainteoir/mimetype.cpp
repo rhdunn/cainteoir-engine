@@ -347,7 +347,7 @@ struct mimetype_database : public std::map<std::string, mime_info>
 				// FIXME: reader.context() cannot be used here due to static object
 				// initialization order -- this gets initialized before xml::attrs
 				// so segfaults if that is used.
-				if (in_comment && reader.namespaceUri() == "http://www.w3.org/XML/1998/namespace#" && reader.nodeName().str() == "lang")
+				if (in_comment && reader.namespaceUri() == "http://www.w3.org/XML/1998/namespace" && reader.nodeName().str() == "lang")
 					lang = reader.nodeValue().buffer()->str();
 				break;
 			case xml::reader::textNode:
