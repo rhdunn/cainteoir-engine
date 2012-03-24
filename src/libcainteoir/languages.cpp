@@ -151,6 +151,21 @@ lang::tag lang::make_lang(const std::string &lang)
 	return { to_lower(lang.substr(0, a)), capitalize(lang.substr(a+1, b-a-1)), to_upper(lang.substr(b+1)) };
 }
 
+bool lang::operator==(const tag &a, const tag &b)
+{
+	if (a.variant.empty() || b.variant.empty())
+	{
+		if (a.region.empty() || b.region.empty())
+		{
+			if (a.script.empty() || b.script.empty())
+				return a.lang == b.lang;
+			return a.lang == b.lang && a.script == b.script;
+		}
+		return a.lang == b.lang && a.script == b.script && a.region == b.region;
+	}
+	return a.lang == b.lang && a.script == b.script && a.region == b.region && a.variant == b.variant;
+}
+
 cainteoir::languages::languages(const char * locale)
 {
 	cainteoir::document_events events;

@@ -33,17 +33,17 @@ REGISTER_TESTSUITE("RDF Query");
 
 void match_(const rdf::uri &a, const rdf::uri &b, const char *ref, const char *file, int lineno)
 {
-	assert_(CAPTURE(a.str() == b.str()), ref, file, lineno);
-	assert_(CAPTURE(a.ns    == b.ns),    ref, file, lineno);
-	assert_(CAPTURE(a.ref   == b.ref),   ref, file, lineno);
+	assert_location(a.str() == b.str(), file, lineno);
+	assert_location(a.ns    == b.ns,    file, lineno);
+	assert_location(a.ref   == b.ref,   file, lineno);
 }
 
 void match_(const rdf::literal &a, const rdf::literal &b, const char *ref, const char *file, int lineno)
 {
-	assert_(CAPTURE(a.value    == b.value),    ref, file, lineno);
-	assert_(CAPTURE(a.language == b.language), ref, file, lineno);
-	assert_(CAPTURE(a.type.ns  == b.type.ns),  ref, file, lineno);
-	assert_(CAPTURE(a.type.ref == b.type.ref), ref, file, lineno);
+	assert_location(a.value    == b.value,    file, lineno);
+	assert_location(a.language == b.language, file, lineno);
+	assert_location(a.type.ns  == b.type.ns,  file, lineno);
+	assert_location(a.type.ref == b.type.ref, file, lineno);
 }
 
 #define match(a, b) match_(a, b, #a " == " #b, __FILE__, __LINE__)

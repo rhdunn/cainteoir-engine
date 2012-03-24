@@ -47,7 +47,20 @@ namespace cainteoir { namespace language
 		/** @brief IANA variant subtag.
 		  */
 		std::string variant;
+
+		tag(const std::string &l,
+		    const std::string &s = std::string(),
+		    const std::string &r = std::string(),
+		    const std::string &v = std::string())
+			: lang(l)
+			, script(s)
+			, region(r)
+			, variant(v)
+		{
+		}
 	};
+
+	bool operator==(const tag &a, const tag &b);
 
 	/** @brief Extract language tag information from a BCP 47 language id.
 	  * @see   http://www.ietf.org/rfc/rfc5646.txt

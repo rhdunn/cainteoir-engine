@@ -143,9 +143,9 @@ int passed;
 int failed;
 
 template <typename E>
-bool assert_(E expression, const char *ref, const char *file, int lineno)
+bool assert_(E expression, const char *ref, bool expected, const char *file, int lineno)
 {
-	if (expression())
+	if (expression() ? expected : !expected)
 	{
 		++passed;
 		return true;
@@ -159,7 +159,10 @@ bool assert_(E expression, const char *ref, const char *file, int lineno)
 }
 
 #undef  assert
-#define assert(e) assert_(CAPTURE(e), #e, __FILE__, __LINE__)
+#define assert(e)       assert_(CAPTURE(e), "assert(" #e ")", true, __FILE__, __LINE__)
+#define assert_false(e) assert_(CAPTURE(e), "assert_false(" #e ")", false, __FILE__, __LINE__)
+
+#define assert_location(e, file, line) assert_(CAPTURE(e), "assert(" #e ")", true, file, line)
 
 #define PRINTABLE(type) \
 	namespace tester \
