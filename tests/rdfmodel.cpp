@@ -35,9 +35,9 @@ void test_uri(const xml::resource &node, const std::string &value, const std::st
 	const rdf::uri *uri = dynamic_cast<const rdf::uri *>(&node);
 	if (assert(uri))
 	{
-		equal(uri->str(), value);
-		equal(uri->ns,    ns);
-		equal(uri->ref,   ref);
+		assert(uri->str() == value);
+		assert(uri->ns    == ns);
+		assert(uri->ref   == ref);
 	}
 }
 
@@ -279,10 +279,10 @@ void test_literal(const xml::resource &node, const std::string value, const std:
 	const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&node);
 	if (assert(literal))
 	{
-		equal(literal->value,      value);
-		equal(literal->language,   language);
-		equal(literal->type.ns,    uri.ns);
-		equal(literal->type.ref,   uri.ref);
+		assert(literal->value    == value);
+		assert(literal->language == language);
+		assert(literal->type.ns  == uri.ns);
+		assert(literal->type.ref == uri.ref);
 	}
 }
 
@@ -331,12 +331,12 @@ TEST_CASE("rdf::graph -- statement")
 {
 	rdf::graph model;
 	assert(model.empty());
-	equal(model.size(), 0);
+	assert(model.size()  == 0);
 	assert(model.begin() == model.end());
 
 	assert(model.statement(rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property")));
 	assert(!model.empty());
-	equal(model.size(), 1);
+	assert(model.size()  == 1);
 	assert(model.begin() != model.end());
 
 	test_statement(model.front(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
@@ -344,12 +344,12 @@ TEST_CASE("rdf::graph -- statement")
 
 	assert(!model.statement(rdf::rdf("value"), rdf::bnode("test"), rdf::rdfs("Property")));
 	assert(!model.empty());
-	equal(model.size(), 1);
+	assert(model.size()  == 1);
 	assert(model.begin() != model.end());
 
 	assert(model.statement(rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB")));
 	assert(!model.empty());
-	equal(model.size(), 2);
+	assert(model.size()  == 2);
 	assert(model.begin() != model.end());
 
 	test_statement(model.front(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));

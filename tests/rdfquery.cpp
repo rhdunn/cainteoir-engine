@@ -31,22 +31,22 @@ namespace rql = cainteoir::rdf::query;
 
 REGISTER_TESTSUITE("RDF Query");
 
-void match_(const rdf::uri &a, const rdf::uri &b, const char *fn, const char *ref, int lineno)
+void match_(const rdf::uri &a, const rdf::uri &b, const char *ref, const char *file, int lineno)
 {
-	equal_(a.str(), b.str(), fn, ref, lineno);
-	equal_(a.ns,    b.ns,    fn, ref, lineno);
-	equal_(a.ref,   b.ref,   fn, ref, lineno);
+	assert_(CAPTURE(a.str() == b.str()), ref, file, lineno);
+	assert_(CAPTURE(a.ns    == b.ns),    ref, file, lineno);
+	assert_(CAPTURE(a.ref   == b.ref),   ref, file, lineno);
 }
 
-void match_(const rdf::literal &a, const rdf::literal &b, const char *fn, const char *ref, int lineno)
+void match_(const rdf::literal &a, const rdf::literal &b, const char *ref, const char *file, int lineno)
 {
-	equal_(a.value,      b.value,    fn, ref, lineno);
-	equal_(a.language,   b.language, fn, ref, lineno);
-	equal_(a.type.ns,    b.type.ns,  fn, ref, lineno);
-	equal_(a.type.ref,   b.type.ref, fn, ref, lineno);
+	assert_(CAPTURE(a.value    == b.value),    ref, file, lineno);
+	assert_(CAPTURE(a.language == b.language), ref, file, lineno);
+	assert_(CAPTURE(a.type.ns  == b.type.ns),  ref, file, lineno);
+	assert_(CAPTURE(a.type.ref == b.type.ref), ref, file, lineno);
 }
 
-#define match(a, b) match_(a, b, __FUNCTION__, #a " == " #b, __LINE__)
+#define match(a, b) match_(a, b, #a " == " #b, __FILE__, __LINE__)
 
 struct rdfdoc : public rdf::graph, public cainteoir::document_events
 {
@@ -110,19 +110,19 @@ TEST_CASE("rql::value")
 	rdf::graph g;
 
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class")));
-	equal(rql::value(g.back()), "");
+	assert(rql::value(g.back()) == "");
 
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::bnode("class")));
-	equal(rql::value(g.back()), "");
+	assert(rql::value(g.back()) == "");
 
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property")));
-	equal(rql::value(g.back()), "Property");
+	assert(rql::value(g.back()) == "Property");
 
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", "en")));
-	equal(rql::value(g.back()), "Property");
+	assert(rql::value(g.back()) == "Property");
 
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", rdf::xsd("string"))));
-	equal(rql::value(g.back()), "Property");
+	assert(rql::value(g.back()) == "Property");
 }
 
 TEST_CASE("rql::matches")
@@ -142,82 +142,82 @@ TEST_CASE("rql::matches")
 TEST_CASE("rql::select(graph, selector, results)")
 {
 	rdfdoc dcterms("src/schema/dcterms.rdf");
-	equal(dcterms.size(), 867);
+	assert(dcterms.size() == 867);
 
 	rql::results a;
 	rql::select(dcterms, select_all, a);
-	equal(a.size(), 867);
+	assert(a.size() == 867);
 	assert(!a.empty());
 
 	rql::results b;
 	rql::select(dcterms, select_none, b);
-	equal(b.size(), 0);
+	assert(b.size() == 0);
 	assert(b.empty());
 
 	rql::results c;
 	rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")), c);
-	equal(c.size(), 9);
+	assert(c.size() == 9);
 	assert(!c.empty());
 
 	match(rql::subject(c.front()), rdf::dcterms("title"));
 	match(rql::predicate(c.front()), rdf::rdfs("label"));
 	match(rql::object(c.front()), rdf::uri(std::string(), std::string()));
-	equal(rql::value(c.front()), "Title");
+	assert(rql::value(c.front()) == "Title");
 
 	match(rql::subject(c.back()), rdf::dcterms("title"));
 	match(rql::predicate(c.back()), rdf::rdfs("subPropertyOf"));
 	match(rql::object(c.back()), rdf::dc("title"));
-	equal(rql::value(c.back()), std::string());
+	assert(rql::value(c.back()) == std::string());
 }
 
 TEST_CASE("rql::select(graph, selector, value)")
 {
 	rdfdoc dcterms("src/schema/dcterms.rdf");
-	equal(dcterms.size(), 867);
+	assert(dcterms.size() == 867);
 
 	rql::results a = rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")));
-	equal(a.size(), 9);
+	assert(a.size() == 9);
 	assert(!a.empty());
 
 	match(rql::subject(a.front()), rdf::dcterms("title"));
 	match(rql::predicate(a.front()), rdf::rdfs("label"));
 	match(rql::object(a.front()), rdf::uri(std::string(), std::string()));
-	equal(rql::value(a.front()), "Title");
+	assert(rql::value(a.front()) == "Title");
 
 	match(rql::subject(a.back()), rdf::dcterms("title"));
 	match(rql::predicate(a.back()), rdf::rdfs("subPropertyOf"));
 	match(rql::object(a.back()), rdf::dc("title"));
-	equal(rql::value(a.back()), std::string());
+	assert(rql::value(a.back()) == std::string());
 
 	rql::results b = rql::select(dcterms, rql::matches(rql::predicate, rdf::dcterms("issued")));
-	equal(b.size(), 98);
+	assert(b.size() == 98);
 	assert(!b.empty());
 
 	rql::results c = rql::select(dcterms, rql::matches(rql::object, rdf::rdf("Property")));
-	equal(c.size(), 55);
+	assert(c.size() == 55);
 	assert(!c.empty());
 
 	rql::results d = rql::select(dcterms, rql::matches(rql::object, rdf::rdf("Class")));
-	equal(d.size(), 0);
+	assert(d.size() == 0);
 	assert(d.empty());
 
 	rql::results e = rql::select(a, rql::matches(rql::predicate, rdf::rdf("type")));
-	equal(e.size(), 1);
+	assert(e.size() == 1);
 	assert(!e.empty());
 
 	match(rql::subject(e.front()), rdf::dcterms("title"));
 	match(rql::predicate(e.front()), rdf::rdf("type"));
 	match(rql::object(e.front()), rdf::rdf("Property"));
-	equal(rql::value(e.front()), std::string());
+	assert(rql::value(e.front()) == std::string());
 }
 
 TEST_CASE("rql::contains")
 {
 	rdfdoc dcterms("src/schema/dcterms.rdf");
-	equal(dcterms.size(), 867);
+	assert(dcterms.size() == 867);
 
 	rql::results a = rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")));
-	equal(a.size(), 9);
+	assert(a.size() == 9);
 	assert(!a.empty());
 
 	assert(rql::contains(dcterms, rql::matches(rql::subject, rdf::dcterms("title"))));
@@ -230,21 +230,25 @@ TEST_CASE("rql::contains")
 TEST_CASE("rql::select_value")
 {
 	rdfdoc dcterms("src/schema/dcterms.rdf");
-	equal(dcterms.size(), 867);
+	assert(dcterms.size() == 867);
 
 	rql::results a = rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")));
-	equal(a.size(), 9);
+	assert(a.size() == 9);
 	assert(!a.empty());
 
-	equal(rql::select_value<std::string>(a, rql::matches(rql::predicate, rdf::rdfs("label"))), "Title");
-	equal(rql::select_value<std::string>(a, rql::matches(rql::predicate, rdf::skos("prefLabel"))), "");
+	assert(rql::select_value<std::string>(a, rql::matches(rql::predicate, rdf::rdfs("label")))
+	       == "Title");
 
-	equal(rql::select_value<std::string>(dcterms,
+	assert(rql::select_value<std::string>(a, rql::matches(rql::predicate, rdf::skos("prefLabel")))
+	       == "");
+
+	assert(rql::select_value<std::string>(dcterms,
 	                                     rql::both(rql::matches(rql::subject, rdf::dcterms("creator")),
-	                                               rql::matches(rql::predicate, rdf::rdfs("label")))),
-	      "Creator");
-	equal(rql::select_value<std::string>(dcterms,
+	                                               rql::matches(rql::predicate, rdf::rdfs("label"))))
+	       == "Creator");
+
+	assert(rql::select_value<std::string>(dcterms,
 	                                     rql::both(rql::matches(rql::subject, rdf::dcterms("creator")),
-	                                               rql::matches(rql::predicate, rdf::skos("prefLabel")))),
-	      "");
+	                                               rql::matches(rql::predicate, rdf::skos("prefLabel"))))
+	       == "");
 }

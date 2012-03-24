@@ -31,10 +31,10 @@ REGISTER_TESTSUITE("Language Tags");
 
 void compare(const lang::tag &a, const lang::tag &b)
 {
-	equal(a.lang,    b.lang);
-	equal(a.script,  b.script);
-	equal(a.region,  b.region);
-	equal(a.variant, b.variant);
+	assert(a.lang    == b.lang);
+	assert(a.script  == b.script);
+	assert(a.region  == b.region);
+	assert(a.variant == b.variant);
 }
 
 TEST_CASE("empty language code")
@@ -99,7 +99,7 @@ TEST_CASE("grandfathered language codes")
 	compare(lang::make_lang("zh-xiang"),    { "hsn" });
 }
 
-TEST_CASE("redundant language codes")
+TEST_CASE("redundant language-extlang codes")
 {
 	compare(lang::make_lang("zh-cmn"), { "cmn" });
 	compare(lang::make_lang("zh-hak"), { "hak" });
