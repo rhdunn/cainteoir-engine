@@ -37,39 +37,39 @@ void compare(const lang::tag &a, const lang::tag &b)
 	equal(a.variant, b.variant);
 }
 
-TEST_CASE("empty")
+TEST_CASE("empty language code")
 {
 	compare(lang::make_lang(std::string()), {});
 	compare(lang::make_lang(""), {});
 }
 
-TEST_CASE("language")
+TEST_CASE("language only codes")
 {
 	compare(lang::make_lang("en"), { "en" });
 	compare(lang::make_lang("EN"), { "en" });
 }
 
-TEST_CASE("language-region")
+TEST_CASE("language-region codes")
 {
 	compare(lang::make_lang("en-US"), { "en", "", "US" });
 	compare(lang::make_lang("EN-us"), { "en", "", "US" });
 }
 
-TEST_CASE("language-script")
+TEST_CASE("language-script codes")
 {
 	compare(lang::make_lang("zh-Hans"), { "zh", "Hans" });
 	compare(lang::make_lang("zh-HANS"), { "zh", "Hans" });
 	compare(lang::make_lang("ZH-hans"), { "zh", "Hans" });
 }
 
-TEST_CASE("language-script-region")
+TEST_CASE("language-script-region codes")
 {
 	compare(lang::make_lang("zh-Hant-CN"), { "zh", "Hant", "CN" });
 	compare(lang::make_lang("zh-HANT-cn"), { "zh", "Hant", "CN" });
 	compare(lang::make_lang("ZH-hant-CN"), { "zh", "Hant", "CN" });
 }
 
-TEST_CASE("grandfathered")
+TEST_CASE("grandfathered language codes")
 {
 	compare(lang::make_lang("art-lojban"),  { "jbo" });
 	compare(lang::make_lang("cel-gaulish"), { "cel-gaulish" });
@@ -99,7 +99,7 @@ TEST_CASE("grandfathered")
 	compare(lang::make_lang("zh-xiang"),    { "hsn" });
 }
 
-TEST_CASE("redundant")
+TEST_CASE("redundant language codes")
 {
 	compare(lang::make_lang("zh-cmn"), { "cmn" });
 	compare(lang::make_lang("zh-hak"), { "hak" });
@@ -107,7 +107,7 @@ TEST_CASE("redundant")
 	compare(lang::make_lang("zh-yue"), { "yue" });
 }
 
-TEST_CASE("eSpeak") // language codes used by eSpeak voices ...
+TEST_CASE("eSpeak voice language codes")
 {
 	compare(lang::make_lang("es-la"),       { "es", "", "419" });
 	compare(lang::make_lang("en-sc"),       { "en", "", "", "scotland" });
@@ -119,7 +119,7 @@ TEST_CASE("eSpeak") // language codes used by eSpeak voices ...
 	compare(lang::make_lang("hy-west"),     { "hy" });
 }
 
-TEST_CASE("posix locales") // locale codes in /usr/share/locale
+TEST_CASE("posix locale codes from /usr/share/locale")
 {
 	compare(lang::make_lang("be@latin"),    { "be", "Latn" });
 	compare(lang::make_lang("ca@valencia"), { "ca", "", "", "valencia" });
