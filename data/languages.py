@@ -178,27 +178,29 @@ tagnames = {
 
 subtag_uri='http://rhdunn.github.com/cainteoir/data/iana/subtags#'
 
-print """<?xml version="1.0" encoding="utf-8"?>
-<rdf:RDF
-	xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-	xmlns:iana="http://rhdunn.github.com/cainteoir/schema/iana#"
-	xmlns:dc  ="http://purl.org/dc/elements/1.1/"
-	xmlns:dct ="http://purl.org/dc/terms/"
-	xmlns:cc  ="http://web.resource.org/cc/"
->"""
+with open('languages.rdf', 'w') as f:
+	f.write('<?xml version="1.0" encoding="utf-8"?>\n')
+	f.write('<rdf:RDF\n')
+	f.write('	xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"\n')
+	f.write('	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"\n')
+	f.write('	xmlns:iana="http://rhdunn.github.com/cainteoir/schema/iana#"\n')
+	f.write('	xmlns:dc  ="http://purl.org/dc/elements/1.1/"\n')
+	f.write('	xmlns:dct ="http://purl.org/dc/terms/"\n')
+	f.write('	xmlns:cc  ="http://web.resource.org/cc/"\n')
+	f.write('>\n')
 
-for name, tag in sorted(tags.items()):
-	print '<iana:%s rdf:about="%s%s">' % (tag['Type'], subtag_uri, name)
-	print '	<rdf:value>%s</rdf:value>' % name
-	for key, value in sorted(tag.items()):
-		if key != 'Type':
-			reftype, ref = tagnames[key]
-			if reftype in ['date', 'string']:
-				print '	<%s>%s</%s>' % (ref, value, ref)
-			elif reftype in ['string:en']:
-				print '	<%s xml:lang="en">%s</%s>' % (ref, value, ref)
-			elif reftype in ['resource']:
-				print '	<%s rdf:resource="%s%s"/>' % (ref, subtag_uri, value)
-	print '</iana:%s>' % tag['Type']
-print '</rdf:RDF>'
+	for name, tag in sorted(tags.items()):
+		f.write('<iana:%s rdf:about="%s%s">\n' % (tag['Type'], subtag_uri, name))
+		f.write('	<rdf:value>%s</rdf:value>\n' % name)
+		for key, value in sorted(tag.items()):
+			if key != 'Type':
+				reftype, ref = tagnames[key]
+				if reftype in ['date', 'string']:
+					f.write('	<%s>%s</%s>\n' % (ref, value, ref))
+				elif reftype in ['string:en']:
+					f.write('	<%s xml:lang="en">%s</%s>\n' % (ref, value, ref))
+				elif reftype in ['resource']:
+					f.write('	<%s rdf:resource="%s%s"/>\n' % (ref, subtag_uri, value))
+		f.write('</iana:%s>\n' % tag['Type'])
+	f.write('</rdf:RDF>\n')
+
