@@ -69,6 +69,15 @@ TEST_CASE("language-script-region codes")
 	compare(lang::make_lang("ZH-hant-CN"), { "zh", "Hant", "CN" });
 }
 
+TEST_CASE("language-region-script codes")
+{
+	compare(lang::make_lang("zh-CN-Hant"), { "zh", "Hant", "CN" });
+	compare(lang::make_lang("zh-cn-HANT"), { "zh", "Hant", "CN" });
+	compare(lang::make_lang("ZH-CN-hant"), { "zh", "Hant", "CN" });
+
+	compare(lang::make_lang("es-419-Latn"), { "es", "Latn", "419" });
+}
+
 TEST_CASE("grandfathered language codes")
 {
 	compare(lang::make_lang("art-lojban"),  { "jbo" });

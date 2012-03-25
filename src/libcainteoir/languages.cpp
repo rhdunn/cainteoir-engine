@@ -148,7 +148,10 @@ lang::tag lang::make_lang(const std::string &lang)
 			return id->second;
 	}
 
-	return { to_lower(lang.substr(0, a)), capitalize(lang.substr(a+1, b-a-1)), to_upper(lang.substr(b+1)) };
+	std::string subtag = lang.substr(a+1, b-a-1);
+	if (subtag.length() == 4)
+		return { to_lower(lang.substr(0, a)), capitalize(subtag), to_upper(lang.substr(b+1)) };
+	return { to_lower(lang.substr(0, a)), capitalize(lang.substr(b+1)), to_upper(subtag) };
 }
 
 bool lang::operator==(const tag &a, const tag &b)
