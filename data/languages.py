@@ -119,7 +119,7 @@ def read_iso_639(path):
 
 		if iso_639_1  != '': tags[iso_639_1]  = name
 		if iso_639_2b != '': tags[iso_639_2b] = name
-		if iso_639_2t != '': tags[iso_639_2t] = name
+		tags[iso_639_2t] = name
 	return tags
 
 def read_iso_3166(path):
@@ -193,7 +193,7 @@ with open('languages.rdf', 'w') as f:
 		f.write('<iana:%s rdf:about="%s%s">\n' % (tag['Type'], subtag_uri, name))
 		f.write('	<rdf:value>%s</rdf:value>\n' % name)
 		for key, value in sorted(tag.items()):
-			if key != 'Type':
+			if key not in ['Type']:
 				reftype, ref = tagnames[key]
 				if reftype in ['date', 'string']:
 					f.write('	<%s>%s</%s>\n' % (ref, value, ref))
@@ -203,4 +203,15 @@ with open('languages.rdf', 'w') as f:
 					f.write('	<%s rdf:resource="%s%s"/>\n' % (ref, subtag_uri, value))
 		f.write('</iana:%s>\n' % tag['Type'])
 	f.write('</rdf:RDF>\n')
+
+# generate a language code tree ...
+
+with open('languages.dot', 'w') as f:
+	f.write('digraph "Language Codes" {\n')
+	f.write('	node [shape=box]')
+	for name, tag in sorted(tags.items()):
+		if tag['Type'] in ['Language', 'ExtLang', 'Collection', 'MacroLanguage']:
+			if 'Preferred-Value' in tag.keys() and name != tag['Preferred-Value']:
+				f.write('	%s -> %s [color=red]\n' % (name, tag['Preferred-Value']))
+	f.write('}\n')
 
