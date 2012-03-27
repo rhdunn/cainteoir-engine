@@ -53,21 +53,21 @@ static std::string capitalize(std::string s)
 }
 
 std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
-	{ "be@latin",    { "be", "Latn" } },
-	{ "ca@valencia", { "ca", "", "", "valencia" } },
+	{ "be@latin",    { "be", "", "Latn" } },
+	{ "ca@valencia", { "ca", "", "", "", "valencia" } },
 	{ "en@boldquot", { "en" } },
 	{ "en@quot",     { "en" } },
 	{ "en@shaw",     { "en" } },
 	{ "sr@ije",      { "sr" } },
-	{ "sr@latin",    { "sr", "Latn" } },
-	{ "sr@latn",     { "sr", "Latn" } },
-	{ "uz@cyrillic", { "uz", "Cyrl" } },
+	{ "sr@latin",    { "sr", "", "Latn" } },
+	{ "sr@latn",     { "sr", "", "Latn" } },
+	{ "uz@cyrillic", { "uz", "", "Cyrl" } },
 	{ "art-lojban",  { "jbo" } },
 	{ "cel-gaulish", { "cel-gaulish" } }, // parent=cel, children=[xtg, xcg, xlp, xga]
-	{ "en-sc",       { "en", "", "", "scotland" } },
-	{ "en-uk",       { "en", "", "GB" } },
-	{ "en-wi",       { "en", "", "029" } }, // Caribbean
-	{ "es-la",       { "es", "", "419" } }, // Latin America & Caribbean
+	{ "en-sc",       { "en", "", "", "", "scotland" } },
+	{ "en-uk",       { "en", "", "", "GB" } },
+	{ "en-wi",       { "en", "", "", "029" } }, // Caribbean
+	{ "es-la",       { "es", "", "", "419" } }, // Latin America & Caribbean
 	{ "hy-west",     { "hy" } },
 	{ "i-ami",       { "ami" } },
 	{ "i-bnn",       { "bnn" } },
@@ -84,22 +84,36 @@ std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
 	{ "i-tsu",       { "tsu" } },
 	{ "no-bok",      { "nb" } },
 	{ "no-nyn",      { "nn" } },
-	{ "zh-cmn",      { "cmn" } },
-	{ "zh-guoyu",    { "cmn" } },
-	{ "zh-hak",      { "hak" } },
-	{ "zh-hakka",    { "hak" } },
-	{ "zh-min",      { "nan" } },
-	{ "zh-nan",      { "nan" } },
-	{ "zh-xiang",    { "hsn" } },
-	{ "zh-yue",      { "yue" } },
-	{ "en-gb-oed",   { "en", "", "GB" } },
-	{ "en-uk-north", { "en", "", "GB" } },
-	{ "en-uk-rp",    { "en", "", "GB" } },
-	{ "en-uk-wmids", { "en", "", "GB" } },
+	{ "zh-guoyu",    { "zh", "cmn" } },
+	{ "zh-hakka",    { "zh", "hak" } },
+	{ "zh-min",      { "zh", "nan" } },
+	{ "zh-xiang",    { "zh", "hsn" } },
+	{ "en-gb-oed",   { "en", "", "", "GB" } },
+	{ "en-uk-north", { "en", "", "", "GB" } },
+	{ "en-uk-rp",    { "en", "", "", "GB" } },
+	{ "en-uk-wmids", { "en", "", "", "GB" } },
 	{ "sgn-be-fr",   { "sfb" } },
 	{ "sgn-be-nl",   { "vgt" } },
 	{ "sgn-ch-de",   { "sgg" } },
-	{ "zh-min-nan",  { "nan" } },
+	{ "zh-min-nan",  { "zh", "nan" } },
+};
+
+// TODO: get this information through the RDF metadata (rdf:type iana:ExtLang, rdf:value, iana:prefix).
+std::initializer_list<std::pair<std::string, const lang::tag>> extlang_tags = {
+	{ "cdo", { "zh", "cdo" } },
+	{ "cjy", { "zh", "cjy" } },
+	{ "cmn", { "zh", "cmn" } },
+	{ "cpx", { "zh", "cpx" } },
+	{ "czh", { "zh", "czh" } },
+	{ "czo", { "zh", "czo" } },
+	{ "gan", { "zh", "gan" } },
+	{ "hak", { "zh", "hak" } },
+	{ "hsn", { "zh", "hsn" } },
+	{ "lzh", { "zh", "lzh" } },
+	{ "mnp", { "zh", "mnp" } },
+	{ "nan", { "zh", "nan" } },
+	{ "wuu", { "zh", "wuu" } },
+	{ "yue", { "zh", "yue" } },
 };
 
 static const lang::tag *
@@ -139,6 +153,17 @@ lang::tag lang::make_lang(const std::string &code)
 			lang.script = item;
 			break;
 		case 3:
+			if (lang.extlang.empty())
+			{
+				const lang::tag *extlang = lookup_lang(item, extlang_tags);
+				if (extlang && extlang->lang == lang.lang)
+					lang.extlang = extlang->extlang;
+				else
+					lang.region = item;
+			}
+			else
+				lang.region = item;
+			break;
 		case 2:
 			lang.region = item;
 			break;
@@ -148,7 +173,10 @@ lang::tag lang::make_lang(const std::string &code)
 		++n;
 	} while (b != std::string::npos);
 
-	return { to_lower(lang.lang), capitalize(lang.script), to_upper(lang.region) };
+	return { to_lower(lang.lang),
+	         to_lower(lang.extlang),
+	         capitalize(lang.script),
+	         to_upper(lang.region) };
 }
 
 bool lang::operator==(const tag &a, const tag &b)

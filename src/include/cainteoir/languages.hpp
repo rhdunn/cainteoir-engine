@@ -32,9 +32,13 @@ namespace cainteoir { namespace language
 	  */
 	struct tag
 	{
-		/** @brief ISO 639 language code.
+		/** @brief ISO 639 language code (primary language).
 		  */
 		std::string lang;
+
+		/** @brief ISO 639 language code (extended language).
+		  */
+		std::string extlang;
 
 		/** @brief ISO 15924 script code.
 		  */
@@ -49,10 +53,12 @@ namespace cainteoir { namespace language
 		std::string variant;
 
 		tag(const std::string &l,
+		    const std::string &e = std::string(),
 		    const std::string &s = std::string(),
 		    const std::string &r = std::string(),
 		    const std::string &v = std::string())
 			: lang(l)
+			, extlang(e)
 			, script(s)
 			, region(r)
 			, variant(v)
