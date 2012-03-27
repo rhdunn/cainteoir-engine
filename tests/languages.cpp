@@ -126,6 +126,21 @@ TEST_CASE("extlang codes for zh")
 	compare(lang::make_lang("zh-wuu"), { "zh", "wuu" });
 	compare(lang::make_lang("zh-yue"), { "zh", "yue" });
 
+	compare(lang::make_lang("zh-cdo-TW"),      { "zh", "cdo", "", "TW" });
+	compare(lang::make_lang("zh-cjy-CN"),      { "zh", "cjy", "", "CN" });
+	compare(lang::make_lang("zh-cmn-Hans"),    { "zh", "cmn", "Hans" });
+	compare(lang::make_lang("zh-cpx-Hant"),    { "zh", "cpx", "Hant" });
+	compare(lang::make_lang("zh-czh-tw"),      { "zh", "czh", "", "TW" });
+	compare(lang::make_lang("zh-czo-cn"),      { "zh", "czo", "", "CN" });
+	compare(lang::make_lang("zh-gan-hant"),    { "zh", "gan", "Hant" });
+	compare(lang::make_lang("zh-hak-hans"),    { "zh", "hak", "Hans" });
+	compare(lang::make_lang("zh-hsn-Tw"),      { "zh", "hsn", "", "TW" });
+	compare(lang::make_lang("zh-lzh-Cn"),      { "zh", "lzh", "", "CN" });
+	compare(lang::make_lang("zh-mnp-HANT"),    { "zh", "mnp", "Hant" });
+	compare(lang::make_lang("zh-nan-HANS"),    { "zh", "nan", "Hans" });
+	compare(lang::make_lang("zh-wuu-Hans-TW"), { "zh", "wuu", "Hans", "TW" });
+	compare(lang::make_lang("zh-yue-Hant-cN"), { "zh", "yue", "Hant", "CN" });
+
 	compare(lang::make_lang("cdo"), { "zh", "cdo" });
 	compare(lang::make_lang("cjy"), { "zh", "cjy" });
 	compare(lang::make_lang("cmn"), { "zh", "cmn" });
@@ -140,6 +155,21 @@ TEST_CASE("extlang codes for zh")
 	compare(lang::make_lang("nan"), { "zh", "nan" });
 	compare(lang::make_lang("wuu"), { "zh", "wuu" });
 	compare(lang::make_lang("yue"), { "zh", "yue" });
+
+	compare(lang::make_lang("cdo-TW"),      { "zh", "cdo", "", "TW" });
+	compare(lang::make_lang("cjy-CN"),      { "zh", "cjy", "", "CN" });
+	compare(lang::make_lang("cmn-Hans"),    { "zh", "cmn", "Hans" });
+	compare(lang::make_lang("cpx-Hant"),    { "zh", "cpx", "Hant" });
+	compare(lang::make_lang("czh-tw"),      { "zh", "czh", "", "TW" });
+	compare(lang::make_lang("czo-cn"),      { "zh", "czo", "", "CN" });
+	compare(lang::make_lang("gan-hant"),    { "zh", "gan", "Hant" });
+	compare(lang::make_lang("hak-hans"),    { "zh", "hak", "Hans" });
+	compare(lang::make_lang("hsn-Tw"),      { "zh", "hsn", "", "TW" });
+	compare(lang::make_lang("lzh-Cn"),      { "zh", "lzh", "", "CN" });
+	compare(lang::make_lang("mnp-HANT"),    { "zh", "mnp", "Hant" });
+	compare(lang::make_lang("nan-HANS"),    { "zh", "nan", "Hans" });
+	compare(lang::make_lang("wuu-Hans-TW"), { "zh", "wuu", "Hans", "TW" });
+	compare(lang::make_lang("yue-Hant-cN"), { "zh", "yue", "Hant", "CN" });
 }
 
 TEST_CASE("eSpeak voice language codes")
