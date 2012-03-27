@@ -125,6 +125,21 @@ TEST_CASE("extlang codes for zh")
 	compare(lang::make_lang("zh-nan"), { "zh", "nan" });
 	compare(lang::make_lang("zh-wuu"), { "zh", "wuu" });
 	compare(lang::make_lang("zh-yue"), { "zh", "yue" });
+
+	compare(lang::make_lang("cdo"), { "zh", "cdo" });
+	compare(lang::make_lang("cjy"), { "zh", "cjy" });
+	compare(lang::make_lang("cmn"), { "zh", "cmn" });
+	compare(lang::make_lang("cpx"), { "zh", "cpx" });
+	compare(lang::make_lang("czh"), { "zh", "czh" });
+	compare(lang::make_lang("czo"), { "zh", "czo" });
+	compare(lang::make_lang("gan"), { "zh", "gan" });
+	compare(lang::make_lang("hak"), { "zh", "hak" });
+	compare(lang::make_lang("hsn"), { "zh", "hsn" });
+	compare(lang::make_lang("lzh"), { "zh", "lzh" });
+	compare(lang::make_lang("mnp"), { "zh", "mnp" });
+	compare(lang::make_lang("nan"), { "zh", "nan" });
+	compare(lang::make_lang("wuu"), { "zh", "wuu" });
+	compare(lang::make_lang("yue"), { "zh", "yue" });
 }
 
 TEST_CASE("eSpeak voice language codes")

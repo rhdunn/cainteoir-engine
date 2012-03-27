@@ -146,7 +146,13 @@ lang::tag lang::make_lang(const std::string &code)
 		std::string item = (b == std::string::npos) ? code.substr(a) : code.substr(a, b-a);
 
 		if (lang.lang.empty())
-			lang.lang = item;
+		{
+			const lang::tag *extlang = lookup_lang(item, extlang_tags);
+			if (extlang)
+				lang = *extlang;
+			else
+				lang.lang = item;
+		}
 		else switch (item.length())
 		{
 		case 4:
