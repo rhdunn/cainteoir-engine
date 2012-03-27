@@ -52,7 +52,7 @@ static std::string capitalize(std::string s)
 	return s;
 }
 
-std::initializer_list<std::pair<std::string, lang::tag>> alias1tag = {
+std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
 	{ "be@latin",    { "be", "Latn" } },
 	{ "ca@valencia", { "ca", "", "", "valencia" } },
 	{ "en@boldquot", { "en" } },
@@ -62,9 +62,6 @@ std::initializer_list<std::pair<std::string, lang::tag>> alias1tag = {
 	{ "sr@latin",    { "sr", "Latn" } },
 	{ "sr@latn",     { "sr", "Latn" } },
 	{ "uz@cyrillic", { "uz", "Cyrl" } },
-};
-
-std::initializer_list<std::pair<std::string, lang::tag>> alias2tag = {
 	{ "art-lojban",  { "jbo" } },
 	{ "cel-gaulish", { "cel-gaulish" } }, // parent=cel, children=[xtg, xcg, xlp, xga]
 	{ "en-sc",       { "en", "", "", "scotland" } },
@@ -95,9 +92,6 @@ std::initializer_list<std::pair<std::string, lang::tag>> alias2tag = {
 	{ "zh-nan",      { "nan" } },
 	{ "zh-xiang",    { "hsn" } },
 	{ "zh-yue",      { "yue" } },
-};
-
-std::initializer_list<std::pair<std::string, lang::tag>> alias3tag = {
 	{ "en-gb-oed",   { "en", "", "GB" } },
 	{ "en-uk-north", { "en", "", "GB" } },
 	{ "en-uk-rp",    { "en", "", "GB" } },
@@ -108,50 +102,53 @@ std::initializer_list<std::pair<std::string, lang::tag>> alias3tag = {
 	{ "zh-min-nan",  { "nan" } },
 };
 
-lang::tag lang::make_lang(const std::string &lang)
+static const lang::tag *
+lookup_lang(std::string lang,
+            std::initializer_list<std::pair<std::string, const lang::tag>> &tags)
 {
-	std::string::size_type a = lang.find('-');
-	if (a == std::string::npos)
+	lang = to_lower(lang);
+	for (auto id = tags.begin(), last = tags.end(); id != last; ++id)
 	{
-		std::string langid = to_lower(lang);
-		for (auto id = alias1tag.begin(), last = alias1tag.end(); id != last; ++id)
+		if (id->first == lang)
+			return &id->second;
+	}
+	return NULL;
+}
+
+lang::tag lang::make_lang(const std::string &code)
+{
+	const lang::tag *alias = lookup_lang(code, alias_tags);
+	if (alias)
+		return *alias;
+
+	lang::tag lang { "" };
+
+	std::string::size_type a = 0;
+	std::string::size_type b = 0;
+	int n = 0;
+	do
+	{
+		b = code.find('-', a);
+		std::string item = (b == std::string::npos) ? code.substr(a) : code.substr(a, b-a);
+
+		if (lang.lang.empty())
+			lang.lang = item;
+		else switch (item.length())
 		{
-			if (id->first == langid)
-				return id->second;
+		case 4:
+			lang.script = item;
+			break;
+		case 3:
+		case 2:
+			lang.region = item;
+			break;
 		}
 
-		return { to_lower(lang), "", "" };
-	}
+		a = b+1;
+		++n;
+	} while (b != std::string::npos);
 
-	std::string::size_type b = lang.find('-', a+1);
-	if (b == std::string::npos)
-	{
-		std::string subtag = lang.substr(a+1);
-
-		std::string langid = to_lower(lang);
-		for (auto id = alias2tag.begin(), last = alias2tag.end(); id != last; ++id)
-		{
-			if (id->first == langid)
-				return id->second;
-		}
-
-		if (subtag.length() == 4)
-			return { to_lower(lang.substr(0, a)), capitalize(subtag), "" };
-
-		return { to_lower(lang.substr(0, a)), "", to_upper(subtag) };
-	}
-
-	std::string langid = to_lower(lang);
-	for (auto id = alias3tag.begin(), last = alias3tag.end(); id != last; ++id)
-	{
-		if (id->first == langid)
-			return id->second;
-	}
-
-	std::string subtag = lang.substr(a+1, b-a-1);
-	if (subtag.length() == 4)
-		return { to_lower(lang.substr(0, a)), capitalize(subtag), to_upper(lang.substr(b+1)) };
-	return { to_lower(lang.substr(0, a)), capitalize(lang.substr(b+1)), to_upper(subtag) };
+	return { to_lower(lang.lang), capitalize(lang.script), to_upper(lang.region) };
 }
 
 bool lang::operator==(const tag &a, const tag &b)
