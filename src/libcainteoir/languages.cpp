@@ -369,6 +369,8 @@ lang::tag lang::make_lang(const std::string &code)
 		case 4:
 			if (lang.script.empty())
 				lang.script = item;
+			else if (lang.variant.empty())
+				lang.variant = item;
 			break;
 		case 3:
 			if (lang.extlang.empty())
@@ -385,6 +387,9 @@ lang::tag lang::make_lang(const std::string &code)
 		case 2:
 			lang.region = item;
 			break;
+		default:
+			lang.variant = item;
+			break;
 		}
 
 		a = b+1;
@@ -394,7 +399,8 @@ lang::tag lang::make_lang(const std::string &code)
 	return { to_lower(lang.lang),
 	         to_lower(lang.extlang),
 	         capitalize(lang.script),
-	         to_upper(lang.region) };
+	         to_upper(lang.region),
+	         lang.variant };
 }
 
 bool lang::operator==(const tag &a, const tag &b)

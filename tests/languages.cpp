@@ -64,6 +64,10 @@ TEST_CASE("language-script codes")
 	compare(lang::make_lang("zh-Hans"), { "zh", "", "Hans" });
 	compare(lang::make_lang("zh-HANS"), { "zh", "", "Hans" });
 	compare(lang::make_lang("ZH-hans"), { "zh", "", "Hans" });
+
+	compare(lang::make_lang("jp-Kana"),           { "jp", "", "Kana" });
+	compare(lang::make_lang("jp-Kana-Hans"),      { "jp", "", "Kana", "", "Hans" });
+	compare(lang::make_lang("jp-Hira-Kana-Hans"), { "jp", "", "Hira", "", "Kana" });
 }
 
 TEST_CASE("language-script-region codes")
@@ -80,6 +84,12 @@ TEST_CASE("language-region-script codes")
 	compare(lang::make_lang("ZH-CN-hant"), { "zh", "", "Hant", "CN" });
 
 	compare(lang::make_lang("es-419-Latn"), { "es", "", "Latn", "419" });
+}
+
+TEST_CASE("language-region-script-variant codes")
+{
+	compare(lang::make_lang("de-Latn-CH-1901"),   { "de", "", "Latn", "CH", "1901" });
+	compare(lang::make_lang("de-Latn-CH-scouse"), { "de", "", "Latn", "CH", "scouse" });
 }
 
 TEST_CASE("grandfathered language codes")
@@ -729,7 +739,7 @@ TEST_CASE("language-script-region tag equality")
 TEST_CASE("language-script-region-variant tag equality")
 {
 	lang_match(   "de-Latn-CH-1901",  "de-Latn-CH-1901");
-	//lang_mismatch("de-Latn-CH-1901",  "de-Latn-CH-scouse");
+	lang_mismatch("de-Latn-CH-1901",  "de-Latn-CH-scouse");
 	lang_mismatch("de-Latn-DE-1901",  "de-Latn-CH-1901");
 	lang_mismatch("de-Latf-CH-1901",  "de-Latn-CH-1901");
 	lang_mismatch("gmh-Latn-CH-1901", "de-Latn-CH-1901");
