@@ -38,6 +38,9 @@ void compare(const lang::tag &a, const lang::tag &b)
 	assert(a.variant == b.variant);
 }
 
+#define lang_match(a, b)    assert(      lang::make_lang(a) == lang::make_lang(b))
+#define lang_mismatch(a, b) assert_false(lang::make_lang(a) == lang::make_lang(b))
+
 TEST_CASE("empty language code")
 {
 	compare(lang::make_lang(std::string()), { "" });
@@ -656,62 +659,63 @@ TEST_CASE("posix locale codes from /usr/share/locale")
 
 TEST_CASE("language tag equality")
 {
-	assert(lang::tag("en") == lang::tag("en"));
-	assert(lang::tag("de") == lang::tag("de"));
-	assert_false(lang::tag("af") == lang::tag("nl"));
+	lang_match(   "en", "en");
+	lang_match(   "de", "de");
+	lang_mismatch("af", "nl");
 }
 
 TEST_CASE("language-region tag equality")
 {
-	assert(lang::tag("en", "", "", "GB") == lang::tag("en", "", "", "GB"));
-	assert_false(lang::tag("en", "", "", "GB") == lang::tag("en", "", "", "US"));
+	lang_match(   "en-GB", "en-GB");
+	lang_match(   "en-GB", "en-UK");
+	lang_mismatch("en-GB", "en-US");
 
-	assert(lang::tag("en") == lang::tag("en", "", "", "US"));
-	assert(lang::tag("en", "", "", "US") == lang::tag("en"));
+	lang_match("en", "en-US");
+	lang_match("en-US", "en");
 
-	assert_false(lang::tag("es") == lang::tag("en", "", "", "GB"));
-	assert_false(lang::tag("en", "", "", "GB") == lang::tag("es"));
+	lang_mismatch("es", "en-GB");
+	lang_mismatch("en-GB", "es");
 }
 
 TEST_CASE("language-script tag equality")
 {
-	assert(lang::tag("el", "", "Grek") == lang::tag("el", "", "Grek"));
-	assert_false(lang::tag("el", "", "Grek") == lang::tag("el", "", "Latn"));
+	lang_match(   "el-Grek", "el-Grek");
+	lang_mismatch("el-Grek", "el-Latn");
 
-	assert(lang::tag("el") == lang::tag("el", "", "Grek"));
-	assert(lang::tag("el", "", "Grek") == lang::tag("el"));
+	lang_match("el", "el-Grek");
+	lang_match("el-Grek", "el");
 
-	assert_false(lang::tag("fr") == lang::tag("el", "", "Grek"));
-	assert_false(lang::tag("el", "", "Grek") == lang::tag("fr"));
+	lang_mismatch("fr", "el-Grek");
+	lang_mismatch("el-Grek", "fr");
 }
 
 TEST_CASE("language-script-region tag equality")
 {
-	assert(lang::tag("zh", "", "Hans", "HK") == lang::tag("zh", "", "Hans", "HK"));
-	assert_false(lang::tag("zh", "", "Hans", "HK") == lang::tag("zh", "", "Hant", "HK"));
-	assert_false(lang::tag("zh", "", "Hans", "CN") == lang::tag("zh", "", "Hans", "HK"));
+	lang_match(   "zh-Hans-HK", "zh-Hans-HK");
+	lang_mismatch("zh-Hans-HK", "zh-Hant-HK");
+	lang_mismatch("zh-Hans-CN", "zh-Hans-HK");
 
-	assert(lang::tag("zh", "", "Hans", "HK") == lang::tag("zh", "", "Hans"));
-	assert(lang::tag("zh", "", "Hans") == lang::tag("zh", "", "Hans", "HK"));
+	lang_match("zh-Hans-HK", "zh-Hans");
+	lang_match("zh-Hans", "zh-Hans-HK");
 
-	assert(lang::tag("zh", "", "Hans", "HK") == lang::tag("zh"));
-	assert(lang::tag("zh") == lang::tag("zh", "", "Hans", "HK"));
+	lang_match("zh-Hans-HK", "zh");
+	lang_match("zh", "zh-Hans-HK");
 }
 
 TEST_CASE("language-script-region-variant tag equality")
 {
-	assert(lang::tag("de", "", "Latn", "CH", "1901") == lang::tag("de", "", "Latn", "CH", "1901"));
-	assert_false(lang::tag("de", "", "Latn", "CH", "1901") == lang::tag("de", "", "Latn", "CH", "scouse"));
+	lang_match(   "de-Latn-CH-1901",  "de-Latn-CH-1901");
+	//lang_mismatch("de-Latn-CH-1901",  "de-Latn-CH-scouse");
+	lang_mismatch("de-Latn-DE-1901",  "de-Latn-CH-1901");
+	lang_mismatch("de-Latf-CH-1901",  "de-Latn-CH-1901");
+	lang_mismatch("gmh-Latn-CH-1901", "de-Latn-CH-1901");
 
-	assert_false(lang::tag("de", "", "Latn", "DE", "1901") == lang::tag("de", "", "Latn", "CH", "1901"));
-	assert_false(lang::tag("de", "", "Latf", "CH", "1901") == lang::tag("de", "", "Latn", "CH", "1901"));
+	lang_match("de-Latn-CH-1901", "de-Latn-CH");
+	lang_match("de-Latn-CH", "de-Latn-CH-1901");
 
-	assert(lang::tag("de", "", "Latn", "CH", "1901") == lang::tag("de", "", "Latn", "CH"));
-	assert(lang::tag("de", "", "Latn", "CH") == lang::tag("de", "", "Latn", "CH", "1901"));
+	lang_match("de-Latn-CH-1901", "de-Latn");
+	lang_match("de-Latn", "de-Latn-CH-1901");
 
-	assert(lang::tag("de", "", "Latn", "CH", "1901") == lang::tag("de", "", "Latn"));
-	assert(lang::tag("de", "", "Latn") == lang::tag("de", "", "Latn", "CH", "1901"));
-
-	assert(lang::tag("de", "", "Latn", "CH", "1901") == lang::tag("de"));
-	assert(lang::tag("de") == lang::tag("de", "", "Latn", "CH", "1901"));
+	lang_match("de-Latn-CH-1901", "de");
+	lang_match("de", "de-Latn-CH-1901");
 }

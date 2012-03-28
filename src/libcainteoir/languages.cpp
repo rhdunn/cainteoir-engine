@@ -367,7 +367,8 @@ lang::tag lang::make_lang(const std::string &code)
 		else switch (item.length())
 		{
 		case 4:
-			lang.script = item;
+			if (lang.script.empty())
+				lang.script = item;
 			break;
 		case 3:
 			if (lang.extlang.empty())
