@@ -53,20 +53,20 @@ static std::string capitalize(std::string s)
 }
 
 std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
+	{ "art-lojban",  { "jbo" } },
 	{ "be@latin",    { "be", "", "Latn" } },
 	{ "ca@valencia", { "ca", "", "", "", "valencia" } },
+	{ "cel-gaulish", { "cel-gaulish" } }, // parent=cel, children=[xtg, xcg, xlp, xga]
+	{ "en-gb-oed",   { "en", "", "", "GB" } },
+	{ "en-sc",       { "en", "", "", "", "scotland" } },
+	{ "en-uk",       { "en", "", "", "GB" } },
+	{ "en-uk-north", { "en", "", "", "GB" } },
+	{ "en-uk-rp",    { "en", "", "", "GB" } },
+	{ "en-uk-wmids", { "en", "", "", "GB" } },
+	{ "en-wi",       { "en", "", "", "029" } }, // Caribbean
 	{ "en@boldquot", { "en" } },
 	{ "en@quot",     { "en" } },
 	{ "en@shaw",     { "en" } },
-	{ "sr@ije",      { "sr" } },
-	{ "sr@latin",    { "sr", "", "Latn" } },
-	{ "sr@latn",     { "sr", "", "Latn" } },
-	{ "uz@cyrillic", { "uz", "", "Cyrl" } },
-	{ "art-lojban",  { "jbo" } },
-	{ "cel-gaulish", { "cel-gaulish" } }, // parent=cel, children=[xtg, xcg, xlp, xga]
-	{ "en-sc",       { "en", "", "", "", "scotland" } },
-	{ "en-uk",       { "en", "", "", "GB" } },
-	{ "en-wi",       { "en", "", "", "029" } }, // Caribbean
 	{ "es-la",       { "es", "", "", "419" } }, // Latin America & Caribbean
 	{ "hy-west",     { "hy" } },
 	{ "i-ami",       { "ami" } },
@@ -84,18 +84,18 @@ std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
 	{ "i-tsu",       { "tsu" } },
 	{ "no-bok",      { "nb" } },
 	{ "no-nyn",      { "nn" } },
-	{ "zh-guoyu",    { "zh", "cmn" } },
-	{ "zh-hakka",    { "zh", "hak" } },
-	{ "zh-min",      { "zh", "nan" } },
-	{ "zh-xiang",    { "zh", "hsn" } },
-	{ "en-gb-oed",   { "en", "", "", "GB" } },
-	{ "en-uk-north", { "en", "", "", "GB" } },
-	{ "en-uk-rp",    { "en", "", "", "GB" } },
-	{ "en-uk-wmids", { "en", "", "", "GB" } },
 	{ "sgn-be-fr",   { "sfb" } },
 	{ "sgn-be-nl",   { "vgt" } },
 	{ "sgn-ch-de",   { "sgg" } },
+	{ "sr@ije",      { "sr" } },
+	{ "sr@latin",    { "sr", "", "Latn" } },
+	{ "sr@latn",     { "sr", "", "Latn" } },
+	{ "uz@cyrillic", { "uz", "", "Cyrl" } },
+	{ "zh-guoyu",    { "zh", "cmn" } },
+	{ "zh-hakka",    { "zh", "hak" } },
+	{ "zh-min",      { "zh", "nan" } },
 	{ "zh-min-nan",  { "zh", "nan" } },
+	{ "zh-xiang",    { "zh", "hsn" } },
 };
 
 // TODO: get this information through the RDF metadata (rdf:type iana:ExtLang, rdf:value, iana:prefix).
@@ -332,12 +332,24 @@ lookup_lang(std::string lang,
             std::initializer_list<std::pair<std::string, const lang::tag>> &tags)
 {
 	lang = to_lower(lang);
-	for (auto id = tags.begin(), last = tags.end(); id != last; ++id)
+
+	int begin = 0;
+	int end = tags.size() - 1;
+
+	while (begin <= end)
 	{
-		if (id->first == lang)
-			return &id->second;
+		int pos = (begin + end) / 2;
+
+		int comp = lang.compare((tags.begin() + pos)->first);
+		if (comp == 0)
+			return &(tags.begin() + pos)->second;
+		else if (comp > 0)
+			begin = pos + 1;
+		else
+			end = pos - 1;
 	}
-	return NULL;
+
+	return nullptr;
 }
 
 lang::tag lang::make_lang(const std::string &code)
