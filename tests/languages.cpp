@@ -112,7 +112,7 @@ TEST_CASE("grandfathered language codes")
 	compare(lang::make_lang("zh-xiang"),    { "zh", "hsn" });
 }
 
-TEST_CASE("extlang codes for ar (Arabic)")
+TEST_CASE("language-extlang codes for ar (Arabic)")
 {
 	compare(lang::make_lang("ar-aao"), { "ar", "aao" });
 	compare(lang::make_lang("ar-abh"), { "ar", "abh" });
@@ -144,7 +144,10 @@ TEST_CASE("extlang codes for ar (Arabic)")
 	compare(lang::make_lang("ar-pga"), { "ar", "pga" });
 	compare(lang::make_lang("ar-shu"), { "ar", "shu" });
 	compare(lang::make_lang("ar-ssh"), { "ar", "ssh" });
+}
 
+TEST_CASE("extlang codes for ar (Arabic)")
+{
 	compare(lang::make_lang("aao"), { "ar", "aao" });
 	compare(lang::make_lang("abh"), { "ar", "abh" });
 	compare(lang::make_lang("abv"), { "ar", "abv" });
@@ -177,25 +180,31 @@ TEST_CASE("extlang codes for ar (Arabic)")
 	compare(lang::make_lang("ssh"), { "ar", "ssh" });
 }
 
-TEST_CASE("extlang codes for kok (Konkani)")
+TEST_CASE("language-extlang codes for kok (Konkani)")
 {
 	compare(lang::make_lang("kok-gom"), { "kok", "gom" });
 	compare(lang::make_lang("kok-knn"), { "kok", "knn" });
+}
 
+TEST_CASE("extlang codes for kok (Konkani)")
+{
 	compare(lang::make_lang("gom"), { "kok", "gom" });
 	compare(lang::make_lang("knn"), { "kok", "knn" });
 }
 
-TEST_CASE("extlang codes for lv (Latvian)")
+TEST_CASE("language-extlang codes for lv (Latvian)")
 {
 	compare(lang::make_lang("lv-ltg"), { "lv", "ltg" });
 	compare(lang::make_lang("lv-lvs"), { "lv", "lvs" });
+}
 
+TEST_CASE("extlang codes for lv (Latvian)")
+{
 	compare(lang::make_lang("ltg"), { "lv", "ltg" });
 	compare(lang::make_lang("lvs"), { "lv", "lvs" });
 }
 
-TEST_CASE("extlang codes for ms (Malay)")
+TEST_CASE("language-extlang codes for ms (Malay)")
 {
 	compare(lang::make_lang("ms-bjn"), { "ms", "bjn" });
 	compare(lang::make_lang("ms-btj"), { "ms", "btj" });
@@ -232,7 +241,10 @@ TEST_CASE("extlang codes for ms (Malay)")
 	compare(lang::make_lang("ms-zlm"), { "ms", "zlm" });
 	compare(lang::make_lang("ms-zmi"), { "ms", "zmi" });
 	compare(lang::make_lang("ms-zsm"), { "ms", "zsm" });
+}
 
+TEST_CASE("extlang codes for ms (Malay)")
+{
 	compare(lang::make_lang("bjn"), { "ms", "bjn" });
 	compare(lang::make_lang("btj"), { "ms", "btj" });
 	compare(lang::make_lang("bve"), { "ms", "bve" });
@@ -270,7 +282,7 @@ TEST_CASE("extlang codes for ms (Malay)")
 	compare(lang::make_lang("zsm"), { "ms", "zsm" });
 }
 
-TEST_CASE("extlang codes for sgn (Sign Language)")
+TEST_CASE("language-extlang codes for sgn (Sign Language)")
 {
 	compare(lang::make_lang("sgn-ads"), { "sgn", "ads" });
 	compare(lang::make_lang("sgn-aed"), { "sgn", "aed" });
@@ -410,7 +422,10 @@ TEST_CASE("extlang codes for sgn (Sign Language)")
 	compare(lang::make_lang("sgn-ysl"), { "sgn", "ysl" });
 	compare(lang::make_lang("sgn-zib"), { "sgn", "zib" });
 	compare(lang::make_lang("sgn-zsl"), { "sgn", "zsl" });
+}
 
+TEST_CASE("extlang codes for sgn (Sign Language)")
+{
 	compare(lang::make_lang("ads"), { "sgn", "ads" });
 	compare(lang::make_lang("aed"), { "sgn", "aed" });
 	compare(lang::make_lang("aen"), { "sgn", "aen" });
@@ -551,25 +566,31 @@ TEST_CASE("extlang codes for sgn (Sign Language)")
 	compare(lang::make_lang("zsl"), { "sgn", "zsl" });
 }
 
-TEST_CASE("extlang codes for sw (Swahili)")
+TEST_CASE("language-extlang codes for sw (Swahili)")
 {
 	compare(lang::make_lang("sw-swc"), { "sw", "swc" });
 	compare(lang::make_lang("sw-swh"), { "sw", "swh" });
+}
 
+TEST_CASE("extlang codes for sw (Swahili)")
+{
 	compare(lang::make_lang("swc"), { "sw", "swc" });
 	compare(lang::make_lang("swh"), { "sw", "swh" });
 }
 
-TEST_CASE("extlang codes for uz (Uzbek)")
+TEST_CASE("language-extlang codes for uz (Uzbek)")
 {
 	compare(lang::make_lang("uz-uzn"), { "uz", "uzn" });
 	compare(lang::make_lang("uz-uzs"), { "uz", "uzs" });
+}
 
+TEST_CASE("extlang codes for uz (Uzbek)")
+{
 	compare(lang::make_lang("uzn"), { "uz", "uzn" });
 	compare(lang::make_lang("uzs"), { "uz", "uzs" });
 }
 
-TEST_CASE("extlang codes for zh (Chinese)")
+TEST_CASE("language-extlang codes for zh (Chinese)")
 {
 	compare(lang::make_lang("zh-cdo"), { "zh", "cdo" });
 	compare(lang::make_lang("zh-cjy"), { "zh", "cjy" });
@@ -600,7 +621,10 @@ TEST_CASE("extlang codes for zh (Chinese)")
 	compare(lang::make_lang("zh-nan-HANS"),    { "zh", "nan", "Hans" });
 	compare(lang::make_lang("zh-wuu-Hans-TW"), { "zh", "wuu", "Hans", "TW" });
 	compare(lang::make_lang("zh-yue-Hant-cN"), { "zh", "yue", "Hant", "CN" });
+}
 
+TEST_CASE("extlang codes for zh (Chinese)")
+{
 	compare(lang::make_lang("cdo"), { "zh", "cdo" });
 	compare(lang::make_lang("cjy"), { "zh", "cjy" });
 	compare(lang::make_lang("cmn"), { "zh", "cmn" });
