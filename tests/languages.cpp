@@ -141,18 +141,55 @@ TEST_CASE("extlang codes for ar (Arabic)")
 	compare(lang::make_lang("ar-pga"), { "ar", "pga" });
 	compare(lang::make_lang("ar-shu"), { "ar", "shu" });
 	compare(lang::make_lang("ar-ssh"), { "ar", "ssh" });
+
+	compare(lang::make_lang("aao"), { "ar", "aao" });
+	compare(lang::make_lang("abh"), { "ar", "abh" });
+	compare(lang::make_lang("abv"), { "ar", "abv" });
+	compare(lang::make_lang("acm"), { "ar", "acm" });
+	compare(lang::make_lang("acq"), { "ar", "acq" });
+	compare(lang::make_lang("acw"), { "ar", "acw" });
+	compare(lang::make_lang("acx"), { "ar", "acx" });
+	compare(lang::make_lang("acy"), { "ar", "acy" });
+	compare(lang::make_lang("adf"), { "ar", "adf" });
+	compare(lang::make_lang("aeb"), { "ar", "aeb" });
+	compare(lang::make_lang("aec"), { "ar", "aec" });
+	compare(lang::make_lang("afb"), { "ar", "afb" });
+	compare(lang::make_lang("ajp"), { "ar", "ajp" });
+	compare(lang::make_lang("apc"), { "ar", "apc" });
+	compare(lang::make_lang("apd"), { "ar", "apd" });
+	compare(lang::make_lang("arb"), { "ar", "arb" });
+	compare(lang::make_lang("arq"), { "ar", "arq" });
+	compare(lang::make_lang("ars"), { "ar", "ars" });
+	compare(lang::make_lang("ary"), { "ar", "ary" });
+	compare(lang::make_lang("arz"), { "ar", "arz" });
+	compare(lang::make_lang("auz"), { "ar", "auz" });
+	compare(lang::make_lang("avl"), { "ar", "avl" });
+	compare(lang::make_lang("ayh"), { "ar", "ayh" });
+	compare(lang::make_lang("ayl"), { "ar", "ayl" });
+	compare(lang::make_lang("ayn"), { "ar", "ayn" });
+	compare(lang::make_lang("ayp"), { "ar", "ayp" });
+	compare(lang::make_lang("bbz"), { "ar", "bbz" });
+	compare(lang::make_lang("pga"), { "ar", "pga" });
+	compare(lang::make_lang("shu"), { "ar", "shu" });
+	compare(lang::make_lang("ssh"), { "ar", "ssh" });
 }
 
 TEST_CASE("extlang codes for kok (Konkani)")
 {
 	compare(lang::make_lang("kok-gom"), { "kok", "gom" });
 	compare(lang::make_lang("kok-knn"), { "kok", "knn" });
+
+	compare(lang::make_lang("gom"), { "kok", "gom" });
+	compare(lang::make_lang("knn"), { "kok", "knn" });
 }
 
 TEST_CASE("extlang codes for lv (Latvian)")
 {
 	compare(lang::make_lang("lv-ltg"), { "lv", "ltg" });
 	compare(lang::make_lang("lv-lvs"), { "lv", "lvs" });
+
+	compare(lang::make_lang("ltg"), { "lv", "ltg" });
+	compare(lang::make_lang("lvs"), { "lv", "lvs" });
 }
 
 TEST_CASE("extlang codes for ms (Malay)")
@@ -192,6 +229,42 @@ TEST_CASE("extlang codes for ms (Malay)")
 	compare(lang::make_lang("ms-zlm"), { "ms", "zlm" });
 	compare(lang::make_lang("ms-zmi"), { "ms", "zmi" });
 	compare(lang::make_lang("ms-zsm"), { "ms", "zsm" });
+
+	compare(lang::make_lang("bjn"), { "ms", "bjn" });
+	compare(lang::make_lang("btj"), { "ms", "btj" });
+	compare(lang::make_lang("bve"), { "ms", "bve" });
+	compare(lang::make_lang("bvu"), { "ms", "bvu" });
+	compare(lang::make_lang("coa"), { "ms", "coa" });
+	compare(lang::make_lang("dup"), { "ms", "dup" });
+	compare(lang::make_lang("hji"), { "ms", "hji" });
+	compare(lang::make_lang("jak"), { "ms", "jak" });
+	compare(lang::make_lang("jax"), { "ms", "jax" });
+	compare(lang::make_lang("kvb"), { "ms", "kvb" });
+	compare(lang::make_lang("kvr"), { "ms", "kvr" });
+	compare(lang::make_lang("kxd"), { "ms", "kxd" });
+	compare(lang::make_lang("lce"), { "ms", "lce" });
+	compare(lang::make_lang("lcf"), { "ms", "lcf" });
+	compare(lang::make_lang("liw"), { "ms", "liw" });
+	compare(lang::make_lang("max"), { "ms", "max" });
+	compare(lang::make_lang("meo"), { "ms", "meo" });
+	compare(lang::make_lang("mfa"), { "ms", "mfa" });
+	compare(lang::make_lang("mfb"), { "ms", "mfb" });
+	compare(lang::make_lang("min"), { "ms", "min" });
+	compare(lang::make_lang("mqg"), { "ms", "mqg" });
+	compare(lang::make_lang("msi"), { "ms", "msi" });
+	compare(lang::make_lang("mui"), { "ms", "mui" });
+	compare(lang::make_lang("orn"), { "ms", "orn" });
+	compare(lang::make_lang("ors"), { "ms", "ors" });
+	compare(lang::make_lang("pel"), { "ms", "pel" });
+	compare(lang::make_lang("pse"), { "ms", "pse" });
+	compare(lang::make_lang("tmw"), { "ms", "tmw" });
+	compare(lang::make_lang("urk"), { "ms", "urk" });
+	compare(lang::make_lang("vkk"), { "ms", "vkk" });
+	compare(lang::make_lang("vkt"), { "ms", "vkt" });
+	compare(lang::make_lang("xmm"), { "ms", "xmm" });
+	compare(lang::make_lang("zlm"), { "ms", "zlm" });
+	compare(lang::make_lang("zmi"), { "ms", "zmi" });
+	compare(lang::make_lang("zsm"), { "ms", "zsm" });
 }
 
 TEST_CASE("extlang codes for sgn (Sign Language)")
@@ -334,18 +407,163 @@ TEST_CASE("extlang codes for sgn (Sign Language)")
 	compare(lang::make_lang("sgn-ysl"), { "sgn", "ysl" });
 	compare(lang::make_lang("sgn-zib"), { "sgn", "zib" });
 	compare(lang::make_lang("sgn-zsl"), { "sgn", "zsl" });
+
+	compare(lang::make_lang("ads"), { "sgn", "ads" });
+	compare(lang::make_lang("aed"), { "sgn", "aed" });
+	compare(lang::make_lang("aen"), { "sgn", "aen" });
+	compare(lang::make_lang("afg"), { "sgn", "afg" });
+	compare(lang::make_lang("ase"), { "sgn", "ase" });
+	compare(lang::make_lang("asf"), { "sgn", "asf" });
+	compare(lang::make_lang("asp"), { "sgn", "asp" });
+	compare(lang::make_lang("asq"), { "sgn", "asq" });
+	compare(lang::make_lang("asw"), { "sgn", "asw" });
+	compare(lang::make_lang("bfi"), { "sgn", "bfi" });
+	compare(lang::make_lang("bfk"), { "sgn", "bfk" });
+	compare(lang::make_lang("bog"), { "sgn", "bog" });
+	compare(lang::make_lang("bqn"), { "sgn", "bqn" });
+	compare(lang::make_lang("bqy"), { "sgn", "bqy" });
+	compare(lang::make_lang("bvl"), { "sgn", "bvl" });
+	compare(lang::make_lang("bzs"), { "sgn", "bzs" });
+	compare(lang::make_lang("cds"), { "sgn", "cds" });
+	compare(lang::make_lang("csc"), { "sgn", "csc" });
+	compare(lang::make_lang("csd"), { "sgn", "csd" });
+	compare(lang::make_lang("cse"), { "sgn", "cse" });
+	compare(lang::make_lang("csf"), { "sgn", "csf" });
+	compare(lang::make_lang("csg"), { "sgn", "csg" });
+	compare(lang::make_lang("csl"), { "sgn", "csl" });
+	compare(lang::make_lang("csn"), { "sgn", "csn" });
+	compare(lang::make_lang("csq"), { "sgn", "csq" });
+	compare(lang::make_lang("csr"), { "sgn", "csr" });
+	compare(lang::make_lang("doq"), { "sgn", "doq" });
+	compare(lang::make_lang("dse"), { "sgn", "dse" });
+	compare(lang::make_lang("dsl"), { "sgn", "dsl" });
+	compare(lang::make_lang("ecs"), { "sgn", "ecs" });
+	compare(lang::make_lang("esl"), { "sgn", "esl" });
+	compare(lang::make_lang("esn"), { "sgn", "esn" });
+	compare(lang::make_lang("eso"), { "sgn", "eso" });
+	compare(lang::make_lang("eth"), { "sgn", "eth" });
+	compare(lang::make_lang("fcs"), { "sgn", "fcs" });
+	compare(lang::make_lang("fse"), { "sgn", "fse" });
+	compare(lang::make_lang("fsl"), { "sgn", "fsl" });
+	compare(lang::make_lang("fss"), { "sgn", "fss" });
+	compare(lang::make_lang("gse"), { "sgn", "gse" });
+	compare(lang::make_lang("gsg"), { "sgn", "gsg" });
+	compare(lang::make_lang("gsm"), { "sgn", "gsm" });
+	compare(lang::make_lang("gss"), { "sgn", "gss" });
+	compare(lang::make_lang("gus"), { "sgn", "gus" });
+	compare(lang::make_lang("hab"), { "sgn", "hab" });
+	compare(lang::make_lang("haf"), { "sgn", "haf" });
+	compare(lang::make_lang("hds"), { "sgn", "hds" });
+	compare(lang::make_lang("hks"), { "sgn", "hks" });
+	compare(lang::make_lang("hos"), { "sgn", "hos" });
+	compare(lang::make_lang("hps"), { "sgn", "hps" });
+	compare(lang::make_lang("hsh"), { "sgn", "hsh" });
+	compare(lang::make_lang("hsl"), { "sgn", "hsl" });
+	compare(lang::make_lang("icl"), { "sgn", "icl" });
+	compare(lang::make_lang("ils"), { "sgn", "ils" });
+	compare(lang::make_lang("inl"), { "sgn", "inl" });
+	compare(lang::make_lang("ins"), { "sgn", "ins" });
+	compare(lang::make_lang("ise"), { "sgn", "ise" });
+	compare(lang::make_lang("isg"), { "sgn", "isg" });
+	compare(lang::make_lang("isr"), { "sgn", "isr" });
+	compare(lang::make_lang("jcs"), { "sgn", "jcs" });
+	compare(lang::make_lang("jhs"), { "sgn", "jhs" });
+	compare(lang::make_lang("jls"), { "sgn", "jls" });
+	compare(lang::make_lang("jos"), { "sgn", "jos" });
+	compare(lang::make_lang("jsl"), { "sgn", "jsl" });
+	compare(lang::make_lang("jus"), { "sgn", "jus" });
+	compare(lang::make_lang("kgi"), { "sgn", "kgi" });
+	compare(lang::make_lang("kvk"), { "sgn", "kvk" });
+	compare(lang::make_lang("lbs"), { "sgn", "lbs" });
+	compare(lang::make_lang("lls"), { "sgn", "lls" });
+	compare(lang::make_lang("lsg"), { "sgn", "lsg" });
+	compare(lang::make_lang("lsl"), { "sgn", "lsl" });
+	compare(lang::make_lang("lso"), { "sgn", "lso" });
+	compare(lang::make_lang("lsp"), { "sgn", "lsp" });
+	compare(lang::make_lang("lst"), { "sgn", "lst" });
+	compare(lang::make_lang("lsy"), { "sgn", "lsy" });
+	compare(lang::make_lang("mdl"), { "sgn", "mdl" });
+	compare(lang::make_lang("mfs"), { "sgn", "mfs" });
+	compare(lang::make_lang("mre"), { "sgn", "mre" });
+	compare(lang::make_lang("msd"), { "sgn", "msd" });
+	compare(lang::make_lang("msr"), { "sgn", "msr" });
+	compare(lang::make_lang("mzc"), { "sgn", "mzc" });
+	compare(lang::make_lang("mzg"), { "sgn", "mzg" });
+	compare(lang::make_lang("mzy"), { "sgn", "mzy" });
+	compare(lang::make_lang("nbs"), { "sgn", "nbs" });
+	compare(lang::make_lang("ncs"), { "sgn", "ncs" });
+	compare(lang::make_lang("nsi"), { "sgn", "nsi" });
+	compare(lang::make_lang("nsl"), { "sgn", "nsl" });
+	compare(lang::make_lang("nsp"), { "sgn", "nsp" });
+	compare(lang::make_lang("nsr"), { "sgn", "nsr" });
+	compare(lang::make_lang("nzs"), { "sgn", "nzs" });
+	compare(lang::make_lang("okl"), { "sgn", "okl" });
+	compare(lang::make_lang("pks"), { "sgn", "pks" });
+	compare(lang::make_lang("prl"), { "sgn", "prl" });
+	compare(lang::make_lang("prz"), { "sgn", "prz" });
+	compare(lang::make_lang("psc"), { "sgn", "psc" });
+	compare(lang::make_lang("psd"), { "sgn", "psd" });
+	compare(lang::make_lang("psg"), { "sgn", "psg" });
+	compare(lang::make_lang("psl"), { "sgn", "psl" });
+	compare(lang::make_lang("pso"), { "sgn", "pso" });
+	compare(lang::make_lang("psp"), { "sgn", "psp" });
+	compare(lang::make_lang("psr"), { "sgn", "psr" });
+	compare(lang::make_lang("pys"), { "sgn", "pys" });
+	compare(lang::make_lang("rms"), { "sgn", "rms" });
+	compare(lang::make_lang("rsi"), { "sgn", "rsi" });
+	compare(lang::make_lang("rsl"), { "sgn", "rsl" });
+	compare(lang::make_lang("sdl"), { "sgn", "sdl" });
+	compare(lang::make_lang("sfb"), { "sgn", "sfb" });
+	compare(lang::make_lang("sfs"), { "sgn", "sfs" });
+	compare(lang::make_lang("sgg"), { "sgn", "sgg" });
+	compare(lang::make_lang("sgx"), { "sgn", "sgx" });
+	compare(lang::make_lang("slf"), { "sgn", "slf" });
+	compare(lang::make_lang("sls"), { "sgn", "sls" });
+	compare(lang::make_lang("sqs"), { "sgn", "sqs" });
+	compare(lang::make_lang("ssp"), { "sgn", "ssp" });
+	compare(lang::make_lang("ssr"), { "sgn", "ssr" });
+	compare(lang::make_lang("svk"), { "sgn", "svk" });
+	compare(lang::make_lang("swl"), { "sgn", "swl" });
+	compare(lang::make_lang("syy"), { "sgn", "syy" });
+	compare(lang::make_lang("tse"), { "sgn", "tse" });
+	compare(lang::make_lang("tsm"), { "sgn", "tsm" });
+	compare(lang::make_lang("tsq"), { "sgn", "tsq" });
+	compare(lang::make_lang("tss"), { "sgn", "tss" });
+	compare(lang::make_lang("tsy"), { "sgn", "tsy" });
+	compare(lang::make_lang("tza"), { "sgn", "tza" });
+	compare(lang::make_lang("ugn"), { "sgn", "ugn" });
+	compare(lang::make_lang("ugy"), { "sgn", "ugy" });
+	compare(lang::make_lang("ukl"), { "sgn", "ukl" });
+	compare(lang::make_lang("uks"), { "sgn", "uks" });
+	compare(lang::make_lang("vgt"), { "sgn", "vgt" });
+	compare(lang::make_lang("vsi"), { "sgn", "vsi" });
+	compare(lang::make_lang("vsl"), { "sgn", "vsl" });
+	compare(lang::make_lang("vsv"), { "sgn", "vsv" });
+	compare(lang::make_lang("xki"), { "sgn", "xki" });
+	compare(lang::make_lang("xml"), { "sgn", "xml" });
+	compare(lang::make_lang("xms"), { "sgn", "xms" });
+	compare(lang::make_lang("yds"), { "sgn", "yds" });
+	compare(lang::make_lang("ysl"), { "sgn", "ysl" });
+	compare(lang::make_lang("zib"), { "sgn", "zib" });
+	compare(lang::make_lang("zsl"), { "sgn", "zsl" });
 }
 
 TEST_CASE("extlang codes for sw (Swahili)")
 {
 	compare(lang::make_lang("sw-swc"), { "sw", "swc" });
 	compare(lang::make_lang("sw-swh"), { "sw", "swh" });
+
+	compare(lang::make_lang("swc"), { "sw", "swc" });
+	compare(lang::make_lang("swh"), { "sw", "swh" });
 }
 
 TEST_CASE("extlang codes for uz (Uzbek)")
 {
 	compare(lang::make_lang("uz-uzn"), { "uz", "uzn" });
 	compare(lang::make_lang("uz-uzs"), { "uz", "uzs" });
+
+	compare(lang::make_lang("uzn"), { "uz", "uzn" });
+	compare(lang::make_lang("uzs"), { "uz", "uzs" });
 }
 
 TEST_CASE("extlang codes for zh (Chinese)")
