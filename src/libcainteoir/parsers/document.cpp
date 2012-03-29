@@ -359,8 +359,11 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::ur
 
 	while (begin < end)
 	{
-		if (*begin < 0x20 && !(*begin == '\r' || *begin == '\n' || *begin == '\t'))
+		if (*begin < 0x20 && !(*begin == '\r' || *begin == '\n' || *begin == '\t' || *begin == '\f'))
+		{
+			printf("error: control character 0x%02X found ... treating as octet stream.\n", *begin);
 			return false; // looks like an octet/binary stream
+		}
 		++begin;
 	}
 
