@@ -753,3 +753,13 @@ TEST_CASE("language-script-region-variant tag equality")
 	lang_match("de-Latn-CH-1901", "de");
 	lang_match("de", "de-Latn-CH-1901");
 }
+
+TEST_CASE("language-*-region filter")
+{
+	compare(lang::make_lang("en-*-US"), { "en", "", "*", "US" });
+
+	lang_mismatch("en-US", "en-Latn-US");
+
+	lang_match("en-*-US", "en-Latn-US");
+	lang_match("en-Latn-US", "en-*-US");
+}

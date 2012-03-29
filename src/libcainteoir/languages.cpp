@@ -399,6 +399,15 @@ lang::tag lang::make_lang(const std::string &code)
 		case 2:
 			lang.region = item;
 			break;
+		case 1:
+			if (item == "*")
+			{
+				if (lang.script.empty())
+					lang.script = item;
+			}
+			else
+				lang.variant = item;
+			break;
 		default:
 			lang.variant = item;
 			break;
@@ -425,6 +434,8 @@ bool lang::operator==(const tag &a, const tag &b)
 				return a.lang == b.lang;
 			return a.lang == b.lang && a.script == b.script;
 		}
+		else if (a.script == "*" || b.script == "*")
+			return a.lang == b.lang && a.region == b.region;
 		return a.lang == b.lang && a.script == b.script && a.region == b.region;
 	}
 	return a.lang == b.lang && a.script == b.script && a.region == b.region && a.variant == b.variant;
