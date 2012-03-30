@@ -1,3 +1,9 @@
+cainteoir-engine (0.7~unstable0) unstable; urgency=low
+ 
+  * New upstream release.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Fri, 30 Mar 2012 21:39:00 +0000
+
 cainteoir-engine (0.6~unstable2) unstable; urgency=low
  
   * Support reading arbitary html fragments without head or body tags.
