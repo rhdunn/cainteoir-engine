@@ -83,7 +83,7 @@ namespace cainteoir
 	class languages
 	{
 	public:
-		languages(const char * locale);
+		languages();
 
 		/** @brief Get the translated ISO 639 language code.
 		  *

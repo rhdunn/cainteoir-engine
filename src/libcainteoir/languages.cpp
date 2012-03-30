@@ -441,7 +441,7 @@ bool lang::operator==(const tag &a, const tag &b)
 	return a.lang == b.lang && a.script == b.script && a.region == b.region && a.variant == b.variant;
 }
 
-cainteoir::languages::languages(const char * locale)
+cainteoir::languages::languages()
 {
 	cainteoir::document_events events;
 	rdf::graph data;
@@ -484,10 +484,20 @@ cainteoir::languages::languages(const char * locale)
 
 const char *cainteoir::languages::language(const lang::tag &id) const
 {
-	auto entry = m_subtags.find(id.lang);
-	if (entry == m_subtags.end())
-		return id.lang.c_str();
-	return dgettext("iso_639", entry->second.c_str());
+	if (!id.extlang.empty())
+	{
+		auto entry = m_subtags.find(id.extlang);
+		if (entry == m_subtags.end())
+			return id.extlang.c_str();
+		return dgettext("iso_639", entry->second.c_str());
+	}
+	else
+	{
+		auto entry = m_subtags.find(id.lang);
+		if (entry == m_subtags.end())
+			return id.lang.c_str();
+		return dgettext("iso_639", entry->second.c_str());
+	}
 }
 
 const char *cainteoir::languages::script(const lang::tag &id) const

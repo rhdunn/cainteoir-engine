@@ -1,5 +1,5 @@
 AC_PREREQ([2.65])
-AC_INIT([Cainteoir Text-to-Speech], [0.6], [msclrhd@gmail.com], [cainteoir-engine], [https://github.com/rhdunn/cainteoir-engine])
+AC_INIT([Cainteoir Text-to-Speech], [0.7], [msclrhd@gmail.com], [cainteoir-engine], [https://github.com/rhdunn/cainteoir-engine])
 AM_INIT_AUTOMAKE()
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES])
