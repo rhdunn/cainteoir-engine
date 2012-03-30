@@ -12,9 +12,12 @@
 # code generation data:
 
 data/languages.dat
+data/languages.dot
 src/libcainteoir/parsers/html-entities.dat
 
 # build output:
+
+data/languages.rdf.gz
 
 src/libcainteoir/libcainteoir.a
 src/libcainteoir/libcainteoir.la

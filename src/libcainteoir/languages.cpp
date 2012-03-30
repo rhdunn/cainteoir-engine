@@ -447,7 +447,7 @@ cainteoir::languages::languages(const char * locale)
 	rdf::graph data;
 	try
 	{
-		const char * filename = DATADIR "/" PACKAGE "/languages.rdf";
+		const char * filename = DATADIR "/" PACKAGE "/languages.rdf.gz";
 		printf("loading language data from %s\n", filename);
 
 		cainteoir::parseDocument(filename, events, data);

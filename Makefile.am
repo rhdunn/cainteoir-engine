@@ -89,8 +89,11 @@ EXTRA_DIST += \
 	data/languages.rdf \
 	src/schema/*.rdf
 
+data/languages.rdf.gz: data/languages.rdf
+	gzip -c $< > $@
+
 pkgdata_DATA += \
-	data/languages.rdf \
+	data/languages.rdf.gz \
 	src/schema/text-to-speech.rdf
 
 ############################# mimetypes #######################################
