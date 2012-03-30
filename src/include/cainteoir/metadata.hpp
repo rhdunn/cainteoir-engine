@@ -1,6 +1,6 @@
 /* MetaData API.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -22,7 +22,7 @@
 #define CAINTEOIR_ENGINE_METADATA_HPP
 
 #include <cainteoir/xmlreader.hpp>
-#include <tr1/memory>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <list>
@@ -45,45 +45,60 @@ namespace cainteoir { namespace rdf
 		static const std::string nil;
 	}
 
-	class resource
+	class uri : public cainteoir::xml::resource
 	{
 	public:
-		explicit resource(const cainteoir::xml::resource *aValue)
-			: value(aValue)
-		{
-		}
+		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
+		std::string ref;   /**< @brief The URI reference. */
 
-		bool operator!() const
-		{
-			return !value;
-		}
+		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string());
 
-		template<typename T>
-		const T * as() const
-		{
-			return dynamic_cast<const T *>(value);
-		}
+		bool empty() const;
 
-		template<typename T>
-		operator const T *() const
-		{
-			return dynamic_cast<const T *>(value);
-		}
+		std::string str() const;
 
-		template<typename T>
-		bool operator==(const T &rhs) const
-		{
-			const T * lhs = dynamic_cast<const T *>(value);
-			return lhs && *lhs == rhs;
-		}
-
-		bool operator==(const resource &rhs) const;
-	private:
-		const cainteoir::xml::resource *value;
+		std::shared_ptr<const cainteoir::xml::resource> clone() const;
 	};
 
-	typedef cainteoir::xml::uri uri;
-	typedef cainteoir::xml::ns  ns;
+	inline bool operator==(const uri &a, const uri &b)
+	{
+		return a.ns == b.ns && a.ref == b.ref;
+	}
+
+	inline bool operator!=(const uri &a, const uri &b)
+	{
+		return !(a == b);
+	}
+
+	class ns : public cainteoir::xml::ns
+	{
+	public:
+		ns(const std::string &aPrefix, const std::string &aHref)
+			: cainteoir::xml::ns(aPrefix, aHref)
+		{
+		}
+
+		/** @brief Create a URI in the namespace.
+		  *
+		  * @param aRef The URI reference relative to the namespace.
+		  */
+		uri operator()(const std::string &aRef) const
+		{
+			return uri(href, aRef);
+		}
+	};
+
+	inline bool operator==(const std::string &a, const ns &b)
+	{
+		return a == b.href;
+	}
+
+	inline bool operator==(const ns &a, const std::string &b)
+	{
+		return a.href == b;
+	}
+
+	extern const ns bnode;    /**< @brief RDF blank node. */
 
 	extern const ns rdf;     /**< @brief RDF syntax namespace. */
 	extern const ns rdfa;    /**< @brief RDF attributes (RDFa) namespace. */
@@ -176,7 +191,7 @@ namespace cainteoir { namespace rdf
 		template<typename T>
 		T as() const;
 
-		const cainteoir::xml::resource *clone() const;
+		std::shared_ptr<const cainteoir::xml::resource> clone() const;
 	};
 
 	template<typename T>
@@ -199,36 +214,18 @@ namespace cainteoir { namespace rdf
 		return lhs.value == rhs.value && lhs.language == rhs.language && lhs.type == rhs.type;
 	}
 
-	namespace query
-	{
-		inline const std::string &value(const rdf::literal *literal)
-		{
-			return literal ? literal->value : nil;
-		}
-
-		inline const std::string &value(const rdf::literal &literal)
-		{
-			return literal.value;
-		}
-
-		inline const std::string &value(const rdf::resource &literal)
-		{
-			return value(literal.as<rdf::literal>());
-		}
-	}
-
 	/** @brief An RDF statement (triple)
 	  */
 	class triple
 	{
 	public:
-		const std::tr1::shared_ptr<const cainteoir::xml::resource> subject;
+		const uri subject;
 		const uri predicate;
-		const std::tr1::shared_ptr<const cainteoir::xml::resource> object;
+		const std::shared_ptr<const cainteoir::xml::resource> object;
 
-		triple(const std::tr1::shared_ptr<const cainteoir::xml::resource> &aSubject,
+		triple(const uri &aSubject,
 		       const uri &aPredicate,
-		       const std::tr1::shared_ptr<const cainteoir::xml::resource> &aObject)
+		       const std::shared_ptr<const cainteoir::xml::resource> &aObject)
 			: subject(aSubject)
 			, predicate(aPredicate)
 			, object(aObject)
@@ -238,28 +235,31 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		inline rdf::resource subject(const std::tr1::shared_ptr<const rdf::triple> &statement)
+		inline const rdf::uri &subject(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			return rdf::resource(statement->subject.get());
+			return statement->subject;
 		}
 
-		inline rdf::resource predicate(const std::tr1::shared_ptr<const rdf::triple> &statement)
+		inline const rdf::uri &predicate(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			return rdf::resource(&statement->predicate);
+			return statement->predicate;
 		}
 
-		inline rdf::resource object(const std::tr1::shared_ptr<const rdf::triple> &statement)
+		inline const rdf::uri &object(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			return rdf::resource(statement->object.get());
+			static const rdf::uri nulluri{ std::string(), std::string() };
+			const rdf::uri *uri = dynamic_cast<const rdf::uri *>(statement->object.get());
+			return uri ? *uri : nulluri;
 		}
 
-		inline const std::string &value(const std::tr1::shared_ptr<const rdf::triple> &statement)
+		inline const std::string &value(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			return value(object(statement));
+			const rdf::literal *literal = dynamic_cast<const rdf::literal *>(statement->object.get());
+			return literal ? literal->value : nil;
 		}
 	}
 
-	typedef std::list< std::tr1::shared_ptr<const triple> >
+	typedef std::list< std::shared_ptr<const triple> >
 	        subgraph;
 
 	/** @brief RDF graph
@@ -300,12 +300,7 @@ namespace cainteoir { namespace rdf
 
 		const rdf::uri genid();
 
-		inline const uri bnode(const std::string &aRef)
-		{
-			return uri(std::string(), aRef);
-		}
-
-		std::tr1::shared_ptr<const uri>
+		std::shared_ptr<const uri>
 		curie(const std::string &aCurie);
 
 		//@}
@@ -330,21 +325,23 @@ namespace cainteoir { namespace rdf
 		namespace detail
 		{
 			template<typename Value>
-			class matches_t : public std::unary_function< bool, const std::tr1::shared_ptr<const rdf::triple> & >
+			class matches_t : public std::unary_function<bool, const std::shared_ptr<const rdf::triple> &>
 			{
 			public:
-				matches_t(rdf::resource (*aSelector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &aValue)
+				typedef decltype(subject) selector_type;
+
+				matches_t(selector_type *aSelector, const Value &aValue)
 					: selector(aSelector)
 					, value(aValue)
 				{
 				}
 
-				bool operator()(const std::tr1::shared_ptr<const rdf::triple> &s) const
+				bool operator()(const std::shared_ptr<const rdf::triple> &s) const
 				{
-					return selector(s) == value;
+					return (*selector)(s) == value;
 				}
 			private:
-				rdf::resource (*selector)(const std::tr1::shared_ptr<const rdf::triple> &);
+				selector_type *selector;
 				const Value &value;
 			};
 		}
@@ -357,7 +354,7 @@ namespace cainteoir { namespace rdf
 		  * @return The selector functor.
 		  */
 		template<typename Value>
-		detail::matches_t<Value> matches(rdf::resource (*aSelector)(const std::tr1::shared_ptr<const rdf::triple> &), const Value &aValue)
+		detail::matches_t<Value> matches(decltype(subject) aSelector, const Value &aValue)
 		{
 			return detail::matches_t<Value>(aSelector, aValue);
 		}
@@ -365,7 +362,7 @@ namespace cainteoir { namespace rdf
 		namespace detail
 		{
 			template<typename Selector1, typename Selector2>
-			class both_t : public std::unary_function< bool, const std::tr1::shared_ptr<const rdf::triple> & >
+			class both_t : public std::unary_function< bool, const std::shared_ptr<const rdf::triple> & >
 			{
 			public:
 				both_t(const Selector1 &s1, const Selector2 &s2)
@@ -374,7 +371,7 @@ namespace cainteoir { namespace rdf
 				{
 				}
 
-				bool operator()(const std::tr1::shared_ptr<const rdf::triple> &s) const
+				bool operator()(const std::shared_ptr<const rdf::triple> &s) const
 				{
 					return a(s) && b(s);
 				}
@@ -400,7 +397,7 @@ namespace cainteoir { namespace rdf
 		namespace detail
 		{
 			template<typename Selector1, typename Selector2>
-			class either_t : public std::unary_function< bool, const std::tr1::shared_ptr<const rdf::triple> & >
+			class either_t : public std::unary_function< bool, const std::shared_ptr<const rdf::triple> & >
 			{
 			public:
 				either_t(const Selector1 &s1, const Selector2 &s2)
@@ -409,7 +406,7 @@ namespace cainteoir { namespace rdf
 				{
 				}
 
-				bool operator()(const std::tr1::shared_ptr<const rdf::triple> &s) const
+				bool operator()(const std::shared_ptr<const rdf::triple> &s) const
 				{
 					return a(s) || b(s);
 				}
@@ -543,13 +540,13 @@ namespace cainteoir { namespace rdf
 		virtual formatter &operator<<(const ns &aNS) = 0;
 		virtual formatter &operator<<(const uri &uri) = 0;
 		virtual formatter &operator<<(const literal &literal) = 0;
-		virtual formatter &operator<<(const std::tr1::shared_ptr<const triple> &statement) = 0;
+		virtual formatter &operator<<(const std::shared_ptr<const triple> &statement) = 0;
 		virtual formatter &operator<<(const graph &aGraph) = 0;
 
 		virtual ~formatter() {}
 	};
 
-	std::tr1::shared_ptr<formatter> create_formatter(std::ostream &aStream, formatter::format_type aFormatType);
+	std::shared_ptr<formatter> create_formatter(std::ostream &aStream, formatter::format_type aFormatType);
 }}
 
 #endif

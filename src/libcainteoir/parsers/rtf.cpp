@@ -1,6 +1,6 @@
 /* RichText Document Parser.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -21,6 +21,7 @@
 #include "parsers.hpp"
 #include <cainteoir/platform.hpp>
 #include <cainteoir/encoding.hpp>
+#include <stdexcept>
 #include <sstream>
 
 namespace rdf = cainteoir::rdf;
@@ -45,7 +46,7 @@ static const replacement replacements[] = {
 	{ "}",          "}" },
 	{ "\r",         "\r" },
 	{ "\n",         "\n" },
-	{ "-",          NULL }, // optional hyphen
+	{ "-",          nullptr }, // optional hyphen
 	{ "_",          "-" },  // non-breaking hyphen
 	{ "~",          "\xC0\xA0" }, // NON-BREAKING SPACE
 	{ "bullet",     "\xE2\x80\xA2" },
@@ -60,16 +61,16 @@ static const replacement replacements[] = {
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
 
-std::tr1::shared_ptr<cainteoir::buffer> lookupReplacementText(const cainteoir::encoding & aEncoding, const std::tr1::shared_ptr<cainteoir::buffer> & token, int value)
+std::shared_ptr<cainteoir::buffer> lookupReplacementText(const cainteoir::encoding & aEncoding, const std::shared_ptr<cainteoir::buffer> & token, int value)
 {
 	if (!token->compare("'"))
 		return aEncoding.lookup((char)value);
 	else for (const replacement * first = replacements, * last = replacements + countof(replacements); first != last; ++first)
 	{
 		if (!token->compare(first->token) && first->text)
-			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(first->text));
+			return std::make_shared<cainteoir::buffer>(first->text);
 	}
-	return std::tr1::shared_ptr<cainteoir::buffer>();
+	return std::shared_ptr<cainteoir::buffer>();
 }
 
 struct rtf_reader : public cainteoir::buffer
@@ -82,10 +83,10 @@ struct rtf_reader : public cainteoir::buffer
 		text,
 	};
 
-	rtf_reader(std::tr1::shared_ptr<cainteoir::buffer> aData)
+	rtf_reader(std::shared_ptr<cainteoir::buffer> aData)
 		: cainteoir::buffer(aData->begin(), aData->end())
 		, mCurrent(aData->begin())
-		, mData(new cainteoir::buffer(NULL, NULL))
+		, mData(std::make_shared<cainteoir::buffer>(nullptr, nullptr))
 	{
 	}
 
@@ -93,13 +94,13 @@ struct rtf_reader : public cainteoir::buffer
 
 	token_type token() const { return mToken; }
 
-	const std::tr1::shared_ptr<cainteoir::buffer> & data() const { return mData; }
+	const std::shared_ptr<cainteoir::buffer> & data() const { return mData; }
 
 	int parameter() const { return mParameter; }
 private:
 	const char * mCurrent;
 	token_type mToken;
-	std::tr1::shared_ptr<cainteoir::buffer> mData;
+	std::shared_ptr<cainteoir::buffer> mData;
 	int mParameter;
 };
 
@@ -150,7 +151,7 @@ bool rtf_reader::read()
 				while (mCurrent <= end() && ((*mCurrent >= 'a' && *mCurrent <= 'z') || (*mCurrent >= 'A' && *mCurrent <= 'Z')))
 					++mCurrent;
 
-				mData = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(control, mCurrent));
+				mData = std::make_shared<cainteoir::buffer>(control, mCurrent);
 
 				if (mCurrent <= end() && ((*mCurrent >= '0' && *mCurrent <= '9') || *mCurrent == '-'))
 				{
@@ -182,7 +183,7 @@ bool rtf_reader::read()
 			}
 			else // control symbol
 			{
-				mData = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mCurrent, mCurrent+1));
+				mData = std::make_shared<cainteoir::buffer>(mCurrent, mCurrent+1);
 				if (*mCurrent == '\'') // \'hh token
 				{
 					++mCurrent;
@@ -218,7 +219,7 @@ bool rtf_reader::read()
 			while (mCurrent <= end() && *mCurrent != '{' && *mCurrent != '\\' && *mCurrent != '}' && *mCurrent != '\r' && *mCurrent != '\n')
 				++mCurrent;
 
-			mData = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(text, mCurrent));
+			mData = std::make_shared<cainteoir::buffer>(text, mCurrent);
 		}
 		break;
 	}
@@ -304,7 +305,7 @@ void parseRtfBlock(rtf_reader &rtf,
 		return;
 	case rtf_reader::instruction:
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = lookupReplacementText(codepage, rtf.data(), rtf.parameter());
+			std::shared_ptr<cainteoir::buffer> text = lookupReplacementText(codepage, rtf.data(), rtf.parameter());
 			if (text.get())
 				aText += text;
 			else if (!rtf.data()->compare("par") && !aText.empty())
@@ -363,7 +364,7 @@ void parseRtfBlock(rtf_reader &rtf,
 	throw std::runtime_error(_("warning: unexpected end of rtf stream\n"));
 }
 
-void cainteoir::parseRtfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void cainteoir::parseRtfDocument(std::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	rtf_reader rtf(aData);
 	cainteoir::rope text;

@@ -1,6 +1,6 @@
 /* Document Parser.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -22,8 +22,8 @@
 #include <cainteoir/document.hpp>
 #include <cainteoir/platform.hpp>
 #include "parsers.hpp"
+#include <stdexcept>
 
-namespace xmldom = cainteoir::xmldom;
 namespace rdf = cainteoir::rdf;
 namespace mime = cainteoir::mime;
 
@@ -37,16 +37,14 @@ static const DecodeDocument decode_handlers[] = {
 	{ &mime::gzip, &cainteoir::inflate_gzip },
 };
 
-typedef void (*parsedoc_ptr)(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
-
-struct ParseDocument
+struct ParseXmlDocument
 {
 	const mime::mimetype *mimetype;
-	parsedoc_ptr parser;
+	decltype(cainteoir::parseNcxDocument) *parser;
 };
 
 // magic = xml ; match namespaceUri and rootName on XML document ...
-static const ParseDocument xml_handlers[] = {
+static const ParseXmlDocument xml_handlers[] = {
 	{ &mime::ncx,    &cainteoir::parseNcxDocument },
 	{ &mime::opf,    &cainteoir::parseOpfDocument },
 	{ &mime::rdfxml, &cainteoir::parseRdfXmlDocument },
@@ -56,16 +54,22 @@ static const ParseDocument xml_handlers[] = {
 	{ &mime::html,   &cainteoir::parseXHtmlDocument },
 };
 
+struct ParseDocument
+{
+	const mime::mimetype *mimetype;
+	decltype(cainteoir::parseEpubDocument) *parser;
+};
+
 // magic = document specific ...
 static const ParseDocument doc_handlers[] = {
 	{ &mime::epub, &cainteoir::parseEpubDocument },
-	{ &mime::html, &cainteoir::parseXHtmlDocument },
+	{ &mime::html, &cainteoir::parseHtmlDocument },
 	{ &mime::rtf,  &cainteoir::parseRtfDocument },
 };
 
 #define countof(a) (sizeof(a)/sizeof(a[0]))
 
-std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
+std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 {
 	cainteoir::rope data;
 	char buffer[1024];
@@ -73,7 +77,7 @@ std::tr1::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 	size_t read;
 	while ((read = fread(buffer, 1, sizeof(buffer), stdin)) != 0)
 	{
-		std::tr1::shared_ptr<cainteoir::buffer> fiber(new cainteoir::data_buffer(read));
+		std::shared_ptr<cainteoir::buffer> fiber = std::make_shared<cainteoir::data_buffer>(read);
 		memcpy((void *)fiber->begin(), buffer, read);
 		data += fiber;
 	}
@@ -88,7 +92,7 @@ inline bool is_mime_header_char(char c)
 
 struct mime_headers : public cainteoir::buffer
 {
-	std::tr1::shared_ptr<cainteoir::buffer> mOriginal;
+	std::shared_ptr<cainteoir::buffer> mOriginal;
 	std::string encoding;
 	std::string mimetype;
 
@@ -164,7 +168,11 @@ struct mime_headers : public cainteoir::buffer
 				}
 			}
 			else if (!name.comparei("Subject"))
-				aGraph.statement(subject, rdf::dc("title"), rdf::literal(value.str()));
+			{
+				std::string title = value.str();
+				aGraph.statement(subject, rdf::dc("title"), rdf::literal(title));
+				events.toc_entry(0, subject, title);
+			}
 			else if (!name.comparei("From"))
 			{
 				// name ...
@@ -178,35 +186,42 @@ struct mime_headers : public cainteoir::buffer
 				while (name_end <= value.end() && *name_end != '<')
 					++name_end;
 
-				// email address
+				if (name_end > value.end()) // name only (no email address)
+					aGraph.statement(subject, rdf::dc("creator"), rdf::literal(std::string(name_begin, value.end())));
+				else
+				{
+					// email address ...
 
-				const char * mbox_begin = name_end + 1;
-				const char * mbox_end = value.end();
+					const char * mbox_begin = name_end + 1;
+					const char * mbox_end = value.end();
 
-				while (mbox_end > mbox_begin && *mbox_end != '>')
-					--mbox_end;
+					while (mbox_end > mbox_begin && *mbox_end != '>')
+						--mbox_end;
 
-				// clean-up name ...
+					// clean-up name ...
 
-				--name_end;
-				while (name_end > value.begin() && *name_end == ' ')
 					--name_end;
-				++name_end;
+					while (name_end > value.begin() && *name_end == ' ')
+						--name_end;
+					++name_end;
 
-				// metadata ...
+					// metadata ...
 
-				const rdf::uri from = aGraph.genid();
-				aGraph.statement(subject, rdf::dc("creator"), from);
-				aGraph.statement(from, rdf::rdf("type"), rdf::foaf("Person"));
-				aGraph.statement(from, rdf::rdf("value"), rdf::literal(std::string(name_begin, name_end)));
-				aGraph.statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(mbox_begin, mbox_end)));
+					const rdf::uri from = aGraph.genid();
+					aGraph.statement(subject, rdf::dc("creator"), from);
+					aGraph.statement(from, rdf::rdf("type"), rdf::foaf("Person"));
+					aGraph.statement(from, rdf::rdf("value"), rdf::literal(std::string(name_begin, name_end)));
+					aGraph.statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(mbox_begin, mbox_end)));
+				}
 			}
+			else if (!name.comparei("Newsgroups"))
+				aGraph.statement(subject, rdf::dc("publisher"), rdf::literal(value.str()));
 		}
 
 		return false;
 	}
 
-	mime_headers(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+	mime_headers(std::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
 		: cainteoir::buffer(*data)
 		, mOriginal(data)
 		, encoding("8bit")
@@ -221,18 +236,18 @@ struct mime_headers : public cainteoir::buffer
 			++first;
 		}
 
-		cainteoir::buffer boundary(NULL, NULL);
+		cainteoir::buffer boundary(nullptr, nullptr);
 		if (!parse_headers(subject, events, aGraph, boundary))
 			first = mOriginal->begin();
 		else if (!boundary.empty())
 		{
-			const char * begin = NULL;
+			const char * begin = nullptr;
 
 			while (first <= last)
 			{
 				if (first[0] == '-' && first[1] == '-' && !strncmp(first + 2, boundary.begin(), boundary.size()))
 				{
-					if (begin == NULL)
+					if (begin == nullptr)
 					{
 						first += 2;
 						first += boundary.size();
@@ -251,7 +266,7 @@ struct mime_headers : public cainteoir::buffer
 	}
 };
 
-bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph)
+bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph, bool includeMimetypeMetadata)
 {
 	// Encoded documents ...
 
@@ -259,8 +274,8 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 	{
 		if (decode->mimetype->match(data))
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> decompressed = decode->decoder(*data, 0);
-			return parseDocumentBuffer(decompressed, subject, events, aGraph);
+			std::shared_ptr<cainteoir::buffer> decompressed = decode->decoder(*data, 0);
+			return parseDocumentBuffer(decompressed, subject, events, aGraph, includeMimetypeMetadata);
 		}
 	}
 
@@ -268,33 +283,33 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 
 	if (mime::xml.match(data))
 	{
-		std::string namespaceUri;
-		std::string rootName;
+		cainteoir::xml::reader reader(data);
 
-		// FIXME: Use the xmlreader API to extract this information.
-		//        Requires DOCTYPE & ATTRIBUTE support for some RDF/XML documents.
-		try
-		{
-			xmldom::document doc(data);
-			xmldom::node root = doc.root();
-			namespaceUri = root.namespaceURI();
-			rootName = root.name();
-		}
-		catch (const std::exception &e)
-		{
-			// assume that malformed xml is actually html ...
-			rootName = "html";
-		}
+		while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
+			;
 
-		for (const ParseDocument *xml = xml_handlers; xml != xml_handlers + countof(xml_handlers); ++xml)
+		std::string namespaceUri = reader.namespaceUri();
+		std::string rootName     = reader.nodeName().str();
+
+		for (const ParseXmlDocument *xml = xml_handlers; xml != xml_handlers + countof(xml_handlers); ++xml)
 		{
 			if (xml->mimetype->match(namespaceUri, rootName))
 			{
-				xml->parser(data, subject, events, aGraph);
-				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(xml->mimetype->mime_type));
+				xml->parser(reader, subject, events, aGraph);
+				if (includeMimetypeMetadata)
+					aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(xml->mimetype->mime_type));
 				return true;
 			}
 		}
+
+		if (mime::html.match(data))
+		{
+			cainteoir::parseHtmlDocument(data, subject, events, aGraph);
+			if (includeMimetypeMetadata)
+				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(mime::html.mime_type));
+			return true;
+		}
+
 		return false;
 	}
 
@@ -302,9 +317,9 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 
 	if (mime::email.match(data) || mime::mime.match(data))
 	{
-		std::tr1::shared_ptr<mime_headers> mime(new mime_headers(data, subject, events, aGraph));
+		std::shared_ptr<mime_headers> mime = std::make_shared<mime_headers>(data, subject, events, aGraph);
 
-		std::tr1::shared_ptr<cainteoir::buffer> decoded;
+		std::shared_ptr<cainteoir::buffer> decoded;
 		if (mime->encoding == "quoted-printable")
 			decoded = cainteoir::decode_quoted_printable(*mime, 0);
 		else if (mime->encoding == "base64")
@@ -319,7 +334,7 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 			throw std::runtime_error(_("unsupported content-transfer-encoding"));
 
 		if (mime->begin() != data->begin()) // Avoid an infinite loop when there is just the mime header.
-			return parseDocumentBuffer(decoded, subject, events, aGraph);
+			return parseDocumentBuffer(decoded, subject, events, aGraph, includeMimetypeMetadata);
 	}
 
 	// Other documents ...
@@ -329,29 +344,34 @@ bool parseDocumentBuffer(std::tr1::shared_ptr<cainteoir::buffer> &data, const rd
 		if (parse->mimetype->match(data))
 		{
 			parse->parser(data, subject, events, aGraph);
-			aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(parse->mimetype->mime_type));
+			if (includeMimetypeMetadata)
+				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(parse->mimetype->mime_type));
 			return true;
 		}
 	}
 
 	// Octet Stream ...
 
-	const char *begin = data->begin();
-	const char *end   = data->end();
+	const uint8_t *begin = (const uint8_t *)data->begin();
+	const uint8_t *end   = (const uint8_t *)data->end();
 	if (begin + 101 < end) // only check the first 100 bytes
 		end = begin + 101;
 
 	while (begin < end)
 	{
-		if (*begin < 0x20 && !(*begin == '\r' || *begin == '\n' || *begin == '\t'))
+		if (*begin < 0x20 && !(*begin == '\r' || *begin == '\n' || *begin == '\t' || *begin == '\f'))
+		{
+			printf("error: control character 0x%02X found ... treating as octet stream.\n", *begin);
 			return false; // looks like an octet/binary stream
+		}
 		++begin;
 	}
 
 	// Plain Text ...
 
 	events.text(data);
-	aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal("text/plain"));
+	if (includeMimetypeMetadata)
+		aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal("text/plain"));
 	return true;
 }
 
@@ -389,11 +409,11 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 {
 	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
 
-	std::tr1::shared_ptr<cainteoir::buffer> data;
+	std::shared_ptr<cainteoir::buffer> data;
 	if (aFilename)
-		data = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(aFilename));
+		data = std::make_shared<cainteoir::mmap_buffer>(aFilename);
 	else
 		data = buffer_from_stdin();
 
-	return parseDocumentBuffer(data, subject, events, aGraph);
+	return parseDocumentBuffer(data, subject, events, aGraph, true);
 }

@@ -35,7 +35,7 @@ static const int CHARACTERS_PER_WORD = 6;
 	double timeofday()
 	{
 		timeval tv;
-		gettimeofday(&tv, NULL);
+		gettimeofday(&tv, nullptr);
 
 		return tv.tv_sec + (double(tv.tv_usec) / 1000000.0);
 	}
@@ -55,9 +55,9 @@ static const int CHARACTERS_PER_WORD = 6;
 	class stopwatch
 	{
 	public:
-		stopwatch() { mStart = time(NULL); }
+		stopwatch() { mStart = time(nullptr); }
 
-		double elapsed() const { return difftime(time(NULL), mStart); }
+		double elapsed() const { return difftime(time(nullptr), mStart); }
 	private:
 		time_t mStart;
 	};
@@ -75,8 +75,8 @@ inline double percentageof(size_t a, size_t b)
 struct speech_impl : public tts::speech , public tts::engine_callback
 {
 	tts::engine *engine;
-	std::tr1::shared_ptr<cainteoir::audio> audio;
-	std::tr1::shared_ptr<cainteoir::document> doc;
+	std::shared_ptr<cainteoir::audio> audio;
+	std::shared_ptr<cainteoir::document> doc;
 
 	cainteoir::document::const_iterator mFrom;
 	cainteoir::document::const_iterator mTo;
@@ -99,11 +99,11 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	int wordsPerMinute;   /**< @brief The speech rate of the current voice. */
 
 	speech_impl(tts::engine *aEngine,
-	            std::tr1::shared_ptr<cainteoir::audio> aAudio,
-	            const std::tr1::shared_ptr<cainteoir::document> &aDoc,
+	            std::shared_ptr<cainteoir::audio> aAudio,
+	            const std::shared_ptr<cainteoir::document> &aDoc,
 	            cainteoir::document::const_iterator aFrom,
 	            cainteoir::document::const_iterator aTo,
-	            std::tr1::shared_ptr<tts::parameter> aRate);
+	            std::shared_ptr<tts::parameter> aRate);
 	~speech_impl();
 
 	cainteoir::document::const_iterator begin() const { return mFrom; }
@@ -191,15 +191,15 @@ void * speak_tts_thread(void *data)
 
 	speak->audio->close();
 	speak->finished();
-	return NULL;
+	return nullptr;
 }
 
 speech_impl::speech_impl(tts::engine *aEngine,
-                         std::tr1::shared_ptr<cainteoir::audio> aAudio,
-                         const std::tr1::shared_ptr<cainteoir::document> &aDoc,
+                         std::shared_ptr<cainteoir::audio> aAudio,
+                         const std::shared_ptr<cainteoir::document> &aDoc,
                          cainteoir::document::const_iterator aFrom,
                          cainteoir::document::const_iterator aTo,
-                         std::tr1::shared_ptr<tts::parameter> aRate)
+                         std::shared_ptr<tts::parameter> aRate)
 	: engine(aEngine)
 	, audio(aAudio)
 	, doc(aDoc)
@@ -215,7 +215,7 @@ speech_impl::speech_impl(tts::engine *aEngine,
 		textLen += (*node)->size();
 
 	started();
-	int ret = pthread_create(&threadId, NULL, speak_tts_thread, (void *)this);
+	int ret = pthread_create(&threadId, nullptr, speak_tts_thread, (void *)this);
 }
 
 speech_impl::~speech_impl()
@@ -250,12 +250,12 @@ bool speech_impl::is_speaking() const
 void speech_impl::stop()
 {
 	finished();
-	pthread_join(threadId, NULL);
+	pthread_join(threadId, nullptr);
 }
 
 void speech_impl::wait()
 {
-	pthread_join(threadId, NULL);
+	pthread_join(threadId, nullptr);
 	finished();
 }
 
@@ -318,7 +318,7 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 ///////////////////////////////////////////////////////////////////////////////
 
 tts::engines::engines(rdf::graph &metadata, capability_types capabilities)
-	: selectedVoice(NULL)
+	: selectedVoice(nullptr)
 {
 	std::string uri;
 	active = tts::create_espeak_engine(metadata, uri);
@@ -344,22 +344,22 @@ tts::engines::~engines()
 
 bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice)
 {
-	engine *engine = NULL;
+	engine *engine = nullptr;
 	std::string voice;
-	const rdf::uri * voiceUri = NULL;
+	const rdf::uri * voiceUri = nullptr;
 
 	foreach_iter(statement, rql::select(aMetadata, rql::matches(rql::subject, aVoice)))
 	{
 		if (rql::predicate(*statement) == rdf::tts("name"))
 		{
 			voice = rql::value(*statement);
-			voiceUri = rql::subject(*statement);
+			voiceUri = &rql::subject(*statement);
 		}
 		else if (rql::predicate(*statement) == rdf::tts("voiceOf"))
 		{
-			const rdf::uri *uri = rql::object(*statement);
-			if (uri)
-				engine = enginelist[ uri->str() ];
+			const rdf::uri &uri = rql::object(*statement);
+			if (!uri.empty())
+				engine = enginelist[ uri.str() ];
 		}
 	}
 
@@ -373,9 +373,9 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	return false;
 }
 
-std::tr1::shared_ptr<tts::speech>
-tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc,
-                    std::tr1::shared_ptr<audio> out,
+std::shared_ptr<tts::speech>
+tts::engines::speak(const std::shared_ptr<cainteoir::document> &doc,
+                    std::shared_ptr<audio> out,
                     size_t offset)
 {
 	auto from = doc->children().begin();
@@ -391,19 +391,19 @@ tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc,
 	return speak(doc, out, from, end);
 }
 
-std::tr1::shared_ptr<tts::speech>
-tts::engines::speak(const std::tr1::shared_ptr<cainteoir::document> &doc,
-                    std::tr1::shared_ptr<audio> out,
+std::shared_ptr<tts::speech>
+tts::engines::speak(const std::shared_ptr<cainteoir::document> &doc,
+                    std::shared_ptr<audio> out,
                     cainteoir::document::const_iterator from,
                     cainteoir::document::const_iterator to)
 {
-	return std::tr1::shared_ptr<tts::speech>(new speech_impl(active, out, doc, from, to, parameter(tts::parameter::rate)));
+	return std::make_shared<speech_impl>(active, out, doc, from, to, parameter(tts::parameter::rate));
 }
 
-std::tr1::shared_ptr<tts::parameter>
+std::shared_ptr<tts::parameter>
 tts::engines::parameter(tts::parameter::type aType)
 {
 	if (!active)
-		return std::tr1::shared_ptr<tts::parameter>();
+		return std::shared_ptr<tts::parameter>();
 	return active->parameter(aType);
 }

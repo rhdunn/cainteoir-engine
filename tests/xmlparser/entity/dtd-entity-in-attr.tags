@@ -1,0 +1,8 @@
+|doctype| test
+|text| """
+"""
+|begin-tag| test
+|attribute| arg="""A & B"""
+|end-tag| test
+|text| """
+"""

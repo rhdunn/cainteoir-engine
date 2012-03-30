@@ -20,6 +20,7 @@
 
 #include "parsers.hpp"
 #include <cainteoir/platform.hpp>
+#include <stdexcept>
 
 namespace xml   = cainteoir::xml;
 namespace xmlns = cainteoir::xml::xmlns;
@@ -169,7 +170,7 @@ void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, cainteoir::docu
 	case xml::reader::attribute:
 		if (reader.context() == &opf::name_attr)
 		{
-			std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
+			std::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
 			if (uri.get() && !uri->ns.empty())
 				name = *uri;
 		}
@@ -177,7 +178,7 @@ void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, cainteoir::docu
 			content = reader.nodeValue().str();
 		else if (reader.context() == &opf::property_attr)
 		{
-			std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
+			std::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
 			if (uri.get() && !uri->ns.empty())
 			{
 				property = *uri;
@@ -191,7 +192,7 @@ void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, cainteoir::docu
 			about = rdf::uri(aSubject.str(), reader.nodeValue().str().substr(1));
 		else if (reader.context() == &opf::datatype_attr || reader.context() == &opf::scheme_attr)
 		{
-			std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
+			std::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
 			if (uri.get() && !uri->ns.empty())
 				datatype = *uri;
 		}
@@ -250,7 +251,7 @@ void parseOpfLink(xml::reader &reader, const rdf::uri &aSubject, cainteoir::docu
 				std::istringstream ss(rel);
 				while (ss >> rel)
 				{
-					std::tr1::shared_ptr<const rdf::uri> uri = aGraph.curie(rel);
+					std::shared_ptr<const rdf::uri> uri = aGraph.curie(rel);
 					if (uri.get() && !uri->ns.empty())
 					{
 						if (!id.empty())
@@ -372,10 +373,10 @@ void parseOpfMetadata(xml::reader &reader, const rdf::uri &aSubject, cainteoir::
 				parseOpfMeta(reader, aSubject, events, aGraph);
 			else if (reader.context() == &opf::link_node)
 				parseOpfLink(reader, aSubject, events, aGraph);
-			else if (reader.namespaceUri() == xmlns::dc && reader.context() != &xml::unknown_context)
+			else if (reader.namespaceUri() == xmlns::dc.href && reader.context() != &xml::unknown_context)
 				parseOpfDublinCore(reader, aSubject, events, aGraph, reader.context());
 		}
-		else if (reader.namespaceUri() == xmlns::dc && reader.context() != &xml::unknown_context)
+		else if (reader.namespaceUri() == xmlns::dc.href && reader.context() != &xml::unknown_context)
 			parseOpfDublinCore(reader, aSubject, events, aGraph, reader.context());
 		break;
 	case xml::reader::endTagNode:
@@ -461,19 +462,12 @@ void parseOpfSpine(xml::reader &reader, cainteoir::document_events &events, std:
 	}
 }
 
-void cainteoir::parseOpfDocument(std::tr1::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
+void cainteoir::parseOpfDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
-	xml::reader reader(aData);
 	reader.set_nodes(xmlns::opf, opf_nodes);
 	reader.set_attrs(xmlns::opf, opf_attrs);
 	reader.set_nodes(xmlns::dc,  dc_nodes);
 	reader.set_attrs(xmlns::xml, xml::attrs);
-
-	while (reader.read() && reader.nodeType() != xml::reader::beginTagNode)
-		;
-
-	if (reader.context() != &opf::package_node)
-		throw std::runtime_error(_("OPF file is not of a recognised format."));
 
 	std::string toc;
 	std::list<std::string> spine;

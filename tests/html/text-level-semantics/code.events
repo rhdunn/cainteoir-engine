@@ -1,3 +1,4 @@
+toc-entry [] depth=0 title="""Test File"""
 begin-context paragraph
 text(6): """Lorem """
 begin-context span +monospace

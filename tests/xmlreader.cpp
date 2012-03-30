@@ -87,12 +87,13 @@ int main(int argc, char ** argv)
 
 		for (int i = 0; i != repeatCount; ++i)
 		{
-			xml::reader reader(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0])));
+			xml::reader reader(std::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0])));
 			while (reader.read())
 			{
 				std::string ns = reader.namespaceUri();
 				if (!silent) switch (reader.nodeType())
 				{
+				case xml::reader::doctypeNode:
 				case xml::reader::beginTagNode:
 				case xml::reader::endTagNode:
 					if (reader.nodePrefix().empty() && ns.empty())
@@ -111,7 +112,6 @@ int main(int argc, char ** argv)
 					}
 					break;
 				case xml::reader::processingInstructionNode:
-				case xml::reader::doctypeNode:
 					fprintf(stdout, "|%s| %s\n",
 					        node_type_name(reader.nodeType()),
 					        reader.nodeName().str().c_str());

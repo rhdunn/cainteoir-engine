@@ -85,7 +85,7 @@ struct matchlet
 		return *this;
 	}
 
-	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
+	bool match(const std::shared_ptr<cainteoir::buffer> &data) const
 	{
 		std::string::size_type pattern_length = pattern.size();
 		const char *begin = data->begin() + offset;
@@ -113,7 +113,7 @@ struct magic : public std::vector<matchlet>
 	{
 	}
 
-	bool match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
+	bool match(const std::shared_ptr<cainteoir::buffer> &data) const
 	{
 		foreach_iter (matchlet, *this)
 		{
@@ -329,7 +329,7 @@ struct mimetype_database : public std::map<std::string, mime_info>
 		{
 			std::map<std::string, std::string> comments;
 
-			std::tr1::shared_ptr<cainteoir::buffer> mimeinfo(new cainteoir::mmap_buffer(filename.c_str()));
+			std::shared_ptr<cainteoir::buffer> mimeinfo(new cainteoir::mmap_buffer(filename.c_str()));
 			xml::reader reader(mimeinfo);
 
 			bool in_comment = false;
@@ -344,7 +344,10 @@ struct mimetype_database : public std::map<std::string, mime_info>
 				}
 				break;
 			case xml::reader::attribute:
-				if (in_comment && reader == rdf::uri("http://www.w3.org/XML/1998/namespace#", "lang"))
+				// FIXME: reader.context() cannot be used here due to static object
+				// initialization order -- this gets initialized before xml::attrs
+				// so segfaults if that is used.
+				if (in_comment && reader.namespaceUri() == "http://www.w3.org/XML/1998/namespace" && reader.nodeName().str() == "lang")
 					lang = reader.nodeValue().buffer()->str();
 				break;
 			case xml::reader::textNode:
@@ -409,7 +412,7 @@ struct mimetype_database : public std::map<std::string, mime_info>
 
 mimetype_database mimetypes;
 
-bool cainteoir::mime::mimetype::match(const std::tr1::shared_ptr<cainteoir::buffer> &data) const
+bool cainteoir::mime::mimetype::match(const std::shared_ptr<cainteoir::buffer> &data) const
 {
 	const mime_info *mime = (const mime_info *)info;
 	foreach_iter (magic, mime->magic)
@@ -458,18 +461,30 @@ namespace m = cainteoir::mime;
   */
 //{{{
 
-static const std::initializer_list<matchlet> http_pattern1 = { { 0,  1, "HTTP/1.0" },          {  8, 81, "\nContent-Type:" } };
-static const std::initializer_list<matchlet> http_pattern2 = { { 0,  1, "HTTP/1.1" },          {  8, 81, "\nContent-Type:" } };
-static const std::initializer_list<matchlet> mime_pattern1 = { { 0, 81, "MIME-Version: 1.0" }, { 16, 81, "\nContent-Type:" } }; // for multipart/mhtml documents
-static const std::initializer_list<matchlet> mime_pattern2 = { { 0,  2, "\nContent-Type:" } }; // for multipart mime documents (e.g. mhtml)
-static const std::initializer_list<matchlet> mime_pattern3 = { { 0,  2, "\nContent-Transfer-Encoding:" } }; // for multipart mime documents (e.g. mhtml)
-static const std::initializer_list<matchlet> mime_pattern4 = { { 0,  2, "\nContent-Location:" } }; // for multipart mime documents (e.g. mhtml)
-static const std::initializer_list<magic>    mime_magic = { mime_pattern1, mime_pattern2, mime_pattern3, mime_pattern4, http_pattern1, http_pattern2 };
+static const std::initializer_list<matchlet> http_pattern1 = { { 0,  1, "HTTP/1.0" }, {  8, 81, "\nContent-Type:" } };
+static const std::initializer_list<matchlet> http_pattern2 = { { 0,  1, "HTTP/1.1" }, {  8, 81, "\nContent-Type:" } };
+
+// for multipart mime documents (e.g. mhtml documents) ...
+static const std::initializer_list<matchlet> mime_pattern1 = { { 0, 81, "MIME-Version: 1.0" }, { 16, 81, "\nContent-Type:" } };
+static const std::initializer_list<matchlet> mime_pattern2 = { { 0,  2, "\nContent-Type:" } };
+static const std::initializer_list<matchlet> mime_pattern3 = { { 0,  2, "\nContent-Transfer-Encoding:" } };
+static const std::initializer_list<matchlet> mime_pattern4 = { { 0,  2, "\nContent-Location:" } };
+
+// for newsgroup archives ...
+static const std::initializer_list<matchlet> news_pattern1 = { { 0,  1, "Date: " } };
+static const std::initializer_list<matchlet> news_pattern2 = { { 0,  1, "Newsgroups: " } };
+
+static const std::initializer_list<magic> mime_magic = {
+	mime_pattern1, mime_pattern2, mime_pattern3, mime_pattern4,
+	news_pattern1, news_pattern2,
+	http_pattern1, http_pattern2,
+};
+
 static const mime_info mime_data = { mime_magic, "", "", "", {}, {} };
 
 //}}}
 
-const m::mimetype m::mime("mime",  NULL, &mime_data);
+const m::mimetype m::mime("mime",  nullptr, &mime_data);
 
 const m::mimetype m::email( "email", email_mimetype,  &mimetypes[email_mimetype]);
 const m::mimetype m::epub(  "epub",  epub_mimetype,   &mimetypes[epub_mimetype]);

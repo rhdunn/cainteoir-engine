@@ -1,0 +1,4 @@
+<!DOCTYPE test [
+	<!ENTITY testns "http://www.example.org/">
+]>
+<test xmlns="&testns;"/>

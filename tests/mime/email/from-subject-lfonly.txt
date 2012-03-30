@@ -1,0 +1,4 @@
+From: Jane Bloggs <jane.bloggs@example.com>
+Subject: Test Case
+
+This is a test file.

@@ -24,37 +24,178 @@
 #include <iostream>
 #include <cassert>
 
+namespace tester
+{
+	template <typename T> struct is_printable { static const bool value = false; };
+
+	template <typename T>
+	struct value_t
+	{
+		const T &value;
+
+		value_t(const T &v) : value(v)
+		{
+		}
+
+		const T &operator()() const { return value; }
+	};
+
+	template <typename T> struct is_printable<value_t<T>>
+	{
+		static const bool value = is_printable<T>::value;
+	};
+
+	template <typename T>
+	std::ostream &operator<<(std::ostream &os, const value_t<T> &value)
+	{
+		return os << value.value;
+	}
+
+	template <>
+	std::ostream &operator<<(std::ostream &os, const value_t<bool> &value)
+	{
+		return os << (value.value ? "true" : "false");
+	}
+
+	template <>
+	std::ostream &operator<<(std::ostream &os, const value_t<char> &value)
+	{
+		return os << "'" << value.value << "'";
+	}
+
+	template <>
+	std::ostream &operator<<(std::ostream &os, const value_t<const char *> &value)
+	{
+		return os << '"' << value.value << '"';
+	}
+
+	template <>
+	std::ostream &operator<<(std::ostream &os, const value_t<std::string> &value)
+	{
+		return os << '"' << value.value << '"';
+	}
+
+#	define BINARY_OP(op,name) \
+		template <typename T1, typename T2> \
+		struct name##_t \
+		{ \
+			const T1 lhs; \
+			const T2 rhs; \
+			name##_t(const T1 &a, const T2 &b) : lhs(a) , rhs(b) {} \
+			bool operator()() const { return lhs() op rhs(); } \
+		}; \
+		\
+		template <typename T1, typename T2> struct is_printable<name##_t<T1, T2>> \
+		{ \
+			static const bool value = is_printable<T1>::value && is_printable<T2>::value; \
+		}; \
+		\
+		template <typename T1, typename T2> \
+		std::ostream &operator<<(std::ostream &os, const name##_t<T1, T2> &e) \
+		{ \
+			return os << e.lhs << ' ' << #op << ' ' << e.rhs; \
+		} \
+		\
+		template <typename T1, typename T2> \
+		name##_t<value_t<T1>, value_t<T2>> operator op(const value_t<T1> &a, const T2 &b) \
+		{ \
+			return name##_t<value_t<T1>, value_t<T2>>(a, value_t<T2>(b)); \
+		}
+
+	BINARY_OP(==,equal)
+	BINARY_OP(!=,not_equal)
+
+#	undef BINARY_OP
+
+	struct capture
+	{
+		template <typename T>
+		value_t<T> operator->*(const T &c)
+		{
+			return value_t<T>(c);
+		}
+	};
+
+	template <bool printable>
+	struct expression_failed
+	{
+		template <typename E>
+		static void print(const char *expr, const E &e)
+		{
+			std::cout << "expression `" << expr << "` failed with `" << e << "`";
+		}
+	};
+
+	template <>
+	struct expression_failed<false>
+	{
+		template <typename E>
+		static void print(const char *expr, const E &e)
+		{
+			std::cout << "expression `" << expr << "` failed";
+		}
+	};
+}
+
+#define CAPTURE(expr) tester::capture() ->* expr
+
 int passed;
 int failed;
 
-bool assert_(bool cond, const char *fn, const char *ref, int lineno)
+template <typename E>
+bool assert_(E expression, const char *ref, bool expected, const char *file, int lineno)
 {
-	if (cond)
+	if (expression() ? expected : !expected)
 	{
 		++passed;
 		return true;
 	}
 
-	std::cout << fn << " @ line " << lineno << " : " << ref << " -- assertion failure" << std::endl;
+	std::cout << file << "@" << lineno << " : ";
+	tester::expression_failed<tester::is_printable<E>::value>::print(ref, expression);
+	std::cout << std::endl;
 	++failed;
 	return false;
 }
 
 #undef  assert
-#define assert(cond) assert_(cond, __FUNCTION__, #cond, __LINE__)
+#define assert(e)       assert_(CAPTURE(e), "assert(" #e ")", true, __FILE__, __LINE__)
+#define assert_false(e) assert_(CAPTURE(e), "assert_false(" #e ")", false, __FILE__, __LINE__)
 
-template<typename T1, typename T2>
-void equal_(const T1 &a, const T2 &b, const char *fn, const char *ref, int lineno)
-{
-	if (!assert_(a == b, fn, ref, lineno))
-	{
-		std::cout << "    expected: " << b << std::endl
-		          << "    actual:   " << a << std::endl
-		          ;
+#define assert_location(e, file, line) assert_(CAPTURE(e), "assert(" #e ")", true, file, line)
+
+#define PRINTABLE(type) \
+	namespace tester \
+	{ \
+		template <> struct is_printable<type> \
+		{ \
+			static const bool value = true; \
+		}; \
 	}
-}
 
-#define equal(a, b) equal_(a, b, __FUNCTION__, #a " == " #b, __LINE__)
+PRINTABLE(std::string);
+PRINTABLE(const char *);
+PRINTABLE(char);
+
+PRINTABLE(bool);
+
+PRINTABLE(short);
+PRINTABLE(unsigned short);
+
+PRINTABLE(int);
+PRINTABLE(unsigned int);
+
+PRINTABLE(long);
+PRINTABLE(unsigned long);
+
+PRINTABLE(long long);
+PRINTABLE(unsigned long long);
+
+PRINTABLE(float);
+PRINTABLE(double);
+PRINTABLE(long double);
+
+// test cases //////////////////////////////////////////////////////////////////
 
 typedef void (*test_function)();
 

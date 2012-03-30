@@ -1,0 +1,4 @@
+<!DOCTYPE test [
+	<!ENTITY test "A &amp; B">
+]>
+<test arg="&test;"/>

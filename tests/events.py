@@ -57,12 +57,15 @@ if __name__ == '__main__':
 			{'test': 'html/sections/no-body.xhtml', 'result': 'html/sections/no-body.events'},
 			{'test': 'html/sections/ol.html', 'result': 'html/sections/ol.events'},
 			{'test': 'html/sections/ol.xhtml', 'result': 'html/sections/ol.events'},
+			{'test': 'html/sections/ol-cdata.xhtml', 'result': 'html/sections/ol.events'},
 			{'test': 'html/sections/paragraphs.html', 'result': 'html/sections/paragraphs.events'},
 			{'test': 'html/sections/paragraphs.xhtml', 'result': 'html/sections/paragraphs.events'},
+			{'test': 'html/sections/paragraphs-cdata.xhtml', 'result': 'html/sections/paragraphs.events'},
 			{'test': 'html/sections/pre.html', 'result': 'html/sections/pre.events'},
 			{'test': 'html/sections/pre.xhtml', 'result': 'html/sections/pre.events'},
 			{'test': 'html/sections/ul.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/ul.xhtml', 'result': 'html/sections/ul.events'},
+			{'test': 'html/sections/ul-cdata.xhtml', 'result': 'html/sections/ul.events'},
 		]},
 		{'name': 'text-level semantics', 'type': 'events', 'tests': [
 			{'test': 'html/text-level-semantics/address.html', 'result': 'html/text-level-semantics/address.events'},
@@ -92,8 +95,13 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/var.html', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/var.xhtml', 'result': 'html/text-level-semantics/em.events'},
 		]},
+		{'name': 'phrasing content', 'type': 'events', 'tests': [
+			{'test': 'html/phrasing-content/br.html', 'result': 'html/phrasing-content/br.events'},
+			{'test': 'html/phrasing-content/br.xhtml', 'result': 'html/phrasing-content/br.events'},
+		]},
 		{'name': 'entities', 'type': 'events', 'tests': [
 			{'test': 'html/entities.html', 'result': 'html/entities.events'},
+			{'test': 'html/entities.xhtml', 'result': 'html/entities.events'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
@@ -105,6 +113,21 @@ if __name__ == '__main__':
 			{'test': 'mime/headers/basic-lfonly.txt', 'result': 'mime/headers/basic.events'},
 			{'test': 'mime/headers/leading-whitespace-lfonly.txt', 'result': 'mime/headers/basic.events'},
 			{'test': 'mime/headers/wrapped-header-item-lfonly.txt', 'result': 'mime/headers/basic.events'},
+		]},
+		{'name': 'email', 'type': 'events', 'tests': [
+			{'test': 'mime/email/subject.txt', 'result': 'mime/email/content-subject.events'},
+			{'test': 'mime/email/from.txt', 'result': 'mime/email/content.events'},
+			{'test': 'mime/email/from-no-email.txt', 'result': 'mime/email/content.events'},
+			{'test': 'mime/email/from-subject.txt', 'result': 'mime/email/content-subject.events'},
+			{'test': 'mime/email/date-jan.txt', 'result': 'mime/email/content.events'},
+			{'test': 'mime/email/newsgroups.txt', 'result': 'mime/email/content.events'},
+			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
+			{'test': 'mime/email/subject-lfonly.txt', 'result': 'mime/email/content-subject.events'},
+			{'test': 'mime/email/from-lfonly.txt', 'result': 'mime/email/content.events'},
+			{'test': 'mime/email/from-no-email-lfonly.txt', 'result': 'mime/email/content.events'},
+			{'test': 'mime/email/from-subject-lfonly.txt', 'result': 'mime/email/content-subject.events'},
+			{'test': 'mime/email/date-jan-lfonly.txt', 'result': 'mime/email/content.events'},
+			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/content.events'},
 		]},
 		{'name': 'multipart', 'type': 'events', 'tests': [
 			{'test': 'mime/multipart/mixed-1.txt', 'result': 'mime/multipart/mixed.events'},
@@ -143,6 +166,7 @@ if __name__ == '__main__':
 	test.run({'name': 'NCX', 'groups': [
 		{'name': 'toc', 'type': 'events', 'tests': [
 			{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/navMap/linear.events'},
+			{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'ncx/navMap/linear.events'},
 			{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'ncx/navMap/in-subdir.events'},
 			{'test': 'ncx/navMap/named-uri.ncx', 'result': 'ncx/navMap/named-uri.events'},
 			{'test': 'ncx/navMap/nested.ncx', 'result': 'ncx/navMap/nested.events'},

@@ -23,8 +23,15 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('metadata', sys.argv)
 	test.run({'name': 'RDF/XML', 'groups': [
+		{'name': 'metadata', 'type': 'ntriple', 'tests': [
+			{'test': 'rdfxml/metadata/empty.rdf', 'result': 'rdfxml/metadata/empty.nt'},
+			{'test': 'rdfxml/metadata/description-empty.rdf', 'result': 'rdfxml/metadata/description-empty.nt'},
+			{'test': 'rdfxml/metadata/about-datatype.rdf', 'result': 'rdfxml/metadata/about-datatype.nt'},
+			{'test': 'rdfxml/metadata/about-predicate_attribute-last_attribute.rdf',  'result': 'rdfxml/metadata/about-predicate_attribute.nt'},
+			{'test': 'rdfxml/metadata/about-predicate_attribute-first_attribute.rdf', 'result': 'rdfxml/metadata/about-predicate_attribute.nt'},
+		]},
 		{'name': 'syntax', 'type': 'ntriple', 'tests': [
-			{'test': 'rdfxml/syntax/example02.rdf', 'result': 'rdfxml/syntax/example02.nt', 'expect': 'fail'},
+			{'test': 'rdfxml/syntax/example02.rdf', 'result': 'rdfxml/syntax/example02.nt'},
 			{'test': 'rdfxml/syntax/example05.rdf', 'result': 'rdfxml/syntax/example05.nt'},
 			{'test': 'rdfxml/syntax/example06.rdf', 'result': 'rdfxml/syntax/example06.nt'},
 			{'test': 'rdfxml/syntax/example07.rdf', 'result': 'rdfxml/syntax/example07.nt'},
@@ -33,14 +40,13 @@ if __name__ == '__main__':
 			{'test': 'rdfxml/syntax/example10.rdf', 'result': 'rdfxml/syntax/example10.nt'},
 			{'test': 'rdfxml/syntax/example11.rdf', 'result': 'rdfxml/syntax/example11.nt'},
 			{'test': 'rdfxml/syntax/example12.rdf', 'result': 'rdfxml/syntax/example12.nt'},
-			{'test': 'rdfxml/syntax/example13.rdf', 'result': 'rdfxml/syntax/example13.nt', 'expect': 'fail'},
+			{'test': 'rdfxml/syntax/example13.rdf', 'result': 'rdfxml/syntax/example13.nt'},
 			{'test': 'rdfxml/syntax/example14.rdf', 'result': 'rdfxml/syntax/example14.nt'},
 			{'test': 'rdfxml/syntax/example15.rdf', 'result': 'rdfxml/syntax/example15.nt'},
 			{'test': 'rdfxml/syntax/example16.rdf', 'result': 'rdfxml/syntax/example16.nt'},
 			{'test': 'rdfxml/syntax/example17.rdf', 'result': 'rdfxml/syntax/example17.nt'},
 			{'test': 'rdfxml/syntax/example18.rdf', 'result': 'rdfxml/syntax/example18.nt'},
 			{'test': 'rdfxml/syntax/example19.rdf', 'result': 'rdfxml/syntax/example19.nt'},
-			{'test': 'rdfxml/syntax/example20.rdf', 'result': 'rdfxml/syntax/example20.nt', 'expect': 'fail'},
 		]},
 		{'name': 'schema', 'type': 'turtle', 'tests': [
 			{'test': '../src/schema/dcam.rdf', 'result': 'rdfxml/schema/dcam.n3'},
@@ -56,6 +62,7 @@ if __name__ == '__main__':
 		{'name': 'title metadata', 'type': 'turtle', 'tests': [
 			{'test': 'html/metadata/title.html', 'result': 'html/metadata/title.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/title.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml'},
+			{'test': 'html/metadata/title-cdata.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/empty-title.html', 'result': 'html/metadata/empty-title.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/empty-title.xhtml', 'result': 'html/metadata/empty-title.n3', 'mimetype': 'application/xhtml+xml'},
 		]},
@@ -74,11 +81,16 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
-		{'name': 'metadata', 'type': 'turtle', 'tests': [
-			{'test': 'mime/metadata/subject.txt', 'result': 'mime/metadata/subject.n3'},
-			{'test': 'mime/metadata/subject-lfonly.txt', 'result': 'mime/metadata/subject.n3'},
-			{'test': 'mime/metadata/from.txt', 'result': 'mime/metadata/from.n3'},
-			{'test': 'mime/metadata/from-lfonly.txt', 'result': 'mime/metadata/from.n3'},
+		{'name': 'email', 'type': 'turtle', 'tests': [
+			{'test': 'mime/email/subject.txt', 'result': 'mime/email/subject.n3'},
+			{'test': 'mime/email/from.txt', 'result': 'mime/email/from.n3'},
+			{'test': 'mime/email/from-no-email.txt', 'result': 'mime/email/from-no-email.n3'},
+			{'test': 'mime/email/newsgroups.txt', 'result': 'mime/email/newsgroups.n3'},
+			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
+			{'test': 'mime/email/subject-lfonly.txt', 'result': 'mime/email/subject.n3'},
+			{'test': 'mime/email/from-lfonly.txt', 'result': 'mime/email/from.n3'},
+			{'test': 'mime/email/from-no-email-lfonly.txt', 'result': 'mime/email/from-no-email.n3'},
+			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/newsgroups.n3'},
 		]},
 	]})
 	test.run({'name': 'SMIL', 'groups': [

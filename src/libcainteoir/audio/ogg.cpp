@@ -113,7 +113,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 					published = date;
 			}
 		}
-		else if (rql::predicate(*query).as<rdf::uri>()->ns == rdf::dcterms)
+		else if (rql::predicate(*query).ns == rdf::dcterms)
 		{
 			rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(*query)));
 
@@ -181,7 +181,7 @@ class ogg_audio : public cainteoir::audio
 
 		while (vorbis_analysis_blockout(&vd, &vb) == 1)
 		{
-			vorbis_analysis(&vb, NULL);
+			vorbis_analysis(&vb, nullptr);
 			vorbis_bitrate_addblock(&vb);
 
 			while (vorbis_bitrate_flushpacket(&vd, &op))
@@ -214,7 +214,7 @@ public:
 		vorbis_analysis_init(&vd, &vi);
 		vorbis_block_init(&vd, &vb);
 
-		srand(time(NULL));
+		srand(time(nullptr));
 		ogg_stream_init(&os, rand());
 	}
 
@@ -260,7 +260,7 @@ public:
 
 		if (m_file != stdout)
 			fclose(m_file);
-		m_file = NULL;
+		m_file = nullptr;
 	}
 
 	uint32_t write(const char *data, uint32_t len)
@@ -280,21 +280,21 @@ public:
 	}
 };
 
-std::tr1::shared_ptr<cainteoir::audio>
+std::shared_ptr<cainteoir::audio>
 create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
 	if (format != rdf::tts("s16le"))
 		throw std::runtime_error(_("unsupported audio format."));
-	return std::tr1::shared_ptr<cainteoir::audio>(new ogg_audio(file, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument)));
+	return std::make_shared<ogg_audio>(file, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument));
 }
 
 #else
 
-std::tr1::shared_ptr<cainteoir::audio>
+std::shared_ptr<cainteoir::audio>
 create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
-	return std::tr1::shared_ptr<cainteoir::audio>();
+	return std::shared_ptr<cainteoir::audio>();
 }
 
 #endif

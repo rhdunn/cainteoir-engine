@@ -46,25 +46,23 @@ struct zip_header
 
 #pragma pack(pop)
 
-static const cainteoir::decoder_ptr zip_compression[] = {
+static const std::initializer_list<cainteoir::decoder_ptr> zip_compression = {
 	&cainteoir::copy, // 0 - uncompressed
-	NULL, // 1
-	NULL, // 2
-	NULL, // 3
-	NULL, // 4
-	NULL, // 5
-	NULL, // 6 - imploded
-	NULL, // 7
+	nullptr, // 1
+	nullptr, // 2
+	nullptr, // 3
+	nullptr, // 4
+	nullptr, // 5
+	nullptr, // 6 - imploded
+	nullptr, // 7
 	&cainteoir::inflate_zlib, // 8 - deflated
-	NULL, // 9
-	NULL, // 10
-	NULL, // 11
-	NULL, // 12 - bzip2 compressed
+	nullptr, // 9
+	nullptr, // 10
+	nullptr, // 11
+	nullptr, // 12 - bzip2 compressed
 };
 
-#define countof(a) (sizeof(a)/sizeof(a[0]))
-
-cainteoir::zip::archive::archive(std::tr1::shared_ptr<cainteoir::buffer> aData)
+cainteoir::zip::archive::archive(std::shared_ptr<cainteoir::buffer> aData)
 {
 	const zip_header * hdr = (const zip_header *)aData->begin();
 	while ((const char *)hdr < aData->end() && hdr->magic == ZIP_HEADER_MAGIC)
@@ -77,15 +75,15 @@ cainteoir::zip::archive::archive(std::tr1::shared_ptr<cainteoir::buffer> aData)
 	}
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char *aFilename)
+std::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char *aFilename)
 {
 	const zip_header * hdr = (const zip_header *)((*this)[aFilename]);
 	if (!hdr)
-		return std::tr1::shared_ptr<cainteoir::buffer>();
+		return std::shared_ptr<cainteoir::buffer>();
 
-	if (hdr->compression_type >= countof(zip_compression) || zip_compression[hdr->compression_type] == NULL)
+	if (hdr->compression_type >= zip_compression.size() || *(zip_compression.begin() + hdr->compression_type) == nullptr)
 		throw std::runtime_error(_("decompression failed (unsupported compression type)"));
 
 	const char *ptr = (const char *)hdr + sizeof(zip_header) + hdr->len_filename + hdr->len_extra;
-	return zip_compression[hdr->compression_type](cainteoir::buffer(ptr, ptr + hdr->compressed), hdr->uncompressed);
+	return (*(zip_compression.begin() + hdr->compression_type))(cainteoir::buffer(ptr, ptr + hdr->compressed), hdr->uncompressed);
 }

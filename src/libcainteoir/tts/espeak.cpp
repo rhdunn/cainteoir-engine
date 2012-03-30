@@ -1,6 +1,6 @@
 /* Espeak Text-to-Speech Engine.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -24,6 +24,7 @@
 
 #if defined(HAVE_ESPEAK_SPEAK_LIB_H)
 #include <espeak/speak_lib.h>
+#include <unistd.h>
 
 #ifndef espeakINITIALIZE_DONT_EXIT
 #define espeakINITIALIZE_DONT_EXIT 0x8000
@@ -32,6 +33,83 @@
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
+
+struct mbrola_voice
+{
+	const char *name;
+	const char *voice;
+	const char *language;
+	int frequency;
+	const char *gender;
+};
+
+/* This table describes the MBROLA voices supported by eSpeak (espeak-data/voices/mb/...).
+ *
+ * This is here for several reasons:
+ *    1.  espeak_ListVoices does not list the MBROLA voices;
+ *    2.  the MBROLA voices can output at a different frequency to eSpeak;
+ *    3.  the MBROLA voice data may not be installed on the system, so they
+ *        need to be checked to see if they exist.
+ */
+const std::initializer_list<const mbrola_voice> mbrola_voices = {
+	{ "mb-af1",     "af1/af1", "af",    16000, "male" },
+	{ "mb-af1-en",  "af1/af1", "en",    16000, "male" },
+	{ "mb-br1",     "br1/br1", "pt-br", 16000, "male" },
+	{ "mb-br3",     "br3/br3", "pt-br", 22050, "male" },
+	{ "mb-br4",     "br4/br4", "pt-br", 16000, "female" },
+	{ "mb-cr1",     "cr1/cr1", "hr",    16000, "male" },
+	{ "mb-cz1",     "cz1/cz1", "cs",    16000, "male" },
+	{ "mb-de2",     "de2/de2", "de",    16000, "male" },
+	{ "mb-de4",     "de4/de4", "de",    16000, "male" },
+	{ "mb-de4-en",  "de4/de4", "en",    16000, "male" },
+	{ "mb-de5",     "de5/de5", "de",    22050, "female" },
+	{ "mb-de5-en",  "de5/de5", "en",    22050, "female" },
+	{ "mb-de6",     "de6/de6", "de",    22050, "male" },
+	{ "mb-de6-grc", "de6/de6", "el",    22050, "male" },
+	{ "mb-de7",     "de7/de7", "de",    22050, "female" },
+	{ "mb-ee1",     "ee1/ee1", "et",    16000, "male" },
+	{ "mb-en1",     "en1/en1", "en-gb", 16000, "male" },
+	{ "mb-es1",     "es1/es1", "es",    16000, "male" },
+	{ "mb-es2",     "es2/es2", "es",    22050, "male" },
+	{ "mb-fr1",     "fr1/fr1", "fr",    16000, "male" },
+	{ "mb-fr1-en",  "fr1/fr1", "en",    16000, "male" },
+	{ "mb-fr4",     "fr4/fr4", "fr",    16000, "female" },
+	{ "mb-fr4-en",  "fr4/fr4", "en",    16000, "female" },
+	{ "mb-gr2",     "gr2/gr2", "el",    22050, "male" },
+	{ "mb-gr2-en",  "gr2/gr2", "en",    22050, "male" },
+	{ "mb-hu1",     "hu1/hu1", "hu",    16000, "female" },
+	{ "mb-hu1-en",  "hu1/hu1", "en",    16000, "female" },
+	{ "mb-ic1",     "ic1/ic1", "is",    16000, "male" },
+	{ "mb-id1",     "id1/id1", "id",    16000, "male" },
+	{ "mb-it3",     "it3/it3", "it",    16000, "male" },
+	{ "mb-it4",     "it4/it4", "it",    16000, "female" },
+	{ "mb-la1",     "la1/la1", "la",    16000, "male" },
+	{ "mb-mx1",     "mx1/mx1", "es-mx", 16000, "male" },
+	{ "mb-mx2",     "mx2/mx2", "es-mx", 16000, "male" },
+	{ "mb-nl2",     "nl2/nl2", "nl",    16000, "male" },
+	{ "mb-nl2-en",  "nl2/nl2", "en",    16000, "male" },
+	{ "mb-pl1",     "pl1/pl1", "pl",    16000, "female" },
+	{ "mb-pl1-en",  "pl1/pl1", "en",    16000, "female" },
+	{ "mb-pt1",     "pt1/pt1", "pt-pt", 22050, "female" },
+	{ "mb-ro1",     "ro1/ro1", "ro",    16000, "male" },
+	{ "mb-ro1-en",  "ro1/ro1", "en",    16000, "male" },
+	{ "mb-sw1",     "sw1/sw1", "sv",    16000, "male" },
+	{ "mb-sw1-en",  "sw1/sw1", "en",    16000, "male" },
+	{ "mb-sw2",     "sw2/sw2", "sv",    16000, "female" },
+	{ "mb-sw2-en",  "sw2/sw2", "en",    16000, "female" },
+	{ "mb-tr1",     "tr1/tr1", "tr",    16000, "male" },
+	{ "mb-tr2",     "tr2/tr2", "tr",    22050, "female" },
+	{ "mb-us1",     "us1/us1", "en-us", 16000, "female" },
+	{ "mb-us2",     "us2/us2", "en-us", 16000, "male" },
+	{ "mb-us3",     "us3/us3", "en-us", 16000, "male" },
+	{ "mb-vz1",     "vz1/vz1", "es-ve", 16000, "male" },
+};
+
+static bool is_mbrola_voice_available(const char *voice)
+{
+	std::string path = std::string("/usr/share/mbrola/") + voice;
+	return access(path.c_str(), R_OK) == 0;
+}
 
 static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 {
@@ -116,26 +194,20 @@ class espeak_engine : public tts::engine
 {
 public:
 	espeak_engine(rdf::graph &metadata, std::string &baseuri)
-		: mRate(new espeak_parameter(_("Speed"), "wpm", espeakRATE, 80, 450, 1))
-		, mVolume(new espeak_parameter(_("Volume"), "%", espeakVOLUME, 0, 200, 1))
-		, mPitch(new espeak_parameter(_("Base Pitch"), "", espeakPITCH, 0, 100, 1))
-		, mPitchRange(new espeak_parameter(_("Pitch Variation"), "", espeakRANGE, 0, 100, 1))
-		, mWordGap(new espeak_parameter(_("Word Gap"), "ms", espeakWORDGAP, 0, 500, 10))
+		: mRate(std::make_shared<espeak_parameter>(_("Speed"), "wpm", espeakRATE, 80, 450, 1))
+		, mVolume(std::make_shared<espeak_parameter>(_("Volume"), "%", espeakVOLUME, 0, 200, 1))
+		, mPitch(std::make_shared<espeak_parameter>(_("Base Pitch"), "", espeakPITCH, 0, 100, 1))
+		, mPitchRange(std::make_shared<espeak_parameter>(_("Pitch Variation"), "", espeakRANGE, 0, 100, 1))
+		, mWordGap(std::make_shared<espeak_parameter>(_("Word Gap"), "ms", espeakWORDGAP, 0, 500, 10))
 	{
 		baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
 
-		int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, NULL, espeakINITIALIZE_DONT_EXIT);
+		int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, nullptr, espeakINITIALIZE_DONT_EXIT);
 		espeak_SetSynthCallback(espeak_tts_callback);
 
-		rdf::uri espeak = rdf::uri(baseuri, std::string());
-		rdf::uri jonsd = metadata.genid();
-		std::string info = espeak_Info(NULL);
-
-		metadata.statement(espeak, rdf::rdf("type"), rdf::tts("Engine"));
-		metadata.statement(espeak, rdf::tts("name"), rdf::literal("eSpeak"));
-		metadata.statement(espeak, rdf::tts("version"), rdf::literal(info.substr(0, info.find(' '))));
-		metadata.statement(espeak, rdf::dc("source"), rdf::uri("http://espeak.sourceforge.net/", std::string()));
-		metadata.statement(espeak, rdf::dc("creator"), jonsd);
+		rdf::uri    espeak = rdf::uri(baseuri, std::string());
+		rdf::uri    jonsd  = metadata.genid();
+		std::string info   = espeak_Info(nullptr);
 
 		metadata.statement(jonsd, rdf::rdf("type"), rdf::foaf("Person"));
 		metadata.statement(jonsd, rdf::foaf("name"), rdf::literal("Jonathan Duddington"));
@@ -145,7 +217,13 @@ public:
 		metadata.statement(jonsd, rdf::foaf("gender"), rdf::literal("male"));
 		metadata.statement(jonsd, rdf::foaf("isPrimaryTopicOf"), rdf::uri("http://sourceforge.net/users/jonsd", std::string()));
 
-		for (const espeak_VOICE **data = espeak_ListVoices(NULL); *data; ++data)
+		metadata.statement(espeak, rdf::rdf("type"), rdf::tts("Engine"));
+		metadata.statement(espeak, rdf::tts("name"), rdf::literal("eSpeak"));
+		metadata.statement(espeak, rdf::tts("version"), rdf::literal(info.substr(0, info.find(' '))));
+		metadata.statement(espeak, rdf::dc("source"), rdf::uri("http://espeak.sourceforge.net/", std::string()));
+		metadata.statement(espeak, rdf::dc("creator"), jonsd);
+
+		for (const espeak_VOICE **data = espeak_ListVoices(nullptr); *data; ++data)
 		{
 			std::string id = (*data)->name;
 			if (id == "french (Belgium)")
@@ -166,6 +244,24 @@ public:
 			metadata.statement(voice, rdf::tts("voiceOf"), espeak);
 			metadata.statement(espeak, rdf::tts("hasVoice"), voice);
 		}
+
+		for (auto mbrola = mbrola_voices.begin(), last = mbrola_voices.end(); mbrola != last; ++mbrola)
+		{
+			if (is_mbrola_voice_available(mbrola->voice))
+			{
+				rdf::uri voice = rdf::uri(baseuri, mbrola->name);
+				metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
+				metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola->language));
+				metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola->name));
+				metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola->gender));
+
+				metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola->frequency, rdf::tts("hertz")));
+				metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
+				metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
+
+				metadata.statement(voice, rdf::tts("voiceOf"), espeak);
+			}
+		}
 	}
 
 	~espeak_engine()
@@ -184,11 +280,11 @@ public:
 	void speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback)
 	{
 		std::string txt = text->str();
-		espeak_Synth(txt.c_str() + offset, txt.size() - offset, 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, NULL, callback);
+		espeak_Synth(txt.c_str() + offset, txt.size() - offset, 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, nullptr, callback);
 		espeak_Synchronize();
 	}
 
-	std::tr1::shared_ptr<tts::parameter>
+	std::shared_ptr<tts::parameter>
 	parameter(tts::parameter::type aType)
 	{
 		switch (aType)
@@ -198,17 +294,17 @@ public:
 		case tts::parameter::pitch:       return mPitch;
 		case tts::parameter::pitch_range: return mPitchRange;
 		case tts::parameter::word_gap:    return mWordGap;
-		default:                          return std::tr1::shared_ptr<tts::parameter>();
+		default:                          return std::shared_ptr<tts::parameter>();
 		}
 	}
 
 	//@}
 private:
-	std::tr1::shared_ptr<tts::parameter> mRate;
-	std::tr1::shared_ptr<tts::parameter> mVolume;
-	std::tr1::shared_ptr<tts::parameter> mPitch;
-	std::tr1::shared_ptr<tts::parameter> mPitchRange;
-	std::tr1::shared_ptr<tts::parameter> mWordGap;
+	std::shared_ptr<tts::parameter> mRate;
+	std::shared_ptr<tts::parameter> mVolume;
+	std::shared_ptr<tts::parameter> mPitch;
+	std::shared_ptr<tts::parameter> mPitchRange;
+	std::shared_ptr<tts::parameter> mWordGap;
 };
 
 tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
@@ -220,7 +316,7 @@ tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
 
 tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
 {
-	return NULL;
+	return nullptr;
 }
 
 #endif

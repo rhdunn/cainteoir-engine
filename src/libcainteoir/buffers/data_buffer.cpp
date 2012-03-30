@@ -21,7 +21,7 @@
 #include <cainteoir/buffer.hpp>
 
 cainteoir::data_buffer::data_buffer(unsigned int aSize)
-	: buffer(NULL, NULL)
+	: buffer(nullptr, nullptr)
 {
 	first = new char[aSize];
 	last = first + aSize;

@@ -9,11 +9,15 @@
 *~
 .*.swp
 
+# code generation data:
+
+data/languages.dat
+data/languages.dot
+src/libcainteoir/parsers/html-entities.dat
+
 # build output:
 
-data/magic.mgc
-
-src/libcainteoir/encoding/encodings.h
+data/languages.rdf.gz
 
 src/libcainteoir/libcainteoir.a
 src/libcainteoir/libcainteoir.la
@@ -29,6 +33,7 @@ tests/turtle_formatter
 tests/events
 tests/xmlreader
 tests/encoding
+tests/languages
 
 # docs output:
 

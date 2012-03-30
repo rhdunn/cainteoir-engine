@@ -30,7 +30,7 @@
 #include <errno.h>
 
 cainteoir::mmap_buffer::mmap_buffer(const char *path)
-	: buffer(NULL, NULL)
+	: buffer(nullptr, nullptr)
 	, fd(-1)
 {
 	fd = open(path, O_RDONLY);
@@ -39,7 +39,7 @@ cainteoir::mmap_buffer::mmap_buffer(const char *path)
 	struct stat sb;
 	if (fstat(fd, &sb) == -1) throw std::runtime_error(strerror(errno));
 
-	first = (const char *)mmap(NULL, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+	first = (const char *)mmap(nullptr, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (first == MAP_FAILED) throw std::runtime_error(strerror(errno));
 
 	last = first + sb.st_size;

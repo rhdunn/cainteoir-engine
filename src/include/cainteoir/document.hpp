@@ -424,7 +424,7 @@ namespace cainteoir
 		  *
 		  * @param aText The text at the current point in the document.
 		  */
-		virtual void text(std::tr1::shared_ptr<cainteoir::buffer> aText) {}
+		virtual void text(std::shared_ptr<cainteoir::buffer> aText) {}
 
 		/** @brief The start of a new context.
 		  *
@@ -468,7 +468,7 @@ namespace cainteoir
 	class document
 	{
 	public:
-		typedef std::list< std::tr1::shared_ptr<cainteoir::buffer> > list_type;
+		typedef std::list< std::shared_ptr<cainteoir::buffer> > list_type;
 		typedef list_type::const_iterator const_iterator;
 		typedef std::pair<const_iterator, const_iterator> range_type;
 
@@ -483,7 +483,7 @@ namespace cainteoir
 
 		size_t text_length() const { return mLength; }
 
-		void add(const std::tr1::shared_ptr<cainteoir::buffer> &text)
+		void add(const std::shared_ptr<cainteoir::buffer> &text)
 		{
 			mLength += text->size();
 			mChildren.push_back(text);

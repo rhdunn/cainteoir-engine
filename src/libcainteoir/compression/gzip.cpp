@@ -23,9 +23,9 @@
 #include <zlib.h>
 #include <stdexcept>
 
-std::tr1::shared_ptr<cainteoir::buffer> inflateBuffer(const cainteoir::buffer &compressed, uint32_t uncompressed, int window)
+std::shared_ptr<cainteoir::buffer> inflateBuffer(const cainteoir::buffer &compressed, uint32_t uncompressed, int window)
 {
-	std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(uncompressed));
+	std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(uncompressed);
 
 	z_stream strm = {0};
 	int ret = inflateInit2(&strm, window);
@@ -62,12 +62,12 @@ err:
 	}
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::inflate_zlib(const cainteoir::buffer &compressed, uint32_t uncompressed)
+std::shared_ptr<cainteoir::buffer> cainteoir::inflate_zlib(const cainteoir::buffer &compressed, uint32_t uncompressed)
 {
 	return inflateBuffer(compressed, uncompressed, -MAX_WBITS);
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::inflate_gzip(const cainteoir::buffer &compressed, uint32_t uncompressed)
+std::shared_ptr<cainteoir::buffer> cainteoir::inflate_gzip(const cainteoir::buffer &compressed, uint32_t uncompressed)
 {
 	uncompressed = *((uint32_t *)(compressed.end() - 4));
 	return inflateBuffer(compressed, uncompressed, 16 + MAX_WBITS);

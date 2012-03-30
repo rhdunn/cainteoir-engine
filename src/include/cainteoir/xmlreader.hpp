@@ -29,35 +29,10 @@ namespace cainteoir { namespace xml
 {
 	struct resource
 	{
-		virtual const resource *clone() const = 0;
+		virtual std::shared_ptr<const resource> clone() const = 0;
 
 		virtual ~resource() {}
 	};
-
-	class uri : public resource
-	{
-	public:
-		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
-		std::string ref;   /**< @brief The URI reference. */
-
-		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string());
-
-		bool empty() const;
-
-		std::string str() const;
-
-		const resource *clone() const;
-	};
-
-	inline bool operator==(const uri &a, const uri &b)
-	{
-		return a.ns == b.ns && a.ref == b.ref;
-	}
-
-	inline bool operator!=(const uri &a, const uri &b)
-	{
-		return !(a == b);
-	}
 
 	class ns
 	{
@@ -70,49 +45,7 @@ namespace cainteoir { namespace xml
 			, prefix(aPrefix)
 		{
 		}
-
-		/** @brief Create a URI in the namespace.
-		  *
-		  * @param aRef The URI reference relative to the namespace.
-		  */
-		uri operator()(const std::string &aRef) const
-		{
-			return uri(href, aRef);
-		}
 	};
-
-	inline bool operator==(const ns &a, const char *b)
-	{
-		return a.href == b;
-	}
-
-	inline bool operator==(const ns &a, const std::string &b)
-	{
-		return a.href == b;
-	}
-
-	inline bool operator==(const ns &a, const ns &b)
-	{
-		return a.prefix == b.prefix && a.href == b.href;
-	}
-
-	template <typename T>
-	inline bool operator==(const T & a, const ns &b)
-	{
-		return b == a;
-	}
-
-	template <typename T>
-	inline bool operator!=(const ns &a, const T &b)
-	{
-		return !(a == b);
-	}
-
-	template <typename T>
-	inline bool operator!=(const T &a, const ns &b)
-	{
-		return !(b == a);
-	}
 
 	namespace xmlns
 	{
@@ -147,7 +80,7 @@ namespace cainteoir { namespace xml
 
 		namespaces &add_namespace(const std::string &aPrefix, const std::string &aHref);
 
-		namespaces &add_namespace(const cainteoir::buffer &aPrefix, const std::tr1::shared_ptr<cainteoir::buffer> &aHref)
+		namespaces &add_namespace(const cainteoir::buffer &aPrefix, const std::shared_ptr<cainteoir::buffer> &aHref)
 		{
 			return add_namespace(aPrefix.str(), aHref->str());
 		}
@@ -288,6 +221,8 @@ namespace cainteoir { namespace xml
 	public:
 		enum node_type
 		{
+			// xml node types ...
+
 			beginTagNode,
 			endTagNode,
 			processingInstructionNode,
@@ -297,23 +232,29 @@ namespace cainteoir { namespace xml
 			error,
 			doctypeNode,
 			attribute,
+
+			// dtd node types ...
+
+			dtdEntity,
 		};
 
-		reader(std::tr1::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52] = xml_entities);
+		reader(std::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52] = xml_entities);
+
+		void set_predefined_entities(const entity_set *aPredefinedEntities[52]) { mPredefinedEntities = aPredefinedEntities; }
 
 		bool read();
 
 		const cainteoir::rope &nodeValue() const { return mNodeValue; }
 
-		const cainteoir::buffer &nodeName() const { return mNodeName; }
+		const cainteoir::buffer &nodeName() const { return mState.nodeName; }
 
-		const cainteoir::buffer &nodePrefix() const { return mNodePrefix; }
+		const cainteoir::buffer &nodePrefix() const { return mState.nodePrefix; }
 
 		std::string namespaceUri() const;
 
 		node_type nodeType() const { return mNodeType; }
 
-		bool isPlainText() const { return mParseAsText; }
+		bool isPlainText() const { return mState.state == ParsingText; }
 
 		const context::entry *context() const { return mContext; }
 	private:
@@ -327,14 +268,38 @@ namespace cainteoir { namespace xml
 
 		cainteoir::buffer identifier();
 
-		void read_node_value(char terminator);
+		void read_node_value(char terminator1, char terminator2 = '\0');
 
 		void read_tag(node_type aType);
 
-		std::tr1::shared_ptr<cainteoir::buffer> mData;
-		const char * mCurrent;
-		bool mParseAsText;
-		bool mParseNamespaces;
+		enum ParserState
+		{
+			ParsingText,
+			ParsingXml,
+			ParsingXmlAttributes,
+			ParsingXmlNamespaces,
+			ParsingDtd,
+		};
+
+		struct ParserContext
+		{
+			ParserState state;
+			const char *current;
+			cainteoir::buffer nodeName;
+			cainteoir::buffer nodePrefix;
+
+			ParserContext(ParserState aState, const char *aCurrent)
+				: state(aState)
+				, current(aCurrent)
+				, nodeName(nullptr, nullptr)
+				, nodePrefix(nullptr, nullptr)
+			{
+			}
+		};
+
+		std::shared_ptr<cainteoir::buffer> mData;
+		ParserContext mState;
+		ParserContext mSavedState;
 		bool mImplicitEndTag;
 		const entity_set **mPredefinedEntities;
 
@@ -342,38 +307,18 @@ namespace cainteoir { namespace xml
 		cainteoir::buffer mTagNodeName;
 		cainteoir::buffer mTagNodePrefix;
 
+		std::map<std::string, std::string> mDoctypeEntities;
+
 		//@}
 		/** @name reader data */
 		//@{
 
 		cainteoir::rope mNodeValue;
-		cainteoir::buffer mNodeName;
-		cainteoir::buffer mNodePrefix;
 		node_type mNodeType;
 		const xml::context::entry *mContext;
 
 		//@}
 	};
-
-	inline bool operator==(const reader &a, const uri &b)
-	{
-		return uri(a.namespaceUri(), a.nodeName().str()) == b;
-	}
-
-	inline bool operator==(const uri &a, const reader &b)
-	{
-		return b == a;
-	}
-
-	inline bool operator!=(const reader &a, const uri &b)
-	{
-		return !(a == b);
-	}
-
-	inline bool operator!=(const uri &a, const reader &b)
-	{
-		return !(b == a);
-	}
 }}
 
 /** References

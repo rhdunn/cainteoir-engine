@@ -193,10 +193,13 @@ skos:member rdfs:isDefinedBy <http://www.w3.org/2004/02/skos/core> .
 skos:member skos:definition "Relates a collection to one of its members."@en .
 skos:member rdf:type owl:ObjectProperty .
 skos:member rdfs:domain skos:Collection .
+_:genid1 rdf:type owl:Class .
 _:genid2 rdf:first skos:Concept .
-_:genid3 rdf:first skos:Collection .
-_:genid3 rdf:rest rdf:nil .
+skos:Concept rdf:type owl:Class .
 _:genid2 rdf:rest _:genid3 .
+_:genid3 rdf:first skos:Collection .
+skos:Collection rdf:type owl:Class .
+_:genid3 rdf:rest rdf:nil .
 _:genid1 owl:unionOf _:genid2 .
 skos:member rdfs:range _:genid1 .
 skos:member rdf:type rdf:Property .

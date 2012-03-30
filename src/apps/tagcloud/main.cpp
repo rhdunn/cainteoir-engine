@@ -83,7 +83,7 @@ static const char * common_words[] = {
 	"up",
 	"was", "with", "were", "would", "what", "which", "when", "we", "who", "woman",
 	"you",
-	NULL,
+	nullptr,
 };
 
 bool common(const std::string & word)
@@ -113,7 +113,7 @@ std::string normalise(const std::string & word)
 
 struct cloud : public cainteoir::document_events
 {
-	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
+	void text(std::shared_ptr<cainteoir::buffer> aText)
 	{
 		std::istringstream ss(aText->str());
 

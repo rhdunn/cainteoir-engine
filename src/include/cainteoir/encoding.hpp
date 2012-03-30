@@ -27,7 +27,7 @@ namespace cainteoir
 {
 	struct decoder
 	{
-		virtual std::tr1::shared_ptr<cainteoir::buffer> decode(const cainteoir::buffer &data) const = 0;
+		virtual std::shared_ptr<cainteoir::buffer> decode(const cainteoir::buffer &data) const = 0;
 
 		virtual ~decoder() {}
 	};
@@ -57,7 +57,7 @@ namespace cainteoir
 		  *
 		  * @return The utf-8 representation of c.
 		  */
-		std::tr1::shared_ptr<cainteoir::buffer> lookup(uint8_t c) const
+		std::shared_ptr<cainteoir::buffer> lookup(uint8_t c) const
 		{
 			return mDecoder->decode(cainteoir::buffer((char *)&c, (char *)&c + 1));
 		}
@@ -68,12 +68,12 @@ namespace cainteoir
 		  *
 		  * @return The utf-8 representation of data.
 		  */
-		std::tr1::shared_ptr<cainteoir::buffer> decode(const cainteoir::buffer &data) const
+		std::shared_ptr<cainteoir::buffer> decode(const cainteoir::buffer &data) const
 		{
 			return mDecoder->decode(data);
 		}
 	private:
-		std::tr1::shared_ptr<decoder> mDecoder;
+		std::shared_ptr<decoder> mDecoder;
 	};
 }
 

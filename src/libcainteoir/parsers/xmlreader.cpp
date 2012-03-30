@@ -31,14 +31,14 @@ const char * cainteoir::xml::lookup_entity(const entity_set **entities, const ca
 {
 	char c = *data.begin();
 
-	const entity_set * ent = NULL;
+	const entity_set * ent = nullptr;
 	if (c >= 'a' && c <= 'z')
 		ent = entities[c - 'a' + 26];
 	else if (c >= 'A' && c <= 'Z')
 		ent = entities[c - 'A'];
 
 	if (!ent)
-		return NULL;
+		return nullptr;
 
 	int begin = 0;
 	int end = ent->last - ent->first;
@@ -56,7 +56,7 @@ const char * cainteoir::xml::lookup_entity(const entity_set **entities, const ca
 			end = pos - 1;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void write_utf8(char * out, long c)
@@ -84,33 +84,41 @@ void write_utf8(char * out, long c)
 	*out = '\0';
 }
 
-std::tr1::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity, const cainteoir::xml::entity_set **entities)
+std::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity, const cainteoir::xml::entity_set **entities, const std::map<std::string, std::string> &doctypeEntities)
 {
 	const char * str = entity.begin();
 	if (*str == '#')
 	{
 		char utf8[10];
 		if (*++str == 'x')
-			write_utf8(utf8, strtol(++str, NULL, 16));
+			write_utf8(utf8, strtol(++str, nullptr, 16));
 		else
-			write_utf8(utf8, strtol(str, NULL, 10));
+			write_utf8(utf8, strtol(str, nullptr, 10));
 
 		if (utf8[0])
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(strlen(utf8)));
+			std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(strlen(utf8));
 			strcpy((char *)data->begin(), utf8);
 			return data;
 		}
 	}
 	else
 	{
+		auto match = doctypeEntities.find(entity.str());
+		if (match != doctypeEntities.end())
+		{
+			std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(match->second.size());
+			strcpy((char *)data->begin(), match->second.c_str());
+			return data;
+		}
+
 		const char * value = cainteoir::xml::lookup_entity(entities, entity);
 		if (value)
-			return std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(value));
+			return std::make_shared<cainteoir::buffer>(value);
 	}
 
 	fprintf(stderr, _("unrecognised entity '%s'\n"), entity.str().c_str());
-	return std::tr1::shared_ptr<cainteoir::buffer>();
+	return std::shared_ptr<cainteoir::buffer>();
 }
 
 inline bool xmlalnum(char c)
@@ -121,33 +129,6 @@ inline bool xmlalnum(char c)
 inline bool xmlspace(char c)
 {
 	return c == ' ' || c == '\t' || c == '\r' || c == '\n';
-}
-
-cainteoir::xml::uri::uri(const std::string &aNS, const std::string &aRef)
-	: ns(aNS)
-	, ref(aRef)
-{
-	auto last = --ns.end();
-	if (!ns.empty() && !ref.empty() && *last != '#' && *last != '/' && *last != ':')
-		ns.push_back('#');
-}
-
-bool cainteoir::xml::uri::empty() const
-{
-	return ns.empty() && ref.empty();
-}
-
-std::string cainteoir::xml::uri::str() const
-{
-	if (ref.empty())
-		return ns;
-
-	return ns + ref;
-}
-
-const cainteoir::xml::resource *cainteoir::xml::uri::clone() const
-{
-	return new uri(*this);
 }
 
 const cainteoir::xml::ns cainteoir::xml::xmlns::dc(   "dc",    "http://purl.org/dc/elements/1.1/");
@@ -227,6 +208,9 @@ const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir:
 const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &aNS, const cainteoir::buffer &aNode, const entries &aEntries) const
 {
 	auto entryset = aEntries.find(aNS);
+	if (entryset == aEntries.end() && aNS.back() == '#')
+		entryset = aEntries.find(aNS.substr(0, aNS.size() - 1));
+
 	if (entryset == aEntries.end())
 		return &unknown_context;
 
@@ -249,85 +233,84 @@ const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std:
 	return &unknown_context;
 }
 
-cainteoir::xml::reader::reader(std::tr1::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52])
+cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52])
 	: mData(aData)
-	, mNodeName(NULL, NULL)
-	, mNodePrefix(NULL, NULL)
-	, mTagNodeName(NULL, NULL)
-	, mTagNodePrefix(NULL, NULL)
-	, mParseAsText(false)
-	, mParseNamespaces(false)
+	, mTagNodeName(nullptr, nullptr)
+	, mTagNodePrefix(nullptr, nullptr)
+	, mState(ParsingXml, aData->begin())
+	, mSavedState(ParsingXml, aData->begin())
 	, mContext(&unknown_context)
 	, mImplicitEndTag(false)
 	, mPredefinedEntities(aPredefinedEntities)
 {
-	mCurrent = mData->begin();
 	mNodeType = textNode;
 
 	skip_whitespace();
 
-	const char * startPos = mCurrent;
-	if (*mCurrent == '<' && read() && mNodeType != error)
+	const char * startPos = mState.current;
+	if (*mState.current == '<' && read() && mNodeType != error)
 	{
 		if (mNodeType == beginTagNode)
 			mNamespaces.pop_block();
 
-		mCurrent = startPos;
-		mTagNodeName = cainteoir::buffer(NULL, NULL);
+		mState.current = startPos;
+		mTagNodeName = cainteoir::buffer(nullptr, nullptr);
 		mNodeType = textNode;
 	}
 	else
 	{
-		mCurrent = mData->begin();
-		mParseAsText = true; // looks like text
+		mState.current = mData->begin();
+		mState.state = ParsingText; // looks like text
 	}
 }
 
 bool cainteoir::xml::reader::read()
 {
-	mNodeName = cainteoir::buffer(NULL, NULL);
-	mNodePrefix = cainteoir::buffer(NULL, NULL);
+	mState.nodeName = cainteoir::buffer(nullptr, nullptr);
+	mState.nodePrefix = cainteoir::buffer(nullptr, nullptr);
 	mContext = &unknown_context;
 
-	if (mCurrent >= mData->end())
+	if (mState.current >= mData->end())
 		return false;
 
-	cainteoir::buffer oldName = mNodeName;
+	cainteoir::buffer oldName = mState.nodeName;
 
-	if (mNodeType == endTagNode && !mParseNamespaces)
+	if (mNodeType == endTagNode && mState.state != ParsingXmlNamespaces)
 		mNamespaces.pop_block();
 
-	if (mParseAsText)
+	if (mState.state == ParsingText)
 	{
 		mNodeType = textNode;
-		mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mCurrent, mData->end()));
-		mCurrent = mData->end();
+		mNodeValue = std::make_shared<cainteoir::buffer>(mState.current, mData->end());
+		mState.current = mData->end();
 		return true;
 	}
 
-	const char * startPos = NULL;
+	const char * startPos = nullptr;
 
 	if (mTagNodeName.begin())
 	{
 		skip_whitespace();
 
-		if ((mCurrent[0] == '/' && mCurrent[1] == '>') || // XML§3.1     -- Empty-Element Tag
-		    (mCurrent[0] == '>' && mImplicitEndTag))      // HTML§12.1.2 -- void elements
+		if ((mState.current[0] == '/' && mState.current[1] == '>') || // XML§3.1     -- Empty-Element Tag
+		    (mState.current[0] == '>' && mImplicitEndTag))            // HTML§12.1.2 -- void elements
 		{
-			mNodeName = mTagNodeName;
-			mNodePrefix = mTagNodePrefix;
+			mState.nodeName = mTagNodeName;
+			mState.nodePrefix = mTagNodePrefix;
 			mNodeType = endTagNode;
 			mContext = lookup_node(namespaceUri(), nodeName());
 			if (mImplicitEndTag)
 			{
+				if (*mState.current == '/')
+					++mState.current;
 				mImplicitEndTag = false;
-				mTagNodeName = cainteoir::buffer(NULL, NULL);
+				mTagNodeName = cainteoir::buffer(nullptr, nullptr);
 			}
-			++mCurrent;
+			++mState.current;
 			return true;
 		}
 
-		if (xmlalnum(*mCurrent)) // XML§3.1 ; HTML§12.1.2.3
+		if (xmlalnum(*mState.current)) // XML§3.1 ; HTML§12.1.2.3
 		{
 			read_tag(attribute);
 			mContext = lookup_attr(namespaceUri(), nodeName());
@@ -336,126 +319,190 @@ bool cainteoir::xml::reader::read()
 				if (check_next('"')) // XML§3.1 ; HTML§12.1.2.3 -- double-quoted attribute value
 				{
 					read_node_value('"');
-					++mCurrent;
+					++mState.current;
 				}
 				else if (check_next('\'')) // XML§3.1 ; HTML§12.1.2.3 -- single-quoted attribute value
 				{
 					read_node_value('\'');
-					++mCurrent;
+					++mState.current;
 				}
 				else // HTML§12.1.2.3 -- unquoted attribute value
-					mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(identifier()));
+					mNodeValue = std::make_shared<cainteoir::buffer>(identifier());
 			}
 			else // HTML§12.1.2.3 -- empty attribute
-				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(mNodeName));
+				mNodeValue = std::make_shared<cainteoir::buffer>(mState.nodeName);
 			return true;
 		}
 
-		if (*mCurrent == '>') // XML§3.1 ; HTML§12.1.2.1-2 -- end of start/end tag
+		if (*mState.current == '>') // XML§3.1 ; HTML§12.1.2.1-2 -- end of start/end tag
 		{
-			++mCurrent;
-			mTagNodeName = cainteoir::buffer(NULL, NULL);
+			++mState.current;
+			mTagNodeName = cainteoir::buffer(nullptr, nullptr);
 		}
 		else // error -- skip to end of element tag
 		{
-			while (mCurrent != mData->end() && *mCurrent != '>')
-				++mCurrent;
-			++mCurrent;
+			while (mState.current != mData->end() && *mState.current != '>')
+				++mState.current;
+			++mState.current;
 
 			mNodeType = error;
-			mTagNodeName = cainteoir::buffer(NULL, NULL);
+			mTagNodeName = cainteoir::buffer(nullptr, nullptr);
 			return true;
 		}
 	}
 
-	if (*mCurrent == '<')
+	if (*mState.current == '<')
 	{
-		switch (*++mCurrent)
+		switch (*++mState.current)
 		{
 		case '!':
-			if (mCurrent[1] == '-' && mCurrent[2] == '-') // XML§2.5 ; HTML§12.1.6 -- comment
+			if (mState.current[1] == '-' && mState.current[2] == '-') // XML§2.5 ; HTML§12.1.6 -- comment
 			{
-				++mCurrent;
-				++mCurrent;
+				++mState.current;
+				++mState.current;
 				mNodeType = commentNode;
-				startPos = ++mCurrent;
-				while (mCurrent != mData->end() && !(mCurrent[0] == '-' && mCurrent[1] == '-' && mCurrent[2] == '>'))
-					++mCurrent;
-				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
-				mCurrent += 3;
+				startPos = ++mState.current;
+				while (mState.current != mData->end() && !(mState.current[0] == '-' && mState.current[1] == '-' && mState.current[2] == '>'))
+					++mState.current;
+				mNodeValue = std::make_shared<cainteoir::buffer>(startPos, mState.current);
+				mState.current += 3;
 			}
-			else if (mCurrent[1] == '[' && mCurrent[2] == 'C' && mCurrent[3] == 'D' && mCurrent[4] == 'A' &&
-			         mCurrent[5] == 'T' && mCurrent[6] == 'A' && mCurrent[7] == '[') // XML§2.7 ; HTML§12.1.5 -- CDATA section
+			else if (mState.current[1] == '[' && mState.current[2] == 'C' && mState.current[3] == 'D' && mState.current[4] == 'A' &&
+			         mState.current[5] == 'T' && mState.current[6] == 'A' && mState.current[7] == '[') // XML§2.7 ; HTML§12.1.5 -- CDATA section
 			{
-				mCurrent += 8;
+				mState.current += 8;
 				mNodeType = cdataNode;
-				startPos = mCurrent;
-				while (mCurrent != mData->end() && !(mCurrent[0] == ']' && mCurrent[1] == ']' && mCurrent[2] == '>'))
-					++mCurrent;
-				mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
-				mCurrent += 3;
+				startPos = mState.current;
+				while (mState.current != mData->end() && !(mState.current[0] == ']' && mState.current[1] == ']' && mState.current[2] == '>'))
+					++mState.current;
+				mNodeValue = std::make_shared<cainteoir::buffer>(startPos, mState.current);
+				mState.current += 3;
 			}
 			else // DTD
 			{
-				++mCurrent;
+				++mState.current;
 				cainteoir::buffer type = identifier();
+
+				bool skip_dtd_node = false;
 
 				if (!type.comparei("DOCTYPE")) // XML§2.8 ; HTML§12.1.1
 				{
-					mNodeName = identifier();
+					mState.nodeName = identifier();
+					if (check_next(':'))
+					{
+						mState.nodePrefix = mState.nodeName;
+						mState.nodeName   = identifier();
+					}
 					mNodeType = doctypeNode;
+
+					while (mState.current != mData->end() && !(*mState.current == '>' || *mState.current == '['))
+						++mState.current;
+
+					if (*mState.current == '[')
+					{
+						cainteoir::buffer tagName = mState.nodeName;
+						cainteoir::buffer tagPrefix = mState.nodePrefix;
+
+						mState.state = ParsingDtd;
+						while (read() && mState.state == ParsingDtd) switch (mNodeType)
+						{
+						case dtdEntity:
+							mDoctypeEntities[mState.nodeName.str()] = mNodeValue.str();
+							break;
+						}
+						mState.state = ParsingXml;
+
+						mNodeType = doctypeNode;
+						mState.nodeName = tagName;
+						mState.nodePrefix = tagPrefix;
+					}
+					else
+						++mState.current;
+				}
+				else if (!type.comparei("ENTITY")) // XML§4.2
+				{
+					if (check_next('%'))
+						skip_dtd_node = true;
+					else
+					{
+						mState.nodeName = identifier();
+						if (check_next('"'))
+						{
+							mNodeType = dtdEntity;
+							read_node_value('"');
+							++mState.current;
+						}
+						else
+							skip_dtd_node = true;
+					}
 				}
 				else
+					skip_dtd_node = true;
+
+				if (skip_dtd_node)
+				{
 					mNodeType = error;
 
-				while (mCurrent != mData->end() && *mCurrent != '>')
-					++mCurrent;
-				++mCurrent;
+					while (mState.current != mData->end() && *mState.current != '>')
+						++mState.current;
+					++mState.current;
+				}
 			}
 			break;
 		case '?': // XML§2.6 -- processing instruction
 			mNodeType = processingInstructionNode;
-			startPos = ++mCurrent;
-			while (mCurrent != mData->end() && (mCurrent[0] != '?' && mCurrent[1] != '>'))
-				++mCurrent;
-			mNodeValue = std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
-			++mCurrent;
-			++mCurrent;
+			startPos = ++mState.current;
+			while (mState.current != mData->end() && (mState.current[0] != '?' && mState.current[1] != '>'))
+				++mState.current;
+			mNodeValue = std::make_shared<cainteoir::buffer>(startPos, mState.current);
+			++mState.current;
+			++mState.current;
 			break;
 		case '/': // XML§3.1 ; HTML§12.1.2.2 -- End Tag
-			++mCurrent;
+			++mState.current;
 			read_tag(endTagNode);
 			mContext = lookup_node(namespaceUri(), nodeName());
 			break;
 		default: // XML§3.1 ; HTML§12.1.2.1 -- Start Tag
-			if (!mParseNamespaces)
+			if (mState.state != ParsingXmlNamespaces)
 			{
 				mNamespaces.push_block();
 				read_tag(beginTagNode);
 
-				cainteoir::buffer tagName = mNodeName;
-				cainteoir::buffer tagPrefix = mNodePrefix;
-				startPos = mCurrent;
+				mSavedState = mState;
+				mState.state = ParsingXmlNamespaces;
 
-				mParseNamespaces = true;
 				while (read() && mNodeType == attribute)
 				{
-					if (!mNodePrefix.compare("xmlns"))
-						mNamespaces.add_namespace(mNodeName, mNodeValue.buffer());
-					else if (!mNodeName.compare("xmlns") && mNodePrefix.empty())
-						mNamespaces.add_namespace(cainteoir::buffer(NULL, NULL), mNodeValue.buffer());
+					if (!mState.nodePrefix.compare("xmlns"))
+						mNamespaces.add_namespace(mState.nodeName, mNodeValue.buffer());
+					else if (!mState.nodeName.compare("xmlns") && mState.nodePrefix.empty())
+						mNamespaces.add_namespace(cainteoir::buffer(nullptr, nullptr), mNodeValue.buffer());
 				}
-				mParseNamespaces = false;
 
-				mCurrent = startPos;
+				mState = mSavedState;
+				mTagNodeName = mState.nodeName;
+				mTagNodePrefix = mState.nodePrefix;
+
 				mNodeType = beginTagNode;
-				mTagNodeName = mNodeName = tagName;
-				mTagNodePrefix = mNodePrefix = tagPrefix;
 				mContext = lookup_node(namespaceUri(), nodeName());
 				if (mContext->parse_type == xml::context::implicit_end_tag)
 					mImplicitEndTag = true;
 			}
 			break;
+		}
+	}
+	else if (mState.state == ParsingDtd) // DOCTYPE DTD
+	{
+		if (mState.current[0] == ']' && mState.current[1] == '>')
+		{
+			mState.state = ParsingXml;
+			mState.current += 2;
+		}
+		else
+		{
+			mNodeType = textNode;
+			read_node_value('<', ']');
 		}
 	}
 	else // HTML§12.1.3 -- text
@@ -469,24 +516,24 @@ bool cainteoir::xml::reader::read()
 
 std::string cainteoir::xml::reader::namespaceUri() const
 {
-	if (mNodeName.compare("xmlns"))
-		return mNamespaces.lookup(mNodePrefix);
+	if (mState.nodeName.compare("xmlns"))
+		return mNamespaces.lookup(mState.nodePrefix);
 	return std::string();
 }
 
 void cainteoir::xml::reader::skip_whitespace()
 {
-	while (mCurrent != mData->end() && xmlspace(*mCurrent))
-		++mCurrent;
+	while (mState.current != mData->end() && xmlspace(*mState.current))
+		++mState.current;
 }
 
 bool cainteoir::xml::reader::expect_next(char c)
 {
 	skip_whitespace();
 
-	if (*mCurrent == c)
+	if (*mState.current == c)
 	{
-		++mCurrent;
+		++mState.current;
 		return true;
 	}
 
@@ -498,9 +545,9 @@ bool cainteoir::xml::reader::check_next(char c)
 {
 	skip_whitespace();
 
-	if (mCurrent != mData->end() && *mCurrent == c)
+	if (mState.current != mData->end() && *mState.current == c)
 	{
-		++mCurrent;
+		++mState.current;
 		return true;
 	}
 
@@ -511,61 +558,61 @@ cainteoir::buffer cainteoir::xml::reader::identifier()
 {
 	skip_whitespace();
 
-	const char * startPos = mCurrent;
+	const char * startPos = mState.current;
 
-	while (mCurrent != mData->end() && (xmlalnum(*mCurrent)) || *mCurrent == '-')
-		++mCurrent;
+	while (mState.current != mData->end() && (xmlalnum(*mState.current)) || *mState.current == '-' || *mState.current == '_')
+		++mState.current;
 
-	return cainteoir::buffer(startPos, mCurrent);
+	return cainteoir::buffer(startPos, mState.current);
 }
 
-void cainteoir::xml::reader::read_node_value(char terminator)
+void cainteoir::xml::reader::read_node_value(char terminator1, char terminator2)
 {
 	mNodeValue.clear();
 	do
 	{
-		const char *startPos = mCurrent;
-		if (*mCurrent == '&') // XML§4.1 ; HTML§12.1.4 -- character and entity references
+		const char *startPos = mState.current;
+		if (*mState.current == '&') // XML§4.1 ; HTML§12.1.4 -- character and entity references
 		{
-			++mCurrent;
-			if (*mCurrent == '#')
-				++mCurrent;
+			++mState.current;
+			if (*mState.current == '#')
+				++mState.current;
 
-			while (mCurrent != mData->end() && xmlalnum(*mCurrent))
-				++mCurrent;
+			while (mState.current != mData->end() && xmlalnum(*mState.current))
+				++mState.current;
 
-			if (*mCurrent == ';')
+			if (*mState.current == ';')
 			{
-				std::tr1::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mCurrent), mPredefinedEntities);
+				std::shared_ptr<cainteoir::buffer> entity = parse_entity(cainteoir::buffer(startPos+1, mState.current), mPredefinedEntities, mDoctypeEntities);
 				if (entity)
 					mNodeValue += entity;
-				++mCurrent;
+				++mState.current;
 				continue;
 			}
 		}
 
-		while (mCurrent != mData->end() && !(*mCurrent == '&' || *mCurrent == terminator))
-			++mCurrent;
-		mNodeValue += std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer(startPos, mCurrent));
-	} while (mCurrent != mData->end() && *mCurrent != terminator);
+		while (mState.current != mData->end() && !(*mState.current == '&' || *mState.current == terminator1 || *mState.current == terminator2))
+			++mState.current;
+		mNodeValue += std::make_shared<cainteoir::buffer>(startPos, mState.current);
+	} while (mState.current != mData->end() && !(*mState.current == terminator1 || *mState.current == terminator2));
 }
 
 void cainteoir::xml::reader::read_tag(node_type aType)
 {
 	skip_whitespace();
 
-	mNodeName = identifier();
+	mState.nodeName = identifier();
 	if (check_next(':'))
 	{
-		mNodePrefix = mNodeName;
-		mNodeName   = identifier();
+		mState.nodePrefix = mState.nodeName;
+		mState.nodeName   = identifier();
 	}
 
 	mNodeType = aType;
 	if (aType != attribute)
 	{
-		mTagNodeName = mNodeName;
-		mTagNodePrefix = mNodePrefix;
+		mTagNodeName = mState.nodeName;
+		mTagNodePrefix = mState.nodePrefix;
 	}
 }
 

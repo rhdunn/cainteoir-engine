@@ -42,7 +42,7 @@ public:
 
 	rdf::formatter &operator<<(const rdf::uri &uri)
 	{
-		if (uri.ns == std::string())
+		if (uri.ns == "_:")
 			os << "_:" << uri.ref;
 		else
 		{
@@ -81,24 +81,20 @@ public:
 		return *this;
 	}
 
-	rdf::formatter &operator<<(const std::tr1::shared_ptr<const rdf::triple> &statement)
+	rdf::formatter &operator<<(const std::shared_ptr<const rdf::triple> &statement)
 	{
-		{
-			const rdf::uri *uri = rdf::query::subject(statement);
-			if (uri)
-				*this << *uri;
-		}
+		*this << rdf::query::subject(statement);
 
 		os << ' ';
 		*this << statement->predicate;
 		os << ' ';
 
 		{
-			const rdf::literal *literal = rdf::query::object(statement);
+			const rdf::literal *literal = dynamic_cast<const rdf::literal *>(statement->object.get());
 			if (literal)
 				*this << *literal;
 
-			const rdf::uri *uri = rdf::query::object(statement);
+			const rdf::uri *uri = dynamic_cast<const rdf::uri *>(statement->object.get());
 			if (uri)
 				*this << *uri;
 		}
@@ -131,7 +127,7 @@ private:
 	std::map<std::string, std::string> namespaces;
 };
 
-std::tr1::shared_ptr<rdf::formatter> rdf::create_formatter(std::ostream &aStream, rdf::formatter::format_type aFormatType)
+std::shared_ptr<rdf::formatter> rdf::create_formatter(std::ostream &aStream, rdf::formatter::format_type aFormatType)
 {
-	return std::tr1::shared_ptr<rdf::formatter>(new ::n3_formatter(aStream, aFormatType));
+	return std::make_shared<n3_formatter>(aStream, aFormatType);
 }

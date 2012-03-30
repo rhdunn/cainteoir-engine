@@ -330,10 +330,14 @@ void parseTitleNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::do
 			return;
 		break;
 	case xml::reader::textNode:
+	case xml::reader::cdataNode:
 		{
 			std::string title = reader.nodeValue().normalize()->str();
 			if (!title.empty())
+			{
 				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
+				events.toc_entry(0, aSubject, title);
+			}
 		}
 		break;
 	}
@@ -367,14 +371,14 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		{
 			events.begin_context(cainteoir::events::list_item);
 			if (list_ctx->parameter == cainteoir::events::bullet)
-				events.text(std::tr1::shared_ptr<cainteoir::buffer>(new cainteoir::buffer("\xE2\x80\xA2 ")));
+				events.text(std::make_shared<cainteoir::buffer>("\xE2\x80\xA2 "));
 			else
 			{
 				char text[100];
 				int len = snprintf(text, sizeof(text), "%d. ", number);
 				text[len] = '\0';
 
-				std::tr1::shared_ptr<cainteoir::buffer> data(new cainteoir::data_buffer(len));
+				std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(len);
 				strcpy((char *)data->begin(), text);
 				events.text(data);
 
@@ -383,15 +387,10 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		}
 		break;
 	case xml::reader::textNode:
+	case xml::reader::cdataNode:
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
-
-			const char * str = text->begin();
-			const char * end = text->end();
-			while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
-				++str;
-
-			if (str != end)
+			std::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
+			if (text)
 				events.text(text);
 		}
 		break;
@@ -409,11 +408,20 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 
 void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *body_ctx)
 {
+	rdf::uri href(aSubject.str(), std::string());
+	cainteoir::rope htext;
+	int hid = 0;
+	bool genAnchor = false;
+
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
 		if (reader.context() == &xml::id_attr)
-			events.anchor(rdf::uri(aSubject.str(), reader.nodeValue().str()), std::string());
+		{
+			href = rdf::uri(aSubject.str(), reader.nodeValue().str());
+			events.anchor(href, std::string());
+			genAnchor = false;
+		}
 		break;
 	case xml::reader::beginTagNode:
 		if (reader.context() == &html::script_node || reader.context() == &html::style_node)
@@ -423,26 +431,61 @@ void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 			events.begin_context((cainteoir::events::context)reader.context()->context, reader.context()->parameter);
 			if (reader.context()->context == cainteoir::events::list)
 				parseListNode(reader, aSubject, events, reader.context());
+
+			if (reader.context()->context == cainteoir::events::heading)
+			{
+				htext.clear();
+				genAnchor = true;
+			}
 		}
 		break;
 	case xml::reader::textNode:
+	case xml::reader::cdataNode:
+		if (genAnchor)
 		{
-			std::tr1::shared_ptr<cainteoir::buffer> text = reader.nodeValue().buffer();
+			std::stringstream ref;
+			ref << "genid.h" << hid;
 
-			const char * str = text->begin();
-			const char * end = text->end();
-			while (str != end && (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\n'))
-				++str;
+			++hid;
+			href = rdf::uri(aSubject.str(), ref.str());
+			events.anchor(href, std::string());
 
-			if (str != end)
+			genAnchor = false;
+		}
+
+		{
+			std::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
+			if (text)
+			{
 				events.text(text);
+				htext += text;
+			}
 		}
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == body_ctx)
 			return;
 		if (reader.context()->context != cainteoir::events::unknown)
+		{
 			events.end_context();
+			if (reader.context()->context == cainteoir::events::heading && !htext.empty())
+			{
+				std::shared_ptr<cainteoir::buffer> text = htext.normalize();
+				for (char *c = (char *)text->begin(), *last = (char *)text->end(); c != last; ++c)
+				{
+					switch (*c)
+					{
+					case '\n':
+						*c = ' ';
+						break;
+					default:
+						break;
+					}
+				}
+				events.toc_entry(0, href, text->str());
+				href.ref = std::string();
+			}
+		}
 		break;
 	}
 }
@@ -471,20 +514,24 @@ void parseHtmlNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
-void cainteoir::parseXHtmlDocument(std::tr1::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void cainteoir::parseXHtmlDocument(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
-	xml::reader reader(data, xml::html_entities);
+	reader.set_predefined_entities(xml::html_entities);
 	reader.set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
 	reader.set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
 	reader.set_nodes(xmlns::xhtml,  html_nodes);
 	reader.set_attrs(xmlns::xhtml,  html_attrs);
 	reader.set_attrs(xmlns::xml,    xml::attrs);
 
-	if (reader.isPlainText())
-	{
-		events.text(data);
-		return;
-	}
+	parseHtmlNode(reader, aSubject, events, aGraph);
+}
+
+void cainteoir::parseHtmlDocument(std::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+{
+	xml::reader reader(data, xml::html_entities);
+	reader.set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
+	reader.set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
+	reader.set_attrs(xmlns::xml,    xml::attrs);
 
 	while (reader.read()) switch (reader.nodeType())
 	{

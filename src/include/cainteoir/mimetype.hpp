@@ -41,7 +41,7 @@ namespace cainteoir { namespace mime
 		{
 		}
 
-		bool match(const std::tr1::shared_ptr<cainteoir::buffer> &buffer) const;
+		bool match(const std::shared_ptr<cainteoir::buffer> &buffer) const;
 
 		bool match(const std::string &uri, const std::string &name) const;
 

@@ -95,7 +95,7 @@ public:
 		fwrite(&m_header, 1, sizeof(m_header), m_file);
 
 		fclose(m_file);
-		m_file = NULL;
+		m_file = nullptr;
 	}
 
 	uint32_t write(const char *data, uint32_t len)
@@ -107,10 +107,10 @@ public:
 	}
 };
 
-std::tr1::shared_ptr<cainteoir::audio>
+std::shared_ptr<cainteoir::audio>
 create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
-	return std::tr1::shared_ptr<cainteoir::audio>(new wav_audio(file, format, channels, frequency));
+	return std::make_shared<wav_audio>(file, format, channels, frequency);
 }
 

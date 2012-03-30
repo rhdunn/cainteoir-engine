@@ -1,5 +1,28 @@
 
 -------------------------------------------------------------------------------
+VERSION 0.7 - Friday March 30th 2012 [Mar 2012]
+
+  *  use BCP 47 for interpreting and comparing language tags
+  *  translate the language and region names using the iso-codes package
+  *  support for espeak using installed mbrola voices
+
+document formats:
+  *  (x)html: report h1..h6 sections as table of content items
+  *  email:   improve email content detection and support newsgroup information
+  *  rdf/xml: support property attributes on an empty property element
+  *  xml:     support entities in DTD blocks
+
+bug fixes:
+  *  fix detection of html that is valid xml, but is not xhtml
+  *  improve detection of control characters when identifying binary data
+
+cleanup/refactoring:
+  *  simplified and cleaned up the RDF model and query APIs
+  *  use std::shared_ptr consistently over std::tr1::shared_ptr
+  *  use std::make_shared instead of allocating the object explicitly
+  *  remove the libxml2 dependency and make all xml-based parsers use xmlreader
+
+-------------------------------------------------------------------------------
 VERSION 0.6 -- Sunday January 29th 2012 [Jan 2012]
 
   *  languages.rdf -- represent ISO-639-2/B, ISO-639-2/T, ISO-639-3, ISO-639-5,

@@ -55,7 +55,7 @@ namespace cainteoir { namespace tts
 
 		virtual void speak(buffer *text, size_t offset, engine_callback *callback) = 0;
 
-		virtual std::tr1::shared_ptr<cainteoir::tts::parameter> parameter(cainteoir::tts::parameter::type aType) = 0;
+		virtual std::shared_ptr<cainteoir::tts::parameter> parameter(cainteoir::tts::parameter::type aType) = 0;
 	};
 
 	engine *create_espeak_engine(rdf::graph &aMetadata, std::string &uri);

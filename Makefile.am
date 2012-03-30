@@ -89,8 +89,11 @@ EXTRA_DIST += \
 	data/languages.rdf \
 	src/schema/*.rdf
 
+data/languages.rdf.gz: data/languages.rdf
+	gzip -c $< > $@
+
 pkgdata_DATA += \
-	data/languages.rdf \
+	data/languages.rdf.gz \
 	src/schema/text-to-speech.rdf
 
 ############################# mimetypes #######################################
@@ -132,7 +135,6 @@ lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
 src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION) \
 	${PULSE_LIBS} \
 	${VORBIS_LIBS} \
-	${LIBXML2_LIBS} \
 	${ZLIB_LIBS} \
 	${ESPEAK_LIBS} \
 	${LTLIBINTL}
@@ -160,12 +162,10 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/rdf/metadata.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/parsers/parsers.hpp \
-	src/libcainteoir/parsers/xml.hpp \
 	src/libcainteoir/parsers/zip.hpp \
 	src/libcainteoir/parsers/zip.cpp \
 	src/libcainteoir/parsers/xmlreader.cpp \
 	src/libcainteoir/parsers/html-entities.h \
-	src/libcainteoir/parsers/xml.cpp \
 	src/libcainteoir/parsers/xhtml.cpp \
 	src/libcainteoir/parsers/ncx.cpp \
 	src/libcainteoir/parsers/ocf.cpp \
@@ -242,6 +242,11 @@ noinst_bin_PROGRAMS += tests/xmlreader
 tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
 tests_xmlreader_SOURCES = tests/xmlreader.cpp
 
+noinst_bin_PROGRAMS += tests/languages
+
+tests_languages_LDADD   = src/libcainteoir/libcainteoir.la
+tests_languages_SOURCES = tests/languages.cpp
+
 TEST_FILES = \
 	tests/epub/* \
 	tests/ncx/* \
@@ -264,6 +269,7 @@ check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/tur
 	tests/ntriple_formatter
 	tests/turtle_formatter
 	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ tests/rdfquery
+	tests/languages
 	python tests/xmlreader.py
 	python tests/metadata.py
 	python tests/vorbis-comments.py

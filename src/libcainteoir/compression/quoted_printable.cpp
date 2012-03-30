@@ -69,7 +69,7 @@ struct quoted_printable : public cainteoir::data_buffer
 	}
 };
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::decode_quoted_printable(const cainteoir::buffer &data, uint32_t size)
+std::shared_ptr<cainteoir::buffer> cainteoir::decode_quoted_printable(const cainteoir::buffer &data, uint32_t size)
 {
-	return std::tr1::shared_ptr<cainteoir::buffer>(new quoted_printable(data));
+	return std::make_shared<quoted_printable>(data);
 }

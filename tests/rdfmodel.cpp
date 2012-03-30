@@ -35,23 +35,16 @@ void test_uri(const xml::resource &node, const std::string &value, const std::st
 	const rdf::uri *uri = dynamic_cast<const rdf::uri *>(&node);
 	if (assert(uri))
 	{
-		equal(uri->str(), value);
-		equal(uri->ns,    ns);
-		equal(uri->ref,   ref);
+		assert(uri->str() == value);
+		assert(uri->ns    == ns);
+		assert(uri->ref   == ref);
 	}
-}
-
-void test_bnode(const xml::resource &node, const std::string &id)
-{
-	test_uri(node, id, std::string(), id);
 }
 
 TEST_CASE("rdf::bnode")
 {
-	rdf::graph g;
-
-	test_bnode(g.bnode("a"), "a");
-	test_bnode(g.bnode("temp"), "temp");
+	test_uri(rdf::bnode("a"),    "_:a",    "_:", "a");
+	test_uri(rdf::bnode("temp"), "_:temp", "_:", "temp");
 }
 
 TEST_CASE("rdf::uri")
@@ -120,12 +113,7 @@ TEST_CASE("rdf::href")
 	test_uri(g.href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
 }
 
-void test_bnode(const std::tr1::shared_ptr<const xml::resource> &node, const std::string &id)
-{
-	test_bnode(*node, id);
-}
-
-void test_uri(const std::tr1::shared_ptr<const xml::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
+void test_uri(const std::shared_ptr<const xml::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	test_uri(*node, value, ns, ref);
 }
@@ -183,24 +171,24 @@ TEST_CASE("rdf::graph -- curie: bnodes")
 	rdf::graph test;
 
 	test.set_base("http://www.example.org/base");
-	test_bnode(test.curie("_:test"), "test");
-	test_bnode(test.curie("_:joe"), "joe");
-	test_bnode(test.curie("_:sue"), "sue");
+	test_uri(test.curie("_:test"), "_:test", "_:", "test");
+	test_uri(test.curie("_:joe"),  "_:joe",  "_:", "joe");
+	test_uri(test.curie("_:sue"),  "_:sue",  "_:", "sue");
 
 	test.set_base("http://www.example.org/base/");
-	test_bnode(test.curie("_:test"), "test");
-	test_bnode(test.curie("_:joe"), "joe");
-	test_bnode(test.curie("_:sue"), "sue");
+	test_uri(test.curie("_:test"), "_:test", "_:", "test");
+	test_uri(test.curie("_:joe"),  "_:joe",  "_:", "joe");
+	test_uri(test.curie("_:sue"),  "_:sue",  "_:", "sue");
 
 	test.set_base("http://www.example.org/base#");
-	test_bnode(test.curie("_:test"), "test");
-	test_bnode(test.curie("_:joe"), "joe");
-	test_bnode(test.curie("_:sue"), "sue");
+	test_uri(test.curie("_:test"), "_:test", "_:", "test");
+	test_uri(test.curie("_:joe"),  "_:joe",  "_:", "joe");
+	test_uri(test.curie("_:sue"),  "_:sue",  "_:", "sue");
 
 	test.set_base("http://www.example.org/base/#");
-	test_bnode(test.curie("_:test"), "test");
-	test_bnode(test.curie("_:joe"), "joe");
-	test_bnode(test.curie("_:sue"), "sue");
+	test_uri(test.curie("_:test"), "_:test", "_:", "test");
+	test_uri(test.curie("_:joe"),  "_:joe",  "_:", "joe");
+	test_uri(test.curie("_:sue"),  "_:sue",  "_:", "sue");
 }
 
 TEST_CASE("rdf::graph -- curie: add_namespaces(prefix, href)")
@@ -291,10 +279,10 @@ void test_literal(const xml::resource &node, const std::string value, const std:
 	const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&node);
 	if (assert(literal))
 	{
-		equal(literal->value,      value);
-		equal(literal->language,   language);
-		equal(literal->type.ns,    uri.ns);
-		equal(literal->type.ref,   uri.ref);
+		assert(literal->value    == value);
+		assert(literal->language == language);
+		assert(literal->type.ns  == uri.ns);
+		assert(literal->type.ref == uri.ref);
 	}
 }
 
@@ -332,177 +320,36 @@ void test_item(const xml::resource &a, const rdf::literal &b)
 }
 
 template<typename Subject, typename Object>
-void test_statement(const std::tr1::shared_ptr<const rdf::triple> &s, const Subject &subject, const rdf::uri &predicate, const Object &object)
+void test_statement(const std::shared_ptr<const rdf::triple> &s, const Subject &subject, const rdf::uri &predicate, const Object &object)
 {
-	test_item(*s->subject, subject);
+	test_item(s->subject,   subject);
 	test_item(s->predicate, predicate);
-	test_item(*s->object, object);
-}
-
-TEST_CASE("rdf::resource -- empty")
-{
-	rdf::graph g;
-
-	rdf::resource a(NULL);
-	assert(!a);
-
-	assert(a.as<xml::resource>() == NULL);
-	assert(a.as<rdf::uri>() == NULL);
-	assert(a.as<rdf::literal>() == NULL);
-
-	assert((const xml::resource *)a == NULL);
-	assert((const rdf::uri *)a == NULL);
-	assert((const rdf::literal *)a == NULL);
-
-	assert(!(a == rdf::uri(std::string(), std::string())));
-	assert(!(a == g.bnode(std::string())));
-	assert(!(a == rdf::literal(std::string())));
-
-	assert(a == a);
-	assert(a == rdf::resource(NULL));
-}
-
-TEST_CASE("rdf::resource -- uri")
-{
-	rdf::graph g;
-
-	rdf::uri value = rdf::rdf("Class");
-
-	rdf::resource a(&value);
-	assert(!!a);
-
-	assert(a.as<xml::resource>() == (const xml::resource *)&value);
-	assert(a.as<rdf::uri>() == &value);
-	assert(a.as<rdf::literal>() == NULL);
-
-	assert((const xml::resource *)a == (const xml::resource *)&value);
-	assert((const rdf::uri *)a == &value);
-	assert((const rdf::literal *)a == NULL);
-
-	assert(!(a == rdf::uri(std::string(), std::string())));
-	assert(!(a == rdf::rdf("Property")));
-	assert(a == value);
-	assert(a == rdf::rdf("Class"));
-
-	assert(!(a == g.bnode(std::string())));
-	assert(!(a == rdf::literal(std::string())));
-
-	rdf::uri same  = rdf::rdf("Class");
-	rdf::uri other = rdf::rdf("Property");
-	rdf::literal literal = rdf::literal("Class");
-
-	assert(!(a == rdf::resource(NULL)));
-	assert(!(a == rdf::resource(&other)));
-	assert(!(a == rdf::resource(&literal)));
-
-	assert(a == a);
-	assert(a == rdf::resource(&value));
-	assert(a == rdf::resource(&same));
-}
-
-TEST_CASE("rdf::resource -- bnode")
-{
-	rdf::graph g;
-
-	rdf::uri value = g.bnode("test");
-
-	rdf::resource a(&value);
-	assert(!!a);
-
-	assert(a.as<xml::resource>() == (const xml::resource *)&value);
-	assert(a.as<rdf::uri>() == &value);
-	assert(a.as<rdf::literal>() == NULL);
-
-	assert((const xml::resource *)a == (const xml::resource *)&value);
-	assert((const rdf::uri *)a == &value);
-	assert((const rdf::literal *)a == NULL);
-
-	assert(!(a == g.bnode(std::string())));
-	assert(a == value);
-	assert(a == g.bnode("test"));
-
-	assert(!(a == rdf::uri(std::string(), std::string())));
-	assert(!(a == rdf::literal(std::string())));
-
-	rdf::uri same  = g.bnode("test");
-	rdf::uri other = g.bnode("other");
-	rdf::uri uri = rdf::rdf("Class");
-	rdf::literal literal = rdf::literal("Class");
-
-	assert(!(a == rdf::resource(NULL)));
-	assert(!(a == rdf::resource(&other)));
-	assert(!(a == rdf::resource(&uri)));
-	assert(!(a == rdf::resource(&literal)));
-
-	assert(a == a);
-	assert(a == rdf::resource(&value));
-	assert(a == rdf::resource(&same));
-}
-
-TEST_CASE("rdf::resource -- literal")
-{
-	rdf::graph g;
-
-	rdf::literal value("test");
-
-	rdf::resource a(&value);
-	assert(!!a);
-
-	assert(a.as<xml::resource>() == (const xml::resource *)&value);
-	assert(a.as<rdf::uri>() == NULL);
-	assert(a.as<rdf::literal>() == &value);
-
-	assert((const xml::resource *)a == (const xml::resource *)&value);
-	assert((const rdf::uri *)a == NULL);
-	assert((const rdf::literal *)a == &value);
-
-	assert(!(a == rdf::uri(std::string(), std::string())));
-	assert(!(a == g.bnode(std::string())));
-
-	assert(!(a == rdf::literal(std::string())));
-	assert(!(a == rdf::literal("test", "en")));
-	assert(!(a == rdf::literal("test", rdf::xsd("string"))));
-	assert(a == value);
-	assert(a == rdf::literal("test"));
-
-	rdf::literal same = rdf::literal("test");
-	rdf::literal other = rdf::literal("other");
-	rdf::uri uri = rdf::rdf("Property");
-	rdf::uri bnode = g.bnode("test");
-
-	assert(!(a == rdf::resource(NULL)));
-	assert(!(a == rdf::resource(&other)));
-	assert(!(a == rdf::resource(&uri)));
-	assert(!(a == rdf::resource(&bnode)));
-
-	assert(a == a);
-	assert(a == rdf::resource(&value));
-	assert(a == rdf::resource(&same));
+	test_item(*s->object,   object);
 }
 
 TEST_CASE("rdf::graph -- statement")
 {
 	rdf::graph model;
 	assert(model.empty());
-	equal(model.size(), 0);
+	assert(model.size()  == 0);
 	assert(model.begin() == model.end());
 
 	assert(model.statement(rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property")));
 	assert(!model.empty());
-	equal(model.size(), 1);
+	assert(model.size()  == 1);
 	assert(model.begin() != model.end());
 
 	test_statement(model.front(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
 	test_statement(model.back(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
 
-	assert(!model.statement(rdf::rdf("value"), model.bnode("test"), rdf::rdfs("Property")));
+	assert(!model.statement(rdf::rdf("value"), rdf::bnode("test"), rdf::rdfs("Property")));
 	assert(!model.empty());
-	equal(model.size(), 1);
+	assert(model.size()  == 1);
 	assert(model.begin() != model.end());
 
 	assert(model.statement(rdf::rdf("value"), rdf::rdf("value"), rdf::literal("value", "en-GB")));
 	assert(!model.empty());
-	equal(model.size(), 2);
+	assert(model.size()  == 2);
 	assert(model.begin() != model.end());
 
 	test_statement(model.front(), rdf::rdf("value"), rdf::rdf("type"), rdf::rdfs("Property"));
@@ -552,7 +399,7 @@ TEST_CASE("rdf::graph -- RDF namespaces")
 
 	{
 		rdf::graph model;
-		assert(model.statement(rdf::rdfs("Property"), rdf::dc("creator"), model.bnode("a")));
+		assert(model.statement(rdf::rdfs("Property"), rdf::dc("creator"), rdf::bnode("a")));
 		assert(model.contains(rdf::dc));
 		assert(!model.contains(rdf::rdf));
 		assert(model.contains(rdf::rdfs));
@@ -562,7 +409,7 @@ TEST_CASE("rdf::graph -- RDF namespaces")
 
 	{
 		rdf::graph model;
-		assert(model.statement(model.bnode("a"), rdf::rdf("value"), rdf::literal("test")));
+		assert(model.statement(rdf::bnode("a"), rdf::rdf("value"), rdf::literal("test")));
 		assert(!model.contains(rdf::dc));
 		assert(model.contains(rdf::rdf));
 		assert(!model.contains(rdf::rdfs));
@@ -572,7 +419,7 @@ TEST_CASE("rdf::graph -- RDF namespaces")
 
 	{
 		rdf::graph model;
-		assert(model.statement(model.bnode("a"), rdf::rdf("value"), rdf::literal("test", rdf::xsd("string"))));
+		assert(model.statement(rdf::bnode("a"), rdf::rdf("value"), rdf::literal("test", rdf::xsd("string"))));
 		assert(!model.contains(rdf::dc));
 		assert(model.contains(rdf::rdf));
 		assert(!model.contains(rdf::rdfs));
@@ -582,7 +429,7 @@ TEST_CASE("rdf::graph -- RDF namespaces")
 
 	{
 		rdf::graph model;
-		assert(model.statement(model.bnode("a"), rdf::rdf("type"), rdf::rdfs("Class")));
+		assert(model.statement(rdf::bnode("a"), rdf::rdf("type"), rdf::rdfs("Class")));
 		assert(!model.contains(rdf::dc));
 		assert(model.contains(rdf::rdf));
 		assert(model.contains(rdf::rdfs));
@@ -592,7 +439,7 @@ TEST_CASE("rdf::graph -- RDF namespaces")
 
 	{
 		rdf::graph model;
-		assert(model.statement(model.bnode("a"), rdf::dc("creator"), model.bnode("John")));
+		assert(model.statement(rdf::bnode("a"), rdf::dc("creator"), rdf::bnode("John")));
 		assert(model.contains(rdf::dc));
 		assert(!model.contains(rdf::rdf));
 		assert(!model.contains(rdf::rdfs));
@@ -606,13 +453,13 @@ TEST_CASE("rdf::graph -- genid()")
 	rdf::graph model1;
 	rdf::graph model2;
 
-	test_bnode(model1.genid(), "genid1");
-	test_bnode(model1.genid(), "genid2");
-	test_bnode(model1.genid(), "genid3");
-	test_bnode(model2.genid(), "genid1");
-	test_bnode(model2.genid(), "genid2");
-	test_bnode(model1.genid(), "genid4");
-	test_bnode(model1.genid(), "genid5");
-	test_bnode(model2.genid(), "genid3");
-	test_bnode(model2.genid(), "genid4");
+	test_uri(model1.genid(), "_:genid1", "_:", "genid1");
+	test_uri(model1.genid(), "_:genid2", "_:", "genid2");
+	test_uri(model1.genid(), "_:genid3", "_:", "genid3");
+	test_uri(model2.genid(), "_:genid1", "_:", "genid1");
+	test_uri(model2.genid(), "_:genid2", "_:", "genid2");
+	test_uri(model1.genid(), "_:genid4", "_:", "genid4");
+	test_uri(model1.genid(), "_:genid5", "_:", "genid5");
+	test_uri(model2.genid(), "_:genid3", "_:", "genid3");
+	test_uri(model2.genid(), "_:genid4", "_:", "genid4");
 }

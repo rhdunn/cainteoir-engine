@@ -29,6 +29,9 @@ def replace_strings(string, replacements):
 		string = string.replace('@%s@' % key, value)
 	return string
 
+def write(s):
+	sys.stdout.write(s)
+
 class TestSuite:
 	def __init__(self, name, args):
 		self.passed = 0
@@ -61,28 +64,28 @@ class TestSuite:
 
 		if ret:
 			self.passed = self.passed + 1
-			print 'passed [%s]' % test_expect
+			write('passed [%s]\n' % test_expect)
 		else:
 			self.failed = self.failed + 1
-			print 'failed [%s]' % test_expect
+			write('failed [%s]\n' % test_expect)
 
 		if not ret or test_expect == 'expect-fail':
-			print '    %s' % ('>'*75)
+			write('    %s\n' % ('>'*75))
 			for line in difflib.unified_diff(expected, got, fromfile='expected', tofile='got'):
-				print '    | %s' % line.replace('\n', '')
-			print '    %s' % ('<'*75)
+				write('    | %s\n' % line.replace('\n', ''))
+			write('    %s\n' % ('<'*75))
 
 	def check_metadata(self, filename, expect, formattype, displayas=None, test_expect='expect-pass', replacements={}):
-		sys.stdout.write('... checking %s as %s metadata ... ' % ((displayas or filename), formattype))
+		write('... checking %s as %s metadata ... ' % ((displayas or filename), formattype))
 		self.check_command(filename=filename, expect=expect, test_expect=test_expect,
 			command='%s --%s' % (os.path.join(sys.path[0], '../src/apps/metadata/metadata'), formattype), replacements=replacements)
 
 	def check_events(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
-		sys.stdout.write('... checking %s as text/speech events ... ' % (displayas or filename))
+		write('... checking %s as text/speech events ... ' % (displayas or filename))
 		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'events'), test_expect=test_expect, replacements=replacements)
 
 	def check_xmlreader(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
-		sys.stdout.write('... checking %s as xmlreader tags ... ' % (displayas or filename))
+		write('... checking %s as xmlreader tags ... ' % (displayas or filename))
 		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'), test_expect=test_expect, replacements=replacements)
 
 	def run(self, data):
@@ -90,7 +93,7 @@ class TestSuite:
 			return
 
 		for group in data['groups']:
-			print 'testing %s :: %s ...' % (data['name'], group['name'])
+			write('testing %s :: %s ...\n' % (data['name'], group['name']))
 			if group['type'] in ['ntriple', 'turtle', 'vorbis']:
 				check = lambda got, exp, expect, displayas, replacements: self.check_metadata(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'events':
@@ -141,11 +144,10 @@ class TestSuite:
 					check(got, exp, expect='expect-%s' % expect, displayas=got, replacements=replacements)
 
 	def summary(self):
-		print
-		print '========== summary of the %s test results ==========' % self.name
-		print '  %s passed' % str(self.passed).rjust(4)
-		print '  %s failed' % str(self.failed).rjust(4)
-		print '  %s total'  % str(self.passed + self.failed).rjust(4)
-		print
+		write('========== summary of the %s test results ==========\n' % self.name)
+		write('  %s passed\n' % str(self.passed).rjust(4))
+		write('  %s failed\n' % str(self.failed).rjust(4))
+		write('  %s total\n'  % str(self.passed + self.failed).rjust(4))
+		write('\n')
 		if self.failed != 0:
 			raise Exception('Some of the tests failed.')

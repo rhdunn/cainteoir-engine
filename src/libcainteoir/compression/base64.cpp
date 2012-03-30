@@ -43,7 +43,7 @@ struct base64 : public cainteoir::data_buffer
 		while (next < last)
 		{
 			char *idx = strchr(base64_chars, *next);
-			if (idx != NULL)
+			if (idx != nullptr)
 			{
 				in[i++] = (intptr_t)idx - (intptr_t)base64_chars;
 				if (i == 4)
@@ -78,7 +78,7 @@ struct base64 : public cainteoir::data_buffer
 	}
 };
 
-std::tr1::shared_ptr<cainteoir::buffer> cainteoir::decode_base64(const cainteoir::buffer &data, uint32_t size)
+std::shared_ptr<cainteoir::buffer> cainteoir::decode_base64(const cainteoir::buffer &data, uint32_t size)
 {
-	return std::tr1::shared_ptr<cainteoir::buffer>(new base64(data));
+	return std::make_shared<base64>(data);
 }

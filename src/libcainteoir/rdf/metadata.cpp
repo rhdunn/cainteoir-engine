@@ -1,6 +1,6 @@
 /* RDF metadata.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -21,6 +21,8 @@
 #include <cainteoir/metadata.hpp>
 
 namespace rdf = cainteoir::rdf;
+
+const rdf::ns rdf::bnode("_", "_:");
 
 const rdf::ns rdf::rdf( "rdf",  "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 const rdf::ns rdf::rdfa("rdfa", "http://www.w3.org/ns/rdfa#");
@@ -50,23 +52,31 @@ const rdf::ns rdf::skos("skos", "http://www.w3.org/2004/02/skos/core#");
 const rdf::ns rdf::foaf("foaf", "http://xmlns.com/foaf/0.1/");
 const rdf::ns rdf::tts( "tts",  "http://rhdunn.github.com/2010/12/text-to-speech#");
 
-bool rdf::resource::operator==(const resource &rhs) const
+rdf::uri::uri(const std::string &aNS, const std::string &aRef)
+	: ns(aNS)
+	, ref(aRef)
 {
-	{
-		const rdf::uri *a = dynamic_cast<const rdf::uri *>(value);
-		const rdf::uri *b = dynamic_cast<const rdf::uri *>(rhs.value);
-		if (a && b)
-			return a == b || *a == *b;
-	}
+	auto last = --ns.end();
+	if (!ns.empty() && !ref.empty() && *last != '#' && *last != '/' && *last != ':')
+		ns.push_back('#');
+}
 
-	{
-		const rdf::literal *a = dynamic_cast<const rdf::literal *>(value);
-		const rdf::literal *b = dynamic_cast<const rdf::literal *>(rhs.value);
-		if (a && b)
-			return a == b || *a == *b;
-	}
+bool rdf::uri::empty() const
+{
+	return ns.empty() && ref.empty();
+}
 
-	return value == rhs.value;
+std::string rdf::uri::str() const
+{
+	if (ref.empty())
+		return ns;
+
+	return ns + ref;
+}
+
+std::shared_ptr<const cainteoir::xml::resource> rdf::uri::clone() const
+{
+	return std::make_shared<uri>(*this);
 }
 
 const rdf::uri rdf::graph::href(const std::string &aHref)
@@ -114,7 +124,7 @@ rdf::graph &rdf::graph::add_prefix(const std::string &aPrefix)
 	return *this;
 }
 
-std::tr1::shared_ptr<const rdf::uri>
+std::shared_ptr<const rdf::uri>
 rdf::graph::curie(const std::string &aCurie)
 {
 	std::string uri;
@@ -126,22 +136,22 @@ rdf::graph::curie(const std::string &aCurie)
 		std::string ref = aCurie.substr(index+1);
 
 		if (prefix == "_")
-			return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(std::string(), ref));
+			return std::make_shared<rdf::uri>("_:", ref);
 
 		std::string ns = lookup(prefix);
 		if (ns.empty())
-			return std::tr1::shared_ptr<const rdf::uri>();
+			return std::shared_ptr<const rdf::uri>();
 
 		uri = ns + ref;
 	}
 	else
 		uri = mBaseUri + aCurie;
-	return std::tr1::shared_ptr<const rdf::uri>(new rdf::uri(href(uri)));
+	return std::make_shared<rdf::uri>(href(uri));
 }
 
-const cainteoir::xml::resource *rdf::literal::clone() const
+std::shared_ptr<const cainteoir::xml::resource> rdf::literal::clone() const
 {
-	return new literal(*this);
+	return std::make_shared<literal>(*this);
 }
 
 rdf::graph::graph() : nextid(1)
@@ -167,7 +177,7 @@ bool rdf::graph::contains(const ns &uri) const
 
 bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject)
 {
-	if (aPredicate.ns.empty())
+	if (aPredicate.ns == rdf::bnode.href)
 		return false;
 
 	if (!aSubject.ns.empty())
@@ -178,15 +188,13 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.ns.empty())
 		namespaces.insert(aObject.ns);
 
-	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
-	                                                        aPredicate,
-	                                                        std::tr1::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
+	push_back(std::make_shared<triple>(aSubject, aPredicate, aObject.clone()));
 	return true;
 }
 
 bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::literal &aObject)
 {
-	if (aPredicate.ns.empty())
+	if (aPredicate.ns == rdf::bnode.href)
 		return false;
 
 	if (!aSubject.ns.empty())
@@ -197,8 +205,6 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.type.ns.empty())
 		namespaces.insert(aObject.type.ns);
 
-	push_back(std::tr1::shared_ptr<const triple>(new triple(std::tr1::shared_ptr<const cainteoir::xml::resource>(aSubject.clone()),
-	                                                        aPredicate,
-	                                                        std::tr1::shared_ptr<const cainteoir::xml::resource>(aObject.clone()))));
+	push_back(std::make_shared<triple>(aSubject, aPredicate, aObject.clone()));
 	return true;
 }

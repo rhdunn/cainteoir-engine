@@ -205,19 +205,16 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 
 	foreach_iter(voice, voices)
 	{
-		const rdf::uri *uri = rql::subject(*voice);
-		if (uri)
+		const rdf::uri &uri = rql::subject(*voice);
+		rql::results statements = rql::select(aMetadata, rql::matches(rql::subject, uri));
+		foreach_iter(statement, statements)
 		{
-			rql::results statements = rql::select(aMetadata, rql::matches(rql::subject, *uri));
-			foreach_iter(statement, statements)
-			{
-				if (rql::predicate(*statement) == predicate && rql::value(*statement) == value)
-					return uri;
-			}
+			if (rql::predicate(*statement) == predicate && rql::value(*statement) == value)
+				return &uri;
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 struct document : public cainteoir::document_events
@@ -234,7 +231,7 @@ struct document : public cainteoir::document_events
 	{
 	}
 
-	void metadata(const std::tr1::shared_ptr<const rdf::triple> &aStatement)
+	void metadata(const std::shared_ptr<const rdf::triple> &aStatement)
 	{
 		m_metadata.push_back(aStatement);
 
@@ -247,7 +244,7 @@ struct document : public cainteoir::document_events
 		return m_metadata.genid();
 	}
 
-	void text(std::tr1::shared_ptr<cainteoir::buffer> aText)
+	void text(std::shared_ptr<cainteoir::buffer> aText)
 	{
 		m_doc->add(aText);
 	}
@@ -293,7 +290,7 @@ struct document : public cainteoir::document_events
 
 	const rdf::uri subject;
 	rdf::graph m_metadata;
-	std::tr1::shared_ptr<cainteoir::document> m_doc;
+	std::shared_ptr<cainteoir::document> m_doc;
 	cainteoir::tts::engines tts;
 	bool voiceSelected;
 	actions action;
@@ -317,10 +314,10 @@ int main(int argc, char ** argv)
 	{
 		actions action = speak;
 
-		const char *voicename = NULL;
-		const char *language = NULL;
-		const char *outfile = NULL;
-		const char *outformat = NULL;
+		const char *voicename = nullptr;
+		const char *language = nullptr;
+		const char *outfile = nullptr;
+		const char *outformat = nullptr;
 
 		int speed = INT_MAX;
 		int pitch = INT_MAX;
@@ -440,7 +437,7 @@ int main(int argc, char ** argv)
 		if (argc == 1)
 			cainteoir::parseDocument(argv[0], doc, doc.m_metadata);
 		else
-			cainteoir::parseDocument(NULL, doc, doc.m_metadata);
+			cainteoir::parseDocument(nullptr, doc, doc.m_metadata);
 
 		if (action == show_contents)
 			return 0;
@@ -450,21 +447,21 @@ int main(int argc, char ** argv)
 
 		foreach_iter (query, rql::select(doc.m_metadata, rql::matches(rql::subject, doc.subject)))
 		{
-			if (rql::predicate(*query).as<rdf::uri>()->ns == rdf::dc || rql::predicate(*query).as<rdf::uri>()->ns == rdf::dcterms)
+			if (rql::predicate(*query).ns == rdf::dc || rql::predicate(*query).ns == rdf::dcterms)
 			{
-				rdf::resource object = rql::object(*query);
-				if (object.as<rdf::literal>())
+				const rdf::uri &object = rql::object(*query);
+				if (object.empty())
 				{
-					if (rql::predicate(*query).as<rdf::uri>()->ref == "title")
-						title = rql::value(object);
-					else if (rql::predicate(*query).as<rdf::uri>()->ref == "creator")
-						author = rql::value(object);
+					if (rql::predicate(*query).ref == "title")
+						title = rql::value(*query);
+					else if (rql::predicate(*query).ref == "creator")
+						author = rql::value(*query);
 				}
 				else
 				{
 					rql::results selection = rql::select(doc.m_metadata, rql::matches(rql::subject, object));
 
-					if (rql::predicate(*query).as<rdf::uri>()->ref == "creator")
+					if (rql::predicate(*query).ref == "creator")
 					{
 						std::string role;
 						std::string value;
@@ -481,7 +478,7 @@ int main(int argc, char ** argv)
 						if (!value.empty() && (role == "aut" || role.empty()))
 							author = value;
 					}
-					else if (rql::predicate(*query).as<rdf::uri>()->ref == "title")
+					else if (rql::predicate(*query).ref == "title")
 					{
 						for(auto data = selection.begin(), last = selection.end(); data != last; ++data)
 						{
@@ -493,7 +490,7 @@ int main(int argc, char ** argv)
 			}
 		}
 
-		std::tr1::shared_ptr<cainteoir::audio> out;
+		std::shared_ptr<cainteoir::audio> out;
 		const char *state;
 		bool show_progress = true;
 		if (outformat || outfile)
@@ -526,7 +523,7 @@ int main(int argc, char ** argv)
 		else
 		{
 			state = "reading";
-			out = cainteoir::open_audio_device(NULL, "pulse", 0.3, doc.m_metadata, doc.subject, doc.m_metadata, doc.tts.voice());
+			out = cainteoir::open_audio_device(nullptr, "pulse", 0.3, doc.m_metadata, doc.subject, doc.m_metadata, doc.tts.voice());
 
 			fprintf(stdout, _("Reading \"%s\"\n\n"), doc.subject.str().c_str());
 		}
@@ -538,7 +535,7 @@ int main(int argc, char ** argv)
 		}
 
 		cainteoir::document::range_type selection = doc.selection();
-		std::tr1::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out, selection.first, selection.second);
+		std::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out, selection.first, selection.second);
 		while (speech->is_speaking())
 		{
 			if (show_progress)

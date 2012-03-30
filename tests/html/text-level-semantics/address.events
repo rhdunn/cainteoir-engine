@@ -1,3 +1,4 @@
+toc-entry [] depth=0 title="""Test File"""
 begin-context paragraph +emphasized
 text(18): """Lorem ipsum dolor."""
 end-context

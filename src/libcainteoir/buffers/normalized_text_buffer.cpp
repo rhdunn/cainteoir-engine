@@ -37,21 +37,21 @@ namespace utf8
 }
 
 cainteoir::normalized_text_buffer::normalized_text_buffer(const char *str)
-	: buffer(NULL, NULL)
+	: buffer(nullptr, nullptr)
 {
 	if (str)
 		normalize(str, str+strlen(str));
 }
 
 cainteoir::normalized_text_buffer::normalized_text_buffer(const char *f, const char *l)
-	: buffer(NULL, NULL)
+	: buffer(nullptr, nullptr)
 {
 	if (f != l)
 		normalize(f, l);
 }
 
-cainteoir::normalized_text_buffer::normalized_text_buffer(const std::tr1::shared_ptr<cainteoir::buffer> &str)
-	: buffer(NULL, NULL)
+cainteoir::normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &str)
+	: buffer(nullptr, nullptr)
 {
 	normalize(str->begin(), str->end());
 }
