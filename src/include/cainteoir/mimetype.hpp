@@ -34,7 +34,7 @@ namespace cainteoir { namespace mime
 		/** @brief The primary mimetype string. */
 		const char *mime_type;
 
-		mimetype(const char *aName, const char *aMimeType, const void *aInfo)
+		mimetype(const char *aName, const char *aMimeType, const void *aInfo = nullptr)
 			: name(aName)
 			, mime_type(aMimeType)
 			, info(aInfo)
