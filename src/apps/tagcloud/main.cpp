@@ -129,8 +129,6 @@ struct cloud : public cainteoir::document_events
 
 int main(int argc, char ** argv)
 {
-	cainteoir::initialise();
-
 	try
 	{
 		enum
@@ -203,6 +201,5 @@ int main(int argc, char ** argv)
 		fprintf(stderr, "error: %s\n", e.what());
 	}
 
-	cainteoir::cleanup();
 	return 0;
 }

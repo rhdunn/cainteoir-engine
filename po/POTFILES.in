@@ -29,7 +29,6 @@ src/libcainteoir/parsers/opf.cpp
 src/libcainteoir/parsers/document.cpp
 src/libcainteoir/parsers/rdfxml.cpp
 src/libcainteoir/parsers/ocf.cpp
-src/libcainteoir/platform.cpp
 src/libcainteoir/languages.cpp
 src/libcainteoir/tts/espeak.cpp
 src/libcainteoir/tts/engines.cpp

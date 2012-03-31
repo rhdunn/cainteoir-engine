@@ -146,7 +146,6 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 	${ESPEAK_CFLAGS}
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
-	src/libcainteoir/platform.cpp \
 	src/libcainteoir/languages.cpp \
 	src/libcainteoir/mimetype.cpp \
 	src/libcainteoir/encoding.cpp \

@@ -63,8 +63,6 @@ void help()
 
 int main(int argc, char ** argv)
 {
-	cainteoir::initialise();
-
 	setlocale(LC_MESSAGES, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
@@ -158,6 +156,5 @@ int main(int argc, char ** argv)
 		fprintf(stderr, _("error: %s\n"), e.what());
 	}
 
-	cainteoir::cleanup();
 	return 0;
 }

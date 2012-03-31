@@ -25,11 +25,4 @@
 
 #define _(text) gettext(text)
 
-namespace cainteoir
-{
-	void initialise();
-
-	void cleanup();
-}
-
 #endif
