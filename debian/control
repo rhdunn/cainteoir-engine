@@ -4,6 +4,7 @@ Priority: extra
 Maintainer: Reece H. Dunn <msclrhd@gmail.com>
 Build-Depends: debhelper (>= 7.0.50~),
                autoconf, automake, libtool, autopoint, gettext,
+               g++-4.6,
                libpulse-dev, libvorbis-dev, 
                shared-mime-info, iso-codes,
                libespeak-dev,
