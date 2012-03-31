@@ -447,10 +447,14 @@ cainteoir::languages::languages()
 	rdf::graph data;
 	try
 	{
-		const char * filename = DATADIR "/" PACKAGE "/languages.rdf.gz";
-		printf("loading language data from %s\n", filename);
+		const char *datadir = getenv("CAINTEOIR_DATA_DIR");
+		if (!datadir)
+			datadir = DATADIR "/" PACKAGE;
 
-		cainteoir::parseDocument(filename, events, data);
+		const std::string filename = datadir + std::string("/languages.rdf.gz");
+		printf("loading language data from %s\n", filename.c_str());
+
+		cainteoir::parseDocument(filename.c_str(), events, data);
 	}
 	catch (const std::exception & e)
 	{
