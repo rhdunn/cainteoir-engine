@@ -415,6 +415,9 @@ mimetype_database mimetypes;
 bool cainteoir::mime::mimetype::match(const std::shared_ptr<cainteoir::buffer> &data) const
 {
 	const mime_info *mime = (const mime_info *)info;
+	if (!mime)
+		mime = &mimetypes[mime_type];
+
 	foreach_iter (magic, mime->magic)
 	{
 		if (magic->match(data))
@@ -426,6 +429,9 @@ bool cainteoir::mime::mimetype::match(const std::shared_ptr<cainteoir::buffer> &
 bool cainteoir::mime::mimetype::match(const std::string &uri, const std::string &name) const
 {
 	const mime_info *mime = (const mime_info *)info;
+	if (!mime)
+		mime = &mimetypes[mime_type];
+
 	if (!mime->xmlns.empty())
 	{
 		if (!(uri == mime->xmlns || uri == mime->xmlns + "#"))
@@ -437,6 +443,8 @@ bool cainteoir::mime::mimetype::match(const std::string &uri, const std::string 
 void cainteoir::mime::mimetype::metadata(rdf::graph &aGraph, const std::string &baseuri, const rdf::uri &type) const
 {
 	const mime_info *mime = (const mime_info *)info;
+	if (!mime)
+		mime = &mimetypes[mime_type];
 
 	rdf::uri ref = rdf::uri(baseuri, name);
 	aGraph.statement(ref, rdf::rdf("type"), type);
@@ -486,22 +494,22 @@ static const mime_info mime_data = { mime_magic, "", "", "", {}, {} };
 
 const m::mimetype m::mime("mime",  nullptr, &mime_data);
 
-const m::mimetype m::email( "email", email_mimetype,  &mimetypes[email_mimetype]);
-const m::mimetype m::epub(  "epub",  epub_mimetype,   &mimetypes[epub_mimetype]);
-const m::mimetype m::gzip(  "gzip",  gzip_mimetype,   &mimetypes[gzip_mimetype]);
-const m::mimetype m::html(  "html",  html_mimetype,   &mimetypes[html_mimetype]);
-const m::mimetype m::mhtml( "mhtml", mhtml_mimetype,  &mimetypes[mhtml_mimetype]);
-const m::mimetype m::ncx(   "ncx",   ncx_mimetype,    &mimetypes[ncx_mimetype]);
-const m::mimetype m::ogg(   "ogg",   ogg_mimetype,    &mimetypes[ogg_mimetype]);
-const m::mimetype m::opf(   "opf",   opf_mimetype,    &mimetypes[opf_mimetype]);
-const m::mimetype m::rdfxml("rdf",   rdfxml_mimetype, &mimetypes[rdfxml_mimetype]);
-const m::mimetype m::rtf(   "rtf",   rtf_mimetype,    &mimetypes[rtf_mimetype]);
-const m::mimetype m::smil(  "smil",  smil_mimetype,   &mimetypes[smil_mimetype]);
-const m::mimetype m::ssml(  "ssml",  ssml_mimetype,   &mimetypes[ssml_mimetype]);
-const m::mimetype m::text(  "text",  text_mimetype,   &mimetypes[text_mimetype]);
-const m::mimetype m::wav(   "wav",   wav_mimetype,    &mimetypes[wav_mimetype]);
-const m::mimetype m::xhtml( "xhtml", xhtml_mimetype,  &mimetypes[xhtml_mimetype]);
-const m::mimetype m::xml(   "xml",   xml_mimetype,    &mimetypes[xml_mimetype]);
+const m::mimetype m::email( "email", email_mimetype);
+const m::mimetype m::epub(  "epub",  epub_mimetype);
+const m::mimetype m::gzip(  "gzip",  gzip_mimetype);
+const m::mimetype m::html(  "html",  html_mimetype);
+const m::mimetype m::mhtml( "mhtml", mhtml_mimetype);
+const m::mimetype m::ncx(   "ncx",   ncx_mimetype);
+const m::mimetype m::ogg(   "ogg",   ogg_mimetype);
+const m::mimetype m::opf(   "opf",   opf_mimetype);
+const m::mimetype m::rdfxml("rdf",   rdfxml_mimetype);
+const m::mimetype m::rtf(   "rtf",   rtf_mimetype);
+const m::mimetype m::smil(  "smil",  smil_mimetype);
+const m::mimetype m::ssml(  "ssml",  ssml_mimetype);
+const m::mimetype m::text(  "text",  text_mimetype);
+const m::mimetype m::wav(   "wav",   wav_mimetype);
+const m::mimetype m::xhtml( "xhtml", xhtml_mimetype);
+const m::mimetype m::xml(   "xml",   xml_mimetype);
 
 /** References
   *
