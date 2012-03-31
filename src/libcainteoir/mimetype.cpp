@@ -200,8 +200,10 @@ private:
 	cainteoir::mmap_buffer cache;
 };
 
-struct mimetype_database : public std::map<std::string, mime_info>
+class mimetype_database
 {
+	std::map<std::string, mime_info> database;
+
 	void read_aliases_from_cache(mime_cache &cache)
 	{
 		uint32_t offset = cache.u32(4);
@@ -216,7 +218,7 @@ struct mimetype_database : public std::map<std::string, mime_info>
 			foreach_iter (mimetype, mimetype_list)
 			{
 				if (!strcmp(*mimetype, mime))
-					(*this)[mime].aliases.push_back(alias);
+					database[mime].aliases.push_back(alias);
 			}
 			offset += 8;
 		}
@@ -238,7 +240,7 @@ struct mimetype_database : public std::map<std::string, mime_info>
 					if (!strcmp(*mimetype, mime))
 					{
 						std::string s = '*' + suffix;
-						(*this)[mime].globs.push_back(s);
+						database[mime].globs.push_back(s);
 					}
 				}
 			}
@@ -291,7 +293,7 @@ struct mimetype_database : public std::map<std::string, mime_info>
 			{
 				if (!strcmp(*mimetype, mime))
 				{
-					std::vector<magic> &magic_list = (*this)[mime].magic;
+					std::vector<magic> &magic_list = database[mime].magic;
 					read_matchlets_from_cache(cache, cache.u32(offset + 8), cache.u32(offset + 12), magic_list, std::vector<matchlet>());
 				}
 			}
@@ -315,8 +317,8 @@ struct mimetype_database : public std::map<std::string, mime_info>
 			{
 				if (!strcmp(*mimetype, mime))
 				{
-					(*this)[mime].xmlns = ns;
-					(*this)[mime].localname = name;
+					database[mime].xmlns = ns;
+					database[mime].localname = name;
 				}
 			}
 			offset += 12;
@@ -382,7 +384,7 @@ struct mimetype_database : public std::map<std::string, mime_info>
 		}
 		return "";
 	}
-
+public:
 	mimetype_database()
 	{
 		foreach_iter (dir, get_mime_dirs())
@@ -399,7 +401,7 @@ struct mimetype_database : public std::map<std::string, mime_info>
 				read_xmlns_from_cache(cache);
 
 				foreach_iter (mimetype, mimetype_list)
-					(*this)[*mimetype].label = read_comment_from_mimeinfo_file(*dir + *mimetype + ".xml");
+					database[*mimetype].label = read_comment_from_mimeinfo_file(*dir + *mimetype + ".xml");
 			}
 			catch (const std::runtime_error &)
 			{
@@ -407,6 +409,11 @@ struct mimetype_database : public std::map<std::string, mime_info>
 				// e.g. /usr/share/gnome, so just ignore that path.
 			}
 		}
+	}
+
+	const mime_info &operator[](const char *mimetype)
+	{
+		return database[mimetype];
 	}
 };
 
