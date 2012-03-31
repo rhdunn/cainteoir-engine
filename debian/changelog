@@ -1,3 +1,9 @@
+cainteoir-engine (0.7~unstable1) unstable; urgency=low
+ 
+  * Fix various issues running 'make check' under debuild.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sat, 31 Mar 2012 18:48:00 +0000
+
 cainteoir-engine (0.7~unstable0) unstable; urgency=low
  
   * New upstream release.
