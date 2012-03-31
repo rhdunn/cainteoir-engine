@@ -411,9 +411,12 @@ public:
 		}
 	}
 
-	const mime_info &operator[](const char *mimetype)
+	const mime_info &operator[](const char *mimetype) const
 	{
-		return database[mimetype];
+		auto entry = database.find(mimetype);
+		if (entry == database.end())
+			throw std::runtime_error("mimetype entry not supported in the mimetype list");
+		return entry->second;
 	}
 };
 
