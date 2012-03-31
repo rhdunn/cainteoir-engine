@@ -18,8 +18,10 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "i18n.h"
+
 #include <cainteoir/audio.hpp>
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <stdint.h>
 #include <string.h>
@@ -66,7 +68,7 @@ public:
 		if (format == rdf::tts("s16le"))
 			header.sample_size = 16;
 		else
-			throw std::runtime_error(_("unsupported audio format."));
+			throw std::runtime_error(i18n("unsupported audio format."));
 
 		header.byte_rate = header.frequency * header.channels * (header.sample_size / 8);
 		header.block_align = header.channels * (header.sample_size / 8);

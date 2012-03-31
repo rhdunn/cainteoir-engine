@@ -18,8 +18,9 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <config.h>
-#include <cainteoir/platform.hpp>
+#include "config.h"
+#include "i18n.h"
+
 #include "tts_engine.hpp"
 
 #if defined(HAVE_ESPEAK_SPEAK_LIB_H)
@@ -194,11 +195,11 @@ class espeak_engine : public tts::engine
 {
 public:
 	espeak_engine(rdf::graph &metadata, std::string &baseuri)
-		: mRate(std::make_shared<espeak_parameter>(_("Speed"), "wpm", espeakRATE, 80, 450, 1))
-		, mVolume(std::make_shared<espeak_parameter>(_("Volume"), "%", espeakVOLUME, 0, 200, 1))
-		, mPitch(std::make_shared<espeak_parameter>(_("Base Pitch"), "", espeakPITCH, 0, 100, 1))
-		, mPitchRange(std::make_shared<espeak_parameter>(_("Pitch Variation"), "", espeakRANGE, 0, 100, 1))
-		, mWordGap(std::make_shared<espeak_parameter>(_("Word Gap"), "ms", espeakWORDGAP, 0, 500, 10))
+		: mRate(std::make_shared<espeak_parameter>(i18n("Speed"), "wpm", espeakRATE, 80, 450, 1))
+		, mVolume(std::make_shared<espeak_parameter>(i18n("Volume"), "%", espeakVOLUME, 0, 200, 1))
+		, mPitch(std::make_shared<espeak_parameter>(i18n("Base Pitch"), "", espeakPITCH, 0, 100, 1))
+		, mPitchRange(std::make_shared<espeak_parameter>(i18n("Pitch Variation"), "", espeakRANGE, 0, 100, 1))
+		, mWordGap(std::make_shared<espeak_parameter>(i18n("Word Gap"), "ms", espeakWORDGAP, 0, 500, 10))
 	{
 		baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
 

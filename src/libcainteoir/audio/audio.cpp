@@ -1,6 +1,6 @@
 /* Audio Output.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -20,7 +20,6 @@
 
 #include <cainteoir/audio.hpp>
 #include <cainteoir/mimetype.hpp>
-#include <cainteoir/platform.hpp>
 #include <string.h>
 
 namespace rdf = cainteoir::rdf;

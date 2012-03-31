@@ -19,11 +19,11 @@
  */
 
 #include "config.h"
+#include "i18n.h"
 
 #include <cainteoir/languages.hpp>
 #include <cainteoir/document.hpp>
 #include <algorithm>
-#include <libintl.h>
 
 namespace rdf  = cainteoir::rdf;
 namespace rql  = cainteoir::rdf::query;

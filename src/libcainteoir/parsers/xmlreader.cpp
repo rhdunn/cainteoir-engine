@@ -18,8 +18,10 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "i18n.h"
+
 #include <cainteoir/xmlreader.hpp>
-#include <cainteoir/platform.hpp>
 
 using cainteoir::xml::entity;
 using cainteoir::xml::entity_set;
@@ -117,7 +119,7 @@ std::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity,
 			return std::make_shared<cainteoir::buffer>(value);
 	}
 
-	fprintf(stderr, _("unrecognised entity '%s'\n"), entity.str().c_str());
+	fprintf(stderr, i18n("unrecognised entity '%s'\n"), entity.str().c_str());
 	return std::shared_ptr<cainteoir::buffer>();
 }
 

@@ -19,7 +19,6 @@
  */
 
 #include "parsers.hpp"
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 
 namespace xml   = cainteoir::xml;

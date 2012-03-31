@@ -1,6 +1,6 @@
 /* Cainteoir Command-Line Application.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,10 +18,11 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <config.h>
+#include "config.h"
+#include "i18n.h"
+
 #include <cainteoir/engines.hpp>
 #include <cainteoir/document.hpp>
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
@@ -107,42 +108,42 @@ void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showN
 
 void help(const rdf::graph &aMetadata)
 {
-	fprintf(stdout, _("usage: cainteoir [OPTION..] DOCUMENT\n"));
-	fprintf(stdout, _("       where DOCUMENT is one of:\n"));
+	fprintf(stdout, i18n("usage: cainteoir [OPTION..] DOCUMENT\n"));
+	fprintf(stdout, i18n("       where DOCUMENT is one of:\n"));
 	list_formats(aMetadata, rdf::tts("DocumentFormat"), false);
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Speech options:\n"));
+	fprintf(stdout, i18n("Speech options:\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _(" -v, --voice=VOICE       Use the voice named VOICE\n"));
-	fprintf(stdout, _(" -l, --language=LANG     Use a voice that speaks the language LANG\n"));
-	fprintf(stdout, _(" -s, --speed=SPEED       Set the voice's speed to SPEED words per minute\n"));
-	fprintf(stdout, _(" -p, --pitch=PITCH       Set the voice's base pitch to PITCH\n"));
-	fprintf(stdout, _(" -P, --pitch-range=RANGE Set the voice's pitch to vary by RANGE\n"));
-	fprintf(stdout, _(" -V, --volume=VOLUME     Set the voice's volume to VOLUME percent\n"));
-	fprintf(stdout, _(" -m, --monotone          Set the voice to monotone (pitch varies by 0)\n"));
+	fprintf(stdout, i18n(" -v, --voice=VOICE       Use the voice named VOICE\n"));
+	fprintf(stdout, i18n(" -l, --language=LANG     Use a voice that speaks the language LANG\n"));
+	fprintf(stdout, i18n(" -s, --speed=SPEED       Set the voice's speed to SPEED words per minute\n"));
+	fprintf(stdout, i18n(" -p, --pitch=PITCH       Set the voice's base pitch to PITCH\n"));
+	fprintf(stdout, i18n(" -P, --pitch-range=RANGE Set the voice's pitch to vary by RANGE\n"));
+	fprintf(stdout, i18n(" -V, --volume=VOLUME     Set the voice's volume to VOLUME percent\n"));
+	fprintf(stdout, i18n(" -m, --monotone          Set the voice to monotone (pitch varies by 0)\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Table of content options:\n"));
+	fprintf(stdout, i18n("Table of content options:\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _(" -c, --contents          List the table of contents for the specified document\n"));
-	fprintf(stdout, _(" -f, --from=FROM         Start reading/recoding from contents marker FROM\n"));
-	fprintf(stdout, _(" -t, --to=TO             Finish reading/recording after contents marker TO\n"));
+	fprintf(stdout, i18n(" -c, --contents          List the table of contents for the specified document\n"));
+	fprintf(stdout, i18n(" -f, --from=FROM         Start reading/recoding from contents marker FROM\n"));
+	fprintf(stdout, i18n(" -t, --to=TO             Finish reading/recording after contents marker TO\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Recording audio options:\n"));
+	fprintf(stdout, i18n("Recording audio options:\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _(" -o, --output=FILE       Recorded audio is written to FILE\n"));
-	fprintf(stdout, _("     --stdout            Recorded audio is written to the standard output\n"));
-	fprintf(stdout, _(" -r, --record=FORMAT     Record the audio as a FORMAT file (default: wav)\n"));
-	fprintf(stdout, _("       where FORMAT is one of:\n"));
+	fprintf(stdout, i18n(" -o, --output=FILE       Recorded audio is written to FILE\n"));
+	fprintf(stdout, i18n("     --stdout            Recorded audio is written to the standard output\n"));
+	fprintf(stdout, i18n(" -r, --record=FORMAT     Record the audio as a FORMAT file (default: wav)\n"));
+	fprintf(stdout, i18n("       where FORMAT is one of:\n"));
 	list_formats(aMetadata, rdf::tts("AudioFormat"), true);
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("General options:\n"));
+	fprintf(stdout, i18n("General options:\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _(" -M, --metadata          Show the RDF metadata for the engine and voices\n"));
-	fprintf(stdout, _(" -h, --help              This help text\n"));
+	fprintf(stdout, i18n(" -M, --metadata          Show the RDF metadata for the engine and voices\n"));
+	fprintf(stdout, i18n(" -h, --help              This help text\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("The arguments to the long options also apply to their short option equivalents.\n"));
+	fprintf(stdout, i18n("The arguments to the long options also apply to their short option equivalents.\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Report bugs to msclrhd@gmail.com\n"));
+	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
 }
 
 int termchar()
@@ -493,7 +494,7 @@ int main(int argc, char ** argv)
 		bool show_progress = true;
 		if (outformat || outfile)
 		{
-			state = _("recording");
+			state = i18n("recording");
 			std::stringstream file;
 
 			if (outfile)
@@ -508,28 +509,28 @@ int main(int argc, char ** argv)
 
 			out = cainteoir::create_audio_file(outfile.c_str(), outformat, 0.3, doc.m_metadata, doc.subject, doc.m_metadata, doc.tts.voice());
 			if (!out.get())
-				throw std::runtime_error(_("unsupported audio file format"));
+				throw std::runtime_error(i18n("unsupported audio file format"));
 
 			if (outfile != "-")
 			{
-				fprintf(stdout, _("Recording \"%s\"\n"), doc.subject.str().c_str());
-				fprintf(stdout, _("       to \"%s\"\n\n"), outfile.c_str());
+				fprintf(stdout, i18n("Recording \"%s\"\n"), doc.subject.str().c_str());
+				fprintf(stdout, i18n("       to \"%s\"\n\n"), outfile.c_str());
 			}
 			else
 				show_progress = false;
 		}
 		else
 		{
-			state = "reading";
+			state = i18n("reading");
 			out = cainteoir::open_audio_device(nullptr, "pulse", 0.3, doc.m_metadata, doc.subject, doc.m_metadata, doc.tts.voice());
 
-			fprintf(stdout, _("Reading \"%s\"\n\n"), doc.subject.str().c_str());
+			fprintf(stdout, i18n("Reading \"%s\"\n\n"), doc.subject.str().c_str());
 		}
 
 		if (show_progress)
 		{
-			fprintf(stdout, _("Author : %s\n"), author.c_str());
-			fprintf(stdout, _("Title  : %s\n\n"), title.c_str());
+			fprintf(stdout, i18n("Author : %s\n"), author.c_str());
+			fprintf(stdout, i18n("Title  : %s\n\n"), title.c_str());
 		}
 
 		cainteoir::document::range_type selection = doc.selection();
@@ -552,13 +553,13 @@ int main(int argc, char ** argv)
 
 		if (show_progress)
 		{
-			status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), _("stopped"));
+			status_line(speech->elapsedTime(), speech->totalTime(), speech->completed(), i18n("stopped"));
 			fprintf(stdout, "\n");
 		}
 	}
 	catch (std::runtime_error &e)
 	{
-		fprintf(stderr, _("error: %s\n"), e.what());
+		fprintf(stderr, i18n("error: %s\n"), e.what());
 	}
 
 	return 0;

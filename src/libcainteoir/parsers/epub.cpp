@@ -18,9 +18,11 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "i18n.h"
+
 #include "parsers.hpp"
 #include "zip.hpp"
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 
 namespace rdf = cainteoir::rdf;
@@ -51,7 +53,7 @@ struct epub_document : public cainteoir::document_events
 		}
 
 		if (mOpfFile.empty())
-			throw std::runtime_error(_("Unsupported ePub content: OPF file not specified."));
+			throw std::runtime_error(i18n("Unsupported ePub content: OPF file not specified."));
 	}
 
 	void text(std::shared_ptr<cainteoir::buffer> aText)
@@ -110,7 +112,7 @@ struct epub_document : public cainteoir::document_events
 				}
 			}
 			else
-				fprintf(stderr, _("document '%s' not found in ePub archive.\n"), filename.c_str());
+				fprintf(stderr, i18n("document '%s' not found in ePub archive.\n"), filename.c_str());
 		}
 	}
 
@@ -133,7 +135,7 @@ void cainteoir::parseEpubDocument(std::shared_ptr<cainteoir::buffer> aData, cons
 
 	std::shared_ptr<cainteoir::buffer> data = epub.read(epub.mOpfFile.c_str());
 	if (!data)
-		throw std::runtime_error(_("Unsupported ePub content: OPF file not found."));
+		throw std::runtime_error(i18n("Unsupported ePub content: OPF file not found."));
 
 	parseDocumentBuffer(data, aSubject, epub, aGraph, false);
 }

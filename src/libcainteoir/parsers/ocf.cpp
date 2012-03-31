@@ -18,8 +18,10 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "i18n.h"
+
 #include "parsers.hpp"
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 
 namespace rdf   = cainteoir::rdf;
@@ -61,7 +63,7 @@ cainteoir::ocf_reader::ocf_reader(std::shared_ptr<cainteoir::buffer> aData)
 		;
 
 	if (mReader.context() != &ocf::container_node)
-		throw std::runtime_error(_("OCF file is not of a recognised format."));
+		throw std::runtime_error(i18n("OCF file is not of a recognised format."));
 
 	do {
 		if (mReader.nodeType() == xml::reader::beginTagNode && mReader.context() == &ocf::rootfiles_node)

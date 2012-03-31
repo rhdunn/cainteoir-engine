@@ -1,6 +1,6 @@
 /* Generate a tag cloud from a document.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,10 +18,12 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "i18n.h"
+
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
 #include <cainteoir/document.hpp>
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
@@ -50,17 +52,17 @@ static struct option options[] =
 
 void help()
 {
-	fprintf(stdout, _("usage: tagcloud [OPTION..] document\n"));
+	fprintf(stdout, i18n("usage: tagcloud [OPTION..] document\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Formats:\n"));
-	fprintf(stdout, _(" --html                 Output a HTML tag cloud\n"));
-	fprintf(stdout, _(" --text                 Output a text word list\n"));
+	fprintf(stdout, i18n("Formats:\n"));
+	fprintf(stdout, i18n(" --html                 Output a HTML tag cloud\n"));
+	fprintf(stdout, i18n(" --text                 Output a text word list\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("General:\n"));
-	fprintf(stdout, _(" -a, --all              Show all words\n"));
-	fprintf(stdout, _(" -h, --help             This help text\n"));
+	fprintf(stdout, i18n("General:\n"));
+	fprintf(stdout, i18n(" -a, --all              Show all words\n"));
+	fprintf(stdout, i18n(" -h, --help             This help text\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Report bugs to msclrhd@gmail.com\n"));
+	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
 }
 
 static const char * common_words[] = {
@@ -167,12 +169,12 @@ int main(int argc, char ** argv)
 		argv += optind;
 
 		if (argc != 1)
-			throw std::runtime_error("no document specified");
+			throw std::runtime_error(i18n("no document specified"));
 
 		cloud cloud;
 		rdf::graph metadata;
 		if (!cainteoir::parseDocument(argv[0], cloud, metadata))
-			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
+			fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), argv[0]);
 
 		if (format == html_format)
 		{
@@ -198,7 +200,7 @@ int main(int argc, char ** argv)
 	}
 	catch (std::runtime_error &e)
 	{
-		fprintf(stderr, "error: %s\n", e.what());
+		fprintf(stderr, i18n("error: %s\n"), e.what());
 	}
 
 	return 0;

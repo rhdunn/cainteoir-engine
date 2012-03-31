@@ -18,9 +18,11 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "i18n.h"
+
 #include <cainteoir/mimetype.hpp>
 #include <cainteoir/document.hpp>
-#include <cainteoir/platform.hpp>
 #include "parsers.hpp"
 #include <stdexcept>
 
@@ -331,7 +333,7 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::ur
 		else if (mime->encoding == "binary")
 			decoded = mime;
 		else
-			throw std::runtime_error(_("unsupported content-transfer-encoding"));
+			throw std::runtime_error(i18n("unsupported content-transfer-encoding"));
 
 		if (mime->begin() != data->begin()) // Avoid an infinite loop when there is just the mime header.
 			return parseDocumentBuffer(decoded, subject, events, aGraph, includeMimetypeMetadata);
