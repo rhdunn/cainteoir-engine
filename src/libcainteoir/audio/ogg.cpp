@@ -1,6 +1,6 @@
 /* Ogg+Vorbis Audio File.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -19,6 +19,7 @@
  */
 
 #include "config.h"
+#include "compatibility.hpp"
 #include "i18n.h"
 
 #include <cainteoir/audio.hpp>

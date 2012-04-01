@@ -19,6 +19,7 @@
  */
 
 #include "config.h"
+#include "compatibility.hpp"
 #include "i18n.h"
 
 #include <cainteoir/xmlreader.hpp>
@@ -233,6 +234,14 @@ const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std:
 	}
 
 	return &unknown_context;
+}
+
+cainteoir::xml::reader::ParserContext::ParserContext(ParserState aState, const char *aCurrent)
+	: state(aState)
+	, current(aCurrent)
+	, nodeName(nullptr, nullptr)
+	, nodePrefix(nullptr, nullptr)
+{
 }
 
 cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52])

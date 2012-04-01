@@ -23,6 +23,28 @@ AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
 
 dnl ================================================================
+dnl C++11 language support
+dnl ================================================================
+
+AC_LANG_PUSH(C++)
+
+AX_CHECK_COMPILE_FLAG(
+	[-std=c++0x],
+	[CXXFLAGS="$CXXFLAGS -std=c++0x"],
+	[AC_MSG_ERROR([Cannot detect a compiler configuration that supports C++11.])])
+
+AC_MSG_CHECKING([if $CXX supports C++11 nullptr])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[]],
+		[[const char *ptr = nullptr;]])],
+	[AC_MSG_RESULT([yes])
+	 AC_DEFINE([HAVE_CPP_NULLPTR],[1],[Define 1 if the nullptr keyword is not supported.])],
+	[AC_MSG_RESULT([no])])
+
+AC_LANG_POP(C++)
+
+dnl ================================================================
 dnl getopt checks.
 dnl ================================================================
 

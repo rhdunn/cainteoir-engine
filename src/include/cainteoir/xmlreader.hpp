@@ -288,13 +288,7 @@ namespace cainteoir { namespace xml
 			cainteoir::buffer nodeName;
 			cainteoir::buffer nodePrefix;
 
-			ParserContext(ParserState aState, const char *aCurrent)
-				: state(aState)
-				, current(aCurrent)
-				, nodeName(nullptr, nullptr)
-				, nodePrefix(nullptr, nullptr)
-			{
-			}
+			ParserContext(ParserState aState, const char *aCurrent);
 		};
 
 		std::shared_ptr<cainteoir::buffer> mData;
