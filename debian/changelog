@@ -1,3 +1,9 @@
+cainteoir-engine (0.7~unstable4) unstable; urgency=low
+ 
+  * Further nullptr compatibility improvements for gcc-4.5.2 (natty).
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sun, 1 Apr 2012 10:54:00 +0000
+
 cainteoir-engine (0.7~unstable3) unstable; urgency=low
  
   * Do not require g++-4.6 to build as the package is not
