@@ -18,8 +18,11 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "compatibility.hpp"
+#include "i18n.h"
+
 #include <cainteoir/xmlreader.hpp>
-#include <cainteoir/platform.hpp>
 
 using cainteoir::xml::entity;
 using cainteoir::xml::entity_set;
@@ -117,7 +120,7 @@ std::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity,
 			return std::make_shared<cainteoir::buffer>(value);
 	}
 
-	fprintf(stderr, _("unrecognised entity '%s'\n"), entity.str().c_str());
+	fprintf(stderr, i18n("unrecognised entity '%s'\n"), entity.str().c_str());
 	return std::shared_ptr<cainteoir::buffer>();
 }
 
@@ -208,7 +211,7 @@ const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir:
 const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &aNS, const cainteoir::buffer &aNode, const entries &aEntries) const
 {
 	auto entryset = aEntries.find(aNS);
-	if (entryset == aEntries.end() && aNS.back() == '#')
+	if (entryset == aEntries.end() && *(--aNS.end()) == '#')
 		entryset = aEntries.find(aNS.substr(0, aNS.size() - 1));
 
 	if (entryset == aEntries.end())
@@ -231,6 +234,14 @@ const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std:
 	}
 
 	return &unknown_context;
+}
+
+cainteoir::xml::reader::ParserContext::ParserContext(ParserState aState, const char *aCurrent)
+	: state(aState)
+	, current(aCurrent)
+	, nodeName(nullptr, nullptr)
+	, nodePrefix(nullptr, nullptr)
+{
 }
 
 cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52])

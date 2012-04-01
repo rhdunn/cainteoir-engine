@@ -6,8 +6,10 @@ mimedir    = $(xdgdatadir)/mime
 xmldir     = $(mimedir)/packages
 
 AM_LDFLAGS  = ${LTLIBINTL}
-AM_CXXFLAGS = -Isrc/include ${LIBXML2_CFLAGS} \
-	-std=c++0x -DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
+AM_CXXFLAGS = \
+	-Isrc/include -Isrc \
+	-std=c++0x \
+	-DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -119,7 +121,6 @@ endif
 
 libcainteoir_includedir = $(includedir)/cainteoir
 libcainteoir_include_HEADERS = \
-	src/include/cainteoir/platform.hpp \
 	src/include/cainteoir/languages.hpp \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
@@ -146,7 +147,8 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 	${ESPEAK_CFLAGS}
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
-	src/libcainteoir/platform.cpp \
+	src/i18n.h \
+	src/compatibility.h \
 	src/libcainteoir/languages.cpp \
 	src/libcainteoir/mimetype.cpp \
 	src/libcainteoir/encoding.cpp \

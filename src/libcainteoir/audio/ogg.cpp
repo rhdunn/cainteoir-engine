@@ -1,6 +1,6 @@
 /* Ogg+Vorbis Audio File.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -19,8 +19,10 @@
  */
 
 #include "config.h"
+#include "compatibility.hpp"
+#include "i18n.h"
+
 #include <cainteoir/audio.hpp>
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <stdio.h>
 #include <time.h>
@@ -147,7 +149,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 	comments.push_back(vorbis_comment("GENRE", "Vocal"));
 	comments.push_back(vorbis_comment("DATE", year));
 
-	comments.push_back(vorbis_comment("PERFORMER", _("Cainteoir(TM) Text-to-Speech")));
+	comments.push_back(vorbis_comment("PERFORMER", i18n("Cainteoir(TM) Text-to-Speech")));
 	comments.push_back(vorbis_comment("LICENSE", "http://creativecommons.org/licenses/by-sa/3.0/"));
 	comments.push_back(vorbis_comment("CONTACT", "http://rhdunn.github.com/cainteoir/"));
 	return comments;
@@ -285,7 +287,7 @@ create_ogg_file(const char *filename, const rdf::uri &format, int channels, int 
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
 	if (format != rdf::tts("s16le"))
-		throw std::runtime_error(_("unsupported audio format."));
+		throw std::runtime_error(i18n("unsupported audio format."));
 	return std::make_shared<ogg_audio>(file, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument));
 }
 

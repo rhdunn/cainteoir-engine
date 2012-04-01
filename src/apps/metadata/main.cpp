@@ -1,6 +1,6 @@
 /* Metadata Extractor.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,11 +18,12 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <config.h>
+#include "config.h"
+#include "i18n.h"
+
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
 #include <cainteoir/document.hpp>
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
@@ -48,23 +49,21 @@ static struct option options[] =
 
 void help()
 {
-	fprintf(stdout, _("usage: metadata [OPTION..] document\n"));
+	fprintf(stdout, i18n("usage: metadata [OPTION..] document\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Formats:\n"));
-	fprintf(stdout, _(" --ntriple              Output RDF N-Triples statements\n"));
-	fprintf(stdout, _(" --turtle               Output RDF Turtle statements\n"));
-	fprintf(stdout, _(" --vorbis               Output VorbisComment entries\n"));
+	fprintf(stdout, i18n("Formats:\n"));
+	fprintf(stdout, i18n(" --ntriple              Output RDF N-Triples statements\n"));
+	fprintf(stdout, i18n(" --turtle               Output RDF Turtle statements\n"));
+	fprintf(stdout, i18n(" --vorbis               Output VorbisComment entries\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("General:\n"));
-	fprintf(stdout, _(" -h, --help             This help text\n"));
+	fprintf(stdout, i18n("General:\n"));
+	fprintf(stdout, i18n(" -h, --help             This help text\n"));
 	fprintf(stdout, "\n");
-	fprintf(stdout, _("Report bugs to msclrhd@gmail.com\n"));
+	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
 }
 
 int main(int argc, char ** argv)
 {
-	cainteoir::initialise();
-
 	setlocale(LC_MESSAGES, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
@@ -109,12 +108,12 @@ int main(int argc, char ** argv)
 		argv += optind;
 
 		if (argc != 1)
-			throw std::runtime_error(_("no document specified"));
+			throw std::runtime_error(i18n("no document specified"));
 
 		cainteoir::document_events events;
 		rdf::graph metadata;
 		if (!cainteoir::parseDocument(argv[0], events, metadata))
-			fprintf(stderr, _("unsupported document format for file \"%s\"\n"), argv[0]);
+			fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), argv[0]);
 
 		if (!metadata.empty())
 		{
@@ -155,9 +154,8 @@ int main(int argc, char ** argv)
 	}
 	catch (std::runtime_error &e)
 	{
-		fprintf(stderr, _("error: %s\n"), e.what());
+		fprintf(stderr, i18n("error: %s\n"), e.what());
 	}
 
-	cainteoir::cleanup();
 	return 0;
 }

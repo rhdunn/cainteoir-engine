@@ -1,6 +1,6 @@
 /* WAVE Audio File.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,8 +18,11 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "compatibility.hpp"
+#include "i18n.h"
+
 #include <cainteoir/audio.hpp>
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <stdint.h>
 #include <string.h>
@@ -66,7 +69,7 @@ public:
 		if (format == rdf::tts("s16le"))
 			header.sample_size = 16;
 		else
-			throw std::runtime_error(_("unsupported audio format."));
+			throw std::runtime_error(i18n("unsupported audio format."));
 
 		header.byte_rate = header.frequency * header.channels * (header.sample_size / 8);
 		header.block_align = header.channels * (header.sample_size / 8);

@@ -18,8 +18,11 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "compatibility.hpp"
+#include "i18n.h"
+
 #include "parsers.hpp"
-#include <cainteoir/platform.hpp>
 #include <cainteoir/encoding.hpp>
 #include <stdexcept>
 #include <sstream>
@@ -263,7 +266,7 @@ void parseRtfBlock(rtf_reader &rtf,
 		if (blockState == RtfBlock)
 		{
 			if (rtf.data()->comparei("rtf") || rtf.parameter() != 1)
-				throw std::runtime_error(_("unrecognised rtf data stream or version"));
+				throw std::runtime_error(i18n("unrecognised rtf data stream or version"));
 			blockState = OtherBlock;
 		}
 		else if (blockState == InfoBlock)
@@ -361,7 +364,7 @@ void parseRtfBlock(rtf_reader &rtf,
 		break;
 	} while (rtf.read());
 
-	throw std::runtime_error(_("warning: unexpected end of rtf stream\n"));
+	throw std::runtime_error(i18n("warning: unexpected end of rtf stream\n"));
 }
 
 void cainteoir::parseRtfDocument(std::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
@@ -381,5 +384,5 @@ void cainteoir::parseRtfDocument(std::shared_ptr<cainteoir::buffer> aData, const
 		}
 	}
 	else
-		throw std::runtime_error(_("unrecognised rtf data stream"));
+		throw std::runtime_error(i18n("unrecognised rtf data stream"));
 }

@@ -1,6 +1,6 @@
 /* PulseAudio Support.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,8 +18,11 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "compatibility.hpp"
+#include "i18n.h"
+
 #include <cainteoir/audio.hpp>
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <pulse/simple.h>
 #include <pulse/error.h>
@@ -43,7 +46,7 @@ public:
 		else if (format == rdf::tts("float32le"))
 			ss.format = PA_SAMPLE_FLOAT32LE;
 		else
-			throw std::runtime_error(_("pulseaudio: unsupported audio format."));
+			throw std::runtime_error(i18n("pulseaudio: unsupported audio format."));
 
 		ss.channels = channels;
 		ss.rate = frequency;
@@ -59,9 +62,9 @@ public:
 		if (pa) return;
 
 		int error = 0;
-		pa = pa_simple_new(m_device, _("Cainteoir Text-to-Speech"), PA_STREAM_PLAYBACK, nullptr, "Music", &ss, nullptr, nullptr, &error);
+		pa = pa_simple_new(m_device, i18n("Cainteoir Text-to-Speech"), PA_STREAM_PLAYBACK, nullptr, "Music", &ss, nullptr, nullptr, &error);
 		if (!pa)
-			throw std::runtime_error(std::string(_("pulseaudio: ")) + pa_strerror(error));
+			throw std::runtime_error(std::string(i18n("pulseaudio: ")) + pa_strerror(error));
 	}
 
 	void close()

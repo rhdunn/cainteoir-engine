@@ -1,6 +1,6 @@
-/* Platform API Abstractions.
+/* Localization Helpers.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,18 +18,27 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAINTEOIR_PLATFORM_HPP
-#define CAINTEOIR_PLATFORM_HPP
+#ifndef CAINTEOIR_ENGINE_I18N_H
+#define CAINTEOIR_ENGINE_I88N_H
 
 #include <libintl.h>
 
-#define _(text) gettext(text)
+/** @brief Translate a string to the user's language.
+  *
+  * @param[in] text The text to be translated.
+  * @return    The text in the user's language.
+  */
+#define i18n(text) gettext(text)
 
-namespace cainteoir
-{
-	void initialise();
-
-	void cleanup();
-}
+/** @brief Translate a string to the user's language.
+  *
+  * The context is used by translators to help them disambiguate words and
+  * phrases with ambiguous meaning.
+  *
+  * @param[in] context The context in which the string is used.
+  * @param[in] text    The text to be translated.
+  * @return    The text in the user's language.
+  */
+#define i18nc(context, text) gettext(text)
 
 #endif

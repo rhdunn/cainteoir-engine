@@ -1,6 +1,6 @@
 /* Compressed Stream (GZip)
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,8 +18,10 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "i18n.h"
+
 #include <cainteoir/buffer.hpp>
-#include <cainteoir/platform.hpp>
 #include <zlib.h>
 #include <stdexcept>
 
@@ -50,15 +52,15 @@ err:
 	switch (ret)
 	{
 	case Z_STREAM_ERROR:
-		throw std::runtime_error(_("decompression failed (invalid compression level)"));
+		throw std::runtime_error(i18n("decompression failed (invalid compression level)"));
 	case Z_DATA_ERROR:
-		throw std::runtime_error(_("decompression failed (invalid or incomplete deflate data)"));
+		throw std::runtime_error(i18n("decompression failed (invalid or incomplete deflate data)"));
 	case Z_MEM_ERROR:
-		throw std::runtime_error(_("decompression failed (out of memory)"));
+		throw std::runtime_error(i18n("decompression failed (out of memory)"));
 	case Z_VERSION_ERROR:
-		throw std::runtime_error(_("decompression failed (zlib version mismatch)"));
+		throw std::runtime_error(i18n("decompression failed (zlib version mismatch)"));
 	default:
-		throw std::runtime_error(_("decompression failed (unspecified error)"));
+		throw std::runtime_error(i18n("decompression failed (unspecified error)"));
 	}
 }
 

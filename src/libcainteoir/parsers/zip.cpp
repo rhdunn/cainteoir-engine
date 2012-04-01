@@ -1,6 +1,6 @@
 /* ZIP File Reader API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,9 +18,12 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "compatibility.hpp"
+#include "i18n.h"
+
 #include "zip.hpp"
 #include "parsers.hpp"
-#include <cainteoir/platform.hpp>
 
 #include <stdexcept>
 
@@ -82,7 +85,7 @@ std::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char *aFi
 		return std::shared_ptr<cainteoir::buffer>();
 
 	if (hdr->compression_type >= zip_compression.size() || *(zip_compression.begin() + hdr->compression_type) == nullptr)
-		throw std::runtime_error(_("decompression failed (unsupported compression type)"));
+		throw std::runtime_error(i18n("decompression failed (unsupported compression type)"));
 
 	const char *ptr = (const char *)hdr + sizeof(zip_header) + hdr->len_filename + hdr->len_extra;
 	return (*(zip_compression.begin() + hdr->compression_type))(cainteoir::buffer(ptr, ptr + hdr->compressed), hdr->uncompressed);

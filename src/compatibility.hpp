@@ -1,6 +1,6 @@
-/* Cainteoir Engine.
+/* Language and System Compatibility Helpers.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,12 +18,20 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cainteoir/platform.hpp>
+#ifndef CAINTEOIR_ENGINE_COMPATIBILITY_HPP
+#define CAINTEOIR_ENGINE_COMPATIBILITY_HPP
 
-void cainteoir::initialise()
-{
-}
+#ifndef HAVE_CPP_NULLPTR
+	const struct nullptr_t 
+	{
+		template<class T>
+		inline operator T*() const { return 0; }
 
-void cainteoir::cleanup()
-{
-}
+		template<class C, class T>
+		inline operator T C::*() const { return 0; }
+	private:
+		void operator&() const;
+	} nullptr = {};
+#endif
+
+#endif

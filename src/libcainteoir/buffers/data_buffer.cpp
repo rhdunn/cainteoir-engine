@@ -1,6 +1,6 @@
 /* Memory (Data) Buffer.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -17,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+#include "config.h"
+#include "compatibility.hpp"
 
 #include <cainteoir/buffer.hpp>
 

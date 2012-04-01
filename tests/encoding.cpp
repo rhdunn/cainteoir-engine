@@ -19,7 +19,6 @@
  */
 
 #include <cainteoir/encoding.hpp>
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <cstdio>
 

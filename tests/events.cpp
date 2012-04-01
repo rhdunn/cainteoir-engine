@@ -21,7 +21,6 @@
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
 #include <cainteoir/document.hpp>
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
@@ -107,8 +106,6 @@ struct event_printer : public cainteoir::document_events
 
 int main(int argc, char ** argv)
 {
-	cainteoir::initialise();
-
 	try
 	{
 		argc -= 1;
@@ -127,6 +124,5 @@ int main(int argc, char ** argv)
 		fprintf(stderr, "error: %s\n", e.what());
 	}
 
-	cainteoir::cleanup();
 	return 0;
 }

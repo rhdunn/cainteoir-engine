@@ -73,7 +73,8 @@ ABOUT-NLS
 config.guess
 config.rpath
 config.sub
-m4/
+m4/*
+!m4/m4_*
 po/*~
 
 po/Makefile.in.in

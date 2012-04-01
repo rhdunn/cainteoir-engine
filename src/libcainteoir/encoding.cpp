@@ -1,6 +1,6 @@
 /* Encoding Conversion Support.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,8 +18,10 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "i18n.h"
+
 #include <cainteoir/encoding.hpp>
-#include <cainteoir/platform.hpp>
 #include <stdexcept>
 #include <iconv.h>
 #include <errno.h>
@@ -32,8 +34,8 @@ struct iconv_decoder : public cainteoir::decoder
 		if (cvt == (iconv_t)-1)
 		{
 			if (errno == EINVAL)
-				throw std::runtime_error(_("unsupported character set (no conversion found)"));
-			throw std::runtime_error(_("unsupported character set (failed to initialise iconv)"));
+				throw std::runtime_error(i18n("unsupported character set (no conversion found)"));
+			throw std::runtime_error(i18n("unsupported character set (failed to initialise iconv)"));
 		}
 	}
 
@@ -137,7 +139,7 @@ void cainteoir::encoding::set_encoding(int aCodepage)
 	case 28605: set_encoding("iso-8859-15"); break;
 	case 65000: set_encoding("utf-7"); break;
 	case 65001: set_encoding("utf-8"); break;
-	default:    throw std::runtime_error(_("unsupported character set (codepage not recognised)"));
+	default:    throw std::runtime_error(i18n("unsupported character set (codepage not recognised)"));
 	}
 }
 
