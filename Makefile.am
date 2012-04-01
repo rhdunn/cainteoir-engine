@@ -8,7 +8,6 @@ xmldir     = $(mimedir)/packages
 AM_LDFLAGS  = ${LTLIBINTL}
 AM_CXXFLAGS = \
 	-Isrc/include -Isrc \
-	-std=c++0x \
 	-DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
 
 ACLOCAL_AMFLAGS = -I m4
