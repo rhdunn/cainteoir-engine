@@ -23,16 +23,73 @@ AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
 
 dnl ================================================================
+dnl C++11 support
+dnl ================================================================
+
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 without any flags])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[template <typename T> struct right_angle_brackets {};]
+		 [typedef right_angle_brackets<right_angle_brackets<int>> cpp11_check;]],
+		[[]])],
+	[AC_MSG_RESULT([yes])
+	 have_cxx11_native=yes],
+	[AC_MSG_RESULT([no])
+	 have_cxx11_native=no])
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+TEMP_CXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS -std=c++0x"
+AC_MSG_CHECKING([if $CXX supports C++11 with the -std=c++0x flag])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[template <typename T> struct right_angle_brackets {};]
+		 [typedef right_angle_brackets<right_angle_brackets<int>> cpp11_check;]],
+		[[]])],
+	[AC_MSG_RESULT([yes])
+	 have_cxx11_cxx0x=yes],
+	[AC_MSG_RESULT([no])
+	 have_cxx11_cxx0x=no])
+CXXFLAGS="$TEMP_CXXFLAGS"
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+TEMP_CXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS -std=gnu++0x"
+AC_MSG_CHECKING([if $CXX supports C++11 with the -std=gnu++0x flag])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[template <typename T> struct right_angle_brackets {};]
+		 [typedef right_angle_brackets<right_angle_brackets<int>> cpp11_check;]],
+		[[]])],
+	[AC_MSG_RESULT([yes])
+	 have_cxx11_gnuxx0x=yes],
+	[AC_MSG_RESULT([no])
+	 have_cxx11_gnuxx0x=no])
+CXXFLAGS="$TEMP_CXXFLAGS"
+AC_LANG_POP(C++)
+
+AC_MSG_CHECKING([if $CXX supports C++11])
+if test "$have_cxx11_cxx0x" = yes ; then
+	AC_MSG_RESULT([-std=c++0x])
+	CXXFLAGS="$CXXFLAGS -std=c++0x"
+elif test "$have_cxx11_gnuxx0x" = yes ; then
+	AC_MSG_RESULT([-std=gnu++0x])
+	CXXFLAGS="$CXXFLAGS -std=gnu++0x"
+elif test "$have_cxx11_native" = yes ; then
+	AC_MSG_RESULT([yes])
+else
+	AC_MSG_RESULT([no])
+	AC_MSG_ERROR([C++11 is not supported by the $CXX compiler.])
+fi
+
+dnl ================================================================
 dnl C++11 language support
 dnl ================================================================
 
 AC_LANG_PUSH(C++)
-
-AX_CHECK_COMPILE_FLAG(
-	[-std=c++0x],
-	[CXXFLAGS="$CXXFLAGS -std=c++0x"],
-	[AC_MSG_ERROR([Cannot detect a compiler configuration that supports C++11.])])
-
 AC_MSG_CHECKING([if $CXX supports C++11 nullptr])
 AC_COMPILE_IFELSE(
 	[AC_LANG_PROGRAM(
@@ -54,7 +111,6 @@ AC_COMPILE_IFELSE(
 		[AC_MSG_RESULT([yes])
 		 AC_DEFINE([HAVE_CPP_IMPLICIT_NULLPTR_COMPARE],[1],[Define 1 if the nullptr workaround needs ==/!= definitions.])],
 		[AC_MSG_RESULT([no])])])
-
 AC_LANG_POP(C++)
 
 dnl ================================================================
