@@ -211,7 +211,7 @@ const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir:
 const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &aNS, const cainteoir::buffer &aNode, const entries &aEntries) const
 {
 	auto entryset = aEntries.find(aNS);
-	if (entryset == aEntries.end() && aNS.back() == '#')
+	if (entryset == aEntries.end() && *(--aNS.end()) == '#')
 		entryset = aEntries.find(aNS.substr(0, aNS.size() - 1));
 
 	if (entryset == aEntries.end())
