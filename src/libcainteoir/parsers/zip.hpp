@@ -27,17 +27,13 @@
 
 namespace cainteoir
 {
-	class archive
+	struct archive
 	{
-	public:
 		virtual ~archive() {}
 
 		virtual const rdf::uri location(const std::string &aFilename, const std::string &aRef) const = 0;
 
 		virtual std::shared_ptr<buffer> read(const char *aFilename) const = 0;
-	private:
-		std::map<std::string, const void *> data;
-		std::string base;
 	};
 
 	std::shared_ptr<archive> create_zip_archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject);
