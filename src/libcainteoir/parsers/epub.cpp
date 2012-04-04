@@ -22,7 +22,6 @@
 #include "i18n.h"
 #include "parsers.hpp"
 
-#include <cainteoir/archive.hpp>
 #include <stdexcept>
 
 namespace rdf = cainteoir::rdf;
@@ -38,8 +37,8 @@ static std::string path_to(const std::string &filename, const std::string &opffi
 
 struct epub_document : public cainteoir::document_events
 {
-	epub_document(std::shared_ptr<cainteoir::buffer> &data, cainteoir::document_events &aEvents, const rdf::uri &aSubject, rdf::graph &aGraph)
-		: mEpub(cainteoir::create_zip_archive(data, aSubject))
+	epub_document(std::shared_ptr<cainteoir::archive> &data, cainteoir::document_events &aEvents, const rdf::uri &aSubject, rdf::graph &aGraph)
+		: mEpub(data)
 		, mEvents(aEvents)
 		, mSubject(aSubject)
 		, mGraph(aGraph)
@@ -129,7 +128,7 @@ struct epub_document : public cainteoir::document_events
 	bool mTocEvents;
 };
 
-void cainteoir::parseEpubDocument(std::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void cainteoir::parseEpubDocument(std::shared_ptr<cainteoir::archive> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	epub_document epub(aData, events, aSubject, aGraph);
 

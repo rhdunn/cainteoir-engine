@@ -76,7 +76,6 @@ struct ParseDocument
 
 // magic = document specific ...
 static const ParseDocument doc_handlers[] = {
-	{ &mime::epub, &cainteoir::parseEpubDocument },
 	{ &mime::html, &cainteoir::parseHtmlDocument },
 	{ &mime::rtf,  &cainteoir::parseRtfDocument },
 };
@@ -353,11 +352,13 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::ur
 
 	if (mime::zip.match(data))
 	{
+		auto archive = create_zip_archive(data, subject);
+
 		for (const ParseZipDocument *parse = std::begin(zip_handlers); parse != std::end(zip_handlers); ++parse)
 		{
 			if (parse->mimetype->match(data))
 			{
-				parse->parser(data, subject, events, aGraph);
+				parse->parser(archive, subject, events, aGraph);
 				if (includeMimetypeMetadata)
 					aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(parse->mimetype->mime_type));
 				return true;
