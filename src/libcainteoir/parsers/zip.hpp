@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_ZIP_HPP
 
 #include <cainteoir/buffer.hpp>
+#include <cainteoir/metadata.hpp>
 #include <map>
 
 namespace cainteoir { namespace zip
@@ -29,9 +30,13 @@ namespace cainteoir { namespace zip
 	class archive : public std::map<std::string, const void *>
 	{
 	public:
-		archive(std::shared_ptr<cainteoir::buffer> aData);
+		archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject);
 
-		std::shared_ptr<cainteoir::buffer> read(const char *aFilename);
+		const rdf::uri location(const std::string &aFilename, const std::string &aRef) const;
+
+		std::shared_ptr<buffer> read(const char *aFilename) const;
+	private:
+		std::string base;
 	};
 }}
 

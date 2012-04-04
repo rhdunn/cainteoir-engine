@@ -39,7 +39,7 @@ static std::string path_to(const std::string &filename, const std::string &opffi
 struct epub_document : public cainteoir::document_events
 {
 	epub_document(std::shared_ptr<cainteoir::buffer> &data, cainteoir::document_events &aEvents, const rdf::uri &aSubject, rdf::graph &aGraph)
-		: mEpub(data)
+		: mEpub(data, aSubject)
 		, mEvents(aEvents)
 		, mSubject(aSubject)
 		, mGraph(aGraph)
@@ -79,7 +79,7 @@ struct epub_document : public cainteoir::document_events
 				mEvents.toc_entry(depth, aLocation, title);
 			else
 			{
-				const rdf::uri location = rdf::uri(mSubject.str() + "!/" + path_to(aLocation.ns, mOpfFile), aLocation.ref);
+				const rdf::uri location = mEpub.location(path_to(aLocation.ns, mOpfFile), aLocation.ref);
 				mEvents.toc_entry(depth, location, title);
 			}
 		}
@@ -90,7 +90,7 @@ struct epub_document : public cainteoir::document_events
 		if (!mimetype.empty())
 		{
 			std::string filename = path_to(aLocation.ns, mOpfFile);
-			std::shared_ptr<cainteoir::buffer> doc = mEpub.read(filename.c_str());
+			auto doc = mEpub.read(filename.c_str());
 			if (doc)
 			{
 				cainteoir::xml::reader reader(doc);
@@ -106,7 +106,7 @@ struct epub_document : public cainteoir::document_events
 				}
 				else if (mimetype == "application/xhtml+xml")
 				{
-					const rdf::uri location = rdf::uri(mSubject.str() + "!/" + filename, aLocation.ref);
+					const rdf::uri location = mEpub.location(filename, aLocation.ref);
 					mEvents.anchor(location, std::string());
 					cainteoir::parseXHtmlDocument(reader, location, *this, mGraph);
 				}
@@ -133,7 +133,7 @@ void cainteoir::parseEpubDocument(std::shared_ptr<cainteoir::buffer> aData, cons
 {
 	epub_document epub(aData, events, aSubject, aGraph);
 
-	std::shared_ptr<cainteoir::buffer> data = epub.read(epub.mOpfFile.c_str());
+	auto data = epub.read(epub.mOpfFile.c_str());
 	if (!data)
 		throw std::runtime_error(i18n("Unsupported ePub content: OPF file not found."));
 
