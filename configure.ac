@@ -175,6 +175,19 @@ AC_COMPILE_IFELSE(
 	 AC_MSG_ERROR([C++11 std::shared_ptr not supported by $CXX.])])
 AC_LANG_POP(C++)
 
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 std::begin/std::end])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[#include <iterator>]],
+		[[int data[] = { 1, 2, 3, 4, 5 };]
+		 [int *first = std::begin(data);]
+		 [int *last  = std::end(data);]])],
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])
+	 AC_MSG_ERROR([C++11 std::begin/std::end not supported by $CXX.])])
+AC_LANG_POP(C++)
+
 dnl ================================================================
 dnl getopt checks.
 dnl ================================================================

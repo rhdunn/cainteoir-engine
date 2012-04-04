@@ -81,8 +81,6 @@ static const ParseDocument doc_handlers[] = {
 	{ &mime::rtf,  &cainteoir::parseRtfDocument },
 };
 
-#define countof(a) (sizeof(a)/sizeof(a[0]))
-
 std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 {
 	cainteoir::rope data;
@@ -284,7 +282,7 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::ur
 {
 	// Encoded documents ...
 
-	for (const DecodeDocument *decode = decode_handlers; decode != decode_handlers + countof(decode_handlers); ++decode)
+	for (const DecodeDocument *decode = std::begin(decode_handlers); decode != std::end(decode_handlers); ++decode)
 	{
 		if (decode->mimetype->match(data))
 		{
@@ -305,7 +303,7 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::ur
 		std::string namespaceUri = reader.namespaceUri();
 		std::string rootName     = reader.nodeName().str();
 
-		for (const ParseXmlDocument *xml = xml_handlers; xml != xml_handlers + countof(xml_handlers); ++xml)
+		for (const ParseXmlDocument *xml = std::begin(xml_handlers); xml != std::end(xml_handlers); ++xml)
 		{
 			if (xml->mimetype->match(namespaceUri, rootName))
 			{
@@ -355,7 +353,7 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::ur
 
 	if (mime::zip.match(data))
 	{
-		for (const ParseZipDocument *parse = zip_handlers; parse != zip_handlers + countof(zip_handlers); ++parse)
+		for (const ParseZipDocument *parse = std::begin(zip_handlers); parse != std::end(zip_handlers); ++parse)
 		{
 			if (parse->mimetype->match(data))
 			{
@@ -371,7 +369,7 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::ur
 
 	// Other documents ...
 
-	for (const ParseDocument *parse = doc_handlers; parse != doc_handlers + countof(doc_handlers); ++parse)
+	for (const ParseDocument *parse = std::begin(doc_handlers); parse != std::end(doc_handlers); ++parse)
 	{
 		if (parse->mimetype->match(data))
 		{

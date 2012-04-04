@@ -62,13 +62,11 @@ static const replacement replacements[] = {
 	{ "tab",        "\x09" },
 };
 
-#define countof(a) (sizeof(a)/sizeof(a[0]))
-
 std::shared_ptr<cainteoir::buffer> lookupReplacementText(const cainteoir::encoding & aEncoding, const std::shared_ptr<cainteoir::buffer> & token, int value)
 {
 	if (!token->compare("'"))
 		return aEncoding.lookup((char)value);
-	else for (const replacement * first = replacements, * last = replacements + countof(replacements); first != last; ++first)
+	else for (const replacement *first = std::begin(replacements), *last = std::end(replacements); first != last; ++first)
 	{
 		if (!token->compare(first->token) && first->text)
 			return std::make_shared<cainteoir::buffer>(first->text);

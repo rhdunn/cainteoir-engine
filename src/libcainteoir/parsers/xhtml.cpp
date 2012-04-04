@@ -22,8 +22,6 @@
 #include <cainteoir/xmlreader.hpp>
 #include <stack>
 
-#define countof(a) (sizeof(a)/sizeof(a[0]))
-
 namespace xml   = cainteoir::xml;
 namespace xmlns = cainteoir::xml::xmlns;
 namespace rdf   = cainteoir::rdf;
