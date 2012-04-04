@@ -121,6 +121,7 @@ endif
 libcainteoir_includedir = $(includedir)/cainteoir
 libcainteoir_include_HEADERS = \
 	src/include/cainteoir/languages.hpp \
+	src/include/cainteoir/archive.hpp \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
 	src/include/cainteoir/encoding.hpp \
@@ -163,7 +164,6 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/rdf/metadata.cpp \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/parsers/parsers.hpp \
-	src/libcainteoir/parsers/zip.hpp \
 	src/libcainteoir/parsers/zip.cpp \
 	src/libcainteoir/parsers/xmlreader.cpp \
 	src/libcainteoir/parsers/html-entities.h \

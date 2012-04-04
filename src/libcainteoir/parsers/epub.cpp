@@ -20,9 +20,9 @@
 
 #include "config.h"
 #include "i18n.h"
-
 #include "parsers.hpp"
-#include "zip.hpp"
+
+#include <cainteoir/archive.hpp>
 #include <stdexcept>
 
 namespace rdf = cainteoir::rdf;

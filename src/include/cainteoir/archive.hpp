@@ -1,4 +1,4 @@
-/* ZIP File API.
+/* Archive/File Collection API.
  *
  * Copyright (C) 2010-2012 Reece H. Dunn
  *
@@ -18,12 +18,11 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAINTEOIR_ENGINE_ZIP_HPP
-#define CAINTEOIR_ENGINE_ZIP_HPP
+#ifndef CAINTEOIR_ENGINE_ARCHIVE_HPP
+#define CAINTEOIR_ENGINE_ARCHIVE_HPP
 
-#include <cainteoir/buffer.hpp>
-#include <cainteoir/metadata.hpp>
-#include <map>
+#include "buffer.hpp"
+#include "metadata.hpp"
 
 namespace cainteoir
 {

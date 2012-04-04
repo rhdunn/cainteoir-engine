@@ -22,10 +22,9 @@
 #include "compatibility.hpp"
 #include "i18n.h"
 
-#include "zip.hpp"
-#include "parsers.hpp"
-
+#include <cainteoir/archive.hpp>
 #include <stdexcept>
+#include <map>
 
 #define ZIP_HEADER_MAGIC 0x04034b50
 
