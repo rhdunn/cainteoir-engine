@@ -429,6 +429,7 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
 		mime::rtf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 		mime::ssml .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 		mime::gzip .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::zip  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 	}
 
 	if (capabilities & cainteoir::metadata_support)
