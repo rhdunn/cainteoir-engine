@@ -73,7 +73,7 @@ cainteoir::zip::archive::archive(std::shared_ptr<cainteoir::buffer> aData, const
 	{
 		const char *ptr = (const char *)hdr + sizeof(zip_header);
 
-		(*this)[ std::string(ptr, ptr + hdr->len_filename) ] = hdr;
+		data[ std::string(ptr, ptr + hdr->len_filename) ] = hdr;
 
 		hdr = (const zip_header *)(ptr + hdr->len_filename + hdr->len_extra + hdr->compressed);
 	}
@@ -86,8 +86,8 @@ const cainteoir::rdf::uri cainteoir::zip::archive::location(const std::string &a
 
 std::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char *aFilename) const
 {
-	auto entry = find(aFilename);
-	if (entry == end())
+	auto entry = data.find(aFilename);
+	if (entry == data.end())
 		return std::shared_ptr<buffer>();
 
 	const zip_header * hdr = (const zip_header *)entry->second;

@@ -27,7 +27,7 @@
 
 namespace cainteoir { namespace zip
 {
-	class archive : public std::map<std::string, const void *>
+	class archive
 	{
 	public:
 		archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject);
@@ -36,6 +36,7 @@ namespace cainteoir { namespace zip
 
 		std::shared_ptr<buffer> read(const char *aFilename) const;
 	private:
+		std::map<std::string, const void *> data;
 		std::string base;
 	};
 }}
