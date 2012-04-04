@@ -33,6 +33,8 @@ namespace cainteoir
 		virtual const rdf::uri location(const std::string &aFilename, const std::string &aRef) const = 0;
 
 		virtual std::shared_ptr<buffer> read(const char *aFilename) const = 0;
+
+		virtual const std::list<std::string> &files() const = 0;
 	};
 
 	std::shared_ptr<archive> create_zip_archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject);

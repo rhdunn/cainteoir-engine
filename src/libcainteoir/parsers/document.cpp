@@ -365,7 +365,16 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::ur
 			}
 		}
 
-		return false;
+		bool parsed = false;
+		const auto &files = archive->files();
+		for (auto file = files.begin(), last = files.end(); file != last; ++file)
+		{
+			auto buffer   = archive->read(file->c_str());
+			auto location = archive->location(*file, std::string());
+			parsed |= parseDocumentBuffer(buffer, location, events, aGraph, includeMimetypeMetadata);
+		}
+
+		return parsed;
 	}
 
 	// Other documents ...

@@ -72,8 +72,11 @@ public:
 	const cainteoir::rdf::uri location(const std::string &aFilename, const std::string &aRef) const;
 
 	std::shared_ptr<cainteoir::buffer> read(const char *aFilename) const;
+
+	const std::list<std::string> &files() const;
 private:
 	std::map<std::string, const zip_header *> data;
+	std::list<std::string> filelist;
 	std::string base;
 };
 
@@ -84,8 +87,11 @@ zip_archive::zip_archive(std::shared_ptr<cainteoir::buffer> aData, const cainteo
 	while ((const char *)hdr < aData->end() && hdr->magic == ZIP_HEADER_MAGIC)
 	{
 		const char *ptr = (const char *)hdr + sizeof(zip_header);
+		std::string filename(ptr, ptr + hdr->len_filename);
 
-		data[ std::string(ptr, ptr + hdr->len_filename) ] = hdr;
+		data[ filename ] = hdr;
+		if (*(--filename.end()) != '/') // not a directory
+			filelist.push_back(filename);
 
 		hdr = (const zip_header *)(ptr + hdr->len_filename + hdr->len_extra + hdr->compressed);
 	}
@@ -111,6 +117,11 @@ std::shared_ptr<cainteoir::buffer> zip_archive::read(const char *aFilename) cons
 	cainteoir::buffer compressed { ptr, ptr + hdr->compressed };
 
 	return decoder(compressed, hdr->uncompressed);
+}
+
+const std::list<std::string> &zip_archive::files() const
+{
+	return filelist;
 }
 
 std::shared_ptr<cainteoir::archive> cainteoir::create_zip_archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject)
