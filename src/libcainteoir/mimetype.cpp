@@ -48,6 +48,7 @@ static const char *text_mimetype   = "text/plain";
 static const char *wav_mimetype    = "audio/x-wav";
 static const char *xhtml_mimetype  = "application/xhtml+xml";
 static const char *xml_mimetype    = "application/xml";
+static const char *zip_mimetype    = "application/zip";
 
 static std::initializer_list<const char *> mimetype_list = {
 	email_mimetype,
@@ -65,7 +66,8 @@ static std::initializer_list<const char *> mimetype_list = {
 	text_mimetype,
 	wav_mimetype,
 	xhtml_mimetype,
-	xml_mimetype
+	xml_mimetype,
+	zip_mimetype,
 };
 
 struct matchlet
@@ -522,6 +524,7 @@ const m::mimetype m::text(  "text",  text_mimetype);
 const m::mimetype m::wav(   "wav",   wav_mimetype);
 const m::mimetype m::xhtml( "xhtml", xhtml_mimetype);
 const m::mimetype m::xml(   "xml",   xml_mimetype);
+const m::mimetype m::zip(   "zip",   zip_mimetype);
 
 /** References
   *

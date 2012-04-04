@@ -73,6 +73,7 @@ namespace cainteoir { namespace mime
 	extern const mimetype wav;    /**< @brief wave audio */
 	extern const mimetype xhtml;  /**< @brief xhtml document */
 	extern const mimetype xml;    /**< @brief extensible markup document */
+	extern const mimetype zip;    /**< @brief zip (compressed) archive */
 
 	//@}
 }}

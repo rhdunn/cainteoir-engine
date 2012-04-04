@@ -40,6 +40,17 @@ static const DecodeDocument decode_handlers[] = {
 	{ &mime::gzip, &cainteoir::inflate_gzip },
 };
 
+struct ParseZipDocument
+{
+	const mime::mimetype *mimetype;
+	decltype(cainteoir::parseEpubDocument) *parser;
+};
+
+// magic = uncompressed mimetype file ...
+static const ParseZipDocument zip_handlers[] = {
+	{ &mime::epub, &cainteoir::parseEpubDocument },
+};
+
 struct ParseXmlDocument
 {
 	const mime::mimetype *mimetype;
@@ -60,7 +71,7 @@ static const ParseXmlDocument xml_handlers[] = {
 struct ParseDocument
 {
 	const mime::mimetype *mimetype;
-	decltype(cainteoir::parseEpubDocument) *parser;
+	decltype(cainteoir::parseRtfDocument) *parser;
 };
 
 // magic = document specific ...
@@ -338,6 +349,24 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const rdf::ur
 
 		if (mime->begin() != data->begin()) // Avoid an infinite loop when there is just the mime header.
 			return parseDocumentBuffer(decoded, subject, events, aGraph, includeMimetypeMetadata);
+	}
+
+	// Zip/Compressed documents ...
+
+	if (mime::zip.match(data))
+	{
+		for (const ParseZipDocument *parse = zip_handlers; parse != zip_handlers + countof(zip_handlers); ++parse)
+		{
+			if (parse->mimetype->match(data))
+			{
+				parse->parser(data, subject, events, aGraph);
+				if (includeMimetypeMetadata)
+					aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(parse->mimetype->mime_type));
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	// Other documents ...
