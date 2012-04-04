@@ -88,5 +88,8 @@ std::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char *aFi
 		throw std::runtime_error(i18n("decompression failed (unsupported compression type)"));
 
 	const char *ptr = (const char *)hdr + sizeof(zip_header) + hdr->len_filename + hdr->len_extra;
-	return (*(zip_compression.begin() + hdr->compression_type))(cainteoir::buffer(ptr, ptr + hdr->compressed), hdr->uncompressed);
+	cainteoir::buffer compressed { ptr, ptr + hdr->compressed };
+	auto decoder = *(zip_compression.begin() + hdr->compression_type);
+
+	return decoder(compressed, hdr->uncompressed);
 }
