@@ -1,6 +1,6 @@
 /* ZIP File API.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -25,20 +25,22 @@
 #include <cainteoir/metadata.hpp>
 #include <map>
 
-namespace cainteoir { namespace zip
+namespace cainteoir
 {
 	class archive
 	{
 	public:
-		archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject);
+		virtual ~archive() {}
 
-		const rdf::uri location(const std::string &aFilename, const std::string &aRef) const;
+		virtual const rdf::uri location(const std::string &aFilename, const std::string &aRef) const = 0;
 
-		std::shared_ptr<buffer> read(const char *aFilename) const;
+		virtual std::shared_ptr<buffer> read(const char *aFilename) const = 0;
 	private:
 		std::map<std::string, const void *> data;
 		std::string base;
 	};
-}}
+
+	std::shared_ptr<archive> create_zip_archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject);
+}
 
 #endif
