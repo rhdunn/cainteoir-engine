@@ -26,7 +26,18 @@
 #include <list>
 #include <map>
 
-bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const cainteoir::rdf::uri &subject, cainteoir::document_events &events, cainteoir::rdf::graph &aGraph, bool includeMimetypeMetadata);
+enum parser_flags
+{
+	no_document_flags = 0,
+	include_document_mimetype = 1,
+	needs_document_title = 2,
+};
+
+bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
+                         const cainteoir::rdf::uri &subject,
+                         cainteoir::document_events &events,
+                         cainteoir::rdf::graph &aGraph,
+                         parser_flags flags);
 
 namespace cainteoir
 {

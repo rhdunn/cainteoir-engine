@@ -1,3 +1,5 @@
+toc-entry [] depth=0 title="""eol.txt"""
+anchor []
 text(99): """This is a line spanning multiple quoted printable lines.
 
 These are normal lines with

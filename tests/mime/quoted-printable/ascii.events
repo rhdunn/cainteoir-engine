@@ -1,3 +1,5 @@
+toc-entry [] depth=0 title="""ascii.txt"""
+anchor []
 text(55): """This is basic ascii text
 without any escape sequences.
 """

@@ -136,5 +136,5 @@ void cainteoir::parseEpubDocument(std::shared_ptr<cainteoir::archive> aData, con
 	if (!data)
 		throw std::runtime_error(i18n("Unsupported ePub content: OPF file not found."));
 
-	parseDocumentBuffer(data, aSubject, epub, aGraph, false);
+	parseDocumentBuffer(data, aSubject, epub, aGraph, no_document_flags);
 }

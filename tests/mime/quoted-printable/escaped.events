@@ -1,2 +1,4 @@
+toc-entry [] depth=0 title="""@title@"""
+anchor []
 text(4): """A=B
 """
