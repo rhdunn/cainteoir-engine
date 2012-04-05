@@ -408,12 +408,23 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
-void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *body_ctx, std::string title)
+void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *body_ctx, std::string title, bool first)
 {
 	rdf::uri href(aSubject.str(), std::string());
 	cainteoir::rope htext;
 	int hid = 0;
 	bool genAnchor = false;
+
+	if (title.empty() && first)
+	{
+		std::string title = aSubject.str();
+		std::string::size_type sep = title.rfind('/');
+		if (sep != std::string::npos)
+			title = title.substr(sep + 1);
+
+		events.toc_entry(0, aSubject, title);
+		events.anchor(aSubject, std::string());
+	}
 
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -504,13 +515,17 @@ void parseHtmlNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 {
 	std::string lang;
 	std::string title;
+	bool first = true;
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
 		if (reader.context() == &html::head_node)
 			title = parseHeadNode(reader, aSubject, events, aGraph);
 		else
-			parseBodyNode(reader, aSubject, events, reader.context(), title);
+		{
+			parseBodyNode(reader, aSubject, events, reader.context(), title, first);
+			first = false;
+		}
 		break;
 	case xml::reader::attribute:
 		if (reader.context() == &xml::lang_attr && lang.empty())
@@ -545,6 +560,7 @@ void cainteoir::parseHtmlDocument(std::shared_ptr<cainteoir::buffer> data, const
 	reader.set_attrs(xmlns::xml,    xml::attrs);
 
 	std::string title;
+	bool first = true;
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
@@ -553,7 +569,10 @@ void cainteoir::parseHtmlDocument(std::shared_ptr<cainteoir::buffer> data, const
 		else if (reader.context() == &html::head_node)
 			title = parseHeadNode(reader, aSubject, events, aGraph);
 		else
-			parseBodyNode(reader, aSubject, events, reader.context(), title);
+		{
+			parseBodyNode(reader, aSubject, events, reader.context(), title, first);
+			first = false;
+		}
 		break;
 	}
 }
