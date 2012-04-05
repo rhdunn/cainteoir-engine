@@ -1,0 +1,19 @@
+toc-entry [] depth=0 title="""Heading 1"""
+begin-context heading 1
+text(9): """Heading 1"""
+end-context
+begin-context heading 2
+anchor [#]genid.h0
+text(11): """Heading 1.1"""
+end-context
+toc-entry [#]genid.h0 depth=0 title="""Heading 1.1"""
+begin-context heading 1
+anchor [#]genid.h1
+text(9): """Heading 2"""
+end-context
+toc-entry [#]genid.h1 depth=0 title="""Heading 2"""
+begin-context heading 2
+anchor [#]genid.h2
+text(11): """Heading 2.1"""
+end-context
+toc-entry [#]genid.h2 depth=0 title="""Heading 2.1"""

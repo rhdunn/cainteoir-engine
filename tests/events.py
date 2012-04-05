@@ -51,6 +51,8 @@ if __name__ == '__main__':
 			{'test': 'html/sections/headings.xhtml', 'result': 'html/sections/headings.events'},
 			{'test': 'html/sections/headings-with-id.html', 'result': 'html/sections/headings-with-id.events'},
 			{'test': 'html/sections/headings-with-id.xhtml', 'result': 'html/sections/headings-with-id.events'},
+			{'test': 'html/sections/heading-with-matching-title.html', 'result': 'html/sections/heading-with-matching-title.events'},
+			{'test': 'html/sections/heading-with-matching-title.xhtml', 'result': 'html/sections/heading-with-matching-title.events'},
 			{'test': 'html/sections/menu.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/menu.xhtml', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/no-body.html', 'result': 'html/sections/no-body.events'},
