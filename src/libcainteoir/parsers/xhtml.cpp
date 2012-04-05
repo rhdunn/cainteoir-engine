@@ -475,6 +475,9 @@ void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		if (reader.context()->context != cainteoir::events::unknown)
 		{
 			events.end_context();
+			if (reader.context()->context == cainteoir::events::heading)
+				title.clear();
+
 			if (reader.context()->context == cainteoir::events::heading && !htext.empty())
 			{
 				std::shared_ptr<cainteoir::buffer> text = htext.normalize();
