@@ -77,6 +77,8 @@ if __name__ == '__main__':
 			{'test': 'html/metadata/meta/shs-author.xhtml', 'result': 'html/metadata/meta/creator.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/meta/shs-keywords.html', 'result': 'html/metadata/meta/keywords.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/meta/shs-keywords.xhtml', 'result': 'html/metadata/meta/keywords.n3', 'mimetype': 'application/xhtml+xml'},
+			{'test': 'html/metadata/meta/shs-summary.html', 'result': 'html/metadata/meta/description.n3', 'mimetype': 'text/html'},
+			{'test': 'html/metadata/meta/shs-summary.xhtml', 'result': 'html/metadata/meta/description.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/meta/shs-title.html', 'result': 'html/metadata/meta/title.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/meta/shs-title.xhtml', 'result': 'html/metadata/meta/title.n3', 'mimetype': 'application/xhtml+xml'},
 		]},

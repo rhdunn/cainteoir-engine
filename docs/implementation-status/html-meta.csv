@@ -31,7 +31,7 @@
 ,shs-author,,0.8,0.8,dc:creator
 ,shs-keywords,,0.8,0.8,dc:subject
 ,shs-part,,no,no,
-,shs-summary,,no,no,
+,shs-summary,,0.8,0.8,dc:description
 ,shs-title,,0.8,0.8,dc:title
 ,subject,,no,no,
 ,summary,,no,no,

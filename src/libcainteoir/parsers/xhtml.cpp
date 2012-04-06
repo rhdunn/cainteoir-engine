@@ -375,6 +375,10 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 					aGraph.statement(aSubject, rdf::dc("subject"), rdf::literal(keyword));
 				}
 			}
+			else if (name == "shs-summary")
+			{
+				aGraph.statement(aSubject, rdf::dc("description"), rdf::literal(content, lang));
+			}
 			else if (name == "shs-title")
 			{
 				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(content, lang));
