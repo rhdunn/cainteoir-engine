@@ -20,6 +20,7 @@
 
 #include "parsers.hpp"
 #include <cainteoir/xmlreader.hpp>
+#include <algorithm>
 #include <stack>
 
 namespace xml   = cainteoir::xml;
@@ -358,13 +359,25 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	case xml::reader::endTagNode:
 		if (reader.context() == &html::meta_node)
 		{
-			if (name == "shs-title")
-			{
-				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(content, lang));
-			}
-			else if (name == "shs-author")
+			if (name == "shs-author")
 			{
 				aGraph.statement(aSubject, rdf::dc("creator"), rdf::literal(content));
+			}
+			else if (name == "shs-keywords")
+			{
+				std::istringstream keywords(content);
+				std::string keyword;
+				while (std::getline(keywords, keyword, ','))
+				{
+					keyword.erase(0, keyword.find_first_not_of(" \t"));
+					keyword.erase(keyword.find_last_not_of(" \t")+1);
+
+					aGraph.statement(aSubject, rdf::dc("subject"), rdf::literal(keyword));
+				}
+			}
+			else if (name == "shs-title")
+			{
+				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(content, lang));
 			}
 			return;
 		}
