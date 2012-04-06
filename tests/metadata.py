@@ -69,6 +69,8 @@ if __name__ == '__main__':
 		{'name': 'lang metadata', 'type': 'turtle', 'tests': [
 			{'test': 'html/metadata/lang.html', 'result': 'html/metadata/lang.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/lang.xhtml', 'result': 'html/metadata/lang.n3', 'mimetype': 'application/xhtml+xml'},
+			{'test': 'html/metadata/lang-on-body.html', 'result': 'html/metadata/lang-on-body.n3', 'mimetype': 'text/html'},
+			{'test': 'html/metadata/lang-on-body.xhtml', 'result': 'html/metadata/lang-on-body.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/xmllang.xhtml', 'result': 'html/metadata/xmllang.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/lang-and-xmllang.xhtml', 'result': 'html/metadata/lang.n3', 'mimetype': 'application/xhtml+xml'},
 		]},

@@ -464,7 +464,7 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
-void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *body_ctx, std::string title, bool first)
+void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph, const xml::context::entry *body_ctx, std::string title, bool first)
 {
 	rdf::uri href(aSubject.str(), std::string());
 	cainteoir::rope htext;
@@ -482,6 +482,8 @@ void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		events.anchor(aSubject, std::string());
 	}
 
+	std::string lang;
+	bool in_body = true;
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
@@ -491,8 +493,14 @@ void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 			events.anchor(href, std::string());
 			genAnchor = false;
 		}
+		else if (in_body && reader.context() == &xml::lang_attr && lang.empty())
+		{
+			lang = reader.nodeValue().buffer()->str();
+			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
+		}
 		break;
 	case xml::reader::beginTagNode:
+		in_body = false;
 		if (reader.context() == &html::script_node || reader.context() == &html::style_node)
 			skipNode(reader, reader.nodeName());
 		else if (reader.context()->context != cainteoir::events::unknown)
@@ -579,7 +587,7 @@ void parseHtmlNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 			title = parseHeadNode(reader, aSubject, events, aGraph);
 		else
 		{
-			parseBodyNode(reader, aSubject, events, reader.context(), title, first);
+			parseBodyNode(reader, aSubject, events, aGraph, reader.context(), title, first);
 			first = false;
 		}
 		break;
@@ -626,7 +634,7 @@ void cainteoir::parseHtmlDocument(std::shared_ptr<cainteoir::buffer> data, const
 			title = parseHeadNode(reader, aSubject, events, aGraph);
 		else
 		{
-			parseBodyNode(reader, aSubject, events, reader.context(), title, first);
+			parseBodyNode(reader, aSubject, events, aGraph, reader.context(), title, first);
 			first = false;
 		}
 		break;
