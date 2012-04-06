@@ -1,3 +1,5 @@
+toc-entry [] depth=0 title="""hex-ansi.rtf"""
+anchor []
 begin-context paragraph
 text(49): """RTF can escape characters with the "'" character."""
 end-context

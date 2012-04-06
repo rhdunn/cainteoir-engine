@@ -247,13 +247,20 @@ enum BlockState
 	OtherBlock,
 };
 
+enum TitleState
+{
+	NeedTitle,
+	HaveTitle,
+};
+
 void parseRtfBlock(rtf_reader &rtf,
                    const rdf::uri &aSubject,
                    cainteoir::document_events &events,
                    rdf::graph &aGraph,
                    cainteoir::rope &aText,
                    cainteoir::encoding &codepage,
-                   BlockState blockState)
+                   BlockState blockState,
+                   TitleState &titleState)
 {
 	if (!rtf.read()) return;
 
@@ -300,7 +307,7 @@ void parseRtfBlock(rtf_reader &rtf,
 	do switch (rtf.token())
 	{
 	case rtf_reader::begin_block:
-		parseRtfBlock(rtf, aSubject, events, aGraph, aText, codepage, blockState);
+		parseRtfBlock(rtf, aSubject, events, aGraph, aText, codepage, blockState, titleState);
 		break;
 	case rtf_reader::end_block:
 		return;
@@ -311,6 +318,18 @@ void parseRtfBlock(rtf_reader &rtf,
 				aText += text;
 			else if (!rtf.data()->compare("par") && !aText.empty())
 			{
+				if (titleState == NeedTitle)
+				{
+					std::string title = aSubject.str();
+					std::string::size_type sep = title.rfind('/');
+					if (sep != std::string::npos)
+						title = title.substr(sep + 1);
+
+					events.toc_entry(0, aSubject, title);
+					events.anchor(aSubject, std::string());
+					titleState = HaveTitle;
+				}
+
 				events.begin_context(cainteoir::events::paragraph);
 				events.text(aText.buffer());
 				aText.clear();
@@ -346,7 +365,13 @@ void parseRtfBlock(rtf_reader &rtf,
 				aGraph.statement(temp, rdf::opf("role"), rdf::literal("edt"));
 			}
 			else if (context == "title")
-				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(rtf.data()->str()));
+			{
+				std::string title = rtf.data()->str();
+				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
+				events.toc_entry(0, aSubject, title);
+				events.anchor(aSubject, std::string());
+				titleState = HaveTitle;
+			}
 			else if (context == "subject")
 				aGraph.statement(aSubject, rdf::dc("description"), rdf::literal(rtf.data()->str()));
 			else if (context == "keywords")
@@ -373,7 +398,8 @@ void cainteoir::parseRtfDocument(std::shared_ptr<cainteoir::buffer> aData, const
 
 	if (rtf.read() && rtf.token() == rtf_reader::begin_block)
 	{
-		parseRtfBlock(rtf, aSubject, events, aGraph, text, codepage, RtfBlock);
+		TitleState titleState = NeedTitle;
+		parseRtfBlock(rtf, aSubject, events, aGraph, text, codepage, RtfBlock, titleState);
 		if (!text.empty())
 		{
 			events.begin_context(cainteoir::events::paragraph);

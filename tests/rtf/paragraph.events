@@ -1,3 +1,5 @@
+toc-entry [] depth=0 title="""paragraph.rtf"""
+anchor []
 begin-context paragraph
 text(48): """This is the first paragraph in the rtf document."""
 end-context

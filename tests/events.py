@@ -182,7 +182,7 @@ if __name__ == '__main__':
 			{'test': 'rtf/paragraph.rtf', 'result': 'rtf/paragraph.events'},
 			{'test': 'rtf/escaped.rtf', 'result': 'rtf/escaped.events'},
 			{'test': 'rtf/hex-ansi.rtf', 'result': 'rtf/hex-ansi.events'},
-			{'test': 'rtf/libreoffice.rtf', 'result': 'rtf/simple.events'},
+			{'test': 'rtf/libreoffice.rtf', 'result': 'rtf/libreoffice.events'},
 		]},
 	]})
 	test.run({'name': 'SSML', 'groups': [
