@@ -172,6 +172,9 @@ namespace html
 	static const xml::context::entry var_node        = { events::span,      events::emphasized }; // HTML§14.3.4
 	static const xml::context::entry video_node      = { events::unknown,   0 };
 	static const xml::context::entry wbr_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+
+	static const xml::context::entry name_attr       = { events::unknown,   0 };
+	static const xml::context::entry content_attr    = { events::unknown,   0 };
 }
 
 static const std::initializer_list<const xml::context::entry_ref> html_nodes =
@@ -304,8 +307,10 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 
 static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 {
-	{ "id",   &xml::id_attr },
-	{ "lang", &xml::lang_attr },
+	{ "content", &html::content_attr },
+	{ "id",      &xml::id_attr },
+	{ "lang",    &xml::lang_attr },
+	{ "name",    &html::name_attr },
 };
 
 void skipNode(xml::reader &reader, const cainteoir::buffer name)
@@ -343,6 +348,34 @@ std::string parseTitleNode(xml::reader &reader, const rdf::uri &aSubject, cainte
 	return title;
 }
 
+void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+{
+	std::string name;
+	std::string lang;
+	std::string content;
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::endTagNode:
+		if (reader.context() == &html::meta_node)
+		{
+			if (name == "shs-title")
+			{
+				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(content, lang));
+			}
+			return;
+		}
+		break;
+	case xml::reader::attribute:
+		if (reader.context() == &html::name_attr)
+			name = reader.nodeValue().normalize()->str();
+		else if (reader.context() == &html::content_attr)
+			content = reader.nodeValue().normalize()->str();
+		else if (reader.context() == &xml::lang_attr)
+			lang = reader.nodeValue().normalize()->str();
+		break;
+	}
+}
+
 std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	std::string title;
@@ -351,6 +384,8 @@ std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, cainteo
 	case xml::reader::beginTagNode:
 		if (reader.context() == &html::title_node)
 			title = parseTitleNode(reader, aSubject, events, aGraph);
+		else if (reader.context() == &html::meta_node)
+			parseMetaNode(reader, aSubject, events, aGraph);
 		else if (reader.context()->parse_type == xml::context::hidden)
 			skipNode(reader, reader.nodeName());
 		break;

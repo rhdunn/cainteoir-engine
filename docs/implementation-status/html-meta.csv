@@ -1,0 +1,40 @@
+@type,spec
+@name,HTML Meta Tag
+@version,
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# section,title,url,implemented,tests,comments
+
+,abstract,,no,no,
+,author,,no,no,
+,cache-control,,no,no,
+,category,,no,no,
+,classification,,no,no,
+,copyright,,no,no,
+,coverage,,no,no,
+,description,,no,no,
+,designer,,no,no,
+,directory,,no,no,
+,distribution,,no,no,
+,expires,,no,no,
+,identifier-url,,no,no,
+,keywords,,no,no,
+,language,,no,no,
+,owner,,no,no,
+,pragma,,no,no,
+,rating,,no,no,
+,reply-to,,no,no,
+,revised,,no,no,
+,revisit-after,,no,no,
+,robots,,no,no,
+,shs-author,,no,no,
+,shs-keywords,,no,no,
+,shs-part,,no,no,
+,shs-summary,,no,no,
+,shs-title,,0.8,0.8,dc:title
+,subject,,no,no,
+,summary,,no,no,
+,title,,no,no,
+,topic,,no,no,
+,url,,no,no,

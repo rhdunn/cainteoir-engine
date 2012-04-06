@@ -14,7 +14,7 @@
 4.2.2,title,,0.1,0.1,including metadata (dc:title)
 4.2.3,base,,no,no,
 4.2.4,link,,no,no,
-4.2.5,meta,,no,no,
+4.2.5,meta,,0.8,0.8,
 4.2.6,style,,0.1,0.1,CSS styles are not processed or applied.
 4.3.1,script,,0.1,0.1,Scripts are not executed.
 4.3.2,noscript,,no,no,

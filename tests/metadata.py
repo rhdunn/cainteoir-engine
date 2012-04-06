@@ -72,6 +72,10 @@ if __name__ == '__main__':
 			{'test': 'html/metadata/xmllang.xhtml', 'result': 'html/metadata/xmllang.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/lang-and-xmllang.xhtml', 'result': 'html/metadata/lang.n3', 'mimetype': 'application/xhtml+xml'},
 		]},
+		{'name': 'meta - basic (@name, @content)', 'type': 'turtle', 'tests': [
+			{'test': 'html/metadata/meta/shs-title.html', 'result': 'html/metadata/meta/title.n3', 'mimetype': 'text/html'},
+			{'test': 'html/metadata/meta/shs-title.xhtml', 'result': 'html/metadata/meta/title.n3', 'mimetype': 'application/xhtml+xml'},
+		]},
 	]})
 	test.run({'name': 'NCX', 'groups': [
 		{'name': 'metadata', 'type': 'turtle', 'tests': [
