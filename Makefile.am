@@ -91,7 +91,7 @@ EXTRA_DIST += \
 	src/schema/*.rdf
 
 data/languages.rdf.gz: data/languages.rdf
-	gzip -c $< > $@
+	gzip -n -c $< > $@
 
 pkgdata_DATA += \
 	data/languages.rdf.gz \
