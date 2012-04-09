@@ -41,6 +41,38 @@ AC_LANG_POP(C++)
 
 AC_LANG_PUSH(C++)
 TEMP_CXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS -std=c++11"
+AC_MSG_CHECKING([if $CXX supports C++11 with the -std=c++11 flag])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[template <typename T> struct right_angle_brackets {};]
+		 [typedef right_angle_brackets<right_angle_brackets<int>> cpp11_check;]],
+		[[]])],
+	[AC_MSG_RESULT([yes])
+	 have_cxx11_cxx11=yes],
+	[AC_MSG_RESULT([no])
+	 have_cxx11_cxx11=no])
+CXXFLAGS="$TEMP_CXXFLAGS"
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+TEMP_CXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS -std=gnu++11"
+AC_MSG_CHECKING([if $CXX supports C++11 with the -std=gnu++11 flag])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[template <typename T> struct right_angle_brackets {};]
+		 [typedef right_angle_brackets<right_angle_brackets<int>> cpp11_check;]],
+		[[]])],
+	[AC_MSG_RESULT([yes])
+	 have_cxx11_gnuxx11=yes],
+	[AC_MSG_RESULT([no])
+	 have_cxx11_gnuxx11=no])
+CXXFLAGS="$TEMP_CXXFLAGS"
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+TEMP_CXXFLAGS="$CXXFLAGS"
 CXXFLAGS="$CXXFLAGS -std=c++0x"
 AC_MSG_CHECKING([if $CXX supports C++11 with the -std=c++0x flag])
 AC_COMPILE_IFELSE(
@@ -72,7 +104,13 @@ CXXFLAGS="$TEMP_CXXFLAGS"
 AC_LANG_POP(C++)
 
 AC_MSG_CHECKING([if $CXX supports C++11])
-if test "$have_cxx11_cxx0x" = yes ; then
+if test "$have_cxx11_cxx11" = yes ; then
+	AC_MSG_RESULT([-std=c++11])
+	CXXFLAGS="$CXXFLAGS -std=c++11"
+elif test "$have_cxx11_gnuxx11" = yes ; then
+	AC_MSG_RESULT([-std=gnu++11])
+	CXXFLAGS="$CXXFLAGS -std=gnu++11"
+elif test "$have_cxx11_cxx0x" = yes ; then
 	AC_MSG_RESULT([-std=c++0x])
 	CXXFLAGS="$CXXFLAGS -std=c++0x"
 elif test "$have_cxx11_gnuxx0x" = yes ; then
