@@ -314,6 +314,12 @@ static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 	{ "name",    &html::name_attr },
 };
 
+static std::string to_lower(std::string s)
+{
+	std::transform(s.begin(), s.end(), s.begin(), ::tolower);
+	return s;
+}
+
 void skipNode(xml::reader &reader, const cainteoir::buffer name)
 {
 	while (reader.read()) switch (reader.nodeType())
@@ -388,7 +394,7 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		break;
 	case xml::reader::attribute:
 		if (reader.context() == &html::name_attr)
-			name = reader.nodeValue().normalize()->str();
+			name = to_lower(reader.nodeValue().normalize()->str());
 		else if (reader.context() == &html::content_attr)
 			content = reader.nodeValue().normalize()->str();
 		else if (reader.context() == &xml::lang_attr)

@@ -3,4 +3,5 @@
 
 <> dc:description "Lorem ipsum" .
 <> dc:description "Lorem ipsum dolor"@fr .
+<> dc:description "Ipsum dolor" .
 <> tts:mimetype "@mimetype@" .

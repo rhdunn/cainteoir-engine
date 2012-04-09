@@ -4,4 +4,7 @@
 <> dc:subject "one" .
 <> dc:subject "two" .
 <> dc:subject "three" .
+<> dc:subject "Three" .
+<> dc:subject "Two" .
+<> dc:subject "One" .
 <> tts:mimetype "@mimetype@" .

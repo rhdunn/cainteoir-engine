@@ -3,4 +3,5 @@
 
 <> dc:title "Test File" .
 <> dc:title "Test File (Spanish)"@es .
+<> dc:title "Test Case" .
 <> tts:mimetype "@mimetype@" .

@@ -2,4 +2,5 @@
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 
 <> dc:creator "Joe Bloggs" .
+<> dc:creator "Jane Bloggs" .
 <> tts:mimetype "@mimetype@" .
