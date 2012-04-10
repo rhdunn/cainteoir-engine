@@ -377,7 +377,7 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	case xml::reader::endTagNode:
 		if (reader.context() == &html::meta_node)
 		{
-			if (!name)
+			if (!name || content.empty())
 				return;
 
 			const xml::context::entry *ctx = names.lookup(std::string(), *name);
