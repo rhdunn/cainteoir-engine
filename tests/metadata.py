@@ -77,6 +77,8 @@ if __name__ == '__main__':
 		{'name': 'meta - basic (@name, @content)', 'type': 'turtle', 'tests': [
 			{'test': 'html/metadata/meta/description.html', 'result': 'html/metadata/meta/description.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/meta/description.xhtml', 'result': 'html/metadata/meta/description.n3', 'mimetype': 'application/xhtml+xml'},
+			{'test': 'html/metadata/meta/keywords.html', 'result': 'html/metadata/meta/keywords.n3', 'mimetype': 'text/html'},
+			{'test': 'html/metadata/meta/keywords.xhtml', 'result': 'html/metadata/meta/keywords.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/meta/shs-author.html', 'result': 'html/metadata/meta/creator.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/meta/shs-author.xhtml', 'result': 'html/metadata/meta/creator.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/meta/shs-keywords.html', 'result': 'html/metadata/meta/keywords.n3', 'mimetype': 'text/html'},
