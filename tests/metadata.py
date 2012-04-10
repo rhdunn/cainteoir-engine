@@ -75,6 +75,8 @@ if __name__ == '__main__':
 			{'test': 'html/metadata/lang-and-xmllang.xhtml', 'result': 'html/metadata/lang.n3', 'mimetype': 'application/xhtml+xml'},
 		]},
 		{'name': 'meta - basic (@name, @content)', 'type': 'turtle', 'tests': [
+			{'test': 'html/metadata/meta/abstract.html', 'result': 'html/metadata/meta/abstract.n3', 'mimetype': 'text/html'},
+			{'test': 'html/metadata/meta/abstract.xhtml', 'result': 'html/metadata/meta/abstract.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/meta/author.html', 'result': 'html/metadata/meta/creator.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/meta/author.xhtml', 'result': 'html/metadata/meta/creator.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/meta/description.html', 'result': 'html/metadata/meta/description.n3', 'mimetype': 'text/html'},

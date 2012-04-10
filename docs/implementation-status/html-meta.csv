@@ -6,7 +6,7 @@
 
 # section,title,url,implemented,tests,comments
 
-,@name=abstract,,no,no,
+,@name=abstract,,0.8,0.8,dct:abstract
 ,@name=author,,0.8,0.8,dc:creator
 ,@name=cache-control,,na,na,
 ,@name=category,,no,no,

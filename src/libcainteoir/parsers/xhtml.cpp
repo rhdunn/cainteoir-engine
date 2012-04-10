@@ -177,9 +177,10 @@ namespace html
 	static const xml::context::entry name_attr       = { events::unknown,   0 };
 	static const xml::context::entry content_attr    = { events::unknown,   0 };
 
+	static const xml::context::entry abstract_meta    = { events::unknown,   0 };
 	static const xml::context::entry creator_meta     = { events::unknown,   0 };
-	static const xml::context::entry keywords_meta    = { events::unknown,   0 };
 	static const xml::context::entry description_meta = { events::unknown,   0 };
+	static const xml::context::entry keywords_meta    = { events::unknown,   0 };
 	static const xml::context::entry title_meta       = { events::unknown,   0 };
 }
 
@@ -321,6 +322,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 
 static const std::initializer_list<const xml::context::entry_ref> meta_names =
 {
+	{ "abstract",     &html::abstract_meta },
 	{ "author",       &html::creator_meta },
 	{ "description",  &html::description_meta },
 	{ "keywords",     &html::keywords_meta },
@@ -404,6 +406,10 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 			else if (ctx == &html::title_meta)
 			{
 				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(content, lang));
+			}
+			else if (ctx == &html::abstract_meta)
+			{
+				aGraph.statement(aSubject, rdf::dcterms("abstract"), rdf::literal(content, lang));
 			}
 			return;
 		}
