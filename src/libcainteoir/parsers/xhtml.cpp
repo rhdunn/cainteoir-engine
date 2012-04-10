@@ -176,6 +176,11 @@ namespace html
 
 	static const xml::context::entry name_attr       = { events::unknown,   0 };
 	static const xml::context::entry content_attr    = { events::unknown,   0 };
+
+	static const xml::context::entry creator_meta     = { events::unknown,   0 };
+	static const xml::context::entry keywords_meta    = { events::unknown,   0 };
+	static const xml::context::entry description_meta = { events::unknown,   0 };
+	static const xml::context::entry title_meta       = { events::unknown,   0 };
 }
 
 static const std::initializer_list<const xml::context::entry_ref> html_nodes =
@@ -314,11 +319,14 @@ static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 	{ "name",    &html::name_attr },
 };
 
-static std::string to_lower(std::string s)
+static const std::initializer_list<const xml::context::entry_ref> meta_names =
 {
-	std::transform(s.begin(), s.end(), s.begin(), ::tolower);
-	return s;
-}
+	{ "description",  &html::description_meta },
+	{ "shs-author",   &html::creator_meta },
+	{ "shs-keywords", &html::keywords_meta },
+	{ "shs-summary",  &html::description_meta },
+	{ "shs-title",    &html::title_meta },
+};
 
 void skipNode(xml::reader &reader, const cainteoir::buffer name)
 {
@@ -357,7 +365,9 @@ std::string parseTitleNode(xml::reader &reader, const rdf::uri &aSubject, cainte
 
 void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
-	std::string name;
+	static xml::context names(std::string(), meta_names, cainteoir::buffer::ignore_case);
+
+	std::shared_ptr<cainteoir::buffer> name;
 	std::string lang;
 	std::string content;
 	while (reader.read()) switch (reader.nodeType())
@@ -365,11 +375,15 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	case xml::reader::endTagNode:
 		if (reader.context() == &html::meta_node)
 		{
-			if (name == "shs-author")
+			if (!name)
+				return;
+
+			const xml::context::entry *ctx = names.lookup(std::string(), *name);
+			if (ctx == &html::creator_meta)
 			{
 				aGraph.statement(aSubject, rdf::dc("creator"), rdf::literal(content));
 			}
-			else if (name == "shs-keywords")
+			else if (ctx == &html::keywords_meta)
 			{
 				std::istringstream keywords(content);
 				std::string keyword;
@@ -381,11 +395,11 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 					aGraph.statement(aSubject, rdf::dc("subject"), rdf::literal(keyword));
 				}
 			}
-			else if (name == "description" || name == "shs-summary")
+			else if (ctx == &html::description_meta)
 			{
 				aGraph.statement(aSubject, rdf::dc("description"), rdf::literal(content, lang));
 			}
-			else if (name == "shs-title")
+			else if (ctx == &html::title_meta)
 			{
 				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(content, lang));
 			}
@@ -394,7 +408,7 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 		break;
 	case xml::reader::attribute:
 		if (reader.context() == &html::name_attr)
-			name = to_lower(reader.nodeValue().normalize()->str());
+			name = reader.nodeValue().normalize();
 		else if (reader.context() == &html::content_attr)
 			content = reader.nodeValue().normalize()->str();
 		else if (reader.context() == &xml::lang_attr)

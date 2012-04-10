@@ -168,9 +168,23 @@ namespace cainteoir { namespace xml
 			const entry *data;
 		};
 
-		void set(const std::string &ns, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
+		context()
 		{
-			mNodes[ns] = std::make_pair(entries, match);
+		}
+
+		context(const std::string &aNS, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
+		{
+			set(aNS, entries, match);
+		}
+
+		context(const ns &aNS, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
+		{
+			set(aNS, entries, match);
+		}
+
+		void set(const std::string &aNS, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
+		{
+			mNodes[aNS] = std::make_pair(entries, match);
 		}
 
 		void set(const ns &aNS, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
