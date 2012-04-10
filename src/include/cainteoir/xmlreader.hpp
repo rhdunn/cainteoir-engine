@@ -168,43 +168,22 @@ namespace cainteoir { namespace xml
 			const entry *data;
 		};
 
-		void set_nodes(const std::string &ns, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
+		void set(const std::string &ns, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
 		{
 			mNodes[ns] = std::make_pair(entries, match);
 		}
 
-		void set_nodes(const ns &aNS, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
+		void set(const ns &aNS, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
 		{
 			mNodes[aNS.href] = std::make_pair(entries, match);
 		}
 
-		void set_attrs(const std::string &ns, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
-		{
-			mAttrs[ns] = std::make_pair(entries, match);
-		}
-
-		void set_attrs(const ns &aNS, const std::initializer_list<const entry_ref> &entries, buffer::match_type match=buffer::match_case)
-		{
-			mAttrs[aNS.href] = std::make_pair(entries, match);
-		}
-
-		const entry *lookup_node(const std::string &ns, const cainteoir::buffer &node) const
-		{
-			return lookup(ns, node, mNodes);
-		}
-
-		const entry *lookup_attr(const std::string &ns, const cainteoir::buffer &node) const
-		{
-			return lookup(ns, node, mAttrs);
-		}
+		const entry *lookup(const std::string &aNS, const cainteoir::buffer &aNode) const;
 	private:
 		typedef std::map<std::string, std::pair<std::initializer_list<const entry_ref>, buffer::match_type>>
 		        entries;
 
-		const entry *lookup(const std::string &aNS, const cainteoir::buffer &aNode, const entries &aEntries) const;
-
 		entries mNodes;
-		entries mAttrs;
 	};
 
 	extern const context::entry unknown_context;
@@ -216,7 +195,7 @@ namespace cainteoir { namespace xml
 
 	extern const std::initializer_list<const context::entry_ref> attrs;
 
-	class reader : public context
+	class reader
 	{
 	public:
 		enum node_type
@@ -256,7 +235,27 @@ namespace cainteoir { namespace xml
 
 		bool isPlainText() const { return mState.state == ParsingText; }
 
-		const context::entry *context() const { return mContext; }
+		const xml::context::entry *context() const { return mContext; }
+
+		void set_nodes(const std::string &aNS, const std::initializer_list<const xml::context::entry_ref> &entries, buffer::match_type match=buffer::match_case)
+		{
+			mNodes.set(aNS, entries, match);
+		}
+
+		void set_nodes(const ns &aNS, const std::initializer_list<const xml::context::entry_ref> &entries, buffer::match_type match=buffer::match_case)
+		{
+			mNodes.set(aNS, entries, match);
+		}
+
+		void set_attrs(const std::string &aNS, const std::initializer_list<const xml::context::entry_ref> &entries, buffer::match_type match=buffer::match_case)
+		{
+			mAttrs.set(aNS, entries, match);
+		}
+
+		void set_attrs(const ns &aNS, const std::initializer_list<const xml::context::entry_ref> &entries, buffer::match_type match=buffer::match_case)
+		{
+			mAttrs.set(aNS, entries, match);
+		}
 	private:
 		/** @name parser internals/helpers */
 		//@{
@@ -309,6 +308,9 @@ namespace cainteoir { namespace xml
 
 		cainteoir::rope mNodeValue;
 		node_type mNodeType;
+
+		xml::context mNodes;
+		xml::context mAttrs;
 		const xml::context::entry *mContext;
 
 		//@}
