@@ -321,6 +321,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 
 static const std::initializer_list<const xml::context::entry_ref> meta_names =
 {
+	{ "author",       &html::creator_meta },
 	{ "description",  &html::description_meta },
 	{ "keywords",     &html::keywords_meta },
 	{ "shs-author",   &html::creator_meta },

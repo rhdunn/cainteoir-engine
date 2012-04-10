@@ -7,19 +7,19 @@
 # section,title,url,implemented,tests,comments
 
 ,abstract,,no,no,
-,author,,no,no,
+,author,,0.8,0.8,dc:creator
 ,cache-control,,no,no,
 ,category,,no,no,
 ,classification,,no,no,
 ,copyright,,no,no,
 ,coverage,,no,no,
-,description,,0.8,0.8,
+,description,,0.8,0.8,dc:description
 ,designer,,no,no,
 ,directory,,no,no,
 ,distribution,,no,no,
 ,expires,,no,no,
 ,identifier-url,,no,no,
-,keywords,,0.8,0.8,
+,keywords,,0.8,0.8,dc:subject
 ,language,,no,no,
 ,owner,,no,no,
 ,pragma,,no,no,
