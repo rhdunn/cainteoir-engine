@@ -23,6 +23,7 @@
 #include "i18n.h"
 
 #include <cainteoir/xmlreader.hpp>
+#include <cainteoir/unicode.hpp>
 
 using cainteoir::xml::entity;
 using cainteoir::xml::entity_set;
@@ -62,41 +63,18 @@ const char * cainteoir::xml::lookup_entity(const entity_set **entities, const ca
 	return nullptr;
 }
 
-void write_utf8(char * out, long c)
-{
-	if (c < 0x80)
-		*out++ = c;
-	else if (c < 0x800)
-	{
-		*out++ = 0xC0 | (c >> 6);
-		*out++ = 0x80 + (c & 0x3F);
-	}
-	else if (c < 0x10000)
-	{
-		*out++ = 0xE0 | (c >> 12);
-		*out++ = 0x80 + ((c >> 6) & 0x3F);
-		*out++ = 0x80 + (c & 0x3F);
-	}
-	else if (c < 0x200000)
-	{
-		*out++ = 0xF0 | (c >> 18);
-		*out++ = 0x80 + ((c >> 12) & 0x3F);
-		*out++ = 0x80 + ((c >>  6) & 0x3F);
-		*out++ = 0x80 + (c & 0x3F);
-	}
-	*out = '\0';
-}
-
 std::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity, const cainteoir::xml::entity_set **entities, const std::map<std::string, std::string> &doctypeEntities)
 {
 	const char * str = entity.begin();
 	if (*str == '#')
 	{
 		char utf8[10];
+		char *end;
 		if (*++str == 'x')
-			write_utf8(utf8, strtol(++str, nullptr, 16));
+			end = cainteoir::utf8::write(utf8, strtol(++str, nullptr, 16));
 		else
-			write_utf8(utf8, strtol(str, nullptr, 10));
+			end = cainteoir::utf8::write(utf8, strtol(str, nullptr, 10));
+		*end = '\0';
 
 		if (utf8[0])
 		{
