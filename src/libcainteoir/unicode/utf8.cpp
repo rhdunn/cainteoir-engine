@@ -50,3 +50,14 @@ char *utf8::write(char *out, uint32_t c)
 	return out;
 }
 
+const char *utf8::next(const char *c)
+{
+	if (uint8_t(*c) < 0x80) return ++c;
+	switch (uint8_t(*c) & 0xF0)
+	{
+	default:   return c + 2;
+	case 0xE0: return c + 3;
+	case 0xF0: return c + 4;
+	}
+}
+

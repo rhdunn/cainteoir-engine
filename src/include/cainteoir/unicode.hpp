@@ -36,6 +36,14 @@ namespace cainteoir { namespace utf8
 	  * enough space in out to write all the UTF-8 characters (up-to 4 characters).
 	  */
 	char *write(char *out, uint32_t c);
+
+	/** @brief Get the next UTF-8 character in the sequence.
+	  *
+	  * @param[in] The current position in the UTF-8 string.
+	  *
+	  * @return A pointer to the next UTF-8 character.
+	  */
+	const char *next(const char *c);
 }}
 
 #endif

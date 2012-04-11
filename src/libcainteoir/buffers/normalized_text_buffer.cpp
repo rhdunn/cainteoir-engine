@@ -22,8 +22,9 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/buffer.hpp>
+#include <cainteoir/unicode.hpp>
 
-namespace utf8
+namespace cainteoir { namespace utf8
 {
 	static bool isspace(const char *c)
 	{
@@ -40,18 +41,7 @@ namespace utf8
 		}
 		return false;
 	}
-
-	static const char *next(const char *c)
-	{
-		if (uint8_t(*c) < 0x80) return ++c;
-		switch (uint8_t(*c))
-		{
-		default:   return c + 2;
-		case 0xE0: return c + 3;
-		case 0xF0: return c + 4;
-		}
-	}
-}
+}}
 
 cainteoir::normalized_text_buffer::normalized_text_buffer(const char *str)
 	: buffer(nullptr, nullptr)
