@@ -34,6 +34,7 @@ tests/events
 tests/xmlreader
 tests/encoding
 tests/languages
+tests/utf8
 
 # docs output:
 

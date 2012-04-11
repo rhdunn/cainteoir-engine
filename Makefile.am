@@ -248,6 +248,11 @@ noinst_bin_PROGRAMS += tests/languages
 tests_languages_LDADD   = src/libcainteoir/libcainteoir.la
 tests_languages_SOURCES = tests/languages.cpp
 
+noinst_bin_PROGRAMS += tests/utf8
+
+tests_utf8_LDADD   = src/libcainteoir/libcainteoir.la
+tests_utf8_SOURCES = tests/utf8.cpp
+
 TEST_FILES = \
 	tests/epub/* \
 	tests/ncx/* \
@@ -271,6 +276,7 @@ check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/tur
 	tests/turtle_formatter
 	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ tests/rdfquery
 	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data tests/languages
+	tests/utf8
 	python tests/xmlreader.py
 	python tests/metadata.py
 	python tests/vorbis-comments.py

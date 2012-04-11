@@ -75,6 +75,12 @@ namespace tester
 		return os << '"' << value.value << '"';
 	}
 
+	template <>
+	std::ostream &operator<<(std::ostream &os, const value_t<unsigned char> &value)
+	{
+		return os << "\\x" << std::hex << (int)value.value << std::dec;
+	}
+
 #	define BINARY_OP(op,name) \
 		template <typename T1, typename T2> \
 		struct name##_t \
@@ -176,6 +182,7 @@ bool assert_(E expression, const char *ref, bool expected, const char *file, int
 PRINTABLE(std::string);
 PRINTABLE(const char *);
 PRINTABLE(char);
+PRINTABLE(unsigned char);
 
 PRINTABLE(bool);
 
