@@ -125,6 +125,7 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
 	src/include/cainteoir/encoding.hpp \
+	src/include/cainteoir/unicode.hpp \
 	src/include/cainteoir/xmlreader.hpp \
 	src/include/cainteoir/document.hpp \
 	src/include/cainteoir/engines.hpp \
@@ -183,7 +184,8 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/audio/ogg.cpp \
 	src/libcainteoir/tts/tts_engine.hpp \
 	src/libcainteoir/tts/engines.cpp \
-	src/libcainteoir/tts/espeak.cpp
+	src/libcainteoir/tts/espeak.cpp \
+	src/libcainteoir/unicode/utf8.cpp
 
 ############################# applications ####################################
 

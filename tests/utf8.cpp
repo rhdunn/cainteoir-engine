@@ -18,39 +18,13 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cainteoir/encoding.hpp>
+#include <cainteoir/unicode.hpp>
 #include <stdexcept>
 #include <cstdio>
 
 #include "tester.hpp"
 
-namespace cainteoir { namespace utf8
-{
-	char *write(char *out, uint32_t c)
-	{
-		if (c < 0x80)
-			*out++ = c;
-		else if (c < 0x800)
-		{
-			*out++ = 0xC0 | (c >> 6);
-			*out++ = 0x80 + (c & 0x3F);
-		}
-		else if (c < 0x10000)
-		{
-			*out++ = 0xE0 | (c >> 12);
-			*out++ = 0x80 + ((c >> 6) & 0x3F);
-			*out++ = 0x80 + (c & 0x3F);
-		}
-		else if (c < 0x200000)
-		{
-			*out++ = 0xF0 | (c >> 18);
-			*out++ = 0x80 + ((c >> 12) & 0x3F);
-			*out++ = 0x80 + ((c >>  6) & 0x3F);
-			*out++ = 0x80 + (c & 0x3F);
-		}
-		return out;
-	}
-}}
+namespace utf8 = cainteoir::utf8;
 
 REGISTER_TESTSUITE("UTF-8");
 
@@ -58,7 +32,7 @@ void encode(uint32_t c, const char *encoded)
 {
 	char buffer[50];
 
-	const char *end = cainteoir::utf8::write(buffer, c);
+	const char *end = utf8::write(buffer, c);
 	assert(strlen(encoded) == end-buffer);
 	for (int i = 0; i < end-buffer; ++i)
 		assert(uint8_t(encoded[i]) == uint8_t(buffer[i]));
