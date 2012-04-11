@@ -595,7 +595,8 @@ void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 						break;
 					}
 				}
-				events.toc_entry(0, href, text->str());
+				if (!text->empty())
+					events.toc_entry(0, href, text->str());
 				href.ref = std::string();
 			}
 		}

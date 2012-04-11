@@ -25,17 +25,31 @@
 
 namespace utf8
 {
-	inline bool isspace(const char *c)
+	static bool isspace(const char *c)
 	{
-		switch (*c)
+		switch ((uint8_t)*c)
 		{
 		case '\t': // U+0009 -- HORIZONTAL TAB
 		case '\n': // U+000A -- LINE FEED
 		case '\r': // U+000D -- CARRIDGE RETURN
 		case ' ':  // U+0020 -- SPACE
 			return true;
+		case 0xC2:
+			if (uint8_t(*++c) == 0xA0) // U+0x00A0 -- NON-BREAKING SPACE
+				return true;
 		}
 		return false;
+	}
+
+	static const char *next(const char *c)
+	{
+		if (uint8_t(*c) < 0x80) return ++c;
+		switch (uint8_t(*c))
+		{
+		default:   return c + 2;
+		case 0xE0: return c + 3;
+		case 0xF0: return c + 4;
+		}
 	}
 }
 
@@ -69,7 +83,7 @@ void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l
 	// trim space at the start:
 
 	while (utf8::isspace(str))
-		++str;
+		str = utf8::next(str);
 
 	if (str >= l)
 		return;
@@ -80,8 +94,8 @@ void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l
 
 	while (str != l)
 	{
-		if (utf8::isspace(str) && utf8::isspace(str+1))
-			++str;
+		if (utf8::isspace(str) && utf8::isspace(utf8::next(str)))
+			str = utf8::next(str);
 		else
 		{
 			*(char *)last = *str;

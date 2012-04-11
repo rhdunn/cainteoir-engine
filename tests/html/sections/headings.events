@@ -29,3 +29,16 @@ anchor [#]genid.h5
 text(9): """Heading 6"""
 end-context
 toc-entry [#]genid.h5 depth=0 title="""Heading 6"""
+begin-context heading 1
+anchor [#]genid.h6
+end-context
+begin-context heading 2
+anchor [#]genid.h7
+end-context
+begin-context heading 3
+anchor [#]genid.h8
+end-context
+begin-context heading 4
+anchor [#]genid.h9
+text(2): """ """
+end-context
