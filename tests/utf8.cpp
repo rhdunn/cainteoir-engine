@@ -161,3 +161,107 @@ TEST_CASE("next UTF-8 character for 4-byte sequences")
 	assert(12 == c-s);
 	assert(uint8_t(*c) == uint8_t(0x00));
 }
+
+TEST_CASE("reading UTF-8 characters for 1-byte sequences")
+{
+	const char *s = "\x20\x43\x79";
+	const char *c = s;
+	uint32_t ch = 0;
+
+	c = utf8::read(c, ch);
+	assert(1 == c-s);
+	assert(uint8_t(*c) == uint8_t(0x43));
+	assert(ch == 0x0020);
+
+	c = utf8::read(c, ch);
+	assert(2 == c-s);
+	assert(uint8_t(*c) == uint8_t(0x79));
+	assert(ch == 0x0043);
+
+	c = utf8::read(c, ch);
+	assert(3 == c-s);
+	assert(uint8_t(*c) == uint8_t(0x00));
+	assert(ch == 0x0079);
+
+	c = utf8::read(c, ch);
+	assert(4 == c-s);
+	assert(ch == 0x0000);
+}
+
+TEST_CASE("reading UTF-8 characters for 2-byte sequences")
+{
+	const char *s = "\xC2\xA0\xC3\xBF\xDF\xBF";
+	const char *c = s;
+	uint32_t ch = 0;
+
+	c = utf8::read(c, ch);
+	assert(2 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xC3));
+	assert(ch == 0x00A0);
+
+	c = utf8::read(c, ch);
+	assert(4 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xDF));
+	assert(ch == 0x00FF);
+
+	c = utf8::read(c, ch);
+	assert(6 == c-s);
+	assert(uint8_t(*c) == uint8_t(0x00));
+	assert(ch == 0x07FF);
+
+	c = utf8::read(c, ch);
+	assert(7 == c-s);
+	assert(ch == 0x0000);
+}
+
+TEST_CASE("reading UTF-8 characters for 3-byte sequences")
+{
+	const char *s = "\xE0\xA0\x80\xE0\xA1\x80\xEF\xBF\xBF";
+	const char *c = s;
+	uint32_t ch = 0;
+
+	c = utf8::read(c, ch);
+	assert(3 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xE0));
+	assert(ch == 0x0800);
+
+	c = utf8::read(c, ch);
+	assert(6 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xEF));
+	assert(ch == 0x0840);
+
+	c = utf8::read(c, ch);
+	assert(9 == c-s);
+	assert(uint8_t(*c) == uint8_t(0x00));
+	assert(ch == 0xFFFF);
+
+	c = utf8::read(c, ch);
+	assert(10 == c-s);
+	assert(ch == 0x0000);
+}
+
+TEST_CASE("reading UTF-8 characters for 4-byte sequences")
+{
+	const char *s = "\xF0\x90\x80\x80\xF0\x93\x80\x98\xF7\xBF\xBF\xBF";
+	const char *c = s;
+	uint32_t ch = 0;
+
+	c = utf8::read(c, ch);
+	assert(4 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xF0));
+	assert(ch == 0x010000);
+
+	c = utf8::read(c, ch);
+	assert(8 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xF7));
+	assert(ch == 0x013018);
+
+	c = utf8::read(c, ch);
+	assert(12 == c-s);
+	assert(uint8_t(*c) == uint8_t(0x00));
+	assert(ch == 0x1FFFFF);
+
+	c = utf8::read(c, ch);
+	assert(13 == c-s);
+	assert(ch == 0x000000);
+}
