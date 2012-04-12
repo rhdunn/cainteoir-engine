@@ -26,11 +26,9 @@
 
 namespace cainteoir { namespace utf8
 {
-	static bool isspace(const char *c)
+	static bool isspace(uint32_t c)
 	{
-		uint32_t ch = 0;
-		utf8::read(c, ch);
-		switch (ch)
+		switch (c)
 		{
 		case 0x000009: // HORIZONTAL TAB
 		case 0x00000A: // LINE FEED
@@ -40,6 +38,13 @@ namespace cainteoir { namespace utf8
 			return true;
 		}
 		return false;
+	}
+
+	static bool isspace(const char *c)
+	{
+		uint32_t ch = 0;
+		utf8::read(c, ch);
+		return isspace(ch);
 	}
 }}
 
@@ -72,8 +77,10 @@ void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l
 {
 	// trim space at the start:
 
-	while (utf8::isspace(str))
-		str = utf8::next(str);
+	uint32_t ch = 0;
+	const char *next = str;
+	while ((next = utf8::read(str, ch)) && utf8::isspace(ch))
+		str = next;
 
 	if (str >= l)
 		return;
@@ -82,15 +89,18 @@ void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l
 
 	// normalise the space within the string:
 
-	while (str != l)
+	while (str < l)
 	{
-		if (utf8::isspace(str) && utf8::isspace(utf8::next(str)))
-			str = utf8::next(str);
+		next = utf8::read(str, ch);
+
+		uint32_t ch2 = 0;
+		if (str < l && utf8::isspace(ch) && utf8::read(next, ch2) && utf8::isspace(ch2))
+			str = next;
 		else
 		{
-			*(char *)last = *str;
-			++last;
-			++str;
+			next = utf8::write((char *)last, ch);
+			str += next-last;
+			last = next;
 		}
 	}
 
