@@ -39,13 +39,6 @@ namespace cainteoir { namespace utf8
 		}
 		return false;
 	}
-
-	static bool isspace(const char *c)
-	{
-		uint32_t ch = 0;
-		utf8::read(c, ch);
-		return isspace(ch);
-	}
 }}
 
 cainteoir::normalized_text_buffer::normalized_text_buffer(const char *str)
