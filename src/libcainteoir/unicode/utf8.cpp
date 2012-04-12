@@ -86,3 +86,9 @@ const char *utf8::next(const char *c)
 	}
 }
 
+const char *utf8::prev(const char *c)
+{
+	while ((uint8_t(*--c) & 0xC0) == 0x80)
+		;
+	return c;
+}

@@ -53,6 +53,14 @@ namespace cainteoir { namespace utf8
 	  * @return A pointer to the next UTF-8 character.
 	  */
 	const char *next(const char *c);
+
+	/** @brief Get the previous UTF-8 character in the sequence.
+	  *
+	  * @param[in] The current position in the UTF-8 string.
+	  *
+	  * @return A pointer to the previous UTF-8 character.
+	  */
+	const char *prev(const char *c);
 }}
 
 #endif

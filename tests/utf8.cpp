@@ -128,7 +128,7 @@ TEST_CASE("next UTF-8 character for 2-byte sequences")
 
 TEST_CASE("next UTF-8 character for 3-byte sequences")
 {
-	const char *s = "\xE0\xA0\x80\xE2\xAA\xBF\xEF\x97\x44";
+	const char *s = "\xE0\xA0\x80\xE2\xAA\xBF\xEF\x97\x84";
 	const char *c = s;
 
 	c = utf8::next(c);
@@ -160,6 +160,79 @@ TEST_CASE("next UTF-8 character for 4-byte sequences")
 	c = utf8::next(c);
 	assert(12 == c-s);
 	assert(uint8_t(*c) == uint8_t(0x00));
+}
+
+
+TEST_CASE("previous UTF-8 character for 1-byte sequences")
+{
+	const char *s = "\x20\x43\x79";
+	const char *c = s + strlen(s);
+
+	c = utf8::prev(c);
+	assert(2 == c-s);
+	assert(uint8_t(*c) == uint8_t(0x79));
+
+	c = utf8::prev(c);
+	assert(1 == c-s);
+	assert(uint8_t(*c) == uint8_t(0x43));
+
+	c = utf8::prev(c);
+	assert(0 == c-s);
+	assert(uint8_t(*c) == uint8_t(0x20));
+}
+
+TEST_CASE("previous UTF-8 character for 2-byte sequences")
+{
+	const char *s = "\xC2\x80\xC5\x95\xD1\xBF";
+	const char *c = s + strlen(s);
+
+	c = utf8::prev(c);
+	assert(4 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xD1));
+
+	c = utf8::prev(c);
+	assert(2 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xC5));
+
+	c = utf8::prev(c);
+	assert(0 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xC2));
+}
+
+TEST_CASE("previous UTF-8 character for 3-byte sequences")
+{
+	const char *s = "\xE0\xA0\x80\xE2\xAA\xBF\xEF\x97\x84";
+	const char *c = s + strlen(s);
+
+	c = utf8::prev(c);
+	assert(6 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xEF));
+
+	c = utf8::prev(c);
+	assert(3 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xE2));
+
+	c = utf8::prev(c);
+	assert(0 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xE0));
+}
+
+TEST_CASE("previous UTF-8 character for 4-byte sequences")
+{
+	const char *s = "\xF0\x92\x80\x86\xF2\xA6\xAF\xBF\xF7\xBD\xBE\xBF";
+	const char *c = s + strlen(s);
+
+	c = utf8::prev(c);
+	assert(8 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xF7));
+
+	c = utf8::prev(c);
+	assert(4 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xF2));
+
+	c = utf8::prev(c);
+	assert(0 == c-s);
+	assert(uint8_t(*c) == uint8_t(0xF0));
 }
 
 TEST_CASE("reading UTF-8 characters for 1-byte sequences")
