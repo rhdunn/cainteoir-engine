@@ -28,16 +28,16 @@ namespace cainteoir { namespace utf8
 {
 	static bool isspace(const char *c)
 	{
-		switch ((uint8_t)*c)
+		uint32_t ch = 0;
+		utf8::read(c, ch);
+		switch (ch)
 		{
-		case '\t': // U+0009 -- HORIZONTAL TAB
-		case '\n': // U+000A -- LINE FEED
-		case '\r': // U+000D -- CARRIDGE RETURN
-		case ' ':  // U+0020 -- SPACE
+		case 0x000009: // HORIZONTAL TAB
+		case 0x00000A: // LINE FEED
+		case 0x00000D: // CARRIDGE RETURN
+		case 0x000020: // SPACE
+		case 0x0000A0: // NON-BREAKING SPACE
 			return true;
-		case 0xC2:
-			if (uint8_t(*++c) == 0xA0) // U+0x00A0 -- NON-BREAKING SPACE
-				return true;
 		}
 		return false;
 	}
