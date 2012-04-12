@@ -106,7 +106,7 @@ void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l
 
 	// trim space at the end:
 
-	while (last > first && utf8::isspace(--last))
-		;
-	*(char *)++last = '\0';
+	while (last > first && (next = utf8::prev(last)) && utf8::read(next, ch) && utf8::isspace(ch))
+		last = next;
+	*(char *)last = '\0';
 }
