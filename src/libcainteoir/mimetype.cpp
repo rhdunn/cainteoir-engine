@@ -335,7 +335,7 @@ class mimetype_database
 		{
 			std::map<std::string, std::string> comments;
 
-			std::shared_ptr<cainteoir::buffer> mimeinfo(new cainteoir::mmap_buffer(filename.c_str()));
+			std::shared_ptr<cainteoir::buffer> mimeinfo = std::make_shared<cainteoir::mmap_buffer>(filename.c_str());
 			xml::reader reader(mimeinfo);
 
 			bool in_comment = false;
