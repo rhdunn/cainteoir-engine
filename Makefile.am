@@ -279,6 +279,7 @@ check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/tur
 	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ tests/rdfquery
 	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data tests/languages
 	tests/utf8
+	tests/encoding
 	python tests/xmlreader.py
 	python tests/metadata.py
 	python tests/vorbis-comments.py
