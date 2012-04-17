@@ -42,6 +42,7 @@ static const std::initializer_list<std::pair<int, const char *>> codepages = {
 	{   865, "cp865" },
 	{   866, "cp866" },
 	{   869, "cp869" },
+	{   874, "cp874" },
 	{  1200, "utf-16le" },
 	{  1201, "utf-16be" },
 	{  1250, "windows-1250" },
