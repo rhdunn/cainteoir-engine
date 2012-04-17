@@ -111,7 +111,7 @@ TEST_CASE("selecting codepage 1252 from codepage 1250")
 	cainteoir::encoding e(1250);
 	match(e.lookup('\xA1'), "\xCB\x87");
 
-	e.set_encoding(1252);
+	assert(e.set_encoding(1252));
 	match(e.lookup('g'), "g");
 	match(e.lookup('\x85'), "\xE2\x80\xA6"); // U+2026 ELLIPSIS
 	match(e.lookup('\x91'), "\xE2\x80\x98"); // U+2018 SINGLE LEFT CURLY QUOTE
@@ -137,7 +137,7 @@ TEST_CASE("selecting encoding latin2")
 	cainteoir::encoding e(1250);
 	match(e.lookup('\xA1'), "\xCB\x87");
 
-	e.set_encoding("latin2");
+	assert(e.set_encoding("latin2"));
 	match(e.lookup('g'), "g");
 	match(e.lookup('\xA0'), "\xC2\xA0");
 	match(e.lookup('\xA1'), "\xC4\x84");
@@ -149,7 +149,7 @@ TEST_CASE("selecting encoding LATIN2 (case-insensitive lookup)")
 	cainteoir::encoding e(1250);
 	match(e.lookup('\xA1'), "\xCB\x87");
 
-	e.set_encoding("latin2");
+	assert(e.set_encoding("latin2"));
 	match(e.lookup('g'), "g");
 	match(e.lookup('\xA0'), "\xC2\xA0");
 	match(e.lookup('\xA1'), "\xC4\x84");
@@ -160,6 +160,24 @@ TEST_CASE("selecting an unsupported character set")
 {
 	cainteoir::encoding e(1250);
 	throws(e.set_encoding("latin-99"), std::string("unsupported character set (no conversion found)"));
+}
+
+TEST_CASE("selecting the same codepage")
+{
+	cainteoir::encoding e(1250);
+	match(e.lookup('\xA1'), "\xCB\x87");
+
+	assert(!e.set_encoding(1250));
+	match(e.lookup('\xA1'), "\xCB\x87");
+}
+
+TEST_CASE("selecting the same character set")
+{
+	cainteoir::encoding e("latin2");
+	match(e.lookup('\xA1'), "\xC4\x84");
+
+	assert(!e.set_encoding("latin2"));
+	match(e.lookup('\xA1'), "\xC4\x84");
 }
 
 TEST_CASE("decoding a null buffer")

@@ -138,24 +138,27 @@ cainteoir::encoding::encoding(const char *aEncoding)
 	set_encoding(aEncoding);
 }
 
-void cainteoir::encoding::set_encoding(int aCodepage)
+bool cainteoir::encoding::set_encoding(int aCodepage)
 {
 	for (auto codepage = codepages.begin(), last = codepages.end(); codepage != last; ++codepage)
 	{
 		if (codepage->first == aCodepage)
 		{
-			set_encoding(codepage->second);
-			return;
+			return set_encoding(codepage->second);
 		}
 	}
 
 	throw std::runtime_error(i18n("unsupported character set (codepage not recognised)"));
 }
 
-void cainteoir::encoding::set_encoding(const char *aEncoding)
+bool cainteoir::encoding::set_encoding(const char *aEncoding)
 {
+	if (mEncoding == aEncoding)
+		return false;
+
 	mDecoder  = std::make_shared<iconv_decoder>(aEncoding);
 	mEncoding = aEncoding;
+	return true;
 }
 
 std::shared_ptr<cainteoir::buffer> cainteoir::encoding::decode(const std::shared_ptr<cainteoir::buffer> &data) const
