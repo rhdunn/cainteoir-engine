@@ -68,12 +68,10 @@ namespace cainteoir
 		  *
 		  * @return The utf-8 representation of data.
 		  */
-		std::shared_ptr<cainteoir::buffer> decode(const cainteoir::buffer &data) const
-		{
-			return mDecoder->decode(data);
-		}
+		std::shared_ptr<cainteoir::buffer> decode(const std::shared_ptr<cainteoir::buffer> &data) const;
 	private:
 		std::shared_ptr<decoder> mDecoder;
+		std::string mEncoding;
 	};
 }
 

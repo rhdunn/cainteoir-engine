@@ -161,3 +161,29 @@ TEST_CASE("selecting an unsupported character set")
 	cainteoir::encoding e(1250);
 	throws(e.set_encoding("latin-99"), std::string("unsupported character set (no conversion found)"));
 }
+
+TEST_CASE("decoding a null buffer")
+{
+	cainteoir::encoding e(1252);
+	assert(e.decode(std::shared_ptr<cainteoir::buffer>()) == std::shared_ptr<cainteoir::buffer>());
+}
+
+TEST_CASE("decoding a buffer")
+{
+	cainteoir::encoding e(1252);
+	match(e.decode(std::make_shared<cainteoir::buffer>("\x93x, y, \x85\x94")), "\xE2\x80\x9Cx, y, \xE2\x80\xA6\xE2\x80\x9D");
+}
+
+TEST_CASE("decoding a utf-8 buffer (no conversion)")
+{
+	cainteoir::encoding e("utf-8");
+	auto data = std::make_shared<cainteoir::buffer>("\xE2\x80\x9Cx, y, \xE2\x80\xA6\xE2\x80\x9D");
+	assert(e.decode(data).get() == data.get());
+}
+
+TEST_CASE("decoding a us-ascii buffer (no conversion)")
+{
+	cainteoir::encoding e("us-ascii");
+	auto data = std::make_shared<cainteoir::buffer>("This is a test string!");
+	assert(e.decode(data).get() == data.get());
+}

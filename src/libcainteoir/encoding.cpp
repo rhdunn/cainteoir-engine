@@ -154,5 +154,14 @@ void cainteoir::encoding::set_encoding(int aCodepage)
 
 void cainteoir::encoding::set_encoding(const char *aEncoding)
 {
-	mDecoder = std::make_shared<iconv_decoder>(aEncoding);
+	mDecoder  = std::make_shared<iconv_decoder>(aEncoding);
+	mEncoding = aEncoding;
+}
+
+std::shared_ptr<cainteoir::buffer> cainteoir::encoding::decode(const std::shared_ptr<cainteoir::buffer> &data) const
+{
+	if (!data.get() || mEncoding == "utf-8" || mEncoding == "us-ascii")
+		return data;
+
+	return mDecoder->decode(*data);
 }
