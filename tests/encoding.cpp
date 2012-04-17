@@ -1,6 +1,6 @@
 /* Test for text encodings.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
