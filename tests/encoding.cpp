@@ -105,3 +105,59 @@ TEST_CASE("looking up unsupported character set")
 {
 	throws(cainteoir::encoding("latin-1"), std::string("unsupported character set (no conversion found)"));
 }
+
+TEST_CASE("selecting codepage 1252 from codepage 1250")
+{
+	cainteoir::encoding e(1250);
+	match(e.lookup('\xA1'), "\xCB\x87");
+
+	e.set_encoding(1252);
+	match(e.lookup('g'), "g");
+	match(e.lookup('\x85'), "\xE2\x80\xA6"); // U+2026 ELLIPSIS
+	match(e.lookup('\x91'), "\xE2\x80\x98"); // U+2018 SINGLE LEFT CURLY QUOTE
+	match(e.lookup('\x92'), "\xE2\x80\x99"); // U+2019 SINGLE RIGHT CURLY QUOTE
+	match(e.lookup('\x93'), "\xE2\x80\x9C"); // U+201C DOUBLE LEFT CURLY QUOTE
+	match(e.lookup('\x94'), "\xE2\x80\x9D"); // U+201D DOUBLE RIGHT CURLY QUOTE
+	match(e.lookup('\x95'), "\xE2\x80\xA2"); // U+2022 BULLET
+	match(e.lookup('\x96'), "\xE2\x80\x93"); // U+2013 EN DASH
+	match(e.lookup('\x97'), "\xE2\x80\x94"); // U+2014 EM DASH
+	match(e.lookup('\xA0'), "\xC2\xA0");
+	match(e.lookup('\xA1'), "\xC2\xA1");
+	match(e.lookup('\xDF'), "\xC3\x9F");
+}
+
+TEST_CASE("selecting an unsupported codepage")
+{
+	cainteoir::encoding e(1250);
+	throws(e.set_encoding(123), std::string("unsupported character set (codepage not recognised)"));
+}
+
+TEST_CASE("selecting encoding latin2")
+{
+	cainteoir::encoding e(1250);
+	match(e.lookup('\xA1'), "\xCB\x87");
+
+	e.set_encoding("latin2");
+	match(e.lookup('g'), "g");
+	match(e.lookup('\xA0'), "\xC2\xA0");
+	match(e.lookup('\xA1'), "\xC4\x84");
+	match(e.lookup('\xDF'), "\xC3\x9F");
+}
+
+TEST_CASE("selecting encoding LATIN2 (case-insensitive lookup)")
+{
+	cainteoir::encoding e(1250);
+	match(e.lookup('\xA1'), "\xCB\x87");
+
+	e.set_encoding("latin2");
+	match(e.lookup('g'), "g");
+	match(e.lookup('\xA0'), "\xC2\xA0");
+	match(e.lookup('\xA1'), "\xC4\x84");
+	match(e.lookup('\xDF'), "\xC3\x9F");
+}
+
+TEST_CASE("selecting an unsupported character set")
+{
+	cainteoir::encoding e(1250);
+	throws(e.set_encoding("latin-99"), std::string("unsupported character set (no conversion found)"));
+}
