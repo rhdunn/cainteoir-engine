@@ -26,6 +26,59 @@
 #include <iconv.h>
 #include <errno.h>
 
+static const std::initializer_list<std::pair<int, const char *>> codepages = {
+	{   437, "cp437" },
+	{   737, "cp737" },
+	{   775, "cp775" },
+	{   850, "cp850" },
+	{   851, "cp851" },
+	{   852, "cp852" },
+	{   855, "cp855" },
+	{   857, "cp857" },
+	{   860, "cp860" },
+	{   861, "cp861" },
+	{   862, "cp862" },
+	{   863, "cp863" },
+	{   865, "cp865" },
+	{   866, "cp866" },
+	{   869, "cp869" },
+	{  1200, "utf-16le" },
+	{  1201, "utf-16be" },
+	{  1250, "windows-1250" },
+	{  1251, "windows-1251" },
+	{  1252, "windows-1252" },
+	{  1253, "windows-1253" },
+	{  1254, "windows-1254" },
+	{  1255, "windows-1255" },
+	{  1256, "windows-1256" },
+	{  1257, "windows-1257" },
+	{  1258, "windows-1258" },
+	{ 10000, "macintosh" },
+	{ 10006, "mac-greek" },
+	{ 10007, "ms-mac-cyrillic" },
+	{ 10029, "mac-centraleurope" },
+	{ 10079, "mac-is" },
+	{ 10081, "mac-turkish" },
+	{ 20127, "us-ascii" },
+	{ 28591, "iso-8859-1" },
+	{ 28592, "iso-8859-2" },
+	{ 28593, "iso-8859-3" },
+	{ 28594, "iso-8859-4" },
+	{ 28595, "iso-8859-5" },
+	{ 28596, "iso-8859-6" },
+	{ 28597, "iso-8859-7" },
+	{ 28598, "iso-8859-8" },
+	{ 28599, "iso-8859-9" },
+	{ 28600, "iso-8859-10" },
+	{ 28601, "iso-8859-11" },
+	{ 28602, "iso-8859-12" },
+	{ 28603, "iso-8859-13" },
+	{ 28604, "iso-8859-14" }, 
+	{ 28605, "iso-8859-15" },
+	{ 65000, "utf-7" },
+	{ 65001, "utf-8" },
+};
+
 struct iconv_decoder : public cainteoir::decoder
 {
 	iconv_decoder(const char *aEncoding)
@@ -87,60 +140,16 @@ cainteoir::encoding::encoding(const char *aEncoding)
 
 void cainteoir::encoding::set_encoding(int aCodepage)
 {
-	switch (aCodepage)
+	for (auto codepage = codepages.begin(), last = codepages.end(); codepage != last; ++codepage)
 	{
-	case   437: set_encoding("cp437"); break;
-	case   737: set_encoding("cp737"); break;
-	case   775: set_encoding("cp775"); break;
-	case   850: set_encoding("cp850"); break;
-	case   851: set_encoding("cp851"); break;
-	case   852: set_encoding("cp852"); break;
-	case   855: set_encoding("cp855"); break;
-	case   857: set_encoding("cp857"); break;
-	case   860: set_encoding("cp860"); break;
-	case   861: set_encoding("cp861"); break;
-	case   862: set_encoding("cp862"); break;
-	case   863: set_encoding("cp863"); break;
-	case   865: set_encoding("cp865"); break;
-	case   866: set_encoding("cp866"); break;
-	case   869: set_encoding("cp869"); break;
-	case  1200: set_encoding("utf-16le"); break;
-	case  1201: set_encoding("utf-16be"); break;
-	case  1250: set_encoding("windows-1250"); break;
-	case  1251: set_encoding("windows-1251"); break;
-	case  1252: set_encoding("windows-1252"); break;
-	case  1253: set_encoding("windows-1253"); break;
-	case  1254: set_encoding("windows-1254"); break;
-	case  1255: set_encoding("windows-1255"); break;
-	case  1256: set_encoding("windows-1256"); break;
-	case  1257: set_encoding("windows-1257"); break;
-	case  1258: set_encoding("windows-1258"); break;
-	case 10000: set_encoding("macintosh"); break;
-	case 10006: set_encoding("mac-greek"); break;
-	case 10007: set_encoding("ms-mac-cyrillic"); break;
-	case 10029: set_encoding("mac-centraleurope"); break;
-	case 10079: set_encoding("mac-is"); break;
-	case 10081: set_encoding("mac-turkish"); break;
-	case 20127: set_encoding("us-ascii"); break;
-	case 28591: set_encoding("iso-8859-1"); break;
-	case 28592: set_encoding("iso-8859-2"); break;
-	case 28593: set_encoding("iso-8859-3"); break;
-	case 28594: set_encoding("iso-8859-4"); break;
-	case 28595: set_encoding("iso-8859-5"); break;
-	case 28596: set_encoding("iso-8859-6"); break;
-	case 28597: set_encoding("iso-8859-7"); break;
-	case 28598: set_encoding("iso-8859-8"); break;
-	case 28599: set_encoding("iso-8859-9"); break;
-	case 28600: set_encoding("iso-8859-10"); break;
-	case 28601: set_encoding("iso-8859-11"); break;
-	case 28602: set_encoding("iso-8859-12"); break;
-	case 28603: set_encoding("iso-8859-13"); break;
-	case 28604: set_encoding("iso-8859-14"); break;
-	case 28605: set_encoding("iso-8859-15"); break;
-	case 65000: set_encoding("utf-7"); break;
-	case 65001: set_encoding("utf-8"); break;
-	default:    throw std::runtime_error(i18n("unsupported character set (codepage not recognised)"));
+		if (codepage->first == aCodepage)
+		{
+			set_encoding(codepage->second);
+			return;
+		}
 	}
+
+	throw std::runtime_error(i18n("unsupported character set (codepage not recognised)"));
 }
 
 void cainteoir::encoding::set_encoding(const char *aEncoding)
