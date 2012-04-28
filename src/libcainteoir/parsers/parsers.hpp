@@ -167,6 +167,19 @@ namespace cainteoir
 	                      const rdf::uri &aSubject,
 	                      document_events &events,
 	                      rdf::graph &aGraph);
+
+	/** @brief Plain Text
+	  *
+	  * @param[in]  aData            The document content.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createPlainTextReader(std::shared_ptr<buffer> &aData,
+	                      const rdf::uri &aSubject,
+	                      rdf::graph &aPrimaryMetadata);
 }
 
 #endif

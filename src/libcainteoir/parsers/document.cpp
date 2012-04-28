@@ -282,6 +282,32 @@ struct mime_headers : public cainteoir::buffer
 	}
 };
 
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
+                                const rdf::uri &aSubject,
+                                rdf::graph &aPrimaryMetadata)
+{
+	if (!aData || aData->empty())
+		return std::shared_ptr<document_reader>();
+
+	return createPlainTextReader(aData, aSubject, aPrimaryMetadata);
+}
+
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createDocumentReader(const char *aFilename,
+                                rdf::graph &aPrimaryMetadata)
+{
+	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
+
+	std::shared_ptr<cainteoir::buffer> data;
+	if (aFilename)
+		data = std::make_shared<cainteoir::mmap_buffer>(aFilename);
+	else
+		data = buffer_from_stdin();
+
+	return createDocumentReader(data, subject, aPrimaryMetadata);
+}
+
 bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
                          const rdf::uri &subject,
                          cainteoir::document_events &events,
@@ -400,24 +426,10 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 		}
 	}
 
-	// Octet Stream ...
+	// Reader-based document parsers (new-style) ...
 
-	const uint8_t *begin = (const uint8_t *)data->begin();
-	const uint8_t *end   = (const uint8_t *)data->end();
-	if (begin + 101 < end) // only check the first 100 bytes
-		end = begin + 101;
-
-	while (begin < end)
-	{
-		if (*begin < 0x20 && !(*begin == '\r' || *begin == '\n' || *begin == '\t' || *begin == '\f'))
-		{
-			printf("error: control character 0x%02X found ... treating as octet stream.\n", *begin);
-			return false; // looks like an octet/binary stream
-		}
-		++begin;
-	}
-
-	// Plain Text ...
+	auto reader = createDocumentReader(data, subject, aGraph);
+	if (!reader) return false;
 
 	if ((flags & needs_document_title) == needs_document_title)
 	{
@@ -430,9 +442,13 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 		events.anchor(subject, std::string());
 	}
 
-	events.text(data);
-	if ((flags & include_document_mimetype) == include_document_mimetype)
-		aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal("text/plain"));
+	while (reader->read()) switch (reader->type())
+	{
+	case cainteoir::document_reader::text_event:
+		events.text(reader->text());
+		break;
+	}
+
 	return true;
 }
 

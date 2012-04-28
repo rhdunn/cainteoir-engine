@@ -167,6 +167,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/parsers/parsers.hpp \
 	src/libcainteoir/parsers/zip.cpp \
 	src/libcainteoir/parsers/xmlreader.cpp \
+	src/libcainteoir/parsers/plaintext.cpp \
 	src/libcainteoir/parsers/html-entities.h \
 	src/libcainteoir/parsers/xhtml.cpp \
 	src/libcainteoir/parsers/ncx.cpp \

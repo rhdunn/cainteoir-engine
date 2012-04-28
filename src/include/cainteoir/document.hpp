@@ -535,6 +535,22 @@ namespace cainteoir
 		std::map<std::string, size_t> mAnchors;
 	};
 
+	struct document_reader
+	{
+		enum event_type
+		{
+			text_event,
+		};
+
+		virtual bool read() = 0;
+
+		virtual event_type type() const = 0;
+
+		virtual std::shared_ptr<buffer> text() const = 0;
+
+		virtual ~document_reader() {}
+	};
+
 	enum capability_types
 	{
 		metadata_support = 1,
@@ -549,13 +565,39 @@ namespace cainteoir
 
 	/** @brief Read the contents of a document.
 	  *
-	  * @param aFilename The path to the ePub document.
+	  * @param aFilename The path to the document.
 	  * @param events    The events callback to handle document events.
 	  *
 	  * @retval true  If aFilename contains a supported document format.
 	  * @retval false If aFilename contains an unsupported document format.
 	  */
 	bool parseDocument(const char *aFilename, document_events &events, rdf::graph &aGraph);
+
+	/** @brief Create a document content reader.
+	  *
+	  * @param[in]  aFilename        The path to the document.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  *
+	  * @return A reader over the document contents, or a null pointer if the document is not supported.
+	  *
+	  * If aFilename is null, the file content is read from stdin.
+	  */
+	std::shared_ptr<document_reader>
+	createDocumentReader(const char *aFilename,
+	                     rdf::graph &aPrimaryMetadata);
+
+	/** @brief Create a document content reader.
+	  *
+	  * @param[in]  aData            The document content.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  *
+	  * @return A reader over the document contents, or a null pointer if the document is not supported.
+	  */
+	std::shared_ptr<document_reader>
+	createDocumentReader(std::shared_ptr<buffer> &aData,
+	                     const rdf::uri &aSubject,
+	                     rdf::graph &aPrimaryMetadata);
 }
 
 #endif
