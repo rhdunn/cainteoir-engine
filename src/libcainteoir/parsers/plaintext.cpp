@@ -30,30 +30,25 @@ struct plaintext_document_reader : public cainteoir::document_reader
 
 	bool read();
 
-	event_type type() const;
-
-	std::shared_ptr<cainteoir::buffer> text() const;
-
 	std::shared_ptr<cainteoir::buffer> mData;
 	bool mHaveRead;
 };
 
 bool plaintext_document_reader::read()
 {
-	if (mHaveRead) return false;
+	if (mHaveRead || mData->empty())
+	{
+		type = (cainteoir::events::event_type)0;
+		text.reset();
+		return false;
+	}
 
 	mHaveRead = true;
-	return !mData->empty();
-}
-
-cainteoir::document_reader::event_type plaintext_document_reader::type() const
-{
-	return text_event;
-}
-
-std::shared_ptr<cainteoir::buffer> plaintext_document_reader::text() const
-{
-	return mData;
+	type      = cainteoir::events::text;
+	context   = cainteoir::events::span;
+	parameter = cainteoir::events::nostyle;
+	text      = mData;
+	return true;
 }
 
 std::shared_ptr<cainteoir::document_reader>

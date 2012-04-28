@@ -442,11 +442,18 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 		events.anchor(subject, std::string());
 	}
 
-	while (reader->read()) switch (reader->type())
+	while (reader->read())
 	{
-	case cainteoir::document_reader::text_event:
-		events.text(reader->text());
-		break;
+		if (reader->type & cainteoir::events::anchor)
+			events.anchor(reader->anchor, std::string());
+		if (reader->type & cainteoir::events::toc_entry)
+			events.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
+		if (reader->type & cainteoir::events::begin_context)
+			events.begin_context(reader->context, reader->parameter);
+		if (reader->type & cainteoir::events::text)
+			events.text(reader->text);
+		if (reader->type & cainteoir::events::end_context)
+			events.end_context();
 	}
 
 	return true;

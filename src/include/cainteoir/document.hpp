@@ -29,6 +29,56 @@ namespace cainteoir
 {
 	namespace events
 	{
+		/** @brief The type of the document event.
+		  */
+		enum event_type
+		{
+			/** @brief The start of a rendering context.
+			  *
+			  * @begincode
+			  *   context <context> <parameter>
+			  * @endcode
+			  */
+			begin_context = 0x0001,
+
+			/** @brief The end of a rendering context.
+			  *
+			  * @begincode
+			  *   end
+			  * @endcode
+			  */
+			end_context = 0x0002,
+
+			/** @brief Text data.
+			  *
+			  * @begincode
+			  *   text <text>
+			  * @endcode
+			  */
+			text = 0x0004,
+
+			/** @brief An entry in the table of contents.
+			  *
+			  * The parameter is the depth of the entry. This corresponds to the depth from the
+			  * heading rendering context.
+			  *
+			  * @begincode
+			  *   toc-entry <parameter> <anchor> <text>
+			  * @endcode
+			  */
+			toc_entry = 0x0008,
+
+			/** @brief An anchor point in the document.
+			  *
+			  * The anchor corresponds to the associated toc-entry.
+			  *
+			  * @begincode
+			  *   anchor <anchor>
+			  * @endcode
+			  */
+			anchor = 0x0010,
+		};
+
 		/** @brief The rendering context.
 		  *
 		  * This forms the basis for the abstract document rendering model used by the Cainteoir
@@ -537,16 +587,39 @@ namespace cainteoir
 
 	struct document_reader
 	{
-		enum event_type
+		document_reader()
+			: type((events::event_type)0)
+			, context(events::unknown)
+			, parameter(0)
 		{
-			text_event,
-		};
+		}
 
+		/** @brief The type of the event.
+		  */
+		events::event_type type;
+
+		/** @brief The associated rendering context.
+		  */
+		events::context context;
+
+		/** @brief A context-dependent parameter for the rendering context.
+		  */
+		uint32_t parameter;
+
+		/** @brief The text associated with the document event.
+		  */
+		std::shared_ptr<buffer> text;
+
+		/** @brief A uri that references the start of this event.
+		  */
+		rdf::uri anchor;
+
+		/** @brief Read the next event in the document.
+		  *
+		  * @retval true  if an event was read.
+		  * @retval false if there are no more events in the document.
+		  */
 		virtual bool read() = 0;
-
-		virtual event_type type() const = 0;
-
-		virtual std::shared_ptr<buffer> text() const = 0;
 
 		virtual ~document_reader() {}
 	};
