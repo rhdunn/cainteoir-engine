@@ -35,3 +35,9 @@ cainteoir::data_buffer::~data_buffer()
 	delete [] first;
 }
 
+std::shared_ptr<cainteoir::buffer> cainteoir::make_buffer(const std::string &aString)
+{
+	std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(aString.size() + 1);
+	strcpy((char *)data->begin(), aString.c_str());
+	return data;
+}

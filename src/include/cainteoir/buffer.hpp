@@ -138,6 +138,8 @@ namespace cainteoir
 		std::string str() const { return buffer()->str(); }
 	};
 
+	std::shared_ptr<buffer> make_buffer(const std::string &aString);
+
 	/** @name Decoding/Decompression API */
 	//@{
 

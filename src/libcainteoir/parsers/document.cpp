@@ -431,23 +431,15 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 	auto reader = createDocumentReader(data, subject, aGraph);
 	if (!reader) return false;
 
-	if ((flags & needs_document_title) == needs_document_title)
-	{
-		std::string title = subject.str();
-		std::string::size_type sep = title.rfind('/');
-		if (sep != std::string::npos)
-			title = title.substr(sep + 1);
-
-		events.toc_entry(0, subject, title);
-		events.anchor(subject, std::string());
-	}
-
 	while (reader->read())
 	{
-		if (reader->type & cainteoir::events::anchor)
-			events.anchor(reader->anchor, std::string());
-		if (reader->type & cainteoir::events::toc_entry)
-			events.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
+		if ((flags & needs_document_title) == needs_document_title)
+		{
+			if (reader->type & cainteoir::events::toc_entry)
+				events.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
+			if (reader->type & cainteoir::events::anchor)
+				events.anchor(reader->anchor, std::string());
+		}
 		if (reader->type & cainteoir::events::begin_context)
 			events.begin_context(reader->context, reader->parameter);
 		if (reader->type & cainteoir::events::text)

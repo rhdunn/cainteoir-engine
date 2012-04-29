@@ -20,34 +20,63 @@
 
 #include "parsers.hpp"
 
+namespace rdf = cainteoir::rdf;
+
 struct plaintext_document_reader : public cainteoir::document_reader
 {
-	plaintext_document_reader(std::shared_ptr<cainteoir::buffer> &aData)
+	enum state
+	{
+		state_title,
+		state_text,
+		state_eof,
+	};
+
+	plaintext_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject)
 		: mData(aData)
-		, mHaveRead(false)
+		, mSubject(aSubject)
+		, mState(state_title)
 	{
 	}
 
 	bool read();
 
 	std::shared_ptr<cainteoir::buffer> mData;
-	bool mHaveRead;
+	rdf::uri mSubject;
+	state mState;
 };
 
 bool plaintext_document_reader::read()
 {
-	if (mHaveRead || mData->empty())
+	switch (mState)
 	{
+	case state_title:
+		{
+			std::string title = mSubject.str();
+			std::string::size_type sep = title.rfind('/');
+			if (sep != std::string::npos)
+				title = title.substr(sep + 1);
+
+			type      = cainteoir::events::event_type(cainteoir::events::toc_entry | cainteoir::events::anchor);
+			context   = cainteoir::events::heading;
+			parameter = 0;
+			text      = cainteoir::make_buffer(title);
+			anchor    = mSubject;
+			mState    = mData->empty() ? state_eof : state_text;
+		}
+		break;
+	case state_text:
+		type      = cainteoir::events::text;
+		context   = cainteoir::events::span;
+		parameter = cainteoir::events::nostyle;
+		text      = mData;
+		anchor    = rdf::uri();
+		mState    = state_eof;
+		break;
+	case state_eof:
 		type = (cainteoir::events::event_type)0;
 		text.reset();
 		return false;
 	}
-
-	mHaveRead = true;
-	type      = cainteoir::events::text;
-	context   = cainteoir::events::span;
-	parameter = cainteoir::events::nostyle;
-	text      = mData;
 	return true;
 }
 
@@ -77,5 +106,5 @@ cainteoir::createPlainTextReader(std::shared_ptr<buffer> &aData,
 	// Plain Text ...
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("text/plain"));
-	return std::make_shared<plaintext_document_reader>(aData);
+	return std::make_shared<plaintext_document_reader>(aData, aSubject);
 }
