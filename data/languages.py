@@ -223,23 +223,17 @@ with open('languages.rdf', 'w') as f:
 
 # generate a language code tree ...
 
-items = set()
 with open('languages.dot', 'w') as f:
 	f.write('digraph "Language Codes" {\n')
 	f.write('	node [shape=box]')
 	for name, tag in sorted(tags.items()):
 		if tag['Type'] in ['Language', 'ExtLang', 'Collection', 'MacroLanguage']:
-			#if 'Preferred-Value' in tag.keys() and name != tag['Preferred-Value']:
-			#	f.write('	%s -> %s [color=red]\n' % (name, tag['Preferred-Value']))
 			if 'Ancestor' in tag.keys():
-				items.add(name)
-				items.add(tag['Ancestor'])
-				f.write('	%s -> %s [color=blue]\n' % (name, tag['Ancestor']))
+				f.write('	"%s" -> "%s" [color=blue]\n' % (name, tag['Ancestor']))
 			if 'Classification' in tag.keys():
-				items.add(name)
-				items.add(tag['Classification'])
-				f.write('	%s -> %s [color=green]\n' % (name, tag['Classification']))
-	for item in items:
-		f.write('	%s [label="%s"]\n' % (item, tags[item]['Description']))
+				f.write('	"%s" -> "%s" [color=green]\n' % (name, tag['Classification']))
+			if 'Macrolanguage' in tag.keys():
+				f.write('	"%s" -> "%s" [color=red]\n' % (name, tag['Macrolanguage']))
+			f.write('	"%s" [tooltip="%s"]\n' % (name, tag['Description']))
 	f.write('}\n')
 
