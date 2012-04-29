@@ -13,6 +13,7 @@
 
 data/languages.dat
 data/languages.dot
+data/languages.svg
 src/libcainteoir/parsers/html-entities.dat
 
 # build output:

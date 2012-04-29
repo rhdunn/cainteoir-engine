@@ -22,6 +22,13 @@ import json
 
 from xml.dom import minidom
 
+def read_data(path, split_char=':'):
+	with open(path) as f:
+		for line in f:
+			line = line.replace('\n', '')
+			if not line.startswith('# '):
+				yield line.split(split_char)
+
 def fold_lines(path):
 	next_line = None
 	with open(path) as f:
@@ -165,6 +172,16 @@ for name, tag in sorted(tags.items()):
 	except KeyError:
 		pass
 
+for rel, a, b in read_data('languages-extra.dat'):
+	if rel == 'h': # ISO 639-5 Hierarchy
+		tags[a]['Classification'] = b
+	elif rel == 'c':
+		tags[a]['Classification'] = b
+	elif rel == 'a':
+		tags[a]['Ancestor'] = b
+
+# generate RDF metadata for the language data
+
 tagnames = {
 	'Added':           ('date',      'iana:added'),
 	'Comments':        ('string:en', 'dct:description'),
@@ -193,7 +210,7 @@ with open('languages.rdf', 'w') as f:
 		f.write('<iana:%s rdf:about="%s%s">\n' % (tag['Type'], subtag_uri, name))
 		f.write('	<rdf:value>%s</rdf:value>\n' % name)
 		for key, value in sorted(tag.items()):
-			if key not in ['Type']:
+			if key not in ['Type', 'Ancestor', 'Classification']:
 				reftype, ref = tagnames[key]
 				if reftype in ['date', 'string']:
 					f.write('	<%s>%s</%s>\n' % (ref, value, ref))
@@ -206,12 +223,23 @@ with open('languages.rdf', 'w') as f:
 
 # generate a language code tree ...
 
+items = set()
 with open('languages.dot', 'w') as f:
 	f.write('digraph "Language Codes" {\n')
 	f.write('	node [shape=box]')
 	for name, tag in sorted(tags.items()):
 		if tag['Type'] in ['Language', 'ExtLang', 'Collection', 'MacroLanguage']:
-			if 'Preferred-Value' in tag.keys() and name != tag['Preferred-Value']:
-				f.write('	%s -> %s [color=red]\n' % (name, tag['Preferred-Value']))
+			#if 'Preferred-Value' in tag.keys() and name != tag['Preferred-Value']:
+			#	f.write('	%s -> %s [color=red]\n' % (name, tag['Preferred-Value']))
+			if 'Ancestor' in tag.keys():
+				items.add(name)
+				items.add(tag['Ancestor'])
+				f.write('	%s -> %s [color=blue]\n' % (name, tag['Ancestor']))
+			if 'Classification' in tag.keys():
+				items.add(name)
+				items.add(tag['Classification'])
+				f.write('	%s -> %s [color=green]\n' % (name, tag['Classification']))
+	for item in items:
+		f.write('	%s [label="%s"]\n' % (item, tags[item]['Description']))
 	f.write('}\n')
 

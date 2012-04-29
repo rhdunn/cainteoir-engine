@@ -1,0 +1,27 @@
+# http://en.wikipedia.org/wiki/List_of_ISO_639-5_codes
+h:cel:ine
+# http://en.wikipedia.org/wiki/Insular_Celtic_languages
+a:ga:mga
+a:gd:mga
+a:gv:mga
+a:mga:sga
+a:sga:pgl
+c:pgl:cel
+a:cy:wlm
+a:wlm:owl
+c:owl:cel
+c:xcb:cel
+c:xpi:cel
+a:br:xbm
+a:xbm:obt
+c:obt:cel
+a:kw:cnx
+a:cnx:oco
+c:oco:cel
+# http://en.wikipedia.org/wiki/Continental_Celtic_languages
+c:nrc:cel
+c:xce:cel
+c:xcg:cel
+c:xga:cel
+c:xls:cel
+c:xtg:cel
