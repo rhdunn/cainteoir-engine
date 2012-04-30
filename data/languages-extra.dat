@@ -1,3 +1,9 @@
+# Classification and Family Tree for IANA Language Subtag Registry Language Codes
+#
+# Copyright (C) 2012 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0
+#
 # http://en.wikipedia.org/wiki/List_of_ISO_639-5_codes
 h:aav:und
 h:afa:und
@@ -114,17 +120,21 @@ h:zls:sla
 h:zlw:sla
 h:znd:alv
 # http://en.wikipedia.org/wiki/Insular_Celtic_languages
+# ... Goidelic (Anglo-Saxon / Gael)
 a:ga:mga
 a:gd:mga
 a:gv:mga
 a:mga:sga
 a:sga:pgl
 c:pgl:cel
+# ... Brythonic (Briton)
+c:xpi:cel
+# ... ... Western Brythonic
 a:cy:wlm
 a:wlm:owl
 c:owl:cel
 c:xcb:cel
-c:xpi:cel
+# ... ... Southwestern Brythonic
 a:br:xbm
 a:xbm:obt
 c:obt:cel
@@ -139,6 +149,7 @@ c:xga:cel
 c:xls:cel
 c:xtg:cel
 # http://en.wikipedia.org/wiki/West_Germanic_languages
+# ... Ingvaeonic
 a:en:enm
 a:sco:enm
 a:yol:enm
@@ -154,11 +165,13 @@ a:wep:nds
 a:nds:gml
 a:gml:osx
 c:osx:gmw
+# ... Istvaeonic
 a:af:dum
 a:nl:dum
 a:dum:odt
 a:odt:frk
 c:frk:gmw
+# ... Erminonic
 a:bar:gmh
 a:cim:gmh
 a:de:gmh
