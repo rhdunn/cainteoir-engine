@@ -188,3 +188,40 @@ c:rge:grk
 c:tsd:grk
 c:xmk:grk
 c:yej:grk
+# http://en.wikipedia.org/wiki/List_of_Romance_languages
+c:la:roa
+# ... Sardinian / Southern Romance
+a:co:la
+a:sc:la
+# ... Eastern Romance
+a:ro:la
+a:ruo:la
+a:rup:la
+a:ruq:la
+# ... Italo-Dalmatian
+a:dlm:la
+a:ist:la
+a:it:la
+a:itk:it
+a:nap:la
+a:scn:la
+# ... Western Romance
+# ... ... Pyrenean-Mozarabic
+a:an:la
+a:mxi:la
+# ... ... Gallo-Iberian
+a:fr:la
+a:pcd:la
+a:wa:la
+a:fur:la
+a:lld:la
+a:rm:la
+a:xlg:la
+a:lmo:la
+a:pms:la
+a:vec:la
+a:ca:la
+a:oc:la
+a:es:la
+a:gl:la
+a:pt:la
