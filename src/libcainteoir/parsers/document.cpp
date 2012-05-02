@@ -71,13 +71,12 @@ static const ParseXmlDocument xml_handlers[] = {
 struct ParseDocument
 {
 	const mime::mimetype *mimetype;
-	decltype(cainteoir::parseRtfDocument) *parser;
+	decltype(cainteoir::parseHtmlDocument) *parser;
 };
 
 // magic = document specific ...
 static const ParseDocument doc_handlers[] = {
 	{ &mime::html, &cainteoir::parseHtmlDocument },
-	{ &mime::rtf,  &cainteoir::parseRtfDocument },
 };
 
 std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
@@ -289,6 +288,9 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 {
 	if (!aData || aData->empty())
 		return std::shared_ptr<document_reader>();
+
+	if (mime::rtf.match(aData))
+		return createRtfReader(aData, aSubject, aPrimaryMetadata);
 
 	return createPlainTextReader(aData, aSubject, aPrimaryMetadata);
 }

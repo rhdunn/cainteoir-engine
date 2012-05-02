@@ -27,7 +27,8 @@
 #include <stdexcept>
 #include <sstream>
 
-namespace rdf = cainteoir::rdf;
+namespace rdf    = cainteoir::rdf;
+namespace events = cainteoir::events;
 
 struct replacement
 {
@@ -247,173 +248,184 @@ void skipRtfBlock(rtf_reader &rtf)
 	}
 }
 
-enum BlockState
+struct rtf_document_reader : public cainteoir::document_reader
 {
-	RtfBlock,
-	InfoBlock,
-	OtherBlock,
-};
-
-enum TitleState
-{
-	NeedTitle,
-	HaveTitle,
-};
-
-void parseRtfBlock(rtf_reader &rtf,
-                   const rdf::uri &aSubject,
-                   cainteoir::document_events &events,
-                   rdf::graph &aGraph,
-                   cainteoir::rope &aText,
-                   cainteoir::encoding &codepage,
-                   BlockState blockState,
-                   TitleState &titleState)
-{
-	if (!rtf.read()) return;
-
-	std::string context;
-
-	if (rtf.token() == rtf_reader::instruction)
+	enum state
 	{
-		if (blockState == RtfBlock)
+		state_rtf,
+		state_title,
+		state_text,
+		state_info,
+		state_eof,
+	};
+
+	rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata);
+
+	bool read();
+
+	bool internal_read(rdf::graph *aPrimaryMetadata);
+
+	rtf_reader rtf;
+	rdf::uri mSubject;
+	cainteoir::encoding mCodepage;
+	state mState;
+	int mBlockCount;
+	std::string mTitle;
+	cainteoir::rope rtf_text;
+};
+
+rtf_document_reader::rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata)
+	: rtf(aData)
+	, mSubject(aSubject)
+	, mCodepage(1252)
+	, mState(state_rtf)
+	, mBlockCount(0)
+{
+	if (rtf.read() && internal_read(&aPrimaryMetadata))
+		mState = state_title;
+	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/rtf"));
+}
+
+bool rtf_document_reader::read()
+{
+	return internal_read(nullptr);
+}
+
+bool rtf_document_reader::internal_read(rdf::graph *aGraph)
+{
+	if (mState == state_title)
+	{
+		if (mTitle.empty())
 		{
-			if (rtf.data()->comparei("rtf") || rtf.parameter() != 1)
-				throw std::runtime_error(i18n("unrecognised rtf data stream or version"));
-			blockState = OtherBlock;
-		}
-		else if (blockState == InfoBlock)
-		{
-			context = rtf.data()->str();
-		}
-		else
-		{
-			if (!rtf.data()->comparei("stylesheet") ||
-			    !rtf.data()->comparei("fonttbl") ||
-			    !rtf.data()->comparei("colortbl") ||
-			    !rtf.data()->comparei("pict") ||
-			    !rtf.data()->comparei("header") ||
-			    !rtf.data()->comparei("footer") ||
-			    !rtf.data()->comparei("field") ||
-			    !rtf.data()->comparei("xe") ||
-			    !rtf.data()->comparei("tc") ||
-			    !rtf.data()->comparei("object") ||
-			    !rtf.data()->comparei("*"))
-			{
-				skipRtfBlock(rtf);
-				return;
-			}
-			else if (!rtf.data()->comparei("info"))
-			{
-				blockState = InfoBlock;
-			}
+			mTitle = mSubject.str();
+			std::string::size_type sep = mTitle.rfind('/');
+			if (sep != std::string::npos)
+				mTitle = mTitle.substr(sep + 1);
 		}
 
-		if (!rtf.read()) return;
+		type      = events::toc_entry | events::anchor;
+		context   = events::heading;
+		parameter = 0;
+		text      = cainteoir::make_buffer(mTitle);
+		anchor    = mSubject;
+		mState    = state_text;
+		return true;
 	}
+
+	std::string info_context;
+	if (!rtf.data()->compare("par") && !rtf_text.empty())
+		goto text_event;
 
 	do switch (rtf.token())
 	{
+	case rtf_reader::instruction:
+		switch (mState)
+		{
+		case state_rtf:
+			if (rtf.data()->comparei("rtf") || rtf.parameter() != 1)
+				throw std::runtime_error(i18n("unrecognised rtf data stream or version"));
+			mState = state_text;
+			break;
+		case state_info:
+			info_context = rtf.data()->str();
+			break;
+		default:
+			{
+				auto replacement = lookupReplacementText(mCodepage, rtf.data(), rtf.parameter());
+				if (replacement.get())
+					rtf_text += replacement;
+				else if (!rtf.data()->compare("par") && !rtf_text.empty())
+					goto text_event;
+				else if (!rtf.data()->comparei("stylesheet") ||
+				         !rtf.data()->comparei("fonttbl") ||
+				         !rtf.data()->comparei("colortbl") ||
+				         !rtf.data()->comparei("pict") ||
+				         !rtf.data()->comparei("header") ||
+				         !rtf.data()->comparei("footer") ||
+				         !rtf.data()->comparei("field") ||
+				         !rtf.data()->comparei("xe") ||
+				         !rtf.data()->comparei("tc") ||
+				         !rtf.data()->comparei("object") ||
+				         !rtf.data()->comparei("*"))
+				{
+					skipRtfBlock(rtf);
+				}
+				else if (!rtf.data()->comparei("info"))
+				{
+					mState = state_info;
+					mBlockCount = 1;
+				}
+			}
+			break;
+		};
+		break;
 	case rtf_reader::begin_block:
-		parseRtfBlock(rtf, aSubject, events, aGraph, aText, codepage, blockState, titleState);
+		if (mState == state_info)
+			++mBlockCount;
 		break;
 	case rtf_reader::end_block:
-		return;
-	case rtf_reader::instruction:
-		{
-			std::shared_ptr<cainteoir::buffer> text = lookupReplacementText(codepage, rtf.data(), rtf.parameter());
-			if (text.get())
-				aText += text;
-			else if (!rtf.data()->compare("par") && !aText.empty())
-			{
-				if (titleState == NeedTitle)
-				{
-					std::string title = aSubject.str();
-					std::string::size_type sep = title.rfind('/');
-					if (sep != std::string::npos)
-						title = title.substr(sep + 1);
-
-					events.toc_entry(0, aSubject, title);
-					events.anchor(aSubject, std::string());
-					titleState = HaveTitle;
-				}
-
-				events.begin_context(cainteoir::events::paragraph);
-				events.text(aText.buffer());
-				aText.clear();
-				events.end_context();
-			}
-			else if (!rtf.data()->compare("ansi"))
-				codepage.set_encoding(1252);
-			else if (!rtf.data()->compare("ansicpg"))
-				codepage.set_encoding(rtf.parameter());
-			else if (!rtf.data()->compare("pc"))
-				codepage.set_encoding(437);
-			else if (!rtf.data()->compare("pca"))
-				codepage.set_encoding(850);
-			else if (!rtf.data()->compare("mac"))
-				codepage.set_encoding(10000);
-		}
+		if (mState == state_info && --mBlockCount == 0)
+			mState = state_text;
 		break;
 	case rtf_reader::text:
-		if (blockState == InfoBlock)
+		if (mState == state_info && aGraph)
 		{
-			if (context == "author")
+			if (info_context == "author")
 			{
-				const rdf::uri temp = aGraph.genid();
-				aGraph.statement(aSubject, rdf::dc("creator"), temp);
-				aGraph.statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str()));
-				aGraph.statement(temp, rdf::opf("role"), rdf::literal("aut"));
+				const rdf::uri temp = aGraph->genid();
+				aGraph->statement(mSubject, rdf::dc("creator"), temp);
+				aGraph->statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str()));
+				aGraph->statement(temp, rdf::opf("role"), rdf::literal("aut"));
 			}
-			else if (context == "operator")
+			else if (info_context == "operator")
 			{
-				const rdf::uri temp = aGraph.genid();
-				aGraph.statement(aSubject, rdf::dc("contributor"), temp);
-				aGraph.statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str()));
-				aGraph.statement(temp, rdf::opf("role"), rdf::literal("edt"));
+				const rdf::uri temp = aGraph->genid();
+				aGraph->statement(mSubject, rdf::dc("contributor"), temp);
+				aGraph->statement(temp, rdf::rdf("value"), rdf::literal(rtf.data()->str()));
+				aGraph->statement(temp, rdf::opf("role"), rdf::literal("edt"));
 			}
-			else if (context == "title")
+			else if (info_context == "title")
 			{
-				std::string title = rtf.data()->str();
-				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
-				events.toc_entry(0, aSubject, title);
-				events.anchor(aSubject, std::string());
-				titleState = HaveTitle;
+				mTitle = rtf.data()->str();
+				aGraph->statement(mSubject, rdf::dc("title"), rdf::literal(mTitle));
 			}
-			else if (context == "subject")
-				aGraph.statement(aSubject, rdf::dc("description"), rdf::literal(rtf.data()->str()));
-			else if (context == "keywords")
+			else if (info_context == "subject")
+				aGraph->statement(mSubject, rdf::dc("description"), rdf::literal(rtf.data()->str()));
+			else if (info_context == "keywords")
 			{
 				std::istringstream keywords(rtf.data()->str());
 				std::string keyword;
 				while (keywords >> keyword)
-					aGraph.statement(aSubject, rdf::dc("subject"), rdf::literal(keyword));
+					aGraph->statement(mSubject, rdf::dc("subject"), rdf::literal(keyword));
 			}
 		}
-		else
-			aText += rtf.data();
+		else if (mState == state_text && rtf.depth() > 0)
+			rtf_text += rtf.data();
 		break;
 	} while (rtf.read());
 
-	throw std::runtime_error(i18n("warning: unexpected end of rtf stream\n"));
+	if (rtf_text.empty())
+	{
+		type = 0;
+		text.reset();
+		return false;
+	}
+
+text_event:
+	type      = events::text | events::begin_context | events::end_context;
+	context   = events::paragraph;
+	parameter = events::nostyle;
+	text      = rtf_text.buffer();
+	anchor    = rdf::uri();
+	if (aGraph == nullptr)
+		rtf_text.clear();
+	return true;
 }
 
-void cainteoir::parseRtfDocument(std::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createRtfReader(std::shared_ptr<buffer> &aData,
+                           const rdf::uri &aSubject,
+                           rdf::graph &aPrimaryMetadata)
 {
-	rtf_reader rtf(aData);
-	cainteoir::rope text;
-	cainteoir::encoding codepage(1252);
-
-	if (rtf.read() && rtf.token() == rtf_reader::begin_block)
-	{
-		TitleState titleState = NeedTitle;
-		parseRtfBlock(rtf, aSubject, events, aGraph, text, codepage, RtfBlock, titleState);
-		if (!text.empty())
-		{
-			events.begin_context(cainteoir::events::paragraph);
-			events.text(text.buffer());
-			events.end_context();
-		}
-	}
-	else
-		throw std::runtime_error(i18n("unrecognised rtf data stream"));
+	return std::make_shared<rtf_document_reader>(aData, aSubject, aPrimaryMetadata);
 }

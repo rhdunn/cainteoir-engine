@@ -159,14 +159,16 @@ namespace cainteoir
 
 	/** @brief RTF
 	  *
-	  * @param aData    The document data.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
+	  * @param[in]  aData            The document content.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  *
+	  * @return A reader over the document contents.
 	  */
-	void parseRtfDocument(std::shared_ptr<buffer> aData,
-	                      const rdf::uri &aSubject,
-	                      document_events &events,
-	                      rdf::graph &aGraph);
+	std::shared_ptr<document_reader>
+	createRtfReader(std::shared_ptr<buffer> &aData,
+	                const rdf::uri &aSubject,
+	                rdf::graph &aPrimaryMetadata);
 
 	/** @brief Plain Text
 	  *
