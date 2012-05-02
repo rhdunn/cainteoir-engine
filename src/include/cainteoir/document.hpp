@@ -588,15 +588,17 @@ namespace cainteoir
 	struct document_reader
 	{
 		document_reader()
-			: type((events::event_type)0)
+			: type(0)
 			, context(events::unknown)
 			, parameter(0)
 		{
 		}
 
 		/** @brief The type of the event.
+		  *
+		  * @see events::event_type
 		  */
-		events::event_type type;
+		uint32_t type;
 
 		/** @brief The associated rendering context.
 		  */

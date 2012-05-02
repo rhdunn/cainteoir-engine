@@ -56,7 +56,7 @@ bool plaintext_document_reader::read()
 			if (sep != std::string::npos)
 				title = title.substr(sep + 1);
 
-			type      = cainteoir::events::event_type(cainteoir::events::toc_entry | cainteoir::events::anchor);
+			type      = cainteoir::events::toc_entry | cainteoir::events::anchor;
 			context   = cainteoir::events::heading;
 			parameter = 0;
 			text      = cainteoir::make_buffer(title);
