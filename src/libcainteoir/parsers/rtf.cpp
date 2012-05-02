@@ -84,7 +84,7 @@ struct rtf_reader : public cainteoir::buffer
 		text,
 	};
 
-	rtf_reader(std::shared_ptr<cainteoir::buffer> aData)
+	rtf_reader(const std::shared_ptr<cainteoir::buffer> &aData)
 		: cainteoir::buffer(aData->begin(), aData->end())
 		, mCurrent(aData->begin())
 		, mData(std::make_shared<cainteoir::buffer>(nullptr, nullptr))
