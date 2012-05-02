@@ -181,6 +181,7 @@ if __name__ == '__main__':
 		{'name': 'document', 'type': 'events', 'tests': [
 			{'test': 'rtf/simple.rtf', 'result': 'rtf/simple.events'},
 			{'test': 'rtf/garbage-at-end.rtf', 'result': 'rtf/garbage-at-end.events'},
+			{'test': 'rtf/incomplete.rtf', 'result': 'rtf/incomplete.events'},
 			{'test': 'rtf/paragraph.rtf', 'result': 'rtf/paragraph.events'},
 			{'test': 'rtf/escaped.rtf', 'result': 'rtf/escaped.events'},
 			{'test': 'rtf/hex-ansi.rtf', 'result': 'rtf/hex-ansi.events'},

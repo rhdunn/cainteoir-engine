@@ -133,7 +133,10 @@ void printToken(rtf_reader &rtf)
 bool rtf_reader::read()
 {
 	if (mCurrent >= end())
+	{
+		mData = std::make_shared<cainteoir::buffer>(nullptr, nullptr);
 		return false;
+	}
 
 	switch (*mCurrent)
 	{
