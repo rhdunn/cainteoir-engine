@@ -20,7 +20,8 @@
 
 #include "parsers.hpp"
 
-namespace rdf = cainteoir::rdf;
+namespace rdf    = cainteoir::rdf;
+namespace events = cainteoir::events;
 
 struct plaintext_document_reader : public cainteoir::document_reader
 {
@@ -56,8 +57,8 @@ bool plaintext_document_reader::read()
 			if (sep != std::string::npos)
 				title = title.substr(sep + 1);
 
-			type      = cainteoir::events::toc_entry | cainteoir::events::anchor;
-			context   = cainteoir::events::heading;
+			type      = events::toc_entry | events::anchor;
+			context   = events::heading;
 			parameter = 0;
 			text      = cainteoir::make_buffer(title);
 			anchor    = mSubject;
@@ -65,15 +66,15 @@ bool plaintext_document_reader::read()
 		}
 		break;
 	case state_text:
-		type      = cainteoir::events::text;
-		context   = cainteoir::events::span;
-		parameter = cainteoir::events::nostyle;
+		type      = events::text;
+		context   = events::span;
+		parameter = events::nostyle;
 		text      = mData;
 		anchor    = rdf::uri();
 		mState    = state_eof;
 		break;
 	case state_eof:
-		type = (cainteoir::events::event_type)0;
+		type = 0;
 		text.reset();
 		return false;
 	}
