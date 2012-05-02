@@ -88,6 +88,8 @@ struct rtf_reader : public cainteoir::buffer
 		: cainteoir::buffer(aData->begin(), aData->end())
 		, mCurrent(aData->begin())
 		, mData(std::make_shared<cainteoir::buffer>(nullptr, nullptr))
+		, mParameter(0)
+		, mDepth(0)
 	{
 	}
 
@@ -98,11 +100,14 @@ struct rtf_reader : public cainteoir::buffer
 	const std::shared_ptr<cainteoir::buffer> & data() const { return mData; }
 
 	int parameter() const { return mParameter; }
+
+	int depth() const { return mDepth; }
 private:
 	const char * mCurrent;
 	token_type mToken;
 	std::shared_ptr<cainteoir::buffer> mData;
 	int mParameter;
+	int mDepth;
 };
 
 void printToken(rtf_reader &rtf)
@@ -110,10 +115,10 @@ void printToken(rtf_reader &rtf)
 	switch (rtf.token())
 	{
 	case rtf_reader::begin_block:
-		printf("begin-block\n");
+		printf("begin-block (depth=%d)\n", rtf.depth());
 		break;
 	case rtf_reader::end_block:
-		printf("end-block\n");
+		printf("end-block (depth=%d)\n", rtf.depth());
 		break;
 	case rtf_reader::instruction:
 		printf("instruction: %s (parameter: %d)\n", rtf.data()->str().c_str(), rtf.parameter());
@@ -134,10 +139,12 @@ bool rtf_reader::read()
 	case '{':
 		mToken = begin_block;
 		++mCurrent;
+		++mDepth;
 		break;
 	case '}':
 		mToken = end_block;
 		++mCurrent;
+		--mDepth;
 		break;
 	case '\\':
 		{
