@@ -642,21 +642,9 @@ void cainteoir::parseXHtmlDocument(xml::reader &reader, const rdf::uri &aSubject
 	reader.set_attrs(xmlns::xhtml,  html_attrs);
 	reader.set_attrs(xmlns::xml,    xml::attrs);
 
-	parseHtmlNode(reader, aSubject, events, aGraph);
-}
-
-void cainteoir::parseHtmlDocument(std::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	xml::reader reader(data, xml::html_entities);
-	reader.set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
-	reader.set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
-	reader.set_nodes(xmlns::xhtml,  html_nodes);
-	reader.set_attrs(xmlns::xhtml,  html_attrs);
-	reader.set_attrs(xmlns::xml,    xml::attrs);
-
 	std::string title;
 	bool first = true;
-	while (reader.read()) switch (reader.nodeType())
+	do switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
 		if (reader.context() == &html::html_node)
@@ -669,7 +657,14 @@ void cainteoir::parseHtmlDocument(std::shared_ptr<cainteoir::buffer> data, const
 			first = false;
 		}
 		break;
-	}
+	} while (reader.read());
+}
+
+void cainteoir::parseHtmlDocument(std::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+{
+	xml::reader reader(data);
+	if (reader.read())
+		parseXHtmlDocument(reader, aSubject, events, aGraph);
 }
 
 /** References

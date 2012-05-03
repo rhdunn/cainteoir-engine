@@ -254,21 +254,25 @@ namespace cainteoir { namespace xml
 		void set_nodes(const std::string &aNS, const std::initializer_list<const xml::context::entry_ref> &entries, buffer::match_type match=buffer::match_case)
 		{
 			mNodes.set(aNS, entries, match);
+			reset_context();
 		}
 
 		void set_nodes(const ns &aNS, const std::initializer_list<const xml::context::entry_ref> &entries, buffer::match_type match=buffer::match_case)
 		{
 			mNodes.set(aNS, entries, match);
+			reset_context();
 		}
 
 		void set_attrs(const std::string &aNS, const std::initializer_list<const xml::context::entry_ref> &entries, buffer::match_type match=buffer::match_case)
 		{
 			mAttrs.set(aNS, entries, match);
+			reset_context();
 		}
 
 		void set_attrs(const ns &aNS, const std::initializer_list<const xml::context::entry_ref> &entries, buffer::match_type match=buffer::match_case)
 		{
 			mAttrs.set(aNS, entries, match);
+			reset_context();
 		}
 	private:
 		/** @name parser internals/helpers */
@@ -284,6 +288,8 @@ namespace cainteoir { namespace xml
 		void read_node_value(char terminator1, char terminator2 = '\0');
 
 		void read_tag(node_type aType);
+
+		void reset_context();
 
 		enum ParserState
 		{

@@ -287,7 +287,7 @@ bool cainteoir::xml::reader::read()
 			mState.nodeName = mTagNodeName;
 			mState.nodePrefix = mTagNodePrefix;
 			mNodeType = endTagNode;
-			mContext = mNodes.lookup(namespaceUri(), nodeName());
+			reset_context();
 			if (mImplicitEndTag)
 			{
 				if (*mState.current == '/')
@@ -302,7 +302,7 @@ bool cainteoir::xml::reader::read()
 		if (xmlalnum(*mState.current)) // XML§3.1 ; HTML§12.1.2.3
 		{
 			read_tag(attribute);
-			mContext = mAttrs.lookup(namespaceUri(), nodeName());
+			reset_context();
 			if (check_next('='))
 			{
 				if (check_next('"')) // XML§3.1 ; HTML§12.1.2.3 -- double-quoted attribute value
@@ -450,7 +450,7 @@ bool cainteoir::xml::reader::read()
 		case '/': // XML§3.1 ; HTML§12.1.2.2 -- End Tag
 			++mState.current;
 			read_tag(endTagNode);
-			mContext = mNodes.lookup(namespaceUri(), nodeName());
+			reset_context();
 			break;
 		default: // XML§3.1 ; HTML§12.1.2.1 -- Start Tag
 			if (mState.state != ParsingXmlNamespaces)
@@ -474,7 +474,7 @@ bool cainteoir::xml::reader::read()
 				mTagNodePrefix = mState.nodePrefix;
 
 				mNodeType = beginTagNode;
-				mContext = mNodes.lookup(namespaceUri(), nodeName());
+				reset_context();
 				if (mContext->parse_type == xml::context::implicit_end_tag)
 					mImplicitEndTag = true;
 			}
@@ -602,6 +602,20 @@ void cainteoir::xml::reader::read_tag(node_type aType)
 	{
 		mTagNodeName = mState.nodeName;
 		mTagNodePrefix = mState.nodePrefix;
+	}
+}
+
+void cainteoir::xml::reader::reset_context()
+{
+	switch (mNodeType)
+	{
+	case attribute:
+		mContext = mAttrs.lookup(namespaceUri(), nodeName());
+		break;
+	case beginTagNode:
+	case endTagNode:
+		mContext = mNodes.lookup(namespaceUri(), nodeName());
+		break;
 	}
 }
 
