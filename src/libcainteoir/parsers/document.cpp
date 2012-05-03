@@ -350,15 +350,8 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 			}
 		}
 
-		if (mime::html.match(data))
-		{
-			cainteoir::parseHtmlDocument(data, subject, events, aGraph);
-			if ((flags & include_document_mimetype) == include_document_mimetype)
-				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(mime::html.mime_type));
-			return true;
-		}
-
-		return false;
+		if (!mime::html.match(data))
+			return false;
 	}
 
 	// Documents with MIME headers ...
