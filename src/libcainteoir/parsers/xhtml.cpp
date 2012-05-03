@@ -604,34 +604,12 @@ void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
-void parseHtmlNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+enum parse_state
 {
-	std::string lang;
-	std::string title;
-	bool first = true;
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::beginTagNode:
-		if (reader.context() == &html::head_node)
-			title = parseHeadNode(reader, aSubject, events, aGraph);
-		else
-		{
-			parseBodyNode(reader, aSubject, events, aGraph, reader.context(), title, first);
-			first = false;
-		}
-		break;
-	case xml::reader::attribute:
-		if (reader.context() == &xml::lang_attr && lang.empty())
-		{
-			lang = reader.nodeValue().buffer()->str();
-			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
-		}
-		break;
-	case xml::reader::endTagNode:
-		if (reader.context() == &html::html_node)
-			return;
-	}
-}
+	state_init,
+	state_html,
+	state_body,
+};
 
 void cainteoir::parseXHtmlDocument(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
@@ -643,18 +621,31 @@ void cainteoir::parseXHtmlDocument(xml::reader &reader, const rdf::uri &aSubject
 	reader.set_attrs(xmlns::xml,    xml::attrs);
 
 	std::string title;
+	std::string lang;
 	bool first = true;
+	parse_state state = state_init;
 	do switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
 		if (reader.context() == &html::html_node)
-			parseHtmlNode(reader, aSubject, events, aGraph);
+			state = state_html;
 		else if (reader.context() == &html::head_node)
 			title = parseHeadNode(reader, aSubject, events, aGraph);
 		else
 		{
+			state = state_body;
 			parseBodyNode(reader, aSubject, events, aGraph, reader.context(), title, first);
 			first = false;
+		}
+		break;
+	case xml::reader::attribute:
+		if (state == state_html)
+		{
+			if (reader.context() == &xml::lang_attr && lang.empty())
+			{
+				lang = reader.nodeValue().buffer()->str();
+				aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
+			}
 		}
 		break;
 	} while (reader.read());
