@@ -508,7 +508,7 @@ std::string parseHeadNode(html_document_reader &reader, const rdf::uri &aSubject
 	return title;
 }
 
-void parseListNode(html_document_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *list_ctx)
+void parseListNode(html_document_reader &reader, cainteoir::document_events &events, const xml::context::entry *list_ctx)
 {
 	int number = 1;
 
@@ -597,7 +597,7 @@ void parseBodyNode(html_document_reader &reader, const rdf::uri &aSubject, caint
 		{
 			events.begin_context((cainteoir::events::context)reader.context()->context, reader.context()->parameter);
 			if (reader.context()->context == cainteoir::events::list)
-				parseListNode(reader, aSubject, events, reader.context());
+				parseListNode(reader, events, reader.context());
 
 			if (reader.context()->context == cainteoir::events::heading)
 			{
