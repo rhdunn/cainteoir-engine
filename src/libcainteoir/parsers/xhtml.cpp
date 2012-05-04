@@ -405,7 +405,7 @@ void skipNode(html_document_reader &reader, const cainteoir::buffer name)
 	}
 }
 
-std::string parseTitleNode(html_document_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+std::string parseTitleNode(html_document_reader &reader)
 {
 	std::string title;
 	while (reader.read()) switch (reader.nodeType())
@@ -416,14 +416,7 @@ std::string parseTitleNode(html_document_reader &reader, const rdf::uri &aSubjec
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		{
-			title = reader.nodeValue().normalize()->str();
-			if (!title.empty())
-			{
-				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
-				events.toc_entry(0, aSubject, title);
-			}
-		}
+		title = reader.nodeValue().normalize()->str();
 		break;
 	}
 	return title;
@@ -494,7 +487,7 @@ std::string parseHeadNode(html_document_reader &reader, const rdf::uri &aSubject
 	{
 	case xml::reader::beginTagNode:
 		if (reader.context() == &html::title_node)
-			title = parseTitleNode(reader, aSubject, events, aGraph);
+			title = parseTitleNode(reader);
 		else if (reader.context() == &html::meta_node)
 			parseMetaNode(reader, aSubject, events, aGraph);
 		else if (reader.context()->parse_type == xml::context::hidden)
@@ -676,7 +669,14 @@ void cainteoir::parseXHtmlDocument(xml::reader &aReader, const rdf::uri &aSubjec
 	{
 	case xml::reader::beginTagNode:
 		if (reader.context() == &html::head_node)
+		{
 			title = parseHeadNode(reader, aSubject, events, aGraph);
+			if (!title.empty())
+			{
+				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
+				events.toc_entry(0, aSubject, title);
+			}
+		}
 		else
 		{
 			parseBodyNode(reader, aSubject, events, aGraph, reader.context(), title, first);
