@@ -332,7 +332,47 @@ static const std::initializer_list<const xml::context::entry_ref> meta_names =
 	{ "shs-title",    &html::title_meta },
 };
 
-void skipNode(xml::reader &reader, const cainteoir::buffer name)
+struct html_document_reader
+{
+	html_document_reader(xml::reader &aReader);
+
+	bool read();
+
+	/** @name  xml::reader bridge
+	  * @brief temporary until the end of the migration to the document reader API
+	  */
+	//@{
+
+	xml::reader::node_type nodeType() const { return reader.nodeType(); }
+
+	const cainteoir::buffer &nodeName() const { return reader.nodeName(); }
+
+	const xml::context::entry *context() const { return reader.context(); }
+
+	const cainteoir::rope &nodeValue() const { return reader.nodeValue(); }
+
+	//@}
+private:
+	xml::reader reader;
+};
+
+html_document_reader::html_document_reader(xml::reader &aReader)
+	: reader(aReader)
+{
+	reader.set_predefined_entities(xml::html_entities);
+	reader.set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
+	reader.set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
+	reader.set_nodes(xmlns::xhtml,  html_nodes);
+	reader.set_attrs(xmlns::xhtml,  html_attrs);
+	reader.set_attrs(xmlns::xml,    xml::attrs);
+}
+
+bool html_document_reader::read()
+{
+	return reader.read();
+}
+
+void skipNode(html_document_reader &reader, const cainteoir::buffer name)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -343,7 +383,7 @@ void skipNode(xml::reader &reader, const cainteoir::buffer name)
 	}
 }
 
-std::string parseTitleNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+std::string parseTitleNode(html_document_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	std::string title;
 	while (reader.read()) switch (reader.nodeType())
@@ -367,7 +407,7 @@ std::string parseTitleNode(xml::reader &reader, const rdf::uri &aSubject, cainte
 	return title;
 }
 
-void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void parseMetaNode(html_document_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	static xml::context names(std::string(), meta_names, cainteoir::buffer::ignore_case);
 
@@ -425,7 +465,7 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
-std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+std::string parseHeadNode(html_document_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
 	std::string title;
 	while (reader.read()) switch (reader.nodeType())
@@ -446,7 +486,7 @@ std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, cainteo
 	return title;
 }
 
-void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *list_ctx)
+void parseListNode(html_document_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *list_ctx)
 {
 	int number = 1;
 
@@ -492,7 +532,7 @@ void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::doc
 	}
 }
 
-void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph, const xml::context::entry *body_ctx, std::string title, bool first)
+void parseBodyNode(html_document_reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph, const xml::context::entry *body_ctx, std::string title, bool first)
 {
 	rdf::uri href(aSubject.str(), std::string());
 	cainteoir::rope htext;
@@ -611,14 +651,9 @@ enum parse_state
 	state_body,
 };
 
-void cainteoir::parseXHtmlDocument(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void cainteoir::parseXHtmlDocument(xml::reader &aReader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
 {
-	reader.set_predefined_entities(xml::html_entities);
-	reader.set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
-	reader.set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
-	reader.set_nodes(xmlns::xhtml,  html_nodes);
-	reader.set_attrs(xmlns::xhtml,  html_attrs);
-	reader.set_attrs(xmlns::xml,    xml::attrs);
+	html_document_reader reader(aReader);
 
 	std::string title;
 	std::string lang;
