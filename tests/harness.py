@@ -24,6 +24,8 @@ import zipfile
 
 from datetime import date
 
+diff_program = None
+
 def replace_strings(string, replacements):
 	for (key, value) in replacements.items():
 		string = string.replace('@%s@' % key, value)
@@ -70,10 +72,19 @@ class TestSuite:
 			write('failed [%s]\n' % test_expect)
 
 		if not ret or test_expect == 'expect-fail':
-			write('    %s\n' % ('>'*75))
-			for line in difflib.unified_diff(expected, got, fromfile='expected', tofile='got'):
-				write('    | %s\n' % line.replace('\n', ''))
-			write('    %s\n' % ('<'*75))
+			if diff_program:
+				with open('/tmp/expected', 'w') as f:
+					f.write('\n'.join(expected))
+
+				with open('/tmp/got', 'w') as f:
+					f.write('\n'.join(got))
+
+				os.system('%s /tmp/expected /tmp/got' % diff_program)
+			else:
+				write('    %s\n' % ('>'*75))
+				for line in difflib.unified_diff(expected, got, fromfile='expected', tofile='got'):
+					write('    | %s\n' % line.replace('\n', ''))
+				write('    %s\n' % ('<'*75))
 
 	def check_metadata(self, filename, expect, formattype, displayas=None, test_expect='expect-pass', replacements={}):
 		write('... checking %s as %s metadata ... ' % ((displayas or filename), formattype))
