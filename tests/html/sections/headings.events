@@ -2,33 +2,33 @@ toc-entry [] depth=0 title="""Test File"""
 begin-context heading 1
 anchor [#]genid.h0
 text(9): """Heading 1"""
+toc-entry [#]genid.h0 depth=1 title="""Heading 1"""
 end-context
-toc-entry [#]genid.h0 depth=0 title="""Heading 1"""
 begin-context heading 2
 anchor [#]genid.h1
 text(9): """Heading 2"""
+toc-entry [#]genid.h1 depth=2 title="""Heading 2"""
 end-context
-toc-entry [#]genid.h1 depth=0 title="""Heading 2"""
 begin-context heading 3
 anchor [#]genid.h2
 text(9): """Heading 3"""
+toc-entry [#]genid.h2 depth=3 title="""Heading 3"""
 end-context
-toc-entry [#]genid.h2 depth=0 title="""Heading 3"""
 begin-context heading 4
 anchor [#]genid.h3
 text(9): """Heading 4"""
+toc-entry [#]genid.h3 depth=4 title="""Heading 4"""
 end-context
-toc-entry [#]genid.h3 depth=0 title="""Heading 4"""
 begin-context heading 5
 anchor [#]genid.h4
 text(9): """Heading 5"""
+toc-entry [#]genid.h4 depth=5 title="""Heading 5"""
 end-context
-toc-entry [#]genid.h4 depth=0 title="""Heading 5"""
 begin-context heading 6
 anchor [#]genid.h5
 text(9): """Heading 6"""
+toc-entry [#]genid.h5 depth=6 title="""Heading 6"""
 end-context
-toc-entry [#]genid.h5 depth=0 title="""Heading 6"""
 begin-context heading 1
 anchor [#]genid.h6
 end-context
