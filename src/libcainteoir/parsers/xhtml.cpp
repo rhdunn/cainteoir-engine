@@ -357,7 +357,7 @@ struct html_document_reader
 private:
 	xml::reader reader;
 
-	void parseHtmlNode(const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata);
+	std::string parseLangAttr();
 };
 
 std::string parseHeadNode(html_document_reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
@@ -372,15 +372,29 @@ html_document_reader::html_document_reader(xml::reader &aReader, const rdf::uri 
 	reader.set_attrs(xmlns::xhtml,  html_attrs);
 	reader.set_attrs(xmlns::xml,    xml::attrs);
 
+	std::string lang;
 	if (reader.context() == &html::html_node)
-		parseHtmlNode(aSubject, aPrimaryMetadata);
+	{
+		lang = parseLangAttr();
+		while (reader.nodeType() != xml::reader::beginTagNode)
+			reader.read();
+	}
 
 	if (reader.context() == &html::head_node)
 	{
 		mTitle = parseHeadNode(*this, aSubject, aPrimaryMetadata);
-		if (!mTitle.empty())
-			aPrimaryMetadata.statement(aSubject, rdf::dc("title"), rdf::literal(mTitle));
+		while (reader.nodeType() != xml::reader::beginTagNode)
+			reader.read();
 	}
+
+	if (lang.empty() && reader.context() == &html::body_node)
+		lang = parseLangAttr();
+
+	if (!lang.empty())
+		aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
+
+	if (!mTitle.empty())
+		aPrimaryMetadata.statement(aSubject, rdf::dc("title"), rdf::literal(mTitle));
 
 	if (mTitle.empty())
 	{
@@ -396,21 +410,17 @@ bool html_document_reader::read()
 	return reader.read();
 }
 
-void html_document_reader::parseHtmlNode(const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata)
+std::string html_document_reader::parseLangAttr()
 {
 	std::string lang;
-	while (reader.read()) switch(reader.nodeType())
+	while (reader.read() && reader.nodeType() == xml::reader::attribute)
 	{
-	case xml::reader::beginTagNode:
-		return;
-	case xml::reader::attribute:
 		if (reader.context() == &xml::lang_attr && lang.empty())
 		{
 			lang = reader.nodeValue().buffer()->str();
-			aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
 		}
-		break;
 	}
+	return lang;
 }
 
 void skipNode(html_document_reader &reader, const cainteoir::buffer name)
@@ -569,8 +579,7 @@ void cainteoir::parseXHtmlDocument(xml::reader &aReader, const rdf::uri &aSubjec
 	bool genAnchor = false;
 
 	std::string lang;
-	bool in_body = true;
-	while (reader.read()) switch (reader.nodeType())
+	do switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
 		if (reader.context() == &xml::id_attr)
@@ -579,14 +588,8 @@ void cainteoir::parseXHtmlDocument(xml::reader &aReader, const rdf::uri &aSubjec
 			events.anchor(href, std::string());
 			genAnchor = false;
 		}
-		else if (in_body && reader.context() == &xml::lang_attr && lang.empty())
-		{
-			lang = reader.nodeValue().buffer()->str();
-			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
-		}
 		break;
 	case xml::reader::beginTagNode:
-		in_body = reader.context() == &html::body_node;
 		if (reader.context() == &html::script_node || reader.context() == &html::style_node)
 			skipNode(reader, reader.nodeName());
 		else if (reader.context()->context != cainteoir::events::unknown)
@@ -657,7 +660,7 @@ void cainteoir::parseXHtmlDocument(xml::reader &aReader, const rdf::uri &aSubjec
 			}
 		}
 		break;
-	}
+	} while (reader.read());
 }
 
 void cainteoir::parseHtmlDocument(std::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
