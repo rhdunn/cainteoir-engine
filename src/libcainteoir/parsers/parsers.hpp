@@ -146,18 +146,11 @@ namespace cainteoir
 	                       document_events &events,
 	                       rdf::graph &aGraph);
 
-	/** @brief HTML
-	  *
-	  * @param aData    The document data.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
+	/** @name Document Readers
 	  */
-	void parseHtmlDocument(std::shared_ptr<buffer> aData,
-	                       const rdf::uri &aSubject,
-	                       document_events &events,
-	                       rdf::graph &aGraph);
+	//@{
 
-	/** @brief RTF
+	/** @brief HyperText Markup Language (HTML)
 	  *
 	  * @param[in]  aData            The document content.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -166,9 +159,22 @@ namespace cainteoir
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
-	createRtfReader(std::shared_ptr<buffer> &aData,
-	                const rdf::uri &aSubject,
-	                rdf::graph &aPrimaryMetadata);
+	createHtmlReader(std::shared_ptr<buffer> &aData,
+	                 const rdf::uri &aSubject,
+	                 rdf::graph &aPrimaryMetadata);
+
+	/** @brief HyperText Markup Language (HTML)
+	  *
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createHtmlReader(xml::reader &aReader,
+	                 const rdf::uri &aSubject,
+	                 rdf::graph &aPrimaryMetadata);
 
 	/** @brief Plain Text
 	  *
@@ -182,6 +188,34 @@ namespace cainteoir
 	createPlainTextReader(std::shared_ptr<buffer> &aData,
 	                      const rdf::uri &aSubject,
 	                      rdf::graph &aPrimaryMetadata);
+
+	/** @brief Rich Text Format (RTF)
+	  *
+	  * @param[in]  aData            The document content.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createRtfReader(std::shared_ptr<buffer> &aData,
+	                const rdf::uri &aSubject,
+	                rdf::graph &aPrimaryMetadata);
+
+	/** @brief XML-based HyperText Markup Language (XHTML)
+	  *
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createXHtmlReader(xml::reader &aReader,
+	                  const rdf::uri &aSubject,
+	                  rdf::graph &aPrimaryMetadata);
+
+	//@}
 }
 
 #endif

@@ -64,19 +64,6 @@ static const ParseXmlDocument xml_handlers[] = {
 	{ &mime::rdfxml, &cainteoir::parseRdfXmlDocument },
 	{ &mime::smil,   &cainteoir::parseSmilDocument },
 	{ &mime::ssml,   &cainteoir::parseSsmlDocument },
-	{ &mime::xhtml,  &cainteoir::parseXHtmlDocument },
-	{ &mime::html,   &cainteoir::parseXHtmlDocument },
-};
-
-struct ParseDocument
-{
-	const mime::mimetype *mimetype;
-	decltype(cainteoir::parseHtmlDocument) *parser;
-};
-
-// magic = document specific ...
-static const ParseDocument doc_handlers[] = {
-	{ &mime::html, &cainteoir::parseHtmlDocument },
 };
 
 std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
@@ -289,6 +276,25 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 	if (!aData || aData->empty())
 		return std::shared_ptr<document_reader>();
 
+	if (mime::xml.match(aData))
+	{
+		cainteoir::xml::reader reader(aData);
+		while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
+			;
+
+		std::string namespaceUri = reader.namespaceUri();
+		std::string rootName     = reader.nodeName().str();
+
+		if (mime::xhtml.match(namespaceUri, rootName) || mime::html.match(aData))
+			return createXHtmlReader(reader, aSubject, aPrimaryMetadata);
+
+		if (!mime::html.match(aData))
+			return std::shared_ptr<document_reader>();
+	}
+
+	if (mime::html.match(aData))
+		return createHtmlReader(aData, aSubject, aPrimaryMetadata);
+
 	if (mime::rtf.match(aData))
 		return createRtfReader(aData, aSubject, aPrimaryMetadata);
 
@@ -332,7 +338,6 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 	if (mime::xml.match(data))
 	{
 		cainteoir::xml::reader reader(data);
-
 		while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
 			;
 
@@ -350,8 +355,10 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 			}
 		}
 
-		if (!mime::html.match(data))
-			return false;
+		if (mime::xhtml.match(namespaceUri, rootName) || mime::html.match(data))
+			goto create_reader;
+
+		return false;
 	}
 
 	// Documents with MIME headers ...
@@ -408,19 +415,7 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 		return parsed;
 	}
 
-	// Other documents ...
-
-	for (const ParseDocument *parse = std::begin(doc_handlers); parse != std::end(doc_handlers); ++parse)
-	{
-		if (parse->mimetype->match(data))
-		{
-			parse->parser(data, subject, events, aGraph);
-			if ((flags & include_document_mimetype) == include_document_mimetype)
-				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(parse->mimetype->mime_type));
-			return true;
-		}
-	}
-
+create_reader:
 	// Reader-based document parsers (new-style) ...
 
 	auto reader = createDocumentReader(data, subject, aGraph);

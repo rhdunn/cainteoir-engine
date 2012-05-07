@@ -107,7 +107,22 @@ struct epub_document : public cainteoir::document_events
 				{
 					const rdf::uri location = mEpub->location(filename, aLocation.ref);
 					mEvents.anchor(location, std::string());
-					cainteoir::parseXHtmlDocument(reader, location, *this, mGraph);
+
+					rdf::graph mInnerMetadata;
+					auto html = cainteoir::createHtmlReader(reader, location, mInnerMetadata);
+					if (html) while (html->read())
+					{
+						if (html->type & cainteoir::events::toc_entry)
+							toc_entry((int)html->parameter, html->anchor, html->text->str());
+						if (html->type & cainteoir::events::anchor)
+							anchor(html->anchor, std::string());
+						if (html->type & cainteoir::events::begin_context)
+							begin_context(html->context, html->parameter);
+						if (html->type & cainteoir::events::text)
+							text(html->text);
+						if (html->type & cainteoir::events::end_context)
+							end_context();
+					}
 				}
 			}
 			else

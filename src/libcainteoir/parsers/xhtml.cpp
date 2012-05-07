@@ -347,7 +347,7 @@ struct context_data
 
 struct html_document_reader : public cainteoir::document_reader
 {
-	html_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata);
+	html_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType);
 
 	bool read();
 private:
@@ -365,7 +365,7 @@ private:
 
 std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
 
-html_document_reader::html_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata)
+html_document_reader::html_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType)
 	: reader(aReader)
 	, mSubject(aSubject)
 	, href(aSubject.str(), std::string())
@@ -413,6 +413,8 @@ html_document_reader::html_document_reader(xml::reader &aReader, const rdf::uri 
 
 	ctx.push({ &html::body_node, 0 });
 	ctx.push({ &html::title_node, 0 });
+
+	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal(aMimeType));
 }
 
 std::string html_document_reader::parseLangAttr()
@@ -717,38 +719,31 @@ bool html_document_reader::read()
 }
 
 std::shared_ptr<cainteoir::document_reader>
-createHtmlReader(xml::reader &aReader,
-                 const rdf::uri &aSubject,
-                 rdf::graph &aPrimaryMetadata)
+cainteoir::createHtmlReader(xml::reader &aReader,
+                            const rdf::uri &aSubject,
+                            rdf::graph &aPrimaryMetadata)
 {
-	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata);
+	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, "text/html");
 }
 
-void cainteoir::parseXHtmlDocument(xml::reader &aReader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createHtmlReader(std::shared_ptr<buffer> &aData,
+                            const rdf::uri &aSubject,
+                            rdf::graph &aPrimaryMetadata)
 {
-	auto reader = createHtmlReader(aReader, aSubject, aGraph);
-	if (reader) while (reader->read())
-	{
-		if (reader->type & cainteoir::events::toc_entry)
-			events.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
-		if (reader->type & cainteoir::events::anchor)
-			events.anchor(reader->anchor, std::string());
-		if (reader->type & cainteoir::events::begin_context)
-			events.begin_context(reader->context, reader->parameter);
-		if (reader->type & cainteoir::events::text)
-			events.text(reader->text);
-		if (reader->type & cainteoir::events::end_context)
-			events.end_context();
-	}
-}
-
-void cainteoir::parseHtmlDocument(std::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	xml::reader reader(data);
+	xml::reader reader(aData);
 	while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
 		;
 
-	parseXHtmlDocument(reader, aSubject, events, aGraph);
+	return createHtmlReader(reader, aSubject, aPrimaryMetadata);
+}
+
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createXHtmlReader(xml::reader &aReader,
+                             const rdf::uri &aSubject,
+                             rdf::graph &aPrimaryMetadata)
+{
+	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, "application/xhtml+xml");
 }
 
 /** References
