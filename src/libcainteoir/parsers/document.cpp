@@ -82,196 +82,11 @@ std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 	return data.buffer();
 }
 
-inline bool is_mime_header_char(char c)
-{
-	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '-';
-}
-
-struct mime_headers : public cainteoir::buffer
-{
-	std::shared_ptr<cainteoir::buffer> mOriginal;
-	std::string encoding;
-	std::string mimetype;
-	parser_flags flags;
-
-	bool parse_headers(const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph, cainteoir::buffer &boundary)
-	{
-		while (first <= last)
-		{
-			cainteoir::buffer name(first, first);
-			cainteoir::buffer value(first, first);
-
-			while (first <= last && is_mime_header_char(*first))
-				++first;
-
-			name = cainteoir::buffer(name.begin(), first);
-			if (name.empty())
-			{
-				if (*first == '\r' || *first == '\n')
-				{
-					++first;
-					if (*first == '\n')
-						++first;
-					return true;
-				}
-				return false;
-			}
-
-			if (first[0] == ':' && first[1] == ' ')
-			{
-				const char * start = first;
-				while (first <= last && !(first[0] == '\n' && first[1] != ' ' && first[1] != '\t'))
-					++first;
-
-				value = cainteoir::buffer(start + 2, *(first-1) == '\r' ? first-1 : first);
-				++first;
-			}
-			else
-				return false;
-
-			if (!name.comparei("Content-Transfer-Encoding"))
-			{
-				const char * type = value.begin();
-				while (type <= value.end() && !(*type == ';' || *type == '\n'))
-					++type;
-				encoding = std::string(value.begin(), *(type-1) == '\r' ? type-1 : type);
-			}
-			else if (!name.comparei("Content-Type"))
-			{
-				const char * type = value.begin();
-				while (type <= value.end() && !(*type == ';' || *type == '\n'))
-					++type;
-				mimetype = std::string(value.begin(), type);
-
-				if (mimetype == "multipart/mixed" || mimetype == "multipart/related")
-				{
-					++type;
-					while (type <= value.end() && (*type == ' ' || *type == '\t'))
-						++type;
-
-					const char * name = type;
-					while (type <= value.end() && *type != '=')
-						++type;
-
-					cainteoir::buffer arg(name, type);
-					++type;
-
-					if (*type != '"') continue;
-					++type;
-
-					const char * bounds = type;
-					while (type <= value.end() && *type != '"')
-						++type;
-					boundary = cainteoir::buffer(bounds, type);
-				}
-			}
-			else if (!name.comparei("Subject"))
-			{
-				std::string title = value.str();
-				aGraph.statement(subject, rdf::dc("title"), rdf::literal(title));
-
-				events.toc_entry(0, subject, title);
-				events.anchor(subject, std::string());
-				flags = include_document_mimetype;
-			}
-			else if (!name.comparei("From"))
-			{
-				// name ...
-
-				const char * name_begin = value.begin();
-				const char * name_end = value.begin();
-
-				while (name_end <= value.end() && *name_end == ' ')
-					++name_end;
-
-				while (name_end <= value.end() && *name_end != '<')
-					++name_end;
-
-				if (name_end > value.end()) // name only (no email address)
-					aGraph.statement(subject, rdf::dc("creator"), rdf::literal(std::string(name_begin, value.end())));
-				else
-				{
-					// email address ...
-
-					const char * mbox_begin = name_end + 1;
-					const char * mbox_end = value.end();
-
-					while (mbox_end > mbox_begin && *mbox_end != '>')
-						--mbox_end;
-
-					// clean-up name ...
-
-					--name_end;
-					while (name_end > value.begin() && *name_end == ' ')
-						--name_end;
-					++name_end;
-
-					// metadata ...
-
-					const rdf::uri from = aGraph.genid();
-					aGraph.statement(subject, rdf::dc("creator"), from);
-					aGraph.statement(from, rdf::rdf("type"), rdf::foaf("Person"));
-					aGraph.statement(from, rdf::rdf("value"), rdf::literal(std::string(name_begin, name_end)));
-					aGraph.statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(mbox_begin, mbox_end)));
-				}
-			}
-			else if (!name.comparei("Newsgroups"))
-				aGraph.statement(subject, rdf::dc("publisher"), rdf::literal(value.str()));
-		}
-
-		return false;
-	}
-
-	mime_headers(std::shared_ptr<cainteoir::buffer> &data, const rdf::uri &subject, cainteoir::document_events &events, rdf::graph &aGraph, parser_flags aFlags)
-		: cainteoir::buffer(*data)
-		, mOriginal(data)
-		, encoding("8bit")
-		, flags(aFlags)
-	{
-		while (first <= last && (*first == ' ' || *first == '\t' || *first == '\r' || *first == '\n'))
-			++first;
-
-		if (!strncmp(first, "HTTP/1.0 ", 9) || !strncmp(first, "HTTP/1.1 ", 9))
-		{
-			while (first <= last && *first != '\n')
-				++first;
-			++first;
-		}
-
-		cainteoir::buffer boundary(nullptr, nullptr);
-		if (!parse_headers(subject, events, aGraph, boundary))
-			first = mOriginal->begin();
-		else if (!boundary.empty())
-		{
-			const char * begin = nullptr;
-
-			while (first <= last)
-			{
-				if (first[0] == '-' && first[1] == '-' && !strncmp(first + 2, boundary.begin(), boundary.size()))
-				{
-					if (begin == nullptr)
-					{
-						first += 2;
-						first += boundary.size();
-						begin = first;
-					}
-					else
-					{
-						last = first;
-						first = begin;
-						return;
-					}
-				}
-				++first;
-			}
-		}
-	}
-};
-
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
                                 const rdf::uri &aSubject,
-                                rdf::graph &aPrimaryMetadata)
+                                rdf::graph &aPrimaryMetadata,
+                                const std::string &aTitle)
 {
 	if (!aData || aData->empty())
 		return std::shared_ptr<document_reader>();
@@ -286,24 +101,28 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		std::string rootName     = reader.nodeName().str();
 
 		if (mime::xhtml.match(namespaceUri, rootName) || mime::html.match(aData))
-			return createXHtmlReader(reader, aSubject, aPrimaryMetadata);
+			return createXHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
 		if (!mime::html.match(aData))
 			return std::shared_ptr<document_reader>();
 	}
 
 	if (mime::html.match(aData))
-		return createHtmlReader(aData, aSubject, aPrimaryMetadata);
+		return createHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle);
 
 	if (mime::rtf.match(aData))
-		return createRtfReader(aData, aSubject, aPrimaryMetadata);
+		return createRtfReader(aData, aSubject, aPrimaryMetadata, aTitle);
 
-	return createPlainTextReader(aData, aSubject, aPrimaryMetadata);
+	if (mime::email.match(aData) || mime::mime.match(aData))
+		return createMimeReader(aData, aSubject, aPrimaryMetadata, aTitle);
+
+	return createPlainTextReader(aData, aSubject, aPrimaryMetadata, aTitle);
 }
 
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createDocumentReader(const char *aFilename,
-                                rdf::graph &aPrimaryMetadata)
+                                rdf::graph &aPrimaryMetadata,
+                                const std::string &aTitle)
 {
 	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
 
@@ -313,7 +132,7 @@ cainteoir::createDocumentReader(const char *aFilename,
 	else
 		data = buffer_from_stdin();
 
-	return createDocumentReader(data, subject, aPrimaryMetadata);
+	return createDocumentReader(data, subject, aPrimaryMetadata, aTitle);
 }
 
 bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
@@ -359,31 +178,6 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 			goto create_reader;
 
 		return false;
-	}
-
-	// Documents with MIME headers ...
-
-	if (mime::email.match(data) || mime::mime.match(data))
-	{
-		std::shared_ptr<mime_headers> mime = std::make_shared<mime_headers>(data, subject, events, aGraph, flags);
-
-		std::shared_ptr<cainteoir::buffer> decoded;
-		if (mime->encoding == "quoted-printable")
-			decoded = cainteoir::decode_quoted_printable(*mime, 0);
-		else if (mime->encoding == "base64")
-			decoded = cainteoir::decode_base64(*mime, 0);
-		else if (mime->encoding == "7bit" || mime->encoding == "7BIT")
-			decoded = mime;
-		else if (mime->encoding == "8bit" || mime->encoding == "8BIT")
-			decoded = mime;
-		else if (mime->encoding == "binary")
-			decoded = mime;
-		else
-			throw std::runtime_error(i18n("unsupported content-transfer-encoding"));
-
-		flags = mime->flags;
-		if (mime->begin() != data->begin()) // Avoid an infinite loop when there is just the mime header.
-			return parseDocumentBuffer(decoded, subject, events, aGraph, flags);
 	}
 
 	// Zip/Compressed documents ...

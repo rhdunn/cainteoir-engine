@@ -155,65 +155,90 @@ namespace cainteoir
 	  * @param[in]  aData            The document content.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
 	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
 	  *
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
 	createHtmlReader(std::shared_ptr<buffer> &aData,
 	                 const rdf::uri &aSubject,
-	                 rdf::graph &aPrimaryMetadata);
+	                 rdf::graph &aPrimaryMetadata,
+	                 const std::string &aTitle);
 
 	/** @brief HyperText Markup Language (HTML)
 	  *
 	  * @param[in]  aReader          The XML document reader.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
 	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
 	  *
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
 	createHtmlReader(xml::reader &aReader,
 	                 const rdf::uri &aSubject,
-	                 rdf::graph &aPrimaryMetadata);
+	                 rdf::graph &aPrimaryMetadata,
+	                 const std::string &aTitle);
+
+	/** @brief Miltipurpose Internet Mail Extensions (MIME)
+	  *
+	  * @param[in]  aData            The document content.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createMimeReader(std::shared_ptr<buffer> &aData,
+	                 const rdf::uri &aSubject,
+	                 rdf::graph &aPrimaryMetadata,
+	                 const std::string &aTitle);
 
 	/** @brief Plain Text
 	  *
 	  * @param[in]  aData            The document content.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
 	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
 	  *
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
 	createPlainTextReader(std::shared_ptr<buffer> &aData,
 	                      const rdf::uri &aSubject,
-	                      rdf::graph &aPrimaryMetadata);
+	                      rdf::graph &aPrimaryMetadata,
+	                      const std::string &aTitle);
 
 	/** @brief Rich Text Format (RTF)
 	  *
 	  * @param[in]  aData            The document content.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
 	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
 	  *
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
 	createRtfReader(std::shared_ptr<buffer> &aData,
 	                const rdf::uri &aSubject,
-	                rdf::graph &aPrimaryMetadata);
+	                rdf::graph &aPrimaryMetadata,
+	                const std::string &aTitle);
 
 	/** @brief XML-based HyperText Markup Language (XHTML)
 	  *
 	  * @param[in]  aReader          The XML document reader.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
 	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
 	  *
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
 	createXHtmlReader(xml::reader &aReader,
 	                  const rdf::uri &aSubject,
-	                  rdf::graph &aPrimaryMetadata);
+	                  rdf::graph &aPrimaryMetadata,
+	                  const std::string &aTitle);
 
 	//@}
 }

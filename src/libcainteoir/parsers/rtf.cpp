@@ -262,7 +262,7 @@ struct rtf_document_reader : public cainteoir::document_reader
 		state_eof,
 	};
 
-	rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata);
+	rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
 
 	bool read();
 
@@ -277,12 +277,13 @@ struct rtf_document_reader : public cainteoir::document_reader
 	cainteoir::rope rtf_text;
 };
 
-rtf_document_reader::rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata)
+rtf_document_reader::rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
 	: rtf(aData)
 	, mSubject(aSubject)
 	, mCodepage(1252)
 	, mState(state_rtf)
 	, mBlockCount(0)
+	, mTitle(aTitle)
 {
 	if (rtf.read() && internal_read(&aPrimaryMetadata))
 		mState = state_title;
@@ -428,7 +429,8 @@ text_event:
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createRtfReader(std::shared_ptr<buffer> &aData,
                            const rdf::uri &aSubject,
-                           rdf::graph &aPrimaryMetadata)
+                           rdf::graph &aPrimaryMetadata,
+                           const std::string &aTitle)
 {
-	return std::make_shared<rtf_document_reader>(aData, aSubject, aPrimaryMetadata);
+	return std::make_shared<rtf_document_reader>(aData, aSubject, aPrimaryMetadata, aTitle);
 }

@@ -347,7 +347,7 @@ struct context_data
 
 struct html_document_reader : public cainteoir::document_reader
 {
-	html_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType);
+	html_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle);
 
 	bool read();
 private:
@@ -365,7 +365,7 @@ private:
 
 std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
 
-html_document_reader::html_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType)
+html_document_reader::html_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle)
 	: reader(aReader)
 	, mSubject(aSubject)
 	, href(aSubject.str(), std::string())
@@ -402,6 +402,9 @@ html_document_reader::html_document_reader(xml::reader &aReader, const rdf::uri 
 
 	if (!mTitle.empty())
 		aPrimaryMetadata.statement(aSubject, rdf::dc("title"), rdf::literal(mTitle));
+
+	if (mTitle.empty())
+		mTitle = aTitle;
 
 	if (mTitle.empty())
 	{
@@ -721,29 +724,32 @@ bool html_document_reader::read()
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createHtmlReader(xml::reader &aReader,
                             const rdf::uri &aSubject,
-                            rdf::graph &aPrimaryMetadata)
+                            rdf::graph &aPrimaryMetadata,
+                             const std::string &aTitle)
 {
-	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, "text/html");
+	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, "text/html", aTitle);
 }
 
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createHtmlReader(std::shared_ptr<buffer> &aData,
                             const rdf::uri &aSubject,
-                            rdf::graph &aPrimaryMetadata)
+                            rdf::graph &aPrimaryMetadata,
+                            const std::string &aTitle)
 {
 	xml::reader reader(aData);
 	while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
 		;
 
-	return createHtmlReader(reader, aSubject, aPrimaryMetadata);
+	return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
 }
 
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createXHtmlReader(xml::reader &aReader,
                              const rdf::uri &aSubject,
-                             rdf::graph &aPrimaryMetadata)
+                             rdf::graph &aPrimaryMetadata,
+                             const std::string &aTitle)
 {
-	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, "application/xhtml+xml");
+	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, "application/xhtml+xml", aTitle);
 }
 
 /** References

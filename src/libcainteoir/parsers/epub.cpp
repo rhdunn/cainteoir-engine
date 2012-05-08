@@ -109,7 +109,7 @@ struct epub_document : public cainteoir::document_events
 					mEvents.anchor(location, std::string());
 
 					rdf::graph mInnerMetadata;
-					auto html = cainteoir::createHtmlReader(reader, location, mInnerMetadata);
+					auto html = cainteoir::createHtmlReader(reader, location, mInnerMetadata, std::string());
 					if (html) while (html->read())
 					{
 						if (html->type & cainteoir::events::toc_entry)
