@@ -253,6 +253,9 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
 		mime::ssml .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 		mime::gzip .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 		mime::zip  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+#ifdef HAVE_POPPLER
+		mime::pdf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+#endif
 	}
 
 	if (capabilities & cainteoir::metadata_support)
@@ -261,9 +264,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
 		mime::opf   .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 		mime::ncx   .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 		mime::smil  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-#ifdef HAVE_POPPLER
-		mime::pdf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-#endif
 	}
 
 	if (capabilities & cainteoir::text_support)
