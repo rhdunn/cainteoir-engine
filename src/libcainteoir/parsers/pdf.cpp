@@ -46,6 +46,23 @@ static void add_metadata(rdf::graph &aMetadata, const rdf::uri &aSubject, const 
 	aMetadata.statement(aSubject, aPredicate, rdf::literal(object));
 }
 
+static void walk_index(PopplerIndexIter *iter, std::list<PopplerAction *> &actions)
+{
+	do
+	{
+		PopplerAction *action = poppler_index_iter_get_action(iter);
+		if (action->type == POPPLER_ACTION_GOTO_DEST)
+			actions.push_back(action);
+		else
+			poppler_action_free(action);
+
+		PopplerIndexIter *child = poppler_index_iter_get_child(iter);
+		if (child)
+			walk_index(child, actions);
+		poppler_index_iter_free(child);
+	} while (poppler_index_iter_next(iter));
+}
+
 struct glib_buffer : public cainteoir::buffer
 {
 	glib_buffer(char *str) : cainteoir::buffer(str)
@@ -63,6 +80,7 @@ struct pdf_document_reader : public cainteoir::document_reader
 	enum state
 	{
 		state_title,
+		state_toc,
 		state_text,
 	};
 
@@ -73,6 +91,8 @@ struct pdf_document_reader : public cainteoir::document_reader
 	bool read();
 
 	PopplerDocument *mDoc;
+	std::list<PopplerAction *> mIndex;
+	std::list<PopplerAction *>::iterator mCurrentIndex;
 	int mNumPages;
 	int mCurrentPage;
 
@@ -94,6 +114,13 @@ pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 
 	mNumPages    = poppler_document_get_n_pages(mDoc);
 	mCurrentPage = 0;
+
+	PopplerIndexIter *index = poppler_index_iter_new(mDoc);
+	if (index)
+		walk_index(index, mIndex);
+	poppler_index_iter_free(index);
+
+	mCurrentIndex = mIndex.empty() ? mIndex.end() : mIndex.begin();
 
 	char *title = poppler_document_get_title(mDoc);
 	if (title)
@@ -120,6 +147,9 @@ pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 
 pdf_document_reader::~pdf_document_reader()
 {
+	foreach_iter (action, mIndex)
+		poppler_action_free(*action);
+
 	g_object_unref(mDoc);
 }
 
@@ -136,7 +166,33 @@ bool pdf_document_reader::read()
 		parameter = 0;
 		text      = cainteoir::make_buffer(mTitle);
 		anchor    = mSubject;
-		mState    = state_text;
+		mState    = mIndex.empty() ? state_text : state_toc;
+		break;
+	case state_toc:
+		{
+			gchar *title = (*mCurrentIndex)->goto_dest.title;
+			int page = (*mCurrentIndex)->goto_dest.dest->page_num;
+
+			char pagenum[100];
+			int len = snprintf(pagenum, sizeof(pagenum), "page%05d", page);
+			pagenum[len] = '\0';
+
+			type      = events::toc_entry;
+			context   = events::heading;
+			parameter = 0;
+			anchor    = rdf::uri(mSubject.str(), pagenum);
+
+			text      = cainteoir::make_buffer(title);
+			for (char *s = (char *)text->begin(), *end = (char *)text->end(); s != end; ++s)
+			{
+				if (*s == '\r' || *s == '\n')
+					*s = ' ';
+			}
+			text      = std::make_shared<cainteoir::normalized_text_buffer>(text);
+
+			if (++mCurrentIndex == mIndex.end())
+				mState = state_text;
+		}
 		break;
 	case state_text:
 		{
