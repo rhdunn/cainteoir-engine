@@ -46,6 +46,18 @@ static void add_metadata(rdf::graph &aMetadata, const rdf::uri &aSubject, const 
 	aMetadata.statement(aSubject, aPredicate, rdf::literal(object));
 }
 
+struct glib_buffer : public cainteoir::buffer
+{
+	glib_buffer(char *str) : cainteoir::buffer(str)
+	{
+	}
+
+	~glib_buffer()
+	{
+		g_free((char *)begin());
+	}
+};
+
 struct pdf_document_reader : public cainteoir::document_reader
 {
 	pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
@@ -55,6 +67,8 @@ struct pdf_document_reader : public cainteoir::document_reader
 	bool read();
 
 	PopplerDocument *mDoc;
+	int mNumPages;
+	int mCurrentPage;
 };
 
 pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
@@ -64,6 +78,9 @@ pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 	mDoc = poppler_document_new_from_data((char *)aData->begin(), aData->size(), nullptr, nullptr);
 	if (!mDoc)
 		throw std::runtime_error("error parsing PDF document");
+
+	mNumPages    = poppler_document_get_n_pages(mDoc);
+	mCurrentPage = 0;
 
 	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("title"),   poppler_document_get_title(mDoc));
 	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("creator"), poppler_document_get_author(mDoc));
@@ -82,7 +99,19 @@ pdf_document_reader::~pdf_document_reader()
 
 bool pdf_document_reader::read()
 {
-	return false;
+	if (mCurrentPage >= mNumPages)
+		return false;
+
+	PopplerPage *page = poppler_document_get_page(mDoc, mCurrentPage);
+
+	type      = events::text;
+	context   = events::span;
+	parameter = events::nostyle;
+	text      = std::make_shared<glib_buffer>(poppler_page_get_text(page));
+
+	g_object_unref(page);
+	++mCurrentPage;
+	return true;
 }
 
 std::shared_ptr<cainteoir::document_reader>
