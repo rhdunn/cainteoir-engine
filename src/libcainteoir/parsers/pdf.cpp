@@ -60,6 +60,12 @@ struct glib_buffer : public cainteoir::buffer
 
 struct pdf_document_reader : public cainteoir::document_reader
 {
+	enum state
+	{
+		state_title,
+		state_text,
+	};
+
 	pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
 
 	~pdf_document_reader();
@@ -69,9 +75,16 @@ struct pdf_document_reader : public cainteoir::document_reader
 	PopplerDocument *mDoc;
 	int mNumPages;
 	int mCurrentPage;
+
+	rdf::uri mSubject;
+	state mState;
+	std::string mTitle;
 };
 
 pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
+	: mSubject(aSubject)
+	, mState(state_title)
+	, mTitle(aTitle)
 {
 	g_type_init();
 
@@ -82,12 +95,25 @@ pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 	mNumPages    = poppler_document_get_n_pages(mDoc);
 	mCurrentPage = 0;
 
-	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("title"),   poppler_document_get_title(mDoc));
+	char *title = poppler_document_get_title(mDoc);
+	if (title)
+		mTitle = title;
+
+	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("title"),   title);
 	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("creator"), poppler_document_get_author(mDoc));
 	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("subject"), poppler_document_get_subject(mDoc));
 
 	add_metadata(aPrimaryMetadata, aSubject, rdf::dcterms("created"),  poppler_document_get_creation_date(mDoc));
 	add_metadata(aPrimaryMetadata, aSubject, rdf::dcterms("modified"), poppler_document_get_modification_date(mDoc));
+
+	if (mTitle.empty())
+	{
+		mTitle = mSubject.str();
+		std::string::size_type sep = mTitle.rfind('/');
+		if (sep != std::string::npos)
+			mTitle = mTitle.substr(sep + 1);
+	}
+
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/pdf"));
 }
@@ -102,15 +128,32 @@ bool pdf_document_reader::read()
 	if (mCurrentPage >= mNumPages)
 		return false;
 
-	PopplerPage *page = poppler_document_get_page(mDoc, mCurrentPage);
+	switch (mState)
+	{
+	case state_title:
+		type      = events::toc_entry | events::anchor;
+		context   = events::heading;
+		parameter = 0;
+		text      = cainteoir::make_buffer(mTitle);
+		anchor    = mSubject;
+		mState    = state_text;
+		break;
+	case state_text:
+		{
+			PopplerPage *page = poppler_document_get_page(mDoc, mCurrentPage);
 
-	type      = events::text;
-	context   = events::span;
-	parameter = events::nostyle;
-	text      = std::make_shared<glib_buffer>(poppler_page_get_text(page));
+			type      = events::text;
+			context   = events::span;
+			parameter = events::nostyle;
+			text      = std::make_shared<glib_buffer>(poppler_page_get_text(page));
+			anchor    = rdf::uri();
+			mState    = state_text;
 
-	g_object_unref(page);
-	++mCurrentPage;
+			g_object_unref(page);
+			++mCurrentPage;
+		}
+		break;
+	}
 	return true;
 }
 
