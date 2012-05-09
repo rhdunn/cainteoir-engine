@@ -38,6 +38,14 @@ static void add_metadata(rdf::graph &aMetadata, const rdf::uri &aSubject, const 
 	g_free(aObject);
 }
 
+static void add_metadata(rdf::graph &aMetadata, const rdf::uri &aSubject, const rdf::uri &aPredicate, const time_t &aObject)
+{
+	char object[100];
+	strftime(object, sizeof(object), "%Y-%m-%d", localtime(&aObject));
+
+	aMetadata.statement(aSubject, aPredicate, rdf::literal(object));
+}
+
 struct pdf_document_reader : public cainteoir::document_reader
 {
 	pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
@@ -57,9 +65,12 @@ pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 	if (!mDoc)
 		throw std::runtime_error("error parsing PDF document");
 
-	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("title"),     poppler_document_get_title(mDoc));
-	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("creator"),   poppler_document_get_author(mDoc));
-	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("subject"),   poppler_document_get_subject(mDoc));
+	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("title"),   poppler_document_get_title(mDoc));
+	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("creator"), poppler_document_get_author(mDoc));
+	add_metadata(aPrimaryMetadata, aSubject, rdf::dc("subject"), poppler_document_get_subject(mDoc));
+
+	add_metadata(aPrimaryMetadata, aSubject, rdf::dcterms("created"),  poppler_document_get_creation_date(mDoc));
+	add_metadata(aPrimaryMetadata, aSubject, rdf::dcterms("modified"), poppler_document_get_modification_date(mDoc));
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/pdf"));
 }
