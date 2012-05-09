@@ -120,17 +120,17 @@ endif
 
 libcainteoir_includedir = $(includedir)/cainteoir
 libcainteoir_include_HEADERS = \
-	src/include/cainteoir/languages.hpp \
 	src/include/cainteoir/archive.hpp \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
-	src/include/cainteoir/encoding.hpp \
-	src/include/cainteoir/unicode.hpp \
-	src/include/cainteoir/xmlreader.hpp \
 	src/include/cainteoir/document.hpp \
+	src/include/cainteoir/encoding.hpp \
 	src/include/cainteoir/engines.hpp \
+	src/include/cainteoir/languages.hpp \
+	src/include/cainteoir/metadata.hpp \
 	src/include/cainteoir/mimetype.hpp \
-	src/include/cainteoir/metadata.hpp
+	src/include/cainteoir/unicode.hpp \
+	src/include/cainteoir/xmlreader.hpp
 
 lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
 
@@ -150,43 +150,51 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/i18n.h \
 	src/compatibility.h \
+	\
+	src/libcainteoir/encoding.cpp \
 	src/libcainteoir/languages.cpp \
 	src/libcainteoir/mimetype.cpp \
-	src/libcainteoir/encoding.cpp \
+	\
+	src/libcainteoir/audio/audio.cpp \
+	src/libcainteoir/audio/ogg.cpp \
+	src/libcainteoir/audio/pulse.cpp \
+	src/libcainteoir/audio/wav.cpp \
+	\
 	src/libcainteoir/buffers/buffer.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/normalized_text_buffer.cpp \
 	src/libcainteoir/buffers/rope.cpp \
-	src/libcainteoir/compression/none.cpp \
-	src/libcainteoir/compression/gzip.cpp \
+	\
 	src/libcainteoir/compression/base64.cpp \
+	src/libcainteoir/compression/gzip.cpp \
+	src/libcainteoir/compression/none.cpp \
 	src/libcainteoir/compression/quoted_printable.cpp \
-	src/libcainteoir/rdf/metadata.cpp \
-	src/libcainteoir/rdf/formatter.cpp \
+	\
 	src/libcainteoir/parsers/parsers.hpp \
-	src/libcainteoir/parsers/zip.cpp \
-	src/libcainteoir/parsers/xmlreader.cpp \
-	src/libcainteoir/parsers/plaintext.cpp \
 	src/libcainteoir/parsers/html-entities.h \
-	src/libcainteoir/parsers/xhtml.cpp \
-	src/libcainteoir/parsers/ncx.cpp \
+	src/libcainteoir/parsers/document.cpp \
+	src/libcainteoir/parsers/epub.cpp \
 	src/libcainteoir/parsers/mime.cpp \
+	src/libcainteoir/parsers/ncx.cpp \
 	src/libcainteoir/parsers/ocf.cpp \
 	src/libcainteoir/parsers/opf.cpp \
-	src/libcainteoir/parsers/epub.cpp \
+	src/libcainteoir/parsers/plaintext.cpp \
 	src/libcainteoir/parsers/rdfxml.cpp \
-	src/libcainteoir/parsers/ssml.cpp \
-	src/libcainteoir/parsers/smil.cpp \
 	src/libcainteoir/parsers/rtf.cpp \
-	src/libcainteoir/parsers/document.cpp \
-	src/libcainteoir/audio/audio.cpp \
-	src/libcainteoir/audio/pulse.cpp \
-	src/libcainteoir/audio/wav.cpp \
-	src/libcainteoir/audio/ogg.cpp \
+	src/libcainteoir/parsers/smil.cpp \
+	src/libcainteoir/parsers/ssml.cpp \
+	src/libcainteoir/parsers/xhtml.cpp \
+	src/libcainteoir/parsers/xmlreader.cpp \
+	src/libcainteoir/parsers/zip.cpp \
+	\
+	src/libcainteoir/rdf/formatter.cpp \
+	src/libcainteoir/rdf/metadata.cpp \
+	\
 	src/libcainteoir/tts/tts_engine.hpp \
 	src/libcainteoir/tts/engines.cpp \
 	src/libcainteoir/tts/espeak.cpp \
+	\
 	src/libcainteoir/unicode/utf8.cpp
 
 ############################# applications ####################################
