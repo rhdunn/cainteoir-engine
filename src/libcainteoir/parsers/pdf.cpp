@@ -140,17 +140,20 @@ bool pdf_document_reader::read()
 		break;
 	case state_text:
 		{
-			PopplerPage *page = poppler_document_get_page(mDoc, mCurrentPage);
+			PopplerPage *page = poppler_document_get_page(mDoc, mCurrentPage++);
 
-			type      = events::text;
+			char pagenum[100];
+			int len = snprintf(pagenum, sizeof(pagenum), "page%05d", mCurrentPage);
+			pagenum[len] = '\0';
+
+			type      = events::text | events::anchor;
 			context   = events::span;
 			parameter = events::nostyle;
 			text      = std::make_shared<glib_buffer>(poppler_page_get_text(page));
-			anchor    = rdf::uri();
+			anchor    = rdf::uri(mSubject.str(), pagenum);
 			mState    = state_text;
 
 			g_object_unref(page);
-			++mCurrentPage;
 		}
 		break;
 	}
