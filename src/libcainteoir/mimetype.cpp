@@ -40,6 +40,7 @@ static const char *mhtml_mimetype  = "multipart/related";
 static const char *ncx_mimetype    = "application/x-dtbncx+xml";
 static const char *ogg_mimetype    = "audio/x-vorbis+ogg";
 static const char *opf_mimetype    = "application/oebps-package+xml";
+static const char *pdf_mimetype    = "application/pdf";
 static const char *rdfxml_mimetype = "application/rdf+xml";
 static const char *rtf_mimetype    = "application/rtf";
 static const char *smil_mimetype   = "application/smil";
@@ -59,6 +60,7 @@ static std::initializer_list<const char *> mimetype_list = {
 	ncx_mimetype,
 	ogg_mimetype,
 	opf_mimetype,
+	pdf_mimetype,
 	rdfxml_mimetype,
 	rtf_mimetype,
 	smil_mimetype,
@@ -516,6 +518,7 @@ const m::mimetype m::mhtml( "mhtml", mhtml_mimetype);
 const m::mimetype m::ncx(   "ncx",   ncx_mimetype);
 const m::mimetype m::ogg(   "ogg",   ogg_mimetype);
 const m::mimetype m::opf(   "opf",   opf_mimetype);
+const m::mimetype m::pdf(   "pdf",   pdf_mimetype);
 const m::mimetype m::rdfxml("rdf",   rdfxml_mimetype);
 const m::mimetype m::rtf(   "rtf",   rtf_mimetype);
 const m::mimetype m::smil(  "smil",  smil_mimetype);

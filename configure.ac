@@ -349,6 +349,30 @@ AC_SUBST(VORBIS_CFLAGS)
 AC_SUBST(VORBIS_LIBS)
 
 dnl ================================================================
+dnl Poppler checks.
+dnl ================================================================
+
+AC_ARG_WITH([poppler],
+    [AS_HELP_STRING([--with-poppler], [support for PDF files using Poppler @<:@default=yes@:>@])],
+    [])
+
+if test "$with_poppler" = "no"; then
+    echo "Disabling PDF support via poppler"
+    have_vorbisenc=no
+else
+    PKG_CHECK_MODULES(POPPLER, [poppler-glib >= 0.16],
+        [
+            AC_DEFINE(HAVE_POPPLER, [], [Do we have poppler glib bindings])
+            have_poppler=yes
+        ],[
+            have_poppler=no
+        ])
+fi
+
+AC_SUBST(POPPLER_CFLAGS)
+AC_SUBST(POPPLER_LIBS)
+
+dnl ================================================================
 dnl MIME Type Integration.
 dnl ================================================================
 
@@ -393,4 +417,5 @@ AC_MSG_NOTICE([
 
         eSpeak support:                ${have_espeak}
         Ogg/Vorbis support:            ${have_vorbisenc}
+        PDF support:                   ${have_poppler}
 ])

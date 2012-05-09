@@ -138,6 +138,7 @@ src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION)
 	${PULSE_LIBS} \
 	${VORBIS_LIBS} \
 	${ZLIB_LIBS} \
+	${POPPLER_LIBS} \
 	${ESPEAK_LIBS} \
 	${LTLIBINTL}
 
@@ -145,6 +146,7 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 	${PULSE_CFLAGS} \
 	${VORBIS_CFLAGS} \
 	${ZLIB_CFLAGS} \
+	${POPPLER_CFLAGS} \
 	${ESPEAK_CFLAGS}
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
@@ -179,6 +181,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/parsers/ncx.cpp \
 	src/libcainteoir/parsers/ocf.cpp \
 	src/libcainteoir/parsers/opf.cpp \
+	src/libcainteoir/parsers/pdf.cpp \
 	src/libcainteoir/parsers/plaintext.cpp \
 	src/libcainteoir/parsers/rdfxml.cpp \
 	src/libcainteoir/parsers/rtf.cpp \

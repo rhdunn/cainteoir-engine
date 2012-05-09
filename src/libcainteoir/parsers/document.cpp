@@ -116,6 +116,9 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 	if (mime::email.match(aData) || mime::mime.match(aData))
 		return createMimeReader(aData, aSubject, aPrimaryMetadata, aTitle);
 
+	if (mime::pdf.match(aData))
+		return createPdfReader(aData, aSubject, aPrimaryMetadata, aTitle);
+
 	return createPlainTextReader(aData, aSubject, aPrimaryMetadata, aTitle);
 }
 
@@ -258,6 +261,9 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
 		mime::opf   .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 		mime::ncx   .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 		mime::smil  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+#ifdef HAVE_POPPLER
+		mime::pdf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+#endif
 	}
 
 	if (capabilities & cainteoir::text_support)

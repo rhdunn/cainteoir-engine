@@ -195,6 +195,21 @@ namespace cainteoir
 	                 rdf::graph &aPrimaryMetadata,
 	                 const std::string &aTitle);
 
+	/** @brief Portable Document Format (PDF)
+	  *
+	  * @param[in]  aData            The document content.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createPdfReader(std::shared_ptr<buffer> &aData,
+	                const rdf::uri &aSubject,
+	                rdf::graph &aPrimaryMetadata,
+	                const std::string &aTitle);
+
 	/** @brief Plain Text
 	  *
 	  * @param[in]  aData            The document content.
