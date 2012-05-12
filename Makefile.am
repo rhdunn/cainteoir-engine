@@ -219,6 +219,11 @@ bin_PROGRAMS += src/apps/tagcloud/tagcloud
 src_apps_tagcloud_tagcloud_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_tagcloud_tagcloud_SOURCES = src/apps/tagcloud/main.cpp
 
+bin_PROGRAMS += src/apps/doc2doc/doc2doc
+
+src_apps_doc2doc_doc2doc_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_doc2doc_doc2doc_SOURCES = src/apps/doc2doc/main.cpp
+
 EXTRA_DIST += ${man1_MANS}
 
 ############################# tests ###########################################

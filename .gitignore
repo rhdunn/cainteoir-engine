@@ -26,6 +26,7 @@ src/libcainteoir/libcainteoir.la
 src/apps/cainteoir/cainteoir
 src/apps/metadata/metadata
 src/apps/tagcloud/tagcloud
+src/apps/doc2doc/doc2doc
 
 tests/rdfmodel
 tests/rdfquery
