@@ -90,7 +90,9 @@ struct pdf_document_reader : public cainteoir::document_reader
 
 	bool read();
 
+	std::shared_ptr<cainteoir::buffer> mData;
 	PopplerDocument *mDoc;
+
 	std::list<PopplerAction *> mIndex;
 	std::list<PopplerAction *>::iterator mCurrentIndex;
 	int mNumPages;
@@ -102,7 +104,8 @@ struct pdf_document_reader : public cainteoir::document_reader
 };
 
 pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
-	: mSubject(aSubject)
+	: mData(aData)
+	, mSubject(aSubject)
 	, mState(state_title)
 	, mTitle(aTitle)
 {
