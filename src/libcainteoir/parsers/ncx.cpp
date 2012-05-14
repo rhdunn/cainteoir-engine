@@ -69,10 +69,13 @@ static const std::initializer_list<const xml::context::entry_ref> ncx_attrs =
 	{ "src",     &ncx::src_attr },
 };
 
-std::string parseNcxText(xml::reader &reader, const xml::context::entry *ctx)
+void parseNavPoint(xml::reader &reader, const rdf::uri &subject, cainteoir::document_events &events, int depth)
 {
-	std::string value;
-	const xml::context::entry *current = ctx;
+	std::string label;
+	rdf::uri location = rdf::uri(std::string(), std::string());
+	bool fired = false;
+	const xml::context::entry *current = nullptr;
+	const xml::context::entry *outer   = nullptr;
 
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -80,31 +83,11 @@ std::string parseNcxText(xml::reader &reader, const xml::context::entry *ctx)
 	case xml::reader::cdataNode:
 		if (current == &ncx::text_node)
 		{
-			value = reader.nodeValue().str();
-			current = nullptr;
+			if (outer == &ncx::navLabel_node)
+				label = reader.nodeValue().str();
+			current = outer = nullptr;
 		}
 		break;
-	case xml::reader::beginTagNode:
-		current = reader.context();
-		break;
-	case xml::reader::endTagNode:
-		if (reader.context() == ctx)
-			return value;
-		break;
-	}
-
-	return value;
-}
-
-void parseNavPoint(xml::reader &reader, const rdf::uri &subject, cainteoir::document_events &events, int depth)
-{
-	std::string label;
-	rdf::uri location = rdf::uri(std::string(), std::string());
-	bool fired = false;
-	const xml::context::entry *current = nullptr;
-
-	while (reader.read()) switch (reader.nodeType())
-	{
 	case xml::reader::attribute:
 		if (current == &ncx::content_node && reader.context() == &ncx::src_attr)
 		{
@@ -128,7 +111,7 @@ void parseNavPoint(xml::reader &reader, const rdf::uri &subject, cainteoir::docu
 			parseNavPoint(reader, subject, events, depth+1);
 		}
 		else if (current == &ncx::navLabel_node)
-			label = parseNcxText(reader, reader.context());
+			outer = reader.context();
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == &ncx::navPoint_node)
@@ -198,19 +181,36 @@ void cainteoir::parseNcxDocument(xml::reader &reader, const rdf::uri &aSubject, 
 	reader.set_nodes(xmlns::ncx, ncx_nodes);
 	reader.set_attrs(xmlns::ncx, ncx_attrs);
 
+	const xml::context::entry *outer   = nullptr;
+	const xml::context::entry *current = nullptr;
+
 	while (reader.read()) switch (reader.nodeType())
 	{
+	case xml::reader::textNode:
+	case xml::reader::cdataNode:
+		if (current == &ncx::text_node)
+		{
+			std::string value = reader.nodeValue().str();
+			if (outer == &ncx::docAuthor_node)
+			{
+				aGraph.statement(aSubject, rdf::dc("creator"), rdf::literal(value));
+			}
+			else if (outer == &ncx::docTitle_node)
+			{
+				events.toc_entry(0, aSubject, value);
+				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(value));
+			}
+			current = outer = nullptr;
+		}
+		break;
 	case xml::reader::beginTagNode:
+		current = reader.context();
 		if (reader.context() == &ncx::head_node)
 			parseNcxHead(reader, aSubject, events, aGraph);
 		else if (reader.context() == &ncx::docAuthor_node)
-			aGraph.statement(aSubject, rdf::dc("creator"), rdf::literal(parseNcxText(reader, reader.context())));
+			outer = reader.context();
 		else if (reader.context() == &ncx::docTitle_node)
-		{
-			std::string title = parseNcxText(reader, reader.context());
-			events.toc_entry(0, aSubject, title);
-			aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
-		}
+			outer = reader.context();
 		else if (reader.context() == &ncx::navMap_node)
 			parseNavMap(reader, aSubject, events);
 		break;
