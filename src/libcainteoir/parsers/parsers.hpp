@@ -86,18 +86,6 @@ namespace cainteoir
 	                      document_events &events,
 	                      rdf::graph &aGraph);
 
-	/** @brief Synchronized Multimedia Integration Language (SMIL)
-	  * @see   http://www.w3.org/TR/2008/REC-SMIL3-20081201/
-	  *
-	  * @param reader   The XML document reader.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
-	  */
-	void parseSmilDocument(xml::reader &reader,
-	                       const rdf::uri &aSubject,
-	                       document_events &events,
-	                       rdf::graph &aGraph);
-
 	/** @brief Speech Synthesis Markup Language (SSML)
 	  * @see   http://www.w3.org/TR/speech-synthesis/
 	  *
@@ -230,6 +218,21 @@ namespace cainteoir
 	                const rdf::uri &aSubject,
 	                rdf::graph &aPrimaryMetadata,
 	                const std::string &aTitle);
+
+	/** @brief Synchronized Multimedia Integration Language (SMIL)
+	  *
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createSmilReader(xml::reader &aReader,
+	                 const rdf::uri &aSubject,
+	                 rdf::graph &aPrimaryMetadata,
+	                 const std::string &aTitle);
 
 	/** @brief XML-based HyperText Markup Language (XHTML)
 	  *

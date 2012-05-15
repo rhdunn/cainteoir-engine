@@ -116,7 +116,7 @@ if __name__ == '__main__':
 	test.run({'name': 'SMIL', 'groups': [
 		{'name': 'metadata', 'type': 'turtle', 'tests': [
 			{'test': 'smil/metadata/embedded-rdf.smil', 'result': 'smil/metadata/embedded-rdf.n3', 'expect': 'fail'},
-			{'test': 'smil/metadata/xmllang.smil', 'result': 'smil/metadata/xmllang.n3', 'expect': 'fail'},
+			{'test': 'smil/metadata/xmllang.smil', 'result': 'smil/metadata/xmllang.n3'},
 		]},
 	]})
 	test.run({'name': 'SSML', 'groups': [

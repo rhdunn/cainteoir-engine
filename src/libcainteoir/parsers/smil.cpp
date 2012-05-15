@@ -30,8 +30,6 @@ namespace smil
 	namespace events = cainteoir::events;
 
 	static const xml::context::entry smil_node = { events::unknown, 0 };
-
-	static const xml::context::entry lang_attr = { events::unknown, 0 };
 }
 
 static const std::initializer_list<const xml::context::entry_ref> smil_nodes =
@@ -41,27 +39,44 @@ static const std::initializer_list<const xml::context::entry_ref> smil_nodes =
 
 static const std::initializer_list<const xml::context::entry_ref> smil_attrs =
 {
-	{ "lang", &smil::lang_attr },
 };
 
-void cainteoir::parseSmilDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
+struct smil_document_reader : public cainteoir::document_reader
 {
-	reader.set_nodes(xmlns::smil, smil_nodes);
-	reader.set_attrs(xmlns::smil, smil_attrs);
+	bool read();
+};
 
-	const xml::context::entry *current = reader.context();
+bool smil_document_reader::read()
+{
+	return false;
+}
 
-	while (reader.read()) switch (reader.nodeType())
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createSmilReader(xml::reader &aReader,
+                            const rdf::uri &aSubject,
+                            rdf::graph &aPrimaryMetadata,
+                            const std::string &aTitle)
+{
+	aReader.set_nodes(xmlns::smil, smil_nodes);
+	aReader.set_attrs(xmlns::smil, smil_attrs);
+	aReader.set_attrs(xmlns::xml,  xml::attrs);
+
+	const xml::context::entry *current = aReader.context();
+
+	while (aReader.read()) switch (aReader.nodeType())
 	{
 	case xml::reader::attribute:
 		if (current == &smil::smil_node)
 		{
-			if (reader.context() == &smil::lang_attr)
-				aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(reader.nodeValue().str()));
+			if (aReader.context() == &xml::lang_attr)
+				aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(aReader.nodeValue().str()));
 		}
 		break;
 	case xml::reader::beginTagNode:
-		current = reader.context();
+		current = aReader.context();
 		break;
 	}
+
+	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/smil"));
+	return std::make_shared<smil_document_reader>();
 }
