@@ -44,30 +44,24 @@ static const std::initializer_list<const xml::context::entry_ref> smil_attrs =
 	{ "lang", &smil::lang_attr },
 };
 
-void skipNodes(xml::reader &reader, const xml::context::entry *ctx)
-{
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::endTagNode:
-		if (reader.context() == ctx)
-			return;
-		break;
-	}
-}
-
 void cainteoir::parseSmilDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
 {
 	reader.set_nodes(xmlns::smil, smil_nodes);
 	reader.set_attrs(xmlns::smil, smil_attrs);
 
+	const xml::context::entry *current = reader.context();
+
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
-		if (reader.context() == &smil::lang_attr)
-			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(reader.nodeValue().str()));
+		if (current == &smil::smil_node)
+		{
+			if (reader.context() == &smil::lang_attr)
+				aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(reader.nodeValue().str()));
+		}
 		break;
 	case xml::reader::beginTagNode:
-		skipNodes(reader, reader.context());
+		current = reader.context();
 		break;
 	}
 }
