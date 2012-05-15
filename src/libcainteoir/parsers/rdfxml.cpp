@@ -309,27 +309,42 @@ rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::ur
 	return subject;
 }
 
-void cainteoir::parseRdfXmlDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
+struct rdfxml_document_reader : public cainteoir::document_reader
 {
-	reader.set_nodes(xmlns::rdf, rdf_nodes);
-	reader.set_attrs(xmlns::rdf, rdf_attrs);
-	reader.set_attrs(xmlns::xml, xml::attrs);
+	bool read()
+	{
+		return false;
+	}
+};
+
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createRdfXmlReader(xml::reader &aReader,
+                              const rdf::uri &aSubject,
+                              rdf::graph &aPrimaryMetadata,
+                              const std::string &aTitle)
+{
+	aReader.set_nodes(xmlns::rdf, rdf_nodes);
+	aReader.set_attrs(xmlns::rdf, rdf_attrs);
+	aReader.set_attrs(xmlns::xml, xml::attrs);
 
 	std::string base;
 
-	while (reader.read()) switch (reader.nodeType())
+	while (aReader.read()) switch (aReader.nodeType())
 	{
 	case xml::reader::attribute:
-		if (reader.context() == &xml::base_attr)
-			base = reader.nodeValue().str();
+		if (aReader.context() == &xml::base_attr)
+			base = aReader.nodeValue().str();
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		break;
 	case xml::reader::beginTagNode:
-		parseOuterRdfXml(reader, aGraph, uri(reader), base, std::string());
+		parseOuterRdfXml(aReader, aPrimaryMetadata, uri(aReader), base, std::string());
 		break;
 	case xml::reader::endTagNode:
 		break;
 	}
+
+	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/rdf+xml"));
+	return std::make_shared<rdfxml_document_reader>();
 }

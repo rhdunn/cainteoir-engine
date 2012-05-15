@@ -61,7 +61,6 @@ struct ParseXmlDocument
 static const ParseXmlDocument xml_handlers[] = {
 	{ &mime::ncx,    &cainteoir::parseNcxDocument },
 	{ &mime::opf,    &cainteoir::parseOpfDocument },
-	{ &mime::rdfxml, &cainteoir::parseRdfXmlDocument },
 	{ &mime::smil,   &cainteoir::parseSmilDocument },
 	{ &mime::ssml,   &cainteoir::parseSsmlDocument },
 };
@@ -102,6 +101,9 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 
 		if (mime::xhtml.match(namespaceUri, rootName) || mime::html.match(aData))
 			return createXHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
+
+		if (mime::rdfxml.match(namespaceUri, rootName))
+			return createRdfXmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
 		if (!mime::html.match(aData))
 			return std::shared_ptr<document_reader>();
@@ -176,11 +178,6 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 				return true;
 			}
 		}
-
-		if (mime::xhtml.match(namespaceUri, rootName) || mime::html.match(data))
-			goto create_reader;
-
-		return false;
 	}
 
 	// Zip/Compressed documents ...
@@ -212,7 +209,6 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 		return parsed;
 	}
 
-create_reader:
 	// Reader-based document parsers (new-style) ...
 
 	auto reader = createDocumentReader(data, subject, aGraph);
