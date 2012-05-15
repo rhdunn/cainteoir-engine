@@ -30,16 +30,6 @@
 namespace rdf = cainteoir::rdf;
 namespace mime = cainteoir::mime;
 
-struct DecodeDocument
-{
-	const mime::mimetype *mimetype;
-	cainteoir::decoder_ptr decoder;
-};
-
-static const DecodeDocument decode_handlers[] = {
-	{ &mime::gzip, &cainteoir::inflate_gzip },
-};
-
 struct ParseZipDocument
 {
 	const mime::mimetype *mimetype;
@@ -88,6 +78,12 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 {
 	if (!aData || aData->empty())
 		return std::shared_ptr<document_reader>();
+
+	if (mime::gzip.match(aData))
+	{
+		std::shared_ptr<cainteoir::buffer> decompressed = cainteoir::inflate_gzip(*aData, 0);
+		return createDocumentReader(decompressed, aSubject, aPrimaryMetadata, aTitle);
+	}
 
 	if (mime::xml.match(aData))
 	{
@@ -150,17 +146,6 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
                          rdf::graph &aGraph,
                          parser_flags flags)
 {
-	// Encoded documents ...
-
-	for (const DecodeDocument *decode = std::begin(decode_handlers); decode != std::end(decode_handlers); ++decode)
-	{
-		if (decode->mimetype->match(data))
-		{
-			std::shared_ptr<cainteoir::buffer> decompressed = decode->decoder(*data, 0);
-			return parseDocumentBuffer(decompressed, subject, events, aGraph, flags);
-		}
-	}
-
 	// XML documents ...
 
 	if (mime::xml.match(data))
