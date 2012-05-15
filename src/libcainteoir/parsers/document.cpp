@@ -51,7 +51,6 @@ struct ParseXmlDocument
 static const ParseXmlDocument xml_handlers[] = {
 	{ &mime::ncx,    &cainteoir::parseNcxDocument },
 	{ &mime::opf,    &cainteoir::parseOpfDocument },
-	{ &mime::ssml,   &cainteoir::parseSsmlDocument },
 };
 
 std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
@@ -99,6 +98,9 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 
 		if (mime::rdfxml.match(namespaceUri, rootName))
 			return createRdfXmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
+
+		if (mime::ssml.match(namespaceUri, rootName))
+			return createSsmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
 		if (mime::smil.match(namespaceUri, rootName))
 			return createSmilReader(reader, aSubject, aPrimaryMetadata, aTitle);
