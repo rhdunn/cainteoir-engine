@@ -86,18 +86,6 @@ namespace cainteoir
 	                      document_events &events,
 	                      rdf::graph &aGraph);
 
-	/** @brief XML encoded HTML (XHTML)
-	  * @see   http://www.w3.org/TR/xhtml1/
-	  *
-	  * @param reader   The XML document reader.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
-	  */
-	void parseXHtmlDocument(xml::reader &reader,
-	                        const rdf::uri &aSubject,
-	                        document_events &events,
-	                        rdf::graph &aGraph);
-
 	/** @brief Synchronized Multimedia Integration Language (SMIL)
 	  * @see   http://www.w3.org/TR/2008/REC-SMIL3-20081201/
 	  *
