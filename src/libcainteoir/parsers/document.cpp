@@ -30,29 +30,6 @@
 namespace rdf = cainteoir::rdf;
 namespace mime = cainteoir::mime;
 
-struct ParseZipDocument
-{
-	const mime::mimetype *mimetype;
-	decltype(cainteoir::parseEpubDocument) *parser;
-};
-
-// magic = uncompressed mimetype file ...
-static const ParseZipDocument zip_handlers[] = {
-	{ &mime::epub, &cainteoir::parseEpubDocument },
-};
-
-struct ParseXmlDocument
-{
-	const mime::mimetype *mimetype;
-	decltype(cainteoir::parseNcxDocument) *parser;
-};
-
-// magic = xml ; match namespaceUri and rootName on XML document ...
-static const ParseXmlDocument xml_handlers[] = {
-	{ &mime::ncx,    &cainteoir::parseNcxDocument },
-	{ &mime::opf,    &cainteoir::parseOpfDocument },
-};
-
 std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 {
 	cainteoir::rope data;
@@ -159,15 +136,20 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 		std::string namespaceUri = reader.namespaceUri();
 		std::string rootName     = reader.nodeName().str();
 
-		for (const ParseXmlDocument *xml = std::begin(xml_handlers); xml != std::end(xml_handlers); ++xml)
+		if (mime::ncx.match(namespaceUri, rootName))
 		{
-			if (xml->mimetype->match(namespaceUri, rootName))
-			{
-				xml->parser(reader, subject, events, aGraph);
-				if ((flags & include_document_mimetype) == include_document_mimetype)
-					aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(xml->mimetype->mime_type));
-				return true;
-			}
+			cainteoir::parseNcxDocument(reader, subject, events, aGraph);
+			if ((flags & include_document_mimetype) == include_document_mimetype)
+				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(mime::ncx.mime_type));
+			return true;
+		}
+
+		if (mime::opf.match(namespaceUri, rootName))
+		{
+			cainteoir::parseOpfDocument(reader, subject, events, aGraph);
+			if ((flags & include_document_mimetype) == include_document_mimetype)
+				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(mime::opf.mime_type));
+			return true;
 		}
 	}
 
@@ -177,15 +159,12 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 	{
 		auto archive = create_zip_archive(data, subject);
 
-		for (const ParseZipDocument *parse = std::begin(zip_handlers); parse != std::end(zip_handlers); ++parse)
+		if (mime::epub.match(data))
 		{
-			if (parse->mimetype->match(data))
-			{
-				parse->parser(archive, subject, events, aGraph);
-				if ((flags & include_document_mimetype) == include_document_mimetype)
-					aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(parse->mimetype->mime_type));
-				return true;
-			}
+			cainteoir::parseEpubDocument(archive, subject, events, aGraph);
+			if ((flags & include_document_mimetype) == include_document_mimetype)
+				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(mime::epub.mime_type));
+			return true;
 		}
 
 		bool parsed = false;
