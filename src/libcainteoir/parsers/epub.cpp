@@ -100,7 +100,8 @@ struct epub_document : public cainteoir::document_events
 				if (mimetype == "application/x-dtbncx+xml")
 				{
 					mTocEvents = true;
-					cainteoir::parseNcxDocument(reader, mSubject, *this, mGraph);
+					rdf::graph innerMetadata;
+					cainteoir::parseNcxDocument(reader, mSubject, *this, innerMetadata);
 					mTocEvents = false;
 				}
 				else if (mimetype == "application/xhtml+xml")
@@ -108,8 +109,8 @@ struct epub_document : public cainteoir::document_events
 					const rdf::uri location = mEpub->location(filename, aLocation.ref);
 					mEvents.anchor(location, std::string());
 
-					rdf::graph mInnerMetadata;
-					auto html = cainteoir::createHtmlReader(reader, location, mInnerMetadata, std::string());
+					rdf::graph innerMetadata;
+					auto html = cainteoir::createHtmlReader(reader, location, innerMetadata, std::string());
 					if (html) while (html->read())
 					{
 						if (html->type & cainteoir::events::toc_entry)
