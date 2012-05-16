@@ -96,6 +96,9 @@ bool ncx_document_reader::read()
 	const xml::context::entry *current = nullptr;
 	const xml::context::entry *outer   = nullptr;
 
+	text.reset();
+	anchor = rdf::uri();
+
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::textNode:
@@ -105,6 +108,13 @@ bool ncx_document_reader::read()
 			if (outer == &ncx::navLabel_node)
 				text = reader.nodeValue().buffer();
 			current = outer = nullptr;
+			if (!anchor.empty())
+			{
+				type      = events::toc_entry;
+				context   = events::heading;
+				parameter = mDepth;
+				return true;
+			}
 		}
 		break;
 	case xml::reader::attribute:
@@ -116,10 +126,13 @@ bool ncx_document_reader::read()
 				anchor = rdf::uri(src, std::string());
 			else
 				anchor = rdf::uri(src.substr(0, ref), src.substr(ref+1));
-			type      = events::toc_entry;
-			context   = events::heading;
-			parameter = mDepth;
-			return true;
+			if (text)
+			{
+				type      = events::toc_entry;
+				context   = events::heading;
+				parameter = mDepth;
+				return true;
+			}
 		}
 		break;
 	case xml::reader::beginTagNode:
