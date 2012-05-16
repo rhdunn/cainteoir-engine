@@ -42,7 +42,6 @@ struct epub_document : public cainteoir::document_events
 		, mEvents(aEvents)
 		, mSubject(aSubject)
 		, mGraph(aGraph)
-		, mTocEvents(false)
 	{
 		cainteoir::ocf_reader ocf(mEpub->read("META-INF/container.xml"));
 		while (ocf.read() && mOpfFile.empty())
@@ -72,15 +71,12 @@ struct epub_document : public cainteoir::document_events
 
 	void toc_entry(int depth, const rdf::uri &aLocation, const std::string &title)
 	{
-		if (mTocEvents)
+		if (aLocation == mSubject)
+			mEvents.toc_entry(depth, aLocation, title);
+		else
 		{
-			if (aLocation == mSubject)
-				mEvents.toc_entry(depth, aLocation, title);
-			else
-			{
-				const rdf::uri location = mEpub->location(path_to(aLocation.ns, mOpfFile), aLocation.ref);
-				mEvents.toc_entry(depth, location, title);
-			}
+			const rdf::uri location = mEpub->location(path_to(aLocation.ns, mOpfFile), aLocation.ref);
+			mEvents.toc_entry(depth, location, title);
 		}
 	}
 
@@ -96,7 +92,6 @@ struct epub_document : public cainteoir::document_events
 
 			if (mimetype == "application/x-dtbncx+xml")
 			{
-				mTocEvents = true;
 				rdf::graph innerMetadata;
 				auto ncx = cainteoir::createNcxReader(reader, mSubject, innerMetadata, std::string());
 				if (ncx) while (ncx->read())
@@ -112,7 +107,6 @@ struct epub_document : public cainteoir::document_events
 					if (ncx->type & cainteoir::events::end_context)
 						end_context();
 				}
-				mTocEvents = false;
 			}
 			else if (mimetype == "application/xhtml+xml")
 			{
