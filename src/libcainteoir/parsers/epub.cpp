@@ -101,7 +101,20 @@ struct epub_document : public cainteoir::document_events
 				{
 					mTocEvents = true;
 					rdf::graph innerMetadata;
-					cainteoir::parseNcxDocument(reader, mSubject, *this, innerMetadata);
+					auto ncx = cainteoir::createNcxReader(reader, mSubject, innerMetadata, std::string());
+					if (ncx) while (ncx->read())
+					{
+						if (ncx->type & cainteoir::events::toc_entry)
+							toc_entry((int)ncx->parameter, ncx->anchor, ncx->text->str());
+						if (ncx->type & cainteoir::events::anchor)
+							anchor(ncx->anchor, std::string());
+						if (ncx->type & cainteoir::events::begin_context)
+							begin_context(ncx->context, ncx->parameter);
+						if (ncx->type & cainteoir::events::text)
+							text(ncx->text);
+						if (ncx->type & cainteoir::events::end_context)
+							end_context();
+					}
 					mTocEvents = false;
 				}
 				else if (mimetype == "application/xhtml+xml")

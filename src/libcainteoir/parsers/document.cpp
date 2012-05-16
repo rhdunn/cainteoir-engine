@@ -73,6 +73,9 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		if (mime::xhtml.match(namespaceUri, rootName))
 			return createXHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
+		if (mime::ncx.match(namespaceUri, rootName))
+			return createNcxReader(reader, aSubject, aPrimaryMetadata, aTitle);
+
 		if (mime::rdfxml.match(namespaceUri, rootName))
 			return createRdfXmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
@@ -135,14 +138,6 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 
 		std::string namespaceUri = reader.namespaceUri();
 		std::string rootName     = reader.nodeName().str();
-
-		if (mime::ncx.match(namespaceUri, rootName))
-		{
-			cainteoir::parseNcxDocument(reader, subject, events, aGraph);
-			if ((flags & include_document_mimetype) == include_document_mimetype)
-				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(mime::ncx.mime_type));
-			return true;
-		}
 
 		if (mime::opf.match(namespaceUri, rootName))
 		{

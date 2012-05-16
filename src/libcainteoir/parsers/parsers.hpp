@@ -61,18 +61,6 @@ namespace cainteoir
 		std::string mPath;
 	};
 
-	/** @brief Navigation Control File (NCX)
-	  * @see   http://www.niso.org/workrooms/daisy/Z39-86-2005.html#NCX
-	  *
-	  * @param reader   The XML document reader.
-	  * @param aSubject The subject to use for any metadata.
-	  * @param events   The events callback to handle document events.
-	  */
-	void parseNcxDocument(xml::reader &reader,
-	                      const rdf::uri &aSubject,
-	                      document_events &events,
-	                      rdf::graph &aGraph);
-
 	/** @brief Open Publication Format (OPF)
 	  * @see   http://www.idpf.org/2007/opf/opf2.0/download/
 	  * @see   http://www.idpf.org/specs.htm
@@ -146,6 +134,21 @@ namespace cainteoir
 	                 const rdf::uri &aSubject,
 	                 rdf::graph &aPrimaryMetadata,
 	                 const std::string &aTitle);
+
+	/** @brief Navigation Control File (NCX)
+	  *
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createNcxReader(xml::reader &aReader,
+	                const rdf::uri &aSubject,
+	                rdf::graph &aPrimaryMetadata,
+	                const std::string &aTitle);
 
 	/** @brief Portable Document Format (PDF)
 	  *

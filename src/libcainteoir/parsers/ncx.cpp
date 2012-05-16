@@ -24,14 +24,13 @@
 #include "parsers.hpp"
 #include <stdexcept>
 
-namespace xml   = cainteoir::xml;
-namespace xmlns = cainteoir::xml::xmlns;
-namespace rdf   = cainteoir::rdf;
+namespace xml    = cainteoir::xml;
+namespace xmlns  = cainteoir::xml::xmlns;
+namespace rdf    = cainteoir::rdf;
+namespace events = cainteoir::events;
 
 namespace ncx
 {
-	namespace events = cainteoir::events;
-
 	static const xml::context::entry content_node   = { events::unknown, 0 };
 	static const xml::context::entry docAuthor_node = { events::unknown, 0 };
 	static const xml::context::entry docTitle_node  = { events::unknown, 0 };
@@ -69,11 +68,31 @@ static const std::initializer_list<const xml::context::entry_ref> ncx_attrs =
 	{ "src",     &ncx::src_attr },
 };
 
-void parseNavPoint(xml::reader &reader, const rdf::uri &subject, cainteoir::document_events &events, int depth)
+struct ncx_document_reader : public cainteoir::document_reader
 {
-	std::string label;
-	rdf::uri location = rdf::uri(std::string(), std::string());
-	bool fired = false;
+	ncx_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
+
+	bool read();
+
+	xml::reader reader;
+	rdf::uri mSubject;
+	std::string mTitle;
+	int mDepth;
+};
+
+bool ncx_document_reader::read()
+{
+	if (!mTitle.empty())
+	{
+		type      = events::toc_entry;
+		context   = events::heading;
+		parameter = 0;
+		text      = cainteoir::make_buffer(mTitle);
+		anchor    = mSubject;
+		mTitle.clear();
+		return true;
+	}
+
 	const xml::context::entry *current = nullptr;
 	const xml::context::entry *outer   = nullptr;
 
@@ -84,7 +103,7 @@ void parseNavPoint(xml::reader &reader, const rdf::uri &subject, cainteoir::docu
 		if (current == &ncx::text_node)
 		{
 			if (outer == &ncx::navLabel_node)
-				label = reader.nodeValue().str();
+				text = reader.nodeValue().buffer();
 			current = outer = nullptr;
 		}
 		break;
@@ -94,37 +113,35 @@ void parseNavPoint(xml::reader &reader, const rdf::uri &subject, cainteoir::docu
 			std::string src = reader.nodeValue().str();
 			std::string::size_type ref = src.find('#');
 			if (ref == std::string::npos)
-				location = rdf::uri(src, std::string());
+				anchor = rdf::uri(src, std::string());
 			else
-				location = rdf::uri(src.substr(0, ref), src.substr(ref+1));
+				anchor = rdf::uri(src.substr(0, ref), src.substr(ref+1));
+			type      = events::toc_entry;
+			context   = events::heading;
+			parameter = mDepth;
+			return true;
 		}
 		break;
 	case xml::reader::beginTagNode:
 		current = reader.context();
-		if (reader.context() == &ncx::navPoint_node)
-		{
-			if (!fired)
-			{
-				events.toc_entry(depth, location, label);
-				fired = true;
-			}
-			parseNavPoint(reader, subject, events, depth+1);
-		}
+		if (current == &ncx::navPoint_node)
+			++mDepth;
 		else if (current == &ncx::navLabel_node)
 			outer = reader.context();
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == &ncx::navPoint_node)
-		{
-			if (!fired)
-				events.toc_entry(depth, location, label);
-			return;
-		}
+			--mDepth;
 		break;
 	}
+
+	return false;
 }
 
-void cainteoir::parseNcxDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph)
+ncx_document_reader::ncx_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
+	: reader(aReader)
+	, mSubject(aSubject)
+	, mDepth(0)
 {
 	reader.set_nodes(xmlns::ncx, ncx_nodes);
 	reader.set_attrs(xmlns::ncx, ncx_attrs);
@@ -146,12 +163,12 @@ void cainteoir::parseNcxDocument(xml::reader &reader, const rdf::uri &aSubject, 
 			std::string value = reader.nodeValue().str();
 			if (outer == &ncx::docAuthor_node)
 			{
-				aGraph.statement(aSubject, rdf::dc("creator"), rdf::literal(value));
+				aPrimaryMetadata.statement(aSubject, rdf::dc("creator"), rdf::literal(value));
 			}
 			else if (outer == &ncx::docTitle_node)
 			{
-				title = value;
-				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(value));
+				mTitle = value;
+				aPrimaryMetadata.statement(aSubject, rdf::dc("title"), rdf::literal(value));
 			}
 			current = outer = nullptr;
 		}
@@ -183,9 +200,9 @@ void cainteoir::parseNcxDocument(xml::reader &reader, const rdf::uri &aSubject, 
 			{
 				std::string meta = name.substr(4);
 				if (meta == "depth" || meta == "totalPageCount" || meta == "maxPageNumber")
-					aGraph.statement(aSubject, rdf::dtb(meta), rdf::literal(content, rdf::xsd("int")));
+					aPrimaryMetadata.statement(aSubject, rdf::dtb(meta), rdf::literal(content, rdf::xsd("int")));
 				else
-					aGraph.statement(aSubject, rdf::dtb(meta), rdf::literal(content));
+					aPrimaryMetadata.statement(aSubject, rdf::dtb(meta), rdf::literal(content));
 			}
 		}
 		else if (reader.context() == &ncx::head_node)
@@ -194,14 +211,14 @@ void cainteoir::parseNcxDocument(xml::reader &reader, const rdf::uri &aSubject, 
 		break;
 	}
 
-	if (!title.empty())
-		events.toc_entry(0, aSubject, title);
+	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/x-dtbncx+xml"));
+}
 
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::beginTagNode:
-		if (reader.context() == &ncx::navPoint_node)
-			parseNavPoint(reader, aSubject, events, 1);
-		break;
-	}
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createNcxReader(xml::reader &aReader,
+                           const rdf::uri &aSubject,
+                           rdf::graph &aPrimaryMetadata,
+                           const std::string &aTitle)
+{
+	return std::make_shared<ncx_document_reader>(aReader, aSubject, aPrimaryMetadata, aTitle);
 }
