@@ -86,62 +86,54 @@ struct epub_document : public cainteoir::document_events
 
 	void anchor(const rdf::uri &aLocation, const std::string &mimetype)
 	{
-		if (!mimetype.empty())
+		std::string filename = path_to(aLocation.ns, mOpfFile);
+		auto doc = mEpub->read(filename.c_str());
+		if (doc)
 		{
-			std::string filename = path_to(aLocation.ns, mOpfFile);
-			auto doc = mEpub->read(filename.c_str());
-			if (doc)
+			cainteoir::xml::reader reader(doc);
+			while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
+				;
+
+			if (mimetype == "application/x-dtbncx+xml")
 			{
-				cainteoir::xml::reader reader(doc);
-
-				while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
-					;
-
-				if (mimetype == "application/x-dtbncx+xml")
+				mTocEvents = true;
+				rdf::graph innerMetadata;
+				auto ncx = cainteoir::createNcxReader(reader, mSubject, innerMetadata, std::string());
+				if (ncx) while (ncx->read())
 				{
-					mTocEvents = true;
-					rdf::graph innerMetadata;
-					auto ncx = cainteoir::createNcxReader(reader, mSubject, innerMetadata, std::string());
-					if (ncx) while (ncx->read())
-					{
-						if (ncx->type & cainteoir::events::toc_entry)
-							toc_entry((int)ncx->parameter, ncx->anchor, ncx->text->str());
-						if (ncx->type & cainteoir::events::anchor)
-							anchor(ncx->anchor, std::string());
-						if (ncx->type & cainteoir::events::begin_context)
-							begin_context(ncx->context, ncx->parameter);
-						if (ncx->type & cainteoir::events::text)
-							text(ncx->text);
-						if (ncx->type & cainteoir::events::end_context)
-							end_context();
-					}
-					mTocEvents = false;
+					if (ncx->type & cainteoir::events::toc_entry)
+						toc_entry((int)ncx->parameter, ncx->anchor, ncx->text->str());
+					if (ncx->type & cainteoir::events::anchor)
+						anchor(ncx->anchor, std::string());
+					if (ncx->type & cainteoir::events::begin_context)
+						begin_context(ncx->context, ncx->parameter);
+					if (ncx->type & cainteoir::events::text)
+						text(ncx->text);
+					if (ncx->type & cainteoir::events::end_context)
+						end_context();
 				}
-				else if (mimetype == "application/xhtml+xml")
-				{
-					const rdf::uri location = mEpub->location(filename, aLocation.ref);
-					mEvents.anchor(location, std::string());
+				mTocEvents = false;
+			}
+			else if (mimetype == "application/xhtml+xml")
+			{
+				const rdf::uri location = mEpub->location(filename, aLocation.ref);
+				mEvents.anchor(location, std::string());
 
-					rdf::graph innerMetadata;
-					auto html = cainteoir::createHtmlReader(reader, location, innerMetadata, std::string());
-					if (html) while (html->read())
-					{
-						if (html->type & cainteoir::events::toc_entry)
-							toc_entry((int)html->parameter, html->anchor, html->text->str());
-						if (html->type & cainteoir::events::anchor)
-							anchor(html->anchor, std::string());
-						if (html->type & cainteoir::events::begin_context)
-							begin_context(html->context, html->parameter);
-						if (html->type & cainteoir::events::text)
-							text(html->text);
-						if (html->type & cainteoir::events::end_context)
-							end_context();
-					}
+				rdf::graph innerMetadata;
+				auto html = cainteoir::createHtmlReader(reader, location, innerMetadata, std::string());
+				if (html) while (html->read())
+				{
+					if (html->type & cainteoir::events::begin_context)
+						begin_context(html->context, html->parameter);
+					if (html->type & cainteoir::events::text)
+						text(html->text);
+					if (html->type & cainteoir::events::end_context)
+						end_context();
 				}
 			}
-			else
-				fprintf(stderr, i18n("document '%s' not found in ePub archive.\n"), filename.c_str());
 		}
+		else
+			fprintf(stderr, i18n("document '%s' not found in ePub archive.\n"), filename.c_str());
 	}
 
 	std::shared_ptr<cainteoir::buffer> read(const char *filename)
