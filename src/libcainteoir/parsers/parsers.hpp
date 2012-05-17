@@ -26,13 +26,6 @@
 #include <list>
 #include <map>
 
-enum parser_flags
-{
-	no_document_flags = 0,
-	include_document_mimetype = 1,
-	needs_document_title = 2,
-};
-
 namespace cainteoir
 {
 	/** @brief ePub

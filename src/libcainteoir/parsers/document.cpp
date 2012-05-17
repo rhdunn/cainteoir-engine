@@ -128,8 +128,7 @@ cainteoir::createDocumentReader(const char *aFilename,
 bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
                          const rdf::uri &subject,
                          cainteoir::document_events &events,
-                         rdf::graph &aGraph,
-                         parser_flags flags)
+                         rdf::graph &aGraph)
 {
 	// Zip/Compressed documents ...
 
@@ -149,7 +148,7 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 		{
 			auto buffer   = archive->read(file->c_str());
 			auto location = archive->location(*file, std::string());
-			parsed |= parseDocumentBuffer(buffer, location, events, aGraph, needs_document_title);
+			parsed |= parseDocumentBuffer(buffer, location, events, aGraph);
 		}
 
 		return parsed;
@@ -162,13 +161,10 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 
 	while (reader->read())
 	{
-		if ((flags & needs_document_title) == needs_document_title)
-		{
-			if (reader->type & cainteoir::events::toc_entry)
-				events.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
-			if (reader->type & cainteoir::events::anchor)
-				events.anchor(reader->anchor, std::string());
-		}
+		if (reader->type & cainteoir::events::toc_entry)
+			events.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
+		if (reader->type & cainteoir::events::anchor)
+			events.anchor(reader->anchor, std::string());
 		if (reader->type & cainteoir::events::begin_context)
 			events.begin_context(reader->context, reader->parameter);
 		if (reader->type & cainteoir::events::text)
@@ -224,6 +220,5 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 	else
 		data = buffer_from_stdin();
 
-	return parseDocumentBuffer(data, subject, events, aGraph,
-	                           parser_flags(include_document_mimetype|needs_document_title));
+	return parseDocumentBuffer(data, subject, events, aGraph);
 }
