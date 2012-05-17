@@ -125,11 +125,50 @@ cainteoir::createDocumentReader(const char *aFilename,
 	return createDocumentReader(data, subject, aPrimaryMetadata, aTitle);
 }
 
-bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
-                         const rdf::uri &subject,
-                         cainteoir::document_events &events,
-                         rdf::graph &aGraph)
+void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities)
 {
+	std::string baseuri = "http://rhdunn.github.com/cainteoir/formats/document";
+
+	if (capabilities & (cainteoir::metadata_support | cainteoir::text_support))
+	{
+		mime::epub .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::xhtml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::html .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::mhtml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::email.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::rtf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::ssml .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::gzip .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::zip  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+#ifdef HAVE_POPPLER
+		mime::pdf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+#endif
+	}
+
+	if (capabilities & cainteoir::metadata_support)
+	{
+		mime::rdfxml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::opf   .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::ncx   .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+		mime::smil  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	}
+
+	if (capabilities & cainteoir::text_support)
+	{
+		mime::text.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
+	}
+}
+
+bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events, rdf::graph &aGraph)
+{
+	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
+
+	std::shared_ptr<cainteoir::buffer> data;
+	if (aFilename)
+		data = std::make_shared<cainteoir::mmap_buffer>(aFilename);
+	else
+		data = buffer_from_stdin();
+
 	// Zip/Compressed documents ...
 
 	if (mime::zip.match(data))
@@ -191,51 +230,4 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 	}
 
 	return true;
-}
-
-void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities)
-{
-	std::string baseuri = "http://rhdunn.github.com/cainteoir/formats/document";
-
-	if (capabilities & (cainteoir::metadata_support | cainteoir::text_support))
-	{
-		mime::epub .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-		mime::xhtml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-		mime::html .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-		mime::mhtml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-		mime::email.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-		mime::rtf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-		mime::ssml .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-		mime::gzip .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-		mime::zip  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-#ifdef HAVE_POPPLER
-		mime::pdf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-#endif
-	}
-
-	if (capabilities & cainteoir::metadata_support)
-	{
-		mime::rdfxml.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-		mime::opf   .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-		mime::ncx   .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-		mime::smil  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-	}
-
-	if (capabilities & cainteoir::text_support)
-	{
-		mime::text.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-	}
-}
-
-bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
-
-	std::shared_ptr<cainteoir::buffer> data;
-	if (aFilename)
-		data = std::make_shared<cainteoir::mmap_buffer>(aFilename);
-	else
-		data = buffer_from_stdin();
-
-	return parseDocumentBuffer(data, subject, events, aGraph);
 }
