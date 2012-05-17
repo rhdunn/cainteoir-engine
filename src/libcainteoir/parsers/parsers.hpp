@@ -233,6 +233,15 @@ namespace cainteoir
 	                  const rdf::uri &aSubject,
 	                  rdf::graph &aPrimaryMetadata,
 	                  const std::string &aTitle);
+
+	/** @brief ZIP archive
+	  *
+	  * @param[in]  aData            The document multi-document container.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createZipReader(std::shared_ptr<archive> &aData);
 }
 
 #endif

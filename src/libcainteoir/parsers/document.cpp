@@ -112,6 +112,12 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 	if (mime::pdf.match(aData))
 		return createPdfReader(aData, aSubject, aPrimaryMetadata, aTitle);
 
+	if (mime::zip.match(aData))
+	{
+		auto archive = create_zip_archive(aData, aSubject);
+		return createZipReader(archive);
+	}
+
 	return createPlainTextReader(aData, aSubject, aPrimaryMetadata, aTitle);
 }
 
@@ -174,43 +180,6 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 		data = std::make_shared<cainteoir::mmap_buffer>(aFilename);
 	else
 		data = buffer_from_stdin();
-
-	// Zip/Compressed documents ...
-
-	if (mime::zip.match(data) && !mime::epub.match(data))
-	{
-		auto archive = create_zip_archive(data, subject);
-
-		bool parsed = false;
-		const auto &files = archive->files();
-		for (auto file = files.begin(), last = files.end(); file != last; ++file)
-		{
-			auto buffer   = archive->read(file->c_str());
-			auto location = archive->location(*file, std::string());
-			auto reader   = createDocumentReader(buffer, location, aGraph, std::string());
-			if (reader)
-			{
-				parsed = true;
-				while (reader->read())
-				{
-					if (reader->type & cainteoir::events::toc_entry)
-						events.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
-					if (reader->type & cainteoir::events::anchor)
-						events.anchor(reader->anchor, std::string());
-					if (reader->type & cainteoir::events::begin_context)
-						events.begin_context(reader->context, reader->parameter);
-					if (reader->type & cainteoir::events::text)
-						events.text(reader->text);
-					if (reader->type & cainteoir::events::end_context)
-						events.end_context();
-				}
-			}
-		}
-
-		return parsed;
-	}
-
-	// Reader-based document parsers (new-style) ...
 
 	auto reader = createDocumentReader(data, subject, aGraph);
 	if (!reader) return false;

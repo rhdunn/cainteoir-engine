@@ -190,6 +190,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/parsers/xhtml.cpp \
 	src/libcainteoir/parsers/xmlreader.cpp \
 	src/libcainteoir/parsers/zip.cpp \
+	src/libcainteoir/parsers/zipdoc.cpp \
 	\
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/rdf/metadata.cpp \
