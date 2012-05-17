@@ -269,6 +269,7 @@ struct rtf_document_reader : public cainteoir::document_reader
 	bool internal_read(rdf::graph *aPrimaryMetadata);
 
 	rtf_reader rtf;
+	std::shared_ptr<cainteoir::buffer> mData;
 	rdf::uri mSubject;
 	cainteoir::encoding mCodepage;
 	state mState;
@@ -279,6 +280,7 @@ struct rtf_document_reader : public cainteoir::document_reader
 
 rtf_document_reader::rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
 	: rtf(aData)
+	, mData(aData)
 	, mSubject(aSubject)
 	, mCodepage(1252)
 	, mState(state_rtf)

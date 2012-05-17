@@ -75,6 +75,7 @@ public:
 
 	const std::list<std::string> &files() const;
 private:
+	std::shared_ptr<cainteoir::buffer> mData;
 	std::map<std::string, const zip_header *> data;
 	std::list<std::string> filelist;
 	std::string base;
@@ -82,6 +83,7 @@ private:
 
 zip_archive::zip_archive(std::shared_ptr<cainteoir::buffer> aData, const cainteoir::rdf::uri &aSubject)
 	: base(aSubject.str() + "!/")
+	, mData(aData)
 {
 	const zip_header * hdr = (const zip_header *)aData->begin();
 	while ((const char *)hdr < aData->end() && hdr->magic == ZIP_HEADER_MAGIC)
