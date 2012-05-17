@@ -110,11 +110,8 @@ int main(int argc, char ** argv)
 		if (argc != 1)
 			throw std::runtime_error(i18n("no document specified"));
 
-		cainteoir::document_events events;
 		rdf::graph metadata;
-		if (!cainteoir::parseDocument(argv[0], events, metadata))
-			fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), argv[0]);
-
+		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
 		if (!metadata.empty())
 		{
 			if (output_type == rdf_metadata)
