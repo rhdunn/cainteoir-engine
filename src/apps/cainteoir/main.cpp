@@ -219,7 +219,7 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 	return nullptr;
 }
 
-struct document : public cainteoir::document_events
+struct document
 {
 	document(const rdf::uri &aSubject, actions aAction, int aFrom, int aTo)
 		: tts(m_metadata, cainteoir::text_support)
@@ -231,24 +231,6 @@ struct document : public cainteoir::document_events
 		, fromIndex(aFrom)
 		, toIndex(aTo)
 	{
-	}
-
-	void metadata(const std::shared_ptr<const rdf::triple> &aStatement)
-	{
-		m_metadata.push_back(aStatement);
-
-		if (rql::subject(aStatement) == subject && rql::predicate(aStatement) == rdf::dc("language"))
-			select_voice(rdf::dc("language"), rql::value(aStatement));
-	}
-
-	const rdf::uri genid()
-	{
-		return m_metadata.genid();
-	}
-
-	void text(std::shared_ptr<cainteoir::buffer> aText)
-	{
-		m_doc->add(aText);
 	}
 
 	void select_voice(const rdf::uri &predicate, const std::string &value)
@@ -278,11 +260,6 @@ struct document : public cainteoir::document_events
 			to = location;
 
 		++toc_number;
-	}
-
-	void anchor(const rdf::uri &location, const std::string &mimetype)
-	{
-		m_doc->add_anchor(location);
 	}
 
 	cainteoir::document::range_type selection() const
@@ -434,10 +411,16 @@ int main(int argc, char ** argv)
 		if (range  != INT_MAX) doc.tts.parameter(tts::parameter::pitch_range)->set_value(range);
 		if (volume != INT_MAX) doc.tts.parameter(tts::parameter::volume)->set_value(volume);
 
-		if (argc == 1)
-			cainteoir::parseDocument(argv[0], doc, doc.m_metadata);
-		else
-			cainteoir::parseDocument(nullptr, doc, doc.m_metadata);
+		auto reader = cainteoir::createDocumentReader((argc == 1) ? argv[0] : nullptr, doc.m_metadata, std::string());
+		if (reader) while (reader->read())
+		{
+			if (reader->type & cainteoir::events::toc_entry)
+				doc.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
+			if (reader->type & cainteoir::events::anchor)
+				doc.m_doc->add_anchor(reader->anchor);
+			if (reader->type & cainteoir::events::text)
+				doc.m_doc->add(reader->text);
+		}
 
 		if (action == show_contents)
 			return 0;
