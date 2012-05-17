@@ -33,12 +33,6 @@ enum parser_flags
 	needs_document_title = 2,
 };
 
-bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
-                         const cainteoir::rdf::uri &subject,
-                         cainteoir::document_events &events,
-                         cainteoir::rdf::graph &aGraph,
-                         parser_flags flags);
-
 namespace cainteoir
 {
 	/** @brief Open Publication Format (OPF)
