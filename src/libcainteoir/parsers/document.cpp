@@ -173,15 +173,7 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
 
 bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events, rdf::graph &aGraph)
 {
-	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
-
-	std::shared_ptr<cainteoir::buffer> data;
-	if (aFilename)
-		data = std::make_shared<cainteoir::mmap_buffer>(aFilename);
-	else
-		data = buffer_from_stdin();
-
-	auto reader = createDocumentReader(data, subject, aGraph);
+	auto reader = createDocumentReader(aFilename, aGraph);
 	if (!reader) return false;
 
 	while (reader->read())
