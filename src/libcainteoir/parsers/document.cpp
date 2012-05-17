@@ -148,7 +148,24 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 		{
 			auto buffer   = archive->read(file->c_str());
 			auto location = archive->location(*file, std::string());
-			parsed |= parseDocumentBuffer(buffer, location, events, aGraph);
+			auto reader   = createDocumentReader(buffer, location, aGraph, std::string());
+			if (reader)
+			{
+				parsed = true;
+				while (reader->read())
+				{
+					if (reader->type & cainteoir::events::toc_entry)
+						events.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
+					if (reader->type & cainteoir::events::anchor)
+						events.anchor(reader->anchor, std::string());
+					if (reader->type & cainteoir::events::begin_context)
+						events.begin_context(reader->context, reader->parameter);
+					if (reader->type & cainteoir::events::text)
+						events.text(reader->text);
+					if (reader->type & cainteoir::events::end_context)
+						events.end_context();
+				}
+			}
 		}
 
 		return parsed;
