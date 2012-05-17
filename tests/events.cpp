@@ -29,56 +29,6 @@
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
-struct event_printer : public cainteoir::document_events
-{
-	void text(std::shared_ptr<cainteoir::buffer> aText)
-	{
-		fprintf(stdout, "text(%zu): \"\"\"", aText->size());
-		fwrite(aText->begin(), 1, aText->size(), stdout);
-		fwrite("\"\"\"\n", 1, 4, stdout);
-	}
-
-	void begin_context(events::context aContext, uint32_t aParameter)
-	{
-		fprintf(stdout, "begin-context ");
-		switch (aContext)
-		{
-		case events::paragraph: fprintf(stdout, "paragraph"); break;
-		case events::heading:   fprintf(stdout, "heading %d", aParameter); break;
-		case events::span:      fprintf(stdout, "span"); break;
-		case events::list:      fprintf(stdout, "list"); break;
-		case events::list_item: fprintf(stdout, "list-item"); break;
-		case events::sentence:  fprintf(stdout, "sentence"); break;
-		}
-		if (aContext != events::heading)
-		{
-			if (aParameter & events::superscript) fprintf(stdout, " +superscript");
-			if (aParameter & events::subscript)   fprintf(stdout, " +subscript");
-			if (aParameter & events::emphasized)  fprintf(stdout, " +emphasized");
-			if (aParameter & events::strong)      fprintf(stdout, " +strong");
-			if (aParameter & events::underline)   fprintf(stdout, " +underline");
-			if (aParameter & events::monospace)   fprintf(stdout, " +monospace");
-			if (aParameter & events::reduced)     fprintf(stdout, " +reduced");
-		}
-		fprintf(stdout, "\n");
-	}
-
-	void end_context()
-	{
-		fprintf(stdout, "end-context\n");
-	}
-
-	void toc_entry(int depth, const rdf::uri &location, const std::string &title)
-	{
-		fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n", location.ns.c_str(), location.ref.c_str(), depth, title.c_str());
-	}
-
-	void anchor(const rdf::uri &location, const std::string &mimetype)
-	{
-		fprintf(stdout, "anchor [%s]%s\n", location.ns.c_str(), location.ref.c_str());
-	}
-};
-
 int main(int argc, char ** argv)
 {
 	try
@@ -89,10 +39,71 @@ int main(int argc, char ** argv)
 		if (argc == 0)
 			throw std::runtime_error("no document specified");
 
-		event_printer events;
 		rdf::graph metadata;
-		if (!cainteoir::parseDocument(argv[0], events, metadata))
+		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
+		if (!reader)
+		{
 			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
+			return 0;
+		}
+
+		while (reader->read())
+		{
+			if (reader->type & cainteoir::events::toc_entry)
+			{
+				fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n",
+				        reader->anchor.ns.c_str(),
+				        reader->anchor.ref.c_str(),
+				        reader->parameter,
+				        reader->text->str().c_str());
+			}
+			if (reader->type & cainteoir::events::anchor)
+			{
+				fprintf(stdout, "anchor [%s]%s\n",
+				        reader->anchor.ns.c_str(),
+				        reader->anchor.ref.c_str());
+			}
+			if (reader->type & cainteoir::events::begin_context)
+			{
+				fprintf(stdout, "begin-context ");
+				switch (reader->context)
+				{
+				case events::paragraph: fprintf(stdout, "paragraph"); break;
+				case events::heading:   fprintf(stdout, "heading %d", reader->parameter); break;
+				case events::span:      fprintf(stdout, "span"); break;
+				case events::list:      fprintf(stdout, "list"); break;
+				case events::list_item: fprintf(stdout, "list-item"); break;
+				case events::sentence:  fprintf(stdout, "sentence"); break;
+				}
+
+				if (reader->context != events::heading)
+				{
+					if (reader->parameter & events::superscript)
+						fprintf(stdout, " +superscript");
+					if (reader->parameter & events::subscript)
+						fprintf(stdout, " +subscript");
+					if (reader->parameter & events::emphasized)
+						fprintf(stdout, " +emphasized");
+					if (reader->parameter & events::strong)
+						fprintf(stdout, " +strong");
+					if (reader->parameter & events::underline)
+						fprintf(stdout, " +underline");
+					if (reader->parameter & events::monospace)
+						fprintf(stdout, " +monospace");
+					if (reader->parameter & events::reduced)
+						fprintf(stdout, " +reduced");
+				}
+				fprintf(stdout, "\n");
+			}
+			if (reader->type & cainteoir::events::text)
+			{
+				fprintf(stdout, "text(%zu): \"\"\"", reader->text->size());
+				fwrite(reader->text->begin(), 1, reader->text->size(), stdout);
+				fwrite("\"\"\"\n", 1, 4, stdout);
+			}
+			if (reader->type & cainteoir::events::end_context)
+				fprintf(stdout, "end-context\n");
+		}
 	}
 	catch (std::runtime_error &e)
 	{
