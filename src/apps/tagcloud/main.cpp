@@ -114,9 +114,9 @@ std::string normalise(const std::string & word)
 	return ret;
 }
 
-struct cloud : public cainteoir::document_events
+struct cloud
 {
-	void text(std::shared_ptr<cainteoir::buffer> aText)
+	void text(const std::shared_ptr<cainteoir::buffer> &aText)
 	{
 		std::istringstream ss(aText->str());
 
@@ -174,8 +174,18 @@ int main(int argc, char ** argv)
 
 		cloud cloud;
 		rdf::graph metadata;
-		if (!cainteoir::parseDocument(argv[0], cloud, metadata))
+		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
+		if (!reader)
+		{
 			fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), argv[0]);
+			return 0;
+		}
+
+		while (reader->read())
+		{
+			if (reader->type & cainteoir::events::text)
+				cloud.text(reader->text);
+		}
 
 		if (format == html_format)
 		{
