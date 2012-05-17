@@ -76,6 +76,9 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		if (mime::ncx.match(namespaceUri, rootName))
 			return createNcxReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
+		if (mime::opf.match(namespaceUri, rootName))
+			return createOpfReader(reader, aSubject, aPrimaryMetadata);
+
 		if (mime::rdfxml.match(namespaceUri, rootName))
 			return createRdfXmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
@@ -128,26 +131,6 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
                          rdf::graph &aGraph,
                          parser_flags flags)
 {
-	// XML documents ...
-
-	if (mime::xml.match(data))
-	{
-		cainteoir::xml::reader reader(data);
-		while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
-			;
-
-		std::string namespaceUri = reader.namespaceUri();
-		std::string rootName     = reader.nodeName().str();
-
-		if (mime::opf.match(namespaceUri, rootName))
-		{
-			cainteoir::parseOpfDocument(reader, subject, events, aGraph);
-			if ((flags & include_document_mimetype) == include_document_mimetype)
-				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(mime::opf.mime_type));
-			return true;
-		}
-	}
-
 	// Zip/Compressed documents ...
 
 	if (mime::zip.match(data))
@@ -157,8 +140,6 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 		if (mime::epub.match(data))
 		{
 			cainteoir::parseEpubDocument(archive, subject, events, aGraph);
-			if ((flags & include_document_mimetype) == include_document_mimetype)
-				aGraph.statement(subject, rdf::tts("mimetype"), rdf::literal(mime::epub.mime_type));
 			return true;
 		}
 

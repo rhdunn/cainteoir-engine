@@ -160,5 +160,10 @@ void cainteoir::parseEpubDocument(std::shared_ptr<cainteoir::archive> aData, con
 	while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
 		;
 
-	parseOpfDocument(reader, aSubject, epub, aGraph);
+	auto opf = createOpfReader(reader, aSubject, aGraph, "application/epub+zip");
+	if (opf) while (opf->read())
+	{
+		if (opf->type & cainteoir::events::toc_entry)
+			epub.anchor(opf->anchor, opf->text->str());
+	}
 }

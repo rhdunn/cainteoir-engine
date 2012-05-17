@@ -35,19 +35,6 @@ enum parser_flags
 
 namespace cainteoir
 {
-	/** @brief Open Publication Format (OPF)
-	  * @see   http://www.idpf.org/2007/opf/opf2.0/download/
-	  * @see   http://www.idpf.org/specs.htm
-	  *
-	  * @param reader   The XML document reader.
-	  * @param aSubject The subject to use for any Dublin Core metadata.
-	  * @param events   The events callback to handle document events.
-	  */
-	void parseOpfDocument(xml::reader &reader,
-	                      const rdf::uri &aSubject,
-	                      document_events &events,
-	                      rdf::graph &aGraph);
-
 	/** @brief ePub
 	  * @see   http://www.idpf.org/specs.htm
 	  *
@@ -138,6 +125,21 @@ namespace cainteoir
 	                const rdf::uri &aSubject,
 	                rdf::graph &aPrimaryMetadata,
 	                const std::string &aTitle);
+
+	/** @brief Open Package Format (OPF)
+	  *
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aMimeType        The mimetype to use in the metadata (defaults to the OPF mimetype).
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createOpfReader(xml::reader &aReader,
+	                const rdf::uri &aSubject,
+	                rdf::graph &aPrimaryMetadata,
+	                const char *aMimeType = "application/oebps-package+xml");
 
 	/** @brief Portable Document Format (PDF)
 	  *
