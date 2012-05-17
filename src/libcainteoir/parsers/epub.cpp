@@ -43,11 +43,16 @@ struct epub_document : public cainteoir::document_events
 		, mSubject(aSubject)
 		, mGraph(aGraph)
 	{
-		cainteoir::ocf_reader ocf(mEpub->read("META-INF/container.xml"));
-		while (ocf.read() && mOpfFile.empty())
+		cainteoir::xml::reader reader(mEpub->read("META-INF/container.xml"));
+		while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
+			;
+
+		rdf::graph innerMetadata;
+		auto ocf = cainteoir::createOcfReader(reader, aSubject, innerMetadata, std::string());
+		while (ocf->read() && mOpfFile.empty())
 		{
-			if (ocf.mediaType() == "application/oebps-package+xml")
-				mOpfFile = ocf.path();
+			if (!ocf->text->compare("application/oebps-package+xml"))
+				mOpfFile = ocf->anchor.str();
 		}
 
 		if (mOpfFile.empty())

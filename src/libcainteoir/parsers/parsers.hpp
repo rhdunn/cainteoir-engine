@@ -41,26 +41,6 @@ bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data,
 
 namespace cainteoir
 {
-	/** @brief Open Container Format (OCF)
-	  * @see   http://www.idpf.org/ocf/ocf1.0/download/ocf10.htm
-	  * @see   http://www.idpf.org/specs.htm
-	  */
-	class ocf_reader
-	{
-	public:
-		ocf_reader(std::shared_ptr<cainteoir::buffer> aData);
-
-		bool read();
-
-		const std::string &mediaType() const { return mMediaType; }
-
-		const std::string &path() const { return mPath; }
-	private:
-		xml::reader mReader;
-		std::string mMediaType;
-		std::string mPath;
-	};
-
 	/** @brief Open Publication Format (OPF)
 	  * @see   http://www.idpf.org/2007/opf/opf2.0/download/
 	  * @see   http://www.idpf.org/specs.htm
@@ -146,6 +126,21 @@ namespace cainteoir
 	  */
 	std::shared_ptr<document_reader>
 	createNcxReader(xml::reader &aReader,
+	                const rdf::uri &aSubject,
+	                rdf::graph &aPrimaryMetadata,
+	                const std::string &aTitle);
+
+	/** @brief Open Container Format (OCF)
+	  *
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createOcfReader(xml::reader &aReader,
 	                const rdf::uri &aSubject,
 	                rdf::graph &aPrimaryMetadata,
 	                const std::string &aTitle);
