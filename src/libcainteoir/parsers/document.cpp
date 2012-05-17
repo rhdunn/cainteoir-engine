@@ -61,6 +61,12 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		return createDocumentReader(decompressed, aSubject, aPrimaryMetadata, aTitle);
 	}
 
+	if (mime::epub.match(aData))
+	{
+		auto archive = create_zip_archive(aData, aSubject);
+		return createEpubReader(archive, aSubject, aPrimaryMetadata);
+	}
+
 	if (mime::xml.match(aData))
 	{
 		cainteoir::xml::reader reader(aData);
@@ -171,15 +177,9 @@ bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events 
 
 	// Zip/Compressed documents ...
 
-	if (mime::zip.match(data))
+	if (mime::zip.match(data) && !mime::epub.match(data))
 	{
 		auto archive = create_zip_archive(data, subject);
-
-		if (mime::epub.match(data))
-		{
-			cainteoir::parseEpubDocument(archive, subject, events, aGraph);
-			return true;
-		}
 
 		bool parsed = false;
 		const auto &files = archive->files();

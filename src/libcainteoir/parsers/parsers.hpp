@@ -23,26 +23,21 @@
 
 #include <cainteoir/document.hpp>
 #include <cainteoir/archive.hpp>
-#include <list>
-#include <map>
 
 namespace cainteoir
 {
-	/** @brief ePub
-	  * @see   http://www.idpf.org/specs.htm
+	/** @brief Electronic Publication (ePub)
 	  *
-	  * @param aData    The document data.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
+	  * @param[in]  aData            The document multi-document container.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  *
+	  * @return A reader over the document contents.
 	  */
-	void parseEpubDocument(std::shared_ptr<archive> aData,
-	                       const rdf::uri &aSubject,
-	                       document_events &events,
-	                       rdf::graph &aGraph);
-
-	/** @name Document Readers
-	  */
-	//@{
+	std::shared_ptr<document_reader>
+	createEpubReader(std::shared_ptr<archive> &aData,
+	                 const rdf::uri &aSubject,
+	                 rdf::graph &aPrimaryMetadata);
 
 	/** @brief HyperText Markup Language (HTML)
 	  *
@@ -238,8 +233,6 @@ namespace cainteoir
 	                  const rdf::uri &aSubject,
 	                  rdf::graph &aPrimaryMetadata,
 	                  const std::string &aTitle);
-
-	//@}
 }
 
 #endif
