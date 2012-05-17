@@ -31,35 +31,15 @@ namespace events = cainteoir::events;
 
 struct event_printer : public cainteoir::document_events
 {
-	event_printer(bool aTextOnly) : mTextOnly(aTextOnly)
-	{
-	}
-
 	void text(std::shared_ptr<cainteoir::buffer> aText)
 	{
-		if (!mTextOnly)
-			fprintf(stdout, "text(%zu): \"\"\"", aText->size());
+		fprintf(stdout, "text(%zu): \"\"\"", aText->size());
 		fwrite(aText->begin(), 1, aText->size(), stdout);
-		if (!mTextOnly)
-			fwrite("\"\"\"\n", 1, 4, stdout);
+		fwrite("\"\"\"\n", 1, 4, stdout);
 	}
 
 	void begin_context(events::context aContext, uint32_t aParameter)
 	{
-		if (mTextOnly)
-		{
-			switch (aContext)
-			{
-			case events::paragraph:
-			case events::heading:
-			case events::list:
-			case events::list_item:
-				fwrite("\n\n", 1, 2, stdout);
-				break;
-			}
-			return;
-		}
-
 		fprintf(stdout, "begin-context ");
 		switch (aContext)
 		{
@@ -85,23 +65,18 @@ struct event_printer : public cainteoir::document_events
 
 	void end_context()
 	{
-		if (!mTextOnly)
-			fprintf(stdout, "end-context\n");
+		fprintf(stdout, "end-context\n");
 	}
 
 	void toc_entry(int depth, const rdf::uri &location, const std::string &title)
 	{
-		if (!mTextOnly)
-			fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n", location.ns.c_str(), location.ref.c_str(), depth, title.c_str());
+		fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n", location.ns.c_str(), location.ref.c_str(), depth, title.c_str());
 	}
 
 	void anchor(const rdf::uri &location, const std::string &mimetype)
 	{
-		if (!mTextOnly)
-			fprintf(stdout, "anchor [%s]%s\n", location.ns.c_str(), location.ref.c_str());
+		fprintf(stdout, "anchor [%s]%s\n", location.ns.c_str(), location.ref.c_str());
 	}
-
-	bool mTextOnly;
 };
 
 int main(int argc, char ** argv)
@@ -114,7 +89,7 @@ int main(int argc, char ** argv)
 		if (argc == 0)
 			throw std::runtime_error("no document specified");
 
-		event_printer events(argc > 1 && !strcmp(argv[1], "--text-only"));
+		event_printer events;
 		rdf::graph metadata;
 		if (!cainteoir::parseDocument(argv[0], events, metadata))
 			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
