@@ -468,53 +468,6 @@ namespace cainteoir
 		};
 	}
 
-	struct document_events
-	{
-		/** @brief A block of text in the document.
-		  *
-		  * @param aText The text at the current point in the document.
-		  */
-		virtual void text(std::shared_ptr<cainteoir::buffer> aText) {}
-
-		/** @brief The start of a new context.
-		  *
-		  * @param aContext   The type of the context encountered.
-		  * @param aParameter A context-dependent parameter.
-		  *
-		  * A context defines a range of text in the document that is to be
-		  * interpreted in the way defined by the context. Contexts can nest
-		  * to form complex documents.
-		  *
-		  * If |aContext| is |heading| then |aParameter| is the heading depth,
-		  * otherwise it is a set of |style| flags that apply to this context.
-		  */
-		virtual void begin_context(events::context aContext, uint32_t aParameter=0) {}
-
-		/** @brief The end of the current context.
-		  */
-		virtual void end_context() {}
-
-		/** @brief A table of contents entry.
-		  *
-		  * @param depth    The indentation level of the entry.
-		  * @param location The anchor to which this entry points to.
-		  * @param title    The text to display for this entry.
-		  */
-		virtual void toc_entry(int depth, const rdf::uri &location, const std::string &title) {}
-
-		/** @brief An anchor point in the document.
-		  *
-		  * @param location The uri for this point in the document.
-		  * @param mimetype The mimetype of the document if this is a root document,
-		  *                 an empty string otherwise.
-		  *
-		  * The anchor binds to the next document event.
-		  */
-		virtual void anchor(const rdf::uri &location, const std::string &mimetype) {}
-
-		virtual ~document_events() {}
-	};
-
 	class document
 	{
 	public:
@@ -637,16 +590,6 @@ namespace cainteoir
 	  * @metadata The RDF graph to write the format support to.
 	  */
 	void supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities);
-
-	/** @brief Read the contents of a document.
-	  *
-	  * @param aFilename The path to the document.
-	  * @param events    The events callback to handle document events.
-	  *
-	  * @retval true  If aFilename contains a supported document format.
-	  * @retval false If aFilename contains an unsupported document format.
-	  */
-	bool parseDocument(const char *aFilename, document_events &events, rdf::graph &aGraph);
 
 	/** @brief Create a document content reader.
 	  *

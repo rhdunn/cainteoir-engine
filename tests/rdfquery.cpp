@@ -48,11 +48,11 @@ void match_(const rdf::literal &a, const rdf::literal &b, const char *ref, const
 
 #define match(a, b) match_(a, b, #a " == " #b, __FILE__, __LINE__)
 
-struct rdfdoc : public rdf::graph, public cainteoir::document_events
+struct rdfdoc : public rdf::graph
 {
 	rdfdoc(const char *filename)
 	{
-		parseDocument(filename, *this, *this);
+		auto reader = cainteoir::createDocumentReader(filename, *this, std::string());
 	}
 };
 

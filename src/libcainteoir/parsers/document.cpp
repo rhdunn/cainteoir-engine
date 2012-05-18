@@ -170,25 +170,3 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
 		mime::text.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 	}
 }
-
-bool cainteoir::parseDocument(const char *aFilename, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	auto reader = createDocumentReader(aFilename, aGraph);
-	if (!reader) return false;
-
-	while (reader->read())
-	{
-		if (reader->type & cainteoir::events::toc_entry)
-			events.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
-		if (reader->type & cainteoir::events::anchor)
-			events.anchor(reader->anchor, std::string());
-		if (reader->type & cainteoir::events::begin_context)
-			events.begin_context(reader->context, reader->parameter);
-		if (reader->type & cainteoir::events::text)
-			events.text(reader->text);
-		if (reader->type & cainteoir::events::end_context)
-			events.end_context();
-	}
-
-	return true;
-}
