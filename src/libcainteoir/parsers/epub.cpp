@@ -149,7 +149,7 @@ bool epub_document_reader::read()
 				type   = events::anchor;
 
 				rdf::graph innerMetadata;
-				child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string());
+				child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml");
 				is_toc = false;
 				return true;
 			}

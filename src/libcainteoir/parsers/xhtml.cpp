@@ -725,31 +725,10 @@ std::shared_ptr<cainteoir::document_reader>
 cainteoir::createHtmlReader(xml::reader &aReader,
                             const rdf::uri &aSubject,
                             rdf::graph &aPrimaryMetadata,
-                             const std::string &aTitle)
+                            const std::string &aTitle,
+	                    const char *aMimeType)
 {
-	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, "text/html", aTitle);
-}
-
-std::shared_ptr<cainteoir::document_reader>
-cainteoir::createHtmlReader(std::shared_ptr<buffer> &aData,
-                            const rdf::uri &aSubject,
-                            rdf::graph &aPrimaryMetadata,
-                            const std::string &aTitle)
-{
-	xml::reader reader(aData);
-	while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
-		;
-
-	return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
-}
-
-std::shared_ptr<cainteoir::document_reader>
-cainteoir::createXHtmlReader(xml::reader &aReader,
-                             const rdf::uri &aSubject,
-                             rdf::graph &aPrimaryMetadata,
-                             const std::string &aTitle)
-{
-	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, "application/xhtml+xml", aTitle);
+	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, aMimeType, aTitle);
 }
 
 /** References

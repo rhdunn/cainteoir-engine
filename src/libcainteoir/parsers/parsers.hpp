@@ -39,27 +39,13 @@ namespace cainteoir
 	                 const rdf::uri &aSubject,
 	                 rdf::graph &aPrimaryMetadata);
 
-	/** @brief HyperText Markup Language (HTML)
-	  *
-	  * @param[in]  aData            The document content.
-	  * @param[in]  aSubject         The RDF subject for the document metadata.
-	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
-	  * @param[in]  aTitle           The document title to use if none is specified.
-	  *
-	  * @return A reader over the document contents.
-	  */
-	std::shared_ptr<document_reader>
-	createHtmlReader(std::shared_ptr<buffer> &aData,
-	                 const rdf::uri &aSubject,
-	                 rdf::graph &aPrimaryMetadata,
-	                 const std::string &aTitle);
-
-	/** @brief HyperText Markup Language (HTML)
+	/** @brief (XML-based) HyperText Markup Language ((X)HTML)
 	  *
 	  * @param[in]  aReader          The XML document reader.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
 	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
 	  * @param[in]  aTitle           The document title to use if none is specified.
+	  * @param[in]  aMimeType        The mimetype to use in the metadata (defaults to the OPF mimetype).
 	  *
 	  * @return A reader over the document contents.
 	  */
@@ -67,7 +53,8 @@ namespace cainteoir
 	createHtmlReader(xml::reader &aReader,
 	                 const rdf::uri &aSubject,
 	                 rdf::graph &aPrimaryMetadata,
-	                 const std::string &aTitle);
+	                 const std::string &aTitle,
+	                 const char *aMimeType);
 
 	/** @brief Miltipurpose Internet Mail Extensions (MIME)
 	  *
@@ -218,21 +205,6 @@ namespace cainteoir
 	                 const rdf::uri &aSubject,
 	                 rdf::graph &aPrimaryMetadata,
 	                 const std::string &aTitle);
-
-	/** @brief XML-based HyperText Markup Language (XHTML)
-	  *
-	  * @param[in]  aReader          The XML document reader.
-	  * @param[in]  aSubject         The RDF subject for the document metadata.
-	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
-	  * @param[in]  aTitle           The document title to use if none is specified.
-	  *
-	  * @return A reader over the document contents.
-	  */
-	std::shared_ptr<document_reader>
-	createXHtmlReader(xml::reader &aReader,
-	                  const rdf::uri &aSubject,
-	                  rdf::graph &aPrimaryMetadata,
-	                  const std::string &aTitle);
 
 	/** @brief ZIP archive
 	  *
