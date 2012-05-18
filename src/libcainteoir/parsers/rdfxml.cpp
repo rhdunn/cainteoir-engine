@@ -320,8 +320,7 @@ struct rdfxml_document_reader : public cainteoir::document_reader
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createRdfXmlReader(xml::reader &aReader,
                               const rdf::uri &aSubject,
-                              rdf::graph &aPrimaryMetadata,
-                              const std::string &aTitle)
+                              rdf::graph &aPrimaryMetadata)
 {
 	aReader.set_nodes(xmlns::rdf, rdf_nodes);
 	aReader.set_attrs(xmlns::rdf, rdf_attrs);

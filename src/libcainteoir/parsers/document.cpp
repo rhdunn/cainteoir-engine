@@ -86,7 +86,7 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 			return createOpfReader(reader, aSubject, aPrimaryMetadata);
 
 		if (mime::rdfxml.match(namespaceUri, rootName))
-			return createRdfXmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
+			return createRdfXmlReader(reader, aSubject, aPrimaryMetadata);
 
 		if (mime::ssml.match(namespaceUri, rootName))
 			return createSsmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
