@@ -54,14 +54,14 @@ static const std::initializer_list<const xml::context::entry_ref> ocf_attrs =
 
 struct ocf_reader : public cainteoir::document_reader
 {
-	ocf_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
+	ocf_reader(xml::reader &aReader);
 
 	bool read();
 
 	xml::reader mReader;
 };
 
-ocf_reader::ocf_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
+ocf_reader::ocf_reader(xml::reader &aReader)
 	: mReader(aReader)
 {
 	mReader.set_nodes(xmlns::ocf, ocf_nodes);
@@ -112,10 +112,7 @@ bool ocf_reader::read()
 }
 
 std::shared_ptr<cainteoir::document_reader>
-cainteoir::createOcfReader(xml::reader &aReader,
-                           const rdf::uri &aSubject,
-                           rdf::graph &aPrimaryMetadata,
-                           const std::string &aTitle)
+cainteoir::createOcfReader(xml::reader &aReader)
 {
-	return std::make_shared<ocf_reader>(aReader, aSubject, aPrimaryMetadata, aTitle);
+	return std::make_shared<ocf_reader>(aReader);
 }

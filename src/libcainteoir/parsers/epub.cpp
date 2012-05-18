@@ -62,7 +62,7 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 		;
 
 	rdf::graph innerMetadata;
-	auto ocf = cainteoir::createOcfReader(ocf_reader, aSubject, innerMetadata, std::string());
+	auto ocf = cainteoir::createOcfReader(ocf_reader);
 	while (ocf->read() && opf_file.empty())
 	{
 		if (!ocf->text->compare("application/oebps-package+xml"))

@@ -89,17 +89,11 @@ namespace cainteoir
 	/** @brief Open Container Format (OCF)
 	  *
 	  * @param[in]  aReader          The XML document reader.
-	  * @param[in]  aSubject         The RDF subject for the document metadata.
-	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
-	  * @param[in]  aTitle           The document title to use if none is specified.
 	  *
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
-	createOcfReader(xml::reader &aReader,
-	                const rdf::uri &aSubject,
-	                rdf::graph &aPrimaryMetadata,
-	                const std::string &aTitle);
+	createOcfReader(xml::reader &aReader);
 
 	/** @brief Open Package Format (OPF)
 	  *
