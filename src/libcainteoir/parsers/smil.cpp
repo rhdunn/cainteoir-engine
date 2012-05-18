@@ -52,28 +52,31 @@ bool smil_document_reader::read()
 }
 
 std::shared_ptr<cainteoir::document_reader>
-cainteoir::createSmilReader(xml::reader &aReader,
+cainteoir::createSmilReader(const std::shared_ptr<xml::reader> &aReader,
                             const rdf::uri &aSubject,
                             rdf::graph &aPrimaryMetadata,
                             const std::string &aTitle)
 {
-	aReader.set_nodes(xmlns::smil, smil_nodes);
-	aReader.set_attrs(xmlns::smil, smil_attrs);
-	aReader.set_attrs(xmlns::xml,  xml::attrs);
+	if (!aReader)
+		return std::shared_ptr<document_reader>();
 
-	const xml::context::entry *current = aReader.context();
+	aReader->set_nodes(xmlns::smil, smil_nodes);
+	aReader->set_attrs(xmlns::smil, smil_attrs);
+	aReader->set_attrs(xmlns::xml,  xml::attrs);
 
-	while (aReader.read()) switch (aReader.nodeType())
+	const xml::context::entry *current = aReader->context();
+
+	while (aReader->read()) switch (aReader->nodeType())
 	{
 	case xml::reader::attribute:
 		if (current == &smil::smil_node)
 		{
-			if (aReader.context() == &xml::lang_attr)
-				aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(aReader.nodeValue().str()));
+			if (aReader->context() == &xml::lang_attr)
+				aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(aReader->nodeValue().str()));
 		}
 		break;
 	case xml::reader::beginTagNode:
-		current = aReader.context();
+		current = aReader->context();
 		break;
 	}
 

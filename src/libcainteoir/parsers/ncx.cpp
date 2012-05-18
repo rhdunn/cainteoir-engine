@@ -70,11 +70,11 @@ static const std::initializer_list<const xml::context::entry_ref> ncx_attrs =
 
 struct ncx_document_reader : public cainteoir::document_reader
 {
-	ncx_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
+	ncx_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
 
 	bool read();
 
-	xml::reader reader;
+	std::shared_ptr<xml::reader> reader;
 	rdf::uri mSubject;
 	std::string mTitle;
 	int mDepth;
@@ -99,14 +99,14 @@ bool ncx_document_reader::read()
 	text.reset();
 	anchor = rdf::uri();
 
-	while (reader.read()) switch (reader.nodeType())
+	while (reader->read()) switch (reader->nodeType())
 	{
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		if (current == &ncx::text_node)
 		{
 			if (outer == &ncx::navLabel_node)
-				text = reader.nodeValue().buffer();
+				text = reader->nodeValue().buffer();
 			current = outer = nullptr;
 			if (!anchor.empty())
 			{
@@ -118,9 +118,9 @@ bool ncx_document_reader::read()
 		}
 		break;
 	case xml::reader::attribute:
-		if (current == &ncx::content_node && reader.context() == &ncx::src_attr)
+		if (current == &ncx::content_node && reader->context() == &ncx::src_attr)
 		{
-			std::string src = reader.nodeValue().str();
+			std::string src = reader->nodeValue().str();
 			std::string::size_type ref = src.find('#');
 			if (ref == std::string::npos)
 				anchor = rdf::uri(src, std::string());
@@ -136,14 +136,14 @@ bool ncx_document_reader::read()
 		}
 		break;
 	case xml::reader::beginTagNode:
-		current = reader.context();
+		current = reader->context();
 		if (current == &ncx::navPoint_node)
 			++mDepth;
 		else if (current == &ncx::navLabel_node)
-			outer = reader.context();
+			outer = reader->context();
 		break;
 	case xml::reader::endTagNode:
-		if (reader.context() == &ncx::navPoint_node)
+		if (reader->context() == &ncx::navPoint_node)
 			--mDepth;
 		break;
 	}
@@ -151,13 +151,13 @@ bool ncx_document_reader::read()
 	return false;
 }
 
-ncx_document_reader::ncx_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
+ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
 	: reader(aReader)
 	, mSubject(aSubject)
 	, mDepth(0)
 {
-	reader.set_nodes(xmlns::ncx, ncx_nodes);
-	reader.set_attrs(xmlns::ncx, ncx_attrs);
+	reader->set_nodes(xmlns::ncx, ncx_nodes);
+	reader->set_attrs(xmlns::ncx, ncx_attrs);
 
 	const xml::context::entry *outer   = nullptr;
 	const xml::context::entry *current = nullptr;
@@ -167,13 +167,13 @@ ncx_document_reader::ncx_document_reader(xml::reader &aReader, const rdf::uri &a
 	std::string title;
 	bool in_header = true;
 
-	while (in_header && reader.read()) switch (reader.nodeType())
+	while (in_header && reader->read()) switch (reader->nodeType())
 	{
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		if (current == &ncx::text_node)
 		{
-			std::string value = reader.nodeValue().str();
+			std::string value = reader->nodeValue().str();
 			if (outer == &ncx::docAuthor_node)
 			{
 				aPrimaryMetadata.statement(aSubject, rdf::dc("creator"), rdf::literal(value));
@@ -189,25 +189,25 @@ ncx_document_reader::ncx_document_reader(xml::reader &aReader, const rdf::uri &a
 	case xml::reader::attribute:
 		if (current == &ncx::meta_node && outer == &ncx::head_node)
 		{
-			if (reader.context() == &ncx::name_attr)
-				name = reader.nodeValue().str();
-			else if (reader.context() == &ncx::content_attr)
-				content = reader.nodeValue().str();
+			if (reader->context() == &ncx::name_attr)
+				name = reader->nodeValue().str();
+			else if (reader->context() == &ncx::content_attr)
+				content = reader->nodeValue().str();
 		}
 		break;
 	case xml::reader::beginTagNode:
-		current = reader.context();
-		if (reader.context() == &ncx::head_node)
-			outer = reader.context();
-		else if (reader.context() == &ncx::docAuthor_node)
-			outer = reader.context();
-		else if (reader.context() == &ncx::docTitle_node)
-			outer = reader.context();
-		else if (reader.context() == &ncx::navMap_node)
+		current = reader->context();
+		if (reader->context() == &ncx::head_node)
+			outer = reader->context();
+		else if (reader->context() == &ncx::docAuthor_node)
+			outer = reader->context();
+		else if (reader->context() == &ncx::docTitle_node)
+			outer = reader->context();
+		else if (reader->context() == &ncx::navMap_node)
 			in_header = false;
 		break;
 	case xml::reader::endTagNode:
-		if (reader.context() == &ncx::meta_node)
+		if (reader->context() == &ncx::meta_node)
 		{
 			if (name.find("dtb:") == 0)
 			{
@@ -218,7 +218,7 @@ ncx_document_reader::ncx_document_reader(xml::reader &aReader, const rdf::uri &a
 					aPrimaryMetadata.statement(aSubject, rdf::dtb(meta), rdf::literal(content));
 			}
 		}
-		else if (reader.context() == &ncx::head_node)
+		else if (reader->context() == &ncx::head_node)
 			outer = nullptr;
 		current = nullptr;
 		break;
@@ -228,7 +228,7 @@ ncx_document_reader::ncx_document_reader(xml::reader &aReader, const rdf::uri &a
 }
 
 std::shared_ptr<cainteoir::document_reader>
-cainteoir::createNcxReader(xml::reader &aReader,
+cainteoir::createNcxReader(const std::shared_ptr<xml::reader> &aReader,
                            const rdf::uri &aSubject,
                            rdf::graph &aPrimaryMetadata,
                            const std::string &aTitle)

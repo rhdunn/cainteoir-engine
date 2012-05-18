@@ -468,7 +468,7 @@ void parseOpfSpine(xml::reader &reader, std::list<std::string> &aSpine, std::map
 
 struct opf_document_reader : public cainteoir::document_reader
 {
-	opf_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType);
+	opf_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType);
 
 	bool read();
 
@@ -477,30 +477,30 @@ struct opf_document_reader : public cainteoir::document_reader
 	std::list<std::string>::iterator mCurrent;
 };
 
-opf_document_reader::opf_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType)
+opf_document_reader::opf_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType)
 {
-	aReader.set_nodes(xmlns::opf, opf_nodes);
-	aReader.set_attrs(xmlns::opf, opf_attrs);
-	aReader.set_nodes(xmlns::dc,  dc_nodes);
-	aReader.set_attrs(xmlns::xml, xml::attrs);
+	aReader->set_nodes(xmlns::opf, opf_nodes);
+	aReader->set_attrs(xmlns::opf, opf_attrs);
+	aReader->set_nodes(xmlns::dc,  dc_nodes);
+	aReader->set_attrs(xmlns::xml, xml::attrs);
 
 	aPrimaryMetadata.set_base(rdf::pkg.href);
 
-	while (aReader.read()) switch (aReader.nodeType())
+	while (aReader->read()) switch (aReader->nodeType())
 	{
 	case xml::reader::attribute:
-		if (aReader.context() == &opf::version_attr && aReader.nodeValue().str() == "3.0")
+		if (aReader->context() == &opf::version_attr && aReader->nodeValue().str() == "3.0")
 			aPrimaryMetadata << rdf::ns("dcterms", rdf::dcterms.href) << rdf::media << rdf::xsd;
-		else if (aReader.context() == &opf::prefix_attr)
-			aPrimaryMetadata.add_prefix(aReader.nodeValue().str());
+		else if (aReader->context() == &opf::prefix_attr)
+			aPrimaryMetadata.add_prefix(aReader->nodeValue().str());
 		break;
 	case xml::reader::beginTagNode:
-		if (aReader.context() == &opf::metadata_node)
-			parseOpfMetadata(aReader, aSubject, aPrimaryMetadata, aReader.context());
-		else if (aReader.context() == &opf::manifest_node)
-			parseOpfManifest(aReader, mFiles);
-		else if (aReader.context() == &opf::spine_node)
-			parseOpfSpine(aReader, mSpine, mFiles);
+		if (aReader->context() == &opf::metadata_node)
+			parseOpfMetadata(*aReader, aSubject, aPrimaryMetadata, aReader->context());
+		else if (aReader->context() == &opf::manifest_node)
+			parseOpfManifest(*aReader, mFiles);
+		else if (aReader->context() == &opf::spine_node)
+			parseOpfSpine(*aReader, mSpine, mFiles);
 		break;
 	}
 
@@ -526,10 +526,13 @@ bool opf_document_reader::read()
 }
 
 std::shared_ptr<cainteoir::document_reader>
-cainteoir::createOpfReader(xml::reader &aReader,
+cainteoir::createOpfReader(const std::shared_ptr<xml::reader> &aReader,
                            const rdf::uri &aSubject,
                            rdf::graph &aPrimaryMetadata,
                            const char *aMimeType)
 {
+	if (!aReader)
+		return std::shared_ptr<document_reader>();
+
 	return std::make_shared<opf_document_reader>(aReader, aSubject, aPrimaryMetadata, aMimeType);
 }

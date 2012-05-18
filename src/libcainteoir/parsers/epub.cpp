@@ -57,13 +57,8 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 	, mSubject(aSubject)
 	, is_toc(false)
 {
-	cainteoir::xml::reader ocf_reader(mData->read("META-INF/container.xml"));
-	while (ocf_reader.read() && ocf_reader.nodeType() != cainteoir::xml::reader::beginTagNode)
-		;
-
-	rdf::graph innerMetadata;
-	auto ocf = cainteoir::createOcfReader(ocf_reader);
-	while (ocf->read() && opf_file.empty())
+	auto ocf = cainteoir::createOcfReader(cainteoir::createXmlReader(mData->read("META-INF/container.xml")));
+	if (ocf) while (ocf->read() && opf_file.empty())
 	{
 		if (!ocf->text->compare("application/oebps-package+xml"))
 			opf_file = ocf->anchor.str();
@@ -72,13 +67,9 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 	if (opf_file.empty())
 		throw std::runtime_error(i18n("Unsupported ePub content: OPF file not specified."));
 
-	auto data = mData->read(opf_file.c_str());
-	if (!data)
+	auto reader = cainteoir::createXmlReader(mData->read(opf_file.c_str()));
+	if (!reader)
 		throw std::runtime_error(i18n("Unsupported ePub content: OPF file not found."));
-
-	cainteoir::xml::reader reader(data);
-	while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
-		;
 
 	opf = cainteoir::createOpfReader(reader, aSubject, aPrimaryMetadata, "application/epub+zip");
 }
@@ -125,16 +116,12 @@ bool epub_document_reader::read()
 		if (opf->type & cainteoir::events::toc_entry)
 		{
 			std::string filename = path_to(opf->anchor.ns, opf_file);
-			auto doc = mData->read(filename.c_str());
-			if (!doc)
+			auto reader = cainteoir::createXmlReader(mData->read(filename.c_str()));
+			if (!reader)
 			{
 				fprintf(stderr, i18n("document '%s' not found in ePub archive.\n"), filename.c_str());
 				continue;
 			}
-
-			cainteoir::xml::reader reader(doc);
-			while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
-				;
 
 			if (!opf->text->compare("application/x-dtbncx+xml"))
 			{

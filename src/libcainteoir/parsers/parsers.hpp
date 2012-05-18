@@ -50,7 +50,7 @@ namespace cainteoir
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
-	createHtmlReader(xml::reader &aReader,
+	createHtmlReader(const std::shared_ptr<xml::reader> &aReader,
 	                 const rdf::uri &aSubject,
 	                 rdf::graph &aPrimaryMetadata,
 	                 const std::string &aTitle,
@@ -81,7 +81,7 @@ namespace cainteoir
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
-	createNcxReader(xml::reader &aReader,
+	createNcxReader(const std::shared_ptr<xml::reader> &aReader,
 	                const rdf::uri &aSubject,
 	                rdf::graph &aPrimaryMetadata,
 	                const std::string &aTitle);
@@ -93,7 +93,7 @@ namespace cainteoir
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
-	createOcfReader(xml::reader &aReader);
+	createOcfReader(const std::shared_ptr<xml::reader> &aReader);
 
 	/** @brief Open Package Format (OPF)
 	  *
@@ -105,7 +105,7 @@ namespace cainteoir
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
-	createOpfReader(xml::reader &aReader,
+	createOpfReader(const std::shared_ptr<xml::reader> &aReader,
 	                const rdf::uri &aSubject,
 	                rdf::graph &aPrimaryMetadata,
 	                const char *aMimeType = "application/oebps-package+xml");
@@ -149,7 +149,7 @@ namespace cainteoir
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
-	createRdfXmlReader(xml::reader &aReader,
+	createRdfXmlReader(const std::shared_ptr<xml::reader> &aReader,
 	                   const rdf::uri &aSubject,
 	                   rdf::graph &aPrimaryMetadata);
 
@@ -178,7 +178,7 @@ namespace cainteoir
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
-	createSmilReader(xml::reader &aReader,
+	createSmilReader(const std::shared_ptr<xml::reader> &aReader,
 	                 const rdf::uri &aSubject,
 	                 rdf::graph &aPrimaryMetadata,
 	                 const std::string &aTitle);
@@ -193,10 +193,19 @@ namespace cainteoir
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
-	createSsmlReader(xml::reader &aReader,
+	createSsmlReader(const std::shared_ptr<xml::reader> &aReader,
 	                 const rdf::uri &aSubject,
 	                 rdf::graph &aPrimaryMetadata,
 	                 const std::string &aTitle);
+
+	/** @brief eXtensible Markup Language (XML)
+	  *
+	  * @param[in]  aData            The document multi-document container.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<xml::reader>
+	createXmlReader(const std::shared_ptr<buffer> &aData);
 
 	/** @brief ZIP archive
 	  *

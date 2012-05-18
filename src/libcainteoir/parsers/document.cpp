@@ -46,6 +46,18 @@ std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 	return data.buffer();
 }
 
+std::shared_ptr<cainteoir::xml::reader>
+cainteoir::createXmlReader(const std::shared_ptr<buffer> &aData)
+{
+	if (!aData)
+		return std::shared_ptr<xml::reader>();
+
+	std::shared_ptr<xml::reader> reader = std::make_shared<xml::reader>(aData);
+	while (reader->read() && reader->nodeType() != cainteoir::xml::reader::beginTagNode)
+		;
+	return reader;
+}
+
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
                                 const rdf::uri &aSubject,
@@ -69,12 +81,9 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 
 	if (mime::xml.match(aData))
 	{
-		cainteoir::xml::reader reader(aData);
-		while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
-			;
-
-		std::string namespaceUri = reader.namespaceUri();
-		std::string rootName     = reader.nodeName().str();
+		auto reader = cainteoir::createXmlReader(aData);
+		std::string namespaceUri = reader->namespaceUri();
+		std::string rootName     = reader->nodeName().str();
 
 		if (mime::xhtml.match(namespaceUri, rootName))
 			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml");
@@ -102,10 +111,7 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 
 	if (mime::html.match(aData))
 	{
-		cainteoir::xml::reader reader(aData);
-		while (reader.read() && reader.nodeType() != cainteoir::xml::reader::beginTagNode)
-			;
-
+		auto reader = cainteoir::createXmlReader(aData);
 		return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "text/html");
 	}
 

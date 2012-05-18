@@ -64,48 +64,48 @@ static const std::initializer_list<const xml::context::entry_ref> ssml_attrs =
 
 struct ssml_document_reader : public cainteoir::document_reader
 {
-	ssml_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
+	ssml_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
 
 	bool read();
 
-	xml::reader reader;
+	std::shared_ptr<xml::reader> reader;
 };
 
-ssml_document_reader::ssml_document_reader(xml::reader &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
+ssml_document_reader::ssml_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
 	: reader(aReader)
 {
-	reader.set_nodes(xmlns::ssml, ssml_nodes);
-	reader.set_attrs(xmlns::ssml, ssml_attrs);
-	reader.set_attrs(xmlns::xml,  xml::attrs);
+	reader->set_nodes(xmlns::ssml, ssml_nodes);
+	reader->set_attrs(xmlns::ssml, ssml_attrs);
+	reader->set_attrs(xmlns::xml,  xml::attrs);
 
-	const xml::context::entry *current = reader.context();
+	const xml::context::entry *current = reader->context();
 	std::string name;
 	std::string content;
 
 	bool in_header = true;
-	while (in_header && reader.read()) switch (reader.nodeType())
+	while (in_header && reader->read()) switch (reader->nodeType())
 	{
 	case xml::reader::attribute:
 		if (current == &ssml::speak_node)
 		{
-			if (reader.context() == &xml::lang_attr)
-				aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(reader.nodeValue().str()));
+			if (reader->context() == &xml::lang_attr)
+				aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(reader->nodeValue().str()));
 		}
 		else if (current == &ssml::meta_node)
 		{
-			if (reader.context() == &ssml::name_attr)
-				name = reader.nodeValue().str();
-			else if (reader.context() == &ssml::content_attr)
-				content = reader.nodeValue().str();
+			if (reader->context() == &ssml::name_attr)
+				name = reader->nodeValue().str();
+			else if (reader->context() == &ssml::content_attr)
+				content = reader->nodeValue().str();
 		}
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		text = reader.nodeValue().normalize();
+		text = reader->nodeValue().normalize();
 		in_header = text->empty();
 		break;
 	case xml::reader::beginTagNode:
-		current = reader.context();
+		current = reader->context();
 		if (current != &ssml::meta_node)
 			in_header = false;
 		break;
@@ -129,12 +129,12 @@ bool ssml_document_reader::read()
 {
 	const xml::context::entry *current = nullptr;
 
-	do switch (reader.nodeType())
+	do switch (reader->nodeType())
 	{
 	case xml::reader::attribute:
-		if (current == &ssml::emphasis_node && reader.context() == &ssml::level_attr)
+		if (current == &ssml::emphasis_node && reader->context() == &ssml::level_attr)
 		{
-			std::string value = reader.nodeValue().str();
+			std::string value = reader->nodeValue().str();
 			if (value == "strong")
 				current = &ssml::emphasis_strong;
 			else if (value == "reduced")
@@ -145,7 +145,7 @@ bool ssml_document_reader::read()
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		text = reader.nodeValue().content();
+		text = reader->nodeValue().content();
 		type = 0;
 		if (text)
 		{
@@ -163,34 +163,37 @@ bool ssml_document_reader::read()
 		if (type != 0)
 		{
 			anchor    = rdf::uri();
-			reader.read();
+			reader->read();
 			return true;
 		}
 		break;
 	case xml::reader::beginTagNode:
-		current = reader.context();
+		current = reader->context();
 		break;
 	case xml::reader::endTagNode:
 		current = nullptr;
-		if (reader.context()->context != events::unknown)
+		if (reader->context()->context != events::unknown)
 		{
 			type      = events::end_context;
-			context   = (events::context)reader.context()->context;
-			parameter = reader.context()->parameter;
-			reader.read();
+			context   = (events::context)reader->context()->context;
+			parameter = reader->context()->parameter;
+			reader->read();
 			return true;
 		}
 		break;
-	} while (reader.read());
+	} while (reader->read());
 
 	return false;
 }
 
 std::shared_ptr<cainteoir::document_reader>
-cainteoir::createSsmlReader(xml::reader &aReader,
+cainteoir::createSsmlReader(const std::shared_ptr<xml::reader> &aReader,
                             const rdf::uri &aSubject,
                             rdf::graph &aPrimaryMetadata,
                             const std::string &aTitle)
 {
+	if (!aReader)
+		return std::shared_ptr<document_reader>();
+
 	return std::make_shared<ssml_document_reader>(aReader, aSubject, aPrimaryMetadata, aTitle);
 }
