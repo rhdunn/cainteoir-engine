@@ -94,6 +94,7 @@ for csv in os.listdir('.'):
 		specs[ref] = data
 
 for ref, spec in specs.items():
+	print 'generating %s.html ...' % ref
 	with open('%s.html' % ref, 'w') as f:
 		f.write('---\n')
 		f.write('layout: rdfa\n')
@@ -117,7 +118,7 @@ for ref, spec in specs.items():
 			f.write('\t&raquo;\n')
 			f.write('\t<span>%s</span>\n' % spec['version'])
 		f.write('</div>\n')
-		if len(spec['references']) != 0:
+		if 'references' in spec.keys() and len(spec['references']) != 0:
 			f.write('<ol class="toc">\n')
 			f.write('\t<li><a href="#status">Implementation Status</a></li>\n')
 			f.write('\t<li><a href="#references">References</a></li>\n')
@@ -164,7 +165,7 @@ for ref, spec in specs.items():
 				f.write('\t\t<td>%s</td>\n' % data['comments'])
 			f.write('\t</tr>\n')
 		f.write('</table>\n')
-		if len(spec['references']) != 0:
+		if 'references' in spec.keys() and len(spec['references']) != 0:
 			f.write('<h2 id="references">References</h2>\n')
 			f.write('<ol class="references">\n')
 			for ref in spec['references']:
