@@ -107,12 +107,12 @@ for ref, spec in specs.items():
 		f.write('keywords: text to speech, tts, cainteoir, %s\n' % spec['name'].lower())
 		f.write('---\n')
 		f.write('<div class="nav">\n')
-		f.write('\t<a href="index.html">Home</a>\n')
+		f.write('\t<a href="../index.html">Home</a>\n')
 		f.write('\t&raquo;\n')
 		if ref == 'document':
 			f.write('\t<span>Document Format Support</span>\n')
 		else:
-			f.write('\t<a href="listen.html">Document Format Support</a>\n')
+			f.write('\t<a href="document.html">Document Format Support</a>\n')
 			f.write('\t&raquo;\n')
 			if spec['version'] == '':
 				f.write('\t<span>%s</span>\n' % spec['name'])
