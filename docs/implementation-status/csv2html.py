@@ -109,14 +109,17 @@ for ref, spec in specs.items():
 		f.write('<div class="nav">\n')
 		f.write('\t<a href="index.html">Home</a>\n')
 		f.write('\t&raquo;\n')
-		f.write('\t<a href="listen.html">Document Format Support</a>\n')
-		f.write('\t&raquo;\n')
-		if spec['version'] == '':
-			f.write('\t<span>%s</span>\n' % spec['name'])
+		if ref == 'document':
+			f.write('\t<span>Document Format Support</span>\n')
 		else:
-			f.write('\t<a href="%s.html">%s</a>\n' % (spec['name'].lower().replace('/', ''), spec['name']))
+			f.write('\t<a href="listen.html">Document Format Support</a>\n')
 			f.write('\t&raquo;\n')
-			f.write('\t<span>%s</span>\n' % spec['version'])
+			if spec['version'] == '':
+				f.write('\t<span>%s</span>\n' % spec['name'])
+			else:
+				f.write('\t<a href="%s.html">%s</a>\n' % (spec['name'].lower().replace('/', ''), spec['name']))
+				f.write('\t&raquo;\n')
+				f.write('\t<span>%s</span>\n' % spec['version'])
 		f.write('</div>\n')
 		if 'references' in spec.keys() and len(spec['references']) != 0:
 			f.write('<ol class="toc">\n')
