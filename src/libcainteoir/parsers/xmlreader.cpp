@@ -23,6 +23,7 @@
 #include "i18n.h"
 
 #include <cainteoir/xmlreader.hpp>
+#include <cainteoir/unicode.hpp>
 
 using cainteoir::xml::entity;
 using cainteoir::xml::entity_set;
@@ -62,41 +63,18 @@ const char * cainteoir::xml::lookup_entity(const entity_set **entities, const ca
 	return nullptr;
 }
 
-void write_utf8(char * out, long c)
-{
-	if (c < 0x80)
-		*out++ = c;
-	else if (c < 0x800)
-	{
-		*out++ = 0xC0 | (c >> 6);
-		*out++ = 0x80 + (c & 0x3F);
-	}
-	else if (c < 0x10000)
-	{
-		*out++ = 0xE0 | (c >> 12);
-		*out++ = 0x80 + ((c >> 6) & 0x3F);
-		*out++ = 0x80 + (c & 0x3F);
-	}
-	else if (c < 0x200000)
-	{
-		*out++ = 0xF0 | (c >> 18);
-		*out++ = 0x80 + ((c >> 12) & 0x3F);
-		*out++ = 0x80 + ((c >>  6) & 0x3F);
-		*out++ = 0x80 + (c & 0x3F);
-	}
-	*out = '\0';
-}
-
 std::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity, const cainteoir::xml::entity_set **entities, const std::map<std::string, std::string> &doctypeEntities)
 {
 	const char * str = entity.begin();
 	if (*str == '#')
 	{
 		char utf8[10];
+		char *end;
 		if (*++str == 'x')
-			write_utf8(utf8, strtol(++str, nullptr, 16));
+			end = cainteoir::utf8::write(utf8, strtol(++str, nullptr, 16));
 		else
-			write_utf8(utf8, strtol(str, nullptr, 10));
+			end = cainteoir::utf8::write(utf8, strtol(str, nullptr, 10));
+		*end = '\0';
 
 		if (utf8[0])
 		{
@@ -208,13 +186,13 @@ const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir:
 	{ "space", &xml::space_attr },
 };
 
-const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &aNS, const cainteoir::buffer &aNode, const entries &aEntries) const
+const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &aNS, const cainteoir::buffer &aNode) const
 {
-	auto entryset = aEntries.find(aNS);
-	if (entryset == aEntries.end() && *(--aNS.end()) == '#')
-		entryset = aEntries.find(aNS.substr(0, aNS.size() - 1));
+	auto entryset = mNodes.find(aNS);
+	if (entryset == mNodes.end() && *(--aNS.end()) == '#')
+		entryset = mNodes.find(aNS.substr(0, aNS.size() - 1));
 
-	if (entryset == aEntries.end())
+	if (entryset == mNodes.end())
 		return &unknown_context;
 
 	int begin = 0;
@@ -309,7 +287,7 @@ bool cainteoir::xml::reader::read()
 			mState.nodeName = mTagNodeName;
 			mState.nodePrefix = mTagNodePrefix;
 			mNodeType = endTagNode;
-			mContext = lookup_node(namespaceUri(), nodeName());
+			reset_context();
 			if (mImplicitEndTag)
 			{
 				if (*mState.current == '/')
@@ -324,7 +302,7 @@ bool cainteoir::xml::reader::read()
 		if (xmlalnum(*mState.current)) // XML§3.1 ; HTML§12.1.2.3
 		{
 			read_tag(attribute);
-			mContext = lookup_attr(namespaceUri(), nodeName());
+			reset_context();
 			if (check_next('='))
 			{
 				if (check_next('"')) // XML§3.1 ; HTML§12.1.2.3 -- double-quoted attribute value
@@ -472,7 +450,7 @@ bool cainteoir::xml::reader::read()
 		case '/': // XML§3.1 ; HTML§12.1.2.2 -- End Tag
 			++mState.current;
 			read_tag(endTagNode);
-			mContext = lookup_node(namespaceUri(), nodeName());
+			reset_context();
 			break;
 		default: // XML§3.1 ; HTML§12.1.2.1 -- Start Tag
 			if (mState.state != ParsingXmlNamespaces)
@@ -496,7 +474,7 @@ bool cainteoir::xml::reader::read()
 				mTagNodePrefix = mState.nodePrefix;
 
 				mNodeType = beginTagNode;
-				mContext = lookup_node(namespaceUri(), nodeName());
+				reset_context();
 				if (mContext->parse_type == xml::context::implicit_end_tag)
 					mImplicitEndTag = true;
 			}
@@ -624,6 +602,20 @@ void cainteoir::xml::reader::read_tag(node_type aType)
 	{
 		mTagNodeName = mState.nodeName;
 		mTagNodePrefix = mState.nodePrefix;
+	}
+}
+
+void cainteoir::xml::reader::reset_context()
+{
+	switch (mNodeType)
+	{
+	case attribute:
+		mContext = mAttrs.lookup(namespaceUri(), nodeName());
+		break;
+	case beginTagNode:
+	case endTagNode:
+		mContext = mNodes.lookup(namespaceUri(), nodeName());
+		break;
 	}
 }
 

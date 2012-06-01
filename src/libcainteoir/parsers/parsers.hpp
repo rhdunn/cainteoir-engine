@@ -22,112 +22,199 @@
 #define CAINTEOIR_ENGINE_PARSERS_HPP
 
 #include <cainteoir/document.hpp>
-#include <list>
-#include <map>
-
-bool parseDocumentBuffer(std::shared_ptr<cainteoir::buffer> &data, const cainteoir::rdf::uri &subject, cainteoir::document_events &events, cainteoir::rdf::graph &aGraph, bool includeMimetypeMetadata);
+#include <cainteoir/archive.hpp>
 
 namespace cainteoir
 {
-	/** @brief Open Container Format (OCF)
-	  * @see   http://www.idpf.org/ocf/ocf1.0/download/ocf10.htm
-	  * @see   http://www.idpf.org/specs.htm
+	/** @brief Electronic Publication (ePub)
+	  *
+	  * @param[in]  aData            The document multi-document container.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  *
+	  * @return A reader over the document contents.
 	  */
-	class ocf_reader
-	{
-	public:
-		ocf_reader(std::shared_ptr<cainteoir::buffer> aData);
+	std::shared_ptr<document_reader>
+	createEpubReader(std::shared_ptr<archive> &aData,
+	                 const rdf::uri &aSubject,
+	                 rdf::graph &aPrimaryMetadata);
 
-		bool read();
+	/** @brief (XML-based) HyperText Markup Language ((X)HTML)
+	  *
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  * @param[in]  aMimeType        The mimetype to use in the metadata (defaults to the OPF mimetype).
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createHtmlReader(const std::shared_ptr<xml::reader> &aReader,
+	                 const rdf::uri &aSubject,
+	                 rdf::graph &aPrimaryMetadata,
+	                 const std::string &aTitle,
+	                 const char *aMimeType);
 
-		const std::string &mediaType() const { return mMediaType; }
-
-		const std::string &path() const { return mPath; }
-	private:
-		xml::reader mReader;
-		std::string mMediaType;
-		std::string mPath;
-	};
+	/** @brief Miltipurpose Internet Mail Extensions (MIME)
+	  *
+	  * @param[in]  aData            The document content.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createMimeReader(std::shared_ptr<buffer> &aData,
+	                 const rdf::uri &aSubject,
+	                 rdf::graph &aPrimaryMetadata,
+	                 const std::string &aTitle);
 
 	/** @brief Navigation Control File (NCX)
-	  * @see   http://www.niso.org/workrooms/daisy/Z39-86-2005.html#NCX
 	  *
-	  * @param reader   The XML document reader.
-	  * @param aSubject The subject to use for any metadata.
-	  * @param events   The events callback to handle document events.
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
 	  */
-	void parseNcxDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	std::shared_ptr<document_reader>
+	createNcxReader(const std::shared_ptr<xml::reader> &aReader,
+	                const rdf::uri &aSubject,
+	                rdf::graph &aPrimaryMetadata,
+	                const std::string &aTitle);
 
-	/** @brief Open Publication Format (OPF)
-	  * @see   http://www.idpf.org/2007/opf/opf2.0/download/
-	  * @see   http://www.idpf.org/specs.htm
+	/** @brief Open Container Format (OCF)
 	  *
-	  * @param reader   The XML document reader.
-	  * @param aSubject The subject to use for any Dublin Core metadata.
-	  * @param events   The events callback to handle document events.
+	  * @param[in]  aReader          The XML document reader.
+	  *
+	  * @return A reader over the document contents.
 	  */
-	void parseOpfDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	std::shared_ptr<document_reader>
+	createOcfReader(const std::shared_ptr<xml::reader> &aReader);
 
-	/** @brief XML encoded HTML (XHTML)
-	  * @see   http://www.w3.org/TR/xhtml1/
+	/** @brief Open Package Format (OPF)
 	  *
-	  * @param reader   The XML document reader.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aMimeType        The mimetype to use in the metadata (defaults to the OPF mimetype).
+	  *
+	  * @return A reader over the document contents.
 	  */
-	void parseXHtmlDocument(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
+	std::shared_ptr<document_reader>
+	createOpfReader(const std::shared_ptr<xml::reader> &aReader,
+	                const rdf::uri &aSubject,
+	                rdf::graph &aPrimaryMetadata,
+	                const char *aMimeType = "application/oebps-package+xml");
+
+	/** @brief Portable Document Format (PDF)
+	  *
+	  * @param[in]  aData            The document content.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createPdfReader(std::shared_ptr<buffer> &aData,
+	                const rdf::uri &aSubject,
+	                rdf::graph &aPrimaryMetadata,
+	                const std::string &aTitle);
+
+	/** @brief Plain Text
+	  *
+	  * @param[in]  aData            The document content.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createPlainTextReader(std::shared_ptr<buffer> &aData,
+	                      const rdf::uri &aSubject,
+	                      rdf::graph &aPrimaryMetadata,
+	                      const std::string &aTitle);
 
 	/** @brief RDF/XML
-	  * @see   http://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/
 	  *
-	  * @param reader   The XML document reader.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  *
+	  * @return A reader over the document contents.
 	  */
-	void parseRdfXmlDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	std::shared_ptr<document_reader>
+	createRdfXmlReader(const std::shared_ptr<xml::reader> &aReader,
+	                   const rdf::uri &aSubject,
+	                   rdf::graph &aPrimaryMetadata);
+
+	/** @brief Rich Text Format (RTF)
+	  *
+	  * @param[in]  aData            The document content.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createRtfReader(std::shared_ptr<buffer> &aData,
+	                const rdf::uri &aSubject,
+	                rdf::graph &aPrimaryMetadata,
+	                const std::string &aTitle);
 
 	/** @brief Synchronized Multimedia Integration Language (SMIL)
-	  * @see   http://www.w3.org/TR/2008/REC-SMIL3-20081201/
 	  *
-	  * @param reader   The XML document reader.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
 	  */
-	void parseSmilDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	std::shared_ptr<document_reader>
+	createSmilReader(const std::shared_ptr<xml::reader> &aReader,
+	                 const rdf::uri &aSubject,
+	                 rdf::graph &aPrimaryMetadata,
+	                 const std::string &aTitle);
 
 	/** @brief Speech Synthesis Markup Language (SSML)
-	  * @see   http://www.w3.org/TR/speech-synthesis/
 	  *
-	  * @param reader   The XML document reader.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
+	  * @param[in]  aReader          The XML document reader.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
 	  */
-	void parseSsmlDocument(xml::reader &reader, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	std::shared_ptr<document_reader>
+	createSsmlReader(const std::shared_ptr<xml::reader> &aReader,
+	                 const rdf::uri &aSubject,
+	                 rdf::graph &aPrimaryMetadata,
+	                 const std::string &aTitle);
 
-	/** @brief ePub
-	  * @see   http://www.idpf.org/specs.htm
+	/** @brief eXtensible Markup Language (XML)
 	  *
-	  * @param aData    The document data.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
+	  * @param[in]  aData            The document multi-document container.
+	  *
+	  * @return A reader over the document contents.
 	  */
-	void parseEpubDocument(std::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	std::shared_ptr<xml::reader>
+	createXmlReader(const std::shared_ptr<buffer> &aData);
 
-	/** @brief HTML
+	/** @brief ZIP archive
 	  *
-	  * @param aData    The document data.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
-	  */
-	void parseHtmlDocument(std::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph);
-
-	/** @brief RTF
+	  * @param[in]  aData            The document multi-document container.
 	  *
-	  * @param aData    The document data.
-	  * @param aSubject The base to use for any relative URIs.
-	  * @param events   The events callback to handle document events.
+	  * @return A reader over the document contents.
 	  */
-	void parseRtfDocument(std::shared_ptr<cainteoir::buffer> aData, const rdf::uri &aSubject, document_events &events, rdf::graph &aGraph);
+	std::shared_ptr<document_reader>
+	createZipReader(std::shared_ptr<archive> &aData);
 }
 
 #endif

@@ -1,0 +1,7 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+
+<> dct:abstract "Lorem ipsum" .
+<> dct:abstract "Lorem ipsum dolor"@fr .
+<> dct:abstract "Ipsum dolor" .
+<> tts:mimetype "@mimetype@" .

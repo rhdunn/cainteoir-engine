@@ -1,6 +1,6 @@
 /* Encoding Conversion Support.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -42,14 +42,18 @@ namespace cainteoir
 		/** @brief Set the character encoding to the specified Windows codepage.
 		  *
 		  * @param aCodepage The Windows codepage to change to.
+		  *
+		  * @return true if the encoding was changed, false if the encoding is unchanged.
 		  */
-		void set_encoding(int aCodepage);
+		bool set_encoding(int aCodepage);
 
 		/** @brief Set the character encoding.
 		  *
 		  * @param aEncoding The encoding to change to.
+		  *
+		  * @return true if the encoding was changed, false if the encoding is unchanged.
 		  */
-		void set_encoding(const char *aEncoding);
+		bool set_encoding(const char *aEncoding);
 
 		/** @brief Lookup the single-byte character.
 		  *
@@ -68,12 +72,10 @@ namespace cainteoir
 		  *
 		  * @return The utf-8 representation of data.
 		  */
-		std::shared_ptr<cainteoir::buffer> decode(const cainteoir::buffer &data) const
-		{
-			return mDecoder->decode(data);
-		}
+		std::shared_ptr<cainteoir::buffer> decode(const std::shared_ptr<cainteoir::buffer> &data) const;
 	private:
 		std::shared_ptr<decoder> mDecoder;
+		std::string mEncoding;
 	};
 }
 

@@ -24,14 +24,13 @@
 #include "parsers.hpp"
 #include <stdexcept>
 
-namespace rdf   = cainteoir::rdf;
-namespace xmlns = cainteoir::xml::xmlns;
-namespace xml   = cainteoir::xml;
+namespace rdf    = cainteoir::rdf;
+namespace xmlns  = cainteoir::xml::xmlns;
+namespace xml    = cainteoir::xml;
+namespace events = cainteoir::events;
 
 namespace ocf
 {
-	namespace events = cainteoir::events;
-
 	static const xml::context::entry container_node = { events::unknown, 0 };
 	static const xml::context::entry rootfile_node  = { events::unknown, 0 };
 	static const xml::context::entry rootfiles_node = { events::unknown, 0 };
@@ -53,52 +52,70 @@ static const std::initializer_list<const xml::context::entry_ref> ocf_attrs =
 	{ "media-type", &ocf::mediatype_attr },
 };
 
-cainteoir::ocf_reader::ocf_reader(std::shared_ptr<cainteoir::buffer> aData)
-	: mReader(aData)
+struct ocf_reader : public cainteoir::document_reader
 {
-	mReader.set_nodes(xmlns::ocf, ocf_nodes);
-	mReader.set_attrs(xmlns::ocf, ocf_attrs);
+	ocf_reader(const std::shared_ptr<xml::reader> &aReader);
 
-	while (mReader.read() && mReader.nodeType() != xml::reader::beginTagNode)
-		;
+	bool read();
 
-	if (mReader.context() != &ocf::container_node)
+	std::shared_ptr<xml::reader> mReader;
+};
+
+ocf_reader::ocf_reader(const std::shared_ptr<xml::reader> &aReader)
+	: mReader(aReader)
+{
+	mReader->set_nodes(xmlns::ocf, ocf_nodes);
+	mReader->set_attrs(xmlns::ocf, ocf_attrs);
+
+	if (mReader->context() != &ocf::container_node)
 		throw std::runtime_error(i18n("OCF file is not of a recognised format."));
 
 	do {
-		if (mReader.nodeType() == xml::reader::beginTagNode && mReader.context() == &ocf::rootfiles_node)
+		if (mReader->nodeType() == xml::reader::beginTagNode && mReader->context() == &ocf::rootfiles_node)
 			break;
-	} while (mReader.read());
+	} while (mReader->read());
+
+	type    = events::toc_entry;
+	context = events::heading;
 }
 
-bool cainteoir::ocf_reader::read()
+bool ocf_reader::read()
 {
-	mPath.clear();
-	mMediaType.clear();
+	text.reset();
+	anchor = rdf::uri();
 
 	const xml::context::entry *ctx = &xml::unknown_context;
 
-	while (mReader.read()) switch (mReader.nodeType())
+	while (mReader->read()) switch (mReader->nodeType())
 	{
 	case xml::reader::beginTagNode:
-		ctx = mReader.context();
+		ctx = mReader->context();
 		break;
 	case xml::reader::endTagNode:
-		if (mReader.context() == &ocf::rootfile_node)
+		if (mReader->context() == &ocf::rootfile_node)
 			return true;
-		if (mReader.context() == &ocf::rootfiles_node)
+		if (mReader->context() == &ocf::rootfiles_node)
 			return false;
 		break;
 	case xml::reader::attribute:
 		if (ctx == &ocf::rootfile_node)
 		{
-			if (mReader.context() == &ocf::fullpath_attr)
-				mPath = mReader.nodeValue().str();
-			else if (mReader.context() == &ocf::mediatype_attr)
-				mMediaType = mReader.nodeValue().str();
+			if (mReader->context() == &ocf::fullpath_attr)
+				anchor = rdf::uri(mReader->nodeValue().str(), std::string());
+			else if (mReader->context() == &ocf::mediatype_attr)
+				text = mReader->nodeValue().buffer();
 		}
 		break;
 	}
 
 	return false;
+}
+
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createOcfReader(const std::shared_ptr<xml::reader> &aReader)
+{
+	if (!aReader)
+		return std::shared_ptr<document_reader>();
+
+	return std::make_shared<ocf_reader>(aReader);
 }

@@ -22,22 +22,24 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/buffer.hpp>
+#include <cainteoir/unicode.hpp>
 
-namespace utf8
+namespace cainteoir { namespace utf8
 {
-	inline bool isspace(const char *c)
+	static bool isspace(uint32_t c)
 	{
-		switch (*c)
+		switch (c)
 		{
-		case '\t': // U+0009 -- HORIZONTAL TAB
-		case '\n': // U+000A -- LINE FEED
-		case '\r': // U+000D -- CARRIDGE RETURN
-		case ' ':  // U+0020 -- SPACE
+		case 0x000009: // HORIZONTAL TAB
+		case 0x00000A: // LINE FEED
+		case 0x00000D: // CARRIDGE RETURN
+		case 0x000020: // SPACE
+		case 0x0000A0: // NON-BREAKING SPACE
 			return true;
 		}
 		return false;
 	}
-}
+}}
 
 cainteoir::normalized_text_buffer::normalized_text_buffer(const char *str)
 	: buffer(nullptr, nullptr)
@@ -68,8 +70,10 @@ void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l
 {
 	// trim space at the start:
 
-	while (utf8::isspace(str))
-		++str;
+	uint32_t ch = 0;
+	const char *next = str;
+	while ((next = utf8::read(str, ch)) && utf8::isspace(ch))
+		str = next;
 
 	if (str >= l)
 		return;
@@ -78,21 +82,24 @@ void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l
 
 	// normalise the space within the string:
 
-	while (str != l)
+	while (str < l)
 	{
-		if (utf8::isspace(str) && utf8::isspace(str+1))
-			++str;
+		next = utf8::read(str, ch);
+
+		uint32_t ch2 = 0;
+		if (str < l && utf8::isspace(ch) && utf8::read(next, ch2) && utf8::isspace(ch2))
+			str = next;
 		else
 		{
-			*(char *)last = *str;
-			++last;
-			++str;
+			next = utf8::write((char *)last, ch);
+			str += next-last;
+			last = next;
 		}
 	}
 
 	// trim space at the end:
 
-	while (last > first && utf8::isspace(--last))
-		;
-	*(char *)++last = '\0';
+	while (last > first && (next = utf8::prev(last)) && utf8::read(next, ch) && utf8::isspace(ch))
+		last = next;
+	*(char *)last = '\0';
 }

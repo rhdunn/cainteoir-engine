@@ -65,6 +65,7 @@ namespace cainteoir { namespace mime
 	extern const mimetype ncx;    /**< @brief navigation control document */
 	extern const mimetype ogg;    /**< @brief Ogg+Vorbis audio */
 	extern const mimetype opf;    /**< @brief open package format document */
+	extern const mimetype pdf;    /**< @brief portable document format */
 	extern const mimetype rdfxml; /**< @brief RDF/XML document */
 	extern const mimetype rtf;    /**< @brief rich text document */
 	extern const mimetype smil;   /**< @brief smil document */
@@ -73,6 +74,7 @@ namespace cainteoir { namespace mime
 	extern const mimetype wav;    /**< @brief wave audio */
 	extern const mimetype xhtml;  /**< @brief xhtml document */
 	extern const mimetype xml;    /**< @brief extensible markup document */
+	extern const mimetype zip;    /**< @brief zip (compressed) archive */
 
 	//@}
 }}

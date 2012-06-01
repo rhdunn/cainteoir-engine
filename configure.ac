@@ -1,5 +1,5 @@
 AC_PREREQ([2.65])
-AC_INIT([Cainteoir Text-to-Speech], [0.7], [msclrhd@gmail.com], [cainteoir-engine], [https://github.com/rhdunn/cainteoir-engine])
+AC_INIT([Cainteoir Text-to-Speech], [0.8], [msclrhd@gmail.com], [cainteoir-engine], [https://github.com/rhdunn/cainteoir-engine])
 AM_INIT_AUTOMAKE()
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES])
@@ -23,16 +23,111 @@ AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
 
 dnl ================================================================
+dnl C++11 support
+dnl ================================================================
+
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 without any flags])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[template <typename T> struct right_angle_brackets {};]
+		 [typedef right_angle_brackets<right_angle_brackets<int>> cpp11_check;]],
+		[[]])],
+	[AC_MSG_RESULT([yes])
+	 have_cxx11_native=yes],
+	[AC_MSG_RESULT([no])
+	 have_cxx11_native=no])
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+TEMP_CXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS -std=c++11"
+AC_MSG_CHECKING([if $CXX supports C++11 with the -std=c++11 flag])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[template <typename T> struct right_angle_brackets {};]
+		 [typedef right_angle_brackets<right_angle_brackets<int>> cpp11_check;]],
+		[[]])],
+	[AC_MSG_RESULT([yes])
+	 have_cxx11_cxx11=yes],
+	[AC_MSG_RESULT([no])
+	 have_cxx11_cxx11=no])
+CXXFLAGS="$TEMP_CXXFLAGS"
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+TEMP_CXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS -std=gnu++11"
+AC_MSG_CHECKING([if $CXX supports C++11 with the -std=gnu++11 flag])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[template <typename T> struct right_angle_brackets {};]
+		 [typedef right_angle_brackets<right_angle_brackets<int>> cpp11_check;]],
+		[[]])],
+	[AC_MSG_RESULT([yes])
+	 have_cxx11_gnuxx11=yes],
+	[AC_MSG_RESULT([no])
+	 have_cxx11_gnuxx11=no])
+CXXFLAGS="$TEMP_CXXFLAGS"
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+TEMP_CXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS -std=c++0x"
+AC_MSG_CHECKING([if $CXX supports C++11 with the -std=c++0x flag])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[template <typename T> struct right_angle_brackets {};]
+		 [typedef right_angle_brackets<right_angle_brackets<int>> cpp11_check;]],
+		[[]])],
+	[AC_MSG_RESULT([yes])
+	 have_cxx11_cxx0x=yes],
+	[AC_MSG_RESULT([no])
+	 have_cxx11_cxx0x=no])
+CXXFLAGS="$TEMP_CXXFLAGS"
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+TEMP_CXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS -std=gnu++0x"
+AC_MSG_CHECKING([if $CXX supports C++11 with the -std=gnu++0x flag])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[template <typename T> struct right_angle_brackets {};]
+		 [typedef right_angle_brackets<right_angle_brackets<int>> cpp11_check;]],
+		[[]])],
+	[AC_MSG_RESULT([yes])
+	 have_cxx11_gnuxx0x=yes],
+	[AC_MSG_RESULT([no])
+	 have_cxx11_gnuxx0x=no])
+CXXFLAGS="$TEMP_CXXFLAGS"
+AC_LANG_POP(C++)
+
+AC_MSG_CHECKING([if $CXX supports C++11])
+if test "$have_cxx11_cxx11" = yes ; then
+	AC_MSG_RESULT([-std=c++11])
+	CXXFLAGS="$CXXFLAGS -std=c++11"
+elif test "$have_cxx11_gnuxx11" = yes ; then
+	AC_MSG_RESULT([-std=gnu++11])
+	CXXFLAGS="$CXXFLAGS -std=gnu++11"
+elif test "$have_cxx11_cxx0x" = yes ; then
+	AC_MSG_RESULT([-std=c++0x])
+	CXXFLAGS="$CXXFLAGS -std=c++0x"
+elif test "$have_cxx11_gnuxx0x" = yes ; then
+	AC_MSG_RESULT([-std=gnu++0x])
+	CXXFLAGS="$CXXFLAGS -std=gnu++0x"
+elif test "$have_cxx11_native" = yes ; then
+	AC_MSG_RESULT([yes])
+else
+	AC_MSG_RESULT([no])
+	AC_MSG_ERROR([C++11 is not supported by $CXX.])
+fi
+
+dnl ================================================================
 dnl C++11 language support
 dnl ================================================================
 
 AC_LANG_PUSH(C++)
-
-AX_CHECK_COMPILE_FLAG(
-	[-std=c++0x],
-	[CXXFLAGS="$CXXFLAGS -std=c++0x"],
-	[AC_MSG_ERROR([Cannot detect a compiler configuration that supports C++11.])])
-
 AC_MSG_CHECKING([if $CXX supports C++11 nullptr])
 AC_COMPILE_IFELSE(
 	[AC_LANG_PROGRAM(
@@ -54,7 +149,81 @@ AC_COMPILE_IFELSE(
 		[AC_MSG_RESULT([yes])
 		 AC_DEFINE([HAVE_CPP_IMPLICIT_NULLPTR_COMPARE],[1],[Define 1 if the nullptr workaround needs ==/!= definitions.])],
 		[AC_MSG_RESULT([no])])])
+AC_LANG_POP(C++)
 
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 decltype])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[]],
+		[[int a;]
+		 [decltype(a) b = a;]])],
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])
+	 AC_MSG_ERROR([C++11 decltype not supported by $CXX.])])
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 auto])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[]],
+		[[class A {} a;]
+		 [auto b = a;]])],
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])
+	 AC_MSG_ERROR([C++11 decltype not supported by $CXX.])])
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 brace initialization])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[#include <complex>]],
+		[[std::complex<float> c { 0.1, 0.2 };]])],
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])
+	 AC_MSG_ERROR([C++11 brace initialization not supported by $CXX.])])
+AC_LANG_POP(C++)
+
+dnl ================================================================
+dnl C++11 library support
+dnl ================================================================
+
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 std::initializer_list])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[#include <vector>]
+		 [std::initializer_list<int> il = { 1, 2, 3, 4 };]],
+		[[std::vector<int> v(il);]])],
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])
+	 AC_MSG_ERROR([C++11 std::initializer_list not supported by $CXX.])])
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 std::shared_ptr])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[#include <memory>]],
+		[[std::shared_ptr<int> p = std::make_shared<int>(5);]])],
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])
+	 AC_MSG_ERROR([C++11 std::shared_ptr not supported by $CXX.])])
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 std::begin/std::end])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[#include <iterator>]],
+		[[int data[] = { 1, 2, 3, 4, 5 };]
+		 [int *first = std::begin(data);]
+		 [int *last  = std::end(data);]])],
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])
+	 AC_MSG_ERROR([C++11 std::begin/std::end not supported by $CXX.])])
 AC_LANG_POP(C++)
 
 dnl ================================================================
@@ -180,6 +349,30 @@ AC_SUBST(VORBIS_CFLAGS)
 AC_SUBST(VORBIS_LIBS)
 
 dnl ================================================================
+dnl Poppler checks.
+dnl ================================================================
+
+AC_ARG_WITH([poppler],
+    [AS_HELP_STRING([--with-poppler], [support for PDF files using Poppler @<:@default=yes@:>@])],
+    [])
+
+if test "$with_poppler" = "no"; then
+    echo "Disabling PDF support via poppler"
+    have_vorbisenc=no
+else
+    PKG_CHECK_MODULES(POPPLER, [poppler-glib >= 0.16],
+        [
+            AC_DEFINE(HAVE_POPPLER, [], [Do we have poppler glib bindings])
+            have_poppler=yes
+        ],[
+            have_poppler=no
+        ])
+fi
+
+AC_SUBST(POPPLER_CFLAGS)
+AC_SUBST(POPPLER_LIBS)
+
+dnl ================================================================
 dnl MIME Type Integration.
 dnl ================================================================
 
@@ -224,4 +417,5 @@ AC_MSG_NOTICE([
 
         eSpeak support:                ${have_espeak}
         Ogg/Vorbis support:            ${have_vorbisenc}
+        PDF support:                   ${have_poppler}
 ])

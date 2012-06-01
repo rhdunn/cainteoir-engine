@@ -1,5 +1,25 @@
 
 -------------------------------------------------------------------------------
+VERSION 0.8 - Friday June 1st 2012 [Jun 2012]
+
+  *  define an archive interface with a zip file implementation
+  *  report the filename as a toc entry if no toc is present
+  *  move the UTF-8 helpers to a common location
+  *  optimize decoding of utf-8 and us-ascii encodings
+  *  do not load a new decoder when switching to the same encoding
+  *  switch document parsing from an event model to a reader model
+
+applications:
+  *  doc2doc: a simple command-line tool for converting documents from
+     one format to another
+
+document formats:
+  *  pdf:     support PDF documents using the Poppler library
+  *  (x)html: support extracting metadata from several meta tag names
+  *  zip:     support reading generic zipped document collections
+  *  ePub:    make the ePub parser use the archive interface
+
+-------------------------------------------------------------------------------
 VERSION 0.7 - Friday March 30th 2012 [Mar 2012]
 
   *  use BCP 47 for interpreting and comparing language tags

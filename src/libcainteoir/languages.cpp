@@ -444,7 +444,6 @@ bool lang::operator==(const tag &a, const tag &b)
 
 cainteoir::languages::languages()
 {
-	cainteoir::document_events events;
 	rdf::graph data;
 	try
 	{
@@ -455,7 +454,7 @@ cainteoir::languages::languages()
 		const std::string filename = datadir + std::string("/languages.rdf.gz");
 		printf("loading language data from %s\n", filename.c_str());
 
-		cainteoir::parseDocument(filename.c_str(), events, data);
+		auto reader = cainteoir::createDocumentReader(filename.c_str(), data, std::string());
 	}
 	catch (const std::exception & e)
 	{

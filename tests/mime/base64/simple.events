@@ -1,2 +1,4 @@
+toc-entry [] depth=0 title="""simple.txt"""
+anchor []
 text(6): """hello
 """

@@ -13,6 +13,7 @@
 
 data/languages.dat
 data/languages.dot
+data/languages.svg
 src/libcainteoir/parsers/html-entities.dat
 
 # build output:
@@ -25,6 +26,7 @@ src/libcainteoir/libcainteoir.la
 src/apps/cainteoir/cainteoir
 src/apps/metadata/metadata
 src/apps/tagcloud/tagcloud
+src/apps/doc2doc/doc2doc
 
 tests/rdfmodel
 tests/rdfquery
@@ -34,6 +36,7 @@ tests/events
 tests/xmlreader
 tests/encoding
 tests/languages
+tests/utf8
 
 # docs output:
 

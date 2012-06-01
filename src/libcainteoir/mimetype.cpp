@@ -40,6 +40,7 @@ static const char *mhtml_mimetype  = "multipart/related";
 static const char *ncx_mimetype    = "application/x-dtbncx+xml";
 static const char *ogg_mimetype    = "audio/x-vorbis+ogg";
 static const char *opf_mimetype    = "application/oebps-package+xml";
+static const char *pdf_mimetype    = "application/pdf";
 static const char *rdfxml_mimetype = "application/rdf+xml";
 static const char *rtf_mimetype    = "application/rtf";
 static const char *smil_mimetype   = "application/smil";
@@ -48,6 +49,7 @@ static const char *text_mimetype   = "text/plain";
 static const char *wav_mimetype    = "audio/x-wav";
 static const char *xhtml_mimetype  = "application/xhtml+xml";
 static const char *xml_mimetype    = "application/xml";
+static const char *zip_mimetype    = "application/zip";
 
 static std::initializer_list<const char *> mimetype_list = {
 	email_mimetype,
@@ -58,6 +60,7 @@ static std::initializer_list<const char *> mimetype_list = {
 	ncx_mimetype,
 	ogg_mimetype,
 	opf_mimetype,
+	pdf_mimetype,
 	rdfxml_mimetype,
 	rtf_mimetype,
 	smil_mimetype,
@@ -65,7 +68,8 @@ static std::initializer_list<const char *> mimetype_list = {
 	text_mimetype,
 	wav_mimetype,
 	xhtml_mimetype,
-	xml_mimetype
+	xml_mimetype,
+	zip_mimetype,
 };
 
 struct matchlet
@@ -333,7 +337,7 @@ class mimetype_database
 		{
 			std::map<std::string, std::string> comments;
 
-			std::shared_ptr<cainteoir::buffer> mimeinfo(new cainteoir::mmap_buffer(filename.c_str()));
+			std::shared_ptr<cainteoir::buffer> mimeinfo = std::make_shared<cainteoir::mmap_buffer>(filename.c_str());
 			xml::reader reader(mimeinfo);
 
 			bool in_comment = false;
@@ -514,6 +518,7 @@ const m::mimetype m::mhtml( "mhtml", mhtml_mimetype);
 const m::mimetype m::ncx(   "ncx",   ncx_mimetype);
 const m::mimetype m::ogg(   "ogg",   ogg_mimetype);
 const m::mimetype m::opf(   "opf",   opf_mimetype);
+const m::mimetype m::pdf(   "pdf",   pdf_mimetype);
 const m::mimetype m::rdfxml("rdf",   rdfxml_mimetype);
 const m::mimetype m::rtf(   "rtf",   rtf_mimetype);
 const m::mimetype m::smil(  "smil",  smil_mimetype);
@@ -522,6 +527,7 @@ const m::mimetype m::text(  "text",  text_mimetype);
 const m::mimetype m::wav(   "wav",   wav_mimetype);
 const m::mimetype m::xhtml( "xhtml", xhtml_mimetype);
 const m::mimetype m::xml(   "xml",   xml_mimetype);
+const m::mimetype m::zip(   "zip",   zip_mimetype);
 
 /** References
   *

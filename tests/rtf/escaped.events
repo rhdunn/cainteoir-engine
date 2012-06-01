@@ -1,3 +1,5 @@
+toc-entry [] depth=0 title="""escaped.rtf"""
+anchor []
 begin-context paragraph
 text(46): """RTF uses the \, { and } characters internally."""
 end-context

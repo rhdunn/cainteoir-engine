@@ -1,0 +1,10 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+
+<> dc:subject "one" .
+<> dc:subject "two" .
+<> dc:subject "three" .
+<> dc:subject "Three" .
+<> dc:subject "Two" .
+<> dc:subject "One" .
+<> tts:mimetype "@mimetype@" .

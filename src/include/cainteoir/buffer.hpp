@@ -75,11 +75,11 @@ namespace cainteoir
 
 	class range_buffer : public buffer
 	{
-		std::shared_ptr<cainteoir::buffer> anchor;
+		std::shared_ptr<buffer> anchor;
 	public:
-		range_buffer(const std::shared_ptr<cainteoir::buffer> &a, const char *f, const char *l) : buffer(f, l), anchor(a) {}
-		range_buffer(const std::shared_ptr<cainteoir::buffer> &a, const char *f) : buffer(f, a->end()), anchor(a) {}
-		range_buffer(const std::shared_ptr<cainteoir::buffer> &a, const cainteoir::buffer &range) : buffer(range.begin(), range.end()), anchor(a) {}
+		range_buffer(const std::shared_ptr<buffer> &a, const char *f, const char *l) : buffer(f, l), anchor(a) {}
+		range_buffer(const std::shared_ptr<buffer> &a, const char *f) : buffer(f, a->end()), anchor(a) {}
+		range_buffer(const std::shared_ptr<buffer> &a, const cainteoir::buffer &range) : buffer(range.begin(), range.end()), anchor(a) {}
 	};
 
 	class mmap_buffer : public buffer
@@ -102,7 +102,7 @@ namespace cainteoir
 	public:
 		normalized_text_buffer(const char *f, const char *l);
 		normalized_text_buffer(const char *str);
-		normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &str);
+		normalized_text_buffer(const std::shared_ptr<buffer> &str);
 
 		~normalized_text_buffer();
 	private:
@@ -111,7 +111,7 @@ namespace cainteoir
 
 	class rope
 	{
-		std::list< std::shared_ptr<cainteoir::buffer> > data;
+		std::list<std::shared_ptr<cainteoir::buffer>> data;
 		std::size_t len;
 	public:
 		rope(): len(0) {}
@@ -122,9 +122,9 @@ namespace cainteoir
 
 		void clear();
 
-		rope &operator=(const std::shared_ptr<cainteoir::buffer> &item);
+		rope &operator=(const std::shared_ptr<buffer> &item);
 
-		rope &operator+=(const std::shared_ptr<cainteoir::buffer> &item);
+		rope &operator+=(const std::shared_ptr<buffer> &item);
 
 		std::shared_ptr<cainteoir::buffer> buffer() const;
 
@@ -137,6 +137,8 @@ namespace cainteoir
 
 		std::string str() const { return buffer()->str(); }
 	};
+
+	std::shared_ptr<buffer> make_buffer(const std::string &aString);
 
 	/** @name Decoding/Decompression API */
 	//@{
@@ -157,7 +159,7 @@ namespace cainteoir
 	  *
 	  * @return The new data buffer.
 	  */
-	std::shared_ptr<cainteoir::buffer> copy(const cainteoir::buffer &data, uint32_t size);
+	std::shared_ptr<buffer> copy(const buffer &data, uint32_t size);
 
 	/** @brief Inflate a zlib compressed data buffer.
 	  *
@@ -166,7 +168,7 @@ namespace cainteoir
 	  *
 	  * @return The uncompressed data buffer.
 	  */
-	std::shared_ptr<cainteoir::buffer> inflate_zlib(const cainteoir::buffer &data, uint32_t size);
+	std::shared_ptr<buffer> inflate_zlib(const buffer &data, uint32_t size);
 
 	/** @brief Inflate a gzip compressed data buffer.
 	  *
@@ -175,7 +177,7 @@ namespace cainteoir
 	  *
 	  * @return The uncompressed data buffer.
 	  */
-	std::shared_ptr<cainteoir::buffer> inflate_gzip(const cainteoir::buffer &data, uint32_t size);
+	std::shared_ptr<buffer> inflate_gzip(const buffer &data, uint32_t size);
 
 	/** @brief Decode a quoted printable encoded data buffer.
 	  *
@@ -184,7 +186,7 @@ namespace cainteoir
 	  *
 	  * @return The decoded data buffer.
 	  */
-	std::shared_ptr<cainteoir::buffer> decode_quoted_printable(const cainteoir::buffer &data, uint32_t size);
+	std::shared_ptr<buffer> decode_quoted_printable(const buffer &data, uint32_t size);
 
 	/** @brief Decode a base64 encoded data buffer.
 	  *
@@ -193,7 +195,7 @@ namespace cainteoir
 	  *
 	  * @return The decoded data buffer.
 	  */
-	std::shared_ptr<cainteoir::buffer> decode_base64(const cainteoir::buffer &data, uint32_t size);
+	std::shared_ptr<buffer> decode_base64(const buffer &data, uint32_t size);
 
 	//@}
 }

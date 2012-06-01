@@ -26,6 +26,7 @@ if __name__ == '__main__':
 		{'name': 'semantics', 'type': 'events', 'tests': [
 			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/simple.xhtml', 'result': 'html/semantics/simple.events'},
+			{'test': 'html/semantics/simple-with-doctype.xhtml', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/simple-no-namespace.xhtml', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/with-style.html', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
@@ -51,6 +52,10 @@ if __name__ == '__main__':
 			{'test': 'html/sections/headings.xhtml', 'result': 'html/sections/headings.events'},
 			{'test': 'html/sections/headings-with-id.html', 'result': 'html/sections/headings-with-id.events'},
 			{'test': 'html/sections/headings-with-id.xhtml', 'result': 'html/sections/headings-with-id.events'},
+			{'test': 'html/sections/heading-with-matching-title.html', 'result': 'html/sections/heading-with-matching-title.events'},
+			{'test': 'html/sections/heading-with-matching-title.xhtml', 'result': 'html/sections/heading-with-matching-title.events'},
+			{'test': 'html/sections/heading-repeated-with-matching-title.html', 'result': 'html/sections/heading-repeated-with-matching-title.events'},
+			{'test': 'html/sections/heading-repeated-with-matching-title.xhtml', 'result': 'html/sections/heading-repeated-with-matching-title.events'},
 			{'test': 'html/sections/menu.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/menu.xhtml', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/no-body.html', 'result': 'html/sections/no-body.events'},
@@ -104,68 +109,69 @@ if __name__ == '__main__':
 			{'test': 'html/entities.xhtml', 'result': 'html/entities.events'},
 		]},
 	]})
-	test.run({'name': 'MIME', 'groups': [
+	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
 		{'name': 'headers', 'type': 'events', 'tests': [
-			{'test': 'mime/headers/basic.txt', 'result': 'mime/headers/basic.events'},
-			{'test': 'mime/headers/leading-whitespace.txt', 'result': 'mime/headers/basic.events'},
-			{'test': 'mime/headers/wrapped-header-item.txt', 'result': 'mime/headers/basic.events'},
+			{'test': 'mime/headers/basic.txt', 'result': 'mime/headers/basic.events', 'title': 'basic.txt'},
+			{'test': 'mime/headers/leading-whitespace.txt', 'result': 'mime/headers/basic.events', 'title': 'leading-whitespace.txt'},
+			{'test': 'mime/headers/wrapped-header-item.txt', 'result': 'mime/headers/basic.events', 'title': 'wrapped-header-item.txt'},
 			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
-			{'test': 'mime/headers/basic-lfonly.txt', 'result': 'mime/headers/basic.events'},
-			{'test': 'mime/headers/leading-whitespace-lfonly.txt', 'result': 'mime/headers/basic.events'},
-			{'test': 'mime/headers/wrapped-header-item-lfonly.txt', 'result': 'mime/headers/basic.events'},
+			{'test': 'mime/headers/basic-lfonly.txt', 'result': 'mime/headers/basic.events', 'title': 'basic-lfonly.txt'},
+			{'test': 'mime/headers/leading-whitespace-lfonly.txt', 'result': 'mime/headers/basic.events', 'title': 'leading-whitespace-lfonly.txt'},
+			{'test': 'mime/headers/wrapped-header-item-lfonly.txt', 'result': 'mime/headers/basic.events', 'title': 'wrapped-header-item-lfonly.txt'},
 		]},
 		{'name': 'email', 'type': 'events', 'tests': [
-			{'test': 'mime/email/subject.txt', 'result': 'mime/email/content-subject.events'},
-			{'test': 'mime/email/from.txt', 'result': 'mime/email/content.events'},
-			{'test': 'mime/email/from-no-email.txt', 'result': 'mime/email/content.events'},
-			{'test': 'mime/email/from-subject.txt', 'result': 'mime/email/content-subject.events'},
-			{'test': 'mime/email/date-jan.txt', 'result': 'mime/email/content.events'},
-			{'test': 'mime/email/newsgroups.txt', 'result': 'mime/email/content.events'},
+			{'test': 'mime/email/subject.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
+			{'test': 'mime/email/from.txt', 'result': 'mime/email/content.events', 'title': 'from.txt'},
+			{'test': 'mime/email/from-no-email.txt', 'result': 'mime/email/content.events', 'title': 'from-no-email.txt'},
+			{'test': 'mime/email/from-subject.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
+			{'test': 'mime/email/date-jan.txt', 'result': 'mime/email/content.events', 'title': 'date-jan.txt'},
+			{'test': 'mime/email/newsgroups.txt', 'result': 'mime/email/content.events', 'title': 'newsgroups.txt'},
 			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
-			{'test': 'mime/email/subject-lfonly.txt', 'result': 'mime/email/content-subject.events'},
-			{'test': 'mime/email/from-lfonly.txt', 'result': 'mime/email/content.events'},
-			{'test': 'mime/email/from-no-email-lfonly.txt', 'result': 'mime/email/content.events'},
-			{'test': 'mime/email/from-subject-lfonly.txt', 'result': 'mime/email/content-subject.events'},
-			{'test': 'mime/email/date-jan-lfonly.txt', 'result': 'mime/email/content.events'},
-			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/content.events'},
+			{'test': 'mime/email/subject-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
+			{'test': 'mime/email/from-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'from-lfonly.txt'},
+			{'test': 'mime/email/from-no-email-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'from-no-email-lfonly.txt'},
+			{'test': 'mime/email/from-subject-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
+			{'test': 'mime/email/date-jan-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'date-jan-lfonly.txt'},
+			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'newsgroups-lfonly.txt'},
 		]},
 		{'name': 'multipart', 'type': 'events', 'tests': [
-			{'test': 'mime/multipart/mixed-1.txt', 'result': 'mime/multipart/mixed.events'},
-			{'test': 'mime/multipart/mixed-2.txt', 'result': 'mime/multipart/mixed.events'},
-			{'test': 'mime/multipart/related-1.txt', 'result': 'mime/multipart/related.events'},
-			{'test': 'mime/multipart/related-2.txt', 'result': 'mime/multipart/related.events'},
-			{'test': 'mime/multipart/related-3.txt', 'result': 'mime/multipart/related.events'},
-			{'test': 'mime/multipart/related-4.txt', 'result': 'mime/multipart/related.events'},
+			{'test': 'mime/multipart/mixed-1.txt', 'result': 'mime/multipart/mixed.events', 'title': 'mixed-1.txt'},
+			{'test': 'mime/multipart/mixed-2.txt', 'result': 'mime/multipart/mixed.events', 'title': 'mixed-2.txt'},
+			{'test': 'mime/multipart/related-1.txt', 'result': 'mime/multipart/related.events', 'title': 'related-1.txt'},
+			{'test': 'mime/multipart/related-2.txt', 'result': 'mime/multipart/related.events', 'title': 'related-2.txt'},
+			{'test': 'mime/multipart/related-3.txt', 'result': 'mime/multipart/related.events', 'title': 'related-3.txt'},
+			{'test': 'mime/multipart/related-4.txt', 'result': 'mime/multipart/related.events', 'title': 'related-4.txt'},
 		]},
 		{'name': 'quoted-printable', 'type': 'events', 'tests': [
-			{'test': 'mime/quoted-printable/ascii.txt', 'result': 'mime/quoted-printable/ascii.events'},
-			{'test': 'mime/quoted-printable/escaped-upper.txt', 'result': 'mime/quoted-printable/escaped.events'},
-			{'test': 'mime/quoted-printable/escaped-lower.txt', 'result': 'mime/quoted-printable/escaped.events'},
-			{'test': 'mime/quoted-printable/eol.txt', 'result': 'mime/quoted-printable/eol.events'},
+			{'test': 'mime/quoted-printable/ascii.txt', 'result': 'mime/quoted-printable/ascii.events', 'title': 'ascii.txt'},
+			{'test': 'mime/quoted-printable/escaped-upper.txt', 'result': 'mime/quoted-printable/escaped.events', 'title': 'escaped-upper.txt'},
+			{'test': 'mime/quoted-printable/escaped-lower.txt', 'result': 'mime/quoted-printable/escaped.events', 'title': 'escaped-lower.txt'},
+			{'test': 'mime/quoted-printable/eol.txt', 'result': 'mime/quoted-printable/eol.events', 'title': 'eol.txt'},
 		]},
 		{'name': 'base64', 'type': 'events', 'tests': [
-			{'test': 'mime/base64/simple.txt',  'result': 'mime/base64/simple.events'},
-			{'test': 'mime/base64/padding.txt', 'result': 'mime/base64/padding.events'},
-			{'test': 'mime/base64/wrapped.txt', 'result': 'mime/base64/wrapped.events'},
+			{'test': 'mime/base64/simple.txt',  'result': 'mime/base64/simple.events',  'title': 'simple.txt'},
+			{'test': 'mime/base64/padding.txt', 'result': 'mime/base64/padding.events', 'title': 'padding.txt'},
+			{'test': 'mime/base64/wrapped.txt', 'result': 'mime/base64/wrapped.events', 'title': 'wrapped.txt'},
 		]},
 	]})
-	test.run({'name': 'HTTP', 'groups': [
+	test.run({'name': 'HTTP', 'replace': ['title'], 'groups': [
 		{'name': '1.0', 'type': 'events', 'tests': [
-			{'test': 'http/header-only-1.0.txt', 'result': 'http/header-only-1.0.events'},
-			{'test': 'http/basic-1.0.txt', 'result': 'http/basic.events'},
+			{'test': 'http/header-only-1.0.txt', 'result': 'http/header-only-1.0.events', 'title': 'header-only-1.0.txt'},
+			{'test': 'http/basic-1.0.txt', 'result': 'http/basic.events', 'title': 'basic-1.0.txt'},
 			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
-			{'test': 'http/basic-1.0-lfonly.txt', 'result': 'http/basic.events'},
+			{'test': 'http/basic-1.0-lfonly.txt', 'result': 'http/basic.events', 'title': 'basic-1.0-lfonly.txt'},
 		]},
 		{'name': '1.1', 'type': 'events', 'tests': [
-			{'test': 'http/header-only-1.1.txt', 'result': 'http/header-only-1.1.events'},
-			{'test': 'http/basic-1.1.txt', 'result': 'http/basic.events'},
+			{'test': 'http/header-only-1.1.txt', 'result': 'http/header-only-1.1.events', 'title': 'header-only-1.1.txt'},
+			{'test': 'http/basic-1.1.txt', 'result': 'http/basic.events', 'title': 'basic-1.1.txt'},
 			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
-			{'test': 'http/basic-1.1-lfonly.txt', 'result': 'http/basic.events'},
+			{'test': 'http/basic-1.1-lfonly.txt', 'result': 'http/basic.events', 'title': 'basic-1.1-lfonly.txt'},
 		]},
 	]})
 	test.run({'name': 'NCX', 'groups': [
 		{'name': 'toc', 'type': 'events', 'tests': [
 			{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/navMap/linear.events'},
+			{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'ncx/navMap/linear.events'},
 			{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'ncx/navMap/linear.events'},
 			{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'ncx/navMap/in-subdir.events'},
 			{'test': 'ncx/navMap/named-uri.ncx', 'result': 'ncx/navMap/named-uri.events'},
@@ -175,10 +181,12 @@ if __name__ == '__main__':
 	test.run({'name': 'RTF', 'groups': [
 		{'name': 'document', 'type': 'events', 'tests': [
 			{'test': 'rtf/simple.rtf', 'result': 'rtf/simple.events'},
+			{'test': 'rtf/garbage-at-end.rtf', 'result': 'rtf/garbage-at-end.events'},
+			{'test': 'rtf/incomplete.rtf', 'result': 'rtf/incomplete.events'},
 			{'test': 'rtf/paragraph.rtf', 'result': 'rtf/paragraph.events'},
 			{'test': 'rtf/escaped.rtf', 'result': 'rtf/escaped.events'},
 			{'test': 'rtf/hex-ansi.rtf', 'result': 'rtf/hex-ansi.events'},
-			{'test': 'rtf/libreoffice.rtf', 'result': 'rtf/simple.events'},
+			{'test': 'rtf/libreoffice.rtf', 'result': 'rtf/libreoffice.events'},
 		]},
 	]})
 	test.run({'name': 'SSML', 'groups': [

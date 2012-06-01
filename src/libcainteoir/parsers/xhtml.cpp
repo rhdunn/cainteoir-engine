@@ -20,13 +20,13 @@
 
 #include "parsers.hpp"
 #include <cainteoir/xmlreader.hpp>
+#include <algorithm>
 #include <stack>
 
-#define countof(a) (sizeof(a)/sizeof(a[0]))
-
-namespace xml   = cainteoir::xml;
-namespace xmlns = cainteoir::xml::xmlns;
-namespace rdf   = cainteoir::rdf;
+namespace xml    = cainteoir::xml;
+namespace xmlns  = cainteoir::xml::xmlns;
+namespace events = cainteoir::events;
+namespace rdf    = cainteoir::rdf;
 
 enum html_node
 {
@@ -174,6 +174,15 @@ namespace html
 	static const xml::context::entry var_node        = { events::span,      events::emphasized }; // HTML§14.3.4
 	static const xml::context::entry video_node      = { events::unknown,   0 };
 	static const xml::context::entry wbr_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+
+	static const xml::context::entry name_attr       = { events::unknown,   0 };
+	static const xml::context::entry content_attr    = { events::unknown,   0 };
+
+	static const xml::context::entry abstract_meta    = { events::unknown,   0 };
+	static const xml::context::entry creator_meta     = { events::unknown,   0 };
+	static const xml::context::entry description_meta = { events::unknown,   0 };
+	static const xml::context::entry keywords_meta    = { events::unknown,   0 };
+	static const xml::context::entry title_meta       = { events::unknown,   0 };
 }
 
 static const std::initializer_list<const xml::context::entry_ref> html_nodes =
@@ -306,9 +315,123 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 
 static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 {
-	{ "id",   &xml::id_attr },
-	{ "lang", &xml::lang_attr },
+	{ "content", &html::content_attr },
+	{ "id",      &xml::id_attr },
+	{ "lang",    &xml::lang_attr },
+	{ "name",    &html::name_attr },
 };
+
+static const std::initializer_list<const xml::context::entry_ref> meta_names =
+{
+	{ "abstract",     &html::abstract_meta },
+	{ "author",       &html::creator_meta },
+	{ "description",  &html::description_meta },
+	{ "keywords",     &html::keywords_meta },
+	{ "shs-author",   &html::creator_meta },
+	{ "shs-keywords", &html::keywords_meta },
+	{ "shs-summary",  &html::description_meta },
+	{ "shs-title",    &html::title_meta },
+};
+
+struct context_data
+{
+	const xml::context::entry *ctx;
+	uint32_t parameter;
+
+	context_data(const xml::context::entry *aContext, uint32_t aParameter)
+		: ctx(aContext)
+		, parameter(aParameter)
+	{
+	}
+};
+
+struct html_document_reader : public cainteoir::document_reader
+{
+	html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle);
+
+	bool read();
+private:
+	rdf::uri mSubject;
+	std::string mTitle;
+	std::shared_ptr<xml::reader> reader;
+	rdf::uri href;
+	cainteoir::rope htext;
+	int hid;
+	bool genAnchor;
+	std::stack<context_data> ctx;
+
+	std::string parseLangAttr();
+};
+
+std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
+
+html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle)
+	: reader(aReader)
+	, mSubject(aSubject)
+	, href(aSubject.str(), std::string())
+	, hid(0)
+	, genAnchor(false)
+{
+	reader->set_predefined_entities(xml::html_entities);
+	reader->set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
+	reader->set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
+	reader->set_nodes(xmlns::xhtml,  html_nodes);
+	reader->set_attrs(xmlns::xhtml,  html_attrs);
+	reader->set_attrs(xmlns::xml,    xml::attrs);
+
+	std::string lang;
+	if (reader->context() == &html::html_node)
+	{
+		lang = parseLangAttr();
+		while (reader->nodeType() != xml::reader::beginTagNode)
+			reader->read();
+	}
+
+	if (reader->context() == &html::head_node)
+	{
+		mTitle = parseHeadNode(*reader, aSubject, aPrimaryMetadata);
+		while (reader->nodeType() != xml::reader::beginTagNode)
+			reader->read();
+	}
+
+	if (lang.empty() && reader->context() == &html::body_node)
+		lang = parseLangAttr();
+
+	if (!lang.empty())
+		aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
+
+	if (!mTitle.empty())
+		aPrimaryMetadata.statement(aSubject, rdf::dc("title"), rdf::literal(mTitle));
+
+	if (mTitle.empty())
+		mTitle = aTitle;
+
+	if (mTitle.empty())
+	{
+		mTitle = aSubject.str();
+		std::string::size_type sep = mTitle.rfind('/');
+		if (sep != std::string::npos)
+			mTitle = mTitle.substr(sep + 1);
+	}
+
+	ctx.push({ &html::body_node, 0 });
+	ctx.push({ &html::title_node, 0 });
+
+	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal(aMimeType));
+}
+
+std::string html_document_reader::parseLangAttr()
+{
+	std::string lang;
+	while (reader->read() && reader->nodeType() == xml::reader::attribute)
+	{
+		if (reader->context() == &xml::lang_attr && lang.empty())
+		{
+			lang = reader->nodeValue().buffer()->str();
+		}
+	}
+	return lang;
+}
 
 void skipNode(xml::reader &reader, const cainteoir::buffer name)
 {
@@ -321,229 +444,291 @@ void skipNode(xml::reader &reader, const cainteoir::buffer name)
 	}
 }
 
-void parseTitleNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
 {
+	static xml::context names(std::string(), meta_names, cainteoir::buffer::ignore_case);
+
+	std::shared_ptr<cainteoir::buffer> name;
+	std::string lang;
+	std::string content;
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::endTagNode:
-		if (reader.context() == &html::title_node)
-			return;
-		break;
-	case xml::reader::textNode:
-	case xml::reader::cdataNode:
+		if (reader.context() == &html::meta_node)
 		{
-			std::string title = reader.nodeValue().normalize()->str();
-			if (!title.empty())
+			if (!name || content.empty())
+				return;
+
+			const xml::context::entry *ctx = names.lookup(std::string(), *name);
+			if (ctx == &html::creator_meta)
 			{
-				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(title));
-				events.toc_entry(0, aSubject, title);
+				aGraph.statement(aSubject, rdf::dc("creator"), rdf::literal(content));
 			}
+			else if (ctx == &html::keywords_meta)
+			{
+				std::istringstream keywords(content);
+				std::string keyword;
+				while (std::getline(keywords, keyword, ','))
+				{
+					keyword.erase(0, keyword.find_first_not_of(" \t"));
+					keyword.erase(keyword.find_last_not_of(" \t")+1);
+
+					aGraph.statement(aSubject, rdf::dc("subject"), rdf::literal(keyword));
+				}
+			}
+			else if (ctx == &html::description_meta)
+			{
+				aGraph.statement(aSubject, rdf::dc("description"), rdf::literal(content, lang));
+			}
+			else if (ctx == &html::title_meta)
+			{
+				aGraph.statement(aSubject, rdf::dc("title"), rdf::literal(content, lang));
+			}
+			else if (ctx == &html::abstract_meta)
+			{
+				aGraph.statement(aSubject, rdf::dcterms("abstract"), rdf::literal(content, lang));
+			}
+			return;
 		}
+		break;
+	case xml::reader::attribute:
+		if (reader.context() == &html::name_attr)
+			name = reader.nodeValue().normalize();
+		else if (reader.context() == &html::content_attr)
+			content = reader.nodeValue().normalize()->str();
+		else if (reader.context() == &xml::lang_attr)
+			lang = reader.nodeValue().normalize()->str();
 		break;
 	}
 }
 
-void parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
+std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
 {
+	std::string title;
+	const xml::context::entry *context = nullptr;
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
 		if (reader.context() == &html::title_node)
-			parseTitleNode(reader, aSubject, events, aGraph);
+			context = &html::title_node;
+		else if (reader.context() == &html::meta_node)
+			parseMetaNode(reader, aSubject, aGraph);
 		else if (reader.context()->parse_type == xml::context::hidden)
 			skipNode(reader, reader.nodeName());
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == &html::head_node)
-			return;
-		break;
-	}
-}
-
-void parseListNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *list_ctx)
-{
-	int number = 1;
-
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::beginTagNode:
-		if (reader.context() == &html::li_node)
-		{
-			events.begin_context(cainteoir::events::list_item);
-			if (list_ctx->parameter == cainteoir::events::bullet)
-				events.text(std::make_shared<cainteoir::buffer>("\xE2\x80\xA2 "));
-			else
-			{
-				char text[100];
-				int len = snprintf(text, sizeof(text), "%d. ", number);
-				text[len] = '\0';
-
-				std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(len);
-				strcpy((char *)data->begin(), text);
-				events.text(data);
-
-				++number;
-			}
-		}
+			return title;
+		if (reader.context() == &html::title_node)
+			context = &html::head_node;
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		{
-			std::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
-			if (text)
-				events.text(text);
-		}
-		break;
-	case xml::reader::endTagNode:
-		if (reader.context() == list_ctx)
-		{
-			events.end_context();
-			return;
-		}
-		if (reader.context() == &html::li_node)
-			events.end_context();
+		if (context == &html::title_node)
+			title = reader.nodeValue().normalize()->str();
 		break;
 	}
+	return title;
 }
 
-void parseBodyNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, const xml::context::entry *body_ctx)
+bool html_document_reader::read()
 {
-	rdf::uri href(aSubject.str(), std::string());
-	cainteoir::rope htext;
-	int hid = 0;
-	bool genAnchor = false;
+	if (ctx.top().ctx == &html::title_node)
+	{
+		type      = events::toc_entry;
+		context   = events::heading;
+		parameter = 0;
+		text      = cainteoir::make_buffer(mTitle);
+		anchor    = mSubject;
+		ctx.pop();
+		return true;
+	}
 
-	while (reader.read()) switch (reader.nodeType())
+	do switch (reader->nodeType())
 	{
 	case xml::reader::attribute:
-		if (reader.context() == &xml::id_attr)
+		if (reader->context() == &xml::id_attr)
 		{
-			href = rdf::uri(aSubject.str(), reader.nodeValue().str());
-			events.anchor(href, std::string());
+			anchor    = href = rdf::uri(mSubject.str(), reader->nodeValue().str());
+			type      = events::anchor;
 			genAnchor = false;
+			reader->read();
+			return true;
 		}
 		break;
 	case xml::reader::beginTagNode:
-		if (reader.context() == &html::script_node || reader.context() == &html::style_node)
-			skipNode(reader, reader.nodeName());
-		else if (reader.context()->context != cainteoir::events::unknown)
+		if (ctx.top().ctx == &html::body_node)
 		{
-			events.begin_context((cainteoir::events::context)reader.context()->context, reader.context()->parameter);
-			if (reader.context()->context == cainteoir::events::list)
-				parseListNode(reader, aSubject, events, reader.context());
-
-			if (reader.context()->context == cainteoir::events::heading)
+			if (reader->context() == &html::script_node || reader->context() == &html::style_node)
+				skipNode(*reader, reader->nodeName());
+			else if (reader->context()->context != cainteoir::events::unknown)
 			{
-				htext.clear();
-				genAnchor = true;
-			}
-		}
-		break;
-	case xml::reader::textNode:
-	case xml::reader::cdataNode:
-		if (genAnchor)
-		{
-			std::stringstream ref;
-			ref << "genid.h" << hid;
+				if (reader->context()->context == cainteoir::events::list)
+					ctx.push({ reader->context(), 1 });
 
-			++hid;
-			href = rdf::uri(aSubject.str(), ref.str());
-			events.anchor(href, std::string());
-
-			genAnchor = false;
-		}
-
-		{
-			std::shared_ptr<cainteoir::buffer> text = reader.nodeValue().content();
-			if (text)
-			{
-				events.text(text);
-				htext += text;
-			}
-		}
-		break;
-	case xml::reader::endTagNode:
-		if (reader.context() == body_ctx)
-			return;
-		if (reader.context()->context != cainteoir::events::unknown)
-		{
-			events.end_context();
-			if (reader.context()->context == cainteoir::events::heading && !htext.empty())
-			{
-				std::shared_ptr<cainteoir::buffer> text = htext.normalize();
-				for (char *c = (char *)text->begin(), *last = (char *)text->end(); c != last; ++c)
+				if (reader->context()->context == cainteoir::events::heading)
 				{
-					switch (*c)
-					{
-					case '\n':
-						*c = ' ';
-						break;
-					default:
-						break;
-					}
+					htext.clear();
+					genAnchor = true;
 				}
-				events.toc_entry(0, href, text->str());
-				href.ref = std::string();
+
+				type      = events::begin_context;
+				context   = (events::context)reader->context()->context;
+				parameter = reader->context()->parameter;
+				reader->read();
+				return true;
+			}
+		}
+		else if (ctx.top().ctx->context == cainteoir::events::list)
+		{
+			if (reader->context() == &html::li_node)
+			{
+				if (ctx.top().ctx->parameter == cainteoir::events::bullet)
+					text = std::make_shared<cainteoir::buffer>("\xE2\x80\xA2 ");
+				else
+				{
+					char textnum[100];
+					int len = snprintf(textnum, sizeof(textnum), "%d. ", ctx.top().parameter);
+					textnum[len] = '\0';
+
+					text = std::make_shared<cainteoir::data_buffer>(len);
+					strcpy((char *)text->begin(), textnum);
+
+					++ctx.top().parameter;
+				}
+
+				type      = events::begin_context | events::text;
+				context   = events::list_item;
+				parameter = 0;
+				reader->read();
+				return true;
 			}
 		}
 		break;
-	}
-}
-
-void parseHtmlNode(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	std::string lang;
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::beginTagNode:
-		if (reader.context() == &html::head_node)
-			parseHeadNode(reader, aSubject, events, aGraph);
-		else
-			parseBodyNode(reader, aSubject, events, reader.context());
-		break;
-	case xml::reader::attribute:
-		if (reader.context() == &xml::lang_attr && lang.empty())
+	case xml::reader::textNode:
+	case xml::reader::cdataNode:
+		if (ctx.top().ctx == &html::body_node)
 		{
-			lang = reader.nodeValue().buffer()->str();
-			aGraph.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
+			text = reader->nodeValue().content();
+			bool is_title_header = text && text->compare(mTitle.c_str()) == 0;
+
+			if (genAnchor)
+			{
+				genAnchor = false;
+				if (!is_title_header)
+				{
+					std::stringstream ref;
+					ref << "genid.h" << hid;
+					++hid;
+
+					anchor    = href = rdf::uri(mSubject.str(), ref.str());
+					type      = events::anchor;
+					return true;
+				}
+			}
+
+			if (text)
+			{
+				if (!is_title_header)
+					htext += text;
+
+				type      = events::text;
+				context   = events::span;
+				parameter = events::nostyle;
+				anchor    = rdf::uri();
+				reader->read();
+				return true;
+			}
+		}
+		else if (ctx.top().ctx->context == cainteoir::events::list)
+		{
+			text = reader->nodeValue().content();
+			if (text)
+			{
+				type      = events::text;
+				context   = events::span;
+				parameter = events::nostyle;
+				anchor    = rdf::uri();
+				reader->read();
+				return true;
+			}
 		}
 		break;
 	case xml::reader::endTagNode:
-		if (reader.context() == &html::html_node)
-			return;
-	}
-}
+		if (ctx.top().ctx == &html::body_node)
+		{
+			if (reader->context()->context != cainteoir::events::unknown)
+			{
+				type      = events::end_context;
+				context   = (events::context)reader->context()->context;
+				parameter = reader->context()->parameter;
+				anchor    = rdf::uri();
 
-void cainteoir::parseXHtmlDocument(xml::reader &reader, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	reader.set_predefined_entities(xml::html_entities);
-	reader.set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
-	reader.set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
-	reader.set_nodes(xmlns::xhtml,  html_nodes);
-	reader.set_attrs(xmlns::xhtml,  html_attrs);
-	reader.set_attrs(xmlns::xml,    xml::attrs);
+				if (reader->context()->context == cainteoir::events::heading)
+					mTitle.clear();
 
-	parseHtmlNode(reader, aSubject, events, aGraph);
-}
+				if (reader->context()->context == cainteoir::events::heading && !htext.empty())
+				{
+					text = htext.normalize();
+					for (char *c = (char *)text->begin(), *last = (char *)text->end(); c != last; ++c)
+					{
+						switch (*c)
+						{
+						case '\n':
+							*c = ' ';
+							break;
+						default:
+							break;
+						}
+					}
+					if (!text->empty())
+					{
+						type |= events::toc_entry;
+						anchor = href;
+					}
+					href.ref = std::string();
+				}
 
-void cainteoir::parseHtmlDocument(std::shared_ptr<cainteoir::buffer> data, const rdf::uri &aSubject, cainteoir::document_events &events, rdf::graph &aGraph)
-{
-	xml::reader reader(data, xml::html_entities);
-	reader.set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
-	reader.set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
-	reader.set_attrs(xmlns::xml,    xml::attrs);
-
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::beginTagNode:
-		if (reader.context() == &html::html_node)
-			parseHtmlNode(reader, aSubject, events, aGraph);
-		else if (reader.context() == &html::head_node)
-			parseHeadNode(reader, aSubject, events, aGraph);
-		else
-			parseBodyNode(reader, aSubject, events, reader.context());
+				reader->read();
+				return true;
+			}
+		}
+		else if (ctx.top().ctx->context == cainteoir::events::list)
+		{
+			if (reader->context() == ctx.top().ctx)
+			{
+				type      = events::end_context;
+				context   = (events::context)reader->context()->context;
+				parameter = reader->context()->parameter;
+				anchor    = rdf::uri();
+				ctx.pop();
+				reader->read();
+				return true;
+			}
+			else if (reader->context() == &html::li_node)
+			{
+				type      = events::end_context;
+				context   = (events::context)reader->context()->context;
+				parameter = reader->context()->parameter;
+				anchor    = rdf::uri();
+				reader->read();
+				return true;
+			}
+		}
 		break;
-	}
+	} while (reader->read());
+
+	return false;
+}
+
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createHtmlReader(const std::shared_ptr<xml::reader> &aReader,
+                            const rdf::uri &aSubject,
+                            rdf::graph &aPrimaryMetadata,
+                            const std::string &aTitle,
+	                    const char *aMimeType)
+{
+	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, aMimeType, aTitle);
 }
 
 /** References

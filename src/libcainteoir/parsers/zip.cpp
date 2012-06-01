@@ -22,10 +22,9 @@
 #include "compatibility.hpp"
 #include "i18n.h"
 
-#include "zip.hpp"
-#include "parsers.hpp"
-
+#include <cainteoir/archive.hpp>
 #include <stdexcept>
+#include <map>
 
 #define ZIP_HEADER_MAGIC 0x04034b50
 
@@ -65,28 +64,69 @@ static const std::initializer_list<cainteoir::decoder_ptr> zip_compression = {
 	nullptr, // 12 - bzip2 compressed
 };
 
-cainteoir::zip::archive::archive(std::shared_ptr<cainteoir::buffer> aData)
+class zip_archive : public cainteoir::archive
+{
+public:
+	zip_archive(std::shared_ptr<cainteoir::buffer> aData, const cainteoir::rdf::uri &aSubject);
+
+	const cainteoir::rdf::uri location(const std::string &aFilename, const std::string &aRef) const;
+
+	std::shared_ptr<cainteoir::buffer> read(const char *aFilename) const;
+
+	const std::list<std::string> &files() const;
+private:
+	std::shared_ptr<cainteoir::buffer> mData;
+	std::map<std::string, const zip_header *> data;
+	std::list<std::string> filelist;
+	std::string base;
+};
+
+zip_archive::zip_archive(std::shared_ptr<cainteoir::buffer> aData, const cainteoir::rdf::uri &aSubject)
+	: base(aSubject.str() + "!/")
+	, mData(aData)
 {
 	const zip_header * hdr = (const zip_header *)aData->begin();
 	while ((const char *)hdr < aData->end() && hdr->magic == ZIP_HEADER_MAGIC)
 	{
 		const char *ptr = (const char *)hdr + sizeof(zip_header);
+		std::string filename(ptr, ptr + hdr->len_filename);
 
-		(*this)[ std::string(ptr, ptr + hdr->len_filename) ] = hdr;
+		data[ filename ] = hdr;
+		if (*(--filename.end()) != '/') // not a directory
+			filelist.push_back(filename);
 
 		hdr = (const zip_header *)(ptr + hdr->len_filename + hdr->len_extra + hdr->compressed);
 	}
 }
 
-std::shared_ptr<cainteoir::buffer> cainteoir::zip::archive::read(const char *aFilename)
+const cainteoir::rdf::uri zip_archive::location(const std::string &aFilename, const std::string &aRef) const
 {
-	const zip_header * hdr = (const zip_header *)((*this)[aFilename]);
-	if (!hdr)
+	return cainteoir::rdf::uri(base + aFilename, aRef);
+}
+
+std::shared_ptr<cainteoir::buffer> zip_archive::read(const char *aFilename) const
+{
+	auto entry = data.find(aFilename);
+	if (entry == data.end())
 		return std::shared_ptr<cainteoir::buffer>();
 
-	if (hdr->compression_type >= zip_compression.size() || *(zip_compression.begin() + hdr->compression_type) == nullptr)
+	const zip_header * hdr = entry->second;
+	auto decoder = *(zip_compression.begin() + hdr->compression_type);
+	if (hdr->compression_type >= zip_compression.size() || decoder == nullptr)
 		throw std::runtime_error(i18n("decompression failed (unsupported compression type)"));
 
 	const char *ptr = (const char *)hdr + sizeof(zip_header) + hdr->len_filename + hdr->len_extra;
-	return (*(zip_compression.begin() + hdr->compression_type))(cainteoir::buffer(ptr, ptr + hdr->compressed), hdr->uncompressed);
+	cainteoir::buffer compressed { ptr, ptr + hdr->compressed };
+
+	return decoder(compressed, hdr->uncompressed);
+}
+
+const std::list<std::string> &zip_archive::files() const
+{
+	return filelist;
+}
+
+std::shared_ptr<cainteoir::archive> cainteoir::create_zip_archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject)
+{
+	return std::make_shared<zip_archive>(aData, aSubject);
 }

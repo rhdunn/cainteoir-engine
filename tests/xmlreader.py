@@ -58,6 +58,7 @@ if __name__ == '__main__':
 		]},
 		{'name': 'empty element', 'type': 'xmlreader', 'tests': [
 			{'test': 'xmlparser/empty-element/no-args.xml', 'result': 'xmlparser/empty-element/no-args.tags'},
+			{'test': 'xmlparser/empty-element/no-args-with-space.xml', 'result': 'xmlparser/empty-element/no-args.tags'},
 		]},
 		{'name': 'doctype', 'type': 'xmlreader', 'tests': [
 			{'test': 'xmlparser/doctype/html40.xml', 'result': 'xmlparser/doctype/html40.tags'},
