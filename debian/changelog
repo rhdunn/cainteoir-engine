@@ -1,3 +1,12 @@
+cainteoir-engine (0.8~unstable1) unstable; urgency=low
+ 
+  * Fix build issue for natty/gcc 4.5: add a std::begin/std::end
+    fallback implementation.
+  * Fix build issue for quantal: explicitly include unistd.h for
+    the close API.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Fri, 1 Jun 2012 19:20:00 +0000
+
 cainteoir-engine (0.8~unstable0) unstable; urgency=low
  
   * New upstream release.
