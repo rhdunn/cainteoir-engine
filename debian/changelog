@@ -1,3 +1,9 @@
+cainteoir-engine (0.8~unstable0) unstable; urgency=low
+ 
+  * New upstream release.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Fri, 1 Jun 2012 08:20:00 +0000
+
 cainteoir-engine (0.7~unstable4) unstable; urgency=low
  
   * Further nullptr compatibility improvements for gcc-4.5.2 (natty).
