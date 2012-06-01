@@ -21,9 +21,9 @@
 #ifndef CAINTEOIR_ENGINE_COMPATIBILITY_HPP
 #define CAINTEOIR_ENGINE_COMPATIBILITY_HPP
 
-#ifndef HAVE_CPP_NULLPTR
-#	include <stddef.h>
+#include <stddef.h>
 
+#ifndef HAVE_CPP_NULLPTR
 	const struct nullptr_t 
 	{
 		template <typename T>
@@ -60,6 +60,47 @@
 		return b != NULL;
 	}
 #endif
+#endif
+
+#ifndef HAVE_STD_BEGIN_AND_END
+	namespace std
+	{
+		template <typename C>
+		inline auto begin(C &c) -> decltype(c.begin())
+		{
+			return c.begin();
+		}
+
+		template <typename C>
+		inline auto begin(const C &c) -> decltype(c.begin())
+		{
+			return c.begin();
+		}
+
+		template <typename T, size_t N>
+		inline const T *begin(T (&a)[N])
+		{
+			return a;
+		}
+
+		template <typename C>
+		inline auto end(C &c) -> decltype(c.end())
+		{
+			return c.end();
+		}
+
+		template <typename C>
+		inline auto end(const C &c) -> decltype(c.end())
+		{
+			return c.end();
+		}
+
+		template <typename T, size_t N>
+		inline const T *end(T (&a)[N])
+		{
+			return a + N;
+		}
+	}
 #endif
 
 #endif

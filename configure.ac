@@ -134,7 +134,7 @@ AC_COMPILE_IFELSE(
 		[[]],
 		[[const char *ptr = nullptr;]])],
 	[AC_MSG_RESULT([yes])
-	 AC_DEFINE([HAVE_CPP_NULLPTR],[1],[Define 1 if the nullptr keyword is not supported.])],
+	 AC_DEFINE([HAVE_CPP_NULLPTR],[1],[Define to 1 if the nullptr keyword is not supported.])],
 	[AC_MSG_RESULT([no])
 	 dnl Check if a workaround for a gcc bug is needed
 	 AC_MSG_CHECKING([if $CXX supports implicit conversions for ==/!=])
@@ -147,7 +147,7 @@ AC_COMPILE_IFELSE(
 			[[const char *ptr = "testing";]
 			 [return (ptr != nullptr) ? 0 : 1]])],
 		[AC_MSG_RESULT([yes])
-		 AC_DEFINE([HAVE_CPP_IMPLICIT_NULLPTR_COMPARE],[1],[Define 1 if the nullptr workaround needs ==/!= definitions.])],
+		 AC_DEFINE([HAVE_CPP_IMPLICIT_NULLPTR_COMPARE],[1],[Define to 1 if the nullptr workaround needs ==/!= definitions.])],
 		[AC_MSG_RESULT([no])])])
 AC_LANG_POP(C++)
 
@@ -221,9 +221,9 @@ AC_COMPILE_IFELSE(
 		[[int data[] = { 1, 2, 3, 4, 5 };]
 		 [int *first = std::begin(data);]
 		 [int *last  = std::end(data);]])],
-	[AC_MSG_RESULT([yes])],
-	[AC_MSG_RESULT([no])
-	 AC_MSG_ERROR([C++11 std::begin/std::end not supported by $CXX.])])
+	[AC_MSG_RESULT([yes])
+	 AC_DEFINE([HAVE_STD_BEGIN_AND_END],[1],[Define to 1 if std::begin and std::end are supported.])],
+	[AC_MSG_RESULT([no])])
 AC_LANG_POP(C++)
 
 dnl ================================================================
