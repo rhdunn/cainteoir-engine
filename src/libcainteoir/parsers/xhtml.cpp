@@ -18,6 +18,8 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "compatibility.hpp"
 #include "parsers.hpp"
 #include <cainteoir/xmlreader.hpp>
 #include <algorithm>
