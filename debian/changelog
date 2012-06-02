@@ -1,3 +1,9 @@
+cainteoir-engine (0.8~unstable2) unstable; urgency=low
+ 
+  * Include nullptr compatibility support for the files that need it.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Fri, 2 Jun 2012 08:50:00 +0000
+
 cainteoir-engine (0.8~unstable1) unstable; urgency=low
  
   * Fix build issue for natty/gcc 4.5: add a std::begin/std::end
