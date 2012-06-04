@@ -1,0 +1,217 @@
+/* Test for extracting words, numbers and other entries from a document.
+ *
+ * Copyright (C) 2012 Reece H. Dunn
+ *
+ * This file is part of cainteoir-engine.
+ *
+ * cainteoir-engine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cainteoir-engine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include <cainteoir/document.hpp>
+#include <stdexcept>
+#include <cstdio>
+
+namespace rdf    = cainteoir::rdf;
+namespace events = cainteoir::events;
+
+const char *ascii_names[128] = {
+	nullptr,        nullptr,            nullptr,        nullptr,
+	nullptr,        nullptr,            nullptr,        nullptr,
+	nullptr,        nullptr,            nullptr,        nullptr,
+	nullptr,        nullptr,            nullptr,        nullptr,
+	nullptr,        nullptr,            nullptr,        nullptr,
+	nullptr,        nullptr,            nullptr,        nullptr,
+	nullptr,        nullptr,            nullptr,        nullptr,
+	nullptr,        nullptr,            nullptr,        nullptr,
+	"space",        "exclamation mark", "double quote", "number sign",
+	"dollar",       "percent",          "ampersand",    "quote",
+	"open paren",   "close paren",      "asterisk",     "plus",
+	"comma",        "minus",            "full stop",    "forward slash",
+	"zero",         "one",              "two",          "three",
+	"four",         "five",             "six",          "seven",
+	"eight",        "nine",             "colon",        "semicolon",
+	"less than",    "equal to",         "greater than", "question mark",
+	"at sign",      "a",                "b",            "c",
+	"d",            "e",                "f",            "g",
+	"h",            "i",                "j",            "k",
+	"l",            "m",                "n",            "o",
+	"p",            "q",                "r",            "s",
+	"t",            "u",                "v",            "w",
+	"x",            "y",                "z",            "open bracket",
+	"back slash",   "close bracket",    "caret",        "underscore",
+	"apostrophe",   "a",                "b",            "c",
+	"d",            "e",                "f",            "g",
+	"h",            "i",                "j",            "k",
+	"l",            "m",                "n",            "o",
+	"p",            "q",                "r",            "s",
+	"t",            "u",                "v",            "w",
+	"x",            "y",                "z",            "open brace",
+	"vertical bar", "close brace",      "tilde",        nullptr
+};
+
+enum state
+{
+	state_root,
+	state_word,
+	state_number,
+};
+
+void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
+{
+	const uint8_t *begin = (const uint8_t *)aText->begin();
+	const uint8_t *end   = (const uint8_t *)aText->end();
+	const uint8_t *start = begin;
+	state s = state_root;
+
+	while (begin != end)
+	{
+		switch (s)
+		{
+		case state_root:
+			switch (*begin)
+			{
+			// alpha:
+			case 'a': case 'b': case 'c': case 'd':
+			case 'e': case 'f': case 'g': case 'h':
+			case 'i': case 'j': case 'k': case 'l': case 'm':
+			case 'n': case 'o': case 'p': case 'q':
+			case 'r': case 's': case 't': case 'u':
+			case 'v': case 'w': case 'x': case 'y': case 'z':
+			case 'A': case 'B': case 'C': case 'D':
+			case 'E': case 'F': case 'G': case 'H':
+			case 'I': case 'J': case 'K': case 'L': case 'M':
+			case 'N': case 'O': case 'P': case 'Q':
+			case 'R': case 'S': case 'T': case 'U':
+			case 'V': case 'W': case 'X': case 'Y': case 'Z':
+			case '\'':
+				start = begin;
+				s = state_word;
+				break;
+			// number:
+			case '0': case '1': case '2': case '3': case '4':
+			case '5': case '6': case '7': case '8': case '9':
+				start = begin;
+				s = state_number;
+				break;
+			// newline:
+			case '\n':
+				fputs(".newline\n", stdout);
+				break;
+			// space:
+			case ' ':
+			case '\t':
+			case '\r':
+				break;
+			// other:
+			default:
+				if (*begin < 0x80)
+				{
+					const char *name = ascii_names[*begin];
+					if (name)
+						fprintf(stdout, ".ascii  %s\n", name);
+				}
+				break;
+			}
+			break;
+		case state_word:
+			switch (*begin)
+			{
+			// alpha:
+			case 'a': case 'b': case 'c': case 'd':
+			case 'e': case 'f': case 'g': case 'h':
+			case 'i': case 'j': case 'k': case 'l': case 'm':
+			case 'n': case 'o': case 'p': case 'q':
+			case 'r': case 's': case 't': case 'u':
+			case 'v': case 'w': case 'x': case 'y': case 'z':
+			case 'A': case 'B': case 'C': case 'D':
+			case 'E': case 'F': case 'G': case 'H':
+			case 'I': case 'J': case 'K': case 'L': case 'M':
+			case 'N': case 'O': case 'P': case 'Q':
+			case 'R': case 'S': case 'T': case 'U':
+			case 'V': case 'W': case 'X': case 'Y': case 'Z':
+			case '\'':
+				break;
+			default:
+				fputs(".word   ", stdout);
+				fwrite(start, 1, begin-start, stdout);
+				fputs("\n", stdout);
+				s = state_root;
+				continue;
+			}
+			break;
+		case state_number:
+			switch (*begin)
+			{
+			// number:
+			case '0': case '1': case '2': case '3': case '4':
+			case '5': case '6': case '7': case '8': case '9':
+				break;
+			default:
+				fputs(".number ", stdout);
+				fwrite(start, 1, begin-start, stdout);
+				fputs("\n", stdout);
+				s = state_root;
+				continue;
+			}
+			break;
+		}
+		++begin;
+	}
+
+	switch (s)
+	{
+	case state_word:
+		fputs(".word   ", stdout);
+		fwrite(start, 1, begin-start, stdout);
+		fputs("\n", stdout);
+		break;
+	case state_number:
+		fputs(".number ", stdout);
+		fwrite(start, 1, begin-start, stdout);
+		fputs("\n", stdout);
+		break;
+	}
+}
+
+int main(int argc, char ** argv)
+{
+	try
+	{
+		argc -= 1;
+		argv += 1;
+
+		if (argc == 0)
+			throw std::runtime_error("no document specified");
+
+		rdf::graph metadata;
+		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
+		if (!reader)
+		{
+			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
+			return 0;
+		}
+
+		while (reader->read())
+		{
+			if (reader->type & cainteoir::events::text)
+				parseTextBuffer(reader->text);
+		}
+	}
+	catch (std::runtime_error &e)
+	{
+		fprintf(stderr, "error: %s\n", e.what());
+	}
+
+	return 0;
+}

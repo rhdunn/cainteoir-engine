@@ -274,6 +274,11 @@ noinst_bin_PROGRAMS += tests/utf8
 tests_utf8_LDADD   = src/libcainteoir/libcainteoir.la
 tests_utf8_SOURCES = tests/utf8.cpp
 
+noinst_bin_PROGRAMS += tests/parsetext
+
+tests_parsetext_LDADD   = src/libcainteoir/libcainteoir.la
+tests_parsetext_SOURCES = tests/parsetext.cpp
+
 TEST_FILES = \
 	tests/epub/* \
 	tests/ncx/* \
@@ -303,3 +308,4 @@ check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/tur
 	python tests/metadata.py
 	python tests/vorbis-comments.py
 	python tests/events.py
+	python tests/parsetext.py

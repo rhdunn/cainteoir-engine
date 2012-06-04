@@ -37,6 +37,7 @@ tests/xmlreader
 tests/encoding
 tests/languages
 tests/utf8
+tests/parsetext
 
 # docs output:
 
