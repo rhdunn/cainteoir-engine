@@ -25,41 +25,6 @@
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
-const char *ascii_names[128] = {
-	nullptr,        nullptr,            nullptr,        nullptr,
-	nullptr,        nullptr,            nullptr,        nullptr,
-	nullptr,        nullptr,            nullptr,        nullptr,
-	nullptr,        nullptr,            nullptr,        nullptr,
-	nullptr,        nullptr,            nullptr,        nullptr,
-	nullptr,        nullptr,            nullptr,        nullptr,
-	nullptr,        nullptr,            nullptr,        nullptr,
-	nullptr,        nullptr,            nullptr,        nullptr,
-	"space",        "exclamation mark", "double quote", "number sign",
-	"dollar",       "percent",          "ampersand",    "quote",
-	"open paren",   "close paren",      "asterisk",     "plus",
-	"comma",        "minus",            "full stop",    "forward slash",
-	"zero",         "one",              "two",          "three",
-	"four",         "five",             "six",          "seven",
-	"eight",        "nine",             "colon",        "semicolon",
-	"less than",    "equal to",         "greater than", "question mark",
-	"at sign",      "a",                "b",            "c",
-	"d",            "e",                "f",            "g",
-	"h",            "i",                "j",            "k",
-	"l",            "m",                "n",            "o",
-	"p",            "q",                "r",            "s",
-	"t",            "u",                "v",            "w",
-	"x",            "y",                "z",            "open bracket",
-	"back slash",   "close bracket",    "caret",        "underscore",
-	"apostrophe",   "a",                "b",            "c",
-	"d",            "e",                "f",            "g",
-	"h",            "i",                "j",            "k",
-	"l",            "m",                "n",            "o",
-	"p",            "q",                "r",            "s",
-	"t",            "u",                "v",            "w",
-	"x",            "y",                "z",            "open brace",
-	"vertical bar", "close brace",      "tilde",        nullptr
-};
-
 enum state
 {
 	state_root,
@@ -116,11 +81,7 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 			// other:
 			default:
 				if (*begin < 0x80)
-				{
-					const char *name = ascii_names[*begin];
-					if (name)
-						fprintf(stdout, ".ascii  %s\n", name);
-				}
+					fprintf(stdout, ".ascii  %c\n", (char)*begin);
 				break;
 			}
 			break;

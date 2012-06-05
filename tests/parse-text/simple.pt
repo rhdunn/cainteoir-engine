@@ -3,5 +3,5 @@
 .word   a
 .word   simple
 .word   sentence
-.ascii  full stop
+.ascii  .
 .newline
