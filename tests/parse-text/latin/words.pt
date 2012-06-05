@@ -58,3 +58,7 @@
 .word          sleeps
 .word          greatly
 .word          climbing
+.word          lexical
+.word          cast
+.word          Old
+.word          Persian

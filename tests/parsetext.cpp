@@ -89,6 +89,7 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 				break;
 			// space:
 			case ' ': case '\t': case '\r': case '\n':
+			case '_': // treat as space for programming and escaped file names
 				break;
 			// punctuation:
 			case '.': case '!': case '?': case ',': case ':': case ';':

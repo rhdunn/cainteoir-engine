@@ -32,3 +32,5 @@ abode
 sleeps
 greatly
 climbing
+lexical_cast
+Old_Persian
