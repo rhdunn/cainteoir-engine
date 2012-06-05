@@ -4,4 +4,3 @@
 .word   simple
 .word   sentence
 .ascii  .
-.newline

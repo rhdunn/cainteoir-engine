@@ -69,14 +69,11 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 				start = begin;
 				s = state_number;
 				break;
-			// newline:
-			case '\n':
-				fputs(".newline\n", stdout);
-				break;
 			// space:
 			case ' ':
 			case '\t':
 			case '\r':
+			case '\n':
 				break;
 			// other:
 			default:
