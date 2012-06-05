@@ -1,6 +1,6 @@
-.word   This
-.word   is
-.word   a
-.word   simple
-.word   sentence
-.ascii  .
+.word          This
+.word          is
+.word          a
+.word          simple
+.word          sentence
+.punctuation   .

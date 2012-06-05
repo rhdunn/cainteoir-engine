@@ -70,15 +70,16 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 				s = state_number;
 				break;
 			// space:
-			case ' ':
-			case '\t':
-			case '\r':
-			case '\n':
+			case ' ': case '\t': case '\r': case '\n':
+				break;
+			// punctuation:
+			case '.': case '!': case '?': case ',': case ':': case ';':
+				fprintf(stdout, ".punctuation   %c\n", (char)*begin);
 				break;
 			// other:
 			default:
 				if (*begin < 0x80)
-					fprintf(stdout, ".ascii  %c\n", (char)*begin);
+					fprintf(stdout, ".symbol        %c\n", (char)*begin);
 				break;
 			}
 			break;
@@ -101,7 +102,7 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 			case '\'':
 				break;
 			default:
-				fputs(".word   ", stdout);
+				fputs(".word          ", stdout);
 				fwrite(start, 1, begin-start, stdout);
 				fputs("\n", stdout);
 				s = state_root;
@@ -116,7 +117,7 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 			case '5': case '6': case '7': case '8': case '9':
 				break;
 			default:
-				fputs(".number ", stdout);
+				fputs(".number        ", stdout);
 				fwrite(start, 1, begin-start, stdout);
 				fputs("\n", stdout);
 				s = state_root;
@@ -130,12 +131,12 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 	switch (s)
 	{
 	case state_word:
-		fputs(".word   ", stdout);
+		fputs(".word          ", stdout);
 		fwrite(start, 1, begin-start, stdout);
 		fputs("\n", stdout);
 		break;
 	case state_number:
-		fputs(".number ", stdout);
+		fputs(".number        ", stdout);
 		fwrite(start, 1, begin-start, stdout);
 		fputs("\n", stdout);
 		break;
