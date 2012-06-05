@@ -20,6 +20,12 @@
 .word          the
 .word          third
 .punctuation   .
+.word          The
+.punctuation   (
+.word          logical
+.punctuation   )
+.word          conclusion
+.punctuation   .
 .word          That
 .word          it
 .word          be

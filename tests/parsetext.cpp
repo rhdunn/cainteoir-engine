@@ -92,7 +92,9 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 			case '_': // treat as space for programming and escaped file names
 				break;
 			// punctuation:
-			case '.': case '!': case '?': case ',': case ':': case ';':
+			case '.': case '!': case '?':
+			case ',': case ':': case ';':
+			case '(': case ')':
 				fprintf(stdout, ".punctuation   %c\n", (char)*begin);
 				break;
 			// other:

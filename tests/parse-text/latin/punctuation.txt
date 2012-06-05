@@ -3,5 +3,7 @@ One, two and three.
 Ordered ... the first; the
 second . . . and the third.
 
+The (logical) conclusion.
+
 That it be! Why is that?
 Surely not!?
