@@ -39,6 +39,8 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 	const uint8_t *start = begin;
 	state s = state_root;
 
+	uint8_t quote = 0;
+
 	while (begin != end)
 	{
 		switch (s)
@@ -46,6 +48,22 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 		case state_root:
 			switch (*begin)
 			{
+			case '"':
+				switch (quote)
+				{
+				case 0:
+					fprintf(stdout, ".begin-quote   %c\n", (char)*begin);
+					quote = '"';
+					break;
+				case '"':
+					fprintf(stdout, ".end-quote     %c\n", (char)*begin);
+					quote = 0;
+					break;
+				default:
+					fprintf(stdout, ".symbol        %c\n", (char)*begin);
+					break;
+				}
+				break;
 			// alpha:
 			case 'a': case 'b': case 'c': case 'd':
 			case 'e': case 'f': case 'g': case 'h':
