@@ -205,10 +205,28 @@ if __name__ == '__main__':
 				('META-INF/container.xml', 'ocf/simple.ocf'),
 				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
 				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/semantics/simple.xhtml')
+				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
 			],
 		'groups': [
 			{'name': 'with-content', 'type': 'events', 'tests': [
+				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
+				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
+			]},
+		]
+	})
+	test.run({ 'name': 'ePub',
+		'archive':
+			[
+				# incorrectly constructed ePUb document -- the mimetype
+				# file is the last entry, not the first:
+				('META-INF/container.xml', 'ocf/simple.ocf'),
+				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
+				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
+				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
+				('mimetype', 'application/epub+zip'),
+			],
+		'groups': [
+			{'name': 'mimetype at end', 'type': 'events', 'tests': [
 				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
 				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
 			]},

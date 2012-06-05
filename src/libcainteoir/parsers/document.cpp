@@ -73,10 +73,20 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		return createDocumentReader(decompressed, aSubject, aPrimaryMetadata, aTitle);
 	}
 
-	if (mime::epub.match(aData))
+	if (mime::zip.match(aData))
 	{
 		auto archive = create_zip_archive(aData, aSubject);
-		return createEpubReader(archive, aSubject, aPrimaryMetadata);
+
+		auto mimetype = archive->read("mimetype");
+		if (mimetype)
+		{
+			if (!mimetype->compare(mime::epub.mime_type))
+				return createEpubReader(archive, aSubject, aPrimaryMetadata);
+
+			return std::shared_ptr<document_reader>();
+		}
+
+		return createZipReader(archive);
 	}
 
 	if (mime::xml.match(aData))
@@ -123,12 +133,6 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 
 	if (mime::pdf.match(aData))
 		return createPdfReader(aData, aSubject, aPrimaryMetadata, aTitle);
-
-	if (mime::zip.match(aData))
-	{
-		auto archive = create_zip_archive(aData, aSubject);
-		return createZipReader(archive);
-	}
 
 	return createPlainTextReader(aData, aSubject, aPrimaryMetadata, aTitle);
 }
