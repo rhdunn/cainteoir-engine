@@ -26,6 +26,7 @@ if __name__ == '__main__':
 		{'name': 'text', 'type': 'parsetext', 'tests': [
 			{'test': 'parse-text/simple.txt', 'result': 'parse-text/simple.pt'},
 			{'test': 'parse-text/number.txt', 'result': 'parse-text/number.pt'},
+			{'test': 'parse-text/ascii-punctuation.txt', 'result': 'parse-text/ascii-punctuation.pt'},
 		]},
 	]})
 	test.summary()
