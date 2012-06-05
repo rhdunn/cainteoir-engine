@@ -23,11 +23,11 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('parsetext', sys.argv)
 	test.run({'name': 'Parse Text', 'groups': [
-		{'name': 'text', 'type': 'parsetext', 'tests': [
-			{'test': 'parse-text/simple.txt', 'result': 'parse-text/simple.pt'},
-			{'test': 'parse-text/number.txt', 'result': 'parse-text/number.pt'},
-			{'test': 'parse-text/ascii-punctuation.txt', 'result': 'parse-text/ascii-punctuation.pt'},
-			{'test': 'parse-text/ascii-quotes.txt', 'result': 'parse-text/ascii-quotes.pt'},
+		{'name': 'Latin', 'type': 'parsetext', 'tests': [
+			{'test': 'parse-text/latin/words.txt', 'result': 'parse-text/latin/words.pt'},
+			{'test': 'parse-text/latin/numbers.txt', 'result': 'parse-text/latin/numbers.pt'},
+			{'test': 'parse-text/latin/punctuation.txt', 'result': 'parse-text/latin/punctuation.pt'},
+			{'test': 'parse-text/latin/quotes.txt', 'result': 'parse-text/latin/quotes.pt'},
 		]},
 	]})
 	test.summary()
