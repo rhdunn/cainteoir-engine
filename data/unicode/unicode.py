@@ -122,7 +122,7 @@ script_codes = parse_script_codes('../languages.rdf')
 unicode_data = {}
 for data in read_data(os.path.join(unicode_data_path, 'UnicodeData.txt')):
 	if data[1] == '<control>' and data[10] != '':
-		unicode_data[data[0]] = {'name': data[9], 'category': data[2]}
+		unicode_data[data[0]] = {'name': data[10], 'category': data[2]}
 	else:
 		unicode_data[data[0]] = {'name': data[1], 'category': data[2]}
 
