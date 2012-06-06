@@ -24,24 +24,34 @@ unicode_data_path = sys.argv[1]
 
 class UnicodeCodePoint:
 	def __init__(self, codepoint):
-		self.codepoint = codepoint
+		self.codepoint = int(codepoint, 16)
 
 	def __str__(self):
-		return self.codepoint
+		return '%06X' % self.codepoint
 
 	def __repr__(self):
-		return self.codepoint
+		return str(self)
+
+	def __lt__(self, other):
+		if isinstance(other, UnicodeRange):
+			return self.codepoint < other.first
+		return self.codepoint < other.codepoint
 
 class UnicodeRange:
 	def __init__(self, first, last):
-		self.first = first
-		self.last = last
+		self.first = UnicodeCodePoint(first)
+		self.last = UnicodeCodePoint(last)
 
 	def __str__(self):
 		return '%s..%s' % (self.first, self.last)
 
 	def __repr__(self):
-		return '%s..%s' % (self.first, self.last)
+		return str(self)
+
+	def __lt__(self, other):
+		if isinstance(other, UnicodeCodePoint):
+			return self.last < other
+		return self.first < other.first and self.last < other.last
 
 def read_data(path, split_char=';'):
 	first = None
