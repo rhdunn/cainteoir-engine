@@ -93,14 +93,21 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 				break;
 			// punctuation:
 			case '.': case '!': case '?':
-			case ',': case ':': case ';':
+			case ',': case ':': case ';': case '-':
 			case '(': case ')':
 				fprintf(stdout, ".punctuation   %c\n", (char)*begin);
 				break;
+			// symbols:
+			case '#': case '$': case '%': case '&':
+			case '*': case '+': case '/': case '\\':
+			case '=': case '@': case '^': case '`':
+			case '|': case '~': case '<': case '>':
+			case '[': case ']': case '{': case '}':
+				fprintf(stdout, ".symbol        %c\n", (char)*begin);
+				break;
 			// other:
 			default:
-				if (*begin < 0x80)
-					fprintf(stdout, ".symbol        %c\n", (char)*begin);
+				fprintf(stdout, ".error         \\x%02X\n", *begin);
 				break;
 			}
 			break;
