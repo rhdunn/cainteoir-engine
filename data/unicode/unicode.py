@@ -34,9 +34,17 @@ class UnicodeCodePoint:
 	def __repr__(self):
 		return str(self)
 
+	def __hash__(self):
+		return hash(str(self))
+
+	def __eq__(self, other):
+		if isinstance(other, UnicodeRange):
+			return False
+		return self.codepoint == other.codepoint
+
 	def __lt__(self, other):
 		if isinstance(other, UnicodeRange):
-			return self.codepoint < other.first
+			return self.codepoint < other.first.codepoint
 		return self.codepoint < other.codepoint
 
 class UnicodeRange:
@@ -50,10 +58,18 @@ class UnicodeRange:
 	def __repr__(self):
 		return str(self)
 
+	def __hash__(self):
+		return hash(str(self))
+
+	def __eq__(self, other):
+		if isinstance(other, UnicodeCodePoint):
+			return False
+		return self.first == other.first and self.last == other.last
+
 	def __lt__(self, other):
 		if isinstance(other, UnicodeCodePoint):
-			return self.last < other
-		return self.first < other.first and self.last < other.last
+			return self.first.codepoint < other.codepoint
+		return self.first < other.first
 
 def read_data(path, split_char=';'):
 	first = None
