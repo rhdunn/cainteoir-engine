@@ -20,6 +20,8 @@
 import os
 import sys
 
+from xml.dom import minidom
+
 unicode_data_path = sys.argv[1]
 
 class UnicodeCodePoint:
@@ -83,6 +85,40 @@ def read_data(path, split_char=';'):
 				data[0] = UnicodeCodePoint(data[0])
 			yield data
 
+def select(tag, ns, name):
+	value = tag.getElementsByTagNameNS(ns, name)[0].firstChild.nodeValue
+	if type(value).__name__ == 'unicode':
+		return value.encode('utf-8')
+	return value
+
+def parse_script_codes(language_data):
+	doc = minidom.parse(language_data).documentElement
+	unicode_names = { # These are where the names differ between IANA and Unicode:
+		'Cans': ['Canadian_Aboriginal'],
+		'Egyp': ['Egyptian_Hieroglyphs'],
+		'Mtei': ['Meetei_Mayek'],
+		'Nkoo': ['Nko'],
+		'Phag': ['Phags_Pa'],
+		'Zyyy': ['Common', 'Inherited'],
+	}
+	scripts = {}
+	for script in doc.getElementsByTagNameNS('http://rhdunn.github.com/cainteoir/schema/iana#', 'Script'):
+		ref = select(script, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'value')
+		if ref in unicode_names.keys():
+			for name in unicode_names[ref]:
+				scripts[name] = ref
+		else:
+			name = select(script, 'http://purl.org/dc/terms/', 'title')
+			if '(' in name:
+				name = name.split('(')[0]
+			if ',' in name:
+				name = name.split(',')[0]
+			name = '_'.join(name.split())
+			scripts[name] = ref
+	return scripts
+
+script_codes = parse_script_codes('../languages.rdf')
+
 unicode_data = {}
 for data in read_data(os.path.join(unicode_data_path, 'UnicodeData.txt')):
 	if data[1] == '<control>' and data[10] != '':
@@ -100,4 +136,4 @@ for data in read_data(os.path.join(unicode_data_path, 'Blocks.txt')):
 
 scripts = {}
 for data in read_data(os.path.join(unicode_data_path, 'Scripts.txt')):
-	scripts[data[0]] = data[1]
+	scripts[data[0]] = script_codes[data[1]]
