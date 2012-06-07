@@ -25,60 +25,6 @@ from xml.dom import minidom
 
 unicode_data_path = sys.argv[1]
 
-class UnicodeCodePoint:
-	def __init__(self, codepoint):
-		self.codepoint = int(codepoint, 16)
-
-	def __str__(self):
-		return '%06X' % self.codepoint
-
-	def __repr__(self):
-		return str(self)
-
-	def __hash__(self):
-		return hash(str(self))
-
-	def __eq__(self, other):
-		if isinstance(other, UnicodeRange):
-			return False
-		return self.codepoint == other.codepoint
-
-	def __lt__(self, other):
-		if isinstance(other, UnicodeRange):
-			return self.codepoint < other.first.codepoint
-		return self.codepoint < other.codepoint
-
-class UnicodeRange:
-	def __init__(self, first, last):
-		self.first = UnicodeCodePoint(first)
-		self.last = UnicodeCodePoint(last)
-
-	def __str__(self):
-		return '%s..%s' % (self.first, self.last)
-
-	def __repr__(self):
-		return str(self)
-
-	def __hash__(self):
-		return hash(str(self))
-
-	def __eq__(self, other):
-		if isinstance(other, UnicodeCodePoint):
-			return False
-		return self.first == other.first and self.last == other.last
-
-	def __lt__(self, other):
-		if isinstance(other, UnicodeCodePoint):
-			return self.first.codepoint < other.codepoint
-		return self.first < other.first
-
-def json_encode(item):
-	if isinstance(item, UnicodeCodePoint):
-		return 'U+%06X' % item.codepoint
-	if isinstance(item, UnicodeRange):
-		return 'U+%06X..U+%06X' % (item.first.codepoint, item.last.codepoint)
-	raise TypeError('%s is not JSON serializable' % repr(item))
-
 def read_data(path, split_char=';'):
 	first = None
 	with open(path) as f:
@@ -99,14 +45,14 @@ def read_data(path, split_char=';'):
 				continue
 
 			if data[1].endswith(', Last>'):
-				data[0] = UnicodeRange(first[0], data[0])
+				data[0] = (int(first[0], 16), int(data[0], 16))
 				data[1] = data[1].replace(', Last>', '>')
 				first = None
 			elif '..' in data[0]:
 				codepoints = data[0].split('..')
-				data[0] = UnicodeRange(codepoints[0], codepoints[1])
+				data[0] = (int(codepoints[0], 16), int(codepoints[1], 16))
 			else:
-				data[0] = UnicodeCodePoint(data[0])
+				data[0] = int(data[0], 16)
 			yield data
 
 def select(tag, ns, name):
@@ -174,8 +120,8 @@ for data in read_data(os.path.join(unicode_data_path, 'Scripts.txt')):
 		scripts[script] = []
 	scripts[script].append(data[0])
 
-#print json.dumps(names, indent=2, sort_keys=True, default=json_encode)
-#print json.dumps(categories, indent=2, sort_keys=True, default=json_encode)
-#print json.dumps(age, indent=2, sort_keys=True, default=json_encode)
-#print json.dumps(blocks, indent=2, sort_keys=True, default=json_encode)
-#print json.dumps(scripts, indent=2, sort_keys=True, default=json_encode)
+#print json.dumps(names, indent=2, sort_keys=True)
+#print json.dumps(categories, indent=2, sort_keys=True)
+#print json.dumps(age, indent=2, sort_keys=True)
+#print json.dumps(blocks, indent=2, sort_keys=True)
+#print json.dumps(scripts, indent=2, sort_keys=True)
