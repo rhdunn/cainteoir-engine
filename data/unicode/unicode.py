@@ -91,12 +91,13 @@ def select(tag, ns, name):
 def parse_script_codes(language_data):
 	doc = minidom.parse(language_data).documentElement
 	unicode_names = { # These are where the names differ between IANA and Unicode:
-		'Cans': ['Canadian_Aboriginal'],
-		'Egyp': ['Egyptian_Hieroglyphs'],
-		'Mtei': ['Meetei_Mayek'],
-		'Nkoo': ['Nko'],
-		'Phag': ['Phags_Pa'],
-		'Zyyy': ['Common', 'Inherited'],
+		'Cans': ['canadian_aboriginal'],
+		'Egyp': ['egyptian_hieroglyphs'],
+		'Hrkt': ['katakana_or_hiragana'],
+		'Mtei': ['meetei_mayek'],
+		'Nkoo': ['nko'],
+		'Phag': ['phags_pa'],
+		'Zyyy': ['common', 'inherited'],
 	}
 	scripts = {}
 	for script in doc.getElementsByTagNameNS('http://rhdunn.github.com/cainteoir/schema/iana#', 'Script'):
@@ -111,7 +112,7 @@ def parse_script_codes(language_data):
 			if ',' in name:
 				name = name.split(',')[0]
 			name = '_'.join(name.split())
-			scripts[name] = ref
+			scripts[name.lower()] = ref
 	return scripts
 
 script_codes = parse_script_codes('../languages.rdf')
@@ -145,7 +146,7 @@ for data in read_data(unicode_data_file(unicode_data_path, 'DerivedAge')):
 			pass
 
 for data in read_data(unicode_data_file(unicode_data_path, 'Scripts')):
-	script = script_codes[data[1]]
+	script = script_codes[data[1].lower()]
 	for codepoint in enumerate_codepoints(data[0]):
 		try:
 			unicode_char[codepoint]['script'] = script
