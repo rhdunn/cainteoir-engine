@@ -22,8 +22,29 @@ import sys
 import json
 
 from xml.dom import minidom
+from operator import itemgetter, attrgetter
 
 unicode_data_path = sys.argv[1]
+
+def utf8(c):
+	if c < 0x80:
+		return '\\x%02X' % c
+	return repr(unichr(c).encode('utf-8'))[1:-1]
+
+def within(c, r):
+	r_first, r_last = r
+	if isinstance(c, int):
+		return r_first <= c and c <= r_last
+	c_first, c_last = c
+	return r_first <= c_first and c_last <= r_last
+
+def enumerate_codepoints(codepoints):
+	if isinstance(codepoints, int):
+		yield codepoints
+	else:
+		first, last = codepoints
+		for codepoint in range(first, last+1):
+			yield codepoint
 
 def read_data(path, split_char=';'):
 	first = None
@@ -89,39 +110,40 @@ def parse_script_codes(language_data):
 
 script_codes = parse_script_codes('../languages.rdf')
 
-names = {}
-categories = {}
+unicode_char = {}
 for data in read_data(os.path.join(unicode_data_path, 'UnicodeData.txt')):
 	if data[1] == '<control>' and data[10] != '':
 		name = data[10]
 	else:
 		name = data[1]
-	if not name.startswith('<'):
-		names[name] = data[0]
+	if name.startswith('<') and not name == '<control>':
+		name = name[1:-1]
+	for codepoint in enumerate_codepoints(data[0]):
+		unicode_char[codepoint] = {
+			'name': name,
+			'category': data[2],
+			'script': 'Zzzz', # Unknown
+		}
 
-	if not data[2] in categories.keys():
-		categories[data[2]] = []
-	categories[data[2]].append(data[0])
-
-age = {}
 for data in read_data(os.path.join(unicode_data_path, 'DerivedAge.txt')):
-	if not data[1] in age.keys():
-		age[data[1]] = []
-	age[data[1]].append(data[0])
+	for codepoint in enumerate_codepoints(data[0]):
+		try:
+			unicode_char[codepoint]['age'] = data[1]
+		except KeyError:
+			pass
+
+for data in read_data(os.path.join(unicode_data_path, 'Scripts.txt')):
+	script = script_codes[data[1]]
+	for codepoint in enumerate_codepoints(data[0]):
+		try:
+			unicode_char[codepoint]['script'] = script
+		except KeyError:
+			pass
 
 blocks = {}
 for data in read_data(os.path.join(unicode_data_path, 'Blocks.txt')):
 	blocks[data[1]] = data[0]
 
-scripts = {}
-for data in read_data(os.path.join(unicode_data_path, 'Scripts.txt')):
-	script = script_codes[data[1]]
-	if not script in scripts.keys():
-		scripts[script] = []
-	scripts[script].append(data[0])
-
-#print json.dumps(names, indent=2, sort_keys=True)
-#print json.dumps(categories, indent=2, sort_keys=True)
-#print json.dumps(age, indent=2, sort_keys=True)
-#print json.dumps(blocks, indent=2, sort_keys=True)
-#print json.dumps(scripts, indent=2, sort_keys=True)
+print 'script,category,age,codepoint,utf-8,name'
+for codepoint, data in sorted(unicode_char.items()):
+	print '%s,%s,%s,%04X,%s,%s' % (data['script'], data['category'], data['age'], codepoint, utf8(codepoint), data['name'])
