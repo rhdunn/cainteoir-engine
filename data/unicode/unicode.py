@@ -19,6 +19,7 @@
 
 import os
 import sys
+import json
 
 from xml.dom import minidom
 
@@ -70,6 +71,13 @@ class UnicodeRange:
 		if isinstance(other, UnicodeCodePoint):
 			return self.first.codepoint < other.codepoint
 		return self.first < other.first
+
+def json_encode(item):
+	if isinstance(item, UnicodeCodePoint):
+		return 'U+%06X' % item.codepoint
+	if isinstance(item, UnicodeRange):
+		return 'U+%06X..U+%06X' % (item.first.codepoint, item.last.codepoint)
+	raise TypeError('%s is not JSON serializable' % repr(item))
 
 def read_data(path, split_char=';'):
 	first = None
@@ -135,21 +143,39 @@ def parse_script_codes(language_data):
 
 script_codes = parse_script_codes('../languages.rdf')
 
-unicode_data = {}
+names = {}
+categories = {}
 for data in read_data(os.path.join(unicode_data_path, 'UnicodeData.txt')):
 	if data[1] == '<control>' and data[10] != '':
-		unicode_data[data[0]] = {'name': data[10], 'category': data[2]}
+		name = data[10]
 	else:
-		unicode_data[data[0]] = {'name': data[1], 'category': data[2]}
+		name = data[1]
+	if not name.startswith('<'):
+		names[name] = data[0]
+
+	if not data[2] in categories.keys():
+		categories[data[2]] = []
+	categories[data[2]].append(data[0])
 
 age = {}
 for data in read_data(os.path.join(unicode_data_path, 'DerivedAge.txt')):
-	age[data[0]] = data[1]
+	if not data[1] in age.keys():
+		age[data[1]] = []
+	age[data[1]].append(data[0])
 
 blocks = {}
 for data in read_data(os.path.join(unicode_data_path, 'Blocks.txt')):
-	blocks[data[0]] = data[1]
+	blocks[data[1]] = data[0]
 
 scripts = {}
 for data in read_data(os.path.join(unicode_data_path, 'Scripts.txt')):
-	scripts[data[0]] = script_codes[data[1]]
+	script = script_codes[data[1]]
+	if not script in scripts.keys():
+		scripts[script] = []
+	scripts[script].append(data[0])
+
+#print json.dumps(names, indent=2, sort_keys=True, default=json_encode)
+#print json.dumps(categories, indent=2, sort_keys=True, default=json_encode)
+#print json.dumps(age, indent=2, sort_keys=True, default=json_encode)
+#print json.dumps(blocks, indent=2, sort_keys=True, default=json_encode)
+#print json.dumps(scripts, indent=2, sort_keys=True, default=json_encode)
