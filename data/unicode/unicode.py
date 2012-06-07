@@ -172,8 +172,8 @@ for codepoint in enumerate_codepoints((0, int('10FFFF', 16))):
 		data = unicode_char[codepoint]
 	except KeyError:
 		data = {
-			'name': 'Unknown',
-			'category': 'Cc',
+			'name': '',
+			'category': 'Cn',
 			'age': '0.0',
 			'script': 'Zzzz',
 			'whitespace': '-',
