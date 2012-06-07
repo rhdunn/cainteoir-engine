@@ -46,6 +46,12 @@ def enumerate_codepoints(codepoints):
 		for codepoint in range(first, last+1):
 			yield codepoint
 
+def unicode_data_file(path, name):
+	for filename in os.listdir(path):
+		if filename.startswith(name) and filename.endswith('.txt'):
+			return os.path.join(path, filename)
+	raise Exception('Unable to find Unicode Character Data file %s' % name)
+
 def read_data(path, split_char=';'):
 	first = None
 	with open(path) as f:
@@ -111,7 +117,7 @@ def parse_script_codes(language_data):
 script_codes = parse_script_codes('../languages.rdf')
 
 unicode_char = {}
-for data in read_data(os.path.join(unicode_data_path, 'UnicodeData.txt')):
+for data in read_data(unicode_data_file(unicode_data_path, 'UnicodeData')):
 	if data[1] == '<control>' and data[10] != '':
 		name = data[10]
 	else:
@@ -131,14 +137,14 @@ for data in read_data(os.path.join(unicode_data_path, 'UnicodeData.txt')):
 			'end-of-sentence': '-',
 		}
 
-for data in read_data(os.path.join(unicode_data_path, 'DerivedAge.txt')):
+for data in read_data(unicode_data_file(unicode_data_path, 'DerivedAge')):
 	for codepoint in enumerate_codepoints(data[0]):
 		try:
 			unicode_char[codepoint]['age'] = data[1]
 		except KeyError:
 			pass
 
-for data in read_data(os.path.join(unicode_data_path, 'Scripts.txt')):
+for data in read_data(unicode_data_file(unicode_data_path, 'Scripts')):
 	script = script_codes[data[1]]
 	for codepoint in enumerate_codepoints(data[0]):
 		try:
@@ -146,7 +152,7 @@ for data in read_data(os.path.join(unicode_data_path, 'Scripts.txt')):
 		except KeyError:
 			pass
 
-for data in read_data(os.path.join(unicode_data_path, 'PropList.txt')):
+for data in read_data(unicode_data_file(unicode_data_path, 'PropList')):
 	props = {
 		'White_Space': ('whitespace', 'W'),
 		'Dash': ('dash', 'D'),
@@ -164,7 +170,7 @@ for data in read_data(os.path.join(unicode_data_path, 'PropList.txt')):
 				pass
 
 blocks = {}
-for data in read_data(os.path.join(unicode_data_path, 'Blocks.txt')):
+for data in read_data(unicode_data_file(unicode_data_path, 'Blocks')):
 	blocks[data[1]] = data[0]
 
 for codepoint in enumerate_codepoints((0, int('10FFFF', 16))):
