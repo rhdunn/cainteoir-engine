@@ -27,9 +27,7 @@ from operator import itemgetter, attrgetter
 unicode_data_path = sys.argv[1]
 
 def utf8(c):
-	if c < 0x80:
-		return '\\x%02X' % c
-	return repr(unichr(c).encode('utf-8'))[1:-1]
+	return ''.join(['\\x%02X' % ord(byte) for byte in unichr(c).encode('utf-8')])
 
 def within(c, r):
 	r_first, r_last = r
