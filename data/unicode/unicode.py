@@ -145,5 +145,14 @@ for data in read_data(os.path.join(unicode_data_path, 'Blocks.txt')):
 	blocks[data[1]] = data[0]
 
 print 'script,category,age,codepoint,utf-8,name'
-for codepoint, data in sorted(unicode_char.items()):
+for codepoint in enumerate_codepoints((0, int('10FFFF', 16))):
+	try:
+		data = unicode_char[codepoint]
+	except KeyError:
+		data = {
+			'name': 'Unknown',
+			'category': 'Cc',
+			'age': '0.0',
+			'script': 'Zzzz'
+		}
 	print '%s,%s,%s,%04X,%s,%s' % (data['script'], data['category'], data['age'], codepoint, utf8(codepoint), data['name'])
