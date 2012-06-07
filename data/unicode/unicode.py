@@ -123,6 +123,12 @@ for data in read_data(os.path.join(unicode_data_path, 'UnicodeData.txt')):
 			'name': name,
 			'category': data[2],
 			'script': 'Zzzz', # Unknown
+			'whitespace': '-',
+			'dash': '-',
+			'hyphen': '-',
+			'quote': '-',
+			'terminal': '-',
+			'end-of-sentence': '-',
 		}
 
 for data in read_data(os.path.join(unicode_data_path, 'DerivedAge.txt')):
@@ -140,11 +146,27 @@ for data in read_data(os.path.join(unicode_data_path, 'Scripts.txt')):
 		except KeyError:
 			pass
 
+for data in read_data(os.path.join(unicode_data_path, 'PropList.txt')):
+	props = {
+		'White_Space': ('whitespace', 'W'),
+		'Dash': ('dash', 'D'),
+		'Hyphen': ('hyphen', 'H'),
+		'Quotation_Mark': ('quote', 'Q'),
+		'Terminal_Punctuation': ('terminal', 'T'), # sentence or clause
+		'STerm': ('end-of-sentence', 'S'),
+	}
+	if data[1] in props.keys():
+		prop, code = props[data[1]]
+		for codepoint in enumerate_codepoints(data[0]):
+			try:
+				unicode_char[codepoint][prop] = code
+			except KeyError:
+				pass
+
 blocks = {}
 for data in read_data(os.path.join(unicode_data_path, 'Blocks.txt')):
 	blocks[data[1]] = data[0]
 
-print 'script,category,age,codepoint,utf-8,name'
 for codepoint in enumerate_codepoints((0, int('10FFFF', 16))):
 	try:
 		data = unicode_char[codepoint]
@@ -153,6 +175,14 @@ for codepoint in enumerate_codepoints((0, int('10FFFF', 16))):
 			'name': 'Unknown',
 			'category': 'Cc',
 			'age': '0.0',
-			'script': 'Zzzz'
+			'script': 'Zzzz',
+			'whitespace': '-',
+			'dash': '-',
+			'hyphen': '-',
+			'quote': '-',
+			'terminal': '-',
+			'end-of-sentence': '-',
 		}
-	print '%s,%s,%s,%04X,%s,%s' % (data['script'], data['category'], data['age'], codepoint, utf8(codepoint), data['name'])
+	data['codepoint'] = codepoint
+	data['utf8'] = utf8(codepoint)
+	print '%(script)s,%(category)s,%(whitespace)c%(dash)c%(hyphen)c%(quote)c%(terminal)c%(end-of-sentence)c,%(age)s,%(codepoint)04X,%(utf8)s,%(name)s' % data
