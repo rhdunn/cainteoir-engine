@@ -80,7 +80,7 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		auto mimetype = archive->read("mimetype");
 		if (mimetype)
 		{
-			if (!mimetype->compare(mime::epub.mime_type))
+			if (mimetype->startswith(mime::epub.mime_type))
 				return createEpubReader(archive, aSubject, aPrimaryMetadata);
 
 			return std::shared_ptr<document_reader>();
