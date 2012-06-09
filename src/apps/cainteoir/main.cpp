@@ -415,7 +415,7 @@ int main(int argc, char ** argv)
 		auto reader = cainteoir::createDocumentReader(filename, doc.m_metadata, std::string());
 		if (!reader)
 		{
-			printf(i18n("error: document \"%s\" format not supported.\n"), filename ? filename : "<stdout>");
+			fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), filename ? filename : "<stdin>");
 			return EXIT_FAILURE;
 		}
 

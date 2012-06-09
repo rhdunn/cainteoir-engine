@@ -18,6 +18,9 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "i18n.h"
+
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/document.hpp>
 #include <stdexcept>
@@ -26,7 +29,7 @@
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
-void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader)
+static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader)
 {
 	while (reader->read())
 	{
@@ -49,7 +52,7 @@ void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader)
 	}
 }
 
-void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader)
+static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader)
 {
 	bool first = true;
 	cainteoir::rope text;
@@ -138,25 +141,32 @@ int main(int argc, char ** argv)
 		argc -= 1;
 		argv += 1;
 
-		if (argc != 2)
-			throw std::runtime_error("no document specified");
+		const char *format   = (argc >= 1) ? argv[0] : nullptr;
+		const char *filename = (argc == 2) ? argv[1] : nullptr;
+
+		decltype(writeTextDocument) *writer = nullptr;
+		if (!strcmp(format, "text"))
+			writer = writeTextDocument;
+		else if (!strcmp(format, "html"))
+			writer = writeHtmlDocument;
+		else
+			throw std::runtime_error(i18n("unsupported format to convert to (html and text only)"));
 
 		rdf::graph metadata;
-		auto reader = cainteoir::createDocumentReader(argv[1], metadata, std::string());
+		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
 		if (!reader)
-			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[1]);
+		{
+			fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), filename ? filename : "<stdin>");
+			return EXIT_FAILURE;
+		}
 
-		if (!strcmp(argv[0], "text"))
-			writeTextDocument(reader);
-		else if (!strcmp(argv[0], "html"))
-			writeHtmlDocument(reader);
-		else
-			throw std::runtime_error("unsupported format to convert to (html and text only)");
+		writer(reader);
 	}
 	catch (std::runtime_error &e)
 	{
-		fprintf(stderr, "error: %s\n", e.what());
+		fprintf(stderr, i18n("error: %s\n"), e.what());
+		return EXIT_FAILURE;
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }
