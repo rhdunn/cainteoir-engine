@@ -31,6 +31,7 @@ namespace events = cainteoir::events;
 
 static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader)
 {
+	bool need_linebreak = false;
 	while (reader->read())
 	{
 		if (reader->type & cainteoir::events::begin_context)
@@ -41,13 +42,18 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 			case events::heading:
 			case events::list:
 			case events::list_item:
-				fwrite("\n\n", 1, 2, stdout);
+				if (need_linebreak)
+				{
+					fwrite("\n\n", 1, 2, stdout);
+					need_linebreak = false;
+				}
 				break;
 			}
 		}
 		if (reader->type & cainteoir::events::text)
 		{
 			fwrite(reader->text->begin(), 1, reader->text->size(), stdout);
+			need_linebreak = true;
 		}
 	}
 }
