@@ -202,6 +202,56 @@ namespace cainteoir
 			  * @endcode
 			  */
 			sentence,
+
+			/** @brief Table
+			  *
+			  * @begincode
+			  *   context table
+			  *     context row
+			  *       context cell
+			  *         text "a1"
+			  *       end
+			  *       context cell
+			  *         text "a2"
+			  *       end
+			  *     end
+			  *     context row
+			  *       context cell
+			  *         text "b1"
+			  *       end
+			  *       context cell
+			  *         text "b2"
+			  *       end
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			table,
+
+			/** @brief Table Row
+			  *
+			  * @begincode
+			  *   context row
+			  *     context cell
+			  *       text "1,1"
+			  *     end
+			  *     context cell
+			  *       text "1,2"
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			row,
+
+			/** @brief Table Cell
+			  *
+			  * @begincode
+			  *   context cell
+			  *     text "4,8"
+			  *   end
+			  * @endcode
+			  */
+			cell,
 		};
 
 		/** @brief The style of the paragraph or span context.

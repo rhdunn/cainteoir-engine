@@ -42,9 +42,18 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 			case events::heading:
 			case events::list:
 			case events::list_item:
+			case events::table:
+			case events::row:
 				if (need_linebreak)
 				{
 					fwrite("\n\n", 1, 2, stdout);
+					need_linebreak = false;
+				}
+				break;
+			case events::cell:
+				if (need_linebreak)
+				{
+					fwrite("\n", 1, 1, stdout);
 					need_linebreak = false;
 				}
 				break;
