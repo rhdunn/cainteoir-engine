@@ -24,8 +24,6 @@ import json
 from xml.dom import minidom
 from operator import itemgetter, attrgetter
 
-unicode_data_path = sys.argv[1]
-
 def utf8(c):
 	return ''.join(['\\x%02X' % ord(byte) for byte in unichr(c).encode('utf-8')])
 
@@ -113,81 +111,112 @@ def parse_script_codes(language_data):
 			scripts[name.lower()] = ref
 	return scripts
 
-script_codes = parse_script_codes('languages.rdf')
+def parse_ucd(unicode_data_path):
+	script_codes = parse_script_codes('languages.rdf')
 
-unicode_char = {}
-for data in read_data(unicode_data_file(unicode_data_path, 'UnicodeData')):
-	if data[1] == '<control>' and data[10] != '':
-		name = data[10]
-	else:
-		name = data[1]
-	if name.startswith('<') and not name == '<control>':
-		name = name[1:-1]
-	for codepoint in enumerate_codepoints(data[0]):
-		unicode_char[codepoint] = {
-			'name': name,
-			'category': data[2],
-			'script': 'Zzzz', # Unknown
-			'whitespace': '-',
-			'dash': '-',
-			'hyphen': '-',
-			'quote': '-',
-			'terminal': '-',
-			'end-of-sentence': '-',
-		}
+	unicode_char = {}
+	for data in read_data(unicode_data_file(unicode_data_path, 'UnicodeData')):
+		if data[1] == '<control>' and data[10] != '':
+			name = data[10]
+		else:
+			name = data[1]
+		if name.startswith('<') and not name == '<control>':
+			name = name[1:-1]
+		for codepoint in enumerate_codepoints(data[0]):
+			unicode_char[codepoint] = {
+				'name': name,
+				'category': data[2],
+				'script': 'Zzzz', # Unknown
+				'whitespace': '-',
+				'dash': '-',
+				'hyphen': '-',
+				'quote': '-',
+				'terminal': '-',
+				'end-of-sentence': '-',
+			}
 
-for data in read_data(unicode_data_file(unicode_data_path, 'DerivedAge')):
-	for codepoint in enumerate_codepoints(data[0]):
-		try:
-			unicode_char[codepoint]['age'] = data[1]
-		except KeyError:
-			pass
-
-for data in read_data(unicode_data_file(unicode_data_path, 'Scripts')):
-	script = script_codes[data[1].lower()]
-	for codepoint in enumerate_codepoints(data[0]):
-		try:
-			unicode_char[codepoint]['script'] = script
-		except KeyError:
-			pass
-
-for data in read_data(unicode_data_file(unicode_data_path, 'PropList')):
-	props = {
-		'White_Space': ('whitespace', 'W'),
-		'Dash': ('dash', 'D'),
-		'Hyphen': ('hyphen', 'H'),
-		'Quotation_Mark': ('quote', 'Q'),
-		'Terminal_Punctuation': ('terminal', 'T'), # sentence or clause
-		'STerm': ('end-of-sentence', 'S'),
-	}
-	if data[1] in props.keys():
-		prop, code = props[data[1]]
+	for data in read_data(unicode_data_file(unicode_data_path, 'DerivedAge')):
 		for codepoint in enumerate_codepoints(data[0]):
 			try:
-				unicode_char[codepoint][prop] = code
+				unicode_char[codepoint]['age'] = data[1]
 			except KeyError:
 				pass
 
-blocks = {}
-for data in read_data(unicode_data_file(unicode_data_path, 'Blocks')):
-	blocks[data[1]] = data[0]
+	for data in read_data(unicode_data_file(unicode_data_path, 'Scripts')):
+		script = script_codes[data[1].lower()]
+		for codepoint in enumerate_codepoints(data[0]):
+			try:
+				unicode_char[codepoint]['script'] = script
+			except KeyError:
+				pass
 
-for codepoint in enumerate_codepoints((0, int('10FFFF', 16))):
-	try:
-		data = unicode_char[codepoint]
-	except KeyError:
-		data = {
-			'name': '',
-			'category': 'Cn',
-			'age': '0.0',
-			'script': 'Zzzz',
-			'whitespace': '-',
-			'dash': '-',
-			'hyphen': '-',
-			'quote': '-',
-			'terminal': '-',
-			'end-of-sentence': '-',
+	for data in read_data(unicode_data_file(unicode_data_path, 'PropList')):
+		props = {
+			'White_Space': ('whitespace', 'W'),
+			'Dash': ('dash', 'D'),
+			'Hyphen': ('hyphen', 'H'),
+			'Quotation_Mark': ('quote', 'Q'),
+			'Terminal_Punctuation': ('terminal', 'T'), # sentence or clause
+			'STerm': ('end-of-sentence', 'S'),
 		}
-	data['codepoint'] = codepoint
-	data['utf8'] = utf8(codepoint)
-	print '%(script)s,%(category)s,%(whitespace)c%(dash)c%(hyphen)c%(quote)c%(terminal)c%(end-of-sentence)c,%(age)s,%(codepoint)04X,%(utf8)s,%(name)s' % data
+		if data[1] in props.keys():
+			prop, code = props[data[1]]
+			for codepoint in enumerate_codepoints(data[0]):
+				try:
+					unicode_char[codepoint][prop] = code
+				except KeyError:
+					pass
+
+	blocks = {}
+	for data in read_data(unicode_data_file(unicode_data_path, 'Blocks')):
+		blocks[data[1]] = data[0]
+
+	return unicode_char, blocks
+
+def format_unicode_data_table(unicode_char, blocks, table_format):
+	for codepoint in enumerate_codepoints((0, int('10FFFF', 16))):
+		try:
+			data = unicode_char[codepoint]
+		except KeyError:
+			data = {
+				'name': '',
+				'category': 'Cn',
+				'age': '0.0',
+				'script': 'Zzzz',
+				'whitespace': '-',
+				'dash': '-',
+				'hyphen': '-',
+				'quote': '-',
+				'terminal': '-',
+				'end-of-sentence': '-',
+			}
+		data['codepoint'] = codepoint
+		data['utf8'] = utf8(codepoint)
+		print table_format % data
+
+usage = False
+try:
+	command = sys.argv[1]
+	unicode_data_path = sys.argv[2]
+except IndexError:
+	usage = True
+
+if not usage:
+	if command == 'full':
+		table_format = '%(script)s,%(category)s,%(whitespace)c%(dash)c%(hyphen)c%(quote)c%(terminal)c%(end-of-sentence)c,%(age)s,%(codepoint)04X,%(utf8)s,%(name)s'
+		unicode_char, blocks = parse_ucd(unicode_data_path)
+		format_unicode_data_table(unicode_char, blocks, table_format)
+	elif command == 'compact':
+		table_format = '%(script)s,%(category)s,%(whitespace)c%(dash)c%(hyphen)c%(quote)c%(terminal)c%(end-of-sentence)c,%(age)s,%(utf8)s'
+		unicode_char, blocks = parse_ucd(unicode_data_path)
+		format_unicode_data_table(unicode_char, blocks, table_format)
+	else:
+		usage = True
+
+if usage:
+	print 'usage: unicode.py <command> <ucd-path>'
+	print 'where:'
+	print ' <command> is:'
+	print '   full        Print all the Unicode information in table format.'
+	print '   compact     Print the Unicode information in a table, excluding names.'
+	print ' <ucd-path> is the location of the Unicode Character Data files.'
