@@ -113,7 +113,7 @@ def parse_script_codes(language_data):
 			scripts[name.lower()] = ref
 	return scripts
 
-script_codes = parse_script_codes('../languages.rdf')
+script_codes = parse_script_codes('languages.rdf')
 
 unicode_char = {}
 for data in read_data(unicode_data_file(unicode_data_path, 'UnicodeData')):
