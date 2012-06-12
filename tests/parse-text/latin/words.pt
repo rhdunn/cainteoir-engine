@@ -59,6 +59,8 @@
 .word          greatly
 .word          climbing
 .word          lexical
+.punctuation   _
 .word          cast
 .word          Old
+.punctuation   _
 .word          Persian
