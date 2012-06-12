@@ -32,6 +32,55 @@ enum state
 	state_number,
 };
 
+enum general_category
+{
+	Category_ControlCode,
+	Category_Letter_UpperCase,
+	Category_Letter_LowerCase,
+	Category_Number_Decimal,
+	Category_Punctuation_Close,
+	Category_Punctuation_Connector,
+	Category_Punctuation_Dash,
+	Category_Punctuation_Open,
+	Category_Punctuation_Other,
+	Category_Separator_Space,
+	Category_Symbol_Currency,
+	Category_Symbol_Math,
+	Category_Symbol_Modifier,
+	Category_Symbol_Other,
+	Category_Unknown,
+
+	// http://www.unicode.org/reports/tr44/tr44-8.html#General_Category_Values:
+
+	Cc = Category_ControlCode,
+	Cn = Category_Unknown,
+	Lu = Category_Letter_UpperCase,
+	Ll = Category_Letter_LowerCase,
+	Nd = Category_Number_Decimal,
+	Pc = Category_Punctuation_Connector,
+	Pd = Category_Punctuation_Dash,
+	Pe = Category_Punctuation_Close,
+	Po = Category_Punctuation_Other,
+	Ps = Category_Punctuation_Open,
+	Sc = Category_Symbol_Currency,
+	Sk = Category_Symbol_Modifier,
+	Sm = Category_Symbol_Math,
+	So = Category_Symbol_Other,
+	Zs = Category_Separator_Space,
+};
+
+const general_category category[128] = {
+//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
+/* 0x */ Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc,
+/* 1x */ Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc, Cc,
+/* 2x */ Zs, Po, Po, Po, Sc, Po, Po, Po, Ps, Pe, Po, Sm, Po, Pd, Po, Po,
+/* 3x */ Nd, Nd, Nd, Nd, Nd, Nd, Nd, Nd, Nd, Nd, Po, Po, Sm, Sm, Sm, Po,
+/* 4x */ Po, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu,
+/* 5x */ Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Lu, Ps, Po, Pe, Sk, Pc,
+/* 6x */ Sk, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll,
+/* 7x */ Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ll, Ps, Sm, Pe, Sm, Cc,
+};
+
 class text_reader
 {
 public:
@@ -70,119 +119,129 @@ bool text_reader::read()
 {
 	while (begin != end)
 	{
+		general_category gc = (*begin < 0x80) ? category[*begin] : Cn;
+
 		switch (s)
 		{
 		case state_root:
-			switch (*begin)
+			switch (gc)
 			{
-			case '"':
-				switch (quote)
+			case Category_Punctuation_Other:
+				switch (*begin)
 				{
-				case 0:
-					fprintf(stdout, ".begin-quote   %c\n", (char)*begin);
-					quote = '"';
-					++begin;
-					return true;
+				case '\'':
+					start = begin;
+					s = state_word;
+					break;
 				case '"':
-					fprintf(stdout, ".end-quote     %c\n", (char)*begin);
-					quote = 0;
-					++begin;
-					return true;
+					switch (quote)
+					{
+					case 0:
+						fprintf(stdout, ".begin-quote   %c\n", (char)*begin);
+						quote = '"';
+						++begin;
+						return true;
+					case '"':
+						fprintf(stdout, ".end-quote     %c\n", (char)*begin);
+						quote = 0;
+						++begin;
+						return true;
+					default:
+						fprintf(stdout, ".symbol        %c\n", (char)*begin);
+						++begin;
+						return true;
+					}
+					break;
 				default:
-					fprintf(stdout, ".symbol        %c\n", (char)*begin);
+					fprintf(stdout, ".punctuation   %c\n", (char)*begin);
 					++begin;
 					return true;
 				}
 				break;
-			// alpha:
-			case 'a': case 'b': case 'c': case 'd':
-			case 'e': case 'f': case 'g': case 'h':
-			case 'i': case 'j': case 'k': case 'l': case 'm':
-			case 'n': case 'o': case 'p': case 'q':
-			case 'r': case 's': case 't': case 'u':
-			case 'v': case 'w': case 'x': case 'y': case 'z':
-			case 'A': case 'B': case 'C': case 'D':
-			case 'E': case 'F': case 'G': case 'H':
-			case 'I': case 'J': case 'K': case 'L': case 'M':
-			case 'N': case 'O': case 'P': case 'Q':
-			case 'R': case 'S': case 'T': case 'U':
-			case 'V': case 'W': case 'X': case 'Y': case 'Z':
-			case '\'':
+			case Category_Letter_UpperCase:
+			case Category_Letter_LowerCase:
 				start = begin;
 				s = state_word;
 				break;
-			// number:
-			case '0': case '1': case '2': case '3': case '4':
-			case '5': case '6': case '7': case '8': case '9':
+			case Category_Number_Decimal:
 				start = begin;
 				s = state_number;
 				break;
-			// space:
-			case ' ': case '\t': case '\r': case '\n':
-			case '_': // treat as space for programming and escaped file names
+			case Category_ControlCode:
+			case Category_Separator_Space:
+			case Category_Punctuation_Connector:
 				break;
-			// punctuation:
-			case '.': case '!': case '?':
-			case ',': case ':': case ';': case '-':
-			case '(': case ')':
+			case Category_Punctuation_Dash:
+			case Category_Punctuation_Open:
+			case Category_Punctuation_Close:
 				fprintf(stdout, ".punctuation   %c\n", (char)*begin);
 				++begin;
 				return true;
-			// symbols:
-			case '#': case '$': case '%': case '&':
-			case '*': case '+': case '/': case '\\':
-			case '=': case '@': case '^': case '`':
-			case '|': case '~': case '<': case '>':
-			case '[': case ']': case '{': case '}':
+			case Category_Symbol_Currency:
+			case Category_Symbol_Modifier:
+			case Category_Symbol_Math:
+			case Category_Symbol_Other:
 				fprintf(stdout, ".symbol        %c\n", (char)*begin);
 				++begin;
 				return true;
-			// other:
-			default:
+			case Category_Unknown:
 				fprintf(stdout, ".error         \\x%02X\n", *begin);
 				++begin;
 				return true;
 			}
 			break;
 		case state_word:
-			switch (*begin)
+			switch (gc)
 			{
-			// alpha:
-			case 'a': case 'b': case 'c': case 'd':
-			case 'e': case 'f': case 'g': case 'h':
-			case 'i': case 'j': case 'k': case 'l': case 'm':
-			case 'n': case 'o': case 'p': case 'q':
-			case 'r': case 's': case 't': case 'u':
-			case 'v': case 'w': case 'x': case 'y': case 'z':
-			case 'A': case 'B': case 'C': case 'D':
-			case 'E': case 'F': case 'G': case 'H':
-			case 'I': case 'J': case 'K': case 'L': case 'M':
-			case 'N': case 'O': case 'P': case 'Q':
-			case 'R': case 'S': case 'T': case 'U':
-			case 'V': case 'W': case 'X': case 'Y': case 'Z':
-			case '\'':
+			case Category_Punctuation_Other:
+				switch (*begin)
+				{
+				case '\'':
+					break;
+				default:
+					s = state_root;
+					break;
+				}
+				break;
+			case Category_Letter_UpperCase:
+			case Category_Letter_LowerCase:
 				break;
 			default:
+				s = state_root;
+				break;
+			}
+			if (s == state_root)
+			{
 				fputs(".word          ", stdout);
 				fwrite(start, 1, begin-start, stdout);
 				fputs("\n", stdout);
-				s = state_root;
 				return true;
 			}
 			break;
 		case state_number:
-			switch (*begin)
+			switch (gc)
 			{
-			// number:
-			case '0': case '1': case '2': case '3': case '4':
-			case '5': case '6': case '7': case '8': case '9':
-			case ',':
+			case Category_Punctuation_Other:
+				switch (*begin)
+				{
+				case ',':
+					break;
+				default:
+					s = state_root;
+					break;
+				}
+				break;
+			case Category_Number_Decimal:
 				break;
 			default:
+				s = state_root;
+				break;
+			}
+			if (s == state_root)
+			{
 				fputs(".number        ", stdout);
 				fwrite(start, 1, begin-start, stdout);
 				fputs("\n", stdout);
-				s = state_root;
 				return true;
 			}
 			break;

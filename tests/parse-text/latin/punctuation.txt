@@ -10,3 +10,8 @@ This - as can be seen-is a sentence. So -- too--is this.
 
 That it be! Why is that?
 Surely not!?
+
+@#%&*
+/\
+[]
+{}

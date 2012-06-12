@@ -64,3 +64,14 @@
 .word          not
 .punctuation   !
 .punctuation   ?
+.punctuation   @
+.punctuation   #
+.punctuation   %
+.punctuation   &
+.punctuation   *
+.punctuation   /
+.punctuation   \
+.punctuation   [
+.punctuation   ]
+.punctuation   {
+.punctuation   }
