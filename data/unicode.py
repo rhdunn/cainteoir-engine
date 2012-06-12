@@ -202,21 +202,35 @@ except IndexError:
 	usage = True
 
 if not usage:
-	if command == 'full':
-		table_format = '%(script)s,%(category)s,%(whitespace)c%(dash)c%(hyphen)c%(quote)c%(terminal)c%(end-of-sentence)c,%(age)s,%(codepoint)04X,%(utf8)s,%(name)s'
-		unicode_char, blocks = parse_ucd(unicode_data_path)
-		format_unicode_data_table(unicode_char, blocks, table_format)
-	elif command == 'compact':
-		table_format = '%(script)s,%(category)s,%(whitespace)c%(dash)c%(hyphen)c%(quote)c%(terminal)c%(end-of-sentence)c,%(age)s,%(utf8)s'
+	if command.startswith('table:'):
+		table_format = command.replace('table:', '').replace('%', '%%')
+		format_specifiers = {
+			'Script':    '%(script)s',
+			'Category':  '%(category)s',
+			'Info':      '%(whitespace)c%(dash)c%(hyphen)c%(quote)c%(terminal)c%(end-of-sentence)c',
+			'Age':       '%(age)s',
+			'CodePoint': '%(codepoint)s',
+			'Utf8':      '%(utf8)s',
+			'Name':      '%(name)s',
+		}
+
+		table_format = ','.join([format_specifiers[x] for x in table_format.split(',')])
+
 		unicode_char, blocks = parse_ucd(unicode_data_path)
 		format_unicode_data_table(unicode_char, blocks, table_format)
 	else:
 		usage = True
 
 if usage:
-	print 'usage: unicode.py <command> <ucd-path>'
-	print 'where:'
-	print ' <command> is:'
-	print '   full        Print all the Unicode information in table format.'
-	print '   compact     Print the Unicode information in a table, excluding names.'
-	print ' <ucd-path> is the location of the Unicode Character Data files.'
+	print 'usage: unicode.py table:<table-format> <ucd-path>'
+	print
+	print '    Display the Unicode Character Database as a table with the'
+	print '    specified <table-format>, a comma-separated list of columns:'
+	print
+	print '        Script    => Writing Script'
+	print '        Category  => General Category'
+	print '        Info      => WhiteSpace|Dash|Hyphen|Quote|Terminal|EndOfSentence'
+	print '        Age       => Unicode version to first introduce the character'
+	print '        CodePoint => Unicode Code Point'
+	print '        Utf8      => Unicode Code Point as a UTF-8 character sequence'
+	print '        Name      => Unicode Character Name'
