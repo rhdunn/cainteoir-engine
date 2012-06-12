@@ -173,7 +173,7 @@ def parse_ucd(unicode_data_path):
 
 	return unicode_char, blocks
 
-def format_unicode_data_table(unicode_char, blocks, table_format):
+def format_unicode_data_table_full(unicode_char, blocks, table_format):
 	for codepoint in enumerate_codepoints((0, int('10FFFF', 16))):
 		try:
 			data = unicode_char[codepoint]
@@ -190,6 +190,12 @@ def format_unicode_data_table(unicode_char, blocks, table_format):
 				'terminal': '-',
 				'end-of-sentence': '-',
 			}
+		data['codepoint'] = codepoint
+		data['utf8'] = utf8(codepoint)
+		print table_format % data
+
+def format_unicode_data_table(unicode_char, blocks, table_format):
+	for codepoint, data in sorted(unicode_char.items()):
 		data['codepoint'] = codepoint
 		data['utf8'] = utf8(codepoint)
 		print table_format % data
