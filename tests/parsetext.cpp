@@ -32,15 +32,42 @@ enum state
 	state_number,
 };
 
-void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
+class text_reader
 {
-	const uint8_t *begin = (const uint8_t *)aText->begin();
-	const uint8_t *end   = (const uint8_t *)aText->end();
-	const uint8_t *start = begin;
-	state s = state_root;
+public:
+	text_reader();
 
-	uint8_t quote = 0;
+	void set_buffer(const std::shared_ptr<cainteoir::buffer> &aText);
 
+	bool read();
+private:
+	std::shared_ptr<cainteoir::buffer> data;
+	const uint8_t *begin;
+	const uint8_t *end;
+	const uint8_t *start;
+	state s;
+	uint8_t quote;
+};
+
+text_reader::text_reader()
+	: begin(nullptr)
+	, end(nullptr)
+	, start(nullptr)
+	, s(state_root)
+	, quote(0)
+{
+}
+
+void text_reader::set_buffer(const std::shared_ptr<cainteoir::buffer> &aText)
+{
+	data  = aText;
+	begin = (const uint8_t *)aText->begin();
+	end   = (const uint8_t *)aText->end();
+	start = begin;
+}
+
+bool text_reader::read()
+{
 	while (begin != end)
 	{
 		switch (s)
@@ -54,14 +81,17 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 				case 0:
 					fprintf(stdout, ".begin-quote   %c\n", (char)*begin);
 					quote = '"';
-					break;
+					++begin;
+					return true;
 				case '"':
 					fprintf(stdout, ".end-quote     %c\n", (char)*begin);
 					quote = 0;
-					break;
+					++begin;
+					return true;
 				default:
 					fprintf(stdout, ".symbol        %c\n", (char)*begin);
-					break;
+					++begin;
+					return true;
 				}
 				break;
 			// alpha:
@@ -96,7 +126,8 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 			case ',': case ':': case ';': case '-':
 			case '(': case ')':
 				fprintf(stdout, ".punctuation   %c\n", (char)*begin);
-				break;
+				++begin;
+				return true;
 			// symbols:
 			case '#': case '$': case '%': case '&':
 			case '*': case '+': case '/': case '\\':
@@ -104,11 +135,13 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 			case '|': case '~': case '<': case '>':
 			case '[': case ']': case '{': case '}':
 				fprintf(stdout, ".symbol        %c\n", (char)*begin);
-				break;
+				++begin;
+				return true;
 			// other:
 			default:
 				fprintf(stdout, ".error         \\x%02X\n", *begin);
-				break;
+				++begin;
+				return true;
 			}
 			break;
 		case state_word:
@@ -134,7 +167,7 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 				fwrite(start, 1, begin-start, stdout);
 				fputs("\n", stdout);
 				s = state_root;
-				continue;
+				return true;
 			}
 			break;
 		case state_number:
@@ -150,7 +183,7 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 				fwrite(start, 1, begin-start, stdout);
 				fputs("\n", stdout);
 				s = state_root;
-				continue;
+				return true;
 			}
 			break;
 		}
@@ -163,13 +196,15 @@ void parseTextBuffer(const std::shared_ptr<cainteoir::buffer> &aText)
 		fputs(".word          ", stdout);
 		fwrite(start, 1, begin-start, stdout);
 		fputs("\n", stdout);
-		break;
+		return true;
 	case state_number:
 		fputs(".number        ", stdout);
 		fwrite(start, 1, begin-start, stdout);
 		fputs("\n", stdout);
-		break;
+		return true;
 	}
+
+	return false;
 }
 
 int main(int argc, char ** argv)
@@ -190,10 +225,16 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
+		text_reader text;
 		while (reader->read())
 		{
 			if (reader->type & cainteoir::events::text)
-				parseTextBuffer(reader->text);
+			{
+				text.set_buffer(reader->text);
+				while (text.read())
+				{
+				}
+			}
 		}
 	}
 	catch (std::runtime_error &e)
