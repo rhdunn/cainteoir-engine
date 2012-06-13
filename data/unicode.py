@@ -173,6 +173,39 @@ def parse_ucd(unicode_data_path):
 
 	return unicode_char, blocks
 
+category_groups = {
+	'Cc': 'SS', # Skip
+	'Cf': 'SS', # Skip
+	'Cn': 'EE', # Error
+	'Co': 'SS', # Skip
+	'Cs': 'SS', # Skip
+	'Ll': 'LL', # Letter
+	'Lm': 'LL', # Letter
+	'Lo': 'LL', # Letter
+	'Lt': 'LL', # Letter
+	'Lu': 'LL', # Letter
+	'Mc': 'SS', # Skip
+	'Me': 'SS', # Skip
+	'Mn': 'SS', # Skip
+	'Nd': 'NN', # Number
+	'Nl': 'NN', # Number
+	'No': 'NN', # Number
+	'Pc': 'PP', # Punctuation
+	'Pd': 'PP', # Punctuation
+	'Pe': 'PP', # Punctuation
+	'Pf': 'PP', # Punctuation
+	'Pi': 'PP', # Punctuation
+	'Po': 'PP', # Punctuation
+	'Ps': 'PP', # Punctuation
+	'Sc': 'YY', # Symbol
+	'Sk': 'YY', # Symbol
+	'Sm': 'YY', # Symbol
+	'So': 'YY', # Symbol
+	'Zl': 'SS', # Skip
+	'Zp': 'SS', # Skip
+	'Zs': 'SS', # Skip
+}
+
 def format_unicode_data_table_full(unicode_char, blocks, table_format):
 	for codepoint in enumerate_codepoints((0, int('10FFFF', 16))):
 		try:
@@ -192,12 +225,14 @@ def format_unicode_data_table_full(unicode_char, blocks, table_format):
 			}
 		data['codepoint'] = codepoint
 		data['utf8'] = utf8(codepoint)
+		data['group'] = category_groups[data['category']]
 		print table_format % data
 
 def format_unicode_data_table(unicode_char, blocks, table_format):
 	for codepoint, data in sorted(unicode_char.items()):
 		data['codepoint'] = codepoint
 		data['utf8'] = utf8(codepoint)
+		data['group'] = category_groups[data['category']]
 		print table_format % data
 
 usage = False
@@ -213,9 +248,10 @@ if not usage:
 		format_specifiers = {
 			'Script':    '%(script)s',
 			'Category':  '%(category)s',
+			'Group':     '%(group)s',
 			'Info':      '%(whitespace)c%(dash)c%(hyphen)c%(quote)c%(terminal)c%(end-of-sentence)c',
 			'Age':       '%(age)s',
-			'CodePoint': '%(codepoint)s',
+			'CodePoint': '%(codepoint)04d',
 			'Utf8':      '%(utf8)s',
 			'Name':      '%(name)s',
 		}
