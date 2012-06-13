@@ -251,7 +251,7 @@ if not usage:
 			'Group':     '%(group)s',
 			'Info':      '%(whitespace)c%(dash)c%(hyphen)c%(quote)c%(terminal)c%(end-of-sentence)c',
 			'Age':       '%(age)s',
-			'CodePoint': '%(codepoint)04d',
+			'CodePoint': '%(codepoint)04X',
 			'Utf8':      '%(utf8)s',
 			'Name':      '%(name)s',
 		}
