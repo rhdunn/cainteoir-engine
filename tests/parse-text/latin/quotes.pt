@@ -16,10 +16,12 @@
 .word          Tony
 .punctuation   .
 .punctuation   "
-.word          'ave
+.punctuation   '
+.word          ave
 .word          you
 .word          been
-.word          dancin'
+.word          dancin
+.punctuation   '
 .word          today
 .punctuation   ?
 .punctuation   "

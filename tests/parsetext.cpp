@@ -42,6 +42,7 @@ enum text_block_t
 #define N    5 // Number
 #define E    6 // Error
 #define N0   7 // Number (State 0)
+#define W0   8 // Word (State 0)
 #define _  255 // end of state machine
 
 // 0 : Start
@@ -49,7 +50,7 @@ const uint8_t state0_transitions[256] = {
 	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
 	/* 0x */ S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,
 	/* 1x */ S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,
-	/* 2x */ S,  P,  P,  P,  Y,  P,  P,  W,  P,  P,  P,  Y,  P,  P,  P,  P,
+	/* 2x */ S,  P,  P,  P,  Y,  P,  P,  P,  P,  P,  P,  Y,  P,  P,  P,  P,
 	/* 3x */ N,  N,  N,  N,  N,  N,  N,  N,  N,  N,  P,  P,  Y,  Y,  Y,  P,
 	/* 4x */ P,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
 	/* 5x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  P,  P,  P,  Y,  P,
@@ -133,7 +134,7 @@ const uint8_t state4_transitions[256] = {
 	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
 	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
 	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  W,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* 2x */ _,  _,  _,  _,  _,  _,  _,  W0, _,  _,  _,  _,  _,  _,  _,  _,
 	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
 	/* 4x */ _,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
 	/* 5x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  _,  _,  _,  _,  _,
@@ -212,7 +213,28 @@ const uint8_t state7_transitions[256] = {
 	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
 };
 
-const uint8_t *state_transitions[8] = {
+// 8 : Word (State 0)
+const uint8_t state8_transitions[256] = {
+	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
+	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* 2x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* 4x */ _,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
+	/* 5x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  _,  _,  _,  _,  _,
+	/* 6x */ _,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
+	/* 7x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  _,  _,  _,  _,  _,
+	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
+};
+
+const uint8_t *state_transitions[] = {
 	state0_transitions,
 	state1_transitions,
 	state2_transitions,
@@ -221,6 +243,7 @@ const uint8_t *state_transitions[8] = {
 	state5_transitions,
 	state6_transitions,
 	state7_transitions,
+	state8_transitions,
 };
 
 const int state_value[] =
@@ -233,6 +256,7 @@ const int state_value[] =
 	number,
 	error,
 	-1, // Number (State 0)
+	-1, // Word (State 0)
 };
 
 class text_reader
