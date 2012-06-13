@@ -298,6 +298,12 @@ bool text_reader::read()
 
 	fputs(type_name, stdout);
 	fwrite(match.begin(), 1, match.size(), stdout);
+	if (match_value == error)
+	{
+		fputc('\t', stdout);
+		for (auto first = match.begin(), last = match.end(); first != last; ++first)
+			fprintf(stdout, "\\x%02X", (*first & 0xFF));
+	}
 	fputc('\n', stdout);
 
 	return true;
