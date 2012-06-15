@@ -112,7 +112,7 @@ struct iconv_decoder : public cainteoir::decoder
 			char *out = buffer;
 			size_t outlen = sizeof(buffer);
 
-			if (iconv(cvt, &in, &inlen, &out, &outlen) == (size_t)-1)
+			if (iconv(cvt, &in, &inlen, &out, &outlen) == (size_t)-1 && errno != E2BIG)
 				throw std::runtime_error(strerror(errno));
 
 			if (outlen != sizeof(buffer))
