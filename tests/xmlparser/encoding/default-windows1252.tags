@@ -1,0 +1,6 @@
+|begin-tag| elem
+|attribute| arg="""‘value’"""
+|text| """“text”"""
+|end-tag| elem
+|text| """
+"""

@@ -230,7 +230,7 @@ cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const e
 	, mSavedState(ParsingXml, aData->begin())
 	, mContext(&unknown_context)
 	, mPredefinedEntities(aPredefinedEntities)
-	, mEncoding("utf-8")
+	, mEncoding("windows-1252")
 {
 	mNodeType = textNode;
 
