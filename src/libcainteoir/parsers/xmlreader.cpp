@@ -281,9 +281,15 @@ bool cainteoir::xml::reader::read()
 	{
 		skip_whitespace();
 
-		if ((mState.current[0] == '/' && mState.current[1] == '>') || // XML§3.1     -- Empty-Element Tag
-		    (mState.current[0] == '?' && mState.current[1] == '>') || // XML§2.6     -- processing instruction
-		    (mState.current[0] == '>' && mState.state == ParsingXmlContainedTagAttributes))            // HTML§12.1.2 -- void elements
+		if (
+		    // XML§3.1     -- Empty-Element Tag
+		    (mState.current[0] == '/' && mState.current[1] == '>') ||
+		    // XML§2.6     -- processing instruction
+		    (mState.current[0] == '?' && mState.current[1] == '>' &&
+		     mState.state == ParsingXmlProcessingInstructionAttributes) ||
+		    // HTML§12.1.2 -- void elements
+		    (mState.current[0] == '>' &&
+		     mState.state == ParsingXmlContainedTagAttributes))
 		{
 			mState.nodeName = mTagNodeName;
 			mState.nodePrefix = mTagNodePrefix;
@@ -442,6 +448,7 @@ bool cainteoir::xml::reader::read()
 		case '?': // XML§2.6 -- processing instruction
 			++mState.current;
 			read_tag(beginProcessingInstructionNode);
+			mState.state = ParsingXmlProcessingInstructionAttributes;
 			break;
 		case '/': // XML§3.1 ; HTML§12.1.2.2 -- End Tag
 			++mState.current;
