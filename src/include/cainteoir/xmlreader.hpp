@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_XMLREADER_HPP
 
 #include <cainteoir/buffer.hpp>
+#include <cainteoir/encoding.hpp>
 #include <list>
 #include <map>
 
@@ -322,6 +323,7 @@ namespace cainteoir { namespace xml
 		cainteoir::buffer mTagNodePrefix;
 
 		std::map<std::string, std::string> mDoctypeEntities;
+		encoding mEncoding;
 
 		//@}
 		/** @name reader data */

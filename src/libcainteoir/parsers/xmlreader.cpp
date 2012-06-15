@@ -231,6 +231,7 @@ cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const e
 	, mContext(&unknown_context)
 	, mImplicitEndTag(false)
 	, mPredefinedEntities(aPredefinedEntities)
+	, mEncoding("utf-8")
 {
 	mNodeType = textNode;
 
@@ -270,7 +271,7 @@ bool cainteoir::xml::reader::read()
 	if (mState.state == ParsingText)
 	{
 		mNodeType = textNode;
-		mNodeValue = std::make_shared<cainteoir::buffer>(mState.current, mData->end());
+		mNodeValue = mEncoding.decode(std::make_shared<cainteoir::buffer>(mState.current, mData->end()));
 		mState.current = mData->end();
 		return true;
 	}
@@ -320,7 +321,7 @@ bool cainteoir::xml::reader::read()
 					mNodeValue = std::make_shared<cainteoir::buffer>(identifier());
 			}
 			else // HTML§12.1.2.3 -- empty attribute
-				mNodeValue = std::make_shared<cainteoir::buffer>(mState.nodeName);
+				mNodeValue = mEncoding.decode(std::make_shared<cainteoir::buffer>(mState.nodeName));
 			return true;
 		}
 
@@ -354,7 +355,7 @@ bool cainteoir::xml::reader::read()
 				startPos = ++mState.current;
 				while (mState.current != mData->end() && !(mState.current[0] == '-' && mState.current[1] == '-' && mState.current[2] == '>'))
 					++mState.current;
-				mNodeValue = std::make_shared<cainteoir::buffer>(startPos, mState.current);
+				mNodeValue = mEncoding.decode(std::make_shared<cainteoir::buffer>(startPos, mState.current));
 				mState.current += 3;
 			}
 			else if (mState.current[1] == '[' && mState.current[2] == 'C' && mState.current[3] == 'D' && mState.current[4] == 'A' &&
@@ -365,7 +366,7 @@ bool cainteoir::xml::reader::read()
 				startPos = mState.current;
 				while (mState.current != mData->end() && !(mState.current[0] == ']' && mState.current[1] == ']' && mState.current[2] == '>'))
 					++mState.current;
-				mNodeValue = std::make_shared<cainteoir::buffer>(startPos, mState.current);
+				mNodeValue = mEncoding.decode(std::make_shared<cainteoir::buffer>(startPos, mState.current));
 				mState.current += 3;
 			}
 			else // DTD
@@ -578,7 +579,7 @@ void cainteoir::xml::reader::read_node_value(char terminator1, char terminator2)
 
 		while (mState.current != mData->end() && !(*mState.current == '&' || *mState.current == terminator1 || *mState.current == terminator2))
 			++mState.current;
-		mNodeValue += std::make_shared<cainteoir::buffer>(startPos, mState.current);
+		mNodeValue += mEncoding.decode(std::make_shared<cainteoir::buffer>(startPos, mState.current));
 	} while (mState.current != mData->end() && !(*mState.current == terminator1 || *mState.current == terminator2));
 }
 
