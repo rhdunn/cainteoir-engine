@@ -229,7 +229,6 @@ cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const e
 	, mState(ParsingXml, aData->begin())
 	, mSavedState(ParsingXml, aData->begin())
 	, mContext(&unknown_context)
-	, mImplicitEndTag(false)
 	, mPredefinedEntities(aPredefinedEntities)
 	, mEncoding("utf-8")
 {
@@ -284,19 +283,19 @@ bool cainteoir::xml::reader::read()
 
 		if ((mState.current[0] == '/' && mState.current[1] == '>') || // XML§3.1     -- Empty-Element Tag
 		    (mState.current[0] == '?' && mState.current[1] == '>') || // XML§2.6     -- processing instruction
-		    (mState.current[0] == '>' && mImplicitEndTag))            // HTML§12.1.2 -- void elements
+		    (mState.current[0] == '>' && mState.state == ParsingXmlContainedTagAttributes))            // HTML§12.1.2 -- void elements
 		{
 			mState.nodeName = mTagNodeName;
 			mState.nodePrefix = mTagNodePrefix;
 			mNodeType = (*mState.current == '?') ? endProcessingInstructionNode : endTagNode;
 			reset_context();
-			if (mImplicitEndTag)
+			if (mState.state == ParsingXmlContainedTagAttributes)
 			{
 				if (*mState.current == '/')
 					++mState.current;
-				mImplicitEndTag = false;
 				mTagNodeName = cainteoir::buffer(nullptr, nullptr);
 			}
+			mState.state = ParsingXml;
 			++mState.current;
 			return true;
 		}
@@ -473,7 +472,9 @@ bool cainteoir::xml::reader::read()
 				mNodeType = beginTagNode;
 				reset_context();
 				if (mContext->parse_type == xml::context::implicit_end_tag)
-					mImplicitEndTag = true;
+					mState.state = ParsingXmlContainedTagAttributes;
+				else
+					mState.state = ParsingXmlTagAttributes;
 			}
 			break;
 		}

@@ -297,7 +297,8 @@ namespace cainteoir { namespace xml
 		{
 			ParsingText,
 			ParsingXml,
-			ParsingXmlAttributes,
+			ParsingXmlTagAttributes,
+			ParsingXmlContainedTagAttributes, // implicit end tag
 			ParsingXmlNamespaces,
 			ParsingDtd,
 		};
@@ -315,7 +316,6 @@ namespace cainteoir { namespace xml
 		std::shared_ptr<cainteoir::buffer> mData;
 		ParserContext mState;
 		ParserContext mSavedState;
-		bool mImplicitEndTag;
 		const entity_set **mPredefinedEntities;
 
 		namespaces mNamespaces;
