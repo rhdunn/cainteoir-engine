@@ -184,12 +184,21 @@ TEST_CASE("decoding a null buffer")
 {
 	cainteoir::encoding e(1252);
 	assert(e.decode(std::shared_ptr<cainteoir::buffer>()) == std::shared_ptr<cainteoir::buffer>());
+
+	cainteoir::rope ret;
+	e.decode(std::shared_ptr<cainteoir::buffer>(), ret);
+	assert(ret.empty());
 }
 
 TEST_CASE("decoding a buffer")
 {
 	cainteoir::encoding e(1252);
-	match(e.decode(std::make_shared<cainteoir::buffer>("\x93x, y, \x85\x94")), "\xE2\x80\x9Cx, y, \xE2\x80\xA6\xE2\x80\x9D");
+	auto data = std::make_shared<cainteoir::buffer>("\x93x, y, \x85\x94");
+	match(e.decode(data), "\xE2\x80\x9Cx, y, \xE2\x80\xA6\xE2\x80\x9D");
+
+	cainteoir::rope ret;
+	e.decode(data, ret);
+	match(ret.buffer(), "\xE2\x80\x9Cx, y, \xE2\x80\xA6\xE2\x80\x9D");
 }
 
 TEST_CASE("decoding a utf-8 buffer (no conversion)")
@@ -197,6 +206,10 @@ TEST_CASE("decoding a utf-8 buffer (no conversion)")
 	cainteoir::encoding e("utf-8");
 	auto data = std::make_shared<cainteoir::buffer>("\xE2\x80\x9Cx, y, \xE2\x80\xA6\xE2\x80\x9D");
 	assert(e.decode(data).get() == data.get());
+
+	cainteoir::rope ret;
+	e.decode(data, ret);
+	match(ret.buffer(), "\xE2\x80\x9Cx, y, \xE2\x80\xA6\xE2\x80\x9D");
 }
 
 TEST_CASE("decoding a us-ascii buffer (no conversion)")
@@ -204,4 +217,8 @@ TEST_CASE("decoding a us-ascii buffer (no conversion)")
 	cainteoir::encoding e("us-ascii");
 	auto data = std::make_shared<cainteoir::buffer>("This is a test string!");
 	assert(e.decode(data).get() == data.get());
+
+	cainteoir::rope ret;
+	e.decode(data, ret);
+	match(ret.buffer(), "This is a test string!");
 }

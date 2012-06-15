@@ -58,7 +58,8 @@ cainteoir::normalized_text_buffer::normalized_text_buffer(const char *f, const c
 cainteoir::normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &str)
 	: buffer(nullptr, nullptr)
 {
-	normalize(str->begin(), str->end());
+	if (str.get() && !str->empty())
+		normalize(str->begin(), str->end());
 }
 
 cainteoir::normalized_text_buffer::~normalized_text_buffer()

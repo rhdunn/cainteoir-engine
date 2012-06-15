@@ -598,7 +598,7 @@ void cainteoir::xml::reader::read_node_value(char terminator1, char terminator2)
 
 		while (mState.current != mData->end() && !(*mState.current == '&' || *mState.current == terminator1 || *mState.current == terminator2))
 			++mState.current;
-		mNodeValue += mEncoding.decode(std::make_shared<cainteoir::buffer>(startPos, mState.current));
+		mEncoding.decode(std::make_shared<cainteoir::buffer>(startPos, mState.current), mNodeValue);
 	} while (mState.current != mData->end() && !(*mState.current == terminator1 || *mState.current == terminator2));
 }
 
