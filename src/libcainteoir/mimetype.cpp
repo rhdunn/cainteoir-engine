@@ -338,7 +338,7 @@ class mimetype_database
 			std::map<std::string, std::string> comments;
 
 			std::shared_ptr<cainteoir::buffer> mimeinfo = std::make_shared<cainteoir::mmap_buffer>(filename.c_str());
-			xml::reader reader(mimeinfo);
+			xml::reader reader(mimeinfo, "windows-1252");
 
 			bool in_comment = false;
 			std::string lang;

@@ -39,7 +39,7 @@ static std::string path_to(const std::string &filename, const std::string &opffi
 
 struct epub_document_reader : public cainteoir::document_reader
 {
-	epub_document_reader(std::shared_ptr<cainteoir::archive> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata);
+	epub_document_reader(std::shared_ptr<cainteoir::archive> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aDefaultEncoding);
 
 	bool read();
 
@@ -50,14 +50,16 @@ struct epub_document_reader : public cainteoir::document_reader
 
 	std::shared_ptr<cainteoir::archive> mData;
 	rdf::uri mSubject;
+	const char *mDefaultEncoding;
 };
 
-epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata)
+epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aDefaultEncoding)
 	: mData(aData)
 	, mSubject(aSubject)
 	, is_toc(false)
+	, mDefaultEncoding(aDefaultEncoding)
 {
-	auto ocf = cainteoir::createOcfReader(cainteoir::createXmlReader(mData->read("META-INF/container.xml")));
+	auto ocf = cainteoir::createOcfReader(cainteoir::createXmlReader(mData->read("META-INF/container.xml"), mDefaultEncoding));
 	if (ocf) while (ocf->read() && opf_file.empty())
 	{
 		if (!ocf->text->compare("application/oebps-package+xml"))
@@ -67,7 +69,7 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 	if (opf_file.empty())
 		throw std::runtime_error(i18n("Unsupported ePub content: OPF file not specified."));
 
-	auto reader = cainteoir::createXmlReader(mData->read(opf_file.c_str()));
+	auto reader = cainteoir::createXmlReader(mData->read(opf_file.c_str()), mDefaultEncoding);
 	if (!reader)
 		throw std::runtime_error(i18n("Unsupported ePub content: OPF file not found."));
 
@@ -116,7 +118,7 @@ bool epub_document_reader::read()
 		if (opf->type & cainteoir::events::toc_entry)
 		{
 			std::string filename = path_to(opf->anchor.ns, opf_file);
-			auto reader = cainteoir::createXmlReader(mData->read(filename.c_str()));
+			auto reader = cainteoir::createXmlReader(mData->read(filename.c_str()), mDefaultEncoding);
 			if (!reader)
 			{
 				fprintf(stderr, i18n("document '%s' not found in ePub archive.\n"), filename.c_str());
@@ -147,7 +149,7 @@ bool epub_document_reader::read()
 }
 
 std::shared_ptr<cainteoir::document_reader>
-cainteoir::createEpubReader(std::shared_ptr<archive> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata)
+cainteoir::createEpubReader(std::shared_ptr<archive> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aDefaultEncoding)
 {
-	return std::make_shared<epub_document_reader>(aData, aSubject, aPrimaryMetadata);
+	return std::make_shared<epub_document_reader>(aData, aSubject, aPrimaryMetadata, aDefaultEncoding);
 }

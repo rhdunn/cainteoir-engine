@@ -31,13 +31,15 @@ namespace cainteoir
 	  * @param[in]  aData            The document multi-document container.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
 	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aDefaultEncoding The default character encoding to use.
 	  *
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<document_reader>
 	createEpubReader(std::shared_ptr<archive> &aData,
 	                 const rdf::uri &aSubject,
-	                 rdf::graph &aPrimaryMetadata);
+	                 rdf::graph &aPrimaryMetadata,
+	                 const char *aDefaultEncoding);
 
 	/** @brief (XML-based) HyperText Markup Language ((X)HTML)
 	  *
@@ -201,11 +203,13 @@ namespace cainteoir
 	/** @brief eXtensible Markup Language (XML)
 	  *
 	  * @param[in]  aData            The document multi-document container.
+	  * @param[in]  aDefaultEncoding The default character encoding to use.
 	  *
 	  * @return A reader over the document contents.
 	  */
 	std::shared_ptr<xml::reader>
-	createXmlReader(const std::shared_ptr<buffer> &aData);
+	createXmlReader(const std::shared_ptr<buffer> &aData,
+	                const char *aDefaultEncoding);
 
 	/** @brief ZIP archive
 	  *

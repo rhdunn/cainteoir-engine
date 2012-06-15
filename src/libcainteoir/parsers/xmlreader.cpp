@@ -222,7 +222,7 @@ cainteoir::xml::reader::ParserContext::ParserContext(ParserState aState, const c
 {
 }
 
-cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52])
+cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const char *aDefaultEncoding, const entity_set *aPredefinedEntities[52])
 	: mData(aData)
 	, mTagNodeName(nullptr, nullptr)
 	, mTagNodePrefix(nullptr, nullptr)
@@ -230,7 +230,7 @@ cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const e
 	, mSavedState(ParsingXml, aData->begin())
 	, mContext(&unknown_context)
 	, mPredefinedEntities(aPredefinedEntities)
-	, mEncoding("windows-1252")
+	, mEncoding(aDefaultEncoding)
 {
 	mNodeType = textNode;
 
