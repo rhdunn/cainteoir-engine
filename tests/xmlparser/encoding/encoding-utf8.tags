@@ -1,0 +1,12 @@
+|begin-processing-instruction| xml
+|attribute| version="""1.0"""
+|attribute| encoding="""utf-8"""
+|end-processing-instruction| xml
+|text| """
+"""
+|begin-tag| elem
+|attribute| arg="""aβc"""
+|text| """kλm"""
+|end-tag| elem
+|text| """
+"""

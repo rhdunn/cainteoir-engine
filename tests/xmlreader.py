@@ -95,5 +95,9 @@ if __name__ == '__main__':
 			{'test': 'xmlparser/processing-instruction/xml.xml', 'result': 'xmlparser/processing-instruction/xml.tags'},
 			{'test': 'xmlparser/processing-instruction/xml-standalone.xml', 'result': 'xmlparser/processing-instruction/xml-standalone.tags'},
 		]},
+		{'name': 'encoding', 'type': 'xmlreader', 'tests': [
+			{'test': 'xmlparser/encoding/encoding-utf8.xml', 'result': 'xmlparser/encoding/encoding-utf8.tags'},
+			{'test': 'xmlparser/encoding/encoding-latin1.xml', 'result': 'xmlparser/encoding/encoding-latin1.tags'},
+		]},
 	]})
 	test.summary()

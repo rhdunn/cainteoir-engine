@@ -286,7 +286,8 @@ bool cainteoir::xml::reader::read()
 		    (mState.current[0] == '/' && mState.current[1] == '>') ||
 		    // XML§2.6     -- processing instruction
 		    (mState.current[0] == '?' && mState.current[1] == '>' &&
-		     mState.state == ParsingXmlProcessingInstructionAttributes) ||
+		     (mState.state == ParsingXmlProcessingInstructionAttributes ||
+		      mState.state == ParsingProcessingInstructionAttributes)) ||
 		    // HTML§12.1.2 -- void elements
 		    (mState.current[0] == '>' &&
 		     mState.state == ParsingXmlContainedTagAttributes))
@@ -327,6 +328,13 @@ bool cainteoir::xml::reader::read()
 			}
 			else // HTML§12.1.2.3 -- empty attribute
 				mNodeValue = mEncoding.decode(std::make_shared<cainteoir::buffer>(mState.nodeName));
+
+			if (mState.state == ParsingXmlProcessingInstructionAttributes)
+			{
+				if (!mState.nodeName.compare("encoding"))
+					mEncoding.set_encoding(mNodeValue.str().c_str());
+			}
+
 			return true;
 		}
 
@@ -448,7 +456,10 @@ bool cainteoir::xml::reader::read()
 		case '?': // XML§2.6 -- processing instruction
 			++mState.current;
 			read_tag(beginProcessingInstructionNode);
-			mState.state = ParsingXmlProcessingInstructionAttributes;
+			if (!mState.nodeName.compare("xml"))
+				mState.state = ParsingXmlProcessingInstructionAttributes;
+			else
+				mState.state = ParsingProcessingInstructionAttributes;
 			break;
 		case '/': // XML§3.1 ; HTML§12.1.2.2 -- End Tag
 			++mState.current;

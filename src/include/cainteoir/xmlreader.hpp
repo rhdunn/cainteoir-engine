@@ -300,6 +300,7 @@ namespace cainteoir { namespace xml
 			ParsingXmlTagAttributes,
 			ParsingXmlContainedTagAttributes, // implicit end tag
 			ParsingXmlProcessingInstructionAttributes,
+			ParsingProcessingInstructionAttributes,
 			ParsingXmlNamespaces,
 			ParsingDtd,
 		};
