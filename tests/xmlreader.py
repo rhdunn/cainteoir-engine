@@ -91,5 +91,9 @@ if __name__ == '__main__':
 			{'test': 'xmlparser/entity/dtd-entity-in-attr.xml', 'result': 'xmlparser/entity/dtd-entity-in-attr.tags'},
 			{'test': 'xmlparser/entity/dtd-entity-in-xmlns.xml', 'result': 'xmlparser/entity/dtd-entity-in-xmlns.tags'},
 		]},
+		{'name': 'processing instruction', 'type': 'xmlreader', 'tests': [
+			{'test': 'xmlparser/processing-instruction/xml.xml', 'result': 'xmlparser/processing-instruction/xml.tags'},
+			{'test': 'xmlparser/processing-instruction/xml-standalone.xml', 'result': 'xmlparser/processing-instruction/xml-standalone.tags'},
+		]},
 	]})
 	test.summary()

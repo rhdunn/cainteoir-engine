@@ -36,15 +36,26 @@ const char * node_type_name(xml::reader::node_type type)
 {
 	switch (type)
 	{
-	case xml::reader::beginTagNode:              return "begin-tag";
-	case xml::reader::endTagNode:                return "end-tag";
-	case xml::reader::processingInstructionNode: return "processing-instruction";
-	case xml::reader::commentNode:               return "comment";
-	case xml::reader::cdataNode:                 return "cdata";
-	case xml::reader::textNode:                  return "text";
-	case xml::reader::doctypeNode:               return "doctype";
-	case xml::reader::attribute:                 return "attribute";
-	default:                                     return "unknown";
+	case xml::reader::beginTagNode:
+		return "begin-tag";
+	case xml::reader::endTagNode:
+		return "end-tag";
+	case xml::reader::beginProcessingInstructionNode:
+		return "begin-processing-instruction";
+	case xml::reader::endProcessingInstructionNode:
+		return "end-processing-instruction";
+	case xml::reader::commentNode:
+		return "comment";
+	case xml::reader::cdataNode:
+		return "cdata";
+	case xml::reader::textNode:
+		return "text";
+	case xml::reader::doctypeNode:
+		return "doctype";
+	case xml::reader::attribute:
+		return "attribute";
+	default:
+		return "unknown";
 	}
 }
 
@@ -96,6 +107,8 @@ int main(int argc, char ** argv)
 				case xml::reader::doctypeNode:
 				case xml::reader::beginTagNode:
 				case xml::reader::endTagNode:
+				case xml::reader::beginProcessingInstructionNode:
+				case xml::reader::endProcessingInstructionNode:
 					if (reader.nodePrefix().empty() && ns.empty())
 					{
 						fprintf(stdout, "|%s| %s\n",
@@ -110,11 +123,6 @@ int main(int argc, char ** argv)
 						        ns.c_str(),
 						        reader.nodeName().str().c_str());
 					}
-					break;
-				case xml::reader::processingInstructionNode:
-					fprintf(stdout, "|%s| %s\n",
-					        node_type_name(reader.nodeType()),
-					        reader.nodeName().str().c_str());
 					break;
 				case xml::reader::commentNode:
 				case xml::reader::cdataNode:

@@ -218,7 +218,8 @@ namespace cainteoir { namespace xml
 
 			beginTagNode,
 			endTagNode,
-			processingInstructionNode,
+			beginProcessingInstructionNode,
+			endProcessingInstructionNode,
 			commentNode,
 			cdataNode,
 			textNode,

@@ -282,11 +282,12 @@ bool cainteoir::xml::reader::read()
 		skip_whitespace();
 
 		if ((mState.current[0] == '/' && mState.current[1] == '>') || // XML§3.1     -- Empty-Element Tag
+		    (mState.current[0] == '?' && mState.current[1] == '>') || // XML§2.6     -- processing instruction
 		    (mState.current[0] == '>' && mImplicitEndTag))            // HTML§12.1.2 -- void elements
 		{
 			mState.nodeName = mTagNodeName;
 			mState.nodePrefix = mTagNodePrefix;
-			mNodeType = endTagNode;
+			mNodeType = (*mState.current == '?') ? endProcessingInstructionNode : endTagNode;
 			reset_context();
 			if (mImplicitEndTag)
 			{
@@ -439,13 +440,8 @@ bool cainteoir::xml::reader::read()
 			}
 			break;
 		case '?': // XML§2.6 -- processing instruction
-			mNodeType = processingInstructionNode;
-			startPos = ++mState.current;
-			while (mState.current != mData->end() && (mState.current[0] != '?' && mState.current[1] != '>'))
-				++mState.current;
-			mNodeValue = std::make_shared<cainteoir::buffer>(startPos, mState.current);
 			++mState.current;
-			++mState.current;
+			read_tag(beginProcessingInstructionNode);
 			break;
 		case '/': // XML§3.1 ; HTML§12.1.2.2 -- End Tag
 			++mState.current;
