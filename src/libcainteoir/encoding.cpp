@@ -112,8 +112,21 @@ struct iconv_decoder : public cainteoir::decoder
 			char *out = buffer;
 			size_t outlen = sizeof(buffer);
 
-			if (iconv(cvt, &in, &inlen, &out, &outlen) == (size_t)-1 && errno != E2BIG)
+			if (iconv(cvt, &in, &inlen, &out, &outlen) == (size_t)-1) switch (errno)
+			{
+			case E2BIG: // output buffer too small
+				// this is ok ... process in chunks
+				break;
+			case EILSEQ: // illegal character (multi-byte sequence)
+			case EINVAL: // incomplete multi-byte sequence
+				// NOTE: iconv writes the byte as utf-8 to `out`, and places
+				// in at the invalid byte
+				++in;
+				--inlen;
+				break;
+			default:
 				throw std::runtime_error(strerror(errno));
+			}
 
 			if (outlen != sizeof(buffer))
 			{
