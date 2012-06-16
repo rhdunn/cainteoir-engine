@@ -227,6 +227,7 @@ namespace cainteoir { namespace xml
 			error,
 			doctypeNode,
 			attribute,
+			endOfData,
 
 			// dtd node types ...
 

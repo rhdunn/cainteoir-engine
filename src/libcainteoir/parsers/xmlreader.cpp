@@ -260,7 +260,10 @@ bool cainteoir::xml::reader::read()
 	mContext = &unknown_context;
 
 	if (mState.current >= mData->end())
+	{
+		mNodeType = endOfData;
 		return false;
+	}
 
 	cainteoir::buffer oldName = mState.nodeName;
 

@@ -69,6 +69,7 @@ if __name__ == '__main__':
 			{'test': 'html/sections/paragraphs-cdata.xhtml', 'result': 'html/sections/paragraphs.events'},
 			{'test': 'html/sections/pre.html', 'result': 'html/sections/pre.events'},
 			{'test': 'html/sections/pre.xhtml', 'result': 'html/sections/pre.events'},
+			{'test': 'html/sections/pre-only-element.html', 'result': 'html/sections/pre-only-element.events'},
 			{'test': 'html/sections/ul.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/ul.xhtml', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/ul-cdata.xhtml', 'result': 'html/sections/ul.events'},

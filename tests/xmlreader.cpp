@@ -54,6 +54,8 @@ const char * node_type_name(xml::reader::node_type type)
 		return "doctype";
 	case xml::reader::attribute:
 		return "attribute";
+	case xml::reader::endOfData:
+		return "end-of-data";
 	default:
 		return "unknown";
 	}
@@ -104,11 +106,7 @@ int main(int argc, char ** argv)
 				std::string ns = reader.namespaceUri();
 				if (!silent) switch (reader.nodeType())
 				{
-				case xml::reader::doctypeNode:
-				case xml::reader::beginTagNode:
-				case xml::reader::endTagNode:
-				case xml::reader::beginProcessingInstructionNode:
-				case xml::reader::endProcessingInstructionNode:
+				default:
 					if (reader.nodePrefix().empty() && ns.empty())
 					{
 						fprintf(stdout, "|%s| %s\n",
