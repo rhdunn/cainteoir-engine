@@ -114,7 +114,7 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		if (mime::smil.match(namespaceUri, rootName))
 			return createSmilReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
-		if (mime::html.match(namespaceUri, rootName))
+		if (mime::html.match(aData))
 			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml");
 
 		return std::shared_ptr<document_reader>();

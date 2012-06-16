@@ -28,6 +28,7 @@ if __name__ == '__main__':
 			{'test': 'html/semantics/simple.xhtml', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/simple-with-doctype.xhtml', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/simple-no-namespace.xhtml', 'result': 'html/semantics/simple.events'},
+			{'test': 'html/semantics/simple-with-xml-magic.html', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/with-style.html', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style-type.html', 'result': 'html/semantics/with-style-type.events'},
