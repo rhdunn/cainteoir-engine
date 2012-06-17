@@ -1,6 +1,7 @@
 #!/bin/sh
 
 mkdir -p m4
+ln -s README.md README
 
 autopoint || exit 1
 aclocal -I m4 || exit 1
