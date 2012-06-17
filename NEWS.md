@@ -23,7 +23,7 @@ Version 0.8: Friday June 1st 2012 [Jun 2012]
   *  zip:     support reading generic zipped document collections
   *  ePub:    make the ePub parser use the archive interface
 
-VERSION 0.7: Friday March 30th 2012 [Mar 2012]
+Version 0.7: Friday March 30th 2012 [Mar 2012]
 ----------------------------------------------
 
   *  use BCP 47 for interpreting and comparing language tags
@@ -49,7 +49,7 @@ VERSION 0.7: Friday March 30th 2012 [Mar 2012]
   *  use std::make_shared instead of allocating the object explicitly
   *  remove the libxml2 dependency and make all xml-based parsers use xmlreader
 
-VERSION 0.6: Sunday January 29th 2012 [Jan 2012]
+Version 0.6: Sunday January 29th 2012 [Jan 2012]
 ------------------------------------------------
 
   *  languages.rdf -- represent ISO-639-2/B, ISO-639-2/T, ISO-639-3, ISO-639-5,
@@ -75,7 +75,7 @@ VERSION 0.6: Sunday January 29th 2012 [Jan 2012]
 
   *  release the file handle when finished recording ogg files.
 
-VERSION 0.5: Monday November 21st 2011 [Nov 2011]
+Version 0.5: Monday November 21st 2011 [Nov 2011]
 -------------------------------------------------
 
   *  use the shared-mime-info database for MIME type detection.
@@ -86,7 +86,7 @@ VERSION 0.5: Monday November 21st 2011 [Nov 2011]
   *  support UND as a language identifier (for Calibri eBooks).
   *  support XML encoded HTML without an associated xmlns.
 
-VERSION 0.4: Tuesday July 26th 2011 [Jul 2011]
+Version 0.4: Tuesday July 26th 2011 [Jul 2011]
 ----------------------------------------------
 
 ### file formats:
@@ -101,7 +101,7 @@ VERSION 0.4: Tuesday July 26th 2011 [Jul 2011]
      specified content range;
   *  support setting the voice reading speed, pitch and volume.
 
-VERSION 0.3: Friday July 1st 2011 [Jun 2011]
+Version 0.3: Friday July 1st 2011 [Jun 2011]
 --------------------------------------------
 
 ### file formats:
@@ -118,7 +118,7 @@ VERSION 0.3: Friday July 1st 2011 [Jun 2011]
 
   *  improved total reading time estimating heuristics.
 
-VERSION 0.2: Sunday May 29th 2011 [May 2011]
+Version 0.2: Sunday May 29th 2011 [May 2011]
 --------------------------------------------
 
 ### file formats:
@@ -139,7 +139,7 @@ VERSION 0.2: Sunday May 29th 2011 [May 2011]
   *  don't output progress when writing audio data to stdout;
   *  don't crash when using the default voice (no dc:language metadata).
 
-VERSION 0.1: Wednesday April 27th 2011 [Apr 2011]
+Version 0.1: Wednesday April 27th 2011 [Apr 2011]
 -------------------------------------------------
 
 ### cainteoir:
