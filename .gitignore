@@ -53,6 +53,7 @@ Makefile.in
 .dirstamp
 
 README
+NEWS
 INSTALL
 aclocal.m4
 autom4te.cache/
