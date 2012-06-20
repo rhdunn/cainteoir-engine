@@ -38,6 +38,7 @@ tests/encoding
 tests/languages
 tests/utf8
 tests/parsetext
+tests/mimetype
 
 # docs output:
 
