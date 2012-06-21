@@ -159,6 +159,11 @@ if __name__ == '__main__':
 			{'test': 'mime/base64/padding.txt', 'result': 'mime/base64/padding.events', 'title': 'padding.txt'},
 			{'test': 'mime/base64/wrapped.txt', 'result': 'mime/base64/wrapped.events', 'title': 'wrapped.txt'},
 		]},
+		{'name': 'wrapped in html', 'type': 'events', 'tests': [
+			{'test': 'mime/wrapped-in-html/subject.txt', 'result': 'mime/wrapped-in-html/basic.events', 'title': 'Test Case'},
+			{'test': 'mime/wrapped-in-html/with-comment.txt', 'result': 'mime/wrapped-in-html/basic.events', 'title': 'Test Case'},
+			{'test': 'mime/wrapped-in-html/from.txt', 'result': 'mime/wrapped-in-html/basic.events', 'title': 'from.txt'},
+		]},
 	]})
 	test.run({'name': 'HTTP', 'replace': ['title'], 'groups': [
 		{'name': '1.0', 'type': 'events', 'tests': [

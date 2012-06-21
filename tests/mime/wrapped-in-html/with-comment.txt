@@ -1,0 +1,7 @@
+<!-- test case -->
+<script type="text/javascript" href="hyphenate.js"></script>
+<!-- hello -->
+<pre>
+Subject: Test Case
+
+This is a test file.

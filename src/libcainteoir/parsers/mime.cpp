@@ -22,10 +22,31 @@
 #include "compatibility.hpp"
 #include "i18n.h"
 
+#include <cainteoir/mimetype.hpp>
+#include <cainteoir/unicode.hpp>
 #include "parsers.hpp"
 #include <stdexcept>
 
-namespace rdf = cainteoir::rdf;
+namespace rdf    = cainteoir::rdf;
+namespace mime   = cainteoir::mime;
+namespace events = cainteoir::events;
+
+namespace cainteoir { namespace utf8
+{
+	static bool isspace(uint32_t c)
+	{
+		switch (c)
+		{
+		case 0x000009: // HORIZONTAL TAB
+		case 0x00000A: // LINE FEED
+		case 0x00000D: // CARRIDGE RETURN
+		case 0x000020: // SPACE
+		case 0x0000A0: // NON-BREAKING SPACE
+			return true;
+		}
+		return false;
+	}
+}}
 
 inline bool is_mime_header_char(char c)
 {
@@ -235,4 +256,55 @@ cainteoir::createMimeReader(std::shared_ptr<buffer> &aData,
 		return createPlainTextReader(decoded, aSubject, aPrimaryMetadata, mime->title);
 
 	return createDocumentReader(decoded, aSubject, aPrimaryMetadata, mime->title);
+}
+
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createMimeInHtmlReader(std::shared_ptr<cainteoir::buffer> &aData,
+                                  const rdf::uri &aSubject,
+                                  rdf::graph &aPrimaryMetadata,
+                                  const std::string &aTitle,
+                                  const char *aDefaultEncoding)
+{
+	auto reader = cainteoir::createXmlReader(aData, aDefaultEncoding);
+	reader->set_predefined_entities(xml::html_entities);
+
+	const char *first = nullptr;
+	const char *last  = nullptr;
+	bool processing   = true;
+	do switch (reader->nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (!reader->nodeName().comparei("pre"))
+			first = reader->current() + 1;
+		break;
+	case xml::reader::endTagNode:
+		if (first && reader->nodeName().comparei("pre"))
+			processing = false;
+		break;
+	case xml::reader::attribute:
+	case xml::reader::commentNode:
+		break;
+	case xml::reader::textNode:
+	case xml::reader::error: // email address as tag -- Joseph <joe@world.net>
+		last = reader->current();
+		break;
+	default:
+		return std::shared_ptr<cainteoir::document_reader>();
+	} while (processing && reader->read());
+
+	if (!first || !last || last < first)
+		return std::shared_ptr<cainteoir::document_reader>();
+
+	uint32_t ch = 0;
+	const char *next = first;
+	while ((next = utf8::read(first, ch)) && utf8::isspace(ch))
+		first = next;
+
+	auto text = std::make_shared<buffer>(first, last);
+
+	if (!mime::email.match(text) && !mime::mime.match(text))
+		return std::shared_ptr<cainteoir::document_reader>();
+
+	auto data = cainteoir::copy(*text, 0);
+	return createMimeReader(data, aSubject, aPrimaryMetadata, aTitle);
 }

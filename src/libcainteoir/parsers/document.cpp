@@ -97,7 +97,12 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		std::string rootName     = reader->nodeName().str();
 
 		if (mime::xhtml.match(namespaceUri, rootName))
+		{
+			auto mime = createMimeInHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle, aDefaultEncoding);
+			if (mime)
+				return mime;
 			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml");
+		}
 
 		if (mime::ncx.match(namespaceUri, rootName))
 			return createNcxReader(reader, aSubject, aPrimaryMetadata, aTitle);
@@ -115,13 +120,21 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 			return createSmilReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
 		if (mime::html.match(aData))
+		{
+			auto mime = createMimeInHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle, aDefaultEncoding);
+			if (mime)
+				return mime;
 			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml");
+		}
 
 		return std::shared_ptr<document_reader>();
 	}
 
 	if (mime::html.match(aData))
 	{
+		auto mime = createMimeInHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle, aDefaultEncoding);
+		if (mime)
+			return mime;
 		auto reader = cainteoir::createXmlReader(aData, aDefaultEncoding);
 		return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "text/html");
 	}

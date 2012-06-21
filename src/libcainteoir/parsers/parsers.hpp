@@ -73,6 +73,36 @@ namespace cainteoir
 	                 rdf::graph &aPrimaryMetadata,
 	                 const std::string &aTitle);
 
+	/** @brief MIME Document Embedded Within a HTML Document
+	  *
+	  * This creates a reader for a mime document that is embedded within a HTML
+	  * document that has the following events:
+	  *
+	  * @begincode
+	  *     toc-entry [...] depth=0 title="""..."""
+	  *     begin-context paragraph +monospace
+	  *     text(...): """
+	  *     EMBEDDED MIME DOCUMENT
+	  *     """
+	  *     end-context paragraph +monospace
+	  * @endcode
+	  *
+	  * Where the |end-context| is optional.
+	  *
+	  * @param[in]  aData            The document content.
+	  * @param[in]  aSubject         The RDF subject for the document metadata.
+	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+	  * @param[in]  aTitle           The document title to use if none is specified.
+	  *
+	  * @return A reader over the document contents.
+	  */
+	std::shared_ptr<document_reader>
+	createMimeInHtmlReader(std::shared_ptr<buffer> &aData,
+	                       const rdf::uri &aSubject,
+	                       rdf::graph &aPrimaryMetadata,
+	                       const std::string &aTitle,
+                               const char *aDefaultEncoding);
+
 	/** @brief Navigation Control File (NCX)
 	  *
 	  * @param[in]  aReader          The XML document reader.

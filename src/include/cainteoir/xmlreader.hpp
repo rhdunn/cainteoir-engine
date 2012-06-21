@@ -277,6 +277,8 @@ namespace cainteoir { namespace xml
 			mAttrs.set(aNS, entries, match);
 			reset_context();
 		}
+
+		const char *current() const { return mState.current; }
 	private:
 		/** @name parser internals/helpers */
 		//@{
