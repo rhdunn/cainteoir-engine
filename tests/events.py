@@ -73,6 +73,8 @@ if __name__ == '__main__':
 			{'test': 'html/sections/ul.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/ul.xhtml', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/ul-cdata.xhtml', 'result': 'html/sections/ul.events'},
+			{'test': 'html/sections/unclosed-head.html', 'result': 'html/sections/unclosed-head.events'},
+			{'test': 'html/sections/html-only.html', 'result': 'html/sections/html-only.events'},
 		]},
 		{'name': 'text-level semantics', 'type': 'events', 'tests': [
 			{'test': 'html/text-level-semantics/address.html', 'result': 'html/text-level-semantics/address.events'},

@@ -385,15 +385,17 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	if (reader->context() == &html::html_node)
 	{
 		lang = parseLangAttr();
-		while (reader->nodeType() != xml::reader::beginTagNode)
-			reader->read();
+		bool processing = true;
+		while (processing && reader->nodeType() != xml::reader::beginTagNode)
+			processing = reader->read();
 	}
 
 	if (reader->context() == &html::head_node)
 	{
 		mTitle = parseHeadNode(*reader, aSubject, aPrimaryMetadata);
-		while (reader->nodeType() != xml::reader::beginTagNode)
-			reader->read();
+		bool processing = true;
+		while (processing && reader->nodeType() != xml::reader::beginTagNode)
+			processing = reader->read();
 	}
 
 	if (lang.empty() && reader->context() == &html::body_node)
