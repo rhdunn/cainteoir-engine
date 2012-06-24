@@ -109,7 +109,9 @@ struct mime_headers : public cainteoir::buffer
 					++type;
 				mimetype = std::string(value.begin(), type);
 
-				if (mimetype == "multipart/mixed" || mimetype == "multipart/related")
+				if (mimetype == "multipart/mixed" ||
+				    mimetype == "multipart/related" ||
+				    mimetype == "multipart/alternative")
 				{
 					++type;
 					while (type <= value.end() && (*type == ' ' || *type == '\t'))
