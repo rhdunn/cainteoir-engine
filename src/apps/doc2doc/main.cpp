@@ -41,7 +41,6 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 			case events::paragraph:
 			case events::heading:
 			case events::list:
-			case events::list_item:
 			case events::table:
 			case events::row:
 				if (need_linebreak)
@@ -50,6 +49,7 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 					need_linebreak = false;
 				}
 				break;
+			case events::list_item:
 			case events::cell:
 				if (need_linebreak)
 				{
