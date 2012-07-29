@@ -278,6 +278,11 @@ namespace cainteoir { namespace xml
 			reset_context();
 		}
 
+		bool set_encoding(const char *encoding)
+		{
+			return mEncoding.set_encoding(encoding);
+		}
+
 		const char *current() const { return mState.current; }
 	private:
 		/** @name parser internals/helpers */

@@ -1,0 +1,4 @@
+toc-entry [] depth=0 title="""@title@"""
+begin-context paragraph
+text(10): """“test”"""
+end-context

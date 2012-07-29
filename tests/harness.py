@@ -133,6 +133,12 @@ class TestSuite:
 							replacements[replacement] = test[replacement]
 						else:
 							replacements[replacement] = data[replacement]
+				if 'replace' in group.keys():
+					for replacement in group['replace']:
+						if replacement in test.keys():
+							replacements[replacement] = test[replacement]
+						else:
+							replacements[replacement] = data[replacement]
 
 				if 'archive' in data.keys():
 					archive = '/tmp/test.zip'

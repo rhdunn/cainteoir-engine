@@ -335,7 +335,7 @@ bool cainteoir::xml::reader::read()
 			if (mState.state == ParsingXmlProcessingInstructionAttributes)
 			{
 				if (!mState.nodeName.compare("encoding"))
-					mEncoding.set_encoding(mNodeValue.str().c_str());
+					set_encoding(mNodeValue.str().c_str());
 			}
 
 			return true;

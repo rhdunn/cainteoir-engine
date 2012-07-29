@@ -177,8 +177,9 @@ namespace html
 	static const xml::context::entry video_node      = { events::unknown,   0 };
 	static const xml::context::entry wbr_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 
-	static const xml::context::entry name_attr       = { events::unknown,   0 };
+	static const xml::context::entry charset_attr    = { events::unknown,   0 };
 	static const xml::context::entry content_attr    = { events::unknown,   0 };
+	static const xml::context::entry name_attr       = { events::unknown,   0 };
 
 	static const xml::context::entry abstract_meta    = { events::unknown,   0 };
 	static const xml::context::entry creator_meta     = { events::unknown,   0 };
@@ -317,6 +318,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 
 static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 {
+	{ "charset", &html::charset_attr },
 	{ "content", &html::content_attr },
 	{ "id",      &xml::id_attr },
 	{ "lang",    &xml::lang_attr },
@@ -394,6 +396,7 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	{
 		mTitle = parseHeadNode(*reader, aSubject, aPrimaryMetadata);
 		bool processing = true;
+		const xml::context::entry *ctx = nullptr;
 		while (processing && reader->nodeType() != xml::reader::beginTagNode)
 			processing = reader->read();
 	}
@@ -502,6 +505,8 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aG
 			content = reader.nodeValue().normalize()->str();
 		else if (reader.context() == &xml::lang_attr)
 			lang = reader.nodeValue().normalize()->str();
+		else if (reader.context() == &html::charset_attr)
+			reader.set_encoding(reader.nodeValue().normalize()->str().c_str());
 		break;
 	}
 }

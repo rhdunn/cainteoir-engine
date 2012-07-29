@@ -116,6 +116,10 @@ if __name__ == '__main__':
 			{'test': 'html/entities.html', 'result': 'html/entities.events'},
 			{'test': 'html/entities.xhtml', 'result': 'html/entities.events'},
 		]},
+		{'name': 'encoding', 'replace': ['title'], 'type': 'events', 'tests': [
+			{'test': 'html/encoding/meta-charset-utf8.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-charset-utf8.html'},
+			{'test': 'html/encoding/meta-charset-win1252.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-charset-win1252.html'},
+		]},
 	]})
 	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
 		{'name': 'headers', 'type': 'events', 'tests': [
