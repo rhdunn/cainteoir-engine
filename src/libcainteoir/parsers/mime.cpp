@@ -109,12 +109,10 @@ struct mime_headers : public cainteoir::buffer
 					++type;
 				mimetype = std::string(value.begin(), type);
 
-				if (mimetype == "multipart/mixed" ||
-				    mimetype == "multipart/related" ||
-				    mimetype == "multipart/alternative")
+				if (type <= value.end() && *type == ';')
 				{
 					++type;
-					while (type <= value.end() && (*type == ' ' || *type == '\t'))
+					while (type <= value.end() && (*type == ' ' || *type == '\t' || *type == '\r' || *type == '\n'))
 						++type;
 
 					const char * name = type;
@@ -130,7 +128,9 @@ struct mime_headers : public cainteoir::buffer
 					const char * bounds = type;
 					while (type <= value.end() && *type != '"')
 						++type;
-					boundary = cainteoir::buffer(bounds, type);
+
+					if (!arg.compare("boundary"))
+						boundary = cainteoir::buffer(bounds, type);
 				}
 			}
 			else if (!name.comparei("Subject"))
