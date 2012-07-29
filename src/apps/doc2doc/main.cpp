@@ -160,11 +160,15 @@ int main(int argc, char ** argv)
 		const char *filename = (argc == 2) ? argv[1] : nullptr;
 
 		decltype(writeTextDocument) *writer = nullptr;
-		if (!strcmp(format, "text"))
-			writer = writeTextDocument;
-		else if (!strcmp(format, "html"))
-			writer = writeHtmlDocument;
-		else
+		if (format)
+		{
+			if (!strcmp(format, "text"))
+				writer = writeTextDocument;
+			else if (!strcmp(format, "html"))
+				writer = writeHtmlDocument;
+		}
+
+		if (!writer)
 			throw std::runtime_error(i18n("unsupported format to convert to (html and text only)"));
 
 		rdf::graph metadata;
