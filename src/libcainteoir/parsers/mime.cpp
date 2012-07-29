@@ -59,6 +59,7 @@ struct mime_headers : public cainteoir::buffer
 	std::string encoding;
 	std::string mimetype;
 	std::string title;
+	std::string charset;
 
 	bool parse_headers(const rdf::uri &subject, rdf::graph &aGraph, cainteoir::buffer &boundary)
 	{
@@ -125,12 +126,14 @@ struct mime_headers : public cainteoir::buffer
 					if (*type != '"') continue;
 					++type;
 
-					const char * bounds = type;
+					const char * content = type;
 					while (type <= value.end() && *type != '"')
 						++type;
 
 					if (!arg.compare("boundary"))
-						boundary = cainteoir::buffer(bounds, type);
+						boundary = cainteoir::buffer(content, type);
+					else if (!arg.compare("charset"))
+						charset = cainteoir::buffer(content, type).str();
 				}
 			}
 			else if (!name.comparei("Subject"))
@@ -253,6 +256,9 @@ cainteoir::createMimeReader(std::shared_ptr<buffer> &aData,
 		decoded = mime;
 	else
 		throw std::runtime_error(i18n("unsupported content-transfer-encoding"));
+
+	if (!mime->charset.empty())
+		decoded = cainteoir::encoding(mime->charset.c_str()).decode(decoded);
 
 	if (mime->begin() == aData->begin()) // Avoid an infinite loop when there is just the mime header.
 		return createPlainTextReader(decoded, aSubject, aPrimaryMetadata, mime->title);

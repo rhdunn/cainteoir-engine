@@ -170,6 +170,10 @@ if __name__ == '__main__':
 			{'test': 'mime/wrapped-in-html/with-comment.txt', 'result': 'mime/wrapped-in-html/basic.events', 'title': 'Test Case'},
 			{'test': 'mime/wrapped-in-html/from.txt', 'result': 'mime/wrapped-in-html/basic.events', 'title': 'from.txt'},
 		]},
+		{'name': 'encoding', 'type': 'events', 'tests': [
+			{'test': 'mime/encoding-utf8.txt', 'result': 'mime/encoding.events', 'title': 'encoding-utf8.txt'},
+			{'test': 'mime/encoding-win1252.txt', 'result': 'mime/encoding.events', 'title': 'encoding-win1252.txt'},
+		]},
 	]})
 	test.run({'name': 'HTTP', 'replace': ['title'], 'groups': [
 		{'name': '1.0', 'type': 'events', 'tests': [
