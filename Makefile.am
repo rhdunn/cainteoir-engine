@@ -155,6 +155,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	\
 	src/libcainteoir/encoding.cpp \
 	src/libcainteoir/languages.cpp \
+	src/libcainteoir/mimetype_database.hpp \
 	src/libcainteoir/mimetype.cpp \
 	\
 	src/libcainteoir/audio/audio.cpp \
@@ -274,6 +275,16 @@ noinst_bin_PROGRAMS += tests/utf8
 tests_utf8_LDADD   = src/libcainteoir/libcainteoir.la
 tests_utf8_SOURCES = tests/utf8.cpp
 
+noinst_bin_PROGRAMS += tests/parsetext
+
+tests_parsetext_LDADD   = src/libcainteoir/libcainteoir.la
+tests_parsetext_SOURCES = tests/parsetext.cpp
+
+noinst_bin_PROGRAMS += tests/mimetype
+
+tests_mimetype_LDADD   = src/libcainteoir/libcainteoir.la
+tests_mimetype_SOURCES = tests/mimetype.cpp
+
 TEST_FILES = \
 	tests/epub/* \
 	tests/ncx/* \
@@ -303,3 +314,4 @@ check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/tur
 	python tests/metadata.py
 	python tests/vorbis-comments.py
 	python tests/events.py
+	python tests/parsetext.py

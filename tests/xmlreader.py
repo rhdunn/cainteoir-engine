@@ -91,5 +91,17 @@ if __name__ == '__main__':
 			{'test': 'xmlparser/entity/dtd-entity-in-attr.xml', 'result': 'xmlparser/entity/dtd-entity-in-attr.tags'},
 			{'test': 'xmlparser/entity/dtd-entity-in-xmlns.xml', 'result': 'xmlparser/entity/dtd-entity-in-xmlns.tags'},
 		]},
+		{'name': 'processing instruction', 'type': 'xmlreader', 'tests': [
+			{'test': 'xmlparser/processing-instruction/xml.xml', 'result': 'xmlparser/processing-instruction/xml.tags'},
+			{'test': 'xmlparser/processing-instruction/xml-standalone.xml', 'result': 'xmlparser/processing-instruction/xml-standalone.tags'},
+		]},
+		{'name': 'encoding', 'type': 'xmlreader', 'tests': [
+			{'test': 'xmlparser/encoding/default-windows1252.xml', 'result': 'xmlparser/encoding/default-windows1252.tags'},
+			{'test': 'xmlparser/encoding/encoding-utf8.xml', 'result': 'xmlparser/encoding/encoding-utf8.tags'},
+			{'test': 'xmlparser/encoding/encoding-latin1.xml', 'result': 'xmlparser/encoding/encoding-latin1.tags'},
+			{'test': 'xmlparser/encoding/bom-utf8.xml', 'result': 'xmlparser/encoding/bom.tags', 'expect': 'fail'},
+			{'test': 'xmlparser/encoding/bom-utf16le.xml', 'result': 'xmlparser/encoding/bom.tags', 'expect': 'fail'},
+			{'test': 'xmlparser/encoding/bom-utf16be.xml', 'result': 'xmlparser/encoding/bom.tags', 'expect': 'fail'},
+		]},
 	]})
 	test.summary()

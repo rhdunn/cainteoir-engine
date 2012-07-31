@@ -28,6 +28,7 @@ if __name__ == '__main__':
 			{'test': 'html/semantics/simple.xhtml', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/simple-with-doctype.xhtml', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/simple-no-namespace.xhtml', 'result': 'html/semantics/simple.events'},
+			{'test': 'html/semantics/simple-with-xml-magic.html', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/with-style.html', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style-type.html', 'result': 'html/semantics/with-style-type.events'},
@@ -68,9 +69,12 @@ if __name__ == '__main__':
 			{'test': 'html/sections/paragraphs-cdata.xhtml', 'result': 'html/sections/paragraphs.events'},
 			{'test': 'html/sections/pre.html', 'result': 'html/sections/pre.events'},
 			{'test': 'html/sections/pre.xhtml', 'result': 'html/sections/pre.events'},
+			{'test': 'html/sections/pre-only-element.html', 'result': 'html/sections/pre-only-element.events'},
 			{'test': 'html/sections/ul.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/ul.xhtml', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/ul-cdata.xhtml', 'result': 'html/sections/ul.events'},
+			{'test': 'html/sections/unclosed-head.html', 'result': 'html/sections/unclosed-head.events'},
+			{'test': 'html/sections/html-only.html', 'result': 'html/sections/html-only.events'},
 		]},
 		{'name': 'text-level semantics', 'type': 'events', 'tests': [
 			{'test': 'html/text-level-semantics/address.html', 'result': 'html/text-level-semantics/address.events'},
@@ -100,6 +104,10 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/var.html', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/var.xhtml', 'result': 'html/text-level-semantics/em.events'},
 		]},
+		{'name': 'table', 'type': 'events', 'tests': [
+			{'test': 'html/table/simple.html', 'result': 'html/table/simple.events'},
+			{'test': 'html/table/simple.xhtml', 'result': 'html/table/simple.events'},
+		]},
 		{'name': 'phrasing content', 'type': 'events', 'tests': [
 			{'test': 'html/phrasing-content/br.html', 'result': 'html/phrasing-content/br.events'},
 			{'test': 'html/phrasing-content/br.xhtml', 'result': 'html/phrasing-content/br.events'},
@@ -107,6 +115,12 @@ if __name__ == '__main__':
 		{'name': 'entities', 'type': 'events', 'tests': [
 			{'test': 'html/entities.html', 'result': 'html/entities.events'},
 			{'test': 'html/entities.xhtml', 'result': 'html/entities.events'},
+		]},
+		{'name': 'encoding', 'replace': ['title'], 'type': 'events', 'tests': [
+			{'test': 'html/encoding/meta-charset-utf8.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-charset-utf8.html'},
+			{'test': 'html/encoding/meta-charset-win1252.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-charset-win1252.html'},
+			{'test': 'html/encoding/meta-content-type-utf8.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-content-type-utf8.html'},
+			{'test': 'html/encoding/meta-content-type-win1252.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-content-type-win1252.html'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
@@ -141,6 +155,10 @@ if __name__ == '__main__':
 			{'test': 'mime/multipart/related-2.txt', 'result': 'mime/multipart/related.events', 'title': 'related-2.txt'},
 			{'test': 'mime/multipart/related-3.txt', 'result': 'mime/multipart/related.events', 'title': 'related-3.txt'},
 			{'test': 'mime/multipart/related-4.txt', 'result': 'mime/multipart/related.events', 'title': 'related-4.txt'},
+			{'test': 'mime/multipart/alternative-1.txt', 'result': 'mime/multipart/mixed.events', 'title': 'alternative-1.txt'},
+			{'test': 'mime/multipart/alternative-2.txt', 'result': 'mime/multipart/mixed.events', 'title': 'alternative-2.txt'},
+			{'test': 'mime/multipart/no-boundary-1.txt', 'result': 'mime/multipart/no-boundary.events', 'title': 'no-boundary-1.txt'},
+			{'test': 'mime/multipart/no-boundary-2.txt', 'result': 'mime/multipart/no-boundary.events', 'title': 'no-boundary-2.txt'},
 		]},
 		{'name': 'quoted-printable', 'type': 'events', 'tests': [
 			{'test': 'mime/quoted-printable/ascii.txt', 'result': 'mime/quoted-printable/ascii.events', 'title': 'ascii.txt'},
@@ -152,6 +170,15 @@ if __name__ == '__main__':
 			{'test': 'mime/base64/simple.txt',  'result': 'mime/base64/simple.events',  'title': 'simple.txt'},
 			{'test': 'mime/base64/padding.txt', 'result': 'mime/base64/padding.events', 'title': 'padding.txt'},
 			{'test': 'mime/base64/wrapped.txt', 'result': 'mime/base64/wrapped.events', 'title': 'wrapped.txt'},
+		]},
+		{'name': 'wrapped in html', 'type': 'events', 'tests': [
+			{'test': 'mime/wrapped-in-html/subject.txt', 'result': 'mime/wrapped-in-html/basic.events', 'title': 'Test Case'},
+			{'test': 'mime/wrapped-in-html/with-comment.txt', 'result': 'mime/wrapped-in-html/basic.events', 'title': 'Test Case'},
+			{'test': 'mime/wrapped-in-html/from.txt', 'result': 'mime/wrapped-in-html/basic.events', 'title': 'from.txt'},
+		]},
+		{'name': 'encoding', 'type': 'events', 'tests': [
+			{'test': 'mime/encoding-utf8.txt', 'result': 'mime/encoding.events', 'title': 'encoding-utf8.txt'},
+			{'test': 'mime/encoding-win1252.txt', 'result': 'mime/encoding.events', 'title': 'encoding-win1252.txt'},
 		]},
 	]})
 	test.run({'name': 'HTTP', 'replace': ['title'], 'groups': [
@@ -205,10 +232,44 @@ if __name__ == '__main__':
 				('META-INF/container.xml', 'ocf/simple.ocf'),
 				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
 				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/semantics/simple.xhtml')
+				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
 			],
 		'groups': [
 			{'name': 'with-content', 'type': 'events', 'tests': [
+				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
+				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
+			]},
+		]
+	})
+	test.run({ 'name': 'ePub',
+		'archive':
+			[
+				('mimetype', 'application/epub+zip\n'),
+				('META-INF/container.xml', 'ocf/simple.ocf'),
+				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
+				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
+				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
+			],
+		'groups': [
+			{'name': 'mimetype with extra content at the end', 'type': 'events', 'tests': [
+				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
+				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
+			]},
+		]
+	})
+	test.run({ 'name': 'ePub',
+		'archive':
+			[
+				# incorrectly constructed ePUb document -- the mimetype
+				# file is the last entry, not the first:
+				('META-INF/container.xml', 'ocf/simple.ocf'),
+				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
+				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
+				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
+				('mimetype', 'application/epub+zip'),
+			],
+		'groups': [
+			{'name': 'mimetype at end', 'type': 'events', 'tests': [
 				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
 				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
 			]},

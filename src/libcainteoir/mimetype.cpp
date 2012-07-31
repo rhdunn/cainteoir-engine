@@ -20,138 +20,72 @@
 
 #include "config.h"
 #include "compatibility.hpp"
+#include "mimetype_database.hpp"
 
 #include <cainteoir/mimetype.hpp>
 #include <cainteoir/xmlreader.hpp>
 
-#include <netinet/in.h> // for ntohs and ntohl
 #include <stdexcept>
-#include <vector>
-#include <map>
 
 namespace xml = cainteoir::xml;
 namespace rdf = cainteoir::rdf;
-
-static const char *email_mimetype  = "message/rfc822";
-static const char *epub_mimetype   = "application/epub+zip";
-static const char *gzip_mimetype   = "application/x-gzip";
-static const char *html_mimetype   = "text/html";
-static const char *mhtml_mimetype  = "multipart/related";
-static const char *ncx_mimetype    = "application/x-dtbncx+xml";
-static const char *ogg_mimetype    = "audio/x-vorbis+ogg";
-static const char *opf_mimetype    = "application/oebps-package+xml";
-static const char *pdf_mimetype    = "application/pdf";
-static const char *rdfxml_mimetype = "application/rdf+xml";
-static const char *rtf_mimetype    = "application/rtf";
-static const char *smil_mimetype   = "application/smil";
-static const char *ssml_mimetype   = "application/ssml+xml";
-static const char *text_mimetype   = "text/plain";
-static const char *wav_mimetype    = "audio/x-wav";
-static const char *xhtml_mimetype  = "application/xhtml+xml";
-static const char *xml_mimetype    = "application/xml";
-static const char *zip_mimetype    = "application/zip";
+namespace m   = cainteoir::mime;
 
 static std::initializer_list<const char *> mimetype_list = {
-	email_mimetype,
-	epub_mimetype,
-	gzip_mimetype,
-	html_mimetype,
-	mhtml_mimetype,
-	ncx_mimetype,
-	ogg_mimetype,
-	opf_mimetype,
-	pdf_mimetype,
-	rdfxml_mimetype,
-	rtf_mimetype,
-	smil_mimetype,
-	ssml_mimetype,
-	text_mimetype,
-	wav_mimetype,
-	xhtml_mimetype,
-	xml_mimetype,
-	zip_mimetype,
+	m::email_mimetype,
+	m::epub_mimetype,
+	m::gzip_mimetype,
+	m::html_mimetype,
+	m::mhtml_mimetype,
+	m::ncx_mimetype,
+	m::ogg_mimetype,
+	m::opf_mimetype,
+	m::pdf_mimetype,
+	m::rdfxml_mimetype,
+	m::rtf_mimetype,
+	m::smil_mimetype,
+	m::ssml_mimetype,
+	m::text_mimetype,
+	m::wav_mimetype,
+	m::xhtml_mimetype,
+	m::xml_mimetype,
+	m::zip_mimetype,
 };
 
-struct matchlet
+cainteoir::mime::matchlet &cainteoir::mime::matchlet::operator=(const matchlet &m)
 {
-	/** @brief The position where the pattern starts. */
-	uint32_t offset;
+	offset  = m.offset;
+	range   = m.range;
+	pattern = m.pattern;
+	return *this;
+}
 
-	/** @brief The number of bytes after offset the pattern can occur. */
-	uint32_t range;
-
-	/** @brief The pattern to match against. */
-	std::string pattern;
-
-	matchlet &operator=(const matchlet &m)
-	{
-		offset  = m.offset;
-		range   = m.range;
-		pattern = m.pattern;
-		return *this;
-	}
-
-	bool match(const std::shared_ptr<cainteoir::buffer> &data) const
-	{
-		std::string::size_type pattern_length = pattern.size();
-		const char *begin = data->begin() + offset;
-		for (const char *start = begin; start != begin + range; ++start)
-		{
-			if (start + pattern_length >= data->end())
-				return false; // out of range!
-
-			if (!strncmp(start, pattern.c_str(), pattern_length))
-				return true;
-		}
-		return false;
-	}
-};
-
-struct magic : public std::vector<matchlet>
+bool cainteoir::mime::matchlet::match(const std::shared_ptr<cainteoir::buffer> &data) const
 {
-	magic(const std::initializer_list<matchlet> &matchlets)
-		: std::vector<matchlet>(matchlets)
+	std::string::size_type pattern_length = pattern.size();
+	const char *begin = data->begin() + offset;
+	for (const char *start = begin; start != begin + range; ++start)
 	{
-	}
+		if (start + pattern_length >= data->end())
+			return false; // out of range!
 
-	magic(const std::vector<matchlet> &matchlets)
-		: std::vector<matchlet>(matchlets)
-	{
+		if (!strncmp(start, pattern.c_str(), pattern_length))
+			return true;
 	}
+	return false;
+}
 
-	bool match(const std::shared_ptr<cainteoir::buffer> &data) const
-	{
-		foreach_iter (matchlet, *this)
-		{
-			if (!matchlet->match(data))
-				return false;
-		}
-		return !empty();
-	}
-};
-
-struct mime_info
+bool cainteoir::mime::magic::match(const std::shared_ptr<cainteoir::buffer> &data) const
 {
-	/** @brief The magic data that identifies this mimetype/content. */
-	std::vector<struct magic> magic;
+	foreach_iter (matchlet, *this)
+	{
+		if (!matchlet->match(data))
+			return false;
+	}
+	return !empty();
+}
 
-	/** @brief The XML namespace associated with the mimetype (for XML documents only). */
-	std::string xmlns;
-
-	/** @brief The XML local name associated with the mimetype (for XML documents only). */
-	std::string localname;
-
-	/** @brief The mimetype description (comment field). */
-	std::string label;
-
-	/** @brief The filename patterns for files matching this mimetype. */
-	std::vector<std::string> globs;
-
-	/** @brief The mimetype aliases for this mimetype. */
-	std::vector<std::string> aliases;
-};
-
-std::string get_mime_dir(std::string basedir)
+static std::string get_mime_dir(std::string basedir)
 {
 	// Handle paths like "/usr/share/" that have a trailing '/' ...
 	if ((*--basedir.end()) == '/')
@@ -160,7 +94,7 @@ std::string get_mime_dir(std::string basedir)
 	return basedir + "/mime/";
 }
 
-std::vector<std::string> get_mime_dirs()
+static std::vector<std::string> get_mime_dirs()
 {
 	std::vector<std::string> dirs;
 
@@ -189,244 +123,222 @@ std::vector<std::string> get_mime_dirs()
 	return dirs;
 }
 
-struct mime_cache
+void cainteoir::mime::mimetype_database::read_aliases_from_cache(mime_cache &cache)
 {
-	mime_cache(const std::string &filename) : cache(filename.c_str())
+	uint32_t offset = cache.u32(4);
+	uint32_t count  = cache.u32(offset);
+	offset += 4;
+
+	for (; count > 0; --count)
 	{
+		const char *alias = cache.str(offset);
+		const char *mime  = cache.str(offset + 4);
+
+		foreach_iter (mimetype, mimetype_list)
+		{
+			if (!strcmp(*mimetype, mime))
+				database[mime].aliases.push_back(alias);
+		}
+		offset += 8;
 	}
+}
 
-	uint16_t u16(uint32_t offset) const { return ntohs(*(uint16_t *)(cache.begin() + offset)); }
-	uint32_t u32(uint32_t offset) const { return ntohl(*(uint32_t *)(cache.begin() + offset)); }
-
-	const char *str(uint32_t offset) const { return cache.begin() + u32(offset); }
-
-	uint16_t major() const { return u16(0); }
-	uint16_t minor() const { return u16(2); }
-private:
-	cainteoir::mmap_buffer cache;
-};
-
-class mimetype_database
+void cainteoir::mime::mimetype_database::read_reverse_suffix_tree_from_cache(mime_cache &cache, uint32_t offset, const std::string &suffix)
 {
-	std::map<std::string, mime_info> database;
+	uint32_t count = cache.u32(offset);
+	offset = cache.u32(offset + 4);
 
-	void read_aliases_from_cache(mime_cache &cache)
+	for (; count > 0; --count)
 	{
-		uint32_t offset = cache.u32(4);
-		uint32_t count  = cache.u32(offset);
-		offset += 4;
-
-		for (; count > 0; --count)
+		uint32_t c = cache.u32(offset);
+		if (c == 0) // leaf node
 		{
-			const char *alias = cache.str(offset);
-			const char *mime  = cache.str(offset + 4);
-
-			foreach_iter (mimetype, mimetype_list)
-			{
-				if (!strcmp(*mimetype, mime))
-					database[mime].aliases.push_back(alias);
-			}
-			offset += 8;
-		}
-	}
-
-	void read_reverse_suffix_tree_from_cache(mime_cache &cache, uint32_t offset, const std::string &suffix)
-	{
-		uint32_t count = cache.u32(offset);
-		offset = cache.u32(offset + 4);
-
-		for (; count > 0; --count)
-		{
-			uint32_t c = cache.u32(offset);
-			if (c == 0) // leaf node
-			{
-				const char *mime = cache.str(offset + 4);
-				foreach_iter (mimetype, mimetype_list)
-				{
-					if (!strcmp(*mimetype, mime))
-					{
-						std::string s = '*' + suffix;
-						database[mime].globs.push_back(s);
-					}
-				}
-			}
-			else
-			{
-				std::string s = (char)c + suffix;
-				read_reverse_suffix_tree_from_cache(cache, offset + 4, s);
-			}
-			offset += 12;
-		}
-	}
-
-	void read_globs_from_cache(mime_cache &cache)
-	{
-		read_reverse_suffix_tree_from_cache(cache, cache.u32(16), std::string());
-	}
-
-	void read_matchlets_from_cache(mime_cache &cache, uint32_t count, uint32_t offset, std::vector<magic> &magic_list, const std::vector<matchlet> &matchlets)
-	{
-		for (; count > 0; --count)
-		{
-			uint32_t range_start  = cache.u32(offset);
-			uint32_t range_length = cache.u32(offset +  4);
-			uint32_t value_length = cache.u32(offset + 12);
-			const char * value    = cache.str(offset + 16);
-			uint32_t child_count  = cache.u32(offset + 24);
-			uint32_t child_offset = cache.u32(offset + 28);
-
-			std::vector<matchlet> matches = matchlets;
-			matchlet match = { range_start, range_length, std::string(value, value + value_length) };
-			matches.push_back(match);
-			if (child_count == 0)
-				magic_list.push_back(magic(matches));
-			else
-				read_matchlets_from_cache(cache, child_count, child_offset, magic_list, matches);
-			offset += 32;
-		}
-	}
-
-	void read_magic_from_cache(mime_cache &cache)
-	{
-		uint32_t offset = cache.u32(24);
-		uint32_t count  = cache.u32(offset);
-		offset = cache.u32(offset + 8);
-
-		for (; count > 0; --count)
-		{
-			const char *mime  = cache.str(offset + 4);
+			const char *mime = cache.str(offset + 4);
 			foreach_iter (mimetype, mimetype_list)
 			{
 				if (!strcmp(*mimetype, mime))
 				{
-					std::vector<magic> &magic_list = database[mime].magic;
-					read_matchlets_from_cache(cache, cache.u32(offset + 8), cache.u32(offset + 12), magic_list, std::vector<matchlet>());
+					std::string s = '*' + suffix;
+					database[mime].globs.push_back(s);
 				}
 			}
-			offset += 16;
 		}
-	}
-
-	void read_xmlns_from_cache(mime_cache &cache)
-	{
-		uint32_t offset = cache.u32(28);
-		uint32_t count  = cache.u32(offset);
-		offset += 4;
-
-		for (; count > 0; --count)
+		else
 		{
-			const char *ns   = cache.str(offset);
-			const char *name = cache.str(offset + 4);
-			const char *mime = cache.str(offset + 8);
-
-			foreach_iter (mimetype, mimetype_list)
-			{
-				if (!strcmp(*mimetype, mime))
-				{
-					database[mime].xmlns = ns;
-					database[mime].localname = name;
-				}
-			}
-			offset += 12;
+			std::string s = (char)c + suffix;
+			read_reverse_suffix_tree_from_cache(cache, offset + 4, s);
 		}
+		offset += 12;
 	}
+}
 
-	std::string read_comment_from_mimeinfo_file(const std::string &filename)
+void cainteoir::mime::mimetype_database::read_globs_from_cache(mime_cache &cache)
+{
+	read_reverse_suffix_tree_from_cache(cache, cache.u32(16), std::string());
+}
+
+void cainteoir::mime::mimetype_database::read_matchlets_from_cache(mime_cache &cache, uint32_t count, uint32_t offset, std::vector<magic> &magic_list, const std::vector<matchlet> &matchlets)
+{
+	for (; count > 0; --count)
+	{
+		uint32_t range_start  = cache.u32(offset);
+		uint32_t range_length = cache.u32(offset +  4);
+		uint32_t value_length = cache.u32(offset + 12);
+		const char * value    = cache.str(offset + 16);
+		uint32_t child_count  = cache.u32(offset + 24);
+		uint32_t child_offset = cache.u32(offset + 28);
+
+		std::vector<matchlet> matches = matchlets;
+		matchlet match = { range_start, range_length, std::string(value, value + value_length) };
+		matches.push_back(match);
+		if (child_count == 0)
+			magic_list.push_back(magic(matches));
+		else
+			read_matchlets_from_cache(cache, child_count, child_offset, magic_list, matches);
+		offset += 32;
+	}
+}
+
+void cainteoir::mime::mimetype_database::read_magic_from_cache(mime_cache &cache)
+{
+	uint32_t offset = cache.u32(24);
+	uint32_t count  = cache.u32(offset);
+	offset = cache.u32(offset + 8);
+
+	for (; count > 0; --count)
+	{
+		const char *mime  = cache.str(offset + 4);
+		foreach_iter (mimetype, mimetype_list)
+		{
+			if (!strcmp(*mimetype, mime))
+			{
+				std::vector<magic> &magic_list = database[mime].magic;
+				read_matchlets_from_cache(cache, cache.u32(offset + 8), cache.u32(offset + 12), magic_list, std::vector<matchlet>());
+			}
+		}
+		offset += 16;
+	}
+}
+
+void cainteoir::mime::mimetype_database::read_xmlns_from_cache(mime_cache &cache)
+{
+	uint32_t offset = cache.u32(28);
+	uint32_t count  = cache.u32(offset);
+	offset += 4;
+
+	for (; count > 0; --count)
+	{
+		const char *ns   = cache.str(offset);
+		const char *name = cache.str(offset + 4);
+		const char *mime = cache.str(offset + 8);
+
+		foreach_iter (mimetype, mimetype_list)
+		{
+			if (!strcmp(*mimetype, mime))
+			{
+				database[mime].xmlns = ns;
+				database[mime].localname = name;
+			}
+		}
+		offset += 12;
+	}
+}
+
+std::string cainteoir::mime::mimetype_database::read_comment_from_mimeinfo_file(const std::string &filename)
+{
+	try
+	{
+		std::map<std::string, std::string> comments;
+
+		std::shared_ptr<cainteoir::buffer> mimeinfo = std::make_shared<cainteoir::mmap_buffer>(filename.c_str());
+		xml::reader reader(mimeinfo, "windows-1252");
+
+		bool in_comment = false;
+		std::string lang;
+		while (reader.read()) switch (reader.nodeType())
+		{
+		case xml::reader::beginTagNode:
+			if (!reader.nodeName().compare("comment"))
+			{
+				lang = "--";
+				in_comment = true;
+			}
+			break;
+		case xml::reader::attribute:
+			// FIXME: reader.context() cannot be used here due to static object
+			// initialization order -- this gets initialized before xml::attrs
+			// so segfaults if that is used.
+			if (in_comment && reader.namespaceUri() == "http://www.w3.org/XML/1998/namespace" && reader.nodeName().str() == "lang")
+				lang = reader.nodeValue().buffer()->str();
+			break;
+		case xml::reader::textNode:
+			if (in_comment)
+				comments[lang] = reader.nodeValue().buffer()->str();
+			break;
+		case xml::reader::endTagNode:
+			if (!reader.nodeName().compare("comment"))
+				in_comment = false;
+			break;
+		}
+
+		const char *lang_env = getenv("LANG");
+		if (lang_env)
+		{
+			std::string lang = lang_env;
+			if (!comments[lang].empty())
+				return comments[lang];
+			lang = lang.substr(0, lang.find('.'));
+			if (!comments[lang].empty())
+				return comments[lang];
+			lang = lang.substr(0, lang.find('_'));
+			if (!comments[lang].empty())
+				return comments[lang];
+		}
+		return comments["--"];
+	}
+	catch (std::runtime_error &)
+	{
+		// The mimetype information file was not found, or there was
+		// a problem reading it, so ignore this file data.
+	}
+	return "";
+}
+
+cainteoir::mime::mimetype_database::mimetype_database()
+{
+	foreach_iter (dir, get_mime_dirs())
 	{
 		try
 		{
-			std::map<std::string, std::string> comments;
+			mime_cache cache(*dir + "mime.cache");
+			if (cache.major() != 1 || cache.minor() != 2)
+				throw std::runtime_error("unsupported mime.cache version.");
 
-			std::shared_ptr<cainteoir::buffer> mimeinfo = std::make_shared<cainteoir::mmap_buffer>(filename.c_str());
-			xml::reader reader(mimeinfo);
+			read_aliases_from_cache(cache);
+			read_globs_from_cache(cache);
+			read_magic_from_cache(cache);
+			read_xmlns_from_cache(cache);
 
-			bool in_comment = false;
-			std::string lang;
-			while (reader.read()) switch (reader.nodeType())
-			{
-			case xml::reader::beginTagNode:
-				if (!reader.nodeName().compare("comment"))
-				{
-					lang = "--";
-					in_comment = true;
-				}
-				break;
-			case xml::reader::attribute:
-				// FIXME: reader.context() cannot be used here due to static object
-				// initialization order -- this gets initialized before xml::attrs
-				// so segfaults if that is used.
-				if (in_comment && reader.namespaceUri() == "http://www.w3.org/XML/1998/namespace" && reader.nodeName().str() == "lang")
-					lang = reader.nodeValue().buffer()->str();
-				break;
-			case xml::reader::textNode:
-				if (in_comment)
-					comments[lang] = reader.nodeValue().buffer()->str();
-				break;
-			case xml::reader::endTagNode:
-				if (!reader.nodeName().compare("comment"))
-					in_comment = false;
-				break;
-			}
-
-			const char *lang_env = getenv("LANG");
-			if (lang_env)
-			{
-				std::string lang = lang_env;
-				if (!comments[lang].empty())
-					return comments[lang];
-				lang = lang.substr(0, lang.find('.'));
-				if (!comments[lang].empty())
-					return comments[lang];
-				lang = lang.substr(0, lang.find('_'));
-				if (!comments[lang].empty())
-					return comments[lang];
-			}
-			return comments["--"];
+			foreach_iter (mimetype, mimetype_list)
+				database[*mimetype].label = read_comment_from_mimeinfo_file(*dir + *mimetype + ".xml");
 		}
-		catch (std::runtime_error &)
+		catch (const std::runtime_error &)
 		{
-			// The mimetype information file was not found, or there was
-			// a problem reading it, so ignore this file data.
-		}
-		return "";
-	}
-public:
-	mimetype_database()
-	{
-		foreach_iter (dir, get_mime_dirs())
-		{
-			try
-			{
-				mime_cache cache(*dir + "mime.cache");
-				if (cache.major() != 1 || cache.minor() != 2)
-					throw std::runtime_error("unsupported mime.cache version.");
-
-				read_aliases_from_cache(cache);
-				read_globs_from_cache(cache);
-				read_magic_from_cache(cache);
-				read_xmlns_from_cache(cache);
-
-				foreach_iter (mimetype, mimetype_list)
-					database[*mimetype].label = read_comment_from_mimeinfo_file(*dir + *mimetype + ".xml");
-			}
-			catch (const std::runtime_error &)
-			{
-				// Some paths in XDG_DATA_DIRS do not hold any mimetype information,
-				// e.g. /usr/share/gnome, so just ignore that path.
-			}
+			// Some paths in XDG_DATA_DIRS do not hold any mimetype information,
+			// e.g. /usr/share/gnome, so just ignore that path.
 		}
 	}
+}
 
-	const mime_info &operator[](const char *mimetype) const
-	{
-		auto entry = database.find(mimetype);
-		if (entry == database.end())
-			throw std::runtime_error("mimetype entry not supported in the mimetype list");
-		return entry->second;
-	}
-};
+const cainteoir::mime::mime_info &cainteoir::mime::mimetype_database::operator[](const char *mimetype) const
+{
+	auto entry = database.find(mimetype);
+	if (entry == database.end())
+		throw std::runtime_error("mimetype entry not supported in the mimetype list");
+	return entry->second;
+}
 
-mimetype_database mimetypes;
+cainteoir::mime::mimetype_database cainteoir::mime::mimetypes;
 
 bool cainteoir::mime::mimetype::match(const std::shared_ptr<cainteoir::buffer> &data) const
 {
@@ -474,8 +386,6 @@ void cainteoir::mime::mimetype::metadata(rdf::graph &aGraph, const std::string &
 		aGraph.statement(ref, rdf::tts("extension"), rdf::literal(*glob));
 }
 
-namespace m = cainteoir::mime;
-
 /** === MIME Header Handling ===
   * The magic to detect MIME header content from HTTP, SMTP and MHTML documents.
   *
@@ -485,49 +395,49 @@ namespace m = cainteoir::mime;
   */
 //{{{
 
-static const std::initializer_list<matchlet> http_pattern1 = { { 0,  1, "HTTP/1.0" }, {  8, 81, "\nContent-Type:" } };
-static const std::initializer_list<matchlet> http_pattern2 = { { 0,  1, "HTTP/1.1" }, {  8, 81, "\nContent-Type:" } };
+static const std::initializer_list<m::matchlet> http_pattern1 = { { 0,  1, "HTTP/1.0" }, {  8, 81, "\nContent-Type:" } };
+static const std::initializer_list<m::matchlet> http_pattern2 = { { 0,  1, "HTTP/1.1" }, {  8, 81, "\nContent-Type:" } };
 
 // for multipart mime documents (e.g. mhtml documents) ...
-static const std::initializer_list<matchlet> mime_pattern1 = { { 0, 81, "MIME-Version: 1.0" }, { 16, 81, "\nContent-Type:" } };
-static const std::initializer_list<matchlet> mime_pattern2 = { { 0,  2, "\nContent-Type:" } };
-static const std::initializer_list<matchlet> mime_pattern3 = { { 0,  2, "\nContent-Transfer-Encoding:" } };
-static const std::initializer_list<matchlet> mime_pattern4 = { { 0,  2, "\nContent-Location:" } };
+static const std::initializer_list<m::matchlet> mime_pattern1 = { { 0, 81, "MIME-Version: 1.0" }, { 16, 81, "\nContent-Type:" } };
+static const std::initializer_list<m::matchlet> mime_pattern2 = { { 0,  2, "\nContent-Type:" } };
+static const std::initializer_list<m::matchlet> mime_pattern3 = { { 0,  2, "\nContent-Transfer-Encoding:" } };
+static const std::initializer_list<m::matchlet> mime_pattern4 = { { 0,  2, "\nContent-Location:" } };
 
 // for newsgroup archives ...
-static const std::initializer_list<matchlet> news_pattern1 = { { 0,  1, "Date: " } };
-static const std::initializer_list<matchlet> news_pattern2 = { { 0,  1, "Newsgroups: " } };
+static const std::initializer_list<m::matchlet> news_pattern1 = { { 0,  1, "Date: " } };
+static const std::initializer_list<m::matchlet> news_pattern2 = { { 0,  1, "Newsgroups: " } };
 
-static const std::initializer_list<magic> mime_magic = {
+static const std::initializer_list<m::magic> mime_magic = {
 	mime_pattern1, mime_pattern2, mime_pattern3, mime_pattern4,
 	news_pattern1, news_pattern2,
 	http_pattern1, http_pattern2,
 };
 
-static const mime_info mime_data = { mime_magic, "", "", "", {}, {} };
+const m::mime_info m::mime_data = { mime_magic, "", "", "", {}, {} };
 
 //}}}
 
 const m::mimetype m::mime("mime",  nullptr, &mime_data);
 
-const m::mimetype m::email( "email", email_mimetype);
-const m::mimetype m::epub(  "epub",  epub_mimetype);
-const m::mimetype m::gzip(  "gzip",  gzip_mimetype);
-const m::mimetype m::html(  "html",  html_mimetype);
-const m::mimetype m::mhtml( "mhtml", mhtml_mimetype);
-const m::mimetype m::ncx(   "ncx",   ncx_mimetype);
-const m::mimetype m::ogg(   "ogg",   ogg_mimetype);
-const m::mimetype m::opf(   "opf",   opf_mimetype);
-const m::mimetype m::pdf(   "pdf",   pdf_mimetype);
-const m::mimetype m::rdfxml("rdf",   rdfxml_mimetype);
-const m::mimetype m::rtf(   "rtf",   rtf_mimetype);
-const m::mimetype m::smil(  "smil",  smil_mimetype);
-const m::mimetype m::ssml(  "ssml",  ssml_mimetype);
-const m::mimetype m::text(  "text",  text_mimetype);
-const m::mimetype m::wav(   "wav",   wav_mimetype);
-const m::mimetype m::xhtml( "xhtml", xhtml_mimetype);
-const m::mimetype m::xml(   "xml",   xml_mimetype);
-const m::mimetype m::zip(   "zip",   zip_mimetype);
+const m::mimetype m::email( "email", m::email_mimetype);
+const m::mimetype m::epub(  "epub",  m::epub_mimetype);
+const m::mimetype m::gzip(  "gzip",  m::gzip_mimetype);
+const m::mimetype m::html(  "html",  m::html_mimetype);
+const m::mimetype m::mhtml( "mhtml", m::mhtml_mimetype);
+const m::mimetype m::ncx(   "ncx",   m::ncx_mimetype);
+const m::mimetype m::ogg(   "ogg",   m::ogg_mimetype);
+const m::mimetype m::opf(   "opf",   m::opf_mimetype);
+const m::mimetype m::pdf(   "pdf",   m::pdf_mimetype);
+const m::mimetype m::rdfxml("rdf",   m::rdfxml_mimetype);
+const m::mimetype m::rtf(   "rtf",   m::rtf_mimetype);
+const m::mimetype m::smil(  "smil",  m::smil_mimetype);
+const m::mimetype m::ssml(  "ssml",  m::ssml_mimetype);
+const m::mimetype m::text(  "text",  m::text_mimetype);
+const m::mimetype m::wav(   "wav",   m::wav_mimetype);
+const m::mimetype m::xhtml( "xhtml", m::xhtml_mimetype);
+const m::mimetype m::xml(   "xml",   m::xml_mimetype);
+const m::mimetype m::zip(   "zip",   m::zip_mimetype);
 
 /** References
   *

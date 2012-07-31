@@ -47,12 +47,12 @@ std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 }
 
 std::shared_ptr<cainteoir::xml::reader>
-cainteoir::createXmlReader(const std::shared_ptr<buffer> &aData)
+cainteoir::createXmlReader(const std::shared_ptr<buffer> &aData, const char *aDefaultEncoding)
 {
 	if (!aData)
 		return std::shared_ptr<xml::reader>();
 
-	std::shared_ptr<xml::reader> reader = std::make_shared<xml::reader>(aData);
+	std::shared_ptr<xml::reader> reader = std::make_shared<xml::reader>(aData, aDefaultEncoding);
 	while (reader->read() && reader->nodeType() != cainteoir::xml::reader::beginTagNode)
 		;
 	return reader;
@@ -62,7 +62,8 @@ std::shared_ptr<cainteoir::document_reader>
 cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
                                 const rdf::uri &aSubject,
                                 rdf::graph &aPrimaryMetadata,
-                                const std::string &aTitle)
+                                const std::string &aTitle,
+                                const char *aDefaultEncoding)
 {
 	if (!aData || aData->empty())
 		return std::shared_ptr<document_reader>();
@@ -73,20 +74,35 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		return createDocumentReader(decompressed, aSubject, aPrimaryMetadata, aTitle);
 	}
 
-	if (mime::epub.match(aData))
+	if (mime::zip.match(aData))
 	{
 		auto archive = create_zip_archive(aData, aSubject);
-		return createEpubReader(archive, aSubject, aPrimaryMetadata);
+
+		auto mimetype = archive->read("mimetype");
+		if (mimetype)
+		{
+			if (mimetype->startswith(mime::epub.mime_type))
+				return createEpubReader(archive, aSubject, aPrimaryMetadata, aDefaultEncoding);
+
+			return std::shared_ptr<document_reader>();
+		}
+
+		return createZipReader(archive);
 	}
 
 	if (mime::xml.match(aData))
 	{
-		auto reader = cainteoir::createXmlReader(aData);
+		auto reader = cainteoir::createXmlReader(aData, aDefaultEncoding);
 		std::string namespaceUri = reader->namespaceUri();
 		std::string rootName     = reader->nodeName().str();
 
 		if (mime::xhtml.match(namespaceUri, rootName))
+		{
+			auto mime = createMimeInHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle, aDefaultEncoding);
+			if (mime)
+				return mime;
 			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml");
+		}
 
 		if (mime::ncx.match(namespaceUri, rootName))
 			return createNcxReader(reader, aSubject, aPrimaryMetadata, aTitle);
@@ -104,14 +120,22 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 			return createSmilReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
 		if (mime::html.match(aData))
+		{
+			auto mime = createMimeInHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle, aDefaultEncoding);
+			if (mime)
+				return mime;
 			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml");
+		}
 
 		return std::shared_ptr<document_reader>();
 	}
 
 	if (mime::html.match(aData))
 	{
-		auto reader = cainteoir::createXmlReader(aData);
+		auto mime = createMimeInHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle, aDefaultEncoding);
+		if (mime)
+			return mime;
+		auto reader = cainteoir::createXmlReader(aData, aDefaultEncoding);
 		return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "text/html");
 	}
 
@@ -124,19 +148,14 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 	if (mime::pdf.match(aData))
 		return createPdfReader(aData, aSubject, aPrimaryMetadata, aTitle);
 
-	if (mime::zip.match(aData))
-	{
-		auto archive = create_zip_archive(aData, aSubject);
-		return createZipReader(archive);
-	}
-
 	return createPlainTextReader(aData, aSubject, aPrimaryMetadata, aTitle);
 }
 
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createDocumentReader(const char *aFilename,
                                 rdf::graph &aPrimaryMetadata,
-                                const std::string &aTitle)
+                                const std::string &aTitle,
+                                const char *aDefaultEncoding)
 {
 	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
 
@@ -146,7 +165,7 @@ cainteoir::createDocumentReader(const char *aFilename,
 	else
 		data = buffer_from_stdin();
 
-	return createDocumentReader(data, subject, aPrimaryMetadata, aTitle);
+	return createDocumentReader(data, subject, aPrimaryMetadata, aTitle, aDefaultEncoding);
 }
 
 void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities)

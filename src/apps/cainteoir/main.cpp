@@ -411,8 +411,15 @@ int main(int argc, char ** argv)
 		if (range  != INT_MAX) doc.tts.parameter(tts::parameter::pitch_range)->set_value(range);
 		if (volume != INT_MAX) doc.tts.parameter(tts::parameter::volume)->set_value(volume);
 
-		auto reader = cainteoir::createDocumentReader((argc == 1) ? argv[0] : nullptr, doc.m_metadata, std::string());
-		if (reader) while (reader->read())
+		const char *filename = (argc == 1) ? argv[0] : nullptr;
+		auto reader = cainteoir::createDocumentReader(filename, doc.m_metadata, std::string());
+		if (!reader)
+		{
+			fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), filename ? filename : "<stdin>");
+			return EXIT_FAILURE;
+		}
+
+		while (reader->read())
 		{
 			if (reader->type & cainteoir::events::toc_entry)
 				doc.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
@@ -544,7 +551,8 @@ int main(int argc, char ** argv)
 	catch (std::runtime_error &e)
 	{
 		fprintf(stderr, i18n("error: %s\n"), e.what());
+		return EXIT_FAILURE;
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }

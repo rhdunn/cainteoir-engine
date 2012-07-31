@@ -74,6 +74,9 @@ int main(int argc, char ** argv)
 				case events::list:      fprintf(stdout, "list"); break;
 				case events::list_item: fprintf(stdout, "list-item"); break;
 				case events::sentence:  fprintf(stdout, "sentence"); break;
+				case events::table:     fprintf(stdout, "table"); break;
+				case events::row:       fprintf(stdout, "row"); break;
+				case events::cell:      fprintf(stdout, "cell"); break;
 				}
 
 				if (reader->context != events::heading)

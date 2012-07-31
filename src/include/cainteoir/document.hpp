@@ -202,6 +202,56 @@ namespace cainteoir
 			  * @endcode
 			  */
 			sentence,
+
+			/** @brief Table
+			  *
+			  * @begincode
+			  *   context table
+			  *     context row
+			  *       context cell
+			  *         text "a1"
+			  *       end
+			  *       context cell
+			  *         text "a2"
+			  *       end
+			  *     end
+			  *     context row
+			  *       context cell
+			  *         text "b1"
+			  *       end
+			  *       context cell
+			  *         text "b2"
+			  *       end
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			table,
+
+			/** @brief Table Row
+			  *
+			  * @begincode
+			  *   context row
+			  *     context cell
+			  *       text "1,1"
+			  *     end
+			  *     context cell
+			  *       text "1,2"
+			  *     end
+			  *   end
+			  * @endcode
+			  */
+			row,
+
+			/** @brief Table Cell
+			  *
+			  * @begincode
+			  *   context cell
+			  *     text "4,8"
+			  *   end
+			  * @endcode
+			  */
+			cell,
 		};
 
 		/** @brief The style of the paragraph or span context.
@@ -596,6 +646,7 @@ namespace cainteoir
 	  * @param[in]  aFilename        The path to the document.
 	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
 	  * @param[in]  aTitle           The document title to use if none is specified.
+	  * @param[in]  aDefaultEncoding The default character encoding to use.
 	  *
 	  * @return A reader over the document contents, or a null pointer if the document is not supported.
 	  *
@@ -609,7 +660,8 @@ namespace cainteoir
 	std::shared_ptr<document_reader>
 	createDocumentReader(const char *aFilename,
 	                     rdf::graph &aPrimaryMetadata,
-	                     const std::string &aTitle = std::string());
+	                     const std::string &aTitle = std::string(),
+	                     const char *aDefaultEncoding = "windows-1252");
 
 	/** @brief Create a document content reader.
 	  *
@@ -617,6 +669,7 @@ namespace cainteoir
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
 	  * @param[out] aPrimaryMetadata The main metadata that describes the document.
 	  * @param[in]  aTitle           The document title to use if none is specified.
+	  * @param[in]  aDefaultEncoding The default character encoding to use.
 	  *
 	  * @return A reader over the document contents, or a null pointer if the document is not supported.
 	  *
@@ -629,7 +682,8 @@ namespace cainteoir
 	createDocumentReader(std::shared_ptr<buffer> &aData,
 	                     const rdf::uri &aSubject,
 	                     rdf::graph &aPrimaryMetadata,
-	                     const std::string &aTitle = std::string());
+	                     const std::string &aTitle = std::string(),
+	                     const char *aDefaultEncoding = "windows-1252");
 }
 
 #endif

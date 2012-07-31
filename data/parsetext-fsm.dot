@@ -1,0 +1,56 @@
+digraph "Text Parsing Finite State Machine" {
+
+	rankdir=LR;
+	size="8,5";
+
+	_  [label="Strt", shape=doublecircle] // Start
+	E  [label="Erro", shape=doublecircle] // Error
+	N  [label="Numb", shape=doublecircle] // Number
+	N0 [label="",     shape=circle]
+	P  [label="Punc", shape=doublecircle] // Punctuation
+	S  [label="Skip", shape=doublecircle]
+	Y  [label="Symb", shape=doublecircle] // Symbol
+	W  [label="Word", shape=doublecircle]
+	W0 [label="",     shape=circle]
+
+	_  -> S  [label="\\x00-\\x20"]
+	_  -> P  [label="\\x21-\\x23"]
+	_  -> Y  [label="\\x24"]
+	_  -> P  [label="\\x25-\\x2A"]
+	_  -> Y  [label="\\x2B"]
+	_  -> P  [label="\\x2C-\\x2F"]
+	_  -> N  [label="\\x30-\\x39"]
+	_  -> P  [label="\\x3A-\\x3B"]
+	_  -> Y  [label="\\x3C-\\x3E"]
+	_  -> P  [label="\\x3F-\\x40"]
+	_  -> W  [label="\\x41-\\x5A"]
+	_  -> P  [label="\\x5B-\\x5D"]
+	_  -> Y  [label="\\x5E"]
+	_  -> P  [label="\\x5F"]
+	_  -> Y  [label="\\x60"]
+	_  -> W  [label="\\x61-\\x7A"]
+	_  -> P  [label="\\x7B"]
+	_  -> Y  [label="\\x7C"]
+	_  -> P  [label="\\x7D"]
+	_  -> Y  [label="\\x7E"]
+	_  -> S  [label="\\x7F"]
+	_  -> E  [label="\\x80-\\xFF"]
+
+	E  -> E  [label="\\x80-\\xFF"]
+
+	N  -> N0 [label="\\x2C"]
+	N  -> N  [label="\\x30-\\x39"]
+
+	N0 -> N  [label="\\x30-\\x39"]
+
+	S  -> S  [label="\\x00-\\x20"]
+	S  -> S  [label="\\x7F"]
+
+	W  -> W0 [label="\\x27"]
+	W  -> W  [label="\\x41-\\x5A"]
+	W  -> W  [label="\\x61-\\x7A"]
+
+	W0 -> W  [label="\\x41-\\x5A"]
+	W0 -> W  [label="\\x61-\\x7A"]
+
+}

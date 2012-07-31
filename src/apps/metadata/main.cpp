@@ -107,11 +107,15 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		if (argc != 1)
-			throw std::runtime_error(i18n("no document specified"));
-
+		const char *filename = (argc == 1) ? argv[0] : nullptr;
 		rdf::graph metadata;
-		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
+		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
+		if (!reader)
+		{
+			fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), filename ? filename : "<stdin>");
+			return EXIT_FAILURE;
+		}
+
 		if (!metadata.empty())
 		{
 			if (output_type == rdf_metadata)
@@ -152,7 +156,8 @@ int main(int argc, char ** argv)
 	catch (std::runtime_error &e)
 	{
 		fprintf(stderr, i18n("error: %s\n"), e.what());
+		return EXIT_FAILURE;
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }

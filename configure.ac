@@ -1,5 +1,5 @@
 AC_PREREQ([2.65])
-AC_INIT([Cainteoir Text-to-Speech], [0.8], [msclrhd@gmail.com], [cainteoir-engine], [https://github.com/rhdunn/cainteoir-engine])
+AC_INIT([Cainteoir Text-to-Speech], [0.9], [https://github.com/rhdunn/cainteoir-engine/issues], [cainteoir-engine], [https://github.com/rhdunn/cainteoir-engine])
 AM_INIT_AUTOMAKE()
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES])
@@ -184,6 +184,19 @@ AC_COMPILE_IFELSE(
 	[AC_MSG_RESULT([yes])],
 	[AC_MSG_RESULT([no])
 	 AC_MSG_ERROR([C++11 brace initialization not supported by $CXX.])])
+AC_LANG_POP(C++)
+
+dnl Check clang bug 12670 [http://llvm.org/bugs/show_bug.cgi?id=12670]
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 brace initialization of a class in a struct])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[#include <complex>]],
+		[[struct A { std::complex<float> c; };]
+		 [A a { { 0.1, 0.2 } };]])],
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])
+	 AC_MSG_ERROR([C++11 brace initialization of a class in a struct not supported by $CXX.])])
 AC_LANG_POP(C++)
 
 dnl ================================================================

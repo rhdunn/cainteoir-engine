@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_XMLREADER_HPP
 
 #include <cainteoir/buffer.hpp>
+#include <cainteoir/encoding.hpp>
 #include <list>
 #include <map>
 
@@ -218,20 +219,22 @@ namespace cainteoir { namespace xml
 
 			beginTagNode,
 			endTagNode,
-			processingInstructionNode,
+			beginProcessingInstructionNode,
+			endProcessingInstructionNode,
 			commentNode,
 			cdataNode,
 			textNode,
 			error,
 			doctypeNode,
 			attribute,
+			endOfData,
 
 			// dtd node types ...
 
 			dtdEntity,
 		};
 
-		reader(std::shared_ptr<cainteoir::buffer> aData, const entity_set *aPredefinedEntities[52] = xml_entities);
+		reader(std::shared_ptr<cainteoir::buffer> aData, const char *aDefaultEncoding, const entity_set *aPredefinedEntities[52] = xml_entities);
 
 		void set_predefined_entities(const entity_set *aPredefinedEntities[52]) { mPredefinedEntities = aPredefinedEntities; }
 
@@ -274,6 +277,13 @@ namespace cainteoir { namespace xml
 			mAttrs.set(aNS, entries, match);
 			reset_context();
 		}
+
+		bool set_encoding(const char *encoding)
+		{
+			return mEncoding.set_encoding(encoding);
+		}
+
+		const char *current() const { return mState.current; }
 	private:
 		/** @name parser internals/helpers */
 		//@{
@@ -295,7 +305,10 @@ namespace cainteoir { namespace xml
 		{
 			ParsingText,
 			ParsingXml,
-			ParsingXmlAttributes,
+			ParsingXmlTagAttributes,
+			ParsingXmlContainedTagAttributes, // implicit end tag
+			ParsingXmlProcessingInstructionAttributes,
+			ParsingProcessingInstructionAttributes,
 			ParsingXmlNamespaces,
 			ParsingDtd,
 		};
@@ -313,7 +326,6 @@ namespace cainteoir { namespace xml
 		std::shared_ptr<cainteoir::buffer> mData;
 		ParserContext mState;
 		ParserContext mSavedState;
-		bool mImplicitEndTag;
 		const entity_set **mPredefinedEntities;
 
 		namespaces mNamespaces;
@@ -321,6 +333,7 @@ namespace cainteoir { namespace xml
 		cainteoir::buffer mTagNodePrefix;
 
 		std::map<std::string, std::string> mDoctypeEntities;
+		encoding mEncoding;
 
 		//@}
 		/** @name reader data */

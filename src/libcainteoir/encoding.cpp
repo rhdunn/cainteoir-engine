@@ -99,10 +99,8 @@ struct iconv_decoder : public cainteoir::decoder
 			iconv_close(cvt);
 	}
 
-	std::shared_ptr<cainteoir::buffer> decode(const cainteoir::buffer &data) const
+	void decode(const cainteoir::buffer &data, cainteoir::rope &decoded) const
 	{
-		cainteoir::rope ret;
-
 		char *in = (char *)data.begin();
 		size_t inlen = data.size();
 
@@ -112,18 +110,29 @@ struct iconv_decoder : public cainteoir::decoder
 			char *out = buffer;
 			size_t outlen = sizeof(buffer);
 
-			if (iconv(cvt, &in, &inlen, &out, &outlen) == (size_t)-1)
+			if (iconv(cvt, &in, &inlen, &out, &outlen) == (size_t)-1) switch (errno)
+			{
+			case E2BIG: // output buffer too small
+				// this is ok ... process in chunks
+				break;
+			case EILSEQ: // illegal character (multi-byte sequence)
+			case EINVAL: // incomplete multi-byte sequence
+				// NOTE: iconv writes the byte as utf-8 to `out`, and places
+				// in at the invalid byte
+				++in;
+				--inlen;
+				break;
+			default:
 				throw std::runtime_error(strerror(errno));
+			}
 
 			if (outlen != sizeof(buffer))
 			{
 				std::shared_ptr<cainteoir::buffer> fiber = std::make_shared<cainteoir::data_buffer>(sizeof(buffer) - outlen);
 				memcpy((void *)fiber->begin(), buffer, sizeof(buffer) - outlen);
-				ret += fiber;
+				decoded += fiber;
 			}
 		}
-
-		return ret.buffer();
 	}
 
 	iconv_t cvt;
@@ -162,10 +171,33 @@ bool cainteoir::encoding::set_encoding(const char *aEncoding)
 	return true;
 }
 
+std::shared_ptr<cainteoir::buffer> cainteoir::encoding::lookup(uint8_t c) const
+{
+	cainteoir::rope ret;
+	mDecoder->decode(cainteoir::buffer((char *)&c, (char *)&c + 1), ret);
+	return ret.buffer();
+}
+
 std::shared_ptr<cainteoir::buffer> cainteoir::encoding::decode(const std::shared_ptr<cainteoir::buffer> &data) const
 {
 	if (!data.get() || mEncoding == "utf-8" || mEncoding == "us-ascii")
 		return data;
 
-	return mDecoder->decode(*data);
+	cainteoir::rope ret;
+	mDecoder->decode(*data, ret);
+	return ret.buffer();
+}
+
+void cainteoir::encoding::decode(const std::shared_ptr<cainteoir::buffer> &data, cainteoir::rope &decoded) const
+{
+	if (!data.get())
+		return;
+
+	if (mEncoding == "utf-8" || mEncoding == "us-ascii")
+	{
+		decoded += data;
+		return;
+	}
+
+	mDecoder->decode(*data, decoded);
 }

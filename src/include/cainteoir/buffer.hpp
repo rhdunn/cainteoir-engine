@@ -52,11 +52,32 @@ namespace cainteoir
 		static const match_type match_case;
 		static const match_type ignore_case;
 
-		int compare(const char   *str, match_type match = match_case) const { return compare(str,         strlen(str), match); }
-		int compare(const buffer &str, match_type match = match_case) const { return compare(str.begin(), str.size(),  match); }
+		bool startswith(const char *str, match_type match = match_case) const
+		{
+			int len = strlen(str);
+			if (len > size()) return false;
+			return match(str, first, len) == 0;
+		}
 
-		int comparei(const char   *str) const { return compare(str,         strlen(str), ignore_case); }
-		int comparei(const buffer &str) const { return compare(str.begin(), str.size(),  ignore_case); }
+		int compare(const char *str, match_type match = match_case) const
+		{
+			return compare(str, strlen(str), match);
+		}
+
+		int compare(const buffer &str, match_type match = match_case) const
+		{
+			return compare(str.begin(), str.size(), match);
+		}
+
+		int comparei(const char *str) const
+		{
+			return compare(str, strlen(str), ignore_case);
+		}
+
+		int comparei(const buffer &str) const
+		{
+			return compare(str.begin(), str.size(), ignore_case);
+		}
 
 		std::string str() const
 		{

@@ -159,16 +159,16 @@ namespace html
 	static const xml::context::entry sub_node        = { events::span,      events::subscript }; // HTML§14.3.4
 	static const xml::context::entry summary_node    = { events::unknown,   0 };
 	static const xml::context::entry sup_node        = { events::span,      events::superscript }; // HTML§14.3.4
-	static const xml::context::entry table_node      = { events::unknown,   0 };
+	static const xml::context::entry table_node      = { events::table,     0 };
 	static const xml::context::entry tbody_node      = { events::unknown,   0 };
-	static const xml::context::entry td_node         = { events::unknown,   0 };
+	static const xml::context::entry td_node         = { events::cell,      0 };
 	static const xml::context::entry textarea_node   = { events::unknown,   0 };
 	static const xml::context::entry tfoot_node      = { events::unknown,   0 };
-	static const xml::context::entry th_node         = { events::unknown,   0 };
+	static const xml::context::entry th_node         = { events::cell,      0 };
 	static const xml::context::entry thead_node      = { events::unknown,   0 };
 	static const xml::context::entry time_node       = { events::unknown,   0 };
 	static const xml::context::entry title_node      = { events::unknown,   0 };
-	static const xml::context::entry tr_node         = { events::unknown,   0 };
+	static const xml::context::entry tr_node         = { events::row,       0 };
 	static const xml::context::entry track_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 	static const xml::context::entry tt_node         = { events::span,      events::monospace }; // HTML§14.3.4
 	static const xml::context::entry u_node          = { events::span,      events::underline }; // HTML§14.3.4
@@ -177,8 +177,10 @@ namespace html
 	static const xml::context::entry video_node      = { events::unknown,   0 };
 	static const xml::context::entry wbr_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
 
-	static const xml::context::entry name_attr       = { events::unknown,   0 };
+	static const xml::context::entry charset_attr    = { events::unknown,   0 };
 	static const xml::context::entry content_attr    = { events::unknown,   0 };
+	static const xml::context::entry http_equiv_attr = { events::unknown,   0 };
+	static const xml::context::entry name_attr       = { events::unknown,   0 };
 
 	static const xml::context::entry abstract_meta    = { events::unknown,   0 };
 	static const xml::context::entry creator_meta     = { events::unknown,   0 };
@@ -317,10 +319,12 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 
 static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 {
-	{ "content", &html::content_attr },
-	{ "id",      &xml::id_attr },
-	{ "lang",    &xml::lang_attr },
-	{ "name",    &html::name_attr },
+	{ "charset",    &html::charset_attr },
+	{ "content",    &html::content_attr },
+	{ "http-equiv", &html::http_equiv_attr },
+	{ "id",         &xml::id_attr },
+	{ "lang",       &xml::lang_attr },
+	{ "name",       &html::name_attr },
 };
 
 static const std::initializer_list<const xml::context::entry_ref> meta_names =
@@ -385,15 +389,17 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	if (reader->context() == &html::html_node)
 	{
 		lang = parseLangAttr();
-		while (reader->nodeType() != xml::reader::beginTagNode)
-			reader->read();
+		bool processing = true;
+		while (processing && reader->nodeType() != xml::reader::beginTagNode)
+			processing = reader->read();
 	}
 
 	if (reader->context() == &html::head_node)
 	{
 		mTitle = parseHeadNode(*reader, aSubject, aPrimaryMetadata);
-		while (reader->nodeType() != xml::reader::beginTagNode)
-			reader->read();
+		bool processing = true;
+		while (processing && reader->nodeType() != xml::reader::beginTagNode)
+			processing = reader->read();
 	}
 
 	if (lang.empty() && reader->context() == &html::body_node)
@@ -453,12 +459,48 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aG
 	std::shared_ptr<cainteoir::buffer> name;
 	std::string lang;
 	std::string content;
+	std::string http_equiv;
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::endTagNode:
 		if (reader.context() == &html::meta_node)
 		{
-			if (!name || content.empty())
+			if (content.empty())
+				return;
+
+			if (http_equiv == "Content-Type")
+			{
+				std::string::const_iterator first = content.begin();
+				std::string::const_iterator last  = content.end();
+
+				while (first != last && *first != ';')
+					++first;
+				++first;
+
+				while (first != last && (*first == ' ' || *first == '\t' || *first == '\r' || *first == '\n'))
+					++first;
+
+				if (first != last)
+				{
+					std::string::const_iterator arg_first = first;
+					while (first != last && (*first >= 'a' && *first <= 'z'))
+						++first;
+
+					if (std::string(arg_first, first) == "charset")
+					{
+						while (first != last && (*first == ' ' || *first == '\t' || *first == '\r' || *first == '\n' || *first == '='))
+							++first;
+
+						std::string::const_iterator val_first = first;
+						while (first != last && !(*first == ' ' || *first == '\t' || *first == '\r' || *first == '\n' || *first == '=' || *first == ';'))
+							++first;
+
+						reader.set_encoding(std::string(val_first, first).c_str());
+					}
+				}
+			}
+
+			if (!name)
 				return;
 
 			const xml::context::entry *ctx = names.lookup(std::string(), *name);
@@ -496,10 +538,14 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aG
 	case xml::reader::attribute:
 		if (reader.context() == &html::name_attr)
 			name = reader.nodeValue().normalize();
+		else if (reader.context() == &html::http_equiv_attr)
+			http_equiv = reader.nodeValue().normalize()->str();
 		else if (reader.context() == &html::content_attr)
 			content = reader.nodeValue().normalize()->str();
 		else if (reader.context() == &xml::lang_attr)
 			lang = reader.nodeValue().normalize()->str();
+		else if (reader.context() == &html::charset_attr)
+			reader.set_encoding(reader.nodeValue().normalize()->str().c_str());
 		break;
 	}
 }

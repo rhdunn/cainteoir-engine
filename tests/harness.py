@@ -99,6 +99,10 @@ class TestSuite:
 		write('... checking %s as xmlreader tags ... ' % (displayas or filename))
 		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'), test_expect=test_expect, replacements=replacements)
 
+	def check_parsetext(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
+		write('... checking %s as parsetext tags ... ' % (displayas or filename))
+		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'parsetext'), test_expect=test_expect, replacements=replacements)
+
 	def run(self, data):
 		if self.run_only and data['name'] != self.run_only:
 			return
@@ -111,6 +115,8 @@ class TestSuite:
 				check = lambda got, exp, expect, displayas, replacements: self.check_events(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'xmlreader':
 				check = lambda got, exp, expect, displayas, replacements: self.check_xmlreader(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
+			elif group['type'] == 'parsetext':
+				check = lambda got, exp, expect, displayas, replacements: self.check_parsetext(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 
 			for test in group['tests']:
 				expect = 'pass'
@@ -123,6 +129,12 @@ class TestSuite:
 				replacements = {}
 				if 'replace' in data.keys():
 					for replacement in data['replace']:
+						if replacement in test.keys():
+							replacements[replacement] = test[replacement]
+						else:
+							replacements[replacement] = data[replacement]
+				if 'replace' in group.keys():
+					for replacement in group['replace']:
 						if replacement in test.keys():
 							replacements[replacement] = test[replacement]
 						else:

@@ -1,0 +1,12 @@
+|begin-processing-instruction| xml
+|attribute| version="""1.0"""
+|attribute| encoding="""latin1"""
+|end-processing-instruction| xml
+|text| """
+"""
+|begin-tag| elem
+|attribute| arg="""nØp"""
+|text| """híj"""
+|end-tag| elem
+|text| """
+"""

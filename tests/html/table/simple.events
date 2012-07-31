@@ -1,0 +1,27 @@
+toc-entry [] depth=0 title="""Test File"""
+begin-context table
+begin-context row
+begin-context cell
+text(9): """Heading 1"""
+end-context
+begin-context cell
+text(9): """Heading 2"""
+end-context
+end-context
+begin-context row
+begin-context cell
+text(12): """Row 1, Col 1"""
+end-context
+begin-context cell
+text(12): """Row 1, Col 2"""
+end-context
+end-context
+begin-context row
+begin-context cell
+text(12): """Row 2, Col 1"""
+end-context
+begin-context cell
+text(12): """Row 2, Col 2"""
+end-context
+end-context
+end-context

@@ -13,7 +13,7 @@
 
 data/languages.dat
 data/languages.dot
-data/languages.svg
+data/*.svg
 src/libcainteoir/parsers/html-entities.dat
 
 # build output:
@@ -37,6 +37,8 @@ tests/xmlreader
 tests/encoding
 tests/languages
 tests/utf8
+tests/parsetext
+tests/mimetype
 
 # docs output:
 
@@ -51,6 +53,8 @@ Makefile.in
 .deps/
 .dirstamp
 
+README
+NEWS
 INSTALL
 aclocal.m4
 autom4te.cache/
