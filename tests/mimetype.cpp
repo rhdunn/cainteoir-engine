@@ -18,6 +18,9 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "compatibility.hpp"
+
 #include "../src/libcainteoir/mimetype_database.hpp"
 #include "../src/libcainteoir/parsers/parsers.hpp"
 #include <cainteoir/mimetype.hpp>

@@ -19,6 +19,7 @@
  */
 
 #include "config.h"
+#include "compatibility.hpp"
 #include "i18n.h"
 
 #include <cainteoir/metadata.hpp>
