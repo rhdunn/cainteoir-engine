@@ -23,5 +23,11 @@ configure:
 build: configure debian/cainteoir-data.sharedmimeinfo
 	dh build
 
+build-arch: configure debian/cainteoir-data.sharedmimeinfo
+	dh build-arch
+
+build-indep: configure debian/cainteoir-data.sharedmimeinfo
+	dh build-indep
+
 override_dh_auto_configure:
 	dh_auto_configure -- --disable-update-mime-database
