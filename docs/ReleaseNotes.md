@@ -1,6 +1,29 @@
 Release Notes
 =============
 
+Version 0.9: Tuesday July 31st 2012 [Jul 2012]
+----------------------------------------------
+
+  *  doc2doc: improve text formatting
+  *  improve argument and error handling for the command-line tools
+  *  switch NEWS and README to markdown format
+
+### character encodings:
+
+  *  xml: detault to windows-1252 encoding
+  *  xml: switch encoding via `<?xml encoding="..."?>`
+  *  mime/email: switch encoding via `Content-Type: ...; charset="..."`
+  *  html: switch encoding via `<meta charset="...">`
+  *  html: switch encoding via `<meta http-equiv="Content-Type" content="...; charset=...">`
+
+### document formats:
+
+  *  mime: support mimetype/alternative
+  *  email: support email embedded within html <pre> tags
+  *  html: fix parsing of html containing implicit (missing) tags
+  *  html: support table markup
+  *  ePub: be more relaxed about checking the epub mimetype file
+
 Version 0.8: Friday June 1st 2012 [Jun 2012]
 --------------------------------------------
 
