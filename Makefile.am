@@ -116,6 +116,26 @@ if ENABLE_UPDATE_MIME_DATABASE
 	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
 endif
  
+############################# documentation ###################################
+
+%.html: %.md
+	pandoc --from markdown --to html $< --output $@
+
+docs/implementation-status/csv2html.stamp: \
+	docs/implementation-status/csv2html.py \
+	docs/implementation-status/*.xml \
+	docs/implementation-status/*.csv
+	cd docs/implementation-status && ./csv2html.py
+	touch docs/implementation-status/csv2html.stamp
+
+doc:	docs/implementation-status/csv2html.stamp \
+	README.html \
+	docs/ReleaseNotes.html \
+	docs/design/languages-voices-accents-and-dialects.html \
+	docs/design/numbers.html \
+	docs/design/phoneme-morphology.html \
+	docs/design/phoneme-transcription-schemes.html
+
 ############################# libcainteoir ####################################
 
 libcainteoir_includedir = $(includedir)/cainteoir

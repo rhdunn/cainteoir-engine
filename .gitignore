@@ -42,7 +42,10 @@ tests/mimetype
 
 # docs output:
 
-docs/implementation-status/*.html
+README.html
+docs/*.html
+docs/*/*.html
+docs/implementation-status/csv2html.stamp
 
 # autotools output:
 
