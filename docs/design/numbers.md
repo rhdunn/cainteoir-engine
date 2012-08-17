@@ -10,6 +10,7 @@ English can support very large numbers:
   1.  http://en.wikipedia.org/wiki/Names_of_large_numbers
   2.  http://home.kpn.nl/vanadovv/BignumbyN.html
   3.  http://en.wikipedia.org/wiki/American_and_British_English_differences#Numbers
+  4.  http://www.unc.edu/~rowlett/units/large.html
 
 The eSpeak text-to-speech engine is poor at handling large numbers greater
 than billion (e.g. it pronounces "1 trillion" as "1 thousand billion" and
@@ -33,6 +34,17 @@ English and "twelve thousand sixty three" in American English.
 This is the traditional way of speaking ordinal (first, second, ...)
 and cardinal (one, two, ...) numbers. The algorithm is the same, the
 words used is different.
+
+The different word lists used to represent each number triple varies:
+
+  1.  [Short Scale](http://en.wikipedia.org/wiki/Names_of_large_numbers#Extensions_of_the_standard_dictionary_numbers) -- US and modern British, e.g. "1000000000" is "one billion".
+  2.  [British Long Scale](http://en.wikipedia.org/wiki/Names_of_large_numbers#Extensions_of_the_standard_dictionary_numbers) -- Traditional British, e.g. "1000000000" is "one thousand million".
+  3.  [European Long Scale](http://en.wikipedia.org/wiki/Names_of_large_numbers#Extensions_of_the_standard_dictionary_numbers) -- Traditional European, e.g. "1000000000" is "one milliard".
+  4.  [Greek Scale](http://www.unc.edu/~rowlett/units/large.html) -- Proposed by Russ Rowlett, e.g. "1000000000" is "one gillion".
+
+NOTE: These systems can represent very large numbers over 10^99 in size.
+
+It should be possible for the number scale to be selected programatically and via the user interface.
 
 ## Pairs
 
