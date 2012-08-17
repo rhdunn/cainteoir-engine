@@ -39,12 +39,12 @@ language-independent IPA transcription should be possible.
 The ARPABET-based schemes consist of:
 
   1.  [ARPABET](http://en.wikipedia.org/wiki/Arpabet) -- used in the CMU dictionary
-  2.  [cepstral-de](http://cepstral.com/cgi-bin/support?page=lexicon&lang=de#phoneset) -- Cepstral German voices
-  3.  [cepstral-en_UK](http://cepstral.com/cgi-bin/support?page=lexicon&lang=en_uk#phoneset) -- Cepstral British English voices
-  4.  [cepstral-en_US](http://cepstral.com/cgi-bin/support?page=lexicon) -- Cepstral American English voices
-  5.  [cepstral-es_LA](http://cepstral.com/cgi-bin/support?page=lexicon&lang=es#phoneset) -- Cepstral Americas Spanish voices
-  6.  [cepstral-fr_CA](http://cepstral.com/cgi-bin/support?page=lexicon&lang=ca_fr#phoneset) -- Cepstral Canadian French voices
-  7.  [cepstral-it](http://cepstral.com/cgi-bin/support?page=lexicon&lang=it#phoneset) -- Cepstral Iialian voices
+  2.  [cepstral-de](http://www.cepstral.com/support/faq/customization/lexicon/lexicon_german.html) -- Cepstral German voices
+  3.  [cepstral-en_UK](http://www.cepstral.com/support/faq/customization/lexicon/lexicon_uk_eng.html) -- Cepstral British English voices
+  4.  [cepstral-en_US](http://www.cepstral.com/support/faq/customization/lexicon/lexicon_us_eng.html) -- Cepstral American English voices
+  5.  [cepstral-es_LA](http://www.cepstral.com/support/faq/customization/lexicon/lexicon_amer_span.html) -- Cepstral Americas Spanish voices
+  6.  [cepstral-fr_CA](http://www.cepstral.com/support/faq/customization/lexicon/lexicon_can_fr.html) -- Cepstral Canadian French voices
+  7.  [cepstral-it](http://www.cepstral.com/support/faq/customization/lexicon/lexicon_italian.html) -- Cepstral Iialian voices
 
 The SAMPA-based schemes consist of:
 
