@@ -371,7 +371,7 @@ AC_ARG_WITH([poppler],
 
 if test "$with_poppler" = "no"; then
     echo "Disabling PDF support via poppler"
-    have_vorbisenc=no
+    have_poppler=no
 else
     PKG_CHECK_MODULES(POPPLER, [poppler-glib >= 0.16],
         [
