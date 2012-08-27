@@ -4,78 +4,15 @@ import sys
 import os
 import re
 
-features = {
-	'afr': 'affricate',
-	'alv': 'alveolar',
-	'apr': 'approximant',
-	'asp': 'aspirated',
-	'bck': 'back',
-	'blb': 'bilabial',
-	'clk': 'click',
-	'cnt': 'center',
-	'dnt': 'dental',
-	'ejc': 'ejective',
-	'flp': 'flap',
-	'fnt': 'front',
-	'frc': 'fricative',
-	'fzd': 'pharyngealized',
-	'gld': 'glide',
-	'glt': 'glottal',
-	'hgh': 'high',
-	'imp': 'implosive',
-	'lat': 'lateral',
-	'lbd': 'labio-dental',
-	'lbv': 'labio-velar',
-	'lmd': 'lower-mid',
-	'lng': 'long',
-	'low': 'low',
-	'lqd': 'liquid',
-	'lzd': 'labialized',
-	'mid': 'mid',
-	'mrm': 'murmured',
-	'nas': 'nasal',
-	'nzd': 'nasalized',
-	'pal': 'palatal',
-	'phr': 'pharyngeal',
-	'pla': 'palato-alveolar',
-	'pzd': 'palatalized',
-	'rfx': 'retroflex',
-	'rnd': 'rounded',
-	'rzd': 'rhoticized',
-	'smh': 'semi-high',
-	'smv': 'semi-vowel',
-	'syl': 'syllabic',
-	'stp': 'stop',
-	'trl': 'trill',
-	'umd': 'upper-mid',
-	'unr': 'unrounded',
-	'uvl': 'uvular',
-	'vcd': 'voiced',
-	'vel': 'velar',
-	'vls': 'voiceless',
-	'vwl': 'vowel',
-	'vzd': 'velarized',
-}
+features = {}
 
-annotations = [ # extra features, properties and modifiers
-	'asp',
-	'fzd',
-	'gld',
-	'lqd',
-	'lzd',
-	'mrm',
-	'nzd',
-	'pzd',
-	'smv',
-	'unx',
-	'vzd',
-]
-
-aspects = [ # change the pronunciation, so should not be annotations ...
-	'lng',
-	'rzd',
-	'syl',
-]
+with open('phoneme-features.csv') as f:
+	for line in f:
+		try:
+			feature, name = line.replace('\n', '').split(',')
+			features[feature] = name
+		except:
+			print '|%s|' % line.replace('\n', '')
 
 ##### Consonant Table Features ...
 
@@ -185,9 +122,9 @@ scheme = load_scheme(sys.argv[1])
 ##### HTML-Based IPA Table Generation ...
 
 def lookup_transcription(scheme, codes):
-	x = '|'.join(sorted([f for f in codes if not f in annotations]))
+	x = '|'.join(sorted(codes))
 	for phoneme, featureset in scheme:
-		y = '|'.join(sorted([f for f in featureset if not f in annotations]))
+		y = '|'.join(sorted(featureset))
 		if x == y:
 			return phoneme
 	return None
