@@ -117,7 +117,7 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /i"/     {hgh,cnt,unr,vwl}
 /j<rnd>/ {rnd,pal,apr}
 /j<vel>/ {vcd,vel,apr}
-/k'/     {vls,vel,ejc}             -- typo in Kirshenbaum (should this be /k`/ instead)?
+/k`/     {vls,vel,ejc} -- transcribed as /k'/ in the html version, but correct in the PDF version
 /k!/     {vls,vel,clk}
 /l[/     {vcd,dnt,lat}
 /l./     {vcd,rfx,lat}
