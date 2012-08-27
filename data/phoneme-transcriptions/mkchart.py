@@ -4,6 +4,8 @@ import sys
 import os
 import re
 
+##### Features ...
+
 features = {}
 
 with open('phoneme-features.csv') as f:
@@ -14,77 +16,19 @@ with open('phoneme-features.csv') as f:
 		except:
 			print '|%s|' % line.replace('\n', '')
 
-##### Consonant Table Features ...
-
-place_of_articulation = [
-	'blb',
-	'lbd',
-	'dnt',
-	'alv',
-	'rfx',
-	'pla',
-	'pal',
-	'vel',
-	'uvl',
-	'lbv',
-	'phr',
-	'glt',
-]
-
-manner_of_articulation = [
-	'nas',
-	'stp',
-	'frc',
-	'afr',
-	'apr',
-	'lat',
-	'trl',
-	'flp',
-	'ejc',
-	'imp',
-	'clk',
-]
-
-voicing = [
-	'vls',
-	'vcd',
-]
-
 consonants = {
 	'name':  'Consonants',
-	'x':     place_of_articulation,
-	'y':     manner_of_articulation,
-	'z':     voicing,
+	'x':     ['blb','lbd','dnt','alv','rfx','pla','pal','vel','uvl','lbv','phr','glt'], # place
+	'y':     ['nas','stp','frc','afr','apr','lat','trl','flp','ejc','imp','clk'], # manner
+	'z':     ['vls','vcd'], # voicing
 	'extra': [],
 }
 
-##### Vowel Table Features ...
-
-roundness = [
-	'unr',
-	'rnd',
-]
-
-vowel_backness = [
-	'fnt',
-	'cnt',
-	'bck',
-]
-
-vowel_height = [
-	'hgh',
-	'smh',
-	'umd',
-	'mid',
-	'lmd',
-	'low',
-]
-
 vowels = {
 	'name':  'Vowels',
-	'x':     vowel_backness,
-	'y':     vowel_height,
-	'z':     roundness,
+	'x':     ['fnt','cnt','bck'], # backness
+	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'z':     ['unr','rnd'], # roundness
 	'extra': ['vwl']
 }
 
