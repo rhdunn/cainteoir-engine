@@ -330,6 +330,22 @@ AC_SUBST(ESPEAK_CFLAGS)
 AC_SUBST(ESPEAK_LIBS)
 
 dnl ================================================================
+dnl MBROLA tts synthesizer checks.
+dnl ================================================================
+
+AC_ARG_WITH([mbrola],
+    [AS_HELP_STRING([--with-mbrola], [support MBROLA text-to-speech voices where applicable @<:@default=yes@:>@])],
+    [])
+
+if test "$with_mbrola" = "no"; then
+    echo "Disabling MBROLA support"
+    have_mbrola=no
+else
+    AC_DEFINE([HAVE_MBROLA], [1], [Define if support for the MBROLA speech synthesizer and voices is enabled.])
+    have_mbrola=yes
+fi
+
+dnl ================================================================
 dnl PulseAudio checks.
 dnl ================================================================
 
@@ -429,6 +445,8 @@ AC_MSG_NOTICE([
         Compiler flags:                ${CXXFLAGS}
 
         eSpeak support:                ${have_espeak}
+        MBROLA support:                ${have_mbrola}
+
         Ogg/Vorbis support:            ${have_vorbisenc}
         PDF support:                   ${have_poppler}
 ])

@@ -36,6 +36,7 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
+#if defined(HAVE_MBROLA)
 struct mbrola_voice
 {
 	const char *name;
@@ -112,6 +113,7 @@ static bool is_mbrola_voice_available(const char *voice)
 	std::string path = std::string("/usr/share/mbrola/") + voice;
 	return access(path.c_str(), R_OK) == 0;
 }
+#endif
 
 static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 {
@@ -247,6 +249,7 @@ public:
 			metadata.statement(espeak, rdf::tts("hasVoice"), voice);
 		}
 
+#if defined(HAVE_MBROLA)
 		for (auto mbrola = mbrola_voices.begin(), last = mbrola_voices.end(); mbrola != last; ++mbrola)
 		{
 			if (is_mbrola_voice_available(mbrola->voice))
@@ -264,6 +267,7 @@ public:
 				metadata.statement(voice, rdf::tts("voiceOf"), espeak);
 			}
 		}
+#endif
 	}
 
 	~espeak_engine()
