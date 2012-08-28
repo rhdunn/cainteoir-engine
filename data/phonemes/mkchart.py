@@ -79,7 +79,7 @@ def to_xml(s):
 	return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
 
 def print_table(info, scheme):
-	print '<table width="100%%" cellspacing="0"><caption>%s</caption>' % info['name']
+	print '<table width="100%%" cellspacing="0" cellpadding="0"><caption>%s</caption>' % info['name']
 	print '<tr>'
 	print '<td>&#xA0;</td>'
 	for x in info['x']:
@@ -101,7 +101,8 @@ print '<html>'
 print '<head>'
 print '<title>Phoneme Transcription Scheme</title>'
 print '<style type="text/css">'
-print '    table, td  { border: 1px solid black; }'
+print '    table      { border: 1px solid black; }'
+print '    td         { border: 1px solid black; padding: 0.2em; }'
 print '    caption    { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; }'
 print '    .vls, .unr { text-align: left;  font-family: monospace; border-right: 0; }'
 print '    .vcd, .rnd { text-align: right; font-family: monospace; border-left:  0; }'
