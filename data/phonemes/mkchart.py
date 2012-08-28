@@ -66,9 +66,15 @@ scheme = load_scheme(sys.argv[1])
 ##### HTML-Based IPA Table Generation ...
 
 def lookup_transcription(scheme, codes):
-	x = '|'.join(sorted(codes))
+	# These features provide additional annotational properties to phonemes
+	# that are included in the consonant table, but do not help describe the
+	# phoneme's location in the table. As a result, they are ignored when
+	# comparing phonemes.
+	ignored_features = ['gld','lqd','mrm']
+
+	x = '|'.join(sorted([code for code in codes if code not in ignored_features]))
 	for phoneme, featureset in scheme:
-		y = '|'.join(sorted(featureset))
+		y = '|'.join(sorted([code for code in featureset if code not in ignored_features]))
 		if x == y:
 			return phoneme
 	return None
