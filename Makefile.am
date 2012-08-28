@@ -24,6 +24,7 @@ noinst_bindir =
 
 EXTRA_DIST = config.rpath ChangeLog
 CLEANFILES =
+SUFFIXES =
 SUBDIRS = po
 
 ############################# libtool #########################################
@@ -118,7 +119,9 @@ endif
  
 ############################# documentation ###################################
 
-%.html: %.md
+SUFFIXES += .html .md
+
+.html.md:
 	pandoc --from markdown --to html $< --output $@
 
 docs/implementation-status/csv2html.stamp: \
