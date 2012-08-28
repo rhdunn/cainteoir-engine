@@ -1,9 +1,15 @@
 rights:      Copyright (C) 2012 Reece H. Dunn
 license:     [CC-BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/]
 reference:   [SAMPA for English|http://www.phon.ucl.ac.uk/home/sampa/english.htm]
+reference:   [SAMPROSA|http://www.phon.ucl.ac.uk/home/sampa/samprosa.htm]
 
 name:        sampa-en
 description: SAMPA for English
+
+/"/      {st1} -- imported from SAMPROSA
+/%/      {st2} -- imported from SAMPROSA
+/.../    {sil} -- imported from SAMPROSA
+/$/      {syb} -- imported from SAMPROSA
 
 /p/      {vls,blb,stp}
 /b/      {vcd,blb,stp}

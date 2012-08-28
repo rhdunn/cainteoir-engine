@@ -35,9 +35,14 @@ pzd,palatalized
 rfx,retroflex
 rnd,rounded
 rzd,rhoticized
+sil,silence/pause
 smh,semi-high
 smv,semi-vowel
+syb,syllable boundary
 syl,syllabic
+st0,unstressed
+st1,primary stress
+st2,secondary stress
 stp,stop
 trl,trill
 umd,upper-mid
