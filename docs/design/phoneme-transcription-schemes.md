@@ -76,7 +76,8 @@ The [International Phonetic Alphabet](http://en.wikipedia.org/wiki/International
   1.  [Unicode](http://www.unicode.org) -- using the correct Unicode symbols for the IPA
   2.  [Kirshenbaum](http://en.wikipedia.org/wiki/Kirshenbaum) -- ASCII transcription of IPA
   3.  [X-SAMPA](http://en.wikipedia.org/wiki/X-SAMPA) -- alternate ASCII transcription of IPA
-  4.  [CXS](http://en.wikipedia.org/wiki/Conlang_XSAMPA) -- conlang extensions to X-SAMPA
+  4.  [CXS](http://en.wikipedia.org/wiki/Conlang_XSAMPA) -- extension to X-SAMPA for constructed languages
+  5.  [Z-SAMPA](http://www.kneequickie.com/kq/Z-SAMPA) -- another extension to X-SAMPA for constructed languages
 
 NOTE: The IPA symbols are used differently by different transcribers depending on the language and phonetic qualities the transcriber wants to record.
 
