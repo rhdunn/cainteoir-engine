@@ -18,8 +18,8 @@ with open(os.path.join(sys.path[0], 'phoneme-features.csv')) as f:
 
 consonants = {
 	'name':  'Consonants',
-	'x':     ['blb','lbd','dnt','alv','rfx','pla','pal','vel','uvl','lbv','phr','glt'], # place
-	'y':     ['nas','stp','frc','afr','apr','lat','trl','flp','ejc','imp','clk'], # manner
+	'x':     ['blb','lbd','dnt','alv','pla','rfx','pal','vel','uvl','lbv','phr','glt'], # place
+	'y':     ['stp','nas','trl','flp','frc','afr','apr','lat','ejc','imp','clk'], # manner
 	'z':     ['vls','vcd'], # voicing
 	'extra': [],
 }
