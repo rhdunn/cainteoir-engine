@@ -43,7 +43,7 @@ syl,syllabic
 st0,unstressed
 st1,primary stress
 st2,secondary stress
-stp,stop
+stp,plosive
 trl,trill
 umd,upper-mid
 unr,unrounded
