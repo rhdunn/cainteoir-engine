@@ -8,7 +8,7 @@ import re
 
 features = {}
 
-with open('phoneme-features.csv') as f:
+with open(os.path.join(sys.path[0], 'phoneme-features.csv')) as f:
 	for line in f:
 		try:
 			feature, name = line.replace('\n', '').split(',')

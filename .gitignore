@@ -40,12 +40,14 @@ tests/utf8
 tests/parsetext
 tests/mimetype
 
-# docs output:
+# docs/phonemes output:
 
 README.html
 docs/*.html
 docs/*/*.html
 docs/implementation-status/csv2html.stamp
+data/phonemes/*.html
+data/phonemes/*/*.html
 
 # autotools output:
 

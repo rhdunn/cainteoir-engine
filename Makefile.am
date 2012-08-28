@@ -24,7 +24,7 @@ noinst_bindir =
 
 EXTRA_DIST = config.rpath ChangeLog
 CLEANFILES =
-SUFFIXES =
+SUFFIXES = .html .phon .md
 SUBDIRS = po
 
 ############################# libtool #########################################
@@ -85,6 +85,14 @@ dist-hook: ChangeLog
 
 EXTRA_DIST += ChangeLog
 
+############################# phonemes ########################################
+
+.phon.html:
+	data/phonemes/mkchart.py $< > $@
+
+phonemes:	data/phonemes/ascii-ipa.html \
+		data/phonemes/sampa/en.html
+
 ############################# data ############################################
 
 EXTRA_DIST += \
@@ -119,9 +127,7 @@ endif
  
 ############################# documentation ###################################
 
-SUFFIXES += .html .md
-
-.html.md:
+.md.html:
 	pandoc --from markdown --to html $< --output $@
 
 docs/implementation-status/csv2html.stamp: \
