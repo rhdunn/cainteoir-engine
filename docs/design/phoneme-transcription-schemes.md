@@ -51,6 +51,8 @@ The SAMPA-based transcription schemes vary between the different languages, and 
   25. [sampa-tr](http://www.phon.ucl.ac.uk/home/sampa/turkish.htm)
   26. [sampa-yue](http://www.phon.ucl.ac.uk/home/sampa/cantonese.htm)
 
+Various prosodic elements are supported through the [SAMPROSA](http://www.phon.ucl.ac.uk/home/sampa/samprosa.htm) transcription scheme that can be used in addition to the language transcription scheme.
+
 ### MBROLA
 
 The [MBROLA](http://tcts.fpms.ac.be/synthesis/) phoneme sets are
