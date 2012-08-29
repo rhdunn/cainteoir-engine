@@ -42,7 +42,7 @@ description: SAMPA for English
 /I/      {smh,fnt,unr,vwl}
 /E/      {lmd,fnt,unr,vwl}
 /e/      {lmd,fnt,unr,vwl}
-/{/      {low,fnt,unr,vwl}
+/{/      {sml,fnt,unr,vwl}
 /Q/      {low,bck,rnd,vwl}
 /V/      {lmd,bck,unr,vwl}
 /U/      {smh,bck,rnd,vwl}
