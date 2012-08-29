@@ -14,14 +14,14 @@ frc,fricative
 fzd,pharyngealized
 gld,glide
 glt,glottal
-hgh,high
+hgh,close
 imp,implosive
 lat,lateral
 lbd,labio-dental
 lbv,labio-velar
-lmd,lower-mid
+lmd,open-mid
 lng,long
-low,low
+low,open
 lqd,liquid
 lzd,labialized
 mid,mid
@@ -36,7 +36,7 @@ rfx,retroflex
 rnd,rounded
 rzd,rhoticized
 sil,silence/pause
-smh,semi-high
+smh,near-close
 smv,semi-vowel
 syb,syllable boundary
 syl,syllabic
@@ -44,7 +44,7 @@ st1,primary stress
 st2,secondary stress
 stp,plosive
 trl,trill
-umd,upper-mid
+umd,close-mid
 unr,unrounded
 uvl,uvular
 vcd,voiced
