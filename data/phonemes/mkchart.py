@@ -62,7 +62,7 @@ consonants = {
 vowels = {
 	'name':  'Vowels',
 	'x':     ['fnt','cnt','bck'], # backness
-	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'y':     ['hgh','smh','umd','mid','lmd','sml','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['vwl']
 }
@@ -70,7 +70,7 @@ vowels = {
 rhotic_vowels = {
 	'name':  'Rhotic Vowels',
 	'x':     ['fnt','cnt','bck'], # backness
-	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'y':     ['hgh','smh','umd','mid','lmd','sml','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['rzd','vwl']
 }
@@ -78,7 +78,7 @@ rhotic_vowels = {
 long_vowels = {
 	'name':  'Long Vowels',
 	'x':     ['fnt','cnt','bck'], # backness
-	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'y':     ['hgh','smh','umd','mid','lmd','sml','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['lng','vwl']
 }
@@ -86,7 +86,7 @@ long_vowels = {
 vowels_st1 = {
 	'name':  'Vowels (Primary Stress)',
 	'x':     ['fnt','cnt','bck'], # backness
-	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'y':     ['hgh','smh','umd','mid','lmd','sml','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['vwl','st1']
 }
@@ -94,7 +94,7 @@ vowels_st1 = {
 rhotic_vowels_st1 = {
 	'name':  'Rhotic Vowels (Primary Stress)',
 	'x':     ['fnt','cnt','bck'], # backness
-	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'y':     ['hgh','smh','umd','mid','lmd','sml','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['rzd','vwl','st1']
 }
@@ -102,7 +102,7 @@ rhotic_vowels_st1 = {
 long_vowels_st1 = {
 	'name':  'Long Vowels (Primary Stress)',
 	'x':     ['fnt','cnt','bck'], # backness
-	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'y':     ['hgh','smh','umd','mid','lmd','sml','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['lng','vwl','st1']
 }
@@ -110,7 +110,7 @@ long_vowels_st1 = {
 vowels_st2 = {
 	'name':  'Vowels (Secondary Stress)',
 	'x':     ['fnt','cnt','bck'], # backness
-	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'y':     ['hgh','smh','umd','mid','lmd','sml','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['vwl','st2']
 }
@@ -118,7 +118,7 @@ vowels_st2 = {
 rhotic_vowels_st2 = {
 	'name':  'Rhotic Vowels (Secondary Stress)',
 	'x':     ['fnt','cnt','bck'], # backness
-	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'y':     ['hgh','smh','umd','mid','lmd','sml','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['rzd','vwl','st2']
 }
@@ -126,7 +126,7 @@ rhotic_vowels_st2 = {
 long_vowels_st2 = {
 	'name':  'Long Vowels (Secondary Stress)',
 	'x':     ['fnt','cnt','bck'], # backness
-	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'y':     ['hgh','smh','umd','mid','lmd','sml','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['lng','vwl','st2']
 }
