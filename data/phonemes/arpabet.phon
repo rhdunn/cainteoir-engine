@@ -69,9 +69,9 @@ description: General American English transcription scheme
 /AH1/    {lmd,bck,unr,vwl,st1}
 /AH2/    {lmd,bck,unr,vwl,st2}
 /AX0/    {mid,cnt,unr,vwl}
-/AE0/    {low,fnt,unr,vwl}
-/AE1/    {low,fnt,unr,vwl,st1}
-/AE2/    {low,fnt,unr,vwl,st2}
+/AE0/    {sml,fnt,unr,vwl}
+/AE1/    {sml,fnt,unr,vwl,st1}
+/AE2/    {sml,fnt,unr,vwl,st2}
 
 # Diphthongs
 
