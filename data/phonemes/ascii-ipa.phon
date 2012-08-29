@@ -55,7 +55,7 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /O/      {lmd,bck,rnd,vwl}
 /P/      {vls,blb,frc}
 /Q/      {vcd,vel,frc}
-/R/      {mid,cnt,rzd,vwl}
+/R/      {mid,cnt,unr,vwl,rzd}
 # /R/    {vcd,alv,trl} -- this is available as /r<trl>/, so remove this to avoid duplication
 /S/      {vls,pla,frc}
 /T/      {vls,dnt,frc}

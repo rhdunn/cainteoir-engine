@@ -26,7 +26,7 @@ consonants = {
 
 vowels = {
 	'name':  'Vowels',
-	'x':     ['fnt','cnt','bck'], # backness
+	'x':     ['fnt','cnt',['cnt','rzd'],'bck'], # backness
 	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['vwl']
