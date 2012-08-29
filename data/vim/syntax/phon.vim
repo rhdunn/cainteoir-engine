@@ -10,7 +10,7 @@ if exists("b:current_syntax")
 endif
 
 syn keyword	phonMetadata			rights license reference name alias description
-syn keyword	phonPlaceOfArticulation		blb lbd dnt alv pla rfx pal vel uvl lbv phr glt
+syn keyword	phonPlaceOfArticulation		blb lbd dnt alv pla rfx alp pal vel uvl lbv phr glt
 syn keyword	phonMannerOfArticulation	stp nas trl flp frc afr apr lat ejc imp clk
 syn keyword	phonVoicing			vls vcd
 syn keyword	phonVowelBackness		fnt cnt bck

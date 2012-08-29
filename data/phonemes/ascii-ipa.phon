@@ -165,8 +165,10 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /J`/     {vcd,pal,imp}
 /O"/     {lmd,cnt,rnd,vwl}
 /R<umd>/ {umd,cnt,unr,vwl,rzd}
+/S;/     {vls,alp,frc}
 /U-/     {smh,bck,unr,vwl} # this is present on the wikipedia page
 /V"/     {lmd,cnt,unr,vwl}
+/Z;/     {vcd,alp,frc}
 
 /*<lat>/ {vcd,lat,flp}
 /*./     {vcd,rfx,flp}
