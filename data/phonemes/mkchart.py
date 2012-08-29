@@ -16,6 +16,41 @@ with open(os.path.join(sys.path[0], 'phoneme-features.csv')) as f:
 		except:
 			print '|%s|' % line.replace('\n', '')
 
+unpronouncible = [
+	set(['vcd','phr','stp']),
+	set(['vcd','glt','stp']),
+	set(['vcd','phr','nas']),
+	set(['vls','phr','nas']),
+	set(['vcd','glt','nas']),
+	set(['vls','glt','nas']),
+	set(['vcd','vel','trl']),
+	set(['vls','vel','trl']),
+	set(['vcd','glt','trl']),
+	set(['vls','glt','trl']),
+	set(['vcd','vel','flp']),
+	set(['vls','vel','flp']),
+	set(['vcd','glt','flp']),
+	set(['vls','glt','flp']),
+	set(['vcd','blb','lat','frc']),
+	set(['vls','blb','lat','frc']),
+	set(['vcd','lbd','lat','frc']),
+	set(['vls','lbd','lat','frc']),
+	set(['vcd','phr','lat','frc']),
+	set(['vls','phr','lat','frc']),
+	set(['vcd','glt','lat','frc']),
+	set(['vls','glt','lat','frc']),
+	set(['vcd','glt','apr']),
+	set(['vls','glt','apr']),
+	set(['vcd','blb','lat','apr']),
+	set(['vls','blb','lat','apr']),
+	set(['vcd','lbd','lat','apr']),
+	set(['vls','lbd','lat','apr']),
+	set(['vcd','phr','lat','apr']),
+	set(['vls','phr','lat','apr']),
+	set(['vcd','glt','lat','apr']),
+	set(['vls','glt','lat','apr']),
+]
+
 consonants = {
 	'name':  'Consonants',
 	'x':     ['blb','lbd','dnt','alv','pla','rfx','pal','vel','uvl','lbv','phr','glt'], # place
@@ -85,21 +120,21 @@ def feature_set(features):
 	# comparing phonemes.
 	ignored_features = ['gld','lqd','mrm']
 
-	ret = []
+	ret = set()
 	for feature in features:
 		if type(feature).__name__ == 'list':
 			for f in feature:
 				if f not in ignored_features:
-					ret.append(f)
+					ret.add(f)
 		else:
 			if feature not in ignored_features:
-				ret.append(feature)
-	return sorted(ret)
+				ret.add(feature)
+	return ret
 
 def lookup_transcription(scheme, codes):
-	x = '|'.join(feature_set(codes))
+	x = feature_set(codes)
 	for phoneme, features in scheme:
-		y = '|'.join(feature_set(features))
+		y = feature_set(features)
 		if x == y:
 			return phoneme
 	return None
@@ -124,7 +159,10 @@ def print_table(info, scheme):
 				f = [x, y, z]
 				f.extend(info['extra'])
 				s = to_xml(lookup_transcription(scheme, f))
-				print '<td class="%s">%s</td>' % (z, s)
+				c = [z]
+				if feature_set(f) in unpronouncible:
+					c.append('unpronouncible')
+				print '<td class="%s">%s</td>' % (' '.join(c), s)
 		print '</tr>'
 	print '</table>'
 
@@ -138,6 +176,7 @@ print '    caption    { text-align: left; margin-top: 0.5em; margin-bottom: 0.5e
 print '    .vls, .unr { text-align: left;  font-family: monospace; border-right: 0; }'
 print '    .vcd, .rnd { text-align: right; font-family: monospace; border-left:  0; }'
 print '    .layout    { border: 0; }'
+print '    .unpronouncible { background-color: lightgray; }'
 print '</style>'
 print '</head>'
 print '<body>'
