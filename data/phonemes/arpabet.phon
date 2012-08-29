@@ -93,7 +93,7 @@ description: General American English transcription scheme
 
 # R-Coloured Vowels
 
-/ER/     {mid,cnt,unr,vwl,rzd} -- wikipedia has this as /AXR/, but the example uses /ER/ without a stress marker
+/ER/     {mid,cnt,unr,vwl,rzd} # wikipedia has this as /AXR/, but the example uses /ER/ without a stress marker
 /ER0/    {lmd,cnt,unr,vwl,rzd}
 /ER1/    {lmd,cnt,unr,vwl,rzd,st1}
 /ER2/    {lmd,cnt,unr,vwl,rzd,st2}

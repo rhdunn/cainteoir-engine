@@ -6,10 +6,10 @@ reference:   [SAMPROSA|http://www.phon.ucl.ac.uk/home/sampa/samprosa.htm]
 name:        sampa-en
 description: SAMPA for English
 
-/"/      {st1} -- imported from SAMPROSA
-/%/      {st2} -- imported from SAMPROSA
-/.../    {sil} -- imported from SAMPROSA
-/$/      {syb} -- imported from SAMPROSA
+/"/      {st1} # imported from SAMPROSA
+/%/      {st2} # imported from SAMPROSA
+/.../    {sil} # imported from SAMPROSA
+/$/      {syb} # imported from SAMPROSA
 
 /p/      {vls,blb,stp}
 /b/      {vcd,blb,stp}
