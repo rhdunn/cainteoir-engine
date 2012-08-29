@@ -53,7 +53,7 @@ unpronouncible = [
 
 consonants = {
 	'name':  'Consonants',
-	'x':     ['blb','lbd','dnt','alv','pla','rfx','alp','pal','vel','uvl','lbv','phr','glt'], # place
+	'x':     ['blb','lbd','dnt','alv','pla','rfx','alp','pal','vel','uvl','lbv','phr','epg','glt'], # place
 	'y':     ['stp','nas','trl','flp','frc','afr',['lat','frc'],'apr',['lat','apr'],'ejc','imp','clk'], # manner
 	'z':     ['vls','vcd'], # voicing
 	'extra': [],
