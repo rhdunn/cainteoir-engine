@@ -90,3 +90,28 @@ description: General American English transcription scheme
 /OY0/    {lmd,bck,rnd,vwl}{smh,fnt,unr,vwl}
 /OY1/    {lmd,bck,rnd,vwl,st1}{smh,fnt,unr,vwl}
 /OY2/    {lmd,bck,rnd,vwl,st2}{smh,fnt,unr,vwl}
+
+# R-Coloured Vowels
+
+/ER/     {mid,cnt,unr,vwl,rzd} -- wikipedia has this as /AXR/, but the example uses /ER/ without a stress marker
+/ER0/    {lmd,cnt,unr,vwl,rzd}
+/ER1/    {lmd,cnt,unr,vwl,rzd,st1}
+/ER2/    {lmd,cnt,unr,vwl,rzd,st2}
+/EH0 R/  {lmd,fnt,unr,vwl,rzd}
+/EH1 R/  {lmd,fnt,unr,vwl,rzd,st1}
+/EH2 R/  {lmd,fnt,unr,vwl,rzd,st2}
+/UH0 R/  {smh,bck,rnd,vwl,rzd}
+/UH1 R/  {smh,bck,rnd,vwl,rzd,st1}
+/UH2 R/  {smh,bck,rnd,vwl,rzd,st2}
+/AO0 R/  {lmd,bck,rnd,vwl,rzd}
+/AO1 R/  {lmd,bck,rnd,vwl,rzd,st1}
+/AO2 R/  {lmd,bck,rnd,vwl,rzd,st2}
+/AA0 R/  {low,bck,unr,vwl,rzd}
+/AA1 R/  {low,bck,unr,vwl,rzd,st1}
+/AA2 R/  {low,bck,unr,vwl,rzd,st2}
+/IH0 R/  {smh,fnt,unr,vwl,rzd}
+/IH1 R/  {smh,fnt,unr,vwl,rzd,st1}
+/IH2 R/  {smh,fnt,unr,vwl,rzd,st2}
+/IY0 R/  {smh,fnt,unr,vwl,rzd}
+/IY1 R/  {smh,fnt,unr,vwl,rzd,st1}
+/IY2 R/  {smh,fnt,unr,vwl,rzd,st2}
