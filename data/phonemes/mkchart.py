@@ -75,6 +75,38 @@ long_vowels = {
 	'extra': ['lng','vwl']
 }
 
+vowels_st1 = {
+	'name':  'Vowels (Primary Stress)',
+	'x':     ['fnt','cnt',['cnt','rzd'],'bck'], # backness
+	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'z':     ['unr','rnd'], # roundness
+	'extra': ['vwl','st1']
+}
+
+long_vowels_st1 = {
+	'name':  'Long Vowels (Primary Stress)',
+	'x':     ['fnt','cnt',['cnt','rzd'],'bck'], # backness
+	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'z':     ['unr','rnd'], # roundness
+	'extra': ['lng','vwl','st1']
+}
+
+vowels_st2 = {
+	'name':  'Vowels (Secondary Stress)',
+	'x':     ['fnt','cnt',['cnt','rzd'],'bck'], # backness
+	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'z':     ['unr','rnd'], # roundness
+	'extra': ['vwl','st2']
+}
+
+long_vowels_st2 = {
+	'name':  'Long Vowels (Secondary Stress)',
+	'x':     ['fnt','cnt',['cnt','rzd'],'bck'], # backness
+	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'z':     ['unr','rnd'], # roundness
+	'extra': ['lng','vwl','st2']
+}
+
 ##### Phoneme Scheme File Reader ...
 
 metadata_decl = re.compile("""
@@ -203,6 +235,26 @@ print '<td width="2%" class="layout">'
 print '</td>'
 print '<td width="49%" class="layout">'
 print_table(long_vowels, scheme)
+print '</td>'
+print '</tr>'
+print '<tr>'
+print '<td width="49%" class="layout">'
+print_table(vowels_st1, scheme)
+print '</td>'
+print '<td width="2%" class="layout">'
+print '</td>'
+print '<td width="49%" class="layout">'
+print_table(long_vowels_st1, scheme)
+print '</td>'
+print '</tr>'
+print '<tr>'
+print '<td width="49%" class="layout">'
+print_table(vowels_st2, scheme)
+print '</td>'
+print '<td width="2%" class="layout">'
+print '</td>'
+print '<td width="49%" class="layout">'
+print_table(long_vowels_st2, scheme)
 print '</td>'
 print '</tr>'
 print '</table>'
