@@ -168,7 +168,7 @@ def load_scheme(filename):
 
 			m = phoneme_decl.match(line)
 			if m:
-				phon = m.group(1)
+				phon = m.group(1).decode('unicode-escape').encode('utf-8')
 				feat = m.group(2).split(',')
 				for f in feat:
 					if f not in features.keys():
@@ -240,6 +240,7 @@ def print_table(info, scheme):
 
 print '<html>'
 print '<head>'
+print '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'
 print '<title>%s</title>' % metadata['name']
 print '<style type="text/css">'
 print '    table      { border: 1px solid black; }'
