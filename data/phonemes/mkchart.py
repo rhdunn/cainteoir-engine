@@ -147,7 +147,7 @@ phoneme_decl = re.compile("""
 	/([^/]*)/
 	\s*
 	\{([^\}]*)\}
-	.*
+	\s*
 	$""", re.VERBOSE)
 
 def load_scheme(filename):
@@ -158,6 +158,9 @@ def load_scheme(filename):
 			line = line.replace('\n', '')
 			if line == '' or line.startswith('#'):
 				continue
+
+			if '#' in line:
+				line = line.split('#')[0]
 
 			m = metadata_decl.match(line)
 			if m:
