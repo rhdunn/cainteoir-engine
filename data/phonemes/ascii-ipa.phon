@@ -22,7 +22,7 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /i/      {hgh,fnt,unr,vwl}
 /j/      {vcd,pal,apr}
 /k/      {vls,vel,stp}
-/l/      {vcd,alv,lat}
+/l/      {vcd,alv,lat,apr}
 /m/      {vcd,blb,nas}
 /n/      {vcd,alv,nas}
 /o/      {umd,bck,rnd,vwl}
@@ -48,7 +48,7 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /H/      {vls,phr,frc}
 /I/      {smh,fnt,unr,vwl}
 /J/      {vcd,pal,stp}
-/L/      {vcd,vel,lat}
+/L/      {vcd,vel,lat,apr}
 /L/      {vls,alv,lat,frc}
 /M/      {vcd,lbd,nas}
 /N/      {vcd,vel,nas}
@@ -122,9 +122,9 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /j<vel>/ {vcd,vel,apr}
 /k`/     {vls,vel,ejc} -- transcribed as /k'/ in the html version, but correct in the PDF version
 /k!/     {vls,vel,clk}
-/l[/     {vcd,dnt,lat}
-/l./     {vcd,rfx,lat}
-/l^/     {vcd,pal,lat}
+/l[/     {vcd,dnt,lat,apr}
+/l./     {vcd,rfx,lat,apr}
+/l^/     {vcd,pal,lat,apr}
 /l!/     {vls,lat,clk}
 /n<lbv>/ {vcd,lbv,nas}
 /n[/     {vcd,dnt,nas}

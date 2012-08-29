@@ -35,7 +35,7 @@ description: SAMPA for English
 /n/      {vcd,alv,nas}
 /N/      {vcd,vel,nas}
 /r/      {vcd,alv,apr,lqd}
-/l/      {vcd,alv,lat,lqd}
+/l/      {vcd,alv,lat,apr,lqd}
 /w/      {vcd,lbv,apr,gld}
 /j/      {vcd,pal,apr,gld}
 

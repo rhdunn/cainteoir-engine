@@ -19,7 +19,7 @@ with open(os.path.join(sys.path[0], 'phoneme-features.csv')) as f:
 consonants = {
 	'name':  'Consonants',
 	'x':     ['blb','lbd','dnt','alv','pla','rfx','pal','vel','uvl','lbv','phr','glt'], # place
-	'y':     ['stp','nas','trl','flp','frc','afr','apr','lat','ejc','imp','clk'], # manner
+	'y':     ['stp','nas','trl','flp','frc','afr',['lat','frc'],'apr',['lat','apr'],'ejc','imp','clk'], # manner
 	'z':     ['vls','vcd'], # voicing
 	'extra': [],
 }
@@ -65,16 +65,33 @@ scheme = load_scheme(sys.argv[1])
 
 ##### HTML-Based IPA Table Generation ...
 
-def lookup_transcription(scheme, codes):
+def feature_name(feature):
+	if type(feature).__name__ == 'list':
+		return ' '.join([features[f] for f in feature])
+	return features[feature]
+
+def feature_set(features):
 	# These features provide additional annotational properties to phonemes
 	# that are included in the consonant table, but do not help describe the
 	# phoneme's location in the table. As a result, they are ignored when
 	# comparing phonemes.
 	ignored_features = ['gld','lqd','mrm']
 
-	x = '|'.join(sorted([code for code in codes if code not in ignored_features]))
-	for phoneme, featureset in scheme:
-		y = '|'.join(sorted([code for code in featureset if code not in ignored_features]))
+	ret = []
+	for feature in features:
+		if type(feature).__name__ == 'list':
+			for f in feature:
+				if f not in ignored_features:
+					ret.append(f)
+		else:
+			if feature not in ignored_features:
+				ret.append(feature)
+	return sorted(ret)
+
+def lookup_transcription(scheme, codes):
+	x = '|'.join(feature_set(codes))
+	for phoneme, features in scheme:
+		y = '|'.join(feature_set(features))
 		if x == y:
 			return phoneme
 	return None
@@ -89,11 +106,11 @@ def print_table(info, scheme):
 	print '<tr>'
 	print '<td>&#xA0;</td>'
 	for x in info['x']:
-		print '<td colspan="2">%s</td>' % features[x]
+		print '<td colspan="2">%s</td>' % feature_name(x)
 	print '</tr>'
 	for y in info['y']:
 		print '<tr>'
-		print '<td>%s</td>' % features[y]
+		print '<td>%s</td>' % feature_name(y)
 		for x in info['x']:
 			for z in info['z']:
 				f = [x, y, z]
