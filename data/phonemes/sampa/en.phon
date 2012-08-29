@@ -52,7 +52,7 @@ description: SAMPA for English
 /i:/     {hgh,fnt,unr,vwl,lng}
 /eI/     {lmd,fnt,unr,vwl}{smh,fnt,unr,vwl}
 /aI/     {low,fnt,unr,vwl}{smh,fnt,unr,vwl}
-/OI/     {lmd,bck,unr,vwl}{smh,fnt,unr,vwl}
+/OI/     {lmd,bck,rnd,vwl}{smh,fnt,unr,vwl}
 
 /u:/     {hgh,bck,rnd,vwl,lng}
 /@U/     {mid,cnt,unr,vwl}{smh,bck,rnd,vwl}
@@ -60,7 +60,7 @@ description: SAMPA for English
 
 /3:/     {lmd,cnt,unr,vwl,lng}
 /A:/     {low,bck,unr,vwl,lng}
-/O:/     {lmd,bck,unr,vwl,lng}
+/O:/     {lmd,bck,rnd,vwl,lng}
 /I@/     {smh,fnt,unr,vwl}{mid,cnt,unr,vwl}
 /e@/     {lmd,fnt,unr,vwl}{mid,cnt,unr,vwl}
 /U@/     {smh,bck,rnd,vwl}{mid,cnt,unr,vwl}
