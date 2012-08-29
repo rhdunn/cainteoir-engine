@@ -77,6 +77,14 @@ long_vowels = {
 
 ##### Phoneme Scheme File Reader ...
 
+metadata_decl = re.compile("""
+	^
+	\s*
+	([a-z]*):
+	\s*
+	(.*)
+	$""", re.VERBOSE)
+
 phoneme_decl = re.compile("""
 	^
 	\s*
@@ -88,11 +96,16 @@ phoneme_decl = re.compile("""
 
 def load_scheme(filename):
 	scheme = []
+	metadata = {}
 	with open(filename) as f:
 		for line in f:
 			line = line.replace('\n', '')
 			if line == '' or line.startswith('#'):
 				continue
+
+			m = metadata_decl.match(line)
+			if m:
+				metadata[m.group(1)] = m.group(2)
 
 			m = phoneme_decl.match(line)
 			if m:
@@ -102,9 +115,9 @@ def load_scheme(filename):
 					if f not in features.keys():
 						raise Exception('Unrecognised phoneme feature "%s".' % f)
 				scheme.append((phon, feat))
-	return scheme
+	return metadata, scheme
 
-scheme = load_scheme(sys.argv[1])
+metadata, scheme = load_scheme(sys.argv[1])
 
 ##### HTML-Based IPA Table Generation ...
 
@@ -168,7 +181,7 @@ def print_table(info, scheme):
 
 print '<html>'
 print '<head>'
-print '<title>Phoneme Transcription Scheme</title>'
+print '<title>%s</title>' % metadata['name']
 print '<style type="text/css">'
 print '    table      { border: 1px solid black; }'
 print '    td         { border: 1px solid black; padding: 0.2em; }'

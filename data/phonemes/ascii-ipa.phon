@@ -3,7 +3,7 @@ license:     [CC-BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/]
 reference:   [Representing IPA Phonetics in ASCII|http://www.hpl.hp.com/personal/Evan_Kirshenbaum/IPA/faq.html]
 
 name:        ascii-ipa
-name:        kirshenbaum
+alias:       kirshenbaum
 description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 
 /'/      {st1}
