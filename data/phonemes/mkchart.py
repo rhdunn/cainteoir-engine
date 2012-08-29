@@ -61,15 +61,23 @@ consonants = {
 
 vowels = {
 	'name':  'Vowels',
-	'x':     ['fnt','cnt',['cnt','rzd'],'bck'], # backness
+	'x':     ['fnt','cnt','bck'], # backness
 	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['vwl']
 }
 
+rhotic_vowels = {
+	'name':  'Rhotic Vowels',
+	'x':     ['fnt','cnt','bck'], # backness
+	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'z':     ['unr','rnd'], # roundness
+	'extra': ['rzd','vwl']
+}
+
 long_vowels = {
 	'name':  'Long Vowels',
-	'x':     ['fnt','cnt',['cnt','rzd'],'bck'], # backness
+	'x':     ['fnt','cnt','bck'], # backness
 	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['lng','vwl']
@@ -77,15 +85,23 @@ long_vowels = {
 
 vowels_st1 = {
 	'name':  'Vowels (Primary Stress)',
-	'x':     ['fnt','cnt',['cnt','rzd'],'bck'], # backness
+	'x':     ['fnt','cnt','bck'], # backness
 	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['vwl','st1']
 }
 
+rhotic_vowels_st1 = {
+	'name':  'Rhotic Vowels (Primary Stress)',
+	'x':     ['fnt','cnt','bck'], # backness
+	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'z':     ['unr','rnd'], # roundness
+	'extra': ['rzd','vwl','st1']
+}
+
 long_vowels_st1 = {
 	'name':  'Long Vowels (Primary Stress)',
-	'x':     ['fnt','cnt',['cnt','rzd'],'bck'], # backness
+	'x':     ['fnt','cnt','bck'], # backness
 	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['lng','vwl','st1']
@@ -93,15 +109,23 @@ long_vowels_st1 = {
 
 vowels_st2 = {
 	'name':  'Vowels (Secondary Stress)',
-	'x':     ['fnt','cnt',['cnt','rzd'],'bck'], # backness
+	'x':     ['fnt','cnt','bck'], # backness
 	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['vwl','st2']
 }
 
+rhotic_vowels_st2 = {
+	'name':  'Rhotic Vowels (Secondary Stress)',
+	'x':     ['fnt','cnt','bck'], # backness
+	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
+	'z':     ['unr','rnd'], # roundness
+	'extra': ['rzd','vwl','st2']
+}
+
 long_vowels_st2 = {
 	'name':  'Long Vowels (Secondary Stress)',
-	'x':     ['fnt','cnt',['cnt','rzd'],'bck'], # backness
+	'x':     ['fnt','cnt','bck'], # backness
 	'y':     ['hgh','smh','umd','mid','lmd','low'], # height
 	'z':     ['unr','rnd'], # roundness
 	'extra': ['lng','vwl','st2']
@@ -228,32 +252,41 @@ print '<body>'
 print_table(consonants, scheme)
 print '<table width="100%%" cellspacing="0" cellpadding="0" class="layout">'
 print '<tr>'
-print '<td width="49%" class="layout">'
+print '<td width="33%" class="layout">'
 print_table(vowels, scheme)
 print '</td>'
-print '<td width="2%" class="layout">'
+print '<td width="1%" class="layout"></td>'
+print '<td width="32%" class="layout">'
+print_table(rhotic_vowels, scheme)
 print '</td>'
-print '<td width="49%" class="layout">'
+print '<td width="1%" class="layout"></td>'
+print '<td width="33%" class="layout">'
 print_table(long_vowels, scheme)
 print '</td>'
 print '</tr>'
 print '<tr>'
-print '<td width="49%" class="layout">'
+print '<td width="33%" class="layout">'
 print_table(vowels_st1, scheme)
 print '</td>'
-print '<td width="2%" class="layout">'
+print '<td width="1%" class="layout"></td>'
+print '<td width="32%" class="layout">'
+print_table(rhotic_vowels_st1, scheme)
 print '</td>'
-print '<td width="49%" class="layout">'
+print '<td width="1%" class="layout"></td>'
+print '<td width="33%" class="layout">'
 print_table(long_vowels_st1, scheme)
 print '</td>'
 print '</tr>'
 print '<tr>'
-print '<td width="49%" class="layout">'
+print '<td width="33%" class="layout">'
 print_table(vowels_st2, scheme)
 print '</td>'
-print '<td width="2%" class="layout">'
+print '<td width="1%" class="layout"></td>'
+print '<td width="32%" class="layout">'
+print_table(rhotic_vowels_st2, scheme)
 print '</td>'
-print '<td width="49%" class="layout">'
+print '<td width="1%" class="layout"></td>'
+print '<td width="33%" class="layout">'
 print_table(long_vowels_st2, scheme)
 print '</td>'
 print '</tr>'
