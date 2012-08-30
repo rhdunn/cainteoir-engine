@@ -12,8 +12,8 @@ description: General American English transcription scheme
 /K/      {vls,vel,stp}
 /G/      {vcd,vel,stp}
 
-/CH/     {vls,alv,afr}
-/JH/     {vcd,alv,afr}
+/CH/     {vls,pla,afr}
+/JH/     {vcd,pla,afr}
 
 /F/      {vls,lbd,frc}
 /V/      {vcd,lbd,frc}

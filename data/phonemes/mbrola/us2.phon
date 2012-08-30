@@ -20,8 +20,8 @@ description: MBROLA us2 Voice
 
 /4/      {vcd,alv,flp}
 
-/tS/     {vls,alv,afr}
-/dZ/     {vcd,alv,afr}
+/tS/     {vls,pla,afr}
+/dZ/     {vcd,pla,afr}
 
 /f/      {vls,lbd,frc}
 /v/      {vcd,lbd,frc}

@@ -18,8 +18,8 @@ description: SAMPA for English
 /k/      {vls,vel,stp}
 /g/      {vcd,vel,stp}
 
-/tS/     {vls,alv,afr}
-/dZ/     {vcd,alv,afr}
+/tS/     {vls,pla,afr}
+/dZ/     {vcd,pla,afr}
 
 /f/      {vls,lbd,frc}
 /v/      {vcd,lbd,frc}
