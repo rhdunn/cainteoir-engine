@@ -33,8 +33,8 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /t/      {vls,alv,stp}
 /u/      {hgh,bck,rnd,vwl}
 /v/      {vcd,lbd,frc}
-/w/      {vcd,lbv,apr}
-/w/      {vcd,lbv,frc}
+/w/      {vcd,lbv,apr} # according to wikipedia /w/ and /w<vls>/ are {apr}, not {frc}
+# /w/    {vcd,lbv,frc} # according to wikipedia the {frc} classification of /w/ is historical
 /x/      {vls,vel,frc}
 /y/      {hgh,fnt,rnd,vwl}
 /z/      {vcd,alv,frc}
@@ -152,7 +152,7 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /t./     {vls,rfx,stp}
 /u"/     {hgh,cnt,rnd,vwl}
 /u-/     {hgh,bck,unr,vwl}
-/w<vls>/ {vls,lbv,frc}
+/w<vls>/ {vls,lbv,apr} # according to wikipedia /w/ and /w<vls>/ are {apr}, not {frc}
 /z<lat>/ {vcd,alv,lat,frc}
 /z./     {vcd,rfx,frc}
 
