@@ -38,6 +38,16 @@ unpronouncible = [
 	set(['vls','phr','flp']),
 	set(['vcd','glt','flp']),
 	set(['vls','glt','flp']),
+	set(['vcd','blb','lat','flp']),
+	set(['vls','blb','lat','flp']),
+	set(['vcd','lbd','lat','flp']),
+	set(['vls','lbd','lat','flp']),
+	set(['vcd','phr','lat','flp']),
+	set(['vls','phr','lat','flp']),
+	set(['vcd','epg','lat','flp']),
+	set(['vls','epg','lat','flp']),
+	set(['vcd','glt','lat','flp']),
+	set(['vls','glt','lat','flp']),
 	set(['vcd','blb','lat','frc']),
 	set(['vls','blb','lat','frc']),
 	set(['vcd','lbd','lat','frc']),
@@ -65,7 +75,7 @@ unpronouncible = [
 consonants = {
 	'name':  'Consonants',
 	'x':     ['blb','lbd','dnt','alv','pla','rfx','alp','pal','vel','uvl','lbv','phr','epg','glt'], # place
-	'y':     ['stp','nas','trl','flp','frc','afr',['lat','frc'],'apr',['lat','apr'],'ejc','imp','clk'], # manner
+	'y':     ['stp','nas','trl','flp',['lat','flp'],'frc','afr',['lat','frc'],'apr',['lat','apr'],'ejc','imp','clk'], # manner
 	'z':     ['vls','vcd'], # voicing
 	'extra': [],
 }
