@@ -42,6 +42,8 @@ description: International Phonetic Alphabet
 /\u027E/  {vcd,alv,flp}
 /\u027D/  {vcd,rfx,flp}
 
+/\u027A/  {vcd,alv,lat,flp}
+
 /\u0278/  {vls,blb,frc}
 /\u03B2/  {vcd,blb,frc}
 /f/       {vls,lbd,frc}
@@ -52,6 +54,7 @@ description: International Phonetic Alphabet
 /z/       {vcd,alv,frc}
 /\u0283/  {vls,pla,frc}
 /\u0292/  {vcd,pla,frc}
+/\u0267/  {vls,pla,frc,vzd}
 /\u0282/  {vls,rfx,frc}
 /\u0290/  {vcd,rfx,frc}
 /\u0255/  {vls,alp,frc}
@@ -87,8 +90,11 @@ description: International Phonetic Alphabet
 /\u0279/       {vcd,alv,apr}
 /\u027B/       {vcd,rfx,apr}
 /j/            {vcd,pal,apr}
+/\u0265/       {vcd,pal,apr,lzd}
 /\u0270/       {vcd,vel,apr}
 /\u0281\u031E/ {vcd,uvl,apr}
+/\u028D/       {vls,lbv,apr}
+/w/            {vcd,lbv,apr}
 /\u0295\u031E/ {vcd,phr,apr}
 /\u02A2\u031E/ {vcd,epg,apr}
 
@@ -115,3 +121,42 @@ description: International Phonetic Alphabet
 /!/            {vls,alv,clk}
 /\u01C2/       {vls,pal,clk}
 /\u01C1/       {vls,lat,clk}
+
+# Vowels
+
+/i/            {hgh,fnt,unr,vwl}
+/y/            {hgh,fnt,rnd,vwl}
+/\u0268/       {hgh,cnt,unr,vwl}
+/\u0289/       {hgh,cnt,rnd,vwl}
+/\u026F/       {hgh,bck,unr,vwl}
+/u/            {hgh,bck,rnd,vwl}
+
+/\u026A/       {smh,fnt,unr,vwl}
+/\u028F/       {smh,fnt,rnd,vwl}
+/\u028A/       {smh,bck,rnd,vwl}
+
+/e/            {umd,fnt,unr,vwl}
+/\u00F8/       {umd,fnt,rnd,vwl}
+/\u0258/       {umd,cnt,unr,vwl}
+/\u0275/       {umd,cnt,rnd,vwl}
+/\u0264/       {umd,bck,unr,vwl}
+/o/            {umd,bck,rnd,vwl}
+
+/\u0259/       {mid,cnt,unr,vwl}
+/\u025A/       {mid,cnt,unr,vwl,rzd}
+
+/\u025B/       {lmd,fnt,unr,vwl}
+/\u0153/       {lmd,fnt,rnd,vwl}
+/\u025C/       {lmd,cnt,unr,vwl}
+/\u025D/       {lmd,cnt,unr,vwl,rzd}
+/\u025E/       {lmd,cnt,rnd,vwl}
+/\u028C/       {lmd,bck,unr,vwl}
+/\u0254/       {lmd,bck,rnd,vwl}
+
+/\u00E6/       {sml,fnt,unr,vwl}
+/\u0250/       {sml,cnt,unr,vwl}
+
+/a/            {low,fnt,unr,vwl}
+/\u0276/       {low,fnt,rnd,vwl}
+/\u0251/       {low,bck,unr,vwl}
+/\u0252/       {low,bck,rnd,vwl}
