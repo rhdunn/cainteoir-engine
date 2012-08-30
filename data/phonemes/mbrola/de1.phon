@@ -44,14 +44,14 @@ description: MBROLA de1 Voice
 /Y/      {smh,fnt,rnd,vwl}
 /9/      {lmd,fnt,rnd,vwl}
 
-/i:/     {hgh,fnt,unr,vwl,lng}
-/e:/     {umd,fnt,unr,vwl,lng}
+/i:/     {hgh,fnt,unr,vwl,lng} # /i/ can be synthesized using a short duration parameter.
+/e:/     {umd,fnt,unr,vwl,lng} # /e/ can be synthesized using a short duration parameter.
 /E:/     {lmd,fnt,unr,vwl,lng}
 /a:/     {low,fnt,unr,vwl,lng}
-/o:/     {umd,bck,rnd,vwl,lng}
-/u:/     {hgh,bck,rnd,vwl,lng}
-/y:/     {hgh,fnt,rnd,vwl,lng}
-/2:/     {umd,fnt,rnd,vwl,lng}
+/o:/     {umd,bck,rnd,vwl,lng} # /o/ can be synthesized using a short duration parameter.
+/u:/     {hgh,bck,rnd,vwl,lng} # /u/ can be synthesized using a short duration parameter.
+/y:/     {hgh,fnt,rnd,vwl,lng} # /y/ can be synthesized using a short duration parameter.
+/2:/     {umd,fnt,rnd,vwl,lng} # /2/ can be synthesized using a short duration parameter.
 
 /aI/     {low,fnt,unr,vwl}{smh,fnt,unr,vwl}
 /aU/     {low,fnt,unr,vwl}{smh,bck,rnd,vwl}
