@@ -1,0 +1,117 @@
+rights:      Copyright (C) 2012 Reece H. Dunn
+license:     [CC-BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/]
+reference:   [IPA|http://en.wikipedia.org/wiki/International_Phonetic_Alphabet]
+
+name:        ipa
+description: International Phonetic Alphabet
+
+# Consonants
+
+/p/       {vls,blb,stp}
+/b/       {vcd,blb,stp}
+/p\u032A/ {vls,lbd,stp}
+/b\u032A/ {vcd,lbd,stp}
+/t\u032A/ {vls,dnt,stp}
+/d\u032A/ {vcd,dnt,stp}
+/t/       {vls,alv,stp}
+/d/       {vcd,alv,stp}
+/\u0288/  {vls,rfx,stp}
+/\u0256/  {vcd,rfx,stp}
+/c/       {vls,pal,stp}
+/\u025F/  {vcd,pal,stp}
+/k/       {vls,vel,stp}
+/g/       {vcd,vel,stp}
+/q/       {vls,uvl,stp}
+/G/       {vcd,uvl,stp}
+/\u02A1/  {vls,epg,stp}
+/\u0294/  {vls,glt,stp}
+
+/m/       {vcd,blb,nas}
+/\u0271/  {vcd,lbd,nas}
+/n/       {vcd,alv,nas}
+/\u0273/  {vcd,rfx,nas}
+/\u0272/  {vcd,pal,nas}
+/\u014B/  {vcd,vel,nas}
+/N/       {vcd,uvl,nas}
+
+/B/       {vcd,blb,trl}
+/r/       {vcd,alv,trl}
+/R/       {vcd,uvl,trl}
+
+/\u2C71/  {vcd,lbd,flp}
+/\u027E/  {vcd,alv,flp}
+/\u027D/  {vcd,rfx,flp}
+
+/\u0278/  {vls,blb,frc}
+/\u03B2/  {vcd,blb,frc}
+/f/       {vls,lbd,frc}
+/v/       {vcd,lbd,frc}
+/\u03B8/  {vls,dnt,frc}
+/\u00F0/  {vcd,dnt,frc}
+/s/       {vls,alv,frc}
+/z/       {vcd,alv,frc}
+/\u0283/  {vls,pla,frc}
+/\u0292/  {vcd,pla,frc}
+/\u0282/  {vls,rfx,frc}
+/\u0290/  {vcd,rfx,frc}
+/\u0255/  {vls,alp,frc}
+/\u0291/  {vcd,alp,frc}
+/\u00E7/  {vls,pal,frc}
+/\u029D/  {vcd,pal,frc}
+/x/       {vls,vel,frc}
+/\u0263/  {vcd,vel,frc}
+/\u03C7/  {vls,uvl,frc}
+/\u0281/  {vcd,uvl,frc}
+/\u0127/  {vls,phr,frc}
+/\u0295/  {vcd,phr,frc}
+/H/       {vls,epg,frc}
+/\u02A2/  {vcd,epg,frc}
+/h/       {vls,glt,frc}
+/\u0266/  {vcd,glt,frc}
+
+/p\u032Af/ {vls,lbd,afr}
+/b\u032Av/ {vcd,lbd,afr}
+/ts/       {vls,alv,afr}
+/dz/       {vcd,alv,afr}
+/t\u0283/  {vls,pla,afr}
+/d\u0292/  {vcd,pla,afr}
+/t\u0282/  {vls,rfx,afr}
+/d\u0290/  {vcd,rfx,afr}
+/t\u0255/  {vls,alp,afr}
+/d\u0291/  {vcd,alp,afr}
+
+/\u026C/   {vls,alv,lat,frc}
+/\u026E/   {vcd,alv,lat,frc}
+
+/\u028B/       {vcd,lbd,apr}
+/\u0279/       {vcd,alv,apr}
+/\u027B/       {vcd,rfx,apr}
+/j/            {vcd,pal,apr}
+/\u0270/       {vcd,vel,apr}
+/\u0281\u031E/ {vcd,uvl,apr}
+/\u0295\u031E/ {vcd,phr,apr}
+/\u02A2\u031E/ {vcd,epg,apr}
+
+/l/            {vcd,alv,lat,apr}
+/\u026D/       {vcd,rfx,lat,apr}
+/\u028E/       {vcd,pal,lat,apr}
+/L/            {vcd,vel,lat,apr}
+
+/p\u02BC/      {vls,blb,ejc}
+/t\u02BC/      {vls,alv,ejc}
+/c\u02BC/      {vls,pal,ejc}
+/\u0288\u02BC/ {vls,rfx,stp}
+/k\u02BC/      {vls,vel,ejc}
+/q\u02BC/      {vls,uvl,ejc}
+
+/\u0253/       {vcd,blb,imp}
+/\u0257/       {vcd,alv,imp}
+/\u0284/       {vcd,pal,imp}
+/\u0260/       {vcd,vel,imp}
+/\u029B/       {vcd,uvl,imp}
+
+/\u0298/       {vls,blb,clk}
+/|/            {vls,dnt,clk}
+/!/            {vls,alv,clk}
+/\u01C2/       {vls,pal,clk}
+/\u01C1/       {vls,lat,clk}
