@@ -1,0 +1,84 @@
+rights:      Copyright (C) 2012 Reece H. Dunn
+license:     [CC-BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/]
+reference:   [SAMPA for German|http://www.phon.ucl.ac.uk/home/sampa/german.htm]
+reference:   [SAMPROSA|http://www.phon.ucl.ac.uk/home/sampa/samprosa.htm]
+
+name:        sampa-de
+description: SAMPA for German
+
+/"/      {st1} # imported from SAMPROSA
+/%/      {st2} # imported from SAMPROSA
+/.../    {sil} # imported from SAMPROSA
+/$/      {syb} # imported from SAMPROSA
+
+/p/      {vls,blb,stp}
+/b/      {vcd,blb,stp}
+/t/      {vls,alv,stp}
+/d/      {vcd,alv,stp}
+/k/      {vls,vel,stp}
+/g/      {vcd,vel,stp}
+
+/?/      {vls,glt,stp}
+
+/pf/     {vls,lbd,afr}
+/ts/     {vls,alv,afr}
+/tS/     {vls,pla,afr}
+/dZ/     {vcd,pla,afr} # For loanwords, but /tS/ is often used instead
+
+/f/      {vls,lbd,frc}
+/v/      {vcd,lbd,frc}
+/s/      {vls,alv,frc}
+/z/      {vcd,alv,frc}
+/S/      {vls,pla,frc}
+/Z/      {vcd,pla,frc}
+/C/      {vls,pal,frc}
+/j/      {vcd,pal,apr,gld}
+/x/      {vls,vel,frc}
+/h/      {vls,glt,frc}
+
+/m/      {vcd,blb,nas}
+/n/      {vcd,alv,nas}
+/N/      {vcd,vel,nas}
+/l/      {vcd,alv,lat,apr,lqd}
+/R/      {vcd,uvl,frc} # May also realize as an {uvl,trl} or an {uvl,apr}
+/r/      {vcd,alv,flp} # May also realize as an {alv,trl}
+
+/I/      {smh,fnt,unr,vwl}
+/E/      {lmd,fnt,unr,vwl}
+/a/      {low,fnt,unr,vwl}
+/O/      {lmd,bck,rnd,vwl}
+/U/      {smh,bck,rnd,vwl}
+/Y/      {smh,fnt,rnd,vwl}
+/9/      {lmd,fnt,rnd,vwl}
+
+/i:/     {hgh,fnt,unr,vwl,lng}
+/e:/     {umd,fnt,unr,vwl,lng}
+/E:/     {lmd,fnt,unr,vwl,lng}
+/a:/     {low,fnt,unr,vwl,lng}
+/o:/     {umd,bck,rnd,vwl,lng}
+/u:/     {hgh,bck,rnd,vwl,lng}
+/y:/     {hgh,fnt,rnd,vwl,lng}
+/2:/     {umd,fnt,rnd,vwl,lng}
+
+/aI/     {low,fnt,unr,vwl}{smh,fnt,unr,vwl}
+/aU/     {low,fnt,unr,vwl}{smh,bck,rnd,vwl}
+/OY/     {lmd,bck,rnd,vwl}{smh,fnt,rnd,vwl}
+
+/@/      {mid,cnt,unr,vwl}
+
+/6/      {mid,cnt,unr,vwl,rzd}
+/i:6/    {hgh,fnt,unr,vwl,lng}{mid,cnt,unr,vwl,rzd}
+/I6/     {smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd}
+/y:6/    {hgh,fnt,rnd,vwl,lng}{mid,cnt,unr,vwl,rzd}
+/Y6/     {smh,fnt,rnd,vwl}{mid,cnt,unr,vwl,rzd}
+/e:6/    {umd,fnt,unr,vwl,lng}{mid,cnt,unr,vwl,rzd}
+/E6/     {lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd}
+/E:6/    {lmd,fnt,unr,vwl,lng}{mid,cnt,unr,vwl,rzd}
+/2:6/    {umd,fnt,rnd,vwl,lng}{mid,cnt,unr,vwl,rzd}
+/96/     {lmd,fnt,rnd,vwl}{mid,cnt,unr,vwl,rzd}
+/a:6/    {low,fnt,unr,vwl,lng}{mid,cnt,unr,vwl,rzd}
+/a6/     {low,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd}
+/u:6/    {hgh,bck,rnd,vwl,lng}{mid,cnt,unr,vwl,rzd}
+/U6/     {smh,bck,rnd,vwl}{mid,cnt,unr,vwl,rzd}
+/o:6/    {umd,bck,rnd,vwl,lng}{mid,cnt,unr,vwl,rzd}
+/O6/     {lmd,bck,rnd,vwl}{mid,cnt,unr,vwl,rzd}
