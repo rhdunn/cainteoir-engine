@@ -19,7 +19,7 @@ syn keyword	phonVowelRoundness		unr rnd
 syn keyword	phonVowelFeature		vwl lqd gld
 syn keyword	phonDiacritic			lng syl st1 st2 asp mrm
 syn keyword	phonDiacritic			nzd vzd rzd pzd fzd lzd
-syn keyword	phonDiacritic			sil syb
+syn keyword	phonDiacritic			sil syb ing
 
 syn region	phonComment		start="#" end="$" keepend contains=@Spell
 syn region	phonTranscription	start="/" end="/"
