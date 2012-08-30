@@ -36,8 +36,6 @@ description: MBROLA de2 Voice
 /l/      {vcd,alv,lat,apr,lqd}
 /R/      {vcd,uvl,frc}
 
-/?/      {vls,glt,stp} # A pause must occur before the phoneme.
-
 /I/      {smh,fnt,unr,vwl}
 /E/      {lmd,fnt,unr,vwl}
 /a/      {low,fnt,unr,vwl}
