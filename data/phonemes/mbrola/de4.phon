@@ -3,7 +3,7 @@ license:     [CC-BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/]
 reference:   [SAMPA for German|http://www.phon.ucl.ac.uk/home/sampa/german.htm]
 reference:   de4.txt in the de4 MBROLA voice directory
 
-name:        mbrola-de2
+name:        mbrola-de4
 description: MBROLA de4 Voice
 
 /_/      {sil}
