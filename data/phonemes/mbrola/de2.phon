@@ -63,7 +63,6 @@ description: MBROLA de2 Voice
 
 /E^/     {lmd,fnt,unr,vwl,lng,nzd}
 /a^/     {low,fnt,unr,vwl,lng,nzd}
-/9^/     {lmd,fnt,rnd,vwl,lng,nzd}
 /o^/     {umd,bck,rnd,vwl,lng,nzd}
 /E~/     {lmd,fnt,unr,vwl,nzd}
 /a~/     {low,fnt,unr,vwl,nzd}
