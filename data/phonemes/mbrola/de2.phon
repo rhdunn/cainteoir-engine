@@ -2,9 +2,11 @@ rights:      Copyright (C) 2012 Reece H. Dunn
 license:     [CC-BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/]
 reference:   [SAMPA for German|http://www.phon.ucl.ac.uk/home/sampa/german.htm]
 reference:   de2.txt in the de2 MBROLA voice directory
+reference:   de3.txt in the de3 MBROLA voice directory
 
 name:        mbrola-de2
-description: MBROLA de2 Voice
+alias:       mbrola-de3
+description: MBROLA de2 and de3 Voices
 
 /_/      {sil}
 
