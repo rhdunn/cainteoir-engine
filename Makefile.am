@@ -95,6 +95,7 @@ phonemes:	data/phonemes/ascii-ipa.html \
 		data/phonemes/arpabet.html \
 		data/phonemes/mbrola/de1.html \
 		data/phonemes/mbrola/de2.html \
+		data/phonemes/mbrola/de4.html \
 		data/phonemes/mbrola/en1.html \
 		data/phonemes/mbrola/us1.html \
 		data/phonemes/mbrola/us2.html \
