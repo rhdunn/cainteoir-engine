@@ -54,7 +54,7 @@ struct mbrola_voice
  *    3.  the MBROLA voice data may not be installed on the system, so they
  *        need to be checked to see if they exist.
  */
-const std::initializer_list<const mbrola_voice> mbrola_voices = {
+static const std::initializer_list<const mbrola_voice> mbrola_voices = {
 	{ "mb-af1",     "af1/af1", "af",    16000, "male" },
 	{ "mb-af1-en",  "af1/af1", "en",    16000, "male" },
 	{ "mb-br1",     "br1/br1", "pt-br", 16000, "male" },
@@ -110,7 +110,7 @@ const std::initializer_list<const mbrola_voice> mbrola_voices = {
 
 static bool is_mbrola_voice_available(const char *voice)
 {
-	std::string path = std::string(MBROLA_DIR) + voice;
+	std::string path = std::string(MBROLA_DIR "/") + voice;
 	return access(path.c_str(), R_OK) == 0;
 }
 #endif
