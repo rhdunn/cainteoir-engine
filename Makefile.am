@@ -8,6 +8,7 @@ xmldir     = $(mimedir)/packages
 AM_LDFLAGS  = ${LTLIBINTL}
 AM_CXXFLAGS = \
 	-Isrc/include -Isrc \
+	-DMBROLA_DIR=\"$(MBROLA_DIR)\" \
 	-DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
 
 ACLOCAL_AMFLAGS = -I m4

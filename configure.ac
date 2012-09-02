@@ -337,13 +337,25 @@ AC_ARG_WITH([mbrola],
     [AS_HELP_STRING([--with-mbrola], [support MBROLA text-to-speech voices where applicable @<:@default=yes@:>@])],
     [])
 
+AC_MSG_CHECKING([location of MBROLA voices])
 if test "$with_mbrola" = "no"; then
     echo "Disabling MBROLA support"
     have_mbrola=no
+    MBROLA_DIR=
+    AC_MSG_RESULT([disabled])
 else
     AC_DEFINE([HAVE_MBROLA], [1], [Define if support for the MBROLA speech synthesizer and voices is enabled.])
     have_mbrola=yes
+    if test "$with_mbrola" = "yes" -o "$with_mbrola" = "" ; then
+        MBROLA_DIR=/usr/share/mbrola
+        AC_MSG_RESULT([${MBROLA_DIR} (default location)])
+    else
+        MBROLA_DIR=$with_mbrola
+        AC_MSG_RESULT([${MBROLA_DIR}])
+    fi
 fi
+
+AC_SUBST(MBROLA_DIR)
 
 dnl ================================================================
 dnl PulseAudio checks.
@@ -445,7 +457,7 @@ AC_MSG_NOTICE([
         Compiler flags:                ${CXXFLAGS}
 
         eSpeak support:                ${have_espeak}
-        MBROLA support:                ${have_mbrola}
+        MBROLA support:                ${have_mbrola} (voice directory: ${MBROLA_DIR})
 
         Ogg/Vorbis support:            ${have_vorbisenc}
         PDF support:                   ${have_poppler}

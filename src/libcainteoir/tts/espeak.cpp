@@ -110,7 +110,7 @@ const std::initializer_list<const mbrola_voice> mbrola_voices = {
 
 static bool is_mbrola_voice_available(const char *voice)
 {
-	std::string path = std::string("/usr/share/mbrola/") + voice;
+	std::string path = std::string(MBROLA_DIR) + voice;
 	return access(path.c_str(), R_OK) == 0;
 }
 #endif
