@@ -16,7 +16,7 @@ syn keyword	phonVoicing			vls vcd
 syn keyword	phonVowelBackness		fnt cnt bck
 syn keyword	phonVowelHeight			hgh smh umd mid lmd sml low
 syn keyword	phonVowelRoundness		unr rnd
-syn keyword	phonVowelFeature		vwl lqd gld
+syn keyword	phonVowelFeature		vwl
 syn keyword	phonDiacritic			lng syl st1 st2 asp mrm
 syn keyword	phonDiacritic			nzd vzd rzd pzd fzd lzd
 syn keyword	phonDiacritic			sil syb ing

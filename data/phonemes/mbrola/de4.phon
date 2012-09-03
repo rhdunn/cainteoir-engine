@@ -26,14 +26,14 @@ description: MBROLA de4 Voice
 /S/      {vls,pla,frc}
 /Z/      {vcd,pla,frc}
 /C/      {vls,pal,frc}
-/j/      {vcd,pal,apr,gld}
+/j/      {vcd,pal,apr}
 /x/      {vls,vel,frc}
 /h/      {vls,glt,frc}
 
 /m/      {vcd,blb,nas}
 /n/      {vcd,alv,nas}
 /N/      {vcd,vel,nas}
-/l/      {vcd,alv,lat,apr,lqd}
+/l/      {vcd,alv,lat,apr}
 /R/      {vcd,uvl,frc}
 
 /I/      {smh,fnt,unr,vwl}
@@ -67,9 +67,9 @@ description: MBROLA de4 Voice
 /T/      {vls,dnt,frc}
 /D/      {vcd,dnt,frc}
 
-/r/      {vcd,alv,apr,lqd}
-/L/      {vcd,alv,lat,apr,lqd,vzd}
-/w/      {vcd,lbv,apr,gld}
+/r/      {vcd,alv,apr}
+/L/      {vcd,alv,lat,apr,vzd}
+/w/      {vcd,lbv,apr}
 
 /E~/     {lmd,fnt,unr,vwl,nzd} # /E^/ can be synthesized using a long duration parameter.
 /a~/     {low,fnt,unr,vwl,nzd} # /a^/ can be synthesized using a long duration parameter.

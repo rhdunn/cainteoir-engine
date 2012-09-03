@@ -32,14 +32,14 @@ description: General American English transcription scheme
 /NG/     {vcd,vel,nas}
 /ENG/    {vcd,vel,nas,syl}
 
-/L/      {vcd,alv,lat,apr,lqd,vzd}
-/EL/     {vcd,alv,lat,apr,lqd,vzd,syl}
-/R/      {vcd,alv,apr,lqd}
-/DX/     {vcd,alv,flp,lqd}
-/NX/     {vcd,alv,flp,lqd,vzd}
+/L/      {vcd,alv,lat,apr,vzd}
+/EL/     {vcd,alv,lat,apr,vzd,syl}
+/R/      {vcd,alv,apr}
+/DX/     {vcd,alv,flp}
+/NX/     {vcd,alv,flp,vzd}
 
-/Y/      {vcd,pal,apr,gld}
-/W/      {vcd,lbv,apr,gld}
+/Y/      {vcd,pal,apr}
+/W/      {vcd,lbv,apr}
 /Q/      {vls,glt,stp}
 
 # Monophthongs

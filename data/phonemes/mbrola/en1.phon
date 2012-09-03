@@ -31,11 +31,11 @@ description: MBROLA en1 Voice
 /m/      {vcd,blb,nas}
 /n/      {vcd,alv,nas}
 /N/      {vcd,vel,nas}
-/r/      {vcd,alv,apr,lqd}
-/l/      {vcd,alv,lat,apr,lqd}
-/5/      {vcd,alv,lat,apr,lqd,vzd}
-/w/      {vcd,lbv,apr,gld}
-/j/      {vcd,pal,apr,gld}
+/r/      {vcd,alv,apr}
+/l/      {vcd,alv,lat,apr}
+/5/      {vcd,alv,lat,apr,vzd}
+/w/      {vcd,lbv,apr}
+/j/      {vcd,pal,apr}
 
 /I/      {smh,fnt,unr,vwl}
 /e/      {lmd,fnt,unr,vwl}

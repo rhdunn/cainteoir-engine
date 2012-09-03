@@ -28,14 +28,14 @@ description: MBROLA de2 and de3 Voices
 /S/      {vls,pla,frc}
 /Z/      {vcd,pla,frc}
 /C/      {vls,pal,frc}
-/j/      {vcd,pal,apr,gld}
+/j/      {vcd,pal,apr}
 /x/      {vls,vel,frc}
 /h/      {vls,glt,frc}
 
 /m/      {vcd,blb,nas}
 /n/      {vcd,alv,nas}
 /N/      {vcd,vel,nas}
-/l/      {vcd,alv,lat,apr,lqd}
+/l/      {vcd,alv,lat,apr}
 /R/      {vcd,uvl,frc}
 
 /I/      {smh,fnt,unr,vwl}

@@ -36,10 +36,10 @@ description: MBROLA us2 Voice
 /m/      {vcd,blb,nas}
 /n/      {vcd,alv,nas}
 /N/      {vcd,vel,nas}
-/r/      {vcd,alv,apr,lqd}
-/l/      {vcd,alv,lat,apr,lqd}
-/w/      {vcd,lbv,apr,gld}
-/j/      {vcd,pal,apr,gld}
+/r/      {vcd,alv,apr}
+/l/      {vcd,alv,lat,apr}
+/w/      {vcd,lbv,apr}
+/j/      {vcd,pal,apr}
 
 /I/      {smh,fnt,unr,vwl}
 /E/      {lmd,fnt,unr,vwl}
