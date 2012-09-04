@@ -99,10 +99,12 @@ for ref, spec in specs.items():
 		f.write('---\n')
 		f.write('layout: rdfa\n')
 		if spec['type'] == 'spec':
-			f.write('title: %s %s Specification Support &mdash; Cainteoir Text-to-Speech\n' % (spec['name'], spec['version']))
+			title = '%s %s Specification Support' % (spec['name'], spec['version'])
+			f.write('title: %s &mdash; Cainteoir Text-to-Speech\n' % title)
 			f.write('description: The state of %s %s specification implementation in the Cainteoir Text-to-Speech program.\n' % (spec['name'], spec['version']))
 		else:
-			f.write('title: %s Support &mdash; Cainteoir Text-to-Speech\n' % spec['name'])
+			title = '%s Support' % spec['name']
+			f.write('title: %s &mdash; Cainteoir Text-to-Speech\n' % title)
 			f.write('description: The state of %s implementation in the Cainteoir Text-to-Speech program.\n' % spec['name'])
 		f.write('keywords: text to speech, tts, cainteoir, %s\n' % spec['name'].lower())
 		f.write('---\n')
@@ -127,6 +129,7 @@ for ref, spec in specs.items():
 			f.write('\t<li><a href="#references">References</a></li>\n')
 			f.write('</ol>\n')
 		f.write('<div class="article">\n')
+		f.write('<h1>%s</h1>\n' % title)
 		f.write('<h2 id="status">Implementation Status</h2>\n')
 		f.write('<table style="width: 100%;">\n')
 		f.write('\t<tr>\n')
