@@ -126,6 +126,7 @@ for ref, spec in specs.items():
 			f.write('\t<li><a href="#status">Implementation Status</a></li>\n')
 			f.write('\t<li><a href="#references">References</a></li>\n')
 			f.write('</ol>\n')
+		f.write('<div class="article">\n')
 		f.write('<h2 id="status">Implementation Status</h2>\n')
 		f.write('<table style="width: 100%;">\n')
 		f.write('\t<tr>\n')
@@ -175,3 +176,4 @@ for ref, spec in specs.items():
 				with open('%s.xml' % ref) as r:
 					f.write(r.read())
 			f.write('</ol>\n')
+		f.write('</div>\n')
