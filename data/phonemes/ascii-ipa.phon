@@ -108,12 +108,12 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /b<trl>/ {vcd,blb,trl}
 /b`/     {vcd,blb,imp}
 /c`/     {vls,pal,ejc}
-/c!/     {vls,alv,clk}
+# /c!/   {vls,alv,clk} # this conflicts with {pal,clk} so use the more consistent /t!/ transcription
 /c!/     {vls,pal,clk}
 /d<lbv>/ {vcd,lbv,stp}
 /d`/     {vcd,alv,imp}
 /d[/     {vcd,dnt,stp}
-/d`/     {vcd,dnt,imp}
+/d[`/    {vcd,dnt,imp} # this is /d`/ in kirshenbaum, but this conflicts with {alv,imp} and /d[`/ is more consistent
 /d./     {vcd,rfx,stp}
 /g`/     {vcd,vel,imp}
 /g"/     {vcd,uvl,frc}
@@ -148,7 +148,8 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /t`/     {vls,alv,ejc}
 /t[/     {vls,dnt,stp}
 /t[`/    {vls,dnt,ejc}
-/t!/     {vls,dnt,clk}
+/t!/     {vls,alv,clk} # specified as {dnt,clk}, but this is inconsistent and causes /c!/ to conflict
+/t[!/    {vls,dnt,clk} # used instead of /t!/ to allow /t!/ to be {alv,clk} and /c!/ to be {pal,clk}
 /t./     {vls,rfx,stp}
 /u"/     {hgh,cnt,rnd,vwl}
 /u-/     {hgh,bck,unr,vwl}
