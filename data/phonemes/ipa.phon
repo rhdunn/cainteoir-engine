@@ -106,7 +106,7 @@ description: International Phonetic Alphabet
 /p\u02BC/      {vls,blb,ejc}
 /t\u02BC/      {vls,alv,ejc}
 /c\u02BC/      {vls,pal,ejc}
-/\u0288\u02BC/ {vls,rfx,stp}
+/\u0288\u02BC/ {vls,rfx,ejc}
 /k\u02BC/      {vls,vel,ejc}
 /q\u02BC/      {vls,uvl,ejc}
 
