@@ -93,6 +93,7 @@ EXTRA_DIST += ChangeLog
 
 phonemes:	data/phonemes/ascii-ipa.html \
 		data/phonemes/ipa.html \
+		data/phonemes/x-sampa.html \
 		data/phonemes/arpabet.html \
 		data/phonemes/mbrola/de1.html \
 		data/phonemes/mbrola/de2.html \
