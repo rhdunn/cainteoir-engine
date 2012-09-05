@@ -118,13 +118,11 @@ for ref, spec in specs.items():
 			else:
 				f.write('  - { title: %s , url: %s.html }\n' % (spec['name'], spec['name'].lower().replace('/', '')))
 				f.write('  - { title: %s }\n' % spec['version'])
-		f.write('---\n')
 		if 'references' in spec.keys() and len(spec['references']) != 0:
-			f.write('<ol class="toc">\n')
-			f.write('\t<li><a href="#status">Implementation Status</a></li>\n')
-			f.write('\t<li><a href="#references">References</a></li>\n')
-			f.write('</ol>\n')
-		f.write('<div class="article">\n')
+			f.write('sidebar:\n')
+			f.write('  - { title: Implementation Status , url: "#status" }\n')
+			f.write('  - { title: References , url: "#references" }\n')
+		f.write('---\n')
 		f.write('<h1>%s</h1>\n' % title)
 		f.write('<h2 id="status">Implementation Status</h2>\n')
 		f.write('<table style="width: 100%;">\n')
@@ -175,4 +173,3 @@ for ref, spec in specs.items():
 				with open('%s.xml' % ref) as r:
 					f.write(r.read())
 			f.write('</ol>\n')
-		f.write('</div>\n')
