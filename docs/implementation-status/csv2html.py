@@ -107,22 +107,18 @@ for ref, spec in specs.items():
 			f.write('title: %s &mdash; Cainteoir Text-to-Speech\n' % title)
 			f.write('description: The state of %s implementation in the Cainteoir Text-to-Speech program.\n' % spec['name'])
 		f.write('keywords: text to speech, tts, cainteoir, %s\n' % spec['name'].lower())
-		f.write('---\n')
-		f.write('<div class="nav">\n')
-		f.write('\t<a href="../index.html">Home</a>\n')
-		f.write('\t&raquo;\n')
+		f.write('nav:\n')
+		f.write('  - { title: Home , url: ../index.html }\n')
 		if ref == 'document':
-			f.write('\t<span>Document Format Support</span>\n')
+			f.write('  - { title: Document Format Support }\n')
 		else:
-			f.write('\t<a href="document.html">Document Format Support</a>\n')
-			f.write('\t&raquo;\n')
+			f.write('  - { title: Document Format Support , url: document.html }\n')
 			if spec['version'] == '':
-				f.write('\t<span>%s</span>\n' % spec['name'])
+				f.write('  - { title: %s }\n' % spec['name'])
 			else:
-				f.write('\t<a href="%s.html">%s</a>\n' % (spec['name'].lower().replace('/', ''), spec['name']))
-				f.write('\t&raquo;\n')
-				f.write('\t<span>%s</span>\n' % spec['version'])
-		f.write('</div>\n')
+				f.write('  - { title: %s , url: %s.html }\n' % (spec['name'], spec['name'].lower().replace('/', '')))
+				f.write('  - { title: %s }\n' % spec['version'])
+		f.write('---\n')
 		if 'references' in spec.keys() and len(spec['references']) != 0:
 			f.write('<ol class="toc">\n')
 			f.write('\t<li><a href="#status">Implementation Status</a></li>\n')
