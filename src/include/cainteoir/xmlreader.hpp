@@ -28,13 +28,6 @@
 
 namespace cainteoir { namespace xml
 {
-	struct resource
-	{
-		virtual std::shared_ptr<const resource> clone() const = 0;
-
-		virtual ~resource() {}
-	};
-
 	class ns
 	{
 	public:

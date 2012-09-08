@@ -30,7 +30,7 @@ namespace xml = cainteoir::xml;
 
 REGISTER_TESTSUITE("RDF Model");
 
-void test_uri(const xml::resource &node, const std::string &value, const std::string &ns, const std::string &ref)
+void test_uri(const rdf::resource &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	const rdf::uri *uri = dynamic_cast<const rdf::uri *>(&node);
 	if (assert(uri))
@@ -113,7 +113,7 @@ TEST_CASE("rdf::href")
 	test_uri(g.href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
 }
 
-void test_uri(const std::shared_ptr<const xml::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
+void test_uri(const std::shared_ptr<const rdf::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
 {
 	test_uri(*node, value, ns, ref);
 }
@@ -274,7 +274,7 @@ TEST_CASE("rdf::graph -- curie: add_prefix")
 	assert(!test.curie("dct:title").get());
 }
 
-void test_literal(const xml::resource &node, const std::string value, const std::string &language, const rdf::uri &uri)
+void test_literal(const rdf::resource &node, const std::string value, const std::string &language, const rdf::uri &uri)
 {
 	const rdf::literal *literal = dynamic_cast<const rdf::literal *>(&node);
 	if (assert(literal))
@@ -309,12 +309,12 @@ TEST_CASE("rdf::literal")
 	test_literal(3.2, "3.2", rdf::xsd("string"));
 }
 
-void test_item(const xml::resource &a, const rdf::uri &b)
+void test_item(const rdf::resource &a, const rdf::uri &b)
 {
 	test_uri(a, b.str(), b.ns, b.ref);
 }
 
-void test_item(const xml::resource &a, const rdf::literal &b)
+void test_item(const rdf::resource &a, const rdf::literal &b)
 {
 	test_literal(a, b.value, b.language, b.type);
 }

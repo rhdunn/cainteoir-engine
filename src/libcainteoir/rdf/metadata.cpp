@@ -74,7 +74,7 @@ std::string rdf::uri::str() const
 	return ns + ref;
 }
 
-std::shared_ptr<const cainteoir::xml::resource> rdf::uri::clone() const
+std::shared_ptr<const rdf::resource> rdf::uri::clone() const
 {
 	return std::make_shared<uri>(*this);
 }
@@ -149,7 +149,7 @@ rdf::graph::curie(const std::string &aCurie)
 	return std::make_shared<rdf::uri>(href(uri));
 }
 
-std::shared_ptr<const cainteoir::xml::resource> rdf::literal::clone() const
+std::shared_ptr<const rdf::resource> rdf::literal::clone() const
 {
 	return std::make_shared<literal>(*this);
 }

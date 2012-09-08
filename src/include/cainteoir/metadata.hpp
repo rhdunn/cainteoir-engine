@@ -31,12 +31,19 @@
 
 namespace cainteoir { namespace rdf
 {
+	struct resource
+	{
+		virtual std::shared_ptr<const resource> clone() const = 0;
+
+		virtual ~resource() {}
+	};
+
 	namespace query
 	{
 		static const std::string nil;
 	}
 
-	class uri : public cainteoir::xml::resource
+	class uri : public resource
 	{
 	public:
 		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
@@ -48,7 +55,7 @@ namespace cainteoir { namespace rdf
 
 		std::string str() const;
 
-		std::shared_ptr<const cainteoir::xml::resource> clone() const;
+		std::shared_ptr<const resource> clone() const;
 	};
 
 	inline bool operator==(const uri &a, const uri &b)
@@ -121,7 +128,7 @@ namespace cainteoir { namespace rdf
 
 	/** @brief RDF literal node
 	  */
-	class literal : public cainteoir::xml::resource
+	class literal : public resource
 	{
 		template<typename T>
 		static const std::string to_string(const T &value)
@@ -182,7 +189,7 @@ namespace cainteoir { namespace rdf
 		template<typename T>
 		T as() const;
 
-		std::shared_ptr<const cainteoir::xml::resource> clone() const;
+		std::shared_ptr<const resource> clone() const;
 	};
 
 	template<typename T>
@@ -212,11 +219,11 @@ namespace cainteoir { namespace rdf
 	public:
 		const uri subject;
 		const uri predicate;
-		const std::shared_ptr<const cainteoir::xml::resource> object;
+		const std::shared_ptr<const resource> object;
 
 		triple(const uri &aSubject,
 		       const uri &aPredicate,
-		       const std::shared_ptr<const cainteoir::xml::resource> &aObject)
+		       const std::shared_ptr<const resource> &aObject)
 			: subject(aSubject)
 			, predicate(aPredicate)
 			, object(aObject)
