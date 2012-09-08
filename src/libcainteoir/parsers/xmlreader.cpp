@@ -24,6 +24,7 @@
 
 #include <cainteoir/xmlreader.hpp>
 #include <cainteoir/unicode.hpp>
+#include <cainteoir/range.hpp>
 
 using cainteoir::xml::entity;
 using cainteoir::xml::entity_set;
@@ -163,7 +164,7 @@ void cainteoir::xml::namespaces::pop_block()
 
 std::string cainteoir::xml::namespaces::lookup(const std::string &aPrefix) const
 {
-	for (auto &ns : mNamespaces)
+	for (auto &ns : cainteoir::reverse(mNamespaces))
 	{
 		if (ns.item.prefix == aPrefix && ns.block <= mBlockNumber)
 			return ns.item.href;
