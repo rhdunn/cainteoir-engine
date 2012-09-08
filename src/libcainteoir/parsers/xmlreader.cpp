@@ -163,10 +163,10 @@ void cainteoir::xml::namespaces::pop_block()
 
 std::string cainteoir::xml::namespaces::lookup(const std::string &aPrefix) const
 {
-	for (auto ns = mNamespaces.rbegin(), last = mNamespaces.rend(); ns != last; ++ns)
+	for (auto &ns : mNamespaces)
 	{
-		if (ns->item.prefix == aPrefix && ns->block <= mBlockNumber)
-			return ns->item.href;
+		if (ns.item.prefix == aPrefix && ns.block <= mBlockNumber)
+			return ns.item.href;
 	}
 	return std::string();
 }

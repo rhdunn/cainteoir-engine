@@ -328,8 +328,8 @@ bool text_reader::read()
 	if (match_value == error)
 	{
 		fputc('\t', stdout);
-		for (auto first = match.begin(), last = match.end(); first != last; ++first)
-			fprintf(stdout, "\\x%02X", (*first & 0xFF));
+		for (auto &c : match)
+			fprintf(stdout, "\\x%02X", (c & 0xFF));
 	}
 	fputc('\n', stdout);
 

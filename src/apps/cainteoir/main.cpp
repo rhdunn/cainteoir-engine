@@ -456,12 +456,12 @@ int main(int argc, char ** argv)
 						std::string role;
 						std::string value;
 
-						for(auto data = selection.begin(), last = selection.end(); data != last; ++data)
+						for (auto &data : selection)
 						{
-							const std::string &object = rql::value(*data);
-							if (rql::predicate(*data) == rdf::rdf("value"))
+							const std::string &object = rql::value(data);
+							if (rql::predicate(data) == rdf::rdf("value"))
 								value = object;
-							else if (rql::predicate(*data) == rdf::opf("role") || rql::predicate(*data) == rdf::pkg("role"))
+							else if (rql::predicate(data) == rdf::opf("role") || rql::predicate(data) == rdf::pkg("role"))
 								role = object;
 						}
 
@@ -470,10 +470,10 @@ int main(int argc, char ** argv)
 					}
 					else if (rql::predicate(query).ref == "title")
 					{
-						for(auto data = selection.begin(), last = selection.end(); data != last; ++data)
+						for (auto &data : selection)
 						{
-							if (rql::predicate(*data) == rdf::rdf("value"))
-								title = rql::value(*data);
+							if (rql::predicate(data) == rdf::rdf("value"))
+								title = rql::value(data);
 						}
 					}
 				}

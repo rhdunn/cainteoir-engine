@@ -250,17 +250,17 @@ public:
 		}
 
 #if defined(HAVE_MBROLA)
-		for (auto mbrola = mbrola_voices.begin(), last = mbrola_voices.end(); mbrola != last; ++mbrola)
+		for (auto &mbrola : mbrola_voices)
 		{
-			if (is_mbrola_voice_available(mbrola->voice))
+			if (is_mbrola_voice_available(mbrola.voice))
 			{
-				rdf::uri voice = rdf::uri(baseuri, mbrola->name);
+				rdf::uri voice = rdf::uri(baseuri, mbrola.name);
 				metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
-				metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola->language));
-				metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola->name));
-				metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola->gender));
+				metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola.language));
+				metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola.name));
+				metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola.gender));
 
-				metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola->frequency, rdf::tts("hertz")));
+				metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola.frequency, rdf::tts("hertz")));
 				metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
 				metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
 

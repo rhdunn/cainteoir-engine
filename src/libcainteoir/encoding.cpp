@@ -150,11 +150,11 @@ cainteoir::encoding::encoding(const char *aEncoding)
 
 bool cainteoir::encoding::set_encoding(int aCodepage)
 {
-	for (auto codepage = codepages.begin(), last = codepages.end(); codepage != last; ++codepage)
+	for (auto &codepage : codepages)
 	{
-		if (codepage->first == aCodepage)
+		if (codepage.first == aCodepage)
 		{
-			return set_encoding(codepage->second);
+			return set_encoding(codepage.second);
 		}
 	}
 

@@ -49,10 +49,10 @@ std::shared_ptr<cainteoir::buffer> cainteoir::rope::buffer() const
 
 	std::shared_ptr<cainteoir::buffer> temp = std::make_shared<cainteoir::data_buffer>(len);
 	char * startPos = (char *)temp->begin();
-	for (auto node = data.begin(), last = data.end(); node != last; ++node)
+	for (auto &node : data)
 	{
-		memcpy(startPos, (*node)->begin(), (*node)->size());
-		startPos += (*node)->size();
+		memcpy(startPos, node->begin(), node->size());
+		startPos += node->size();
 	}
 
 	*const_cast<rope *>(this) = temp;
