@@ -176,6 +176,18 @@ AC_COMPILE_IFELSE(
 AC_LANG_POP(C++)
 
 AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 range-based for loops])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[]],
+		[[int a[] = { 1, 2, 3 };]
+		 [for (int &b : a) ++b;]])],
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])
+	 AC_MSG_ERROR([C++11 range-based for loops not supported by $CXX.])])
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
 AC_MSG_CHECKING([if $CXX supports C++11 brace initialization])
 AC_COMPILE_IFELSE(
 	[AC_LANG_PROGRAM(

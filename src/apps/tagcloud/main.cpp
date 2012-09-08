@@ -102,14 +102,14 @@ bool common(const std::string & word)
 std::string normalise(const std::string & word)
 {
 	std::string ret;
-	foreach_iter(s, word)
+	for (auto &s : word)
 	{
-		if (*s >= 'A' && *s <= 'Z')
-			ret.push_back((*s - 'A') + 'a');
-		else if (*s >= 'a' && *s <= 'z')
-			ret.push_back(*s);
-		else if (*s == '-')
-			ret.push_back(*s);
+		if (s >= 'A' && s <= 'Z')
+			ret.push_back((s - 'A') + 'a');
+		else if (s >= 'a' && s <= 'z')
+			ret.push_back(s);
+		else if (s == '-')
+			ret.push_back(s);
 	}
 	return ret;
 }
@@ -188,22 +188,22 @@ int main(int argc, char ** argv)
 		if (format == html_format)
 		{
 			printf("<html><body><p>\n");
-			foreach_iter(word, cloud.words)
+			for (auto &word : cloud.words)
 			{
-				if (show_all || (word->second > 3 && !common(word->first)))
+				if (show_all || (word.second > 3 && !common(word.first)))
 				{
-					int size = (log(word->second) * 30) + 80;
-					printf("<span style=\"font-size: %d%%;\">%s</span>\n", size, word->first.c_str());
+					int size = (log(word.second) * 30) + 80;
+					printf("<span style=\"font-size: %d%%;\">%s</span>\n", size, word.first.c_str());
 				}
 			}
 			printf("</p></body></html>\n");
 		}
 		else
 		{
-			foreach_iter(word, cloud.words)
+			for (auto &word : cloud.words)
 			{
-				if (show_all || (word->second > 3 && !common(word->first)))
-					printf("%8d %s\n", word->second, word->first.c_str());
+				if (show_all || (word.second > 3 && !common(word.first)))
+					printf("%8d %s\n", word.second, word.first.c_str());
 			}
 		}
 	}

@@ -192,8 +192,8 @@ void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf::graph 
 			{
 				processed_metadata = true;
 				rdf::uri subject = aGraph.genid();
-				foreach_iter (metadata, inline_metadata)
-					aGraph.statement(subject, metadata->first, metadata->second);
+				for (auto &metadata : inline_metadata)
+					aGraph.statement(subject, metadata.first, metadata.second);
 				aGraph.statement(aSubject, self, subject);
 			}
 
@@ -289,8 +289,8 @@ rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::ur
 					subject = aGraph.genid();
 				if (self != rdf::rdf("Description"))
 					aGraph.statement(subject, rdf::rdf("type"), self);
-				foreach_iter (metadata, inline_metadata)
-					aGraph.statement(subject, metadata->first, metadata->second);
+				for (auto &metadata : inline_metadata)
+					aGraph.statement(subject, metadata.first, metadata.second);
 			}
 
 			switch (reader.nodeType())

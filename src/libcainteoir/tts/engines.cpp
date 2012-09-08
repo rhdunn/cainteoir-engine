@@ -157,9 +157,9 @@ void * speak_tts_thread(void *data)
 
 		size_t n = 0;
 		size_t offset = 0;
-		foreach_iter(node, *speak)
+		for (auto &node : *speak)
 		{
-			size_t len = (*node)->size();
+			size_t len = node->size();
 
 			if (len <= offset)
 			{
@@ -175,7 +175,7 @@ void * speak_tts_thread(void *data)
 					speak->progress(n);
 				}
 
-				speak->engine->speak(node->get(), offset, speak);
+				speak->engine->speak(node.get(), offset, speak);
 				offset = 0;
 
 				if (speak->state() == tts::stopped)
@@ -341,8 +341,8 @@ tts::engines::engines(rdf::graph &metadata, capability_types capabilities)
 
 tts::engines::~engines()
 {
-	foreach_iter(engine, enginelist)
-		delete engine->second;
+	for (auto &engine : enginelist)
+		delete engine.second;
 }
 
 bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice)
@@ -351,16 +351,16 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	std::string voice;
 	const rdf::uri * voiceUri = nullptr;
 
-	foreach_iter(statement, rql::select(aMetadata, rql::matches(rql::subject, aVoice)))
+	for (auto &statement : rql::select(aMetadata, rql::matches(rql::subject, aVoice)))
 	{
-		if (rql::predicate(*statement) == rdf::tts("name"))
+		if (rql::predicate(statement) == rdf::tts("name"))
 		{
-			voice = rql::value(*statement);
-			voiceUri = &rql::subject(*statement);
+			voice = rql::value(statement);
+			voiceUri = &rql::subject(statement);
 		}
-		else if (rql::predicate(*statement) == rdf::tts("voiceOf"))
+		else if (rql::predicate(statement) == rdf::tts("voiceOf"))
 		{
-			const rdf::uri &uri = rql::object(*statement);
+			const rdf::uri &uri = rql::object(statement);
 			if (!uri.empty())
 				engine = enginelist[ uri.str() ];
 		}

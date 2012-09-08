@@ -50,39 +50,39 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 	std::string created;
 	std::string published;
 
-	foreach_iter(query, rql::select(aMetadata, rql::matches(rql::subject, aDocument)))
+	for (auto &query : rql::select(aMetadata, rql::matches(rql::subject, aDocument)))
 	{
-		const std::string &object = rql::value(*query);
+		const std::string &object = rql::value(query);
 		if (!object.empty())
 		{
-			if (rql::predicate(*query) == rdf::dc("creator"))
+			if (rql::predicate(query) == rdf::dc("creator"))
 				comments.push_back(vorbis_comment("ARTIST", object));
-			else if (rql::predicate(*query) == rdf::dc("title"))
+			else if (rql::predicate(query) == rdf::dc("title"))
 				comments.push_back(vorbis_comment("ALBUM", object));
-			else if (rql::predicate(*query) == rdf::dc("description"))
+			else if (rql::predicate(query) == rdf::dc("description"))
 			{
 				comments.push_back(vorbis_comment("DESCRIPTION", object));
 				comments.push_back(vorbis_comment("COMMENT", object));
 			}
-			else if (rql::predicate(*query) == rdf::dc("date") && year.empty())
+			else if (rql::predicate(query) == rdf::dc("date") && year.empty())
 				year = object;
 		}
-		else if (rql::predicate(*query) == rdf::dc("creator") || rql::predicate(*query) == rdf::dcterms("creator"))
+		else if (rql::predicate(query) == rdf::dc("creator") || rql::predicate(query) == rdf::dcterms("creator"))
 		{
-			rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(*query)));
+			rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(query)));
 
 			std::string role;
 			std::string author;
 
-			foreach_iter(data, selection)
+			for (auto &data : selection)
 			{
-				if (rql::predicate(*data) == rdf::rdf("value"))
-					author = rql::value(*data);
-				else if (rql::predicate(*data) == rdf::opf("role"))
-					role = rql::value(*data);
-				else if (rql::predicate(*data) == rdf::pkg("role"))
+				if (rql::predicate(data) == rdf::rdf("value"))
+					author = rql::value(data);
+				else if (rql::predicate(data) == rdf::opf("role"))
+					role = rql::value(data);
+				else if (rql::predicate(data) == rdf::pkg("role"))
 				{
-					rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(*data)));
+					rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(data)));
 
 					selection = rql::select(selection, rql::matches(rql::predicate, rdf::rdf("value")));
 					if (!selection.empty())
@@ -93,17 +93,17 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 			if (!author.empty() && (role == "aut" || role.empty()))
 				comments.push_back(cainteoir::vorbis_comment("ARTIST", author));
 		}
-		else if (rql::predicate(*query) == rdf::dc("date"))
+		else if (rql::predicate(query) == rdf::dc("date"))
 		{
 			std::string event;
 			std::string date;
 
-			foreach_iter(data, rql::select(aMetadata, rql::matches(rql::subject, rql::object(*query))))
+			for (auto &data : rql::select(aMetadata, rql::matches(rql::subject, rql::object(query))))
 			{
-				const std::string &object = rql::value(*data);
-				if (rql::predicate(*data) == rdf::rdf("value"))
+				const std::string &object = rql::value(data);
+				if (rql::predicate(data) == rdf::rdf("value"))
 					date = object;
-				else if (rql::predicate(*data) == rdf::opf("event"))
+				else if (rql::predicate(data) == rdf::opf("event"))
 					event = object;
 			}
 
@@ -115,20 +115,20 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 					published = date;
 			}
 		}
-		else if (rql::predicate(*query).ns == rdf::dcterms)
+		else if (rql::predicate(query).ns == rdf::dcterms)
 		{
-			rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(*query)));
+			rql::results selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(query)));
 
 			std::string value;
-			foreach_iter(data, selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(*query))))
+			for (auto &data : selection = rql::select(aMetadata, rql::matches(rql::subject, rql::object(query))))
 			{
-				if (rql::predicate(*data) == rdf::rdf("value"))
-					value = rql::value(*data);
+				if (rql::predicate(data) == rdf::rdf("value"))
+					value = rql::value(data);
 			}
 
 			if (!value.empty())
 			{
-				if (rql::predicate(*query) == rdf::dcterms("title"))
+				if (rql::predicate(query) == rdf::dcterms("title"))
 					comments.push_back(vorbis_comment("ALBUM", value));
 			}
 		}
@@ -210,8 +210,8 @@ public:
 		vorbis_encode_init_vbr(&vi, channels, frequency, quality);
 
 		vorbis_comment_init(&vc);
-		foreach_iter(comment, comments)
-			vorbis_comment_add_tag(&vc, comment->label.c_str(), comment->value.c_str());
+		for (auto &comment : comments)
+			vorbis_comment_add_tag(&vc, comment.label.c_str(), comment.value.c_str());
 
 		vorbis_analysis_init(&vd, &vi);
 		vorbis_block_init(&vd, &vb);

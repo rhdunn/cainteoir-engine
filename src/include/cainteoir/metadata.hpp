@@ -29,15 +29,6 @@
 #include <set>
 #include <map>
 
-#define join_strings2(a, b) a ## b
-#define join_strings(a, b) join_strings2(a, b)
-
-#define foreach_iter_impl(a, b, c) \
-	const auto &c = b; \
-	for (auto a = c.begin(), last = c.end(); a != last; ++a)
-#define foreach_iter(a, b) \
-	foreach_iter_impl(a, b, join_strings(__c, __LINE__))
-
 namespace cainteoir { namespace rdf
 {
 	namespace query
@@ -438,10 +429,10 @@ namespace cainteoir { namespace rdf
 		template<typename Selector>
 		inline void select(const rdf::subgraph &metadata, const Selector &selector, rdf::subgraph &results)
 		{
-			foreach_iter(query, metadata)
+			for (auto &query : metadata)
 			{
-				if (selector(*query))
-					results.push_back(*query);
+				if (selector(query))
+					results.push_back(query);
 			}
 		}
 
@@ -471,9 +462,9 @@ namespace cainteoir { namespace rdf
 		template<typename Selector>
 		inline bool contains(const rdf::subgraph &metadata, const Selector &selector)
 		{
-			foreach_iter(query, metadata)
+			for (auto &query : metadata)
 			{
-				if (selector(*query))
+				if (selector(query))
 					return true;
 			}
 			return false;
@@ -512,10 +503,10 @@ namespace cainteoir { namespace rdf
 		template<typename T, typename Selector>
 		T select_value(const rdf::subgraph &metadata, const Selector &selector)
 		{
-			foreach_iter(query, metadata)
+			for (auto &query : metadata)
 			{
-				if (selector(*query))
-					return detail::value_cast<T>::cast(value(*query));
+				if (selector(query))
+					return detail::value_cast<T>::cast(value(query));
 			}
 			return T();
 		}

@@ -93,9 +93,9 @@ void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showN
 		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
 		          rql::matches(rql::object, aType)));
 
-	foreach_iter(format, formats)
+	for (auto &format : formats)
 	{
-		rql::results data = rql::select(aMetadata, rql::matches(rql::subject, rql::subject(*format)));
+		rql::results data = rql::select(aMetadata, rql::matches(rql::subject, rql::subject(format)));
 		std::string description = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::dc("description")));
 		if (showName)
 		{
@@ -205,13 +205,13 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
 		          rql::matches(rql::object, rdf::tts("Voice"))));
 
-	foreach_iter(voice, voices)
+	for (auto &voice : voices)
 	{
-		const rdf::uri &uri = rql::subject(*voice);
+		const rdf::uri &uri = rql::subject(voice);
 		rql::results statements = rql::select(aMetadata, rql::matches(rql::subject, uri));
-		foreach_iter(statement, statements)
+		for (auto &statement : statements)
 		{
-			if (rql::predicate(*statement) == predicate && rql::value(*statement) == value)
+			if (rql::predicate(statement) == predicate && rql::value(statement) == value)
 				return &uri;
 		}
 	}
@@ -435,23 +435,23 @@ int main(int argc, char ** argv)
 		std::string author;
 		std::string title;
 
-		foreach_iter (query, rql::select(doc.m_metadata, rql::matches(rql::subject, doc.subject)))
+		for (auto &query : rql::select(doc.m_metadata, rql::matches(rql::subject, doc.subject)))
 		{
-			if (rql::predicate(*query).ns == rdf::dc || rql::predicate(*query).ns == rdf::dcterms)
+			if (rql::predicate(query).ns == rdf::dc || rql::predicate(query).ns == rdf::dcterms)
 			{
-				const rdf::uri &object = rql::object(*query);
+				const rdf::uri &object = rql::object(query);
 				if (object.empty())
 				{
-					if (rql::predicate(*query).ref == "title")
-						title = rql::value(*query);
-					else if (rql::predicate(*query).ref == "creator")
-						author = rql::value(*query);
+					if (rql::predicate(query).ref == "title")
+						title = rql::value(query);
+					else if (rql::predicate(query).ref == "creator")
+						author = rql::value(query);
 				}
 				else
 				{
 					rql::results selection = rql::select(doc.m_metadata, rql::matches(rql::subject, object));
 
-					if (rql::predicate(*query).ref == "creator")
+					if (rql::predicate(query).ref == "creator")
 					{
 						std::string role;
 						std::string value;
@@ -468,7 +468,7 @@ int main(int argc, char ** argv)
 						if (!value.empty() && (role == "aut" || role.empty()))
 							author = value;
 					}
-					else if (rql::predicate(*query).ref == "title")
+					else if (rql::predicate(query).ref == "title")
 					{
 						for(auto data = selection.begin(), last = selection.end(); data != last; ++data)
 						{

@@ -470,17 +470,17 @@ cainteoir::languages::languages()
 	// is O(n) where n is the number of statements, not O(n^2) or O(n^3).
 
 	std::map<std::string, std::pair<std::string, std::string>> mapping;
-	foreach_iter(lang, data)
+	for (auto &lang : data)
 	{
-		if (rql::predicate(*lang) == rdf::rdf("value"))
-			mapping[rql::subject(*lang).str()].first = rql::value(*lang);
-		else if (rql::predicate(*lang) == rdf::dcterms("title"))
-			mapping[rql::subject(*lang).str()].second = rql::value(*lang);
+		if (rql::predicate(lang) == rdf::rdf("value"))
+			mapping[rql::subject(lang).str()].first = rql::value(lang);
+		else if (rql::predicate(lang) == rdf::dcterms("title"))
+			mapping[rql::subject(lang).str()].second = rql::value(lang);
 	}
 
-	foreach_iter(lang, mapping)
+	for (auto &lang : mapping)
 	{
-		const auto &entry = lang->second;
+		const auto &entry = lang.second;
 		if (!entry.first.empty() && !entry.second.empty())
 			m_subtags[entry.first] = entry.second;
 	}

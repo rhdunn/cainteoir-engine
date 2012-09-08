@@ -151,8 +151,8 @@ pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 
 pdf_document_reader::~pdf_document_reader()
 {
-	foreach_iter (action, mIndex)
-		poppler_action_free(*action);
+	for (auto &action : mIndex)
+		poppler_action_free(action);
 
 	g_object_unref(mDoc);
 }

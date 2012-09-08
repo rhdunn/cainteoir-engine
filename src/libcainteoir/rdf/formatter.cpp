@@ -58,15 +58,15 @@ public:
 	rdf::formatter &operator<<(const rdf::literal &literal)
 	{
 		os << '"';
-		foreach_iter(s, literal.value)
+		for (auto &s : literal.value)
 		{
-			switch (*s)
+			switch (s)
 			{
 			case '"':
 				os << "\\\"";
 				break;
 			default:
-				os << *s;
+				os << s;
 				break;
 			}
 		}
@@ -108,16 +108,18 @@ public:
 	{
 		if (!namespaces.empty())
 		{
-			foreach_iter(ns, namespaces)
-				if (aGraph.contains(rdf::ns(ns->second, ns->first)))
+			for (auto &ns : namespaces)
+			{
+				if (aGraph.contains(rdf::ns(ns.second, ns.first)))
 				{
-					os << "@prefix " << ns->second << ": <" << ns->first << "> ." << std::endl;
+					os << "@prefix " << ns.second << ": <" << ns.first << "> ." << std::endl;
 				}
+			}
 			os << std::endl;
 		}
 
-		foreach_iter(statement, aGraph)
-			*this << *statement;
+		for (auto &statement : aGraph)
+			*this << statement;
 
 		return *this;
 	}

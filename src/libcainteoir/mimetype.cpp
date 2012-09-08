@@ -77,9 +77,9 @@ bool cainteoir::mime::matchlet::match(const std::shared_ptr<cainteoir::buffer> &
 
 bool cainteoir::mime::magic::match(const std::shared_ptr<cainteoir::buffer> &data) const
 {
-	foreach_iter (matchlet, *this)
+	for (auto &matchlet : *this)
 	{
-		if (!matchlet->match(data))
+		if (!matchlet.match(data))
 			return false;
 	}
 	return !empty();
@@ -134,9 +134,9 @@ void cainteoir::mime::mimetype_database::read_aliases_from_cache(mime_cache &cac
 		const char *alias = cache.str(offset);
 		const char *mime  = cache.str(offset + 4);
 
-		foreach_iter (mimetype, mimetype_list)
+		for (auto &mimetype : mimetype_list)
 		{
-			if (!strcmp(*mimetype, mime))
+			if (!strcmp(mimetype, mime))
 				database[mime].aliases.push_back(alias);
 		}
 		offset += 8;
@@ -154,9 +154,9 @@ void cainteoir::mime::mimetype_database::read_reverse_suffix_tree_from_cache(mim
 		if (c == 0) // leaf node
 		{
 			const char *mime = cache.str(offset + 4);
-			foreach_iter (mimetype, mimetype_list)
+			for (auto &mimetype : mimetype_list)
 			{
-				if (!strcmp(*mimetype, mime))
+				if (!strcmp(mimetype, mime))
 				{
 					std::string s = '*' + suffix;
 					database[mime].globs.push_back(s);
@@ -208,9 +208,9 @@ void cainteoir::mime::mimetype_database::read_magic_from_cache(mime_cache &cache
 	for (; count > 0; --count)
 	{
 		const char *mime  = cache.str(offset + 4);
-		foreach_iter (mimetype, mimetype_list)
+		for (auto &mimetype : mimetype_list)
 		{
-			if (!strcmp(*mimetype, mime))
+			if (!strcmp(mimetype, mime))
 			{
 				std::vector<magic> &magic_list = database[mime].magic;
 				read_matchlets_from_cache(cache, cache.u32(offset + 8), cache.u32(offset + 12), magic_list, std::vector<matchlet>());
@@ -232,9 +232,9 @@ void cainteoir::mime::mimetype_database::read_xmlns_from_cache(mime_cache &cache
 		const char *name = cache.str(offset + 4);
 		const char *mime = cache.str(offset + 8);
 
-		foreach_iter (mimetype, mimetype_list)
+		for (auto &mimetype : mimetype_list)
 		{
-			if (!strcmp(*mimetype, mime))
+			if (!strcmp(mimetype, mime))
 			{
 				database[mime].xmlns = ns;
 				database[mime].localname = name;
@@ -306,11 +306,11 @@ std::string cainteoir::mime::mimetype_database::read_comment_from_mimeinfo_file(
 
 cainteoir::mime::mimetype_database::mimetype_database()
 {
-	foreach_iter (dir, get_mime_dirs())
+	for (auto &dir : get_mime_dirs())
 	{
 		try
 		{
-			mime_cache cache(*dir + "mime.cache");
+			mime_cache cache(dir + "mime.cache");
 			if (cache.major() != 1 || cache.minor() != 2)
 				throw std::runtime_error("unsupported mime.cache version.");
 
@@ -319,8 +319,8 @@ cainteoir::mime::mimetype_database::mimetype_database()
 			read_magic_from_cache(cache);
 			read_xmlns_from_cache(cache);
 
-			foreach_iter (mimetype, mimetype_list)
-				database[*mimetype].label = read_comment_from_mimeinfo_file(*dir + *mimetype + ".xml");
+			for (auto &mimetype : mimetype_list)
+				database[mimetype].label = read_comment_from_mimeinfo_file(dir + mimetype + ".xml");
 		}
 		catch (const std::runtime_error &)
 		{
@@ -346,9 +346,9 @@ bool cainteoir::mime::mimetype::match(const std::shared_ptr<cainteoir::buffer> &
 	if (!mime)
 		mime = &mimetypes[mime_type];
 
-	foreach_iter (magic, mime->magic)
+	for (auto &magic : mime->magic)
 	{
-		if (magic->match(data))
+		if (magic.match(data))
 			return true;
 	}
 	return false;
@@ -380,10 +380,10 @@ void cainteoir::mime::mimetype::metadata(rdf::graph &aGraph, const std::string &
 	aGraph.statement(ref, rdf::dc("title"), rdf::literal(mime->label));
 	aGraph.statement(ref, rdf::dc("description"), rdf::literal(mime->label));
 	aGraph.statement(ref, rdf::tts("mimetype"), rdf::literal(mime_type));
-	foreach_iter (alias, mime->aliases)
-		aGraph.statement(ref, rdf::tts("mimetype"), rdf::literal(*alias));
-	foreach_iter (glob, mime->globs)
-		aGraph.statement(ref, rdf::tts("extension"), rdf::literal(*glob));
+	for (auto &alias : mime->aliases)
+		aGraph.statement(ref, rdf::tts("mimetype"), rdf::literal(alias));
+	for (auto &glob : mime->globs)
+		aGraph.statement(ref, rdf::tts("extension"), rdf::literal(glob));
 }
 
 /** === MIME Header Handling ===
