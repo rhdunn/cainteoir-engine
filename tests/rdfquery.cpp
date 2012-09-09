@@ -20,6 +20,7 @@
 
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/document.hpp>
+#include <cainteoir/stopwatch.hpp>
 #include <iostream>
 #include <cassert>
 #include <cstdlib>
@@ -281,4 +282,47 @@ TEST_CASE("rql::select_value")
 	assert(rql::select_value<std::string>(dcterms,
 	       rql::subject == rdf::dcterms("creator") && rql::predicate == rdf::skos("prefLabel"))
 	       == "");
+}
+
+TEST_CASE("performance")
+{
+	// Load Time Performance
+
+	cainteoir::stopwatch load_time;
+	rdfdoc data("data/languages.rdf.gz");
+
+	printf("... ... load time: %G\n", load_time.elapsed());
+	assert(data.size() == 35140);
+
+	// Select Performance
+
+	cainteoir::stopwatch select1_time;
+	rql::results languages = rql::select(data,
+	                                     rql::predicate == rdf::rdf("type") &&
+	                                     rql::object    == rdf::iana("Language"));
+
+	printf("... ... select(_, predicate, object) as languages time: %G\n", select1_time.elapsed());
+	assert(languages.size() == 7450);
+
+	// Select Performance : Subject
+	//
+	// This tests the performance of selecting the triples for a large number
+	// of subjects. This is a typical use case:
+	//    1.  Perform an rql::select to find a set of subjects.
+	//    2.  Perform an rql::select on each subject.
+	//
+	// This highlights that doing step (2) is slow for large graphs. Intuitively
+	// this makes sense, as it has O(N^2) complexity when the graph is stored
+	// as a set of triples.
+
+	cainteoir::stopwatch select2_time;
+	int labels = 0;
+	for (auto &lang : languages)
+	{
+		rql::results statements = rql::select(data, rql::subject == rql::subject(lang));
+		auto id   = rql::select_value<std::string>(statements, rql::predicate == rdf::rdf("value"));
+		auto name = rql::select_value<std::string>(statements, rql::predicate == rdf::dcterms("title"));
+	}
+
+	printf("... ... select(subject, _, _) on each language time: %G\n", select2_time.elapsed());
 }

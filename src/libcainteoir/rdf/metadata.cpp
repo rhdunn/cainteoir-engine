@@ -51,6 +51,7 @@ const rdf::ns rdf::xhtml("h",    "http://www.w3.org/1999/xhtml#");
 const rdf::ns rdf::skos("skos", "http://www.w3.org/2004/02/skos/core#");
 const rdf::ns rdf::foaf("foaf", "http://xmlns.com/foaf/0.1/");
 const rdf::ns rdf::tts( "tts",  "http://rhdunn.github.com/2010/12/text-to-speech#");
+const rdf::ns rdf::iana("iana", "http://rhdunn.github.com/cainteoir/schema/iana#");
 
 rdf::uri::uri(const std::string &aNS, const std::string &aRef)
 	: ns(aNS)
