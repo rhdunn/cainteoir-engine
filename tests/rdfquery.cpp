@@ -138,6 +138,8 @@ TEST_CASE("rql::matches")
 	assert(!rql::matches(rql::predicate, rdf::rdf("label"))(g.back()));
 	assert(!rql::matches(rql::object,    rdf::rdf("Class"))(g.back()));
 
+	// expression templates:
+
 	assert((rql::subject   == rdf::dc("title"))(g.back()));
 	assert((rql::predicate == rdf::rdf("type"))(g.back()));
 	assert((rql::object    == rdf::rdf("Property"))(g.back()));
@@ -145,6 +147,51 @@ TEST_CASE("rql::matches")
 	assert(!(rql::subject   == rdf::dc("creator"))(g.back()));
 	assert(!(rql::predicate == rdf::rdf("label"))(g.back()));
 	assert(!(rql::object    == rdf::rdf("Class"))(g.back()));
+}
+
+TEST_CASE("rql::both")
+{
+	rdf::graph g;
+	assert(g.statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property")));
+
+	assert(rql::both(rql::matches(rql::subject,   rdf::dc("title")),
+	                 rql::matches(rql::predicate, rdf::rdf("type")))(g.back()));
+	assert(rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
+	                 rql::matches(rql::subject,   rdf::dc("title")))(g.back()));
+
+	assert(!rql::both(rql::matches(rql::subject,   rdf::dcterms("title")),
+	                  rql::matches(rql::predicate, rdf::rdf("type")))(g.back()));
+	assert(!rql::both(rql::matches(rql::subject,   rdf::dc("title")),
+	                  rql::matches(rql::predicate, rdf::rdf("range")))(g.back()));
+
+	// expression templates:
+
+	assert((rql::subject   == rdf::dc("title") && rql::predicate == rdf::rdf("type"))(g.back()));
+	assert((rql::predicate == rdf::rdf("type") && rql::subject   == rdf::dc("title"))(g.back()));
+
+	assert(!(rql::subject == rdf::dcterms("title") && rql::predicate == rdf::rdf("type"))(g.back()));
+	assert(!(rql::subject == rdf::dc("title")      && rql::predicate == rdf::rdf("range"))(g.back()));
+}
+
+TEST_CASE("rql::either")
+{
+	rdf::graph g;
+	assert(g.statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property")));
+
+	assert(rql::either(rql::matches(rql::subject, rdf::dc("title")),
+	                   rql::matches(rql::subject, rdf::dcterms("title")))(g.back()));
+	assert(rql::either(rql::matches(rql::subject, rdf::dcterms("title")),
+	                   rql::matches(rql::subject, rdf::dc("title")))(g.back()));
+
+	assert(!rql::either(rql::matches(rql::subject, rdf::dc("description")),
+	                    rql::matches(rql::subject, rdf::dc("date")))(g.back()));
+
+	// expression templates:
+
+	assert((rql::subject == rdf::dc("title")      || rql::subject == rdf::dcterms("title"))(g.back()));
+	assert((rql::subject == rdf::dcterms("title") || rql::subject == rdf::dc("title"))(g.back()));
+
+	assert(!(rql::subject == rdf::dc("description") || rql::subject == rdf::dc("date"))(g.back()));
 }
 
 TEST_CASE("rql::select(graph, selector, value)")
@@ -228,10 +275,10 @@ TEST_CASE("rql::select_value")
 	       == "");
 
 	assert(rql::select_value<std::string>(dcterms,
-	       rql::both(rql::subject == rdf::dcterms("creator"), rql::predicate == rdf::rdfs("label")))
+	       rql::subject == rdf::dcterms("creator") && rql::predicate == rdf::rdfs("label"))
 	       == "Creator");
 
 	assert(rql::select_value<std::string>(dcterms,
-	       rql::both(rql::subject == rdf::dcterms("creator"), rql::predicate == rdf::skos("prefLabel")))
+	       rql::subject == rdf::dcterms("creator") && rql::predicate == rdf::skos("prefLabel"))
 	       == "");
 }

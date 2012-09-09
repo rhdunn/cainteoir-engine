@@ -543,6 +543,26 @@ namespace cainteoir { namespace rdf
 		return query::detail::matches_t<query::detail::object_t, const rdf::uri &>(selector, value);
 	}
 
+	template<typename Selector1, typename Selector2>
+	inline query::detail::both_t<query::detail::matches_t<Selector1, const rdf::uri &>,
+	                             query::detail::matches_t<Selector2, const rdf::uri &>>
+	operator&&(const query::detail::matches_t<Selector1, const rdf::uri &> &a,
+	           const query::detail::matches_t<Selector2, const rdf::uri &> &b)
+	{
+		return query::detail::both_t<query::detail::matches_t<Selector1, const rdf::uri &>,
+		                             query::detail::matches_t<Selector2, const rdf::uri &>>(a, b);
+	}
+
+	template<typename Selector1, typename Selector2>
+	inline query::detail::either_t<query::detail::matches_t<Selector1, const rdf::uri &>,
+	                               query::detail::matches_t<Selector2, const rdf::uri &>>
+	operator||(const query::detail::matches_t<Selector1, const rdf::uri &> &a,
+	           const query::detail::matches_t<Selector2, const rdf::uri &> &b)
+	{
+		return query::detail::either_t<query::detail::matches_t<Selector1, const rdf::uri &>,
+		                               query::detail::matches_t<Selector2, const rdf::uri &>>(a, b);
+	}
+
 	/** @brief RDF formatter (serialisation support)
 	  */
 	struct formatter
