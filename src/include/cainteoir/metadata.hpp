@@ -228,22 +228,46 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		inline const rdf::uri &subject(const std::shared_ptr<const rdf::triple> &statement)
+		namespace detail
 		{
-			return statement->subject;
+			struct subject_t
+				: public std::unary_function<const rdf::uri &,
+				                             const std::shared_ptr<const rdf::triple> &>
+			{
+				const rdf::uri &operator()(const std::shared_ptr<const rdf::triple> &statement) const
+				{
+					return statement->subject;
+				}
+			};
+
+			struct predicate_t
+				: public std::unary_function<const rdf::uri &,
+				                             const std::shared_ptr<const rdf::triple> &>
+			{
+				const rdf::uri &operator()(const std::shared_ptr<const rdf::triple> &statement) const
+				{
+					return statement->predicate;
+				}
+			};
+
+			struct object_t
+				: public std::unary_function<const rdf::uri &,
+				                             const std::shared_ptr<const rdf::triple> &>
+			{
+				const rdf::uri &operator()(const std::shared_ptr<const rdf::triple> &statement) const
+				{
+					static const rdf::uri nulluri{ std::string(), std::string() };
+					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(statement->object.get());
+					return uri ? *uri : nulluri;
+				}
+			};
 		}
 
-		inline const rdf::uri &predicate(const std::shared_ptr<const rdf::triple> &statement)
-		{
-			return statement->predicate;
-		}
+		static const detail::subject_t subject;
 
-		inline const rdf::uri &object(const std::shared_ptr<const rdf::triple> &statement)
-		{
-			static const rdf::uri nulluri{ std::string(), std::string() };
-			const rdf::uri *uri = dynamic_cast<const rdf::uri *>(statement->object.get());
-			return uri ? *uri : nulluri;
-		}
+		static const detail::predicate_t predicate;
+
+		static const detail::object_t object;
 
 		inline const std::string &value(const std::shared_ptr<const rdf::triple> &statement)
 		{
@@ -318,13 +342,11 @@ namespace cainteoir { namespace rdf
 
 		namespace detail
 		{
-			template<typename Value>
+			template<typename Selector, typename Value>
 			class matches_t : public std::unary_function<bool, const std::shared_ptr<const rdf::triple> &>
 			{
 			public:
-				typedef decltype(subject) selector_type;
-
-				matches_t(selector_type *aSelector, const Value &aValue)
+				matches_t(const Selector &aSelector, const Value &aValue)
 					: selector(aSelector)
 					, value(aValue)
 				{
@@ -332,10 +354,10 @@ namespace cainteoir { namespace rdf
 
 				bool operator()(const std::shared_ptr<const rdf::triple> &s) const
 				{
-					return (*selector)(s) == value;
+					return selector(s) == value;
 				}
 			private:
-				selector_type *selector;
+				Selector selector;
 				const Value &value;
 			};
 		}
@@ -347,10 +369,10 @@ namespace cainteoir { namespace rdf
 		  *
 		  * @return The selector functor.
 		  */
-		template<typename Value>
-		detail::matches_t<Value> matches(decltype(subject) aSelector, const Value &aValue)
+		template<typename Selector, typename Value>
+		detail::matches_t<Selector, Value> matches(const Selector &aSelector, const Value &aValue)
 		{
-			return detail::matches_t<Value>(aSelector, aValue);
+			return detail::matches_t<Selector, Value>(aSelector, aValue);
 		}
 
 		namespace detail
