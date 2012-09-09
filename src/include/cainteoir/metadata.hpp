@@ -279,14 +279,27 @@ namespace cainteoir { namespace rdf
 	}
 
 	typedef std::list< std::shared_ptr<const triple> >
-	        subgraph;
+	        triplestore;
 
 	/** @brief RDF graph
 	  */
-	class graph : public subgraph , public cainteoir::xml::namespaces
+	class graph : public cainteoir::xml::namespaces
 	{
 	public:
+		typedef triplestore::size_type size_type;
+		typedef triplestore::const_iterator const_iterator;
+		typedef triplestore::const_reference const_reference;
+
 		graph();
+
+		size_type size()  const { return triples.size(); }
+		bool      empty() const { return triples.empty(); }
+
+		const_iterator begin() const { return triples.begin(); }
+		const_iterator end()   const { return triples.end(); }
+
+		const_reference front() const { return triples.front(); }
+		const_reference back()  const { return triples.back(); }
 
 		/** @name Namespaces */
 		//@{
@@ -335,11 +348,12 @@ namespace cainteoir { namespace rdf
 		std::string mBaseUri;
 		std::set<std::string> namespaces;
 		int nextid;
+		triplestore triples;
 	};
 
 	namespace query
 	{
-		typedef rdf::subgraph results;
+		typedef rdf::triplestore results;
 
 		namespace detail
 		{
@@ -453,8 +467,8 @@ namespace cainteoir { namespace rdf
 		  *
 		  * @return A subgraph containing all matching statements.
 		  */
-		template<typename Selector>
-		inline results select(const rdf::subgraph &metadata, const Selector &selector)
+		template<typename TripleStore, typename Selector>
+		inline results select(const TripleStore &metadata, const Selector &selector)
 		{
 			results ret;
 			for (auto &query : metadata)
@@ -473,8 +487,8 @@ namespace cainteoir { namespace rdf
 		  * @retval true  If the graph contains a statement matching the selector.
 		  * @retval false If the graph does not contain a statement matching the selector.
 		  */
-		template<typename Selector>
-		inline bool contains(const rdf::subgraph &metadata, const Selector &selector)
+		template<typename TripleStore, typename Selector>
+		inline bool contains(const TripleStore &metadata, const Selector &selector)
 		{
 			for (auto &query : metadata)
 			{
@@ -514,8 +528,8 @@ namespace cainteoir { namespace rdf
 		  *
 		  * @return The first literal value matching the selector.
 		  */
-		template<typename T, typename Selector>
-		T select_value(const rdf::subgraph &metadata, const Selector &selector)
+		template<typename T, typename TripleStore, typename Selector>
+		T select_value(const TripleStore &metadata, const Selector &selector)
 		{
 			for (auto &query : metadata)
 			{

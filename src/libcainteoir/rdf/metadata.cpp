@@ -189,7 +189,7 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.ns.empty())
 		namespaces.insert(aObject.ns);
 
-	push_back(std::make_shared<triple>(aSubject, aPredicate, aObject.clone()));
+	triples.push_back(std::make_shared<triple>(aSubject, aPredicate, aObject.clone()));
 	return true;
 }
 
@@ -206,6 +206,6 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	if (!aObject.type.ns.empty())
 		namespaces.insert(aObject.type.ns);
 
-	push_back(std::make_shared<triple>(aSubject, aPredicate, aObject.clone()));
+	triples.push_back(std::make_shared<triple>(aSubject, aPredicate, aObject.clone()));
 	return true;
 }
