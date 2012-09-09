@@ -427,22 +427,6 @@ namespace cainteoir { namespace rdf
 		  *
 		  * @param metadata The subgraph to select statements from.
 		  * @param selector The selector used to choose statements in the graph.
-		  * @param results  The subgraph to add matching statements to.
-		  */
-		template<typename Selector>
-		inline void select(const rdf::subgraph &metadata, const Selector &selector, rdf::subgraph &results)
-		{
-			for (auto &query : metadata)
-			{
-				if (selector(query))
-					results.push_back(query);
-			}
-		}
-
-		/** @brief Select statements matching the selector.
-		  *
-		  * @param metadata The subgraph to select statements from.
-		  * @param selector The selector used to choose statements in the graph.
 		  *
 		  * @return A subgraph containing all matching statements.
 		  */
@@ -450,7 +434,11 @@ namespace cainteoir { namespace rdf
 		inline results select(const rdf::subgraph &metadata, const Selector &selector)
 		{
 			results ret;
-			select(metadata, selector, ret);
+			for (auto &query : metadata)
+			{
+				if (selector(query))
+					ret.push_back(query);
+			}
 			return ret;
 		}
 

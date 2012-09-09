@@ -139,41 +139,18 @@ TEST_CASE("rql::matches")
 	assert(!rql::matches(rql::object,    rdf::rdf("Class"))(g.back()));
 }
 
-TEST_CASE("rql::select(graph, selector, results)")
-{
-	rdfdoc dcterms("src/schema/dcterms.rdf");
-	assert(dcterms.size() == 867);
-
-	rql::results a;
-	rql::select(dcterms, select_all, a);
-	assert(a.size() == 867);
-	assert(!a.empty());
-
-	rql::results b;
-	rql::select(dcterms, select_none, b);
-	assert(b.size() == 0);
-	assert(b.empty());
-
-	rql::results c;
-	rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")), c);
-	assert(c.size() == 9);
-	assert(!c.empty());
-
-	match(rql::subject(c.front()), rdf::dcterms("title"));
-	match(rql::predicate(c.front()), rdf::rdfs("label"));
-	match(rql::object(c.front()), rdf::uri(std::string(), std::string()));
-	assert(rql::value(c.front()) == "Title");
-
-	match(rql::subject(c.back()), rdf::dcterms("title"));
-	match(rql::predicate(c.back()), rdf::rdfs("subPropertyOf"));
-	match(rql::object(c.back()), rdf::dc("title"));
-	assert(rql::value(c.back()) == std::string());
-}
-
 TEST_CASE("rql::select(graph, selector, value)")
 {
 	rdfdoc dcterms("src/schema/dcterms.rdf");
 	assert(dcterms.size() == 867);
+
+	rql::results all = rql::select(dcterms, select_all);
+	assert(all.size() == 867);
+	assert(!all.empty());
+
+	rql::results none = rql::select(dcterms, select_none);
+	assert(none.size() == 0);
+	assert(none.empty());
 
 	rql::results a = rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")));
 	assert(a.size() == 9);
