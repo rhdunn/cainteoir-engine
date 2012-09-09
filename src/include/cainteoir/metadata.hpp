@@ -525,6 +525,24 @@ namespace cainteoir { namespace rdf
 		}
 	}
 
+	inline query::detail::matches_t<query::detail::subject_t, const rdf::uri &>
+	operator==(const query::detail::subject_t &selector, const rdf::uri &value)
+	{
+		return query::detail::matches_t<query::detail::subject_t, const rdf::uri &>(selector, value);
+	}
+
+	inline query::detail::matches_t<query::detail::predicate_t, const rdf::uri &>
+	operator==(const query::detail::predicate_t &selector, const rdf::uri &value)
+	{
+		return query::detail::matches_t<query::detail::predicate_t, const rdf::uri &>(selector, value);
+	}
+
+	inline query::detail::matches_t<query::detail::object_t, const rdf::uri &>
+	operator==(const query::detail::object_t &selector, const rdf::uri &value)
+	{
+		return query::detail::matches_t<query::detail::object_t, const rdf::uri &>(selector, value);
+	}
+
 	/** @brief RDF formatter (serialisation support)
 	  */
 	struct formatter
