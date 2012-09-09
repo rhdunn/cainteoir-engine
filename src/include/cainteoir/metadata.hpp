@@ -38,11 +38,6 @@ namespace cainteoir { namespace rdf
 		virtual ~resource() {}
 	};
 
-	namespace query
-	{
-		static const std::string nil;
-	}
-
 	class uri : public resource
 	{
 	public:
@@ -252,6 +247,7 @@ namespace cainteoir { namespace rdf
 
 		inline const std::string &value(const std::shared_ptr<const rdf::triple> &statement)
 		{
+			static const std::string nil;
 			const rdf::literal *literal = dynamic_cast<const rdf::literal *>(statement->object.get());
 			return literal ? literal->value : nil;
 		}
