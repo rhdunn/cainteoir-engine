@@ -59,10 +59,10 @@ cainteoir::create_audio_file(
 	if (filename && !strcmp(filename, "-"))
 		filename = nullptr;
 
-	rql::results data = rql::select(aVoiceMetadata, rql::matches(rql::subject, aVoice));
-	int channels  = rql::select_value<int>(data, rql::matches(rql::predicate, rdf::tts("channels")));
-	int frequency = rql::select_value<int>(data, rql::matches(rql::predicate, rdf::tts("frequency")));
-	const rdf::uri &format = rql::object(rql::select(data, rql::matches(rql::predicate, rdf::tts("audio-format"))).front());
+	rql::results data = rql::select(aVoiceMetadata, rql::subject == aVoice);
+	int channels  = rql::select_value<int>(data, rql::predicate == rdf::tts("channels"));
+	int frequency = rql::select_value<int>(data, rql::predicate == rdf::tts("frequency"));
+	const rdf::uri &format = rql::object(rql::select(data, rql::predicate == rdf::tts("audio-format")).front());
 
 	if (!strcmp(type, "wav"))
 		return create_wav_file(filename, format, channels, frequency, quality, aDocMetadata, aDocument);
@@ -82,10 +82,10 @@ cainteoir::open_audio_device(
 	const rdf::graph &aVoiceMetadata,
 	const rdf::uri &aVoice)
 {
-	rql::results data = rql::select(aVoiceMetadata, rql::matches(rql::subject, aVoice));
-	int channels  = rql::select_value<int>(data, rql::matches(rql::predicate, rdf::tts("channels")));
-	int frequency = rql::select_value<int>(data, rql::matches(rql::predicate, rdf::tts("frequency")));
-	const rdf::uri &format = rql::object(rql::select(data, rql::matches(rql::predicate, rdf::tts("audio-format"))).front());
+	rql::results data = rql::select(aVoiceMetadata, rql::subject == aVoice);
+	int channels  = rql::select_value<int>(data, rql::predicate == rdf::tts("channels"));
+	int frequency = rql::select_value<int>(data, rql::predicate == rdf::tts("frequency"));
+	const rdf::uri &format = rql::object(rql::select(data, rql::predicate == rdf::tts("audio-format")).front());
 
 	if (!strcmp(type, "pulse"))
 		return create_pulseaudio_device(device, format, channels, frequency, quality, aDocMetadata, aDocument);

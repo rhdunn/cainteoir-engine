@@ -89,17 +89,13 @@ static struct option options[] =
 
 void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showName)
 {
-	rql::results formats = rql::select(aMetadata,
-		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
-		          rql::matches(rql::object, aType)));
-
-	for (auto &format : formats)
+	for (auto &format : rql::select(aMetadata, rql::predicate == rdf::rdf("type") && rql::object == aType))
 	{
-		rql::results data = rql::select(aMetadata, rql::matches(rql::subject, rql::subject(format)));
-		std::string description = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::dc("description")));
+		rql::results data = rql::select(aMetadata, rql::subject == rql::subject(format));
+		std::string description = rql::select_value<std::string>(data, rql::predicate == rdf::dc("description"));
 		if (showName)
 		{
-			std::string name = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::tts("name")));
+			std::string name = rql::select_value<std::string>(data, rql::predicate == rdf::tts("name"));
 			fprintf(stdout, "            %-5s - %s\n", name.c_str(), description.c_str());
 		}
 		else
@@ -201,15 +197,11 @@ void status_line(double elapsed, double total, double progress, const char *stat
 
 const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predicate, const std::string &value)
 {
-	rql::results voices = rql::select(aMetadata,
-		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
-		          rql::matches(rql::object, rdf::tts("Voice"))));
-
-	for (auto &voice : voices)
+	for (auto &voice : rql::select(aMetadata,
+	                               rql::predicate == rdf::rdf("type") && rql::object == rdf::tts("Voice")))
 	{
 		const rdf::uri &uri = rql::subject(voice);
-		rql::results statements = rql::select(aMetadata, rql::matches(rql::subject, uri));
-		for (auto &statement : statements)
+		for (auto &statement : rql::select(aMetadata, rql::subject == uri))
 		{
 			if (rql::predicate(statement) == predicate && rql::value(statement) == value)
 				return &uri;
@@ -435,7 +427,7 @@ int main(int argc, char ** argv)
 		std::string author;
 		std::string title;
 
-		for (auto &query : rql::select(doc.m_metadata, rql::matches(rql::subject, doc.subject)))
+		for (auto &query : rql::select(doc.m_metadata, rql::subject == doc.subject))
 		{
 			if (rql::predicate(query).ns == rdf::dc || rql::predicate(query).ns == rdf::dcterms)
 			{
@@ -449,7 +441,7 @@ int main(int argc, char ** argv)
 				}
 				else
 				{
-					rql::results selection = rql::select(doc.m_metadata, rql::matches(rql::subject, object));
+					rql::results selection = rql::select(doc.m_metadata, rql::subject == object);
 
 					if (rql::predicate(query).ref == "creator")
 					{
