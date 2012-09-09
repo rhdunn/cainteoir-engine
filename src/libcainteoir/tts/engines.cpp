@@ -25,46 +25,11 @@
 #include <cainteoir/engines.hpp>
 #include <cainteoir/document.hpp>
 #include <cainteoir/audio.hpp>
+#include <cainteoir/stopwatch.hpp>
 #include "tts_engine.hpp"
 #include <stdexcept>
 
 static const int CHARACTERS_PER_WORD = 6;
-
-#define USE_GETTIMEOFDAY 1
-
-#if USE_GETTIMEOFDAY
-	#include <sys/time.h>
-
-	double timeofday()
-	{
-		timeval tv;
-		gettimeofday(&tv, nullptr);
-
-		return tv.tv_sec + (double(tv.tv_usec) / 1000000.0);
-	}
-
-	class stopwatch
-	{
-	public:
-		stopwatch() { mStart = timeofday(); }
-
-		double elapsed() const { return timeofday() - mStart; }
-	private:
-		double mStart;
-	};
-#else
-	#include <ctime>
-
-	class stopwatch
-	{
-	public:
-		stopwatch() { mStart = time(nullptr); }
-
-		double elapsed() const { return difftime(time(nullptr), mStart); }
-	private:
-		time_t mStart;
-	};
-#endif
 
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
@@ -88,9 +53,9 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	pthread_t threadId;
 	std::string mErrorMessage;
 
-	stopwatch mTimer;    /**< @brief The time taken to read the document. */
+	cainteoir::stopwatch mTimer; /**< @brief The time taken to read the document. */
 	double mElapsedTime; /**< @brief The amount of time elapsed since |mStartTime|. */
-	double mTotalTime;   /**< @brief The (estimated) total amount of time to read the document. */
+	double mTotalTime; /**< @brief The (estimated) total amount of time to read the document. */
 
 	double mCompleted; /**< @brief The percentage of the document read from the starting position. */
 	double mProgress;  /**< @brief The percentage of the document read from the beginning. */
