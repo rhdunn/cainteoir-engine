@@ -461,28 +461,12 @@ cainteoir::languages::languages()
 		printf("error: %s\n", e.what());
 	}
 
-	// This should construct the m_subtags map directly from the RDF metadata.
-	// However, with the current list-based implementation lookup of sublists
-	// (e.g. all statements with a specific subject) is slow when lookup is
-	// chained, especially for large statement sets like the subtag registry.
-	//
-	// This implementation performs a single pass over the data so the performance
-	// is O(n) where n is the number of statements, not O(n^2) or O(n^3).
-
-	std::map<std::string, std::pair<std::string, std::string>> mapping;
-	for (auto &lang : data)
+	for (auto &language : rql::select(data, rql::predicate == rdf::rdf("type")))
 	{
-		if (rql::predicate(lang) == rdf::rdf("value"))
-			mapping[rql::subject(lang).str()].first = rql::value(lang);
-		else if (rql::predicate(lang) == rdf::dcterms("title"))
-			mapping[rql::subject(lang).str()].second = rql::value(lang);
-	}
-
-	for (auto &lang : mapping)
-	{
-		const auto &entry = lang.second;
-		if (!entry.first.empty() && !entry.second.empty())
-			m_subtags[entry.first] = entry.second;
+		rql::results statements = rql::select(data, rql::subject == rql::subject(language));
+		auto id   = rql::select_value<std::string>(statements, rql::predicate == rdf::rdf("value"));
+		auto name = rql::select_value<std::string>(statements, rql::predicate == rdf::dcterms("title"));
+		m_subtags[id] = name;
 	}
 }
 
