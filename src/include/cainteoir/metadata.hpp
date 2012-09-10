@@ -358,9 +358,9 @@ namespace cainteoir { namespace rdf
 		namespace detail
 		{
 			template<typename Selector, typename Value>
-			class matches_t : public std::unary_function<bool, const std::shared_ptr<const rdf::triple> &>
+			struct matches_t
+				: public std::unary_function<bool, const std::shared_ptr<const rdf::triple> &>
 			{
-			public:
 				matches_t(const Selector &aSelector, const Value &aValue)
 					: selector(aSelector)
 					, value(aValue)
@@ -393,9 +393,9 @@ namespace cainteoir { namespace rdf
 		namespace detail
 		{
 			template<typename Selector1, typename Selector2>
-			class both_t : public std::unary_function< bool, const std::shared_ptr<const rdf::triple> & >
+			struct both_t
+				: public std::unary_function< bool, const std::shared_ptr<const rdf::triple> & >
 			{
-			public:
 				both_t(const Selector1 &s1, const Selector2 &s2)
 					: a(s1)
 					, b(s2)
@@ -423,41 +423,6 @@ namespace cainteoir { namespace rdf
 		detail::both_t<Selector1, Selector2> both(const Selector1 &a, const Selector2 &b)
 		{
 			return detail::both_t<Selector1, Selector2>(a, b);
-		}
-
-		namespace detail
-		{
-			template<typename Selector1, typename Selector2>
-			class either_t : public std::unary_function< bool, const std::shared_ptr<const rdf::triple> & >
-			{
-			public:
-				either_t(const Selector1 &s1, const Selector2 &s2)
-					: a(s1)
-					, b(s2)
-				{
-				}
-
-				bool operator()(const std::shared_ptr<const rdf::triple> &s) const
-				{
-					return a(s) || b(s);
-				}
-			private:
-				Selector1 a;
-				Selector2 b;
-			};
-		}
-
-		/** @brief Match statements that match either selector.
-		  *
-		  * @param a The first selector to match a statement against.
-		  * @param b The second selector to match a statement against.
-		  *
-		  * @return The selector functor.
-		  */
-		template<typename Selector1, typename Selector2>
-		detail::either_t<Selector1, Selector2> either(const Selector1 &a, const Selector2 &b)
-		{
-			return detail::either_t<Selector1, Selector2>(a, b);
 		}
 
 		/** @brief Select statements matching the selector.
@@ -566,16 +531,6 @@ namespace cainteoir { namespace rdf
 	{
 		return query::detail::both_t<query::detail::matches_t<Selector1, const rdf::uri &>,
 		                             query::detail::matches_t<Selector2, const rdf::uri &>>(a, b);
-	}
-
-	template<typename Selector1, typename Selector2>
-	inline query::detail::either_t<query::detail::matches_t<Selector1, const rdf::uri &>,
-	                               query::detail::matches_t<Selector2, const rdf::uri &>>
-	operator||(const query::detail::matches_t<Selector1, const rdf::uri &> &a,
-	           const query::detail::matches_t<Selector2, const rdf::uri &> &b)
-	{
-		return query::detail::either_t<query::detail::matches_t<Selector1, const rdf::uri &>,
-		                               query::detail::matches_t<Selector2, const rdf::uri &>>(a, b);
 	}
 
 	/** @brief RDF formatter (serialisation support)

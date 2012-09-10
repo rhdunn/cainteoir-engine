@@ -174,27 +174,6 @@ TEST_CASE("rql::both")
 	assert(!(rql::subject == rdf::dc("title")      && rql::predicate == rdf::rdf("range"))(g.back()));
 }
 
-TEST_CASE("rql::either")
-{
-	rdf::graph g;
-	assert(g.statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property")));
-
-	assert(rql::either(rql::matches(rql::subject, rdf::dc("title")),
-	                   rql::matches(rql::subject, rdf::dcterms("title")))(g.back()));
-	assert(rql::either(rql::matches(rql::subject, rdf::dcterms("title")),
-	                   rql::matches(rql::subject, rdf::dc("title")))(g.back()));
-
-	assert(!rql::either(rql::matches(rql::subject, rdf::dc("description")),
-	                    rql::matches(rql::subject, rdf::dc("date")))(g.back()));
-
-	// expression templates:
-
-	assert((rql::subject == rdf::dc("title")      || rql::subject == rdf::dcterms("title"))(g.back()));
-	assert((rql::subject == rdf::dcterms("title") || rql::subject == rdf::dc("title"))(g.back()));
-
-	assert(!(rql::subject == rdf::dc("description") || rql::subject == rdf::dc("date"))(g.back()));
-}
-
 TEST_CASE("rql::select(graph, selector, value)")
 {
 	rdfdoc dcterms("src/schema/dcterms.rdf");
