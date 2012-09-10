@@ -49,14 +49,6 @@ void match_(const rdf::literal &a, const rdf::literal &b, const char *ref, const
 
 #define match(a, b) match_(a, b, #a " == " #b, __FILE__, __LINE__)
 
-struct rdfdoc : public rdf::graph
-{
-	rdfdoc(const char *filename)
-	{
-		auto reader = cainteoir::createDocumentReader(filename, *this, std::string());
-	}
-};
-
 bool select_all(const std::shared_ptr<const rdf::triple> &aStatement)
 {
 	return true;
@@ -176,7 +168,8 @@ TEST_CASE("rql::both")
 
 TEST_CASE("rql::select(graph, selector, value)")
 {
-	rdfdoc dcterms("src/schema/dcterms.rdf");
+	rdf::graph dcterms;
+	auto reader = cainteoir::createDocumentReader("src/schema/dcterms.rdf", dcterms, std::string());
 	assert(dcterms.size() == 867);
 
 	rql::results all = rql::select(dcterms, select_all);
@@ -225,7 +218,8 @@ TEST_CASE("rql::select(graph, selector, value)")
 
 TEST_CASE("rql::contains")
 {
-	rdfdoc dcterms("src/schema/dcterms.rdf");
+	rdf::graph dcterms;
+	auto reader = cainteoir::createDocumentReader("src/schema/dcterms.rdf", dcterms, std::string());
 	assert(dcterms.size() == 867);
 
 	rql::results a = rql::select(dcterms, rql::subject == rdf::dcterms("title"));
@@ -241,7 +235,8 @@ TEST_CASE("rql::contains")
 
 TEST_CASE("rql::select_value")
 {
-	rdfdoc dcterms("src/schema/dcterms.rdf");
+	rdf::graph dcterms;
+	auto reader = cainteoir::createDocumentReader("src/schema/dcterms.rdf", dcterms, std::string());
 	assert(dcterms.size() == 867);
 
 	rql::results a = rql::select(dcterms, rql::subject == rdf::dcterms("title"));
@@ -268,7 +263,8 @@ TEST_CASE("performance")
 	// Load Time Performance
 
 	cainteoir::stopwatch load_time;
-	rdfdoc data("data/languages.rdf.gz");
+	rdf::graph data;
+	auto reader = cainteoir::createDocumentReader("data/languages.rdf.gz", data, std::string());
 
 	printf("... ... load time: %G\n", load_time.elapsed());
 	assert(data.size() == 35140);

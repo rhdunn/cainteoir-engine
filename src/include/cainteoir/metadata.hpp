@@ -278,8 +278,27 @@ namespace cainteoir { namespace rdf
 		}
 	}
 
-	typedef std::list< std::shared_ptr<const triple> >
-	        triplestore;
+	struct triplestore : public std::list<std::shared_ptr<const triple>>
+	{
+		typedef std::list<std::shared_ptr<const triple>> tripleset_t;
+
+		void push_back(const_reference item)
+		{
+			tripleset_t::push_back(item);
+			subjects[query::subject(item).str()].push_back(item);
+		}
+
+		const tripleset_t &subject(const rdf::uri &s) const
+		{
+			static const tripleset_t empty;
+			auto ret = subjects.find(s.str());
+			if (ret == subjects.end())
+				return empty;
+			return (*ret).second;
+		}
+	private:
+		std::map<std::string, tripleset_t> subjects;
+	};
 
 	/** @brief RDF graph
 	  */
@@ -300,6 +319,11 @@ namespace cainteoir { namespace rdf
 
 		const_reference front() const { return triples.front(); }
 		const_reference back()  const { return triples.back(); }
+
+		const triplestore::tripleset_t &subject(const rdf::uri &s) const
+		{
+			return triples.subject(s);
+		}
 
 		/** @name Namespaces */
 		//@{
@@ -353,7 +377,7 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		typedef rdf::triplestore results;
+		typedef std::list<std::shared_ptr<const triple>> results;
 
 		namespace detail
 		{
@@ -371,7 +395,7 @@ namespace cainteoir { namespace rdf
 				{
 					return selector(s) == value;
 				}
-			private:
+
 				Selector selector;
 				const Value &value;
 			};
@@ -406,7 +430,7 @@ namespace cainteoir { namespace rdf
 				{
 					return a(s) && b(s);
 				}
-			private:
+
 				Selector1 a;
 				Selector2 b;
 			};
@@ -442,6 +466,13 @@ namespace cainteoir { namespace rdf
 					ret.push_back(query);
 			}
 			return ret;
+		}
+
+		// Optimize selecting all triples for a given statement ...
+		inline results select(const graph &metadata,
+		                      const query::detail::matches_t<query::detail::subject_t, const rdf::uri &> &m)
+		{
+			return metadata.subject(m.value);
 		}
 
 		/** @brief Check if the graph contains any of the specified statements.
