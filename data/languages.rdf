@@ -3376,6 +3376,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Ajië</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ajn">
+	<rdf:value>ajn</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Andajin</dct:title>
+</iana:Language>
 <iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ajp">
 	<rdf:value>ajp</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -3705,7 +3710,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#amg">
 	<rdf:value>amg</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Amarag</dct:title>
+	<dct:title xml:lang="en">Amurdak</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ami">
 	<rdf:value>ami</rdf:value>
@@ -3860,7 +3865,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#anl">
 	<rdf:value>anl</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Anu</dct:title>
+	<dct:title xml:lang="en">Anu-Hkongso Chin</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#anm">
 	<rdf:value>anm</rdf:value>
@@ -4016,6 +4021,11 @@
 	<rdf:value>aot</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">A'tong</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#aou">
+	<rdf:value>aou</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">A'ou</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#aox">
 	<rdf:value>aox</rdf:value>
@@ -4790,6 +4800,11 @@
 	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#avl"/>
 	<iana:prefix>ar</iana:prefix>
 </iana:ExtLang>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#avm">
+	<rdf:value>avm</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Angkamuthi</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#avn">
 	<rdf:value>avn</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -4844,6 +4859,11 @@
 	<rdf:value>awe</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Awetí</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#awg">
+	<rdf:value>awg</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Anguthimri</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#awh">
 	<rdf:value>awh</rdf:value>
@@ -4919,6 +4939,11 @@
 	<rdf:value>axb</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Abipon</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#axe">
+	<rdf:value>axe</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Ayerrerenge</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#axg">
 	<rdf:value>axg</rdf:value>
@@ -5103,6 +5128,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Uto-Aztecan languages</dct:title>
 </iana:Collection>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#azd">
+	<rdf:value>azd</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Eastern Durango Nahuatl</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#azg">
 	<rdf:value>azg</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -5118,6 +5148,11 @@
 	<rdf:value>azm</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Ipalapa Amuzgo</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#azn">
+	<rdf:value>azn</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Western Durango Nahuatl</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#azo">
 	<rdf:value>azo</rdf:value>
@@ -5265,6 +5300,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#baz">
 	<rdf:value>baz</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see nvo, tvu</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Tunen</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bba">
@@ -5459,7 +5496,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bcl">
 	<rdf:value>bcl</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Central Bicolano</dct:title>
+	<dct:title xml:lang="en">Central Bikol</dct:title>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bik"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bcm">
@@ -6342,7 +6379,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bjd">
 	<rdf:value>bjd</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Bandjigali</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#drl"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bje">
 	<rdf:value>bje</rdf:value>
@@ -6650,7 +6689,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bln">
 	<rdf:value>bln</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Southern Catanduanes Bicolano</dct:title>
+	<dct:title xml:lang="en">Southern Catanduanes Bikol</dct:title>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bik"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#blo">
@@ -7012,6 +7051,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Boma</dct:title>
 </iana:Language>
+<iana:Variant rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bohoric">
+	<rdf:value>bohoric</rdf:value>
+	<iana:added>2012-06-27</iana:added>
+	<dct:description xml:lang="en">The subtag represents the alphabet codified by Adam Bohorič in 1584 and used from the first printed Slovene book and up to the mid- 19th century.</dct:description>
+	<dct:title xml:lang="en">Slovene in Bohorič alphabet</dct:title>
+	<iana:prefix>sl</iana:prefix>
+</iana:Variant>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#boi">
 	<rdf:value>boi</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -7324,7 +7370,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bqv">
 	<rdf:value>bqv</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Begbere-Ejar</dct:title>
+	<dct:title xml:lang="en">Koro Wachi</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bqw">
 	<rdf:value>bqw</rdf:value>
@@ -8387,6 +8433,7 @@
 	<rdf:value>bzc</rdf:value>
 	<iana:added>2011-08-16</iana:added>
 	<dct:title xml:lang="en">Southern Betsimisaraka Malagasy</dct:title>
+	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mg"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bzd">
 	<rdf:value>bzd</rdf:value>
@@ -8799,7 +8846,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ccq">
 	<rdf:value>ccq</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Chaungtha</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rki"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ccr">
 	<rdf:value>ccr</rdf:value>
@@ -8915,6 +8964,11 @@
 	<rdf:value>ceg</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Chamacoco</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cek">
+	<rdf:value>cek</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Eastern Khumi Chin</dct:title>
 </iana:Language>
 <iana:Collection rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cel">
 	<rdf:value>cel</rdf:value>
@@ -9221,7 +9275,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cka">
 	<rdf:value>cka</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Khumi Awa Chin</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cmr"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ckb">
 	<rdf:value>ckb</rdf:value>
@@ -9320,6 +9376,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Chakali</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#clj">
+	<rdf:value>clj</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Laitu Chin</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#clk">
 	<rdf:value>clk</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -9339,6 +9400,11 @@
 	<rdf:value>clo</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Lowland Oaxaca Chontal</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#clt">
+	<rdf:value>clt</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Lautu Chin</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#clu">
 	<rdf:value>clu</rdf:value>
@@ -9413,7 +9479,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cmr">
 	<rdf:value>cmr</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Mro Chin</dct:title>
+	<dct:title xml:lang="en">Mro-Khimi Chin</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cms">
 	<rdf:value>cms</rdf:value>
@@ -9946,6 +10012,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Central Sudanic languages</dct:title>
 </iana:Collection>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#csv">
+	<rdf:value>csv</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Sumtu Chin</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#csw">
 	<rdf:value>csw</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -9987,6 +10058,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Chittagonian</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cth">
+	<rdf:value>cth</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Thaiphum Chin</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ctl">
 	<rdf:value>ctl</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -10015,7 +10091,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cts">
 	<rdf:value>cts</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Northern Catanduanes Bicolano</dct:title>
+	<dct:title xml:lang="en">Northern Catanduanes Bikol</dct:title>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bik"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ctt">
@@ -10287,6 +10363,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Dar Fur Daju</dct:title>
 </iana:Language>
+<iana:Variant rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dajnko">
+	<rdf:value>dajnko</rdf:value>
+	<iana:added>2012-06-27</iana:added>
+	<dct:description xml:lang="en">The subtag represents the alphabet codified by Peter Dajnko and used from 1824 to 1839 mostly in Styria (in what is now Eastern Slovenia).</dct:description>
+	<dct:title xml:lang="en">Slovene in Dajnko alphabet</dct:title>
+	<iana:prefix>sl</iana:prefix>
+</iana:Variant>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dak">
 	<rdf:value>dak</rdf:value>
 	<iana:added>2005-10-16</iana:added>
@@ -10310,6 +10393,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dap">
 	<rdf:value>dap</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see njz, tgj</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Nisi (India)</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#daq">
@@ -10432,6 +10517,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Dabarre</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dbt">
+	<rdf:value>dbt</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Ben Tey Dogon</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dbu">
 	<rdf:value>dbu</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -10441,6 +10531,11 @@
 	<rdf:value>dbv</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Dungu</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dbw">
+	<rdf:value>dbw</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Bankan Tey Dogon</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dby">
 	<rdf:value>dby</rdf:value>
@@ -10456,6 +10551,11 @@
 	<rdf:value>dcr</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Negerhollands</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dda">
+	<rdf:value>dda</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Dadi Dadi</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ddd">
 	<rdf:value>ddd</rdf:value>
@@ -10491,6 +10591,11 @@
 	<rdf:value>ddo</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Dido</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ddr">
+	<rdf:value>ddr</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Dhudhuroa</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dds">
 	<rdf:value>dds</rdf:value>
@@ -10678,6 +10783,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Dagba</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dgl">
+	<rdf:value>dgl</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Andaandi</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dgn">
 	<rdf:value>dgn</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -10699,10 +10809,20 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Dogoso</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dgt">
+	<rdf:value>dgt</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Ndrag'ngith</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dgu">
 	<rdf:value>dgu</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Degaru</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dgw">
+	<rdf:value>dgw</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Daungwurrung</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dgx">
 	<rdf:value>dgx</rdf:value>
@@ -10906,6 +11026,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Ding</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dja">
+	<rdf:value>dja</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Djadjawurrung</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#djb">
 	<rdf:value>djb</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -11044,6 +11169,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Dimir</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dmd">
+	<rdf:value>dmd</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Madhi Madhi</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dme">
 	<rdf:value>dme</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -11077,7 +11207,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dmo">
 	<rdf:value>dmo</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Kemezung</dct:title>
+	<dct:title xml:lang="en">Kemedzung</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dmr">
 	<rdf:value>dmr</rdf:value>
@@ -11158,6 +11288,11 @@
 	<rdf:value>dnu</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Danau</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dnv">
+	<rdf:value>dnv</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Danu</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dnw">
 	<rdf:value>dnw</rdf:value>
@@ -11326,7 +11461,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#drl">
 	<rdf:value>drl</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Darling</dct:title>
+	<dct:title xml:lang="en">Paakantyi</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#drn">
 	<rdf:value>drn</rdf:value>
@@ -11435,6 +11570,11 @@
 	<iana:added>2011-08-16</iana:added>
 	<dct:title xml:lang="en">Ditidaht</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dth">
+	<rdf:value>dth</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Adithinngithigh</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dti">
 	<rdf:value>dti</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -11449,6 +11589,11 @@
 	<rdf:value>dtm</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Tomo Kan Dogon</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dto">
+	<rdf:value>dto</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Tommo So Dogon</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dtp">
 	<rdf:value>dtp</rdf:value>
@@ -11474,6 +11619,12 @@
 	<rdf:value>dtu</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Tebul Ure Dogon</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dty">
+	<rdf:value>dty</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Dotyali</dct:title>
+	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ne"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dua">
 	<rdf:value>dua</rdf:value>
@@ -11622,6 +11773,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dwl">
 	<rdf:value>dwl</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see dbt, dbw</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Walo Kumbe Dogon</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dwr">
@@ -11867,7 +12020,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ekl">
 	<rdf:value>ekl</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Kol</dct:title>
+	<dct:title xml:lang="en">Kol (Bangladesh)</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ekm">
 	<rdf:value>ekm</rdf:value>
@@ -11933,6 +12086,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#elp">
 	<rdf:value>elp</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see amq, plh</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Elpaputih</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#elu">
@@ -12572,6 +12727,11 @@
 	<dct:title xml:lang="en">Fijian</dct:title>
 	<iana:suppress-script rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#fkk">
+	<rdf:value>fkk</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Kirya-Konzəl</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#fkv">
 	<rdf:value>fkv</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -13043,6 +13203,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbc">
 	<rdf:value>gbc</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see wny, wrk</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Garawa</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbd">
@@ -13284,6 +13446,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Wipi</dct:title>
 </iana:Language>
+<iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gds">
+	<rdf:value>gds</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Ghandruk Sign Language</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gds"/>
+	<iana:prefix>sgn</iana:prefix>
+</iana:ExtLang>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gdu">
 	<rdf:value>gdu</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -13389,6 +13558,11 @@
 	<rdf:value>gft</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Gafat</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gfx">
+	<rdf:value>gfx</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Mangetti Dune !Xung</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gga">
 	<rdf:value>gga</rdf:value>
@@ -13509,7 +13683,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ght">
 	<rdf:value>ght</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Kutang Ghale</dct:title>
+	<dct:title xml:lang="en">Kuke</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gia">
 	<rdf:value>gia</rdf:value>
@@ -13554,6 +13728,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gio">
 	<rdf:value>gio</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see aou, gqu</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Gelao</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gip">
@@ -13580,6 +13756,11 @@
 	<rdf:value>git</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Gitxsan</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#giu">
+	<rdf:value>giu</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Mulao</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#giw">
 	<rdf:value>giw</rdf:value>
@@ -13636,6 +13817,11 @@
 	<rdf:value>gkn</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Gokana</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gko">
+	<rdf:value>gko</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Kok-Nar</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gkp">
 	<rdf:value>gkp</rdf:value>
@@ -14011,6 +14197,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Gupa-Abawa</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gpe">
+	<rdf:value>gpe</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Ghanaian Pidgin English</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gpn">
 	<rdf:value>gpn</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -14035,6 +14226,11 @@
 	<rdf:value>gqr</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Gor</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gqu">
+	<rdf:value>gqu</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Qau</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gra">
 	<rdf:value>gra</rdf:value>
@@ -14455,6 +14651,11 @@
 	<rdf:value>gwj</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">/Gwi</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gwm">
+	<rdf:value>gwm</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Awngthim</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gwn">
 	<rdf:value>gwn</rdf:value>
@@ -14970,7 +15171,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#hlt">
 	<rdf:value>hlt</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Nga La</dct:title>
+	<dct:title xml:lang="en">Matu Chin</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#hlu">
 	<rdf:value>hlu</rdf:value>
@@ -15334,7 +15535,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#hrr">
 	<rdf:value>hrr</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Horuru</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#jal"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#hrt">
 	<rdf:value>hrt</rdf:value>
@@ -15746,7 +15949,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ibi">
 	<rdf:value>ibi</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Ibilo</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#opa"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ibl">
 	<rdf:value>ibl</rdf:value>
@@ -15968,6 +16173,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Iha</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ihw">
+	<rdf:value>ihw</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Bidhawal</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ii">
 	<rdf:value>ii</rdf:value>
 	<iana:added>2005-10-16</iana:added>
@@ -16047,7 +16257,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ikt">
 	<rdf:value>ikt</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Western Canadian Inuktitut</dct:title>
+	<dct:title xml:lang="en">Inuinnaqtun</dct:title>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#iu"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ikv">
@@ -16681,6 +16891,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Jamaican Creole English</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jan">
+	<rdf:value>jan</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Jandai</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jao">
 	<rdf:value>jao</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -16694,6 +16909,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jar">
 	<rdf:value>jar</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see jgk, jjr</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Jarawa (Nigeria)</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jas">
@@ -16747,6 +16964,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Arandai</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jbk">
+	<rdf:value>jbk</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Barikewa</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jbn">
 	<rdf:value>jbn</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -16771,6 +16993,11 @@
 	<rdf:value>jbu</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Jukun Takum</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jbw">
+	<rdf:value>jbw</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Yawijibaya</dct:title>
 </iana:Language>
 <iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jcs">
 	<rdf:value>jcs</rdf:value>
@@ -16864,6 +17091,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Judeo-Georgian</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jgk">
+	<rdf:value>jgk</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Gwak</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jgo">
 	<rdf:value>jgo</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -16921,7 +17153,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jih">
 	<rdf:value>jih</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Shangzhai</dct:title>
+	<dct:title xml:lang="en">sTodsde</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jii">
 	<rdf:value>jii</rdf:value>
@@ -16968,10 +17200,30 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Buyuan Jinuo</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jjr">
+	<rdf:value>jjr</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Bankal</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jkm">
+	<rdf:value>jkm</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Mobwa Karen</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jko">
 	<rdf:value>jko</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Kubo</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jkp">
+	<rdf:value>jkp</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Paku Karen</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jkr">
+	<rdf:value>jkr</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Koro (India)</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jku">
 	<rdf:value>jku</rdf:value>
@@ -17034,6 +17286,11 @@
 	<rdf:value>jms</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Mashi (Nigeria)</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jmw">
+	<rdf:value>jmw</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Mouwase</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jmx">
 	<rdf:value>jmx</rdf:value>
@@ -17179,6 +17436,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Hõne</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jui">
+	<rdf:value>jui</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Ngadjuri</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#juk">
 	<rdf:value>juk</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -17316,7 +17578,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kad">
 	<rdf:value>kad</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Kadara</dct:title>
+	<dct:title xml:lang="en">Adara</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kae">
 	<rdf:value>kae</rdf:value>
@@ -17757,6 +18019,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kdv">
 	<rdf:value>kdv</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see zkd, zkn</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Kado</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kdw">
@@ -18082,7 +18346,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kgh">
 	<rdf:value>kgh</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Upper Tanudan Kalinga</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kml"/>
 </iana:Language>
 <iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kgi">
 	<rdf:value>kgi</rdf:value>
@@ -18886,7 +19152,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kml">
 	<rdf:value>kml</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Lower Tanudan Kalinga</dct:title>
+	<dct:title xml:lang="en">Tanudan Kalinga</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kmm">
 	<rdf:value>kmm</rdf:value>
@@ -19291,6 +19557,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kpp">
 	<rdf:value>kpp</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see jkm, jkp</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Paku Karen</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kpq">
@@ -19620,6 +19888,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Southern Kalinga</dct:title>
 </iana:Language>
+<iana:Variant rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kscor">
+	<rdf:value>kscor</rdf:value>
+	<iana:added>2012-06-27</iana:added>
+	<dct:title xml:lang="en">Standard Cornish orthography of Revived Cornish</dct:title>
+	<iana:prefix>kw</iana:prefix>
+</iana:Variant>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ksd">
 	<rdf:value>ksd</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -20058,7 +20332,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kvl">
 	<rdf:value>kvl</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Brek Karen</dct:title>
+	<dct:title xml:lang="en">Kayaw</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kvm">
 	<rdf:value>kvm</rdf:value>
@@ -20570,6 +20844,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kzh">
 	<rdf:value>kzh</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see dgl, xnz</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Kenuzi-Dongola</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kzi">
@@ -20870,7 +21146,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lbr">
 	<rdf:value>lbr</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Northern Lorung</dct:title>
+	<dct:title xml:lang="en">Lohorung</dct:title>
 </iana:Language>
 <iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lbs">
 	<rdf:value>lbs</rdf:value>
@@ -20963,7 +21239,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lcq">
 	<rdf:value>lcq</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Luhu</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ppr"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lcs">
 	<rdf:value>lcs</rdf:value>
@@ -20973,7 +21251,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ldb">
 	<rdf:value>ldb</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Idun</dct:title>
+	<dct:title xml:lang="en">Dũya</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ldd">
 	<rdf:value>ldd</rdf:value>
@@ -21574,6 +21852,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Teke-Laali</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#llj">
+	<rdf:value>llj</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Ladji Ladji</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#llk">
 	<rdf:value>llk</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -21946,7 +22229,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#loy">
 	<rdf:value>loy</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Lowa</dct:title>
+	<dct:title xml:lang="en">Loke</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#loz">
 	<rdf:value>loz</rdf:value>
@@ -22033,7 +22316,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lrr">
 	<rdf:value>lrr</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Southern Lorung</dct:title>
+	<dct:title xml:lang="en">Southern Yamphu</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lrt">
 	<rdf:value>lrt</rdf:value>
@@ -22908,7 +23191,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#meb">
 	<rdf:value>meb</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Ikobi-Mena</dct:title>
+	<dct:title xml:lang="en">Ikobi</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mec">
 	<rdf:value>mec</rdf:value>
@@ -23004,6 +23287,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Mato</dct:title>
 </iana:Language>
+<iana:Variant rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#metelko">
+	<rdf:value>metelko</rdf:value>
+	<iana:added>2012-06-27</iana:added>
+	<dct:description xml:lang="en">The subtag represents the alphabet codified by Franc Serafin Metelko and used from 1825 to 1833.</dct:description>
+	<dct:title xml:lang="en">Slovene in Metelko alphabet</dct:title>
+	<iana:prefix>sl</iana:prefix>
+</iana:Variant>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#meu">
 	<rdf:value>meu</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -23206,7 +23496,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mgg">
 	<rdf:value>mgg</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Mpongmpong</dct:title>
+	<dct:title xml:lang="en">Mpumpong</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mgh">
 	<rdf:value>mgh</rdf:value>
@@ -23291,6 +23581,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mgx">
 	<rdf:value>mgx</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see jbk, jmw</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Omati</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mgy">
@@ -24462,7 +24754,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mpx">
 	<rdf:value>mpx</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Misima-Paneati</dct:title>
+	<dct:title xml:lang="en">Misima-Panaeati</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mpy">
 	<rdf:value>mpy</rdf:value>
@@ -24600,7 +24892,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mqz">
 	<rdf:value>mqz</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Malasanga</dct:title>
+	<dct:title xml:lang="en">Pano</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mr">
 	<rdf:value>mr</rdf:value>
@@ -25170,7 +25462,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mvh">
 	<rdf:value>mvh</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Mire</dct:title>
+	<dct:title xml:lang="en">Mulgi</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mvi">
 	<rdf:value>mvi</rdf:value>
@@ -25853,7 +26145,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nam">
 	<rdf:value>nam</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Nangikurrunggurr</dct:title>
+	<dct:title xml:lang="en">Ngan'gityemerri</dct:title>
 </iana:Language>
 <iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nan">
 	<rdf:value>nan</rdf:value>
@@ -26290,12 +26582,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Ndogo</dct:title>
 </iana:Language>
-<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ne">
+<iana:MacroLanguage rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ne">
 	<rdf:value>ne</rdf:value>
 	<iana:added>2005-10-16</iana:added>
 	<dct:title xml:lang="en">Nepali</dct:title>
 	<iana:suppress-script rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
-</iana:Language>
+</iana:MacroLanguage>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nea">
 	<rdf:value>nea</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -26391,6 +26683,11 @@
 	<rdf:value>net</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Nete</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#neu">
+	<rdf:value>neu</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Neo</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nev">
 	<rdf:value>nev</rdf:value>
@@ -26535,7 +26832,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ngr">
 	<rdf:value>ngr</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Nanggu</dct:title>
+	<dct:title xml:lang="en">Engdewu</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ngs">
 	<rdf:value>ngs</rdf:value>
@@ -26907,6 +27204,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Njyem</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#njz">
+	<rdf:value>njz</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Nyishi</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nka">
 	<rdf:value>nka</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -27077,6 +27379,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nln">
 	<rdf:value>nln</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see azd, azn</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Durango Nahuatl</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nlo">
@@ -27142,7 +27446,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nmf">
 	<rdf:value>nmf</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Tangkhul Naga</dct:title>
+	<dct:description xml:lang="en">see ntx</dct:description>
+	<dct:title xml:lang="en">Tangkhul Naga (India)</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nmg">
 	<rdf:value>nmg</rdf:value>
@@ -27518,10 +27823,21 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Nupbikha</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#npg">
+	<rdf:value>npg</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Ponyo-Gongwang Naga</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nph">
 	<rdf:value>nph</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Phom Naga</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#npi">
+	<rdf:value>npi</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Nepali (individual language)</dct:title>
+	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ne"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#npl">
 	<rdf:value>npl</rdf:value>
@@ -27578,6 +27894,11 @@
 	<iana:added>2006-06-05</iana:added>
 	<dct:title xml:lang="en">N'Ko</dct:title>
 	<iana:suppress-script rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Nkoo"/>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nqy">
+	<rdf:value>nqy</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Akyaung Ari Naga</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nr">
 	<rdf:value>nr</rdf:value>
@@ -27679,6 +28000,11 @@
 	<rdf:value>nse</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Nsenga</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nsf">
+	<rdf:value>nsf</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Northwestern Nisu</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nsg">
 	<rdf:value>nsg</rdf:value>
@@ -27838,6 +28164,12 @@
 	<rdf:value>ntw</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Nottoway</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ntx">
+	<rdf:value>ntx</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:description xml:lang="en">see nmf</dct:description>
+	<dct:title xml:lang="en">Tangkhul Naga (Myanmar)</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nty">
 	<rdf:value>nty</rdf:value>
@@ -28000,6 +28332,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Namiae</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nvo">
+	<rdf:value>nvo</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Nyokon</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nwa">
 	<rdf:value>nwa</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -28020,6 +28357,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Ngwe</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nwg">
+	<rdf:value>nwg</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Ngayawung</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nwi">
 	<rdf:value>nwi</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -28029,6 +28371,11 @@
 	<rdf:value>nwm</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Nyamusa-Molo</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nwo">
+	<rdf:value>nwo</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Nauo</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nwr">
 	<rdf:value>nwr</rdf:value>
@@ -28069,6 +28416,11 @@
 	<rdf:value>nxi</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Nindi</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nxk">
+	<rdf:value>nxk</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Koki Naga</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nxl">
 	<rdf:value>nxl</rdf:value>
@@ -28515,6 +28867,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Okpe (Southwestern Edo)</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#okg">
+	<rdf:value>okg</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Koko Babangk</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#okh">
 	<rdf:value>okh</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -28844,12 +29201,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Ofayé</dct:title>
 </iana:Language>
-<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#or">
+<iana:MacroLanguage rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#or">
 	<rdf:value>or</rdf:value>
 	<iana:added>2005-10-16</iana:added>
 	<dct:title xml:lang="en">Oriya</dct:title>
 	<iana:suppress-script rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Orya"/>
-</iana:Language>
+</iana:MacroLanguage>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ora">
 	<rdf:value>ora</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -28926,6 +29283,12 @@
 	<rdf:value>orx</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Oro</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ory">
+	<rdf:value>ory</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Oriya (individual language)</dct:title>
+	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#or"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#orz">
 	<rdf:value>orz</rdf:value>
@@ -29368,6 +29731,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pbz">
 	<rdf:value>pbz</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Palu</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pca">
@@ -29662,6 +30026,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pgy">
 	<rdf:value>pgy</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Pongyong</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pha">
@@ -30081,6 +30446,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Palumata</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pmd">
+	<rdf:value>pmd</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Pallanganmiddang</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pme">
 	<rdf:value>pme</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -30212,6 +30582,11 @@
 	<rdf:value>pni</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Aoheng</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pnk">
+	<rdf:value>pnk</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Paunaka</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pnm">
 	<rdf:value>pnm</rdf:value>
@@ -31471,6 +31846,11 @@
 	<dct:title xml:lang="en">Miraya Bikol</dct:title>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bik"/>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rbp">
+	<rdf:value>rbp</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Barababaraba</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rcf">
 	<rdf:value>rcf</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -31865,6 +32245,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Rongpo</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rnr">
+	<rdf:value>rnr</rdf:value>
+	<iana:added>2012-08-20</iana:added>
+	<dct:title xml:lang="en">Nari Nari</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rnw">
 	<rdf:value>rnw</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -31972,6 +32357,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Waima</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rrt">
+	<rdf:value>rrt</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Arritinngithigh</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rsb">
 	<rdf:value>rsb</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -31991,6 +32381,11 @@
 	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rsl"/>
 	<iana:prefix>sgn</iana:prefix>
 </iana:ExtLang>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rtc">
+	<rdf:value>rtc</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Rungtu Chin</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rth">
 	<rdf:value>rth</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -32404,7 +32799,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sca">
 	<rdf:value>sca</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Sansu</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#hle"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#scb">
 	<rdf:value>scb</rdf:value>
@@ -32757,6 +33154,11 @@
 	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sfb"/>
 	<iana:prefix>sgn</iana:prefix>
 </iana:ExtLang>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sfe">
+	<rdf:value>sfe</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Eastern Subanen</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sfm">
 	<rdf:value>sfm</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -32823,6 +33225,11 @@
 	<rdf:value>sgi</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Suga</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sgj">
+	<rdf:value>sgj</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Surgujia</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sgk">
 	<rdf:value>sgk</rdf:value>
@@ -33411,7 +33818,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#skc">
 	<rdf:value>skc</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Sauk</dct:title>
+	<dct:title xml:lang="en">Ma Manda</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#skd">
 	<rdf:value>skd</rdf:value>
@@ -33457,7 +33864,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#skm">
 	<rdf:value>skm</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Sakam</dct:title>
+	<dct:title xml:lang="en">Kutong</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#skn">
 	<rdf:value>skn</rdf:value>
@@ -34017,7 +34424,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sox">
 	<rdf:value>sox</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">So (Cameroon)</dct:title>
+	<dct:title xml:lang="en">Swo</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#soy">
 	<rdf:value>soy</rdf:value>
@@ -34072,7 +34479,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#spm">
 	<rdf:value>spm</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Sepen</dct:title>
+	<dct:title xml:lang="en">Akukem</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#spo">
 	<rdf:value>spo</rdf:value>
@@ -34109,6 +34516,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Sapuan</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#spv">
+	<rdf:value>spv</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Sambalpuri</dct:title>
+	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#or"/>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#spx">
 	<rdf:value>spx</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -34141,6 +34554,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Albanian languages</dct:title>
 </iana:Collection>
+<iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sqk">
+	<rdf:value>sqk</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Albanian Sign Language</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sqk"/>
+	<iana:prefix>sgn</iana:prefix>
+</iana:ExtLang>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sqm">
 	<rdf:value>sqm</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -34673,7 +35093,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#suv">
 	<rdf:value>suv</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Sulung</dct:title>
+	<dct:title xml:lang="en">Puroik</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#suw">
 	<rdf:value>suw</rdf:value>
@@ -35753,6 +36173,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Lawunuia</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tgj">
+	<rdf:value>tgj</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Tagin</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tgn">
 	<rdf:value>tgn</rdf:value>
 	<iana:added>2010-03-11</iana:added>
@@ -35812,6 +36237,11 @@
 	<rdf:value>tgy</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Togoyo</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tgz">
+	<rdf:value>tgz</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Tagalaka</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#th">
 	<rdf:value>th</rdf:value>
@@ -36069,6 +36499,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Northern Tujia</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tjl">
+	<rdf:value>tjl</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Tai Laing</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tjm">
 	<rdf:value>tjm</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -36128,6 +36563,7 @@
 	<rdf:value>tkg</rdf:value>
 	<iana:added>2011-08-16</iana:added>
 	<dct:title xml:lang="en">Tesaka Malagasy</dct:title>
+	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mg"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tkk">
 	<rdf:value>tkk</rdf:value>
@@ -36311,7 +36747,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tlw">
 	<rdf:value>tlw</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">South Wemale</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#weo"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tlx">
 	<rdf:value>tlx</rdf:value>
@@ -37442,6 +37880,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Tutsa Naga</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tvu">
+	<rdf:value>tvu</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Tunen</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tvw">
 	<rdf:value>tvw</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -37988,6 +38431,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Ukwuani-Aboh-Ndoni</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#uky">
+	<rdf:value>uky</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Kuuk-Yak</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ula">
 	<rdf:value>ula</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -38149,6 +38597,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#unp">
 	<rdf:value>unp</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see wro, xgu</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Worora</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#unr">
@@ -39225,7 +39675,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#weo">
 	<rdf:value>weo</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">North Wemale</dct:title>
+	<dct:title xml:lang="en">Wemale</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wep">
 	<rdf:value>wep</rdf:value>
@@ -39250,7 +39700,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#weu">
 	<rdf:value>weu</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Welaung</dct:title>
+	<dct:title xml:lang="en">Rawngtu Chin</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wew">
 	<rdf:value>wew</rdf:value>
@@ -39286,6 +39736,11 @@
 	<rdf:value>wgo</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Waigeo</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wgu">
+	<rdf:value>wgu</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Wirangu</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wgw">
 	<rdf:value>wgw</rdf:value>
@@ -39397,11 +39852,13 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wiv">
 	<rdf:value>wiv</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Muduapa</dct:title>
+	<dct:title xml:lang="en">Vitu</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wiw">
 	<rdf:value>wiw</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see nwo, wgu</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Wirangu</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wiy">
@@ -39654,6 +40111,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Usan</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wny">
+	<rdf:value>wny</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Wanyi</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wo">
 	<rdf:value>wo</rdf:value>
 	<iana:added>2005-10-16</iana:added>
@@ -39774,6 +40236,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Wariyangga</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wrk">
+	<rdf:value>wrk</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Garrwa</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wrl">
 	<rdf:value>wrl</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -39788,6 +40255,11 @@
 	<rdf:value>wrn</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Warnang</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wro">
+	<rdf:value>wro</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Worrorra</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wrp">
 	<rdf:value>wrp</rdf:value>
@@ -39967,6 +40439,11 @@
 	<rdf:value>wwa</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Waama</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wwb">
+	<rdf:value>wwb</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Wakabunga</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wwo">
 	<rdf:value>wwo</rdf:value>
@@ -40313,6 +40790,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Galatian</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xgb">
+	<rdf:value>xgb</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Gbin</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xgf">
 	<rdf:value>xgf</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -40332,6 +40814,11 @@
 	<rdf:value>xgr</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Garza</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xgu">
+	<rdf:value>xgu</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Unggumi</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xh">
 	<rdf:value>xh</rdf:value>
@@ -40802,6 +41289,11 @@
 	<iana:added>2010-03-11</iana:added>
 	<dct:title xml:lang="en">Narragansett</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xnz">
+	<rdf:value>xnz</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Kenzi</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xoc">
 	<rdf:value>xoc</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -40877,6 +41369,11 @@
 	<rdf:value>xpi</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Pictish</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xpj">
+	<rdf:value>xpj</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Mpalitjanh</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xpk">
 	<rdf:value>xpk</rdf:value>
@@ -40996,7 +41493,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xsb">
 	<rdf:value>xsb</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Tinà Sambal</dct:title>
+	<dct:title xml:lang="en">Sambal</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xsc">
 	<rdf:value>xsc</rdf:value>
@@ -41199,6 +41696,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Betta Kurumba</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xud">
+	<rdf:value>xud</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Umiida</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xug">
 	<rdf:value>xug</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -41213,6 +41715,11 @@
 	<rdf:value>xum</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Umbrian</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xun">
+	<rdf:value>xun</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Unggarranggu</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xuo">
 	<rdf:value>xuo</rdf:value>
@@ -41323,6 +41830,11 @@
 	<rdf:value>xyl</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Yalakalore</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xyy">
+	<rdf:value>xyy</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Yorta Yorta</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xzh">
 	<rdf:value>xzh</rdf:value>
@@ -41482,7 +41994,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ybd">
 	<rdf:value>ybd</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Yangbye</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rki"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ybe">
 	<rdf:value>ybe</rdf:value>
@@ -41620,6 +42134,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yen">
 	<rdf:value>yen</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<dct:description xml:lang="en">see ynq, yot</dct:description>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Yendang</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yer">
@@ -41630,7 +42146,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yes">
 	<rdf:value>yes</rdf:value>
 	<iana:added>2009-07-29</iana:added>
-	<dct:title xml:lang="en">Yeskwa</dct:title>
+	<dct:title xml:lang="en">Nyankpa</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yet">
 	<rdf:value>yet</rdf:value>
@@ -41651,6 +42167,11 @@
 	<rdf:value>yey</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Yeyi</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yga">
+	<rdf:value>yga</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Malyangapa</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ygl">
 	<rdf:value>ygl</rdf:value>
@@ -41835,6 +42356,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Kap</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ykn">
+	<rdf:value>ykn</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Kua-nsi</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yko">
 	<rdf:value>yko</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -41849,6 +42375,11 @@
 	<rdf:value>ykt</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Kathu</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yku">
+	<rdf:value>yku</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Kuamasi</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yky">
 	<rdf:value>yky</rdf:value>
@@ -41918,7 +42449,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yma">
 	<rdf:value>yma</rdf:value>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2012-08-12</iana:deprecated>
 	<dct:title xml:lang="en">Yamphe</dct:title>
+	<iana:preferred-value rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lrr"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ymb">
 	<rdf:value>ymb</rdf:value>
@@ -42060,6 +42593,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Yong</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ynq">
+	<rdf:value>ynq</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Yendang</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yns">
 	<rdf:value>yns</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -42114,6 +42652,11 @@
 	<rdf:value>yos</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Yos</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yot">
+	<rdf:value>yot</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Yotti</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yox">
 	<rdf:value>yox</rdf:value>
@@ -42229,6 +42772,11 @@
 	<rdf:value>ysd</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Samatao</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ysg">
+	<rdf:value>ysg</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Sonaga</dct:title>
 </iana:Language>
 <iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ysl">
 	<rdf:value>ysl</rdf:value>
@@ -42450,6 +42998,16 @@
 	<rdf:value>yww</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Yawarawarga</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yxg">
+	<rdf:value>yxg</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Yagara</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yxy">
+	<rdf:value>yxy</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Yabula Yabula</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yyu">
 	<rdf:value>yyu</rdf:value>
@@ -42938,6 +43496,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Koibal</dct:title>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#zkd">
+	<rdf:value>zkd</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Kadu</dct:title>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#zkg">
 	<rdf:value>zkg</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -42952,6 +43515,11 @@
 	<rdf:value>zkk</rdf:value>
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Karankawa</dct:title>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#zkn">
+	<rdf:value>zkn</rdf:value>
+	<iana:added>2012-08-12</iana:added>
+	<dct:title xml:lang="en">Kanan</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#zko">
 	<rdf:value>zko</rdf:value>

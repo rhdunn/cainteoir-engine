@@ -267,7 +267,7 @@ TEST_CASE("performance")
 	auto reader = cainteoir::createDocumentReader("data/languages.rdf.gz", data, std::string());
 
 	printf("... ... load time: %G\n", load_time.elapsed());
-	assert(data.size() == 35140);
+	assert(data.size() == 35609);
 
 	// Select Performance
 
@@ -277,7 +277,7 @@ TEST_CASE("performance")
 	                                     rql::object    == rdf::iana("Language"));
 
 	printf("... ... select(_, predicate, object) as languages time: %G\n", select1_time.elapsed());
-	assert(languages.size() == 7450);
+	assert(languages.size() == 7541);
 
 	// Select Performance : Subject
 	//
