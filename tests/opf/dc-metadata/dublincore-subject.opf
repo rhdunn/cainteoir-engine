@@ -31,6 +31,15 @@
 			<dc:subject xml:lang="en">testcase-en</dc:subject>
 			<dc:subject xml:lang="en-GB">testcase-uk</dc:subject>
 			<dc:subject xml:lang="zh-TW">testcase-tw</dc:subject>
+			<!-- from Gutenberg.org's "A Study in Scarlet": -->
+			<dc:subject>Holmes, Sherlock (Fictitious character) -- Fiction</dc:subject>
+			<dc:subject>Private investigators -- England -- Fiction</dc:subject>
+			<dc:subject>Detective and mystery stories</dc:subject>
+			<dc:subject>England -- Fiction</dc:subject>
+			<!-- multi-subject entry: -->
+			<dc:subject>one, two</dc:subject>
+			<dc:subject>,, three, four five , ,six </dc:subject>
+			<dc:subject> seven, eight-nine, ten</dc:subject>
 		</dc-metadata>
 	</metadata>
 	<manifest>

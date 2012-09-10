@@ -352,6 +352,37 @@ void parseOpfDublinCore(xml::reader &reader, const rdf::uri &aSubject, rdf::grap
 				aGraph.statement(temp, rdf::opf("scheme"), rdf::literal(scheme));
 				return;
 			}
+			else if (reader.context() == &dc::subject_node)
+			{
+				std::string::size_type comma   = value.find(',');
+				std::string::size_type divider = value.find(" -- ");
+				if (comma != std::string::npos && divider == std::string::npos)
+				{
+					std::string::const_iterator a = value.begin();
+					std::string::const_iterator b = value.begin();
+					while (a != value.end())
+					{
+						a = b;
+						while (a != value.end() && (*a == ',' || *a == ' '))
+							++a;
+
+						b = a;
+						while (b != value.end() && *b != ',')
+							++b;
+
+						if (b != value.end())
+						{
+							while (b != a && (*b == ',' || *b == ' '))
+								--b;
+							++b;
+						}
+
+						if (a != b)
+							aGraph.statement(aSubject, predicate, rdf::literal(std::string(a, b), lang));
+					}
+					return;
+				}
+			}
 			aGraph.statement(aSubject, predicate, rdf::literal(value, lang));
 			return;
 		}
