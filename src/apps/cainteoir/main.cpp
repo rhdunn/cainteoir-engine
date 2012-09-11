@@ -384,6 +384,7 @@ int main(int argc, char ** argv)
 				<< rdf::foaf
 				<< rdf::tts
 				<< rdf::iana
+				<< rdf::subtag
 				<< doc.m_metadata;
 			return 0;
 		}

@@ -120,7 +120,9 @@ namespace cainteoir { namespace rdf
 	extern const ns skos;    /**< @brief SKOS namespace. */
 	extern const ns foaf;    /**< @brief Friend of a Friend (FOAF) namespace. */
 	extern const ns tts;     /**< @brief Cainteoir Text-to-Speech RDF namespace. */
-	extern const ns iana;    /**< @brief IANA Language Tag RDF namespace. */
+
+	extern const ns iana;    /**< @brief IANA Language Subtag Repository RDF schema namespace. */
+	extern const ns subtag;  /**< @brief IANA Language Subtag Repository RDF namespace. */
 
 	/** @brief RDF literal node
 	  */
