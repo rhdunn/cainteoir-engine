@@ -383,6 +383,7 @@ int main(int argc, char ** argv)
 				<< rdf::skos
 				<< rdf::foaf
 				<< rdf::tts
+				<< rdf::iana
 				<< doc.m_metadata;
 			return 0;
 		}
