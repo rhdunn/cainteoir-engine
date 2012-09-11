@@ -53,6 +53,58 @@ static std::string capitalize(std::string s)
 	return s;
 }
 
+struct LanguageData
+{
+	LanguageData();
+
+	std::map<std::string, std::string> subtags;
+};
+
+LanguageData::LanguageData()
+{
+	rdf::graph data;
+	try
+	{
+		const char *datadir = getenv("CAINTEOIR_DATA_DIR");
+		if (!datadir)
+			datadir = DATADIR "/" PACKAGE;
+
+		const std::string filename = datadir + std::string("/languages.rdf.gz");
+		printf("loading language data from %s\n", filename.c_str());
+
+		auto reader = cainteoir::createDocumentReader(filename.c_str(), data, std::string());
+	}
+	catch (const std::exception & e)
+	{
+		printf("error: %s\n", e.what());
+	}
+
+	for (auto &language : rql::select(data, rql::predicate == rdf::rdf("type")))
+	{
+		rql::results statements = rql::select(data, rql::subject == rql::subject(language));
+		auto id   = rql::select_value<std::string>(statements, rql::predicate == rdf::rdf("value"));
+		auto name = rql::select_value<std::string>(statements, rql::predicate == rdf::dcterms("title"));
+		subtags[id] = name;
+	}
+}
+
+LanguageData *language_data()
+{
+	static std::shared_ptr<LanguageData> data;
+	if (!data.get())
+		data = std::make_shared<LanguageData>();
+	return data.get();
+}
+
+static const char *localize_subtag(const char *iso_codes, const std::string &id)
+{
+	auto data = language_data();
+	auto entry = data->subtags.find(id);
+	if (entry == data->subtags.end())
+		return id.c_str();
+	return dgettext(iso_codes, entry->second.c_str());
+}
+
 std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
 	{ "art-lojban",  { "jbo" } },
 	{ "be@latin",    { "be", "", "Latn" } },
@@ -444,57 +496,21 @@ bool lang::operator==(const tag &a, const tag &b)
 	return a.lang == b.lang && a.script == b.script && a.region == b.region && a.variant == b.variant;
 }
 
-cainteoir::languages::languages()
-{
-	rdf::graph data;
-	try
-	{
-		const char *datadir = getenv("CAINTEOIR_DATA_DIR");
-		if (!datadir)
-			datadir = DATADIR "/" PACKAGE;
-
-		const std::string filename = datadir + std::string("/languages.rdf.gz");
-		printf("loading language data from %s\n", filename.c_str());
-
-		auto reader = cainteoir::createDocumentReader(filename.c_str(), data, std::string());
-	}
-	catch (const std::exception & e)
-	{
-		printf("error: %s\n", e.what());
-	}
-
-	for (auto &language : rql::select(data, rql::predicate == rdf::rdf("type")))
-	{
-		rql::results statements = rql::select(data, rql::subject == rql::subject(language));
-		auto id   = rql::select_value<std::string>(statements, rql::predicate == rdf::rdf("value"));
-		auto name = rql::select_value<std::string>(statements, rql::predicate == rdf::dcterms("title"));
-		m_subtags[id] = name;
-	}
-}
-
-const char *cainteoir::languages::lookup(const char *codes, const std::string &id) const
-{
-	auto entry = m_subtags.find(id);
-	if (entry == m_subtags.end())
-		return id.c_str();
-	return dgettext(codes, entry->second.c_str());
-}
-
 const char *cainteoir::languages::language(const lang::tag &id) const
 {
 	if (!id.extlang.empty())
-		return lookup("iso_639", id.extlang);
-	return lookup("iso_639", id.lang);
+		return localize_subtag("iso_639", id.extlang);
+	return localize_subtag("iso_639", id.lang);
 }
 
 const char *cainteoir::languages::script(const lang::tag &id) const
 {
-	return lookup("iso_15924", id.script);
+	return localize_subtag("iso_15924", id.script);
 }
 
 const char *cainteoir::languages::region(const lang::tag &id) const
 {
-	return lookup("iso_3166", id.region);
+	return localize_subtag("iso_3166", id.region);
 }
 
 std::string cainteoir::languages::operator()(const std::string & langid)

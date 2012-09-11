@@ -83,8 +83,6 @@ namespace cainteoir
 	class languages
 	{
 	public:
-		languages();
-
 		/** @brief Get the translated ISO 639 language code.
 		  *
 		  * @param[in] id The language tag to translate.
@@ -107,10 +105,6 @@ namespace cainteoir
 		const char *region(const language::tag &id) const;
 
 		std::string operator()(const std::string & langid);
-	private:
-		const char *lookup(const char *codes, const std::string &id) const;
-
-		std::map<std::string, std::string> m_subtags;
 	};
 }
 
