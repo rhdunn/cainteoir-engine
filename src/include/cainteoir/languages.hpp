@@ -108,6 +108,8 @@ namespace cainteoir
 
 		std::string operator()(const std::string & langid);
 	private:
+		const char *lookup(const char *codes, const std::string &id) const;
+
 		std::map<std::string, std::string> m_subtags;
 	};
 }

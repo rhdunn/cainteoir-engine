@@ -472,38 +472,29 @@ cainteoir::languages::languages()
 	}
 }
 
+const char *cainteoir::languages::lookup(const char *codes, const std::string &id) const
+{
+	auto entry = m_subtags.find(id);
+	if (entry == m_subtags.end())
+		return id.c_str();
+	return dgettext(codes, entry->second.c_str());
+}
+
 const char *cainteoir::languages::language(const lang::tag &id) const
 {
 	if (!id.extlang.empty())
-	{
-		auto entry = m_subtags.find(id.extlang);
-		if (entry == m_subtags.end())
-			return id.extlang.c_str();
-		return dgettext("iso_639", entry->second.c_str());
-	}
-	else
-	{
-		auto entry = m_subtags.find(id.lang);
-		if (entry == m_subtags.end())
-			return id.lang.c_str();
-		return dgettext("iso_639", entry->second.c_str());
-	}
+		return lookup("iso_639", id.extlang);
+	return lookup("iso_639", id.lang);
 }
 
 const char *cainteoir::languages::script(const lang::tag &id) const
 {
-	auto entry = m_subtags.find(id.script);
-	if (entry == m_subtags.end())
-		return id.script.c_str();
-	return dgettext("iso_15924", entry->second.c_str());
+	return lookup("iso_15924", id.script);
 }
 
 const char *cainteoir::languages::region(const lang::tag &id) const
 {
-	auto entry = m_subtags.find(id.region);
-	if (entry == m_subtags.end())
-		return id.region.c_str();
-	return dgettext("iso_3166", entry->second.c_str());
+	return lookup("iso_3166", id.region);
 }
 
 std::string cainteoir::languages::operator()(const std::string & langid)
