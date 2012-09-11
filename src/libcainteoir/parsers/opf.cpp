@@ -158,7 +158,7 @@ struct fileinfo
 	}
 };
 
-void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
+static void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
 {
 	std::string value;
 	std::string content;
@@ -227,7 +227,7 @@ void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGr
 	}
 }
 
-void parseOpfLink(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
+static void parseOpfLink(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
 {
 	std::string rel;
 	std::string id;
@@ -274,7 +274,7 @@ void parseOpfLink(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGr
 	}
 }
 
-void parseOpfDublinCore(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph, const xml::context::entry *ctx)
+static void parseOpfDublinCore(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph, const xml::context::entry *ctx)
 {
 	std::string lang;
 	std::string value;
@@ -390,7 +390,7 @@ void parseOpfDublinCore(xml::reader &reader, const rdf::uri &aSubject, rdf::grap
 	}
 }
 
-void parseOpfMetadata(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph, const xml::context::entry *ctx)
+static void parseOpfMetadata(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph, const xml::context::entry *ctx)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -420,7 +420,7 @@ void parseOpfMetadata(xml::reader &reader, const rdf::uri &aSubject, rdf::graph 
 	}
 }
 
-void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &aItemSet)
+static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &aItemSet)
 {
 	std::string id;
 	std::string href;
@@ -446,7 +446,7 @@ void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &aItemSet
 	}
 }
 
-void parseOpfManifest(xml::reader &reader, std::map<std::string, fileinfo> &aItemSet)
+static void parseOpfManifest(xml::reader &reader, std::map<std::string, fileinfo> &aItemSet)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -461,7 +461,7 @@ void parseOpfManifest(xml::reader &reader, std::map<std::string, fileinfo> &aIte
 	}
 }
 
-std::string parseOpfItemRef(xml::reader &reader)
+static std::string parseOpfItemRef(xml::reader &reader)
 {
 	std::string ref;
 	while (reader.read()) switch (reader.nodeType())
@@ -478,7 +478,7 @@ std::string parseOpfItemRef(xml::reader &reader)
 	return ref;
 }
 
-void parseOpfSpine(xml::reader &reader, std::list<std::string> &aSpine, std::map<std::string, fileinfo> &files)
+static void parseOpfSpine(xml::reader &reader, std::list<std::string> &aSpine, std::map<std::string, fileinfo> &files)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{

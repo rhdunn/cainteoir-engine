@@ -25,7 +25,7 @@
 #include <zlib.h>
 #include <stdexcept>
 
-std::shared_ptr<cainteoir::buffer> inflateBuffer(const cainteoir::buffer &compressed, uint32_t uncompressed, int window)
+static std::shared_ptr<cainteoir::buffer> inflateBuffer(const cainteoir::buffer &compressed, uint32_t uncompressed, int window)
 {
 	std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(uncompressed);
 

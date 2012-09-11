@@ -20,7 +20,7 @@
 
 #include <cainteoir/buffer.hpp>
 
-inline int hex_to_value(char c)
+static inline int hex_to_value(char c)
 {
 	if (c >= '0' && c <= '9')
 		return c - '0';

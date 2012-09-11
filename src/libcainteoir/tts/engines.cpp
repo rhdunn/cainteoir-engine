@@ -35,7 +35,7 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
-inline double percentageof(size_t a, size_t b)
+static inline double percentageof(size_t a, size_t b)
 {
 	return (double(a) / b) * 100.0;
 }
@@ -111,7 +111,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	//@}
 };
 
-void * speak_tts_thread(void *data)
+static void * speak_tts_thread(void *data)
 {
 	speech_impl *speak = (speech_impl *)data;
 

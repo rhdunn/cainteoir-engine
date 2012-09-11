@@ -30,6 +30,7 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
 
+/// @private
 enum html_node
 {
 	node_unknown,
@@ -369,7 +370,7 @@ private:
 	std::string parseLangAttr();
 };
 
-std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
+static std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
 
 html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle)
 	: reader(aReader)
@@ -441,7 +442,7 @@ std::string html_document_reader::parseLangAttr()
 	return lang;
 }
 
-void skipNode(xml::reader &reader, const cainteoir::buffer name)
+static void skipNode(xml::reader &reader, const cainteoir::buffer name)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -452,7 +453,7 @@ void skipNode(xml::reader &reader, const cainteoir::buffer name)
 	}
 }
 
-void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
+static void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
 {
 	static xml::context names(std::string(), meta_names, cainteoir::buffer::ignore_case);
 
@@ -550,7 +551,7 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aG
 	}
 }
 
-std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
+static std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
 {
 	std::string title;
 	const xml::context::entry *context = nullptr;

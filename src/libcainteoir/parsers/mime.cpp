@@ -48,7 +48,7 @@ namespace cainteoir { namespace utf8
 	}
 }}
 
-inline bool is_mime_header_char(char c)
+static inline bool is_mime_header_char(char c)
 {
 	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '-';
 }

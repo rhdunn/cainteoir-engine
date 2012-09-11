@@ -36,7 +36,7 @@ struct replacement
 	const char * text;
 };
 
-inline int hex_to_int(char c)
+static inline int hex_to_int(char c)
 {
 	if (c >= '0' && c <= '9') return c - '0';
 	if (c >= 'A' && c <= 'Z') return (c - 'A') + 10;
@@ -63,7 +63,7 @@ static const replacement replacements[] = {
 	{ "tab",        "\x09" },
 };
 
-std::shared_ptr<cainteoir::buffer> lookupReplacementText(const cainteoir::encoding & aEncoding, const std::shared_ptr<cainteoir::buffer> & token, int value)
+static std::shared_ptr<cainteoir::buffer> lookupReplacementText(const cainteoir::encoding & aEncoding, const std::shared_ptr<cainteoir::buffer> & token, int value)
 {
 	if (!token->compare("'"))
 		return aEncoding.lookup((char)value);
@@ -111,7 +111,7 @@ private:
 	int mDepth;
 };
 
-void printToken(rtf_reader &rtf)
+static void printToken(rtf_reader &rtf)
 {
 	switch (rtf.token())
 	{
@@ -239,7 +239,7 @@ bool rtf_reader::read()
 	return true;
 }
 
-void skipRtfBlock(rtf_reader &rtf)
+static void skipRtfBlock(rtf_reader &rtf)
 {
 	while (rtf.read()) switch (rtf.token())
 	{

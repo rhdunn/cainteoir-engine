@@ -64,7 +64,10 @@ const char * cainteoir::xml::lookup_entity(const entity_set **entities, const ca
 	return nullptr;
 }
 
-std::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity, const cainteoir::xml::entity_set **entities, const std::map<std::string, std::string> &doctypeEntities)
+static std::shared_ptr<cainteoir::buffer>
+parse_entity(const cainteoir::buffer &entity,
+             const cainteoir::xml::entity_set **entities,
+             const std::map<std::string, std::string> &doctypeEntities)
 {
 	const char * str = entity.begin();
 	if (*str == '#')
@@ -103,12 +106,12 @@ std::shared_ptr<cainteoir::buffer> parse_entity(const cainteoir::buffer &entity,
 	return std::shared_ptr<cainteoir::buffer>();
 }
 
-inline bool xmlalnum(char c)
+static inline bool xmlalnum(char c)
 {
 	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
 }
 
-inline bool xmlspace(char c)
+static inline bool xmlspace(char c)
 {
 	return c == ' ' || c == '\t' || c == '\r' || c == '\n';
 }

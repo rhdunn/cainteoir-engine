@@ -23,7 +23,7 @@
 
 #include <cainteoir/buffer.hpp>
 
-char base64_chars[] =
+static const char base64_chars[] =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	"abcdefghijklmnopqrstuvwxyz"
 	"0123456789"
@@ -45,7 +45,7 @@ struct base64 : public cainteoir::data_buffer
 
 		while (next < last)
 		{
-			char *idx = strchr(base64_chars, *next);
+			char *idx = strchr((char *)base64_chars, *next);
 			if (idx != nullptr)
 			{
 				in[i++] = (intptr_t)idx - (intptr_t)base64_chars;
