@@ -58,6 +58,7 @@ struct LanguageData
 	LanguageData();
 
 	std::map<std::string, std::string> subtags;
+	std::map<std::string, lang::tag> extlangs;
 };
 
 LanguageData::LanguageData()
@@ -82,9 +83,13 @@ LanguageData::LanguageData()
 	for (auto &language : rql::select(data, rql::predicate == rdf::rdf("type")))
 	{
 		rql::results statements = rql::select(data, rql::subject == rql::subject(language));
-		auto id   = rql::select_value<std::string>(statements, rql::predicate == rdf::rdf("value"));
-		auto name = rql::select_value<std::string>(statements, rql::predicate == rdf::dcterms("title"));
+		auto id     = rql::select_value<std::string>(statements, rql::predicate == rdf::rdf("value"));
+		auto name   = rql::select_value<std::string>(statements, rql::predicate == rdf::dcterms("title"));
+		auto prefix = rql::select_value<std::string>(statements, rql::predicate == rdf::iana("prefix"));
+
 		subtags[id] = name;
+		if (rql::object(language) == rdf::iana("ExtLang"))
+			extlangs.insert({ id, { prefix, id }});
 	}
 }
 
@@ -151,253 +156,20 @@ std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
 	{ "zh-xiang",    { "zh", "hsn" } },
 };
 
-// TODO: get this information through the RDF metadata (rdf:type iana:ExtLang, rdf:value, iana:prefix).
-std::initializer_list<std::pair<std::string, const lang::tag>> extlang_tags = {
-	{ "aao", { "ar",  "aao" } },
-	{ "abh", { "ar",  "abh" } },
-	{ "abv", { "ar",  "abv" } },
-	{ "acm", { "ar",  "acm" } },
-	{ "acq", { "ar",  "acq" } },
-	{ "acw", { "ar",  "acw" } },
-	{ "acx", { "ar",  "acx" } },
-	{ "acy", { "ar",  "acy" } },
-	{ "adf", { "ar",  "adf" } },
-	{ "ads", { "sgn", "ads" } },
-	{ "aeb", { "ar",  "aeb" } },
-	{ "aec", { "ar",  "aec" } },
-	{ "aed", { "sgn", "aed" } },
-	{ "aen", { "sgn", "aen" } },
-	{ "afb", { "ar",  "afb" } },
-	{ "afg", { "sgn", "afg" } },
-	{ "ajp", { "ar",  "ajp" } },
-	{ "apc", { "ar",  "apc" } },
-	{ "apd", { "ar",  "apd" } },
-	{ "arb", { "ar",  "arb" } },
-	{ "arq", { "ar",  "arq" } },
-	{ "ars", { "ar",  "ars" } },
-	{ "ary", { "ar",  "ary" } },
-	{ "arz", { "ar",  "arz" } },
-	{ "ase", { "sgn", "ase" } },
-	{ "asf", { "sgn", "asf" } },
-	{ "asp", { "sgn", "asp" } },
-	{ "asq", { "sgn", "asq" } },
-	{ "asw", { "sgn", "asw" } },
-	{ "auz", { "ar",  "auz" } },
-	{ "avl", { "ar",  "avl" } },
-	{ "ayh", { "ar",  "ayh" } },
-	{ "ayl", { "ar",  "ayl" } },
-	{ "ayn", { "ar",  "ayn" } },
-	{ "ayp", { "ar",  "ayp" } },
-	{ "bbz", { "ar",  "bbz" } },
-	{ "bfi", { "sgn", "bfi" } },
-	{ "bfk", { "sgn", "bfk" } },
-	{ "bjn", { "ms",  "bjn" } },
-	{ "bog", { "sgn", "bog" } },
-	{ "bqn", { "sgn", "bqn" } },
-	{ "bqy", { "sgn", "bqy" } },
-	{ "btj", { "ms",  "btj" } },
-	{ "bve", { "ms",  "bve" } },
-	{ "bvl", { "sgn", "bvl" } },
-	{ "bvu", { "ms",  "bvu" } },
-	{ "bzs", { "sgn", "bzs" } },
-	{ "cdo", { "zh",  "cdo" } },
-	{ "cds", { "sgn", "cds" } },
-	{ "cjy", { "zh",  "cjy" } },
-	{ "cmn", { "zh",  "cmn" } },
-	{ "coa", { "ms",  "coa" } },
-	{ "cpx", { "zh",  "cpx" } },
-	{ "csc", { "sgn", "csc" } },
-	{ "csd", { "sgn", "csd" } },
-	{ "cse", { "sgn", "cse" } },
-	{ "csf", { "sgn", "csf" } },
-	{ "csg", { "sgn", "csg" } },
-	{ "csl", { "sgn", "csl" } },
-	{ "csn", { "sgn", "csn" } },
-	{ "csq", { "sgn", "csq" } },
-	{ "csr", { "sgn", "csr" } },
-	{ "czh", { "zh",  "czh" } },
-	{ "czo", { "zh",  "czo" } },
-	{ "doq", { "sgn", "doq" } },
-	{ "dse", { "sgn", "dse" } },
-	{ "dsl", { "sgn", "dsl" } },
-	{ "dup", { "ms",  "dup" } },
-	{ "ecs", { "sgn", "ecs" } },
-	{ "esl", { "sgn", "esl" } },
-	{ "esn", { "sgn", "esn" } },
-	{ "eso", { "sgn", "eso" } },
-	{ "eth", { "sgn", "eth" } },
-	{ "fcs", { "sgn", "fcs" } },
-	{ "fse", { "sgn", "fse" } },
-	{ "fsl", { "sgn", "fsl" } },
-	{ "fss", { "sgn", "fss" } },
-	{ "gan", { "zh",  "gan" } },
-	{ "gds", { "sgn", "gds" } },
-	{ "gom", { "kok", "gom" } },
-	{ "gse", { "sgn", "gse" } },
-	{ "gsg", { "sgn", "gsg" } },
-	{ "gsm", { "sgn", "gsm" } },
-	{ "gss", { "sgn", "gss" } },
-	{ "gus", { "sgn", "gus" } },
-	{ "hab", { "sgn", "hab" } },
-	{ "haf", { "sgn", "haf" } },
-	{ "hak", { "zh",  "hak" } },
-	{ "hds", { "sgn", "hds" } },
-	{ "hji", { "ms",  "hji" } },
-	{ "hks", { "sgn", "hks" } },
-	{ "hos", { "sgn", "hos" } },
-	{ "hps", { "sgn", "hps" } },
-	{ "hsh", { "sgn", "hsh" } },
-	{ "hsl", { "sgn", "hsl" } },
-	{ "hsn", { "zh",  "hsn" } },
-	{ "icl", { "sgn", "icl" } },
-	{ "ils", { "sgn", "ils" } },
-	{ "inl", { "sgn", "inl" } },
-	{ "ins", { "sgn", "ins" } },
-	{ "ise", { "sgn", "ise" } },
-	{ "isg", { "sgn", "isg" } },
-	{ "isr", { "sgn", "isr" } },
-	{ "jak", { "ms",  "jak" } },
-	{ "jax", { "ms",  "jax" } },
-	{ "jcs", { "sgn", "jcs" } },
-	{ "jhs", { "sgn", "jhs" } },
-	{ "jls", { "sgn", "jls" } },
-	{ "jos", { "sgn", "jos" } },
-	{ "jsl", { "sgn", "jsl" } },
-	{ "jus", { "sgn", "jus" } },
-	{ "kgi", { "sgn", "kgi" } },
-	{ "knn", { "kok", "knn" } },
-	{ "kvb", { "ms",  "kvb" } },
-	{ "kvk", { "sgn", "kvk" } },
-	{ "kvr", { "ms",  "kvr" } },
-	{ "kxd", { "ms",  "kxd" } },
-	{ "lbs", { "sgn", "lbs" } },
-	{ "lce", { "ms",  "lce" } },
-	{ "lcf", { "ms",  "lcf" } },
-	{ "liw", { "ms",  "liw" } },
-	{ "lls", { "sgn", "lls" } },
-	{ "lsg", { "sgn", "lsg" } },
-	{ "lsl", { "sgn", "lsl" } },
-	{ "lso", { "sgn", "lso" } },
-	{ "lsp", { "sgn", "lsp" } },
-	{ "lst", { "sgn", "lst" } },
-	{ "lsy", { "sgn", "lsy" } },
-	{ "ltg", { "lv",  "ltg" } },
-	{ "lvs", { "lv",  "lvs" } },
-	{ "lzh", { "zh",  "lzh" } },
-	{ "max", { "ms",  "max" } },
-	{ "mdl", { "sgn", "mdl" } },
-	{ "meo", { "ms",  "meo" } },
-	{ "mfa", { "ms",  "mfa" } },
-	{ "mfb", { "ms",  "mfb" } },
-	{ "mfs", { "sgn", "mfs" } },
-	{ "min", { "ms",  "min" } },
-	{ "mnp", { "zh",  "mnp" } },
-	{ "mqg", { "ms",  "mqg" } },
-	{ "mre", { "sgn", "mre" } },
-	{ "msd", { "sgn", "msd" } },
-	{ "msi", { "ms",  "msi" } },
-	{ "msr", { "sgn", "msr" } },
-	{ "mui", { "ms",  "mui" } },
-	{ "mzc", { "sgn", "mzc" } },
-	{ "mzg", { "sgn", "mzg" } },
-	{ "mzy", { "sgn", "mzy" } },
-	{ "nan", { "zh",  "nan" } },
-	{ "nbs", { "sgn", "nbs" } },
-	{ "ncs", { "sgn", "ncs" } },
-	{ "nsi", { "sgn", "nsi" } },
-	{ "nsl", { "sgn", "nsl" } },
-	{ "nsp", { "sgn", "nsp" } },
-	{ "nsr", { "sgn", "nsr" } },
-	{ "nzs", { "sgn", "nzs" } },
-	{ "okl", { "sgn", "okl" } },
-	{ "orn", { "ms",  "orn" } },
-	{ "ors", { "ms",  "ors" } },
-	{ "pel", { "ms",  "pel" } },
-	{ "pga", { "ar",  "pga" } },
-	{ "pks", { "sgn", "pks" } },
-	{ "prl", { "sgn", "prl" } },
-	{ "prz", { "sgn", "prz" } },
-	{ "psc", { "sgn", "psc" } },
-	{ "psd", { "sgn", "psd" } },
-	{ "pse", { "ms",  "pse" } },
-	{ "psg", { "sgn", "psg" } },
-	{ "psl", { "sgn", "psl" } },
-	{ "pso", { "sgn", "pso" } },
-	{ "psp", { "sgn", "psp" } },
-	{ "psr", { "sgn", "psr" } },
-	{ "pys", { "sgn", "pys" } },
-	{ "rms", { "sgn", "rms" } },
-	{ "rsi", { "sgn", "rsi" } },
-	{ "rsl", { "sgn", "rsl" } },
-	{ "sdl", { "sgn", "sdl" } },
-	{ "sfb", { "sgn", "sfb" } },
-	{ "sfs", { "sgn", "sfs" } },
-	{ "sgg", { "sgn", "sgg" } },
-	{ "sgx", { "sgn", "sgx" } },
-	{ "shu", { "ar",  "shu" } },
-	{ "slf", { "sgn", "slf" } },
-	{ "sls", { "sgn", "sls" } },
-	{ "sqk", { "sgn", "sqk" } },
-	{ "sqs", { "sgn", "sqs" } },
-	{ "ssh", { "ar",  "ssh" } },
-	{ "ssp", { "sgn", "ssp" } },
-	{ "ssr", { "sgn", "ssr" } },
-	{ "svk", { "sgn", "svk" } },
-	{ "swc", { "sw",  "swc" } },
-	{ "swh", { "sw",  "swh" } },
-	{ "swl", { "sgn", "swl" } },
-	{ "syy", { "sgn", "syy" } },
-	{ "tmw", { "ms",  "tmw" } },
-	{ "tse", { "sgn", "tse" } },
-	{ "tsm", { "sgn", "tsm" } },
-	{ "tsq", { "sgn", "tsq" } },
-	{ "tss", { "sgn", "tss" } },
-	{ "tsy", { "sgn", "tsy" } },
-	{ "tza", { "sgn", "tza" } },
-	{ "ugn", { "sgn", "ugn" } },
-	{ "ugy", { "sgn", "ugy" } },
-	{ "ukl", { "sgn", "ukl" } },
-	{ "uks", { "sgn", "uks" } },
-	{ "urk", { "ms",  "urk" } },
-	{ "uzn", { "uz",  "uzn" } },
-	{ "uzs", { "uz",  "uzs" } },
-	{ "vgt", { "sgn", "vgt" } },
-	{ "vkk", { "ms",  "vkk" } },
-	{ "vkt", { "ms",  "vkt" } },
-	{ "vsi", { "sgn", "vsi" } },
-	{ "vsl", { "sgn", "vsl" } },
-	{ "vsv", { "sgn", "vsv" } },
-	{ "wuu", { "zh",  "wuu" } },
-	{ "xki", { "sgn", "xki" } },
-	{ "xml", { "sgn", "xml" } },
-	{ "xmm", { "ms",  "xmm" } },
-	{ "xms", { "sgn", "xms" } },
-	{ "yds", { "sgn", "yds" } },
-	{ "ysl", { "sgn", "ysl" } },
-	{ "yue", { "zh",  "yue" } },
-	{ "zib", { "sgn", "zib" } },
-	{ "zlm", { "ms",  "zlm" } },
-	{ "zmi", { "ms",  "zmi" } },
-	{ "zsl", { "sgn", "zsl" } },
-	{ "zsm", { "ms",  "zsm" } },
-};
-
-static const lang::tag *
-lookup_lang(std::string lang,
-            std::initializer_list<std::pair<std::string, const lang::tag>> &tags)
+static const lang::tag *lookup_alias(std::string lang)
 {
 	lang = to_lower(lang);
 
 	int begin = 0;
-	int end = tags.size() - 1;
+	int end = alias_tags.size() - 1;
 
 	while (begin <= end)
 	{
 		int pos = (begin + end) / 2;
 
-		int comp = lang.compare((tags.begin() + pos)->first);
+		int comp = lang.compare((alias_tags.begin() + pos)->first);
 		if (comp == 0)
-			return &(tags.begin() + pos)->second;
+			return &(alias_tags.begin() + pos)->second;
 		else if (comp > 0)
 			begin = pos + 1;
 		else
@@ -407,9 +179,18 @@ lookup_lang(std::string lang,
 	return nullptr;
 }
 
+static const lang::tag *lookup_extlang(std::string lang)
+{
+	auto data = language_data();
+	auto entry = data->extlangs.find(to_lower(lang));
+	if (entry == data->extlangs.end())
+		return nullptr;
+	return &entry->second;
+}
+
 lang::tag lang::make_lang(const std::string &code)
 {
-	const lang::tag *alias = lookup_lang(code, alias_tags);
+	const lang::tag *alias = lookup_alias(code);
 	if (alias)
 		return *alias;
 
@@ -425,7 +206,7 @@ lang::tag lang::make_lang(const std::string &code)
 
 		if (lang.lang.empty())
 		{
-			const lang::tag *extlang = lookup_lang(item, extlang_tags);
+			const lang::tag *extlang = lookup_extlang(item);
 			if (extlang)
 				lang = *extlang;
 			else
@@ -442,7 +223,7 @@ lang::tag lang::make_lang(const std::string &code)
 		case 3:
 			if (lang.extlang.empty())
 			{
-				const lang::tag *extlang = lookup_lang(item, extlang_tags);
+				const lang::tag *extlang = lookup_extlang(item);
 				if (extlang && extlang->lang == lang.lang)
 					lang.extlang = extlang->extlang;
 				else
