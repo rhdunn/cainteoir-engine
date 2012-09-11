@@ -93,7 +93,7 @@ LanguageData::LanguageData()
 	}
 }
 
-LanguageData *language_data()
+static LanguageData *language_data()
 {
 	static std::shared_ptr<LanguageData> data;
 	if (!data.get())
@@ -110,7 +110,7 @@ static const char *localize_subtag(const char *iso_codes, const std::string &id)
 	return dgettext(iso_codes, entry->second.c_str());
 }
 
-std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
+static const std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
 	{ "art-lojban",  { "jbo" } },
 	{ "be@latin",    { "be", "", "Latn" } },
 	{ "ca@valencia", { "ca", "", "", "", "valencia" } },
@@ -188,6 +188,13 @@ static const lang::tag *lookup_extlang(std::string lang)
 	return &entry->second;
 }
 
+/** @brief Extract language tag information from a BCP 47 language id.
+  * @see   http://www.ietf.org/rfc/rfc5646.txt
+  *
+  * @param[in] lang The language string, e.g. "es-LA".
+  *
+  * @return The extracted language, script and country codes.
+  */
 lang::tag lang::make_lang(const std::string &code)
 {
 	const lang::tag *alias = lookup_alias(code);
@@ -260,6 +267,14 @@ lang::tag lang::make_lang(const std::string &code)
 	         lang.variant };
 }
 
+/** @brief Compare two language tags for equality.
+  *
+  * @param[in] a The fist language tag to compare.
+  * @param[in] b The second language tag to compare.
+  *
+  * @retval true  If the language tags match.
+  * @retval false If the language tags do not match.
+  */
 bool lang::operator==(const tag &a, const tag &b)
 {
 	if (a.variant.empty() || b.variant.empty())
@@ -277,6 +292,16 @@ bool lang::operator==(const tag &a, const tag &b)
 	return a.lang == b.lang && a.script == b.script && a.region == b.region && a.variant == b.variant;
 }
 
+/** @struct cainteoir::languages
+  * @brief  Helper for localizing language tags.
+  */
+
+/** @brief Get the translated ISO 639 language code.
+  *
+  * @param[in] id The localized tag to localize.
+  *
+  * @return The localized name.
+  */
 const char *cainteoir::languages::language(const lang::tag &id) const
 {
 	if (!id.extlang.empty())
@@ -284,16 +309,34 @@ const char *cainteoir::languages::language(const lang::tag &id) const
 	return localize_subtag("iso_639", id.lang);
 }
 
+/** @brief Get the localized ISO 15924 script code.
+  *
+  * @param[in] id The language tag to localize.
+  *
+  * @return The localized name.
+  */
 const char *cainteoir::languages::script(const lang::tag &id) const
 {
 	return localize_subtag("iso_15924", id.script);
 }
 
+/** @brief Get the localized ISO 3166 region code.
+  *
+  * @param[in] id The language tag to localize.
+  *
+  * @return The localized name.
+  */
 const char *cainteoir::languages::region(const lang::tag &id) const
 {
 	return localize_subtag("iso_3166", id.region);
 }
 
+/** @brief Get the localized name of the language.
+  *
+  * @param[in] langid The language tag to localize.
+  *
+  * @return The localized name.
+  */
 std::string cainteoir::languages::operator()(const std::string & langid)
 {
 	lang::tag lang = lang::make_lang(langid);
@@ -305,3 +348,38 @@ std::string cainteoir::languages::operator()(const std::string & langid)
 
 	return name.str();
 }
+
+/** @struct cainteoir::language::tag
+  * @brief  BCP 47 / RFC 5646 language tag.
+  * @see    http://www.ietf.org/rfc/rfc5646.txt
+  */
+ 
+/** @fn    cainteoir::language::tag::tag(const std::string &l, const std::string &e, const std::string &s, const std::string &r, const std::string &v)
+  * @brief Create a language tag object.
+  *
+  * @param[in] l The primary language code.
+  * @param[in] e The extended language code.
+  * @param[in] s The writing script code.
+  * @param[in] r The region code.
+  * @param[in] v The variant code.
+  */
+
+/** @var   cainteoir::language::tag::lang
+  * @brief ISO 639 language code (primary language).
+  */
+
+/** @var   cainteoir::language::tag::extlang
+  * @brief ISO 639 language code (extended language).
+  */
+
+/** @var   cainteoir::language::tag::script
+  * @brief ISO 15924 script code.
+  */
+
+/** @var   cainteoir::language::tag::region
+  * @brief ISO 3166 or UN M.49 region code.
+  */
+
+/** @var   cainteoir::language::tag::variant
+  * @brief IANA variant subtag.
+  */
