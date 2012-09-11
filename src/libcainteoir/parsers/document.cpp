@@ -30,7 +30,7 @@
 namespace rdf = cainteoir::rdf;
 namespace mime = cainteoir::mime;
 
-std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
+static std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 {
 	cainteoir::rope data;
 	char buffer[1024];
@@ -58,6 +58,21 @@ cainteoir::createXmlReader(const std::shared_ptr<buffer> &aData, const char *aDe
 	return reader;
 }
 
+/** @brief Create a document content reader.
+  *
+  * @param[in]  aData            The document content.
+  * @param[in]  aSubject         The RDF subject for the document metadata.
+  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+  * @param[in]  aTitle           The document title to use if none is specified.
+  * @param[in]  aDefaultEncoding The default character encoding to use.
+  *
+  * @return A reader over the document contents, or a null pointer if the document is not supported.
+  *
+  * The top-level ToC entry is determined as follows (in order of preference):
+  *    -  the title specified by the document;
+  *    -  the title specified in aTitle;
+  *    -  the filename of the document.
+  */
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
                                 const rdf::uri &aSubject,
@@ -151,6 +166,22 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 	return createPlainTextReader(aData, aSubject, aPrimaryMetadata, aTitle);
 }
 
+/** @brief Create a document content reader.
+  *
+  * @param[in]  aFilename        The path to the document.
+  * @param[out] aPrimaryMetadata The main metadata that describes the document.
+  * @param[in]  aTitle           The document title to use if none is specified.
+  * @param[in]  aDefaultEncoding The default character encoding to use.
+  *
+  * @return A reader over the document contents, or a null pointer if the document is not supported.
+  *
+  * If aFilename is null, the file content is read from stdin.
+  *
+  * The top-level ToC entry is determined as follows (in order of preference):
+  *    -  the title specified by the document;
+  *    -  the title specified in aTitle;
+  *    -  the filename of the document.
+  */
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createDocumentReader(const char *aFilename,
                                 rdf::graph &aPrimaryMetadata,
@@ -168,6 +199,11 @@ cainteoir::createDocumentReader(const char *aFilename,
 	return createDocumentReader(data, subject, aPrimaryMetadata, aTitle, aDefaultEncoding);
 }
 
+/** @brief Get the document formats that are supported by libcainteoir.
+  *
+  * @param[out] metadata     The RDF graph to write the format support to.
+  * @param[in]  capabilities The document capabilities to query for.
+  */
 void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities)
 {
 	std::string baseuri = "http://rhdunn.github.com/cainteoir/formats/document";
@@ -201,3 +237,545 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
 		mime::text.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 	}
 }
+
+/** @struct cainteoir::document
+  * @brief  Stores the text from a document.
+  * @deprecated Use the document_reader API instead.
+  */
+
+/** @struct cainteoir::document_reader
+  * @brief  Provides a reader-style API to the events corresponding to the document.
+  */
+
+/** @fn    cainteoir::document_reader::document_reader()
+  * @brief Initialize the document reader object.
+  */
+
+/** @fn    cainteoir::document_reader::~document_reader()
+  * @brief Destroy the document reader object.
+  */
+
+/** @var   uint32_t cainteoir::document_reader::type
+  * @brief The type of the event.
+  *
+  * @see cainteoir::events::event_type
+  */
+
+/** @var   cainteoir::events::context cainteoir::document_reader::context
+  * @brief The associated rendering context.
+  */
+
+/** @var   uint32_t cainteoir::document_reader::parameter
+  * @brief A context-dependent parameter for the rendering context.
+  */
+
+/** @var   std::shared_ptr<cainteoir::buffer> cainteoir::document_reader::text
+  * @brief The text associated with the document event.
+  */
+
+/** @var   cainteoir::rdf::uri cainteoir::document_reader::anchor
+  * @brief A uri that references the start of this event.
+  */
+
+/** @fn    bool cainteoir::document_reader::read()
+  * @brief Read the next event in the document.
+  *
+  * @retval true  If an event was read.
+  * @retval false If there are no more events in the document.
+  */
+
+/** @enum  cainteoir::events::event_type
+  * @brief The type of the document event.
+  */
+
+/** @var   cainteoir::events::event_type cainteoir::events::begin_context
+  * @brief The start of a rendering context.
+  *
+  * @code
+  *   context <context> <parameter>
+  * @endcode
+  */
+
+/** @var   cainteoir::events::event_type cainteoir::events::end_context
+  * @brief The end of a rendering context.
+  *
+  * @code
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::event_type cainteoir::events::text
+  * @brief Text data.
+  *
+  * @code
+  *   text <text>
+  * @endcode
+  */
+
+/** @var   cainteoir::events::event_type cainteoir::events::toc_entry
+  * @brief An entry in the table of contents.
+  *
+  * The parameter is the depth of the entry. This corresponds to the depth from the
+  * heading rendering context.
+  *
+  * @code
+  *   toc-entry <parameter> <anchor> <text>
+  * @endcode
+  */
+
+/** @var   cainteoir::events::event_type cainteoir::events::anchor
+  * @brief An anchor point in the document.
+  *
+  * The anchor corresponds to the associated toc-entry.
+  *
+  * @code
+  *   anchor <anchor>
+  * @endcode
+  */
+
+/** @enum  cainteoir::events::context
+  * @brief The rendering context.
+  *
+  * This forms the basis for the abstract document rendering model used by the Cainteoir
+  * Text-to-Speech engine. All document formats (RTF, HTML, SSML, PDF, ...) get converted
+  * to this form.
+  *
+  * The rendering model includes both presentation (display) and text-to-speech (tts)
+  * elements.
+  */
+
+/** @var   cainteoir::events::context cainteoir::events::unknown
+  * @brief An unspecified context.
+  */
+
+/** @var   cainteoir::events::context cainteoir::events::paragraph
+  * @brief Paragraph
+  *
+  * A paragraph is a block of text that is spoken and displayed as a single continuous
+  * unit. This applies to all blocks of text.
+  *
+  * @code
+  *   context paragraph +nostyle
+  *     text "This is a paragraph."
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::context cainteoir::events::heading
+  * @brief Heading
+  *
+  * A heading is a line of text that denotes a book, part, chapter or section title.
+  *
+  * @code
+  *   context heading 1
+  *     text "Frankenstein"
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::context cainteoir::events::span
+  * @brief Inline Text
+  *
+  * A span is a section of text within a paragraph that is spoken and displayed as
+  * part of that block, as if the span was not present. This is used to control the
+  * presentation and speech of the span text.
+  *
+  * @code
+  *   context paragraph +nostyle
+  *     text "This is "
+  *     context span +strong
+  *       text "bold"
+  *     end
+  *     text "text."
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::context cainteoir::events::list
+  * @brief List
+  *
+  * A list is a sequence of list items.
+  *
+  * @code
+  *   context list +number
+  *     context list-item
+  *       text "1. "
+  *       text "Lorem"
+  *     end
+  *     context list-item
+  *       text "2. "
+  *       text "ipsum"
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::context cainteoir::events::list_item
+  * @brief List Item
+  *
+  * A list item consists of a text node that denotes the item gutter label and
+  * the item content. The list item content has an implicit pargraph.
+  *
+  * @code
+  *   context list-item
+  *     text "1. "
+  *     text "List item text."
+  *   end
+  * @endcode
+  *
+  * If the item contains explicit paragraphs, the first paragraph is displayed
+  * at the same level as the list item label.
+  *
+  * @code
+  *   context list-item
+  *     text "iv. "
+  *     context paragraph
+  *       text "List item text."
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::context cainteoir::events::sentence
+  * @brief Sentence
+  *
+  * A sentence is an explicitly marked up sentence within a paragraph block.
+  * If provided, the text-to-speech processor will not attempt to identify
+  * sentences within that text, but will treat it as part of a single sentence.
+  *
+  * @code
+  *   context paragraph
+  *     text "'"
+  *     context sentence
+  *       text "How are you?"
+  *     end
+  *     text "'"
+  *     context sentence
+  *       text "said Mr. Davis."
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::context cainteoir::events::table
+  * @brief Table
+  *
+  * @code
+  *   context table
+  *     context row
+  *       context cell
+  *         text "a1"
+  *       end
+  *       context cell
+  *         text "a2"
+  *       end
+  *     end
+  *     context row
+  *       context cell
+  *         text "b1"
+  *       end
+  *       context cell
+  *         text "b2"
+  *       end
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::context cainteoir::events::row
+  * @brief Table Row
+  *
+  * @code
+  *   context row
+  *     context cell
+  *       text "1,1"
+  *     end
+  *     context cell
+  *       text "1,2"
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::context cainteoir::events::cell
+  * @brief Table Cell
+  *
+  * @code
+  *   context cell
+  *     text "4,8"
+  *   end
+  * @endcode
+  */
+
+/** @enum  cainteoir::events::style
+  * @brief The style of the paragraph or span context.
+  */
+
+/** @var   cainteoir::events::style cainteoir::events::nostyle
+  * @brief No explicit styling
+  *
+  * The context does not provide any specific custom styling.
+  */
+
+/** @var   cainteoir::events::style cainteoir::events::superscript
+  * @brief Superscript
+  *
+  * The context is raised above the text in a smaller font and is
+  * placed to the side of the previous text.
+  *
+  * @code
+  *   context paragraph
+  *     text "The 1"
+  *     context span +superscript
+  *       text "st"
+  *     end
+  *     text " of May."
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::style cainteoir::events::subscript
+  * @brief Subscript
+  *
+  * The context is lowered below the text in a smaller font and is
+  * placed to the side of the previous text.
+  *
+  * @code
+  *   context paragraph
+  *     text "a"
+  *     context span +subscript
+  *       text "1"
+  *     end
+  *     text " is the first item."
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::style cainteoir::events::over
+  * @brief Over
+  *
+  * The context is rendered as the superscript text, but is placed
+  * above (over) the previous text. This is used to render ruby
+  * annotations and mathematical markup.
+  *
+  * @code
+  *   context paragraph
+  *     context span +overunder
+  *       text "a"
+  *       context span +over
+  *         text "1"
+  *       end
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::style cainteoir::events::under
+  * @brief Under
+  *
+  * The context is rendered as the subscript text, but is placed
+  * below (under) the previous text. This is used to render ruby
+  * annotations and mathematical markup.
+  *
+  * @code
+  *   context paragraph
+  *     context span +overunder
+  *       text "a"
+  *       context span +under
+  *         text "1"
+  *       end
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::style cainteoir::events::overunder
+  * @brief Over/Under
+  *
+  * The context denotes a section of text which contains text above
+  * and/or below it. This is used to render ruby annotations and
+  * mathematical markup.
+  *
+  * This context contains a text or context node that is not annotated
+  * with the under or over style. This is the primary text element
+  * that forms the root of the over/under markup.
+  *
+  * In addition to this, the context contains either:
+  *     -  a span with the over style
+  *     -  a span with the under style
+  *     -  a span with the over style and a span with the under style
+  *
+  * @code
+  *   context paragraph
+  *     context span +overunder
+  *       text "a"
+  *       context span +over
+  *         text "n"
+  *       end
+  *       context span +under
+  *         text "i = 0"
+  *       end
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::style cainteoir::events::emphasized
+  * @brief Emphasized
+  *
+  * The context is displayed in an italic font and is spoken with
+  * more emphasis.
+  *
+  * @code
+  *   context paragraph
+  *     text "This "
+  *     context span +emphasized
+  *       text "and"
+  *     end
+  *     text " that."
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::style cainteoir::events::strong
+  * @brief Strong
+  *
+  * The context is displayed in a bold font and is spoken louder.
+  *
+  * @code
+  *   context paragraph
+  *     text "One, "
+  *     context span +strong
+  *       text "two"
+  *     end
+  *     text ", three."
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::style cainteoir::events::underline
+  * @brief Underline
+  *
+  * The context is displayed with a solid line below the text.
+  *
+  * @code
+  *   context paragraph
+  *     text "This "
+  *     context span +underline
+  *       text "and"
+  *     end
+  *     text " that."
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::style cainteoir::events::monospace
+  * @brief Monospace
+  *
+  * The context is displayed in a monospace font.
+  *
+  * @code
+  *   context paragraph +monospace
+  *     text "if (a < b) { printf("Hello\n"); }"
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::style cainteoir::events::reduced
+  * @brief Reduced
+  *
+  * The context is displayed with a normal (non-italic, non-bold) font and
+  * is spoken quieter.
+  *
+  * @code
+  *   context paragraph
+  *     text "This and "
+  *     context span +reduced
+  *       text "that."
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @enum  cainteoir::events::list_type
+  * @brief The type of the list context.
+  *
+  * This is used to inform the document consumer what style list is presented. This
+  * allows the consumer to process the lists differently.
+  */
+
+/** @var   cainteoir::events::list_type cainteoir::events::bullet
+  * @brief Bullet List
+  *
+  * A bullet list is an unordered list of items. It is typically rendered in
+  * the same way a number (ordered) list is with the bullet appearing in the
+  * list gutter, but the bullet glyphs are not spoken.
+  *
+  * @code
+  *   context list +bullet
+  *     context list-item
+  *       text "* "
+  *       text "Lorem"
+  *     end
+  *     context list-item
+  *       text "* "
+  *       text "ipsum"
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::list_type cainteoir::events::number
+  * @brief Number List
+  *
+  * A number list is an ordered list of items. It is typically rendered in
+  * the same way as a bullet (unordered) list with the number appearing in
+  * the list gutter, and the number is spoken with a short pause afterward.
+  *
+  * @code
+  *   context list +number
+  *     context list-item
+  *       text "1. "
+  *       text "Lorem"
+  *     end
+  *     context list-item
+  *       text "2. "
+  *       text "ipsum"
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @var   cainteoir::events::list_type cainteoir::events::definition
+  * @brief Definition List
+  *
+  * A definition list is a list of glossary or terminology definitions. It
+  * is typically rendered with the definition body indented from the label
+  * and both the label and body are spoken, with a short pause after the
+  * label.
+  *
+  * @code
+  *   context list +definition
+  *     context list-item
+  *       text "HTML "
+  *       text "HyperText Markup Language"
+  *     end
+  *     context list-item
+  *       text "RDF "
+  *       text "Resource Description Framework"
+  *     end
+  *   end
+  * @endcode
+  */
+
+/** @enum  cainteoir::capability_types
+  * @brief The capabilities provided by different document types.
+  */
+
+/** @var   cainteoir::capability_types cainteoir::metadata_support
+  * @brief The document type provides metadata information that can be extracted.
+  */
+
+/** @var   cainteoir::capability_types cainteoir::text_support
+  * @brief The document type contains text that can be extracted.
+  */
