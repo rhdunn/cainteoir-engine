@@ -150,13 +150,13 @@ docs/implementation-status/csv2html.stamp: \
 	cd docs/implementation-status && ./csv2html.py
 	touch docs/implementation-status/csv2html.stamp
 
+api:
+	doxygen docs/cainteoir-engine.doxyconf
+
 doc:	docs/implementation-status/csv2html.stamp \
 	README.html \
 	docs/ReleaseNotes.html \
-	docs/design/languages-voices-accents-and-dialects.html \
-	docs/design/numbers.html \
-	docs/design/phoneme-morphology.html \
-	docs/design/phoneme-transcription-schemes.html
+	api
 
 ############################# libcainteoir ####################################
 

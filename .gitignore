@@ -18,6 +18,8 @@ src/libcainteoir/parsers/html-entities.dat
 
 # build output:
 
+docs/api/
+
 data/languages.rdf.gz
 
 src/libcainteoir/libcainteoir.a
