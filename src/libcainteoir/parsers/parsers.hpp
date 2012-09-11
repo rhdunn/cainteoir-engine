@@ -27,6 +27,7 @@
 namespace cainteoir
 {
 	/** @brief Electronic Publication (ePub)
+	  * @private
 	  *
 	  * @param[in]  aData            The document multi-document container.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -42,6 +43,7 @@ namespace cainteoir
 	                 const char *aDefaultEncoding);
 
 	/** @brief (XML-based) HyperText Markup Language ((X)HTML)
+	  * @private
 	  *
 	  * @param[in]  aReader          The XML document reader.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -59,6 +61,7 @@ namespace cainteoir
 	                 const char *aMimeType);
 
 	/** @brief Miltipurpose Internet Mail Extensions (MIME)
+	  * @private
 	  *
 	  * @param[in]  aData            The document content.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -74,11 +77,12 @@ namespace cainteoir
 	                 const std::string &aTitle);
 
 	/** @brief MIME Document Embedded Within a HTML Document
+	  * @private
 	  *
 	  * This creates a reader for a mime document that is embedded within a HTML
 	  * document that has the following events:
 	  *
-	  * @begincode
+	  * @code
 	  *     toc-entry [...] depth=0 title="""..."""
 	  *     begin-context paragraph +monospace
 	  *     text(...): """
@@ -104,6 +108,7 @@ namespace cainteoir
                                const char *aDefaultEncoding);
 
 	/** @brief Navigation Control File (NCX)
+	  * @private
 	  *
 	  * @param[in]  aReader          The XML document reader.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -119,6 +124,7 @@ namespace cainteoir
 	                const std::string &aTitle);
 
 	/** @brief Open Container Format (OCF)
+	  * @private
 	  *
 	  * @param[in]  aReader          The XML document reader.
 	  *
@@ -128,6 +134,7 @@ namespace cainteoir
 	createOcfReader(const std::shared_ptr<xml::reader> &aReader);
 
 	/** @brief Open Package Format (OPF)
+	  * @private
 	  *
 	  * @param[in]  aReader          The XML document reader.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -143,6 +150,7 @@ namespace cainteoir
 	                const char *aMimeType = "application/oebps-package+xml");
 
 	/** @brief Portable Document Format (PDF)
+	  * @private
 	  *
 	  * @param[in]  aData            The document content.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -158,6 +166,7 @@ namespace cainteoir
 	                const std::string &aTitle);
 
 	/** @brief Plain Text
+	  * @private
 	  *
 	  * @param[in]  aData            The document content.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -173,6 +182,7 @@ namespace cainteoir
 	                      const std::string &aTitle);
 
 	/** @brief RDF/XML
+	  * @private
 	  *
 	  * @param[in]  aReader          The XML document reader.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -186,6 +196,7 @@ namespace cainteoir
 	                   rdf::graph &aPrimaryMetadata);
 
 	/** @brief Rich Text Format (RTF)
+	  * @private
 	  *
 	  * @param[in]  aData            The document content.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -201,6 +212,7 @@ namespace cainteoir
 	                const std::string &aTitle);
 
 	/** @brief Synchronized Multimedia Integration Language (SMIL)
+	  * @private
 	  *
 	  * @param[in]  aReader          The XML document reader.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -216,6 +228,7 @@ namespace cainteoir
 	                 const std::string &aTitle);
 
 	/** @brief Speech Synthesis Markup Language (SSML)
+	  * @private
 	  *
 	  * @param[in]  aReader          The XML document reader.
 	  * @param[in]  aSubject         The RDF subject for the document metadata.
@@ -231,6 +244,7 @@ namespace cainteoir
 	                 const std::string &aTitle);
 
 	/** @brief eXtensible Markup Language (XML)
+	  * @private
 	  *
 	  * @param[in]  aData            The document multi-document container.
 	  * @param[in]  aDefaultEncoding The default character encoding to use.
@@ -242,6 +256,7 @@ namespace cainteoir
 	                const char *aDefaultEncoding);
 
 	/** @brief ZIP archive
+	  * @private
 	  *
 	  * @param[in]  aData            The document multi-document container.
 	  *
