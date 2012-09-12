@@ -26,6 +26,7 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
+#ifndef DOXYGEN
 namespace dc
 {
 	static const xml::context::entry contributor_node = { events::unknown, 0 };
@@ -77,6 +78,7 @@ namespace opf
 	static const xml::context::entry toc_attr       = { events::unknown, 0 };
 	static const xml::context::entry version_attr   = { events::unknown, 0 };
 }
+#endif
 
 static const std::initializer_list<const xml::context::entry_ref> dc_nodes =
 {

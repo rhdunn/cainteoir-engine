@@ -21,6 +21,7 @@
 #include <cainteoir/metadata.hpp>
 
 namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
 
 const rdf::ns rdf::bnode("_", "_:");
 
@@ -54,6 +55,18 @@ const rdf::ns rdf::tts( "tts",  "http://rhdunn.github.com/2010/12/text-to-speech
 
 const rdf::ns rdf::iana(  "iana",   "http://rhdunn.github.com/cainteoir/schema/iana#");
 const rdf::ns rdf::subtag("subtag", "http://rhdunn.github.com/cainteoir/data/iana/subtags#");
+
+/** @brief Extract the subject of the RDF triple.
+  */
+const rql::detail::subject_t rql::subject;
+
+/** @brief Extract the predicate of the RDF triple.
+  */
+const rql::detail::predicate_t rql::predicate;
+
+/** @brief Extract the object of the RDF triple.
+  */
+const rql::detail::object_t rql::object;
 
 rdf::uri::uri(const std::string &aNS, const std::string &aRef)
 	: ns(aNS)

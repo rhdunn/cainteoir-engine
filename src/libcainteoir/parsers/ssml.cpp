@@ -29,6 +29,7 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
+#ifndef DOXYGEN
 namespace ssml
 {
 	static const xml::context::entry emphasis_node  = { events::span,      events::emphasized };
@@ -45,6 +46,7 @@ namespace ssml
 	static const xml::context::entry emphasis_reduced = { events::span, events::reduced };
 	static const xml::context::entry emphasis_none    = { events::span, events::nostyle };
 }
+#endif
 
 static const std::initializer_list<const xml::context::entry_ref> ssml_nodes =
 {

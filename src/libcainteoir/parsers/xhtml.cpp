@@ -30,7 +30,7 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
 
-/// @private
+#ifndef DOXYGEN
 enum html_node
 {
 	node_unknown,
@@ -189,6 +189,7 @@ namespace html
 	static const xml::context::entry keywords_meta    = { events::unknown,   0 };
 	static const xml::context::entry title_meta       = { events::unknown,   0 };
 }
+#endif
 
 static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 {

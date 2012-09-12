@@ -231,6 +231,7 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
+#ifndef DOXYGEN
 		namespace detail
 		{
 			struct subject_t
@@ -265,12 +266,13 @@ namespace cainteoir { namespace rdf
 				}
 			};
 		}
+#endif
 
-		static const detail::subject_t subject;
+		extern const detail::subject_t subject;
 
-		static const detail::predicate_t predicate;
+		extern const detail::predicate_t predicate;
 
-		static const detail::object_t object;
+		extern const detail::object_t object;
 
 		inline const std::string &value(const std::shared_ptr<const rdf::triple> &statement)
 		{
@@ -381,6 +383,7 @@ namespace cainteoir { namespace rdf
 	{
 		typedef std::list<std::shared_ptr<const triple>> results;
 
+#ifndef DOXYGEN
 		namespace detail
 		{
 			template<typename Selector, typename Value>
@@ -402,6 +405,7 @@ namespace cainteoir { namespace rdf
 				const Value &value;
 			};
 		}
+#endif
 
 		/** @brief Match statements whos selector matches the value.
 		  *
@@ -416,6 +420,7 @@ namespace cainteoir { namespace rdf
 			return detail::matches_t<Selector, Value>(aSelector, aValue);
 		}
 
+#ifndef DOXYGEN
 		namespace detail
 		{
 			template<typename Selector1, typename Selector2>
@@ -437,6 +442,7 @@ namespace cainteoir { namespace rdf
 				Selector2 b;
 			};
 		}
+#endif
 
 		/** @brief Match statements that match both selectors.
 		  *
@@ -496,6 +502,7 @@ namespace cainteoir { namespace rdf
 			return false;
 		}
 
+#ifndef DOXYGEN
 		namespace detail
 		{
 			template<typename T>
@@ -518,6 +525,7 @@ namespace cainteoir { namespace rdf
 				}
 			};
 		}
+#endif
 
 		/** @brief Select a value matching the selector.
 		  *

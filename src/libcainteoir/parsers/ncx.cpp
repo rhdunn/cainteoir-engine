@@ -29,6 +29,7 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
+#ifndef DOXYGEN
 namespace ncx
 {
 	static const xml::context::entry content_node   = { events::unknown, 0 };
@@ -46,6 +47,7 @@ namespace ncx
 	static const xml::context::entry name_attr    = { events::unknown, 0 };
 	static const xml::context::entry src_attr     = { events::unknown, 0 };
 }
+#endif
 
 static const std::initializer_list<const xml::context::entry_ref> ncx_nodes =
 {

@@ -25,12 +25,14 @@ namespace xml   = cainteoir::xml;
 namespace xmlns = cainteoir::xml::xmlns;
 namespace rdf   = cainteoir::rdf;
 
+#ifndef DOXYGEN
 namespace smil
 {
 	namespace events = cainteoir::events;
 
 	static const xml::context::entry smil_node = { events::unknown, 0 };
 }
+#endif
 
 static const std::initializer_list<const xml::context::entry_ref> smil_nodes =
 {

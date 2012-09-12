@@ -29,6 +29,7 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace xml    = cainteoir::xml;
 namespace events = cainteoir::events;
 
+#ifndef DOXYGEN
 namespace ocf
 {
 	static const xml::context::entry container_node = { events::unknown, 0 };
@@ -38,6 +39,7 @@ namespace ocf
 	static const xml::context::entry fullpath_attr  = { events::unknown, 0 };
 	static const xml::context::entry mediatype_attr = { events::unknown, 0 };
 }
+#endif
 
 static const std::initializer_list<const xml::context::entry_ref> ocf_nodes =
 {
