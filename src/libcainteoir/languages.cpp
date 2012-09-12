@@ -191,7 +191,7 @@ static const lang::tag *lookup_extlang(std::string lang)
 /** @brief Extract language tag information from a BCP 47 language id.
   * @see   http://www.ietf.org/rfc/rfc5646.txt
   *
-  * @param[in] lang The language string, e.g. "es-LA".
+  * @param[in] code The language identifier, e.g. "es-MX".
   *
   * @return The extracted language, script and country codes.
   */
