@@ -1,9 +1,9 @@
 # Doxyfile 1.8.1.2
 
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "Cainteoir Text-to-Speech"
-PROJECT_NUMBER         = 0.9
-PROJECT_BRIEF          = "Text-to-Speech engine API"
+PROJECT_NAME           = 
+PROJECT_NUMBER         = 
+PROJECT_BRIEF          = 
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = docs/api
 CREATE_SUBDIRS         = NO
