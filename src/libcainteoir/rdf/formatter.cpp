@@ -129,7 +129,77 @@ private:
 	std::map<std::string, std::string> namespaces;
 };
 
+/** @brief Create an RDF serializer.
+  *
+  * @param[in] aStream     The output stream to serialize the RDF data to.
+  * @param[in] aFormatType The format to serialize the RDF data as.
+  *
+  * @return The formatter object.
+  */
 std::shared_ptr<rdf::formatter> rdf::create_formatter(std::ostream &aStream, rdf::formatter::format_type aFormatType)
 {
 	return std::make_shared<n3_formatter>(aStream, aFormatType);
 }
+
+/** @struct cainteoir::rdf::formatter
+  * @brief  An interface for serializing RDF graphs.
+  */
+
+/** @fn    cainteoir::rdf::formatter::~formatter
+  * @brief Clean up the formatter object.
+  */
+
+/** @fn    cainteoir::rdf::formatter &cainteoir::rdf::formatter::operator<<(const cainteoir::rdf::ns &aNS)
+  * @brief Serialize a namespace.
+  *
+  * @param[in] aNS The namespace to serialize.
+  *
+  * @return The formatter object (to support method chaining).
+  */
+
+/** @fn    cainteoir::rdf::formatter &cainteoir::rdf::formatter::operator<<(const cainteoir::rdf::uri &uri)
+  * @brief Serialize a URI resource.
+  *
+  * @param[in] uri The URI resource to serialize.
+  *
+  * @return The formatter object (to support method chaining).
+  */
+
+/** @fn    cainteoir::rdf::formatter &cainteoir::rdf::formatter::operator<<(const cainteoir::rdf::literal &literal)
+  * @brief Serialize a literal resource.
+  *
+  * @param[in] literal The literal resource to serialize.
+  *
+  * @return The formatter object (to support method chaining).
+  */
+
+/** @fn    cainteoir::rdf::formatter &cainteoir::rdf::formatter::operator<<(const std::shared_ptr<const triple> &statement)
+  * @brief Serialize an RDF statement.
+  *
+  * @param[in] statement The statement to serialize.
+  *
+  * @return The formatter object (to support method chaining).
+  */
+
+/** @fn    cainteoir::rdf::formatter &cainteoir::rdf::formatter::operator<<(const cainteoir::rdf::graph &aGraph)
+  * @brief Serialize an RDF graph.
+  *
+  * @param[in] aGraph The RDF graph to serialize.
+  *
+  * @return The formatter object (to support method chaining).
+  */
+
+/** @enum  cainteoir::rdf::formatter::format_type
+  * @brief The format used to serialize the RDF statements as.
+  * @todo  Add individual features (e.g. curies, 'a' instead of rdf:type, etc.) to the enumeration.
+  * @see   http://www.w3.org/TR/rdf-testcases/#ntriples
+  * @see   http://www.w3.org/TeamSubmission/turtle/
+  */
+
+/** @var   cainteoir::rdf::formatter::format_type cainteoir::rdf::formatter::ntriple
+  * @brief N-Triple serialization format.
+  */
+
+/** @var   cainteoir::rdf::formatter::format_type cainteoir::rdf::formatter::turtle
+  * @brief Turtle serialization format.
+  */

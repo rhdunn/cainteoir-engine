@@ -38,11 +38,10 @@ namespace cainteoir { namespace rdf
 		virtual ~resource() {}
 	};
 
-	class uri : public resource
+	struct uri : public resource
 	{
-	public:
-		std::string ns;    /**< @brief The namespace to which the URI resource belongs. */
-		std::string ref;   /**< @brief The URI reference. */
+		std::string ns;
+		std::string ref;
 
 		uri(const std::string &aNS = std::string(), const std::string &aRef = std::string());
 
@@ -63,18 +62,13 @@ namespace cainteoir { namespace rdf
 		return !(a == b);
 	}
 
-	class ns : public cainteoir::xml::ns
+	struct ns : public cainteoir::xml::ns
 	{
-	public:
 		ns(const std::string &aPrefix, const std::string &aHref)
 			: cainteoir::xml::ns(aPrefix, aHref)
 		{
 		}
 
-		/** @brief Create a URI in the namespace.
-		  *
-		  * @param aRef The URI reference relative to the namespace.
-		  */
 		uri operator()(const std::string &aRef) const
 		{
 			return uri(href, aRef);
@@ -91,41 +85,32 @@ namespace cainteoir { namespace rdf
 		return a.href == b;
 	}
 
-	extern const ns bnode;    /**< @brief RDF blank node. */
+	extern const ns bnode;
+	extern const ns rdf;
+	extern const ns rdfa;
+	extern const ns rdfs;
+	extern const ns xsd;
+	extern const ns xml;
+	extern const ns owl;
+	extern const ns dc;
+	extern const ns dcterms;
+	extern const ns dcam;
+	extern const ns dtb;
+	extern const ns ncx;
+	extern const ns epub;
+	extern const ns ocf;
+	extern const ns opf;
+	extern const ns pkg;
+	extern const ns media;
+	extern const ns ssml;
+	extern const ns smil;
+	extern const ns xhtml;
+	extern const ns skos;
+	extern const ns foaf;
+	extern const ns tts;
+	extern const ns iana;
+	extern const ns subtag;
 
-	extern const ns rdf;     /**< @brief RDF syntax namespace. */
-	extern const ns rdfa;    /**< @brief RDF attributes (RDFa) namespace. */
-	extern const ns rdfs;    /**< @brief RDF schema namespace. */
-	extern const ns xsd;     /**< @brief XMLSchema namespace. */
-	extern const ns xml;     /**< @brief XML namespace. */
-	extern const ns owl;     /**< @brief OWL Ontology namespace. */
-
-	extern const ns dc;      /**< @brief Dublin Core: Elements namespace. */
-	extern const ns dcterms; /**< @brief Dublin Core: Terms namespace. */
-	extern const ns dcam;    /**< @brief DCMI Abstract Model namespace. */
-
-	extern const ns dtb;     /**< @brief Daisy Talking Book (DTB) namespace. */
-	extern const ns ncx;     /**< @brief Navigation Control File (NCX) namespace. */
-
-	extern const ns epub;    /**< @brief ePub 3.0 (OPS) namespace. */
-	extern const ns ocf;     /**< @brief Open Container Format (OCF) namespace. */
-	extern const ns opf;     /**< @brief Open Publication Format (OPF) namespace. */
-	extern const ns pkg;     /**< @brief ePub 3.0 package vocabulary namespace. */
-	extern const ns media;   /**< @brief ePub 3.0 media overlay vocabulary namespace. */
-
-	extern const ns ssml;    /**< @brief SSML namespace. */
-	extern const ns smil;    /**< @brief SMIL namespace. */
-	extern const ns xhtml;   /**< @brief XHTML namespace. */
-
-	extern const ns skos;    /**< @brief SKOS namespace. */
-	extern const ns foaf;    /**< @brief Friend of a Friend (FOAF) namespace. */
-	extern const ns tts;     /**< @brief Cainteoir Text-to-Speech RDF namespace. */
-
-	extern const ns iana;    /**< @brief IANA Language Subtag Repository RDF schema namespace. */
-	extern const ns subtag;  /**< @brief IANA Language Subtag Repository RDF namespace. */
-
-	/** @brief RDF literal node
-	  */
 	class literal : public resource
 	{
 		template<typename T>
@@ -146,9 +131,9 @@ namespace cainteoir { namespace rdf
 			return value;
 		}
 	public:
-		std::string value;    /**< @brief The content of the literal string. */
-		std::string language; /**< @brief The language the literal string is written in [optional]. */
-		uri type;             /**< @brief The type of the literal string [optional]. */
+		std::string value;
+		std::string language;
+		uri type;
 
 		literal()
 			: type(std::string(), std::string())
@@ -199,6 +184,7 @@ namespace cainteoir { namespace rdf
 		return value;
 	}
 
+	/// @private
 	template<>
 	inline std::string literal::as<std::string>() const
 	{
@@ -210,11 +196,8 @@ namespace cainteoir { namespace rdf
 		return lhs.value == rhs.value && lhs.language == rhs.language && lhs.type == rhs.type;
 	}
 
-	/** @brief An RDF statement (triple)
-	  */
-	class triple
+	struct triple
 	{
-	public:
 		const uri subject;
 		const uri predicate;
 		const std::shared_ptr<const resource> object;
@@ -268,6 +251,10 @@ namespace cainteoir { namespace rdf
 		}
 #endif
 
+		/** @name Selectors
+		  */
+		//@{
+
 		extern const detail::subject_t subject;
 
 		extern const detail::predicate_t predicate;
@@ -280,35 +267,37 @@ namespace cainteoir { namespace rdf
 			const rdf::literal *literal = dynamic_cast<const rdf::literal *>(statement->object.get());
 			return literal ? literal->value : nil;
 		}
+
+		//@}
 	}
 
-	struct triplestore : public std::list<std::shared_ptr<const triple>>
+	namespace query
 	{
-		typedef std::list<std::shared_ptr<const triple>> tripleset_t;
+		typedef std::list<std::shared_ptr<const triple>> results;
+	}
 
+	struct triplestore : public query::results
+	{
 		void push_back(const_reference item)
 		{
-			tripleset_t::push_back(item);
+			query::results::push_back(item);
 			subjects[query::subject(item).str()].push_back(item);
 		}
 
-		const tripleset_t &subject(const rdf::uri &s) const
+		const query::results &subject(const rdf::uri &s) const
 		{
-			static const tripleset_t empty;
+			static const query::results empty;
 			auto ret = subjects.find(s.str());
 			if (ret == subjects.end())
 				return empty;
 			return (*ret).second;
 		}
 	private:
-		std::map<std::string, tripleset_t> subjects;
+		std::map<std::string, query::results> subjects;
 	};
 
-	/** @brief RDF graph
-	  */
-	class graph : public cainteoir::xml::namespaces
+	struct graph : public cainteoir::xml::namespaces
 	{
-	public:
 		typedef triplestore::size_type size_type;
 		typedef triplestore::const_iterator const_iterator;
 		typedef triplestore::const_reference const_reference;
@@ -324,7 +313,7 @@ namespace cainteoir { namespace rdf
 		const_reference front() const { return triples.front(); }
 		const_reference back()  const { return triples.back(); }
 
-		const triplestore::tripleset_t &subject(const rdf::uri &s) const
+		const query::results &subject(const rdf::uri &s) const
 		{
 			return triples.subject(s);
 		}
@@ -348,8 +337,6 @@ namespace cainteoir { namespace rdf
 			return add_namespace(ns.prefix, ns.href);
 		}
 
-		/** @brief Add namespaces in an RDFa @prefix attribute.
-		  */
 		rdf::graph &add_prefix(const std::string &aPrefix);
 
 		//@}
@@ -381,7 +368,9 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		typedef std::list<std::shared_ptr<const triple>> results;
+		/** @name Selectors
+		  */
+		//@{
 
 #ifndef DOXYGEN
 		namespace detail
@@ -407,13 +396,6 @@ namespace cainteoir { namespace rdf
 		}
 #endif
 
-		/** @brief Match statements whos selector matches the value.
-		  *
-		  * @param aSelector The selector to extract data from the statement.
-		  * @param aValue    The value to match against.
-		  *
-		  * @return The selector functor.
-		  */
 		template<typename Selector, typename Value>
 		detail::matches_t<Selector, Value> matches(const Selector &aSelector, const Value &aValue)
 		{
@@ -444,26 +426,14 @@ namespace cainteoir { namespace rdf
 		}
 #endif
 
-		/** @brief Match statements that match both selectors.
-		  *
-		  * @param a The first selector to match a statement against.
-		  * @param b The second selector to match a statement against.
-		  *
-		  * @return The selector functor.
-		  */
 		template<typename Selector1, typename Selector2>
 		detail::both_t<Selector1, Selector2> both(const Selector1 &a, const Selector2 &b)
 		{
 			return detail::both_t<Selector1, Selector2>(a, b);
 		}
 
-		/** @brief Select statements matching the selector.
-		  *
-		  * @param metadata The subgraph to select statements from.
-		  * @param selector The selector used to choose statements in the graph.
-		  *
-		  * @return A subgraph containing all matching statements.
-		  */
+		//@}
+
 		template<typename TripleStore, typename Selector>
 		inline results select(const TripleStore &metadata, const Selector &selector)
 		{
@@ -477,20 +447,13 @@ namespace cainteoir { namespace rdf
 		}
 
 		// Optimize selecting all triples for a given statement ...
+		/// @private
 		inline results select(const graph &metadata,
 		                      const query::detail::matches_t<query::detail::subject_t, const rdf::uri &> &m)
 		{
 			return metadata.subject(m.value);
 		}
 
-		/** @brief Check if the graph contains any of the specified statements.
-		  *
-		  * @param metadata The subgraph to check.
-		  * @param selector The selector used to choose statements in the graph.
-		  *
-		  * @retval true  If the graph contains a statement matching the selector.
-		  * @retval false If the graph does not contain a statement matching the selector.
-		  */
 		template<typename TripleStore, typename Selector>
 		inline bool contains(const TripleStore &metadata, const Selector &selector)
 		{
@@ -546,6 +509,7 @@ namespace cainteoir { namespace rdf
 		}
 	}
 
+#ifndef DOXYGEN
 	inline query::detail::matches_t<query::detail::subject_t, const rdf::uri &>
 	operator==(const query::detail::subject_t &selector, const rdf::uri &value)
 	{
@@ -573,20 +537,13 @@ namespace cainteoir { namespace rdf
 		return query::detail::both_t<query::detail::matches_t<Selector1, const rdf::uri &>,
 		                             query::detail::matches_t<Selector2, const rdf::uri &>>(a, b);
 	}
+#endif
 
-	/** @brief RDF formatter (serialisation support)
-	  */
 	struct formatter
 	{
 		enum format_type
 		{
-			/** @brief N-Triple format
-			  * @see   http://www.w3.org/TR/rdf-testcases/#ntriples
-			  */
 			ntriple,
-			/** @brief turtle format
-			  * @see   http://www.w3.org/TeamSubmission/turtle/
-			  */
 			turtle,
 		};
 
