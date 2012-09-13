@@ -40,38 +40,14 @@ namespace cainteoir
 		virtual uint32_t write(const char *data, uint32_t len) = 0;
 	};
 
-	/** @name  Metadata
-	  * @brief Converters to map RDF metadata to metadata used by various audio formats.
-	  */
-	//@{
-
-	/** @brief A vorbis comment.
-	  * @see   http://www.xiph.org/vorbis/doc/v-comment.html
-	  */
-	class vorbis_comment
+	struct vorbis_comment
 	{
-	public:
-		const std::string label; /**< @brief The name of the comment, e.g. TITLE. */
-		const std::string value; /**< @brief The content of the comment, e.g. "Moonlight Sonata". */
-
-		vorbis_comment(const std::string &aLabel, const std::string &aValue)
-			: label(aLabel)
-			, value(aValue)
-		{
-		}
+		const std::string label;
+		const std::string value;
 	};
 
-	/** @brief Convert an RDF model to a set of Vorbis Comments.
-	  * @see   http://www.xiph.org/vorbis/doc/v-comment.html
-	  * @see   http://wiki.xiph.org/Metadata
-	  *
-	  * @param aMetadata The RDF metadata used to create the vorbis comments.
-	  * @param aDocument The URI of the document in the RDF model to get the data for.
-	  * @return          The vorbis comments in (label, value) form.
-	  */
-	std::list<vorbis_comment> vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument);
-
-	//@}
+	std::list<vorbis_comment>
+	vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 	void supportedAudioFormats(rdf::graph &metadata);
 

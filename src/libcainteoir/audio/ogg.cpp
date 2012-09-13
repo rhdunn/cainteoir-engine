@@ -43,7 +43,30 @@ static std::string now()
 	return date;
 }
 
-std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument)
+/** @struct cainteoir::vorbis_comment
+  * @brief  A vorbis comment.
+  * @see    http://www.xiph.org/vorbis/doc/v-comment.html
+  */
+
+/** @var   cainteoir::vorbis_comment::label
+  * @brief The name of the comment, e.g. TITLE.
+  */
+
+/** @var   cainteoir::vorbis_comment::value
+  * @brief The content of the comment, e.g. "Moonlight Sonata".
+  */
+
+/** @brief Convert an RDF graph to a set of Vorbis Comments.
+  * @see   http://www.xiph.org/vorbis/doc/v-comment.html
+  * @see   http://wiki.xiph.org/Metadata
+  *
+  * @param[in] aMetadata The RDF metadata used to create the vorbis comments.
+  * @param[in] aDocument The URI of the document in the RDF graph to convert to vorbis comments.
+  *
+  * @return The vorbis comments in (label, value) form for @a aDocument.
+  */
+std::list<cainteoir::vorbis_comment>
+cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	std::list<vorbis_comment> comments;
 	std::string year;
@@ -56,13 +79,13 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 		if (!object.empty())
 		{
 			if (rql::predicate(query) == rdf::dc("creator"))
-				comments.push_back(vorbis_comment("ARTIST", object));
+				comments.push_back({ "ARTIST", object });
 			else if (rql::predicate(query) == rdf::dc("title"))
-				comments.push_back(vorbis_comment("ALBUM", object));
+				comments.push_back({ "ALBUM", object });
 			else if (rql::predicate(query) == rdf::dc("description"))
 			{
-				comments.push_back(vorbis_comment("DESCRIPTION", object));
-				comments.push_back(vorbis_comment("COMMENT", object));
+				comments.push_back({ "DESCRIPTION", object });
+				comments.push_back({ "COMMENT",     object });
 			}
 			else if (rql::predicate(query) == rdf::dc("date") && year.empty())
 				year = object;
@@ -87,7 +110,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 			}
 
 			if (!author.empty() && (role == "aut" || role.empty()))
-				comments.push_back(cainteoir::vorbis_comment("ARTIST", author));
+				comments.push_back({ "ARTIST", author });
 		}
 		else if (rql::predicate(query) == rdf::dc("date"))
 		{
@@ -123,7 +146,7 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 			if (!value.empty())
 			{
 				if (rql::predicate(query) == rdf::dcterms("title"))
-					comments.push_back(vorbis_comment("ALBUM", value));
+					comments.push_back({ "ALBUM", value });
 			}
 		}
 	}
@@ -140,12 +163,12 @@ std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph
 	if (ym != std::string::npos)
 		year = year.substr(0, ym);
 
-	comments.push_back(vorbis_comment("GENRE", "Vocal"));
-	comments.push_back(vorbis_comment("DATE", year));
+	comments.push_back({ "GENRE", "Vocal" });
+	comments.push_back({ "DATE",  year });
 
-	comments.push_back(vorbis_comment("PERFORMER", i18n("Cainteoir(TM) Text-to-Speech")));
-	comments.push_back(vorbis_comment("LICENSE", "http://creativecommons.org/licenses/by-sa/3.0/"));
-	comments.push_back(vorbis_comment("CONTACT", "http://rhdunn.github.com/cainteoir/"));
+	comments.push_back({ "PERFORMER", i18n("Cainteoir(TM) Text-to-Speech") });
+	comments.push_back({ "LICENSE",   "http://creativecommons.org/licenses/by-sa/3.0/" });
+	comments.push_back({ "CONTACT",   "http://rhdunn.github.com/cainteoir/" });
 	return comments;
 }
 

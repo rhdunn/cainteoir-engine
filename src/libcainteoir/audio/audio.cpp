@@ -41,6 +41,10 @@ create_ogg_file(const char *filename, const rdf::uri &format, int channels, int 
 std::shared_ptr<cainteoir::audio>
 create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
+/** @brief Get the audio formats that are supported by libcainteoir.
+  *
+  * @param[out] metadata The RDF graph to write the format support to.
+  */
 void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 {
 	std::string baseuri = "http://rhdunn.github.com/cainteoir/formats/audio";
@@ -49,6 +53,23 @@ void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 	mime::ogg.metadata(metadata, baseuri, rdf::tts("AudioFormat"));
 }
 
+/** @brief Create an audio file to write data to.
+  * @todo  Make @a type an rdf::uri that points to the subject of the tts:AudioFormat to use.
+  *
+  * @param[in] filename       The name of the audio file.
+  * @param[in] type           The file type (currently either 'wav' or 'ogg').
+  * @param[in] quality        The encoding quality to use (for lossy encodings).
+  * @param[in] aDocMetadata   The RDF graph containing the document metadata.
+  * @param[in] aDocument      The subject to use to extract the document metadata.
+  * @param[in] aVoiceMetadata The RDF graph containing the voice metadata.
+  * @param[in] aVoice         The subject to use to extract the voice metadata.
+  *
+  * @return An audio object associated with the file.
+  *
+  * The document metadata is used to create metadata tags on the audio file
+  * (title, author, etc.). The voice metadata is used to determine the number
+  * of channels and frequency of the audio.
+  */
 std::shared_ptr<cainteoir::audio>
 cainteoir::create_audio_file(
 	const char *filename,
@@ -75,6 +96,22 @@ cainteoir::create_audio_file(
 	return std::shared_ptr<cainteoir::audio>();
 }
 
+/** @brief Open an audio device to write data to.
+  *
+  * @param[in] filename       The name of the audio device.
+  * @param[in] type           The device type (currently only 'pulse').
+  * @param[in] quality        The encoding quality to use (for lossy encodings).
+  * @param[in] aDocMetadata   The RDF graph containing the document metadata.
+  * @param[in] aDocument      The subject to use to extract the document metadata.
+  * @param[in] aVoiceMetadata The RDF graph containing the voice metadata.
+  * @param[in] aVoice         The subject to use to extract the voice metadata.
+  *
+  * @return An audio object associated with the device.
+  *
+  * The document metadata is used to create metadata tags on the audio device
+  * (title, author, etc.). The voice metadata is used to determine the number
+  * of channels and frequency of the audio.
+  */
 std::shared_ptr<cainteoir::audio>
 cainteoir::open_audio_device(
 	const char *device,
@@ -96,3 +133,27 @@ cainteoir::open_audio_device(
 	return std::shared_ptr<cainteoir::audio>();
 }
 
+/** @struct cainteoir::audio
+  * @brief  Manage an audio device or file.
+  */
+
+/** @fn    cainteoir::audio::~audio()
+  * @brief Cleanup the audio object.
+  */
+
+/** @fn    void cainteoir::audio::open()
+  * @brief Opens a connection to the audio device or creates the audio file.
+  */
+
+/** @fn    void cainteoir::audio::close()
+  * @brief Closes the connection to the audio device or file.
+  */
+
+/** @fn    uint32_t cainteoir::audio::write(const char *data, uint43_t len)
+  * @brief Write the specified audio data to the device or file.
+  *
+  * @param[in] data The audio data.
+  * @param[in] len  The length of the audio data in bytes.
+  *
+  * @return The number of bytes written.
+  */
