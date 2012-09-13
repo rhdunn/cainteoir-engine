@@ -35,6 +35,12 @@ cainteoir::data_buffer::~data_buffer()
 	delete [] first;
 }
 
+/** @brief Create a data buffer with the content of the string.
+  *
+  * @param[in] aString The content of the buffer.
+  *
+  * @return A new data buffer with the content of @a aString.
+  */
 std::shared_ptr<cainteoir::buffer> cainteoir::make_buffer(const std::string &aString)
 {
 	std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(aString.size() + 1);

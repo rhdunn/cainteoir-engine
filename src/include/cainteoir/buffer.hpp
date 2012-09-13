@@ -164,58 +164,16 @@ namespace cainteoir
 	/** @name Decoding/Decompression API */
 	//@{
 
-	/** @brief Pointer to a decoding/decompression algorithm.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The new data buffer.
-	  */
 	typedef std::shared_ptr<buffer> (*decoder_ptr)(const buffer &data, uint32_t size);
 
-	/** @brief Copy the data in buffer to a memory buffer.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The new data buffer.
-	  */
 	std::shared_ptr<buffer> copy(const buffer &data, uint32_t size);
 
-	/** @brief Inflate a zlib compressed data buffer.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The uncompressed data buffer.
-	  */
 	std::shared_ptr<buffer> inflate_zlib(const buffer &data, uint32_t size);
 
-	/** @brief Inflate a gzip compressed data buffer.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The uncompressed data buffer.
-	  */
 	std::shared_ptr<buffer> inflate_gzip(const buffer &data, uint32_t size);
 
-	/** @brief Decode a quoted printable encoded data buffer.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The decoded data buffer.
-	  */
 	std::shared_ptr<buffer> decode_quoted_printable(const buffer &data, uint32_t size);
 
-	/** @brief Decode a base64 encoded data buffer.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The decoded data buffer.
-	  */
 	std::shared_ptr<buffer> decode_base64(const buffer &data, uint32_t size);
 
 	//@}

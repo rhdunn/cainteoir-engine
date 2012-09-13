@@ -81,6 +81,13 @@ struct base64 : public cainteoir::data_buffer
 	}
 };
 
+/** @brief Decode a base64 encoded data buffer.
+  *
+  * @param[in] data The data buffer to be decoded/decompressed.
+  * @param[in] size The size of the decoded/decompressed data buffer.
+  *
+  * @return The decoded data buffer.
+  */
 std::shared_ptr<cainteoir::buffer> cainteoir::decode_base64(const cainteoir::buffer &data, uint32_t size)
 {
 	return std::make_shared<base64>(data);
