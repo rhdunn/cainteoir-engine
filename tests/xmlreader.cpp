@@ -100,7 +100,7 @@ int main(int argc, char ** argv)
 
 		for (int i = 0; i != repeatCount; ++i)
 		{
-			xml::reader reader(std::shared_ptr<cainteoir::buffer>(new cainteoir::mmap_buffer(argv[0])), "windows-1252");
+			xml::reader reader(cainteoir::make_file_buffer(argv[0]), "windows-1252");
 			while (reader.read())
 			{
 				std::string ns = reader.namespaceUri();

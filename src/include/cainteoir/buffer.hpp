@@ -92,14 +92,6 @@ namespace cainteoir
 		range_buffer(const std::shared_ptr<buffer> &a, const cainteoir::buffer &range) : buffer(range.begin(), range.end()), anchor(a) {}
 	};
 
-	class mmap_buffer : public buffer
-	{
-		int fd;
-	public:
-		mmap_buffer(const char *path);
-		~mmap_buffer();
-	};
-
 	class data_buffer : public buffer
 	{
 	public:
@@ -149,6 +141,8 @@ namespace cainteoir
 	};
 
 	std::shared_ptr<buffer> make_buffer(const std::string &aString);
+
+	std::shared_ptr<buffer> make_file_buffer(const char *path);
 
 	/** @name Decoding/Decompression API */
 	//@{

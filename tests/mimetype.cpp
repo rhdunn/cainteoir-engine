@@ -93,7 +93,7 @@ int main(int argc, char ** argv)
 		if (argc == 0)
 			throw std::runtime_error("no document specified");
 
-		auto data = std::make_shared<cainteoir::mmap_buffer>(argv[0]);
+		auto data = cainteoir::make_file_buffer(argv[0]);
 
 		test_mimetype(data, mime::email);
 		test_mimetype(data, mime::epub);

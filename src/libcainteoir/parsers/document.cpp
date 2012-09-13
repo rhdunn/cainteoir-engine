@@ -192,7 +192,7 @@ cainteoir::createDocumentReader(const char *aFilename,
 
 	std::shared_ptr<cainteoir::buffer> data;
 	if (aFilename)
-		data = std::make_shared<cainteoir::mmap_buffer>(aFilename);
+		data = cainteoir::make_file_buffer(aFilename);
 	else
 		data = buffer_from_stdin();
 
