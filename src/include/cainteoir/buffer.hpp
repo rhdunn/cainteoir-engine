@@ -89,7 +89,7 @@ namespace cainteoir
 	public:
 		range_buffer(const std::shared_ptr<buffer> &a, const char *f, const char *l) : buffer(f, l), anchor(a) {}
 		range_buffer(const std::shared_ptr<buffer> &a, const char *f) : buffer(f, a->end()), anchor(a) {}
-		range_buffer(const std::shared_ptr<buffer> &a, const cainteoir::buffer &range) : buffer(range.begin(), range.end()), anchor(a) {}
+		range_buffer(const std::shared_ptr<buffer> &a, const buffer &range) : buffer(range.begin(), range.end()), anchor(a) {}
 	};
 
 	class data_buffer : public buffer
@@ -99,17 +99,11 @@ namespace cainteoir
 		~data_buffer();
 	};
 
-	class normalized_text_buffer : public buffer
-	{
-	public:
-		normalized_text_buffer(const char *f, const char *l);
-		normalized_text_buffer(const char *str);
-		normalized_text_buffer(const std::shared_ptr<buffer> &str);
+	std::shared_ptr<buffer> make_buffer(const std::string &aString);
 
-		~normalized_text_buffer();
-	private:
-		void normalize(const char *f, const char *l);
-	};
+	std::shared_ptr<buffer> make_file_buffer(const char *path);
+
+	std::shared_ptr<buffer> make_normalized_buffer(const std::shared_ptr<buffer> &aBuffer);
 
 	class rope
 	{
@@ -124,9 +118,9 @@ namespace cainteoir
 
 		void clear();
 
-		rope &operator=(const std::shared_ptr<buffer> &item);
+		rope &operator=(const std::shared_ptr<cainteoir::buffer> &item);
 
-		rope &operator+=(const std::shared_ptr<buffer> &item);
+		rope &operator+=(const std::shared_ptr<cainteoir::buffer> &item);
 
 		std::shared_ptr<cainteoir::buffer> buffer() const;
 
@@ -134,15 +128,11 @@ namespace cainteoir
 
 		std::shared_ptr<cainteoir::buffer> normalize() const
 		{
-			return std::make_shared<normalized_text_buffer>(buffer());
+			return make_normalized_buffer(buffer());
 		}
 
 		std::string str() const { return buffer()->str(); }
 	};
-
-	std::shared_ptr<buffer> make_buffer(const std::string &aString);
-
-	std::shared_ptr<buffer> make_file_buffer(const char *path);
 
 	/** @name Decoding/Decompression API */
 	//@{

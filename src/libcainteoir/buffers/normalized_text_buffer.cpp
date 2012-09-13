@@ -24,6 +24,8 @@
 #include <cainteoir/buffer.hpp>
 #include <cainteoir/unicode.hpp>
 
+namespace utf8 = cainteoir::utf8;
+
 namespace cainteoir { namespace utf8
 {
 	static bool isspace(uint32_t c)
@@ -41,34 +43,22 @@ namespace cainteoir { namespace utf8
 	}
 }}
 
-cainteoir::normalized_text_buffer::normalized_text_buffer(const char *str)
+class normalized_text_buffer : public cainteoir::buffer
+{
+public:
+	normalized_text_buffer(const std::shared_ptr<buffer> &aBuffer);
+	~normalized_text_buffer();
+};
+
+normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 	: buffer(nullptr, nullptr)
 {
-	if (str)
-		normalize(str, str+strlen(str));
-}
+	if (!aBuffer.get() || aBuffer->empty())
+		return;
 
-cainteoir::normalized_text_buffer::normalized_text_buffer(const char *f, const char *l)
-	: buffer(nullptr, nullptr)
-{
-	if (f != l)
-		normalize(f, l);
-}
+	const char *str = aBuffer->begin();
+	const char *l   = aBuffer->end();
 
-cainteoir::normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &str)
-	: buffer(nullptr, nullptr)
-{
-	if (str.get() && !str->empty())
-		normalize(str->begin(), str->end());
-}
-
-cainteoir::normalized_text_buffer::~normalized_text_buffer()
-{
-	delete [] first;
-}
-
-void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l)
-{
 	// trim space at the start:
 
 	uint32_t ch = 0;
@@ -103,4 +93,23 @@ void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l
 	while (last > first && (next = utf8::prev(last)) && utf8::read(next, ch) && utf8::isspace(ch))
 		last = next;
 	*(char *)last = '\0';
+}
+
+normalized_text_buffer::~normalized_text_buffer()
+{
+	delete [] first;
+}
+
+/** @brief Create a whitespace-normalized buffer.
+  *
+  * @param[in] aBuffer The buffer containing the text to normalize.
+  *
+  * @return A new buffer with the whitespace normalized.
+  *
+  * This trims whitespace from the start and end of the buffer, as well as
+  * consecutive whitespace characters within the buffer.
+  */
+std::shared_ptr<cainteoir::buffer> cainteoir::make_normalized_buffer(const std::shared_ptr<buffer> &aBuffer)
+{
+	return std::make_shared<normalized_text_buffer>(aBuffer);
 }
