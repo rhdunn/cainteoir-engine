@@ -25,60 +25,35 @@
 
 namespace cainteoir
 {
-	struct decoder
+#ifndef DOXYGEN
+	namespace detail
 	{
-		virtual void decode(const cainteoir::buffer &data, cainteoir::rope &decoded) const = 0;
+		struct decoder
+		{
+			virtual void decode(const cainteoir::buffer &data, cainteoir::rope &decoded) const = 0;
 
-		virtual ~decoder() {}
-	};
+			virtual ~decoder() {}
+		};
+	}
+#endif
 
-	class encoding
+	struct encoding
 	{
-	public:
 		encoding(int aCodepage);
 
 		encoding(const char *aEncoding);
 
-		/** @brief Set the character encoding to the specified Windows codepage.
-		  *
-		  * @param aCodepage The Windows codepage to change to.
-		  *
-		  * @return true if the encoding was changed, false if the encoding is unchanged.
-		  */
 		bool set_encoding(int aCodepage);
 
-		/** @brief Set the character encoding.
-		  *
-		  * @param aEncoding The encoding to change to.
-		  *
-		  * @return true if the encoding was changed, false if the encoding is unchanged.
-		  */
 		bool set_encoding(const char *aEncoding);
 
-		/** @brief Lookup the single-byte character.
-		  *
-		  * @param c The character to lookup.
-		  *
-		  * @return The utf-8 representation of c.
-		  */
 		std::shared_ptr<cainteoir::buffer> lookup(uint8_t c) const;
 
-		/** @brief Convert the data buffer to utf-8.
-		  *
-		  * @param data The character buffer to convert.
-		  *
-		  * @return The utf-8 representation of data.
-		  */
 		std::shared_ptr<cainteoir::buffer> decode(const std::shared_ptr<cainteoir::buffer> &data) const;
 
-		/** @brief Convert the data buffer to utf-8.
-		  *
-		  * @param data The character buffer to convert.
-		  * @param decoded The rope to add the utf-8 representation of data to.
-		  */
 		void decode(const std::shared_ptr<cainteoir::buffer> &data, cainteoir::rope &decoded) const;
 	private:
-		std::shared_ptr<decoder> mDecoder;
+		std::shared_ptr<detail::decoder> mDecoder;
 		std::string mEncoding;
 	};
 }
