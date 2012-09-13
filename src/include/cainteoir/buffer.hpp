@@ -21,6 +21,8 @@
 #ifndef CAINTEOIR_ENGINE_BUFFER_HPP
 #define CAINTEOIR_ENGINE_BUFFER_HPP
 
+#include "range.hpp"
+
 #include <cstring>
 #include <string>
 #include <memory>
@@ -28,25 +30,12 @@
 
 namespace cainteoir
 {
-	class buffer
+	class buffer : public range<const char *>
 	{
-	protected:
-		const char *first;
-		const char *last;
 	public:
-		buffer(const char *f, const char *l) : first(f), last(l) {}
-		buffer(const char *f) : first(f), last(f+strlen(f)) {}
+		buffer(const char *f, const char *l) : range<const char *>(f, l) {}
+		buffer(const char *f) : range<const char *>(f, f+strlen(f)) {}
 		virtual ~buffer() {}
-
-		typedef const char * iterator;
-		typedef std::size_t size_type;
-
-		iterator begin() const { return first; }
-		iterator end()   const { return last; }
-
-		size_type size() const { return last - first; }
-
-		bool empty() const { return first == last; }
 
 		typedef int (*match_type)(const char *s1, const char *s2, size_t n);
 		static const match_type match_case;

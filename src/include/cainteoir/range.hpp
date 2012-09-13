@@ -33,6 +33,7 @@ namespace cainteoir
 		Iterator last;
 	public:
 		range(Iterator f, Iterator l) : first(f), last(l) {}
+		virtual ~range() {}
 
 		typedef Iterator iterator;
 		typedef std::size_t size_type;
