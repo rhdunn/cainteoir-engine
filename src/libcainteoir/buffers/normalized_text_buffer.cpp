@@ -80,7 +80,7 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 			ch = ' ';
 
 		uint32_t ch2 = 0;
-		if (str < l && ch == ' ' && utf8::read(next, ch2) && utf8::isspace(ch2))
+		if (ch == ' ' && str < l && utf8::read(next, ch2) && utf8::isspace(ch2))
 			str = next;
 		else
 		{
