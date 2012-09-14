@@ -30,18 +30,6 @@
 namespace rdf = cainteoir::rdf;
 namespace mime = cainteoir::mime;
 
-static std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
-{
-	cainteoir::rope data;
-	char buffer[1024];
-
-	size_t read;
-	while ((read = fread(buffer, 1, sizeof(buffer), stdin)) != 0)
-		data += cainteoir::make_buffer(buffer, read);
-
-	return data.buffer();
-}
-
 std::shared_ptr<cainteoir::xml::reader>
 cainteoir::createXmlReader(const std::shared_ptr<buffer> &aData, const char *aDefaultEncoding)
 {
@@ -190,7 +178,7 @@ cainteoir::createDocumentReader(const char *aFilename,
 	if (aFilename)
 		data = cainteoir::make_file_buffer(aFilename);
 	else
-		data = buffer_from_stdin();
+		data = cainteoir::make_file_buffer(stdin);
 
 	return createDocumentReader(data, subject, aPrimaryMetadata, aTitle, aDefaultEncoding);
 }

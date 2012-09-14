@@ -96,6 +96,8 @@ namespace cainteoir
 
 	std::shared_ptr<buffer> make_file_buffer(const char *path);
 
+	std::shared_ptr<buffer> make_file_buffer(FILE *f);
+
 	std::shared_ptr<buffer> make_normalized_buffer(const std::shared_ptr<buffer> &aBuffer);
 
 	class rope

@@ -68,6 +68,9 @@ mmap_buffer::~mmap_buffer()
   * @param[in] path The path of the file to read the data from.
   *
   * @return A buffer containing the content of the specified file.
+  *
+  * This function creates a memory mapped view of the file for optimal reading
+  * of file contents.
   */
 std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(const char *path)
 {

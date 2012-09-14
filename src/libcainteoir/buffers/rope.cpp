@@ -70,3 +70,26 @@ std::shared_ptr<cainteoir::buffer> cainteoir::rope::content() const
 
 	return (str == end) ? std::shared_ptr<cainteoir::buffer>() : text;
 }
+
+/** @brief Create a buffer from a file.
+  *
+  * @param[in] f The file to read the data from.
+  *
+  * @return A buffer containing the content of the specified file.
+  *
+  * This function reads the data from the file in chunks. It is useful for
+  * files that are buffered (stdin, pipes, sockets, etc.). For regular
+  * files, use the version of this function that takes a path.
+  */
+std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(FILE *f)
+{
+	cainteoir::rope data;
+	char buffer[1024];
+
+	size_t read = 0;
+	while ((read = fread(buffer, 1, sizeof(buffer), f)) != 0)
+		data += cainteoir::make_buffer(buffer, read);
+
+	return data.buffer();
+}
+
