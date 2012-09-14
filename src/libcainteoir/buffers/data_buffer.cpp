@@ -23,6 +23,14 @@
 
 #include <cainteoir/buffer.hpp>
 
+/** @class cainteoir::data_buffer
+  * @brief A buffer allocated in memory of a given size.
+  */
+
+/** @brief Create a memory buffer of the requested size.
+  *
+  * @param[in] aSize The size of the buffer to create.
+  */
 cainteoir::data_buffer::data_buffer(unsigned int aSize)
 	: buffer(nullptr, nullptr)
 {
@@ -30,6 +38,8 @@ cainteoir::data_buffer::data_buffer(unsigned int aSize)
 	last = first + aSize;
 }
 
+/** @brief Clean up the buffer.
+  */
 cainteoir::data_buffer::~data_buffer()
 {
 	delete [] first;
