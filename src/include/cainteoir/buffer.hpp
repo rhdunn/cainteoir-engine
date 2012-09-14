@@ -83,15 +83,6 @@ namespace cainteoir
 		}
 	};
 
-	class range_buffer : public buffer
-	{
-		std::shared_ptr<buffer> anchor;
-	public:
-		range_buffer(const std::shared_ptr<buffer> &a, const char *f, const char *l) : buffer(f, l), anchor(a) {}
-		range_buffer(const std::shared_ptr<buffer> &a, const char *f) : buffer(f, a->end()), anchor(a) {}
-		range_buffer(const std::shared_ptr<buffer> &a, const buffer &range) : buffer(range.begin(), range.end()), anchor(a) {}
-	};
-
 	class data_buffer : public buffer
 	{
 	public:
