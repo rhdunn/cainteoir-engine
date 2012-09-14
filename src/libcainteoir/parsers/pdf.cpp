@@ -192,7 +192,7 @@ bool pdf_document_reader::read()
 				if (*s == '\r' || *s == '\n')
 					*s = ' ';
 			}
-			text      = cainteoir::make_normalized_buffer(text);
+			text      = cainteoir::normalize(text);
 
 			if (++mCurrentIndex == mIndex.end())
 				mState = state_text;

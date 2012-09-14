@@ -109,7 +109,7 @@ normalized_text_buffer::~normalized_text_buffer()
   * This trims whitespace from the start and end of the buffer, as well as
   * consecutive whitespace characters within the buffer.
   */
-std::shared_ptr<cainteoir::buffer> cainteoir::make_normalized_buffer(const std::shared_ptr<buffer> &aBuffer)
+std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
 {
 	return std::make_shared<normalized_text_buffer>(aBuffer);
 }

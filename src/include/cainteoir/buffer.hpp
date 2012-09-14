@@ -98,7 +98,7 @@ namespace cainteoir
 
 	std::shared_ptr<buffer> make_file_buffer(FILE *f);
 
-	std::shared_ptr<buffer> make_normalized_buffer(const std::shared_ptr<buffer> &aBuffer);
+	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer);
 
 	class rope
 	{
@@ -123,7 +123,7 @@ namespace cainteoir
 
 		std::shared_ptr<cainteoir::buffer> normalize() const
 		{
-			return make_normalized_buffer(buffer());
+			return cainteoir::normalize(buffer());
 		}
 
 		std::string str() const { return buffer()->str(); }
