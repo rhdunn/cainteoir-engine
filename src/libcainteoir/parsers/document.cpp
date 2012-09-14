@@ -37,11 +37,7 @@ static std::shared_ptr<cainteoir::buffer> buffer_from_stdin()
 
 	size_t read;
 	while ((read = fread(buffer, 1, sizeof(buffer), stdin)) != 0)
-	{
-		std::shared_ptr<cainteoir::buffer> fiber = std::make_shared<cainteoir::data_buffer>(read);
-		memcpy((void *)fiber->begin(), buffer, read);
-		data += fiber;
-	}
+		data += cainteoir::make_buffer(buffer, read);
 
 	return data.buffer();
 }

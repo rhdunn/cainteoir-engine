@@ -92,6 +92,8 @@ namespace cainteoir
 
 	std::shared_ptr<buffer> make_buffer(const std::string &aString);
 
+	std::shared_ptr<buffer> make_buffer(const char *aString, int aLength);
+
 	std::shared_ptr<buffer> make_file_buffer(const char *path);
 
 	std::shared_ptr<buffer> make_normalized_buffer(const std::shared_ptr<buffer> &aBuffer);

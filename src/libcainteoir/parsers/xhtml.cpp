@@ -641,8 +641,7 @@ bool html_document_reader::read()
 					int len = snprintf(textnum, sizeof(textnum), "%d. ", ctx.top().parameter);
 					textnum[len] = '\0';
 
-					text = std::make_shared<cainteoir::data_buffer>(len);
-					strcpy((char *)text->begin(), textnum);
+					text = cainteoir::make_buffer(textnum, len);
 
 					++ctx.top().parameter;
 				}

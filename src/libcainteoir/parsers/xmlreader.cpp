@@ -81,21 +81,13 @@ parse_entity(const cainteoir::buffer &entity,
 		*end = '\0';
 
 		if (utf8[0])
-		{
-			std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(strlen(utf8));
-			strcpy((char *)data->begin(), utf8);
-			return data;
-		}
+			return cainteoir::make_buffer(utf8, strlen(utf8));
 	}
 	else
 	{
 		auto match = doctypeEntities.find(entity.str());
 		if (match != doctypeEntities.end())
-		{
-			std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(match->second.size());
-			strcpy((char *)data->begin(), match->second.c_str());
-			return data;
-		}
+			return cainteoir::make_buffer(match->second.c_str(), match->second.size());
 
 		const char * value = cainteoir::xml::lookup_entity(entities, entity);
 		if (value)

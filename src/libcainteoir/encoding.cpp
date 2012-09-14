@@ -127,11 +127,7 @@ struct iconv_decoder : public cainteoir::detail::decoder
 			}
 
 			if (outlen != sizeof(buffer))
-			{
-				std::shared_ptr<cainteoir::buffer> fiber = std::make_shared<cainteoir::data_buffer>(sizeof(buffer) - outlen);
-				memcpy((void *)fiber->begin(), buffer, sizeof(buffer) - outlen);
-				decoded += fiber;
-			}
+				decoded += cainteoir::make_buffer(buffer, sizeof(buffer) - outlen);
 		}
 	}
 

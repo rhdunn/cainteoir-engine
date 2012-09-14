@@ -47,3 +47,17 @@ std::shared_ptr<cainteoir::buffer> cainteoir::make_buffer(const std::string &aSt
 	strcpy((char *)data->begin(), aString.c_str());
 	return data;
 }
+
+/** @brief Create a data buffer with the content of the string.
+  *
+  * @param[in] aString The content of the buffer.
+  * @param[in] aLength The length of the string (or number of bytes of the string to copy).
+  *
+  * @return A new data buffer with the content of @a aString.
+  */
+std::shared_ptr<cainteoir::buffer> cainteoir::make_buffer(const char *aString, int aLength)
+{
+	std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(aLength);
+	memcpy((void *)data->begin(), aString, aLength);
+	return data;
+}

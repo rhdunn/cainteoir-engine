@@ -29,7 +29,5 @@
   */
 std::shared_ptr<cainteoir::buffer> cainteoir::copy(const cainteoir::buffer &compressed, uint32_t uncompressed)
 {
-	std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(compressed.size());
-	memcpy((char *)data->begin(), compressed.begin(), compressed.size());
-	return data;
+	return cainteoir::make_buffer(compressed.begin(), compressed.size());
 }
