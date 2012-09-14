@@ -184,15 +184,8 @@ bool pdf_document_reader::read()
 			type      = events::toc_entry;
 			context   = events::heading;
 			parameter = 0;
+			text      = cainteoir::normalize(std::make_shared<cainteoir::buffer>(title));
 			anchor    = rdf::uri(mSubject.str(), pagenum);
-
-			text      = cainteoir::make_buffer(title);
-			for (char *s = (char *)text->begin(), *end = (char *)text->end(); s != end; ++s)
-			{
-				if (*s == '\r' || *s == '\n')
-					*s = ' ';
-			}
-			text      = cainteoir::normalize(text);
 
 			if (++mCurrentIndex == mIndex.end())
 				mState = state_text;

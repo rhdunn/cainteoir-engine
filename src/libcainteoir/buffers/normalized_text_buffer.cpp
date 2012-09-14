@@ -76,9 +76,11 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 	while (str < l)
 	{
 		next = utf8::read(str, ch);
+		if (utf8::isspace(ch))
+			ch = ' ';
 
 		uint32_t ch2 = 0;
-		if (str < l && utf8::isspace(ch) && utf8::read(next, ch2) && utf8::isspace(ch2))
+		if (str < l && ch == ' ' && utf8::read(next, ch2) && utf8::isspace(ch2))
 			str = next;
 		else
 		{
@@ -107,7 +109,8 @@ normalized_text_buffer::~normalized_text_buffer()
   * @return A new buffer with the whitespace normalized.
   *
   * This trims whitespace from the start and end of the buffer, as well as
-  * consecutive whitespace characters within the buffer.
+  * consecutive whitespace characters within the buffer. Any whitespace
+  * character is replaced by an ASCII space character.
   */
 std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
 {

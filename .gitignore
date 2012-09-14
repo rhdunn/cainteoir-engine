@@ -30,6 +30,7 @@ src/apps/metadata/metadata
 src/apps/tagcloud/tagcloud
 src/apps/doc2doc/doc2doc
 
+tests/buffer
 tests/rdfmodel
 tests/rdfquery
 tests/ntriple_formatter
