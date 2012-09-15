@@ -28,11 +28,10 @@
 
 namespace cainteoir { namespace xml
 {
-	class ns
+	struct ns
 	{
-	public:
-		std::string prefix; /**< @brief The default prefix for the namespace. */
-		std::string href;   /**< @brief The path of the namespace. */
+		std::string prefix;
+		std::string href;
 
 		ns(const std::string &aPrefix, const std::string &aHref)
 			: href(aHref)
@@ -43,33 +42,32 @@ namespace cainteoir { namespace xml
 
 	namespace xmlns
 	{
-		extern const ns dc;    /**< Dublin Core Elements namespace */
-		extern const ns dcam;  /**< Dublin Core Abstract Model namespace */
-		extern const ns dct;   /**< Dublin Core Terms namespace */
-		extern const ns dtb;   /**< Daisy Talking Book namespace */
-		extern const ns epub;  /**< ePub (Open Package Specification) namespace */
-		extern const ns foaf;  /**< Friend of a Friend namespace */
-		extern const ns media; /**< ePub Media Overlays namespace */
-		extern const ns ncx;   /**< Navigation Control File namespace */
-		extern const ns ocf;   /**< Open Container Format namespace */
-		extern const ns opf;   /**< Open Packaging Format namespace */
-		extern const ns owl;   /**< Ontology Web Language namespace */
-		extern const ns pkg;   /**< ePub Package namespace */
-		extern const ns rdf;   /**< Resource Description Framework namespace */
-		extern const ns rdfa;  /**< RDF/attributes namespace */
-		extern const ns rdfs;  /**< RDF Schema namespace */
-		extern const ns skos;  /**< Simple Knowledge Organization System namespace */
-		extern const ns smil;  /**< Synchronized Multimedia Integration Language namespace */
-		extern const ns ssml;  /**< Speech Synthesis Markup Language namespace */
-		extern const ns tts;   /**< Cainteoir Text-to-Speech namespace */
-		extern const ns xhtml; /**< XML-based Hyper-Text Markup Language namespace */
-		extern const ns xml;   /**< eXtensible Markup Language namespace */
-		extern const ns xsd;   /**< XML Schema namespace */
+		extern const ns dc;
+		extern const ns dcam;
+		extern const ns dct;
+		extern const ns dtb;
+		extern const ns epub;
+		extern const ns foaf;
+		extern const ns media;
+		extern const ns ncx;
+		extern const ns ocf;
+		extern const ns opf;
+		extern const ns owl;
+		extern const ns pkg;
+		extern const ns rdf;
+		extern const ns rdfa;
+		extern const ns rdfs;
+		extern const ns skos;
+		extern const ns smil;
+		extern const ns ssml;
+		extern const ns tts;
+		extern const ns xhtml;
+		extern const ns xml;
+		extern const ns xsd;
 	}
 
-	class namespaces
+	struct namespaces
 	{
-	public:
 		namespaces();
 
 		namespaces &add_namespace(const std::string &aPrefix, const std::string &aHref);
@@ -94,6 +92,7 @@ namespace cainteoir { namespace xml
 			return lookup(aPrefix.str());
 		}
 	private:
+#ifndef DOXYGEN
 		struct namespace_item
 		{
 			long block;
@@ -105,47 +104,39 @@ namespace cainteoir { namespace xml
 			{
 			}
 		};
+#endif
 
 		std::list<namespace_item> mNamespaces;
 		long mBlockNumber;
 	};
 
-	struct entity
+#ifndef DOXYGEN
+	namespace detail
 	{
-		const char * name;
-		const char * value;
-	};
+		struct entity
+		{
+			const char * name;
+			const char * value;
+		};
 
-	struct entity_set
+		struct entity_set
+		{
+			const entity * first;
+			const entity * last;
+		};
+	}
+#endif
+
+	extern const detail::entity_set *xml_entities[52];
+	extern const detail::entity_set *html_entities[52];
+
+	const char *lookup_entity(const detail::entity_set **entities, const cainteoir::buffer &data);
+
+	struct context
 	{
-		const entity * first;
-		const entity * last;
-	};
-
-	extern const entity_set *xml_entities[52];
-	extern const entity_set *html_entities[52];
-
-	const char *lookup_entity(const entity_set *entities[52], const cainteoir::buffer &data);
-
-	class context
-	{
-	public:
-		/** @brief Special parse flags that control how xmlreader behaves.
-		  */
 		enum parse_flags
 		{
-			/** @brief The tag has an implicit end tag.
-			  *
-			  * This makes <node> behave the same was as <node/>. This is to support void elements
-			  * as per HTML§12.1.2.
-			  */
 			implicit_end_tag = 1,
-
-			/** @brief Hidden content.
-			  *
-			  * This indicates content that does not get displayed or spoken. The processing of this
-			  * is done by consumers of the xmlreader.
-			  */
 			hidden = 2,
 		};
 
@@ -203,13 +194,10 @@ namespace cainteoir { namespace xml
 
 	extern const std::initializer_list<const context::entry_ref> attrs;
 
-	class reader
+	struct reader
 	{
-	public:
 		enum node_type
 		{
-			// xml node types ...
-
 			beginTagNode,
 			endTagNode,
 			beginProcessingInstructionNode,
@@ -222,14 +210,12 @@ namespace cainteoir { namespace xml
 			attribute,
 			endOfData,
 
-			// dtd node types ...
-
 			dtdEntity,
 		};
 
-		reader(std::shared_ptr<cainteoir::buffer> aData, const char *aDefaultEncoding, const entity_set *aPredefinedEntities[52] = xml_entities);
+		reader(std::shared_ptr<cainteoir::buffer> aData, const char *aDefaultEncoding, const detail::entity_set *aPredefinedEntities[52] = xml_entities);
 
-		void set_predefined_entities(const entity_set *aPredefinedEntities[52]) { mPredefinedEntities = aPredefinedEntities; }
+		void set_predefined_entities(const detail::entity_set *aPredefinedEntities[52]) { mPredefinedEntities = aPredefinedEntities; }
 
 		bool read();
 
@@ -306,6 +292,7 @@ namespace cainteoir { namespace xml
 			ParsingDtd,
 		};
 
+#ifndef DOXYGEN
 		struct ParserContext
 		{
 			ParserState state;
@@ -315,11 +302,12 @@ namespace cainteoir { namespace xml
 
 			ParserContext(ParserState aState, const char *aCurrent);
 		};
+#endif
 
 		std::shared_ptr<cainteoir::buffer> mData;
 		ParserContext mState;
 		ParserContext mSavedState;
-		const entity_set **mPredefinedEntities;
+		const detail::entity_set **mPredefinedEntities;
 
 		namespaces mNamespaces;
 		cainteoir::buffer mTagNodeName;
