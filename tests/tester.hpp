@@ -78,7 +78,10 @@ namespace tester
 	template <>
 	std::ostream &operator<<(std::ostream &os, const value_t<unsigned char> &value)
 	{
-		return os << "\\x" << std::hex << (int)value.value << std::dec;
+		os << "\\x" << std::hex << (int)value.value << std::dec;
+		if (value.value >= 0x20 && value.value < 0x80)
+			os << ' ' << '(' << (char)value.value << ')';
+		return os;
 	}
 
 #	define BINARY_OP(op,name) \
