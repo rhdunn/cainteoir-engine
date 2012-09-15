@@ -27,9 +27,8 @@
 
 namespace cainteoir
 {
-	class stopwatch
+	struct stopwatch
 	{
-	public:
 		stopwatch() { mStart = timeofday(); }
 
 		double elapsed() const { return timeofday() - mStart; }
@@ -52,9 +51,8 @@ namespace cainteoir
 
 namespace cainteoir
 {
-	class stopwatch
+	struct stopwatch
 	{
-	public:
 		stopwatch() { mStart = time(nullptr); }
 
 		double elapsed() const { return difftime(time(nullptr), mStart); }
