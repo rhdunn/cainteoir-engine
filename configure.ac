@@ -252,6 +252,16 @@ AC_COMPILE_IFELSE(
 AC_LANG_POP(C++)
 
 dnl ================================================================
+dnl stopwatch checks.
+dnl ================================================================
+
+AC_CHECK_HEADERS([sys/time.h])
+AC_CHECK_FUNCS([gettimeofday])
+
+AC_CHECK_HEADERS([time.h])
+AC_CHECK_FUNCS([time])
+
+dnl ================================================================
 dnl getopt checks.
 dnl ================================================================
 

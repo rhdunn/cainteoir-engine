@@ -18,6 +18,8 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/document.hpp>
 #include <cainteoir/stopwatch.hpp>

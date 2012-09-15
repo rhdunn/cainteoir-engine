@@ -21,8 +21,6 @@
 #ifndef CAINTEOIR_ENGINE_STOPWATCH_HPP
 #define CAINTEOIR_ENGINE_STOPWATCH_HPP
 
-#define HAVE_GETTIMEOFDAY 1
-
 #if HAVE_GETTIMEOFDAY
 
 #include <sys/time.h>
@@ -48,9 +46,9 @@ namespace cainteoir
 	};
 }
 
-#else
+#elif HAVE_TIME
 
-#include <ctime>
+#include <time.h>
 
 namespace cainteoir
 {
@@ -64,6 +62,10 @@ namespace cainteoir
 		time_t mStart;
 	};
 }
+
+#else
+
+#error No time or gettimeofday function available.
 
 #endif
 #endif
