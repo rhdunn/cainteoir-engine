@@ -32,11 +32,32 @@ namespace cainteoir { namespace utf8
 	{
 		switch (c)
 		{
-		case 0x000009: // HORIZONTAL TAB
-		case 0x00000A: // LINE FEED
-		case 0x00000D: // CARRIDGE RETURN
-		case 0x000020: // SPACE
-		case 0x0000A0: // NON-BREAKING SPACE
+		case 0x0009: // CHARACTER TABULATION
+		case 0x000A: // LINE FEED
+		case 0x000B: // LINE TABULATION
+		case 0x000C: // FORM FEED
+		case 0x000D: // CARRIAGE RETURN
+		case 0x0020: // SPACE
+		case 0x0085: // NEXT LINE
+		case 0x00A0: // NO-BREAK SPACE
+		case 0x1680: // OGHAM SPACE MARK
+		case 0x180E: // MONGOLIAN VOWEL SEPARATOR
+		case 0x2000: // EN QUAD
+		case 0x2001: // EM QUAD
+		case 0x2002: // EN SPACE
+		case 0x2003: // EM SPACE
+		case 0x2004: // THREE-PER-EM SPACE
+		case 0x2005: // FOUR-PER-EM SPACE
+		case 0x2006: // SIX-PER-EM SPACE
+		case 0x2007: // FIGURE SPACE
+		case 0x2008: // PUNCTUATION SPACE
+		case 0x2009: // THIN SPACE
+		case 0x200A: // HAIR SPACE
+		case 0x2028: // LINE SEPARATOR
+		case 0x2029: // PARAGRAPH SEPARATOR
+		case 0x202F: // NARROW NO-BREAK SPACE
+		case 0x205F: // MEDIUM MATHEMATICAL SPACE
+		case 0x3000: // IDEOGRAPHICAL SPACE
 			return true;
 		}
 		return false;

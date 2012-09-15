@@ -42,39 +42,319 @@ TEST_CASE("cainteoir::make_buffer")
 	match(cainteoir::make_buffer("test", 2), "te", 2);
 }
 
-TEST_CASE("cainteoir::normalize")
+TEST_CASE("cainteoir::normalize -- no space characters")
 {
 	match(cainteoir::normalize(cainteoir::make_buffer("test", 4)), "test", 4);
+}
 
-	// whitespace at the start:
+TEST_CASE("cainteoir::normalize -- U+0009 (CHARACTER TABULATION)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\x09\x09\x09test", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\x09\x09\x09", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x09String", 11)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x09\x09\x09String", 13)),
+	      "Test String", 11);
+}
 
-	match(cainteoir::normalize(cainteoir::make_buffer("   a test", 9)), "a test", 6); // SPACE
-	match(cainteoir::normalize(cainteoir::make_buffer("\t\t\ta test", 9)), "a test", 6); // HORIZONTAL TAB
-	match(cainteoir::normalize(cainteoir::make_buffer("\r\r\ra test", 9)), "a test", 6); // CARRIDGE RETURN
-	match(cainteoir::normalize(cainteoir::make_buffer("\n\n\na test", 9)), "a test", 6); // LINE FEED
-	match(cainteoir::normalize(cainteoir::make_buffer("\xC2\xA0\xC2\xA0 a test", 11)), "a test", 6); // NBSP
+TEST_CASE("cainteoir::normalize -- U+000A (LINE FEED)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\x0A\x0A\x0Atest", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\x0A\x0A\x0A", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x0AString", 11)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x0A\x0A\x0AString", 13)),
+	      "Test String", 11);
+}
 
-	// whitespace at the end:
+TEST_CASE("cainteoir::normalize -- U+000B (LINE TABULATION)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\x0B\x0B\x0Btest", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\x0B\x0B\x0B", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x0BString", 11)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x0B\x0B\x0BString", 13)),
+	      "Test String", 11);
+}
 
-	match(cainteoir::normalize(cainteoir::make_buffer("a test   ", 9)), "a test", 6); // SPACE
-	match(cainteoir::normalize(cainteoir::make_buffer("a test\t\t\t", 9)), "a test", 6); // HORIZONTAL TAB
-	match(cainteoir::normalize(cainteoir::make_buffer("a test\r\r\r", 9)), "a test", 6); // CARRIDGE RETURN
-	match(cainteoir::normalize(cainteoir::make_buffer("a test\n\n\n", 9)), "a test", 6); // LINE FEED
-	match(cainteoir::normalize(cainteoir::make_buffer("a test\xC2\xA0\xC2\xA0", 10)), "a test", 6); // NBSP
+TEST_CASE("cainteoir::normalize -- U+000C (FORM FEED)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\x0C\x0C\x0Ctest", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\x0C\x0C\x0C", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x0CString", 11)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x0C\x0C\x0CString", 13)),
+	      "Test String", 11);
+}
 
-	// whitespace in the middle:
+TEST_CASE("cainteoir::normalize -- U+000D (CARRIAGE RETURN)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\x0D\x0D\x0Dtest", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\x0D\x0D\x0D", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x0DString", 11)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x0D\x0D\x0DString", 13)),
+	      "Test String", 11);
+}
 
-	match(cainteoir::normalize(cainteoir::make_buffer("a test", 6)), "a test", 6); // SPACE
-	match(cainteoir::normalize(cainteoir::make_buffer("a\ttest", 6)), "a test", 6); // HORIZONTAL TAB
-	match(cainteoir::normalize(cainteoir::make_buffer("a\rtest", 6)), "a test", 6); // CARRIDGE RETURN
-	match(cainteoir::normalize(cainteoir::make_buffer("a\ntest", 6)), "a test", 6); // LINE FEED
-	match(cainteoir::normalize(cainteoir::make_buffer("a\xC2\xA0test", 7)), "a test", 6); // NBSP
+TEST_CASE("cainteoir::normalize -- U+0020 (SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\x20\x20\x20test", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\x20\x20\x20", 7)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x20String", 11)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\x20\x20\x20String", 13)),
+	      "Test String", 11);
+}
 
-	// consecutive whitespace in the middle:
+TEST_CASE("cainteoir::normalize -- U+0085 (NEXT LINE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xC2\x85\xC2\x85\xC2\x85test", 10)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xC2\x85\xC2\x85\xC2\x85", 10)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xC2\x85String", 12)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xC2\x85\xC2\x85\xC2\x85String", 16)),
+	      "Test String", 11);
+}
 
-	match(cainteoir::normalize(cainteoir::make_buffer("a   test", 8)), "a test", 6); // SPACE
-	match(cainteoir::normalize(cainteoir::make_buffer("a\t\t\ttest", 8)), "a test", 6); // HORIZONTAL TAB
-	match(cainteoir::normalize(cainteoir::make_buffer("a\r\r\rtest", 8)), "a test", 6); // CARRIDGE RETURN
-	match(cainteoir::normalize(cainteoir::make_buffer("a\n\n\ntest", 8)), "a test", 6); // LINE FEED
-	match(cainteoir::normalize(cainteoir::make_buffer("a\xC2\xA0\xC2\xA0test", 9)), "a test", 6); // NBSP
+TEST_CASE("cainteoir::normalize -- U+00A0 (NO-BREAK SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xC2\xA0\xC2\xA0\xC2\xA0test", 10)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xC2\xA0\xC2\xA0\xC2\xA0", 10)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xC2\xA0String", 12)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xC2\xA0\xC2\xA0\xC2\xA0String", 16)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+1680 (OGHAM SPACE MARK)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE1\x9A\x80\xE1\x9A\x80\xE1\x9A\x80test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE1\x9A\x80\xE1\x9A\x80\xE1\x9A\x80", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE1\x9A\x80String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE1\x9A\x80\xE1\x9A\x80\xE1\x9A\x80String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+180E (MONGOLIAN VOWEL SEPARATOR)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE1\xA0\x8E\xE1\xA0\x8E\xE1\xA0\x8Etest", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE1\xA0\x8E\xE1\xA0\x8E\xE1\xA0\x8E", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE1\xA0\x8EString", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE1\xA0\x8E\xE1\xA0\x8E\xE1\xA0\x8EString", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2000 (EN QUAD)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x80\xE2\x80\x80\xE2\x80\x80test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\x80\xE2\x80\x80\xE2\x80\x80", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x80String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x80\xE2\x80\x80\xE2\x80\x80String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2001 (EM QUAD)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x81\xE2\x80\x81\xE2\x80\x81test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\x81\xE2\x80\x81\xE2\x80\x81", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x81String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x81\xE2\x80\x81\xE2\x80\x81String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2002 (EN SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x82\xE2\x80\x82\xE2\x80\x82test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\x82\xE2\x80\x82\xE2\x80\x82", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x82String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x82\xE2\x80\x82\xE2\x80\x82String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2003 (EM SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x82\xE2\x80\x82\xE2\x80\x82test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\x82\xE2\x80\x82\xE2\x80\x82", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x82String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x82\xE2\x80\x82\xE2\x80\x82String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2004 (THREE-PER-EM SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x84\xE2\x80\x84\xE2\x80\x84test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\x84\xE2\x80\x84\xE2\x80\x84", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x84String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x84\xE2\x80\x84\xE2\x80\x84String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2005 (FOUR-PER-EM SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x85\xE2\x80\x85\xE2\x80\x85test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\x85\xE2\x80\x85\xE2\x80\x85", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x85String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x85\xE2\x80\x85\xE2\x80\x85String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2006 (SIX-PER-EM SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x86\xE2\x80\x86\xE2\x80\x86test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\x86\xE2\x80\x86\xE2\x80\x86", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x86String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x86\xE2\x80\x86\xE2\x80\x86String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2007 (FIGURE SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x87\xE2\x80\x87\xE2\x80\x87test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\x87\xE2\x80\x87\xE2\x80\x87", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x87String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x87\xE2\x80\x87\xE2\x80\x87String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2008 (PUNCTUATION SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x88\xE2\x80\x88\xE2\x80\x88test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\x88\xE2\x80\x88\xE2\x80\x88", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x88String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x88\xE2\x80\x88\xE2\x80\x88String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2009 (THIN SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x89\xE2\x80\x89\xE2\x80\x89test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\x89\xE2\x80\x89\xE2\x80\x89", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x89String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x89\xE2\x80\x89\xE2\x80\x89String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+200A (HAIR SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x8A\xE2\x80\x8A\xE2\x80\x8Atest", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\x8A\xE2\x80\x8A\xE2\x80\x8A", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x8AString", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\x8A\xE2\x80\x8A\xE2\x80\x8AString", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2028 (LINE SEPARATOR)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\xA8\xE2\x80\xA8\xE2\x80\xA8test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\xA8\xE2\x80\xA8\xE2\x80\xA8", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\xA8String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\xA8\xE2\x80\xA8\xE2\x80\xA8String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+2029 (PARAGRAPH SEPARATOR)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\xA9\xE2\x80\xA9\xE2\x80\xA9test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\xA9\xE2\x80\xA9\xE2\x80\xA9", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\xA9String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\xA9\xE2\x80\xA9\xE2\x80\xA9String", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+202F (NARROW NO-BREAK SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\xAF\xE2\x80\xAF\xE2\x80\xAFtest", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x80\xAF\xE2\x80\xAF\xE2\x80\xAF", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\xAFString", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x80\xAF\xE2\x80\xAF\xE2\x80\xAFString", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+205F (MEDIUM MATHEMATICAL SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x81\x9F\xE2\x81\x9F\xE2\x81\x9Ftest", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE2\x81\x9F\xE2\x81\x9F\xE2\x81\x9F", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x81\x9FString", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE2\x81\x9F\xE2\x81\x9F\xE2\x81\x9FString", 19)),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- U+3000 (IDEOGRAPHIC SPACE)")
+{
+	match(cainteoir::normalize(cainteoir::make_buffer("\xE3\x80\x80\xE3\x80\x80\xE3\x80\x80test", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test\xE3\x80\x80\xE3\x80\x80\xE3\x80\x80", 13)),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE3\x80\x80String", 13)),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE3\x80\x80\xE3\x80\x80\xE3\x80\x80String", 19)),
+	      "Test String", 11);
 }
