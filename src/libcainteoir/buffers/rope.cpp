@@ -88,7 +88,7 @@ cainteoir::rope &cainteoir::rope::operator+=(const std::shared_ptr<cainteoir::bu
 std::shared_ptr<cainteoir::buffer> cainteoir::rope::buffer() const
 {
 	if (data.size() == 0)
-		return std::make_shared<cainteoir::buffer>();
+		return std::make_shared<cainteoir::buffer>(nullptr, nullptr);
 
 	std::shared_ptr<cainteoir::buffer> temp = std::make_shared<cainteoir::data_buffer>(len);
 	char * startPos = (char *)temp->begin();
