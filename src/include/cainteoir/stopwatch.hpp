@@ -29,14 +29,6 @@
 
 namespace cainteoir
 {
-	inline double timeofday()
-	{
-		timeval tv;
-		gettimeofday(&tv, nullptr);
-
-		return tv.tv_sec + (double(tv.tv_usec) / 1000000.0);
-	}
-
 	class stopwatch
 	{
 	public:
@@ -45,6 +37,14 @@ namespace cainteoir
 		double elapsed() const { return timeofday() - mStart; }
 	private:
 		double mStart;
+
+		static double timeofday()
+		{
+			timeval tv;
+			gettimeofday(&tv, nullptr);
+
+			return tv.tv_sec + (double(tv.tv_usec) / 1000000.0);
+		}
 	};
 }
 
