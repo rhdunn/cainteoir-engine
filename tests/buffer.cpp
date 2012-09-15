@@ -68,7 +68,7 @@ TEST_CASE("cainteoir::normalize")
 	match(cainteoir::normalize(cainteoir::make_buffer("a\ttest", 6)), "a test", 6); // HORIZONTAL TAB
 	match(cainteoir::normalize(cainteoir::make_buffer("a\rtest", 6)), "a test", 6); // CARRIDGE RETURN
 	match(cainteoir::normalize(cainteoir::make_buffer("a\ntest", 6)), "a test", 6); // LINE FEED
-	match(cainteoir::normalize(cainteoir::make_buffer("a\xC2\xA0test", 6)), "a test", 6); // NBSP
+	match(cainteoir::normalize(cainteoir::make_buffer("a\xC2\xA0test", 7)), "a test", 6); // NBSP
 
 	// consecutive whitespace in the middle:
 

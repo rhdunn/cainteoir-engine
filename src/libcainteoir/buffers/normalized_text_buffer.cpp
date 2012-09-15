@@ -84,9 +84,8 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 			str = next;
 		else
 		{
-			next = utf8::write((char *)last, ch);
-			str += next-last;
-			last = next;
+			str  = next;
+			last = utf8::write((char *)last, ch);
 		}
 	}
 
