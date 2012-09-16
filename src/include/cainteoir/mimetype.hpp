@@ -28,10 +28,7 @@ namespace cainteoir { namespace mime
 {
 	struct mimetype
 	{
-		/** @brief The name of this mimetype/content. */
 		const char *name;
-
-		/** @brief The primary mimetype string. */
 		const char *mime_type;
 
 		mimetype(const char *aName, const char *aMimeType, const void *aInfo = nullptr)
@@ -47,36 +44,28 @@ namespace cainteoir { namespace mime
 
 		void metadata(rdf::graph &aGraph, const std::string &baseuri, const rdf::uri &type) const;
 	private:
-		/** @brief Internal mimetype information. */
 		const void *info;
 	};
 
-	/** @name Mime Data
-	  * @brief The information for document and audio mimetypes used by the engine.
-	  */
-	//@{
-
-	extern const mimetype email;  /**< @brief email mbox (mime) document */
-	extern const mimetype epub;   /**< @brief electronic publication document */
-	extern const mimetype gzip;   /**< @brief gzip compressed document */
-	extern const mimetype html;   /**< @brief html document */
-	extern const mimetype mhtml;  /**< @brief single-page html document */
-	extern const mimetype mime;   /**< @brief mime/http headers */
-	extern const mimetype ncx;    /**< @brief navigation control document */
-	extern const mimetype ogg;    /**< @brief Ogg+Vorbis audio */
-	extern const mimetype opf;    /**< @brief open package format document */
-	extern const mimetype pdf;    /**< @brief portable document format */
-	extern const mimetype rdfxml; /**< @brief RDF/XML document */
-	extern const mimetype rtf;    /**< @brief rich text document */
-	extern const mimetype smil;   /**< @brief smil document */
-	extern const mimetype ssml;   /**< @brief speech synthesis markup document */
-	extern const mimetype text;   /**< @brief plain text document */
-	extern const mimetype wav;    /**< @brief wave audio */
-	extern const mimetype xhtml;  /**< @brief xhtml document */
-	extern const mimetype xml;    /**< @brief extensible markup document */
-	extern const mimetype zip;    /**< @brief zip (compressed) archive */
-
-	//@}
+	extern const mimetype email;
+	extern const mimetype epub;
+	extern const mimetype gzip;
+	extern const mimetype html;
+	extern const mimetype mhtml;
+	extern const mimetype mime;
+	extern const mimetype ncx;
+	extern const mimetype ogg;
+	extern const mimetype opf;
+	extern const mimetype pdf;
+	extern const mimetype rdfxml;
+	extern const mimetype rtf;
+	extern const mimetype smil;
+	extern const mimetype ssml;
+	extern const mimetype text;
+	extern const mimetype wav;
+	extern const mimetype xhtml;
+	extern const mimetype xml;
+	extern const mimetype zip;
 }}
 
 #endif
