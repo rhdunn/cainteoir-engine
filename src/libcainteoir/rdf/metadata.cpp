@@ -23,14 +23,6 @@
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 
-/** @namespace cainteoir::rdf
-  * @brief     Support for creating and manipulating RDF metadata.
-  */
-
-/** @namespace cainteoir::rdf::query
-  * @brief     Support for selecting and querying statements in an RDF graph.
-  */
-
 /** @struct cainteoir::rdf::resource
   * @brief  Manages an RDF resource.
   */

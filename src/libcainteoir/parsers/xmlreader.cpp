@@ -931,10 +931,6 @@ void cainteoir::xml::reader::reset_context()
 	}
 }
 
-/** @namespace cainteoir::xml
-  * @brief     Support for parsing XML documents.
-  */
-
 /** @namespace cainteoir::xml::xmlns
   * @brief     Predefined XML namespaces.
   */
