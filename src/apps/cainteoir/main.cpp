@@ -214,7 +214,7 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 struct document
 {
 	document(const rdf::uri &aSubject, actions aAction, int aFrom, int aTo)
-		: tts(m_metadata, cainteoir::text_support)
+		: tts(m_metadata)
 		, subject(aSubject)
 		, voiceSelected(false)
 		, m_doc(new cainteoir::document())
@@ -223,6 +223,8 @@ struct document
 		, fromIndex(aFrom)
 		, toIndex(aTo)
 	{
+		cainteoir::supportedDocumentFormats(m_metadata, cainteoir::text_support);
+		cainteoir::supportedAudioFormats(m_metadata);
 	}
 
 	void select_voice(const rdf::uri &predicate, const std::string &value)

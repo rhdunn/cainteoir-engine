@@ -285,7 +285,7 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-tts::engines::engines(rdf::graph &metadata, capability_types capabilities)
+tts::engines::engines(rdf::graph &metadata)
 	: selectedVoice(nullptr)
 {
 	std::string uri;
@@ -299,9 +299,6 @@ tts::engines::engines(rdf::graph &metadata, capability_types capabilities)
 
 	if (!active)
 		throw std::runtime_error(i18n("no text-to-speech voices found."));
-
-	cainteoir::supportedDocumentFormats(metadata, capabilities);
-	cainteoir::supportedAudioFormats(metadata);
 }
 
 tts::engines::~engines()
