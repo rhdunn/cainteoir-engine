@@ -171,6 +171,8 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/languages.hpp \
 	src/include/cainteoir/metadata.hpp \
 	src/include/cainteoir/mimetype.hpp \
+	src/include/cainteoir/range.hpp \
+	src/include/cainteoir/stopwatch.hpp \
 	src/include/cainteoir/unicode.hpp \
 	src/include/cainteoir/xmlreader.hpp
 
