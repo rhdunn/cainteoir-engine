@@ -70,18 +70,17 @@ namespace cainteoir { namespace tts
 
 		enum type
 		{
-			rate, /** @brief How fast the voice speaks. */
-			volume, /** @brief The volume of the voice audio. */
-			pitch, /** @brief The base pitch to render the voice at. */
-			pitch_range, /** @brief How varied the pitch is due to prosody variations. */
-			word_gap, /** @brief How long to pause between each word. */
+			rate,
+			volume,
+			pitch,
+			pitch_range,
+			word_gap,
 			number_of_parameters
 		};
 	};
 
-	class engines
+	struct engines
 	{
-	public:
 		engines(rdf::graph &metadata);
 		~engines();
 
