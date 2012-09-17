@@ -11,9 +11,11 @@ class Node:
 		self.name = node.nodeName
 
 	def children(self):
+		ret = []
 		for child in self.node.childNodes:
 			if child.nodeType == child.ELEMENT_NODE:
-				yield Node(child)
+				ret.append(Node(child))
+		return ret
 
 	def text(self):
 		return self.node.childNodes[0].nodeValue
@@ -62,6 +64,8 @@ class DocItem:
 		self.compound = compound
 		_, self.scope, self.shortname = parseDoxygenId(ref)
 		self.protection = None
+		self.shortdoc = None
+		self.longdoc = []
 
 	def __str__(self):
 		return '%s %s' % (self.kind, self.name)
@@ -109,7 +113,7 @@ class Documentation:
 
 def parseDoxygenCompound(xmlroot, c, doc):
 	xml = Document(os.path.join(xmlroot, '%s.xml' % c.ref))
-	compound = list(xml.children())[0]
+	compound = xml.children()[0]
 
 	if compound['id'] != c.ref or compound['kind'] != c.kind:
 		raise Exception('Compound documentation file mismatch for %s' % c.ref)
@@ -124,6 +128,16 @@ def parseDoxygenCompound(xmlroot, c, doc):
 			ref = node['refid']
 			if ref != '':
 				c.derived.append(DocInheritance(doc[ref], node['prot'], node['virt'], node.text()))
+		elif node.name == 'briefdescription':
+			para = node.children()
+			if len(para) != 0:
+				c.shortdoc = para[0].text()
+				c.longdoc.append(c.shortdoc)
+		elif node.name == 'detaileddescription':
+			paras = node.children()
+			if len(paras) != 0:
+				for para in paras:
+					c.longdoc.append(para.text())
 
 def parseDoxygenDocumentation(xmlroot):
 	xml = Document(os.path.join(xmlroot, 'index.xml'))
@@ -175,15 +189,26 @@ for item in doc:
 			f.write('  - { title: "%s" }\n' % item.shortname)
 			f.write('---\n')
 			f.write('<h1>%s</h1>\n' % title)
+			if item.shortdoc:
+				if len(item.longdoc) != 1:
+					f.write('<blockquote>%s <a href="#detailed_description">More...</a></blockquote>' % item.shortdoc)
+				else:
+					f.write('<blockquote>%s</blockquote>' % item.shortdoc)
 			if len(item.base) != 0:
-				f.write('<p>Base:</p>\n')
+				f.write('<h2 id="base">Inherited From</h2>\n')
 				f.write('<ol>\n')
 				for base in item.base:
 					f.write('<li><a href="%s.html">%s</a></li>' % (base.item.ref, base.name))
 				f.write('</ol>\n')
 			if len(item.derived) != 0:
-				f.write('<p>Derived:</p>\n')
+				f.write('<h2 id="derived">Inherited By</h2>\n')
 				f.write('<ol>\n')
 				for derived in item.derived:
 					f.write('<li><a href="%s.html">%s</a></li>' % (derived.item.ref, derived.name))
 				f.write('</ol>\n')
+			if len(item.longdoc) != 1:
+				f.write('<h2 id="detailed_description">Detailed Description</h2>\n')
+				f.write('<blockquote>\n')
+				for para in item.longdoc:
+					f.write('<p>%s</p>' % para)
+				f.write('</blockquote>\n')
