@@ -47,6 +47,13 @@ def parseDoxygenId(ref):
 		ret.append(item)
 	return kind, ret[:-1], ret[-1]
 
+class DocInheritance:
+	def __init__(self, item, protection, virtual, name):
+		self.item = item
+		self.protection = protection
+		self.virtual = virtual
+		self.name = name
+
 class DocItem:
 	def __init__(self, ref, kind, name, compound):
 		self.ref = ref
@@ -54,6 +61,7 @@ class DocItem:
 		self.name = name
 		self.compound = compound
 		_, self.scope, self.shortname = parseDoxygenId(ref)
+		self.protection = None
 
 	def __str__(self):
 		return '%s %s' % (self.kind, self.name)
@@ -62,15 +70,8 @@ class DocCompound(DocItem):
 	def __init__(self, ref, kind, name):
 		DocItem.__init__(self, ref, kind, name, True)
 		self.members = []
-
-class DocClass(DocCompound):
-	def __init__(self, ref, kind, name):
-		DocCompound.__init__(self, ref, kind, name)
-		self.protection = None
 		self.base = []
-
-	def __str__(self):
-		return '%s %s %s' % (self.protection, self.kind, self.name)
+		self.derived = []
 
 class DocMember(DocItem):
 	def __init__(self, ref, kind, name):
@@ -83,7 +84,7 @@ class Documentation:
 	def create(self, ref, kind, name):
 		if ref in self.items.keys():
 			return self.items[ref]
-		if kind == 'class':     self.items[ref] = DocClass(ref, kind, name)
+		if kind == 'class':     self.items[ref] = DocCompound(ref, kind, name)
 		if kind == 'define':    self.items[ref] = DocMember(ref, kind, name)
 		if kind == 'dir':       self.items[ref] = DocCompound(ref, kind, name)
 		if kind == 'enum':      self.items[ref] = DocMember(ref, kind, name)
@@ -92,7 +93,7 @@ class Documentation:
 		if kind == 'function':  self.items[ref] = DocMember(ref, kind, name)
 		if kind == 'namespace': self.items[ref] = DocCompound(ref, kind, name)
 		if kind == 'page':      self.items[ref] = DocCompound(ref, kind, name)
-		if kind == 'struct':    self.items[ref] = DocClass(ref, kind, name)
+		if kind == 'struct':    self.items[ref] = DocCompound(ref, kind, name)
 		if kind == 'typedef':   self.items[ref] = DocMember(ref, kind, name)
 		if kind == 'variable':  self.items[ref] = DocMember(ref, kind, name)
 		if ref not in self.items.keys():
@@ -106,48 +107,41 @@ class Documentation:
 	def __getitem__(self, ref):
 		return self.items[ref]
 
-def parseDoxygenClass(xmlroot, c, doc):
+def parseDoxygenCompound(xmlroot, c, doc):
 	xml = Document(os.path.join(xmlroot, '%s.xml' % c.ref))
 	compound = list(xml.children())[0]
 
-	ref = compound['id']
-	kind = compound['kind']
-	protection = compound['prot']
+	if compound['id'] != c.ref or compound['kind'] != c.kind:
+		raise Exception('Compound documentation file mismatch for %s' % c.ref)
 
-	if ref != c.ref or kind != c.kind:
-		raise Exception('Class documentation file mismatch for %s' % c.ref)
-
-	c.protection = protection
+	c.protection = compound['prot']
 	for node in compound.children():
 		if node.name == 'basecompoundref':
-			baseref = node['refid']
-			if baseref != '':
-				c.base.append(doc[baseref])
+			ref = node['refid']
+			if ref != '':
+				c.base.append(DocInheritance(doc[ref], node['prot'], node['virt'], node.text()))
+		elif node.name == 'derivedcompoundref':
+			ref = node['refid']
+			if ref != '':
+				c.derived.append(DocInheritance(doc[ref], node['prot'], node['virt'], node.text()))
 
 def parseDoxygenDocumentation(xmlroot):
 	xml = Document(os.path.join(xmlroot, 'index.xml'))
 	doc = Documentation()
 	for compound in xml.children():
-		ref = compound['refid']
-		kind = compound['kind']
-
 		for node in compound.children():
 			if node.name == 'name':
-				name = node.text()
-				c = doc.create(ref, kind, name)
+				c = doc.create(compound['refid'], compound['kind'], node.text())
 			elif node.name == 'member':
-				memberref = node['refid']
-				memberkind = node['kind']
-
 				for membernode in node.children():
 					if membernode.name == 'name':
 						membername = membernode.text()
-						m = doc.create(memberref, memberkind, membername)
+						m = doc.create(node['refid'], node['kind'], membernode.text())
 						c.members.append(m)
 
 	for c in doc:
-		if c.kind in ['struct', 'class']:
-			parseDoxygenClass(xmlroot, c, doc)
+		if c.compound:
+			parseDoxygenCompound(xmlroot, c, doc)
 		scope = []
 		namespace = []
 		for ns in c.scope:
@@ -181,3 +175,15 @@ for item in doc:
 			f.write('  - { title: "%s" }\n' % item.shortname)
 			f.write('---\n')
 			f.write('<h1>%s</h1>\n' % title)
+			if len(item.base) != 0:
+				f.write('<p>Base:</p>\n')
+				f.write('<ol>\n')
+				for base in item.base:
+					f.write('<li><a href="%s.html">%s</a></li>' % (base.item.ref, base.name))
+				f.write('</ol>\n')
+			if len(item.derived) != 0:
+				f.write('<p>Derived:</p>\n')
+				f.write('<ol>\n')
+				for derived in item.derived:
+					f.write('<li><a href="%s.html">%s</a></li>' % (derived.item.ref, derived.name))
+				f.write('</ol>\n')
