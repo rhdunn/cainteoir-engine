@@ -21,9 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_DOCUMENT_HPP
 #define CAINTEOIR_ENGINE_DOCUMENT_HPP
 
-#include <cainteoir/metadata.hpp>
-#include <cainteoir/buffer.hpp>
-#include <map>
+#include "metadata.hpp"
 
 namespace cainteoir
 {

@@ -23,8 +23,6 @@
 #include "i18n.h"
 
 #include <cainteoir/engines.hpp>
-#include <cainteoir/document.hpp>
-#include <cainteoir/audio.hpp>
 #include <cainteoir/stopwatch.hpp>
 #include "tts_engine.hpp"
 #include <stdexcept>

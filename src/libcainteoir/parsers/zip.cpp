@@ -24,7 +24,6 @@
 
 #include <cainteoir/archive.hpp>
 #include <stdexcept>
-#include <map>
 
 #define ZIP_HEADER_MAGIC 0x04034b50
 

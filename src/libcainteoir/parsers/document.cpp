@@ -23,7 +23,6 @@
 #include "i18n.h"
 
 #include <cainteoir/mimetype.hpp>
-#include <cainteoir/document.hpp>
 #include "parsers.hpp"
 #include <stdexcept>
 

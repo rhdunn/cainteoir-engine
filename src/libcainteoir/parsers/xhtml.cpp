@@ -21,7 +21,6 @@
 #include "config.h"
 #include "compatibility.hpp"
 #include "parsers.hpp"
-#include <cainteoir/xmlreader.hpp>
 #include <algorithm>
 #include <stack>
 

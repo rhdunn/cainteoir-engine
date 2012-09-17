@@ -23,9 +23,6 @@
 
 #include "metadata.hpp"
 #include <stdint.h>
-#include <memory>
-#include <string>
-#include <list>
 
 namespace cainteoir
 {

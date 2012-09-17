@@ -21,7 +21,6 @@
 #ifndef CAINTEOIR_ENGINE_MIMETYPE_HPP
 #define CAINTEOIR_ENGINE_MIMETYPE_HPP
 
-#include "buffer.hpp"
 #include "metadata.hpp"
 
 namespace cainteoir { namespace mime

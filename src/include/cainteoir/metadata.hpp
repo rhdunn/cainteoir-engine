@@ -22,12 +22,8 @@
 #define CAINTEOIR_ENGINE_METADATA_HPP
 
 #include <cainteoir/xmlreader.hpp>
-#include <memory>
 #include <sstream>
-#include <string>
-#include <list>
 #include <set>
-#include <map>
 
 namespace cainteoir { namespace rdf
 {

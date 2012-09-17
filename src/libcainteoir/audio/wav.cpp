@@ -24,7 +24,6 @@
 
 #include <cainteoir/audio.hpp>
 #include <stdexcept>
-#include <stdint.h>
 #include <string.h>
 #include <stdio.h>
 

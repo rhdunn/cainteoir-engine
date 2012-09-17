@@ -23,9 +23,7 @@
 #include "i18n.h"
 
 #include "parsers.hpp"
-#include <cainteoir/encoding.hpp>
 #include <stdexcept>
-#include <sstream>
 
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;

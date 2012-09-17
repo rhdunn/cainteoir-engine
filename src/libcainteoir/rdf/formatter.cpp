@@ -20,7 +20,6 @@
 
 #include <cainteoir/metadata.hpp>
 #include <iostream>
-#include <map>
 
 namespace rdf = cainteoir::rdf;
 

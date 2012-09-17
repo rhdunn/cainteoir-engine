@@ -21,11 +21,8 @@
 #ifndef CAINTEOIR_ENGINE_ENGINES_HPP
 #define CAINTEOIR_ENGINE_ENGINES_HPP
 
-#include "buffer.hpp"
 #include "audio.hpp"
-#include "metadata.hpp"
 #include "document.hpp"
-#include <map>
 
 namespace cainteoir { namespace tts
 {

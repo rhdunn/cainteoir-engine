@@ -21,9 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_XMLREADER_HPP
 #define CAINTEOIR_ENGINE_XMLREADER_HPP
 
-#include <cainteoir/buffer.hpp>
 #include <cainteoir/encoding.hpp>
-#include <list>
 #include <map>
 
 namespace cainteoir { namespace xml
