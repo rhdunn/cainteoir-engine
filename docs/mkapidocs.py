@@ -5,6 +5,9 @@ import sys
 
 from xml.dom import minidom
 
+def xmlstr(x):
+	return x.replace('&', '&amp;').replace('<', '&lt;')
+
 class Node:
 	def __init__(self, node):
 		self.node = node
@@ -18,7 +21,16 @@ class Node:
 		return ret
 
 	def text(self):
-		return self.node.childNodes[0].nodeValue
+		return ''.join(self._text(self.node))
+
+	def _text(self, node):
+		ret = []
+		for child in node.childNodes:
+			if child.nodeType == child.TEXT_NODE:
+				ret.append(xmlstr(child.nodeValue))
+			elif child.nodeType == child.ELEMENT_NODE:
+				ret.extend(self._text(child))
+		return ret
 
 	def __getitem__(self, name):
 		return self.node.getAttribute(name)
@@ -26,6 +38,51 @@ class Node:
 class Document(Node):
 	def __init__(self, filename):
 		Node.__init__(self, minidom.parse(filename).documentElement)
+
+class KindInfo:
+	def __init__(self, single, plural, category=None):
+		self.single = single
+		self.plural = plural
+		self.category = category
+
+kinds = {
+	# kind               # single             # plural
+	'attrib':    KindInfo( 'Attribute',         'Attributes'         ),
+	'class':     KindInfo( 'Class',             'Classes'            ),
+	'define':    KindInfo( 'Definition',        'Definitions'        ),
+	'dir':       KindInfo( 'Directory',         'Directories'        ),
+	'enum':      KindInfo( 'Enumeration',       'Enumerations'       ),
+	'enumvalue': KindInfo( 'Enumeration Value', 'Enumeration Values' ),
+	'file':      KindInfo( 'File',              'Files'              ),
+	'func':      KindInfo( 'Function',          'Functions'          ),
+	'function':  KindInfo( 'Function',          'Functions'          ),
+	'method':    KindInfo( 'Member Function',   'Member Functions'   ),
+	'namespace': KindInfo( 'Namespace',         'Namespaces'         ),
+	'page':      KindInfo( 'Page',              'Pages'              ),
+	'struct':    KindInfo( 'Structure',         'Structures'         ),
+	'type':      KindInfo( 'Type',              'Types'              ),
+	'typedef':   KindInfo( 'Type',              'Types'              ),
+	'var':       KindInfo( 'Variable',          'Variables'          ),
+	'variable':  KindInfo( 'Variable',          'Variables'          ),
+}
+
+protection_kinds = {
+	# kind               # single             # plural
+	'public':    KindInfo( 'Public',            'Public'),
+	'protected': KindInfo( 'Protected',         'Protected'),
+	'private':   KindInfo( 'Private',           'Private'),
+}
+
+section_kinds = { 'user-defined': KindInfo(None, 'User Defined') }
+for kindname, kind in kinds.items():
+	section_kinds[kindname] = kind
+	for protname, prot in protection_kinds.items():
+		section_kinds['%s-%s' % (protname, kindname)] = KindInfo(
+			'%s %s' % (prot.single, kind.single),
+			'%s %s' % (prot.plural, kind.plural))
+		section_kinds['%s-static-%s' % (protname, kindname)] = KindInfo(
+			'%s Static %s' % (prot.single, kind.single),
+			'%s Static %s' % (prot.plural, kind.plural))
 
 def parseDoxygenId(ref):
 	kind = None
@@ -49,6 +106,46 @@ def parseDoxygenId(ref):
 		ret.append(item)
 	return kind, ret[:-1], ret[-1]
 
+doxygen_formatting_tags = {
+	'emphasis':       ('inline', 'em'),
+	'itemizedlist':   ('block',  'ul'),
+	'listitem':       ('block',  'li'),
+	'para':           ('block',  'p'),
+	'programlisting': ('block',  'pre'),
+}
+
+class DoxyString:
+	def __init__(self, node, doc):
+		self.items = []
+		self._parseNode(node, doc)
+
+	def _parseNode(self, node, doc):
+		for child in node.node.childNodes:
+			if child.nodeType == child.TEXT_NODE:
+				self.items.append(xmlstr(child.nodeValue))
+			elif child.nodeType == child.ELEMENT_NODE:
+				if child.nodeName == 'ref':
+					self.items.append(doc[child.getAttribute('refid')])
+				elif child.nodeName in doxygen_formatting_tags.keys():
+					kind, tag = doxygen_formatting_tags[child.nodeName]
+					if kind == 'inline':
+						self.items.append('<%s>%s</%s>' % (tag, Node(child).text(), tag))
+					elif kind == 'block':
+						self.items.append('<%s>' % tag)
+						self._parseNode(Node(child), doc)
+						self.items.append('</%s>' % tag)
+				elif child.nodeName in ['codeline', 'highlight']:
+					self._parseNode(Node(child), doc)
+				elif child.nodeName == 'sp':
+					self.items.append(' ')
+				elif child.nodeName in ['parameterlist', 'simplesect', 'xrefsect']:
+					pass
+				else:
+					raise Exception('Unsupported element %s' % child.nodeName)
+
+	def __str__(self):
+		return ''.join([str(x) for x in self.items])
+
 class DocInheritance:
 	def __init__(self, item, protection, virtual, name):
 		self.item = item
@@ -56,19 +153,26 @@ class DocInheritance:
 		self.virtual = virtual
 		self.name = name
 
+	def __str__(self):
+		return '<a href="%s.html">%s</a>' % (self.item.ref, self.name)
+
+class DocSection:
+	def __init__(self, kind):
+		self.kind = kind
+		self.name = section_kinds[kind].plural
+		self.members = []
+
 class DocItem:
 	def __init__(self, ref, kind, name, compound):
-		self.ref = ref
 		self.kind = kind
+		self.shortdoc = None
+		self.longdoc = []
+		self.docsections = {}
+		self.ref = ref
 		self.name = name
 		self.compound = compound
 		_, self.scope, self.shortname = parseDoxygenId(ref)
-		self.protection = None
-		self.shortdoc = None
-		self.longdoc = []
-
-	def __str__(self):
-		return '%s %s' % (self.kind, self.name)
+		self.protection = 'public'
 
 class DocCompound(DocItem):
 	def __init__(self, ref, kind, name):
@@ -77,9 +181,17 @@ class DocCompound(DocItem):
 		self.base = []
 		self.derived = []
 
+	def __str__(self):
+		return '<a href="%s.html">%s</a>' % (self.ref, self.name)
+
 class DocMember(DocItem):
 	def __init__(self, ref, kind, name):
 		DocItem.__init__(self, ref, kind, name, False)
+		self.typeof = ''
+		self.argstr = ''
+
+	def __str__(self):
+		return '<a href="#%s">%s</a>' % (self.ref, self.name)
 
 class Documentation:
 	def __init__(self):
@@ -111,7 +223,40 @@ class Documentation:
 	def __getitem__(self, ref):
 		return self.items[ref]
 
+def parseDoxygenMember(member, m, doc):
+	m.protection = member['prot']
+	for node in member.children():
+		if node.name == 'briefdescription':
+			para = node.children()
+			if len(para) != 0:
+				m.shortdoc = DoxyString(para[0], doc)
+				m.longdoc.append(m.shortdoc)
+		elif node.name == 'detaileddescription':
+			paras = node.children()
+			if len(paras) != 0:
+				for para in paras:
+					data = None
+					kind = None
+					for child in para.children():
+						if child.name == 'parameterlist':
+							data = child
+							kind = 'params'
+						elif child.name == 'xrefsect':
+							pass
+						elif child.name == 'simplesect':
+							if child['kind'] in ['return', 'see']:
+								data = child
+								kind = 'return'
+							else:
+								raise Exception('Unsupported simplesect (kind=%s)' % child['kind'])
+					m.longdoc.append(DoxyString(para, doc))
+		elif node.name == 'type':
+			m.typeof = DoxyString(node, doc)
+		elif node.name == 'argsstring':
+			m.argstr = DoxyString(node, doc)
+
 def parseDoxygenCompound(xmlroot, c, doc):
+	print 'parsing %s.xml' % c.ref
 	xml = Document(os.path.join(xmlroot, '%s.xml' % c.ref))
 	compound = xml.children()[0]
 
@@ -137,9 +282,37 @@ def parseDoxygenCompound(xmlroot, c, doc):
 			paras = node.children()
 			if len(paras) != 0:
 				for para in paras:
-					c.longdoc.append(para.text())
+					t = para.text()
+					if t:
+						c.longdoc.append(t)
+		elif node.name == 'sectiondef':
+			s = DocSection(node['kind'])
+			c.members.append(s)
+			for sec in node.children():
+				if sec.name == 'memberdef':
+					m = doc[sec['id']]
+					s.members.append(m)
+					parseDoxygenMember(sec, m, doc)
+				elif sec.name == 'header':
+					s.name = sec.text()
+				else:
+					raise Exception('Unsupported element %s' % sec.name)
+		elif node.name in ['innerclass', 'innernamespace']:
+			kind = node.name.replace('inner', '')
+			s = None
+			for sec in c.members:
+				if sec.kind == kind:
+					s = sec
+			if not s:
+				s = DocSection(kind)
+				c.members.append(s)
+			m = doc[node['refid']]
+			if node['prot'] != '':
+				m.protection = node['prot']
+			s.members.append(m)
 
 def parseDoxygenDocumentation(xmlroot):
+	print 'parsing index.xml'
 	xml = Document(os.path.join(xmlroot, 'index.xml'))
 	doc = Documentation()
 	for compound in xml.children():
@@ -151,7 +324,8 @@ def parseDoxygenDocumentation(xmlroot):
 					if membernode.name == 'name':
 						membername = membernode.text()
 						m = doc.create(node['refid'], node['kind'], membernode.text())
-						c.members.append(m)
+						if m.kind == 'function' and c.kind in ['class', 'struct']:
+							m.kind = 'method'
 
 	for c in doc:
 		if c.compound:
@@ -171,13 +345,15 @@ def parseDoxygenDocumentation(xmlroot):
 
 	return doc
 
+protection_scope = ['public', 'protected']
+
 docroot = sys.argv[2]
 doc = parseDoxygenDocumentation(sys.argv[1])
 for item in doc:
 	if item.kind in ['struct', 'class', 'namespace']:
 		print 'writing %s ...' % item.ref
 		with open(os.path.join(docroot, '%s.html' % item.ref), 'w') as f:
-			title = '%s %s Documentation' % (item.name, item.kind.capitalize())
+			title = '%s %s Documentation' % (item.name, kinds[item.kind].single)
 			f.write('---\n')
 			f.write('layout: rdfa\n')
 			f.write('title: Cainteoir Text-to-Speech API &mdash; %s\n' % title)
@@ -196,19 +372,42 @@ for item in doc:
 					f.write('<blockquote>%s</blockquote>' % item.shortdoc)
 			if len(item.base) != 0:
 				f.write('<h2 id="base">Inherited From</h2>\n')
-				f.write('<ol>\n')
+				f.write('<ul>\n')
 				for base in item.base:
-					f.write('<li><a href="%s.html">%s</a></li>' % (base.item.ref, base.name))
-				f.write('</ol>\n')
+					if base.item.protection in protection_scope:
+						f.write('<li>%s</li>\n' % base)
+				f.write('</ul>\n')
 			if len(item.derived) != 0:
 				f.write('<h2 id="derived">Inherited By</h2>\n')
-				f.write('<ol>\n')
+				f.write('<ul>\n')
 				for derived in item.derived:
-					f.write('<li><a href="%s.html">%s</a></li>' % (derived.item.ref, derived.name))
-				f.write('</ol>\n')
-			if len(item.longdoc) != 1:
+					if derived.item.protection in protection_scope:
+						f.write('<li>%s</li>\n' % derived)
+				f.write('</ul>\n')
+			for group in item.members:
+				members = [m for m in group.members if m.protection in protection_scope]
+				if len(members) != 0:
+					f.write('<h2 id="%s">%s</h2>\n' % (group.kind, group.name))
+					for member in members:
+						if member.compound:
+							f.write('<p>%s</p>\n' % member)
+						else:
+							f.write('<p>%s %s %s</p>\n' % (member.typeof, member, member.argstr))
+						if member.shortdoc:
+							f.write('<blockquote>%s</blockquote>\n' % member.shortdoc)
+			if len(item.longdoc) > 1:
 				f.write('<h2 id="detailed_description">Detailed Description</h2>\n')
 				f.write('<blockquote>\n')
 				for para in item.longdoc:
-					f.write('<p>%s</p>' % para)
+					f.write('<p>%s</p>\n' % para)
 				f.write('</blockquote>\n')
+			if len(item.members) != 0:
+				f.write('<h2 id="members">Documentation</h2>\n')
+				for group in item.members:
+					for member in group.members:
+						if member.protection in protection_scope and not member.compound:
+							f.write('<h3 id="%s">%s %s %s::%s %s</h3>\n' % (member.ref, member.protection, member.typeof, item.name, member.name, member.argstr))
+							f.write('<blockquote>\n')
+							for para in member.longdoc:
+								f.write('<p>%s</p>\n' % para)
+							f.write('</blockquote>\n')
