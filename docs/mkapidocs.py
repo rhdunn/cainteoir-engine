@@ -173,6 +173,10 @@ class DocItem:
 		self.compound = compound
 		_, self.scope, self.shortname = parseDoxygenId(ref)
 		self.protection = 'public'
+		is_std_doc  = len(self.scope) > 0 and self.scope[0] == 'std'
+		is_std_ns   = self.kind == 'namespace' and self.name == 'std'
+		self.stdlib = is_std_doc or is_std_ns
+		self.visited = False
 
 class DocCompound(DocItem):
 	def __init__(self, ref, kind, name):
@@ -354,13 +358,41 @@ def parseDoxygenDocumentation(xmlroot):
 
 	return doc
 
+def printHeirarchy(f, item, depth):
+	if item.compound and not item.visited:
+		item.visited = True
+		kindname = kinds[item.kind].single
+		f.write('<tr>')
+		f.write('<td title="%s %s">%s<a href="%s.html">%s</a></td>' % (item.kind, item.name, '&#xA0;&#xA0;&#xA0;'*depth, item.ref, item.shortname))
+		f.write('<td>%s</td>' % item.shortdoc)
+		f.write('</tr>\n')
+		for s in item.members:
+			for i in s.members:
+				printHeirarchy(f, i, depth+1)
+
 protection_scope = ['public', 'protected']
 
 docroot = sys.argv[2]
 doc = parseDoxygenDocumentation(sys.argv[1])
+
+print 'writing index.html ...'
+with open(os.path.join(docroot, 'index.html'), 'w') as f:
+	f.write('---\n')
+	f.write('layout: rdfa\n')
+	f.write('title: Cainteoir Text-to-Speech API\n')
+	f.write('nav:\n')
+	f.write('  - { title: Home , url: ../index.html }\n')
+	f.write('  - { title: API }\n')
+	f.write('---\n')
+	f.write('<h1>Cainteoir Text-to-Speech API</h1>\n')
+	f.write('<table width="100%">\n')
+	for item in doc:
+		if item.kind == 'namespace' and not item.stdlib and len(item.scope) == 0:
+			printHeirarchy(f, item, 0)
+	f.write('</table>')
+
 for item in doc:
-	is_std_doc = len(item.scope) > 0 and item.scope[0].name == 'std'
-	if item.kind in ['struct', 'class', 'namespace'] and not is_std_doc:
+	if item.kind in ['struct', 'class', 'namespace'] and not item.stdlib:
 		print 'writing %s ...' % item.ref
 		with open(os.path.join(docroot, '%s.html' % item.ref), 'w') as f:
 			title = '%s %s Documentation' % (item.name, kinds[item.kind].single)
@@ -384,14 +416,14 @@ for item in doc:
 				f.write('<h2 id="base">Inherited From</h2>\n')
 				f.write('<ul>\n')
 				for base in item.base:
-					if base.item.protection in protection_scope:
+					if base.item.protection in protection_scope and base.item.visited:
 						f.write('<li>%s</li>\n' % base)
 				f.write('</ul>\n')
 			if len(item.derived) != 0:
 				f.write('<h2 id="derived">Inherited By</h2>\n')
 				f.write('<ul>\n')
 				for derived in item.derived:
-					if derived.item.protection in protection_scope:
+					if derived.item.protection in protection_scope and derived.item.visited:
 						f.write('<li>%s</li>\n' % derived)
 				f.write('</ul>\n')
 			for group in item.members:
