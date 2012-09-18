@@ -134,9 +134,9 @@ class DoxyString:
 						self.items.append('<%s>' % tag)
 						self._parseNode(Node(child), doc)
 						self.items.append('</%s>' % tag)
-				elif child.nodeName in ['codeline', 'highlight']:
+				elif child.nodeName in ['codeline', 'highlight', 'ulink']:
 					self._parseNode(Node(child), doc)
-				elif child.nodeName == 'sp':
+				elif child.nodeName in ['sp', 'simplesectsep']:
 					self.items.append(' ')
 				elif child.nodeName in ['parameterlist', 'simplesect', 'xrefsect']:
 					pass
@@ -167,7 +167,7 @@ class DocItem:
 		self.kind = kind
 		self.shortdoc = None
 		self.longdoc = []
-		self.docsections = {}
+		self.docsections = []
 		self.ref = ref
 		self.name = name
 		self.compound = compound
@@ -235,18 +235,27 @@ def parseDoxygenMember(member, m, doc):
 			paras = node.children()
 			if len(paras) != 0:
 				for para in paras:
-					data = None
-					kind = None
 					for child in para.children():
 						if child.name == 'parameterlist':
-							data = child
-							kind = 'params'
+							for param in child.children():
+								for item in param.children():
+									if item.name == 'parameternamelist':
+										title = item.children()[0].text()
+									if item.name == 'parameterdescription':
+										desc = item
+								m.docsections.append((title, DoxyString(desc, doc)))
 						elif child.name == 'xrefsect':
-							pass
+							for xref in child.children():
+								if xref.name == 'xreftitle':
+									title = xref.text()
+								if xref.name == 'xrefdescription':
+									desc = xref
+							m.docsections.append((title, DoxyString(desc, doc)))
 						elif child.name == 'simplesect':
-							if child['kind'] in ['return', 'see']:
-								data = child
-								kind = 'return'
+							if child['kind'] == 'return':
+								m.docsections.append(('Returns', DoxyString(child, doc)))
+							elif child['kind'] == 'see':
+								m.docsections.append(('See', DoxyString(child, doc)))
 							else:
 								raise Exception('Unsupported simplesect (kind=%s)' % child['kind'])
 					m.longdoc.append(DoxyString(para, doc))
@@ -411,3 +420,9 @@ for item in doc:
 							for para in member.longdoc:
 								f.write('<p>%s</p>\n' % para)
 							f.write('</blockquote>\n')
+							if len(member.docsections) != 0:
+								f.write('<dl class="memberdoc">\n')
+								for name, sec in member.docsections:
+									f.write('<dt>%s</dt>' % name)
+									f.write('<dd>%s</dd>\n' % sec)
+								f.write('</dl>\n')
