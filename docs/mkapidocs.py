@@ -359,7 +359,8 @@ protection_scope = ['public', 'protected']
 docroot = sys.argv[2]
 doc = parseDoxygenDocumentation(sys.argv[1])
 for item in doc:
-	if item.kind in ['struct', 'class', 'namespace']:
+	is_std_doc = len(item.scope) > 0 and item.scope[0].name == 'std'
+	if item.kind in ['struct', 'class', 'namespace'] and not is_std_doc:
 		print 'writing %s ...' % item.ref
 		with open(os.path.join(docroot, '%s.html' % item.ref), 'w') as f:
 			title = '%s %s Documentation' % (item.name, kinds[item.kind].single)
