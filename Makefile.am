@@ -143,12 +143,17 @@ endif
 .md.html:
 	pandoc --from markdown --to html $< --output $@
 
+.dot.svg:
+	dot -Tsvg -o $@ $<
+
 docs/implementation-status/csv2html.stamp: \
 	docs/implementation-status/csv2html.py \
 	docs/implementation-status/*.xml \
 	docs/implementation-status/*.csv
 	cd docs/implementation-status && ./csv2html.py
 	touch docs/implementation-status/csv2html.stamp
+
+fsm:	data/parsetext-fsm.svg
 
 api:
 	doxygen docs/cainteoir-engine.doxyconf
