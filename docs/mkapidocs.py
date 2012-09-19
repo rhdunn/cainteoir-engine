@@ -407,6 +407,7 @@ for item in doc:
 			f.write('  - { title: "%s" }\n' % item.shortname)
 			f.write('---\n')
 			f.write('<h1>%s</h1>\n' % title)
+			f.write('<p><code>%s %s %s</code></p>\n' % (item.protection, item.kind, item.shortname))
 			if item.shortdoc:
 				if len(item.longdoc) != 1:
 					f.write('<blockquote>%s <a href="#detailed_description">More...</a></blockquote>' % item.shortdoc)
@@ -432,9 +433,9 @@ for item in doc:
 					f.write('<h2 id="%s">%s</h2>\n' % (group.kind, group.name))
 					for member in members:
 						if member.compound:
-							f.write('<p>%s</p>\n' % member)
+							f.write('<p><code>%s</code></p>\n' % member)
 						else:
-							f.write('<p>%s %s %s</p>\n' % (member.typeof, member, member.argstr))
+							f.write('<p><code>%s %s %s</code></p>\n' % (member.typeof, member, member.argstr))
 						if member.shortdoc:
 							f.write('<blockquote>%s</blockquote>\n' % member.shortdoc)
 			if len(item.longdoc) > 1:
@@ -448,7 +449,7 @@ for item in doc:
 				for group in item.members:
 					for member in group.members:
 						if member.protection in protection_scope and not member.compound:
-							f.write('<h3 id="%s">%s %s %s::%s %s</h3>\n' % (member.ref, member.protection, member.typeof, item.name, member.name, member.argstr))
+							f.write('<p id="%s"><code>%s %s %s %s</code></p>\n' % (member.ref, member.protection, member.typeof, member.name, member.argstr))
 							f.write('<blockquote>\n')
 							for para in member.longdoc:
 								f.write('<p>%s</p>\n' % para)
