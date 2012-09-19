@@ -412,19 +412,19 @@ for item in doc:
 					f.write('<blockquote>%s <a href="#detailed_description">More...</a></blockquote>' % item.shortdoc)
 				else:
 					f.write('<blockquote>%s</blockquote>' % item.shortdoc)
-			if len(item.base) != 0:
+			items = [x for x in item.base if x.item.protection in protection_scope and x.item.visited ]
+			if len(items) != 0:
 				f.write('<h2 id="base">Inherited From</h2>\n')
 				f.write('<ul>\n')
-				for base in item.base:
-					if base.item.protection in protection_scope and base.item.visited:
-						f.write('<li>%s</li>\n' % base)
+				for base in items:
+					f.write('<li>%s</li>\n' % base)
 				f.write('</ul>\n')
-			if len(item.derived) != 0:
+			items = [x for x in item.derived if x.item.protection in protection_scope and x.item.visited ]
+			if len(items) != 0:
 				f.write('<h2 id="derived">Inherited By</h2>\n')
 				f.write('<ul>\n')
-				for derived in item.derived:
-					if derived.item.protection in protection_scope and derived.item.visited:
-						f.write('<li>%s</li>\n' % derived)
+				for derived in items:
+					f.write('<li>%s</li>\n' % derived)
 				f.write('</ul>\n')
 			for group in item.members:
 				members = [m for m in group.members if m.protection in protection_scope]
