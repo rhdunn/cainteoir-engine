@@ -392,7 +392,7 @@ with open(os.path.join(docroot, 'index.html'), 'w') as f:
 	f.write('</table>')
 
 for item in doc:
-	if item.kind in ['struct', 'class', 'namespace'] and not item.stdlib:
+	if item.kind in ['struct', 'class', 'namespace'] and item.visited:
 		print 'writing %s ...' % item.ref
 		with open(os.path.join(docroot, '%s.html' % item.ref), 'w') as f:
 			title = '%s %s Documentation' % (item.name, kinds[item.kind].single)
