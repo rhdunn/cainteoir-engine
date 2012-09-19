@@ -221,6 +221,8 @@ namespace cainteoir { namespace rdf
 				{
 					return statement->subject;
 				}
+
+				subject_t() {}
 			};
 
 			struct predicate_t
@@ -231,6 +233,8 @@ namespace cainteoir { namespace rdf
 				{
 					return statement->predicate;
 				}
+
+				predicate_t() {}
 			};
 
 			struct object_t
@@ -243,6 +247,8 @@ namespace cainteoir { namespace rdf
 					const rdf::uri *uri = dynamic_cast<const rdf::uri *>(statement->object.get());
 					return uri ? *uri : nulluri;
 				}
+
+				object_t() {}
 			};
 		}
 #endif
