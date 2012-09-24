@@ -138,6 +138,10 @@ const cainteoir::xml::ns cainteoir::xml::xmlns::epub("epub", "http://www.idpf.or
   */
 const cainteoir::xml::ns cainteoir::xml::xmlns::foaf("foaf", "http://xmlns.com/foaf/0.1/");
 
+/** @brief XML-based Hyper-Text Markup Language 4.0 (MS Word HTML) namespace.
+  */
+const cainteoir::xml::ns cainteoir::xml::xmlns::html40("html", "http://www.w3.org/TR/REC-html40");
+
 /** @brief ePub Media Overlays namespace.
   */
 const cainteoir::xml::ns cainteoir::xml::xmlns::media("media", "http://www.idpf.org/epub/vocab/overlays/");

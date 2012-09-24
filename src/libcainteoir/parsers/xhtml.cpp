@@ -384,6 +384,8 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	reader->set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
 	reader->set_nodes(xmlns::xhtml,  html_nodes);
 	reader->set_attrs(xmlns::xhtml,  html_attrs);
+	reader->set_nodes(xmlns::html40, html_nodes);
+	reader->set_attrs(xmlns::html40, html_attrs);
 	reader->set_attrs(xmlns::xml,    xml::attrs);
 
 	std::string lang;

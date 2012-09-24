@@ -46,6 +46,7 @@ namespace cainteoir { namespace xml
 		extern const ns dtb;
 		extern const ns epub;
 		extern const ns foaf;
+		extern const ns html40;
 		extern const ns media;
 		extern const ns ncx;
 		extern const ns ocf;
