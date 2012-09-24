@@ -112,6 +112,10 @@ if __name__ == '__main__':
 			{'test': 'mime/email/from-no-email-lfonly.txt', 'result': 'mime/email/from-no-email.n3'},
 			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/newsgroups.n3'},
 		]},
+		{'name': 'story-metadata', 'type': 'turtle', 'tests': [
+			{'test': 'mime/story-metadata/title.txt', 'result': 'mime/story-metadata/title.n3'},
+			{'test': 'mime/story-metadata/title-lfonly.txt', 'result': 'mime/story-metadata/title.n3'},
+		]},
 	]})
 	test.run({'name': 'SMIL', 'groups': [
 		{'name': 'metadata', 'type': 'turtle', 'tests': [

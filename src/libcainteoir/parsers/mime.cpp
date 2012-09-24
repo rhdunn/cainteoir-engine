@@ -136,7 +136,7 @@ struct mime_headers : public cainteoir::buffer
 						charset = cainteoir::buffer(content, type).str();
 				}
 			}
-			else if (!name.comparei("Subject"))
+			else if (!name.comparei("Subject") || !name.comparei("Title"))
 			{
 				title = value.str();
 				aGraph.statement(subject, rdf::dc("title"), rdf::literal(title));
