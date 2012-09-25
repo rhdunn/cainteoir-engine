@@ -152,8 +152,10 @@ if __name__ == '__main__':
 		{'name': 'story-metadata', 'type': 'events', 'tests': [
 			{'test': 'mime/story-metadata/title.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
 			{'test': 'mime/story-metadata/author.txt', 'result': 'mime/email/content.events', 'title': 'author.txt'},
+			{'test': 'mime/story-metadata/keywords.txt', 'result': 'mime/email/content.events', 'title': 'keywords.txt'},
 			{'test': 'mime/story-metadata/title-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
 			{'test': 'mime/story-metadata/author-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'author-lfonly.txt'},
+			{'test': 'mime/story-metadata/keywords-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'keywords-lfonly.txt'},
 		]},
 		{'name': 'multipart', 'type': 'events', 'tests': [
 			{'test': 'mime/multipart/mixed-1.txt', 'result': 'mime/multipart/mixed.events', 'title': 'mixed-1.txt'},

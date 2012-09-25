@@ -184,6 +184,31 @@ struct mime_headers : public cainteoir::buffer
 			}
 			else if (!name.comparei("Newsgroups"))
 				aGraph.statement(subject, rdf::dc("publisher"), rdf::literal(value.str()));
+			else if (!name.comparei("Keywords"))
+			{
+				const char *a = value.begin();
+				const char *b = value.begin();
+				while (a != value.end())
+				{
+					a = b;
+					while (a != value.end() && (*a == ',' || *a == ' '))
+						++a;
+
+					b = a;
+					while (b != value.end() && *b != ',')
+						++b;
+
+					if (b == value.end())
+						--b;
+
+					while (b != a && (*b == ',' || *b == ' '))
+						--b;
+					++b;
+
+					if (b > a)
+						aGraph.statement(subject, rdf::dc("subject"), rdf::literal(std::string(a, b)));
+				}
+			}
 		}
 
 		return false;

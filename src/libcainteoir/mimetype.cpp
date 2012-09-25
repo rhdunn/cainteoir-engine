@@ -450,12 +450,13 @@ static const std::initializer_list<m::matchlet> news_pattern2 = { { 0,  1, "News
 // for MIME-like story metadata ...
 static const std::initializer_list<m::matchlet> story_pattern1 = { { 0,  1, "Title: " } };
 static const std::initializer_list<m::matchlet> story_pattern2 = { { 0,  1, "Author: " } };
+static const std::initializer_list<m::matchlet> story_pattern3 = { { 0,  1, "Keywords: " } };
 
 static const std::initializer_list<m::magic> mime_magic = {
 	mime_pattern1,  mime_pattern2, mime_pattern3, mime_pattern4,
 	news_pattern1,  news_pattern2,
 	http_pattern1,  http_pattern2,
-	story_pattern1, story_pattern2,
+	story_pattern1, story_pattern2, story_pattern3,
 };
 
 const m::mime_info m::mime_data = { mime_magic, "", "", "", {}, {} };
