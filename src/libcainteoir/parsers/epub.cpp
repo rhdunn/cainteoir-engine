@@ -135,12 +135,11 @@ bool epub_document_reader::read()
 			else if (!opf->text->compare("application/xhtml+xml"))
 			{
 				anchor = mData->location(filename, opf->anchor.ref);
-				type   = events::anchor;
 
 				rdf::graph innerMetadata;
 				child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml");
 				is_toc = false;
-				return true;
+				return read();
 			}
 		}
 	}

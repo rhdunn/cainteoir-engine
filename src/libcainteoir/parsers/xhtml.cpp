@@ -586,7 +586,7 @@ bool html_document_reader::read()
 {
 	if (ctx.top().ctx == &html::title_node)
 	{
-		type      = events::toc_entry;
+		type      = events::toc_entry | events::anchor;
 		context   = events::heading;
 		parameter = 0;
 		text      = cainteoir::make_buffer(mTitle);
