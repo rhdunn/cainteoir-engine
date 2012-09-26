@@ -151,7 +151,7 @@ struct mime_headers : public cainteoir::buffer
 				while (name_end <= value.end() && *name_end == ' ')
 					++name_end;
 
-				while (name_end <= value.end() && *name_end != '<')
+				while (name_end <= value.end() && *name_end != '<' && !(name_end[0] == '&' && name_end[1] == 'l' && name_end[2] == 't' && name_end[3] == ';'))
 					++name_end;
 
 				if (name_end > value.end()) // name only (no email address)
@@ -163,8 +163,17 @@ struct mime_headers : public cainteoir::buffer
 					const char * mbox_begin = name_end + 1;
 					const char * mbox_end = value.end();
 
-					while (mbox_end > mbox_begin && *mbox_end != '>')
-						--mbox_end;
+					if (*name_end == '&') // &lt;...&gt;
+					{
+						mbox_begin += 3;
+						while (mbox_end > mbox_begin && !(mbox_end[0] == '&' && mbox_end[1] == 'g' && mbox_end[2] == 't' && mbox_end[3] == ';'))
+							--mbox_end;
+					}
+					else // <...>
+					{
+						while (mbox_end > mbox_begin && *mbox_end != '>')
+							--mbox_end;
+					}
 
 					// clean-up name ...
 
