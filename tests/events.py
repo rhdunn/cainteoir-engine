@@ -142,6 +142,7 @@ if __name__ == '__main__':
 			{'test': 'mime/email/from-subject.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
 			{'test': 'mime/email/from-header.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
 			{'test': 'mime/email/date-jan.txt', 'result': 'mime/email/content.events', 'title': 'date-jan.txt'},
+			{'test': 'mime/email/mdate-jan.txt', 'result': 'mime/email/content.events', 'title': 'mdate-jan.txt'},
 			{'test': 'mime/email/newsgroups.txt', 'result': 'mime/email/content.events', 'title': 'newsgroups.txt'},
 			{'test': 'mime/email/article-subject.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
 			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
@@ -152,6 +153,7 @@ if __name__ == '__main__':
 			{'test': 'mime/email/from-subject-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
 			{'test': 'mime/email/from-header-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
 			{'test': 'mime/email/date-jan-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'date-jan-lfonly.txt'},
+			{'test': 'mime/email/mdate-jan-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'mdate-jan-lfonly.txt'},
 			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'newsgroups-lfonly.txt'},
 			{'test': 'mime/email/article-subject-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
 		]},
