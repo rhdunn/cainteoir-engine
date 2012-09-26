@@ -1,0 +1,8 @@
+From alt.comp.test Sat Jul 21 03:26:43 2009
+Path: alt.comp.test
+~From: Jane Bloggs
+~Newsgroups: Tests
+~Date: Thu, 17 Jan 1998 11:12:45 +0100
+~Subject: Test Case
+
+This is a test file.

@@ -65,6 +65,9 @@ struct mime_headers : public cainteoir::buffer
 	{
 		while (first <= last)
 		{
+			if (*first == '~')
+				++first;
+
 			cainteoir::buffer name(first, first);
 			cainteoir::buffer value(first, first);
 
@@ -72,6 +75,7 @@ struct mime_headers : public cainteoir::buffer
 				++first;
 
 			name = cainteoir::buffer(name.begin(), first);
+
 			if (name.empty())
 			{
 				if (*first == '\r' || *first == '\n')
@@ -234,7 +238,8 @@ struct mime_headers : public cainteoir::buffer
 
 		if (!strncmp(first, "HTTP/1.0 ", 9) ||
 		    !strncmp(first, "HTTP/1.1 ", 9) ||
-		    !strncmp(first, "Article ", 8))
+		    !strncmp(first, "Article ", 8)  ||
+		    !strncmp(first, "From ", 5))
 		{
 			while (first <= last && *first != '\n')
 				++first;
