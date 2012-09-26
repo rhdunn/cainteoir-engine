@@ -149,50 +149,73 @@ struct mime_headers : public cainteoir::buffer
 			{
 				// name ...
 
-				const char * name_begin = value.begin();
-				const char * name_end = value.begin();
+				const char *name_begin = value.begin();
+				const char *name_end   = value.begin();
+
+				const char *mbox_begin = nullptr;
+				const char *mbox_end   = nullptr;
+
+				bool mbox_is_name = false;
 
 				while (name_end <= value.end() && *name_end == ' ')
 					++name_end;
 
+				name_begin = name_end;
+
 				while (name_end <= value.end() && *name_end != '<' && !(name_end[0] == '&' && name_end[1] == 'l' && name_end[2] == 't' && name_end[3] == ';'))
-					++name_end;
-
-				if (name_end > value.end()) // name only (no email address)
-					aGraph.statement(subject, rdf::dc("creator"), rdf::literal(std::string(name_begin, value.end())));
-				else
 				{
-					// email address ...
+					if (*name_end == '@') // email only ...
+					{
+						mbox_begin = name_begin;
+						mbox_end   = name_end;
+						mbox_is_name = true;
+					}
 
-					const char * mbox_begin = name_end + 1;
-					const char * mbox_end = value.end();
+					++name_end;
+				}
 
+				if (mbox_begin == nullptr && name_end < value.end()) // email address ...
+				{
 					if (*name_end == '&') // &lt;...&gt;
 					{
-						mbox_begin += 3;
+						mbox_begin = name_end + 4;
+						mbox_end = value.end();
 						while (mbox_end > mbox_begin && !(mbox_end[0] == '&' && mbox_end[1] == 'g' && mbox_end[2] == 't' && mbox_end[3] == ';'))
 							--mbox_end;
 					}
 					else // <...>
 					{
+						mbox_begin = name_end + 1;
+						mbox_end = value.end();
 						while (mbox_end > mbox_begin && *mbox_end != '>')
 							--mbox_end;
 					}
+				}
 
-					// clean-up name ...
+				// clean-up name ...
 
+				--name_end;
+				while (name_end > value.begin() && (*name_end == ' ' || *name_end == '\r' || *name_end == '\n'))
 					--name_end;
-					while (name_end > value.begin() && *name_end == ' ')
-						--name_end;
-					++name_end;
+				++name_end;
 
-					// metadata ...
-
+				if (mbox_begin == nullptr) // name only ...
+					aGraph.statement(subject, rdf::dc("creator"), rdf::literal(std::string(name_begin, value.end())));
+				else // name and email address ...
+				{
 					const rdf::uri from = aGraph.genid();
 					aGraph.statement(subject, rdf::dc("creator"), from);
 					aGraph.statement(from, rdf::rdf("type"), rdf::foaf("Person"));
-					aGraph.statement(from, rdf::rdf("value"), rdf::literal(std::string(name_begin, name_end)));
-					aGraph.statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(mbox_begin, mbox_end)));
+					if (mbox_is_name)
+					{
+						aGraph.statement(from, rdf::rdf("value"), rdf::literal(std::string(mbox_begin, mbox_end)));
+						aGraph.statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(name_begin, name_end)));
+					}
+					else
+					{
+						aGraph.statement(from, rdf::rdf("value"), rdf::literal(std::string(name_begin, name_end)));
+						aGraph.statement(from, rdf::foaf("mbox"), rdf::literal("mailto:" + std::string(mbox_begin, mbox_end)));
+					}
 				}
 			}
 			else if (!name.comparei("Newsgroups"))
