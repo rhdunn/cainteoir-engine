@@ -223,7 +223,9 @@ struct mime_headers : public cainteoir::buffer
 		while (first <= last && (*first == ' ' || *first == '\t' || *first == '\r' || *first == '\n'))
 			++first;
 
-		if (!strncmp(first, "HTTP/1.0 ", 9) || !strncmp(first, "HTTP/1.1 ", 9))
+		if (!strncmp(first, "HTTP/1.0 ", 9) ||
+		    !strncmp(first, "HTTP/1.1 ", 9) ||
+		    !strncmp(first, "Article ", 8))
 		{
 			while (first <= last && *first != '\n')
 				++first;

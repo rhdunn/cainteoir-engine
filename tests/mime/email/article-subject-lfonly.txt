@@ -1,0 +1,4 @@
+Article 12345 of alt.comp.test
+Subject: Test Case
+
+This is a test file.
