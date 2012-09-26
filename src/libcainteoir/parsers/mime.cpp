@@ -151,9 +151,9 @@ struct mime_headers : public cainteoir::buffer
 
 				const char *name_begin = value.begin();
 				const char *name_end   = value.begin();
-
 				const char *mbox_begin = nullptr;
 				const char *mbox_end   = nullptr;
+				const char *email_at   = nullptr;
 
 				bool mbox_is_name = false;
 
@@ -166,6 +166,7 @@ struct mime_headers : public cainteoir::buffer
 				{
 					if (*name_end == '@') // email only ...
 					{
+						email_at   = name_end;
 						mbox_begin = name_begin;
 						mbox_end   = name_end;
 						mbox_is_name = true;
@@ -214,6 +215,9 @@ struct mime_headers : public cainteoir::buffer
 					++name_begin;
 					--name_end;
 				}
+
+				if (email_at && !mbox_is_name)
+					name_end = email_at;
 
 				if (mbox_begin == nullptr) // name only ...
 					aGraph.statement(subject, rdf::dc("creator"), rdf::literal(std::string(name_begin, value.end())));
