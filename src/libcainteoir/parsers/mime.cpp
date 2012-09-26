@@ -162,7 +162,7 @@ struct mime_headers : public cainteoir::buffer
 
 				name_begin = name_end;
 
-				while (name_end <= value.end() && *name_end != '<' && !(name_end[0] == '&' && name_end[1] == 'l' && name_end[2] == 't' && name_end[3] == ';'))
+				while (name_end <= value.end() && *name_end != '<' && *name_end != '(' && !(name_end[0] == '&' && name_end[1] == 'l' && name_end[2] == 't' && name_end[3] == ';'))
 				{
 					if (*name_end == '@') // email only ...
 					{
@@ -174,20 +174,30 @@ struct mime_headers : public cainteoir::buffer
 					++name_end;
 				}
 
-				if (mbox_begin == nullptr && name_end < value.end()) // email address ...
+				if (name_end < value.end()) // email address ...
 				{
 					if (*name_end == '&') // &lt;...&gt;
 					{
+						mbox_is_name = false;
 						mbox_begin = name_end + 4;
 						mbox_end = value.end();
 						while (mbox_end > mbox_begin && !(mbox_end[0] == '&' && mbox_end[1] == 'g' && mbox_end[2] == 't' && mbox_end[3] == ';'))
 							--mbox_end;
 					}
-					else // <...>
+					else if (*name_end == '<') // <...>
 					{
+						mbox_is_name = false;
 						mbox_begin = name_end + 1;
 						mbox_end = value.end();
 						while (mbox_end > mbox_begin && *mbox_end != '>')
+							--mbox_end;
+					}
+					else // (...)
+					{
+						mbox_is_name = true;
+						mbox_begin = name_end + 1;
+						mbox_end = value.end();
+						while (mbox_end > mbox_begin && *mbox_end != ')')
 							--mbox_end;
 					}
 				}
