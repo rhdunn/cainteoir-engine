@@ -114,9 +114,11 @@ if __name__ == '__main__':
 		]},
 		{'name': 'story-metadata', 'type': 'turtle', 'tests': [
 			{'test': 'mime/story-metadata/title.txt', 'result': 'mime/story-metadata/title.n3'},
+			{'test': 'mime/story-metadata/story.txt', 'result': 'mime/story-metadata/title.n3'},
 			{'test': 'mime/story-metadata/author.txt', 'result': 'mime/story-metadata/author.n3'},
 			{'test': 'mime/story-metadata/keywords.txt', 'result': 'mime/story-metadata/keywords.n3'},
 			{'test': 'mime/story-metadata/title-lfonly.txt', 'result': 'mime/story-metadata/title.n3'},
+			{'test': 'mime/story-metadata/story-lfonly.txt', 'result': 'mime/story-metadata/title.n3'},
 			{'test': 'mime/story-metadata/author-lfonly.txt', 'result': 'mime/story-metadata/author.n3'},
 			{'test': 'mime/story-metadata/keywords-lfonly.txt', 'result': 'mime/story-metadata/keywords.n3'},
 		]},
