@@ -73,6 +73,22 @@ namespace cainteoir
 		};
 	}
 
+	struct document_item
+	{
+		document_item()
+			: type(0)
+			, context(events::unknown)
+			, parameter(0)
+		{
+		}
+
+		uint32_t type;
+		events::context context;
+		uint32_t parameter;
+		std::shared_ptr<buffer> text;
+		rdf::uri anchor;
+	};
+
 	class document
 	{
 	public:
@@ -143,21 +159,8 @@ namespace cainteoir
 		std::map<std::string, size_t> mAnchors;
 	};
 
-	struct document_reader
+	struct document_reader : public document_item
 	{
-		document_reader()
-			: type(0)
-			, context(events::unknown)
-			, parameter(0)
-		{
-		}
-
-		uint32_t type;
-		events::context context;
-		uint32_t parameter;
-		std::shared_ptr<buffer> text;
-		rdf::uri anchor;
-
 		virtual bool read() = 0;
 
 		virtual ~document_reader() {}

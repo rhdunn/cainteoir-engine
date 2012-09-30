@@ -226,38 +226,44 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @deprecated Use the document_reader API instead.
   */
 
-/** @struct cainteoir::document_reader
-  * @brief  Provides a reader-style API to the events corresponding to the document.
+/** @struct cainteoir::document_item
+  * @brief Holds information about a part of a document.
+  *
+  * Objects of this type are created by instances of the document_reader interface.
   */
 
-/** @fn    cainteoir::document_reader::document_reader()
-  * @brief Initialize the document reader object.
+/** @fn    cainteoir::document_item::document_item()
+  * @brief Initialize the document item object.
   */
 
-/** @fn    cainteoir::document_reader::~document_reader()
-  * @brief Destroy the document reader object.
-  */
-
-/** @var   uint32_t cainteoir::document_reader::type
+/** @var   uint32_t cainteoir::document_item::type
   * @brief The type of the event.
   *
   * @see cainteoir::events::event_type
   */
 
-/** @var   cainteoir::events::context cainteoir::document_reader::context
+/** @var   cainteoir::events::context cainteoir::document_item::context
   * @brief The associated rendering context.
   */
 
-/** @var   uint32_t cainteoir::document_reader::parameter
+/** @var   uint32_t cainteoir::document_item::parameter
   * @brief A context-dependent parameter for the rendering context.
   */
 
-/** @var   std::shared_ptr<cainteoir::buffer> cainteoir::document_reader::text
+/** @var   std::shared_ptr<cainteoir::buffer> cainteoir::document_item::text
   * @brief The text associated with the document event.
   */
 
-/** @var   cainteoir::rdf::uri cainteoir::document_reader::anchor
+/** @var   cainteoir::rdf::uri cainteoir::document_item::anchor
   * @brief A uri that references the start of this event.
+  */
+
+/** @struct cainteoir::document_reader
+  * @brief  Provides a reader-style API to the events corresponding to the document.
+  */
+
+/** @fn    cainteoir::document_reader::~document_reader()
+  * @brief Destroy the document reader object.
   */
 
 /** @fn    bool cainteoir::document_reader::read()
