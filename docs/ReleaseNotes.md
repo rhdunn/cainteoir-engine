@@ -1,6 +1,47 @@
 Release Notes
 =============
 
+Version 0.10: Monday October 1st 2012 [Sep 2012]
+------------------------------------------------
+
+  *  fix compilation on clang 3.2
+  *  add support for the mb-cz2 voice
+  *  add a configure option to disable MBROLA support
+  *  use C++11 range-based for loops instead of foreach_iter
+  *  complete API documentation with doxygen (except the deprecated cainteoir::document API)
+  *  rework and simplify the public buffer API
+  *  improved space normalization logic with tests
+
+### document support
+
+  *  html: initial support for MS Word generated HTML (http://www.w3.org/TR/REC-html40 XML namespace)
+  *  html: fix anchor generation for the root item (fixes navigation in ZIP files containing HTML documents)
+  *  mime: support story-based Title, Story, Author and Keywords mime-like markup
+  *  mime: support 'Article ... of ...' and 'From ...' first lines
+  *  mime: improve email and username identification in From sections
+  *  opf: dc:subject statements with comma-separated keywords are now supported
+
+### RDF
+
+  *  add support for RDF Query Language expression templates
+  *  optimize `rdf.select(s, _, _)` queries
+  *  remove `rql::either` support
+
+### languages
+
+  *  update the IANA Language Sub-Tag Repository to 2012/09/04
+  *  use RDF/RQL in the language tests
+  *  fetch the extlang data from the IANA Language Sub-Tag Repository
+  *  improve running the language tests -- set the LANGUAGE and LANG environment variables when setting the language
+
+### phoneme transcription schemes
+
+  *  improve the chart generation and feature support
+  *  fixes for ascii-ipa; make each entry unique
+  *  create a vim syntax file for the phoneme transcription scheme format (\*.phon)
+  *  add support for arpabet, Unicode IPA, x-sampa and sampa-de transcription schemes
+  *  add support for en1, us1, us2, us3, de1, de2, de4 and de5 MBROLA voice phoneme transcription schemes
+
 Version 0.9: Tuesday July 31st 2012 [Jul 2012]
 ----------------------------------------------
 
@@ -19,7 +60,7 @@ Version 0.9: Tuesday July 31st 2012 [Jul 2012]
 ### document formats:
 
   *  mime: support mimetype/alternative
-  *  email: support email embedded within html <pre> tags
+  *  email: support email embedded within html `<pre>` tags
   *  html: fix parsing of html containing implicit (missing) tags
   *  html: support table markup
   *  ePub: be more relaxed about checking the epub mimetype file
