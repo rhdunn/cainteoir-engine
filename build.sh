@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PACKAGE=cainteoir-engine
+DPUT_PPA=cainteoir-ppa
 
 doclean() {
 	rm -vf ../{libcainteoir{0,-dev},cainteoir-data,cainteoir,metadata}_*.deb
@@ -72,7 +73,7 @@ doppa() {
 	DIST=$1
 	VER=`cat debian/changelog | grep ") unstable" | head -n 1 | sed -e "s/.*(//" -e "s/~unstable\([0-9]*\)) unstable;.*/~${DIST}\1/" -e "s/) unstable;.*/~${DIST}1/"`
 	builddeb $DIST -S -sa || exit 1
-	dput ppa:msclrhd-gmail/cainteoir ../${PACKAGE}_${VER}_source.changes
+	dput ${DPUT_PPA} ../${PACKAGE}_${VER}_source.changes
 }
 
 doallppa() {
