@@ -12,13 +12,12 @@
 debian/cainteoir-data.sharedmimeinfo: data/mime/packages/cainteoir-data.xml
 	cp -v $< $@
 
-configure:
+override_dh_auto_configure:
 	dh_testdir
 	./autogen.sh
 	dh_auto_configure -- --disable-update-mime-database
 
-%:
-	dh $@
+configure: override_dh_auto_configure
 
 build: configure debian/cainteoir-data.sharedmimeinfo
 	dh build
@@ -29,5 +28,14 @@ build-arch: configure debian/cainteoir-data.sharedmimeinfo
 build-indep: configure debian/cainteoir-data.sharedmimeinfo
 	dh build-indep
 
-override_dh_auto_configure:
-	dh_auto_configure -- --disable-update-mime-database
+clean:
+	dh clean
+
+binary:
+	dh binary
+
+binary-arch:
+	dh binary-arch
+
+binary-indep:
+	dh binary-indep
