@@ -1,3 +1,9 @@
+cainteoir-engine (0.10~unstable0) unstable; urgency=low
+ 
+  * New upstream release.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Mon, 1 Oct 2012 20:10:00 +0000
+
 cainteoir-engine (0.9~unstable2) unstable; urgency=low
  
   * debian/rules: support build-arch and build-indep targets (quantal).
