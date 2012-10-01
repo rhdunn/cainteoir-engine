@@ -77,7 +77,7 @@ doppa() {
 }
 
 doallppa() {
-	for DISTRO in natty oneiric precise quantal ; do
+	for DISTRO in oneiric precise quantal ; do
 		doppa ${DISTRO}
 	done
 }
