@@ -15,7 +15,7 @@ debian/cainteoir-data.sharedmimeinfo: data/mime/packages/cainteoir-data.xml
 override_dh_auto_configure:
 	dh_testdir
 	./autogen.sh
-	dh_auto_configure -- --disable-update-mime-database
+	dh_auto_configure -- --disable-update-mime-database $(shell dpkg-buildflags --export=configure)
 
 configure: override_dh_auto_configure
 
