@@ -172,7 +172,7 @@ AC_COMPILE_IFELSE(
 		 [auto b = a;]])],
 	[AC_MSG_RESULT([yes])],
 	[AC_MSG_RESULT([no])
-	 AC_MSG_ERROR([C++11 decltype not supported by $CXX.])])
+	 AC_MSG_ERROR([C++11 auto not supported by $CXX.])])
 AC_LANG_POP(C++)
 
 AC_LANG_PUSH(C++)
