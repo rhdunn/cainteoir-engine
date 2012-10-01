@@ -22,7 +22,7 @@ builddeb() {
 	doclean
 	cp debian/changelog{,.downstream}
 	sed -i -e "s/~unstable\([0-9]*\)) unstable;/~${DIST}\1) ${DIST};/" debian/changelog
-	sed -i -e "s/) unstable;/~${DIST}1) ${DIST};/" debian/changelog
+	sed -i -e "s/(\([0-9\.\-]*\)) unstable;/(\1~${DIST}1) ${DIST};/" debian/changelog
 	if [[ -e debian/$DIST.patch ]] ; then
 		patch -f -p1 -i debian/$DIST.patch || touch builddeb.failed
 	fi
