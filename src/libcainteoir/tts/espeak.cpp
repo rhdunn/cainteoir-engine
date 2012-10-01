@@ -36,6 +36,7 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
+#if defined(HAVE_MBROLA)
 struct mbrola_voice
 {
 	const char *name;
@@ -53,14 +54,14 @@ struct mbrola_voice
  *    3.  the MBROLA voice data may not be installed on the system, so they
  *        need to be checked to see if they exist.
  */
-const std::initializer_list<const mbrola_voice> mbrola_voices = {
+static const std::initializer_list<const mbrola_voice> mbrola_voices = {
 	{ "mb-af1",     "af1/af1", "af",    16000, "male" },
 	{ "mb-af1-en",  "af1/af1", "en",    16000, "male" },
 	{ "mb-br1",     "br1/br1", "pt-br", 16000, "male" },
 	{ "mb-br3",     "br3/br3", "pt-br", 22050, "male" },
 	{ "mb-br4",     "br4/br4", "pt-br", 16000, "female" },
 	{ "mb-cr1",     "cr1/cr1", "hr",    16000, "male" },
-	{ "mb-cz1",     "cz1/cz1", "cs",    16000, "male" },
+	{ "mb-cz2",     "cz2/cz2", "cs",    16000, "male" },
 	{ "mb-de2",     "de2/de2", "de",    16000, "male" },
 	{ "mb-de4",     "de4/de4", "de",    16000, "male" },
 	{ "mb-de4-en",  "de4/de4", "en",    16000, "male" },
@@ -109,9 +110,10 @@ const std::initializer_list<const mbrola_voice> mbrola_voices = {
 
 static bool is_mbrola_voice_available(const char *voice)
 {
-	std::string path = std::string("/usr/share/mbrola/") + voice;
+	std::string path = std::string(MBROLA_DIR "/") + voice;
 	return access(path.c_str(), R_OK) == 0;
 }
+#endif
 
 static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 {
@@ -247,23 +249,25 @@ public:
 			metadata.statement(espeak, rdf::tts("hasVoice"), voice);
 		}
 
-		for (auto mbrola = mbrola_voices.begin(), last = mbrola_voices.end(); mbrola != last; ++mbrola)
+#if defined(HAVE_MBROLA)
+		for (auto &mbrola : mbrola_voices)
 		{
-			if (is_mbrola_voice_available(mbrola->voice))
+			if (is_mbrola_voice_available(mbrola.voice))
 			{
-				rdf::uri voice = rdf::uri(baseuri, mbrola->name);
+				rdf::uri voice = rdf::uri(baseuri, mbrola.name);
 				metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
-				metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola->language));
-				metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola->name));
-				metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola->gender));
+				metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola.language));
+				metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola.name));
+				metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola.gender));
 
-				metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola->frequency, rdf::tts("hertz")));
+				metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola.frequency, rdf::tts("hertz")));
 				metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
 				metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
 
 				metadata.statement(voice, rdf::tts("voiceOf"), espeak);
 			}
 		}
+#endif
 	}
 
 	~espeak_engine()

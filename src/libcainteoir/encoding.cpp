@@ -80,7 +80,7 @@ static const std::initializer_list<std::pair<int, const char *>> codepages = {
 	{ 65001, "utf-8" },
 };
 
-struct iconv_decoder : public cainteoir::decoder
+struct iconv_decoder : public cainteoir::detail::decoder
 {
 	iconv_decoder(const char *aEncoding)
 	{
@@ -127,40 +127,62 @@ struct iconv_decoder : public cainteoir::decoder
 			}
 
 			if (outlen != sizeof(buffer))
-			{
-				std::shared_ptr<cainteoir::buffer> fiber = std::make_shared<cainteoir::data_buffer>(sizeof(buffer) - outlen);
-				memcpy((void *)fiber->begin(), buffer, sizeof(buffer) - outlen);
-				decoded += fiber;
-			}
+				decoded += cainteoir::make_buffer(buffer, sizeof(buffer) - outlen);
 		}
 	}
 
 	iconv_t cvt;
 };
 
+/** @struct cainteoir::encoding
+  * @brief  Manage the conversion of text in different character encodings to UTF-8.
+  */
+
+/** @brief Initialize the encoder with the specified Windows codepage.
+  *
+  * @param[in] aCodepage The Windows codepage to use.
+  */
 cainteoir::encoding::encoding(int aCodepage)
 {
 	set_encoding(aCodepage);
 }
 
+/** @brief Initialize the encoder with the specified character encoding.
+  *
+  * @param[in] aEncoding The character encoding to use.
+  */
 cainteoir::encoding::encoding(const char *aEncoding)
 {
 	set_encoding(aEncoding);
 }
 
+/** @brief Set the character encoding to the specified Windows codepage.
+  *
+  * @param[in] aCodepage The Windows codepage to change to.
+  *
+  * @retval true  If the encoding was changed.
+  * @retval false If the encoding was not changed.
+  */
 bool cainteoir::encoding::set_encoding(int aCodepage)
 {
-	for (auto codepage = codepages.begin(), last = codepages.end(); codepage != last; ++codepage)
+	for (auto &codepage : codepages)
 	{
-		if (codepage->first == aCodepage)
+		if (codepage.first == aCodepage)
 		{
-			return set_encoding(codepage->second);
+			return set_encoding(codepage.second);
 		}
 	}
 
 	throw std::runtime_error(i18n("unsupported character set (codepage not recognised)"));
 }
 
+/** @brief Set the character encoding.
+  *
+  * @param[in] aEncoding The character encoding to change to.
+  *
+  * @retval true  If the encoding was changed.
+  * @retval false If the encoding was not changed.
+  */
 bool cainteoir::encoding::set_encoding(const char *aEncoding)
 {
 	if (mEncoding == aEncoding)
@@ -171,6 +193,12 @@ bool cainteoir::encoding::set_encoding(const char *aEncoding)
 	return true;
 }
 
+/** @brief Lookup the single-byte character.
+  *
+  * @param[in] c The character to lookup.
+  *
+  * @return The utf-8 representation of c.
+  */
 std::shared_ptr<cainteoir::buffer> cainteoir::encoding::lookup(uint8_t c) const
 {
 	cainteoir::rope ret;
@@ -178,6 +206,12 @@ std::shared_ptr<cainteoir::buffer> cainteoir::encoding::lookup(uint8_t c) const
 	return ret.buffer();
 }
 
+/** @brief Convert the data buffer to utf-8.
+  *
+  * @param[in] data The character buffer to convert.
+  *
+  * @return The utf-8 representation of data.
+  */
 std::shared_ptr<cainteoir::buffer> cainteoir::encoding::decode(const std::shared_ptr<cainteoir::buffer> &data) const
 {
 	if (!data.get() || mEncoding == "utf-8" || mEncoding == "us-ascii")
@@ -188,6 +222,11 @@ std::shared_ptr<cainteoir::buffer> cainteoir::encoding::decode(const std::shared
 	return ret.buffer();
 }
 
+/** @brief Convert the data buffer to utf-8.
+  *
+  * @param[in]  data    The character buffer to convert.
+  * @param[out] decoded The rope to add the utf-8 representation of data to.
+  */
 void cainteoir::encoding::decode(const std::shared_ptr<cainteoir::buffer> &data, cainteoir::rope &decoded) const
 {
 	if (!data.get())

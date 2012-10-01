@@ -23,54 +23,17 @@
 #include "i18n.h"
 
 #include <cainteoir/engines.hpp>
-#include <cainteoir/document.hpp>
-#include <cainteoir/audio.hpp>
+#include <cainteoir/stopwatch.hpp>
 #include "tts_engine.hpp"
 #include <stdexcept>
 
 static const int CHARACTERS_PER_WORD = 6;
 
-#define USE_GETTIMEOFDAY 1
-
-#if USE_GETTIMEOFDAY
-	#include <sys/time.h>
-
-	double timeofday()
-	{
-		timeval tv;
-		gettimeofday(&tv, nullptr);
-
-		return tv.tv_sec + (double(tv.tv_usec) / 1000000.0);
-	}
-
-	class stopwatch
-	{
-	public:
-		stopwatch() { mStart = timeofday(); }
-
-		double elapsed() const { return timeofday() - mStart; }
-	private:
-		double mStart;
-	};
-#else
-	#include <ctime>
-
-	class stopwatch
-	{
-	public:
-		stopwatch() { mStart = time(nullptr); }
-
-		double elapsed() const { return difftime(time(nullptr), mStart); }
-	private:
-		time_t mStart;
-	};
-#endif
-
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
-inline double percentageof(size_t a, size_t b)
+static inline double percentageof(size_t a, size_t b)
 {
 	return (double(a) / b) * 100.0;
 }
@@ -88,9 +51,9 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	pthread_t threadId;
 	std::string mErrorMessage;
 
-	stopwatch mTimer;    /**< @brief The time taken to read the document. */
+	cainteoir::stopwatch mTimer; /**< @brief The time taken to read the document. */
 	double mElapsedTime; /**< @brief The amount of time elapsed since |mStartTime|. */
-	double mTotalTime;   /**< @brief The (estimated) total amount of time to read the document. */
+	double mTotalTime; /**< @brief The (estimated) total amount of time to read the document. */
 
 	double mCompleted; /**< @brief The percentage of the document read from the starting position. */
 	double mProgress;  /**< @brief The percentage of the document read from the beginning. */
@@ -146,7 +109,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	//@}
 };
 
-void * speak_tts_thread(void *data)
+static void * speak_tts_thread(void *data)
 {
 	speech_impl *speak = (speech_impl *)data;
 
@@ -157,9 +120,9 @@ void * speak_tts_thread(void *data)
 
 		size_t n = 0;
 		size_t offset = 0;
-		foreach_iter(node, *speak)
+		for (auto &node : *speak)
 		{
-			size_t len = (*node)->size();
+			size_t len = node->size();
 
 			if (len <= offset)
 			{
@@ -175,7 +138,7 @@ void * speak_tts_thread(void *data)
 					speak->progress(n);
 				}
 
-				speak->engine->speak(node->get(), offset, speak);
+				speak->engine->speak(node.get(), offset, speak);
 				offset = 0;
 
 				if (speak->state() == tts::stopped)
@@ -318,9 +281,15 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/** @struct cainteoir::tts::engines
+  * @brief  Manages the available text-to-speech engines.
+  */
 
-tts::engines::engines(rdf::graph &metadata, capability_types capabilities)
+/** @brief Create a new text-to-speech engine manager object.
+  *
+  * @param[out] metadata The RDF graph to add engine and voice metadata to.
+  */
+tts::engines::engines(rdf::graph &metadata)
 	: selectedVoice(nullptr)
 {
 	std::string uri;
@@ -334,33 +303,40 @@ tts::engines::engines(rdf::graph &metadata, capability_types capabilities)
 
 	if (!active)
 		throw std::runtime_error(i18n("no text-to-speech voices found."));
-
-	cainteoir::supportedDocumentFormats(metadata, capabilities);
-	cainteoir::supportedAudioFormats(metadata);
 }
 
+/** @brief Clean up the engines.
+  */
 tts::engines::~engines()
 {
-	foreach_iter(engine, enginelist)
-		delete engine->second;
+	for (auto &engine : enginelist)
+		delete engine.second;
 }
 
+/** @brief Change the voice used to read the documents.
+  *
+  * @param[in] aMetadata The RDF graph containing the engine and voice metadata.
+  * @param[in] aVoice    The voice to use to read the documents.
+  *
+  * @retval true  If the voice was changed.
+  * @retval false If the voice was not changed.
+  */
 bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVoice)
 {
 	engine *engine = nullptr;
 	std::string voice;
 	const rdf::uri * voiceUri = nullptr;
 
-	foreach_iter(statement, rql::select(aMetadata, rql::matches(rql::subject, aVoice)))
+	for (auto &statement : rql::select(aMetadata, rql::subject == aVoice))
 	{
-		if (rql::predicate(*statement) == rdf::tts("name"))
+		if (rql::predicate(statement) == rdf::tts("name"))
 		{
-			voice = rql::value(*statement);
-			voiceUri = &rql::subject(*statement);
+			voice = rql::value(statement);
+			voiceUri = &rql::subject(statement);
 		}
-		else if (rql::predicate(*statement) == rdf::tts("voiceOf"))
+		else if (rql::predicate(statement) == rdf::tts("voiceOf"))
 		{
-			const rdf::uri &uri = rql::object(*statement);
+			const rdf::uri &uri = rql::object(statement);
 			if (!uri.empty())
 				engine = enginelist[ uri.str() ];
 		}
@@ -376,6 +352,20 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 	return false;
 }
 
+/** @fn    const cainteoir::rdf::uri &cainteoir::tts::engines::voice() const
+  * @brief Get the currently active voice.
+  *
+  * @return The currently active voice.
+  */
+
+/** @brief Speak the specified document.
+  *
+  * @param[in] doc    The document to speak.
+  * @param[in] out    The audio output device (for reading) or file (for recording).
+  * @param[in] offset The number of characters in the document to skip before reading.
+  *
+  * @return The object associated with this speech session.
+  */
 std::shared_ptr<tts::speech>
 tts::engines::speak(const std::shared_ptr<cainteoir::document> &doc,
                     std::shared_ptr<audio> out,
@@ -394,6 +384,15 @@ tts::engines::speak(const std::shared_ptr<cainteoir::document> &doc,
 	return speak(doc, out, from, end);
 }
 
+/** @brief Speak the specified document.
+  *
+  * @param[in] doc  The document to speak.
+  * @param[in] out  The audio output device (for reading) or file (for recording).
+  * @param[in] from The place in the document to start reading from.
+  * @param[in] to   The place in the document to read upto.
+  *
+  * @return The object associated with this speech session.
+  */
 std::shared_ptr<tts::speech>
 tts::engines::speak(const std::shared_ptr<cainteoir::document> &doc,
                     std::shared_ptr<audio> out,
@@ -403,6 +402,12 @@ tts::engines::speak(const std::shared_ptr<cainteoir::document> &doc,
 	return std::make_shared<speech_impl>(active, out, doc, from, to, parameter(tts::parameter::rate));
 }
 
+/** @brief Get the specified parameter associated with the active engine.
+  *
+  * @param[in] aType The parameter to get.
+  *
+  * @return The specified parameter.
+  */
 std::shared_ptr<tts::parameter>
 tts::engines::parameter(tts::parameter::type aType)
 {
@@ -410,3 +415,140 @@ tts::engines::parameter(tts::parameter::type aType)
 		return std::shared_ptr<tts::parameter>();
 	return active->parameter(aType);
 }
+
+/** @struct cainteoir::tts::speech
+  * @brief  Manage a speech synthesis session.
+  */
+
+/** @fn    cainteoir::tts::speech::~speech()
+  * @brief Clean up the speech object.
+  */
+
+/** @fn    bool cainteoir::tts::speech::is_speaking() const
+  * @brief Is the session currently speaking?
+  *
+  * @retval true  If the session is currently speaking.
+  * @retval false If the session is not currently speaking.
+  */
+
+/** @fn    void cainteoir::tts::speech::stop()
+  * @brief Immediately stop the session from speaking.
+  */
+
+/** @fn    void cainteoir::tts::speech::wait()
+  * @brief Wait until the session has finished speaking.
+  */
+
+/** @fn    double cainteoir::tts::speech::elapsedTime() const
+  * @brief Get the time elapsed since starting this session.
+  *
+  * @return The time elapsed since starting this session.
+  */
+
+/** @fn    double cainteoir::tts::speech::totalTime() const
+  * @brief Get the (estimated) total time for this session.
+  *
+  * @return The (estimated) total time for this session.
+  */
+
+/** @fn    double cainteoir::tts::speech::completed() const
+  * @brief Get the percentage of this session completed.
+  *
+  * @return The percentage of this session completed.
+  */
+
+/** @fn    size_t cainteoir::tts::speech::position() const
+  * @brief Get the current speaking position in the document for this session.
+  *
+  * @return The current speaking position in the document for this session.
+  */
+
+/** @fn    std::string cainteoir::tts::speech::error_message() const
+  * @brief Get the error message associated with this session.
+  *
+  * @return The error message associated with this session.
+  *
+  * If there is no error message associated with this session, the return value
+  * is empty.
+  */
+
+/** @enum  cainteoir::tts::parameter::type
+  * @brief Identifies the parameter.
+  */
+
+/** @var   cainteoir::tts::parameter::type cainteoir::tts::parameter::rate
+  * @brief How fast the voice speaks.
+  */
+
+/** @var   cainteoir::tts::parameter::type cainteoir::tts::parameter::volume
+  * @brief The volume of the voice audio.
+  */
+
+/** @var   cainteoir::tts::parameter::type cainteoir::tts::parameter::pitch
+  * @brief The base pitch to render the voice at.
+  */
+
+/** @var   cainteoir::tts::parameter::type cainteoir::tts::parameter::pitch_range
+  * @brief How varied the pitch is due to prosody variations.
+  */
+
+/** @var   cainteoir::tts::parameter::type cainteoir::tts::parameter::word_gap
+  * @brief How long to pause between each word.
+  */
+
+/** @var   cainteoir::tts::parameter::type cainteoir::tts::parameter::number_of_parameters
+  * @brief The number of parameters in the parameter type enumeration.
+  */
+
+/** @class cainteoir::tts::parameter
+  * @brief A configurable option of a text-to-speech engine or voice.
+  */
+
+/** @fn    cainteoir::tts::parameter::~parameter()
+  * @brief Clean up the parameter object.
+  */
+
+/** @fn    const char *cainteoir::tts::parameter::name() const
+  * @brief Get the name of the parameter.
+  *
+  * @return The name of the parameter.
+  */
+
+/** @fn    const char *cainteoir::tts::parameter::units() const
+  * @brief Get the units the parameter is stored in.
+  *
+  * @return The units the parameter is stored in.
+  */
+
+/** @fn    int cainteoir::tts::parameter::minimum() const
+  * @brief Get the minimum value for the parameter.
+  *
+  * @return The minimum value for the parameter.
+  */
+
+/** @fn    int cainteoir::tts::parameter::maximum() const
+  * @brief Get the maximum value for the parameter.
+  *
+  * @return The maximum value for the parameter.
+  */
+
+/** @fn    int cainteoir::tts::parameter::default_value() const
+  * @brief Get the default value for the parameter.
+  *
+  * @return The default value for the parameter.
+  */
+
+/** @fn    int cainteoir::tts::parameter::value() const
+  * @brief Get the current value for the parameter.
+  *
+  * @return The current value for the parameter.
+  */
+
+/** @fn    bool cainteoir::tts::parameter::set_value(int value)
+  * @brief Set the current value for the parameter.
+  *
+  * @param[in] value The new value of the parameter.
+  *
+  * @retval true  If the parameter value was changed.
+  * @retval false If the parameter value was not changed.
+  */

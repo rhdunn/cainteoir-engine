@@ -3,23 +3,26 @@ license:     [CC-BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/]
 reference:   [Representing IPA Phonetics in ASCII|http://www.hpl.hp.com/personal/Evan_Kirshenbaum/IPA/faq.html]
 
 name:        ascii-ipa
-name:        kirshenbaum
+alias:       kirshenbaum
 description: Evan Kirshenbaum ASCII transcription of IPA phonemes
+
+/'/      {st1}
+/,/      {st2}
 
 # Appendix B : Segment Symbols
 
-/a/      {low,cnt,unr,vwl}
+/a/      {low,fnt,unr,vwl} # kirshenbaum marks this as {low,cnt} as it does not support near-open (see /&/ as well)
 /b/      {vcd,blb,stp}
 /c/      {vls,pal,stp}
 /d/      {vcd,alv,stp}
 /e/      {umd,fnt,unr,vwl}
 /f/      {vls,lbd,frc}
 /g/      {vcd,vel,stp}
-/h/      {vls,glt,apr}
+/h/      {vls,glt,frc} # kirshenbaum classifies this as {apr}, but IPA states this should be {frc}
 /i/      {hgh,fnt,unr,vwl}
 /j/      {vcd,pal,apr}
 /k/      {vls,vel,stp}
-/l/      {vcd,alv,lat}
+/l/      {vcd,alv,lat,apr}
 /m/      {vcd,blb,nas}
 /n/      {vcd,alv,nas}
 /o/      {umd,bck,rnd,vwl}
@@ -30,8 +33,8 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /t/      {vls,alv,stp}
 /u/      {hgh,bck,rnd,vwl}
 /v/      {vcd,lbd,frc}
-/w/      {vcd,lbv,apr}
-/w/      {vcd,lbv,frc}
+/w/      {vcd,lbv,apr} # according to wikipedia /w/ and /w<vls>/ are {apr}, not {frc}
+# /w/    {vcd,lbv,frc} # according to wikipedia the {frc} classification of /w/ is historical
 /x/      {vls,vel,frc}
 /y/      {hgh,fnt,rnd,vwl}
 /z/      {vcd,alv,frc}
@@ -45,15 +48,15 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /H/      {vls,phr,frc}
 /I/      {smh,fnt,unr,vwl}
 /J/      {vcd,pal,stp}
-/L/      {vcd,vel,lat}
-/L/      {vls,alv,lat,frc}
+/L/      {vcd,vel,lat,apr}
+# /L/    {vcd,alv,lat,frc} # this is available as /s<lat>/, so remove this to avoid duplication
 /M/      {vcd,lbd,nas}
 /N/      {vcd,vel,nas}
 /O/      {lmd,bck,rnd,vwl}
 /P/      {vls,blb,frc}
 /Q/      {vcd,vel,frc}
-/R/      {mid,cnt,rzd,vwl}
-/R/      {vcd,alv,trl}
+/R/      {mid,cnt,unr,vwl,rzd}
+# /R/    {vcd,alv,trl} # this is available as /r<trl>/, so remove this to avoid duplication
 /S/      {vls,pla,frc}
 /T/      {vls,dnt,frc}
 /U/      {smh,bck,rnd,vwl}
@@ -66,7 +69,7 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 
 /?/      {vls,glt,stp}
 /@/      {mid,cnt,unr,vwl}
-/&/      {low,fnt,unr,vwl}
+/&/      {sml,fnt,unr,vwl} # kirshenbaum marks this as {low,fnt}, but this is the near-open vowel
 /*/      {vcd,alv,flp}
 
 # Appendix C : Diacritics
@@ -89,8 +92,8 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 
 /<H>/    {fzd}
 /<h>/    {asp}
-#/<o>/   {unx} -- kirshenbaum is unsure and ambiguous about this transcription
-#/<o>/   {vls} -- kirshenbaum is unsure and ambiguous about this transcription
+#/<o>/   {unx} # kirshenbaum is unsure and ambiguous about this transcription
+#/<o>/   {vls} # kirshenbaum is unsure and ambiguous about this transcription
 /<r>/    {rzd}
 /<w>/    {lzd}
 /<?>/    {mrm}
@@ -100,28 +103,30 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 # NOTE: These can be formed using combinations of the above (segment + diacritics);
 # they are included here for completeness.
 
+/a./     {low,fnt,rnd,vwl} # this is present on the wikipedia page
+/a"/     {low,cnt,unr,vwl} # this is present on the wikipedia page
 /b<trl>/ {vcd,blb,trl}
 /b`/     {vcd,blb,imp}
 /c`/     {vls,pal,ejc}
-/c!/     {vls,alv,clk}
+# /c!/   {vls,alv,clk} # this conflicts with {pal,clk} so use the more consistent /t!/ transcription
 /c!/     {vls,pal,clk}
 /d<lbv>/ {vcd,lbv,stp}
 /d`/     {vcd,alv,imp}
 /d[/     {vcd,dnt,stp}
-/d`/     {vcd,dnt,imp}
+/d[`/    {vcd,dnt,imp} # this is /d`/ in kirshenbaum, but this conflicts with {alv,imp} and /d[`/ is more consistent
 /d./     {vcd,rfx,stp}
 /g`/     {vcd,vel,imp}
 /g"/     {vcd,uvl,frc}
-/g"/     {vcd,uvl,apr}
-/h<?>/   {vls,glt,frc,mrm}
+# /g"/   {vcd,uvl,apr} # this variant is not in the IPA table, so remove it to avoid conflict
+/h<?>/   {vcd,glt,frc,mrm}
 /i"/     {hgh,cnt,unr,vwl}
 /j<rnd>/ {rnd,pal,apr}
 /j<vel>/ {vcd,vel,apr}
-/k'/     {vls,vel,ejc}             -- typo in Kirshenbaum (should this be /k`/ instead)?
+/k`/     {vls,vel,ejc} # transcribed as /k'/ in the html version, but correct in the PDF version
 /k!/     {vls,vel,clk}
-/l[/     {vcd,dnt,lat}
-/l./     {vcd,rfx,lat}
-/l^/     {vcd,pal,lat}
+/l[/     {vcd,dnt,lat,apr}
+/l./     {vcd,rfx,lat,apr}
+/l^/     {vcd,pal,lat,apr}
 /l!/     {vls,lat,clk}
 /n<lbv>/ {vcd,lbv,nas}
 /n[/     {vcd,dnt,nas}
@@ -131,7 +136,7 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /o-/     {umd,bck,unr,vwl}
 /p`/     {vls,blb,ejc}
 /p!/     {vls,blb,clk}
-/q`/     {vls,uvl,imp}
+/q`/     {vls,uvl,ejc} # incorrectly classified as {imp} (wikipedia uses the correct {ejc} version)
 /r<lbd>/ {vcd,lbd,apr}
 /r<trl>/ {vcd,alv,trl}
 /r[/     {vcd,dnt,apr}
@@ -143,15 +148,17 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /t`/     {vls,alv,ejc}
 /t[/     {vls,dnt,stp}
 /t[`/    {vls,dnt,ejc}
-/t!/     {vls,dnt,clk}
+/t!/     {vls,alv,clk} # specified as {dnt,clk}, but this is inconsistent and causes /c!/ to conflict
+/t[!/    {vls,dnt,clk} # used instead of /t!/ to allow /t!/ to be {alv,clk} and /c!/ to be {pal,clk}
 /t./     {vls,rfx,stp}
 /u"/     {hgh,cnt,rnd,vwl}
 /u-/     {hgh,bck,unr,vwl}
-/w<vls>/ {vls,lbv,frc}
+/w<vls>/ {vls,lbv,apr} # according to wikipedia /w/ and /w<vls>/ are {apr}, not {frc}
 /z<lat>/ {vcd,alv,lat,frc}
 /z./     {vcd,rfx,frc}
 
 /A./     {low,bck,rnd,vwl}
+/A"./    {low,cnt,rnd,vwl} # this is present on the wikipedia page
 /C<vcd>/ {vcd,pal,frc}
 /G`/     {vcd,uvl,imp}
 /H<vcd>/ {vcd,phr,frc}
@@ -159,10 +166,14 @@ description: Evan Kirshenbaum ASCII transcription of IPA phonemes
 /J`/     {vcd,pal,imp}
 /O"/     {lmd,cnt,rnd,vwl}
 /R<umd>/ {umd,cnt,unr,vwl,rzd}
+/S;/     {vls,alp,frc}
+/U-/     {smh,bck,unr,vwl} # this is present on the wikipedia page
 /V"/     {lmd,cnt,unr,vwl}
+/Z;/     {vcd,alp,frc}
 
-/*<lat>/ {vcd,lat,flp}
+/*<lat>/ {vcd,alv,lat,flp}
 /*./     {vcd,rfx,flp}
-/&./     {low,fnt,rnd,vwl}
+/&./     {sml,fnt,rnd,vwl} # kirshenbaum marks this as {low,fnt}, but this is the near-open vowel (see /&/)
+/&"/     {sml,cnt,unr,vwl} # this is present on the wikipedia page
 /@<umd>/ {umd,cnt,unr,vwl}
-/@./     {mid,cnt,rnd,vwl}
+/@./     {umd,cnt,rnd,vwl} # /@/ is the only {mid} vowel in the IPA chart, so use the wikipedia placement

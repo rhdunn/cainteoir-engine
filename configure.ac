@@ -1,5 +1,5 @@
 AC_PREREQ([2.65])
-AC_INIT([Cainteoir Text-to-Speech], [0.9], [https://github.com/rhdunn/cainteoir-engine/issues], [cainteoir-engine], [https://github.com/rhdunn/cainteoir-engine])
+AC_INIT([Cainteoir Text-to-Speech], [0.10], [https://github.com/rhdunn/cainteoir-engine/issues], [cainteoir-engine], [https://github.com/rhdunn/cainteoir-engine])
 AM_INIT_AUTOMAKE()
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES])
@@ -176,6 +176,18 @@ AC_COMPILE_IFELSE(
 AC_LANG_POP(C++)
 
 AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 range-based for loops])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[]],
+		[[int a[] = { 1, 2, 3 };]
+		 [for (int &b : a) ++b;]])],
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])
+	 AC_MSG_ERROR([C++11 range-based for loops not supported by $CXX.])])
+AC_LANG_POP(C++)
+
+AC_LANG_PUSH(C++)
 AC_MSG_CHECKING([if $CXX supports C++11 brace initialization])
 AC_COMPILE_IFELSE(
 	[AC_LANG_PROGRAM(
@@ -240,6 +252,16 @@ AC_COMPILE_IFELSE(
 AC_LANG_POP(C++)
 
 dnl ================================================================
+dnl stopwatch checks.
+dnl ================================================================
+
+AC_CHECK_HEADERS([sys/time.h])
+AC_CHECK_FUNCS([gettimeofday])
+
+AC_CHECK_HEADERS([time.h])
+AC_CHECK_FUNCS([time])
+
+dnl ================================================================
 dnl getopt checks.
 dnl ================================================================
 
@@ -252,6 +274,13 @@ dnl ================================================================
 
 AC_CHECK_HEADERS([iconv.h])
 AC_CHECK_FUNCS([iconv_open])
+
+dnl ================================================================
+dnl setenv checks.
+dnl ================================================================
+
+AC_CHECK_HEADERS([stdlib.h])
+AC_CHECK_FUNCS([setenv])
 
 dnl ================================================================
 dnl pthread checks.
@@ -330,6 +359,34 @@ AC_SUBST(ESPEAK_CFLAGS)
 AC_SUBST(ESPEAK_LIBS)
 
 dnl ================================================================
+dnl MBROLA tts synthesizer checks.
+dnl ================================================================
+
+AC_ARG_WITH([mbrola],
+    [AS_HELP_STRING([--with-mbrola], [support MBROLA text-to-speech voices where applicable @<:@default=yes@:>@])],
+    [])
+
+AC_MSG_CHECKING([location of MBROLA voices])
+if test "$with_mbrola" = "no"; then
+    echo "Disabling MBROLA support"
+    have_mbrola=no
+    MBROLA_DIR=
+    AC_MSG_RESULT([disabled])
+else
+    AC_DEFINE([HAVE_MBROLA], [1], [Define if support for the MBROLA speech synthesizer and voices is enabled.])
+    have_mbrola=yes
+    if test "$with_mbrola" = "yes" -o "$with_mbrola" = "" ; then
+        MBROLA_DIR=/usr/share/mbrola
+        AC_MSG_RESULT([${MBROLA_DIR} (default location)])
+    else
+        MBROLA_DIR=$with_mbrola
+        AC_MSG_RESULT([${MBROLA_DIR}])
+    fi
+fi
+
+AC_SUBST(MBROLA_DIR)
+
+dnl ================================================================
 dnl PulseAudio checks.
 dnl ================================================================
 
@@ -371,7 +428,7 @@ AC_ARG_WITH([poppler],
 
 if test "$with_poppler" = "no"; then
     echo "Disabling PDF support via poppler"
-    have_vorbisenc=no
+    have_poppler=no
 else
     PKG_CHECK_MODULES(POPPLER, [poppler-glib >= 0.16],
         [
@@ -429,6 +486,8 @@ AC_MSG_NOTICE([
         Compiler flags:                ${CXXFLAGS}
 
         eSpeak support:                ${have_espeak}
+        MBROLA support:                ${have_mbrola} (voice directory: ${MBROLA_DIR})
+
         Ogg/Vorbis support:            ${have_vorbisenc}
         PDF support:                   ${have_poppler}
 ])

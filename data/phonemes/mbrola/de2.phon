@@ -1,0 +1,71 @@
+rights:      Copyright (C) 2012 Reece H. Dunn
+license:     [CC-BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/]
+reference:   [SAMPA for German|http://www.phon.ucl.ac.uk/home/sampa/german.htm]
+reference:   de2.txt in the de2 MBROLA voice directory
+reference:   de3.txt in the de3 MBROLA voice directory
+
+name:        mbrola-de2
+alias:       mbrola-de3
+description: MBROLA de2 and de3 Voices
+
+/_/      {sil}
+
+/p/      {vls,blb,stp}
+/b/      {vcd,blb,stp}
+/t/      {vls,alv,stp}
+/d/      {vcd,alv,stp}
+/k/      {vls,vel,stp}
+/g/      {vcd,vel,stp}
+
+/pf/     {vls,lbd,afr}
+/ts/     {vls,alv,afr}
+/tS/     {vls,pla,afr}
+
+/f/      {vls,lbd,frc}
+/v/      {vcd,lbd,frc}
+/s/      {vls,alv,frc}
+/z/      {vcd,alv,frc}
+/S/      {vls,pla,frc}
+/Z/      {vcd,pla,frc}
+/C/      {vls,pal,frc}
+/j/      {vcd,pal,apr}
+/x/      {vls,vel,frc}
+/h/      {vls,glt,frc}
+
+/m/      {vcd,blb,nas}
+/n/      {vcd,alv,nas}
+/N/      {vcd,vel,nas}
+/l/      {vcd,alv,lat,apr}
+/R/      {vcd,uvl,frc}
+
+/I/      {smh,fnt,unr,vwl}
+/E/      {lmd,fnt,unr,vwl}
+/a/      {low,fnt,unr,vwl}
+/O/      {lmd,bck,rnd,vwl}
+/U/      {smh,bck,rnd,vwl}
+/Y/      {smh,fnt,rnd,vwl}
+/9/      {lmd,fnt,rnd,vwl}
+
+/i:/     {hgh,fnt,unr,vwl,lng} # /i/ can be synthesized using a short duration parameter.
+/e:/     {umd,fnt,unr,vwl,lng} # /e/ can be synthesized using a short duration parameter.
+/E:/     {lmd,fnt,unr,vwl,lng}
+/a:/     {low,fnt,unr,vwl,lng}
+/o:/     {umd,bck,rnd,vwl,lng} # /o/ can be synthesized using a short duration parameter.
+/u:/     {hgh,bck,rnd,vwl,lng} # /u/ can be synthesized using a short duration parameter.
+/y:/     {hgh,fnt,rnd,vwl,lng} # /y/ can be synthesized using a short duration parameter.
+/2:/     {umd,fnt,rnd,vwl,lng} # /2/ can be synthesized using a short duration parameter.
+
+/aI/     {low,fnt,unr,vwl}{smh,fnt,unr,vwl}
+/aU/     {low,fnt,unr,vwl}{smh,bck,rnd,vwl}
+/OY/     {lmd,bck,rnd,vwl}{smh,fnt,rnd,vwl}
+
+/@/      {mid,cnt,unr,vwl}
+
+/6/      {mid,cnt,unr,vwl,rzd}
+
+/E^/     {lmd,fnt,unr,vwl,lng,nzd}
+/a^/     {low,fnt,unr,vwl,lng,nzd}
+/o^/     {umd,bck,rnd,vwl,lng,nzd}
+/E~/     {lmd,fnt,unr,vwl,nzd}
+/a~/     {low,fnt,unr,vwl,nzd}
+/o~/     {umd,bck,rnd,vwl,nzd}

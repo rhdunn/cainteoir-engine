@@ -8,6 +8,7 @@ xmldir     = $(mimedir)/packages
 AM_LDFLAGS  = ${LTLIBINTL}
 AM_CXXFLAGS = \
 	-Isrc/include -Isrc \
+	-DMBROLA_DIR=\"$(MBROLA_DIR)\" \
 	-DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
 
 ACLOCAL_AMFLAGS = -I m4
@@ -24,6 +25,7 @@ noinst_bindir =
 
 EXTRA_DIST = config.rpath ChangeLog
 CLEANFILES =
+SUFFIXES = .html .phon .md
 SUBDIRS = po
 
 ############################# libtool #########################################
@@ -84,6 +86,26 @@ dist-hook: ChangeLog
 
 EXTRA_DIST += ChangeLog
 
+############################# phonemes ########################################
+
+.phon.html:
+	data/phonemes/mkchart.py $< > $@
+
+phonemes:	data/phonemes/ascii-ipa.html \
+		data/phonemes/ipa.html \
+		data/phonemes/x-sampa.html \
+		data/phonemes/arpabet.html \
+		data/phonemes/mbrola/de1.html \
+		data/phonemes/mbrola/de2.html \
+		data/phonemes/mbrola/de4.html \
+		data/phonemes/mbrola/de5.html \
+		data/phonemes/mbrola/en1.html \
+		data/phonemes/mbrola/us1.html \
+		data/phonemes/mbrola/us2.html \
+		data/phonemes/mbrola/us3.html \
+		data/phonemes/sampa/de.html \
+		data/phonemes/sampa/en.html
+
 ############################# data ############################################
 
 EXTRA_DIST += \
@@ -116,6 +138,31 @@ if ENABLE_UPDATE_MIME_DATABASE
 	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
 endif
  
+############################# documentation ###################################
+
+.md.html:
+	pandoc --from markdown --to html $< --output $@
+
+.dot.svg:
+	dot -Tsvg -o $@ $<
+
+docs/implementation-status/csv2html.stamp: \
+	docs/implementation-status/csv2html.py \
+	docs/implementation-status/*.xml \
+	docs/implementation-status/*.csv
+	cd docs/implementation-status && ./csv2html.py
+	touch docs/implementation-status/csv2html.stamp
+
+fsm:	data/parsetext-fsm.svg
+
+api:
+	doxygen docs/cainteoir-engine.doxyconf
+
+doc:	docs/implementation-status/csv2html.stamp \
+	README.html \
+	docs/ReleaseNotes.html \
+	api
+
 ############################# libcainteoir ####################################
 
 libcainteoir_includedir = $(includedir)/cainteoir
@@ -129,6 +176,8 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/languages.hpp \
 	src/include/cainteoir/metadata.hpp \
 	src/include/cainteoir/mimetype.hpp \
+	src/include/cainteoir/range.hpp \
+	src/include/cainteoir/stopwatch.hpp \
 	src/include/cainteoir/unicode.hpp \
 	src/include/cainteoir/xmlreader.hpp
 
@@ -230,6 +279,11 @@ EXTRA_DIST += ${man1_MANS}
 
 ############################# tests ###########################################
 
+noinst_bin_PROGRAMS += tests/buffer
+
+tests_buffer_LDADD   = src/libcainteoir/libcainteoir.la
+tests_buffer_SOURCES = tests/buffer.cpp tests/tester.hpp
+
 noinst_bin_PROGRAMS += tests/rdfmodel
 
 tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.la
@@ -303,13 +357,14 @@ TEST_FILES = \
 EXTRA_DIST += $(TEST_FILES)
 
 check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/turtle_formatter src/apps/metadata/metadata tests/events tests/xmlreader $(TEST_FILES)
+	tests/buffer
+	tests/utf8
+	tests/encoding
 	tests/rdfmodel
 	tests/ntriple_formatter
 	tests/turtle_formatter
 	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ tests/rdfquery
 	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data tests/languages
-	tests/utf8
-	tests/encoding
 	python tests/xmlreader.py
 	python tests/metadata.py
 	python tests/vorbis-comments.py

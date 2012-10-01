@@ -21,7 +21,6 @@
 #include "config.h"
 #include "compatibility.hpp"
 #include "parsers.hpp"
-#include <cainteoir/xmlreader.hpp>
 #include <algorithm>
 #include <stack>
 
@@ -30,6 +29,7 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
 
+#ifndef DOXYGEN
 enum html_node
 {
 	node_unknown,
@@ -188,6 +188,7 @@ namespace html
 	static const xml::context::entry keywords_meta    = { events::unknown,   0 };
 	static const xml::context::entry title_meta       = { events::unknown,   0 };
 }
+#endif
 
 static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 {
@@ -369,7 +370,7 @@ private:
 	std::string parseLangAttr();
 };
 
-std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
+static std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
 
 html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle)
 	: reader(aReader)
@@ -383,6 +384,8 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	reader->set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
 	reader->set_nodes(xmlns::xhtml,  html_nodes);
 	reader->set_attrs(xmlns::xhtml,  html_attrs);
+	reader->set_nodes(xmlns::html40, html_nodes);
+	reader->set_attrs(xmlns::html40, html_attrs);
 	reader->set_attrs(xmlns::xml,    xml::attrs);
 
 	std::string lang;
@@ -441,7 +444,7 @@ std::string html_document_reader::parseLangAttr()
 	return lang;
 }
 
-void skipNode(xml::reader &reader, const cainteoir::buffer name)
+static void skipNode(xml::reader &reader, const cainteoir::buffer name)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -452,7 +455,7 @@ void skipNode(xml::reader &reader, const cainteoir::buffer name)
 	}
 }
 
-void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
+static void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
 {
 	static xml::context names(std::string(), meta_names, cainteoir::buffer::ignore_case);
 
@@ -550,7 +553,7 @@ void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aG
 	}
 }
 
-std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
+static std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
 {
 	std::string title;
 	const xml::context::entry *context = nullptr;
@@ -583,7 +586,7 @@ bool html_document_reader::read()
 {
 	if (ctx.top().ctx == &html::title_node)
 	{
-		type      = events::toc_entry;
+		type      = events::toc_entry | events::anchor;
 		context   = events::heading;
 		parameter = 0;
 		text      = cainteoir::make_buffer(mTitle);
@@ -639,8 +642,7 @@ bool html_document_reader::read()
 					int len = snprintf(textnum, sizeof(textnum), "%d. ", ctx.top().parameter);
 					textnum[len] = '\0';
 
-					text = std::make_shared<cainteoir::data_buffer>(len);
-					strcpy((char *)text->begin(), textnum);
+					text = cainteoir::make_buffer(textnum, len);
 
 					++ctx.top().parameter;
 				}

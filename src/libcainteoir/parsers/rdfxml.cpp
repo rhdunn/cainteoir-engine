@@ -67,7 +67,7 @@ static const std::initializer_list<const xml::context::entry_ref> rdf_attrs =
 	{ "resource",  &rdf::resource_attr },
 };
 
-inline rdf::uri uri(xml::reader &reader)
+static inline rdf::uri uri(xml::reader &reader)
 {
 	return rdf::uri(reader.namespaceUri(), reader.nodeName().str());
 }
@@ -76,7 +76,7 @@ static void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf:
 
 static rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::uri &self, const std::string &base, std::string lang);
 
-void parseRdfXmlCollection(xml::reader &reader, rdf::uri first, rdf::graph &aGraph, const rdf::uri &self, const std::string &base)
+static void parseRdfXmlCollection(xml::reader &reader, rdf::uri first, rdf::graph &aGraph, const rdf::uri &self, const std::string &base)
 {
 	rdf::uri subject;
 	rdf::uri prev;
@@ -109,7 +109,7 @@ void parseRdfXmlCollection(xml::reader &reader, rdf::uri first, rdf::graph &aGra
 	}
 }
 
-void parseRdfXmlContainer(xml::reader &reader, rdf::graph &aGraph, const rdf::uri &self, const std::string &base)
+static void parseRdfXmlContainer(xml::reader &reader, rdf::graph &aGraph, const rdf::uri &self, const std::string &base)
 {
 	rdf::uri subject;
 	rdf::uri ref;
@@ -192,8 +192,8 @@ void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf::graph 
 			{
 				processed_metadata = true;
 				rdf::uri subject = aGraph.genid();
-				foreach_iter (metadata, inline_metadata)
-					aGraph.statement(subject, metadata->first, metadata->second);
+				for (auto &metadata : inline_metadata)
+					aGraph.statement(subject, metadata.first, metadata.second);
 				aGraph.statement(aSubject, self, subject);
 			}
 
@@ -289,8 +289,8 @@ rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::ur
 					subject = aGraph.genid();
 				if (self != rdf::rdf("Description"))
 					aGraph.statement(subject, rdf::rdf("type"), self);
-				foreach_iter (metadata, inline_metadata)
-					aGraph.statement(subject, metadata->first, metadata->second);
+				for (auto &metadata : inline_metadata)
+					aGraph.statement(subject, metadata.first, metadata.second);
 			}
 
 			switch (reader.nodeType())

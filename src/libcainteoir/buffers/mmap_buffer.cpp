@@ -33,7 +33,15 @@
 #include <string.h>
 #include <errno.h>
 
-cainteoir::mmap_buffer::mmap_buffer(const char *path)
+class mmap_buffer : public cainteoir::buffer
+{
+	int fd;
+public:
+	mmap_buffer(const char *path);
+	~mmap_buffer();
+};
+
+mmap_buffer::mmap_buffer(const char *path)
 	: buffer(nullptr, nullptr)
 	, fd(-1)
 {
@@ -49,9 +57,22 @@ cainteoir::mmap_buffer::mmap_buffer(const char *path)
 	last = first + sb.st_size;
 }
 
-cainteoir::mmap_buffer::~mmap_buffer()
+mmap_buffer::~mmap_buffer()
 {
 	if (fd != -1) close(fd);
 	if (first) munmap((void *)first, size());
 }
 
+/** @brief Create a buffer from a file.
+  *
+  * @param[in] path The path of the file to read the data from.
+  *
+  * @return A buffer containing the content of the specified file.
+  *
+  * This function creates a memory mapped view of the file for optimal reading
+  * of file contents.
+  */
+std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(const char *path)
+{
+	return std::make_shared<mmap_buffer>(path);
+}

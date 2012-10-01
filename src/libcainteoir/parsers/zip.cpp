@@ -24,7 +24,6 @@
 
 #include <cainteoir/archive.hpp>
 #include <stdexcept>
-#include <map>
 
 #define ZIP_HEADER_MAGIC 0x04034b50
 
@@ -126,7 +125,15 @@ const std::list<std::string> &zip_archive::files() const
 	return filelist;
 }
 
-std::shared_ptr<cainteoir::archive> cainteoir::create_zip_archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject)
+/** @brief Create an archive for extracting files in a ZIP file.
+  *
+  * @param[in] aData    A buffer containing the zip file contents.
+  * @param[in] aSubject The uri to identify the zip file (its location on disk).
+  *
+  * @return An archive object to access the zip file contents.
+  */
+std::shared_ptr<cainteoir::archive>
+cainteoir::create_zip_archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject)
 {
 	return std::make_shared<zip_archive>(aData, aSubject);
 }

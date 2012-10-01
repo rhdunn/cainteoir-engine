@@ -36,22 +36,22 @@ void test_mimetype(const std::shared_ptr<cainteoir::buffer> &aData,
 	fprintf(stderr, "Checking mimetype %s (%s) ...\n", aMimeType.mime_type, aMimeType.name);
 
 	bool matched = false;
-	foreach_iter (magic, info.magic)
+	for (auto &magic : info.magic)
 	{
-		fprintf(stderr, "... Checking magic block ... %s\n", magic->match(aData) ? "yes" : "no");
-		matched |= magic->match(aData);
-		foreach_iter (matchlet, *magic)
+		fprintf(stderr, "... Checking magic block ... %s\n", magic.match(aData) ? "yes" : "no");
+		matched |= magic.match(aData);
+		for (auto &matchlet : magic)
 		{
 			fprintf(stderr, "... ... Checking matchlet |");
-			foreach_iter (c, matchlet->pattern)
+			for (auto &c : matchlet.pattern)
 			{
-				uint8_t ch = *c & 0xFF;
+				uint8_t ch = c & 0xFF;
 				if (ch < 0x20 || ch >= 0x80)
 					fprintf(stderr, "\\x%02X", ch);
 				else
 					fputc(ch, stderr);
 			}
-			fprintf(stderr, "| (%d..%d) ... %s\n", matchlet->offset, matchlet->offset + matchlet->range, matchlet->match(aData) ? "yes" : "no");
+			fprintf(stderr, "| (%d..%d) ... %s\n", matchlet.offset, matchlet.offset + matchlet.range, matchlet.match(aData) ? "yes" : "no");
 		}
 	}
 
@@ -93,7 +93,7 @@ int main(int argc, char ** argv)
 		if (argc == 0)
 			throw std::runtime_error("no document specified");
 
-		auto data = std::make_shared<cainteoir::mmap_buffer>(argv[0]);
+		auto data = cainteoir::make_file_buffer(argv[0]);
 
 		test_mimetype(data, mime::email);
 		test_mimetype(data, mime::epub);

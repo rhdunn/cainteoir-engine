@@ -21,6 +21,8 @@
 #ifndef CAINTEOIR_ENGINE_BUFFER_HPP
 #define CAINTEOIR_ENGINE_BUFFER_HPP
 
+#include "range.hpp"
+
 #include <cstring>
 #include <string>
 #include <memory>
@@ -28,25 +30,12 @@
 
 namespace cainteoir
 {
-	class buffer
+	class buffer : public range<const char *>
 	{
-	protected:
-		const char *first;
-		const char *last;
 	public:
-		buffer(const char *f, const char *l) : first(f), last(l) {}
-		buffer(const char *f) : first(f), last(f+strlen(f)) {}
+		buffer(const char *f, const char *l) : range<const char *>(f, l) {}
+		buffer(const char *f) : range<const char *>(f, f+strlen(f)) {}
 		virtual ~buffer() {}
-
-		typedef const char * iterator;
-		typedef std::size_t size_type;
-
-		iterator begin() const { return first; }
-		iterator end()   const { return last; }
-
-		size_type size() const { return last - first; }
-
-		bool empty() const { return first == last; }
 
 		typedef int (*match_type)(const char *s1, const char *s2, size_t n);
 		static const match_type match_case;
@@ -94,23 +83,6 @@ namespace cainteoir
 		}
 	};
 
-	class range_buffer : public buffer
-	{
-		std::shared_ptr<buffer> anchor;
-	public:
-		range_buffer(const std::shared_ptr<buffer> &a, const char *f, const char *l) : buffer(f, l), anchor(a) {}
-		range_buffer(const std::shared_ptr<buffer> &a, const char *f) : buffer(f, a->end()), anchor(a) {}
-		range_buffer(const std::shared_ptr<buffer> &a, const cainteoir::buffer &range) : buffer(range.begin(), range.end()), anchor(a) {}
-	};
-
-	class mmap_buffer : public buffer
-	{
-		int fd;
-	public:
-		mmap_buffer(const char *path);
-		~mmap_buffer();
-	};
-
 	class data_buffer : public buffer
 	{
 	public:
@@ -118,17 +90,15 @@ namespace cainteoir
 		~data_buffer();
 	};
 
-	class normalized_text_buffer : public buffer
-	{
-	public:
-		normalized_text_buffer(const char *f, const char *l);
-		normalized_text_buffer(const char *str);
-		normalized_text_buffer(const std::shared_ptr<buffer> &str);
+	std::shared_ptr<buffer> make_buffer(const std::string &aString);
 
-		~normalized_text_buffer();
-	private:
-		void normalize(const char *f, const char *l);
-	};
+	std::shared_ptr<buffer> make_buffer(const char *aString, int aLength);
+
+	std::shared_ptr<buffer> make_file_buffer(const char *path);
+
+	std::shared_ptr<buffer> make_file_buffer(FILE *f);
+
+	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer);
 
 	class rope
 	{
@@ -143,9 +113,9 @@ namespace cainteoir
 
 		void clear();
 
-		rope &operator=(const std::shared_ptr<buffer> &item);
+		rope &operator=(const std::shared_ptr<cainteoir::buffer> &item);
 
-		rope &operator+=(const std::shared_ptr<buffer> &item);
+		rope &operator+=(const std::shared_ptr<cainteoir::buffer> &item);
 
 		std::shared_ptr<cainteoir::buffer> buffer() const;
 
@@ -153,69 +123,25 @@ namespace cainteoir
 
 		std::shared_ptr<cainteoir::buffer> normalize() const
 		{
-			return std::make_shared<normalized_text_buffer>(buffer());
+			return cainteoir::normalize(buffer());
 		}
 
 		std::string str() const { return buffer()->str(); }
 	};
 
-	std::shared_ptr<buffer> make_buffer(const std::string &aString);
-
 	/** @name Decoding/Decompression API */
 	//@{
 
-	/** @brief Pointer to a decoding/decompression algorithm.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The new data buffer.
-	  */
 	typedef std::shared_ptr<buffer> (*decoder_ptr)(const buffer &data, uint32_t size);
 
-	/** @brief Copy the data in buffer to a memory buffer.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The new data buffer.
-	  */
 	std::shared_ptr<buffer> copy(const buffer &data, uint32_t size);
 
-	/** @brief Inflate a zlib compressed data buffer.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The uncompressed data buffer.
-	  */
 	std::shared_ptr<buffer> inflate_zlib(const buffer &data, uint32_t size);
 
-	/** @brief Inflate a gzip compressed data buffer.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The uncompressed data buffer.
-	  */
 	std::shared_ptr<buffer> inflate_gzip(const buffer &data, uint32_t size);
 
-	/** @brief Decode a quoted printable encoded data buffer.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The decoded data buffer.
-	  */
 	std::shared_ptr<buffer> decode_quoted_printable(const buffer &data, uint32_t size);
 
-	/** @brief Decode a base64 encoded data buffer.
-	  *
-	  * @param data The data buffer to be decoded/decompressed.
-	  * @param size The size of the decoded/decompressed data buffer.
-	  *
-	  * @return The decoded data buffer.
-	  */
 	std::shared_ptr<buffer> decode_base64(const buffer &data, uint32_t size);
 
 	//@}

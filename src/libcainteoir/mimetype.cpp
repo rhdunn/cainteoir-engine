@@ -77,9 +77,9 @@ bool cainteoir::mime::matchlet::match(const std::shared_ptr<cainteoir::buffer> &
 
 bool cainteoir::mime::magic::match(const std::shared_ptr<cainteoir::buffer> &data) const
 {
-	foreach_iter (matchlet, *this)
+	for (auto &matchlet : *this)
 	{
-		if (!matchlet->match(data))
+		if (!matchlet.match(data))
 			return false;
 	}
 	return !empty();
@@ -134,9 +134,9 @@ void cainteoir::mime::mimetype_database::read_aliases_from_cache(mime_cache &cac
 		const char *alias = cache.str(offset);
 		const char *mime  = cache.str(offset + 4);
 
-		foreach_iter (mimetype, mimetype_list)
+		for (auto &mimetype : mimetype_list)
 		{
-			if (!strcmp(*mimetype, mime))
+			if (!strcmp(mimetype, mime))
 				database[mime].aliases.push_back(alias);
 		}
 		offset += 8;
@@ -154,9 +154,9 @@ void cainteoir::mime::mimetype_database::read_reverse_suffix_tree_from_cache(mim
 		if (c == 0) // leaf node
 		{
 			const char *mime = cache.str(offset + 4);
-			foreach_iter (mimetype, mimetype_list)
+			for (auto &mimetype : mimetype_list)
 			{
-				if (!strcmp(*mimetype, mime))
+				if (!strcmp(mimetype, mime))
 				{
 					std::string s = '*' + suffix;
 					database[mime].globs.push_back(s);
@@ -208,9 +208,9 @@ void cainteoir::mime::mimetype_database::read_magic_from_cache(mime_cache &cache
 	for (; count > 0; --count)
 	{
 		const char *mime  = cache.str(offset + 4);
-		foreach_iter (mimetype, mimetype_list)
+		for (auto &mimetype : mimetype_list)
 		{
-			if (!strcmp(*mimetype, mime))
+			if (!strcmp(mimetype, mime))
 			{
 				std::vector<magic> &magic_list = database[mime].magic;
 				read_matchlets_from_cache(cache, cache.u32(offset + 8), cache.u32(offset + 12), magic_list, std::vector<matchlet>());
@@ -232,9 +232,9 @@ void cainteoir::mime::mimetype_database::read_xmlns_from_cache(mime_cache &cache
 		const char *name = cache.str(offset + 4);
 		const char *mime = cache.str(offset + 8);
 
-		foreach_iter (mimetype, mimetype_list)
+		for (auto &mimetype : mimetype_list)
 		{
-			if (!strcmp(*mimetype, mime))
+			if (!strcmp(mimetype, mime))
 			{
 				database[mime].xmlns = ns;
 				database[mime].localname = name;
@@ -250,9 +250,7 @@ std::string cainteoir::mime::mimetype_database::read_comment_from_mimeinfo_file(
 	{
 		std::map<std::string, std::string> comments;
 
-		std::shared_ptr<cainteoir::buffer> mimeinfo = std::make_shared<cainteoir::mmap_buffer>(filename.c_str());
-		xml::reader reader(mimeinfo, "windows-1252");
-
+		xml::reader reader(cainteoir::make_file_buffer(filename.c_str()), "windows-1252");
 		bool in_comment = false;
 		std::string lang;
 		while (reader.read()) switch (reader.nodeType())
@@ -306,11 +304,11 @@ std::string cainteoir::mime::mimetype_database::read_comment_from_mimeinfo_file(
 
 cainteoir::mime::mimetype_database::mimetype_database()
 {
-	foreach_iter (dir, get_mime_dirs())
+	for (auto &dir : get_mime_dirs())
 	{
 		try
 		{
-			mime_cache cache(*dir + "mime.cache");
+			mime_cache cache(dir + "mime.cache");
 			if (cache.major() != 1 || cache.minor() != 2)
 				throw std::runtime_error("unsupported mime.cache version.");
 
@@ -319,8 +317,8 @@ cainteoir::mime::mimetype_database::mimetype_database()
 			read_magic_from_cache(cache);
 			read_xmlns_from_cache(cache);
 
-			foreach_iter (mimetype, mimetype_list)
-				database[*mimetype].label = read_comment_from_mimeinfo_file(*dir + *mimetype + ".xml");
+			for (auto &mimetype : mimetype_list)
+				database[mimetype].label = read_comment_from_mimeinfo_file(dir + mimetype + ".xml");
 		}
 		catch (const std::runtime_error &)
 		{
@@ -340,20 +338,55 @@ const cainteoir::mime::mime_info &cainteoir::mime::mimetype_database::operator[]
 
 cainteoir::mime::mimetype_database cainteoir::mime::mimetypes;
 
+/** @struct cainteoir::mime::mimetype
+  * @brief  Manage a document MIME type with file content detection.
+  */
+
+/** @var   cainteoir::mime::mimetype::name
+  * @brief The name of this mimetype/content.
+  */
+
+/** @var   cainteoir::mime::mimetype::mime_type
+  * @brief The primary mimetype string.
+  */
+
+/** @fn    cainteoir::mime::mimetype::mimetype(const char *aName, const char *aMimeType, const void *aInfo)
+  * @brief Create a MIME type manager object.
+  *
+  * @param[in] aName     The document type name.
+  * @param[in] aMimeType The primary MIME type string.
+  * @param[in] aInfo     The internal MIME type detection information.
+  */
+
+/** @brief Does the document content match this MIME type?
+  *
+  * @param[in] data The document content to check.
+  *
+  * @retval true  If the content matches this MIME type.
+  * @retval false If the content does not match this MIME type.
+  */
 bool cainteoir::mime::mimetype::match(const std::shared_ptr<cainteoir::buffer> &data) const
 {
 	const mime_info *mime = (const mime_info *)info;
 	if (!mime)
 		mime = &mimetypes[mime_type];
 
-	foreach_iter (magic, mime->magic)
+	for (auto &magic : mime->magic)
 	{
-		if (magic->match(data))
+		if (magic.match(data))
 			return true;
 	}
 	return false;
 }
 
+/** @brief Does the XML namespace match this MIME type?
+  *
+  * @param[in] uri  The URI of the XML namespace.
+  * @param[in] name The localname of the root XML element.
+  *
+  * @retval true  If the XML namespace matches this MIME type.
+  * @retval false If the XML namespace does not match this MIME type.
+  */
 bool cainteoir::mime::mimetype::match(const std::string &uri, const std::string &name) const
 {
 	const mime_info *mime = (const mime_info *)info;
@@ -368,6 +401,12 @@ bool cainteoir::mime::mimetype::match(const std::string &uri, const std::string 
 	return mime->localname == name;
 }
 
+/** @brief Get the RDF metadata for this MIME type.
+  *
+  * @param[out] aGraph  The RDF graph to write the metadata to.
+  * @param[in]  baseuri The base URI to use for the RDF subject associated with this MIME type.
+  * @param[in]  type    The rdf:type of the RDF subject associated with this MIME type.
+  */
 void cainteoir::mime::mimetype::metadata(rdf::graph &aGraph, const std::string &baseuri, const rdf::uri &type) const
 {
 	const mime_info *mime = (const mime_info *)info;
@@ -380,10 +419,10 @@ void cainteoir::mime::mimetype::metadata(rdf::graph &aGraph, const std::string &
 	aGraph.statement(ref, rdf::dc("title"), rdf::literal(mime->label));
 	aGraph.statement(ref, rdf::dc("description"), rdf::literal(mime->label));
 	aGraph.statement(ref, rdf::tts("mimetype"), rdf::literal(mime_type));
-	foreach_iter (alias, mime->aliases)
-		aGraph.statement(ref, rdf::tts("mimetype"), rdf::literal(*alias));
-	foreach_iter (glob, mime->globs)
-		aGraph.statement(ref, rdf::tts("extension"), rdf::literal(*glob));
+	for (auto &alias : mime->aliases)
+		aGraph.statement(ref, rdf::tts("mimetype"), rdf::literal(alias));
+	for (auto &glob : mime->globs)
+		aGraph.statement(ref, rdf::tts("extension"), rdf::literal(glob));
 }
 
 /** === MIME Header Handling ===
@@ -405,39 +444,104 @@ static const std::initializer_list<m::matchlet> mime_pattern3 = { { 0,  2, "\nCo
 static const std::initializer_list<m::matchlet> mime_pattern4 = { { 0,  2, "\nContent-Location:" } };
 
 // for newsgroup archives ...
-static const std::initializer_list<m::matchlet> news_pattern1 = { { 0,  1, "Date: " } };
-static const std::initializer_list<m::matchlet> news_pattern2 = { { 0,  1, "Newsgroups: " } };
+static const std::initializer_list<m::matchlet> news_pattern1 = { { 0,  1, "Article " }, { 10, 15, " of " } };
+static const std::initializer_list<m::matchlet> news_pattern2 = { { 0,  1, "From "    }, {  5, 80, "\nPath: " } };
+static const std::initializer_list<m::matchlet> news_pattern3 = { { 0,  1, "Date: " } };
+static const std::initializer_list<m::matchlet> news_pattern4 = { { 0,  1, "Newsgroups: " } };
+static const std::initializer_list<m::matchlet> news_pattern5 = { { 0,  1, "MDate: " } };
+
+// for MIME-like story metadata ...
+static const std::initializer_list<m::matchlet> story_pattern1 = { { 0,  1, "Title: " } };
+static const std::initializer_list<m::matchlet> story_pattern2 = { { 0,  1, "Author: " } };
+static const std::initializer_list<m::matchlet> story_pattern3 = { { 0,  1, "Keywords: " } };
+static const std::initializer_list<m::matchlet> story_pattern4 = { { 0,  1, "Story: " } };
 
 static const std::initializer_list<m::magic> mime_magic = {
-	mime_pattern1, mime_pattern2, mime_pattern3, mime_pattern4,
-	news_pattern1, news_pattern2,
-	http_pattern1, http_pattern2,
+	mime_pattern1,  mime_pattern2, mime_pattern3, mime_pattern4,
+	news_pattern1,  news_pattern2, news_pattern3, news_pattern4, news_pattern5,
+	http_pattern1,  http_pattern2,
+	story_pattern1, story_pattern2, story_pattern3, story_pattern4,
 };
 
 const m::mime_info m::mime_data = { mime_magic, "", "", "", {}, {} };
 
 //}}}
 
-const m::mimetype m::mime("mime",  nullptr, &mime_data);
+/** @brief Email mbox (mime) document.
+  */
+const m::mimetype m::email("email", m::email_mimetype);
 
-const m::mimetype m::email( "email", m::email_mimetype);
-const m::mimetype m::epub(  "epub",  m::epub_mimetype);
-const m::mimetype m::gzip(  "gzip",  m::gzip_mimetype);
-const m::mimetype m::html(  "html",  m::html_mimetype);
-const m::mimetype m::mhtml( "mhtml", m::mhtml_mimetype);
-const m::mimetype m::ncx(   "ncx",   m::ncx_mimetype);
-const m::mimetype m::ogg(   "ogg",   m::ogg_mimetype);
-const m::mimetype m::opf(   "opf",   m::opf_mimetype);
-const m::mimetype m::pdf(   "pdf",   m::pdf_mimetype);
-const m::mimetype m::rdfxml("rdf",   m::rdfxml_mimetype);
-const m::mimetype m::rtf(   "rtf",   m::rtf_mimetype);
-const m::mimetype m::smil(  "smil",  m::smil_mimetype);
-const m::mimetype m::ssml(  "ssml",  m::ssml_mimetype);
-const m::mimetype m::text(  "text",  m::text_mimetype);
-const m::mimetype m::wav(   "wav",   m::wav_mimetype);
-const m::mimetype m::xhtml( "xhtml", m::xhtml_mimetype);
-const m::mimetype m::xml(   "xml",   m::xml_mimetype);
-const m::mimetype m::zip(   "zip",   m::zip_mimetype);
+/** @brief Electronic publication (ePub) document.
+  */
+const m::mimetype m::epub("epub", m::epub_mimetype);
+
+/** @brief GZIP compressed document.
+  */
+const m::mimetype m::gzip("gzip", m::gzip_mimetype);
+
+/** @brief HTML document.
+  */
+const m::mimetype m::html("html", m::html_mimetype);
+
+/** @brief Single-page HTML document.
+  */
+const m::mimetype m::mhtml("mhtml", m::mhtml_mimetype);
+
+/** @brief MIME/HTTP/NEWS headers.
+  */
+const m::mimetype m::mime("mime", nullptr, &mime_data);
+
+/** @brief Navigation control document.
+  */
+const m::mimetype m::ncx("ncx", m::ncx_mimetype);
+
+/** @brief Ogg/Vorbis audio.
+  */
+const m::mimetype m::ogg("ogg", m::ogg_mimetype);
+
+/** @brief Open package format document.
+  */
+const m::mimetype m::opf("opf", m::opf_mimetype);
+
+/** @brief Portable document format.
+  */
+const m::mimetype m::pdf("pdf", m::pdf_mimetype);
+
+/** @brief RDF/XML document.
+  */
+const m::mimetype m::rdfxml("rdf", m::rdfxml_mimetype);
+
+/** @brief Rich text document.
+  */
+const m::mimetype m::rtf("rtf", m::rtf_mimetype);
+
+/** @brief SMIL document.
+  */
+const m::mimetype m::smil("smil", m::smil_mimetype);
+
+/** @brief Speech synthesis markup document.
+  */
+const m::mimetype m::ssml("ssml", m::ssml_mimetype);
+
+/** @brief Plain text document.
+  */
+const m::mimetype m::text("text", m::text_mimetype);
+
+/** @brief Wave audio.
+  */
+const m::mimetype m::wav("wav", m::wav_mimetype);
+
+/** @brief XHTML document.
+  */
+const m::mimetype m::xhtml("xhtml", m::xhtml_mimetype);
+
+/** @brief Extensible markup language document.
+  */
+const m::mimetype m::xml("xml", m::xml_mimetype);
+
+/** @brief ZIP (compressed) archive.
+  */
+const m::mimetype m::zip("zip", m::zip_mimetype);
 
 /** References
   *

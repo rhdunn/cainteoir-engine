@@ -53,7 +53,64 @@ static std::string capitalize(std::string s)
 	return s;
 }
 
-std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
+struct LanguageData
+{
+	LanguageData();
+
+	std::map<std::string, std::string> subtags;
+	std::map<std::string, lang::tag> extlangs;
+};
+
+LanguageData::LanguageData()
+{
+	rdf::graph data;
+	try
+	{
+		const char *datadir = getenv("CAINTEOIR_DATA_DIR");
+		if (!datadir)
+			datadir = DATADIR "/" PACKAGE;
+
+		const std::string filename = datadir + std::string("/languages.rdf.gz");
+		printf("loading language data from %s\n", filename.c_str());
+
+		auto reader = cainteoir::createDocumentReader(filename.c_str(), data, std::string());
+	}
+	catch (const std::exception & e)
+	{
+		printf("error: %s\n", e.what());
+	}
+
+	for (auto &language : rql::select(data, rql::predicate == rdf::rdf("type")))
+	{
+		rql::results statements = rql::select(data, rql::subject == rql::subject(language));
+		auto id     = rql::select_value<std::string>(statements, rql::predicate == rdf::rdf("value"));
+		auto name   = rql::select_value<std::string>(statements, rql::predicate == rdf::dcterms("title"));
+		auto prefix = rql::select_value<std::string>(statements, rql::predicate == rdf::iana("prefix"));
+
+		subtags[id] = name;
+		if (rql::object(language) == rdf::iana("ExtLang"))
+			extlangs.insert({ id, { prefix, id }});
+	}
+}
+
+static LanguageData *language_data()
+{
+	static std::shared_ptr<LanguageData> data;
+	if (!data.get())
+		data = std::make_shared<LanguageData>();
+	return data.get();
+}
+
+static const char *localize_subtag(const char *iso_codes, const std::string &id)
+{
+	auto data = language_data();
+	auto entry = data->subtags.find(id);
+	if (entry == data->subtags.end())
+		return id.c_str();
+	return dgettext(iso_codes, entry->second.c_str());
+}
+
+static const std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
 	{ "art-lojban",  { "jbo" } },
 	{ "be@latin",    { "be", "", "Latn" } },
 	{ "ca@valencia", { "ca", "", "", "", "valencia" } },
@@ -99,251 +156,20 @@ std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
 	{ "zh-xiang",    { "zh", "hsn" } },
 };
 
-// TODO: get this information through the RDF metadata (rdf:type iana:ExtLang, rdf:value, iana:prefix).
-std::initializer_list<std::pair<std::string, const lang::tag>> extlang_tags = {
-	{ "aao", { "ar",  "aao" } },
-	{ "abh", { "ar",  "abh" } },
-	{ "abv", { "ar",  "abv" } },
-	{ "acm", { "ar",  "acm" } },
-	{ "acq", { "ar",  "acq" } },
-	{ "acw", { "ar",  "acw" } },
-	{ "acx", { "ar",  "acx" } },
-	{ "acy", { "ar",  "acy" } },
-	{ "adf", { "ar",  "adf" } },
-	{ "ads", { "sgn", "ads" } },
-	{ "aeb", { "ar",  "aeb" } },
-	{ "aec", { "ar",  "aec" } },
-	{ "aed", { "sgn", "aed" } },
-	{ "aen", { "sgn", "aen" } },
-	{ "afb", { "ar",  "afb" } },
-	{ "afg", { "sgn", "afg" } },
-	{ "ajp", { "ar",  "ajp" } },
-	{ "apc", { "ar",  "apc" } },
-	{ "apd", { "ar",  "apd" } },
-	{ "arb", { "ar",  "arb" } },
-	{ "arq", { "ar",  "arq" } },
-	{ "ars", { "ar",  "ars" } },
-	{ "ary", { "ar",  "ary" } },
-	{ "arz", { "ar",  "arz" } },
-	{ "ase", { "sgn", "ase" } },
-	{ "asf", { "sgn", "asf" } },
-	{ "asp", { "sgn", "asp" } },
-	{ "asq", { "sgn", "asq" } },
-	{ "asw", { "sgn", "asw" } },
-	{ "auz", { "ar",  "auz" } },
-	{ "avl", { "ar",  "avl" } },
-	{ "ayh", { "ar",  "ayh" } },
-	{ "ayl", { "ar",  "ayl" } },
-	{ "ayn", { "ar",  "ayn" } },
-	{ "ayp", { "ar",  "ayp" } },
-	{ "bbz", { "ar",  "bbz" } },
-	{ "bfi", { "sgn", "bfi" } },
-	{ "bfk", { "sgn", "bfk" } },
-	{ "bjn", { "ms",  "bjn" } },
-	{ "bog", { "sgn", "bog" } },
-	{ "bqn", { "sgn", "bqn" } },
-	{ "bqy", { "sgn", "bqy" } },
-	{ "btj", { "ms",  "btj" } },
-	{ "bve", { "ms",  "bve" } },
-	{ "bvl", { "sgn", "bvl" } },
-	{ "bvu", { "ms",  "bvu" } },
-	{ "bzs", { "sgn", "bzs" } },
-	{ "cdo", { "zh",  "cdo" } },
-	{ "cds", { "sgn", "cds" } },
-	{ "cjy", { "zh",  "cjy" } },
-	{ "cmn", { "zh",  "cmn" } },
-	{ "coa", { "ms",  "coa" } },
-	{ "cpx", { "zh",  "cpx" } },
-	{ "csc", { "sgn", "csc" } },
-	{ "csd", { "sgn", "csd" } },
-	{ "cse", { "sgn", "cse" } },
-	{ "csf", { "sgn", "csf" } },
-	{ "csg", { "sgn", "csg" } },
-	{ "csl", { "sgn", "csl" } },
-	{ "csn", { "sgn", "csn" } },
-	{ "csq", { "sgn", "csq" } },
-	{ "csr", { "sgn", "csr" } },
-	{ "czh", { "zh",  "czh" } },
-	{ "czo", { "zh",  "czo" } },
-	{ "doq", { "sgn", "doq" } },
-	{ "dse", { "sgn", "dse" } },
-	{ "dsl", { "sgn", "dsl" } },
-	{ "dup", { "ms",  "dup" } },
-	{ "ecs", { "sgn", "ecs" } },
-	{ "esl", { "sgn", "esl" } },
-	{ "esn", { "sgn", "esn" } },
-	{ "eso", { "sgn", "eso" } },
-	{ "eth", { "sgn", "eth" } },
-	{ "fcs", { "sgn", "fcs" } },
-	{ "fse", { "sgn", "fse" } },
-	{ "fsl", { "sgn", "fsl" } },
-	{ "fss", { "sgn", "fss" } },
-	{ "gan", { "zh",  "gan" } },
-	{ "gom", { "kok", "gom" } },
-	{ "gse", { "sgn", "gse" } },
-	{ "gsg", { "sgn", "gsg" } },
-	{ "gsm", { "sgn", "gsm" } },
-	{ "gss", { "sgn", "gss" } },
-	{ "gus", { "sgn", "gus" } },
-	{ "hab", { "sgn", "hab" } },
-	{ "haf", { "sgn", "haf" } },
-	{ "hak", { "zh",  "hak" } },
-	{ "hds", { "sgn", "hds" } },
-	{ "hji", { "ms",  "hji" } },
-	{ "hks", { "sgn", "hks" } },
-	{ "hos", { "sgn", "hos" } },
-	{ "hps", { "sgn", "hps" } },
-	{ "hsh", { "sgn", "hsh" } },
-	{ "hsl", { "sgn", "hsl" } },
-	{ "hsn", { "zh",  "hsn" } },
-	{ "icl", { "sgn", "icl" } },
-	{ "ils", { "sgn", "ils" } },
-	{ "inl", { "sgn", "inl" } },
-	{ "ins", { "sgn", "ins" } },
-	{ "ise", { "sgn", "ise" } },
-	{ "isg", { "sgn", "isg" } },
-	{ "isr", { "sgn", "isr" } },
-	{ "jak", { "ms",  "jak" } },
-	{ "jax", { "ms",  "jax" } },
-	{ "jcs", { "sgn", "jcs" } },
-	{ "jhs", { "sgn", "jhs" } },
-	{ "jls", { "sgn", "jls" } },
-	{ "jos", { "sgn", "jos" } },
-	{ "jsl", { "sgn", "jsl" } },
-	{ "jus", { "sgn", "jus" } },
-	{ "kgi", { "sgn", "kgi" } },
-	{ "knn", { "kok", "knn" } },
-	{ "kvb", { "ms",  "kvb" } },
-	{ "kvk", { "sgn", "kvk" } },
-	{ "kvr", { "ms",  "kvr" } },
-	{ "kxd", { "ms",  "kxd" } },
-	{ "lbs", { "sgn", "lbs" } },
-	{ "lce", { "ms",  "lce" } },
-	{ "lcf", { "ms",  "lcf" } },
-	{ "liw", { "ms",  "liw" } },
-	{ "lls", { "sgn", "lls" } },
-	{ "lsg", { "sgn", "lsg" } },
-	{ "lsl", { "sgn", "lsl" } },
-	{ "lso", { "sgn", "lso" } },
-	{ "lsp", { "sgn", "lsp" } },
-	{ "lst", { "sgn", "lst" } },
-	{ "lsy", { "sgn", "lsy" } },
-	{ "ltg", { "lv",  "ltg" } },
-	{ "lvs", { "lv",  "lvs" } },
-	{ "lzh", { "zh",  "lzh" } },
-	{ "max", { "ms",  "max" } },
-	{ "mdl", { "sgn", "mdl" } },
-	{ "meo", { "ms",  "meo" } },
-	{ "mfa", { "ms",  "mfa" } },
-	{ "mfb", { "ms",  "mfb" } },
-	{ "mfs", { "sgn", "mfs" } },
-	{ "min", { "ms",  "min" } },
-	{ "mnp", { "zh",  "mnp" } },
-	{ "mqg", { "ms",  "mqg" } },
-	{ "mre", { "sgn", "mre" } },
-	{ "msd", { "sgn", "msd" } },
-	{ "msi", { "ms",  "msi" } },
-	{ "msr", { "sgn", "msr" } },
-	{ "mui", { "ms",  "mui" } },
-	{ "mzc", { "sgn", "mzc" } },
-	{ "mzg", { "sgn", "mzg" } },
-	{ "mzy", { "sgn", "mzy" } },
-	{ "nan", { "zh",  "nan" } },
-	{ "nbs", { "sgn", "nbs" } },
-	{ "ncs", { "sgn", "ncs" } },
-	{ "nsi", { "sgn", "nsi" } },
-	{ "nsl", { "sgn", "nsl" } },
-	{ "nsp", { "sgn", "nsp" } },
-	{ "nsr", { "sgn", "nsr" } },
-	{ "nzs", { "sgn", "nzs" } },
-	{ "okl", { "sgn", "okl" } },
-	{ "orn", { "ms",  "orn" } },
-	{ "ors", { "ms",  "ors" } },
-	{ "pel", { "ms",  "pel" } },
-	{ "pga", { "ar",  "pga" } },
-	{ "pks", { "sgn", "pks" } },
-	{ "prl", { "sgn", "prl" } },
-	{ "prz", { "sgn", "prz" } },
-	{ "psc", { "sgn", "psc" } },
-	{ "psd", { "sgn", "psd" } },
-	{ "pse", { "ms",  "pse" } },
-	{ "psg", { "sgn", "psg" } },
-	{ "psl", { "sgn", "psl" } },
-	{ "pso", { "sgn", "pso" } },
-	{ "psp", { "sgn", "psp" } },
-	{ "psr", { "sgn", "psr" } },
-	{ "pys", { "sgn", "pys" } },
-	{ "rms", { "sgn", "rms" } },
-	{ "rsi", { "sgn", "rsi" } },
-	{ "rsl", { "sgn", "rsl" } },
-	{ "sdl", { "sgn", "sdl" } },
-	{ "sfb", { "sgn", "sfb" } },
-	{ "sfs", { "sgn", "sfs" } },
-	{ "sgg", { "sgn", "sgg" } },
-	{ "sgx", { "sgn", "sgx" } },
-	{ "shu", { "ar",  "shu" } },
-	{ "slf", { "sgn", "slf" } },
-	{ "sls", { "sgn", "sls" } },
-	{ "sqs", { "sgn", "sqs" } },
-	{ "ssh", { "ar",  "ssh" } },
-	{ "ssp", { "sgn", "ssp" } },
-	{ "ssr", { "sgn", "ssr" } },
-	{ "svk", { "sgn", "svk" } },
-	{ "swc", { "sw",  "swc" } },
-	{ "swh", { "sw",  "swh" } },
-	{ "swl", { "sgn", "swl" } },
-	{ "syy", { "sgn", "syy" } },
-	{ "tmw", { "ms",  "tmw" } },
-	{ "tse", { "sgn", "tse" } },
-	{ "tsm", { "sgn", "tsm" } },
-	{ "tsq", { "sgn", "tsq" } },
-	{ "tss", { "sgn", "tss" } },
-	{ "tsy", { "sgn", "tsy" } },
-	{ "tza", { "sgn", "tza" } },
-	{ "ugn", { "sgn", "ugn" } },
-	{ "ugy", { "sgn", "ugy" } },
-	{ "ukl", { "sgn", "ukl" } },
-	{ "uks", { "sgn", "uks" } },
-	{ "urk", { "ms",  "urk" } },
-	{ "uzn", { "uz",  "uzn" } },
-	{ "uzs", { "uz",  "uzs" } },
-	{ "vgt", { "sgn", "vgt" } },
-	{ "vkk", { "ms",  "vkk" } },
-	{ "vkt", { "ms",  "vkt" } },
-	{ "vsi", { "sgn", "vsi" } },
-	{ "vsl", { "sgn", "vsl" } },
-	{ "vsv", { "sgn", "vsv" } },
-	{ "wuu", { "zh",  "wuu" } },
-	{ "xki", { "sgn", "xki" } },
-	{ "xml", { "sgn", "xml" } },
-	{ "xmm", { "ms",  "xmm" } },
-	{ "xms", { "sgn", "xms" } },
-	{ "yds", { "sgn", "yds" } },
-	{ "ysl", { "sgn", "ysl" } },
-	{ "yue", { "zh",  "yue" } },
-	{ "zib", { "sgn", "zib" } },
-	{ "zlm", { "ms",  "zlm" } },
-	{ "zmi", { "ms",  "zmi" } },
-	{ "zsl", { "sgn", "zsl" } },
-	{ "zsm", { "ms",  "zsm" } },
-};
-
-static const lang::tag *
-lookup_lang(std::string lang,
-            std::initializer_list<std::pair<std::string, const lang::tag>> &tags)
+static const lang::tag *lookup_alias(std::string lang)
 {
 	lang = to_lower(lang);
 
 	int begin = 0;
-	int end = tags.size() - 1;
+	int end = alias_tags.size() - 1;
 
 	while (begin <= end)
 	{
 		int pos = (begin + end) / 2;
 
-		int comp = lang.compare((tags.begin() + pos)->first);
+		int comp = lang.compare((alias_tags.begin() + pos)->first);
 		if (comp == 0)
-			return &(tags.begin() + pos)->second;
+			return &(alias_tags.begin() + pos)->second;
 		else if (comp > 0)
 			begin = pos + 1;
 		else
@@ -353,9 +179,25 @@ lookup_lang(std::string lang,
 	return nullptr;
 }
 
+static const lang::tag *lookup_extlang(std::string lang)
+{
+	auto data = language_data();
+	auto entry = data->extlangs.find(to_lower(lang));
+	if (entry == data->extlangs.end())
+		return nullptr;
+	return &entry->second;
+}
+
+/** @brief Extract language tag information from a BCP 47 language id.
+  * @see   http://www.ietf.org/rfc/rfc5646.txt
+  *
+  * @param[in] code The language identifier, e.g. "es-MX".
+  *
+  * @return The extracted language, script and country codes.
+  */
 lang::tag lang::make_lang(const std::string &code)
 {
-	const lang::tag *alias = lookup_lang(code, alias_tags);
+	const lang::tag *alias = lookup_alias(code);
 	if (alias)
 		return *alias;
 
@@ -371,7 +213,7 @@ lang::tag lang::make_lang(const std::string &code)
 
 		if (lang.lang.empty())
 		{
-			const lang::tag *extlang = lookup_lang(item, extlang_tags);
+			const lang::tag *extlang = lookup_extlang(item);
 			if (extlang)
 				lang = *extlang;
 			else
@@ -388,7 +230,7 @@ lang::tag lang::make_lang(const std::string &code)
 		case 3:
 			if (lang.extlang.empty())
 			{
-				const lang::tag *extlang = lookup_lang(item, extlang_tags);
+				const lang::tag *extlang = lookup_extlang(item);
 				if (extlang && extlang->lang == lang.lang)
 					lang.extlang = extlang->extlang;
 				else
@@ -425,6 +267,14 @@ lang::tag lang::make_lang(const std::string &code)
 	         lang.variant };
 }
 
+/** @brief Compare two language tags for equality.
+  *
+  * @param[in] a The fist language tag to compare.
+  * @param[in] b The second language tag to compare.
+  *
+  * @retval true  If the language tags match.
+  * @retval false If the language tags do not match.
+  */
 bool lang::operator==(const tag &a, const tag &b)
 {
 	if (a.variant.empty() || b.variant.empty())
@@ -442,84 +292,51 @@ bool lang::operator==(const tag &a, const tag &b)
 	return a.lang == b.lang && a.script == b.script && a.region == b.region && a.variant == b.variant;
 }
 
-cainteoir::languages::languages()
-{
-	rdf::graph data;
-	try
-	{
-		const char *datadir = getenv("CAINTEOIR_DATA_DIR");
-		if (!datadir)
-			datadir = DATADIR "/" PACKAGE;
+/** @struct cainteoir::languages
+  * @brief  Helper for localizing language tags.
+  */
 
-		const std::string filename = datadir + std::string("/languages.rdf.gz");
-		printf("loading language data from %s\n", filename.c_str());
-
-		auto reader = cainteoir::createDocumentReader(filename.c_str(), data, std::string());
-	}
-	catch (const std::exception & e)
-	{
-		printf("error: %s\n", e.what());
-	}
-
-	// This should construct the m_subtags map directly from the RDF metadata.
-	// However, with the current list-based implementation lookup of sublists
-	// (e.g. all statements with a specific subject) is slow when lookup is
-	// chained, especially for large statement sets like the subtag registry.
-	//
-	// This implementation performs a single pass over the data so the performance
-	// is O(n) where n is the number of statements, not O(n^2) or O(n^3).
-
-	std::map<std::string, std::pair<std::string, std::string>> mapping;
-	foreach_iter(lang, data)
-	{
-		if (rql::predicate(*lang) == rdf::rdf("value"))
-			mapping[rql::subject(*lang).str()].first = rql::value(*lang);
-		else if (rql::predicate(*lang) == rdf::dcterms("title"))
-			mapping[rql::subject(*lang).str()].second = rql::value(*lang);
-	}
-
-	foreach_iter(lang, mapping)
-	{
-		const auto &entry = lang->second;
-		if (!entry.first.empty() && !entry.second.empty())
-			m_subtags[entry.first] = entry.second;
-	}
-}
-
+/** @brief Get the translated ISO 639 language code.
+  *
+  * @param[in] id The localized tag to localize.
+  *
+  * @return The localized name.
+  */
 const char *cainteoir::languages::language(const lang::tag &id) const
 {
 	if (!id.extlang.empty())
-	{
-		auto entry = m_subtags.find(id.extlang);
-		if (entry == m_subtags.end())
-			return id.extlang.c_str();
-		return dgettext("iso_639", entry->second.c_str());
-	}
-	else
-	{
-		auto entry = m_subtags.find(id.lang);
-		if (entry == m_subtags.end())
-			return id.lang.c_str();
-		return dgettext("iso_639", entry->second.c_str());
-	}
+		return localize_subtag("iso_639", id.extlang);
+	return localize_subtag("iso_639", id.lang);
 }
 
+/** @brief Get the localized ISO 15924 script code.
+  *
+  * @param[in] id The language tag to localize.
+  *
+  * @return The localized name.
+  */
 const char *cainteoir::languages::script(const lang::tag &id) const
 {
-	auto entry = m_subtags.find(id.script);
-	if (entry == m_subtags.end())
-		return id.script.c_str();
-	return dgettext("iso_15924", entry->second.c_str());
+	return localize_subtag("iso_15924", id.script);
 }
 
+/** @brief Get the localized ISO 3166 region code.
+  *
+  * @param[in] id The language tag to localize.
+  *
+  * @return The localized name.
+  */
 const char *cainteoir::languages::region(const lang::tag &id) const
 {
-	auto entry = m_subtags.find(id.region);
-	if (entry == m_subtags.end())
-		return id.region.c_str();
-	return dgettext("iso_3166", entry->second.c_str());
+	return localize_subtag("iso_3166", id.region);
 }
 
+/** @brief Get the localized name of the language.
+  *
+  * @param[in] langid The language tag to localize.
+  *
+  * @return The localized name.
+  */
 std::string cainteoir::languages::operator()(const std::string & langid)
 {
 	lang::tag lang = lang::make_lang(langid);
@@ -531,3 +348,38 @@ std::string cainteoir::languages::operator()(const std::string & langid)
 
 	return name.str();
 }
+
+/** @struct cainteoir::language::tag
+  * @brief  BCP 47 / RFC 5646 language tag.
+  * @see    http://www.ietf.org/rfc/rfc5646.txt
+  */
+ 
+/** @fn    cainteoir::language::tag::tag(const std::string &l, const std::string &e, const std::string &s, const std::string &r, const std::string &v)
+  * @brief Create a language tag object.
+  *
+  * @param[in] l The primary language code.
+  * @param[in] e The extended language code.
+  * @param[in] s The writing script code.
+  * @param[in] r The region code.
+  * @param[in] v The variant code.
+  */
+
+/** @var   cainteoir::language::tag::lang
+  * @brief ISO 639 language code (primary language).
+  */
+
+/** @var   cainteoir::language::tag::extlang
+  * @brief ISO 639 language code (extended language).
+  */
+
+/** @var   cainteoir::language::tag::script
+  * @brief ISO 15924 script code.
+  */
+
+/** @var   cainteoir::language::tag::region
+  * @brief ISO 3166 or UN M.49 region code.
+  */
+
+/** @var   cainteoir::language::tag::variant
+  * @brief IANA variant subtag.
+  */

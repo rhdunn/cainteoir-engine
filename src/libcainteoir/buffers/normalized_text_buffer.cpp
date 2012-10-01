@@ -24,51 +24,62 @@
 #include <cainteoir/buffer.hpp>
 #include <cainteoir/unicode.hpp>
 
+namespace utf8 = cainteoir::utf8;
+
 namespace cainteoir { namespace utf8
 {
 	static bool isspace(uint32_t c)
 	{
 		switch (c)
 		{
-		case 0x000009: // HORIZONTAL TAB
-		case 0x00000A: // LINE FEED
-		case 0x00000D: // CARRIDGE RETURN
-		case 0x000020: // SPACE
-		case 0x0000A0: // NON-BREAKING SPACE
+		case 0x0009: // CHARACTER TABULATION
+		case 0x000A: // LINE FEED
+		case 0x000B: // LINE TABULATION
+		case 0x000C: // FORM FEED
+		case 0x000D: // CARRIAGE RETURN
+		case 0x0020: // SPACE
+		case 0x0085: // NEXT LINE
+		case 0x00A0: // NO-BREAK SPACE
+		case 0x1680: // OGHAM SPACE MARK
+		case 0x180E: // MONGOLIAN VOWEL SEPARATOR
+		case 0x2000: // EN QUAD
+		case 0x2001: // EM QUAD
+		case 0x2002: // EN SPACE
+		case 0x2003: // EM SPACE
+		case 0x2004: // THREE-PER-EM SPACE
+		case 0x2005: // FOUR-PER-EM SPACE
+		case 0x2006: // SIX-PER-EM SPACE
+		case 0x2007: // FIGURE SPACE
+		case 0x2008: // PUNCTUATION SPACE
+		case 0x2009: // THIN SPACE
+		case 0x200A: // HAIR SPACE
+		case 0x2028: // LINE SEPARATOR
+		case 0x2029: // PARAGRAPH SEPARATOR
+		case 0x202F: // NARROW NO-BREAK SPACE
+		case 0x205F: // MEDIUM MATHEMATICAL SPACE
+		case 0x3000: // IDEOGRAPHICAL SPACE
 			return true;
 		}
 		return false;
 	}
 }}
 
-cainteoir::normalized_text_buffer::normalized_text_buffer(const char *str)
+class normalized_text_buffer : public cainteoir::buffer
+{
+public:
+	normalized_text_buffer(const std::shared_ptr<buffer> &aBuffer);
+	~normalized_text_buffer();
+};
+
+normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 	: buffer(nullptr, nullptr)
 {
-	if (str)
-		normalize(str, str+strlen(str));
-}
+	if (!aBuffer.get() || aBuffer->empty())
+		return;
 
-cainteoir::normalized_text_buffer::normalized_text_buffer(const char *f, const char *l)
-	: buffer(nullptr, nullptr)
-{
-	if (f != l)
-		normalize(f, l);
-}
+	const char *str = aBuffer->begin();
+	const char *l   = aBuffer->end();
 
-cainteoir::normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &str)
-	: buffer(nullptr, nullptr)
-{
-	if (str.get() && !str->empty())
-		normalize(str->begin(), str->end());
-}
-
-cainteoir::normalized_text_buffer::~normalized_text_buffer()
-{
-	delete [] first;
-}
-
-void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l)
-{
 	// trim space at the start:
 
 	uint32_t ch = 0;
@@ -86,15 +97,16 @@ void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l
 	while (str < l)
 	{
 		next = utf8::read(str, ch);
+		if (utf8::isspace(ch))
+			ch = ' ';
 
 		uint32_t ch2 = 0;
-		if (str < l && utf8::isspace(ch) && utf8::read(next, ch2) && utf8::isspace(ch2))
+		if (ch == ' ' && str < l && utf8::read(next, ch2) && utf8::isspace(ch2))
 			str = next;
 		else
 		{
-			next = utf8::write((char *)last, ch);
-			str += next-last;
-			last = next;
+			str  = next;
+			last = utf8::write((char *)last, ch);
 		}
 	}
 
@@ -103,4 +115,24 @@ void cainteoir::normalized_text_buffer::normalize(const char *str, const char *l
 	while (last > first && (next = utf8::prev(last)) && utf8::read(next, ch) && utf8::isspace(ch))
 		last = next;
 	*(char *)last = '\0';
+}
+
+normalized_text_buffer::~normalized_text_buffer()
+{
+	delete [] first;
+}
+
+/** @brief Create a whitespace-normalized buffer.
+  *
+  * @param[in] aBuffer The buffer containing the text to normalize.
+  *
+  * @return A new buffer with the whitespace normalized.
+  *
+  * This trims whitespace from the start and end of the buffer, as well as
+  * consecutive whitespace characters within the buffer. Any whitespace
+  * character is replaced by an ASCII space character.
+  */
+std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
+{
+	return std::make_shared<normalized_text_buffer>(aBuffer);
 }

@@ -23,7 +23,7 @@
 
 #include <cainteoir/buffer.hpp>
 
-char base64_chars[] =
+static const char base64_chars[] =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	"abcdefghijklmnopqrstuvwxyz"
 	"0123456789"
@@ -45,7 +45,7 @@ struct base64 : public cainteoir::data_buffer
 
 		while (next < last)
 		{
-			char *idx = strchr(base64_chars, *next);
+			char *idx = strchr((char *)base64_chars, *next);
 			if (idx != nullptr)
 			{
 				in[i++] = (intptr_t)idx - (intptr_t)base64_chars;
@@ -81,6 +81,13 @@ struct base64 : public cainteoir::data_buffer
 	}
 };
 
+/** @brief Decode a base64 encoded data buffer.
+  *
+  * @param[in] data The data buffer to be decoded/decompressed.
+  * @param[in] size The size of the decoded/decompressed data buffer.
+  *
+  * @return The decoded data buffer.
+  */
 std::shared_ptr<cainteoir::buffer> cainteoir::decode_base64(const cainteoir::buffer &data, uint32_t size)
 {
 	return std::make_shared<base64>(data);

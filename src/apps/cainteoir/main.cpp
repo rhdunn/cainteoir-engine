@@ -89,17 +89,13 @@ static struct option options[] =
 
 void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showName)
 {
-	rql::results formats = rql::select(aMetadata,
-		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
-		          rql::matches(rql::object, aType)));
-
-	foreach_iter(format, formats)
+	for (auto &format : rql::select(aMetadata, rql::predicate == rdf::rdf("type") && rql::object == aType))
 	{
-		rql::results data = rql::select(aMetadata, rql::matches(rql::subject, rql::subject(*format)));
-		std::string description = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::dc("description")));
+		rql::results data = rql::select(aMetadata, rql::subject == rql::subject(format));
+		std::string description = rql::select_value<std::string>(data, rql::predicate == rdf::dc("description"));
 		if (showName)
 		{
-			std::string name = rql::select_value<std::string>(data, rql::matches(rql::predicate, rdf::tts("name")));
+			std::string name = rql::select_value<std::string>(data, rql::predicate == rdf::tts("name"));
 			fprintf(stdout, "            %-5s - %s\n", name.c_str(), description.c_str());
 		}
 		else
@@ -201,17 +197,13 @@ void status_line(double elapsed, double total, double progress, const char *stat
 
 const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predicate, const std::string &value)
 {
-	rql::results voices = rql::select(aMetadata,
-		rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
-		          rql::matches(rql::object, rdf::tts("Voice"))));
-
-	foreach_iter(voice, voices)
+	for (auto &voice : rql::select(aMetadata,
+	                               rql::predicate == rdf::rdf("type") && rql::object == rdf::tts("Voice")))
 	{
-		const rdf::uri &uri = rql::subject(*voice);
-		rql::results statements = rql::select(aMetadata, rql::matches(rql::subject, uri));
-		foreach_iter(statement, statements)
+		const rdf::uri &uri = rql::subject(voice);
+		for (auto &statement : rql::select(aMetadata, rql::subject == uri))
 		{
-			if (rql::predicate(*statement) == predicate && rql::value(*statement) == value)
+			if (rql::predicate(statement) == predicate && rql::value(statement) == value)
 				return &uri;
 		}
 	}
@@ -222,7 +214,7 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 struct document
 {
 	document(const rdf::uri &aSubject, actions aAction, int aFrom, int aTo)
-		: tts(m_metadata, cainteoir::text_support)
+		: tts(m_metadata)
 		, subject(aSubject)
 		, voiceSelected(false)
 		, m_doc(new cainteoir::document())
@@ -231,6 +223,8 @@ struct document
 		, fromIndex(aFrom)
 		, toIndex(aTo)
 	{
+		cainteoir::supportedDocumentFormats(m_metadata, cainteoir::text_support);
+		cainteoir::supportedAudioFormats(m_metadata);
 	}
 
 	void select_voice(const rdf::uri &predicate, const std::string &value)
@@ -391,6 +385,8 @@ int main(int argc, char ** argv)
 				<< rdf::skos
 				<< rdf::foaf
 				<< rdf::tts
+				<< rdf::iana
+				<< rdf::subtag
 				<< doc.m_metadata;
 			return 0;
 		}
@@ -435,45 +431,45 @@ int main(int argc, char ** argv)
 		std::string author;
 		std::string title;
 
-		foreach_iter (query, rql::select(doc.m_metadata, rql::matches(rql::subject, doc.subject)))
+		for (auto &query : rql::select(doc.m_metadata, rql::subject == doc.subject))
 		{
-			if (rql::predicate(*query).ns == rdf::dc || rql::predicate(*query).ns == rdf::dcterms)
+			if (rql::predicate(query).ns == rdf::dc || rql::predicate(query).ns == rdf::dcterms)
 			{
-				const rdf::uri &object = rql::object(*query);
+				const rdf::uri &object = rql::object(query);
 				if (object.empty())
 				{
-					if (rql::predicate(*query).ref == "title")
-						title = rql::value(*query);
-					else if (rql::predicate(*query).ref == "creator")
-						author = rql::value(*query);
+					if (rql::predicate(query).ref == "title")
+						title = rql::value(query);
+					else if (rql::predicate(query).ref == "creator")
+						author = rql::value(query);
 				}
 				else
 				{
-					rql::results selection = rql::select(doc.m_metadata, rql::matches(rql::subject, object));
+					rql::results selection = rql::select(doc.m_metadata, rql::subject == object);
 
-					if (rql::predicate(*query).ref == "creator")
+					if (rql::predicate(query).ref == "creator")
 					{
 						std::string role;
 						std::string value;
 
-						for(auto data = selection.begin(), last = selection.end(); data != last; ++data)
+						for (auto &data : selection)
 						{
-							const std::string &object = rql::value(*data);
-							if (rql::predicate(*data) == rdf::rdf("value"))
+							const std::string &object = rql::value(data);
+							if (rql::predicate(data) == rdf::rdf("value"))
 								value = object;
-							else if (rql::predicate(*data) == rdf::opf("role") || rql::predicate(*data) == rdf::pkg("role"))
+							else if (rql::predicate(data) == rdf::opf("role") || rql::predicate(data) == rdf::pkg("role"))
 								role = object;
 						}
 
 						if (!value.empty() && (role == "aut" || role.empty()))
 							author = value;
 					}
-					else if (rql::predicate(*query).ref == "title")
+					else if (rql::predicate(query).ref == "title")
 					{
-						for(auto data = selection.begin(), last = selection.end(); data != last; ++data)
+						for (auto &data : selection)
 						{
-							if (rql::predicate(*data) == rdf::rdf("value"))
-								title = rql::value(*data);
+							if (rql::predicate(data) == rdf::rdf("value"))
+								title = rql::value(data);
 						}
 					}
 				}

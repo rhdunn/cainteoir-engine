@@ -143,14 +143,15 @@ int main(int argc, char ** argv)
 					<< rdf::skos
 					<< rdf::foaf
 					<< rdf::tts
+					<< rdf::iana
+					<< rdf::subtag
 					<< metadata;
 			}
 			else
 			{
 				const rdf::uri subject = rdf::uri(argv[0], std::string());
-
-				foreach_iter(comment, cainteoir::vorbis_comments(metadata, subject))
-					std::cout << comment->label << "=" << comment->value << std::endl;
+				for (auto &comment : cainteoir::vorbis_comments(metadata, subject))
+					std::cout << comment.label << "=" << comment.value << std::endl;
 			}
 		}
 	}

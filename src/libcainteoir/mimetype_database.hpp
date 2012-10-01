@@ -102,19 +102,20 @@ namespace cainteoir { namespace mime
 
 	struct mime_cache
 	{
-		mime_cache(const std::string &filename) : cache(filename.c_str())
+		mime_cache(const std::string &filename)
+			: cache(cainteoir::make_file_buffer(filename.c_str()))
 		{
 		}
 
-		uint16_t u16(uint32_t offset) const { return ntohs(*(uint16_t *)(cache.begin() + offset)); }
-		uint32_t u32(uint32_t offset) const { return ntohl(*(uint32_t *)(cache.begin() + offset)); }
+		uint16_t u16(uint32_t offset) const { return ntohs(*(uint16_t *)(cache->begin() + offset)); }
+		uint32_t u32(uint32_t offset) const { return ntohl(*(uint32_t *)(cache->begin() + offset)); }
 
-		const char *str(uint32_t offset) const { return cache.begin() + u32(offset); }
+		const char *str(uint32_t offset) const { return cache->begin() + u32(offset); }
 
 		uint16_t major() const { return u16(0); }
 		uint16_t minor() const { return u16(2); }
 	private:
-		cainteoir::mmap_buffer cache;
+		std::shared_ptr<cainteoir::buffer> cache;
 	};
 
 	class mimetype_database

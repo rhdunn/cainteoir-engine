@@ -1,4 +1,5 @@
 toc-entry [] depth=0 title="""Test File"""
+anchor []
 begin-context heading 1
 anchor [#]h1
 text(9): """Heading 1"""

@@ -1,0 +1,117 @@
+rights:      Copyright (C) 2012 Reece H. Dunn
+license:     [CC-BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/]
+reference:   [Arpabet|http://en.wikipedia.org/wiki/Arpabet]
+
+name:        arpabet
+description: General American English transcription scheme
+
+/P/      {vls,blb,stp}
+/B/      {vcd,blb,stp}
+/T/      {vls,alv,stp}
+/D/      {vcd,alv,stp}
+/K/      {vls,vel,stp}
+/G/      {vcd,vel,stp}
+
+/CH/     {vls,pla,afr}
+/JH/     {vcd,pla,afr}
+
+/F/      {vls,lbd,frc}
+/V/      {vcd,lbd,frc}
+/TH/     {vls,dnt,frc}
+/DH/     {vcd,dnt,frc}
+/S/      {vls,alv,frc}
+/Z/      {vcd,alv,frc}
+/SH/     {vls,pla,frc}
+/ZH/     {vcd,pla,frc}
+/HH/     {vls,glt,frc}
+
+/M/      {vcd,blb,nas}
+/EM/     {vcd,blb,nas,syl}
+/N/      {vcd,alv,nas}
+/EN/     {vcd,alv,nas,syl}
+/NG/     {vcd,vel,nas}
+/ENG/    {vcd,vel,nas,syl}
+
+/L/      {vcd,alv,lat,apr,vzd}
+/EL/     {vcd,alv,lat,apr,vzd,syl}
+/R/      {vcd,alv,apr}
+/DX/     {vcd,alv,flp}
+/NX/     {vcd,alv,flp,vzd}
+
+/Y/      {vcd,pal,apr}
+/W/      {vcd,lbv,apr}
+/Q/      {vls,glt,stp}
+
+# Monophthongs
+
+/AO0/    {lmd,bck,rnd,vwl,lng}
+/AO1/    {lmd,bck,rnd,vwl,lng,st1}
+/AO2/    {lmd,bck,rnd,vwl,lng,st2}
+/AA0/    {low,bck,unr,vwl,lng}
+/AA1/    {low,bck,unr,vwl,lng,st1}
+/AA2/    {low,bck,unr,vwl,lng,st2}
+/IY0/    {hgh,fnt,unr,vwl,lng}
+/IY1/    {hgh,fnt,unr,vwl,lng,st1}
+/IY2/    {hgh,fnt,unr,vwl,lng,st2}
+/UW0/    {hgh,bck,rnd,vwl,lng}
+/UW1/    {hgh,bck,rnd,vwl,lng,st1}
+/UW2/    {hgh,bck,rnd,vwl,lng,st2}
+/EH0/    {lmd,fnt,unr,vwl}
+/EH1/    {lmd,fnt,unr,vwl,st1}
+/EH2/    {lmd,fnt,unr,vwl,st2}
+/IH0/    {smh,fnt,unr,vwl}
+/IH1/    {smh,fnt,unr,vwl,st1}
+/IH2/    {smh,fnt,unr,vwl,st2}
+/UH0/    {smh,bck,rnd,vwl}
+/UH1/    {smh,bck,rnd,vwl,st1}
+/UH2/    {smh,bck,rnd,vwl,st2}
+/AH0/    {mid,cnt,unr,vwl}
+/AH1/    {lmd,bck,unr,vwl,st1}
+/AH2/    {lmd,bck,unr,vwl,st2}
+/AX0/    {mid,cnt,unr,vwl}
+/AE0/    {sml,fnt,unr,vwl}
+/AE1/    {sml,fnt,unr,vwl,st1}
+/AE2/    {sml,fnt,unr,vwl,st2}
+
+# Diphthongs
+
+/EY0/    {lmd,fnt,unr,vwl}{smh,fnt,unr,vwl}
+/EY1/    {lmd,fnt,unr,vwl,st1}{smh,fnt,unr,vwl}
+/EY2/    {lmd,fnt,unr,vwl,st2}{smh,fnt,unr,vwl}
+/AY0/    {low,fnt,unr,vwl}{smh,fnt,unr,vwl}
+/AY1/    {low,fnt,unr,vwl,st1}{smh,fnt,unr,vwl}
+/AY2/    {low,fnt,unr,vwl,st2}{smh,fnt,unr,vwl}
+/OW0/    {umd,bck,rnd,vwl}{smh,bck,rnd,vwl}
+/OW1/    {umd,bck,rnd,vwl,st1}{smh,bck,rnd,vwl}
+/OW2/    {umd,bck,rnd,vwl,st2}{smh,bck,rnd,vwl}
+/AW0/    {low,fnt,unr,vwl}{smh,bck,rnd,vwl}
+/AW1/    {low,fnt,unr,vwl,st1}{smh,bck,rnd,vwl}
+/AW2/    {low,fnt,unr,vwl,st2}{smh,bck,rnd,vwl}
+/OY0/    {lmd,bck,rnd,vwl}{smh,fnt,unr,vwl}
+/OY1/    {lmd,bck,rnd,vwl,st1}{smh,fnt,unr,vwl}
+/OY2/    {lmd,bck,rnd,vwl,st2}{smh,fnt,unr,vwl}
+
+# R-Coloured Vowels
+
+/ER/     {mid,cnt,unr,vwl,rzd} # wikipedia has this as /AXR/, but the example uses /ER/ without a stress marker
+/ER0/    {lmd,cnt,unr,vwl,rzd}
+/ER1/    {lmd,cnt,unr,vwl,rzd,st1}
+/ER2/    {lmd,cnt,unr,vwl,rzd,st2}
+/EH0 R/  {lmd,fnt,unr,vwl,rzd}
+/EH1 R/  {lmd,fnt,unr,vwl,rzd,st1}
+/EH2 R/  {lmd,fnt,unr,vwl,rzd,st2}
+/UH0 R/  {smh,bck,rnd,vwl,rzd}
+/UH1 R/  {smh,bck,rnd,vwl,rzd,st1}
+/UH2 R/  {smh,bck,rnd,vwl,rzd,st2}
+/AO0 R/  {lmd,bck,rnd,vwl,rzd}
+/AO1 R/  {lmd,bck,rnd,vwl,rzd,st1}
+/AO2 R/  {lmd,bck,rnd,vwl,rzd,st2}
+/AA0 R/  {low,bck,unr,vwl,rzd}
+/AA1 R/  {low,bck,unr,vwl,rzd,st1}
+/AA2 R/  {low,bck,unr,vwl,rzd,st2}
+/IH0 R/  {smh,fnt,unr,vwl,rzd}
+/IH1 R/  {smh,fnt,unr,vwl,rzd,st1}
+/IH2 R/  {smh,fnt,unr,vwl,rzd,st2}
+/IY0 R/  {smh,fnt,unr,vwl,rzd}
+/IY1 R/  {smh,fnt,unr,vwl,rzd,st1}
+/IY2 R/  {smh,fnt,unr,vwl,rzd,st2}

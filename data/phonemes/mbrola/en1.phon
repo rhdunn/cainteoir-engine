@@ -1,9 +1,12 @@
 rights:      Copyright (C) 2012 Reece H. Dunn
 license:     [CC-BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/]
 reference:   [SAMPA for English|http://www.phon.ucl.ac.uk/home/sampa/english.htm]
+reference:   en1.txt in the en1 MBROLA voice directory
 
-name:        sampa-en
-description: SAMPA for English
+name:        mbrola-en1
+description: MBROLA en1 Voice
+
+/_/      {sil}
 
 /p/      {vls,blb,stp}
 /b/      {vcd,blb,stp}
@@ -12,8 +15,8 @@ description: SAMPA for English
 /k/      {vls,vel,stp}
 /g/      {vcd,vel,stp}
 
-/tS/     {vls,alv,afr}
-/dZ/     {vcd,alv,afr}
+/tS/     {vls,pla,afr}
+/dZ/     {vcd,pla,afr}
 
 /f/      {vls,lbd,frc}
 /v/      {vcd,lbd,frc}
@@ -28,15 +31,15 @@ description: SAMPA for English
 /m/      {vcd,blb,nas}
 /n/      {vcd,alv,nas}
 /N/      {vcd,vel,nas}
-/r/      {vcd,alv,apr,lqd}
-/l/      {vcd,alv,lat,lqd}
-/w/      {vcd,lbv,frc,gld}
-/j/      {vcd,pal,apr,gld}
+/r/      {vcd,alv,apr}
+/l/      {vcd,alv,lat,apr}
+/5/      {vcd,alv,lat,apr,vzd}
+/w/      {vcd,lbv,apr}
+/j/      {vcd,pal,apr}
 
 /I/      {smh,fnt,unr,vwl}
-/E/      {lmd,fnt,unr,vwl}
 /e/      {lmd,fnt,unr,vwl}
-/{/      {low,fnt,unr,vwl}
+/{/      {sml,fnt,unr,vwl}
 /Q/      {low,bck,rnd,vwl}
 /V/      {lmd,bck,unr,vwl}
 /U/      {smh,bck,rnd,vwl}
@@ -46,7 +49,7 @@ description: SAMPA for English
 /i:/     {hgh,fnt,unr,vwl,lng}
 /eI/     {lmd,fnt,unr,vwl}{smh,fnt,unr,vwl}
 /aI/     {low,fnt,unr,vwl}{smh,fnt,unr,vwl}
-/OI/     {lmd,bck,unr,vwl}{smh,fnt,unr,vwl}
+/OI/     {lmd,bck,rnd,vwl}{smh,fnt,unr,vwl}
 
 /u:/     {hgh,bck,rnd,vwl,lng}
 /@U/     {mid,cnt,unr,vwl}{smh,bck,rnd,vwl}
@@ -54,13 +57,7 @@ description: SAMPA for English
 
 /3:/     {lmd,cnt,unr,vwl,lng}
 /A:/     {low,bck,unr,vwl,lng}
-/O:/     {lmd,bck,unr,vwl,lng}
+/O:/     {lmd,bck,rnd,vwl,lng}
 /I@/     {smh,fnt,unr,vwl}{mid,cnt,unr,vwl}
 /e@/     {lmd,fnt,unr,vwl}{mid,cnt,unr,vwl}
 /U@/     {smh,bck,rnd,vwl}{mid,cnt,unr,vwl}
-
-/i/      {hgh,fnt,unr,vwl}
-/u/      {hgh,bck,rnd,vwl}
-
-/?/      {vls,glt,stp}
-/x/      {vls,vel,frc}

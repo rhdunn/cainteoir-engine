@@ -151,8 +151,8 @@ pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 
 pdf_document_reader::~pdf_document_reader()
 {
-	foreach_iter (action, mIndex)
-		poppler_action_free(*action);
+	for (auto &action : mIndex)
+		poppler_action_free(action);
 
 	g_object_unref(mDoc);
 }
@@ -184,15 +184,8 @@ bool pdf_document_reader::read()
 			type      = events::toc_entry;
 			context   = events::heading;
 			parameter = 0;
+			text      = cainteoir::normalize(std::make_shared<cainteoir::buffer>(title));
 			anchor    = rdf::uri(mSubject.str(), pagenum);
-
-			text      = cainteoir::make_buffer(title);
-			for (char *s = (char *)text->begin(), *end = (char *)text->end(); s != end; ++s)
-			{
-				if (*s == '\r' || *s == '\n')
-					*s = ' ';
-			}
-			text      = std::make_shared<cainteoir::normalized_text_buffer>(text);
 
 			if (++mCurrentIndex == mIndex.end())
 				mState = state_text;

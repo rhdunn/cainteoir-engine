@@ -1,4 +1,5 @@
 toc-entry [] depth=0 title="""Heading 1"""
+anchor []
 begin-context heading 1
 text(9): """Heading 1"""
 end-context

@@ -25,41 +25,12 @@
 
 namespace cainteoir { namespace utf8
 {
-	/** @brief Write a UTF-8 character to an output buffer.
-	  *
-	  * @param[in] out The output buffer to write the UTF-8 character to.
-	  * @param[in] c   The UTF-32 unicode code-point.
-	  *
-	  * @return A pointer to the new position in |out| after writing the UTF-8 character.
-	  *
-	  * This function does not null-terminate out and does not check that there is
-	  * enough space in out to write all the UTF-8 characters (up-to 4 characters).
-	  */
 	char *write(char *out, uint32_t c);
 
-	/** @brief Read a UTF-8 character from an input buffer.
-	  *
-	  * @param[in]  in The input buffer to read the UTF-8 character from.
-	  * @param[out] c  The UTF-32 unicode code-point.
-	  *
-	  * @return A pointer to the new position in |in| after reading the UTF-8 character.
-	  */
 	const char *read(const char *in, uint32_t &c);
 
-	/** @brief Get the next UTF-8 character in the sequence.
-	  *
-	  * @param[in] The current position in the UTF-8 string.
-	  *
-	  * @return A pointer to the next UTF-8 character.
-	  */
 	const char *next(const char *c);
 
-	/** @brief Get the previous UTF-8 character in the sequence.
-	  *
-	  * @param[in] The current position in the UTF-8 string.
-	  *
-	  * @return A pointer to the previous UTF-8 character.
-	  */
 	const char *prev(const char *c);
 }}
 

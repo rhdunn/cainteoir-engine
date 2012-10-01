@@ -8,4 +8,16 @@
 <> dc:subject "testcase-en"@en .
 <> dc:subject "testcase-uk"@en-GB .
 <> dc:subject "testcase-tw"@zh-TW .
+<> dc:subject "Holmes, Sherlock (Fictitious character) -- Fiction" .
+<> dc:subject "Private investigators -- England -- Fiction" .
+<> dc:subject "Detective and mystery stories" .
+<> dc:subject "England -- Fiction" .
+<> dc:subject "one" .
+<> dc:subject "two" .
+<> dc:subject "three" .
+<> dc:subject "four five" .
+<> dc:subject "six" .
+<> dc:subject "seven" .
+<> dc:subject "eight-nine" .
+<> dc:subject "ten" .
 <> tts:mimetype "@mimetype@" .

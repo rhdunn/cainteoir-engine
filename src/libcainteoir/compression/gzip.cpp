@@ -25,7 +25,7 @@
 #include <zlib.h>
 #include <stdexcept>
 
-std::shared_ptr<cainteoir::buffer> inflateBuffer(const cainteoir::buffer &compressed, uint32_t uncompressed, int window)
+static std::shared_ptr<cainteoir::buffer> inflateBuffer(const cainteoir::buffer &compressed, uint32_t uncompressed, int window)
 {
 	std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(uncompressed);
 
@@ -64,11 +64,25 @@ err:
 	}
 }
 
+/** @brief Inflate a zlib compressed data buffer.
+  *
+  * @param[in] data The data buffer to be decoded/decompressed.
+  * @param[in] size The size of the decoded/decompressed data buffer.
+  *
+  * @return The uncompressed data buffer.
+  */
 std::shared_ptr<cainteoir::buffer> cainteoir::inflate_zlib(const cainteoir::buffer &compressed, uint32_t uncompressed)
 {
 	return inflateBuffer(compressed, uncompressed, -MAX_WBITS);
 }
 
+/** @brief Inflate a gzip compressed data buffer.
+  *
+  * @param[in] data The data buffer to be decoded/decompressed.
+  * @param[in] size The size of the decoded/decompressed data buffer.
+  *
+  * @return The uncompressed data buffer.
+  */
 std::shared_ptr<cainteoir::buffer> cainteoir::inflate_gzip(const cainteoir::buffer &compressed, uint32_t uncompressed)
 {
 	uncompressed = *((uint32_t *)(compressed.end() - 4));

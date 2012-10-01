@@ -18,6 +18,8 @@ src/libcainteoir/parsers/html-entities.dat
 
 # build output:
 
+docs/api/
+
 data/languages.rdf.gz
 
 src/libcainteoir/libcainteoir.a
@@ -28,6 +30,7 @@ src/apps/metadata/metadata
 src/apps/tagcloud/tagcloud
 src/apps/doc2doc/doc2doc
 
+tests/buffer
 tests/rdfmodel
 tests/rdfquery
 tests/ntriple_formatter
@@ -40,9 +43,14 @@ tests/utf8
 tests/parsetext
 tests/mimetype
 
-# docs output:
+# docs/phonemes output:
 
-docs/implementation-status/*.html
+README.html
+docs/*.html
+docs/*/*.html
+docs/implementation-status/csv2html.stamp
+data/phonemes/*.html
+data/phonemes/*/*.html
 
 # autotools output:
 

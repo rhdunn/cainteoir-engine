@@ -1,4 +1,5 @@
 toc-entry [] depth=0 title="""Test File"""
+anchor []
 begin-context list
 begin-context list-item
 text(4): """• """

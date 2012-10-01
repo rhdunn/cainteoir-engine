@@ -1,6 +1,6 @@
 /* RDF query tests.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2012 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,8 +18,11 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/document.hpp>
+#include <cainteoir/stopwatch.hpp>
 #include <iostream>
 #include <cassert>
 #include <cstdlib>
@@ -47,14 +50,6 @@ void match_(const rdf::literal &a, const rdf::literal &b, const char *ref, const
 }
 
 #define match(a, b) match_(a, b, #a " == " #b, __FILE__, __LINE__)
-
-struct rdfdoc : public rdf::graph
-{
-	rdfdoc(const char *filename)
-	{
-		auto reader = cainteoir::createDocumentReader(filename, *this, std::string());
-	}
-};
 
 bool select_all(const std::shared_ptr<const rdf::triple> &aStatement)
 {
@@ -137,45 +132,57 @@ TEST_CASE("rql::matches")
 	assert(!rql::matches(rql::subject,   rdf::dc("creator"))(g.back()));
 	assert(!rql::matches(rql::predicate, rdf::rdf("label"))(g.back()));
 	assert(!rql::matches(rql::object,    rdf::rdf("Class"))(g.back()));
+
+	// expression templates:
+
+	assert((rql::subject   == rdf::dc("title"))(g.back()));
+	assert((rql::predicate == rdf::rdf("type"))(g.back()));
+	assert((rql::object    == rdf::rdf("Property"))(g.back()));
+
+	assert(!(rql::subject   == rdf::dc("creator"))(g.back()));
+	assert(!(rql::predicate == rdf::rdf("label"))(g.back()));
+	assert(!(rql::object    == rdf::rdf("Class"))(g.back()));
 }
 
-TEST_CASE("rql::select(graph, selector, results)")
+TEST_CASE("rql::both")
 {
-	rdfdoc dcterms("src/schema/dcterms.rdf");
-	assert(dcterms.size() == 867);
+	rdf::graph g;
+	assert(g.statement(rdf::dc("title"), rdf::rdf("type"), rdf::rdf("Property")));
 
-	rql::results a;
-	rql::select(dcterms, select_all, a);
-	assert(a.size() == 867);
-	assert(!a.empty());
+	assert(rql::both(rql::matches(rql::subject,   rdf::dc("title")),
+	                 rql::matches(rql::predicate, rdf::rdf("type")))(g.back()));
+	assert(rql::both(rql::matches(rql::predicate, rdf::rdf("type")),
+	                 rql::matches(rql::subject,   rdf::dc("title")))(g.back()));
 
-	rql::results b;
-	rql::select(dcterms, select_none, b);
-	assert(b.size() == 0);
-	assert(b.empty());
+	assert(!rql::both(rql::matches(rql::subject,   rdf::dcterms("title")),
+	                  rql::matches(rql::predicate, rdf::rdf("type")))(g.back()));
+	assert(!rql::both(rql::matches(rql::subject,   rdf::dc("title")),
+	                  rql::matches(rql::predicate, rdf::rdf("range")))(g.back()));
 
-	rql::results c;
-	rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")), c);
-	assert(c.size() == 9);
-	assert(!c.empty());
+	// expression templates:
 
-	match(rql::subject(c.front()), rdf::dcterms("title"));
-	match(rql::predicate(c.front()), rdf::rdfs("label"));
-	match(rql::object(c.front()), rdf::uri(std::string(), std::string()));
-	assert(rql::value(c.front()) == "Title");
+	assert((rql::subject   == rdf::dc("title") && rql::predicate == rdf::rdf("type"))(g.back()));
+	assert((rql::predicate == rdf::rdf("type") && rql::subject   == rdf::dc("title"))(g.back()));
 
-	match(rql::subject(c.back()), rdf::dcterms("title"));
-	match(rql::predicate(c.back()), rdf::rdfs("subPropertyOf"));
-	match(rql::object(c.back()), rdf::dc("title"));
-	assert(rql::value(c.back()) == std::string());
+	assert(!(rql::subject == rdf::dcterms("title") && rql::predicate == rdf::rdf("type"))(g.back()));
+	assert(!(rql::subject == rdf::dc("title")      && rql::predicate == rdf::rdf("range"))(g.back()));
 }
 
 TEST_CASE("rql::select(graph, selector, value)")
 {
-	rdfdoc dcterms("src/schema/dcterms.rdf");
+	rdf::graph dcterms;
+	auto reader = cainteoir::createDocumentReader("src/schema/dcterms.rdf", dcterms, std::string());
 	assert(dcterms.size() == 867);
 
-	rql::results a = rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")));
+	rql::results all = rql::select(dcterms, select_all);
+	assert(all.size() == 867);
+	assert(!all.empty());
+
+	rql::results none = rql::select(dcterms, select_none);
+	assert(none.size() == 0);
+	assert(none.empty());
+
+	rql::results a = rql::select(dcterms, rql::subject == rdf::dcterms("title"));
 	assert(a.size() == 9);
 	assert(!a.empty());
 
@@ -189,19 +196,19 @@ TEST_CASE("rql::select(graph, selector, value)")
 	match(rql::object(a.back()), rdf::dc("title"));
 	assert(rql::value(a.back()) == std::string());
 
-	rql::results b = rql::select(dcterms, rql::matches(rql::predicate, rdf::dcterms("issued")));
+	rql::results b = rql::select(dcterms, rql::predicate == rdf::dcterms("issued"));
 	assert(b.size() == 98);
 	assert(!b.empty());
 
-	rql::results c = rql::select(dcterms, rql::matches(rql::object, rdf::rdf("Property")));
+	rql::results c = rql::select(dcterms, rql::object == rdf::rdf("Property"));
 	assert(c.size() == 55);
 	assert(!c.empty());
 
-	rql::results d = rql::select(dcterms, rql::matches(rql::object, rdf::rdf("Class")));
+	rql::results d = rql::select(dcterms, rql::object == rdf::rdf("Class"));
 	assert(d.size() == 0);
 	assert(d.empty());
 
-	rql::results e = rql::select(a, rql::matches(rql::predicate, rdf::rdf("type")));
+	rql::results e = rql::select(a, rql::predicate == rdf::rdf("type"));
 	assert(e.size() == 1);
 	assert(!e.empty());
 
@@ -213,42 +220,86 @@ TEST_CASE("rql::select(graph, selector, value)")
 
 TEST_CASE("rql::contains")
 {
-	rdfdoc dcterms("src/schema/dcterms.rdf");
+	rdf::graph dcterms;
+	auto reader = cainteoir::createDocumentReader("src/schema/dcterms.rdf", dcterms, std::string());
 	assert(dcterms.size() == 867);
 
-	rql::results a = rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")));
+	rql::results a = rql::select(dcterms, rql::subject == rdf::dcterms("title"));
 	assert(a.size() == 9);
 	assert(!a.empty());
 
-	assert(rql::contains(dcterms, rql::matches(rql::subject, rdf::dcterms("title"))));
-	assert(!rql::contains(dcterms, rql::matches(rql::subject, rdf::dc("title"))));
+	assert(rql::contains(dcterms,  rql::subject == rdf::dcterms("title")));
+	assert(!rql::contains(dcterms, rql::subject == rdf::dc("title")));
 
-	assert(rql::contains(a, rql::matches(rql::subject, rdf::dcterms("title"))));
-	assert(!rql::contains(a, rql::matches(rql::subject, rdf::dcterms("creator"))));
+	assert(rql::contains(a,  rql::subject == rdf::dcterms("title")));
+	assert(!rql::contains(a, rql::subject == rdf::dcterms("creator")));
 }
 
 TEST_CASE("rql::select_value")
 {
-	rdfdoc dcterms("src/schema/dcterms.rdf");
+	rdf::graph dcterms;
+	auto reader = cainteoir::createDocumentReader("src/schema/dcterms.rdf", dcterms, std::string());
 	assert(dcterms.size() == 867);
 
-	rql::results a = rql::select(dcterms, rql::matches(rql::subject, rdf::dcterms("title")));
+	rql::results a = rql::select(dcterms, rql::subject == rdf::dcterms("title"));
 	assert(a.size() == 9);
 	assert(!a.empty());
 
-	assert(rql::select_value<std::string>(a, rql::matches(rql::predicate, rdf::rdfs("label")))
+	assert(rql::select_value<std::string>(a, rql::predicate == rdf::rdfs("label"))
 	       == "Title");
 
-	assert(rql::select_value<std::string>(a, rql::matches(rql::predicate, rdf::skos("prefLabel")))
+	assert(rql::select_value<std::string>(a, rql::predicate == rdf::skos("prefLabel"))
 	       == "");
 
 	assert(rql::select_value<std::string>(dcterms,
-	                                     rql::both(rql::matches(rql::subject, rdf::dcterms("creator")),
-	                                               rql::matches(rql::predicate, rdf::rdfs("label"))))
+	       rql::subject == rdf::dcterms("creator") && rql::predicate == rdf::rdfs("label"))
 	       == "Creator");
 
 	assert(rql::select_value<std::string>(dcterms,
-	                                     rql::both(rql::matches(rql::subject, rdf::dcterms("creator")),
-	                                               rql::matches(rql::predicate, rdf::skos("prefLabel"))))
+	       rql::subject == rdf::dcterms("creator") && rql::predicate == rdf::skos("prefLabel"))
 	       == "");
+}
+
+TEST_CASE("performance")
+{
+	// Load Time Performance
+
+	cainteoir::stopwatch load_time;
+	rdf::graph data;
+	auto reader = cainteoir::createDocumentReader("data/languages.rdf.gz", data, std::string());
+
+	printf("... ... load time: %G\n", load_time.elapsed());
+	assert(data.size() == 35609);
+
+	// Select Performance
+
+	cainteoir::stopwatch select1_time;
+	rql::results languages = rql::select(data,
+	                                     rql::predicate == rdf::rdf("type") &&
+	                                     rql::object    == rdf::iana("Language"));
+
+	printf("... ... select(_, predicate, object) as languages time: %G\n", select1_time.elapsed());
+	assert(languages.size() == 7541);
+
+	// Select Performance : Subject
+	//
+	// This tests the performance of selecting the triples for a large number
+	// of subjects. This is a typical use case:
+	//    1.  Perform an rql::select to find a set of subjects.
+	//    2.  Perform an rql::select on each subject.
+	//
+	// This highlights that doing step (2) is slow for large graphs. Intuitively
+	// this makes sense, as it has O(N^2) complexity when the graph is stored
+	// as a set of triples.
+
+	cainteoir::stopwatch select2_time;
+	int labels = 0;
+	for (auto &lang : languages)
+	{
+		rql::results statements = rql::select(data, rql::subject == rql::subject(lang));
+		auto id   = rql::select_value<std::string>(statements, rql::predicate == rdf::rdf("value"));
+		auto name = rql::select_value<std::string>(statements, rql::predicate == rdf::dcterms("title"));
+	}
+
+	printf("... ... select(subject, _, _) on each language time: %G\n", select2_time.elapsed());
 }
