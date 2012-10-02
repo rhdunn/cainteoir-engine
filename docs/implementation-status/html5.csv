@@ -23,7 +23,7 @@
 4.4.3,nav,,no,no,
 4.4.4,article,,no,no,
 4.4.5,aside,,no,no,
-4.4.6,h1 - h6,,0.1,0.1,
+4.4.6,h1 - h6,,0.7,0.7,presentation: 0.1; table of contents: 0.7
 4.4.7,hgroup,,no,no,
 4.4.8,header,,no,no,
 4.4.9,footer,,no,no,
