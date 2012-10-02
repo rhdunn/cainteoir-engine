@@ -14,7 +14,7 @@ HTML,4.0-5.0,html.csv,*0.1,*0.1,*0.1,no,
 MHTML,RFC2557,mime.csv,*0.3,*0.3,0.3,na,Microsoft single-file saved HTML page.
 # MathML
 # ODF/text
-PDF,1.2-1.7,,*0.8,no,*0.8,no,using the poppler library
+PDF,1.2-1.7,,*0.8,0.8,*0.8,0.8,using the poppler library
 Plain Text,,,0.1,0.1,na,na,
 RDF/XML,2004/02/10,rdfxml.csv,*0.1,na,*0.1,na,
 RSS,1.0,rss.csv,*0.1,no,0.1,na,
