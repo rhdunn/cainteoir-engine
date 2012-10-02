@@ -30,8 +30,8 @@
 2.4,spine,,0.1,0.1,
 2.4,spine/@toc,,0.4,0.4,Navigation Control File
 2.4,spine/itemref,,0.1,0.1,
-2.5,tours,,no,no,
-2.5,tours/tour,,no,no,
-2.5,tours/tour/site,,no,no,
-2.6,guide,,no,no,
-2.6,guide/reference,,no,no,
+2.5,tours,,na,na,Deprecated
+2.5,tours/tour,,na,na,Deprecated
+2.5,tours/tour/site,,na,na,Deprecated
+2.6,guide,,na,na,Deprecated
+2.6,guide/reference,,na,na,Deprecated
