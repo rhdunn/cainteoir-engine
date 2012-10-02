@@ -7,8 +7,8 @@
 
 # title,version,url,implemented,tts,rdf,toc,comments
 
-HTML,4.0-4.01,html4.csv,*0.1,*0.1,*0.1,0.7,Includes XHTML 1.0-1.1
-HTML,5.0,html5.csv,*0.1,*0.1,*0.1,*0.7,HTML 5.0 Working Draft 2011/05/25.
+HTML,4.0-4.01,html4.csv,*0.1,*0.1,0.1,0.7,Includes XHTML 1.0-1.1
+HTML,5.0,html5.csv,*0.1,*0.1,0.1,*0.7,HTML 5.0 Working Draft 2011/05/25.
 HTML,2011/12/16,html-whatwg.csv,*0.1,*0.1,*0.1,*0.7,WHATWG HTML Living Standard.
 meta,,html-meta.csv,*0.8,na,*0.8,na,meta tag metadata properties
 Ruby,,ruby.csv,no,no,no,na,
