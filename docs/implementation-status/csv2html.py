@@ -12,6 +12,11 @@ def status(value):
 		return ('inprogress', value.replace('*', ''))
 	return ('success', value)
 
+def status_impl(value):
+	x, c = value.split('/')
+	a, b = status(x)
+	return (a, b, c)
+
 def url(value):
 	if value.endswith('.csv'):
 		return value.replace('.csv', '.html')
@@ -67,6 +72,12 @@ def parse_csv(filename):
 							"toc": status(s[6]),
 							"comments": s[7]
 						})
+					elif data['type'] == 'formats':
+						data['support'].append({
+							"title": s[0],
+							"url": url(s[1]),
+							"versions": [status_impl(x) for x in s[2:]],
+						})
 				except ValueError:
 					raise Exception('line "%s" contains too many \',\'s' % line)
 	return ref, data
@@ -83,7 +94,7 @@ def print_url(data, ref, classname=None):
 		else:
 			f.write('\t\t<td><a href="%s">%s</a></td>\n' % (data['url'], data[ref].replace(' ', '&#xA0;')))
 
-def print_status(data, ref):
+def print_status(data, ref=None):
 	status, label = data[ref]
 	f.write('\t\t<td class="%s">%s</td>\n' % (status, label))
 
@@ -124,27 +135,32 @@ for ref, spec in specs.items():
 			f.write('  - { title: References , url: "#references" }\n')
 		f.write('---\n')
 		f.write('<h1>%s</h1>\n' % title)
-		f.write('<h2 id="status">Implementation Status</h2>\n')
+		if spec['type'] != 'formats':
+			f.write('<h2 id="status">Implementation Status</h2>\n')
 		f.write('<table style="width: 100%;">\n')
-		f.write('\t<tr>\n')
-		if spec['type'] == 'spec':
-			f.write('\t\t<th width= "5%">Section</th>\n')
-			f.write('\t\t<th width="25%">Title</th>\n')
-			f.write('\t\t<th width="10%">Implemented</th>\n')
-			f.write('\t\t<th width="10%">Tests</th>\n')
-			f.write('\t\t<th width="50%">Comments</th>\n')
-		elif spec['type'] == 'format':
-			f.write('\t\t<th width="10%">Name</th>\n')
-			f.write('\t\t<th width="10%">Version</th>\n')
-			f.write('\t\t<th width="10%">Text</th>\n')
-			f.write('\t\t<th width="10%">Metadata</th>\n')
-			f.write('\t\t<th width="10%">Table of Content</th>\n')
-			f.write('\t\t<th width="50%">Comments</th>\n')
+		if spec['type'] == 'formats':
+			for i in range(0, 9):
+				f.write('\t\t<col width="10%"/>\n')
 		else:
-			f.write('\t\t<th width= "5%">Version</th>\n')
-			f.write('\t\t<th width="10%">Implemented</th>\n')
-			f.write('\t\t<th width="85%">Comments</th>\n')
-		f.write('\t</tr>\n')
+			f.write('\t<tr>\n')
+			if spec['type'] == 'spec':
+				f.write('\t\t<th width= "5%">Section</th>\n')
+				f.write('\t\t<th width="25%">Title</th>\n')
+				f.write('\t\t<th width="10%">Implemented</th>\n')
+				f.write('\t\t<th width="10%">Tests</th>\n')
+				f.write('\t\t<th width="50%">Comments</th>\n')
+			elif spec['type'] == 'format':
+				f.write('\t\t<th width="10%">Name</th>\n')
+				f.write('\t\t<th width="10%">Version</th>\n')
+				f.write('\t\t<th width="10%">Text</th>\n')
+				f.write('\t\t<th width="10%">Metadata</th>\n')
+				f.write('\t\t<th width="10%">Table of Content</th>\n')
+				f.write('\t\t<th width="50%">Comments</th>\n')
+			else:
+				f.write('\t\t<th width= "5%">Version</th>\n')
+				f.write('\t\t<th width="10%">Implemented</th>\n')
+				f.write('\t\t<th width="85%">Comments</th>\n')
+			f.write('\t</tr>\n')
 		for data in spec['support']:
 			f.write('\t<tr>\n')
 			if spec['type'] == 'spec':
@@ -160,6 +176,10 @@ for ref, spec in specs.items():
 				print_status(data, 'rdf')
 				print_status(data, 'toc')
 				f.write('\t\t<td>%s</td>\n' % data['comments'])
+			elif spec['type'] == 'formats':
+				print_url(data, 'title')
+				for status, label, impl in data['versions']:
+					f.write('\t\t<td class="%s" width="10%%" title="Supported since %s">%s</td>\n' % (status, impl, label))
 			else:
 				print_url(data, 'version')
 				print_status(data, 'implemented')
