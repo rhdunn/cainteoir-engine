@@ -1,7 +1,7 @@
 @type,format
-@name,MIME
+@name,RFC
 @version,
-@references,rfc822 rfc1521 rfc2387 rfc2557
+@references,
 @copyright,Copyright (C) 2012 Reece H. Dunn
 @license,http://creativecommons.org/licenses/by-sa/2.0/uk/
 
@@ -9,6 +9,5 @@
 
 RFC,822,rfc822.csv,*0.2,*0.2,*0.2,na,email
 RFC,1521,rfc1521.csv,*0.3,*0.3,na,na,Content-Type / Content-Transfer-Encoding
-RFC,2387,rfc2387.csv,*0.2,0.2,na,na,multipart/related
+RFC,2387,rfc2387.csv,*0.2,*0.2,na,na,multipart/related
 RFC,2557,rfc2557.csv,*0.2,*0.2,na,na,mhtml
-HTML,4.0-5.0,html.csv,*0.1,*0.1,*0.1,*0.7,

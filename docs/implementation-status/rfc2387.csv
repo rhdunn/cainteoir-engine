@@ -1,0 +1,15 @@
+@type,spec
+@name,RFC
+@version,2387
+@references,rfc2387
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# section,title,url,implemented,tests,comments
+
+2,multipart/related,,0.2,0.2,
+3.1,type parameter,,no,no,
+3.2,start parameter,,no,no,
+3.3,start-info parameter,,no,no,
+3.4,Syntax,,no,no,
+4,Content-Disposition,,*0.2,*0.2,Ignored by multipart/related documents.
