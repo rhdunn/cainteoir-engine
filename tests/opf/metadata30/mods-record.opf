@@ -21,6 +21,6 @@
 -->
 <package xmlns="http://www.idpf.org/2007/opf" version="3.0" profile="http://www.idpf.org/epub/30/profile/package/">
 	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
-		<link rel="marc21xml-record" href="test.xml"/>
+		<link rel="mods-record" href="test.xml"/>
 	</metadata>
 </package>
