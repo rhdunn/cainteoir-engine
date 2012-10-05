@@ -2,7 +2,7 @@
 <!--
 	Test case for epub document metadata.
 
-	Copyright (C) 2012 Reece H. Dunn
+	Copyright (C) 2010-2011 Reece H. Dunn
 
 	This file is part of cainteoir-engine.
 
@@ -19,8 +19,14 @@
 	You should have received a copy of the GNU General Public License
 	along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" profile="http://www.idpf.org/epub/30/profile/package/">
 	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
-		<link rel="mods-record" href="test.xml"/>
+		<dc:title prefer="main">Main Title</dc:title>
+
+		<meta property="dcterms:title" id="main">Main Title</meta>
+		<meta about="#main" property="display-seq">2</meta>
+
+		<meta property="dcterms:title" id="coll">The Collection</meta>
+		<meta about="#coll" property="display-seq">1</meta>
 	</metadata>
 </package>

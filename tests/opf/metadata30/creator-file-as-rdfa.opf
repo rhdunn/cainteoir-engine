@@ -2,7 +2,7 @@
 <!--
 	Test case for epub document metadata.
 
-	Copyright (C) 2010-2012 Reece H. Dunn
+	Copyright (C) 2010-2011 Reece H. Dunn
 
 	This file is part of cainteoir-engine.
 
@@ -19,21 +19,11 @@
 	You should have received a copy of the GNU General Public License
 	along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" profile="http://www.idpf.org/epub/30/profile/package/">
 	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
 		<dc:creator opf:role="aut" opf:file-as="Bloggs, Jane" prefer="creator">Jane Bloggs</dc:creator>
-		<dc:creator opf:role="ill" opf:file-as="Bloggs, Joe" prefer="illustrator">Joe Bloggs</dc:creator>
 
 		<meta property="dcterms:creator" id="creator">Jane Bloggs</meta>
-		<meta refines="#creator" property="role" id="aut-role">aut</meta>
-		<meta refines="#aut-role" property="scheme" scheme="xsd:anyURI">http://id.loc.gov/vocabulary/relators</meta>
-
-		<meta property="dcterms:creator" id="illustrator">Joe Bloggs</meta>
-		<meta refines="#illustrator" property="role" id="ill-role">ill</meta>
-		<meta refines="#ill-role" property="scheme" scheme="xsd:anyURI">http://id.loc.gov/vocabulary/relators</meta>
-
-		<meta property="dcterms:creator" id="kim">Kim Bloggs</meta>
-		<meta refines="#kim" property="role" scheme="marc:relators">aut</meta>
-
+		<meta about="#creator" property="file-as">Bloggs, Jane</meta>
 	</metadata>
 </package>

@@ -49,14 +49,14 @@
 4.2.3,onix vocabulary,,0.11,0.11,http://www.editeur.org/ONIX/book/codelists/current.html#
 4.2.3,xsd vocabulary,,0.6,0.6,http://www.w3.org/2001/XMLSchema#
 4.2.4,@prefix,,0.4,0.4,
-4.3.2,alternate-script,,0.4,0.4,http://www.idpf.org/epub/vocab/package/#alternate-script
-4.3.2,display-seq,,0.4,0.4,http://www.idpf.org/epub/vocab/package/#display-seq
-4.3.2,file-as,,0.4,0.4,http://www.idpf.org/epub/vocab/package/#file-as
-4.3.2,group-position,,0.4,0.4,http://www.idpf.org/epub/vocab/package/#group-position
+4.3.2,alternate-script,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#alternate-script
+4.3.2,display-seq,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#display-seq
+4.3.2,file-as,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#file-as
+4.3.2,group-position,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#group-position
 4.3.2,identifier-type,,0.11,0.11,http://www.idpf.org/epub/vocab/package/#identifier-type
-4.3.2,meta-auth,,0.4,0.4,http://www.idpf.org/epub/vocab/package/#meta-auth
-4.3.2,role,,0.4,0.4,http://www.idpf.org/epub/vocab/package/#role
-4.3.2,title-type,,0.4,0.4,http://www.idpf.org/epub/vocab/package/#title-type
+4.3.2,meta-auth,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#meta-auth
+4.3.2,role,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#role
+4.3.2,title-type,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#title-type
 4.3.3,marc21xml-record,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#marc21xml-record
 4.3.3,mods-record,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#mods-record
 4.3.3,onix-record,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#onix-record

@@ -19,8 +19,9 @@
 	You should have received a copy of the GNU General Public License
 	along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" profile="http://www.idpf.org/epub/30/profile/package/">
 	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
-		<link rel="mods-record" href="test.xml"/>
+		<dc:identifier id="main">uen:isbn:1234567890</dc:identifier>
+		<meta about="#main" property="identifier-type" datatype="onix:codelist5">15</meta>
 	</metadata>
 </package>
