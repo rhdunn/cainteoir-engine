@@ -65,7 +65,7 @@
 4.3.3,marc21xml-record,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#marc21xml-record
 4.3.3,mods-record,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#mods-record
 4.3.3,onix-record,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#onix-record
-4.3.3,xml-signature,,0.4,no,http://www.idpf.org/epub/vocab/package/#xml-signature
+4.3.3,xml-signature,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#xml-signature
 4.3.3,xmp-record,,0.4,no,http://www.idpf.org/epub/vocab/package/#xmp-record
 4.3.4,cover-image,,no,no,http://www.idpf.org/epub/vocab/package/#cover-image
 4.3.4,mathml,,no,no,http://www.idpf.org/epub/vocab/package/#mathml
