@@ -44,7 +44,7 @@
 3.4.16,bindings/mediaType,,na,na,Custom content handlers are not supported.
 4.2.2,default vocabulary,,0.4,0.4,http://idpf.org/epub/vocab/package/#
 4.2.3,dcterms vocabulary,,0.6,0.6,http://purl.org/dc/terms/
-4.2.3,marc vocabulary,,no,no,http://id.loc.gov/vocabulary/
+4.2.3,marc vocabulary,,0.11,0.11,http://id.loc.gov/vocabulary/
 4.2.3,media vocabulary,,0.6,0.6,http://www.idpf.org/epub/vocab/overlays/#
 4.2.3,onix vocabulary,,0.11,0.11,http://www.editeur.org/ONIX/book/codelists/current.html#
 4.2.3,xsd vocabulary,,0.6,0.6,http://www.w3.org/2001/XMLSchema#

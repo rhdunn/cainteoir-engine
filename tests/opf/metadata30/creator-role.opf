@@ -31,5 +31,9 @@
 		<meta property="dcterms:creator" id="illustrator">Joe Bloggs</meta>
 		<meta about="#illustrator" property="role" id="ill-role">ill</meta>
 		<meta about="#ill-role" property="scheme" datatype="xsd:anyURI">http://id.loc.gov/vocabulary/relators</meta>
+
+		<meta property="dcterms:creator" id="kim">Kim Bloggs</meta>
+		<meta about="#kim" property="role" datatype="marc:relators">aut</meta>
+
 	</metadata>
 </package>

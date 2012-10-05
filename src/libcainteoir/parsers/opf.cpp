@@ -527,6 +527,7 @@ opf_document_reader::opf_document_reader(const std::shared_ptr<xml::reader> &aRe
 				<< rdf::ns("dcterms", rdf::dcterms.href)
 				<< rdf::media
 				<< rdf::onix
+				<< rdf::marc
 				<< rdf::xsd;
 		else if (aReader->context() == &opf::prefix_attr)
 			aPrimaryMetadata.add_prefix(aReader->nodeValue().str());
