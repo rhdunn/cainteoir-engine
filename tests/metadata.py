@@ -240,6 +240,7 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/mods-record.opf', 'result': 'opf/metadata30/mods-record.n3'},
 			{'test': 'opf/metadata30/onix-record.opf', 'result': 'opf/metadata30/onix-record.n3'},
 			{'test': 'opf/metadata30/xml-signature.opf', 'result': 'opf/metadata30/xml-signature.n3'},
+			{'test': 'opf/metadata30/xmp-record.opf', 'result': 'opf/metadata30/xmp-record.n3'},
 		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',

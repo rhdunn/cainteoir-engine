@@ -1,0 +1,5 @@
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix pkg: <http://www.idpf.org/epub/vocab/package/#> .
+
+<> pkg:xmp-record <test.xml> .
+<> tts:mimetype "application/oebps-package+xml" .
