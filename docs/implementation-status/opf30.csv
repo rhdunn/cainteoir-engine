@@ -62,12 +62,12 @@
 4.3.3,onix-record,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#onix-record
 4.3.3,xml-signature,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#xml-signature
 4.3.3,xmp-record,,0.4,0.11,http://www.idpf.org/epub/vocab/package/#xmp-record
-4.3.4,cover-image,,no,no,http://www.idpf.org/epub/vocab/package/#cover-image
-4.3.4,mathml,,no,no,http://www.idpf.org/epub/vocab/package/#mathml
-4.3.4,nav,,no,no,http://www.idpf.org/epub/vocab/package/#nav
-4.3.4,remote-resources,,no,no,http://www.idpf.org/epub/vocab/package/#remote-resources
-4.3.4,scripted,,no,no,http://www.idpf.org/epub/vocab/package/#scripted
-4.3.4,svg,,no,no,http://www.idpf.org/epub/vocab/package/#svg
-4.3.4,switch,,no,no,http://www.idpf.org/epub/vocab/package/#switch
-4.3.5,page-spread-left,,no,no,http://www.idpf.org/epub/vocab/package/#page-spread-left
-4.3.5,page-spread-right,,no,no,http://www.idpf.org/epub/vocab/package/#page-spread-right
+4.3.4,cover-image,,na,na,Images are not supported.
+4.3.4,mathml,,na,na,MathML content is automatically detected.
+4.3.4,nav,,no,no,
+4.3.4,remote-resources,,na,na,Only the document is processed.
+4.3.4,scripted,,na,na,JavaScript/scripting is not supported.
+4.3.4,svg,,na,na,SVG content is automatically detected.
+4.3.4,switch,,na,na,epub:switch content is automatically detected.
+4.3.5,page-spread-left,,na,na,Content is not rendered paged.
+4.3.5,page-spread-right,,na,na,Content is not rendered paged.
