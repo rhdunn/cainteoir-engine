@@ -98,6 +98,7 @@ namespace cainteoir { namespace rdf
 	extern const ns opf;
 	extern const ns pkg;
 	extern const ns media;
+	extern const ns onix;
 	extern const ns ssml;
 	extern const ns smil;
 	extern const ns xhtml;

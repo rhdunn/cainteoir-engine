@@ -523,7 +523,11 @@ opf_document_reader::opf_document_reader(const std::shared_ptr<xml::reader> &aRe
 	{
 	case xml::reader::attribute:
 		if (aReader->context() == &opf::version_attr && aReader->nodeValue().str() == "3.0")
-			aPrimaryMetadata << rdf::ns("dcterms", rdf::dcterms.href) << rdf::media << rdf::xsd;
+			aPrimaryMetadata
+				<< rdf::ns("dcterms", rdf::dcterms.href)
+				<< rdf::media
+				<< rdf::onix
+				<< rdf::xsd;
 		else if (aReader->context() == &opf::prefix_attr)
 			aPrimaryMetadata.add_prefix(aReader->nodeValue().str());
 		break;
