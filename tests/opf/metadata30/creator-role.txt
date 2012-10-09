@@ -1,4 +1,5 @@
 ARTIST=Jane Bloggs
+ARTIST=Kim Bloggs
 GENRE=Vocal
 DATE=<DATETIME>
 PERFORMER=Cainteoir(TM) Text-to-Speech
