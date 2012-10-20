@@ -92,6 +92,8 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/em.xhtml', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/i.html', 'result': 'html/text-level-semantics/i.events'},
 			{'test': 'html/text-level-semantics/i.xhtml', 'result': 'html/text-level-semantics/i.events'},
+			{'test': 'html/text-level-semantics/span.html', 'result': 'html/text-level-semantics/span.events'},
+			{'test': 'html/text-level-semantics/span.xhtml', 'result': 'html/text-level-semantics/span.events'},
 			{'test': 'html/text-level-semantics/strong.html', 'result': 'html/text-level-semantics/strong.events'},
 			{'test': 'html/text-level-semantics/strong.xhtml', 'result': 'html/text-level-semantics/strong.events'},
 			{'test': 'html/text-level-semantics/sub.html', 'result': 'html/text-level-semantics/sub.events'},
