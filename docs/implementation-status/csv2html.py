@@ -24,7 +24,7 @@ def url(value):
 
 def parse_csv(filename):
 	ref  = filename.replace('.csv', '')
-	data = { "support": [] }
+	data = { "support": [], 'items': 0, 'success': 0, 'failure': 0, 'inprogress': 0, 'na': 0 }
 	with open(filename) as f:
 		for line in f:
 			line = line.replace('\n', '')
@@ -45,28 +45,32 @@ def parse_csv(filename):
 			else:
 				try:
 					s = line.split(',')
+					istatus, ivalue = None, None
 					if data['type'] == 'spec':
+						istatus, ivalue = status(s[3])
 						data['support'].append({
 							"section": s[0],
 							"title": s[1],
 							"url": url(s[2]),
-							"implemented": status(s[3]),
+							"implemented": (istatus, ivalue),
 							"tests": status(s[4]),
 							"comments": s[5]
 						})
 					elif data['type'] == 'standard':
+						istatus, ivalue = status(s[2])
 						data['support'].append({
 							"version": s[0],
 							"url": url(s[1]),
-							"implemented": status(s[2]),
+							"implemented": (istatus, ivalue),
 							"comments": s[3]
 						})
 					elif data['type'] == 'format':
+						istatus, ivalue = status(s[3])
 						data['support'].append({
 							"title": s[0],
 							"version": s[1],
 							"url": url(s[2]),
-							"implemented": status(s[3]),
+							"implemented": (istatus, ivalue),
 							"tts": status(s[4]),
 							"rdf": status(s[5]),
 							"toc": status(s[6]),
@@ -78,6 +82,9 @@ def parse_csv(filename):
 							"url": url(s[1]),
 							"versions": [status_impl(x) for x in s[2:]],
 						})
+					data['items'] = data['items'] + 1
+					if istatus:
+						data[istatus] = data[istatus] + 1
 				except ValueError:
 					raise Exception('line "%s" contains too many \',\'s' % line)
 	return ref, data
@@ -137,6 +144,14 @@ for ref, spec in specs.items():
 		f.write('<h1>%s</h1>\n' % title)
 		if spec['type'] != 'formats':
 			f.write('<h2 id="status">Implementation Status</h2>\n')
+		if spec['type'] != 'formats':
+			completed = int((float(spec['success'] + spec['na']) / spec['items']) * 100)
+			if completed == 0:
+				f.write('<div style="border: 1px solid #ddd;" class="na">%d%%</div>' % completed)
+			else:
+				f.write('<div style="border: 1px solid #ddd; padding: 0;" class="na">')
+				f.write('<div style="border: 1px solid #080; width: %d%%;" class="success">%d%%</div>' % (completed, completed))
+				f.write('</div>')
 		f.write('<table style="width: 100%;">\n')
 		if spec['type'] == 'formats':
 			for i in range(0, 9):
