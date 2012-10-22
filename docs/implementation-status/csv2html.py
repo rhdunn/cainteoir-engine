@@ -14,7 +14,11 @@ def status(value):
 
 def status_impl(value):
 	x, c = value.split('/')
-	a, b = status(x)
+	if c in ['no', 'na']:
+		b = x
+		a, _ = status(c)
+	else:
+		a, b = status(x)
 	return (a, b, c)
 
 def url(value):
