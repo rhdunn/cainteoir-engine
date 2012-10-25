@@ -122,11 +122,11 @@ for ref, spec in specs.items():
 		f.write('layout: rdfa\n')
 		if spec['type'] == 'spec':
 			title = '%s %s Specification Support' % (spec['name'], spec['version'])
-			f.write('title: %s &mdash; Cainteoir Text-to-Speech\n' % title)
+			f.write('title: %s\n' % title)
 			f.write('description: The state of %s %s specification implementation in the Cainteoir Text-to-Speech program.\n' % (spec['name'], spec['version']))
 		else:
 			title = '%s Support' % spec['name']
-			f.write('title: %s &mdash; Cainteoir Text-to-Speech\n' % title)
+			f.write('title: %s\n' % title)
 			f.write('description: The state of %s implementation in the Cainteoir Text-to-Speech program.\n' % spec['name'])
 		f.write('keywords: text to speech, tts, cainteoir, %s\n' % spec['name'].lower())
 		f.write('nav:\n')
