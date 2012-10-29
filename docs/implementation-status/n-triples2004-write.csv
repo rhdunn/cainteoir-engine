@@ -1,6 +1,7 @@
 @type,spec
 @category,metadata
 @name,N-Triples
+@parent,n-triples-write
 @version,2004/02/10
 @references,ntriples2004
 @copyright,Copyright (C) 2012 Reece H. Dunn

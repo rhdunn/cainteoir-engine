@@ -148,6 +148,9 @@ for ref, spec in specs.items():
 			f.write('  - { title: %s Support , url: %s.html }\n' % (categories[spec['category']], spec['category']))
 			if spec['version'] == '':
 				f.write('  - { title: %s }\n' % spec['name'])
+			elif 'parent' in spec.keys():
+				f.write('  - { title: %s , url: %s.html }\n' % (spec['name'], spec['parent']))
+				f.write('  - { title: %s }\n' % spec['version'])
 			else:
 				f.write('  - { title: %s , url: %s.html }\n' % (spec['name'], spec['name'].lower().replace('/', '')))
 				f.write('  - { title: %s }\n' % spec['version'])

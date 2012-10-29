@@ -1,6 +1,7 @@
 @type,spec
 @category,metadata
 @name,N-Quads
+@parent,n-quads-write
 @version,2008/07
 @references,ntriples2004 nquads2008
 @copyright,Copyright (C) 2012 Reece H. Dunn
