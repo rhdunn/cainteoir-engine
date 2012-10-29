@@ -332,7 +332,7 @@ const cainteoir::mime::mime_info &cainteoir::mime::mimetype_database::operator[]
 {
 	auto entry = database.find(mimetype);
 	if (entry == database.end())
-		throw std::runtime_error("mimetype entry not supported in the mimetype list");
+		throw std::runtime_error(std::string(mimetype) + ": mimetype not found in the mimetype database.");
 	return entry->second;
 }
 
