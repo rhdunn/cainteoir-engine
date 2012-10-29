@@ -31,6 +31,9 @@ def url(value):
 		return value.replace('.csv', '.html')
 	return value
 
+def comment(value):
+	return value.replace('<', '&lt;').replace('>', '&gt;')
+
 def parse_csv(filename):
 	ref  = filename.replace('.csv', '')
 	data = { "support": [], 'category': 'document', 'items': 0, 'success': 0, 'failure': 0, 'inprogress': 0, 'na': 0 }
@@ -63,7 +66,7 @@ def parse_csv(filename):
 							"url": url(s[2]),
 							"implemented": (istatus, ivalue),
 							"tests": status(s[4]),
-							"comments": s[5]
+							"comments": comment(s[5])
 						})
 					elif data['type'] == 'standard':
 						istatus, ivalue = status(s[2])
@@ -71,7 +74,7 @@ def parse_csv(filename):
 							"version": s[0],
 							"url": url(s[1]),
 							"implemented": (istatus, ivalue),
-							"comments": s[3]
+							"comments": comment(s[3])
 						})
 					elif data['type'] == 'format':
 						istatus, ivalue = status(s[3])
@@ -83,7 +86,7 @@ def parse_csv(filename):
 							"tts": status(s[4]),
 							"rdf": status(s[5]),
 							"toc": status(s[6]),
-							"comments": s[7]
+							"comments": comment(s[7])
 						})
 					elif data['type'] == 'formats':
 						data['support'].append({
