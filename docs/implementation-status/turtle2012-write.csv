@@ -42,7 +42,6 @@
 6.4,U+0022,,0.1,0.1,\"
 6.4,U+0027,,no,no,\'
 6.4,U+005C,,no,no,\\
-
-#3,File Extension,,no,no,*.nt
-#3,MIME Type,,no,no,text/plain
-#3,Character Encoding,,no,no,7-bit US-ASCII
+B,File Extension,,no,no,*.ttl
+B,MIME Type,,no,no,text/turtle
+B,Character Encoding,,0.1,0.1,UTF-8
