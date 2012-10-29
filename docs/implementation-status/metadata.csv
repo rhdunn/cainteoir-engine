@@ -11,4 +11,4 @@
 N-Triples,n-triples-write.csv,*2004/0.1
 N-Quads,n-quads-write.csv,*2008/0.1
 RDF/XML,rdfxml-write.csv,2004/no
-Turtle,turtle-write.csv,2012/no
+Turtle,turtle-write.csv,*2012/0.1
