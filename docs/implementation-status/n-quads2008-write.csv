@@ -8,8 +8,8 @@
 
 # section,title,url,implemented,tests,comments
 
-3,File Extension,,no,no,*.nt
-3,MIME Type,,no,no,text/plain
+3,File Extension,,no,no,*.nq
+3,MIME Type,,no,no,text/x-nquads
 3,Character Encoding,,no,no,7-bit US-ASCII
 3.1,Comment,,na,na,# ...
 3.1,Triple Form,,0.1,0.1,s p o .
