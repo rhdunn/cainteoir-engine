@@ -1,0 +1,11 @@
+@type,format
+@category,metadata
+@name,N-Quads
+@version,
+@references,nquads2008
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# title,url,implemented,tts,rdf,toc,comments
+
+N-Quads,2008/07,n-quads2008-write.csv,*0.1,na,*0.1,na,

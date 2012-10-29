@@ -8,7 +8,7 @@
 
 # title,url,version/since,...,version/since
 
-N-Triples,n-triples-write.csv,2004/no
-N-Quads,,2008/no
+N-Triples,n-triples-write.csv,*2004/0.1
+N-Quads,n-quads-write.csv,*2008/0.1
 RDF/XML,rdfxml-write.csv,2004/no
 Turtle,,2012/no
