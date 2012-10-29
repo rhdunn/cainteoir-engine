@@ -1,4 +1,4 @@
-<li id="rdfxml2004" rel="dct:references">
+<li id="ntriples2004" rel="dct:references">
 	<span typeof="foaf:Document" about="http://www.w3.org/TR/rdf-testcases/#ntriples">
 		<span property="dc:creator">Jan Grant</span>,
 		<span property="dc:creator">Dave Beckett</span>,

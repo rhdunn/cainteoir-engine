@@ -1,4 +1,4 @@
-<li id="rdfxml2004" rel="dct:references">
+<li id="nquads2008" rel="dct:references">
 	<span typeof="foaf:Document" about="http://sw.deri.org/2008/07/n-quads/">
 		<span property="dc:creator">Richard Cyganiak</span>,
 		<span property="dc:creator">Andreas Harth</span>,
