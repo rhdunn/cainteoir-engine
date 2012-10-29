@@ -156,7 +156,7 @@ for ref, spec in specs.items():
 		f.write('<h1>%s</h1>\n' % title)
 		if spec['type'] != 'formats':
 			f.write('<h2 id="status">Implementation Status</h2>\n')
-			completed = int((float(spec['success'] + spec['na']) / spec['items']) * 100)
+			completed = int((float(spec['success']) / (spec['items'] - spec['na'])) * 100)
 			if completed == 0:
 				f.write('<div style="border: 1px solid #ddd;" class="na">%d%%</div>' % completed)
 			else:
