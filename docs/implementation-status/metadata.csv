@@ -1,0 +1,14 @@
+@type,formats
+@category,metadata
+@name,Metadata Export
+@version,
+@references,
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# title,url,version/since,...,version/since
+
+N-Triples,,2004/no
+N-Quads,,2008/no
+RDF/XML,rdfxml-write.csv,2004/no
+Turtle,,2012/no

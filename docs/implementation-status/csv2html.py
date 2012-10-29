@@ -3,6 +3,11 @@
 import os
 import sys
 
+categories = {
+	'document': 'Document Format',
+	'metadata': 'Metadata Export',
+}
+
 def status(value):
 	if value == 'no':
 		return ('failure', 'No')
@@ -28,7 +33,7 @@ def url(value):
 
 def parse_csv(filename):
 	ref  = filename.replace('.csv', '')
-	data = { "support": [], 'items': 0, 'success': 0, 'failure': 0, 'inprogress': 0, 'na': 0 }
+	data = { "support": [], 'category': 'document', 'items': 0, 'success': 0, 'failure': 0, 'inprogress': 0, 'na': 0 }
 	with open(filename) as f:
 		for line in f:
 			line = line.replace('\n', '')
@@ -121,20 +126,23 @@ for ref, spec in specs.items():
 		f.write('---\n')
 		f.write('layout: rdfa\n')
 		if spec['type'] == 'spec':
-			title = '%s %s Specification Support' % (spec['name'], spec['version'])
+			title = '%s %s %s Support' % (spec['name'], spec['version'], categories[spec['category']])
 			f.write('title: %s\n' % title)
 			f.write('description: The state of %s %s specification implementation in the Cainteoir Text-to-Speech program.\n' % (spec['name'], spec['version']))
 		else:
-			title = '%s Support' % spec['name']
+			if spec['name'] == categories[spec['category']]:
+				title = '%s Support' % spec['name']
+			else:
+				title = '%s %s Support' % (spec['name'], categories[spec['category']])
 			f.write('title: %s\n' % title)
 			f.write('description: The state of %s implementation in the Cainteoir Text-to-Speech program.\n' % spec['name'])
 		f.write('keywords: text to speech, tts, cainteoir, %s\n' % spec['name'].lower())
 		f.write('nav:\n')
 		f.write('  - { title: Home , url: ../index.html }\n')
-		if ref == 'document':
-			f.write('  - { title: Document Format Support }\n')
+		if ref in categories.keys():
+			f.write('  - { title: %s Support }\n' % categories[ref])
 		else:
-			f.write('  - { title: Document Format Support , url: document.html }\n')
+			f.write('  - { title: %s Support , url: %s.html }\n' % (categories[spec['category']], spec['category']))
 			if spec['version'] == '':
 				f.write('  - { title: %s }\n' % spec['name'])
 			else:
@@ -148,7 +156,6 @@ for ref, spec in specs.items():
 		f.write('<h1>%s</h1>\n' % title)
 		if spec['type'] != 'formats':
 			f.write('<h2 id="status">Implementation Status</h2>\n')
-		if spec['type'] != 'formats':
 			completed = int((float(spec['success'] + spec['na']) / spec['items']) * 100)
 			if completed == 0:
 				f.write('<div style="border: 1px solid #ddd;" class="na">%d%%</div>' % completed)
