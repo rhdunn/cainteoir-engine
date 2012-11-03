@@ -92,7 +92,7 @@ namespace cainteoir
 	class document
 	{
 	public:
-		typedef std::list< std::shared_ptr<cainteoir::buffer> > list_type;
+		typedef std::list<document_item> list_type;
 		typedef list_type::const_iterator const_iterator;
 		typedef std::pair<const_iterator, const_iterator> range_type;
 
@@ -107,15 +107,13 @@ namespace cainteoir
 
 		size_t text_length() const { return mLength; }
 
-		void add(const std::shared_ptr<cainteoir::buffer> &text)
+		void add(const document_item &aItem)
 		{
-			mLength += text->size();
-			mChildren.push_back(text);
-		}
-
-		void add_anchor(const rdf::uri &aAnchor)
-		{
-			mAnchors[aAnchor.str()] = mChildren.size();
+			mChildren.push_back(aItem);
+			if (aItem.type & cainteoir::events::anchor)
+				mAnchors[aItem.anchor.str()] = mChildren.size();
+			if (aItem.type & cainteoir::events::text)
+				mLength += aItem.text->size();
 		}
 
 		size_t anchor(const rdf::uri &aAnchor) const
