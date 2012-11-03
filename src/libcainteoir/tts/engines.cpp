@@ -180,10 +180,10 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	, mFrom(aFrom)
 	, mTo(aTo)
 {
-	for (auto node = aFrom; node != aTo; ++node)
+	for (auto &node : *this)
 	{
-		if (node->type & cainteoir::events::text)
-			textLen += node->text->size();
+		if (node.type & cainteoir::events::text)
+			textLen += node.text->size();
 	}
 
 	started();
