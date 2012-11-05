@@ -211,6 +211,16 @@ AC_COMPILE_IFELSE(
 	 AC_MSG_ERROR([C++11 brace initialization of a class in a struct not supported by $CXX.])])
 AC_LANG_POP(C++)
 
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([if $CXX supports C++11 scoped enums])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[enum class E { A, B };]])],
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])
+	 AC_MSG_ERROR([C++11 scoped enums not supported by $CXX.])])
+AC_LANG_POP(C++)
+
 dnl ================================================================
 dnl C++11 library support
 dnl ================================================================

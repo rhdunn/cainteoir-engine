@@ -57,28 +57,28 @@ namespace html
 	static const xml::context::entry address_node    = { events::paragraph, events::emphasized }; // HTML§14.3.3
 	static const xml::context::entry acronym_node    = { events::unknown,   0 };
 	static const xml::context::entry applet_node     = { events::unknown,   0 };
-	static const xml::context::entry area_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry area_node       = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry article_node    = { events::unknown,   0 };
 	static const xml::context::entry aside_node      = { events::unknown,   0 };
 	static const xml::context::entry audio_node      = { events::unknown,   0 };
 	static const xml::context::entry b_node          = { events::span,      events::strong }; // HTML§14.3.4
-	static const xml::context::entry base_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry base_node       = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry basefont_node   = { events::unknown,   0 };
 	static const xml::context::entry bdi_node        = { events::unknown,   0 };
 	static const xml::context::entry bdo_node        = { events::unknown,   0 };
 	static const xml::context::entry big_node        = { events::unknown,   0 };
 	static const xml::context::entry blockquote_node = { events::unknown,   0 };
 	static const xml::context::entry body_node       = { events::unknown,   0 };
-	static const xml::context::entry br_node         = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry br_node         = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry button_node     = { events::unknown,   0 };
 	static const xml::context::entry canvas_node     = { events::unknown,   0 };
 	static const xml::context::entry caption_node    = { events::unknown,   0 };
 	static const xml::context::entry center_node     = { events::unknown,   0 };
 	static const xml::context::entry cite_node       = { events::span,      events::emphasized }; // HTML§14.3.4
 	static const xml::context::entry code_node       = { events::span,      events::monospace  }; // HTML§14.3.4
-	static const xml::context::entry col_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry col_node        = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry colgroup_node   = { events::unknown,   0 };
-	static const xml::context::entry command_node    = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry command_node    = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry data_node       = { events::unknown,   0 };
 	static const xml::context::entry datalist_node   = { events::unknown,   0 };
 	static const xml::context::entry dd_node         = { events::unknown,   0 };
@@ -90,7 +90,7 @@ namespace html
 	static const xml::context::entry dl_node         = { events::unknown,   0 };
 	static const xml::context::entry dt_node         = { events::unknown,   0 };
 	static const xml::context::entry em_node         = { events::span,      events::emphasized }; // HTML§14.3.4
-	static const xml::context::entry embed_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry embed_node      = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry fieldset_node   = { events::unknown,   0 };
 	static const xml::context::entry figcaption_node = { events::unknown,   0 };
 	static const xml::context::entry figure_node     = { events::unknown,   0 };
@@ -108,28 +108,28 @@ namespace html
 	static const xml::context::entry head_node       = { events::unknown,   0 };
 	static const xml::context::entry header_node     = { events::unknown,   0 };
 	static const xml::context::entry hgroup_node     = { events::unknown,   0 };
-	static const xml::context::entry hr_node         = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry hr_node         = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry html_node       = { events::unknown,   0 };
 	static const xml::context::entry i_node          = { events::span,      events::emphasized }; // HTML§14.3.4
 	static const xml::context::entry iframe_node     = { events::unknown,   0 };
-	static const xml::context::entry img_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry input_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry img_node        = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry input_node      = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry ins_node        = { events::unknown,   0 };
 	static const xml::context::entry isindex_node    = { events::unknown,   0 };
 	static const xml::context::entry kbd_node        = { events::unknown,   0 };
-	static const xml::context::entry keygen_node     = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry keygen_node     = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry label_node      = { events::unknown,   0 };
 	static const xml::context::entry legend_node     = { events::unknown,   0 };
 	static const xml::context::entry li_node         = { events::unknown,   0 };
-	static const xml::context::entry link_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry link_node       = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry map_node        = { events::unknown,   0 };
 	static const xml::context::entry mark_node       = { events::unknown,   0 };
 	static const xml::context::entry marquee_node    = { events::unknown,   0 };
 	static const xml::context::entry menu_node       = { events::list,      events::bullet }; // HTML§14.3.8
-	static const xml::context::entry meta_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry meta_node       = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry meter_node      = { events::unknown,   0 };
 	static const xml::context::entry nav_node        = { events::unknown,   0 };
-	static const xml::context::entry noad_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // ad-sense markup? (e.g. m.fanfiction.net)
+	static const xml::context::entry noad_node       = { events::unknown,   0, xml::begin_tag_type::open_close }; // ad-sense markup? (e.g. m.fanfiction.net)
 	static const xml::context::entry noframes_node   = { events::unknown,   0 };
 	static const xml::context::entry noscript_node   = { events::unknown,   0 };
 	static const xml::context::entry object_node     = { events::unknown,   0 };
@@ -138,7 +138,7 @@ namespace html
 	static const xml::context::entry option_node     = { events::unknown,   0 };
 	static const xml::context::entry output_node     = { events::unknown,   0 };
 	static const xml::context::entry p_node          = { events::paragraph, 0 };
-	static const xml::context::entry param_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry param_node      = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry pre_node        = { events::paragraph, events::monospace }; // HTML§14.3.3
 	static const xml::context::entry progress_node   = { events::unknown,   0 };
 	static const xml::context::entry q_node          = { events::unknown,   0 };
@@ -147,15 +147,15 @@ namespace html
 	static const xml::context::entry ruby_node       = { events::unknown,   0 };
 	static const xml::context::entry s_node          = { events::unknown,   0 };
 	static const xml::context::entry samp_node       = { events::unknown,   0 };
-	static const xml::context::entry script_node     = { events::unknown,   0, xml::context::hidden }; // HTML§14.3.1
+	static const xml::context::entry script_node     = { events::unknown,   0 }; // HTML§14.3.1 -- hidden
 	static const xml::context::entry section_node    = { events::unknown,   0 };
 	static const xml::context::entry select_node     = { events::unknown,   0 };
 	static const xml::context::entry small_node      = { events::unknown,   0 };
-	static const xml::context::entry source_node     = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry source_node     = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry span_node       = { events::unknown,   0 };
 	static const xml::context::entry strike_node     = { events::unknown,   0 };
 	static const xml::context::entry strong_node     = { events::span,      events::strong }; // HTML§14.3.4
-	static const xml::context::entry style_node      = { events::unknown,   0, xml::context::hidden }; // HTML§14.3.1
+	static const xml::context::entry style_node      = { events::unknown,   0 }; // HTML§14.3.1 -- hidden
 	static const xml::context::entry sub_node        = { events::span,      events::subscript }; // HTML§14.3.4
 	static const xml::context::entry summary_node    = { events::unknown,   0 };
 	static const xml::context::entry sup_node        = { events::span,      events::superscript }; // HTML§14.3.4
@@ -169,13 +169,13 @@ namespace html
 	static const xml::context::entry time_node       = { events::unknown,   0 };
 	static const xml::context::entry title_node      = { events::unknown,   0 };
 	static const xml::context::entry tr_node         = { events::row,       0 };
-	static const xml::context::entry track_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry track_node      = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry tt_node         = { events::span,      events::monospace }; // HTML§14.3.4
 	static const xml::context::entry u_node          = { events::span,      events::underline }; // HTML§14.3.4
 	static const xml::context::entry ul_node         = { events::list,      events::bullet }; // HTML§14.3.8
 	static const xml::context::entry var_node        = { events::span,      events::emphasized }; // HTML§14.3.4
 	static const xml::context::entry video_node      = { events::unknown,   0 };
-	static const xml::context::entry wbr_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry wbr_node        = { events::unknown,   0, xml::begin_tag_type::open_close }; // HTML§12.1.2
 
 	static const xml::context::entry charset_attr    = { events::unknown,   0 };
 	static const xml::context::entry content_attr    = { events::unknown,   0 };
@@ -564,8 +564,6 @@ static std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, 
 			context = &html::title_node;
 		else if (reader.context() == &html::meta_node)
 			parseMetaNode(reader, aSubject, aGraph);
-		else if (reader.context()->parse_type == xml::context::hidden)
-			skipNode(reader, reader.nodeName());
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == &html::head_node)
