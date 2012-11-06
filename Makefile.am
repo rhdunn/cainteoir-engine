@@ -218,6 +218,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	\
 	src/libcainteoir/parsers/parsers.hpp \
 	src/libcainteoir/parsers/html-entities.h \
+	src/libcainteoir/parsers/content.cpp \
 	src/libcainteoir/parsers/document.cpp \
 	src/libcainteoir/parsers/epub.cpp \
 	src/libcainteoir/parsers/mime.cpp \

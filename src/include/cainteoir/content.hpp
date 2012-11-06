@@ -30,6 +30,10 @@ namespace cainteoir
 		inherit,
 		block,
 		inlined,
+		list_item,
+		table,
+		table_row,
+		table_cell,
 		none,
 	};
 
@@ -105,7 +109,54 @@ namespace cainteoir
 			, font_size(0)
 		{
 		}
+
+		styles(const std::string &aName,
+		       cainteoir::display aDisplay,
+		       cainteoir::vertical_align aVerticalAlign,
+		       cainteoir::text_align aTextAlign,
+		       cainteoir::text_decoration aTextDecoration,
+		       cainteoir::font_style aFontStyle,
+		       cainteoir::font_variant aFontVariant,
+		       cainteoir::font_weight aFontWeight,
+		       const std::string &aFontFamily,
+		       int aFontSize)
+			: name(aName)
+			, display(aDisplay)
+			, vertical_align(aVerticalAlign)
+			, text_align(aTextAlign)
+			, text_decoration(aTextDecoration)
+			, font_style(aFontStyle)
+			, font_variant(aFontVariant)
+			, font_weight(aFontWeight)
+			, font_family(aFontFamily)
+			, font_size(aFontSize)
+		{
+		}
 	};
+
+	extern const styles unknown;
+	extern const styles paragraph;
+	extern const styles heading1;
+	extern const styles heading2;
+	extern const styles heading3;
+	extern const styles heading4;
+	extern const styles heading5;
+	extern const styles heading6;
+	extern const styles span;
+	extern const styles sentence;
+	extern const styles superscript;
+	extern const styles subscript;
+	extern const styles emphasized;
+	extern const styles strong;
+	extern const styles reduced;
+	extern const styles underlined;
+	extern const styles monospace;
+	extern const styles bullet_list;
+	extern const styles number_list;
+	extern const styles list_item;
+	extern const styles table;
+	extern const styles table_row;
+	extern const styles table_cell;
 }
 
 #endif
