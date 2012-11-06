@@ -162,6 +162,7 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/archive.hpp \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
+	src/include/cainteoir/content.hpp \
 	src/include/cainteoir/document.hpp \
 	src/include/cainteoir/encoding.hpp \
 	src/include/cainteoir/engines.hpp \
@@ -331,6 +332,11 @@ noinst_bin_PROGRAMS += tests/mimetype
 tests_mimetype_LDADD   = src/libcainteoir/libcainteoir.la
 tests_mimetype_SOURCES = tests/mimetype.cpp
 
+noinst_bin_PROGRAMS += tests/content
+
+tests_content_LDADD   = src/libcainteoir/libcainteoir.la
+tests_content_SOURCES = tests/content.cpp
+
 TEST_FILES = \
 	tests/epub/* \
 	tests/ncx/* \
@@ -360,5 +366,6 @@ check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/tur
 	python tests/xmlreader.py
 	python tests/metadata.py
 	python tests/vorbis-comments.py
+	tests/content
 	python tests/events.py
 	python tests/parsetext.py
