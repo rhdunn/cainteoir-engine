@@ -27,7 +27,8 @@ REGISTER_TESTSUITE("content");
 
 TEST_CASE("style defaults")
 {
-	cainteoir::styles styles;
+	cainteoir::styles styles("defaults");
+	assert(styles.name == "defaults");
 	assert(styles.display == cainteoir::display::inherit);
 	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
 	assert(styles.text_align == cainteoir::text_align::inherit);

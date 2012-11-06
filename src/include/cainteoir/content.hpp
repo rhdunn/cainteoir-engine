@@ -82,6 +82,7 @@ namespace cainteoir
 
 	struct styles
 	{
+		std::string name;
 		cainteoir::display display;
 		cainteoir::vertical_align vertical_align;
 		cainteoir::text_align text_align;
@@ -92,8 +93,9 @@ namespace cainteoir
 		std::string font_family;
 		int font_size;
 
-		styles()
-			: display(cainteoir::display::inherit)
+		styles(const std::string &aName)
+			: name(aName)
+			, display(cainteoir::display::inherit)
 			, vertical_align(cainteoir::vertical_align::inherit)
 			, text_align(cainteoir::text_align::inherit)
 			, text_decoration(cainteoir::text_decoration::inherit)
