@@ -38,6 +38,10 @@ TEST_CASE("style defaults")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - unknown")
@@ -53,6 +57,10 @@ TEST_CASE("style - unknown")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - paragraph")
@@ -68,6 +76,10 @@ TEST_CASE("style - paragraph")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family == "sans-serif");
 	assert(styles.font_size == 11);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - heading1")
@@ -83,6 +95,10 @@ TEST_CASE("style - heading1")
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
 	assert(styles.font_size == 24);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - heading2")
@@ -98,6 +114,10 @@ TEST_CASE("style - heading2")
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
 	assert(styles.font_size == 18);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - heading3")
@@ -113,6 +133,10 @@ TEST_CASE("style - heading3")
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
 	assert(styles.font_size == 11);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - heading4")
@@ -128,6 +152,10 @@ TEST_CASE("style - heading4")
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
 	assert(styles.font_size == 11);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - heading5")
@@ -143,6 +171,10 @@ TEST_CASE("style - heading5")
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
 	assert(styles.font_size == 11);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - heading6")
@@ -158,6 +190,10 @@ TEST_CASE("style - heading6")
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
 	assert(styles.font_size == 11);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - span")
@@ -173,6 +209,10 @@ TEST_CASE("style - span")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - sentence")
@@ -188,6 +228,10 @@ TEST_CASE("style - sentence")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - superscript")
@@ -203,6 +247,10 @@ TEST_CASE("style - superscript")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - subscript")
@@ -218,6 +266,10 @@ TEST_CASE("style - subscript")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - emphasized")
@@ -233,6 +285,10 @@ TEST_CASE("style - emphasized")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - strong")
@@ -248,6 +304,10 @@ TEST_CASE("style - strong")
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - reduced")
@@ -263,6 +323,10 @@ TEST_CASE("style - reduced")
 	assert(styles.font_weight == cainteoir::font_weight::normal);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - underlined")
@@ -278,6 +342,10 @@ TEST_CASE("style - underlined")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - monospace")
@@ -293,6 +361,10 @@ TEST_CASE("style - monospace")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family == "monospace");
 	assert(styles.font_size == 11);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - bullet_list")
@@ -308,6 +380,10 @@ TEST_CASE("style - bullet_list")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - number_list")
@@ -323,6 +399,10 @@ TEST_CASE("style - number_list")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - list_item")
@@ -338,6 +418,10 @@ TEST_CASE("style - list_item")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - table")
@@ -353,6 +437,10 @@ TEST_CASE("style - table")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - table_row")
@@ -368,6 +456,10 @@ TEST_CASE("style - table_row")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }
 
 TEST_CASE("style - table_cell")
@@ -383,4 +475,8 @@ TEST_CASE("style - table_cell")
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family.empty());
 	assert(styles.font_size == 0);
+	assert(styles.margin.left == -1);
+	assert(styles.margin.top == -1);
+	assert(styles.margin.right == -1);
+	assert(styles.margin.bottom == -1);
 }

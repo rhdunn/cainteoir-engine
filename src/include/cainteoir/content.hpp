@@ -84,6 +84,22 @@ namespace cainteoir
 		line_through,
 	};
 
+	struct margin
+	{
+		int left;
+		int top;
+		int right;
+		int bottom;
+
+		margin()
+			: left(-1)
+			, top(-1)
+			, right(-1)
+			, bottom(-1)
+		{
+		}
+	};
+
 	struct styles
 	{
 		std::string name;
@@ -96,6 +112,7 @@ namespace cainteoir
 		cainteoir::font_weight font_weight;
 		std::string font_family;
 		int font_size;
+		cainteoir::margin margin;
 
 		styles(const std::string &aName)
 			: name(aName)
@@ -119,7 +136,8 @@ namespace cainteoir
 		       cainteoir::font_variant aFontVariant,
 		       cainteoir::font_weight aFontWeight,
 		       const std::string &aFontFamily,
-		       int aFontSize)
+		       int aFontSize,
+		       const cainteoir::margin &aMargin)
 			: name(aName)
 			, display(aDisplay)
 			, vertical_align(aVerticalAlign)
@@ -130,6 +148,7 @@ namespace cainteoir
 			, font_weight(aFontWeight)
 			, font_family(aFontFamily)
 			, font_size(aFontSize)
+			, margin(aMargin)
 		{
 		}
 	};

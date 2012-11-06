@@ -35,6 +35,7 @@ const cainteoir::styles cainteoir::unknown =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::paragraph =
@@ -49,6 +50,7 @@ const cainteoir::styles cainteoir::paragraph =
 	cainteoir::font_weight::inherit,
 	"sans-serif",
 	11,
+	{},
 };
 
 const cainteoir::styles cainteoir::heading1 =
@@ -63,6 +65,7 @@ const cainteoir::styles cainteoir::heading1 =
 	cainteoir::font_weight::bold,
 	"sans-serif",
 	24,
+	{},
 };
 
 const cainteoir::styles cainteoir::heading2 =
@@ -77,6 +80,7 @@ const cainteoir::styles cainteoir::heading2 =
 	cainteoir::font_weight::bold,
 	"sans-serif",
 	18,
+	{},
 };
 
 const cainteoir::styles cainteoir::heading3 =
@@ -91,6 +95,7 @@ const cainteoir::styles cainteoir::heading3 =
 	cainteoir::font_weight::bold,
 	"sans-serif",
 	11,
+	{},
 };
 
 const cainteoir::styles cainteoir::heading4 =
@@ -105,6 +110,7 @@ const cainteoir::styles cainteoir::heading4 =
 	cainteoir::font_weight::bold,
 	"sans-serif",
 	11,
+	{},
 };
 
 const cainteoir::styles cainteoir::heading5 =
@@ -119,6 +125,7 @@ const cainteoir::styles cainteoir::heading5 =
 	cainteoir::font_weight::bold,
 	"sans-serif",
 	11,
+	{},
 };
 
 const cainteoir::styles cainteoir::heading6 =
@@ -133,6 +140,7 @@ const cainteoir::styles cainteoir::heading6 =
 	cainteoir::font_weight::bold,
 	"sans-serif",
 	11,
+	{},
 };
 
 const cainteoir::styles cainteoir::span =
@@ -147,6 +155,7 @@ const cainteoir::styles cainteoir::span =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::sentence =
@@ -161,6 +170,7 @@ const cainteoir::styles cainteoir::sentence =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::superscript =
@@ -175,6 +185,7 @@ const cainteoir::styles cainteoir::superscript =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::subscript =
@@ -189,6 +200,7 @@ const cainteoir::styles cainteoir::subscript =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::emphasized =
@@ -203,6 +215,7 @@ const cainteoir::styles cainteoir::emphasized =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::strong =
@@ -217,6 +230,7 @@ const cainteoir::styles cainteoir::strong =
 	cainteoir::font_weight::bold,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::reduced =
@@ -231,6 +245,7 @@ const cainteoir::styles cainteoir::reduced =
 	cainteoir::font_weight::normal,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::underlined =
@@ -245,6 +260,7 @@ const cainteoir::styles cainteoir::underlined =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::monospace =
@@ -259,6 +275,7 @@ const cainteoir::styles cainteoir::monospace =
 	cainteoir::font_weight::inherit,
 	"monospace",
 	11,
+	{},
 };
 
 const cainteoir::styles cainteoir::bullet_list =
@@ -273,6 +290,7 @@ const cainteoir::styles cainteoir::bullet_list =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::number_list =
@@ -287,6 +305,7 @@ const cainteoir::styles cainteoir::number_list =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::list_item =
@@ -301,6 +320,7 @@ const cainteoir::styles cainteoir::list_item =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::table =
@@ -315,6 +335,7 @@ const cainteoir::styles cainteoir::table =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::table_row =
@@ -329,6 +350,7 @@ const cainteoir::styles cainteoir::table_row =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
 
 const cainteoir::styles cainteoir::table_cell =
@@ -343,4 +365,5 @@ const cainteoir::styles cainteoir::table_cell =
 	cainteoir::font_weight::inherit,
 	"",
 	0,
+	{},
 };
