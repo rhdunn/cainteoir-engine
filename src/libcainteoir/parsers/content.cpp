@@ -22,6 +22,134 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/content.hpp>
+#include <stdexcept>
+
+cainteoir::size cainteoir::size::as(const size_units aUnits) const
+{
+	static constexpr float points_in_pica = 12;
+	static constexpr float points_in_inch = 72;
+	static constexpr float picas_in_inch = points_in_inch / points_in_pica;
+	static constexpr float centimeters_in_inch = 2.54;
+	static constexpr float centimeters_in_point = centimeters_in_inch / points_in_inch;
+	static constexpr float centimeters_in_pica = centimeters_in_inch / picas_in_inch;
+	static constexpr float millimeters_in_centimeter = 10;
+	static constexpr float millimeters_in_inch = centimeters_in_inch * millimeters_in_centimeter;
+	static constexpr float millimeters_in_point = millimeters_in_inch / points_in_inch;
+	static constexpr float millimeters_in_pica  = millimeters_in_inch / picas_in_inch;
+	static constexpr float pixels_in_inch = 96;
+	static constexpr float pixels_in_point = pixels_in_inch / points_in_inch;
+	static constexpr float pixels_in_pica = pixels_in_inch / picas_in_inch;
+	static constexpr float pixels_in_centimeter = pixels_in_inch / centimeters_in_inch;
+	static constexpr float pixels_in_millimeter = pixels_in_inch / millimeters_in_inch;
+
+	switch (units)
+	{
+	case size_units::millimeters:
+		switch (aUnits)
+		{
+		case size_units::millimeters:
+			return *this;
+		case size_units::centimeters:
+			return size(value / millimeters_in_centimeter, aUnits);
+		case size_units::inches:
+			return size(value / millimeters_in_inch, aUnits);
+		case size_units::points:
+			return size(value / millimeters_in_point, aUnits);
+		case size_units::picas:
+			return size(value / millimeters_in_pica, aUnits);
+		case size_units::pixels:
+			return size(value * pixels_in_millimeter, aUnits);
+		}
+		break;
+	case size_units::centimeters:
+		switch (aUnits)
+		{
+		case size_units::millimeters:
+			return size(value * millimeters_in_centimeter, aUnits);
+		case size_units::centimeters:
+			return *this;
+		case size_units::inches:
+			return size(value / centimeters_in_inch, aUnits);
+		case size_units::points:
+			return size(value / centimeters_in_point, aUnits);
+		case size_units::picas:
+			return size(value / centimeters_in_pica, aUnits);
+		case size_units::pixels:
+			return size(value * pixels_in_centimeter, aUnits);
+		}
+		break;
+	case size_units::inches:
+		switch (aUnits)
+		{
+		case size_units::millimeters:
+			return size(value * millimeters_in_inch, aUnits);
+		case size_units::centimeters:
+			return size(value * centimeters_in_inch, aUnits);
+		case size_units::inches:
+			return *this;
+		case size_units::points:
+			return size(value * points_in_inch, aUnits);
+		case size_units::picas:
+			return size(value * picas_in_inch, aUnits);
+		case size_units::pixels:
+			return size(value * pixels_in_inch, aUnits);
+		}
+		break;
+	case size_units::points:
+		switch (aUnits)
+		{
+		case size_units::millimeters:
+			return size(value * millimeters_in_point, aUnits);
+		case size_units::centimeters:
+			return size(value * centimeters_in_point, aUnits);
+		case size_units::inches:
+			return size(value / points_in_inch, aUnits);
+		case size_units::points:
+			return *this;
+		case size_units::picas:
+			return size(value / points_in_pica, aUnits);
+		case size_units::pixels:
+			return size(value * pixels_in_point, aUnits);
+		}
+		break;
+	case size_units::picas:
+		switch (aUnits)
+		{
+		case size_units::millimeters:
+			return size(value * millimeters_in_pica, aUnits);
+		case size_units::centimeters:
+			return size(value * centimeters_in_pica, aUnits);
+		case size_units::inches:
+			return size(value / picas_in_inch, aUnits);
+		case size_units::points:
+			return size(value * points_in_pica, aUnits);
+		case size_units::picas:
+			return *this;
+		case size_units::pixels:
+			return size(value * pixels_in_pica, aUnits);
+		}
+		break;
+	case size_units::pixels:
+		switch (aUnits)
+		{
+		case size_units::millimeters:
+			return size(value / pixels_in_millimeter, aUnits);
+		case size_units::centimeters:
+			return size(value / pixels_in_centimeter, aUnits);
+		case size_units::inches:
+			return size(value / pixels_in_inch, aUnits);
+		case size_units::points:
+			return size(value / pixels_in_point, aUnits);
+		case size_units::picas:
+			return size(value / pixels_in_pica, aUnits);
+		case size_units::pixels:
+			return *this;
+		}
+		break;
+	}
+
+	throw std::runtime_error("unable to convert to the specified units");
+}
 
 const cainteoir::styles cainteoir::unknown =
 {
@@ -34,7 +162,7 @@ const cainteoir::styles cainteoir::unknown =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -49,7 +177,7 @@ const cainteoir::styles cainteoir::paragraph =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"sans-serif",
-	11,
+	{ 11, cainteoir::size_units::points },
 	{},
 };
 
@@ -64,7 +192,7 @@ const cainteoir::styles cainteoir::heading1 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	24,
+	{ 24, cainteoir::size_units::points },
 	{},
 };
 
@@ -79,7 +207,7 @@ const cainteoir::styles cainteoir::heading2 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	18,
+	{ 18, cainteoir::size_units::points },
 	{},
 };
 
@@ -94,7 +222,7 @@ const cainteoir::styles cainteoir::heading3 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	11,
+	{ 11, cainteoir::size_units::points },
 	{},
 };
 
@@ -109,7 +237,7 @@ const cainteoir::styles cainteoir::heading4 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	11,
+	{ 11, cainteoir::size_units::points },
 	{},
 };
 
@@ -124,7 +252,7 @@ const cainteoir::styles cainteoir::heading5 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	11,
+	{ 11, cainteoir::size_units::points },
 	{},
 };
 
@@ -139,7 +267,7 @@ const cainteoir::styles cainteoir::heading6 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	11,
+	{ 11, cainteoir::size_units::points },
 	{},
 };
 
@@ -154,7 +282,7 @@ const cainteoir::styles cainteoir::span =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -169,7 +297,7 @@ const cainteoir::styles cainteoir::sentence =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -184,7 +312,7 @@ const cainteoir::styles cainteoir::superscript =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -199,7 +327,7 @@ const cainteoir::styles cainteoir::subscript =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -214,7 +342,7 @@ const cainteoir::styles cainteoir::emphasized =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -229,7 +357,7 @@ const cainteoir::styles cainteoir::strong =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -244,7 +372,7 @@ const cainteoir::styles cainteoir::reduced =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::normal,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -259,7 +387,7 @@ const cainteoir::styles cainteoir::underlined =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -274,7 +402,7 @@ const cainteoir::styles cainteoir::monospace =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"monospace",
-	11,
+	{ 11, cainteoir::size_units::points },
 	{},
 };
 
@@ -289,7 +417,7 @@ const cainteoir::styles cainteoir::bullet_list =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -304,7 +432,7 @@ const cainteoir::styles cainteoir::number_list =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -319,7 +447,7 @@ const cainteoir::styles cainteoir::list_item =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -334,7 +462,7 @@ const cainteoir::styles cainteoir::table =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -349,7 +477,7 @@ const cainteoir::styles cainteoir::table_row =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };
 
@@ -364,6 +492,6 @@ const cainteoir::styles cainteoir::table_cell =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"",
-	0,
+	{},
 	{},
 };

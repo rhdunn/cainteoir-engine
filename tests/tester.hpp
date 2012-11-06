@@ -113,6 +113,10 @@ namespace tester
 
 	BINARY_OP(==,equal)
 	BINARY_OP(!=,not_equal)
+	BINARY_OP(< ,less)
+	BINARY_OP(<=,less_equal)
+	BINARY_OP(> ,greater)
+	BINARY_OP(>=,greater_equal)
 
 #	undef BINARY_OP
 

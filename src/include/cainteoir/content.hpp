@@ -84,20 +84,43 @@ namespace cainteoir
 		line_through,
 	};
 
-	struct margin
+	enum class size_units : uint8_t
 	{
-		int left;
-		int top;
-		int right;
-		int bottom;
+		inherit,
+		millimeters,
+		centimeters,
+		inches,
+		points,
+		picas,
+		pixels,
+	};
 
-		margin()
-			: left(-1)
-			, top(-1)
-			, right(-1)
-			, bottom(-1)
+	struct size
+	{
+		float value;
+		const size_units units;
+
+		size()
+			: value(0)
+			, units(size_units::inherit)
 		{
 		}
+
+		size(float aValue, const size_units aUnits)
+			: value(aValue)
+			, units(aUnits)
+		{
+		}
+
+		size as(const size_units aUnits) const;
+	};
+
+	struct margin
+	{
+		size left;
+		size top;
+		size right;
+		size bottom;
 	};
 
 	struct styles
@@ -111,7 +134,7 @@ namespace cainteoir
 		cainteoir::font_variant font_variant;
 		cainteoir::font_weight font_weight;
 		std::string font_family;
-		int font_size;
+		cainteoir::size font_size;
 		cainteoir::margin margin;
 
 		styles(const std::string &aName)
@@ -123,7 +146,6 @@ namespace cainteoir
 			, font_style(cainteoir::font_style::inherit)
 			, font_variant(cainteoir::font_variant::inherit)
 			, font_weight(cainteoir::font_weight::inherit)
-			, font_size(0)
 		{
 		}
 
@@ -136,7 +158,7 @@ namespace cainteoir
 		       cainteoir::font_variant aFontVariant,
 		       cainteoir::font_weight aFontWeight,
 		       const std::string &aFontFamily,
-		       int aFontSize,
+		       const cainteoir::size &aFontSize,
 		       const cainteoir::margin &aMargin)
 			: name(aName)
 			, display(aDisplay)
