@@ -42,7 +42,7 @@ cainteoir::size cainteoir::size::as(const size_units aUnits) const
 	static constexpr float pixels_in_centimeter = pixels_in_inch / centimeters_in_inch;
 	static constexpr float pixels_in_millimeter = pixels_in_inch / millimeters_in_inch;
 
-	switch (units)
+	switch (mUnits)
 	{
 	case size_units::millimeters:
 		switch (aUnits)
@@ -50,98 +50,98 @@ cainteoir::size cainteoir::size::as(const size_units aUnits) const
 		case size_units::millimeters:
 			return *this;
 		case size_units::centimeters:
-			return size(value / millimeters_in_centimeter, aUnits);
+			return size(mValue / millimeters_in_centimeter, aUnits);
 		case size_units::inches:
-			return size(value / millimeters_in_inch, aUnits);
+			return size(mValue / millimeters_in_inch, aUnits);
 		case size_units::points:
-			return size(value / millimeters_in_point, aUnits);
+			return size(mValue / millimeters_in_point, aUnits);
 		case size_units::picas:
-			return size(value / millimeters_in_pica, aUnits);
+			return size(mValue / millimeters_in_pica, aUnits);
 		case size_units::pixels:
-			return size(value * pixels_in_millimeter, aUnits);
+			return size(mValue * pixels_in_millimeter, aUnits);
 		}
 		break;
 	case size_units::centimeters:
 		switch (aUnits)
 		{
 		case size_units::millimeters:
-			return size(value * millimeters_in_centimeter, aUnits);
+			return size(mValue * millimeters_in_centimeter, aUnits);
 		case size_units::centimeters:
 			return *this;
 		case size_units::inches:
-			return size(value / centimeters_in_inch, aUnits);
+			return size(mValue / centimeters_in_inch, aUnits);
 		case size_units::points:
-			return size(value / centimeters_in_point, aUnits);
+			return size(mValue / centimeters_in_point, aUnits);
 		case size_units::picas:
-			return size(value / centimeters_in_pica, aUnits);
+			return size(mValue / centimeters_in_pica, aUnits);
 		case size_units::pixels:
-			return size(value * pixels_in_centimeter, aUnits);
+			return size(mValue * pixels_in_centimeter, aUnits);
 		}
 		break;
 	case size_units::inches:
 		switch (aUnits)
 		{
 		case size_units::millimeters:
-			return size(value * millimeters_in_inch, aUnits);
+			return size(mValue * millimeters_in_inch, aUnits);
 		case size_units::centimeters:
-			return size(value * centimeters_in_inch, aUnits);
+			return size(mValue * centimeters_in_inch, aUnits);
 		case size_units::inches:
 			return *this;
 		case size_units::points:
-			return size(value * points_in_inch, aUnits);
+			return size(mValue * points_in_inch, aUnits);
 		case size_units::picas:
-			return size(value * picas_in_inch, aUnits);
+			return size(mValue * picas_in_inch, aUnits);
 		case size_units::pixels:
-			return size(value * pixels_in_inch, aUnits);
+			return size(mValue * pixels_in_inch, aUnits);
 		}
 		break;
 	case size_units::points:
 		switch (aUnits)
 		{
 		case size_units::millimeters:
-			return size(value * millimeters_in_point, aUnits);
+			return size(mValue * millimeters_in_point, aUnits);
 		case size_units::centimeters:
-			return size(value * centimeters_in_point, aUnits);
+			return size(mValue * centimeters_in_point, aUnits);
 		case size_units::inches:
-			return size(value / points_in_inch, aUnits);
+			return size(mValue / points_in_inch, aUnits);
 		case size_units::points:
 			return *this;
 		case size_units::picas:
-			return size(value / points_in_pica, aUnits);
+			return size(mValue / points_in_pica, aUnits);
 		case size_units::pixels:
-			return size(value * pixels_in_point, aUnits);
+			return size(mValue * pixels_in_point, aUnits);
 		}
 		break;
 	case size_units::picas:
 		switch (aUnits)
 		{
 		case size_units::millimeters:
-			return size(value * millimeters_in_pica, aUnits);
+			return size(mValue * millimeters_in_pica, aUnits);
 		case size_units::centimeters:
-			return size(value * centimeters_in_pica, aUnits);
+			return size(mValue * centimeters_in_pica, aUnits);
 		case size_units::inches:
-			return size(value / picas_in_inch, aUnits);
+			return size(mValue / picas_in_inch, aUnits);
 		case size_units::points:
-			return size(value * points_in_pica, aUnits);
+			return size(mValue * points_in_pica, aUnits);
 		case size_units::picas:
 			return *this;
 		case size_units::pixels:
-			return size(value * pixels_in_pica, aUnits);
+			return size(mValue * pixels_in_pica, aUnits);
 		}
 		break;
 	case size_units::pixels:
 		switch (aUnits)
 		{
 		case size_units::millimeters:
-			return size(value / pixels_in_millimeter, aUnits);
+			return size(mValue / pixels_in_millimeter, aUnits);
 		case size_units::centimeters:
-			return size(value / pixels_in_centimeter, aUnits);
+			return size(mValue / pixels_in_centimeter, aUnits);
 		case size_units::inches:
-			return size(value / pixels_in_inch, aUnits);
+			return size(mValue / pixels_in_inch, aUnits);
 		case size_units::points:
-			return size(value / pixels_in_point, aUnits);
+			return size(mValue / pixels_in_point, aUnits);
 		case size_units::picas:
-			return size(value / pixels_in_pica, aUnits);
+			return size(mValue / pixels_in_pica, aUnits);
 		case size_units::pixels:
 			return *this;
 		}

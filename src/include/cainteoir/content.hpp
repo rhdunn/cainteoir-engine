@@ -97,22 +97,25 @@ namespace cainteoir
 
 	struct size
 	{
-		float value;
-		const size_units units;
-
 		size()
-			: value(0)
-			, units(size_units::inherit)
+			: mValue(0)
+			, mUnits(size_units::inherit)
 		{
 		}
 
 		size(float aValue, const size_units aUnits)
-			: value(aValue)
-			, units(aUnits)
+			: mValue(aValue)
+			, mUnits(aUnits)
 		{
 		}
 
 		size as(const size_units aUnits) const;
+
+		float      value() const { return mValue; }
+		size_units units() const { return mUnits; }
+	private:
+		float      mValue;
+		size_units mUnits;
 	};
 
 	struct margin
