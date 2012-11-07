@@ -23,7 +23,7 @@
 
 #include <stddef.h>
 
-#ifndef HAVE_CPP_NULLPTR
+#ifndef HAVE_CXX11_NULLPTR
 	const struct nullptr_t 
 	{
 		template <typename T>
@@ -35,7 +35,7 @@
 		void operator&() const;
 	} nullptr = {};
 
-#ifndef HAVE_CPP_IMPLICIT_NULLPTR_COMPARE
+#ifndef HAVE_CXX11_IMPLICIT_NULLPTR_COMPARE
 	template <typename T>
 	inline bool operator==(const T &a, const nullptr_t &b)
 	{
@@ -62,7 +62,7 @@
 #endif
 #endif
 
-#ifndef HAVE_STD_BEGIN_AND_END
+#ifndef HAVE_CXX11_STD_BEGIN
 	namespace std
 	{
 		template <typename C>
@@ -82,7 +82,12 @@
 		{
 			return a;
 		}
+	}
+#endif
 
+#ifndef HAVE_CXX11_STD_END
+	namespace std
+	{
 		template <typename C>
 		inline auto end(C &c) -> decltype(c.end())
 		{
