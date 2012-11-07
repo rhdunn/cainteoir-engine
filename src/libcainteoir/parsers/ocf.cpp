@@ -32,12 +32,12 @@ namespace events = cainteoir::events;
 #ifndef DOXYGEN
 namespace ocf
 {
-	static const xml::context::entry container_node = { events::unknown, 0 };
-	static const xml::context::entry rootfile_node  = { events::unknown, 0 };
-	static const xml::context::entry rootfiles_node = { events::unknown, 0 };
+	static const xml::context::entry container_node = {};
+	static const xml::context::entry rootfile_node  = {};
+	static const xml::context::entry rootfiles_node = {};
 
-	static const xml::context::entry fullpath_attr  = { events::unknown, 0 };
-	static const xml::context::entry mediatype_attr = { events::unknown, 0 };
+	static const xml::context::entry fullpath_attr  = {};
+	static const xml::context::entry mediatype_attr = {};
 }
 #endif
 

@@ -30,7 +30,7 @@ namespace smil
 {
 	namespace events = cainteoir::events;
 
-	static const xml::context::entry smil_node = { events::unknown, 0 };
+	static const xml::context::entry smil_node = {};
 }
 #endif
 

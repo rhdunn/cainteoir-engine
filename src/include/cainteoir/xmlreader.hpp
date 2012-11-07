@@ -144,6 +144,22 @@ namespace cainteoir { namespace xml
 			uint32_t context;
 			uint32_t parameter;
 			xml::begin_tag_type begin_tag_type;
+
+			entry(uint32_t aContext = 0,
+			      uint32_t aParameter = 0,
+			      xml::begin_tag_type aBeginTagType = xml::begin_tag_type::open)
+				: context(aContext)
+				, parameter(aParameter)
+				, begin_tag_type(aBeginTagType)
+			{
+			}
+
+			entry(xml::begin_tag_type aBeginTagType)
+				: context(0)
+				, parameter(0)
+				, begin_tag_type(aBeginTagType)
+			{
+			}
 		};
 
 		struct entry_ref

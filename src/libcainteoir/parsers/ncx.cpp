@@ -32,20 +32,20 @@ namespace events = cainteoir::events;
 #ifndef DOXYGEN
 namespace ncx
 {
-	static const xml::context::entry content_node   = { events::unknown, 0 };
-	static const xml::context::entry docAuthor_node = { events::unknown, 0 };
-	static const xml::context::entry docTitle_node  = { events::unknown, 0 };
-	static const xml::context::entry head_node      = { events::unknown, 0 };
-	static const xml::context::entry meta_node      = { events::unknown, 0 };
-	static const xml::context::entry navLabel_node  = { events::unknown, 0 };
-	static const xml::context::entry navMap_node    = { events::unknown, 0 };
-	static const xml::context::entry navPoint_node  = { events::unknown, 0 };
-	static const xml::context::entry ncx_node       = { events::unknown, 0 };
-	static const xml::context::entry text_node      = { events::unknown, 0 };
+	static const xml::context::entry content_node   = {};
+	static const xml::context::entry docAuthor_node = {};
+	static const xml::context::entry docTitle_node  = {};
+	static const xml::context::entry head_node      = {};
+	static const xml::context::entry meta_node      = {};
+	static const xml::context::entry navLabel_node  = {};
+	static const xml::context::entry navMap_node    = {};
+	static const xml::context::entry navPoint_node  = {};
+	static const xml::context::entry ncx_node       = {};
+	static const xml::context::entry text_node      = {};
 
-	static const xml::context::entry content_attr = { events::unknown, 0 };
-	static const xml::context::entry name_attr    = { events::unknown, 0 };
-	static const xml::context::entry src_attr     = { events::unknown, 0 };
+	static const xml::context::entry content_attr = {};
+	static const xml::context::entry name_attr    = {};
+	static const xml::context::entry src_attr     = {};
 }
 #endif
 

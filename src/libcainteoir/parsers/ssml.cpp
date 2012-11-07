@@ -32,15 +32,15 @@ namespace events = cainteoir::events;
 #ifndef DOXYGEN
 namespace ssml
 {
-	static const xml::context::entry emphasis_node  = { events::span,      events::emphasized };
-	static const xml::context::entry meta_node      = { events::unknown,   0 };
-	static const xml::context::entry p_node         = { events::paragraph, 0 };
-	static const xml::context::entry s_node         = { events::sentence,  0 };
-	static const xml::context::entry speak_node     = { events::unknown,   0 };
+	static const xml::context::entry emphasis_node  = { events::span, events::emphasized };
+	static const xml::context::entry meta_node      = {};
+	static const xml::context::entry p_node         = { events::paragraph };
+	static const xml::context::entry s_node         = { events::sentence };
+	static const xml::context::entry speak_node     = {};
 
-	static const xml::context::entry content_attr = { events::unknown, 0 };
-	static const xml::context::entry level_attr   = { events::unknown, 0 };
-	static const xml::context::entry name_attr    = { events::unknown, 0 };
+	static const xml::context::entry content_attr = {};
+	static const xml::context::entry level_attr   = {};
+	static const xml::context::entry name_attr    = {};
 
 	static const xml::context::entry emphasis_strong  = { events::span, events::strong };
 	static const xml::context::entry emphasis_reduced = { events::span, events::reduced };
