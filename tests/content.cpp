@@ -32,14 +32,9 @@ static void test_conversion_(float aFromValue, const cainteoir::size_units aFrom
 {
 	try
 	{
-		const float epsilon = 0.000001;
-		const float upper   = aToValue + epsilon;
-		const float lower   = aToValue - epsilon;
-
 		cainteoir::size to = cainteoir::size(aFromValue, aFromUnits).as(aToUnits);
 		assert_location(to.units() == aToUnits, location, line);
-		assert_location(to.value() >= lower, location, line);
-		assert_location(to.value() <= upper, location, line);
+		assert_location(to.value() == aToValue, location, line);
 		assert_location(!throws, location, line);
 	}
 	catch (std::exception &e)
