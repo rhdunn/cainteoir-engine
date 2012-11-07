@@ -177,8 +177,8 @@ const cainteoir::styles cainteoir::paragraph =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"sans-serif",
-	{ 11, cainteoir::size_units::points },
-	{},
+	{ 1, cainteoir::size_units::picas },
+	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
 };
 
 const cainteoir::styles cainteoir::heading1 =
@@ -192,8 +192,8 @@ const cainteoir::styles cainteoir::heading1 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	{ 24, cainteoir::size_units::points },
-	{},
+	{ 2, cainteoir::size_units::picas },
+	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
 };
 
 const cainteoir::styles cainteoir::heading2 =
@@ -207,8 +207,8 @@ const cainteoir::styles cainteoir::heading2 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	{ 18, cainteoir::size_units::points },
-	{},
+	{ 1.5, cainteoir::size_units::picas },
+	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
 };
 
 const cainteoir::styles cainteoir::heading3 =
@@ -222,8 +222,8 @@ const cainteoir::styles cainteoir::heading3 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	{ 11, cainteoir::size_units::points },
-	{},
+	{ 1, cainteoir::size_units::picas },
+	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
 };
 
 const cainteoir::styles cainteoir::heading4 =
@@ -237,8 +237,8 @@ const cainteoir::styles cainteoir::heading4 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	{ 11, cainteoir::size_units::points },
-	{},
+	{ 1, cainteoir::size_units::picas },
+	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
 };
 
 const cainteoir::styles cainteoir::heading5 =
@@ -252,8 +252,8 @@ const cainteoir::styles cainteoir::heading5 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	{ 11, cainteoir::size_units::points },
-	{},
+	{ 1, cainteoir::size_units::picas },
+	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
 };
 
 const cainteoir::styles cainteoir::heading6 =
@@ -267,8 +267,8 @@ const cainteoir::styles cainteoir::heading6 =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
 	"sans-serif",
-	{ 11, cainteoir::size_units::points },
-	{},
+	{ 1, cainteoir::size_units::picas },
+	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
 };
 
 const cainteoir::styles cainteoir::span =
@@ -418,7 +418,7 @@ const cainteoir::styles cainteoir::bullet_list =
 	cainteoir::font_weight::inherit,
 	"",
 	{},
-	{},
+	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
 };
 
 const cainteoir::styles cainteoir::number_list =
@@ -433,7 +433,7 @@ const cainteoir::styles cainteoir::number_list =
 	cainteoir::font_weight::inherit,
 	"",
 	{},
-	{},
+	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
 };
 
 const cainteoir::styles cainteoir::list_item =
@@ -478,7 +478,7 @@ const cainteoir::styles cainteoir::table_row =
 	cainteoir::font_weight::inherit,
 	"",
 	{},
-	{},
+	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
 };
 
 const cainteoir::styles cainteoir::table_cell =

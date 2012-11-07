@@ -171,16 +171,16 @@ TEST_CASE("style - paragraph")
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family == "sans-serif");
-	assert(styles.font_size.units() == cainteoir::size_units::points);
-	assert(styles.font_size.value() == 11);
+	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.value() == 1);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
 	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
 	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
-	assert(styles.margin.bottom.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
 }
 
 TEST_CASE("style - heading1")
@@ -195,16 +195,16 @@ TEST_CASE("style - heading1")
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
-	assert(styles.font_size.units() == cainteoir::size_units::points);
-	assert(styles.font_size.value() == 24);
+	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.value() == 2);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
 	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
 	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
-	assert(styles.margin.bottom.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
 }
 
 TEST_CASE("style - heading2")
@@ -219,16 +219,16 @@ TEST_CASE("style - heading2")
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
-	assert(styles.font_size.units() == cainteoir::size_units::points);
-	assert(styles.font_size.value() == 18);
+	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.value() == 1.5);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
 	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
 	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
-	assert(styles.margin.bottom.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
 }
 
 TEST_CASE("style - heading3")
@@ -243,16 +243,16 @@ TEST_CASE("style - heading3")
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
-	assert(styles.font_size.units() == cainteoir::size_units::points);
-	assert(styles.font_size.value() == 11);
+	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.value() == 1);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
 	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
 	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
-	assert(styles.margin.bottom.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
 }
 
 TEST_CASE("style - heading4")
@@ -267,16 +267,16 @@ TEST_CASE("style - heading4")
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
-	assert(styles.font_size.units() == cainteoir::size_units::points);
-	assert(styles.font_size.value() == 11);
+	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.value() == 1);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
 	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
 	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
-	assert(styles.margin.bottom.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
 }
 
 TEST_CASE("style - heading5")
@@ -291,16 +291,16 @@ TEST_CASE("style - heading5")
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
-	assert(styles.font_size.units() == cainteoir::size_units::points);
-	assert(styles.font_size.value() == 11);
+	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.value() == 1);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
 	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
 	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
-	assert(styles.margin.bottom.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
 }
 
 TEST_CASE("style - heading6")
@@ -315,16 +315,16 @@ TEST_CASE("style - heading6")
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
 	assert(styles.font_family == "sans-serif");
-	assert(styles.font_size.units() == cainteoir::size_units::points);
-	assert(styles.font_size.value() == 11);
+	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.value() == 1);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
 	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
 	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
-	assert(styles.margin.bottom.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
 }
 
 TEST_CASE("style - span")
@@ -563,8 +563,8 @@ TEST_CASE("style - bullet_list")
 	assert(styles.margin.top.value() == 0);
 	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
-	assert(styles.margin.bottom.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
 }
 
 TEST_CASE("style - number_list")
@@ -587,8 +587,8 @@ TEST_CASE("style - number_list")
 	assert(styles.margin.top.value() == 0);
 	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
-	assert(styles.margin.bottom.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
 }
 
 TEST_CASE("style - list_item")
@@ -659,8 +659,8 @@ TEST_CASE("style - table_row")
 	assert(styles.margin.top.value() == 0);
 	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
-	assert(styles.margin.bottom.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
 }
 
 TEST_CASE("style - table_cell")
