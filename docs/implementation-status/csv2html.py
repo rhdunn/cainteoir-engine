@@ -176,22 +176,22 @@ for ref, spec in specs.items():
 		else:
 			f.write('\t<tr>\n')
 			if spec['type'] == 'spec':
-				f.write('\t\t<th width= "5%">Section</th>\n')
-				f.write('\t\t<th width="25%">Title</th>\n')
-				f.write('\t\t<th width="10%">Implemented</th>\n')
-				f.write('\t\t<th width="10%">Tests</th>\n')
-				f.write('\t\t<th width="50%">Comments</th>\n')
+				f.write('\t\t<th style="width: 5%;">Section</th>\n')
+				f.write('\t\t<th style="width: 25%;">Title</th>\n')
+				f.write('\t\t<th style="width: 10%;">Implemented</th>\n')
+				f.write('\t\t<th style="width: 10%;">Tests</th>\n')
+				f.write('\t\t<th style="width: 50%;">Comments</th>\n')
 			elif spec['type'] == 'format':
-				f.write('\t\t<th width="10%">Name</th>\n')
-				f.write('\t\t<th width="10%">Version</th>\n')
-				f.write('\t\t<th width="10%">Text</th>\n')
-				f.write('\t\t<th width="10%">Metadata</th>\n')
-				f.write('\t\t<th width="10%">Table of Content</th>\n')
-				f.write('\t\t<th width="50%">Comments</th>\n')
+				f.write('\t\t<th style="width: 10%;">Name</th>\n')
+				f.write('\t\t<th style="width: 10%;">Version</th>\n')
+				f.write('\t\t<th style="width: 10%;">Text</th>\n')
+				f.write('\t\t<th style="width: 10%;">Metadata</th>\n')
+				f.write('\t\t<th style="width: 10%;">Table of Content</th>\n')
+				f.write('\t\t<th style="width: 50%;">Comments</th>\n')
 			else:
-				f.write('\t\t<th width= "5%">Version</th>\n')
-				f.write('\t\t<th width="10%">Implemented</th>\n')
-				f.write('\t\t<th width="85%">Comments</th>\n')
+				f.write('\t\t<th style="width: 5%;">Version</th>\n')
+				f.write('\t\t<th style="width: 10%;">Implemented</th>\n')
+				f.write('\t\t<th style="width: 85%;">Comments</th>\n')
 			f.write('\t</tr>\n')
 		for data in spec['support']:
 			f.write('\t<tr>\n')
@@ -211,7 +211,7 @@ for ref, spec in specs.items():
 			elif spec['type'] == 'formats':
 				print_url(data, 'title')
 				for status, label, impl in data['versions']:
-					f.write('\t\t<td class="%s" width="10%%" title="Supported since %s">%s</td>\n' % (status, impl, label))
+					f.write('\t\t<td class="%s" style="width: 10%%;" title="Supported since %s">%s</td>\n' % (status, impl, label))
 			else:
 				print_url(data, 'version')
 				print_status(data, 'implemented')
