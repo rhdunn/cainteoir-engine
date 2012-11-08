@@ -188,8 +188,8 @@ TEST_CASE("style - heading1")
 	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::bold);
-	assert(styles.font_family == "sans-serif");
+	assert(styles.font_weight == cainteoir::font_weight::normal);
+	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 2);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
@@ -212,8 +212,8 @@ TEST_CASE("style - heading2")
 	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::bold);
-	assert(styles.font_family == "sans-serif");
+	assert(styles.font_weight == cainteoir::font_weight::normal);
+	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1.5);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
@@ -223,7 +223,7 @@ TEST_CASE("style - heading2")
 	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
-	assert(styles.margin.bottom.value() == 1);
+	assert(styles.margin.bottom.value() == 2);
 }
 
 TEST_CASE("style - heading3")
@@ -237,7 +237,7 @@ TEST_CASE("style - heading3")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
-	assert(styles.font_family == "sans-serif");
+	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
@@ -260,8 +260,8 @@ TEST_CASE("style - heading4")
 	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::bold);
-	assert(styles.font_family == "sans-serif");
+	assert(styles.font_weight == cainteoir::font_weight::normal);
+	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
@@ -280,12 +280,12 @@ TEST_CASE("style - heading5")
 	assert(styles.name == "heading5");
 	assert(styles.display == cainteoir::display::block);
 	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::center);
+	assert(styles.text_align == cainteoir::text_align::left);
 	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
-	assert(styles.font_family == "sans-serif");
+	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
@@ -304,12 +304,12 @@ TEST_CASE("style - heading6")
 	assert(styles.name == "heading6");
 	assert(styles.display == cainteoir::display::block);
 	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::center);
+	assert(styles.text_align == cainteoir::text_align::left);
 	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
-	assert(styles.font_family == "sans-serif");
+	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
