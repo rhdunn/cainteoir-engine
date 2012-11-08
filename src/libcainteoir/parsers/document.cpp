@@ -128,6 +128,9 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		return std::shared_ptr<document_reader>();
 	}
 
+	if (mime::email.match(aData) || mime::mime.match(aData))
+		return createMimeReader(aData, aSubject, aPrimaryMetadata, aTitle);
+
 	if (mime::html.match(aData))
 	{
 		auto mime = createMimeInHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle, aDefaultEncoding);
@@ -139,9 +142,6 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 
 	if (mime::rtf.match(aData))
 		return createRtfReader(aData, aSubject, aPrimaryMetadata, aTitle);
-
-	if (mime::email.match(aData) || mime::mime.match(aData))
-		return createMimeReader(aData, aSubject, aPrimaryMetadata, aTitle);
 
 	if (mime::pdf.match(aData))
 		return createPdfReader(aData, aSubject, aPrimaryMetadata, aTitle);
