@@ -90,9 +90,8 @@ zip_archive::zip_archive(std::shared_ptr<cainteoir::buffer> aData, const cainteo
 		const char *ptr = (const char *)hdr + sizeof(zip_header);
 		std::string filename(ptr, ptr + hdr->len_filename);
 
-		data[ filename ] = hdr;
-		if (*(--filename.end()) != '/') // not a directory
-			filelist.push_back(filename);
+		data[filename] = hdr;
+		filelist.push_back(filename);
 
 		hdr = (const zip_header *)(ptr + hdr->len_filename + hdr->len_extra + hdr->compressed);
 	}

@@ -1,0 +1,10 @@
+toc-entry [!/test.xhtml] depth=0 title="""Test File"""
+anchor [!/test.xhtml]
+begin-context paragraph
+text(20): """This is a test file."""
+end-context
+toc-entry [!/test.html] depth=0 title="""Test File"""
+anchor [!/test.html]
+begin-context paragraph
+text(20): """This is a test file."""
+end-context

@@ -144,8 +144,13 @@ class TestSuite:
 					archive = '/tmp/test.zip'
 					zf = zipfile.ZipFile(archive, mode='w', compression=zipfile.ZIP_STORED)
 					for location, filename in data['archive']:
-						if location == 'mimetype':
-							zf.writestr('mimetype', filename)
+						if location == 'mimetype' or location.endswith('/'):
+							zfi = zipfile.ZipInfo(location)
+							if filename:
+								zf.writestr(zfi, filename)
+							else:
+								zfi.external_attr = 16
+								zf.writestr(zfi, '')
 						else:
 							if filename.startswith('@'):
 								filename = test[ filename.replace('@', '') ]
