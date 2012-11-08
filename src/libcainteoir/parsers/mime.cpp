@@ -319,11 +319,11 @@ struct mime_headers : public cainteoir::buffer
 	}
 };
 
-std::shared_ptr<cainteoir::document_reader>
-cainteoir::createMimeReader(std::shared_ptr<buffer> &aData,
+std::pair<bool, std::shared_ptr<cainteoir::buffer>>
+cainteoir::parseMimeHeaders(std::shared_ptr<buffer> &aData,
                             const rdf::uri &aSubject,
                             rdf::graph &aPrimaryMetadata,
-                            const std::string &aTitle)
+                            std::string &aTitle)
 {
 	std::shared_ptr<mime_headers> mime = std::make_shared<mime_headers>(aData, aSubject, aPrimaryMetadata, aTitle);
 
@@ -344,10 +344,23 @@ cainteoir::createMimeReader(std::shared_ptr<buffer> &aData,
 	if (!mime->charset.empty())
 		decoded = cainteoir::encoding(mime->charset.c_str()).decode(decoded);
 
+	aTitle = mime->title;
 	if (mime->begin() == aData->begin()) // Avoid an infinite loop when there is just the mime header.
-		return createPlainTextReader(decoded, aSubject, aPrimaryMetadata, mime->title);
+		return std::make_pair(false, decoded);
+	return std::make_pair(true, decoded);
+}
 
-	return createDocumentReader(decoded, aSubject, aPrimaryMetadata, mime->title);
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createMimeReader(std::shared_ptr<buffer> &aData,
+                            const rdf::uri &aSubject,
+                            rdf::graph &aPrimaryMetadata,
+                            const std::string &aTitle)
+{
+	std::string title = aTitle;
+	auto data = parseMimeHeaders(aData, aSubject, aPrimaryMetadata, title);
+	if (data.first)
+		return createDocumentReader(data.second, aSubject, aPrimaryMetadata, title);
+	return createPlainTextReader(data.second, aSubject, aPrimaryMetadata, title);
 }
 
 std::shared_ptr<cainteoir::document_reader>

@@ -29,7 +29,7 @@
 
 namespace mime = cainteoir::mime;
 
-void test_mimetype(const std::shared_ptr<cainteoir::buffer> &aData,
+bool test_mimetype(const std::shared_ptr<cainteoir::buffer> &aData,
                    const mime::mimetype &aMimeType)
 {
 	const mime::mime_info info = aMimeType.mime_type ? mime::mimetypes[aMimeType.mime_type] : mime::mime_data;
@@ -81,6 +81,32 @@ void test_mimetype(const std::shared_ptr<cainteoir::buffer> &aData,
 
 	fprintf(stdout, "Checking mimetype %s (%s) ... %s\n", aMimeType.mime_type, aMimeType.name, matched ? "yes" : "no");
 	fputc('\n', stderr);
+
+	return matched;
+}
+
+bool test_mimetypes(const std::shared_ptr<cainteoir::buffer> &data)
+{
+	test_mimetype(data, mime::email);
+	test_mimetype(data, mime::epub);
+	test_mimetype(data, mime::gzip);
+	test_mimetype(data, mime::html);
+	test_mimetype(data, mime::mhtml);
+	bool is_mime = test_mimetype(data, mime::mime);
+	test_mimetype(data, mime::ncx);
+	test_mimetype(data, mime::ogg);
+	test_mimetype(data, mime::opf);
+	test_mimetype(data, mime::pdf);
+	test_mimetype(data, mime::rdfxml);
+	test_mimetype(data, mime::rtf);
+	test_mimetype(data, mime::smil);
+	test_mimetype(data, mime::ssml);
+	test_mimetype(data, mime::text);
+	test_mimetype(data, mime::wav);
+	test_mimetype(data, mime::xhtml);
+	test_mimetype(data, mime::xml);
+	test_mimetype(data, mime::zip);
+	return is_mime;
 }
 
 int main(int argc, char ** argv)
@@ -94,26 +120,23 @@ int main(int argc, char ** argv)
 			throw std::runtime_error("no document specified");
 
 		auto data = cainteoir::make_file_buffer(argv[0]);
+		if (test_mimetypes(data))
+		{
+			fprintf(stdout, "\n");
+			fprintf(stdout, "MIME headers detected ... checking content:\n");
+			fprintf(stdout, "\n");
 
-		test_mimetype(data, mime::email);
-		test_mimetype(data, mime::epub);
-		test_mimetype(data, mime::gzip);
-		test_mimetype(data, mime::html);
-		test_mimetype(data, mime::mhtml);
-		test_mimetype(data, mime::mime);
-		test_mimetype(data, mime::ncx);
-		test_mimetype(data, mime::ogg);
-		test_mimetype(data, mime::opf);
-		test_mimetype(data, mime::pdf);
-		test_mimetype(data, mime::rdfxml);
-		test_mimetype(data, mime::rtf);
-		test_mimetype(data, mime::smil);
-		test_mimetype(data, mime::ssml);
-		test_mimetype(data, mime::text);
-		test_mimetype(data, mime::wav);
-		test_mimetype(data, mime::xhtml);
-		test_mimetype(data, mime::xml);
-		test_mimetype(data, mime::zip);
+			cainteoir::rdf::uri subject(argv[0], std::string());
+			cainteoir::rdf::graph metadata;
+			std::string title = argv[0];
+			auto mime = cainteoir::parseMimeHeaders(data, subject, metadata, title);
+			if (!mime.first)
+			{
+				fprintf(stdout, "Will parse MIME content as text/plain\n");
+				fprintf(stdout, "\n");
+			}
+			test_mimetypes(mime.second);
+		}
 	}
 	catch (std::runtime_error &e)
 	{
