@@ -109,6 +109,28 @@ bool test_mimetypes(const std::shared_ptr<cainteoir::buffer> &data)
 	return is_mime;
 }
 
+void test_file(std::shared_ptr<cainteoir::buffer> &data,
+               const cainteoir::rdf::uri &subject)
+{
+	std::string title = subject.str();
+	fprintf(stdout, "file path: %s\n", title.c_str());
+	fprintf(stdout, "\n");
+	if (test_mimetypes(data))
+	{
+		fprintf(stdout, "\n");
+		fprintf(stdout, "MIME headers detected ... checking content:\n");
+
+		cainteoir::rdf::graph metadata;
+		auto mime = cainteoir::parseMimeHeaders(data, subject, metadata, title);
+		if (!mime.first)
+		{
+			fprintf(stdout, "... will parse MIME content as text/plain\n");
+			fprintf(stdout, "\n");
+		}
+		test_file(mime.second, subject);
+	}
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -119,24 +141,9 @@ int main(int argc, char ** argv)
 		if (argc == 0)
 			throw std::runtime_error("no document specified");
 
+		cainteoir::rdf::uri subject(argv[0], std::string());
 		auto data = cainteoir::make_file_buffer(argv[0]);
-		if (test_mimetypes(data))
-		{
-			fprintf(stdout, "\n");
-			fprintf(stdout, "MIME headers detected ... checking content:\n");
-			fprintf(stdout, "\n");
-
-			cainteoir::rdf::uri subject(argv[0], std::string());
-			cainteoir::rdf::graph metadata;
-			std::string title = argv[0];
-			auto mime = cainteoir::parseMimeHeaders(data, subject, metadata, title);
-			if (!mime.first)
-			{
-				fprintf(stdout, "Will parse MIME content as text/plain\n");
-				fprintf(stdout, "\n");
-			}
-			test_mimetypes(mime.second);
-		}
+		test_file(data, subject);
 	}
 	catch (std::runtime_error &e)
 	{
