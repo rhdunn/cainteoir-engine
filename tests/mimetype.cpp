@@ -85,14 +85,23 @@ bool test_mimetype(const std::shared_ptr<cainteoir::buffer> &aData,
 	return matched;
 }
 
-bool test_mimetypes(const std::shared_ptr<cainteoir::buffer> &data)
+enum class content_type
 {
+	zip,
+	mime,
+	other,
+};
+
+content_type test_mimetypes(const std::shared_ptr<cainteoir::buffer> &data)
+{
+	content_type type = content_type::other;
 	test_mimetype(data, mime::email);
 	test_mimetype(data, mime::epub);
 	test_mimetype(data, mime::gzip);
 	test_mimetype(data, mime::html);
 	test_mimetype(data, mime::mhtml);
-	bool is_mime = test_mimetype(data, mime::mime);
+	if (test_mimetype(data, mime::mime))
+		type = content_type::mime;
 	test_mimetype(data, mime::ncx);
 	test_mimetype(data, mime::ogg);
 	test_mimetype(data, mime::opf);
@@ -105,8 +114,9 @@ bool test_mimetypes(const std::shared_ptr<cainteoir::buffer> &data)
 	test_mimetype(data, mime::wav);
 	test_mimetype(data, mime::xhtml);
 	test_mimetype(data, mime::xml);
-	test_mimetype(data, mime::zip);
-	return is_mime;
+	if (test_mimetype(data, mime::zip))
+		type = content_type::zip;
+	return type;
 }
 
 void test_file(std::shared_ptr<cainteoir::buffer> &data,
@@ -115,7 +125,8 @@ void test_file(std::shared_ptr<cainteoir::buffer> &data,
 	std::string title = subject.str();
 	fprintf(stdout, "file path: %s\n", title.c_str());
 	fprintf(stdout, "\n");
-	if (test_mimetypes(data))
+	content_type type = test_mimetypes(data);
+	if (type == content_type::mime)
 	{
 		fprintf(stdout, "\n");
 		fprintf(stdout, "MIME headers detected ... checking content:\n");
@@ -128,6 +139,21 @@ void test_file(std::shared_ptr<cainteoir::buffer> &data,
 			fprintf(stdout, "\n");
 		}
 		test_file(mime.second, subject);
+	}
+	else if (type == content_type::zip)
+	{
+		fprintf(stdout, "\n");
+		fprintf(stdout, "ZIP archive detected ... checking content:\n");
+
+		auto zip = cainteoir::create_zip_archive(data, subject);
+		fprintf(stdout, "... file count: %d\n", zip->files().size());
+		fprintf(stdout, "\n");
+
+		for (auto &file : zip->files())
+		{
+			auto content = zip->read(file.c_str());
+			test_file(content, zip->location(file, std::string()));
+		}
 	}
 }
 
