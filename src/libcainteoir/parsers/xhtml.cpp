@@ -171,7 +171,7 @@ namespace html
 	static const xml::context::entry tr_node         = { &cainteoir::table_row };
 	static const xml::context::entry track_node      = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry tt_node         = { events::span, events::monospace }; // HTML§14.3.4
-	static const xml::context::entry u_node          = { events::span, events::underline }; // HTML§14.3.4
+	static const xml::context::entry u_node          = { &cainteoir::underlined }; // HTML§14.3.4
 	static const xml::context::entry ul_node         = { events::list, events::bullet }; // HTML§14.3.8
 	static const xml::context::entry var_node        = { &cainteoir::emphasized }; // HTML§14.3.4
 	static const xml::context::entry video_node      = {};

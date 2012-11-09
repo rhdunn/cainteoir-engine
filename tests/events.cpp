@@ -33,6 +33,7 @@ void format_style(const cainteoir::styles &styles)
 {
 	using cainteoir::display;
 	using cainteoir::vertical_align;
+	using cainteoir::text_decoration;
 	using cainteoir::font_style;
 	using cainteoir::font_weight;
 
@@ -54,6 +55,14 @@ void format_style(const cainteoir::styles &styles)
 	case vertical_align::baseline: fprintf(stdout, " +baseline"); break;
 	case vertical_align::sub:      fprintf(stdout, " +subscript"); break;
 	case vertical_align::super:    fprintf(stdout, " +superscript"); break;
+	}
+
+	switch (styles.text_decoration)
+	{
+	case text_decoration::inherit:      break;
+	case text_decoration::none:         fprintf(stdout, " -underline -line-through"); break;
+	case text_decoration::underline:    fprintf(stdout, " +underline"); break;
+	case text_decoration::line_through: fprintf(stdout, " +line-through"); break;
 	}
 
 	switch (styles.font_style)
@@ -125,8 +134,6 @@ int main(int argc, char ** argv)
 
 					if (reader->context != events::heading)
 					{
-						if (reader->parameter & events::underline)
-							fprintf(stdout, " +underline");
 						if (reader->parameter & events::monospace)
 							fprintf(stdout, " +monospace");
 						if (reader->parameter & events::reduced)

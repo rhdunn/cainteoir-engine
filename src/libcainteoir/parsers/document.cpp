@@ -456,22 +456,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * The context does not provide any specific custom styling.
   */
 
-/** @var   cainteoir::events::style cainteoir::events::underline
-  * @brief Underline
-  *
-  * The context is displayed with a solid line below the text.
-  *
-  * @code
-  *   context paragraph
-  *     text "This "
-  *     context span +underline
-  *       text "and"
-  *     end
-  *     text " that."
-  *   end
-  * @endcode
-  */
-
 /** @var   cainteoir::events::style cainteoir::events::monospace
   * @brief Monospace
   *
