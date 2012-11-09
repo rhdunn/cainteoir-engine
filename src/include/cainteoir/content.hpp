@@ -89,6 +89,7 @@ namespace cainteoir
 	{
 		none,
 		heading,
+		sentence,
 	};
 
 	enum class counter_type : uint8_t

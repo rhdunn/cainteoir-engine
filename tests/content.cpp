@@ -457,7 +457,7 @@ TEST_CASE("style - sentence")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == cainteoir::text_structure::sentence);
 	assert(styles.toc_level == 0);
 }
 

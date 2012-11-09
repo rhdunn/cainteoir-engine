@@ -363,7 +363,7 @@ const cainteoir::styles cainteoir::sentence =
 	"",
 	{},
 	{},
-	cainteoir::text_structure::none,
+	cainteoir::text_structure::sentence,
 	0,
 };
 

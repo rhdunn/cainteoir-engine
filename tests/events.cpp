@@ -48,7 +48,13 @@ void format_style(const cainteoir::styles &styles)
 		case text_structure::heading: fprintf(stdout, "heading %d", styles.toc_level); return;
 		}
 		break;
-	case display::inlined:    fprintf(stdout, "span"); break;
+	case display::inlined:
+		switch (styles.text_structure)
+		{
+		case text_structure::none:     fprintf(stdout, "span"); break;
+		case text_structure::sentence: fprintf(stdout, "sentence"); break;
+		}
+		break;
 	case display::list_item:  fprintf(stdout, "list-item"); break;
 	case display::table:      fprintf(stdout, "table"); break;
 	case display::table_row:  fprintf(stdout, "row"); break;
@@ -133,13 +139,6 @@ int main(int argc, char ** argv)
 				fprintf(stdout, "begin-context ");
 				if (reader->styles)
 					format_style(*reader->styles);
-				else
-				{
-					switch (reader->context)
-					{
-					case events::sentence:  fprintf(stdout, "sentence"); break;
-					}
-				}
 				fprintf(stdout, "\n");
 			}
 			if (reader->type & cainteoir::events::text)
