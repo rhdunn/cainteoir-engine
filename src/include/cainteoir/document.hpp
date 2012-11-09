@@ -49,7 +49,6 @@ namespace cainteoir
 
 		enum style
 		{
-			nostyle = 0x00000000,
 			reduced = 0x00000040,
 		};
 

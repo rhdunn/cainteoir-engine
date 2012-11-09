@@ -44,7 +44,7 @@ namespace ssml
 
 	static const xml::context::entry emphasis_strong  = { &cainteoir::strong };
 	static const xml::context::entry emphasis_reduced = { events::span, events::reduced };
-	static const xml::context::entry emphasis_none    = { events::span, events::nostyle };
+	static const xml::context::entry emphasis_none    = { &cainteoir::span };
 }
 #endif
 
@@ -153,7 +153,7 @@ bool ssml_document_reader::read()
 		{
 			type     |= events::text;
 			context   = events::span;
-			parameter = events::nostyle;
+			parameter = 0;
 		}
 		if (current != nullptr && current->context != events::unknown)
 		{

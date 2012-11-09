@@ -418,7 +418,7 @@ bool rtf_document_reader::internal_read(rdf::graph *aGraph)
 text_event:
 	type      = events::text | events::begin_context | events::end_context;
 	context   = events::paragraph;
-	parameter = events::nostyle;
+	parameter = 0;
 	text      = rtf_text.buffer();
 	anchor    = rdf::uri();
 	if (aGraph == nullptr)

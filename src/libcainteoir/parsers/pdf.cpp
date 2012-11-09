@@ -201,7 +201,7 @@ bool pdf_document_reader::read()
 
 			type      = events::text | events::anchor;
 			context   = events::span;
-			parameter = events::nostyle;
+			parameter = 0;
 			text      = std::make_shared<glib_buffer>(poppler_page_get_text(page));
 			anchor    = rdf::uri(mSubject.str(), pagenum);
 			mState    = state_text;

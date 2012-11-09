@@ -72,7 +72,7 @@ bool plaintext_document_reader::read()
 	case state_text:
 		type      = events::text;
 		context   = events::span;
-		parameter = events::nostyle;
+		parameter = 0;
 		text      = mData;
 		anchor    = rdf::uri();
 		mState    = state_eof;
