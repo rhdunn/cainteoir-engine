@@ -86,7 +86,7 @@ namespace html
 	static const xml::context::entry details_node    = {};
 	static const xml::context::entry dfn_node        = { &cainteoir::emphasized }; // HTML§14.3.4
 	static const xml::context::entry dir_node        = { events::list, events::bullet }; // HTML§14.3.8
-	static const xml::context::entry div_node        = { events::paragraph };
+	static const xml::context::entry div_node        = { &cainteoir::paragraph };
 	static const xml::context::entry dl_node         = {};
 	static const xml::context::entry dt_node         = {};
 	static const xml::context::entry em_node         = { &cainteoir::emphasized }; // HTML§14.3.4
@@ -137,7 +137,7 @@ namespace html
 	static const xml::context::entry optgroup_node   = {};
 	static const xml::context::entry option_node     = {};
 	static const xml::context::entry output_node     = {};
-	static const xml::context::entry p_node          = { events::paragraph };
+	static const xml::context::entry p_node          = { &cainteoir::paragraph };
 	static const xml::context::entry param_node      = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry pre_node        = { &cainteoir::monospace_block }; // HTML§14.3.3
 	static const xml::context::entry progress_node   = {};
@@ -624,6 +624,7 @@ bool html_document_reader::read()
 				type      = events::begin_context;
 				context   = (events::context)reader->context()->context;
 				parameter = reader->context()->parameter;
+				styles    = nullptr;
 				reader->read();
 				return true;
 			}

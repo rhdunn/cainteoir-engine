@@ -1,6 +1,6 @@
 toc-entry [] depth=0 title="""Test File"""
 anchor []
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(6): """Lorem """
 begin-context span +underline
 text(5): """ipsum"""

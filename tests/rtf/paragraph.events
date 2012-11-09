@@ -1,12 +1,12 @@
 toc-entry [] depth=0 title="""paragraph.rtf"""
 anchor []
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(48): """This is the first paragraph in the rtf document."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(29): """This is the second paragraph."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(21): """line 1
 line 2
 line 3"""

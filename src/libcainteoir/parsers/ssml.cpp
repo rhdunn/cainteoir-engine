@@ -34,7 +34,7 @@ namespace ssml
 {
 	static const xml::context::entry emphasis_node  = { &cainteoir::emphasized };
 	static const xml::context::entry meta_node      = {};
-	static const xml::context::entry p_node         = { events::paragraph };
+	static const xml::context::entry p_node         = { &cainteoir::paragraph };
 	static const xml::context::entry s_node         = { events::sentence };
 	static const xml::context::entry speak_node     = {};
 

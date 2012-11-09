@@ -127,7 +127,6 @@ int main(int argc, char ** argv)
 				{
 					switch (reader->context)
 					{
-					case events::paragraph: fprintf(stdout, "paragraph"); break;
 					case events::heading:   fprintf(stdout, "heading %d", reader->parameter); break;
 					case events::span:      fprintf(stdout, "span"); break;
 					case events::list:      fprintf(stdout, "list"); break;

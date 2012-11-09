@@ -1,5 +1,5 @@
 toc-entry [] depth=0 title="""@title@"""
 anchor []
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(10): """“test”"""
 end-context

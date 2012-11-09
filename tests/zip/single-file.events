@@ -1,5 +1,5 @@
 toc-entry [!/test.xhtml] depth=0 title="""Test File"""
 anchor [!/test.xhtml]
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(20): """This is a test file."""
 end-context

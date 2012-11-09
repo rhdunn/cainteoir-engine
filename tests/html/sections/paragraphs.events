@@ -1,11 +1,11 @@
 toc-entry [] depth=0 title="""Test File"""
 anchor []
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(18): """Lorem ipsum dolor."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(18): """Dolor ipsum lorem."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(18): """Ipsum lorem dolor."""
 end-context

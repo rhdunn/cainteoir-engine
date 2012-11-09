@@ -337,19 +337,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @brief An unspecified context.
   */
 
-/** @var   cainteoir::events::context cainteoir::events::paragraph
-  * @brief Paragraph
-  *
-  * A paragraph is a block of text that is spoken and displayed as a single continuous
-  * unit. This applies to all blocks of text.
-  *
-  * @code
-  *   context paragraph +nostyle
-  *     text "This is a paragraph."
-  *   end
-  * @endcode
-  */
-
 /** @var   cainteoir::events::context cainteoir::events::heading
   * @brief Heading
   *
@@ -441,32 +428,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   *     text "'"
   *     context sentence
   *       text "said Mr. Davis."
-  *     end
-  *   end
-  * @endcode
-  */
-
-/** @enum  cainteoir::events::style
-  * @brief The style of the paragraph or span context.
-  */
-
-/** @var   cainteoir::events::style cainteoir::events::nostyle
-  * @brief No explicit styling
-  *
-  * The context does not provide any specific custom styling.
-  */
-
-/** @var   cainteoir::events::style cainteoir::events::reduced
-  * @brief Reduced
-  *
-  * The context is displayed with a normal (non-italic, non-bold) font and
-  * is spoken quieter.
-  *
-  * @code
-  *   context paragraph
-  *     text "This and "
-  *     context span +reduced
-  *       text "that."
   *     end
   *   end
   * @endcode

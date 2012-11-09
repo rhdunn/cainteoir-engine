@@ -39,6 +39,7 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 		{
 			if (reader->styles) switch (reader->styles->display)
 			{
+			case cainteoir::display::block:
 			case cainteoir::display::table:
 			case cainteoir::display::table_row:
 				if (need_linebreak)
@@ -57,7 +58,6 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 			}
 			else switch (reader->context)
 			{
-			case events::paragraph:
 			case events::heading:
 			case events::list:
 				if (need_linebreak)
@@ -133,7 +133,6 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 			}
 			else switch (reader->context)
 			{
-			case events::paragraph: context = { "p", true }; break;
 			case events::heading:
 				switch (reader->parameter)
 				{
