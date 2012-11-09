@@ -42,7 +42,7 @@ namespace ssml
 	static const xml::context::entry level_attr   = {};
 	static const xml::context::entry name_attr    = {};
 
-	static const xml::context::entry emphasis_strong  = { events::span, events::strong };
+	static const xml::context::entry emphasis_strong  = { &cainteoir::strong };
 	static const xml::context::entry emphasis_reduced = { events::span, events::reduced };
 	static const xml::context::entry emphasis_none    = { events::span, events::nostyle };
 }
@@ -160,6 +160,15 @@ bool ssml_document_reader::read()
 			type     |= events::begin_context;
 			context   = (events::context)current->context;
 			parameter = current->parameter;
+			styles    = nullptr;
+			current = nullptr;
+		}
+		else if (current != nullptr && current->styles)
+		{
+			type     |= events::begin_context;
+			context   = events::unknown;
+			parameter = 0;
+			styles    = current->styles;
 			current = nullptr;
 		}
 		if (type != 0)

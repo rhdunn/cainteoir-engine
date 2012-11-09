@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_XMLREADER_HPP
 
 #include <cainteoir/encoding.hpp>
+#include <cainteoir/content.hpp>
 #include <map>
 
 namespace cainteoir { namespace xml
@@ -144,6 +145,7 @@ namespace cainteoir { namespace xml
 			uint32_t context;
 			uint32_t parameter;
 			xml::begin_tag_type begin_tag_type;
+			const cainteoir::styles *styles;
 
 			entry(uint32_t aContext = 0,
 			      uint32_t aParameter = 0,
@@ -151,6 +153,7 @@ namespace cainteoir { namespace xml
 				: context(aContext)
 				, parameter(aParameter)
 				, begin_tag_type(aBeginTagType)
+				, styles(nullptr)
 			{
 			}
 
@@ -158,6 +161,16 @@ namespace cainteoir { namespace xml
 				: context(0)
 				, parameter(0)
 				, begin_tag_type(aBeginTagType)
+				, styles(nullptr)
+			{
+			}
+
+			entry(const cainteoir::styles *aStyles,
+			      xml::begin_tag_type aBeginTagType = xml::begin_tag_type::open)
+				: context(0)
+				, parameter(0)
+				, begin_tag_type(aBeginTagType)
+				, styles(aStyles)
 			{
 			}
 		};

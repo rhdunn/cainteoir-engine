@@ -626,22 +626,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @endcode
   */
 
-/** @var   cainteoir::events::style cainteoir::events::strong
-  * @brief Strong
-  *
-  * The context is displayed in a bold font and is spoken louder.
-  *
-  * @code
-  *   context paragraph
-  *     text "One, "
-  *     context span +strong
-  *       text "two"
-  *     end
-  *     text ", three."
-  *   end
-  * @endcode
-  */
-
 /** @var   cainteoir::events::style cainteoir::events::underline
   * @brief Underline
   *

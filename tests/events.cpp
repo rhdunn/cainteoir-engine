@@ -29,6 +29,31 @@
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
+void format_style(const cainteoir::styles &styles)
+{
+	using cainteoir::display;
+	using cainteoir::font_weight;
+
+	switch (styles.display)
+	{
+	case display::inherit:    break;
+	case display::block:      fprintf(stdout, "block"); break;
+	case display::inlined:    fprintf(stdout, "span"); break;
+	case display::list_item:  fprintf(stdout, "list-item"); break;
+	case display::table:      fprintf(stdout, "table"); break;
+	case display::table_row:  fprintf(stdout, "table-row"); break;
+	case display::table_cell: fprintf(stdout, "table-cell"); break;
+	case display::none:       fprintf(stdout, "none"); break;
+	}
+
+	switch (styles.font_weight)
+	{
+	case font_weight::inherit: break;
+	case font_weight::normal:  fprintf(stdout, " +normal"); break;
+	case font_weight::bold:    fprintf(stdout, " +strong"); break;
+	}
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -66,35 +91,38 @@ int main(int argc, char ** argv)
 			if (reader->type & cainteoir::events::begin_context)
 			{
 				fprintf(stdout, "begin-context ");
-				switch (reader->context)
+				if (reader->styles)
+					format_style(*reader->styles);
+				else
 				{
-				case events::paragraph: fprintf(stdout, "paragraph"); break;
-				case events::heading:   fprintf(stdout, "heading %d", reader->parameter); break;
-				case events::span:      fprintf(stdout, "span"); break;
-				case events::list:      fprintf(stdout, "list"); break;
-				case events::list_item: fprintf(stdout, "list-item"); break;
-				case events::sentence:  fprintf(stdout, "sentence"); break;
-				case events::table:     fprintf(stdout, "table"); break;
-				case events::row:       fprintf(stdout, "row"); break;
-				case events::cell:      fprintf(stdout, "cell"); break;
-				}
+					switch (reader->context)
+					{
+					case events::paragraph: fprintf(stdout, "paragraph"); break;
+					case events::heading:   fprintf(stdout, "heading %d", reader->parameter); break;
+					case events::span:      fprintf(stdout, "span"); break;
+					case events::list:      fprintf(stdout, "list"); break;
+					case events::list_item: fprintf(stdout, "list-item"); break;
+					case events::sentence:  fprintf(stdout, "sentence"); break;
+					case events::table:     fprintf(stdout, "table"); break;
+					case events::row:       fprintf(stdout, "row"); break;
+					case events::cell:      fprintf(stdout, "cell"); break;
+					}
 
-				if (reader->context != events::heading)
-				{
-					if (reader->parameter & events::superscript)
-						fprintf(stdout, " +superscript");
-					if (reader->parameter & events::subscript)
-						fprintf(stdout, " +subscript");
-					if (reader->parameter & events::emphasized)
-						fprintf(stdout, " +emphasized");
-					if (reader->parameter & events::strong)
-						fprintf(stdout, " +strong");
-					if (reader->parameter & events::underline)
-						fprintf(stdout, " +underline");
-					if (reader->parameter & events::monospace)
-						fprintf(stdout, " +monospace");
-					if (reader->parameter & events::reduced)
-						fprintf(stdout, " +reduced");
+					if (reader->context != events::heading)
+					{
+						if (reader->parameter & events::superscript)
+							fprintf(stdout, " +superscript");
+						if (reader->parameter & events::subscript)
+							fprintf(stdout, " +subscript");
+						if (reader->parameter & events::emphasized)
+							fprintf(stdout, " +emphasized");
+						if (reader->parameter & events::underline)
+							fprintf(stdout, " +underline");
+						if (reader->parameter & events::monospace)
+							fprintf(stdout, " +monospace");
+						if (reader->parameter & events::reduced)
+							fprintf(stdout, " +reduced");
+					}
 				}
 				fprintf(stdout, "\n");
 			}

@@ -61,7 +61,7 @@ namespace html
 	static const xml::context::entry article_node    = {};
 	static const xml::context::entry aside_node      = {};
 	static const xml::context::entry audio_node      = {};
-	static const xml::context::entry b_node          = { events::span, events::strong }; // HTML§14.3.4
+	static const xml::context::entry b_node          = { &cainteoir::strong }; // HTML§14.3.4
 	static const xml::context::entry base_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry basefont_node   = {};
 	static const xml::context::entry bdi_node        = {};
@@ -154,7 +154,7 @@ namespace html
 	static const xml::context::entry source_node     = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry span_node       = {};
 	static const xml::context::entry strike_node     = {};
-	static const xml::context::entry strong_node     = { events::span, events::strong }; // HTML§14.3.4
+	static const xml::context::entry strong_node     = { &cainteoir::strong }; // HTML§14.3.4
 	static const xml::context::entry style_node      = {}; // HTML§14.3.1 -- hidden
 	static const xml::context::entry sub_node        = { events::span, events::subscript }; // HTML§14.3.4
 	static const xml::context::entry summary_node    = {};
@@ -627,6 +627,15 @@ bool html_document_reader::read()
 				reader->read();
 				return true;
 			}
+			else if (reader->context()->styles)
+			{
+				type      = events::begin_context;
+				context   = events::unknown;
+				parameter = 0;
+				styles    = reader->context()->styles;
+				reader->read();
+				return true;
+			}
 		}
 		else if (ctx.top().ctx->context == cainteoir::events::list)
 		{
@@ -737,6 +746,16 @@ bool html_document_reader::read()
 					href.ref = std::string();
 				}
 
+				reader->read();
+				return true;
+			}
+			else if (reader->context()->styles)
+			{
+				type      = events::end_context;
+				context   = events::unknown;
+				parameter = 0;
+				styles    = reader->context()->styles;
+				anchor    = rdf::uri();
 				reader->read();
 				return true;
 			}

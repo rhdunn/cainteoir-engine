@@ -59,7 +59,6 @@ namespace cainteoir
 			under = subscript,
 			overunder = over | under,
 			emphasized = 0x00000004,
-			strong = 0x00000008,
 			underline = 0x00000010,
 			monospace = 0x00000020,
 			reduced = 0x00000040,
@@ -79,12 +78,14 @@ namespace cainteoir
 			: type(0)
 			, context(events::unknown)
 			, parameter(0)
+			, styles(nullptr)
 		{
 		}
 
 		uint32_t type;
 		events::context context;
 		uint32_t parameter;
+		const cainteoir::styles *styles;
 		std::shared_ptr<buffer> text;
 		rdf::uri anchor;
 	};
