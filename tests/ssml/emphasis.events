@@ -18,7 +18,7 @@ text(6): """ text."""
 end-context
 begin-context paragraph
 text(8): """This is """
-begin-context span +reduced
+begin-context span +normal-weight
 text(7): """reduced"""
 end-context
 text(6): """ text."""

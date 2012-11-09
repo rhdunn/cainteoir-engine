@@ -134,12 +134,6 @@ int main(int argc, char ** argv)
 					case events::list_item: fprintf(stdout, "list-item"); break;
 					case events::sentence:  fprintf(stdout, "sentence"); break;
 					}
-
-					if (reader->context != events::heading)
-					{
-						if (reader->parameter & events::reduced)
-							fprintf(stdout, " +reduced");
-					}
 				}
 				fprintf(stdout, "\n");
 			}

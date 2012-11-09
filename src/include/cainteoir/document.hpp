@@ -47,11 +47,6 @@ namespace cainteoir
 			sentence,
 		};
 
-		enum style
-		{
-			reduced = 0x00000040,
-		};
-
 		enum list_type
 		{
 			bullet = 0x10000000,

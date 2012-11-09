@@ -43,7 +43,7 @@ namespace ssml
 	static const xml::context::entry name_attr    = {};
 
 	static const xml::context::entry emphasis_strong  = { &cainteoir::strong };
-	static const xml::context::entry emphasis_reduced = { events::span, events::reduced };
+	static const xml::context::entry emphasis_reduced = { &cainteoir::reduced };
 	static const xml::context::entry emphasis_none    = { &cainteoir::span };
 }
 #endif
