@@ -446,56 +446,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @endcode
   */
 
-/** @var   cainteoir::events::context cainteoir::events::table
-  * @brief Table
-  *
-  * @code
-  *   context table
-  *     context row
-  *       context cell
-  *         text "a1"
-  *       end
-  *       context cell
-  *         text "a2"
-  *       end
-  *     end
-  *     context row
-  *       context cell
-  *         text "b1"
-  *       end
-  *       context cell
-  *         text "b2"
-  *       end
-  *     end
-  *   end
-  * @endcode
-  */
-
-/** @var   cainteoir::events::context cainteoir::events::row
-  * @brief Table Row
-  *
-  * @code
-  *   context row
-  *     context cell
-  *       text "1,1"
-  *     end
-  *     context cell
-  *       text "1,2"
-  *     end
-  *   end
-  * @endcode
-  */
-
-/** @var   cainteoir::events::context cainteoir::events::cell
-  * @brief Table Cell
-  *
-  * @code
-  *   context cell
-  *     text "4,8"
-  *   end
-  * @endcode
-  */
-
 /** @enum  cainteoir::events::style
   * @brief The style of the paragraph or span context.
   */

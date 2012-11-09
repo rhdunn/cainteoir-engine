@@ -37,13 +37,29 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 	{
 		if (reader->type & cainteoir::events::begin_context)
 		{
-			switch (reader->context)
+			if (reader->styles) switch (reader->styles->display)
+			{
+			case cainteoir::display::table:
+			case cainteoir::display::table_row:
+				if (need_linebreak)
+				{
+					fwrite("\n\n", 1, 2, stdout);
+					need_linebreak = false;
+				}
+				break;
+			case cainteoir::display::table_cell:
+				if (need_linebreak)
+				{
+					fwrite("\n", 1, 1, stdout);
+					need_linebreak = false;
+				}
+				break;
+			}
+			else switch (reader->context)
 			{
 			case events::paragraph:
 			case events::heading:
 			case events::list:
-			case events::table:
-			case events::row:
 				if (need_linebreak)
 				{
 					fwrite("\n\n", 1, 2, stdout);
@@ -51,7 +67,6 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 				}
 				break;
 			case events::list_item:
-			case events::cell:
 				if (need_linebreak)
 				{
 					fwrite("\n", 1, 1, stdout);
@@ -91,6 +106,15 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 					context = { "sub", false };
 				else if (reader->styles->vertical_align == cainteoir::vertical_align::super)
 					context = { "sup", false };
+				break;
+			case cainteoir::display::table:
+				context = { "table", false };
+				break;
+			case cainteoir::display::table_row:
+				context = { "tr", false };
+				break;
+			case cainteoir::display::table_cell:
+				context = { "td", false };
 				break;
 			}
 			else switch (reader->context)

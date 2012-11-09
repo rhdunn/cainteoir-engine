@@ -45,9 +45,6 @@ namespace cainteoir
 			list,
 			list_item,
 			sentence,
-			table,
-			row,
-			cell,
 		};
 
 		enum style

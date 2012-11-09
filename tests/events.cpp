@@ -42,8 +42,8 @@ void format_style(const cainteoir::styles &styles)
 	case display::inlined:    fprintf(stdout, "span"); break;
 	case display::list_item:  fprintf(stdout, "list-item"); break;
 	case display::table:      fprintf(stdout, "table"); break;
-	case display::table_row:  fprintf(stdout, "table-row"); break;
-	case display::table_cell: fprintf(stdout, "table-cell"); break;
+	case display::table_row:  fprintf(stdout, "row"); break;
+	case display::table_cell: fprintf(stdout, "cell"); break;
 	case display::none:       fprintf(stdout, "none"); break;
 	}
 
@@ -112,9 +112,6 @@ int main(int argc, char ** argv)
 					case events::list:      fprintf(stdout, "list"); break;
 					case events::list_item: fprintf(stdout, "list-item"); break;
 					case events::sentence:  fprintf(stdout, "sentence"); break;
-					case events::table:     fprintf(stdout, "table"); break;
-					case events::row:       fprintf(stdout, "row"); break;
-					case events::cell:      fprintf(stdout, "cell"); break;
 					}
 
 					if (reader->context != events::heading)
