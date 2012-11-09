@@ -33,12 +33,13 @@ void format_style(const cainteoir::styles &styles)
 {
 	using cainteoir::display;
 	using cainteoir::vertical_align;
+	using cainteoir::font_style;
 	using cainteoir::font_weight;
 
 	switch (styles.display)
 	{
 	case display::inherit:    break;
-	case display::block:      fprintf(stdout, "block"); break;
+	case display::block:      fprintf(stdout, "paragraph"); break;
 	case display::inlined:    fprintf(stdout, "span"); break;
 	case display::list_item:  fprintf(stdout, "list-item"); break;
 	case display::table:      fprintf(stdout, "table"); break;
@@ -50,15 +51,23 @@ void format_style(const cainteoir::styles &styles)
 	switch (styles.vertical_align)
 	{
 	case vertical_align::inherit:  break;
-	case vertical_align::baseline: break;
+	case vertical_align::baseline: fprintf(stdout, " +baseline"); break;
 	case vertical_align::sub:      fprintf(stdout, " +subscript"); break;
 	case vertical_align::super:    fprintf(stdout, " +superscript"); break;
+	}
+
+	switch (styles.font_style)
+	{
+	case font_style::inherit: break;
+	case font_style::normal:  fprintf(stdout, " +normal-style"); break;
+	case font_style::italic:  fprintf(stdout, " +emphasized"); break;
+	case font_style::oblique: fprintf(stdout, " +oblique"); break;
 	}
 
 	switch (styles.font_weight)
 	{
 	case font_weight::inherit: break;
-	case font_weight::normal:  fprintf(stdout, " +normal"); break;
+	case font_weight::normal:  fprintf(stdout, " +normal-weight"); break;
 	case font_weight::bold:    fprintf(stdout, " +strong"); break;
 	}
 }
@@ -116,8 +125,6 @@ int main(int argc, char ** argv)
 
 					if (reader->context != events::heading)
 					{
-						if (reader->parameter & events::emphasized)
-							fprintf(stdout, " +emphasized");
 						if (reader->parameter & events::underline)
 							fprintf(stdout, " +underline");
 						if (reader->parameter & events::monospace)

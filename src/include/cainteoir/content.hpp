@@ -191,6 +191,7 @@ namespace cainteoir
 	extern const styles superscript;
 	extern const styles subscript;
 	extern const styles emphasized;
+	extern const styles emphasized_block;
 	extern const styles strong;
 	extern const styles reduced;
 	extern const styles underlined;

@@ -32,7 +32,7 @@ namespace events = cainteoir::events;
 #ifndef DOXYGEN
 namespace ssml
 {
-	static const xml::context::entry emphasis_node  = { events::span, events::emphasized };
+	static const xml::context::entry emphasis_node  = { &cainteoir::emphasized };
 	static const xml::context::entry meta_node      = {};
 	static const xml::context::entry p_node         = { events::paragraph };
 	static const xml::context::entry s_node         = { events::sentence };
@@ -188,6 +188,15 @@ bool ssml_document_reader::read()
 			type      = events::end_context;
 			context   = (events::context)reader->context()->context;
 			parameter = reader->context()->parameter;
+			reader->read();
+			return true;
+		}
+		else if (reader->context()->styles)
+		{
+			type      = events::end_context;
+			context   = events::unknown;
+			parameter = 0;
+			styles    = reader->context()->styles;
 			reader->read();
 			return true;
 		}

@@ -456,23 +456,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * The context does not provide any specific custom styling.
   */
 
-/** @var   cainteoir::events::style cainteoir::events::emphasized
-  * @brief Emphasized
-  *
-  * The context is displayed in an italic font and is spoken with
-  * more emphasis.
-  *
-  * @code
-  *   context paragraph
-  *     text "This "
-  *     context span +emphasized
-  *       text "and"
-  *     end
-  *     text " that."
-  *   end
-  * @endcode
-  */
-
 /** @var   cainteoir::events::style cainteoir::events::underline
   * @brief Underline
   *

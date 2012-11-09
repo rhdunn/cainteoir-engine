@@ -54,7 +54,7 @@ namespace html
 
 	static const xml::context::entry a_node          = {};
 	static const xml::context::entry abbr_node       = {};
-	static const xml::context::entry address_node    = { events::paragraph, events::emphasized }; // HTML§14.3.3
+	static const xml::context::entry address_node    = { &cainteoir::emphasized_block }; // HTML§14.3.3
 	static const xml::context::entry acronym_node    = {};
 	static const xml::context::entry applet_node     = {};
 	static const xml::context::entry area_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
@@ -74,7 +74,7 @@ namespace html
 	static const xml::context::entry canvas_node     = {};
 	static const xml::context::entry caption_node    = {};
 	static const xml::context::entry center_node     = {};
-	static const xml::context::entry cite_node       = { events::span, events::emphasized }; // HTML§14.3.4
+	static const xml::context::entry cite_node       = { &cainteoir::emphasized }; // HTML§14.3.4
 	static const xml::context::entry code_node       = { events::span, events::monospace  }; // HTML§14.3.4
 	static const xml::context::entry col_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry colgroup_node   = {};
@@ -84,12 +84,12 @@ namespace html
 	static const xml::context::entry dd_node         = {};
 	static const xml::context::entry del_node        = {};
 	static const xml::context::entry details_node    = {};
-	static const xml::context::entry dfn_node        = { events::span, events::emphasized }; // HTML§14.3.4
+	static const xml::context::entry dfn_node        = { &cainteoir::emphasized }; // HTML§14.3.4
 	static const xml::context::entry dir_node        = { events::list, events::bullet }; // HTML§14.3.8
 	static const xml::context::entry div_node        = { events::paragraph };
 	static const xml::context::entry dl_node         = {};
 	static const xml::context::entry dt_node         = {};
-	static const xml::context::entry em_node         = { events::span, events::emphasized }; // HTML§14.3.4
+	static const xml::context::entry em_node         = { &cainteoir::emphasized }; // HTML§14.3.4
 	static const xml::context::entry embed_node      = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry fieldset_node   = {};
 	static const xml::context::entry figcaption_node = {};
@@ -110,7 +110,7 @@ namespace html
 	static const xml::context::entry hgroup_node     = {};
 	static const xml::context::entry hr_node         = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry html_node       = {};
-	static const xml::context::entry i_node          = { events::span, events::emphasized }; // HTML§14.3.4
+	static const xml::context::entry i_node          = { &cainteoir::emphasized }; // HTML§14.3.4
 	static const xml::context::entry iframe_node     = {};
 	static const xml::context::entry img_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry input_node      = { xml::begin_tag_type::open_close }; // HTML§12.1.2
@@ -173,7 +173,7 @@ namespace html
 	static const xml::context::entry tt_node         = { events::span, events::monospace }; // HTML§14.3.4
 	static const xml::context::entry u_node          = { events::span, events::underline }; // HTML§14.3.4
 	static const xml::context::entry ul_node         = { events::list, events::bullet }; // HTML§14.3.8
-	static const xml::context::entry var_node        = { events::span, events::emphasized }; // HTML§14.3.4
+	static const xml::context::entry var_node        = { &cainteoir::emphasized }; // HTML§14.3.4
 	static const xml::context::entry video_node      = {};
 	static const xml::context::entry wbr_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 

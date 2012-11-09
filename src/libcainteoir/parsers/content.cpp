@@ -346,6 +346,21 @@ const cainteoir::styles cainteoir::emphasized =
 	{},
 };
 
+const cainteoir::styles cainteoir::emphasized_block =
+{
+	"emphasized_block",
+	cainteoir::display::block,
+	cainteoir::vertical_align::inherit,
+	cainteoir::text_align::inherit,
+	cainteoir::text_decoration::inherit,
+	cainteoir::font_style::italic,
+	cainteoir::font_variant::inherit,
+	cainteoir::font_weight::inherit,
+	"",
+	{},
+	{},
+};
+
 const cainteoir::styles cainteoir::strong =
 {
 	"strong",
