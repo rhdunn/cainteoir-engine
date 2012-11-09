@@ -55,9 +55,6 @@ namespace cainteoir
 			nostyle = 0x00000000,
 			superscript = 0x00000001,
 			subscript = 0x00000002,
-			over = superscript,
-			under = subscript,
-			overunder = over | under,
 			emphasized = 0x00000004,
 			underline = 0x00000010,
 			monospace = 0x00000020,
@@ -68,7 +65,6 @@ namespace cainteoir
 		{
 			bullet = 0x10000000,
 			number = 0x20000000,
-			definition = 0x30000000,
 		};
 	}
 

@@ -540,75 +540,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @endcode
   */
 
-/** @var   cainteoir::events::style cainteoir::events::over
-  * @brief Over
-  *
-  * The context is rendered as the superscript text, but is placed
-  * above (over) the previous text. This is used to render ruby
-  * annotations and mathematical markup.
-  *
-  * @code
-  *   context paragraph
-  *     context span +overunder
-  *       text "a"
-  *       context span +over
-  *         text "1"
-  *       end
-  *     end
-  *   end
-  * @endcode
-  */
-
-/** @var   cainteoir::events::style cainteoir::events::under
-  * @brief Under
-  *
-  * The context is rendered as the subscript text, but is placed
-  * below (under) the previous text. This is used to render ruby
-  * annotations and mathematical markup.
-  *
-  * @code
-  *   context paragraph
-  *     context span +overunder
-  *       text "a"
-  *       context span +under
-  *         text "1"
-  *       end
-  *     end
-  *   end
-  * @endcode
-  */
-
-/** @var   cainteoir::events::style cainteoir::events::overunder
-  * @brief Over/Under
-  *
-  * The context denotes a section of text which contains text above
-  * and/or below it. This is used to render ruby annotations and
-  * mathematical markup.
-  *
-  * This context contains a text or context node that is not annotated
-  * with the under or over style. This is the primary text element
-  * that forms the root of the over/under markup.
-  *
-  * In addition to this, the context contains either:
-  *     -  a span with the over style
-  *     -  a span with the under style
-  *     -  a span with the over style and a span with the under style
-  *
-  * @code
-  *   context paragraph
-  *     context span +overunder
-  *       text "a"
-  *       context span +over
-  *         text "n"
-  *       end
-  *       context span +under
-  *         text "i = 0"
-  *       end
-  *     end
-  *   end
-  * @endcode
-  */
-
 /** @var   cainteoir::events::style cainteoir::events::emphasized
   * @brief Emphasized
   *
@@ -714,28 +645,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   *     context list-item
   *       text "2. "
   *       text "ipsum"
-  *     end
-  *   end
-  * @endcode
-  */
-
-/** @var   cainteoir::events::list_type cainteoir::events::definition
-  * @brief Definition List
-  *
-  * A definition list is a list of glossary or terminology definitions. It
-  * is typically rendered with the definition body indented from the label
-  * and both the label and body are spoken, with a short pause after the
-  * label.
-  *
-  * @code
-  *   context list +definition
-  *     context list-item
-  *       text "HTML "
-  *       text "HyperText Markup Language"
-  *     end
-  *     context list-item
-  *       text "RDF "
-  *       text "Resource Description Framework"
   *     end
   *   end
   * @endcode
