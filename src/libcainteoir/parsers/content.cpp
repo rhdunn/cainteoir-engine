@@ -163,7 +163,7 @@ const cainteoir::counter_style cainteoir::counter::decimal =
 const cainteoir::counter_style cainteoir::counter::disc =
 {
 	"disc",
-	cainteoir::counter_type::repeating,
+	cainteoir::counter_type::cyclic,
 	"",
 	"",
 	{ "\xE2\x80\xA2" }, // { '\2022' }

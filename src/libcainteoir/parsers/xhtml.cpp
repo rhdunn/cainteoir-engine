@@ -643,24 +643,24 @@ bool html_document_reader::read()
 			std::ostringstream textval;
 
 			auto counter = ctx.top().ctx->styles->list_style_type;
+			int i = ctx.top().parameter++;
+			int n = counter ? counter->symbols.size() : 0;
 			textval << counter->prefix;
-			if (counter && !counter->glyphs.empty()) switch (counter->type)
+			if (n != 0) switch (counter->type)
 			{
-			case cainteoir::counter_type::repeating:
-				textval << counter->glyphs[0];
+			case cainteoir::counter_type::cyclic:
+				textval << counter->symbols[i % n];
 				break;
 			case cainteoir::counter_type::numeric:
 				{
-					int i = ctx.top().parameter++;
 					if (i == 0)
-						textval << counter->glyphs[0];
+						textval << counter->symbols[0];
 					else
 					{
-						int n = counter->glyphs.size();
 						std::string s;
 						while (i != 0)
 						{
-							s = counter->glyphs[i % n] + s;
+							s = counter->symbols[i % n] + s;
 							i = i / n;
 						}
 						textval << s;

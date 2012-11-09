@@ -87,7 +87,7 @@ namespace cainteoir
 
 	enum class counter_type : uint8_t
 	{
-		repeating,
+		cyclic,
 		numeric,
 	};
 
@@ -97,7 +97,7 @@ namespace cainteoir
 		cainteoir::counter_type type;
 		std::string prefix;
 		std::string suffix;
-		std::vector<std::string> glyphs;
+		std::vector<std::string> symbols;
 	};
 
 	enum class size_units : uint8_t

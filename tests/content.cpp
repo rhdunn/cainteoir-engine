@@ -113,28 +113,28 @@ TEST_CASE("counter style - decimal")
 	assert(style.type == cainteoir::counter_type::numeric);
 	assert(style.prefix == "");
 	assert(style.suffix == ".");
-	assert(style.glyphs.size() == 10);
-	assert(style.glyphs[0] == "0");
-	assert(style.glyphs[1] == "1");
-	assert(style.glyphs[2] == "2");
-	assert(style.glyphs[3] == "3");
-	assert(style.glyphs[4] == "4");
-	assert(style.glyphs[5] == "5");
-	assert(style.glyphs[6] == "6");
-	assert(style.glyphs[7] == "7");
-	assert(style.glyphs[8] == "8");
-	assert(style.glyphs[9] == "9");
+	assert(style.symbols.size() == 10);
+	assert(style.symbols[0] == "0");
+	assert(style.symbols[1] == "1");
+	assert(style.symbols[2] == "2");
+	assert(style.symbols[3] == "3");
+	assert(style.symbols[4] == "4");
+	assert(style.symbols[5] == "5");
+	assert(style.symbols[6] == "6");
+	assert(style.symbols[7] == "7");
+	assert(style.symbols[8] == "8");
+	assert(style.symbols[9] == "9");
 }
 
 TEST_CASE("counter style - disc")
 {
 	cainteoir::counter_style style = cainteoir::counter::disc;
 	assert(style.name == "disc");
-	assert(style.type == cainteoir::counter_type::repeating);
+	assert(style.type == cainteoir::counter_type::cyclic);
 	assert(style.prefix == "");
 	assert(style.suffix == "");
-	assert(style.glyphs.size() == 1);
-	assert(style.glyphs[0] == "\xE2\x80\xA2"); // \x2022
+	assert(style.symbols.size() == 1);
+	assert(style.symbols[0] == "\xE2\x80\xA2"); // \x2022
 }
 
 TEST_CASE("style defaults")
