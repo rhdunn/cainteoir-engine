@@ -39,7 +39,6 @@ namespace cainteoir
 		enum context
 		{
 			unknown,
-			heading,
 			sentence,
 		};
 	}

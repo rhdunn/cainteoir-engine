@@ -555,8 +555,9 @@ bool opf_document_reader::read()
 	fileinfo &ref = mFiles[*mCurrent++];
 
 	type      = events::toc_entry;
-	context   = events::heading;
+	context   = events::unknown;
 	parameter = 0;
+	styles    = &cainteoir::heading1;
 	anchor    = rdf::uri(ref.filename, std::string());
 	text      = ref.mimetype;
 

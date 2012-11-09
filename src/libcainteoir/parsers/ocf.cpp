@@ -78,7 +78,8 @@ ocf_reader::ocf_reader(const std::shared_ptr<xml::reader> &aReader)
 	} while (mReader->read());
 
 	type    = events::toc_entry;
-	context = events::heading;
+	context = events::unknown;
+	styles  = &cainteoir::heading1;
 }
 
 bool ocf_reader::read()

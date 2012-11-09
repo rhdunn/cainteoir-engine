@@ -36,11 +36,18 @@ void format_style(const cainteoir::styles &styles)
 	using cainteoir::text_decoration;
 	using cainteoir::font_style;
 	using cainteoir::font_weight;
+	using cainteoir::text_structure;
 
 	switch (styles.display)
 	{
 	case display::inherit:    break;
-	case display::block:      fprintf(stdout, "paragraph"); break;
+	case display::block:
+		switch (styles.text_structure)
+		{
+		case text_structure::none:    fprintf(stdout, "paragraph"); break;
+		case text_structure::heading: fprintf(stdout, "heading %d", styles.toc_level); return;
+		}
+		break;
 	case display::inlined:    fprintf(stdout, "span"); break;
 	case display::list_item:  fprintf(stdout, "list-item"); break;
 	case display::table:      fprintf(stdout, "table"); break;
@@ -107,12 +114,12 @@ int main(int argc, char ** argv)
 
 		while (reader->read())
 		{
-			if (reader->type & cainteoir::events::toc_entry)
+			if (reader->type & cainteoir::events::toc_entry && reader->styles)
 			{
 				fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n",
 				        reader->anchor.ns.c_str(),
 				        reader->anchor.ref.c_str(),
-				        reader->parameter,
+				        reader->styles->toc_level,
 				        reader->text->str().c_str());
 			}
 			if (reader->type & cainteoir::events::anchor)
@@ -130,7 +137,6 @@ int main(int argc, char ** argv)
 				{
 					switch (reader->context)
 					{
-					case events::heading:   fprintf(stdout, "heading %d", reader->parameter); break;
 					case events::sentence:  fprintf(stdout, "sentence"); break;
 					}
 				}

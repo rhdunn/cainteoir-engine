@@ -166,8 +166,9 @@ bool pdf_document_reader::read()
 	{
 	case state_title:
 		type      = events::toc_entry | events::anchor;
-		context   = events::heading;
+		context   = events::unknown;
 		parameter = 0;
+		styles    = &cainteoir::heading1;
 		text      = cainteoir::make_buffer(mTitle);
 		anchor    = mSubject;
 		mState    = mIndex.empty() ? state_text : state_toc;
@@ -182,8 +183,9 @@ bool pdf_document_reader::read()
 			pagenum[len] = '\0';
 
 			type      = events::toc_entry;
-			context   = events::heading;
+			context   = events::unknown;
 			parameter = 0;
+			styles    = &cainteoir::heading1;
 			text      = cainteoir::normalize(std::make_shared<cainteoir::buffer>(title));
 			anchor    = rdf::uri(mSubject.str(), pagenum);
 

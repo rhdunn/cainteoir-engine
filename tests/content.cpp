@@ -160,6 +160,8 @@ TEST_CASE("style defaults")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - unknown")
@@ -185,6 +187,8 @@ TEST_CASE("style - unknown")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - paragraph")
@@ -210,6 +214,35 @@ TEST_CASE("style - paragraph")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
+}
+
+TEST_CASE("style - heading0")
+{
+	cainteoir::styles styles = cainteoir::heading0;
+	assert(styles.name == "heading0");
+	assert(styles.display == cainteoir::display::block);
+	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
+	assert(styles.text_align == cainteoir::text_align::center);
+	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
+	assert(styles.font_style == cainteoir::font_style::inherit);
+	assert(styles.font_variant == cainteoir::font_variant::inherit);
+	assert(styles.font_weight == cainteoir::font_weight::normal);
+	assert(styles.list_style_type == nullptr);
+	assert(styles.font_family == "serif");
+	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.value() == 2);
+	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.value() == 0);
+	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.value() == 0);
+	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
+	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - heading1")
@@ -235,6 +268,8 @@ TEST_CASE("style - heading1")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
+	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.toc_level == 1);
 }
 
 TEST_CASE("style - heading2")
@@ -260,6 +295,8 @@ TEST_CASE("style - heading2")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 2);
+	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.toc_level == 2);
 }
 
 TEST_CASE("style - heading3")
@@ -285,6 +322,8 @@ TEST_CASE("style - heading3")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
+	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.toc_level == 3);
 }
 
 TEST_CASE("style - heading4")
@@ -310,6 +349,8 @@ TEST_CASE("style - heading4")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
+	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.toc_level == 4);
 }
 
 TEST_CASE("style - heading5")
@@ -335,6 +376,8 @@ TEST_CASE("style - heading5")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
+	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.toc_level == 5);
 }
 
 TEST_CASE("style - heading6")
@@ -360,6 +403,8 @@ TEST_CASE("style - heading6")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
+	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.toc_level == 6);
 }
 
 TEST_CASE("style - span")
@@ -385,6 +430,8 @@ TEST_CASE("style - span")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - sentence")
@@ -410,6 +457,8 @@ TEST_CASE("style - sentence")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - superscript")
@@ -435,6 +484,8 @@ TEST_CASE("style - superscript")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - subscript")
@@ -460,6 +511,8 @@ TEST_CASE("style - subscript")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - emphasized")
@@ -485,6 +538,8 @@ TEST_CASE("style - emphasized")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - emphasized-block")
@@ -510,6 +565,8 @@ TEST_CASE("style - emphasized-block")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - strong")
@@ -535,6 +592,8 @@ TEST_CASE("style - strong")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - reduced")
@@ -560,6 +619,8 @@ TEST_CASE("style - reduced")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - underlined")
@@ -585,6 +646,8 @@ TEST_CASE("style - underlined")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - monospace")
@@ -610,6 +673,8 @@ TEST_CASE("style - monospace")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - monospace-block")
@@ -635,6 +700,8 @@ TEST_CASE("style - monospace-block")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - bullet_list")
@@ -660,6 +727,8 @@ TEST_CASE("style - bullet_list")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - number_list")
@@ -685,6 +754,8 @@ TEST_CASE("style - number_list")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - list_item")
@@ -710,6 +781,8 @@ TEST_CASE("style - list_item")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - table")
@@ -735,6 +808,8 @@ TEST_CASE("style - table")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - table_row")
@@ -760,6 +835,8 @@ TEST_CASE("style - table_row")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - table_cell")
@@ -785,4 +862,6 @@ TEST_CASE("style - table_cell")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.toc_level == 0);
 }

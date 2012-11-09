@@ -87,8 +87,9 @@ bool ncx_document_reader::read()
 	if (!mTitle.empty())
 	{
 		type      = events::toc_entry;
-		context   = events::heading;
+		context   = events::unknown;
 		parameter = 0;
+		styles    = &cainteoir::heading0;
 		text      = cainteoir::make_buffer(mTitle);
 		anchor    = mSubject;
 		mTitle.clear();
@@ -113,8 +114,17 @@ bool ncx_document_reader::read()
 			if (!anchor.empty())
 			{
 				type      = events::toc_entry;
-				context   = events::heading;
-				parameter = mDepth;
+				context   = events::unknown;
+				parameter = 0;
+				switch (mDepth)
+				{
+				case 1:  styles = &cainteoir::heading1; break;
+				case 2:  styles = &cainteoir::heading2; break;
+				case 3:  styles = &cainteoir::heading3; break;
+				case 4:  styles = &cainteoir::heading4; break;
+				case 5:  styles = &cainteoir::heading5; break;
+				default: styles = &cainteoir::heading6; break;
+				}
 				return true;
 			}
 		}
@@ -131,8 +141,17 @@ bool ncx_document_reader::read()
 			if (text)
 			{
 				type      = events::toc_entry;
-				context   = events::heading;
-				parameter = mDepth;
+				context   = events::unknown;
+				parameter = 0;
+				switch (mDepth)
+				{
+				case 1:  styles = &cainteoir::heading1; break;
+				case 2:  styles = &cainteoir::heading2; break;
+				case 3:  styles = &cainteoir::heading3; break;
+				case 4:  styles = &cainteoir::heading4; break;
+				case 5:  styles = &cainteoir::heading5; break;
+				default: styles = &cainteoir::heading6; break;
+				}
 				return true;
 			}
 		}

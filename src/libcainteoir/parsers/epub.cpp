@@ -93,6 +93,7 @@ bool epub_document_reader::read()
 					type      = child->type;
 					context   = child->context;
 					parameter = child->parameter;
+					styles    = child->styles;
 					text      = child->text;
 					return true;
 				}

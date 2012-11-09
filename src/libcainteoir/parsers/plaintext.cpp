@@ -63,8 +63,9 @@ bool plaintext_document_reader::read()
 	{
 	case state_title:
 		type      = events::toc_entry | events::anchor;
-		context   = events::heading;
+		context   = events::unknown;
 		parameter = 0;
+		styles    = &cainteoir::heading0;
 		text      = cainteoir::make_buffer(mTitle);
 		anchor    = mSubject;
 		mState    = mData->empty() ? state_eof : state_text;

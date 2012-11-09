@@ -308,8 +308,9 @@ bool rtf_document_reader::internal_read(rdf::graph *aGraph)
 		}
 
 		type      = events::toc_entry | events::anchor;
-		context   = events::heading;
+		context   = events::unknown;
 		parameter = 0;
+		styles    = &cainteoir::heading0;
 		text      = cainteoir::make_buffer(mTitle);
 		anchor    = mSubject;
 		mState    = state_text;

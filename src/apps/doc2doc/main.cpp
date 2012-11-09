@@ -57,16 +57,6 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 				}
 				break;
 			}
-			else switch (reader->context)
-			{
-			case events::heading:
-				if (need_linebreak)
-				{
-					fwrite("\n\n", 1, 2, stdout);
-					need_linebreak = false;
-				}
-				break;
-			}
 		}
 		if (reader->type & cainteoir::events::text)
 		{
@@ -115,6 +105,15 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 					context = { "ul", false };
 				else if (reader->styles->list_style_type == &cainteoir::counter::decimal)
 					context = { "ol", false };
+				else if (reader->styles->text_structure == cainteoir::text_structure::heading) switch (reader->styles->toc_level)
+				{
+				case 1:  context = { "h1", true }; break;
+				case 2:  context = { "h2", true }; break;
+				case 3:  context = { "h3", true }; break;
+				case 4:  context = { "h4", true }; break;
+				case 5:  context = { "h5", true }; break;
+				default: context = { "h6", true }; break;
+				}
 				else
 					context = { "p", false };
 				break;
@@ -131,21 +130,8 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 				context = { "li", false };
 				break;
 			}
-			else switch (reader->context)
-			{
-			case events::heading:
-				switch (reader->parameter)
-				{
-				case 1:  context = { "h1", true }; break;
-				case 2:  context = { "h2", true }; break;
-				case 3:  context = { "h3", true }; break;
-				case 4:  context = { "h4", true }; break;
-				case 5:  context = { "h5", true }; break;
-				default: context = { "h6", true }; break;
-				}
-				break;
-			default:                context = { "span", true }; break;
-			}
+			else
+				context = { "span", true };
 
 			if (context.second && !first)
 				fprintf(stdout, "\n<%s>", context.first.c_str());

@@ -85,19 +85,16 @@ namespace cainteoir
 		line_through,
 	};
 
+	enum class text_structure : uint8_t
+	{
+		none,
+		heading,
+	};
+
 	enum class counter_type : uint8_t
 	{
 		cyclic,
 		numeric,
-	};
-
-	struct counter_style
-	{
-		std::string name;
-		cainteoir::counter_type type;
-		std::string prefix;
-		std::string suffix;
-		std::vector<std::string> symbols;
 	};
 
 	enum class size_units : uint8_t
@@ -109,6 +106,15 @@ namespace cainteoir
 		points,
 		picas,
 		pixels,
+	};
+
+	struct counter_style
+	{
+		std::string name;
+		cainteoir::counter_type type;
+		std::string prefix;
+		std::string suffix;
+		std::vector<std::string> symbols;
 	};
 
 	struct size
@@ -157,6 +163,11 @@ namespace cainteoir
 		cainteoir::size font_size;
 		cainteoir::margin margin;
 
+		// Cainteoir Text-to-Speech specific styles (not in CSS spec):
+
+		cainteoir::text_structure text_structure;
+		int toc_level;
+
 		styles(const std::string &aName)
 			: name(aName)
 			, display(cainteoir::display::inherit)
@@ -167,6 +178,8 @@ namespace cainteoir
 			, font_variant(cainteoir::font_variant::inherit)
 			, font_weight(cainteoir::font_weight::inherit)
 			, list_style_type(nullptr)
+			, text_structure(cainteoir::text_structure::none)
+			, toc_level(0)
 		{
 		}
 
@@ -181,7 +194,9 @@ namespace cainteoir
 		       const cainteoir::counter_style *aListStyleType,
 		       const std::string &aFontFamily,
 		       const cainteoir::size &aFontSize,
-		       const cainteoir::margin &aMargin)
+		       const cainteoir::margin &aMargin,
+		       const cainteoir::text_structure aTextStructure,
+		       int aTocLevel)
 			: name(aName)
 			, display(aDisplay)
 			, vertical_align(aVerticalAlign)
@@ -194,6 +209,8 @@ namespace cainteoir
 			, font_family(aFontFamily)
 			, font_size(aFontSize)
 			, margin(aMargin)
+			, text_structure(aTextStructure)
+			, toc_level(aTocLevel)
 		{
 		}
 	};
@@ -206,6 +223,7 @@ namespace cainteoir
 
 	extern const styles unknown;
 	extern const styles paragraph;
+	extern const styles heading0;
 	extern const styles heading1;
 	extern const styles heading2;
 	extern const styles heading3;

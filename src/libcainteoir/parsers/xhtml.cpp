@@ -99,12 +99,12 @@ namespace html
 	static const xml::context::entry form_node       = {};
 	static const xml::context::entry frame_node      = {};
 	static const xml::context::entry frameset_node   = {};
-	static const xml::context::entry h1_node         = { events::heading, 1 };
-	static const xml::context::entry h2_node         = { events::heading, 2 };
-	static const xml::context::entry h3_node         = { events::heading, 3 };
-	static const xml::context::entry h4_node         = { events::heading, 4 };
-	static const xml::context::entry h5_node         = { events::heading, 5 };
-	static const xml::context::entry h6_node         = { events::heading, 6 };
+	static const xml::context::entry h1_node         = { &cainteoir::heading1 };
+	static const xml::context::entry h2_node         = { &cainteoir::heading2 };
+	static const xml::context::entry h3_node         = { &cainteoir::heading3 };
+	static const xml::context::entry h4_node         = { &cainteoir::heading4 };
+	static const xml::context::entry h5_node         = { &cainteoir::heading5 };
+	static const xml::context::entry h6_node         = { &cainteoir::heading6 };
 	static const xml::context::entry head_node       = {};
 	static const xml::context::entry header_node     = {};
 	static const xml::context::entry hgroup_node     = {};
@@ -585,8 +585,9 @@ bool html_document_reader::read()
 	if (ctx.top().ctx == &html::title_node)
 	{
 		type      = events::toc_entry | events::anchor;
-		context   = events::heading;
+		context   = events::unknown;
 		parameter = 0;
+		styles    = &cainteoir::heading0;
 		text      = cainteoir::make_buffer(mTitle);
 		anchor    = mSubject;
 		ctx.pop();
@@ -612,12 +613,6 @@ bool html_document_reader::read()
 				skipNode(*reader, reader->nodeName());
 			else if (reader->context()->context != cainteoir::events::unknown)
 			{
-				if (reader->context()->context == cainteoir::events::heading)
-				{
-					htext.clear();
-					genAnchor = true;
-				}
-
 				type      = events::begin_context;
 				context   = (events::context)reader->context()->context;
 				parameter = reader->context()->parameter;
@@ -629,6 +624,12 @@ bool html_document_reader::read()
 			{
 				if (reader->context()->styles->list_style_type)
 					ctx.push({ reader->context(), 1 });
+
+				if (reader->context()->styles->text_structure == cainteoir::text_structure::heading)
+				{
+					htext.clear();
+					genAnchor = true;
+				}
 
 				type      = events::begin_context;
 				context   = events::unknown;
@@ -738,11 +739,19 @@ bool html_document_reader::read()
 				context   = (events::context)reader->context()->context;
 				parameter = reader->context()->parameter;
 				anchor    = rdf::uri();
+			}
+			else if (reader->context()->styles)
+			{
+				type      = events::end_context;
+				context   = events::unknown;
+				parameter = 0;
+				styles    = reader->context()->styles;
+				anchor    = rdf::uri();
 
-				if (reader->context()->context == cainteoir::events::heading)
+				if (styles->text_structure == cainteoir::text_structure::heading)
 					mTitle.clear();
 
-				if (reader->context()->context == cainteoir::events::heading && !htext.empty())
+				if (styles->text_structure == cainteoir::text_structure::heading && !htext.empty())
 				{
 					text = htext.normalize();
 					for (char *c = (char *)text->begin(), *last = (char *)text->end(); c != last; ++c)
@@ -764,16 +773,6 @@ bool html_document_reader::read()
 					href.ref = std::string();
 				}
 
-				reader->read();
-				return true;
-			}
-			else if (reader->context()->styles)
-			{
-				type      = events::end_context;
-				context   = events::unknown;
-				parameter = 0;
-				styles    = reader->context()->styles;
-				anchor    = rdf::uri();
 				reader->read();
 				return true;
 			}
