@@ -41,7 +41,6 @@ namespace cainteoir
 			unknown,
 			heading,
 			list,
-			list_item,
 			sentence,
 		};
 

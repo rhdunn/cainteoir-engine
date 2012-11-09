@@ -120,7 +120,7 @@ namespace html
 	static const xml::context::entry keygen_node     = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry label_node      = {};
 	static const xml::context::entry legend_node     = {};
-	static const xml::context::entry li_node         = {};
+	static const xml::context::entry li_node         = { &cainteoir::list_item };
 	static const xml::context::entry link_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry map_node        = {};
 	static const xml::context::entry mark_node       = {};
@@ -640,7 +640,7 @@ bool html_document_reader::read()
 		}
 		else if (ctx.top().ctx->context == cainteoir::events::list)
 		{
-			if (reader->context() == &html::li_node)
+			if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item)
 			{
 				if (ctx.top().ctx->parameter == cainteoir::events::bullet)
 					text = std::make_shared<cainteoir::buffer>("\xE2\x80\xA2 ");
@@ -656,8 +656,9 @@ bool html_document_reader::read()
 				}
 
 				type      = events::begin_context | events::text;
-				context   = events::list_item;
+				context   = events::unknown;
 				parameter = 0;
+				styles    = reader->context()->styles;
 				reader->read();
 				return true;
 			}

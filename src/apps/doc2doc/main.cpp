@@ -49,6 +49,7 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 				}
 				break;
 			case cainteoir::display::table_cell:
+			case cainteoir::display::list_item:
 				if (need_linebreak)
 				{
 					fwrite("\n", 1, 1, stdout);
@@ -63,13 +64,6 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 				if (need_linebreak)
 				{
 					fwrite("\n\n", 1, 2, stdout);
-					need_linebreak = false;
-				}
-				break;
-			case events::list_item:
-				if (need_linebreak)
-				{
-					fwrite("\n", 1, 1, stdout);
 					need_linebreak = false;
 				}
 				break;
@@ -130,6 +124,9 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 			case cainteoir::display::table_cell:
 				context = { "td", false };
 				break;
+			case cainteoir::display::list_item:
+				context = { "li", false };
+				break;
 			}
 			else switch (reader->context)
 			{
@@ -145,7 +142,6 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 				}
 				break;
 			case events::list:      context = { "ol", true }; break;
-			case events::list_item: context = { "li", true }; break;
 			default:                context = { "span", true }; break;
 			}
 
