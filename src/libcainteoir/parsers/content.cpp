@@ -497,7 +497,7 @@ const cainteoir::styles cainteoir::list_item =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	cainteoir::list_style_type::inherit,
+	cainteoir::list_style_type::none,
 	"",
 	{},
 	{},

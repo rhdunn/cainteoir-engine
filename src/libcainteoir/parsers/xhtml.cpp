@@ -627,15 +627,8 @@ bool html_document_reader::read()
 			}
 			else if (reader->context()->styles)
 			{
-				switch (reader->context()->styles->list_style_type)
-				{
-				case cainteoir::list_style_type::inherit:
-				case cainteoir::list_style_type::none:
-					break;
-				default:
+				if (reader->context()->styles->list_style_type != cainteoir::list_style_type::none)
 					ctx.push({ reader->context(), 1 });
-					break;
-				}
 
 				type      = events::begin_context;
 				context   = events::unknown;

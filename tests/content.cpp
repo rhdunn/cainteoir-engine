@@ -667,7 +667,7 @@ TEST_CASE("style - list_item")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::inherit);
+	assert(styles.list_style_type == cainteoir::list_style_type::none);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);

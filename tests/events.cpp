@@ -83,7 +83,6 @@ void format_style(const cainteoir::styles &styles)
 
 	switch (styles.list_style_type)
 	{
-	case list_style_type::inherit: break;
 	case list_style_type::none:    break;
 	case list_style_type::disc:    fprintf(stdout, " +bullet-list"); break;
 	case list_style_type::decimal: fprintf(stdout, " +number-list"); break;

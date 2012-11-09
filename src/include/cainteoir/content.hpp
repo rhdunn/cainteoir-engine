@@ -86,7 +86,6 @@ namespace cainteoir
 
 	enum class list_style_type : uint8_t
 	{
-		inherit,
 		none,
 		disc,
 		decimal,
