@@ -32,6 +32,7 @@ namespace events = cainteoir::events;
 void format_style(const cainteoir::styles &styles)
 {
 	using cainteoir::display;
+	using cainteoir::vertical_align;
 	using cainteoir::font_weight;
 
 	switch (styles.display)
@@ -44,6 +45,14 @@ void format_style(const cainteoir::styles &styles)
 	case display::table_row:  fprintf(stdout, "table-row"); break;
 	case display::table_cell: fprintf(stdout, "table-cell"); break;
 	case display::none:       fprintf(stdout, "none"); break;
+	}
+
+	switch (styles.vertical_align)
+	{
+	case vertical_align::inherit:  break;
+	case vertical_align::baseline: break;
+	case vertical_align::sub:      fprintf(stdout, " +subscript"); break;
+	case vertical_align::super:    fprintf(stdout, " +superscript"); break;
 	}
 
 	switch (styles.font_weight)
@@ -110,10 +119,6 @@ int main(int argc, char ** argv)
 
 					if (reader->context != events::heading)
 					{
-						if (reader->parameter & events::superscript)
-							fprintf(stdout, " +superscript");
-						if (reader->parameter & events::subscript)
-							fprintf(stdout, " +subscript");
 						if (reader->parameter & events::emphasized)
 							fprintf(stdout, " +emphasized");
 						if (reader->parameter & events::underline)

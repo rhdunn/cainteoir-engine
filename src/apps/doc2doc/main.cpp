@@ -87,6 +87,10 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 			case cainteoir::display::inlined:
 				if (reader->styles->font_weight == cainteoir::font_weight::bold)
 					context = { "strong", false };
+				else if (reader->styles->vertical_align == cainteoir::vertical_align::sub)
+					context = { "sub", false };
+				else if (reader->styles->vertical_align == cainteoir::vertical_align::super)
+					context = { "sup", false };
 				break;
 			}
 			else switch (reader->context)
@@ -106,8 +110,6 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 			case events::span:
 				switch (reader->parameter)
 				{
-				case events::superscript: context = { "sup", false }; break;
-				case events::subscript:   context = { "sub", false }; break;
 				case events::emphasized:  context = { "em", false }; break;
 				case events::underline:   context = { "u", false }; break;
 				case events::monospace:   context = { "pre", false }; break;

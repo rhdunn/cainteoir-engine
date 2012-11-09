@@ -506,40 +506,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * The context does not provide any specific custom styling.
   */
 
-/** @var   cainteoir::events::style cainteoir::events::superscript
-  * @brief Superscript
-  *
-  * The context is raised above the text in a smaller font and is
-  * placed to the side of the previous text.
-  *
-  * @code
-  *   context paragraph
-  *     text "The 1"
-  *     context span +superscript
-  *       text "st"
-  *     end
-  *     text " of May."
-  *   end
-  * @endcode
-  */
-
-/** @var   cainteoir::events::style cainteoir::events::subscript
-  * @brief Subscript
-  *
-  * The context is lowered below the text in a smaller font and is
-  * placed to the side of the previous text.
-  *
-  * @code
-  *   context paragraph
-  *     text "a"
-  *     context span +subscript
-  *       text "1"
-  *     end
-  *     text " is the first item."
-  *   end
-  * @endcode
-  */
-
 /** @var   cainteoir::events::style cainteoir::events::emphasized
   * @brief Emphasized
   *

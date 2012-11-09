@@ -53,8 +53,6 @@ namespace cainteoir
 		enum style
 		{
 			nostyle = 0x00000000,
-			superscript = 0x00000001,
-			subscript = 0x00000002,
 			emphasized = 0x00000004,
 			underline = 0x00000010,
 			monospace = 0x00000020,

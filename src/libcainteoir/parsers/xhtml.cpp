@@ -156,9 +156,9 @@ namespace html
 	static const xml::context::entry strike_node     = {};
 	static const xml::context::entry strong_node     = { &cainteoir::strong }; // HTML§14.3.4
 	static const xml::context::entry style_node      = {}; // HTML§14.3.1 -- hidden
-	static const xml::context::entry sub_node        = { events::span, events::subscript }; // HTML§14.3.4
+	static const xml::context::entry sub_node        = { &cainteoir::subscript }; // HTML§14.3.4
 	static const xml::context::entry summary_node    = {};
-	static const xml::context::entry sup_node        = { events::span, events::superscript }; // HTML§14.3.4
+	static const xml::context::entry sup_node        = { &cainteoir::superscript }; // HTML§14.3.4
 	static const xml::context::entry table_node      = { events::table };
 	static const xml::context::entry tbody_node      = {};
 	static const xml::context::entry td_node         = { events::cell };
