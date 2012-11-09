@@ -691,7 +691,7 @@ bool html_document_reader::read()
 					htext += text;
 
 				type      = events::text;
-				context   = events::span;
+				context   = events::unknown;
 				parameter = 0;
 				anchor    = rdf::uri();
 				reader->read();
@@ -704,7 +704,7 @@ bool html_document_reader::read()
 			if (text)
 			{
 				type      = events::text;
-				context   = events::span;
+				context   = events::unknown;
 				parameter = 0;
 				anchor    = rdf::uri();
 				reader->read();

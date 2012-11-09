@@ -152,7 +152,7 @@ bool ssml_document_reader::read()
 		if (text)
 		{
 			type     |= events::text;
-			context   = events::span;
+			context   = events::unknown;
 			parameter = 0;
 		}
 		if (current != nullptr && current->context != events::unknown)

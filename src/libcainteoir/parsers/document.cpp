@@ -349,24 +349,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @endcode
   */
 
-/** @var   cainteoir::events::context cainteoir::events::span
-  * @brief Inline Text
-  *
-  * A span is a section of text within a paragraph that is spoken and displayed as
-  * part of that block, as if the span was not present. This is used to control the
-  * presentation and speech of the span text.
-  *
-  * @code
-  *   context paragraph +nostyle
-  *     text "This is "
-  *     context span +strong
-  *       text "bold"
-  *     end
-  *     text "text."
-  *   end
-  * @endcode
-  */
-
 /** @var   cainteoir::events::context cainteoir::events::list
   * @brief List
   *

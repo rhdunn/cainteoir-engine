@@ -128,7 +128,6 @@ int main(int argc, char ** argv)
 					switch (reader->context)
 					{
 					case events::heading:   fprintf(stdout, "heading %d", reader->parameter); break;
-					case events::span:      fprintf(stdout, "span"); break;
 					case events::list:      fprintf(stdout, "list"); break;
 					case events::list_item: fprintf(stdout, "list-item"); break;
 					case events::sentence:  fprintf(stdout, "sentence"); break;

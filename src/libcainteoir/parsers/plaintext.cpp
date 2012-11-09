@@ -71,7 +71,7 @@ bool plaintext_document_reader::read()
 		break;
 	case state_text:
 		type      = events::text;
-		context   = events::span;
+		context   = events::unknown;
 		parameter = 0;
 		text      = mData;
 		anchor    = rdf::uri();

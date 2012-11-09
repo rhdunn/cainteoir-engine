@@ -40,7 +40,6 @@ namespace cainteoir
 		{
 			unknown,
 			heading,
-			span,
 			list,
 			list_item,
 			sentence,
