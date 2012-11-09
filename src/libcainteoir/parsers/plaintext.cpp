@@ -62,21 +62,17 @@ bool plaintext_document_reader::read()
 	switch (mState)
 	{
 	case state_title:
-		type      = events::toc_entry | events::anchor;
-		context   = events::unknown;
-		parameter = 0;
-		styles    = &cainteoir::heading0;
-		text      = cainteoir::make_buffer(mTitle);
-		anchor    = mSubject;
-		mState    = mData->empty() ? state_eof : state_text;
+		type   = events::toc_entry | events::anchor;
+		styles = &cainteoir::heading0;
+		text   = cainteoir::make_buffer(mTitle);
+		anchor = mSubject;
+		mState = mData->empty() ? state_eof : state_text;
 		break;
 	case state_text:
-		type      = events::text;
-		context   = events::unknown;
-		parameter = 0;
-		text      = mData;
-		anchor    = rdf::uri();
-		mState    = state_eof;
+		type   = events::text;
+		text   = mData;
+		anchor = rdf::uri();
+		mState = state_eof;
 		break;
 	case state_eof:
 		type = 0;

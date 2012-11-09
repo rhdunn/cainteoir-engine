@@ -86,12 +86,10 @@ bool ncx_document_reader::read()
 {
 	if (!mTitle.empty())
 	{
-		type      = events::toc_entry;
-		context   = events::unknown;
-		parameter = 0;
-		styles    = &cainteoir::heading0;
-		text      = cainteoir::make_buffer(mTitle);
-		anchor    = mSubject;
+		type   = events::toc_entry;
+		styles = &cainteoir::heading0;
+		text   = cainteoir::make_buffer(mTitle);
+		anchor = mSubject;
 		mTitle.clear();
 		return true;
 	}
@@ -113,9 +111,7 @@ bool ncx_document_reader::read()
 			current = outer = nullptr;
 			if (!anchor.empty())
 			{
-				type      = events::toc_entry;
-				context   = events::unknown;
-				parameter = 0;
+				type = events::toc_entry;
 				switch (mDepth)
 				{
 				case 1:  styles = &cainteoir::heading1; break;
@@ -140,9 +136,7 @@ bool ncx_document_reader::read()
 				anchor = rdf::uri(src.substr(0, ref), src.substr(ref+1));
 			if (text)
 			{
-				type      = events::toc_entry;
-				context   = events::unknown;
-				parameter = 0;
+				type = events::toc_entry;
 				switch (mDepth)
 				{
 				case 1:  styles = &cainteoir::heading1; break;

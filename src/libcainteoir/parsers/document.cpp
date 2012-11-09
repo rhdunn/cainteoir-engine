@@ -322,54 +322,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @endcode
   */
 
-/** @enum  cainteoir::events::context
-  * @brief The rendering context.
-  *
-  * This forms the basis for the abstract document rendering model used by the Cainteoir
-  * Text-to-Speech engine. All document formats (RTF, HTML, SSML, PDF, ...) get converted
-  * to this form.
-  *
-  * The rendering model includes both presentation (display) and text-to-speech (tts)
-  * elements.
-  */
-
-/** @var   cainteoir::events::context cainteoir::events::unknown
-  * @brief An unspecified context.
-  */
-
-/** @var   cainteoir::events::context cainteoir::events::heading
-  * @brief Heading
-  *
-  * A heading is a line of text that denotes a book, part, chapter or section title.
-  *
-  * @code
-  *   context heading 1
-  *     text "Frankenstein"
-  *   end
-  * @endcode
-  */
-
-/** @var   cainteoir::events::context cainteoir::events::sentence
-  * @brief Sentence
-  *
-  * A sentence is an explicitly marked up sentence within a paragraph block.
-  * If provided, the text-to-speech processor will not attempt to identify
-  * sentences within that text, but will treat it as part of a single sentence.
-  *
-  * @code
-  *   context paragraph
-  *     text "'"
-  *     context sentence
-  *       text "How are you?"
-  *     end
-  *     text "'"
-  *     context sentence
-  *       text "said Mr. Davis."
-  *     end
-  *   end
-  * @endcode
-  */
-
 /** @enum  cainteoir::capability_types
   * @brief The capabilities provided by different document types.
   */

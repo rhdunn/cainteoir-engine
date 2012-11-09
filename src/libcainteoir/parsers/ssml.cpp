@@ -150,30 +150,16 @@ bool ssml_document_reader::read()
 		text = reader->nodeValue().content();
 		type = 0;
 		if (text)
+			type |= events::text;
+		if (current != nullptr && current->styles)
 		{
-			type     |= events::text;
-			context   = events::unknown;
-			parameter = 0;
-		}
-		if (current != nullptr && current->context != events::unknown)
-		{
-			type     |= events::begin_context;
-			context   = (events::context)current->context;
-			parameter = current->parameter;
-			styles    = nullptr;
-			current = nullptr;
-		}
-		else if (current != nullptr && current->styles)
-		{
-			type     |= events::begin_context;
-			context   = events::unknown;
-			parameter = 0;
-			styles    = current->styles;
+			type   |= events::begin_context;
+			styles  = current->styles;
 			current = nullptr;
 		}
 		if (type != 0)
 		{
-			anchor    = rdf::uri();
+			anchor = rdf::uri();
 			reader->read();
 			return true;
 		}
@@ -183,20 +169,10 @@ bool ssml_document_reader::read()
 		break;
 	case xml::reader::endTagNode:
 		current = nullptr;
-		if (reader->context()->context != events::unknown)
+		if (reader->context()->styles)
 		{
-			type      = events::end_context;
-			context   = (events::context)reader->context()->context;
-			parameter = reader->context()->parameter;
-			reader->read();
-			return true;
-		}
-		else if (reader->context()->styles)
-		{
-			type      = events::end_context;
-			context   = events::unknown;
-			parameter = 0;
-			styles    = reader->context()->styles;
+			type   = events::end_context;
+			styles = reader->context()->styles;
 			reader->read();
 			return true;
 		}

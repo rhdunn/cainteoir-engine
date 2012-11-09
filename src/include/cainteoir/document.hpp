@@ -35,26 +35,17 @@ namespace cainteoir
 			toc_entry = 0x0008,
 			anchor = 0x0010,
 		};
-
-		enum context
-		{
-			unknown,
-		};
 	}
 
 	struct document_item
 	{
 		document_item()
 			: type(0)
-			, context(events::unknown)
-			, parameter(0)
 			, styles(nullptr)
 		{
 		}
 
 		uint32_t type;
-		events::context context;
-		uint32_t parameter;
 		const cainteoir::styles *styles;
 		std::shared_ptr<buffer> text;
 		rdf::uri anchor;

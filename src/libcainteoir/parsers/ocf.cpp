@@ -27,7 +27,6 @@
 namespace rdf    = cainteoir::rdf;
 namespace xmlns  = cainteoir::xml::xmlns;
 namespace xml    = cainteoir::xml;
-namespace events = cainteoir::events;
 
 #ifndef DOXYGEN
 namespace ocf
@@ -77,8 +76,6 @@ ocf_reader::ocf_reader(const std::shared_ptr<xml::reader> &aReader)
 			break;
 	} while (mReader->read());
 
-	type    = events::toc_entry;
-	context = events::unknown;
 	styles  = &cainteoir::heading1;
 }
 

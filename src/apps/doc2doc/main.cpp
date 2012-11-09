@@ -130,8 +130,6 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 				context = { "li", false };
 				break;
 			}
-			else
-				context = { "span", true };
 
 			if (context.second && !first)
 				fprintf(stdout, "\n<%s>", context.first.c_str());

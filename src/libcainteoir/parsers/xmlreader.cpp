@@ -294,23 +294,23 @@ std::string cainteoir::xml::namespaces::lookup(const std::string &aPrefix) const
 
 /** @brief The specified element/attribute was not found.
   */
-const cainteoir::xml::context::entry cainteoir::xml::unknown_context = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::unknown_context = {};
 
 /** @brief The \@xml:base attribute.
   */
-const cainteoir::xml::context::entry cainteoir::xml::base_attr  = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::base_attr = {};
 
 /** @brief The \@xml:id attribute.
   */
-const cainteoir::xml::context::entry cainteoir::xml::id_attr    = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::id_attr = {};
 
 /** @brief The \@xml:lang attribute.
   */
-const cainteoir::xml::context::entry cainteoir::xml::lang_attr  = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::lang_attr = {};
 
 /** @brief The \@xml:space attribute.
   */
-const cainteoir::xml::context::entry cainteoir::xml::space_attr = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::space_attr = {};
 
 /** @var   const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir::xml::attrs
   * @brief Attributes in the XML namespace.

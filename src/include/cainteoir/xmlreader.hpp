@@ -142,34 +142,18 @@ namespace cainteoir { namespace xml
 	{
 		struct entry
 		{
-			uint32_t context;
-			uint32_t parameter;
 			xml::begin_tag_type begin_tag_type;
 			const cainteoir::styles *styles;
 
-			entry(uint32_t aContext = 0,
-			      uint32_t aParameter = 0,
-			      xml::begin_tag_type aBeginTagType = xml::begin_tag_type::open)
-				: context(aContext)
-				, parameter(aParameter)
-				, begin_tag_type(aBeginTagType)
-				, styles(nullptr)
-			{
-			}
-
-			entry(xml::begin_tag_type aBeginTagType)
-				: context(0)
-				, parameter(0)
-				, begin_tag_type(aBeginTagType)
+			entry(xml::begin_tag_type aBeginTagType = xml::begin_tag_type::open)
+				: begin_tag_type(aBeginTagType)
 				, styles(nullptr)
 			{
 			}
 
 			entry(const cainteoir::styles *aStyles,
 			      xml::begin_tag_type aBeginTagType = xml::begin_tag_type::open)
-				: context(0)
-				, parameter(0)
-				, begin_tag_type(aBeginTagType)
+				: begin_tag_type(aBeginTagType)
 				, styles(aStyles)
 			{
 			}
