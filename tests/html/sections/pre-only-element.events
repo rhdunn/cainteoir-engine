@@ -1,6 +1,6 @@
 toc-entry [] depth=0 title="""pre-only-element.html"""
 anchor []
-begin-context paragraph +monospace
+begin-context block +monospace
 text(6): """
 Test
 """

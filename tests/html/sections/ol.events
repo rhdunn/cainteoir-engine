@@ -1,6 +1,6 @@
 toc-entry [] depth=0 title="""Test File"""
 anchor []
-begin-context paragraph +list=decimal
+begin-context block +list=decimal
 begin-context list-item
 text(3): """1. """
 text(3): """one"""

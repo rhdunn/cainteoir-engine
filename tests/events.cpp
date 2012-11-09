@@ -44,8 +44,9 @@ void format_style(const cainteoir::styles &styles)
 	case display::block:
 		switch (styles.text_structure)
 		{
-		case text_structure::none:    fprintf(stdout, "paragraph"); break;
-		case text_structure::heading: fprintf(stdout, "heading %d", styles.toc_level); return;
+		case text_structure::none:      fprintf(stdout, "block"); break;
+		case text_structure::paragraph: fprintf(stdout, "paragraph"); break;
+		case text_structure::heading:   fprintf(stdout, "heading %d", styles.toc_level); return;
 		}
 		break;
 	case display::inlined:

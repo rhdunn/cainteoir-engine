@@ -214,7 +214,7 @@ TEST_CASE("style - paragraph")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == cainteoir::text_structure::paragraph);
 	assert(styles.toc_level == 0);
 }
 
@@ -565,7 +565,7 @@ TEST_CASE("style - emphasized-block")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == cainteoir::text_structure::paragraph);
 	assert(styles.toc_level == 0);
 }
 

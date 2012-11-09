@@ -89,6 +89,7 @@ namespace cainteoir
 	{
 		none,
 		heading,
+		paragraph,
 		sentence,
 	};
 

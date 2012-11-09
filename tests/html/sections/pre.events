@@ -1,5 +1,5 @@
 toc-entry [] depth=0 title="""Test File"""
 anchor []
-begin-context paragraph +monospace
+begin-context block +monospace
 text(18): """Lorem ipsum dolor."""
 end-context

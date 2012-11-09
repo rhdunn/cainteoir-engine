@@ -201,7 +201,7 @@ const cainteoir::styles cainteoir::paragraph =
 	"sans-serif",
 	{ 1, cainteoir::size_units::picas },
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::none,
+	cainteoir::text_structure::paragraph,
 	0,
 };
 
@@ -435,7 +435,7 @@ const cainteoir::styles cainteoir::emphasized_block =
 	"",
 	{},
 	{},
-	cainteoir::text_structure::none,
+	cainteoir::text_structure::paragraph,
 	0,
 };
 
