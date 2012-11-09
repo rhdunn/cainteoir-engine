@@ -75,7 +75,7 @@ namespace html
 	static const xml::context::entry caption_node    = {};
 	static const xml::context::entry center_node     = {};
 	static const xml::context::entry cite_node       = { &cainteoir::emphasized }; // HTML§14.3.4
-	static const xml::context::entry code_node       = { events::span, events::monospace  }; // HTML§14.3.4
+	static const xml::context::entry code_node       = { &cainteoir::monospace  }; // HTML§14.3.4
 	static const xml::context::entry col_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry colgroup_node   = {};
 	static const xml::context::entry command_node    = { xml::begin_tag_type::open_close }; // HTML§12.1.2
@@ -139,7 +139,7 @@ namespace html
 	static const xml::context::entry output_node     = {};
 	static const xml::context::entry p_node          = { events::paragraph };
 	static const xml::context::entry param_node      = { xml::begin_tag_type::open_close }; // HTML§12.1.2
-	static const xml::context::entry pre_node        = { events::paragraph, events::monospace }; // HTML§14.3.3
+	static const xml::context::entry pre_node        = { &cainteoir::monospace_block }; // HTML§14.3.3
 	static const xml::context::entry progress_node   = {};
 	static const xml::context::entry q_node          = {};
 	static const xml::context::entry rp_node         = {};
@@ -170,7 +170,7 @@ namespace html
 	static const xml::context::entry title_node      = {};
 	static const xml::context::entry tr_node         = { &cainteoir::table_row };
 	static const xml::context::entry track_node      = { xml::begin_tag_type::open_close }; // HTML§12.1.2
-	static const xml::context::entry tt_node         = { events::span, events::monospace }; // HTML§14.3.4
+	static const xml::context::entry tt_node         = { &cainteoir::monospace }; // HTML§14.3.4
 	static const xml::context::entry u_node          = { &cainteoir::underlined }; // HTML§14.3.4
 	static const xml::context::entry ul_node         = { events::list, events::bullet }; // HTML§14.3.8
 	static const xml::context::entry var_node        = { &cainteoir::emphasized }; // HTML§14.3.4

@@ -110,6 +110,16 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 					context = { "sup", false };
 				else if (reader->styles->text_decoration == cainteoir::text_decoration::underline)
 					context = { "u", false };
+				else if (reader->styles->font_family == "monospace")
+					context = { "tt", false };
+				else
+					context = { "span", false };
+				break;
+			case cainteoir::display::block:
+				if (reader->styles->font_family == "monospace")
+					context = { "pre", false };
+				else
+					context = { "p", false };
 				break;
 			case cainteoir::display::table:
 				context = { "table", false };
@@ -135,13 +145,7 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 				default: context = { "h6", true }; break;
 				}
 				break;
-			case events::span:
-				switch (reader->parameter)
-				{
-				case events::monospace:   context = { "pre", false }; break;
-				default:                  context = { "span", false }; break;
-				}
-				break;
+			case events::span:      context = { "span", false }; break;
 			case events::list:      context = { "ol", true }; break;
 			case events::list_item: context = { "li", true }; break;
 			default:                context = { "span", true }; break;

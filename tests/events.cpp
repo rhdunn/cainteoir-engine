@@ -79,6 +79,9 @@ void format_style(const cainteoir::styles &styles)
 	case font_weight::normal:  fprintf(stdout, " +normal-weight"); break;
 	case font_weight::bold:    fprintf(stdout, " +strong"); break;
 	}
+
+	if (!styles.font_family.empty())
+		fprintf(stdout, " +%s", styles.font_family.c_str());
 }
 
 int main(int argc, char ** argv)
@@ -134,8 +137,6 @@ int main(int argc, char ** argv)
 
 					if (reader->context != events::heading)
 					{
-						if (reader->parameter & events::monospace)
-							fprintf(stdout, " +monospace");
 						if (reader->parameter & events::reduced)
 							fprintf(stdout, " +reduced");
 					}

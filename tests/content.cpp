@@ -550,8 +550,8 @@ TEST_CASE("style - monospace")
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.font_family == "monospace");
-	assert(styles.font_size.units() == cainteoir::size_units::points);
-	assert(styles.font_size.value() == 11);
+	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.value() == 1);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
 	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
@@ -560,6 +560,30 @@ TEST_CASE("style - monospace")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
+}
+
+TEST_CASE("style - monospace-block")
+{
+	cainteoir::styles styles = cainteoir::monospace_block;
+	assert(styles.name == "monospace_block");
+	assert(styles.display == cainteoir::display::block);
+	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
+	assert(styles.text_align == cainteoir::text_align::inherit);
+	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
+	assert(styles.font_style == cainteoir::font_style::inherit);
+	assert(styles.font_variant == cainteoir::font_variant::inherit);
+	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.font_family == "monospace");
+	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.value() == 1);
+	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.value() == 0);
+	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.value() == 0);
+	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.value() == 0);
+	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.value() == 1);
 }
 
 TEST_CASE("style - bullet_list")

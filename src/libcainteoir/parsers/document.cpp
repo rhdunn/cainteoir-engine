@@ -456,18 +456,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * The context does not provide any specific custom styling.
   */
 
-/** @var   cainteoir::events::style cainteoir::events::monospace
-  * @brief Monospace
-  *
-  * The context is displayed in a monospace font.
-  *
-  * @code
-  *   context paragraph +monospace
-  *     text "if (a < b) { printf("Hello\n"); }"
-  *   end
-  * @endcode
-  */
-
 /** @var   cainteoir::events::style cainteoir::events::reduced
   * @brief Reduced
   *

@@ -50,7 +50,6 @@ namespace cainteoir
 		enum style
 		{
 			nostyle = 0x00000000,
-			monospace = 0x00000020,
 			reduced = 0x00000040,
 		};
 

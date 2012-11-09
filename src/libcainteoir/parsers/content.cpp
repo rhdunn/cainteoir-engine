@@ -417,8 +417,23 @@ const cainteoir::styles cainteoir::monospace =
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
 	"monospace",
-	{ 11, cainteoir::size_units::points },
+	{ 1, cainteoir::size_units::picas },
 	{},
+};
+
+const cainteoir::styles cainteoir::monospace_block =
+{
+	"monospace_block",
+	cainteoir::display::block,
+	cainteoir::vertical_align::inherit,
+	cainteoir::text_align::inherit,
+	cainteoir::text_decoration::inherit,
+	cainteoir::font_style::inherit,
+	cainteoir::font_variant::inherit,
+	cainteoir::font_weight::inherit,
+	"monospace",
+	{ 1, cainteoir::size_units::picas },
+	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
 };
 
 const cainteoir::styles cainteoir::bullet_list =

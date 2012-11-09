@@ -196,6 +196,7 @@ namespace cainteoir
 	extern const styles reduced;
 	extern const styles underlined;
 	extern const styles monospace;
+	extern const styles monospace_block;
 	extern const styles bullet_list;
 	extern const styles number_list;
 	extern const styles list_item;
