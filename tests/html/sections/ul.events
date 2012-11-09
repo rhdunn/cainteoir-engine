@@ -1,6 +1,6 @@
 toc-entry [] depth=0 title="""Test File"""
 anchor []
-begin-context list
+begin-context paragraph +bullet-list
 begin-context list-item
 text(4): """• """
 text(5): """Lorem"""

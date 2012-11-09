@@ -85,7 +85,7 @@ namespace html
 	static const xml::context::entry del_node        = {};
 	static const xml::context::entry details_node    = {};
 	static const xml::context::entry dfn_node        = { &cainteoir::emphasized }; // HTML§14.3.4
-	static const xml::context::entry dir_node        = { events::list, events::bullet }; // HTML§14.3.8
+	static const xml::context::entry dir_node        = { &cainteoir::bullet_list }; // HTML§14.3.8
 	static const xml::context::entry div_node        = { &cainteoir::paragraph };
 	static const xml::context::entry dl_node         = {};
 	static const xml::context::entry dt_node         = {};
@@ -125,7 +125,7 @@ namespace html
 	static const xml::context::entry map_node        = {};
 	static const xml::context::entry mark_node       = {};
 	static const xml::context::entry marquee_node    = {};
-	static const xml::context::entry menu_node       = { events::list, events::bullet }; // HTML§14.3.8
+	static const xml::context::entry menu_node       = { &cainteoir::bullet_list }; // HTML§14.3.8
 	static const xml::context::entry meta_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry meter_node      = {};
 	static const xml::context::entry nav_node        = {};
@@ -133,7 +133,7 @@ namespace html
 	static const xml::context::entry noframes_node   = {};
 	static const xml::context::entry noscript_node   = {};
 	static const xml::context::entry object_node     = {};
-	static const xml::context::entry ol_node         = { events::list, events::number }; // HTML§14.3.8
+	static const xml::context::entry ol_node         = { &cainteoir::number_list }; // HTML§14.3.8
 	static const xml::context::entry optgroup_node   = {};
 	static const xml::context::entry option_node     = {};
 	static const xml::context::entry output_node     = {};
@@ -172,7 +172,7 @@ namespace html
 	static const xml::context::entry track_node      = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry tt_node         = { &cainteoir::monospace }; // HTML§14.3.4
 	static const xml::context::entry u_node          = { &cainteoir::underlined }; // HTML§14.3.4
-	static const xml::context::entry ul_node         = { events::list, events::bullet }; // HTML§14.3.8
+	static const xml::context::entry ul_node         = { &cainteoir::bullet_list }; // HTML§14.3.8
 	static const xml::context::entry var_node        = { &cainteoir::emphasized }; // HTML§14.3.4
 	static const xml::context::entry video_node      = {};
 	static const xml::context::entry wbr_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
@@ -612,9 +612,6 @@ bool html_document_reader::read()
 				skipNode(*reader, reader->nodeName());
 			else if (reader->context()->context != cainteoir::events::unknown)
 			{
-				if (reader->context()->context == cainteoir::events::list)
-					ctx.push({ reader->context(), 1 });
-
 				if (reader->context()->context == cainteoir::events::heading)
 				{
 					htext.clear();
@@ -630,6 +627,16 @@ bool html_document_reader::read()
 			}
 			else if (reader->context()->styles)
 			{
+				switch (reader->context()->styles->list_style_type)
+				{
+				case cainteoir::list_style_type::inherit:
+				case cainteoir::list_style_type::none:
+					break;
+				default:
+					ctx.push({ reader->context(), 1 });
+					break;
+				}
+
 				type      = events::begin_context;
 				context   = events::unknown;
 				parameter = 0;
@@ -638,13 +645,14 @@ bool html_document_reader::read()
 				return true;
 			}
 		}
-		else if (ctx.top().ctx->context == cainteoir::events::list)
+		else if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item && ctx.top().ctx->styles)
 		{
-			if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item)
+			switch (ctx.top().ctx->styles->list_style_type)
 			{
-				if (ctx.top().ctx->parameter == cainteoir::events::bullet)
-					text = std::make_shared<cainteoir::buffer>("\xE2\x80\xA2 ");
-				else
+			case cainteoir::list_style_type::disc:
+				text = std::make_shared<cainteoir::buffer>("\xE2\x80\xA2 ");
+				break;
+			case cainteoir::list_style_type::decimal:
 				{
 					char textnum[100];
 					int len = snprintf(textnum, sizeof(textnum), "%d. ", ctx.top().parameter);
@@ -654,14 +662,18 @@ bool html_document_reader::read()
 
 					++ctx.top().parameter;
 				}
-
-				type      = events::begin_context | events::text;
-				context   = events::unknown;
-				parameter = 0;
-				styles    = reader->context()->styles;
-				reader->read();
-				return true;
+				break;
+			default:
+				text = std::make_shared<cainteoir::buffer>("");
+				break;
 			}
+
+			type      = events::begin_context | events::text;
+			context   = events::unknown;
+			parameter = 0;
+			styles    = reader->context()->styles;
+			reader->read();
+			return true;
 		}
 		break;
 	case xml::reader::textNode:
@@ -699,7 +711,7 @@ bool html_document_reader::read()
 				return true;
 			}
 		}
-		else if (ctx.top().ctx->context == cainteoir::events::list)
+		else if (ctx.top().ctx->styles && ctx.top().ctx->styles->display != cainteoir::display::none)
 		{
 			text = reader->nodeValue().content();
 			if (text)
@@ -762,27 +774,26 @@ bool html_document_reader::read()
 				return true;
 			}
 		}
-		else if (ctx.top().ctx->context == cainteoir::events::list)
+		else if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item && ctx.top().ctx->styles)
 		{
-			if (reader->context() == ctx.top().ctx)
-			{
-				type      = events::end_context;
-				context   = (events::context)reader->context()->context;
-				parameter = reader->context()->parameter;
-				anchor    = rdf::uri();
-				ctx.pop();
-				reader->read();
-				return true;
-			}
-			else if (reader->context() == &html::li_node)
-			{
-				type      = events::end_context;
-				context   = (events::context)reader->context()->context;
-				parameter = reader->context()->parameter;
-				anchor    = rdf::uri();
-				reader->read();
-				return true;
-			}
+			type      = events::end_context;
+			context   = events::unknown;
+			parameter = 0;
+			styles    = reader->context()->styles;
+			anchor    = rdf::uri();
+			reader->read();
+			return true;
+		}
+		else if (reader->context() == ctx.top().ctx)
+		{
+			type      = events::end_context;
+			context   = events::unknown;
+			parameter = 0;
+			styles    = reader->context()->styles;
+			anchor    = rdf::uri();
+			ctx.pop();
+			reader->read();
+			return true;
 		}
 		break;
 	} while (reader->read());

@@ -84,6 +84,14 @@ namespace cainteoir
 		line_through,
 	};
 
+	enum class list_style_type : uint8_t
+	{
+		inherit,
+		none,
+		disc,
+		decimal,
+	};
+
 	enum class size_units : uint8_t
 	{
 		inherit,
@@ -136,6 +144,7 @@ namespace cainteoir
 		cainteoir::font_style font_style;
 		cainteoir::font_variant font_variant;
 		cainteoir::font_weight font_weight;
+		cainteoir::list_style_type list_style_type;
 		std::string font_family;
 		cainteoir::size font_size;
 		cainteoir::margin margin;
@@ -149,6 +158,7 @@ namespace cainteoir
 			, font_style(cainteoir::font_style::inherit)
 			, font_variant(cainteoir::font_variant::inherit)
 			, font_weight(cainteoir::font_weight::inherit)
+			, list_style_type(cainteoir::list_style_type::none)
 		{
 		}
 
@@ -160,6 +170,7 @@ namespace cainteoir
 		       cainteoir::font_style aFontStyle,
 		       cainteoir::font_variant aFontVariant,
 		       cainteoir::font_weight aFontWeight,
+		       cainteoir::list_style_type aListStyleType,
 		       const std::string &aFontFamily,
 		       const cainteoir::size &aFontSize,
 		       const cainteoir::margin &aMargin)
@@ -171,6 +182,7 @@ namespace cainteoir
 			, font_style(aFontStyle)
 			, font_variant(aFontVariant)
 			, font_weight(aFontWeight)
+			, list_style_type(aListStyleType)
 			, font_family(aFontFamily)
 			, font_size(aFontSize)
 			, margin(aMargin)

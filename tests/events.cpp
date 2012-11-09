@@ -36,6 +36,7 @@ void format_style(const cainteoir::styles &styles)
 	using cainteoir::text_decoration;
 	using cainteoir::font_style;
 	using cainteoir::font_weight;
+	using cainteoir::list_style_type;
 
 	switch (styles.display)
 	{
@@ -78,6 +79,14 @@ void format_style(const cainteoir::styles &styles)
 	case font_weight::inherit: break;
 	case font_weight::normal:  fprintf(stdout, " +normal-weight"); break;
 	case font_weight::bold:    fprintf(stdout, " +strong"); break;
+	}
+
+	switch (styles.list_style_type)
+	{
+	case list_style_type::inherit: break;
+	case list_style_type::none:    break;
+	case list_style_type::disc:    fprintf(stdout, " +bullet-list"); break;
+	case list_style_type::decimal: fprintf(stdout, " +number-list"); break;
 	}
 
 	if (!styles.font_family.empty())
@@ -128,7 +137,6 @@ int main(int argc, char ** argv)
 					switch (reader->context)
 					{
 					case events::heading:   fprintf(stdout, "heading %d", reader->parameter); break;
-					case events::list:      fprintf(stdout, "list"); break;
 					case events::sentence:  fprintf(stdout, "sentence"); break;
 					}
 				}

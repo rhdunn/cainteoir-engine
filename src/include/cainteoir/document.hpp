@@ -40,14 +40,7 @@ namespace cainteoir
 		{
 			unknown,
 			heading,
-			list,
 			sentence,
-		};
-
-		enum list_type
-		{
-			bullet = 0x10000000,
-			number = 0x20000000,
 		};
 	}
 

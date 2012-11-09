@@ -349,51 +349,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @endcode
   */
 
-/** @var   cainteoir::events::context cainteoir::events::list
-  * @brief List
-  *
-  * A list is a sequence of list items.
-  *
-  * @code
-  *   context list +number
-  *     context list-item
-  *       text "1. "
-  *       text "Lorem"
-  *     end
-  *     context list-item
-  *       text "2. "
-  *       text "ipsum"
-  *     end
-  *   end
-  * @endcode
-  */
-
-/** @var   cainteoir::events::context cainteoir::events::list_item
-  * @brief List Item
-  *
-  * A list item consists of a text node that denotes the item gutter label and
-  * the item content. The list item content has an implicit pargraph.
-  *
-  * @code
-  *   context list-item
-  *     text "1. "
-  *     text "List item text."
-  *   end
-  * @endcode
-  *
-  * If the item contains explicit paragraphs, the first paragraph is displayed
-  * at the same level as the list item label.
-  *
-  * @code
-  *   context list-item
-  *     text "iv. "
-  *     context paragraph
-  *       text "List item text."
-  *     end
-  *   end
-  * @endcode
-  */
-
 /** @var   cainteoir::events::context cainteoir::events::sentence
   * @brief Sentence
   *
@@ -410,55 +365,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   *     text "'"
   *     context sentence
   *       text "said Mr. Davis."
-  *     end
-  *   end
-  * @endcode
-  */
-
-/** @enum  cainteoir::events::list_type
-  * @brief The type of the list context.
-  *
-  * This is used to inform the document consumer what style list is presented. This
-  * allows the consumer to process the lists differently.
-  */
-
-/** @var   cainteoir::events::list_type cainteoir::events::bullet
-  * @brief Bullet List
-  *
-  * A bullet list is an unordered list of items. It is typically rendered in
-  * the same way a number (ordered) list is with the bullet appearing in the
-  * list gutter, but the bullet glyphs are not spoken.
-  *
-  * @code
-  *   context list +bullet
-  *     context list-item
-  *       text "* "
-  *       text "Lorem"
-  *     end
-  *     context list-item
-  *       text "* "
-  *       text "ipsum"
-  *     end
-  *   end
-  * @endcode
-  */
-
-/** @var   cainteoir::events::list_type cainteoir::events::number
-  * @brief Number List
-  *
-  * A number list is an ordered list of items. It is typically rendered in
-  * the same way as a bullet (unordered) list with the number appearing in
-  * the list gutter, and the number is spoken with a short pause afterward.
-  *
-  * @code
-  *   context list +number
-  *     context list-item
-  *       text "1. "
-  *       text "Lorem"
-  *     end
-  *     context list-item
-  *       text "2. "
-  *       text "ipsum"
   *     end
   *   end
   * @endcode

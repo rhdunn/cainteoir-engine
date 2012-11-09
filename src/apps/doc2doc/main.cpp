@@ -60,7 +60,6 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 			else switch (reader->context)
 			{
 			case events::heading:
-			case events::list:
 				if (need_linebreak)
 				{
 					fwrite("\n\n", 1, 2, stdout);
@@ -112,6 +111,10 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 			case cainteoir::display::block:
 				if (reader->styles->font_family == "monospace")
 					context = { "pre", false };
+				else if (reader->styles->list_style_type == cainteoir::list_style_type::disc)
+					context = { "ul", false };
+				else if (reader->styles->list_style_type == cainteoir::list_style_type::decimal)
+					context = { "ol", false };
 				else
 					context = { "p", false };
 				break;
@@ -141,7 +144,6 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 				default: context = { "h6", true }; break;
 				}
 				break;
-			case events::list:      context = { "ol", true }; break;
 			default:                context = { "span", true }; break;
 			}
 
