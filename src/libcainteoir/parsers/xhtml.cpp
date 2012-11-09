@@ -627,7 +627,7 @@ bool html_document_reader::read()
 			}
 			else if (reader->context()->styles)
 			{
-				if (reader->context()->styles->list_style_type != cainteoir::list_style_type::none)
+				if (reader->context()->styles->list_style_type)
 					ctx.push({ reader->context(), 1 });
 
 				type      = events::begin_context;
@@ -640,27 +640,38 @@ bool html_document_reader::read()
 		}
 		else if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item && ctx.top().ctx->styles)
 		{
-			switch (ctx.top().ctx->styles->list_style_type)
+			std::ostringstream textval;
+
+			auto counter = ctx.top().ctx->styles->list_style_type;
+			textval << counter->prefix;
+			if (counter && !counter->glyphs.empty()) switch (counter->type)
 			{
-			case cainteoir::list_style_type::disc:
-				text = std::make_shared<cainteoir::buffer>("\xE2\x80\xA2 ");
+			case cainteoir::counter_type::repeating:
+				textval << counter->glyphs[0];
 				break;
-			case cainteoir::list_style_type::decimal:
+			case cainteoir::counter_type::numeric:
 				{
-					char textnum[100];
-					int len = snprintf(textnum, sizeof(textnum), "%d. ", ctx.top().parameter);
-					textnum[len] = '\0';
-
-					text = cainteoir::make_buffer(textnum, len);
-
-					++ctx.top().parameter;
+					int i = ctx.top().parameter++;
+					if (i == 0)
+						textval << counter->glyphs[0];
+					else
+					{
+						int n = counter->glyphs.size();
+						std::string s;
+						while (i != 0)
+						{
+							s = counter->glyphs[i % n] + s;
+							i = i / n;
+						}
+						textval << s;
+					}
 				}
 				break;
-			default:
-				text = std::make_shared<cainteoir::buffer>("");
-				break;
 			}
+			textval << counter->suffix << ' ';
 
+			std::string marker = textval.str();
+			text      = cainteoir::make_buffer(marker.c_str(), marker.size());
 			type      = events::begin_context | events::text;
 			context   = events::unknown;
 			parameter = 0;

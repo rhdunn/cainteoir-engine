@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_CONTENT_HPP
 
 #include "buffer.hpp"
+#include <vector>
 
 namespace cainteoir
 {
@@ -84,11 +85,19 @@ namespace cainteoir
 		line_through,
 	};
 
-	enum class list_style_type : uint8_t
+	enum class counter_type : uint8_t
 	{
-		none,
-		disc,
-		decimal,
+		repeating,
+		numeric,
+	};
+
+	struct counter_style
+	{
+		std::string name;
+		cainteoir::counter_type type;
+		std::string prefix;
+		std::string suffix;
+		std::vector<std::string> glyphs;
 	};
 
 	enum class size_units : uint8_t
@@ -143,7 +152,7 @@ namespace cainteoir
 		cainteoir::font_style font_style;
 		cainteoir::font_variant font_variant;
 		cainteoir::font_weight font_weight;
-		cainteoir::list_style_type list_style_type;
+		const cainteoir::counter_style *list_style_type;
 		std::string font_family;
 		cainteoir::size font_size;
 		cainteoir::margin margin;
@@ -157,7 +166,7 @@ namespace cainteoir
 			, font_style(cainteoir::font_style::inherit)
 			, font_variant(cainteoir::font_variant::inherit)
 			, font_weight(cainteoir::font_weight::inherit)
-			, list_style_type(cainteoir::list_style_type::none)
+			, list_style_type(nullptr)
 		{
 		}
 
@@ -169,7 +178,7 @@ namespace cainteoir
 		       cainteoir::font_style aFontStyle,
 		       cainteoir::font_variant aFontVariant,
 		       cainteoir::font_weight aFontWeight,
-		       cainteoir::list_style_type aListStyleType,
+		       const cainteoir::counter_style *aListStyleType,
 		       const std::string &aFontFamily,
 		       const cainteoir::size &aFontSize,
 		       const cainteoir::margin &aMargin)
@@ -188,6 +197,12 @@ namespace cainteoir
 		{
 		}
 	};
+
+	namespace counter
+	{
+		extern const counter_style decimal;
+		extern const counter_style disc;
+	}
 
 	extern const styles unknown;
 	extern const styles paragraph;

@@ -36,7 +36,6 @@ void format_style(const cainteoir::styles &styles)
 	using cainteoir::text_decoration;
 	using cainteoir::font_style;
 	using cainteoir::font_weight;
-	using cainteoir::list_style_type;
 
 	switch (styles.display)
 	{
@@ -81,12 +80,8 @@ void format_style(const cainteoir::styles &styles)
 	case font_weight::bold:    fprintf(stdout, " +strong"); break;
 	}
 
-	switch (styles.list_style_type)
-	{
-	case list_style_type::none:    break;
-	case list_style_type::disc:    fprintf(stdout, " +bullet-list"); break;
-	case list_style_type::decimal: fprintf(stdout, " +number-list"); break;
-	}
+	if (styles.list_style_type)
+		fprintf(stdout, " +list=%s", styles.list_style_type->name.c_str());
 
 	if (!styles.font_family.empty())
 		fprintf(stdout, " +%s", styles.font_family.c_str());

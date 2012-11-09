@@ -111,9 +111,9 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 			case cainteoir::display::block:
 				if (reader->styles->font_family == "monospace")
 					context = { "pre", false };
-				else if (reader->styles->list_style_type == cainteoir::list_style_type::disc)
+				else if (reader->styles->list_style_type == &cainteoir::counter::disc)
 					context = { "ul", false };
-				else if (reader->styles->list_style_type == cainteoir::list_style_type::decimal)
+				else if (reader->styles->list_style_type == &cainteoir::counter::decimal)
 					context = { "ol", false };
 				else
 					context = { "p", false };

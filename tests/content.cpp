@@ -106,6 +106,37 @@ TEST_CASE("unit conversion")
 	test_conversion( 1, size_units::pixels,  1,    size_units::pixels,      false);
 }
 
+TEST_CASE("counter style - decimal")
+{
+	cainteoir::counter_style style = cainteoir::counter::decimal;
+	assert(style.name == "decimal");
+	assert(style.type == cainteoir::counter_type::numeric);
+	assert(style.prefix == "");
+	assert(style.suffix == ".");
+	assert(style.glyphs.size() == 10);
+	assert(style.glyphs[0] == "0");
+	assert(style.glyphs[1] == "1");
+	assert(style.glyphs[2] == "2");
+	assert(style.glyphs[3] == "3");
+	assert(style.glyphs[4] == "4");
+	assert(style.glyphs[5] == "5");
+	assert(style.glyphs[6] == "6");
+	assert(style.glyphs[7] == "7");
+	assert(style.glyphs[8] == "8");
+	assert(style.glyphs[9] == "9");
+}
+
+TEST_CASE("counter style - disc")
+{
+	cainteoir::counter_style style = cainteoir::counter::disc;
+	assert(style.name == "disc");
+	assert(style.type == cainteoir::counter_type::repeating);
+	assert(style.prefix == "");
+	assert(style.suffix == "");
+	assert(style.glyphs.size() == 1);
+	assert(style.glyphs[0] == "\xE2\x80\xA2"); // \x2022
+}
+
 TEST_CASE("style defaults")
 {
 	cainteoir::styles styles("defaults");
@@ -117,7 +148,7 @@ TEST_CASE("style defaults")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -142,7 +173,7 @@ TEST_CASE("style - unknown")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -167,7 +198,7 @@ TEST_CASE("style - paragraph")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family == "sans-serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1);
@@ -192,7 +223,7 @@ TEST_CASE("style - heading1")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::normal);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 2);
@@ -217,7 +248,7 @@ TEST_CASE("style - heading2")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::normal);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1.5);
@@ -242,7 +273,7 @@ TEST_CASE("style - heading3")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1);
@@ -267,7 +298,7 @@ TEST_CASE("style - heading4")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::normal);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1);
@@ -292,7 +323,7 @@ TEST_CASE("style - heading5")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1);
@@ -317,7 +348,7 @@ TEST_CASE("style - heading6")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family == "serif");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1);
@@ -342,7 +373,7 @@ TEST_CASE("style - span")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -367,7 +398,7 @@ TEST_CASE("style - sentence")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -392,7 +423,7 @@ TEST_CASE("style - superscript")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -417,7 +448,7 @@ TEST_CASE("style - subscript")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -442,7 +473,7 @@ TEST_CASE("style - emphasized")
 	assert(styles.font_style == cainteoir::font_style::italic);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -467,7 +498,7 @@ TEST_CASE("style - emphasized-block")
 	assert(styles.font_style == cainteoir::font_style::italic);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -492,7 +523,7 @@ TEST_CASE("style - strong")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::bold);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -517,7 +548,7 @@ TEST_CASE("style - reduced")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::normal);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -542,7 +573,7 @@ TEST_CASE("style - underlined")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -567,7 +598,7 @@ TEST_CASE("style - monospace")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family == "monospace");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1);
@@ -592,7 +623,7 @@ TEST_CASE("style - monospace-block")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family == "monospace");
 	assert(styles.font_size.units() == cainteoir::size_units::picas);
 	assert(styles.font_size.value() == 1);
@@ -617,7 +648,7 @@ TEST_CASE("style - bullet_list")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::disc);
+	assert(styles.list_style_type == &cainteoir::counter::disc);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -642,7 +673,7 @@ TEST_CASE("style - number_list")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::decimal);
+	assert(styles.list_style_type == &cainteoir::counter::decimal);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -667,7 +698,7 @@ TEST_CASE("style - list_item")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -692,7 +723,7 @@ TEST_CASE("style - table")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -717,7 +748,7 @@ TEST_CASE("style - table_row")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
@@ -742,7 +773,7 @@ TEST_CASE("style - table_cell")
 	assert(styles.font_style == cainteoir::font_style::inherit);
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
-	assert(styles.list_style_type == cainteoir::list_style_type::none);
+	assert(styles.list_style_type == nullptr);
 	assert(styles.font_family.empty());
 	assert(styles.font_size.units() == cainteoir::size_units::inherit);
 	assert(styles.font_size.value() == 0);
