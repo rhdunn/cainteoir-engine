@@ -30,21 +30,6 @@ namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
 
 #ifndef DOXYGEN
-enum html_node
-{
-	node_unknown,
-	attr_id,
-	attr_lang,
-	node_head,
-	node_html,
-	node_li,
-	node_link,
-	node_meta,
-	node_script,
-	node_style,
-	node_title,
-};
-
 namespace html
 {
 	// HTML§12.1.2 -- void elements
