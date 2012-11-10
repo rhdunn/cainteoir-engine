@@ -58,6 +58,8 @@ if __name__ == '__main__':
 			{'test': 'html/sections/heading-with-matching-title.xhtml', 'result': 'html/sections/heading-with-matching-title.events'},
 			{'test': 'html/sections/heading-repeated-with-matching-title.html', 'result': 'html/sections/heading-repeated-with-matching-title.events'},
 			{'test': 'html/sections/heading-repeated-with-matching-title.xhtml', 'result': 'html/sections/heading-repeated-with-matching-title.events'},
+			{'test': 'html/sections/li-only.html', 'result': 'html/sections/li-only.events'},
+			{'test': 'html/sections/li-only.xhtml', 'result': 'html/sections/li-only.events'},
 			{'test': 'html/sections/menu.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/menu.xhtml', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/no-body.html', 'result': 'html/sections/no-body.events'},

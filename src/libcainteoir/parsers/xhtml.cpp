@@ -603,7 +603,48 @@ bool html_document_reader::read()
 		}
 		break;
 	case xml::reader::beginTagNode:
-		if (ctx.top().ctx == &html::body_node)
+		if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item)
+		{
+			std::ostringstream textval;
+			auto list_styles = ctx.top().ctx->styles;
+			if (list_styles && list_styles->list_style_type)
+			{
+				auto counter = list_styles->list_style_type;
+				int i = ctx.top().parameter++;
+				int n = counter->symbols.size();
+				textval << counter->prefix;
+				if (n != 0) switch (counter->type)
+				{
+				case cainteoir::counter_type::cyclic:
+					textval << counter->symbols[i % n];
+					break;
+				case cainteoir::counter_type::numeric:
+					if (i == 0)
+						textval << counter->symbols[0];
+					else
+					{
+						std::string s;
+						while (i != 0)
+						{
+							s = counter->symbols[i % n] + s;
+							i = i / n;
+						}
+						textval << s;
+					}
+					break;
+				}
+				textval << counter->suffix;
+			}
+			textval << ' ';
+
+			std::string marker = textval.str();
+			text   = cainteoir::make_buffer(marker.c_str(), marker.size());
+			type   = events::begin_context | events::text;
+			styles = reader->context()->styles;
+			reader->read();
+			return true;
+		}
+		else if (ctx.top().ctx == &html::body_node)
 		{
 			if (reader->context() == &html::script_node || reader->context() == &html::style_node)
 				skipNode(*reader, reader->nodeName());
@@ -623,45 +664,6 @@ bool html_document_reader::read()
 				reader->read();
 				return true;
 			}
-		}
-		else if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item && ctx.top().ctx->styles)
-		{
-			std::ostringstream textval;
-
-			auto counter = ctx.top().ctx->styles->list_style_type;
-			int i = ctx.top().parameter++;
-			int n = counter ? counter->symbols.size() : 0;
-			textval << counter->prefix;
-			if (n != 0) switch (counter->type)
-			{
-			case cainteoir::counter_type::cyclic:
-				textval << counter->symbols[i % n];
-				break;
-			case cainteoir::counter_type::numeric:
-				{
-					if (i == 0)
-						textval << counter->symbols[0];
-					else
-					{
-						std::string s;
-						while (i != 0)
-						{
-							s = counter->symbols[i % n] + s;
-							i = i / n;
-						}
-						textval << s;
-					}
-				}
-				break;
-			}
-			textval << counter->suffix << ' ';
-
-			std::string marker = textval.str();
-			text   = cainteoir::make_buffer(marker.c_str(), marker.size());
-			type   = events::begin_context | events::text;
-			styles = reader->context()->styles;
-			reader->read();
-			return true;
 		}
 		break;
 	case xml::reader::textNode:
