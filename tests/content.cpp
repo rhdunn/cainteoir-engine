@@ -770,9 +770,9 @@ TEST_CASE("style - list_item")
 	assert(styles.font_variant == cainteoir::font_variant::inherit);
 	assert(styles.font_weight == cainteoir::font_weight::inherit);
 	assert(styles.list_style_type == nullptr);
-	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
-	assert(styles.font_size.value() == 0);
+	assert(styles.font_family == "sans-serif");
+	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.value() == 1);
 	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
 	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
