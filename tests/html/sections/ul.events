@@ -1,15 +1,15 @@
 toc-entry [] depth=0 title="""Test File"""
 anchor []
 begin-context block +list=disc
-begin-context list-item
+begin-context list-item +sans-serif
 text(4): """• """
 text(5): """Lorem"""
 end-context
-begin-context list-item
+begin-context list-item +sans-serif
 text(4): """• """
 text(5): """ipsum"""
 end-context
-begin-context list-item
+begin-context list-item +sans-serif
 text(4): """• """
 text(5): """dolor"""
 end-context

@@ -1,14 +1,14 @@
 toc-entry [] depth=0 title="""Test File"""
 anchor []
-begin-context list-item
+begin-context list-item +sans-serif
 text(1): """ """
 text(5): """Lorem"""
 end-context
-begin-context list-item
+begin-context list-item +sans-serif
 text(1): """ """
 text(5): """ipsum"""
 end-context
-begin-context list-item
+begin-context list-item +sans-serif
 text(1): """ """
 text(5): """dolor"""
 end-context
