@@ -1,6 +1,18 @@
 Release Notes
 =============
 
+Version 0.11: Saturday December 1st 2012 [Nov 2012]
+---------------------------------------------------
+
+  *  preserve the event information from the readers into the document model
+  *  rework the document event structure to use a CSS-like subset
+  *  model the CSS3 Counter Styles (previously Lists) spec for defining the disc and decimal list types
+
+### document support
+
+  *  epub3: support for onix and marc metadata
+  *  mht: fix reading MHT documents
+
 Version 0.10: Monday October 1st 2012 [Sep 2012]
 ------------------------------------------------
 

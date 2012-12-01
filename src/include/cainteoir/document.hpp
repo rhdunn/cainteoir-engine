@@ -35,56 +35,18 @@ namespace cainteoir
 			toc_entry = 0x0008,
 			anchor = 0x0010,
 		};
-
-		enum context
-		{
-			unknown,
-			paragraph,
-			heading,
-			span,
-			list,
-			list_item,
-			sentence,
-			table,
-			row,
-			cell,
-		};
-
-		enum style
-		{
-			nostyle = 0x00000000,
-			superscript = 0x00000001,
-			subscript = 0x00000002,
-			over = superscript,
-			under = subscript,
-			overunder = over | under,
-			emphasized = 0x00000004,
-			strong = 0x00000008,
-			underline = 0x00000010,
-			monospace = 0x00000020,
-			reduced = 0x00000040,
-		};
-
-		enum list_type
-		{
-			bullet = 0x10000000,
-			number = 0x20000000,
-			definition = 0x30000000,
-		};
 	}
 
 	struct document_item
 	{
 		document_item()
 			: type(0)
-			, context(events::unknown)
-			, parameter(0)
+			, styles(nullptr)
 		{
 		}
 
 		uint32_t type;
-		events::context context;
-		uint32_t parameter;
+		const cainteoir::styles *styles;
 		std::shared_ptr<buffer> text;
 		rdf::uri anchor;
 	};
@@ -92,7 +54,7 @@ namespace cainteoir
 	class document
 	{
 	public:
-		typedef std::list< std::shared_ptr<cainteoir::buffer> > list_type;
+		typedef std::list<document_item> list_type;
 		typedef list_type::const_iterator const_iterator;
 		typedef std::pair<const_iterator, const_iterator> range_type;
 
@@ -107,15 +69,13 @@ namespace cainteoir
 
 		size_t text_length() const { return mLength; }
 
-		void add(const std::shared_ptr<cainteoir::buffer> &text)
+		void add(const document_item &aItem)
 		{
-			mLength += text->size();
-			mChildren.push_back(text);
-		}
-
-		void add_anchor(const rdf::uri &aAnchor)
-		{
-			mAnchors[aAnchor.str()] = mChildren.size();
+			mChildren.push_back(aItem);
+			if (aItem.type & cainteoir::events::anchor)
+				mAnchors[aItem.anchor.str()] = mChildren.size();
+			if (aItem.type & cainteoir::events::text)
+				mLength += aItem.text->size();
 		}
 
 		size_t anchor(const rdf::uri &aAnchor) const

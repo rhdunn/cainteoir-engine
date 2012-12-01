@@ -294,23 +294,23 @@ std::string cainteoir::xml::namespaces::lookup(const std::string &aPrefix) const
 
 /** @brief The specified element/attribute was not found.
   */
-const cainteoir::xml::context::entry cainteoir::xml::unknown_context = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::unknown_context = {};
 
 /** @brief The \@xml:base attribute.
   */
-const cainteoir::xml::context::entry cainteoir::xml::base_attr  = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::base_attr = {};
 
 /** @brief The \@xml:id attribute.
   */
-const cainteoir::xml::context::entry cainteoir::xml::id_attr    = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::id_attr = {};
 
 /** @brief The \@xml:lang attribute.
   */
-const cainteoir::xml::context::entry cainteoir::xml::lang_attr  = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::lang_attr = {};
 
 /** @brief The \@xml:space attribute.
   */
-const cainteoir::xml::context::entry cainteoir::xml::space_attr = { 0, 0 };
+const cainteoir::xml::context::entry cainteoir::xml::space_attr = {};
 
 /** @var   const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir::xml::attrs
   * @brief Attributes in the XML namespace.
@@ -695,15 +695,13 @@ bool cainteoir::xml::reader::read()
 				}
 
 				mState = mSavedState;
+				mState.state = ParsingXmlTagAttributes;
 				mTagNodeName = mState.nodeName;
 				mTagNodePrefix = mState.nodePrefix;
 
 				mNodeType = beginTagNode;
 				reset_context();
-				if (mContext->parse_type == xml::context::implicit_end_tag)
-					mState.state = ParsingXmlContainedTagAttributes;
-				else
-					mState.state = ParsingXmlTagAttributes;
+				set_begin_tag_type(mContext->begin_tag_type);
 			}
 			break;
 		}
@@ -824,6 +822,24 @@ std::string cainteoir::xml::reader::namespaceUri() const
   *
   * @return The current position in the XML document.
   */
+
+/** @brief Set the way begin tags are interpreted.
+  * @see   cainteoir::xml::begin_tag_type
+  *
+  * @param[in] aType The way begin tags are to be interpreted.
+  */
+void cainteoir::xml::reader::set_begin_tag_type(begin_tag_type aType)
+{
+	if (mState.state == ParsingXmlTagAttributes) switch (aType)
+	{
+	case begin_tag_type::open:
+		mState.state = ParsingXmlTagAttributes;
+		break;
+	case begin_tag_type::open_close:
+		mState.state = ParsingXmlContainedTagAttributes;
+		break;
+	}
+}
 
 void cainteoir::xml::reader::skip_whitespace()
 {
@@ -965,24 +981,6 @@ void cainteoir::xml::reader::reset_context()
   * @brief HTML 5.0 entities.
   */
 
-/** @enum  cainteoir::xml::context::parse_flags
-  * @brief Special parse flags that control how xmlreader behaves.
-  */
-
-/** @var   cainteoir::xml::context::parse_flags cainteoir::xml::context::implicit_end_tag
-  * @brief The tag has an implicit end tag.
-  *
-  * This makes \<node\> behave the same way as \<node/\>. This is to support void elements
-  * as per HTML§12.1.2.
-  */
-
-/** @var   cainteoir::xml::context::parse_flags cainteoir::xml::context::hidden
-  * @brief Hidden content.
-  *
-  * This indicates content that does not get displayed or spoken. The processing of this
-  * is done by consumers of the xmlreader.
-  */
-
 /** @struct cainteoir::xml::context::entry
   * @brief  Identifies an XML element or attribute.
   */
@@ -1061,6 +1059,21 @@ void cainteoir::xml::reader::reset_context()
 
 /** @var   cainteoir::xml::reader::node_type cainteoir::xml::reader::dtdEntity
   * @brief An ENTITY reference declaration.
+  */
+
+/** @enum  cainteoir::xml::begin_tag_type
+  * @brief Specifies how begin tags are interpreted.
+  */
+
+/** @var   cainteoir::xml::begin_tag_type::open
+  * @brief The begin tag opens an element block.
+  */
+
+/** @var   cainteoir::xml::begin_tag_type::open_close
+  * @brief The begin tag creates a self-contained element block.
+  *
+  * This makes \<node\> behave the same way as \<node/\>, allowing support for void elements
+  * as per HTML§12.1.2.
   */
 
 /** References

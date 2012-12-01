@@ -418,11 +418,8 @@ int main(int argc, char ** argv)
 		while (reader->read())
 		{
 			if (reader->type & cainteoir::events::toc_entry)
-				doc.toc_entry((int)reader->parameter, reader->anchor, reader->text->str());
-			if (reader->type & cainteoir::events::anchor)
-				doc.m_doc->add_anchor(reader->anchor);
-			if (reader->type & cainteoir::events::text)
-				doc.m_doc->add(reader->text);
+				doc.toc_entry(reader->styles->toc_level, reader->anchor, reader->text->str());
+			doc.m_doc->add(*reader);
 		}
 
 		if (action == show_contents)

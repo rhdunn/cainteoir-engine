@@ -1,16 +1,48 @@
 toc-entry [] depth=0 title="""Test File"""
 anchor []
-begin-context list
-begin-context list-item
+begin-context block +list=decimal
+begin-context list-item +sans-serif
 text(3): """1. """
-text(5): """Lorem"""
+text(3): """one"""
 end-context
-begin-context list-item
+begin-context list-item +sans-serif
 text(3): """2. """
-text(5): """ipsum"""
+text(3): """two"""
 end-context
-begin-context list-item
+begin-context list-item +sans-serif
 text(3): """3. """
-text(5): """dolor"""
+text(5): """three"""
+end-context
+begin-context list-item +sans-serif
+text(3): """4. """
+text(4): """four"""
+end-context
+begin-context list-item +sans-serif
+text(3): """5. """
+text(4): """five"""
+end-context
+begin-context list-item +sans-serif
+text(3): """6. """
+text(3): """six"""
+end-context
+begin-context list-item +sans-serif
+text(3): """7. """
+text(5): """seven"""
+end-context
+begin-context list-item +sans-serif
+text(3): """8. """
+text(5): """eight"""
+end-context
+begin-context list-item +sans-serif
+text(3): """9. """
+text(4): """nine"""
+end-context
+begin-context list-item +sans-serif
+text(4): """10. """
+text(3): """ten"""
+end-context
+begin-context list-item +sans-serif
+text(4): """11. """
+text(6): """eleven"""
 end-context
 end-context

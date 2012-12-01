@@ -1,4 +1,4 @@
-begin-context paragraph
+begin-context paragraph +sans-serif
 begin-context sentence
 text(10): """sentence 1"""
 end-context

@@ -1,0 +1,14 @@
+@type,format
+@name,Plain Text
+@version,
+@references,
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# title,version,url,implemented,tts,rdf,toc,comments
+
+Text,ASCII,,0.1,0.1,na,na,
+Text,UTF-8,,*0.1,*0.1,na,na,No Byte-Order Mark detection
+Text,UTF-16,,*0.9,*0.9,na,na,No Byte-Order Mark detection
+Text,UTF-32,,*0.9,*0.9,na,na,No Byte-Order Mark detection
+Text,Other,,0.9,0.9,na,na,Character Encodings supported by iconv

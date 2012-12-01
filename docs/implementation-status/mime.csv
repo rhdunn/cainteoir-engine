@@ -7,10 +7,8 @@
 
 # title,version,url,implemented,tts,rdf,toc,comments
 
-RFC,822,,*0.2,*0.2,*0.2,na,Mime Headers
-RFC,1521,,0.2,0.2,na,na,Content-Transfer-Encoding 7bit, 8bit, binary
-RFC,1521,,0.3,0.3,na,na,Content-Transfer-Encoding quoted-printable
-RFC,1521,,0.5,0.5,na,na,Content-Transfer-Encoding base64
-RFC,2387,,0.2,0.2,na,na,multipart/related
-RFC,2557,,0.3,0.3,na,na,mhtml
-HTML,4.0-5.0,html.csv,*0.1,*0.1,*0.1,no,
+RFC,822,rfc822.csv,*0.2,*0.2,*0.2,na,email
+RFC,1521,rfc1521.csv,*0.3,*0.3,na,na,Content-Type / Content-Transfer-Encoding
+RFC,2387,rfc2387.csv,*0.2,0.2,na,na,multipart/related
+RFC,2557,rfc2557.csv,*0.2,*0.2,na,na,mhtml
+HTML,4.0-5.0,html.csv,*0.1,*0.1,*0.1,*0.7,

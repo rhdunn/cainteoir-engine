@@ -1,4 +1,4 @@
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(8): """This is """
 begin-context span +emphasized
 text(10): """emphasized"""
@@ -9,28 +9,28 @@ text(4): """this"""
 end-context
 text(1): """."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(8): """This is """
 begin-context span +strong
 text(6): """strong"""
 end-context
 text(6): """ text."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(8): """This is """
-begin-context span +reduced
+begin-context span +normal-weight
 text(7): """reduced"""
 end-context
 text(6): """ text."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(13): """This text is """
 begin-context span
 text(14): """not emphasized"""
 end-context
 text(1): """."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(13): """This text is """
 begin-context span +emphasized
 text(10): """emphasized"""

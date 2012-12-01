@@ -27,17 +27,16 @@
 namespace rdf    = cainteoir::rdf;
 namespace xmlns  = cainteoir::xml::xmlns;
 namespace xml    = cainteoir::xml;
-namespace events = cainteoir::events;
 
 #ifndef DOXYGEN
 namespace ocf
 {
-	static const xml::context::entry container_node = { events::unknown, 0 };
-	static const xml::context::entry rootfile_node  = { events::unknown, 0 };
-	static const xml::context::entry rootfiles_node = { events::unknown, 0 };
+	static const xml::context::entry container_node = {};
+	static const xml::context::entry rootfile_node  = {};
+	static const xml::context::entry rootfiles_node = {};
 
-	static const xml::context::entry fullpath_attr  = { events::unknown, 0 };
-	static const xml::context::entry mediatype_attr = { events::unknown, 0 };
+	static const xml::context::entry fullpath_attr  = {};
+	static const xml::context::entry mediatype_attr = {};
 }
 #endif
 
@@ -77,8 +76,7 @@ ocf_reader::ocf_reader(const std::shared_ptr<xml::reader> &aReader)
 			break;
 	} while (mReader->read());
 
-	type    = events::toc_entry;
-	context = events::heading;
+	styles  = &cainteoir::heading1;
 }
 
 bool ocf_reader::read()

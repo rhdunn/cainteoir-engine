@@ -225,6 +225,14 @@ const rdf::ns rdf::pkg("pkg", "http://www.idpf.org/epub/vocab/package/#");
   */
 const rdf::ns rdf::media("media", "http://www.idpf.org/epub/vocab/overlays/#");
 
+/** @brief ONIX namespace.
+  */
+const rdf::ns rdf::onix("onix", "http://www.editeur.org/ONIX/book/codelists/current.html#");
+
+/** @brief MARC namespace.
+  */
+const rdf::ns rdf::marc("marc", "http://id.loc.gov/vocabulary/");
+
 /** @brief Speech Synthesis Markup Language (SSML) namespace.
   */
 const rdf::ns rdf::ssml("ssml", "http://www.w3.org/2001/10/synthesis#");

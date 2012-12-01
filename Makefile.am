@@ -95,14 +95,6 @@ phonemes:	data/phonemes/ascii-ipa.html \
 		data/phonemes/ipa.html \
 		data/phonemes/x-sampa.html \
 		data/phonemes/arpabet.html \
-		data/phonemes/mbrola/de1.html \
-		data/phonemes/mbrola/de2.html \
-		data/phonemes/mbrola/de4.html \
-		data/phonemes/mbrola/de5.html \
-		data/phonemes/mbrola/en1.html \
-		data/phonemes/mbrola/us1.html \
-		data/phonemes/mbrola/us2.html \
-		data/phonemes/mbrola/us3.html \
 		data/phonemes/sampa/de.html \
 		data/phonemes/sampa/en.html
 
@@ -170,6 +162,7 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/archive.hpp \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
+	src/include/cainteoir/content.hpp \
 	src/include/cainteoir/document.hpp \
 	src/include/cainteoir/encoding.hpp \
 	src/include/cainteoir/engines.hpp \
@@ -225,6 +218,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	\
 	src/libcainteoir/parsers/parsers.hpp \
 	src/libcainteoir/parsers/html-entities.h \
+	src/libcainteoir/parsers/content.cpp \
 	src/libcainteoir/parsers/document.cpp \
 	src/libcainteoir/parsers/epub.cpp \
 	src/libcainteoir/parsers/mime.cpp \
@@ -339,6 +333,11 @@ noinst_bin_PROGRAMS += tests/mimetype
 tests_mimetype_LDADD   = src/libcainteoir/libcainteoir.la
 tests_mimetype_SOURCES = tests/mimetype.cpp
 
+noinst_bin_PROGRAMS += tests/content
+
+tests_content_LDADD   = src/libcainteoir/libcainteoir.la
+tests_content_SOURCES = tests/content.cpp
+
 TEST_FILES = \
 	tests/epub/* \
 	tests/ncx/* \
@@ -368,5 +367,6 @@ check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/tur
 	python tests/xmlreader.py
 	python tests/metadata.py
 	python tests/vorbis-comments.py
+	tests/content
 	python tests/events.py
 	python tests/parsetext.py

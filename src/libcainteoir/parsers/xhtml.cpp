@@ -30,163 +30,146 @@ namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
 
 #ifndef DOXYGEN
-enum html_node
-{
-	node_unknown,
-	attr_id,
-	attr_lang,
-	node_head,
-	node_html,
-	node_li,
-	node_link,
-	node_meta,
-	node_script,
-	node_style,
-	node_title,
-};
-
 namespace html
 {
-	namespace events = cainteoir::events;
-
 	// HTML§12.1.2 -- void elements
 	// HTML§14.3.* -- default rendering (styles)
 
-	static const xml::context::entry a_node          = { events::unknown,   0 };
-	static const xml::context::entry abbr_node       = { events::unknown,   0 };
-	static const xml::context::entry address_node    = { events::paragraph, events::emphasized }; // HTML§14.3.3
-	static const xml::context::entry acronym_node    = { events::unknown,   0 };
-	static const xml::context::entry applet_node     = { events::unknown,   0 };
-	static const xml::context::entry area_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry article_node    = { events::unknown,   0 };
-	static const xml::context::entry aside_node      = { events::unknown,   0 };
-	static const xml::context::entry audio_node      = { events::unknown,   0 };
-	static const xml::context::entry b_node          = { events::span,      events::strong }; // HTML§14.3.4
-	static const xml::context::entry base_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry basefont_node   = { events::unknown,   0 };
-	static const xml::context::entry bdi_node        = { events::unknown,   0 };
-	static const xml::context::entry bdo_node        = { events::unknown,   0 };
-	static const xml::context::entry big_node        = { events::unknown,   0 };
-	static const xml::context::entry blockquote_node = { events::unknown,   0 };
-	static const xml::context::entry body_node       = { events::unknown,   0 };
-	static const xml::context::entry br_node         = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry button_node     = { events::unknown,   0 };
-	static const xml::context::entry canvas_node     = { events::unknown,   0 };
-	static const xml::context::entry caption_node    = { events::unknown,   0 };
-	static const xml::context::entry center_node     = { events::unknown,   0 };
-	static const xml::context::entry cite_node       = { events::span,      events::emphasized }; // HTML§14.3.4
-	static const xml::context::entry code_node       = { events::span,      events::monospace  }; // HTML§14.3.4
-	static const xml::context::entry col_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry colgroup_node   = { events::unknown,   0 };
-	static const xml::context::entry command_node    = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry data_node       = { events::unknown,   0 };
-	static const xml::context::entry datalist_node   = { events::unknown,   0 };
-	static const xml::context::entry dd_node         = { events::unknown,   0 };
-	static const xml::context::entry del_node        = { events::unknown,   0 };
-	static const xml::context::entry details_node    = { events::unknown,   0 };
-	static const xml::context::entry dfn_node        = { events::span,      events::emphasized }; // HTML§14.3.4
-	static const xml::context::entry dir_node        = { events::list,      events::bullet }; // HTML§14.3.8
-	static const xml::context::entry div_node        = { events::paragraph, 0 };
-	static const xml::context::entry dl_node         = { events::unknown,   0 };
-	static const xml::context::entry dt_node         = { events::unknown,   0 };
-	static const xml::context::entry em_node         = { events::span,      events::emphasized }; // HTML§14.3.4
-	static const xml::context::entry embed_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry fieldset_node   = { events::unknown,   0 };
-	static const xml::context::entry figcaption_node = { events::unknown,   0 };
-	static const xml::context::entry figure_node     = { events::unknown,   0 };
-	static const xml::context::entry font_node       = { events::unknown,   0 };
-	static const xml::context::entry footer_node     = { events::unknown,   0 };
-	static const xml::context::entry form_node       = { events::unknown,   0 };
-	static const xml::context::entry frame_node      = { events::unknown,   0 };
-	static const xml::context::entry frameset_node   = { events::unknown,   0 };
-	static const xml::context::entry h1_node         = { events::heading,   1 };
-	static const xml::context::entry h2_node         = { events::heading,   2 };
-	static const xml::context::entry h3_node         = { events::heading,   3 };
-	static const xml::context::entry h4_node         = { events::heading,   4 };
-	static const xml::context::entry h5_node         = { events::heading,   5 };
-	static const xml::context::entry h6_node         = { events::heading,   6 };
-	static const xml::context::entry head_node       = { events::unknown,   0 };
-	static const xml::context::entry header_node     = { events::unknown,   0 };
-	static const xml::context::entry hgroup_node     = { events::unknown,   0 };
-	static const xml::context::entry hr_node         = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry html_node       = { events::unknown,   0 };
-	static const xml::context::entry i_node          = { events::span,      events::emphasized }; // HTML§14.3.4
-	static const xml::context::entry iframe_node     = { events::unknown,   0 };
-	static const xml::context::entry img_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry input_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry ins_node        = { events::unknown,   0 };
-	static const xml::context::entry isindex_node    = { events::unknown,   0 };
-	static const xml::context::entry kbd_node        = { events::unknown,   0 };
-	static const xml::context::entry keygen_node     = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry label_node      = { events::unknown,   0 };
-	static const xml::context::entry legend_node     = { events::unknown,   0 };
-	static const xml::context::entry li_node         = { events::unknown,   0 };
-	static const xml::context::entry link_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry map_node        = { events::unknown,   0 };
-	static const xml::context::entry mark_node       = { events::unknown,   0 };
-	static const xml::context::entry marquee_node    = { events::unknown,   0 };
-	static const xml::context::entry menu_node       = { events::list,      events::bullet }; // HTML§14.3.8
-	static const xml::context::entry meta_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry meter_node      = { events::unknown,   0 };
-	static const xml::context::entry nav_node        = { events::unknown,   0 };
-	static const xml::context::entry noad_node       = { events::unknown,   0, xml::context::implicit_end_tag }; // ad-sense markup? (e.g. m.fanfiction.net)
-	static const xml::context::entry noframes_node   = { events::unknown,   0 };
-	static const xml::context::entry noscript_node   = { events::unknown,   0 };
-	static const xml::context::entry object_node     = { events::unknown,   0 };
-	static const xml::context::entry ol_node         = { events::list,      events::number }; // HTML§14.3.8
-	static const xml::context::entry optgroup_node   = { events::unknown,   0 };
-	static const xml::context::entry option_node     = { events::unknown,   0 };
-	static const xml::context::entry output_node     = { events::unknown,   0 };
-	static const xml::context::entry p_node          = { events::paragraph, 0 };
-	static const xml::context::entry param_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry pre_node        = { events::paragraph, events::monospace }; // HTML§14.3.3
-	static const xml::context::entry progress_node   = { events::unknown,   0 };
-	static const xml::context::entry q_node          = { events::unknown,   0 };
-	static const xml::context::entry rp_node         = { events::unknown,   0 };
-	static const xml::context::entry rt_node         = { events::unknown,   0 };
-	static const xml::context::entry ruby_node       = { events::unknown,   0 };
-	static const xml::context::entry s_node          = { events::unknown,   0 };
-	static const xml::context::entry samp_node       = { events::unknown,   0 };
-	static const xml::context::entry script_node     = { events::unknown,   0, xml::context::hidden }; // HTML§14.3.1
-	static const xml::context::entry section_node    = { events::unknown,   0 };
-	static const xml::context::entry select_node     = { events::unknown,   0 };
-	static const xml::context::entry small_node      = { events::unknown,   0 };
-	static const xml::context::entry source_node     = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry span_node       = { events::unknown,   0 };
-	static const xml::context::entry strike_node     = { events::unknown,   0 };
-	static const xml::context::entry strong_node     = { events::span,      events::strong }; // HTML§14.3.4
-	static const xml::context::entry style_node      = { events::unknown,   0, xml::context::hidden }; // HTML§14.3.1
-	static const xml::context::entry sub_node        = { events::span,      events::subscript }; // HTML§14.3.4
-	static const xml::context::entry summary_node    = { events::unknown,   0 };
-	static const xml::context::entry sup_node        = { events::span,      events::superscript }; // HTML§14.3.4
-	static const xml::context::entry table_node      = { events::table,     0 };
-	static const xml::context::entry tbody_node      = { events::unknown,   0 };
-	static const xml::context::entry td_node         = { events::cell,      0 };
-	static const xml::context::entry textarea_node   = { events::unknown,   0 };
-	static const xml::context::entry tfoot_node      = { events::unknown,   0 };
-	static const xml::context::entry th_node         = { events::cell,      0 };
-	static const xml::context::entry thead_node      = { events::unknown,   0 };
-	static const xml::context::entry time_node       = { events::unknown,   0 };
-	static const xml::context::entry title_node      = { events::unknown,   0 };
-	static const xml::context::entry tr_node         = { events::row,       0 };
-	static const xml::context::entry track_node      = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
-	static const xml::context::entry tt_node         = { events::span,      events::monospace }; // HTML§14.3.4
-	static const xml::context::entry u_node          = { events::span,      events::underline }; // HTML§14.3.4
-	static const xml::context::entry ul_node         = { events::list,      events::bullet }; // HTML§14.3.8
-	static const xml::context::entry var_node        = { events::span,      events::emphasized }; // HTML§14.3.4
-	static const xml::context::entry video_node      = { events::unknown,   0 };
-	static const xml::context::entry wbr_node        = { events::unknown,   0, xml::context::implicit_end_tag }; // HTML§12.1.2
+	static const xml::context::entry a_node          = {};
+	static const xml::context::entry abbr_node       = {};
+	static const xml::context::entry address_node    = { &cainteoir::emphasized_block }; // HTML§14.3.3
+	static const xml::context::entry acronym_node    = {};
+	static const xml::context::entry applet_node     = {};
+	static const xml::context::entry area_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry article_node    = {};
+	static const xml::context::entry aside_node      = {};
+	static const xml::context::entry audio_node      = {};
+	static const xml::context::entry b_node          = { &cainteoir::strong }; // HTML§14.3.4
+	static const xml::context::entry base_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry basefont_node   = {};
+	static const xml::context::entry bdi_node        = {};
+	static const xml::context::entry bdo_node        = {};
+	static const xml::context::entry big_node        = {};
+	static const xml::context::entry blockquote_node = {};
+	static const xml::context::entry body_node       = {};
+	static const xml::context::entry br_node         = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry button_node     = {};
+	static const xml::context::entry canvas_node     = {};
+	static const xml::context::entry caption_node    = {};
+	static const xml::context::entry center_node     = {};
+	static const xml::context::entry cite_node       = { &cainteoir::emphasized }; // HTML§14.3.4
+	static const xml::context::entry code_node       = { &cainteoir::monospace  }; // HTML§14.3.4
+	static const xml::context::entry col_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry colgroup_node   = {};
+	static const xml::context::entry command_node    = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry data_node       = {};
+	static const xml::context::entry datalist_node   = {};
+	static const xml::context::entry dd_node         = {};
+	static const xml::context::entry del_node        = {};
+	static const xml::context::entry details_node    = {};
+	static const xml::context::entry dfn_node        = { &cainteoir::emphasized }; // HTML§14.3.4
+	static const xml::context::entry dir_node        = { &cainteoir::bullet_list }; // HTML§14.3.8
+	static const xml::context::entry div_node        = { &cainteoir::paragraph };
+	static const xml::context::entry dl_node         = {};
+	static const xml::context::entry dt_node         = {};
+	static const xml::context::entry em_node         = { &cainteoir::emphasized }; // HTML§14.3.4
+	static const xml::context::entry embed_node      = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry fieldset_node   = {};
+	static const xml::context::entry figcaption_node = {};
+	static const xml::context::entry figure_node     = {};
+	static const xml::context::entry font_node       = {};
+	static const xml::context::entry footer_node     = {};
+	static const xml::context::entry form_node       = {};
+	static const xml::context::entry frame_node      = {};
+	static const xml::context::entry frameset_node   = {};
+	static const xml::context::entry h1_node         = { &cainteoir::heading1 };
+	static const xml::context::entry h2_node         = { &cainteoir::heading2 };
+	static const xml::context::entry h3_node         = { &cainteoir::heading3 };
+	static const xml::context::entry h4_node         = { &cainteoir::heading4 };
+	static const xml::context::entry h5_node         = { &cainteoir::heading5 };
+	static const xml::context::entry h6_node         = { &cainteoir::heading6 };
+	static const xml::context::entry head_node       = {};
+	static const xml::context::entry header_node     = {};
+	static const xml::context::entry hgroup_node     = {};
+	static const xml::context::entry hr_node         = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry html_node       = {};
+	static const xml::context::entry i_node          = { &cainteoir::emphasized }; // HTML§14.3.4
+	static const xml::context::entry iframe_node     = {};
+	static const xml::context::entry img_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry input_node      = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry ins_node        = {};
+	static const xml::context::entry isindex_node    = {};
+	static const xml::context::entry kbd_node        = {};
+	static const xml::context::entry keygen_node     = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry label_node      = {};
+	static const xml::context::entry legend_node     = {};
+	static const xml::context::entry li_node         = { &cainteoir::list_item };
+	static const xml::context::entry link_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry map_node        = {};
+	static const xml::context::entry mark_node       = {};
+	static const xml::context::entry marquee_node    = {};
+	static const xml::context::entry menu_node       = { &cainteoir::bullet_list }; // HTML§14.3.8
+	static const xml::context::entry meta_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry meter_node      = {};
+	static const xml::context::entry nav_node        = {};
+	static const xml::context::entry noad_node       = { xml::begin_tag_type::open_close }; // ad-sense markup? (e.g. m.fanfiction.net)
+	static const xml::context::entry noframes_node   = {};
+	static const xml::context::entry noscript_node   = {};
+	static const xml::context::entry object_node     = {};
+	static const xml::context::entry ol_node         = { &cainteoir::number_list }; // HTML§14.3.8
+	static const xml::context::entry optgroup_node   = {};
+	static const xml::context::entry option_node     = {};
+	static const xml::context::entry output_node     = {};
+	static const xml::context::entry p_node          = { &cainteoir::paragraph };
+	static const xml::context::entry param_node      = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry pre_node        = { &cainteoir::monospace_block }; // HTML§14.3.3
+	static const xml::context::entry progress_node   = {};
+	static const xml::context::entry q_node          = {};
+	static const xml::context::entry rp_node         = {};
+	static const xml::context::entry rt_node         = {};
+	static const xml::context::entry ruby_node       = {};
+	static const xml::context::entry s_node          = {};
+	static const xml::context::entry samp_node       = {};
+	static const xml::context::entry script_node     = {}; // HTML§14.3.1 -- hidden
+	static const xml::context::entry section_node    = {};
+	static const xml::context::entry select_node     = {};
+	static const xml::context::entry small_node      = {};
+	static const xml::context::entry source_node     = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry span_node       = {};
+	static const xml::context::entry strike_node     = {};
+	static const xml::context::entry strong_node     = { &cainteoir::strong }; // HTML§14.3.4
+	static const xml::context::entry style_node      = {}; // HTML§14.3.1 -- hidden
+	static const xml::context::entry sub_node        = { &cainteoir::subscript }; // HTML§14.3.4
+	static const xml::context::entry summary_node    = {};
+	static const xml::context::entry sup_node        = { &cainteoir::superscript }; // HTML§14.3.4
+	static const xml::context::entry table_node      = { &cainteoir::table };
+	static const xml::context::entry tbody_node      = {};
+	static const xml::context::entry td_node         = { &cainteoir::table_cell };
+	static const xml::context::entry textarea_node   = {};
+	static const xml::context::entry tfoot_node      = {};
+	static const xml::context::entry th_node         = { &cainteoir::table_cell };
+	static const xml::context::entry thead_node      = {};
+	static const xml::context::entry time_node       = {};
+	static const xml::context::entry title_node      = {};
+	static const xml::context::entry tr_node         = { &cainteoir::table_row };
+	static const xml::context::entry track_node      = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry tt_node         = { &cainteoir::monospace }; // HTML§14.3.4
+	static const xml::context::entry u_node          = { &cainteoir::underlined }; // HTML§14.3.4
+	static const xml::context::entry ul_node         = { &cainteoir::bullet_list }; // HTML§14.3.8
+	static const xml::context::entry var_node        = { &cainteoir::emphasized }; // HTML§14.3.4
+	static const xml::context::entry video_node      = {};
+	static const xml::context::entry wbr_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 
-	static const xml::context::entry charset_attr    = { events::unknown,   0 };
-	static const xml::context::entry content_attr    = { events::unknown,   0 };
-	static const xml::context::entry http_equiv_attr = { events::unknown,   0 };
-	static const xml::context::entry name_attr       = { events::unknown,   0 };
+	static const xml::context::entry charset_attr    = {};
+	static const xml::context::entry content_attr    = {};
+	static const xml::context::entry http_equiv_attr = {};
+	static const xml::context::entry name_attr       = {};
 
-	static const xml::context::entry abstract_meta    = { events::unknown,   0 };
-	static const xml::context::entry creator_meta     = { events::unknown,   0 };
-	static const xml::context::entry description_meta = { events::unknown,   0 };
-	static const xml::context::entry keywords_meta    = { events::unknown,   0 };
-	static const xml::context::entry title_meta       = { events::unknown,   0 };
+	static const xml::context::entry abstract_meta    = {};
+	static const xml::context::entry creator_meta     = {};
+	static const xml::context::entry description_meta = {};
+	static const xml::context::entry keywords_meta    = {};
+	static const xml::context::entry title_meta       = {};
 }
 #endif
 
@@ -564,8 +547,6 @@ static std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, 
 			context = &html::title_node;
 		else if (reader.context() == &html::meta_node)
 			parseMetaNode(reader, aSubject, aGraph);
-		else if (reader.context()->parse_type == xml::context::hidden)
-			skipNode(reader, reader.nodeName());
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == &html::head_node)
@@ -586,11 +567,10 @@ bool html_document_reader::read()
 {
 	if (ctx.top().ctx == &html::title_node)
 	{
-		type      = events::toc_entry | events::anchor;
-		context   = events::heading;
-		parameter = 0;
-		text      = cainteoir::make_buffer(mTitle);
-		anchor    = mSubject;
+		type   = events::toc_entry | events::anchor;
+		styles = &cainteoir::heading0;
+		text   = cainteoir::make_buffer(mTitle);
+		anchor = mSubject;
 		ctx.pop();
 		return true;
 	}
@@ -608,48 +588,64 @@ bool html_document_reader::read()
 		}
 		break;
 	case xml::reader::beginTagNode:
-		if (ctx.top().ctx == &html::body_node)
+		if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item)
+		{
+			std::ostringstream textval;
+			auto list_styles = ctx.top().ctx->styles;
+			if (list_styles && list_styles->list_style_type)
+			{
+				auto counter = list_styles->list_style_type;
+				int i = ctx.top().parameter++;
+				int n = counter->symbols.size();
+				textval << counter->prefix;
+				if (n != 0) switch (counter->type)
+				{
+				case cainteoir::counter_type::cyclic:
+					textval << counter->symbols[i % n];
+					break;
+				case cainteoir::counter_type::numeric:
+					if (i == 0)
+						textval << counter->symbols[0];
+					else
+					{
+						std::string s;
+						while (i != 0)
+						{
+							s = counter->symbols[i % n] + s;
+							i = i / n;
+						}
+						textval << s;
+					}
+					break;
+				}
+				textval << counter->suffix;
+			}
+			textval << ' ';
+
+			std::string marker = textval.str();
+			text   = cainteoir::make_buffer(marker.c_str(), marker.size());
+			type   = events::begin_context | events::text;
+			styles = reader->context()->styles;
+			reader->read();
+			return true;
+		}
+		else if (ctx.top().ctx == &html::body_node)
 		{
 			if (reader->context() == &html::script_node || reader->context() == &html::style_node)
 				skipNode(*reader, reader->nodeName());
-			else if (reader->context()->context != cainteoir::events::unknown)
+			if (reader->context()->styles)
 			{
-				if (reader->context()->context == cainteoir::events::list)
+				if (reader->context()->styles->list_style_type)
 					ctx.push({ reader->context(), 1 });
 
-				if (reader->context()->context == cainteoir::events::heading)
+				if (reader->context()->styles->text_structure == cainteoir::text_structure::heading)
 				{
 					htext.clear();
 					genAnchor = true;
 				}
 
-				type      = events::begin_context;
-				context   = (events::context)reader->context()->context;
-				parameter = reader->context()->parameter;
-				reader->read();
-				return true;
-			}
-		}
-		else if (ctx.top().ctx->context == cainteoir::events::list)
-		{
-			if (reader->context() == &html::li_node)
-			{
-				if (ctx.top().ctx->parameter == cainteoir::events::bullet)
-					text = std::make_shared<cainteoir::buffer>("\xE2\x80\xA2 ");
-				else
-				{
-					char textnum[100];
-					int len = snprintf(textnum, sizeof(textnum), "%d. ", ctx.top().parameter);
-					textnum[len] = '\0';
-
-					text = cainteoir::make_buffer(textnum, len);
-
-					++ctx.top().parameter;
-				}
-
-				type      = events::begin_context | events::text;
-				context   = events::list_item;
-				parameter = 0;
+				type   = events::begin_context;
+				styles = reader->context()->styles;
 				reader->read();
 				return true;
 			}
@@ -671,8 +667,8 @@ bool html_document_reader::read()
 					ref << "genid.h" << hid;
 					++hid;
 
-					anchor    = href = rdf::uri(mSubject.str(), ref.str());
-					type      = events::anchor;
+					anchor = href = rdf::uri(mSubject.str(), ref.str());
+					type   = events::anchor;
 					return true;
 				}
 			}
@@ -682,23 +678,19 @@ bool html_document_reader::read()
 				if (!is_title_header)
 					htext += text;
 
-				type      = events::text;
-				context   = events::span;
-				parameter = events::nostyle;
-				anchor    = rdf::uri();
+				type   = events::text;
+				anchor = rdf::uri();
 				reader->read();
 				return true;
 			}
 		}
-		else if (ctx.top().ctx->context == cainteoir::events::list)
+		else if (ctx.top().ctx->styles && ctx.top().ctx->styles->display != cainteoir::display::none)
 		{
 			text = reader->nodeValue().content();
 			if (text)
 			{
-				type      = events::text;
-				context   = events::span;
-				parameter = events::nostyle;
-				anchor    = rdf::uri();
+				type   = events::text;
+				anchor = rdf::uri();
 				reader->read();
 				return true;
 			}
@@ -707,17 +699,16 @@ bool html_document_reader::read()
 	case xml::reader::endTagNode:
 		if (ctx.top().ctx == &html::body_node)
 		{
-			if (reader->context()->context != cainteoir::events::unknown)
+			if (reader->context()->styles)
 			{
-				type      = events::end_context;
-				context   = (events::context)reader->context()->context;
-				parameter = reader->context()->parameter;
-				anchor    = rdf::uri();
+				type   = events::end_context;
+				styles = reader->context()->styles;
+				anchor = rdf::uri();
 
-				if (reader->context()->context == cainteoir::events::heading)
+				if (styles->text_structure == cainteoir::text_structure::heading)
 					mTitle.clear();
 
-				if (reader->context()->context == cainteoir::events::heading && !htext.empty())
+				if (styles->text_structure == cainteoir::text_structure::heading && !htext.empty())
 				{
 					text = htext.normalize();
 					for (char *c = (char *)text->begin(), *last = (char *)text->end(); c != last; ++c)
@@ -743,27 +734,22 @@ bool html_document_reader::read()
 				return true;
 			}
 		}
-		else if (ctx.top().ctx->context == cainteoir::events::list)
+		else if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item && ctx.top().ctx->styles)
 		{
-			if (reader->context() == ctx.top().ctx)
-			{
-				type      = events::end_context;
-				context   = (events::context)reader->context()->context;
-				parameter = reader->context()->parameter;
-				anchor    = rdf::uri();
-				ctx.pop();
-				reader->read();
-				return true;
-			}
-			else if (reader->context() == &html::li_node)
-			{
-				type      = events::end_context;
-				context   = (events::context)reader->context()->context;
-				parameter = reader->context()->parameter;
-				anchor    = rdf::uri();
-				reader->read();
-				return true;
-			}
+			type   = events::end_context;
+			styles = reader->context()->styles;
+			anchor = rdf::uri();
+			reader->read();
+			return true;
+		}
+		else if (reader->context() == ctx.top().ctx)
+		{
+			type   = events::end_context;
+			styles = reader->context()->styles;
+			anchor = rdf::uri();
+			ctx.pop();
+			reader->read();
+			return true;
 		}
 		break;
 	} while (reader->read());

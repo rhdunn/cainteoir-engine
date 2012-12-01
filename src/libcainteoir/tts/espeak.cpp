@@ -25,8 +25,10 @@
 #include "tts_engine.hpp"
 
 #if defined(HAVE_ESPEAK_SPEAK_LIB_H)
+
 #include <espeak/speak_lib.h>
 #include <unistd.h>
+#include <sstream>
 
 #ifndef espeakINITIALIZE_DONT_EXIT
 #define espeakINITIALIZE_DONT_EXIT 0x8000

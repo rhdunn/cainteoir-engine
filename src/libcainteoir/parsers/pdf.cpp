@@ -165,12 +165,11 @@ bool pdf_document_reader::read()
 	switch (mState)
 	{
 	case state_title:
-		type      = events::toc_entry | events::anchor;
-		context   = events::heading;
-		parameter = 0;
-		text      = cainteoir::make_buffer(mTitle);
-		anchor    = mSubject;
-		mState    = mIndex.empty() ? state_text : state_toc;
+		type   = events::toc_entry | events::anchor;
+		styles = &cainteoir::heading1;
+		text   = cainteoir::make_buffer(mTitle);
+		anchor = mSubject;
+		mState = mIndex.empty() ? state_text : state_toc;
 		break;
 	case state_toc:
 		{
@@ -181,11 +180,10 @@ bool pdf_document_reader::read()
 			int len = snprintf(pagenum, sizeof(pagenum), "page%05d", page);
 			pagenum[len] = '\0';
 
-			type      = events::toc_entry;
-			context   = events::heading;
-			parameter = 0;
-			text      = cainteoir::normalize(std::make_shared<cainteoir::buffer>(title));
-			anchor    = rdf::uri(mSubject.str(), pagenum);
+			type   = events::toc_entry;
+			styles = &cainteoir::heading1;
+			text   = cainteoir::normalize(std::make_shared<cainteoir::buffer>(title));
+			anchor = rdf::uri(mSubject.str(), pagenum);
 
 			if (++mCurrentIndex == mIndex.end())
 				mState = state_text;
@@ -199,12 +197,10 @@ bool pdf_document_reader::read()
 			int len = snprintf(pagenum, sizeof(pagenum), "page%05d", mCurrentPage);
 			pagenum[len] = '\0';
 
-			type      = events::text | events::anchor;
-			context   = events::span;
-			parameter = events::nostyle;
-			text      = std::make_shared<glib_buffer>(poppler_page_get_text(page));
-			anchor    = rdf::uri(mSubject.str(), pagenum);
-			mState    = state_text;
+			type   = events::text | events::anchor;
+			text   = std::make_shared<glib_buffer>(poppler_page_get_text(page));
+			anchor = rdf::uri(mSubject.str(), pagenum);
+			mState = state_text;
 
 			g_object_unref(page);
 		}

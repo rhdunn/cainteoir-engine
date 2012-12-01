@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_XMLREADER_HPP
 
 #include <cainteoir/encoding.hpp>
+#include <cainteoir/content.hpp>
 #include <map>
 
 namespace cainteoir { namespace xml
@@ -131,19 +132,31 @@ namespace cainteoir { namespace xml
 
 	const char *lookup_entity(const detail::entity_set **entities, const cainteoir::buffer &data);
 
+	enum class begin_tag_type
+	{
+		open,
+		open_close,
+	};
+
 	struct context
 	{
-		enum parse_flags
-		{
-			implicit_end_tag = 1,
-			hidden = 2,
-		};
-
 		struct entry
 		{
-			uint32_t context;
-			uint32_t parameter;
-			parse_flags parse_type;
+			xml::begin_tag_type begin_tag_type;
+			const cainteoir::styles *styles;
+
+			entry(xml::begin_tag_type aBeginTagType = xml::begin_tag_type::open)
+				: begin_tag_type(aBeginTagType)
+				, styles(nullptr)
+			{
+			}
+
+			entry(const cainteoir::styles *aStyles,
+			      xml::begin_tag_type aBeginTagType = xml::begin_tag_type::open)
+				: begin_tag_type(aBeginTagType)
+				, styles(aStyles)
+			{
+			}
 		};
 
 		struct entry_ref
@@ -262,6 +275,8 @@ namespace cainteoir { namespace xml
 		}
 
 		const char *current() const { return mState.current; }
+
+		void set_begin_tag_type(begin_tag_type aType);
 	private:
 		/** @name parser internals/helpers */
 		//@{

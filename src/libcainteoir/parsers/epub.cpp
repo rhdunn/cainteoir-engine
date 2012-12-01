@@ -90,10 +90,9 @@ bool epub_document_reader::read()
 						anchor = mSubject;
 					else
 						anchor = mData->location(path_to(child->anchor.ns, opf_file), child->anchor.ref);
-					type      = child->type;
-					context   = child->context;
-					parameter = child->parameter;
-					text      = child->text;
+					type   = child->type;
+					styles = child->styles;
+					text   = child->text;
 					return true;
 				}
 				else
@@ -102,11 +101,10 @@ bool epub_document_reader::read()
 
 			if (child->type)
 			{
-				type      = child->type;
-				context   = child->context;
-				parameter = child->parameter;
-				text      = child->text;
-				anchor    = child->anchor;
+				type   = child->type;
+				styles = child->styles;
+				text   = child->text;
+				anchor = child->anchor;
 				return true;
 			}
 		}

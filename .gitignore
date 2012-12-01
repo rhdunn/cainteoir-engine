@@ -31,6 +31,7 @@ src/apps/tagcloud/tagcloud
 src/apps/doc2doc/doc2doc
 
 tests/buffer
+tests/content
 tests/rdfmodel
 tests/rdfquery
 tests/ntriple_formatter
@@ -89,7 +90,7 @@ config.guess
 config.rpath
 config.sub
 m4/*
-!m4/m4_*
+!m4/cxx11.m4
 po/*~
 
 po/Makefile.in.in

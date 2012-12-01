@@ -113,8 +113,48 @@ namespace tester
 
 	BINARY_OP(==,equal)
 	BINARY_OP(!=,not_equal)
+	BINARY_OP(< ,less)
+	BINARY_OP(<=,less_equal)
+	BINARY_OP(> ,greater)
+	BINARY_OP(>=,greater_equal)
 
 #	undef BINARY_OP
+
+	template<>
+	bool equal_t<value_t<float>, value_t<float>>::operator()() const
+	{
+		const float epsilon = 0.000001;
+		const float upper   = rhs() + epsilon;
+		const float lower   = rhs() - epsilon;
+		return lower <= lhs() && lhs() <= upper;
+	}
+
+	template<>
+	bool equal_t<value_t<float>, value_t<double>>::operator()() const
+	{
+		const double epsilon = 0.000001;
+		const double upper   = rhs() + epsilon;
+		const double lower   = rhs() - epsilon;
+		return lower <= lhs() && lhs() <= upper;
+	}
+
+	template<>
+	bool equal_t<value_t<double>, value_t<float>>::operator()() const
+	{
+		const float epsilon = 0.000001;
+		const float upper   = rhs() + epsilon;
+		const float lower   = rhs() - epsilon;
+		return lower <= lhs() && lhs() <= upper;
+	}
+
+	template<>
+	bool equal_t<value_t<double>, value_t<double>>::operator()() const
+	{
+		const double epsilon = 0.000001;
+		const double upper   = rhs() + epsilon;
+		const double lower   = rhs() - epsilon;
+		return lower <= lhs() && lhs() <= upper;
+	}
 
 	struct capture
 	{

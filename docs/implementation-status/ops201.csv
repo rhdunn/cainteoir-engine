@@ -7,14 +7,14 @@
 
 # section,title,url,implemented,tests,comments
 
-1.3.7,image/gif,,no,no,
-1.3.7,image/jpeg,,no,no,
-1.3.7,image/png,,no,no,
-1.3.7,image/svg+xml,,no,no,
+1.3.7,image/gif,,na,na,Images are not supported.
+1.3.7,image/jpeg,,na,na,Images are not supported.
+1.3.7,image/png,,na,na,Images are not supported.
+1.3.7,image/svg+xml,,na,na,Images are not supported.
 1.3.7,application/xhtml+xml,html.csv,0.1,0.1,XHTML 1.1
-1.3.7,application/x-dtbook+xml,,no,no,Digital Talking Book
-1.3.7,text/css,,no,no,
-1.3.7,application/xml,,no,no,Out-of-Line XML Islands
-1.3.7,text/x-oeb1-document,,no,no,OEBPS Document
-1.3.7,application/x-oeb1-css,,no,no,OEBPS CSS style sheets
+1.3.7,application/x-dtbook+xml,,na,na,Digital Talking Book (deprecated)
+1.3.7,text/css,,na,na,Stylesheets are not supported.
+1.3.7,application/xml,,na,na,Out-of-Line XML Islands (not supported)
+1.3.7,text/x-oeb1-document,,na,na,OEBPS Document (deprecated)
+1.3.7,application/x-oeb1-css,,na,na,OEBPS CSS style sheets (deprecated)
 1.3.7,application/x-dtbncx+xml,ncx2005.csv,0.4,0.4,Navigation Control File

@@ -136,6 +136,8 @@ int main(int argc, char ** argv)
 					<< rdf::ocf
 					<< rdf::pkg
 					<< rdf::media
+					<< rdf::onix
+					<< rdf::marc
 					<< rdf::ncx
 					<< rdf::dtb
 					<< rdf::smil

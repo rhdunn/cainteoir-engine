@@ -29,54 +29,54 @@ namespace events = cainteoir::events;
 #ifndef DOXYGEN
 namespace dc
 {
-	static const xml::context::entry contributor_node = { events::unknown, 0 };
-	static const xml::context::entry coverage_node    = { events::unknown, 0 };
-	static const xml::context::entry creator_node     = { events::unknown, 0 };
-	static const xml::context::entry date_node        = { events::unknown, 0 };
-	static const xml::context::entry description_node = { events::unknown, 0 };
-	static const xml::context::entry format_node      = { events::unknown, 0 };
-	static const xml::context::entry identifier_node  = { events::unknown, 0 };
-	static const xml::context::entry language_node    = { events::unknown, 0 };
-	static const xml::context::entry publisher_node   = { events::unknown, 0 };
-	static const xml::context::entry relation_node    = { events::unknown, 0 };
-	static const xml::context::entry rights_node      = { events::unknown, 0 };
-	static const xml::context::entry source_node      = { events::unknown, 0 };
-	static const xml::context::entry subject_node     = { events::unknown, 0 };
-	static const xml::context::entry title_node       = { events::unknown, 0 };
-	static const xml::context::entry type_node        = { events::unknown, 0 };
+	static const xml::context::entry contributor_node = {};
+	static const xml::context::entry coverage_node    = {};
+	static const xml::context::entry creator_node     = {};
+	static const xml::context::entry date_node        = {};
+	static const xml::context::entry description_node = {};
+	static const xml::context::entry format_node      = {};
+	static const xml::context::entry identifier_node  = {};
+	static const xml::context::entry language_node    = {};
+	static const xml::context::entry publisher_node   = {};
+	static const xml::context::entry relation_node    = {};
+	static const xml::context::entry rights_node      = {};
+	static const xml::context::entry source_node      = {};
+	static const xml::context::entry subject_node     = {};
+	static const xml::context::entry title_node       = {};
+	static const xml::context::entry type_node        = {};
 }
 
 namespace opf
 {
-	static const xml::context::entry dcmetadata_node = { events::unknown, 0 };
-	static const xml::context::entry item_node       = { events::unknown, 0 };
-	static const xml::context::entry itemref_node    = { events::unknown, 0 };
-	static const xml::context::entry link_node       = { events::unknown, 0 };
-	static const xml::context::entry manifest_node   = { events::unknown, 0 };
-	static const xml::context::entry meta_node       = { events::unknown, 0 };
-	static const xml::context::entry metadata_node   = { events::unknown, 0 };
-	static const xml::context::entry package_node    = { events::unknown, 0 };
-	static const xml::context::entry spine_node      = { events::unknown, 0 };
+	static const xml::context::entry dcmetadata_node = {};
+	static const xml::context::entry item_node       = {};
+	static const xml::context::entry itemref_node    = {};
+	static const xml::context::entry link_node       = {};
+	static const xml::context::entry manifest_node   = {};
+	static const xml::context::entry meta_node       = {};
+	static const xml::context::entry metadata_node   = {};
+	static const xml::context::entry package_node    = {};
+	static const xml::context::entry spine_node      = {};
 
-	static const xml::context::entry about_attr     = { events::unknown, 0 };
-	static const xml::context::entry content_attr   = { events::unknown, 0 };
-	static const xml::context::entry datatype_attr  = { events::unknown, 0 };
-	static const xml::context::entry event_attr     = { events::unknown, 0 };
-	static const xml::context::entry fileas_attr    = { events::unknown, 0 };
-	static const xml::context::entry href_attr      = { events::unknown, 0 };
-	static const xml::context::entry id_attr        = { events::unknown, 0 };
-	static const xml::context::entry idref_attr     = { events::unknown, 0 };
-	static const xml::context::entry mediatype_attr = { events::unknown, 0 };
-	static const xml::context::entry name_attr      = { events::unknown, 0 };
-	static const xml::context::entry prefer_attr    = { events::unknown, 0 };
-	static const xml::context::entry prefix_attr    = { events::unknown, 0 };
-	static const xml::context::entry property_attr  = { events::unknown, 0 };
-	static const xml::context::entry refines_attr   = { events::unknown, 0 };
-	static const xml::context::entry rel_attr       = { events::unknown, 0 };
-	static const xml::context::entry role_attr      = { events::unknown, 0 };
-	static const xml::context::entry scheme_attr    = { events::unknown, 0 };
-	static const xml::context::entry toc_attr       = { events::unknown, 0 };
-	static const xml::context::entry version_attr   = { events::unknown, 0 };
+	static const xml::context::entry about_attr     = {};
+	static const xml::context::entry content_attr   = {};
+	static const xml::context::entry datatype_attr  = {};
+	static const xml::context::entry event_attr     = {};
+	static const xml::context::entry fileas_attr    = {};
+	static const xml::context::entry href_attr      = {};
+	static const xml::context::entry id_attr        = {};
+	static const xml::context::entry idref_attr     = {};
+	static const xml::context::entry mediatype_attr = {};
+	static const xml::context::entry name_attr      = {};
+	static const xml::context::entry prefer_attr    = {};
+	static const xml::context::entry prefix_attr    = {};
+	static const xml::context::entry property_attr  = {};
+	static const xml::context::entry refines_attr   = {};
+	static const xml::context::entry rel_attr       = {};
+	static const xml::context::entry role_attr      = {};
+	static const xml::context::entry scheme_attr    = {};
+	static const xml::context::entry toc_attr       = {};
+	static const xml::context::entry version_attr   = {};
 }
 #endif
 
@@ -523,7 +523,12 @@ opf_document_reader::opf_document_reader(const std::shared_ptr<xml::reader> &aRe
 	{
 	case xml::reader::attribute:
 		if (aReader->context() == &opf::version_attr && aReader->nodeValue().str() == "3.0")
-			aPrimaryMetadata << rdf::ns("dcterms", rdf::dcterms.href) << rdf::media << rdf::xsd;
+			aPrimaryMetadata
+				<< rdf::ns("dcterms", rdf::dcterms.href)
+				<< rdf::media
+				<< rdf::onix
+				<< rdf::marc
+				<< rdf::xsd;
 		else if (aReader->context() == &opf::prefix_attr)
 			aPrimaryMetadata.add_prefix(aReader->nodeValue().str());
 		break;
@@ -549,11 +554,10 @@ bool opf_document_reader::read()
 
 	fileinfo &ref = mFiles[*mCurrent++];
 
-	type      = events::toc_entry;
-	context   = events::heading;
-	parameter = 0;
-	anchor    = rdf::uri(ref.filename, std::string());
-	text      = ref.mimetype;
+	type   = events::toc_entry;
+	styles = &cainteoir::heading1;
+	anchor = rdf::uri(ref.filename, std::string());
+	text   = ref.mimetype;
 
 	return true;
 }

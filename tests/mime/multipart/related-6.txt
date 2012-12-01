@@ -1,0 +1,18 @@
+MIME-Version: 1.0
+Content-Type: multipart/related; boundary="mimetest"
+
+This should be ignored!
+--mimetest
+Content-Type: text/xml
+
+<?xml version="1.0"?>
+<html>
+<body>
+<p>This is a test file.</p>
+</body>
+</html>
+--mimetest
+Content-Type: text/plain
+
+This is related.
+--mimetest--

@@ -1,8 +1,8 @@
 toc-entry [] depth=0 title="""incomplete.rtf"""
 anchor []
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(15): """This is a test."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(1): """	"""
 end-context

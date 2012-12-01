@@ -32,20 +32,20 @@ namespace events = cainteoir::events;
 #ifndef DOXYGEN
 namespace ncx
 {
-	static const xml::context::entry content_node   = { events::unknown, 0 };
-	static const xml::context::entry docAuthor_node = { events::unknown, 0 };
-	static const xml::context::entry docTitle_node  = { events::unknown, 0 };
-	static const xml::context::entry head_node      = { events::unknown, 0 };
-	static const xml::context::entry meta_node      = { events::unknown, 0 };
-	static const xml::context::entry navLabel_node  = { events::unknown, 0 };
-	static const xml::context::entry navMap_node    = { events::unknown, 0 };
-	static const xml::context::entry navPoint_node  = { events::unknown, 0 };
-	static const xml::context::entry ncx_node       = { events::unknown, 0 };
-	static const xml::context::entry text_node      = { events::unknown, 0 };
+	static const xml::context::entry content_node   = {};
+	static const xml::context::entry docAuthor_node = {};
+	static const xml::context::entry docTitle_node  = {};
+	static const xml::context::entry head_node      = {};
+	static const xml::context::entry meta_node      = {};
+	static const xml::context::entry navLabel_node  = {};
+	static const xml::context::entry navMap_node    = {};
+	static const xml::context::entry navPoint_node  = {};
+	static const xml::context::entry ncx_node       = {};
+	static const xml::context::entry text_node      = {};
 
-	static const xml::context::entry content_attr = { events::unknown, 0 };
-	static const xml::context::entry name_attr    = { events::unknown, 0 };
-	static const xml::context::entry src_attr     = { events::unknown, 0 };
+	static const xml::context::entry content_attr = {};
+	static const xml::context::entry name_attr    = {};
+	static const xml::context::entry src_attr     = {};
 }
 #endif
 
@@ -86,11 +86,10 @@ bool ncx_document_reader::read()
 {
 	if (!mTitle.empty())
 	{
-		type      = events::toc_entry;
-		context   = events::heading;
-		parameter = 0;
-		text      = cainteoir::make_buffer(mTitle);
-		anchor    = mSubject;
+		type   = events::toc_entry;
+		styles = &cainteoir::heading0;
+		text   = cainteoir::make_buffer(mTitle);
+		anchor = mSubject;
 		mTitle.clear();
 		return true;
 	}
@@ -112,9 +111,16 @@ bool ncx_document_reader::read()
 			current = outer = nullptr;
 			if (!anchor.empty())
 			{
-				type      = events::toc_entry;
-				context   = events::heading;
-				parameter = mDepth;
+				type = events::toc_entry;
+				switch (mDepth)
+				{
+				case 1:  styles = &cainteoir::heading1; break;
+				case 2:  styles = &cainteoir::heading2; break;
+				case 3:  styles = &cainteoir::heading3; break;
+				case 4:  styles = &cainteoir::heading4; break;
+				case 5:  styles = &cainteoir::heading5; break;
+				default: styles = &cainteoir::heading6; break;
+				}
 				return true;
 			}
 		}
@@ -130,9 +136,16 @@ bool ncx_document_reader::read()
 				anchor = rdf::uri(src.substr(0, ref), src.substr(ref+1));
 			if (text)
 			{
-				type      = events::toc_entry;
-				context   = events::heading;
-				parameter = mDepth;
+				type = events::toc_entry;
+				switch (mDepth)
+				{
+				case 1:  styles = &cainteoir::heading1; break;
+				case 2:  styles = &cainteoir::heading2; break;
+				case 3:  styles = &cainteoir::heading3; break;
+				case 4:  styles = &cainteoir::heading4; break;
+				case 5:  styles = &cainteoir::heading5; break;
+				default: styles = &cainteoir::heading6; break;
+				}
 				return true;
 			}
 		}

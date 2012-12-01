@@ -122,31 +122,34 @@ static void * speak_tts_thread(void *data)
 		size_t offset = 0;
 		for (auto &node : *speak)
 		{
-			size_t len = node->size();
+			if (node.type & cainteoir::events::text)
+			{
+				size_t len = node.text->size();
 
-			if (len <= offset)
-			{
-				n += len;
-				offset -= len;
-			}
-			else
-			{
-				if (offset > 0)
+				if (len <= offset)
 				{
-					n += offset;
-					len -= offset;
-					speak->progress(n);
+					n += len;
+					offset -= len;
 				}
+				else
+				{
+					if (offset > 0)
+					{
+						n += offset;
+						len -= offset;
+						speak->progress(n);
+					}
 
-				speak->engine->speak(node.get(), offset, speak);
-				offset = 0;
-
-				if (speak->state() == tts::stopped)
-					break;
+					speak->engine->speak(node.text.get(), offset, speak);
+					offset = 0;
+				}
 
 				n += len;
 				speak->progress(n);
 			}
+
+			if (speak->state() == tts::stopped)
+				break;
 		}
 	}
 	catch (const std::exception &e)
@@ -177,8 +180,11 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	, mFrom(aFrom)
 	, mTo(aTo)
 {
-	for (auto node = aFrom; node != aTo; ++node)
-		textLen += (*node)->size();
+	for (auto &node : *this)
+	{
+		if (node.type & cainteoir::events::text)
+			textLen += node.text->size();
+	}
 
 	started();
 	int ret = pthread_create(&threadId, nullptr, speak_tts_thread, (void *)this);
@@ -377,7 +383,8 @@ tts::engines::speak(const std::shared_ptr<cainteoir::document> &doc,
 	size_t n = 0;
 	while (from != end && n < offset)
 	{
-		n += (*from)->size();
+		if (from->type & cainteoir::events::text)
+			n += from->text->size();
 		++from;
 	}
 

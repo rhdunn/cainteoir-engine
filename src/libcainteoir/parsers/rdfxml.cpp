@@ -29,20 +29,20 @@ namespace cainteoir { namespace rdf
 {
 	namespace events = cainteoir::events;
 
-	static const xml::context::entry li_node          = { events::unknown, 0 };
-	static const xml::context::entry type_node        = { events::unknown, 0 };
-	static const xml::context::entry Alt_node         = { events::unknown, 0 };
-	static const xml::context::entry Bag_node         = { events::unknown, 0 };
-	static const xml::context::entry Description_node = { events::unknown, 0 };
-	static const xml::context::entry Seq_node         = { events::unknown, 0 };
-	static const xml::context::entry RDF_node         = { events::unknown, 0 };
+	static const xml::context::entry li_node          = {};
+	static const xml::context::entry type_node        = {};
+	static const xml::context::entry Alt_node         = {};
+	static const xml::context::entry Bag_node         = {};
+	static const xml::context::entry Description_node = {};
+	static const xml::context::entry Seq_node         = {};
+	static const xml::context::entry RDF_node         = {};
 
-	static const xml::context::entry about_attr     = { events::unknown, 0 };
-	static const xml::context::entry datatype_attr  = { events::unknown, 0 };
-	static const xml::context::entry nodeID_attr    = { events::unknown, 0 };
-	static const xml::context::entry parseType_attr = { events::unknown, 0 };
-	static const xml::context::entry resource_attr  = { events::unknown, 0 };
-	static const xml::context::entry ID_attr        = { events::unknown, 0 };
+	static const xml::context::entry about_attr     = {};
+	static const xml::context::entry datatype_attr  = {};
+	static const xml::context::entry nodeID_attr    = {};
+	static const xml::context::entry parseType_attr = {};
+	static const xml::context::entry resource_attr  = {};
+	static const xml::context::entry ID_attr        = {};
 }}
 
 static const std::initializer_list<const xml::context::entry_ref> rdf_nodes =

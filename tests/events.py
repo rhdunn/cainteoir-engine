@@ -58,6 +58,8 @@ if __name__ == '__main__':
 			{'test': 'html/sections/heading-with-matching-title.xhtml', 'result': 'html/sections/heading-with-matching-title.events'},
 			{'test': 'html/sections/heading-repeated-with-matching-title.html', 'result': 'html/sections/heading-repeated-with-matching-title.events'},
 			{'test': 'html/sections/heading-repeated-with-matching-title.xhtml', 'result': 'html/sections/heading-repeated-with-matching-title.events'},
+			{'test': 'html/sections/li-only.html', 'result': 'html/sections/li-only.events'},
+			{'test': 'html/sections/li-only.xhtml', 'result': 'html/sections/li-only.events'},
 			{'test': 'html/sections/menu.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/menu.xhtml', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/no-body.html', 'result': 'html/sections/no-body.events'},
@@ -92,6 +94,8 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/em.xhtml', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/i.html', 'result': 'html/text-level-semantics/i.events'},
 			{'test': 'html/text-level-semantics/i.xhtml', 'result': 'html/text-level-semantics/i.events'},
+			{'test': 'html/text-level-semantics/span.html', 'result': 'html/text-level-semantics/span.events'},
+			{'test': 'html/text-level-semantics/span.xhtml', 'result': 'html/text-level-semantics/span.events'},
 			{'test': 'html/text-level-semantics/strong.html', 'result': 'html/text-level-semantics/strong.events'},
 			{'test': 'html/text-level-semantics/strong.xhtml', 'result': 'html/text-level-semantics/strong.events'},
 			{'test': 'html/text-level-semantics/sub.html', 'result': 'html/text-level-semantics/sub.events'},
@@ -182,6 +186,8 @@ if __name__ == '__main__':
 			{'test': 'mime/multipart/related-2.txt', 'result': 'mime/multipart/related.events', 'title': 'related-2.txt'},
 			{'test': 'mime/multipart/related-3.txt', 'result': 'mime/multipart/related.events', 'title': 'related-3.txt'},
 			{'test': 'mime/multipart/related-4.txt', 'result': 'mime/multipart/related.events', 'title': 'related-4.txt'},
+			{'test': 'mime/multipart/related-5.txt', 'result': 'mime/multipart/related-html.events', 'title': 'related-5.txt'},
+			{'test': 'mime/multipart/related-6.txt', 'result': 'mime/multipart/related-html.events', 'title': 'related-6.txt'},
 			{'test': 'mime/multipart/alternative-1.txt', 'result': 'mime/multipart/mixed.events', 'title': 'alternative-1.txt'},
 			{'test': 'mime/multipart/alternative-2.txt', 'result': 'mime/multipart/mixed.events', 'title': 'alternative-2.txt'},
 			{'test': 'mime/multipart/no-boundary-1.txt', 'result': 'mime/multipart/no-boundary.events', 'title': 'no-boundary-1.txt'},
@@ -299,6 +305,53 @@ if __name__ == '__main__':
 			{'name': 'mimetype at end', 'type': 'events', 'tests': [
 				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
 				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
+			]},
+		]
+	})
+	test.run({ 'name': 'ZIP',
+		'archive':
+			[
+				('test.xhtml', 'html/semantics/simple.xhtml'),
+			],
+		'groups': [
+			{'name': 'single file', 'type': 'events', 'tests': [
+				{'test': 'single-file.zip', 'result': 'zip/single-file.events'},
+			]},
+		]
+	})
+	test.run({ 'name': 'ZIP',
+		'archive':
+			[
+				('test.xhtml', 'html/semantics/simple.xhtml'),
+				('test.html',  'html/semantics/simple.html'),
+			],
+		'groups': [
+			{'name': 'multiple files', 'type': 'events', 'tests': [
+				{'test': 'multiple-files.zip', 'result': 'zip/multiple-files.events'},
+			]},
+		]
+	})
+	test.run({ 'name': 'ZIP',
+		'archive':
+			[
+				('testdir/', ''), # Don't set the directory attribute
+				('testdir/test.xhtml', 'html/semantics/simple.xhtml'),
+			],
+		'groups': [
+			{'name': 'single file in directory', 'type': 'events', 'tests': [
+				{'test': 'single-file-in-dir.zip', 'result': 'zip/single-file-in-dir.events'},
+			]},
+		]
+	})
+	test.run({ 'name': 'ZIP',
+		'archive':
+			[
+				('testdir/', None), # Set the directory attribute
+				('testdir/test.xhtml', 'html/semantics/simple.xhtml'),
+			],
+		'groups': [
+			{'name': 'single file in directory with directory attribute set', 'type': 'events', 'tests': [
+				{'test': 'single-file-in-dir.zip', 'result': 'zip/single-file-in-dir.events'},
 			]},
 		]
 	})

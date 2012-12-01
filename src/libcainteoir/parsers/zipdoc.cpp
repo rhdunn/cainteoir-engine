@@ -26,7 +26,6 @@
 
 namespace rdf    = cainteoir::rdf;
 namespace xml    = cainteoir::xml;
-namespace events = cainteoir::events;
 
 struct zip_document_reader : public cainteoir::document_reader
 {
@@ -53,11 +52,10 @@ bool zip_document_reader::read()
 	{
 		if (child->read())
 		{
-			type      = child->type;
-			context   = child->context;
-			parameter = child->parameter;
-			text      = child->text;
-			anchor    = child->anchor;
+			type   = child->type;
+			styles = child->styles;
+			text   = child->text;
+			anchor = child->anchor;
 			return true;
 		}
 		child.reset();

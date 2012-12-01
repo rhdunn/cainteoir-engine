@@ -7,6 +7,6 @@
 
 # title,version,url,implemented,tts,rdf,toc,comments
 
-OPF,2.0.1,opf201.csv,*0.1,0.1,0.1,na,
-OPF,3.0 (2011/05/23),opf30-20110523.csv,*0.4,0.1,0.4,na,
+OPF,2.0.1,opf201.csv,0.1,0.1,0.1,na,
+OPF,3.0 (2011/05/23),opf30-20110523.csv,*0.4,0.1,*0.4,na,
 OPF,3.0,opf30.csv,*0.4,0.1,*0.4,na,

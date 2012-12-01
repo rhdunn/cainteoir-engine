@@ -1,0 +1,32 @@
+@type,spec
+@name,RFC
+@version,1521
+@references,rfc1521
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# section,title,url,implemented,tests,comments
+
+3,MIME-Version,,0.2,0.2,
+4,Content-Type,,0.2,0.2,
+5,Content-Transfer-Encoding,,0.2,0.2,
+5.1,quoted-printable,,0.3,0.3,Content-Transfer-Encoding type
+5.2,base64,,0.5,0.5,Content-Transfer-Encoding type
+6.1,Content-ID,,no,no,
+6.2,Content-Description,,no,no,
+7.1,Text Content-Type,,0.2,0.2,
+7.1.1,charset parameter,,0.9,0.9,
+7.2,Multipart Content-Type,,0.3,0.3,
+7.2.1,Multipart Syntax,,0.3,0.3,
+7.2.2,multipart/mixed,,0.3,0.3,
+7.2.3,multipart/alternative,,0.9,0.9,
+7.2.4,multipart/digest,,no,no,Collection of email documents.
+7.2.5,multipart/parallel,,*0.9,*0.9,Only renders the first item.
+7.3,Message Content-Type,,no,no,
+7.3.1,message/rfc822,,no,no,
+7.3.2,message/partial,,no,no,
+7.3.3,message/external-body,,no,no,
+7.4,Application Content-Type,,na,na,Non-text data not supported.
+7.5,Image Content-Type,,na,na,Non-text data not supported.
+7.6,Audio Content-Type,,na,na,Non-text data not supported.
+7.7,Video Content-Type,,na,na,Non-text data not supported.

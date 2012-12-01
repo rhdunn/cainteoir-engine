@@ -1,6 +1,6 @@
 <li id="opf30-20110523" rel="dct:references">
-	<span typeof="foaf:Document" about="http://idpf.org/epub/30/spec/epub30-publications.html">
-		<a property="dc:title" href="http://idpf.org/epub/30/spec/epub30-publications.html">EPUB Publications 3.0 (Proposed Specification 2011/05/23)</a>.
+	<span typeof="foaf:Document" about="http://idpf.org/epub/30/spec/epub30-publications-20110523.html">
+		<a property="dc:title" href="http://idpf.org/epub/30/spec/epub30-publications-20110523.html">EPUB Publications 3.0 (Proposed Specification 2011/05/23)</a>.
 		<span rel="dc:publisher" resource="_:pub_opf30_20110523"/>
 		<span typeof="foaf:Organisation" about="_:pub_opf30_20110523">
 			<span rel="foaf:homepage" resource="http://idpf.org"/>

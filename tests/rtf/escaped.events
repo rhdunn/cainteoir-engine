@@ -1,29 +1,29 @@
 toc-entry [] depth=0 title="""escaped.rtf"""
 anchor []
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(46): """RTF uses the \, { and } characters internally."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(23): """The tab character: '	'."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(33): """Dashes em — and en – in text."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(25): """The bullet symbol: '•'."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(18): """‘single quote’"""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(18): """“double quote”"""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(13): """A softhyphen."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(14): """A hard-hyphen."""
 end-context
-begin-context paragraph
+begin-context paragraph +sans-serif
 text(20): """Non-breaking��space."""
 end-context

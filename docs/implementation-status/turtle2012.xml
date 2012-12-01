@@ -1,0 +1,16 @@
+<li id="turtle2012" rel="dct:references">
+	<span typeof="foaf:Document" about="http://www.w3.org/TR/turtle/">
+		<span property="dc:creator">Dave Beckett</span>,
+		<span property="dc:creator">Tim Berners-Lee</span>,
+		<span property="dc:creator">Eric Prud'hommeaux</span>,
+		<span property="dc:creator">Gavin Carothers</span>,
+		<a property="dc:title" href="http://www.w3.org/TR/turtle/">Turtle</a>.
+		<span rel="dc:publisher" resource="_:pub_turtle2012"/>
+		<span typeof="foaf:Organisation" about="_:pub_turtle2012">
+			<span rel="foaf:homepage" resource="http://www.w3.org"/>
+			<span property="foaf:name">World Wide Web Consortium</span>
+			(<span property="foaf:name">W3C</span>),
+		</span>
+		<span property="dc:date" datatype="xsd:date" content="2012-07-10">2012</span>.
+	</span>
+</li>

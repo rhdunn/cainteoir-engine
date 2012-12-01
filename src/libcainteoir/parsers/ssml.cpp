@@ -32,19 +32,19 @@ namespace events = cainteoir::events;
 #ifndef DOXYGEN
 namespace ssml
 {
-	static const xml::context::entry emphasis_node  = { events::span,      events::emphasized };
-	static const xml::context::entry meta_node      = { events::unknown,   0 };
-	static const xml::context::entry p_node         = { events::paragraph, 0 };
-	static const xml::context::entry s_node         = { events::sentence,  0 };
-	static const xml::context::entry speak_node     = { events::unknown,   0 };
+	static const xml::context::entry emphasis_node  = { &cainteoir::emphasized };
+	static const xml::context::entry meta_node      = {};
+	static const xml::context::entry p_node         = { &cainteoir::paragraph };
+	static const xml::context::entry s_node         = { &cainteoir::sentence };
+	static const xml::context::entry speak_node     = {};
 
-	static const xml::context::entry content_attr = { events::unknown, 0 };
-	static const xml::context::entry level_attr   = { events::unknown, 0 };
-	static const xml::context::entry name_attr    = { events::unknown, 0 };
+	static const xml::context::entry content_attr = {};
+	static const xml::context::entry level_attr   = {};
+	static const xml::context::entry name_attr    = {};
 
-	static const xml::context::entry emphasis_strong  = { events::span, events::strong };
-	static const xml::context::entry emphasis_reduced = { events::span, events::reduced };
-	static const xml::context::entry emphasis_none    = { events::span, events::nostyle };
+	static const xml::context::entry emphasis_strong  = { &cainteoir::strong };
+	static const xml::context::entry emphasis_reduced = { &cainteoir::reduced };
+	static const xml::context::entry emphasis_none    = { &cainteoir::span };
 }
 #endif
 
@@ -150,21 +150,16 @@ bool ssml_document_reader::read()
 		text = reader->nodeValue().content();
 		type = 0;
 		if (text)
+			type |= events::text;
+		if (current != nullptr && current->styles)
 		{
-			type     |= events::text;
-			context   = events::span;
-			parameter = events::nostyle;
-		}
-		if (current != nullptr && current->context != events::unknown)
-		{
-			type     |= events::begin_context;
-			context   = (events::context)current->context;
-			parameter = current->parameter;
+			type   |= events::begin_context;
+			styles  = current->styles;
 			current = nullptr;
 		}
 		if (type != 0)
 		{
-			anchor    = rdf::uri();
+			anchor = rdf::uri();
 			reader->read();
 			return true;
 		}
@@ -174,11 +169,10 @@ bool ssml_document_reader::read()
 		break;
 	case xml::reader::endTagNode:
 		current = nullptr;
-		if (reader->context()->context != events::unknown)
+		if (reader->context()->styles)
 		{
-			type      = events::end_context;
-			context   = (events::context)reader->context()->context;
-			parameter = reader->context()->parameter;
+			type   = events::end_context;
+			styles = reader->context()->styles;
 			reader->read();
 			return true;
 		}

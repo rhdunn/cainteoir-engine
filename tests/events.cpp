@@ -29,6 +29,78 @@
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
+void format_style(const cainteoir::styles &styles)
+{
+	using cainteoir::display;
+	using cainteoir::vertical_align;
+	using cainteoir::text_decoration;
+	using cainteoir::font_style;
+	using cainteoir::font_weight;
+	using cainteoir::text_structure;
+
+	switch (styles.display)
+	{
+	case display::inherit:    break;
+	case display::block:
+		switch (styles.text_structure)
+		{
+		case text_structure::none:      fprintf(stdout, "block"); break;
+		case text_structure::paragraph: fprintf(stdout, "paragraph"); break;
+		case text_structure::heading:   fprintf(stdout, "heading %d", styles.toc_level); return;
+		}
+		break;
+	case display::inlined:
+		switch (styles.text_structure)
+		{
+		case text_structure::none:     fprintf(stdout, "span"); break;
+		case text_structure::sentence: fprintf(stdout, "sentence"); break;
+		}
+		break;
+	case display::list_item:  fprintf(stdout, "list-item"); break;
+	case display::table:      fprintf(stdout, "table"); break;
+	case display::table_row:  fprintf(stdout, "row"); break;
+	case display::table_cell: fprintf(stdout, "cell"); break;
+	case display::none:       fprintf(stdout, "none"); break;
+	}
+
+	switch (styles.vertical_align)
+	{
+	case vertical_align::inherit:  break;
+	case vertical_align::baseline: fprintf(stdout, " +baseline"); break;
+	case vertical_align::sub:      fprintf(stdout, " +subscript"); break;
+	case vertical_align::super:    fprintf(stdout, " +superscript"); break;
+	}
+
+	switch (styles.text_decoration)
+	{
+	case text_decoration::inherit:      break;
+	case text_decoration::none:         fprintf(stdout, " -underline -line-through"); break;
+	case text_decoration::underline:    fprintf(stdout, " +underline"); break;
+	case text_decoration::line_through: fprintf(stdout, " +line-through"); break;
+	}
+
+	switch (styles.font_style)
+	{
+	case font_style::inherit: break;
+	case font_style::normal:  fprintf(stdout, " +normal-style"); break;
+	case font_style::italic:  fprintf(stdout, " +emphasized"); break;
+	case font_style::oblique: fprintf(stdout, " +oblique"); break;
+	}
+
+	switch (styles.font_weight)
+	{
+	case font_weight::inherit: break;
+	case font_weight::normal:  fprintf(stdout, " +normal-weight"); break;
+	case font_weight::bold:    fprintf(stdout, " +strong"); break;
+	}
+
+	if (styles.list_style_type)
+		fprintf(stdout, " +list=%s", styles.list_style_type->name.c_str());
+
+	if (!styles.font_family.empty())
+		fprintf(stdout, " +%s", styles.font_family.c_str());
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -49,12 +121,12 @@ int main(int argc, char ** argv)
 
 		while (reader->read())
 		{
-			if (reader->type & cainteoir::events::toc_entry)
+			if (reader->type & cainteoir::events::toc_entry && reader->styles)
 			{
 				fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n",
 				        reader->anchor.ns.c_str(),
 				        reader->anchor.ref.c_str(),
-				        reader->parameter,
+				        reader->styles->toc_level,
 				        reader->text->str().c_str());
 			}
 			if (reader->type & cainteoir::events::anchor)
@@ -66,36 +138,8 @@ int main(int argc, char ** argv)
 			if (reader->type & cainteoir::events::begin_context)
 			{
 				fprintf(stdout, "begin-context ");
-				switch (reader->context)
-				{
-				case events::paragraph: fprintf(stdout, "paragraph"); break;
-				case events::heading:   fprintf(stdout, "heading %d", reader->parameter); break;
-				case events::span:      fprintf(stdout, "span"); break;
-				case events::list:      fprintf(stdout, "list"); break;
-				case events::list_item: fprintf(stdout, "list-item"); break;
-				case events::sentence:  fprintf(stdout, "sentence"); break;
-				case events::table:     fprintf(stdout, "table"); break;
-				case events::row:       fprintf(stdout, "row"); break;
-				case events::cell:      fprintf(stdout, "cell"); break;
-				}
-
-				if (reader->context != events::heading)
-				{
-					if (reader->parameter & events::superscript)
-						fprintf(stdout, " +superscript");
-					if (reader->parameter & events::subscript)
-						fprintf(stdout, " +subscript");
-					if (reader->parameter & events::emphasized)
-						fprintf(stdout, " +emphasized");
-					if (reader->parameter & events::strong)
-						fprintf(stdout, " +strong");
-					if (reader->parameter & events::underline)
-						fprintf(stdout, " +underline");
-					if (reader->parameter & events::monospace)
-						fprintf(stdout, " +monospace");
-					if (reader->parameter & events::reduced)
-						fprintf(stdout, " +reduced");
-				}
+				if (reader->styles)
+					format_style(*reader->styles);
 				fprintf(stdout, "\n");
 			}
 			if (reader->type & cainteoir::events::text)
