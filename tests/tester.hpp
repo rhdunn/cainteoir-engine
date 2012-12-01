@@ -123,7 +123,7 @@ namespace tester
 	template<>
 	bool equal_t<value_t<float>, value_t<float>>::operator()() const
 	{
-		const float epsilon = 0.000001;
+		const float epsilon = 0.0001;
 		const float upper   = rhs() + epsilon;
 		const float lower   = rhs() - epsilon;
 		return lower <= lhs() && lhs() <= upper;
@@ -132,7 +132,7 @@ namespace tester
 	template<>
 	bool equal_t<value_t<float>, value_t<double>>::operator()() const
 	{
-		const double epsilon = 0.000001;
+		const double epsilon = 0.0001;
 		const double upper   = rhs() + epsilon;
 		const double lower   = rhs() - epsilon;
 		return lower <= lhs() && lhs() <= upper;
@@ -141,16 +141,16 @@ namespace tester
 	template<>
 	bool equal_t<value_t<double>, value_t<float>>::operator()() const
 	{
-		const float epsilon = 0.000001;
-		const float upper   = rhs() + epsilon;
-		const float lower   = rhs() - epsilon;
+		const double epsilon = 0.0001;
+		const double upper   = rhs() + epsilon;
+		const double lower   = rhs() - epsilon;
 		return lower <= lhs() && lhs() <= upper;
 	}
 
 	template<>
 	bool equal_t<value_t<double>, value_t<double>>::operator()() const
 	{
-		const double epsilon = 0.000001;
+		const double epsilon = 0.0001;
 		const double upper   = rhs() + epsilon;
 		const double lower   = rhs() - epsilon;
 		return lower <= lhs() && lhs() <= upper;
