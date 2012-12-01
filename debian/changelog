@@ -1,3 +1,9 @@
+cainteoir-engine (0.11~unstable0) unstable; urgency=low
+ 
+  * New upstream release.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Sat, 1 Dec 2012 12:23:00 +0000
+
 cainteoir-engine (0.10~unstable1) unstable; urgency=low
  
   * debian/rules: don't use 'dpkg-buildflags --export=configure' on ubuntu oneiric
