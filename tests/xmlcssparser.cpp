@@ -30,36 +30,82 @@ namespace cainteoir
 	{
 		typedef std::string context;
 
-		std::list<context> ctx;
+		style_manager();
 
 		void push_context(const std::string &ns, const std::string &name);
 
 		void pop_context(const std::string &ns, const std::string &name);
+
+		xml::begin_tag_type get_begin_tag_type() const
+		{
+			return current_styles.begin_tag_type;
+		}
+	private:
+		struct style_data
+		{
+			xml::begin_tag_type begin_tag_type;
+
+			style_data(xml::begin_tag_type aBeginTagType)
+				: begin_tag_type(aBeginTagType)
+			{
+			}
+		};
+
+		std::list<context> ctx;
+		std::list<std::pair<context, style_data>> styles;
+		style_data current_styles;
 	};
+}
+
+cainteoir::style_manager::style_manager()
+	: current_styles(xml::begin_tag_type::open)
+{
+	styles.push_back(std::make_pair("br", xml::begin_tag_type::open_close));
+	styles.push_back(std::make_pair("hr", xml::begin_tag_type::open_close));
+	styles.push_back(std::make_pair("img", xml::begin_tag_type::open_close));
+	styles.push_back(std::make_pair("meta", xml::begin_tag_type::open_close));
+	styles.push_back(std::make_pair("link", xml::begin_tag_type::open_close));
+	styles.push_back(std::make_pair("input", xml::begin_tag_type::open_close));
+
+	// FIXME: These should be handled differently to capture the node text:
+	styles.push_back(std::make_pair("option", xml::begin_tag_type::open_close));
 }
 
 void cainteoir::style_manager::push_context(const std::string &ns, const std::string &name)
 {
 	ctx.push_back(name);
 
-	fprintf(stdout, "context >> ");
+	fprintf(stdout, "context >>");
 	for (auto &item : ctx)
 	{
 		fprintf(stdout, " %s", item.c_str());
 	}
 	fprintf(stdout, "\n");
+
+	bool found = false;
+	for (auto &style : styles)
+	{
+		if (cainteoir::buffer::ignore_case(style.first.c_str(), name.c_str(), style.first.size()) == 0)
+		{
+			found = true;
+			current_styles.begin_tag_type = style.second.begin_tag_type;
+		}
+	}
+
+	if (!found)
+	{
+		current_styles.begin_tag_type = xml::begin_tag_type::open;
+	}
 }
 
 void cainteoir::style_manager::pop_context(const std::string &ns, const std::string &name)
 {
-	ctx.pop_back();
-
-	fprintf(stdout, "context << ");
-	for (auto &item : ctx)
+	if (ctx.back() != name)
 	{
-		fprintf(stdout, " %s", item.c_str());
+		fprintf(stdout, "|error| expected end-tag '%s', got '%s'\n", ctx.back().c_str(), name.c_str());
 	}
-	fprintf(stdout, "\n");
+
+	ctx.pop_back();
 }
 
 int main(int argc, char ** argv)
@@ -84,6 +130,7 @@ int main(int argc, char ** argv)
 		{
 		case xml::reader::beginTagNode:
 			styles.push_context(reader.namespaceUri(), reader.nodeName().str());
+			reader.set_begin_tag_type(styles.get_begin_tag_type());
 			break;
 		case xml::reader::endTagNode:
 			styles.pop_context(reader.namespaceUri(), reader.nodeName().str());
