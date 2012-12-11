@@ -21,6 +21,7 @@
 #include <cainteoir/xmlreader.hpp>
 #include <stdexcept>
 #include <list>
+#include <map>
 
 namespace xml = cainteoir::xml;
 
@@ -28,7 +29,11 @@ namespace cainteoir
 {
 	struct style_manager
 	{
-		typedef std::string context;
+		struct context
+		{
+			std::string name;
+			std::map<std::string, std::string> attrs;
+		};
 
 		style_manager();
 
@@ -36,11 +41,15 @@ namespace cainteoir
 
 		void pop_context(const std::string &ns, const std::string &name);
 
+		void add_context_attribute(const std::string &ns, const std::string &name, const std::string &value);
+
 		xml::begin_tag_type get_begin_tag_type() const
 		{
 			return current_styles.begin_tag_type;
 		}
 	private:
+		void print_context();
+
 		struct style_data
 		{
 			xml::begin_tag_type begin_tag_type;
@@ -60,32 +69,18 @@ namespace cainteoir
 cainteoir::style_manager::style_manager()
 	: current_styles(xml::begin_tag_type::open)
 {
-	styles.push_back(std::make_pair("br", xml::begin_tag_type::open_close));
-	styles.push_back(std::make_pair("hr", xml::begin_tag_type::open_close));
-	styles.push_back(std::make_pair("img", xml::begin_tag_type::open_close));
-	styles.push_back(std::make_pair("meta", xml::begin_tag_type::open_close));
-	styles.push_back(std::make_pair("link", xml::begin_tag_type::open_close));
-	styles.push_back(std::make_pair("input", xml::begin_tag_type::open_close));
-
-	// FIXME: These should be handled differently to capture the node text:
-	styles.push_back(std::make_pair("option", xml::begin_tag_type::open_close));
 }
 
 void cainteoir::style_manager::push_context(const std::string &ns, const std::string &name)
 {
-	ctx.push_back(name);
-
-	fprintf(stdout, "context >>");
-	for (auto &item : ctx)
-	{
-		fprintf(stdout, " %s", item.c_str());
-	}
-	fprintf(stdout, "\n");
+	ctx.push_back({name});
+	print_context();
 
 	bool found = false;
 	for (auto &style : styles)
 	{
-		if (cainteoir::buffer::ignore_case(style.first.c_str(), name.c_str(), style.first.size()) == 0)
+		std::string &style_name = style.first.name;
+		if (cainteoir::buffer::ignore_case(style_name.c_str(), name.c_str(), style_name.size()) == 0)
 		{
 			found = true;
 			current_styles.begin_tag_type = style.second.begin_tag_type;
@@ -100,12 +95,40 @@ void cainteoir::style_manager::push_context(const std::string &ns, const std::st
 
 void cainteoir::style_manager::pop_context(const std::string &ns, const std::string &name)
 {
-	if (ctx.back() != name)
+	if (ctx.back().name != name)
 	{
-		fprintf(stdout, "|error| expected end-tag '%s', got '%s'\n", ctx.back().c_str(), name.c_str());
+		fprintf(stdout, "|error| expected end-tag '%s', got '%s'\n", ctx.back().name.c_str(), name.c_str());
 	}
 
 	ctx.pop_back();
+}
+
+void cainteoir::style_manager::add_context_attribute(const std::string &ns, const std::string &name, const std::string &value)
+{
+	if (!ctx.empty() && name.find("xmlns") == std::string::npos)
+	{
+		ctx.back().attrs[name] = value;
+		print_context();
+	}
+}
+
+void cainteoir::style_manager::print_context()
+{
+	fprintf(stdout, "context >>");
+	for (auto &item : ctx)
+	{
+		fprintf(stdout, " %s", item.name.c_str());
+		if (!item.attrs.empty())
+		{
+			fprintf(stdout, "[");
+			for (auto &attr : item.attrs)
+			{
+				fprintf(stdout, " @%s=\"%s\"", attr.first.c_str(), attr.second.c_str());
+			}
+			fprintf(stdout, " ]");
+		}
+	}
+	fprintf(stdout, "\n");
 }
 
 int main(int argc, char ** argv)
@@ -136,6 +159,7 @@ int main(int argc, char ** argv)
 			styles.pop_context(reader.namespaceUri(), reader.nodeName().str());
 			break;
 		case xml::reader::attribute:
+			styles.add_context_attribute(reader.namespaceUri(), reader.nodeName().str(), reader.nodeValue().str());
 			break;
 		case xml::reader::cdataNode:
 		case xml::reader::textNode:
