@@ -535,7 +535,7 @@ bool cainteoir::xml::reader::read()
 					++mState.current;
 				}
 				else // HTML§12.1.2.3 -- unquoted attribute value
-					mNodeValue = std::make_shared<cainteoir::buffer>(identifier());
+					mNodeValue = unquoted_node_value();
 			}
 			else // HTML§12.1.2.3 -- empty attribute
 				mNodeValue = mEncoding.decode(std::make_shared<cainteoir::buffer>(mState.nodeName));
@@ -884,6 +884,18 @@ cainteoir::buffer cainteoir::xml::reader::identifier()
 		++mState.current;
 
 	return cainteoir::buffer(startPos, mState.current);
+}
+
+std::shared_ptr<cainteoir::buffer> cainteoir::xml::reader::unquoted_node_value()
+{
+	skip_whitespace();
+
+	const char * startPos = mState.current;
+
+	while (mState.current != mData->end() && (xmlalnum(*mState.current)) || *mState.current == '-' || *mState.current == '_' || *mState.current == '%')
+		++mState.current;
+
+	return std::make_shared<cainteoir::buffer>(startPos, mState.current);
 }
 
 void cainteoir::xml::reader::read_node_value(char terminator1, char terminator2)

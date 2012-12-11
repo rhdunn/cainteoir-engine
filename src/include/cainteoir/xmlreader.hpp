@@ -288,6 +288,8 @@ namespace cainteoir { namespace xml
 
 		cainteoir::buffer identifier();
 
+		std::shared_ptr<cainteoir::buffer> unquoted_node_value();
+
 		void read_node_value(char terminator1, char terminator2 = '\0');
 
 		void read_tag(node_type aType);
