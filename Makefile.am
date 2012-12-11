@@ -338,6 +338,11 @@ noinst_bin_PROGRAMS += tests/content
 tests_content_LDADD   = src/libcainteoir/libcainteoir.la
 tests_content_SOURCES = tests/content.cpp
 
+noinst_bin_PROGRAMS += tests/xmlcssparser
+
+tests_xmlcssparser_LDADD   = src/libcainteoir/libcainteoir.la
+tests_xmlcssparser_SOURCES = tests/xmlcssparser.cpp
+
 TEST_FILES = \
 	tests/epub/* \
 	tests/ncx/* \
