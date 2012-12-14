@@ -170,13 +170,13 @@ TEST_CASE("extlang codes in the IANA language subtag repository")
 TEST_CASE("eSpeak voice language codes")
 {
 	compare(lang::make_lang("es-la"),       { "es", "", "", "419" });
-	compare(lang::make_lang("en-sc"),       { "en", "", "", "", "scotland" });
-	compare(lang::make_lang("en-uk"),       { "en", "", "", "GB" });
-	compare(lang::make_lang("en-uk-north"), { "en", "", "", "GB" });
-	compare(lang::make_lang("en-uk-rp"),    { "en", "", "", "GB" });
-	compare(lang::make_lang("en-uk-wmids"), { "en", "", "", "GB" });
+	compare(lang::make_lang("en-sc"),       { "en", "", "", "",   "scotland" });
+	compare(lang::make_lang("en-uk"),       { "en", "", "", "GB"  });
+	compare(lang::make_lang("en-uk-north"), { "en", "", "", "GB"  });
+	compare(lang::make_lang("en-uk-rp"),    { "en", "", "", "GB"  });
+	compare(lang::make_lang("en-uk-wmids"), { "en", "", "", "GB"  });
 	compare(lang::make_lang("en-wi"),       { "en", "", "", "029" });
-	compare(lang::make_lang("hy-west"),     { "hy" });
+	compare(lang::make_lang("hy-west"),     { "hy", "", "", "",   "arevmda" });
 }
 
 TEST_CASE("posix locale codes from /usr/share/locale")

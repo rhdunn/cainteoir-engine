@@ -126,7 +126,7 @@ static const std::initializer_list<std::pair<std::string, const lang::tag>> alia
 	{ "en@quot",     { "en" } },
 	{ "en@shaw",     { "en" } },
 	{ "es-la",       { "es", "", "", "419" } }, // Latin America & Caribbean
-	{ "hy-west",     { "hy" } },
+	{ "hy-west",     { "hy", "", "", "", "arevmda" } },
 	{ "i-ami",       { "ami" } },
 	{ "i-bnn",       { "bnn" } },
 	{ "i-default",   { "und" } },
