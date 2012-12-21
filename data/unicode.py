@@ -242,6 +242,36 @@ try:
 except IndexError:
 	usage = True
 
+def generate_ucd_table(unicode_char, page_width, offset):
+	sys.stdout.write('\n')
+	sys.stdout.write('const ucd_category_t ucd_categories_%04X[%d] = {\n' % (offset, page_width))
+	for page in range(offset, offset+page_width, 256):
+		sys.stdout.write('\t// %04X // x0  x1  x2  x3  x4  x5  x6  x7  x8  x9  xA  xB  xC  xD  xE  xF\n' % page)
+		for outer in range(page, page+256, 16):
+			sys.stdout.write('\t/* %04X */' % outer)
+			for inner in range(0, 16):
+				codepoint = outer + inner
+				try:
+					data = unicode_char[codepoint]
+				except KeyError:
+					data = {
+						'category': 'Cn',
+						'whitespace': '-',
+					}
+				if data['category'] == 'Cc' and data['whitespace'] == 'W':
+					# Treat whitespace control characters as Zc to make it easier
+					# to implement character classification APIs based on just the
+					# category code.
+					sys.stdout.write(' Zc,') # Separator - Space (Control Character)
+				else:
+					sys.stdout.write(' %s,' % data['category'])
+			sys.stdout.write('\n')
+	sys.stdout.write('};\n')
+
+def generate_ucd_tables(unicode_char, page_width, pages):
+	for page in range(0, page_width*pages, page_width):
+		generate_ucd_table(unicode_char, page_width, page)
+
 if not usage:
 	if command.startswith('table:'):
 		table_format = command.replace('table:', '').replace('%', '%%')
@@ -260,6 +290,9 @@ if not usage:
 
 		unicode_char, blocks = parse_ucd(unicode_data_path)
 		format_unicode_data_table(unicode_char, blocks, table_format)
+	elif command == 'data':
+		unicode_char, blocks = parse_ucd(unicode_data_path)
+		generate_ucd_tables(unicode_char, 4096, 16)
 	else:
 		usage = True
 
