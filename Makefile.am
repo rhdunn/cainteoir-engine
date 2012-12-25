@@ -7,7 +7,7 @@ xmldir     = $(mimedir)/packages
 
 AM_LDFLAGS  = ${LTLIBINTL}
 AM_CXXFLAGS = \
-	-Isrc/include -Isrc \
+	-Isrc/include -Isrc -Iucd-tools/src/include \
 	-DMBROLA_DIR=\"$(MBROLA_DIR)\" \
 	-DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
 
@@ -192,6 +192,11 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 	${ESPEAK_CFLAGS}
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
+	ucd-tools/src/case.cpp \
+	ucd-tools/src/categories.cpp \
+	ucd-tools/src/ctype.cpp \
+	ucd-tools/src/scripts.cpp \
+	\
 	src/i18n.h \
 	src/compatibility.h \
 	\

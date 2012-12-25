@@ -23,46 +23,9 @@
 
 #include <cainteoir/buffer.hpp>
 #include <cainteoir/unicode.hpp>
+#include <ucd/ucd.h>
 
 namespace utf8 = cainteoir::utf8;
-
-namespace cainteoir { namespace utf8
-{
-	static bool isspace(uint32_t c)
-	{
-		switch (c)
-		{
-		case 0x0009: // CHARACTER TABULATION
-		case 0x000A: // LINE FEED
-		case 0x000B: // LINE TABULATION
-		case 0x000C: // FORM FEED
-		case 0x000D: // CARRIAGE RETURN
-		case 0x0020: // SPACE
-		case 0x0085: // NEXT LINE
-		case 0x00A0: // NO-BREAK SPACE
-		case 0x1680: // OGHAM SPACE MARK
-		case 0x180E: // MONGOLIAN VOWEL SEPARATOR
-		case 0x2000: // EN QUAD
-		case 0x2001: // EM QUAD
-		case 0x2002: // EN SPACE
-		case 0x2003: // EM SPACE
-		case 0x2004: // THREE-PER-EM SPACE
-		case 0x2005: // FOUR-PER-EM SPACE
-		case 0x2006: // SIX-PER-EM SPACE
-		case 0x2007: // FIGURE SPACE
-		case 0x2008: // PUNCTUATION SPACE
-		case 0x2009: // THIN SPACE
-		case 0x200A: // HAIR SPACE
-		case 0x2028: // LINE SEPARATOR
-		case 0x2029: // PARAGRAPH SEPARATOR
-		case 0x202F: // NARROW NO-BREAK SPACE
-		case 0x205F: // MEDIUM MATHEMATICAL SPACE
-		case 0x3000: // IDEOGRAPHICAL SPACE
-			return true;
-		}
-		return false;
-	}
-}}
 
 class normalized_text_buffer : public cainteoir::buffer
 {
@@ -84,7 +47,7 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 
 	uint32_t ch = 0;
 	const char *next = str;
-	while ((next = utf8::read(str, ch)) && utf8::isspace(ch))
+	while ((next = utf8::read(str, ch)) && ucd::isspace(ch))
 		str = next;
 
 	if (str >= l)
@@ -97,11 +60,11 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 	while (str < l)
 	{
 		next = utf8::read(str, ch);
-		if (utf8::isspace(ch))
+		if (ucd::isspace(ch))
 			ch = ' ';
 
 		uint32_t ch2 = 0;
-		if (ch == ' ' && str < l && utf8::read(next, ch2) && utf8::isspace(ch2))
+		if (ch == ' ' && str < l && utf8::read(next, ch2) && ucd::isspace(ch2))
 			str = next;
 		else
 		{
@@ -112,7 +75,7 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 
 	// trim space at the end:
 
-	while (last > first && (next = utf8::prev(last)) && utf8::read(next, ch) && utf8::isspace(ch))
+	while (last > first && (next = utf8::prev(last)) && utf8::read(next, ch) && ucd::isspace(ch))
 		last = next;
 	*(char *)last = '\0';
 }

@@ -24,29 +24,13 @@
 
 #include <cainteoir/mimetype.hpp>
 #include <cainteoir/unicode.hpp>
+#include <ucd/ucd.h>
 #include "parsers.hpp"
 #include <stdexcept>
 
 namespace rdf    = cainteoir::rdf;
 namespace mime   = cainteoir::mime;
 namespace events = cainteoir::events;
-
-namespace cainteoir { namespace utf8
-{
-	static bool isspace(uint32_t c)
-	{
-		switch (c)
-		{
-		case 0x000009: // HORIZONTAL TAB
-		case 0x00000A: // LINE FEED
-		case 0x00000D: // CARRIDGE RETURN
-		case 0x000020: // SPACE
-		case 0x0000A0: // NON-BREAKING SPACE
-			return true;
-		}
-		return false;
-	}
-}}
 
 static inline bool is_mime_header_char(char c)
 {
@@ -402,7 +386,7 @@ cainteoir::createMimeInHtmlReader(std::shared_ptr<cainteoir::buffer> &aData,
 
 	uint32_t ch = 0;
 	const char *next = first;
-	while ((next = utf8::read(first, ch)) && utf8::isspace(ch))
+	while ((next = utf8::read(first, ch)) && ucd::isspace(ch))
 		first = next;
 
 	auto text = std::make_shared<buffer>(first, last);
