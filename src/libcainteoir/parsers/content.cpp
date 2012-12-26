@@ -23,6 +23,7 @@
 
 #include <cainteoir/content.hpp>
 #include <stdexcept>
+#include <sstream>
 
 cainteoir::size cainteoir::size::as(const size_units aUnits) const
 {
@@ -149,6 +150,35 @@ cainteoir::size cainteoir::size::as(const size_units aUnits) const
 	}
 
 	throw std::runtime_error("unable to convert to the specified units");
+}
+
+std::string cainteoir::counter_style::marker(int count) const
+{
+	std::ostringstream textval;
+	textval << prefix;
+	int n = symbols.size();
+	if (n != 0) switch (system)
+	{
+	case cainteoir::counter_system::cyclic:
+		textval << symbols[count % n];
+		break;
+	case cainteoir::counter_system::numeric:
+		if (count == 0)
+			textval << symbols[0];
+		else
+		{
+			std::string s;
+			while (count != 0)
+			{
+				s = symbols[count % n] + s;
+				count = count / n;
+			}
+			textval << s;
+		}
+		break;
+	}
+	textval << suffix << ' ';
+	return textval.str();
 }
 
 const cainteoir::counter_style cainteoir::counter::decimal =

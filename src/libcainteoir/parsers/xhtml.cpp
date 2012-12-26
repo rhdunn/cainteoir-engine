@@ -590,39 +590,15 @@ bool html_document_reader::read()
 	case xml::reader::beginTagNode:
 		if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item)
 		{
-			std::ostringstream textval;
+			std::string marker;
 			auto list_styles = ctx.top().ctx->styles;
 			if (list_styles && list_styles->list_style_type)
 			{
-				auto counter = list_styles->list_style_type;
 				int i = ctx.top().parameter++;
-				int n = counter->symbols.size();
-				textval << counter->prefix;
-				if (n != 0) switch (counter->system)
-				{
-				case cainteoir::counter_system::cyclic:
-					textval << counter->symbols[i % n];
-					break;
-				case cainteoir::counter_system::numeric:
-					if (i == 0)
-						textval << counter->symbols[0];
-					else
-					{
-						std::string s;
-						while (i != 0)
-						{
-							s = counter->symbols[i % n] + s;
-							i = i / n;
-						}
-						textval << s;
-					}
-					break;
-				}
-				textval << counter->suffix;
+				marker = list_styles->list_style_type->marker(i);
 			}
-			textval << ' ';
-
-			std::string marker = textval.str();
+			else
+				marker = ' ';
 			text   = cainteoir::make_buffer(marker.c_str(), marker.size());
 			type   = events::begin_context | events::text;
 			styles = reader->context()->styles;

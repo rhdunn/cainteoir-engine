@@ -127,6 +127,8 @@ namespace cainteoir
 		std::string prefix;
 		std::string suffix;
 		std::vector<std::string> symbols;
+
+		std::string marker(int count) const;
 	};
 
 	struct size
