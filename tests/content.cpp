@@ -106,39 +106,6 @@ TEST_CASE("unit conversion")
 	test_conversion( 1, size_units::pixels,  1,    size_units::pixels,      false);
 }
 
-TEST_CASE("counter style - decimal")
-{
-	cainteoir::style_manager styles;
-	const cainteoir::counter_style *style = styles.get_counter_style("decimal");
-	assert(style != nullptr);
-	assert(style->system == cainteoir::counter_system::numeric);
-	assert(style->prefix == "");
-	assert(style->suffix == ".");
-	assert(style->symbols.size() == 10);
-	assert(style->symbols[0] == "0");
-	assert(style->symbols[1] == "1");
-	assert(style->symbols[2] == "2");
-	assert(style->symbols[3] == "3");
-	assert(style->symbols[4] == "4");
-	assert(style->symbols[5] == "5");
-	assert(style->symbols[6] == "6");
-	assert(style->symbols[7] == "7");
-	assert(style->symbols[8] == "8");
-	assert(style->symbols[9] == "9");
-}
-
-TEST_CASE("counter style - disc")
-{
-	cainteoir::style_manager styles;
-	const cainteoir::counter_style *style = styles.get_counter_style("disc");
-	assert(style != nullptr);
-	assert(style->system == cainteoir::counter_system::cyclic);
-	assert(style->prefix == "");
-	assert(style->suffix == "");
-	assert(style->symbols.size() == 1);
-	assert(style->symbols[0] == "\xE2\x80\xA2"); // \x2022
-}
-
 TEST_CASE("style defaults")
 {
 	cainteoir::styles styles("defaults");

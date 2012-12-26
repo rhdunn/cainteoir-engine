@@ -334,6 +334,8 @@ namespace cainteoir
 			return mCounterStyles;
 		}
 
+		void parse(const std::shared_ptr<buffer> &style);
+
 		style_manager();
 	private:
 		std::list<std::shared_ptr<counter_style>>    mCounterStyleRegistry;

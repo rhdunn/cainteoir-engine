@@ -57,6 +57,7 @@ int main(int argc, char ** argv)
 			throw std::runtime_error("no document specified");
 
 		cainteoir::style_manager styles;
+		styles.parse(cainteoir::make_file_buffer(argv[0]));
 		for (auto &item : styles.counter_styles())
 		{
 			fprintf(stdout, "@counter-style %s {\n", item.first.c_str());

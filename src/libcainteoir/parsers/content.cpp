@@ -26,6 +26,121 @@
 #include <sstream>
 #include <limits>
 
+struct css_reader
+{
+	enum token_type
+	{
+		identifier,
+		at_keyword,
+		open_block,
+		close_block,
+		error,
+	};
+
+	cainteoir::buffer value;
+	token_type type;
+
+	bool read();
+
+	css_reader(std::shared_ptr<cainteoir::buffer> aData);
+private:
+	void parse_identifier(token_type aType);
+
+	std::shared_ptr<cainteoir::buffer> mData;
+	const char *mCurrent;
+};
+
+#define _ 0 // error
+#define S 1 // whitespace
+#define B 2 // open  curly brace
+#define E 3 // close curly brace
+#define A 4 // at
+#define I 5 // identifier
+#define N 6 // number
+
+static const char css_lookup_table[256] = {
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+	/* 0x */ _, _, _, _, _, _, _, _, _, S, S, S, S, S, _, _,
+	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 2x */ S, _, _, _, _, _, _, _, _, _, _, _, _, I, _, _,
+	/* 3x */ N, N, N, N, N, N, N, N, N, N, _, _, _, _, _, _,
+	/* 4x */ A, I, I, I, I, I, I, I, I, I, I, I, I, I, I, I,
+	/* 5x */ I, I, I, I, I, I, I, I, I, I, I, _, _, _, _, _,
+	/* 6x */ _, I, I, I, I, I, I, I, I, I, I, I, I, I, I, I,
+	/* 7x */ I, I, I, I, I, I, I, I, I, I, I, B, _, E, _, _,
+	/* 8x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 9x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ax */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Bx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Cx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Dx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ex */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Fx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+};
+
+css_reader::css_reader(std::shared_ptr<cainteoir::buffer> aData)
+	: mData(aData)
+	, mCurrent(mData->begin())
+	, value(nullptr, nullptr)
+{
+}
+
+bool css_reader::read()
+{
+	if (mCurrent >= mData->end())
+		return false;
+
+	const char *start = mCurrent;
+	while (mCurrent < mData->end()) switch (css_lookup_table[*mCurrent++])
+	{
+	case S: start = mCurrent; break;
+	case B: type  = open_block;  return true;
+	case E: type  = close_block; return true;
+	case A:
+		type = at_keyword;
+		while (mCurrent < mData->end()) switch (css_lookup_table[*mCurrent])
+		{
+		case I:
+		case N:
+			++mCurrent;
+			break;
+		default:
+			value = cainteoir::buffer(start, mCurrent);
+			return true;
+		}
+		value = cainteoir::buffer(start, mCurrent);
+		return true;
+	case I:
+		type = identifier;
+		while (mCurrent < mData->end()) switch (css_lookup_table[*mCurrent])
+		{
+		case I:
+		case N:
+			++mCurrent;
+			break;
+		default:
+			value = cainteoir::buffer(start, mCurrent);
+			return true;
+		}
+		value = cainteoir::buffer(start, mCurrent);
+		return true;
+	case _:
+		value = cainteoir::buffer(start, mCurrent);
+		type  = error;
+		return true;
+	}
+
+	return false;
+}
+
+#undef _
+#undef S
+#undef B
+#undef E
+#undef A
+#undef I
+
 cainteoir::size cainteoir::size::as(const size_units aUnits) const
 {
 	static constexpr float points_in_pica = 12;
@@ -214,6 +329,30 @@ cainteoir::counter_style *cainteoir::style_manager::create_counter_style(const s
 	mCounterStyleRegistry.push_back(style);
 	mCounterStyles[aName] = style.get();
 	return style.get();
+}
+
+void cainteoir::style_manager::parse(const std::shared_ptr<buffer> &style)
+{
+	mCounterStyleRegistry.clear();
+	mCounterStyles.clear();
+
+	css_reader css(style);
+	while (css.read())
+	{
+		if (css.type == css_reader::at_keyword && css.value.comparei("@counter-style") == 0 &&
+		    css.read() && css.type == css_reader::identifier)
+		{
+			cainteoir::counter_style *style = create_counter_style(css.value.str());
+			if (css.read() && css.type == css_reader::open_block) while (style)
+			{
+				css.read();
+				if (css.type == css_reader::close_block)
+				{
+					style = nullptr;
+				}
+			}
+		}
+	}
 }
 
 cainteoir::style_manager::style_manager()

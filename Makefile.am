@@ -405,8 +405,8 @@ noinst_bin_PROGRAMS += tests/styles
 tests_styles_LDADD   = src/libcainteoir/libcainteoir.la
 tests_styles_SOURCES = tests/styles.cpp
 
-tests/styles.check: tests/styles
-	($< test.css && touch $@) | tee $<.results
+tests/styles.check: tests/styles tests/styles.py tests/harness.py ${TEST_FILES}
+	(python tests/styles.py && touch $@) | tee $<.results
 
 tests/metadata.check: src/apps/metadata/metadata tests/metadata.py tests/harness.py ${TEST_FILES}
 	(python tests/metadata.py && touch $@) | tee $<.results

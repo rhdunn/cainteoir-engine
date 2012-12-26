@@ -99,6 +99,10 @@ class TestSuite:
 		write('... checking %s as xmlreader tags ... ' % (displayas or filename))
 		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'), test_expect=test_expect, replacements=replacements)
 
+	def check_styles(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
+		write('... checking %s as styles tags ... ' % (displayas or filename))
+		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'styles'), test_expect=test_expect, replacements=replacements)
+
 	def check_parsetext(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
 		write('... checking %s as parsetext tags ... ' % (displayas or filename))
 		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'parsetext'), test_expect=test_expect, replacements=replacements)
@@ -115,6 +119,8 @@ class TestSuite:
 				check = lambda got, exp, expect, displayas, replacements: self.check_events(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'xmlreader':
 				check = lambda got, exp, expect, displayas, replacements: self.check_xmlreader(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
+			elif group['type'] == 'styles':
+				check = lambda got, exp, expect, displayas, replacements: self.check_styles(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'parsetext':
 				check = lambda got, exp, expect, displayas, replacements: self.check_parsetext(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 
