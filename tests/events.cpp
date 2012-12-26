@@ -94,8 +94,8 @@ void format_style(const cainteoir::styles &styles)
 	case font_weight::bold:    fprintf(stdout, " +strong"); break;
 	}
 
-	if (styles.list_style_type)
-		fprintf(stdout, " +list=%s", styles.list_style_type->name.c_str());
+	if (!styles.list_style_type.empty())
+		fprintf(stdout, " +list=%s", styles.list_style_type.c_str());
 
 	if (!styles.font_family.empty())
 		fprintf(stdout, " +%s", styles.font_family.c_str());

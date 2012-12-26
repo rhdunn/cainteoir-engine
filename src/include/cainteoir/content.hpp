@@ -23,6 +23,7 @@
 
 #include "buffer.hpp"
 #include <vector>
+#include <map>
 
 namespace cainteoir
 {
@@ -153,11 +154,6 @@ namespace cainteoir
 		  */
 		typedef std::pair<value_t, value_t> range_t;
 
-		/** @brief The name of the counter style.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#the-counter-style-rule
-		  */
-		std::string name;
-
 		/** @brief The algorithm to use to format the counter value.
 		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-system
 		  */
@@ -222,21 +218,6 @@ namespace cainteoir
 		{
 		}
 
-		// Temporary constructor until counter styles are parsed from CSS:
-		counter_style(const std::string &aName,
-		              const counter_system aSystem,
-		              const std::string &aSuffix,
-		              const std::initializer_list<std::string> &aSymbols)
-			: name(aName)
-			, system(aSystem)
-			, negative("-")
-			, suffix(aSuffix)
-			, range(get_auto_range(aSystem))
-			, symbols(aSymbols)
-			, fallback(nullptr)
-		{
-		}
-
 		/** @brief Format a count value using the counter style.
 		  *
 		  * @param count The numeric value of the counter to format.
@@ -286,7 +267,7 @@ namespace cainteoir
 		cainteoir::font_style font_style;
 		cainteoir::font_variant font_variant;
 		cainteoir::font_weight font_weight;
-		const cainteoir::counter_style *list_style_type;
+		std::string list_style_type;
 		std::string font_family;
 		cainteoir::size font_size;
 		cainteoir::margin margin;
@@ -305,7 +286,6 @@ namespace cainteoir
 			, font_style(cainteoir::font_style::inherit)
 			, font_variant(cainteoir::font_variant::inherit)
 			, font_weight(cainteoir::font_weight::inherit)
-			, list_style_type(nullptr)
 			, text_structure(cainteoir::text_structure::none)
 			, toc_level(0)
 		{
@@ -319,7 +299,7 @@ namespace cainteoir
 		       cainteoir::font_style aFontStyle,
 		       cainteoir::font_variant aFontVariant,
 		       cainteoir::font_weight aFontWeight,
-		       const cainteoir::counter_style *aListStyleType,
+		       const std::string &aListStyleType,
 		       const std::string &aFontFamily,
 		       const cainteoir::size &aFontSize,
 		       const cainteoir::margin &aMargin,
@@ -343,11 +323,17 @@ namespace cainteoir
 		}
 	};
 
-	namespace counter
+	struct style_manager
 	{
-		extern const counter_style decimal;
-		extern const counter_style disc;
-	}
+		const counter_style *get_counter_style(const std::string &aName) const;
+
+		counter_style *create_counter_style(const std::string &aName);
+
+		style_manager();
+	private:
+		std::list<std::shared_ptr<counter_style>>    mCounterStyleRegistry;
+		std::map<std::string, const counter_style *> mCounterStyles;
+	};
 
 	extern const styles unknown;
 	extern const styles paragraph;

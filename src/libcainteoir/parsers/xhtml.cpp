@@ -349,6 +349,7 @@ private:
 	int hid;
 	bool genAnchor;
 	std::stack<context_data> ctx;
+	cainteoir::style_manager stylemgr;
 
 	std::string parseLangAttr();
 };
@@ -592,10 +593,16 @@ bool html_document_reader::read()
 		{
 			std::string marker;
 			auto list_styles = ctx.top().ctx->styles;
-			if (list_styles && list_styles->list_style_type)
+			if (list_styles)
 			{
-				int i = ctx.top().parameter++;
-				marker = list_styles->list_style_type->marker(i);
+				auto counter = stylemgr.get_counter_style(list_styles->list_style_type);
+				if (counter)
+				{
+					int i = ctx.top().parameter++;
+					marker = counter->marker(i);
+				}
+				else
+					marker = ' ';
 			}
 			else
 				marker = ' ';
@@ -611,7 +618,7 @@ bool html_document_reader::read()
 				skipNode(*reader, reader->nodeName());
 			if (reader->context()->styles)
 			{
-				if (reader->context()->styles->list_style_type)
+				if (!reader->context()->styles->list_style_type.empty())
 					ctx.push({ reader->context(), 1 });
 
 				if (reader->context()->styles->text_structure == cainteoir::text_structure::heading)

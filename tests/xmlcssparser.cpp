@@ -27,7 +27,7 @@ namespace xml = cainteoir::xml;
 
 namespace cainteoir
 {
-	struct style_manager
+	struct context_manager
 	{
 		struct context
 		{
@@ -35,7 +35,7 @@ namespace cainteoir
 			std::map<std::string, std::string> attrs;
 		};
 
-		style_manager();
+		context_manager();
 
 		void push_context(const std::string &ns, const std::string &name);
 
@@ -66,12 +66,12 @@ namespace cainteoir
 	};
 }
 
-cainteoir::style_manager::style_manager()
+cainteoir::context_manager::context_manager()
 	: current_styles(xml::begin_tag_type::open)
 {
 }
 
-void cainteoir::style_manager::push_context(const std::string &ns, const std::string &name)
+void cainteoir::context_manager::push_context(const std::string &ns, const std::string &name)
 {
 	ctx.push_back({name});
 	print_context();
@@ -93,7 +93,7 @@ void cainteoir::style_manager::push_context(const std::string &ns, const std::st
 	}
 }
 
-void cainteoir::style_manager::pop_context(const std::string &ns, const std::string &name)
+void cainteoir::context_manager::pop_context(const std::string &ns, const std::string &name)
 {
 	if (ctx.back().name != name)
 	{
@@ -103,7 +103,7 @@ void cainteoir::style_manager::pop_context(const std::string &ns, const std::str
 	ctx.pop_back();
 }
 
-void cainteoir::style_manager::add_context_attribute(const std::string &ns, const std::string &name, const std::string &value)
+void cainteoir::context_manager::add_context_attribute(const std::string &ns, const std::string &name, const std::string &value)
 {
 	if (!ctx.empty() && name.find("xmlns") == std::string::npos)
 	{
@@ -112,7 +112,7 @@ void cainteoir::style_manager::add_context_attribute(const std::string &ns, cons
 	}
 }
 
-void cainteoir::style_manager::print_context()
+void cainteoir::context_manager::print_context()
 {
 	fprintf(stdout, "context >>");
 	for (auto &item : ctx)
@@ -141,7 +141,7 @@ int main(int argc, char ** argv)
 		if (argc == 0)
 			throw std::runtime_error("no document specified");
 
-		cainteoir::style_manager styles;
+		cainteoir::context_manager styles;
 		xml::reader reader(cainteoir::make_file_buffer(argv[0]), "windows-1252");
 		/*
 		 * reader.nodePrefix()   -- namespace prefix

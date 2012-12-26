@@ -200,21 +200,44 @@ const cainteoir::counter_style::range_t cainteoir::counter_style::get_auto_range
 	return infinite;
 }
 
-const cainteoir::counter_style cainteoir::counter::decimal =
+const cainteoir::counter_style *cainteoir::style_manager::get_counter_style(const std::string &aName) const
 {
-	"decimal",
-	cainteoir::counter_system::numeric,
-	".",
-	{ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" },
-};
+	auto item = mCounterStyles.find(aName);
+	if (item != mCounterStyles.end())
+		return item->second;
+	return nullptr;
+}
 
-const cainteoir::counter_style cainteoir::counter::disc =
+cainteoir::counter_style *cainteoir::style_manager::create_counter_style(const std::string &aName)
 {
-	"disc",
-	cainteoir::counter_system::cyclic,
-	"",
-	{ "\xE2\x80\xA2" }, // { '\2022' }
-};
+	std::shared_ptr<counter_style> style = std::make_shared<counter_style>();
+	mCounterStyleRegistry.push_back(style);
+	mCounterStyles[aName] = style.get();
+	return style.get();
+}
+
+cainteoir::style_manager::style_manager()
+{
+	counter_style *decimal = create_counter_style("decimal");
+	decimal->system = counter_system::numeric;
+	decimal->range  = counter_style::get_auto_range(decimal->system);
+	decimal->symbols.push_back("0");
+	decimal->symbols.push_back("1");
+	decimal->symbols.push_back("2");
+	decimal->symbols.push_back("3");
+	decimal->symbols.push_back("4");
+	decimal->symbols.push_back("5");
+	decimal->symbols.push_back("6");
+	decimal->symbols.push_back("7");
+	decimal->symbols.push_back("8");
+	decimal->symbols.push_back("9");
+
+	counter_style *disc = create_counter_style("disc");
+	disc->system = counter_system::cyclic;
+	disc->range  = counter_style::get_auto_range(disc->system);
+	disc->suffix = "";
+	disc->symbols.push_back("\xE2\x80\xA2"); // \2022
+}
 
 const cainteoir::styles cainteoir::unknown =
 {
@@ -226,7 +249,7 @@ const cainteoir::styles cainteoir::unknown =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"",
 	{},
 	{},
@@ -244,7 +267,7 @@ const cainteoir::styles cainteoir::paragraph =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"sans-serif",
 	{ 1, cainteoir::size_units::picas },
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
@@ -262,7 +285,7 @@ const cainteoir::styles cainteoir::heading0 =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::normal,
-	nullptr,
+	"",
 	"serif",
 	{ 2, cainteoir::size_units::picas },
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
@@ -280,7 +303,7 @@ const cainteoir::styles cainteoir::heading1 =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::normal,
-	nullptr,
+	"",
 	"serif",
 	{ 2, cainteoir::size_units::picas },
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
@@ -298,7 +321,7 @@ const cainteoir::styles cainteoir::heading2 =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::normal,
-	nullptr,
+	"",
 	"serif",
 	{ 1.5, cainteoir::size_units::picas },
 	{ {}, {}, {}, { 2, cainteoir::size_units::picas } },
@@ -316,7 +339,7 @@ const cainteoir::styles cainteoir::heading3 =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
-	nullptr,
+	"",
 	"serif",
 	{ 1, cainteoir::size_units::picas },
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
@@ -334,7 +357,7 @@ const cainteoir::styles cainteoir::heading4 =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::normal,
-	nullptr,
+	"",
 	"serif",
 	{ 1, cainteoir::size_units::picas },
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
@@ -352,7 +375,7 @@ const cainteoir::styles cainteoir::heading5 =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
-	nullptr,
+	"",
 	"serif",
 	{ 1, cainteoir::size_units::picas },
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
@@ -370,7 +393,7 @@ const cainteoir::styles cainteoir::heading6 =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
-	nullptr,
+	"",
 	"serif",
 	{ 1, cainteoir::size_units::picas },
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
@@ -388,7 +411,7 @@ const cainteoir::styles cainteoir::span =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"",
 	{},
 	{},
@@ -406,7 +429,7 @@ const cainteoir::styles cainteoir::sentence =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"",
 	{},
 	{},
@@ -424,7 +447,7 @@ const cainteoir::styles cainteoir::superscript =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"",
 	{ 0.75, cainteoir::size_units::picas },
 	{},
@@ -442,7 +465,7 @@ const cainteoir::styles cainteoir::subscript =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"",
 	{ 0.75, cainteoir::size_units::picas },
 	{},
@@ -460,7 +483,7 @@ const cainteoir::styles cainteoir::emphasized =
 	cainteoir::font_style::italic,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"",
 	{},
 	{},
@@ -478,7 +501,7 @@ const cainteoir::styles cainteoir::emphasized_block =
 	cainteoir::font_style::italic,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"",
 	{},
 	{},
@@ -496,7 +519,7 @@ const cainteoir::styles cainteoir::strong =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::bold,
-	nullptr,
+	"",
 	"",
 	{},
 	{},
@@ -514,7 +537,7 @@ const cainteoir::styles cainteoir::reduced =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::normal,
-	nullptr,
+	"",
 	"",
 	{},
 	{},
@@ -532,7 +555,7 @@ const cainteoir::styles cainteoir::underlined =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"",
 	{},
 	{},
@@ -550,7 +573,7 @@ const cainteoir::styles cainteoir::monospace =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"monospace",
 	{ 1, cainteoir::size_units::picas },
 	{},
@@ -568,7 +591,7 @@ const cainteoir::styles cainteoir::monospace_block =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"monospace",
 	{ 1, cainteoir::size_units::picas },
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
@@ -586,7 +609,7 @@ const cainteoir::styles cainteoir::bullet_list =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	&cainteoir::counter::disc,
+	"disc",
 	"",
 	{},
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
@@ -604,7 +627,7 @@ const cainteoir::styles cainteoir::number_list =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	&cainteoir::counter::decimal,
+	"decimal",
 	"",
 	{},
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
@@ -622,7 +645,7 @@ const cainteoir::styles cainteoir::list_item =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"sans-serif",
 	{ 1, cainteoir::size_units::picas },
 	{},
@@ -640,7 +663,7 @@ const cainteoir::styles cainteoir::table =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"",
 	{},
 	{},
@@ -658,7 +681,7 @@ const cainteoir::styles cainteoir::table_row =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"",
 	{},
 	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
@@ -676,7 +699,7 @@ const cainteoir::styles cainteoir::table_cell =
 	cainteoir::font_style::inherit,
 	cainteoir::font_variant::inherit,
 	cainteoir::font_weight::inherit,
-	nullptr,
+	"",
 	"",
 	{},
 	{},
