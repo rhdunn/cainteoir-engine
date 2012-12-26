@@ -329,6 +329,11 @@ namespace cainteoir
 
 		counter_style *create_counter_style(const std::string &aName);
 
+		const std::map<std::string, const counter_style *> &counter_styles() const
+		{
+			return mCounterStyles;
+		}
+
 		style_manager();
 	private:
 		std::list<std::shared_ptr<counter_style>>    mCounterStyleRegistry;

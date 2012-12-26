@@ -400,6 +400,14 @@ noinst_bin_PROGRAMS += tests/xmlcssparser
 tests_xmlcssparser_LDADD   = src/libcainteoir/libcainteoir.la
 tests_xmlcssparser_SOURCES = tests/xmlcssparser.cpp
 
+noinst_bin_PROGRAMS += tests/styles
+
+tests_styles_LDADD   = src/libcainteoir/libcainteoir.la
+tests_styles_SOURCES = tests/styles.cpp
+
+tests/styles.check: tests/styles
+	($< test.css && touch $@) | tee $<.results
+
 tests/metadata.check: src/apps/metadata/metadata tests/metadata.py tests/harness.py ${TEST_FILES}
 	(python tests/metadata.py && touch $@) | tee $<.results
 
@@ -419,5 +427,6 @@ check: \
 	tests/metadata.check \
 	tests/vorbis-comments.check \
 	tests/content.check \
+	tests/styles.check \
 	tests/events.check \
 	tests/parsetext.check

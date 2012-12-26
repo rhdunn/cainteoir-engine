@@ -45,6 +45,7 @@ tests/languages
 tests/utf8
 tests/parsetext
 tests/mimetype
+tests/styles
 tests/xmlcssparser
 
 # docs/phonemes output:
