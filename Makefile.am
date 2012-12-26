@@ -278,76 +278,6 @@ EXTRA_DIST += ${man1_MANS}
 
 ############################# tests ###########################################
 
-noinst_bin_PROGRAMS += tests/buffer
-
-tests_buffer_LDADD   = src/libcainteoir/libcainteoir.la
-tests_buffer_SOURCES = tests/buffer.cpp tests/tester.hpp
-
-noinst_bin_PROGRAMS += tests/rdfmodel
-
-tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.la
-tests_rdfmodel_SOURCES = tests/rdfmodel.cpp tests/tester.hpp
-
-noinst_bin_PROGRAMS += tests/rdfquery
-
-tests_rdfquery_LDADD   = src/libcainteoir/libcainteoir.la
-tests_rdfquery_SOURCES = tests/rdfquery.cpp tests/tester.hpp
-
-noinst_bin_PROGRAMS += tests/ntriple_formatter
-
-tests_ntriple_formatter_LDADD   = src/libcainteoir/libcainteoir.la
-tests_ntriple_formatter_SOURCES = tests/ntriple_formatter.cpp tests/tester.hpp
-
-noinst_bin_PROGRAMS += tests/turtle_formatter
-
-tests_turtle_formatter_LDADD   = src/libcainteoir/libcainteoir.la
-tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp tests/tester.hpp
-
-noinst_bin_PROGRAMS += tests/events
-
-tests_events_LDADD   = src/libcainteoir/libcainteoir.la
-tests_events_SOURCES = tests/events.cpp
-
-noinst_bin_PROGRAMS += tests/encoding
-
-tests_encoding_LDADD   = src/libcainteoir/libcainteoir.la
-tests_encoding_SOURCES = tests/encoding.cpp
-
-noinst_bin_PROGRAMS += tests/xmlreader
-
-tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
-tests_xmlreader_SOURCES = tests/xmlreader.cpp
-
-noinst_bin_PROGRAMS += tests/languages
-
-tests_languages_LDADD   = src/libcainteoir/libcainteoir.la
-tests_languages_SOURCES = tests/languages.cpp
-
-noinst_bin_PROGRAMS += tests/utf8
-
-tests_utf8_LDADD   = src/libcainteoir/libcainteoir.la
-tests_utf8_SOURCES = tests/utf8.cpp
-
-noinst_bin_PROGRAMS += tests/parsetext
-
-tests_parsetext_LDADD   = src/libcainteoir/libcainteoir.la
-tests_parsetext_SOURCES = tests/parsetext.cpp
-
-noinst_bin_PROGRAMS += tests/mimetype
-
-tests_mimetype_LDADD   = src/libcainteoir/libcainteoir.la
-tests_mimetype_SOURCES = tests/mimetype.cpp
-
-noinst_bin_PROGRAMS += tests/content
-
-tests_content_LDADD   = src/libcainteoir/libcainteoir.la
-tests_content_SOURCES = tests/content.cpp
-
-noinst_bin_PROGRAMS += tests/xmlcssparser
-
-tests_xmlcssparser_LDADD   = src/libcainteoir/libcainteoir.la
-tests_xmlcssparser_SOURCES = tests/xmlcssparser.cpp
-
 TEST_FILES = \
 	tests/epub/* \
 	tests/ncx/* \
@@ -360,23 +290,134 @@ TEST_FILES = \
 	tests/html/* \
 	tests/http/* \
 	tests/mime/* \
-	tests/xmlparser/* \
-	tests/*.py
+	tests/xmlparser/*
 
-EXTRA_DIST += $(TEST_FILES)
+EXTRA_DIST += $(TEST_FILES) tests/*.py
 
-check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/turtle_formatter src/apps/metadata/metadata tests/events tests/xmlreader $(TEST_FILES)
-	tests/buffer
-	tests/utf8
-	tests/encoding
-	tests/rdfmodel
-	tests/ntriple_formatter
-	tests/turtle_formatter
-	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ tests/rdfquery
-	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data tests/languages
-	python tests/xmlreader.py
-	python tests/metadata.py
-	python tests/vorbis-comments.py
-	tests/content
-	python tests/events.py
-	python tests/parsetext.py
+noinst_bin_PROGRAMS += tests/buffer
+
+tests_buffer_LDADD   = src/libcainteoir/libcainteoir.la
+tests_buffer_SOURCES = tests/buffer.cpp tests/tester.hpp
+
+tests/buffer.check: tests/buffer
+	($< && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/rdfmodel
+
+tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.la
+tests_rdfmodel_SOURCES = tests/rdfmodel.cpp tests/tester.hpp
+
+tests/rdfmodel.check: tests/rdfmodel
+	($< && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/rdfquery
+
+tests_rdfquery_LDADD   = src/libcainteoir/libcainteoir.la
+tests_rdfquery_SOURCES = tests/rdfquery.cpp tests/tester.hpp
+
+tests/rdfquery.check: tests/rdfquery
+	(XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ $< && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/ntriple_formatter
+
+tests_ntriple_formatter_LDADD   = src/libcainteoir/libcainteoir.la
+tests_ntriple_formatter_SOURCES = tests/ntriple_formatter.cpp tests/tester.hpp
+
+tests/ntriple_formatter.check: tests/ntriple_formatter
+	($< && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/turtle_formatter
+
+tests_turtle_formatter_LDADD   = src/libcainteoir/libcainteoir.la
+tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp tests/tester.hpp
+
+tests/turtle_formatter.check: tests/turtle_formatter
+	($< && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/events
+
+tests_events_LDADD   = src/libcainteoir/libcainteoir.la
+tests_events_SOURCES = tests/events.cpp
+
+tests/events.check: tests/events tests/events.py tests/harness.py ${TEST_FILES}
+	(python tests/events.py && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/encoding
+
+tests_encoding_LDADD   = src/libcainteoir/libcainteoir.la
+tests_encoding_SOURCES = tests/encoding.cpp
+
+tests/encoding.check: tests/encoding
+	($< && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/xmlreader
+
+tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
+tests_xmlreader_SOURCES = tests/xmlreader.cpp
+
+tests/xmlreader.check: tests/xmlreader tests/xmlreader.py tests/harness.py ${TEST_FILES}
+	(python tests/xmlreader.py && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/languages
+
+tests_languages_LDADD   = src/libcainteoir/libcainteoir.la
+tests_languages_SOURCES = tests/languages.cpp
+
+tests/languages.check: tests/languages
+	(XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data $< && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/utf8
+
+tests_utf8_LDADD   = src/libcainteoir/libcainteoir.la
+tests_utf8_SOURCES = tests/utf8.cpp
+
+tests/utf8.check: tests/utf8
+	($< && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/parsetext
+
+tests_parsetext_LDADD   = src/libcainteoir/libcainteoir.la
+tests_parsetext_SOURCES = tests/parsetext.cpp
+
+tests/parsetext.check: tests/parsetext tests/parsetext.py tests/harness.py ${TEST_FILES}
+	(python tests/parsetext.py && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/mimetype
+
+tests_mimetype_LDADD   = src/libcainteoir/libcainteoir.la
+tests_mimetype_SOURCES = tests/mimetype.cpp
+
+noinst_bin_PROGRAMS += tests/content
+
+tests_content_LDADD   = src/libcainteoir/libcainteoir.la
+tests_content_SOURCES = tests/content.cpp
+
+tests/content.check: tests/content
+	($< && touch $@) | tee $<.results
+
+noinst_bin_PROGRAMS += tests/xmlcssparser
+
+tests_xmlcssparser_LDADD   = src/libcainteoir/libcainteoir.la
+tests_xmlcssparser_SOURCES = tests/xmlcssparser.cpp
+
+tests/metadata.check: src/apps/metadata/metadata tests/metadata.py tests/harness.py ${TEST_FILES}
+	(python tests/metadata.py && touch $@) | tee $<.results
+
+tests/vorbis-comments.check: src/apps/metadata/metadata tests/vorbis-comments.py tests/harness.py ${TEST_FILES}
+	(python tests/vorbis-comments.py && touch $@) | tee $<.results
+
+check: \
+	tests/buffer.check \
+	tests/utf8.check \
+	tests/encoding.check \
+	tests/rdfmodel.check \
+	tests/ntriple_formatter.check \
+	tests/turtle_formatter.check \
+	tests/rdfquery.check \
+	tests/languages.check \
+	tests/xmlreader.check \
+	tests/metadata.check \
+	tests/vorbis-comments.check \
+	tests/content.check \
+	tests/events.check \
+	tests/parsetext.check

@@ -3,6 +3,8 @@
 *.o
 *.lo
 *.pyc
+*.check
+*.results
 
 # vi/vim editor files:
 
