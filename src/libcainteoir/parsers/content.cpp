@@ -24,6 +24,7 @@
 #include <cainteoir/content.hpp>
 #include <stdexcept>
 #include <sstream>
+#include <limits>
 
 cainteoir::size cainteoir::size::as(const size_units aUnits) const
 {
@@ -152,7 +153,7 @@ cainteoir::size cainteoir::size::as(const size_units aUnits) const
 	throw std::runtime_error("unable to convert to the specified units");
 }
 
-std::string cainteoir::counter_style::marker(int count) const
+std::string cainteoir::counter_style::marker(value_t count) const
 {
 	std::ostringstream textval;
 	textval << prefix;
@@ -181,11 +182,28 @@ std::string cainteoir::counter_style::marker(int count) const
 	return textval.str();
 }
 
+const cainteoir::counter_style::range_t cainteoir::counter_style::infinite = {
+	std::numeric_limits<value_t>::min(),
+	std::numeric_limits<value_t>::max()
+};
+
+const cainteoir::counter_style::range_t cainteoir::counter_style::get_auto_range(counter_system system)
+{
+	switch (system)
+	{
+	case counter_system::alphabetic:
+	case counter_system::symbolic:
+		return { 1, infinite.second };
+	case counter_system::additive:
+		return { 0, infinite.second };
+	}
+	return infinite;
+}
+
 const cainteoir::counter_style cainteoir::counter::decimal =
 {
 	"decimal",
 	cainteoir::counter_system::numeric,
-	"",
 	".",
 	{ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" },
 };
@@ -194,7 +212,6 @@ const cainteoir::counter_style cainteoir::counter::disc =
 {
 	"disc",
 	cainteoir::counter_system::cyclic,
-	"",
 	"",
 	{ "\xE2\x80\xA2" }, // { '\2022' }
 };
