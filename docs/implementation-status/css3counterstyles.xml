@@ -1,0 +1,13 @@
+<li id="css3counterstyles" rel="dct:references">
+	<span typeof="foaf:Document" about="http://www.w3.org/TR/css-counter-styles-3/">
+		<span property="dc:creator">Tab Atkins Jr.</span>,
+		<a property="dc:title" href="http://www.w3.org/TR/css-counter-styles-3/">CSS Counter Styles Level 3</a>.
+		<span rel="dc:publisher" resource="_:pub_css3counterstyles"/>
+		<span typeof="foaf:Organisation" about="_:pub_css3counterstyles">
+			<span rel="foaf:homepage" resource="http://www.w3.org"/>
+			<span property="foaf:name">World Wide Web Consortium</span>
+			(<span property="foaf:name">W3C</span>),
+		</span>
+		<span property="dc:date" datatype="xsd:date" content="2012-10-09">2012</span>.
+	</span>
+</li>

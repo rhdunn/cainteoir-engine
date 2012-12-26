@@ -68,6 +68,17 @@ def parse_csv(filename):
 							"tests": status(s[4]),
 							"comments": comment(','.join(s[5:]))
 						})
+					elif data['type'] == 'css-spec':
+						istatus, ivalue = status(s[3])
+						data['support'].append({
+							"section": s[0],
+							"title": s[1],
+							"url": url(s[2]),
+							"model": status(s[3]),
+							"parsing": status(s[4]),
+							"tests": status(s[5]),
+							"comments": comment(','.join(s[6:]))
+						})
 					elif data['type'] == 'standard':
 						istatus, ivalue = status(s[2])
 						data['support'].append({
@@ -132,6 +143,10 @@ for ref, spec in specs.items():
 			title = '%s %s %s Support' % (spec['name'], spec['version'], categories[spec['category']])
 			f.write('title: %s\n' % title)
 			f.write('description: The state of %s %s specification implementation in the Cainteoir Text-to-Speech program.\n' % (spec['name'], spec['version']))
+		elif spec['type'] == 'css-spec':
+			title = '%s %s Support' % (spec['name'], spec['version'])
+			f.write('title: %s\n' % title)
+			f.write('description: The state of %s %s specification implementation in the Cainteoir Text-to-Speech program.\n' % (spec['name'], spec['version']))
 		else:
 			if spec['name'] == categories[spec['category']]:
 				title = '%s Support' % spec['name']
@@ -149,7 +164,7 @@ for ref, spec in specs.items():
 			if spec['version'] == '':
 				f.write('  - { title: %s }\n' % spec['name'])
 			elif 'parent' in spec.keys():
-				f.write('  - { title: %s , url: %s.html }\n' % (spec['name'], spec['parent']))
+				f.write('  - { title: %s , url: %s.html }\n' % (specs[spec['parent']]['name'], spec['parent']))
 				f.write('  - { title: %s }\n' % spec['version'])
 			else:
 				f.write('  - { title: %s , url: %s.html }\n' % (spec['name'], spec['name'].lower().replace('/', '')))
@@ -181,6 +196,13 @@ for ref, spec in specs.items():
 				f.write('\t\t<th style="width: 10%;">Implemented</th>\n')
 				f.write('\t\t<th style="width: 10%;">Tests</th>\n')
 				f.write('\t\t<th style="width: 50%;">Comments</th>\n')
+			elif spec['type'] == 'css-spec':
+				f.write('\t\t<th style="width: 5%;">Section</th>\n')
+				f.write('\t\t<th style="width: 25%;">Title</th>\n')
+				f.write('\t\t<th style="width: 10%;">Model</th>\n')
+				f.write('\t\t<th style="width: 10%;">Parsing</th>\n')
+				f.write('\t\t<th style="width: 10%;">Tests</th>\n')
+				f.write('\t\t<th style="width: 40%;">Comments</th>\n')
 			elif spec['type'] == 'format':
 				f.write('\t\t<th style="width: 10%;">Name</th>\n')
 				f.write('\t\t<th style="width: 10%;">Version</th>\n')
@@ -199,6 +221,13 @@ for ref, spec in specs.items():
 				f.write('\t\t<td>%s</td>\n' % data['section'])
 				print_url(data, 'title')
 				print_status(data, 'implemented')
+				print_status(data, 'tests')
+				f.write('\t\t<td>%s</td>\n' % data['comments'])
+			elif spec['type'] == 'css-spec':
+				f.write('\t\t<td>%s</td>\n' % data['section'])
+				print_url(data, 'title')
+				print_status(data, 'model')
+				print_status(data, 'parsing')
 				print_status(data, 'tests')
 				f.write('\t\t<td>%s</td>\n' % data['comments'])
 			elif spec['type'] == 'format':

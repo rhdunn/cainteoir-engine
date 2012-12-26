@@ -13,3 +13,4 @@ HTML,2011/12/16,html-whatwg.csv,*0.1,*0.1,*0.1,*0.7,WHATWG HTML Living Standard.
 meta,,html-meta.csv,*0.8,na,*0.8,na,meta tag metadata properties
 Ruby,,ruby.csv,no,no,no,na,
 XML,1.0-1.1,xml.csv,*0.1,na,na,na,XML/SGML parser for (X)HTML documents.
+CSS,2.1-3.0,css.csv,*0.11,na,na,na,

@@ -1,0 +1,10 @@
+@type,format
+@name,CSS
+@version,
+@references,
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# title,version,url,implemented,tts,rdf,toc,comments
+
+CSS Counter Styles,3.0,css3counterstyles.csv,*0.11,na,na,na,
