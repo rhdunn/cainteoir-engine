@@ -154,7 +154,7 @@ cainteoir::size cainteoir::size::as(const size_units aUnits) const
 const cainteoir::counter_style cainteoir::counter::decimal =
 {
 	"decimal",
-	cainteoir::counter_type::numeric,
+	cainteoir::counter_system::numeric,
 	"",
 	".",
 	{ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" },
@@ -163,7 +163,7 @@ const cainteoir::counter_style cainteoir::counter::decimal =
 const cainteoir::counter_style cainteoir::counter::disc =
 {
 	"disc",
-	cainteoir::counter_type::cyclic,
+	cainteoir::counter_system::cyclic,
 	"",
 	"",
 	{ "\xE2\x80\xA2" }, // { '\2022' }

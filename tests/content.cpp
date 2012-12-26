@@ -110,7 +110,7 @@ TEST_CASE("counter style - decimal")
 {
 	cainteoir::counter_style style = cainteoir::counter::decimal;
 	assert(style.name == "decimal");
-	assert(style.type == cainteoir::counter_type::numeric);
+	assert(style.system == cainteoir::counter_system::numeric);
 	assert(style.prefix == "");
 	assert(style.suffix == ".");
 	assert(style.symbols.size() == 10);
@@ -130,7 +130,7 @@ TEST_CASE("counter style - disc")
 {
 	cainteoir::counter_style style = cainteoir::counter::disc;
 	assert(style.name == "disc");
-	assert(style.type == cainteoir::counter_type::cyclic);
+	assert(style.system == cainteoir::counter_system::cyclic);
 	assert(style.prefix == "");
 	assert(style.suffix == "");
 	assert(style.symbols.size() == 1);

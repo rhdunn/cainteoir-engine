@@ -93,9 +93,19 @@ namespace cainteoir
 		sentence,
 	};
 
-	enum class counter_type : uint8_t
+	/** @brief The algorithm used to construct the counter's representation.
+	  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-system
+	  */
+	enum class counter_system : uint8_t
 	{
+		/** @brief Repeatedly cycles through the specified symbols.
+		  * @see   http://www.w3.org/TR/css-counter-styles-3/#cyclic-system
+		  */
 		cyclic,
+
+		/** @brief Interprets the symbols as digits to a place value numbering system.
+		  * @see   http://www.w3.org/TR/css-counter-styles-3/#numeric-system
+		  */
 		numeric,
 	};
 
@@ -113,7 +123,7 @@ namespace cainteoir
 	struct counter_style
 	{
 		std::string name;
-		cainteoir::counter_type type;
+		cainteoir::counter_system system;
 		std::string prefix;
 		std::string suffix;
 		std::vector<std::string> symbols;

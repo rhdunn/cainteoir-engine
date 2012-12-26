@@ -598,12 +598,12 @@ bool html_document_reader::read()
 				int i = ctx.top().parameter++;
 				int n = counter->symbols.size();
 				textval << counter->prefix;
-				if (n != 0) switch (counter->type)
+				if (n != 0) switch (counter->system)
 				{
-				case cainteoir::counter_type::cyclic:
+				case cainteoir::counter_system::cyclic:
 					textval << counter->symbols[i % n];
 					break;
-				case cainteoir::counter_type::numeric:
+				case cainteoir::counter_system::numeric:
 					if (i == 0)
 						textval << counter->symbols[0];
 					else
