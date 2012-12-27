@@ -405,8 +405,8 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 			}
 		}
 
-		while (css.read() && css.type != css_reader::semicolon)
-			;
+		while (css.type != css_reader::semicolon)
+			css.read();
 	}
 }
 

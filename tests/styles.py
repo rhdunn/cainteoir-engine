@@ -50,6 +50,7 @@ if __name__ == '__main__':
 			{'test': 'css/counter-styles/suffix-empty.css', 'result': 'css/counter-styles/suffix-empty.styles'},
 			{'test': 'css/counter-styles/symbols.css', 'result': 'css/counter-styles/symbols.styles'},
 			{'test': 'css/counter-styles/symbols-cased.css', 'result': 'css/counter-styles/symbols.styles'},
+			{'test': 'css/counter-styles/disc.css', 'result': 'css/counter-styles/disc.styles'},
 		]},
 	]})
 	test.summary()
