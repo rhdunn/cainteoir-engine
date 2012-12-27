@@ -34,6 +34,8 @@ struct css_reader
 		at_keyword,
 		open_block,
 		close_block,
+		colon,
+		semicolon,
 		error,
 	};
 
@@ -57,13 +59,15 @@ private:
 #define A 4 // at
 #define I 5 // identifier
 #define N 6 // number
+#define C 7 // colon
+#define c 8 // semicolon
 
 static const char css_lookup_table[256] = {
 	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
 	/* 0x */ _, _, _, _, _, _, _, _, _, S, S, S, S, S, _, _,
 	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
 	/* 2x */ S, _, _, _, _, _, _, _, _, _, _, _, _, I, _, _,
-	/* 3x */ N, N, N, N, N, N, N, N, N, N, _, _, _, _, _, _,
+	/* 3x */ N, N, N, N, N, N, N, N, N, N, C, c, _, _, _, _,
 	/* 4x */ A, I, I, I, I, I, I, I, I, I, I, I, I, I, I, I,
 	/* 5x */ I, I, I, I, I, I, I, I, I, I, I, _, _, _, _, _,
 	/* 6x */ _, I, I, I, I, I, I, I, I, I, I, I, I, I, I, I,
@@ -97,6 +101,8 @@ bool css_reader::read()
 	case S: start = mCurrent; break;
 	case B: type  = open_block;  return true;
 	case E: type  = close_block; return true;
+	case C: type  = colon;       return true;
+	case c: type  = semicolon;   return true;
 	case A:
 		type = at_keyword;
 		while (mCurrent < mData->end()) switch (css_lookup_table[*mCurrent])
@@ -331,6 +337,39 @@ cainteoir::counter_style *cainteoir::style_manager::create_counter_style(const s
 	return style.get();
 }
 
+static void parse_counter_style(css_reader &css, cainteoir::counter_style *style)
+{
+	while (css.read())
+	{
+		if (css.type == css_reader::close_block)
+			return;
+
+		if (css.type != css_reader::identifier)
+			continue;
+
+		cainteoir::buffer name = css.value;
+		if (!css.read() || css.type != css_reader::colon || !css.read())
+			continue;
+
+		if (name.comparei("system") == 0 && css.type == css_reader::identifier)
+		{
+			if (css.value.comparei("cyclic") == 0)
+				style->system = cainteoir::counter_system::cyclic;
+			else if (css.value.comparei("fixed") == 0)
+				style->system = cainteoir::counter_system::fixed;
+			else if (css.value.comparei("symbolic") == 0)
+				style->system = cainteoir::counter_system::symbolic;
+			else if (css.value.comparei("alphabetic") == 0)
+				style->system = cainteoir::counter_system::alphabetic;
+			else if (css.value.comparei("numeric") == 0)
+				style->system = cainteoir::counter_system::numeric;
+			else if (css.value.comparei("additive") == 0)
+				style->system = cainteoir::counter_system::additive;
+			style->range = cainteoir::counter_style::get_auto_range(style->system);
+		}
+	}
+}
+
 void cainteoir::style_manager::parse(const std::shared_ptr<buffer> &style)
 {
 	mCounterStyleRegistry.clear();
@@ -343,14 +382,8 @@ void cainteoir::style_manager::parse(const std::shared_ptr<buffer> &style)
 		    css.read() && css.type == css_reader::identifier)
 		{
 			cainteoir::counter_style *style = create_counter_style(css.value.str());
-			if (css.read() && css.type == css_reader::open_block) while (style)
-			{
-				css.read();
-				if (css.type == css_reader::close_block)
-				{
-					style = nullptr;
-				}
-			}
+			if (css.read() && css.type == css_reader::open_block)
+				parse_counter_style(css, style);
 		}
 	}
 }
