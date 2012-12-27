@@ -395,6 +395,15 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 			style->prefix = css.value.str();
 		else if (name.comparei("suffix") == 0 && css.type == css_reader::string)
 			style->suffix = css.value.str();
+		else if (name.comparei("symbols") == 0 && css.type == css_reader::string)
+		{
+			style->symbols.clear();
+			while (css.type == css_reader::string)
+			{
+				style->symbols.push_back(css.value.str());
+				css.read();
+			}
+		}
 
 		while (css.read() && css.type != css_reader::semicolon)
 			;
