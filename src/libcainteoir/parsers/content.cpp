@@ -32,6 +32,7 @@ struct css_reader
 	{
 		identifier,
 		at_keyword,
+		string,
 		open_block,
 		close_block,
 		colon,
@@ -52,21 +53,23 @@ private:
 	const char *mCurrent;
 };
 
-#define _ 0 // error
-#define S 1 // whitespace
-#define B 2 // open  curly brace
-#define E 3 // close curly brace
-#define A 4 // at
-#define I 5 // identifier
-#define N 6 // number
-#define C 7 // colon
-#define c 8 // semicolon
+#define _  0 // error
+#define S  1 // whitespace
+#define B  2 // open  curly brace
+#define E  3 // close curly brace
+#define A  4 // at
+#define I  5 // identifier
+#define N  6 // number
+#define C  7 // colon
+#define c  8 // semicolon
+#define Q  9 // double-quote
+#define q 10 // single-quote
 
 static const char css_lookup_table[256] = {
 	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
 	/* 0x */ _, _, _, _, _, _, _, _, _, S, S, S, S, S, _, _,
 	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
-	/* 2x */ S, _, _, _, _, _, _, _, _, _, _, _, _, I, _, _,
+	/* 2x */ S, _, Q, _, _, _, _, q, _, _, _, _, _, I, _, _,
 	/* 3x */ N, N, N, N, N, N, N, N, N, N, C, c, _, _, _, _,
 	/* 4x */ A, I, I, I, I, I, I, I, I, I, I, I, I, I, I, I,
 	/* 5x */ I, I, I, I, I, I, I, I, I, I, I, _, _, _, _, _,
@@ -131,6 +134,22 @@ bool css_reader::read()
 		}
 		value = cainteoir::buffer(start, mCurrent);
 		return true;
+	case q:
+		while (mCurrent < mData->end()) switch (css_lookup_table[*mCurrent])
+		{
+		default:
+			++mCurrent;
+			break;
+		case q:
+			value = cainteoir::buffer(start+1, mCurrent);
+			type  = string;
+			++mCurrent;
+			return true;
+		}
+		value = cainteoir::buffer(start+1, mCurrent);
+		type  = error;
+		return true;
+	case Q:
 	case _:
 		value = cainteoir::buffer(start, mCurrent);
 		type  = error;
@@ -146,6 +165,9 @@ bool css_reader::read()
 #undef E
 #undef A
 #undef I
+#undef N
+#undef C
+#undef c
 
 cainteoir::size cainteoir::size::as(const size_units aUnits) const
 {
@@ -367,6 +389,11 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 				style->system = cainteoir::counter_system::additive;
 			style->range = cainteoir::counter_style::get_auto_range(style->system);
 		}
+		else if (name.comparei("negative") == 0 && css.type == css_reader::string)
+			style->negative = css.value.str();
+
+		while (css.read() && css.type != css_reader::semicolon)
+			;
 	}
 }
 
