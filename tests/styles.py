@@ -25,6 +25,7 @@ if __name__ == '__main__':
 	test.run({'name': 'CSS', 'groups': [
 		{'name': 'Counter Styles', 'type': 'styles', 'tests': [
 			{'test': 'css/counter-styles/empty.css', 'result': 'css/counter-styles/empty.styles'},
+			{'test': 'css/counter-styles/empty-cased.css', 'result': 'css/counter-styles/empty.styles'},
 			{'test': 'css/counter-styles/empty-dual.css', 'result': 'css/counter-styles/empty-dual.styles'},
 		]},
 	]})
