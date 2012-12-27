@@ -45,6 +45,9 @@ if __name__ == '__main__':
 			{'test': 'css/counter-styles/prefix.css', 'result': 'css/counter-styles/prefix.styles'},
 			{'test': 'css/counter-styles/prefix-cased.css', 'result': 'css/counter-styles/prefix.styles'},
 			{'test': 'css/counter-styles/prefix-empty.css', 'result': 'css/counter-styles/prefix-empty.styles'},
+			{'test': 'css/counter-styles/suffix.css', 'result': 'css/counter-styles/suffix.styles'},
+			{'test': 'css/counter-styles/suffix-cased.css', 'result': 'css/counter-styles/suffix.styles'},
+			{'test': 'css/counter-styles/suffix-empty.css', 'result': 'css/counter-styles/suffix-empty.styles'},
 		]},
 	]})
 	test.summary()

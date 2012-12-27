@@ -19,7 +19,7 @@
 3.1.7,system:override,,no,no,no,
 3.2,negative,,*0.12,0.12,0.12,
 3.3,prefix,,0.11,0.12,0.12,
-3.4,suffix,,0.11,no,no,
+3.4,suffix,,0.11,0.12,0.12,
 3.5,range,,*0.12,no,no,
 3.6,fallback,,*0.12,no,no,
 3.7,symbols,,0.11,no,no,
