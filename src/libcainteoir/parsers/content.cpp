@@ -391,6 +391,8 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 		}
 		else if (name.comparei("negative") == 0 && css.type == css_reader::string)
 			style->negative = css.value.str();
+		else if (name.comparei("prefix") == 0 && css.type == css_reader::string)
+			style->prefix = css.value.str();
 
 		while (css.read() && css.type != css_reader::semicolon)
 			;
