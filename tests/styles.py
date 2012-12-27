@@ -41,6 +41,7 @@ if __name__ == '__main__':
 			{'test': 'css/counter-styles/system-additive-cased.css', 'result': 'css/counter-styles/system-additive.styles'},
 			{'test': 'css/counter-styles/negative.css', 'result': 'css/counter-styles/negative.styles'},
 			{'test': 'css/counter-styles/negative-cased.css', 'result': 'css/counter-styles/negative.styles'},
+			{'test': 'css/counter-styles/negative-empty.css', 'result': 'css/counter-styles/negative-empty.styles'},
 		]},
 	]})
 	test.summary()
