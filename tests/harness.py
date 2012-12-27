@@ -47,7 +47,8 @@ class TestSuite:
 	def check_command(self, filename, expect, command, test_expect, replacements):
 		tmpfile = '/tmp/metadata.txt'
 
-		os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ %s "%s" > %s' % (
+		os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s "%s" > %s' % (
+			os.path.join(sys.path[0], '../data'),
 			os.path.join(sys.path[0], '../data'),
 			command,
 			filename,

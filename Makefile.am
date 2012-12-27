@@ -111,6 +111,14 @@ pkgdata_DATA += \
 	data/languages.rdf.gz \
 	src/schema/text-to-speech.rdf
 
+EXTRA_DIST += src/css/*.css
+
+cssdir  = $(pkgdatadir)/css
+css_DATA = src/css/*.css
+
+data/css:
+	ln -sv ../src/css data/css
+
 ############################# mimetypes #######################################
 
 EXTRA_DIST += data/mime/packages/cainteoir-data.xml
@@ -339,7 +347,7 @@ noinst_bin_PROGRAMS += tests/events
 tests_events_LDADD   = src/libcainteoir/libcainteoir.la
 tests_events_SOURCES = tests/events.cpp
 
-tests/events.check: tests/events tests/events.py tests/harness.py ${TEST_FILES}
+tests/events.check: tests/events tests/events.py tests/harness.py data/css ${TEST_FILES}
 	(python tests/events.py && touch $@) | tee $<.results
 
 noinst_bin_PROGRAMS += tests/encoding

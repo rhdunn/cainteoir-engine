@@ -372,6 +372,8 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	reader->set_attrs(xmlns::html40, html_attrs);
 	reader->set_attrs(xmlns::xml,    xml::attrs);
 
+	stylemgr.parse("/css/counterstyles.css");
+
 	std::string lang;
 	if (reader->context() == &html::html_node)
 	{

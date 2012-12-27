@@ -410,11 +410,18 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 	}
 }
 
+void cainteoir::style_manager::parse(const char *css_file)
+{
+	const char *datadir = getenv("CAINTEOIR_DATA_DIR");
+	if (!datadir)
+		datadir = DATADIR "/" PACKAGE;
+
+	const std::string filename = datadir + std::string(css_file);
+	parse(make_file_buffer(filename.c_str()));
+}
+
 void cainteoir::style_manager::parse(const std::shared_ptr<buffer> &style)
 {
-	mCounterStyleRegistry.clear();
-	mCounterStyles.clear();
-
 	css_reader css(style);
 	while (css.read())
 	{
@@ -426,29 +433,6 @@ void cainteoir::style_manager::parse(const std::shared_ptr<buffer> &style)
 				parse_counter_style(css, style);
 		}
 	}
-}
-
-cainteoir::style_manager::style_manager()
-{
-	counter_style *decimal = create_counter_style("decimal");
-	decimal->system = counter_system::numeric;
-	decimal->range  = counter_style::get_auto_range(decimal->system);
-	decimal->symbols.push_back("0");
-	decimal->symbols.push_back("1");
-	decimal->symbols.push_back("2");
-	decimal->symbols.push_back("3");
-	decimal->symbols.push_back("4");
-	decimal->symbols.push_back("5");
-	decimal->symbols.push_back("6");
-	decimal->symbols.push_back("7");
-	decimal->symbols.push_back("8");
-	decimal->symbols.push_back("9");
-
-	counter_style *disc = create_counter_style("disc");
-	disc->system = counter_system::cyclic;
-	disc->range  = counter_style::get_auto_range(disc->system);
-	disc->suffix = "";
-	disc->symbols.push_back("\xE2\x80\xA2"); // \2022
 }
 
 const cainteoir::styles cainteoir::unknown =

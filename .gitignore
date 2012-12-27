@@ -13,6 +13,7 @@
 
 # code generation data:
 
+data/css
 data/languages.dat
 data/languages.dot
 data/*.svg
