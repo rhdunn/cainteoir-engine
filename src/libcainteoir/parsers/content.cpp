@@ -33,6 +33,7 @@ struct css_reader
 		identifier,
 		at_keyword,
 		string,
+		integer,
 		open_block,
 		close_block,
 		colon,
@@ -64,12 +65,13 @@ private:
 #define c  8 // semicolon
 #define Q  9 // double-quote
 #define q 10 // single-quote
+#define M 11 // hyphen/minus
 
 static const char css_lookup_table[256] = {
 	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
 	/* 0x */ _, _, _, _, _, _, _, _, _, S, S, S, S, S, _, _,
 	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
-	/* 2x */ S, _, Q, _, _, _, _, q, _, _, _, _, _, I, _, _,
+	/* 2x */ S, _, Q, _, _, _, _, q, _, _, _, _, _, M, _, _,
 	/* 3x */ N, N, N, N, N, N, N, N, N, N, C, c, _, _, _, _,
 	/* 4x */ A, I, I, I, I, I, I, I, I, I, I, I, I, I, I, I,
 	/* 5x */ I, I, I, I, I, I, I, I, I, I, I, _, _, _, _, _,
@@ -112,6 +114,21 @@ bool css_reader::read()
 		{
 		case I:
 		case N:
+		case M:
+			++mCurrent;
+			break;
+		default:
+			value = cainteoir::buffer(start, mCurrent);
+			return true;
+		}
+		value = cainteoir::buffer(start, mCurrent);
+		return true;
+	case N:
+	case M:
+		type = integer;
+		while (mCurrent < mData->end()) switch (css_lookup_table[*mCurrent])
+		{
+		case N:
 			++mCurrent;
 			break;
 		default:
@@ -126,6 +143,7 @@ bool css_reader::read()
 		{
 		case I:
 		case N:
+		case M:
 			++mCurrent;
 			break;
 		default:
@@ -168,6 +186,9 @@ bool css_reader::read()
 #undef N
 #undef C
 #undef c
+#undef Q
+#undef q
+#undef M
 
 cainteoir::size cainteoir::size::as(const size_units aUnits) const
 {
@@ -378,7 +399,11 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 			if (css.value.comparei("cyclic") == 0)
 				style->system = cainteoir::counter_system::cyclic;
 			else if (css.value.comparei("fixed") == 0)
+			{
 				style->system = cainteoir::counter_system::fixed;
+				if (css.read() && css.type == css_reader::integer)
+					style->initial_symbol_value = atoi(css.value.begin());
+			}
 			else if (css.value.comparei("symbolic") == 0)
 				style->system = cainteoir::counter_system::symbolic;
 			else if (css.value.comparei("alphabetic") == 0)

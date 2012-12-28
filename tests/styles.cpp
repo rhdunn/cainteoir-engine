@@ -62,7 +62,10 @@ int main(int argc, char ** argv)
 		{
 			fprintf(stdout, "@counter-style %s {\n", item.first.c_str());
 			auto &style = *item.second;
-			fprintf(stdout, "\tsystem: %s;\n", get_counter_system_string(style.system));
+			if (style.system == cainteoir::counter_system::fixed)
+				fprintf(stdout, "\tsystem: fixed %d;\n", style.initial_symbol_value);
+			else
+				fprintf(stdout, "\tsystem: %s;\n", get_counter_system_string(style.system));
 			fprintf(stdout, "\tnegative: '%s';\n", style.negative.c_str());
 			fprintf(stdout, "\tprefix: '%s';\n", style.prefix.c_str());
 			fprintf(stdout, "\tsuffix: '%s';\n", style.suffix.c_str());

@@ -31,6 +31,8 @@ if __name__ == '__main__':
 			{'test': 'css/counter-styles/system-cyclic-cased.css', 'result': 'css/counter-styles/system-cyclic.styles'},
 			{'test': 'css/counter-styles/system-fixed.css', 'result': 'css/counter-styles/system-fixed.styles'},
 			{'test': 'css/counter-styles/system-fixed-cased.css', 'result': 'css/counter-styles/system-fixed.styles'},
+			{'test': 'css/counter-styles/system-fixed-offset.css', 'result': 'css/counter-styles/system-fixed-offset.styles'},
+			{'test': 'css/counter-styles/system-fixed-negative-offset.css', 'result': 'css/counter-styles/system-fixed-negative-offset.styles'},
 			{'test': 'css/counter-styles/system-symbolic.css', 'result': 'css/counter-styles/empty.styles'},
 			{'test': 'css/counter-styles/system-symbolic-cased.css', 'result': 'css/counter-styles/empty.styles'},
 			{'test': 'css/counter-styles/system-alphabetic.css', 'result': 'css/counter-styles/system-alphabetic.styles'},

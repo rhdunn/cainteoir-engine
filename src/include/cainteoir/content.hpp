@@ -159,6 +159,11 @@ namespace cainteoir
 		  */
 		cainteoir::counter_system system;
 
+		/** @brief The value of the first symbol (for the fixed system).
+		  * @see   http://www.w3.org/TR/css-counter-styles-3/#fixed-system
+		  */
+		int initial_symbol_value;
+
 		/** @brief The set of symbols to use for non-additive systems.
 		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-symbols
 		  */
@@ -211,6 +216,7 @@ namespace cainteoir
 		  */
 		counter_style()
 			: system(counter_system::symbolic)
+			, initial_symbol_value(1)
 			, negative("-")
 			, suffix(".")
 			, range(get_auto_range(counter_system::symbolic))
