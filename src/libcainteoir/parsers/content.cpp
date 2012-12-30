@@ -59,7 +59,7 @@ private:
 #define B  2 // open  curly brace
 #define E  3 // close curly brace
 #define A  4 // at
-#define I  5 // identifier
+#define L  5 // letter
 #define N  6 // number
 #define C  7 // colon
 #define c  8 // semicolon
@@ -73,10 +73,10 @@ static const char css_lookup_table[256] = {
 	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
 	/* 2x */ S, _, Q, _, _, _, _, q, _, _, _, _, _, M, _, _,
 	/* 3x */ N, N, N, N, N, N, N, N, N, N, C, c, _, _, _, _,
-	/* 4x */ A, I, I, I, I, I, I, I, I, I, I, I, I, I, I, I,
-	/* 5x */ I, I, I, I, I, I, I, I, I, I, I, _, _, _, _, _,
-	/* 6x */ _, I, I, I, I, I, I, I, I, I, I, I, I, I, I, I,
-	/* 7x */ I, I, I, I, I, I, I, I, I, I, I, B, _, E, _, _,
+	/* 4x */ A, L, L, L, L, L, L, L, L, L, L, L, L, L, L, L,
+	/* 5x */ L, L, L, L, L, L, L, L, L, L, L, _, _, _, _, _,
+	/* 6x */ _, L, L, L, L, L, L, L, L, L, L, L, L, L, L, L,
+	/* 7x */ L, L, L, L, L, L, L, L, L, L, L, B, _, E, _, _,
 	/* 8x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
 	/* 9x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
 	/* Ax */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
@@ -112,7 +112,7 @@ bool css_reader::read()
 		type = at_keyword;
 		while (mCurrent < mData->end()) switch (css_lookup_table[*mCurrent])
 		{
-		case I:
+		case L:
 		case N:
 		case M:
 			++mCurrent;
@@ -137,11 +137,11 @@ bool css_reader::read()
 		}
 		value = cainteoir::buffer(start, mCurrent);
 		return true;
-	case I:
+	case L:
 		type = identifier;
 		while (mCurrent < mData->end()) switch (css_lookup_table[*mCurrent])
 		{
-		case I:
+		case L:
 		case N:
 		case M:
 			++mCurrent;
@@ -182,7 +182,7 @@ bool css_reader::read()
 #undef B
 #undef E
 #undef A
-#undef I
+#undef L
 #undef N
 #undef C
 #undef c
