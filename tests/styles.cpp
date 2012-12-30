@@ -89,8 +89,14 @@ int main(int argc, char ** argv)
 				fprintf(stdout, " '%s'", symbol.c_str());
 			fprintf(stdout, " ;\n");
 			fprintf(stdout, "\tadditive-symbols:");
+			bool need_comma = false;
 			for (auto &symbol : style.additive_symbols)
+			{
+				if (need_comma)
+					fprintf(stdout, ",");
 				fprintf(stdout, " %d '%s'", symbol.first, symbol.second.c_str());
+				need_comma = true;
+			}
 			fprintf(stdout, " ;\n");
 			fprintf(stdout, "\tfallback: %s;\n", get_counter_style_name(styles, style.fallback).c_str());
 			fprintf(stdout, "}\n\n");

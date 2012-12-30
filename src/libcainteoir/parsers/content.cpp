@@ -38,6 +38,7 @@ struct css_reader
 		close_block,
 		colon,
 		semicolon,
+		comma,
 		error,
 	};
 
@@ -67,12 +68,13 @@ private:
 #define q 10 // single-quote
 #define M 11 // hyphen/minus
 #define F 12 // forward slash
+#define s 13 // comma
 
 static const char css_lookup_table[256] = {
 	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
 	/* 0x */ _, _, _, _, _, _, _, _, _, S, S, S, S, S, _, _,
 	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
-	/* 2x */ S, _, Q, _, _, _, _, q, _, _, _, _, _, M, _, F,
+	/* 2x */ S, _, Q, _, _, _, _, q, _, _, _, _, s, M, _, F,
 	/* 3x */ N, N, N, N, N, N, N, N, N, N, C, c, _, _, _, _,
 	/* 4x */ A, L, L, L, L, L, L, L, L, L, L, L, L, L, L, L,
 	/* 5x */ L, L, L, L, L, L, L, L, L, L, L, _, _, _, _, _,
@@ -109,6 +111,7 @@ bool css_reader::read()
 	case E: type  = close_block; return true;
 	case C: type  = colon;       return true;
 	case c: type  = semicolon;   return true;
+	case s: type  = comma;       return true;
 	case A:
 		type = at_keyword;
 		while (mCurrent < mData->end()) switch (css_lookup_table[*mCurrent])
@@ -208,6 +211,7 @@ bool css_reader::read()
 #undef q
 #undef M
 #undef F
+#undef s
 
 cainteoir::size cainteoir::size::as(const size_units aUnits) const
 {
@@ -446,6 +450,22 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 			{
 				style->symbols.push_back(css.value.str());
 				css.read();
+			}
+		}
+		else if (name.comparei("additive-symbols") == 0 && css.type == css_reader::integer)
+		{
+			style->additive_symbols.clear();
+			while (css.type == css_reader::integer)
+			{
+				std::pair<cainteoir::counter_style::value_t, std::string> value;
+				value.first = atoi(css.value.begin());
+				if (css.read() && css.type == css_reader::string)
+				{
+					value.second = css.value.str();
+					style->additive_symbols.push_back(value);
+					if (css.read() && css.type == css_reader::comma)
+						css.read();
+				}
 			}
 		}
 
