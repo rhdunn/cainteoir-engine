@@ -1,0 +1,29 @@
+@counter-style range1
+{
+	Range: 1 10;
+}
+
+@counter-style range2
+{
+	Range: -10 10;
+}
+
+@counter-style range3
+{
+	Range: infinite 10;
+}
+
+@counter-style range4
+{
+	Range: 0 infinite;
+}
+
+@counter-style range5
+{
+	Range: infinite infinite;
+}
+
+@counter-style range6
+{
+	Range: auto;
+}
