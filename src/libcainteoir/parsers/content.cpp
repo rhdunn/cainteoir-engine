@@ -100,6 +100,9 @@ css_reader::css_reader(std::shared_ptr<cainteoir::buffer> aData)
 
 bool css_reader::read()
 {
+	type = error;
+	value = cainteoir::buffer(nullptr, nullptr);
+
 	if (mCurrent >= mData->end())
 		return false;
 
@@ -405,6 +408,7 @@ cainteoir::counter_style *cainteoir::style_manager::create_counter_style(const s
 
 static void parse_counter_style(css_reader &css, cainteoir::counter_style *style)
 {
+	using cainteoir::counter_style;
 	while (css.read())
 	{
 		if (css.type == css_reader::close_block)
@@ -435,7 +439,7 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 				style->system = cainteoir::counter_system::numeric;
 			else if (css.value.comparei("additive") == 0)
 				style->system = cainteoir::counter_system::additive;
-			style->range = cainteoir::counter_style::get_auto_range(style->system);
+			style->range = counter_style::get_auto_range(style->system);
 		}
 		else if (name.comparei("negative") == 0 && css.type == css_reader::string)
 			style->negative = css.value.str();
@@ -443,6 +447,31 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 			style->prefix = css.value.str();
 		else if (name.comparei("suffix") == 0 && css.type == css_reader::string)
 			style->suffix = css.value.str();
+		else if (name.comparei("range") == 0)
+		{
+			if (css.type == css_reader::identifier && css.value.comparei("auto") == 0)
+				style->range = counter_style::get_auto_range(style->system);
+			else
+			{
+				bool valid_range = true;
+				cainteoir::counter_style::value_t values[2] = { 0, 0 };
+				for (int i = 0; i < 2 && valid_range; ++i)
+				{
+					if (css.type == css_reader::integer)
+						values[i] = atoi(css.value.begin());
+					else if (css.type == css_reader::identifier && css.value.comparei("infinite") == 0)
+						values[i] = (i == 0) ? counter_style::infinite.first : counter_style::infinite.second;
+					else
+						valid_range = false;
+
+					if (valid_range)
+						css.read();
+				}
+
+				if (valid_range)
+					style->range = { values[0], values[1] };
+			}
+		}
 		else if (name.comparei("symbols") == 0 && css.type == css_reader::string)
 		{
 			style->symbols.clear();
@@ -457,7 +486,7 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 			style->additive_symbols.clear();
 			while (css.type == css_reader::integer)
 			{
-				std::pair<cainteoir::counter_style::value_t, std::string> value;
+				std::pair<counter_style::value_t, std::string> value;
 				value.first = atoi(css.value.begin());
 				if (css.read() && css.type == css_reader::string)
 				{

@@ -55,6 +55,7 @@ if __name__ == '__main__':
 			{'test': 'css/counter-styles/symbols-cased.css', 'result': 'css/counter-styles/symbols.styles'},
 			{'test': 'css/counter-styles/additive-symbols.css', 'result': 'css/counter-styles/additive-symbols.styles'},
 			{'test': 'css/counter-styles/additive-symbols-cased.css', 'result': 'css/counter-styles/additive-symbols.styles'},
+			{'test': 'css/counter-styles/range.css', 'result': 'css/counter-styles/range.styles'},
 			{'test': 'css/counter-styles/disc.css', 'result': 'css/counter-styles/disc.styles'},
 		]},
 	]})

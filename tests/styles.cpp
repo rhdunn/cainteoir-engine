@@ -77,11 +77,11 @@ int main(int argc, char ** argv)
 				if (style.range.first == cainteoir::counter_style::infinite.first)
 					fprintf(stdout, " infinite");
 				else
-					fprintf(stdout, " %d");
+					fprintf(stdout, " %d", style.range.first);
 				if (style.range.second == cainteoir::counter_style::infinite.second)
 					fprintf(stdout, " infinite");
 				else
-					fprintf(stdout, " %d");
+					fprintf(stdout, " %d", style.range.second);
 			}
 			fprintf(stdout, ";\n");
 			fprintf(stdout, "\tsymbols:");
