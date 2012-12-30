@@ -66,12 +66,13 @@ private:
 #define Q  9 // double-quote
 #define q 10 // single-quote
 #define M 11 // hyphen/minus
+#define F 12 // forward slash
 
 static const char css_lookup_table[256] = {
 	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
 	/* 0x */ _, _, _, _, _, _, _, _, _, S, S, S, S, S, _, _,
 	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
-	/* 2x */ S, _, Q, _, _, _, _, q, _, _, _, _, _, M, _, _,
+	/* 2x */ S, _, Q, _, _, _, _, q, _, _, _, _, _, M, _, F,
 	/* 3x */ N, N, N, N, N, N, N, N, N, N, C, c, _, _, _, _,
 	/* 4x */ A, L, L, L, L, L, L, L, L, L, L, L, L, L, L, L,
 	/* 5x */ L, L, L, L, L, L, L, L, L, L, L, _, _, _, _, _,
@@ -167,8 +168,25 @@ bool css_reader::read()
 		value = cainteoir::buffer(start+1, mCurrent);
 		type  = error;
 		return true;
-	case Q:
-	case _:
+	case F:
+		if (*mCurrent == '*')
+		{
+			++mCurrent;
+			++mCurrent;
+			while (mCurrent[0] != '*' && mCurrent[1] != '/')
+				++mCurrent;
+			++mCurrent;
+			++mCurrent;
+			start = mCurrent;
+		}
+		else
+		{
+			value = cainteoir::buffer(start, mCurrent);
+			type  = error;
+			return true;
+		}
+		break;
+	default:
 		value = cainteoir::buffer(start, mCurrent);
 		type  = error;
 		return true;
@@ -189,6 +207,7 @@ bool css_reader::read()
 #undef Q
 #undef q
 #undef M
+#undef F
 
 cainteoir::size cainteoir::size::as(const size_units aUnits) const
 {

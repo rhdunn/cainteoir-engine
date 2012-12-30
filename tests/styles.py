@@ -27,6 +27,7 @@ if __name__ == '__main__':
 			{'test': 'css/counter-styles/empty.css', 'result': 'css/counter-styles/empty.styles'},
 			{'test': 'css/counter-styles/empty-cased.css', 'result': 'css/counter-styles/empty.styles'},
 			{'test': 'css/counter-styles/empty-dual.css', 'result': 'css/counter-styles/empty-dual.styles'},
+			{'test': 'css/counter-styles/comments.css', 'result': 'css/counter-styles/empty.styles'},
 			{'test': 'css/counter-styles/system-cyclic.css', 'result': 'css/counter-styles/system-cyclic.styles'},
 			{'test': 'css/counter-styles/system-cyclic-cased.css', 'result': 'css/counter-styles/system-cyclic.styles'},
 			{'test': 'css/counter-styles/system-fixed.css', 'result': 'css/counter-styles/system-fixed.styles'},
