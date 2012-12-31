@@ -22,12 +22,14 @@ import sys
 
 if __name__ == '__main__':
 	test = harness.TestSuite('styles', sys.argv)
-	test.run({'name': 'CSS', 'groups': [
-		{'name': 'Counter Styles', 'type': 'styles', 'tests': [
+	test.run({'name': 'CSS Counter Styles', 'groups': [
+		{'name': '@counter-style', 'type': 'styles', 'tests': [
 			{'test': 'css/counter-styles/empty.css', 'result': 'css/counter-styles/empty.styles'},
 			{'test': 'css/counter-styles/empty-cased.css', 'result': 'css/counter-styles/empty.styles'},
 			{'test': 'css/counter-styles/empty-dual.css', 'result': 'css/counter-styles/empty-dual.styles'},
 			{'test': 'css/counter-styles/comments.css', 'result': 'css/counter-styles/empty.styles'},
+		]},
+		{'name': 'system', 'type': 'styles', 'tests': [
 			{'test': 'css/counter-styles/system-cyclic.css', 'result': 'css/counter-styles/system-cyclic.styles'},
 			{'test': 'css/counter-styles/system-cyclic-cased.css', 'result': 'css/counter-styles/system-cyclic.styles'},
 			{'test': 'css/counter-styles/system-fixed.css', 'result': 'css/counter-styles/system-fixed.styles'},
@@ -42,23 +44,37 @@ if __name__ == '__main__':
 			{'test': 'css/counter-styles/system-numeric-cased.css', 'result': 'css/counter-styles/system-numeric.styles'},
 			{'test': 'css/counter-styles/system-additive.css', 'result': 'css/counter-styles/system-additive.styles'},
 			{'test': 'css/counter-styles/system-additive-cased.css', 'result': 'css/counter-styles/system-additive.styles'},
+		]},
+		{'name': 'negative', 'type': 'styles', 'tests': [
 			{'test': 'css/counter-styles/negative.css', 'result': 'css/counter-styles/negative.styles'},
 			{'test': 'css/counter-styles/negative-cased.css', 'result': 'css/counter-styles/negative.styles'},
 			{'test': 'css/counter-styles/negative-empty.css', 'result': 'css/counter-styles/negative-empty.styles'},
 			{'test': 'css/counter-styles/negative-suffix.css', 'result': 'css/counter-styles/negative-suffix.styles'},
+		]},
+		{'name': 'prefix', 'type': 'styles', 'tests': [
 			{'test': 'css/counter-styles/prefix.css', 'result': 'css/counter-styles/prefix.styles'},
 			{'test': 'css/counter-styles/prefix-cased.css', 'result': 'css/counter-styles/prefix.styles'},
 			{'test': 'css/counter-styles/prefix-empty.css', 'result': 'css/counter-styles/prefix-empty.styles'},
+		]},
+		{'name': 'suffix', 'type': 'styles', 'tests': [
 			{'test': 'css/counter-styles/suffix.css', 'result': 'css/counter-styles/suffix.styles'},
 			{'test': 'css/counter-styles/suffix-cased.css', 'result': 'css/counter-styles/suffix.styles'},
 			{'test': 'css/counter-styles/suffix-empty.css', 'result': 'css/counter-styles/suffix-empty.styles'},
+		]},
+		{'name': 'symbols', 'type': 'styles', 'tests': [
 			{'test': 'css/counter-styles/symbols.css', 'result': 'css/counter-styles/symbols.styles'},
 			{'test': 'css/counter-styles/symbols-cased.css', 'result': 'css/counter-styles/symbols.styles'},
+		]},
+		{'name': 'additive-symbols', 'type': 'styles', 'tests': [
 			{'test': 'css/counter-styles/additive-symbols.css', 'result': 'css/counter-styles/additive-symbols.styles'},
 			{'test': 'css/counter-styles/additive-symbols-cased.css', 'result': 'css/counter-styles/additive-symbols.styles'},
+		]},
+		{'name': 'range', 'type': 'styles', 'tests': [
 			{'test': 'css/counter-styles/range.css', 'result': 'css/counter-styles/range.styles'},
 			{'test': 'css/counter-styles/range-cased.css', 'result': 'css/counter-styles/range.styles'},
 			{'test': 'css/counter-styles/range-invalid.css', 'result': 'css/counter-styles/empty.styles'},
+		]},
+		{'name': 'example counter styles', 'type': 'styles', 'tests': [
 			{'test': 'css/counter-styles/disc.css', 'result': 'css/counter-styles/disc.styles'},
 		]},
 	]})
