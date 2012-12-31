@@ -174,10 +174,15 @@ namespace cainteoir
 		  */
 		std::vector<std::pair<value_t, std::string>> additive_symbols;
 
-		/** @brief The string to use to denote negative numbers.
+		/** @brief The string to use to denote negative numbers (before the number).
 		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-negative
 		  */
-		std::string negative;
+		std::string negative_prefix;
+
+		/** @brief The string to use to denote negative numbers (after the number).
+		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-negative
+		  */
+		std::string negative_suffix;
 
 		/** @brief The string to use at the start of the formatted counter value.
 		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-prefix
@@ -217,7 +222,7 @@ namespace cainteoir
 		counter_style()
 			: system(counter_system::symbolic)
 			, initial_symbol_value(1)
-			, negative("-")
+			, negative_prefix("-")
 			, suffix(".")
 			, range(get_auto_range(counter_system::symbolic))
 			, fallback(nullptr)

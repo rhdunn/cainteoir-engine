@@ -1,8 +1,8 @@
 @counter-style empty {
 	system: symbolic;
-	negative: '-' '';
+	negative: '<' '>';
 	prefix: '';
-	suffix: '';
+	suffix: '.';
 	range: auto;
 	symbols: ;
 	additive-symbols: ;

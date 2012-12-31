@@ -1,6 +1,6 @@
 @counter-style empty {
 	system: fixed 12;
-	negative: '-';
+	negative: '-' '';
 	prefix: '';
 	suffix: '.';
 	range: auto;

@@ -66,7 +66,7 @@ int main(int argc, char ** argv)
 				fprintf(stdout, "\tsystem: fixed %d;\n", style.initial_symbol_value);
 			else
 				fprintf(stdout, "\tsystem: %s;\n", get_counter_system_string(style.system));
-			fprintf(stdout, "\tnegative: '%s';\n", style.negative.c_str());
+			fprintf(stdout, "\tnegative: '%s' '%s';\n", style.negative_prefix.c_str(), style.negative_suffix.c_str());
 			fprintf(stdout, "\tprefix: '%s';\n", style.prefix.c_str());
 			fprintf(stdout, "\tsuffix: '%s';\n", style.suffix.c_str());
 			fprintf(stdout, "\trange:");

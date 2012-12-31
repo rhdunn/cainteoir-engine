@@ -1,6 +1,6 @@
 @counter-style disc {
 	system: cyclic;
-	negative: '-';
+	negative: '-' '';
 	prefix: '';
 	suffix: '';
 	range: auto;
