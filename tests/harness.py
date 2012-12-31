@@ -113,6 +113,7 @@ class TestSuite:
 			return
 
 		for group in data['groups']:
+			write('\n')
 			write('testing %s :: %s ...\n' % (data['name'], group['name']))
 			if group['type'] in ['ntriple', 'turtle', 'vorbis']:
 				check = lambda got, exp, expect, displayas, replacements: self.check_metadata(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
@@ -179,6 +180,7 @@ class TestSuite:
 					check(got, exp, expect='expect-%s' % expect, displayas=got, replacements=replacements)
 
 	def summary(self):
+		write('\n')
 		write('========== summary of the %s test results ==========\n' % self.name)
 		write('  %s passed\n' % str(self.passed).rjust(4))
 		write('  %s failed\n' % str(self.failed).rjust(4))
