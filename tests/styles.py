@@ -58,6 +58,7 @@ if __name__ == '__main__':
 			{'test': 'css/counter-styles/additive-symbols-cased.css', 'result': 'css/counter-styles/additive-symbols.styles'},
 			{'test': 'css/counter-styles/range.css', 'result': 'css/counter-styles/range.styles'},
 			{'test': 'css/counter-styles/range-cased.css', 'result': 'css/counter-styles/range.styles'},
+			{'test': 'css/counter-styles/range-invalid.css', 'result': 'css/counter-styles/empty.styles'},
 			{'test': 'css/counter-styles/disc.css', 'result': 'css/counter-styles/disc.styles'},
 		]},
 	]})

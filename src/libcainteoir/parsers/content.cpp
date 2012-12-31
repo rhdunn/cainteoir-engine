@@ -472,7 +472,7 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 						css.read();
 				}
 
-				if (valid_range)
+				if (valid_range && values[0] <= values[1])
 					style->range = { values[0], values[1] };
 			}
 		}
