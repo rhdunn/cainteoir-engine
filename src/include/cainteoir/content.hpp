@@ -1,6 +1,6 @@
 /* Document Content Rendering Model.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -27,6 +27,44 @@
 
 namespace cainteoir { namespace css
 {
+	// CSS Values and Units:
+
+	struct length
+	{
+		enum type
+		{
+			inherit,
+			millimeters,
+			centimeters,
+			inches,
+			points,
+			picas,
+			pixels,
+		};
+
+		length()
+			: mValue(0)
+			, mUnits(type::inherit)
+		{
+		}
+
+		length(float aValue, const type aUnits)
+			: mValue(aValue)
+			, mUnits(aUnits)
+		{
+		}
+
+		length as(const type aUnits) const;
+
+		float value() const { return mValue; }
+		type  units() const { return mUnits; }
+	private:
+		float mValue;
+		type  mUnits;
+	};
+
+	// Cascading Style Sheets
+
 	enum class display : uint8_t
 	{
 		inherit,
@@ -94,6 +132,16 @@ namespace cainteoir { namespace css
 		sentence,
 	};
 
+	struct margin
+	{
+		length left;
+		length top;
+		length right;
+		length bottom;
+	};
+
+	// CSS Counter Styles
+
 	enum class counter_system : uint8_t
 	{
 		/** @brief Repeatedly cycles through the specified symbols.
@@ -125,17 +173,6 @@ namespace cainteoir { namespace css
 		  * @see   http://www.w3.org/TR/css-counter-styles-3/#additive-system
 		  */
 		additive,
-	};
-
-	enum class size_units : uint8_t
-	{
-		inherit,
-		millimeters,
-		centimeters,
-		inches,
-		points,
-		picas,
-		pixels,
 	};
 
 	struct counter_style
@@ -231,36 +268,7 @@ namespace cainteoir { namespace css
 		std::string marker(value_t count) const;
 	};
 
-	struct size
-	{
-		size()
-			: mValue(0)
-			, mUnits(size_units::inherit)
-		{
-		}
-
-		size(float aValue, const size_units aUnits)
-			: mValue(aValue)
-			, mUnits(aUnits)
-		{
-		}
-
-		size as(const size_units aUnits) const;
-
-		float      value() const { return mValue; }
-		size_units units() const { return mUnits; }
-	private:
-		float      mValue;
-		size_units mUnits;
-	};
-
-	struct margin
-	{
-		size left;
-		size top;
-		size right;
-		size bottom;
-	};
+	// Cascading Style Sheets
 
 	struct styles
 	{
@@ -274,7 +282,7 @@ namespace cainteoir { namespace css
 		cainteoir::css::font_weight font_weight;
 		std::string list_style_type;
 		std::string font_family;
-		cainteoir::css::size font_size;
+		cainteoir::css::length font_size;
 		cainteoir::css::margin margin;
 
 		// Cainteoir Text-to-Speech specific styles (not in CSS spec):
@@ -306,7 +314,7 @@ namespace cainteoir { namespace css
 		       cainteoir::css::font_weight aFontWeight,
 		       const std::string &aListStyleType,
 		       const std::string &aFontFamily,
-		       const cainteoir::css::size &aFontSize,
+		       const cainteoir::css::length &aFontSize,
 		       const cainteoir::css::margin &aMargin,
 		       const cainteoir::css::text_structure aTextStructure,
 		       int aTocLevel)

@@ -218,7 +218,7 @@ bool css_reader::read()
 #undef F
 #undef s
 
-css::size css::size::as(const size_units aUnits) const
+css::length css::length::as(const type aUnits) const
 {
 	static constexpr float points_in_pica = 12;
 	static constexpr float points_in_inch = 72;
@@ -238,105 +238,105 @@ css::size css::size::as(const size_units aUnits) const
 
 	switch (mUnits)
 	{
-	case size_units::millimeters:
+	case millimeters:
 		switch (aUnits)
 		{
-		case size_units::millimeters:
+		case millimeters:
 			return *this;
-		case size_units::centimeters:
-			return size(mValue / millimeters_in_centimeter, aUnits);
-		case size_units::inches:
-			return size(mValue / millimeters_in_inch, aUnits);
-		case size_units::points:
-			return size(mValue / millimeters_in_point, aUnits);
-		case size_units::picas:
-			return size(mValue / millimeters_in_pica, aUnits);
-		case size_units::pixels:
-			return size(mValue * pixels_in_millimeter, aUnits);
+		case centimeters:
+			return length(mValue / millimeters_in_centimeter, aUnits);
+		case inches:
+			return length(mValue / millimeters_in_inch, aUnits);
+		case points:
+			return length(mValue / millimeters_in_point, aUnits);
+		case picas:
+			return length(mValue / millimeters_in_pica, aUnits);
+		case pixels:
+			return length(mValue * pixels_in_millimeter, aUnits);
 		}
 		break;
-	case size_units::centimeters:
+	case centimeters:
 		switch (aUnits)
 		{
-		case size_units::millimeters:
-			return size(mValue * millimeters_in_centimeter, aUnits);
-		case size_units::centimeters:
+		case millimeters:
+			return length(mValue * millimeters_in_centimeter, aUnits);
+		case centimeters:
 			return *this;
-		case size_units::inches:
-			return size(mValue / centimeters_in_inch, aUnits);
-		case size_units::points:
-			return size(mValue / centimeters_in_point, aUnits);
-		case size_units::picas:
-			return size(mValue / centimeters_in_pica, aUnits);
-		case size_units::pixels:
-			return size(mValue * pixels_in_centimeter, aUnits);
+		case inches:
+			return length(mValue / centimeters_in_inch, aUnits);
+		case points:
+			return length(mValue / centimeters_in_point, aUnits);
+		case picas:
+			return length(mValue / centimeters_in_pica, aUnits);
+		case pixels:
+			return length(mValue * pixels_in_centimeter, aUnits);
 		}
 		break;
-	case size_units::inches:
+	case inches:
 		switch (aUnits)
 		{
-		case size_units::millimeters:
-			return size(mValue * millimeters_in_inch, aUnits);
-		case size_units::centimeters:
-			return size(mValue * centimeters_in_inch, aUnits);
-		case size_units::inches:
+		case millimeters:
+			return length(mValue * millimeters_in_inch, aUnits);
+		case centimeters:
+			return length(mValue * centimeters_in_inch, aUnits);
+		case inches:
 			return *this;
-		case size_units::points:
-			return size(mValue * points_in_inch, aUnits);
-		case size_units::picas:
-			return size(mValue * picas_in_inch, aUnits);
-		case size_units::pixels:
-			return size(mValue * pixels_in_inch, aUnits);
+		case points:
+			return length(mValue * points_in_inch, aUnits);
+		case picas:
+			return length(mValue * picas_in_inch, aUnits);
+		case pixels:
+			return length(mValue * pixels_in_inch, aUnits);
 		}
 		break;
-	case size_units::points:
+	case points:
 		switch (aUnits)
 		{
-		case size_units::millimeters:
-			return size(mValue * millimeters_in_point, aUnits);
-		case size_units::centimeters:
-			return size(mValue * centimeters_in_point, aUnits);
-		case size_units::inches:
-			return size(mValue / points_in_inch, aUnits);
-		case size_units::points:
+		case millimeters:
+			return length(mValue * millimeters_in_point, aUnits);
+		case centimeters:
+			return length(mValue * centimeters_in_point, aUnits);
+		case inches:
+			return length(mValue / points_in_inch, aUnits);
+		case points:
 			return *this;
-		case size_units::picas:
-			return size(mValue / points_in_pica, aUnits);
-		case size_units::pixels:
-			return size(mValue * pixels_in_point, aUnits);
+		case picas:
+			return length(mValue / points_in_pica, aUnits);
+		case pixels:
+			return length(mValue * pixels_in_point, aUnits);
 		}
 		break;
-	case size_units::picas:
+	case picas:
 		switch (aUnits)
 		{
-		case size_units::millimeters:
-			return size(mValue * millimeters_in_pica, aUnits);
-		case size_units::centimeters:
-			return size(mValue * centimeters_in_pica, aUnits);
-		case size_units::inches:
-			return size(mValue / picas_in_inch, aUnits);
-		case size_units::points:
-			return size(mValue * points_in_pica, aUnits);
-		case size_units::picas:
+		case millimeters:
+			return length(mValue * millimeters_in_pica, aUnits);
+		case centimeters:
+			return length(mValue * centimeters_in_pica, aUnits);
+		case inches:
+			return length(mValue / picas_in_inch, aUnits);
+		case points:
+			return length(mValue * points_in_pica, aUnits);
+		case picas:
 			return *this;
-		case size_units::pixels:
-			return size(mValue * pixels_in_pica, aUnits);
+		case pixels:
+			return length(mValue * pixels_in_pica, aUnits);
 		}
 		break;
-	case size_units::pixels:
+	case pixels:
 		switch (aUnits)
 		{
-		case size_units::millimeters:
-			return size(mValue / pixels_in_millimeter, aUnits);
-		case size_units::centimeters:
-			return size(mValue / pixels_in_centimeter, aUnits);
-		case size_units::inches:
-			return size(mValue / pixels_in_inch, aUnits);
-		case size_units::points:
-			return size(mValue / pixels_in_point, aUnits);
-		case size_units::picas:
-			return size(mValue / pixels_in_pica, aUnits);
-		case size_units::pixels:
+		case millimeters:
+			return length(mValue / pixels_in_millimeter, aUnits);
+		case centimeters:
+			return length(mValue / pixels_in_centimeter, aUnits);
+		case inches:
+			return length(mValue / pixels_in_inch, aUnits);
+		case points:
+			return length(mValue / pixels_in_point, aUnits);
+		case picas:
+			return length(mValue / pixels_in_pica, aUnits);
+		case pixels:
 			return *this;
 		}
 		break;
@@ -563,8 +563,8 @@ const css::styles cainteoir::paragraph =
 	css::font_weight::inherit,
 	"",
 	"sans-serif",
-	{ 1, css::size_units::picas },
-	{ {}, {}, {}, { 1, css::size_units::picas } },
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
 	css::text_structure::paragraph,
 	0,
 };
@@ -581,8 +581,8 @@ const css::styles cainteoir::heading0 =
 	css::font_weight::normal,
 	"",
 	"serif",
-	{ 2, css::size_units::picas },
-	{ {}, {}, {}, { 1, css::size_units::picas } },
+	{ 2, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
 	css::text_structure::heading,
 	0,
 };
@@ -599,8 +599,8 @@ const css::styles cainteoir::heading1 =
 	css::font_weight::normal,
 	"",
 	"serif",
-	{ 2, css::size_units::picas },
-	{ {}, {}, {}, { 1, css::size_units::picas } },
+	{ 2, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
 	css::text_structure::heading,
 	1,
 };
@@ -617,8 +617,8 @@ const css::styles cainteoir::heading2 =
 	css::font_weight::normal,
 	"",
 	"serif",
-	{ 1.5, css::size_units::picas },
-	{ {}, {}, {}, { 2, css::size_units::picas } },
+	{ 1.5, css::length::picas },
+	{ {}, {}, {}, { 2, css::length::picas } },
 	css::text_structure::heading,
 	2,
 };
@@ -635,8 +635,8 @@ const css::styles cainteoir::heading3 =
 	css::font_weight::bold,
 	"",
 	"serif",
-	{ 1, css::size_units::picas },
-	{ {}, {}, {}, { 1, css::size_units::picas } },
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
 	css::text_structure::heading,
 	3,
 };
@@ -653,8 +653,8 @@ const css::styles cainteoir::heading4 =
 	css::font_weight::normal,
 	"",
 	"serif",
-	{ 1, css::size_units::picas },
-	{ {}, {}, {}, { 1, css::size_units::picas } },
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
 	css::text_structure::heading,
 	4,
 };
@@ -671,8 +671,8 @@ const css::styles cainteoir::heading5 =
 	css::font_weight::bold,
 	"",
 	"serif",
-	{ 1, css::size_units::picas },
-	{ {}, {}, {}, { 1, css::size_units::picas } },
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
 	css::text_structure::heading,
 	5,
 };
@@ -689,8 +689,8 @@ const css::styles cainteoir::heading6 =
 	css::font_weight::bold,
 	"",
 	"serif",
-	{ 1, css::size_units::picas },
-	{ {}, {}, {}, { 1, css::size_units::picas } },
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
 	css::text_structure::heading,
 	6,
 };
@@ -743,7 +743,7 @@ const css::styles cainteoir::superscript =
 	css::font_weight::inherit,
 	"",
 	"",
-	{ 0.75, css::size_units::picas },
+	{ 0.75, css::length::picas },
 	{},
 	css::text_structure::none,
 	0,
@@ -761,7 +761,7 @@ const css::styles cainteoir::subscript =
 	css::font_weight::inherit,
 	"",
 	"",
-	{ 0.75, css::size_units::picas },
+	{ 0.75, css::length::picas },
 	{},
 	css::text_structure::none,
 	0,
@@ -869,7 +869,7 @@ const css::styles cainteoir::monospace =
 	css::font_weight::inherit,
 	"",
 	"monospace",
-	{ 1, css::size_units::picas },
+	{ 1, css::length::picas },
 	{},
 	css::text_structure::none,
 	0,
@@ -887,8 +887,8 @@ const css::styles cainteoir::monospace_block =
 	css::font_weight::inherit,
 	"",
 	"monospace",
-	{ 1, css::size_units::picas },
-	{ {}, {}, {}, { 1, css::size_units::picas } },
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
 	css::text_structure::none,
 	0,
 };
@@ -906,7 +906,7 @@ const css::styles cainteoir::bullet_list =
 	"disc",
 	"",
 	{},
-	{ {}, {}, {}, { 1, css::size_units::picas } },
+	{ {}, {}, {}, { 1, css::length::picas } },
 	css::text_structure::none,
 	0,
 };
@@ -924,7 +924,7 @@ const css::styles cainteoir::number_list =
 	"decimal",
 	"",
 	{},
-	{ {}, {}, {}, { 1, css::size_units::picas } },
+	{ {}, {}, {}, { 1, css::length::picas } },
 	css::text_structure::none,
 	0,
 };
@@ -941,7 +941,7 @@ const css::styles cainteoir::list_item =
 	css::font_weight::inherit,
 	"",
 	"sans-serif",
-	{ 1, css::size_units::picas },
+	{ 1, css::length::picas },
 	{},
 	css::text_structure::none,
 	0,
@@ -978,7 +978,7 @@ const css::styles cainteoir::table_row =
 	"",
 	"",
 	{},
-	{ {}, {}, {}, { 1, css::size_units::picas } },
+	{ {}, {}, {}, { 1, css::length::picas } },
 	css::text_structure::none,
 	0,
 };

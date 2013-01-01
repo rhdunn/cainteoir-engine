@@ -24,6 +24,14 @@
   */
 
 
+/** @defgroup css_units CSS Values and Units
+  * @brief    Implementation of the CSS Values and Units Level 3 specification.
+  * @see      http://www.w3.org/TR/css3-values/
+  *
+  * This is the C++ API to the various unit types for CSS values.
+  */
+
+
 /** @defgroup css_counter_styles CSS Counter Styles
   * @brief    Implementation of the CSS Counter Styles Level 3 specification.
   * @see      http://www.w3.org/TR/css-counter-styles-3/
@@ -31,6 +39,13 @@
   * This is the C++ API to CSS counter styles as defined in the CSS Counter
   * Styles Level 3 specification. The CSS parsing of \@counter-style rules
   * is handled in the cainteoir::style_manager::parse method.
+  */
+
+
+/** @struct  cainteoir::css::length
+  * @ingroup css_units
+  * @brief   Represents a CSS length.
+  * @see     http://www.w3.org/TR/css3-values/#lengths
   */
 
 
