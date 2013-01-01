@@ -26,6 +26,8 @@
 #include <sstream>
 #include <limits>
 
+namespace css = cainteoir::css;
+
 struct css_reader
 {
 	enum token_type
@@ -216,7 +218,7 @@ bool css_reader::read()
 #undef F
 #undef s
 
-cainteoir::size cainteoir::size::as(const size_units aUnits) const
+css::size css::size::as(const size_units aUnits) const
 {
 	static constexpr float points_in_pica = 12;
 	static constexpr float points_in_inch = 72;
@@ -343,17 +345,17 @@ cainteoir::size cainteoir::size::as(const size_units aUnits) const
 	throw std::runtime_error("unable to convert to the specified units");
 }
 
-std::string cainteoir::counter_style::marker(value_t count) const
+std::string css::counter_style::marker(value_t count) const
 {
 	std::ostringstream textval;
 	textval << prefix;
 	int n = symbols.size();
 	if (n != 0) switch (system)
 	{
-	case cainteoir::counter_system::cyclic:
+	case css::counter_system::cyclic:
 		textval << symbols[count % n];
 		break;
-	case cainteoir::counter_system::numeric:
+	case css::counter_system::numeric:
 		if (count == 0)
 			textval << symbols[0];
 		else
@@ -372,12 +374,12 @@ std::string cainteoir::counter_style::marker(value_t count) const
 	return textval.str();
 }
 
-const cainteoir::counter_style::range_t cainteoir::counter_style::infinite = {
+const css::counter_style::range_t css::counter_style::infinite = {
 	std::numeric_limits<value_t>::min(),
 	std::numeric_limits<value_t>::max()
 };
 
-const cainteoir::counter_style::range_t cainteoir::counter_style::get_auto_range(counter_system system)
+const css::counter_style::range_t css::counter_style::get_auto_range(counter_system system)
 {
 	switch (system)
 	{
@@ -390,7 +392,7 @@ const cainteoir::counter_style::range_t cainteoir::counter_style::get_auto_range
 	return infinite;
 }
 
-const cainteoir::counter_style *cainteoir::style_manager::get_counter_style(const std::string &aName) const
+const css::counter_style *css::style_manager::get_counter_style(const std::string &aName) const
 {
 	auto item = mCounterStyles.find(aName);
 	if (item != mCounterStyles.end())
@@ -398,7 +400,7 @@ const cainteoir::counter_style *cainteoir::style_manager::get_counter_style(cons
 	return nullptr;
 }
 
-cainteoir::counter_style *cainteoir::style_manager::create_counter_style(const std::string &aName)
+css::counter_style *css::style_manager::create_counter_style(const std::string &aName)
 {
 	std::shared_ptr<counter_style> style = std::make_shared<counter_style>();
 	mCounterStyleRegistry.push_back(style);
@@ -406,9 +408,8 @@ cainteoir::counter_style *cainteoir::style_manager::create_counter_style(const s
 	return style.get();
 }
 
-static void parse_counter_style(css_reader &css, cainteoir::counter_style *style)
+static void parse_counter_style(css_reader &css, css::counter_style *style)
 {
-	using cainteoir::counter_style;
 	while (css.read())
 	{
 		if (css.type == css_reader::close_block)
@@ -424,22 +425,22 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 		if (name.comparei("system") == 0 && css.type == css_reader::identifier)
 		{
 			if (css.value.comparei("cyclic") == 0)
-				style->system = cainteoir::counter_system::cyclic;
+				style->system = css::counter_system::cyclic;
 			else if (css.value.comparei("fixed") == 0)
 			{
-				style->system = cainteoir::counter_system::fixed;
+				style->system = css::counter_system::fixed;
 				if (css.read() && css.type == css_reader::integer)
 					style->initial_symbol_value = atoi(css.value.begin());
 			}
 			else if (css.value.comparei("symbolic") == 0)
-				style->system = cainteoir::counter_system::symbolic;
+				style->system = css::counter_system::symbolic;
 			else if (css.value.comparei("alphabetic") == 0)
-				style->system = cainteoir::counter_system::alphabetic;
+				style->system = css::counter_system::alphabetic;
 			else if (css.value.comparei("numeric") == 0)
-				style->system = cainteoir::counter_system::numeric;
+				style->system = css::counter_system::numeric;
 			else if (css.value.comparei("additive") == 0)
-				style->system = cainteoir::counter_system::additive;
-			style->range = counter_style::get_auto_range(style->system);
+				style->system = css::counter_system::additive;
+			style->range = css::counter_style::get_auto_range(style->system);
 		}
 		else if (name.comparei("negative") == 0 && css.type == css_reader::string)
 		{
@@ -454,17 +455,17 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 		else if (name.comparei("range") == 0)
 		{
 			if (css.type == css_reader::identifier && css.value.comparei("auto") == 0)
-				style->range = counter_style::get_auto_range(style->system);
+				style->range = css::counter_style::get_auto_range(style->system);
 			else
 			{
 				bool valid_range = true;
-				cainteoir::counter_style::value_t values[2] = { 0, 0 };
+				css::counter_style::value_t values[2] = { 0, 0 };
 				for (int i = 0; i < 2 && valid_range; ++i)
 				{
 					if (css.type == css_reader::integer)
 						values[i] = atoi(css.value.begin());
 					else if (css.type == css_reader::identifier && css.value.comparei("infinite") == 0)
-						values[i] = (i == 0) ? counter_style::infinite.first : counter_style::infinite.second;
+						values[i] = (i == 0) ? css::counter_style::infinite.first : css::counter_style::infinite.second;
 					else
 						valid_range = false;
 
@@ -490,7 +491,7 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 			style->additive_symbols.clear();
 			while (css.type == css_reader::integer)
 			{
-				std::pair<counter_style::value_t, std::string> value;
+				std::pair<css::counter_style::value_t, std::string> value;
 				value.first = atoi(css.value.begin());
 				if (css.read() && css.type == css_reader::string)
 				{
@@ -507,7 +508,7 @@ static void parse_counter_style(css_reader &css, cainteoir::counter_style *style
 	}
 }
 
-void cainteoir::style_manager::parse(const char *css_file)
+void css::style_manager::parse(const char *css_file)
 {
 	const char *datadir = getenv("CAINTEOIR_DATA_DIR");
 	if (!datadir)
@@ -517,7 +518,7 @@ void cainteoir::style_manager::parse(const char *css_file)
 	parse(make_file_buffer(filename.c_str()));
 }
 
-void cainteoir::style_manager::parse(const std::shared_ptr<buffer> &style)
+void css::style_manager::parse(const std::shared_ptr<buffer> &style)
 {
 	css_reader css(style);
 	while (css.read())
@@ -525,477 +526,477 @@ void cainteoir::style_manager::parse(const std::shared_ptr<buffer> &style)
 		if (css.type == css_reader::at_keyword && css.value.comparei("@counter-style") == 0 &&
 		    css.read() && css.type == css_reader::identifier)
 		{
-			cainteoir::counter_style *style = create_counter_style(css.value.str());
+			css::counter_style *style = create_counter_style(css.value.str());
 			if (css.read() && css.type == css_reader::open_block)
 				parse_counter_style(css, style);
 		}
 	}
 }
 
-const cainteoir::styles cainteoir::unknown =
+const css::styles cainteoir::unknown =
 {
 	"unknown",
-	cainteoir::display::inherit,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::inherit,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"",
 	{},
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::paragraph =
+const css::styles cainteoir::paragraph =
 {
 	"paragraph",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"sans-serif",
-	{ 1, cainteoir::size_units::picas },
-	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::paragraph,
+	{ 1, css::size_units::picas },
+	{ {}, {}, {}, { 1, css::size_units::picas } },
+	css::text_structure::paragraph,
 	0,
 };
 
-const cainteoir::styles cainteoir::heading0 =
+const css::styles cainteoir::heading0 =
 {
 	"heading0",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::center,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::normal,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::center,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::normal,
 	"",
 	"serif",
-	{ 2, cainteoir::size_units::picas },
-	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::heading,
+	{ 2, css::size_units::picas },
+	{ {}, {}, {}, { 1, css::size_units::picas } },
+	css::text_structure::heading,
 	0,
 };
 
-const cainteoir::styles cainteoir::heading1 =
+const css::styles cainteoir::heading1 =
 {
 	"heading1",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::center,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::normal,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::center,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::normal,
 	"",
 	"serif",
-	{ 2, cainteoir::size_units::picas },
-	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::heading,
+	{ 2, css::size_units::picas },
+	{ {}, {}, {}, { 1, css::size_units::picas } },
+	css::text_structure::heading,
 	1,
 };
 
-const cainteoir::styles cainteoir::heading2 =
+const css::styles cainteoir::heading2 =
 {
 	"heading2",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::center,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::normal,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::center,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::normal,
 	"",
 	"serif",
-	{ 1.5, cainteoir::size_units::picas },
-	{ {}, {}, {}, { 2, cainteoir::size_units::picas } },
-	cainteoir::text_structure::heading,
+	{ 1.5, css::size_units::picas },
+	{ {}, {}, {}, { 2, css::size_units::picas } },
+	css::text_structure::heading,
 	2,
 };
 
-const cainteoir::styles cainteoir::heading3 =
+const css::styles cainteoir::heading3 =
 {
 	"heading3",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::center,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::bold,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::center,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::bold,
 	"",
 	"serif",
-	{ 1, cainteoir::size_units::picas },
-	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::heading,
+	{ 1, css::size_units::picas },
+	{ {}, {}, {}, { 1, css::size_units::picas } },
+	css::text_structure::heading,
 	3,
 };
 
-const cainteoir::styles cainteoir::heading4 =
+const css::styles cainteoir::heading4 =
 {
 	"heading4",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::center,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::normal,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::center,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::normal,
 	"",
 	"serif",
-	{ 1, cainteoir::size_units::picas },
-	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::heading,
+	{ 1, css::size_units::picas },
+	{ {}, {}, {}, { 1, css::size_units::picas } },
+	css::text_structure::heading,
 	4,
 };
 
-const cainteoir::styles cainteoir::heading5 =
+const css::styles cainteoir::heading5 =
 {
 	"heading5",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::left,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::bold,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::left,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::bold,
 	"",
 	"serif",
-	{ 1, cainteoir::size_units::picas },
-	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::heading,
+	{ 1, css::size_units::picas },
+	{ {}, {}, {}, { 1, css::size_units::picas } },
+	css::text_structure::heading,
 	5,
 };
 
-const cainteoir::styles cainteoir::heading6 =
+const css::styles cainteoir::heading6 =
 {
 	"heading6",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::left,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::bold,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::left,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::bold,
 	"",
 	"serif",
-	{ 1, cainteoir::size_units::picas },
-	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::heading,
+	{ 1, css::size_units::picas },
+	{ {}, {}, {}, { 1, css::size_units::picas } },
+	css::text_structure::heading,
 	6,
 };
 
-const cainteoir::styles cainteoir::span =
+const css::styles cainteoir::span =
 {
 	"span",
-	cainteoir::display::inlined,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"",
 	{},
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::sentence =
+const css::styles cainteoir::sentence =
 {
 	"sentence",
-	cainteoir::display::inlined,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"",
 	{},
 	{},
-	cainteoir::text_structure::sentence,
+	css::text_structure::sentence,
 	0,
 };
 
-const cainteoir::styles cainteoir::superscript =
+const css::styles cainteoir::superscript =
 {
 	"superscript",
-	cainteoir::display::inlined,
-	cainteoir::vertical_align::super,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::inlined,
+	css::vertical_align::super,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"",
-	{ 0.75, cainteoir::size_units::picas },
+	{ 0.75, css::size_units::picas },
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::subscript =
+const css::styles cainteoir::subscript =
 {
 	"subscript",
-	cainteoir::display::inlined,
-	cainteoir::vertical_align::sub,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::inlined,
+	css::vertical_align::sub,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"",
-	{ 0.75, cainteoir::size_units::picas },
+	{ 0.75, css::size_units::picas },
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::emphasized =
+const css::styles cainteoir::emphasized =
 {
 	"emphasized",
-	cainteoir::display::inlined,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::italic,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::italic,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"",
 	{},
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::emphasized_block =
+const css::styles cainteoir::emphasized_block =
 {
 	"emphasized_block",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::italic,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::italic,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"",
 	{},
 	{},
-	cainteoir::text_structure::paragraph,
+	css::text_structure::paragraph,
 	0,
 };
 
-const cainteoir::styles cainteoir::strong =
+const css::styles cainteoir::strong =
 {
 	"strong",
-	cainteoir::display::inlined,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::bold,
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::bold,
 	"",
 	"",
 	{},
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::reduced =
+const css::styles cainteoir::reduced =
 {
 	"reduced",
-	cainteoir::display::inlined,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::normal,
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::normal,
 	"",
 	"",
 	{},
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::underlined =
+const css::styles cainteoir::underlined =
 {
 	"underlined",
-	cainteoir::display::inlined,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::underline,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::underline,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"",
 	{},
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::monospace =
+const css::styles cainteoir::monospace =
 {
 	"monospace",
-	cainteoir::display::inlined,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"monospace",
-	{ 1, cainteoir::size_units::picas },
+	{ 1, css::size_units::picas },
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::monospace_block =
+const css::styles cainteoir::monospace_block =
 {
 	"monospace_block",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"monospace",
-	{ 1, cainteoir::size_units::picas },
-	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::none,
+	{ 1, css::size_units::picas },
+	{ {}, {}, {}, { 1, css::size_units::picas } },
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::bullet_list =
+const css::styles cainteoir::bullet_list =
 {
 	"bullet_list",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"disc",
 	"",
 	{},
-	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::none,
+	{ {}, {}, {}, { 1, css::size_units::picas } },
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::number_list =
+const css::styles cainteoir::number_list =
 {
 	"number_list",
-	cainteoir::display::block,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"decimal",
 	"",
 	{},
-	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::none,
+	{ {}, {}, {}, { 1, css::size_units::picas } },
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::list_item =
+const css::styles cainteoir::list_item =
 {
 	"list_item",
-	cainteoir::display::list_item,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::list_item,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"sans-serif",
-	{ 1, cainteoir::size_units::picas },
+	{ 1, css::size_units::picas },
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::table =
+const css::styles cainteoir::table =
 {
 	"table",
-	cainteoir::display::table,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::table,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"",
 	{},
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::table_row =
+const css::styles cainteoir::table_row =
 {
 	"table_row",
-	cainteoir::display::table_row,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::table_row,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"",
 	{},
-	{ {}, {}, {}, { 1, cainteoir::size_units::picas } },
-	cainteoir::text_structure::none,
+	{ {}, {}, {}, { 1, css::size_units::picas } },
+	css::text_structure::none,
 	0,
 };
 
-const cainteoir::styles cainteoir::table_cell =
+const css::styles cainteoir::table_cell =
 {
 	"table_cell",
-	cainteoir::display::table_cell,
-	cainteoir::vertical_align::inherit,
-	cainteoir::text_align::inherit,
-	cainteoir::text_decoration::inherit,
-	cainteoir::font_style::inherit,
-	cainteoir::font_variant::inherit,
-	cainteoir::font_weight::inherit,
+	css::display::table_cell,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::font_style::inherit,
+	css::font_variant::inherit,
+	css::font_weight::inherit,
 	"",
 	"",
 	{},
 	{},
-	cainteoir::text_structure::none,
+	css::text_structure::none,
 	0,
 };

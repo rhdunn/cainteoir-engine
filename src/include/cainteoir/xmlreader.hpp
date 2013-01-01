@@ -143,7 +143,7 @@ namespace cainteoir { namespace xml
 		struct entry
 		{
 			xml::begin_tag_type begin_tag_type;
-			const cainteoir::styles *styles;
+			const cainteoir::css::styles *styles;
 
 			entry(xml::begin_tag_type aBeginTagType = xml::begin_tag_type::open)
 				: begin_tag_type(aBeginTagType)
@@ -151,7 +151,7 @@ namespace cainteoir { namespace xml
 			{
 			}
 
-			entry(const cainteoir::styles *aStyles,
+			entry(const cainteoir::css::styles *aStyles,
 			      xml::begin_tag_type aBeginTagType = xml::begin_tag_type::open)
 				: begin_tag_type(aBeginTagType)
 				, styles(aStyles)

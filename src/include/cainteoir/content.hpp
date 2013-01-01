@@ -25,7 +25,7 @@
 #include <vector>
 #include <map>
 
-namespace cainteoir
+namespace cainteoir { namespace css
 {
 	enum class display : uint8_t
 	{
@@ -151,7 +151,7 @@ namespace cainteoir
 		/** @brief The algorithm to use to format the counter value.
 		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-system
 		  */
-		cainteoir::counter_system system;
+		cainteoir::css::counter_system system;
 
 		/** @brief The value of the first symbol (for the fixed system).
 		  * @see   http://www.w3.org/TR/css-counter-styles-3/#fixed-system
@@ -265,50 +265,50 @@ namespace cainteoir
 	struct styles
 	{
 		std::string name;
-		cainteoir::display display;
-		cainteoir::vertical_align vertical_align;
-		cainteoir::text_align text_align;
-		cainteoir::text_decoration text_decoration;
-		cainteoir::font_style font_style;
-		cainteoir::font_variant font_variant;
-		cainteoir::font_weight font_weight;
+		cainteoir::css::display display;
+		cainteoir::css::vertical_align vertical_align;
+		cainteoir::css::text_align text_align;
+		cainteoir::css::text_decoration text_decoration;
+		cainteoir::css::font_style font_style;
+		cainteoir::css::font_variant font_variant;
+		cainteoir::css::font_weight font_weight;
 		std::string list_style_type;
 		std::string font_family;
-		cainteoir::size font_size;
-		cainteoir::margin margin;
+		cainteoir::css::size font_size;
+		cainteoir::css::margin margin;
 
 		// Cainteoir Text-to-Speech specific styles (not in CSS spec):
 
-		cainteoir::text_structure text_structure;
+		cainteoir::css::text_structure text_structure;
 		int toc_level;
 
 		styles(const std::string &aName)
 			: name(aName)
-			, display(cainteoir::display::inherit)
-			, vertical_align(cainteoir::vertical_align::inherit)
-			, text_align(cainteoir::text_align::inherit)
-			, text_decoration(cainteoir::text_decoration::inherit)
-			, font_style(cainteoir::font_style::inherit)
-			, font_variant(cainteoir::font_variant::inherit)
-			, font_weight(cainteoir::font_weight::inherit)
-			, text_structure(cainteoir::text_structure::none)
+			, display(cainteoir::css::display::inherit)
+			, vertical_align(cainteoir::css::vertical_align::inherit)
+			, text_align(cainteoir::css::text_align::inherit)
+			, text_decoration(cainteoir::css::text_decoration::inherit)
+			, font_style(cainteoir::css::font_style::inherit)
+			, font_variant(cainteoir::css::font_variant::inherit)
+			, font_weight(cainteoir::css::font_weight::inherit)
+			, text_structure(cainteoir::css::text_structure::none)
 			, toc_level(0)
 		{
 		}
 
 		styles(const std::string &aName,
-		       cainteoir::display aDisplay,
-		       cainteoir::vertical_align aVerticalAlign,
-		       cainteoir::text_align aTextAlign,
-		       cainteoir::text_decoration aTextDecoration,
-		       cainteoir::font_style aFontStyle,
-		       cainteoir::font_variant aFontVariant,
-		       cainteoir::font_weight aFontWeight,
+		       cainteoir::css::display aDisplay,
+		       cainteoir::css::vertical_align aVerticalAlign,
+		       cainteoir::css::text_align aTextAlign,
+		       cainteoir::css::text_decoration aTextDecoration,
+		       cainteoir::css::font_style aFontStyle,
+		       cainteoir::css::font_variant aFontVariant,
+		       cainteoir::css::font_weight aFontWeight,
 		       const std::string &aListStyleType,
 		       const std::string &aFontFamily,
-		       const cainteoir::size &aFontSize,
-		       const cainteoir::margin &aMargin,
-		       const cainteoir::text_structure aTextStructure,
+		       const cainteoir::css::size &aFontSize,
+		       const cainteoir::css::margin &aMargin,
+		       const cainteoir::css::text_structure aTextStructure,
 		       int aTocLevel)
 			: name(aName)
 			, display(aDisplay)
@@ -346,33 +346,43 @@ namespace cainteoir
 		std::list<std::shared_ptr<counter_style>>    mCounterStyleRegistry;
 		std::map<std::string, const counter_style *> mCounterStyles;
 	};
+}}
 
-	extern const styles unknown;
-	extern const styles paragraph;
-	extern const styles heading0;
-	extern const styles heading1;
-	extern const styles heading2;
-	extern const styles heading3;
-	extern const styles heading4;
-	extern const styles heading5;
-	extern const styles heading6;
-	extern const styles span;
-	extern const styles sentence;
-	extern const styles superscript;
-	extern const styles subscript;
-	extern const styles emphasized;
-	extern const styles emphasized_block;
-	extern const styles strong;
-	extern const styles reduced;
-	extern const styles underlined;
-	extern const styles monospace;
-	extern const styles monospace_block;
-	extern const styles bullet_list;
-	extern const styles number_list;
-	extern const styles list_item;
-	extern const styles table;
-	extern const styles table_row;
-	extern const styles table_cell;
+#ifndef DOXYGEN
+namespace cainteoir
+{
+	// These style definitions are defined here temporarily. They will be
+	// removed once the CSS infrastructure is in place and a common XML
+	// document reader is using that CSS infrastructure to process all the
+	// supported XML document formats.
+
+	extern const css::styles unknown;
+	extern const css::styles paragraph;
+	extern const css::styles heading0;
+	extern const css::styles heading1;
+	extern const css::styles heading2;
+	extern const css::styles heading3;
+	extern const css::styles heading4;
+	extern const css::styles heading5;
+	extern const css::styles heading6;
+	extern const css::styles span;
+	extern const css::styles sentence;
+	extern const css::styles superscript;
+	extern const css::styles subscript;
+	extern const css::styles emphasized;
+	extern const css::styles emphasized_block;
+	extern const css::styles strong;
+	extern const css::styles reduced;
+	extern const css::styles underlined;
+	extern const css::styles monospace;
+	extern const css::styles monospace_block;
+	extern const css::styles bullet_list;
+	extern const css::styles number_list;
+	extern const css::styles list_item;
+	extern const css::styles table;
+	extern const css::styles table_row;
+	extern const css::styles table_cell;
 }
+#endif
 
 #endif

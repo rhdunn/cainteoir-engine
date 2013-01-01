@@ -23,16 +23,18 @@
 
 #include "tester.hpp"
 
+namespace css = cainteoir::css;
+
 REGISTER_TESTSUITE("content");
 
-static void test_conversion_(float aFromValue, const cainteoir::size_units aFromUnits,
-                             float aToValue, const cainteoir::size_units aToUnits,
+static void test_conversion_(float aFromValue, const css::size_units aFromUnits,
+                             float aToValue, const css::size_units aToUnits,
                              bool throws,
                              const char *location, int line)
 {
 	try
 	{
-		cainteoir::size to = cainteoir::size(aFromValue, aFromUnits).as(aToUnits);
+		css::size to = css::size(aFromValue, aFromUnits).as(aToUnits);
 		assert_location(to.units() == aToUnits, location, line);
 		assert_location(to.value() == aToValue, location, line);
 		assert_location(!throws, location, line);
@@ -47,7 +49,7 @@ static void test_conversion_(float aFromValue, const cainteoir::size_units aFrom
 
 TEST_CASE("unit conversion")
 {
-	using cainteoir::size_units;
+	using css::size_units;
 
 	test_conversion(1, size_units::inherit, 1, size_units::inherit,     true);
 	test_conversion(1, size_units::inherit, 1, size_units::millimeters, true);
@@ -108,729 +110,729 @@ TEST_CASE("unit conversion")
 
 TEST_CASE("style defaults")
 {
-	cainteoir::styles styles("defaults");
+	css::styles styles("defaults");
 	assert(styles.name == "defaults");
-	assert(styles.display == cainteoir::display::inherit);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::inherit);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - unknown")
 {
-	cainteoir::styles styles = cainteoir::unknown;
+	css::styles styles = cainteoir::unknown;
 	assert(styles.name == "unknown");
-	assert(styles.display == cainteoir::display::inherit);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::inherit);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - paragraph")
 {
-	cainteoir::styles styles = cainteoir::paragraph;
+	css::styles styles = cainteoir::paragraph;
 	assert(styles.name == "paragraph");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family == "sans-serif");
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 1);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::paragraph);
+	assert(styles.text_structure == css::text_structure::paragraph);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - heading0")
 {
-	cainteoir::styles styles = cainteoir::heading0;
+	css::styles styles = cainteoir::heading0;
 	assert(styles.name == "heading0");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::center);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::normal);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::center);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::normal);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family == "serif");
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 2);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.text_structure == css::text_structure::heading);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - heading1")
 {
-	cainteoir::styles styles = cainteoir::heading1;
+	css::styles styles = cainteoir::heading1;
 	assert(styles.name == "heading1");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::center);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::normal);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::center);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::normal);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family == "serif");
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 2);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.text_structure == css::text_structure::heading);
 	assert(styles.toc_level == 1);
 }
 
 TEST_CASE("style - heading2")
 {
-	cainteoir::styles styles = cainteoir::heading2;
+	css::styles styles = cainteoir::heading2;
 	assert(styles.name == "heading2");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::center);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::normal);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::center);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::normal);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family == "serif");
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 1.5);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 2);
-	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.text_structure == css::text_structure::heading);
 	assert(styles.toc_level == 2);
 }
 
 TEST_CASE("style - heading3")
 {
-	cainteoir::styles styles = cainteoir::heading3;
+	css::styles styles = cainteoir::heading3;
 	assert(styles.name == "heading3");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::center);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::bold);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::center);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::bold);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family == "serif");
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 1);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.text_structure == css::text_structure::heading);
 	assert(styles.toc_level == 3);
 }
 
 TEST_CASE("style - heading4")
 {
-	cainteoir::styles styles = cainteoir::heading4;
+	css::styles styles = cainteoir::heading4;
 	assert(styles.name == "heading4");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::center);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::normal);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::center);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::normal);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family == "serif");
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 1);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.text_structure == css::text_structure::heading);
 	assert(styles.toc_level == 4);
 }
 
 TEST_CASE("style - heading5")
 {
-	cainteoir::styles styles = cainteoir::heading5;
+	css::styles styles = cainteoir::heading5;
 	assert(styles.name == "heading5");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::left);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::bold);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::left);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::bold);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family == "serif");
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 1);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.text_structure == css::text_structure::heading);
 	assert(styles.toc_level == 5);
 }
 
 TEST_CASE("style - heading6")
 {
-	cainteoir::styles styles = cainteoir::heading6;
+	css::styles styles = cainteoir::heading6;
 	assert(styles.name == "heading6");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::left);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::bold);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::left);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::bold);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family == "serif");
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 1);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::heading);
+	assert(styles.text_structure == css::text_structure::heading);
 	assert(styles.toc_level == 6);
 }
 
 TEST_CASE("style - span")
 {
-	cainteoir::styles styles = cainteoir::span;
+	css::styles styles = cainteoir::span;
 	assert(styles.name == "span");
-	assert(styles.display == cainteoir::display::inlined);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::inlined);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - sentence")
 {
-	cainteoir::styles styles = cainteoir::sentence;
+	css::styles styles = cainteoir::sentence;
 	assert(styles.name == "sentence");
-	assert(styles.display == cainteoir::display::inlined);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::inlined);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::sentence);
+	assert(styles.text_structure == css::text_structure::sentence);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - superscript")
 {
-	cainteoir::styles styles = cainteoir::superscript;
+	css::styles styles = cainteoir::superscript;
 	assert(styles.name == "superscript");
-	assert(styles.display == cainteoir::display::inlined);
-	assert(styles.vertical_align == cainteoir::vertical_align::super);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::inlined);
+	assert(styles.vertical_align == css::vertical_align::super);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 0.75);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - subscript")
 {
-	cainteoir::styles styles = cainteoir::subscript;
+	css::styles styles = cainteoir::subscript;
 	assert(styles.name == "subscript");
-	assert(styles.display == cainteoir::display::inlined);
-	assert(styles.vertical_align == cainteoir::vertical_align::sub);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::inlined);
+	assert(styles.vertical_align == css::vertical_align::sub);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 0.75);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - emphasized")
 {
-	cainteoir::styles styles = cainteoir::emphasized;
+	css::styles styles = cainteoir::emphasized;
 	assert(styles.name == "emphasized");
-	assert(styles.display == cainteoir::display::inlined);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::italic);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::inlined);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::italic);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - emphasized-block")
 {
-	cainteoir::styles styles = cainteoir::emphasized_block;
+	css::styles styles = cainteoir::emphasized_block;
 	assert(styles.name == "emphasized_block");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::italic);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::italic);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::paragraph);
+	assert(styles.text_structure == css::text_structure::paragraph);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - strong")
 {
-	cainteoir::styles styles = cainteoir::strong;
+	css::styles styles = cainteoir::strong;
 	assert(styles.name == "strong");
-	assert(styles.display == cainteoir::display::inlined);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::bold);
+	assert(styles.display == css::display::inlined);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::bold);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - reduced")
 {
-	cainteoir::styles styles = cainteoir::reduced;
+	css::styles styles = cainteoir::reduced;
 	assert(styles.name == "reduced");
-	assert(styles.display == cainteoir::display::inlined);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::normal);
+	assert(styles.display == css::display::inlined);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::normal);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - underlined")
 {
-	cainteoir::styles styles = cainteoir::underlined;
+	css::styles styles = cainteoir::underlined;
 	assert(styles.name == "underlined");
-	assert(styles.display == cainteoir::display::inlined);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::underline);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::inlined);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::underline);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - monospace")
 {
-	cainteoir::styles styles = cainteoir::monospace;
+	css::styles styles = cainteoir::monospace;
 	assert(styles.name == "monospace");
-	assert(styles.display == cainteoir::display::inlined);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::inlined);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family == "monospace");
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 1);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - monospace-block")
 {
-	cainteoir::styles styles = cainteoir::monospace_block;
+	css::styles styles = cainteoir::monospace_block;
 	assert(styles.name == "monospace_block");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family == "monospace");
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 1);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - bullet_list")
 {
-	cainteoir::styles styles = cainteoir::bullet_list;
+	css::styles styles = cainteoir::bullet_list;
 	assert(styles.name == "bullet_list");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type == "disc");
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - number_list")
 {
-	cainteoir::styles styles = cainteoir::number_list;
+	css::styles styles = cainteoir::number_list;
 	assert(styles.name == "number_list");
-	assert(styles.display == cainteoir::display::block);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::block);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type == "decimal");
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - list_item")
 {
-	cainteoir::styles styles = cainteoir::list_item;
+	css::styles styles = cainteoir::list_item;
 	assert(styles.name == "list_item");
-	assert(styles.display == cainteoir::display::list_item);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::list_item);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family == "sans-serif");
-	assert(styles.font_size.units() == cainteoir::size_units::picas);
+	assert(styles.font_size.units() == css::size_units::picas);
 	assert(styles.font_size.value() == 1);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - table")
 {
-	cainteoir::styles styles = cainteoir::table;
+	css::styles styles = cainteoir::table;
 	assert(styles.name == "table");
-	assert(styles.display == cainteoir::display::table);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::table);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - table_row")
 {
-	cainteoir::styles styles = cainteoir::table_row;
+	css::styles styles = cainteoir::table_row;
 	assert(styles.name == "table_row");
-	assert(styles.display == cainteoir::display::table_row);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::table_row);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::picas);
+	assert(styles.margin.bottom.units() == css::size_units::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }
 
 TEST_CASE("style - table_cell")
 {
-	cainteoir::styles styles = cainteoir::table_cell;
+	css::styles styles = cainteoir::table_cell;
 	assert(styles.name == "table_cell");
-	assert(styles.display == cainteoir::display::table_cell);
-	assert(styles.vertical_align == cainteoir::vertical_align::inherit);
-	assert(styles.text_align == cainteoir::text_align::inherit);
-	assert(styles.text_decoration == cainteoir::text_decoration::inherit);
-	assert(styles.font_style == cainteoir::font_style::inherit);
-	assert(styles.font_variant == cainteoir::font_variant::inherit);
-	assert(styles.font_weight == cainteoir::font_weight::inherit);
+	assert(styles.display == css::display::table_cell);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant == css::font_variant::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
 	assert(styles.list_style_type.empty());
 	assert(styles.font_family.empty());
-	assert(styles.font_size.units() == cainteoir::size_units::inherit);
+	assert(styles.font_size.units() == css::size_units::inherit);
 	assert(styles.font_size.value() == 0);
-	assert(styles.margin.left.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.left.units() == css::size_units::inherit);
 	assert(styles.margin.left.value() == 0);
-	assert(styles.margin.top.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.top.units() == css::size_units::inherit);
 	assert(styles.margin.top.value() == 0);
-	assert(styles.margin.right.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.right.units() == css::size_units::inherit);
 	assert(styles.margin.right.value() == 0);
-	assert(styles.margin.bottom.units() == cainteoir::size_units::inherit);
+	assert(styles.margin.bottom.units() == css::size_units::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == cainteoir::text_structure::none);
+	assert(styles.text_structure == css::text_structure::none);
 	assert(styles.toc_level == 0);
 }

@@ -26,72 +26,66 @@
 #include <cstdio>
 #include <getopt.h>
 
+namespace css    = cainteoir::css;
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
-void format_style(const cainteoir::styles &styles)
+void format_style(const css::styles &styles)
 {
-	using cainteoir::display;
-	using cainteoir::vertical_align;
-	using cainteoir::text_decoration;
-	using cainteoir::font_style;
-	using cainteoir::font_weight;
-	using cainteoir::text_structure;
-
 	switch (styles.display)
 	{
-	case display::inherit:    break;
-	case display::block:
+	case css::display::inherit:    break;
+	case css::display::block:
 		switch (styles.text_structure)
 		{
-		case text_structure::none:      fprintf(stdout, "block"); break;
-		case text_structure::paragraph: fprintf(stdout, "paragraph"); break;
-		case text_structure::heading:   fprintf(stdout, "heading %d", styles.toc_level); return;
+		case css::text_structure::none:      fprintf(stdout, "block"); break;
+		case css::text_structure::paragraph: fprintf(stdout, "paragraph"); break;
+		case css::text_structure::heading:   fprintf(stdout, "heading %d", styles.toc_level); return;
 		}
 		break;
-	case display::inlined:
+	case css::display::inlined:
 		switch (styles.text_structure)
 		{
-		case text_structure::none:     fprintf(stdout, "span"); break;
-		case text_structure::sentence: fprintf(stdout, "sentence"); break;
+		case css::text_structure::none:     fprintf(stdout, "span"); break;
+		case css::text_structure::sentence: fprintf(stdout, "sentence"); break;
 		}
 		break;
-	case display::list_item:  fprintf(stdout, "list-item"); break;
-	case display::table:      fprintf(stdout, "table"); break;
-	case display::table_row:  fprintf(stdout, "row"); break;
-	case display::table_cell: fprintf(stdout, "cell"); break;
-	case display::none:       fprintf(stdout, "none"); break;
+	case css::display::list_item:  fprintf(stdout, "list-item"); break;
+	case css::display::table:      fprintf(stdout, "table"); break;
+	case css::display::table_row:  fprintf(stdout, "row"); break;
+	case css::display::table_cell: fprintf(stdout, "cell"); break;
+	case css::display::none:       fprintf(stdout, "none"); break;
 	}
 
 	switch (styles.vertical_align)
 	{
-	case vertical_align::inherit:  break;
-	case vertical_align::baseline: fprintf(stdout, " +baseline"); break;
-	case vertical_align::sub:      fprintf(stdout, " +subscript"); break;
-	case vertical_align::super:    fprintf(stdout, " +superscript"); break;
+	case css::vertical_align::inherit:  break;
+	case css::vertical_align::baseline: fprintf(stdout, " +baseline"); break;
+	case css::vertical_align::sub:      fprintf(stdout, " +subscript"); break;
+	case css::vertical_align::super:    fprintf(stdout, " +superscript"); break;
 	}
 
 	switch (styles.text_decoration)
 	{
-	case text_decoration::inherit:      break;
-	case text_decoration::none:         fprintf(stdout, " -underline -line-through"); break;
-	case text_decoration::underline:    fprintf(stdout, " +underline"); break;
-	case text_decoration::line_through: fprintf(stdout, " +line-through"); break;
+	case css::text_decoration::inherit:      break;
+	case css::text_decoration::none:         fprintf(stdout, " -underline -line-through"); break;
+	case css::text_decoration::underline:    fprintf(stdout, " +underline"); break;
+	case css::text_decoration::line_through: fprintf(stdout, " +line-through"); break;
 	}
 
 	switch (styles.font_style)
 	{
-	case font_style::inherit: break;
-	case font_style::normal:  fprintf(stdout, " +normal-style"); break;
-	case font_style::italic:  fprintf(stdout, " +emphasized"); break;
-	case font_style::oblique: fprintf(stdout, " +oblique"); break;
+	case css::font_style::inherit: break;
+	case css::font_style::normal:  fprintf(stdout, " +normal-style"); break;
+	case css::font_style::italic:  fprintf(stdout, " +emphasized"); break;
+	case css::font_style::oblique: fprintf(stdout, " +oblique"); break;
 	}
 
 	switch (styles.font_weight)
 	{
-	case font_weight::inherit: break;
-	case font_weight::normal:  fprintf(stdout, " +normal-weight"); break;
-	case font_weight::bold:    fprintf(stdout, " +strong"); break;
+	case css::font_weight::inherit: break;
+	case css::font_weight::normal:  fprintf(stdout, " +normal-weight"); break;
+	case css::font_weight::bold:    fprintf(stdout, " +strong"); break;
 	}
 
 	if (!styles.list_style_type.empty())

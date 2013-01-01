@@ -27,6 +27,7 @@
 #include <stdexcept>
 #include <stack>
 
+namespace css    = cainteoir::css;
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
@@ -39,17 +40,17 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 		{
 			if (reader->styles) switch (reader->styles->display)
 			{
-			case cainteoir::display::block:
-			case cainteoir::display::table:
-			case cainteoir::display::table_row:
+			case css::display::block:
+			case css::display::table:
+			case css::display::table_row:
 				if (need_linebreak)
 				{
 					fwrite("\n\n", 1, 2, stdout);
 					need_linebreak = false;
 				}
 				break;
-			case cainteoir::display::table_cell:
-			case cainteoir::display::list_item:
+			case css::display::table_cell:
+			case css::display::list_item:
 				if (need_linebreak)
 				{
 					fwrite("\n", 1, 1, stdout);
@@ -82,30 +83,30 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 			std::pair<std::string, bool> context;
 			if (reader->styles) switch (reader->styles->display)
 			{
-			case cainteoir::display::inlined:
-				if (reader->styles->font_weight == cainteoir::font_weight::bold)
+			case css::display::inlined:
+				if (reader->styles->font_weight == css::font_weight::bold)
 					context = { "strong", false };
-				else if (reader->styles->font_style == cainteoir::font_style::italic)
+				else if (reader->styles->font_style == css::font_style::italic)
 					context = { "strong", false };
-				else if (reader->styles->vertical_align == cainteoir::vertical_align::sub)
+				else if (reader->styles->vertical_align == css::vertical_align::sub)
 					context = { "sub", false };
-				else if (reader->styles->vertical_align == cainteoir::vertical_align::super)
+				else if (reader->styles->vertical_align == css::vertical_align::super)
 					context = { "sup", false };
-				else if (reader->styles->text_decoration == cainteoir::text_decoration::underline)
+				else if (reader->styles->text_decoration == css::text_decoration::underline)
 					context = { "u", false };
 				else if (reader->styles->font_family == "monospace")
 					context = { "tt", false };
 				else
 					context = { "span", false };
 				break;
-			case cainteoir::display::block:
+			case css::display::block:
 				if (reader->styles->font_family == "monospace")
 					context = { "pre", false };
 				else if (reader->styles->list_style_type == "disc")
 					context = { "ul", false };
 				else if (reader->styles->list_style_type == "decimal")
 					context = { "ol", false };
-				else if (reader->styles->text_structure == cainteoir::text_structure::heading) switch (reader->styles->toc_level)
+				else if (reader->styles->text_structure == css::text_structure::heading) switch (reader->styles->toc_level)
 				{
 				case 1:  context = { "h1", true }; break;
 				case 2:  context = { "h2", true }; break;
@@ -117,16 +118,16 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 				else
 					context = { "p", false };
 				break;
-			case cainteoir::display::table:
+			case css::display::table:
 				context = { "table", false };
 				break;
-			case cainteoir::display::table_row:
+			case css::display::table_row:
 				context = { "tr", false };
 				break;
-			case cainteoir::display::table_cell:
+			case css::display::table_cell:
 				context = { "td", false };
 				break;
-			case cainteoir::display::list_item:
+			case css::display::list_item:
 				context = { "li", false };
 				break;
 			}

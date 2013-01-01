@@ -21,7 +21,9 @@
 #include <cainteoir/content.hpp>
 #include <stdexcept>
 
-std::string get_counter_style_name(const cainteoir::style_manager &aStyles, const cainteoir::counter_style *aStyle)
+namespace css = cainteoir::css;
+
+std::string get_counter_style_name(const css::style_manager &aStyles, const css::counter_style *aStyle)
 {
 	for (auto &item : aStyles.counter_styles())
 	{
@@ -31,17 +33,16 @@ std::string get_counter_style_name(const cainteoir::style_manager &aStyles, cons
 	return "decimal";
 }
 
-const char *get_counter_system_string(cainteoir::counter_system system)
+const char *get_counter_system_string(css::counter_system system)
 {
-	using cainteoir::counter_system;
 	switch (system)
 	{
-	case counter_system::cyclic:     return "cyclic";
-	case counter_system::fixed:      return "fixed";
-	case counter_system::symbolic:   return "symbolic";
-	case counter_system::alphabetic: return "alphabetic";
-	case counter_system::numeric:    return "numeric";
-	case counter_system::additive:   return "additive";
+	case css::counter_system::cyclic:     return "cyclic";
+	case css::counter_system::fixed:      return "fixed";
+	case css::counter_system::symbolic:   return "symbolic";
+	case css::counter_system::alphabetic: return "alphabetic";
+	case css::counter_system::numeric:    return "numeric";
+	case css::counter_system::additive:   return "additive";
 	default: return nullptr;
 	}
 }
@@ -56,13 +57,13 @@ int main(int argc, char ** argv)
 		if (argc == 0)
 			throw std::runtime_error("no document specified");
 
-		cainteoir::style_manager styles;
+		css::style_manager styles;
 		styles.parse(cainteoir::make_file_buffer(argv[0]));
 		for (auto &item : styles.counter_styles())
 		{
 			fprintf(stdout, "@counter-style %s {\n", item.first.c_str());
 			auto &style = *item.second;
-			if (style.system == cainteoir::counter_system::fixed)
+			if (style.system == css::counter_system::fixed)
 				fprintf(stdout, "\tsystem: fixed %d;\n", style.initial_symbol_value);
 			else
 				fprintf(stdout, "\tsystem: %s;\n", get_counter_system_string(style.system));
@@ -70,15 +71,15 @@ int main(int argc, char ** argv)
 			fprintf(stdout, "\tprefix: '%s';\n", style.prefix.c_str());
 			fprintf(stdout, "\tsuffix: '%s';\n", style.suffix.c_str());
 			fprintf(stdout, "\trange:");
-			if (style.range == cainteoir::counter_style::get_auto_range(style.system))
+			if (style.range == css::counter_style::get_auto_range(style.system))
 				fprintf(stdout, " auto");
 			else
 			{
-				if (style.range.first == cainteoir::counter_style::infinite.first)
+				if (style.range.first == css::counter_style::infinite.first)
 					fprintf(stdout, " infinite");
 				else
 					fprintf(stdout, " %d", style.range.first);
-				if (style.range.second == cainteoir::counter_style::infinite.second)
+				if (style.range.second == css::counter_style::infinite.second)
 					fprintf(stdout, " infinite");
 				else
 					fprintf(stdout, " %d", style.range.second);

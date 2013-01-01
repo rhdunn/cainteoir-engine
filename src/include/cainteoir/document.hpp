@@ -46,7 +46,7 @@ namespace cainteoir
 		}
 
 		uint32_t type;
-		const cainteoir::styles *styles;
+		const cainteoir::css::styles *styles;
 		std::shared_ptr<buffer> text;
 		rdf::uri anchor;
 	};

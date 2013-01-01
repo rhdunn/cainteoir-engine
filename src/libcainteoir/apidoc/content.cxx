@@ -19,6 +19,11 @@
  */
 
 
+/** @namespace cainteoir::css
+  * @brief     Cascading Style Sheet (CSS) implementation
+  */
+
+
 /** @defgroup css_counter_styles CSS Counter Styles
   * @brief    Implementation of the CSS Counter Styles Level 3 specification.
   * @see      http://www.w3.org/TR/css-counter-styles-3/
@@ -29,14 +34,14 @@
   */
 
 
-/** @enum    cainteoir::counter_system
+/** @enum    cainteoir::css::counter_system
   * @ingroup css_counter_styles
   * @brief   The algorithm used to construct the counter's representation.
   * @see     http://www.w3.org/TR/css-counter-styles-3/#counter-style-system
   */
 
 
-/** @struct  cainteoir::counter_style
+/** @struct  cainteoir::css::counter_style
   * @ingroup css_counter_styles
   * @brief   Represents a \@counter-style CSS rule.
   * @see     http://www.w3.org/TR/css-counter-styles-3/#the-csscounterstylerule-interface

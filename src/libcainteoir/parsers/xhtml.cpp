@@ -349,7 +349,7 @@ private:
 	int hid;
 	bool genAnchor;
 	std::stack<context_data> ctx;
-	cainteoir::style_manager stylemgr;
+	cainteoir::css::style_manager stylemgr;
 
 	std::string parseLangAttr();
 };
@@ -591,7 +591,7 @@ bool html_document_reader::read()
 		}
 		break;
 	case xml::reader::beginTagNode:
-		if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item)
+		if (reader->context()->styles && reader->context()->styles->display == cainteoir::css::display::list_item)
 		{
 			std::string marker;
 			auto list_styles = ctx.top().ctx->styles;
@@ -623,7 +623,7 @@ bool html_document_reader::read()
 				if (!reader->context()->styles->list_style_type.empty())
 					ctx.push({ reader->context(), 1 });
 
-				if (reader->context()->styles->text_structure == cainteoir::text_structure::heading)
+				if (reader->context()->styles->text_structure == cainteoir::css::text_structure::heading)
 				{
 					htext.clear();
 					genAnchor = true;
@@ -669,7 +669,7 @@ bool html_document_reader::read()
 				return true;
 			}
 		}
-		else if (ctx.top().ctx->styles && ctx.top().ctx->styles->display != cainteoir::display::none)
+		else if (ctx.top().ctx->styles && ctx.top().ctx->styles->display != cainteoir::css::display::none)
 		{
 			text = reader->nodeValue().content();
 			if (text)
@@ -690,10 +690,10 @@ bool html_document_reader::read()
 				styles = reader->context()->styles;
 				anchor = rdf::uri();
 
-				if (styles->text_structure == cainteoir::text_structure::heading)
+				if (styles->text_structure == cainteoir::css::text_structure::heading)
 					mTitle.clear();
 
-				if (styles->text_structure == cainteoir::text_structure::heading && !htext.empty())
+				if (styles->text_structure == cainteoir::css::text_structure::heading && !htext.empty())
 				{
 					text = htext.normalize();
 					for (char *c = (char *)text->begin(), *last = (char *)text->end(); c != last; ++c)
@@ -719,7 +719,7 @@ bool html_document_reader::read()
 				return true;
 			}
 		}
-		else if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item && ctx.top().ctx->styles)
+		else if (reader->context()->styles && reader->context()->styles->display == cainteoir::css::display::list_item && ctx.top().ctx->styles)
 		{
 			type   = events::end_context;
 			styles = reader->context()->styles;
