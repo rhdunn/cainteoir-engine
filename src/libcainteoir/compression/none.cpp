@@ -20,7 +20,8 @@
 
 #include <cainteoir/buffer.hpp>
 
-/** @brief Copy the data in buffer to a memory buffer.
+/** @brief   Copy the data in buffer to a memory buffer.
+  * @ingroup decoders
   *
   * @param[in] data The data buffer to be decoded/decompressed.
   * @param[in] size The size of the decoded/decompressed data buffer.

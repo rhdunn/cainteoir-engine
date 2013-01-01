@@ -81,7 +81,8 @@ struct base64 : public cainteoir::data_buffer
 	}
 };
 
-/** @brief Decode a base64 encoded data buffer.
+/** @brief   Decode a base64 encoded data buffer.
+  * @ingroup decoders
   *
   * @param[in] data The data buffer to be decoded/decompressed.
   * @param[in] size The size of the decoded/decompressed data buffer.

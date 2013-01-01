@@ -129,9 +129,6 @@ namespace cainteoir
 		std::string str() const { return buffer()->str(); }
 	};
 
-	/** @name Decoding/Decompression API */
-	//@{
-
 	typedef std::shared_ptr<buffer> (*decoder_ptr)(const buffer &data, uint32_t size);
 
 	std::shared_ptr<buffer> copy(const buffer &data, uint32_t size);
@@ -143,8 +140,6 @@ namespace cainteoir
 	std::shared_ptr<buffer> decode_quoted_printable(const buffer &data, uint32_t size);
 
 	std::shared_ptr<buffer> decode_base64(const buffer &data, uint32_t size);
-
-	//@}
 }
 
 #endif
