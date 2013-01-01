@@ -94,9 +94,6 @@ namespace cainteoir
 		sentence,
 	};
 
-	/** @brief The algorithm used to construct the counter's representation.
-	  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-system
-	  */
 	enum class counter_system : uint8_t
 	{
 		/** @brief Repeatedly cycles through the specified symbols.
@@ -141,9 +138,6 @@ namespace cainteoir
 		pixels,
 	};
 
-	/** @brief Represents a \@counter-style CSS rule.
-	  * @see   http://www.w3.org/TR/css-counter-styles-3/#the-csscounterstylerule-interface
-	  */
 	struct counter_style
 	{
 		/** @brief The type used for counter values.
