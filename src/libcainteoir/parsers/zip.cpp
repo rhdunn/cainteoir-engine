@@ -25,6 +25,8 @@
 #include <cainteoir/archive.hpp>
 #include <stdexcept>
 
+#ifndef DOXYGEN
+
 #define ZIP_HEADER_MAGIC 0x04034b50
 
 #pragma pack(push, 1)
@@ -123,6 +125,8 @@ const std::list<std::string> &zip_archive::files() const
 {
 	return filelist;
 }
+
+#endif
 
 /** @brief Create an archive for extracting files in a ZIP file.
   *

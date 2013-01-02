@@ -26,13 +26,13 @@ namespace xmlns = cainteoir::xml::xmlns;
 namespace rdf   = cainteoir::rdf;
 
 #ifndef DOXYGEN
+
 namespace smil
 {
 	namespace events = cainteoir::events;
 
 	static const xml::context::entry smil_node = {};
 }
-#endif
 
 static const std::initializer_list<const xml::context::entry_ref> smil_nodes =
 {
@@ -85,3 +85,5 @@ cainteoir::createSmilReader(const std::shared_ptr<xml::reader> &aReader,
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/smil"));
 	return std::make_shared<smil_document_reader>();
 }
+
+#endif

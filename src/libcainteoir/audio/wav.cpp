@@ -29,6 +29,8 @@
 
 namespace rdf = cainteoir::rdf;
 
+#ifndef DOXYGEN
+
 struct WaveHeader
 {
 	// RIFF header
@@ -108,6 +110,8 @@ public:
 		return fwrite(data, 1, len, m_file);
 	}
 };
+
+#endif
 
 /// @private
 std::shared_ptr<cainteoir::audio>

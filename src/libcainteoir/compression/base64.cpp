@@ -23,6 +23,8 @@
 
 #include <cainteoir/buffer.hpp>
 
+#ifndef DOXYGEN
+
 static const char base64_chars[] =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	"abcdefghijklmnopqrstuvwxyz"
@@ -80,6 +82,8 @@ struct base64 : public cainteoir::data_buffer
 		last = current;
 	}
 };
+
+#endif
 
 /// @addtogroup decoders
 /// @{

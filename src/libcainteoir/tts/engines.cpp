@@ -33,6 +33,8 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
+#ifndef DOXYGEN
+
 static inline double percentageof(size_t a, size_t b)
 {
 	return (double(a) / b) * 100.0;
@@ -286,6 +288,8 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 			mTotalTime = (mElapsedTime / mCompleted) * 100.0;
 	}
 }
+
+#endif
 
 /** @struct cainteoir::tts::engines
   * @brief  Manages the available text-to-speech engines.

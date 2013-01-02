@@ -33,6 +33,8 @@
 #include <string.h>
 #include <errno.h>
 
+#ifndef DOXYGEN
+
 class mmap_buffer : public cainteoir::buffer
 {
 	int fd;
@@ -62,6 +64,8 @@ mmap_buffer::~mmap_buffer()
 	if (fd != -1) close(fd);
 	if (first) munmap((void *)first, size());
 }
+
+#endif
 
 /// @addtogroup buffers
 /// @{

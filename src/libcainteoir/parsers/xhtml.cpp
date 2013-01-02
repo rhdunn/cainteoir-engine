@@ -30,6 +30,7 @@ namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
 
 #ifndef DOXYGEN
+
 namespace html
 {
 	// HTML§12.1.2 -- void elements
@@ -171,7 +172,6 @@ namespace html
 	static const xml::context::entry keywords_meta    = {};
 	static const xml::context::entry title_meta       = {};
 }
-#endif
 
 static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 {
@@ -756,3 +756,5 @@ cainteoir::createHtmlReader(const std::shared_ptr<xml::reader> &aReader,
   *
   *    HTML [http://www.whatwg.org/specs/web-apps/current-work/multipage/] -- HTML Living Standard
   */
+
+#endif

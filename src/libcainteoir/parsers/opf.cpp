@@ -27,6 +27,7 @@ namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
 #ifndef DOXYGEN
+
 namespace dc
 {
 	static const xml::context::entry contributor_node = {};
@@ -78,7 +79,6 @@ namespace opf
 	static const xml::context::entry toc_attr       = {};
 	static const xml::context::entry version_attr   = {};
 }
-#endif
 
 static const std::initializer_list<const xml::context::entry_ref> dc_nodes =
 {
@@ -573,3 +573,5 @@ cainteoir::createOpfReader(const std::shared_ptr<xml::reader> &aReader,
 
 	return std::make_shared<opf_document_reader>(aReader, aSubject, aPrimaryMetadata, aMimeType);
 }
+
+#endif

@@ -29,6 +29,7 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace xml    = cainteoir::xml;
 
 #ifndef DOXYGEN
+
 namespace ocf
 {
 	static const xml::context::entry container_node = {};
@@ -38,7 +39,6 @@ namespace ocf
 	static const xml::context::entry fullpath_attr  = {};
 	static const xml::context::entry mediatype_attr = {};
 }
-#endif
 
 static const std::initializer_list<const xml::context::entry_ref> ocf_nodes =
 {
@@ -119,3 +119,5 @@ cainteoir::createOcfReader(const std::shared_ptr<xml::reader> &aReader)
 
 	return std::make_shared<ocf_reader>(aReader);
 }
+
+#endif

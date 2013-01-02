@@ -28,6 +28,8 @@ namespace rdf    = cainteoir::rdf;
 namespace xml    = cainteoir::xml;
 namespace events = cainteoir::events;
 
+#ifndef DOXYGEN
+
 static std::string path_to(const std::string &filename, const std::string &opffile)
 {
 	std::string::size_type pos = opffile.rfind('/');
@@ -150,3 +152,5 @@ cainteoir::createEpubReader(std::shared_ptr<archive> &aData, const rdf::uri &aSu
 {
 	return std::make_shared<epub_document_reader>(aData, aSubject, aPrimaryMetadata, aDefaultEncoding);
 }
+
+#endif

@@ -28,6 +28,8 @@
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
+#ifndef DOXYGEN
+
 struct replacement
 {
 	const char * token;
@@ -432,3 +434,5 @@ cainteoir::createRtfReader(std::shared_ptr<buffer> &aData,
 {
 	return std::make_shared<rtf_document_reader>(aData, aSubject, aPrimaryMetadata, aTitle);
 }
+
+#endif

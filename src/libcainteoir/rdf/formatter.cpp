@@ -23,6 +23,8 @@
 
 namespace rdf = cainteoir::rdf;
 
+#ifndef DOXYGEN
+
 class n3_formatter : public rdf::formatter
 {
 public:
@@ -127,6 +129,8 @@ private:
 	format_type format;
 	std::map<std::string, std::string> namespaces;
 };
+
+#endif
 
 /** @brief Create an RDF serializer.
   *

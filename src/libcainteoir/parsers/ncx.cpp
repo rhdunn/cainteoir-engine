@@ -30,6 +30,7 @@ namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
 #ifndef DOXYGEN
+
 namespace ncx
 {
 	static const xml::context::entry content_node   = {};
@@ -47,7 +48,6 @@ namespace ncx
 	static const xml::context::entry name_attr    = {};
 	static const xml::context::entry src_attr     = {};
 }
-#endif
 
 static const std::initializer_list<const xml::context::entry_ref> ncx_nodes =
 {
@@ -250,3 +250,5 @@ cainteoir::createNcxReader(const std::shared_ptr<xml::reader> &aReader,
 {
 	return std::make_shared<ncx_document_reader>(aReader, aSubject, aPrimaryMetadata, aTitle);
 }
+
+#endif

@@ -27,6 +27,8 @@
 
 namespace utf8 = cainteoir::utf8;
 
+#ifndef DOXYGEN
+
 class normalized_text_buffer : public cainteoir::buffer
 {
 public:
@@ -84,6 +86,8 @@ normalized_text_buffer::~normalized_text_buffer()
 {
 	delete [] first;
 }
+
+#endif
 
 /// @addtogroup buffers
 /// @{

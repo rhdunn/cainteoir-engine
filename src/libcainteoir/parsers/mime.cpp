@@ -32,6 +32,8 @@ namespace rdf    = cainteoir::rdf;
 namespace mime   = cainteoir::mime;
 namespace events = cainteoir::events;
 
+#ifndef DOXYGEN
+
 static inline bool is_mime_header_char(char c)
 {
 	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '-';
@@ -397,3 +399,5 @@ cainteoir::createMimeInHtmlReader(std::shared_ptr<cainteoir::buffer> &aData,
 	auto data = cainteoir::copy(*text, 0);
 	return createMimeReader(data, aSubject, aPrimaryMetadata, aTitle);
 }
+
+#endif

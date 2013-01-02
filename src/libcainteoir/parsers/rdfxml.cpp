@@ -25,6 +25,8 @@ namespace xml   = cainteoir::xml;
 namespace xmlns = cainteoir::xml::xmlns;
 namespace rdf   = cainteoir::rdf;
 
+#ifndef DOXYGEN
+
 namespace cainteoir { namespace rdf
 {
 	namespace events = cainteoir::events;
@@ -350,3 +352,5 @@ cainteoir::createRdfXmlReader(const std::shared_ptr<xml::reader> &aReader,
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/rdf+xml"));
 	return std::make_shared<rdfxml_document_reader>();
 }
+
+#endif

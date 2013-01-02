@@ -31,6 +31,8 @@
 
 namespace rdf = cainteoir::rdf;
 
+#ifndef DOXYGEN
+
 class pulse_audio : public cainteoir::audio
 {
 	pa_simple *pa;
@@ -81,6 +83,8 @@ public:
 		return pa_simple_write(pa, data, len, nullptr);
 	}
 };
+
+#endif
 
 /// @private
 std::shared_ptr<cainteoir::audio>

@@ -27,6 +27,8 @@
 namespace rdf    = cainteoir::rdf;
 namespace xml    = cainteoir::xml;
 
+#ifndef DOXYGEN
+
 struct zip_document_reader : public cainteoir::document_reader
 {
 	zip_document_reader(std::shared_ptr<cainteoir::archive> &aData);
@@ -86,3 +88,5 @@ cainteoir::createZipReader(std::shared_ptr<archive> &aData)
 {
 	return std::make_shared<zip_document_reader>(aData);
 }
+
+#endif

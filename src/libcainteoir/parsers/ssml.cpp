@@ -30,6 +30,7 @@ namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
 #ifndef DOXYGEN
+
 namespace ssml
 {
 	static const xml::context::entry emphasis_node  = { &cainteoir::emphasized };
@@ -46,7 +47,6 @@ namespace ssml
 	static const xml::context::entry emphasis_reduced = { &cainteoir::reduced };
 	static const xml::context::entry emphasis_none    = { &cainteoir::span };
 }
-#endif
 
 static const std::initializer_list<const xml::context::entry_ref> ssml_nodes =
 {
@@ -193,3 +193,5 @@ cainteoir::createSsmlReader(const std::shared_ptr<xml::reader> &aReader,
 
 	return std::make_shared<ssml_document_reader>(aReader, aSubject, aPrimaryMetadata, aTitle);
 }
+
+#endif

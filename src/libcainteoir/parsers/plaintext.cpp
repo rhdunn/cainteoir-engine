@@ -23,6 +23,8 @@
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
+#ifndef DOXYGEN
+
 struct plaintext_document_reader : public cainteoir::document_reader
 {
 	enum state
@@ -111,3 +113,5 @@ cainteoir::createPlainTextReader(std::shared_ptr<buffer> &aData,
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("text/plain"));
 	return std::make_shared<plaintext_document_reader>(aData, aSubject, aTitle);
 }
+
+#endif
