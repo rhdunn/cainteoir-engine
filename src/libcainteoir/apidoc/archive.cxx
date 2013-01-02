@@ -18,9 +18,18 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/** @defgroup archive Archive
+  * @brief    Support for reading the content of archive files.
+  */
+
+/// @addtogroup archive
+/// @{
+
 /** @struct cainteoir::archive
   * @brief  An interface for extracting documents from an archive file format.
   */
+
+/// @}
 
 /** @fn    cainteoir::archive::~archive()
   * @brief Clean up the archive object.

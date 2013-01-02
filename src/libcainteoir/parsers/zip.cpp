@@ -128,6 +128,9 @@ const std::list<std::string> &zip_archive::files() const
 
 #endif
 
+/// @addtogroup archive
+/// @{
+
 /** @brief Create an archive for extracting files in a ZIP file.
   *
   * @param[in] aData    A buffer containing the zip file contents.
@@ -140,3 +143,5 @@ cainteoir::create_zip_archive(std::shared_ptr<buffer> aData, const rdf::uri &aSu
 {
 	return std::make_shared<zip_archive>(aData, aSubject);
 }
+
+/// @}
