@@ -63,6 +63,7 @@ data/phonemes/*/*.html
 
 Makefile
 Makefile.in
+docs/cainteoir-engine.doxyconf
 
 .libs/
 .deps/

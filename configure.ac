@@ -260,10 +260,20 @@ if test $UPDATE_MIME_DATABASE = no; then
 fi
 
 dnl ================================================================
+dnl Doxygen documentation
+dnl ================================================================
+
+AC_CHECK_PROG(HAVE_DOT,dot,yes,no)
+AC_SUBST(HAVE_DOT)
+
+dnl ================================================================
 dnl Generate output.
 dnl ================================================================
 
-AC_CONFIG_FILES([Makefile po/Makefile.in])
+AC_CONFIG_FILES([
+	Makefile
+	po/Makefile.in
+	docs/cainteoir-engine.doxyconf])
 AC_OUTPUT
 
 AC_MSG_NOTICE([
