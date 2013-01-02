@@ -54,6 +54,7 @@ tests/xmlcssparser
 README.html
 docs/*.html
 docs/*/*.html
+!docs/doxygen/*.html
 docs/implementation-status/csv2html.stamp
 data/phonemes/*.html
 data/phonemes/*/*.html
