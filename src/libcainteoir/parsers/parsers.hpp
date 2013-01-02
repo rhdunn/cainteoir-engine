@@ -265,6 +265,9 @@ namespace cainteoir
 	std::shared_ptr<document_reader>
 	createZipReader(std::shared_ptr<archive> &aData);
 
+	/** @brief Parse a MIME header and body
+	  * @private
+	  */
 	std::pair<bool, std::shared_ptr<buffer>>
 	parseMimeHeaders(std::shared_ptr<buffer> &aData,
                          const rdf::uri &aSubject,
