@@ -18,9 +18,18 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/** @defgroup ranges Ranges
+  * @brief    C++11 range-based for loop helpers.
+  */
+
+/// @addtogroup ranges
+/// @{
+
 /** @class cainteoir::range
   * @brief A sequence of items between two iterators.
   */
+
+/// @}
 
 /** @var   Iterator cainteoir::range<Iterator>::first
   * @brief The first item in the range.
@@ -74,6 +83,9 @@
   * @retval false If the range is not empty.
   */
 
+/// @addtogroup ranges
+/// @{
+
 /** @fn    cainteoir::range<typename Container::const_reverse_iterator> cainteoir::reverse(const Container &c)
   * @brief Traverse the container in reverse order.
   *
@@ -89,3 +101,5 @@
   *         std::cout << item << std::endl;
   * @endcode
   */
+
+/// @}
