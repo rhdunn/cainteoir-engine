@@ -42,22 +42,28 @@
   */
 
 
-/** @struct  cainteoir::css::length
-  * @ingroup css_units
-  * @brief   Represents a CSS length.
-  * @see     http://www.w3.org/TR/css3-values/#lengths
+/// @addtogroup css_units
+/// @{
+
+/** @struct cainteoir::css::length
+  * @brief  Represents a CSS length.
+  * @see    http://www.w3.org/TR/css3-values/#lengths
+  */
+
+/// @}
+/// @addtogroup css_counter_styles
+/// @{
+
+
+/** @enum  cainteoir::css::counter_system
+  * @brief The algorithm used to construct the counter's representation.
+  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-system
   */
 
 
-/** @enum    cainteoir::css::counter_system
-  * @ingroup css_counter_styles
-  * @brief   The algorithm used to construct the counter's representation.
-  * @see     http://www.w3.org/TR/css-counter-styles-3/#counter-style-system
+/** @struct cainteoir::css::counter_style
+  * @brief  Represents a \@counter-style CSS rule.
+  * @see    http://www.w3.org/TR/css-counter-styles-3/#the-csscounterstylerule-interface
   */
 
-
-/** @struct  cainteoir::css::counter_style
-  * @ingroup css_counter_styles
-  * @brief   Represents a \@counter-style CSS rule.
-  * @see     http://www.w3.org/TR/css-counter-styles-3/#the-csscounterstylerule-interface
-  */
+/// @}

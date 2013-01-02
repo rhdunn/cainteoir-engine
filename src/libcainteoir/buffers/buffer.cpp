@@ -132,12 +132,16 @@ const cainteoir::buffer::match_type cainteoir::buffer::ignore_case = strncasecmp
   * @brief    Decode encoded data and decompress compressed data.
   */
 
+/// @addtogroup decoders
+/// @{
+
 /** @typedef std::shared_ptr<cainteoir::buffer> (*cainteoir::decoder_ptr)(const buffer &data, uint32_t size)
   * @brief   Pointer to a decoding/decompression algorithm.
-  * @ingroup decoders
   *
   * @param[in] data The data buffer to be decoded/decompressed.
   * @param[in] size The size of the decoded/decompressed data buffer.
   *
   * @return The new data buffer.
   */
+
+/// @}
