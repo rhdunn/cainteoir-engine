@@ -25,6 +25,9 @@
 
 namespace utf8 = cainteoir::utf8;
 
+/// @addtogroup encoding
+///@{
+
 /** @brief Write a UTF-8 character to an output buffer.
   *
   * @param[in] out The output buffer to write the UTF-8 character to.
@@ -121,3 +124,5 @@ const char *utf8::prev(const char *c)
 		;
 	return c;
 }
+
+/// @}

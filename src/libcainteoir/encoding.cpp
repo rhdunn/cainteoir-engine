@@ -134,9 +134,18 @@ struct iconv_decoder : public cainteoir::detail::decoder
 	iconv_t cvt;
 };
 
+/** @defgroup encoding Character Encoding
+  * @brief    Helpers for working with UTF-8 and other character encodings.
+  */
+
+/// @addtogroup encoding
+///@{
+
 /** @struct cainteoir::encoding
   * @brief  Manage the conversion of text in different character encodings to UTF-8.
   */
+
+/// @}
 
 /** @brief Initialize the encoder with the specified Windows codepage.
   *
