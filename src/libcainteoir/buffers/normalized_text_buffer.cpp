@@ -85,6 +85,9 @@ normalized_text_buffer::~normalized_text_buffer()
 	delete [] first;
 }
 
+/// @addtogroup buffers
+/// @{
+
 /** @brief Create a whitespace-normalized buffer.
   *
   * @param[in] aBuffer The buffer containing the text to normalize.
@@ -99,3 +102,5 @@ std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<bu
 {
 	return std::make_shared<normalized_text_buffer>(aBuffer);
 }
+
+/// @}

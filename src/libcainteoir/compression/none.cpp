@@ -20,8 +20,14 @@
 
 #include <cainteoir/buffer.hpp>
 
-/** @brief   Copy the data in buffer to a memory buffer.
-  * @ingroup decoders
+/// @addtogroup buffers
+/// @{
+
+/** @brief Copy the data in buffer to a memory buffer.
+  *
+  * This function has the same signature as the @ref decoders "Decoding and Decompression"
+  * API for use when no decoding or decompression is required, but the data still needs
+  * copying.
   *
   * @param[in] data The data buffer to be decoded/decompressed.
   * @param[in] size The size of the decoded/decompressed data buffer.
@@ -32,3 +38,5 @@ std::shared_ptr<cainteoir::buffer> cainteoir::copy(const cainteoir::buffer &comp
 {
 	return cainteoir::make_buffer(compressed.begin(), compressed.size());
 }
+
+/// @}

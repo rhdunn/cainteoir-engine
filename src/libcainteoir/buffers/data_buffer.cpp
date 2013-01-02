@@ -23,9 +23,14 @@
 
 #include <cainteoir/buffer.hpp>
 
+/// @addtogroup buffers
+/// @{
+
 /** @class cainteoir::data_buffer
   * @brief A buffer allocated in memory of a given size.
   */
+
+/// @}
 
 /** @brief Create a memory buffer of the requested size.
   *
@@ -44,6 +49,9 @@ cainteoir::data_buffer::~data_buffer()
 {
 	delete [] first;
 }
+
+/// @addtogroup buffers
+/// @{
 
 /** @brief Create a data buffer with the content of the string.
   *
@@ -71,3 +79,5 @@ std::shared_ptr<cainteoir::buffer> cainteoir::make_buffer(const char *aString, i
 	memcpy((void *)data->begin(), aString, aLength);
 	return data;
 }
+
+/// @}

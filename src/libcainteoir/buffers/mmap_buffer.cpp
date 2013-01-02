@@ -63,6 +63,9 @@ mmap_buffer::~mmap_buffer()
 	if (first) munmap((void *)first, size());
 }
 
+/// @addtogroup buffers
+/// @{
+
 /** @brief Create a buffer from a file.
   *
   * @param[in] path The path of the file to read the data from.
@@ -76,3 +79,5 @@ std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(const char *path)
 {
 	return std::make_shared<mmap_buffer>(path);
 }
+
+/// @}

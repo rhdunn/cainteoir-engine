@@ -23,6 +23,9 @@
 
 #include <cainteoir/buffer.hpp>
 
+/// @addtogroup buffers
+/// @{
+
 /** @class cainteoir::rope
   * @brief Manage a list of buffers.
   *
@@ -30,6 +33,8 @@
   * together. It only concatenates the buffers when requested, performing the
   * operation in one pass.
   */
+
+/// @}
 
 /** @fn    cainteoir::rope::rope()
   * @brief Create an empty rope object.
@@ -133,6 +138,9 @@ std::shared_ptr<cainteoir::buffer> cainteoir::rope::content() const
   * @return The buffer as a C++ string.
   */
 
+/// @addtogroup buffers
+/// @{
+
 /** @brief Create a buffer from a file.
   *
   * @param[in] f The file to read the data from.
@@ -155,3 +163,4 @@ std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(FILE *f)
 	return data.buffer();
 }
 
+///@}

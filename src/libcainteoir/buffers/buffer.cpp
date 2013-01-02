@@ -21,12 +21,21 @@
 #include <cainteoir/buffer.hpp>
 #include <strings.h>
 
+/** @defgroup buffers Buffers
+  * @brief    Magage data or string buffers.
+  */
+
+/// @addtogroup buffers
+/// @{
+
 /** @class cainteoir::buffer
   * @brief Represents a data or string buffer.
   *
   * This class does not manage the lifetime of the data held within it, however
   * derived classes may manage the lifetime.
   */
+
+/// @}
 
 /** @fn    cainteoir::buffer::buffer(const char *f, const char *l)
   * @brief Create a new data buffer from a range.
