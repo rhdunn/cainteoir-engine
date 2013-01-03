@@ -134,7 +134,15 @@ namespace cainteoir { namespace xml
 
 	enum class begin_tag_type
 	{
+		/** @brief The begin tag opens an element block.
+		  */
 		open,
+
+		/** @brief The begin tag creates a self-contained element block.
+		  *
+		  * This makes \<node\> behave the same way as \<node/\>, allowing
+		  * support for void elements as per HTML§12.1.2.
+		  */
 		open_close,
 	};
 

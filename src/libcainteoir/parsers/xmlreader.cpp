@@ -1121,17 +1121,6 @@ void cainteoir::xml::reader::reset_context()
 
 /// @}
 
-/** @var   cainteoir::xml::begin_tag_type::open
-  * @brief The begin tag opens an element block.
-  */
-
-/** @var   cainteoir::xml::begin_tag_type::open_close
-  * @brief The begin tag creates a self-contained element block.
-  *
-  * This makes \<node\> behave the same way as \<node/\>, allowing support for void elements
-  * as per HTML§12.1.2.
-  */
-
 /** References
   *
   *    XML  [http://www.w3.org/TR/2008/REC-xml-20081126/] -- Extensible Markup Language (XML) 1.0 (Fifth Edition)
