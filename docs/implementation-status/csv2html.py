@@ -3,36 +3,91 @@
 import os
 import sys
 
+class StringFormat:
+	def __init__(self, visible=True):
+		self.visible = visible
+		self.implementation = False
+
+	def parse(self, values):
+		return values[0]
+
+class CommentFormat:
+	def __init__(self, visible=True):
+		self.visible = visible
+		self.implementation = False
+
+	def parse(self, values):
+		value = ','.join(values)
+		return value.replace('<', '&lt;').replace('>', '&gt;')
+
+class UrlFormat:
+	def __init__(self, visible=True):
+		self.visible = visible
+		self.implementation = False
+
+	def parse(self, values):
+		return values[0].replace('.csv', '.html')
+
+class StatusFormat:
+	def __init__(self, visible=True, implementation=False):
+		self.visible = visible
+		self.implementation = implementation
+
+	def parse(self, values):
+		if values[0] == 'no':
+			return ('failure', 'No')
+		if values[0] == 'na':
+			return ('na', 'N/A')
+		if values[0].startswith('*'):
+			return ('inprogress', values[0].replace('*', ''))
+		return ('success', values[0])
+
+class StatusSetFormat:
+	def __init__(self, visible=True):
+		self.visible = visible
+		self.implementation = False
+
+	def parse(self, values):
+		status = StatusFormat()
+		ret = []
+		for value in values:
+			x, c = value.split('/')
+			if c in ['no', 'na']:
+				b = x
+				a, _ = status.parse(c)
+			else:
+				a, b = status.parse(x)
+			ret.append((a, b, c))
+		return ret
+
+properties = {
+	'comments': CommentFormat(),
+	'implemented': StatusFormat(implementation=True),
+	'model': StatusFormat(implementation=True),
+	'parsing': StatusFormat(implementation=True),
+	'rdf': StatusFormat(implementation=True),
+	'section': StringFormat(),
+	'tests': StatusFormat(),
+	'title': StringFormat(),
+	'toc': StatusFormat(implementation=True),
+	'tts': StatusFormat(implementation=True),
+	'url': UrlFormat(visible=False),
+	'version': StringFormat(),
+	'versions': StatusSetFormat(),
+}
+
+types = {
+	'css-spec': ['section', 'title', 'url', 'model', 'parsing', 'tests', 'comments'],
+	'format': ['title', 'version', 'url', 'implemented', 'tts', 'rdf', 'toc', 'comments'],
+	'formats': [ 'title', 'url', 'versions' ],
+	'spec': ['section', 'title', 'url', 'implemented', 'tests', 'comments'],
+	'standard': ['version', 'url', 'implemented', 'comments'],
+}
+
 categories = {
 	'document': 'Document Format',
 	'metadata': 'Metadata Export',
 }
-
-def status(value):
-	if value == 'no':
-		return ('failure', 'No')
-	if value == 'na':
-		return ('na', 'N/A')
-	if value.startswith('*'):
-		return ('inprogress', value.replace('*', ''))
-	return ('success', value)
-
-def status_impl(value):
-	x, c = value.split('/')
-	if c in ['no', 'na']:
-		b = x
-		a, _ = status(c)
-	else:
-		a, b = status(x)
-	return (a, b, c)
-
-def url(value):
-	if value.endswith('.csv'):
-		return value.replace('.csv', '.html')
-	return value
-
-def comment(value):
-	return value.replace('<', '&lt;').replace('>', '&gt;')
 
 def parse_csv(filename):
 	ref  = filename.replace('.csv', '')
@@ -57,57 +112,16 @@ def parse_csv(filename):
 			else:
 				try:
 					s = line.split(',')
-					istatus, ivalue = None, None
-					if data['type'] == 'spec':
-						istatus, ivalue = status(s[3])
-						data['support'].append({
-							"section": s[0],
-							"title": s[1],
-							"url": url(s[2]),
-							"implemented": (istatus, ivalue),
-							"tests": status(s[4]),
-							"comments": comment(','.join(s[5:]))
-						})
-					elif data['type'] == 'css-spec':
-						istatus, ivalue = status(s[3])
-						data['support'].append({
-							"section": s[0],
-							"title": s[1],
-							"url": url(s[2]),
-							"model": status(s[3]),
-							"parsing": status(s[4]),
-							"tests": status(s[5]),
-							"comments": comment(','.join(s[6:]))
-						})
-					elif data['type'] == 'standard':
-						istatus, ivalue = status(s[2])
-						data['support'].append({
-							"version": s[0],
-							"url": url(s[1]),
-							"implemented": (istatus, ivalue),
-							"comments": comment(','.join(s[3:]))
-						})
-					elif data['type'] == 'format':
-						istatus, ivalue = status(s[3])
-						data['support'].append({
-							"title": s[0],
-							"version": s[1],
-							"url": url(s[2]),
-							"implemented": (istatus, ivalue),
-							"tts": status(s[4]),
-							"rdf": status(s[5]),
-							"toc": status(s[6]),
-							"comments": comment(','.join(s[7:]))
-						})
-					elif data['type'] == 'formats':
-						data['support'].append({
-							"title": s[0],
-							"url": url(s[1]),
-							"versions": [status_impl(x) for x in s[2:]],
-						})
-					data['items'] = data['items'] + 1
-					if istatus:
-						data[istatus] = data[istatus] + 1
+					props = {}
+					for prop in types[data['type']]:
+						p = properties[prop]
+						props[prop] = p.parse(s)
+						if p.implementation:
+							istatus, ivalue = props[prop]
+							data[istatus] = data[istatus] + 1
+							data['items'] = data['items'] + 1
+						s = s[1:]
+					data['support'].append(props)
 				except ValueError:
 					raise Exception('line "%s" contains too many \',\'s' % line)
 	return ref, data
@@ -177,7 +191,10 @@ for ref, spec in specs.items():
 		f.write('<h1>%s</h1>\n' % title)
 		if spec['type'] != 'formats':
 			f.write('<h2 id="status">Implementation Status</h2>\n')
-			completed = int((float(spec['success']) / (spec['items'] - spec['na'])) * 100)
+			base = spec['items'] - spec['na']
+			completed = 0
+			if base != 0:
+				completed = int((float(spec['success']) / base) * 100)
 			if completed == 0:
 				f.write('<div style="border: 1px solid #ddd;" class="na">%d%%</div>' % completed)
 			else:
