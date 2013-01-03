@@ -38,7 +38,7 @@
   *
   * This is the C++ API to CSS counter styles as defined in the CSS Counter
   * Styles Level 3 specification. The CSS parsing of \@counter-style rules
-  * is handled in the cainteoir::style_manager::parse method.
+  * is handled in the cainteoir::css::style_manager::parse method.
   */
 
 
