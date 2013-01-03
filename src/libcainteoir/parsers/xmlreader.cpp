@@ -31,6 +31,13 @@ using cainteoir::xml::detail::entity_set;
 #include "xml-entities.h"
 #include "html-entities.h"
 
+/** @defgroup xml XML
+  * @brief    XML document processing.
+  */
+
+/// @addtogroup xml
+/// @{
+
 /** @brief Find the predefined entity in the entity table.
   *
   * @param[in] entities The entity table to use to resolve the entity.
@@ -69,6 +76,8 @@ const char * cainteoir::xml::lookup_entity(const detail::entity_set **entities, 
 
 	return nullptr;
 }
+
+/// @}
 
 static std::shared_ptr<cainteoir::buffer>
 parse_entity(const cainteoir::buffer &entity,
@@ -113,6 +122,9 @@ static inline bool xmlspace(char c)
 {
 	return c == ' ' || c == '\t' || c == '\r' || c == '\n';
 }
+
+/// @addtogroup xml
+/// @{
 
 /** @brief Dublin Core Elements namespace.
   */
@@ -210,6 +222,8 @@ const cainteoir::xml::ns cainteoir::xml::xmlns::xsd("xsd", "http://www.w3.org/20
   * @brief  Manage a set of XML namespaces.
   */
 
+/// @}
+
 /** @brief Initialize a new namespace manager object.
   */
 cainteoir::xml::namespaces::namespaces()
@@ -292,6 +306,9 @@ std::string cainteoir::xml::namespaces::lookup(const std::string &aPrefix) const
   * @return The URI associated with the specified namespace prefix.
   */
 
+/// @addtogroup xml
+/// @{
+
 /** @brief The specified element/attribute was not found.
   */
 const cainteoir::xml::context::entry cainteoir::xml::unknown_context = {};
@@ -316,6 +333,8 @@ const cainteoir::xml::context::entry cainteoir::xml::space_attr = {};
   * @brief Attributes in the XML namespace.
   */
 
+/// @}
+
 #ifndef DOXYGEN
 const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir::xml::attrs =
 {
@@ -326,9 +345,14 @@ const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir:
 };
 #endif
 
+/// @addtogroup xml
+/// @{
+
 /** @struct cainteoir::xml::context
   * @brief  Manage looking up XML elements and attributes.
   */
+
+/// @}
 
 /** @fn    cainteoir::xml::context::context()
   * @brief Create an empty context manager object.
@@ -409,9 +433,14 @@ cainteoir::xml::reader::ParserContext::ParserContext(ParserState aState, const c
 {
 }
 
+/// @addtogroup xml
+/// @{
+
 /** @struct cainteoir::xml::reader
   * @brief  Parse an XML document.
   */
+
+/// @}
 
 /** @brief Create a new XML document reader.
   *
@@ -966,9 +995,14 @@ void cainteoir::xml::reader::reset_context()
   * @brief     Predefined XML namespaces.
   */
 
+/// @addtogroup xml
+/// @{
+
 /** @struct cainteoir::xml::ns
   * @brief  Manages an XML namespace.
   */
+
+/// @}
 
 /** @var   cainteoir::xml::ns::prefix
   * @brief The default prefix for the namespace.
@@ -985,6 +1019,9 @@ void cainteoir::xml::reader::reset_context()
   * @param[in] aHref   The URI of the namespace.
   */
 
+/// @addtogroup xml
+/// @{
+
 /** @var   const cainteoir::xml::detail::entity_set *cainteoir::xml::xml_entities[52]
   * @brief XML 1.0 entities.
   */
@@ -992,6 +1029,8 @@ void cainteoir::xml::reader::reset_context()
 /** @var   const cainteoir::xml::detail::entity_set *cainteoir::xml::html_entities[52]
   * @brief HTML 5.0 entities.
   */
+
+/// @}
 
 /** @struct cainteoir::xml::context::entry
   * @brief  Identifies an XML element or attribute.
@@ -1073,9 +1112,14 @@ void cainteoir::xml::reader::reset_context()
   * @brief An ENTITY reference declaration.
   */
 
+/// @addtogroup xml
+/// @{
+
 /** @enum  cainteoir::xml::begin_tag_type
   * @brief Specifies how begin tags are interpreted.
   */
+
+/// @}
 
 /** @var   cainteoir::xml::begin_tag_type::open
   * @brief The begin tag opens an element block.

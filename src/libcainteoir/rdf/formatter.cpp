@@ -132,6 +132,9 @@ private:
 
 #endif
 
+/// @addtogroup rdf
+/// @{
+
 /** @brief Create an RDF serializer.
   *
   * @param[in] aStream     The output stream to serialize the RDF data to.
@@ -147,6 +150,8 @@ std::shared_ptr<rdf::formatter> rdf::create_formatter(std::ostream &aStream, rdf
 /** @struct cainteoir::rdf::formatter
   * @brief  An interface for serializing RDF graphs.
   */
+
+/// @}
 
 /** @fn    cainteoir::rdf::formatter::~formatter
   * @brief Clean up the formatter object.

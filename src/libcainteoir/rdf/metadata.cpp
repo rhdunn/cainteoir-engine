@@ -23,9 +23,26 @@
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 
+/** @defgroup rdf RDF Model
+  * @brief    A C++ representation of the RDF data model.
+  */
+
+/** @defgroup rdf_query RDF Query
+  * @brief    Perform operations on an RDF triple store.
+  */
+
+/** @defgroup rdf_selectors RDF Selectors
+  * @brief    Selectors used to match RDF triples.
+  */
+
+/// @addtogroup rdf
+/// @{
+
 /** @struct cainteoir::rdf::resource
   * @brief  Manages an RDF resource.
   */
+
+/// @}
 
 /** @fn    cainteoir::rdf::resource::~resource
   * @brief Clean up the resource.
@@ -37,6 +54,9 @@ namespace rql = cainteoir::rdf::query;
   * @return The new copy of the resource.
   */
 
+/// @addtogroup rdf
+/// @{
+
 /** @struct cainteoir::rdf::uri
   * @brief  Represents an RDF URI resource.
   *
@@ -45,6 +65,8 @@ namespace rql = cainteoir::rdf::query;
   * the type of connection) and objects (connecting two resources together,
   * e.g. linking an author to a novel).
   */
+
+/// @}
 
 /** @var   std::string cainteoir::rdf::uri::ns
   * @brief The namespace to which the URI resource belongs.
@@ -96,6 +118,9 @@ std::shared_ptr<const rdf::resource> rdf::uri::clone() const
 	return std::make_shared<uri>(*this);
 }
 
+/// @addtogroup rdf
+/// @{
+
 /** @fn    bool cainteoir::rdf::operator==(const cainteoir::rdf::uri &a, const cainteoir::rdf::uri &b)
   * @brief Compare two URIs for equlity.
   *
@@ -120,6 +145,8 @@ std::shared_ptr<const rdf::resource> rdf::uri::clone() const
   * @brief  Manages RDF namespaces used for creating RDF URIs and CURIEs.
   */
 
+/// @}
+
 /** @fn    cainteoir::rdf::ns::ns(const std::string &aPrefix, const std::string &aHref)
   * @brief Create an RDF namespace object.
   *
@@ -132,6 +159,9 @@ std::shared_ptr<const rdf::resource> rdf::uri::clone() const
   *
   * @param aRef The URI reference relative to the namespace.
   */
+
+/// @addtogroup rdf
+/// @{
 
 /** @fn    bool cainteoir::rdf::operator==(const std::string &a, const cainteoir::rdf::ns &b)
   * @brief Check if a URI is referenced by a namespace.
@@ -273,6 +303,8 @@ const rdf::ns rdf::subtag("subtag", "http://rhdunn.github.com/cainteoir/data/ian
   * triple.
   */
 
+/// @}
+
 /** @var   cainteoir::rdf::literal::value
   * @brief The content of the literal.
   */
@@ -331,6 +363,9 @@ std::shared_ptr<const rdf::resource> rdf::literal::clone() const
 	return std::make_shared<literal>(*this);
 }
 
+/// @addtogroup rdf
+/// @{
+
 /** @fn    bool cainteoir::rdf::operator==(const cainteoir::rdf::literal &lhs, const cainteoir::rdf::literal &rhs)
   * @brief Compare two literals for equlity.
   *
@@ -347,6 +382,8 @@ std::shared_ptr<const rdf::resource> rdf::literal::clone() const
   * A triple in RDF is a (subject, predicate, object) statement that describes
   * a relation in the RDF graph.
   */
+
+/// @}
 
 /** @var   const cainteoir::rdf::uri cainteoir::rdf::triple::subject
   * @brief The URI this statement is about.
@@ -371,6 +408,9 @@ std::shared_ptr<const rdf::resource> rdf::literal::clone() const
   * a relation in the RDF graph.
   */
 
+/// @addtogroup rdf_selectors
+/// @{
+
 /** @brief Extract the subject of the RDF triple.
   */
 const rql::detail::subject_t rql::subject;
@@ -391,13 +431,23 @@ const rql::detail::object_t rql::object;
   * @return The object literal's value. If the object is a URI resource, an empty string is returned.
   */
 
+/// @}
+/// @addtogroup rdf_query
+/// @{
+
 /** @typedef std::list<std::shared_ptr<const cainteoir::rdf::triple> > cainteoir::rdf::query::results
   * @brief   The set of RDF triples matching a select query.
   */
 
+/// @}
+/// @addtogroup rdf
+/// @{
+
 /** @struct cainteoir::rdf::triplestore
   * @brief  Hold a set of RDF triples in an RDF graph.
   */
+
+/// @}
 
 /** @fn    void cainteoir::rdf::triplestore::push_back(const_reference item)
   * @brief Add an RDF triple to the triplestore.
@@ -417,9 +467,14 @@ const rql::detail::object_t rql::object;
   * subjects.
   */
 
+/// @addtogroup rdf
+/// @{
+
 /** @struct cainteoir::rdf::graph
   * @brief  Manages an RDF graph.
   */
+
+/// @}
 
 /** @typedef cainteoir::rdf::triplestore::size_type cainteoir::rdf::graph::size_type
   * @brief   The type used to hold size values.
@@ -697,6 +752,9 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
 	return true;
 }
 
+/// @addtogroup rdf_selectors
+/// @{
+
 /** @fn    cainteoir::rdf::query::detail::matches_t<Selector, Value> cainteoir::rdf::query::matches(const Selector &aSelector, const Value &aValue)
   * @brief Match statements whos selector matches the value.
   *
@@ -714,6 +772,10 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
   *
   * @return A function object for matching triples that match both @a a and @a b selectors.
   */
+
+/// @}
+/// @addtogroup rdf_query
+/// @{
 
 /** @fn    cainteoir::rdf::query::results cainteoir::rdf::query::select(const TripleStore &metadata, const Selector &selector)
   * @brief Select statements matching the selector.
@@ -742,3 +804,5 @@ bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate,
   *
   * @return The first literal value matching the selector.
   */
+
+/// @}

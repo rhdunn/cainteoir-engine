@@ -255,10 +255,6 @@ namespace cainteoir { namespace rdf
 		}
 #endif
 
-		/** @name Selectors
-		  */
-		//@{
-
 		extern const detail::subject_t subject;
 
 		extern const detail::predicate_t predicate;
@@ -271,8 +267,6 @@ namespace cainteoir { namespace rdf
 			const rdf::literal *literal = dynamic_cast<const rdf::literal *>(statement->object.get());
 			return literal ? literal->value : nil;
 		}
-
-		//@}
 	}
 
 	namespace query
@@ -372,10 +366,6 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-		/** @name Selectors
-		  */
-		//@{
-
 #ifndef DOXYGEN
 		namespace detail
 		{
@@ -435,8 +425,6 @@ namespace cainteoir { namespace rdf
 		{
 			return detail::both_t<Selector1, Selector2>(a, b);
 		}
-
-		//@}
 
 		template<typename TripleStore, typename Selector>
 		inline results select(const TripleStore &metadata, const Selector &selector)

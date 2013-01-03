@@ -33,6 +33,10 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
+/** @defgroup tts Text-to-Speech
+  * @brief    High-level interface to Text-to-Speech engines and voices.
+  */
+
 #ifndef DOXYGEN
 
 static inline double percentageof(size_t a, size_t b)
@@ -291,9 +295,14 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 
 #endif
 
+/// @addtogroup tts
+/// @{
+
 /** @struct cainteoir::tts::engines
   * @brief  Manages the available text-to-speech engines.
   */
+
+/// @}
 
 /** @brief Create a new text-to-speech engine manager object.
   *
@@ -427,9 +436,14 @@ tts::engines::parameter(tts::parameter::type aType)
 	return active->parameter(aType);
 }
 
+/// @addtogroup tts
+/// @{
+
 /** @struct cainteoir::tts::speech
   * @brief  Manage a speech synthesis session.
   */
+
+/// @}
 
 /** @fn    cainteoir::tts::speech::~speech()
   * @brief Clean up the speech object.
@@ -511,9 +525,14 @@ tts::engines::parameter(tts::parameter::type aType)
   * @brief The number of parameters in the parameter type enumeration.
   */
 
+/// @addtogroup tts
+/// @{
+
 /** @class cainteoir::tts::parameter
   * @brief A configurable option of a text-to-speech engine or voice.
   */
+
+/// @}
 
 /** @fn    cainteoir::tts::parameter::~parameter()
   * @brief Clean up the parameter object.

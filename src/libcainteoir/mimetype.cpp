@@ -31,6 +31,11 @@ namespace xml = cainteoir::xml;
 namespace rdf = cainteoir::rdf;
 namespace m   = cainteoir::mime;
 
+/** @defgroup mime MIME
+  * @brief    MIME type handling.
+  * @see      http://standards.freedesktop.org/shared-mime-info-spec/0.20/
+  */
+
 static std::initializer_list<const char *> mimetype_list = {
 	m::email_mimetype,
 	m::epub_mimetype,
@@ -338,9 +343,14 @@ const cainteoir::mime::mime_info &cainteoir::mime::mimetype_database::operator[]
 
 cainteoir::mime::mimetype_database cainteoir::mime::mimetypes;
 
+/// @addtogroup mime
+/// @{
+
 /** @struct cainteoir::mime::mimetype
   * @brief  Manage a document MIME type with file content detection.
   */
+
+/// @}
 
 /** @var   cainteoir::mime::mimetype::name
   * @brief The name of this mimetype/content.
@@ -467,6 +477,9 @@ const m::mime_info m::mime_data = { mime_magic, "", "", "", {}, {} };
 
 //}}}
 
+/// @addtogroup mime
+/// @{
+
 /** @brief Email mbox (mime) document.
   */
 const m::mimetype m::email("email", m::email_mimetype);
@@ -543,7 +556,4 @@ const m::mimetype m::xml("xml", m::xml_mimetype);
   */
 const m::mimetype m::zip("zip", m::zip_mimetype);
 
-/** References
-  *
-  * 	1.	http://standards.freedesktop.org/shared-mime-info-spec/0.20/
-  */
+/// @}

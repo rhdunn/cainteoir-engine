@@ -29,6 +29,10 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace mime = cainteoir::mime;
 
+/** @defgroup audio Audio
+  * @brief    Manage writing audio data to an audio device or file.
+  */
+
 /// @private
 std::shared_ptr<cainteoir::audio>
 create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
@@ -40,6 +44,9 @@ create_ogg_file(const char *filename, const rdf::uri &format, int channels, int 
 /// @private
 std::shared_ptr<cainteoir::audio>
 create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
+
+/// @addtogroup audio
+/// @{
 
 /** @brief Get the audio formats that are supported by libcainteoir.
   *
@@ -54,7 +61,6 @@ void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 }
 
 /** @brief Create an audio file to write data to.
-  * @todo  Make @a type an rdf::uri that points to the subject of the tts:AudioFormat to use.
   *
   * @param[in] filename       The name of the audio file.
   * @param[in] type           The file type (currently either 'wav' or 'ogg').
@@ -136,6 +142,8 @@ cainteoir::open_audio_device(
 /** @struct cainteoir::audio
   * @brief  Manage an audio device or file.
   */
+
+/// @}
 
 /** @fn    cainteoir::audio::~audio()
   * @brief Cleanup the audio object.
