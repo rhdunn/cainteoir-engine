@@ -128,7 +128,7 @@ const std::list<std::string> &zip_archive::files() const
 
 #endif
 
-/// @addtogroup archive
+/// @addtogroup archives
 /// @{
 
 /** @brief Create an archive for extracting files in a ZIP file.
