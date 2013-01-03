@@ -1,0 +1,42 @@
+@type,css-spec
+@name,CSS Fonts
+@parent,css
+@version,3.0
+@references,css3fonts
+@copyright,Copyright (C) 2013 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# section,title,url,model,parsing,tests,comments
+
+3.1,font-family,,0.11,no,no,
+3.2,font-weight,,*0.11,no,no,
+3.2,bolder,,no,no,no,
+3.2,lighter,,no,no,no,
+3.3,font-stretch,,no,no,no,
+3.4,font-style,,0.11,no,no,
+3.5,font-size,,0.11,no,no,
+3.6,font-size-adjust,,no,no,no,
+3.7,font,,na,no,no,derived property
+3.8,font-synthesis,,no,no,no,
+4.1,@font-face,,no,no,no,
+4.2,font-family,,no,no,no,
+4.3,src,,no,no,no,
+4.4,font-style,,no,no,no,
+4.4,font-weight,,no,no,no,
+4.4,font-stretch,,no,no,no,
+4.5,unicode-range,,no,no,no,
+4.6,font-variant,,no,no,no,
+4.6,font-feature-settings,,no,no,no,
+5,Font Matching,,no,no,no,
+6.2,Language-specific Display,,no,no,no,
+6.3,font-kerning,,no,no,no,
+6.4,font-variant-ligatures,,no,no,no,
+6.5,font-variant-position,,no,no,no,
+6.6,font-variant-caps,,*0.11,no,no,Contains all CSS2 font-variant values.
+6.7,font-variant-numeric,,no,no,no,
+6.8,font-variant-alternates,,no,no,no,
+6.9,@font-feature-values,,no,no,no,
+6.10,font-variant-east-asian,,no,no,no,
+6.11,font-variant,,na,no,no,derived property
+6.12,font-feature-settings,,no,no,no,
+6.13,font-language-override,,no,no,no,
