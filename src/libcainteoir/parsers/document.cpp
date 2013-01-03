@@ -29,6 +29,10 @@
 namespace rdf = cainteoir::rdf;
 namespace mime = cainteoir::mime;
 
+/** @defgroup document_reader Document Reader
+  * @brief    Process a document, extracting metadata, text and semantic information.
+  */
+
 std::shared_ptr<cainteoir::xml::reader>
 cainteoir::createXmlReader(const std::shared_ptr<buffer> &aData, const char *aDefaultEncoding)
 {
@@ -40,6 +44,9 @@ cainteoir::createXmlReader(const std::shared_ptr<buffer> &aData, const char *aDe
 		;
 	return reader;
 }
+
+/// @addtogroup document_reader
+/// @{
 
 /** @brief Create a document content reader.
   *
@@ -223,7 +230,6 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
 
 /** @struct cainteoir::document
   * @brief  Stores the text from a document.
-  * @deprecated Use the document_reader API instead.
   */
 
 /** @struct cainteoir::document_item
@@ -231,6 +237,8 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   *
   * Objects of this type are created by instances of the document_reader interface.
   */
+
+/// @}
 
 /** @fn    cainteoir::document_item::document_item()
   * @brief Initialize the document item object.
@@ -258,9 +266,14 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @brief A uri that references the start of this event.
   */
 
+/// @addtogroup document_reader
+/// @{
+
 /** @struct cainteoir::document_reader
   * @brief  Provides a reader-style API to the events corresponding to the document.
   */
+
+/// @}
 
 /** @fn    cainteoir::document_reader::~document_reader()
   * @brief Destroy the document reader object.
@@ -273,9 +286,14 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @retval false If there are no more events in the document.
   */
 
+/// @addtogroup document_reader
+/// @{
+
 /** @enum  cainteoir::events::event_type
   * @brief The type of the document event.
   */
+
+/// @}
 
 /** @var   cainteoir::events::event_type cainteoir::events::begin_context
   * @brief The start of a rendering context.
@@ -322,9 +340,14 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @endcode
   */
 
+/// @addtogroup document_reader
+/// @{
+
 /** @enum  cainteoir::capability_types
   * @brief The capabilities provided by different document types.
   */
+
+/// @}
 
 /** @var   cainteoir::capability_types cainteoir::metadata_support
   * @brief The document type provides metadata information that can be extracted.
