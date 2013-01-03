@@ -30,6 +30,10 @@ namespace rdf  = cainteoir::rdf;
 namespace rql  = cainteoir::rdf::query;
 namespace lang = cainteoir::language;
 
+/** @defgroup languages Languages
+  * @brief    BCP 47 / RFC 5646 language, region and variant tag processing.
+  */
+
 static std::string to_upper(std::string s)
 {
 	std::transform(s.begin(), s.end(), s.begin(), ::toupper);
@@ -188,6 +192,9 @@ static const lang::tag *lookup_extlang(std::string lang)
 	return &entry->second;
 }
 
+/// @addtogroup languages
+/// @{
+
 /** @brief Extract language tag information from a BCP 47 language id.
   * @see   http://www.ietf.org/rfc/rfc5646.txt
   *
@@ -296,6 +303,8 @@ bool lang::operator==(const tag &a, const tag &b)
   * @brief  Helper for localizing language tags.
   */
 
+/// @}
+
 /** @brief Get the translated ISO 639 language code.
   *
   * @param[in] id The localized tag to localize.
@@ -349,11 +358,16 @@ std::string cainteoir::languages::operator()(const std::string & langid)
 	return name.str();
 }
 
+/// @addtogroup languages
+/// @{
+
 /** @struct cainteoir::language::tag
   * @brief  BCP 47 / RFC 5646 language tag.
   * @see    http://www.ietf.org/rfc/rfc5646.txt
   */
- 
+
+/// @}
+
 /** @fn    cainteoir::language::tag::tag(const std::string &l, const std::string &e, const std::string &s, const std::string &r, const std::string &v)
   * @brief Create a language tag object.
   *
