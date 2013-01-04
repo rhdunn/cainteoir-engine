@@ -3,6 +3,17 @@
 import os
 import sys
 
+status_values = {
+	'no':  ('failure', 'No',  None),
+	'na':  ('na',      'N/A', None),
+	'ed':  ('w3c-ed',  'ED',  'Editor\'s Draft'),
+	'wd':  ('w3c-wd',  'WD',  'Working Draft'),
+	'lc':  ('w3c-lc',  'LC',  'Last Call'),
+	'cr':  ('w3c-cr',  'CR',  'Candidate Recommendation'),
+	'pr':  ('w3c-pr',  'PR',  'Proposed Recommendation'),
+	'rec': ('w3c-rec', 'REC', 'Recommendation'),
+}
+
 class StringFormat:
 	def __init__(self, title, statusref=None, urlref=None):
 		self.title = title
@@ -11,7 +22,7 @@ class StringFormat:
 		self.urlref = urlref
 
 	def parse(self, values):
-		return values[0]
+		return values[0].replace('\\@', '@')
 
 	def html(self, data, ref):
 		if self.urlref and data[self.urlref] != '':
@@ -19,7 +30,7 @@ class StringFormat:
 		else:
 			value = data[ref]
 		if self.statusref in data.keys():
-			status, _ = data[self.statusref]
+			status, _, _ = data[self.statusref]
 			return '\t\t<td class="%s">%s</td>\n' % (status, value)
 		return '\t\t<td>%s</td>\n' % value
 
@@ -52,16 +63,17 @@ class StatusFormat:
 		self.implementation = implementation
 
 	def parse(self, values):
-		if values[0] == 'no':
-			return ('failure', 'No')
-		if values[0] == 'na':
-			return ('na', 'N/A')
+		if values[0] in status_values.keys():
+			return status_values[values[0]]
 		if values[0].startswith('*'):
-			return ('inprogress', values[0].replace('*', ''))
-		return ('success', values[0])
+			return ('inprogress', values[0].replace('*', ''), None)
+		return ('success', values[0], None)
 
 	def html(self, data, ref):
-		return '\t\t<td class="%s">%s</td>\n' % data[ref]
+		status, label, title = data[ref]
+		if title:
+			return '\t\t<td class="%s" title="%s">%s</td>\n' % (status, title, label)
+		return '\t\t<td class="%s">%s</td>\n' % (status, label)
 
 class StatusSetFormat:
 	def __init__(self, title):
@@ -75,9 +87,9 @@ class StatusSetFormat:
 			x, impl = value.split('/')
 			if impl in ['no', 'na']:
 				label = x
-				status, _ = statusfmt.parse([impl])
+				status, _, _ = statusfmt.parse([impl])
 			else:
-				status, label = statusfmt.parse([x])
+				status, label, title = statusfmt.parse([x])
 			ret.append((status, label, impl))
 		return ret
 
@@ -88,12 +100,15 @@ class StatusSetFormat:
 		return ''.join(ret)
 
 properties = {
+	'category': StringFormat('Category'),
 	'comments': CommentFormat('Comments'),
 	'implemented': StatusFormat('Implemented', implementation=True),
+	'item': StringFormat('Name'),
 	'model': StatusFormat('Model', implementation=True),
 	'parsing': StatusFormat('Parsing', implementation=True),
 	'rdf': StatusFormat('Metadata', implementation=True),
 	'section': StringFormat('Section'),
+	'spec': StringFormat('Specification', urlref='url'),
 	'status': StatusFormat(None),
 	'tests': StatusFormat('Tests'),
 	'title': StringFormat('Title', statusref='status', urlref='url'),
@@ -105,6 +120,7 @@ properties = {
 }
 
 types = {
+	'css-index': ['item', 'url', 'implemented', 'spec'],
 	'css-spec': ['section', 'title', 'url', 'model', 'parsing', 'tests', 'comments'],
 	'format': ['title', 'version', 'url', 'status', 'tts', 'rdf', 'toc', 'comments'],
 	'formats': [ 'title', 'url', 'versions' ],
@@ -118,8 +134,12 @@ categories = {
 }
 
 def parse_csv(filename):
-	ref  = filename.replace('.csv', '')
-	data = { "support": [], 'category': 'document', 'items': 0, 'success': 0, 'failure': 0, 'inprogress': 0, 'na': 0 }
+	ref = filename.replace('.csv', '')
+	section = []
+	section_name = 'Implementation Status'
+	data = { "support": [], 'category': 'document', 'items': 0, 'success': 0, 'inprogress': 0 }
+	for item, _, _ in status_values.values():
+		data[item] = 0
 	with open(filename) as f:
 		for line in f:
 			line = line.replace('\n', '')
@@ -137,6 +157,11 @@ def parse_csv(filename):
 						data[key] = value
 				except ValueError:
 					raise Exception('line "%s" contains too many \',\'s' % line)
+			elif line.startswith('['):
+				if len(section) != 0:
+					data['support'].append((section_name, section))
+				section_name = line[1:-1]
+				section = []
 			else:
 				try:
 					s = line.split(',')
@@ -145,30 +170,19 @@ def parse_csv(filename):
 						p = properties[prop]
 						props[prop] = p.parse(s)
 						if p.implementation:
-							istatus, ivalue = props[prop]
+							istatus, _, _ = props[prop]
 							data[istatus] = data[istatus] + 1
 							data['items'] = data['items'] + 1
 						s = s[1:]
-					data['support'].append(props)
+					section.append(props)
 				except ValueError:
 					raise Exception('line "%s" contains too many \',\'s' % line)
+	if len(section) != 0:
+		data['support'].append((section_name, section))
 	return ref, data
 
-def print_url(data, ref, classname=None):
-	if data['url'] == '':
-		if classname:
-			f.write('\t\t<td class="%s">%s</td>\n' % (classname, data[ref].replace(' ', '&#xA0;')))
-		else:
-			f.write('\t\t<td>%s</td>\n' % data[ref].replace(' ', '&#xA0;'))
-	else:
-		if classname:
-			f.write('\t\t<td class="%s"><a href="%s">%s</a></td>\n' % (classname, data['url'], data[ref].replace(' ', '&#xA0;')))
-		else:
-			f.write('\t\t<td><a href="%s">%s</a></td>\n' % (data['url'], data[ref].replace(' ', '&#xA0;')))
-
-def print_status(data, ref=None):
-	status, label = data[ref]
-	f.write('\t\t<td class="%s">%s</td>\n' % (status, label))
+def refname(name):
+	return name.lower().replace(' ', '_')
 
 specs = {}
 for csv in os.listdir('.'):
@@ -211,14 +225,14 @@ for ref, spec in specs.items():
 			else:
 				f.write('  - { title: %s , url: %s.html }\n' % (spec['name'], spec['name'].lower().replace('/', '')))
 				f.write('  - { title: %s }\n' % spec['version'])
+		f.write('sidebar:\n')
+		for section, data in spec['support']:
+			f.write('  - { title: %s , url: "#%s" }\n' % (section, refname(section)))
 		if 'references' in spec.keys() and len(spec['references']) != 0:
-			f.write('sidebar:\n')
-			f.write('  - { title: Implementation Status , url: "#status" }\n')
 			f.write('  - { title: References , url: "#references" }\n')
 		f.write('---\n')
 		f.write('<h1>%s</h1>\n' % title)
 		if spec['type'] != 'formats':
-			f.write('<h2 id="status">Implementation Status</h2>\n')
 			base = spec['items'] - spec['na']
 			completed = 0
 			if base != 0:
@@ -229,25 +243,35 @@ for ref, spec in specs.items():
 				f.write('<div style="border: 1px solid #ddd; padding: 0;" class="na">')
 				f.write('<div style="border: 1px solid #080; width: %d%%;" class="success">%d%%</div>' % (completed, completed))
 				f.write('</div>')
-		f.write('<table style="width: 100%;">\n')
-		if spec['type'] == 'formats':
+			f.write('<table style="width: 100%;">\n')
+			columns = [c for c in types[spec['type']] if properties[c].title]
+			for section, data in spec['support']:
+				f.write('\t<tr><td colspan="%d"><h2 id="%s">%s</h2></td></tr>\n' % (len(columns), refname(section), section))
+				f.write('\t<tr>\n')
+				for column in columns:
+					title = properties[column].title
+					f.write('\t\t<th>%s</th>\n' % title)
+				f.write('\t</tr>\n')
+				for row in data:
+					f.write('\t<tr>\n')
+					for column in columns:
+						prop = properties[column]
+						f.write(prop.html(row, column))
+					f.write('\t</tr>\n')
+			f.write('</table>\n')
+		else:
+			f.write('<table style="width: 100%;">\n')
 			for i in range(0, 9):
 				f.write('\t\t<col width="10%"/>\n')
-		else:
-			f.write('\t<tr>\n')
-			for column in types[spec['type']]:
-				title = properties[column].title
-				if title:
-					f.write('\t\t<th>%s</th>\n' % title)
-			f.write('\t</tr>\n')
-		for data in spec['support']:
-			f.write('\t<tr>\n')
-			for column in types[spec['type']]:
-				prop = properties[column]
-				if prop.title:
-					f.write(prop.html(data, column))
-			f.write('\t</tr>\n')
-		f.write('</table>\n')
+			for section, data in spec['support']:
+				for row in data:
+					f.write('\t<tr>\n')
+					for column in types[spec['type']]:
+						prop = properties[column]
+						if prop.title:
+							f.write(prop.html(row, column))
+					f.write('\t</tr>\n')
+			f.write('</table>\n')
 		if 'references' in spec.keys() and len(spec['references']) != 0:
 			f.write('<h2 id="references">References</h2>\n')
 			f.write('<ol class="references">\n')

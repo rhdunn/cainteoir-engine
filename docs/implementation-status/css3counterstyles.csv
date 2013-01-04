@@ -1,5 +1,7 @@
 @type,css-spec
 @name,CSS Counter Styles
+@status,exploring
+@w3c-status,WD
 @parent,css
 @version,3.0
 @references,css3counterstyles

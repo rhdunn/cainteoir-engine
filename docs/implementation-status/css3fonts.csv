@@ -1,5 +1,7 @@
 @type,css-spec
 @name,CSS Fonts
+@status,revising
+@w3c-status,WD
 @parent,css
 @version,3.0
 @references,css3fonts

@@ -7,6 +7,4 @@
 
 # title,version,url,implemented,tts,rdf,toc,comments
 
-CSS Values and Units,3.0,css3units.csv,*0.11,na,na,na,
-CSS Fonts,3.0,css3fonts.csv,*0.11,na,na,na,
-CSS Counter Styles,3.0,css3counterstyles.csv,*0.11,na,na,na,
+CSS,3.0,css3.csv,*0.11,na,na,na,

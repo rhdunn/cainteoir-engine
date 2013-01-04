@@ -1,5 +1,7 @@
 @type,css-spec
 @name,CSS Values and Units
+@status,testing
+@w3c-status,CR
 @parent,css
 @version,3.0
 @references,css3units

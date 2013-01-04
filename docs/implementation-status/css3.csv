@@ -1,0 +1,130 @@
+@type,css-index
+@name,CSS
+@version,3.0
+@categories,value atrule property function
+@references,css3counterstyles css3fonts css3units
+@copyright,Copyright (C) 2013 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# item,url,implemented,spec
+
+[Specifications]
+
+Specification,css3units.csv,cr,Values and Units Level 3
+Specification,css3fonts.csv,wd,Fonts Level 3
+Specification,css3counterstyles.csv,wd,Counter Styles Level 3
+
+[Values]
+
+Integer,css3units.csv,*0.12,Values and Units Level 3
+Keyword,css3units.csv,*0.12,Values and Units Level 3
+Number,css3units.csv,*0.11,Values and Units Level 3
+Percentage,css3units.csv,no,Values and Units Level 3
+String,css3units.csv,*0.12,Values and Units Level 3
+
+[Units]
+
+ch,css3units.csv,no,Values and Units Level 3
+cm,css3units.csv,*0.11,Values and Units Level 3
+deg,css3units.csv,no,Values and Units Level 3
+dpcm,css3units.csv,no,Values and Units Level 3
+dpi,css3units.csv,no,Values and Units Level 3
+dppx,css3units.csv,no,Values and Units Level 3
+em,css3units.csv,no,Values and Units Level 3
+ex,css3units.csv,no,Values and Units Level 3
+grad,css3units.csv,no,Values and Units Level 3
+Hz,css3units.csv,no,Values and Units Level 3
+in,css3units.csv,*0.11,Values and Units Level 3
+kHz,css3units.csv,no,Values and Units Level 3
+mm,css3units.csv,*0.11,Values and Units Level 3
+ms,css3units.csv,no,Values and Units Level 3
+pc,css3units.csv,*0.11,Values and Units Level 3
+pt,css3units.csv,*0.11,Values and Units Level 3
+px,css3units.csv,*0.11,Values and Units Level 3
+rad,css3units.csv,no,Values and Units Level 3
+rem,css3units.csv,no,Values and Units Level 3
+s,css3units.csv,no,Values and Units Level 3
+turn,css3units.csv,no,Values and Units Level 3
+vh,css3units.csv,no,Values and Units Level 3
+vmax,css3units.csv,no,Values and Units Level 3
+vmin,css3units.csv,no,Values and Units Level 3
+vw,css3units.csv,no,Values and Units Level 3
+
+[At Rules]
+
+\@counter-style,css3counterstyles.csv,*0.11,Counter Styles Level 3
+\@font-face,css3fonts.csv,no,Fonts Level 3
+\@font-feature-values,css3fonts.csv,no,Fonts Level 3
+
+[Properties]
+
+additive-symbols,css3counterstyles.csv,*0.12,Counter Styles Level 3
+fallback,css3counterstyles.csv,*0.12,Counter Styles Level 3
+font,css3fonts.csv,no,Fonts Level 3
+font-family,css3fonts.csv,*0.11,Fonts Level 3
+font-feature-settings,css3fonts.csv,no,Fonts Level 3
+font-kerning,css3fonts.csv,no,Fonts Level 3
+font-language-override,css3fonts.csv,no,Fonts Level 3
+font-size,css3fonts.csv,*0.11,Fonts Level 3
+font-size-adjust,css3fonts.csv,no,Fonts Level 3
+font-stretch,css3fonts.csv,no,Fonts Level 3
+font-style,css3fonts.csv,*0.11,Fonts Level 3
+font-synthesis,css3fonts.csv,no,Fonts Level 3
+font-variant-alternates,css3fonts.csv,no,Fonts Level 3
+font-variant-caps,css3fonts.csv,*0.11,Fonts Level 3
+font-variant-east-asian,css3fonts.csv,no,Fonts Level 3
+font-variant-ligatures,css3fonts.csv,no,Fonts Level 3
+font-variant-numeric,css3fonts.csv,no,Fonts Level 3
+font-variant-position,css3fonts.csv,no,Fonts Level 3
+font-variant,css3fonts.csv,no,Fonts Level 3
+font-weight,css3fonts.csv,*0.11,Fonts Level 3
+negative,css3counterstyles.csv,*0.12,Counter Styles Level 3
+prefix,css3counterstyles.csv,0.12,Counter Styles Level 3
+range,css3counterstyles.csv,*0.12,Counter Styles Level 3
+src,css3fonts.csv,no,Fonts Level 3
+suffix,css3counterstyles.csv,0.12,Counter Styles Level 3
+symbols,css3counterstyles.csv,0.12,Counter Styles Level 3
+system,css3counterstyles.csv,*0.12,Counter Styles Level 3
+unicode-range,css3fonts.csv,no,Fonts Level 3
+
+[Functions]
+
+attr(),css3units.csv,no,Values and Units Level 3
+calc(),css3units.csv,no,Values and Units Level 3
+symbols(),css3counterstyles.csv,no,Counter Styles Level 3
+toggle(),css3units.csv,no,Values and Units Level 3
+url(),css3units.csv,no,Values and Units Level 3
+
+[Counter Styles]
+
+armenian,css3counterstyles.csv,0.12,Counter Styles Level 3
+circle,css3counterstyles.csv,0.12,Counter Styles Level 3
+cjk-decimal,css3counterstyles.csv,0.12,Counter Styles Level 3
+cjk-ideographic,css3counterstyles.csv,no,Counter Styles Level 3
+decimal,css3counterstyles.csv,0.11,Counter Styles Level 3
+decimal-leading-zero,css3counterstyles.csv,0.12,Counter Styles Level 3
+disc,css3counterstyles.csv,0.11,Counter Styles Level 3
+ethiopic-numeric,css3counterstyles.csv,no,Counter Styles Level 3
+georgian,css3counterstyles.csv,0.12,Counter Styles Level 3
+hebrew,css3counterstyles.csv,0.12,Counter Styles Level 3
+hiragana,css3counterstyles.csv,0.12,Counter Styles Level 3
+hiragana-iroha,css3counterstyles.csv,0.12,Counter Styles Level 3
+japanese-formal,css3counterstyles.csv,no,Counter Styles Level 3
+japanese-informal,css3counterstyles.csv,no,Counter Styles Level 3
+katakana,css3counterstyles.csv,0.12,Counter Styles Level 3
+katakana-iroha,css3counterstyles.csv,0.12,Counter Styles Level 3
+korean-hangul-formal,css3counterstyles.csv,no,Counter Styles Level 3
+korean-hanja-formal,css3counterstyles.csv,no,Counter Styles Level 3
+korean-hanja-informal,css3counterstyles.csv,no,Counter Styles Level 3
+lower-alpha,css3counterstyles.csv,0.12,Counter Styles Level 3
+lower-greek,css3counterstyles.csv,0.12,Counter Styles Level 3
+lower-latin,css3counterstyles.csv,0.12,Counter Styles Level 3
+lower-roman,css3counterstyles.csv,0.12,Counter Styles Level 3
+simp-chinese-formal,css3counterstyles.csv,no,Counter Styles Level 3
+simp-chinese-informal,css3counterstyles.csv,no,Counter Styles Level 3
+square,css3counterstyles.csv,0.12,Counter Styles Level 3
+trad-chinese-formal,css3counterstyles.csv,no,Counter Styles Level 3
+trad-chinese-informal,css3counterstyles.csv,no,Counter Styles Level 3
+upper-alpha,css3counterstyles.csv,0.12,Counter Styles Level 3
+upper-latin,css3counterstyles.csv,0.12,Counter Styles Level 3
+upper-roman,css3counterstyles.csv,0.12,Counter Styles Level 3
