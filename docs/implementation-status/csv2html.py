@@ -4,33 +4,51 @@ import os
 import sys
 
 class StringFormat:
-	def __init__(self, visible=True):
-		self.visible = visible
+	def __init__(self, title, statusref=None, urlref=None):
+		self.title = title
 		self.implementation = False
+		self.statusref = statusref
+		self.urlref = urlref
 
 	def parse(self, values):
 		return values[0]
 
+	def html(self, data, ref):
+		if self.urlref and data[self.urlref] != '':
+			value = '<a href="%s">%s</a>' % (data[self.urlref], data[ref])
+		else:
+			value = data[ref]
+		if self.statusref in data.keys():
+			status, _ = data[self.statusref]
+			return '\t\t<td class="%s">%s</td>\n' % (status, value)
+		return '\t\t<td>%s</td>\n' % value
+
 class CommentFormat:
-	def __init__(self, visible=True):
-		self.visible = visible
+	def __init__(self, title):
+		self.title = title
 		self.implementation = False
 
 	def parse(self, values):
 		value = ','.join(values)
 		return value.replace('<', '&lt;').replace('>', '&gt;')
 
+	def html(self, data, ref):
+		return '\t\t<td>%s</td>\n' % data[ref]
+
 class UrlFormat:
-	def __init__(self, visible=True):
-		self.visible = visible
+	def __init__(self, title):
+		self.title = title
 		self.implementation = False
 
 	def parse(self, values):
 		return values[0].replace('.csv', '.html')
 
+	def html(self, data, ref):
+		return '\t\t<td>%s</td>\n' % data[ref]
+
 class StatusFormat:
-	def __init__(self, visible=True, implementation=False):
-		self.visible = visible
+	def __init__(self, title, implementation=False):
+		self.title = title
 		self.implementation = implementation
 
 	def parse(self, values):
@@ -42,43 +60,53 @@ class StatusFormat:
 			return ('inprogress', values[0].replace('*', ''))
 		return ('success', values[0])
 
+	def html(self, data, ref):
+		return '\t\t<td class="%s">%s</td>\n' % data[ref]
+
 class StatusSetFormat:
-	def __init__(self, visible=True):
-		self.visible = visible
+	def __init__(self, title):
+		self.title = title
 		self.implementation = False
 
 	def parse(self, values):
-		status = StatusFormat()
+		statusfmt = StatusFormat(None)
 		ret = []
 		for value in values:
-			x, c = value.split('/')
-			if c in ['no', 'na']:
-				b = x
-				a, _ = status.parse(c)
+			x, impl = value.split('/')
+			if impl in ['no', 'na']:
+				label = x
+				status, _ = statusfmt.parse([impl])
 			else:
-				a, b = status.parse(x)
-			ret.append((a, b, c))
+				status, label = statusfmt.parse([x])
+			ret.append((status, label, impl))
 		return ret
 
+	def html(self, data, ref):
+		ret = []
+		for status, label, impl in data[ref]:
+			ret.append('\t\t<td class="%s" style="width: 10%%;" title="Supported since %s">%s</td>\n' % (status, impl, label))
+		return ''.join(ret)
+
 properties = {
-	'comments': CommentFormat(),
-	'implemented': StatusFormat(implementation=True),
-	'model': StatusFormat(implementation=True),
-	'parsing': StatusFormat(implementation=True),
-	'rdf': StatusFormat(implementation=True),
-	'section': StringFormat(),
-	'tests': StatusFormat(),
-	'title': StringFormat(),
-	'toc': StatusFormat(implementation=True),
-	'tts': StatusFormat(implementation=True),
-	'url': UrlFormat(visible=False),
-	'version': StringFormat(),
-	'versions': StatusSetFormat(),
+	'comments': CommentFormat('Comments'),
+	'implemented': StatusFormat('Implemented', implementation=True),
+	'model': StatusFormat('Model', implementation=True),
+	'parsing': StatusFormat('Parsing', implementation=True),
+	'rdf': StatusFormat('Metadata', implementation=True),
+	'section': StringFormat('Section'),
+	'status': StatusFormat(None),
+	'tests': StatusFormat('Tests'),
+	'title': StringFormat('Title', statusref='status', urlref='url'),
+	'toc': StatusFormat('Table of Content', implementation=True),
+	'tts': StatusFormat('Text', implementation=True),
+	'url': UrlFormat(None),
+	'version': StringFormat('Version'),
+	'versions': StatusSetFormat('Versions'),
 }
 
 types = {
 	'css-spec': ['section', 'title', 'url', 'model', 'parsing', 'tests', 'comments'],
-	'format': ['title', 'version', 'url', 'implemented', 'tts', 'rdf', 'toc', 'comments'],
+	'format': ['title', 'version', 'url', 'status', 'tts', 'rdf', 'toc', 'comments'],
 	'formats': [ 'title', 'url', 'versions' ],
 	'spec': ['section', 'title', 'url', 'implemented', 'tests', 'comments'],
 	'standard': ['version', 'url', 'implemented', 'comments'],
@@ -207,61 +235,17 @@ for ref, spec in specs.items():
 				f.write('\t\t<col width="10%"/>\n')
 		else:
 			f.write('\t<tr>\n')
-			if spec['type'] == 'spec':
-				f.write('\t\t<th style="width: 5%;">Section</th>\n')
-				f.write('\t\t<th style="width: 25%;">Title</th>\n')
-				f.write('\t\t<th style="width: 10%;">Implemented</th>\n')
-				f.write('\t\t<th style="width: 10%;">Tests</th>\n')
-				f.write('\t\t<th style="width: 50%;">Comments</th>\n')
-			elif spec['type'] == 'css-spec':
-				f.write('\t\t<th style="width: 5%;">Section</th>\n')
-				f.write('\t\t<th style="width: 25%;">Title</th>\n')
-				f.write('\t\t<th style="width: 10%;">Model</th>\n')
-				f.write('\t\t<th style="width: 10%;">Parsing</th>\n')
-				f.write('\t\t<th style="width: 10%;">Tests</th>\n')
-				f.write('\t\t<th style="width: 40%;">Comments</th>\n')
-			elif spec['type'] == 'format':
-				f.write('\t\t<th style="width: 10%;">Name</th>\n')
-				f.write('\t\t<th style="width: 10%;">Version</th>\n')
-				f.write('\t\t<th style="width: 10%;">Text</th>\n')
-				f.write('\t\t<th style="width: 10%;">Metadata</th>\n')
-				f.write('\t\t<th style="width: 10%;">Table of Content</th>\n')
-				f.write('\t\t<th style="width: 50%;">Comments</th>\n')
-			else:
-				f.write('\t\t<th style="width: 5%;">Version</th>\n')
-				f.write('\t\t<th style="width: 10%;">Implemented</th>\n')
-				f.write('\t\t<th style="width: 85%;">Comments</th>\n')
+			for column in types[spec['type']]:
+				title = properties[column].title
+				if title:
+					f.write('\t\t<th>%s</th>\n' % title)
 			f.write('\t</tr>\n')
 		for data in spec['support']:
 			f.write('\t<tr>\n')
-			if spec['type'] == 'spec':
-				f.write('\t\t<td>%s</td>\n' % data['section'])
-				print_url(data, 'title')
-				print_status(data, 'implemented')
-				print_status(data, 'tests')
-				f.write('\t\t<td>%s</td>\n' % data['comments'])
-			elif spec['type'] == 'css-spec':
-				f.write('\t\t<td>%s</td>\n' % data['section'])
-				print_url(data, 'title')
-				print_status(data, 'model')
-				print_status(data, 'parsing')
-				print_status(data, 'tests')
-				f.write('\t\t<td>%s</td>\n' % data['comments'])
-			elif spec['type'] == 'format':
-				print_url(data, 'title', classname=data['implemented'][0])
-				f.write('\t\t<td>%s</td>\n' % data['version'])
-				print_status(data, 'tts')
-				print_status(data, 'rdf')
-				print_status(data, 'toc')
-				f.write('\t\t<td>%s</td>\n' % data['comments'])
-			elif spec['type'] == 'formats':
-				print_url(data, 'title')
-				for status, label, impl in data['versions']:
-					f.write('\t\t<td class="%s" style="width: 10%%;" title="Supported since %s">%s</td>\n' % (status, impl, label))
-			else:
-				print_url(data, 'version')
-				print_status(data, 'implemented')
-				f.write('\t\t<td>%s</td>\n' % data['comments'])
+			for column in types[spec['type']]:
+				prop = properties[column]
+				if prop.title:
+					f.write(prop.html(data, column))
 			f.write('\t</tr>\n')
 		f.write('</table>\n')
 		if 'references' in spec.keys() and len(spec['references']) != 0:
