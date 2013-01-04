@@ -199,7 +199,6 @@ std::shared_ptr<rdf::formatter> rdf::create_formatter(std::ostream &aStream, rdf
 
 /** @enum  cainteoir::rdf::formatter::format_type
   * @brief The format used to serialize the RDF statements as.
-  * @todo  Add individual features (e.g. curies, 'a' instead of rdf:type, etc.) to the enumeration.
   * @see   http://www.w3.org/TR/rdf-testcases/#ntriples
   * @see   http://www.w3.org/TeamSubmission/turtle/
   */
