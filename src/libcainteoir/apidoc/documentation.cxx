@@ -42,11 +42,20 @@
   * @brief    Helpers for working with UTF-8 and other character encodings.
   */
 
-/** @defgroup css_units CSS Values and Units
-  * @brief    Implementation of the CSS Values and Units Level 3 specification.
-  * @see      http://www.w3.org/TR/css3-values/
+/** @defgroup css CSS
+  * @brief    Cascading Style Sheet implementation.
   *
-  * This is the C++ API to the various unit types for CSS values.
+  * This provides an implementation of the W3C Cascading Style Sheet specifications
+  * that is focused on providing this information to the text-to-speech engines
+  * (for controlling pronunciation and prosody) and rendering engines to display
+  * the document content in a graphical interface.
+  *
+  * Where the Level 3 and Level 4 CSS specifications have been broken out into
+  * separate standards, the API is grouped into a separate module corresponding
+  * to the broken out specification. These modules are:
+  *
+  *   1.  @ref css_units "CSS Values and Units";
+  *   2.  @ref css_counter_styles "CSS Counter Styles".
   */
 
 /** @defgroup css_counter_styles CSS Counter Styles
@@ -58,12 +67,19 @@
   * is handled in the cainteoir::css::style_manager::parse method.
   */
 
+/** @defgroup css_units CSS Values and Units
+  * @brief    Implementation of the CSS Values and Units Level 3 specification.
+  * @see      http://www.w3.org/TR/css3-values/
+  *
+  * This is the C++ API to the various unit types for CSS values.
+  */
+
 /** @defgroup decoders Decoding and Decompression
   * @brief    Decode encoded data and decompress compressed data.
   */
 
 /** @defgroup document_reader Document Reader
-  * @brief    Process a document, extracting metadata, text and semantic information.
+  * @brief    Extract information from a supported document format in a reader-style API.
   */
 
 /** @defgroup languages Languages
