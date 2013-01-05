@@ -30,10 +30,6 @@ namespace rdf  = cainteoir::rdf;
 namespace rql  = cainteoir::rdf::query;
 namespace lang = cainteoir::language;
 
-/** @defgroup languages Languages
-  * @brief    BCP 47 / RFC 5646 language, region and variant tag processing.
-  */
-
 static std::string to_upper(std::string s)
 {
 	std::transform(s.begin(), s.end(), s.begin(), ::toupper);

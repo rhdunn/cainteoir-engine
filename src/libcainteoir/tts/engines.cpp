@@ -33,10 +33,6 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
-/** @defgroup tts Text-to-Speech
-  * @brief    High-level interface to Text-to-Speech engines and voices.
-  */
-
 #ifndef DOXYGEN
 
 static inline double percentageof(size_t a, size_t b)

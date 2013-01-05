@@ -23,18 +23,6 @@
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 
-/** @defgroup rdf RDF Model
-  * @brief    A C++ representation of the RDF data model.
-  */
-
-/** @defgroup rdf_query RDF Query
-  * @brief    Perform operations on an RDF triple store.
-  */
-
-/** @defgroup rdf_selectors RDF Selectors
-  * @brief    Selectors used to match RDF triples.
-  */
-
 /// @addtogroup rdf
 /// @{
 

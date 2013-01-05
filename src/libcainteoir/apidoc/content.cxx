@@ -18,29 +18,9 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /** @namespace cainteoir::css
   * @brief     Cascading Style Sheet (CSS) implementation
   */
-
-
-/** @defgroup css_units CSS Values and Units
-  * @brief    Implementation of the CSS Values and Units Level 3 specification.
-  * @see      http://www.w3.org/TR/css3-values/
-  *
-  * This is the C++ API to the various unit types for CSS values.
-  */
-
-
-/** @defgroup css_counter_styles CSS Counter Styles
-  * @brief    Implementation of the CSS Counter Styles Level 3 specification.
-  * @see      http://www.w3.org/TR/css-counter-styles-3/
-  *
-  * This is the C++ API to CSS counter styles as defined in the CSS Counter
-  * Styles Level 3 specification. The CSS parsing of \@counter-style rules
-  * is handled in the cainteoir::css::style_manager::parse method.
-  */
-
 
 /// @addtogroup css_units
 /// @{
@@ -53,7 +33,6 @@
 /// @}
 /// @addtogroup css_counter_styles
 /// @{
-
 
 /** @enum  cainteoir::css::counter_system
   * @brief The algorithm used to construct the counter's representation.

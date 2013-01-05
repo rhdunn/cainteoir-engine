@@ -31,11 +31,6 @@ namespace xml = cainteoir::xml;
 namespace rdf = cainteoir::rdf;
 namespace m   = cainteoir::mime;
 
-/** @defgroup mime MIME
-  * @brief    MIME type handling.
-  * @see      http://standards.freedesktop.org/shared-mime-info-spec/0.20/
-  */
-
 static std::initializer_list<const char *> mimetype_list = {
 	m::email_mimetype,
 	m::epub_mimetype,

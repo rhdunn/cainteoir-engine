@@ -29,10 +29,6 @@
 namespace rdf = cainteoir::rdf;
 namespace mime = cainteoir::mime;
 
-/** @defgroup document_reader Document Reader
-  * @brief    Process a document, extracting metadata, text and semantic information.
-  */
-
 std::shared_ptr<cainteoir::xml::reader>
 cainteoir::createXmlReader(const std::shared_ptr<buffer> &aData, const char *aDefaultEncoding)
 {

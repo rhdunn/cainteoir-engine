@@ -31,10 +31,6 @@ using cainteoir::xml::detail::entity_set;
 #include "xml-entities.h"
 #include "html-entities.h"
 
-/** @defgroup xml XML
-  * @brief    XML document processing.
-  */
-
 /// @addtogroup xml
 /// @{
 

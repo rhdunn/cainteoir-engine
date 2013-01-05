@@ -21,10 +21,6 @@
 #include <cainteoir/buffer.hpp>
 #include <strings.h>
 
-/** @defgroup buffers Buffers
-  * @brief    Magage data or string buffers.
-  */
-
 /// @addtogroup buffers
 /// @{
 
@@ -126,10 +122,6 @@ const cainteoir::buffer::match_type cainteoir::buffer::ignore_case = strncasecmp
   * @brief Convert the buffer to a C++ string.
   *
   * @return The buffer as a C++ string.
-  */
-
-/** @defgroup decoders Decoding and Decompression
-  * @brief    Decode encoded data and decompress compressed data.
   */
 
 /// @addtogroup decoders

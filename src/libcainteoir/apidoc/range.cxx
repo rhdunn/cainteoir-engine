@@ -18,10 +18,6 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** @defgroup ranges Ranges
-  * @brief    C++11 range-based for loop helpers.
-  */
-
 /// @addtogroup ranges
 /// @{
 

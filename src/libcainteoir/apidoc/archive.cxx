@@ -18,10 +18,6 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** @defgroup archives Archives
-  * @brief    Support for reading the content of archive files.
-  */
-
 /// @addtogroup archives
 /// @{
 

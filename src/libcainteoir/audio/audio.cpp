@@ -29,10 +29,6 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace mime = cainteoir::mime;
 
-/** @defgroup audio Audio
-  * @brief    Manage writing audio data to an audio device or file.
-  */
-
 /// @private
 std::shared_ptr<cainteoir::audio>
 create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
