@@ -246,12 +246,8 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
   * @see cainteoir::events::event_type
   */
 
-/** @var   cainteoir::events::context cainteoir::document_item::context
-  * @brief The associated rendering context.
-  */
-
-/** @var   uint32_t cainteoir::document_item::parameter
-  * @brief A context-dependent parameter for the rendering context.
+/** @var   const cainteoir::css::styles *cainteoir::document_item::styles
+  * @brief The @ref css "CSS" styles associated with this document item.
   */
 
 /** @var   std::shared_ptr<cainteoir::buffer> cainteoir::document_item::text
