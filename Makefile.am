@@ -229,9 +229,12 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/compression/none.cpp \
 	src/libcainteoir/compression/quoted_printable.cpp \
 	\
+	src/libcainteoir/css/counterstyles.cpp \
+	src/libcainteoir/css/style_manager.cpp \
+	src/libcainteoir/css/units.cpp \
+	\
 	src/libcainteoir/parsers/parsers.hpp \
 	src/libcainteoir/parsers/html-entities.h \
-	src/libcainteoir/parsers/content.cpp \
 	src/libcainteoir/parsers/document.cpp \
 	src/libcainteoir/parsers/epub.cpp \
 	src/libcainteoir/parsers/mime.cpp \
