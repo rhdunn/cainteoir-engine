@@ -1,0 +1,16 @@
+<li id="css21" rel="dct:references">
+	<span typeof="foaf:Document" about="http://www.w3.org/TR/CSS21/">
+		<span property="dc:creator">Bert Bos</span>,
+		<span property="dc:creator">Tantek Çelik</span>,
+		<span property="dc:creator">Ian Hickson</span>,
+		<span property="dc:creator">Håkon Wium Lie</span>,
+		<a property="dc:title" href="http://www.w3.org/TR/CSS21/">Cascading Style Sheets Level 2 Revision 1 Specification</a>.
+		<span rel="dc:publisher" resource="_:pub_css21"/>
+		<span typeof="foaf:Organisation" about="_:pub_css21">
+			<span rel="foaf:homepage" resource="http://www.w3.org"/>
+			<span property="foaf:name">World Wide Web Consortium</span>
+			(<span property="foaf:name">W3C</span>),
+		</span>
+		<span property="dc:date" datatype="xsd:date" content="2011-06-07">2011</span>.
+	</span>
+</li>

@@ -7,4 +7,5 @@
 
 # title,version,url,implemented,tts,rdf,toc,comments
 
+CSS,2.1,css21.csv,*0.11,na,na,na,
 CSS,3.0,css3.csv,*0.11,na,na,na,

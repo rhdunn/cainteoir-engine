@@ -22,7 +22,7 @@ class StringFormat:
 		self.urlref = urlref
 
 	def parse(self, values):
-		return values[0].replace('\\@', '@')
+		return values[0].replace('\\@', '@').replace('\\#', '#').replace('\\[', '[')
 
 	def html(self, data, ref):
 		if self.urlref and data[self.urlref] != '':
