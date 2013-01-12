@@ -907,7 +907,7 @@ cainteoir::buffer cainteoir::xml::reader::identifier()
 
 	const char * startPos = mState.current;
 
-	while (mState.current != mData->end() && (xmlalnum(*mState.current)) || *mState.current == '-' || *mState.current == '_')
+	while (mState.current != mData->end() && (xmlalnum(*mState.current) || *mState.current == '-' || *mState.current == '_'))
 		++mState.current;
 
 	return cainteoir::buffer(startPos, mState.current);
@@ -919,7 +919,7 @@ std::shared_ptr<cainteoir::buffer> cainteoir::xml::reader::unquoted_node_value()
 
 	const char * startPos = mState.current;
 
-	while (mState.current != mData->end() && (xmlalnum(*mState.current)) || *mState.current == '-' || *mState.current == '_' || *mState.current == '%')
+	while (mState.current != mData->end() && (xmlalnum(*mState.current) || *mState.current == '-' || *mState.current == '_' || *mState.current == '%'))
 		++mState.current;
 
 	return std::make_shared<cainteoir::buffer>(startPos, mState.current);
