@@ -230,6 +230,8 @@ for ref, spec in specs.items():
 			f.write('  - { title: %s , url: "#%s" }\n' % (section, refname(section)))
 		if 'references' in spec.keys() and len(spec['references']) != 0:
 			f.write('  - { title: References , url: "#references" }\n')
+		if 'redirects' in spec.keys() and len(spec['redirects']) != 0:
+			f.write('redirects: [%s]\n' % ' , '.join(spec['redirects'].split()))
 		f.write('---\n')
 		f.write('<h1>%s</h1>\n' % title)
 		if spec['type'] != 'formats':
