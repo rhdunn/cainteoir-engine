@@ -1,6 +1,6 @@
 /* Test/diagnostic program for mimetype detection.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -146,7 +146,7 @@ void test_file(std::shared_ptr<cainteoir::buffer> &data,
 		fprintf(stdout, "ZIP archive detected ... checking content:\n");
 
 		auto zip = cainteoir::create_zip_archive(data, subject);
-		fprintf(stdout, "... file count: %d\n", zip->files().size());
+		fprintf(stdout, "... file count: %zd\n", zip->files().size());
 		fprintf(stdout, "\n");
 
 		for (auto &file : zip->files())
