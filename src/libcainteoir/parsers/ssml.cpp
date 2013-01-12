@@ -1,6 +1,6 @@
 /* SSML Document Parser.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -122,6 +122,8 @@ ssml_document_reader::ssml_document_reader(const std::shared_ptr<xml::reader> &a
 			}
 		}
 		break;
+	default:
+		break;
 	}
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/ssml+xml"));
@@ -176,6 +178,8 @@ bool ssml_document_reader::read()
 			reader->read();
 			return true;
 		}
+		break;
+	default:
 		break;
 	} while (reader->read());
 

@@ -1,6 +1,6 @@
 /* OCF Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -105,6 +105,8 @@ bool ocf_reader::read()
 			else if (mReader->context() == &ocf::mediatype_attr)
 				text = mReader->nodeValue().buffer();
 		}
+		break;
+	default:
 		break;
 	}
 

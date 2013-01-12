@@ -1,6 +1,6 @@
 /* Document converter.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -56,6 +56,8 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 					fwrite("\n", 1, 1, stdout);
 					need_linebreak = false;
 				}
+				break;
+			default:
 				break;
 			}
 		}
@@ -129,6 +131,8 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 				break;
 			case css::display::list_item:
 				context = { "li", false };
+				break;
+			default:
 				break;
 			}
 

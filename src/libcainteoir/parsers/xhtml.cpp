@@ -1,6 +1,6 @@
 /* XHTML Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -438,6 +438,8 @@ static void skipNode(xml::reader &reader, const cainteoir::buffer name)
 		if (!reader.nodeName().compare(name))
 			return;
 		break;
+	default:
+		break;
 	}
 }
 
@@ -536,6 +538,8 @@ static void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::gr
 		else if (reader.context() == &html::charset_attr)
 			reader.set_encoding(reader.nodeValue().normalize()->str().c_str());
 		break;
+	default:
+		break;
 	}
 }
 
@@ -561,6 +565,8 @@ static std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, 
 	case xml::reader::cdataNode:
 		if (context == &html::title_node)
 			title = reader.nodeValue().normalize()->str();
+		break;
+	default:
 		break;
 	}
 	return title;
@@ -736,6 +742,8 @@ bool html_document_reader::read()
 			reader->read();
 			return true;
 		}
+		break;
+	default:
 		break;
 	} while (reader->read());
 

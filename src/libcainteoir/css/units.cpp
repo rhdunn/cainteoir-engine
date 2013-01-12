@@ -61,6 +61,8 @@ css::length css::length::as(const type aUnits) const
 			return length(mValue / millimeters_in_pica, aUnits);
 		case pixels:
 			return length(mValue * pixels_in_millimeter, aUnits);
+		case inherit:
+			break;
 		}
 		break;
 	case centimeters:
@@ -78,6 +80,8 @@ css::length css::length::as(const type aUnits) const
 			return length(mValue / centimeters_in_pica, aUnits);
 		case pixels:
 			return length(mValue * pixels_in_centimeter, aUnits);
+		case inherit:
+			break;
 		}
 		break;
 	case inches:
@@ -95,6 +99,8 @@ css::length css::length::as(const type aUnits) const
 			return length(mValue * picas_in_inch, aUnits);
 		case pixels:
 			return length(mValue * pixels_in_inch, aUnits);
+		case inherit:
+			break;
 		}
 		break;
 	case points:
@@ -112,6 +118,8 @@ css::length css::length::as(const type aUnits) const
 			return length(mValue / points_in_pica, aUnits);
 		case pixels:
 			return length(mValue * pixels_in_point, aUnits);
+		case inherit:
+			break;
 		}
 		break;
 	case picas:
@@ -129,6 +137,8 @@ css::length css::length::as(const type aUnits) const
 			return *this;
 		case pixels:
 			return length(mValue * pixels_in_pica, aUnits);
+		case inherit:
+			break;
 		}
 		break;
 	case pixels:
@@ -146,7 +156,11 @@ css::length css::length::as(const type aUnits) const
 			return length(mValue / pixels_in_pica, aUnits);
 		case pixels:
 			return *this;
+		case inherit:
+			break;
 		}
+		break;
+	case inherit:
 		break;
 	}
 

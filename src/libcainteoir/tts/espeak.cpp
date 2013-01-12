@@ -1,6 +1,6 @@
 /* Espeak Text-to-Speech Engine.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -131,6 +131,8 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 		break;
 	case espeakEVENT_END:
 		callback->onspeaking(event->text_position - 1, 0);
+		break;
+	default:
 		break;
 	}
 

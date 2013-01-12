@@ -1,6 +1,6 @@
 /* RDF/XML Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -108,6 +108,8 @@ static void parseRdfXmlCollection(xml::reader &reader, rdf::uri first, rdf::grap
 		if (current != rdf::rdf("Description"))
 			aGraph.statement(subject, rdf::rdf("type"), current);
 		break;
+	default:
+		break;
 	}
 }
 
@@ -151,6 +153,8 @@ static void parseRdfXmlContainer(xml::reader &reader, rdf::graph &aGraph, const 
 		{
 			return;
 		}
+		break;
+	default:
 		break;
 	}
 }
@@ -241,6 +245,8 @@ void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf::graph 
 					return;
 				}
 				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -304,6 +310,8 @@ rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::ur
 				if (uri(reader) == self)
 					return subject;
 				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -346,6 +354,8 @@ cainteoir::createRdfXmlReader(const std::shared_ptr<xml::reader> &aReader,
 		parseOuterRdfXml(*aReader, aPrimaryMetadata, uri(*aReader), base, std::string());
 		break;
 	case xml::reader::endTagNode:
+		break;
+	default:
 		break;
 	}
 

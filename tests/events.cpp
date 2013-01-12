@@ -1,6 +1,6 @@
 /* Test for generated speech events.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -41,6 +41,7 @@ void format_style(const css::styles &styles)
 		case css::text_structure::none:      fprintf(stdout, "block"); break;
 		case css::text_structure::paragraph: fprintf(stdout, "paragraph"); break;
 		case css::text_structure::heading:   fprintf(stdout, "heading %d", styles.toc_level); return;
+		default:                             break;
 		}
 		break;
 	case css::display::inlined:
@@ -48,6 +49,7 @@ void format_style(const css::styles &styles)
 		{
 		case css::text_structure::none:     fprintf(stdout, "span"); break;
 		case css::text_structure::sentence: fprintf(stdout, "sentence"); break;
+		default:                            break;
 		}
 		break;
 	case css::display::list_item:  fprintf(stdout, "list-item"); break;

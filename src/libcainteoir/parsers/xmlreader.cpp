@@ -649,6 +649,8 @@ bool cainteoir::xml::reader::read()
 						case dtdEntity:
 							mDoctypeEntities[mState.nodeName.str()] = mNodeValue.str();
 							break;
+						default:
+							break;
 						}
 						mState.state = ParsingXml;
 
@@ -983,6 +985,8 @@ void cainteoir::xml::reader::reset_context()
 	case beginTagNode:
 	case endTagNode:
 		mContext = mNodes.lookup(namespaceUri(), nodeName());
+		break;
+	default:
 		break;
 	}
 }

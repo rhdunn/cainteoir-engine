@@ -1,6 +1,6 @@
 /* NCX Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -161,6 +161,8 @@ bool ncx_document_reader::read()
 		if (reader->context() == &ncx::navPoint_node)
 			--mDepth;
 		break;
+	default:
+		break;
 	}
 
 	return false;
@@ -236,6 +238,8 @@ ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aRe
 		else if (reader->context() == &ncx::head_node)
 			outer = nullptr;
 		current = nullptr;
+		break;
+	default:
 		break;
 	}
 

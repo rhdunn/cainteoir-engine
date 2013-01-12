@@ -1,6 +1,6 @@
 /* RichText Document Parser.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -248,6 +248,8 @@ static void skipRtfBlock(rtf_reader &rtf)
 		break;
 	case rtf_reader::end_block:
 		return;
+	default:
+		break;
 	}
 }
 

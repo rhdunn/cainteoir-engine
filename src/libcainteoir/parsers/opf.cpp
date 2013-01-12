@@ -1,6 +1,6 @@
 /* OPF Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -226,6 +226,8 @@ static void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, rdf::gra
 			return;
 		}
 		break;
+	default:
+		break;
 	}
 }
 
@@ -272,6 +274,8 @@ static void parseOpfLink(xml::reader &reader, const rdf::uri &aSubject, rdf::gra
 			}
 			return;
 		}
+		break;
+	default:
 		break;
 	}
 }
@@ -389,6 +393,8 @@ static void parseOpfDublinCore(xml::reader &reader, const rdf::uri &aSubject, rd
 			return;
 		}
 		break;
+	default:
+		break;
 	}
 }
 
@@ -419,6 +425,8 @@ static void parseOpfMetadata(xml::reader &reader, const rdf::uri &aSubject, rdf:
 		if (reader.context() == ctx)
 			return;
 		break;
+	default:
+		break;
 	}
 }
 
@@ -445,6 +453,8 @@ static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &a
 			return;
 		}
 		break;
+	default:
+		break;
 	}
 }
 
@@ -459,6 +469,8 @@ static void parseOpfManifest(xml::reader &reader, std::map<std::string, fileinfo
 	case xml::reader::endTagNode:
 		if (reader.context() == &opf::manifest_node)
 			return;
+		break;
+	default:
 		break;
 	}
 }
@@ -475,6 +487,8 @@ static std::string parseOpfItemRef(xml::reader &reader)
 	case xml::reader::endTagNode:
 		if (reader.context() == &opf::itemref_node)
 			return ref;
+		break;
+	default:
 		break;
 	}
 	return ref;
@@ -495,6 +509,8 @@ static void parseOpfSpine(xml::reader &reader, std::list<std::string> &aSpine, s
 	case xml::reader::beginTagNode:
 		if (reader.context() == &opf::itemref_node)
 			aSpine.push_back(parseOpfItemRef(reader));
+		break;
+	default:
 		break;
 	}
 }
@@ -539,6 +555,8 @@ opf_document_reader::opf_document_reader(const std::shared_ptr<xml::reader> &aRe
 			parseOpfManifest(*aReader, mFiles);
 		else if (aReader->context() == &opf::spine_node)
 			parseOpfSpine(*aReader, mSpine, mFiles);
+		break;
+	default:
 		break;
 	}
 

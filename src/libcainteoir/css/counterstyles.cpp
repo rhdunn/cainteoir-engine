@@ -51,6 +51,8 @@ std::string css::counter_style::marker(value_t count) const
 			textval << s;
 		}
 		break;
+	default:
+		break;
 	}
 	textval << suffix << ' ';
 	return textval.str();
@@ -70,6 +72,8 @@ const css::counter_style::range_t css::counter_style::get_auto_range(counter_sys
 		return { 1, infinite.second };
 	case counter_system::additive:
 		return { 0, infinite.second };
+	default:
+		break;
 	}
 	return infinite;
 }

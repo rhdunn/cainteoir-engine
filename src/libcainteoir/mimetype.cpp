@@ -1,6 +1,6 @@
 /* Mime Type Support.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -276,6 +276,8 @@ std::string cainteoir::mime::mimetype_database::read_comment_from_mimeinfo_file(
 		case xml::reader::endTagNode:
 			if (!reader.nodeName().compare("comment"))
 				in_comment = false;
+			break;
+		default:
 			break;
 		}
 
