@@ -132,7 +132,9 @@ namespace cainteoir { namespace css
 		sentence,
 	};
 
-	struct margin
+	// CSS Box Model
+
+	struct box
 	{
 		length left;
 		length top;
@@ -283,7 +285,7 @@ namespace cainteoir { namespace css
 		std::string list_style_type;
 		std::string font_family;
 		cainteoir::css::length font_size;
-		cainteoir::css::margin margin;
+		cainteoir::css::box margin;
 
 		// Cainteoir Text-to-Speech specific styles (not in CSS spec):
 
@@ -315,7 +317,7 @@ namespace cainteoir { namespace css
 		       const std::string &aListStyleType,
 		       const std::string &aFontFamily,
 		       const cainteoir::css::length &aFontSize,
-		       const cainteoir::css::margin &aMargin,
+		       const cainteoir::css::box &aMargin,
 		       const cainteoir::css::text_structure aTextStructure,
 		       int aTocLevel)
 			: name(aName)
