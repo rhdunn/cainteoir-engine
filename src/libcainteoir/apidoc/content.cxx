@@ -31,6 +31,70 @@
   */
 
 /// @}
+
+/** @enum  cainteoir::css::length::type
+  * @brief The units in which the length is specified.
+  */
+
+/** @var   cainteoir::css::length::type cainteoir::css::length::inherit
+  * @brief The length value is inherited from the parent object.
+  */
+
+/** @var   cainteoir::css::length::type cainteoir::css::length::millimeters
+  * @brief The mm unit type.
+  */
+
+/** @var   cainteoir::css::length::type cainteoir::css::length::centimeters
+  * @brief The cm unit type.
+  */
+
+/** @var   cainteoir::css::length::type cainteoir::css::length::inches
+  * @brief The in unit type.
+  */
+
+/** @var   cainteoir::css::length::type cainteoir::css::length::points
+  * @brief The pt unit type.
+  */
+
+/** @var   cainteoir::css::length::type cainteoir::css::length::picas
+  * @brief The pc unit type.
+  */
+
+/** @var   cainteoir::css::length::type cainteoir::css::length::pixels
+  * @brief The px unit type.
+  */
+
+/** @fn    cainteoir::css::length::length()
+  * @brief Create a default valued length object.
+  */
+
+/** @fn    cainteoir::css::length::length(float aValue, type aUnits)
+  * @brief Create a length object.
+  *
+  * @param[in] aValue The size of the length.
+  * @param[in] aUnits The units the length is specified in.
+  */
+
+/** @fn    cainteoir::css::length cainteoir::css::length::as(const type aUnits) const
+  * @brief Convert the length to the specified units.
+  *
+  * @param[in] aUnits The units to convert to.
+  *
+  * @return A new length object in the specified units.
+  */
+
+/** @fn    cainteoir::css::length::type cainteoir::css::length::units() const
+  * @brief Gets the units the length is specified in.
+  *
+  * @return The units the length is specified in.
+  */
+
+/** @fn    float cainteoir::css::length::value() const
+  * @brief Gets the scalar value of the length.
+  *
+  * @return The scalar value of the length.
+  */
+
 /// @addtogroup css_counter_styles
 /// @{
 
