@@ -27,14 +27,14 @@
 4.4,font-weight,,no,no,no,
 4.4,font-stretch,,no,no,no,
 4.5,unicode-range,,no,no,no,
-4.6,font-variant,,no,no,no,
+4.6,font-variant,,*0.11,no,no,CSS2 font-variant values
 4.6,font-feature-settings,,no,no,no,
 5,Font Matching,,no,no,no,
 6.2,Language-specific Display,,no,no,no,
 6.3,font-kerning,,no,no,no,
 6.4,font-variant-ligatures,,no,no,no,
 6.5,font-variant-position,,no,no,no,
-6.6,font-variant-caps,,*0.11,no,no,Contains all CSS2 font-variant values.
+6.6,font-variant-caps,,*0.11,no,no,CSS2 font-variant values
 6.7,font-variant-numeric,,no,no,no,
 6.8,font-variant-alternates,,no,no,no,
 6.9,@font-feature-values,,no,no,no,

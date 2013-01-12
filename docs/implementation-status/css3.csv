@@ -150,7 +150,7 @@ font-variant-east-asian,css3fonts.csv,no,Fonts Level 3
 font-variant-ligatures,css3fonts.csv,no,Fonts Level 3
 font-variant-numeric,css3fonts.csv,no,Fonts Level 3
 font-variant-position,css3fonts.csv,no,Fonts Level 3
-font-variant,css3fonts.csv,no,Fonts Level 3
+font-variant,css3fonts.csv,*0.11,Fonts Level 3
 font-weight,css3fonts.csv,*0.11,Fonts Level 3
 height,css21.csv,no,CSS Level 2 Revision 1
 left,css21.csv,no,CSS Level 2 Revision 1
@@ -161,10 +161,10 @@ list-style-image,css21.csv,no,CSS Level 2 Revision 1
 list-style-position,css21.csv,no,CSS Level 2 Revision 1
 list-style-type,css21.csv,no,CSS Level 2 Revision 1
 margin,css21.csv,no,CSS Level 2 Revision 1
-margin-bottom,css21.csv,no,CSS Level 2 Revision 1
-margin-left,css21.csv,no,CSS Level 2 Revision 1
-margin-right,css21.csv,no,CSS Level 2 Revision 1
-margin-top,css21.csv,no,CSS Level 2 Revision 1
+margin-bottom,css21.csv,*0.11,CSS Level 2 Revision 1
+margin-left,css21.csv,*0.11,CSS Level 2 Revision 1
+margin-right,css21.csv,*0.11,CSS Level 2 Revision 1
+margin-top,css21.csv,*0.11,CSS Level 2 Revision 1
 max-height,css21.csv,no,CSS Level 2 Revision 1
 max-width,css21.csv,no,CSS Level 2 Revision 1
 min-height,css21.csv,no,CSS Level 2 Revision 1
@@ -202,14 +202,14 @@ suffix,css3counterstyles.csv,0.12,Counter Styles Level 3
 symbols,css3counterstyles.csv,0.12,Counter Styles Level 3
 system,css3counterstyles.csv,*0.12,Counter Styles Level 3
 table-layout,css21.csv,no,CSS Level 2 Revision 1
-text-align,css21.csv,no,CSS Level 2 Revision 1
-text-decoration,css21.csv,no,CSS Level 2 Revision 1
+text-align,css21.csv,*0.11,CSS Level 2 Revision 1
+text-decoration,css21.csv,*0.11,CSS Level 2 Revision 1
 text-indent,css21.csv,no,CSS Level 2 Revision 1
 text-transform,css21.csv,no,CSS Level 2 Revision 1
 top,css21.csv,no,CSS Level 2 Revision 1
 unicode-bidi,css21.csv,no,CSS Level 2 Revision 1
 unicode-range,css3fonts.csv,no,Fonts Level 3
-vertical-align,css21.csv,no,CSS Level 2 Revision 1
+vertical-align,css21.csv,*0.11,CSS Level 2 Revision 1
 visibility,css21.csv,no,CSS Level 2 Revision 1
 voice-family,css21.csv,no,CSS Level 2 Revision 1
 volume,css21.csv,no,CSS Level 2 Revision 1
