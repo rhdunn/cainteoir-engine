@@ -1,6 +1,6 @@
 /* Audio Output.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -100,7 +100,7 @@ cainteoir::create_audio_file(
 
 /** @brief Open an audio device to write data to.
   *
-  * @param[in] filename       The name of the audio device.
+  * @param[in] device         The name of the audio device.
   * @param[in] type           The device type (currently only 'pulse').
   * @param[in] quality        The encoding quality to use (for lossy encodings).
   * @param[in] aDocMetadata   The RDF graph containing the document metadata.

@@ -1,6 +1,6 @@
 /* Compressed Stream (No Compression)
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010, 2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -34,9 +34,9 @@
   *
   * @return The new data buffer.
   */
-std::shared_ptr<cainteoir::buffer> cainteoir::copy(const cainteoir::buffer &compressed, uint32_t uncompressed)
+std::shared_ptr<cainteoir::buffer> cainteoir::copy(const cainteoir::buffer &data, uint32_t size)
 {
-	return cainteoir::make_buffer(compressed.begin(), compressed.size());
+	return cainteoir::make_buffer(data.begin(), data.size());
 }
 
 /// @}

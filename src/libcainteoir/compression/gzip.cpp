@@ -1,6 +1,6 @@
 /* Compressed Stream (GZip)
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -74,9 +74,9 @@ err:
   *
   * @return The uncompressed data buffer.
   */
-std::shared_ptr<cainteoir::buffer> cainteoir::inflate_zlib(const cainteoir::buffer &compressed, uint32_t uncompressed)
+std::shared_ptr<cainteoir::buffer> cainteoir::inflate_zlib(const cainteoir::buffer &data, uint32_t size)
 {
-	return inflateBuffer(compressed, uncompressed, -MAX_WBITS);
+	return inflateBuffer(data, size, -MAX_WBITS);
 }
 
 /** @brief Inflate a gzip compressed data buffer.
@@ -86,10 +86,10 @@ std::shared_ptr<cainteoir::buffer> cainteoir::inflate_zlib(const cainteoir::buff
   *
   * @return The uncompressed data buffer.
   */
-std::shared_ptr<cainteoir::buffer> cainteoir::inflate_gzip(const cainteoir::buffer &compressed, uint32_t uncompressed)
+std::shared_ptr<cainteoir::buffer> cainteoir::inflate_gzip(const cainteoir::buffer &data, uint32_t size)
 {
-	uncompressed = *((uint32_t *)(compressed.end() - 4));
-	return inflateBuffer(compressed, uncompressed, 16 + MAX_WBITS);
+	size = *((uint32_t *)(data.end() - 4));
+	return inflateBuffer(data, size, 16 + MAX_WBITS);
 }
 
 /// @}
