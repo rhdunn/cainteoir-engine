@@ -95,6 +95,31 @@
   * @return The scalar value of the length.
   */
 
+/// @addtogroup css
+/// @{
+
+/** @struct cainteoir::css::box
+  * @brief  Represents a CSS rectangle.
+  */
+
+/// @}
+
+/** @var   cainteoir::css::length cainteoir::css::box::left
+  * @brief The left edge.
+  */
+
+/** @var   cainteoir::css::length cainteoir::css::box::top
+  * @brief The top edge.
+  */
+
+/** @var   cainteoir::css::length cainteoir::css::box::right
+  * @brief The right edge.
+  */
+
+/** @var   cainteoir::css::length cainteoir::css::box::bottom
+  * @brief The bottom edge.
+  */
+
 /// @addtogroup css_counter_styles
 /// @{
 
