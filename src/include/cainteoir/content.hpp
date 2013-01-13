@@ -128,7 +128,7 @@ namespace cainteoir { namespace css
 		oblique,
 	};
 
-	enum class font_variant : uint8_t
+	enum class font_variant_caps : uint8_t
 	{
 		inherit,
 		normal,
@@ -280,7 +280,7 @@ namespace cainteoir { namespace css
 		cainteoir::css::text_align text_align;
 		cainteoir::css::text_decoration text_decoration;
 		cainteoir::css::font_style font_style;
-		cainteoir::css::font_variant font_variant;
+		cainteoir::css::font_variant_caps font_variant_caps;
 		cainteoir::css::font_weight font_weight;
 		std::string list_style_type;
 		std::string font_family;
@@ -299,7 +299,7 @@ namespace cainteoir { namespace css
 			, text_align(cainteoir::css::text_align::inherit)
 			, text_decoration(cainteoir::css::text_decoration::inherit)
 			, font_style(cainteoir::css::font_style::inherit)
-			, font_variant(cainteoir::css::font_variant::inherit)
+			, font_variant_caps(cainteoir::css::font_variant_caps::inherit)
 			, font_weight(cainteoir::css::font_weight::inherit)
 			, text_structure(cainteoir::css::text_structure::none)
 			, toc_level(0)
@@ -312,7 +312,7 @@ namespace cainteoir { namespace css
 		       cainteoir::css::text_align aTextAlign,
 		       cainteoir::css::text_decoration aTextDecoration,
 		       cainteoir::css::font_style aFontStyle,
-		       cainteoir::css::font_variant aFontVariant,
+		       cainteoir::css::font_variant_caps aFontVariantCaps,
 		       cainteoir::css::font_weight aFontWeight,
 		       const std::string &aListStyleType,
 		       const std::string &aFontFamily,
@@ -326,7 +326,7 @@ namespace cainteoir { namespace css
 			, text_align(aTextAlign)
 			, text_decoration(aTextDecoration)
 			, font_style(aFontStyle)
-			, font_variant(aFontVariant)
+			, font_variant_caps(aFontVariantCaps)
 			, font_weight(aFontWeight)
 			, list_style_type(aListStyleType)
 			, font_family(aFontFamily)
