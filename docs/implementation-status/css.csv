@@ -1,11 +1,15 @@
 @type,format
 @name,CSS
 @version,
-@references,
+@references,css21 css3counterstyles css3fonts css3units
 @copyright,Copyright (C) 2012 Reece H. Dunn
 @license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+@redirects,formats/css3.html
 
 # title,version,url,implemented,tts,rdf,toc,comments
 
 CSS,2.1,css21.csv,*0.11,na,na,na,
-CSS,3.0,css3.csv,*0.11,na,na,na,
+Values and Units,3,css3units.csv,*0.11,na,na,na,
+Fonts,3,css3fonts.csv,*0.11,na,na,na,
+Counter Styles,3,css3counterstyles.csv,*0.11,na,na,na,
+Index,2.1-3,css-index.csv,*0.11,na,na,na,Index of all properties, etc.

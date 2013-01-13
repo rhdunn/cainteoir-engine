@@ -1,0 +1,13 @@
+@type,css-specs
+@name,CSS
+@version,
+@references,css21 css3counterstyles css3fonts css3units
+@copyright,Copyright (C) 2012 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# specification
+
+css21.csv
+css3units.csv
+css3fonts.csv
+css3counterstyles.csv

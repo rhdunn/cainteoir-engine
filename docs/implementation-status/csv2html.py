@@ -25,7 +25,7 @@ class StringFormat:
 		return values[0].replace('\\@', '@').replace('\\#', '#').replace('\\[', '[')
 
 	def html(self, data, ref):
-		if self.urlref and data[self.urlref] != '':
+		if self.urlref and self.urlref in data.keys() and data[self.urlref] != '':
 			value = '<a href="%s">%s</a>' % (data[self.urlref], data[ref])
 		else:
 			value = data[ref]
@@ -100,7 +100,7 @@ class StatusSetFormat:
 		return ''.join(ret)
 
 properties = {
-	'category': StringFormat('Category'),
+	'category': StringFormat(None),
 	'comments': CommentFormat('Comments'),
 	'implemented': StatusFormat('Implemented', implementation=True),
 	'item': StringFormat('Name'),
@@ -120,8 +120,9 @@ properties = {
 }
 
 types = {
-	'css-index': ['item', 'url', 'implemented', 'spec'],
-	'css-spec': ['section', 'title', 'url', 'model', 'parsing', 'tests', 'comments'],
+	'css-specs': ['spec'],
+	'css-index': ['title', 'model', 'parsing', 'tests', 'spec', 'url'],
+	'css-spec': ['section', 'category', 'title', 'url', 'model', 'parsing', 'tests', 'comments'],
 	'format': ['title', 'version', 'url', 'status', 'tts', 'rdf', 'toc', 'comments'],
 	'formats': [ 'title', 'url', 'versions' ],
 	'spec': ['section', 'title', 'url', 'implemented', 'tests', 'comments'],
@@ -132,6 +133,17 @@ categories = {
 	'document': 'Document Format',
 	'metadata': 'Metadata Export',
 }
+
+css_categories = [
+	('syntax', 'Syntax'),
+	('unit', 'Units'),
+	('at-rule', 'At Rules'),
+	('property', 'Properties'),
+	('selector', 'Selectors'),
+	('function', 'Functions'),
+	('counter', 'Counters'),
+	('color', 'Colours'),
+]
 
 def parse_csv(filename):
 	ref = filename.replace('.csv', '')
@@ -189,6 +201,44 @@ for csv in os.listdir('.'):
 	if csv.endswith('.csv'):
 		ref, data = parse_csv(csv)
 		specs[ref] = data
+
+for ref, spec in specs.items():
+	if spec['type'] == 'css-specs':
+		spec['type'] = 'css-index'
+		spec['items'] = 0
+		spec['success'] = 0
+		spec['inprogress'] = 0
+		for item, _, _ in status_values.values():
+			spec[item] = 0
+		support = spec['support'][0][1]
+		spec['support'] = []
+		data = {}
+		for key, title in css_categories:
+			data[key] = {}
+		for cssspec in support:
+			css = specs[cssspec['spec'].replace('.csv', '')]
+			for title, items in css['support']:
+				for item in items:
+					if item['category'] in data.keys():
+						props = data[item['category']][item['title']] = {
+							'title': item['title'],
+							'model': item['model'],
+							'parsing': item['parsing'],
+							'tests': item['tests'],
+							'spec': '%s Level %s' % (css['name'], css['version']),
+							'url': cssspec['spec'].replace('.csv', '.html')
+						}
+						for prop in props.keys():
+							p = properties[prop]
+							if p.implementation:
+								istatus, _, _ = props[prop]
+								spec[istatus] = spec[istatus] + 1
+								spec['items'] = spec['items'] + 1
+					elif item['category'] != '':
+						raise Exception('Unsupported CSS category: %s' % item['category'])
+		for key, title in css_categories:
+			items = [v for k, v in sorted(data[key].items())]
+			spec['support'].append((title, items))
 
 for ref, spec in specs.items():
 	print 'generating %s.html ...' % ref

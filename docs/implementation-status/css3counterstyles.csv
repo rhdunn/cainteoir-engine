@@ -1,63 +1,63 @@
 @type,css-spec
 @name,CSS Counter Styles
 @status,exploring
-@w3c-status,WD
+@w3c-status,wd
 @parent,css
-@version,3.0
+@version,3
 @references,css3counterstyles
 @copyright,Copyright (C) 2012 Reece H. Dunn
 @license,http://creativecommons.org/licenses/by-sa/2.0/uk/
 
-# section,title,url,implemented,tests,comments
+# section,category,title,url,implemented,tests,comments
 
-3,@counter-style,,0.12,0.12,0.12,
-3.1,system,,0.12,0.12,0.12,
-3.1.1,system:cyclic,,0.11,0.12,*0.12,
-3.1.2,system:fixed,,*0.12,0.12,*0.12,
-3.1.2,system:fixed offset,,*0.12,0.12,*0.12,
-3.1.3,system:symbolic,,*0.12,0.12,*0.12,
-3.1.4,system:alphabetic,,*0.12,0.12,*0.12,
-3.1.5,system:numeric,,0.11,0.12,*0.12,
-3.1.6,system:additive,,*0.12,0.12,*0.12,
-3.1.7,system:override,,no,no,no,
-3.2,negative,,*0.12,0.12,*0.12,
-3.3,prefix,,0.11,0.12,*0.12,
-3.4,suffix,,0.11,0.12,*0.12,
-3.5,range,,*0.12,0.12,0.12,
-3.6,fallback,,*0.12,no,no,
-3.7,symbols,,0.11,0.12,0.12,
-3.7,additive-symbols,,*0.12,0.12,0.12,
-4,symbols(),,no,no,no,
-5.1,decimal,,na,0.11,na,
-5.1,decimal-leading-zero,,na,0.12,na,
-5.1,cjk-decimal,,na,0.12,na,at-risk
-5.1,lower-roman,,na,0.12,na,
-5.1,upper-roman,,na,0.12,na,
-5.1,armenian,,na,0.12,na,
-5.1,georgian,,na,0.12,na,
-5.1,hebrew,,na,0.12,na,at-risk
-5.2,lower-alpha,,na,0.12,na,
-5.2,lower-latin,,na,0.12,na,
-5.2,upper-alpha,,na,0.12,na,
-5.2,upper-latin,,na,0.12,na,
-5.2,lower-greek,,na,0.12,na,
-5.2,hiragana,,na,0.12,na,at-risk
-5.2,hiragana-iroha,,na,0.12,na,at-risk
-5.2,katakana,,na,0.12,na,at-risk
-5.2,katakana-iroha,,na,0.12,na,at-risk
-5.3,disc,,na,0.11,na,
-5.3,circle,,na,0.12,na,
-5.3,square,,na,0.12,na,
-6.1,japanese-informal,,na,no,na,at-risk
-6.1,japanese-formal,,na,no,na,at-risk
-6.1,korean-hangul-formal,,na,no,na,at-risk
-6.1,korean-hanja-informal,,na,no,na,at-risk
-6.1,korean-hanja-formal,,na,no,na,at-risk
-6.1,simp-chinese-informal,,na,no,na,at-risk
-6.1,simp-chinese-formal,,na,no,na,at-risk
-6.1,trad-chinese-informal,,na,no,na,at-risk
-6.1,trad-chinese-formal,,na,no,na,at-risk
-6.1,cjk-ideographic,,na,no,na,
-6.2,ethiopic-numeric,,na,no,na,at-risk
-7.1,CSSRule Extension,,na,na,na,
-7.2,CSSCounterStyleRule,,na,na,na,
+3,at-rule,@counter-style,,0.12,0.12,0.12,
+3.1,property,system,,0.12,0.12,0.12,
+3.1.1,,system:cyclic,,0.11,0.12,*0.12,
+3.1.2,,system:fixed,,*0.12,0.12,*0.12,
+3.1.2,,system:fixed offset,,*0.12,0.12,*0.12,
+3.1.3,,system:symbolic,,*0.12,0.12,*0.12,
+3.1.4,,system:alphabetic,,*0.12,0.12,*0.12,
+3.1.5,,system:numeric,,0.11,0.12,*0.12,
+3.1.6,,system:additive,,*0.12,0.12,*0.12,
+3.1.7,,system:override,,no,no,no,
+3.2,property,negative,,*0.12,0.12,*0.12,
+3.3,property,prefix,,0.11,0.12,*0.12,
+3.4,property,suffix,,0.11,0.12,*0.12,
+3.5,property,range,,*0.12,0.12,0.12,
+3.6,property,fallback,,*0.12,no,no,
+3.7,property,symbols,,0.11,0.12,0.12,
+3.7,property,additive-symbols,,*0.12,0.12,0.12,
+4,function,symbols(),,no,no,no,
+5.1,counter,decimal,,na,0.11,na,
+5.1,counter,decimal-leading-zero,,na,0.12,na,
+5.1,counter,cjk-decimal,,na,0.12,na,at-risk
+5.1,counter,lower-roman,,na,0.12,na,
+5.1,counter,upper-roman,,na,0.12,na,
+5.1,counter,armenian,,na,0.12,na,
+5.1,counter,georgian,,na,0.12,na,
+5.1,counter,hebrew,,na,0.12,na,at-risk
+5.2,counter,lower-alpha,,na,0.12,na,
+5.2,counter,lower-latin,,na,0.12,na,
+5.2,counter,upper-alpha,,na,0.12,na,
+5.2,counter,upper-latin,,na,0.12,na,
+5.2,counter,lower-greek,,na,0.12,na,
+5.2,counter,hiragana,,na,0.12,na,at-risk
+5.2,counter,hiragana-iroha,,na,0.12,na,at-risk
+5.2,counter,katakana,,na,0.12,na,at-risk
+5.2,counter,katakana-iroha,,na,0.12,na,at-risk
+5.3,counter,disc,,na,0.11,na,
+5.3,counter,circle,,na,0.12,na,
+5.3,counter,square,,na,0.12,na,
+6.1,counter,japanese-informal,,na,no,na,at-risk
+6.1,counter,japanese-formal,,na,no,na,at-risk
+6.1,counter,korean-hangul-formal,,na,no,na,at-risk
+6.1,counter,korean-hanja-informal,,na,no,na,at-risk
+6.1,counter,korean-hanja-formal,,na,no,na,at-risk
+6.1,counter,simp-chinese-informal,,na,no,na,at-risk
+6.1,counter,simp-chinese-formal,,na,no,na,at-risk
+6.1,counter,trad-chinese-informal,,na,no,na,at-risk
+6.1,counter,trad-chinese-formal,,na,no,na,at-risk
+6.1,counter,cjk-ideographic,,na,no,na,
+6.2,counter,ethiopic-numeric,,na,no,na,at-risk
+7.1,,CSSRule Extension,,na,na,na,
+7.2,,CSSCounterStyleRule,,na,na,na,
