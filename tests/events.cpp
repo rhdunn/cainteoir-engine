@@ -40,7 +40,7 @@ void format_style(const css::styles &styles)
 		{
 		case css::role::none:      fprintf(stdout, "block"); break;
 		case css::role::paragraph: fprintf(stdout, "paragraph"); break;
-		case css::role::heading:   fprintf(stdout, "heading %d", styles.toc_level); return;
+		case css::role::heading:   fprintf(stdout, "heading %d", styles.aria_level); return;
 		default:                   break;
 		}
 		break;
@@ -122,7 +122,7 @@ int main(int argc, char ** argv)
 				fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n",
 				        reader->anchor.ns.c_str(),
 				        reader->anchor.ref.c_str(),
-				        reader->styles->toc_level,
+				        reader->styles->aria_level,
 				        reader->text->str().c_str());
 			}
 			if (reader->type & cainteoir::events::anchor)

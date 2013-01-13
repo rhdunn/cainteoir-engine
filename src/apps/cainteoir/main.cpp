@@ -418,7 +418,7 @@ int main(int argc, char ** argv)
 		while (reader->read())
 		{
 			if (reader->type & cainteoir::events::toc_entry)
-				doc.toc_entry(reader->styles->toc_level, reader->anchor, reader->text->str());
+				doc.toc_entry(reader->styles->aria_level, reader->anchor, reader->text->str());
 			doc.m_doc->add(*reader);
 		}
 

@@ -301,7 +301,7 @@ namespace cainteoir { namespace css
 		// WAI-ARIA:
 
 		cainteoir::css::role role;
-		int toc_level;
+		int aria_level;
 
 		styles(const std::string &aName)
 			: name(aName)
@@ -313,7 +313,7 @@ namespace cainteoir { namespace css
 			, font_variant_caps(cainteoir::css::font_variant_caps::inherit)
 			, font_weight(cainteoir::css::font_weight::inherit)
 			, role(cainteoir::css::role::none)
-			, toc_level(0)
+			, aria_level(0)
 		{
 		}
 
@@ -330,7 +330,7 @@ namespace cainteoir { namespace css
 		       const cainteoir::css::length &aFontSize,
 		       const cainteoir::css::box &aMargin,
 		       const cainteoir::css::role aRole,
-		       int aTocLevel)
+		       int aAriaLevel)
 			: name(aName)
 			, display(aDisplay)
 			, vertical_align(aVerticalAlign)
@@ -344,7 +344,7 @@ namespace cainteoir { namespace css
 			, font_size(aFontSize)
 			, margin(aMargin)
 			, role(aRole)
-			, toc_level(aTocLevel)
+			, aria_level(aAriaLevel)
 		{
 		}
 	};
