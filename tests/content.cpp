@@ -129,7 +129,7 @@ TEST_CASE("style defaults")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -156,7 +156,7 @@ TEST_CASE("style - unknown")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -183,7 +183,7 @@ TEST_CASE("style - paragraph")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == css::text_structure::paragraph);
+	assert(styles.role == css::role::paragraph);
 	assert(styles.toc_level == 0);
 }
 
@@ -210,7 +210,7 @@ TEST_CASE("style - heading0")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == css::text_structure::heading);
+	assert(styles.role == css::role::heading);
 	assert(styles.toc_level == 0);
 }
 
@@ -237,7 +237,7 @@ TEST_CASE("style - heading1")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == css::text_structure::heading);
+	assert(styles.role == css::role::heading);
 	assert(styles.toc_level == 1);
 }
 
@@ -264,7 +264,7 @@ TEST_CASE("style - heading2")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 2);
-	assert(styles.text_structure == css::text_structure::heading);
+	assert(styles.role == css::role::heading);
 	assert(styles.toc_level == 2);
 }
 
@@ -291,7 +291,7 @@ TEST_CASE("style - heading3")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == css::text_structure::heading);
+	assert(styles.role == css::role::heading);
 	assert(styles.toc_level == 3);
 }
 
@@ -318,7 +318,7 @@ TEST_CASE("style - heading4")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == css::text_structure::heading);
+	assert(styles.role == css::role::heading);
 	assert(styles.toc_level == 4);
 }
 
@@ -345,7 +345,7 @@ TEST_CASE("style - heading5")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == css::text_structure::heading);
+	assert(styles.role == css::role::heading);
 	assert(styles.toc_level == 5);
 }
 
@@ -372,7 +372,7 @@ TEST_CASE("style - heading6")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == css::text_structure::heading);
+	assert(styles.role == css::role::heading);
 	assert(styles.toc_level == 6);
 }
 
@@ -399,7 +399,7 @@ TEST_CASE("style - span")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -426,7 +426,7 @@ TEST_CASE("style - sentence")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::sentence);
+	assert(styles.role == css::role::sentence);
 	assert(styles.toc_level == 0);
 }
 
@@ -453,7 +453,7 @@ TEST_CASE("style - superscript")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -480,7 +480,7 @@ TEST_CASE("style - subscript")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -507,7 +507,7 @@ TEST_CASE("style - emphasized")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -534,7 +534,7 @@ TEST_CASE("style - emphasized-block")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::paragraph);
+	assert(styles.role == css::role::paragraph);
 	assert(styles.toc_level == 0);
 }
 
@@ -561,7 +561,7 @@ TEST_CASE("style - strong")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -588,7 +588,7 @@ TEST_CASE("style - reduced")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -615,7 +615,7 @@ TEST_CASE("style - underlined")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -642,7 +642,7 @@ TEST_CASE("style - monospace")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -669,7 +669,7 @@ TEST_CASE("style - monospace-block")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -696,7 +696,7 @@ TEST_CASE("style - bullet_list")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -723,7 +723,7 @@ TEST_CASE("style - number_list")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -750,7 +750,7 @@ TEST_CASE("style - list_item")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -777,7 +777,7 @@ TEST_CASE("style - table")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -804,7 +804,7 @@ TEST_CASE("style - table_row")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::picas);
 	assert(styles.margin.bottom.value() == 1);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }
 
@@ -831,6 +831,6 @@ TEST_CASE("style - table_cell")
 	assert(styles.margin.right.value() == 0);
 	assert(styles.margin.bottom.units() == css::length::inherit);
 	assert(styles.margin.bottom.value() == 0);
-	assert(styles.text_structure == css::text_structure::none);
+	assert(styles.role == css::role::none);
 	assert(styles.toc_level == 0);
 }

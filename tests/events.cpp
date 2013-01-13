@@ -36,20 +36,20 @@ void format_style(const css::styles &styles)
 	{
 	case css::display::inherit:    break;
 	case css::display::block:
-		switch (styles.text_structure)
+		switch (styles.role)
 		{
-		case css::text_structure::none:      fprintf(stdout, "block"); break;
-		case css::text_structure::paragraph: fprintf(stdout, "paragraph"); break;
-		case css::text_structure::heading:   fprintf(stdout, "heading %d", styles.toc_level); return;
-		default:                             break;
+		case css::role::none:      fprintf(stdout, "block"); break;
+		case css::role::paragraph: fprintf(stdout, "paragraph"); break;
+		case css::role::heading:   fprintf(stdout, "heading %d", styles.toc_level); return;
+		default:                   break;
 		}
 		break;
 	case css::display::inlined:
-		switch (styles.text_structure)
+		switch (styles.role)
 		{
-		case css::text_structure::none:     fprintf(stdout, "span"); break;
-		case css::text_structure::sentence: fprintf(stdout, "sentence"); break;
-		default:                            break;
+		case css::role::none:     fprintf(stdout, "span"); break;
+		case css::role::sentence: fprintf(stdout, "sentence"); break;
+		default:                   break;
 		}
 		break;
 	case css::display::list_item:  fprintf(stdout, "list-item"); break;

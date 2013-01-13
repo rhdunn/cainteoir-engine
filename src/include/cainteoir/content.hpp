@@ -102,20 +102,22 @@ namespace cainteoir { namespace css
 		line_through,
 	};
 
-	enum class text_structure : uint8_t
-	{
-		none,
-		heading,
-		paragraph,
-		sentence,
-	};
-
 	struct box
 	{
 		length left;
 		length top;
 		length right;
 		length bottom;
+	};
+
+	// WAI-ARIA
+
+	enum class role : uint8_t
+	{
+		none,
+		heading,
+		paragraph,
+		sentence,
 	};
 
 	// CSS Fonts
@@ -296,9 +298,9 @@ namespace cainteoir { namespace css
 		cainteoir::css::length font_size;
 		cainteoir::css::box margin;
 
-		// Cainteoir Text-to-Speech specific styles (not in CSS spec):
+		// WAI-ARIA:
 
-		cainteoir::css::text_structure text_structure;
+		cainteoir::css::role role;
 		int toc_level;
 
 		styles(const std::string &aName)
@@ -310,7 +312,7 @@ namespace cainteoir { namespace css
 			, font_style(cainteoir::css::font_style::inherit)
 			, font_variant_caps(cainteoir::css::font_variant_caps::inherit)
 			, font_weight(cainteoir::css::font_weight::inherit)
-			, text_structure(cainteoir::css::text_structure::none)
+			, role(cainteoir::css::role::none)
 			, toc_level(0)
 		{
 		}
@@ -327,7 +329,7 @@ namespace cainteoir { namespace css
 		       const std::string &aFontFamily,
 		       const cainteoir::css::length &aFontSize,
 		       const cainteoir::css::box &aMargin,
-		       const cainteoir::css::text_structure aTextStructure,
+		       const cainteoir::css::role aRole,
 		       int aTocLevel)
 			: name(aName)
 			, display(aDisplay)
@@ -341,7 +343,7 @@ namespace cainteoir { namespace css
 			, font_family(aFontFamily)
 			, font_size(aFontSize)
 			, margin(aMargin)
-			, text_structure(aTextStructure)
+			, role(aRole)
 			, toc_level(aTocLevel)
 		{
 		}

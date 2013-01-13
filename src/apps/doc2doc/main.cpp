@@ -108,7 +108,7 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 					context = { "ul", false };
 				else if (reader->styles->list_style_type == "decimal")
 					context = { "ol", false };
-				else if (reader->styles->text_structure == css::text_structure::heading) switch (reader->styles->toc_level)
+				else if (reader->styles->role == css::role::heading) switch (reader->styles->toc_level)
 				{
 				case 1:  context = { "h1", true }; break;
 				case 2:  context = { "h2", true }; break;

@@ -92,7 +92,7 @@ const css::styles cainteoir::unknown =
 	"",
 	{},
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -110,7 +110,7 @@ const css::styles cainteoir::paragraph =
 	"sans-serif",
 	{ 1, css::length::picas },
 	{ {}, {}, {}, { 1, css::length::picas } },
-	css::text_structure::paragraph,
+	css::role::paragraph,
 	0,
 };
 
@@ -128,7 +128,7 @@ const css::styles cainteoir::heading0 =
 	"serif",
 	{ 2, css::length::picas },
 	{ {}, {}, {}, { 1, css::length::picas } },
-	css::text_structure::heading,
+	css::role::heading,
 	0,
 };
 
@@ -146,7 +146,7 @@ const css::styles cainteoir::heading1 =
 	"serif",
 	{ 2, css::length::picas },
 	{ {}, {}, {}, { 1, css::length::picas } },
-	css::text_structure::heading,
+	css::role::heading,
 	1,
 };
 
@@ -164,7 +164,7 @@ const css::styles cainteoir::heading2 =
 	"serif",
 	{ 1.5, css::length::picas },
 	{ {}, {}, {}, { 2, css::length::picas } },
-	css::text_structure::heading,
+	css::role::heading,
 	2,
 };
 
@@ -182,7 +182,7 @@ const css::styles cainteoir::heading3 =
 	"serif",
 	{ 1, css::length::picas },
 	{ {}, {}, {}, { 1, css::length::picas } },
-	css::text_structure::heading,
+	css::role::heading,
 	3,
 };
 
@@ -200,7 +200,7 @@ const css::styles cainteoir::heading4 =
 	"serif",
 	{ 1, css::length::picas },
 	{ {}, {}, {}, { 1, css::length::picas } },
-	css::text_structure::heading,
+	css::role::heading,
 	4,
 };
 
@@ -218,7 +218,7 @@ const css::styles cainteoir::heading5 =
 	"serif",
 	{ 1, css::length::picas },
 	{ {}, {}, {}, { 1, css::length::picas } },
-	css::text_structure::heading,
+	css::role::heading,
 	5,
 };
 
@@ -236,7 +236,7 @@ const css::styles cainteoir::heading6 =
 	"serif",
 	{ 1, css::length::picas },
 	{ {}, {}, {}, { 1, css::length::picas } },
-	css::text_structure::heading,
+	css::role::heading,
 	6,
 };
 
@@ -254,7 +254,7 @@ const css::styles cainteoir::span =
 	"",
 	{},
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -272,7 +272,7 @@ const css::styles cainteoir::sentence =
 	"",
 	{},
 	{},
-	css::text_structure::sentence,
+	css::role::sentence,
 	0,
 };
 
@@ -290,7 +290,7 @@ const css::styles cainteoir::superscript =
 	"",
 	{ 0.75, css::length::picas },
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -308,7 +308,7 @@ const css::styles cainteoir::subscript =
 	"",
 	{ 0.75, css::length::picas },
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -326,7 +326,7 @@ const css::styles cainteoir::emphasized =
 	"",
 	{},
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -344,7 +344,7 @@ const css::styles cainteoir::emphasized_block =
 	"",
 	{},
 	{},
-	css::text_structure::paragraph,
+	css::role::paragraph,
 	0,
 };
 
@@ -362,7 +362,7 @@ const css::styles cainteoir::strong =
 	"",
 	{},
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -380,7 +380,7 @@ const css::styles cainteoir::reduced =
 	"",
 	{},
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -398,7 +398,7 @@ const css::styles cainteoir::underlined =
 	"",
 	{},
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -416,7 +416,7 @@ const css::styles cainteoir::monospace =
 	"monospace",
 	{ 1, css::length::picas },
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -434,7 +434,7 @@ const css::styles cainteoir::monospace_block =
 	"monospace",
 	{ 1, css::length::picas },
 	{ {}, {}, {}, { 1, css::length::picas } },
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -452,7 +452,7 @@ const css::styles cainteoir::bullet_list =
 	"",
 	{},
 	{ {}, {}, {}, { 1, css::length::picas } },
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -470,7 +470,7 @@ const css::styles cainteoir::number_list =
 	"",
 	{},
 	{ {}, {}, {}, { 1, css::length::picas } },
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -488,7 +488,7 @@ const css::styles cainteoir::list_item =
 	"sans-serif",
 	{ 1, css::length::picas },
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -506,7 +506,7 @@ const css::styles cainteoir::table =
 	"",
 	{},
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -524,7 +524,7 @@ const css::styles cainteoir::table_row =
 	"",
 	{},
 	{ {}, {}, {}, { 1, css::length::picas } },
-	css::text_structure::none,
+	css::role::none,
 	0,
 };
 
@@ -542,6 +542,6 @@ const css::styles cainteoir::table_cell =
 	"",
 	{},
 	{},
-	css::text_structure::none,
+	css::role::none,
 	0,
 };

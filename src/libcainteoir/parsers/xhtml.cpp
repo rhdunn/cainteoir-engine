@@ -629,7 +629,7 @@ bool html_document_reader::read()
 				if (!reader->context()->styles->list_style_type.empty())
 					ctx.push({ reader->context(), 1 });
 
-				if (reader->context()->styles->text_structure == cainteoir::css::text_structure::heading)
+				if (reader->context()->styles->role == cainteoir::css::role::heading)
 				{
 					htext.clear();
 					genAnchor = true;
@@ -696,10 +696,10 @@ bool html_document_reader::read()
 				styles = reader->context()->styles;
 				anchor = rdf::uri();
 
-				if (styles->text_structure == cainteoir::css::text_structure::heading)
+				if (styles->role == cainteoir::css::role::heading)
 					mTitle.clear();
 
-				if (styles->text_structure == cainteoir::css::text_structure::heading && !htext.empty())
+				if (styles->role == cainteoir::css::role::heading && !htext.empty())
 				{
 					text = htext.normalize();
 					for (char *c = (char *)text->begin(), *last = (char *)text->end(); c != last; ++c)
