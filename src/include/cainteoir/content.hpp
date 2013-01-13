@@ -138,8 +138,17 @@ namespace cainteoir { namespace css
 	enum class font_weight : uint16_t
 	{
 		inherit,
+		bolder,
+		lighter,
+		thin = 100,
+		ultra_light = 200,
+		light = 300,
 		normal = 400,
+		medium = 500,
+		semi_bold = 600,
 		bold = 700,
+		ultra_bold = 800,
+		heavy = 900,
 	};
 
 	// CSS Counter Styles

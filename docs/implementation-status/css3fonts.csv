@@ -11,7 +11,7 @@
 # section,title,url,model,parsing,tests,comments
 
 3.1,font-family,,0.11,no,no,
-3.2,font-weight,,*0.11,no,no,
+3.2,font-weight,,0.12,no,no,
 3.2,bolder,,no,no,no,
 3.2,lighter,,no,no,no,
 3.3,font-stretch,,no,no,no,
