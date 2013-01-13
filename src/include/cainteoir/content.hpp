@@ -85,28 +85,6 @@ namespace cainteoir { namespace css
 		super,
 	};
 
-	enum class font_style : uint8_t
-	{
-		inherit,
-		normal,
-		italic,
-		oblique,
-	};
-
-	enum class font_variant : uint8_t
-	{
-		inherit,
-		normal,
-		small_caps,
-	};
-
-	enum class font_weight : uint16_t
-	{
-		inherit,
-		normal = 400,
-		bold = 700,
-	};
-
 	enum class text_align : uint8_t
 	{
 		inherit,
@@ -132,14 +110,36 @@ namespace cainteoir { namespace css
 		sentence,
 	};
 
-	// CSS Box Model
-
 	struct box
 	{
 		length left;
 		length top;
 		length right;
 		length bottom;
+	};
+
+	// CSS Fonts
+
+	enum class font_style : uint8_t
+	{
+		inherit,
+		normal,
+		italic,
+		oblique,
+	};
+
+	enum class font_variant : uint8_t
+	{
+		inherit,
+		normal,
+		small_caps,
+	};
+
+	enum class font_weight : uint16_t
+	{
+		inherit,
+		normal = 400,
+		bold = 700,
 	};
 
 	// CSS Counter Styles
