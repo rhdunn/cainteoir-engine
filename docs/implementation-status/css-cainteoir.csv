@@ -1,0 +1,13 @@
+@type,css-spec
+@name,Cainteoir TTS Extensions
+@status,vendor
+@w3c-status,na
+@parent,css
+@version,1
+@copyright,Copyright (C) 2013 Reece H. Dunn
+@license,http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+# section,category,title,url,model,parser,tests,comments
+
+Semantics,property,-ctts-role,,0.12,no,no,
+Semantics,property,-ctts-aria-level,,0.12,no,no,
