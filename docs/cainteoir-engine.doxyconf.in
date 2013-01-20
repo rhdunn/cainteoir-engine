@@ -88,9 +88,9 @@ WARN_NO_PARAMDOC       = NO
 WARN_FORMAT            = "$file:$line: $text"
 WARN_LOGFILE           =
 
-INPUT                  = src/
+INPUT                  = src/ docs/api/src/
 INPUT_ENCODING         = UTF-8
-FILE_PATTERNS          = *.cpp *.cxx *.hpp
+FILE_PATTERNS          = *.cpp *.cxx *.hpp *.dox
 RECURSIVE              = YES
 EXCLUDE                = src/compatibility.hpp \
                          src/libcainteoir/mimetype_database.hpp \

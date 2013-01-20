@@ -21,7 +21,8 @@ src/libcainteoir/parsers/html-entities.dat
 
 # build output:
 
-docs/api/
+docs/api/xml/
+docs/api/html/
 
 data/languages.rdf.gz
 

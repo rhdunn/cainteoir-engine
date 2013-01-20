@@ -1,0 +1,16 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2012-2013 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+\mainpage
+
+The Cainteoir Text-to-Speech Engine API provides support for
+\ref document_reader "reading documents" in a variety of formats, controlling
+\ref tts "Text-to-Speech engines" and feeding the generated audio to an
+\ref audio "audio file or device".
+
+*/
