@@ -43,36 +43,6 @@ static std::string now()
 	return date;
 }
 
-/// @addtogroup audio
-/// @{
-
-/** @struct cainteoir::vorbis_comment
-  * @brief  A vorbis comment.
-  * @see    http://www.xiph.org/vorbis/doc/v-comment.html
-  */
-
-/// @}
-
-/** @var   cainteoir::vorbis_comment::label
-  * @brief The name of the comment, e.g. TITLE.
-  */
-
-/** @var   cainteoir::vorbis_comment::value
-  * @brief The content of the comment, e.g. "Moonlight Sonata".
-  */
-
-/// @addtogroup audio
-/// @{
-
-/** @brief Convert an RDF graph to a set of Vorbis Comments.
-  * @see   http://www.xiph.org/vorbis/doc/v-comment.html
-  * @see   http://wiki.xiph.org/Metadata
-  *
-  * @param[in] aMetadata The RDF metadata used to create the vorbis comments.
-  * @param[in] aDocument The URI of the document in the RDF graph to convert to vorbis comments.
-  *
-  * @return The vorbis comments in (label, value) form for @a aDocument.
-  */
 std::list<cainteoir::vorbis_comment>
 cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
@@ -179,8 +149,6 @@ cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocumen
 	comments.push_back({ "CONTACT",   "http://rhdunn.github.com/cainteoir/" });
 	return comments;
 }
-
-/// @}
 
 #if defined(HAVE_VORBISENC)
 

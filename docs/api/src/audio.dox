@@ -1,0 +1,113 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2012-2013 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+\addtogroup audio
+\{
+
+\struct cainteoir::audio
+\brief  Manage an audio device or file.
+
+\}
+
+
+\fn    cainteoir::audio::~audio()
+\brief Cleanup the audio object.
+
+
+\fn    void cainteoir::audio::open()
+\brief Opens a connection to the audio device or creates the audio file.
+
+
+\fn    void cainteoir::audio::close()
+\brief Closes the connection to the audio device or file.
+
+
+\fn    uint32_t cainteoir::audio::write(const char *data, uint43_t len)
+\brief Write the specified audio data to the device or file.
+
+\param[in] data The audio data.
+\param[in] len  The length of the audio data in bytes.
+
+\return The number of bytes written.
+
+
+\addtogroup audio
+\{
+
+\struct cainteoir::vorbis_comment
+\see    http://www.xiph.org/vorbis/doc/v-comment.html
+\brief  A vorbis comment.
+
+\}
+
+
+\var   cainteoir::vorbis_comment::label
+\brief The name of the comment, e.g. TITLE.
+
+
+\var   cainteoir::vorbis_comment::value
+\brief The content of the comment, e.g. "Moonlight Sonata".
+
+
+\addtogroup audio
+\{
+
+\fn    std::list<cainteoir::vorbis_comment> cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument)
+\see   http://www.xiph.org/vorbis/doc/v-comment.html
+\see   http://wiki.xiph.org/Metadata
+\brief Convert an RDF graph to a set of Vorbis Comments.
+
+\param[in] aMetadata The RDF metadata used to create the vorbis comments.
+\param[in] aDocument The URI of the document in the RDF graph to convert to vorbis comments.
+
+\return The vorbis comments in (label, value) form for @a aDocument.
+
+
+\fn    void cainteoir::supportedAudioFormats(rdf::graph &metadata)
+\brief Get the audio formats that are supported by libcainteoir.
+
+\param[out] metadata The RDF graph to write the format support to.
+
+
+\fn    std::shared_ptr<cainteoir::audio> cainteoir::create_audio_file(const char *filename, const char *type, float quality, const rdf::graph &aDocMetadata, const rdf::uri &aDocument, const rdf::graph &aVoiceMetadata, const rdf::uri &aVoice)
+\brief Create an audio file to write data to.
+
+\param[in] filename       The name of the audio file.
+\param[in] type           The file type (currently either 'wav' or 'ogg').
+\param[in] quality        The encoding quality to use (for lossy encodings).
+\param[in] aDocMetadata   The RDF graph containing the document metadata.
+\param[in] aDocument      The subject to use to extract the document metadata.
+\param[in] aVoiceMetadata The RDF graph containing the voice metadata.
+\param[in] aVoice         The subject to use to extract the voice metadata.
+
+\return An audio object associated with the file.
+
+The document metadata is used to create metadata tags on the audio file
+(title, author, etc.). The voice metadata is used to determine the number
+of channels and frequency of the audio.
+
+
+\fn    std::shared_ptr<cainteoir::audio> cainteoir::open_audio_device(const char *device, const char *type, float quality, const rdf::graph &aDocMetadata, const rdf::uri &aDocument, const rdf::graph &aVoiceMetadata, const rdf::uri &aVoice)
+\brief Open an audio device to write data to.
+
+\param[in] device         The name of the audio device.
+\param[in] type           The device type (currently only 'pulse').
+\param[in] quality        The encoding quality to use (for lossy encodings).
+\param[in] aDocMetadata   The RDF graph containing the document metadata.
+\param[in] aDocument      The subject to use to extract the document metadata.
+\param[in] aVoiceMetadata The RDF graph containing the voice metadata.
+\param[in] aVoice         The subject to use to extract the voice metadata.
+
+\return An audio object associated with the device.
+
+The document metadata is used to create metadata tags on the audio device
+(title, author, etc.). The voice metadata is used to determine the number
+of channels and frequency of the audio.
+
+
+*/
