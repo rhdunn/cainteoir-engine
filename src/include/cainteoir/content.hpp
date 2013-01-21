@@ -157,112 +157,34 @@ namespace cainteoir { namespace css
 
 	enum class counter_system : uint8_t
 	{
-		/** @brief Repeatedly cycles through the specified symbols.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#cyclic-system
-		  */
 		cyclic,
-
-		/** @brief Runs through the symbols once, then falls back.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#fixed-system
-		  */
 		fixed,
-
-		/** @brief As cyclic, but doubles, triples, etc. the symbols on each pass.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#symbolic-system
-		  */
 		symbolic,
-
-		/** @brief As with numeric, but using an alphabet instead of numeric digits.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#alphabetic-system
-		  */
 		alphabetic,
-
-		/** @brief Interprets the symbols as digits to a place value numbering system.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#numeric-system
-		  */
 		numeric,
-
-		/** @brief Uses a combination of symbols where their sum is the counter value.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#additive-system
-		  */
 		additive,
 	};
 
 	struct counter_style
 	{
-		/** @brief The type used for counter values.
-		  */
 		typedef int value_t;
-
-		/** @brief The type used to specify counter ranges.
-		  */
 		typedef std::pair<value_t, value_t> range_t;
 
-		/** @brief The algorithm to use to format the counter value.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-system
-		  */
 		cainteoir::css::counter_system system;
-
-		/** @brief The value of the first symbol (for the fixed system).
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#fixed-system
-		  */
 		int initial_symbol_value;
-
-		/** @brief The set of symbols to use for non-additive systems.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-symbols
-		  */
 		std::vector<std::string> symbols;
-
-		/** @brief The set of symbols to use for the additive system.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-symbols
-		  */
 		std::vector<std::pair<value_t, std::string>> additive_symbols;
-
-		/** @brief The string to use to denote negative numbers (before the number).
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-negative
-		  */
 		std::string negative_prefix;
-
-		/** @brief The string to use to denote negative numbers (after the number).
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-negative
-		  */
 		std::string negative_suffix;
-
-		/** @brief The string to use at the start of the formatted counter value.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-prefix
-		  */
 		std::string prefix;
-
-		/** @brief The string to use at the end of the formatted counter value.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-suffix
-		  */
 		std::string suffix;
-
-		/** @brief Defines the range over which the counter style is defined.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-range
-		  */
 		range_t range;
-
-		/** @brief The counter to use when this counter cannot represent a value.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-fallback
-		  */
 		const counter_style *fallback;
 
-		/** @brief The value for the 'infinite infinite' range.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-range
-		  */
 		static const range_t infinite;
 
-		/** @brief The range to use for auto ranges based on the counter system.
-		  * @see   http://www.w3.org/TR/css-counter-styles-3/#counter-style-range
-		  *
-		  * @param system The counter system to get the auto range for.
-		  * @return       The range to use for the auto range.
-		  */
 		static const range_t get_auto_range(counter_system system);
 
-		/** @brief Construct a counter style with default values.
-		  */
 		counter_style()
 			: system(counter_system::symbolic)
 			, initial_symbol_value(1)
@@ -273,11 +195,6 @@ namespace cainteoir { namespace css
 		{
 		}
 
-		/** @brief Format a count value using the counter style.
-		  *
-		  * @param count The numeric value of the counter to format.
-		  * @return      The formatted value.
-		  */
 		std::string marker(value_t count) const;
 	};
 

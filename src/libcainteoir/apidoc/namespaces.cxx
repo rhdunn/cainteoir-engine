@@ -22,6 +22,10 @@
   * @brief     Cainteoir Text-to-Speech API.
   */
 
+/** @namespace cainteoir::css
+  * @brief     Cascading Style Sheet (CSS) implementation.
+  */
+
 /** @namespace cainteoir::events
   * @brief     Document event types for representing document contents.
   */
