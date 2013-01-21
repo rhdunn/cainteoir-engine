@@ -1,6 +1,6 @@
 /* Text Normalization Buffer for XML Strings.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -89,22 +89,7 @@ normalized_text_buffer::~normalized_text_buffer()
 
 #endif
 
-/// @addtogroup buffers
-/// @{
-
-/** @brief Create a whitespace-normalized buffer.
-  *
-  * @param[in] aBuffer The buffer containing the text to normalize.
-  *
-  * @return A new buffer with the whitespace normalized.
-  *
-  * This trims whitespace from the start and end of the buffer, as well as
-  * consecutive whitespace characters within the buffer. Any whitespace
-  * character is replaced by an ASCII space character.
-  */
 std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
 {
 	return std::make_shared<normalized_text_buffer>(aBuffer);
 }
-
-/// @}

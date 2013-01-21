@@ -64,32 +64,13 @@ err:
 	}
 }
 
-/// @addtogroup decoders
-/// @{
-
-/** @brief Inflate a zlib compressed data buffer.
-  *
-  * @param[in] data The data buffer to be decoded/decompressed.
-  * @param[in] size The size of the decoded/decompressed data buffer.
-  *
-  * @return The uncompressed data buffer.
-  */
 std::shared_ptr<cainteoir::buffer> cainteoir::inflate_zlib(const cainteoir::buffer &data, uint32_t size)
 {
 	return inflateBuffer(data, size, -MAX_WBITS);
 }
 
-/** @brief Inflate a gzip compressed data buffer.
-  *
-  * @param[in] data The data buffer to be decoded/decompressed.
-  * @param[in] size The size of the decoded/decompressed data buffer.
-  *
-  * @return The uncompressed data buffer.
-  */
 std::shared_ptr<cainteoir::buffer> cainteoir::inflate_gzip(const cainteoir::buffer &data, uint32_t size)
 {
 	size = *((uint32_t *)(data.end() - 4));
 	return inflateBuffer(data, size, 16 + MAX_WBITS);
 }
-
-/// @}

@@ -1,0 +1,326 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2012-2013 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+
+\addtogroup buffers
+\{
+
+\class cainteoir::buffer
+\brief Represents a data or string buffer.
+
+This class does not manage the lifetime of the data held within it, however
+derived classes may manage the lifetime.
+
+\}
+
+
+\fn    cainteoir::buffer::buffer(const char *f, const char *l)
+\brief Create a new data buffer from a range.
+
+\param[in] f The start of the buffer.
+\param[in] l The end of the buffer.
+
+
+\fn    cainteoir::buffer::buffer(const char *f)
+\brief Create a new data buffer from a string.
+
+\param[in] f The null-terminated string to create the buffer from.
+
+
+\fn    cainteoir::buffer::~buffer()
+\brief Clean up the buffer.
+
+
+\typedef int (*cainteoir::buffer::match_type)(const char *s1, const char *s2, size_t n)
+\brief   Pointer to a string comparison function.
+
+\param[in] s1 The first string to compare.
+\param[in] s2 The second string to compare.
+\param[in] n  The number of characters to compare.
+
+
+\var   const cainteoir::buffer::match_type cainteoir::buffer::match_case
+\brief Perform case-sensitive string comparison.
+
+
+\var   const cainteoir::buffer::match_type cainteoir::buffer::ignore_case
+\brief Perform case-insensitive string comparison.
+
+
+\fn    bool cainteoir::buffer::startswith(const char *str, match_type match) const
+\brief Does the buffer start with the specified string?
+
+\param[in] str   The string to check for.
+\param[in] match The comparison method to use (case sensitive or insensitive).
+
+\retval true  If the buffer starts with the specified string.
+\retval false If the buffer does not start with the specified string.
+
+
+\fn    int cainteoir::buffer::compare(const char *str, match_type match) const
+\brief Compare the buffer with a string.
+
+\param[in] str   The string to compare with.
+\param[in] match The comparison method to use (case sensitive or insensitive).
+
+\retval  0 If the strings match.
+\retval <0 If str is less than the buffer.
+\retval >0 if str is greater than the buffer.
+
+
+\fn    int cainteoir::buffer::compare(const buffer &str, match_type match) const
+\brief Compare the buffer with a string.
+
+\param[in] str   The string to compare with.
+\param[in] match The comparison method to use (case sensitive or insensitive).
+
+\retval  0 If the strings match.
+\retval <0 If str is less than the buffer.
+\retval >0 if str is greater than the buffer.
+
+
+\fn    int cainteoir::buffer::comparei(const char *str) const
+\brief Compare the buffer with a string, ignoring case differences.
+
+\param[in] str The string to compare with.
+
+\retval  0 If the strings match.
+\retval <0 If str is less than the buffer.
+\retval >0 if str is greater than the buffer.
+
+
+\fn    int cainteoir::buffer::comparei(const buffer &str) const
+\brief Compare the buffer with a string, ignoring case differences.
+
+\param[in] str The string to compare with.
+
+\retval  0 If the strings match.
+\retval <0 If str is less than the buffer.
+\retval >0 if str is greater than the buffer.
+
+
+\fn    std::string cainteoir::buffer::str() const
+\brief Convert the buffer to a C++ string.
+
+\return The buffer as a C++ string.
+
+
+\addtogroup buffers
+\{
+
+\class cainteoir::data_buffer
+\brief A buffer allocated in memory of a given size.
+
+\}
+
+
+\fn    cainteoir::data_buffer::data_buffer(unsigned int aSize)
+\brief Create a memory buffer of the requested size.
+
+\param[in] aSize The size of the buffer to create.
+
+
+\fn    cainteoir::data_buffer::~data_buffer()
+\brief Clean up the buffer.
+
+
+\addtogroup buffers
+\{
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::make_buffer(const std::string &aString)
+\brief Create a data buffer with the content of the string.
+
+\param[in] aString The content of the buffer.
+
+\return A new data buffer with the content of \a aString.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::make_buffer(const char *aString, int aLength)
+\brief Create a data buffer with the content of the string.
+
+\param[in] aString The content of the buffer.
+\param[in] aLength The length of the string (or number of bytes of the string to copy).
+
+\return A new data buffer with the content of \a aString.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(const char *path)
+\brief Create a buffer from a file.
+
+\param[in] path The path of the file to read the data from.
+
+\return A buffer containing the content of the specified file.
+
+This function creates a memory mapped view of the file for optimal reading
+of file contents.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(FILE *f)
+\brief Create a buffer from a file.
+
+\param[in] f The file to read the data from.
+
+\return A buffer containing the content of the specified file.
+
+This function reads the data from the file in chunks. It is useful for
+files that are buffered (stdin, pipes, sockets, etc.). For regular
+files, use the version of this function that takes a path as that reads
+the content in a single memory-mapped block.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
+\brief Create a whitespace-normalized buffer.
+
+\param[in] aBuffer The buffer containing the text to normalize.
+
+\return A new buffer with the whitespace normalized.
+
+This trims whitespace from the start and end of the buffer, as well as
+consecutive whitespace characters within the buffer. Any whitespace
+character is replaced by an ASCII space character.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::copy(const cainteoir::buffer &data, uint32_t size)
+\brief Copy the data in buffer to a memory buffer.
+
+\param[in] data The data buffer to be decoded/decompressed.
+\param[in] size The size of the decoded/decompressed data buffer.
+
+\return The new data buffer.
+
+This function has the same signature as the \ref decoders "Decoding and Decompression"
+API for use when no decoding or decompression is required, but the data still needs
+copying.
+
+
+\class cainteoir::rope
+\brief Manage a list of buffers.
+
+This class is for situations where many buffers are created and concatenated
+together. It only concatenates the buffers when requested, performing the
+operation in one pass.
+
+\}
+
+
+\fn    cainteoir::rope::rope()
+\brief Create an empty rope object.
+
+
+\fn    std::size_t cainteoir::rope::size() const
+\brief Get the number of bytes in the rope buffers.
+
+\return The number of bytes in the rope buffers.
+
+
+\fn    bool cainteoir::rope::empty() const
+\brief Is the rope empty?
+
+\retval true  If the rope does not contain any buffer objects.
+\retval false If the rope contains buffer objects.
+
+
+\fn    void cainteoir::rope::clear()
+\brief Empty the rope.
+
+
+\fn    cainteoir::rope &cainteoir::rope::operator=(const std::shared_ptr<cainteoir::buffer> &item)
+\brief Set the rope to the content of the buffer.
+
+\param[in] item The buffer content to set the rope to.
+
+\return This rope object (for method chaining).
+
+
+\fn    cainteoir::rope &cainteoir::rope::operator+=(const std::shared_ptr<cainteoir::buffer> &item)
+\brief Append the content of the buffer to the rope.
+
+\param[in] item The buffer content to append.
+
+\return This rope object (for method chaining).
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::rope::buffer() const
+\brief Get a buffer to the entire rope content.
+
+\return The entire rope content.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::rope::content() const
+\brief Get the content of the rope.
+
+\return The entire rope content.
+
+This differs from the buffer method in that if the rope only contains whitespace
+then an empty buffer here is returned.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::rope::normalize() const
+\brief Get the rope buffer in its whitespace-normalized form.
+
+\return The rope buffer in its whitespace-normalized form.
+
+
+\fn    std::string cainteoir::rope::str() const
+\brief Get the buffer as a C++ string.
+
+\return The buffer as a C++ string.
+
+
+\addtogroup decoders
+\{
+
+\typedef std::shared_ptr<cainteoir::buffer> (*cainteoir::decoder_ptr)(const buffer &data, uint32_t size)
+\brief   Pointer to a decoding/decompression algorithm.
+
+\param[in] data The data buffer to be decoded/decompressed.
+\param[in] size The size of the decoded/decompressed data buffer.
+
+\return The new data buffer.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::inflate_zlib(const cainteoir::buffer &data, uint32_t size)
+\brief Inflate a zlib compressed data buffer.
+
+\param[in] data The data buffer to be decoded/decompressed.
+\param[in] size The size of the decoded/decompressed data buffer.
+
+\return The uncompressed data buffer.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::inflate_gzip(const cainteoir::buffer &data, uint32_t size)
+\brief Inflate a gzip compressed data buffer.
+
+\param[in] data The data buffer to be decoded/decompressed.
+\param[in] size The size of the decoded/decompressed data buffer.
+
+\return The uncompressed data buffer.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::decode_quoted_printable(const cainteoir::buffer &data, uint32_t size)
+\brief Decode a quoted printable encoded data buffer.
+
+\param[in] data The data buffer to be decoded/decompressed.
+\param[in] size The size of the decoded/decompressed data buffer.
+
+\return The decoded data buffer.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::decode_base64(const cainteoir::buffer &data, uint32_t size)
+\brief Decode a base64 encoded data buffer.
+
+\param[in] data The data buffer to be decoded/decompressed.
+\param[in] size The size of the decoded/decompressed data buffer.
+
+\return The decoded data buffer.
+
+
+\}
+
+
+*/

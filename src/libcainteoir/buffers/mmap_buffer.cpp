@@ -1,6 +1,6 @@
 /* Memory-Mapped File Buffer.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -67,21 +67,7 @@ mmap_buffer::~mmap_buffer()
 
 #endif
 
-/// @addtogroup buffers
-/// @{
-
-/** @brief Create a buffer from a file.
-  *
-  * @param[in] path The path of the file to read the data from.
-  *
-  * @return A buffer containing the content of the specified file.
-  *
-  * This function creates a memory mapped view of the file for optimal reading
-  * of file contents.
-  */
 std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(const char *path)
 {
 	return std::make_shared<mmap_buffer>(path);
 }
-
-/// @}
