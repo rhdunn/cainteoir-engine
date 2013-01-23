@@ -508,7 +508,7 @@ subjects.
 
 \return This graph object (to support method chaining).
 
-This is used for generating \@prefix entries in turtle/n3 documents.
+This is used for generating \\prefix entries in turtle/n3 documents.
 
 
 \fn    cainteoir::rdf::graph &cainteoir::rdf::graph::add_namespace(const cainteoir::rdf::ns &ns)
@@ -518,7 +518,7 @@ This is used for generating \@prefix entries in turtle/n3 documents.
 
 \return This graph object (to support method chaining).
 
-This is used for generating \@prefix entries in turtle/n3 documents.
+This is used for generating \\prefix entries in turtle/n3 documents.
 
 
 \fn    cainteoir::rdf::graph &cainteoir::rdf::graph::operator<<(const cainteoir::rdf::ns &ns)
@@ -528,7 +528,7 @@ This is used for generating \@prefix entries in turtle/n3 documents.
 
 \return This graph to support method chaining.
 
-This is used for generating \@prefix entries in turtle/n3 documents.
+This is used for generating \\prefix entries in turtle/n3 documents.
 
 
 \fn    rdf::graph &rdf::graph::add_prefix(const std::string &aPrefix)
@@ -641,5 +641,80 @@ This enforces the RDF requirement that a predicate cannot be a blank node.
 \return The first literal value matching the selector.
 
 \}
+\addtogroup rdf
+\{
+
+\fn    std::shared_ptr<rdf::formatter> rdf::create_formatter(std::ostream &aStream, rdf::formatter::format_type aFormatType)
+\brief Create an RDF serializer.
+
+\param[in] aStream     The output stream to serialize the RDF data to.
+\param[in] aFormatType The format to serialize the RDF data as.
+
+\return The formatter object.
+
+
+\struct cainteoir::rdf::formatter
+\brief  An interface for serializing RDF graphs.
+
+\}
+
+
+\fn    cainteoir::rdf::formatter::~formatter()
+\brief Clean up the formatter object.
+
+
+\fn    cainteoir::rdf::formatter &cainteoir::rdf::formatter::operator<<(const cainteoir::rdf::ns &aNS)
+\brief Serialize a namespace.
+
+\param[in] aNS The namespace to serialize.
+
+\return The formatter object (to support method chaining).
+
+
+\fn    cainteoir::rdf::formatter &cainteoir::rdf::formatter::operator<<(const cainteoir::rdf::uri &uri)
+\brief Serialize a URI resource.
+
+\param[in] uri The URI resource to serialize.
+
+\return The formatter object (to support method chaining).
+
+
+\fn    cainteoir::rdf::formatter &cainteoir::rdf::formatter::operator<<(const cainteoir::rdf::literal &literal)
+\brief Serialize a literal resource.
+
+\param[in] literal The literal resource to serialize.
+
+\return The formatter object (to support method chaining).
+
+
+\fn    cainteoir::rdf::formatter &cainteoir::rdf::formatter::operator<<(const std::shared_ptr<const triple> &statement)
+\brief Serialize an RDF statement.
+
+\param[in] statement The statement to serialize.
+
+\return The formatter object (to support method chaining).
+
+
+\fn    cainteoir::rdf::formatter &cainteoir::rdf::formatter::operator<<(const cainteoir::rdf::graph &aGraph)
+\brief Serialize an RDF graph.
+
+\param[in] aGraph The RDF graph to serialize.
+
+\return The formatter object (to support method chaining).
+
+
+\enum  cainteoir::rdf::formatter::format_type
+\brief The format used to serialize the RDF statements as.
+
+
+\var   cainteoir::rdf::formatter::format_type cainteoir::rdf::formatter::ntriple
+\see   http://www.w3.org/TR/rdf-testcases/#ntriples
+\brief N-Triple serialization format.
+
+
+\var   cainteoir::rdf::formatter::format_type cainteoir::rdf::formatter::turtle
+\see   http://www.w3.org/TeamSubmission/turtle/
+\brief Turtle serialization format.
+
 
 */
