@@ -8,9 +8,9 @@
 
 
 \addtogroup encoding
-///\{
+\{
 
-\fn    char *utf8::write(char *out, uint32_t c)
+\fn    char *cainteoir::utf8::write(char *out, uint32_t c)
 \brief Write a UTF-8 character to an output buffer.
 
 \param[in] out The output buffer to write the UTF-8 character to.
@@ -22,7 +22,7 @@ This function does not null-terminate out and does not check that there is
 enough space in out to write all the UTF-8 characters (up-to 4 characters).
 
 
-\fn    const char *utf8::read(const char *in, uint32_t &c)
+\fn    const char *cainteoir::utf8::read(const char *in, uint32_t &c)
 \brief Read a UTF-8 character from an input buffer.
 
 \param[in]  in The input buffer to read the UTF-8 character from.
@@ -31,7 +31,7 @@ enough space in out to write all the UTF-8 characters (up-to 4 characters).
 \return A pointer to the new position within \a in after reading the UTF-8 character.
 
 
-\fn    const char *utf8::next(const char *c)
+\fn    const char *cainteoir::utf8::next(const char *c)
 \brief Get the next UTF-8 character in the sequence.
 
 \param[in] c The current position in the UTF-8 string.
@@ -39,7 +39,7 @@ enough space in out to write all the UTF-8 characters (up-to 4 characters).
 \return A pointer to the next UTF-8 character.
 
 
-\fn    const char *utf8::prev(const char *c)
+\fn    const char *cainteoir::utf8::prev(const char *c)
 \brief Get the previous UTF-8 character in the sequence.
 
 \param[in] c The current position in the UTF-8 string.

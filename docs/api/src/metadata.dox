@@ -355,15 +355,15 @@ a relation in the RDF graph.
 \addtogroup rdf_selectors
 \{
 
-\var   const rql::detail::subject_t rql::subject
+\var   const cainteoir::rdf::query::detail::subject_t cainteoir::rdf::query::subject
 \brief Extract the subject of the RDF triple.
 
 
-\var   const rql::detail::predicate_t rql::predicate
+\var   const cainteoir::rdf::query::detail::predicate_t cainteoir::rdf::query::predicate
 \brief Extract the predicate of the RDF triple.
 
 
-\var   const rql::detail::object_t rql::object
+\var   const cainteoir::rdf::query::detail::object_t cainteoir::rdf::query::object
 \brief Extract the object of the RDF triple.
 
 

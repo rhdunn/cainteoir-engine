@@ -421,16 +421,12 @@ All namespaces associated with the top-most scope block are removed.
 \brief  Identifies an XML element or attribute.
 
 
-\var   cainteoir::xml::context::entry::context
-\brief The document context associated with the element/attribute.
+\var   cainteoir::xml::begin_tag_type cainteoir::xml::context::entry::begin_tag_type
+\brief Denotes whether the element is self-closing or not.
 
 
-\var   cainteoir::xml::context::entry::parameter
-\brief The parameter associated with the document context.
-
-
-\var   cainteoir::xml::context::entry::parse_type
-\brief Information on how to parse the element/attribute.
+\var   const cainteoir::css::styles *cainteoir::xml::context::entry::styles
+\brief The CSS styles associated with the element.
 
 
 \struct cainteoir::xml::context::entry_ref
