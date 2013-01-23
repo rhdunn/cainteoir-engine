@@ -340,38 +340,6 @@ const cainteoir::mime::mime_info &cainteoir::mime::mimetype_database::operator[]
 
 cainteoir::mime::mimetype_database cainteoir::mime::mimetypes;
 
-/// @addtogroup mime
-/// @{
-
-/** @struct cainteoir::mime::mimetype
-  * @brief  Manage a document MIME type with file content detection.
-  */
-
-/// @}
-
-/** @var   cainteoir::mime::mimetype::name
-  * @brief The name of this mimetype/content.
-  */
-
-/** @var   cainteoir::mime::mimetype::mime_type
-  * @brief The primary mimetype string.
-  */
-
-/** @fn    cainteoir::mime::mimetype::mimetype(const char *aName, const char *aMimeType, const void *aInfo)
-  * @brief Create a MIME type manager object.
-  *
-  * @param[in] aName     The document type name.
-  * @param[in] aMimeType The primary MIME type string.
-  * @param[in] aInfo     The internal MIME type detection information.
-  */
-
-/** @brief Does the document content match this MIME type?
-  *
-  * @param[in] data The document content to check.
-  *
-  * @retval true  If the content matches this MIME type.
-  * @retval false If the content does not match this MIME type.
-  */
 bool cainteoir::mime::mimetype::match(const std::shared_ptr<cainteoir::buffer> &data) const
 {
 	const mime_info *mime = (const mime_info *)info;
@@ -386,14 +354,6 @@ bool cainteoir::mime::mimetype::match(const std::shared_ptr<cainteoir::buffer> &
 	return false;
 }
 
-/** @brief Does the XML namespace match this MIME type?
-  *
-  * @param[in] uri  The URI of the XML namespace.
-  * @param[in] name The localname of the root XML element.
-  *
-  * @retval true  If the XML namespace matches this MIME type.
-  * @retval false If the XML namespace does not match this MIME type.
-  */
 bool cainteoir::mime::mimetype::match(const std::string &uri, const std::string &name) const
 {
 	const mime_info *mime = (const mime_info *)info;
@@ -408,12 +368,6 @@ bool cainteoir::mime::mimetype::match(const std::string &uri, const std::string 
 	return mime->localname == name;
 }
 
-/** @brief Get the RDF metadata for this MIME type.
-  *
-  * @param[out] aGraph  The RDF graph to write the metadata to.
-  * @param[in]  baseuri The base URI to use for the RDF subject associated with this MIME type.
-  * @param[in]  type    The rdf:type of the RDF subject associated with this MIME type.
-  */
 void cainteoir::mime::mimetype::metadata(rdf::graph &aGraph, const std::string &baseuri, const rdf::uri &type) const
 {
 	const mime_info *mime = (const mime_info *)info;
@@ -432,13 +386,13 @@ void cainteoir::mime::mimetype::metadata(rdf::graph &aGraph, const std::string &
 		aGraph.statement(ref, rdf::tts("extension"), rdf::literal(glob));
 }
 
-/** === MIME Header Handling ===
-  * The magic to detect MIME header content from HTTP, SMTP and MHTML documents.
-  *
-  * This information is stored statically here and not loaded from the shared-mime-info
-  * database as the MIME document headers don't have a mimetype themselves (the mimetype
-  * governs the content).
-  */
+/* === MIME Header Handling ===
+ * The magic to detect MIME header content from HTTP, SMTP and MHTML documents.
+ *
+ * This information is stored statically here and not loaded from the shared-mime-info
+ * database as the MIME document headers don't have a mimetype themselves (the mimetype
+ * governs the content).
+ */
 //{{{
 
 static const std::initializer_list<m::matchlet> http_pattern1 = { { 0,  1, "HTTP/1.0" }, {  8, 81, "\nContent-Type:" } };
@@ -474,83 +428,22 @@ const m::mime_info m::mime_data = { mime_magic, "", "", "", {}, {} };
 
 //}}}
 
-/// @addtogroup mime
-/// @{
-
-/** @brief Email mbox (mime) document.
-  */
-const m::mimetype m::email("email", m::email_mimetype);
-
-/** @brief Electronic publication (ePub) document.
-  */
-const m::mimetype m::epub("epub", m::epub_mimetype);
-
-/** @brief GZIP compressed document.
-  */
-const m::mimetype m::gzip("gzip", m::gzip_mimetype);
-
-/** @brief HTML document.
-  */
-const m::mimetype m::html("html", m::html_mimetype);
-
-/** @brief Single-page HTML document.
-  */
-const m::mimetype m::mhtml("mhtml", m::mhtml_mimetype);
-
-/** @brief MIME/HTTP/NEWS headers.
-  */
-const m::mimetype m::mime("mime", nullptr, &mime_data);
-
-/** @brief Navigation control document.
-  */
-const m::mimetype m::ncx("ncx", m::ncx_mimetype);
-
-/** @brief Ogg/Vorbis audio.
-  */
-const m::mimetype m::ogg("ogg", m::ogg_mimetype);
-
-/** @brief Open package format document.
-  */
-const m::mimetype m::opf("opf", m::opf_mimetype);
-
-/** @brief Portable document format.
-  */
-const m::mimetype m::pdf("pdf", m::pdf_mimetype);
-
-/** @brief RDF/XML document.
-  */
-const m::mimetype m::rdfxml("rdf", m::rdfxml_mimetype);
-
-/** @brief Rich text document.
-  */
-const m::mimetype m::rtf("rtf", m::rtf_mimetype);
-
-/** @brief SMIL document.
-  */
-const m::mimetype m::smil("smil", m::smil_mimetype);
-
-/** @brief Speech synthesis markup document.
-  */
-const m::mimetype m::ssml("ssml", m::ssml_mimetype);
-
-/** @brief Plain text document.
-  */
-const m::mimetype m::text("text", m::text_mimetype);
-
-/** @brief Wave audio.
-  */
-const m::mimetype m::wav("wav", m::wav_mimetype);
-
-/** @brief XHTML document.
-  */
-const m::mimetype m::xhtml("xhtml", m::xhtml_mimetype);
-
-/** @brief Extensible markup language document.
-  */
-const m::mimetype m::xml("xml", m::xml_mimetype);
-
-/** @brief ZIP (compressed) archive.
-  */
-const m::mimetype m::zip("zip", m::zip_mimetype);
-
-/// @}
+const m::mimetype m::email( "email", m::email_mimetype);
+const m::mimetype m::epub(  "epub",  m::epub_mimetype);
+const m::mimetype m::gzip(  "gzip",  m::gzip_mimetype);
+const m::mimetype m::html(  "html",  m::html_mimetype);
+const m::mimetype m::mhtml( "mhtml", m::mhtml_mimetype);
+const m::mimetype m::mime(  "mime",  nullptr, &mime_data);
+const m::mimetype m::ncx(   "ncx",   m::ncx_mimetype);
+const m::mimetype m::ogg(   "ogg",   m::ogg_mimetype);
+const m::mimetype m::opf(   "opf",   m::opf_mimetype);
+const m::mimetype m::pdf(   "pdf",   m::pdf_mimetype);
+const m::mimetype m::rdfxml("rdf",   m::rdfxml_mimetype);
+const m::mimetype m::rtf(   "rtf",   m::rtf_mimetype);
+const m::mimetype m::smil(  "smil",  m::smil_mimetype);
+const m::mimetype m::ssml(  "ssml",  m::ssml_mimetype);
+const m::mimetype m::text(  "text",  m::text_mimetype);
+const m::mimetype m::wav(   "wav",   m::wav_mimetype);
+const m::mimetype m::xhtml( "xhtml", m::xhtml_mimetype);
+const m::mimetype m::xml(   "xml",   m::xml_mimetype);
+const m::mimetype m::zip(   "zip",   m::zip_mimetype);
