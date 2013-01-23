@@ -1,0 +1,50 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2012-2013 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+
+\namespace cainteoir
+\brief     Cainteoir Text-to-Speech API.
+
+
+\namespace cainteoir::css
+\brief     Cascading Style Sheet (CSS) implementation.
+
+
+\namespace cainteoir::events
+\brief     Document event types for representing document contents.
+
+
+\namespace cainteoir::language
+\brief     BCP 47 / RFC 5646 support for language code processing.
+
+
+\namespace cainteoir::mime
+\brief     MIME type handling for file content identification.
+
+
+\namespace cainteoir::rdf
+\brief     Support for creating and manipulating RDF metadata.
+
+
+\namespace cainteoir::rdf::query
+\brief     Support for selecting and querying statements in an RDF graph.
+
+
+\namespace cainteoir::tts
+\brief     Text-to-Speech API.
+
+
+\namespace cainteoir::utf8
+\brief     Helper functions for manipulating UTF-8 character sequences.
+
+
+\namespace cainteoir::xml
+\brief     Support for parsing XML documents.
+
+
+*/
