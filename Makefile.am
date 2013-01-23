@@ -156,7 +156,7 @@ docs/implementation-status/csv2html.stamp: \
 fsm:	data/parsetext-fsm.svg
 
 api:
-	doxygen docs/cainteoir-engine.doxyconf
+	doxygen docs/cainteoir-engine.doxyconf 2>&1 | ( ! grep . )
 
 doc:	docs/implementation-status/csv2html.stamp \
 	README.html \
