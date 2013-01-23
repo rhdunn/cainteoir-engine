@@ -31,8 +31,6 @@
 
 namespace rdf = cainteoir::rdf;
 
-#ifndef DOXYGEN
-
 class pulse_audio : public cainteoir::audio
 {
 	pa_simple *pa;
@@ -84,9 +82,6 @@ public:
 	}
 };
 
-#endif
-
-/// @private
 std::shared_ptr<cainteoir::audio>
 create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {

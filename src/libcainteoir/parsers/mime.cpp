@@ -1,6 +1,6 @@
 /* MIME Header Parser.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -31,8 +31,6 @@
 namespace rdf    = cainteoir::rdf;
 namespace mime   = cainteoir::mime;
 namespace events = cainteoir::events;
-
-#ifndef DOXYGEN
 
 static inline bool is_mime_header_char(char c)
 {
@@ -399,5 +397,3 @@ cainteoir::createMimeInHtmlReader(std::shared_ptr<cainteoir::buffer> &aData,
 	auto data = cainteoir::copy(*text, 0);
 	return createMimeReader(data, aSubject, aPrimaryMetadata, aTitle);
 }
-
-#endif

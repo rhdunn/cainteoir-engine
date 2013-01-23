@@ -29,8 +29,6 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
-#ifndef DOXYGEN
-
 namespace ssml
 {
 	static const xml::context::entry emphasis_node  = { &cainteoir::emphasized };
@@ -197,5 +195,3 @@ cainteoir::createSsmlReader(const std::shared_ptr<xml::reader> &aReader,
 
 	return std::make_shared<ssml_document_reader>(aReader, aSubject, aPrimaryMetadata, aTitle);
 }
-
-#endif

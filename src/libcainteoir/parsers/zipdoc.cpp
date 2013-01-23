@@ -1,6 +1,6 @@
 /* Zip Document Parser.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -24,10 +24,8 @@
 
 #include <stdexcept>
 
-namespace rdf    = cainteoir::rdf;
-namespace xml    = cainteoir::xml;
-
-#ifndef DOXYGEN
+namespace rdf = cainteoir::rdf;
+namespace xml = cainteoir::xml;
 
 struct zip_document_reader : public cainteoir::document_reader
 {
@@ -88,5 +86,3 @@ cainteoir::createZipReader(std::shared_ptr<archive> &aData)
 {
 	return std::make_shared<zip_document_reader>(aData);
 }
-
-#endif

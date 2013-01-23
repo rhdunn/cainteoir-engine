@@ -1,6 +1,6 @@
 /* RDF formatters.
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -22,8 +22,6 @@
 #include <iostream>
 
 namespace rdf = cainteoir::rdf;
-
-#ifndef DOXYGEN
 
 class n3_formatter : public rdf::formatter
 {
@@ -129,8 +127,6 @@ private:
 	format_type format;
 	std::map<std::string, std::string> namespaces;
 };
-
-#endif
 
 /// @addtogroup rdf
 /// @{

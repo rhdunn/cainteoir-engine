@@ -29,8 +29,6 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
 
-#ifndef DOXYGEN
-
 namespace html
 {
 	// HTML§12.1.2 -- void elements
@@ -760,9 +758,7 @@ cainteoir::createHtmlReader(const std::shared_ptr<xml::reader> &aReader,
 	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, aMimeType, aTitle);
 }
 
-/** References
-  *
-  *    HTML [http://www.whatwg.org/specs/web-apps/current-work/multipage/] -- HTML Living Standard
-  */
-
-#endif
+/* References
+ *
+ *    HTML [http://www.whatwg.org/specs/web-apps/current-work/multipage/] -- HTML Living Standard
+ */

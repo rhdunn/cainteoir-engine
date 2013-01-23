@@ -20,8 +20,6 @@
 
 #include <cainteoir/buffer.hpp>
 
-#ifndef DOXYGEN
-
 static inline int hex_to_value(char c)
 {
 	if (c >= '0' && c <= '9')
@@ -70,8 +68,6 @@ struct quoted_printable : public cainteoir::data_buffer
 		last = current;
 	}
 };
-
-#endif
 
 std::shared_ptr<cainteoir::buffer> cainteoir::decode_quoted_printable(const cainteoir::buffer &data, uint32_t size)
 {

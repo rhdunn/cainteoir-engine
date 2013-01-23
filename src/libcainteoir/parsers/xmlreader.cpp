@@ -1,6 +1,6 @@
 /* XML/HTML Reader API.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -173,7 +173,6 @@ const cainteoir::xml::context::entry cainteoir::xml::id_attr = {};
 const cainteoir::xml::context::entry cainteoir::xml::lang_attr = {};
 const cainteoir::xml::context::entry cainteoir::xml::space_attr = {};
 
-#ifndef DOXYGEN
 const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir::xml::attrs =
 {
 	{ "base",  &xml::base_attr },
@@ -181,7 +180,6 @@ const std::initializer_list<const cainteoir::xml::context::entry_ref> cainteoir:
 	{ "lang",  &xml::lang_attr },
 	{ "space", &xml::space_attr },
 };
-#endif
 
 const cainteoir::xml::context::entry *cainteoir::xml::context::lookup(const std::string &aNS, const cainteoir::buffer &aNode) const
 {

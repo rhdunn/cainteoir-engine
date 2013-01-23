@@ -23,8 +23,6 @@
 
 #include <cainteoir/buffer.hpp>
 
-#ifndef DOXYGEN
-
 static const char base64_chars[] =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	"abcdefghijklmnopqrstuvwxyz"
@@ -82,8 +80,6 @@ struct base64 : public cainteoir::data_buffer
 		last = current;
 	}
 };
-
-#endif
 
 std::shared_ptr<cainteoir::buffer> cainteoir::decode_base64(const cainteoir::buffer &data, uint32_t size)
 {

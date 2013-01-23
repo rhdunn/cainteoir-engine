@@ -277,7 +277,6 @@ public:
 	}
 };
 
-/// @private
 std::shared_ptr<cainteoir::audio>
 create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
@@ -289,7 +288,6 @@ create_ogg_file(const char *filename, const rdf::uri &format, int channels, int 
 
 #else
 
-/// @private
 std::shared_ptr<cainteoir::audio>
 create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {

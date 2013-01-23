@@ -1,6 +1,6 @@
 /* ZIP File Reader API.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -24,8 +24,6 @@
 
 #include <cainteoir/archive.hpp>
 #include <stdexcept>
-
-#ifndef DOXYGEN
 
 #define ZIP_HEADER_MAGIC 0x04034b50
 
@@ -125,8 +123,6 @@ const std::list<std::string> &zip_archive::files() const
 {
 	return filelist;
 }
-
-#endif
 
 std::shared_ptr<cainteoir::archive>
 cainteoir::create_zip_archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject)

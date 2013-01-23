@@ -33,8 +33,6 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
-#ifndef DOXYGEN
-
 static inline double percentageof(size_t a, size_t b)
 {
 	return (double(a) / b) * 100.0;
@@ -53,18 +51,18 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	pthread_t threadId;
 	std::string mErrorMessage;
 
-	cainteoir::stopwatch mTimer; /**< @brief The time taken to read the document. */
-	double mElapsedTime; /**< @brief The amount of time elapsed since |mStartTime|. */
-	double mTotalTime; /**< @brief The (estimated) total amount of time to read the document. */
+	cainteoir::stopwatch mTimer; /* The time taken to read the document. */
+	double mElapsedTime; /* The amount of time elapsed since |mStartTime|. */
+	double mTotalTime; /* The (estimated) total amount of time to read the document. */
 
-	double mCompleted; /**< @brief The percentage of the document read from the starting position. */
-	double mProgress;  /**< @brief The percentage of the document read from the beginning. */
+	double mCompleted; /* The percentage of the document read from the starting position. */
+	double mProgress;  /* The percentage of the document read from the beginning. */
 
-	size_t currentOffset; /**< @brief The current offset from the beginning to the current block being read. */
-	size_t speakingPos;   /**< @brief The position within the block where the speaking is upto. */
-	size_t speakingLen;   /**< @brief The length of the word/fragment being spoken. */
-	size_t textLen;       /**< @brief The length of the text range being read. */
-	int wordsPerMinute;   /**< @brief The speech rate of the current voice. */
+	size_t currentOffset; /* The current offset from the beginning to the current block being read. */
+	size_t speakingPos;   /* The position within the block where the speaking is upto. */
+	size_t speakingLen;   /* The length of the word/fragment being spoken. */
+	size_t textLen;       /* The length of the text range being read. */
+	int wordsPerMinute;   /* The speech rate of the current voice. */
 
 	speech_impl(tts::engine *aEngine,
 	            std::shared_ptr<cainteoir::audio> aAudio,
@@ -81,8 +79,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	void progress(size_t n);
 	void finished();
 
-	/** @name tts::speech */
-	//@{
+	// tts::speech 
 
 	bool is_speaking() const;
 
@@ -98,17 +95,13 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 
 	std::string error_message() const;
 
-	//@}
-	/** @name tts::callback */
-	//@{
+	// tts::callback
 
 	tts::state state() const;
 
 	void onaudiodata(short *data, int nsamples);
 
 	void onspeaking(size_t pos, size_t len);
-
-	//@}
 };
 
 static void * speak_tts_thread(void *data)
@@ -288,8 +281,6 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 			mTotalTime = (mElapsedTime / mCompleted) * 100.0;
 	}
 }
-
-#endif
 
 tts::engines::engines(rdf::graph &metadata)
 	: selectedVoice(nullptr)

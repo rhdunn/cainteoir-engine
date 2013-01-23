@@ -29,8 +29,6 @@
 
 namespace rdf = cainteoir::rdf;
 
-#ifndef DOXYGEN
-
 struct WaveHeader
 {
 	// RIFF header
@@ -111,9 +109,6 @@ public:
 	}
 };
 
-#endif
-
-/// @private
 std::shared_ptr<cainteoir::audio>
 create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {

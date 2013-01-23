@@ -1,6 +1,6 @@
 /* ePub Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -27,8 +27,6 @@
 namespace rdf    = cainteoir::rdf;
 namespace xml    = cainteoir::xml;
 namespace events = cainteoir::events;
-
-#ifndef DOXYGEN
 
 static std::string path_to(const std::string &filename, const std::string &opffile)
 {
@@ -152,5 +150,3 @@ cainteoir::createEpubReader(std::shared_ptr<archive> &aData, const rdf::uri &aSu
 {
 	return std::make_shared<epub_document_reader>(aData, aSubject, aPrimaryMetadata, aDefaultEncoding);
 }
-
-#endif

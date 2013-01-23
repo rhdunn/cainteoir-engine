@@ -1,6 +1,6 @@
 /* Plain Text Document Reader.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -22,8 +22,6 @@
 
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
-
-#ifndef DOXYGEN
 
 struct plaintext_document_reader : public cainteoir::document_reader
 {
@@ -113,5 +111,3 @@ cainteoir::createPlainTextReader(std::shared_ptr<buffer> &aData,
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("text/plain"));
 	return std::make_shared<plaintext_document_reader>(aData, aSubject, aTitle);
 }
-
-#endif
