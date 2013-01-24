@@ -173,6 +173,19 @@ files, use the version of this function that takes a path as that reads
 the content in a single memory-mapped block.
 
 
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(int fd)
+\brief Create a buffer from a file descriptor.
+
+\param[in] fd The file descriptor to read the data from.
+
+\return A buffer containing the content of the specified file descriptor.
+
+This function reads the data from the file in chunks. It is useful for
+files that are buffered (stdin, pipes, sockets, etc.). For regular
+files, use the version of this function that takes a path as that reads
+the content in a single memory-mapped block.
+
+
 \fn    std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
 \brief Create a whitespace-normalized buffer.
 

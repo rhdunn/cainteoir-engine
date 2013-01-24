@@ -22,6 +22,7 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/buffer.hpp>
+#include <unistd.h>
 
 void cainteoir::rope::clear()
 {
@@ -78,6 +79,18 @@ std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(FILE *f)
 
 	size_t read = 0;
 	while ((read = fread(buffer, 1, sizeof(buffer), f)) != 0)
+		data += cainteoir::make_buffer(buffer, read);
+
+	return data.buffer();
+}
+
+std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(int fd)
+{
+	cainteoir::rope data;
+	char buffer[1024];
+
+	size_t read = 0;
+	while ((read = ::read(fd, buffer, sizeof(buffer))) > 0)
 		data += cainteoir::make_buffer(buffer, read);
 
 	return data.buffer();
