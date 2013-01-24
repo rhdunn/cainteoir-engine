@@ -4,6 +4,7 @@ localedir  = $(datadir)/locale
 xdgdatadir = @XDGDATADIR@
 mimedir    = $(xdgdatadir)/mime
 xmldir     = $(mimedir)/packages
+vimdir     = $(prefix)/share/vim
 
 AM_LDFLAGS  = ${LTLIBINTL}
 AM_CXXFLAGS = \
@@ -118,6 +119,15 @@ css_DATA = src/css/*.css
 
 data/css:
 	ln -sv ../src/css data/css
+
+vim_registrydir = $(vimdir)/registry
+vim_registry_DATA = data/vim/registry/*.yaml
+
+vim_addons_ftdetectdir = $(vimdir)/addons/ftdetect
+vim_addons_ftdetect_DATA = data/vim/ftdetect/*.vim
+
+vim_addons_syntaxdir = $(vimdir)/addons/syntax
+vim_addons_syntax_DATA = data/vim/syntax/*.vim
 
 ############################# mimetypes #######################################
 
