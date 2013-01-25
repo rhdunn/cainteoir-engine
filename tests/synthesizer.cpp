@@ -85,7 +85,6 @@ enum mbr_state {
 
 static enum mbr_state mbr_state;
 
-static char *mbr_voice_path;
 static int mbr_cmd_fd, mbr_audio_fd, mbr_error_fd, mbr_proc_stat;
 static pid_t mbr_pid;
 static int mbr_samplerate;
@@ -531,13 +530,6 @@ mbrola_synthesizer::mbrola_synthesizer(const char *voice)
 	}
 	mbr_samplerate = wavhdr[24] + (wavhdr[25]<<8) + (wavhdr[26]<<16) + (wavhdr[27]<<24);
 
-	/* remember the voice path for setVolumeRatio_MBR() */
-	if (mbr_voice_path != voice_path)
-	{
-		free(mbr_voice_path);
-		mbr_voice_path = strdup(voice_path);
-	}
-
 	mVoice = rdf::uri("http://rhdunn.github.com/cainteoir/engines/mbrola", voice);
 }
 
@@ -545,8 +537,6 @@ mbrola_synthesizer::~mbrola_synthesizer()
 {
 	stop_mbrola();
 	free_pending_data();
-	free(mbr_voice_path);
-	mbr_voice_path = NULL;
 	mbr_volume = 1.0;
 }
 
