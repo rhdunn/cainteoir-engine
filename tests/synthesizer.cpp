@@ -60,6 +60,17 @@ private:
 	rdf::uri mVoice;
 };
 
+struct mbrola_error : public std::runtime_error
+{
+	mbrola_error(int error) : std::runtime_error(strerror(error))
+	{
+	}
+
+	mbrola_error(const char *error) : std::runtime_error(error)
+	{
+	}
+};
+
 /*
  * mbrola instance parameters
  */
@@ -119,14 +130,14 @@ static void err(const char *errmsg, ...)
 	log("mbrowrap error: %s", mbr_errorbuf);
 }
 
-static int create_pipes(int p1[2], int p2[2], int p3[2])
+static void create_pipes(int p1[2], int p2[2], int p3[2])
 {
 	int error;
 
 	if (pipe(p1) != -1) {
 		if (pipe(p2) != -1) {
 			if (pipe(p3) != -1) {
-				return 0;
+				return;
 			} else
 				error = errno;
 			close(p2[0]);
@@ -138,8 +149,7 @@ static int create_pipes(int p1[2], int p2[2], int p3[2])
 	} else
 		error = errno;
 
-	err("pipe(): %s", strerror(error));
-	return -1;
+	throw mbrola_error(error);
 }
 
 static void close_pipes(int p1[2], int p2[2], int p3[2])
@@ -152,27 +162,21 @@ static void close_pipes(int p1[2], int p2[2], int p3[2])
 	close(p3[1]);
 }
 
-static int start_mbrola(const char *voice_path)
+static void start_mbrola(const char *voice_path)
 {
 	int error, p_stdin[2], p_stdout[2], p_stderr[2];
 	char charbuf[20];
 
-	if (mbr_state != MBR_INACTIVE) {
-		err("mbrola init request when already initialized");
-		return -1;
-	}
+	if (mbr_state != MBR_INACTIVE)
+		return;
 
-	error = create_pipes(p_stdin, p_stdout, p_stderr);
-	if (error)
-		return -1;
+	create_pipes(p_stdin, p_stdout, p_stderr);
 
 	mbr_pid = fork();
-
 	if (mbr_pid == -1) {
 		error = errno;
 		close_pipes(p_stdin, p_stdout, p_stderr);
-		err("fork(): %s", strerror(error));
-		return -1;
+		throw mbrola_error(error);
 	}
 
 	if (mbr_pid == 0) {
@@ -211,8 +215,7 @@ static int start_mbrola(const char *voice_path)
 		close_pipes(p_stdin, p_stdout, p_stderr);
 		waitpid(mbr_pid, NULL, 0);
 		mbr_pid = 0;
-		err("/proc is unaccessible: %s", strerror(error));
-		return -1;
+		throw mbrola_error(error);
 	}
 
 	signal(SIGPIPE, SIG_IGN);
@@ -224,8 +227,7 @@ static int start_mbrola(const char *voice_path)
 		close_pipes(p_stdin, p_stdout, p_stderr);
 		waitpid(mbr_pid, NULL, 0);
 		mbr_pid = 0;
-		err("fcntl(): %s", strerror(error));
-		return -1;
+		throw mbrola_error(error);
 	}
 
 	mbr_cmd_fd = p_stdin[1];
@@ -236,7 +238,6 @@ static int start_mbrola(const char *voice_path)
 	close(p_stderr[1]);
 
 	mbr_state = MBR_IDLE;
-	return 0;
 }
 
 static void stop_mbrola(void)
@@ -499,49 +500,6 @@ static ssize_t receive_from_mbrola(void *buffer, size_t bufsize)
  * API functions.
  */
 
-int init_MBR(const char *voice_path)
-{
-	unsigned char wavhdr[45];
-
-	int error = start_mbrola(voice_path);
-	if (error)
-		return -1;
-
-	int result = send_to_mbrola("#\n");
-	if (result != 2) {
-		stop_mbrola();
-		return -1;
-	}
-
-	/* we should actually be getting only 44 bytes */
-	result = receive_from_mbrola(wavhdr, 45);
-	if (result != 44) {
-		if (result >= 0)
-			err("unable to get .wav header from mbrola");
-		stop_mbrola();
-		return -1;
-	}
-
-	/* parse wavhdr to get mbrola voice samplerate */
-	if (memcmp(wavhdr, "RIFF", 4) != 0 ||
-	    memcmp(wavhdr+8, "WAVEfmt ", 8) != 0) {
-		err("mbrola did not return a .wav header");
-		stop_mbrola();
-		return -1;
-	}
-	mbr_samplerate = wavhdr[24] + (wavhdr[25]<<8) +
-			 (wavhdr[26]<<16) + (wavhdr[27]<<24);
-	//log("mbrowrap: voice samplerate = %d", mbr_samplerate);
-
-	/* remember the voice path for setVolumeRatio_MBR() */
-	if (mbr_voice_path != voice_path) {
-		free(mbr_voice_path);
-		mbr_voice_path = strdup(voice_path);
-	} 
-
-	return 0;
-}
-
 mbrola_synthesizer::mbrola_synthesizer(const char *voice)
 {
 	char voice_path[256];
@@ -549,8 +507,36 @@ mbrola_synthesizer::mbrola_synthesizer(const char *voice)
 	if (!is_mbrola_voice_available(voice_path))
 		snprintf(voice_path, sizeof(voice_path), "/usr/share/mbrola/voices/%s", voice);
 
-	if (init_MBR(voice_path) != 0)
-		throw std::runtime_error("unable to intialize MBROLA");
+	start_mbrola(voice_path);
+
+	if (send_to_mbrola("#\n") != 2)
+	{
+		stop_mbrola();
+		throw mbrola_error("Unable to initialize mbrola.");
+	}
+
+	/* we should actually be getting only 44 bytes */
+	unsigned char wavhdr[45];
+	if (receive_from_mbrola(wavhdr, 45) != 44)
+	{
+		stop_mbrola();
+		throw mbrola_error("Unable to get the WAVE header from mbrola.");
+	}
+
+	/* parse wavhdr to get mbrola voice samplerate */
+	if (memcmp(wavhdr, "RIFF", 4) != 0 || memcmp(wavhdr+8, "WAVEfmt ", 8) != 0)
+	{
+		stop_mbrola();
+		throw mbrola_error("mbrola did not return a .wav header");
+	}
+	mbr_samplerate = wavhdr[24] + (wavhdr[25]<<8) + (wavhdr[26]<<16) + (wavhdr[27]<<24);
+
+	/* remember the voice path for setVolumeRatio_MBR() */
+	if (mbr_voice_path != voice_path)
+	{
+		free(mbr_voice_path);
+		mbr_voice_path = strdup(voice_path);
+	}
 
 	mVoice = rdf::uri("http://rhdunn.github.com/cainteoir/engines/mbrola", voice);
 }
@@ -586,21 +572,6 @@ int mbrola_synthesizer::write(const char *phonemes)
 {
 	mbr_state = MBR_NEWDATA;
 	return send_to_mbrola(phonemes);
-}
-
-void setVolumeRatio_MBR(float value)
-{
-	if (value == mbr_volume)
-		return;
-	mbr_volume = value;
-	if (mbr_state != MBR_IDLE)
-		return;
-	/*
-	 * We have no choice but to kill and restart mbrola with
-	 * the new argument here.
-	 */
-	stop_mbrola();
-	init_MBR(mbr_voice_path);
 }
 
 int main(int argc, char ** argv)
