@@ -571,31 +571,6 @@ void mbrola_synthesizer::metadata(rdf::graph &aMetadata) const
 	aMetadata.statement(mVoice, rdf::tts("audio-format"),  rdf::tts("s16le"));
 }
 
-int reset_MBR()
-{
-	int success = 1;
-	char dummybuf[4096];
-
-	if (mbr_state == MBR_IDLE)
-		return 1;
-	if (!mbr_pid)
-		return 0;
-	if (kill(mbr_pid, SIGUSR1) == -1)
-		success = 0;
-	free_pending_data();
-	int result = write(mbr_cmd_fd, "\n#\n", 3);
-	if (result != 3)
-		success = 0;
-	do {
-		result = read(mbr_audio_fd, dummybuf, sizeof(dummybuf));
-	} while (result > 0);
-	if (result != -1 || errno != EAGAIN)
-		success = 0;
-	if (!mbrola_has_errors() && success)
-		mbr_state = MBR_IDLE;
-	return success;
-}
-
 void mbrola_synthesizer::read(cainteoir::audio *out)
 {
 	if (send_to_mbrola("\n#\n") != 3)
@@ -613,11 +588,6 @@ int mbrola_synthesizer::write(const char *phonemes)
 	return send_to_mbrola(phonemes);
 }
 
-int getFreq_MBR(void)
-{
-	return mbr_samplerate;
-}
-
 void setVolumeRatio_MBR(float value)
 {
 	if (value == mbr_volume)
@@ -631,19 +601,6 @@ void setVolumeRatio_MBR(float value)
 	 */
 	stop_mbrola();
 	init_MBR(mbr_voice_path);
-}
-
-int lastErrorStr_MBR(char *buffer, int bufsize)
-{
-	if (mbr_pid)
-		mbrola_has_errors();
-	int result = snprintf(buffer, bufsize, "%s", mbr_errorbuf);
-	return result >= bufsize ? (bufsize - 1) : result;
-}
-
-void resetError_MBR(void)
-{
-	mbr_errorbuf[0] = 0;
 }
 
 int main(int argc, char ** argv)
