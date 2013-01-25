@@ -435,6 +435,11 @@ tests/metadata.check: src/apps/metadata/metadata tests/metadata.py tests/harness
 tests/vorbis-comments.check: src/apps/metadata/metadata tests/vorbis-comments.py tests/harness.py ${TEST_FILES}
 	(python tests/vorbis-comments.py && touch $@) | tee $<.results
 
+noinst_bin_PROGRAMS += tests/synthesizer
+
+tests_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
+tests_synthesizer_SOURCES = tests/synthesizer.cpp
+
 check: \
 	tests/buffer.check \
 	tests/utf8.check \
