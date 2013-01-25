@@ -27,6 +27,7 @@
 #include <cainteoir/buffer.hpp>
 #include <cainteoir/audio.hpp>
 #include <stdexcept>
+#include <iostream>
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -41,6 +42,23 @@
 #include <sys/wait.h>
 
 namespace rdf = cainteoir::rdf;
+
+struct mbrola_synthesizer
+{
+	mbrola_synthesizer(const char *voice);
+
+	~mbrola_synthesizer();
+
+	void metadata(rdf::graph &aMetadata) const;
+
+	const rdf::uri &voice() const { return mVoice; }
+
+	void read(cainteoir::audio *out);
+
+	int write(const char *phonemes);
+private:
+	rdf::uri mVoice;
+};
 
 /*
  * mbrola instance parameters
@@ -75,6 +93,11 @@ static struct datablock *mbr_pending_data_head, *mbr_pending_data_tail;
 /*
  * Private support code.
  */
+
+static bool is_mbrola_voice_available(const char *voice_path)
+{
+	return access(voice_path, R_OK) == 0;
+}
 
 static void log(const char *msg, ...)
 {
@@ -519,13 +542,33 @@ int init_MBR(const char *voice_path)
 	return 0;
 }
 
-void close_MBR(void)
+mbrola_synthesizer::mbrola_synthesizer(const char *voice)
+{
+	char voice_path[256];
+	snprintf(voice_path, sizeof(voice_path), "/usr/share/mbrola/%s/%s", voice, voice);
+	if (!is_mbrola_voice_available(voice_path))
+		snprintf(voice_path, sizeof(voice_path), "/usr/share/mbrola/voices/%s", voice);
+
+	if (init_MBR(voice_path) != 0)
+		throw std::runtime_error("unable to intialize MBROLA");
+
+	mVoice = rdf::uri("http://rhdunn.github.com/cainteoir/engines/mbrola", voice);
+}
+
+mbrola_synthesizer::~mbrola_synthesizer()
 {
 	stop_mbrola();
 	free_pending_data();
 	free(mbr_voice_path);
 	mbr_voice_path = NULL;
 	mbr_volume = 1.0;
+}
+
+void mbrola_synthesizer::metadata(rdf::graph &aMetadata) const
+{
+	aMetadata.statement(mVoice, rdf::tts("frequency"), rdf::literal(mbr_samplerate, rdf::tts("hertz")));
+	aMetadata.statement(mVoice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
+	aMetadata.statement(mVoice, rdf::tts("audio-format"),  rdf::tts("s16le"));
 }
 
 int reset_MBR()
@@ -553,23 +596,21 @@ int reset_MBR()
 	return success;
 }
 
-int read_MBR(void *buffer, int nb_samples)
+void mbrola_synthesizer::read(cainteoir::audio *out)
 {
-	int result = receive_from_mbrola(buffer, nb_samples * 2);
-	if (result > 0)
-		result /= 2;
-	return result;
+	if (send_to_mbrola("\n#\n") != 3)
+		return;
+
+	short data[1024];
+	int read;
+	while ((read = receive_from_mbrola(data, sizeof(data))) != 0)
+		out->write((const char *)data, read);
 }
 
-int write_MBR(const char *data)
+int mbrola_synthesizer::write(const char *phonemes)
 {
 	mbr_state = MBR_NEWDATA;
-	return send_to_mbrola(data);
-}
-
-int flush_MBR(void)
-{
-	return send_to_mbrola("\n#\n") == 3;
+	return send_to_mbrola(phonemes);
 }
 
 int getFreq_MBR(void)
@@ -612,34 +653,26 @@ int main(int argc, char ** argv)
 		rdf::uri doc;
 		rdf::uri voice("http://www.example.com", "en1");
 
-		init_MBR("/usr/share/mbrola/de5/de5");
+		mbrola_synthesizer mbrola("de5");
 
 		rdf::graph metadata;
-		metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbr_samplerate, rdf::tts("hertz")));
-		metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
-		metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
+		mbrola.metadata(metadata);
 
-		std::shared_ptr<cainteoir::audio> out = cainteoir::open_audio_device(NULL, "pulse", 3.0, metadata, doc, metadata, voice);
+		(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
+			<< rdf::xsd
+			<< rdf::tts
+			<< metadata;
+
+		std::shared_ptr<cainteoir::audio> out = cainteoir::open_audio_device(NULL, "pulse", 3.0, metadata, doc, metadata, mbrola.voice());
 		out->open();
 
-		write_MBR(
-			"h   85\n"
-			"aI 180   0 200   100 200\n"
-			"_  300\n"
-			);
-		flush_MBR();
+		mbrola.write("h   85\n");
+		mbrola.write("aI 180   0 200   100 200\n");
+		mbrola.write("_  300\n");
 
-		bool reading = true;
-		while (reading)
-		{
-			short data[1024];
-			int read = read_MBR(data, sizeof(data)/sizeof(data[0]));
-			reading = read != 0;
-			out->write((const char *)data, read * 2);
-		}
+		mbrola.read(out.get());
 
 		out->close();
-		close_MBR();
 	}
 	catch (std::runtime_error &e)
 	{
