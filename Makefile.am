@@ -325,6 +325,7 @@ tests_buffer_SOURCES = tests/buffer.cpp tests/tester.hpp
 
 tests/buffer.check: tests/buffer
 	($< && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/rdfmodel
 
@@ -333,6 +334,7 @@ tests_rdfmodel_SOURCES = tests/rdfmodel.cpp tests/tester.hpp
 
 tests/rdfmodel.check: tests/rdfmodel
 	($< && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/rdfquery
 
@@ -341,6 +343,7 @@ tests_rdfquery_SOURCES = tests/rdfquery.cpp tests/tester.hpp
 
 tests/rdfquery.check: tests/rdfquery
 	(XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ $< && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/ntriple_formatter
 
@@ -349,6 +352,7 @@ tests_ntriple_formatter_SOURCES = tests/ntriple_formatter.cpp tests/tester.hpp
 
 tests/ntriple_formatter.check: tests/ntriple_formatter
 	($< && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/turtle_formatter
 
@@ -357,6 +361,7 @@ tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp tests/tester.hpp
 
 tests/turtle_formatter.check: tests/turtle_formatter
 	($< && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/events
 
@@ -365,6 +370,7 @@ tests_events_SOURCES = tests/events.cpp
 
 tests/events.check: tests/events tests/events.py tests/harness.py data/css ${TEST_FILES}
 	(python tests/events.py && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/encoding
 
@@ -373,6 +379,7 @@ tests_encoding_SOURCES = tests/encoding.cpp
 
 tests/encoding.check: tests/encoding
 	($< && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/xmlreader
 
@@ -381,6 +388,7 @@ tests_xmlreader_SOURCES = tests/xmlreader.cpp
 
 tests/xmlreader.check: tests/xmlreader tests/xmlreader.py tests/harness.py ${TEST_FILES}
 	(python tests/xmlreader.py && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/languages
 
@@ -389,6 +397,7 @@ tests_languages_SOURCES = tests/languages.cpp
 
 tests/languages.check: tests/languages
 	(XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data $< && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/utf8
 
@@ -397,6 +406,7 @@ tests_utf8_SOURCES = tests/utf8.cpp
 
 tests/utf8.check: tests/utf8
 	($< && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/parsetext
 
@@ -405,6 +415,7 @@ tests_parsetext_SOURCES = tests/parsetext.cpp
 
 tests/parsetext.check: tests/parsetext tests/parsetext.py tests/harness.py ${TEST_FILES}
 	(python tests/parsetext.py && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/mimetype
 
@@ -418,6 +429,7 @@ tests_content_SOURCES = tests/content.cpp
 
 tests/content.check: tests/content
 	($< && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/xmlcssparser
 
@@ -431,12 +443,15 @@ tests_styles_SOURCES = tests/styles.cpp
 
 tests/styles.check: tests/styles tests/styles.py tests/harness.py ${TEST_FILES}
 	(python tests/styles.py && touch $@) | tee $<.results
+	test -s $<.check || false
 
 tests/metadata.check: src/apps/metadata/metadata tests/metadata.py tests/harness.py ${TEST_FILES}
 	(python tests/metadata.py && touch $@) | tee $<.results
+	test -s $<.check || false
 
 tests/vorbis-comments.check: src/apps/metadata/metadata tests/vorbis-comments.py tests/harness.py ${TEST_FILES}
 	(python tests/vorbis-comments.py && touch $@) | tee $<.results
+	test -s $<.check || false
 
 noinst_bin_PROGRAMS += tests/synthesizer
 
