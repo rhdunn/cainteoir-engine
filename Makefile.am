@@ -153,7 +153,10 @@ endif
 .md.html:
 	pandoc --from markdown --to html $< --output $@
 
-.dot.svg:
+data/languages.dot: data/languages.dat data/languages-extra.dat data/languages.py
+	cd data && ./languages.py
+
+.dot.svg: $<
 	dot -Tsvg -o $@ $<
 
 docs/implementation-status/csv2html.stamp: \
