@@ -324,8 +324,9 @@ tests_buffer_LDADD   = src/libcainteoir/libcainteoir.la
 tests_buffer_SOURCES = tests/buffer.cpp tests/tester.hpp
 
 tests/buffer.check: tests/buffer
+	rm -f $@
 	($< && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/rdfmodel
 
@@ -333,8 +334,9 @@ tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.la
 tests_rdfmodel_SOURCES = tests/rdfmodel.cpp tests/tester.hpp
 
 tests/rdfmodel.check: tests/rdfmodel
+	rm -f $@
 	($< && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/rdfquery
 
@@ -342,8 +344,9 @@ tests_rdfquery_LDADD   = src/libcainteoir/libcainteoir.la
 tests_rdfquery_SOURCES = tests/rdfquery.cpp tests/tester.hpp
 
 tests/rdfquery.check: tests/rdfquery
+	rm -f $@
 	(XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ $< && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/ntriple_formatter
 
@@ -351,8 +354,9 @@ tests_ntriple_formatter_LDADD   = src/libcainteoir/libcainteoir.la
 tests_ntriple_formatter_SOURCES = tests/ntriple_formatter.cpp tests/tester.hpp
 
 tests/ntriple_formatter.check: tests/ntriple_formatter
+	rm -f $@
 	($< && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/turtle_formatter
 
@@ -360,8 +364,9 @@ tests_turtle_formatter_LDADD   = src/libcainteoir/libcainteoir.la
 tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp tests/tester.hpp
 
 tests/turtle_formatter.check: tests/turtle_formatter
+	rm -f $@
 	($< && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/events
 
@@ -369,8 +374,9 @@ tests_events_LDADD   = src/libcainteoir/libcainteoir.la
 tests_events_SOURCES = tests/events.cpp
 
 tests/events.check: tests/events tests/events.py tests/harness.py data/css ${TEST_FILES}
+	rm -f $@
 	(python tests/events.py && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/encoding
 
@@ -378,8 +384,9 @@ tests_encoding_LDADD   = src/libcainteoir/libcainteoir.la
 tests_encoding_SOURCES = tests/encoding.cpp
 
 tests/encoding.check: tests/encoding
+	rm -f $@
 	($< && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/xmlreader
 
@@ -387,8 +394,9 @@ tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
 tests_xmlreader_SOURCES = tests/xmlreader.cpp
 
 tests/xmlreader.check: tests/xmlreader tests/xmlreader.py tests/harness.py ${TEST_FILES}
+	rm -f $@
 	(python tests/xmlreader.py && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/languages
 
@@ -396,8 +404,9 @@ tests_languages_LDADD   = src/libcainteoir/libcainteoir.la
 tests_languages_SOURCES = tests/languages.cpp
 
 tests/languages.check: tests/languages
+	rm -f $@
 	(XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data $< && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/utf8
 
@@ -405,8 +414,9 @@ tests_utf8_LDADD   = src/libcainteoir/libcainteoir.la
 tests_utf8_SOURCES = tests/utf8.cpp
 
 tests/utf8.check: tests/utf8
+	rm -f $@
 	($< && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/parsetext
 
@@ -414,8 +424,9 @@ tests_parsetext_LDADD   = src/libcainteoir/libcainteoir.la
 tests_parsetext_SOURCES = tests/parsetext.cpp
 
 tests/parsetext.check: tests/parsetext tests/parsetext.py tests/harness.py ${TEST_FILES}
+	rm -f $@
 	(python tests/parsetext.py && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/mimetype
 
@@ -428,8 +439,9 @@ tests_content_LDADD   = src/libcainteoir/libcainteoir.la
 tests_content_SOURCES = tests/content.cpp
 
 tests/content.check: tests/content
+	rm -f $@
 	($< && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/xmlcssparser
 
@@ -442,16 +454,19 @@ tests_styles_LDADD   = src/libcainteoir/libcainteoir.la
 tests_styles_SOURCES = tests/styles.cpp
 
 tests/styles.check: tests/styles tests/styles.py tests/harness.py ${TEST_FILES}
+	rm -f $@
 	(python tests/styles.py && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 tests/metadata.check: src/apps/metadata/metadata tests/metadata.py tests/harness.py ${TEST_FILES}
+	rm -f $@
 	(python tests/metadata.py && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 tests/vorbis-comments.check: src/apps/metadata/metadata tests/vorbis-comments.py tests/harness.py ${TEST_FILES}
+	rm -f $@
 	(python tests/vorbis-comments.py && touch $@) | tee $<.results
-	test -s $<.check || false
+	test -f $@ || false
 
 noinst_bin_PROGRAMS += tests/synthesizer
 
