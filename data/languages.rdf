@@ -300,6 +300,11 @@
 	<iana:added>2011-01-07</iana:added>
 	<dct:title xml:lang="en">Afaka</dct:title>
 </iana:Script>
+<iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Aghb">
+	<rdf:value>Aghb</rdf:value>
+	<iana:added>2012-11-01</iana:added>
+	<dct:title xml:lang="en">Caucasian Albanian</dct:title>
+</iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Arab">
 	<rdf:value>Arab</rdf:value>
 	<iana:added>2005-10-16</iana:added>
@@ -1464,6 +1469,11 @@
 	<iana:added>2005-10-16</iana:added>
 	<dct:title xml:lang="en">Mozambique</dct:title>
 </iana:Region>
+<iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Mahj">
+	<rdf:value>Mahj</rdf:value>
+	<iana:added>2012-11-01</iana:added>
+	<dct:title xml:lang="en">Mahajani</dct:title>
+</iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Mand">
 	<rdf:value>Mand</rdf:value>
 	<iana:added>2005-10-16</iana:added>
@@ -43249,6 +43259,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Guibei Zhuang</dct:title>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#za"/>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#zgh">
+	<rdf:value>zgh</rdf:value>
+	<iana:added>2013-01-25</iana:added>
+	<dct:title xml:lang="en">Standard Moroccan Tamazight</dct:title>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#zgm">
 	<rdf:value>zgm</rdf:value>
