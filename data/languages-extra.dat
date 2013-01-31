@@ -126,51 +126,35 @@ a:gd:mga
 a:gv:mga
 a:mga:sga
 a:sga:pgl
-c:pgl:cel
 # ... Brythonic (Briton)
-c:xpi:cel
 # ... ... Western Brythonic
 a:cy:wlm
 a:wlm:owl
-c:owl:cel
-c:xcb:cel
 # ... ... Southwestern Brythonic
 a:br:xbm
 a:xbm:obt
-c:obt:cel
 a:kw:cnx
 a:cnx:oco
-c:oco:cel
 # http://en.wikipedia.org/wiki/Continental_Celtic_languages
-c:nrc:cel
-c:xce:cel
-c:xcg:cel
-c:xga:cel
-c:xls:cel
-c:xtg:cel
 # http://en.wikipedia.org/wiki/West_Germanic_languages
 # ... Ingvaeonic
 a:en:enm
 a:sco:enm
 a:yol:enm
 a:enm:ang
-c:ang:gmw
 a:fy:ofs
 a:frr:ofs
 a:stq:ofs
-c:ofs:gmw
 a:frs:nds
 a:pdt:nds
 a:wep:nds
 a:nds:gml
 a:gml:osx
-c:osx:gmw
 # ... Istvaeonic
 a:af:dum
 a:nl:dum
 a:dum:odt
 a:odt:frk
-c:frk:gmw
 # ... Erminonic
 a:bar:gmh
 a:cim:gmh
@@ -190,19 +174,9 @@ a:vmf:gmh
 a:wae:gmh
 a:gmh:goh
 a:yi:goh
-c:goh:gmw
 # http://en.wikipedia.org/wiki/Hellenic_languages
 a:el:grc
-c:grc:grk
-c:cpg:grk
-c:gmy:grk
-c:pnt:grk
-c:rge:grk
-c:tsd:grk
-c:xmk:grk
-c:yej:grk
 # http://en.wikipedia.org/wiki/List_of_Romance_languages
-c:la:roa
 # ... Sardinian / Southern Romance
 a:co:la
 a:sc:la
