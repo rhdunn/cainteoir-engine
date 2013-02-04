@@ -47,10 +47,17 @@ struct text_reader
 
 	text_reader();
 
+	const cainteoir::buffer &match() const { return mMatch; }
+
+	token_type type() const { return mType; }
+
 	void set_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer);
 
 	bool read();
 private:
+	cainteoir::buffer mMatch;
+	token_type mType;
+
 	const char *mStart;
 	const char *mCurrent;
 	const char *mLast;
@@ -119,7 +126,9 @@ static const uint8_t state_transitions[][31] = {
 };
 
 text_reader::text_reader()
-	: mStart(nullptr)
+	: mMatch(nullptr, nullptr)
+	, mType(error)
+	, mStart(nullptr)
 	, mCurrent(nullptr)
 	, mLast(nullptr)
 	, mState(0)
@@ -157,20 +166,15 @@ bool text_reader::read()
 
 		if (state_is_terminal[mState] && !state_is_terminal[new_state])
 		{
-			fprintf(stdout, ".%-13s %s\n",
-				token_name[state_token[mState]],
-				std::string(mStart, mCurrent).c_str());
+			mType = state_token[mState];
+			mMatch = cainteoir::buffer(mStart, mCurrent);
 			mStart = mCurrent;
 			return true;
 		}
 
 		mState = new_state;
 		if (mState == 0)
-		{
-			if (category != ucd::Cc && category != ucd::Zs)
-				fprintf(stdout, "- %s %s\n", ucd::get_category_string(category), std::string(mCurrent, next).c_str());
 			mStart = next;
-		}
 	}
 
 	return false;
@@ -202,6 +206,9 @@ int main(int argc, char ** argv)
 				text.set_buffer(reader->text);
 				while (text.read())
 				{
+					fprintf(stdout, ".%-13s %s\n",
+					        token_name[text.type()],
+					        text.match().str().c_str());
 				}
 			}
 		}
