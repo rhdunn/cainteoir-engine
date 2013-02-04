@@ -77,8 +77,8 @@ static const uint8_t state_transitions[][31] = {
 };
 
 tts::text_reader::text_reader()
-	: mMatch(nullptr, nullptr)
-	, mType(error)
+	: mType(error)
+	, mMatchEnd(mMatch)
 	, mStart(nullptr)
 	, mCurrent(nullptr)
 	, mLast(nullptr)
@@ -100,6 +100,7 @@ bool tts::text_reader::read()
 	uint32_t cp = 0;
 	const char *next = nullptr;
 	mState = 0;
+	mMatchEnd = mMatch;
 	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
 	{
 		ucd::category category = ucd::lookup_category(cp);
@@ -121,7 +122,6 @@ bool tts::text_reader::read()
 		if (state_is_terminal[mState] && !state_is_terminal[new_state])
 		{
 			mType = state_token[mState];
-			mMatch = cainteoir::buffer(mStart, mCurrent);
 			mStart = mCurrent;
 			return true;
 		}
@@ -134,6 +134,8 @@ bool tts::text_reader::read()
 
 		if (mState == 0)
 			mStart = next;
+		else
+			mMatchEnd = cainteoir::utf8::write(mMatchEnd, ucd::tolower(cp));
 	}
 
 	return false;

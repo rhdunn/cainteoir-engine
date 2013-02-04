@@ -42,7 +42,7 @@ namespace cainteoir { namespace tts
 
 		text_reader();
 
-		const cainteoir::buffer &match() const { return mMatch; }
+		cainteoir::buffer match() const { return cainteoir::buffer(mMatch, mMatchEnd); }
 
 		token_type type() const { return mType; }
 
@@ -52,9 +52,11 @@ namespace cainteoir { namespace tts
 
 		bool read();
 	private:
-		cainteoir::buffer mMatch;
 		token_type mType;
 		ucd::script mScript;
+
+		char mMatch[512];
+		char *mMatchEnd;
 
 		const char *mStart;
 		const char *mCurrent;
