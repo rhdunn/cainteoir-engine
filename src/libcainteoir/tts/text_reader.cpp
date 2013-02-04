@@ -138,5 +138,11 @@ bool tts::text_reader::read()
 			mMatchEnd = cainteoir::utf8::write(mMatchEnd, ucd::tolower(cp));
 	}
 
+	if (state_is_terminal[mState])
+	{
+		mType = state_token[mState];
+		return true;
+	}
+
 	return false;
 }
