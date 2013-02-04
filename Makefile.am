@@ -217,6 +217,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	ucd-tools/src/categories.cpp \
 	ucd-tools/src/ctype.cpp \
 	ucd-tools/src/scripts.cpp \
+	ucd-tools/src/tostring.cpp \
 	\
 	src/i18n.h \
 	src/compatibility.h \

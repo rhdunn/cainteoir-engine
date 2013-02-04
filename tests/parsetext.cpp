@@ -1,6 +1,6 @@
 /* Test for extracting words, numbers and other entries from a document.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -22,298 +22,158 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/document.hpp>
+#include <cainteoir/unicode.hpp>
+#include <ucd/ucd.h>
+
 #include <stdexcept>
 #include <cstdio>
 
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
-enum text_block_t
+struct text_reader
 {
-	word,
-	number,
-	punctuation,
-	symbol,
-	skip,
-	error,
-};
+	enum token_type
+	{
+		error,
+		word_uppercase,
+		word_lowercase,
+		word_capitalized,
+		word_mixedcase,
+		number,
+		punctuation,
+		symbol,
+	};
 
-#define S    1 // Skip
-#define P    2 // Punctuation
-#define Y    3 // Symbol
-#define W    4 // Word
-#define N    5 // Number
-#define E    6 // Error
-#define N0   7 // Number (State 0)
-#define W0   8 // Word (State 0)
-#define _  255 // end of state machine
-
-// 0 : Start
-const uint8_t state0_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,
-	/* 1x */ S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,
-	/* 2x */ S,  P,  P,  P,  Y,  P,  P,  P,  P,  P,  P,  Y,  P,  P,  P,  P,
-	/* 3x */ N,  N,  N,  N,  N,  N,  N,  N,  N,  N,  P,  P,  Y,  Y,  Y,  P,
-	/* 4x */ P,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 5x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  P,  P,  P,  Y,  P,
-	/* 6x */ Y,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 7x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  P,  Y,  P,  Y,  S,
-	/* 8x */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* 9x */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Ax */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Bx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Cx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Dx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Ex */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Fx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-};
-
-// 1 : Skip
-const uint8_t state1_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,
-	/* 1x */ S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,
-	/* 2x */ S,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 5x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 6x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 7x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  S,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-// 2 : Punctuation
-// 3 : Symbol
-const uint8_t state2_3_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 5x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 6x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 7x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-// 4 : Word
-const uint8_t state4_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  W0, _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 5x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  _,  _,  _,  _,  _,
-	/* 6x */ _,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 7x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  _,  _,  _,  _,  _,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-// 5 : Number
-const uint8_t state5_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  N0, _,  _,  _,
-	/* 3x */ N,  N,  N,  N,  N,  N,  N,  N,  N,  N,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 5x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 6x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 7x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-// 6 : Error
-const uint8_t state6_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 5x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 6x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 7x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 8x */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* 9x */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Ax */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Bx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Cx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Dx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Ex */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Fx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-};
-
-// 7 : Number (State 0)
-const uint8_t state7_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ N,  N,  N,  N,  N,  N,  N,  N,  N,  N,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 5x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 6x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 7x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-// 8 : Word (State 0)
-const uint8_t state8_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 5x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  _,  _,  _,  _,  _,
-	/* 6x */ _,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 7x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  _,  _,  _,  _,  _,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-const uint8_t *state_transitions[] = {
-	state0_transitions,
-	state1_transitions,
-	state2_3_transitions,
-	state2_3_transitions,
-	state4_transitions,
-	state5_transitions,
-	state6_transitions,
-	state7_transitions,
-	state8_transitions,
-};
-
-const int state_value[] =
-{
-	-1, // Start
-	skip,
-	punctuation,
-	symbol,
-	word,
-	number,
-	error,
-	-1, // Number (State 0)
-	-1, // Word (State 0)
-};
-
-class text_reader
-{
-public:
 	text_reader();
 
-	void set_buffer(const std::shared_ptr<cainteoir::buffer> &aText);
+	void set_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer);
 
 	bool read();
 private:
-	std::shared_ptr<cainteoir::buffer> data;
-	const uint8_t *begin;
-	const uint8_t *end;
+	const char *mStart;
+	const char *mCurrent;
+	const char *mLast;
+	uint8_t mState;
+};
+
+static const char *token_name[] = {
+	"error",
+	"word",
+	"word",
+	"word",
+	"word",
+	"number",
+	"punctuation",
+	"symbol",
+};
+
+enum class state
+{
+	start,
+	upper_case_initial,
+	upper_case,
+	capitalized,
+	lower_case,
+	mixed_case,
+	number,
+	punctuation,
+	symbol
+};
+
+static const bool state_is_terminal[] = {
+	false, // 0 = start
+	true,  // 1 = upper case (initial character)
+	true,  // 2 = upper case
+	true,  // 3 = capitalized
+	true,  // 4 = lower case
+	true,  // 5 = mixed case
+	true,  // 6 = number
+	true,  // 7 = punctuation
+	true,  // 8 = symbol
+};
+
+static const text_reader::token_type state_token[] = {
+	text_reader::error,
+	text_reader::word_uppercase,
+	text_reader::word_uppercase,
+	text_reader::word_capitalized,
+	text_reader::word_lowercase,
+	text_reader::word_mixedcase,
+	text_reader::number,
+	text_reader::punctuation,
+	text_reader::symbol,
+};
+
+static const uint8_t state_transitions[][31] = {
+	// Cc Cf Cn Co Cs Ii Ll Lm Lo Lt Lu Mc Me Mn Nd Nl No Pc Pd Pe Pf Pi Po Ps Sc Sk Sm So Zl Zp Zs
+	{  0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 0, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 0, 0, 0 }, // 0
+	{  0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 1
+	{  0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 2
+	{  0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 3
+	{  0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 4
+	{  0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 5
+	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 6
+	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 7
+	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 8
 };
 
 text_reader::text_reader()
-	: begin(nullptr)
-	, end(nullptr)
+	: mStart(nullptr)
+	, mCurrent(nullptr)
+	, mLast(nullptr)
+	, mState(0)
 {
 }
 
-void text_reader::set_buffer(const std::shared_ptr<cainteoir::buffer> &aText)
+void text_reader::set_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 {
-	data  = aText;
-	begin = (const uint8_t *)aText->begin();
-	end   = (const uint8_t *)aText->end();
+	mStart = mCurrent = aBuffer->begin();
+	mLast = aBuffer->end();
 }
 
 bool text_reader::read()
 {
-	uint8_t state = 0;
-	int match_value = -1;
-	const uint8_t *match_first = begin;
-	const uint8_t *match_last  = begin;
-
-	while (begin != end && state != 255)
+	uint32_t cp = 0;
+	const char *next = nullptr;
+	mState = 0;
+	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
 	{
-		state = state_transitions[state][*begin++];
+		ucd::category category = ucd::lookup_category(cp);
+		ucd::script   script   = ucd::lookup_script(cp);
 
-		int value = state_value[state];
-		if (value != -1) // terminal node
+		uint8_t new_state = state_transitions[mState][category];
+		if (cp == '\'') switch ((state)mState)
 		{
-			match_last  = begin;
-			match_value = value;
+		case state::upper_case_initial:
+		case state::upper_case:
+		case state::capitalized:
+		case state::lower_case:
+		case state::mixed_case:
+			// Don't transition states here.
+			new_state = mState;
+			break;
+		}
+
+		if (state_is_terminal[mState] && !state_is_terminal[new_state])
+		{
+			fprintf(stdout, ".%-13s %s\n",
+				token_name[state_token[mState]],
+				std::string(mStart, mCurrent).c_str());
+			mStart = mCurrent;
+			return true;
+		}
+
+		mState = new_state;
+		if (mState == 0)
+		{
+			if (category != ucd::Cc && category != ucd::Zs)
+				fprintf(stdout, "- %s %s\n", ucd::get_category_string(category), std::string(mCurrent, next).c_str());
+			mStart = next;
 		}
 	}
 
-	begin = match_last;
-
-	cainteoir::buffer match((const char *)match_first, (const char *)match_last);
-	const char *type_name = nullptr;
-	switch (match_value)
-	{
-	case skip:        return true;
-	case symbol:      type_name = ".symbol        "; break;
-	case punctuation: type_name = ".punctuation   "; break;
-	case word:        type_name = ".word          "; break;
-	case number:      type_name = ".number        "; break;
-	case error:       type_name = ".error         "; break;
-	case -1:          return false;
-	}
-
-	fputs(type_name, stdout);
-	fwrite(match.begin(), 1, match.size(), stdout);
-	if (match_value == error)
-	{
-		fputc('\t', stdout);
-		for (auto &c : match)
-			fprintf(stdout, "\\x%02X", (c & 0xFF));
-	}
-	fputc('\n', stdout);
-
-	return true;
+	return false;
 }
 
 int main(int argc, char ** argv)
