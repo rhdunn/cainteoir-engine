@@ -192,6 +192,7 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/mimetype.hpp \
 	src/include/cainteoir/range.hpp \
 	src/include/cainteoir/stopwatch.hpp \
+	src/include/cainteoir/text.hpp \
 	src/include/cainteoir/unicode.hpp \
 	src/include/cainteoir/xmlreader.hpp
 
@@ -269,9 +270,10 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/rdf/metadata.cpp \
 	\
-	src/libcainteoir/tts/tts_engine.hpp \
 	src/libcainteoir/tts/engines.cpp \
 	src/libcainteoir/tts/espeak.cpp \
+	src/libcainteoir/tts/text_reader.cpp \
+	src/libcainteoir/tts/tts_engine.hpp \
 	\
 	src/libcainteoir/unicode/utf8.cpp
 
