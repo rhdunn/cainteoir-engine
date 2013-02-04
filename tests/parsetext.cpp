@@ -32,10 +32,10 @@ namespace tts = cainteoir::tts;
 
 static const char *token_name[] = {
 	"error",
-	"word",
-	"word",
-	"word",
-	"word",
+	"word.upper",
+	"word.lower",
+	"word.capital",
+	"word.mixed",
 	"number",
 	"punctuation",
 	"symbol",
