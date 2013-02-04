@@ -32,10 +32,10 @@ namespace tts = cainteoir::tts;
 
 static const char *token_name[] = {
 	"error",
-	"word.upper",
-	"word.lower",
-	"word.capital",
-	"word.mixed",
+	"upper",
+	"lower",
+	"capital",
+	"mixed",
 	"number",
 	"punctuation",
 	"symbol",
@@ -65,11 +65,22 @@ int main(int argc, char ** argv)
 			if (reader->type & cainteoir::events::text)
 			{
 				text.set_buffer(reader->text);
-				while (text.read())
+				while (text.read()) switch (text.type())
 				{
+				case tts::text_reader::word_uppercase:
+				case tts::text_reader::word_lowercase:
+				case tts::text_reader::word_capitalized:
+				case tts::text_reader::word_mixedcase:
+					fprintf(stdout, ".%s.%-8s %s\n",
+					        ucd::get_script_string(text.script()),
+					        token_name[text.type()],
+					        text.match().str().c_str());
+					break;
+				default:
 					fprintf(stdout, ".%-13s %s\n",
 					        token_name[text.type()],
 					        text.match().str().c_str());
+					break;
 				}
 			}
 		}

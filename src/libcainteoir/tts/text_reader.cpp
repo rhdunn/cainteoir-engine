@@ -23,7 +23,6 @@
 
 #include <cainteoir/text.hpp>
 #include <cainteoir/unicode.hpp>
-#include <ucd/ucd.h>
 
 namespace tts = cainteoir::tts;
 
@@ -84,6 +83,7 @@ tts::text_reader::text_reader()
 	, mCurrent(nullptr)
 	, mLast(nullptr)
 	, mState(0)
+	, mScript(ucd::Zzzz)
 {
 }
 
@@ -124,7 +124,12 @@ bool tts::text_reader::read()
 			return true;
 		}
 
-		mState = new_state;
+		if (mState != new_state)
+		{
+			mScript = script;
+			mState = new_state;
+		}
+
 		if (mState == 0)
 			mStart = next;
 	}

@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_TEXT_HPP
 
 #include "buffer.hpp"
+#include <ucd/ucd.h>
 
 namespace cainteoir { namespace tts
 {
@@ -45,12 +46,15 @@ namespace cainteoir { namespace tts
 
 		token_type type() const { return mType; }
 
+		ucd::script script() const { return mScript; }
+
 		void set_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer);
 
 		bool read();
 	private:
 		cainteoir::buffer mMatch;
 		token_type mType;
+		ucd::script mScript;
 
 		const char *mStart;
 		const char *mCurrent;
