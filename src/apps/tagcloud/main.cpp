@@ -25,16 +25,17 @@
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
 #include <cainteoir/document.hpp>
+#include <cainteoir/text.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
 #include <getopt.h>
 #include <math.h>
 
-#include <sstream>
 #include <map>
 
 namespace rdf = cainteoir::rdf;
+namespace tts = cainteoir::tts;
 
 enum args
 {
@@ -99,35 +100,24 @@ bool common(const std::string & word)
 	return false;
 }
 
-std::string normalise(const std::string & word)
-{
-	std::string ret;
-	for (auto &s : word)
-	{
-		if (s >= 'A' && s <= 'Z')
-			ret.push_back((s - 'A') + 'a');
-		else if (s >= 'a' && s <= 'z')
-			ret.push_back(s);
-		else if (s == '-')
-			ret.push_back(s);
-	}
-	return ret;
-}
-
 struct cloud
 {
 	void text(const std::shared_ptr<cainteoir::buffer> &aText)
 	{
-		std::istringstream ss(aText->str());
-
-		std::string word;
-		while (ss >> word)
+		reader.set_buffer(aText);
+		while (reader.read()) switch (reader.type())
 		{
-			++words[normalise(word)];
+		case tts::text_reader::word_uppercase:
+		case tts::text_reader::word_lowercase:
+		case tts::text_reader::word_mixedcase:
+		case tts::text_reader::word_capitalized:
+			++words[reader.match().str()];
+			break;
 		}
 	}
 
 	std::map<std::string, int> words;
+	tts::text_reader reader;
 };
 
 int main(int argc, char ** argv)
