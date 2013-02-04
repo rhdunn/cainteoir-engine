@@ -93,6 +93,8 @@ void tts::text_reader::set_buffer(const std::shared_ptr<cainteoir::buffer> &aBuf
 	mLast = aBuffer->end();
 }
 
+#define RIGHT_SINGLE_QUOTATION_MARK 0x2019
+
 bool tts::text_reader::read()
 {
 	uint32_t cp = 0;
@@ -104,7 +106,7 @@ bool tts::text_reader::read()
 		ucd::script   script   = ucd::lookup_script(cp);
 
 		uint8_t new_state = state_transitions[mState][category];
-		if (cp == '\'') switch ((state)mState)
+		if (cp == '\'' || cp == RIGHT_SINGLE_QUOTATION_MARK) switch ((state)mState)
 		{
 		case state::upper_case_initial:
 		case state::upper_case:

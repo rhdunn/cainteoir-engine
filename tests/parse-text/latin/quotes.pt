@@ -27,3 +27,15 @@
 .Latn.lower    asked
 .Latn.capital  Henry
 .punctuation   .
+.punctuation   "
+.Latn.capital  No
+.punctuation   .
+.Latn.capital  I’ve
+.Latn.lower    been
+.Latn.lower    swimming
+.Latn.lower    instead
+.punctuation   ,
+.punctuation   "
+.Latn.lower    replied
+.Latn.capital  Sarah
+.punctuation   .
