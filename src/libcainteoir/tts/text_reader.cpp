@@ -30,6 +30,7 @@ enum class tts::text_reader::reader_state
 {
 	skip,
 	have_text,
+	end_paragraph,
 };
 
 enum class state
@@ -85,6 +86,7 @@ static const uint8_t state_transitions[][31] = {
 tts::text_reader::text_reader()
 	: mType(error)
 	, mMatchEnd(mMatch)
+	, mNeedEndPara(false)
 	, mCurrent(nullptr)
 	, mLast(nullptr)
 	, mState(0)
@@ -101,6 +103,22 @@ void tts::text_reader::next_item(const cainteoir::document_item &aItem)
 		mLast = aItem.text->end();
 		mReaderState = reader_state::have_text;
 	}
+	else if (aItem.type & cainteoir::events::end_context)
+	{
+		if (aItem.styles) switch (aItem.styles->display)
+		{
+		case css::display::block:
+		case css::display::table:
+		case css::display::table_row:
+		case css::display::table_cell:
+		case css::display::list_item:
+			if (mNeedEndPara)
+			{
+				mReaderState = reader_state::end_paragraph;
+			}
+			break;
+		}
+	}
 	else
 		mReaderState = reader_state::skip;
 }
@@ -111,6 +129,16 @@ bool tts::text_reader::read()
 {
 	if (mReaderState == reader_state::skip)
 		return false;
+
+	if (mReaderState == reader_state::end_paragraph)
+	{
+		mScript = ucd::Zyyy;
+		mMatchEnd = mMatch;
+		mType = end_of_paragraph;
+		mReaderState = reader_state::skip;
+		mNeedEndPara = false;
+		return true;
+	}
 
 	uint32_t cp = 0;
 	const char *next = nullptr;
@@ -137,6 +165,7 @@ bool tts::text_reader::read()
 		if (state_is_terminal[mState] && !state_is_terminal[new_state])
 		{
 			mType = state_token[mState];
+			mNeedEndPara = true;
 			return true;
 		}
 
@@ -153,6 +182,7 @@ bool tts::text_reader::read()
 	if (state_is_terminal[mState])
 	{
 		mType = state_token[mState];
+		mNeedEndPara = true;
 		return true;
 	}
 

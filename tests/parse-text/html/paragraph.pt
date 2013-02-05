@@ -1,9 +1,12 @@
 .Latn.capital  paragraph
 .Latn.capital  one
 .punctuation   .
+.end-para      
 .Latn.capital  paragraph
 .Latn.capital  two
 .punctuation   .
+.end-para      
 .Latn.capital  paragraph
 .Latn.capital  three
 .punctuation   .
+.end-para      

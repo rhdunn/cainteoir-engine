@@ -38,6 +38,7 @@ namespace cainteoir { namespace tts
 			number,
 			punctuation,
 			symbol,
+			end_of_paragraph,
 		};
 
 		text_reader();
@@ -60,6 +61,7 @@ namespace cainteoir { namespace tts
 		char mMatch[512];
 		char *mMatchEnd;
 
+		bool mNeedEndPara;
 		const char *mCurrent;
 		const char *mLast;
 		reader_state mReaderState;

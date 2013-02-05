@@ -39,6 +39,7 @@ static const char *token_name[] = {
 	"number",
 	"punctuation",
 	"symbol",
+	"end-para",
 };
 
 int main(int argc, char ** argv)
