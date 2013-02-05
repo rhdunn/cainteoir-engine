@@ -157,8 +157,8 @@ bool tts::text_reader::read()
 		case state::capitalized:
 		case state::lower_case:
 		case state::mixed_case:
-			// Don't transition states here.
 			new_state = mState;
+			cp = '\'';
 			break;
 		}
 
