@@ -62,26 +62,23 @@ int main(int argc, char ** argv)
 		tts::text_reader text;
 		while (reader->read())
 		{
-			if (reader->type & cainteoir::events::text)
+			text.next_item(*reader);
+			while (text.read()) switch (text.type())
 			{
-				text.set_buffer(reader->text);
-				while (text.read()) switch (text.type())
-				{
-				case tts::text_reader::word_uppercase:
-				case tts::text_reader::word_lowercase:
-				case tts::text_reader::word_capitalized:
-				case tts::text_reader::word_mixedcase:
-					fprintf(stdout, ".%s.%-8s %s\n",
-					        ucd::get_script_string(text.script()),
-					        token_name[text.type()],
-					        text.match().str().c_str());
-					break;
-				default:
-					fprintf(stdout, ".%-13s %s\n",
-					        token_name[text.type()],
-					        text.match().str().c_str());
-					break;
-				}
+			case tts::text_reader::word_uppercase:
+			case tts::text_reader::word_lowercase:
+			case tts::text_reader::word_capitalized:
+			case tts::text_reader::word_mixedcase:
+				fprintf(stdout, ".%s.%-8s %s\n",
+				        ucd::get_script_string(text.script()),
+				        token_name[text.type()],
+				        text.match().str().c_str());
+				break;
+			default:
+				fprintf(stdout, ".%-13s %s\n",
+				        token_name[text.type()],
+				        text.match().str().c_str());
+				break;
 			}
 		}
 	}

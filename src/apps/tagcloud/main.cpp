@@ -102,9 +102,9 @@ bool common(const std::string & word)
 
 struct cloud
 {
-	void text(const std::shared_ptr<cainteoir::buffer> &aText)
+	void process(const cainteoir::document_item &aItem)
 	{
-		reader.set_buffer(aText);
+		reader.next_item(aItem);
 		while (reader.read()) switch (reader.type())
 		{
 		case tts::text_reader::word_uppercase:
@@ -170,10 +170,7 @@ int main(int argc, char ** argv)
 		}
 
 		while (reader->read())
-		{
-			if (reader->type & cainteoir::events::text)
-				cloud.text(reader->text);
-		}
+			cloud.process(*reader);
 
 		if (format == html_format)
 		{

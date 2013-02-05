@@ -21,7 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_TEXT_HPP
 #define CAINTEOIR_ENGINE_TEXT_HPP
 
-#include "buffer.hpp"
+#include "document.hpp"
 #include <ucd/ucd.h>
 
 namespace cainteoir { namespace tts
@@ -48,10 +48,12 @@ namespace cainteoir { namespace tts
 
 		ucd::script script() const { return mScript; }
 
-		void set_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer);
+		void next_item(const cainteoir::document_item &aItem);
 
 		bool read();
 	private:
+		enum class reader_state;
+
 		token_type mType;
 		ucd::script mScript;
 
@@ -61,6 +63,7 @@ namespace cainteoir { namespace tts
 		const char *mStart;
 		const char *mCurrent;
 		const char *mLast;
+		reader_state mReaderState;
 		uint8_t mState;
 	};
 }}

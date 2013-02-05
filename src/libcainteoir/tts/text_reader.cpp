@@ -26,6 +26,12 @@
 
 namespace tts = cainteoir::tts;
 
+enum class tts::text_reader::reader_state
+{
+	skip,
+	have_text,
+};
+
 enum class state
 {
 	start,
@@ -83,20 +89,30 @@ tts::text_reader::text_reader()
 	, mCurrent(nullptr)
 	, mLast(nullptr)
 	, mState(0)
+	, mReaderState(reader_state::skip)
 	, mScript(ucd::Zzzz)
 {
 }
 
-void tts::text_reader::set_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer)
+void tts::text_reader::next_item(const cainteoir::document_item &aItem)
 {
-	mStart = mCurrent = aBuffer->begin();
-	mLast = aBuffer->end();
+	if (aItem.type & cainteoir::events::text)
+	{
+		mStart = mCurrent = aItem.text->begin();
+		mLast = aItem.text->end();
+		mReaderState = reader_state::have_text;
+	}
+	else
+		mReaderState = reader_state::skip;
 }
 
 #define RIGHT_SINGLE_QUOTATION_MARK 0x2019
 
 bool tts::text_reader::read()
 {
+	if (mReaderState == reader_state::skip)
+		return false;
+
 	uint32_t cp = 0;
 	const char *next = nullptr;
 	mState = 0;
