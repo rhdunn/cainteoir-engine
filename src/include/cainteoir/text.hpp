@@ -60,7 +60,6 @@ namespace cainteoir { namespace tts
 		char mMatch[512];
 		char *mMatchEnd;
 
-		const char *mStart;
 		const char *mCurrent;
 		const char *mLast;
 		reader_state mReaderState;

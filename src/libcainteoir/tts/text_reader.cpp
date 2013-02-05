@@ -85,7 +85,6 @@ static const uint8_t state_transitions[][31] = {
 tts::text_reader::text_reader()
 	: mType(error)
 	, mMatchEnd(mMatch)
-	, mStart(nullptr)
 	, mCurrent(nullptr)
 	, mLast(nullptr)
 	, mState(0)
@@ -98,7 +97,7 @@ void tts::text_reader::next_item(const cainteoir::document_item &aItem)
 {
 	if (aItem.type & cainteoir::events::text)
 	{
-		mStart = mCurrent = aItem.text->begin();
+		mCurrent = aItem.text->begin();
 		mLast = aItem.text->end();
 		mReaderState = reader_state::have_text;
 	}
@@ -138,7 +137,6 @@ bool tts::text_reader::read()
 		if (state_is_terminal[mState] && !state_is_terminal[new_state])
 		{
 			mType = state_token[mState];
-			mStart = mCurrent;
 			return true;
 		}
 
@@ -148,9 +146,7 @@ bool tts::text_reader::read()
 			mState = new_state;
 		}
 
-		if (mState == 0)
-			mStart = next;
-		else
+		if (mState != 0)
 			mMatchEnd = cainteoir::utf8::write(mMatchEnd, ucd::tolower(cp));
 	}
 
