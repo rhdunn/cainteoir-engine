@@ -30,6 +30,9 @@ if __name__ == '__main__':
 			{'test': 'parse-text/latin/quotes.txt', 'result': 'parse-text/latin/quotes.pt'},
 			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.pt'},
 		]},
+		{'name': 'Japanese', 'type': 'parsetext', 'tests': [
+			{'test': 'parse-text/japanese/words.txt', 'result': 'parse-text/japanese/words.pt'},
+		]},
 		{'name': 'HTML', 'type': 'parsetext', 'tests': [
 			{'test': 'parse-text/html/paragraph.html', 'result': 'parse-text/html/paragraph.pt'},
 		]},

@@ -35,6 +35,7 @@ namespace cainteoir { namespace tts
 			word_lowercase,
 			word_capitalized,
 			word_mixedcase,
+			word_script,
 			number,
 			punctuation,
 			symbol,

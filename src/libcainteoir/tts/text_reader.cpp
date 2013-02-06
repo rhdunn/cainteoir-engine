@@ -45,6 +45,7 @@ enum class state
 	punctuation,
 	symbol,
 	title_case_initial,
+	script,
 };
 
 static const bool state_is_terminal[] = {
@@ -58,6 +59,7 @@ static const bool state_is_terminal[] = {
 	true,  // 7 = punctuation
 	true,  // 8 = symbol
 	true,  // 9 = title case (initial character) -- capitalized
+	true,  // A = script
 };
 
 static const tts::text_reader::token_type state_token[] = {
@@ -71,11 +73,14 @@ static const tts::text_reader::token_type state_token[] = {
 	tts::text_reader::punctuation,
 	tts::text_reader::symbol,
 	tts::text_reader::word_capitalized,
+	tts::text_reader::word_script,
 };
+
+#define A 10
 
 static const uint8_t state_transitions[][31] = {
 	// Cc Cf Cn Co Cs Ii Ll Lm Lo Lt Lu Mc Me Mn Nd Nl No Pc Pd Pe Pf Pi Po Ps Sc Sk Sm So Zl Zp Zs
-	{  0, 0, 0, 0, 0, 0, 4, 0, 0, 9, 1, 0, 0, 0, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 0, 0, 0 }, // 0
+	{  0, 0, 0, 0, 0, 0, 4, 0, A, 9, 1, 0, 0, 0, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 0, 0, 0 }, // 0
 	{  0, 0, 0, 0, 0, 0, 3, 0, 0, 5, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 1
 	{  0, 0, 0, 0, 0, 0, 5, 0, 0, 5, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 2
 	{  0, 0, 0, 0, 0, 0, 3, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 3
@@ -85,7 +90,10 @@ static const uint8_t state_transitions[][31] = {
 	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 7
 	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 8
 	{  0, 0, 0, 0, 0, 0, 3, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 9
+	{  0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // A
 };
+
+#undef A
 
 tts::text_reader::text_reader()
 	: mType(error)
@@ -183,6 +191,8 @@ bool tts::text_reader::read()
 		case state::capitalized:
 		case state::lower_case:
 		case state::mixed_case:
+		case state::title_case_initial:
+		case state::script:
 			if (cp == RIGHT_SINGLE_QUOTATION_MARK)
 				quote_match = mCurrent;
 			new_state = mState;

@@ -36,6 +36,7 @@ static const char *token_name[] = {
 	"lower",
 	"capital",
 	"mixed",
+	"script",
 	"number",
 	"punctuation",
 	"symbol",
@@ -70,6 +71,7 @@ int main(int argc, char ** argv)
 			case tts::text_reader::word_lowercase:
 			case tts::text_reader::word_capitalized:
 			case tts::text_reader::word_mixedcase:
+			case tts::text_reader::word_script:
 				fprintf(stdout, ".%s.%-8s %s\n",
 				        ucd::get_script_string(text.script()),
 				        token_name[text.type()],
