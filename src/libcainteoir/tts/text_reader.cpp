@@ -214,7 +214,17 @@ bool tts::text_reader::read()
 		}
 
 		if (mState != 0)
+		{
 			mMatchEnd = cainteoir::utf8::write(mMatchEnd, ucd::tolower(cp));
+			if ((mMatchEnd - mMatch) >= (sizeof(mMatch) - 12))
+			{
+				// The match is too long for the internal buffer, so split the word here.
+				mType = state_token[mState];
+				mNeedEndPara = true;
+				mCurrent = next;
+				return true;
+			}
+		}
 	}
 
 	if (state_is_terminal[mState])
