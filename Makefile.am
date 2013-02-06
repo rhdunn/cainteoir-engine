@@ -115,7 +115,7 @@ pkgdata_DATA += \
 EXTRA_DIST += src/css/*.css
 
 cssdir  = $(pkgdatadir)/css
-css_DATA = src/css/*.css
+css_DATA = data/css/*.css
 
 data/css:
 	ln -sv ../src/css data/css
