@@ -32,8 +32,13 @@
 .punctuation   .
 .Latn.capital  i've
 .Latn.lower    been
-.Latn.lower    swimming
-.Latn.lower    instead
+.Latn.lower    swimmin
+.punctuation   ’
+.Latn.lower    at
+.punctuation   ‘
+.Latn.lower    the
+.Latn.lower    plaza
+.punctuation   ’
 .punctuation   ,
 .punctuation   "
 .Latn.lower    replied

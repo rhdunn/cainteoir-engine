@@ -142,12 +142,34 @@ bool tts::text_reader::read()
 
 	uint32_t cp = 0;
 	const char *next = nullptr;
+	const char *quote_match = nullptr;
 	mState = 0;
 	mMatchEnd = mMatch;
 	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
 	{
 		ucd::category category = ucd::lookup_category(cp);
 		ucd::script   script   = ucd::lookup_script(cp);
+
+		if (quote_match)
+		{
+			if (category == ucd::Lu || category == ucd::Ll)
+			{
+				// The single curly quote is inbetween letters, so keep as part of
+				// the word token.
+				quote_match = nullptr;
+			}
+			else
+			{
+				// The curly quote is at the end of the word token, so don't make
+				// it part of the word token (keep it as a separate punctuation
+				// token).
+				--mMatchEnd;
+				mCurrent = quote_match;
+				mType = state_token[mState];
+				mNeedEndPara = true;
+				return true;
+			}
+		}
 
 		uint8_t new_state = state_transitions[mState][category];
 		if (cp == '\'' || cp == RIGHT_SINGLE_QUOTATION_MARK) switch ((state)mState)
@@ -157,6 +179,8 @@ bool tts::text_reader::read()
 		case state::capitalized:
 		case state::lower_case:
 		case state::mixed_case:
+			if (cp == RIGHT_SINGLE_QUOTATION_MARK)
+				quote_match = mCurrent;
 			new_state = mState;
 			cp = '\'';
 			break;
