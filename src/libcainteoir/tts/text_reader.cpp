@@ -115,6 +115,7 @@ static const uint8_t state_transitions[][31] = {
 
 tts::text_reader::text_reader()
 	: mType(error)
+	, mMatchCurrent(mMatch)
 	, mMatchEnd(mMatch)
 	, mNeedEndPara(false)
 	, mCurrent(nullptr)
@@ -167,11 +168,13 @@ bool tts::text_reader::read()
 			mType = state_token[mState];
 			mNeedEndPara = true;
 			mState = 0;
+			mMatchEnd = mMatchCurrent;
+			mMatchCurrent = mMatch;
 		}
 		else
 		{
 			mScript = ucd::Zzzz;
-			mMatchEnd = mMatch;
+			mMatchCurrent = mMatchEnd = mMatch;
 			mType = end_of_paragraph;
 			mReaderState = reader_state::skip;
 			mNeedEndPara = false;
@@ -182,7 +185,6 @@ bool tts::text_reader::read()
 	uint32_t cp = 0;
 	const char *next = nullptr;
 	const char *quote_match = nullptr;
-	mMatchEnd = mMatch;
 	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
 	{
 		ucd::category category = ucd::lookup_category(cp);
@@ -201,11 +203,12 @@ bool tts::text_reader::read()
 				// The curly quote is at the end of the word token, so don't make
 				// it part of the word token (keep it as a separate punctuation
 				// token).
-				--mMatchEnd;
 				mCurrent = quote_match;
 				mType = state_token[mState];
 				mNeedEndPara = true;
 				mState = 0;
+				mMatchEnd = mMatchCurrent - 1;
+				mMatchCurrent = mMatch;
 				return true;
 			}
 		}
@@ -241,6 +244,8 @@ bool tts::text_reader::read()
 			mType = state_token[mState];
 			mNeedEndPara = true;
 			mState = 0;
+			mMatchEnd = mMatchCurrent;
+			mMatchCurrent = mMatch;
 			return true;
 		}
 
@@ -252,14 +257,16 @@ bool tts::text_reader::read()
 
 		if (mState != 0)
 		{
-			mMatchEnd = cainteoir::utf8::write(mMatchEnd, ucd::tolower(cp));
-			if ((mMatchEnd - mMatch) >= (sizeof(mMatch) - 12))
+			mMatchCurrent = cainteoir::utf8::write(mMatchCurrent, ucd::tolower(cp));
+			if ((mMatchCurrent - mMatch) >= (sizeof(mMatch) - 12))
 			{
 				// The match is too long for the internal buffer, so split the word here.
 				mType = state_token[mState];
 				mNeedEndPara = true;
 				mCurrent = next;
 				mState = 0;
+				mMatchEnd = mMatchCurrent;
+				mMatchCurrent = mMatch;
 				return true;
 			}
 		}

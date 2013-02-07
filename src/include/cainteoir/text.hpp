@@ -60,6 +60,7 @@ namespace cainteoir { namespace tts
 		ucd::script mScript;
 
 		char mMatch[512];
+		char *mMatchCurrent;
 		char *mMatchEnd;
 
 		bool mNeedEndPara;
