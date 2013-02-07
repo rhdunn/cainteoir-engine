@@ -41,6 +41,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/paragraph.html', 'result': 'parse-text/html/paragraph.pt'},
 			{'test': 'parse-text/html/paragraph-singleword.html', 'result': 'parse-text/html/paragraph-singleword.pt'},
 			{'test': 'parse-text/html/msword.html', 'result': 'parse-text/html/msword.pt'},
+			{'test': 'parse-text/html/split-word.html', 'result': 'parse-text/html/split-word.pt'},
 		]},
 	]})
 	test.summary()
