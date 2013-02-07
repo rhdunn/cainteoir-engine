@@ -154,6 +154,7 @@ void tts::text_reader::next_item(const cainteoir::document_item &aItem)
 		mReaderState = reader_state::skip;
 }
 
+#define SOFT_HYPHEN                 0x00AD
 #define RIGHT_SINGLE_QUOTATION_MARK 0x2019
 
 bool tts::text_reader::read()
@@ -227,6 +228,8 @@ bool tts::text_reader::read()
 				new_state = mState;
 				cp = '\'';
 			}
+			else if (cp == SOFT_HYPHEN)
+				continue;
 			break;
 		case state::script:
 			if (mScript != script && mScript != ucd::Zzzz)

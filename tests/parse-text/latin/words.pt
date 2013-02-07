@@ -65,3 +65,5 @@
 .punctuation   _
 .Latn.capital  persian
 .Latn.capital  ǉiǉan
+.Latn.lower    shy
+.Latn.lower    hyphenation

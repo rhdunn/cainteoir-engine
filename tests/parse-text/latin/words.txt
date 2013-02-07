@@ -38,3 +38,5 @@ lexical_cast
 Old_Persian
 
 ǈiǉan
+
+shy hyphen­ation
