@@ -182,7 +182,6 @@ bool tts::text_reader::read()
 	uint32_t cp = 0;
 	const char *next = nullptr;
 	const char *quote_match = nullptr;
-	mState = 0;
 	mMatchEnd = mMatch;
 	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
 	{
@@ -206,6 +205,7 @@ bool tts::text_reader::read()
 				mCurrent = quote_match;
 				mType = state_token[mState];
 				mNeedEndPara = true;
+				mState = 0;
 				return true;
 			}
 		}
@@ -240,6 +240,7 @@ bool tts::text_reader::read()
 		{
 			mType = state_token[mState];
 			mNeedEndPara = true;
+			mState = 0;
 			return true;
 		}
 
@@ -258,6 +259,7 @@ bool tts::text_reader::read()
 				mType = state_token[mState];
 				mNeedEndPara = true;
 				mCurrent = next;
+				mState = 0;
 				return true;
 			}
 		}
