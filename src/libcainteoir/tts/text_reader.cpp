@@ -166,7 +166,6 @@ bool tts::text_reader::read()
 		if (state_is_terminal[mState])
 		{
 			mType = state_token[mState];
-			mNeedEndPara = true;
 			mState = 0;
 			mMatchEnd = mMatchCurrent;
 			mMatchCurrent = mMatch;
@@ -205,7 +204,6 @@ bool tts::text_reader::read()
 				// token).
 				mCurrent = quote_match;
 				mType = state_token[mState];
-				mNeedEndPara = true;
 				mState = 0;
 				mMatchEnd = mMatchCurrent - 1;
 				mMatchCurrent = mMatch;
@@ -242,7 +240,6 @@ bool tts::text_reader::read()
 		if (state_is_terminal[mState] && !state_is_terminal[new_state])
 		{
 			mType = state_token[mState];
-			mNeedEndPara = true;
 			mState = 0;
 			mMatchEnd = mMatchCurrent;
 			mMatchCurrent = mMatch;
@@ -253,6 +250,7 @@ bool tts::text_reader::read()
 		{
 			mScript = script;
 			mState = new_state;
+			mNeedEndPara = true;
 		}
 
 		if (mState != 0)
@@ -262,7 +260,6 @@ bool tts::text_reader::read()
 			{
 				// The match is too long for the internal buffer, so split the word here.
 				mType = state_token[mState];
-				mNeedEndPara = true;
 				mCurrent = next;
 				mState = 0;
 				mMatchEnd = mMatchCurrent;
