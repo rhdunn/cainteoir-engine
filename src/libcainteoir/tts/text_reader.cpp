@@ -162,11 +162,20 @@ bool tts::text_reader::read()
 
 	if (mReaderState == reader_state::end_paragraph)
 	{
-		mScript = ucd::Zzzz;
-		mMatchEnd = mMatch;
-		mType = end_of_paragraph;
-		mReaderState = reader_state::skip;
-		mNeedEndPara = false;
+		if (state_is_terminal[mState])
+		{
+			mType = state_token[mState];
+			mNeedEndPara = true;
+			mState = 0;
+		}
+		else
+		{
+			mScript = ucd::Zzzz;
+			mMatchEnd = mMatch;
+			mType = end_of_paragraph;
+			mReaderState = reader_state::skip;
+			mNeedEndPara = false;
+		}
 		return true;
 	}
 
@@ -252,13 +261,6 @@ bool tts::text_reader::read()
 				return true;
 			}
 		}
-	}
-
-	if (state_is_terminal[mState])
-	{
-		mType = state_token[mState];
-		mNeedEndPara = true;
-		return true;
 	}
 
 	return false;
