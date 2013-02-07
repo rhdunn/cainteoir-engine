@@ -50,16 +50,16 @@ enum class state
 
 static const bool state_is_terminal[] = {
 	false, // 0 = start
-	true,  // 1 = upper case (initial character)
-	true,  // 2 = upper case
-	true,  // 3 = capitalized
-	true,  // 4 = lower case
-	true,  // 5 = mixed case
-	true,  // 6 = number
-	true,  // 7 = punctuation
-	true,  // 8 = symbol
-	true,  // 9 = title case (initial character) -- capitalized
-	true,  // A = script
+	true,  // A = upper case (initial character)
+	true,  // B = upper case
+	true,  // C = capitalized
+	true,  // D = lower case
+	true,  // E = mixed case
+	true,  // F = number
+	true,  // G = punctuation
+	true,  // H = symbol
+	true,  // I = title case (initial character) -- capitalized
+	true,  // J = script
 };
 
 static const tts::text_reader::token_type state_token[] = {
@@ -76,24 +76,42 @@ static const tts::text_reader::token_type state_token[] = {
 	tts::text_reader::word_script,
 };
 
-#define A 10
+#define A  1
+#define B  2
+#define C  3
+#define D  4
+#define E  5
+#define F  6
+#define G  7
+#define H  8
+#define I  9
+#define J 10
 
 static const uint8_t state_transitions[][31] = {
 	// Cc Cf Cn Co Cs Ii Ll Lm Lo Lt Lu Mc Me Mn Nd Nl No Pc Pd Pe Pf Pi Po Ps Sc Sk Sm So Zl Zp Zs
-	{  0, 0, 0, 0, 0, 0, 4, 0, A, 9, 1, 0, 0, 0, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 0, 0, 0 }, // 0
-	{  0, 0, 0, 0, 0, 0, 3, 0, 0, 5, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 1
-	{  0, 0, 0, 0, 0, 0, 5, 0, 0, 5, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 2
-	{  0, 0, 0, 0, 0, 0, 3, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 3
-	{  0, 0, 0, 0, 0, 0, 4, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 4
-	{  0, 0, 0, 0, 0, 0, 5, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 5
-	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 6
-	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 7
-	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 8
-	{  0, 0, 0, 0, 0, 0, 3, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 9
-	{  0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // A
+	{  0, 0, 0, 0, 0, 0, D, 0, J, I, A, 0, 0, 0, F, F, F, G, G, G, G, G, G, G, H, H, H, H, 0, 0, 0 }, // 0
+	{  0, 0, 0, 0, 0, 0, C, 0, 0, E, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // A
+	{  0, 0, 0, 0, 0, 0, E, 0, 0, E, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // B
+	{  0, 0, 0, 0, 0, 0, C, 0, 0, E, E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // C
+	{  0, 0, 0, 0, 0, 0, D, 0, 0, E, E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // D
+	{  0, 0, 0, 0, 0, 0, E, 0, 0, E, E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // E
+	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, F, F, F, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // F
+	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // G
+	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // H
+	{  0, 0, 0, 0, 0, 0, C, 0, 0, E, E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // I
+	{  0, 0, 0, 0, 0, 0, 0, 0, J, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // J
 };
 
 #undef A
+#undef B
+#undef C
+#undef D
+#undef E
+#undef F
+#undef G
+#undef H
+#undef I
+#undef J
 
 tts::text_reader::text_reader()
 	: mType(error)
