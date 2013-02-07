@@ -144,7 +144,7 @@ bool tts::text_reader::read()
 
 	if (mReaderState == reader_state::end_paragraph)
 	{
-		mScript = ucd::Zyyy;
+		mScript = ucd::Zzzz;
 		mMatchEnd = mMatch;
 		mType = end_of_paragraph;
 		mReaderState = reader_state::skip;
@@ -184,7 +184,7 @@ bool tts::text_reader::read()
 		}
 
 		uint8_t new_state = state_transitions[mState][category];
-		if (cp == '\'' || cp == RIGHT_SINGLE_QUOTATION_MARK) switch ((state)mState)
+		switch ((state)mState)
 		{
 		case state::upper_case_initial:
 		case state::upper_case:
@@ -192,11 +192,20 @@ bool tts::text_reader::read()
 		case state::lower_case:
 		case state::mixed_case:
 		case state::title_case_initial:
+			if (cp == '\'' || cp == RIGHT_SINGLE_QUOTATION_MARK)
+			{
+				if (cp == RIGHT_SINGLE_QUOTATION_MARK)
+					quote_match = mCurrent;
+				new_state = mState;
+				cp = '\'';
+			}
+			break;
 		case state::script:
-			if (cp == RIGHT_SINGLE_QUOTATION_MARK)
-				quote_match = mCurrent;
-			new_state = mState;
-			cp = '\'';
+			if (mScript != script && mScript != ucd::Zzzz)
+			{
+				// The script has changed, so split the token here.
+				new_state = 0;
+			}
 			break;
 		}
 
