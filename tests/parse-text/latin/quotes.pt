@@ -20,7 +20,8 @@
 .Latn.lower    ave
 .Latn.lower    you
 .Latn.lower    been
-.Latn.lower    dancin'
+.Latn.lower    dancin
+.punctuation   '
 .Latn.lower    today
 .punctuation   ?
 .punctuation   "
@@ -42,5 +43,15 @@
 .punctuation   ,
 .punctuation   "
 .Latn.lower    replied
+.Latn.lower    the
+.number        5
+.punctuation   '
+.number        8
+.punctuation   "
 .Latn.capital  sarah
+.punctuation   '
+.Latn.capital  the
+.Latn.capital  torpedo
+.punctuation   '
+.Latn.capital  smith
 .punctuation   .

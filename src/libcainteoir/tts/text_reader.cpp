@@ -223,8 +223,7 @@ bool tts::text_reader::read()
 		case state::title_case_initial:
 			if (cp == '\'' || cp == RIGHT_SINGLE_QUOTATION_MARK)
 			{
-				if (cp == RIGHT_SINGLE_QUOTATION_MARK)
-					quote_match = mCurrent;
+				quote_match = mCurrent;
 				new_state = mState;
 				cp = '\'';
 			}
