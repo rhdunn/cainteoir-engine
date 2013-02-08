@@ -44,10 +44,7 @@ namespace cainteoir { namespace tts
 
 		text_reader();
 
-		std::shared_ptr<buffer> match() const
-		{
-			return make_buffer(mMatch, mMatchEnd - mMatch);
-		}
+		const std::shared_ptr<buffer> &match() const { return mMatch; }
 
 		token_type type() const { return mType; }
 
@@ -62,9 +59,9 @@ namespace cainteoir { namespace tts
 		token_type mType;
 		ucd::script mScript;
 
-		char mMatch[512];
+		std::shared_ptr<buffer> mMatch;
+		char mMatchBuffer[512];
 		char *mMatchCurrent;
-		char *mMatchEnd;
 
 		bool mNeedEndPara;
 		const char *mCurrent;

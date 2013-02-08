@@ -115,8 +115,7 @@ static const uint8_t state_transitions[][31] = {
 
 tts::text_reader::text_reader()
 	: mType(error)
-	, mMatchCurrent(mMatch)
-	, mMatchEnd(mMatch)
+	, mMatchCurrent(mMatchBuffer)
 	, mNeedEndPara(false)
 	, mCurrent(nullptr)
 	, mLast(nullptr)
@@ -168,16 +167,16 @@ bool tts::text_reader::read()
 		{
 			mType = state_token[mState];
 			mState = 0;
-			mMatchEnd = mMatchCurrent;
-			mMatchCurrent = mMatch;
+			mMatch = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
+			mMatchCurrent = mMatchBuffer;
 		}
 		else
 		{
 			mScript = ucd::Zzzz;
-			mMatchCurrent = mMatchEnd = mMatch;
 			mType = end_of_paragraph;
 			mReaderState = reader_state::skip;
 			mNeedEndPara = false;
+			mMatch = std::make_shared<buffer>(nullptr, nullptr);
 		}
 		return true;
 	}
@@ -206,8 +205,8 @@ bool tts::text_reader::read()
 				mCurrent = quote_match;
 				mType = state_token[mState];
 				mState = 0;
-				mMatchEnd = mMatchCurrent - 1;
-				mMatchCurrent = mMatch;
+				mMatch = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer - 1);
+				mMatchCurrent = mMatchBuffer;
 				return true;
 			}
 		}
@@ -243,8 +242,8 @@ bool tts::text_reader::read()
 		{
 			mType = state_token[mState];
 			mState = 0;
-			mMatchEnd = mMatchCurrent;
-			mMatchCurrent = mMatch;
+			mMatch = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
+			mMatchCurrent = mMatchBuffer;
 			return true;
 		}
 
@@ -258,14 +257,14 @@ bool tts::text_reader::read()
 		if (mState != 0)
 		{
 			mMatchCurrent = cainteoir::utf8::write(mMatchCurrent, ucd::tolower(cp));
-			if ((mMatchCurrent - mMatch) >= (sizeof(mMatch) - 12))
+			if ((mMatchCurrent - mMatchBuffer) >= (sizeof(mMatchBuffer) - 12))
 			{
 				// The match is too long for the internal buffer, so split the word here.
 				mType = state_token[mState];
 				mCurrent = next;
 				mState = 0;
-				mMatchEnd = mMatchCurrent;
-				mMatchCurrent = mMatch;
+				mMatch = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
+				mMatchCurrent = mMatchBuffer;
 				return true;
 			}
 		}
