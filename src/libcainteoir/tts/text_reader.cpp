@@ -176,7 +176,6 @@ bool tts::text_reader::read()
 			mType = end_of_paragraph;
 			mReaderState = reader_state::skip;
 			mNeedEndPara = false;
-			mMatch = std::make_shared<buffer>(nullptr, nullptr);
 		}
 		return true;
 	}

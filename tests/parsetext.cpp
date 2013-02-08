@@ -77,6 +77,10 @@ int main(int argc, char ** argv)
 				        token_name[text.type()],
 				        text.match()->str().c_str());
 				break;
+			case tts::text_reader::end_of_paragraph:
+				fprintf(stdout, ".%-13s \n",
+				        token_name[text.type()]);
+				break;
 			default:
 				fprintf(stdout, ".%-13s %s\n",
 				        token_name[text.type()],
