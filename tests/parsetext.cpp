@@ -75,12 +75,12 @@ int main(int argc, char ** argv)
 				fprintf(stdout, ".%s.%-8s %s\n",
 				        ucd::get_script_string(text.script()),
 				        token_name[text.type()],
-				        text.match().str().c_str());
+				        text.match()->str().c_str());
 				break;
 			default:
 				fprintf(stdout, ".%-13s %s\n",
 				        token_name[text.type()],
-				        text.match().str().c_str());
+				        text.match()->str().c_str());
 				break;
 			}
 		}

@@ -111,7 +111,7 @@ struct cloud
 		case tts::text_reader::word_lowercase:
 		case tts::text_reader::word_mixedcase:
 		case tts::text_reader::word_capitalized:
-			++words[reader.match().str()];
+			++words[reader.match()->str()];
 			break;
 		}
 	}
