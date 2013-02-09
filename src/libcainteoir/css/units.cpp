@@ -166,3 +166,38 @@ css::length css::length::as(const type aUnits) const
 
 	throw std::runtime_error("unable to convert to the specified units");
 }
+
+css::time css::time::as(const type aUnits) const
+{
+	static constexpr float milliseconds_in_seconds = 1000;
+
+	switch (mUnits)
+	{
+	case seconds:
+		switch (aUnits)
+		{
+		case seconds:
+			return *this;
+		case milliseconds:
+			return time(mValue * milliseconds_in_seconds, aUnits);
+		case inherit:
+			break;
+		}
+		break;
+	case milliseconds:
+		switch (aUnits)
+		{
+		case seconds:
+			return time(mValue / milliseconds_in_seconds, aUnits);
+		case milliseconds:
+			return *this;
+		case inherit:
+			break;
+		}
+		break;
+	case inherit:
+		break;
+	}
+
+	throw std::runtime_error("unable to convert to the specified units");
+}

@@ -63,6 +63,36 @@ namespace cainteoir { namespace css
 		type  mUnits;
 	};
 
+	struct time
+	{
+		enum type
+		{
+			inherit,
+			seconds,
+			milliseconds,
+		};
+
+		time()
+			: mValue(0)
+			, mUnits(type::inherit)
+		{
+		}
+
+		time(float aValue, const type aUnits)
+			: mValue(aValue)
+			, mUnits(aUnits)
+		{
+		}
+
+		time as(const type aUnits) const;
+
+		float value() const { return mValue; }
+		type  units() const { return mUnits; }
+	private:
+		float mValue;
+		type  mUnits;
+	};
+
 	// Cascading Style Sheets
 
 	enum class display : uint8_t

@@ -45,9 +45,27 @@ static void test_conversion_(float aFromValue, const css::length::type aFromUnit
 	}
 }
 
+static void test_conversion_(float aFromValue, const css::time::type aFromUnits,
+                             float aToValue, const css::time::type aToUnits,
+                             bool throws,
+                             const char *location, int line)
+{
+	try
+	{
+		css::time to = css::time(aFromValue, aFromUnits).as(aToUnits);
+		assert_location(to.units() == aToUnits, location, line);
+		assert_location(to.value() == aToValue, location, line);
+		assert_location(!throws, location, line);
+	}
+	catch (std::exception &e)
+	{
+		assert_location(throws, location, line);
+	}
+}
+
 #define test_conversion(a, b, c, d, e) test_conversion_(a, b, c, d, e, __FILE__, __LINE__)
 
-TEST_CASE("unit conversion")
+TEST_CASE("length conversion")
 {
 	test_conversion(1, css::length::inherit, 1, css::length::inherit,     true);
 	test_conversion(1, css::length::inherit, 1, css::length::millimeters, true);
@@ -104,6 +122,21 @@ TEST_CASE("unit conversion")
 	test_conversion(96, css::length::pixels, 72,    css::length::points,      false);
 	test_conversion(96, css::length::pixels,  6,    css::length::picas,       false);
 	test_conversion( 1, css::length::pixels,  1,    css::length::pixels,      false);
+}
+
+TEST_CASE("time conversion")
+{
+	test_conversion(1, css::time::inherit, 1, css::time::inherit,      true);
+	test_conversion(1, css::time::inherit, 1, css::time::milliseconds, true);
+	test_conversion(1, css::time::inherit, 1, css::time::seconds,      true);
+
+	test_conversion(   1, css::time::milliseconds, 1, css::time::inherit,      true);
+	test_conversion(   1, css::time::milliseconds, 1, css::time::milliseconds, false);
+	test_conversion(1000, css::time::milliseconds, 1, css::time::seconds,      false);
+
+	test_conversion(1, css::time::seconds,    1, css::time::inherit,      true);
+	test_conversion(1, css::time::seconds, 1000, css::time::milliseconds, false);
+	test_conversion(1, css::time::seconds,    1, css::time::seconds,      false);
 }
 
 TEST_CASE("style defaults")
