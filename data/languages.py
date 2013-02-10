@@ -152,9 +152,9 @@ def read_iso_15924(path):
 	return tags
 
 tags            = read_iana_subtags('languages.dat')
-iso_639_codes   = read_iso_639('../../iso-codes/iso_639/iso_639.xml')
-iso_3166_codes  = read_iso_3166('../../iso-codes/iso_3166/iso_3166.xml')
-iso_15924_codes = read_iso_15924('../../iso-codes/iso_15924/iso_15924.xml')
+iso_639_codes   = read_iso_639('/usr/share/xml/iso-codes/iso_639.xml')
+iso_3166_codes  = read_iso_3166('/usr/share/xml/iso-codes/iso_3166.xml')
+iso_15924_codes = read_iso_15924('/usr/share/xml/iso-codes/iso_15924.xml')
 
 for name, tag in sorted(tags.items()):
 	try:
