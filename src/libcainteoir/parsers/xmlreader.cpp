@@ -31,6 +31,48 @@ using cainteoir::xml::detail::entity_set;
 #include "xml-entities.h"
 #include "html-entities.h"
 
+enum character_class_t
+{
+	unknown,
+	upper,
+	lower,
+	number,
+	space,
+};
+
+#define _  unknown
+#define S  space
+#define U  upper
+#define L  lower
+#define N  number
+
+static const character_class_t character_class[256] = {
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+	/* 0x */ _, _, _, _, _, _, _, _, _, S, S, S, S, S, _, _,
+	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 2x */ S, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 3x */ N, N, N, N, N, N, N, N, N, N, _, _, _, _, _, _,
+	/* 4x */ _, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U,
+	/* 5x */ U, U, U, U, U, U, U, U, U, U, U, _, _, _, _, _,
+	/* 6x */ _, L, L, L, L, L, L, L, L, L, L, L, L, L, L, L,
+	/* 7x */ L, L, L, L, L, L, L, L, L, L, L, _, _, _, _, _,
+	/* 8x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 9x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ax */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Bx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Cx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Dx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ex */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Fx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+};
+
+#undef _
+#undef S
+#undef U
+#undef L
+#undef N
+
 const char * cainteoir::xml::lookup_entity(const detail::entity_set **entities, const cainteoir::buffer &data)
 {
 	char c = *data.begin();
@@ -99,12 +141,13 @@ parse_entity(const cainteoir::buffer &entity,
 
 static inline bool xmlalnum(char c)
 {
-	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
+	character_class_t t = character_class[c];
+	return t == upper || t == lower || t == number;
 }
 
 static inline bool xmlspace(char c)
 {
-	return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+	return character_class[c] == space;
 }
 
 const cainteoir::xml::ns cainteoir::xml::xmlns::dc(    "dc",    "http://purl.org/dc/elements/1.1/");
