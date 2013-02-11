@@ -38,7 +38,6 @@ namespace cainteoir { namespace tts
 			word_script,
 			number,
 			punctuation,
-			hyphen_dash,
 			symbol,
 			end_of_paragraph,
 		};

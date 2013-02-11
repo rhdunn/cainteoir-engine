@@ -62,7 +62,6 @@ static const bool state_is_terminal[] = {
 	true,  // I = title case (initial character) -- capitalized
 	true,  // J = script
 	true,  // K = error (unrecognised modifier/marker)
-	true,  // L = punctuation (dash / hyphen)
 };
 
 static const tts::text_reader::token_type state_token[] = {
@@ -78,7 +77,6 @@ static const tts::text_reader::token_type state_token[] = {
 	tts::text_reader::word_capitalized,
 	tts::text_reader::word_script,
 	tts::text_reader::error,
-	tts::text_reader::hyphen_dash,
 };
 
 #define A  1
@@ -92,11 +90,10 @@ static const tts::text_reader::token_type state_token[] = {
 #define I  9
 #define J 10
 #define K 11
-#define L 12
 
 static const uint8_t state_transitions[][31] = {
 	// Cc Cf Cn Co Cs Ii Ll Lm Lo Lt Lu Mc Me Mn Nd Nl No Pc Pd Pe Pf Pi Po Ps Sc Sk Sm So Zl Zp Zs
-	{  0, 0, 0, 0, 0, 0, D, K, J, I, A, K, K, K, F, F, F, G, L, G, G, G, G, G, H, H, H, H, 0, 0, 0 }, // 0
+	{  0, 0, 0, 0, 0, 0, D, K, J, I, A, K, K, K, F, F, F, G, G, G, G, G, G, G, H, H, H, H, 0, 0, 0 }, // 0
 	{  0, 0, 0, 0, 0, 0, C, 0, 0, E, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // A
 	{  0, 0, 0, 0, 0, 0, E, 0, 0, E, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // B
 	{  0, 0, 0, 0, 0, 0, C, 0, 0, E, E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // C
@@ -108,7 +105,6 @@ static const uint8_t state_transitions[][31] = {
 	{  0, 0, 0, 0, 0, 0, C, 0, 0, E, E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // I
 	{  0, 0, 0, 0, 0, 0, 0, 0, J, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // J
 	{  0, 0, 0, 0, 0, 0, 0, K, 0, 0, 0, K, K, K, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // K
-	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // L
 };
 
 #undef A
@@ -122,7 +118,6 @@ static const uint8_t state_transitions[][31] = {
 #undef I
 #undef J
 #undef K
-#undef L
 
 tts::text_reader::text_reader()
 	: mType(error)
