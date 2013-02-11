@@ -39,6 +39,7 @@ static const char *token_name[] = {
 	"script",
 	"number",
 	"punctuation",
+	"hyphen-dash",
 	"symbol",
 	"end-para",
 };
