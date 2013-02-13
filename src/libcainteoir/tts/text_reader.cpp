@@ -128,6 +128,9 @@ tts::text_reader::text_reader()
 	, mState(0)
 	, mReaderState(reader_state::skip)
 	, mScript(ucd::Zzzz)
+	, mMatchFirst(0)
+	, mMatchNext(0)
+	, mMatchLast(0)
 {
 }
 
@@ -176,6 +179,7 @@ bool tts::text_reader::read()
 		mType = end_of_paragraph;
 		mReaderState = reader_state::skip;
 		mNeedEndPara = false;
+		mMatchNext = mMatchFirst = mMatchLast;
 		return true;
 	}
 
@@ -236,6 +240,8 @@ bool tts::text_reader::read()
 		if (state_is_terminal[mState] && !state_is_terminal[new_state])
 			return matched();
 
+		++mMatchLast;
+
 		if (mState != new_state)
 		{
 			mScript = script;
@@ -253,6 +259,8 @@ bool tts::text_reader::read()
 				return matched();
 			}
 		}
+		else
+			++mMatchNext;
 	}
 
 	return false;
@@ -264,5 +272,7 @@ bool tts::text_reader::matched()
 	mState = 0;
 	mMatch = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
 	mMatchCurrent = mMatchBuffer;
+	mMatchFirst = mMatchNext;
+	mMatchNext = mMatchLast;
 	return true;
 }

@@ -50,6 +50,8 @@ namespace cainteoir { namespace tts
 
 		ucd::script script() const { return mScript; }
 
+		cainteoir::range<uint32_t> range() const { return { mMatchFirst, mMatchLast }; }
+
 		void next_item(const cainteoir::document_item &aItem);
 
 		bool read();
@@ -64,6 +66,10 @@ namespace cainteoir { namespace tts
 		std::shared_ptr<buffer> mMatch;
 		char mMatchBuffer[512];
 		char *mMatchCurrent;
+
+		uint32_t mMatchFirst;
+		uint32_t mMatchNext;
+		uint32_t mMatchLast;
 
 		bool mNeedEndPara;
 		const char *mCurrent;

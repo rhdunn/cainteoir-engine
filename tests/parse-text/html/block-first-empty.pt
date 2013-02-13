@@ -1,4 +1,4 @@
-.Latn.capital  block
-.Latn.lower    test
-.punctuation   .
-.end-para      
+.Latn.capital  [1..6] block
+.Latn.lower    [7..11] test
+.punctuation   [11..12] .
+.end-para      [12..12] 

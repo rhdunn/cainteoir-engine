@@ -72,18 +72,24 @@ int main(int argc, char ** argv)
 			case tts::text_reader::word_capitalized:
 			case tts::text_reader::word_mixedcase:
 			case tts::text_reader::word_script:
-				fprintf(stdout, ".%s.%-8s %s\n",
+				fprintf(stdout, ".%s.%-8s [%d..%d] %s\n",
 				        ucd::get_script_string(text.script()),
 				        token_name[text.type()],
+					text.range().begin(),
+					text.range().end(),
 				        text.match()->str().c_str());
 				break;
 			case tts::text_reader::end_of_paragraph:
-				fprintf(stdout, ".%-13s \n",
-				        token_name[text.type()]);
+				fprintf(stdout, ".%-13s [%d..%d] \n",
+				        token_name[text.type()],
+					text.range().begin(),
+					text.range().end());
 				break;
 			default:
-				fprintf(stdout, ".%-13s %s\n",
+				fprintf(stdout, ".%-13s [%d..%d] %s\n",
 				        token_name[text.type()],
+					text.range().begin(),
+					text.range().end(),
 				        text.match()->str().c_str());
 				break;
 			}

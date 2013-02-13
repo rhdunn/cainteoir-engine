@@ -1,2 +1,2 @@
-.Latn.lower    talented
-.end-para      
+.Latn.lower    [0..8] talented
+.end-para      [8..8] 

@@ -1,57 +1,57 @@
-.punctuation   "
-.Latn.capital  how
-.Latn.lower    are
-.Latn.lower    you
-.punctuation   ?
-.punctuation   "
-.Latn.lower    said
-.Latn.capital  jane
-.punctuation   .
-.punctuation   "
-.Latn.capital  i'm
-.Latn.lower    fine
-.punctuation   ,
-.punctuation   "
-.Latn.lower    replied
-.Latn.capital  tony
-.punctuation   .
-.punctuation   "
-.punctuation   '
-.Latn.lower    ave
-.Latn.lower    you
-.Latn.lower    been
-.Latn.lower    dancin
-.punctuation   '
-.Latn.lower    today
-.punctuation   ?
-.punctuation   "
-.Latn.lower    asked
-.Latn.capital  henry
-.punctuation   .
-.punctuation   "
-.Latn.capital  no
-.punctuation   .
-.Latn.capital  i've
-.Latn.lower    been
-.Latn.lower    swimmin
-.punctuation   ’
-.Latn.lower    at
-.punctuation   ‘
-.Latn.lower    the
-.Latn.lower    plaza
-.punctuation   ’
-.punctuation   ,
-.punctuation   "
-.Latn.lower    replied
-.Latn.lower    the
-.number        5
-.punctuation   '
-.number        8
-.punctuation   "
-.Latn.capital  sarah
-.punctuation   '
-.Latn.capital  the
-.Latn.capital  torpedo
-.punctuation   '
-.Latn.capital  smith
-.punctuation   .
+.punctuation   [0..1] "
+.Latn.capital  [1..4] how
+.Latn.lower    [5..8] are
+.Latn.lower    [9..12] you
+.punctuation   [12..13] ?
+.punctuation   [13..14] "
+.Latn.lower    [15..19] said
+.Latn.capital  [20..24] jane
+.punctuation   [24..25] .
+.punctuation   [27..28] "
+.Latn.capital  [28..31] i'm
+.Latn.lower    [32..36] fine
+.punctuation   [36..37] ,
+.punctuation   [37..38] "
+.Latn.lower    [39..46] replied
+.Latn.capital  [47..51] tony
+.punctuation   [51..52] .
+.punctuation   [54..55] "
+.punctuation   [55..56] '
+.Latn.lower    [56..59] ave
+.Latn.lower    [60..63] you
+.Latn.lower    [64..68] been
+.Latn.lower    [69..76] dancin
+.punctuation   [76..77] '
+.Latn.lower    [78..83] today
+.punctuation   [83..84] ?
+.punctuation   [84..85] "
+.Latn.lower    [86..91] asked
+.Latn.capital  [92..97] henry
+.punctuation   [97..98] .
+.punctuation   [100..101] "
+.Latn.capital  [101..103] no
+.punctuation   [103..104] .
+.Latn.capital  [105..109] i've
+.Latn.lower    [110..114] been
+.Latn.lower    [115..123] swimmin
+.punctuation   [123..124] ’
+.Latn.lower    [125..127] at
+.punctuation   [128..129] ‘
+.Latn.lower    [129..132] the
+.Latn.lower    [133..139] plaza
+.punctuation   [139..140] ’
+.punctuation   [140..141] ,
+.punctuation   [141..142] "
+.Latn.lower    [143..150] replied
+.Latn.lower    [151..154] the
+.number        [155..156] 5
+.punctuation   [156..157] '
+.number        [157..158] 8
+.punctuation   [158..159] "
+.Latn.capital  [160..165] sarah
+.punctuation   [166..167] '
+.Latn.capital  [167..170] the
+.Latn.capital  [171..179] torpedo
+.punctuation   [179..180] '
+.Latn.capital  [181..186] smith
+.punctuation   [186..187] .
