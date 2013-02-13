@@ -54,6 +54,8 @@ namespace cainteoir { namespace tts
 
 		bool read();
 	private:
+		bool matched();
+
 		enum class reader_state;
 
 		token_type mType;

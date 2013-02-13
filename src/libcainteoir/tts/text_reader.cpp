@@ -170,19 +170,12 @@ bool tts::text_reader::read()
 	if (mReaderState == reader_state::end_paragraph)
 	{
 		if (state_is_terminal[mState])
-		{
-			mType = state_token[mState];
-			mState = 0;
-			mMatch = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
-			mMatchCurrent = mMatchBuffer;
-		}
-		else
-		{
-			mScript = ucd::Zzzz;
-			mType = end_of_paragraph;
-			mReaderState = reader_state::skip;
-			mNeedEndPara = false;
-		}
+			return matched();
+
+		mScript = ucd::Zzzz;
+		mType = end_of_paragraph;
+		mReaderState = reader_state::skip;
+		mNeedEndPara = false;
 		return true;
 	}
 
@@ -208,11 +201,8 @@ bool tts::text_reader::read()
 				// it part of the word token (keep it as a separate punctuation
 				// token).
 				mCurrent = quote_match;
-				mType = state_token[mState];
-				mState = 0;
-				mMatch = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer - 1);
-				mMatchCurrent = mMatchBuffer;
-				return true;
+				--mMatchCurrent;
+				return matched();
 			}
 		}
 
@@ -244,13 +234,7 @@ bool tts::text_reader::read()
 		}
 
 		if (state_is_terminal[mState] && !state_is_terminal[new_state])
-		{
-			mType = state_token[mState];
-			mState = 0;
-			mMatch = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
-			mMatchCurrent = mMatchBuffer;
-			return true;
-		}
+			return matched();
 
 		if (mState != new_state)
 		{
@@ -265,15 +249,20 @@ bool tts::text_reader::read()
 			if ((mMatchCurrent - mMatchBuffer) >= (sizeof(mMatchBuffer) - 12))
 			{
 				// The match is too long for the internal buffer, so split the word here.
-				mType = state_token[mState];
 				mCurrent = next;
-				mState = 0;
-				mMatch = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
-				mMatchCurrent = mMatchBuffer;
-				return true;
+				return matched();
 			}
 		}
 	}
 
 	return false;
+}
+
+bool tts::text_reader::matched()
+{
+	mType = state_token[mState];
+	mState = 0;
+	mMatch = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
+	mMatchCurrent = mMatchBuffer;
+	return true;
 }
