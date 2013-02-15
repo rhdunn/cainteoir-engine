@@ -36,6 +36,7 @@ src/apps/doc2doc/doc2doc
 
 tests/buffer
 tests/content
+tests/dictionary
 tests/rdfmodel
 tests/rdfquery
 tests/ntriple_formatter

@@ -446,6 +446,11 @@ tests/content.check: tests/content
 	($< && touch $@) | tee $<.results
 	test -f $@ || false
 
+noinst_bin_PROGRAMS += tests/dictionary
+
+tests_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
+tests_dictionary_SOURCES = tests/dictionary.cpp
+
 noinst_bin_PROGRAMS += tests/xmlcssparser
 
 tests_xmlcssparser_LDADD   = src/libcainteoir/libcainteoir.la
