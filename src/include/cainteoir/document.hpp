@@ -78,12 +78,6 @@ namespace cainteoir
 				mLength += aItem.text->size();
 		}
 
-		size_t anchor(const rdf::uri &aAnchor) const
-		{
-			auto at = mAnchors.find(aAnchor.str());
-			return (at == mAnchors.end()) ? size_t(-1) : at->second;
-		}
-
 		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const
 		{
 			size_t from = anchor(aAnchors.first);
@@ -95,6 +89,12 @@ namespace cainteoir
 			return range_type(get_child(from), get_child(to));
 		}
 	private:
+		size_t anchor(const rdf::uri &aAnchor) const
+		{
+			auto at = mAnchors.find(aAnchor.str());
+			return (at == mAnchors.end()) ? size_t(-1) : at->second;
+		}
+
 		const_iterator get_child(size_t index) const
 		{
 			if (index == size_t(-1)) return mChildren.end();
