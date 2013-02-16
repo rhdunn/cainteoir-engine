@@ -88,11 +88,6 @@ namespace cainteoir { namespace tts
 		std::shared_ptr<speech>
 		speak(const std::shared_ptr<document> &doc,
 		      std::shared_ptr<audio> out,
-		      size_t offset = 0);
-
-		std::shared_ptr<speech>
-		speak(const std::shared_ptr<document> &doc,
-		      std::shared_ptr<audio> out,
 		      cainteoir::document::const_iterator from,
 		      cainteoir::document::const_iterator to);
 

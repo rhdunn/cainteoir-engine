@@ -338,25 +338,6 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 std::shared_ptr<tts::speech>
 tts::engines::speak(const std::shared_ptr<cainteoir::document> &doc,
                     std::shared_ptr<audio> out,
-                    size_t offset)
-{
-	auto from = doc->children().begin();
-	auto end  = doc->children().end();
-
-	size_t n = 0;
-	while (from != end && n < offset)
-	{
-		if (from->type & cainteoir::events::text)
-			n += from->text->size();
-		++from;
-	}
-
-	return speak(doc, out, from, end);
-}
-
-std::shared_ptr<tts::speech>
-tts::engines::speak(const std::shared_ptr<cainteoir::document> &doc,
-                    std::shared_ptr<audio> out,
                     cainteoir::document::const_iterator from,
                     cainteoir::document::const_iterator to)
 {
