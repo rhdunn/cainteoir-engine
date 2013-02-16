@@ -89,20 +89,15 @@ namespace cainteoir
 			return mChildren;
 		}
 
-		range_type children(const rdf::uri &aFrom, const rdf::uri &aTo) const
+		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const
 		{
-			size_t from = anchor(aFrom);
-			size_t to   = anchor(aTo);
+			size_t from = anchor(aAnchors.first);
+			size_t to   = anchor(aAnchors.second);
 
 			if (from == size_t(-1)) from = 0;
 			if (from > to) std::swap(from, to);
 
 			return range_type(get_child(from), get_child(to));
-		}
-
-		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const
-		{
-			return children(aAnchors.first, aAnchors.second);
 		}
 	private:
 		const_iterator get_child(size_t index) const
