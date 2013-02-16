@@ -84,11 +84,6 @@ namespace cainteoir
 			return (at == mAnchors.end()) ? size_t(-1) : at->second;
 		}
 
-		const list_type & children() const
-		{
-			return mChildren;
-		}
-
 		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const
 		{
 			size_t from = anchor(aAnchors.first);
@@ -102,9 +97,9 @@ namespace cainteoir
 	private:
 		const_iterator get_child(size_t index) const
 		{
-			if (index == size_t(-1)) return children().end();
+			if (index == size_t(-1)) return mChildren.end();
 
-			const_iterator pos = children().begin();
+			const_iterator pos = mChildren.begin();
 			std::advance(pos, index);
 			return pos;
 		}
