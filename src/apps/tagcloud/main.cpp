@@ -105,13 +105,13 @@ struct cloud
 	void process(const cainteoir::document_item &aItem)
 	{
 		reader.next_item(aItem);
-		while (reader.read()) switch (reader.match().type)
+		while (reader.read()) switch (reader.event().type)
 		{
 		case tts::word_uppercase:
 		case tts::word_lowercase:
 		case tts::word_mixedcase:
 		case tts::word_capitalized:
-			++words[reader.match().text->str()];
+			++words[reader.event().text->str()];
 			break;
 		}
 	}

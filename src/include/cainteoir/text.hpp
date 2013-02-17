@@ -58,7 +58,7 @@ namespace cainteoir { namespace tts
 	{
 		text_reader();
 
-		const text_event &match() const { return mMatch; }
+		const text_event &event() const { return mMatch; }
 
 		void next_item(const cainteoir::document_item &aItem);
 
@@ -86,19 +86,14 @@ namespace cainteoir { namespace tts
 	struct word_stream
 	{
 	public:
-		struct entry_t
-		{
-			std::shared_ptr<buffer> text;
-		};
+		const text_event &event() const { return mEntries.front(); }
 
 		void next_item(const cainteoir::document_item &aItem);
 
 		bool read();
-
-		const entry_t &entry() const { return mEntries.front(); }
 	private:
 		text_reader mReader;
-		std::queue<entry_t> mEntries;
+		std::queue<text_event> mEntries;
 	};
 }}
 

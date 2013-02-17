@@ -37,7 +37,7 @@ bool tts::word_stream::read()
 		while (mReader.read())
 		{
 			bool end_of_clause = false;
-			auto &event = mReader.match();
+			auto &event = mReader.event();
 			switch (event.type)
 			{
 			case tts::word_uppercase:
@@ -45,7 +45,7 @@ bool tts::word_stream::read()
 			case tts::word_capitalized:
 			case tts::word_mixedcase:
 			case tts::word_script:
-				mEntries.push({ event.text });
+				mEntries.push({ event });
 				break;
 			case tts::end_of_paragraph:
 				end_of_clause = true;

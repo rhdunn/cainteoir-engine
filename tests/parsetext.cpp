@@ -43,15 +43,16 @@ static const char *token_name[] = {
 	"end-para",
 };
 
-void generate_parsetext_events(std::shared_ptr<cainteoir::document_reader> &reader)
+template <typename Reader>
+void generate_events(std::shared_ptr<cainteoir::document_reader> &reader)
 {
-	tts::text_reader text;
+	Reader text;
 	while (reader->read())
 	{
 		text.next_item(*reader);
 		while (text.read())
 		{
-			auto &event = text.match();
+			auto &event = text.event();
 			switch (event.type)
 			{
 			case tts::word_uppercase:
@@ -84,22 +85,6 @@ void generate_parsetext_events(std::shared_ptr<cainteoir::document_reader> &read
 	}
 }
 
-void generate_wordstream_events(std::shared_ptr<cainteoir::document_reader> &reader)
-{
-	tts::word_stream text;
-	while (reader->read())
-	{
-		text.next_item(*reader);
-		while (text.read())
-		{
-			auto &entry = text.entry();
-			fprintf(stdout, ".%-13s %s\n",
-			        "word",
-			        entry.text->str().c_str());
-		}
-	}
-}
-
 int main(int argc, char ** argv)
 {
 	try
@@ -121,9 +106,9 @@ int main(int argc, char ** argv)
 		}
 
 		if (word_stream)
-			generate_wordstream_events(reader);
+			generate_events<tts::word_stream>(reader);
 		else
-			generate_parsetext_events(reader);
+			generate_events<tts::text_reader>(reader);
 	}
 	catch (std::runtime_error &e)
 	{
