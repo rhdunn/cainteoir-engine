@@ -45,4 +45,27 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.pt'},
 		]},
 	]})
+	test.run({'name': 'Word Stream', 'groups': [
+		{'name': 'Latin', 'type': 'wordstream', 'tests': [
+			{'test': 'parse-text/latin/words.txt', 'result': 'parse-text/latin/words.ws'},
+			{'test': 'parse-text/latin/numbers.txt', 'result': 'parse-text/latin/numbers.ws'},
+			{'test': 'parse-text/latin/punctuation.txt', 'result': 'parse-text/latin/punctuation.ws'},
+			{'test': 'parse-text/latin/quotes.txt', 'result': 'parse-text/latin/quotes.ws'},
+			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.ws'},
+			{'test': 'parse-text/latin/match-limit.txt', 'result': 'parse-text/latin/match-limit.pt'},
+		]},
+		{'name': 'Japanese', 'type': 'wordstream', 'tests': [
+			{'test': 'parse-text/japanese/words.txt', 'result': 'parse-text/japanese/words.pt'},
+			{'test': 'parse-text/japanese/mixed-script.txt', 'result': 'parse-text/japanese/mixed-script.ws'},
+		]},
+		{'name': 'HTML', 'type': 'wordstream', 'tests': [
+			{'test': 'parse-text/html/block-first-empty.html', 'result': 'parse-text/html/block-first-empty.ws'},
+			{'test': 'parse-text/html/block-nested.html', 'result': 'parse-text/html/block-nested.ws'},
+			{'test': 'parse-text/html/paragraph.html', 'result': 'parse-text/html/paragraph.ws'},
+			{'test': 'parse-text/html/paragraph-singleword.html', 'result': 'parse-text/html/paragraph-singleword.ws'},
+			{'test': 'parse-text/html/msword.html', 'result': 'parse-text/html/msword.ws'},
+			{'test': 'parse-text/html/split-word.html', 'result': 'parse-text/html/split-word.ws'},
+			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.ws'},
+		]},
+	]})
 	test.summary()
