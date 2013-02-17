@@ -274,6 +274,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/tts/espeak.cpp \
 	src/libcainteoir/tts/text_reader.cpp \
 	src/libcainteoir/tts/tts_engine.hpp \
+	src/libcainteoir/tts/word_stream.cpp \
 	\
 	src/libcainteoir/unicode/utf8.cpp
 

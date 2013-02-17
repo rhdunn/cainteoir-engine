@@ -43,6 +43,59 @@ static const char *token_name[] = {
 	"end-para",
 };
 
+void generate_parsetext_events(std::shared_ptr<cainteoir::document_reader> &reader)
+{
+	tts::text_reader text;
+	while (reader->read())
+	{
+		text.next_item(*reader);
+		while (text.read()) switch (text.type())
+		{
+		case tts::text_reader::word_uppercase:
+		case tts::text_reader::word_lowercase:
+		case tts::text_reader::word_capitalized:
+		case tts::text_reader::word_mixedcase:
+		case tts::text_reader::word_script:
+			fprintf(stdout, ".%s.%-8s [%d..%d] %s\n",
+			        ucd::get_script_string(text.script()),
+			        token_name[text.type()],
+			        text.range().begin(),
+			        text.range().end(),
+			        text.match()->str().c_str());
+			break;
+		case tts::text_reader::end_of_paragraph:
+			fprintf(stdout, ".%-13s [%d..%d] \n",
+			        token_name[text.type()],
+			        text.range().begin(),
+			        text.range().end());
+			break;
+		default:
+			fprintf(stdout, ".%-13s [%d..%d] %s\n",
+			        token_name[text.type()],
+			        text.range().begin(),
+			        text.range().end(),
+			        text.match()->str().c_str());
+			break;
+		}
+	}
+}
+
+void generate_wordstream_events(std::shared_ptr<cainteoir::document_reader> &reader)
+{
+	tts::word_stream text;
+	while (reader->read())
+	{
+		text.next_item(*reader);
+		while (text.read())
+		{
+			auto &entry = text.entry();
+			fprintf(stdout, ".%-13s %s\n",
+			        "word",
+			        entry.text->str().c_str());
+		}
+	}
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -50,50 +103,23 @@ int main(int argc, char ** argv)
 		argc -= 1;
 		argv += 1;
 
-		if (argc == 0)
+		if (argc != 2)
 			throw std::runtime_error("no document specified");
 
+		bool word_stream = !strcmp(argv[0], "wordstream");
+
 		rdf::graph metadata;
-		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
+		auto reader = cainteoir::createDocumentReader(argv[1], metadata, std::string());
 		if (!reader)
 		{
-			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
+			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[1]);
 			return 0;
 		}
 
-		tts::text_reader text;
-		while (reader->read())
-		{
-			text.next_item(*reader);
-			while (text.read()) switch (text.type())
-			{
-			case tts::text_reader::word_uppercase:
-			case tts::text_reader::word_lowercase:
-			case tts::text_reader::word_capitalized:
-			case tts::text_reader::word_mixedcase:
-			case tts::text_reader::word_script:
-				fprintf(stdout, ".%s.%-8s [%d..%d] %s\n",
-				        ucd::get_script_string(text.script()),
-				        token_name[text.type()],
-					text.range().begin(),
-					text.range().end(),
-				        text.match()->str().c_str());
-				break;
-			case tts::text_reader::end_of_paragraph:
-				fprintf(stdout, ".%-13s [%d..%d] \n",
-				        token_name[text.type()],
-					text.range().begin(),
-					text.range().end());
-				break;
-			default:
-				fprintf(stdout, ".%-13s [%d..%d] %s\n",
-				        token_name[text.type()],
-					text.range().begin(),
-					text.range().end(),
-				        text.match()->str().c_str());
-				break;
-			}
-		}
+		if (word_stream)
+			generate_wordstream_events(reader);
+		else
+			generate_parsetext_events(reader);
 	}
 	catch (std::runtime_error &e)
 	{

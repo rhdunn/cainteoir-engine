@@ -23,6 +23,7 @@
 
 #include "document.hpp"
 #include <ucd/ucd.h>
+#include <queue>
 
 namespace cainteoir { namespace tts
 {
@@ -76,6 +77,24 @@ namespace cainteoir { namespace tts
 		const char *mLast;
 		reader_state mReaderState;
 		uint8_t mState;
+	};
+
+	struct word_stream
+	{
+	public:
+		struct entry_t
+		{
+			std::shared_ptr<buffer> text;
+		};
+
+		void next_item(const cainteoir::document_item &aItem);
+
+		bool read();
+
+		const entry_t &entry() const { return mEntries.front(); }
+	private:
+		text_reader mReader;
+		std::queue<entry_t> mEntries;
 	};
 }}
 

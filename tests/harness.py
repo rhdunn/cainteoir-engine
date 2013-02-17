@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2010-2011 Reece H. Dunn
+# Copyright (C) 2010-2013 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -104,9 +104,9 @@ class TestSuite:
 		write('... checking %s as styles tags ... ' % (displayas or filename))
 		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'styles'), test_expect=test_expect, replacements=replacements)
 
-	def check_parsetext(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
+	def check_parsetext(self, filename, expect, parsetype, displayas=None, test_expect='expect-pass', replacements={}):
 		write('... checking %s as parsetext tags ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'parsetext'), test_expect=test_expect, replacements=replacements)
+		self.check_command(filename=filename, expect=expect, command='%s %s' % (os.path.join(sys.path[0], 'parsetext'), parsetype), test_expect=test_expect, replacements=replacements)
 
 	def run(self, data):
 		if self.run_only and data['name'] != self.run_only:
@@ -123,8 +123,8 @@ class TestSuite:
 				check = lambda got, exp, expect, displayas, replacements: self.check_xmlreader(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'styles':
 				check = lambda got, exp, expect, displayas, replacements: self.check_styles(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] == 'parsetext':
-				check = lambda got, exp, expect, displayas, replacements: self.check_parsetext(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
+			elif group['type'] in ['parsetext', 'wordstream']:
+				check = lambda got, exp, expect, displayas, replacements: self.check_parsetext(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
 
 			for test in group['tests']:
 				expect = 'pass'
