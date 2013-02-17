@@ -1,6 +1,6 @@
 /* Generate a tag cloud from a document.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -105,13 +105,13 @@ struct cloud
 	void process(const cainteoir::document_item &aItem)
 	{
 		reader.next_item(aItem);
-		while (reader.read()) switch (reader.type())
+		while (reader.read()) switch (reader.match().type)
 		{
-		case tts::text_reader::word_uppercase:
-		case tts::text_reader::word_lowercase:
-		case tts::text_reader::word_mixedcase:
-		case tts::text_reader::word_capitalized:
-			++words[reader.match()->str()];
+		case tts::word_uppercase:
+		case tts::word_lowercase:
+		case tts::word_mixedcase:
+		case tts::word_capitalized:
+			++words[reader.match().text->str()];
 			break;
 		}
 	}

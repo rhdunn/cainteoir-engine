@@ -27,31 +27,38 @@
 
 namespace cainteoir { namespace tts
 {
+	enum event_type
+	{
+		error,
+		word_uppercase,
+		word_lowercase,
+		word_capitalized,
+		word_mixedcase,
+		word_script,
+		number,
+		punctuation,
+		symbol,
+		end_of_paragraph,
+	};
+
+	struct text_event
+	{
+		std::shared_ptr<buffer> text;
+		event_type type;
+		ucd::script script;
+		cainteoir::range<uint32_t> range;
+
+		text_event()
+			: range(0, 0)
+		{
+		}
+	};
+
 	struct text_reader
 	{
-		enum token_type
-		{
-			error,
-			word_uppercase,
-			word_lowercase,
-			word_capitalized,
-			word_mixedcase,
-			word_script,
-			number,
-			punctuation,
-			symbol,
-			end_of_paragraph,
-		};
-
 		text_reader();
 
-		const std::shared_ptr<buffer> &match() const { return mMatch; }
-
-		token_type type() const { return mType; }
-
-		ucd::script script() const { return mScript; }
-
-		cainteoir::range<uint32_t> range() const { return { mMatchFirst, mMatchLast }; }
+		const text_event &match() const { return mMatch; }
 
 		void next_item(const cainteoir::document_item &aItem);
 
@@ -61,13 +68,10 @@ namespace cainteoir { namespace tts
 
 		enum class reader_state;
 
-		token_type mType;
-		ucd::script mScript;
+		text_event mMatch;
 
-		std::shared_ptr<buffer> mMatch;
 		char mMatchBuffer[512];
 		char *mMatchCurrent;
-
 		uint32_t mMatchFirst;
 		uint32_t mMatchNext;
 		uint32_t mMatchLast;

@@ -49,33 +49,37 @@ void generate_parsetext_events(std::shared_ptr<cainteoir::document_reader> &read
 	while (reader->read())
 	{
 		text.next_item(*reader);
-		while (text.read()) switch (text.type())
+		while (text.read())
 		{
-		case tts::text_reader::word_uppercase:
-		case tts::text_reader::word_lowercase:
-		case tts::text_reader::word_capitalized:
-		case tts::text_reader::word_mixedcase:
-		case tts::text_reader::word_script:
-			fprintf(stdout, ".%s.%-8s [%d..%d] %s\n",
-			        ucd::get_script_string(text.script()),
-			        token_name[text.type()],
-			        text.range().begin(),
-			        text.range().end(),
-			        text.match()->str().c_str());
-			break;
-		case tts::text_reader::end_of_paragraph:
-			fprintf(stdout, ".%-13s [%d..%d] \n",
-			        token_name[text.type()],
-			        text.range().begin(),
-			        text.range().end());
-			break;
-		default:
-			fprintf(stdout, ".%-13s [%d..%d] %s\n",
-			        token_name[text.type()],
-			        text.range().begin(),
-			        text.range().end(),
-			        text.match()->str().c_str());
-			break;
+			auto &event = text.match();
+			switch (event.type)
+			{
+			case tts::word_uppercase:
+			case tts::word_lowercase:
+			case tts::word_capitalized:
+			case tts::word_mixedcase:
+			case tts::word_script:
+				fprintf(stdout, ".%s.%-8s [%d..%d] %s\n",
+				        ucd::get_script_string(event.script),
+				        token_name[event.type],
+				        event.range.begin(),
+				        event.range.end(),
+				        event.text->str().c_str());
+				break;
+			case tts::end_of_paragraph:
+				fprintf(stdout, ".%-13s [%d..%d] \n",
+				        token_name[event.type],
+				        event.range.begin(),
+				        event.range.end());
+				break;
+			default:
+				fprintf(stdout, ".%-13s [%d..%d] %s\n",
+				        token_name[event.type],
+				        event.range.begin(),
+				        event.range.end(),
+				        event.text->str().c_str());
+				break;
+			}
 		}
 	}
 }

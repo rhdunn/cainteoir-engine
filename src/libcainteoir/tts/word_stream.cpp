@@ -37,16 +37,17 @@ bool tts::word_stream::read()
 		while (mReader.read())
 		{
 			bool end_of_clause = false;
-			switch (mReader.type())
+			auto &event = mReader.match();
+			switch (event.type)
 			{
-			case tts::text_reader::word_uppercase:
-			case tts::text_reader::word_lowercase:
-			case tts::text_reader::word_capitalized:
-			case tts::text_reader::word_mixedcase:
-			case tts::text_reader::word_script:
-				mEntries.push({ mReader.match() });
+			case tts::word_uppercase:
+			case tts::word_lowercase:
+			case tts::word_capitalized:
+			case tts::word_mixedcase:
+			case tts::word_script:
+				mEntries.push({ event.text });
 				break;
-			case tts::text_reader::end_of_paragraph:
+			case tts::end_of_paragraph:
 				end_of_clause = true;
 				break;
 			}

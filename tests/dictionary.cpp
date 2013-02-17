@@ -73,14 +73,14 @@ test_results parse_words(cainteoir::document_reader *reader)
 	while (reader->read())
 	{
 		text.next_item(*reader);
-		while (text.read()) switch (text.type())
+		while (text.read()) switch (text.match().type)
 		{
-		case tts::text_reader::word_uppercase:
-		case tts::text_reader::word_lowercase:
-		case tts::text_reader::word_capitalized:
-		case tts::text_reader::word_mixedcase:
-		case tts::text_reader::word_script:
-			dict.insert(text.match());
+		case tts::word_uppercase:
+		case tts::word_lowercase:
+		case tts::word_capitalized:
+		case tts::word_mixedcase:
+		case tts::word_script:
+			dict.insert(text.match().text);
 			++words;
 			break;
 		}

@@ -64,19 +64,19 @@ static const bool state_is_terminal[] = {
 	true,  // K = error (unrecognised modifier/marker)
 };
 
-static const tts::text_reader::token_type state_token[] = {
-	tts::text_reader::error,
-	tts::text_reader::word_uppercase,
-	tts::text_reader::word_uppercase,
-	tts::text_reader::word_capitalized,
-	tts::text_reader::word_lowercase,
-	tts::text_reader::word_mixedcase,
-	tts::text_reader::number,
-	tts::text_reader::punctuation,
-	tts::text_reader::symbol,
-	tts::text_reader::word_capitalized,
-	tts::text_reader::word_script,
-	tts::text_reader::error,
+static const tts::event_type state_token[] = {
+	tts::error,
+	tts::word_uppercase,
+	tts::word_uppercase,
+	tts::word_capitalized,
+	tts::word_lowercase,
+	tts::word_mixedcase,
+	tts::number,
+	tts::punctuation,
+	tts::symbol,
+	tts::word_capitalized,
+	tts::word_script,
+	tts::error,
 };
 
 #define A  1
@@ -120,18 +120,18 @@ static const uint8_t state_transitions[][31] = {
 #undef K
 
 tts::text_reader::text_reader()
-	: mType(error)
-	, mMatchCurrent(mMatchBuffer)
+	: mMatchCurrent(mMatchBuffer)
 	, mNeedEndPara(false)
 	, mCurrent(nullptr)
 	, mLast(nullptr)
 	, mState(0)
 	, mReaderState(reader_state::skip)
-	, mScript(ucd::Zzzz)
 	, mMatchFirst(0)
 	, mMatchNext(0)
 	, mMatchLast(0)
 {
+	mMatch.type = error;
+	mMatch.script = ucd::Zzzz;
 }
 
 void tts::text_reader::next_item(const cainteoir::document_item &aItem)
@@ -175,8 +175,9 @@ bool tts::text_reader::read()
 		if (state_is_terminal[mState])
 			return matched();
 
-		mScript = ucd::Zzzz;
-		mType = end_of_paragraph;
+		mMatch.script = ucd::Zzzz;
+		mMatch.type = end_of_paragraph;
+		mMatch.range = { mMatchNext, mMatchLast };
 		mReaderState = reader_state::skip;
 		mNeedEndPara = false;
 		mMatchNext = mMatchFirst = mMatchLast;
@@ -229,7 +230,7 @@ bool tts::text_reader::read()
 				continue;
 			break;
 		case state::script:
-			if (mScript != script && mScript != ucd::Zzzz)
+			if (mMatch.script != script && mMatch.script != ucd::Zzzz)
 			{
 				// The script has changed, so split the token here.
 				new_state = 0;
@@ -244,7 +245,7 @@ bool tts::text_reader::read()
 
 		if (mState != new_state)
 		{
-			mScript = script;
+			mMatch.script = script;
 			mState = new_state;
 			mNeedEndPara = true;
 		}
@@ -268,9 +269,10 @@ bool tts::text_reader::read()
 
 bool tts::text_reader::matched()
 {
-	mType = state_token[mState];
+	mMatch.type = state_token[mState];
 	mState = 0;
-	mMatch = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
+	mMatch.text = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
+	mMatch.range = { mMatchNext, mMatchLast };
 	mMatchCurrent = mMatchBuffer;
 	mMatchFirst = mMatchNext;
 	mMatchNext = mMatchLast;
