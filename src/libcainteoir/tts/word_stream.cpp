@@ -40,6 +40,8 @@ std::initializer_list<punctuation_t> punctuation =
 	{ 0x00003B, tts::semicolon   }, // SEMICOLON
 	{ 0x00003F, tts::question    }, // QUESTION MARK
 	{ 0x00037E, tts::question    }, // GREEK QUESTION MARK
+	{ 0x000387, tts::semicolon   }, // GREEK ANO TELEIA
+	{ 0x00055B, tts::full_stop   }, // ARMENIAN EMPHASIS MARK
 	{ 0x00055C, tts::exclamation }, // ARMENIAN EXCLAMATION MARK
 	{ 0x00055D, tts::comma       }, // ARMENIAN COMMA
 	{ 0x00055E, tts::question    }, // ARMENIAN QUESTION MARK
@@ -51,12 +53,17 @@ std::initializer_list<punctuation_t> punctuation =
 	{ 0x0007F8, tts::comma       }, // NKO COMMA
 	{ 0x0007F9, tts::exclamation }, // NKO EXCLAMATION MARK
 	{ 0x000EAF, tts::ellipsis    }, // LAO ELLIPSIS
+	{ 0x000F0D, tts::full_stop   }, // TIBETAN MARK SHAD
+	{ 0x000F0E, tts::paragraph   }, // TIBETAN MARK NYIS SHAD
+	{ 0x000964, tts::full_stop   }, // DEVANAGARI DANDA
+	{ 0x0010FB, tts::paragraph   }, // GEORGIAN PARAGRAPH SEPARATOR
 	{ 0x001362, tts::full_stop   }, // ETHIOPIC FULL STOP
 	{ 0x001363, tts::comma       }, // ETHIOPIC COMMA
 	{ 0x001364, tts::semicolon   }, // ETHIOPIC SEMICOLON
 	{ 0x001365, tts::colon       }, // ETHIOPIC COLON
 	{ 0x001366, tts::colon       }, // ETHIOPIC PREFACE COLON
 	{ 0x001367, tts::question    }, // ETHIOPIC QUESTION MARK
+	{ 0x001368, tts::paragraph   }, // ETHIOPIC PARAGRAPH SEPARATOR
 	{ 0x00166E, tts::full_stop   }, // CANADIAN SYLLABICS FULL STOP
 	{ 0x001801, tts::ellipsis    }, // MONGOLIAN ELLIPSIS
 	{ 0x001802, tts::comma       }, // MONGOLIAN COMMA
@@ -146,7 +153,7 @@ bool tts::word_stream::read()
 			case tts::word_script:
 				mEntries.push(event);
 				break;
-			case tts::end_of_paragraph:
+			case tts::paragraph:
 				end_of_clause = true;
 				break;
 			case tts::punctuation:

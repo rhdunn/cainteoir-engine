@@ -45,7 +45,7 @@ namespace cainteoir { namespace tts
 		exclamation,
 		question,
 		symbol,
-		end_of_paragraph,
+		paragraph,
 	};
 
 	struct text_event

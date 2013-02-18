@@ -176,7 +176,7 @@ bool tts::text_reader::read()
 			return matched();
 
 		mMatch.script = ucd::Zzzz;
-		mMatch.type = end_of_paragraph;
+		mMatch.type = paragraph;
 		mMatch.range = { mMatchNext, mMatchLast };
 		mReaderState = reader_state::skip;
 		mNeedEndPara = false;

@@ -74,7 +74,7 @@ void generate_events(std::shared_ptr<cainteoir::document_reader> &reader)
 				        event.range.end(),
 				        event.text->str().c_str());
 				break;
-			case tts::end_of_paragraph:
+			case tts::paragraph:
 				fprintf(stdout, ".%-13s [%d..%d] \n",
 				        token_name[event.type],
 				        event.range.begin(),
