@@ -4,3 +4,4 @@
 .Latn.lower    [16..20] home
 .Latn.lower    [21..24] yet
 .question      [24..25] ?
+.end-para      [26..26] 

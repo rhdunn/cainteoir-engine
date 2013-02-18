@@ -150,9 +150,8 @@ bool tts::word_stream::read()
 			case tts::word_capitalized:
 			case tts::word_mixedcase:
 			case tts::word_script:
-				mEntries.push(event);
-				break;
 			case tts::paragraph:
+				mEntries.push(event);
 				break;
 			case tts::punctuation:
 			case tts::symbol:
