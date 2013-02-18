@@ -127,6 +127,8 @@ static tts::event_type punctuation_type(ucd::codepoint_t cp)
 	{
 		if (cp == item.codepoint)
 			return item.event;
+		if (cp < item.codepoint)
+			return tts::punctuation;
 	}
 	return tts::punctuation;
 }
