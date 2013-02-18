@@ -164,6 +164,7 @@ void tts::text_reader::next_item(const cainteoir::document_item &aItem)
 
 #define SOFT_HYPHEN                 0x00AD
 #define RIGHT_SINGLE_QUOTATION_MARK 0x2019
+#define PARAGRAPH_SEPARATOR         0x2029
 
 bool tts::text_reader::read()
 {
@@ -262,7 +263,20 @@ bool tts::text_reader::read()
 			}
 		}
 		else
+		{
+			if (cp == PARAGRAPH_SEPARATOR)
+			{
+				mCurrent = next;
+				mMatch.script = ucd::Zzzz;
+				mMatch.type = paragraph;
+				mMatch.range = { mMatchNext, mMatchLast };
+				mNeedEndPara = false;
+				mMatchFirst = mMatchNext;
+				mMatchNext = mMatchLast;
+				return true;
+			}
 			++mMatchNext;
+		}
 	}
 
 	return false;

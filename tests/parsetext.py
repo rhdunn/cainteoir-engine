@@ -29,6 +29,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/latin/punctuation.txt', 'result': 'parse-text/latin/punctuation.pt'},
 			{'test': 'parse-text/latin/quotes.txt', 'result': 'parse-text/latin/quotes.pt'},
 			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.pt'},
+			{'test': 'parse-text/latin/paragraph.txt', 'result': 'parse-text/latin/paragraph.pt'},
 			{'test': 'parse-text/latin/match-limit.txt', 'result': 'parse-text/latin/match-limit.pt'},
 		]},
 		{'name': 'Japanese', 'type': 'parsetext', 'tests': [
@@ -52,6 +53,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/latin/punctuation.txt', 'result': 'parse-text/latin/punctuation.ws'},
 			{'test': 'parse-text/latin/quotes.txt', 'result': 'parse-text/latin/quotes.ws'},
 			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.ws'},
+			{'test': 'parse-text/latin/paragraph.txt', 'result': 'parse-text/latin/paragraph.ws'},
 			{'test': 'parse-text/latin/match-limit.txt', 'result': 'parse-text/latin/match-limit.pt'},
 		]},
 		{'name': 'Japanese', 'type': 'wordstream', 'tests': [

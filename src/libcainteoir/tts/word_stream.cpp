@@ -142,7 +142,6 @@ bool tts::word_stream::read()
 	{
 		while (mReader.read())
 		{
-			bool end_of_clause = false;
 			auto &event = mReader.event();
 			switch (event.type)
 			{
@@ -154,7 +153,6 @@ bool tts::word_stream::read()
 				mEntries.push(event);
 				break;
 			case tts::paragraph:
-				end_of_clause = true;
 				break;
 			case tts::punctuation:
 			case tts::symbol:
@@ -165,9 +163,6 @@ bool tts::word_stream::read()
 				}
 				break;
 			}
-
-			if (end_of_clause && !mEntries.empty())
-				return true;
 		}
 
 		// Don't pop the first matching item:
