@@ -184,7 +184,7 @@ bool tts::text_reader::read()
 		return true;
 	}
 
-	uint32_t cp = 0;
+	ucd::codepoint_t cp = 0;
 	const char *next = nullptr;
 	const char *quote_match = nullptr;
 	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
@@ -252,6 +252,7 @@ bool tts::text_reader::read()
 
 		if (mState != 0)
 		{
+			mMatch.codepoint = cp;
 			mMatchCurrent = cainteoir::utf8::write(mMatchCurrent, ucd::tolower(cp));
 			if ((mMatchCurrent - mMatchBuffer) >= (sizeof(mMatchBuffer) - 12))
 			{

@@ -3,3 +3,4 @@
 .Latn.lower    [12..15] you
 .Latn.lower    [16..20] home
 .Latn.lower    [21..24] yet
+.question      [24..25] ?

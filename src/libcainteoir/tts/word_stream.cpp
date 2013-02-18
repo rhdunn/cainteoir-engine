@@ -25,6 +25,34 @@
 
 namespace tts = cainteoir::tts;
 
+struct punctuation_t
+{
+	ucd::codepoint_t codepoint;
+	tts::event_type event;
+};
+
+std::initializer_list<punctuation_t> punctuation =
+{
+	{ 0x000021, tts::exclamation }, // EXCLAMATION MARK
+	{ 0x00002C, tts::comma       }, // COMMA
+	{ 0x00002E, tts::full_stop   }, // FULL STOP
+	{ 0x00003A, tts::colon       }, // COLON
+	{ 0x00003B, tts::semicolon   }, // SEMICOLON
+	{ 0x00003F, tts::question    }, // QUESTION MARK
+	{ 0x002026, tts::ellipsis    }, // HORIZONTAL ELLIPSIS
+	{ 0x0022EE, tts::ellipsis    }, // VERTICAL ELLIPSIS
+};
+
+static tts::event_type punctuation_type(ucd::codepoint_t cp)
+{
+	for (auto &item : punctuation)
+	{
+		if (cp == item.codepoint)
+			return item.event;
+	}
+	return tts::punctuation;
+}
+
 void tts::word_stream::next_item(const cainteoir::document_item &aItem)
 {
 	mReader.next_item(aItem);
@@ -49,6 +77,14 @@ bool tts::word_stream::read()
 				break;
 			case tts::end_of_paragraph:
 				end_of_clause = true;
+				break;
+			case tts::punctuation:
+			case tts::symbol:
+				{
+					tts::event_type type = punctuation_type(event.codepoint);
+					if (type != tts::punctuation)
+						mEntries.push({ event.text, type, event.script, event.range, event.codepoint });
+				}
 				break;
 			}
 

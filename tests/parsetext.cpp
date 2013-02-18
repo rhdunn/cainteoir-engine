@@ -39,6 +39,13 @@ static const char *token_name[] = {
 	"script",
 	"number",
 	"punctuation",
+	"comma",
+	"semicolon",
+	"colon",
+	"ellipsis",
+	"full-stop",
+	"exclamation",
+	"question",
 	"symbol",
 	"end-para",
 };

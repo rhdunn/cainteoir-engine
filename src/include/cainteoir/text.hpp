@@ -37,6 +37,13 @@ namespace cainteoir { namespace tts
 		word_script,
 		number,
 		punctuation,
+		comma,
+		semicolon,
+		colon,
+		ellipsis,
+		full_stop,
+		exclamation,
+		question,
 		symbol,
 		end_of_paragraph,
 	};
@@ -47,6 +54,20 @@ namespace cainteoir { namespace tts
 		event_type type;
 		ucd::script script;
 		cainteoir::range<uint32_t> range;
+		ucd::codepoint_t codepoint;
+
+		text_event(const std::shared_ptr<buffer> &aText,
+		           event_type aType,
+		           ucd::script aScript,
+		           const cainteoir::range<uint32_t> &aRange,
+		           ucd::codepoint_t aCodePoint)
+			: text(aText)
+			, type(aType)
+			, script(aScript)
+			, range(aRange)
+			, codepoint(aCodePoint)
+		{
+		}
 
 		text_event()
 			: range(0, 0)
