@@ -1,4 +1,5 @@
 .Kana.script   [0..5] ラドクリフ
+.comma         [5..6] 、
 .Kana.script   [6..10] マラソン
 .Hant.script   [10..14] 五輪代表
 .Hira.script   [14..15] に
