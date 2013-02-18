@@ -77,11 +77,9 @@ namespace cainteoir { namespace tts
 
 	struct text_reader
 	{
-		text_reader();
+		text_reader(const std::shared_ptr<document_reader> &aReader);
 
 		const text_event &event() const { return mMatch; }
-
-		void next_item(const cainteoir::document_item &aItem);
 
 		bool read();
 	private:
@@ -89,6 +87,7 @@ namespace cainteoir { namespace tts
 
 		enum class reader_state;
 
+		std::shared_ptr<document_reader> mReader;
 		text_event mMatch;
 
 		char mMatchBuffer[512];
@@ -107,9 +106,12 @@ namespace cainteoir { namespace tts
 	struct word_stream
 	{
 	public:
-		const text_event &event() const { return mEntries.front(); }
+		word_stream(const std::shared_ptr<document_reader> &aReader)
+			: mReader(aReader)
+		{
+		}
 
-		void next_item(const cainteoir::document_item &aItem);
+		const text_event &event() const { return mEntries.front(); }
 
 		bool read();
 	private:

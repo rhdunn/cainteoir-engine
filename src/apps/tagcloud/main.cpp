@@ -100,26 +100,6 @@ bool common(const std::string & word)
 	return false;
 }
 
-struct cloud
-{
-	void process(const cainteoir::document_item &aItem)
-	{
-		reader.next_item(aItem);
-		while (reader.read()) switch (reader.event().type)
-		{
-		case tts::word_uppercase:
-		case tts::word_lowercase:
-		case tts::word_mixedcase:
-		case tts::word_capitalized:
-			++words[reader.event().text->str()];
-			break;
-		}
-	}
-
-	std::map<std::string, int> words;
-	tts::text_reader reader;
-};
-
 int main(int argc, char ** argv)
 {
 	try
@@ -160,7 +140,6 @@ int main(int argc, char ** argv)
 		argv += optind;
 
 		const char *filename = (argc == 1) ? argv[0] : nullptr;
-		cloud cloud;
 		rdf::graph metadata;
 		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
 		if (!reader)
@@ -169,13 +148,22 @@ int main(int argc, char ** argv)
 			return EXIT_FAILURE;
 		}
 
-		while (reader->read())
-			cloud.process(*reader);
+		std::map<std::string, int> words;
+		tts::text_reader text(reader);
+		while (text.read()) switch (text.event().type)
+		{
+		case tts::word_uppercase:
+		case tts::word_lowercase:
+		case tts::word_mixedcase:
+		case tts::word_capitalized:
+			++words[text.event().text->str()];
+			break;
+		}
 
 		if (format == html_format)
 		{
 			printf("<html><body><p>\n");
-			for (auto &word : cloud.words)
+			for (auto &word : words)
 			{
 				if (show_all || (word.second > 3 && !common(word.first)))
 				{
@@ -187,7 +175,7 @@ int main(int argc, char ** argv)
 		}
 		else
 		{
-			for (auto &word : cloud.words)
+			for (auto &word : words)
 			{
 				if (show_all || (word.second > 3 && !common(word.first)))
 					printf("%8d %s\n", word.second, word.first.c_str());

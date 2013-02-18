@@ -133,11 +133,6 @@ static tts::event_type punctuation_type(ucd::codepoint_t cp)
 	return tts::punctuation;
 }
 
-void tts::word_stream::next_item(const cainteoir::document_item &aItem)
-{
-	mReader.next_item(aItem);
-}
-
 bool tts::word_stream::read()
 {
 	if (mEntries.empty())

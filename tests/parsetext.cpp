@@ -53,41 +53,37 @@ static const char *token_name[] = {
 template <typename Reader>
 void generate_events(std::shared_ptr<cainteoir::document_reader> &reader)
 {
-	Reader text;
-	while (reader->read())
+	Reader text(reader);
+	while (text.read())
 	{
-		text.next_item(*reader);
-		while (text.read())
+		auto &event = text.event();
+		switch (event.type)
 		{
-			auto &event = text.event();
-			switch (event.type)
-			{
-			case tts::word_uppercase:
-			case tts::word_lowercase:
-			case tts::word_capitalized:
-			case tts::word_mixedcase:
-			case tts::word_script:
-				fprintf(stdout, ".%s.%-8s [%d..%d] %s\n",
-				        ucd::get_script_string(event.script),
-				        token_name[event.type],
-				        event.range.begin(),
-				        event.range.end(),
-				        event.text->str().c_str());
-				break;
-			case tts::paragraph:
-				fprintf(stdout, ".%-13s [%d..%d] \n",
-				        token_name[event.type],
-				        event.range.begin(),
-				        event.range.end());
-				break;
-			default:
-				fprintf(stdout, ".%-13s [%d..%d] %s\n",
-				        token_name[event.type],
-				        event.range.begin(),
-				        event.range.end(),
-				        event.text->str().c_str());
-				break;
-			}
+		case tts::word_uppercase:
+		case tts::word_lowercase:
+		case tts::word_capitalized:
+		case tts::word_mixedcase:
+		case tts::word_script:
+			fprintf(stdout, ".%s.%-8s [%d..%d] %s\n",
+			        ucd::get_script_string(event.script),
+			        token_name[event.type],
+			        event.range.begin(),
+			        event.range.end(),
+			        event.text->str().c_str());
+			break;
+		case tts::paragraph:
+			fprintf(stdout, ".%-13s [%d..%d] \n",
+			        token_name[event.type],
+			        event.range.begin(),
+			        event.range.end());
+			break;
+		default:
+			fprintf(stdout, ".%-13s [%d..%d] %s\n",
+			        token_name[event.type],
+			        event.range.begin(),
+			        event.range.end(),
+			        event.text->str().c_str());
+			break;
 		}
 	}
 }

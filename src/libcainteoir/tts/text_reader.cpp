@@ -28,7 +28,7 @@ namespace tts = cainteoir::tts;
 
 enum class tts::text_reader::reader_state
 {
-	skip,
+	need_text,
 	have_text,
 	end_paragraph,
 };
@@ -119,13 +119,14 @@ static const uint8_t state_transitions[][31] = {
 #undef J
 #undef K
 
-tts::text_reader::text_reader()
-	: mMatchCurrent(mMatchBuffer)
+tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
+	: mReader(aReader)
+	, mMatchCurrent(mMatchBuffer)
 	, mNeedEndPara(false)
 	, mCurrent(nullptr)
 	, mLast(nullptr)
 	, mState(0)
-	, mReaderState(reader_state::skip)
+	, mReaderState(reader_state::need_text)
 	, mMatchFirst(0)
 	, mMatchNext(0)
 	, mMatchLast(0)
@@ -134,42 +135,37 @@ tts::text_reader::text_reader()
 	mMatch.script = ucd::Zzzz;
 }
 
-void tts::text_reader::next_item(const cainteoir::document_item &aItem)
-{
-	if (aItem.type & cainteoir::events::text)
-	{
-		mCurrent = aItem.text->begin();
-		mLast = aItem.text->end();
-		mReaderState = reader_state::have_text;
-	}
-	else if (aItem.type & cainteoir::events::end_context)
-	{
-		if (aItem.styles) switch (aItem.styles->display)
-		{
-		case css::display::block:
-		case css::display::table:
-		case css::display::table_row:
-		case css::display::table_cell:
-		case css::display::list_item:
-			if (mNeedEndPara)
-			{
-				mReaderState = reader_state::end_paragraph;
-			}
-			break;
-		}
-	}
-	else
-		mReaderState = reader_state::skip;
-}
-
 #define SOFT_HYPHEN                 0x00AD
 #define RIGHT_SINGLE_QUOTATION_MARK 0x2019
 #define PARAGRAPH_SEPARATOR         0x2029
 
 bool tts::text_reader::read()
 {
-	if (mReaderState == reader_state::skip)
-		return false;
+	while (mReaderState == reader_state::need_text && mReader->read())
+	{
+		if (mReader->type & cainteoir::events::text)
+		{
+			mCurrent = mReader->text->begin();
+			mLast = mReader->text->end();
+			mReaderState = reader_state::have_text;
+		}
+		else if (mReader->type & cainteoir::events::end_context)
+		{
+			if (mReader->styles) switch (mReader->styles->display)
+			{
+			case css::display::block:
+			case css::display::table:
+			case css::display::table_row:
+			case css::display::table_cell:
+			case css::display::list_item:
+				if (mNeedEndPara)
+				{
+					mReaderState = reader_state::end_paragraph;
+				}
+				break;
+			}
+		}
+	}
 
 	if (mReaderState == reader_state::end_paragraph)
 	{
@@ -179,11 +175,14 @@ bool tts::text_reader::read()
 		mMatch.script = ucd::Zzzz;
 		mMatch.type = paragraph;
 		mMatch.range = { mMatchNext, mMatchLast };
-		mReaderState = reader_state::skip;
+		mReaderState = reader_state::need_text;
 		mNeedEndPara = false;
 		mMatchNext = mMatchFirst = mMatchLast;
 		return true;
 	}
+
+	if (mReaderState == reader_state::need_text)
+		return false;
 
 	ucd::codepoint_t cp = 0;
 	const char *next = nullptr;
@@ -279,7 +278,8 @@ bool tts::text_reader::read()
 		}
 	}
 
-	return false;
+	mReaderState = reader_state::need_text;
+	return read();
 }
 
 bool tts::text_reader::matched()

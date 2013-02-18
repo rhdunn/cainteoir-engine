@@ -65,25 +65,21 @@ struct test_results
 };
 
 template <typename Dictionary>
-test_results parse_words(cainteoir::document_reader *reader)
+test_results parse_words(const std::shared_ptr<cainteoir::document_reader> &reader)
 {
 	uint32_t words = 0;
 	Dictionary dict;
-	tts::text_reader text;
-	while (reader->read())
+	tts::text_reader text(reader);
+	while (text.read()) switch (text.event().type)
 	{
-		text.next_item(*reader);
-		while (text.read()) switch (text.event().type)
-		{
-		case tts::word_uppercase:
-		case tts::word_lowercase:
-		case tts::word_capitalized:
-		case tts::word_mixedcase:
-		case tts::word_script:
-			dict.insert(text.event().text);
-			++words;
-			break;
-		}
+	case tts::word_uppercase:
+	case tts::word_lowercase:
+	case tts::word_capitalized:
+	case tts::word_mixedcase:
+	case tts::word_script:
+		dict.insert(text.event().text);
+		++words;
+		break;
 	}
 	return { words, dict.size() };
 }
@@ -110,11 +106,11 @@ int main(int argc, char ** argv)
 		cainteoir::stopwatch timer;
 		test_results results = { 0, 0 };
 		if (format == "null")
-			results = parse_words<null_dictionary>(reader.get());
+			results = parse_words<null_dictionary>(reader);
 		else if (format == "map")
-			results = parse_words<map_dictionary>(reader.get());
+			results = parse_words<map_dictionary>(reader);
 		else if (format == "unordered")
-			results = parse_words<unordered_map_dictionary>(reader.get());
+			results = parse_words<unordered_map_dictionary>(reader);
 		printf("time:    %G\n", timer.elapsed());
 		printf("words:   %d\n", results.words);
 		printf("indexed: %d\n", results.index_size);
