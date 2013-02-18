@@ -92,7 +92,6 @@ namespace cainteoir { namespace tts
 
 		char mMatchBuffer[512];
 		char *mMatchCurrent;
-		uint32_t mMatchFirst;
 		uint32_t mMatchNext;
 		uint32_t mMatchLast;
 

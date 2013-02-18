@@ -127,7 +127,6 @@ tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
 	, mLast(nullptr)
 	, mState(0)
 	, mReaderState(reader_state::need_text)
-	, mMatchFirst(0)
 	, mMatchNext(0)
 	, mMatchLast(0)
 {
@@ -177,7 +176,7 @@ bool tts::text_reader::read()
 		mMatch.range = { mMatchNext, mMatchLast };
 		mReaderState = reader_state::need_text;
 		mNeedEndPara = false;
-		mMatchNext = mMatchFirst = mMatchLast;
+		mMatchNext = mMatchLast;
 		return true;
 	}
 
@@ -270,7 +269,6 @@ bool tts::text_reader::read()
 				mMatch.type = paragraph;
 				mMatch.range = { mMatchNext, mMatchLast };
 				mNeedEndPara = false;
-				mMatchFirst = mMatchNext;
 				mMatchNext = mMatchLast;
 				return true;
 			}
@@ -289,7 +287,6 @@ bool tts::text_reader::matched()
 	mMatch.text = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
 	mMatch.range = { mMatchNext, mMatchLast };
 	mMatchCurrent = mMatchBuffer;
-	mMatchFirst = mMatchNext;
 	mMatchNext = mMatchLast;
 	return true;
 }
