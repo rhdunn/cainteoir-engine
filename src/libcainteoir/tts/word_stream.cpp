@@ -22,6 +22,7 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/text.hpp>
+#include <stack>
 
 namespace tts = cainteoir::tts;
 
@@ -133,6 +134,191 @@ static tts::event_type punctuation_type(ucd::codepoint_t cp)
 	return tts::punctuation;
 }
 
+struct number_words
+{
+	ucd::script script;
+	uint16_t     max_group;
+	const char **groups;
+	const char  *hundred;
+	const char  *group_separator;
+	const char  *hundreds_separator;
+	const char  *ties[8];
+	const char  *zero_to_nineteen[20];
+};
+
+// short scale (US, Canada and Modern British)
+static const char *en_GB_groups[] =
+{
+	/*  0 */ NULL,
+	/*  3 */ "thousand",
+	/*  6 */ "million",
+	/*  9 */ "billion",
+	/* 12 */ "trillion",
+	/* 15 */ "quadrillion",
+	/* 18 */ "quintillion",
+	/* 21 */ "sextillion",
+	/* 24 */ "septillion",
+	/* 27 */ "octillion",
+	/* 30 */ "nonillion",
+};
+
+static const number_words en_GB =
+{
+	ucd::Latn,
+	11,
+	en_GB_groups,
+	"hundred",
+	"and",
+	"and",
+	{
+		"twenty",
+		"thirty",
+		"forty",
+		"fifty",
+		"sixty",
+		"seventy",
+		"eighty",
+		"ninety",
+	},
+	{
+		"zero",
+		"one",
+		"two",
+		"three",
+		"four",
+		"five",
+		"six",
+		"seven",
+		"eight",
+		"nine",
+		"ten",
+		"eleven",
+		"twelve",
+		"thirteen",
+		"fourteen",
+		"fifteen",
+		"sixteen",
+		"seventeen",
+		"eighteen",
+		"nineteen",
+	}
+};
+
+struct number_block
+{
+	uint16_t rank;
+	uint16_t value;
+};
+
+static std::stack<number_block> parse_number(const tts::text_event &number, uint16_t max_block)
+{
+	std::stack<number_block> blocks;
+	uint16_t value = 0; // The numeric value of the current group of 3 digits.
+	uint16_t scale = 1; // The scale factor to apply to the current digit.
+	uint16_t n     = 0; // The current group order -- use 10^3n for thousands, millions, etc.
+	for (char c : cainteoir::reverse(*number.text))
+	{
+		if (c >= '0' && c <= '9')
+		{
+			value += ((c - '0') * scale);
+			scale *= 10;
+			if (scale == 1000)
+			{
+				blocks.push({ n, value });
+				scale = 1;
+				value = 0;
+				++n;
+				if (n == max_block)
+				{
+					fprintf(stdout, "error: number exceeded maximum block count %d.\n", n);
+					return blocks;
+				}
+			}
+		}
+		else
+			fprintf(stdout, "error: unsupported number character '%c'.\n", c);
+	}
+	if (scale != 1)
+		blocks.push({ n, value });
+	return blocks;
+}
+
+struct word_builder
+{
+	word_builder(std::queue<tts::text_event> &aEvents)
+		: mEvents(aEvents)
+	{
+	}
+
+	void push(ucd::script aScript, const tts::text_event &aEvent, const char *aWord)
+	{
+		mEvents.push({ std::make_shared<cainteoir::buffer>(aWord),
+		               tts::word_lowercase,
+		               aScript,
+		               aEvent.range,
+		               0 });
+	}
+private:
+	std::queue<tts::text_event> &mEvents;
+};
+
+static void parse_cardinal_number(word_builder events, const tts::text_event &number, const number_words &words)
+{
+	std::stack<number_block> blocks = parse_number(number, words.max_group);
+	bool need_zero  = true;
+	bool need_and   = false;
+	while (!blocks.empty())
+	{
+		auto item = blocks.top();
+		blocks.pop();
+
+		bool need_group = item.value != 0;
+
+		if (item.value >= 100)
+		{
+			events.push(words.script, number, words.zero_to_nineteen[item.value / 100]);
+			events.push(words.script, number, words.hundred);
+			item.value %= 100;
+			need_zero = false;
+			need_and  = false;
+
+			if (item.value != 0 && words.hundreds_separator)
+				events.push(words.script, number, words.hundreds_separator);
+		}
+
+		if (need_and && item.rank == 0)
+		{
+			if (item.value != 0)
+				events.push(words.script, number, words.group_separator);
+			need_and = false;
+		}
+
+		if (item.value >= 20)
+		{
+			events.push(words.script, number, words.ties[(item.value - 20) / 10]);
+			item.value %= 10;
+			need_zero = false;
+		}
+
+		if (item.value == 0)
+		{
+			if (item.rank == 0 && need_zero)
+				events.push(words.script, number, words.zero_to_nineteen[item.value]);
+		}
+		else
+		{
+			events.push(words.script, number, words.zero_to_nineteen[item.value]);
+			need_zero = false;
+		}
+
+		if (item.rank > 0 && need_group)
+		{
+			events.push(words.script, number, words.groups[item.rank]);
+			need_and = true;
+		}
+	}
+}
+
 bool tts::word_stream::read()
 {
 	if (mEntries.empty())
@@ -151,6 +337,9 @@ bool tts::word_stream::read()
 				break;
 			case tts::paragraph:
 				mEntries.push(event);
+				break;
+			case tts::number:
+				parse_cardinal_number(mEntries, event, en_GB);
 				break;
 			case tts::punctuation:
 			case tts::symbol:

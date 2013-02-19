@@ -49,7 +49,6 @@ if __name__ == '__main__':
 	test.run({'name': 'Word Stream', 'groups': [
 		{'name': 'Latin', 'type': 'wordstream', 'tests': [
 			{'test': 'parse-text/latin/words.txt', 'result': 'parse-text/latin/words.ws'},
-			{'test': 'parse-text/latin/numbers.txt', 'result': 'parse-text/latin/numbers.ws'},
 			{'test': 'parse-text/latin/punctuation.txt', 'result': 'parse-text/latin/punctuation.ws'},
 			{'test': 'parse-text/latin/quotes.txt', 'result': 'parse-text/latin/quotes.ws'},
 			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.ws'},
@@ -68,6 +67,9 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/msword.html', 'result': 'parse-text/html/msword.ws'},
 			{'test': 'parse-text/html/split-word.html', 'result': 'parse-text/html/split-word.ws'},
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.ws'},
+		]},
+		{'name': 'Cardinal Numbers', 'type': 'wordstream', 'tests': [
+			{'test': 'parse-text/cardinal-numbers/en-GB.txt', 'result': 'parse-text/cardinal-numbers/en-GB.ws'},
 		]},
 	]})
 	test.summary()

@@ -3,6 +3,7 @@
 .Kana.script   [6..10] マラソン
 .Hant.script   [10..14] 五輪代表
 .Hira.script   [14..15] に
+.Latn.lower    [15..16] one
 .Hant.script   [16..17] 万
 .Latn.lower    [17..18] m
 .Hant.script   [18..20] 出場

@@ -31,6 +31,8 @@
 .comma         [140..141] ,
 .Latn.lower    [143..150] replied
 .Latn.lower    [151..154] the
+.Latn.lower    [155..156] five
+.Latn.lower    [157..158] eight
 .Latn.capital  [160..165] sarah
 .Latn.capital  [167..170] the
 .Latn.capital  [171..179] torpedo

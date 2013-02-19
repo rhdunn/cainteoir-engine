@@ -36,10 +36,14 @@ namespace cainteoir
 		virtual ~range() {}
 
 		typedef Iterator iterator;
+		typedef std::reverse_iterator<Iterator> const_reverse_iterator;
 		typedef std::size_t size_type;
 
 		iterator begin() const { return first; }
 		iterator end()   const { return last; }
+
+		const_reverse_iterator rbegin() const { return const_reverse_iterator(last); }
+		const_reverse_iterator rend()   const { return const_reverse_iterator(first); }
 
 		size_type size() const { return last - first; }
 
