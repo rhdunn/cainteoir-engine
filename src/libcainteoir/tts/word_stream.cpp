@@ -137,7 +137,7 @@ bool tts::word_stream::read()
 {
 	if (mEntries.empty())
 	{
-		while (mReader.read())
+		while (mEntries.empty() && mReader.read())
 		{
 			auto &event = mReader.event();
 			switch (event.type)
@@ -147,6 +147,8 @@ bool tts::word_stream::read()
 			case tts::word_capitalized:
 			case tts::word_mixedcase:
 			case tts::word_script:
+				mEntries.push(event);
+				break;
 			case tts::paragraph:
 				mEntries.push(event);
 				break;
@@ -166,5 +168,8 @@ bool tts::word_stream::read()
 	}
 
 	mEntries.pop();
-	return !mEntries.empty();
+	if (mEntries.empty())
+		return read();
+
+	return true;
 }
