@@ -1,0 +1,38 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Rules for the long number scale (milliard, billion, ...).
+
+.import		en/cardinal
+
+_10^9		milliard
+_10^12		billion
+_10^15		billiard
+_10^18		trillion
+_10^21		trilliard
+_10^24		quardrillion
+_10^27		quardrilliard
+_10^30		quintillion
+_10^33		quintilliard
+_10^36		sextillion
+_10^39		sextilliard
+_10^42		septillion
+_10^45		septilliard
+_10^48		octillion
+_10^51		octilliard
+_10^54		nonillion
+_10^57		nonilliard
+_10^60		decillion
+_10^63		decilliard
+_10^66		undecillion
+_10^69		undecilliard
+_10^72		duodecillion
+_10^75		duodecilliard
+_10^78		tredecillion
+_10^81		tredecilliard
+_10^84		quattuordecillion
+_10^87		quattuordecilliard
+_10^90		quinquadecillion
+_10^93		quinquadecilliard
+_10^96		sedecillion
+_10^99		sedecilliard

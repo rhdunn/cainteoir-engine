@@ -1,0 +1,40 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Rules for pronouncing cardinal numbers up-to 999,999,999 in English (common to both number scales).
+
+0		zero
+1		one
+2		two
+3		three
+4		four
+5		five
+6		six
+7		seven
+8		eight
+9		nine
+10		ten
+11		eleven
+12		twelve
+13		thirteen
+14		fourteen
+15		fifteen
+16		sixteen
+17		seventeen
+18		eighteen
+19		nineteen
+
+_2x		twenty
+_3x		thirty
+_4x		fourty
+_5x		fifty
+_6x		sixty
+_7x		seventy
+_8x		eighty
+_9x		ninety
+
+_andDD|en-GB	and
+
+_10^2		hundred
+_10^3		thousand
+_10^6		million
