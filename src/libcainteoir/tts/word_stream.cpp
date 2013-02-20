@@ -148,7 +148,6 @@ struct number_words
 // short scale (US, Canada and Modern British)
 static const char *en_GB_groups[] =
 {
-	/*  0 */ NULL,
 	/*  3 */ "thousand",
 	/*  6 */ "million",
 	/*  9 */ "billion",
@@ -164,7 +163,7 @@ static const char *en_GB_groups[] =
 static const number_words en_GB =
 {
 	ucd::Latn,
-	11,
+	10,
 	en_GB_groups,
 	"hundred",
 	"and",
@@ -226,7 +225,7 @@ static std::stack<number_block> parse_number(const tts::text_event &number, uint
 				scale = 1;
 				value = 0;
 				++n;
-				if (n == max_block)
+				if (n > max_block)
 				{
 					fprintf(stdout, "error: number exceeded maximum block count %d.\n", n);
 					return blocks;
@@ -311,7 +310,7 @@ static void parse_cardinal_number(word_builder events, const tts::text_event &nu
 
 		if (item.rank > 0 && need_group)
 		{
-			events.push(words.script, number, words.groups[item.rank]);
+			events.push(words.script, number, words.groups[item.rank - 1]);
 			need_and = true;
 		}
 	}
