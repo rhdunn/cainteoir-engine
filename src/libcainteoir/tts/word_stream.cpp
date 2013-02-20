@@ -137,65 +137,117 @@ static tts::event_type punctuation_type(ucd::codepoint_t cp)
 struct number_words
 {
 	ucd::script script;
-	std::vector<std::shared_ptr<cainteoir::buffer>> groups; // 10^3(n+1)
-	std::shared_ptr<cainteoir::buffer> hundred;
-	std::shared_ptr<cainteoir::buffer> tens_units_separator;
-	std::vector<std::shared_ptr<cainteoir::buffer>> ties; // x0 [2-9]
-	std::vector<std::shared_ptr<cainteoir::buffer>> single_digits;
+	std::map<std::string, std::shared_ptr<cainteoir::buffer>> names;
+
+	const std::shared_ptr<cainteoir::buffer> &lookup(const std::string &name) const
+	{
+		static const std::shared_ptr<cainteoir::buffer> no_match;
+		const auto &match = names.find(name);
+		return (match == names.end()) ? no_match : match->second;
+	}
 };
 
 #define _(x) std::make_shared<cainteoir::buffer>(x)
+
+static const std::vector<std::string> groups =
+{
+	"_10^3",
+	"_10^6",
+	"_10^9",
+	"_10^12",
+	"_10^15",
+	"_10^18",
+	"_10^21",
+	"_10^24",
+	"_10^27",
+	"_10^30",
+};
+
+static const std::vector<std::string> ties =
+{
+	"_2x",
+	"_3x",
+	"_4x",
+	"_5x",
+	"_6x",
+	"_7x",
+	"_8x",
+	"_9x",
+};
+
+static const std::vector<std::string> single_digits =
+{
+	"0",
+	"1",
+	"2",
+	"3",
+	"4",
+	"5",
+	"6",
+	"7",
+	"8",
+	"9",
+	"10",
+	"11",
+	"12",
+	"13",
+	"14",
+	"15",
+	"16",
+	"17",
+	"18",
+	"19",
+};
+
+static const std::string hundred              = "_10^2";
+static const std::string tens_units_separator = "_andDD";
 
 // short scale (US, Canada and Modern British)
 static const number_words en_GB =
 {
 	ucd::Latn,
 	{
-		/*  3 */ _("thousand"),
-		/*  6 */ _("million"),
-		/*  9 */ _("billion"),
-		/* 12 */ _("trillion"),
-		/* 15 */ _("quadrillion"),
-		/* 18 */ _("quintillion"),
-		/* 21 */ _("sextillion"),
-		/* 24 */ _("septillion"),
-		/* 27 */ _("octillion"),
-		/* 30 */ _("nonillion"),
+		{ "0",      _("zero") },
+		{ "1",      _("one") },
+		{ "2",      _("two") },
+		{ "3",      _("three") },
+		{ "4",      _("four") },
+		{ "5",      _("five") },
+		{ "6",      _("six") },
+		{ "7",      _("seven") },
+		{ "8",      _("eight") },
+		{ "9",      _("nine") },
+		{ "10",     _("ten") },
+		{ "11",     _("eleven") },
+		{ "12",     _("twelve") },
+		{ "13",     _("thirteen") },
+		{ "14",     _("fourteen") },
+		{ "15",     _("fifteen") },
+		{ "16",     _("sixteen") },
+		{ "17",     _("seventeen") },
+		{ "18",     _("eighteen") },
+		{ "19",     _("nineteen") },
+		{ "_2x",    _("twenty") },
+		{ "_3x",    _("thirty") },
+		{ "_4x",    _("forty") },
+		{ "_5x",    _("fifty") },
+		{ "_6x",    _("sixty") },
+		{ "_7x",    _("seventy") },
+		{ "_8x",    _("eighty") },
+		{ "_9x",    _("ninety") },
+		{ "_andDD", _("and") },
+		{ "_10^2",  _("hundred") },
+		{ "_10^3",  _("thousand") },
+		{ "_10^6",  _("million") },
+		{ "_10^9",  _("billion") },
+		{ "_10^12", _("trillion") },
+		{ "_10^15", _("quadrillion") },
+		{ "_10^18", _("quintillion") },
+		{ "_10^21", _("sextillion") },
+		{ "_10^24", _("septillion") },
+		{ "_10^27", _("octillion") },
+		{ "_10^30", _("nonillion") },
 	},
-	_("hundred"),
-	_("and"),
-	{
-		_("twenty"),
-		_("thirty"),
-		_("forty"),
-		_("fifty"),
-		_("sixty"),
-		_("seventy"),
-		_("eighty"),
-		_("ninety"),
-	},
-	{
-		_("zero"),
-		_("one"),
-		_("two"),
-		_("three"),
-		_("four"),
-		_("five"),
-		_("six"),
-		_("seven"),
-		_("eight"),
-		_("nine"),
-		_("ten"),
-		_("eleven"),
-		_("twelve"),
-		_("thirteen"),
-		_("fourteen"),
-		_("fifteen"),
-		_("sixteen"),
-		_("seventeen"),
-		_("eighteen"),
-		_("nineteen"),
-	}
 };
 
 #undef _
@@ -243,12 +295,12 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
                                   const tts::text_event &number,
                                   const number_words &words)
 {
-	std::stack<number_block> blocks = parse_number(number, words.groups.size());
+	std::stack<number_block> blocks = parse_number(number, groups.size());
 	bool need_zero  = true;
 	bool need_and   = false;
 	while (!blocks.empty())
 	{
-		#define push_word(w) events.push({ w, tts::word_lowercase, words.script, number.range, 0 })
+		#define push_word(w) events.push({ words.lookup(w), tts::word_lowercase, words.script, number.range, 0 })
 
 		auto item = blocks.top();
 		blocks.pop();
@@ -257,26 +309,26 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 
 		if (item.value >= 100)
 		{
-			push_word(words.single_digits[item.value / 100]);
-			push_word(words.hundred);
+			push_word(single_digits[item.value / 100]);
+			push_word(hundred);
 			item.value %= 100;
 			need_zero = false;
 			need_and  = false;
 
-			if (item.value != 0 && words.tens_units_separator)
-				push_word(words.tens_units_separator);
+			if (item.value != 0)
+				push_word(tens_units_separator);
 		}
 
 		if (need_and && item.rank == 0)
 		{
 			if (item.value != 0)
-				push_word(words.tens_units_separator);
+				push_word(tens_units_separator);
 			need_and = false;
 		}
 
 		if (item.value >= 20)
 		{
-			push_word(words.ties[(item.value - 20) / 10]);
+			push_word(ties[(item.value - 20) / 10]);
 			item.value %= 10;
 			need_zero = false;
 		}
@@ -284,17 +336,17 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 		if (item.value == 0)
 		{
 			if (item.rank == 0 && need_zero)
-				push_word(words.single_digits[item.value]);
+				push_word(single_digits[item.value]);
 		}
 		else
 		{
-			push_word(words.single_digits[item.value]);
+			push_word(single_digits[item.value]);
 			need_zero = false;
 		}
 
 		if (item.rank > 0 && need_group)
 		{
-			push_word(words.groups[item.rank - 1]);
+			push_word(groups[item.rank - 1]);
 			need_and = true;
 		}
 
