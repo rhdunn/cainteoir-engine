@@ -137,69 +137,68 @@ static tts::event_type punctuation_type(ucd::codepoint_t cp)
 struct number_words
 {
 	ucd::script script;
-	uint16_t     max_group;
-	const char **groups;
-	const char  *hundred;
-	const char  *tens_units_separator;
-	const char  *ties[8];
-	const char  *zero_to_nineteen[20];
+	std::vector<std::shared_ptr<cainteoir::buffer>> groups; // 10^3(n+1)
+	std::shared_ptr<cainteoir::buffer> hundred;
+	std::shared_ptr<cainteoir::buffer> tens_units_separator;
+	std::vector<std::shared_ptr<cainteoir::buffer>> ties; // x0 [2-9]
+	std::vector<std::shared_ptr<cainteoir::buffer>> single_digits;
 };
+
+#define _(x) std::make_shared<cainteoir::buffer>(x)
 
 // short scale (US, Canada and Modern British)
-static const char *en_GB_groups[] =
-{
-	/*  3 */ "thousand",
-	/*  6 */ "million",
-	/*  9 */ "billion",
-	/* 12 */ "trillion",
-	/* 15 */ "quadrillion",
-	/* 18 */ "quintillion",
-	/* 21 */ "sextillion",
-	/* 24 */ "septillion",
-	/* 27 */ "octillion",
-	/* 30 */ "nonillion",
-};
-
 static const number_words en_GB =
 {
 	ucd::Latn,
-	10,
-	en_GB_groups,
-	"hundred",
-	"and",
 	{
-		"twenty",
-		"thirty",
-		"forty",
-		"fifty",
-		"sixty",
-		"seventy",
-		"eighty",
-		"ninety",
+		/*  3 */ _("thousand"),
+		/*  6 */ _("million"),
+		/*  9 */ _("billion"),
+		/* 12 */ _("trillion"),
+		/* 15 */ _("quadrillion"),
+		/* 18 */ _("quintillion"),
+		/* 21 */ _("sextillion"),
+		/* 24 */ _("septillion"),
+		/* 27 */ _("octillion"),
+		/* 30 */ _("nonillion"),
+	},
+	_("hundred"),
+	_("and"),
+	{
+		_("twenty"),
+		_("thirty"),
+		_("forty"),
+		_("fifty"),
+		_("sixty"),
+		_("seventy"),
+		_("eighty"),
+		_("ninety"),
 	},
 	{
-		"zero",
-		"one",
-		"two",
-		"three",
-		"four",
-		"five",
-		"six",
-		"seven",
-		"eight",
-		"nine",
-		"ten",
-		"eleven",
-		"twelve",
-		"thirteen",
-		"fourteen",
-		"fifteen",
-		"sixteen",
-		"seventeen",
-		"eighteen",
-		"nineteen",
+		_("zero"),
+		_("one"),
+		_("two"),
+		_("three"),
+		_("four"),
+		_("five"),
+		_("six"),
+		_("seven"),
+		_("eight"),
+		_("nine"),
+		_("ten"),
+		_("eleven"),
+		_("twelve"),
+		_("thirteen"),
+		_("fourteen"),
+		_("fifteen"),
+		_("sixteen"),
+		_("seventeen"),
+		_("eighteen"),
+		_("nineteen"),
 	}
 };
+
+#undef _
 
 struct number_block
 {
@@ -240,32 +239,17 @@ static std::stack<number_block> parse_number(const tts::text_event &number, uint
 	return blocks;
 }
 
-struct word_builder
+static void parse_cardinal_number(std::queue<tts::text_event> &events,
+                                  const tts::text_event &number,
+                                  const number_words &words)
 {
-	word_builder(std::queue<tts::text_event> &aEvents)
-		: mEvents(aEvents)
-	{
-	}
-
-	void push(ucd::script aScript, const tts::text_event &aEvent, const char *aWord)
-	{
-		mEvents.push({ std::make_shared<cainteoir::buffer>(aWord),
-		               tts::word_lowercase,
-		               aScript,
-		               aEvent.range,
-		               0 });
-	}
-private:
-	std::queue<tts::text_event> &mEvents;
-};
-
-static void parse_cardinal_number(word_builder events, const tts::text_event &number, const number_words &words)
-{
-	std::stack<number_block> blocks = parse_number(number, words.max_group);
+	std::stack<number_block> blocks = parse_number(number, words.groups.size());
 	bool need_zero  = true;
 	bool need_and   = false;
 	while (!blocks.empty())
 	{
+		#define push_word(w) events.push({ w, tts::word_lowercase, words.script, number.range, 0 })
+
 		auto item = blocks.top();
 		blocks.pop();
 
@@ -273,26 +257,26 @@ static void parse_cardinal_number(word_builder events, const tts::text_event &nu
 
 		if (item.value >= 100)
 		{
-			events.push(words.script, number, words.zero_to_nineteen[item.value / 100]);
-			events.push(words.script, number, words.hundred);
+			push_word(words.single_digits[item.value / 100]);
+			push_word(words.hundred);
 			item.value %= 100;
 			need_zero = false;
 			need_and  = false;
 
 			if (item.value != 0 && words.tens_units_separator)
-				events.push(words.script, number, words.tens_units_separator);
+				push_word(words.tens_units_separator);
 		}
 
 		if (need_and && item.rank == 0)
 		{
 			if (item.value != 0)
-				events.push(words.script, number, words.tens_units_separator);
+				push_word(words.tens_units_separator);
 			need_and = false;
 		}
 
 		if (item.value >= 20)
 		{
-			events.push(words.script, number, words.ties[(item.value - 20) / 10]);
+			push_word(words.ties[(item.value - 20) / 10]);
 			item.value %= 10;
 			need_zero = false;
 		}
@@ -300,19 +284,21 @@ static void parse_cardinal_number(word_builder events, const tts::text_event &nu
 		if (item.value == 0)
 		{
 			if (item.rank == 0 && need_zero)
-				events.push(words.script, number, words.zero_to_nineteen[item.value]);
+				push_word(words.single_digits[item.value]);
 		}
 		else
 		{
-			events.push(words.script, number, words.zero_to_nineteen[item.value]);
+			push_word(words.single_digits[item.value]);
 			need_zero = false;
 		}
 
 		if (item.rank > 0 && need_group)
 		{
-			events.push(words.script, number, words.groups[item.rank - 1]);
+			push_word(words.groups[item.rank - 1]);
 			need_and = true;
 		}
+
+		#undef push_word
 	}
 }
 
