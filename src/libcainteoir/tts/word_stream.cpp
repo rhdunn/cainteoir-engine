@@ -140,8 +140,7 @@ struct number_words
 	uint16_t     max_group;
 	const char **groups;
 	const char  *hundred;
-	const char  *group_separator;
-	const char  *hundreds_separator;
+	const char  *tens_units_separator;
 	const char  *ties[8];
 	const char  *zero_to_nineteen[20];
 };
@@ -168,7 +167,6 @@ static const number_words en_GB =
 	11,
 	en_GB_groups,
 	"hundred",
-	"and",
 	"and",
 	{
 		"twenty",
@@ -282,14 +280,14 @@ static void parse_cardinal_number(word_builder events, const tts::text_event &nu
 			need_zero = false;
 			need_and  = false;
 
-			if (item.value != 0 && words.hundreds_separator)
-				events.push(words.script, number, words.hundreds_separator);
+			if (item.value != 0 && words.tens_units_separator)
+				events.push(words.script, number, words.tens_units_separator);
 		}
 
 		if (need_and && item.rank == 0)
 		{
 			if (item.value != 0)
-				events.push(words.script, number, words.group_separator);
+				events.push(words.script, number, words.tens_units_separator);
 			need_and = false;
 		}
 
