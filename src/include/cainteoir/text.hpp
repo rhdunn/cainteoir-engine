@@ -24,9 +24,23 @@
 #include "document.hpp"
 #include <ucd/ucd.h>
 #include <queue>
+#include <unordered_map>
 
 namespace cainteoir { namespace tts
 {
+	struct dictionary : public std::unordered_map<std::string, std::shared_ptr<buffer>>
+	{
+		dictionary();
+
+		dictionary(ucd::script aScript, const std::initializer_list<value_type> &aEntries);
+
+		ucd::script script() const { return mScript; }
+
+		const std::shared_ptr<buffer> &lookup(const std::string &aEntry) const;
+	private:
+		ucd::script mScript;
+	};
+
 	enum event_type
 	{
 		error,

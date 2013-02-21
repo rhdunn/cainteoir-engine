@@ -270,6 +270,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/rdf/metadata.cpp \
 	\
+	src/libcainteoir/tts/dictionary.cpp \
 	src/libcainteoir/tts/engines.cpp \
 	src/libcainteoir/tts/espeak.cpp \
 	src/libcainteoir/tts/text_reader.cpp \

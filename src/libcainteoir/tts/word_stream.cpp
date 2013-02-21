@@ -134,19 +134,6 @@ static tts::event_type punctuation_type(ucd::codepoint_t cp)
 	return tts::punctuation;
 }
 
-struct number_words
-{
-	ucd::script script;
-	std::map<std::string, std::shared_ptr<cainteoir::buffer>> names;
-
-	const std::shared_ptr<cainteoir::buffer> &lookup(const std::string &name) const
-	{
-		static const std::shared_ptr<cainteoir::buffer> no_match;
-		const auto &match = names.find(name);
-		return (match == names.end()) ? no_match : match->second;
-	}
-};
-
 #define _(x) std::make_shared<cainteoir::buffer>(x)
 
 static const std::vector<std::string> groups =
@@ -203,7 +190,7 @@ static const std::string hundred              = "_10^2";
 static const std::string tens_units_separator = "_andDD";
 
 // short scale (US, Canada and Modern British)
-static const number_words en_GB =
+static const tts::dictionary en_GB =
 {
 	ucd::Latn,
 	{
@@ -293,14 +280,14 @@ static std::stack<number_block> parse_number(const tts::text_event &number, uint
 
 static void parse_cardinal_number(std::queue<tts::text_event> &events,
                                   const tts::text_event &number,
-                                  const number_words &words)
+                                  const tts::dictionary &words)
 {
 	std::stack<number_block> blocks = parse_number(number, groups.size());
 	bool need_zero  = true;
 	bool need_and   = false;
 	while (!blocks.empty())
 	{
-		#define push_word(w) events.push({ words.lookup(w), tts::word_lowercase, words.script, number.range, 0 })
+		#define push_word(w) { events.push(tts::text_event( words.lookup(w), tts::word_lowercase, words.script(), number.range, 0 )); }
 
 		auto item = blocks.top();
 		blocks.pop();
