@@ -71,8 +71,6 @@ LanguageData::LanguageData()
 			datadir = DATADIR "/" PACKAGE;
 
 		const std::string filename = datadir + std::string("/languages.rdf.gz");
-		printf("loading language data from %s\n", filename.c_str());
-
 		auto reader = cainteoir::createDocumentReader(filename.c_str(), data, std::string());
 	}
 	catch (const std::exception & e)

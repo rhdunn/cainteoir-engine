@@ -233,10 +233,7 @@ static void push_word_(std::queue<tts::text_event> &events,
 {
 	auto word = words.lookup(entry);
 	if (!word.second.get())
-	{
-		fprintf(stderr, "error: unable to find \"%s\" in the dictionary.\n", entry.c_str());
 		return;
-	}
 
 	events.push(tts::text_event(word.second, tts::word_lowercase, word.first, range, 0));
 }
@@ -304,11 +301,21 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 	}
 }
 
-tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader)
+tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader, const language::tag &aLocale)
 	: mReader(aReader)
 {
-	mCardinals.add_entries("/locale/en-GB/cardinal");
-	mCardinals.add_entries("/locale/en-x-shtscale/cardinal");
+	std::ostringstream lang_region;
+	lang_region << "/locale/" << aLocale.lang << '-' << aLocale.region << "/cardinal";
+	if (!mCardinals.add_entries(lang_region.str().c_str()))
+	{
+		std::ostringstream lang;
+		lang << "/locale/" << aLocale.lang << "/cardinal";
+		mCardinals.add_entries(lang.str().c_str());
+	}
+
+	std::ostringstream number_scale;
+	number_scale << "/locale/" << aLocale.lang << "-x-shtscale/cardinal";
+	mCardinals.add_entries(number_scale.str().c_str());
 }
 
 bool tts::word_stream::read()

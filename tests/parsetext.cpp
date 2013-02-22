@@ -26,9 +26,25 @@
 
 #include <stdexcept>
 #include <cstdio>
+#include <getopt.h>
 
-namespace rdf = cainteoir::rdf;
-namespace tts = cainteoir::tts;
+namespace rdf  = cainteoir::rdf;
+namespace tts  = cainteoir::tts;
+namespace lang = cainteoir::language;
+
+enum
+{
+	ARG_PARSETEXT  = 301,
+	ARG_WORDSTREAM = 302,
+};
+
+static struct option options[] =
+{
+	{ "locale",     required_argument, 0, 'l' },
+	{ "parsetext",  no_argument,       0, ARG_PARSETEXT },
+	{ "wordstream", no_argument,       0, ARG_WORDSTREAM },
+	{ 0, 0, 0, 0 }
+};
 
 static const char *token_name[] = {
 	"error",
@@ -51,9 +67,8 @@ static const char *token_name[] = {
 };
 
 template <typename Reader>
-void generate_events(std::shared_ptr<cainteoir::document_reader> &reader)
+void generate_events(Reader &text)
 {
-	Reader text(reader);
 	while (text.read())
 	{
 		auto &event = text.event();
@@ -92,26 +107,52 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		argc -= 1;
-		argv += 1;
+		lang::tag locale = { "en" };
+		int type = ARG_PARSETEXT;
 
-		if (argc != 2)
+		while (1)
+		{
+			int option_index = 0;
+			int c = getopt_long(argc, argv, "l:", options, &option_index);
+			if (c == -1)
+				break;
+
+			switch (c)
+			{
+			case 'l':
+				locale = lang::make_lang(optarg);
+				break;
+			case ARG_PARSETEXT:
+			case ARG_WORDSTREAM:
+				type = c;
+				break;
+			}
+		}
+
+		argc -= optind;
+		argv += optind;
+
+		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
-		bool word_stream = !strcmp(argv[0], "wordstream");
-
 		rdf::graph metadata;
-		auto reader = cainteoir::createDocumentReader(argv[1], metadata, std::string());
+		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
 		if (!reader)
 		{
-			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[1]);
+			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
 			return 0;
 		}
 
-		if (word_stream)
-			generate_events<tts::word_stream>(reader);
+		if (type == ARG_WORDSTREAM)
+		{
+			tts::word_stream text(reader, locale);
+			generate_events(text);
+		}
 		else
-			generate_events<tts::text_reader>(reader);
+		{
+			tts::text_reader text(reader);
+			generate_events(text);
+		}
 	}
 	catch (std::runtime_error &e)
 	{

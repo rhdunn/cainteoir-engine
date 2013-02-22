@@ -68,8 +68,10 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/split-word.html', 'result': 'parse-text/html/split-word.ws'},
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.ws'},
 		]},
-		{'name': 'Cardinal Numbers', 'type': 'wordstream', 'tests': [
-			{'test': 'parse-text/cardinal-numbers/en-GB.txt', 'result': 'parse-text/cardinal-numbers/en-GB.ws'},
+		{'name': 'Cardinal Numbers', 'type': 'wordstream', 'replace': ['locale'], 'tests': [
+			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-GB.ws', 'locale': 'en-GB'},
+			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en.ws', 'locale': 'en-US'},
+			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en.ws', 'locale': 'en'},
 		]},
 	]})
 	test.summary()

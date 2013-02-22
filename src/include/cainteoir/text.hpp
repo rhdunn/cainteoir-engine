@@ -22,6 +22,8 @@
 #define CAINTEOIR_ENGINE_TEXT_HPP
 
 #include "document.hpp"
+#include "languages.hpp"
+
 #include <ucd/ucd.h>
 #include <queue>
 #include <unordered_map>
@@ -119,7 +121,7 @@ namespace cainteoir { namespace tts
 	struct word_stream
 	{
 	public:
-		word_stream(const std::shared_ptr<document_reader> &aReader);
+		word_stream(const std::shared_ptr<document_reader> &aReader, const language::tag &aLocale);
 
 		const text_event &event() const { return mEntries.front(); }
 
