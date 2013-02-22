@@ -301,7 +301,15 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 	}
 }
 
-tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader, const language::tag &aLocale)
+static const char *number_scale_str[] =
+{
+	"x-shtscale",
+	"x-lngscale",
+};
+
+tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader,
+                              const language::tag &aLocale,
+                              number_scale aScale)
 	: mReader(aReader)
 {
 	std::ostringstream lang_region;
@@ -314,7 +322,7 @@ tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader, c
 	}
 
 	std::ostringstream number_scale;
-	number_scale << "/locale/" << aLocale.lang << "-x-shtscale/cardinal";
+	number_scale << "/locale/" << aLocale.lang << '-' << number_scale_str[aScale] << "/cardinal";
 	mCardinals.add_entries(number_scale.str().c_str());
 }
 

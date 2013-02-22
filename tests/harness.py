@@ -105,9 +105,9 @@ class TestSuite:
 		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'styles'), test_expect=test_expect, replacements=replacements)
 
 	def check_parsetext(self, filename, expect, parsetype, displayas=None, test_expect='expect-pass', replacements={}):
-		if 'locale' in replacements.keys():
-			write('... checking %s as %s tags in %s ... ' % (displayas or filename, parsetype, replacements['locale']))
-			self.check_command(filename=filename, expect=expect, command='%s --%s --locale %s' % (os.path.join(sys.path[0], 'parsetext'), parsetype, replacements['locale']), test_expect=test_expect, replacements=replacements)
+		if 'locale' in replacements.keys() and 'scale' in replacements.keys():
+			write('... checking %s as %s tags in %s (%s scale) ... ' % (displayas or filename, parsetype, replacements['locale'], replacements['scale']))
+			self.check_command(filename=filename, expect=expect, command='%s --%s --locale %s --%s-scale' % (os.path.join(sys.path[0], 'parsetext'), parsetype, replacements['locale'], replacements['scale']), test_expect=test_expect, replacements=replacements)
 		else:
 			write('... checking %s as %s tags ... ' % (displayas or filename, parsetype))
 			self.check_command(filename=filename, expect=expect, command='%s --%s' % (os.path.join(sys.path[0], 'parsetext'), parsetype), test_expect=test_expect, replacements=replacements)

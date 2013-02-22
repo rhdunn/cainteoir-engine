@@ -36,13 +36,17 @@ enum
 {
 	ARG_PARSETEXT  = 301,
 	ARG_WORDSTREAM = 302,
+	ARG_SHORTSCALE = 303,
+	ARG_LONGSCALE  = 304,
 };
 
 static struct option options[] =
 {
-	{ "locale",     required_argument, 0, 'l' },
-	{ "parsetext",  no_argument,       0, ARG_PARSETEXT },
-	{ "wordstream", no_argument,       0, ARG_WORDSTREAM },
+	{ "locale",      required_argument, 0, 'l' },
+	{ "parsetext",   no_argument,       0, ARG_PARSETEXT },
+	{ "wordstream",  no_argument,       0, ARG_WORDSTREAM },
+	{ "short-scale", no_argument,       0, ARG_SHORTSCALE },
+	{ "long-scale",  no_argument,       0, ARG_LONGSCALE },
 	{ 0, 0, 0, 0 }
 };
 
@@ -109,6 +113,7 @@ int main(int argc, char ** argv)
 	{
 		lang::tag locale = { "en" };
 		int type = ARG_PARSETEXT;
+		tts::word_stream::number_scale scale = tts::word_stream::short_scale;
 
 		while (1)
 		{
@@ -125,6 +130,12 @@ int main(int argc, char ** argv)
 			case ARG_PARSETEXT:
 			case ARG_WORDSTREAM:
 				type = c;
+				break;
+			case ARG_SHORTSCALE:
+				scale = tts::word_stream::short_scale;
+				break;
+			case ARG_LONGSCALE:
+				scale = tts::word_stream::long_scale;
 				break;
 			}
 		}
@@ -145,7 +156,7 @@ int main(int argc, char ** argv)
 
 		if (type == ARG_WORDSTREAM)
 		{
-			tts::word_stream text(reader, locale);
+			tts::word_stream text(reader, locale, scale);
 			generate_events(text);
 		}
 		else

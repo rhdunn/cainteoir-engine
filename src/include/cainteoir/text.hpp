@@ -121,7 +121,15 @@ namespace cainteoir { namespace tts
 	struct word_stream
 	{
 	public:
-		word_stream(const std::shared_ptr<document_reader> &aReader, const language::tag &aLocale);
+		enum number_scale
+		{
+			short_scale,
+			long_scale,
+		};
+
+		word_stream(const std::shared_ptr<document_reader> &aReader,
+		            const language::tag &aLocale,
+		            number_scale aScale);
 
 		const text_event &event() const { return mEntries.front(); }
 
