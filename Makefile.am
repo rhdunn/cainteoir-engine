@@ -29,6 +29,12 @@ CLEANFILES =
 SUFFIXES = .html .phon .md
 SUBDIRS = po
 
+install-data-hook: install-data-hook-mimetypes install-data-hook-locale
+
+uninstall-hook: uninstall-hook-mimetypes
+
+uninstall-local: uninstall-local-locale
+
 ############################# libtool #########################################
 
 EXTRA_DIST += config.guess config.sub ltmain.sh
@@ -117,8 +123,15 @@ EXTRA_DIST += src/css/*.css
 cssdir  = $(pkgdatadir)/css
 css_DATA = data/css/*.css
 
-data/css:
-	ln -sv ../src/css data/css
+install-data-hook-locale:
+	cd data && (find locale -type f | grep -vF "/." | \
+		tar -cO -T - --no-recursion | \
+		tar -C $(DESTDIR)$(pkgdatadir) -xvf - > $(DESTDIR)$(pkgdatadir)/locale.installed)
+
+uninstall-local-locale:
+	cd $(DESTDIR)$(pkgdatadir); \
+	cat locale.installed | sed -e 's/ /\\ /g' | xargs rm -f; \
+	rm -f locale.installed
 
 vim_registrydir = $(vimdir)/registry
 vim_registry_DATA = data/vim/registry/*.yaml
@@ -138,12 +151,12 @@ xml_DATA = data/mime/packages/cainteoir-data.xml
 mimetypes:
 	$(UPDATE_MIME_DATABASE) data/mime/
 
-install-data-hook:
+install-data-hook-mimetypes:
 if ENABLE_UPDATE_MIME_DATABASE
 	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
 endif
  
-uninstall-hook:
+uninstall-hook-mimetypes:
 if ENABLE_UPDATE_MIME_DATABASE
 	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
 endif

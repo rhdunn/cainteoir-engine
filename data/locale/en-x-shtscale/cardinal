@@ -3,8 +3,6 @@
 .license	GPLv3+
 .description	Rules for the short number scale (billion, trillion, ...).
 
-.import		en/cardinal
-
 _10^9		billion
 _10^12		trillion
 _10^15		quadrillion

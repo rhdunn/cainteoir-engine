@@ -134,8 +134,6 @@ static tts::event_type punctuation_type(ucd::codepoint_t cp)
 	return tts::punctuation;
 }
 
-#define _(x) std::make_shared<cainteoir::buffer>(x)
-
 static const std::vector<std::string> groups =
 {
 	"_10^3",
@@ -189,56 +187,6 @@ static const std::vector<std::string> single_digits =
 static const std::string hundred              = "_10^2";
 static const std::string tens_units_separator = "_andDD";
 
-// short scale (US, Canada and Modern British)
-static const tts::dictionary en_GB =
-{
-	ucd::Latn,
-	{
-		{ "0",      _("zero") },
-		{ "1",      _("one") },
-		{ "2",      _("two") },
-		{ "3",      _("three") },
-		{ "4",      _("four") },
-		{ "5",      _("five") },
-		{ "6",      _("six") },
-		{ "7",      _("seven") },
-		{ "8",      _("eight") },
-		{ "9",      _("nine") },
-		{ "10",     _("ten") },
-		{ "11",     _("eleven") },
-		{ "12",     _("twelve") },
-		{ "13",     _("thirteen") },
-		{ "14",     _("fourteen") },
-		{ "15",     _("fifteen") },
-		{ "16",     _("sixteen") },
-		{ "17",     _("seventeen") },
-		{ "18",     _("eighteen") },
-		{ "19",     _("nineteen") },
-		{ "_2x",    _("twenty") },
-		{ "_3x",    _("thirty") },
-		{ "_4x",    _("forty") },
-		{ "_5x",    _("fifty") },
-		{ "_6x",    _("sixty") },
-		{ "_7x",    _("seventy") },
-		{ "_8x",    _("eighty") },
-		{ "_9x",    _("ninety") },
-		{ "_andDD", _("and") },
-		{ "_10^2",  _("hundred") },
-		{ "_10^3",  _("thousand") },
-		{ "_10^6",  _("million") },
-		{ "_10^9",  _("billion") },
-		{ "_10^12", _("trillion") },
-		{ "_10^15", _("quadrillion") },
-		{ "_10^18", _("quintillion") },
-		{ "_10^21", _("sextillion") },
-		{ "_10^24", _("septillion") },
-		{ "_10^27", _("octillion") },
-		{ "_10^30", _("nonillion") },
-	},
-};
-
-#undef _
-
 struct number_block
 {
 	uint16_t rank;
@@ -278,6 +226,21 @@ static std::stack<number_block> parse_number(const tts::text_event &number, uint
 	return blocks;
 }
 
+static void push_word_(std::queue<tts::text_event> &events,
+                       const tts::dictionary &words,
+                       const std::string &entry,
+                       cainteoir::range<uint32_t> range)
+{
+	auto word = words.lookup(entry);
+	if (!word.second.get())
+	{
+		fprintf(stderr, "error: unable to find \"%s\" in the dictionary.\n", entry.c_str());
+		return;
+	}
+
+	events.push(tts::text_event(word.second, tts::word_lowercase, word.first, range, 0));
+}
+
 static void parse_cardinal_number(std::queue<tts::text_event> &events,
                                   const tts::text_event &number,
                                   const tts::dictionary &words)
@@ -287,7 +250,7 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 	bool need_and   = false;
 	while (!blocks.empty())
 	{
-		#define push_word(w) { events.push(tts::text_event( words.lookup(w), tts::word_lowercase, words.script(), number.range, 0 )); }
+		#define push_word(w) push_word_(events, words, w, number.range)
 
 		auto item = blocks.top();
 		blocks.pop();
@@ -341,6 +304,13 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 	}
 }
 
+tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader)
+	: mReader(aReader)
+{
+	mCardinals.add_entries("/locale/en-GB/cardinal");
+	mCardinals.add_entries("/locale/en-x-shtscale/cardinal");
+}
+
 bool tts::word_stream::read()
 {
 	if (mEntries.empty())
@@ -361,7 +331,7 @@ bool tts::word_stream::read()
 				mEntries.push(event);
 				break;
 			case tts::number:
-				parse_cardinal_number(mEntries, event, en_GB);
+				parse_cardinal_number(mEntries, event, mCardinals);
 				break;
 			case tts::punctuation:
 			case tts::symbol:

@@ -3,8 +3,6 @@
 .license	GPLv3+
 .description	Rules for the long number scale (milliard, billion, ...).
 
-.import		en/cardinal
-
 _10^9		milliard
 _10^12		billion
 _10^15		billiard

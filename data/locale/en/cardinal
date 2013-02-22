@@ -26,14 +26,12 @@
 
 _2x		twenty
 _3x		thirty
-_4x		fourty
+_4x		forty
 _5x		fifty
 _6x		sixty
 _7x		seventy
 _8x		eighty
 _9x		ninety
-
-_andDD|en-GB	and
 
 _10^2		hundred
 _10^3		thousand

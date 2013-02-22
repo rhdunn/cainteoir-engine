@@ -28,17 +28,17 @@
 
 namespace cainteoir { namespace tts
 {
-	struct dictionary : public std::unordered_map<std::string, std::shared_ptr<buffer>>
+	struct dictionary
 	{
-		dictionary();
+		typedef std::pair<ucd::script, std::shared_ptr<buffer>> value_type;
 
-		dictionary(ucd::script aScript, const std::initializer_list<value_type> &aEntries);
+		bool add_entries(const char *aDictionaryPath);
 
-		ucd::script script() const { return mScript; }
-
-		const std::shared_ptr<buffer> &lookup(const std::string &aEntry) const;
+		const value_type &lookup(const std::string &aEntry) const;
 	private:
-		ucd::script mScript;
+		void add_entries(const std::shared_ptr<buffer> &aDictionary);
+
+		std::unordered_map<std::string, value_type> mEntries;
 	};
 
 	enum event_type
@@ -119,16 +119,14 @@ namespace cainteoir { namespace tts
 	struct word_stream
 	{
 	public:
-		word_stream(const std::shared_ptr<document_reader> &aReader)
-			: mReader(aReader)
-		{
-		}
+		word_stream(const std::shared_ptr<document_reader> &aReader);
 
 		const text_event &event() const { return mEntries.front(); }
 
 		bool read();
 	private:
 		text_reader mReader;
+		tts::dictionary mCardinals;
 		std::queue<text_event> mEntries;
 	};
 }}
