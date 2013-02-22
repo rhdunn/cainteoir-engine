@@ -69,6 +69,9 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.ws'},
 		]},
 		{'name': 'Cardinal Numbers', 'type': 'wordstream', 'replace': ['locale', 'scale'], 'tests': [
+			# de -- German
+			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/de.ws', 'locale': 'de', 'scale': 'short', 'expect': 'fail'},
+			# en -- English
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-GB-x-shtscale.ws', 'locale': 'en-GB', 'scale': 'short'},
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-GB-x-lngscale.ws', 'locale': 'en-GB', 'scale': 'long'},
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-x-shtscale.ws', 'locale': 'en-US', 'scale': 'short'},
