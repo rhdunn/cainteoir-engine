@@ -62,6 +62,8 @@ namespace cainteoir { namespace tts
 		question,
 		symbol,
 		paragraph,
+		phonemes,
+		pause,
 	};
 
 	struct text_event
@@ -70,7 +72,11 @@ namespace cainteoir { namespace tts
 		event_type type;
 		ucd::script script;
 		cainteoir::range<uint32_t> range;
-		ucd::codepoint_t codepoint;
+		union
+		{
+			ucd::codepoint_t codepoint;
+			uint16_t duration;
+		};
 
 		text_event(const std::shared_ptr<buffer> &aText,
 		           event_type aType,
@@ -82,6 +88,18 @@ namespace cainteoir { namespace tts
 			, script(aScript)
 			, range(aRange)
 			, codepoint(aCodePoint)
+		{
+		}
+
+		text_event(const std::shared_ptr<buffer> &aText,
+		           event_type aType,
+		           const cainteoir::range<uint32_t> &aRange,
+		           uint16_t aDuration)
+			: text(aText)
+			, type(aType)
+			, script(ucd::Zzzz)
+			, range(aRange)
+			, duration(aDuration)
 		{
 		}
 
@@ -138,6 +156,21 @@ namespace cainteoir { namespace tts
 		text_reader mReader;
 		tts::dictionary mCardinals;
 		std::queue<text_event> mEntries;
+	};
+
+	struct phoneme_stream
+	{
+	public:
+		phoneme_stream(const std::shared_ptr<document_reader> &aReader,
+		               const language::tag &aLocale,
+		               word_stream::number_scale aScale);
+
+		const text_event &event() const { return mEvent; }
+
+		bool read();
+	private:
+		word_stream mReader;
+		text_event mEvent;
 	};
 }}
 
