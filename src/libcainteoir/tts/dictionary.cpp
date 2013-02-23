@@ -44,6 +44,13 @@ bool tts::dictionary::add_entries(const char *aDictionaryPath)
 	return true;
 }
 
+void tts::dictionary::add_entry(const std::string &aEntry,
+                                ucd::script aScript,
+                                const std::shared_ptr<buffer> &aDefinition)
+{
+	mEntries[aEntry] = std::make_pair(aScript, aDefinition);
+}
+
 void tts::dictionary::add_entries(const std::shared_ptr<buffer> &aDictionary)
 {
 	const char *current = aDictionary->begin();
@@ -86,7 +93,7 @@ void tts::dictionary::add_entries(const std::shared_ptr<buffer> &aDictionary)
 			cainteoir::utf8::read(begin_definition, cp);
 
 			auto definition = cainteoir::make_buffer(begin_definition, end_definition - begin_definition);
-			mEntries[entry] = std::make_pair(ucd::lookup_script(cp), definition);
+			add_entry(entry, ucd::lookup_script(cp), definition);
 		}
 	}
 }

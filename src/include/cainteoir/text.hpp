@@ -36,7 +36,13 @@ namespace cainteoir { namespace tts
 
 		bool add_entries(const char *aDictionaryPath);
 
+		void add_entry(const std::string &aEntry,
+		               ucd::script aScript,
+		               const std::shared_ptr<buffer> &aDefinition);
+
 		const value_type &lookup(const std::string &aEntry) const;
+
+		std::size_t size() const { return mEntries.size(); }
 	private:
 		void add_entries(const std::shared_ptr<buffer> &aDictionary);
 

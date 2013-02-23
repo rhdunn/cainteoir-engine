@@ -24,39 +24,9 @@
 #include <cainteoir/text.hpp>
 #include <cainteoir/stopwatch.hpp>
 #include <stdexcept>
-#include <map>
-#include <unordered_map>
 
 namespace rdf = cainteoir::rdf;
 namespace tts = cainteoir::tts;
-
-struct null_dictionary
-{
-	void insert(const std::shared_ptr<cainteoir::buffer> &word)
-	{
-	}
-
-	std::size_t size() const
-	{
-		return 0;
-	}
-};
-
-struct map_dictionary : public std::map<std::string, std::string>
-{
-	void insert(const std::shared_ptr<cainteoir::buffer> &word)
-	{
-		(*this)[word->str()] = std::string();
-	}
-};
-
-struct unordered_map_dictionary : public std::unordered_map<std::string, std::string>
-{
-	void insert(const std::shared_ptr<cainteoir::buffer> &word)
-	{
-		(*this)[word->str()] = std::string();
-	}
-};
 
 struct test_results
 {
@@ -64,11 +34,10 @@ struct test_results
 	std::size_t index_size;
 };
 
-template <typename Dictionary>
 test_results parse_words(const std::shared_ptr<cainteoir::document_reader> &reader)
 {
 	uint32_t words = 0;
-	Dictionary dict;
+	tts::dictionary dict;
 	tts::text_reader text(reader);
 	while (text.read()) switch (text.event().type)
 	{
@@ -77,7 +46,7 @@ test_results parse_words(const std::shared_ptr<cainteoir::document_reader> &read
 	case tts::word_capitalized:
 	case tts::word_mixedcase:
 	case tts::word_script:
-		dict.insert(text.event().text);
+		dict.add_entry(text.event().text->str(), ucd::Zzzz, text.event().text);
 		++words;
 		break;
 	}
@@ -91,26 +60,19 @@ int main(int argc, char ** argv)
 		argc -= 1;
 		argv += 1;
 
-		if (argc != 2)
+		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
-		std::string format = argv[0];
 		rdf::graph metadata;
-		auto reader = cainteoir::createDocumentReader(argv[1], metadata, std::string());
+		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
 		if (!reader)
 		{
-			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[1]);
+			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
 			return 0;
 		}
 
 		cainteoir::stopwatch timer;
-		test_results results = { 0, 0 };
-		if (format == "null")
-			results = parse_words<null_dictionary>(reader);
-		else if (format == "map")
-			results = parse_words<map_dictionary>(reader);
-		else if (format == "unordered")
-			results = parse_words<unordered_map_dictionary>(reader);
+		test_results results = parse_words(reader);
 		printf("time:    %G\n", timer.elapsed());
 		printf("words:   %d\n", results.words);
 		printf("indexed: %d\n", results.index_size);
