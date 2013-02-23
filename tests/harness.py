@@ -44,15 +44,23 @@ class TestSuite:
 		else:
 			self.run_only = None
 
-	def check_command(self, filename, expect, command, test_expect, replacements):
+	def check_command(self, filename, expect, command, test_expect, replacements, sort=False):
 		tmpfile = '/tmp/metadata.txt'
 
-		os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s "%s" > %s' % (
-			os.path.join(sys.path[0], '../data'),
-			os.path.join(sys.path[0], '../data'),
-			command,
-			filename,
-			tmpfile))
+		if sort:
+			os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s "%s" | sort > %s' % (
+				os.path.join(sys.path[0], '../data'),
+				os.path.join(sys.path[0], '../data'),
+				command,
+				filename,
+				tmpfile))
+		else:
+			os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s "%s" > %s' % (
+				os.path.join(sys.path[0], '../data'),
+				os.path.join(sys.path[0], '../data'),
+				command,
+				filename,
+				tmpfile))
 
 		with open(expect, 'r') as f:
 			expected = [ repr(replace_strings(x.replace('<DATETIME>', date.today().strftime('%Y')), replacements)) for x in f.read().split('\n') if not x == '' ]
@@ -112,6 +120,10 @@ class TestSuite:
 			write('... checking %s as %s tags ... ' % (displayas or filename, parsetype))
 			self.check_command(filename=filename, expect=expect, command='%s --%s' % (os.path.join(sys.path[0], 'parsetext'), parsetype), test_expect=test_expect, replacements=replacements)
 
+	def check_dictionary(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
+		write('... checking %s as dictionary entries ... ' % (displayas or filename))
+		self.check_command(filename=filename, expect=expect, command='%s --list' % os.path.join(sys.path[0], 'dictionary'), test_expect=test_expect, replacements=replacements, sort=True)
+
 	def run(self, data):
 		if self.run_only and data['name'] != self.run_only:
 			return
@@ -129,6 +141,8 @@ class TestSuite:
 				check = lambda got, exp, expect, displayas, replacements: self.check_styles(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] in ['parsetext', 'wordstream']:
 				check = lambda got, exp, expect, displayas, replacements: self.check_parsetext(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
+			elif group['type'] == 'dictionary':
+				check = lambda got, exp, expect, displayas, replacements: self.check_dictionary(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 
 			for test in group['tests']:
 				expect = 'pass'
