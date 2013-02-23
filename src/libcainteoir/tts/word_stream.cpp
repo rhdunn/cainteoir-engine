@@ -313,16 +313,16 @@ tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader,
 	: mReader(aReader)
 {
 	std::ostringstream lang_region;
-	lang_region << "/locale/" << aLocale.lang << '-' << aLocale.region << "/cardinal";
+	lang_region << "/locale/" << aLocale.lang << '-' << aLocale.region << "/cardinal.dict";
 	if (!mCardinals.add_entries(lang_region.str().c_str()))
 	{
 		std::ostringstream lang;
-		lang << "/locale/" << aLocale.lang << "/cardinal";
+		lang << "/locale/" << aLocale.lang << "/cardinal.dict";
 		mCardinals.add_entries(lang.str().c_str());
 	}
 
 	std::ostringstream number_scale;
-	number_scale << "/locale/" << aLocale.lang << '-' << number_scale_str[aScale] << "/cardinal";
+	number_scale << "/locale/" << aLocale.lang << '-' << number_scale_str[aScale] << "/cardinal.dict";
 	mCardinals.add_entries(number_scale.str().c_str());
 }
 

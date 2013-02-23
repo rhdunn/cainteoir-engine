@@ -2,6 +2,6 @@
 .copyright	Copyright (C) 2013 Reece H. Dunn
 .license	GPLv3+
 .description	Rules for pronouncing cardinal numbers in British English.
-.import		/locale/en/cardinal
+.import		/locale/en/cardinal.dict
 
 _andDD		and
