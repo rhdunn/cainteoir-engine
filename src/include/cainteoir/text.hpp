@@ -33,6 +33,8 @@ namespace cainteoir { namespace tts
 	struct dictionary
 	{
 		typedef std::pair<ucd::script, std::shared_ptr<buffer>> value_type;
+		typedef std::unordered_map<std::string, value_type> storage_type;
+		typedef storage_type::const_iterator const_iterator;
 
 		bool add_entries(const char *aDictionaryPath);
 
@@ -43,6 +45,9 @@ namespace cainteoir { namespace tts
 		const value_type &lookup(const std::string &aEntry) const;
 
 		std::size_t size() const { return mEntries.size(); }
+
+		const_iterator begin() const { return mEntries.begin(); }
+		const_iterator end()   const { return mEntries.end();   }
 	private:
 		void add_entries(const std::shared_ptr<buffer> &aDictionary);
 

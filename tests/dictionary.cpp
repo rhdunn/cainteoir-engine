@@ -24,9 +24,23 @@
 #include <cainteoir/text.hpp>
 #include <cainteoir/stopwatch.hpp>
 #include <stdexcept>
+#include <getopt.h>
 
 namespace rdf = cainteoir::rdf;
 namespace tts = cainteoir::tts;
+
+enum mode_type
+{
+	from_document,
+	list_entries,
+};
+
+static struct option options[] =
+{
+	{ "list", no_argument, 0, 'l' },
+	{ "time", no_argument, 0, 't' },
+	{ 0, 0, 0, 0 }
+};
 
 struct test_results
 {
@@ -57,25 +71,74 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		argc -= 1;
-		argv += 1;
+		mode_type mode = from_document;
+		bool      time = false;
+
+		while (1)
+		{
+			int option_index = 0;
+			int c = getopt_long(argc, argv, "lt", options, &option_index);
+			if (c == -1)
+				break;
+
+			switch (c)
+			{
+			case 'l':
+				mode = list_entries;
+				break;
+			case 't':
+				time = true;
+				break;
+			}
+		}
+
+		argc -= optind;
+		argv += optind;
 
 		if (argc != 1)
 			throw std::runtime_error("no document specified");
 
-		rdf::graph metadata;
-		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
-		if (!reader)
+		if (mode == list_entries)
 		{
-			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
-			return 0;
-		}
+			cainteoir::stopwatch timer;
+			tts::dictionary dict;
+			if (!dict.add_entries(argv[0]))
+			{
+				fprintf(stderr, "cannot load dictionary file \"%s\"\n", argv[0]);
+				return 0;
+			}
 
-		cainteoir::stopwatch timer;
-		test_results results = parse_words(reader);
-		printf("time:    %G\n", timer.elapsed());
-		printf("words:   %d\n", results.words);
-		printf("indexed: %d\n", results.index_size);
+			if (time)
+				printf("time:    %G\n", timer.elapsed());
+			else
+			{
+				for (auto &entry : dict)
+				{
+					fprintf(stdout, "\"%s\" => \"%s\"@%s [say-as]\n",
+					        entry.first.c_str(),
+					        entry.second.second->str().c_str(),
+					        ucd::get_script_string(entry.second.first));
+				}
+			}
+		}
+		else if (mode == from_document)
+		{
+			rdf::graph metadata;
+			auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
+			if (!reader)
+			{
+				fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
+				return 0;
+			}
+
+			cainteoir::stopwatch timer;
+			test_results results = parse_words(reader);
+			printf("words:   %d\n", results.words);
+			printf("indexed: %d\n", results.index_size);
+
+			if (time)
+				printf("time:    %G\n", timer.elapsed());
+		}
 	}
 	catch (std::runtime_error &e)
 	{
