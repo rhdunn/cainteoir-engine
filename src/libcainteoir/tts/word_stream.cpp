@@ -232,7 +232,7 @@ static void push_word_(std::queue<tts::text_event> &events,
                        cainteoir::range<uint32_t> range)
 {
 	auto word = words.lookup(entry);
-	if (!word.second.get())
+	if (word.first == ucd::Zzzz)
 		return;
 
 	events.push(tts::text_event(word.second, tts::word_lowercase, word.first, range, 0));
