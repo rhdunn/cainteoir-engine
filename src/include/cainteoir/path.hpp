@@ -29,6 +29,11 @@ namespace cainteoir
 	{
 		path() {}
 
+		explicit path(const std::string &aPath)
+			: mPath(aPath)
+		{
+		}
+
 		explicit path(const char *aPath)
 			: mPath(aPath)
 		{
@@ -37,6 +42,8 @@ namespace cainteoir
 		path &operator/=(const char *);
 
 		operator const char *() const { return mPath.c_str(); }
+
+		path parent() const;
 	private:
 		std::string mPath;
 	};

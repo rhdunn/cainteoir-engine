@@ -27,17 +27,24 @@
 
 namespace tts = cainteoir::tts;
 
-bool tts::dictionary::add_entries(const char *aDictionaryPath)
+bool tts::dictionary::add_entries(const path &aBasePath,
+                                  const char *aDictionaryPath)
 {
 	try
 	{
-		add_entries(make_file_buffer(get_data_path() / aDictionaryPath));
+		auto path = aBasePath / aDictionaryPath;
+		add_entries(path.parent(), make_file_buffer(path));
 	}
 	catch (const std::exception &)
 	{
 		return false;
 	}
 	return true;
+}
+
+bool tts::dictionary::add_entries(const char *aDictionaryPath)
+{
+	return add_entries(get_data_path(), aDictionaryPath);
 }
 
 void tts::dictionary::add_entry(const std::string &aEntry,
@@ -47,7 +54,8 @@ void tts::dictionary::add_entry(const std::string &aEntry,
 	mEntries[aEntry] = std::make_pair(aScript, aDefinition);
 }
 
-void tts::dictionary::add_entries(const std::shared_ptr<buffer> &aDictionary)
+void tts::dictionary::add_entries(const path &aBasePath,
+                                  const std::shared_ptr<buffer> &aDictionary)
 {
 	const char *current = aDictionary->begin();
 	const char *last    = aDictionary->end();
@@ -79,7 +87,7 @@ void tts::dictionary::add_entries(const std::shared_ptr<buffer> &aDictionary)
 			if (entry == ".import")
 			{
 				std::string definition(begin_definition, end_definition);
-				if (!add_entries(definition.c_str()))
+				if (!add_entries(aBasePath, definition.c_str()))
 					fprintf(stderr, "error: unable to load dictionary \"%s\"\n", definition.c_str());
 			}
 		}

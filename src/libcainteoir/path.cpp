@@ -31,6 +31,11 @@ cainteoir::path &cainteoir::path::operator/=(const char *aPath)
 	return *this;
 }
 
+cainteoir::path cainteoir::path::parent() const
+{
+	return path(mPath.substr(0, mPath.rfind('/')));
+}
+
 cainteoir::path cainteoir::get_data_path()
 {
 	const char *datadir = getenv("CAINTEOIR_DATA_DIR");
