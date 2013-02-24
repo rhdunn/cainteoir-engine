@@ -33,17 +33,30 @@ namespace cainteoir { namespace tts
 {
 	struct dictionary
 	{
-		typedef std::pair<ucd::script, std::shared_ptr<buffer>> value_type;
-		typedef std::unordered_map<std::string, value_type> storage_type;
+		enum entry_type
+		{
+			say_as,
+			phonemes,
+		};
+
+		struct entry
+		{
+			entry_type type;
+			ucd::script script;
+			std::shared_ptr<buffer> text;
+		};
+
+		typedef std::unordered_map<std::string, entry> storage_type;
 		typedef storage_type::const_iterator const_iterator;
 
 		bool add_entries(const path &aDictionaryPath);
 
 		void add_entry(const std::string &aEntry,
+		               entry_type aType,
 		               ucd::script aScript,
 		               const std::shared_ptr<buffer> &aDefinition);
 
-		const value_type &lookup(const std::string &aEntry) const;
+		const entry &lookup(const std::string &aEntry) const;
 
 		std::size_t size() const { return mEntries.size(); }
 
@@ -53,7 +66,7 @@ namespace cainteoir { namespace tts
 		void add_entries(const path &aBasePath,
 		                 const std::shared_ptr<buffer> &aDictionary);
 
-		std::unordered_map<std::string, value_type> mEntries;
+		std::unordered_map<std::string, entry> mEntries;
 	};
 
 	enum event_type

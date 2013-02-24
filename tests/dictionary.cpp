@@ -60,7 +60,7 @@ test_results parse_words(const std::shared_ptr<cainteoir::document_reader> &read
 	case tts::word_capitalized:
 	case tts::word_mixedcase:
 	case tts::word_script:
-		dict.add_entry(text.event().text->str(), ucd::Zzzz, text.event().text);
+		dict.add_entry(text.event().text->str(), tts::dictionary::say_as, ucd::Zzzz, text.event().text);
 		++words;
 		break;
 	}
@@ -114,10 +114,19 @@ int main(int argc, char ** argv)
 			{
 				for (auto &entry : dict)
 				{
-					fprintf(stdout, "\"%s\" => \"%s\"@%s [say-as]\n",
-					        entry.first.c_str(),
-					        entry.second.second->str().c_str(),
-					        ucd::get_script_string(entry.second.first));
+					if (entry.second.type == tts::dictionary::say_as)
+					{
+						fprintf(stdout, "\"%s\" => \"%s\"@%s [say-as]\n",
+						        entry.first.c_str(),
+						        entry.second.text->str().c_str(),
+						        ucd::get_script_string(entry.second.script));
+					}
+					else
+					{
+						fprintf(stdout, "\"%s\" => /%s/ [ipa]\n",
+						        entry.first.c_str(),
+						        entry.second.text->str().c_str());
+					}
 				}
 			}
 		}

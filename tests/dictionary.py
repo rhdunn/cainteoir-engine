@@ -24,10 +24,12 @@ if __name__ == '__main__':
 	test = harness.TestSuite('dictionary', sys.argv)
 	test.run({'name': 'Dictionaries', 'groups': [
 		{'name': 'Cainteoir', 'type': 'dictionary', 'tests': [
-			# Simple word => word dictionary:
+			# say-as (word => word):
 			{'test': '../data/locale/en/cardinal.dict', 'result': 'dict/cainteoir/en-cardinal.lst'},
 			# .import directive:
 			{'test': '../data/locale/en-GB/cardinal.dict', 'result': 'dict/cainteoir/en-GB-cardinal.lst'},
+			# IPA phonemes:
+			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
 		]},
 	]})
 	test.summary()

@@ -232,10 +232,10 @@ static void push_word_(std::queue<tts::text_event> &events,
                        cainteoir::range<uint32_t> range)
 {
 	auto word = words.lookup(entry);
-	if (word.first == ucd::Zzzz)
+	if (word.script == ucd::Zzzz)
 		return;
 
-	events.push(tts::text_event(word.second, tts::word_lowercase, word.first, range, 0));
+	events.push(tts::text_event(word.text, tts::word_lowercase, word.script, range, 0));
 }
 
 static void parse_cardinal_number(std::queue<tts::text_event> &events,
