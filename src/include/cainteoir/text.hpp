@@ -37,10 +37,7 @@ namespace cainteoir { namespace tts
 		typedef std::unordered_map<std::string, value_type> storage_type;
 		typedef storage_type::const_iterator const_iterator;
 
-		bool add_entries(const path &aBasePath,
-		                 const char *aDictionaryPath);
-
-		bool add_entries(const char *aDictionaryPath);
+		bool add_entries(const path &aDictionaryPath);
 
 		void add_entry(const std::string &aEntry,
 		               ucd::script aScript,

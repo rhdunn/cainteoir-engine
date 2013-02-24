@@ -102,7 +102,7 @@ int main(int argc, char ** argv)
 		{
 			cainteoir::stopwatch timer;
 			tts::dictionary dict;
-			if (!dict.add_entries(argv[0]))
+			if (!dict.add_entries(cainteoir::path(argv[0])))
 			{
 				fprintf(stderr, "cannot load dictionary file \"%s\"\n", argv[0]);
 				return 0;

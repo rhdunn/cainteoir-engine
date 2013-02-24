@@ -39,7 +39,8 @@ namespace cainteoir
 		{
 		}
 
-		path &operator/=(const char *);
+		path &operator/=(const char *aPath);
+		path &operator/=(const std::string &aPath);
 
 		operator const char *() const { return mPath.c_str(); }
 
@@ -49,6 +50,13 @@ namespace cainteoir
 	};
 
 	inline path operator/(const path &a, const char *b)
+	{
+		path temp(a);
+		temp /= b;
+		return temp;
+	}
+
+	inline path operator/(const path &a, const std::string &b)
 	{
 		path temp(a);
 		temp /= b;

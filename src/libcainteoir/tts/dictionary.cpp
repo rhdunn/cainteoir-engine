@@ -27,24 +27,17 @@
 
 namespace tts = cainteoir::tts;
 
-bool tts::dictionary::add_entries(const path &aBasePath,
-                                  const char *aDictionaryPath)
+bool tts::dictionary::add_entries(const path &aDictionaryPath)
 {
 	try
 	{
-		auto path = aBasePath / aDictionaryPath;
-		add_entries(path.parent(), make_file_buffer(path));
+		add_entries(aDictionaryPath.parent(), make_file_buffer(aDictionaryPath));
 	}
 	catch (const std::exception &)
 	{
 		return false;
 	}
 	return true;
-}
-
-bool tts::dictionary::add_entries(const char *aDictionaryPath)
-{
-	return add_entries(get_data_path(), aDictionaryPath);
 }
 
 void tts::dictionary::add_entry(const std::string &aEntry,
@@ -87,7 +80,7 @@ void tts::dictionary::add_entries(const path &aBasePath,
 			if (entry == ".import")
 			{
 				std::string definition(begin_definition, end_definition);
-				if (!add_entries(aBasePath, definition.c_str()))
+				if (!add_entries(aBasePath / definition))
 					fprintf(stderr, "error: unable to load dictionary \"%s\"\n", definition.c_str());
 			}
 		}

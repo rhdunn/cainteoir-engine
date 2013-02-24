@@ -31,6 +31,14 @@ cainteoir::path &cainteoir::path::operator/=(const char *aPath)
 	return *this;
 }
 
+cainteoir::path &cainteoir::path::operator/=(const std::string &aPath)
+{
+	if (mPath.back() != '/' && aPath.front() != '/')
+		mPath.push_back('/');
+	mPath += aPath;
+	return *this;
+}
+
 cainteoir::path cainteoir::path::parent() const
 {
 	return path(mPath.substr(0, mPath.rfind('/')));

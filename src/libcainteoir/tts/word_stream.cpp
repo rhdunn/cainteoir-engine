@@ -301,7 +301,7 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 	}
 }
 
-static const char *number_scale_str[] =
+static const std::string number_scale_str[] =
 {
 	"x-shtscale",
 	"x-lngscale",
@@ -312,18 +312,11 @@ tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader,
                               number_scale aScale)
 	: mReader(aReader)
 {
-	std::ostringstream lang_region;
-	lang_region << "/locale/" << aLocale.lang << '-' << aLocale.region << "/cardinal.dict";
-	if (!mCardinals.add_entries(lang_region.str().c_str()))
-	{
-		std::ostringstream lang;
-		lang << "/locale/" << aLocale.lang << "/cardinal.dict";
-		mCardinals.add_entries(lang.str().c_str());
-	}
+	auto locale_path = get_data_path() / "locale";
+	if (!mCardinals.add_entries(locale_path / (aLocale.lang + '-' + aLocale.region) / "cardinal.dict"));
+		mCardinals.add_entries(locale_path / aLocale.lang / "cardinal.dict");
 
-	std::ostringstream number_scale;
-	number_scale << "/locale/" << aLocale.lang << '-' << number_scale_str[aScale] << "/cardinal.dict";
-	mCardinals.add_entries(number_scale.str().c_str());
+	mCardinals.add_entries(locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "cardinal.dict");
 }
 
 bool tts::word_stream::read()
