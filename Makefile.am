@@ -467,6 +467,11 @@ noinst_bin_PROGRAMS += tests/dictionary
 tests_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
 tests_dictionary_SOURCES = tests/dictionary.cpp
 
+tests/dictionary.check: tests/dictionary tests/dictionary.py tests/harness.py ${TEST_FILES}
+	rm -f $@
+	(python tests/dictionary.py && touch $@) | tee $<.results
+	test -f $@ || false
+
 noinst_bin_PROGRAMS += tests/xmlcssparser
 
 tests_xmlcssparser_LDADD   = src/libcainteoir/libcainteoir.la
@@ -512,4 +517,5 @@ check: \
 	tests/content.check \
 	tests/styles.check \
 	tests/events.check \
+	tests/dictionary.check \
 	tests/parsetext.check
