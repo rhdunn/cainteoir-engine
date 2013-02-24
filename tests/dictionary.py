@@ -25,9 +25,9 @@ if __name__ == '__main__':
 	test.run({'name': 'Dictionaries', 'groups': [
 		{'name': 'Cainteoir', 'type': 'dictionary', 'tests': [
 			# Simple word => word dictionary:
-			{'test': '/locale/en/cardinal.dict', 'result': 'dict/cainteoir/en-cardinal.lst'},
+			{'test': '../data/locale/en/cardinal.dict', 'result': 'dict/cainteoir/en-cardinal.lst'},
 			# .import directive:
-			{'test': '/locale/en-GB/cardinal.dict', 'result': 'dict/cainteoir/en-GB-cardinal.lst'},
+			{'test': '../data/locale/en-GB/cardinal.dict', 'result': 'dict/cainteoir/en-GB-cardinal.lst'},
 		]},
 	]})
 	test.summary()
