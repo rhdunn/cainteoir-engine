@@ -22,6 +22,7 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/content.hpp>
+#include <cainteoir/path.hpp>
 #include <stdexcept>
 #include <sstream>
 #include <limits>
@@ -336,12 +337,7 @@ css::counter_style *css::style_manager::create_counter_style(const std::string &
 
 void css::style_manager::parse(const char *css_file)
 {
-	const char *datadir = getenv("CAINTEOIR_DATA_DIR");
-	if (!datadir)
-		datadir = DATADIR "/" PACKAGE;
-
-	const std::string filename = datadir + std::string(css_file);
-	parse(make_file_buffer(filename.c_str()));
+	parse(make_file_buffer(get_data_path() / css_file));
 }
 
 void css::style_manager::parse(const std::shared_ptr<buffer> &style)

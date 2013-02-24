@@ -23,19 +23,15 @@
 
 #include <cainteoir/text.hpp>
 #include <cainteoir/unicode.hpp>
+#include <cainteoir/path.hpp>
 
 namespace tts = cainteoir::tts;
 
 bool tts::dictionary::add_entries(const char *aDictionaryPath)
 {
-	const char *datadir = getenv("CAINTEOIR_DATA_DIR");
-	if (!datadir)
-		datadir = DATADIR "/" PACKAGE;
-
-	const std::string filename = datadir + std::string(aDictionaryPath);
 	try
 	{
-		add_entries(make_file_buffer(filename.c_str()));
+		add_entries(make_file_buffer(get_data_path() / aDictionaryPath));
 	}
 	catch (const std::exception &)
 	{

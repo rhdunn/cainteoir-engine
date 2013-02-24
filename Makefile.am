@@ -203,6 +203,7 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/languages.hpp \
 	src/include/cainteoir/metadata.hpp \
 	src/include/cainteoir/mimetype.hpp \
+	src/include/cainteoir/path.hpp \
 	src/include/cainteoir/range.hpp \
 	src/include/cainteoir/stopwatch.hpp \
 	src/include/cainteoir/text.hpp \
@@ -240,6 +241,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/languages.cpp \
 	src/libcainteoir/mimetype_database.hpp \
 	src/libcainteoir/mimetype.cpp \
+	src/libcainteoir/path.cpp \
 	\
 	src/libcainteoir/audio/audio.cpp \
 	src/libcainteoir/audio/ogg.cpp \

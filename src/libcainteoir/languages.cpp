@@ -24,6 +24,7 @@
 
 #include <cainteoir/languages.hpp>
 #include <cainteoir/document.hpp>
+#include <cainteoir/path.hpp>
 #include <algorithm>
 
 namespace rdf  = cainteoir::rdf;
@@ -66,12 +67,8 @@ LanguageData::LanguageData()
 	rdf::graph data;
 	try
 	{
-		const char *datadir = getenv("CAINTEOIR_DATA_DIR");
-		if (!datadir)
-			datadir = DATADIR "/" PACKAGE;
-
-		const std::string filename = datadir + std::string("/languages.rdf.gz");
-		auto reader = cainteoir::createDocumentReader(filename.c_str(), data, std::string());
+		auto path   = cainteoir::get_data_path() / "languages.rdf.gz";
+		auto reader = cainteoir::createDocumentReader(path, data, std::string());
 	}
 	catch (const std::exception & e)
 	{
