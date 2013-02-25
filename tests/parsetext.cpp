@@ -173,7 +173,7 @@ int main(int argc, char ** argv)
 		}
 		else if (type == ARG_PHONEMESTREAM)
 		{
-			tts::phoneme_stream text(reader, locale, scale);
+			tts::phoneme_stream text(reader, locale, scale, tts::en_rules());
 			generate_events(text);
 		}
 		else

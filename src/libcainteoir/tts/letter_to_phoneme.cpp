@@ -25,176 +25,72 @@
 
 namespace tts = cainteoir::tts;
 
-#define _    std::shared_ptr<cainteoir::buffer>()
-#define x(s) std::make_shared<cainteoir::buffer>(s)
-
-static const std::initializer_list<tts::rule_t> a_rules =
+tts::ruleset tts::en_rules()
 {
-	{ _, x("a"), _, x("æ") },
-};
+	#define _    std::shared_ptr<cainteoir::buffer>()
+	#define x(s) std::make_shared<cainteoir::buffer>(s)
 
-static const std::initializer_list<tts::rule_t> b_rules =
-{
-	{ _, x("b"), _, x("b") },
-};
+	tts::ruleset en;
 
-static const std::initializer_list<tts::rule_t> c_rules =
-{
-	{ _, x("c"), _, x("k") },
-};
+	en.add_rule(_, x("a"), _, x("æ"));
 
-static const std::initializer_list<tts::rule_t> d_rules =
-{
-	{ _, x("d"), _, x("d") },
-};
+	en.add_rule(_, x("b"), _, x("b"));
 
-static const std::initializer_list<tts::rule_t> e_rules =
-{
-	{ _, x("e"), _, x("ɛ") },
-};
+	en.add_rule(_, x("c"), _, x("k"));
 
-static const std::initializer_list<tts::rule_t> f_rules =
-{
-	{ _, x("f"), _, x("f") },
-};
+	en.add_rule(_, x("d"), _, x("d"));
 
-static const std::initializer_list<tts::rule_t> g_rules =
-{
-	{ _, x("g"), _, x("g") },
-};
+	en.add_rule(_, x("e"), _, x("ɛ"));
 
-static const std::initializer_list<tts::rule_t> h_rules =
-{
-	{ _, x("h"), _, x("h") },
-};
+	en.add_rule(_, x("f"), _, x("f"));
 
-static const std::initializer_list<tts::rule_t> i_rules =
-{
-	{ _, x("i"), _, x("ɪ") },
-};
+	en.add_rule(_, x("g"), _, x("g"));
 
-static const std::initializer_list<tts::rule_t> j_rules =
-{
-	{ _, x("j"), _, x("dʒ") },
-};
+	en.add_rule(_, x("h"), _, x("h"));
 
-static const std::initializer_list<tts::rule_t> k_rules =
-{
-	{ _, x("k"), _, x("k") },
-};
+	en.add_rule(_, x("i"), _, x("ɪ"));
 
-static const std::initializer_list<tts::rule_t> l_rules =
-{
-	{ _, x("l"), _, x("l") },
-};
+	en.add_rule(_, x("j"), _, x("dʒ"));
 
-static const std::initializer_list<tts::rule_t> m_rules =
-{
-	{ _, x("m"), _, x("m") },
-};
+	en.add_rule(_, x("k"), _, x("k"));
 
-static const std::initializer_list<tts::rule_t> n_rules =
-{
-	{ _, x("n"), _, x("n") },
-};
+	en.add_rule(_, x("l"), _, x("l"));
 
-static const std::initializer_list<tts::rule_t> o_rules =
-{
-	{ _, x("o"), _, x("ɑ") },
-};
+	en.add_rule(_, x("m"), _, x("m"));
 
-static const std::initializer_list<tts::rule_t> p_rules =
-{
-	{ _, x("p"), _, x("p") },
-};
+	en.add_rule(_, x("n"), _, x("n"));
 
-static const std::initializer_list<tts::rule_t> q_rules =
-{
-	{ _, x("q"), _, x("k") },
-};
+	en.add_rule(_, x("o"), _, x("ɑ"));
 
-static const std::initializer_list<tts::rule_t> r_rules =
-{
-	{ _, x("r"),  _, x("r") },
-};
+	en.add_rule(_, x("p"), _, x("p"));
 
-static const std::initializer_list<tts::rule_t> s_rules =
-{
-	{ _, x("s"), _, x("s") },
-};
+	en.add_rule(_, x("q"), _, x("k"));
 
-static const std::initializer_list<tts::rule_t> t_rules =
-{
-	{ _, x("t"), _, x("t") },
-};
+	en.add_rule(_, x("r"),  _, x("r"));
 
-static const std::initializer_list<tts::rule_t> u_rules =
-{
-	{ _, x("u"), _, x("ju") },
-};
+	en.add_rule(_, x("s"), _, x("s"));
 
-static const std::initializer_list<tts::rule_t> v_rules =
-{
-	{ _, x("v"), _, x("v") },
-};
+	en.add_rule(_, x("t"), _, x("t"));
 
-static const std::initializer_list<tts::rule_t> w_rules =
-{
-	{ _, x("w"), _, x("w") },
-};
+	en.add_rule(_, x("u"), _, x("ju"));
 
-static const std::initializer_list<tts::rule_t> x_rules =
-{
-	{ _, x("x"), _, x("ks") },
-};
+	en.add_rule(_, x("v"), _, x("v"));
 
-static const std::initializer_list<tts::rule_t> y_rules =
-{
-	{ _, x("y"), _, x("ɪ") },
-};
+	en.add_rule(_, x("w"), _, x("w"));
 
-static const std::initializer_list<tts::rule_t> z_rules =
-{
-	{ _, x("z"), _, x("z") },
-};
+	en.add_rule(_, x("x"), _, x("ks"));
 
-static const std::initializer_list<tts::rule_t> single_quote_rules =
-{
-	{ _, x("'s"), _, x("z") },
-};
+	en.add_rule(_, x("y"), _, x("ɪ"));
 
-#undef _
+	en.add_rule(_, x("z"), _, x("z"));
 
-static const std::initializer_list<tts::rule_t> en_rules[] =
-{
-	a_rules,
-	b_rules,
-	c_rules,
-	d_rules,
-	e_rules,
-	f_rules,
-	g_rules,
-	h_rules,
-	i_rules,
-	j_rules,
-	k_rules,
-	l_rules,
-	m_rules,
-	n_rules,
-	o_rules,
-	p_rules,
-	q_rules,
-	r_rules,
-	s_rules,
-	t_rules,
-	u_rules,
-	v_rules,
-	w_rules,
-	x_rules,
-	y_rules,
-	z_rules,
-	single_quote_rules,
-};
+	en.add_rule(_, x("'s"), _, x("z"));
+
+	#undef x
+	#undef _
+
+	return en;
+}
 
 static bool left_match(const std::shared_ptr<cainteoir::buffer> &pattern, const char *context)
 {
@@ -227,7 +123,7 @@ static const char *find_rule(const char *first,
                              const char *current,
                              const char *last,
                              char *&out,
-                             const std::initializer_list<tts::rule_t> &rules)
+                             const std::list<tts::ruleset::rule_t> &rules)
 {
 	for (auto &rule : rules)
 	{
@@ -249,7 +145,15 @@ static const char *find_rule(const char *first,
 	return ++current;
 }
 
-std::shared_ptr<cainteoir::buffer> tts::letter_to_phoneme(const std::shared_ptr<cainteoir::buffer> &aText)
+void tts::ruleset::add_rule(const std::shared_ptr<buffer> &aLeft,
+                            const std::shared_ptr<buffer> &aMatch,
+                            const std::shared_ptr<buffer> &aRight,
+                            const std::shared_ptr<buffer> &aPhonemes)
+{
+	mRules[*aMatch->begin()].push_back({ aLeft, aMatch, aRight, aPhonemes });
+}
+
+std::shared_ptr<cainteoir::buffer> tts::ruleset::pronounce(const std::shared_ptr<cainteoir::buffer> &aText)
 {
 	char phonemes[512];
 	char *out = phonemes;
@@ -258,18 +162,7 @@ std::shared_ptr<cainteoir::buffer> tts::letter_to_phoneme(const std::shared_ptr<
 	const char *last    = aText->end();
 	const char *current = first;
 	while (current != last)
-	{
-		int rule_index = -1;
-		if (*current >= 'a' && *current <= 'z')
-			rule_index = *current - 'a';
-		else if (*current == '\'')
-			rule_index = 26;
-
-		if (rule_index == -1)
-			++current; // Rule table not found ... skip the character.
-		else
-			current = find_rule(first, current, last, out, en_rules[rule_index]);
-	}
+		current = find_rule(first, current, last, out, mRules[*current]);
 
 	*out = '\0';
 	return cainteoir::make_buffer(phonemes, out - phonemes);

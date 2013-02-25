@@ -31,15 +31,27 @@
 
 namespace cainteoir { namespace tts
 {
-	struct rule_t
+	struct ruleset
 	{
-		const std::shared_ptr<buffer> left;
-		const std::shared_ptr<buffer> match;
-		const std::shared_ptr<buffer> right;
-		const std::shared_ptr<buffer> phonemes;
+		struct rule_t
+		{
+			const std::shared_ptr<buffer> left;
+			const std::shared_ptr<buffer> match;
+			const std::shared_ptr<buffer> right;
+			const std::shared_ptr<buffer> phonemes;
+		};
+
+		void add_rule(const std::shared_ptr<buffer> &aLeft,
+		              const std::shared_ptr<buffer> &aMatch,
+		              const std::shared_ptr<buffer> &aRight,
+		              const std::shared_ptr<buffer> &aPhonemes);
+
+		std::shared_ptr<cainteoir::buffer> pronounce(const std::shared_ptr<cainteoir::buffer> &aText);
+	private:
+		std::list<rule_t> mRules[256];
 	};
 
-	std::shared_ptr<cainteoir::buffer> letter_to_phoneme(const std::shared_ptr<cainteoir::buffer> &aText);
+	ruleset en_rules();
 
 	struct dictionary
 	{
@@ -199,7 +211,8 @@ namespace cainteoir { namespace tts
 	public:
 		phoneme_stream(const std::shared_ptr<document_reader> &aReader,
 		               const language::tag &aLocale,
-		               word_stream::number_scale aScale);
+		               word_stream::number_scale aScale,
+		               const ruleset &aRules);
 
 		const text_event &event() const { return mEvent; }
 
@@ -207,6 +220,7 @@ namespace cainteoir { namespace tts
 	private:
 		word_stream mReader;
 		text_event mEvent;
+		ruleset mRules;
 	};
 }}
 

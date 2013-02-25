@@ -27,8 +27,10 @@ namespace tts = cainteoir::tts;
 
 tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aReader,
                                     const language::tag &aLocale,
-                                    tts::word_stream::number_scale aScale)
+                                    tts::word_stream::number_scale aScale,
+                                    const ruleset &aRules)
 	: mReader(aReader, aLocale, aScale)
+	, mRules(aRules)
 {
 }
 
@@ -44,7 +46,7 @@ bool tts::phoneme_stream::read()
 	case tts::word_capitalized:
 	case tts::word_mixedcase:
 	case tts::word_script:
-		mEvent = { letter_to_phoneme(e.text), tts::phonemes, e.range, 0 };
+		mEvent = { mRules.pronounce(e.text), tts::phonemes, e.range, 0 };
 		break;
 	case tts::comma:
 		mEvent = { {}, tts::pause, e.range, 50 };
