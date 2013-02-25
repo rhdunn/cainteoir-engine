@@ -46,8 +46,11 @@ namespace cainteoir { namespace tts
 		              const std::shared_ptr<buffer> &aRight,
 		              const std::shared_ptr<buffer> &aPhonemes);
 
+		bool add_rules(const path &aRulesPath);
+
 		std::shared_ptr<cainteoir::buffer> pronounce(const std::shared_ptr<cainteoir::buffer> &aText) const;
 	private:
+		void add_rules(const std::shared_ptr<buffer> &aDictionary);
 		std::list<rule_t> mRules[256];
 	};
 

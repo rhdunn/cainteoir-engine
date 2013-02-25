@@ -100,11 +100,11 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		if (argc != 1)
-			throw std::runtime_error("no document specified");
-
 		if (mode == list_entries)
 		{
+			if (argc != 1)
+				throw std::runtime_error("no document specified");
+
 			cainteoir::stopwatch timer;
 			tts::dictionary dict;
 			if (!dict.add_entries(cainteoir::path(argv[0])))
@@ -137,6 +137,9 @@ int main(int argc, char ** argv)
 		}
 		else if (mode == pronounce_entries)
 		{
+			if (argc != 2)
+				throw std::runtime_error("usage: dictionary --pronounce <dictionary> <ruleset>");
+
 			tts::dictionary dict;
 			if (!dict.add_entries(cainteoir::path(argv[0])))
 			{
@@ -144,7 +147,12 @@ int main(int argc, char ** argv)
 				return 0;
 			}
 
-			tts::ruleset rules = tts::en_rules();
+			tts::ruleset rules;
+			if (!rules.add_rules(cainteoir::path(argv[1])))
+			{
+				fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
+				return 0;
+			}
 
 			cainteoir::stopwatch timer;
 			for (auto &entry : dict)
@@ -160,6 +168,9 @@ int main(int argc, char ** argv)
 		}
 		else if (mode == from_document)
 		{
+			if (argc != 1)
+				throw std::runtime_error("no document specified");
+
 			rdf::graph metadata;
 			auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
 			if (!reader)

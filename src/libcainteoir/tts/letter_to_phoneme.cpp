@@ -158,6 +158,19 @@ void tts::ruleset::add_rule(const std::shared_ptr<buffer> &aLeft,
 	mRules[*aMatch->begin()].push_back({ aLeft, aMatch, aRight, aPhonemes });
 }
 
+bool tts::ruleset::add_rules(const path &aRulesPath)
+{
+	try
+	{
+		add_rules(make_file_buffer(aRulesPath));
+	}
+	catch (const std::exception &)
+	{
+		return false;
+	}
+	return true;
+}
+
 std::shared_ptr<cainteoir::buffer> tts::ruleset::pronounce(const std::shared_ptr<cainteoir::buffer> &aText) const
 {
 	char phonemes[512];
@@ -172,3 +185,53 @@ std::shared_ptr<cainteoir::buffer> tts::ruleset::pronounce(const std::shared_ptr
 	*out = '\0';
 	return cainteoir::make_buffer(phonemes, out - phonemes);
 }
+
+void tts::ruleset::add_rules(const std::shared_ptr<buffer> &aRules)
+{
+	const char *current = aRules->begin();
+	const char *last    = aRules->end();
+	while (current != last)
+	{
+		if (*current == '#' || *current == '.')
+		{
+			while (current != last && *current != '\r' && *current != '\n')
+				++current;
+
+			while (current != last && (*current == '\r' || *current == '\n'))
+				++current;
+
+			continue;
+		}
+
+		const char *begin_entry = current;
+		const char *end_entry   = current;
+		while (end_entry != last && *end_entry != '\t')
+			++end_entry;
+
+		current = end_entry;
+		while (current != last && *current == '\t')
+			++current;
+
+		if (current == last) return;
+
+		const char *begin_phonemes = current;
+		const char *end_phonemes   = current;
+		while (end_phonemes != last && *end_phonemes != '\r' && *end_phonemes != '\n')
+			++end_phonemes;
+
+		current = end_phonemes;
+		while (current != last && (*current == '\r' || *current == '\n'))
+			++current;
+
+		if (*begin_phonemes == '/' && *(end_phonemes - 1) == '/')
+		{
+			++begin_phonemes;
+			--end_phonemes;
+			add_rule(std::shared_ptr<buffer>(), // left
+			         make_buffer(begin_entry, end_entry - begin_entry),
+			         std::shared_ptr<buffer>(), // right
+			         make_buffer(begin_phonemes, end_phonemes - begin_phonemes));
+		}
+	}
+}
+
