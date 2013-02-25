@@ -142,6 +142,11 @@ static const char *find_rule(const char *first,
 		return s;
 	}
 
+	fprintf(stderr, "error: cannot pronounce \"%s\" ... no matching rule for '%c' found.\n",
+	        std::string(first, last).c_str(),
+	        *current);
+	fprintf(stderr, "                         %*c\n", (current - first + 1), '^');
+
 	return ++current;
 }
 
