@@ -153,7 +153,7 @@ void tts::ruleset::add_rule(const std::shared_ptr<buffer> &aLeft,
 	mRules[*aMatch->begin()].push_back({ aLeft, aMatch, aRight, aPhonemes });
 }
 
-std::shared_ptr<cainteoir::buffer> tts::ruleset::pronounce(const std::shared_ptr<cainteoir::buffer> &aText)
+std::shared_ptr<cainteoir::buffer> tts::ruleset::pronounce(const std::shared_ptr<cainteoir::buffer> &aText) const
 {
 	char phonemes[512];
 	char *out = phonemes;
