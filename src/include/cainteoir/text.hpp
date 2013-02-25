@@ -33,10 +33,10 @@ namespace cainteoir { namespace tts
 {
 	struct rule_t
 	{
-		const char *left;
-		const char *match;
-		const char *right;
-		const char *phonemes;
+		const std::shared_ptr<buffer> left;
+		const std::shared_ptr<buffer> match;
+		const std::shared_ptr<buffer> right;
+		const std::shared_ptr<buffer> phonemes;
 	};
 
 	std::shared_ptr<cainteoir::buffer> letter_to_phoneme(const std::shared_ptr<cainteoir::buffer> &aText);
