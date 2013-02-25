@@ -33,12 +33,14 @@ enum mode_type
 {
 	from_document,
 	list_entries,
+	pronounce_entries,
 };
 
 static struct option options[] =
 {
-	{ "list", no_argument, 0, 'l' },
-	{ "time", no_argument, 0, 't' },
+	{ "list",      no_argument, 0, 'l' },
+	{ "pronounce", no_argument, 0, 'p' },
+	{ "time",      no_argument, 0, 't' },
 	{ 0, 0, 0, 0 }
 };
 
@@ -77,7 +79,7 @@ int main(int argc, char ** argv)
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "lt", options, &option_index);
+			int c = getopt_long(argc, argv, "lpt", options, &option_index);
 			if (c == -1)
 				break;
 
@@ -85,6 +87,9 @@ int main(int argc, char ** argv)
 			{
 			case 'l':
 				mode = list_entries;
+				break;
+			case 'p':
+				mode = pronounce_entries;
 				break;
 			case 't':
 				time = true;
@@ -129,6 +134,29 @@ int main(int argc, char ** argv)
 					}
 				}
 			}
+		}
+		else if (mode == pronounce_entries)
+		{
+			tts::dictionary dict;
+			if (!dict.add_entries(cainteoir::path(argv[0])))
+			{
+				fprintf(stderr, "cannot load dictionary file \"%s\"\n", argv[0]);
+				return 0;
+			}
+
+			tts::ruleset rules = tts::en_rules();
+
+			cainteoir::stopwatch timer;
+			for (auto &entry : dict)
+			{
+				auto s = cainteoir::make_buffer(entry.first.c_str(), entry.first.size());
+				fprintf(stdout, "\"%s\" => /%s/ [ipa]\n",
+				        entry.first.c_str(),
+				        rules.pronounce(s)->str().c_str());
+			}
+
+			if (time)
+				printf("time:    %G\n", timer.elapsed());
 		}
 		else if (mode == from_document)
 		{
