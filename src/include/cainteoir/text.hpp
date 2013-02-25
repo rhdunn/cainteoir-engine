@@ -31,6 +31,16 @@
 
 namespace cainteoir { namespace tts
 {
+	struct rule_t
+	{
+		const char *left;
+		const char *match;
+		const char *right;
+		const char *phonemes;
+	};
+
+	std::shared_ptr<cainteoir::buffer> letter_to_phoneme(const std::shared_ptr<cainteoir::buffer> &aText);
+
 	struct dictionary
 	{
 		enum entry_type
