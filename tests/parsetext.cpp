@@ -155,7 +155,7 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		if (argc != 1)
+		if (argc == 0)
 			throw std::runtime_error("no document specified");
 
 		rdf::graph metadata;
@@ -173,7 +173,10 @@ int main(int argc, char ** argv)
 		}
 		else if (type == ARG_PHONEMESTREAM)
 		{
-			tts::phoneme_stream text(reader, locale, scale, tts::en_rules());
+			if (argc != 2)
+				throw std::runtime_error("no exception dictionary provided");
+
+			tts::phoneme_stream text(reader, locale, scale, tts::en_rules(), cainteoir::path(argv[1]));
 			generate_events(text);
 		}
 		else

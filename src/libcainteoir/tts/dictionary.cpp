@@ -105,7 +105,7 @@ void tts::dictionary::add_entries(const path &aBasePath,
 
 const tts::dictionary::entry &tts::dictionary::lookup(const std::string &aEntry) const
 {
-	static const entry no_match = { say_as, ucd::Zzzz, {} };
+	static const entry no_match = { tts::dictionary::no_match, ucd::Zzzz, {} };
 	const auto &match = mEntries.find(aEntry);
 	return (match == mEntries.end()) ? no_match : match->second;
 }

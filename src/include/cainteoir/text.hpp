@@ -60,6 +60,7 @@ namespace cainteoir { namespace tts
 	{
 		enum entry_type
 		{
+			no_match,
 			say_as,
 			phonemes,
 		};
@@ -82,6 +83,11 @@ namespace cainteoir { namespace tts
 		               const std::shared_ptr<buffer> &aDefinition);
 
 		const entry &lookup(const std::string &aEntry) const;
+
+		const entry &lookup(const std::shared_ptr<buffer> &aEntry) const
+		{
+			return lookup(aEntry->str());
+		}
 
 		std::size_t size() const { return mEntries.size(); }
 
@@ -205,7 +211,7 @@ namespace cainteoir { namespace tts
 		bool read();
 	private:
 		text_reader mReader;
-		tts::dictionary mCardinals;
+		dictionary mCardinals;
 		std::queue<text_event> mEntries;
 	};
 
@@ -215,15 +221,19 @@ namespace cainteoir { namespace tts
 		phoneme_stream(const std::shared_ptr<document_reader> &aReader,
 		               const language::tag &aLocale,
 		               word_stream::number_scale aScale,
-		               const ruleset &aRules);
+		               const ruleset &aRules,
+		               const path &aExceptionDictionaryPath);
 
 		const text_event &event() const { return mEvent; }
 
 		bool read();
 	private:
+		void pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange);
+
 		word_stream mReader;
 		text_event mEvent;
 		ruleset mRules;
+		dictionary mExceptionDictionary;
 	};
 }}
 

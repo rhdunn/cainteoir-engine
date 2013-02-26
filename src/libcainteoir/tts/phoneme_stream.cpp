@@ -28,10 +28,13 @@ namespace tts = cainteoir::tts;
 tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aReader,
                                     const language::tag &aLocale,
                                     tts::word_stream::number_scale aScale,
-                                    const ruleset &aRules)
+                                    const ruleset &aRules,
+                                    const path &aExceptionDictionaryPath)
 	: mReader(aReader, aLocale, aScale)
 	, mRules(aRules)
 {
+	if (!mExceptionDictionary.add_entries(aExceptionDictionaryPath))
+		fprintf(stderr, "unable to load exception dictionary: %s\n", (const char *)aExceptionDictionaryPath);
 }
 
 bool tts::phoneme_stream::read()
@@ -46,7 +49,7 @@ bool tts::phoneme_stream::read()
 	case tts::word_capitalized:
 	case tts::word_mixedcase:
 	case tts::word_script:
-		mEvent = { mRules.pronounce(e.text), tts::phonemes, e.range, 0 };
+		pronounce(e.text, e.range);
 		break;
 	case tts::comma:
 		mEvent = { {}, tts::pause, e.range, 50 };
@@ -69,4 +72,21 @@ bool tts::phoneme_stream::read()
 	};
 
 	return true;
+}
+
+void tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange)
+{
+	auto entry = mExceptionDictionary.lookup(aText);
+	switch (entry.type)
+	{
+	case dictionary::no_match:
+		mEvent = { mRules.pronounce(aText), tts::phonemes, aRange, 0 };
+		break;
+	case dictionary::phonemes:
+		mEvent = { entry.text, tts::phonemes, aRange, 0 };
+		break;
+	case dictionary::say_as:
+		pronounce(entry.text, aRange);
+		break;
+	}
 }
