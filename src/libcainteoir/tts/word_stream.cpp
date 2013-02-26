@@ -134,58 +134,62 @@ static tts::event_type punctuation_type(ucd::codepoint_t cp)
 	return tts::punctuation;
 }
 
-static const std::vector<std::string> groups =
+#define _(x) std::make_shared<cainteoir::buffer>(x)
+
+static const std::vector<std::shared_ptr<cainteoir::buffer>> groups =
 {
-	"_10^3",
-	"_10^6",
-	"_10^9",
-	"_10^12",
-	"_10^15",
-	"_10^18",
-	"_10^21",
-	"_10^24",
-	"_10^27",
-	"_10^30",
+	_("_10^3"),
+	_("_10^6"),
+	_("_10^9"),
+	_("_10^12"),
+	_("_10^15"),
+	_("_10^18"),
+	_("_10^21"),
+	_("_10^24"),
+	_("_10^27"),
+	_("_10^30"),
 };
 
-static const std::vector<std::string> ties =
+static const std::vector<std::shared_ptr<cainteoir::buffer>> ties =
 {
-	"_2x",
-	"_3x",
-	"_4x",
-	"_5x",
-	"_6x",
-	"_7x",
-	"_8x",
-	"_9x",
+	_("_2x"),
+	_("_3x"),
+	_("_4x"),
+	_("_5x"),
+	_("_6x"),
+	_("_7x"),
+	_("_8x"),
+	_("_9x"),
 };
 
-static const std::vector<std::string> single_digits =
+static const std::vector<std::shared_ptr<cainteoir::buffer>> single_digits =
 {
-	"0",
-	"1",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-	"9",
-	"10",
-	"11",
-	"12",
-	"13",
-	"14",
-	"15",
-	"16",
-	"17",
-	"18",
-	"19",
+	_("0"),
+	_("1"),
+	_("2"),
+	_("3"),
+	_("4"),
+	_("5"),
+	_("6"),
+	_("7"),
+	_("8"),
+	_("9"),
+	_("10"),
+	_("11"),
+	_("12"),
+	_("13"),
+	_("14"),
+	_("15"),
+	_("16"),
+	_("17"),
+	_("18"),
+	_("19"),
 };
 
-static const std::string hundred              = "_10^2";
-static const std::string tens_units_separator = "_andDD";
+static const std::shared_ptr<cainteoir::buffer> hundred              = _("_10^2");
+static const std::shared_ptr<cainteoir::buffer> tens_units_separator = _("_andDD");
+
+#undef _
 
 struct number_block
 {
@@ -228,7 +232,7 @@ static std::stack<number_block> parse_number(const tts::text_event &number, uint
 
 static void push_word_(std::queue<tts::text_event> &events,
                        const tts::dictionary &words,
-                       const std::string &entry,
+                       const std::shared_ptr<cainteoir::buffer> &entry,
                        cainteoir::range<uint32_t> range)
 {
 	auto word = words.lookup(entry);

@@ -72,22 +72,32 @@ namespace cainteoir { namespace tts
 			std::shared_ptr<buffer> text;
 		};
 
-		typedef std::unordered_map<std::string, entry> storage_type;
+		typedef std::shared_ptr<buffer> key_type;
+
+		struct key_hash : public std::unary_function<key_type, std::size_t>
+		{
+			std::size_t operator()(const key_type &a) const;
+		};
+
+		struct key_equals : public std::binary_function<key_type, key_type, bool>
+		{
+			bool operator()(const key_type &a, const key_type &b) const
+			{
+				return a->compare(*b) == 0;
+			}
+		};
+
+		typedef std::unordered_map<key_type, entry, key_hash, key_equals> storage_type;
 		typedef storage_type::const_iterator const_iterator;
 
 		bool add_entries(const path &aDictionaryPath);
 
-		void add_entry(const std::string &aEntry,
+		void add_entry(const key_type &aEntry,
 		               entry_type aType,
 		               ucd::script aScript,
 		               const std::shared_ptr<buffer> &aDefinition);
 
-		const entry &lookup(const std::string &aEntry) const;
-
-		const entry &lookup(const std::shared_ptr<buffer> &aEntry) const
-		{
-			return lookup(aEntry->str());
-		}
+		const entry &lookup(const key_type &aEntry) const;
 
 		std::size_t size() const { return mEntries.size(); }
 
@@ -97,7 +107,7 @@ namespace cainteoir { namespace tts
 		void add_entries(const path &aBasePath,
 		                 const std::shared_ptr<buffer> &aDictionary);
 
-		std::unordered_map<std::string, entry> mEntries;
+		storage_type mEntries;
 	};
 
 	enum event_type

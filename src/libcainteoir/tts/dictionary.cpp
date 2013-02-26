@@ -27,6 +27,15 @@
 
 namespace tts = cainteoir::tts;
 
+std::size_t tts::dictionary::key_hash::operator()(const key_type &a) const
+{
+	// DJB2 Hash Algorithm by Dan Bernstein:
+	std::size_t hash = 5381;
+	for (auto c : *a)
+		hash = ((hash << 5) + hash) + c;
+        return hash;
+}
+
 bool tts::dictionary::add_entries(const path &aDictionaryPath)
 {
 	try
@@ -40,7 +49,7 @@ bool tts::dictionary::add_entries(const path &aDictionaryPath)
 	return true;
 }
 
-void tts::dictionary::add_entry(const std::string &aEntry,
+void tts::dictionary::add_entry(const key_type &aEntry,
                                 entry_type aType,
                                 ucd::script aScript,
                                 const std::shared_ptr<buffer> &aDefinition)
@@ -75,10 +84,10 @@ void tts::dictionary::add_entries(const path &aBasePath,
 		while (current != last && (*current == '\r' || *current == '\n'))
 			++current;
 
-		std::string entry(begin_entry, end_entry);
+		auto entry = make_buffer(begin_entry, end_entry - begin_entry);
 		if (*begin_entry == '.')
 		{
-			if (entry == ".import")
+			if (entry->compare(".import") == 0)
 			{
 				std::string definition(begin_definition, end_definition);
 				if (!add_entries(aBasePath / definition))
@@ -103,7 +112,7 @@ void tts::dictionary::add_entries(const path &aBasePath,
 	}
 }
 
-const tts::dictionary::entry &tts::dictionary::lookup(const std::string &aEntry) const
+const tts::dictionary::entry &tts::dictionary::lookup(const key_type &aEntry) const
 {
 	static const entry no_match = { tts::dictionary::no_match, ucd::Zzzz, {} };
 	const auto &match = mEntries.find(aEntry);
