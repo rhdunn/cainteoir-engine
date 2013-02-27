@@ -54,8 +54,6 @@ namespace cainteoir { namespace tts
 		std::list<rule_t> mRules[256];
 	};
 
-	ruleset en_rules();
-
 	struct dictionary
 	{
 		enum entry_type
@@ -231,7 +229,7 @@ namespace cainteoir { namespace tts
 		phoneme_stream(const std::shared_ptr<document_reader> &aReader,
 		               const language::tag &aLocale,
 		               word_stream::number_scale aScale,
-		               const ruleset &aRules,
+		               const path &aRuleSetPath,
 		               const path &aExceptionDictionaryPath);
 
 		const text_event &event() const { return mEvent; }

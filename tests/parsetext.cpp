@@ -173,10 +173,10 @@ int main(int argc, char ** argv)
 		}
 		else if (type == ARG_PHONEMESTREAM)
 		{
-			if (argc != 2)
-				throw std::runtime_error("no exception dictionary provided");
+			if (argc != 3)
+				throw std::runtime_error("usage: parsetext --phonemestream <document> <ruleset> <dictionary>");
 
-			tts::phoneme_stream text(reader, locale, scale, tts::en_rules(), cainteoir::path(argv[1]));
+			tts::phoneme_stream text(reader, locale, scale, cainteoir::path(argv[1]), cainteoir::path(argv[2]));
 			generate_events(text);
 		}
 		else
