@@ -236,7 +236,7 @@ static void push_word_(std::queue<tts::text_event> &events,
                        cainteoir::range<uint32_t> range)
 {
 	auto word = words.lookup(entry);
-	if (word.script == ucd::Zzzz)
+	if (word.type != tts::dictionary::say_as)
 		return;
 
 	events.push(tts::text_event(word.text, tts::word_lowercase, word.script, range, 0));
