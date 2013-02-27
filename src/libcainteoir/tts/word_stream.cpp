@@ -188,6 +188,7 @@ static const std::vector<std::shared_ptr<cainteoir::buffer>> single_digits =
 
 static const std::shared_ptr<cainteoir::buffer> hundred              = _("_10^2");
 static const std::shared_ptr<cainteoir::buffer> tens_units_separator = _("_andDD");
+static const std::shared_ptr<cainteoir::buffer> units_tens_separator = _("_DandDD");
 
 #undef _
 
@@ -247,8 +248,9 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
                                   const tts::dictionary &words)
 {
 	std::stack<number_block> blocks = parse_number(number, groups.size());
-	bool need_zero  = true;
-	bool need_and   = false;
+	bool swap_tens_units = words.lookup(units_tens_separator).type == tts::dictionary::say_as;
+	bool need_zero = true;
+	bool need_and = false;
 	while (!blocks.empty())
 	{
 		#define push_word(w) push_word_(events, words, w, number.range)
@@ -279,12 +281,27 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 
 		if (item.value >= 20)
 		{
-			push_word(ties[(item.value - 20) / 10]);
-			item.value %= 10;
+			int tens   = (item.value - 20) / 10;
+			int digits = item.value % 10;
 			need_zero = false;
-		}
 
-		if (item.value == 0)
+			if (digits == 0)
+				push_word(ties[tens]);
+			else if (swap_tens_units)
+			{
+				// e.g. drei und vierzig (three and fourty) in German
+				push_word(single_digits[digits]);
+				push_word(units_tens_separator);
+				push_word(ties[tens]);
+			}
+			else
+			{
+				// e.g. fourty three in English
+				push_word(ties[tens]);
+				push_word(single_digits[digits]);
+			}
+		}
+		else if (item.value == 0)
 		{
 			if (item.rank == 0 && need_zero)
 				push_word(single_digits[item.value]);

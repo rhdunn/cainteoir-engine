@@ -12,6 +12,7 @@ endif
 syn match	dictSpecialEntry	"_[0-9]x"		contained
 syn match	dictSpecialEntry	"_10\^[0-9]*"		contained
 syn match	dictSpecialEntry	"_andDD"		contained
+syn match	dictSpecialEntry	"_DandDD"		contained
 
 syn match	dictDirective		"\.[a-z]*"		contained
 
