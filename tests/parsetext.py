@@ -76,6 +76,8 @@ if __name__ == '__main__':
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-GB-x-lngscale.ws', 'locale': 'en-GB', 'scale': 'long'},
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-x-shtscale.ws', 'locale': 'en-US', 'scale': 'short'},
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-x-shtscale.ws', 'locale': 'en', 'scale': 'short'},
+			# nl -- Dutch/Flemish
+			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/nl.ws', 'locale': 'nl', 'scale': 'short', 'expect': 'pass'},
 		]},
 	]})
 	test.summary()

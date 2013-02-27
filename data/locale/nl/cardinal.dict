@@ -1,0 +1,48 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Rules for pronouncing cardinal numbers in Dutch.
+
+0		null
+1		een
+2		twee
+3		drie
+4		vier
+5		vijf
+6		zes
+7		zeven
+8		acht
+9		negen
+10		tien
+11		elf
+12		twaalf
+13		dertien
+14		veertien
+15		vijftien
+16		zestien
+17		zeventien
+18		achttien
+19		negentien
+
+_DandDD		en
+
+_2x		twintig
+_3x		dertig
+_4x		veertig
+_5x		vijftig
+_6x		zestig
+_7x		zeventig
+_8x		tachtig
+_9x		negentig
+
+_10^2		honderd
+_10^3		duizend
+_10^6		miljoen
+_10^9		miljard
+_10^12		biljoen
+_10^15		biljard
+_10^18		triljoen
+_10^21		triljard
+_10^24		quadriljoen
+_10^27		quadriljard
+_10^30		quintiljoen
