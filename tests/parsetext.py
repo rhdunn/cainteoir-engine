@@ -69,6 +69,8 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.ws'},
 		]},
 		{'name': 'Cardinal Numbers', 'type': 'wordstream', 'replace': ['locale', 'scale'], 'tests': [
+			# af -- Afrikaans
+			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/nl.ws', 'locale': 'nl', 'scale': 'short'},
 			# de -- German
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/de.ws', 'locale': 'de', 'scale': 'short', 'expect': 'fail'},
 			# en -- English
@@ -77,7 +79,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-x-shtscale.ws', 'locale': 'en-US', 'scale': 'short'},
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-x-shtscale.ws', 'locale': 'en', 'scale': 'short'},
 			# nl -- Dutch/Flemish
-			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/nl.ws', 'locale': 'nl', 'scale': 'short', 'expect': 'pass'},
+			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/nl.ws', 'locale': 'nl', 'scale': 'short'},
 		]},
 	]})
 	test.summary()

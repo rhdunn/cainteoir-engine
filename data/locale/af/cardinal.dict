@@ -1,0 +1,48 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Rules for pronouncing cardinal numbers in Afrikaans.
+
+0		nul
+1		een
+2		twee
+3		drie
+4		vier
+5		vyf
+6		ses
+7		sewe
+8		agt
+9		nege
+10		tien
+11		elf
+12		twaalf
+13		dertien
+14		veertien
+15		vyftien
+16		sestien
+17		sewentien
+18		agttien
+19		negentien
+
+_DandDD		en
+
+_2x		twintig
+_3x		dertig
+_4x		veertig
+_5x		vyftig
+_6x		sestig
+_7x		sewentig
+_8x		tagtig
+_9x		neëntig
+
+_10^2		honderd
+_10^3		duisend
+_10^6		miljoen
+_10^9		miljard
+_10^12		biljoen
+_10^15		biljard
+_10^18		triljoen
+_10^21		triljard
+_10^24		quadriljoen
+_10^27		quadriljard
+_10^30		quintiljoen
