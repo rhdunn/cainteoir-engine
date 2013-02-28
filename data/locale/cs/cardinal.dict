@@ -1,0 +1,46 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Rules for pronouncing cardinal numbers in Czech.
+
+0		nula
+1		jeden
+2		dva
+3		tři
+4		čtyři
+5		pět
+6		šest
+7		sedm
+8		osm
+9		devět
+10		deset
+11		jedenáct
+12		dvanáct
+13		třináct
+14		čtrnáct
+15		patnáct
+16		šestnáct
+17		sedmnáct
+18		osmnáct
+19		devatenáct
+
+_2x		dvacet
+_3x		třicet
+_4x		čtyřicet
+_5x		padesát
+_6x		šedesát
+_7x		sedmdesát
+_8x		osmdesát
+_9x		devadesát
+
+_10^2		sto
+_10^3		tisíc
+_10^6		milión
+_10^9		miliarda
+_10^12		bilión
+_10^15		biliarda
+_10^18		trilión
+_10^21		triliarda
+_10^24		quadrilión
+_10^27		quadriliarda
+_10^30		quintilión
