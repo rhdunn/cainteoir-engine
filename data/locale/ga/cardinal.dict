@@ -1,0 +1,46 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Rules for pronouncing cardinal numbers in Irish Gaelic.
+
+0		náid
+1		aon
+2		dó
+3		trí
+4		ceathair
+5		cúig
+6		sé
+7		seacht
+8		ocht
+9		naoi
+10		deich
+11		aon déag
+12		dó dhéag
+13		trí déag
+14		ceathair déag
+15		cúig déag
+16		sé déag
+17		seacht déag
+18		ocht déag
+19		naoi déag
+
+_2x		fiche
+_3x		tríocha
+_4x		ceathracha
+_5x		caoga
+_6x		seasca
+_7x		seachtó
+_8x		ochtó
+_9x		nócha
+
+_10^2		céad
+_10^3		míle
+_10^6		milliún
+_10^9		míle milliún
+_10^12		billiún
+_10^15		míle billiún
+_10^18		trilliún
+_10^21		míle trilliún
+_10^24		quadrilliún
+_10^27		míle quadrilliún
+_10^30		quintilliún

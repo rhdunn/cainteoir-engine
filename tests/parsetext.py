@@ -80,6 +80,8 @@ if __name__ == '__main__':
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-GB-x-lngscale.ws', 'locale': 'en-GB', 'scale': 'long'},
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-x-shtscale.ws', 'locale': 'en-US', 'scale': 'short'},
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/en-x-shtscale.ws', 'locale': 'en', 'scale': 'short'},
+			# ga -- Irish Gaelic
+			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/ga.ws', 'locale': 'ga', 'scale': 'short', 'expect': 'fail'},
 			# hr -- Croatian
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/hr.ws', 'locale': 'hr', 'scale': 'short'},
 			# nl -- Dutch/Flemish
