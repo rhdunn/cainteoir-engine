@@ -1,0 +1,37 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Rules for pronouncing cardinal numbers in Slovenian.
+
+0		nič
+1		ena
+2		dva
+3		tri
+4		štiri
+5		pet
+6		šest
+7		sedem
+8		osem
+9		devet
+10		deset
+11		enajst
+12		dvanajst
+13		trinajst
+14		štirinajst
+15		petnajst
+16		šesnajst
+17		sedamajst
+18		osamnajst
+19		devetnajst
+
+_2x		dvajset
+_3x		trideset
+_4x		štirideset
+_5x		petdeset
+_6x		šestdeset
+_7x		sedemdeset
+_8x		osemdeset
+_9x		devetdeset
+
+_10^2		sto
+_10^3		tisoč

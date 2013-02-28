@@ -86,6 +86,8 @@ if __name__ == '__main__':
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/hr.ws', 'locale': 'hr', 'scale': 'short'},
 			# nl -- Dutch/Flemish
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/nl.ws', 'locale': 'nl', 'scale': 'short'},
+			# sl -- Slovenian
+			{'test': 'parse-text/cardinal-numbers/numbers-1000.txt', 'result': 'parse-text/cardinal-numbers/sl.ws', 'locale': 'sl', 'scale': 'short'},
 		]},
 	]})
 	test.summary()
