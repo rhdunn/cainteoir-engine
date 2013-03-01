@@ -55,7 +55,7 @@ class TestSuite:
 				filename,
 				tmpfile))
 		else:
-			os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s "%s" > %s' % (
+			os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s "%s" 2>&1 | tee > %s' % (
 				os.path.join(sys.path[0], '../data'),
 				os.path.join(sys.path[0], '../data'),
 				command,

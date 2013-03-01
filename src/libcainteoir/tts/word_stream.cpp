@@ -258,6 +258,22 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 		auto item = blocks.top();
 		blocks.pop();
 
+		bool have_rank = item.rank == 0 ||
+		                 words.lookup(groups[item.rank - 1]).type == tts::dictionary::say_as;
+
+		if (!have_rank)
+		{
+			fflush(stdout);
+			fprintf(stderr, "language does not support 10^%d numbers ... speaking digits instead\n", item.rank * 3);
+			fflush(stderr);
+
+			for (char c : *number.text)
+			{
+				push_word(single_digits[c - '0']);
+			}
+			return;
+		}
+
 		bool need_group = item.value != 0;
 
 		if (item.value >= 100)
