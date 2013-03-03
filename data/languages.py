@@ -172,13 +172,15 @@ for name, tag in sorted(tags.items()):
 	except KeyError:
 		pass
 
-for rel, a, b in read_data('languages-extra.dat'):
-	if rel == 'h': # ISO 639-5 Hierarchy
-		tags[a]['Classification'] = b
-	elif rel == 'c':
-		tags[a]['LanguageCollection'] = b
-	elif rel == 'a':
-		tags[a]['Ancestor'] = b
+for filename in os.listdir('languages'):
+	if filename.endswith('.dat'):
+		for rel, a, b in read_data(os.path.join('languages', filename)):
+			if rel == 'h': # ISO 639-5 Hierarchy
+				tags[a]['Classification'] = b
+			elif rel == 'c':
+				tags[a]['LanguageCollection'] = b
+			elif rel == 'a':
+				tags[a]['Ancestor'] = b
 
 # generate RDF metadata for the language data
 
