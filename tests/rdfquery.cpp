@@ -269,7 +269,7 @@ TEST_CASE("performance")
 	auto reader = cainteoir::createDocumentReader("data/languages.rdf.gz", data, std::string());
 
 	printf("... ... load time: %G\n", load_time.elapsed());
-	assert(data.size() == 35621);
+	assert(data.size() == 36855);
 
 	// Select Performance
 
