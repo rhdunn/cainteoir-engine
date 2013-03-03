@@ -243,23 +243,25 @@ static void push_word_(std::queue<tts::text_event> &events,
 	events.push(tts::text_event(word.text, tts::word_lowercase, word.script, range, 0));
 }
 
-static void parse_cardinal_number(std::queue<tts::text_event> &events,
-                                  const tts::text_event &number,
-                                  const tts::dictionary &words)
+static void parse_number(std::queue<tts::text_event> &events,
+                         const tts::text_event &number,
+                         const tts::dictionary &cardinals,
+                         const tts::dictionary &ordinals)
 {
 	std::stack<number_block> blocks = parse_number(number, groups.size());
-	bool swap_tens_units = words.lookup(units_tens_separator).type == tts::dictionary::say_as;
+	bool swap_tens_units = cardinals.lookup(units_tens_separator).type == tts::dictionary::say_as;
 	bool need_zero = true;
 	bool need_and = false;
 	while (!blocks.empty())
 	{
-		#define push_word(w) push_word_(events, words, w, number.range)
+		#define push_cardinal(w) push_word_(events, cardinals, w, number.range)
+		#define push_ordinal(w)  push_word_(events, ordinals,  w, number.range)
 
 		auto item = blocks.top();
 		blocks.pop();
 
 		bool have_rank = item.rank == 0 ||
-		                 words.lookup(groups[item.rank - 1]).type == tts::dictionary::say_as;
+		                 cardinals.lookup(groups[item.rank - 1]).type == tts::dictionary::say_as;
 
 		if (!have_rank)
 		{
@@ -269,7 +271,7 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 
 			for (char c : *number.text)
 			{
-				push_word(single_digits[c - '0']);
+				push_cardinal(single_digits[c - '0']);
 			}
 			return;
 		}
@@ -278,20 +280,28 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 
 		if (item.value >= 100)
 		{
-			push_word(single_digits[item.value / 100]);
-			push_word(hundred);
+			int hundreds = item.value / 100;
 			item.value %= 100;
 			need_zero = false;
 			need_and  = false;
 
-			if (item.value != 0)
-				push_word(tens_units_separator);
+			if (item.value == 0)
+			{
+				push_cardinal(single_digits[hundreds]);
+				push_ordinal(hundred);
+			}
+			else
+			{
+				push_cardinal(single_digits[hundreds]);
+				push_cardinal(hundred);
+				push_cardinal(tens_units_separator);
+			}
 		}
 
 		if (need_and && item.rank == 0)
 		{
 			if (item.value != 0)
-				push_word(tens_units_separator);
+				push_cardinal(tens_units_separator);
 			need_and = false;
 		}
 
@@ -302,39 +312,43 @@ static void parse_cardinal_number(std::queue<tts::text_event> &events,
 			need_zero = false;
 
 			if (digits == 0)
-				push_word(ties[tens]);
+				push_ordinal(ties[tens]);
 			else if (swap_tens_units)
 			{
 				// e.g. drei und vierzig (three and fourty) in German
-				push_word(single_digits[digits]);
-				push_word(units_tens_separator);
-				push_word(ties[tens]);
+				push_cardinal(single_digits[digits]);
+				push_cardinal(units_tens_separator);
+				push_cardinal(ties[tens]);
 			}
 			else
 			{
 				// e.g. fourty three in English
-				push_word(ties[tens]);
-				push_word(single_digits[digits]);
+				push_cardinal(ties[tens]);
+				push_ordinal(single_digits[digits]);
 			}
 		}
 		else if (item.value == 0)
 		{
 			if (item.rank == 0 && need_zero)
-				push_word(single_digits[item.value]);
+				push_ordinal(single_digits[item.value]);
 		}
 		else
 		{
-			push_word(single_digits[item.value]);
+			if (item.rank == 0)
+				push_ordinal(single_digits[item.value]);
+			else
+				push_cardinal(single_digits[item.value]);
 			need_zero = false;
 		}
 
 		if (item.rank > 0 && need_group)
 		{
-			push_word(groups[item.rank - 1]);
+			push_cardinal(groups[item.rank - 1]);
 			need_and = true;
 		}
 
-		#undef push_word
+		#undef push_cardinal
+		#undef push_ordinal
 	}
 }
 
@@ -347,6 +361,7 @@ static const std::string number_scale_str[] =
 enum class clause_state
 {
 	start,        // sequence of words
+	number,       // number (maybe an ordinal number)
 	clause_break, // sequence of punctuation
 	end,          // next event is a word
 };
@@ -357,10 +372,14 @@ tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader,
 	: mReader(aReader)
 {
 	auto locale_path = get_data_path() / "locale";
+
 	if (!mCardinals.add_entries(locale_path / (aLocale.lang + '-' + aLocale.region) / "cardinal.dict"));
 		mCardinals.add_entries(locale_path / aLocale.lang / "cardinal.dict");
-
 	mCardinals.add_entries(locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "cardinal.dict");
+
+	if (!mOrdinals.add_entries(locale_path / (aLocale.lang + '-' + aLocale.region) / "ordinal.dict"));
+		mOrdinals.add_entries(locale_path / aLocale.lang / "ordinal.dict");
+	mOrdinals.add_entries(locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "ordinal.dict");
 
 	mHaveEvent = mReader.read();
 }
@@ -377,7 +396,10 @@ bool tts::word_stream::read()
 			switch (event.type)
 			{
 			case tts::number:
-				parse_cardinal_number(mEntries, event, mCardinals);
+				parse_number(mEntries, event, mCardinals, mCardinals);
+				break;
+			case tts::ordinal_number:
+				parse_number(mEntries, event, mCardinals, mOrdinals);
 				break;
 			default:
 				mEntries.push(event);
@@ -413,8 +435,11 @@ bool tts::word_stream::read_clause()
 			case tts::word_capitalized:
 			case tts::word_mixedcase:
 			case tts::word_script:
+				mClause.push(event);
+				break;
 			case tts::number:
 				mClause.push(event);
+				state = clause_state::number;
 				break;
 			case tts::punctuation:
 			case tts::symbol:
@@ -422,6 +447,39 @@ bool tts::word_stream::read_clause()
 				state = clause_state::clause_break;
 				continue;
 			};
+			break;
+		case clause_state::number:
+			switch (event.type)
+			{
+			case tts::word_uppercase:
+			case tts::word_lowercase:
+			case tts::word_capitalized:
+			case tts::word_mixedcase:
+				{
+					if (event.text->compare("st") == 0 ||
+					    event.text->compare("nd") == 0 ||
+					    event.text->compare("rd") == 0 ||
+					    event.text->compare("th") == 0)
+					{
+						auto &n = mClause.back();
+						n.type = tts::ordinal_number;
+						n.range = { n.range.begin(), event.range.end() };
+					}
+					else
+						mClause.push(event);
+					state = clause_state::start;
+				}
+				break;
+			case tts::punctuation:
+			case tts::symbol:
+			case tts::paragraph:
+				state = clause_state::clause_break;
+				continue;
+			default:
+				mClause.push(event);
+				state = clause_state::start;
+				break;
+			}
 			break;
 		case clause_state::clause_break:
 			switch (event.type)

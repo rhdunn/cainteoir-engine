@@ -89,5 +89,10 @@ if __name__ == '__main__':
 			# sl -- Slovenian
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/sl.ws', 'locale': 'sl', 'scale': 'short'},
 		]},
+		{'name': 'Ordinal Numbers', 'type': 'wordstream', 'replace': ['locale', 'scale'], 'tests': [
+			# en -- English
+			{'test': 'parse-text/ordinal-numbers/numbers.txt', 'result': 'parse-text/ordinal-numbers/en-GB-x-shtscale.ws', 'locale': 'en-GB', 'scale': 'short'},
+			{'test': 'parse-text/ordinal-numbers/numbers.txt', 'result': 'parse-text/ordinal-numbers/en-x-shtscale.ws', 'locale': 'en', 'scale': 'short'},
+		]},
 	]})
 	test.summary()

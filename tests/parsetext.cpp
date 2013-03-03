@@ -60,6 +60,7 @@ static const char *token_name[] = {
 	"mixed",
 	"script",
 	"number",
+	"ordinal",
 	"punctuation",
 	"comma",
 	"semicolon",

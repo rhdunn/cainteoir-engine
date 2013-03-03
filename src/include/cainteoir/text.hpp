@@ -117,6 +117,7 @@ namespace cainteoir { namespace tts
 		word_mixedcase,
 		word_script,
 		number,
+		ordinal_number,
 		punctuation,
 		comma,
 		semicolon,
@@ -222,9 +223,11 @@ namespace cainteoir { namespace tts
 
 		bool mHaveEvent;
 		text_reader mReader;
-		dictionary mCardinals;
 		std::queue<text_event> mEntries;
 		std::queue<text_event> mClause;
+
+		dictionary mCardinals;
+		dictionary mOrdinals;
 	};
 
 	struct phoneme_stream
