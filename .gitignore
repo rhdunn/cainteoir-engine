@@ -15,6 +15,7 @@
 
 data/css
 data/languages.dat
+data/supplementalData.xml
 data/languages.dot
 data/*.svg
 src/libcainteoir/parsers/html-entities.dat

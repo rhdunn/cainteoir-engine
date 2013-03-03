@@ -182,6 +182,25 @@ for filename in os.listdir('languages'):
 			elif rel == 'a':
 				tags[a]['Ancestor'] = b
 
+# Language <=> Script mapping
+
+datasrc='http://unicode.org/repos/cldr/trunk/common/supplemental/supplementalData.xml'
+path='supplementalData.xml'
+if not os.path.exists(path):
+	print 'downloading file "%s" to "%s" ...' % (datasrc, path)
+	os.system('wget -O %s %s' % (path, datasrc))
+
+doc = minidom.parse(path).documentElement
+for tag in doc.getElementsByTagName('language'):
+	lang    = attr(tag, 'type')
+	scripts = attr(tag, 'scripts')
+	if lang and scripts:
+		tags[lang]['HasScript'] = scripts.split()
+		for script in scripts.split():
+			if not 'IsScriptOf' in tags[script].keys():
+				tags[script]['IsScriptOf'] = []
+			tags[script]['IsScriptOf'].append(lang)
+
 # generate RDF metadata for the language data
 
 tagnames = {
@@ -189,6 +208,8 @@ tagnames = {
 	'Comments':        ('string:en', 'dct:description'),
 	'Deprecated':      ('date',      'iana:deprecated'),
 	'Description':     ('string:en', 'dct:title'),
+	'HasScript':       ('resources', 'iana:hasScript'),       # => iana:Script
+	'IsScriptOf':      ('resources', 'iana:isScriptOf'),      # => iana:Language
 	'Macrolanguage':   ('resource',  'iana:macrolanguage'),   # => iana:MacroLanguage
 	'Prefix':          ('string',    'iana:prefix'),          # => Language Tag
 	'Preferred-Value': ('resource',  'iana:preferred-value'), # => subtag
@@ -220,6 +241,9 @@ with open('languages.rdf', 'w') as f:
 					f.write('	<%s xml:lang="en">%s</%s>\n' % (ref, value, ref))
 				elif reftype in ['resource']:
 					f.write('	<%s rdf:resource="%s%s"/>\n' % (ref, subtag_uri, value))
+				elif reftype in ['resources']:
+					for v in value:
+						f.write('	<%s rdf:resource="%s%s"/>\n' % (ref, subtag_uri, v))
 		f.write('</iana:%s>\n' % tag['Type'])
 	f.write('</rdf:RDF>\n')
 
