@@ -344,6 +344,13 @@ static const std::string number_scale_str[] =
 	"x-lngscale",
 };
 
+enum class clause_state
+{
+	start,        // sequence of words
+	clause_break, // sequence of punctuation
+	end,          // next event is a word
+};
+
 tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader,
                               const language::tag &aLocale,
                               number_scale aScale)
@@ -354,39 +361,29 @@ tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader,
 		mCardinals.add_entries(locale_path / aLocale.lang / "cardinal.dict");
 
 	mCardinals.add_entries(locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "cardinal.dict");
+
+	mHaveEvent = mReader.read();
 }
 
 bool tts::word_stream::read()
 {
 	if (mEntries.empty())
 	{
-		while (mEntries.empty() && mReader.read())
+		if (!read_clause()) return false;
+
+		while (!mClause.empty())
 		{
-			auto &event = mReader.event();
+			auto &event = mClause.front();
 			switch (event.type)
 			{
-			case tts::word_uppercase:
-			case tts::word_lowercase:
-			case tts::word_capitalized:
-			case tts::word_mixedcase:
-			case tts::word_script:
-				mEntries.push(event);
-				break;
-			case tts::paragraph:
-				mEntries.push(event);
-				break;
 			case tts::number:
 				parse_cardinal_number(mEntries, event, mCardinals);
 				break;
-			case tts::punctuation:
-			case tts::symbol:
-				{
-					tts::event_type type = punctuation_type(event.codepoint);
-					if (type != tts::punctuation)
-						mEntries.push({ event.text, type, event.script, event.range, event.codepoint });
-				}
+			default:
+				mEntries.push(event);
 				break;
 			}
+			mClause.pop();
 		}
 
 		// Don't pop the first matching item:
@@ -398,4 +395,60 @@ bool tts::word_stream::read()
 		return read();
 
 	return true;
+}
+
+bool tts::word_stream::read_clause()
+{
+	clause_state state = clause_state::start;
+	while (mHaveEvent && state != clause_state::end)
+	{
+		auto &event = mReader.event();
+		switch (state)
+		{
+		case clause_state::start:
+			switch (event.type)
+			{
+			case tts::word_uppercase:
+			case tts::word_lowercase:
+			case tts::word_capitalized:
+			case tts::word_mixedcase:
+			case tts::word_script:
+			case tts::number:
+				mClause.push(event);
+				break;
+			case tts::punctuation:
+			case tts::symbol:
+			case tts::paragraph:
+				state = clause_state::clause_break;
+				continue;
+			};
+			break;
+		case clause_state::clause_break:
+			switch (event.type)
+			{
+			case tts::word_uppercase:
+			case tts::word_lowercase:
+			case tts::word_capitalized:
+			case tts::word_mixedcase:
+			case tts::word_script:
+			case tts::number:
+				state = mClause.empty() ? clause_state::start : clause_state::end;
+				continue;
+			case tts::punctuation:
+			case tts::symbol:
+				{
+					tts::event_type type = punctuation_type(event.codepoint);
+					if (type != tts::punctuation)
+						mClause.push({ event.text, type, event.script, event.range, event.codepoint });
+				}
+				break;
+			case tts::paragraph:
+				mClause.push(event);
+				break;
+			};
+			break;
+		}
+		mHaveEvent = mReader.read();
+	}
+	return !mClause.empty();
 }

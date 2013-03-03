@@ -218,9 +218,13 @@ namespace cainteoir { namespace tts
 
 		bool read();
 	private:
+		bool read_clause();
+
+		bool mHaveEvent;
 		text_reader mReader;
 		dictionary mCardinals;
 		std::queue<text_event> mEntries;
+		std::queue<text_event> mClause;
 	};
 
 	struct phoneme_stream
