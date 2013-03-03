@@ -270,7 +270,7 @@ if __name__ == '__main__':
 		'groups': [
 			{'name': 'with-content', 'type': 'events', 'tests': [
 				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
-				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
+				{'test': 'epub/missing-html-file.opf', 'result': 'epub/missing.events'},
 			]},
 		]
 	})
@@ -286,7 +286,7 @@ if __name__ == '__main__':
 		'groups': [
 			{'name': 'mimetype with extra content at the end', 'type': 'events', 'tests': [
 				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
-				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
+				{'test': 'epub/missing-html-file.opf', 'result': 'epub/missing.events'},
 			]},
 		]
 	})
@@ -304,7 +304,7 @@ if __name__ == '__main__':
 		'groups': [
 			{'name': 'mimetype at end', 'type': 'events', 'tests': [
 				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
-				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
+				{'test': 'epub/missing-html-file.opf', 'result': 'epub/missing.events'},
 			]},
 		]
 	})
