@@ -399,7 +399,10 @@ bool tts::word_stream::read()
 				parse_number(mEntries, event, mCardinals, mCardinals);
 				break;
 			case tts::ordinal_number:
-				parse_number(mEntries, event, mCardinals, mOrdinals);
+				if (!mOrdinals.empty())
+					parse_number(mEntries, event, mCardinals, mOrdinals);
+				else
+					parse_number(mEntries, event, mCardinals, mCardinals);
 				break;
 			default:
 				mEntries.push(event);

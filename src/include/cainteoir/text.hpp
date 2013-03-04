@@ -97,7 +97,8 @@ namespace cainteoir { namespace tts
 
 		const entry &lookup(const key_type &aEntry) const;
 
-		std::size_t size() const { return mEntries.size(); }
+		std::size_t size()  const { return mEntries.size();  }
+		bool        empty() const { return mEntries.empty(); }
 
 		const_iterator begin() const { return mEntries.begin(); }
 		const_iterator end()   const { return mEntries.end();   }
