@@ -44,31 +44,6 @@ static struct option options[] =
 	{ 0, 0, 0, 0 }
 };
 
-struct test_results
-{
-	uint32_t    words;
-	std::size_t index_size;
-};
-
-test_results parse_words(const std::shared_ptr<cainteoir::document_reader> &reader)
-{
-	uint32_t words = 0;
-	tts::dictionary dict;
-	tts::text_reader text(reader);
-	while (text.read()) switch (text.event().type)
-	{
-	case tts::word_uppercase:
-	case tts::word_lowercase:
-	case tts::word_capitalized:
-	case tts::word_mixedcase:
-	case tts::word_script:
-		dict.add_entry(text.event().text, tts::dictionary::say_as, ucd::Zzzz, text.event().text);
-		++words;
-		break;
-	}
-	return { words, dict.size() };
-}
-
 int main(int argc, char ** argv)
 {
 	try
@@ -167,21 +142,40 @@ int main(int argc, char ** argv)
 		}
 		else if (mode == from_document)
 		{
-			if (argc != 1)
+			if (argc == 0)
 				throw std::runtime_error("no document specified");
 
 			rdf::graph metadata;
-			auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
-			if (!reader)
+			uint32_t words = 0;
+			tts::dictionary dict;
+			cainteoir::stopwatch timer;
+			for (int i = 0; i < argc; ++i)
 			{
-				fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
-				return 0;
+				auto reader = cainteoir::createDocumentReader(argv[i], metadata, std::string());
+				if (!reader)
+					fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[i]);
+
+				fprintf(stdout, "reading %s\n", argv[i]);
+
+				tts::text_reader text(reader);
+				while (text.read()) switch (text.event().type)
+				{
+				case tts::word_uppercase:
+				case tts::word_lowercase:
+				case tts::word_capitalized:
+				case tts::word_mixedcase:
+				case tts::word_script:
+					dict.add_entry(text.event().text,
+					               tts::dictionary::say_as,
+					               ucd::Zzzz,
+					               text.event().text);
+					++words;
+					break;
+				}
 			}
 
-			cainteoir::stopwatch timer;
-			test_results results = parse_words(reader);
-			printf("words:   %d\n", results.words);
-			printf("indexed: %d\n", results.index_size);
+			printf("words:   %d\n", words);
+			printf("indexed: %d\n", dict.size());
 
 			if (time)
 				printf("time:    %G\n", timer.elapsed());
