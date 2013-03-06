@@ -125,6 +125,7 @@ namespace cainteoir { namespace tts
 		colon,
 		ellipsis,
 		full_stop,
+		double_stop,
 		exclamation,
 		question,
 		symbol,

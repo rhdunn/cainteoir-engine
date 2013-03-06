@@ -133,6 +133,61 @@ static tts::event_type punctuation_type(ucd::codepoint_t cp)
 	return tts::punctuation;
 }
 
+struct full_stop_sequence
+{
+	full_stop_sequence()
+	{
+		begin = end = count = 0;
+	}
+
+	void add(const cainteoir::range<uint32_t> &aRange);
+
+	void flush(std::queue<tts::text_event> &aClause);
+private:
+	uint32_t begin;
+	uint32_t end;
+	uint32_t count;
+};
+
+void full_stop_sequence::add(const cainteoir::range<uint32_t> &aRange)
+{
+	if (begin == 0)
+	{
+		begin = aRange.begin();
+		end   = aRange.end();
+		count = 1;
+	}
+	else
+	{
+		end = aRange.end();
+		++count;
+	}
+}
+
+void full_stop_sequence::flush(std::queue<tts::text_event> &aClause)
+{
+	if (count == 0) return;
+
+	#define _(x) std::make_shared<cainteoir::buffer>(x)
+
+	switch (count)
+	{
+	case 1:
+		aClause.push({ _("."), tts::full_stop, ucd::Zyyy, { begin, end }, '.' });
+		break;
+	case 2:
+		aClause.push({ _(".."), tts::double_stop, ucd::Zyyy, { begin, end }, '.' });
+		break;
+	default:
+		aClause.push({ _("..."), tts::ellipsis, ucd::Zyyy, { begin, end }, '.' });
+		break;
+	}
+
+	#undef _
+
+	begin = end = count = 0;
+}
+
 enum class clause_state
 {
 	start,        // sequence of words
@@ -167,6 +222,8 @@ bool tts::context_analysis::read()
 bool tts::context_analysis::read_clause()
 {
 	clause_state state = clause_state::start;
+	full_stop_sequence fullstops;
+
 	while (mHaveEvent && state != clause_state::end)
 	{
 		auto &event = mReader.event();
@@ -235,6 +292,7 @@ bool tts::context_analysis::read_clause()
 			case tts::word_mixedcase:
 			case tts::word_script:
 			case tts::number:
+				fullstops.flush(mClause);
 				state = mClause.empty() ? clause_state::start : clause_state::end;
 				continue;
 			case tts::punctuation:
@@ -242,10 +300,21 @@ bool tts::context_analysis::read_clause()
 				{
 					tts::event_type type = punctuation_type(event.codepoint);
 					if (type != tts::punctuation)
-						mClause.push({ event.text, type, event.script, event.range, event.codepoint });
+					{
+						if (event.codepoint == '.')
+						{
+							fullstops.add(event.range);
+						}
+						else
+						{
+							fullstops.flush(mClause);
+							mClause.push({ event.text, type, event.script, event.range, event.codepoint });
+						}
+					}
 				}
 				break;
 			case tts::paragraph:
+				fullstops.flush(mClause);
 				mClause.push(event);
 				break;
 			};
@@ -253,5 +322,6 @@ bool tts::context_analysis::read_clause()
 		}
 		mHaveEvent = mReader.read();
 	}
+	fullstops.flush(mClause);
 	return !mClause.empty();
 }
