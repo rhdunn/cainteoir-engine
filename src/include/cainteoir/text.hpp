@@ -203,6 +203,22 @@ namespace cainteoir { namespace tts
 		uint8_t mState;
 	};
 
+	struct context_analysis
+	{
+	public:
+		context_analysis(const std::shared_ptr<document_reader> &aReader);
+
+		const text_event &event() const { return mClause.front(); }
+
+		bool read();
+	private:
+		bool read_clause();
+
+		bool mHaveEvent;
+		text_reader mReader;
+		std::queue<text_event> mClause;
+	};
+
 	struct word_stream
 	{
 	public:
@@ -220,12 +236,8 @@ namespace cainteoir { namespace tts
 
 		bool read();
 	private:
-		bool read_clause();
-
-		bool mHaveEvent;
-		text_reader mReader;
+		context_analysis mReader;
 		std::queue<text_event> mEntries;
-		std::queue<text_event> mClause;
 
 		dictionary mCardinals;
 		dictionary mOrdinals;

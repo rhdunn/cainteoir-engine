@@ -46,6 +46,32 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.pt'},
 		]},
 	]})
+	test.run({'name': 'Context Analysis', 'groups': [
+		{'name': 'Latin', 'type': 'contextanalysis', 'tests': [
+			{'test': 'parse-text/latin/words.txt', 'result': 'parse-text/latin/words.ca'},
+			{'test': 'parse-text/latin/numbers.txt', 'result': 'parse-text/latin/numbers.pt'},
+			{'test': 'parse-text/latin/punctuation.txt', 'result': 'parse-text/latin/punctuation.ca'},
+			{'test': 'parse-text/latin/quotes.txt', 'result': 'parse-text/latin/quotes.ca'},
+			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.ca'},
+			{'test': 'parse-text/latin/paragraph.txt', 'result': 'parse-text/latin/paragraph.ca'},
+			{'test': 'parse-text/latin/match-limit.txt', 'result': 'parse-text/latin/match-limit.pt'},
+			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/numbers.ca'},
+			{'test': 'parse-text/ordinal-numbers/numbers.txt', 'result': 'parse-text/ordinal-numbers/numbers.ca'},
+		]},
+		{'name': 'Japanese', 'type': 'contextanalysis', 'tests': [
+			{'test': 'parse-text/japanese/words.txt', 'result': 'parse-text/japanese/words.pt'},
+			{'test': 'parse-text/japanese/mixed-script.txt', 'result': 'parse-text/japanese/mixed-script.ca'},
+		]},
+		{'name': 'HTML', 'type': 'contextanalysis', 'tests': [
+			{'test': 'parse-text/html/block-first-empty.html', 'result': 'parse-text/html/block-first-empty.ca'},
+			{'test': 'parse-text/html/block-nested.html', 'result': 'parse-text/html/block-nested.pt'},
+			{'test': 'parse-text/html/paragraph.html', 'result': 'parse-text/html/paragraph.ca'},
+			{'test': 'parse-text/html/paragraph-singleword.html', 'result': 'parse-text/html/paragraph-singleword.pt'},
+			{'test': 'parse-text/html/msword.html', 'result': 'parse-text/html/msword.ca'},
+			{'test': 'parse-text/html/split-word.html', 'result': 'parse-text/html/split-word.pt'},
+			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.ca'},
+		]},
+	]})
 	test.run({'name': 'Word Stream', 'groups': [
 		{'name': 'Latin', 'type': 'wordstream', 'tests': [
 			{'test': 'parse-text/latin/words.txt', 'result': 'parse-text/latin/words.ws'},

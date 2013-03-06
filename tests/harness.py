@@ -139,7 +139,7 @@ class TestSuite:
 				check = lambda got, exp, expect, displayas, replacements: self.check_xmlreader(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'styles':
 				check = lambda got, exp, expect, displayas, replacements: self.check_styles(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] in ['parsetext', 'wordstream']:
+			elif group['type'] in ['parsetext', 'contextanalysis', 'wordstream']:
 				check = lambda got, exp, expect, displayas, replacements: self.check_parsetext(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'dictionary':
 				check = lambda got, exp, expect, displayas, replacements: self.check_dictionary(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)

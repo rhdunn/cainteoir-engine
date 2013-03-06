@@ -34,21 +34,23 @@ namespace lang = cainteoir::language;
 
 enum
 {
-	ARG_PARSETEXT     = 301,
-	ARG_WORDSTREAM    = 302,
-	ARG_PHONEMESTREAM = 303,
-	ARG_SHORTSCALE    = 401,
-	ARG_LONGSCALE     = 402,
+	ARG_PARSETEXT       = 301,
+	ARG_WORDSTREAM      = 302,
+	ARG_PHONEMESTREAM   = 303,
+	ARG_CONTEXTANALYSIS = 304,
+	ARG_SHORTSCALE      = 401,
+	ARG_LONGSCALE       = 402,
 };
 
 static struct option options[] =
 {
-	{ "locale",        required_argument, 0, 'l' },
-	{ "parsetext",     no_argument,       0, ARG_PARSETEXT },
-	{ "wordstream",    no_argument,       0, ARG_WORDSTREAM },
-	{ "phonemestream", no_argument,       0, ARG_PHONEMESTREAM },
-	{ "short-scale",   no_argument,       0, ARG_SHORTSCALE },
-	{ "long-scale",    no_argument,       0, ARG_LONGSCALE },
+	{ "locale",          required_argument, 0, 'l' },
+	{ "parsetext",       no_argument,       0, ARG_PARSETEXT },
+	{ "wordstream",      no_argument,       0, ARG_WORDSTREAM },
+	{ "phonemestream",   no_argument,       0, ARG_PHONEMESTREAM },
+	{ "contextanalysis", no_argument,       0, ARG_CONTEXTANALYSIS },
+	{ "short-scale",     no_argument,       0, ARG_SHORTSCALE },
+	{ "long-scale",      no_argument,       0, ARG_LONGSCALE },
 	{ 0, 0, 0, 0 }
 };
 
@@ -142,6 +144,7 @@ int main(int argc, char ** argv)
 			case ARG_PARSETEXT:
 			case ARG_WORDSTREAM:
 			case ARG_PHONEMESTREAM:
+			case ARG_CONTEXTANALYSIS:
 				type = c;
 				break;
 			case ARG_SHORTSCALE:
@@ -178,6 +181,11 @@ int main(int argc, char ** argv)
 				throw std::runtime_error("usage: parsetext --phonemestream <document> <ruleset> <dictionary>");
 
 			tts::phoneme_stream text(reader, locale, scale, cainteoir::path(argv[1]), cainteoir::path(argv[2]));
+			generate_events(text);
+		}
+		else if (type == ARG_CONTEXTANALYSIS)
+		{
+			tts::context_analysis text(reader);
 			generate_events(text);
 		}
 		else

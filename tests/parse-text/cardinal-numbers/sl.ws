@@ -1,25 +1,3 @@
-language does not support 10^6 numbers ... speaking digits instead
-language does not support 10^6 numbers ... speaking digits instead
-language does not support 10^6 numbers ... speaking digits instead
-language does not support 10^6 numbers ... speaking digits instead
-language does not support 10^6 numbers ... speaking digits instead
-language does not support 10^6 numbers ... speaking digits instead
-language does not support 10^9 numbers ... speaking digits instead
-language does not support 10^9 numbers ... speaking digits instead
-language does not support 10^12 numbers ... speaking digits instead
-language does not support 10^12 numbers ... speaking digits instead
-language does not support 10^15 numbers ... speaking digits instead
-language does not support 10^15 numbers ... speaking digits instead
-language does not support 10^18 numbers ... speaking digits instead
-language does not support 10^18 numbers ... speaking digits instead
-language does not support 10^21 numbers ... speaking digits instead
-language does not support 10^21 numbers ... speaking digits instead
-language does not support 10^24 numbers ... speaking digits instead
-language does not support 10^24 numbers ... speaking digits instead
-language does not support 10^27 numbers ... speaking digits instead
-language does not support 10^27 numbers ... speaking digits instead
-language does not support 10^30 numbers ... speaking digits instead
-language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [0..1] nič
 .Latn.lower    [2..3] ena
 .Latn.lower    [4..5] dva
@@ -159,6 +137,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [240..246] tri
 .Latn.lower    [240..246] sto
 .Latn.lower    [240..246] dva
+language does not support 10^6 numbers ... speaking digits instead
 .Latn.lower    [248..255] ena
 .Latn.lower    [248..255] nič
 .Latn.lower    [248..255] nič
@@ -166,6 +145,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [248..255] nič
 .Latn.lower    [248..255] nič
 .Latn.lower    [248..255] nič
+language does not support 10^6 numbers ... speaking digits instead
 .Latn.lower    [256..263] tri
 .Latn.lower    [256..263] nič
 .Latn.lower    [256..263] nič
@@ -173,6 +153,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [256..263] nič
 .Latn.lower    [256..263] nič
 .Latn.lower    [256..263] nič
+language does not support 10^6 numbers ... speaking digits instead
 .Latn.lower    [264..271] štiri
 .Latn.lower    [264..271] nič
 .Latn.lower    [264..271] pet
@@ -180,6 +161,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [264..271] nič
 .Latn.lower    [264..271] nič
 .Latn.lower    [264..271] nič
+language does not support 10^6 numbers ... speaking digits instead
 .Latn.lower    [272..279] šest
 .Latn.lower    [272..279] ena
 .Latn.lower    [272..279] ena
@@ -187,6 +169,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [272..279] nič
 .Latn.lower    [272..279] nič
 .Latn.lower    [272..279] osem
+language does not support 10^6 numbers ... speaking digits instead
 .Latn.lower    [281..289] tri
 .Latn.lower    [281..289] tri
 .Latn.lower    [281..289] nič
@@ -195,6 +178,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [281..289] nič
 .Latn.lower    [281..289] nič
 .Latn.lower    [281..289] nič
+language does not support 10^6 numbers ... speaking digits instead
 .Latn.lower    [291..300] sedem
 .Latn.lower    [291..300] nič
 .Latn.lower    [291..300] pet
@@ -204,6 +188,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [291..300] nič
 .Latn.lower    [291..300] nič
 .Latn.lower    [291..300] nič
+language does not support 10^9 numbers ... speaking digits instead
 .Latn.lower    [302..312] ena
 .Latn.lower    [302..312] nič
 .Latn.lower    [302..312] nič
@@ -214,6 +199,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [302..312] nič
 .Latn.lower    [302..312] nič
 .Latn.lower    [302..312] nič
+language does not support 10^9 numbers ... speaking digits instead
 .Latn.lower    [313..323] dva
 .Latn.lower    [313..323] nič
 .Latn.lower    [313..323] nič
@@ -224,6 +210,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [313..323] nič
 .Latn.lower    [313..323] nič
 .Latn.lower    [313..323] nič
+language does not support 10^12 numbers ... speaking digits instead
 .Latn.lower    [325..338] ena
 .Latn.lower    [325..338] nič
 .Latn.lower    [325..338] nič
@@ -237,6 +224,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [325..338] nič
 .Latn.lower    [325..338] nič
 .Latn.lower    [325..338] nič
+language does not support 10^12 numbers ... speaking digits instead
 .Latn.lower    [339..352] pet
 .Latn.lower    [339..352] nič
 .Latn.lower    [339..352] nič
@@ -250,6 +238,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [339..352] nič
 .Latn.lower    [339..352] nič
 .Latn.lower    [339..352] nič
+language does not support 10^15 numbers ... speaking digits instead
 .Latn.lower    [354..370] ena
 .Latn.lower    [354..370] nič
 .Latn.lower    [354..370] nič
@@ -266,6 +255,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [354..370] nič
 .Latn.lower    [354..370] nič
 .Latn.lower    [354..370] nič
+language does not support 10^15 numbers ... speaking digits instead
 .Latn.lower    [371..387] tri
 .Latn.lower    [371..387] nič
 .Latn.lower    [371..387] nič
@@ -282,6 +272,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [371..387] nič
 .Latn.lower    [371..387] nič
 .Latn.lower    [371..387] nič
+language does not support 10^18 numbers ... speaking digits instead
 .Latn.lower    [389..408] ena
 .Latn.lower    [389..408] nič
 .Latn.lower    [389..408] nič
@@ -301,6 +292,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [389..408] nič
 .Latn.lower    [389..408] nič
 .Latn.lower    [389..408] nič
+language does not support 10^18 numbers ... speaking digits instead
 .Latn.lower    [409..428] tri
 .Latn.lower    [409..428] nič
 .Latn.lower    [409..428] nič
@@ -320,6 +312,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [409..428] nič
 .Latn.lower    [409..428] nič
 .Latn.lower    [409..428] nič
+language does not support 10^21 numbers ... speaking digits instead
 .Latn.lower    [430..452] ena
 .Latn.lower    [430..452] nič
 .Latn.lower    [430..452] nič
@@ -342,6 +335,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [430..452] nič
 .Latn.lower    [430..452] nič
 .Latn.lower    [430..452] nič
+language does not support 10^21 numbers ... speaking digits instead
 .Latn.lower    [453..475] devet
 .Latn.lower    [453..475] nič
 .Latn.lower    [453..475] nič
@@ -364,6 +358,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [453..475] nič
 .Latn.lower    [453..475] nič
 .Latn.lower    [453..475] nič
+language does not support 10^24 numbers ... speaking digits instead
 .Latn.lower    [477..502] ena
 .Latn.lower    [477..502] nič
 .Latn.lower    [477..502] nič
@@ -389,6 +384,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [477..502] nič
 .Latn.lower    [477..502] nič
 .Latn.lower    [477..502] nič
+language does not support 10^24 numbers ... speaking digits instead
 .Latn.lower    [503..528] štiri
 .Latn.lower    [503..528] nič
 .Latn.lower    [503..528] nič
@@ -414,6 +410,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [503..528] nič
 .Latn.lower    [503..528] nič
 .Latn.lower    [503..528] nič
+language does not support 10^27 numbers ... speaking digits instead
 .Latn.lower    [530..558] ena
 .Latn.lower    [530..558] nič
 .Latn.lower    [530..558] nič
@@ -442,6 +439,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [530..558] nič
 .Latn.lower    [530..558] nič
 .Latn.lower    [530..558] nič
+language does not support 10^27 numbers ... speaking digits instead
 .Latn.lower    [559..587] šest
 .Latn.lower    [559..587] nič
 .Latn.lower    [559..587] nič
@@ -470,6 +468,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [559..587] nič
 .Latn.lower    [559..587] nič
 .Latn.lower    [559..587] nič
+language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [589..620] ena
 .Latn.lower    [589..620] nič
 .Latn.lower    [589..620] nič
@@ -501,6 +500,7 @@ language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [589..620] nič
 .Latn.lower    [589..620] nič
 .Latn.lower    [589..620] nič
+language does not support 10^30 numbers ... speaking digits instead
 .Latn.lower    [621..652] osem
 .Latn.lower    [621..652] nič
 .Latn.lower    [621..652] nič
