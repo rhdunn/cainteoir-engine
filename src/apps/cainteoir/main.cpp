@@ -518,7 +518,7 @@ int main(int argc, char ** argv)
 		}
 
 		cainteoir::document::range_type selection = doc.selection();
-		std::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(doc.m_doc, out, selection.first, selection.second);
+		std::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(out, selection.first, selection.second);
 		while (speech->is_speaking())
 		{
 			if (show_progress)

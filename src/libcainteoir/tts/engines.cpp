@@ -42,7 +42,6 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 {
 	tts::engine *engine;
 	std::shared_ptr<cainteoir::audio> audio;
-	std::shared_ptr<cainteoir::document> doc;
 
 	cainteoir::document::const_iterator mFrom;
 	cainteoir::document::const_iterator mTo;
@@ -66,7 +65,6 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 
 	speech_impl(tts::engine *aEngine,
 	            std::shared_ptr<cainteoir::audio> aAudio,
-	            const std::shared_ptr<cainteoir::document> &aDoc,
 	            cainteoir::document::const_iterator aFrom,
 	            cainteoir::document::const_iterator aTo,
 	            std::shared_ptr<tts::parameter> aRate);
@@ -160,13 +158,11 @@ static void * speak_tts_thread(void *data)
 
 speech_impl::speech_impl(tts::engine *aEngine,
                          std::shared_ptr<cainteoir::audio> aAudio,
-                         const std::shared_ptr<cainteoir::document> &aDoc,
                          cainteoir::document::const_iterator aFrom,
                          cainteoir::document::const_iterator aTo,
                          std::shared_ptr<tts::parameter> aRate)
 	: engine(aEngine)
 	, audio(aAudio)
-	, doc(aDoc)
 	, speechState(cainteoir::tts::speaking)
 	, speakingPos(0)
 	, speakingLen(0)
@@ -336,12 +332,11 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 }
 
 std::shared_ptr<tts::speech>
-tts::engines::speak(const std::shared_ptr<cainteoir::document> &doc,
-                    std::shared_ptr<audio> out,
+tts::engines::speak(std::shared_ptr<audio> out,
                     cainteoir::document::const_iterator from,
                     cainteoir::document::const_iterator to)
 {
-	return std::make_shared<speech_impl>(active, out, doc, from, to, parameter(tts::parameter::rate));
+	return std::make_shared<speech_impl>(active, out, from, to, parameter(tts::parameter::rate));
 }
 
 std::shared_ptr<tts::parameter>

@@ -86,8 +86,7 @@ namespace cainteoir { namespace tts
 		const rdf::uri & voice() const { return *selectedVoice; }
 
 		std::shared_ptr<speech>
-		speak(const std::shared_ptr<document> &doc,
-		      std::shared_ptr<audio> out,
+		speak(std::shared_ptr<audio> out,
 		      cainteoir::document::const_iterator from,
 		      cainteoir::document::const_iterator to);
 
