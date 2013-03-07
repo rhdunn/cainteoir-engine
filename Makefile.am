@@ -237,6 +237,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/i18n.h \
 	src/compatibility.h \
 	\
+	src/libcainteoir/document.cpp \
 	src/libcainteoir/encoding.cpp \
 	src/libcainteoir/languages.cpp \
 	src/libcainteoir/mimetype_database.hpp \

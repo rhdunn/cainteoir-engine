@@ -1,6 +1,6 @@
 /* Document Parser API.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -60,50 +60,14 @@ namespace cainteoir
 
 		document() : mLength(0) {}
 
-		void clear()
-		{
-			mLength = 0;
-			mChildren.clear();
-			mAnchors.clear();
-		}
+		void clear();
 
 		size_t text_length() const { return mLength; }
 
-		void add(const document_item &aItem)
-		{
-			mChildren.push_back(aItem);
-			if (aItem.type & cainteoir::events::anchor)
-				mAnchors[aItem.anchor.str()] = mChildren.size();
-			if (aItem.type & cainteoir::events::text)
-				mLength += aItem.text->size();
-		}
+		void add(const document_item &aItem);
 
-		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const
-		{
-			size_t from = anchor(aAnchors.first);
-			size_t to   = anchor(aAnchors.second);
-
-			if (from == size_t(-1)) from = 0;
-			if (from > to) std::swap(from, to);
-
-			return range_type(get_child(from), get_child(to));
-		}
+		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const;
 	private:
-		size_t anchor(const rdf::uri &aAnchor) const
-		{
-			auto at = mAnchors.find(aAnchor.str());
-			return (at == mAnchors.end()) ? size_t(-1) : at->second;
-		}
-
-		const_iterator get_child(size_t index) const
-		{
-			if (index == size_t(-1)) return mChildren.end();
-
-			const_iterator pos = mChildren.begin();
-			std::advance(pos, index);
-			return pos;
-		}
-
 		size_t mLength;
 		list_type mChildren;
 		std::map<std::string, size_t> mAnchors;
