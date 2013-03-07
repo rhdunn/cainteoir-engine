@@ -51,6 +51,7 @@ static struct option options[] =
 	{ "contextanalysis", no_argument,       0, ARG_CONTEXTANALYSIS },
 	{ "short-scale",     no_argument,       0, ARG_SHORTSCALE },
 	{ "long-scale",      no_argument,       0, ARG_LONGSCALE },
+	{ "document-object", no_argument,       0, 'd' },
 	{ 0, 0, 0, 0 }
 };
 
@@ -122,6 +123,38 @@ void generate_events(Reader &text)
 	}
 }
 
+void parse_text(std::shared_ptr<cainteoir::document_reader> reader,
+                int type,
+                const lang::tag &locale,
+                tts::word_stream::number_scale scale,
+                int argc,
+                char **argv)
+{
+	if (type == ARG_WORDSTREAM)
+	{
+		tts::word_stream text(reader, locale, scale);
+		generate_events(text);
+	}
+	else if (type == ARG_PHONEMESTREAM)
+	{
+		if (argc != 3)
+			throw std::runtime_error("usage: parsetext --phonemestream <document> <ruleset> <dictionary>");
+
+		tts::phoneme_stream text(reader, locale, scale, cainteoir::path(argv[1]), cainteoir::path(argv[2]));
+		generate_events(text);
+	}
+	else if (type == ARG_CONTEXTANALYSIS)
+	{
+		tts::context_analysis text(reader);
+		generate_events(text);
+	}
+	else
+	{
+		tts::text_reader text(reader);
+		generate_events(text);
+	}
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -129,16 +162,20 @@ int main(int argc, char ** argv)
 		lang::tag locale = { "en" };
 		int type = ARG_PARSETEXT;
 		tts::word_stream::number_scale scale = tts::word_stream::short_scale;
+		bool document_object = false;
 
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "l:", options, &option_index);
+			int c = getopt_long(argc, argv, "dl:", options, &option_index);
 			if (c == -1)
 				break;
 
 			switch (c)
 			{
+			case 'd':
+				document_object = true;
+				break;
 			case 'l':
 				locale = lang::make_lang(optarg);
 				break;
@@ -171,29 +208,18 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
-		if (type == ARG_WORDSTREAM)
+		if (document_object)
 		{
-			tts::word_stream text(reader, locale, scale);
-			generate_events(text);
-		}
-		else if (type == ARG_PHONEMESTREAM)
-		{
-			if (argc != 3)
-				throw std::runtime_error("usage: parsetext --phonemestream <document> <ruleset> <dictionary>");
+			cainteoir::document doc;
+			while (reader->read())
+				doc.add(*reader);
 
-			tts::phoneme_stream text(reader, locale, scale, cainteoir::path(argv[1]), cainteoir::path(argv[2]));
-			generate_events(text);
-		}
-		else if (type == ARG_CONTEXTANALYSIS)
-		{
-			tts::context_analysis text(reader);
-			generate_events(text);
+			std::pair<rdf::uri, rdf::uri> range = { rdf::uri(), rdf::uri() };
+			auto docreader = cainteoir::createDocumentReader(doc.children(range));
+			parse_text(docreader, type, locale, scale, argc, argv);
 		}
 		else
-		{
-			tts::text_reader text(reader);
-			generate_events(text);
-		}
+			parse_text(reader, type, locale, scale, argc, argv);
 	}
 	catch (std::runtime_error &e)
 	{

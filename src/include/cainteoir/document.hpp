@@ -100,6 +100,9 @@ namespace cainteoir
 	                     rdf::graph &aPrimaryMetadata,
 	                     const std::string &aTitle = std::string(),
 	                     const char *aDefaultEncoding = "windows-1252");
+
+	std::shared_ptr<document_reader>
+	createDocumentReader(const document::range_type &aDocumentRange);
 }
 
 #endif

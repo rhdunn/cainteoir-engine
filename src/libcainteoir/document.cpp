@@ -69,3 +69,33 @@ cainteoir::document::children(const std::pair<const rdf::uri, const rdf::uri> &a
 
 	return range_type(get_child(mChildren, from), get_child(mChildren, to));
 }
+
+struct document_range : public cainteoir::document_reader
+{
+	document_range(const cainteoir::document::range_type &aDocumentRange)
+		: mCurrent(aDocumentRange.first)
+		, mLast(aDocumentRange.second)
+	{
+	}
+
+	bool read();
+
+	cainteoir::document::const_iterator mCurrent;
+	cainteoir::document::const_iterator mLast;
+};
+
+bool document_range::read()
+{
+	if (mCurrent == mLast) return false;
+
+	*((document_item *)this) = *mCurrent;
+	++mCurrent;
+
+	return true;
+}
+
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createDocumentReader(const document::range_type &aDocumentRange)
+{
+	return std::make_shared<document_range>(aDocumentRange);
+}
