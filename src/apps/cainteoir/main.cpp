@@ -1,6 +1,6 @@
 /* Cainteoir Command-Line Application.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -211,13 +211,12 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 	return nullptr;
 }
 
-struct document
+struct document : public cainteoir::document
 {
 	document(const rdf::uri &aSubject, actions aAction, int aFrom, int aTo)
 		: tts(m_metadata)
 		, subject(aSubject)
 		, voiceSelected(false)
-		, m_doc(new cainteoir::document())
 		, action(aAction)
 		, toc_number(1)
 		, fromIndex(aFrom)
@@ -258,12 +257,11 @@ struct document
 
 	cainteoir::document::range_type selection() const
 	{
-		return m_doc->children(std::make_pair(from, to));
+		return children(std::make_pair(from, to));
 	}
 
 	const rdf::uri subject;
 	rdf::graph m_metadata;
-	std::shared_ptr<cainteoir::document> m_doc;
 	cainteoir::tts::engines tts;
 	bool voiceSelected;
 	actions action;
@@ -419,7 +417,7 @@ int main(int argc, char ** argv)
 		{
 			if (reader->type & cainteoir::events::toc_entry)
 				doc.toc_entry(reader->styles->aria_level, reader->anchor, reader->text->str());
-			doc.m_doc->add(*reader);
+			doc.add(*reader);
 		}
 
 		if (action == show_contents)
