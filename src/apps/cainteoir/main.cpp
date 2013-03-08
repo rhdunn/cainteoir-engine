@@ -211,31 +211,6 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 	return nullptr;
 }
 
-struct document : public cainteoir::document
-{
-	document()
-		: tts(m_metadata)
-		, voiceSelected(false)
-	{
-		cainteoir::supportedDocumentFormats(m_metadata, cainteoir::text_support);
-		cainteoir::supportedAudioFormats(m_metadata);
-	}
-
-	void select_voice(const rdf::uri &predicate, const std::string &value)
-	{
-		if (voiceSelected)
-			return;
-
-		const rdf::uri *voice = ::select_voice(m_metadata, predicate, value);
-		if (voice)
-			voiceSelected = tts.select_voice(m_metadata, *voice);
-	}
-
-	rdf::graph m_metadata;
-	cainteoir::tts::engines tts;
-	bool voiceSelected;
-};
-
 int main(int argc, char ** argv)
 {
 	setlocale(LC_MESSAGES, "");
@@ -320,7 +295,12 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		document doc;
+		rdf::graph metadata;
+		cainteoir::supportedDocumentFormats(metadata, cainteoir::text_support);
+		cainteoir::supportedAudioFormats(metadata);
+
+		cainteoir::tts::engines tts(metadata);
+
 		if (action == show_metadata)
 		{
 			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
@@ -347,34 +327,40 @@ int main(int argc, char ** argv)
 				<< rdf::tts
 				<< rdf::iana
 				<< rdf::subtag
-				<< doc.m_metadata;
+				<< metadata;
 			return 0;
 		}
 		else if (action == show_help)
 		{
-			help(doc.m_metadata);
+			help(metadata);
 			return 0;
 		}
 
 		if (voicename)
-			doc.select_voice(rdf::tts("name"), voicename);
+		{
+			const rdf::uri *ref = select_voice(metadata, rdf::tts("name"), voicename);
+			tts.select_voice(metadata, *ref);
+		}
+		else if (language)
+		{
+			const rdf::uri *ref = select_voice(metadata, rdf::dc("language"), language);
+			tts.select_voice(metadata, *ref);
+		}
 
-		if (language)
-			doc.select_voice(rdf::dc("language"), language);
-
-		if (speed  != INT_MAX) doc.tts.parameter(tts::parameter::rate)->set_value(speed);
-		if (pitch  != INT_MAX) doc.tts.parameter(tts::parameter::pitch)->set_value(pitch);
-		if (range  != INT_MAX) doc.tts.parameter(tts::parameter::pitch_range)->set_value(range);
-		if (volume != INT_MAX) doc.tts.parameter(tts::parameter::volume)->set_value(volume);
+		if (speed  != INT_MAX) tts.parameter(tts::parameter::rate)->set_value(speed);
+		if (pitch  != INT_MAX) tts.parameter(tts::parameter::pitch)->set_value(pitch);
+		if (range  != INT_MAX) tts.parameter(tts::parameter::pitch_range)->set_value(range);
+		if (volume != INT_MAX) tts.parameter(tts::parameter::volume)->set_value(volume);
 
 		const char *filename = (argc == 1) ? argv[0] : nullptr;
-		auto reader = cainteoir::createDocumentReader(filename, doc.m_metadata, std::string());
+		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
 		if (!reader)
 		{
 			fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), filename ? filename : "<stdin>");
 			return EXIT_FAILURE;
 		}
 
+		cainteoir::document doc;
 		while (reader->read())
 			doc.add(*reader);
 
@@ -396,7 +382,7 @@ int main(int argc, char ** argv)
 		std::string title;
 		rdf::uri subject(filename ? filename : std::string(), std::string());
 
-		for (auto &query : rql::select(doc.m_metadata, rql::subject == subject))
+		for (auto &query : rql::select(metadata, rql::subject == subject))
 		{
 			if (rql::predicate(query).ns == rdf::dc || rql::predicate(query).ns == rdf::dcterms)
 			{
@@ -410,7 +396,7 @@ int main(int argc, char ** argv)
 				}
 				else
 				{
-					rql::results selection = rql::select(doc.m_metadata, rql::subject == object);
+					rql::results selection = rql::select(metadata, rql::subject == object);
 
 					if (rql::predicate(query).ref == "creator")
 					{
@@ -459,7 +445,7 @@ int main(int argc, char ** argv)
 			if (!outformat)
 				outformat = "wav";
 
-			out = cainteoir::create_audio_file(outfile.c_str(), outformat, 0.3, doc.m_metadata, subject, doc.m_metadata, doc.tts.voice());
+			out = cainteoir::create_audio_file(outfile.c_str(), outformat, 0.3, metadata, subject, metadata, tts.voice());
 			if (!out.get())
 				throw std::runtime_error(i18n("unsupported audio file format"));
 
@@ -474,7 +460,7 @@ int main(int argc, char ** argv)
 		else
 		{
 			state = i18n("reading");
-			out = cainteoir::open_audio_device(nullptr, "pulse", 0.3, doc.m_metadata, subject, doc.m_metadata, doc.tts.voice());
+			out = cainteoir::open_audio_device(nullptr, "pulse", 0.3, metadata, subject, metadata, tts.voice());
 
 			fprintf(stdout, i18n("Reading \"%s\"\n\n"), filename);
 		}
@@ -485,7 +471,7 @@ int main(int argc, char ** argv)
 			fprintf(stdout, i18n("Title  : %s\n\n"), title.c_str());
 		}
 
-		std::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(out, doc.children(toc_range));
+		std::shared_ptr<cainteoir::tts::speech> speech = tts.speak(out, doc.children(toc_range));
 		while (speech->is_speaking())
 		{
 			if (show_progress)
