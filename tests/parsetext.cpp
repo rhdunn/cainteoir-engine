@@ -211,9 +211,7 @@ int main(int argc, char ** argv)
 		if (document_object)
 		{
 			cainteoir::document doc(reader);
-
-			std::pair<rdf::uri, rdf::uri> range = { rdf::uri(), rdf::uri() };
-			auto docreader = cainteoir::createDocumentReader(doc.children(range));
+			auto docreader = cainteoir::createDocumentReader(doc.children());
 			parse_text(docreader, type, locale, scale, argc, argv);
 		}
 		else
