@@ -86,6 +86,8 @@ namespace cainteoir
 
 		range_type children(const std::pair<size_t, size_t> &aTocRange) const;
 
+		range_type children() const { return range_type(mChildren.begin(), mChildren.end()); }
+
 		const std::vector<toc_entry> &toc() const { return mToc; }
 	private:
 		size_t mLength;
