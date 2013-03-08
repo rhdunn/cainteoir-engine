@@ -51,6 +51,13 @@ namespace cainteoir
 		rdf::uri anchor;
 	};
 
+	struct document_reader : public document_item
+	{
+		virtual bool read() = 0;
+
+		virtual ~document_reader() {}
+	};
+
 	class document
 	{
 	public:
@@ -65,7 +72,9 @@ namespace cainteoir
 		typedef list_type::const_iterator const_iterator;
 		typedef std::pair<const_iterator, const_iterator> range_type;
 
-		document() : mLength(0) {}
+		document();
+
+		document(const std::shared_ptr<document_reader> &aReader);
 
 		void clear();
 
@@ -83,13 +92,6 @@ namespace cainteoir
 		list_type mChildren;
 		std::vector<toc_entry> mToc;
 		std::map<std::string, size_t> mAnchors;
-	};
-
-	struct document_reader : public document_item
-	{
-		virtual bool read() = 0;
-
-		virtual ~document_reader() {}
 	};
 
 	enum capability_types

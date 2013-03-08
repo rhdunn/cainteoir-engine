@@ -360,10 +360,7 @@ int main(int argc, char ** argv)
 			return EXIT_FAILURE;
 		}
 
-		cainteoir::document doc;
-		while (reader->read())
-			doc.add(*reader);
-
+		cainteoir::document doc(reader);
 		if (action == show_contents)
 		{
 			int toc_number = 1;

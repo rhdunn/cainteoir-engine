@@ -42,6 +42,26 @@ get_child(const cainteoir::document::list_type &children, size_t index)
 	return pos;
 }
 
+cainteoir::document::document()
+	: mLength(0)
+{
+}
+
+cainteoir::document::document(const std::shared_ptr<document_reader> &aReader)
+	: mLength(0)
+{
+	while (aReader->read())
+	{
+		mChildren.push_back(*aReader);
+		if (aReader->type & cainteoir::events::anchor)
+			mAnchors[aReader->anchor.str()] = mChildren.size();
+		if (aReader->type & cainteoir::events::toc_entry)
+			mToc.push_back({ aReader->styles->aria_level, aReader->anchor, aReader->text->str() });
+		if (aReader->type & cainteoir::events::text)
+			mLength += aReader->text->size();
+	}
+}
+
 void cainteoir::document::clear()
 {
 	mLength = 0;

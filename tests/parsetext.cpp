@@ -210,9 +210,7 @@ int main(int argc, char ** argv)
 
 		if (document_object)
 		{
-			cainteoir::document doc;
-			while (reader->read())
-				doc.add(*reader);
+			cainteoir::document doc(reader);
 
 			std::pair<rdf::uri, rdf::uri> range = { rdf::uri(), rdf::uri() };
 			auto docreader = cainteoir::createDocumentReader(doc.children(range));
