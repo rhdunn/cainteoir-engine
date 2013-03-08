@@ -72,15 +72,9 @@ namespace cainteoir
 		typedef list_type::const_iterator const_iterator;
 		typedef range<const_iterator> range_type;
 
-		document();
-
 		document(const std::shared_ptr<document_reader> &aReader);
 
-		void clear();
-
 		size_t text_length() const { return mLength; }
-
-		void add(const document_item &aItem);
 
 		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const;
 

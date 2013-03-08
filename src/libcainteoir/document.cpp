@@ -42,11 +42,6 @@ get_child(const cainteoir::document::list_type &children, size_t index)
 	return pos;
 }
 
-cainteoir::document::document()
-	: mLength(0)
-{
-}
-
 cainteoir::document::document(const std::shared_ptr<document_reader> &aReader)
 	: mLength(0)
 {
@@ -60,24 +55,6 @@ cainteoir::document::document(const std::shared_ptr<document_reader> &aReader)
 		if (aReader->type & cainteoir::events::text)
 			mLength += aReader->text->size();
 	}
-}
-
-void cainteoir::document::clear()
-{
-	mLength = 0;
-	mChildren.clear();
-	mAnchors.clear();
-}
-
-void cainteoir::document::add(const document_item &aItem)
-{
-	mChildren.push_back(aItem);
-	if (aItem.type & cainteoir::events::anchor)
-		mAnchors[aItem.anchor.str()] = mChildren.size();
-	if (aItem.type & cainteoir::events::toc_entry)
-		mToc.push_back({ aItem.styles->aria_level, aItem.anchor, aItem.text->str() });
-	if (aItem.type & cainteoir::events::text)
-		mLength += aItem.text->size();
 }
 
 cainteoir::document::range_type
