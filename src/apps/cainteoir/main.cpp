@@ -213,9 +213,8 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 
 struct document : public cainteoir::document
 {
-	document(const rdf::uri &aSubject)
+	document()
 		: tts(m_metadata)
-		, subject(aSubject)
 		, voiceSelected(false)
 	{
 		cainteoir::supportedDocumentFormats(m_metadata, cainteoir::text_support);
@@ -322,7 +321,7 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		document doc(rdf::uri(argc == 1 ? argv[0] : std::string(), std::string()));
+		document doc;
 		if (action == show_metadata)
 		{
 			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
