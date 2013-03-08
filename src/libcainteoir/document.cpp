@@ -54,6 +54,8 @@ void cainteoir::document::add(const document_item &aItem)
 	mChildren.push_back(aItem);
 	if (aItem.type & cainteoir::events::anchor)
 		mAnchors[aItem.anchor.str()] = mChildren.size();
+	if (aItem.type & cainteoir::events::toc_entry)
+		mToc.push_back({ aItem.styles->aria_level, aItem.anchor, aItem.text->str() });
 	if (aItem.type & cainteoir::events::text)
 		mLength += aItem.text->size();
 }
@@ -68,6 +70,20 @@ cainteoir::document::children(const std::pair<const rdf::uri, const rdf::uri> &a
 	if (from > to) std::swap(from, to);
 
 	return range_type(get_child(mChildren, from), get_child(mChildren, to));
+}
+
+cainteoir::document::range_type
+cainteoir::document::children(const std::pair<size_t, size_t> &aTocRange) const
+{
+	rdf::uri from = (aTocRange.first <= 0 || aTocRange.first > mToc.size())
+	              ? rdf::uri()
+	              : mToc[aTocRange.first - 1].location;
+
+	rdf::uri to = (aTocRange.second <= 0 || aTocRange.second > mToc.size())
+	            ? rdf::uri()
+	            : mToc[aTocRange.second - 1].location;
+
+	return children(std::pair<const rdf::uri, const rdf::uri>(from, to));
 }
 
 struct document_range : public cainteoir::document_reader

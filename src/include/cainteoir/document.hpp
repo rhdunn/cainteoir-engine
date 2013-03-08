@@ -54,6 +54,13 @@ namespace cainteoir
 	class document
 	{
 	public:
+		struct toc_entry
+		{
+			int depth;
+			rdf::uri location;
+			std::string title;
+		};
+
 		typedef std::list<document_item> list_type;
 		typedef list_type::const_iterator const_iterator;
 		typedef std::pair<const_iterator, const_iterator> range_type;
@@ -67,9 +74,14 @@ namespace cainteoir
 		void add(const document_item &aItem);
 
 		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const;
+
+		range_type children(const std::pair<size_t, size_t> &aTocRange) const;
+
+		const std::vector<toc_entry> &toc() const { return mToc; }
 	private:
 		size_t mLength;
 		list_type mChildren;
+		std::vector<toc_entry> mToc;
 		std::map<std::string, size_t> mAnchors;
 	};
 

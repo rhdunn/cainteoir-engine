@@ -213,14 +213,10 @@ const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predic
 
 struct document : public cainteoir::document
 {
-	document(const rdf::uri &aSubject, actions aAction, int aFrom, int aTo)
+	document(const rdf::uri &aSubject)
 		: tts(m_metadata)
 		, subject(aSubject)
 		, voiceSelected(false)
-		, action(aAction)
-		, toc_number(1)
-		, fromIndex(aFrom)
-		, toIndex(aTo)
 	{
 		cainteoir::supportedDocumentFormats(m_metadata, cainteoir::text_support);
 		cainteoir::supportedAudioFormats(m_metadata);
@@ -236,41 +232,10 @@ struct document : public cainteoir::document
 			voiceSelected = tts.select_voice(m_metadata, *voice);
 	}
 
-	void toc_entry(int depth, const rdf::uri &location, const std::string &title)
-	{
-		if (action == show_contents)
-		{
-			printf(" %4d ", toc_number);
-			for (int i = 0; i < depth; ++i)
-				printf("... ");
-			printf("%s\n", title.c_str());
-		}
-
-		if (fromIndex == toc_number)
-			from = location;
-
-		if (toIndex == toc_number)
-			to = location;
-
-		++toc_number;
-	}
-
-	cainteoir::document::range_type selection() const
-	{
-		return children(std::make_pair(from, to));
-	}
-
 	const rdf::uri subject;
 	rdf::graph m_metadata;
 	cainteoir::tts::engines tts;
 	bool voiceSelected;
-	actions action;
-	int toc_number;
-
-	rdf::uri from;
-	rdf::uri to;
-	int fromIndex;
-	int toIndex;
 };
 
 int main(int argc, char ** argv)
@@ -293,8 +258,7 @@ int main(int argc, char ** argv)
 		int range = INT_MAX;
 		int volume = INT_MAX;
 
-		int from = -1;
-		int to = -1;
+		std::pair<size_t, size_t> toc_range = { -1, -1 };
 
 		while (1)
 		{
@@ -309,7 +273,7 @@ int main(int argc, char ** argv)
 				action = show_contents;
 				break;
 			case ARG_FROM:
-				from = atoi(optarg);
+				toc_range.first = atoi(optarg);
 				break;
 			case ARG_HELP:
 				action = show_help;
@@ -344,7 +308,7 @@ int main(int argc, char ** argv)
 				outfile = "-";
 				break;
 			case ARG_TO:
-				to = atoi(optarg) + 1;
+				toc_range.second = atoi(optarg) + 1;
 				break;
 			case ARG_VOICE_NAME:
 				voicename = optarg;
@@ -358,7 +322,7 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		document doc(rdf::uri(argc == 1 ? argv[0] : std::string(), std::string()), action, from, to);
+		document doc(rdf::uri(argc == 1 ? argv[0] : std::string(), std::string()));
 		if (action == show_metadata)
 		{
 			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
@@ -414,14 +378,21 @@ int main(int argc, char ** argv)
 		}
 
 		while (reader->read())
-		{
-			if (reader->type & cainteoir::events::toc_entry)
-				doc.toc_entry(reader->styles->aria_level, reader->anchor, reader->text->str());
 			doc.add(*reader);
-		}
 
 		if (action == show_contents)
+		{
+			int toc_number = 1;
+			for (auto &entry : doc.toc())
+			{
+				printf(" %4d ", toc_number);
+				for (int i = 0; i < entry.depth; ++i)
+					printf("... ");
+				printf("%s\n", entry.title.c_str());
+				++toc_number;
+			}
 			return 0;
+		}
 
 		std::string author;
 		std::string title;
@@ -515,7 +486,7 @@ int main(int argc, char ** argv)
 			fprintf(stdout, i18n("Title  : %s\n\n"), title.c_str());
 		}
 
-		std::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(out, doc.selection());
+		std::shared_ptr<cainteoir::tts::speech> speech = doc.tts.speak(out, doc.children(toc_range));
 		while (speech->is_speaking())
 		{
 			if (show_progress)
