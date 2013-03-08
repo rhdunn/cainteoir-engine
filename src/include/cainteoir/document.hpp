@@ -70,7 +70,7 @@ namespace cainteoir
 
 		typedef std::list<document_item> list_type;
 		typedef list_type::const_iterator const_iterator;
-		typedef std::pair<const_iterator, const_iterator> range_type;
+		typedef range<const_iterator> range_type;
 
 		document();
 

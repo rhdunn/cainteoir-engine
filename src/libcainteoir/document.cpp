@@ -109,8 +109,8 @@ cainteoir::document::children(const std::pair<size_t, size_t> &aTocRange) const
 struct document_range : public cainteoir::document_reader
 {
 	document_range(const cainteoir::document::range_type &aDocumentRange)
-		: mCurrent(aDocumentRange.first)
-		, mLast(aDocumentRange.second)
+		: mCurrent(aDocumentRange.begin())
+		, mLast(aDocumentRange.end())
 	{
 	}
 

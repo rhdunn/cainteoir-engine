@@ -166,8 +166,8 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	, speakingLen(0)
 	, textLen(0)
 	, wordsPerMinute(aRate ? aRate->value() : 170)
-	, mFrom(aRange.first)
-	, mTo(aRange.second)
+	, mFrom(aRange.begin())
+	, mTo(aRange.end())
 {
 	for (auto &node : *this)
 	{
