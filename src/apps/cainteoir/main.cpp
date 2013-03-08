@@ -231,7 +231,6 @@ struct document : public cainteoir::document
 			voiceSelected = tts.select_voice(m_metadata, *voice);
 	}
 
-	const rdf::uri subject;
 	rdf::graph m_metadata;
 	cainteoir::tts::engines tts;
 	bool voiceSelected;
@@ -395,8 +394,9 @@ int main(int argc, char ** argv)
 
 		std::string author;
 		std::string title;
+		rdf::uri subject(filename ? filename : std::string(), std::string());
 
-		for (auto &query : rql::select(doc.m_metadata, rql::subject == doc.subject))
+		for (auto &query : rql::select(doc.m_metadata, rql::subject == subject))
 		{
 			if (rql::predicate(query).ns == rdf::dc || rql::predicate(query).ns == rdf::dcterms)
 			{
@@ -459,13 +459,13 @@ int main(int argc, char ** argv)
 			if (!outformat)
 				outformat = "wav";
 
-			out = cainteoir::create_audio_file(outfile.c_str(), outformat, 0.3, doc.m_metadata, doc.subject, doc.m_metadata, doc.tts.voice());
+			out = cainteoir::create_audio_file(outfile.c_str(), outformat, 0.3, doc.m_metadata, subject, doc.m_metadata, doc.tts.voice());
 			if (!out.get())
 				throw std::runtime_error(i18n("unsupported audio file format"));
 
 			if (outfile != "-")
 			{
-				fprintf(stdout, i18n("Recording \"%s\"\n"), doc.subject.str().c_str());
+				fprintf(stdout, i18n("Recording \"%s\"\n"),   filename);
 				fprintf(stdout, i18n("       to \"%s\"\n\n"), outfile.c_str());
 			}
 			else
@@ -474,9 +474,9 @@ int main(int argc, char ** argv)
 		else
 		{
 			state = i18n("reading");
-			out = cainteoir::open_audio_device(nullptr, "pulse", 0.3, doc.m_metadata, doc.subject, doc.m_metadata, doc.tts.voice());
+			out = cainteoir::open_audio_device(nullptr, "pulse", 0.3, doc.m_metadata, subject, doc.m_metadata, doc.tts.voice());
 
-			fprintf(stdout, i18n("Reading \"%s\"\n\n"), doc.subject.str().c_str());
+			fprintf(stdout, i18n("Reading \"%s\"\n\n"), filename);
 		}
 
 		if (show_progress)
