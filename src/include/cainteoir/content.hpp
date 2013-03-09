@@ -296,6 +296,33 @@ namespace cainteoir { namespace css
 		}
 	};
 
+	struct reader
+	{
+		enum token_type
+		{
+			identifier,
+			at_keyword,
+			string,
+			integer,
+			open_block,
+			close_block,
+			colon,
+			semicolon,
+			comma,
+			error,
+		};
+
+		cainteoir::buffer value;
+		token_type type;
+
+		bool read();
+
+		reader(std::shared_ptr<cainteoir::buffer> aData);
+	private:
+		std::shared_ptr<cainteoir::buffer> mData;
+		const char *mCurrent;
+	};
+
 	struct style_manager
 	{
 		const counter_style *get_counter_style(const std::string &aName) const;

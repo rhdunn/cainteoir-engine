@@ -261,6 +261,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/compression/quoted_printable.cpp \
 	\
 	src/libcainteoir/css/counterstyles.cpp \
+	src/libcainteoir/css/reader.cpp \
 	src/libcainteoir/css/style_manager.cpp \
 	src/libcainteoir/css/units.cpp \
 	\
