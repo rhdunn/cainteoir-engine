@@ -605,7 +605,7 @@ void mbrola_synthesizer::read(cainteoir::audio *out)
 
 	short data[1024];
 	int read;
-	while ((read = receive_from_mbrola(data, sizeof(data))) != 0)
+	while ((read = receive_from_mbrola(data, sizeof(data))) > 0)
 		out->write((const char *)data, read);
 }
 
