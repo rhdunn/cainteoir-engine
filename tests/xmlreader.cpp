@@ -61,6 +61,61 @@ const char * node_type_name(xml::reader::node_type type)
 	}
 }
 
+void parse_xml(xml::reader &reader, bool silent)
+{
+	while (reader.read())
+	{
+		std::string ns = reader.namespaceUri();
+		if (!silent) switch (reader.nodeType())
+		{
+		default:
+			if (reader.nodePrefix().empty() && ns.empty())
+			{
+				fprintf(stdout, "|%s| %s\n",
+				        node_type_name(reader.nodeType()),
+				        reader.nodeName().str().c_str());
+			}
+			else
+			{
+				fprintf(stdout, "|%s| [%s|%s]%s\n",
+				        node_type_name(reader.nodeType()),
+				        reader.nodePrefix().str().c_str(),
+				        ns.c_str(),
+				        reader.nodeName().str().c_str());
+			}
+			break;
+		case xml::reader::commentNode:
+		case xml::reader::cdataNode:
+		case xml::reader::textNode:
+			fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n",
+			        node_type_name(reader.nodeType()),
+			        reader.nodeValue().str().c_str());
+			break;
+		case xml::reader::attribute:
+			if (reader.nodePrefix().empty() && ns.empty())
+			{
+				fprintf(stdout, "|%s| %s=\"\"\"%s\"\"\"\n",
+				        node_type_name(reader.nodeType()),
+				        reader.nodeName().str().c_str(),
+				        reader.nodeValue().str().c_str());
+			}
+			else
+			{
+				fprintf(stdout, "|%s| [%s|%s]%s=\"\"\"%s\"\"\"\n",
+				        node_type_name(reader.nodeType()),
+				        reader.nodePrefix().str().c_str(),
+				        ns.c_str(),
+				        reader.nodeName().str().c_str(),
+				        reader.nodeValue().str().c_str());
+			}
+			break;
+		case xml::reader::error:
+			fprintf(stdout, "|error| internal parser error\n");
+			break;
+		}
+	}
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -101,57 +156,7 @@ int main(int argc, char ** argv)
 		for (int i = 0; i != repeatCount; ++i)
 		{
 			xml::reader reader(cainteoir::make_file_buffer(argv[0]), "windows-1252");
-			while (reader.read())
-			{
-				std::string ns = reader.namespaceUri();
-				if (!silent) switch (reader.nodeType())
-				{
-				default:
-					if (reader.nodePrefix().empty() && ns.empty())
-					{
-						fprintf(stdout, "|%s| %s\n",
-						        node_type_name(reader.nodeType()),
-						        reader.nodeName().str().c_str());
-					}
-					else
-					{
-						fprintf(stdout, "|%s| [%s|%s]%s\n",
-						        node_type_name(reader.nodeType()),
-						        reader.nodePrefix().str().c_str(),
-						        ns.c_str(),
-						        reader.nodeName().str().c_str());
-					}
-					break;
-				case xml::reader::commentNode:
-				case xml::reader::cdataNode:
-				case xml::reader::textNode:
-					fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n",
-					        node_type_name(reader.nodeType()),
-					        reader.nodeValue().str().c_str());
-					break;
-				case xml::reader::attribute:
-					if (reader.nodePrefix().empty() && ns.empty())
-					{
-						fprintf(stdout, "|%s| %s=\"\"\"%s\"\"\"\n",
-						        node_type_name(reader.nodeType()),
-						        reader.nodeName().str().c_str(),
-						        reader.nodeValue().str().c_str());
-					}
-					else
-					{
-						fprintf(stdout, "|%s| [%s|%s]%s=\"\"\"%s\"\"\"\n",
-						        node_type_name(reader.nodeType()),
-						        reader.nodePrefix().str().c_str(),
-						        ns.c_str(),
-						        reader.nodeName().str().c_str(),
-						        reader.nodeValue().str().c_str());
-					}
-					break;
-				case xml::reader::error:
-					fprintf(stdout, "|error| internal parser error\n");
-					break;
-				}
-			}
+			parse_xml(reader, silent);
 		}
 
 		clock_t end_time = ::clock();
