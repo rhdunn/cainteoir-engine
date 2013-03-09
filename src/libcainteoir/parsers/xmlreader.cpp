@@ -347,8 +347,7 @@ bool cainteoir::xml::reader::read()
 			++mState.current;
 			return true;
 		}
-
-		if (xmlalnum(*mState.current)) // XML§3.1 ; HTML§12.1.2.3
+		else if (xmlalnum(*mState.current)) // XML§3.1 ; HTML§12.1.2.3
 		{
 			read_tag(attribute);
 			reset_context();
@@ -378,8 +377,7 @@ bool cainteoir::xml::reader::read()
 
 			return true;
 		}
-
-		if (*mState.current == '>') // XML§3.1 ; HTML§12.1.2.1-2 -- end of start/end tag
+		else if (*mState.current == '>') // XML§3.1 ; HTML§12.1.2.1-2 -- end of start/end tag
 		{
 			++mState.current;
 			mTagNodeName = cainteoir::buffer(nullptr, nullptr);
