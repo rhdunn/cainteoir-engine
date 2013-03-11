@@ -260,7 +260,9 @@ cainteoir::xml::reader::ParserContext::ParserContext(ParserState aState, const c
 {
 }
 
-cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const char *aDefaultEncoding, const entity_set *aPredefinedEntities[52])
+cainteoir::xml::reader::reader(const std::shared_ptr<cainteoir::buffer> &aData,
+                               const char *aDefaultEncoding,
+                               const entity_set *aPredefinedEntities[52])
 	: mData(aData)
 	, mTagNodeName(nullptr, nullptr)
 	, mTagNodePrefix(nullptr, nullptr)

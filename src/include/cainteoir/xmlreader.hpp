@@ -233,7 +233,7 @@ namespace cainteoir { namespace xml
 			dtdEntity,
 		};
 
-		reader(std::shared_ptr<cainteoir::buffer> aData, const char *aDefaultEncoding, const detail::entity_set *aPredefinedEntities[52] = xml_entities);
+		reader(const std::shared_ptr<cainteoir::buffer> &aData, const char *aDefaultEncoding, const detail::entity_set *aPredefinedEntities[52] = xml_entities);
 
 		void set_predefined_entities(const detail::entity_set *aPredefinedEntities[52]) { mPredefinedEntities = aPredefinedEntities; }
 
