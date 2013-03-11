@@ -329,6 +329,7 @@ namespace cainteoir { namespace xml
 #endif
 
 		std::shared_ptr<cainteoir::buffer> mData;
+		const char *mEnd;
 		ParserContext mState;
 		ParserContext mSavedState;
 		const detail::entity_set **mPredefinedEntities;
