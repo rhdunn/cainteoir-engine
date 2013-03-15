@@ -262,7 +262,8 @@ for ref, spec in specs.items():
 			f.write('description: The state of %s implementation in the Cainteoir Text-to-Speech program.\n' % spec['name'])
 		f.write('keywords: text to speech, tts, cainteoir, %s\n' % spec['name'].lower())
 		f.write('nav:\n')
-		f.write('  - { title: Home , url: ../index.html }\n')
+		f.write('  - { title: Home , url: / }\n')
+		f.write('  - { title: Cainteoir , url: ../index.html }\n')
 		if ref in categories.keys():
 			f.write('  - { title: %s Support }\n' % categories[ref])
 		else:
