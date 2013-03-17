@@ -244,7 +244,7 @@ for ref, spec in specs.items():
 	print 'generating %s.html ...' % ref
 	with open('%s.html' % ref, 'w') as f:
 		f.write('---\n')
-		f.write('layout: rdfa\n')
+		f.write('layout: webpage\n')
 		if spec['type'] == 'spec':
 			title = '%s %s %s Support' % (spec['name'], spec['version'], categories[spec['category']])
 			f.write('title: %s\n' % title)
