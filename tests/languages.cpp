@@ -211,9 +211,9 @@ TEST_CASE("eSpeak voice language codes")
 	compare(lang::make_lang("es-la"),       { "es", "", "", "419" });
 	compare(lang::make_lang("en-sc"),       { "en", "", "", "GB", "scotland" });
 	compare(lang::make_lang("en-uk"),       { "en", "", "", "GB"  });
-	compare(lang::make_lang("en-uk-north"), { "en", "", "", "GB"  });
-	compare(lang::make_lang("en-uk-rp"),    { "en", "", "", "GB"  });
-	compare(lang::make_lang("en-uk-wmids"), { "en", "", "", "GB"  });
+	compare(lang::make_lang("en-uk-north"), { "en", "", "", "GB", "", "lancastrian" });
+	compare(lang::make_lang("en-uk-rp"),    { "en", "", "", "GB", "", "rp" });
+	compare(lang::make_lang("en-uk-wmids"), { "en", "", "", "GB", "", "westmids" });
 	compare(lang::make_lang("en-wi"),       { "en", "", "", "029" });
 	compare(lang::make_lang("hy-west"),     { "hy", "", "", "",   "arevmda" });
 }

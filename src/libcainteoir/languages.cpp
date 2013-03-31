@@ -113,9 +113,9 @@ static const std::initializer_list<std::pair<std::string, const lang::tag>> alia
 	{ "en-gb-oed",   { "en", "", "", "GB" } },
 	{ "en-sc",       { "en", "", "", "GB", "scotland" } },
 	{ "en-uk",       { "en", "", "", "GB" } },
-	{ "en-uk-north", { "en", "", "", "GB" } },
-	{ "en-uk-rp",    { "en", "", "", "GB" } },
-	{ "en-uk-wmids", { "en", "", "", "GB" } },
+	{ "en-uk-north", { "en", "", "", "GB", "", "lancastrian" } },
+	{ "en-uk-rp",    { "en", "", "", "GB", "", "rp" } },
+	{ "en-uk-wmids", { "en", "", "", "GB", "", "westmids" } },
 	{ "en-wi",       { "en", "", "", "029" } }, // Caribbean
 	{ "en@boldquot", { "en" } },
 	{ "en@quot",     { "en" } },
