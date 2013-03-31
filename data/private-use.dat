@@ -1,0 +1,131 @@
+File-Date: 2013-03-31
+Author: Reece H. Dunn
+Copyright: Copyright (C) 2013 Reece H. Dunn
+License: CC-BY-SA 3.0
+Description: Private use BCP47/RFC4646/RFC5646 extensions for describing accents and dialects.
+%%
+Type: private
+Subtag: brummie
+Description: Brummie
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Dialect local to Birmingham, England.
+%%
+Type: private
+Subtag: cockney
+Description: Cockney
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Dialect local to working-class London, England.
+%%
+Type: private
+Subtag: cumbrian
+Description: Cumbrian
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Dialect local to Cumbria, England.
+%%
+Type: private
+Subtag: eastang
+Description: East Anglican
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Generalised dialect of the East Anglica region of England.
+%%
+Type: private
+Subtag: eastmids
+Description: East Midlands
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Generalised dialect of the East Midlands region of England.
+%%
+Type: private
+Subtag: estury
+Description: Estury English
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Generalised dialect found along the River Thames and its estuary.
+%%
+Type: private
+Subtag: geordie
+Description: Geordie
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Dialect local to Tyneside, England.
+%%
+Type: private
+Subtag: hueprovince
+Description: Hue
+Added: 2013-03-31
+Prefix: vi-VN
+Comments: Dialect local to the Hue province of Vietnam.
+%%
+Type: private
+Subtag: ireland
+Description: Ireland
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Generalised English dialect found in Ireland (not to be confused with the Irish Gaelic language).
+%%
+Type: private
+Subtag: lancastrian
+Description: Lancastrian
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Dialect local to Lancashire, England.
+%%
+Type: private
+Subtag: mackem
+Description: Mackem
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Dialect local to Sunderland, England.
+%%
+Type: private
+Subtag: northamerica
+Description: North American
+Added: 2013-03-31
+Prefix: en
+Comments: Generalised dialect of the United States of America and Canada.
+%%
+Type: private
+Subtag: northeng
+Description: Northern English
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Generalised dialect of Northern England.
+%%
+Type: private
+Subtag: rp
+Description: Received Pronunciation
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Standard English accent found in Southern England.
+%%
+Type: private
+Subtag: southeng
+Description: Southern English
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Generalised dialect of Southern England.
+%%
+Type: private
+Subtag: wales
+Description: Wales
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Generalised English dialect found in Wales (not to be confused with the Welsh language).
+%%
+Type: private
+Subtag: westmids
+Description: West Midlands
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Generalised dialect of the West Midlands region of England.
+%%
+Type: private
+Subtag: yorkshire
+Description: Yorkshire
+Added: 2013-03-31
+Prefix: en-GB
+Comments: Dialect local to Yorkshire, England.

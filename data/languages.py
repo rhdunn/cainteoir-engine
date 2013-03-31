@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2012 Reece H. Dunn
+# Copyright (C) 2012-2013 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -68,6 +68,7 @@ typemap = {
 	'extlang':       'ExtLang',
 	'grandfathered': 'Grandfathered',
 	'language':      'Language',
+	'private':       'Private',
 	'redundant':     'Redundant',
 	'region':        'Region',
 	'script':        'Script',
@@ -81,8 +82,7 @@ scopemap = {
 	'private-use':   'PrivateUse',
 }
 
-def read_iana_subtags(path):
-	datasrc='http://www.iana.org/assignments/language-subtag-registry'
+def read_iana_subtags(path, datasrc=None):
 	if not os.path.exists(path):
 		print 'downloading IANA subtag registry file "%s" to "%s" ...' % (datasrc, path)
 		os.system('wget -O %s %s' % (path, datasrc))
@@ -151,7 +151,9 @@ def read_iso_15924(path):
 		tags[alpha4] = name
 	return tags
 
-tags            = read_iana_subtags('languages.dat')
+tags            = read_iana_subtags('languages.dat', 'http://www.iana.org/assignments/language-subtag-registry')
+tags.update(read_iana_subtags('private-use.dat'))
+
 iso_639_codes   = read_iso_639('/usr/share/xml/iso-codes/iso_639.xml')
 iso_3166_codes  = read_iso_3166('/usr/share/xml/iso-codes/iso_3166.xml')
 iso_15924_codes = read_iso_15924('/usr/share/xml/iso-codes/iso_15924.xml')

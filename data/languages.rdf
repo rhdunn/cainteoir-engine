@@ -8216,6 +8216,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Eastern Bru</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#brummie">
+	<rdf:value>brummie</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Dialect local to Birmingham, England.</dct:description>
+	<dct:title xml:lang="en">Brummie</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#brv">
 	<rdf:value>brv</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -10333,6 +10340,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Cocopa</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cockney">
+	<rdf:value>cockney</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Dialect local to working-class London, England.</dct:description>
+	<dct:title xml:lang="en">Cockney</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cod">
 	<rdf:value>cod</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -10924,6 +10938,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Cumeral</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cumbrian">
+	<rdf:value>cumbrian</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Dialect local to Cumbria, England.</dct:description>
+	<dct:title xml:lang="en">Cumbrian</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cuo">
 	<rdf:value>cuo</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -12653,6 +12674,20 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Dzando</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#eastang">
+	<rdf:value>eastang</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Generalised dialect of the East Anglica region of England.</dct:description>
+	<dct:title xml:lang="en">East Anglican</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#eastmids">
+	<rdf:value>eastmids</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Generalised dialect of the East Midlands region of England.</dct:description>
+	<dct:title xml:lang="en">East Midlands</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ebg">
 	<rdf:value>ebg</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -13200,6 +13235,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Central Siberian Yupik</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#estury">
+	<rdf:value>estury</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Generalised dialect found along the River Thames and its estuary.</dct:description>
+	<dct:title xml:lang="en">Estury English</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#esu">
 	<rdf:value>esu</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -14338,6 +14380,13 @@
 	<iana:added>2005-10-16</iana:added>
 	<dct:title xml:lang="en">Germanic languages</dct:title>
 </iana:Collection>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#geordie">
+	<rdf:value>geordie</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Dialect local to Tyneside, England.</dct:description>
+	<dct:title xml:lang="en">Geordie</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#geq">
 	<rdf:value>geq</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -16506,6 +16555,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">San Francisco Del Mar Huave</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#hueprovince">
+	<rdf:value>hueprovince</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Dialect local to the Hue province of Vietnam.</dct:description>
+	<dct:title xml:lang="en">Hue</dct:title>
+	<iana:prefix>vi-VN</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#huf">
 	<rdf:value>huf</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -17380,6 +17436,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Iresim</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ireland">
+	<rdf:value>ireland</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Generalised English dialect found in Ireland (not to be confused with the Irish Gaelic language).</dct:description>
+	<dct:title xml:lang="en">Ireland</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#irh">
 	<rdf:value>irh</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -21953,6 +22016,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Laru</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lancastrian">
+	<rdf:value>lancastrian</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Dialect local to Lancashire, England.</dct:description>
+	<dct:title xml:lang="en">Lancastrian</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lap">
 	<rdf:value>lap</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -23673,6 +23743,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Yutanduchi Mixtec</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mackem">
+	<rdf:value>mackem</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Dialect local to Sunderland, England.</dct:description>
+	<dct:title xml:lang="en">Mackem</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mad">
 	<rdf:value>mad</rdf:value>
 	<iana:added>2005-10-16</iana:added>
@@ -28799,6 +28876,20 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Ngongo</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northamerica">
+	<rdf:value>northamerica</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Generalised dialect of the United States of America and Canada.</dct:description>
+	<dct:title xml:lang="en">North American</dct:title>
+	<iana:prefix>en</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northeng">
+	<rdf:value>northeng</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Generalised dialect of Northern England.</dct:description>
+	<dct:title xml:lang="en">Northern English</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nos">
 	<rdf:value>nos</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -33412,6 +33503,13 @@
 	<dct:title xml:lang="en">Resian</dct:title>
 	<iana:prefix>sl</iana:prefix>
 </iana:Variant>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rp">
+	<rdf:value>rp</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Standard English accent found in Southern England.</dct:description>
+	<dct:title xml:lang="en">Received Pronunciation</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rpn">
 	<rdf:value>rpn</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -35538,6 +35636,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Southern Thai</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#southeng">
+	<rdf:value>southeng</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Generalised dialect of Southern England.</dct:description>
+	<dct:title xml:lang="en">Southern English</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sov">
 	<rdf:value>sov</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -40669,6 +40774,13 @@
 	<dct:title xml:lang="en">Wolaitta; Wolaytta</dct:title>
 	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Ethi"/>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wales">
+	<rdf:value>wales</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Generalised English dialect found in Wales (not to be confused with the Welsh language).</dct:description>
+	<dct:title xml:lang="en">Wales</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wam">
 	<rdf:value>wam</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -40907,6 +41019,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Cameroon Pidgin</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#westmids">
+	<rdf:value>westmids</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Generalised dialect of the West Midlands region of England.</dct:description>
+	<dct:title xml:lang="en">West Midlands</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wet">
 	<rdf:value>wet</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -43879,6 +43998,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Yongkom</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yorkshire">
+	<rdf:value>yorkshire</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:title xml:lang="en">Yorkshire</dct:title>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yos">
 	<rdf:value>yos</rdf:value>
 	<iana:added>2009-07-29</iana:added>

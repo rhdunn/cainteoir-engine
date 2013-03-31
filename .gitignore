@@ -94,6 +94,7 @@ libtool
 ltmain.sh
 
 cainteoir-engine-*
+data/languages.stat
 
 # gettext/libintl/autopoint output:
 

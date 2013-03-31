@@ -111,6 +111,15 @@ EXTRA_DIST += \
 	data/languages.rdf \
 	src/schema/*.rdf
 
+data/languages.dat:
+	wget -O $@ http://www.iana.org/assignments/language-subtag-registry
+
+data/languages.stat: data/languages.dat data/private-use.dat data/languages/*.dat
+	touch $@
+
+data/languages.rdf: data/languages.py data/languages.stat
+	cd data && ./languages.py
+
 data/languages.rdf.gz: data/languages.rdf
 	gzip -n -c $< > $@
 
@@ -166,10 +175,7 @@ endif
 .md.html:
 	pandoc --from markdown --to html $< --output $@
 
-data/languages.dat:
-	wget -O $@ http://www.iana.org/assignments/language-subtag-registry
-
-data/languages.dot: data/languages.dat data/languages/*.dat data/languages.py
+data/languages.dot: data/languages.py data/languages.stat
 	cd data && ./languages.py
 
 .dot.svg: $<

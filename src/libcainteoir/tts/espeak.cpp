@@ -48,7 +48,7 @@ static const std::map<std::string, std::string> voice_corrections = {
 	{ "es-la",       "es-419" },
 	{ "fa-pin",      "fa-Latn" },
 	{ "hy-west",     "hy-arevmda" },
-	{ "vi-hue",      "vi-x-hue" },
+	{ "vi-hue",      "vi-x-hueprovince" },
 };
 
 std::string correct_lang(std::string lang)
