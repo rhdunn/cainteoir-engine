@@ -253,7 +253,7 @@ attributes = {
 	'Ancestor': 'blue',
 	'Classification': 'green',
 	'LanguageCollection': 'orange',
-	'Macrolanguage': 'red',
+	#'Macrolanguage': 'red',
 }
 
 with open('languages.dot', 'w') as f:
