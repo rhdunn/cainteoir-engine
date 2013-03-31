@@ -166,7 +166,10 @@ endif
 .md.html:
 	pandoc --from markdown --to html $< --output $@
 
-data/languages.dot: data/languages.dat data/languages-extra.dat data/languages.py
+data/languages.dat:
+	wget -O $@ http://www.iana.org/assignments/language-subtag-registry
+
+data/languages.dot: data/languages.dat data/languages/*.dat data/languages.py
 	cd data && ./languages.py
 
 .dot.svg: $<
