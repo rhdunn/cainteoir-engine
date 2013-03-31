@@ -71,7 +71,7 @@ TEST_CASE("language codes")
 {
 	rdf::graph data;
 	cainteoir::createDocumentReader("data/languages.rdf.gz", data, std::string());
-	cainteoir::createDocumentReader("data/dialects.rdf", data, std::string());
+	cainteoir::createDocumentReader("data/private-use.rdf", data, std::string());
 
 	auto languages = get_codes(data, rdf::iana("Language"));
 	get_codes(languages, data, rdf::iana("MacroLanguage"));

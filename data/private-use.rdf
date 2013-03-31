@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+	xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:iana="http://rhdunn.github.com/cainteoir/schema/iana#"
+	xmlns:dc  ="http://purl.org/dc/elements/1.1/"
+	xmlns:dct ="http://purl.org/dc/terms/"
+>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#brummie">
+	<rdf:value>brummie</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Birmingham, England (Brummie) dialect.</dct:description>
+	<dct:title xml:lang="en">Brummie</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#cockney">
+	<rdf:value>cockney</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Working-class London, England (Cockney) dialect.</dct:description>
+	<dct:title xml:lang="en">Cockney</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#cumbrian">
+	<rdf:value>cumbrian</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Cumbria, England (Cumbrian) dialect.</dct:description>
+	<dct:title xml:lang="en">Cumbrian</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#eastang">
+	<rdf:value>eastang</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Specific to East Anglia (England).</dct:description>
+	<dct:title xml:lang="en">East Anglia</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#eastmids">
+	<rdf:value>eastmids</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Specific to the East Midlands (England).</dct:description>
+	<dct:title xml:lang="en">East Midlands</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#estury">
+	<rdf:value>estury</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Estury English (Thames) dialect.</dct:description>
+	<dct:title xml:lang="en">Estury</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#geordie">
+	<rdf:value>geordie</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Tyneside, England (Geordie) dialect.</dct:description>
+	<dct:title xml:lang="en">Geordie</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#hue">
+	<rdf:value>hue</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Vietnamese Hue dialect.</dct:description>
+	<dct:title xml:lang="en">Hue</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#ireland">
+	<rdf:value>ireland</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Specific to Ireland.</dct:description>
+	<dct:title xml:lang="en">Ireland</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#lancastrian">
+	<rdf:value>lancastrian</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Lancashire, England (Lancastrian) dialect.</dct:description>
+	<dct:title xml:lang="en">Lancastrian</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#mackem">
+	<rdf:value>mackem</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Sunderland, England (Mackem) dialect.</dct:description>
+	<dct:title xml:lang="en">Mackem</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#northamerica">
+	<rdf:value>northamerica</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Specific to the United States and Canada.</dct:description>
+	<dct:title xml:lang="en">North America</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#northeng">
+	<rdf:value>northeng</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Specific to Northern England.</dct:description>
+	<dct:title xml:lang="en">North England</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#rp">
+	<rdf:value>rp</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Received Pronunciation English dialect.</dct:description>
+	<dct:title xml:lang="en">Received Pronunciation</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#southeng">
+	<rdf:value>southeng</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Specific to Southern England.</dct:description>
+	<dct:title xml:lang="en">South England</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#wales">
+	<rdf:value>wales</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Specigic to Wales.</dct:description>
+	<dct:title xml:lang="en">Wales</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#westmids">
+	<rdf:value>westmids</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Specific to the West Midlands (England).</dct:description>
+	<dct:title xml:lang="en">West Midlands</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#yorkshire">
+	<rdf:value>yorkshire</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Specific to Yorkshire, England.</dct:description>
+	<dct:title xml:lang="en">Yorkshire</dct:title>
+</iana:Private>
+
+</rdf:RDF>
