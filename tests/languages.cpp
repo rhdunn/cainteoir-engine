@@ -40,6 +40,7 @@ void compare(const lang::tag &a, const lang::tag &b)
 	assert(a.script  == b.script);
 	assert(a.region  == b.region);
 	assert(a.variant == b.variant);
+	assert(a.private_use == b.private_use);
 }
 
 #define lang_match(a, b)    assert(      lang::make_lang(a) == lang::make_lang(b))
@@ -116,6 +117,44 @@ TEST_CASE("language-region-script-variant codes")
 {
 	compare(lang::make_lang("de-Latn-CH-1901"),   { "de", "", "Latn", "CH", "1901" });
 	compare(lang::make_lang("de-Latn-CH-scouse"), { "de", "", "Latn", "CH", "scouse" });
+}
+
+TEST_CASE("language-x-privateuse codes")
+{
+	compare(lang::make_lang("en-x-test"), { "en", "", "", "", "", "test" });
+	compare(lang::make_lang("EN-X-TEST"), { "en", "", "", "", "", "test" });
+}
+
+TEST_CASE("language-region-x-privateuse codes")
+{
+	compare(lang::make_lang("en-US-x-test"), { "en", "", "", "US", "", "test" });
+	compare(lang::make_lang("EN-us-X-TEST"), { "en", "", "", "US", "", "test" });
+}
+
+TEST_CASE("language-script-x-privateuse codes")
+{
+	compare(lang::make_lang("zh-Hans-x-test"),     { "zh", "", "Hans", "", "", "test" });
+	compare(lang::make_lang("zh-HANS-X-TEST"),     { "zh", "", "Hans", "", "", "test" });
+	compare(lang::make_lang("ZH-hans-x-testcase"), { "zh", "", "Hans", "", "", "testcase" });
+
+	compare(lang::make_lang("jp-Kana-x-test"),           { "jp", "", "Kana", "", "",     "test" });
+	compare(lang::make_lang("jp-Kana-Hans-x-test"),      { "jp", "", "Kana", "", "Hans", "test" });
+	compare(lang::make_lang("jp-Hira-Kana-Hans-x-test"), { "jp", "", "Hira", "", "Kana", "test" });
+}
+
+TEST_CASE("language-region-script-x-privateuse codes")
+{
+	compare(lang::make_lang("zh-CN-Hant-x-test"),     { "zh", "", "Hant", "CN", "", "test" });
+	compare(lang::make_lang("zh-cn-HANT-x-test"),     { "zh", "", "Hant", "CN", "", "test" });
+	compare(lang::make_lang("ZH-CN-hant-x-testcase"), { "zh", "", "Hant", "CN", "", "testcase" });
+
+	compare(lang::make_lang("es-419-Latn-x-test"), { "es", "", "Latn", "419", "", "test" });
+}
+
+TEST_CASE("language-region-script-variant codes")
+{
+	compare(lang::make_lang("de-Latn-CH-1901-x-test"),   { "de", "", "Latn", "CH", "1901",   "test" });
+	compare(lang::make_lang("de-Latn-CH-scouse-x-test"), { "de", "", "Latn", "CH", "scouse", "test" });
 }
 
 TEST_CASE("grandfathered language codes")

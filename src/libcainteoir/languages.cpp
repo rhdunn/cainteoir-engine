@@ -191,6 +191,7 @@ lang::tag lang::make_lang(const std::string &code)
 
 	lang::tag lang { "" };
 
+	bool is_private = false;
 	std::string::size_type a = 0;
 	std::string::size_type b = 0;
 	int n = 0;
@@ -199,7 +200,9 @@ lang::tag lang::make_lang(const std::string &code)
 		b = code.find('-', a);
 		std::string item = (b == std::string::npos) ? code.substr(a) : code.substr(a, b-a);
 
-		if (lang.lang.empty())
+		if (is_private)
+			lang.private_use = item;
+		else if (lang.lang.empty())
 		{
 			const lang::tag *extlang = lookup_extlang(item);
 			if (extlang)
@@ -236,6 +239,8 @@ lang::tag lang::make_lang(const std::string &code)
 				if (lang.script.empty())
 					lang.script = item;
 			}
+			else if (item == "x" || item == "X")
+				is_private = true;
 			else
 				lang.variant = item;
 			break;
@@ -252,7 +257,8 @@ lang::tag lang::make_lang(const std::string &code)
 	         to_lower(lang.extlang),
 	         capitalize(lang.script),
 	         to_upper(lang.region),
-	         lang.variant };
+	         lang.variant,
+	         to_lower(lang.private_use) };
 }
 
 bool lang::operator==(const tag &a, const tag &b)
