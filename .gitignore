@@ -46,6 +46,7 @@ tests/events
 tests/xmlreader
 tests/encoding
 tests/languages
+tests/ttslanguages
 tests/utf8
 tests/parsetext
 tests/mimetype

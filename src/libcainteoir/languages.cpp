@@ -121,6 +121,7 @@ static const std::initializer_list<std::pair<std::string, const lang::tag>> alia
 	{ "en@quot",     { "en" } },
 	{ "en@shaw",     { "en" } },
 	{ "es-la",       { "es", "", "", "419" } }, // Latin America & Caribbean
+	{ "fa-pin",      { "fa", "", "Latn" } },
 	{ "hy-west",     { "hy", "", "", "", "arevmda" } },
 	{ "i-ami",       { "ami" } },
 	{ "i-bnn",       { "bnn" } },
@@ -144,6 +145,7 @@ static const std::initializer_list<std::pair<std::string, const lang::tag>> alia
 	{ "sr@latin",    { "sr", "", "Latn" } },
 	{ "sr@latn",     { "sr", "", "Latn" } },
 	{ "uz@cyrillic", { "uz", "", "Cyrl" } },
+	{ "vi-hue",      { "vi", "", "", "", "", "hue" } },
 	{ "zh-guoyu",    { "zh", "cmn" } },
 	{ "zh-hakka",    { "zh", "hak" } },
 	{ "zh-min",      { "zh", "nan" } },

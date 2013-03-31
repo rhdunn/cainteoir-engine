@@ -426,6 +426,16 @@ tests/xmlreader.check: tests/xmlreader tests/xmlreader.py tests/harness.py ${TES
 	(python tests/xmlreader.py && touch $@) | tee $<.results
 	test -f $@ || false
 
+noinst_bin_PROGRAMS += tests/ttslanguages
+
+tests_ttslanguages_LDADD   = src/libcainteoir/libcainteoir.la
+tests_ttslanguages_SOURCES = tests/ttslanguages.cpp
+
+tests/ttslanguages.check: tests/ttslanguages
+	rm -f $@
+	(XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data $< && touch $@) | tee $<.results
+	test -f $@ || false
+
 noinst_bin_PROGRAMS += tests/languages
 
 tests_languages_LDADD   = src/libcainteoir/libcainteoir.la
@@ -520,6 +530,7 @@ check: \
 	tests/turtle_formatter.check \
 	tests/rdfquery.check \
 	tests/languages.check \
+	tests/ttslanguages.check \
 	tests/xmlreader.check \
 	tests/metadata.check \
 	tests/vorbis-comments.check \

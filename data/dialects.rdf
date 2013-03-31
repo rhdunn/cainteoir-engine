@@ -11,21 +11,21 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#brummie">
 	<rdf:value>brummie</rdf:value>
 	<iana:added>2013-03-31</iana:added>
-	<dct:description xml:lang="en">Birmingham, England (Brummie) accent.</dct:description>
+	<dct:description xml:lang="en">Birmingham, England (Brummie) dialect.</dct:description>
 	<dct:title xml:lang="en">Brummie</dct:title>
 </iana:Private>
 
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#cockney">
 	<rdf:value>cockney</rdf:value>
 	<iana:added>2013-03-31</iana:added>
-	<dct:description xml:lang="en">Working-class London, England (Cockney) accent.</dct:description>
+	<dct:description xml:lang="en">Working-class London, England (Cockney) dialect.</dct:description>
 	<dct:title xml:lang="en">Cockney</dct:title>
 </iana:Private>
 
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#cumbrian">
 	<rdf:value>cumbrian</rdf:value>
 	<iana:added>2013-03-31</iana:added>
-	<dct:description xml:lang="en">Cumbria, England (Cumbrian) accent.</dct:description>
+	<dct:description xml:lang="en">Cumbria, England (Cumbrian) dialect.</dct:description>
 	<dct:title xml:lang="en">Cumbrian</dct:title>
 </iana:Private>
 
@@ -46,15 +46,22 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#estury">
 	<rdf:value>estury</rdf:value>
 	<iana:added>2013-03-31</iana:added>
-	<dct:description xml:lang="en">Estury English (Thames) accent.</dct:description>
+	<dct:description xml:lang="en">Estury English (Thames) dialect.</dct:description>
 	<dct:title xml:lang="en">Estury</dct:title>
 </iana:Private>
 
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#geordie">
 	<rdf:value>geordie</rdf:value>
 	<iana:added>2013-03-31</iana:added>
-	<dct:description xml:lang="en">Tyneside, England (Geordie) accent.</dct:description>
+	<dct:description xml:lang="en">Tyneside, England (Geordie) dialect.</dct:description>
 	<dct:title xml:lang="en">Geordie</dct:title>
+</iana:Private>
+
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#hue">
+	<rdf:value>hue</rdf:value>
+	<iana:added>2013-03-31</iana:added>
+	<dct:description xml:lang="en">Vietnamese Hue dialect.</dct:description>
+	<dct:title xml:lang="en">Hue</dct:title>
 </iana:Private>
 
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#ireland">
@@ -67,14 +74,14 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#lancastrian">
 	<rdf:value>lancastrian</rdf:value>
 	<iana:added>2013-03-31</iana:added>
-	<dct:description xml:lang="en">Lancashire, England (Lancastrian) accent.</dct:description>
+	<dct:description xml:lang="en">Lancashire, England (Lancastrian) dialect.</dct:description>
 	<dct:title xml:lang="en">Lancastrian</dct:title>
 </iana:Private>
 
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#mackem">
 	<rdf:value>mackem</rdf:value>
 	<iana:added>2013-03-31</iana:added>
-	<dct:description xml:lang="en">Sunderland, England (Mackem) accent.</dct:description>
+	<dct:description xml:lang="en">Sunderland, England (Mackem) dialect.</dct:description>
 	<dct:title xml:lang="en">Mackem</dct:title>
 </iana:Private>
 
@@ -95,7 +102,7 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#rp">
 	<rdf:value>rp</rdf:value>
 	<iana:added>2013-03-31</iana:added>
-	<dct:description xml:lang="en">Received Pronunciation English accent.</dct:description>
+	<dct:description xml:lang="en">Received Pronunciation English dialect.</dct:description>
 	<dct:title xml:lang="en">Received Pronunciation</dct:title>
 </iana:Private>
 
@@ -123,212 +130,212 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/private#yorkshire">
 	<rdf:value>yorkshire</rdf:value>
 	<iana:added>2013-03-31</iana:added>
-	<dct:description xml:lang="en">Yorkshire, England accent.</dct:description>
+	<dct:description xml:lang="en">Yorkshire, England dialect.</dct:description>
 	<dct:title xml:lang="en">Yorkshire</dct:title>
 </iana:Private>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#AuE">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#AuE">
 	<rdf:value>AuE</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Australian English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-AU</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#BrEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#BrEn"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#BrEn">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#BrEn">
 	<rdf:value>BrEn</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">British English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB</lang:code>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#brummie">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#brummie">
 	<rdf:value>brummie</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Brummie (Birmingham)</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-brummie</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#westmids"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#westmids"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#CaE">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#CaE">
 	<rdf:value>CaE</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Canadian English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-CA</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#BrEn"/>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#NAmEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#BrEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#NAmEn"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#cockney">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#cockney">
 	<rdf:value>cockney</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Cockney</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-cockney</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#southeng"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#southeng"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#cumbrian">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#cumbrian">
 	<rdf:value>cumbrian</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Cumbrian</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-cumbrian</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#northeng"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#northeng"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#eastang">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#eastang">
 	<rdf:value>eastang</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">East Anglican English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-eastang</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#BrEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#BrEn"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#eastmids">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#eastmids">
 	<rdf:value>eastmids</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">East Midlands English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-eastmids</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#BrEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#BrEn"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#estury">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#estury">
 	<rdf:value>estury</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Estury</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-estury</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#southeng"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#southeng"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#GenAm">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#GenAm">
 	<rdf:value>GenAm</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">General American</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-US</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#NAmEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#NAmEn"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#geordie">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#geordie">
 	<rdf:value>geordie</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Geordie</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-geordie</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#northeng"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#northeng"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#IrE">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#IrE">
 	<rdf:value>IrE</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Irish English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-ireland</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#BrEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#BrEn"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#lancastrian">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#lancastrian">
 	<rdf:value>lancastrian</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Lancastrian</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-lancastrian</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#northeng"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#northeng"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#mackem">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#mackem">
 	<rdf:value>mackem</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Mackem</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-mackem</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#northeng"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#northeng"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#NAmE">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#NAmE">
 	<rdf:value>NAmE</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">North American English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-US-x-northamerica</lang:code>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#northeng">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#northeng">
 	<rdf:value>northeng</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Northern England English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-northeng</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#BrEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#BrEn"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#NZE">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#NZE">
 	<rdf:value>NZE</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">New Zeland English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-NZ</lang:code>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#RP">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#RP">
 	<rdf:value>RP</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Received Pronunciation English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-rp</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#southeng"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#southeng"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#SAE">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#SAE">
 	<rdf:value>SAE</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">South African English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-ZA</lang:code>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#ScE">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#ScE">
 	<rdf:value>ScE</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Scottish English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-scotland</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#BrEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#BrEn"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#scouse">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#scouse">
 	<rdf:value>scouse</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Scouse (Liverpudlian)</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-scouse</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#northeng"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#northeng"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#southeng">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#southeng">
 	<rdf:value>southeng</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Southern England English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-southeng</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#BrEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#BrEn"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#SSE">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#SSE">
 	<rdf:value>SSE</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Standard Singapore English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-SG</lang:code>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#WaE">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#WaE">
 	<rdf:value>WaE</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Welsh English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-wales</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#BrEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#BrEn"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#westmids">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#westmids">
 	<rdf:value>westmids</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">West Midlands English</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-westmids</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#BrEn"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#BrEn"/>
 </lang:Dialect>
 
-<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#yorkshire">
+<lang:Dialect rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#yorkshire">
 	<rdf:value>yorkshire</rdf:value>
 	<dct:created>2013-03-31</dct:created>
 	<dct:title xml:lang="en">Yorkshire</dct:title>
 	<lang:code rdf:datatype="http://purl.org/dc/terms/RFC5646">en-GB-x-yorkshire</lang:code>
-	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/accent/en#northeng"/>
+	<lang:broader rdf:about="http://rhdunn.github.com/cainteoir/data/dialect/en#northeng"/>
 </lang:Dialect>
 
 </rdf:RDF>
