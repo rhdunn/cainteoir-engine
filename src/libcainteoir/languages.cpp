@@ -111,7 +111,7 @@ static const std::initializer_list<std::pair<std::string, const lang::tag>> alia
 	{ "ca@valencia", { "ca", "", "", "", "valencia" } },
 	{ "cel-gaulish", { "cel-gaulish" } }, // parent=cel, children=[xtg, xcg, xlp, xga]
 	{ "en-gb-oed",   { "en", "", "", "GB" } },
-	{ "en-sc",       { "en", "", "", "", "scotland" } },
+	{ "en-sc",       { "en", "", "", "GB", "scotland" } },
 	{ "en-uk",       { "en", "", "", "GB" } },
 	{ "en-uk-north", { "en", "", "", "GB" } },
 	{ "en-uk-rp",    { "en", "", "", "GB" } },

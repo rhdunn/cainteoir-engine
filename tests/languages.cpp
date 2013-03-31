@@ -170,7 +170,7 @@ TEST_CASE("extlang codes in the IANA language subtag repository")
 TEST_CASE("eSpeak voice language codes")
 {
 	compare(lang::make_lang("es-la"),       { "es", "", "", "419" });
-	compare(lang::make_lang("en-sc"),       { "en", "", "", "",   "scotland" });
+	compare(lang::make_lang("en-sc"),       { "en", "", "", "GB", "scotland" });
 	compare(lang::make_lang("en-uk"),       { "en", "", "", "GB"  });
 	compare(lang::make_lang("en-uk-north"), { "en", "", "", "GB"  });
 	compare(lang::make_lang("en-uk-rp"),    { "en", "", "", "GB"  });
