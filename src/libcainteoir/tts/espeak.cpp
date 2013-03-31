@@ -38,6 +38,27 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
+static const std::map<std::string, std::string> voice_corrections = {
+	{ "en-sc",       "en-GB-scotland" },
+	{ "en-uk",       "en-GB" },
+	{ "en-uk-north", "en-GB-x-lancastrian" },
+	{ "en-uk-rp",    "en-GB-x-rp" },
+	{ "en-uk-wmids", "en-GB-x-westmids" },
+	{ "en-wi",       "en-029" },
+	{ "es-la",       "es-419" },
+	{ "fa-pin",      "fa-Latn" },
+	{ "hy-west",     "hy-arevmda" },
+	{ "vi-hue",      "vi-x-hue" },
+};
+
+std::string correct_lang(std::string lang)
+{
+	auto match = voice_corrections.find(lang);
+	if (match != voice_corrections.end())
+		return match->second;
+	return lang;
+}
+
 #if defined(HAVE_MBROLA)
 struct mbrola_voice
 {
@@ -239,7 +260,7 @@ public:
 
 			rdf::uri voice = rdf::uri(baseuri, id);
 			metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
-			metadata.statement(voice, rdf::dc("language"), rdf::literal((*data)->languages+1));
+			metadata.statement(voice, rdf::dc("language"), rdf::literal(correct_lang((*data)->languages+1)));
 			metadata.statement(voice, rdf::tts("name"), rdf::literal((*data)->name));
 			metadata.statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male"));
 			if ((*data)->age)

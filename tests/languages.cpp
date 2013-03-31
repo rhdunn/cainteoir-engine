@@ -206,20 +206,6 @@ TEST_CASE("extlang codes in the IANA language subtag repository")
 	}
 }
 
-TEST_CASE("eSpeak voice language codes")
-{
-	compare(lang::make_lang("es-la"),       { "es", "", "",     "419" });
-	compare(lang::make_lang("en-sc"),       { "en", "", "",     "GB", "scotland" });
-	compare(lang::make_lang("en-uk"),       { "en", "", "",     "GB"  });
-	compare(lang::make_lang("en-uk-north"), { "en", "", "",     "GB", "", "lancastrian" });
-	compare(lang::make_lang("en-uk-rp"),    { "en", "", "",     "GB", "", "rp" });
-	compare(lang::make_lang("en-uk-wmids"), { "en", "", "",     "GB", "", "westmids" });
-	compare(lang::make_lang("en-wi"),       { "en", "", "",     "029" });
-	compare(lang::make_lang("fa-pin"),      { "fa", "", "Latn" });
-	compare(lang::make_lang("hy-west"),     { "hy", "", "",     "",   "arevmda" });
-	compare(lang::make_lang("vi-hue"),      { "vi", "", "",     "",   "", "hue" });
-}
-
 TEST_CASE("posix locale codes from /usr/share/locale")
 {
 	compare(lang::make_lang("be@latin"),    { "be", "", "Latn" });

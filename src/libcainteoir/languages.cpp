@@ -111,18 +111,9 @@ static const std::initializer_list<std::pair<std::string, const lang::tag>> alia
 	{ "ca@valencia", { "ca", "", "", "", "valencia" } },
 	{ "cel-gaulish", { "cel-gaulish" } }, // parent=cel, children=[xtg, xcg, xlp, xga]
 	{ "en-gb-oed",   { "en", "", "", "GB" } },
-	{ "en-sc",       { "en", "", "", "GB", "scotland" } },
-	{ "en-uk",       { "en", "", "", "GB" } },
-	{ "en-uk-north", { "en", "", "", "GB", "", "lancastrian" } },
-	{ "en-uk-rp",    { "en", "", "", "GB", "", "rp" } },
-	{ "en-uk-wmids", { "en", "", "", "GB", "", "westmids" } },
-	{ "en-wi",       { "en", "", "", "029" } }, // Caribbean
 	{ "en@boldquot", { "en" } },
 	{ "en@quot",     { "en" } },
 	{ "en@shaw",     { "en" } },
-	{ "es-la",       { "es", "", "", "419" } }, // Latin America & Caribbean
-	{ "fa-pin",      { "fa", "", "Latn" } },
-	{ "hy-west",     { "hy", "", "", "", "arevmda" } },
 	{ "i-ami",       { "ami" } },
 	{ "i-bnn",       { "bnn" } },
 	{ "i-default",   { "und" } },
@@ -145,7 +136,6 @@ static const std::initializer_list<std::pair<std::string, const lang::tag>> alia
 	{ "sr@latin",    { "sr", "", "Latn" } },
 	{ "sr@latn",     { "sr", "", "Latn" } },
 	{ "uz@cyrillic", { "uz", "", "Cyrl" } },
-	{ "vi-hue",      { "vi", "", "", "", "", "hue" } },
 	{ "zh-guoyu",    { "zh", "cmn" } },
 	{ "zh-hakka",    { "zh", "hak" } },
 	{ "zh-min",      { "zh", "nan" } },
