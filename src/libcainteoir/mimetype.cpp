@@ -411,6 +411,9 @@ static const std::initializer_list<m::matchlet> news_pattern3 = { { 0,  1, "Date
 static const std::initializer_list<m::matchlet> news_pattern4 = { { 0,  1, "Newsgroups: " } };
 static const std::initializer_list<m::matchlet> news_pattern5 = { { 0,  1, "MDate: " } };
 
+// for mail archives ...
+static const std::initializer_list<m::matchlet> mail_pattern1 = { { 0, 1, "From " }, { 5, 80, "\nFrom: " } };
+
 // for MIME-like story metadata ...
 static const std::initializer_list<m::matchlet> story_pattern1 = { { 0,  1, "Title: " } };
 static const std::initializer_list<m::matchlet> story_pattern2 = { { 0,  1, "Author: " } };
@@ -420,6 +423,7 @@ static const std::initializer_list<m::matchlet> story_pattern4 = { { 0,  1, "Sto
 static const std::initializer_list<m::magic> mime_magic = {
 	mime_pattern1,  mime_pattern2, mime_pattern3, mime_pattern4,
 	news_pattern1,  news_pattern2, news_pattern3, news_pattern4, news_pattern5,
+	mail_pattern1,
 	http_pattern1,  http_pattern2,
 	story_pattern1, story_pattern2, story_pattern3, story_pattern4,
 };

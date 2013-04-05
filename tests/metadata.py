@@ -111,6 +111,7 @@ if __name__ == '__main__':
 			{'test': 'mime/email/from-email-only.txt', 'result': 'mime/email/from-email-only.n3'},
 			{'test': 'mime/email/from-email-email.txt', 'result': 'mime/email/from-email-only.n3'},
 			{'test': 'mime/email/from-header.txt', 'result': 'mime/email/from-header.n3'},
+			{'test': 'mime/email/from-archived.txt', 'result': 'mime/email/from.n3'},
 			{'test': 'mime/email/newsgroups.txt', 'result': 'mime/email/newsgroups.n3'},
 			{'test': 'mime/email/article-subject.txt', 'result': 'mime/email/subject.n3'},
 			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
@@ -123,6 +124,7 @@ if __name__ == '__main__':
 			{'test': 'mime/email/from-email-only-lfonly.txt', 'result': 'mime/email/from-email-only.n3'},
 			{'test': 'mime/email/from-email-email-lfonly.txt', 'result': 'mime/email/from-email-only.n3'},
 			{'test': 'mime/email/from-header-lfonly.txt', 'result': 'mime/email/from-header.n3'},
+			{'test': 'mime/email/from-archived-lfonly.txt', 'result': 'mime/email/from.n3'},
 			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/newsgroups.n3'},
 			{'test': 'mime/email/article-subject-lfonly.txt', 'result': 'mime/email/subject.n3'},
 		]},
