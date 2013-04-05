@@ -229,7 +229,6 @@ TEST_CASE("language tag equality")
 TEST_CASE("language-region tag equality")
 {
 	lang_match(   "en-GB", "en-GB");
-	lang_match(   "en-GB", "en-UK");
 	lang_mismatch("en-GB", "en-US");
 
 	lang_match("en", "en-US");
