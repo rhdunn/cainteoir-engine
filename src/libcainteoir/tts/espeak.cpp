@@ -24,6 +24,10 @@
 
 #include "tts_engine.hpp"
 
+namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
+namespace tts = cainteoir::tts;
+
 #if defined(HAVE_ESPEAK_SPEAK_LIB_H)
 
 #include <espeak/speak_lib.h>
@@ -33,10 +37,6 @@
 #ifndef espeakINITIALIZE_DONT_EXIT
 #define espeakINITIALIZE_DONT_EXIT 0x8000
 #endif
-
-namespace rdf = cainteoir::rdf;
-namespace rql = cainteoir::rdf::query;
-namespace tts = cainteoir::tts;
 
 static const std::map<std::string, std::string> voice_corrections = {
 	{ "en-sc",       "en-GB-scotland" },
