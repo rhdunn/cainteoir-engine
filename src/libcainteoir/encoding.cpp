@@ -23,7 +23,6 @@
 
 #include <cainteoir/encoding.hpp>
 #include <stdexcept>
-#include <iconv.h>
 #include <errno.h>
 
 static const std::initializer_list<std::pair<int, const char *>> codepages = {
@@ -80,9 +79,14 @@ static const std::initializer_list<std::pair<int, const char *>> codepages = {
 	{ 65001, "utf-8" },
 };
 
-struct iconv_decoder : public cainteoir::detail::decoder
+
+#ifdef HAVE_ICONV_H
+
+#include <iconv.h>
+
+struct native_decoder : public cainteoir::detail::decoder
 {
-	iconv_decoder(const char *aEncoding)
+	native_decoder(const char *aEncoding)
 	{
 		cvt = iconv_open("UTF-8", aEncoding);
 		if (cvt == (iconv_t)-1)
@@ -93,7 +97,7 @@ struct iconv_decoder : public cainteoir::detail::decoder
 		}
 	}
 
-	~iconv_decoder()
+	~native_decoder()
 	{
 		if (cvt != (iconv_t)-1)
 			iconv_close(cvt);
@@ -134,6 +138,24 @@ struct iconv_decoder : public cainteoir::detail::decoder
 	iconv_t cvt;
 };
 
+#else
+
+struct native_decoder : public cainteoir::detail::decoder
+{
+	native_decoder(const char *aEncoding)
+	{
+	}
+
+	void decode(const cainteoir::buffer &data, cainteoir::rope &decoded) const
+	{
+		// Throw here and not in the constructor to support utf-8 and
+		// ascii pass-through.
+		throw std::runtime_error(i18n("unsupported character set"));
+	}
+};
+
+#endif
+
 cainteoir::encoding::encoding(int aCodepage)
 {
 	set_encoding(aCodepage);
@@ -162,7 +184,7 @@ bool cainteoir::encoding::set_encoding(const char *aEncoding)
 	if (mEncoding == aEncoding)
 		return false;
 
-	mDecoder  = std::make_shared<iconv_decoder>(aEncoding);
+	mDecoder  = std::make_shared<native_decoder>(aEncoding);
 	mEncoding = aEncoding;
 	return true;
 }
