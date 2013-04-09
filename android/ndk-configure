@@ -1,0 +1,103 @@
+#!/bin/bash
+
+if [ "$1" = "" ]; then
+	echo "Usage ndk-autoconf <api> <architecture> <compiler>"
+	echo "e.g. ndk-autoconf android-9 armeabi 4.6"
+	exit 1
+fi
+
+##### host detection:
+
+HOST_OS=$(uname -s)
+case ${HOST_OS} in
+	Darwin)         HOST_OS=darwin ;;
+	Linux)          HOST_OS=linux ;;
+	FreeBsd)        HOST_OS=freebsd ;;
+	CYGWIN*|*_NT-*) HOST_OS=cygwin ;;
+	*)
+		echo "ERROR: Unknown host operating system: ${HOST_OS}"
+		exit 1
+esac
+
+HOST_ARCH=$(uname -m)
+case ${HOST_ARCH} in
+	i?86)         HOST_ARCH=x86 ;;
+	x86_64|and64) HOST_ARCH=x86_64 ;;
+	*)
+		echo "ERROR: Unknown host CPU architecture: ${HOST_ARCH}"
+		exit 1
+esac
+
+HOST=${HOST_OS}-${HOST_ARCH}
+
+##### target detection:
+
+platform=$1
+ARCH=$2
+case "${ARCH}" in
+	armeabi)
+		# export ARCH_FLAGS="-march=armv5te -mtune=xscale -msoft-float -mthumb"
+		export CROSS_COMPILE=arm-linux-androideabi
+		arch=arm
+		;;
+	armeabi-v7a)
+		# export ARCH_FLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -mthumb"
+		export CROSS_COMPILE=arm-linux-androideabi
+		arch=arm
+		;;
+	x86)
+		export CROSS_COMPILE=x86
+		arch=x86
+		;;
+	mips)
+		export CROSS_COMPILE=mipsel-linux-android
+		arch=mips
+		;;
+	*)
+		echo "Unsupported architecture: $2"
+		echo "... supported architectures: armeabi, armabi-v7a, x86, mips"
+		exit 1
+esac
+compiler=$3
+
+shift
+shift
+shift
+
+##### compiler configuration:
+
+export NDK=`ndk-which gcc | sed -e 's,/toolchains/.*,,'`
+
+export NDK_TOOLCHAIN=${NDK}/toolchains/${CROSS_COMPILE}-${compiler}/prebuilt/${HOST}/bin
+
+export CC=${NDK_TOOLCHAIN}/${CROSS_COMPILE}-gcc
+export CXX=${NDK_TOOLCHAIN}/${CROSS_COMPILE}-g++
+export LD=${NDK_TOOLCHAIN}/${CROSS_COMPILE}-ld
+export AR=${NDK_TOOLCHAIN}/${CROSS_COMPILE}-ar
+export RANLIB=${NDK_TOOLCHAIN}/${CROSS_COMPILE}-ranlib
+export STRIP=${NDK_TOOLCHAIN}/${CROSS_COMPILE}-strip
+
+export ac_cv_func_malloc_0_nonnull=yes
+export ac_cv_func_realloc_0_nonnull=yes
+
+export SYSROOT=${NDK}/platforms/${platform}/arch-${arch}
+
+export CXXFLAGS="--sysroot=${SYSROOT}"
+export CFLAGS="  --sysroot=${SYSROOT}"
+
+##### C++ standard library:
+
+export STL=${NDK}/sources/cxx-stl/gnu-libstdc++/${compiler}
+
+export CXXFLAGS="${CXXFLAGS} -isystem ${STL}/include -isystem ${STL}/libs/${ARCH}/include" "-L\"${STL}/libs/${ARCH}\" -lgnustl_static -lsupc++"
+
+##### configure:
+
+argStr=""
+
+while [ "$1" != "" ]; do
+	argStr="${argStr} $1"
+	shift
+done
+
+./configure --host=${CROSS_COMPILE} --target=${CROSS_COMPILE} --prefix=$SYSROOT/usr LIBS="-lc -lgcc" $argStr
