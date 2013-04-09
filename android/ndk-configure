@@ -85,7 +85,13 @@ export SYSROOT=${NDK}/platforms/${platform}/arch-${arch}
 export CXXFLAGS="--sysroot=${SYSROOT}"
 export CFLAGS="  --sysroot=${SYSROOT}"
 
-##### C++ standard library:
+##### pkg-config configuration:
+
+export PKG_CONFIG_DIR=
+export PKG_CONFIG_LIBDIR=${SYSROOT}/usr/lib/pkgconfig:${SYSROOT}/usr/share/pkgconfig
+export PKG_CONFIG_SYSROOT_DIR=${SYSROOT}
+
+##### C++ standard library configuration:
 
 export STL=${NDK}/sources/cxx-stl/gnu-libstdc++/${compiler}
 
