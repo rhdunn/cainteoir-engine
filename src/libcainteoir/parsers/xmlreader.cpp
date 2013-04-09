@@ -25,6 +25,8 @@
 #include <cainteoir/xmlreader.hpp>
 #include <cainteoir/unicode.hpp>
 
+#include <stdlib.h>
+
 using cainteoir::xml::detail::entity;
 using cainteoir::xml::detail::entity_set;
 
