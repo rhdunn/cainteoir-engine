@@ -26,6 +26,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <limits>
+#include <stdlib.h>
 
 namespace css = cainteoir::css;
 
