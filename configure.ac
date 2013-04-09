@@ -91,10 +91,10 @@ dnl ================================================================
 
 PKG_CHECK_MODULES(ZLIB, [zlib >= 1.2.3], [], [
     # Fallback for distributions that don't install zlib.pc (e.g. Ubuntu Lucid) ...
-    ZLIB_HOME=/usr/local
+    ZLIB_HOME=${SYSROOT}/usr/local
     if test ! -f "${ZLIB_HOME}/include/zlib.h"
     then
-        ZLIB_HOME=/usr
+        ZLIB_HOME=${SYSROOT}/usr
     fi
     ZLIB_OLD_LDFLAGS=$LDFLAGS
     ZLIB_OLD_CPPFLAGS=$LDFLAGS
