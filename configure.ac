@@ -182,7 +182,13 @@ dnl ================================================================
 dnl PulseAudio checks.
 dnl ================================================================
 
-PKG_CHECK_MODULES(PULSE, [libpulse-simple >= 0.9])
+PKG_CHECK_MODULES(PULSE, [libpulse-simple >= 0.9],
+	[
+		AC_DEFINE(HAVE_PULSEAUDIO, [], [Do we have pulseaudio])
+		have_pulseaudio=yes
+	],[
+		have_pulseaudio=no
+	])
 AC_SUBST(PULSE_CFLAGS)
 AC_SUBST(PULSE_LIBS)
 
@@ -289,6 +295,8 @@ AC_MSG_NOTICE([
 
         eSpeak support:                ${have_espeak}
         MBROLA support:                ${have_mbrola} (voice directory: ${MBROLA_DIR})
+
+        PulseAudio support:            ${have_pulseaudio}
 
         Ogg/Vorbis support:            ${have_vorbisenc}
         PDF support:                   ${have_poppler}
