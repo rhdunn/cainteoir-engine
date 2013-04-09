@@ -23,13 +23,16 @@
 #include "i18n.h"
 
 #include <cainteoir/audio.hpp>
+
+namespace rdf = cainteoir::rdf;
+
+#ifdef HAVE_PULSEAUDIO
+
 #include <stdexcept>
 #include <pulse/simple.h>
 #include <pulse/error.h>
 #include <string.h>
 #include <stdio.h>
-
-namespace rdf = cainteoir::rdf;
 
 class pulse_audio : public cainteoir::audio
 {
@@ -88,3 +91,12 @@ create_pulseaudio_device(const char *device, const rdf::uri &format, int channel
 	return std::make_shared<pulse_audio>(device, format, channels, frequency);
 }
 
+#else
+
+std::shared_ptr<cainteoir::audio>
+create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+{
+	return {};
+}
+
+#endif
