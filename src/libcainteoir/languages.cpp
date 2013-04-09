@@ -96,13 +96,17 @@ static LanguageData *language_data()
 	return data.get();
 }
 
-static const char *localize_subtag(const char *iso_codes, const std::string &id)
+static std::string localize_subtag(const char *iso_codes, const std::string &id)
 {
 	auto data = language_data();
 	auto entry = data->subtags.find(id);
 	if (entry == data->subtags.end())
-		return id.c_str();
+		return id;
+#ifdef ENABLE_NLS
 	return dgettext(iso_codes, entry->second.c_str());
+#else
+	return entry->second;
+#endif
 }
 
 static const std::initializer_list<std::pair<std::string, const lang::tag>> alias_tags = {
@@ -270,19 +274,19 @@ bool lang::operator==(const tag &a, const tag &b)
 	return a.lang == b.lang && a.script == b.script && a.region == b.region && a.variant == b.variant;
 }
 
-const char *cainteoir::languages::language(const lang::tag &id) const
+std::string cainteoir::languages::language(const lang::tag &id) const
 {
 	if (!id.extlang.empty())
 		return localize_subtag("iso_639", id.extlang);
 	return localize_subtag("iso_639", id.lang);
 }
 
-const char *cainteoir::languages::script(const lang::tag &id) const
+std::string cainteoir::languages::script(const lang::tag &id) const
 {
 	return localize_subtag("iso_15924", id.script);
 }
 
-const char *cainteoir::languages::region(const lang::tag &id) const
+std::string cainteoir::languages::region(const lang::tag &id) const
 {
 	return localize_subtag("iso_3166", id.region);
 }

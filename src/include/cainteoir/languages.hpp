@@ -61,11 +61,11 @@ namespace cainteoir
 {
 	struct languages
 	{
-		const char *language(const language::tag &id) const;
+		std::string language(const language::tag &id) const;
 
-		const char *script(const language::tag &id) const;
+		std::string script(const language::tag &id) const;
 
-		const char *region(const language::tag &id) const;
+		std::string region(const language::tag &id) const;
 
 		std::string operator()(const std::string & langid);
 	};
