@@ -23,6 +23,10 @@
 
 #include <cainteoir/path.hpp>
 
+#ifdef __ANDROID__
+#define getenv(env) nullptr
+#endif
+
 cainteoir::path &cainteoir::path::operator/=(const char *aPath)
 {
 	if (mPath.back() != '/' && *aPath != '/')
