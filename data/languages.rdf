@@ -2300,7 +2300,7 @@
 <iana:Region rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#PS">
 	<rdf:value>PS</rdf:value>
 	<iana:added>2005-10-16</iana:added>
-	<dct:title xml:lang="en">Palestinian Territory, Occupied</dct:title>
+	<dct:title xml:lang="en">Palestine, State of</dct:title>
 </iana:Region>
 <iana:Region rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#PT">
 	<rdf:value>PT</rdf:value>
@@ -23077,6 +23077,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Langobardic</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lngscale">
+	<rdf:value>lngscale</rdf:value>
+	<iana:added>2013-04-11</iana:added>
+	<dct:description xml:lang="en">The long-scale pronunciation system for numbers (e.g. 10^9 is "milliard").</dct:description>
+	<dct:title xml:lang="en">Long Scale</dct:title>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lnh">
 	<rdf:value>lnh</rdf:value>
 	<iana:added>2009-07-29</iana:added>
@@ -34770,6 +34776,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<dct:title xml:lang="en">Shasta</dct:title>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#shtscale">
+	<rdf:value>shtscale</rdf:value>
+	<iana:added>2013-04-11</iana:added>
+	<dct:description xml:lang="en">The short-scale pronunciation system for numbers (e.g. 10^9 is "billion").</dct:description>
+	<dct:title xml:lang="en">Short Scale</dct:title>
+</iana:Private>
 <iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#shu">
 	<rdf:value>shu</rdf:value>
 	<iana:added>2009-07-29</iana:added>

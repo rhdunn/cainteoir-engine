@@ -75,6 +75,12 @@ Prefix: en-GB
 Comments: Dialect local to Lancashire, England.
 %%
 Type: private
+Subtag: lngscale
+Description: Long Scale
+Added: 2013-04-11
+Comments: The long-scale pronunciation system for numbers (e.g. 10^9 is "milliard").
+%%
+Type: private
 Subtag: mackem
 Description: Mackem
 Added: 2013-03-31
@@ -101,6 +107,12 @@ Description: Received Pronunciation
 Added: 2013-03-31
 Prefix: en-GB
 Comments: Standard English accent found in Southern England.
+%%
+Type: private
+Subtag: shtscale
+Description: Short Scale
+Added: 2013-04-11
+Comments: The short-scale pronunciation system for numbers (e.g. 10^9 is "billion").
 %%
 Type: private
 Subtag: southeng
