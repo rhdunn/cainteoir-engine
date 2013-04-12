@@ -21,6 +21,7 @@
 #include "config.h"
 #include "compatibility.hpp"
 
+#include <ucd/ucd.h>
 #include <cainteoir/text.hpp>
 
 namespace tts = cainteoir::tts;
@@ -173,13 +174,13 @@ void full_stop_sequence::flush(std::queue<tts::text_event> &aClause)
 	switch (count)
 	{
 	case 1:
-		aClause.push({ _("."), tts::full_stop, ucd::Zyyy, { begin, end }, '.' });
+		aClause.push({ _("."), tts::full_stop, { begin, end }, '.' });
 		break;
 	case 2:
-		aClause.push({ _(".."), tts::double_stop, ucd::Zyyy, { begin, end }, '.' });
+		aClause.push({ _(".."), tts::double_stop, { begin, end }, '.' });
 		break;
 	default:
-		aClause.push({ _("..."), tts::ellipsis, ucd::Zyyy, { begin, end }, '.' });
+		aClause.push({ _("..."), tts::ellipsis, { begin, end }, '.' });
 		break;
 	}
 
@@ -308,7 +309,7 @@ bool tts::context_analysis::read_clause()
 						else
 						{
 							fullstops.flush(mClause);
-							mClause.push({ event.text, type, event.script, event.range, event.codepoint });
+							mClause.push({ event.text, type, event.range, event.codepoint });
 						}
 					}
 				}

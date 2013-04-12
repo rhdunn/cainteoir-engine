@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <ucd/ucd.h>
 #include <cainteoir/document.hpp>
 #include <cainteoir/text.hpp>
 #include <cainteoir/unicode.hpp>

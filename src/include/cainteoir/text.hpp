@@ -25,7 +25,6 @@
 #include "languages.hpp"
 #include "path.hpp"
 
-#include <ucd/ucd.h>
 #include <queue>
 #include <unordered_map>
 
@@ -136,36 +135,21 @@ namespace cainteoir { namespace tts
 	{
 		std::shared_ptr<buffer> text;
 		event_type type;
-		ucd::script script;
 		cainteoir::range<uint32_t> range;
 		union
 		{
-			ucd::codepoint_t codepoint;
+			uint32_t codepoint;
 			uint16_t duration;
 		};
 
 		text_event(const std::shared_ptr<buffer> &aText,
 		           event_type aType,
-		           ucd::script aScript,
 		           const cainteoir::range<uint32_t> &aRange,
-		           ucd::codepoint_t aCodePoint)
+		           uint32_t aCodePoint)
 			: text(aText)
 			, type(aType)
-			, script(aScript)
 			, range(aRange)
 			, codepoint(aCodePoint)
-		{
-		}
-
-		text_event(const std::shared_ptr<buffer> &aText,
-		           event_type aType,
-		           const cainteoir::range<uint32_t> &aRange,
-		           uint16_t aDuration)
-			: text(aText)
-			, type(aType)
-			, script(ucd::Zzzz)
-			, range(aRange)
-			, duration(aDuration)
 		{
 		}
 

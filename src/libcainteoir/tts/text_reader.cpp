@@ -21,6 +21,7 @@
 #include "config.h"
 #include "compatibility.hpp"
 
+#include <ucd/ucd.h>
 #include <cainteoir/text.hpp>
 #include <cainteoir/unicode.hpp>
 
@@ -131,7 +132,6 @@ tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
 	, mMatchLast(0)
 {
 	mMatch.type = error;
-	mMatch.script = ucd::Zzzz;
 }
 
 #define SOFT_HYPHEN                 0x00AD
@@ -171,7 +171,6 @@ bool tts::text_reader::read()
 		if (state_is_terminal[mState])
 			return matched();
 
-		mMatch.script = ucd::Zzzz;
 		mMatch.type = paragraph;
 		mMatch.range = { mMatchNext, mMatchLast };
 		mReaderState = reader_state::need_text;
@@ -186,6 +185,7 @@ bool tts::text_reader::read()
 	ucd::codepoint_t cp = 0;
 	const char *next = nullptr;
 	const char *quote_match = nullptr;
+	ucd::script current_script = ucd::Zzzz;
 	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
 	{
 		ucd::category category = ucd::lookup_category(cp);
@@ -229,7 +229,7 @@ bool tts::text_reader::read()
 				continue;
 			break;
 		case state::script:
-			if (mMatch.script != script && mMatch.script != ucd::Zzzz)
+			if (current_script != script && current_script != ucd::Zzzz)
 			{
 				// The script has changed, so split the token here.
 				new_state = 0;
@@ -244,7 +244,7 @@ bool tts::text_reader::read()
 
 		if (mState != new_state)
 		{
-			mMatch.script = script;
+			current_script = script;
 			mState = new_state;
 			mNeedEndPara = true;
 		}
@@ -265,7 +265,6 @@ bool tts::text_reader::read()
 			if (cp == PARAGRAPH_SEPARATOR)
 			{
 				mCurrent = next;
-				mMatch.script = ucd::Zzzz;
 				mMatch.type = paragraph;
 				mMatch.range = { mMatchNext, mMatchLast };
 				mNeedEndPara = false;

@@ -21,7 +21,9 @@
 #include "config.h"
 #include "compatibility.hpp"
 
+#include <ucd/ucd.h>
 #include <cainteoir/document.hpp>
+#include <cainteoir/unicode.hpp>
 #include <cainteoir/text.hpp>
 
 #include <stdexcept>
@@ -82,6 +84,7 @@ static const char *token_name[] = {
 template <typename Reader>
 void generate_events(Reader &text)
 {
+	ucd::codepoint_t cp = 0;
 	while (text.read())
 	{
 		auto &event = text.event();
@@ -92,8 +95,9 @@ void generate_events(Reader &text)
 		case tts::word_capitalized:
 		case tts::word_mixedcase:
 		case tts::word_script:
+			cainteoir::utf8::read(event.text->begin(), cp);
 			fprintf(stdout, ".%s.%-8s [%d..%d] %s\n",
-			        ucd::get_script_string(event.script),
+			        ucd::get_script_string(ucd::lookup_script(cp)),
 			        token_name[event.type],
 			        event.range.begin(),
 			        event.range.end(),
