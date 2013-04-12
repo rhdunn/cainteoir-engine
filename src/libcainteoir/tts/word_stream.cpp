@@ -22,6 +22,7 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/text.hpp>
+#include <cainteoir/unicode.hpp>
 #include <stack>
 
 namespace tts = cainteoir::tts;
@@ -132,7 +133,10 @@ static void push_word_(std::queue<tts::text_event> &events,
 	if (word.type != tts::dictionary::say_as)
 		return;
 
-	events.push(tts::text_event(word.text, tts::word_lowercase, word.script, range, 0));
+	ucd::codepoint_t cp = 0;
+	cainteoir::utf8::read(word.text->begin(), cp);
+
+	events.push(tts::text_event(word.text, tts::word_lowercase, ucd::lookup_script(cp), range, 0));
 }
 
 static void parse_number(std::queue<tts::text_event> &events,

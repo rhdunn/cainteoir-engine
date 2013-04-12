@@ -66,7 +66,6 @@ namespace cainteoir { namespace tts
 		struct entry
 		{
 			entry_type type;
-			ucd::script script;
 			std::shared_ptr<buffer> text;
 		};
 
@@ -92,7 +91,6 @@ namespace cainteoir { namespace tts
 
 		void add_entry(const key_type &aEntry,
 		               entry_type aType,
-		               ucd::script aScript,
 		               const std::shared_ptr<buffer> &aDefinition);
 
 		const entry &lookup(const key_type &aEntry) const;

@@ -51,10 +51,9 @@ bool tts::dictionary::add_entries(const path &aDictionaryPath)
 
 void tts::dictionary::add_entry(const key_type &aEntry,
                                 entry_type aType,
-                                ucd::script aScript,
                                 const std::shared_ptr<buffer> &aDefinition)
 {
-	mEntries[aEntry] = { aType, aScript, aDefinition };
+	mEntries[aEntry] = { aType, aDefinition };
 }
 
 void tts::dictionary::add_entries(const path &aBasePath,
@@ -99,22 +98,19 @@ void tts::dictionary::add_entries(const path &aBasePath,
 			++begin_definition;
 			--end_definition;
 			auto definition = cainteoir::make_buffer(begin_definition, end_definition - begin_definition);
-			add_entry(entry, phonemes, ucd::Zzzz, definition);
+			add_entry(entry, phonemes, definition);
 		}
 		else
 		{
-			ucd::codepoint_t cp = 0;
-			cainteoir::utf8::read(begin_definition, cp);
-
 			auto definition = cainteoir::make_buffer(begin_definition, end_definition - begin_definition);
-			add_entry(entry, say_as, ucd::lookup_script(cp), definition);
+			add_entry(entry, say_as, definition);
 		}
 	}
 }
 
 const tts::dictionary::entry &tts::dictionary::lookup(const key_type &aEntry) const
 {
-	static const entry no_match = { tts::dictionary::no_match, ucd::Zzzz, {} };
+	static const entry no_match = { tts::dictionary::no_match, {} };
 	const auto &match = mEntries.find(aEntry);
 	return (match == mEntries.end()) ? no_match : match->second;
 }

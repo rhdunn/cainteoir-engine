@@ -22,6 +22,7 @@
 
 #include <cainteoir/document.hpp>
 #include <cainteoir/text.hpp>
+#include <cainteoir/unicode.hpp>
 #include <cainteoir/stopwatch.hpp>
 #include <stdexcept>
 #include <getopt.h>
@@ -96,10 +97,13 @@ int main(int argc, char ** argv)
 				{
 					if (entry.second.type == tts::dictionary::say_as)
 					{
+						ucd::codepoint_t cp = 0;
+						cainteoir::utf8::read(entry.second.text->begin(), cp);
+
 						fprintf(stdout, "\"%s\" => \"%s\"@%s [say-as]\n",
 						        entry.first->str().c_str(),
 						        entry.second.text->str().c_str(),
-						        ucd::get_script_string(entry.second.script));
+						        ucd::get_script_string(ucd::lookup_script(cp)));
 					}
 					else
 					{
@@ -167,7 +171,6 @@ int main(int argc, char ** argv)
 				case tts::word_script:
 					dict.add_entry(text.event().text,
 					               tts::dictionary::say_as,
-					               ucd::Zzzz,
 					               text.event().text);
 					++words;
 					break;
