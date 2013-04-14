@@ -144,7 +144,14 @@ void parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		if (argc != 3)
 			throw std::runtime_error("usage: parsetext --phonemestream <document> <ruleset> <dictionary>");
 
-		tts::phoneme_stream text(reader, locale, scale, cainteoir::path(argv[1]), cainteoir::path(argv[2]));
+		auto rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
+		if (!rules.get())
+		{
+			fprintf(stderr, "unable to load pronunciation rules: %s\n", argv[1]);
+			return;
+		}
+
+		tts::phoneme_stream text(reader, locale, scale, rules, cainteoir::path(argv[2]));
 		generate_events(text);
 	}
 	else if (type == ARG_CONTEXTANALYSIS)

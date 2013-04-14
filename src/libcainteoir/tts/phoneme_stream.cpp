@@ -28,12 +28,11 @@ namespace tts = cainteoir::tts;
 tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aReader,
                                     const language::tag &aLocale,
                                     tts::word_stream::number_scale aScale,
-                                    const path &aRuleSetPath,
+                                    const std::shared_ptr<pronunciation> &aRules,
                                     const path &aExceptionDictionaryPath)
 	: mReader(aReader, aLocale, aScale)
+	, mRules(aRules)
 {
-	if (!mRules.add_rules(aRuleSetPath))
-		fprintf(stderr, "unable to load pronunciation rules: %s\n", (const char *)aRuleSetPath);
 	if (!mExceptionDictionary.add_entries(aExceptionDictionaryPath))
 		fprintf(stderr, "unable to load exception dictionary: %s\n", (const char *)aExceptionDictionaryPath);
 }
@@ -81,7 +80,7 @@ void tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 	switch (entry.type)
 	{
 	case dictionary::no_match:
-		mEvent = { mRules.pronounce(aText), tts::phonemes, aRange, 0 };
+		mEvent = { mRules->pronounce(aText), tts::phonemes, aRange, 0 };
 		break;
 	case dictionary::phonemes:
 		mEvent = { entry.text, tts::phonemes, aRange, 0 };

@@ -30,28 +30,14 @@
 
 namespace cainteoir { namespace tts
 {
-	struct ruleset
+	struct pronunciation
 	{
-		struct rule_t
-		{
-			const std::shared_ptr<buffer> left;
-			const std::shared_ptr<buffer> match;
-			const std::shared_ptr<buffer> right;
-			const std::shared_ptr<buffer> phonemes;
-		};
+		virtual std::shared_ptr<buffer> pronounce(const std::shared_ptr<buffer> &aText) const = 0;
 
-		void add_rule(const std::shared_ptr<buffer> &aLeft,
-		              const std::shared_ptr<buffer> &aMatch,
-		              const std::shared_ptr<buffer> &aRight,
-		              const std::shared_ptr<buffer> &aPhonemes);
-
-		bool add_rules(const path &aRulesPath);
-
-		std::shared_ptr<cainteoir::buffer> pronounce(const std::shared_ptr<cainteoir::buffer> &aText) const;
-	private:
-		void add_rules(const std::shared_ptr<buffer> &aDictionary);
-		std::list<rule_t> mRules[256];
+		virtual ~pronunciation() {}
 	};
+
+	std::shared_ptr<pronunciation> createPronunciationRules(const path &aRuleSetPath);
 
 	struct dictionary
 	{
@@ -232,7 +218,7 @@ namespace cainteoir { namespace tts
 		phoneme_stream(const std::shared_ptr<document_reader> &aReader,
 		               const language::tag &aLocale,
 		               word_stream::number_scale aScale,
-		               const path &aRuleSetPath,
+		               const std::shared_ptr<pronunciation> &aRules,
 		               const path &aExceptionDictionaryPath);
 
 		const text_event &event() const { return mEvent; }
@@ -243,7 +229,7 @@ namespace cainteoir { namespace tts
 
 		word_stream mReader;
 		text_event mEvent;
-		ruleset mRules;
+		std::shared_ptr<pronunciation> mRules;
 		dictionary mExceptionDictionary;
 	};
 }}

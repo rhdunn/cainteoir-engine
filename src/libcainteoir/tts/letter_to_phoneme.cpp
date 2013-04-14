@@ -52,11 +52,35 @@ static const char *mid_match(const std::shared_ptr<cainteoir::buffer> &pattern, 
 	return context;
 }
 
+struct ruleset : public tts::pronunciation
+{
+	struct rule_t
+	{
+		const std::shared_ptr<cainteoir::buffer> left;
+		const std::shared_ptr<cainteoir::buffer> match;
+		const std::shared_ptr<cainteoir::buffer> right;
+		const std::shared_ptr<cainteoir::buffer> phonemes;
+	};
+
+	void add_rule(const std::shared_ptr<cainteoir::buffer> &aLeft,
+	              const std::shared_ptr<cainteoir::buffer> &aMatch,
+	              const std::shared_ptr<cainteoir::buffer> &aRight,
+	              const std::shared_ptr<cainteoir::buffer> &aPhonemes);
+
+	bool add_rules(const cainteoir::path &aRulesPath);
+
+	std::shared_ptr<cainteoir::buffer> pronounce(const std::shared_ptr<cainteoir::buffer> &aText) const;
+private:
+	void add_rules(const std::shared_ptr<cainteoir::buffer> &aDictionary);
+
+	std::list<rule_t> mRules[256];
+};
+
 static const char *find_rule(const char *first,
                              const char *current,
                              const char *last,
                              char *&out,
-                             const std::list<tts::ruleset::rule_t> &rules)
+                             const std::list<ruleset::rule_t> &rules)
 {
 	for (auto &rule : rules)
 	{
@@ -83,15 +107,15 @@ static const char *find_rule(const char *first,
 	return ++current;
 }
 
-void tts::ruleset::add_rule(const std::shared_ptr<buffer> &aLeft,
-                            const std::shared_ptr<buffer> &aMatch,
-                            const std::shared_ptr<buffer> &aRight,
-                            const std::shared_ptr<buffer> &aPhonemes)
+void ruleset::add_rule(const std::shared_ptr<cainteoir::buffer> &aLeft,
+                       const std::shared_ptr<cainteoir::buffer> &aMatch,
+                       const std::shared_ptr<cainteoir::buffer> &aRight,
+                       const std::shared_ptr<cainteoir::buffer> &aPhonemes)
 {
 	mRules[*aMatch->begin()].push_back({ aLeft, aMatch, aRight, aPhonemes });
 }
 
-bool tts::ruleset::add_rules(const path &aRulesPath)
+bool ruleset::add_rules(const cainteoir::path &aRulesPath)
 {
 	try
 	{
@@ -104,7 +128,7 @@ bool tts::ruleset::add_rules(const path &aRulesPath)
 	return true;
 }
 
-std::shared_ptr<cainteoir::buffer> tts::ruleset::pronounce(const std::shared_ptr<cainteoir::buffer> &aText) const
+std::shared_ptr<cainteoir::buffer> ruleset::pronounce(const std::shared_ptr<cainteoir::buffer> &aText) const
 {
 	char phonemes[512];
 	char *out = phonemes;
@@ -119,7 +143,7 @@ std::shared_ptr<cainteoir::buffer> tts::ruleset::pronounce(const std::shared_ptr
 	return cainteoir::make_buffer(phonemes, out - phonemes);
 }
 
-void tts::ruleset::add_rules(const std::shared_ptr<buffer> &aRules)
+void ruleset::add_rules(const std::shared_ptr<cainteoir::buffer> &aRules)
 {
 	const char *current = aRules->begin();
 	const char *last    = aRules->end();
@@ -160,11 +184,18 @@ void tts::ruleset::add_rules(const std::shared_ptr<buffer> &aRules)
 		{
 			++begin_phonemes;
 			--end_phonemes;
-			add_rule(std::shared_ptr<buffer>(), // left
-			         make_buffer(begin_entry, end_entry - begin_entry),
-			         std::shared_ptr<buffer>(), // right
-			         make_buffer(begin_phonemes, end_phonemes - begin_phonemes));
+			add_rule(std::shared_ptr<cainteoir::buffer>(), // left
+			         cainteoir::make_buffer(begin_entry, end_entry - begin_entry),
+			         std::shared_ptr<cainteoir::buffer>(), // right
+			         cainteoir::make_buffer(begin_phonemes, end_phonemes - begin_phonemes));
 		}
 	}
 }
 
+std::shared_ptr<tts::pronunciation> tts::createPronunciationRules(const path &aRuleSetPath)
+{
+	auto rules = std::make_shared<ruleset>();
+	if (!rules->add_rules(aRuleSetPath))
+		return {};
+	return rules;
+}

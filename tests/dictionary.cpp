@@ -127,8 +127,8 @@ int main(int argc, char ** argv)
 				return 0;
 			}
 
-			tts::ruleset rules;
-			if (!rules.add_rules(cainteoir::path(argv[1])))
+			auto rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
+			if (!rules.get())
 			{
 				fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 				return 0;
@@ -139,7 +139,7 @@ int main(int argc, char ** argv)
 			{
 				fprintf(stdout, "\"%s\" => /%s/ [ipa]\n",
 				        entry.first->str().c_str(),
-				        rules.pronounce(entry.first)->str().c_str());
+				        rules->pronounce(entry.first)->str().c_str());
 			}
 
 			if (time)
