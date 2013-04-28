@@ -4,6 +4,8 @@ mkdir -p m4
 ln -sf README.md README
 ln -sf docs/ReleaseNotes.md NEWS
 
+git submodule update --init --recursive || exit 1
+
 autopoint || exit 1
 aclocal -I m4 || exit 1
 
