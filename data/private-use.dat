@@ -58,7 +58,7 @@ Subtag: hueprovince
 Description: Hue
 Added: 2013-03-31
 Prefix: vi-VN
-Comments: Dialect local to the Hue province of Vietnam.
+Comments: Dialect local to the Hue province of Vietnam (Central Vietnam).
 %%
 Type: private
 Subtag: ireland
@@ -107,6 +107,13 @@ Description: Received Pronunciation
 Added: 2013-03-31
 Prefix: en-GB
 Comments: Standard English accent found in Southern England.
+%%
+Type: private
+Subtag: saigon
+Description: Saigon
+Added: 2013-04-28
+Prefix: vi-VN
+Comments: Dialect local to the Saigon region of Vietnam (South Vietnam).
 %%
 Type: private
 Subtag: shtscale

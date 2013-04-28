@@ -16559,7 +16559,7 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#hueprovince">
 	<rdf:value>hueprovince</rdf:value>
 	<iana:added>2013-03-31</iana:added>
-	<dct:description xml:lang="en">Dialect local to the Hue province of Vietnam.</dct:description>
+	<dct:description xml:lang="en">Dialect local to the Hue province of Vietnam (Central Vietnam).</dct:description>
 	<dct:title xml:lang="en">Hue</dct:title>
 	<iana:prefix>vi-VN</iana:prefix>
 </iana:Private>
@@ -33771,6 +33771,13 @@
 	<iana:added>2005-10-16</iana:added>
 	<dct:title xml:lang="en">South American Indian languages</dct:title>
 </iana:Collection>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#saigon">
+	<rdf:value>saigon</rdf:value>
+	<iana:added>2013-04-28</iana:added>
+	<dct:description xml:lang="en">Dialect local to the Saigon region of Vietnam (South Vietnam).</dct:description>
+	<dct:title xml:lang="en">Saigon</dct:title>
+	<iana:prefix>vi-VN</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#saj">
 	<rdf:value>saj</rdf:value>
 	<iana:added>2009-07-29</iana:added>
