@@ -117,7 +117,7 @@ data/languages.dat:
 data/languages.stat: data/languages.dat data/private-use.dat data/languages/*.dat
 	touch $@
 
-data/languages.rdf: data/languages.py data/languages.stat
+languages: data/languages.py data/languages.stat
 	cd data && ./languages.py
 
 data/languages.rdf.gz: data/languages.rdf
