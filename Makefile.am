@@ -109,6 +109,7 @@ phonemes:	data/phonemes/ascii-ipa.html \
 
 EXTRA_DIST += \
 	data/languages.rdf \
+	data/locale/* \
 	src/schema/*.rdf
 
 data/languages.dat:
@@ -127,10 +128,9 @@ pkgdata_DATA += \
 	data/languages.rdf.gz \
 	src/schema/text-to-speech.rdf
 
-EXTRA_DIST += data/css/*.css
-
-cssdir  = $(pkgdatadir)/css
+cssdir = $(pkgdatadir)/css
 css_DATA = data/css/*.css
+EXTRA_DIST += $(css_DATA)
 
 install-data-hook-locale:
 	cd data && (find locale -type f | grep -vF "/." | \
@@ -144,18 +144,20 @@ uninstall-local-locale:
 
 vim_registrydir = $(vimdir)/registry
 vim_registry_DATA = data/vim/registry/*.yaml
+EXTRA_DIST += $(vim_registry_DATA)
 
 vim_addons_ftdetectdir = $(vimdir)/addons/ftdetect
 vim_addons_ftdetect_DATA = data/vim/ftdetect/*.vim
+EXTRA_DIST += $(vim_addons_ftdetect_DATA)
 
 vim_addons_syntaxdir = $(vimdir)/addons/syntax
 vim_addons_syntax_DATA = data/vim/syntax/*.vim
+EXTRA_DIST += $(vim_addons_syntax_DATA)
 
 ############################# mimetypes #######################################
 
-EXTRA_DIST += data/mime/packages/cainteoir-data.xml
-
 xml_DATA = data/mime/packages/cainteoir-data.xml
+EXTRA_DIST += $(xml_DATA)
 
 mimetypes:
 	$(UPDATE_MIME_DATABASE) data/mime/
@@ -340,10 +342,13 @@ EXTRA_DIST += ${man1_MANS}
 ############################# tests ###########################################
 
 TEST_FILES = \
+	tests/css/* \
+	tests/dict/* \
 	tests/epub/* \
 	tests/ncx/* \
 	tests/ocf/* \
 	tests/opf/* \
+	tests/parse-text/* \
 	tests/rdfxml/* \
 	tests/rtf/* \
 	tests/ssml/* \
@@ -351,7 +356,8 @@ TEST_FILES = \
 	tests/html/* \
 	tests/http/* \
 	tests/mime/* \
-	tests/xmlparser/*
+	tests/xmlparser/* \
+	tests/zip/*
 
 EXTRA_DIST += $(TEST_FILES) tests/*.py
 
