@@ -127,7 +127,7 @@ pkgdata_DATA += \
 	data/languages.rdf.gz \
 	src/schema/text-to-speech.rdf
 
-EXTRA_DIST += src/css/*.css
+EXTRA_DIST += data/css/*.css
 
 cssdir  = $(pkgdatadir)/css
 css_DATA = data/css/*.css
@@ -237,6 +237,7 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 	${ESPEAK_CFLAGS}
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
+	ucd-tools/src/include/ucd/ucd.h \
 	ucd-tools/src/case.cpp \
 	ucd-tools/src/categories.cpp \
 	ucd-tools/src/ctype.cpp \
@@ -244,7 +245,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	ucd-tools/src/tostring.cpp \
 	\
 	src/i18n.h \
-	src/compatibility.h \
+	src/compatibility.hpp \
 	\
 	src/libcainteoir/document.cpp \
 	src/libcainteoir/encoding.cpp \
@@ -274,8 +275,10 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/css/style_manager.cpp \
 	src/libcainteoir/css/units.cpp \
 	\
-	src/libcainteoir/parsers/parsers.hpp \
 	src/libcainteoir/parsers/html-entities.h \
+	src/libcainteoir/parsers/xml-entities.h \
+	\
+	src/libcainteoir/parsers/parsers.hpp \
 	src/libcainteoir/parsers/document.cpp \
 	src/libcainteoir/parsers/epub.cpp \
 	src/libcainteoir/parsers/mime.cpp \
