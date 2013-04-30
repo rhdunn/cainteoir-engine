@@ -207,15 +207,15 @@ for tag in doc.getElementsByTagName('language'):
 
 tagnames = {
 	'Added':           ('date',      'iana:added'),
-	'Comments':        ('string:en', 'dct:description'),
+	'Comments':        ('string:en', 'iana:comments'),
 	'Deprecated':      ('date',      'iana:deprecated'),
-	'Description':     ('string:en', 'dct:title'),
-	'HasScript':       ('resources', 'iana:hasScript'),       # => iana:Script
-	'IsScriptOf':      ('resources', 'iana:isScriptOf'),      # => iana:Language
-	'Macrolanguage':   ('resource',  'iana:macrolanguage'),   # => iana:MacroLanguage
-	'Prefix':          ('string',    'iana:prefix'),          # => Language Tag
-	'Preferred-Value': ('resource',  'iana:preferred-value'), # => subtag
-	'Suppress-Script': ('resource',  'iana:suppress-script'), # => iana:Script
+	'Description':     ('string:en', 'iana:label'),
+	'HasScript':       ('resources', 'iana:hasScript'),      # => iana:Script
+	'IsScriptOf':      ('resources', 'iana:isScriptOf'),     # => iana:Language
+	'Macrolanguage':   ('resource',  'iana:macrolanguage'),  # => iana:MacroLanguage
+	'Prefix':          ('string',    'iana:prefix'),         # => Language Tag
+	'Preferred-Value': ('resource',  'iana:preferredValue'), # => subtag
+	'Suppress-Script': ('resource',  'iana:suppressScript'), # => iana:Script
 }
 
 subtag_uri='http://rhdunn.github.com/cainteoir/data/iana/subtags#'
@@ -225,7 +225,7 @@ with open('languages.rdf', 'w') as f:
 	f.write('<rdf:RDF\n')
 	f.write('	xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"\n')
 	f.write('	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"\n')
-	f.write('	xmlns:iana="http://rhdunn.github.com/cainteoir/schema/iana#"\n')
+	f.write('	xmlns:iana="http://reecedunn.co.uk/schema/2013/iana#"\n')
 	f.write('	xmlns:dc  ="http://purl.org/dc/elements/1.1/"\n')
 	f.write('	xmlns:dct ="http://purl.org/dc/terms/"\n')
 	f.write('	xmlns:cc  ="http://web.resource.org/cc/"\n')
@@ -233,7 +233,7 @@ with open('languages.rdf', 'w') as f:
 
 	for name, tag in sorted(tags.items()):
 		f.write('<iana:%s rdf:about="%s%s">\n' % (tag['Type'], subtag_uri, name))
-		f.write('	<rdf:value>%s</rdf:value>\n' % name)
+		f.write('	<iana:code>%s</iana:code>\n' % name)
 		for key, value in sorted(tag.items()):
 			if key not in ['Type', 'Ancestor', 'Classification', 'LanguageCollection']:
 				reftype, ref = tagnames[key]

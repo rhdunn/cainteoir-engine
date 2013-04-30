@@ -75,7 +75,7 @@ const rdf::ns rdf::xhtml(  "h",      "http://www.w3.org/1999/xhtml#");
 const rdf::ns rdf::skos(   "skos",   "http://www.w3.org/2004/02/skos/core#");
 const rdf::ns rdf::foaf(   "foaf",   "http://xmlns.com/foaf/0.1/");
 const rdf::ns rdf::tts(    "tts",    "http://rhdunn.github.com/2010/12/text-to-speech#");
-const rdf::ns rdf::iana(   "iana",   "http://rhdunn.github.com/cainteoir/schema/iana#");
+const rdf::ns rdf::iana(   "iana",   "http://reecedunn.co.uk/schema/2013/iana#");
 const rdf::ns rdf::subtag( "subtag", "http://rhdunn.github.com/cainteoir/data/iana/subtags#");
 
 std::shared_ptr<const rdf::resource> rdf::literal::clone() const

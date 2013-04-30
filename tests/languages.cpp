@@ -196,7 +196,7 @@ TEST_CASE("extlang codes in the IANA language subtag repository")
 	                                   rql::object    == rdf::iana("ExtLang")))
 	{
 		rql::results ext = rql::select(data, rql::subject == rql::subject(statement));
-		auto extlang  = rql::select_value<std::string>(ext, rql::predicate == rdf::rdf("value"));
+		auto extlang  = rql::select_value<std::string>(ext, rql::predicate == rdf::iana("code"));
 		auto prefix   = rql::select_value<std::string>(ext, rql::predicate == rdf::iana("prefix"));
 		auto language = prefix + "-" + extlang;
 

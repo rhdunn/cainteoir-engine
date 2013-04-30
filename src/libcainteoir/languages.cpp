@@ -78,8 +78,8 @@ LanguageData::LanguageData()
 	for (auto &language : rql::select(data, rql::predicate == rdf::rdf("type")))
 	{
 		rql::results statements = rql::select(data, rql::subject == rql::subject(language));
-		auto id     = rql::select_value<std::string>(statements, rql::predicate == rdf::rdf("value"));
-		auto name   = rql::select_value<std::string>(statements, rql::predicate == rdf::dcterms("title"));
+		auto id     = rql::select_value<std::string>(statements, rql::predicate == rdf::iana("code"));
+		auto name   = rql::select_value<std::string>(statements, rql::predicate == rdf::iana("label"));
 		auto prefix = rql::select_value<std::string>(statements, rql::predicate == rdf::iana("prefix"));
 
 		subtags[id] = name;

@@ -297,8 +297,8 @@ TEST_CASE("performance")
 	for (auto &lang : languages)
 	{
 		rql::results statements = rql::select(data, rql::subject == rql::subject(lang));
-		auto id   = rql::select_value<std::string>(statements, rql::predicate == rdf::rdf("value"));
-		auto name = rql::select_value<std::string>(statements, rql::predicate == rdf::dcterms("title"));
+		auto id   = rql::select_value<std::string>(statements, rql::predicate == rdf::iana("code"));
+		auto name = rql::select_value<std::string>(statements, rql::predicate == rdf::iana("label"));
 	}
 
 	printf("... ... select(subject, _, _) on each language time: %G\n", select2_time.elapsed());
