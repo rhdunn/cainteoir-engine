@@ -339,12 +339,14 @@ int main(int argc, char ** argv)
 		if (voicename)
 		{
 			const rdf::uri *ref = select_voice(metadata, rdf::tts("name"), voicename);
-			tts.select_voice(metadata, *ref);
+			if (ref)
+				tts.select_voice(metadata, *ref);
 		}
 		else if (language)
 		{
 			const rdf::uri *ref = select_voice(metadata, rdf::dc("language"), language);
-			tts.select_voice(metadata, *ref);
+			if (ref)
+				tts.select_voice(metadata, *ref);
 		}
 
 		if (speed  != INT_MAX) tts.parameter(tts::parameter::rate)->set_value(speed);
