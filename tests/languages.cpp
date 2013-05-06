@@ -219,6 +219,17 @@ TEST_CASE("posix locale codes from /usr/share/locale")
 	compare(lang::make_lang("uz@cyrillic"), { "uz", "", "Cyrl" });
 }
 
+TEST_CASE("Android resource language-region codes")
+{
+	// regular:
+	compare(lang::make_lang("en-rGB"), { "en", "", "", "GB" });
+	compare(lang::make_lang("zh-rCN"), { "zh", "", "", "CN" });
+	compare(lang::make_lang("zh-rTW"), { "zh", "", "", "TW" });
+
+	// irregular:
+	compare(lang::make_lang("es-rUS"), { "es", "", "", "419" });
+}
+
 TEST_CASE("language tag equality")
 {
 	lang_match(   "en", "en");

@@ -179,6 +179,18 @@ static const lang::tag *lookup_extlang(std::string lang)
 	return &entry->second;
 }
 
+static const std::string get_region_code(const std::string &lang, const std::string &code)
+{
+	if (code[0] == 'r' && isupper(code[1]) && isupper(code[2]))
+	{
+		// This is an Android resource region code:
+		if (lang == "es" && code == "rUS")
+			return "419";
+		return code.substr(1);
+	}
+	return code;
+}
+
 lang::tag lang::make_lang(const std::string &code)
 {
 	const lang::tag *alias = lookup_alias(code);
@@ -221,10 +233,10 @@ lang::tag lang::make_lang(const std::string &code)
 				if (extlang && extlang->lang == lang.lang)
 					lang.extlang = extlang->extlang;
 				else
-					lang.region = item;
+					lang.region = get_region_code(lang.lang, item);
 			}
 			else
-				lang.region = item;
+				lang.region = get_region_code(lang.lang, item);
 			break;
 		case 2:
 			lang.region = item;
