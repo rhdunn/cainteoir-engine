@@ -54,6 +54,8 @@ namespace cainteoir { namespace language
 
 	bool operator==(const tag &a, const tag &b);
 
+	bool operator<(const tag &a, const tag &b);
+
 	tag make_lang(const std::string &lang);
 }}
 

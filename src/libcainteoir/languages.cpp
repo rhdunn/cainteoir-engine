@@ -286,6 +286,18 @@ bool lang::operator==(const tag &a, const tag &b)
 	return a.lang == b.lang && a.script == b.script && a.region == b.region && a.variant == b.variant;
 }
 
+bool lang::operator<(const tag &a, const tag &b)
+{
+	if (a.lang <  b.lang) return true;
+	if (a.lang != b.lang) return false;
+
+	if (a.script < b.script) return true;
+
+	if (a.region < b.region) return true;
+
+	return a.variant < b.variant;
+}
+
 std::string cainteoir::languages::language(const lang::tag &id) const
 {
 	if (!id.extlang.empty())

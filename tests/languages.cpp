@@ -46,6 +46,9 @@ void compare(const lang::tag &a, const lang::tag &b)
 #define lang_match(a, b)    assert(      lang::make_lang(a) == lang::make_lang(b))
 #define lang_mismatch(a, b) assert_false(lang::make_lang(a) == lang::make_lang(b))
 
+#define lang_less(a, b)     assert(      lang::make_lang(a) < lang::make_lang(b))
+#define lang_not_less(a, b) assert_false(lang::make_lang(a) < lang::make_lang(b))
+
 void localized(const char *locale,
                const char *tag,
                const std::string &language,
@@ -237,6 +240,15 @@ TEST_CASE("language tag equality")
 	lang_mismatch("af", "nl");
 }
 
+TEST_CASE("language tag ordering")
+{
+	lang_not_less("en", "en");
+	lang_not_less("de", "de");
+
+	lang_less(    "af", "nl");
+	lang_not_less("nl", "af");
+}
+
 TEST_CASE("language-region tag equality")
 {
 	lang_match(   "en-GB", "en-GB");
@@ -247,6 +259,19 @@ TEST_CASE("language-region tag equality")
 
 	lang_mismatch("es", "en-GB");
 	lang_mismatch("en-GB", "es");
+}
+
+TEST_CASE("language-region tag ordering")
+{
+	lang_not_less("en-GB", "en-GB");
+	lang_less(    "en-GB", "en-US");
+	lang_not_less("en-US", "en-GB");
+
+	lang_less(    "en", "en-US");
+	lang_not_less("en-US", "en");
+
+	lang_not_less("es", "en-GB");
+	lang_less(    "en-GB", "es");
 }
 
 TEST_CASE("language-script tag equality")
@@ -261,6 +286,19 @@ TEST_CASE("language-script tag equality")
 	lang_mismatch("el-Grek", "fr");
 }
 
+TEST_CASE("language-script tag ordering")
+{
+	lang_not_less("el-Grek", "el-Grek");
+	lang_less(    "el-Grek", "el-Latn");
+	lang_not_less("el-Latn", "el-Grek");
+
+	lang_less(    "el", "el-Grek");
+	lang_not_less("el-Grek", "el");
+
+	lang_not_less("fr", "el-Grek");
+	lang_less(    "el-Grek", "fr");
+}
+
 TEST_CASE("language-script-region tag equality")
 {
 	lang_match(   "zh-Hans-HK", "zh-Hans-HK");
@@ -272,6 +310,21 @@ TEST_CASE("language-script-region tag equality")
 
 	lang_match("zh-Hans-HK", "zh");
 	lang_match("zh", "zh-Hans-HK");
+}
+
+TEST_CASE("language-script-region tag ordering")
+{
+	lang_not_less("zh-Hans-HK", "zh-Hans-HK");
+	lang_less(    "zh-Hans-HK", "zh-Hant-HK");
+	lang_not_less("zh-Hant-HK", "zh-Hans-HK");
+	lang_less(    "zh-Hans-CN", "zh-Hans-HK");
+	lang_not_less("zh-Hans-HK", "zh-Hans-CN");
+
+	lang_not_less("zh-Hans-HK", "zh-Hans");
+	lang_less(    "zh-Hans", "zh-Hans-HK");
+
+	lang_not_less("zh-Hans-HK", "zh");
+	lang_less(    "zh", "zh-Hans-HK");
 }
 
 TEST_CASE("language-script-region-variant tag equality")
@@ -292,6 +345,32 @@ TEST_CASE("language-script-region-variant tag equality")
 	lang_match("de", "de-Latn-CH-1901");
 }
 
+TEST_CASE("language-script-region-variant tag ordering")
+{
+	lang_not_less("de-Latn-CH-1901", "de-Latn-CH-1901");
+
+	lang_less(    "de-Latn-CH-1901", "de-Latn-CH-scouse");
+	lang_not_less("de-Latn-CH-scouse", "de-Latn-CH-1901");
+
+	lang_not_less("de-Latn-DE-1901",  "de-Latn-CH-1901");
+	lang_less(    "de-Latn-CH-1901",  "de-Latn-DE-1901");
+
+	lang_less(    "de-Latf-CH-1901",  "de-Latn-CH-1901");
+	lang_not_less("de-Latn-CH-1901",  "de-Latf-CH-1901");
+
+	lang_not_less("gmh-Latn-CH-1901", "de-Latn-CH-1901");
+	lang_less(    "de-Latn-CH-1901", "gmh-Latn-CH-1901");
+
+	lang_not_less("de-Latn-CH-1901", "de-Latn-CH");
+	lang_less(    "de-Latn-CH", "de-Latn-CH-1901");
+
+	lang_not_less("de-Latn-CH-1901", "de-Latn");
+	lang_less(    "de-Latn", "de-Latn-CH-1901");
+
+	lang_not_less("de-Latn-CH-1901", "de");
+	lang_less(    "de", "de-Latn-CH-1901");
+}
+
 TEST_CASE("language-*-region filter")
 {
 	compare(lang::make_lang("en-*-US"), { "en", "", "*", "US" });
@@ -300,6 +379,9 @@ TEST_CASE("language-*-region filter")
 
 	lang_match("en-*-US", "en-Latn-US");
 	lang_match("en-Latn-US", "en-*-US");
+
+	lang_less(    "en-*-US", "en-Latn-US");
+	lang_not_less("en-Latn-US", "en-*-US");
 }
 
 TEST_CASE("language localization")
