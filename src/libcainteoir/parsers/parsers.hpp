@@ -102,10 +102,6 @@ namespace cainteoir
 	                 rdf::graph &aPrimaryMetadata,
 	                 const std::string &aTitle);
 
-	std::shared_ptr<xml::reader>
-	createXmlReader(const std::shared_ptr<buffer> &aData,
-	                const char *aDefaultEncoding);
-
 	std::shared_ptr<document_reader>
 	createZipReader(std::shared_ptr<archive> &aData);
 

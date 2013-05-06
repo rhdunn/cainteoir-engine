@@ -356,6 +356,13 @@ namespace cainteoir { namespace xml
 	};
 }}
 
+namespace cainteoir
+{
+	std::shared_ptr<xml::reader>
+	createXmlReader(const std::shared_ptr<buffer> &aData,
+	                const char *aDefaultEncoding);
+}
+
 /** References
   *
   *    XML  [http://www.w3.org/TR/2008/REC-xml-20081126/] -- Extensible Markup Language (XML) 1.0 (Fifth Edition)
