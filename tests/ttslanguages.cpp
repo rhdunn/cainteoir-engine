@@ -42,7 +42,7 @@ void get_codes(std::set<std::string> &codes, rdf::graph &data, const rdf::uri &t
 	{
 		for (auto &statement : rql::select(data, rql::subject == rql::subject(code)))
 		{
-			if (rql::predicate(statement) == rdf::rdf("value"))
+			if (rql::predicate(statement) == rdf::iana("code"))
 				codes.insert(rql::value(statement));
 		}
 	}
