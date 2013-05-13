@@ -195,6 +195,7 @@ if __name__ == '__main__':
 			{'test': 'mime/multipart/no-boundary-1.txt', 'result': 'mime/multipart/no-boundary.events', 'title': 'no-boundary-1.txt'},
 			{'test': 'mime/multipart/no-boundary-2.txt', 'result': 'mime/multipart/no-boundary.events', 'title': 'no-boundary-2.txt'},
 			{'test': 'mime/multipart/mail-archive.txt', 'result': 'mime/multipart/mail-archive.events', 'title': 'mail-archive.txt', 'expect': 'fail'},
+			{'test': 'mime/multipart/debian-bug-mail.txt', 'result': 'mime/multipart/debian-bug-mail.events', 'title': 'debian-bug-mail.txt'},
 		]},
 		{'name': 'quoted-printable', 'type': 'events', 'tests': [
 			{'test': 'mime/quoted-printable/ascii.txt', 'result': 'mime/quoted-printable/ascii.events', 'title': 'ascii.txt'},
