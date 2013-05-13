@@ -108,14 +108,20 @@ struct mime_headers : public cainteoir::buffer
 					while (type <= value.end() && *type != '=')
 						++type;
 
+					if (*type != '=') continue;
+
 					cainteoir::buffer arg(name, type);
 					++type;
 
-					if (*type != '"') continue;
-					++type;
+					char end_of_value = '\n';
+					if (*type == '"')
+					{
+						++type;
+						end_of_value = '"';
+					}
 
 					const char * content = type;
-					while (type <= value.end() && *type != '"')
+					while (type <= value.end() && *type != end_of_value)
 						++type;
 
 					if (!arg.compare("boundary"))
