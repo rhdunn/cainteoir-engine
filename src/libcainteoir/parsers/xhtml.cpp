@@ -457,7 +457,7 @@ static void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::gr
 			if (content.empty())
 				return;
 
-			if (http_equiv == "Content-Type")
+			if (!strcasecmp(http_equiv.c_str(), "content-type"))
 			{
 				std::string::const_iterator first = content.begin();
 				std::string::const_iterator last  = content.end();
