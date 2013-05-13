@@ -79,6 +79,10 @@ static const std::initializer_list<std::pair<int, const char *>> codepages = {
 	{ 65001, "utf-8" },
 };
 
+static inline bool is_native_encoding(const std::string &encoding)
+{
+	return !strcasecmp(encoding.c_str(), "utf-8") || !strcasecmp(encoding.c_str(), "us-ascii");
+}
 
 #ifdef HAVE_ICONV_H
 
@@ -198,7 +202,7 @@ std::shared_ptr<cainteoir::buffer> cainteoir::encoding::lookup(uint8_t c) const
 
 std::shared_ptr<cainteoir::buffer> cainteoir::encoding::decode(const std::shared_ptr<cainteoir::buffer> &data) const
 {
-	if (!data.get() || mEncoding == "utf-8" || mEncoding == "us-ascii")
+	if (!data.get() || is_native_encoding(mEncoding))
 		return data;
 
 	cainteoir::rope ret;
@@ -211,7 +215,7 @@ void cainteoir::encoding::decode(const std::shared_ptr<cainteoir::buffer> &data,
 	if (!data.get())
 		return;
 
-	if (mEncoding == "utf-8" || mEncoding == "us-ascii")
+	if (is_native_encoding(mEncoding))
 	{
 		decoded += data;
 		return;
