@@ -258,7 +258,7 @@ All namespaces associated with the top-most scope block are removed.
 \}
 
 
-\var   cainteoir::xml::reader::reader(std::shared_ptr<cainteoir::buffer> aData, const char *aDefaultEncoding, const entity_set *aPredefinedEntities[52])
+\var   cainteoir::xml::reader::reader(const std::shared_ptr<cainteoir::buffer> &aData, const char *aDefaultEncoding, const detail::entity_set *aPredefinedEntities[52])
 \brief Create a new XML document reader.
 
 \param[in] aData               The XML document contents.
