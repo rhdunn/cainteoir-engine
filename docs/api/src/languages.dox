@@ -17,7 +17,7 @@
 \}
 
 
-\fn    cainteoir::language::tag::tag(const std::string &l, const std::string &e, const std::string &s, const std::string &r, const std::string &v)
+\fn    cainteoir::language::tag::tag(const std::string &l, const std::string &e, const std::string &s, const std::string &r, const std::string &v, const std::string &p)
 \brief Create a language tag object.
 
 \param[in] l The primary language code.
@@ -25,6 +25,7 @@
 \param[in] s The writing script code.
 \param[in] r The region code.
 \param[in] v The variant code.
+\param[in] p The private-use code.
 
 
 \var   cainteoir::language::tag::lang
