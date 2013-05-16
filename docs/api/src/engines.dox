@@ -189,13 +189,11 @@ is empty.
 \return The currently active voice.
 
 
-\fn    std::shared_ptr<tts::speech> cainteoir::tts::engines::speak(const std::shared_ptr<document> &doc, std::shared_ptr<audio> out, document::const_iterator from, document::const_iterator to)
+\fn    std::shared_ptr<tts::speech> cainteoir::tts::engines::speak(std::shared_ptr<audio> out, const document::range_type &aRange)
 \brief Speak the specified document.
 
-\param[in] doc  The document to speak.
-\param[in] out  The audio output device (for reading) or file (for recording).
-\param[in] from The place in the document to start reading from.
-\param[in] to   The place in the document to read upto.
+\param[in] out    The audio output device (for reading) or file (for recording).
+\param[in] aRange The start and end points of the document to read.
 
 \return The object associated with this speech session.
 
