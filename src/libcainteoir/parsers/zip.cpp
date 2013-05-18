@@ -25,7 +25,10 @@
 #include <cainteoir/archive.hpp>
 #include <stdexcept>
 
-#define ZIP_HEADER_MAGIC 0x04034b50
+#define ZIP_HEADER_MAGIC      0x04034b50
+#define DATA_DESCRIPTOR_MAGIC 0x08074b50
+
+#define DATA_DESCRIPTOR_FLAG  0x0008
 
 #pragma pack(push, 1)
 
@@ -43,6 +46,14 @@ struct zip_header
 	uint32_t uncompressed;
 	uint16_t len_filename;
 	uint16_t len_extra;
+};
+
+struct zip_data_descriptor
+{
+	uint32_t magic;
+	uint32_t crc32;
+	uint32_t compressed;
+	uint32_t uncompressed;
 };
 
 #pragma pack(pop)
@@ -103,10 +114,26 @@ zip_archive::zip_archive(std::shared_ptr<cainteoir::buffer> aData, const cainteo
 
 		item.compression_type = hdr->compression_type;
 		item.begin = ptr + hdr->len_filename + hdr->len_extra;
-		item.compressed = hdr->compressed;
-		item.uncompressed = hdr->uncompressed;
+		if ((hdr->flags & DATA_DESCRIPTOR_FLAG) == DATA_DESCRIPTOR_FLAG)
+		{
+			const char *magic = item.begin;
+			while (magic < aData->end() && *(const uint32_t *)magic != DATA_DESCRIPTOR_MAGIC)
+				++magic;
 
-		hdr = (const zip_header *)(item.begin + item.compressed);
+			const zip_data_descriptor *descriptor = (const zip_data_descriptor *)magic;
+			if (magic >= aData->end())
+				throw std::runtime_error(i18n("zip file data descriptor entry not found"));
+
+			item.compressed = descriptor->compressed;
+			item.uncompressed = descriptor->uncompressed;
+			hdr = (const zip_header *)(item.begin + item.compressed + sizeof(zip_data_descriptor));
+		}
+		else
+		{
+			item.compressed = hdr->compressed;
+			item.uncompressed = hdr->uncompressed;
+			hdr = (const zip_header *)(item.begin + item.compressed);
+		}
 	}
 }
 
