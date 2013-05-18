@@ -47,6 +47,14 @@ struct zip_header
 
 #pragma pack(pop)
 
+struct zip_data
+{
+	uint16_t compression_type;
+	const char *begin;
+	uint32_t compressed;
+	uint32_t uncompressed;
+};
+
 static const std::initializer_list<cainteoir::decoder_ptr> zip_compression = {
 	&cainteoir::copy, // 0 - uncompressed
 	nullptr, // 1
@@ -75,7 +83,7 @@ public:
 	const std::list<std::string> &files() const;
 private:
 	std::shared_ptr<cainteoir::buffer> mData;
-	std::map<std::string, const zip_header *> data;
+	std::map<std::string, zip_data> data;
 	std::list<std::string> filelist;
 	std::string base;
 };
@@ -90,10 +98,15 @@ zip_archive::zip_archive(std::shared_ptr<cainteoir::buffer> aData, const cainteo
 		const char *ptr = (const char *)hdr + sizeof(zip_header);
 		std::string filename(ptr, ptr + hdr->len_filename);
 
-		data[filename] = hdr;
+		zip_data &item = data[filename];
 		filelist.push_back(filename);
 
-		hdr = (const zip_header *)(ptr + hdr->len_filename + hdr->len_extra + hdr->compressed);
+		item.compression_type = hdr->compression_type;
+		item.begin = ptr + hdr->len_filename + hdr->len_extra;
+		item.compressed = hdr->compressed;
+		item.uncompressed = hdr->uncompressed;
+
+		hdr = (const zip_header *)(item.begin + item.compressed);
 	}
 }
 
@@ -108,15 +121,14 @@ std::shared_ptr<cainteoir::buffer> zip_archive::read(const char *aFilename) cons
 	if (entry == data.end())
 		return std::shared_ptr<cainteoir::buffer>();
 
-	const zip_header * hdr = entry->second;
-	auto decoder = *(zip_compression.begin() + hdr->compression_type);
-	if (hdr->compression_type >= zip_compression.size() || decoder == nullptr)
+	const zip_data &item = entry->second;
+	auto decoder = *(zip_compression.begin() + item.compression_type);
+	if (item.compression_type >= zip_compression.size() || decoder == nullptr)
 		throw std::runtime_error(i18n("decompression failed (unsupported compression type)"));
 
-	const char *ptr = (const char *)hdr + sizeof(zip_header) + hdr->len_filename + hdr->len_extra;
-	cainteoir::buffer compressed { ptr, ptr + hdr->compressed };
+	cainteoir::buffer compressed { item.begin, item.begin + item.compressed };
 
-	return decoder(compressed, hdr->uncompressed);
+	return decoder(compressed, item.uncompressed);
 }
 
 const std::list<std::string> &zip_archive::files() const
