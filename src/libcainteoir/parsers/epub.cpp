@@ -60,7 +60,10 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 	, mDefaultEncoding(aDefaultEncoding)
 {
 	auto ocf = cainteoir::createOcfReader(cainteoir::createXmlReader(mData->read("META-INF/container.xml"), mDefaultEncoding));
-	if (ocf) while (ocf->read() && opf_file.empty())
+	if (!ocf.get())
+		throw std::runtime_error(i18n("Unsupported ePub content: OCF file not found."));
+
+	while (ocf->read() && opf_file.empty())
 	{
 		if (!ocf->text->compare("application/oebps-package+xml"))
 			opf_file = ocf->anchor.str();
