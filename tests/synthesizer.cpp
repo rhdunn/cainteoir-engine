@@ -651,7 +651,7 @@ int main(int argc, char ** argv)
 			<< rdf::tts
 			<< metadata;
 
-		std::shared_ptr<cainteoir::audio> out = cainteoir::open_audio_device(NULL, "pulse", 3.0, metadata, doc, metadata, mbrola.voice());
+		std::shared_ptr<cainteoir::audio> out = cainteoir::open_audio_device(nullptr, 3.0, metadata, doc, metadata, mbrola.voice());
 		out->open();
 
 		mbrola.write("h");

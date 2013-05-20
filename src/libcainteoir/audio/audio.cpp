@@ -75,7 +75,6 @@ cainteoir::create_audio_file(
 std::shared_ptr<cainteoir::audio>
 cainteoir::open_audio_device(
 	const char *device,
-	const char *type,
 	float quality,
 	const rdf::graph &aDocMetadata,
 	const rdf::uri &aDocument,
@@ -87,8 +86,5 @@ cainteoir::open_audio_device(
 	int frequency = rql::select_value<int>(data, rql::predicate == rdf::tts("frequency"));
 	const rdf::uri &format = rql::object(rql::select(data, rql::predicate == rdf::tts("audio-format")).front());
 
-	if (!strcmp(type, "pulse"))
-		return create_pulseaudio_device(device, format, channels, frequency, quality, aDocMetadata, aDocument);
-
-	return std::shared_ptr<cainteoir::audio>();
+	return create_pulseaudio_device(device, format, channels, frequency, quality, aDocMetadata, aDocument);
 }
