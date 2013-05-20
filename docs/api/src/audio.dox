@@ -92,11 +92,10 @@ The document metadata is used to create metadata tags on the audio file
 of channels and frequency of the audio.
 
 
-\fn    std::shared_ptr<cainteoir::audio> cainteoir::open_audio_device(const char *device, float quality, const rdf::graph &aDocMetadata, const rdf::uri &aDocument, const rdf::graph &aVoiceMetadata, const rdf::uri &aVoice)
+\fn    std::shared_ptr<cainteoir::audio> cainteoir::open_audio_device(const char *device, const rdf::graph &aDocMetadata, const rdf::uri &aDocument, const rdf::graph &aVoiceMetadata, const rdf::uri &aVoice)
 \brief Open an audio device to write data to.
 
 \param[in] device         The name of the audio device.
-\param[in] quality        The encoding quality to use (for lossy encodings).
 \param[in] aDocMetadata   The RDF graph containing the document metadata.
 \param[in] aDocument      The subject to use to extract the document metadata.
 \param[in] aVoiceMetadata The RDF graph containing the voice metadata.

@@ -61,7 +61,6 @@ namespace cainteoir
 	std::shared_ptr<audio>
 	open_audio_device(
 		const char *device,
-		float quality,
 		const rdf::graph &aDocMetadata,
 		const rdf::uri &aDocument,
 		const rdf::graph &aVoiceMetadata,

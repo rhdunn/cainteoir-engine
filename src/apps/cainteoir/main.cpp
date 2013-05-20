@@ -459,7 +459,7 @@ int main(int argc, char ** argv)
 		else
 		{
 			state = i18n("reading");
-			out = cainteoir::open_audio_device(nullptr, 0.3, metadata, subject, metadata, tts.voice());
+			out = cainteoir::open_audio_device(nullptr, metadata, subject, metadata, tts.voice());
 
 			fprintf(stdout, i18n("Reading \"%s\"\n\n"), filename);
 		}
