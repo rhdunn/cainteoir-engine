@@ -179,7 +179,6 @@ ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aRe
 
 	std::string name;
 	std::string content;
-	std::string title;
 	bool in_header = true;
 
 	while (in_header && reader->read()) switch (reader->nodeType())
