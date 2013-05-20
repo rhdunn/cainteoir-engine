@@ -108,7 +108,7 @@ static std::vector<std::string> get_mime_dirs()
 
 	const char *start = getenv("XDG_DATA_DIRS"); // start of the next path
 	const char *end   = start;
-	if (start)
+	if (start && *start)
 	{
 		while (*end)
 		{
@@ -122,6 +122,11 @@ static std::vector<std::string> get_mime_dirs()
 
 		if (start != end)
 			dirs.push_back(get_mime_dir(start));
+	}
+	else
+	{
+		dirs.push_back("/usr/local/share/mime/");
+		dirs.push_back("/usr/share/mime/");
 	}
 
 	return dirs;
