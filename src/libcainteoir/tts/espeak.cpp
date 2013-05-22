@@ -149,10 +149,10 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 	for (; event->type != espeakEVENT_LIST_TERMINATED; ++event) switch (event->type)
 	{
 	case espeakEVENT_WORD:
-		callback->onspeaking(event->text_position - 1, event->length);
+		callback->onspeaking(event->text_position, event->length);
 		break;
 	case espeakEVENT_END:
-		callback->onspeaking(event->text_position - 1, 0);
+		callback->onspeaking(event->text_position, 0);
 		break;
 	default:
 		break;
