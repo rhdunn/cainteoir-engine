@@ -298,6 +298,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/tts/engines.cpp \
 	src/libcainteoir/tts/espeak.cpp \
 	src/libcainteoir/tts/letter_to_phoneme.cpp \
+	src/libcainteoir/tts/phoneme.cpp \
 	src/libcainteoir/tts/phoneme_stream.cpp \
 	src/libcainteoir/tts/text_reader.cpp \
 	src/libcainteoir/tts/tts_engine.hpp \
@@ -488,6 +489,16 @@ tests/content.check: tests/content
 	($< && touch $@) | tee $<.results
 	test -f $@ || false
 
+noinst_bin_PROGRAMS += tests/phoneme
+
+tests_phoneme_LDADD   = src/libcainteoir/libcainteoir.la
+tests_phoneme_SOURCES = tests/phoneme.cpp
+
+tests/phoneme.check: tests/phoneme
+	rm -f $@
+	($< && touch $@) | tee $<.results
+	test -f $@ || false
+
 noinst_bin_PROGRAMS += tests/dictionary
 
 tests_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
@@ -544,5 +555,6 @@ check: \
 	tests/content.check \
 	tests/styles.check \
 	tests/events.check \
+	tests/phoneme.check \
 	tests/dictionary.check \
 	tests/parsetext.check

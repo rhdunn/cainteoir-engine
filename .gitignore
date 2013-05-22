@@ -37,6 +37,7 @@ src/apps/doc2doc/doc2doc
 
 tests/buffer
 tests/content
+tests/phoneme
 tests/dictionary
 tests/rdfmodel
 tests/rdfquery
