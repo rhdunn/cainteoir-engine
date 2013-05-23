@@ -24,7 +24,6 @@
 #include <cainteoir/phoneme.hpp>
 #include <utility>
 #include <string.h>
-#include <stdio.h>
 
 namespace tts = cainteoir::tts;
 
@@ -93,6 +92,16 @@ bool tts::phoneme::contains(const feature f) const
 		if (x == f) return true;
 	}
 	return false;
+}
+
+bool tts::phoneme::operator==(const phoneme &rhs) const
+{
+	return *(const uint32_t *)features == *(const uint32_t *)rhs.features;
+}
+
+bool tts::phoneme::operator!=(const phoneme &rhs) const
+{
+	return *(const uint32_t *)features != *(const uint32_t *)rhs.features;
 }
 
 tts::feature tts::get_feature_id(const char *abbreviation)

@@ -134,6 +134,72 @@ TEST_CASE("copy assignment")
 	assert(!b.contains(f::voiceless));
 }
 
+TEST_CASE("phoneme equality")
+{
+	assert(tts::phoneme(f::unspecified, f::unspecified, f::unspecified)
+	    == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
+
+	assert(tts::phoneme(f::voiced, f::dental, f::fricative)
+	    == tts::phoneme(f::voiced, f::dental, f::fricative));
+
+	assert(!(tts::phoneme(f::voiced,    f::dental, f::fricative)
+	      == tts::phoneme(f::voiceless, f::dental, f::fricative)));
+
+	assert(!(tts::phoneme(f::voiced, f::bilabial, f::fricative)
+	      == tts::phoneme(f::voiced, f::dental,   f::fricative)));
+
+	assert(!(tts::phoneme(f::voiced, f::dental, f::fricative)
+	      == tts::phoneme(f::voiced, f::dental, f::plosive)));
+
+	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
+	    == tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel));
+
+	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
+	      == tts::phoneme(f::high,      f::back, f::unrounded, f::vowel)));
+
+	assert(!(tts::phoneme(f::semi_high, f::back,  f::unrounded, f::vowel)
+	      == tts::phoneme(f::semi_high, f::front, f::unrounded, f::vowel)));
+
+	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
+	      == tts::phoneme(f::semi_high, f::back, f::rounded,   f::vowel)));
+
+	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
+	      == tts::phoneme(f::semi_high, f::back, f::unrounded, f::lateral)));
+}
+
+TEST_CASE("phoneme inequality")
+{
+	assert(!(tts::phoneme(f::unspecified, f::unspecified, f::unspecified)
+	      != tts::phoneme(f::unspecified, f::unspecified, f::unspecified)));
+
+	assert(!(tts::phoneme(f::voiced, f::dental, f::fricative)
+	      != tts::phoneme(f::voiced, f::dental, f::fricative)));
+
+	assert(tts::phoneme(f::voiced,    f::dental, f::fricative)
+	    != tts::phoneme(f::voiceless, f::dental, f::fricative));
+
+	assert(tts::phoneme(f::voiced, f::bilabial, f::fricative)
+	    != tts::phoneme(f::voiced, f::dental,   f::fricative));
+
+	assert(tts::phoneme(f::voiced, f::dental, f::fricative)
+	    != tts::phoneme(f::voiced, f::dental, f::plosive));
+
+	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
+	      != tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)));
+
+	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
+	    != tts::phoneme(f::high,      f::back, f::unrounded, f::vowel));
+
+	assert(tts::phoneme(f::semi_high, f::back,  f::unrounded, f::vowel)
+	    != tts::phoneme(f::semi_high, f::front, f::unrounded, f::vowel));
+
+	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
+	    != tts::phoneme(f::semi_high, f::back, f::rounded,   f::vowel));
+
+	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
+	    != tts::phoneme(f::semi_high, f::back, f::unrounded, f::lateral));
+}
+
 TEST_CASE("tts::get_feature_id -- invalid abbreviations")
 {
 	assert(tts::get_feature_id(nullptr) == f::unspecified);

@@ -94,6 +94,9 @@ namespace cainteoir { namespace tts
 		        const feature d = feature::unspecified);
 
 		bool contains(const feature f) const;
+
+		bool operator==(const phoneme &rhs) const;
+		bool operator!=(const phoneme &rhs) const;
 	};
 
 	feature get_feature_id(const char *abbreviation);
