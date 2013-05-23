@@ -110,32 +110,12 @@ static void * speak_tts_thread(void *data)
 		speak->started();
 
 		size_t n = 0;
-		size_t offset = 0;
 		for (auto &node : *speak)
 		{
 			if (node.type & cainteoir::events::text)
 			{
-				size_t len = node.text->size();
-
-				if (len <= offset)
-				{
-					n += len;
-					offset -= len;
-				}
-				else
-				{
-					if (offset > 0)
-					{
-						n += offset;
-						len -= offset;
-						speak->progress(n);
-					}
-
-					speak->engine->speak(node.text.get(), offset, speak);
-					offset = 0;
-				}
-
-				n += len;
+				speak->engine->speak(node.text.get(), 0, speak);
+				n += node.text->size();
 				speak->progress(n);
 			}
 
