@@ -193,6 +193,20 @@ AC_SUBST(PULSE_CFLAGS)
 AC_SUBST(PULSE_LIBS)
 
 dnl ================================================================
+dnl ALSA checks.
+dnl ================================================================
+
+PKG_CHECK_MODULES(ALSA, [alsa],
+	[
+		AC_DEFINE(HAVE_ALSA, [], [Do we have ALSA])
+		have_alsa=yes
+	],[
+		have_alsa=no
+	])
+AC_SUBST(ALSA_CFLAGS)
+AC_SUBST(ALSA_LIBS)
+
+dnl ================================================================
 dnl Ogg/Vorbis checks.
 dnl ================================================================
 
@@ -297,6 +311,7 @@ AC_MSG_NOTICE([
         MBROLA support:                ${have_mbrola} (voice directory: ${MBROLA_DIR})
 
         PulseAudio support:            ${have_pulseaudio}
+        ALSA support:                  ${have_alsa}
 
         Ogg/Vorbis support:            ${have_vorbisenc}
         PDF support:                   ${have_poppler}

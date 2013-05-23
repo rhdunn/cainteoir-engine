@@ -49,7 +49,7 @@ public:
 		else if (format == rdf::tts("float32le"))
 			ss.format = PA_SAMPLE_FLOAT32LE;
 		else
-			throw std::runtime_error(i18n("pulseaudio: unsupported audio format."));
+			throw std::runtime_error(i18n("unsupported audio format."));
 
 		ss.channels = channels;
 		ss.rate = frequency;

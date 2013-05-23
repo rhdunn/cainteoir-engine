@@ -36,6 +36,9 @@ std::shared_ptr<cainteoir::audio>
 create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 std::shared_ptr<cainteoir::audio>
+create_alsa_device(const char *device, const rdf::uri &format, int channels, int frequency, const rdf::graph &aMetadata, const rdf::uri &aDocument);
+
+std::shared_ptr<cainteoir::audio>
 create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 void cainteoir::supportedAudioFormats(rdf::graph &metadata)
@@ -85,5 +88,8 @@ cainteoir::open_audio_device(
 	int frequency = rql::select_value<int>(data, rql::predicate == rdf::tts("frequency"));
 	const rdf::uri &format = rql::object(rql::select(data, rql::predicate == rdf::tts("audio-format")).front());
 
-	return create_pulseaudio_device(device, format, channels, frequency, aDocMetadata, aDocument);
+	auto audio = create_pulseaudio_device(device, format, channels, frequency, aDocMetadata, aDocument);
+	if (!audio.get())
+		audio = create_alsa_device(device, format, channels, frequency, aDocMetadata, aDocument);
+	return audio;
 }

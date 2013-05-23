@@ -216,6 +216,7 @@ libcainteoir_include_HEADERS = \
 lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
 
 src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION) \
+	${ALSA_LIBS} \
 	${PULSE_LIBS} \
 	${VORBIS_LIBS} \
 	${ZLIB_LIBS} \
@@ -224,6 +225,7 @@ src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION)
 	${LTLIBINTL}
 
 src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
+	${ALSA_CFLAGS} \
 	${PULSE_CFLAGS} \
 	${VORBIS_CFLAGS} \
 	${ZLIB_CFLAGS} \
@@ -248,6 +250,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/mimetype.cpp \
 	src/libcainteoir/path.cpp \
 	\
+	src/libcainteoir/audio/alsa.cpp \
 	src/libcainteoir/audio/audio.cpp \
 	src/libcainteoir/audio/ogg.cpp \
 	src/libcainteoir/audio/pulse.cpp \
