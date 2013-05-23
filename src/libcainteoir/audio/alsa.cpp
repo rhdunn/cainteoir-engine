@@ -85,7 +85,7 @@ public:
 	{
 		if (mHandle)
 		{
-			snd_pcm_drain(mHandle);
+			snd_pcm_drop(mHandle);
 			snd_pcm_close(mHandle);
 			mHandle = nullptr;
 		}
