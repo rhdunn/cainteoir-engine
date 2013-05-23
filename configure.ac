@@ -182,13 +182,23 @@ dnl ================================================================
 dnl PulseAudio checks.
 dnl ================================================================
 
-PKG_CHECK_MODULES(PULSE, [libpulse-simple >= 0.9],
-	[
-		AC_DEFINE(HAVE_PULSEAUDIO, [], [Do we have pulseaudio])
-		have_pulseaudio=yes
-	],[
-		have_pulseaudio=no
-	])
+AC_ARG_WITH([pulseaudio],
+    [AS_HELP_STRING([--with-pulseaudio], [support for PulseAudio output @<:@default=yes@:>@])],
+    [])
+
+if test "$with_pulseaudio" = "no"; then
+    echo "Disabling PulseAudio output support"
+    have_pulseaudio=no
+else
+    PKG_CHECK_MODULES(PULSE, [libpulse-simple >= 0.9],
+        [
+            AC_DEFINE(HAVE_PULSEAUDIO, [], [Do we have pulseaudio])
+            have_pulseaudio=yes
+        ],[
+            have_pulseaudio=no
+        ])
+fi
+
 AC_SUBST(PULSE_CFLAGS)
 AC_SUBST(PULSE_LIBS)
 
@@ -196,13 +206,23 @@ dnl ================================================================
 dnl ALSA checks.
 dnl ================================================================
 
-PKG_CHECK_MODULES(ALSA, [alsa],
-	[
-		AC_DEFINE(HAVE_ALSA, [], [Do we have ALSA])
-		have_alsa=yes
-	],[
-		have_alsa=no
-	])
+AC_ARG_WITH([alsa],
+    [AS_HELP_STRING([--with-alsa], [support for ALSA audio output @<:@default=yes@:>@])],
+    [])
+
+if test "$with_alsa" = "no"; then
+    echo "Disabling ALSA audio output support"
+    have_alsa=no
+else
+    PKG_CHECK_MODULES(ALSA, [alsa],
+        [
+            AC_DEFINE(HAVE_ALSA, [], [Do we have ALSA])
+            have_alsa=yes
+        ],[
+            have_alsa=no
+        ])
+fi
+
 AC_SUBST(ALSA_CFLAGS)
 AC_SUBST(ALSA_LIBS)
 
