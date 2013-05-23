@@ -133,3 +133,74 @@ TEST_CASE("copy assignment")
 	assert(!b.contains(f::unrounded));
 	assert(!b.contains(f::voiceless));
 }
+
+TEST_CASE("tts::get_feature_id -- invalid abbreviations")
+{
+	assert(tts::get_feature_id(nullptr) == f::unspecified);
+	assert(tts::get_feature_id("xyz") == f::unspecified);
+	assert(tts::get_feature_id("aspirated") == f::unspecified);
+}
+
+TEST_CASE("tts::get_feature_id -- ascii-ipa abbreviations")
+{
+	assert(tts::get_feature_id("vcd") == f::voiced);
+	assert(tts::get_feature_id("vls") == f::voiceless);
+
+	assert(tts::get_feature_id("blb") == f::bilabial);
+	assert(tts::get_feature_id("lbd") == f::labio_dental);
+	assert(tts::get_feature_id("dnt") == f::dental);
+	assert(tts::get_feature_id("alv") == f::alveolar);
+	assert(tts::get_feature_id("rfx") == f::retroflex);
+	assert(tts::get_feature_id("pla") == f::palato_alveolar);
+	assert(tts::get_feature_id("pal") == f::palatal);
+	assert(tts::get_feature_id("vel") == f::velar);
+	assert(tts::get_feature_id("lbv") == f::labio_velar);
+	assert(tts::get_feature_id("uvl") == f::uvular);
+	assert(tts::get_feature_id("phr") == f::pharyngeal);
+	assert(tts::get_feature_id("glt") == f::glottal);
+
+	assert(tts::get_feature_id("stp") == f::plosive);
+	assert(tts::get_feature_id("frc") == f::fricative);
+	assert(tts::get_feature_id("nas") == f::nasal);
+	assert(tts::get_feature_id("apr") == f::approximant);
+	assert(tts::get_feature_id("vwl") == f::vowel);
+	assert(tts::get_feature_id("lat") == f::lateral);
+	assert(tts::get_feature_id("trl") == f::trill);
+	assert(tts::get_feature_id("flp") == f::flap);
+	assert(tts::get_feature_id("clk") == f::click);
+	assert(tts::get_feature_id("ejc") == f::ejective);
+	assert(tts::get_feature_id("imp") == f::implosive);
+
+	assert(tts::get_feature_id("hgh") == f::high);
+	assert(tts::get_feature_id("smh") == f::semi_high);
+	assert(tts::get_feature_id("umd") == f::upper_mid);
+	assert(tts::get_feature_id("mid") == f::mid);
+	assert(tts::get_feature_id("lmd") == f::lower_mid);
+	assert(tts::get_feature_id("low") == f::low);
+
+	assert(tts::get_feature_id("fnt") == f::front);
+	assert(tts::get_feature_id("cnt") == f::center);
+	assert(tts::get_feature_id("bck") == f::back);
+
+	assert(tts::get_feature_id("unr") == f::unrounded);
+	assert(tts::get_feature_id("rnd") == f::rounded);
+
+	assert(tts::get_feature_id("asp") == f::aspirated);
+	assert(tts::get_feature_id("unx") == f::unexploded);
+	assert(tts::get_feature_id("syl") == f::syllabic);
+	assert(tts::get_feature_id("mrm") == f::murmured);
+	assert(tts::get_feature_id("lng") == f::long_);
+	assert(tts::get_feature_id("vzd") == f::velarized);
+	assert(tts::get_feature_id("lzd") == f::labialized);
+	assert(tts::get_feature_id("pzd") == f::palatalized);
+	assert(tts::get_feature_id("rzd") == f::rhoticized);
+	assert(tts::get_feature_id("nzd") == f::nasalized);
+	assert(tts::get_feature_id("fzd") == f::pharyngealized);
+
+	// These are properties of consonant phonemes that are not needed to
+	// specify phonemes in the IPA chart. They are only referenced in
+	// Appendix A of the ASCII-IPA document.
+
+	assert(tts::get_feature_id("orl") == f::unspecified);
+	assert(tts::get_feature_id("ctl") == f::unspecified);
+}

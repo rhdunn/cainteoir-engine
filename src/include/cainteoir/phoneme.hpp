@@ -33,11 +33,11 @@ namespace cainteoir { namespace tts
 		voiceless,
 
 		bilabial,
-		labiodental,
+		labio_dental,
 		dental,
 		alveolar,
 		retroflex,
-		palato_alveolvar,
+		palato_alveolar,
 		palatal,
 		velar,
 		labio_velar,
@@ -51,9 +51,7 @@ namespace cainteoir { namespace tts
 		plosive,
 		fricative,
 		nasal,
-		oral,
 		approximant,
-		central,
 		trill,
 		flap,
 		click,
@@ -97,6 +95,8 @@ namespace cainteoir { namespace tts
 
 		bool contains(const feature f) const;
 	};
+
+	feature get_feature_id(const char *abbreviation);
 }}
 
 #endif
