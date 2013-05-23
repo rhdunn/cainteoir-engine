@@ -54,8 +54,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	double mElapsedTime; /* The amount of time elapsed since |mStartTime|. */
 	double mTotalTime; /* The (estimated) total amount of time to read the document. */
 
-	double mCompleted; /* The percentage of the document read from the starting position. */
-	double mProgress;  /* The percentage of the document read from the beginning. */
+	double mProgress;  /* The percentage of the document read. */
 
 	size_t currentOffset; /* The current offset from the beginning to the current block being read. */
 	size_t speakingPos;   /* The position within the block where the speaking is upto. */
@@ -187,7 +186,6 @@ void speech_impl::started()
 {
 	mElapsedTime = 0.0;
 	mTotalTime = (double(textLen) / CHARACTERS_PER_WORD / wordsPerMinute * 60.0);
-	mCompleted = 0.0;
 	mProgress = 0.0;
 	currentOffset = 0;
 }
@@ -268,11 +266,9 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 	mElapsedTime = mTimer.elapsed();
 	mProgress = percentageof(actualPos, textLen);
 
-	if (mElapsedTime > 0.1)
+	if (mElapsedTime > 0.1 && mProgress > 0.1)
 	{
-		mCompleted = percentageof(actualPos, textLen);
-		if (mCompleted >= 0.1)
-			mTotalTime = (mElapsedTime / mCompleted) * 100.0;
+		mTotalTime = (mElapsedTime / mProgress) * 100.0;
 	}
 }
 
