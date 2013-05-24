@@ -398,3 +398,58 @@ TEST_CASE("explicit feature reader -- multiple phonemes")
 	assert(!reader->read());
 	assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
 }
+
+TEST_CASE("explicit feature reader -- phoneme errors")
+{
+	static const std::initializer_list<std::pair<
+		const cainteoir::buffer,
+		const std::string
+	>> phonemes = {
+		// missing '}' at the end of the phoneme ...
+		{ "{vcd,alv,frc",              "unexpected end of phoneme (expecting '}')" },
+		{ "{vcd,alv,",                 "unexpected end of phoneme (expecting '}')" },
+		{ "{",                         "unexpected end of phoneme (expecting '}')" },
+		// no '{' to start the phoneme ...
+		{ "}",                         "unexpected start of phoneme (expecting '{')" },
+		{ "vcd,alv,frc",               "unexpected start of phoneme (expecting '{')" },
+		{ ",alv,frc",                  "unexpected start of phoneme (expecting '{')" },
+		{ "@",                         "unexpected start of phoneme (expecting '{')" },
+		{ "5",                         "unexpected start of phoneme (expecting '{')" },
+		// no phoneme feature specified ...
+		{ "{}",                        "missing phoneme feature" },
+		{ "{vcd,}",                    "missing phoneme feature" },
+		{ "{,lbd}",                    "missing phoneme feature" },
+		// less than 3 features ...
+		{ "{alv}",                     "a phoneme must specify at least 3 features" },
+		{ "{vcd,dnt}",                 "a phoneme must specify at least 3 features" },
+		// more than 5 features ...
+		{ "{vcd,dnt,lat,frc,mrm,asp}", "a phoneme must specify no more than 5 features" },
+		// features shorter/longer than 3 characters ...
+		{ "{s}",                       "a phoneme feature must be 3 characters long" },
+		{ "{st}",                      "a phoneme feature must be 3 characters long" },
+		{ "{stop}",                    "a phoneme feature must be 3 characters long" },
+	};
+
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader();
+
+	for (const auto &test : phonemes)
+	{
+		fprintf(stdout, "... ... testing phoneme %s\n", test.first.begin());
+		reader->reset(test.first);
+
+		try
+		{
+			reader->read();
+			assert(false); // reading the phoneme should have thrown an exception
+		}
+		catch (const tts::phoneme_error &e)
+		{
+			assert(e.what() == test.second);
+		}
+		catch (...)
+		{
+			assert(false); // should be a tts::phoneme_error exception
+		}
+		assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
+	}
+}

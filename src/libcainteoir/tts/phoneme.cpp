@@ -19,6 +19,7 @@
  */
 
 #include "config.h"
+#include "i18n.h"
 #include "compatibility.hpp"
 
 #include <cainteoir/phoneme.hpp>
@@ -183,6 +184,10 @@ bool explicit_feature_reader::read()
 			case '{':
 				s = in_phoneme;
 				break;
+			case '\0':
+				break;
+			default:
+				throw tts::phoneme_error(i18n("unexpected start of phoneme (expecting '{')"));
 			}
 			break;
 		case in_phoneme:
@@ -196,6 +201,8 @@ bool explicit_feature_reader::read()
 				abbrev_pos = 0;
 				abbrev[abbrev_pos] = *mCurrent;
 				break;
+			case ',': case '}':
+				throw tts::phoneme_error(i18n("missing phoneme feature"));
 			}
 			break;
 		case in_feature:
@@ -210,17 +217,27 @@ bool explicit_feature_reader::read()
 					abbrev[abbrev_pos] = *mCurrent;
 				break;
 			case ',': case '}':
-				if (feature_pos <= 5)
+				if (abbrev_pos != 2)
+					throw tts::phoneme_error(i18n("a phoneme feature must be 3 characters long"));
+
+				if (feature_pos < 5)
 				{
 					features[feature_pos] = tts::get_feature_id(abbrev);
 					if (features[feature_pos] != tts::feature::unspecified)
 						++feature_pos;
 				}
+				else
+					throw tts::phoneme_error(i18n("a phoneme must specify no more than 5 features"));
+
 				if (*mCurrent == ',')
 					s = in_phoneme;
 				else
 				{
+					if (feature_pos <= 2)
+						throw tts::phoneme_error(i18n("a phoneme must specify at least 3 features"));
+
 					*(tts::phoneme *)this = { features[0], features[1], features[2], features[3], features[4] };
+					++mCurrent;
 					return true;
 				}
 				break;
@@ -229,6 +246,9 @@ bool explicit_feature_reader::read()
 		}
 		++mCurrent;
 	}
+
+	if (s != begin_phoneme)
+		throw tts::phoneme_error(i18n("unexpected end of phoneme (expecting '}')"));
 
 	*(tts::phoneme *)this = { features[0], features[1], features[2], features[3], features[4] };
 	return false;

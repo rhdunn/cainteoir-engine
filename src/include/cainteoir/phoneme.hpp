@@ -23,6 +23,7 @@
 
 #include "buffer.hpp"
 
+#include <stdexcept>
 #include <cstdint>
 
 namespace cainteoir { namespace tts
@@ -103,6 +104,13 @@ namespace cainteoir { namespace tts
 	};
 
 	feature get_feature_id(const char *abbreviation);
+
+	struct phoneme_error : public std::runtime_error
+	{
+		phoneme_error(const std::string &msg) : std::runtime_error(msg)
+		{
+		}
+	};
 
 	struct phoneme_reader : public phoneme
 	{
