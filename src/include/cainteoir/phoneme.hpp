@@ -21,6 +21,8 @@
 #ifndef CAINTEOIR_ENGINE_PHONEME_HPP
 #define CAINTEOIR_ENGINE_PHONEME_HPP
 
+#include "buffer.hpp"
+
 #include <cstdint>
 
 namespace cainteoir { namespace tts
@@ -101,6 +103,19 @@ namespace cainteoir { namespace tts
 	};
 
 	feature get_feature_id(const char *abbreviation);
+
+	struct phoneme_reader : public phoneme
+	{
+		virtual void reset(const buffer &aBuffer) = 0;
+
+		virtual bool read() = 0;
+
+		phoneme_reader();
+
+		virtual ~phoneme_reader() {}
+	};
+
+	std::shared_ptr<phoneme_reader> createPhonemeReader();
 }}
 
 #endif

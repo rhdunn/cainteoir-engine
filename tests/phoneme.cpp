@@ -315,3 +315,86 @@ TEST_CASE("tts::get_feature_id -- ascii-ipa abbreviations")
 	assert(tts::get_feature_id("orl") == f::unspecified);
 	assert(tts::get_feature_id("ctl") == f::unspecified);
 }
+
+TEST_CASE("explicit feature reader -- no input")
+{
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader();
+	assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
+
+	assert(!reader->read());
+	assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
+
+	cainteoir::buffer test(nullptr, nullptr);
+	reader->reset(test);
+
+	assert(!reader->read());
+	assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
+}
+
+TEST_CASE("explicit feature reader -- single phoneme")
+{
+	// Test data to cover all feature abbreviations:
+	static const std::initializer_list<std::pair<
+		const cainteoir::buffer,
+		const tts::phoneme
+	>> phonemes = {
+		// consonants ...
+		{ "{vcd,blb,stp,asp}",     { f::voiced, f::bilabial, f::plosive, f::aspirated } },
+		{ "{vls,lbd,frc,unx}",     { f::voiceless, f::labio_dental, f::fricative, f::unexploded } },
+		{ "{vcd,dnt,nas,syl}",     { f::voiced, f::dental, f::nasal, f::syllabic } },
+		{ "{vls,alv,apr,mrm}",     { f::voiceless, f::alveolar, f::approximant, f::murmured } },
+		{ "{vcd,lbd,lat,frc}",     { f::voiced, f::labio_dental, f::lateral, f::fricative } },
+		{ "{vls,rfx,trl,vzd}",     { f::voiceless, f::retroflex, f::trill, f::velarized } },
+		{ "{vcd,pla,flp,lzd}",     { f::voiced, f::palato_alveolar, f::flap, f::labialized } },
+		{ "{vls,pal,clk}",         { f::voiceless, f::palatal, f::click } },
+		{ "{vcd,vel,ejc}",         { f::voiced, f::velar, f::ejective } },
+		{ "{vls,lbv,imp}",         { f::voiceless, f::labio_velar, f::implosive } },
+		{ "{vcd,uvl,stp,pzd}",     { f::voiced, f::uvular, f::plosive, f::palatalized } },
+		{ "{vls,phr,frc,nzd}",     { f::voiceless, f::pharyngeal, f::fricative, f::nasalized } },
+		{ "{vcd,glt,nas,fzd}",     { f::voiced, f::glottal, f::nasal, f::pharyngealized } },
+		// ignored phoneme features ...
+		{ "{vcd,blb,orl,stp}",     { f::voiced, f::bilabial, f::plosive } },
+		{ "{vcd,blb,ctl,stp}",     { f::voiced, f::bilabial, f::plosive } },
+		// vowels ...
+		{ "{hgh,fnt,unr,vwl,lng}", { f::high, f::front, f::unrounded, f::vowel, f::long_ } },
+		{ "{smh,fnt,rnd,vwl}",     { f::semi_high, f::front, f::rounded, f::vowel } },
+		{ "{umd,cnt,unr,vwl}",     { f::upper_mid, f::center, f::unrounded, f::vowel } },
+		{ "{mid,cnt,rnd,vwl,rzd}", { f::mid, f::center, f::rounded, f::vowel, f::rhoticized } },
+		{ "{lmd,bck,unr,vwl}",     { f::lower_mid, f::back, f::unrounded, f::vowel } },
+		{ "{low,bck,rnd,vwl}",     { f::low, f::back, f::rounded, f::vowel } },
+	};
+
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader();
+
+	for (const auto &test : phonemes)
+	{
+		fprintf(stdout, "... ... testing phoneme %s\n", test.first.begin());
+		reader->reset(test.first);
+
+		assert(reader->read());
+		assert(*reader == test.second);
+
+		assert(!reader->read());
+		assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
+	}
+}
+
+TEST_CASE("explicit feature reader -- multiple phonemes")
+{
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader();
+
+	cainteoir::buffer test("{vls,alv,stp}{low,fnt,unr,vwl}{vcd,vel,stp}"); // test = /t&g/
+	reader->reset(test);
+
+	assert(reader->read());
+	assert(*reader == tts::phoneme(f::voiceless, f::alveolar, f::plosive));
+
+	assert(reader->read());
+	assert(*reader == tts::phoneme(f::low, f::front, f::unrounded, f::vowel));
+
+	assert(reader->read());
+	assert(*reader == tts::phoneme(f::voiced, f::velar, f::plosive));
+
+	assert(!reader->read());
+	assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
+}

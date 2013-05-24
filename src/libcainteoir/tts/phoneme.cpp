@@ -130,3 +130,111 @@ tts::feature tts::get_feature_id(const char *abbreviation)
 
 	return tts::feature::unspecified;
 }
+
+tts::phoneme_reader::phoneme_reader()
+	: phoneme(tts::feature::unspecified, tts::feature::unspecified, tts::feature::unspecified)
+{
+}
+
+struct explicit_feature_reader : public tts::phoneme_reader
+{
+	void reset(const cainteoir::buffer &aBuffer);
+
+	bool read();
+
+	enum state_t
+	{
+		begin_phoneme,
+		in_phoneme,
+		in_feature,
+	};
+
+	const char *mCurrent;
+	const char *mEnd;
+};
+
+void explicit_feature_reader::reset(const cainteoir::buffer &aBuffer)
+{
+	mCurrent = aBuffer.begin();
+	mEnd = aBuffer.end();
+}
+
+bool explicit_feature_reader::read()
+{
+	state_t s = begin_phoneme;
+	char abbrev[4] = { '\0', '\0', '\0', '\0' };
+	int abbrev_pos = 0;
+	tts::feature features[5] = {
+		tts::feature::unspecified,
+		tts::feature::unspecified,
+		tts::feature::unspecified,
+		tts::feature::unspecified,
+		tts::feature::unspecified,
+	};
+	int feature_pos = 0;
+
+	while (mCurrent < mEnd)
+	{
+		switch (s)
+		{
+		case begin_phoneme:
+			switch (*mCurrent)
+			{
+			case '{':
+				s = in_phoneme;
+				break;
+			}
+			break;
+		case in_phoneme:
+			switch (*mCurrent)
+			{
+			case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
+			case 'g': case 'h': case 'i': case 'j': case 'k': case 'l': case 'm':
+			case 'n': case 'o': case 'p': case 'q': case 'r': case 's':
+			case 't': case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':
+				s = in_feature;
+				abbrev_pos = 0;
+				abbrev[abbrev_pos] = *mCurrent;
+				break;
+			}
+			break;
+		case in_feature:
+			switch (*mCurrent)
+			{
+			case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
+			case 'g': case 'h': case 'i': case 'j': case 'k': case 'l': case 'm':
+			case 'n': case 'o': case 'p': case 'q': case 'r': case 's':
+			case 't': case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':
+				++abbrev_pos;
+				if (abbrev_pos <= 2)
+					abbrev[abbrev_pos] = *mCurrent;
+				break;
+			case ',': case '}':
+				if (feature_pos <= 5)
+				{
+					features[feature_pos] = tts::get_feature_id(abbrev);
+					if (features[feature_pos] != tts::feature::unspecified)
+						++feature_pos;
+				}
+				if (*mCurrent == ',')
+					s = in_phoneme;
+				else
+				{
+					*(tts::phoneme *)this = { features[0], features[1], features[2], features[3], features[4] };
+					return true;
+				}
+				break;
+			}
+			break;
+		}
+		++mCurrent;
+	}
+
+	*(tts::phoneme *)this = { features[0], features[1], features[2], features[3], features[4] };
+	return false;
+}
+
+std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader()
+{
+	return std::make_shared<explicit_feature_reader>();
+}
