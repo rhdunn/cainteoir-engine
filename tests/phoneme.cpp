@@ -136,20 +136,8 @@ TEST_CASE("4 feature phoneme")
 
 TEST_CASE("phoneme equality")
 {
-	assert(tts::phoneme(f::unspecified, f::unspecified, f::unspecified)
-	    == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
-
-	assert(tts::phoneme(f::voiced, f::dental, f::fricative)
-	    == tts::phoneme(f::voiced, f::dental, f::fricative));
-
-	assert(!(tts::phoneme(f::voiced,    f::dental, f::fricative)
-	      == tts::phoneme(f::voiceless, f::dental, f::fricative)));
-
-	assert(!(tts::phoneme(f::voiced, f::bilabial, f::fricative)
-	      == tts::phoneme(f::voiced, f::dental,   f::fricative)));
-
-	assert(!(tts::phoneme(f::voiced, f::dental, f::fricative)
-	      == tts::phoneme(f::voiced, f::dental, f::plosive)));
+	assert(tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified)
+	    == tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified));
 
 	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
 	    == tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel));
@@ -169,20 +157,8 @@ TEST_CASE("phoneme equality")
 
 TEST_CASE("phoneme inequality")
 {
-	assert(!(tts::phoneme(f::unspecified, f::unspecified, f::unspecified)
-	      != tts::phoneme(f::unspecified, f::unspecified, f::unspecified)));
-
-	assert(!(tts::phoneme(f::voiced, f::dental, f::fricative)
-	      != tts::phoneme(f::voiced, f::dental, f::fricative)));
-
-	assert(tts::phoneme(f::voiced,    f::dental, f::fricative)
-	    != tts::phoneme(f::voiceless, f::dental, f::fricative));
-
-	assert(tts::phoneme(f::voiced, f::bilabial, f::fricative)
-	    != tts::phoneme(f::voiced, f::dental,   f::fricative));
-
-	assert(tts::phoneme(f::voiced, f::dental, f::fricative)
-	    != tts::phoneme(f::voiced, f::dental, f::plosive));
+	assert(!(tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified)
+	      != tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified)));
 
 	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
 	      != tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)));
