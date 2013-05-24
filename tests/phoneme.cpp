@@ -326,7 +326,7 @@ TEST_CASE("tts::get_feature_id -- ascii-ipa abbreviations")
 
 TEST_CASE("explicit feature reader -- no input")
 {
-	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader();
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader(nullptr);
 	assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
 
 	assert(!reader->read());
@@ -372,7 +372,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		{ "{low,bck,rnd,vwl}",     { f::low, f::back, f::rounded, f::vowel } },
 	};
 
-	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader();
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader(nullptr);
 
 	for (const auto &test : phonemes)
 	{
@@ -389,7 +389,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 
 TEST_CASE("explicit feature reader -- multiple phonemes")
 {
-	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader();
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader(nullptr);
 
 	cainteoir::buffer test("{vls,alv,stp}{low,fnt,unr,vwl}{vcd,vel,stp}"); // test = /t&g/
 	reader->reset(test);
@@ -448,7 +448,7 @@ TEST_CASE("explicit feature reader -- phoneme errors")
 		{ "{xy%}",                     "invalid phoneme feature character (only [a-z] supported)" },
 	};
 
-	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader();
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader(nullptr);
 
 	for (const auto &test : phonemes)
 	{

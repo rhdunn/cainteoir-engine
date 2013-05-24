@@ -262,7 +262,9 @@ bool explicit_feature_reader::read()
 	return false;
 }
 
-std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader()
+std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader(const char *aPhonemeSet)
 {
+	if (!aPhonemeSet) return std::make_shared<explicit_feature_reader>();
+
 	return std::make_shared<explicit_feature_reader>();
 }
