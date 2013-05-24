@@ -439,6 +439,13 @@ TEST_CASE("explicit feature reader -- phoneme errors")
 		// unknown feature ...
 		{ "{aaa}",                     "unknown phoneme feature" },
 		{ "{xyz}",                     "unknown phoneme feature" },
+		// invalid feature character ...
+		{ "{STP}",                     "invalid phoneme feature character (only [a-z] supported)" },
+		{ "{5}",                       "invalid phoneme feature character (only [a-z] supported)" },
+		{ "{%}",                       "invalid phoneme feature character (only [a-z] supported)" },
+		{ "{stP}",                     "invalid phoneme feature character (only [a-z] supported)" },
+		{ "{xy5}",                     "invalid phoneme feature character (only [a-z] supported)" },
+		{ "{xy%}",                     "invalid phoneme feature character (only [a-z] supported)" },
 	};
 
 	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader();

@@ -205,6 +205,8 @@ bool explicit_feature_reader::read()
 				break;
 			case ',': case '}':
 				throw tts::phoneme_error(i18n("missing phoneme feature"));
+			default:
+				throw tts::phoneme_error(i18n("invalid phoneme feature character (only [a-z] supported)"));
 			}
 			break;
 		case in_feature:
@@ -245,6 +247,8 @@ bool explicit_feature_reader::read()
 					return true;
 				}
 				break;
+			default:
+				throw tts::phoneme_error(i18n("invalid phoneme feature character (only [a-z] supported)"));
 			}
 			break;
 		}
