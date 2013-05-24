@@ -45,50 +45,21 @@ TEST_CASE("3 feature phoneme")
 	assert(!p.contains(f::unspecified));
 	assert(!p.contains(f::voiced));
 	assert(!p.contains(f::vowel));
-}
 
-TEST_CASE("4 feature phoneme")
-{
-	tts::phoneme p(f::high, f::front, f::unrounded, f::vowel);
+	// copy construction ...
 
-	assert(p.contains(f::high));
-	assert(p.contains(f::front));
-	assert(p.contains(f::unrounded));
-	assert(p.contains(f::vowel));
+	tts::phoneme q(p);
 
-	assert(!p.contains(f::unspecified));
-	assert(!p.contains(f::rounded));
-	assert(!p.contains(f::voiceless));
-}
+	assert(q.contains(f::voiceless));
+	assert(q.contains(f::bilabial));
+	assert(q.contains(f::plosive));
 
-TEST_CASE("copy construction")
-{
-	tts::phoneme a(f::voiced, f::dental, f::fricative);
-	tts::phoneme b(a);
+	assert(!q.contains(f::unspecified));
+	assert(!q.contains(f::voiced));
+	assert(!q.contains(f::vowel));
 
-	assert(b.contains(f::voiced));
-	assert(b.contains(f::dental));
-	assert(b.contains(f::fricative));
+	// copy assignment ...
 
-	assert(!b.contains(f::unspecified));
-	assert(!b.contains(f::voiceless));
-	assert(!b.contains(f::vowel));
-
-	tts::phoneme c(f::low, f::back, f::rounded, f::vowel);
-	tts::phoneme d(c);
-
-	assert(d.contains(f::low));
-	assert(d.contains(f::back));
-	assert(d.contains(f::rounded));
-	assert(d.contains(f::vowel));
-
-	assert(!d.contains(f::unspecified));
-	assert(!d.contains(f::unrounded));
-	assert(!d.contains(f::voiceless));
-}
-
-TEST_CASE("copy assignment")
-{
 	tts::phoneme a(f::voiced, f::dental, f::fricative);
 	a = tts::phoneme(f::voiceless, f::bilabial, f::plosive);
 
@@ -109,29 +80,58 @@ TEST_CASE("copy assignment")
 	assert(!a.contains(f::unspecified));
 	assert(!a.contains(f::voiceless));
 	assert(!a.contains(f::vowel));
+}
 
-	tts::phoneme b(f::low, f::back, f::rounded, f::vowel);
-	b = tts::phoneme(f::high, f::front, f::unrounded, f::vowel);
+TEST_CASE("4 feature phoneme")
+{
+	tts::phoneme p(f::high, f::front, f::unrounded, f::vowel);
 
-	assert(b.contains(f::high));
-	assert(b.contains(f::front));
-	assert(b.contains(f::unrounded));
-	assert(b.contains(f::vowel));
+	assert(p.contains(f::high));
+	assert(p.contains(f::front));
+	assert(p.contains(f::unrounded));
+	assert(p.contains(f::vowel));
 
-	assert(!b.contains(f::unspecified));
-	assert(!b.contains(f::rounded));
-	assert(!b.contains(f::voiceless));
+	assert(!p.contains(f::unspecified));
+	assert(!p.contains(f::rounded));
+	assert(!p.contains(f::voiceless));
 
-	b = { f::low, f::back, f::rounded, f::vowel };
+	// copy construction ...
 
-	assert(b.contains(f::low));
-	assert(b.contains(f::back));
-	assert(b.contains(f::rounded));
-	assert(b.contains(f::vowel));
+	tts::phoneme q(p);
 
-	assert(!b.contains(f::unspecified));
-	assert(!b.contains(f::unrounded));
-	assert(!b.contains(f::voiceless));
+	assert(q.contains(f::high));
+	assert(q.contains(f::front));
+	assert(q.contains(f::unrounded));
+	assert(q.contains(f::vowel));
+
+	assert(!q.contains(f::unspecified));
+	assert(!q.contains(f::rounded));
+	assert(!q.contains(f::voiceless));
+
+	// copy assignment ...
+
+	tts::phoneme a(f::voiced, f::bilabial, f::lateral, f::fricative);
+	a = tts::phoneme(f::high, f::front, f::unrounded, f::vowel);
+
+	assert(a.contains(f::high));
+	assert(a.contains(f::front));
+	assert(a.contains(f::unrounded));
+	assert(a.contains(f::vowel));
+
+	assert(!a.contains(f::unspecified));
+	assert(!a.contains(f::rounded));
+	assert(!a.contains(f::voiceless));
+
+	a = { f::low, f::back, f::rounded, f::vowel };
+
+	assert(a.contains(f::low));
+	assert(a.contains(f::back));
+	assert(a.contains(f::rounded));
+	assert(a.contains(f::vowel));
+
+	assert(!a.contains(f::unspecified));
+	assert(!a.contains(f::unrounded));
+	assert(!a.contains(f::voiceless));
 }
 
 TEST_CASE("phoneme equality")
