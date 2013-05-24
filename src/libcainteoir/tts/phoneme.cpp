@@ -36,6 +36,7 @@ static std::initializer_list<const std::pair<const char *, tts::feature>> abbrev
 	{ "blb", tts::feature::bilabial },
 	{ "clk", tts::feature::click },
 	{ "cnt", tts::feature::center },
+	{ "ctl", tts::feature::unspecified },
 	{ "dnt", tts::feature::dental },
 	{ "ejc", tts::feature::ejective },
 	{ "flp", tts::feature::flap },
@@ -56,6 +57,7 @@ static std::initializer_list<const std::pair<const char *, tts::feature>> abbrev
 	{ "mrm", tts::feature::murmured },
 	{ "nas", tts::feature::nasal },
 	{ "nzd", tts::feature::nasalized },
+	{ "orl", tts::feature::unspecified },
 	{ "pal", tts::feature::palatal },
 	{ "phr", tts::feature::pharyngeal },
 	{ "pla", tts::feature::palato_alveolar },
@@ -108,9 +110,9 @@ bool tts::phoneme::operator!=(const phoneme &rhs) const
 	       features[4] != rhs.features[4];
 }
 
-tts::feature tts::get_feature_id(const char *abbreviation)
+std::pair<bool, tts::feature> tts::get_feature_id(const char *abbreviation)
 {
-	if (!abbreviation) return tts::feature::unspecified;
+	if (!abbreviation) return { false, tts::feature::unspecified };
 
 	int begin = 0;
 	int end = abbreviations.size() - 1;
@@ -122,14 +124,14 @@ tts::feature tts::get_feature_id(const char *abbreviation)
 
 		int comp = strcmp(item.first, abbreviation);
 		if (comp == 0)
-			return (abbreviations.begin() + pos)->second;
+			return { true, (abbreviations.begin() + pos)->second };
 		else if (comp < 0)
 			begin = pos + 1;
 		else
 			end = pos - 1;
 	}
 
-	return tts::feature::unspecified;
+	return { false, tts::feature::unspecified };
 }
 
 tts::phoneme_reader::phoneme_reader()
@@ -222,9 +224,11 @@ bool explicit_feature_reader::read()
 
 				if (feature_pos < 5)
 				{
-					features[feature_pos] = tts::get_feature_id(abbrev);
-					if (features[feature_pos] != tts::feature::unspecified)
-						++feature_pos;
+					auto match = tts::get_feature_id(abbrev);
+					if (!match.first)
+						throw tts::phoneme_error(i18n("unknown phoneme feature"));
+					if (match.second != tts::feature::unspecified)
+						features[feature_pos++] = match.second;
 				}
 				else
 					throw tts::phoneme_error(i18n("a phoneme must specify no more than 5 features"));

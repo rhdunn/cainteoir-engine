@@ -103,7 +103,7 @@ namespace cainteoir { namespace tts
 		bool operator!=(const phoneme &rhs) const;
 	};
 
-	feature get_feature_id(const char *abbreviation);
+	std::pair<bool, feature> get_feature_id(const char *abbreviation);
 
 	struct phoneme_error : public std::runtime_error
 	{
