@@ -77,12 +77,13 @@ static std::initializer_list<const std::pair<const char *, tts::feature>> abbrev
 	{ "vzd", tts::feature::velarized },
 };
 
-tts::phoneme::phoneme(const feature a, const feature b, const feature c, const feature d)
+tts::phoneme::phoneme(const feature a, const feature b, const feature c, const feature d, const feature e)
 {
 	features[0] = a;
 	features[1] = b;
 	features[2] = c;
 	features[3] = d;
+	features[4] = e;
 }
 
 bool tts::phoneme::contains(const feature f) const
@@ -96,12 +97,14 @@ bool tts::phoneme::contains(const feature f) const
 
 bool tts::phoneme::operator==(const phoneme &rhs) const
 {
-	return *(const uint32_t *)features == *(const uint32_t *)rhs.features;
+	return *(const uint32_t *)features == *(const uint32_t *)rhs.features &&
+	       features[4] == rhs.features[4];
 }
 
 bool tts::phoneme::operator!=(const phoneme &rhs) const
 {
-	return *(const uint32_t *)features != *(const uint32_t *)rhs.features;
+	return *(const uint32_t *)features != *(const uint32_t *)rhs.features ||
+	       features[4] != rhs.features[4];
 }
 
 tts::feature tts::get_feature_id(const char *abbreviation)

@@ -31,7 +31,7 @@ typedef tts::feature f;
 
 TEST_CASE("phoneme object size")
 {
-	assert(sizeof(tts::phoneme) == 4);
+	assert(sizeof(tts::phoneme) == 5);
 }
 
 TEST_CASE("3 feature phoneme")
@@ -94,6 +94,7 @@ TEST_CASE("4 feature phoneme")
 	assert(!p.contains(f::unspecified));
 	assert(!p.contains(f::rounded));
 	assert(!p.contains(f::voiceless));
+	assert(!p.contains(f::rhoticized));
 
 	// copy construction ...
 
@@ -107,6 +108,7 @@ TEST_CASE("4 feature phoneme")
 	assert(!q.contains(f::unspecified));
 	assert(!q.contains(f::rounded));
 	assert(!q.contains(f::voiceless));
+	assert(!q.contains(f::rhoticized));
 
 	// copy assignment ...
 
@@ -121,6 +123,7 @@ TEST_CASE("4 feature phoneme")
 	assert(!a.contains(f::unspecified));
 	assert(!a.contains(f::rounded));
 	assert(!a.contains(f::voiceless));
+	assert(!a.contains(f::rhoticized));
 
 	a = { f::low, f::back, f::rounded, f::vowel };
 
@@ -132,48 +135,114 @@ TEST_CASE("4 feature phoneme")
 	assert(!a.contains(f::unspecified));
 	assert(!a.contains(f::unrounded));
 	assert(!a.contains(f::voiceless));
+	assert(!a.contains(f::rhoticized));
+}
+
+TEST_CASE("5 feature phoneme")
+{
+	tts::phoneme p(f::high, f::front, f::unrounded, f::vowel, f::rhoticized);
+
+	assert(p.contains(f::high));
+	assert(p.contains(f::front));
+	assert(p.contains(f::unrounded));
+	assert(p.contains(f::vowel));
+	assert(p.contains(f::rhoticized));
+
+	assert(!p.contains(f::unspecified));
+	assert(!p.contains(f::rounded));
+	assert(!p.contains(f::voiceless));
+	assert(!p.contains(f::long_));
+
+	// copy construction ...
+
+	tts::phoneme q(p);
+
+	assert(q.contains(f::high));
+	assert(q.contains(f::front));
+	assert(q.contains(f::unrounded));
+	assert(q.contains(f::vowel));
+
+	assert(!q.contains(f::unspecified));
+	assert(!q.contains(f::rounded));
+	assert(!q.contains(f::voiceless));
+	assert(!q.contains(f::long_));
+
+	// copy assignment ...
+
+	tts::phoneme a(f::voiced, f::bilabial, f::lateral, f::fricative, f::murmured);
+	a = tts::phoneme(f::high, f::front, f::unrounded, f::vowel, f::long_);
+
+	assert(a.contains(f::high));
+	assert(a.contains(f::front));
+	assert(a.contains(f::unrounded));
+	assert(a.contains(f::vowel));
+	assert(a.contains(f::long_));
+
+	assert(!a.contains(f::unspecified));
+	assert(!a.contains(f::rounded));
+	assert(!a.contains(f::voiceless));
+	assert(!a.contains(f::rhoticized));
+
+	a = { f::low, f::back, f::rounded, f::vowel, f::rhoticized };
+
+	assert(a.contains(f::low));
+	assert(a.contains(f::back));
+	assert(a.contains(f::rounded));
+	assert(a.contains(f::vowel));
+	assert(a.contains(f::rhoticized));
+
+	assert(!a.contains(f::unspecified));
+	assert(!a.contains(f::unrounded));
+	assert(!a.contains(f::voiceless));
+	assert(!a.contains(f::long_));
 }
 
 TEST_CASE("phoneme equality")
 {
-	assert(tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified)
-	    == tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified));
+	assert(tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified, f::unspecified)
+	    == tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified, f::unspecified));
 
-	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
-	    == tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel));
+	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
+	    == tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized));
 
-	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
-	      == tts::phoneme(f::high,      f::back, f::unrounded, f::vowel)));
+	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
+	      == tts::phoneme(f::high,      f::back, f::unrounded, f::vowel, f::rhoticized)));
 
-	assert(!(tts::phoneme(f::semi_high, f::back,  f::unrounded, f::vowel)
-	      == tts::phoneme(f::semi_high, f::front, f::unrounded, f::vowel)));
+	assert(!(tts::phoneme(f::semi_high, f::back,  f::unrounded, f::vowel, f::rhoticized)
+	      == tts::phoneme(f::semi_high, f::front, f::unrounded, f::vowel, f::rhoticized)));
 
-	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
-	      == tts::phoneme(f::semi_high, f::back, f::rounded,   f::vowel)));
+	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
+	      == tts::phoneme(f::semi_high, f::back, f::rounded,   f::vowel, f::rhoticized)));
 
-	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
-	      == tts::phoneme(f::semi_high, f::back, f::unrounded, f::lateral)));
+	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel,   f::rhoticized)
+	      == tts::phoneme(f::semi_high, f::back, f::unrounded, f::lateral, f::rhoticized)));
+
+	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
+	      == tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::long_)));
 }
 
 TEST_CASE("phoneme inequality")
 {
-	assert(!(tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified)
-	      != tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified)));
+	assert(!(tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified, f::unspecified)
+	      != tts::phoneme(f::unspecified, f::unspecified, f::unspecified, f::unspecified, f::unspecified)));
 
-	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
-	      != tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)));
+	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
+	      != tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)));
 
-	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
-	    != tts::phoneme(f::high,      f::back, f::unrounded, f::vowel));
+	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
+	    != tts::phoneme(f::high,      f::back, f::unrounded, f::vowel, f::rhoticized));
 
-	assert(tts::phoneme(f::semi_high, f::back,  f::unrounded, f::vowel)
-	    != tts::phoneme(f::semi_high, f::front, f::unrounded, f::vowel));
+	assert(tts::phoneme(f::semi_high, f::back,  f::unrounded, f::vowel, f::rhoticized)
+	    != tts::phoneme(f::semi_high, f::front, f::unrounded, f::vowel, f::rhoticized));
 
-	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
-	    != tts::phoneme(f::semi_high, f::back, f::rounded,   f::vowel));
+	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
+	    != tts::phoneme(f::semi_high, f::back, f::rounded,   f::vowel, f::rhoticized));
 
-	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel)
-	    != tts::phoneme(f::semi_high, f::back, f::unrounded, f::lateral));
+	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel,   f::rhoticized)
+	    != tts::phoneme(f::semi_high, f::back, f::unrounded, f::lateral, f::rhoticized));
+
+	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
+	    != tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::long_));
 }
 
 TEST_CASE("tts::get_feature_id -- invalid abbreviations")

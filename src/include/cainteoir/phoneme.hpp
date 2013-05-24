@@ -86,12 +86,13 @@ namespace cainteoir { namespace tts
 
 	class phoneme
 	{
-		feature features[4];
+		feature features[5];
 	public:
 		phoneme(const feature a,
 		        const feature b,
 		        const feature c,
-		        const feature d = feature::unspecified);
+		        const feature d = feature::unspecified,
+		        const feature e = feature::unspecified);
 
 		bool contains(const feature f) const;
 
