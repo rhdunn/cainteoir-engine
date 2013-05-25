@@ -100,14 +100,13 @@ bool tts::phoneme::contains(const feature f) const
 
 bool tts::phoneme::operator==(const phoneme &rhs) const
 {
-	return *(const uint32_t *)features == *(const uint32_t *)rhs.features &&
-	       features[4] == rhs.features[4];
-}
+	for (const feature x : features)
+	{
+		if (x == feature::unspecified) continue;
 
-bool tts::phoneme::operator!=(const phoneme &rhs) const
-{
-	return *(const uint32_t *)features != *(const uint32_t *)rhs.features ||
-	       features[4] != rhs.features[4];
+		if (!rhs.contains(x)) return false;
+	}
+	return true;
 }
 
 std::pair<bool, tts::feature> tts::get_feature_id(const char *abbreviation)

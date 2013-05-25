@@ -100,7 +100,11 @@ namespace cainteoir { namespace tts
 		bool contains(const feature f) const;
 
 		bool operator==(const phoneme &rhs) const;
-		bool operator!=(const phoneme &rhs) const;
+
+		bool operator!=(const phoneme &rhs) const
+		{
+			return !operator==(rhs);
+		}
 	};
 
 	std::pair<bool, feature> get_feature_id(const char *abbreviation);
