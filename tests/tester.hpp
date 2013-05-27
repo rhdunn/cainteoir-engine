@@ -208,10 +208,10 @@ bool assert_(E expression, const char *ref, bool expected, const char *file, int
 }
 
 #undef  assert
-#define assert(e)       assert_(CAPTURE((e)), "assert(" #e ")", true, __FILE__, __LINE__)
-#define assert_false(e) assert_(CAPTURE((e)), "assert_false(" #e ")", false, __FILE__, __LINE__)
+#define assert(e)       assert_(CAPTURE(e), "assert(" #e ")", true, __FILE__, __LINE__)
+#define assert_false(e) assert_(CAPTURE(e), "assert_false(" #e ")", false, __FILE__, __LINE__)
 
-#define assert_location(e, file, line) assert_(CAPTURE((e)), "assert(" #e ")", true, file, line)
+#define assert_location(e, file, line) assert_(CAPTURE(e), "assert(" #e ")", true, file, line)
 
 #define PRINTABLE(type) \
 	namespace tester \

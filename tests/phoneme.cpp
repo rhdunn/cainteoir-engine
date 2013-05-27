@@ -335,18 +335,22 @@ TEST_CASE("phoneme inequality")
 
 TEST_CASE("tts::get_feature_id -- invalid abbreviations")
 {
-	#define _(x) std::pair<bool, tts::feature>(false, x)
+	auto _ = [](const tts::feature x) -> std::pair<bool, tts::feature>
+	{
+		return { false, x };
+	};
 
 	assert(tts::get_feature_id(nullptr) == _(f::unspecified));
 	assert(tts::get_feature_id("xyz") == _(f::unspecified));
 	assert(tts::get_feature_id("aspirated") == _(f::unspecified));
-
-	#undef _
 }
 
 TEST_CASE("tts::get_feature_id -- ascii-ipa abbreviations")
 {
-	#define _(x) std::pair<bool, tts::feature>(true, x)
+	auto _ = [](const tts::feature x) -> std::pair<bool, tts::feature>
+	{
+		return { true, x };
+	};
 
 	assert(tts::get_feature_id("vcd") == _(f::voiced));
 	assert(tts::get_feature_id("vls") == _(f::voiceless));
@@ -408,8 +412,6 @@ TEST_CASE("tts::get_feature_id -- ascii-ipa abbreviations")
 
 	assert(tts::get_feature_id("orl") == _(f::unspecified));
 	assert(tts::get_feature_id("ctl") == _(f::unspecified));
-
-	#undef _
 }
 
 TEST_CASE("explicit feature reader -- no input")

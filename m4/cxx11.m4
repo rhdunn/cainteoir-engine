@@ -238,6 +238,21 @@ AC_DEFUN([CXX11_CONSTEXPR], [
 	AC_LANG_POP(C++)])
 
 dnl ================================================================
+dnl C++11 lambda
+dnl ================================================================
+
+AC_DEFUN([CXX11_LAMBDA], [
+	AC_LANG_PUSH(C++)
+	AC_MSG_CHECKING([if $CXX supports C++11 lambda])
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM(
+			[[auto f = [](int x) -> int { return x; };]])],
+		[AC_MSG_RESULT([yes])],
+		[AC_MSG_RESULT([no])
+		 AC_MSG_ERROR([C++11 lambda not supported by $CXX.])])
+	AC_LANG_POP(C++)])
+
+dnl ================================================================
 dnl C++11 std::initializer_list
 dnl ================================================================
 
