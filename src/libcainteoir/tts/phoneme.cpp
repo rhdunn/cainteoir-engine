@@ -132,3 +132,8 @@ std::pair<bool, tts::feature> tts::get_feature_id(const char *abbreviation)
 
 	return { false, tts::feature::unspecified };
 }
+
+tts::phoneme_reader::phoneme_reader()
+	: phoneme(tts::feature::unspecified, tts::feature::unspecified, tts::feature::unspecified)
+{
+}

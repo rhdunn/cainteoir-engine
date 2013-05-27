@@ -300,9 +300,9 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/tts/dictionary.cpp \
 	src/libcainteoir/tts/engines.cpp \
 	src/libcainteoir/tts/espeak.cpp \
+	src/libcainteoir/tts/explicit_feature_phonemeset.cpp \
 	src/libcainteoir/tts/letter_to_phoneme.cpp \
 	src/libcainteoir/tts/phoneme.cpp \
-	src/libcainteoir/tts/phoneme_reader.cpp \
 	src/libcainteoir/tts/phoneme_stream.cpp \
 	src/libcainteoir/tts/text_reader.cpp \
 	src/libcainteoir/tts/tts_engine.hpp \

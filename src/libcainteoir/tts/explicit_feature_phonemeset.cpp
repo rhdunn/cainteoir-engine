@@ -1,4 +1,4 @@
-/* Phoneme Reader.
+/* Explicit Feature Phoneme Set.
  *
  * Copyright (C) 2013 Reece H. Dunn
  *
@@ -26,11 +26,6 @@
 #include <utility>
 
 namespace tts = cainteoir::tts;
-
-tts::phoneme_reader::phoneme_reader()
-	: phoneme(tts::feature::unspecified, tts::feature::unspecified, tts::feature::unspecified)
-{
-}
 
 struct explicit_feature_reader : public tts::phoneme_reader
 {
@@ -155,9 +150,7 @@ bool explicit_feature_reader::read()
 	return false;
 }
 
-std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader(const char *aPhonemeSet)
+std::shared_ptr<tts::phoneme_reader> tts::createExplicitFeaturePhonemeReader()
 {
-	if (!aPhonemeSet) return std::make_shared<explicit_feature_reader>();
-
 	return std::make_shared<explicit_feature_reader>();
 }

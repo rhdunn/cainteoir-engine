@@ -127,7 +127,7 @@ namespace cainteoir { namespace tts
 		virtual ~phoneme_reader() {}
 	};
 
-	std::shared_ptr<phoneme_reader> createPhonemeReader(const char *aPhonemeSet);
+	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();
 }}
 
 #endif
