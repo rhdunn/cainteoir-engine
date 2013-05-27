@@ -110,7 +110,9 @@ pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 	, mState(state_title)
 	, mTitle(aTitle)
 {
-	g_type_init();
+	#if !GLIB_CHECK_VERSION(2, 36, 0)
+		g_type_init();
+	#endif
 
 	mDoc = poppler_document_new_from_data((char *)aData->begin(), aData->size(), nullptr, nullptr);
 	if (!mDoc)
