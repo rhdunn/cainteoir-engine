@@ -28,7 +28,7 @@
 
 namespace tts = cainteoir::tts;
 
-static std::initializer_list<const std::pair<const char *, tts::feature>> abbreviations = {
+static const std::initializer_list<const std::pair<const char *, tts::feature>> abbreviations = {
 	{ "alv", tts::feature::alveolar },
 	{ "apr", tts::feature::approximant },
 	{ "asp", tts::feature::aspirated },
@@ -78,6 +78,65 @@ static std::initializer_list<const std::pair<const char *, tts::feature>> abbrev
 	{ "vls", tts::feature::voiceless },
 	{ "vwl", tts::feature::vowel },
 	{ "vzd", tts::feature::velarized },
+};
+
+static const char * feature_data[] = {
+	nullptr,
+
+	"vcd",
+	"vls",
+
+	"blb",
+	"lbd",
+	"dnt",
+	"alv",
+	"rfx",
+	"pla",
+	"pal",
+	"vel",
+	"lbv",
+	"uvl",
+	"phg",
+	"glt",
+
+	"vwl",
+	"lat",
+
+	"stp",
+	"frc",
+	"nas",
+	"apr",
+	"trl",
+	"flp",
+	"clk",
+	"ejc",
+	"imp",
+
+	"hgh",
+	"smh",
+	"umd",
+	"mid",
+	"lmd",
+	"low",
+
+	"fnt",
+	"cnt",
+	"bck",
+
+	"unr",
+	"rnd",
+
+	"asp",
+	"unx",
+	"syl",
+	"mrm",
+	"lng",
+	"vzd",
+	"lzd",
+	"pzd",
+	"rzd",
+	"nzd",
+	"fzd",
 };
 
 tts::phoneme::phoneme(const feature a, const feature b, const feature c, const feature d, const feature e)
@@ -131,6 +190,12 @@ std::pair<bool, tts::feature> tts::get_feature_id(const char *abbreviation)
 	}
 
 	return { false, tts::feature::unspecified };
+}
+
+const char *tts::get_feature_abbreviation(const feature f)
+{
+	if ((int)f > (int)feature::pharyngealized) return nullptr;
+	return feature_data[(int)f];
 }
 
 tts::phoneme_reader::phoneme_reader()

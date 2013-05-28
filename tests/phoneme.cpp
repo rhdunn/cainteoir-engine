@@ -414,6 +414,69 @@ TEST_CASE("tts::get_feature_id -- ascii-ipa abbreviations")
 	assert(tts::get_feature_id("ctl") == _(f::unspecified));
 }
 
+TEST_CASE("tts::get_feature_abbreviation")
+{
+	assert(!tts::get_feature_abbreviation(f::unspecified));
+
+	assert(tts::get_feature_abbreviation(f::voiced)    == "vcd");
+	assert(tts::get_feature_abbreviation(f::voiceless) == "vls");
+
+	assert(tts::get_feature_abbreviation(f::bilabial)        == "blb");
+	assert(tts::get_feature_abbreviation(f::labio_dental)    == "lbd");
+	assert(tts::get_feature_abbreviation(f::dental)          == "dnt");
+	assert(tts::get_feature_abbreviation(f::alveolar)        == "alv");
+	assert(tts::get_feature_abbreviation(f::retroflex)       == "rfx");
+	assert(tts::get_feature_abbreviation(f::palato_alveolar) == "pla");
+	assert(tts::get_feature_abbreviation(f::palatal)         == "pal");
+	assert(tts::get_feature_abbreviation(f::velar)           == "vel");
+	assert(tts::get_feature_abbreviation(f::labio_velar)     == "lbv");
+	assert(tts::get_feature_abbreviation(f::uvular)          == "uvl");
+	assert(tts::get_feature_abbreviation(f::pharyngeal)      == "phg");
+	assert(tts::get_feature_abbreviation(f::glottal)         == "glt");
+
+	assert(tts::get_feature_abbreviation(f::vowel)   == "vwl");
+	assert(tts::get_feature_abbreviation(f::lateral) == "lat");
+
+	assert(tts::get_feature_abbreviation(f::plosive)     == "stp");
+	assert(tts::get_feature_abbreviation(f::fricative)   == "frc");
+	assert(tts::get_feature_abbreviation(f::nasal)       == "nas");
+	assert(tts::get_feature_abbreviation(f::approximant) == "apr");
+	assert(tts::get_feature_abbreviation(f::trill)       == "trl");
+	assert(tts::get_feature_abbreviation(f::flap)        == "flp");
+	assert(tts::get_feature_abbreviation(f::click)       == "clk");
+	assert(tts::get_feature_abbreviation(f::ejective)    == "ejc");
+	assert(tts::get_feature_abbreviation(f::implosive)   == "imp");
+
+	assert(tts::get_feature_abbreviation(f::high)      == "hgh");
+	assert(tts::get_feature_abbreviation(f::semi_high) == "smh");
+	assert(tts::get_feature_abbreviation(f::upper_mid) == "umd");
+	assert(tts::get_feature_abbreviation(f::mid)       == "mid");
+	assert(tts::get_feature_abbreviation(f::lower_mid) == "lmd");
+	assert(tts::get_feature_abbreviation(f::low)       == "low");
+
+	assert(tts::get_feature_abbreviation(f::front)  == "fnt");
+	assert(tts::get_feature_abbreviation(f::center) == "cnt");
+	assert(tts::get_feature_abbreviation(f::back)   == "bck");
+
+	assert(tts::get_feature_abbreviation(f::unrounded) == "unr");
+	assert(tts::get_feature_abbreviation(f::rounded)   == "rnd");
+
+	assert(tts::get_feature_abbreviation(f::aspirated)      == "asp");
+	assert(tts::get_feature_abbreviation(f::unexploded)     == "unx");
+	assert(tts::get_feature_abbreviation(f::syllabic)       == "syl");
+	assert(tts::get_feature_abbreviation(f::murmured)       == "mrm");
+	assert(tts::get_feature_abbreviation(f::long_)          == "lng");
+	assert(tts::get_feature_abbreviation(f::velarized)      == "vzd");
+	assert(tts::get_feature_abbreviation(f::labialized)     == "lzd");
+	assert(tts::get_feature_abbreviation(f::palatalized)    == "pzd");
+	assert(tts::get_feature_abbreviation(f::rhoticized)     == "rzd");
+	assert(tts::get_feature_abbreviation(f::nasalized)      == "nzd");
+	assert(tts::get_feature_abbreviation(f::pharyngealized) == "fzd");
+
+	tts::feature out_of_range = (tts::feature)((int)f::pharyngealized + 1);
+	assert(!tts::get_feature_abbreviation(out_of_range));
+}
+
 TEST_CASE("explicit feature reader -- no input")
 {
 	std::shared_ptr<tts::phoneme_reader> reader = tts::createExplicitFeaturePhonemeReader();

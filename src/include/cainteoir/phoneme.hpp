@@ -67,6 +67,7 @@ namespace cainteoir { namespace tts
 		mid,
 		lower_mid,
 		low,
+
 		front,
 		center,
 		back,
@@ -108,6 +109,8 @@ namespace cainteoir { namespace tts
 	};
 
 	std::pair<bool, feature> get_feature_id(const char *abbreviation);
+
+	const char *get_feature_abbreviation(const feature f);
 
 	struct phoneme_error : public std::runtime_error
 	{
