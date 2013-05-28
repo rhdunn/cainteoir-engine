@@ -56,7 +56,7 @@ void localized(const char *locale,
                const std::string &region,
                const std::string &display)
 {
-	if (!setlocale(LC_MESSAGES, locale) || !setenv("LANGUAGE", locale, 1) || !setenv("LANG", locale, 1))
+	if (!setlocale(LC_MESSAGES, locale) && !setenv("LANGUAGE", locale, 1) && !setenv("LANG", locale, 1))
 	{
 		printf("unable to set locale to '%s' ... skipping '%s' localization test\n", locale, tag);
 		return;
