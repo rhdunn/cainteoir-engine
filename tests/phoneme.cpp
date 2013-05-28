@@ -434,7 +434,7 @@ TEST_CASE("tts::get_feature_abbreviation")
 	assert(tts::get_feature_abbreviation(f::velar)           == "vel");
 	assert(tts::get_feature_abbreviation(f::labio_velar)     == "lbv");
 	assert(tts::get_feature_abbreviation(f::uvular)          == "uvl");
-	assert(tts::get_feature_abbreviation(f::pharyngeal)      == "phg");
+	assert(tts::get_feature_abbreviation(f::pharyngeal)      == "phr");
 	assert(tts::get_feature_abbreviation(f::glottal)         == "glt");
 
 	assert(tts::get_feature_abbreviation(f::vowel)   == "vwl");

@@ -96,7 +96,7 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	{ "vel", i18n("velar") },
 	{ "lbv", i18n("labio-velar") },
 	{ "uvl", i18n("uvular") },
-	{ "phg", i18n("pharyngeal") },
+	{ "phr", i18n("pharyngeal") },
 	{ "glt", i18n("glottal") },
 
 	{ "vwl", i18n("vowel") },
