@@ -80,63 +80,63 @@ static const std::initializer_list<const std::pair<const char *, tts::feature>> 
 	{ "vzd", tts::feature::velarized },
 };
 
-static const char * feature_data[] = {
-	nullptr,
+static const std::pair<const char *, const char *> feature_data[] = {
+	{ nullptr, nullptr },
 
-	"vcd",
-	"vls",
+	{ "vcd", i18n("voiced") },
+	{ "vls", i18n("voiceless") },
 
-	"blb",
-	"lbd",
-	"dnt",
-	"alv",
-	"rfx",
-	"pla",
-	"pal",
-	"vel",
-	"lbv",
-	"uvl",
-	"phg",
-	"glt",
+	{ "blb", i18n("bilabial") },
+	{ "lbd", i18n("labio-dental") },
+	{ "dnt", i18n("dental") },
+	{ "alv", i18n("alveolar") },
+	{ "rfx", i18n("retroflex") },
+	{ "pla", i18n("palato-alveolar") },
+	{ "pal", i18n("palatal") },
+	{ "vel", i18n("velar") },
+	{ "lbv", i18n("labio-velar") },
+	{ "uvl", i18n("uvular") },
+	{ "phg", i18n("pharyngeal") },
+	{ "glt", i18n("glottal") },
 
-	"vwl",
-	"lat",
+	{ "vwl", i18n("vowel") },
+	{ "lat", i18n("lateral") },
 
-	"stp",
-	"frc",
-	"nas",
-	"apr",
-	"trl",
-	"flp",
-	"clk",
-	"ejc",
-	"imp",
+	{ "stp", i18n("plosive") },
+	{ "frc", i18n("fricative") },
+	{ "nas", i18n("nasal") },
+	{ "apr", i18n("approximant") },
+	{ "trl", i18n("trill") },
+	{ "flp", i18n("flap") },
+	{ "clk", i18n("click") },
+	{ "ejc", i18n("ejective") },
+	{ "imp", i18n("implosive") },
 
-	"hgh",
-	"smh",
-	"umd",
-	"mid",
-	"lmd",
-	"low",
+	{ "hgh", i18n("high") },
+	{ "smh", i18n("semi-high") },
+	{ "umd", i18n("upper-mid") },
+	{ "mid", i18n("mid") },
+	{ "lmd", i18n("lower-mid") },
+	{ "low", i18n("low") },
 
-	"fnt",
-	"cnt",
-	"bck",
+	{ "fnt", i18n("front") },
+	{ "cnt", i18n("center") },
+	{ "bck", i18n("back") },
 
-	"unr",
-	"rnd",
+	{ "unr", i18n("unrounded") },
+	{ "rnd", i18n("rounded") },
 
-	"asp",
-	"unx",
-	"syl",
-	"mrm",
-	"lng",
-	"vzd",
-	"lzd",
-	"pzd",
-	"rzd",
-	"nzd",
-	"fzd",
+	{ "asp", i18n("aspirated") },
+	{ "unx", i18n("unexploded") },
+	{ "syl", i18n("syllabic") },
+	{ "mrm", i18n("murmured") },
+	{ "lng", i18n("long") },
+	{ "vzd", i18n("velarized") },
+	{ "lzd", i18n("labialized") },
+	{ "pzd", i18n("palatalized") },
+	{ "rzd", i18n("rhoticized") },
+	{ "nzd", i18n("nasalized") },
+	{ "fzd", i18n("pharyngealized") },
 };
 
 tts::phoneme::phoneme(const feature a, const feature b, const feature c, const feature d, const feature e)
@@ -195,7 +195,13 @@ std::pair<bool, tts::feature> tts::get_feature_id(const char *abbreviation)
 const char *tts::get_feature_abbreviation(const feature f)
 {
 	if ((int)f > (int)feature::pharyngealized) return nullptr;
-	return feature_data[(int)f];
+	return feature_data[(int)f].first;
+}
+
+const char *tts::get_feature_name(const feature f)
+{
+	if ((int)f > (int)feature::pharyngealized) return nullptr;
+	return feature_data[(int)f].second;
 }
 
 tts::phoneme_reader::phoneme_reader()

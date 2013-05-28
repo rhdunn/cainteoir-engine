@@ -112,6 +112,8 @@ namespace cainteoir { namespace tts
 
 	const char *get_feature_abbreviation(const feature f);
 
+	const char *get_feature_name(const feature f);
+
 	struct phoneme_error : public std::runtime_error
 	{
 		phoneme_error(const std::string &msg) : std::runtime_error(msg)

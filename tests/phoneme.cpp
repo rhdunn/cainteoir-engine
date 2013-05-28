@@ -418,6 +418,9 @@ TEST_CASE("tts::get_feature_abbreviation")
 {
 	assert(!tts::get_feature_abbreviation(f::unspecified));
 
+	tts::feature out_of_range = (tts::feature)((int)f::pharyngealized + 1);
+	assert(!tts::get_feature_abbreviation(out_of_range));
+
 	assert(tts::get_feature_abbreviation(f::voiced)    == "vcd");
 	assert(tts::get_feature_abbreviation(f::voiceless) == "vls");
 
@@ -472,9 +475,75 @@ TEST_CASE("tts::get_feature_abbreviation")
 	assert(tts::get_feature_abbreviation(f::rhoticized)     == "rzd");
 	assert(tts::get_feature_abbreviation(f::nasalized)      == "nzd");
 	assert(tts::get_feature_abbreviation(f::pharyngealized) == "fzd");
+}
+
+TEST_CASE("tts::get_feature_name")
+{
+	assert(!tts::get_feature_name(f::unspecified));
 
 	tts::feature out_of_range = (tts::feature)((int)f::pharyngealized + 1);
-	assert(!tts::get_feature_abbreviation(out_of_range));
+	assert(!tts::get_feature_name(out_of_range));
+
+	const char *locale = "en_GB.utf8";
+	if (!setlocale(LC_MESSAGES, locale) && !setenv("LANGUAGE", locale, 1) && !setenv("LANG", locale, 1))
+	{
+		printf("... ... unable to set locale to '%s'\n", locale);
+	}
+
+	assert(tts::get_feature_name(f::voiced)    == "voiced");
+	assert(tts::get_feature_name(f::voiceless) == "voiceless");
+
+	assert(tts::get_feature_name(f::bilabial)        == "bilabial");
+	assert(tts::get_feature_name(f::labio_dental)    == "labio-dental");
+	assert(tts::get_feature_name(f::dental)          == "dental");
+	assert(tts::get_feature_name(f::alveolar)        == "alveolar");
+	assert(tts::get_feature_name(f::retroflex)       == "retroflex");
+	assert(tts::get_feature_name(f::palato_alveolar) == "palato-alveolar");
+	assert(tts::get_feature_name(f::palatal)         == "palatal");
+	assert(tts::get_feature_name(f::velar)           == "velar");
+	assert(tts::get_feature_name(f::labio_velar)     == "labio-velar");
+	assert(tts::get_feature_name(f::uvular)          == "uvular");
+	assert(tts::get_feature_name(f::pharyngeal)      == "pharyngeal");
+	assert(tts::get_feature_name(f::glottal)         == "glottal");
+
+	assert(tts::get_feature_name(f::vowel)   == "vowel");
+	assert(tts::get_feature_name(f::lateral) == "lateral");
+
+	assert(tts::get_feature_name(f::plosive)     == "plosive");
+	assert(tts::get_feature_name(f::fricative)   == "fricative");
+	assert(tts::get_feature_name(f::nasal)       == "nasal");
+	assert(tts::get_feature_name(f::approximant) == "approximant");
+	assert(tts::get_feature_name(f::trill)       == "trill");
+	assert(tts::get_feature_name(f::flap)        == "flap");
+	assert(tts::get_feature_name(f::click)       == "click");
+	assert(tts::get_feature_name(f::ejective)    == "ejective");
+	assert(tts::get_feature_name(f::implosive)   == "implosive");
+
+	assert(tts::get_feature_name(f::high)      == "high");
+	assert(tts::get_feature_name(f::semi_high) == "semi-high");
+	assert(tts::get_feature_name(f::upper_mid) == "upper-mid");
+	assert(tts::get_feature_name(f::mid)       == "mid");
+	assert(tts::get_feature_name(f::lower_mid) == "lower-mid");
+	assert(tts::get_feature_name(f::low)       == "low");
+
+	assert(tts::get_feature_name(f::front)  == "front");
+	assert(tts::get_feature_name(f::center) == "center");
+	assert(tts::get_feature_name(f::back)   == "back");
+
+	assert(tts::get_feature_name(f::unrounded) == "unrounded");
+	assert(tts::get_feature_name(f::rounded)   == "rounded");
+
+	assert(tts::get_feature_name(f::aspirated)      == "aspirated");
+	assert(tts::get_feature_name(f::unexploded)     == "unexploded");
+	assert(tts::get_feature_name(f::syllabic)       == "syllabic");
+	assert(tts::get_feature_name(f::murmured)       == "murmured");
+	assert(tts::get_feature_name(f::long_)          == "long");
+	assert(tts::get_feature_name(f::velarized)      == "velarized");
+	assert(tts::get_feature_name(f::labialized)     == "labialized");
+	assert(tts::get_feature_name(f::palatalized)    == "palatalized");
+	assert(tts::get_feature_name(f::rhoticized)     == "rhoticized");
+	assert(tts::get_feature_name(f::nasalized)      == "nasalized");
+	assert(tts::get_feature_name(f::pharyngealized) == "pharyngealized");
 }
 
 TEST_CASE("explicit feature reader -- no input")
