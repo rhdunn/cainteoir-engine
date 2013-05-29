@@ -311,10 +311,32 @@ public:
 
 	void speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback)
 	{
-		std::string txt = text->str();
+		std::string txt = text->str(); // null-terminate the text buffer
 		espeak_Synth(txt.c_str() + offset, txt.size() - offset, 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, nullptr, callback);
 		espeak_Synchronize();
 	}
+
+	std::shared_ptr<cainteoir::buffer> pronounce(cainteoir::buffer *text, const char *phonemeset)
+        {
+#if defined(HAVE_ESPEAK_TEXTTOPHONEMES)
+		std::string txt = text->str(); // null-terminate the text buffer
+		char buffer[1024];
+
+		int phonemes;
+		if (!strcmp(phonemeset, "espeak"))
+			phonemes = 0x0000;
+		else if (!strcmp(phonemeset, "ipa"))
+			phonemes = 0x0010;
+		else
+			throw std::runtime_error(i18n("unsupported phoneme set"));
+
+		espeak_TextToPhonemes(txt.c_str(), buffer, sizeof(buffer), espeakCHARS_UTF8, phonemes);
+		// NOTE: phoneme output starts with a space, so remove that ...
+		return cainteoir::make_buffer(buffer+1, strlen(buffer)-1);
+#else
+		return std::shared_ptr<cainteoir::buffer>();
+#endif
+        }
 
 	std::shared_ptr<tts::parameter>
 	parameter(tts::parameter::type aType)

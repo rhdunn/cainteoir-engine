@@ -25,6 +25,8 @@
 #include <cainteoir/audio.hpp>
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/engines.hpp>
+
+#include <stdexcept>
 #include <memory>
 
 namespace cainteoir { namespace tts
@@ -54,6 +56,8 @@ namespace cainteoir { namespace tts
 		virtual bool select_voice(const char *voicename) = 0;
 
 		virtual void speak(buffer *text, size_t offset, engine_callback *callback) = 0;
+
+		virtual std::shared_ptr<cainteoir::buffer> pronounce(buffer *text, const char *phonemeset) = 0;
 
 		virtual std::shared_ptr<cainteoir::tts::parameter> parameter(cainteoir::tts::parameter::type aType) = 0;
 	};

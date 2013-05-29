@@ -25,6 +25,7 @@
 #include <cainteoir/document.hpp>
 #include <cainteoir/unicode.hpp>
 #include <cainteoir/text.hpp>
+#include <cainteoir/engines.hpp>
 
 #include <stdexcept>
 #include <cstdio>
@@ -40,6 +41,7 @@ enum
 	ARG_WORDSTREAM      = 302,
 	ARG_PHONEMESTREAM   = 303,
 	ARG_CONTEXTANALYSIS = 304,
+	ARG_PRONOUNCE       = 305,
 	ARG_SHORTSCALE      = 401,
 	ARG_LONGSCALE       = 402,
 };
@@ -51,6 +53,7 @@ static struct option options[] =
 	{ "wordstream",      no_argument,       0, ARG_WORDSTREAM },
 	{ "phonemestream",   no_argument,       0, ARG_PHONEMESTREAM },
 	{ "contextanalysis", no_argument,       0, ARG_CONTEXTANALYSIS },
+	{ "pronounce",       no_argument,       0, ARG_PRONOUNCE },
 	{ "short-scale",     no_argument,       0, ARG_SHORTSCALE },
 	{ "long-scale",      no_argument,       0, ARG_LONGSCALE },
 	{ "document-object", no_argument,       0, 'd' },
@@ -127,6 +130,35 @@ void generate_events(Reader &text)
 	}
 }
 
+void pronounce(tts::word_stream &text, const char *phonemeset)
+{
+	rdf::graph metadata;
+	tts::engines engine(metadata);
+
+	while (text.read())
+	{
+		auto &event = text.event();
+		switch (event.type)
+		{
+		case tts::word_uppercase:
+		case tts::word_lowercase:
+		case tts::word_capitalized:
+		case tts::word_mixedcase:
+		case tts::word_script:
+			{
+				auto phonemes = engine.pronounce(event.text, phonemeset);
+				if (phonemes.get())
+				{
+					fprintf(stdout, "%s /%s/\n",
+					        event.text->str().c_str(),
+					        phonemes->str().c_str());
+				}
+			}
+			break;
+		}
+	}
+}
+
 void parse_text(std::shared_ptr<cainteoir::document_reader> reader,
                 int type,
                 const lang::tag &locale,
@@ -138,6 +170,14 @@ void parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	{
 		tts::word_stream text(reader, locale, scale);
 		generate_events(text);
+	}
+	else if (type == ARG_PRONOUNCE)
+	{
+		if (argc != 2)
+			throw std::runtime_error("usage: parsetext --prounounce <document> <phoneme-set>");
+
+		tts::word_stream text(reader, locale, scale);
+		pronounce(text, argv[1]);
 	}
 	else if (type == ARG_PHONEMESTREAM)
 	{
@@ -194,6 +234,7 @@ int main(int argc, char ** argv)
 			case ARG_WORDSTREAM:
 			case ARG_PHONEMESTREAM:
 			case ARG_CONTEXTANALYSIS:
+			case ARG_PRONOUNCE:
 				type = c;
 				break;
 			case ARG_SHORTSCALE:

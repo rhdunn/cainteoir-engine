@@ -312,6 +312,13 @@ tts::engines::speak(std::shared_ptr<audio> out,
 	return std::make_shared<speech_impl>(active, out, aRange, parameter(tts::parameter::rate));
 }
 
+std::shared_ptr<cainteoir::buffer>
+tts::engines::pronounce(const std::shared_ptr<buffer> &aText,
+                        const char *aPhonemeSet)
+{
+	return active->pronounce(aText.get(), aPhonemeSet);
+}
+
 std::shared_ptr<tts::parameter>
 tts::engines::parameter(tts::parameter::type aType)
 {

@@ -89,6 +89,10 @@ namespace cainteoir { namespace tts
 		speak(std::shared_ptr<audio> out,
 		      const cainteoir::document::range_type &aRange);
 
+		std::shared_ptr<buffer>
+		pronounce(const std::shared_ptr<buffer> &aText,
+		          const char *aPhonemeSet);
+
 		std::shared_ptr<cainteoir::tts::parameter>
 		parameter(cainteoir::tts::parameter::type aType);
 	private:
