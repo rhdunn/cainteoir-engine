@@ -67,8 +67,8 @@ LanguageData::LanguageData()
 	rdf::graph data;
 	try
 	{
-		auto path   = cainteoir::get_data_path() / "languages.rdf.gz";
-		auto reader = cainteoir::createDocumentReader(path, data, std::string());
+		auto path = cainteoir::get_data_path() / "languages.rdf.gz";
+		cainteoir::createDocumentReader(path, data, std::string());
 	}
 	catch (const std::exception & e)
 	{
