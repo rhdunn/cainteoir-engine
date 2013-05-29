@@ -258,6 +258,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	\
 	src/libcainteoir/buffers/buffer.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \
+	src/libcainteoir/buffers/memory_file.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/normalized_text_buffer.cpp \
 	src/libcainteoir/buffers/rope.cpp \

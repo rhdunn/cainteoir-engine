@@ -102,6 +102,20 @@ namespace cainteoir
 
 	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer);
 
+	class memory_file
+	{
+		FILE *f;
+		char *data;
+		size_t length;
+	public:
+		memory_file();
+		~memory_file();
+
+		operator FILE *() const { return f; }
+
+		std::shared_ptr<cainteoir::buffer> buffer();
+	};
+
 	class rope
 	{
 		std::list<std::shared_ptr<cainteoir::buffer>> data;

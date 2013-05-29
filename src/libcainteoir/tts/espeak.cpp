@@ -334,7 +334,7 @@ public:
 		// NOTE: phoneme output starts with a space, so remove that ...
 		return cainteoir::make_buffer(buffer+1, strlen(buffer)-1);
 #else
-		// NOTE: This works, but is about 38x slower.
+		// NOTE: This works, but is about 35x slower.
 
 		int phonemes;
 		if (!strcmp(phonemeset, "espeak"))
@@ -344,15 +344,12 @@ public:
 		else
 			throw std::runtime_error(i18n("unsupported phoneme set"));
 
-		std::shared_ptr<FILE> f(tmpfile(), fclose);
-		espeak_SetPhonemeTrace(phonemes, f.get());
+		cainteoir::memory_file f;
+		espeak_SetPhonemeTrace(phonemes, f);
 		speak(text, 0, nullptr);
 		espeak_SetPhonemeTrace(0, stdout);
 
-		rewind(f.get());
-		auto ret = cainteoir::normalize(cainteoir::make_file_buffer(f.get()));
-
-		return ret;
+		return cainteoir::normalize(f.buffer());
 #endif
         }
 
