@@ -150,7 +150,55 @@ bool explicit_feature_reader::read()
 	return false;
 }
 
+struct explicit_feature_writer : public tts::phoneme_writer
+{
+	explicit_feature_writer();
+
+	void reset(FILE *aOutput);
+
+	bool write(const tts::phoneme &aPhoneme);
+
+	FILE *output;
+};
+
+explicit_feature_writer::explicit_feature_writer()
+	: output(nullptr)
+{
+}
+
+void explicit_feature_writer::reset(FILE *aOutput)
+{
+	output = aOutput;
+}
+
+bool explicit_feature_writer::write(const tts::phoneme &aPhoneme)
+{
+	if (!output) return false;
+
+	bool need_comma = false;
+
+	fputc('{', output);
+	for (auto f : aPhoneme)
+	{
+		const char *abbreviation = tts::get_feature_abbreviation(f);
+		if (abbreviation)
+		{
+			if (need_comma) fputc(',', output);
+			fputs(abbreviation, output);
+			need_comma = true;
+		}
+	}
+	fputc('}', output);
+
+	return true;
+}
+
 std::shared_ptr<tts::phoneme_reader> tts::createExplicitFeaturePhonemeReader()
 {
 	return std::make_shared<explicit_feature_reader>();
+}
+
+std::shared_ptr<tts::phoneme_writer> tts::createExplicitFeaturePhonemeWriter()
+{
+	return std::make_shared<explicit_feature_writer>();
 }

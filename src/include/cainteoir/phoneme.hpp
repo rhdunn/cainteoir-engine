@@ -106,6 +106,9 @@ namespace cainteoir { namespace tts
 		{
 			return !operator==(rhs);
 		}
+
+		const feature *begin() const { return features; }
+		const feature *end()   const { return features + 5; }
 	};
 
 	std::pair<bool, feature> get_feature_id(const char *abbreviation);
@@ -133,6 +136,17 @@ namespace cainteoir { namespace tts
 	};
 
 	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();
+
+	struct phoneme_writer
+	{
+		virtual void reset(FILE *aOutput) = 0;
+
+		virtual bool write(const phoneme &aPhoneme) = 0;
+
+		virtual ~phoneme_writer() {}
+	};
+
+	std::shared_ptr<phoneme_writer> createExplicitFeaturePhonemeWriter();
 }}
 
 #endif

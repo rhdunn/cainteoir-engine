@@ -549,6 +549,7 @@ TEST_CASE("tts::get_feature_name")
 TEST_CASE("explicit feature reader -- no input")
 {
 	std::shared_ptr<tts::phoneme_reader> reader = tts::createExplicitFeaturePhonemeReader();
+	assert(reader.get());
 	assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
 
 	assert(!reader->read());
@@ -692,4 +693,79 @@ TEST_CASE("explicit feature reader -- phoneme errors")
 		}
 		assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
 	}
+}
+
+TEST_CASE("explicit feature writer -- no input")
+{
+	std::shared_ptr<tts::phoneme_writer> writer = tts::createExplicitFeaturePhonemeWriter();
+	assert(writer.get());
+
+	assert(!writer->write({ f::voiceless, f::glottal, f::plosive }));
+
+	cainteoir::memory_file output;
+	writer->reset(output);
+
+	auto data = output.buffer();
+	assert(data->empty());
+
+	writer->reset(nullptr);
+	assert(!writer->write({ f::voiceless, f::glottal, f::plosive }));
+}
+
+TEST_CASE("explicit feature writer -- single phoneme")
+{
+	// Test data to cover all feature abbreviations:
+	static const std::initializer_list<std::pair<
+		const std::string,
+		const tts::phoneme
+	>> phonemes = {
+		// consonants ...
+		{ "{vcd,blb,stp,asp}",     { f::voiced, f::bilabial, f::plosive, f::aspirated } },
+		{ "{vls,lbd,frc,unx}",     { f::voiceless, f::labio_dental, f::fricative, f::unexploded } },
+		{ "{vcd,dnt,nas,syl}",     { f::voiced, f::dental, f::nasal, f::syllabic } },
+		{ "{vls,alv,apr,mrm}",     { f::voiceless, f::alveolar, f::approximant, f::murmured } },
+		{ "{vcd,lbd,lat,frc}",     { f::voiced, f::labio_dental, f::lateral, f::fricative } },
+		{ "{vls,rfx,trl,vzd}",     { f::voiceless, f::retroflex, f::trill, f::velarized } },
+		{ "{vcd,pla,flp,lzd}",     { f::voiced, f::palato_alveolar, f::flap, f::labialized } },
+		{ "{vls,pal,clk}",         { f::voiceless, f::palatal, f::click } },
+		{ "{vcd,vel,ejc}",         { f::voiced, f::velar, f::ejective } },
+		{ "{vls,lbv,imp}",         { f::voiceless, f::labio_velar, f::implosive } },
+		{ "{vcd,uvl,stp,pzd}",     { f::voiced, f::uvular, f::plosive, f::palatalized } },
+		{ "{vls,phr,frc,nzd}",     { f::voiceless, f::pharyngeal, f::fricative, f::nasalized } },
+		{ "{vcd,glt,nas,fzd}",     { f::voiced, f::glottal, f::nasal, f::pharyngealized } },
+		// vowels ...
+		{ "{hgh,fnt,unr,vwl,lng}", { f::high, f::front, f::unrounded, f::vowel, f::long_ } },
+		{ "{smh,fnt,rnd,vwl}",     { f::semi_high, f::front, f::rounded, f::vowel } },
+		{ "{umd,cnt,unr,vwl}",     { f::upper_mid, f::center, f::unrounded, f::vowel } },
+		{ "{mid,cnt,rnd,vwl,rzd}", { f::mid, f::center, f::rounded, f::vowel, f::rhoticized } },
+		{ "{lmd,bck,unr,vwl}",     { f::lower_mid, f::back, f::unrounded, f::vowel } },
+		{ "{low,bck,rnd,vwl}",     { f::low, f::back, f::rounded, f::vowel } },
+	};
+
+	std::shared_ptr<tts::phoneme_writer> writer = tts::createExplicitFeaturePhonemeWriter();
+
+	for (const auto &test : phonemes)
+	{
+		fprintf(stdout, "... ... testing phoneme %s\n", test.first.c_str());
+
+		cainteoir::memory_file output;
+		writer->reset(output);
+
+		assert(writer->write(test.second));
+		assert(output.buffer()->str() == test.first);
+	}
+}
+
+TEST_CASE("explicit feature writer -- multiple phonemes")
+{
+	std::shared_ptr<tts::phoneme_writer> writer = tts::createExplicitFeaturePhonemeWriter();
+
+	cainteoir::memory_file output;
+	writer->reset(output);
+
+	assert(writer->write(tts::phoneme(f::voiceless, f::alveolar, f::plosive)));
+	assert(writer->write(tts::phoneme(f::low, f::front, f::unrounded, f::vowel)));
+	assert(writer->write(tts::phoneme(f::voiced, f::velar, f::plosive)));
+
+	assert(output.buffer()->str() == "{vls,alv,stp}{low,fnt,unr,vwl}{vcd,vel,stp}"); // output == /t&g/
 }
