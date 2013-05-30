@@ -125,7 +125,11 @@ bool explicit_feature_reader::read()
 				{
 					auto match = tts::get_feature_id(abbrev);
 					if (!match.first)
-						throw tts::phoneme_error(i18n("unknown phoneme feature"));
+					{
+						char msg[64];
+						sprintf(msg, i18n("unknown phoneme feature '%s'"), abbrev);
+						throw tts::phoneme_error(msg);
+					}
 					if (match.second != tts::feature::unspecified)
 						features[feature_pos++] = match.second;
 				}

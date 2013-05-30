@@ -685,8 +685,8 @@ TEST_CASE("explicit feature reader -- phoneme errors")
 		{ "{st}",                      "a phoneme feature must be 3 characters long" },
 		{ "{stop}",                    "a phoneme feature must be 3 characters long" },
 		// unknown feature ...
-		{ "{aaa}",                     "unknown phoneme feature" },
-		{ "{xyz}",                     "unknown phoneme feature" },
+		{ "{aaa}",                     "unknown phoneme feature 'aaa'" },
+		{ "{xyz}",                     "unknown phoneme feature 'xyz'" },
 		// invalid feature character ...
 		{ "{STP}",                     "invalid phoneme feature character (only [a-z] supported)" },
 		{ "{5}",                       "invalid phoneme feature character (only [a-z] supported)" },
