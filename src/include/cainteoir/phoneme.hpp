@@ -126,7 +126,7 @@ namespace cainteoir { namespace tts
 
 	struct phoneme_reader : public phoneme
 	{
-		virtual void reset(const buffer &aBuffer) = 0;
+		virtual void reset(const std::shared_ptr<buffer> &aBuffer) = 0;
 
 		virtual bool read() = 0;
 

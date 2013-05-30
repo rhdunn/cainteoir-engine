@@ -29,7 +29,7 @@ namespace tts = cainteoir::tts;
 
 struct explicit_feature_reader : public tts::phoneme_reader
 {
-	void reset(const cainteoir::buffer &aBuffer);
+	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
 
 	bool read();
 
@@ -40,14 +40,23 @@ struct explicit_feature_reader : public tts::phoneme_reader
 		in_feature,
 	};
 
+	std::shared_ptr<cainteoir::buffer> mBuffer;
 	const char *mCurrent;
 	const char *mEnd;
 };
 
-void explicit_feature_reader::reset(const cainteoir::buffer &aBuffer)
+void explicit_feature_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 {
-	mCurrent = aBuffer.begin();
-	mEnd = aBuffer.end();
+	mBuffer = aBuffer;
+	if (mBuffer.get())
+	{
+		mCurrent = mBuffer->begin();
+		mEnd = mBuffer->end();
+	}
+	else
+	{
+		mCurrent = mEnd = nullptr;
+	}
 }
 
 bool explicit_feature_reader::read()

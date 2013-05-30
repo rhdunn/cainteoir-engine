@@ -555,7 +555,12 @@ TEST_CASE("explicit feature reader -- no input")
 	assert(!reader->read());
 	assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
 
-	cainteoir::buffer test(nullptr, nullptr);
+	reader->reset(std::shared_ptr<cainteoir::buffer>());
+
+	assert(!reader->read());
+	assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
+
+	auto test = std::make_shared<cainteoir::buffer>(nullptr, nullptr);
 	reader->reset(test);
 
 	assert(!reader->read());
@@ -566,7 +571,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 {
 	// Test data to cover all feature abbreviations:
 	static const std::initializer_list<std::pair<
-		const cainteoir::buffer,
+		const char *,
 		const tts::phoneme
 	>> phonemes = {
 		// consonants ...
@@ -599,8 +604,8 @@ TEST_CASE("explicit feature reader -- single phoneme")
 
 	for (const auto &test : phonemes)
 	{
-		fprintf(stdout, "... ... testing phoneme %s\n", test.first.begin());
-		reader->reset(test.first);
+		fprintf(stdout, "... ... testing phoneme %s\n", test.first);
+		reader->reset(std::make_shared<cainteoir::buffer>(test.first));
 
 		assert(reader->read());
 		assert(*reader == test.second);
@@ -614,8 +619,8 @@ TEST_CASE("explicit feature reader -- multiple phonemes")
 {
 	std::shared_ptr<tts::phoneme_reader> reader = tts::createExplicitFeaturePhonemeReader();
 
-	cainteoir::buffer test("{vls,alv,stp}{low,fnt,unr,vwl}{vcd,vel,stp}"); // test = /t&g/
-	reader->reset(test);
+	const char *test = "{vls,alv,stp}{low,fnt,unr,vwl}{vcd,vel,stp}"; // = /t&g/
+	reader->reset(std::make_shared<cainteoir::buffer>(test));
 
 	assert(reader->read());
 	assert(*reader == tts::phoneme(f::voiceless, f::alveolar, f::plosive));
@@ -634,8 +639,8 @@ TEST_CASE("explicit feature reader -- multiple phonemes with whitespace")
 {
 	std::shared_ptr<tts::phoneme_reader> reader = tts::createExplicitFeaturePhonemeReader();
 
-	cainteoir::buffer test("\r\t{vls,alv,stp}\n {low,fnt,unr,vwl}\r\n{vcd,vel,stp}"); // test = /t&g/
-	reader->reset(test);
+	const char *test = "\r\t{vls,alv,stp}\n {low,fnt,unr,vwl}\r\n{vcd,vel,stp}"; // = /t&g/
+	reader->reset(std::make_shared<cainteoir::buffer>(test));
 
 	assert(reader->read());
 	assert(*reader == tts::phoneme(f::voiceless, f::alveolar, f::plosive));
@@ -653,7 +658,7 @@ TEST_CASE("explicit feature reader -- multiple phonemes with whitespace")
 TEST_CASE("explicit feature reader -- phoneme errors")
 {
 	static const std::initializer_list<std::pair<
-		const cainteoir::buffer,
+		const char *,
 		const std::string
 	>> phonemes = {
 		// missing '}' at the end of the phoneme ...
@@ -695,8 +700,8 @@ TEST_CASE("explicit feature reader -- phoneme errors")
 
 	for (const auto &test : phonemes)
 	{
-		fprintf(stdout, "... ... testing phoneme %s\n", test.first.begin());
-		reader->reset(test.first);
+		fprintf(stdout, "... ... testing phoneme %s\n", test.first);
+		reader->reset(std::make_shared<cainteoir::buffer>(test.first));
 
 		try
 		{
