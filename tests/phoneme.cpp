@@ -682,18 +682,17 @@ TEST_CASE("explicit feature reader -- phoneme errors")
 		{ "{vcd,dnt,lat,frc,mrm,asp}", "a phoneme must specify no more than 5 features" },
 		// features shorter/longer than 3 characters ...
 		{ "{s}",                       "a phoneme feature must be 3 characters long" },
+		{ "{5}",                       "a phoneme feature must be 3 characters long" },
+		{ "{%}",                       "a phoneme feature must be 3 characters long" },
 		{ "{st}",                      "a phoneme feature must be 3 characters long" },
 		{ "{stop}",                    "a phoneme feature must be 3 characters long" },
 		// unknown feature ...
 		{ "{aaa}",                     "unknown phoneme feature 'aaa'" },
 		{ "{xyz}",                     "unknown phoneme feature 'xyz'" },
-		// invalid feature character ...
-		{ "{STP}",                     "invalid phoneme feature character (only [a-z] supported)" },
-		{ "{5}",                       "invalid phoneme feature character (only [a-z] supported)" },
-		{ "{%}",                       "invalid phoneme feature character (only [a-z] supported)" },
-		{ "{stP}",                     "invalid phoneme feature character (only [a-z] supported)" },
-		{ "{xy5}",                     "invalid phoneme feature character (only [a-z] supported)" },
-		{ "{xy%}",                     "invalid phoneme feature character (only [a-z] supported)" },
+		{ "{STP}",                     "unknown phoneme feature 'STP'" },
+		{ "{stP}",                     "unknown phoneme feature 'stP'" },
+		{ "{st5}",                     "unknown phoneme feature 'st5'" },
+		{ "{st%}",                     "unknown phoneme feature 'st%'" },
 	};
 
 	std::shared_ptr<tts::phoneme_reader> reader = tts::createExplicitFeaturePhonemeReader();

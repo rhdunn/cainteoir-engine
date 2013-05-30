@@ -92,27 +92,19 @@ bool explicit_feature_reader::read()
 		case in_phoneme:
 			switch (*mCurrent)
 			{
-			case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-			case 'g': case 'h': case 'i': case 'j': case 'k': case 'l': case 'm':
-			case 'n': case 'o': case 'p': case 'q': case 'r': case 's':
-			case 't': case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':
+			default:
 				s = in_feature;
 				abbrev_pos = 0;
 				abbrev[abbrev_pos] = *mCurrent;
 				break;
 			case ',': case '}':
 				throw tts::phoneme_error(i18n("missing phoneme feature"));
-			default:
-				throw tts::phoneme_error(i18n("invalid phoneme feature character (only [a-z] supported)"));
 			}
 			break;
 		case in_feature:
 			switch (*mCurrent)
 			{
-			case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-			case 'g': case 'h': case 'i': case 'j': case 'k': case 'l': case 'm':
-			case 'n': case 'o': case 'p': case 'q': case 'r': case 's':
-			case 't': case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':
+			default:
 				++abbrev_pos;
 				if (abbrev_pos <= 2)
 					abbrev[abbrev_pos] = *mCurrent;
@@ -148,8 +140,6 @@ bool explicit_feature_reader::read()
 					return true;
 				}
 				break;
-			default:
-				throw tts::phoneme_error(i18n("invalid phoneme feature character (only [a-z] supported)"));
 			}
 			break;
 		}
