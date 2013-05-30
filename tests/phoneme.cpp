@@ -630,6 +630,26 @@ TEST_CASE("explicit feature reader -- multiple phonemes")
 	assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
 }
 
+TEST_CASE("explicit feature reader -- multiple phonemes with whitespace")
+{
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createExplicitFeaturePhonemeReader();
+
+	cainteoir::buffer test("\r\t{vls,alv,stp}\n {low,fnt,unr,vwl}\r\n{vcd,vel,stp}"); // test = /t&g/
+	reader->reset(test);
+
+	assert(reader->read());
+	assert(*reader == tts::phoneme(f::voiceless, f::alveolar, f::plosive));
+
+	assert(reader->read());
+	assert(*reader == tts::phoneme(f::low, f::front, f::unrounded, f::vowel));
+
+	assert(reader->read());
+	assert(*reader == tts::phoneme(f::voiced, f::velar, f::plosive));
+
+	assert(!reader->read());
+	assert(*reader == tts::phoneme(f::unspecified, f::unspecified, f::unspecified));
+}
+
 TEST_CASE("explicit feature reader -- phoneme errors")
 {
 	static const std::initializer_list<std::pair<

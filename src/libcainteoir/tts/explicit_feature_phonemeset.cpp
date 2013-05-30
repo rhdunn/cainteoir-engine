@@ -74,7 +74,7 @@ bool explicit_feature_reader::read()
 			case '{':
 				s = in_phoneme;
 				break;
-			case '\0':
+			case '\0': case ' ': case '\t': case '\r': case '\n':
 				break;
 			default:
 				throw tts::phoneme_error(i18n("unexpected start of phoneme (expecting '{')"));
