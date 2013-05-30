@@ -305,6 +305,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/tts/letter_to_phoneme.cpp \
 	src/libcainteoir/tts/phoneme.cpp \
 	src/libcainteoir/tts/phoneme_stream.cpp \
+	src/libcainteoir/tts/phonemeset.cpp \
 	src/libcainteoir/tts/text_reader.cpp \
 	src/libcainteoir/tts/tts_engine.hpp \
 	src/libcainteoir/tts/word_stream.cpp \
@@ -334,6 +335,11 @@ bin_PROGRAMS += src/apps/doc2doc/doc2doc
 
 src_apps_doc2doc_doc2doc_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_doc2doc_doc2doc_SOURCES = src/apps/doc2doc/main.cpp
+
+bin_PROGRAMS += src/apps/phoneme-converter/phoneme-converter
+
+src_apps_phoneme_converter_phoneme_converter_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_phoneme_converter_phoneme_converter_SOURCES = src/apps/phoneme-converter/main.cpp
 
 EXTRA_DIST += ${man1_MANS}
 

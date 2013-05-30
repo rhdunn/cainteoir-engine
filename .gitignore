@@ -32,6 +32,7 @@ src/libcainteoir/libcainteoir.la
 
 src/apps/cainteoir/cainteoir
 src/apps/metadata/metadata
+src/apps/phoneme-converter/phoneme-converter
 src/apps/tagcloud/tagcloud
 src/apps/doc2doc/doc2doc
 

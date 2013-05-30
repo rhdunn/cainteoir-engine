@@ -137,6 +137,8 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();
 
+	std::shared_ptr<phoneme_reader> createPhonemeReader(const char *aPhonemeSet);
+
 	struct phoneme_writer
 	{
 		virtual void reset(FILE *aOutput) = 0;
@@ -147,6 +149,8 @@ namespace cainteoir { namespace tts
 	};
 
 	std::shared_ptr<phoneme_writer> createExplicitFeaturePhonemeWriter();
+
+	std::shared_ptr<phoneme_writer> createPhonemeWriter(const char *aPhonemeSet);
 }}
 
 #endif
