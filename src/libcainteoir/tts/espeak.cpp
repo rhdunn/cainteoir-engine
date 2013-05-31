@@ -319,9 +319,6 @@ public:
 	std::shared_ptr<cainteoir::buffer> pronounce(cainteoir::buffer *text, const char *phonemeset)
         {
 #if defined(HAVE_ESPEAK_TEXTTOPHONEMES)
-		std::string txt = text->str(); // null-terminate the text buffer
-		char buffer[1024];
-
 		int phonemes;
 		if (!strcmp(phonemeset, "espeak"))
 			phonemes = 0x0000;
@@ -330,9 +327,16 @@ public:
 		else
 			throw std::runtime_error(i18n("unsupported phoneme set"));
 
-		espeak_TextToPhonemes(txt.c_str(), buffer, sizeof(buffer), espeakCHARS_UTF8, phonemes);
-		// NOTE: phoneme output starts with a space, so remove that ...
-		return cainteoir::make_buffer(buffer+1, strlen(buffer)-1);
+		cainteoir::rope ret;
+		std::string txt = text->str(); // null-terminate the text buffer
+		const void *data = txt.c_str();
+		while (data != nullptr)
+		{
+			const char *buffer = espeak_TextToPhonemes(&data, espeakCHARS_UTF8, phonemes);
+			// NOTE: phoneme output starts with a space, so remove that ...
+			ret += cainteoir::make_buffer(buffer+1, strlen(buffer)-1);
+		}
+		return ret.buffer();
 #else
 		// NOTE: This works, but is about 35x slower.
 

@@ -146,16 +146,17 @@ else
 
             # espeak_TextToPhonemes is implemented in eSpeak 1.47.07b and
             # declared in speak_lib.h since 1.47.08 for revision 8 of the
-            # eSpeak API. However, ESPEAK_API_REVISION has not been updated
-            # to 8. Therefore, the presence of espeak_TextToPhonemes needs
-            # to be detected here:
-
+            # eSpeak API, but ESPEAK_API_REVISION was not updated. In
+            # 1.47.11c, the method signature changed and ESPEAK_API_REVISION
+            # was updated, but the declaration in speak_lib.h was not
+            # updated.
             AC_MSG_CHECKING([for espeak_TextToPhonemes])
             AC_LANG_PUSH(C++)
             AC_COMPILE_IFELSE(
                 [AC_LANG_PROGRAM(
                     [[#include "espeak/speak_lib.h"]],
-                    [[espeak_TextToPhonemes(0, 0, 0, 0, 0);]])
+                    [[const char * (*ptr)(const void **textptr, int textmode, int phonememode);]
+                     [ptr = espeak_TextToPhonemes;]])
                 ],[
                     AC_MSG_RESULT([yes])
                     AC_DEFINE(HAVE_ESPEAK_TEXTTOPHONEMES, [], [Does eSpeak have espeak_TextToPhonemes])
