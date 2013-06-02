@@ -147,6 +147,7 @@ TEST_CASE("style defaults")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -174,6 +175,7 @@ TEST_CASE("style - unknown")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -201,6 +203,7 @@ TEST_CASE("style - paragraph")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -228,6 +231,7 @@ TEST_CASE("style - heading0")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::center);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::normal);
@@ -255,6 +259,7 @@ TEST_CASE("style - heading1")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::center);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::normal);
@@ -282,6 +287,7 @@ TEST_CASE("style - heading2")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::center);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::normal);
@@ -309,6 +315,7 @@ TEST_CASE("style - heading3")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::center);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::bold);
@@ -336,6 +343,7 @@ TEST_CASE("style - heading4")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::center);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::normal);
@@ -363,6 +371,7 @@ TEST_CASE("style - heading5")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::left);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::bold);
@@ -390,6 +399,7 @@ TEST_CASE("style - heading6")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::left);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::bold);
@@ -417,6 +427,7 @@ TEST_CASE("style - span")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -444,6 +455,7 @@ TEST_CASE("style - sentence")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -471,6 +483,7 @@ TEST_CASE("style - superscript")
 	assert(styles.vertical_align == css::vertical_align::super);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -498,6 +511,7 @@ TEST_CASE("style - subscript")
 	assert(styles.vertical_align == css::vertical_align::sub);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -525,6 +539,7 @@ TEST_CASE("style - emphasized")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::italic);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -552,6 +567,7 @@ TEST_CASE("style - emphasized-block")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::italic);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -579,6 +595,7 @@ TEST_CASE("style - strong")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::bold);
@@ -606,6 +623,7 @@ TEST_CASE("style - reduced")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::normal);
@@ -633,6 +651,7 @@ TEST_CASE("style - underlined")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::underline);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -660,6 +679,7 @@ TEST_CASE("style - monospace")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -687,6 +707,7 @@ TEST_CASE("style - monospace-block")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::preserved);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -714,6 +735,7 @@ TEST_CASE("style - bullet_list")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -741,6 +763,7 @@ TEST_CASE("style - number_list")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -768,6 +791,7 @@ TEST_CASE("style - list_item")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -795,6 +819,7 @@ TEST_CASE("style - table")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -822,6 +847,7 @@ TEST_CASE("style - table_row")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);
@@ -849,6 +875,7 @@ TEST_CASE("style - table_cell")
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
 	assert(styles.font_style == css::font_style::inherit);
 	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
 	assert(styles.font_weight == css::font_weight::inherit);

@@ -132,6 +132,12 @@ namespace cainteoir { namespace css
 		line_through,
 	};
 
+	enum class whitespace : uint8_t
+	{
+		normal,
+		preserved,
+	};
+
 	struct box
 	{
 		length left;
@@ -237,6 +243,7 @@ namespace cainteoir { namespace css
 		cainteoir::css::vertical_align vertical_align;
 		cainteoir::css::text_align text_align;
 		cainteoir::css::text_decoration text_decoration;
+		cainteoir::css::whitespace whitespace;
 		cainteoir::css::font_style font_style;
 		cainteoir::css::font_variant_caps font_variant_caps;
 		cainteoir::css::font_weight font_weight;
@@ -256,6 +263,7 @@ namespace cainteoir { namespace css
 			, vertical_align(cainteoir::css::vertical_align::inherit)
 			, text_align(cainteoir::css::text_align::inherit)
 			, text_decoration(cainteoir::css::text_decoration::inherit)
+			, whitespace(cainteoir::css::whitespace::normal)
 			, font_style(cainteoir::css::font_style::inherit)
 			, font_variant_caps(cainteoir::css::font_variant_caps::inherit)
 			, font_weight(cainteoir::css::font_weight::inherit)
@@ -269,6 +277,7 @@ namespace cainteoir { namespace css
 		       cainteoir::css::vertical_align aVerticalAlign,
 		       cainteoir::css::text_align aTextAlign,
 		       cainteoir::css::text_decoration aTextDecoration,
+		       cainteoir::css::whitespace aWhiteSpace,
 		       cainteoir::css::font_style aFontStyle,
 		       cainteoir::css::font_variant_caps aFontVariantCaps,
 		       cainteoir::css::font_weight aFontWeight,
@@ -283,6 +292,7 @@ namespace cainteoir { namespace css
 			, vertical_align(aVerticalAlign)
 			, text_align(aTextAlign)
 			, text_decoration(aTextDecoration)
+			, whitespace(aWhiteSpace)
 			, font_style(aFontStyle)
 			, font_variant_caps(aFontVariantCaps)
 			, font_weight(aFontWeight)
