@@ -100,7 +100,16 @@ namespace cainteoir
 
 	std::shared_ptr<buffer> make_file_buffer(int fd);
 
-	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer);
+	enum normalize_mode
+	{
+		keep_space,
+		collapse_space,
+		remove_space,
+	};
+
+	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer,
+	                                  normalize_mode aLeft  = remove_space,
+	                                  normalize_mode aRight = remove_space);
 
 	class memory_file
 	{

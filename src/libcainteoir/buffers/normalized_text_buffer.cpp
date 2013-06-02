@@ -30,30 +30,46 @@ namespace utf8 = cainteoir::utf8;
 class normalized_text_buffer : public cainteoir::buffer
 {
 public:
-	normalized_text_buffer(const std::shared_ptr<buffer> &aBuffer);
+	normalized_text_buffer(const std::shared_ptr<buffer> &aBuffer,
+	                       cainteoir::normalize_mode aLeft,
+	                       cainteoir::normalize_mode aRight);
 	~normalized_text_buffer();
 };
 
-normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer)
+normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer,
+                                               cainteoir::normalize_mode aLeft,
+                                               cainteoir::normalize_mode aRight)
 	: buffer(nullptr, nullptr)
 {
 	if (!aBuffer.get() || aBuffer->empty())
 		return;
 
-	const char *str = aBuffer->begin();
-	const char *l   = aBuffer->end();
-
-	// trim space at the start:
-
-	uint32_t ch = 0;
+	const char *str  = aBuffer->begin();
+	const char *l    = aBuffer->end();
 	const char *next = str;
-	while ((next = utf8::read(str, ch)) && ucd::isspace(ch))
-		str = next;
+	uint32_t ch = 0;
 
-	if (str >= l)
-		return;
+	if (aLeft == cainteoir::remove_space)
+	{
+		// trim space at the start:
+
+		while ((next = utf8::read(str, ch)) && ucd::isspace(ch))
+			str = next;
+
+		if (str >= l)
+			return;
+	}
 
 	first = last = new char[l-str+1];
+
+	if (aLeft == cainteoir::keep_space)
+	{
+		while ((next = utf8::read(str, ch)) && ucd::isspace(ch))
+		{
+			str  = next;
+			last = utf8::write((char *)last, ch);
+		}
+	}
 
 	// normalise the space within the string:
 
@@ -73,11 +89,21 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 		}
 	}
 
-	// trim space at the end:
+	if (aRight != cainteoir::keep_space)
+	{
+		// trim space at the end:
 
-	while (last > first && (next = utf8::prev(last)) && utf8::read(next, ch) && ucd::isspace(ch))
-		last = next;
-	*(char *)last = '\0';
+		while (last > first && (next = utf8::prev(last)) && utf8::read(next, ch) && ucd::isspace(ch))
+			last = next;
+		if (aRight == cainteoir::collapse_space)
+		{
+			if (ucd::isspace(ch))
+				++last;
+			else if ((next = utf8::read(last, ch)) && ucd::isspace(ch))
+				last = next;
+		}
+		*(char *)last = '\0';
+	}
 }
 
 normalized_text_buffer::~normalized_text_buffer()
@@ -85,7 +111,10 @@ normalized_text_buffer::~normalized_text_buffer()
 	delete [] first;
 }
 
-std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
+std::shared_ptr<cainteoir::buffer>
+cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer,
+                     cainteoir::normalize_mode aLeft,
+                     cainteoir::normalize_mode aRight)
 {
-	return std::make_shared<normalized_text_buffer>(aBuffer);
+	return std::make_shared<normalized_text_buffer>(aBuffer, aLeft, aRight);
 }

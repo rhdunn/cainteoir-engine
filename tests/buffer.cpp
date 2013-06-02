@@ -358,3 +358,89 @@ TEST_CASE("cainteoir::normalize -- U+3000 (IDEOGRAPHIC SPACE)")
 	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE3\x80\x80\xE3\x80\x80\xE3\x80\x80String", 19)),
 	      "Test String", 11);
 }
+
+TEST_CASE("cainteoir::normalize -- keep left")
+{
+	auto left  = cainteoir::keep_space;
+	auto right = cainteoir::remove_space;
+
+	match(cainteoir::normalize(cainteoir::make_buffer("   test", 7), left, right),
+	      "   test", 7);
+	match(cainteoir::normalize(cainteoir::make_buffer("test   ", 7), left, right),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test String", 11), left, right),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test   String", 13), left, right),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- collapse left")
+{
+	auto left  = cainteoir::collapse_space;
+	auto right = cainteoir::remove_space;
+
+	match(cainteoir::normalize(cainteoir::make_buffer("   test", 7), left, right),
+	      " test", 5);
+	match(cainteoir::normalize(cainteoir::make_buffer("test   ", 7), left, right),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test String", 11), left, right),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test   String", 13), left, right),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- keep right")
+{
+	auto left  = cainteoir::remove_space;
+	auto right = cainteoir::keep_space;
+
+	match(cainteoir::normalize(cainteoir::make_buffer("   test", 7), left, right),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test   ", 7), left, right),
+	      "test ", 5); // FIXME: This should be "test   " (7)
+	match(cainteoir::normalize(cainteoir::make_buffer("Test String", 11), left, right),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test   String", 13), left, right),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- collapse right")
+{
+	auto left  = cainteoir::remove_space;
+	auto right = cainteoir::collapse_space;
+
+	match(cainteoir::normalize(cainteoir::make_buffer("   test", 7), left, right),
+	      "test", 4);
+	match(cainteoir::normalize(cainteoir::make_buffer("test   ", 7), left, right),
+	      "test ", 5);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test String", 11), left, right),
+	      "Test String", 11);
+	match(cainteoir::normalize(cainteoir::make_buffer("Test   String", 13), left, right),
+	      "Test String", 11);
+}
+
+TEST_CASE("cainteoir::normalize -- spaces only")
+{
+	using cainteoir::keep_space;
+	using cainteoir::remove_space;
+	using cainteoir::collapse_space;
+
+	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), remove_space, remove_space),
+	      "", 0);
+	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), remove_space, keep_space),
+	      "", 0);
+	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), remove_space, collapse_space),
+	      "", 0);
+	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), keep_space, remove_space),
+	      "", 0);
+	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), keep_space, keep_space),
+	      "   ", 3);
+	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), keep_space, collapse_space),
+	      " ", 1);
+	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), collapse_space, remove_space),
+	      "", 0);
+	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), collapse_space, keep_space),
+	      " ", 1);
+	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), collapse_space, collapse_space),
+	      " ", 1);
+}
