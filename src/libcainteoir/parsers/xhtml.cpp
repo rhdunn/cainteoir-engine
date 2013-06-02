@@ -645,7 +645,10 @@ bool html_document_reader::read()
 		if (ctx.top().ctx == &html::body_node)
 		{
 			text = reader->nodeValue().content();
-			bool is_title_header = text && text->compare(mTitle.c_str()) == 0;
+			if (text && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
+				text = cainteoir::normalize(text, cainteoir::collapse_space, cainteoir::collapse_space);
+
+			bool is_title_header = text && !text->empty() && text->compare(mTitle.c_str()) == 0;
 
 			if (genAnchor)
 			{
@@ -662,7 +665,7 @@ bool html_document_reader::read()
 				}
 			}
 
-			if (text)
+			if (text && !text->empty())
 			{
 				if (!is_title_header)
 					htext += text;

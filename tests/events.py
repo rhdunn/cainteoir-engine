@@ -108,6 +108,8 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/u.xhtml', 'result': 'html/text-level-semantics/u.events'},
 			{'test': 'html/text-level-semantics/var.html', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/var.xhtml', 'result': 'html/text-level-semantics/em.events'},
+			{'test': 'html/text-level-semantics/whitespace.html', 'result': 'html/text-level-semantics/whitespace.events', 'expect': 'fail'},
+			{'test': 'html/text-level-semantics/whitespace.xhtml', 'result': 'html/text-level-semantics/whitespace.events', 'expect': 'fail'},
 		]},
 		{'name': 'table', 'type': 'events', 'tests': [
 			{'test': 'html/table/simple.html', 'result': 'html/table/simple.events'},

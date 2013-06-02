@@ -1,0 +1,37 @@
+toc-entry [] depth=0 title="""Test File"""
+anchor []
+begin-context paragraph +sans-serif
+text(6): """Lorem """
+begin-context span +strong
+text(5): """ipsum"""
+end-context
+text(7): """ dolor."""
+end-context
+begin-context paragraph +sans-serif
+text(5): """Lorem"""
+begin-context span +strong
+text(6): """ ipsum"""
+end-context
+text(7): """ dolor."""
+end-context
+begin-context paragraph +sans-serif
+text(6): """Lorem """
+begin-context span +strong
+text(5): """ipsum"""
+end-context
+text(7): """ dolor."""
+end-context
+begin-context paragraph +sans-serif
+text(6): """Lorem """
+begin-context span +strong
+text(6): """ipsum """
+end-context
+text(6): """dolor."""
+end-context
+begin-context paragraph +sans-serif
+text(6): """Lorem """
+begin-context span +strong
+text(6): """ ipsum"""
+end-context
+text(6): """dolor."""
+end-context
