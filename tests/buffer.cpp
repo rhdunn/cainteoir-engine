@@ -436,7 +436,7 @@ TEST_CASE("cainteoir::normalize -- spaces only")
 	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), keep_space, keep_space),
 	      "   ", 3);
 	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), keep_space, collapse_space),
-	      " ", 1);
+	      "   ", 3);
 	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), collapse_space, remove_space),
 	      "", 0);
 	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), collapse_space, keep_space),

@@ -89,19 +89,12 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 		}
 	}
 
-	if (aRight != cainteoir::keep_space)
+	if (aRight == cainteoir::remove_space)
 	{
 		// trim space at the end:
 
 		while (last > first && (next = utf8::prev(last)) && utf8::read(next, ch) && ucd::isspace(ch))
 			last = next;
-		if (aRight == cainteoir::collapse_space)
-		{
-			if (ucd::isspace(ch))
-				++last;
-			else if ((next = utf8::read(last, ch)) && ucd::isspace(ch))
-				last = next;
-		}
 		*(char *)last = '\0';
 	}
 }
