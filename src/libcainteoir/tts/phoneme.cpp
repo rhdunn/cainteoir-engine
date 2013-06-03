@@ -159,13 +159,20 @@ bool tts::phoneme::contains(const feature f) const
 
 bool tts::phoneme::operator==(const phoneme &rhs) const
 {
+	int lhs_unspecified = 0;
 	for (const feature x : features)
 	{
-		if (x == feature::unspecified) continue;
+		if (x == feature::unspecified) { ++lhs_unspecified; continue; }
 
 		if (!rhs.contains(x)) return false;
 	}
-	return true;
+
+	int rhs_unspecified = 0;
+	for (const feature x : rhs.features)
+	{
+		if (x == feature::unspecified) ++rhs_unspecified;
+	}
+	return lhs_unspecified == rhs_unspecified;
 }
 
 std::pair<bool, tts::feature> tts::get_feature_id(const char *abbreviation)

@@ -224,6 +224,17 @@ TEST_CASE("phoneme equality")
 	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
 	      == tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::long_)));
 
+	// different number of features ...
+
+	assert(!(tts::phoneme(f::voiceless, f::alveolar, f::fricative, f::unspecified, f::unspecified)
+	      == tts::phoneme(f::voiceless, f::alveolar, f::lateral,   f::fricative,   f::unspecified)));
+
+	assert(!(tts::phoneme(f::voiceless, f::alveolar, f::lateral,   f::fricative,   f::unspecified)
+	      == tts::phoneme(f::voiceless, f::alveolar, f::fricative, f::unspecified, f::unspecified)));
+
+	assert(!(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
+	      == tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::unspecified)));
+
 	// all unspecified except one feature, different position ...
 	//
 	// NOTE: The unspecified feature is a special feature that should be ignored in any
@@ -291,6 +302,17 @@ TEST_CASE("phoneme inequality")
 
 	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
 	    != tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::long_));
+
+	// different number of features ...
+
+	assert(tts::phoneme(f::voiceless, f::alveolar, f::fricative, f::unspecified, f::unspecified)
+	    != tts::phoneme(f::voiceless, f::alveolar, f::lateral,   f::fricative,   f::unspecified));
+
+	assert(tts::phoneme(f::voiceless, f::alveolar, f::lateral,   f::fricative,   f::unspecified)
+	    != tts::phoneme(f::voiceless, f::alveolar, f::fricative, f::unspecified, f::unspecified));
+
+	assert(tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::rhoticized)
+	    != tts::phoneme(f::semi_high, f::back, f::unrounded, f::vowel, f::unspecified));
 
 	// all unspecified except one feature, different position ...
 	//
