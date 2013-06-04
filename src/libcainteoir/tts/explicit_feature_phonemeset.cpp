@@ -118,9 +118,18 @@ bool explicit_feature_reader::read()
 					auto match = tts::get_feature_id(abbrev);
 					if (!match.first)
 					{
-						char msg[64];
-						sprintf(msg, i18n("unknown phoneme feature '%s'"), abbrev);
-						throw tts::phoneme_error(msg);
+						if (abbrev[0] == 'l' && abbrev[1] == 'b' && abbrev[2] == 'v')
+						{
+							// Special handling for 'lbv' ...
+							features[feature_pos++] = tts::feature::velar;
+							features[feature_pos++] = tts::feature::labialized;
+						}
+						else
+						{
+							char msg[64];
+							sprintf(msg, i18n("unknown phoneme feature '%s'"), abbrev);
+							throw tts::phoneme_error(msg);
+						}
 					}
 					if (match.second != tts::feature::unspecified)
 						features[feature_pos++] = match.second;

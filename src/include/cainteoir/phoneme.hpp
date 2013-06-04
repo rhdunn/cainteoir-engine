@@ -43,7 +43,6 @@ namespace cainteoir { namespace tts
 		palato_alveolar,
 		palatal,
 		velar,
-		labio_velar,
 		uvular,
 		pharyngeal,
 		glottal,

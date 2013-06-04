@@ -385,7 +385,6 @@ TEST_CASE("tts::get_feature_id -- ascii-ipa abbreviations")
 	assert(tts::get_feature_id("pla") == _(f::palato_alveolar));
 	assert(tts::get_feature_id("pal") == _(f::palatal));
 	assert(tts::get_feature_id("vel") == _(f::velar));
-	assert(tts::get_feature_id("lbv") == _(f::labio_velar));
 	assert(tts::get_feature_id("uvl") == _(f::uvular));
 	assert(tts::get_feature_id("phr") == _(f::pharyngeal));
 	assert(tts::get_feature_id("glt") == _(f::glottal));
@@ -464,7 +463,6 @@ TEST_CASE("tts::get_feature_abbreviation")
 	assert(tts::get_feature_abbreviation(f::palato_alveolar) == "pla");
 	assert(tts::get_feature_abbreviation(f::palatal)         == "pal");
 	assert(tts::get_feature_abbreviation(f::velar)           == "vel");
-	assert(tts::get_feature_abbreviation(f::labio_velar)     == "lbv");
 	assert(tts::get_feature_abbreviation(f::uvular)          == "uvl");
 	assert(tts::get_feature_abbreviation(f::pharyngeal)      == "phr");
 	assert(tts::get_feature_abbreviation(f::glottal)         == "glt");
@@ -534,7 +532,6 @@ TEST_CASE("tts::get_feature_name")
 	assert(tts::get_feature_name(f::palato_alveolar) == "palato-alveolar");
 	assert(tts::get_feature_name(f::palatal)         == "palatal");
 	assert(tts::get_feature_name(f::velar)           == "velar");
-	assert(tts::get_feature_name(f::labio_velar)     == "labio-velar");
 	assert(tts::get_feature_name(f::uvular)          == "uvular");
 	assert(tts::get_feature_name(f::pharyngeal)      == "pharyngeal");
 	assert(tts::get_feature_name(f::glottal)         == "glottal");
@@ -618,7 +615,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		{ "{vcd,pla,flp,lzd}",     { f::voiced, f::palato_alveolar, f::flap, f::labialized } },
 		{ "{vls,pal,clk}",         { f::voiceless, f::palatal, f::click } },
 		{ "{vcd,vel,ejc}",         { f::voiced, f::velar, f::ejective } },
-		{ "{vls,lbv,imp}",         { f::voiceless, f::labio_velar, f::implosive } },
+		{ "{vls,lbv,imp}",         { f::voiceless, f::velar, f::labialized, f::implosive } },
 		{ "{vcd,uvl,stp,pzd}",     { f::voiced, f::uvular, f::plosive, f::palatalized } },
 		{ "{vls,phr,frc,nzd}",     { f::voiceless, f::pharyngeal, f::fricative, f::nasalized } },
 		{ "{vcd,glt,nas,fzd}",     { f::voiced, f::glottal, f::nasal, f::pharyngealized } },
@@ -788,7 +785,7 @@ TEST_CASE("explicit feature writer -- single phoneme")
 		{ "{vcd,pla,flp,lzd}",     { f::voiced, f::palato_alveolar, f::flap, f::labialized } },
 		{ "{vls,pal,clk}",         { f::voiceless, f::palatal, f::click } },
 		{ "{vcd,vel,ejc}",         { f::voiced, f::velar, f::ejective } },
-		{ "{vls,lbv,imp}",         { f::voiceless, f::labio_velar, f::implosive } },
+		{ "{vls,vel,lzd,imp}",     { f::voiceless, f::velar, f::labialized, f::implosive } },
 		{ "{vcd,uvl,stp,pzd}",     { f::voiced, f::uvular, f::plosive, f::palatalized } },
 		{ "{vls,phr,frc,nzd}",     { f::voiceless, f::pharyngeal, f::fricative, f::nasalized } },
 		{ "{vcd,glt,nas,fzd}",     { f::voiced, f::glottal, f::nasal, f::pharyngealized } },
