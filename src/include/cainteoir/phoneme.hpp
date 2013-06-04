@@ -66,6 +66,7 @@ namespace cainteoir { namespace tts
 		upper_mid,
 		mid,
 		lower_mid,
+		semi_low,
 		low,
 
 		front,

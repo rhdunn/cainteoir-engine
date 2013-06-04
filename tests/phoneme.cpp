@@ -436,6 +436,16 @@ TEST_CASE("tts::get_feature_id -- ascii-ipa abbreviations")
 	assert(tts::get_feature_id("ctl") == _(f::unspecified));
 }
 
+TEST_CASE("tts::get_feature_id -- extended abbreviations")
+{
+	auto _ = [](const tts::feature x) -> std::pair<bool, tts::feature>
+	{
+		return { true, x };
+	};
+
+	assert(tts::get_feature_id("sml") == _(f::semi_low));
+}
+
 TEST_CASE("tts::get_feature_abbreviation")
 {
 	assert(!tts::get_feature_abbreviation(f::unspecified));
@@ -477,6 +487,7 @@ TEST_CASE("tts::get_feature_abbreviation")
 	assert(tts::get_feature_abbreviation(f::upper_mid) == "umd");
 	assert(tts::get_feature_abbreviation(f::mid)       == "mid");
 	assert(tts::get_feature_abbreviation(f::lower_mid) == "lmd");
+	assert(tts::get_feature_abbreviation(f::semi_low)  == "sml");
 	assert(tts::get_feature_abbreviation(f::low)       == "low");
 
 	assert(tts::get_feature_abbreviation(f::front)  == "fnt");
@@ -546,6 +557,7 @@ TEST_CASE("tts::get_feature_name")
 	assert(tts::get_feature_name(f::upper_mid) == "upper-mid");
 	assert(tts::get_feature_name(f::mid)       == "mid");
 	assert(tts::get_feature_name(f::lower_mid) == "lower-mid");
+	assert(tts::get_feature_name(f::semi_low)  == "semi-low");
 	assert(tts::get_feature_name(f::low)       == "low");
 
 	assert(tts::get_feature_name(f::front)  == "front");
@@ -619,6 +631,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		{ "{umd,cnt,unr,vwl}",     { f::upper_mid, f::center, f::unrounded, f::vowel } },
 		{ "{mid,cnt,rnd,vwl,rzd}", { f::mid, f::center, f::rounded, f::vowel, f::rhoticized } },
 		{ "{lmd,bck,unr,vwl}",     { f::lower_mid, f::back, f::unrounded, f::vowel } },
+		{ "{sml,fnt,unr,vwl}",     { f::semi_low, f::front, f::unrounded, f::vowel } },
 		{ "{low,bck,rnd,vwl}",     { f::low, f::back, f::rounded, f::vowel } },
 	};
 
@@ -785,6 +798,7 @@ TEST_CASE("explicit feature writer -- single phoneme")
 		{ "{umd,cnt,unr,vwl}",     { f::upper_mid, f::center, f::unrounded, f::vowel } },
 		{ "{mid,cnt,rnd,vwl,rzd}", { f::mid, f::center, f::rounded, f::vowel, f::rhoticized } },
 		{ "{lmd,bck,unr,vwl}",     { f::lower_mid, f::back, f::unrounded, f::vowel } },
+		{ "{sml,fnt,unr,vwl}",     { f::semi_low, f::front, f::unrounded, f::vowel } },
 		{ "{low,bck,rnd,vwl}",     { f::low, f::back, f::rounded, f::vowel } },
 	};
 

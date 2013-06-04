@@ -1,0 +1,256 @@
+# Copyright (C) 2013 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+##### Appendix B : Segment Symbols
+
+a	/{low,fnt,unr,vwl}/ # [22], [23]
+b	/{vcd,blb,stp}/
+c	/{vls,pal,stp}/
+d	/{vcd,alv,stp}/
+e	/{umd,fnt,unr,vwl}/ # [1]
+f	/{vls,lbd,frc}/
+g	/{vcd,vel,stp}/
+h	/{vls,glt,apr}/ # [2]
+i	/{hgh,fnt,unr,vwl}/
+j	/{vcd,pal,apr}/ # [2], [3]
+k	/{vls,vel,stp}/
+l	/{vcd,alv,lat,apr}/ # [4]
+m	/{vcd,blb,nas}/ # [2]
+n	/{vcd,alv,nas}/ # [2]
+o	/{umd,bck,rnd,vwl}/
+p	/{vls,blb,stp}/
+q	/{vls,uvl,stp}/
+r	/{vcd,alv,apr}/ # [2]
+s	/{vls,alv,frc}/
+t	/{vls,alv,stp}/
+u	/{hgh,bck,rnd,vwl}/
+v	/{vcd,lbd,frc}/
+w	/{vcd,lbv,apr}/ # [2], [5]
+x	/{vls,vel,frc}/
+y	/{hgh,fnt,rnd,vwl}/
+z	/{vcd,alv,frc}/
+
+A	/{low,bck,unr,vwl}/
+B	/{vcd,blb,frc}/
+C	/{vls,pal,frc}/
+D	/{vcd,dnt,frc}/
+E	/{lmd,fnt,unr,vwl}/
+G	/{vcd,uvl,stp}/
+H	/{vls,phr,frc}/
+I	/{smh,fnt,unr,vwl}/
+J	/{vcd,pal,stp}/
+L	/{vcd,vel,lat,apr}/ # [4], [6]
+M	/{vcd,lbd,nas}/ # [2]
+N	/{vcd,vel,nas}/ # [2]
+O	/{lmd,bck,rnd,vwl}/
+P	/{vls,blb,frc}/
+Q	/{vcd,vel,frc}/
+R	/{mid,cnt,unr,vwl,rzd}/ # [7], [8]
+S	/{vls,pla,frc}/
+T	/{vls,dnt,frc}/
+U	/{smh,bck,rnd,vwl}/
+V	/{lmd,bck,unr,vwl}/
+W	/{lmd,fnt,rnd,vwl}/ # [9]
+X	/{vls,uvl,frc}/
+Y	/{umd,fnt,rnd,vwl}/ # [9]
+Z	/{vcd,pla,frc}/
+
+?	/{vls,glt,stp}/ # [2]
+@	/{mid,cnt,unr,vwl}/
+&	/{sml,fnt,unr,vwl}/ # [22]
+*	/{vcd,alv,flp}/
+
+##### Appendix E : Segment List [10]
+
+b<trl>	/{vcd,blb,trl}/ # [2]
+p`	/{vls,blb,ejc}/ # [2]
+b`	/{vcd,blb,imp}/ # [2]
+p!	/{vls,blb,clk}/ # [2]
+
+r<lbd>	/{vcd,lbd,apr}/ # [2]
+
+n[	/{vcd,dnt,nas}/ # [2]
+t[	/{vls,dnt,stp}/
+d[	/{vcd,dnt,stp}/
+r[	/{vcd,dnt,apr}/ # [2]
+l[	/{vcd,dnt,lat,apr}/ # [4]
+t[`	/{vls,dnt,ejc}/ # [2]
+d[`	/{vcd,dnt,imp}/ # [2], [11]
+t[!	/{vls,dnt,clk}/ # [12]
+
+r<trl>	/{vcd,alv,trl}/ # [2], [8]
+s<lat>	/{vls,alv,lat,frc}/ # [6]
+z<lat>	/{vcd,alv,lat,frc}/
+t`	/{vls,alv,ejc}/ # [2]
+d`	/{vcd,alv,imp}/ # [2], [11]
+t!	/{vls,alv,clk}/ # [12]
+
+n.	/{vcd,rfx,nas}/ # [2]
+t.	/{vls,rfx,stp}/
+d.	/{vcd,rfx,stp}/
+s.	/{vls,rfx,frc}/
+z.	/{vcd,rfx,frc}/
+r.	/{vcd,rfx,apr}/ # [2]
+l.	/{vcd,rfx,lat,apr}/ # [2], [4]
+*.	/{vcd,rfx,flp}/ # [2]
+
+n^	/{vcd,pal,nas}/ # [2]
+C<vcd>	/{vcd,pal,frc}/ # [3]
+j<rnd>	/{vcd,pal,apr,lzd}/ # [2], [13]
+l^	/{vcd,pal,lat,apr}/ # [2]
+c`	/{vls,pal,ejc}/ # [14]
+J`	/{vcd,pal,imp}/ # [2]
+c!	/{vls,pal,clk}/ # [2], [12]
+
+j<vel>	/{vcd,vel,apr}/ # [2]
+g`	/{vcd,vel,imp}/ # [2]
+k`	/{vls,vel,ejc}/ # [2], [15]
+k!	/{vls,vel,clk}/ # [2]
+
+n<lbv>	/{vcd,lbv,nas}/ # [2]
+t<lbv>	/{vls,lbv,stp}/
+d<lbv>	/{vcd,lbv,stp}/
+w<vls>	/{vls,lbv,apr}/ # [5]
+
+n"	/{vcd,uvl,nas}/
+Q"	/{vcd,uvl,frc}/ # [16]
+g"	/{vcd,uvl,apr}/ # [2], [16], [17]
+r"	/{vcd,uvl,trl}/ # [2], [16], [17]
+q`	/{vls,uvl,ejc}/ # [18]
+G`	/{vcd,uvl,imp}/
+
+H<vcd>	/{vcd,phr,frc}/
+h<?>	/{vcd,glt,frc,mrm}/ # [2]
+
+*<lat>	/{vcd,alv,lat,flp}/ # [2], [19]
+l!	/{vcd,alv,lat,clk}/ # [2], [19]
+
+I.	/{smh,fnt,rnd,vwl}/ # [20]
+a.	/{low,fnt,rnd,vwl}/ # [14], [22], [23], [24]
+&.	/{low,fnt,rnd,vwl}/ # [14], [22], [23], [24]
+
+i"	/{hgh,cnt,unr,vwl}/
+u"	/{hgh,cnt,rnd,vwl}/
+@<umd>	/{umd,cnt,unr,vwl}/
+R<umd>	/{umd,cnt,unr,vwl,rzd}/
+@.	/{mid,cnt,rnd,vwl}/
+V"	/{lmd,cnt,unr,vwl}/
+O"	/{lmd,cnt,rnd,vwl}/
+
+u-	/{hgh,bck,unr,vwl}/
+U-	/{smh,bck,unr,vwl}/ # [21]
+o-	/{umd,bck,unr,vwl}/
+A.	/{low,bck,rnd,vwl}/
+
+###### Notes:
+#
+#  1. The 'unr' feature is written as 'urd' in the HTML specification (1), but
+#     is correct in the PDF specification (2).
+#
+#  2. Kirshenbaum does not specify any voicing, but wikipedia (3) documents the
+#     phoneme as having a specific voicing.
+#
+#  3. Kirshenbaum also transcribes /{vcd,pal,frc}/ as /j/. Since this phoneme
+#     can be transcribed as /C<vcd>/, the latter transcription is used to avoid
+#     conflicting mappings. This matches the segment table in Appendix D (1)/(2).
+#
+#  4. Appendix E (segment list) denotes this as a {lat}, but Appendix D
+#     (segment table) places this under {lat,apr}
+#
+#  5. IPA (4) references this as {apr}, not {frc}.
+#
+#  6. Kirshenbaum also transcribes /{vls,alv,lat,frc}/ as /L/. Since this phoneme
+#     can be transcribed as /s<lat>/, the latter transcription is used to avoid
+#     conflicting mappings. This matches the segment table in Appendix D (1)/(2).
+#
+#  7. Appendix D (segment table) labels this as {unr,rzd,vwl}, but Appendix B only
+#     specifies {rzd,vwl}.
+#
+#  8. Kirshenbaum also transcribes /{vcd,alv,trl}/ as /R/. Since this phoneme
+#     can be transcribed as /r<trl>/, the latter transcription is used to avoid
+#     conflicting mappings. This matches the segment table in Appendix D (1)/(2).
+#
+#  9. Kirshenbaum also transcribes /{lmd,fnt,rnd,vwl}/ as /Y/. Since this phoneme
+#     can be transcribed as /W/, the latter transcription is used to avoid
+#     conflicting mappings. This matches the segment table in Appendix D (1)/(2).
+#
+# 10. Diacritics are specified as combining characters in Appendix C. To simplify
+#     phoneme mapping, diacritics are listed with applicable diacritics as
+#     specified in the segment table in Appendix D and listed in the segment list
+#     in Appendix E. This is especially true for ASCII-IPA as diacritic symbols
+#     take on different meanings for vowels and consonants.
+#
+# 11. The /d`/ transcription is used by Kirshenbaum to indicate both /{dnt,imp}/
+#     and /{alv,imp}/ in both the segment table and segment list (Appendix D
+#     and E). However, according to the diacritic rules in Appendix C, the
+#     /{dnt,imp}/ should be /d[`/. Kirshenbaum has the correct transcription
+#     /t[`/ for /{dnt,ejc}/.
+#
+# 12. The /{dnt,clk}/ transcription /t!/ has a note that it should be /{alv,clk}/,
+#     but that /{alv,clk}/ and /{pal,clk}/ are transcribed as /c!/. By making
+#     /c!/ just refer to /{pal,clk}/ (as /c/ is a /{pal,stp}/), this means that
+#     /t!/ can be used for the /{alv,clk}/ and /t[!/ for the /{dnt,clk}/. This
+#     makes the transcription scheme consistent and better suited to machine
+#     translation.
+#
+# 13. Kirshenbaum specifies /j<rnd>/ as /{rnd,pal,apr}/, but IPA specifies it
+#     as /{vcd,pal,apr,lzd}/ so the IPA specification is used as this is more
+#     consistent with the IPA consonant chart. According to the way that
+#     Kirshenbaum is constructed, this should be /w<pal>/, but that is not
+#     described, so /j<rnd>/ is used instead.
+#
+# 14. The transcription is shown in the segment table (Appendix D), but
+#     is not referenced elsewhere.
+#
+# 15. The /{vel,ejc}/ phoneme is transcribed as /k'/ in the HTML specification
+#     (1), but is the correct /k`/ in the PDF specification (2).
+#
+# 16. The /g"/ transcription represents the /ʁ/ phoneme that is either /{frc}/
+#     or /{apr}/. The commentary for this phoeme on wikipedia describe this as
+#     being /{frc}/, but notes that /{apr}/ is used in many languages. To make
+#     the transcription machine processible and consistent with the rest of the
+#     transcriptions, /g"/ is used for the /{apr}/ form while /Q"/ is used for
+#     the /{frc}/ form. This is because /r"/ is assigned by Kirshenbaum as
+#     /{uvl,trl}/.
+#
+# 17. This transcription is inconsistent with the diacritic rules for modifying
+#     phoneme features. However, this is what Kirshenbaum assigned for the
+#     phoneme and thus overrides the diacritic rules.
+#
+# 18. Kirshenbaum incorrectly classifies this as /{imp}/. Wikipedia (3) uses
+#     the correct /{ejc}/ feature. This is because /{vls}/ consonants have
+#     /{ejc}/ variants and /{vcd}/ consonants have /{imp}/ variants.
+#
+# 19. Kirshenbaum does not specify the /{alv}/ feature for these phonemes in
+#     the segment list (Appendix E), but the phonemes they are based on have
+#     the /{alv}/ feature and they are placed in the /{alv}/ column in the
+#     segment table in Appendix D.
+#
+# 20. The PDF specification incorrectly lists this as /U./ in the segment
+#     table (Appendix D). It is the correct /I./ everywhere else.
+#
+# 21. These phonemes are listed in the wikipedia page (3), but are not
+#     present in either the HTML (1) or PDF (2) specification.
+#
+# 22. Kirshenbaum does not have a /{sml}/ feature, so it shuffles these
+#     phonemes around, classifying /&/ as /{low,fnt}/.
+#
+# 23. Kirshenbaum classifies these as /{low,cnt}/, but IPA classifies this as
+#     /{low,fnt}/. The IPA classification is used here.
+#
+# 24. Kirshenbaum lists /&./ as representing the /ɶ/ phoneme (in the segment
+#     list in Appendix E). This is shown in the correct position in the
+#     segment table in Appendix D. However, since the /a/ phoneme is listed
+#     in the /{cnt}/ feature column, /a./ can also be considered as
+#     representing /ɶ/. As /{sml,fnt}/ does not have a /{rnd}/ phoneme, both
+#     /a./ and /&./ are thus valid transcriptions for /{low,fnt,rnd,vwl}/,
+#     with /a./ being used as the canonical representation as it follows the
+#     rules for the /./ diacritic.
+#
+##### References:
+#
+#  1. http://www.hpl.hp.com/personal/Evan_Kirshenbaum/IPA/faq.html
+#  2. http://www.hpl.hp.com/personal/Evan_Kirshenbaum/IPA/ascii-ipa.pdf
+#  3. http://en.wikipedia.org/wiki/Kirshenbaum
+#  4. http://en.wikipedia.org/wiki/International_Phonetic_Alphabet

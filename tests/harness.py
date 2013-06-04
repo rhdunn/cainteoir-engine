@@ -124,6 +124,12 @@ class TestSuite:
 		write('... checking %s as dictionary entries ... ' % (displayas or filename))
 		self.check_command(filename=filename, expect=expect, command='%s --list' % os.path.join(sys.path[0], 'dictionary'), test_expect=test_expect, replacements=replacements, sort=True)
 
+	def check_phonemeset(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}, data={}):
+		srcphon = data['from']
+		dstphon = data['to']
+		write('... checking %s from %s to %s ... ' % (displayas or filename, srcphon, dstphon))
+		self.check_command(filename=filename, expect=expect, command='%s --separate %s %s' % (os.path.join(sys.path[0], '../src/apps/phoneme-converter/phoneme-converter'), srcphon, dstphon), test_expect=test_expect, replacements=replacements)
+
 	def run(self, data):
 		if self.run_only and data['name'] != self.run_only:
 			return
@@ -132,17 +138,19 @@ class TestSuite:
 			write('\n')
 			write('testing %s :: %s ...\n' % (data['name'], group['name']))
 			if group['type'] in ['ntriple', 'turtle', 'vorbis']:
-				check = lambda got, exp, expect, displayas, replacements: self.check_metadata(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
+				check = lambda got, exp, expect, displayas, replacements, data: self.check_metadata(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'events':
-				check = lambda got, exp, expect, displayas, replacements: self.check_events(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
+				check = lambda got, exp, expect, displayas, replacements, data: self.check_events(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'xmlreader':
-				check = lambda got, exp, expect, displayas, replacements: self.check_xmlreader(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
+				check = lambda got, exp, expect, displayas, replacements, data: self.check_xmlreader(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'styles':
-				check = lambda got, exp, expect, displayas, replacements: self.check_styles(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
+				check = lambda got, exp, expect, displayas, replacements, data: self.check_styles(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] in ['parsetext', 'contextanalysis', 'wordstream']:
-				check = lambda got, exp, expect, displayas, replacements: self.check_parsetext(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
+				check = lambda got, exp, expect, displayas, replacements, data: self.check_parsetext(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'dictionary':
-				check = lambda got, exp, expect, displayas, replacements: self.check_dictionary(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
+				check = lambda got, exp, expect, displayas, replacements, data: self.check_dictionary(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
+			elif group['type'] == 'phonemeset':
+				check = lambda got, exp, expect, displayas, replacements, data: self.check_phonemeset(got, exp, test_expect=expect, displayas=displayas, replacements=replacements, data=data)
 
 			for test in group['tests']:
 				expect = 'pass'
@@ -182,7 +190,7 @@ class TestSuite:
 								filename = test[ filename.replace('@', '') ]
 							zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
 					zf.close()
-					check(archive, exp, expect='expect-%s' % expect, displayas=test['test'], replacements=replacements)
+					check(archive, exp, expect='expect-%s' % expect, displayas=test['test'], replacements=replacements, data=test)
 				elif 'compress' in group.keys():
 					if group['compress'] == 'gzip':
 						filename = '/tmp/test.gz'
@@ -193,9 +201,9 @@ class TestSuite:
 					elif group['compress'] == 'lzma':
 						filename = '/tmp/test.lzma'
 						os.system('lzma -c %s > %s' % (got, filename))
-					check(filename, exp, expect='expect-%s' % expect, displayas=test['test'], replacements=replacements)
+					check(filename, exp, expect='expect-%s' % expect, displayas=test['test'], replacements=replacements, data=test)
 				else:
-					check(got, exp, expect='expect-%s' % expect, displayas=got, replacements=replacements)
+					check(got, exp, expect='expect-%s' % expect, displayas=got, replacements=replacements, data=test)
 
 	def summary(self):
 		write('\n')

@@ -360,6 +360,7 @@ TEST_FILES = \
 	tests/html/* \
 	tests/http/* \
 	tests/mime/* \
+	tests/phonemeset/* \
 	tests/xmlparser/* \
 	tests/zip/*
 
@@ -529,6 +530,11 @@ noinst_bin_PROGRAMS += tests/styles
 
 tests_styles_LDADD   = src/libcainteoir/libcainteoir.la
 tests_styles_SOURCES = tests/styles.cpp
+
+tests/phonemeset.check: src/apps/phoneme-converter/phoneme-converter tests/phonemeset.py tests/harness.py ${TEST_FILES}
+	rm -f $@
+	(python tests/phonemeset.py && touch $@) | tee $<.results
+	test -f $@ || false
 
 tests/styles.check: tests/styles tests/styles.py tests/harness.py ${TEST_FILES}
 	rm -f $@
