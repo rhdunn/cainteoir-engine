@@ -98,7 +98,7 @@ EXTRA_DIST += ChangeLog
 .phon.html:
 	data/phonemes/mkchart.py $< > $@
 
-phonemes:	data/phonemes/ascii-ipa.html \
+phonemes:	\
 		data/phonemes/ipa.html \
 		data/phonemes/x-sampa.html \
 		data/phonemes/arpabet.html \
