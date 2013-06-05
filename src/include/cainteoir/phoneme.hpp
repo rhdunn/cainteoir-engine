@@ -52,6 +52,7 @@ namespace cainteoir { namespace tts
 
 		plosive,
 		fricative,
+		affricate,
 		nasal,
 		approximant,
 		trill,

@@ -143,7 +143,19 @@ U-	/{smh,bck,unr,vwl}/ # [21]
 o-	/{umd,bck,unr,vwl}/
 A.	/{low,bck,rnd,vwl}/
 
-###### Notes:
+##### Additional Phonemes [25]
+
+S;	/{vls,pla,frc,pzd}/
+Z;	/{vcd,pla,frc,pzd}/
+
+ts	/{vls,alv,afr}/
+dz	/{vcd,alv,afr}/
+tS	/{vls,pla,afr}/
+dZ	/{vcd,pla,afr}/
+tS;	/{vls,pla,afr,pzd}/
+dZ;	/{vcd,pla,afr,pzd}/
+
+##### Notes:
 #
 #  1. The 'unr' feature is written as 'urd' in the HTML specification (1), but
 #     is correct in the PDF specification (2).
@@ -247,6 +259,11 @@ A.	/{low,bck,rnd,vwl}/
 #     /a./ and /&./ are thus valid transcriptions for /{low,fnt,rnd,vwl}/,
 #     with /a./ being used as the canonical representation as it follows the
 #     rules for the /./ diacritic.
+#
+# 25. Kirshenbaum does not list these phonemes in the appendices. They are
+#     derived from the information in the specification (e.g. the diacritic
+#     symbols), IPA chart and IPA usage (e.g. for describing affricates,
+#     diphthongs and triphthongs).
 #
 ##### References:
 #

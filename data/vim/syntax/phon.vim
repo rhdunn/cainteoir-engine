@@ -9,7 +9,7 @@ if exists("b:current_syntax")
   finish
 endif
 
-syn keyword	phonFeature		alv apr asp
+syn keyword	phonFeature		afr alv apr asp
 syn keyword	phonFeature		bck blb
 syn keyword	phonFeature		clk cnt ctl
 syn keyword	phonFeature		dnt

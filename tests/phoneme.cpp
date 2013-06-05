@@ -443,6 +443,7 @@ TEST_CASE("tts::get_feature_id -- extended abbreviations")
 	};
 
 	assert(tts::get_feature_id("sml") == _(f::semi_low));
+	assert(tts::get_feature_id("afr") == _(f::affricate));
 }
 
 TEST_CASE("tts::get_feature_abbreviation")
@@ -472,6 +473,7 @@ TEST_CASE("tts::get_feature_abbreviation")
 
 	assert(tts::get_feature_abbreviation(f::plosive)     == "stp");
 	assert(tts::get_feature_abbreviation(f::fricative)   == "frc");
+	assert(tts::get_feature_abbreviation(f::affricate)   == "afr");
 	assert(tts::get_feature_abbreviation(f::nasal)       == "nas");
 	assert(tts::get_feature_abbreviation(f::approximant) == "apr");
 	assert(tts::get_feature_abbreviation(f::trill)       == "trl");
@@ -541,6 +543,7 @@ TEST_CASE("tts::get_feature_name")
 
 	assert(tts::get_feature_name(f::plosive)     == "plosive");
 	assert(tts::get_feature_name(f::fricative)   == "fricative");
+	assert(tts::get_feature_name(f::affricate)   == "affricate");
 	assert(tts::get_feature_name(f::nasal)       == "nasal");
 	assert(tts::get_feature_name(f::approximant) == "approximant");
 	assert(tts::get_feature_name(f::trill)       == "trill");
@@ -608,6 +611,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		// consonants ...
 		{ "{vcd,blb,stp,asp}",     { f::voiced, f::bilabial, f::plosive, f::aspirated } },
 		{ "{vls,lbd,frc,unx}",     { f::voiceless, f::labio_dental, f::fricative, f::unexploded } },
+		{ "{vls,lbd,afr,unx}",     { f::voiceless, f::labio_dental, f::affricate, f::unexploded } },
 		{ "{vcd,dnt,nas,syl}",     { f::voiced, f::dental, f::nasal, f::syllabic } },
 		{ "{vls,alv,apr,mrm}",     { f::voiceless, f::alveolar, f::approximant, f::murmured } },
 		{ "{vcd,lbd,lat,frc}",     { f::voiced, f::labio_dental, f::lateral, f::fricative } },
@@ -781,6 +785,7 @@ TEST_CASE("explicit feature writer -- single phoneme")
 		{ "{vcd,dnt,nas,syl}",     { f::voiced, f::dental, f::nasal, f::syllabic } },
 		{ "{vls,alv,apr,mrm}",     { f::voiceless, f::alveolar, f::approximant, f::murmured } },
 		{ "{vcd,lbd,lat,frc}",     { f::voiced, f::labio_dental, f::lateral, f::fricative } },
+		{ "{vcd,lbd,lat,afr}",     { f::voiced, f::labio_dental, f::lateral, f::affricate } },
 		{ "{vls,rfx,trl,vzd}",     { f::voiceless, f::retroflex, f::trill, f::velarized } },
 		{ "{vcd,pla,flp,lzd}",     { f::voiced, f::palato_alveolar, f::flap, f::labialized } },
 		{ "{vls,pal,clk}",         { f::voiceless, f::palatal, f::click } },

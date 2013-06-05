@@ -100,6 +100,16 @@ j<rnd>
 *<lat>
 l!
 
+S;
+Z;
+
+ts
+dz
+tS
+dZ
+tS;
+dZ;
+
 i
 y
 i"

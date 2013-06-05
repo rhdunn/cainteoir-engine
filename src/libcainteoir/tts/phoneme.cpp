@@ -29,6 +29,7 @@
 namespace tts = cainteoir::tts;
 
 static const std::initializer_list<const std::pair<const char *, tts::feature>> abbreviations = {
+	{ "afr", tts::feature::affricate },
 	{ "alv", tts::feature::alveolar },
 	{ "apr", tts::feature::approximant },
 	{ "asp", tts::feature::aspirated },
@@ -103,6 +104,7 @@ static const std::pair<const char *, const char *> feature_data[] = {
 
 	{ "stp", i18n("plosive") },
 	{ "frc", i18n("fricative") },
+	{ "afr", i18n("affricate") },
 	{ "nas", i18n("nasal") },
 	{ "apr", i18n("approximant") },
 	{ "trl", i18n("trill") },
