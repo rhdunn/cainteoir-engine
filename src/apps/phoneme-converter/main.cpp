@@ -63,7 +63,7 @@ static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner
 	{ f::flap,        f::unspecified },
 	{ f::lateral,     f::flap },
 	{ f::fricative,   f::unspecified },
-	{ f::fricative,   f::plosive }, // affricate
+	{ f::affricate,   f::unspecified },
 	{ f::lateral,     f::fricative },
 	{ f::approximant, f::unspecified },
 	{ f::lateral,     f::approximant },
