@@ -124,6 +124,19 @@ static const std::initializer_list<tts::phoneme> coarticulated_consonants = {
 	{ f::voiced,    f::palatalized, f::palato_alveolar, f::affricate },
 };
 
+static const std::initializer_list<tts::feature> consonant_diacritics = {
+	f::unspecified,
+	f::syllabic,
+	f::murmured,
+	f::labialized,
+	f::palatalized,
+};
+
+static const std::initializer_list<tts::feature> vowel_diacritics = {
+	f::unspecified,
+	f::rhoticized,
+};
+
 void print(const std::shared_ptr<cainteoir::buffer> &data)
 {
 	for (auto c : *data) switch (c)
@@ -192,14 +205,13 @@ void print_name(tts::phoneme p, int colspan = 1)
 }
 
 void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
-                 const char *name,
                  const std::initializer_list<tts::feature>  &x_features,
                  const std::initializer_list<std::pair<tts::feature, tts::feature>> &y_features,
                  const std::initializer_list<tts::feature>  &z_features,
-                 const tts::feature extra)
+                 const tts::feature extra1,
+                 const tts::feature extra2 = f::unspecified)
 {
 	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\">\n", stdout);
-	fprintf(stdout, "<caption>%s</caption>\n", name);
 	fputs("<tr>\n", stdout);
 	fputs("<th>&#xA0;</th>\n", stdout);
 	for (auto x : x_features)
@@ -217,9 +229,9 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 			for (auto z : z_features)
 			{
 				if (y.second == f::unspecified)
-					print(ipa, { x, y.first, z, extra });
+					print(ipa, { x, y.first, z, extra1, extra2 });
 				else
-					print(ipa, { x, y.first, y.second, z, extra });
+					print(ipa, { x, y.first, y.second, z, extra1 });
 			}
 		}
 		fputs("</tr>\n", stdout);
@@ -234,6 +246,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("<meta charset=\"UTF-8\"/>\n", stdout);
 	fprintf(stdout, "<title>Phoneme Chart : %s</title>\n", name);
 	fputs("<style type=\"text/css\">\n", stdout);
+	fputs("    h1         { font-size: 16px; font-family: serif; }", stdout);
 	fputs("    table      { border: 1px solid black; font-size: 12px; }", stdout);
 	fputs("    td, th     { text-align: left; vertical-align: top; border: 1px solid black; padding: 0.2em; }", stdout);
 	fputs("    caption    { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }", stdout);
@@ -245,28 +258,32 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("</head>\n", stdout);
 	fputs("<body>\n", stdout);
 
-	print_chart(ipa, i18n("Consonants"),
-	            place_of_articulation, manner_of_articulation, voicing, f::unspecified);
+	for (auto d : consonant_diacritics)
+	{
+		const char *name = tts::get_feature_name(d);
+		if (name)
+			fprintf(stdout, "<h1>%s (%s)</h1>", i18n("Consonants"), name);
+		else
+			fprintf(stdout, "<h1>%s</h1>", i18n("Consonants"));
+		print_chart(ipa, place_of_articulation, manner_of_articulation, voicing, d);
+	}
 
 	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"layout\">\n", stdout);
 	fputs("<tr>\n", stdout);
 
-	fputs("<td width=\"50%\">\n", stdout);
-	print_chart(ipa, i18n("Vowels"),
-	            vowel_backness, vowel_height, roundness, f::vowel);
+	fputs("<td width=\"33%\">\n", stdout);
+	fprintf(stdout, "<h1>%s</h1>", i18n("Vowels"));
+	print_chart(ipa, vowel_backness, vowel_height, roundness, f::vowel);
 	fputs("</td>\n", stdout);
 
-	fputs("<td width=\"50%\">\n", stdout);
-	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n", stdout);
-	fprintf(stdout, "<caption>%s</caption>\n", i18n("Consonants (Co-articulated)"));
-	for (auto p : coarticulated_consonants)
-	{
-		fputs("<tr>\n", stdout);
-		print(ipa, p);
-		print_name(p);
-		fputs("</tr>\n", stdout);
-	}
-	fputs("</table>\n", stdout);
+	fputs("<td width=\"34%\">\n", stdout);
+	fprintf(stdout, "<h1>%s</h1>", i18n("Rhoticized Vowels"));
+	print_chart(ipa, vowel_backness, vowel_height, roundness, f::vowel, f::rhoticized);
+	fputs("</td>\n", stdout);
+
+	fputs("<td width=\"33%\">\n", stdout);
+	fprintf(stdout, "<h1>%s</h1>", i18n("Long Vowels"));
+	print_chart(ipa, vowel_backness, vowel_height, roundness, f::vowel, f::long_);
 	fputs("</td>\n", stdout);
 
 	fputs("</tr>\n", stdout);
