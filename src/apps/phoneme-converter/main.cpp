@@ -91,6 +91,25 @@ static const std::initializer_list<tts::feature> voicing = {
 	f::voiced,
 };
 
+void print(const std::shared_ptr<cainteoir::buffer> &data)
+{
+	for (auto c : *data) switch (c)
+	{
+	case '<':
+		fputs("&lt;", stdout);
+		break;
+	case '>':
+		fputs("&gt;", stdout);
+		break;
+	case '&':
+		fputs("&amp;", stdout);
+		break;
+	default:
+		fputc(c, stdout);
+		break;
+	}
+}
+
 void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
                  const char *name,
                  const std::initializer_list<tts::feature>  &x_features,
@@ -129,6 +148,8 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 		{
 			for (auto z : z_features)
 			{
+				cainteoir::memory_file out;
+				ipa->reset(out);
 				if (y.second == f::unspecified)
 				{
 					fprintf(stdout, "<td class=\"%s %s %s\">",
@@ -136,7 +157,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 					        tts::get_feature_abbreviation(y.first),
 					        tts::get_feature_abbreviation(z));
 					if (!ipa->write({ x, y.first, z }))
-						fputs("&#xA0;", stdout);
+						fputs("\xC2\xA0", out);
 				}
 				else
 				{
@@ -146,8 +167,9 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 					        tts::get_feature_abbreviation(y.second),
 					        tts::get_feature_abbreviation(z));
 					if (!ipa->write({ x, y.first, y.second, z }))
-						fputs("&#xA0;", stdout);
+						fputs("\xC2\xA0", out);
 				}
+				print(out.buffer());
 				fputs("</td>\n", stdout);
 			}
 		}
@@ -158,14 +180,12 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 
 void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *name)
 {
-	ipa->reset(stdout);
-
 	fputs("<html>\n", stdout);
 	fputs("<head>\n", stdout);
 	fputs("<meta charset=\"UTF-8\"/>\n", stdout);
 	fprintf(stdout, "<title>Phoneme Chart : %s</title>\n", name);
 	fputs("<style type=\"text/css\">\n", stdout);
-	fputs("    table      { border: 1px solid black; }", stdout);
+	fputs("    table      { border: 1px solid black; font-size: 14px; }", stdout);
 	fputs("    td, th     { border: 1px solid black; padding: 0.2em; }", stdout);
 	fputs("    caption    { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }", stdout);
 	fputs("    .vls, .unr { text-align: left;  font-family: monospace; border-right: 0; }", stdout);
