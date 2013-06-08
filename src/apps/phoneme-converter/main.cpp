@@ -86,9 +86,30 @@ static const std::initializer_list<tts::feature> place_of_articulation = {
 	f::glottal,
 };
 
+static const std::initializer_list<tts::feature> vowel_backness = {
+	f::front,
+	f::center,
+	f::back,
+};
+
+static const std::initializer_list<std::pair<tts::feature, tts::feature>> vowel_height = {
+	{ f::high,      f::unspecified },
+	{ f::semi_high, f::unspecified },
+	{ f::upper_mid, f::unspecified },
+	{ f::mid,       f::unspecified },
+	{ f::lower_mid, f::unspecified },
+	{ f::semi_low,  f::unspecified },
+	{ f::low,       f::unspecified },
+};
+
 static const std::initializer_list<tts::feature> voicing = {
 	f::voiceless,
 	f::voiced,
+};
+
+static const std::initializer_list<tts::feature> roundness = {
+	f::unrounded,
+	f::rounded,
 };
 
 void print(const std::shared_ptr<cainteoir::buffer> &data)
@@ -114,7 +135,8 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
                  const char *name,
                  const std::initializer_list<tts::feature>  &x_features,
                  const std::initializer_list<std::pair<tts::feature, tts::feature>> &y_features,
-                 const std::initializer_list<tts::feature>  &z_features)
+                 const std::initializer_list<tts::feature>  &z_features,
+                 const tts::feature extra)
 {
 	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n", stdout);
 	fprintf(stdout, "<caption>%s</caption>\n", name);
@@ -148,28 +170,28 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 		{
 			for (auto z : z_features)
 			{
+				tts::phoneme p = { f::unspecified, f::unspecified, f::unspecified };
+				if (y.second == f::unspecified)
+					p = { x, y.first, z, extra };
+				else
+					p = { x, y.first, y.second, z, extra };
+				fputs("<td class=\"", stdout);
+				for (auto feature : p)
+				{
+					if (feature != f::unspecified)
+					{
+						fputs(tts::get_feature_abbreviation(feature), stdout);
+						fputc(' ', stdout);
+					}
+				}
+				fputs("\">", stdout);
+
 				cainteoir::memory_file out;
 				ipa->reset(out);
-				if (y.second == f::unspecified)
-				{
-					fprintf(stdout, "<td class=\"%s %s %s\">",
-					        tts::get_feature_abbreviation(x),
-					        tts::get_feature_abbreviation(y.first),
-					        tts::get_feature_abbreviation(z));
-					if (!ipa->write({ x, y.first, z }))
-						fputs("\xC2\xA0", out);
-				}
-				else
-				{
-					fprintf(stdout, "<td class=\"%s %s %s %s\">",
-					        tts::get_feature_abbreviation(x),
-					        tts::get_feature_abbreviation(y.first),
-					        tts::get_feature_abbreviation(y.second),
-					        tts::get_feature_abbreviation(z));
-					if (!ipa->write({ x, y.first, y.second, z }))
-						fputs("\xC2\xA0", out);
-				}
+				if (!ipa->write(p))
+					fputs("\xC2\xA0", out);
 				print(out.buffer());
+
 				fputs("</td>\n", stdout);
 			}
 		}
@@ -196,7 +218,9 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("</head>\n", stdout);
 	fputs("<body>\n", stdout);
 	print_chart(ipa, i18n("Consonants"),
-	            place_of_articulation, manner_of_articulation, voicing);
+	            place_of_articulation, manner_of_articulation, voicing, f::unspecified);
+	print_chart(ipa, i18n("Vowels"),
+	            vowel_backness, vowel_height, roundness, f::vowel);
 	fputs("</body>\n", stdout);
 	fputs("</html>\n", stdout);
 }
