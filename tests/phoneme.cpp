@@ -444,6 +444,7 @@ TEST_CASE("tts::get_feature_id -- extended abbreviations")
 
 	assert(tts::get_feature_id("sml") == _(f::semi_low));
 	assert(tts::get_feature_id("afr") == _(f::affricate));
+	assert(tts::get_feature_id("epg") == _(f::epiglottal));
 }
 
 TEST_CASE("tts::get_feature_abbreviation")
@@ -466,6 +467,7 @@ TEST_CASE("tts::get_feature_abbreviation")
 	assert(tts::get_feature_abbreviation(f::velar)           == "vel");
 	assert(tts::get_feature_abbreviation(f::uvular)          == "uvl");
 	assert(tts::get_feature_abbreviation(f::pharyngeal)      == "phr");
+	assert(tts::get_feature_abbreviation(f::epiglottal)      == "epg");
 	assert(tts::get_feature_abbreviation(f::glottal)         == "glt");
 
 	assert(tts::get_feature_abbreviation(f::vowel)   == "vwl");
@@ -536,6 +538,7 @@ TEST_CASE("tts::get_feature_name")
 	assert(tts::get_feature_name(f::velar)           == "velar");
 	assert(tts::get_feature_name(f::uvular)          == "uvular");
 	assert(tts::get_feature_name(f::pharyngeal)      == "pharyngeal");
+	assert(tts::get_feature_name(f::epiglottal)      == "epiglottal");
 	assert(tts::get_feature_name(f::glottal)         == "glottal");
 
 	assert(tts::get_feature_name(f::vowel)   == "vowel");
@@ -622,6 +625,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		{ "{vls,lbv,imp}",         { f::voiceless, f::velar, f::labialized, f::implosive } },
 		{ "{vcd,uvl,stp,pzd}",     { f::voiced, f::uvular, f::plosive, f::palatalized } },
 		{ "{vls,phr,frc,nzd}",     { f::voiceless, f::pharyngeal, f::fricative, f::nasalized } },
+		{ "{vcd,epg,frc}",         { f::voiced, f::epiglottal, f::fricative } },
 		{ "{vcd,glt,nas,fzd}",     { f::voiced, f::glottal, f::nasal, f::pharyngealized } },
 		// ignored phoneme features ...
 		{ "{vcd,blb,orl,stp}",     { f::voiced, f::bilabial, f::plosive } },
@@ -793,6 +797,7 @@ TEST_CASE("explicit feature writer -- single phoneme")
 		{ "{vls,vel,lzd,imp}",     { f::voiceless, f::velar, f::labialized, f::implosive } },
 		{ "{vcd,uvl,stp,pzd}",     { f::voiced, f::uvular, f::plosive, f::palatalized } },
 		{ "{vls,phr,frc,nzd}",     { f::voiceless, f::pharyngeal, f::fricative, f::nasalized } },
+		{ "{vcd,epg,frc}",         { f::voiced, f::epiglottal, f::fricative } },
 		{ "{vcd,glt,nas,fzd}",     { f::voiced, f::glottal, f::nasal, f::pharyngealized } },
 		// vowels ...
 		{ "{hgh,fnt,unr,vwl,lng}", { f::high, f::front, f::unrounded, f::vowel, f::long_ } },

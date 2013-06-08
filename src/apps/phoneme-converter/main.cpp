@@ -83,6 +83,7 @@ static const std::initializer_list<tts::feature> place_of_articulation = {
 	f::velar,
 	f::uvular,
 	f::pharyngeal,
+	f::epiglottal,
 	f::glottal,
 };
 

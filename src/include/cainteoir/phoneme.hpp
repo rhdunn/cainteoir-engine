@@ -45,6 +45,7 @@ namespace cainteoir { namespace tts
 		velar,
 		uvular,
 		pharyngeal,
+		epiglottal,
 		glottal,
 
 		vowel,

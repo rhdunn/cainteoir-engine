@@ -40,6 +40,7 @@ static const std::initializer_list<const std::pair<const char *, tts::feature>> 
 	{ "ctl", tts::feature::unspecified },
 	{ "dnt", tts::feature::dental },
 	{ "ejc", tts::feature::ejective },
+	{ "epg", tts::feature::epiglottal },
 	{ "flp", tts::feature::flap },
 	{ "fnt", tts::feature::front },
 	{ "frc", tts::feature::fricative },
@@ -97,6 +98,7 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	{ "vel", i18n("velar") },
 	{ "uvl", i18n("uvular") },
 	{ "phr", i18n("pharyngeal") },
+	{ "epg", i18n("epiglottal") },
 	{ "glt", i18n("glottal") },
 
 	{ "vwl", i18n("vowel") },
