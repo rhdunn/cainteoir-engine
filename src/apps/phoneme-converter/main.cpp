@@ -29,42 +29,163 @@ namespace tts = cainteoir::tts;
 
 static struct option options[] =
 {
+	{ "chart", no_argument, 0, 'c' },
 	{ "help", no_argument, 0, 'h' },
 	{ "separate", no_argument, 0, 's' },
 	{ 0, 0, 0, 0 }
 };
 
+enum class phoneme_mode
+{
+	joined,
+	separate,
+	chart,
+};
+
 void help()
 {
 	fprintf(stdout, i18n("usage: phoneme-converter [OPTION..] <from-scheme> <to-scheme> document\n"));
+	fprintf(stdout, i18n("usage: phoneme-converter --chart <phoneme-scheme>\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, i18n("Options:\n"));
+	fprintf(stdout, i18n(" -c, --chart            Display the phoneme scheme as an IPA chart\n"));
 	fprintf(stdout, i18n(" -h, --help             This help text\n"));
 	fprintf(stdout, i18n(" -s, --separate         Display each phoneme on a new line\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
 }
 
+typedef tts::feature f;
+
+static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation = {
+	{ f::nasal,       f::unspecified },
+	{ f::plosive,     f::unspecified },
+	{ f::flap,        f::unspecified },
+	{ f::lateral,     f::flap },
+	{ f::fricative,   f::unspecified },
+	{ f::fricative,   f::plosive }, // affricate
+	{ f::lateral,     f::fricative },
+	{ f::approximant, f::unspecified },
+	{ f::lateral,     f::approximant },
+	{ f::ejective,    f::unspecified },
+	{ f::implosive,   f::unspecified },
+	{ f::click,       f::unspecified },
+};
+
+static const std::initializer_list<tts::feature> place_of_articulation = {
+	f::bilabial,
+	f::labio_dental,
+	f::dental,
+	f::alveolar,
+	f::palato_alveolar,
+	f::retroflex,
+	f::palatal,
+	f::velar,
+	f::uvular,
+	f::pharyngeal,
+	f::glottal,
+};
+
+static const std::initializer_list<tts::feature> voicing = {
+	f::voiceless,
+	f::voiced,
+};
+
+void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
+                 const char *name,
+                 const std::initializer_list<tts::feature>  &x_features,
+                 const std::initializer_list<std::pair<tts::feature, tts::feature>> &y_features,
+                 const std::initializer_list<tts::feature>  &z_features)
+{
+	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n", stdout);
+	fprintf(stdout, "<caption>%s</caption>\n", name);
+	fputs("<tr>\n", stdout);
+	fputs("<th>&#xA0;</th>\n", stdout);
+	for (auto x : x_features)
+	{
+		fprintf(stdout, "<th colspan=\"2\" title=\"%s\">%s</th>\n",
+		        tts::get_feature_name(x),
+		        tts::get_feature_abbreviation(x));
+	}
+	fputs("</tr>\n", stdout);
+	for (auto y : y_features)
+	{
+		fputs("<tr>\n", stdout);
+		if (y.second == f::unspecified)
+		{
+			fprintf(stdout, "<th title=\"%s\">%s</th>\n",
+			        tts::get_feature_name(y.first),
+			        tts::get_feature_abbreviation(y.first));
+		}
+		for (auto x : x_features)
+		{
+			for (auto z : z_features)
+			{
+				if (y.second == f::unspecified)
+				{
+					fprintf(stdout, "<td class=\"%s %s %s\">",
+					        tts::get_feature_abbreviation(x),
+					        tts::get_feature_abbreviation(y.first),
+					        tts::get_feature_abbreviation(z));
+					if (!ipa->write({ x, y.first, z }))
+						fputs("&#xA0;", stdout);
+				}
+				fputs("</td>\n", stdout);
+			}
+		}
+		fputs("</tr>\n", stdout);
+	}
+	fputs("</table>\n", stdout);
+}
+
+void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *name)
+{
+	ipa->reset(stdout);
+
+	fputs("<html>\n", stdout);
+	fputs("<head>\n", stdout);
+	fputs("<meta charset=\"UTF-8\"/>\n", stdout);
+	fprintf(stdout, "<title>Phoneme Chart : %s</title>\n", name);
+	fputs("<style type=\"text/css\">\n", stdout);
+	fputs("    table      { border: 1px solid black; }", stdout);
+	fputs("    td, th     { border: 1px solid black; padding: 0.2em; }", stdout);
+	fputs("    caption    { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }", stdout);
+	fputs("    .vls, .unr { text-align: left;  font-family: monospace; border-right: 0; }", stdout);
+	fputs("    .vcd, .rnd { text-align: right; font-family: monospace; border-left:  0; }", stdout);
+	fputs("    .layout    { border: 0; }", stdout);
+	fputs("    .unpronouncible { background-color: lightgray; }", stdout);
+	fputs("</style>\n", stdout);
+	fputs("</head>\n", stdout);
+	fputs("<body>\n", stdout);
+	print_chart(ipa, i18n("Consonants"),
+	            place_of_articulation, manner_of_articulation, voicing);
+	fputs("</body>\n", stdout);
+	fputs("</html>\n", stdout);
+}
+
 int main(int argc, char ** argv)
 {
 	try
 	{
-		bool separate_phonemes = false;
+		phoneme_mode mode = phoneme_mode::joined;
 
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "hs", options, &option_index);
+			int c = getopt_long(argc, argv, "chs", options, &option_index);
 			if (c == -1)
 				break;
 
 			switch (c)
 			{
+			case 'c':
+				mode = phoneme_mode::chart;
+				break;
 			case 'h':
 				help();
 				return 0;
 			case 's':
-				separate_phonemes = true;
+				mode = phoneme_mode::separate;
 				break;
 			}
 		}
@@ -72,21 +193,27 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		if (argc != 3)
+		if (argc != (mode == phoneme_mode::chart ? 1 : 3))
 		{
 			help();
 			return 0;
 		}
 
-		auto from = tts::createPhonemeReader(argv[0]);
-		auto to   = tts::createPhonemeWriter(argv[1]);
-
-		from->reset(cainteoir::make_file_buffer(argv[2]));
-		to->reset(stdout);
-		while (from->read())
+		if (mode == phoneme_mode::chart)
+			print_chart(tts::createPhonemeWriter(argv[0]), argv[0]);
+		else
 		{
-			to->write(*from);
-			if (separate_phonemes) fputc('\n', stdout);
+			auto from = tts::createPhonemeReader(argv[0]);
+			auto to   = tts::createPhonemeWriter(argv[1]);
+
+			from->reset(cainteoir::make_file_buffer(argv[2]));
+			to->reset(stdout);
+			while (from->read())
+			{
+				to->write(*from);
+				if (mode == phoneme_mode::separate)
+					fputc('\n', stdout);
+			}
 		}
 	}
 	catch (std::runtime_error &e)
