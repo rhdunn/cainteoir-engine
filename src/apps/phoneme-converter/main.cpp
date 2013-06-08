@@ -127,7 +127,6 @@ static const std::initializer_list<tts::phoneme> coarticulated_consonants = {
 static const std::initializer_list<tts::feature> consonant_diacritics = {
 	f::unspecified,
 	f::syllabic,
-	f::murmured,
 	f::labialized,
 	f::palatalized,
 };

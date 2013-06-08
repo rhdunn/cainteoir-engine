@@ -43,7 +43,7 @@
 {vcd,uvl,frc}
 {vls,phr,frc}
 {vcd,phr,frc}
-{vcd,glt,frc,mrm}
+{vcd,glt,frc}
 
 {vls,alv,lat,frc}
 {vcd,alv,lat,frc}

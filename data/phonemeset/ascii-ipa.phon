@@ -121,7 +121,7 @@ q`	/{vls,uvl,ejc}/ # [18]
 G`	/{vcd,uvl,imp}/
 
 H<vcd>	/{vcd,phr,frc}/
-h<?>	/{vcd,glt,frc,mrm}/ # [2]
+h<?>	/{vcd,glt,frc}/ # [2], [26]
 
 *<lat>	/{vcd,alv,lat,flp}/ # [2], [19]
 l!	/{vcd,alv,lat,clk}/ # [2], [19]
@@ -264,6 +264,11 @@ dZ;	/{vcd,pla,afr,pzd}/
 #     derived from the information in the specification (e.g. the diacritic
 #     symbols), IPA chart and IPA usage (e.g. for describing affricates,
 #     diphthongs and triphthongs).
+#
+# 26. Kirshenbaum specifies this as /{mrm,glt,frc}/, which is technically
+#     correct. However, this phoneme is specified in the IPA chart as
+#     /{vcd,glt,frc}/ as it makes it easier to fit on the IPA chart and
+#     does not lose its distinction with other phonemes.
 #
 ##### References:
 #
