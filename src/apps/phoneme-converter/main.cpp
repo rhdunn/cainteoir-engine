@@ -186,7 +186,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fprintf(stdout, "<title>Phoneme Chart : %s</title>\n", name);
 	fputs("<style type=\"text/css\">\n", stdout);
 	fputs("    table      { border: 1px solid black; font-size: 14px; }", stdout);
-	fputs("    td, th     { border: 1px solid black; padding: 0.2em; }", stdout);
+	fputs("    td, th     { text-align: left; border: 1px solid black; padding: 0.2em; }", stdout);
 	fputs("    caption    { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }", stdout);
 	fputs("    .vls, .unr { text-align: left;  font-family: monospace; border-right: 0; }", stdout);
 	fputs("    .vcd, .rnd { text-align: right; font-family: monospace; border-left:  0; }", stdout);
