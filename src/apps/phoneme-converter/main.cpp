@@ -204,6 +204,7 @@ void print_name(tts::phoneme p, int colspan = 1)
 }
 
 void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
+                 const char *caption,
                  const std::initializer_list<tts::feature>  &x_features,
                  const std::initializer_list<std::pair<tts::feature, tts::feature>> &y_features,
                  const std::initializer_list<tts::feature>  &z_features,
@@ -211,6 +212,8 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
                  const tts::feature extra2 = f::unspecified)
 {
 	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\">\n", stdout);
+	if (caption)
+		fprintf(stdout, "<caption>%s</caption>", caption);
 	fputs("<tr>\n", stdout);
 	fputs("<th>&#xA0;</th>\n", stdout);
 	for (auto x : x_features)
@@ -264,29 +267,28 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 			fprintf(stdout, "<h1>%s (%s)</h1>", i18n("Consonants"), name);
 		else
 			fprintf(stdout, "<h1>%s</h1>", i18n("Consonants"));
-		print_chart(ipa, place_of_articulation, manner_of_articulation, voicing, d);
+		print_chart(ipa, nullptr,
+		            place_of_articulation, manner_of_articulation, voicing, d);
 	}
 
+	fprintf(stdout, "<h1>%s</h1>", i18n("Vowels"));
 	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"layout\">\n", stdout);
 	fputs("<tr>\n", stdout);
-
 	fputs("<td width=\"33%\">\n", stdout);
-	fprintf(stdout, "<h1>%s</h1>", i18n("Vowels"));
-	print_chart(ipa, vowel_backness, vowel_height, roundness, f::vowel);
+	print_chart(ipa, i18n("Short"),
+	            vowel_backness, vowel_height, roundness, f::vowel);
 	fputs("</td>\n", stdout);
-
 	fputs("<td width=\"34%\">\n", stdout);
-	fprintf(stdout, "<h1>%s</h1>", i18n("Rhoticized Vowels"));
-	print_chart(ipa, vowel_backness, vowel_height, roundness, f::vowel, f::rhoticized);
+	print_chart(ipa, i18n("Rhoticized"),
+	            vowel_backness, vowel_height, roundness, f::vowel, f::rhoticized);
 	fputs("</td>\n", stdout);
-
 	fputs("<td width=\"33%\">\n", stdout);
-	fprintf(stdout, "<h1>%s</h1>", i18n("Long Vowels"));
-	print_chart(ipa, vowel_backness, vowel_height, roundness, f::vowel, f::long_);
+	print_chart(ipa, i18n("Long"),
+	            vowel_backness, vowel_height, roundness, f::vowel, f::long_);
 	fputs("</td>\n", stdout);
-
 	fputs("</tr>\n", stdout);
 	fputs("</table>\n", stdout);
+
 	fputs("</body>\n", stdout);
 	fputs("</html>\n", stdout);
 }
