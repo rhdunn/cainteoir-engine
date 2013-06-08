@@ -160,6 +160,11 @@ dZ	/{vcd,pla,afr}/
 tS;	/{vls,pla,afr,pzd}/
 dZ;	/{vcd,pla,afr,pzd}/
 
+i:	/{hgh,fnt,unr,vwl,lng}/
+u:	/{hgh,bck,rnd,vwl,lng}/
+O:	/{lmd,bck,rnd,vwl,lng}/
+A:	/{low,bck,unr,vwl,lng}/
+
 ##### Notes:
 #
 #  1. The 'unr' feature is written as 'urd' in the HTML specification (1), but
