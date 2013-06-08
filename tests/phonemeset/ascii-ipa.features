@@ -126,12 +126,12 @@
 {umd,fnt,rnd,vwl}
 {umd,cnt,unr,vwl}
 {umd,cnt,unr,vwl,rzd}
+{umd,cnt,rnd,vwl}
 {umd,bck,unr,vwl}
 {umd,bck,rnd,vwl}
 
 {mid,cnt,unr,vwl}
 {mid,cnt,unr,vwl,rzd}
-{mid,cnt,rnd,vwl}
 
 {lmd,fnt,unr,vwl}
 {lmd,fnt,rnd,vwl}

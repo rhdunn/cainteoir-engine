@@ -126,12 +126,12 @@ e
 Y
 @<umd>
 R<umd>
+@.
 o-
 o
 
 @
 R
-@.
 
 E
 W
