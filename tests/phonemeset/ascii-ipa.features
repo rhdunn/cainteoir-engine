@@ -100,6 +100,11 @@
 {vcd,alv,lat,flp}
 {vcd,alv,lat,clk}
 
+{vcd,alv,lat,apr,syl}
+{vcd,blb,nas,syl}
+{vcd,alv,nas,syl}
+{vcd,alv,apr,syl}
+
 {vls,pla,frc,pzd}
 {vcd,pla,frc,pzd}
 
