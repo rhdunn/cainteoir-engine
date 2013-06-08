@@ -60,12 +60,13 @@ typedef tts::feature f;
 static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation = {
 	{ f::nasal,       f::unspecified },
 	{ f::plosive,     f::unspecified },
+	{ f::affricate,   f::unspecified },
+	{ f::fricative,   f::unspecified },
+	{ f::approximant, f::unspecified },
+	{ f::trill,       f::unspecified },
 	{ f::flap,        f::unspecified },
 	{ f::lateral,     f::flap },
-	{ f::fricative,   f::unspecified },
-	{ f::affricate,   f::unspecified },
 	{ f::lateral,     f::fricative },
-	{ f::approximant, f::unspecified },
 	{ f::lateral,     f::approximant },
 	{ f::ejective,    f::unspecified },
 	{ f::implosive,   f::unspecified },
@@ -208,7 +209,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("<meta charset=\"UTF-8\"/>\n", stdout);
 	fprintf(stdout, "<title>Phoneme Chart : %s</title>\n", name);
 	fputs("<style type=\"text/css\">\n", stdout);
-	fputs("    table      { border: 1px solid black; font-size: 14px; }", stdout);
+	fputs("    table      { border: 1px solid black; font-size: 12px; }", stdout);
 	fputs("    td, th     { text-align: left; border: 1px solid black; padding: 0.2em; }", stdout);
 	fputs("    caption    { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }", stdout);
 	fputs("    .vls, .unr { text-align: left;  font-family: monospace; border-right: 0; }", stdout);
