@@ -117,6 +117,14 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 			        tts::get_feature_name(y.first),
 			        tts::get_feature_abbreviation(y.first));
 		}
+		else
+		{
+			fprintf(stdout, "<th title=\"%s %s\">%s %s</th>\n",
+			        tts::get_feature_name(y.first),
+			        tts::get_feature_name(y.second),
+			        tts::get_feature_abbreviation(y.first),
+			        tts::get_feature_abbreviation(y.second));
+		}
 		for (auto x : x_features)
 		{
 			for (auto z : z_features)
@@ -128,6 +136,16 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 					        tts::get_feature_abbreviation(y.first),
 					        tts::get_feature_abbreviation(z));
 					if (!ipa->write({ x, y.first, z }))
+						fputs("&#xA0;", stdout);
+				}
+				else
+				{
+					fprintf(stdout, "<td class=\"%s %s %s %s\">",
+					        tts::get_feature_abbreviation(x),
+					        tts::get_feature_abbreviation(y.first),
+					        tts::get_feature_abbreviation(y.second),
+					        tts::get_feature_abbreviation(z));
+					if (!ipa->write({ x, y.first, y.second, z }))
 						fputs("&#xA0;", stdout);
 				}
 				fputs("</td>\n", stdout);
