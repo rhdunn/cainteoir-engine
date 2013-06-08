@@ -133,6 +133,28 @@ void print(const std::shared_ptr<cainteoir::buffer> &data)
 	}
 }
 
+void print(const std::shared_ptr<tts::phoneme_writer> &ipa, tts::phoneme p)
+{
+	fputs("<td class=\"", stdout);
+	for (auto feature : p)
+	{
+		if (feature != f::unspecified)
+		{
+			fputs(tts::get_feature_abbreviation(feature), stdout);
+			fputc(' ', stdout);
+		}
+	}
+	fputs("\">", stdout);
+
+	cainteoir::memory_file out;
+	ipa->reset(out);
+	if (!ipa->write(p))
+		fputs("\xC2\xA0", out);
+	print(out.buffer());
+
+	fputs("</td>\n", stdout);
+}
+
 void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
                  const char *name,
                  const std::initializer_list<tts::feature>  &x_features,
@@ -172,29 +194,10 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 		{
 			for (auto z : z_features)
 			{
-				tts::phoneme p = { f::unspecified, f::unspecified, f::unspecified };
 				if (y.second == f::unspecified)
-					p = { x, y.first, z, extra };
+					print(ipa, { x, y.first, z, extra });
 				else
-					p = { x, y.first, y.second, z, extra };
-				fputs("<td class=\"", stdout);
-				for (auto feature : p)
-				{
-					if (feature != f::unspecified)
-					{
-						fputs(tts::get_feature_abbreviation(feature), stdout);
-						fputc(' ', stdout);
-					}
-				}
-				fputs("\">", stdout);
-
-				cainteoir::memory_file out;
-				ipa->reset(out);
-				if (!ipa->write(p))
-					fputs("\xC2\xA0", out);
-				print(out.buffer());
-
-				fputs("</td>\n", stdout);
+					print(ipa, { x, y.first, y.second, z, extra });
 			}
 		}
 		fputs("</tr>\n", stdout);
