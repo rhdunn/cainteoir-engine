@@ -114,6 +114,16 @@ static const std::initializer_list<tts::feature> roundness = {
 	f::rounded,
 };
 
+static const std::initializer_list<tts::phoneme> coarticulated_consonants = {
+	{ f::voiceless, f::labialized,  f::velar,           f::approximant },
+	{ f::voiced,    f::labialized,  f::velar,           f::approximant },
+	{ f::voiced,    f::labialized,  f::palatal,         f::approximant },
+	{ f::voiceless, f::palatalized, f::palato_alveolar, f::fricative },
+	{ f::voiced,    f::palatalized, f::palato_alveolar, f::fricative },
+	{ f::voiceless, f::palatalized, f::palato_alveolar, f::affricate },
+	{ f::voiced,    f::palatalized, f::palato_alveolar, f::affricate },
+};
+
 void print(const std::shared_ptr<cainteoir::buffer> &data)
 {
 	for (auto c : *data) switch (c)
@@ -155,6 +165,32 @@ void print(const std::shared_ptr<tts::phoneme_writer> &ipa, tts::phoneme p)
 	fputs("</td>\n", stdout);
 }
 
+void print_name(tts::phoneme p, int colspan = 1)
+{
+	if (colspan == 1)
+		fputs("<th title=\"", stdout);
+	else
+		fprintf(stdout, "<th colspan=\"%d\" title=\"", colspan);
+	for (auto feature : p)
+	{
+		if (feature != f::unspecified)
+		{
+			fputs(tts::get_feature_name(feature), stdout);
+			fputc(' ', stdout);
+		}
+	}
+	fputs("\">", stdout);
+	for (auto feature : p)
+	{
+		if (feature != f::unspecified)
+		{
+			fputs(tts::get_feature_abbreviation(feature), stdout);
+			fputc(' ', stdout);
+		}
+	}
+	fputs("</th>", stdout);
+}
+
 void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
                  const char *name,
                  const std::initializer_list<tts::feature>  &x_features,
@@ -162,34 +198,20 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
                  const std::initializer_list<tts::feature>  &z_features,
                  const tts::feature extra)
 {
-	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n", stdout);
+	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\">\n", stdout);
 	fprintf(stdout, "<caption>%s</caption>\n", name);
 	fputs("<tr>\n", stdout);
 	fputs("<th>&#xA0;</th>\n", stdout);
 	for (auto x : x_features)
-	{
-		fprintf(stdout, "<th colspan=\"2\" title=\"%s\">%s</th>\n",
-		        tts::get_feature_name(x),
-		        tts::get_feature_abbreviation(x));
-	}
+		print_name({ x, f::unspecified, f::unspecified }, 2);
 	fputs("</tr>\n", stdout);
 	for (auto y : y_features)
 	{
 		fputs("<tr>\n", stdout);
 		if (y.second == f::unspecified)
-		{
-			fprintf(stdout, "<th title=\"%s\">%s</th>\n",
-			        tts::get_feature_name(y.first),
-			        tts::get_feature_abbreviation(y.first));
-		}
+			print_name({ y.first, f::unspecified, f::unspecified });
 		else
-		{
-			fprintf(stdout, "<th title=\"%s %s\">%s %s</th>\n",
-			        tts::get_feature_name(y.first),
-			        tts::get_feature_name(y.second),
-			        tts::get_feature_abbreviation(y.first),
-			        tts::get_feature_abbreviation(y.second));
-		}
+			print_name({ y.first, y.second, f::unspecified });
 		for (auto x : x_features)
 		{
 			for (auto z : z_features)
@@ -213,19 +235,42 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fprintf(stdout, "<title>Phoneme Chart : %s</title>\n", name);
 	fputs("<style type=\"text/css\">\n", stdout);
 	fputs("    table      { border: 1px solid black; font-size: 12px; }", stdout);
-	fputs("    td, th     { text-align: left; border: 1px solid black; padding: 0.2em; }", stdout);
+	fputs("    td, th     { text-align: left; vertical-align: top; border: 1px solid black; padding: 0.2em; }", stdout);
 	fputs("    caption    { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }", stdout);
-	fputs("    .vls, .unr { text-align: left;  font-family: monospace; border-right: 0; }", stdout);
-	fputs("    .vcd, .rnd { text-align: right; font-family: monospace; border-left:  0; }", stdout);
-	fputs("    .layout    { border: 0; }", stdout);
+	fputs("    .chart .vls, .chart .unr { text-align: left;  font-family: monospace; border-right: 0; }", stdout);
+	fputs("    .chart .vcd, .chart .rnd { text-align: right; font-family: monospace; border-left:  0; }", stdout);
+	fputs("    .layout, .layout > tr > td, .layout > tbody > tr > td { border: 0; }", stdout);
 	fputs("    .unpronouncible { background-color: lightgray; }", stdout);
 	fputs("</style>\n", stdout);
 	fputs("</head>\n", stdout);
 	fputs("<body>\n", stdout);
+
 	print_chart(ipa, i18n("Consonants"),
 	            place_of_articulation, manner_of_articulation, voicing, f::unspecified);
+
+	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"layout\">\n", stdout);
+	fputs("<tr>\n", stdout);
+
+	fputs("<td width=\"50%\">\n", stdout);
 	print_chart(ipa, i18n("Vowels"),
 	            vowel_backness, vowel_height, roundness, f::vowel);
+	fputs("</td>\n", stdout);
+
+	fputs("<td width=\"50%\">\n", stdout);
+	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n", stdout);
+	fprintf(stdout, "<caption>%s</caption>\n", i18n("Consonants (Co-articulated)"));
+	for (auto p : coarticulated_consonants)
+	{
+		fputs("<tr>\n", stdout);
+		print(ipa, p);
+		print_name(p);
+		fputs("</tr>\n", stdout);
+	}
+	fputs("</table>\n", stdout);
+	fputs("</td>\n", stdout);
+
+	fputs("</tr>\n", stdout);
+	fputs("</table>\n", stdout);
 	fputs("</body>\n", stdout);
 	fputs("</html>\n", stdout);
 }
