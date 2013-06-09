@@ -257,18 +257,66 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("    .layout, .layout > tr > td, .layout > tbody > tr > td { border: 0; }", stdout);
 	fputs("    .unpronouncible { background-color: lightgray; }", stdout);
 	fputs("</style>\n", stdout);
+	fputs("<script>\n", stdout);
+	fputs("window.onload = function () {\n", stdout);
+	for (auto d : consonant_diacritics)
+	{
+		const char *id = tts::get_feature_abbreviation(d);
+		if (id)
+			fprintf(stdout, "    document.getElementById(\"%s\").style.display = \"none\";\n", id);
+	}
+	fputs("}\n", stdout);
+	fputs("var active_diacritic = \"consonants\";\n", stdout);
+	fputs("function check_diacritic(d, c) {\n", stdout);
+	fputs("    var item = document.getElementById(c);\n", stdout);
+	fputs("    var btn  = document.getElementById(c + \"_btn\");\n", stdout);
+	fputs("    if (c == d) { // active item\n", stdout);
+	fputs("        item.style.display = \"\";\n", stdout);
+	fputs("        if (btn) {\n", stdout);
+	fputs("            btn.style.backgroundColor = \"blue\";\n", stdout);
+	fputs("            btn.style.color = \"white\";\n", stdout);
+	fputs("        }\n", stdout);
+	fputs("    } else { // inactive item\n", stdout);
+	fputs("        item.style.display = \"none\";\n", stdout);
+	fputs("        if (btn) {\n", stdout);
+	fputs("            btn.style.backgroundColor = \"white\";\n", stdout);
+	fputs("            btn.style.color = \"black\";\n", stdout);
+	fputs("        }\n", stdout);
+	fputs("    }\n", stdout);
+	fputs("}\n", stdout);
+	fputs("function diacritic(d) {\n", stdout);
+	fputs("    if (active_diacritic == d) d = \"consonants\";\n", stdout);
+	fputs("    active_diacritic = d;\n", stdout);
+	for (auto d : consonant_diacritics)
+	{
+		const char *id = tts::get_feature_abbreviation(d);
+		if (!id) id = "consonants";
+		fprintf(stdout, "    check_diacritic(d, \"%s\");\n", id);
+	}
+	fputs("}\n", stdout);
+	fputs("</script>\n", stdout);
 	fputs("</head>\n", stdout);
 	fputs("<body>\n", stdout);
 
+	fputs("<table width=\"20%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\" style=\"float: right;\">\n", stdout);
+	fputs("<tr>\n", stdout);
 	for (auto d : consonant_diacritics)
 	{
-		const char *name = tts::get_feature_name(d);
-		if (name)
-			fprintf(stdout, "<h1>%s (%s)</h1>", i18n("Consonants"), name);
-		else
-			fprintf(stdout, "<h1>%s</h1>", i18n("Consonants"));
+		const char *id = tts::get_feature_abbreviation(d);
+		if (!id) continue;
+		fprintf(stdout, "<td title=\"%s\" id=\"%s_btn\" onclick=\"diacritic('%s');\">%s</td>\n", tts::get_feature_name(d), id, id, id);
+	}
+	fputs("</tr>\n", stdout);
+	fputs("</table>\n", stdout);
+	fprintf(stdout, "<h1>%s</h1>", i18n("Consonants"));
+	for (auto d : consonant_diacritics)
+	{
+		const char *id = tts::get_feature_abbreviation(d);
+		if (!id) id = "consonants";
+		fprintf(stdout, "<div id=\"%s\">\n", id);
 		print_chart(ipa, nullptr,
 		            place_of_articulation, manner_of_articulation, voicing, d);
+		fputs("</div>\n", stdout);
 	}
 
 	fprintf(stdout, "<h1>%s</h1>", i18n("Vowels"));
