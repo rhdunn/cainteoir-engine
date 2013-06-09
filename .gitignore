@@ -63,8 +63,8 @@ docs/*.html
 docs/*/*.html
 !docs/doxygen/*.html
 docs/implementation-status/csv2html.stamp
-data/phonemes/*.html
-data/phonemes/*/*.html
+data/phonemeset/*.html
+data/phonemeset/*/*.html
 
 # autotools output:
 
