@@ -129,6 +129,7 @@ static const std::initializer_list<tts::feature> consonant_diacritics = {
 	f::syllabic,
 	f::labialized,
 	f::palatalized,
+	f::velarized,
 };
 
 static const std::initializer_list<tts::feature> vowel_diacritics = {
