@@ -95,14 +95,15 @@ EXTRA_DIST += ChangeLog
 
 ############################# phonemes ########################################
 
-.phon.html: src/apps/phoneme-converter/phoneme-converter
+%.html : %.phon src/apps/phoneme-converter/phoneme-converter
 	CAINTEOIR_DATA_DIR=`pwd`/data \
 	    src/apps/phoneme-converter/phoneme-converter --chart \
 	        `echo $< | sed -e 's,data/phonemeset,,' -e 's,\.phon,,'` \
 	        > /tmp/phonemechart && \
 	    mv /tmp/phonemechart $@
 
-phonemes:	data/phonemeset/ascii-ipa.html
+phonemes:	data/phonemeset/ascii-ipa.html \
+		src/apps/phoneme-converter/phoneme-converter
 
 ############################# data ############################################
 
