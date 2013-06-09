@@ -256,11 +256,11 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fprintf(stdout, "<title>Phoneme Chart : %s</title>\n", name);
 	fputs("<style type=\"text/css\">\n", stdout);
 	fputs("    h1      { font-size: 16px; font-family: serif; }\n", stdout);
-	fputs("    table   { border: 1px solid black; font-size: 12px; }\n", stdout);
+	fputs("    table   { border: 1px solid black; font-size: 14px; }\n", stdout);
 	fputs("    td, th  { text-align: left; vertical-align: top; border: 1px solid black; padding: 0.2em; }\n", stdout);
 	fputs("    caption { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }\n", stdout);
-	fputs("    .chart .vls, .chart .unr { text-align: left;  font-family: monospace; border-right: 0; }\n", stdout);
-	fputs("    .chart .vcd, .chart .rnd { text-align: right; font-family: monospace; border-left:  0; }\n", stdout);
+	fputs("    .chart .vls, .chart .unr { text-align: left;  font-family: 'Doulos SIL', 'Charis SIL', Gentium; border-right: 0; }\n", stdout);
+	fputs("    .chart .vcd, .chart .rnd { text-align: right; font-family: 'Doulos SIL', 'Charis SIL', Gentium; border-left:  0; }\n", stdout);
 	fputs("    .layout, .layout > tr > td, .layout > tbody > tr > td { border: 0; }\n", stdout);
 	fputs("    .unpronouncible { background-color: lightgray; }\n", stdout);
 	fputs("</style>\n", stdout);
