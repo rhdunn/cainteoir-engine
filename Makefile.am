@@ -98,11 +98,12 @@ EXTRA_DIST += ChangeLog
 %.html : %.phon src/apps/phoneme-converter/phoneme-converter
 	CAINTEOIR_DATA_DIR=`pwd`/data \
 	    src/apps/phoneme-converter/phoneme-converter --chart \
-	        `echo $< | sed -e 's,data/phonemeset,,' -e 's,\.phon,,'` \
+	        `echo $< | sed -e 's,data/phonemeset/,,' -e 's,\.phon,,'` \
 	        > /tmp/phonemechart && \
 	    mv /tmp/phonemechart $@
 
 phonemes:	data/phonemeset/ascii-ipa.html \
+		data/phonemeset/ipa.html \
 		src/apps/phoneme-converter/phoneme-converter
 
 ############################# data ############################################
