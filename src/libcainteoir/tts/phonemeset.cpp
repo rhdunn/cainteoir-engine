@@ -24,9 +24,35 @@
 
 #include <cainteoir/phoneme.hpp>
 #include <cainteoir/path.hpp>
+#include <cainteoir/unicode.hpp>
 #include <utility>
 
 namespace tts = cainteoir::tts;
+
+#define _ 0
+
+static const uint8_t hex_digit[256] = {
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+	/* 0x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 2x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 3x */ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _, _, _, _, _, _,
+	/* 4x */ _, 1, 1, 1, 1, 1, 1, _, _, _, _, _, _, _, _, _,
+	/* 5x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 6x */ _, 1, 1, 1, 1, 1, 1, _, _, _, _, _, _, _, _, _,
+	/* 7x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 8x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 9x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ax */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Bx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Cx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Dx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ex */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Fx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+};
+
+#undef _
 
 struct phoneme_file_reader
 {
@@ -86,13 +112,36 @@ bool phoneme_file_reader::read()
 			}
 			break;
 		default:
-			start = current;
-			while (current <= last && (*current != ' ' && *current != '\t' && *current != '\r' && *current != '\n'))
-				++current;
-			if (current <= last)
 			{
-				transcription = cainteoir::make_buffer(start, current-start);
-				++current;
+				char data[64];
+				char *end = data;
+				start = data;
+				while (current <= last && data <= data + 60 && (*current != ' ' && *current != '\t' && *current != '\r' && *current != '\n'))
+				{
+					if (current <= (last - 6) &&
+					    current[0] == '\\' &&
+					    current[1] == 'u' &&
+					    hex_digit[current[2]] &&
+					    hex_digit[current[3]] &&
+					    hex_digit[current[4]] &&
+					    hex_digit[current[5]])
+					{
+						current += 2;
+						char escape[5] = { 0 };
+						escape[0] = *current++;
+						escape[1] = *current++;
+						escape[2] = *current++;
+						escape[3] = *current++;
+						end = cainteoir::utf8::write(end, strtol(escape, nullptr, 16));
+					}
+					else
+						*end++ = *current++;
+				}
+				if (current <= last)
+				{
+					transcription = cainteoir::make_buffer(data, end-data);
+					++current;
+				}
 			}
 			break;
 		}
