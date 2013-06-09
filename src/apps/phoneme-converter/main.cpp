@@ -200,7 +200,7 @@ void print_name(tts::phoneme p, int colspan = 1)
 			fputc(' ', stdout);
 		}
 	}
-	fputs("</th>", stdout);
+	fputs("</th>\n", stdout);
 }
 
 void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
@@ -248,14 +248,14 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("<meta charset=\"UTF-8\"/>\n", stdout);
 	fprintf(stdout, "<title>Phoneme Chart : %s</title>\n", name);
 	fputs("<style type=\"text/css\">\n", stdout);
-	fputs("    h1         { font-size: 16px; font-family: serif; }", stdout);
-	fputs("    table      { border: 1px solid black; font-size: 12px; }", stdout);
-	fputs("    td, th     { text-align: left; vertical-align: top; border: 1px solid black; padding: 0.2em; }", stdout);
-	fputs("    caption    { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }", stdout);
-	fputs("    .chart .vls, .chart .unr { text-align: left;  font-family: monospace; border-right: 0; }", stdout);
-	fputs("    .chart .vcd, .chart .rnd { text-align: right; font-family: monospace; border-left:  0; }", stdout);
-	fputs("    .layout, .layout > tr > td, .layout > tbody > tr > td { border: 0; }", stdout);
-	fputs("    .unpronouncible { background-color: lightgray; }", stdout);
+	fputs("    h1      { font-size: 16px; font-family: serif; }\n", stdout);
+	fputs("    table   { border: 1px solid black; font-size: 12px; }\n", stdout);
+	fputs("    td, th  { text-align: left; vertical-align: top; border: 1px solid black; padding: 0.2em; }\n", stdout);
+	fputs("    caption { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }\n", stdout);
+	fputs("    .chart .vls, .chart .unr { text-align: left;  font-family: monospace; border-right: 0; }\n", stdout);
+	fputs("    .chart .vcd, .chart .rnd { text-align: right; font-family: monospace; border-left:  0; }\n", stdout);
+	fputs("    .layout, .layout > tr > td, .layout > tbody > tr > td { border: 0; }\n", stdout);
+	fputs("    .unpronouncible { background-color: lightgray; }\n", stdout);
 	fputs("</style>\n", stdout);
 	fputs("<script>\n", stdout);
 	fputs("window.onload = function () {\n", stdout);
@@ -308,7 +308,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	}
 	fputs("</tr>\n", stdout);
 	fputs("</table>\n", stdout);
-	fprintf(stdout, "<h1>%s</h1>", i18n("Consonants"));
+	fprintf(stdout, "<h1>%s</h1>\n", i18n("Consonants"));
 	for (auto d : consonant_diacritics)
 	{
 		const char *id = tts::get_feature_abbreviation(d);
@@ -319,7 +319,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 		fputs("</div>\n", stdout);
 	}
 
-	fprintf(stdout, "<h1>%s</h1>", i18n("Vowels"));
+	fprintf(stdout, "<h1>%s</h1>\n", i18n("Vowels"));
 	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"layout\">\n", stdout);
 	fputs("<tr>\n", stdout);
 	fputs("<td width=\"33%\">\n", stdout);
