@@ -158,12 +158,14 @@ void print(const std::shared_ptr<cainteoir::buffer> &data)
 void print(const std::shared_ptr<tts::phoneme_writer> &ipa, tts::phoneme p)
 {
 	fputs("<td class=\"", stdout);
+	bool need_space = false;
 	for (auto feature : p)
 	{
 		if (feature != f::unspecified)
 		{
+			if (need_space) fputc(' ', stdout);
 			fputs(tts::get_feature_abbreviation(feature), stdout);
-			fputc(' ', stdout);
+			need_space = true;
 		}
 	}
 	fputs("\">", stdout);
@@ -183,21 +185,25 @@ void print_name(tts::phoneme p, int colspan = 1)
 		fputs("<th title=\"", stdout);
 	else
 		fprintf(stdout, "<th colspan=\"%d\" title=\"", colspan);
+	bool need_space = false;
 	for (auto feature : p)
 	{
 		if (feature != f::unspecified)
 		{
+			if (need_space) fputc(' ', stdout);
 			fputs(tts::get_feature_name(feature), stdout);
-			fputc(' ', stdout);
+			need_space = true;
 		}
 	}
 	fputs("\">", stdout);
+	need_space = false;
 	for (auto feature : p)
 	{
 		if (feature != f::unspecified)
 		{
+			if (need_space) fputc(' ', stdout);
 			fputs(tts::get_feature_abbreviation(feature), stdout);
-			fputc(' ', stdout);
+			need_space = true;
 		}
 	}
 	fputs("</th>\n", stdout);
