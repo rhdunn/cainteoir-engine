@@ -33,6 +33,7 @@
 \u0255			/{vls,pla,frc,pzd}/
 \u0256			/{vcd,rfx,stp}/
 \u0257			/{vcd,alv,imp}/
+\u0257\u032A		/{vcd,dnt,imp}/
 \u0258			/{umd,cnt,unr,vwl}/
 \u0259			/{mid,cnt,unr,vwl}/
 \u025A			/{mid,cnt,unr,vwl,rzd}/
@@ -67,6 +68,7 @@
 \u0276			/{low,fnt,rnd,vwl}/
 \u0278			/{vls,blb,frc}/
 \u0279			/{vcd,alv,apr}/
+\u0279\u032A		/{vcd,dnt,apr}/
 \u027A			/{vcd,alv,lat,flp}/
 \u027B			/{vcd,rfx,apr}/
 \u027D			/{vcd,rfx,flp}/
@@ -159,6 +161,7 @@ j			/{vcd,pal,apr}/
 k			/{vls,vel,stp}/
 k\u02BC			/{vls,vel,ejc}/
 l			/{vcd,alv,lat,apr}/
+l\u032A			/{vcd,dnt,lat,apr}/
 m			/{vcd,blb,nas}/
 n			/{vcd,alv,nas}/
 n\u032A			/{vcd,dnt,nas}/
@@ -176,6 +179,7 @@ t\u0255			/{vls,pla,afr,pzd}/
 t\u0283			/{vls,pla,afr}/
 t\u02BC			/{vls,alv,ejc}/
 t\u032A			/{vls,dnt,stp}/
+t\u032A\u02BC		/{vls,dnt,ejc}/
 u			/{hgh,bck,rnd,vwl}/
 v			/{vcd,lbd,frc}/
 w			/{vcd,lbv,apr}/

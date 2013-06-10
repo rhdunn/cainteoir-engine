@@ -9,6 +9,8 @@
 
 {vls,blb,stp}
 {vcd,blb,stp}
+{vls,lbd,stp}
+{vcd,lbd,stp}
 {vls,dnt,stp}
 {vcd,dnt,stp}
 {vls,alv,stp}
@@ -67,6 +69,7 @@
 {vcd,alv,trl}
 {vcd,uvl,trl}
 
+{vcd,lbd,flp}
 {vcd,alv,flp}
 {vcd,rfx,flp}
 
@@ -88,7 +91,6 @@
 {vls,dnt,clk}
 {vls,alv,clk}
 {vls,pal,clk}
-{vls,vel,clk}
 
 {vcd,vel,nas,lzd}
 {vls,vel,stp,lzd}

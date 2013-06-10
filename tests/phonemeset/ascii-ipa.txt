@@ -9,6 +9,8 @@ n"
 
 p
 b
+p[
+b[
 t[
 d[
 t
@@ -67,6 +69,7 @@ b<trl>
 r<trl>
 r"
 
+*<lbd>
 *
 *.
 
@@ -88,7 +91,6 @@ p!
 t[!
 t!
 c!
-k!
 
 n<lbv>
 t<lbv>

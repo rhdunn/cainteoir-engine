@@ -57,6 +57,7 @@
 {vcd,alv,lat,frc}
 
 {vcd,lbd,apr}
+{vcd,dnt,apr}
 {vcd,alv,apr}
 {vcd,rfx,apr}
 {vcd,pal,apr}
@@ -66,6 +67,7 @@
 {vcd,epg,apr}
 {vls,glt,apr}
 
+{vcd,dnt,lat,apr}
 {vcd,alv,lat,apr}
 {vcd,rfx,lat,apr}
 {vcd,pal,lat,apr}
@@ -80,6 +82,7 @@
 {vcd,rfx,flp}
 
 {vls,blb,ejc}
+{vls,dnt,ejc}
 {vls,alv,ejc}
 {vls,rfx,ejc}
 {vls,pal,ejc}
@@ -87,6 +90,7 @@
 {vls,uvl,ejc}
 
 {vcd,blb,imp}
+{vcd,dnt,imp}
 {vcd,alv,imp}
 {vcd,pal,imp}
 {vcd,vel,imp}

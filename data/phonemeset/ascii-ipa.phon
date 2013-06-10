@@ -61,14 +61,17 @@ Z	/{vcd,pla,frc}/
 &	/{sml,fnt,unr,vwl}/ # [22]
 *	/{vcd,alv,flp}/
 
-##### Appendix E : Segment List [10]
+##### Appendix E : Segment List [10], [28]
 
 b<trl>	/{vcd,blb,trl}/ # [2]
 p`	/{vls,blb,ejc}/ # [2]
 b`	/{vcd,blb,imp}/ # [2]
 p!	/{vls,blb,clk}/ # [2]
 
+p[	/{vls,lbd,stp}/
+b[	/{vcd,lbd,stp}/
 r<lbd>	/{vcd,lbd,apr}/ # [2]
+*<lbd>	/{vcd,lbd,flp}/
 
 n[	/{vcd,dnt,nas}/ # [2]
 t[	/{vls,dnt,stp}/
@@ -106,7 +109,6 @@ c!	/{vls,pal,clk}/ # [2], [12]
 j<vel>	/{vcd,vel,apr}/ # [2]
 g`	/{vcd,vel,imp}/ # [2]
 k`	/{vls,vel,ejc}/ # [2], [15]
-k!	/{vls,vel,clk}/ # [2]
 
 n<lbv>	/{vcd,lbv,nas}/ # [2]
 t<lbv>	/{vls,lbv,stp}/
@@ -283,6 +285,9 @@ A:	/{low,bck,unr,vwl,lng}/
 # 27. Kirsenbaum specifies this as /{mid,cnt,rnd,vwl}/, but this is not
 #     shown on the IPA vowel chart. Wikipedia moves this up to the {umd}
 #     position, where Kirshenbaum is missing a transcription.
+#
+# 28. Kirshenbaum lists /k!/ as a /{vcd,vel,clk}/, but the IPA symbol for this
+#     was withdrawn in 1970, as the articulation is judged impossible.
 #
 ##### References:
 #
