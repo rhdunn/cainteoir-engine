@@ -26,5 +26,8 @@ if __name__ == '__main__':
 		{'name': 'ASCII-IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ascii-ipa.features', 'result': 'phonemeset/ascii-ipa.txt', 'from': 'features', 'to': 'ascii-ipa'},
 		]},
+		{'name': 'IPA', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/ipa.features', 'result': 'phonemeset/ipa.txt', 'from': 'features', 'to': 'ipa'},
+		]},
 	]})
 	test.summary()

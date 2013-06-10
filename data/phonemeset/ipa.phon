@@ -1,0 +1,197 @@
+# Copyright (C) 2013 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+##### C1 Controls and Latin-1 Supplement
+
+\u00E6			/{sml,fnt,unr,vwl}/
+\u00E7			/{vls,pal,frc}/
+
+\u00F0			/{vcd,dnt,frc}/
+\u00F8			/{umd,fnt,rnd,vwl}/
+
+##### Latin Extended-A
+
+\u0127			/{vls,phr,frc}/
+\u014B			/{vcd,vel,nas}/
+\u0153			/{lmd,fnt,rnd,vwl}/
+
+##### Latin Extended-B
+
+\u01C0			/{vls,dnt,clk}/
+\u01C1			/{vls,lat,clk}/
+\u01C2			/{vls,pal,clk}/
+\u01C3			/{vls,alv,clk}/
+
+##### IPA Extensions
+
+\u0250			/{sml,cnt,unr,vwl}/
+\u0251			/{low,bck,unr,vwl}/
+\u0252			/{low,bck,rnd,vwl}/
+\u0253			/{vcd,blb,imp}/
+\u0254			/{lmd,bck,rnd,vwl}/
+\u0255			/{vls,pla,frc,pzd}/
+\u0256			/{vcd,rfx,stp}/
+\u0257			/{vcd,alv,imp}/
+\u0258			/{umd,cnt,unr,vwl}/
+\u0259			/{mid,cnt,unr,vwl}/
+\u025A			/{mid,cnt,unr,vwl,rzd}/
+\u025B			/{lmd,fnt,unr,vwl}/
+\u025C			/{lmd,cnt,unr,vwl}/
+\u025D			/{lmd,cnt,unr,vwl,rzd}/
+\u025E			/{lmd,cnt,rnd,vwl}/
+\u025F			/{vcd,pal,stp}/
+
+\u0260			/{vcd,vel,imp}/
+\u0261			/{vcd,vel,stp}/
+\u0262			/{vcd,uvl,stp}/
+\u0263			/{vcd,vel,frc}/
+\u0264			/{umd,bck,unr,vwl}/
+\u0265			/{vcd,pal,apr,lzd}/
+\u0266			/{vcd,glt,frc}/
+\u0267			/{vls,pla,frc,vzd}/
+\u0268			/{hgh,cnt,unr,vwl}/
+\u026A			/{smh,fnt,unr,vwl}/
+\u026B			/{vcd,alv,lat,apr,vzd}/
+\u026C			/{vls,alv,lat,frc}/
+\u026D			/{vcd,rfx,lat,apr}/
+\u026E			/{vcd,alv,lat,frc}/
+\u026F			/{hgh,bck,unr,vwl}/
+
+\u0270			/{vcd,vel,apr}/
+\u0271			/{vcd,lbd,nas}/
+\u0272			/{vcd,pal,nas}/
+\u0273			/{vcd,rfx,nas}/
+\u0274			/{vcd,uvl,nas}/
+\u0275			/{umd,cnt,rnd,vwl}/
+\u0276			/{low,fnt,rnd,vwl}/
+\u0278			/{vls,blb,frc}/
+\u0279			/{vcd,alv,apr}/
+\u027A			/{vcd,alv,lat,flp}/
+\u027B			/{vcd,rfx,apr}/
+\u027D			/{vcd,rfx,flp}/
+\u027E			/{vcd,alv,flp}/
+
+\u0280			/{vcd,uvl,trl}/
+\u0281			/{vcd,uvl,frc}/
+\u0281\u031E		/{vcd,uvl,apr}/
+\u0282			/{vls,rfx,frc}/
+\u0283			/{vls,pla,frc}/
+\u0284			/{vcd,pal,imp}/
+\u0286			/{vls,pla,frc,pzd}/
+\u0287			/{vls,dnt,clk}/
+\u0288			/{vls,rfx,stp}/
+\u0288\u02BC		/{vls,rfx,ejc}/
+\u0289			/{hgh,cnt,rnd,vwl}/
+\u028A			/{smh,bck,rnd,vwl}/
+\u028B			/{vcd,lbd,apr}/
+\u028C			/{lmd,bck,unr,vwl}/
+\u028D			/{vls,lbv,apr}/
+\u028E			/{vcd,pal,lat,apr}/
+\u028F			/{smh,fnt,rnd,vwl}/
+
+\u0290			/{vcd,rfx,frc}/
+\u0291			/{vcd,pla,frc,pzd}/
+\u0292			/{vcd,pla,frc}/
+\u0293			/{vcd,pla,frc,pzd}/
+\u0294			/{vls,glt,stp}/
+\u0295			/{vcd,phr,frc}/
+\u0295\u031E		/{vcd,phr,apr}/
+\u0296			/{vls,lat,clk}/
+\u0297			/{vls,alv,clk}/
+\u0298			/{vls,blb,clk}/
+\u0299			/{vcd,blb,trl}/
+\u029B			/{vcd,uvl,imp}/
+\u029C			/{vls,epg,frc}/
+\u029D			/{vcd,pal,frc}/
+\u029F			/{vcd,vel,lat,apr}/
+
+\u02A0			/{vls,uvl,imp}/
+\u02A1			/{vls,epg,stp}/
+\u02A2			/{vcd,epg,frc}/
+\u02A2\u031E		/{vcd,epg,apr}/
+
+##### Spacing Modifier Letters
+
+\u2C71			/{vcd,lbd,flp}/
+
+##### Greek and Coptic
+
+\u03B2			/{vcd,blb,frc}/
+\u03B8			/{vls,dnt,frc}/
+
+\u03C7			/{vls,uvl,frc}/
+
+##### Mathematical Operators
+
+\u2201			/{vls,alv,clk}/
+\u2299			/{vls,blb,clk}/
+
+##### C0 Controls and Basic Latin [1]
+
+!			/{vls,alv,clk}/
+
+B			/{vcd,blb,trl}/
+G			/{vcd,uvl,stp}/
+H			/{vls,epg,frc}/
+I			/{smh,fnt,unr,vwl}/
+L			/{vcd,vel,lat,apr}/
+N			/{vcd,uvl,nas}/
+R			/{vcd,uvl,trl}/
+Y			/{smh,fnt,rnd,vwl}/
+
+a			/{low,fnt,unr,vwl}/
+b			/{vcd,blb,stp}/
+b\u032A			/{vcd,lbd,stp}/
+c			/{vls,pal,stp}/
+c\u02BC			/{vls,pal,ejc}/
+d			/{vcd,alv,stp}/
+dz			/{vcd,alv,afr}/
+d\u0291			/{vcd,pla,afr,pzd}/
+d\u0292			/{vcd,pla,afr}/
+d\u032A			/{vcd,dnt,stp}/
+e			/{umd,fnt,unr,vwl}/
+f			/{vls,lbd,frc}/
+g			/{vcd,vel,stp}/
+h			/{vls,glt,apr}/
+i			/{hgh,fnt,unr,vwl}/
+j			/{vcd,pal,apr}/
+k			/{vls,vel,stp}/
+k\u02BC			/{vls,vel,ejc}/
+l			/{vcd,alv,lat,apr}/
+m			/{vcd,blb,nas}/
+n			/{vcd,alv,nas}/
+n\u032A			/{vcd,dnt,nas}/
+o			/{umd,bck,rnd,vwl}/
+p			/{vls,blb,stp}/
+p\u02BC			/{vls,blb,ejc}/
+p\u032A			/{vls,lbd,stp}/
+q			/{vls,uvl,stp}/
+q\u02BC			/{vls,uvl,ejc}/
+r			/{vcd,alv,trl}/
+s			/{vls,alv,frc}/
+t			/{vls,alv,stp}/
+ts			/{vls,alv,afr}/
+t\u0255			/{vls,pla,afr,pzd}/
+t\u0283			/{vls,pla,afr}/
+t\u02BC			/{vls,alv,ejc}/
+t\u032A			/{vls,dnt,stp}/
+u			/{hgh,bck,rnd,vwl}/
+v			/{vcd,lbd,frc}/
+w			/{vcd,lbv,apr}/
+x			/{vls,vel,frc}/
+y			/{hgh,fnt,rnd,vwl}/
+z			/{vcd,alv,frc}/
+
+|			/{vls,dnt,clk}/
+
+##### Notes:
+#
+#  1. The Basic Latin characters occur first in the Unicode chart, however
+#     several of these have better variants in later code blocks. To ensure
+#     that the best characters are used, the Basic Latin forms are placed
+#     at the end of the list as earlier items in the list take precedence.
+#
+##### References:
+#
+#  1. http://en.wikipedia.org/wiki/International_Phonetic_Alphabet
