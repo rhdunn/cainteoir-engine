@@ -133,12 +133,14 @@
 {smh,bck,rnd,vwl}
 
 {umd,fnt,unr,vwl}
+{umd,fnt,unr,vwl,lng}
 {umd,fnt,rnd,vwl}
 {umd,cnt,unr,vwl}
 {umd,cnt,unr,vwl,rzd}
 {umd,cnt,rnd,vwl}
 {umd,bck,unr,vwl}
 {umd,bck,rnd,vwl}
+{umd,bck,rnd,vwl,lng}
 
 {mid,cnt,unr,vwl}
 {mid,cnt,unr,vwl,rzd}
@@ -154,6 +156,7 @@
 {sml,fnt,unr,vwl}
 
 {low,fnt,unr,vwl}
+{low,fnt,unr,vwl,lng}
 {low,fnt,rnd,vwl}
 {low,bck,unr,vwl}
 {low,bck,unr,vwl,lng}
