@@ -77,6 +77,9 @@ namespace cainteoir { namespace tts
 		unrounded,
 		rounded,
 
+		primary_stress,
+		secondary_stress,
+
 		aspirated,
 		unexploded,
 		syllabic,

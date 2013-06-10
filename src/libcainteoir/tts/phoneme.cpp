@@ -68,6 +68,8 @@ static const std::initializer_list<const std::pair<const char *, tts::feature>> 
 	{ "rzd", tts::feature::rhoticized },
 	{ "smh", tts::feature::semi_high },
 	{ "sml", tts::feature::semi_low },
+	{ "st1", tts::feature::primary_stress },
+	{ "st2", tts::feature::secondary_stress },
 	{ "stp", tts::feature::plosive },
 	{ "syl", tts::feature::syllabic },
 	{ "trl", tts::feature::trill },
@@ -129,6 +131,9 @@ static const std::pair<const char *, const char *> feature_data[] = {
 
 	{ "unr", i18n("unrounded") },
 	{ "rnd", i18n("rounded") },
+
+	{ "st1", i18n("primary stress") },
+	{ "st2", i18n("secondary stress") },
 
 	{ "asp", i18n("aspirated") },
 	{ "unx", i18n("unexploded") },

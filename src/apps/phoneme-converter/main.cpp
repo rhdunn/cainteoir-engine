@@ -135,7 +135,8 @@ static const std::initializer_list<tts::feature> consonant_diacritics = {
 
 static const std::initializer_list<tts::feature> vowel_diacritics = {
 	f::unspecified,
-	f::rhoticized,
+	f::primary_stress,
+	f::secondary_stress,
 };
 
 void print(const std::shared_ptr<cainteoir::buffer> &data)
@@ -217,7 +218,8 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
                  const std::initializer_list<std::pair<tts::feature, tts::feature>> &y_features,
                  const std::initializer_list<tts::feature>  &z_features,
                  const tts::feature extra1,
-                 const tts::feature extra2 = f::unspecified)
+                 const tts::feature extra2 = f::unspecified,
+                 const tts::feature extra3 = f::unspecified)
 {
 	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\">\n", stdout);
 	if (caption)
@@ -273,8 +275,14 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 		if (id)
 			fprintf(stdout, "    document.getElementById(\"%s\").style.display = \"none\";\n", id);
 	}
+	for (auto d : vowel_diacritics)
+	{
+		const char *id = tts::get_feature_abbreviation(d);
+		if (id)
+			fprintf(stdout, "    document.getElementById(\"%s\").style.display = \"none\";\n", id);
+	}
 	fputs("}\n", stdout);
-	fputs("var active_diacritic = \"consonants\";\n", stdout);
+
 	fputs("function check_diacritic(d, c) {\n", stdout);
 	fputs("    var item = document.getElementById(c);\n", stdout);
 	fputs("    var btn  = document.getElementById(c + \"_btn\");\n", stdout);
@@ -292,6 +300,8 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("        }\n", stdout);
 	fputs("    }\n", stdout);
 	fputs("}\n", stdout);
+
+	fputs("var active_diacritic = \"consonants\";\n", stdout);
 	fputs("function diacritic(d) {\n", stdout);
 	fputs("    if (active_diacritic == d) d = \"consonants\";\n", stdout);
 	fputs("    active_diacritic = d;\n", stdout);
@@ -302,6 +312,19 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 		fprintf(stdout, "    check_diacritic(d, \"%s\");\n", id);
 	}
 	fputs("}\n", stdout);
+
+	fputs("var active_vowel_diacritic = \"vowels\";\n", stdout);
+	fputs("function vowel_diacritic(d) {\n", stdout);
+	fputs("    if (active_vowel_diacritic == d) d = \"vowels\";\n", stdout);
+	fputs("    active_vowel_diacritic = d;\n", stdout);
+	for (auto d : vowel_diacritics)
+	{
+		const char *id = tts::get_feature_abbreviation(d);
+		if (!id) id = "vowels";
+		fprintf(stdout, "    check_diacritic(d, \"%s\");\n", id);
+	}
+	fputs("}\n", stdout);
+
 	fputs("</script>\n", stdout);
 	fputs("</head>\n", stdout);
 	fputs("<body>\n", stdout);
@@ -327,23 +350,40 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 		fputs("</div>\n", stdout);
 	}
 
-	fprintf(stdout, "<h1>%s</h1>\n", i18n("Vowels"));
-	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"layout\">\n", stdout);
+	fputs("<table width=\"20%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\" style=\"float: right;\">\n", stdout);
 	fputs("<tr>\n", stdout);
-	fputs("<td width=\"33%\">\n", stdout);
-	print_chart(ipa, i18n("Short"),
-	            vowel_backness, vowel_height, roundness, f::vowel);
-	fputs("</td>\n", stdout);
-	fputs("<td width=\"34%\">\n", stdout);
-	print_chart(ipa, i18n("Rhoticized"),
-	            vowel_backness, vowel_height, roundness, f::vowel, f::rhoticized);
-	fputs("</td>\n", stdout);
-	fputs("<td width=\"33%\">\n", stdout);
-	print_chart(ipa, i18n("Long"),
-	            vowel_backness, vowel_height, roundness, f::vowel, f::long_);
-	fputs("</td>\n", stdout);
+	for (auto d : vowel_diacritics)
+	{
+		const char *id = tts::get_feature_abbreviation(d);
+		if (!id) continue;
+		fprintf(stdout, "<td title=\"%s\" id=\"%s_btn\" onclick=\"vowel_diacritic('%s');\">%s</td>\n", tts::get_feature_name(d), id, id, id);
+	}
 	fputs("</tr>\n", stdout);
 	fputs("</table>\n", stdout);
+	fprintf(stdout, "<h1>%s</h1>\n", i18n("Vowels"));
+	for (auto d : vowel_diacritics)
+	{
+		const char *id = tts::get_feature_abbreviation(d);
+		if (!id) id = "vowels";
+		fprintf(stdout, "<div id=\"%s\">\n", id);
+		fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"layout\">\n", stdout);
+		fputs("<tr>\n", stdout);
+		fputs("<td width=\"33%\">\n", stdout);
+		print_chart(ipa, i18n("Short"),
+		            vowel_backness, vowel_height, roundness, f::vowel, d);
+		fputs("</td>\n", stdout);
+		fputs("<td width=\"34%\">\n", stdout);
+		print_chart(ipa, i18n("Rhoticized"),
+		            vowel_backness, vowel_height, roundness, f::vowel, f::rhoticized, d);
+		fputs("</td>\n", stdout);
+		fputs("<td width=\"33%\">\n", stdout);
+		print_chart(ipa, i18n("Long"),
+		            vowel_backness, vowel_height, roundness, f::vowel, f::long_, d);
+		fputs("</td>\n", stdout);
+		fputs("</tr>\n", stdout);
+		fputs("</table>\n", stdout);
+		fputs("</div>\n", stdout);
+	}
 
 	fputs("</body>\n", stdout);
 	fputs("</html>\n", stdout);

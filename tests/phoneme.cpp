@@ -445,6 +445,8 @@ TEST_CASE("tts::get_feature_id -- extended abbreviations")
 	assert(tts::get_feature_id("sml") == _(f::semi_low));
 	assert(tts::get_feature_id("afr") == _(f::affricate));
 	assert(tts::get_feature_id("epg") == _(f::epiglottal));
+	assert(tts::get_feature_id("st1") == _(f::primary_stress));
+	assert(tts::get_feature_id("st2") == _(f::secondary_stress));
 }
 
 TEST_CASE("tts::get_feature_abbreviation")
@@ -498,6 +500,9 @@ TEST_CASE("tts::get_feature_abbreviation")
 
 	assert(tts::get_feature_abbreviation(f::unrounded) == "unr");
 	assert(tts::get_feature_abbreviation(f::rounded)   == "rnd");
+
+	assert(tts::get_feature_abbreviation(f::primary_stress)   == "st1");
+	assert(tts::get_feature_abbreviation(f::secondary_stress) == "st2");
 
 	assert(tts::get_feature_abbreviation(f::aspirated)      == "asp");
 	assert(tts::get_feature_abbreviation(f::unexploded)     == "unx");
@@ -570,6 +575,9 @@ TEST_CASE("tts::get_feature_name")
 	assert(tts::get_feature_name(f::unrounded) == "unrounded");
 	assert(tts::get_feature_name(f::rounded)   == "rounded");
 
+	assert(tts::get_feature_name(f::primary_stress)   == "primary stress");
+	assert(tts::get_feature_name(f::secondary_stress) == "secondary stress");
+
 	assert(tts::get_feature_name(f::aspirated)      == "aspirated");
 	assert(tts::get_feature_name(f::unexploded)     == "unexploded");
 	assert(tts::get_feature_name(f::syllabic)       == "syllabic");
@@ -632,8 +640,8 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		{ "{vcd,blb,ctl,stp}",     { f::voiced, f::bilabial, f::plosive } },
 		// vowels ...
 		{ "{hgh,fnt,unr,vwl,lng}", { f::high, f::front, f::unrounded, f::vowel, f::long_ } },
-		{ "{smh,fnt,rnd,vwl}",     { f::semi_high, f::front, f::rounded, f::vowel } },
-		{ "{umd,cnt,unr,vwl}",     { f::upper_mid, f::center, f::unrounded, f::vowel } },
+		{ "{smh,fnt,rnd,vwl,st1}", { f::semi_high, f::front, f::rounded, f::vowel, f::primary_stress } },
+		{ "{umd,cnt,unr,vwl,st2}", { f::upper_mid, f::center, f::unrounded, f::vowel, f::secondary_stress } },
 		{ "{mid,cnt,rnd,vwl,rzd}", { f::mid, f::center, f::rounded, f::vowel, f::rhoticized } },
 		{ "{lmd,bck,unr,vwl}",     { f::lower_mid, f::back, f::unrounded, f::vowel } },
 		{ "{sml,fnt,unr,vwl}",     { f::semi_low, f::front, f::unrounded, f::vowel } },
@@ -801,8 +809,8 @@ TEST_CASE("explicit feature writer -- single phoneme")
 		{ "{vcd,glt,nas,fzd}",     { f::voiced, f::glottal, f::nasal, f::pharyngealized } },
 		// vowels ...
 		{ "{hgh,fnt,unr,vwl,lng}", { f::high, f::front, f::unrounded, f::vowel, f::long_ } },
-		{ "{smh,fnt,rnd,vwl}",     { f::semi_high, f::front, f::rounded, f::vowel } },
-		{ "{umd,cnt,unr,vwl}",     { f::upper_mid, f::center, f::unrounded, f::vowel } },
+		{ "{smh,fnt,rnd,vwl,st1}", { f::semi_high, f::front, f::rounded, f::vowel, f::primary_stress } },
+		{ "{umd,cnt,unr,vwl,st2}", { f::upper_mid, f::center, f::unrounded, f::vowel, f::secondary_stress } },
 		{ "{mid,cnt,rnd,vwl,rzd}", { f::mid, f::center, f::rounded, f::vowel, f::rhoticized } },
 		{ "{lmd,bck,unr,vwl}",     { f::lower_mid, f::back, f::unrounded, f::vowel } },
 		{ "{sml,fnt,unr,vwl}",     { f::semi_low, f::front, f::unrounded, f::vowel } },
