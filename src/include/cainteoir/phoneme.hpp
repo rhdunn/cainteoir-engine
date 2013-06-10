@@ -74,6 +74,10 @@ namespace cainteoir { namespace tts
 		center,
 		back,
 
+		front_diphthong,
+		center_diphthong,
+		back_diphthong,
+
 		unrounded,
 		rounded,
 

@@ -438,6 +438,9 @@ TEST_CASE("tts::get_feature_id -- extended abbreviations")
 	assert(tts::get_feature_id("sml") == _(f::semi_low));
 	assert(tts::get_feature_id("afr") == _(f::affricate));
 	assert(tts::get_feature_id("epg") == _(f::epiglottal));
+	assert(tts::get_feature_id("dpf") == _(f::front_diphthong));
+	assert(tts::get_feature_id("dpc") == _(f::center_diphthong));
+	assert(tts::get_feature_id("dpb") == _(f::back_diphthong));
 	assert(tts::get_feature_id("st1") == _(f::primary_stress));
 	assert(tts::get_feature_id("st2") == _(f::secondary_stress));
 }
@@ -490,6 +493,10 @@ TEST_CASE("tts::get_feature_abbreviation")
 	assert(tts::get_feature_abbreviation(f::front)  == "fnt");
 	assert(tts::get_feature_abbreviation(f::center) == "cnt");
 	assert(tts::get_feature_abbreviation(f::back)   == "bck");
+
+	assert(tts::get_feature_abbreviation(f::front_diphthong)  == "dpf");
+	assert(tts::get_feature_abbreviation(f::center_diphthong) == "dpc");
+	assert(tts::get_feature_abbreviation(f::back_diphthong)   == "dpb");
 
 	assert(tts::get_feature_abbreviation(f::unrounded) == "unr");
 	assert(tts::get_feature_abbreviation(f::rounded)   == "rnd");
@@ -564,6 +571,10 @@ TEST_CASE("tts::get_feature_name")
 	assert(tts::get_feature_name(f::front)  == "front");
 	assert(tts::get_feature_name(f::center) == "center");
 	assert(tts::get_feature_name(f::back)   == "back");
+
+	assert(tts::get_feature_name(f::front_diphthong)  == "front diphthong");
+	assert(tts::get_feature_name(f::center_diphthong) == "center diphthong");
+	assert(tts::get_feature_name(f::back_diphthong)   == "back diphthong");
 
 	assert(tts::get_feature_name(f::unrounded) == "unrounded");
 	assert(tts::get_feature_name(f::rounded)   == "rounded");
