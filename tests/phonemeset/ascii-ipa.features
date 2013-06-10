@@ -161,3 +161,14 @@
 {low,bck,unr,vwl}
 {low,bck,unr,vwl,lng}
 {low,bck,rnd,vwl}
+
+{lmd,fnt,unr,vwl,dpf}
+{low,fnt,unr,vwl,dpf}
+{lmd,bck,rnd,vwl,dpf}
+
+{smh,fnt,unr,vwl,dpc}
+{lmd,fnt,unr,vwl,dpc}
+{smh,bck,rnd,vwl,dpc}
+
+{mid,cnt,unr,vwl,dpb}
+{low,fnt,unr,vwl,dpb}
