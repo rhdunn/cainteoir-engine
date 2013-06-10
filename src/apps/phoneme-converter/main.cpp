@@ -141,6 +141,7 @@ static const std::initializer_list<tts::feature> vowel_diacritics = {
 
 static const std::initializer_list<tts::feature> diphthong_diacritics = {
 	f::unspecified,
+	f::rhoticized,
 	f::front_diphthong,
 	f::center_diphthong,
 	f::back_diphthong,
@@ -432,15 +433,11 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 			fprintf(stdout, "<div id=\"%s_%s\">\n", did, vid);
 			fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"layout\">\n", stdout);
 			fputs("<tr>\n", stdout);
-			fputs("<td width=\"33%\">\n", stdout);
+			fputs("<td width=\"50%\">\n", stdout);
 			print_chart(ipa, i18n("Short"),
 			            vowel_backness, vowel_height, roundness, f::vowel, dv, dd);
 			fputs("</td>\n", stdout);
-			fputs("<td width=\"34%\">\n", stdout);
-			print_chart(ipa, i18n("Rhoticized"),
-			            vowel_backness, vowel_height, roundness, f::vowel, f::rhoticized, dv, dd);
-			fputs("</td>\n", stdout);
-			fputs("<td width=\"33%\">\n", stdout);
+			fputs("<td width=\"50%\">\n", stdout);
 			print_chart(ipa, i18n("Long"),
 			            vowel_backness, vowel_height, roundness, f::vowel, f::long_, dv, dd);
 			fputs("</td>\n", stdout);
