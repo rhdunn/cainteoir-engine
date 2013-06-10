@@ -14,6 +14,7 @@
 
 \u0127			/{vls,phr,frc}/
 \u014B			/{vcd,vel,nas}/
+\u014B\u0329		/{vcd,vel,nas,syl}/
 \u0153			/{lmd,fnt,rnd,vwl}/
 
 ##### Latin Extended-B

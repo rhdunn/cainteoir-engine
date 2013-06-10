@@ -105,6 +105,7 @@
 {vcd,alv,lat,apr,syl}
 {vcd,blb,nas,syl}
 {vcd,alv,nas,syl}
+{vcd,vel,nas,syl}
 {vcd,alv,apr,syl}
 
 {vls,pla,frc,pzd}

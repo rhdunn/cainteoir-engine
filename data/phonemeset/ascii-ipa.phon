@@ -150,6 +150,7 @@ A.	/{low,bck,rnd,vwl}/
 l-	/{vcd,alv,lat,apr,syl}/
 m-	/{vcd,blb,nas,syl}/
 n-	/{vcd,alv,nas,syl}/
+N-	/{vcd,vel,nas,syl}/
 r-	/{vcd,alv,apr,syl}/
 
 S;	/{vls,pla,frc,pzd}/
