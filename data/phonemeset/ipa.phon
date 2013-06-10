@@ -77,6 +77,7 @@
 \u027B			/{vcd,rfx,apr}/
 \u027D			/{vcd,rfx,flp}/
 \u027E			/{vcd,alv,flp}/
+\u027E\u0303		/{vcd,alv,flp,nzd}/
 
 \u0280			/{vcd,uvl,trl}/
 \u0281			/{vcd,uvl,frc}/
