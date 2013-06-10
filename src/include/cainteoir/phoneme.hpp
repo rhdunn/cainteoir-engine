@@ -95,13 +95,16 @@ namespace cainteoir { namespace tts
 
 	class phoneme
 	{
-		feature features[5];
+		feature features[8];
 	public:
 		phoneme(const feature a,
 		        const feature b,
 		        const feature c,
 		        const feature d = feature::unspecified,
-		        const feature e = feature::unspecified);
+		        const feature e = feature::unspecified,
+		        const feature f = feature::unspecified,
+		        const feature g = feature::unspecified,
+		        const feature h = feature::unspecified);
 
 		bool contains(const feature f) const;
 
@@ -113,7 +116,7 @@ namespace cainteoir { namespace tts
 		}
 
 		const feature *begin() const { return features; }
-		const feature *end()   const { return features + 5; }
+		const feature *end()   const { return features + 8; }
 	};
 
 	std::pair<bool, feature> get_feature_id(const char *abbreviation);

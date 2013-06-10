@@ -148,13 +148,23 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	{ "fzd", i18n("pharyngealized") },
 };
 
-tts::phoneme::phoneme(const feature a, const feature b, const feature c, const feature d, const feature e)
+tts::phoneme::phoneme(const feature a,
+                      const feature b,
+                      const feature c,
+                      const feature d,
+                      const feature e,
+                      const feature f,
+                      const feature g,
+                      const feature h)
 {
 	features[0] = a;
 	features[1] = b;
 	features[2] = c;
 	features[3] = d;
 	features[4] = e;
+	features[5] = f;
+	features[6] = g;
+	features[7] = h;
 }
 
 bool tts::phoneme::contains(const feature f) const

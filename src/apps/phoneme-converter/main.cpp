@@ -241,9 +241,9 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 			for (auto z : z_features)
 			{
 				if (y.second == f::unspecified)
-					print(ipa, { x, y.first, z, extra1, extra2 });
+					print(ipa, { x, y.first, z, extra1, extra2, extra3 });
 				else
-					print(ipa, { x, y.first, y.second, z, extra1 });
+					print(ipa, { x, y.first, y.second, z, extra1, extra2, extra3 });
 			}
 		}
 		fputs("</tr>\n", stdout);

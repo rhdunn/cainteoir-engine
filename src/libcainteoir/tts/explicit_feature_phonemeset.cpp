@@ -64,7 +64,10 @@ bool explicit_feature_reader::read()
 	state_t s = begin_phoneme;
 	char abbrev[4] = { '\0', '\0', '\0', '\0' };
 	int abbrev_pos = 0;
-	tts::feature features[5] = {
+	tts::feature features[8] = {
+		tts::feature::unspecified,
+		tts::feature::unspecified,
+		tts::feature::unspecified,
 		tts::feature::unspecified,
 		tts::feature::unspecified,
 		tts::feature::unspecified,
@@ -113,7 +116,7 @@ bool explicit_feature_reader::read()
 				if (abbrev_pos != 2)
 					throw tts::phoneme_error(i18n("a phoneme feature must be 3 characters long"));
 
-				if (feature_pos < 5)
+				if (feature_pos < 8)
 				{
 					auto match = tts::get_feature_id(abbrev);
 					if (!match.first)
@@ -135,7 +138,7 @@ bool explicit_feature_reader::read()
 						features[feature_pos++] = match.second;
 				}
 				else
-					throw tts::phoneme_error(i18n("a phoneme must specify no more than 5 features"));
+					throw tts::phoneme_error(i18n("a phoneme must specify no more than 8 features"));
 
 				if (*mCurrent == ',')
 					s = in_phoneme;
@@ -144,7 +147,9 @@ bool explicit_feature_reader::read()
 					if (feature_pos <= 2)
 						throw tts::phoneme_error(i18n("a phoneme must specify at least 3 features"));
 
-					*(tts::phoneme *)this = { features[0], features[1], features[2], features[3], features[4] };
+					*(tts::phoneme *)this = {
+						features[0], features[1], features[2], features[3],
+						features[4], features[5], features[6], features[7] };
 					++mCurrent;
 					return true;
 				}
@@ -158,7 +163,9 @@ bool explicit_feature_reader::read()
 	if (s != begin_phoneme)
 		throw tts::phoneme_error(i18n("unexpected end of phoneme (expecting '}')"));
 
-	*(tts::phoneme *)this = { features[0], features[1], features[2], features[3], features[4] };
+	*(tts::phoneme *)this = {
+		features[0], features[1], features[2], features[3],
+		features[4], features[5], features[6], features[7] };
 	return false;
 }
 
