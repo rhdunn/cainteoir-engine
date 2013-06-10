@@ -28,9 +28,11 @@
 
 \u0250			/{sml,cnt,unr,vwl}/
 \u0251			/{low,bck,unr,vwl}/
+\u0251\u02D0		/{low,bck,unr,vwl,lng}/
 \u0252			/{low,bck,rnd,vwl}/
 \u0253			/{vcd,blb,imp}/
 \u0254			/{lmd,bck,rnd,vwl}/
+\u0254\u02D0		/{lmd,bck,rnd,vwl,lng}/
 \u0255			/{vls,pla,frc,pzd}/
 \u0256			/{vcd,rfx,stp}/
 \u0257			/{vcd,alv,imp}/
@@ -145,6 +147,7 @@ R			/{vcd,uvl,trl}/
 Y			/{smh,fnt,rnd,vwl}/
 
 a			/{low,fnt,unr,vwl}/
+a\u02D0			/{low,fnt,unr,vwl,lng}/
 b			/{vcd,blb,stp}/
 b\u032A			/{vcd,lbd,stp}/
 c			/{vls,pal,stp}/
@@ -155,10 +158,12 @@ d\u0291			/{vcd,pla,afr,pzd}/
 d\u0292			/{vcd,pla,afr}/
 d\u032A			/{vcd,dnt,stp}/
 e			/{umd,fnt,unr,vwl}/
+e\u02D0			/{umd,fnt,unr,vwl,lng}/
 f			/{vls,lbd,frc}/
 g			/{vcd,vel,stp}/
 h			/{vls,glt,apr}/
 i			/{hgh,fnt,unr,vwl}/
+i\u02D0			/{hgh,fnt,unr,vwl,lng}/
 j			/{vcd,pal,apr}/
 k			/{vls,vel,stp}/
 k\u02BC			/{vls,vel,ejc}/
@@ -171,6 +176,7 @@ n			/{vcd,alv,nas}/
 n\u0329			/{vcd,alv,nas,syl}/
 n\u032A			/{vcd,dnt,nas}/
 o			/{umd,bck,rnd,vwl}/
+o\u02D0			/{umd,bck,rnd,vwl,lng}/
 p			/{vls,blb,stp}/
 p\u02BC			/{vls,blb,ejc}/
 p\u032A			/{vls,lbd,stp}/
@@ -186,6 +192,7 @@ t\u02BC			/{vls,alv,ejc}/
 t\u032A			/{vls,dnt,stp}/
 t\u032A\u02BC		/{vls,dnt,ejc}/
 u			/{hgh,bck,rnd,vwl}/
+u\u02D0			/{hgh,bck,rnd,vwl,lng}/
 v			/{vcd,lbd,frc}/
 w			/{vcd,lbv,apr}/
 x			/{vls,vel,frc}/
