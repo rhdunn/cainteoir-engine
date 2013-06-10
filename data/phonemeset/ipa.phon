@@ -68,6 +68,7 @@
 \u0276			/{low,fnt,rnd,vwl}/
 \u0278			/{vls,blb,frc}/
 \u0279			/{vcd,alv,apr}/
+\u0279\u0329		/{vcd,alv,apr,syl}/
 \u0279\u032A		/{vcd,dnt,apr}/
 \u027A			/{vcd,alv,lat,flp}/
 \u027B			/{vcd,rfx,apr}/
@@ -161,9 +162,12 @@ j			/{vcd,pal,apr}/
 k			/{vls,vel,stp}/
 k\u02BC			/{vls,vel,ejc}/
 l			/{vcd,alv,lat,apr}/
+l\u0329			/{vcd,alv,lat,apr,syl}/
 l\u032A			/{vcd,dnt,lat,apr}/
 m			/{vcd,blb,nas}/
+m\u0329			/{vcd,blb,nas,syl}/
 n			/{vcd,alv,nas}/
+n\u0329			/{vcd,alv,nas,syl}/
 n\u032A			/{vcd,dnt,nas}/
 o			/{umd,bck,rnd,vwl}/
 p			/{vls,blb,stp}/

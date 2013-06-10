@@ -102,6 +102,11 @@
 {vls,alv,clk}
 {vls,pal,clk}
 
+{vcd,alv,lat,apr,syl}
+{vcd,blb,nas,syl}
+{vcd,alv,nas,syl}
+{vcd,alv,apr,syl}
+
 {vcd,pal,apr,lzd}
 {vls,vel,apr,lzd}
 {vcd,vel,apr,lzd}
