@@ -29,5 +29,8 @@ if __name__ == '__main__':
 		{'name': 'IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa.features', 'result': 'phonemeset/ipa.txt', 'from': 'features', 'to': 'ipa'},
 		]},
+		{'name': 'Arpabet', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/arpabet.features', 'result': 'phonemeset/arpabet.txt', 'from': 'features', 'to': 'arpabet'},
+		]},
 	]})
 	test.summary()
