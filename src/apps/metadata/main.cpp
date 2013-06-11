@@ -1,6 +1,6 @@
 /* Metadata Extractor.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -25,6 +25,7 @@
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
 #include <cainteoir/document.hpp>
+#include <cainteoir/stopwatch.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
@@ -45,6 +46,7 @@ static struct option options[] =
 	{ "turtle",  no_argument, 0, ARG_TURTLE },
 	{ "vorbis",  no_argument, 0, ARG_VORBIS_COMMENTS },
 	{ "help",    no_argument, 0, 'h' },
+	{ "time",    no_argument, 0, 't' },
 	{ 0, 0, 0, 0 }
 };
 
@@ -59,6 +61,7 @@ void help()
 	fprintf(stdout, "\n");
 	fprintf(stdout, i18n("General:\n"));
 	fprintf(stdout, i18n(" -h, --help             This help text\n"));
+	fprintf(stdout, i18n(" -t, --time             Time how long it takes to extract the metadata\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
 }
@@ -78,11 +81,12 @@ int main(int argc, char ** argv)
 		} output_type = rdf_metadata;
 
 		rdf::formatter::format_type format = rdf::formatter::ntriple;
+		bool print_time = false;
 
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "h", options, &option_index);
+			int c = getopt_long(argc, argv, "ht", options, &option_index);
 			if (c == -1)
 				break;
 
@@ -102,11 +106,16 @@ int main(int argc, char ** argv)
 			case 'h':
 				help();
 				return 0;
+			case 't':
+				print_time = true;
+				break;
 			}
 		}
 
 		argc -= optind;
 		argv += optind;
+
+		cainteoir::stopwatch timer;
 
 		const char *filename = (argc == 1) ? argv[0] : nullptr;
 		rdf::graph metadata;
@@ -116,6 +125,9 @@ int main(int argc, char ** argv)
 			fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), filename ? filename : "<stdin>");
 			return EXIT_FAILURE;
 		}
+
+		if (print_time)
+			fprintf(stderr, "Extraction Time: %G\n", timer.elapsed());
 
 		if (!metadata.empty())
 		{
