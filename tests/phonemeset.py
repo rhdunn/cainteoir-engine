@@ -32,5 +32,8 @@ if __name__ == '__main__':
 		{'name': 'Arpabet', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/arpabet.features', 'result': 'phonemeset/arpabet.txt', 'from': 'features', 'to': 'arpabet'},
 		]},
+		{'name': 'SAMPA (English)', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/sampa/en.features', 'result': 'phonemeset/sampa/en.txt', 'from': 'features', 'to': 'sampa/en'},
+		]},
 	]})
 	test.summary()

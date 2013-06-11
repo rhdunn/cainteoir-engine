@@ -1,0 +1,73 @@
+# Copyright (C) 2013 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http:creativecommons.orglicensesby-sa3.0]
+
+##### Consonants
+
+p	/{vls,blb,stp}/
+b	/{vcd,blb,stp}/
+t	/{vls,alv,stp}/
+d	/{vcd,alv,stp}/
+k	/{vls,vel,stp}/
+g	/{vcd,vel,stp}/
+
+tS	/{vls,pla,afr}/
+dZ	/{vcd,pla,afr}/
+
+f	/{vls,lbd,frc}/
+v	/{vcd,lbd,frc}/
+T	/{vls,dnt,frc}/
+D	/{vcd,dnt,frc}/
+s	/{vls,alv,frc}/
+z	/{vcd,alv,frc}/
+S	/{vls,pla,frc}/
+Z	/{vcd,pla,frc}/
+h	/{vls,glt,frc}/
+
+m	/{vcd,blb,nas}/
+n	/{vcd,alv,nas}/
+N	/{vcd,vel,nas}/
+r	/{vcd,alv,apr}/
+l	/{vcd,alv,lat,apr}/
+w	/{vcd,lbv,apr}/
+j	/{vcd,pal,apr}/
+
+##### Vowels [1]
+
+I	/{smh,fnt,unr,vwl}/
+E	/{lmd,fnt,unr,vwl}/
+e	/{lmd,fnt,unr,vwl}/
+{	/{sml,fnt,unr,vwl}/
+Q	/{low,bck,rnd,vwl}/
+V	/{lmd,bck,unr,vwl}/
+U	/{smh,bck,rnd,vwl}/
+
+@	/{mid,cnt,unr,vwl}/
+
+i:	/{hgh,fnt,unr,vwl,lng}/
+eI	/{lmd,fnt,unr,vwl,dpf}/
+aI	/{low,fnt,unr,vwl,dpf}/
+OI	/{lmd,bck,rnd,vwl,dpf}/
+
+u:	/{hgh,bck,rnd,vwl,lng}/
+@U	/{mid,cnt,unr,vwl,dpb}/
+aU	/{low,fnt,unr,vwl,dpb}/
+
+3:	/{lmd,cnt,unr,vwl,lng}/
+A:	/{low,bck,unr,vwl,lng}/
+O:	/{lmd,bck,rnd,vwl,lng}/
+I@	/{smh,fnt,unr,vwl,dpc}/
+e@	/{lmd,fnt,unr,vwl,dpc}/
+U@	/{smh,bck,rnd,vwl,dpc}/
+
+i	/{hgh,fnt,unr,vwl}/
+u	/{hgh,bck,rnd,vwl}/
+
+##### Additional Symbols
+
+?	/{vls,glt,stp}/
+x	/{vls,vel,frc}/
+
+##### References:
+#
+#  1. http://www.phon.ucl.ac.uk/home/sampa/english.htm
