@@ -1,0 +1,70 @@
+# Copyright (C) 2013 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http:creativecommons.orglicensesby-sa3.0]
+
+##### Consonants
+
+p	/{vls,blb,stp}/
+b	/{vcd,blb,stp}/
+t	/{vls,alv,stp}/
+d	/{vcd,alv,stp}/
+k	/{vls,vel,stp}/
+g	/{vcd,vel,stp}/
+
+tS	/{vls,pla,afr}/
+dZ	/{vcd,pla,afr}/
+
+f	/{vls,lbd,frc}/
+v	/{vcd,lbd,frc}/
+T	/{vls,dnt,frc}/
+D	/{vcd,dnt,frc}/
+s	/{vls,alv,frc}/
+z	/{vcd,alv,frc}/
+S	/{vls,pla,frc}/
+Z	/{vcd,pla,frc}/
+h	/{vls,glt,frc}/
+
+m	/{vcd,blb,nas}/
+n	/{vcd,alv,nas}/
+N	/{vcd,vel,nas}/
+r	/{vcd,alv,apr}/
+l	/{vcd,alv,lat,apr}/
+w	/{vcd,lbv,apr}/
+j	/{vcd,pal,apr}/
+
+##### Vowels
+
+I	/{smh,fnt,unr,vwl}/
+E	/{lmd,fnt,unr,vwl}/
+eI	/{lmd,fnt,unr,vwl,dpf}/ # [2]
+e	/{lmd,fnt,unr,vwl,dpf}/ # [1]
+{	/{sml,fnt,unr,vwl}/
+A	/{low,bck,unr,vwl}/
+V	/{lmd,bck,unr,vwl}/
+U	/{smh,bck,rnd,vwl}/
+i	/{hgh,fnt,unr,vwl,lng}/
+u	/{hgh,bck,rnd,vwl,lng}/
+oU	/{mid,cnt,unr,vwl,dpb}/ # [2]
+o	/{mid,cnt,unr,vwl,dpb}/ # [1]
+O	/{lmd,bck,rnd,vwl,lng}/
+aI	/{low,fnt,unr,vwl,dpf}/
+OI	/{lmd,bck,rnd,vwl,dpf}/
+aU	/{low,fnt,unr,vwl,dpb}/
+3`	/{lmd,cnt,unr,vwl,rzd}/
+@	/{mid,cnt,unr,vwl}/
+@`	/{mid,cnt,unr,vwl,rzd}/
+
+##### Additional Symbols
+
+4	/{vcd,alv,flp}/
+
+##### Notes
+#
+#  1. This is the Kenyon & Knot form shown in the primary table.
+#
+#  2. This is the transcription in notational variant (i) where /e/ and /o/ are
+#     explicitly shown as the /eI/ and /oU/ diphthongs.
+#
+##### References:
+#
+#  1. http://www.phon.ucl.ac.uk/home/sampa/english.htm

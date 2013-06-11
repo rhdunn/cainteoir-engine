@@ -35,5 +35,8 @@ if __name__ == '__main__':
 		{'name': 'SAMPA (English)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/sampa/en.features', 'result': 'phonemeset/sampa/en.txt', 'from': 'features', 'to': 'sampa/en'},
 		]},
+		{'name': 'SAMPA (US English)', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/sampa/en-US.features', 'result': 'phonemeset/sampa/en-US.txt', 'from': 'features', 'to': 'sampa/en-US'},
+		]},
 	]})
 	test.summary()
