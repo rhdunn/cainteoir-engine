@@ -52,7 +52,7 @@ static struct option options[] =
 
 void help()
 {
-	fprintf(stdout, i18n("usage: metadata [OPTION..] document\n"));
+	fprintf(stdout, i18n("usage: metadata [OPTION..] document..\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, i18n("Formats:\n"));
 	fprintf(stdout, i18n(" --ntriple              Output RDF N-Triples statements\n"));
@@ -116,14 +116,15 @@ int main(int argc, char ** argv)
 		argv += optind;
 
 		cainteoir::stopwatch timer;
-
-		const char *filename = (argc == 1) ? argv[0] : nullptr;
 		rdf::graph metadata;
-		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
-		if (!reader)
+
+		if (argc == 0)
+			cainteoir::createDocumentReader(nullptr, metadata, std::string());
+		else for(int i = 0; i < argc; ++i)
 		{
-			fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), filename ? filename : "<stdin>");
-			return EXIT_FAILURE;
+			auto reader = cainteoir::createDocumentReader(argv[i], metadata, std::string());
+			if (!reader)
+				fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), argv[i]);
 		}
 
 		if (print_time)
