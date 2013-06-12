@@ -2,6 +2,11 @@
 #
 # License: CC-BY-SA 3.0 [http:creativecommons.orglicensesby-sa3.0]
 
+##### SAMPROSA
+
+"	/<st1>/<
+%	/<st2>/<
+
 ##### Consonants
 
 p	/{vls,blb,stp}/
@@ -68,3 +73,4 @@ aU	/{low,fnt,unr,vwl,dpb}/
 ##### References:
 #
 #  1. http://www.phon.ucl.ac.uk/home/sampa/english.htm
+#  2. http://www.phon.ucl.ac.uk/home/sampa/samprosa.htm
