@@ -348,6 +348,32 @@ TEST_CASE("phoneme inequality")
 	      != tts::phoneme(f::back, f::unrounded, f::vowel, f::rhoticized, f::semi_high)));
 }
 
+TEST_CASE("remove feature")
+{
+	tts::phoneme p(f::voiceless, f::bilabial, f::plosive, f::nasalized);
+
+	assert(!p.remove(f::unspecified));
+
+	assert(p.contains(f::voiceless));
+	assert(p.contains(f::bilabial));
+	assert(p.contains(f::plosive));
+	assert(p.contains(f::nasalized));
+
+	assert(!p.remove(f::voiced));
+
+	assert(p.contains(f::voiceless));
+	assert(p.contains(f::bilabial));
+	assert(p.contains(f::plosive));
+	assert(p.contains(f::nasalized));
+
+	assert(p.remove(f::nasalized));
+
+	assert(p.contains(f::voiceless));
+	assert(p.contains(f::bilabial));
+	assert(p.contains(f::plosive));
+	assert(!p.contains(f::nasalized));
+}
+
 TEST_CASE("tts::get_feature_id -- invalid abbreviations")
 {
 	auto _ = [](const tts::feature x) -> std::pair<bool, tts::feature>

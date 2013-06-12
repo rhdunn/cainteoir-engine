@@ -183,6 +183,19 @@ bool tts::phoneme::contains(const feature f) const
 	return false;
 }
 
+bool tts::phoneme::remove(const feature f)
+{
+	if (f != feature::unspecified) for (feature &x : features)
+	{
+		if (x == f)
+		{
+			x = tts::feature::unspecified;
+			return true;
+		}
+	}
+	return false;
+}
+
 bool tts::phoneme::operator==(const phoneme &rhs) const
 {
 	int lhs_unspecified = 0;
