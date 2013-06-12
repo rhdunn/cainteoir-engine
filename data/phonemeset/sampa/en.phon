@@ -50,20 +50,20 @@ U	/{smh,bck,rnd,vwl}/
 @	/{mid,cnt,unr,vwl}/
 
 i:	/{hgh,fnt,unr,vwl,lng}/
-eI	/{lmd,fnt,unr,vwl,dpf}/
-aI	/{low,fnt,unr,vwl,dpf}/
-OI	/{lmd,bck,rnd,vwl,dpf}/
+eI	/{lmd,fnt,unr,dpr,smh}/
+aI	/{low,fnt,unr,dpr,smh}/
+OI	/{lmd,bck,rnd,dpr,smh,fnt}/
 
 u:	/{hgh,bck,rnd,vwl,lng}/
-@U	/{mid,cnt,unr,vwl,dpb}/
-aU	/{low,fnt,unr,vwl,dpb}/
+@U	/{mid,cnt,unr,dpr,smh,bck}/
+aU	/{low,fnt,unr,dpr,smh,bck}/
 
 3:	/{lmd,cnt,unr,vwl,lng}/
 A:	/{low,bck,unr,vwl,lng}/
 O:	/{lmd,bck,rnd,vwl,lng}/
-I@	/{smh,fnt,unr,vwl,dpc}/
-e@	/{lmd,fnt,unr,vwl,dpc}/
-U@	/{smh,bck,rnd,vwl,dpc}/
+I@	/{smh,fnt,unr,dpf,mid,cnt}/
+e@	/{lmd,fnt,unr,dpr,mid,cnt}/
+U@	/{smh,bck,rnd,dpf,mid,cnt}/
 
 i	/{hgh,fnt,unr,vwl}/
 u	/{hgh,bck,rnd,vwl}/

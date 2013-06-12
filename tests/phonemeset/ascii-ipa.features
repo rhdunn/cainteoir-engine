@@ -162,13 +162,13 @@
 {low,bck,unr,vwl,lng}
 {low,bck,rnd,vwl}
 
-{lmd,fnt,unr,vwl,dpf}
-{low,fnt,unr,vwl,dpf}
-{lmd,bck,rnd,vwl,dpf}
+{lmd,fnt,unr,dpr,smh}
+{low,fnt,unr,dpr,smh}
+{lmd,bck,rnd,dpr,smh,fnt}
 
-{smh,fnt,unr,vwl,dpc}
-{lmd,fnt,unr,vwl,dpc}
-{smh,bck,rnd,vwl,dpc}
+{smh,fnt,unr,dpf,mid,cnt}
+{lmd,fnt,unr,dpr,mid,cnt}
+{smh,bck,rnd,dpf,mid,cnt}
 
-{mid,cnt,unr,vwl,dpb}
-{low,fnt,unr,vwl,dpb}
+{mid,cnt,unr,dpr,smh,bck}
+{low,fnt,unr,dpr,smh,bck}

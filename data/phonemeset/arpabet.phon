@@ -44,25 +44,25 @@ AE2	/{low,fnt,unr,vwl,st2}/
 
 ##### Diphthongs
 
-EY0	/{lmd,fnt,unr,vwl,dpf}/
-EY1	/{lmd,fnt,unr,vwl,dpf,st1}/
-EY2	/{lmd,fnt,unr,vwl,dpf,st2}/
+EY0	/{lmd,fnt,unr,dpr,smh}/
+EY1	/{lmd,fnt,unr,dpr,smh,st1}/
+EY2	/{lmd,fnt,unr,dpr,smh,st2}/
 
-AY0	/{low,fnt,unr,vwl,dpf}/
-AY1	/{low,fnt,unr,vwl,dpf,st1}/
-AY2	/{low,fnt,unr,vwl,dpf,st2}/
+AY0	/{low,fnt,unr,dpr,smh}/
+AY1	/{low,fnt,unr,dpr,smh,st1}/
+AY2	/{low,fnt,unr,dpr,smh,st2}/
 
-OY0	/{lmd,bck,rnd,vwl,dpf}/
-OY1	/{lmd,bck,rnd,vwl,dpf,st1}/
-OY2	/{lmd,bck,rnd,vwl,dpf,st2}/
+OY0	/{lmd,bck,rnd,dpr,smh,fnt}/
+OY1	/{lmd,bck,rnd,dpr,smh,fnt,st1}/
+OY2	/{lmd,bck,rnd,dpr,smh,fnt,st2}/
 
-OW0	/{mid,cnt,unr,vwl,dpb}/
-OW1	/{mid,cnt,unr,vwl,dpb,st1}/
-OW2	/{mid,cnt,unr,vwl,dpb,st2}/
+OW0	/{mid,cnt,unr,dpr,smh,bck}/
+OW1	/{mid,cnt,unr,dpr,smh,bck,st1}/
+OW2	/{mid,cnt,unr,dpr,smh,bck,st2}/
 
-AW0	/{low,fnt,unr,vwl,dpb}/
-AW1	/{low,fnt,unr,vwl,dpb,st1}/
-AW2	/{low,fnt,unr,vwl,dpb,st2}/
+AW0	/{low,fnt,unr,dpr,smh,bck}/
+AW1	/{low,fnt,unr,dpr,smh,bck,st1}/
+AW2	/{low,fnt,unr,dpr,smh,bck,st2}/
 
 ##### R-coloured Vowels [4]
 

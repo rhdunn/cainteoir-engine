@@ -39,9 +39,8 @@ static const std::initializer_list<const std::pair<const char *, tts::feature>> 
 	{ "cnt", tts::feature::center },
 	{ "ctl", tts::feature::unspecified },
 	{ "dnt", tts::feature::dental },
-	{ "dpb", tts::feature::back_diphthong },
-	{ "dpc", tts::feature::center_diphthong },
-	{ "dpf", tts::feature::front_diphthong },
+	{ "dpf", tts::feature::falling_diphthong },
+	{ "dpr", tts::feature::rising_diphthong },
 	{ "ejc", tts::feature::ejective },
 	{ "epg", tts::feature::epiglottal },
 	{ "flp", tts::feature::flap },
@@ -107,6 +106,8 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	{ "glt", i18n("glottal") },
 
 	{ "vwl", i18n("vowel") },
+	{ "dpr", i18n("rising diphthong") },
+	{ "dpf", i18n("falling diphthong") },
 	{ "lat", i18n("lateral") },
 
 	{ "stp", i18n("plosive") },
@@ -131,10 +132,6 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	{ "fnt", i18n("front") },
 	{ "cnt", i18n("center") },
 	{ "bck", i18n("back") },
-
-	{ "dpf", i18n("front diphthong") },
-	{ "dpc", i18n("center diphthong") },
-	{ "dpb", i18n("back diphthong") },
 
 	{ "unr", i18n("unrounded") },
 	{ "rnd", i18n("rounded") },

@@ -12,7 +12,7 @@ endif
 syn keyword	phonFeature		afr alv apr asp
 syn keyword	phonFeature		bck blb
 syn keyword	phonFeature		clk cnt ctl
-syn keyword	phonFeature		dnt dpb dpc dpf
+syn keyword	phonFeature		dnt dpf dpr
 syn keyword	phonFeature		ejc epg
 syn keyword	phonFeature		flp fnt frc fzd
 syn keyword	phonFeature		glt

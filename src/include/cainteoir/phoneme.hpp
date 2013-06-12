@@ -49,6 +49,8 @@ namespace cainteoir { namespace tts
 		glottal,
 
 		vowel,
+		rising_diphthong,
+		falling_diphthong,
 		lateral,
 
 		plosive,
@@ -73,10 +75,6 @@ namespace cainteoir { namespace tts
 		front,
 		center,
 		back,
-
-		front_diphthong,
-		center_diphthong,
-		back_diphthong,
 
 		unrounded,
 		rounded,

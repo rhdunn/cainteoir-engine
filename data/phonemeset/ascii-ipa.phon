@@ -169,16 +169,16 @@ dZ	/{vcd,pla,afr}/
 tS;	/{vls,pla,afr,pzd}/
 dZ;	/{vcd,pla,afr,pzd}/
 
-eI	/{lmd,fnt,unr,vwl,dpf}/
-aI	/{low,fnt,unr,vwl,dpf}/
-OI	/{lmd,bck,rnd,vwl,dpf}/
+eI	/{lmd,fnt,unr,dpr,smh}/
+aI	/{low,fnt,unr,dpr,smh}/
+OI	/{lmd,bck,rnd,dpr,smh,fnt}/
 
-I@	/{smh,fnt,unr,vwl,dpc}/
-e@	/{lmd,fnt,unr,vwl,dpc}/
-U@	/{smh,bck,rnd,vwl,dpc}/
+I@	/{smh,fnt,unr,dpf,mid,cnt}/
+e@	/{lmd,fnt,unr,dpr,mid,cnt}/
+U@	/{smh,bck,rnd,dpf,mid,cnt}/
 
-oU	/{mid,cnt,unr,vwl,dpb}/
-aU	/{low,fnt,unr,vwl,dpb}/
+oU	/{mid,cnt,unr,dpr,smh,bck}/
+aU	/{low,fnt,unr,dpr,smh,bck}/
 
 ##### Notes:
 #

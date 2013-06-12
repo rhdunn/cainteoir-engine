@@ -142,9 +142,6 @@ static const std::initializer_list<tts::feature> vowel_diacritics = {
 static const std::initializer_list<tts::feature> diphthong_diacritics = {
 	f::unspecified,
 	f::rhoticized,
-	f::front_diphthong,
-	f::center_diphthong,
-	f::back_diphthong,
 };
 
 void print(const std::shared_ptr<cainteoir::buffer> &data)

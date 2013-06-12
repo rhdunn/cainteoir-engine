@@ -41,20 +41,20 @@ j	/{vcd,pal,apr}/
 
 I	/{smh,fnt,unr,vwl}/
 E	/{lmd,fnt,unr,vwl}/
-eI	/{lmd,fnt,unr,vwl,dpf}/ # [2]
-e	/{lmd,fnt,unr,vwl,dpf}/ # [1]
+eI	/{lmd,fnt,unr,dpr,smh}/ # [2]
+e	/{lmd,fnt,unr,dpr,smh}/ # [1]
 {	/{sml,fnt,unr,vwl}/
 A	/{low,bck,unr,vwl}/
 V	/{lmd,bck,unr,vwl}/
 U	/{smh,bck,rnd,vwl}/
 i	/{hgh,fnt,unr,vwl,lng}/
 u	/{hgh,bck,rnd,vwl,lng}/
-oU	/{mid,cnt,unr,vwl,dpb}/ # [2]
-o	/{mid,cnt,unr,vwl,dpb}/ # [1]
+oU	/{mid,cnt,unr,dpr,smh,bck}/ # [2]
+o	/{mid,cnt,unr,dpr,smh,bck}/ # [1]
 O	/{lmd,bck,rnd,vwl,lng}/
-aI	/{low,fnt,unr,vwl,dpf}/
-OI	/{lmd,bck,rnd,vwl,dpf}/
-aU	/{low,fnt,unr,vwl,dpb}/
+aI	/{low,fnt,unr,dpr,smh}/
+OI	/{lmd,bck,rnd,dpr,smh,fnt}/
+aU	/{low,fnt,unr,dpr,smh,bck}/
 3`	/{lmd,cnt,unr,vwl,rzd}/
 @	/{mid,cnt,unr,vwl}/
 @`	/{mid,cnt,unr,vwl,rzd}/

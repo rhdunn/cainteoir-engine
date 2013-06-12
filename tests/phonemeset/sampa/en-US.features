@@ -28,18 +28,18 @@
 
 {smh,fnt,unr,vwl}
 {lmd,fnt,unr,vwl}
-{lmd,fnt,unr,vwl,dpf}
+{lmd,fnt,unr,dpr,smh}
 {sml,fnt,unr,vwl}
 {low,bck,unr,vwl}
 {lmd,bck,unr,vwl}
 {smh,bck,rnd,vwl}
 {hgh,fnt,unr,vwl,lng}
 {hgh,bck,rnd,vwl,lng}
-{mid,cnt,unr,vwl,dpb}
+{mid,cnt,unr,dpr,smh,bck}
 {lmd,bck,rnd,vwl,lng}
-{low,fnt,unr,vwl,dpf}
-{lmd,bck,rnd,vwl,dpf}
-{low,fnt,unr,vwl,dpb}
+{low,fnt,unr,dpr,smh}
+{lmd,bck,rnd,dpr,smh,fnt}
+{low,fnt,unr,dpr,smh,bck}
 {lmd,cnt,unr,vwl,rzd}
 {mid,cnt,unr,vwl}
 {mid,cnt,unr,vwl,rzd}
