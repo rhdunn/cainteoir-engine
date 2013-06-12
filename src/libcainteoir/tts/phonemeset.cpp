@@ -58,6 +58,7 @@ struct phoneme_file_reader
 {
 	std::shared_ptr<cainteoir::buffer> transcription;
 	tts::phoneme phoneme;
+	tts::feature feature;
 
 	phoneme_file_reader(const char *aPhonemeSet);
 
@@ -103,12 +104,30 @@ bool phoneme_file_reader::read()
 				++current;
 			if (*current != '/')
 				throw std::runtime_error("unterminated phoneme group (expecting '/')");
-			features->reset(std::make_shared<cainteoir::buffer>(start, current));
-			++current;
-			if (features->read())
+			if (*start == '<' && *(current - 1) == '>')
 			{
-				phoneme = *features;
+				if (current - start != 5)
+					throw std::runtime_error("unexpected feature length in phoneme modification rule (expected 3 characters)");
+				++current;
+
+				char abbreviation[] = { start[1], start[2], start[3], 0 };
+				auto f = tts::get_feature_id(abbreviation);
+				if (f.second == tts::feature::unspecified)
+					throw std::runtime_error("unrecognised feature in phoneme modification rule");
+
+				feature = f.second;
 				return true;
+			}
+			else
+			{
+				features->reset(std::make_shared<cainteoir::buffer>(start, current));
+				++current;
+				if (features->read())
+				{
+					feature = tts::feature::unspecified;
+					phoneme = *features;
+					return true;
+				}
 			}
 			break;
 		default:
@@ -152,6 +171,7 @@ bool phoneme_file_reader::read()
 struct phonemeset_writer: public tts::phoneme_writer
 {
 	std::list<std::pair<tts::phoneme, std::shared_ptr<cainteoir::buffer>>> data;
+	std::list<std::pair<tts::feature, std::shared_ptr<cainteoir::buffer>>> rule_data;
 	FILE *output;
 
 	phonemeset_writer(const char *aPhonemeSet);
@@ -165,7 +185,12 @@ phonemeset_writer::phonemeset_writer(const char *aPhonemeSet)
 {
 	auto reader = phoneme_file_reader(aPhonemeSet);
 	while (reader.read())
-		data.push_back({ reader.phoneme, reader.transcription });
+	{
+		if (reader.feature == tts::feature::unspecified)
+			data.push_back({ reader.phoneme, reader.transcription });
+		else
+			rule_data.push_back({ reader.feature, reader.transcription });
+	}
 }
 
 void phonemeset_writer::reset(FILE *aOutput)
@@ -175,9 +200,27 @@ void phonemeset_writer::reset(FILE *aOutput)
 
 bool phonemeset_writer::write(const tts::phoneme &aPhoneme)
 {
+	tts::phoneme phoneme(aPhoneme);
+	std::shared_ptr<cainteoir::buffer> after;
+
+	for (const auto &entry : rule_data)
+	{
+		if (phoneme.remove(entry.first))
+		{
+			after = entry.second;
+		}
+	}
+
 	for (const auto &entry : data)
 	{
-		if (entry.first == aPhoneme)
+		if (entry.first == phoneme)
+		{
+			fwrite(entry.second->begin(), 1, entry.second->size(), output);
+			if (after.get())
+				fwrite(after->begin(), 1, after->size(), output);
+			return true;
+		}
+		else if (entry.first == aPhoneme)
 		{
 			fwrite(entry.second->begin(), 1, entry.second->size(), output);
 			return true;
