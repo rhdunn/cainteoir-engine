@@ -54,11 +54,18 @@ static const uint8_t hex_digit[256] = {
 
 #undef _
 
+enum class modifier_placement
+{
+	before,
+	after,
+};
+
 struct phoneme_file_reader
 {
 	std::shared_ptr<cainteoir::buffer> transcription;
 	tts::phoneme phoneme;
 	tts::feature feature;
+	modifier_placement placement;
 
 	phoneme_file_reader(const char *aPhonemeSet);
 
@@ -73,6 +80,8 @@ private:
 phoneme_file_reader::phoneme_file_reader(const char *aPhonemeSet)
 	: phoneme(tts::feature::unspecified, tts::feature::unspecified, tts::feature::unspecified)
 	, features(tts::createExplicitFeaturePhonemeReader())
+	, feature(tts::feature::unspecified)
+	, placement(modifier_placement::before)
 {
 	auto location = cainteoir::get_data_path() / "phonemeset" / (std::string(aPhonemeSet) + ".phon");
 	mBuffer = cainteoir::make_file_buffer(location);
@@ -116,6 +125,18 @@ bool phoneme_file_reader::read()
 					throw std::runtime_error("unrecognised feature in phoneme modification rule");
 
 				feature = f.second;
+				if (*current == '<')
+				{
+					++current;
+					placement = modifier_placement::before;
+				}
+				else if (*current == '>')
+				{
+					++current;
+					placement = modifier_placement::after;
+				}
+				else
+					throw std::runtime_error("unrecognised modifier placement in phoneme modification rule");
 				return true;
 			}
 			else
@@ -171,7 +192,7 @@ bool phoneme_file_reader::read()
 struct phonemeset_writer: public tts::phoneme_writer
 {
 	std::list<std::pair<tts::phoneme, std::shared_ptr<cainteoir::buffer>>> data;
-	std::list<std::pair<tts::feature, std::shared_ptr<cainteoir::buffer>>> rule_data;
+	std::list<std::pair<tts::feature, std::pair<modifier_placement, std::shared_ptr<cainteoir::buffer>>>> rule_data;
 	FILE *output;
 
 	phonemeset_writer(const char *aPhonemeSet);
@@ -189,7 +210,7 @@ phonemeset_writer::phonemeset_writer(const char *aPhonemeSet)
 		if (reader.feature == tts::feature::unspecified)
 			data.push_back({ reader.phoneme, reader.transcription });
 		else
-			rule_data.push_back({ reader.feature, reader.transcription });
+			rule_data.push_back({ reader.feature, { reader.placement, reader.transcription }});
 	}
 }
 
@@ -201,13 +222,22 @@ void phonemeset_writer::reset(FILE *aOutput)
 bool phonemeset_writer::write(const tts::phoneme &aPhoneme)
 {
 	tts::phoneme phoneme(aPhoneme);
+	std::shared_ptr<cainteoir::buffer> before;
 	std::shared_ptr<cainteoir::buffer> after;
 
 	for (const auto &entry : rule_data)
 	{
 		if (phoneme.remove(entry.first))
 		{
-			after = entry.second;
+			switch (entry.second.first)
+			{
+			case modifier_placement::before:
+				before = entry.second.second;
+				break;
+			case modifier_placement::after:
+				after = entry.second.second;
+				break;
+			}
 		}
 	}
 
@@ -215,6 +245,8 @@ bool phonemeset_writer::write(const tts::phoneme &aPhoneme)
 	{
 		if (entry.first == phoneme)
 		{
+			if (before.get())
+				fwrite(before->begin(), 1, before->size(), output);
 			fwrite(entry.second->begin(), 1, entry.second->size(), output);
 			if (after.get())
 				fwrite(after->begin(), 1, after->size(), output);
