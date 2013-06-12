@@ -2,6 +2,7 @@ addon: cainteoir
 description: "allow syntax highlighting for Cainteoir Text-to-Speech voice/language files"
 files:
   - ftdetect/dictfiletype.vim
+  - ftdetect/featuresfiletype.vim
   - ftdetect/ltphonfiletype.vim
   - ftdetect/phonfiletype.vim
   - syntax/dict.vim
