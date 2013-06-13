@@ -499,6 +499,15 @@ All namespaces associated with the top-most scope block are removed.
 \enum  cainteoir::xml::begin_tag_type
 \brief Specifies how begin tags are interpreted.
 
+\fn    std::shared_ptr<cainteoir::xml::reader> cainteoir::createXmlReader(const std::shared_ptr<buffer> &aData, const char *aDefaultEncoding)
+\brief Create a new XML document reader.
+
+\param[in] aData            The XML document contents.
+\param[in] aDefaultEncoding The character encoding to use by default.
+
+This function moves the reader to the first open tag element, so an XML document
+consumer does not have to do this itself.
+
 \}
 
 
