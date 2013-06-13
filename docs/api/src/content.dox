@@ -151,7 +151,7 @@
 
 \struct cainteoir::css::counter_style
 \see    http://www.w3.org/TR/css-counter-styles-3/#the-csscounterstylerule-interface
-\brief  Represents a \\counter-style CSS rule.
+\brief  Represents a \@counter-style CSS rule.
 
 \}
 
