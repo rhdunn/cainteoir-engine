@@ -178,6 +178,19 @@ The top-level ToC entry is determined as follows (in order of preference):
    -  the title specified in aTitle;
    -  the filename of the document.
 
+
+\fn    std::shared_ptr<cainteoir::document_reader> cainteoir::createDocumentReader(const cainteoir::document::range_type &aDocumentRange)
+\brief Create a document content reader.
+
+\param[in]  aDocumentRange The range of document items to read.
+
+\return A reader over the document item range.
+
+This is used to allow documents that have been parsed into a cainteoir::document
+object to be passed to API that consume a cainteoir::document_reader. It also
+allows a subset of the document to be used (e.g. between two table of content
+entries).
+
 \}
 
 */
