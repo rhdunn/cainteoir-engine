@@ -186,10 +186,33 @@ files, use the version of this function that takes a path as that reads
 the content in a single memory-mapped block.
 
 
-\fn    std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
+\enum  cainteoir::normalize_mode
+\brief Specifies how whitespace should be normalized.
+
+\}
+
+\var   cainteoir::normalizie_mode cainteoir::keep_space
+\brief The whitespace is preserved.
+
+\var   cainteoir::normalizie_mode cainteoir::collapse_space
+\brief Consecutive whitespace is collapsed.
+
+If there is any whitespace, consecutive whitespace is removed such that a
+single whitespace character remains.
+
+\var   cainteoir::normalizie_mode cainteoir::remove_space
+\brief All whitespace is removed.
+
+
+\addtogroup buffers
+\{
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer, normalize_mode aLeft, normalize_mode aRight)
 \brief Create a whitespace-normalized buffer.
 
 \param[in] aBuffer The buffer containing the text to normalize.
+\param[in] aLeft   The normalization mode to apply to left-trailing whitespace.
+\param[in] aRight  The normalization mode to apply to right-trailing whitespace.
 
 \return A new buffer with the whitespace normalized.
 
