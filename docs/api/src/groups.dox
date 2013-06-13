@@ -71,6 +71,10 @@ This is the C++ API to the various unit types for CSS values.
 \brief    MIME type handling.
 
 
+\defgroup phoneme Phonetic Model
+\brief    A C++ representation of phonemes modelled on the International Phonetic Alphabet.
+
+
 \defgroup ranges Ranges
 \brief    C++11 range-based for loop helpers.
 
