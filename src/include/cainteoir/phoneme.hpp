@@ -82,11 +82,17 @@ namespace cainteoir { namespace tts
 		primary_stress,
 		secondary_stress,
 
+		syllable_break,
+		silent_pause,
+
+		extra_short,
+		half_long,
+		long_,
+
 		aspirated,
 		unexploded,
 		syllabic,
 		murmured,
-		long_,
 		velarized,
 		labialized,
 		palatalized,

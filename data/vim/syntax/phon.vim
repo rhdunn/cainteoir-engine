@@ -13,18 +13,18 @@ syn keyword	phonFeature		afr alv apr asp
 syn keyword	phonFeature		bck blb
 syn keyword	phonFeature		clk cnt ctl
 syn keyword	phonFeature		dnt dpf dpr
-syn keyword	phonFeature		ejc epg
+syn keyword	phonFeature		ejc epg est
 syn keyword	phonFeature		flp fnt frc fzd
 syn keyword	phonFeature		glt
-syn keyword	phonFeature		hgh
+syn keyword	phonFeature		hgh hlg
 syn keyword	phonFeature		imp
 syn keyword	phonFeature		lat lbd lbv lmd lng low lzd
 syn keyword	phonFeature		mid mrm
 syn keyword	phonFeature		nas nzd
 syn keyword	phonFeature		orl
-syn keyword	phonFeature		pal phr pla pzd
+syn keyword	phonFeature		pal pau phr pla pzd
 syn keyword	phonFeature		rfx rnd rzd
-syn keyword	phonFeature		st1 st2 smh sml stp syl
+syn keyword	phonFeature		sbr st1 st2 smh sml stp syl
 syn keyword	phonFeature		trl
 syn keyword	phonFeature		umd unr unx uvl
 syn keyword	phonFeature		vcd vel vls vwl vzd

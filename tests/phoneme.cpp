@@ -483,10 +483,18 @@ TEST_CASE("tts::get_feature_id -- extended abbreviations")
 	assert(tts::get_feature_id("sml") == _(f::semi_low));
 	assert(tts::get_feature_id("afr") == _(f::affricate));
 	assert(tts::get_feature_id("epg") == _(f::epiglottal));
+
 	assert(tts::get_feature_id("dpf") == _(f::falling_diphthong));
 	assert(tts::get_feature_id("dpr") == _(f::rising_diphthong));
+
 	assert(tts::get_feature_id("st1") == _(f::primary_stress));
 	assert(tts::get_feature_id("st2") == _(f::secondary_stress));
+
+	assert(tts::get_feature_id("sbr") == _(f::syllable_break));
+	assert(tts::get_feature_id("pau") == _(f::silent_pause));
+
+	assert(tts::get_feature_id("est") == _(f::extra_short));
+	assert(tts::get_feature_id("hlg") == _(f::half_long));
 }
 
 TEST_CASE("tts::get_feature_abbreviation")
@@ -546,11 +554,17 @@ TEST_CASE("tts::get_feature_abbreviation")
 	assert(tts::get_feature_abbreviation(f::primary_stress)   == "st1");
 	assert(tts::get_feature_abbreviation(f::secondary_stress) == "st2");
 
+	assert(tts::get_feature_abbreviation(f::syllable_break) == "sbr");
+	assert(tts::get_feature_abbreviation(f::silent_pause)   == "pau");
+
+	assert(tts::get_feature_abbreviation(f::extra_short) == "est");
+	assert(tts::get_feature_abbreviation(f::half_long)   == "hlg");
+	assert(tts::get_feature_abbreviation(f::long_)       == "lng");
+
 	assert(tts::get_feature_abbreviation(f::aspirated)      == "asp");
 	assert(tts::get_feature_abbreviation(f::unexploded)     == "unx");
 	assert(tts::get_feature_abbreviation(f::syllabic)       == "syl");
 	assert(tts::get_feature_abbreviation(f::murmured)       == "mrm");
-	assert(tts::get_feature_abbreviation(f::long_)          == "lng");
 	assert(tts::get_feature_abbreviation(f::velarized)      == "vzd");
 	assert(tts::get_feature_abbreviation(f::labialized)     == "lzd");
 	assert(tts::get_feature_abbreviation(f::palatalized)    == "pzd");
@@ -622,11 +636,17 @@ TEST_CASE("tts::get_feature_name")
 	assert(tts::get_feature_name(f::primary_stress)   == "primary stress");
 	assert(tts::get_feature_name(f::secondary_stress) == "secondary stress");
 
+	assert(tts::get_feature_name(f::syllable_break) == "syllable break");
+	assert(tts::get_feature_name(f::silent_pause)   == "pause");
+
+	assert(tts::get_feature_name(f::extra_short) == "extra short");
+	assert(tts::get_feature_name(f::half_long)   == "half long");
+	assert(tts::get_feature_name(f::long_)       == "long");
+
 	assert(tts::get_feature_name(f::aspirated)      == "aspirated");
 	assert(tts::get_feature_name(f::unexploded)     == "unexploded");
 	assert(tts::get_feature_name(f::syllabic)       == "syllabic");
 	assert(tts::get_feature_name(f::murmured)       == "murmured");
-	assert(tts::get_feature_name(f::long_)          == "long");
 	assert(tts::get_feature_name(f::velarized)      == "velarized");
 	assert(tts::get_feature_name(f::labialized)     == "labialized");
 	assert(tts::get_feature_name(f::palatalized)    == "palatalized");

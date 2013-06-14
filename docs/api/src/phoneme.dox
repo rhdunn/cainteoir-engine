@@ -246,6 +246,39 @@ Indicates that the syllable the phoneme is part of is strongly emphasised.
 
 Indicates that the syllable the phoneme is part of is weakly emphasised.
 
+\var   cainteoir::tts::feature cainteoir::tts::syllable_break
+\brief \b sbr
+
+Marks the end of one syllable and the start of another.
+
+\var   cainteoir::tts::feature cainteoir::tts::silent_pause
+\brief \b pau
+
+This is used to denote the pause between phonemes. This can be combined with
+a length specifier to indicate the pause duration:
+
+  -  <code>{pau,est}</code> -- a short pause between words.
+  -  <code>{pau}</code>     -- a pause between clauses, e.g. comma.
+  -  <code>{pau,hlg}</code> -- a pause between sentences.
+  -  <code>{pau,lng}</code> -- an extended pause between sections and chapters.
+
+\var   cainteoir::tts::feature cainteoir::tts::extra_short
+\brief \b est
+
+The phoneme (typically a vowel) is articulated for a shorter than normal period
+of time.
+
+\var   cainteoir::tts::feature cainteoir::tts::half_long
+\brief \b hlg
+
+The phoneme (typically a vowel) is articulated for a slightly extended period
+of time.
+
+\var   cainteoir::tts::feature cainteoir::tts::long_
+\brief \b lng
+
+The phoneme (typically a vowel) is articulated for an extended period of time.
+
 \var   cainteoir::tts::feature cainteoir::tts::aspirated
 \brief \b asp
 
@@ -266,11 +299,6 @@ The consonant either forms the complete syllable or the nucleus of the syllable.
 
 The vocal chords vibrate, like with voiced consonants, but are opened so that
 more air escapes.
-
-\var   cainteoir::tts::feature cainteoir::tts::long_
-\brief \b lng
-
-The vowel is articulated for an extended period of time.
 
 \var   cainteoir::tts::feature cainteoir::tts::velarized
 \brief \b vzd
