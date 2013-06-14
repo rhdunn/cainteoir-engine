@@ -27,11 +27,17 @@
 
 namespace tts = cainteoir::tts;
 
+enum argument
+{
+	ARG_NO_PAUSES = 301,
+};
+
 static struct option options[] =
 {
 	{ "chart", no_argument, 0, 'c' },
 	{ "help", no_argument, 0, 'h' },
 	{ "separate", no_argument, 0, 's' },
+	{ "no-pauses", no_argument, 0, ARG_NO_PAUSES },
 	{ 0, 0, 0, 0 }
 };
 
@@ -51,6 +57,7 @@ void help()
 	fprintf(stdout, i18n(" -c, --chart            Display the phoneme scheme as an IPA chart\n"));
 	fprintf(stdout, i18n(" -h, --help             This help text\n"));
 	fprintf(stdout, i18n(" -s, --separate         Display each phoneme on a new line\n"));
+	fprintf(stdout, i18n(" -no-pauses             Do not process pause phonemes\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
 }
@@ -453,6 +460,7 @@ int main(int argc, char ** argv)
 	try
 	{
 		phoneme_mode mode = phoneme_mode::joined;
+		bool no_pauses = false;
 
 		while (1)
 		{
@@ -471,6 +479,9 @@ int main(int argc, char ** argv)
 				return 0;
 			case 's':
 				mode = phoneme_mode::separate;
+				break;
+			case ARG_NO_PAUSES:
+				no_pauses = true;
 				break;
 			}
 		}
@@ -495,9 +506,12 @@ int main(int argc, char ** argv)
 			to->reset(stdout);
 			while (from->read())
 			{
-				to->write(*from);
-				if (mode == phoneme_mode::separate)
-					fputc('\n', stdout);
+				if (!from->contains(tts::feature::silent_pause) || !no_pauses)
+				{
+					to->write(*from);
+					if (mode == phoneme_mode::separate)
+						fputc('\n', stdout);
+				}
 			}
 		}
 	}

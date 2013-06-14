@@ -128,7 +128,7 @@ class TestSuite:
 		srcphon = data['from']
 		dstphon = data['to']
 		write('... checking %s from %s to %s ... ' % (displayas or filename, srcphon, dstphon))
-		self.check_command(filename=filename, expect=expect, command='%s --separate %s %s' % (os.path.join(sys.path[0], '../src/apps/phoneme-converter/phoneme-converter'), srcphon, dstphon), test_expect=test_expect, replacements=replacements)
+		self.check_command(filename=filename, expect=expect, command='%s --separate --no-pauses %s %s' % (os.path.join(sys.path[0], '../src/apps/phoneme-converter/phoneme-converter'), srcphon, dstphon), test_expect=test_expect, replacements=replacements)
 
 	def run(self, data):
 		if self.run_only and data['name'] != self.run_only:
