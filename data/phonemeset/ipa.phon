@@ -137,6 +137,9 @@
 
 ##### C0 Controls and Basic Latin [1]
 
+\u000A			/{pau}/
+\u0020			/{pau,est}/
+
 !			/{vls,alv,clk}/
 
 B			/{vcd,blb,trl}/
