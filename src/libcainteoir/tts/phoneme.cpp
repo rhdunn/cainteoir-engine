@@ -152,6 +152,18 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	{ "fzd", i18n("pharyngealized") },
 };
 
+tts::phoneme::phoneme()
+{
+	features[0] = tts::feature::unspecified;
+	features[1] = tts::feature::unspecified;
+	features[2] = tts::feature::unspecified;
+	features[3] = tts::feature::unspecified;
+	features[4] = tts::feature::unspecified;
+	features[5] = tts::feature::unspecified;
+	features[6] = tts::feature::unspecified;
+	features[7] = tts::feature::unspecified;
+}
+
 tts::phoneme::phoneme(const feature a,
                       const feature b,
                       const feature c,
@@ -245,9 +257,4 @@ const char *tts::get_feature_name(const feature f)
 {
 	if ((int)f > (int)feature::pharyngealized) return nullptr;
 	return feature_data[(int)f].second;
-}
-
-tts::phoneme_reader::phoneme_reader()
-	: phoneme(tts::feature::unspecified, tts::feature::unspecified, tts::feature::unspecified)
-{
 }

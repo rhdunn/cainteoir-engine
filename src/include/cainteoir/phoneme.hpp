@@ -99,6 +99,8 @@ namespace cainteoir { namespace tts
 	{
 		feature features[8];
 	public:
+		phoneme();
+
 		phoneme(const feature a,
 		        const feature b,
 		        const feature c,
@@ -141,8 +143,6 @@ namespace cainteoir { namespace tts
 		virtual void reset(const std::shared_ptr<buffer> &aBuffer) = 0;
 
 		virtual bool read() = 0;
-
-		phoneme_reader();
 
 		virtual ~phoneme_reader() {}
 	};

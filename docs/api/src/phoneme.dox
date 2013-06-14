@@ -345,6 +345,10 @@ This structure is used to support the \b ctl and \b orl feature abbreviations in
 \}
 
 
+\fn    cainteoir::tts::phoneme::phoneme()
+\brief Create a phoneme with no features specified.
+
+
 \fn    cainteoir::tts::phoneme::phoneme(const feature a, const feature b, const feature c, const feature d, const feature e, const feature f, const feature g, const feature h)
 \brief Create a phoneme with the specified feature set.
 
@@ -438,10 +442,6 @@ while (scheme->read())
 
 
 \}
-
-
-\fn    cainteoir::tts::phoneme_reader::phoneme_reader()
-\brief Initializes the phoneme reader object.
 
 
 \fn    cainteoir::tts::phoneme_reader::~phoneme_reader()
