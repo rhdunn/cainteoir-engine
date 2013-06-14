@@ -145,6 +145,7 @@ R<umd>	/{umd,cnt,unr,vwl,rzd}/
 @.	/{umd,cnt,rnd,vwl}/ # [27]
 V"	/{lmd,cnt,unr,vwl}/
 O"	/{lmd,cnt,rnd,vwl}/
+&"	/{sml,cnt,unr,vwl}/ # [21], [22]
 
 u-	/{hgh,bck,unr,vwl}/
 U-	/{smh,bck,unr,vwl}/ # [21]
