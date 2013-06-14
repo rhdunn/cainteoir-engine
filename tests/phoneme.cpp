@@ -683,6 +683,9 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		const char *,
 		const tts::phoneme
 	>> phonemes = {
+		// prosody ...
+		{ "{pau}",                 { f::silent_pause, f::unspecified, f::unspecified } },
+		{ "{pau,est}",             { f::silent_pause, f::extra_short, f::unspecified } },
 		// consonants ...
 		{ "{vcd,blb,stp,asp}",     { f::voiced, f::bilabial, f::plosive, f::aspirated } },
 		{ "{vls,lbd,frc,unx}",     { f::voiceless, f::labio_dental, f::fricative, f::unexploded } },
@@ -787,9 +790,6 @@ TEST_CASE("explicit feature reader -- phoneme errors")
 		{ "{}",                        "missing phoneme feature" },
 		{ "{vcd,}",                    "missing phoneme feature" },
 		{ "{,lbd}",                    "missing phoneme feature" },
-		// less than 3 features ...
-		{ "{alv}",                     "a phoneme must specify at least 3 features" },
-		{ "{vcd,dnt}",                 "a phoneme must specify at least 3 features" },
 		// more than 8 features ...
 		{ "{vcd,dnt,lat,frc,mrm,asp,lzd,pzd,nzd}", "a phoneme must specify no more than 8 features" },
 		// features shorter/longer than 3 characters ...
@@ -855,6 +855,9 @@ TEST_CASE("explicit feature writer -- single phoneme")
 		const std::string,
 		const tts::phoneme
 	>> phonemes = {
+		// prosody ...
+		{ "{pau}",                 { f::silent_pause, f::unspecified, f::unspecified } },
+		{ "{pau,est}",             { f::silent_pause, f::extra_short, f::unspecified } },
 		// consonants ...
 		{ "{vcd,blb,stp,asp}",     { f::voiced, f::bilabial, f::plosive, f::aspirated } },
 		{ "{vls,lbd,frc,unx}",     { f::voiceless, f::labio_dental, f::fricative, f::unexploded } },

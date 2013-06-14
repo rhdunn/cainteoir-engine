@@ -144,9 +144,6 @@ bool explicit_feature_reader::read()
 					s = in_phoneme;
 				else
 				{
-					if (feature_pos <= 2)
-						throw tts::phoneme_error(i18n("a phoneme must specify at least 3 features"));
-
 					*(tts::phoneme *)this = {
 						features[0], features[1], features[2], features[3],
 						features[4], features[5], features[6], features[7] };
