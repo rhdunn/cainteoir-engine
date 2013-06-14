@@ -29,11 +29,17 @@ CLEANFILES =
 SUFFIXES = .html .phon .md
 SUBDIRS = po
 
-install-data-hook: install-data-hook-mimetypes install-data-hook-locale
+install-data-hook: \
+	install-data-hook-mimetypes \
+	install-data-hook-locale \
+	install-data-hook-phonemeset
 
-uninstall-hook: uninstall-hook-mimetypes
+uninstall-hook: \
+	uninstall-hook-mimetypes
 
-uninstall-local: uninstall-local-locale
+uninstall-local: \
+	uninstall-local-locale \
+	uninstall-local-phonemeset
 
 ############################# libtool #########################################
 
@@ -114,6 +120,7 @@ phonemes:	data/phonemeset/ascii-ipa.html \
 EXTRA_DIST += \
 	data/languages.rdf \
 	data/locale/* \
+	data/phonemeset/* \
 	src/schema/*.rdf
 
 data/languages.dat:
@@ -145,6 +152,16 @@ uninstall-local-locale:
 	cd $(DESTDIR)$(pkgdatadir); \
 	cat locale.installed | sed -e 's/ /\\ /g' | xargs rm -f; \
 	rm -f locale.installed
+
+install-data-hook-phonemeset:
+	cd data && (find phonemeset -type f | grep -vF "/." | \
+		tar -cO -T - --no-recursion | \
+		tar -C $(DESTDIR)$(pkgdatadir) -xvf - > $(DESTDIR)$(pkgdatadir)/phonemeset.installed)
+
+uninstall-local-phonemeset:
+	cd $(DESTDIR)$(pkgdatadir); \
+	cat phonemeset.installed | sed -e 's/ /\\ /g' | xargs rm -f; \
+	rm -f phonemeset.installed
 
 vim_registrydir = $(vimdir)/registry
 vim_registry_DATA = data/vim/registry/*.yaml
