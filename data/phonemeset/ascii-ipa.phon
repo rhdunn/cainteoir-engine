@@ -180,6 +180,9 @@ U@	/{smh,bck,rnd,dpf,mid,cnt}/
 oU	/{mid,cnt,unr,dpr,smh,bck}/
 aU	/{low,fnt,unr,dpr,smh,bck}/
 
+\u000A	/{pau}/
+\u0020	/{pau,est}/
+
 ##### Notes:
 #
 #  1. The 'unr' feature is written as 'urd' in the HTML specification (1), but
