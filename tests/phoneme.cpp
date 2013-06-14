@@ -374,6 +374,25 @@ TEST_CASE("remove feature")
 	assert(!p.contains(f::nasalized));
 }
 
+TEST_CASE("add feature")
+{
+	tts::phoneme p;
+	assert(!p.contains(f::voiceless));
+	assert(!p.contains(f::voiced));
+
+	assert(!p.add(f::unspecified));
+	assert(!p.contains(f::voiceless));
+	assert(!p.contains(f::voiced));
+
+	assert(p.add(f::voiceless));
+	assert(p.contains(f::voiceless));
+	assert(!p.contains(f::voiced));
+
+	assert(!p.add(f::voiceless));
+	assert(p.contains(f::voiceless));
+	assert(!p.contains(f::voiced));
+}
+
 TEST_CASE("tts::get_feature_id -- invalid abbreviations")
 {
 	auto _ = [](const tts::feature x) -> std::pair<bool, tts::feature>

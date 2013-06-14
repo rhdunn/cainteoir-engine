@@ -205,6 +205,19 @@ bool tts::phoneme::remove(const feature f)
 	return false;
 }
 
+bool tts::phoneme::add(const feature f)
+{
+	if (f != feature::unspecified && !contains(f)) for (feature &x : features)
+	{
+		if (x == tts::feature::unspecified)
+		{
+			x = f;
+			return true;
+		}
+	}
+	return false;
+}
+
 bool tts::phoneme::operator==(const phoneme &rhs) const
 {
 	int lhs_unspecified = 0;

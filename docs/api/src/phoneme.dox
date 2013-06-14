@@ -362,6 +362,19 @@ This structure is used to support the \b ctl and \b orl feature abbreviations in
 \retval false If the phoneme does not contain the specified feature, or the feature is \c unspecified.
 
 
+\fn    bool cainteoir::tts::phoneme::add(const feature f) const
+\brief Add the specified feature to the phoneme.
+
+\param f The feature to add.
+
+\retval true  If the feature was added.
+\retval false If the feature was not added.
+
+The \c unspecified feature will not be added, nor will a feature that already
+exists. Also, if all of the features are allocated for the phoneme, any other
+features will not be added.
+
+
 \fn    bool cainteoir::tts::phoneme::remove(const feature f) const
 \brief Remove the specified feature from the phoneme.
 

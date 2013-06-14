@@ -114,6 +114,8 @@ namespace cainteoir { namespace tts
 
 		bool remove(const feature f);
 
+		bool add(const feature f);
+
 		bool operator==(const phoneme &rhs) const;
 
 		bool operator!=(const phoneme &rhs) const
