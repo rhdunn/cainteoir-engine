@@ -25,18 +25,23 @@ if __name__ == '__main__':
 	test.run({'name': 'Phoneme Set', 'groups': [
 		{'name': 'ASCII-IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ascii-ipa.features', 'result': 'phonemeset/ascii-ipa.txt', 'from': 'features', 'to': 'ascii-ipa'},
+			{'test': 'phonemeset/ascii-ipa.txt', 'result': 'phonemeset/ascii-ipa.features', 'from': 'ascii-ipa', 'to': 'features'},
 		]},
 		{'name': 'IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa.features', 'result': 'phonemeset/ipa.txt', 'from': 'features', 'to': 'ipa'},
+			{'test': 'phonemeset/ipa.txt', 'result': 'phonemeset/ipa.features', 'from': 'ipa', 'to': 'features'},
 		]},
 		{'name': 'Arpabet', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/arpabet.features', 'result': 'phonemeset/arpabet.txt', 'from': 'features', 'to': 'arpabet'},
+			{'test': 'phonemeset/arpabet.txt', 'result': 'phonemeset/arpabet.features', 'from': 'arpabet', 'to': 'features'},
 		]},
 		{'name': 'SAMPA (English)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/sampa/en.features', 'result': 'phonemeset/sampa/en.txt', 'from': 'features', 'to': 'sampa/en'},
+			{'test': 'phonemeset/sampa/en.txt', 'result': 'phonemeset/sampa/en.features', 'from': 'sampa/en', 'to': 'features'},
 		]},
 		{'name': 'SAMPA (US English)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/sampa/en-US.features', 'result': 'phonemeset/sampa/en-US.txt', 'from': 'features', 'to': 'sampa/en-US'},
+			{'test': 'phonemeset/sampa/en-US.txt', 'result': 'phonemeset/sampa/en-US.features', 'from': 'sampa/en-US', 'to': 'features'},
 		]},
 	]})
 	test.summary()

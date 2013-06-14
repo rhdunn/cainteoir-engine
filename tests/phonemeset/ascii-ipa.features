@@ -92,11 +92,11 @@
 {vls,alv,clk}
 {vls,pal,clk}
 
-{vcd,vel,nas,lzd}
-{vls,vel,stp,lzd}
-{vcd,vel,stp,lzd}
-{vls,vel,apr,lzd}
-{vcd,vel,apr,lzd}
+{vcd,vel,lzd,nas}
+{vls,vel,lzd,stp}
+{vcd,vel,lzd,stp}
+{vls,vel,lzd,apr}
+{vcd,vel,lzd,apr}
 {vcd,pal,apr,lzd}
 
 {vcd,alv,lat,flp}

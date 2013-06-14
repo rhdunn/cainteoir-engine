@@ -56,8 +56,10 @@ static const uint8_t hex_digit[256] = {
 
 enum class modifier_placement
 {
+	none,
 	before,
 	after,
+	phoneme,
 };
 
 struct phoneme_file_reader
@@ -189,6 +191,176 @@ bool phoneme_file_reader::read()
 	return false;
 }
 
+template <typename T>
+struct trie_node
+{
+	char c;
+	T item;
+	std::list<trie_node<T>> children;
+
+	trie_node(char ch): c(ch) {}
+
+	trie_node<T> *get(char ch, bool insert_if_missing = false);
+};
+
+template <typename T>
+trie_node<T> *trie_node<T>::get(char ch, bool insert_if_missing)
+{
+	auto first = children.begin(), last = children.end();
+	while (first != last && first->c < ch)
+		++first;
+
+	if (first->c != ch)
+	{
+		if (!insert_if_missing)
+			return nullptr;
+
+		first = children.insert(first, ch);
+	}
+
+	return &*first;
+}
+
+struct phonemeset_reader: public tts::phoneme_reader
+{
+	phonemeset_reader(const char *aPhonemeSet);
+
+	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
+
+	bool read();
+
+	std::pair<const char *, std::pair<modifier_placement, tts::phoneme>>
+	next_match();
+
+	typedef trie_node<std::pair<modifier_placement, tts::phoneme>> phoneme_node;
+	phoneme_node mPhonemes;
+
+	std::shared_ptr<cainteoir::buffer> mBuffer;
+	const char *mCurrent;
+	const char *mEnd;
+};
+
+phonemeset_reader::phonemeset_reader(const char *aPhonemeSet)
+	: mPhonemes(0)
+{
+	auto reader = phoneme_file_reader(aPhonemeSet);
+	while (reader.read())
+	{
+		phoneme_node *entry = &mPhonemes;
+		for (char c : *reader.transcription)
+			entry = entry->get(c, true);
+
+		if (reader.feature == tts::feature::unspecified)
+			entry->item = { modifier_placement::phoneme, reader.phoneme };
+		else
+			entry->item = { reader.placement, { reader.feature, tts::feature::unspecified, tts::feature::unspecified } };
+	}
+}
+
+void phonemeset_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
+{
+	mBuffer = aBuffer;
+	if (mBuffer.get())
+	{
+		mCurrent = mBuffer->begin();
+		mEnd = mBuffer->end();
+	}
+	else
+	{
+		mCurrent = mEnd = nullptr;
+	}
+}
+
+bool phonemeset_reader::read()
+{
+	modifier_placement state = modifier_placement::before;
+	const char *pos = mCurrent;
+	tts::phoneme p;
+	while (true)
+	{
+		auto m = next_match();
+		switch (state)
+		{
+		case modifier_placement::before:
+			switch (m.second.first)
+			{
+			case modifier_placement::before:
+				p.add(*m.second.second.begin());
+				break;
+			case modifier_placement::phoneme:
+				for (tts::feature f : m.second.second)
+					p.add(f);
+				state = modifier_placement::after;
+				pos = m.first;
+				break;
+			case modifier_placement::after:
+				throw tts::phoneme_error("no phoneme before post-phoneme modifiers");
+			case modifier_placement::none:
+				return false;
+			}
+			break;
+		case modifier_placement::after:
+			switch (m.second.first)
+			{
+			case modifier_placement::before:
+			case modifier_placement::phoneme:
+			case modifier_placement::none:
+				mCurrent = pos;
+				*(tts::phoneme *)this = p;
+				return true;
+			case modifier_placement::after:
+				p.add(*m.second.second.begin());
+				pos = m.first;
+				break;
+			}
+			break;
+		}
+	}
+	return false;
+}
+
+std::pair<const char *, std::pair<modifier_placement, tts::phoneme>>
+phonemeset_reader::next_match()
+{
+	phoneme_node *entry = &mPhonemes;
+	phoneme_node *match = nullptr;
+	const char *pos = mCurrent;
+	while (mCurrent < mEnd)
+	{
+		phoneme_node *next = entry->get(*mCurrent);
+		if (next == nullptr)
+		{
+			if (match)
+			{
+				*(tts::phoneme *)this = match->item.second;
+				mCurrent = pos;
+				return { mCurrent, match->item };
+			}
+
+			entry = &mPhonemes;
+			++mCurrent;
+		}
+		else
+		{
+			entry = next;
+			++mCurrent;
+			if (entry->item.first != modifier_placement::none)
+			{
+				match = entry;
+				pos = mCurrent;
+			}
+		}
+	}
+	return { mCurrent, { modifier_placement::none, {} } };
+}
+
+std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader(const char *aPhonemeSet)
+{
+	if (!strcmp(aPhonemeSet, "features"))
+		return tts::createExplicitFeaturePhonemeReader();
+	return std::make_shared<phonemeset_reader>(aPhonemeSet);
+}
+
 struct phonemeset_writer: public tts::phoneme_writer
 {
 	std::list<std::pair<tts::phoneme, std::shared_ptr<cainteoir::buffer>>> data;
@@ -259,13 +431,6 @@ bool phonemeset_writer::write(const tts::phoneme &aPhoneme)
 		}
 	}
 	return false;
-}
-
-std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader(const char *aPhonemeSet)
-{
-	if (!strcmp(aPhonemeSet, "features"))
-		return tts::createExplicitFeaturePhonemeReader();
-	throw std::runtime_error("unsupported phoneme set");
 }
 
 std::shared_ptr<tts::phoneme_writer> tts::createPhonemeWriter(const char *aPhonemeSet)

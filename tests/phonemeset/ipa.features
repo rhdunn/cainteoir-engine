@@ -109,8 +109,8 @@
 {vcd,alv,apr,syl}
 
 {vcd,pal,apr,lzd}
-{vls,vel,apr,lzd}
-{vcd,vel,apr,lzd}
+{vls,vel,lzd,apr}
+{vcd,vel,lzd,apr}
 
 {vcd,alv,lat,flp}
 
