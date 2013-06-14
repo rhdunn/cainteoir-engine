@@ -64,17 +64,9 @@ bool explicit_feature_reader::read()
 	state_t s = begin_phoneme;
 	char abbrev[4] = { '\0', '\0', '\0', '\0' };
 	int abbrev_pos = 0;
-	tts::feature features[8] = {
-		tts::feature::unspecified,
-		tts::feature::unspecified,
-		tts::feature::unspecified,
-		tts::feature::unspecified,
-		tts::feature::unspecified,
-		tts::feature::unspecified,
-		tts::feature::unspecified,
-		tts::feature::unspecified,
-	};
-	int feature_pos = 0;
+
+	tts::phoneme p;
+	*(tts::phoneme *)this = tts::phoneme();
 
 	while (mCurrent < mEnd)
 	{
@@ -116,37 +108,34 @@ bool explicit_feature_reader::read()
 				if (abbrev_pos != 2)
 					throw tts::phoneme_error(i18n("a phoneme feature must be 3 characters long"));
 
-				if (feature_pos < 8)
+				auto match = tts::get_feature_id(abbrev);
+				if (!match.first)
 				{
-					auto match = tts::get_feature_id(abbrev);
-					if (!match.first)
+					if (abbrev[0] == 'l' && abbrev[1] == 'b' && abbrev[2] == 'v')
 					{
-						if (abbrev[0] == 'l' && abbrev[1] == 'b' && abbrev[2] == 'v')
-						{
-							// Special handling for 'lbv' ...
-							features[feature_pos++] = tts::feature::velar;
-							features[feature_pos++] = tts::feature::labialized;
-						}
-						else
-						{
-							char msg[64];
-							sprintf(msg, i18n("unknown phoneme feature '%s'"), abbrev);
-							throw tts::phoneme_error(msg);
-						}
+						// Special handling for 'lbv' ...
+						if (!p.add(tts::feature::velar) ||
+						    !p.add(tts::feature::labialized))
+							throw tts::phoneme_error(i18n("a phoneme must specify no more than 8 features"));
 					}
-					if (match.second != tts::feature::unspecified)
-						features[feature_pos++] = match.second;
+					else
+					{
+						char msg[64];
+						sprintf(msg, i18n("unknown phoneme feature '%s'"), abbrev);
+						throw tts::phoneme_error(msg);
+					}
 				}
-				else
-					throw tts::phoneme_error(i18n("a phoneme must specify no more than 8 features"));
+				if (match.second != tts::feature::unspecified)
+				{
+					if (!p.add(match.second))
+						throw tts::phoneme_error(i18n("a phoneme must specify no more than 8 features"));
+				}
 
 				if (*mCurrent == ',')
 					s = in_phoneme;
 				else
 				{
-					*(tts::phoneme *)this = {
-						features[0], features[1], features[2], features[3],
-						features[4], features[5], features[6], features[7] };
+					*(tts::phoneme *)this = p;
 					++mCurrent;
 					return true;
 				}
@@ -160,9 +149,6 @@ bool explicit_feature_reader::read()
 	if (s != begin_phoneme)
 		throw tts::phoneme_error(i18n("unexpected end of phoneme (expecting '}')"));
 
-	*(tts::phoneme *)this = {
-		features[0], features[1], features[2], features[3],
-		features[4], features[5], features[6], features[7] };
 	return false;
 }
 
