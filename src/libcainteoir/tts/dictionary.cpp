@@ -32,7 +32,7 @@ std::size_t tts::dictionary::key_hash::operator()(const key_type &a) const
 	// DJB2 Hash Algorithm by Dan Bernstein:
 	std::size_t hash = 5381;
 	for (auto c : *a)
-		hash = ((hash << 5) + hash) + c;
+		hash = hash * 33 + c;
         return hash;
 }
 
