@@ -31,6 +31,7 @@
 \u0252			/{low,bck,rnd,vwl}/
 \u0253			/{vcd,blb,imp}/
 \u0254			/{lmd,bck,rnd,vwl}/
+\u0254\u026A		/{lmd,bck,rnd,dpr,smh,fnt}/
 \u0255			/{vls,pla,frc,pzd}/
 \u0256			/{vcd,rfx,stp}/
 \u0257			/{vcd,alv,imp}/
@@ -54,6 +55,7 @@
 \u0267			/{vls,pla,frc,vzd}/
 \u0268			/{hgh,cnt,unr,vwl}/
 \u026A			/{smh,fnt,unr,vwl}/
+\u026A\u0259		/{smh,fnt,unr,dpf,mid,cnt}/
 \u026B			/{vcd,alv,lat,apr,vzd}/
 \u026C			/{vls,alv,lat,frc}/
 \u026D			/{vcd,rfx,lat,apr}/
@@ -89,6 +91,7 @@
 \u0288\u02BC		/{vls,rfx,ejc}/
 \u0289			/{hgh,cnt,rnd,vwl}/
 \u028A			/{smh,bck,rnd,vwl}/
+\u028A\u0259		/{smh,bck,rnd,dpf,mid,cnt}/
 \u028B			/{vcd,lbd,apr}/
 \u028C			/{lmd,bck,unr,vwl}/
 \u028D			/{vls,lbv,apr}/
@@ -152,6 +155,8 @@ R			/{vcd,uvl,trl}/
 Y			/{smh,fnt,rnd,vwl}/
 
 a			/{low,fnt,unr,vwl}/
+a\u026A			/{low,fnt,unr,dpr,smh}/
+a\u028A			/{low,fnt,unr,dpr,smh,bck}/
 b			/{vcd,blb,stp}/
 b\u032A			/{vcd,lbd,stp}/
 c			/{vls,pal,stp}/
@@ -162,6 +167,8 @@ d\u0291			/{vcd,pla,afr,pzd}/
 d\u0292			/{vcd,pla,afr}/
 d\u032A			/{vcd,dnt,stp}/
 e			/{umd,fnt,unr,vwl}/
+e\u026A			/{lmd,fnt,unr,dpr,smh}/
+e\u0259			/{lmd,fnt,unr,dpr,mid,cnt}/
 f			/{vls,lbd,frc}/
 g			/{vcd,vel,stp}/
 h			/{vls,glt,apr}/
@@ -178,6 +185,7 @@ n			/{vcd,alv,nas}/
 n\u0329			/{vcd,alv,nas,syl}/
 n\u032A			/{vcd,dnt,nas}/
 o			/{umd,bck,rnd,vwl}/
+o\u028A			/{mid,cnt,unr,dpr,smh,bck}/
 p			/{vls,blb,stp}/
 p\u02BC			/{vls,blb,ejc}/
 p\u032A			/{vls,lbd,stp}/
