@@ -106,8 +106,10 @@
 \u0020EN	/{vcd,alv,nas,syl}/
 \u0020ENG	/{vcd,vel,nas,syl}/
 
-\u0020L		/{vcd,alv,lat,apr,vzd}/
-\u0020EL	/{vcd,alv,lat,apr,vzd,syl}/
+\u0020L		/{vcd,alv,lat,apr,vzd}/ # [6]
+\u0020L		/{vcd,alv,lat,apr}/ # [6]
+\u0020EL	/{vcd,alv,lat,apr,vzd,syl}/ # [6]
+\u0020EL	/{vcd,alv,lat,apr,syl}/ # [6]
 \u0020R		/{vcd,alv,apr}/
 \u0020DX	/{vcd,alv,flp}/
 \u0020NX	/{vcd,alv,flp,nzd}/
@@ -131,6 +133,10 @@
 #
 #  5. Wikipedia lists the IPA transcription without the /{lng}/ feature. However,
 #     in practice, these phonemes are long vowels.
+#
+#  6. Wikipedia lists these as the /{vzd}/ forms in recent versions of the page,
+#     however the /{vzd}/ form is accent and context dependent. As Arpabet does
+#     not make this distinction, both forms are supported.
 #
 ##### References:
 #

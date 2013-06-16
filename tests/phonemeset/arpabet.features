@@ -88,8 +88,8 @@
 {vcd,alv,nas,syl}
 {vcd,vel,nas,syl}
 
-{vcd,alv,lat,apr,vzd}
-{vcd,alv,lat,apr,vzd,syl}
+{vcd,alv,lat,apr}
+{vcd,alv,lat,apr,syl}
 {vcd,alv,apr}
 {vcd,alv,flp}
 {vcd,alv,flp,nzd}
