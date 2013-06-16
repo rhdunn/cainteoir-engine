@@ -176,6 +176,11 @@ bool phoneme_file_reader::read()
 						escape[3] = *current++;
 						end = cainteoir::utf8::write(end, strtol(escape, nullptr, 16));
 					}
+					else if (current[0] == '\\' && current[1] == '#')
+					{
+						current += 2;
+						*end++ = '#';
+					}
 					else
 						*end++ = *current++;
 				}

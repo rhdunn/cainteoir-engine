@@ -30,6 +30,7 @@ syn keyword	phonFeature		umd unr unx uvl
 syn keyword	phonFeature		vcd vel vls vwl vzd
 
 syn match	phonUnicodeEscape	'\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]'
+syn match	phonEscape		'\\#'
 
 syn region	phonComment		start="#" end="$" keepend contains=@Spell
 syn region	phonTranscription	start="/" end="/" contains=phonFeature
@@ -40,6 +41,7 @@ hi def link phonComment			Comment
 hi def link phonTranscription		String
 hi def link phonFeature			Statement
 hi def link phonUnicodeEscape		Statement
+hi def link phonEscape			Statement
 
 let b:current_syntax = "phon"
 " vim: ts=8
