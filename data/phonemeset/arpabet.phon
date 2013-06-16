@@ -11,9 +11,17 @@
 \u0020AO1	/{lmd,bck,rnd,vwl,lng,st1}/ # [5]
 \u0020AO2	/{lmd,bck,rnd,vwl,lng,st2}/ # [5]
 
+\u0020AA0	/{low,bck,rnd,vwl}/ # [8]
+\u0020AA1	/{low,bck,rnd,vwl,st1}/ # [8]
+\u0020AA2	/{low,bck,rnd,vwl,st2}/ # [8]
+
 \u0020AA0	/{low,bck,unr,vwl,lng}/ # [5]
 \u0020AA1	/{low,bck,unr,vwl,lng,st1}/ # [5]
 \u0020AA2	/{low,bck,unr,vwl,lng,st2}/ # [5]
+
+\u0020IY0	/{smh,fnt,unr,dpf,mid,cnt}/ # [10]
+\u0020IY1	/{smh,fnt,unr,dpf,mid,cnt,st1}/ # [10]
+\u0020IY2	/{smh,fnt,unr,dpf,mid,cnt,st2}/ # [10]
 
 \u0020IY0	/{hgh,fnt,unr,vwl,lng}/ # [5]
 \u0020IY1	/{hgh,fnt,unr,vwl,lng,st1}/ # [5]
@@ -35,6 +43,7 @@
 \u0020UH1	/{smh,bck,rnd,vwl,st1}/
 \u0020UH2	/{smh,bck,rnd,vwl,st2}/
 
+\u0020AX0	/{sml,cnt,unr,vwl}/ # [1]
 \u0020AX0	/{mid,cnt,unr,vwl}/ # [1]
 
 \u0020AH0	/{mid,cnt,unr,vwl}/ # [2]
@@ -80,6 +89,10 @@
 \u0020ER1	/{lmd,cnt,unr,vwl,lng,rzd,st1}/ # [5]
 \u0020ER2	/{lmd,cnt,unr,vwl,lng,rzd,st2}/ # [5]
 
+\u0020EH0\u0020R	/{lmd,fnt,unr,dpr,mid,cnt}/ # [10]
+\u0020EH1\u0020R	/{lmd,fnt,unr,dpr,mid,cnt,st1}/ # [10]
+\u0020EH2\u0020R	/{lmd,fnt,unr,dpr,mid,cnt,st2}/ # [10]
+
 ##### Consonants
 
 \u0020P		/{vls,blb,stp}/
@@ -89,6 +102,7 @@
 \u0020K		/{vls,vel,stp}/
 \u0020G		/{vcd,vel,stp}/
 
+\u0020T\u0020S	/{vls,alv,afr}/ # [9]
 \u0020CH	/{vls,pla,afr}/
 \u0020JH	/{vcd,pla,afr}/
 
@@ -143,6 +157,15 @@
 #     not make this distinction, both forms are supported.
 #
 #  7. Support English accents that do not rhoticize the /ER/ phoneme.
+#
+#  8. Support English accents that do not have the cot-cart merger.
+#
+#  9. These affricates do not have a single phoneme associated with them, so use
+#     their equivalent phoneme pair.
+#
+# 10. This is a phoneme used in English accents other than General American which
+#     Arpabet is derived from, so map it to the phoneme used in the CMU
+#     pronunciation dictionary.
 #
 ##### References:
 #
