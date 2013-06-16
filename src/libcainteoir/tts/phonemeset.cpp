@@ -294,7 +294,10 @@ bool phonemeset_reader::read()
 				pos = m.first;
 				break;
 			case modifier_placement::after:
-				throw tts::phoneme_error("no phoneme before post-phoneme modifiers");
+				fflush(stdout);
+				fprintf(stderr, "\nno phoneme before post-phoneme modifiers\n");
+				fflush(stderr);
+				break;
 			case modifier_placement::none:
 				return false;
 			}
@@ -340,9 +343,9 @@ phonemeset_reader::next_match()
 			uint8_t c = *mCurrent;
 			fflush(stdout);
 			if (c <= 0x20 || c >= 0x80)
-				fprintf(stderr, "unrecognised character 0x%02X\n", c);
+				fprintf(stderr, "\nunrecognised character 0x%02X\n", c);
 			else
-				fprintf(stderr, "unrecognised character '%c'\n", c);
+				fprintf(stderr, "\nunrecognised character '%c'\n", c);
 			fflush(stderr);
 
 			entry = &mPhonemes;
