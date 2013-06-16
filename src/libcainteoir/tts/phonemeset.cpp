@@ -410,6 +410,7 @@ void phonemeset_writer::reset(FILE *aOutput)
 bool phonemeset_writer::write(const tts::phoneme &aPhoneme)
 {
 	tts::phoneme phoneme(aPhoneme);
+	tts::phoneme phoneme_after(aPhoneme);
 	std::shared_ptr<cainteoir::buffer> before;
 	std::shared_ptr<cainteoir::buffer> after;
 
@@ -421,6 +422,7 @@ bool phonemeset_writer::write(const tts::phoneme &aPhoneme)
 			{
 			case modifier_placement::before:
 				before = entry.second.second;
+				phoneme_after.remove(entry.first);
 				break;
 			case modifier_placement::after:
 				after = entry.second.second;
@@ -431,7 +433,14 @@ bool phonemeset_writer::write(const tts::phoneme &aPhoneme)
 
 	for (const auto &entry : data)
 	{
-		if (entry.first == phoneme)
+		if (entry.first == phoneme_after)
+		{
+			if (before.get())
+				fwrite(before->begin(), 1, before->size(), output);
+			fwrite(entry.second->begin(), 1, entry.second->size(), output);
+			return true;
+		}
+		else if (entry.first == phoneme)
 		{
 			if (before.get())
 				fwrite(before->begin(), 1, before->size(), output);
