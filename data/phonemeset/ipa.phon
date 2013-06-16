@@ -38,6 +38,7 @@
 \u0257\u032A		/{vcd,dnt,imp}/
 \u0258			/{umd,cnt,unr,vwl}/
 \u0259			/{mid,cnt,unr,vwl}/
+\u0259\u028A		/{mid,cnt,unr,dpr,smh,bck}/ # [2]
 \u025A			/{mid,cnt,unr,vwl,rzd}/
 \u025B			/{lmd,fnt,unr,vwl}/
 \u025C			/{lmd,cnt,unr,vwl}/
