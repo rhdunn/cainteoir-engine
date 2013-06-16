@@ -2,7 +2,8 @@
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
-\u000A		/{pau,hlg}/
+\u0020PAU	/{pau,est}/
+\u000A		/{pau}/
 
 ##### Vowels
 
