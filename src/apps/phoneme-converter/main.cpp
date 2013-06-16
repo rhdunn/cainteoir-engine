@@ -37,6 +37,7 @@ static struct option options[] =
 	{ "chart", no_argument, 0, 'c' },
 	{ "help", no_argument, 0, 'h' },
 	{ "separate", no_argument, 0, 's' },
+	{ "features", no_argument, 0, 'f' },
 	{ "no-pauses", no_argument, 0, ARG_NO_PAUSES },
 	{ 0, 0, 0, 0 }
 };
@@ -57,6 +58,7 @@ void help()
 	fprintf(stdout, i18n(" -c, --chart            Display the phoneme scheme as an IPA chart\n"));
 	fprintf(stdout, i18n(" -h, --help             This help text\n"));
 	fprintf(stdout, i18n(" -s, --separate         Display each phoneme on a new line\n"));
+	fprintf(stdout, i18n(" -f, --features         Show the features along with the transcription\n"));
 	fprintf(stdout, i18n(" -no-pauses             Do not process pause phonemes\n"));
 	fprintf(stdout, "\n");
 	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
@@ -461,11 +463,12 @@ int main(int argc, char ** argv)
 	{
 		phoneme_mode mode = phoneme_mode::joined;
 		bool no_pauses = false;
+		bool show_features = false;
 
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "chs", options, &option_index);
+			int c = getopt_long(argc, argv, "cfhs", options, &option_index);
 			if (c == -1)
 				break;
 
@@ -477,6 +480,9 @@ int main(int argc, char ** argv)
 			case 'h':
 				help();
 				return 0;
+			case 'f':
+				show_features = true;
+				break;
 			case 's':
 				mode = phoneme_mode::separate;
 				break;
@@ -501,14 +507,21 @@ int main(int argc, char ** argv)
 		{
 			auto from = tts::createPhonemeReader(argv[0]);
 			auto to   = tts::createPhonemeWriter(argv[1]);
+			auto feat = tts::createExplicitFeaturePhonemeWriter();
 
 			from->reset(cainteoir::make_file_buffer(argv[2]));
 			to->reset(stdout);
+			feat->reset(stdout);
 			while (from->read())
 			{
 				if (!from->contains(tts::feature::silent_pause) || !no_pauses)
 				{
 					to->write(*from);
+					if (show_features)
+					{
+						fputc('\t', stdout);
+						feat->write(*from);
+					}
 					if (mode == phoneme_mode::separate)
 						fputc('\n', stdout);
 				}
