@@ -42,7 +42,7 @@
 \u0020AX0	/{sml,cnt,unr,vwl}/ # [1]
 \u0020AX0	/{mid,cnt,unr,vwl}/ # [1]
 
-\u0020AH0	/{mid,cnt,unr,vwl}/ # [2]
+\u0020AH0	/{lmd,bck,unr,vwl}/
 \u0020AH1	/{lmd,bck,unr,vwl,st1}/
 \u0020AH2	/{lmd,bck,unr,vwl,st2}/
 
@@ -94,8 +94,8 @@
 \u0020K		/{vls,vel,stp}/
 \u0020G		/{vcd,vel,stp}/
 
-\u0020T\u0020S	/{vls,alv,afr}/ # [9]
-\u0020D\u0020Z	/{vcd,alv,afr}/ # [9]
+\u0020T\u0020S	/{vls,alv,afr}/ # [2]
+\u0020D\u0020Z	/{vcd,alv,afr}/ # [2]
 \u0020CH	/{vls,pla,afr}/
 \u0020JH	/{vcd,pla,afr}/
 
@@ -133,8 +133,8 @@
 #
 #  1. Wikipedia uses /AX0/ in the word examples for the /AX/ phoneme.
 #
-#  2. The CMU pronunciation dictionary uses /AH0/ for the /ə/ phoneme, not
-#     /AX/ or /AX0/.
+#  2. These affricates do not have a single phoneme associated with them, so use
+#     their equivalent phoneme pair.
 #
 #  3. Wikipedia lists this as /AXR/, but uses /ER/ in the examples.
 #
@@ -152,13 +152,6 @@
 #  7. Support English accents that do not rhoticize the /ER/ phoneme.
 #
 #  8. Support English accents that do not have the cot-cart merger.
-#
-#  9. These affricates do not have a single phoneme associated with them, so use
-#     their equivalent phoneme pair.
-#
-# 10. This is a phoneme used in English accents other than General American which
-#     Arpabet is derived from, so map it to the phoneme used in the CMU
-#     pronunciation dictionary.
 #
 ##### References:
 #
