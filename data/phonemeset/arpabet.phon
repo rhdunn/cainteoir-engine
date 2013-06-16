@@ -2,118 +2,118 @@
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
-\u000A	/{pau,hlg}/
+\u000A		/{pau,hlg}/
 
 ##### Vowels
 
-AO0	/{lmd,bck,rnd,vwl}/
-AO1	/{lmd,bck,rnd,vwl,st1}/
-AO2	/{lmd,bck,rnd,vwl,st2}/
+\u0020AO0	/{lmd,bck,rnd,vwl}/
+\u0020AO1	/{lmd,bck,rnd,vwl,st1}/
+\u0020AO2	/{lmd,bck,rnd,vwl,st2}/
 
-AA0	/{low,bck,unr,vwl}/
-AA1	/{low,bck,unr,vwl,st1}/
-AA2	/{low,bck,unr,vwl,st2}/
+\u0020AA0	/{low,bck,unr,vwl}/
+\u0020AA1	/{low,bck,unr,vwl,st1}/
+\u0020AA2	/{low,bck,unr,vwl,st2}/
 
-IY0	/{hgh,fnt,unr,vwl}/
-IY1	/{hgh,fnt,unr,vwl,st1}/
-IY2	/{hgh,fnt,unr,vwl,st2}/
+\u0020IY0	/{hgh,fnt,unr,vwl}/
+\u0020IY1	/{hgh,fnt,unr,vwl,st1}/
+\u0020IY2	/{hgh,fnt,unr,vwl,st2}/
 
-UW0	/{hgh,bck,rnd,vwl}/
-UW1	/{hgh,bck,rnd,vwl,st1}/
-UW2	/{hgh,bck,rnd,vwl,st2}/
+\u0020UW0	/{hgh,bck,rnd,vwl}/
+\u0020UW1	/{hgh,bck,rnd,vwl,st1}/
+\u0020UW2	/{hgh,bck,rnd,vwl,st2}/
 
-EH0	/{lmd,fnt,unr,vwl}/
-EH1	/{lmd,fnt,unr,vwl,st1}/
-EH2	/{lmd,fnt,unr,vwl,st2}/
+\u0020EH0	/{lmd,fnt,unr,vwl}/
+\u0020EH1	/{lmd,fnt,unr,vwl,st1}/
+\u0020EH2	/{lmd,fnt,unr,vwl,st2}/
 
-IH0	/{smh,fnt,unr,vwl}/
-IH1	/{smh,fnt,unr,vwl,st1}/
-IH2	/{smh,fnt,unr,vwl,st2}/
+\u0020IH0	/{smh,fnt,unr,vwl}/
+\u0020IH1	/{smh,fnt,unr,vwl,st1}/
+\u0020IH2	/{smh,fnt,unr,vwl,st2}/
 
-UH0	/{smh,bck,rnd,vwl}/
-UH1	/{smh,bck,rnd,vwl,st1}/
-UH2	/{smh,bck,rnd,vwl,st2}/
+\u0020UH0	/{smh,bck,rnd,vwl}/
+\u0020UH1	/{smh,bck,rnd,vwl,st1}/
+\u0020UH2	/{smh,bck,rnd,vwl,st2}/
 
-AX0	/{mid,cnt,unr,vwl}/ # [1]
+\u0020AX0	/{mid,cnt,unr,vwl}/ # [1]
 
-AH0	/{mid,cnt,unr,vwl}/ # [2]
-AH1	/{lmd,bck,unr,vwl,st1}/
-AH2	/{lmd,bck,unr,vwl,st2}/
+\u0020AH0	/{mid,cnt,unr,vwl}/ # [2]
+\u0020AH1	/{lmd,bck,unr,vwl,st1}/
+\u0020AH2	/{lmd,bck,unr,vwl,st2}/
 
-AE0	/{low,fnt,unr,vwl}/
-AE1	/{low,fnt,unr,vwl,st1}/
-AE2	/{low,fnt,unr,vwl,st2}/
+\u0020AE0	/{low,fnt,unr,vwl}/
+\u0020AE1	/{low,fnt,unr,vwl,st1}/
+\u0020AE2	/{low,fnt,unr,vwl,st2}/
 
 ##### Diphthongs
 
-EY0	/{lmd,fnt,unr,dpr,smh}/
-EY1	/{lmd,fnt,unr,dpr,smh,st1}/
-EY2	/{lmd,fnt,unr,dpr,smh,st2}/
+\u0020EY0	/{lmd,fnt,unr,dpr,smh}/
+\u0020EY1	/{lmd,fnt,unr,dpr,smh,st1}/
+\u0020EY2	/{lmd,fnt,unr,dpr,smh,st2}/
 
-AY0	/{low,fnt,unr,dpr,smh}/
-AY1	/{low,fnt,unr,dpr,smh,st1}/
-AY2	/{low,fnt,unr,dpr,smh,st2}/
+\u0020AY0	/{low,fnt,unr,dpr,smh}/
+\u0020AY1	/{low,fnt,unr,dpr,smh,st1}/
+\u0020AY2	/{low,fnt,unr,dpr,smh,st2}/
 
-OY0	/{lmd,bck,rnd,dpr,smh,fnt}/
-OY1	/{lmd,bck,rnd,dpr,smh,fnt,st1}/
-OY2	/{lmd,bck,rnd,dpr,smh,fnt,st2}/
+\u0020OY0	/{lmd,bck,rnd,dpr,smh,fnt}/
+\u0020OY1	/{lmd,bck,rnd,dpr,smh,fnt,st1}/
+\u0020OY2	/{lmd,bck,rnd,dpr,smh,fnt,st2}/
 
-OW0	/{mid,cnt,unr,dpr,smh,bck}/
-OW1	/{mid,cnt,unr,dpr,smh,bck,st1}/
-OW2	/{mid,cnt,unr,dpr,smh,bck,st2}/
+\u0020OW0	/{mid,cnt,unr,dpr,smh,bck}/
+\u0020OW1	/{mid,cnt,unr,dpr,smh,bck,st1}/
+\u0020OW2	/{mid,cnt,unr,dpr,smh,bck,st2}/
 
-AW0	/{low,fnt,unr,dpr,smh,bck}/
-AW1	/{low,fnt,unr,dpr,smh,bck,st1}/
-AW2	/{low,fnt,unr,dpr,smh,bck,st2}/
+\u0020AW0	/{low,fnt,unr,dpr,smh,bck}/
+\u0020AW1	/{low,fnt,unr,dpr,smh,bck,st1}/
+\u0020AW2	/{low,fnt,unr,dpr,smh,bck,st2}/
 
 ##### R-coloured Vowels [4]
 
-AXR	/{mid,cnt,unr,vwl,rzd}/ # [3]
+\u0020AXR	/{mid,cnt,unr,vwl,rzd}/ # [3]
 
-ER	/{mid,cnt,unr,vwl,rzd}/ # [3]
-ER0	/{lmd,cnt,unr,vwl,rzd}/
-ER1	/{lmd,cnt,unr,vwl,rzd,st1}/
-ER2	/{lmd,cnt,unr,vwl,rzd,st2}/
+\u0020ER	/{mid,cnt,unr,vwl,rzd}/ # [3]
+\u0020ER0	/{lmd,cnt,unr,vwl,rzd}/
+\u0020ER1	/{lmd,cnt,unr,vwl,rzd,st1}/
+\u0020ER2	/{lmd,cnt,unr,vwl,rzd,st2}/
 
 ##### Consonants
 
-P	/{vls,blb,stp}/
-B	/{vcd,blb,stp}/
-T	/{vls,alv,stp}/
-D	/{vcd,alv,stp}/
-K	/{vls,vel,stp}/
-G	/{vcd,vel,stp}/
+\u0020P		/{vls,blb,stp}/
+\u0020B		/{vcd,blb,stp}/
+\u0020T		/{vls,alv,stp}/
+\u0020D		/{vcd,alv,stp}/
+\u0020K		/{vls,vel,stp}/
+\u0020G		/{vcd,vel,stp}/
 
-CH	/{vls,pla,afr}/
-JH	/{vcd,pla,afr}/
+\u0020CH	/{vls,pla,afr}/
+\u0020JH	/{vcd,pla,afr}/
 
-F	/{vls,lbd,frc}/
-V	/{vcd,lbd,frc}/
-TH	/{vls,dnt,frc}/
-DH	/{vcd,dnt,frc}/
-S	/{vls,alv,frc}/
-Z	/{vcd,alv,frc}/
-SH	/{vls,pla,frc}/
-ZH	/{vcd,pla,frc}/
-HH	/{vls,glt,apr}/
+\u0020F		/{vls,lbd,frc}/
+\u0020V		/{vcd,lbd,frc}/
+\u0020TH	/{vls,dnt,frc}/
+\u0020DH	/{vcd,dnt,frc}/
+\u0020S		/{vls,alv,frc}/
+\u0020Z		/{vcd,alv,frc}/
+\u0020SH	/{vls,pla,frc}/
+\u0020ZH	/{vcd,pla,frc}/
+\u0020HH	/{vls,glt,apr}/
 
-M	/{vcd,blb,nas}/
-N	/{vcd,alv,nas}/
-NG	/{vcd,vel,nas}/
+\u0020M		/{vcd,blb,nas}/
+\u0020N		/{vcd,alv,nas}/
+\u0020NG	/{vcd,vel,nas}/
 
-EM	/{vcd,blb,nas,syl}/
-EN	/{vcd,alv,nas,syl}/
-ENG	/{vcd,vel,nas,syl}/
+\u0020EM	/{vcd,blb,nas,syl}/
+\u0020EN	/{vcd,alv,nas,syl}/
+\u0020ENG	/{vcd,vel,nas,syl}/
 
-L	/{vcd,alv,lat,apr,vzd}/
-EL	/{vcd,alv,lat,apr,vzd,syl}/
-R	/{vcd,alv,apr}/
-DX	/{vcd,alv,flp}/
-NX	/{vcd,alv,flp,nzd}/
+\u0020L		/{vcd,alv,lat,apr,vzd}/
+\u0020EL	/{vcd,alv,lat,apr,vzd,syl}/
+\u0020R		/{vcd,alv,apr}/
+\u0020DX	/{vcd,alv,flp}/
+\u0020NX	/{vcd,alv,flp,nzd}/
 
-Y	/{vcd,pal,apr}/
-W	/{vcd,lbv,apr}/
-Q	/{vls,glt,stp}/
+\u0020Y		/{vcd,pal,apr}/
+\u0020W		/{vcd,lbv,apr}/
+\u0020Q		/{vls,glt,stp}/
 
 ##### Notes:
 #
