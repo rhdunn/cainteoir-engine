@@ -173,6 +173,7 @@ f			/{vls,lbd,frc}/
 g			/{vcd,vel,stp}/
 h			/{vls,glt,apr}/
 i			/{hgh,fnt,unr,vwl}/
+i\u0259			/{smh,fnt,unr,dpf,mid,cnt}/ # [2]
 j			/{vcd,pal,apr}/
 k			/{vls,vel,stp}/
 k\u02BC			/{vls,vel,ejc}/
@@ -215,6 +216,8 @@ z			/{vcd,alv,frc}/
 #     several of these have better variants in later code blocks. To ensure
 #     that the best characters are used, the Basic Latin forms are placed
 #     at the end of the list as earlier items in the list take precedence.
+#
+#  2. This is an alternate transcription used by `espeak --ipa`.
 #
 ##### References:
 #
