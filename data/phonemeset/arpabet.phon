@@ -19,10 +19,6 @@
 \u0020AA1	/{low,bck,unr,vwl,lng,st1}/ # [5]
 \u0020AA2	/{low,bck,unr,vwl,lng,st2}/ # [5]
 
-\u0020IY0	/{smh,fnt,unr,dpf,mid,cnt}/ # [10]
-\u0020IY1	/{smh,fnt,unr,dpf,mid,cnt,st1}/ # [10]
-\u0020IY2	/{smh,fnt,unr,dpf,mid,cnt,st2}/ # [10]
-
 \u0020IY0	/{hgh,fnt,unr,vwl,lng}/ # [5]
 \u0020IY1	/{hgh,fnt,unr,vwl,lng,st1}/ # [5]
 \u0020IY2	/{hgh,fnt,unr,vwl,lng,st2}/ # [5]
@@ -88,10 +84,6 @@
 \u0020ER0	/{lmd,cnt,unr,vwl,lng,rzd}/ # [5]
 \u0020ER1	/{lmd,cnt,unr,vwl,lng,rzd,st1}/ # [5]
 \u0020ER2	/{lmd,cnt,unr,vwl,lng,rzd,st2}/ # [5]
-
-\u0020EH0\u0020R	/{lmd,fnt,unr,dpr,mid,cnt}/ # [10]
-\u0020EH1\u0020R	/{lmd,fnt,unr,dpr,mid,cnt,st1}/ # [10]
-\u0020EH2\u0020R	/{lmd,fnt,unr,dpr,mid,cnt,st2}/ # [10]
 
 ##### Consonants
 
