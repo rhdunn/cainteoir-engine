@@ -39,6 +39,7 @@
 \u0020UH1	/{smh,bck,rnd,vwl,st1}/
 \u0020UH2	/{smh,bck,rnd,vwl,st2}/
 
+\u0020AX0	/{sml,cnt,unr,vwl}/
 \u0020AX0	/{mid,cnt,unr,vwl}/ # [1]
 
 \u0020AH0	/{lmd,bck,unr,vwl}/
