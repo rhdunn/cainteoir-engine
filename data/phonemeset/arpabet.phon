@@ -71,6 +71,10 @@
 
 \u0020AXR	/{mid,cnt,unr,vwl,rzd}/ # [3]
 
+\u0020ER0	/{lmd,cnt,unr,vwl,lng}/ # [5], [7]
+\u0020ER1	/{lmd,cnt,unr,vwl,lng,st1}/ # [5], [7]
+\u0020ER2	/{lmd,cnt,unr,vwl,lng,st2}/ # [5], [7]
+
 \u0020ER	/{mid,cnt,unr,vwl,rzd}/ # [3]
 \u0020ER0	/{lmd,cnt,unr,vwl,lng,rzd}/ # [5]
 \u0020ER1	/{lmd,cnt,unr,vwl,lng,rzd,st1}/ # [5]
@@ -137,6 +141,8 @@
 #  6. Wikipedia lists these as the /{vzd}/ forms in recent versions of the page,
 #     however the /{vzd}/ form is accent and context dependent. As Arpabet does
 #     not make this distinction, both forms are supported.
+#
+#  7. Support English accents that do not rhoticize the /ER/ phoneme.
 #
 ##### References:
 #
