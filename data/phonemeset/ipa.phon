@@ -14,7 +14,6 @@
 
 \u0127			/{vls,phr,frc}/
 \u014B			/{vcd,vel,nas}/
-\u014B\u0329		/{vcd,vel,nas,syl}/
 \u0153			/{lmd,fnt,rnd,vwl}/
 
 ##### Latin Extended-B
@@ -31,14 +30,12 @@
 \u0252			/{low,bck,rnd,vwl}/
 \u0253			/{vcd,blb,imp}/
 \u0254			/{lmd,bck,rnd,vwl}/
-\u0254\u026A		/{lmd,bck,rnd,dpr,smh,fnt}/
 \u0255			/{vls,pla,frc,pzd}/
 \u0256			/{vcd,rfx,stp}/
 \u0257			/{vcd,alv,imp}/
 \u0257\u032A		/{vcd,dnt,imp}/
 \u0258			/{umd,cnt,unr,vwl}/
 \u0259			/{mid,cnt,unr,vwl}/
-\u0259\u028A		/{mid,cnt,unr,dpr,smh,bck}/ # [2]
 \u025A			/{mid,cnt,unr,vwl,rzd}/
 \u025B			/{lmd,fnt,unr,vwl}/
 \u025C			/{lmd,cnt,unr,vwl}/
@@ -56,7 +53,6 @@
 \u0267			/{vls,pla,frc,vzd}/
 \u0268			/{hgh,cnt,unr,vwl}/
 \u026A			/{smh,fnt,unr,vwl}/
-\u026A\u0259		/{smh,fnt,unr,dpf,mid,cnt}/
 \u026B			/{vcd,alv,lat,apr,vzd}/
 \u026C			/{vls,alv,lat,frc}/
 \u026D			/{vcd,rfx,lat,apr}/
@@ -72,7 +68,6 @@
 \u0276			/{low,fnt,rnd,vwl}/
 \u0278			/{vls,blb,frc}/
 \u0279			/{vcd,alv,apr}/
-\u0279\u0329		/{vcd,alv,apr,syl}/
 \u0279\u032A		/{vcd,dnt,apr}/
 \u027A			/{vcd,alv,lat,flp}/
 \u027B			/{vcd,rfx,apr}/
@@ -92,7 +87,6 @@
 \u0288\u02BC		/{vls,rfx,ejc}/
 \u0289			/{hgh,cnt,rnd,vwl}/
 \u028A			/{smh,bck,rnd,vwl}/
-\u028A\u0259		/{smh,bck,rnd,dpf,mid,cnt}/
 \u028B			/{vcd,lbd,apr}/
 \u028C			/{lmd,bck,unr,vwl}/
 \u028D			/{vls,lbv,apr}/
@@ -156,38 +150,26 @@ R			/{vcd,uvl,trl}/
 Y			/{smh,fnt,rnd,vwl}/
 
 a			/{low,fnt,unr,vwl}/
-a\u026A			/{low,fnt,unr,dpr,smh}/
-a\u028A			/{low,fnt,unr,dpr,smh,bck}/
 b			/{vcd,blb,stp}/
 b\u032A			/{vcd,lbd,stp}/
 c			/{vls,pal,stp}/
 c\u02BC			/{vls,pal,ejc}/
 d			/{vcd,alv,stp}/
-dz			/{vcd,alv,afr}/
-d\u0291			/{vcd,pla,afr,pzd}/
-d\u0292			/{vcd,pla,afr}/
 d\u032A			/{vcd,dnt,stp}/
 e			/{umd,fnt,unr,vwl}/
-e\u026A			/{lmd,fnt,unr,dpr,smh}/
-e\u0259			/{lmd,fnt,unr,dpr,mid,cnt}/
 f			/{vls,lbd,frc}/
 g			/{vcd,vel,stp}/
 h			/{vls,glt,apr}/
 i			/{hgh,fnt,unr,vwl}/
-i\u0259			/{smh,fnt,unr,dpf,mid,cnt}/ # [2]
 j			/{vcd,pal,apr}/
 k			/{vls,vel,stp}/
 k\u02BC			/{vls,vel,ejc}/
 l			/{vcd,alv,lat,apr}/
-l\u0329			/{vcd,alv,lat,apr,syl}/
 l\u032A			/{vcd,dnt,lat,apr}/
 m			/{vcd,blb,nas}/
-m\u0329			/{vcd,blb,nas,syl}/
 n			/{vcd,alv,nas}/
-n\u0329			/{vcd,alv,nas,syl}/
 n\u032A			/{vcd,dnt,nas}/
 o			/{umd,bck,rnd,vwl}/
-o\u028A			/{mid,cnt,unr,dpr,smh,bck}/
 p			/{vls,blb,stp}/
 p\u02BC			/{vls,blb,ejc}/
 p\u032A			/{vls,lbd,stp}/
@@ -196,9 +178,6 @@ q\u02BC			/{vls,uvl,ejc}/
 r			/{vcd,alv,trl}/
 s			/{vls,alv,frc}/
 t			/{vls,alv,stp}/
-ts			/{vls,alv,afr}/
-t\u0255			/{vls,pla,afr,pzd}/
-t\u0283			/{vls,pla,afr}/
 t\u02BC			/{vls,alv,ejc}/
 t\u032A			/{vls,dnt,stp}/
 t\u032A\u02BC		/{vls,dnt,ejc}/
@@ -210,6 +189,53 @@ y			/{hgh,fnt,rnd,vwl}/
 z			/{vcd,alv,frc}/
 
 |			/{vls,dnt,clk}/
+
+##### Affricates
+
+dz			/{vcd,alv,afr}/
+
+d\u0291			/{vcd,pla,afr,pzd}/
+
+d\u0292			/{vcd,pla,afr}/
+
+ts			/{vls,alv,afr}/
+
+t\u0255			/{vls,pla,afr,pzd}/
+
+t\u0283			/{vls,pla,afr}/
+
+##### Diphthongs
+
+\u0254\u026A		/{lmd,bck,rnd,dpr,smh,fnt}/
+
+o\u028A			/{mid,cnt,unr,dpr,smh,bck}/
+\u0259\u028A		/{mid,cnt,unr,dpr,smh,bck}/ # [2]
+
+\u026A\u0259		/{smh,fnt,unr,dpf,mid,cnt}/
+
+\u028A\u0259		/{smh,bck,rnd,dpf,mid,cnt}/
+
+a\u026A			/{low,fnt,unr,dpr,smh}/
+
+a\u028A			/{low,fnt,unr,dpr,smh,bck}/
+
+e\u026A			/{lmd,fnt,unr,dpr,smh}/
+
+e\u0259			/{lmd,fnt,unr,dpr,mid,cnt}/
+
+i\u0259			/{smh,fnt,unr,dpf,mid,cnt}/ # [2]
+
+##### Syllabic Consonants
+
+\u014B\u0329		/{vcd,vel,nas,syl}/
+
+\u0279\u0329		/{vcd,alv,apr,syl}/
+
+l\u0329			/{vcd,alv,lat,apr,syl}/
+
+m\u0329			/{vcd,blb,nas,syl}/
+
+n\u0329			/{vcd,alv,nas,syl}/
 
 ##### Notes:
 #
