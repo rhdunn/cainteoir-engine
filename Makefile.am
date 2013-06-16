@@ -525,5 +525,6 @@ check: \
 	tests/styles.check \
 	tests/events.check \
 	tests/phoneme.check \
+	tests/phonemeset.check \
 	tests/dictionary.check \
 	tests/parsetext.check
