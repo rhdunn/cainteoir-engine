@@ -1,18 +1,18 @@
-{lmd,bck,rnd,vwl}
-{lmd,bck,rnd,vwl,st1}
-{lmd,bck,rnd,vwl,st2}
+{lmd,bck,rnd,vwl,lng}
+{lmd,bck,rnd,vwl,lng,st1}
+{lmd,bck,rnd,vwl,lng,st2}
 
-{low,bck,unr,vwl}
-{low,bck,unr,vwl,st1}
-{low,bck,unr,vwl,st2}
+{low,bck,unr,vwl,lng}
+{low,bck,unr,vwl,lng,st1}
+{low,bck,unr,vwl,lng,st2}
 
-{hgh,fnt,unr,vwl}
-{hgh,fnt,unr,vwl,st1}
-{hgh,fnt,unr,vwl,st2}
+{hgh,fnt,unr,vwl,lng}
+{hgh,fnt,unr,vwl,lng,st1}
+{hgh,fnt,unr,vwl,lng,st2}
 
-{hgh,bck,rnd,vwl}
-{hgh,bck,rnd,vwl,st1}
-{hgh,bck,rnd,vwl,st2}
+{hgh,bck,rnd,vwl,lng}
+{hgh,bck,rnd,vwl,lng,st1}
+{hgh,bck,rnd,vwl,lng,st2}
 
 {lmd,fnt,unr,vwl}
 {lmd,fnt,unr,vwl,st1}
@@ -56,9 +56,9 @@
 
 {mid,cnt,unr,vwl,rzd}
 
-{lmd,cnt,unr,vwl,rzd}
-{lmd,cnt,unr,vwl,rzd,st1}
-{lmd,cnt,unr,vwl,rzd,st2}
+{lmd,cnt,unr,vwl,lng,rzd}
+{lmd,cnt,unr,vwl,lng,rzd,st1}
+{lmd,cnt,unr,vwl,lng,rzd,st2}
 
 {vls,blb,stp}
 {vcd,blb,stp}

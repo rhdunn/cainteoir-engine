@@ -7,21 +7,21 @@
 
 ##### Vowels
 
-\u0020AO0	/{lmd,bck,rnd,vwl}/
-\u0020AO1	/{lmd,bck,rnd,vwl,st1}/
-\u0020AO2	/{lmd,bck,rnd,vwl,st2}/
+\u0020AO0	/{lmd,bck,rnd,vwl,lng}/ # [5]
+\u0020AO1	/{lmd,bck,rnd,vwl,lng,st1}/ # [5]
+\u0020AO2	/{lmd,bck,rnd,vwl,lng,st2}/ # [5]
 
-\u0020AA0	/{low,bck,unr,vwl}/
-\u0020AA1	/{low,bck,unr,vwl,st1}/
-\u0020AA2	/{low,bck,unr,vwl,st2}/
+\u0020AA0	/{low,bck,unr,vwl,lng}/ # [5]
+\u0020AA1	/{low,bck,unr,vwl,lng,st1}/ # [5]
+\u0020AA2	/{low,bck,unr,vwl,lng,st2}/ # [5]
 
-\u0020IY0	/{hgh,fnt,unr,vwl}/
-\u0020IY1	/{hgh,fnt,unr,vwl,st1}/
-\u0020IY2	/{hgh,fnt,unr,vwl,st2}/
+\u0020IY0	/{hgh,fnt,unr,vwl,lng}/ # [5]
+\u0020IY1	/{hgh,fnt,unr,vwl,lng,st1}/ # [5]
+\u0020IY2	/{hgh,fnt,unr,vwl,lng,st2}/ # [5]
 
-\u0020UW0	/{hgh,bck,rnd,vwl}/
-\u0020UW1	/{hgh,bck,rnd,vwl,st1}/
-\u0020UW2	/{hgh,bck,rnd,vwl,st2}/
+\u0020UW0	/{hgh,bck,rnd,vwl,lng}/ # [5]
+\u0020UW1	/{hgh,bck,rnd,vwl,lng,st1}/ # [5]
+\u0020UW2	/{hgh,bck,rnd,vwl,lng,st2}/ # [5]
 
 \u0020EH0	/{lmd,fnt,unr,vwl}/
 \u0020EH1	/{lmd,fnt,unr,vwl,st1}/
@@ -72,9 +72,9 @@
 \u0020AXR	/{mid,cnt,unr,vwl,rzd}/ # [3]
 
 \u0020ER	/{mid,cnt,unr,vwl,rzd}/ # [3]
-\u0020ER0	/{lmd,cnt,unr,vwl,rzd}/
-\u0020ER1	/{lmd,cnt,unr,vwl,rzd,st1}/
-\u0020ER2	/{lmd,cnt,unr,vwl,rzd,st2}/
+\u0020ER0	/{lmd,cnt,unr,vwl,lng,rzd}/ # [5]
+\u0020ER1	/{lmd,cnt,unr,vwl,lng,rzd,st1}/ # [5]
+\u0020ER2	/{lmd,cnt,unr,vwl,lng,rzd,st2}/ # [5]
 
 ##### Consonants
 
@@ -128,6 +128,9 @@
 #  4. The /VV R/ R-coloured vowels are transcribed as /vr/. Since both of these
 #     are formed of two phonemes, only the /VV/ and /R/ phonemes need to be
 #     mapped.
+#
+#  5. Wikipedia lists the IPA transcription without the /{lng}/ feature. However,
+#     in practice, these phonemes are long vowels.
 #
 ##### References:
 #
