@@ -103,6 +103,7 @@
 \u0020G		/{vcd,vel,stp}/
 
 \u0020T\u0020S	/{vls,alv,afr}/ # [9]
+\u0020D\u0020Z	/{vcd,alv,afr}/ # [9]
 \u0020CH	/{vls,pla,afr}/
 \u0020JH	/{vcd,pla,afr}/
 
