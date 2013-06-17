@@ -76,6 +76,13 @@ AC_CHECK_HEADERS([stdlib.h])
 AC_CHECK_FUNCS([setenv])
 
 dnl ================================================================
+dnl open_memstream checks.
+dnl ================================================================
+
+AC_CHECK_HEADERS([stdio.h])
+AC_CHECK_FUNCS([open_memstream])
+
+dnl ================================================================
 dnl pthread checks.
 dnl ================================================================
 

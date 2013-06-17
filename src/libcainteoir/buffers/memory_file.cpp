@@ -41,7 +41,11 @@ cainteoir::memory_file::memory_file()
 	, data(nullptr)
 	, length(0)
 {
+#ifdef HAVE_OPEN_MEMSTREAM
 	f = open_memstream(&data, &length);
+#else
+	f = tmpfile();
+#endif
 }
 
 cainteoir::memory_file::~memory_file()
@@ -57,9 +61,17 @@ std::shared_ptr<cainteoir::buffer> cainteoir::memory_file::buffer()
 {
 	if (f != nullptr)
 	{
+#ifdef HAVE_OPEN_MEMSTREAM
 		fclose(f);
 		f = nullptr;
 		return std::make_shared<malloced_buffer>(data, length);
+#else
+		rewind(f);
+		auto ret = cainteoir::make_file_buffer(f);
+		fclose(f);
+		f = nullptr;
+		return ret;
+#endif
 	}
 	return std::shared_ptr<cainteoir::buffer>();
 }
