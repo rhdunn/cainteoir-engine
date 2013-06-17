@@ -22,6 +22,11 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/buffer.hpp>
+#include <cainteoir/path.hpp>
+#include <stdexcept>
+#include <errno.h>
+
+#undef HAVE_OPEN_MEMSTREAM
 
 struct malloced_buffer : public cainteoir::buffer
 {
@@ -45,6 +50,16 @@ cainteoir::memory_file::memory_file()
 	f = open_memstream(&data, &length);
 #else
 	f = tmpfile();
+	if (!f)
+	{
+#ifdef ANDROID
+		data = tempnam(cainteoir::get_data_path(), "tmp-");
+#else
+		data = tempnam("/tmp", nullptr);
+#endif
+		f = fopen(data, "w+b");
+		if (!f) throw std::runtime_error(strerror(errno));
+	}
 #endif
 }
 
@@ -53,7 +68,15 @@ cainteoir::memory_file::~memory_file()
 	if (f != nullptr)
 	{
 		fclose(f);
+#ifdef HAVE_OPEN_MEMSTREAM
 		free(data);
+#else
+		if (data)
+		{
+			remove(data);
+			free(data);
+		}
+#endif
 	}
 }
 
@@ -70,6 +93,11 @@ std::shared_ptr<cainteoir::buffer> cainteoir::memory_file::buffer()
 		auto ret = cainteoir::make_file_buffer(f);
 		fclose(f);
 		f = nullptr;
+		if (data)
+		{
+			remove(data);
+			free(data);
+		}
 		return ret;
 #endif
 	}
