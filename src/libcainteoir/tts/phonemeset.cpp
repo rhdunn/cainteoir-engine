@@ -25,6 +25,7 @@
 #include <cainteoir/phoneme.hpp>
 #include <cainteoir/path.hpp>
 #include <cainteoir/unicode.hpp>
+#include <cainteoir/trie.hpp>
 #include <utility>
 
 namespace tts = cainteoir::tts;
@@ -196,36 +197,6 @@ bool phoneme_file_reader::read()
 	return false;
 }
 
-template <typename T>
-struct trie_node
-{
-	char c;
-	T item;
-	std::list<trie_node<T>> children;
-
-	trie_node(char ch): c(ch) {}
-
-	trie_node<T> *get(char ch, bool insert_if_missing = false);
-};
-
-template <typename T>
-trie_node<T> *trie_node<T>::get(char ch, bool insert_if_missing)
-{
-	auto first = children.begin(), last = children.end();
-	while (first != last && first->c < ch)
-		++first;
-
-	if (first->c != ch)
-	{
-		if (!insert_if_missing)
-			return nullptr;
-
-		first = children.insert(first, ch);
-	}
-
-	return &*first;
-}
-
 struct phonemeset_reader: public tts::phoneme_reader
 {
 	phonemeset_reader(const char *aPhonemeSet);
@@ -237,7 +208,7 @@ struct phonemeset_reader: public tts::phoneme_reader
 	std::pair<const char *, std::pair<modifier_placement, tts::phoneme>>
 	next_match();
 
-	typedef trie_node<std::pair<modifier_placement, tts::phoneme>> phoneme_node;
+	typedef cainteoir::trie_node<std::pair<modifier_placement, tts::phoneme>> phoneme_node;
 	phoneme_node mPhonemes;
 
 	std::shared_ptr<cainteoir::buffer> mBuffer;
