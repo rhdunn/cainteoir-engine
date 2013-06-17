@@ -19,7 +19,7 @@
  */
 
 #include "config.h"
-#include "i18n.h"
+#include "compatibility.hpp"
 
 #include <cainteoir/unicode.hpp>
 
