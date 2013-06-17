@@ -32,7 +32,7 @@ namespace cainteoir
 		T item;
 		std::list<trie_node<T>> children;
 
-		trie_node(char ch): c(ch) {}
+		trie_node(char ch): c(ch), item() {}
 
 		trie_node<T> *get(char ch, bool insert_if_missing = false)
 		{

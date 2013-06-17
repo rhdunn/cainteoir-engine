@@ -490,6 +490,11 @@ noinst_bin_PROGRAMS += tests/phoneme.test
 tests_phoneme_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_phoneme_test_SOURCES = tests/phoneme.cpp
 
+noinst_bin_PROGRAMS += tests/trie.test
+
+tests_trie_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_trie_test_SOURCES = tests/trie.cpp
+
 noinst_bin_PROGRAMS += tests/dictionary
 
 tests_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
@@ -537,6 +542,7 @@ check: \
 	tests/styles.check \
 	tests/events.check \
 	tests/phoneme.check \
+	tests/trie.check \
 	tests/phonemeset.check \
 	tests/dictionary.check \
 	tests/parsetext.check
