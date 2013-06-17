@@ -366,26 +366,31 @@ EXTRA_DIST += ${man1_MANS}
 
 ############################# tests ###########################################
 
-TEST_FILES = \
-	tests/css/* \
-	tests/dict/* \
-	tests/epub/* \
-	tests/ncx/* \
-	tests/ocf/* \
-	tests/opf/* \
-	tests/parse-text/* \
-	tests/rdfxml/* \
-	tests/rtf/* \
-	tests/ssml/* \
-	tests/smil/* \
-	tests/html/* \
-	tests/http/* \
-	tests/mime/* \
-	tests/phonemeset/* \
-	tests/xmlparser/* \
-	tests/zip/*
+CSS_TEST_FILES = $(shell find tests/css/*)
 
-%.check : %.py tests/harness.py ${TEST_FILES}
+DICTIONARY_TEST_FILES = $(shell find tests/dict/*)
+
+PARSETEXT_TEST_FILES = $(shell find tests/parse-text/*)
+
+XMLPARSER_TEST_FILES = $(shell find tests/xmlparser/*)
+
+PHONEMESET_TEST_FILES = $(shell find tests/phonemeset/*)
+
+DOCUMENT_TEST_FILES = \
+	$(shell find tests/epub/*) \
+	$(shell find tests/ncx/*) \
+	$(shell find tests/ocf/*) \
+	$(shell find tests/opf/*) \
+	$(shell find tests/rdfxml/*) \
+	$(shell find tests/rtf/*) \
+	$(shell find tests/ssml/*) \
+	$(shell find tests/smil/*) \
+	$(shell find tests/html/*) \
+	$(shell find tests/http/*) \
+	$(shell find tests/mime/*) \
+	$(shell find tests/zip/*)
+
+%.check : %.py tests/harness.py
 	rm -f $@
 	(python $< && touch $@) | tee `echo $< | sed -e 's/.py/.results/'`
 	test -f $@ || false
@@ -395,7 +400,14 @@ TEST_FILES = \
 	(XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data $< && touch $@) | tee `echo $< | sed -e 's/.test/.results/'`
 	test -f $@ || false
 
-EXTRA_DIST += $(TEST_FILES) tests/*.py
+EXTRA_DIST += \
+	$(CSS_TEST_FILES) \
+	$(DICTIONARY_TEST_FILES) \
+	$(PARSETEXT_TEST_FILES) \
+	$(XMLPARSER_TEST_FILES) \
+	$(DOCUMENT_TEST_FILES) \
+	$(PHONEMESET_TEST_FILES) \
+	tests/*.py
 
 noinst_bin_PROGRAMS += tests/buffer.test
 
@@ -427,7 +439,7 @@ noinst_bin_PROGRAMS += tests/events
 tests_events_LDADD   = src/libcainteoir/libcainteoir.la
 tests_events_SOURCES = tests/events.cpp
 
-tests/events.check: tests/events data/css
+tests/events.check: tests/events data/css ${DOCUMENT_TEST_FILES}
 
 noinst_bin_PROGRAMS += tests/encoding.test
 
@@ -439,7 +451,7 @@ noinst_bin_PROGRAMS += tests/xmlreader
 tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
 tests_xmlreader_SOURCES = tests/xmlreader.cpp
 
-tests/xmlreader.check: tests/xmlreader
+tests/xmlreader.check: tests/xmlreader ${XMLPARSER_TEST_FILES}
 
 noinst_bin_PROGRAMS += tests/ttslanguages.test
 
@@ -461,7 +473,7 @@ noinst_bin_PROGRAMS += tests/parsetext
 tests_parsetext_LDADD   = src/libcainteoir/libcainteoir.la
 tests_parsetext_SOURCES = tests/parsetext.cpp
 
-tests/parsetext.check: tests/parsetext
+tests/parsetext.check: tests/parsetext ${PARSETEXT_TEST_FILES}
 
 noinst_bin_PROGRAMS += tests/mimetype
 
@@ -483,7 +495,7 @@ noinst_bin_PROGRAMS += tests/dictionary
 tests_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
 tests_dictionary_SOURCES = tests/dictionary.cpp
 
-tests/dictionary.check: tests/dictionary
+tests/dictionary.check: tests/dictionary ${DICTIONARY_TEST_FILES}
 
 noinst_bin_PROGRAMS += tests/xmlcssparser
 
@@ -495,18 +507,18 @@ noinst_bin_PROGRAMS += tests/styles
 tests_styles_LDADD   = src/libcainteoir/libcainteoir.la
 tests_styles_SOURCES = tests/styles.cpp
 
-tests/styles.check: tests/styles
+tests/styles.check: tests/styles ${CSS_TEST_FILES}
 
 noinst_bin_PROGRAMS += tests/synthesizer
 
 tests_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
 tests_synthesizer_SOURCES = tests/synthesizer.cpp
 
-tests/phonemeset.check: src/apps/phoneme-converter/phoneme-converter
+tests/phonemeset.check: src/apps/phoneme-converter/phoneme-converter ${PHONEMESET_TEST_FILES}
 
-tests/metadata.check: src/apps/metadata/metadata
+tests/metadata.check: src/apps/metadata/metadata ${DOCUMENT_TEST_FILES}
 
-tests/vorbis-comments.check: src/apps/metadata/metadata
+tests/vorbis-comments.check: src/apps/metadata/metadata ${DOCUMENT_TEST_FILES}
 
 check: \
 	tests/buffer.check \
