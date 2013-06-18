@@ -27,6 +27,7 @@
 #include <cainteoir/unicode.hpp>
 #include <cainteoir/trie.hpp>
 #include <utility>
+#include <stdlib.h>
 
 namespace tts = cainteoir::tts;
 
