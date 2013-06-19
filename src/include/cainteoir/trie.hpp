@@ -34,20 +34,25 @@ namespace cainteoir
 
 		trie_node(char ch): c(ch), item() {}
 
-		trie_node<T> *get(char ch, bool insert_if_missing = false)
+		const trie_node<T> *get(char ch) const
 		{
 			auto first = children.begin(), last = children.end();
 			while (first != last && first->c < ch)
 				++first;
 
 			if (first->c != ch)
-			{
-				if (!insert_if_missing)
-					return nullptr;
+				return nullptr;
+			return &*first;
+		}
 
+		trie_node<T> *add(char ch)
+		{
+			auto first = children.begin(), last = children.end();
+			while (first != last && first->c < ch)
+				++first;
+
+			if (first->c != ch)
 				first = children.insert(first, ch);
-			}
-
 			return &*first;
 		}
 	};

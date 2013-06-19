@@ -225,7 +225,7 @@ phonemeset_reader::phonemeset_reader(const char *aPhonemeSet)
 	{
 		phoneme_node *entry = &mPhonemes;
 		for (char c : *reader.transcription)
-			entry = entry->get(c, true);
+			entry = entry->add(c);
 
 		if (reader.feature == tts::feature::unspecified)
 			entry->item = { modifier_placement::phoneme, reader.phoneme };
@@ -302,12 +302,12 @@ bool phonemeset_reader::read()
 std::pair<const char *, std::pair<modifier_placement, tts::phoneme>>
 phonemeset_reader::next_match()
 {
-	phoneme_node *entry = &mPhonemes;
-	phoneme_node *match = nullptr;
+	const phoneme_node *entry = &mPhonemes;
+	const phoneme_node *match = nullptr;
 	const char *pos = mCurrent;
 	while (mCurrent < mEnd)
 	{
-		phoneme_node *next = entry->get(*mCurrent);
+		const phoneme_node *next = entry->get(*mCurrent);
 		if (next == nullptr)
 		{
 			if (match)

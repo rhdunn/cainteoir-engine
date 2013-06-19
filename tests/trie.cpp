@@ -29,12 +29,12 @@ template <typename T>
 void add_entry(cainteoir::trie_node<T> *node, const cainteoir::buffer str, T value)
 {
 	for (char c : str)
-		node = node->get(c, true);
+		node = node->add(c);
 	node->item = value;
 }
 
 template <typename T>
-T get_entry(cainteoir::trie_node<T> *node, const cainteoir::buffer str)
+T get_entry(const cainteoir::trie_node<T> *node, const cainteoir::buffer str)
 {
 	for (char c : str)
 	{
@@ -60,14 +60,14 @@ TEST_CASE("trie node: insert node")
 	assert(n.get('d') == nullptr);
 	assert(n.children.size() == 0);
 
-	assert(n.get('d', true) != nullptr);
+	assert(n.add('d') != nullptr);
 	assert(n.children.size() == 1);
-	assert(n.get('d', true) == n.get('d', true));
+	assert(n.add('d') == n.add('d'));
 	assert(n.children.size() == 1);
-	assert(n.get('d') == n.get('d', true));
+	assert(n.get('d') == n.add('d'));
 	assert(n.children.size() == 1);
 
-	assert(n.get('e', true) != nullptr);
+	assert(n.add('e') != nullptr);
 	assert(n.get('d') != n.get('e'));
 
 	assert(n.get('d')->c == 'd');
