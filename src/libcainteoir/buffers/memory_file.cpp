@@ -26,8 +26,6 @@
 #include <stdexcept>
 #include <errno.h>
 
-#undef HAVE_OPEN_MEMSTREAM
-
 struct malloced_buffer : public cainteoir::buffer
 {
 	malloced_buffer(const char *data, size_t length)
