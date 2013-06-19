@@ -56,7 +56,7 @@ cainteoir::memory_file::memory_file()
 		data = tempnam("/tmp", nullptr);
 #endif
 		f = fopen(data, "w+b");
-		if (!f) throw std::runtime_error(strerror(errno));
+		if (!f) throw std::runtime_error(std::string(data) + ": " + strerror(errno));
 	}
 #endif
 }
