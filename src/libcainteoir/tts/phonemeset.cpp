@@ -339,6 +339,12 @@ phonemeset_reader::next_match()
 			}
 		}
 	}
+	if (match)
+	{
+		*(tts::phoneme *)this = match->item.second;
+		mCurrent = pos;
+		return { mCurrent, match->item };
+	}
 	return { mCurrent, { modifier_placement::none, {} } };
 }
 
