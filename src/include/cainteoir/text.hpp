@@ -24,8 +24,10 @@
 #include "document.hpp"
 #include "languages.hpp"
 #include "path.hpp"
+#include "phoneme.hpp"
 
 #include <queue>
+#include <list>
 #include <unordered_map>
 
 namespace cainteoir { namespace tts
@@ -52,6 +54,7 @@ namespace cainteoir { namespace tts
 		{
 			entry_type type;
 			std::shared_ptr<buffer> text;
+			std::list<phoneme> phonemes;
 		};
 
 		typedef std::shared_ptr<buffer> key_type;
@@ -90,6 +93,7 @@ namespace cainteoir { namespace tts
 		                 const std::shared_ptr<buffer> &aDictionary);
 
 		storage_type mEntries;
+		std::shared_ptr<phoneme_reader> mPhonemes;
 	};
 
 	enum event_type

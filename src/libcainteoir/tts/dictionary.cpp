@@ -42,7 +42,7 @@ bool tts::dictionary::add_entries(const path &aDictionaryPath)
 	{
 		add_entries(aDictionaryPath.parent(), make_file_buffer(aDictionaryPath));
 	}
-	catch (const std::exception &)
+	catch (const std::exception &e)
 	{
 		return false;
 	}
@@ -53,7 +53,18 @@ void tts::dictionary::add_entry(const key_type &aEntry,
                                 entry_type aType,
                                 const std::shared_ptr<buffer> &aDefinition)
 {
-	mEntries[aEntry] = { aType, aDefinition };
+	auto &entry = mEntries[aEntry];
+	entry.type = aType;
+	if (aType == phonemes)
+	{
+		if (!mPhonemes.get())
+			throw std::runtime_error("The dictionary does not specify a phonemeset.");
+		mPhonemes->reset(aDefinition);
+		while (mPhonemes->read())
+			entry.phonemes.push_back(*mPhonemes);
+	}
+	else
+		entry.text = aDefinition;
 }
 
 void tts::dictionary::add_entries(const path &aBasePath,
@@ -91,6 +102,11 @@ void tts::dictionary::add_entries(const path &aBasePath,
 				std::string definition(begin_definition, end_definition);
 				if (!add_entries(aBasePath / definition))
 					fprintf(stderr, "error: unable to load dictionary \"%s\"\n", definition.c_str());
+			}
+			else if (entry->compare(".phonemeset") == 0)
+			{
+				std::string phonemeset(begin_definition, end_definition);
+				mPhonemes = tts::createPhonemeReader(phonemeset.c_str());
 			}
 		}
 		else if (*begin_definition == '/' && *(end_definition - 1) == '/')

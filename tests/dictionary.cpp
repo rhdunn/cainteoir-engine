@@ -94,6 +94,8 @@ int main(int argc, char ** argv)
 				printf("time:    %G\n", timer.elapsed());
 			else
 			{
+				auto ipa = tts::createPhonemeWriter("ipa");
+				ipa->reset(stdout);
 				for (auto &entry : dict)
 				{
 					if (entry.second.type == tts::dictionary::say_as)
@@ -108,9 +110,11 @@ int main(int argc, char ** argv)
 					}
 					else
 					{
-						fprintf(stdout, "\"%s\" => /%s/ [ipa]\n",
-						        entry.first->str().c_str(),
-						        entry.second.text->str().c_str());
+						fprintf(stdout, "\"%s\" => /",
+						        entry.first->str().c_str());
+						for (auto p : entry.second.phonemes)
+							ipa->write(p);
+						fprintf(stdout, "/ [ipa]\n");
 					}
 				}
 			}
