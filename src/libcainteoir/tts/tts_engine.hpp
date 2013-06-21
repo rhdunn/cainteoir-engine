@@ -57,7 +57,7 @@ namespace cainteoir { namespace tts
 
 		virtual void speak(buffer *text, size_t offset, engine_callback *callback) = 0;
 
-		virtual std::shared_ptr<cainteoir::buffer> pronounce(buffer *text, const char *phonemeset) = 0;
+		virtual std::shared_ptr<phoneme_reader> pronounciation() = 0;
 
 		virtual std::shared_ptr<cainteoir::tts::parameter> parameter(cainteoir::tts::parameter::type aType) = 0;
 	};

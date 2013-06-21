@@ -164,6 +164,54 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 	return 0;
 }
 
+class espeak_pronunciation : public tts::phoneme_reader
+{
+public:
+	espeak_pronunciation();
+
+	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
+
+	bool read();
+private:
+	int mMode;
+	std::shared_ptr<tts::phoneme_reader> mReader;
+};
+
+espeak_pronunciation::espeak_pronunciation()
+	: mMode(0x0011) // IPA + \u0361 ties
+	, mReader(tts::createPhonemeReader("ipa"))
+{
+}
+
+void espeak_pronunciation::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
+{
+#if defined(HAVE_ESPEAK_TEXTTOPHONEMES)
+	cainteoir::rope ret;
+	std::string txt = aBuffer->str(); // null-terminate the text buffer
+	const void *data = txt.c_str();
+	while (data != nullptr)
+	{
+		const char *buffer = espeak_TextToPhonemes(&data, espeakCHARS_UTF8, mMode);
+		// NOTE: phoneme output starts with a space, so remove that ...
+		ret += cainteoir::make_buffer(buffer+1, strlen(buffer)-1);
+	}
+	mReader->reset(ret.buffer());
+#else
+	cainteoir::memory_file f;
+	espeak_SetPhonemeTrace(mMode, f);
+	speak(aBuffer, 0, nullptr);
+	espeak_SetPhonemeTrace(0, stdout);
+	mReader->reset(f.buffer());
+#endif
+}
+
+bool espeak_pronunciation::read()
+{
+	bool ret = mReader->read();
+	*(tts::phoneme *)this = *mReader;
+	return ret;
+}
+
 class espeak_parameter : public tts::parameter
 {
 public:
@@ -316,46 +364,10 @@ public:
 		espeak_Synchronize();
 	}
 
-	std::shared_ptr<cainteoir::buffer> pronounce(cainteoir::buffer *text, const char *phonemeset)
-        {
-#if defined(HAVE_ESPEAK_TEXTTOPHONEMES)
-		int phonemes;
-		if (!strcmp(phonemeset, "espeak"))
-			phonemes = 0x0000;
-		else if (!strcmp(phonemeset, "ipa"))
-			phonemes = 0x0010;
-		else
-			throw std::runtime_error(i18n("unsupported phoneme set"));
-
-		cainteoir::rope ret;
-		std::string txt = text->str(); // null-terminate the text buffer
-		const void *data = txt.c_str();
-		while (data != nullptr)
-		{
-			const char *buffer = espeak_TextToPhonemes(&data, espeakCHARS_UTF8, phonemes);
-			// NOTE: phoneme output starts with a space, so remove that ...
-			ret += cainteoir::make_buffer(buffer+1, strlen(buffer)-1);
-		}
-		return ret.buffer();
-#else
-		// NOTE: This works, but is about 35x slower.
-
-		int phonemes;
-		if (!strcmp(phonemeset, "espeak"))
-			phonemes = 1;
-		else if (!strcmp(phonemeset, "ipa"))
-			phonemes = 3;
-		else
-			throw std::runtime_error(i18n("unsupported phoneme set"));
-
-		cainteoir::memory_file f;
-		espeak_SetPhonemeTrace(phonemes, f);
-		speak(text, 0, nullptr);
-		espeak_SetPhonemeTrace(0, stdout);
-
-		return cainteoir::normalize(f.buffer());
-#endif
-        }
+	std::shared_ptr<tts::phoneme_reader> pronounciation()
+	{
+		return std::make_shared<espeak_pronunciation>();
+	}
 
 	std::shared_ptr<tts::parameter>
 	parameter(tts::parameter::type aType)

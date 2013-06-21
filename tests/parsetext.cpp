@@ -146,6 +146,10 @@ void pronounce(tts::word_stream &text, const char *phonemeset)
 {
 	rdf::graph metadata;
 	tts::engines engine(metadata);
+	auto reader = engine.pronounciation();
+
+	auto writer = tts::createPhonemeWriter(phonemeset);
+	writer->reset(stdout);
 
 	while (text.read())
 	{
@@ -157,15 +161,11 @@ void pronounce(tts::word_stream &text, const char *phonemeset)
 		case tts::word_capitalized:
 		case tts::word_mixedcase:
 		case tts::word_script:
-			{
-				auto phonemes = engine.pronounce(event.text, phonemeset);
-				if (phonemes.get())
-				{
-					fprintf(stdout, "%s /%s/\n",
-					        event.text->str().c_str(),
-					        phonemes->str().c_str());
-				}
-			}
+			reader->reset(event.text);
+			fprintf(stdout, "%s /", event.text->str().c_str());
+			while (reader->read())
+				writer->write(*reader);
+			fprintf(stdout, "/\n");
 			break;
 		}
 	}
