@@ -109,10 +109,14 @@ void tts::dictionary::add_entries(const path &aBasePath,
 				mPhonemes = tts::createPhonemeReader(phonemeset.c_str());
 			}
 		}
-		else if (*begin_definition == '/' && *(end_definition - 1) == '/')
+		else if (*begin_definition == '/') // && *(end_definition - 1) == '/')
 		{
 			++begin_definition;
-			--end_definition;
+			while (end_definition != begin_definition && *end_definition != '/')
+				--end_definition;
+
+			if (begin_definition == end_definition) continue;
+
 			auto definition = cainteoir::make_buffer(begin_definition, end_definition - begin_definition);
 			add_entry(entry, phonemes, definition);
 		}
