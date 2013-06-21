@@ -22,6 +22,7 @@
 
 #include <ucd/ucd.h>
 #include <cainteoir/document.hpp>
+#include <cainteoir/engines.hpp>
 #include <cainteoir/text.hpp>
 #include <cainteoir/unicode.hpp>
 #include <cainteoir/stopwatch.hpp>
@@ -121,9 +122,6 @@ int main(int argc, char ** argv)
 		}
 		else if (mode == pronounce_entries)
 		{
-			if (argc != 2)
-				throw std::runtime_error("usage: dictionary --pronounce <dictionary> <ruleset>");
-
 			tts::dictionary dict;
 			if (!dict.add_entries(cainteoir::path(argv[0])))
 			{
@@ -131,12 +129,20 @@ int main(int argc, char ** argv)
 				return 0;
 			}
 
-			auto rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
-			if (!rules.get())
+			rdf::graph metadata;
+			tts::engines engine(metadata);
+			std::shared_ptr<tts::phoneme_reader> rules;
+			if (argc == 2)
 			{
-				fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
-				return 0;
+				rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
+				if (!rules.get())
+				{
+					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
+					return 0;
+				}
 			}
+			else
+				rules = engine.pronounciation();
 
 			auto ipa = tts::createPhonemeWriter("ipa");
 			ipa->reset(stdout);
