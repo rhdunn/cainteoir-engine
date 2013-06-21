@@ -41,28 +41,47 @@ enum mode_type
 
 static struct option options[] =
 {
+	{ "compare",   no_argument, 0, 'c' },
 	{ "list",      no_argument, 0, 'l' },
 	{ "pronounce", no_argument, 0, 'p' },
 	{ "time",      no_argument, 0, 't' },
 	{ 0, 0, 0, 0 }
 };
 
+static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phoneme> &b)
+{
+	auto first1 = a.begin(), last1 = a.end();
+	auto first2 = b.begin(), last2 = b.end();
+	while (first1 != last1 && first2 != last2)
+	{
+		if (*first1 != *first2) return false;
+		++first1;
+		++first2;
+	}
+	return first1 == last1 && first2 == last2;
+}
+
 int main(int argc, char ** argv)
 {
 	try
 	{
 		mode_type mode = from_document;
-		bool      time = false;
+		bool time = false;
+		bool compare = false;
 
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "lpt", options, &option_index);
+			int c = getopt_long(argc, argv, "clpt", options, &option_index);
 			if (c == -1)
 				break;
 
 			switch (c)
 			{
+			case 'c':
+				mode = pronounce_entries;
+				compare = true;
+				break;
 			case 'l':
 				mode = list_entries;
 				break;
@@ -147,19 +166,53 @@ int main(int argc, char ** argv)
 			auto ipa = tts::createPhonemeWriter("ipa");
 			ipa->reset(stdout);
 
+			int matched = 0;
+			int entries = 0;
+
 			cainteoir::stopwatch timer;
 			for (auto &entry : dict)
 			{
-				fprintf(stdout, "\"%s\" => /",
-				        entry.first->str().c_str());
+				std::list<tts::phoneme> pronounced;
 				rules->reset(entry.first);
 				while (rules->read())
-					ipa->write(*rules);
-				fprintf(stdout, "/ [ipa]\n");
+					pronounced.push_back(*rules);
+
+				fprintf(stdout, "\"%s\" => /",
+				        entry.first->str().c_str());
+				if (compare)
+				{
+					for (auto p : entry.second.phonemes)
+						ipa->write(p);
+					fprintf(stdout, "/ ... ");
+					if (matches(pronounced, entry.second.phonemes))
+					{
+						fprintf(stdout, "matched\n");
+						++matched;
+					}
+					else
+					{
+						fprintf(stdout, "mismatched; got /");
+						for (auto p : pronounced)
+							ipa->write(p);
+						fprintf(stdout, "/\n");
+					}
+				}
+				else
+				{
+					for (auto p : pronounced)
+						ipa->write(p);
+					fprintf(stdout, "/ [ipa]\n");
+				}
+				++entries;
 			}
 
+			if (compare)
+			{
+				printf("... matched: %d (%.0f%%)\n", matched, (float(matched) / entries * 100.0f));
+				printf("... entries: %d\n", entries);
+			}
 			if (time)
-				printf("time:    %G\n", timer.elapsed());
+				printf("... time:    %G\n", timer.elapsed());
 		}
 		else if (mode == from_document)
 		{
