@@ -146,8 +146,9 @@ int main(int argc, char ** argv)
 			{
 				fprintf(stdout, "\"%s\" => /",
 				        entry.first->str().c_str());
-				for (auto p : rules->pronounce(entry.first))
-					ipa->write(p);
+				rules->reset(entry.first);
+				while (rules->read())
+					ipa->write(*rules);
 				fprintf(stdout, "/ [ipa]\n");
 			}
 

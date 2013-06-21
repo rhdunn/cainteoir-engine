@@ -32,14 +32,7 @@
 
 namespace cainteoir { namespace tts
 {
-	struct pronunciation
-	{
-		virtual std::list<phoneme> pronounce(const std::shared_ptr<buffer> &aText) const = 0;
-
-		virtual ~pronunciation() {}
-	};
-
-	std::shared_ptr<pronunciation> createPronunciationRules(const path &aRuleSetPath);
+	std::shared_ptr<phoneme_reader> createPronunciationRules(const path &aRuleSetPath);
 
 	struct dictionary
 	{
@@ -144,17 +137,6 @@ namespace cainteoir { namespace tts
 		{
 		}
 
-		text_event(const std::list<phoneme> &aPhonemes,
-		           event_type aType,
-		           const cainteoir::range<uint32_t> &aRange,
-		           uint32_t aCodePoint)
-			: phonemes(aPhonemes)
-			, type(aType)
-			, range(aRange)
-			, codepoint(aCodePoint)
-		{
-		}
-
 		text_event(event_type aType,
 		           const cainteoir::range<uint32_t> &aRange,
 		           uint32_t aCodePoint)
@@ -243,7 +225,7 @@ namespace cainteoir { namespace tts
 		phoneme_stream(const std::shared_ptr<document_reader> &aReader,
 		               const language::tag &aLocale,
 		               word_stream::number_scale aScale,
-		               const std::shared_ptr<pronunciation> &aRules,
+		               const std::shared_ptr<phoneme_reader> &aRules,
 		               const path &aExceptionDictionaryPath);
 
 		const text_event &event() const { return mEvent; }
@@ -254,7 +236,7 @@ namespace cainteoir { namespace tts
 
 		word_stream mReader;
 		text_event mEvent;
-		std::shared_ptr<pronunciation> mRules;
+		std::shared_ptr<phoneme_reader> mRules;
 		dictionary mExceptionDictionary;
 	};
 }}
