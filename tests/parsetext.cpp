@@ -87,6 +87,9 @@ static const char *token_name[] = {
 template <typename Reader>
 void generate_events(Reader &text)
 {
+	auto ipa = tts::createPhonemeWriter("ipa");
+	ipa->reset(stdout);
+
 	ucd::codepoint_t cp = 0;
 	while (text.read())
 	{
@@ -118,6 +121,15 @@ void generate_events(Reader &text)
 			        event.range.begin(),
 			        event.range.end(),
 			        event.duration);
+			break;
+		case tts::phonemes:
+			fprintf(stdout, ".%-13s [%d..%d] /",
+			        token_name[event.type],
+			        event.range.begin(),
+			        event.range.end());
+			for (auto p : event.phonemes)
+				ipa->write(p);
+			fprintf(stdout, "/\n");
 			break;
 		default:
 			fprintf(stdout, ".%-13s [%d..%d] %s\n",
