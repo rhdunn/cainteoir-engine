@@ -34,7 +34,7 @@ namespace cainteoir { namespace tts
 {
 	struct pronunciation
 	{
-		virtual std::shared_ptr<buffer> pronounce(const std::shared_ptr<buffer> &aText) const = 0;
+		virtual std::list<phoneme> pronounce(const std::shared_ptr<buffer> &aText) const = 0;
 
 		virtual ~pronunciation() {}
 	};
@@ -124,6 +124,7 @@ namespace cainteoir { namespace tts
 	struct text_event
 	{
 		std::shared_ptr<buffer> text;
+		std::list<phoneme> phonemes;
 		event_type type;
 		cainteoir::range<uint32_t> range;
 		union
@@ -138,6 +139,26 @@ namespace cainteoir { namespace tts
 		           uint32_t aCodePoint)
 			: text(aText)
 			, type(aType)
+			, range(aRange)
+			, codepoint(aCodePoint)
+		{
+		}
+
+		text_event(const std::list<phoneme> &aPhonemes,
+		           event_type aType,
+		           const cainteoir::range<uint32_t> &aRange,
+		           uint32_t aCodePoint)
+			: phonemes(aPhonemes)
+			, type(aType)
+			, range(aRange)
+			, codepoint(aCodePoint)
+		{
+		}
+
+		text_event(event_type aType,
+		           const cainteoir::range<uint32_t> &aRange,
+		           uint32_t aCodePoint)
+			: type(aType)
 			, range(aRange)
 			, codepoint(aCodePoint)
 		{

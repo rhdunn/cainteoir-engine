@@ -138,12 +138,17 @@ int main(int argc, char ** argv)
 				return 0;
 			}
 
+			auto ipa = tts::createPhonemeWriter("ipa");
+			ipa->reset(stdout);
+
 			cainteoir::stopwatch timer;
 			for (auto &entry : dict)
 			{
-				fprintf(stdout, "\"%s\" => /%s/ [ipa]\n",
-				        entry.first->str().c_str(),
-				        rules->pronounce(entry.first)->str().c_str());
+				fprintf(stdout, "\"%s\" => /",
+				        entry.first->str().c_str());
+				for (auto p : rules->pronounce(entry.first))
+					ipa->write(p);
+				fprintf(stdout, "/ [ipa]\n");
 			}
 
 			if (time)

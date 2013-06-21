@@ -52,20 +52,20 @@ bool tts::phoneme_stream::read()
 		pronounce(e.text, e.range);
 		break;
 	case tts::comma:
-		mEvent = { {}, tts::pause, e.range, 50 };
+		mEvent = { tts::pause, e.range, 50 };
 		break;
 	case tts::semicolon:
 	case tts::colon:
 	case tts::ellipsis:
-		mEvent = { {}, tts::pause, e.range, 75 };
+		mEvent = { tts::pause, e.range, 75 };
 		break;
 	case tts::full_stop:
 	case tts::exclamation:
 	case tts::question:
-		mEvent = { {}, tts::pause, e.range, 150 };
+		mEvent = { tts::pause, e.range, 150 };
 		break;
 	case tts::paragraph:
-		mEvent = { {}, tts::pause, e.range, 200 };
+		mEvent = { tts::pause, e.range, 200 };
 		break;
 	default:
 		return read();
