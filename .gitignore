@@ -35,9 +35,9 @@ src/apps/metadata/metadata
 src/apps/phoneme-converter/phoneme-converter
 src/apps/tagcloud/tagcloud
 src/apps/doc2doc/doc2doc
+src/apps/dictionary/dictionary
 
 tests/*.test
-tests/dictionary
 tests/events
 tests/xmlreader
 tests/parsetext

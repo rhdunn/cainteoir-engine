@@ -362,6 +362,11 @@ bin_PROGRAMS += src/apps/phoneme-converter/phoneme-converter
 src_apps_phoneme_converter_phoneme_converter_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_phoneme_converter_phoneme_converter_SOURCES = src/apps/phoneme-converter/main.cpp
 
+bin_PROGRAMS += src/apps/dictionary/dictionary
+
+src_apps_dictionary_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_dictionary_dictionary_SOURCES = src/apps/dictionary/main.cpp
+
 EXTRA_DIST += ${man1_MANS}
 
 ############################# tests ###########################################
@@ -495,13 +500,6 @@ noinst_bin_PROGRAMS += tests/trie.test
 tests_trie_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_trie_test_SOURCES = tests/trie.cpp
 
-noinst_bin_PROGRAMS += tests/dictionary
-
-tests_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
-tests_dictionary_SOURCES = tests/dictionary.cpp
-
-tests/dictionary.check: tests/dictionary ${DICTIONARY_TEST_FILES}
-
 noinst_bin_PROGRAMS += tests/xmlcssparser
 
 tests_xmlcssparser_LDADD   = src/libcainteoir/libcainteoir.la
@@ -518,6 +516,8 @@ noinst_bin_PROGRAMS += tests/synthesizer
 
 tests_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
 tests_synthesizer_SOURCES = tests/synthesizer.cpp
+
+tests/dictionary.check: src/apps/dictionary/dictionary ${DICTIONARY_TEST_FILES}
 
 tests/phonemeset.check: src/apps/phoneme-converter/phoneme-converter ${PHONEMESET_TEST_FILES}
 
