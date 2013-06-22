@@ -39,16 +39,20 @@ namespace tts = cainteoir::tts;
 
 enum args
 {
+	ARG_ALL = 'a',
+	ARG_HELP = 'h',
 	ARG_HTML = 300,
 	ARG_TEXT = 301,
 };
+
+const char *options_short = "ah";
 
 static struct option options[] =
 {
 	{ "html", no_argument, 0, ARG_HTML },
 	{ "text", no_argument, 0, ARG_TEXT },
-	{ "all",  no_argument, 0, 'a' },
-	{ "help", no_argument, 0, 'h' },
+	{ "all",  no_argument, 0, ARG_ALL },
+	{ "help", no_argument, 0, ARG_HELP },
 	{ 0, 0, 0, 0 }
 };
 
@@ -115,7 +119,7 @@ int main(int argc, char ** argv)
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "h", options, &option_index);
+			int c = getopt_long(argc, argv, options_short, options, &option_index);
 			if (c == -1)
 				break;
 
@@ -127,10 +131,10 @@ int main(int argc, char ** argv)
 			case ARG_TEXT:
 				format = text_format;
 				break;
-			case 'a':
+			case ARG_ALL:
 				show_all = true;
 				break;
-			case 'h':
+			case ARG_HELP:
 				help();
 				return 0;
 			}
