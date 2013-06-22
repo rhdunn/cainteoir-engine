@@ -27,26 +27,25 @@
 
 namespace tts = cainteoir::tts;
 
-enum argument
+enum args
 {
+	ARG_CHART = 'c',
+	ARG_FEATURES = 'f',
+	ARG_HELP = 'h',
 	ARG_NO_PAUSES = 301,
+	ARG_SEPARATE = 's',
 };
+
+const char *options_short = "cfhs";
 
 static struct option options[] =
 {
-	{ "chart", no_argument, 0, 'c' },
-	{ "help", no_argument, 0, 'h' },
-	{ "separate", no_argument, 0, 's' },
-	{ "features", no_argument, 0, 'f' },
+	{ "chart",     no_argument, 0, ARG_CHART },
+	{ "features",  no_argument, 0, ARG_FEATURES },
+	{ "help",      no_argument, 0, ARG_HELP },
 	{ "no-pauses", no_argument, 0, ARG_NO_PAUSES },
+	{ "separate",  no_argument, 0, ARG_SEPARATE },
 	{ 0, 0, 0, 0 }
-};
-
-enum class phoneme_mode
-{
-	joined,
-	separate,
-	chart,
 };
 
 void help()
@@ -63,6 +62,13 @@ void help()
 	fprintf(stdout, "\n");
 	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
 }
+
+enum class phoneme_mode
+{
+	joined,
+	separate,
+	chart,
+};
 
 typedef tts::feature f;
 
@@ -468,22 +474,22 @@ int main(int argc, char ** argv)
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "cfhs", options, &option_index);
+			int c = getopt_long(argc, argv, options_short, options, &option_index);
 			if (c == -1)
 				break;
 
 			switch (c)
 			{
-			case 'c':
+			case ARG_CHART:
 				mode = phoneme_mode::chart;
 				break;
-			case 'h':
+			case ARG_HELP:
 				help();
 				return 0;
-			case 'f':
+			case ARG_FEATURES:
 				show_features = true;
 				break;
-			case 's':
+			case ARG_SEPARATE:
 				mode = phoneme_mode::separate;
 				break;
 			case ARG_NO_PAUSES:
