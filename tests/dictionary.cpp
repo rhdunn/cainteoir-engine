@@ -208,11 +208,11 @@ int main(int argc, char ** argv)
 
 			if (compare)
 			{
-				printf("... matched: %d (%.0f%%)\n", matched, (float(matched) / entries * 100.0f));
-				printf("... entries: %d\n", entries);
+				fprintf(stderr, "... matched: %d (%.0f%%)\n", matched, (float(matched) / entries * 100.0f));
+				fprintf(stderr, "... entries: %d\n", entries);
 			}
 			if (time)
-				printf("... time:    %G\n", timer.elapsed());
+				fprintf(stderr, "... time:    %G\n", timer.elapsed());
 		}
 		else if (mode == from_document)
 		{
@@ -247,11 +247,11 @@ int main(int argc, char ** argv)
 				}
 			}
 
-			printf("words:   %d\n", words);
-			printf("indexed: %d\n", dict.size());
+			fprintf(stderr, "... words:   %d\n", words);
+			fprintf(stderr, "... indexed: %d\n", dict.size());
 
 			if (time)
-				printf("time:    %G\n", timer.elapsed());
+				fprintf(stderr, "... time:    %G\n", timer.elapsed());
 		}
 	}
 	catch (std::runtime_error &e)
