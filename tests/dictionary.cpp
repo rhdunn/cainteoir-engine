@@ -261,7 +261,7 @@ int main(int argc, char ** argv)
 			{
 				rdf::graph metadata;
 				tts::engines engine(metadata);
-				pronounce(argv[0], engine.pronounciation(), time, compare);
+				pronounce(argv[0], engine.pronunciation(), time, compare);
 			}
 			else
 				throw std::runtime_error("no document specified");

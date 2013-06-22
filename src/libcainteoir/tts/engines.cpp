@@ -313,9 +313,9 @@ tts::engines::speak(std::shared_ptr<audio> out,
 }
 
 std::shared_ptr<tts::phoneme_reader>
-tts::engines::pronounciation()
+tts::engines::pronunciation()
 {
-	return active->pronounciation();
+	return active->pronunciation();
 }
 
 std::shared_ptr<tts::parameter>

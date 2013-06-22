@@ -146,7 +146,7 @@ void pronounce(tts::word_stream &text, const char *phonemeset)
 {
 	rdf::graph metadata;
 	tts::engines engine(metadata);
-	auto reader = engine.pronounciation();
+	auto reader = engine.pronunciation();
 
 	auto writer = tts::createPhonemeWriter(phonemeset);
 	writer->reset(stdout);

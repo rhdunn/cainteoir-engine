@@ -364,7 +364,7 @@ public:
 		espeak_Synchronize();
 	}
 
-	std::shared_ptr<tts::phoneme_reader> pronounciation()
+	std::shared_ptr<tts::phoneme_reader> pronunciation()
 	{
 		return std::make_shared<espeak_pronunciation>();
 	}
