@@ -35,18 +35,22 @@ namespace rdf = cainteoir::rdf;
 
 enum args
 {
+	ARG_HELP = 'h',
 	ARG_NTRIPLE = 300,
+	ARG_TIME = 't',
 	ARG_TURTLE = 301,
 	ARG_VORBIS_COMMENTS = 302,
 };
+
+const char *options_short = "ht";
 
 static struct option options[] =
 {
 	{ "ntriple", no_argument, 0, ARG_NTRIPLE },
 	{ "turtle",  no_argument, 0, ARG_TURTLE },
 	{ "vorbis",  no_argument, 0, ARG_VORBIS_COMMENTS },
-	{ "help",    no_argument, 0, 'h' },
-	{ "time",    no_argument, 0, 't' },
+	{ "help",    no_argument, 0, ARG_HELP },
+	{ "time",    no_argument, 0, ARG_TIME },
 	{ 0, 0, 0, 0 }
 };
 
@@ -86,7 +90,7 @@ int main(int argc, char ** argv)
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "ht", options, &option_index);
+			int c = getopt_long(argc, argv, options_short, options, &option_index);
 			if (c == -1)
 				break;
 
@@ -103,10 +107,10 @@ int main(int argc, char ** argv)
 			case ARG_VORBIS_COMMENTS:
 				output_type = vorbis_comments;
 				break;
-			case 'h':
+			case ARG_HELP:
 				help();
 				return 0;
-			case 't':
+			case ARG_TIME:
 				print_time = true;
 				break;
 			}
