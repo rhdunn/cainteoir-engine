@@ -32,19 +32,23 @@
 namespace rdf = cainteoir::rdf;
 namespace tts = cainteoir::tts;
 
-enum class mode_type
+enum args
 {
-	from_document,
-	list_entries,
-	pronounce_entries,
+	ARG_COMPARE = 'c',
+	ARG_FROM_DOCUMENT = 300,
+	ARG_LIST_ENTRIES = 'l',
+	ARG_PRONOUNCE_ENTRIES = 'p',
+	ARG_TIME = 't',
 };
+
+const char *options_short = "clpt";
 
 static struct option options[] =
 {
-	{ "compare",   no_argument, 0, 'c' },
-	{ "list",      no_argument, 0, 'l' },
-	{ "pronounce", no_argument, 0, 'p' },
-	{ "time",      no_argument, 0, 't' },
+	{ "compare",   no_argument, 0, ARG_COMPARE },
+	{ "list",      no_argument, 0, ARG_LIST_ENTRIES },
+	{ "pronounce", no_argument, 0, ARG_PRONOUNCE_ENTRIES },
+	{ "time",      no_argument, 0, ARG_TIME },
 	{ 0, 0, 0, 0 }
 };
 
@@ -207,30 +211,28 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		mode_type mode = mode_type::from_document;
+		args mode = ARG_FROM_DOCUMENT;
 		bool time = false;
 		bool compare = false;
 
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "clpt", options, &option_index);
+			int c = getopt_long(argc, argv, options_short, options, &option_index);
 			if (c == -1)
 				break;
 
 			switch (c)
 			{
-			case 'c':
-				mode = mode_type::pronounce_entries;
+			case ARG_COMPARE:
+				mode = ARG_PRONOUNCE_ENTRIES;
 				compare = true;
 				break;
-			case 'l':
-				mode = mode_type::list_entries;
+			case ARG_LIST_ENTRIES:
+			case ARG_PRONOUNCE_ENTRIES:
+				mode = (args)c;
 				break;
-			case 'p':
-				mode = mode_type::pronounce_entries;
-				break;
-			case 't':
+			case ARG_TIME:
 				time = true;
 				break;
 			}
@@ -241,12 +243,12 @@ int main(int argc, char ** argv)
 
 		switch (mode)
 		{
-		case mode_type::list_entries:
+		case ARG_LIST_ENTRIES:
 			if (argc != 1)
 				throw std::runtime_error("no document specified");
 			list_entries(argv[0], time);
 			break;
-		case mode_type::pronounce_entries:
+		case ARG_PRONOUNCE_ENTRIES:
 			if (argc == 2)
 			{
 				auto rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
@@ -266,7 +268,7 @@ int main(int argc, char ** argv)
 			else
 				throw std::runtime_error("no document specified");
 			break;
-		case mode_type::from_document:
+		case ARG_FROM_DOCUMENT:
 			if (argc == 0)
 				throw std::runtime_error("no document specified");
 			from_documents(argc, argv, time);
