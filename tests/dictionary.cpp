@@ -32,7 +32,7 @@
 namespace rdf = cainteoir::rdf;
 namespace tts = cainteoir::tts;
 
-enum mode_type
+enum class mode_type
 {
 	from_document,
 	list_entries,
@@ -61,11 +61,153 @@ static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phone
 	return first1 == last1 && first2 == last2;
 }
 
+static void list_entries(const char *dictionary, bool time)
+{
+	cainteoir::stopwatch timer;
+	tts::dictionary dict;
+	if (!dict.add_entries(cainteoir::path(dictionary)))
+	{
+		fprintf(stderr, "cannot load dictionary file \"%s\"\n", dictionary);
+		return;
+	}
+
+	if (time)
+	{
+		printf("time:    %G\n", timer.elapsed());
+		return;
+	}
+
+	auto ipa = tts::createPhonemeWriter("ipa");
+	ipa->reset(stdout);
+	for (auto &entry : dict)
+	{
+		if (entry.second.type == tts::dictionary::say_as)
+		{
+			ucd::codepoint_t cp = 0;
+			cainteoir::utf8::read(entry.second.text->begin(), cp);
+
+			fprintf(stdout, "\"%s\" => \"%s\"@%s [say-as]\n",
+			        entry.first->str().c_str(),
+			        entry.second.text->str().c_str(),
+			        ucd::get_script_string(ucd::lookup_script(cp)));
+		}
+		else
+		{
+			fprintf(stdout, "\"%s\" => /",
+			        entry.first->str().c_str());
+			for (auto p : entry.second.phonemes)
+				ipa->write(p);
+			fprintf(stdout, "/ [ipa]\n");
+		}
+	}
+}
+
+static void pronounce(const char *dictionary,
+                      std::shared_ptr<tts::phoneme_reader> rules,
+                      bool time,
+                      bool compare)
+{
+	tts::dictionary dict;
+	if (!dict.add_entries(cainteoir::path(dictionary)))
+	{
+		fprintf(stderr, "cannot load dictionary file \"%s\"\n", dictionary);
+		return;
+	}
+
+	auto ipa = tts::createPhonemeWriter("ipa");
+	ipa->reset(stdout);
+
+	int matched = 0;
+	int entries = 0;
+
+	cainteoir::stopwatch timer;
+	for (auto &entry : dict)
+	{
+		std::list<tts::phoneme> pronounced;
+		rules->reset(entry.first);
+		while (rules->read())
+			pronounced.push_back(*rules);
+
+		fprintf(stdout, "\"%s\" => /",
+		        entry.first->str().c_str());
+		if (compare)
+		{
+			for (auto p : entry.second.phonemes)
+				ipa->write(p);
+			fprintf(stdout, "/ ... ");
+			if (matches(pronounced, entry.second.phonemes))
+			{
+				fprintf(stdout, "matched\n");
+				++matched;
+			}
+			else
+			{
+				fprintf(stdout, "mismatched; got /");
+				for (auto p : pronounced)
+					ipa->write(p);
+				fprintf(stdout, "/\n");
+			}
+		}
+		else
+		{
+			for (auto p : pronounced)
+				ipa->write(p);
+			fprintf(stdout, "/ [ipa]\n");
+		}
+		++entries;
+	}
+
+	if (compare)
+	{
+		fprintf(stderr, "... matched: %d (%.0f%%)\n", matched, (float(matched) / entries * 100.0f));
+		fprintf(stderr, "... entries: %d\n", entries);
+	}
+	if (time)
+		fprintf(stderr, "... time:    %G\n", timer.elapsed());
+}
+
+static void from_documents(int argc, char **argv, bool time)
+{
+	rdf::graph metadata;
+	uint32_t words = 0;
+	tts::dictionary dict;
+	cainteoir::stopwatch timer;
+	for (int i = 0; i < argc; ++i)
+	{
+		auto reader = cainteoir::createDocumentReader(argv[i], metadata, std::string());
+		if (!reader)
+			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[i]);
+
+		fprintf(stdout, "reading %s\n", argv[i]);
+
+		tts::text_reader text(reader);
+		while (text.read()) switch (text.event().type)
+		{
+		case tts::word_uppercase:
+		case tts::word_lowercase:
+		case tts::word_capitalized:
+		case tts::word_mixedcase:
+		case tts::word_script:
+			dict.add_entry(text.event().text,
+			               tts::dictionary::say_as,
+			               text.event().text);
+			++words;
+			break;
+		}
+	}
+
+	fprintf(stderr, "... words:   %d\n", words);
+	fprintf(stderr, "... indexed: %d\n", dict.size());
+
+	if (time)
+		fprintf(stderr, "... time:    %G\n", timer.elapsed());
+}
+
 int main(int argc, char ** argv)
 {
 	try
 	{
-		mode_type mode = from_document;
+		mode_type mode = mode_type::from_document;
 		bool time = false;
 		bool compare = false;
 
@@ -79,14 +221,14 @@ int main(int argc, char ** argv)
 			switch (c)
 			{
 			case 'c':
-				mode = pronounce_entries;
+				mode = mode_type::pronounce_entries;
 				compare = true;
 				break;
 			case 'l':
-				mode = list_entries;
+				mode = mode_type::list_entries;
 				break;
 			case 'p':
-				mode = pronounce_entries;
+				mode = mode_type::pronounce_entries;
 				break;
 			case 't':
 				time = true;
@@ -97,161 +239,38 @@ int main(int argc, char ** argv)
 		argc -= optind;
 		argv += optind;
 
-		if (mode == list_entries)
+		switch (mode)
 		{
+		case mode_type::list_entries:
 			if (argc != 1)
 				throw std::runtime_error("no document specified");
-
-			cainteoir::stopwatch timer;
-			tts::dictionary dict;
-			if (!dict.add_entries(cainteoir::path(argv[0])))
-			{
-				fprintf(stderr, "cannot load dictionary file \"%s\"\n", argv[0]);
-				return 0;
-			}
-
-			if (time)
-				printf("time:    %G\n", timer.elapsed());
-			else
-			{
-				auto ipa = tts::createPhonemeWriter("ipa");
-				ipa->reset(stdout);
-				for (auto &entry : dict)
-				{
-					if (entry.second.type == tts::dictionary::say_as)
-					{
-						ucd::codepoint_t cp = 0;
-						cainteoir::utf8::read(entry.second.text->begin(), cp);
-
-						fprintf(stdout, "\"%s\" => \"%s\"@%s [say-as]\n",
-						        entry.first->str().c_str(),
-						        entry.second.text->str().c_str(),
-						        ucd::get_script_string(ucd::lookup_script(cp)));
-					}
-					else
-					{
-						fprintf(stdout, "\"%s\" => /",
-						        entry.first->str().c_str());
-						for (auto p : entry.second.phonemes)
-							ipa->write(p);
-						fprintf(stdout, "/ [ipa]\n");
-					}
-				}
-			}
-		}
-		else if (mode == pronounce_entries)
-		{
-			tts::dictionary dict;
-			if (!dict.add_entries(cainteoir::path(argv[0])))
-			{
-				fprintf(stderr, "cannot load dictionary file \"%s\"\n", argv[0]);
-				return 0;
-			}
-
-			rdf::graph metadata;
-			tts::engines engine(metadata);
-			std::shared_ptr<tts::phoneme_reader> rules;
+			list_entries(argv[0], time);
+			break;
+		case mode_type::pronounce_entries:
 			if (argc == 2)
 			{
-				rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
+				auto rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
 				if (!rules.get())
 				{
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
+				pronounce(argv[0], rules, time, compare);
+			}
+			else if (argc == 1)
+			{
+				rdf::graph metadata;
+				tts::engines engine(metadata);
+				pronounce(argv[0], engine.pronounciation(), time, compare);
 			}
 			else
-				rules = engine.pronounciation();
-
-			auto ipa = tts::createPhonemeWriter("ipa");
-			ipa->reset(stdout);
-
-			int matched = 0;
-			int entries = 0;
-
-			cainteoir::stopwatch timer;
-			for (auto &entry : dict)
-			{
-				std::list<tts::phoneme> pronounced;
-				rules->reset(entry.first);
-				while (rules->read())
-					pronounced.push_back(*rules);
-
-				fprintf(stdout, "\"%s\" => /",
-				        entry.first->str().c_str());
-				if (compare)
-				{
-					for (auto p : entry.second.phonemes)
-						ipa->write(p);
-					fprintf(stdout, "/ ... ");
-					if (matches(pronounced, entry.second.phonemes))
-					{
-						fprintf(stdout, "matched\n");
-						++matched;
-					}
-					else
-					{
-						fprintf(stdout, "mismatched; got /");
-						for (auto p : pronounced)
-							ipa->write(p);
-						fprintf(stdout, "/\n");
-					}
-				}
-				else
-				{
-					for (auto p : pronounced)
-						ipa->write(p);
-					fprintf(stdout, "/ [ipa]\n");
-				}
-				++entries;
-			}
-
-			if (compare)
-			{
-				fprintf(stderr, "... matched: %d (%.0f%%)\n", matched, (float(matched) / entries * 100.0f));
-				fprintf(stderr, "... entries: %d\n", entries);
-			}
-			if (time)
-				fprintf(stderr, "... time:    %G\n", timer.elapsed());
-		}
-		else if (mode == from_document)
-		{
+				throw std::runtime_error("no document specified");
+			break;
+		case mode_type::from_document:
 			if (argc == 0)
 				throw std::runtime_error("no document specified");
-
-			rdf::graph metadata;
-			uint32_t words = 0;
-			tts::dictionary dict;
-			cainteoir::stopwatch timer;
-			for (int i = 0; i < argc; ++i)
-			{
-				auto reader = cainteoir::createDocumentReader(argv[i], metadata, std::string());
-				if (!reader)
-					fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[i]);
-
-				fprintf(stdout, "reading %s\n", argv[i]);
-
-				tts::text_reader text(reader);
-				while (text.read()) switch (text.event().type)
-				{
-				case tts::word_uppercase:
-				case tts::word_lowercase:
-				case tts::word_capitalized:
-				case tts::word_mixedcase:
-				case tts::word_script:
-					dict.add_entry(text.event().text,
-					               tts::dictionary::say_as,
-					               text.event().text);
-					++words;
-					break;
-				}
-			}
-
-			fprintf(stderr, "... words:   %d\n", words);
-			fprintf(stderr, "... indexed: %d\n", dict.size());
-
-			if (time)
-				fprintf(stderr, "... time:    %G\n", timer.elapsed());
+			from_documents(argc, argv, time);
+			break;
 		}
 	}
 	catch (std::runtime_error &e)
