@@ -195,22 +195,6 @@ void status_line(double elapsed, double total, double progress, const char *stat
 	fflush(stdout);
 }
 
-const rdf::uri *select_voice(const rdf::graph &aMetadata, const rdf::uri &predicate, const std::string &value)
-{
-	for (auto &voice : rql::select(aMetadata,
-	                               rql::predicate == rdf::rdf("type") && rql::object == rdf::tts("Voice")))
-	{
-		const rdf::uri &uri = rql::subject(voice);
-		for (auto &statement : rql::select(aMetadata, rql::subject == uri))
-		{
-			if (rql::predicate(statement) == predicate && rql::value(statement) == value)
-				return &uri;
-		}
-	}
-
-	return nullptr;
-}
-
 int main(int argc, char ** argv)
 {
 	setlocale(LC_MESSAGES, "");
@@ -338,13 +322,13 @@ int main(int argc, char ** argv)
 
 		if (voicename)
 		{
-			const rdf::uri *ref = select_voice(metadata, rdf::tts("name"), voicename);
+			const rdf::uri *ref = tts::get_voice_uri(metadata, rdf::tts("name"), voicename);
 			if (ref)
 				tts.select_voice(metadata, *ref);
 		}
 		else if (language)
 		{
-			const rdf::uri *ref = select_voice(metadata, rdf::dc("language"), language);
+			const rdf::uri *ref = tts::get_voice_uri(metadata, rdf::dc("language"), language);
 			if (ref)
 				tts.select_voice(metadata, *ref);
 		}

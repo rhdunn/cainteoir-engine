@@ -100,6 +100,10 @@ namespace cainteoir { namespace tts
 		engine *active;
 		const rdf::uri *selectedVoice;
 	};
+
+	const rdf::uri *get_voice_uri(const rdf::graph &aMetadata,
+	                              const rdf::uri &predicate,
+	                              const std::string &value);
 }}
 
 #endif
