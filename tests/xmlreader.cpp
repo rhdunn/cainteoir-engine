@@ -24,11 +24,20 @@
 
 namespace xml = cainteoir::xml;
 
+enum args
+{
+	ARG_REPEAT = 'n',
+	ARG_TIME = 't',
+	ARG_SILENT = 's',
+};
+
+const char *options_short = "n:st";
+
 static struct option options[] =
 {
-	{ "repeat", required_argument, 0, 'n' },
-	{ "time",   no_argument,       0, 't' },
-	{ "silent", no_argument,       0, 's' },
+	{ "repeat", required_argument, 0, ARG_REPEAT },
+	{ "time",   no_argument,       0, ARG_TIME },
+	{ "silent", no_argument,       0, ARG_SILENT },
 	{ 0, 0, 0, 0 }
 };
 
@@ -127,19 +136,19 @@ int main(int argc, char ** argv)
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "n:st", options, &option_index);
+			int c = getopt_long(argc, argv, options_short, options, &option_index);
 			if (c == -1)
 				break;
 
 			switch (c)
 			{
-			case 'n':
+			case ARG_REPEAT:
 				repeatCount = atoi(optarg);
 				break;
-			case 's':
+			case ARG_SILENT:
 				silent = true;
 				break;
-			case 't':
+			case ARG_TIME:
 				time = true;
 				break;
 			}
