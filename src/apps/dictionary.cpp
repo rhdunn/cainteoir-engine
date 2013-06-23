@@ -217,7 +217,6 @@ int main(int argc, char ** argv)
 	{
 		args mode = ARG_FROM_DOCUMENT;
 		bool time = false;
-		bool compare = false;
 		const char *voicename = nullptr;
 		const char *language = nullptr;
 
@@ -231,9 +230,6 @@ int main(int argc, char ** argv)
 			switch (c)
 			{
 			case ARG_COMPARE:
-				mode = ARG_PRONOUNCE_ENTRIES;
-				compare = true;
-				break;
 			case ARG_LIST_ENTRIES:
 			case ARG_PRONOUNCE_ENTRIES:
 				mode = (args)c;
@@ -261,6 +257,7 @@ int main(int argc, char ** argv)
 			list_entries(argv[0], time);
 			break;
 		case ARG_PRONOUNCE_ENTRIES:
+		case ARG_COMPARE:
 			if (argc == 2)
 			{
 				auto rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
@@ -269,7 +266,7 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
-				pronounce(argv[0], rules, time, compare);
+				pronounce(argv[0], rules, time, mode == ARG_COMPARE);
 			}
 			else if (argc == 1)
 			{
@@ -287,7 +284,7 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(argv[0], engine.pronunciation(), time, compare);
+				pronounce(argv[0], engine.pronunciation(), time, mode == ARG_COMPARE);
 			}
 			else
 				throw std::runtime_error("no document specified");
