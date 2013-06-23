@@ -36,19 +36,23 @@ enum args
 {
 	ARG_COMPARE = 'c',
 	ARG_FROM_DOCUMENT = 300,
-	ARG_LIST_ENTRIES = 'l',
+	ARG_LANGUAGE = 'l',
+	ARG_LIST_ENTRIES = 'L',
 	ARG_PRONOUNCE_ENTRIES = 'p',
 	ARG_TIME = 't',
+	ARG_VOICE_NAME = 'v',
 };
 
-const char *options_short = "clpt";
+const char *options_short = "cl:ptv:L";
 
 static struct option options[] =
 {
-	{ "compare",   no_argument, 0, ARG_COMPARE },
-	{ "list",      no_argument, 0, ARG_LIST_ENTRIES },
-	{ "pronounce", no_argument, 0, ARG_PRONOUNCE_ENTRIES },
-	{ "time",      no_argument, 0, ARG_TIME },
+	{ "compare",   no_argument,       0, ARG_COMPARE },
+	{ "language",  required_argument, 0, ARG_LANGUAGE },
+	{ "list",      no_argument,       0, ARG_LIST_ENTRIES },
+	{ "pronounce", no_argument,       0, ARG_PRONOUNCE_ENTRIES },
+	{ "time",      no_argument,       0, ARG_TIME },
+	{ "voice",     required_argument, 0, ARG_VOICE_NAME },
 	{ 0, 0, 0, 0 }
 };
 
@@ -214,6 +218,8 @@ int main(int argc, char ** argv)
 		args mode = ARG_FROM_DOCUMENT;
 		bool time = false;
 		bool compare = false;
+		const char *voicename = nullptr;
+		const char *language = nullptr;
 
 		while (1)
 		{
@@ -234,6 +240,12 @@ int main(int argc, char ** argv)
 				break;
 			case ARG_TIME:
 				time = true;
+				break;
+			case ARG_LANGUAGE:
+				language = optarg;
+				break;
+			case ARG_VOICE_NAME:
+				voicename = optarg;
 				break;
 			}
 		}
@@ -263,6 +275,18 @@ int main(int argc, char ** argv)
 			{
 				rdf::graph metadata;
 				tts::engines engine(metadata);
+				if (voicename)
+				{
+					const rdf::uri *ref = tts::get_voice_uri(metadata, rdf::tts("name"), voicename);
+					if (ref)
+						engine.select_voice(metadata, *ref);
+				}
+				else if (language)
+				{
+					const rdf::uri *ref = tts::get_voice_uri(metadata, rdf::dc("language"), language);
+					if (ref)
+						engine.select_voice(metadata, *ref);
+				}
 				pronounce(argv[0], engine.pronunciation(), time, compare);
 			}
 			else
