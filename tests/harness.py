@@ -98,7 +98,7 @@ class TestSuite:
 	def check_metadata(self, filename, expect, formattype, displayas=None, test_expect='expect-pass', replacements={}):
 		write('... checking %s as %s metadata ... ' % ((displayas or filename), formattype))
 		self.check_command(filename=filename, expect=expect, test_expect=test_expect,
-			command='%s --%s' % (os.path.join(sys.path[0], '../src/apps/metadata/metadata'), formattype), replacements=replacements)
+			command='%s --%s' % (os.path.join(sys.path[0], '../src/apps/metadata'), formattype), replacements=replacements)
 
 	def check_events(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
 		write('... checking %s as text/speech events ... ' % (displayas or filename))
@@ -122,13 +122,13 @@ class TestSuite:
 
 	def check_dictionary(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
 		write('... checking %s as dictionary entries ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command='%s --list' % os.path.join(sys.path[0], '../src/apps/dictionary/dictionary'), test_expect=test_expect, replacements=replacements, sort=True)
+		self.check_command(filename=filename, expect=expect, command='%s --list' % os.path.join(sys.path[0], '../src/apps/dictionary'), test_expect=test_expect, replacements=replacements, sort=True)
 
 	def check_phonemeset(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}, data={}):
 		srcphon = data['from']
 		dstphon = data['to']
 		write('... checking %s from %s to %s ... ' % (displayas or filename, srcphon, dstphon))
-		self.check_command(filename=filename, expect=expect, command='%s --separate --no-pauses %s %s' % (os.path.join(sys.path[0], '../src/apps/phoneme-converter/phoneme-converter'), srcphon, dstphon), test_expect=test_expect, replacements=replacements)
+		self.check_command(filename=filename, expect=expect, command='%s --separate --no-pauses %s %s' % (os.path.join(sys.path[0], '../src/apps/phoneme-converter'), srcphon, dstphon), test_expect=test_expect, replacements=replacements)
 
 	def run(self, data):
 		if self.run_only and data['name'] != self.run_only:

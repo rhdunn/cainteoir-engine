@@ -335,37 +335,37 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 
 ############################# applications ####################################
 
-bin_PROGRAMS += src/apps/cainteoir/cainteoir
-man1_MANS += src/apps/cainteoir/cainteoir.man
+bin_PROGRAMS += src/apps/cainteoir
+man1_MANS += src/apps/cainteoir.man
 
-src_apps_cainteoir_cainteoir_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_cainteoir_cainteoir_SOURCES = src/apps/cainteoir/main.cpp
+src_apps_cainteoir_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_cainteoir_SOURCES = src/apps/cainteoir.cpp
 
-bin_PROGRAMS += src/apps/metadata/metadata
-man1_MANS += src/apps/metadata/metadata.man
+bin_PROGRAMS += src/apps/metadata
+man1_MANS += src/apps/metadata.man
 
-src_apps_metadata_metadata_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_metadata_metadata_SOURCES = src/apps/metadata/main.cpp
+src_apps_metadata_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_metadata_SOURCES = src/apps/metadata.cpp
 
-bin_PROGRAMS += src/apps/tagcloud/tagcloud
+bin_PROGRAMS += src/apps/tagcloud
 
-src_apps_tagcloud_tagcloud_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_tagcloud_tagcloud_SOURCES = src/apps/tagcloud/main.cpp
+src_apps_tagcloud_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_tagcloud_SOURCES = src/apps/tagcloud.cpp
 
-bin_PROGRAMS += src/apps/doc2doc/doc2doc
+bin_PROGRAMS += src/apps/doc2doc
 
-src_apps_doc2doc_doc2doc_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_doc2doc_doc2doc_SOURCES = src/apps/doc2doc/main.cpp
+src_apps_doc2doc_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_doc2doc_SOURCES = src/apps/doc2doc.cpp
 
-bin_PROGRAMS += src/apps/phoneme-converter/phoneme-converter
+bin_PROGRAMS += src/apps/phoneme-converter
 
-src_apps_phoneme_converter_phoneme_converter_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_phoneme_converter_phoneme_converter_SOURCES = src/apps/phoneme-converter/main.cpp
+src_apps_phoneme_converter_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_phoneme_converter_SOURCES = src/apps/phoneme-converter.cpp
 
-bin_PROGRAMS += src/apps/dictionary/dictionary
+bin_PROGRAMS += src/apps/dictionary
 
-src_apps_dictionary_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_dictionary_dictionary_SOURCES = src/apps/dictionary/main.cpp
+src_apps_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_dictionary_SOURCES = src/apps/dictionary.cpp
 
 EXTRA_DIST += ${man1_MANS}
 
@@ -517,13 +517,13 @@ noinst_bin_PROGRAMS += tests/synthesizer
 tests_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
 tests_synthesizer_SOURCES = tests/synthesizer.cpp
 
-tests/dictionary.check: src/apps/dictionary/dictionary ${DICTIONARY_TEST_FILES}
+tests/dictionary.check: src/apps/dictionary ${DICTIONARY_TEST_FILES}
 
-tests/phonemeset.check: src/apps/phoneme-converter/phoneme-converter ${PHONEMESET_TEST_FILES}
+tests/phonemeset.check: src/apps/phoneme-converter ${PHONEMESET_TEST_FILES}
 
-tests/metadata.check: src/apps/metadata/metadata ${DOCUMENT_TEST_FILES}
+tests/metadata.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
 
-tests/vorbis-comments.check: src/apps/metadata/metadata ${DOCUMENT_TEST_FILES}
+tests/vorbis-comments.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
 
 check: \
 	tests/buffer.check \

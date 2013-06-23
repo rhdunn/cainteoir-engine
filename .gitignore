@@ -30,12 +30,12 @@ data/languages.rdf.gz
 src/libcainteoir/libcainteoir.a
 src/libcainteoir/libcainteoir.la
 
-src/apps/cainteoir/cainteoir
-src/apps/metadata/metadata
-src/apps/phoneme-converter/phoneme-converter
-src/apps/tagcloud/tagcloud
-src/apps/doc2doc/doc2doc
-src/apps/dictionary/dictionary
+src/apps/cainteoir
+src/apps/metadata
+src/apps/phoneme-converter
+src/apps/tagcloud
+src/apps/doc2doc
+src/apps/dictionary
 
 tests/*.test
 tests/events
