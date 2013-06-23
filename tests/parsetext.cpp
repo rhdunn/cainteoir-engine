@@ -37,18 +37,22 @@ namespace lang = cainteoir::language;
 
 enum
 {
-	ARG_PARSETEXT       = 301,
-	ARG_WORDSTREAM      = 302,
-	ARG_PHONEMESTREAM   = 303,
+	ARG_LOCALE = 'l',
+	ARG_DOCUMENT_OBJECT = 'd',
+	ARG_PARSETEXT = 301,
+	ARG_WORDSTREAM = 302,
+	ARG_PHONEMESTREAM = 303,
 	ARG_CONTEXTANALYSIS = 304,
-	ARG_PRONOUNCE       = 305,
-	ARG_SHORTSCALE      = 401,
-	ARG_LONGSCALE       = 402,
+	ARG_PRONOUNCE = 305,
+	ARG_SHORTSCALE = 401,
+	ARG_LONGSCALE = 402,
 };
+
+const char *options_short = "dl:";
 
 static struct option options[] =
 {
-	{ "locale",          required_argument, 0, 'l' },
+	{ "locale",          required_argument, 0, ARG_LOCALE },
 	{ "parsetext",       no_argument,       0, ARG_PARSETEXT },
 	{ "wordstream",      no_argument,       0, ARG_WORDSTREAM },
 	{ "phonemestream",   no_argument,       0, ARG_PHONEMESTREAM },
@@ -56,7 +60,7 @@ static struct option options[] =
 	{ "pronounce",       no_argument,       0, ARG_PRONOUNCE },
 	{ "short-scale",     no_argument,       0, ARG_SHORTSCALE },
 	{ "long-scale",      no_argument,       0, ARG_LONGSCALE },
-	{ "document-object", no_argument,       0, 'd' },
+	{ "document-object", no_argument,       0, ARG_DOCUMENT_OBJECT },
 	{ 0, 0, 0, 0 }
 };
 
@@ -230,16 +234,16 @@ int main(int argc, char ** argv)
 		while (1)
 		{
 			int option_index = 0;
-			int c = getopt_long(argc, argv, "dl:", options, &option_index);
+			int c = getopt_long(argc, argv, options_short, options, &option_index);
 			if (c == -1)
 				break;
 
 			switch (c)
 			{
-			case 'd':
+			case ARG_DOCUMENT_OBJECT:
 				document_object = true;
 				break;
-			case 'l':
+			case ARG_LOCALE:
 				locale = lang::make_lang(optarg);
 				break;
 			case ARG_PARSETEXT:
