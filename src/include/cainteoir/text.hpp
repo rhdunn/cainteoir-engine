@@ -32,7 +32,7 @@
 
 namespace cainteoir { namespace tts
 {
-	std::shared_ptr<phoneme_reader> createPronunciationRules(const path &aRuleSetPath);
+	std::shared_ptr<phoneme_reader> createPronunciationRules(const char *aRuleSetPath);
 
 	struct dictionary
 	{

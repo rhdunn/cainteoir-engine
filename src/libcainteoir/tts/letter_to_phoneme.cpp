@@ -69,7 +69,7 @@ struct ruleset : public tts::phoneme_reader
 	              const std::shared_ptr<cainteoir::buffer> &aRight,
 	              const tts::phoneme aPhoneme);
 
-	bool add_rules(const cainteoir::path &aRulesPath);
+	bool add_rules(const char *aRulesPath);
 
 	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
 
@@ -99,11 +99,11 @@ void ruleset::add_rule(const std::shared_ptr<cainteoir::buffer> &aLeft,
 	mRules[*aMatch->begin()].push_back({ aLeft, aMatch, aRight, aPhoneme });
 }
 
-bool ruleset::add_rules(const cainteoir::path &aRulesPath)
+bool ruleset::add_rules(const char *aRulesPath)
 {
 	try
 	{
-		add_rules(make_file_buffer(aRulesPath));
+		add_rules(cainteoir::make_file_buffer(aRulesPath));
 	}
 	catch (const std::exception &)
 	{
@@ -210,7 +210,7 @@ bool ruleset::read()
 	return false;
 }
 
-std::shared_ptr<tts::phoneme_reader> tts::createPronunciationRules(const path &aRuleSetPath)
+std::shared_ptr<tts::phoneme_reader> tts::createPronunciationRules(const char *aRuleSetPath)
 {
 	auto rules = std::make_shared<ruleset>();
 	if (!rules->add_rules(aRuleSetPath))

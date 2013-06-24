@@ -246,7 +246,7 @@ int main(int argc, char ** argv)
 		case mode_type::compare_entries:
 			if (argc == 2)
 			{
-				auto rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
+				auto rules = tts::createPronunciationRules(argv[1]);
 				if (!rules.get())
 				{
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);

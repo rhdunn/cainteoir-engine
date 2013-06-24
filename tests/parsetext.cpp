@@ -181,7 +181,7 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		if (argc != 3)
 			return true;
 
-		auto rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
+		auto rules = tts::createPronunciationRules(argv[1]);
 		if (!rules.get())
 		{
 			fprintf(stderr, "unable to load pronunciation rules: %s\n", argv[1]);
