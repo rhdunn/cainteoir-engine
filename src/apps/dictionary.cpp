@@ -150,6 +150,8 @@ static void pronounce(const char *dictionary,
 		++entries;
 	}
 
+	fflush(stdout);
+
 	if (compare)
 	{
 		fprintf(stderr, "... matched: %d (%.0f%%)\n", matched, (float(matched) / entries * 100.0f));
@@ -189,6 +191,7 @@ static void from_documents(int argc, char **argv, bool time)
 		}
 	}
 
+	fflush(stdout);
 	fprintf(stderr, "... words:   %d\n", words);
 	fprintf(stderr, "... indexed: %d\n", dict.size());
 
