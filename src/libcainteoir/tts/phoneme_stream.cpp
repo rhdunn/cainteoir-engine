@@ -29,7 +29,7 @@ tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aRea
                                     const language::tag &aLocale,
                                     tts::word_stream::number_scale aScale,
                                     const std::shared_ptr<phoneme_reader> &aRules,
-                                    const path &aExceptionDictionaryPath)
+                                    const char *aExceptionDictionaryPath)
 	: mReader(aReader, aLocale, aScale)
 	, mRules(aRules)
 {

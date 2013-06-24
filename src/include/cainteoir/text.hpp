@@ -68,7 +68,7 @@ namespace cainteoir { namespace tts
 		typedef std::unordered_map<key_type, entry, key_hash, key_equals> storage_type;
 		typedef storage_type::const_iterator const_iterator;
 
-		bool add_entries(const path &aDictionaryPath);
+		bool add_entries(const char *aDictionaryPath);
 
 		void add_entry(const key_type &aEntry,
 		               entry_type aType,
@@ -226,7 +226,7 @@ namespace cainteoir { namespace tts
 		               const language::tag &aLocale,
 		               word_stream::number_scale aScale,
 		               const std::shared_ptr<phoneme_reader> &aRules,
-		               const path &aExceptionDictionaryPath);
+		               const char *aExceptionDictionaryPath);
 
 		const text_event &event() const { return mEvent; }
 

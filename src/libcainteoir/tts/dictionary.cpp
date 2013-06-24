@@ -36,11 +36,11 @@ std::size_t tts::dictionary::key_hash::operator()(const key_type &a) const
         return hash;
 }
 
-bool tts::dictionary::add_entries(const path &aDictionaryPath)
+bool tts::dictionary::add_entries(const char *aDictionaryPath)
 {
 	try
 	{
-		add_entries(aDictionaryPath.parent(), make_file_buffer(aDictionaryPath));
+		add_entries(path(aDictionaryPath).parent(), make_file_buffer(aDictionaryPath));
 	}
 	catch (const std::exception &e)
 	{
