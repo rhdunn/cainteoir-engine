@@ -18,28 +18,14 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "i18n.h"
+#include "options.hpp"
+
 #include <cainteoir/xmlreader.hpp>
 #include <stdexcept>
-#include <getopt.h>
 
 namespace xml = cainteoir::xml;
-
-enum args
-{
-	ARG_REPEAT = 'n',
-	ARG_TIME = 't',
-	ARG_SILENT = 's',
-};
-
-const char *options_short = "n:st";
-
-static struct option options[] =
-{
-	{ "repeat", required_argument, 0, ARG_REPEAT },
-	{ "time",   no_argument,       0, ARG_TIME },
-	{ "silent", no_argument,       0, ARG_SILENT },
-	{ 0, 0, 0, 0 }
-};
 
 const char * node_type_name(xml::reader::node_type type)
 {
@@ -133,29 +119,24 @@ int main(int argc, char ** argv)
 		bool time = false;
 		bool silent = false;
 
-		while (1)
-		{
-			int option_index = 0;
-			int c = getopt_long(argc, argv, options_short, options, &option_index);
-			if (c == -1)
-				break;
+		const option_group general_options = { nullptr, {
+			{ 't', "time", no_argument, nullptr,
+			  i18n("Time how long it takes to parse the document"),
+			  [&time](const char *) { time = true; }},
+			{ 's', "silent", required_argument, nullptr,
+			  i18n("Don't print out the document events"),
+			  [&silent](const char *) { silent = true; }},
+			{ 'r', "repeat", required_argument, "REPEAT",
+			  i18n("Repeat parsing the document REPEAT times"),
+			  [&repeatCount](const char *arg) { repeatCount = atoi(arg); }},
+		}};
 
-			switch (c)
-			{
-			case ARG_REPEAT:
-				repeatCount = atoi(optarg);
-				break;
-			case ARG_SILENT:
-				silent = true;
-				break;
-			case ARG_TIME:
-				time = true;
-				break;
-			}
-		}
+		const std::initializer_list<const char *> usage = {
+			i18n("xmlreader [OPTION..] DOCUMENT"),
+		};
 
-		argc -= optind;
-		argv += optind;
+		if (!parse_command_line({ general_options }, usage, argc, argv))
+			return 0;
 
 		if (argc != 1)
 			throw std::runtime_error("no document specified");

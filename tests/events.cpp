@@ -24,7 +24,6 @@
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
-#include <getopt.h>
 
 namespace css    = cainteoir::css;
 namespace rdf    = cainteoir::rdf;

@@ -20,6 +20,8 @@
 
 #include "config.h"
 #include "compatibility.hpp"
+#include "i18n.h"
+#include "options.hpp"
 
 #include <ucd/ucd.h>
 #include <cainteoir/document.hpp>
@@ -29,39 +31,18 @@
 
 #include <stdexcept>
 #include <cstdio>
-#include <getopt.h>
 
 namespace rdf  = cainteoir::rdf;
 namespace tts  = cainteoir::tts;
 namespace lang = cainteoir::language;
 
-enum
+enum class mode_type
 {
-	ARG_LOCALE = 'l',
-	ARG_DOCUMENT_OBJECT = 'd',
-	ARG_PARSETEXT = 301,
-	ARG_WORDSTREAM = 302,
-	ARG_PHONEMESTREAM = 303,
-	ARG_CONTEXTANALYSIS = 304,
-	ARG_PRONOUNCE = 305,
-	ARG_SHORTSCALE = 401,
-	ARG_LONGSCALE = 402,
-};
-
-const char *options_short = "dl:";
-
-static struct option options[] =
-{
-	{ "locale",          required_argument, 0, ARG_LOCALE },
-	{ "parsetext",       no_argument,       0, ARG_PARSETEXT },
-	{ "wordstream",      no_argument,       0, ARG_WORDSTREAM },
-	{ "phonemestream",   no_argument,       0, ARG_PHONEMESTREAM },
-	{ "contextanalysis", no_argument,       0, ARG_CONTEXTANALYSIS },
-	{ "pronounce",       no_argument,       0, ARG_PRONOUNCE },
-	{ "short-scale",     no_argument,       0, ARG_SHORTSCALE },
-	{ "long-scale",      no_argument,       0, ARG_LONGSCALE },
-	{ "document-object", no_argument,       0, ARG_DOCUMENT_OBJECT },
-	{ 0, 0, 0, 0 }
+	parse_text,
+	word_stream,
+	phoneme_stream,
+	context_analysis,
+	pronounce,
 };
 
 static const char *token_name[] = {
@@ -175,42 +156,42 @@ void pronounce(tts::word_stream &text, const char *phonemeset)
 	}
 }
 
-void parse_text(std::shared_ptr<cainteoir::document_reader> reader,
-                int type,
+bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
+                mode_type type,
                 const lang::tag &locale,
                 tts::word_stream::number_scale scale,
                 int argc,
                 char **argv)
 {
-	if (type == ARG_WORDSTREAM)
+	if (type == mode_type::word_stream)
 	{
 		tts::word_stream text(reader, locale, scale);
 		generate_events(text);
 	}
-	else if (type == ARG_PRONOUNCE)
+	else if (type == mode_type::pronounce)
 	{
 		if (argc != 2)
-			throw std::runtime_error("usage: parsetext --prounounce <document> <phoneme-set>");
+			return true;
 
 		tts::word_stream text(reader, locale, scale);
 		pronounce(text, argv[1]);
 	}
-	else if (type == ARG_PHONEMESTREAM)
+	else if (type == mode_type::phoneme_stream)
 	{
 		if (argc != 3)
-			throw std::runtime_error("usage: parsetext --phonemestream <document> <ruleset> <dictionary>");
+			return true;
 
 		auto rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
 		if (!rules.get())
 		{
 			fprintf(stderr, "unable to load pronunciation rules: %s\n", argv[1]);
-			return;
+			return false;
 		}
 
 		tts::phoneme_stream text(reader, locale, scale, rules, cainteoir::path(argv[2]));
 		generate_events(text);
 	}
-	else if (type == ARG_CONTEXTANALYSIS)
+	else if (type == mode_type::context_analysis)
 	{
 		tts::context_analysis text(reader);
 		generate_events(text);
@@ -220,6 +201,7 @@ void parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		tts::text_reader text(reader);
 		generate_events(text);
 	}
+	return false;
 }
 
 int main(int argc, char ** argv)
@@ -227,43 +209,51 @@ int main(int argc, char ** argv)
 	try
 	{
 		lang::tag locale = { "en" };
-		int type = ARG_PARSETEXT;
+		mode_type type = mode_type::parse_text;
 		tts::word_stream::number_scale scale = tts::word_stream::short_scale;
 		bool document_object = false;
 
-		while (1)
-		{
-			int option_index = 0;
-			int c = getopt_long(argc, argv, options_short, options, &option_index);
-			if (c == -1)
-				break;
+		const option_group general_options = { nullptr, {
+			{ 'd', "document-object", no_argument, nullptr,
+			  i18n("Process events through a cainteoir::document object"),
+			  [&document_object](const char *) { document_object = true; }},
+			{ 'l', "locale", required_argument, "LOCALE",
+			  i18n("Use LOCALE for processing numbers"),
+			  [&locale](const char *arg) { locale = lang::make_lang(arg); }},
+			{ 0, "short-scale", no_argument, nullptr,
+			  i18n("Use the short scale for processing numbers"),
+			  [&scale](const char *) { scale = tts::word_stream::short_scale; }},
+			{ 0, "long-scale", no_argument, nullptr,
+			  i18n("Use the long scale for processing numbers"),
+			  [&scale](const char *) { scale = tts::word_stream::long_scale; }},
+		}};
 
-			switch (c)
-			{
-			case ARG_DOCUMENT_OBJECT:
-				document_object = true;
-				break;
-			case ARG_LOCALE:
-				locale = lang::make_lang(optarg);
-				break;
-			case ARG_PARSETEXT:
-			case ARG_WORDSTREAM:
-			case ARG_PHONEMESTREAM:
-			case ARG_CONTEXTANALYSIS:
-			case ARG_PRONOUNCE:
-				type = c;
-				break;
-			case ARG_SHORTSCALE:
-				scale = tts::word_stream::short_scale;
-				break;
-			case ARG_LONGSCALE:
-				scale = tts::word_stream::long_scale;
-				break;
-			}
-		}
+		const option_group mode_options = { i18n("Processing Mode:"), {
+			{ 0, "parsetext", no_argument, nullptr,
+			  i18n("Split the text into lexical segments"),
+			  [&type](const char *) { type = mode_type::parse_text; }},
+			{ 0, "wordstream", no_argument, nullptr,
+			  i18n("Convert the document into a sequence of words"),
+			  [&type](const char *) { type = mode_type::word_stream; }},
+			{ 0, "phonemestream", no_argument, nullptr,
+			  i18n("Convert the document into phonetic pronunciations"),
+			  [&type](const char *) { type = mode_type::phoneme_stream; }},
+			{ 0, "contextanalysis", no_argument, nullptr,
+			  i18n("Apply context analysis on the document"),
+			  [&type](const char *) { type = mode_type::context_analysis; }},
+			{ 0, "pronounce", no_argument, nullptr,
+			  i18n("Pronounce all the words in the document"),
+			  [&type](const char *) { type = mode_type::pronounce; }},
+		}};
 
-		argc -= optind;
-		argv += optind;
+		const std::initializer_list<const char *> usage = {
+			i18n("parsetext [OPTION..] DOCUMENT"),
+			i18n("parsetext [OPTION..] --pronounce DOCUMENT PHONEMESET"),
+			i18n("parsetext [OPTION..] --phonemestream DOCUMENT RULESET DICTIONARY"),
+		};
+
+		if (!parse_command_line({ general_options, mode_options }, usage, argc, argv))
+			return 0;
 
 		if (argc == 0)
 			throw std::runtime_error("no document specified");
@@ -276,14 +266,20 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
+		bool show_help = false;
 		if (document_object)
 		{
 			cainteoir::document doc(reader);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
-			parse_text(docreader, type, locale, scale, argc, argv);
+			show_help = parse_text(docreader, type, locale, scale, argc, argv);
 		}
 		else
-			parse_text(reader, type, locale, scale, argc, argv);
+			show_help = parse_text(reader, type, locale, scale, argc, argv);
+		if (show_help)
+		{
+			print_help({ general_options, mode_options }, usage);
+			return 0;
+		}
 	}
 	catch (std::runtime_error &e)
 	{

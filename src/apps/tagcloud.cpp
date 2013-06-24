@@ -21,6 +21,7 @@
 #include "config.h"
 #include "compatibility.hpp"
 #include "i18n.h"
+#include "options.hpp"
 
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
@@ -29,47 +30,12 @@
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
-#include <getopt.h>
 #include <math.h>
 
 #include <map>
 
 namespace rdf = cainteoir::rdf;
 namespace tts = cainteoir::tts;
-
-enum args
-{
-	ARG_ALL = 'a',
-	ARG_HELP = 'h',
-	ARG_HTML = 300,
-	ARG_TEXT = 301,
-};
-
-const char *options_short = "ah";
-
-static struct option options[] =
-{
-	{ "html", no_argument, 0, ARG_HTML },
-	{ "text", no_argument, 0, ARG_TEXT },
-	{ "all",  no_argument, 0, ARG_ALL },
-	{ "help", no_argument, 0, ARG_HELP },
-	{ 0, 0, 0, 0 }
-};
-
-void help()
-{
-	fprintf(stdout, i18n("usage: tagcloud [OPTION..] document\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("Formats:\n"));
-	fprintf(stdout, i18n(" --html                 Output a HTML tag cloud\n"));
-	fprintf(stdout, i18n(" --text                 Output a text word list\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("General:\n"));
-	fprintf(stdout, i18n(" -a, --all              Show all words\n"));
-	fprintf(stdout, i18n(" -h, --help             This help text\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
-}
 
 static const char * common_words[] = {
 	"a", "an", "and", "as", "at", "about", "all", "after",
@@ -116,32 +82,28 @@ int main(int argc, char ** argv)
 
 		bool show_all = false;
 
-		while (1)
-		{
-			int option_index = 0;
-			int c = getopt_long(argc, argv, options_short, options, &option_index);
-			if (c == -1)
-				break;
+		const option_group general_options = { nullptr, {
+			{ 'a', "all", no_argument, nullptr,
+			  i18n("Show all words"),
+			  [&show_all](const char *) { show_all = true; }},
+		}};
 
-			switch (c)
-			{
-			case ARG_HTML:
-				format = html_format;
-				break;
-			case ARG_TEXT:
-				format = text_format;
-				break;
-			case ARG_ALL:
-				show_all = true;
-				break;
-			case ARG_HELP:
-				help();
-				return 0;
-			}
-		}
+		const option_group format_options = { nullptr, {
+			{ 0, "text", no_argument, nullptr,
+			  i18n("Output a text word list"),
+			  [&format](const char *) { format = text_format; }},
+			{ 0, "html", no_argument, nullptr,
+			  i18n("Output a HTML tag cloud"),
+			  [&format](const char *) { format = html_format; }},
+		}};
 
-		argc -= optind;
-		argv += optind;
+		const std::initializer_list<const char *> usage = {
+			i18n("tagcloud [OPTION..] DOCUMENT"),
+			i18n("tagcloud [OPTION..]"),
+		};
+
+		if (!parse_command_line({ general_options }, usage, argc, argv))
+			return 0;
 
 		const char *filename = (argc == 1) ? argv[0] : nullptr;
 		rdf::graph metadata;

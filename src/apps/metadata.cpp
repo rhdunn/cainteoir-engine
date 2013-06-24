@@ -21,6 +21,7 @@
 #include "config.h"
 #include "compatibility.hpp"
 #include "i18n.h"
+#include "options.hpp"
 
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
@@ -29,46 +30,8 @@
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
-#include <getopt.h>
 
 namespace rdf = cainteoir::rdf;
-
-enum args
-{
-	ARG_HELP = 'h',
-	ARG_NTRIPLE = 300,
-	ARG_TIME = 't',
-	ARG_TURTLE = 301,
-	ARG_VORBIS_COMMENTS = 302,
-};
-
-const char *options_short = "ht";
-
-static struct option options[] =
-{
-	{ "ntriple", no_argument, 0, ARG_NTRIPLE },
-	{ "turtle",  no_argument, 0, ARG_TURTLE },
-	{ "vorbis",  no_argument, 0, ARG_VORBIS_COMMENTS },
-	{ "help",    no_argument, 0, ARG_HELP },
-	{ "time",    no_argument, 0, ARG_TIME },
-	{ 0, 0, 0, 0 }
-};
-
-void help()
-{
-	fprintf(stdout, i18n("usage: metadata [OPTION..] document..\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("Formats:\n"));
-	fprintf(stdout, i18n(" --ntriple              Output RDF N-Triples statements\n"));
-	fprintf(stdout, i18n(" --turtle               Output RDF Turtle statements\n"));
-	fprintf(stdout, i18n(" --vorbis               Output VorbisComment entries\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("General:\n"));
-	fprintf(stdout, i18n(" -h, --help             This help text\n"));
-	fprintf(stdout, i18n(" -t, --time             Time how long it takes to extract the metadata\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
-}
 
 int main(int argc, char ** argv)
 {
@@ -87,37 +50,43 @@ int main(int argc, char ** argv)
 		rdf::formatter::format_type format = rdf::formatter::ntriple;
 		bool print_time = false;
 
-		while (1)
-		{
-			int option_index = 0;
-			int c = getopt_long(argc, argv, options_short, options, &option_index);
-			if (c == -1)
-				break;
+		const option_group general_options = { nullptr, {
+			{ 't', "time", no_argument, nullptr,
+			  i18n("Time how long it takes to extract the metadata"),
+			  [&print_time](const char *) { print_time = true; }},
+		}};
 
-			switch (c)
-			{
-			case ARG_NTRIPLE:
+		const option_group format_options = { i18n("Metadata Format:"), {
+			{ 0, "ntriple", no_argument, nullptr,
+			  i18n("Output RDF N-Triple metadata statements"),
+			  [&output_type, &format](const char *) {
 				output_type = rdf_metadata;
 				format = rdf::formatter::ntriple;
-				break;
-			case ARG_TURTLE:
+			  }},
+			{ 0, "turtle", no_argument, nullptr,
+			  i18n("Output RDF Turtle metadata statements"),
+			  [&output_type, &format](const char *) {
 				output_type = rdf_metadata;
 				format = rdf::formatter::turtle;
-				break;
-			case ARG_VORBIS_COMMENTS:
+			  }},
+			{ 0, "vorbis", no_argument, nullptr,
+			  i18n("Output VorbisComment entries"),
+			  [&output_type](const char *) {
 				output_type = vorbis_comments;
-				break;
-			case ARG_HELP:
-				help();
-				return 0;
-			case ARG_TIME:
-				print_time = true;
-				break;
-			}
-		}
+			  }},
+		}};
 
-		argc -= optind;
-		argv += optind;
+		const std::initializer_list<option_group> options = {
+			general_options,
+			format_options,
+		};
+
+		const std::initializer_list<const char *> usage = {
+			i18n("metadata [OPTION..] DOCUMENT.."),
+		};
+
+		if (!parse_command_line(options, usage, argc, argv))
+			return 0;
 
 		cainteoir::stopwatch timer;
 		rdf::graph metadata;

@@ -1,4 +1,5 @@
 # List of source files which contain translatable strings.
+src/options.hpp
 src/apps/cainteoir.cpp
 src/apps/dictionary.cpp
 src/apps/doc2doc.cpp

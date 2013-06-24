@@ -21,47 +21,11 @@
 #include "config.h"
 #include "compatibility.hpp"
 #include "i18n.h"
+#include "options.hpp"
 
 #include <cainteoir/phoneme.hpp>
-#include <getopt.h>
 
 namespace tts = cainteoir::tts;
-
-enum args
-{
-	ARG_CHART = 'c',
-	ARG_FEATURES = 'f',
-	ARG_HELP = 'h',
-	ARG_NO_PAUSES = 301,
-	ARG_SEPARATE = 's',
-};
-
-const char *options_short = "cfhs";
-
-static struct option options[] =
-{
-	{ "chart",     no_argument, 0, ARG_CHART },
-	{ "features",  no_argument, 0, ARG_FEATURES },
-	{ "help",      no_argument, 0, ARG_HELP },
-	{ "no-pauses", no_argument, 0, ARG_NO_PAUSES },
-	{ "separate",  no_argument, 0, ARG_SEPARATE },
-	{ 0, 0, 0, 0 }
-};
-
-void help()
-{
-	fprintf(stdout, i18n("usage: phoneme-converter [OPTION..] <from-scheme> <to-scheme> document\n"));
-	fprintf(stdout, i18n("usage: phoneme-converter --chart <phoneme-scheme>\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("Options:\n"));
-	fprintf(stdout, i18n(" -c, --chart            Display the phoneme scheme as an IPA chart\n"));
-	fprintf(stdout, i18n(" -h, --help             This help text\n"));
-	fprintf(stdout, i18n(" -s, --separate         Display each phoneme on a new line\n"));
-	fprintf(stdout, i18n(" -f, --features         Show the features along with the transcription\n"));
-	fprintf(stdout, i18n(" -no-pauses             Do not process pause phonemes\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
-}
 
 enum class phoneme_mode
 {
@@ -471,39 +435,32 @@ int main(int argc, char ** argv)
 		bool no_pauses = false;
 		bool show_features = false;
 
-		while (1)
-		{
-			int option_index = 0;
-			int c = getopt_long(argc, argv, options_short, options, &option_index);
-			if (c == -1)
-				break;
+		const option_group general_options = { nullptr, {
+			{ 'c', "chart", no_argument, nullptr,
+			  i18n("Display the phoneme scheme as an IPA chart"),
+			  [&mode](const char *) { mode = phoneme_mode::chart; }},
+			{ 's', "separate", no_argument, nullptr,
+			  i18n("Display each phoneme on a new line"),
+			  [&mode](const char *) { mode = phoneme_mode::separate; }},
+			{ 'f', "features", no_argument, nullptr,
+			  i18n("Show the features along with the transcription"),
+			  [&show_features](const char *) { show_features = true; }},
+			{ 0, "no-pauses", no_argument, nullptr,
+			  i18n("Do not process pause phonemes"),
+			  [&no_pauses](const char *) { no_pauses = true; }},
+		}};
 
-			switch (c)
-			{
-			case ARG_CHART:
-				mode = phoneme_mode::chart;
-				break;
-			case ARG_HELP:
-				help();
-				return 0;
-			case ARG_FEATURES:
-				show_features = true;
-				break;
-			case ARG_SEPARATE:
-				mode = phoneme_mode::separate;
-				break;
-			case ARG_NO_PAUSES:
-				no_pauses = true;
-				break;
-			}
-		}
+		const std::initializer_list<const char *> usage = {
+			i18n("phoneme-converter [OPTION..] FROM TO TRANSCRIPTION"),
+			i18n("phoneme-converter --chart PHONEMESET"),
+		};
 
-		argc -= optind;
-		argv += optind;
+		if (!parse_command_line({ general_options }, usage, argc, argv))
+			return 0;
 
 		if (argc != (mode == phoneme_mode::chart ? 1 : 3))
 		{
-			help();
+			print_help({ general_options }, usage);
 			return 0;
 		}
 

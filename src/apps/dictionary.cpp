@@ -19,6 +19,8 @@
  */
 
 #include "config.h"
+#include "i18n.h"
+#include "options.hpp"
 
 #include <ucd/ucd.h>
 #include <cainteoir/document.hpp>
@@ -27,33 +29,16 @@
 #include <cainteoir/unicode.hpp>
 #include <cainteoir/stopwatch.hpp>
 #include <stdexcept>
-#include <getopt.h>
 
 namespace rdf = cainteoir::rdf;
 namespace tts = cainteoir::tts;
 
-enum args
+enum class mode_type
 {
-	ARG_COMPARE = 'c',
-	ARG_FROM_DOCUMENT = 300,
-	ARG_LANGUAGE = 'l',
-	ARG_LIST_ENTRIES = 'L',
-	ARG_PRONOUNCE_ENTRIES = 'p',
-	ARG_TIME = 't',
-	ARG_VOICE_NAME = 'v',
-};
-
-const char *options_short = "cl:ptv:L";
-
-static struct option options[] =
-{
-	{ "compare",   no_argument,       0, ARG_COMPARE },
-	{ "language",  required_argument, 0, ARG_LANGUAGE },
-	{ "list",      no_argument,       0, ARG_LIST_ENTRIES },
-	{ "pronounce", no_argument,       0, ARG_PRONOUNCE_ENTRIES },
-	{ "time",      no_argument,       0, ARG_TIME },
-	{ "voice",     required_argument, 0, ARG_VOICE_NAME },
-	{ 0, 0, 0, 0 }
+	from_document,
+	list_entries,
+	pronounce_entries,
+	compare_entries,
 };
 
 static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phoneme> &b)
@@ -215,49 +200,50 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		args mode = ARG_FROM_DOCUMENT;
+		mode_type mode = mode_type::from_document;
 		bool time = false;
 		const char *voicename = nullptr;
 		const char *language = nullptr;
 
-		while (1)
-		{
-			int option_index = 0;
-			int c = getopt_long(argc, argv, options_short, options, &option_index);
-			if (c == -1)
-				break;
+		const option_group general_options = { nullptr, {
+			{ 'c', "compare", no_argument, nullptr,
+			  i18n("Compare dictionary and ruleset/engine pronunciations"),
+			  [&mode](const char *) { mode = mode_type::compare_entries; }},
+			{ 'L', "list", no_argument, nullptr,
+			  i18n("List the entries in the dictionary"),
+			  [&mode](const char *) { mode = mode_type::list_entries; }},
+			{ 'p', "pronounce", no_argument, nullptr,
+			  i18n("Pronounce the dictionary items using the ruleset/engine"),
+			  [&mode](const char *) { mode = mode_type::pronounce_entries; }},
+			{ 't', "time", no_argument, nullptr,
+			  i18n("Time how long it takes to complete the action"),
+			  [&time](const char *) { time = true; }},
+			{ 'v', "voice", required_argument, "VOICE",
+			  i18n("Use the voice named VOICE with --compare"),
+			  [&voicename](const char *arg) { voicename = arg; }},
+			{ 'l', "language", required_argument, "LANG",
+			  i18n("Use a voice that speaks the language LANG with --compare"),
+			  [&language](const char *arg) { language = arg; }},
+		}};
 
-			switch (c)
-			{
-			case ARG_COMPARE:
-			case ARG_LIST_ENTRIES:
-			case ARG_PRONOUNCE_ENTRIES:
-				mode = (args)c;
-				break;
-			case ARG_TIME:
-				time = true;
-				break;
-			case ARG_LANGUAGE:
-				language = optarg;
-				break;
-			case ARG_VOICE_NAME:
-				voicename = optarg;
-				break;
-			}
-		}
+		const std::initializer_list<const char *> usage = {
+			i18n("dictionary [OPTION..] DICTIONARY"),
+			i18n("dictionary [OPTION..] DICTIONARY RULESET"),
+			i18n("dictionary [OPTION..] --from-document DOCUMENT.."),
+		};
 
-		argc -= optind;
-		argv += optind;
+		if (!parse_command_line({ general_options }, usage, argc, argv))
+			return 0;
 
 		switch (mode)
 		{
-		case ARG_LIST_ENTRIES:
+		case mode_type::list_entries:
 			if (argc != 1)
 				throw std::runtime_error("no document specified");
 			list_entries(argv[0], time);
 			break;
-		case ARG_PRONOUNCE_ENTRIES:
-		case ARG_COMPARE:
+		case mode_type::pronounce_entries:
+		case mode_type::compare_entries:
 			if (argc == 2)
 			{
 				auto rules = tts::createPronunciationRules(cainteoir::path(argv[1]));
@@ -266,7 +252,7 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
-				pronounce(argv[0], rules, time, mode == ARG_COMPARE);
+				pronounce(argv[0], rules, time, mode == mode_type::compare_entries);
 			}
 			else if (argc == 1)
 			{
@@ -284,12 +270,12 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(argv[0], engine.pronunciation(), time, mode == ARG_COMPARE);
+				pronounce(argv[0], engine.pronunciation(), time, mode == mode_type::compare_entries);
 			}
 			else
 				throw std::runtime_error("no document specified");
 			break;
-		case ARG_FROM_DOCUMENT:
+		case mode_type::from_document:
 			if (argc == 0)
 				throw std::runtime_error("no document specified");
 			from_documents(argc, argv, time);

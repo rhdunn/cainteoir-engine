@@ -21,13 +21,13 @@
 #include "config.h"
 #include "compatibility.hpp"
 #include "i18n.h"
+#include "options.hpp"
 
 #include <cainteoir/engines.hpp>
 #include <cainteoir/document.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
-#include <getopt.h>
 #include <cmath>
 
 #include <termios.h>
@@ -44,104 +44,8 @@ enum actions
 {
 	speak,
 	show_metadata,
-	show_help,
 	show_contents,
 };
-
-enum args
-{
-	ARG_CONTENTS = 'c',
-	ARG_FROM = 'f',
-	ARG_HELP = 'h',
-	ARG_LANGUAGE = 'l',
-	ARG_METADATA = 'M',
-	ARG_MONOTONE = 'm',
-	ARG_OUTPUT_FILE = 'o',
-	ARG_PITCH = 'p',
-	ARG_PITCH_RANGE = 'P',
-	ARG_RECORD = 'r',
-	ARG_SPEED = 's',
-	ARG_STDOUT = 300,
-	ARG_TO = 't',
-	ARG_VOICE_NAME = 'v',
-	ARG_VOLUME = 'V',
-};
-
-const char *options_short = "cf:hl:mo:p:r:s:t:v:MP:V:";
-
-static struct option options[] =
-{
-	{ "contents",    no_argument,       0, ARG_CONTENTS },
-	{ "help",        no_argument,       0, ARG_HELP },
-	{ "language",    required_argument, 0, ARG_LANGUAGE },
-	{ "metadata",    no_argument,       0, ARG_METADATA },
-	{ "monotone",    no_argument,       0, ARG_MONOTONE },
-	{ "output",      required_argument, 0, ARG_OUTPUT_FILE },
-	{ "pitch",       required_argument, 0, ARG_PITCH },
-	{ "pitch-range", required_argument, 0, ARG_PITCH_RANGE },
-	{ "record",      required_argument, 0, ARG_RECORD },
-	{ "speed",       required_argument, 0, ARG_SPEED },
-	{ "stdout",      no_argument,       0, ARG_STDOUT },
-	{ "voice",       required_argument, 0, ARG_VOICE_NAME },
-	{ "volume",      required_argument, 0, ARG_VOLUME },
-	{ 0,             0,                 0, 0   }
-};
-
-void list_formats(const rdf::graph &aMetadata, const rdf::uri &aType, bool showName)
-{
-	for (auto &format : rql::select(aMetadata, rql::predicate == rdf::rdf("type") && rql::object == aType))
-	{
-		rql::results data = rql::select(aMetadata, rql::subject == rql::subject(format));
-		std::string description = rql::select_value<std::string>(data, rql::predicate == rdf::dc("description"));
-		if (showName)
-		{
-			std::string name = rql::select_value<std::string>(data, rql::predicate == rdf::tts("name"));
-			fprintf(stdout, "            %-5s - %s\n", name.c_str(), description.c_str());
-		}
-		else
-			fprintf(stdout, "          *  %s\n", description.c_str());
-	}
-}
-
-void help(const rdf::graph &aMetadata)
-{
-	fprintf(stdout, i18n("usage: cainteoir [OPTION..] DOCUMENT\n"));
-	fprintf(stdout, i18n("       where DOCUMENT is one of:\n"));
-	list_formats(aMetadata, rdf::tts("DocumentFormat"), false);
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("Speech options:\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n(" -v, --voice=VOICE       Use the voice named VOICE\n"));
-	fprintf(stdout, i18n(" -l, --language=LANG     Use a voice that speaks the language LANG\n"));
-	fprintf(stdout, i18n(" -s, --speed=SPEED       Set the voice's speed to SPEED words per minute\n"));
-	fprintf(stdout, i18n(" -p, --pitch=PITCH       Set the voice's base pitch to PITCH\n"));
-	fprintf(stdout, i18n(" -P, --pitch-range=RANGE Set the voice's pitch to vary by RANGE\n"));
-	fprintf(stdout, i18n(" -V, --volume=VOLUME     Set the voice's volume to VOLUME percent\n"));
-	fprintf(stdout, i18n(" -m, --monotone          Set the voice to monotone (pitch varies by 0)\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("Table of content options:\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n(" -c, --contents          List the table of contents for the specified document\n"));
-	fprintf(stdout, i18n(" -f, --from=FROM         Start reading/recoding from contents marker FROM\n"));
-	fprintf(stdout, i18n(" -t, --to=TO             Finish reading/recording after contents marker TO\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("Recording audio options:\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n(" -o, --output=FILE       Recorded audio is written to FILE\n"));
-	fprintf(stdout, i18n("     --stdout            Recorded audio is written to the standard output\n"));
-	fprintf(stdout, i18n(" -r, --record=FORMAT     Record the audio as a FORMAT file (default: wav)\n"));
-	fprintf(stdout, i18n("       where FORMAT is one of:\n"));
-	list_formats(aMetadata, rdf::tts("AudioFormat"), true);
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("General options:\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n(" -M, --metadata          Show the RDF metadata for the engine and voices\n"));
-	fprintf(stdout, i18n(" -h, --help              This help text\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("The arguments to the long options also apply to their short option equivalents.\n"));
-	fprintf(stdout, "\n");
-	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
-}
 
 int termchar()
 {
@@ -217,67 +121,78 @@ int main(int argc, char ** argv)
 
 		std::pair<size_t, size_t> toc_range = { -1, -1 };
 
-		while (1)
-		{
-			int option_index = 0;
-			int c = getopt_long(argc, argv, options_short, options, &option_index);
-			if (c == -1)
-				break;
+		const option_group general_options = { nullptr, {
+			{ 'M', "metadata", no_argument, nullptr,
+			  i18n("Show the RDF metadata for the engine and voices"),
+			  [&action](const char *) { action = show_metadata; }},
+		}};
 
-			switch (c)
-			{
-			case ARG_CONTENTS:
-				action = show_contents;
-				break;
-			case ARG_FROM:
-				toc_range.first = atoi(optarg);
-				break;
-			case ARG_HELP:
-				action = show_help;
-				break;
-			case ARG_LANGUAGE:
-				language = optarg;
-				break;
-			case ARG_METADATA:
-				action = show_metadata;
-				break;
-			case ARG_MONOTONE:
-				range = 0;
-				break;
-			case ARG_OUTPUT_FILE:
-				outfile = optarg;
-				break;
-			case ARG_PITCH:
-				pitch = atoi(optarg);
-				break;
-			case ARG_PITCH_RANGE:
-				range = atoi(optarg);
-				break;
-			case ARG_RECORD:
-				outformat = optarg;
+		const option_group speech_options = { i18n("Speech:"), {
+			{ 'v', "voice", required_argument, "VOICE",
+			  i18n("Use the voice named VOICE"),
+			  [&voicename](const char *arg) { voicename = arg; }},
+			{ 'l', "language", required_argument, "LANG",
+			  i18n("Use a voice that speaks the language LANG"),
+			  [&language](const char *arg) { language = arg; }},
+			{ 's', "speed", required_argument, "SPEED",
+			  i18n("Set the voice's speed to SPEED words per minute"),
+			  [&speed](const char *arg) { speed = atoi(arg); }},
+			{ 'p', "pitch", required_argument, "PITCH",
+			  i18n("Set the voice's base pitch to PITCH"),
+			  [&pitch](const char *arg) { pitch = atoi(arg); }},
+			{ 'P', "pitch-range", required_argument, "RANGE",
+			  i18n("Set the voice's pitch to vary by RANGE"),
+			  [&range](const char *arg) { range = atoi(arg); }},
+			{ 'V', "volume", required_argument, "VOLUME",
+			  i18n("Set the voice's volume to VOLUME percent"),
+			  [&volume](const char *arg) { volume = atoi(arg); }},
+			{ 'm', "monotone", no_argument, nullptr,
+			  i18n("Set the voice to monotone (pitch varies by 0)"),
+			  [&range](const char *) { range = 0; }},
+		}};
+
+		const option_group toc_options = { i18n("Table of Contents:"), {
+			{ 'c', "contents", no_argument, nullptr,
+			  i18n("List the table of contents for the specified document"),
+			  [&action](const char *) { action = show_contents; }},
+			{ 'f', "from", required_argument, "FROM",
+			  i18n("Start reading/recoding from contents marker FROM"),
+			  [&toc_range](const char *arg) { toc_range.first = atoi(arg); }},
+			{ 't', "to", required_argument, "TO",
+			  i18n("Finish reading/recording after contents marker TO"),
+			  [&toc_range](const char *arg) { toc_range.second = atoi(arg) + 1; }},
+		}};
+
+		const option_group recording_options = { i18n("Recording:"), {
+			{ 'o', "output", required_argument, "FILE",
+			  i18n("Recorded audio is written to FILE"),
+			  [&outfile](const char *arg) { outfile = arg; }},
+			{ 0, "stdout", no_argument, nullptr,
+			  i18n("Recorded audio is written to the standard output"),
+			  [&outfile](const char *) { outfile = "-"; }},
+			{ 'r', "record", required_argument, "FORMAT",
+			  i18n("Record the audio as a FORMAT file (default: wav)"),
+			  [&outformat](const char *arg) {
+				outformat = arg;
 				if (!strcmp(outformat, "wave"))
 					outformat = "wav";
-				break;
-			case ARG_SPEED:
-				speed = atoi(optarg);
-				break;
-			case ARG_STDOUT:
-				outfile = "-";
-				break;
-			case ARG_TO:
-				toc_range.second = atoi(optarg) + 1;
-				break;
-			case ARG_VOICE_NAME:
-				voicename = optarg;
-				break;
-			case ARG_VOLUME:
-				volume = atoi(optarg);
-				break;
-			}
-		}
+			  }},
+		}};
 
-		argc -= optind;
-		argv += optind;
+		const std::initializer_list<option_group> options = {
+			general_options,
+			speech_options,
+			toc_options,
+			recording_options,
+		};
+
+		const std::initializer_list<const char *> usage = {
+			i18n("cainteoir [OPTION..] DOCUMENT"),
+			i18n("cainteoir [OPTION..]"),
+		};
+
+		if (!parse_command_line(options, usage, argc, argv))
+			return 0;
 
 		rdf::graph metadata;
 		cainteoir::supportedDocumentFormats(metadata, cainteoir::text_support);
@@ -312,11 +227,6 @@ int main(int argc, char ** argv)
 				<< rdf::iana
 				<< rdf::subtag
 				<< metadata;
-			return 0;
-		}
-		else if (action == show_help)
-		{
-			help(metadata);
 			return 0;
 		}
 
