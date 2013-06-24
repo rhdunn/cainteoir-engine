@@ -137,7 +137,10 @@ bool parse_command_line(const std::initializer_list<option_group> &groups,
 			print_help(groups, usage);
 			return false;
 		default:
-			handlers[(uint8_t)c](optarg);
+			{
+				const auto &handler = handlers[(uint8_t)c];
+				if (handler) handler(optarg);
+			}
 			break;
 		}
 	}
