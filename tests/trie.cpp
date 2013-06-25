@@ -76,20 +76,21 @@ TEST_CASE("trie node: insert node")
 
 TEST_CASE("trie node: string insertion")
 {
-	cainteoir::trie_node<int> n('\0');
-	add_entry(&n, "test", 1);
-	add_entry(&n, "tear", 2);
-	add_entry(&n, "tome", 3);
-	add_entry(&n, "boast", 4);
-	add_entry(&n, "view", 5);
-	add_entry(&n, "even", 6);
-	add_entry(&n, "viewing", 7);
+	static const std::initializer_list<std::pair<cainteoir::buffer, int>> words =
+	{
+		{ "test", 1 },
+		{ "tear", 2 },
+		{ "tome", 3 },
+		{ "boast", 4 },
+		{ "view", 5 },
+		{ "even", 6 },
+		{ "viewing", 7 },
+	};
 
-	assert(get_entry(&n, "test") == 1);
-	assert(get_entry(&n, "tear") == 2);
-	assert(get_entry(&n, "tome") == 3);
-	assert(get_entry(&n, "boast") == 4);
-	assert(get_entry(&n, "view") == 5);
-	assert(get_entry(&n, "even") == 6);
-	assert(get_entry(&n, "viewing") == 7);
+	cainteoir::trie_node<int> n('\0');
+	for (const auto &word : words)
+		add_entry(&n, word.first, word.second);
+
+	for (const auto &word : words)
+		assert(get_entry(&n, word.first) == word.second);
 }
