@@ -74,6 +74,14 @@ void tts::dictionary::add_entries(const path &aBasePath,
 	const char *last    = aDictionary->end();
 	while (current != last)
 	{
+		if (*current == '#')
+		{
+			while (current != last && (*current != '\n'))
+				++current;
+			if (current != last) ++current;
+			continue;
+		}
+
 		const char *begin_entry = current;
 		const char *end_entry   = current;
 		while (end_entry != last && *end_entry != '\t')
@@ -109,7 +117,7 @@ void tts::dictionary::add_entries(const path &aBasePath,
 				mPhonemes = tts::createPhonemeReader(phonemeset.c_str());
 			}
 		}
-		else if (*begin_definition == '/') // && *(end_definition - 1) == '/')
+		else if (*begin_definition == '/')
 		{
 			++begin_definition;
 			while (end_definition != begin_definition && *end_definition != '/')

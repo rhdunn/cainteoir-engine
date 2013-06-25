@@ -1,0 +1,11 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Test dictionary for comments in the dictionary.
+.phonemeset	ipa
+
+# merry		/ˈmaɹi/
+marry		/ˈmaɹɪ/ # a comment
+# sally		/ˈsali/
+# salley	/ˈsali/
+sally		/ˈsalɪ/
