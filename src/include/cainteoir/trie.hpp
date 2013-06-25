@@ -77,11 +77,14 @@ namespace cainteoir
 			node->item = value;
 		}
 
-		const T &lookup(const cainteoir::buffer &str) const
+		const T &lookup(const cainteoir::buffer &str, const T &no_match = T()) const
 		{
 			const trie_node<T> *node = &mRoot;
 			for (char c : str)
+			{
 				node = node->get(c);
+				if (node == nullptr) return no_match;
+			}
 			return node->item;
 		}
 	private:

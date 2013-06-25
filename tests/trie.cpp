@@ -73,4 +73,7 @@ TEST_CASE("trie node: string insertion")
 
 	for (const auto &word : words)
 		assert(n.lookup(word.first) == word.second);
+
+	assert(n.lookup("team") == 0);
+	assert(n.lookup("nosuchword") == 0);
 }
