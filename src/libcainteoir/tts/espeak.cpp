@@ -193,7 +193,9 @@ void espeak_pronunciation::reset(const std::shared_ptr<cainteoir::buffer> &aBuff
 	{
 		const char *buffer = espeak_TextToPhonemes(&data, espeakCHARS_UTF8, mMode);
 		// NOTE: phoneme output starts with a space, so remove that ...
-		ret += cainteoir::make_buffer(buffer+1, strlen(buffer)-1);
+		int len = strlen(buffer);
+		if (len > 1)
+			ret += cainteoir::make_buffer(buffer+1, len-1);
 	}
 	mReader->reset(ret.buffer());
 #else
