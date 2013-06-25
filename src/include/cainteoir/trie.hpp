@@ -69,12 +69,17 @@ namespace cainteoir
 
 		const trie_node<T> *root() const { return &mRoot; }
 
-		void insert(const cainteoir::buffer &str, const T &value)
+		T &insert(const cainteoir::buffer &str)
 		{
 			trie_node<T> *node = &mRoot;
 			for (char c : str)
 				node = node->add(c);
-			node->item = value;
+			return node->item;
+		}
+
+		void insert(const cainteoir::buffer &str, const T &value)
+		{
+			insert(str) = value;
 		}
 
 		const T &lookup(const cainteoir::buffer &str, const T &no_match = T()) const
