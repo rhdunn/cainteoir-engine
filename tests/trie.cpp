@@ -25,26 +25,6 @@
 
 REGISTER_TESTSUITE("trie");
 
-template <typename T>
-void add_entry(cainteoir::trie_node<T> *node, const cainteoir::buffer str, T value)
-{
-	for (char c : str)
-		node = node->add(c);
-	node->item = value;
-}
-
-template <typename T>
-T get_entry(const cainteoir::trie_node<T> *node, const cainteoir::buffer str)
-{
-	for (char c : str)
-	{
-		node = node->get(c);
-		assert(node != nullptr);
-		assert(node->c == c);
-	}
-	return node->item;
-}
-
 TEST_CASE("trie node: root")
 {
 	cainteoir::trie_node<int> n('\0');
@@ -87,10 +67,10 @@ TEST_CASE("trie node: string insertion")
 		{ "viewing", 7 },
 	};
 
-	cainteoir::trie_node<int> n('\0');
+	cainteoir::trie<int> n;
 	for (const auto &word : words)
-		add_entry(&n, word.first, word.second);
+		n.insert(word.first, word.second);
 
 	for (const auto &word : words)
-		assert(get_entry(&n, word.first) == word.second);
+		assert(n.lookup(word.first) == word.second);
 }

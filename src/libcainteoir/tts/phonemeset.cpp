@@ -209,28 +209,23 @@ struct phonemeset_reader: public tts::phoneme_reader
 	std::pair<const char *, std::pair<modifier_placement, tts::phoneme>>
 	next_match();
 
-	typedef cainteoir::trie_node<std::pair<modifier_placement, tts::phoneme>> phoneme_node;
-	phoneme_node mPhonemes;
-
+	cainteoir::trie<std::pair<modifier_placement, tts::phoneme>> mPhonemes;
 	std::shared_ptr<cainteoir::buffer> mBuffer;
 	const char *mCurrent;
 	const char *mEnd;
 };
 
 phonemeset_reader::phonemeset_reader(const char *aPhonemeSet)
-	: mPhonemes(0)
 {
 	auto reader = phoneme_file_reader(aPhonemeSet);
 	while (reader.read())
 	{
-		phoneme_node *entry = &mPhonemes;
-		for (char c : *reader.transcription)
-			entry = entry->add(c);
-
 		if (reader.feature == tts::feature::unspecified)
-			entry->item = { modifier_placement::phoneme, reader.phoneme };
+			mPhonemes.insert(*reader.transcription,
+			                 { modifier_placement::phoneme, reader.phoneme });
 		else
-			entry->item = { reader.placement, { reader.feature, tts::feature::unspecified, tts::feature::unspecified } };
+			mPhonemes.insert(*reader.transcription,
+			                 { reader.placement, { reader.feature, tts::feature::unspecified, tts::feature::unspecified } });
 	}
 }
 
@@ -302,12 +297,12 @@ bool phonemeset_reader::read()
 std::pair<const char *, std::pair<modifier_placement, tts::phoneme>>
 phonemeset_reader::next_match()
 {
-	const phoneme_node *entry = &mPhonemes;
-	const phoneme_node *match = nullptr;
+	const auto *entry = mPhonemes.root();
+	decltype(mPhonemes.root()) match = nullptr;
 	const char *pos = mCurrent;
 	while (mCurrent < mEnd)
 	{
-		const phoneme_node *next = entry->get(*mCurrent);
+		const auto *next = entry->get(*mCurrent);
 		if (next == nullptr)
 		{
 			if (match)
@@ -325,7 +320,7 @@ phonemeset_reader::next_match()
 				fprintf(stderr, "\nunrecognised character '%c'\n", c);
 			fflush(stderr);
 
-			entry = &mPhonemes;
+			entry = mPhonemes.root();
 			++mCurrent;
 		}
 		else

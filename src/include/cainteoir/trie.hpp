@@ -21,6 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_TRIE_HPP
 #define CAINTEOIR_ENGINE_TRIE_HPP
 
+#include "buffer.hpp"
 #include <list>
 
 namespace cainteoir
@@ -59,6 +60,32 @@ namespace cainteoir
 			first = children.insert(first, ch);
 			return &*first;
 		}
+	};
+
+	template <typename T>
+	struct trie
+	{
+		trie() : mRoot(0) {}
+
+		const trie_node<T> *root() const { return &mRoot; }
+
+		void insert(const cainteoir::buffer &str, const T &value)
+		{
+			trie_node<T> *node = &mRoot;
+			for (char c : str)
+				node = node->add(c);
+			node->item = value;
+		}
+
+		const T &lookup(const cainteoir::buffer &str) const
+		{
+			const trie_node<T> *node = &mRoot;
+			for (char c : str)
+				node = node->get(c);
+			return node->item;
+		}
+	private:
+		trie_node<T> mRoot;
 	};
 }
 
