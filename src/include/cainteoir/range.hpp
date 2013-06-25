@@ -45,7 +45,7 @@ namespace cainteoir
 		const_reverse_iterator rbegin() const { return const_reverse_iterator(last); }
 		const_reverse_iterator rend()   const { return const_reverse_iterator(first); }
 
-		size_type size() const { return last - first; }
+		size_type size() const { return std::distance(first, last); }
 
 		bool empty() const { return first == last; }
 	};
