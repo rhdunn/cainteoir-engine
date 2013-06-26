@@ -47,14 +47,12 @@ cainteoir::memory_file::memory_file()
 #ifdef HAVE_OPEN_MEMSTREAM
 	f = open_memstream(&data, &length);
 #else
+#ifndef ANDROID
 	f = tmpfile();
+#endif
 	if (!f)
 	{
-#ifdef ANDROID
-		data = tempnam(cainteoir::get_data_path(), "tmp-");
-#else
-		data = tempnam("/tmp", nullptr);
-#endif
+		data = cainteoir::get_temp_filename();
 		f = fopen(data, "w+b");
 		if (!f) throw std::runtime_error(std::string(data) + ": " + strerror(errno));
 	}

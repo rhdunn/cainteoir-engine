@@ -57,3 +57,21 @@ cainteoir::path cainteoir::get_data_path()
 		datadir = DATADIR "/" PACKAGE;
 	return path(datadir);
 }
+
+char *cainteoir::get_temp_filename()
+{
+#ifdef ANDROID
+	// Android has buggy support for tempnam in that when it works, the files cannot
+	// be created (`fopen` returns nullptr with a Permission Denied error).
+
+	static int nextid = 0;
+	int tmpid = nextid++ % 1000;
+
+	char tmpfile[100];
+	snprintf(tmpfile, 100, "tmp-%04d", tmpid);
+
+	return strdup(cainteoir::get_data_path() / ".." / "cache" / tmpfile);
+#else
+	return tempnam("/tmp", nullptr);
+#endif
+}

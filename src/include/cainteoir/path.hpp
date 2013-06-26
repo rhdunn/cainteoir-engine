@@ -64,6 +64,8 @@ namespace cainteoir
 	}
 
 	path get_data_path();
+
+	char *get_temp_filename();
 }
 
 #endif
