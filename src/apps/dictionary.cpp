@@ -209,35 +209,40 @@ int main(int argc, char ** argv)
 		bool time = false;
 		const char *voicename = nullptr;
 		const char *language = nullptr;
+		const char *ruleset = nullptr;
 
 		const option_group general_options = { nullptr, {
-			{ 'c', "compare", no_argument, nullptr,
-			  i18n("Compare dictionary and ruleset/engine pronunciations"),
-			  [&mode](const char *) { mode = mode_type::compare_entries; }},
 			{ 'L', "list", no_argument, nullptr,
 			  i18n("List the entries in the dictionary"),
 			  [&mode](const char *) { mode = mode_type::list_entries; }},
-			{ 'p', "pronounce", no_argument, nullptr,
-			  i18n("Pronounce the dictionary items using the ruleset/engine"),
-			  [&mode](const char *) { mode = mode_type::pronounce_entries; }},
 			{ 't', "time", no_argument, nullptr,
 			  i18n("Time how long it takes to complete the action"),
 			  [&time](const char *) { time = true; }},
+		}};
+
+		const option_group pronunciation_options = { i18n("Pronunciation:"), {
+			{ 'p', "pronounce", no_argument, nullptr,
+			  i18n("Pronounce the dictionary items using the ruleset/engine"),
+			  [&mode](const char *) { mode = mode_type::pronounce_entries; }},
+			{ 'c', "compare", no_argument, nullptr,
+			  i18n("Compare dictionary and ruleset/engine pronunciations"),
+			  [&mode](const char *) { mode = mode_type::compare_entries; }},
+			{ 'r', "ruleset", required_argument, "RULESET",
+			  i18n("Use the RULESET pronunciation rule file"),
+			  [&ruleset](const char *arg) { ruleset = arg; }},
 			{ 'v', "voice", required_argument, "VOICE",
-			  i18n("Use the voice named VOICE with --compare"),
+			  i18n("Use the TTS voice named VOICE"),
 			  [&voicename](const char *arg) { voicename = arg; }},
 			{ 'l', "language", required_argument, "LANG",
-			  i18n("Use a voice that speaks the language LANG with --compare"),
+			  i18n("Use a TTS voice that speaks the language LANG"),
 			  [&language](const char *arg) { language = arg; }},
 		}};
 
 		const std::initializer_list<const char *> usage = {
-			i18n("dictionary [OPTION..] DICTIONARY"),
-			i18n("dictionary [OPTION..] DICTIONARY RULESET"),
 			i18n("dictionary [OPTION..] DOCUMENT.."),
 		};
 
-		if (!parse_command_line({ general_options }, usage, argc, argv))
+		if (!parse_command_line({ general_options, pronunciation_options }, usage, argc, argv))
 			return 0;
 
 		switch (mode)
@@ -249,9 +254,11 @@ int main(int argc, char ** argv)
 			break;
 		case mode_type::pronounce_entries:
 		case mode_type::compare_entries:
-			if (argc == 2)
+			if (argc != 1)
+				throw std::runtime_error("no document specified");
+			if (ruleset != nullptr)
 			{
-				auto rules = tts::createPronunciationRules(argv[1]);
+				auto rules = tts::createPronunciationRules(ruleset);
 				if (!rules.get())
 				{
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
@@ -259,7 +266,7 @@ int main(int argc, char ** argv)
 				}
 				pronounce(argv[0], rules, time, mode == mode_type::compare_entries);
 			}
-			else if (argc == 1)
+			else
 			{
 				rdf::graph metadata;
 				tts::engines engine(metadata);
@@ -277,8 +284,6 @@ int main(int argc, char ** argv)
 				}
 				pronounce(argv[0], engine.pronunciation(), time, mode == mode_type::compare_entries);
 			}
-			else
-				throw std::runtime_error("no document specified");
 			break;
 		case mode_type::from_document:
 			if (argc == 0)
