@@ -54,22 +54,8 @@ static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phone
 	return first1 == last1 && first2 == last2;
 }
 
-static void list_entries(const char *dictionary, bool time)
+static void list_entries(const tts::dictionary &dict, bool time)
 {
-	cainteoir::stopwatch timer;
-	tts::dictionary dict;
-	if (!dict.add_entries(cainteoir::path(dictionary)))
-	{
-		fprintf(stderr, "cannot load dictionary file \"%s\"\n", dictionary);
-		return;
-	}
-
-	if (time)
-	{
-		printf("time:    %G\n", timer.elapsed());
-		return;
-	}
-
 	auto ipa = tts::createPhonemeWriter("ipa");
 	ipa->reset(stdout);
 	for (auto &entry : dict)
@@ -95,25 +81,17 @@ static void list_entries(const char *dictionary, bool time)
 	}
 }
 
-static void pronounce(const char *dictionary,
+static void pronounce(const tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_reader> rules,
                       bool time,
                       bool compare)
 {
-	tts::dictionary dict;
-	if (!dict.add_entries(cainteoir::path(dictionary)))
-	{
-		fprintf(stderr, "cannot load dictionary file \"%s\"\n", dictionary);
-		return;
-	}
-
 	auto ipa = tts::createPhonemeWriter("ipa");
 	ipa->reset(stdout);
 
 	int matched = 0;
 	int entries = 0;
 
-	cainteoir::stopwatch timer;
 	for (auto &entry : dict)
 	{
 		std::list<tts::phoneme> pronounced;
@@ -157,48 +135,38 @@ static void pronounce(const char *dictionary,
 		fprintf(stderr, "... matched: %d (%.0f%%)\n", matched, (float(matched) / entries * 100.0f));
 		fprintf(stderr, "... entries: %d\n", entries);
 	}
-	if (time)
-		fprintf(stderr, "... time:    %G\n", timer.elapsed());
 }
 
-static void from_documents(int argc, char **argv, bool time)
+static uint32_t from_document(tts::dictionary &dict, const char *filename)
 {
+	fprintf(stdout, "reading %s\n", (filename == nullptr) ? "<stdin>" : filename);
+
 	rdf::graph metadata;
-	uint32_t words = 0;
-	tts::dictionary dict;
-	cainteoir::stopwatch timer;
-	for (int i = 0; i < argc; ++i)
+	auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
+	if (!reader)
 	{
-		const char *filename = !strcmp(argv[i], "-") ? nullptr : argv[i];
-
-		fprintf(stdout, "reading %s\n", argv[i]);
-
-		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
-		if (!reader)
-			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[i]);
-
-		tts::text_reader text(reader);
-		while (text.read()) switch (text.event().type)
-		{
-		case tts::word_uppercase:
-		case tts::word_lowercase:
-		case tts::word_capitalized:
-		case tts::word_mixedcase:
-		case tts::word_script:
-			dict.add_entry(text.event().text,
-			               tts::dictionary::say_as,
-			               text.event().text);
-			++words;
-			break;
-		}
+		fprintf(stderr, "unsupported document format for file \"%s\"\n",
+		        (filename == nullptr) ? "<stdin>" : filename);
+		return 0;
 	}
 
-	fflush(stdout);
-	fprintf(stderr, "... words:   %d\n", words);
-	fprintf(stderr, "... indexed: %d\n", dict.size());
+	uint32_t words = 0;
+	tts::text_reader text(reader);
+	while (text.read()) switch (text.event().type)
+	{
+	case tts::word_uppercase:
+	case tts::word_lowercase:
+	case tts::word_capitalized:
+	case tts::word_mixedcase:
+	case tts::word_script:
+		dict.add_entry(text.event().text,
+		               tts::dictionary::say_as,
+		               text.event().text);
+		++words;
+		break;
+	}
 
-	if (time)
-		fprintf(stderr, "... time:    %G\n", timer.elapsed());
+	return words;
 }
 
 int main(int argc, char ** argv)
@@ -210,6 +178,7 @@ int main(int argc, char ** argv)
 		const char *voicename = nullptr;
 		const char *language = nullptr;
 		const char *ruleset = nullptr;
+		const char *dictionary = nullptr;
 
 		const option_group general_options = { nullptr, {
 			{ 'L', "list", no_argument, nullptr,
@@ -218,6 +187,9 @@ int main(int argc, char ** argv)
 			{ 't', "time", no_argument, nullptr,
 			  i18n("Time how long it takes to complete the action"),
 			  [&time](const char *) { time = true; }},
+			{ 'd', "dictionary", required_argument, "DICTIONARY",
+			  i18n("Use the words in DICTIONARY"),
+			  [&dictionary](const char *arg) { dictionary = arg; }},
 		}};
 
 		const option_group pronunciation_options = { i18n("Pronunciation:"), {
@@ -245,17 +217,31 @@ int main(int argc, char ** argv)
 		if (!parse_command_line({ general_options, pronunciation_options }, usage, argc, argv))
 			return 0;
 
+		cainteoir::stopwatch timer;
+
+		tts::dictionary dict;
+		uint32_t words = 0;
+		if (dictionary != nullptr)
+		{
+			if (!dict.add_entries(cainteoir::path(dictionary)))
+			{
+				fprintf(stderr, "cannot load dictionary \"%s\"\n", dictionary);
+				return 0;
+			}
+			words = dict.size();
+		}
+		else if (argc == 0)
+			words += from_document(dict, nullptr);
+		else for (int i = 0; i != argc; ++i)
+			words += from_document(dict, argv[i]);
+
 		switch (mode)
 		{
 		case mode_type::list_entries:
-			if (argc != 1)
-				throw std::runtime_error("no document specified");
-			list_entries(argv[0], time);
+			list_entries(dict, time);
 			break;
 		case mode_type::pronounce_entries:
 		case mode_type::compare_entries:
-			if (argc != 1)
-				throw std::runtime_error("no document specified");
 			if (ruleset != nullptr)
 			{
 				auto rules = tts::createPronunciationRules(ruleset);
@@ -264,7 +250,7 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
-				pronounce(argv[0], rules, time, mode == mode_type::compare_entries);
+				pronounce(dict, rules, time, mode == mode_type::compare_entries);
 			}
 			else
 			{
@@ -282,15 +268,18 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(argv[0], engine.pronunciation(), time, mode == mode_type::compare_entries);
+				pronounce(dict, engine.pronunciation(), time, mode == mode_type::compare_entries);
 			}
 			break;
 		case mode_type::from_document:
-			if (argc == 0)
-				throw std::runtime_error("no document specified");
-			from_documents(argc, argv, time);
+			fflush(stdout);
+			fprintf(stderr, "... words:   %d\n", words);
+			fprintf(stderr, "... indexed: %d\n", dict.size());
 			break;
 		}
+
+		if (time)
+			fprintf(stderr, "... time:    %G\n", timer.elapsed());
 	}
 	catch (std::runtime_error &e)
 	{
