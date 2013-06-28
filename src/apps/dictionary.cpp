@@ -169,11 +169,13 @@ static void from_documents(int argc, char **argv, bool time)
 	cainteoir::stopwatch timer;
 	for (int i = 0; i < argc; ++i)
 	{
-		auto reader = cainteoir::createDocumentReader(argv[i], metadata, std::string());
-		if (!reader)
-			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[i]);
+		const char *filename = !strcmp(argv[i], "-") ? nullptr : argv[i];
 
 		fprintf(stdout, "reading %s\n", argv[i]);
+
+		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
+		if (!reader)
+			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[i]);
 
 		tts::text_reader text(reader);
 		while (text.read()) switch (text.event().type)
@@ -232,7 +234,7 @@ int main(int argc, char ** argv)
 		const std::initializer_list<const char *> usage = {
 			i18n("dictionary [OPTION..] DICTIONARY"),
 			i18n("dictionary [OPTION..] DICTIONARY RULESET"),
-			i18n("dictionary [OPTION..] --from-document DOCUMENT.."),
+			i18n("dictionary [OPTION..] DOCUMENT.."),
 		};
 
 		if (!parse_command_line({ general_options }, usage, argc, argv))
