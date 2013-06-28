@@ -54,13 +54,32 @@ static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phone
 	return first1 == last1 && first2 == last2;
 }
 
-static void list_entries(const tts::dictionary &dict, bool time)
+static void list_entries(const tts::dictionary &dict, bool as_dictionary)
 {
 	auto ipa = tts::createPhonemeWriter("ipa");
 	ipa->reset(stdout);
 	for (auto &entry : dict)
 	{
-		if (entry.second.type == tts::dictionary::say_as)
+		if (as_dictionary)
+		{
+			int n = fprintf(stdout, "%s", entry.first->str().c_str());
+			if (n < 8) fprintf(stdout, "\t");
+
+			if (entry.second.type == tts::dictionary::say_as)
+			{
+				fprintf(stdout, "\t%s\n",
+				        entry.second.text->str().c_str());
+			}
+			else
+			{
+				fprintf(stdout, "\t/",
+				        entry.first->str().c_str());
+				for (auto p : entry.second.phonemes)
+					ipa->write(p);
+				fprintf(stdout, "/\n");
+			}
+		}
+		else if (entry.second.type == tts::dictionary::say_as)
 		{
 			ucd::codepoint_t cp = 0;
 			cainteoir::utf8::read(entry.second.text->begin(), cp);
@@ -83,7 +102,7 @@ static void list_entries(const tts::dictionary &dict, bool time)
 
 static void pronounce(const tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_reader> rules,
-                      bool time,
+                      bool as_dictionary,
                       bool compare)
 {
 	auto ipa = tts::createPhonemeWriter("ipa");
@@ -99,8 +118,15 @@ static void pronounce(const tts::dictionary &dict,
 		while (rules->read())
 			pronounced.push_back(*rules);
 
-		fprintf(stdout, "\"%s\" => /",
-		        entry.first->str().c_str());
+		if (as_dictionary)
+		{
+			int n = fprintf(stdout, "%s", entry.first->str().c_str());
+			if (n < 8) fprintf(stdout, "\t");
+			fprintf(stdout, "\t/");
+		}
+		else
+			fprintf(stdout, "\"%s\" => /", entry.first->str().c_str());
+
 		if (compare)
 		{
 			for (auto p : entry.second.phonemes)
@@ -123,7 +149,10 @@ static void pronounce(const tts::dictionary &dict,
 		{
 			for (auto p : pronounced)
 				ipa->write(p);
-			fprintf(stdout, "/ [ipa]\n");
+			if (as_dictionary)
+				fprintf(stdout, "/\n");
+			else
+				fprintf(stdout, "/ [ipa]\n");
 		}
 		++entries;
 	}
@@ -175,6 +204,7 @@ int main(int argc, char ** argv)
 	{
 		mode_type mode = mode_type::from_document;
 		bool time = false;
+		bool as_dictionary = false;
 		const char *voicename = nullptr;
 		const char *language = nullptr;
 		const char *ruleset = nullptr;
@@ -184,6 +214,9 @@ int main(int argc, char ** argv)
 			{ 'L', "list", no_argument, nullptr,
 			  i18n("List the entries in the dictionary"),
 			  [&mode](const char *) { mode = mode_type::list_entries; }},
+			{ 'D', "as-dictionary", no_argument, nullptr,
+			  i18n("List the entries as a Cainteoir Dictionary"),
+			  [&as_dictionary](const char *) { as_dictionary = true; }},
 			{ 't', "time", no_argument, nullptr,
 			  i18n("Time how long it takes to complete the action"),
 			  [&time](const char *) { time = true; }},
@@ -238,7 +271,7 @@ int main(int argc, char ** argv)
 		switch (mode)
 		{
 		case mode_type::list_entries:
-			list_entries(dict, time);
+			list_entries(dict, as_dictionary);
 			break;
 		case mode_type::pronounce_entries:
 		case mode_type::compare_entries:
@@ -250,7 +283,7 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
-				pronounce(dict, rules, time, mode == mode_type::compare_entries);
+				pronounce(dict, rules, as_dictionary, mode == mode_type::compare_entries);
 			}
 			else
 			{
@@ -268,7 +301,7 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(dict, engine.pronunciation(), time, mode == mode_type::compare_entries);
+				pronounce(dict, engine.pronunciation(), as_dictionary, mode == mode_type::compare_entries);
 			}
 			break;
 		case mode_type::from_document:
