@@ -166,7 +166,10 @@ static void pronounce(const tts::dictionary &dict,
 	}
 }
 
-static uint32_t from_document(tts::dictionary &dict, const char *filename, bool silent)
+static uint32_t from_document(const tts::dictionary &base_dict,
+                              tts::dictionary &dict,
+                              const char *filename,
+                              bool silent)
 {
 	if (!silent)
 		fprintf(stdout, "reading %s\n", (filename == nullptr) ? "<stdin>" : filename);
@@ -189,10 +192,13 @@ static uint32_t from_document(tts::dictionary &dict, const char *filename, bool 
 	case tts::word_capitalized:
 	case tts::word_mixedcase:
 	case tts::word_script:
-		dict.add_entry(text.event().text,
-		               tts::dictionary::say_as,
-		               text.event().text);
-		++words;
+		if (base_dict.lookup(text.event().text).type == tts::dictionary::no_match)
+		{
+			dict.add_entry(text.event().text,
+			               tts::dictionary::say_as,
+			               text.event().text);
+			++words;
+		}
 		break;
 	}
 
@@ -206,6 +212,7 @@ int main(int argc, char ** argv)
 		mode_type mode = mode_type::from_document;
 		bool time = false;
 		bool as_dictionary = false;
+		bool new_words = false;
 		const char *voicename = nullptr;
 		const char *language = nullptr;
 		const char *ruleset = nullptr;
@@ -224,6 +231,9 @@ int main(int argc, char ** argv)
 			{ 'd', "dictionary", required_argument, "DICTIONARY",
 			  i18n("Use the words in DICTIONARY"),
 			  [&dictionary](const char *arg) { dictionary = arg; }},
+			{ 'n', "new-words", no_argument, nullptr,
+			  i18n("Only use words not in the loaded dictionary"),
+			  [&new_words](const char *) { new_words = true; }},
 		}};
 
 		const option_group pronunciation_options = { i18n("Pronunciation:"), {
@@ -253,21 +263,31 @@ int main(int argc, char ** argv)
 
 		cainteoir::stopwatch timer;
 
+		tts::dictionary base_dict;
 		tts::dictionary dict;
+
 		uint32_t words = 0;
 		if (dictionary != nullptr)
 		{
-			if (!dict.add_entries(cainteoir::path(dictionary)))
+			if (!base_dict.add_entries(cainteoir::path(dictionary)))
 			{
 				fprintf(stderr, "cannot load dictionary \"%s\"\n", dictionary);
 				return 0;
 			}
-			words = dict.size();
+			if (!new_words)
+			{
+				dict  = base_dict;
+				words = dict.size();
+			}
 		}
-		else if (argc == 0)
-			words += from_document(dict, nullptr, as_dictionary);
-		else for (int i = 0; i != argc; ++i)
-			words += from_document(dict, argv[i], as_dictionary);
+
+		if (dictionary == nullptr || new_words)
+		{
+			if (argc == 0)
+				words += from_document(base_dict, dict, nullptr, as_dictionary);
+			else for (int i = 0; i != argc; ++i)
+				words += from_document(base_dict, dict, argv[i], as_dictionary);
+		}
 
 		switch (mode)
 		{
