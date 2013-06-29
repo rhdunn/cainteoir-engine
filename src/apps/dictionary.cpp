@@ -166,9 +166,10 @@ static void pronounce(const tts::dictionary &dict,
 	}
 }
 
-static uint32_t from_document(tts::dictionary &dict, const char *filename)
+static uint32_t from_document(tts::dictionary &dict, const char *filename, bool silent)
 {
-	fprintf(stdout, "reading %s\n", (filename == nullptr) ? "<stdin>" : filename);
+	if (!silent)
+		fprintf(stdout, "reading %s\n", (filename == nullptr) ? "<stdin>" : filename);
 
 	rdf::graph metadata;
 	auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
@@ -264,9 +265,9 @@ int main(int argc, char ** argv)
 			words = dict.size();
 		}
 		else if (argc == 0)
-			words += from_document(dict, nullptr);
+			words += from_document(dict, nullptr, as_dictionary);
 		else for (int i = 0; i != argc; ++i)
-			words += from_document(dict, argv[i]);
+			words += from_document(dict, argv[i], as_dictionary);
 
 		switch (mode)
 		{
