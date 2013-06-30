@@ -377,7 +377,7 @@ AC_DEFUN([CXX11_REQUIRE_STD_END], [
 			[[#include <iterator>]],
 			[[int data[] = { 1, 2, 3, 4, 5 };]
 			 [int *last  = std::end(data);]])],
-		[AC_MSG_RESULT([yes])
-		 AC_DEFINE([HAVE_CXX11_STD_END],[1],[Define to 1 if std::end is supported.])],
-		[AC_MSG_RESULT([no])])
+		[AC_MSG_RESULT([yes])],
+		[AC_MSG_RESULT([no])
+		 AC_MSG_ERROR([C++11 std::end not supported by $CXX.])])
 	AC_LANG_POP(C++)])
