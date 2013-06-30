@@ -228,9 +228,11 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/metadata.hpp \
 	src/include/cainteoir/mimetype.hpp \
 	src/include/cainteoir/path.hpp \
+	src/include/cainteoir/phoneme.hpp \
 	src/include/cainteoir/range.hpp \
 	src/include/cainteoir/stopwatch.hpp \
 	src/include/cainteoir/text.hpp \
+	src/include/cainteoir/trie.hpp \
 	src/include/cainteoir/unicode.hpp \
 	src/include/cainteoir/xmlreader.hpp
 
