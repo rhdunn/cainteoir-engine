@@ -252,6 +252,18 @@ AC_DEFUN([CXX11_LAMBDA], [
 		 AC_MSG_ERROR([C++11 lambda not supported by $CXX.])])
 	AC_LANG_POP(C++)])
 
+AC_DEFUN([CXX11_LAMBDA_CAPTURE], [
+	AC_LANG_PUSH(C++)
+	AC_MSG_CHECKING([if $CXX supports C++11 lambda captures])
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM(
+			[[int val = 0;]
+			 [auto f = [&val](int x) { val = x; };]])],
+		[AC_MSG_RESULT([yes])],
+		[AC_MSG_RESULT([no])
+		 AC_MSG_ERROR([C++11 lambda captures not supported by $CXX.])])
+	AC_LANG_POP(C++)])
+
 dnl ================================================================
 dnl C++11 std::initializer_list
 dnl ================================================================
