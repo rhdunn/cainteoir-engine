@@ -88,7 +88,7 @@ int main(int argc, char ** argv)
 			  [&show_all](const char *) { show_all = true; }},
 		}};
 
-		const option_group format_options = { nullptr, {
+		const option_group format_options = { i18n("Format:"), {
 			{ 0, "text", no_argument, nullptr,
 			  i18n("Output a text word list"),
 			  [&format](const char *) { format = text_format; }},
@@ -102,7 +102,7 @@ int main(int argc, char ** argv)
 			i18n("tagcloud [OPTION..]"),
 		};
 
-		if (!parse_command_line({ general_options }, usage, argc, argv))
+		if (!parse_command_line({ general_options, format_options }, usage, argc, argv))
 			return 0;
 
 		const char *filename = (argc == 1) ? argv[0] : nullptr;
