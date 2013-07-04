@@ -76,9 +76,10 @@ void tts::dictionary::add_entries(const path &aBasePath,
 	{
 		if (*current == '#')
 		{
-			while (current != last && (*current != '\n'))
+			while (current != last && (*current != '\r' && *current != '\n'))
 				++current;
-			if (current != last) ++current;
+			while (current != last && (*current == '\r' || *current == '\n'))
+				++current;
 			continue;
 		}
 

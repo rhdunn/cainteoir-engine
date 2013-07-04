@@ -31,7 +31,7 @@ if __name__ == '__main__':
 			# IPA phonemes:
 			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
 			# comments:
-			{'test': 'dict/cainteoir/comments.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
+			{'test': 'dict/cainteoir/comments.dict', 'result': 'dict/cainteoir/comments.lst'},
 		]},
 	]})
 	test.summary()
