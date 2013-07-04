@@ -72,8 +72,7 @@ static void list_entries(const tts::dictionary &dict, bool as_dictionary)
 			}
 			else
 			{
-				fprintf(stdout, "\t/",
-				        entry.first->str().c_str());
+				fprintf(stdout, "\t/");
 				for (auto p : entry.second.phonemes)
 					ipa->write(p);
 				fprintf(stdout, "/\n");
