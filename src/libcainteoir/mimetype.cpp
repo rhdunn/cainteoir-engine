@@ -27,10 +27,6 @@
 
 #include <stdexcept>
 
-#ifdef __ANDROID__
-#define getenv(env) nullptr
-#endif
-
 namespace xml = cainteoir::xml;
 namespace rdf = cainteoir::rdf;
 namespace m   = cainteoir::mime;
