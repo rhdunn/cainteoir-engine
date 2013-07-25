@@ -300,6 +300,12 @@ The consonant either forms the complete syllable or the nucleus of the syllable.
 The vocal chords vibrate, like with voiced consonants, but are opened so that
 more air escapes.
 
+\var   cainteoir::tts::feature cainteoir::tts::sibilant
+\brief \b sib
+
+The airstream is directed toward the sharp edge of the closed teeth using the
+tongue.
+
 \var   cainteoir::tts::feature cainteoir::tts::velarized
 \brief \b vzd
 
