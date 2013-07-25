@@ -8,6 +8,7 @@
 \u00E7			/{vls,pal,frc}/
 
 \u00F0			/{vcd,dnt,frc}/
+\u00F0\u031E		/{vcd,dnt,apr}/
 \u00F8			/{umd,fnt,rnd,vwl}/
 
 ##### Latin Extended-A
@@ -68,7 +69,6 @@
 \u0276			/{low,fnt,rnd,vwl}/
 \u0278			/{vls,blb,frc}/
 \u0279			/{vcd,alv,apr}/
-\u0279\u032A		/{vcd,dnt,apr}/
 \u027A			/{vcd,alv,lat,flp}/
 \u027B			/{vcd,rfx,apr}/
 \u027D			/{vcd,rfx,flp}/
