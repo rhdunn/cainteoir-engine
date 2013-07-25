@@ -1,9 +1,14 @@
+{vls,blb,nas}
 {vcd,blb,nas}
 {vcd,lbd,nas}
 {vcd,dnt,nas}
+{vls,alv,nas}
 {vcd,alv,nas}
+{vls,rfx,nas}
 {vcd,rfx,nas}
+{vls,pal,nas}
 {vcd,pal,nas}
+{vls,vel,nas}
 {vcd,vel,nas}
 {vcd,uvl,nas}
 
@@ -61,6 +66,7 @@
 {vcd,dnt,apr}
 {vcd,alv,apr}
 {vcd,rfx,apr}
+{vls,pal,apr}
 {vcd,pal,apr}
 {vcd,vel,apr}
 {vcd,uvl,apr}
@@ -69,12 +75,14 @@
 {vls,glt,apr}
 
 {vcd,dnt,lat,apr}
+{vls,alv,lat,apr}
 {vcd,alv,lat,apr}
 {vcd,rfx,lat,apr}
 {vcd,pal,lat,apr}
 {vcd,vel,lat,apr}
 
 {vcd,blb,trl}
+{vls,alv,trl}
 {vcd,alv,trl}
 {vcd,uvl,trl}
 

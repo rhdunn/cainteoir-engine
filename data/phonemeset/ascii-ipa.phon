@@ -154,6 +154,15 @@ A.	/{low,bck,rnd,vwl}/
 
 ##### Additional Phonemes [25]
 
+m<vls>	/{vls,blb,nas}/
+n<vls>	/{vls,alv,nas}/
+n.<vls>	/{vls,rfx,nas}/
+n^<vls>	/{vls,pal,nas}/
+N<vls>	/{vls,vel,nas}/
+
+l<vls>	/{vls,alv,lat,apr}/
+j<vls>	/{vls,pal,apr}/
+
 l-	/{vcd,alv,lat,apr,syl}/
 m-	/{vcd,blb,nas,syl}/
 n-	/{vcd,alv,nas,syl}/

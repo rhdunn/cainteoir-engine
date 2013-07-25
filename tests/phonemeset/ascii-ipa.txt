@@ -1,9 +1,14 @@
+m<vls>
 m
 M
 n[
+n<vls>
 n
+n.<vls>
 n.
+n^<vls>
 n^
+N<vls>
 N
 n"
 
@@ -54,6 +59,7 @@ r<lbd>
 r[
 r
 r.
+j<vls>
 j
 j<vel>
 g"

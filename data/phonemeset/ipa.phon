@@ -15,6 +15,7 @@
 
 \u0127			/{vls,phr,frc}/
 \u014B			/{vcd,vel,nas}/
+\u014B\u030A		/{vls,vel,nas}/
 \u0153			/{lmd,fnt,rnd,vwl}/
 
 ##### Latin Extended-B
@@ -63,7 +64,9 @@
 \u0270			/{vcd,vel,apr}/
 \u0271			/{vcd,lbd,nas}/
 \u0272			/{vcd,pal,nas}/
+\u0272\u030A		/{vls,pal,nas}/
 \u0273			/{vcd,rfx,nas}/
+\u0273\u030A		/{vls,rfx,nas}/
 \u0274			/{vcd,uvl,nas}/
 \u0275			/{umd,cnt,rnd,vwl}/
 \u0276			/{low,fnt,rnd,vwl}/
@@ -163,12 +166,16 @@ g			/{vcd,vel,stp}/
 h			/{vls,glt,apr}/
 i			/{hgh,fnt,unr,vwl}/
 j			/{vcd,pal,apr}/
+j\u030A			/{vls,pal,apr}/
 k			/{vls,vel,stp}/
 k\u02BC			/{vls,vel,ejc}/
 l			/{vcd,alv,lat,apr}/
+l\u0325			/{vls,alv,lat,apr}/
 l\u032A			/{vcd,dnt,lat,apr}/
 m			/{vcd,blb,nas}/
+m\u0325			/{vls,blb,nas}/
 n			/{vcd,alv,nas}/
+n\u0325			/{vls,alv,nas}/
 n\u032A			/{vcd,dnt,nas}/
 o			/{umd,bck,rnd,vwl}/
 p			/{vls,blb,stp}/
@@ -177,6 +184,7 @@ p\u032A			/{vls,lbd,stp}/
 q			/{vls,uvl,stp}/
 q\u02BC			/{vls,uvl,ejc}/
 r			/{vcd,alv,trl}/
+r\u0325			/{vls,alv,trl}/
 s			/{vls,alv,frc}/
 t			/{vls,alv,stp}/
 t\u02BC			/{vls,alv,ejc}/
