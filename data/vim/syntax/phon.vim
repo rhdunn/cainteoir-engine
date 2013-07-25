@@ -24,7 +24,7 @@ syn keyword	phonFeature		nas nzd
 syn keyword	phonFeature		orl
 syn keyword	phonFeature		pal pau phr pla pzd
 syn keyword	phonFeature		rfx rnd rzd
-syn keyword	phonFeature		sbr st1 st2 smh sml stp syl
+syn keyword	phonFeature		sbr sib st1 st2 smh sml stp syl
 syn keyword	phonFeature		trl
 syn keyword	phonFeature		umd unr unx uvl
 syn keyword	phonFeature		vcd vel vls vwl vzd

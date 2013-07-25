@@ -89,6 +89,7 @@ namespace cainteoir { namespace tts
 		half_long,
 		long_,
 
+		sibilant,
 		aspirated,
 		unexploded,
 		syllabic,

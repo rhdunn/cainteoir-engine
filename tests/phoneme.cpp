@@ -481,6 +481,7 @@ TEST_CASE("tts::get_feature_id -- extended abbreviations")
 	};
 
 	assert(tts::get_feature_id("sml") == _(f::semi_low));
+	assert(tts::get_feature_id("sib") == _(f::sibilant));
 	assert(tts::get_feature_id("afr") == _(f::affricate));
 	assert(tts::get_feature_id("epg") == _(f::epiglottal));
 
@@ -561,6 +562,7 @@ TEST_CASE("tts::get_feature_abbreviation")
 	assert(tts::get_feature_abbreviation(f::half_long)   == "hlg");
 	assert(tts::get_feature_abbreviation(f::long_)       == "lng");
 
+	assert(tts::get_feature_abbreviation(f::sibilant)       == "sib");
 	assert(tts::get_feature_abbreviation(f::aspirated)      == "asp");
 	assert(tts::get_feature_abbreviation(f::unexploded)     == "unx");
 	assert(tts::get_feature_abbreviation(f::syllabic)       == "syl");
@@ -643,6 +645,7 @@ TEST_CASE("tts::get_feature_name")
 	assert(tts::get_feature_name(f::half_long)   == "half long");
 	assert(tts::get_feature_name(f::long_)       == "long");
 
+	assert(tts::get_feature_name(f::sibilant)       == "sibilant");
 	assert(tts::get_feature_name(f::aspirated)      == "aspirated");
 	assert(tts::get_feature_name(f::unexploded)     == "unexploded");
 	assert(tts::get_feature_name(f::syllabic)       == "syllabic");

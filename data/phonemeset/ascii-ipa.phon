@@ -22,14 +22,14 @@ o	/{umd,bck,rnd,vwl}/
 p	/{vls,blb,stp}/
 q	/{vls,uvl,stp}/
 r	/{vcd,alv,apr}/ # [2]
-s	/{vls,alv,frc}/
+s	/{vls,alv,sib,frc}/
 t	/{vls,alv,stp}/
 u	/{hgh,bck,rnd,vwl}/
 v	/{vcd,lbd,frc}/
 w	/{vcd,lbv,apr}/ # [2], [5]
 x	/{vls,vel,frc}/
 y	/{hgh,fnt,rnd,vwl}/
-z	/{vcd,alv,frc}/
+z	/{vcd,alv,sib,frc}/
 
 A	/{low,bck,unr,vwl}/
 B	/{vcd,blb,frc}/
@@ -47,14 +47,14 @@ O	/{lmd,bck,rnd,vwl}/
 P	/{vls,blb,frc}/
 Q	/{vcd,vel,frc}/
 R	/{mid,cnt,unr,vwl,rzd}/ # [7], [8]
-S	/{vls,pla,frc}/
+S	/{vls,pla,sib,frc}/
 T	/{vls,dnt,frc}/
 U	/{smh,bck,rnd,vwl}/
 V	/{lmd,bck,unr,vwl}/
 W	/{lmd,fnt,rnd,vwl}/ # [9]
 X	/{vls,uvl,frc}/
 Y	/{umd,fnt,rnd,vwl}/ # [9]
-Z	/{vcd,pla,frc}/
+Z	/{vcd,pla,sib,frc}/
 
 ?	/{vls,glt,stp}/ # [2]
 @	/{mid,cnt,unr,vwl}/
@@ -98,8 +98,8 @@ t!	/{vls,alv,clk}/ # [12]
 n.	/{vcd,rfx,nas}/ # [2]
 t.	/{vls,rfx,stp}/
 d.	/{vcd,rfx,stp}/
-s.	/{vls,rfx,frc}/
-z.	/{vcd,rfx,frc}/
+s.	/{vls,rfx,sib,frc}/
+z.	/{vcd,rfx,sib,frc}/
 r.	/{vcd,rfx,apr}/ # [2]
 l.	/{vcd,rfx,lat,apr}/ # [2], [4]
 *.	/{vcd,rfx,flp}/ # [2]
@@ -169,8 +169,8 @@ n-	/{vcd,alv,nas,syl}/
 N-	/{vcd,vel,nas,syl}/
 r-	/{vcd,alv,apr,syl}/
 
-S;	/{vls,pla,frc,pzd}/
-Z;	/{vcd,pla,frc,pzd}/
+S;	/{vls,pla,sib,frc,pzd}/
+Z;	/{vcd,pla,sib,frc,pzd}/
 
 ts	/{vls,alv,afr}/
 dz	/{vcd,alv,afr}/

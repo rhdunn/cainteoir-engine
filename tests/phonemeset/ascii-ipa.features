@@ -36,12 +36,12 @@
 {vcd,lbd,frc}
 {vls,dnt,frc}
 {vcd,dnt,frc}
-{vls,alv,frc}
-{vcd,alv,frc}
-{vls,rfx,frc}
-{vcd,rfx,frc}
-{vls,pla,frc}
-{vcd,pla,frc}
+{vls,alv,sib,frc}
+{vcd,alv,sib,frc}
+{vls,rfx,sib,frc}
+{vcd,rfx,sib,frc}
+{vls,pla,sib,frc}
+{vcd,pla,sib,frc}
 {vls,pal,frc}
 {vcd,pal,frc}
 {vls,vel,frc}
@@ -114,8 +114,8 @@
 {vcd,vel,nas,syl}
 {vcd,alv,apr,syl}
 
-{vls,pla,frc,pzd}
-{vcd,pla,frc,pzd}
+{vls,pla,sib,frc,pzd}
+{vcd,pla,sib,frc,pzd}
 
 {vls,alv,afr}
 {vcd,alv,afr}

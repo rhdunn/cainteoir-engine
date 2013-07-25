@@ -74,10 +74,10 @@
 {vcd,lbd,frc}
 {vls,dnt,frc}
 {vcd,dnt,frc}
-{vls,alv,frc}
-{vcd,alv,frc}
-{vls,pla,frc}
-{vcd,pla,frc}
+{vls,alv,sib,frc}
+{vcd,alv,sib,frc}
+{vls,pla,sib,frc}
+{vcd,pla,sib,frc}
 {vls,glt,apr}
 
 {vcd,blb,nas}

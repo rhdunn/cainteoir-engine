@@ -40,6 +40,7 @@ static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner
 	{ f::nasal,       f::unspecified },
 	{ f::plosive,     f::unspecified },
 	{ f::affricate,   f::unspecified },
+	{ f::sibilant,    f::fricative },
 	{ f::fricative,   f::unspecified },
 	{ f::approximant, f::unspecified },
 	{ f::trill,       f::unspecified },

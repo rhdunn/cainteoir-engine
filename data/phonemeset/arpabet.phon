@@ -101,10 +101,10 @@
 \u0020V		/{vcd,lbd,frc}/
 \u0020TH	/{vls,dnt,frc}/
 \u0020DH	/{vcd,dnt,frc}/
-\u0020S		/{vls,alv,frc}/
-\u0020Z		/{vcd,alv,frc}/
-\u0020SH	/{vls,pla,frc}/
-\u0020ZH	/{vcd,pla,frc}/
+\u0020S		/{vls,alv,sib,frc}/
+\u0020Z		/{vcd,alv,sib,frc}/
+\u0020SH	/{vls,pla,sib,frc}/
+\u0020ZH	/{vcd,pla,sib,frc}/
 \u0020HH	/{vls,glt,apr}/
 
 \u0020M		/{vcd,blb,nas}/
