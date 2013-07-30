@@ -84,15 +84,84 @@ static const std::initializer_list<std::pair<tts::feature, tts::feature>> vowel_
 	{ f::low,       f::vowel },
 };
 
-static const std::initializer_list<tts::feature> voicing = {
-	f::voiceless,
-	f::voiced,
-};
-
 static const std::initializer_list<tts::feature> roundness = {
 	f::unrounded,
 	f::rounded,
 };
+
+typedef std::pair<std::pair<const char *, const char *>, const std::initializer_list<tts::feature>>
+        diacritics_t;
+
+static const diacritics_t phonation = {{ i18n("Phonation"), "phonation" }, {
+	f::voiceless,
+	f::voiced,
+	// breathy
+	// creaky
+}};
+
+static const diacritics_t length = {{ i18n("Length"), "length" }, {
+	f::unspecified,
+	f::extra_short,
+	f::half_long,
+	f::long_
+}};
+
+static const diacritics_t stress = {{ i18n("Stress"), "stress" }, {
+	f::unspecified,
+	f::primary_stress,
+	f::secondary_stress,
+}};
+
+static const diacritics_t coarticulation = {{ i18n("Co-articulation"), "coarticulation" }, {
+	f::unspecified,
+	f::labialized,
+	f::palatalized,
+	f::velarized,
+	f::pharyngealized,
+	f::nasalized,
+	f::rhoticized,
+}};
+
+static const diacritics_t syllabicity = {{ i18n("Syllabicity"), "syllabicity" }, {
+	f::unspecified,
+	f::syllabic,
+	// non-syllabic
+}};
+
+static const diacritics_t consonant_release = {{ i18n("Consonant release"), "release" }, {
+	f::unspecified,
+	f::aspirated,
+	// inaudible release
+	// nasal release
+	// lateral release
+}};
+
+static const std::initializer_list<diacritics_t> diacritics = {
+	phonation,
+	length,
+	stress,
+	coarticulation,
+	syllabicity,
+	consonant_release,
+};
+
+#define begin_enumerate_diacritics(feature_set) \
+	for (auto ph : phonation.second) { \
+	for (auto ln : length.second) { \
+	for (auto st : stress.second) { \
+	for (auto co : coarticulation.second) { \
+	for (auto sy : syllabicity.second) { \
+	for (auto cr : consonant_release.second) { \
+		const std::initializer_list<tts::feature> extra = { ph, ln, st, co, sy, cr };
+
+#define end_enumerate_diacritics \
+	}}}}}}
+
+inline const char *get_feature_id(tts::feature f)
+{
+	const char *id = tts::get_feature_abbreviation(f);
+	return id ? id : "und";
+}
 
 void print(const std::shared_ptr<cainteoir::buffer> &data)
 {
@@ -179,8 +248,9 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 		fprintf(stdout, "<caption>%s</caption>", caption);
 	fputs("<tr>\n", stdout);
 	fputs("<th>&#xA0;</th>\n", stdout);
+	int colspan = z_features.size() == 0 ? 1 : 2;
 	for (auto x : x_features)
-		print_name({ x, f::unspecified, f::unspecified }, 2);
+		print_name({ x, f::unspecified, f::unspecified }, colspan);
 	fputs("</tr>\n", stdout);
 	for (auto y : y_features)
 	{
@@ -191,7 +261,18 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 			print_name({ y.first, y.second, f::unspecified });
 		for (auto x : x_features)
 		{
-			for (auto z : z_features)
+			if (z_features.size() == 0)
+			{
+				tts::phoneme p;
+				if (y.second == f::unspecified)
+					p = { x, y.first, f::unspecified };
+				else
+					p = { x, y.first, y.second };
+				for (auto e : extra)
+					p.add(e);
+				print(ipa, p);
+			}
+			else for (auto z : z_features)
 			{
 				tts::phoneme p;
 				if (y.second == f::unspecified)
@@ -215,24 +296,111 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("<meta charset=\"UTF-8\"/>\n", stdout);
 	fprintf(stdout, "<title>Phoneme Chart : %s</title>\n", name);
 	fputs("<style type=\"text/css\">\n", stdout);
-	fputs("    h1      { font-size: 16px; font-family: serif; }\n", stdout);
 	fputs("    table   { border: 1px solid black; font-size: 14px; }\n", stdout);
 	fputs("    td, th  { text-align: left; vertical-align: top; border: 1px solid black; padding: 0.2em; }\n", stdout);
 	fputs("    caption { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }\n", stdout);
-	fputs("    .chart .vls, .chart .unr { text-align: left;  font-family: 'Doulos SIL', 'Charis SIL', Gentium; border-right: 0; }\n", stdout);
-	fputs("    .chart .vcd, .chart .rnd { text-align: right; font-family: 'Doulos SIL', 'Charis SIL', Gentium; border-left:  0; }\n", stdout);
-	fputs("    .layout, .layout > tr > td, .layout > tbody > tr > td { border: 0; }\n", stdout);
-	fputs("    .unpronouncible { background-color: lightgray; }\n", stdout);
-	fputs("    .button { cursor: pointer; border: 1px solid black; margin-left: 0.1em; padding: 0.2em; border-radius: 0.25em; }\n", stdout);
+	fputs("    .chart { font-family: 'Doulos SIL', 'Charis SIL', Gentium; }\n", stdout);
+	fputs("    .chart .unr { text-align: left;  border-right: 0; }\n", stdout);
+	fputs("    .chart .rnd { text-align: right; border-left:  0; }\n", stdout);
 	fputs("</style>\n", stdout);
+	fputs("<script>\n", stdout);
+	fputs("    function parse_features(text) {\n", stdout);
+	fputs("        var feature_set;\n", stdout);
+	fputs("        try {\n", stdout);
+	fputs("            feature_set = JSON.parse(text.replace('#', ''));\n", stdout);
+	fputs("        } catch (e) {\n", stdout);
+	fputs("            feature_set = new Object();\n", stdout);
+	fputs("        }\n", stdout);
+	for (const auto &d : diacritics)
+	{
+		fprintf(stdout, "        if (feature_set[\"%s\"] === undefined) feature_set[\"%s\"] = \"%s\";\n",
+		        d.first.second,
+		        d.first.second,
+		        get_feature_id(*d.second.begin()));
+	}
+	fputs("        return feature_set;\n", stdout);
+	fputs("    }\n", stdout);
+	fputs("    function check_feature_toggle(id, match) {\n", stdout);
+	fputs("        var element = document.getElementById(id);\n", stdout);
+	fputs("        if (id == match) {\n", stdout);
+	fputs("            element.style.display = \"\";\n", stdout);
+	fputs("        } else {\n", stdout);
+	fputs("            element.style.display = \"none\";\n", stdout);
+	fputs("        }\n", stdout);
+	fputs("    }\n", stdout);
+	fputs("    function feature_change(type, feature) {\n", stdout);
+	fputs("        var feature_set = parse_features(window.location.hash);\n", stdout);
+	fputs("        feature_set[type] = feature;\n", stdout);
+	fputs("        window.location.hash = JSON.stringify(feature_set);\n", stdout);
+	fputs("    }\n", stdout);
+	fputs("    function update_features(feature_set) {\n", stdout);
+	fputs("        var features = \"id\";\n", stdout);
+	for (const auto &d : diacritics)
+	{
+		fprintf(stdout, "        features = features + \"_\" + feature_set[\"%s\"];\n",
+		        d.first.second);
+	}
+	begin_enumerate_diacritics(extra)
+		fprintf(stdout, "        check_feature_toggle(\"id_%s_%s_%s_%s_%s_%s\", features);\n",
+		        get_feature_id(ph),
+		        get_feature_id(ln),
+		        get_feature_id(st),
+		        get_feature_id(co),
+		        get_feature_id(sy),
+		        get_feature_id(cr));
+	end_enumerate_diacritics
+	fputs("    }\n", stdout);
+	fputs("    window.onhashchange = function(evt) {\n", stdout);
+	fputs("        var feature_set = parse_features(decodeURIComponent(evt.newURL.split('#')[1]));\n", stdout);
+	fputs("        update_features(feature_set);\n", stdout);
+	fputs("    }\n", stdout);
+	fputs("    window.onload = function(evt) {\n", stdout);
+	fputs("        var feature_set = parse_features(undefined);\n", stdout);
+	fputs("        update_features(feature_set);\n", stdout);
+	fputs("    }\n", stdout);
+	fputs("</script>\n", stdout);
 	fputs("</head>\n", stdout);
 	fputs("<body>\n", stdout);
 
-	print_chart(ipa, i18n("Consonants"),
-	            place_of_articulation, manner_of_articulation, voicing);
+	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\">\n", stdout);
+	fprintf(stdout, "<caption>%s</caption>\n", i18n("Diacritics"));
+	fputs("<tr>\n", stdout);
+	int n = 0;
+	for (const auto &d : diacritics)
+	{
+		fprintf(stdout, "<th>%s</th><td><select onchange='feature_change(\"%s\", this.value);'>\n",
+		        d.first.first, d.first.second);
+		for (const auto &f : d.second)
+		{
+			const char *name = tts::get_feature_name(f);
+			fprintf(stdout, " <option value=\"%s\">%s</option>\n",
+			        get_feature_id(f),
+			        name ? name : i18n("N/A"));
+		}
+		fputs("</select></td>\n", stdout);
+		if (++n % 3 == 0)
+			fputs("</tr><tr>\n", stdout);
+	}
+	fputs("</tr>\n", stdout);
+	fputs("</table>\n", stdout);
 
-	print_chart(ipa, i18n("Vowels"),
-	            vowel_backness, vowel_height, roundness);
+	begin_enumerate_diacritics(extra)
+		fprintf(stdout, "<div id=\"id_%s_%s_%s_%s_%s_%s\">\n",
+		        get_feature_id(ph),
+		        get_feature_id(ln),
+		        get_feature_id(st),
+		        get_feature_id(co),
+		        get_feature_id(sy),
+		        get_feature_id(cr));
+
+		print_chart(ipa, i18n("Consonants"),
+		            place_of_articulation, manner_of_articulation, {}, extra);
+
+		print_chart(ipa, i18n("Vowels"),
+		            vowel_backness, vowel_height, roundness, extra);
+
+		fputs("</div>\n", stdout);
+	end_enumerate_diacritics
 
 	fputs("</body>\n", stdout);
 	fputs("</html>\n", stdout);
