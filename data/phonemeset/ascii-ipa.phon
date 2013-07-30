@@ -163,6 +163,15 @@ N<vls>	/{vls,vel,nas}/
 l<vls>	/{vls,alv,lat,apr}/
 j<vls>	/{vls,pal,apr}/
 
+p<h>	/{vls,blb,stp,asp}/
+t<h>	/{vls,alv,stp,asp}/
+k<h>	/{vls,vel,stp,asp}/
+f<h>	/{vls,lbd,frc,asp}/
+s<h>	/{vls,alv,sib,frc,asp}/
+s.<h>	/{vls,rfx,sib,frc,asp}/
+x<h>	/{vls,vel,frc,asp}/
+S;<h>	/{vls,pla,sib,frc,pzd,asp}/
+
 l-	/{vcd,alv,lat,apr,syl}/
 m-	/{vcd,blb,nas,syl}/
 n-	/{vcd,alv,nas,syl}/
