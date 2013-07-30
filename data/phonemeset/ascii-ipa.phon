@@ -67,6 +67,8 @@ Z	/{vcd,pla,sib,frc}/
 '	/<st1>/<
 ,	/<st2>/<
 
+;	/<pzd>/>
+
 ##### Appendix E : Segment List [10], [28]
 
 b<trl>	/{vcd,blb,trl}/ # [2]
@@ -178,15 +180,10 @@ n-	/{vcd,alv,nas,syl}/
 N-	/{vcd,vel,nas,syl}/
 r-	/{vcd,alv,apr,syl}/
 
-S;	/{vls,pla,sib,frc,pzd}/
-Z;	/{vcd,pla,sib,frc,pzd}/
-
 ts	/{vls,alv,afr}/
 dz	/{vcd,alv,afr}/
 tS	/{vls,pla,afr}/
 dZ	/{vcd,pla,afr}/
-tS;	/{vls,pla,afr,pzd}/
-dZ;	/{vcd,pla,afr,pzd}/
 
 eI	/{lmd,fnt,unr,dpr,smh}/
 aI	/{low,fnt,unr,dpr,smh}/
