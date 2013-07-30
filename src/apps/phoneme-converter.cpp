@@ -169,13 +169,10 @@ void print_name(tts::phoneme p, int colspan = 1)
 
 void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
                  const char *caption,
-                 const std::initializer_list<tts::feature>  &x_features,
+                 const std::initializer_list<tts::feature> &x_features,
                  const std::initializer_list<std::pair<tts::feature, tts::feature>> &y_features,
-                 const std::initializer_list<tts::feature>  &z_features,
-                 const tts::feature extra1 = f::unspecified,
-                 const tts::feature extra2 = f::unspecified,
-                 const tts::feature extra3 = f::unspecified,
-                 const tts::feature extra4 = f::unspecified)
+                 const std::initializer_list<tts::feature> &z_features,
+                 const std::initializer_list<tts::feature> &extra = {})
 {
 	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\">\n", stdout);
 	if (caption)
@@ -196,10 +193,14 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
 		{
 			for (auto z : z_features)
 			{
+				tts::phoneme p;
 				if (y.second == f::unspecified)
-					print(ipa, { x, y.first, z, extra1, extra2, extra3, extra4 });
+					p = { x, y.first, z };
 				else
-					print(ipa, { x, y.first, y.second, z, extra1, extra2, extra3, extra4 });
+					p = { x, y.first, y.second, z };
+				for (auto e : extra)
+					p.add(e);
+				print(ipa, p);
 			}
 		}
 		fputs("</tr>\n", stdout);
@@ -231,7 +232,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	            place_of_articulation, manner_of_articulation, voicing);
 
 	print_chart(ipa, i18n("Vowels"),
-	            vowel_backness, vowel_height, roundness, f::vowel);
+	            vowel_backness, vowel_height, roundness, { f::vowel });
 
 	fputs("</body>\n", stdout);
 	fputs("</html>\n", stdout);
