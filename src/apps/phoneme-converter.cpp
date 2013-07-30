@@ -454,27 +454,35 @@ int main(int argc, char ** argv)
 
 		const std::initializer_list<const char *> usage = {
 			i18n("phoneme-converter [OPTION..] FROM TO TRANSCRIPTION"),
+			i18n("phoneme-converter [OPTION..] FROM TO"),
 			i18n("phoneme-converter --chart PHONEMESET"),
 		};
 
 		if (!parse_command_line({ general_options }, usage, argc, argv))
 			return 0;
 
-		if (argc != (mode == phoneme_mode::chart ? 1 : 3))
-		{
-			print_help({ general_options }, usage);
-			return 0;
-		}
-
 		if (mode == phoneme_mode::chart)
+		{
+			if (argc != 1)
+			{
+				print_help({ general_options }, usage);
+				return 0;
+			}
 			print_chart(tts::createPhonemeWriter(argv[0]), argv[0]);
+		}
 		else
 		{
+			if (argc != 2 && argc != 3)
+			{
+				print_help({ general_options }, usage);
+				return 0;
+			}
 			auto from = tts::createPhonemeReader(argv[0]);
 			auto to   = tts::createPhonemeWriter(argv[1]);
 			auto feat = tts::createExplicitFeaturePhonemeWriter();
 
-			from->reset(cainteoir::make_file_buffer(argv[2]));
+			from->reset(argc == 3 ? cainteoir::make_file_buffer(argv[2])
+			                      : cainteoir::make_file_buffer(stdin));
 			to->reset(stdout);
 			feat->reset(stdout);
 			while (from->read())
