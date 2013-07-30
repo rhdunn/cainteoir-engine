@@ -9,6 +9,8 @@
 
 \u00F0			/{vcd,dnt,frc}/
 \u00F0\u031E		/{vcd,dnt,apr}/
+\u00F0\u0331		/{vcd,alv,frc}/
+\u00F0\u0320		/{vcd,alv,frc}/
 \u00F8			/{umd,fnt,rnd,vwl}/
 
 ##### Latin Extended-A
@@ -76,8 +78,8 @@
 \u027A			/{vcd,alv,lat,flp}/
 \u027B			/{vcd,rfx,apr}/
 \u027D			/{vcd,rfx,flp}/
+\u027D\u0361r		/{vcd,rfx,trl}/
 \u027E			/{vcd,alv,flp}/
-\u027E\u0303		/{vcd,alv,flp,nzd}/
 
 \u0280			/{vcd,uvl,trl}/
 \u0281			/{vcd,uvl,frc}/
@@ -122,22 +124,38 @@
 ##### Spacing Modifier Letters
 
 \u2C71			/{vcd,lbd,flp}/
+\u02B2			/<pzd>/>
 \u02C8			/<st1>/<
 \u02CC			/<st2>/<
 \u02D0			/<lng>/>
+\u02E0			/<vzd>/>
+
+##### Combining Diactitical Marks
+
+\u0303			/<nzd>/>
 
 ##### Greek and Coptic
 
 \u03B2			/{vcd,blb,frc}/
 \u03B2\u031E		/{vcd,blb,apr}/
 \u03B8			/{vls,dnt,frc}/
+\u03B8\u0331		/{vls,alv,frc}/
+\u03B8\u0320		/{vls,alv,frc}/
 
 \u03C7			/{vls,uvl,frc}/
+
+##### Cyrillic
+
+\u1D19			/{vcd,epg,trl}/ # [3]
 
 ##### Mathematical Operators
 
 \u2201			/{vls,alv,clk}/
 \u2299			/{vls,blb,clk}/
+
+##### Latin Extended-D
+
+\uA78E			/{vls,rfx,lat,frc}/ # [3]
 
 ##### C0 Controls and Basic Latin [1]
 
@@ -179,6 +197,8 @@ l\u032A			/{vcd,dnt,lat,apr}/
 m			/{vcd,blb,nas}/
 m\u0325			/{vls,blb,nas}/
 n			/{vcd,alv,nas}/
+n\u0331			/{vcd,pla,nas}/
+n\u0320			/{vcd,pla,nas}/
 n\u0325			/{vls,alv,nas}/
 n\u032A			/{vcd,dnt,nas}/
 o			/{umd,bck,rnd,vwl}/
@@ -192,6 +212,7 @@ r			/{vcd,alv,trl}/
 r\u0325			/{vls,alv,trl}/
 s			/{vls,alv,sib,frc}/
 s\u02B0			/{vls,alv,sib,frc,asp}/
+s\u032A			/{vls,dnt,sib,frc}/
 t			/{vls,alv,stp}/
 t\u02B0			/{vls,alv,stp,asp}/
 t\u02BC			/{vls,alv,ejc}/
@@ -204,6 +225,7 @@ x			/{vls,vel,frc}/
 x\u02B0			/{vls,vel,frc,asp}/
 y			/{hgh,fnt,rnd,vwl}/
 z			/{vcd,alv,sib,frc}/
+z\u032A			/{vcd,dnt,sib,frc}/
 
 |			/{vls,dnt,clk}/
 
@@ -306,6 +328,9 @@ n\u0329			/{vcd,alv,nas,syl}/
 #     at the end of the list as earlier items in the list take precedence.
 #
 #  2. This is an alternate transcription used by `espeak --ipa`.
+#
+#  3. This is an unofficial symbol, as the IPA does not provide a symbol for
+#     this phoneme.
 #
 ##### References:
 #
