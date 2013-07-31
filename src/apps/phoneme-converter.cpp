@@ -302,6 +302,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("    .chart { font-family: 'Doulos SIL', 'Charis SIL', Gentium; }\n", stdout);
 	fputs("    .chart .unr { text-align: left;  border-right: 0; }\n", stdout);
 	fputs("    .chart .rnd { text-align: right; border-left:  0; }\n", stdout);
+	fputs("    select { width: 100%; }\n", stdout);
 	fputs("</style>\n", stdout);
 	fputs("<script>\n", stdout);
 	fputs("    function parse_features(text) {\n", stdout);
