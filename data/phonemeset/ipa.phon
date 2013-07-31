@@ -125,14 +125,18 @@
 
 \u2C71			/{vcd,lbd,flp}/
 \u02B2			/<pzd>/>
+\u02B7			/<lzd>/>
+\u02C1			/<fzd>/>
 \u02C8			/<st1>/<
 \u02CC			/<st2>/<
 \u02D0			/<lng>/>
+\u02D1			/<hlg>/>
 \u02E0			/<vzd>/>
 
 ##### Combining Diactitical Marks
 
 \u0303			/<nzd>/>
+\u0306			/<est>/>
 
 ##### Greek and Coptic
 
