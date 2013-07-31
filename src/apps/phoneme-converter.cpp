@@ -340,6 +340,8 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	{
 		fprintf(stdout, "        features = features + \"_\" + feature_set[\"%s\"];\n",
 		        d.first.second);
+		fprintf(stdout, "        document.getElementById(\"%s\").value = feature_set[\"%s\"];\n",
+		        d.first.second, d.first.second);
 	}
 	begin_enumerate_diacritics(extra)
 		fprintf(stdout, "        check_feature_toggle(\"id_%s_%s_%s_%s_%s_%s\", features);\n",
@@ -369,8 +371,8 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	int n = 0;
 	for (const auto &d : diacritics)
 	{
-		fprintf(stdout, "<th>%s</th><td><select onchange='feature_change(\"%s\", this.value);'>\n",
-		        d.first.first, d.first.second);
+		fprintf(stdout, "<th>%s</th><td><select id='%s' onchange='feature_change(\"%s\", this.value);'>\n",
+		        d.first.first, d.first.second, d.first.second);
 		for (const auto &f : d.second)
 		{
 			const char *name = tts::get_feature_name(f);
