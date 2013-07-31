@@ -41,25 +41,25 @@ j	/{vcd,pal,apr}/
 
 ##### Vowels
 
-I	/{smh,fnt,unr,vwl}/
-E	/{lmd,fnt,unr,vwl}/
+I	/{smh,fnt,unr,vcd,vwl}/
+E	/{lmd,fnt,unr,vcd,vwl}/
 eI	/{lmd,fnt,unr,dpr,smh}/ # [2]
 e	/{lmd,fnt,unr,dpr,smh}/ # [1]
-{	/{sml,fnt,unr,vwl}/
-A	/{low,bck,unr,vwl}/
-V	/{lmd,bck,unr,vwl}/
-U	/{smh,bck,rnd,vwl}/
-i	/{hgh,fnt,unr,vwl,lng}/
-u	/{hgh,bck,rnd,vwl,lng}/
+{	/{sml,fnt,unr,vcd,vwl}/
+A	/{low,bck,unr,vcd,vwl}/
+V	/{lmd,bck,unr,vcd,vwl}/
+U	/{smh,bck,rnd,vcd,vwl}/
+i	/{hgh,fnt,unr,vcd,vwl,lng}/
+u	/{hgh,bck,rnd,vcd,vwl,lng}/
 oU	/{mid,cnt,unr,dpr,smh,bck}/ # [2]
 o	/{mid,cnt,unr,dpr,smh,bck}/ # [1]
-O	/{lmd,bck,rnd,vwl,lng}/
+O	/{lmd,bck,rnd,vcd,vwl,lng}/
 aI	/{low,fnt,unr,dpr,smh}/
 OI	/{lmd,bck,rnd,dpr,smh,fnt}/
 aU	/{low,fnt,unr,dpr,smh,bck}/
-3`	/{lmd,cnt,unr,vwl,rzd}/
-@	/{mid,cnt,unr,vwl}/
-@`	/{mid,cnt,unr,vwl,rzd}/
+3`	/{lmd,cnt,unr,vcd,vwl,rzd}/
+@	/{mid,cnt,unr,vcd,vwl}/
+@`	/{mid,cnt,unr,vcd,vwl,rzd}/
 
 ##### Additional Symbols
 

@@ -124,50 +124,50 @@
 {vls,pla,afr,pzd}
 {vcd,pla,afr,pzd}
 
-{hgh,fnt,unr,vwl}
-{hgh,fnt,unr,vwl,lng}
-{hgh,fnt,rnd,vwl}
-{hgh,cnt,unr,vwl}
-{hgh,cnt,rnd,vwl}
-{hgh,bck,unr,vwl}
-{hgh,bck,rnd,vwl}
-{hgh,bck,rnd,vwl,lng}
+{hgh,fnt,unr,vcd,vwl}
+{hgh,fnt,unr,vcd,vwl,lng}
+{hgh,fnt,rnd,vcd,vwl}
+{hgh,cnt,unr,vcd,vwl}
+{hgh,cnt,rnd,vcd,vwl}
+{hgh,bck,unr,vcd,vwl}
+{hgh,bck,rnd,vcd,vwl}
+{hgh,bck,rnd,vcd,vwl,lng}
 
-{smh,fnt,unr,vwl}
-{smh,fnt,rnd,vwl}
-{smh,bck,unr,vwl}
-{smh,bck,rnd,vwl}
+{smh,fnt,unr,vcd,vwl}
+{smh,fnt,rnd,vcd,vwl}
+{smh,bck,unr,vcd,vwl}
+{smh,bck,rnd,vcd,vwl}
 
-{umd,fnt,unr,vwl}
-{umd,fnt,unr,vwl,lng}
-{umd,fnt,rnd,vwl}
-{umd,cnt,unr,vwl}
-{umd,cnt,unr,vwl,rzd}
-{umd,cnt,rnd,vwl}
-{umd,bck,unr,vwl}
-{umd,bck,rnd,vwl}
-{umd,bck,rnd,vwl,lng}
+{umd,fnt,unr,vcd,vwl}
+{umd,fnt,unr,vcd,vwl,lng}
+{umd,fnt,rnd,vcd,vwl}
+{umd,cnt,unr,vcd,vwl}
+{umd,cnt,unr,vcd,vwl,rzd}
+{umd,cnt,rnd,vcd,vwl}
+{umd,bck,unr,vcd,vwl}
+{umd,bck,rnd,vcd,vwl}
+{umd,bck,rnd,vcd,vwl,lng}
 
-{mid,cnt,unr,vwl}
-{mid,cnt,unr,vwl,rzd}
+{mid,cnt,unr,vcd,vwl}
+{mid,cnt,unr,vcd,vwl,rzd}
 
-{lmd,fnt,unr,vwl}
-{lmd,fnt,rnd,vwl}
-{lmd,cnt,unr,vwl}
-{lmd,cnt,rnd,vwl}
-{lmd,bck,unr,vwl}
-{lmd,bck,rnd,vwl}
-{lmd,bck,rnd,vwl,lng}
+{lmd,fnt,unr,vcd,vwl}
+{lmd,fnt,rnd,vcd,vwl}
+{lmd,cnt,unr,vcd,vwl}
+{lmd,cnt,rnd,vcd,vwl}
+{lmd,bck,unr,vcd,vwl}
+{lmd,bck,rnd,vcd,vwl}
+{lmd,bck,rnd,vcd,vwl,lng}
 
-{sml,fnt,unr,vwl}
-{sml,cnt,unr,vwl}
+{sml,fnt,unr,vcd,vwl}
+{sml,cnt,unr,vcd,vwl}
 
-{low,fnt,unr,vwl}
-{low,fnt,unr,vwl,lng}
-{low,fnt,rnd,vwl}
-{low,bck,unr,vwl}
-{low,bck,unr,vwl,lng}
-{low,bck,rnd,vwl}
+{low,fnt,unr,vcd,vwl}
+{low,fnt,unr,vcd,vwl,lng}
+{low,fnt,rnd,vcd,vwl}
+{low,bck,unr,vcd,vwl}
+{low,bck,unr,vcd,vwl,lng}
+{low,bck,rnd,vcd,vwl}
 
 {lmd,fnt,unr,dpr,smh}
 {low,fnt,unr,dpr,smh}

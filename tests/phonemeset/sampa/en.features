@@ -26,33 +26,33 @@
 {vcd,vel,lzd,apr}
 {vcd,pal,apr}
 
-{smh,fnt,unr,vwl}
-{lmd,fnt,unr,vwl}
-{sml,fnt,unr,vwl}
-{low,bck,rnd,vwl}
-{lmd,bck,unr,vwl}
-{smh,bck,rnd,vwl}
+{smh,fnt,unr,vcd,vwl}
+{lmd,fnt,unr,vcd,vwl}
+{sml,fnt,unr,vcd,vwl}
+{low,bck,rnd,vcd,vwl}
+{lmd,bck,unr,vcd,vwl}
+{smh,bck,rnd,vcd,vwl}
 
-{mid,cnt,unr,vwl}
+{mid,cnt,unr,vcd,vwl}
 
-{hgh,fnt,unr,vwl,lng}
+{hgh,fnt,unr,vcd,vwl,lng}
 {lmd,fnt,unr,dpr,smh}
 {low,fnt,unr,dpr,smh}
 {lmd,bck,rnd,dpr,smh,fnt}
 
-{hgh,bck,rnd,vwl,lng}
+{hgh,bck,rnd,vcd,vwl,lng}
 {mid,cnt,unr,dpr,smh,bck}
 {low,fnt,unr,dpr,smh,bck}
 
-{lmd,cnt,unr,vwl,lng}
-{low,bck,unr,vwl,lng}
-{lmd,bck,rnd,vwl,lng}
+{lmd,cnt,unr,vcd,vwl,lng}
+{low,bck,unr,vcd,vwl,lng}
+{lmd,bck,rnd,vcd,vwl,lng}
 {smh,fnt,unr,dpf,mid,cnt}
 {lmd,fnt,unr,dpr,mid,cnt}
 {smh,bck,rnd,dpf,mid,cnt}
 
-{hgh,fnt,unr,vwl}
-{hgh,bck,rnd,vwl}
+{hgh,fnt,unr,vcd,vwl}
+{hgh,bck,rnd,vcd,vwl}
 
 {vls,glt,stp}
 {vls,vel,frc}

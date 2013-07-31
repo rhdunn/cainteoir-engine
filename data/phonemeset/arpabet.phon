@@ -7,48 +7,48 @@
 
 ##### Vowels
 
-\u0020AO0	/{lmd,bck,rnd,vwl,lng}/ # [5]
-\u0020AO1	/{lmd,bck,rnd,vwl,lng,st1}/ # [5]
-\u0020AO2	/{lmd,bck,rnd,vwl,lng,st2}/ # [5]
+\u0020AO0	/{lmd,bck,rnd,vcd,vwl,lng}/ # [5]
+\u0020AO1	/{lmd,bck,rnd,vcd,vwl,lng,st1}/ # [5]
+\u0020AO2	/{lmd,bck,rnd,vcd,vwl,lng,st2}/ # [5]
 
-\u0020AA0	/{low,bck,rnd,vwl}/ # [2]
-\u0020AA1	/{low,bck,rnd,vwl,st1}/ # [2]
-\u0020AA2	/{low,bck,rnd,vwl,st2}/ # [2]
+\u0020AA0	/{low,bck,rnd,vcd,vwl}/ # [2]
+\u0020AA1	/{low,bck,rnd,vcd,vwl,st1}/ # [2]
+\u0020AA2	/{low,bck,rnd,vcd,vwl,st2}/ # [2]
 
-\u0020AA0	/{low,bck,unr,vwl,lng}/ # [5]
-\u0020AA1	/{low,bck,unr,vwl,lng,st1}/ # [5]
-\u0020AA2	/{low,bck,unr,vwl,lng,st2}/ # [5]
+\u0020AA0	/{low,bck,unr,vcd,vwl,lng}/ # [5]
+\u0020AA1	/{low,bck,unr,vcd,vwl,lng,st1}/ # [5]
+\u0020AA2	/{low,bck,unr,vcd,vwl,lng,st2}/ # [5]
 
-\u0020IY0	/{hgh,fnt,unr,vwl,lng}/ # [5]
-\u0020IY1	/{hgh,fnt,unr,vwl,lng,st1}/ # [5]
-\u0020IY2	/{hgh,fnt,unr,vwl,lng,st2}/ # [5]
+\u0020IY0	/{hgh,fnt,unr,vcd,vwl,lng}/ # [5]
+\u0020IY1	/{hgh,fnt,unr,vcd,vwl,lng,st1}/ # [5]
+\u0020IY2	/{hgh,fnt,unr,vcd,vwl,lng,st2}/ # [5]
 
-\u0020UW0	/{hgh,bck,rnd,vwl,lng}/ # [5]
-\u0020UW1	/{hgh,bck,rnd,vwl,lng,st1}/ # [5]
-\u0020UW2	/{hgh,bck,rnd,vwl,lng,st2}/ # [5]
+\u0020UW0	/{hgh,bck,rnd,vcd,vwl,lng}/ # [5]
+\u0020UW1	/{hgh,bck,rnd,vcd,vwl,lng,st1}/ # [5]
+\u0020UW2	/{hgh,bck,rnd,vcd,vwl,lng,st2}/ # [5]
 
-\u0020EH0	/{lmd,fnt,unr,vwl}/
-\u0020EH1	/{lmd,fnt,unr,vwl,st1}/
-\u0020EH2	/{lmd,fnt,unr,vwl,st2}/
+\u0020EH0	/{lmd,fnt,unr,vcd,vwl}/
+\u0020EH1	/{lmd,fnt,unr,vcd,vwl,st1}/
+\u0020EH2	/{lmd,fnt,unr,vcd,vwl,st2}/
 
-\u0020IH0	/{smh,fnt,unr,vwl}/
-\u0020IH1	/{smh,fnt,unr,vwl,st1}/
-\u0020IH2	/{smh,fnt,unr,vwl,st2}/
+\u0020IH0	/{smh,fnt,unr,vcd,vwl}/
+\u0020IH1	/{smh,fnt,unr,vcd,vwl,st1}/
+\u0020IH2	/{smh,fnt,unr,vcd,vwl,st2}/
 
-\u0020UH0	/{smh,bck,rnd,vwl}/
-\u0020UH1	/{smh,bck,rnd,vwl,st1}/
-\u0020UH2	/{smh,bck,rnd,vwl,st2}/
+\u0020UH0	/{smh,bck,rnd,vcd,vwl}/
+\u0020UH1	/{smh,bck,rnd,vcd,vwl,st1}/
+\u0020UH2	/{smh,bck,rnd,vcd,vwl,st2}/
 
-\u0020AX0	/{sml,cnt,unr,vwl}/
-\u0020AX0	/{mid,cnt,unr,vwl}/ # [1]
+\u0020AX0	/{sml,cnt,unr,vcd,vwl}/
+\u0020AX0	/{mid,cnt,unr,vcd,vwl}/ # [1]
 
-\u0020AH0	/{lmd,bck,unr,vwl}/
-\u0020AH1	/{lmd,bck,unr,vwl,st1}/
-\u0020AH2	/{lmd,bck,unr,vwl,st2}/
+\u0020AH0	/{lmd,bck,unr,vcd,vwl}/
+\u0020AH1	/{lmd,bck,unr,vcd,vwl,st1}/
+\u0020AH2	/{lmd,bck,unr,vcd,vwl,st2}/
 
-\u0020AE0	/{low,fnt,unr,vwl}/
-\u0020AE1	/{low,fnt,unr,vwl,st1}/
-\u0020AE2	/{low,fnt,unr,vwl,st2}/
+\u0020AE0	/{low,fnt,unr,vcd,vwl}/
+\u0020AE1	/{low,fnt,unr,vcd,vwl,st1}/
+\u0020AE2	/{low,fnt,unr,vcd,vwl,st2}/
 
 ##### Diphthongs
 
@@ -74,16 +74,16 @@
 
 ##### R-coloured Vowels [4]
 
-\u0020AXR	/{mid,cnt,unr,vwl,rzd}/ # [3]
+\u0020AXR	/{mid,cnt,unr,vcd,vwl,rzd}/ # [3]
 
-\u0020ER0	/{lmd,cnt,unr,vwl,lng}/ # [5], [7]
-\u0020ER1	/{lmd,cnt,unr,vwl,lng,st1}/ # [5], [7]
-\u0020ER2	/{lmd,cnt,unr,vwl,lng,st2}/ # [5], [7]
+\u0020ER0	/{lmd,cnt,unr,vcd,vwl,lng}/ # [5], [7]
+\u0020ER1	/{lmd,cnt,unr,vcd,vwl,lng,st1}/ # [5], [7]
+\u0020ER2	/{lmd,cnt,unr,vcd,vwl,lng,st2}/ # [5], [7]
 
-\u0020ER	/{mid,cnt,unr,vwl,rzd}/ # [3]
-\u0020ER0	/{lmd,cnt,unr,vwl,lng,rzd}/ # [5]
-\u0020ER1	/{lmd,cnt,unr,vwl,lng,rzd,st1}/ # [5]
-\u0020ER2	/{lmd,cnt,unr,vwl,lng,rzd,st2}/ # [5]
+\u0020ER	/{mid,cnt,unr,vcd,vwl,rzd}/ # [3]
+\u0020ER0	/{lmd,cnt,unr,vcd,vwl,lng,rzd}/ # [5]
+\u0020ER1	/{lmd,cnt,unr,vcd,vwl,lng,rzd,st1}/ # [5]
+\u0020ER2	/{lmd,cnt,unr,vcd,vwl,lng,rzd,st2}/ # [5]
 
 ##### Consonants
 

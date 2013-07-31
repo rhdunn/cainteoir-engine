@@ -4,61 +4,61 @@
 
 ##### Appendix B : Segment Symbols
 
-a	/{low,fnt,unr,vwl}/ # [22], [23]
+a	/{low,fnt,unr,vcd,vwl}/ # [22], [23]
 b	/{vcd,blb,stp}/
 c	/{vls,pal,stp}/
 d	/{vcd,alv,stp}/
-e	/{umd,fnt,unr,vwl}/ # [1]
+e	/{umd,fnt,unr,vcd,vwl}/ # [1]
 f	/{vls,lbd,frc}/
 g	/{vcd,vel,stp}/
 h	/{vls,glt,apr}/ # [2]
-i	/{hgh,fnt,unr,vwl}/
+i	/{hgh,fnt,unr,vcd,vwl}/
 j	/{vcd,pal,apr}/ # [2], [3]
 k	/{vls,vel,stp}/
 l	/{vcd,alv,lat,apr}/ # [4]
 m	/{vcd,blb,nas}/ # [2]
 n	/{vcd,alv,nas}/ # [2]
-o	/{umd,bck,rnd,vwl}/
+o	/{umd,bck,rnd,vcd,vwl}/
 p	/{vls,blb,stp}/
 q	/{vls,uvl,stp}/
 r	/{vcd,alv,apr}/ # [2]
 s	/{vls,alv,sib,frc}/
 t	/{vls,alv,stp}/
-u	/{hgh,bck,rnd,vwl}/
+u	/{hgh,bck,rnd,vcd,vwl}/
 v	/{vcd,lbd,frc}/
 w	/{vcd,lbv,apr}/ # [2], [5]
 x	/{vls,vel,frc}/
-y	/{hgh,fnt,rnd,vwl}/
+y	/{hgh,fnt,rnd,vcd,vwl}/
 z	/{vcd,alv,sib,frc}/
 
-A	/{low,bck,unr,vwl}/
+A	/{low,bck,unr,vcd,vwl}/
 B	/{vcd,blb,frc}/
 C	/{vls,pal,frc}/
 D	/{vcd,dnt,frc}/
-E	/{lmd,fnt,unr,vwl}/
+E	/{lmd,fnt,unr,vcd,vwl}/
 G	/{vcd,uvl,stp}/
 H	/{vls,phr,frc}/
-I	/{smh,fnt,unr,vwl}/
+I	/{smh,fnt,unr,vcd,vwl}/
 J	/{vcd,pal,stp}/
 L	/{vcd,vel,lat,apr}/ # [4], [6]
 M	/{vcd,lbd,nas}/ # [2]
 N	/{vcd,vel,nas}/ # [2]
-O	/{lmd,bck,rnd,vwl}/
+O	/{lmd,bck,rnd,vcd,vwl}/
 P	/{vls,blb,frc}/
 Q	/{vcd,vel,frc}/
-R	/{mid,cnt,unr,vwl,rzd}/ # [7], [8]
+R	/{mid,cnt,unr,vcd,vwl,rzd}/ # [7], [8]
 S	/{vls,pla,sib,frc}/
 T	/{vls,dnt,frc}/
-U	/{smh,bck,rnd,vwl}/
-V	/{lmd,bck,unr,vwl}/
-W	/{lmd,fnt,rnd,vwl}/ # [9]
+U	/{smh,bck,rnd,vcd,vwl}/
+V	/{lmd,bck,unr,vcd,vwl}/
+W	/{lmd,fnt,rnd,vcd,vwl}/ # [9]
 X	/{vls,uvl,frc}/
-Y	/{umd,fnt,rnd,vwl}/ # [9]
+Y	/{umd,fnt,rnd,vcd,vwl}/ # [9]
 Z	/{vcd,pla,sib,frc}/
 
 ?	/{vls,glt,stp}/ # [2]
-@	/{mid,cnt,unr,vwl}/
-&	/{sml,fnt,unr,vwl}/ # [22]
+@	/{mid,cnt,unr,vcd,vwl}/
+&	/{sml,fnt,unr,vcd,vwl}/ # [22]
 *	/{vcd,alv,flp}/
 
 ##### Appendix C : Diacritics
@@ -136,23 +136,23 @@ h<?>	/{vcd,glt,frc}/ # [2], [26]
 *<lat>	/{vcd,alv,lat,flp}/ # [2], [19]
 l!	/{vcd,alv,lat,clk}/ # [2], [19]
 
-I.	/{smh,fnt,rnd,vwl}/ # [20]
-a.	/{low,fnt,rnd,vwl}/ # [14], [22], [23], [24]
-&.	/{low,fnt,rnd,vwl}/ # [14], [22], [23], [24]
+I.	/{smh,fnt,rnd,vcd,vwl}/ # [20]
+a.	/{low,fnt,rnd,vcd,vwl}/ # [14], [22], [23], [24]
+&.	/{low,fnt,rnd,vcd,vwl}/ # [14], [22], [23], [24]
 
-i"	/{hgh,cnt,unr,vwl}/
-u"	/{hgh,cnt,rnd,vwl}/
-@<umd>	/{umd,cnt,unr,vwl}/
-R<umd>	/{umd,cnt,unr,vwl,rzd}/
-@.	/{umd,cnt,rnd,vwl}/ # [27]
-V"	/{lmd,cnt,unr,vwl}/
-O"	/{lmd,cnt,rnd,vwl}/
-&"	/{sml,cnt,unr,vwl}/ # [21], [22]
+i"	/{hgh,cnt,unr,vcd,vwl}/
+u"	/{hgh,cnt,rnd,vcd,vwl}/
+@<umd>	/{umd,cnt,unr,vcd,vwl}/
+R<umd>	/{umd,cnt,unr,vcd,vwl,rzd}/
+@.	/{umd,cnt,rnd,vcd,vwl}/ # [27]
+V"	/{lmd,cnt,unr,vcd,vwl}/
+O"	/{lmd,cnt,rnd,vcd,vwl}/
+&"	/{sml,cnt,unr,vcd,vwl}/ # [21], [22]
 
-u-	/{hgh,bck,unr,vwl}/
-U-	/{smh,bck,unr,vwl}/ # [21]
-o-	/{umd,bck,unr,vwl}/
-A.	/{low,bck,rnd,vwl}/
+u-	/{hgh,bck,unr,vcd,vwl}/
+U-	/{smh,bck,unr,vcd,vwl}/ # [21]
+o-	/{umd,bck,unr,vcd,vwl}/
+A.	/{low,bck,rnd,vcd,vwl}/
 
 ##### Additional Phonemes [25]
 

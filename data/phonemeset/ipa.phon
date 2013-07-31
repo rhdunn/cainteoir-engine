@@ -4,21 +4,21 @@
 
 ##### C1 Controls and Latin-1 Supplement
 
-\u00E6			/{sml,fnt,unr,vwl}/
+\u00E6			/{sml,fnt,unr,vcd,vwl}/
 \u00E7			/{vls,pal,frc}/
 
 \u00F0			/{vcd,dnt,frc}/
 \u00F0\u031E		/{vcd,dnt,apr}/
 \u00F0\u0331		/{vcd,alv,frc}/
 \u00F0\u0320		/{vcd,alv,frc}/
-\u00F8			/{umd,fnt,rnd,vwl}/
+\u00F8			/{umd,fnt,rnd,vcd,vwl}/
 
 ##### Latin Extended-A
 
 \u0127			/{vls,phr,frc}/
 \u014B			/{vcd,vel,nas}/
 \u014B\u030A		/{vls,vel,nas}/
-\u0153			/{lmd,fnt,rnd,vwl}/
+\u0153			/{lmd,fnt,rnd,vcd,vwl}/
 
 ##### Latin Extended-B
 
@@ -29,40 +29,40 @@
 
 ##### IPA Extensions
 
-\u0250			/{sml,cnt,unr,vwl}/
-\u0251			/{low,bck,unr,vwl}/
-\u0252			/{low,bck,rnd,vwl}/
+\u0250			/{sml,cnt,unr,vcd,vwl}/
+\u0251			/{low,bck,unr,vcd,vwl}/
+\u0252			/{low,bck,rnd,vcd,vwl}/
 \u0253			/{vcd,blb,imp}/
-\u0254			/{lmd,bck,rnd,vwl}/
+\u0254			/{lmd,bck,rnd,vcd,vwl}/
 \u0255			/{vls,pla,sib,frc,pzd}/
 \u0255\u02B0		/{vls,pla,sib,frc,pzd,asp}/
 \u0256			/{vcd,rfx,stp}/
 \u0257			/{vcd,alv,imp}/
 \u0257\u032A		/{vcd,dnt,imp}/
-\u0258			/{umd,cnt,unr,vwl}/
-\u0259			/{mid,cnt,unr,vwl}/
-\u025A			/{mid,cnt,unr,vwl,rzd}/
-\u025B			/{lmd,fnt,unr,vwl}/
-\u025C			/{lmd,cnt,unr,vwl}/
-\u025D			/{lmd,cnt,unr,vwl,rzd}/
-\u025E			/{lmd,cnt,rnd,vwl}/
+\u0258			/{umd,cnt,unr,vcd,vwl}/
+\u0259			/{mid,cnt,unr,vcd,vwl}/
+\u025A			/{mid,cnt,unr,vcd,vwl,rzd}/
+\u025B			/{lmd,fnt,unr,vcd,vwl}/
+\u025C			/{lmd,cnt,unr,vcd,vwl}/
+\u025D			/{lmd,cnt,unr,vcd,vwl,rzd}/
+\u025E			/{lmd,cnt,rnd,vcd,vwl}/
 \u025F			/{vcd,pal,stp}/
 
 \u0260			/{vcd,vel,imp}/
 \u0261			/{vcd,vel,stp}/
 \u0262			/{vcd,uvl,stp}/
 \u0263			/{vcd,vel,frc}/
-\u0264			/{umd,bck,unr,vwl}/
+\u0264			/{umd,bck,unr,vcd,vwl}/
 \u0265			/{vcd,pal,apr,lzd}/
 \u0266			/{vcd,glt,frc}/
 \u0267			/{vls,pla,frc,vzd}/
-\u0268			/{hgh,cnt,unr,vwl}/
-\u026A			/{smh,fnt,unr,vwl}/
+\u0268			/{hgh,cnt,unr,vcd,vwl}/
+\u026A			/{smh,fnt,unr,vcd,vwl}/
 \u026B			/{vcd,alv,lat,apr,vzd}/
 \u026C			/{vls,alv,lat,frc}/
 \u026D			/{vcd,rfx,lat,apr}/
 \u026E			/{vcd,alv,lat,frc}/
-\u026F			/{hgh,bck,unr,vwl}/
+\u026F			/{hgh,bck,unr,vcd,vwl}/
 
 \u0270			/{vcd,vel,apr}/
 \u0271			/{vcd,lbd,nas}/
@@ -71,8 +71,8 @@
 \u0273			/{vcd,rfx,nas}/
 \u0273\u030A		/{vls,rfx,nas}/
 \u0274			/{vcd,uvl,nas}/
-\u0275			/{umd,cnt,rnd,vwl}/
-\u0276			/{low,fnt,rnd,vwl}/
+\u0275			/{umd,cnt,rnd,vcd,vwl}/
+\u0276			/{low,fnt,rnd,vcd,vwl}/
 \u0278			/{vls,blb,frc}/
 \u0279			/{vcd,alv,apr}/
 \u027A			/{vcd,alv,lat,flp}/
@@ -92,13 +92,13 @@
 \u0287			/{vls,dnt,clk}/
 \u0288			/{vls,rfx,stp}/
 \u0288\u02BC		/{vls,rfx,ejc}/
-\u0289			/{hgh,cnt,rnd,vwl}/
-\u028A			/{smh,bck,rnd,vwl}/
+\u0289			/{hgh,cnt,rnd,vcd,vwl}/
+\u028A			/{smh,bck,rnd,vcd,vwl}/
 \u028B			/{vcd,lbd,apr}/
-\u028C			/{lmd,bck,unr,vwl}/
+\u028C			/{lmd,bck,unr,vcd,vwl}/
 \u028D			/{vls,lbv,apr}/
 \u028E			/{vcd,pal,lat,apr}/
-\u028F			/{smh,fnt,rnd,vwl}/
+\u028F			/{smh,fnt,rnd,vcd,vwl}/
 
 \u0290			/{vcd,rfx,sib,frc}/
 \u0291			/{vcd,pla,sib,frc,pzd}/
@@ -167,25 +167,25 @@
 B			/{vcd,blb,trl}/
 G			/{vcd,uvl,stp}/
 H			/{vls,epg,frc}/
-I			/{smh,fnt,unr,vwl}/
+I			/{smh,fnt,unr,vcd,vwl}/
 L			/{vcd,vel,lat,apr}/
 N			/{vcd,uvl,nas}/
 R			/{vcd,uvl,trl}/
-Y			/{smh,fnt,rnd,vwl}/
+Y			/{smh,fnt,rnd,vcd,vwl}/
 
-a			/{low,fnt,unr,vwl}/
+a			/{low,fnt,unr,vcd,vwl}/
 b			/{vcd,blb,stp}/
 b\u032A			/{vcd,lbd,stp}/
 c			/{vls,pal,stp}/
 c\u02BC			/{vls,pal,ejc}/
 d			/{vcd,alv,stp}/
 d\u032A			/{vcd,dnt,stp}/
-e			/{umd,fnt,unr,vwl}/
+e			/{umd,fnt,unr,vcd,vwl}/
 f			/{vls,lbd,frc}/
 f\u02B0			/{vls,lbd,frc,asp}/
 g			/{vcd,vel,stp}/
 h			/{vls,glt,apr}/
-i			/{hgh,fnt,unr,vwl}/
+i			/{hgh,fnt,unr,vcd,vwl}/
 j			/{vcd,pal,apr}/
 j\u030A			/{vls,pal,apr}/
 k			/{vls,vel,stp}/
@@ -201,7 +201,7 @@ n\u0331			/{vcd,pla,nas}/
 n\u0320			/{vcd,pla,nas}/
 n\u0325			/{vls,alv,nas}/
 n\u032A			/{vcd,dnt,nas}/
-o			/{umd,bck,rnd,vwl}/
+o			/{umd,bck,rnd,vcd,vwl}/
 p			/{vls,blb,stp}/
 p\u02B0			/{vls,blb,stp,asp}/
 p\u02BC			/{vls,blb,ejc}/
@@ -218,12 +218,12 @@ t\u02B0			/{vls,alv,stp,asp}/
 t\u02BC			/{vls,alv,ejc}/
 t\u032A			/{vls,dnt,stp}/
 t\u032A\u02BC		/{vls,dnt,ejc}/
-u			/{hgh,bck,rnd,vwl}/
+u			/{hgh,bck,rnd,vcd,vwl}/
 v			/{vcd,lbd,frc}/
 w			/{vcd,lbv,apr}/
 x			/{vls,vel,frc}/
 x\u02B0			/{vls,vel,frc,asp}/
-y			/{hgh,fnt,rnd,vwl}/
+y			/{hgh,fnt,rnd,vcd,vwl}/
 z			/{vcd,alv,sib,frc}/
 z\u032A			/{vcd,dnt,sib,frc}/
 
