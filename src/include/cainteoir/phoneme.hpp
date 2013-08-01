@@ -32,8 +32,17 @@ namespace cainteoir { namespace tts
 	{
 		unspecified,
 
+		vowel,
+		rising_diphthong,
+		falling_diphthong,
+
+		// phonation
+
 		voiced,
 		voiceless,
+		murmured,
+
+		// place of articulation
 
 		bilabial,
 		labio_dental,
@@ -48,10 +57,10 @@ namespace cainteoir { namespace tts
 		epiglottal,
 		glottal,
 
-		vowel,
-		rising_diphthong,
-		falling_diphthong,
+		// manner of articulation
+
 		lateral,
+		sibilant,
 
 		plosive,
 		fricative,
@@ -64,6 +73,8 @@ namespace cainteoir { namespace tts
 		ejective,
 		implosive,
 
+		// vowel height
+
 		high,
 		semi_high,
 		upper_mid,
@@ -72,28 +83,44 @@ namespace cainteoir { namespace tts
 		semi_low,
 		low,
 
+		// vowel backness
+
 		front,
 		center,
 		back,
 
+		// vowel rounding
+
 		unrounded,
 		rounded,
+
+		// stress
 
 		primary_stress,
 		secondary_stress,
 
+		// prosody
+
 		syllable_break,
 		silent_pause,
+
+		// length
 
 		extra_short,
 		half_long,
 		long_,
 
-		sibilant,
+		// consonant release
+
 		aspirated,
 		unexploded,
+
+		// syllabicity
+
 		syllabic,
-		murmured,
+
+		// co-articulation
+
 		velarized,
 		labialized,
 		palatalized,

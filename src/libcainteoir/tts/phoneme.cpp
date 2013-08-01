@@ -94,8 +94,17 @@ static const std::initializer_list<const std::pair<const char *, tts::feature>> 
 static const std::pair<const char *, const char *> feature_data[] = {
 	{ nullptr, nullptr },
 
+	{ "vwl", i18n("vowel") },
+	{ "dpr", i18n("rising diphthong") },
+	{ "dpf", i18n("falling diphthong") },
+
+	// phonation
+
 	{ "vcd", i18n("voiced") },
 	{ "vls", i18n("voiceless") },
+	{ "mrm", i18n("murmured") },
+
+	// place of articulation
 
 	{ "blb", i18n("bilabial") },
 	{ "lbd", i18n("labio-dental") },
@@ -110,10 +119,10 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	{ "epg", i18n("epiglottal") },
 	{ "glt", i18n("glottal") },
 
-	{ "vwl", i18n("vowel") },
-	{ "dpr", i18n("rising diphthong") },
-	{ "dpf", i18n("falling diphthong") },
+	// manner of articulation
+
 	{ "lat", i18n("lateral") },
+	{ "sib", i18n("sibilant") },
 
 	{ "stp", i18n("plosive") },
 	{ "frc", i18n("fricative") },
@@ -126,6 +135,8 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	{ "ejc", i18n("ejective") },
 	{ "imp", i18n("implosive") },
 
+	// vowel height
+
 	{ "hgh", i18n("high") },
 	{ "smh", i18n("semi-high") },
 	{ "umd", i18n("upper-mid") },
@@ -134,28 +145,44 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	{ "sml", i18n("semi-low") },
 	{ "low", i18n("low") },
 
+	// vowel backness
+
 	{ "fnt", i18n("front") },
 	{ "cnt", i18n("center") },
 	{ "bck", i18n("back") },
 
+	// vowel rounding
+
 	{ "unr", i18n("unrounded") },
 	{ "rnd", i18n("rounded") },
+
+	// stress
 
 	{ "st1", i18n("primary stress") },
 	{ "st2", i18n("secondary stress") },
 
+	// prosody
+
 	{ "sbr", i18n("syllable break") },
 	{ "pau", i18n("pause") },
+
+	// length
 
 	{ "est", i18n("extra short") },
 	{ "hlg", i18n("half long") },
 	{ "lng", i18n("long") },
 
-	{ "sib", i18n("sibilant") },
+	// consonant release
+
 	{ "asp", i18n("aspirated") },
 	{ "unx", i18n("unexploded") },
+
+	// syllabicity
+
 	{ "syl", i18n("syllabic") },
-	{ "mrm", i18n("murmured") },
+
+	// co-articulation
+
 	{ "vzd", i18n("velarized") },
 	{ "lzd", i18n("labialized") },
 	{ "pzd", i18n("palatalized") },
