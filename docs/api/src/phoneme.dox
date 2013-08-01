@@ -23,6 +23,14 @@ phonemes.
 The \b ctl (central) and \b orl (oral) features are not used as these are not
 needed to describe a phoneme.
 
+The \b pau (pause) phoneme is combined with a length specifier to indicate the
+duration of the pause:
+
+  -  <code>{pau,est}</code> -- a short pause between words.
+  -  <code>{pau}</code>     -- a pause between clauses, e.g. comma.
+  -  <code>{pau,hlg}</code> -- a pause between sentences.
+  -  <code>{pau,lng}</code> -- an extended pause between sections and chapters.
+
 \}
 
 \var   cainteoir::tts::feature cainteoir::tts::unspecified
@@ -254,13 +262,7 @@ Marks the end of one syllable and the start of another.
 \var   cainteoir::tts::feature cainteoir::tts::silent_pause
 \brief \b pau
 
-This is used to denote the pause between phonemes. This can be combined with
-a length specifier to indicate the pause duration:
-
-  -  <code>{pau,est}</code> -- a short pause between words.
-  -  <code>{pau}</code>     -- a pause between clauses, e.g. comma.
-  -  <code>{pau,hlg}</code> -- a pause between sentences.
-  -  <code>{pau,lng}</code> -- an extended pause between sections and chapters.
+This is used to denote a pause between phonemes.
 
 \var   cainteoir::tts::feature cainteoir::tts::extra_short
 \brief \b est
