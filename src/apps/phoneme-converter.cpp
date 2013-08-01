@@ -36,7 +36,7 @@ enum class phoneme_mode
 
 typedef tts::feature f;
 
-static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation = {
+static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation_pulmonic = {
 	{ f::nasal,       f::unspecified },
 	{ f::plosive,     f::unspecified },
 	{ f::affricate,   f::unspecified },
@@ -45,9 +45,13 @@ static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner
 	{ f::approximant, f::unspecified },
 	{ f::trill,       f::unspecified },
 	{ f::flap,        f::unspecified },
-	{ f::ejective,    f::unspecified },
-	{ f::implosive,   f::unspecified },
-	{ f::click,       f::unspecified },
+};
+
+static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation_non_pulmonic = {
+	{ f::voiceless, f::ejective },
+	{ f::voiced,    f::implosive },
+	{ f::voiceless, f::implosive },
+	{ f::voiceless, f::click },
 };
 
 static const std::initializer_list<tts::feature> place_of_articulation = {
@@ -393,14 +397,17 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 		        get_feature_id(sy),
 		        get_feature_id(cr));
 
-		print_chart(ipa, i18n("Consonants"),
-		            place_of_articulation, manner_of_articulation, {}, extra);
+		print_chart(ipa, i18n("Pulmonic Consonants"),
+		            place_of_articulation, manner_of_articulation_pulmonic, {}, extra);
 
 		print_chart(ipa, i18n("Vowels"),
 		            vowel_backness, vowel_height, roundness, extra);
 
 		fputs("</div>\n", stdout);
 	end_enumerate_diacritics
+
+	print_chart(ipa, i18n("Non-Pulmonic Consonants"),
+	            place_of_articulation, manner_of_articulation_non_pulmonic, {}, {});
 
 	fputs("</body>\n", stdout);
 	fputs("</html>\n", stdout);
