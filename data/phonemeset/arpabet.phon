@@ -11,13 +11,9 @@
 \u0020AO1	/{lmd,bck,rnd,vcd,vwl,lng,st1}/ # [5]
 \u0020AO2	/{lmd,bck,rnd,vcd,vwl,lng,st2}/ # [5]
 
-\u0020AA0	/{low,bck,rnd,vcd,vwl}/ # [2]
-\u0020AA1	/{low,bck,rnd,vcd,vwl,st1}/ # [2]
-\u0020AA2	/{low,bck,rnd,vcd,vwl,st2}/ # [2]
-
-\u0020AA0	/{low,bck,unr,vcd,vwl,lng}/ # [5]
-\u0020AA1	/{low,bck,unr,vcd,vwl,lng,st1}/ # [5]
-\u0020AA2	/{low,bck,unr,vcd,vwl,lng,st2}/ # [5]
+\u0020AA0	/{low,bck,unr,vcd,vwl,lng}/ # [2], [5]
+\u0020AA1	/{low,bck,unr,vcd,vwl,lng,st1}/ # [2], [5]
+\u0020AA2	/{low,bck,unr,vcd,vwl,lng,st2}/ # [2], [5]
 
 \u0020IY0	/{hgh,fnt,unr,vcd,vwl,lng}/ # [5]
 \u0020IY1	/{hgh,fnt,unr,vcd,vwl,lng,st1}/ # [5]
