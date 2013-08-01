@@ -61,6 +61,7 @@ enum class modifier_placement
 	none,
 	before,
 	after,
+	combining,
 	phoneme,
 };
 
@@ -138,6 +139,11 @@ bool phoneme_file_reader::read()
 				{
 					++current;
 					placement = modifier_placement::after;
+				}
+				else if (*current == '+')
+				{
+					++current;
+					placement = modifier_placement::combining;
 				}
 				else
 					throw std::runtime_error("unrecognised modifier placement in phoneme modification rule");
@@ -266,6 +272,7 @@ bool phonemeset_reader::read()
 				pos = m.first;
 				break;
 			case modifier_placement::after:
+			case modifier_placement::combining:
 				fflush(stdout);
 				fprintf(stderr, "\nno phoneme before post-phoneme modifiers\n");
 				fflush(stderr);
@@ -283,6 +290,7 @@ bool phonemeset_reader::read()
 				mCurrent = pos;
 				*(tts::phoneme *)this = p;
 				return true;
+			case modifier_placement::combining:
 			case modifier_placement::after:
 				p.add(*m.second.second.begin());
 				pos = m.first;
@@ -383,20 +391,28 @@ void phonemeset_writer::reset(FILE *aOutput)
 bool phonemeset_writer::write(const tts::phoneme &aPhoneme)
 {
 	tts::phoneme phoneme(aPhoneme);
+	tts::phoneme phoneme_combining(aPhoneme);
+
 	std::shared_ptr<cainteoir::buffer> before;
+	std::shared_ptr<cainteoir::buffer> combining;
 	std::shared_ptr<cainteoir::buffer> after;
 
 	for (const auto &entry : rule_data)
 	{
-		if (phoneme.remove(entry.first))
+		if (phoneme_combining.remove(entry.first))
 		{
 			switch (entry.second.first)
 			{
 			case modifier_placement::before:
 				before = entry.second.second;
+				phoneme.remove(entry.first);
 				break;
 			case modifier_placement::after:
 				after = entry.second.second;
+				phoneme.remove(entry.first);
+				break;
+			case modifier_placement::combining:
+				combining = entry.second.second;
 				break;
 			}
 		}
@@ -413,12 +429,23 @@ bool phonemeset_writer::write(const tts::phoneme &aPhoneme)
 				fwrite(after->begin(), 1, after->size(), output);
 			return true;
 		}
-		else if (entry.first == aPhoneme)
+	}
+
+	for (const auto &entry : data)
+	{
+		if (entry.first == phoneme_combining)
 		{
+			if (before.get())
+				fwrite(before->begin(), 1, before->size(), output);
 			fwrite(entry.second->begin(), 1, entry.second->size(), output);
+			if (combining.get())
+				fwrite(combining->begin(), 1, combining->size(), output);
+			if (after.get())
+				fwrite(after->begin(), 1, after->size(), output);
 			return true;
 		}
 	}
+
 	return false;
 }
 
