@@ -116,7 +116,7 @@ TEST_CASE("7 feature phoneme")
 
 TEST_CASE("8 feature phoneme")
 {
-	tts::phoneme p(f::high, f::front, f::unrounded, f::vowel, f::long_, f::rhoticized, f::unexploded, f::primary_stress);
+	tts::phoneme p(f::high, f::front, f::unrounded, f::vowel, f::long_, f::rhoticized, f::unreleased, f::primary_stress);
 
 	assert(p.contains(f::high));
 	assert(p.contains(f::front));
@@ -125,7 +125,7 @@ TEST_CASE("8 feature phoneme")
 	assert(p.contains(f::rhoticized));
 	assert(p.contains(f::primary_stress));
 	assert(p.contains(f::long_));
-	assert(p.contains(f::unexploded));
+	assert(p.contains(f::unreleased));
 
 	assert(!p.contains(f::unspecified));
 	assert(!p.contains(f::rounded));
@@ -135,7 +135,7 @@ TEST_CASE("8 feature phoneme")
 
 TEST_CASE("copy construction")
 {
-	tts::phoneme p(f::high, f::front, f::unrounded, f::vowel, f::long_, f::rhoticized, f::unexploded, f::primary_stress);
+	tts::phoneme p(f::high, f::front, f::unrounded, f::vowel, f::long_, f::rhoticized, f::unreleased, f::primary_stress);
 	tts::phoneme q(p);
 
 	assert(p.contains(f::high));
@@ -145,7 +145,7 @@ TEST_CASE("copy construction")
 	assert(p.contains(f::rhoticized));
 	assert(p.contains(f::primary_stress));
 	assert(p.contains(f::long_));
-	assert(p.contains(f::unexploded));
+	assert(p.contains(f::unreleased));
 
 	assert(!p.contains(f::unspecified));
 	assert(!p.contains(f::rounded));
@@ -156,7 +156,7 @@ TEST_CASE("copy construction")
 TEST_CASE("copy assignment")
 {
 	tts::phoneme p(f::voiced, f::dental, f::fricative);
-	p = tts::phoneme(f::high, f::front, f::unrounded, f::vowel, f::long_, f::rhoticized, f::unexploded, f::primary_stress);
+	p = tts::phoneme(f::high, f::front, f::unrounded, f::vowel, f::long_, f::rhoticized, f::unreleased, f::primary_stress);
 
 	assert(p.contains(f::high));
 	assert(p.contains(f::front));
@@ -165,7 +165,7 @@ TEST_CASE("copy assignment")
 	assert(p.contains(f::rhoticized));
 	assert(p.contains(f::primary_stress));
 	assert(p.contains(f::long_));
-	assert(p.contains(f::unexploded));
+	assert(p.contains(f::unreleased));
 
 	assert(!p.contains(f::unspecified));
 	assert(!p.contains(f::rounded));
@@ -173,7 +173,7 @@ TEST_CASE("copy assignment")
 	assert(!p.contains(f::secondary_stress));
 
 	tts::phoneme q(f::voiced, f::dental, f::fricative);
-	q = { f::high, f::front, f::unrounded, f::vowel, f::long_, f::rhoticized, f::unexploded, f::primary_stress };
+	q = { f::high, f::front, f::unrounded, f::vowel, f::long_, f::rhoticized, f::unreleased, f::primary_stress };
 
 	assert(q.contains(f::high));
 	assert(q.contains(f::front));
@@ -182,7 +182,7 @@ TEST_CASE("copy assignment")
 	assert(q.contains(f::rhoticized));
 	assert(q.contains(f::primary_stress));
 	assert(q.contains(f::long_));
-	assert(q.contains(f::unexploded));
+	assert(q.contains(f::unreleased));
 
 	assert(!q.contains(f::unspecified));
 	assert(!q.contains(f::rounded));
@@ -454,7 +454,7 @@ TEST_CASE("tts::get_feature_id -- ascii-ipa abbreviations")
 	assert(tts::get_feature_id("rnd") == _(f::rounded));
 
 	assert(tts::get_feature_id("asp") == _(f::aspirated));
-	assert(tts::get_feature_id("unx") == _(f::unexploded));
+	assert(tts::get_feature_id("unx") == _(f::unreleased));
 	assert(tts::get_feature_id("syl") == _(f::syllabic));
 	assert(tts::get_feature_id("mrm") == _(f::murmured));
 	assert(tts::get_feature_id("lng") == _(f::long_));
@@ -564,7 +564,7 @@ TEST_CASE("tts::get_feature_abbreviation")
 
 	assert(tts::get_feature_abbreviation(f::sibilant)       == "sib");
 	assert(tts::get_feature_abbreviation(f::aspirated)      == "asp");
-	assert(tts::get_feature_abbreviation(f::unexploded)     == "unx");
+	assert(tts::get_feature_abbreviation(f::unreleased)     == "unx");
 	assert(tts::get_feature_abbreviation(f::syllabic)       == "syl");
 	assert(tts::get_feature_abbreviation(f::murmured)       == "mrm");
 	assert(tts::get_feature_abbreviation(f::velarized)      == "vzd");
@@ -647,7 +647,7 @@ TEST_CASE("tts::get_feature_name")
 
 	assert(tts::get_feature_name(f::sibilant)       == "sibilant");
 	assert(tts::get_feature_name(f::aspirated)      == "aspirated");
-	assert(tts::get_feature_name(f::unexploded)     == "unexploded");
+	assert(tts::get_feature_name(f::unreleased)     == "unreleased");
 	assert(tts::get_feature_name(f::syllabic)       == "syllabic");
 	assert(tts::get_feature_name(f::murmured)       == "murmured");
 	assert(tts::get_feature_name(f::velarized)      == "velarized");
@@ -691,8 +691,8 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		{ "{pau,est}",             { f::silent_pause, f::extra_short, f::unspecified } },
 		// consonants ...
 		{ "{vcd,blb,stp,asp}",     { f::voiced, f::bilabial, f::plosive, f::aspirated } },
-		{ "{vls,lbd,frc,unx}",     { f::voiceless, f::labio_dental, f::fricative, f::unexploded } },
-		{ "{vls,lbd,afr,unx}",     { f::voiceless, f::labio_dental, f::affricate, f::unexploded } },
+		{ "{vls,lbd,frc,unx}",     { f::voiceless, f::labio_dental, f::fricative, f::unreleased } },
+		{ "{vls,lbd,afr,unx}",     { f::voiceless, f::labio_dental, f::affricate, f::unreleased } },
 		{ "{vcd,dnt,nas,syl}",     { f::voiced, f::dental, f::nasal, f::syllabic } },
 		{ "{vls,alv,apr,mrm}",     { f::voiceless, f::alveolar, f::approximant, f::murmured } },
 		{ "{vcd,lbd,lat,frc}",     { f::voiced, f::labio_dental, f::lateral, f::fricative } },
@@ -863,7 +863,7 @@ TEST_CASE("explicit feature writer -- single phoneme")
 		{ "{pau,est}",             { f::silent_pause, f::extra_short, f::unspecified } },
 		// consonants ...
 		{ "{vcd,blb,stp,asp}",     { f::voiced, f::bilabial, f::plosive, f::aspirated } },
-		{ "{vls,lbd,frc,unx}",     { f::voiceless, f::labio_dental, f::fricative, f::unexploded } },
+		{ "{vls,lbd,frc,unx}",     { f::voiceless, f::labio_dental, f::fricative, f::unreleased } },
 		{ "{vcd,dnt,nas,syl}",     { f::voiced, f::dental, f::nasal, f::syllabic } },
 		{ "{vls,alv,apr,mrm}",     { f::voiceless, f::alveolar, f::approximant, f::murmured } },
 		{ "{vcd,lbd,lat,frc}",     { f::voiced, f::labio_dental, f::lateral, f::fricative } },

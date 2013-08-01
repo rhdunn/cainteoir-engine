@@ -286,7 +286,7 @@ The phoneme (typically a vowel) is articulated for an extended period of time.
 
 The release is accompanied by a strong burst of air.
 
-\var   cainteoir::tts::feature cainteoir::tts::unexploded
+\var   cainteoir::tts::feature cainteoir::tts::unreleased
 \brief \b unx
 
 There is no audible release.

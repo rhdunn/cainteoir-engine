@@ -82,7 +82,7 @@ static const std::initializer_list<const std::pair<const char *, tts::feature>> 
 	{ "trl", tts::feature::trill },
 	{ "umd", tts::feature::upper_mid },
 	{ "unr", tts::feature::unrounded },
-	{ "unx", tts::feature::unexploded },
+	{ "unx", tts::feature::unreleased },
 	{ "uvl", tts::feature::uvular },
 	{ "vcd", tts::feature::voiced },
 	{ "vel", tts::feature::velar },
@@ -175,7 +175,7 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	// consonant release
 
 	{ "asp", i18n("aspirated") },
-	{ "unx", i18n("unexploded") },
+	{ "unx", i18n("unreleased") },
 
 	// syllabicity
 

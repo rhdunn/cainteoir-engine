@@ -113,7 +113,7 @@ namespace cainteoir { namespace tts
 		// consonant release
 
 		aspirated,
-		unexploded,
+		unreleased,
 
 		// syllabicity
 
