@@ -132,11 +132,13 @@
 \u02D0			/<lng>/>
 \u02D1			/<hlg>/>
 \u02E0			/<vzd>/+
+\u02E1			/<lat>/+
 
 ##### Combining Diactitical Marks
 
 \u0303			/<nzd>/+
 \u0306			/<est>/>
+\u031A			/<unx>/+
 
 ##### Greek and Coptic
 

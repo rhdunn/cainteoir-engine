@@ -45,9 +45,6 @@ static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner
 	{ f::approximant, f::unspecified },
 	{ f::trill,       f::unspecified },
 	{ f::flap,        f::unspecified },
-	{ f::lateral,     f::flap },
-	{ f::lateral,     f::fricative },
-	{ f::lateral,     f::approximant },
 	{ f::ejective,    f::unspecified },
 	{ f::implosive,   f::unspecified },
 	{ f::click,       f::unspecified },
@@ -131,9 +128,9 @@ static const diacritics_t syllabicity = {{ i18n("Syllabicity"), "syllabicity" },
 static const diacritics_t consonant_release = {{ i18n("Consonant release"), "release" }, {
 	f::unspecified,
 	f::aspirated,
-	// inaudible release
+	f::unreleased,
 	// nasal release
-	// lateral release
+	f::lateral,
 }};
 
 static const std::initializer_list<diacritics_t> diacritics = {
