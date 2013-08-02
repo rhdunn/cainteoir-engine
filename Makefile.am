@@ -111,6 +111,7 @@ EXTRA_DIST += ChangeLog
 phonemes:	data/phonemeset/ascii-ipa.html \
 		data/phonemeset/ipa.html \
 		data/phonemeset/arpabet.html \
+		data/phonemeset/x-sampa.html \
 		data/phonemeset/sampa/en.html \
 		data/phonemeset/sampa/en-US.html
 
