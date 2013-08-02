@@ -55,7 +55,7 @@
 \u0264			/{umd,bck,unr,vcd,vwl}/
 \u0265			/{vcd,pal,apr,lzd}/
 \u0266			/{vcd,glt,frc}/
-\u0267			/{vls,pla,frc,vzd}/
+\u0267			/{vls,pla,sib,frc,vzd}/
 \u0268			/{hgh,cnt,unr,vcd,vwl}/
 \u026A			/{smh,fnt,unr,vcd,vwl}/
 \u026B			/{vcd,alv,lat,apr,vzd}/
