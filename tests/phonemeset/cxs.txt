@@ -31,10 +31,10 @@ G\
 >\
 ?
 
-t_s
-d_z
-t_S
-d_Z
+ts)
+dz)
+tS)
+dZ)
 
 p\
 B
@@ -122,16 +122,16 @@ w
 
 l\
 
-S'
-Z'
-t_S'
-d_Z'
+S_j
+Z_j
+tS_j)
+dZ_j)
 
 i
 i:
 y
-1
-}
+i\
+u\
 M
 u
 u:
@@ -161,23 +161,23 @@ V
 O
 O:
 
-{
+&
 6
 
 a
 a:
-&
+&\
 A
 A:
 Q
 
-e_I
-a_I
-O_I
+eI)
+aI)
+OI)
 
-I_@
-e_@
-U_@
+I@)
+e@)
+U@)
 
-@_U
-a_U
+@U)
+aU)
