@@ -420,7 +420,12 @@ bool phonemeset_writer::write(const tts::phoneme &aPhoneme)
 
 	for (const auto &entry : data)
 	{
-		if (entry.first == phoneme)
+		if (entry.first == aPhoneme)
+		{
+			fwrite(entry.second->begin(), 1, entry.second->size(), output);
+			return true;
+		}
+		else if (entry.first == phoneme)
 		{
 			if (before.get())
 				fwrite(before->begin(), 1, before->size(), output);
