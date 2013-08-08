@@ -196,8 +196,8 @@ U@	/{smh,bck,rnd,dpf,mid,cnt}/
 oU	/{mid,cnt,unr,dpr,smh,bck}/
 aU	/{low,fnt,unr,dpr,smh,bck}/
 
-\u000A	/{pau}/
-\u0020	/{pau,est}/
+\u0020	/{pau,est}/	# word pause
+\u000A	/{pau}/		# clause pause (e.g. comma)
 
 ##### Notes:
 #

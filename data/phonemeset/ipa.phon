@@ -165,8 +165,8 @@
 
 ##### C0 Controls and Basic Latin [1]
 
-\u000A			/{pau}/
-\u0020			/{pau,est}/
+\u0020	/{pau,est}/	# word pause
+\u000A	/{pau}/		# clause pause (e.g. comma)
 
 !			/{vls,alv,clk}/
 
