@@ -2,7 +2,12 @@
 #
 # License: CC-BY-SA 3.0 [http:creativecommons.orglicensesby-sa3.0]
 
-\u000A	/{pau,hlg}/
+##### SAMPROSA
+
+\#	/{pau,est}/	# word pause (word boundary)
+...	/{pau}/		# clause pause (e.g. comma) -- silence
+\u000A	/{pau,hlg}/	# sentence pause
+\u000A	/{pau,lng}/	# section/chapter pause
 
 ##### Lower Case ASCII
 
