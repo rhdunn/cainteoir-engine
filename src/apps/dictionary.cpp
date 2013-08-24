@@ -103,8 +103,7 @@ static void list_entries(const tts::dictionary &dict, bool as_dictionary)
 static void pronounce(const tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_reader> rules,
                       bool as_dictionary,
-                      mode_type mode,
-                      bool mismatched_only)
+                      mode_type mode)
 {
 	auto ipa = tts::createPhonemeWriter("ipa");
 	ipa->reset(stdout);
@@ -120,7 +119,7 @@ static void pronounce(const tts::dictionary &dict,
 			pronounced.push_back(*rules);
 
 		bool match = matches(pronounced, entry.second.phonemes);
-		if (mismatched_only && match)
+		if (mode == mode_type::mismatched_entries && match)
 			continue;
 
 		if (as_dictionary)
@@ -218,7 +217,6 @@ int main(int argc, char ** argv)
 		bool time = false;
 		bool as_dictionary = false;
 		bool new_words = false;
-		bool mismatched_only = false;
 		const char *voicename = nullptr;
 		const char *language = nullptr;
 		const char *ruleset = nullptr;
@@ -250,8 +248,8 @@ int main(int argc, char ** argv)
 			  i18n("Compare dictionary and ruleset/engine pronunciations"),
 			  [&mode](const char *) { mode = mode_type::compare_entries; }},
 			{ 'm', "mismatched", no_argument, nullptr,
-			  i18n("Only display mismatched pronunciations"),
-			  [&mismatched_only](const char *) { mismatched_only = true; }},
+			  i18n("Only display mismatched pronunciations (implies --compare)"),
+			  [&mode](const char *) { mode = mode_type::mismatched_entries; }},
 			{ 'r', "ruleset", required_argument, "RULESET",
 			  i18n("Use the RULESET pronunciation rule file"),
 			  [&ruleset](const char *arg) { ruleset = arg; }},
@@ -305,6 +303,7 @@ int main(int argc, char ** argv)
 			break;
 		case mode_type::pronounce_entries:
 		case mode_type::compare_entries:
+		case mode_type::mismatched_entries:
 			if (ruleset != nullptr)
 			{
 				auto rules = tts::createPronunciationRules(ruleset);
@@ -313,7 +312,7 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
-				pronounce(dict, rules, as_dictionary, mode, mismatched_only);
+				pronounce(dict, rules, as_dictionary, mode);
 			}
 			else
 			{
@@ -331,7 +330,7 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(dict, engine.pronunciation(), as_dictionary, mode, mismatched_only);
+				pronounce(dict, engine.pronunciation(), as_dictionary, mode);
 			}
 			break;
 		case mode_type::from_document:
