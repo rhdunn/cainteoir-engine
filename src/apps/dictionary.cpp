@@ -55,10 +55,12 @@ static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phone
 	return first1 == last1 && first2 == last2;
 }
 
-static void list_entries(const tts::dictionary &dict, bool as_dictionary)
+static void list_entries(const tts::dictionary &dict,
+                         std::shared_ptr<tts::phoneme_writer> writer,
+                         const char *phonemeset,
+                         bool as_dictionary)
 {
-	auto ipa = tts::createPhonemeWriter("ipa");
-	ipa->reset(stdout);
+	writer->reset(stdout);
 	for (auto &entry : dict)
 	{
 		if (as_dictionary)
@@ -75,7 +77,7 @@ static void list_entries(const tts::dictionary &dict, bool as_dictionary)
 			{
 				fprintf(stdout, "\t/");
 				for (auto p : entry.second.phonemes)
-					ipa->write(p);
+					writer->write(p);
 				fprintf(stdout, "/\n");
 			}
 		}
@@ -94,19 +96,20 @@ static void list_entries(const tts::dictionary &dict, bool as_dictionary)
 			fprintf(stdout, "\"%s\" => /",
 			        entry.first->str().c_str());
 			for (auto p : entry.second.phonemes)
-				ipa->write(p);
-			fprintf(stdout, "/ [ipa]\n");
+				writer->write(p);
+			fprintf(stdout, "/ [%s]\n", phonemeset);
 		}
 	}
 }
 
 static void pronounce(const tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_reader> rules,
+                      std::shared_ptr<tts::phoneme_writer> writer,
+                      const char *phonemeset,
                       bool as_dictionary,
                       mode_type mode)
 {
-	auto ipa = tts::createPhonemeWriter("ipa");
-	ipa->reset(stdout);
+	writer->reset(stdout);
 
 	int matched = 0;
 	int entries = 0;
@@ -134,7 +137,7 @@ static void pronounce(const tts::dictionary &dict,
 		if (mode == mode_type::compare_entries)
 		{
 			for (auto p : entry.second.phonemes)
-				ipa->write(p);
+				writer->write(p);
 			fprintf(stdout, "/ ... ");
 			if (match)
 			{
@@ -145,7 +148,7 @@ static void pronounce(const tts::dictionary &dict,
 			{
 				fprintf(stdout, "mismatched; got /");
 				for (auto p : pronounced)
-					ipa->write(p);
+					writer->write(p);
 				fprintf(stdout, "/\n");
 			}
 		}
@@ -154,17 +157,17 @@ static void pronounce(const tts::dictionary &dict,
 			if (mode == mode_type::mismatched_entries)
 			{
 				for (auto p : entry.second.phonemes)
-					ipa->write(p);
+					writer->write(p);
 			}
 			else
 			{
 				for (auto p : pronounced)
-					ipa->write(p);
+					writer->write(p);
 			}
 			if (as_dictionary)
 				fprintf(stdout, "/\n");
 			else
-				fprintf(stdout, "/ [ipa]\n");
+				fprintf(stdout, "/ [%s]\n", phonemeset);
 		}
 		++entries;
 	}
@@ -229,6 +232,7 @@ int main(int argc, char ** argv)
 		const char *language = nullptr;
 		const char *ruleset = nullptr;
 		const char *dictionary = nullptr;
+		const char *phonemeset = "ipa";
 
 		const option_group general_options = { nullptr, {
 			{ 'L', "list", no_argument, nullptr,
@@ -246,6 +250,9 @@ int main(int argc, char ** argv)
 			{ 'n', "new-words", no_argument, nullptr,
 			  i18n("Only use words not in the loaded dictionary"),
 			  [&new_words](const char *) { new_words = true; }},
+			{ 'P', "phonemeset", required_argument, nullptr,
+			  i18n("The phonemeset to output entries in (default: ipa)"),
+			  [&phonemeset](const char *arg) { phonemeset = arg; }},
 		}};
 
 		const option_group pronunciation_options = { i18n("Pronunciation:"), {
@@ -276,6 +283,7 @@ int main(int argc, char ** argv)
 		if (!parse_command_line({ general_options, pronunciation_options }, usage, argc, argv))
 			return 0;
 
+		auto writer = tts::createPhonemeWriter(phonemeset);
 		cainteoir::stopwatch timer;
 
 		tts::dictionary base_dict;
@@ -307,7 +315,7 @@ int main(int argc, char ** argv)
 		switch (mode)
 		{
 		case mode_type::list_entries:
-			list_entries(dict, as_dictionary);
+			list_entries(dict, writer, phonemeset, as_dictionary);
 			break;
 		case mode_type::pronounce_entries:
 		case mode_type::compare_entries:
@@ -320,7 +328,7 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
-				pronounce(dict, rules, as_dictionary, mode);
+				pronounce(dict, rules, writer, phonemeset, as_dictionary, mode);
 			}
 			else
 			{
@@ -338,7 +346,7 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(dict, engine.pronunciation(), as_dictionary, mode);
+				pronounce(dict, engine.pronunciation(), writer, phonemeset, as_dictionary, mode);
 			}
 			break;
 		case mode_type::from_document:
