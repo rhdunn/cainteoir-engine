@@ -151,8 +151,16 @@ static void pronounce(const tts::dictionary &dict,
 		}
 		else
 		{
-			for (auto p : pronounced)
-				ipa->write(p);
+			if (mode == mode_type::mismatched_entries)
+			{
+				for (auto p : entry.second.phonemes)
+					ipa->write(p);
+			}
+			else
+			{
+				for (auto p : pronounced)
+					ipa->write(p);
+			}
 			if (as_dictionary)
 				fprintf(stdout, "/\n");
 			else
