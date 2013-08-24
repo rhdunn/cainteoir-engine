@@ -39,6 +39,7 @@ enum class mode_type
 	list_entries,
 	pronounce_entries,
 	compare_entries,
+	mismatched_entries,
 };
 
 static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phoneme> &b)
@@ -102,7 +103,8 @@ static void list_entries(const tts::dictionary &dict, bool as_dictionary)
 static void pronounce(const tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_reader> rules,
                       bool as_dictionary,
-                      bool compare)
+                      bool compare,
+                      bool mismatched_only)
 {
 	auto ipa = tts::createPhonemeWriter("ipa");
 	ipa->reset(stdout);
@@ -116,6 +118,10 @@ static void pronounce(const tts::dictionary &dict,
 		rules->reset(entry.first);
 		while (rules->read())
 			pronounced.push_back(*rules);
+
+		bool match = matches(pronounced, entry.second.phonemes);
+		if (mismatched_only && match)
+			continue;
 
 		if (as_dictionary)
 		{
@@ -131,7 +137,7 @@ static void pronounce(const tts::dictionary &dict,
 			for (auto p : entry.second.phonemes)
 				ipa->write(p);
 			fprintf(stdout, "/ ... ");
-			if (matches(pronounced, entry.second.phonemes))
+			if (match)
 			{
 				fprintf(stdout, "matched\n");
 				++matched;
@@ -212,6 +218,7 @@ int main(int argc, char ** argv)
 		bool time = false;
 		bool as_dictionary = false;
 		bool new_words = false;
+		bool mismatched_only = false;
 		const char *voicename = nullptr;
 		const char *language = nullptr;
 		const char *ruleset = nullptr;
@@ -242,6 +249,9 @@ int main(int argc, char ** argv)
 			{ 'c', "compare", no_argument, nullptr,
 			  i18n("Compare dictionary and ruleset/engine pronunciations"),
 			  [&mode](const char *) { mode = mode_type::compare_entries; }},
+			{ 'm', "mismatched", no_argument, nullptr,
+			  i18n("Only display mismatched pronunciations"),
+			  [&mismatched_only](const char *) { mismatched_only = true; }},
 			{ 'r', "ruleset", required_argument, "RULESET",
 			  i18n("Use the RULESET pronunciation rule file"),
 			  [&ruleset](const char *arg) { ruleset = arg; }},
@@ -303,7 +313,7 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
-				pronounce(dict, rules, as_dictionary, mode == mode_type::compare_entries);
+				pronounce(dict, rules, as_dictionary, mode == mode_type::compare_entries, mismatched_only);
 			}
 			else
 			{
@@ -321,7 +331,7 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(dict, engine.pronunciation(), as_dictionary, mode == mode_type::compare_entries);
+				pronounce(dict, engine.pronunciation(), as_dictionary, mode == mode_type::compare_entries, mismatched_only);
 			}
 			break;
 		case mode_type::from_document:
