@@ -103,7 +103,7 @@ static void list_entries(const tts::dictionary &dict, bool as_dictionary)
 static void pronounce(const tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_reader> rules,
                       bool as_dictionary,
-                      bool compare,
+                      mode_type mode,
                       bool mismatched_only)
 {
 	auto ipa = tts::createPhonemeWriter("ipa");
@@ -132,7 +132,7 @@ static void pronounce(const tts::dictionary &dict,
 		else
 			fprintf(stdout, "\"%s\" => /", entry.first->str().c_str());
 
-		if (compare)
+		if (mode == mode_type::compare_entries)
 		{
 			for (auto p : entry.second.phonemes)
 				ipa->write(p);
@@ -164,7 +164,7 @@ static void pronounce(const tts::dictionary &dict,
 
 	fflush(stdout);
 
-	if (compare)
+	if (mode == mode_type::compare_entries)
 	{
 		fprintf(stderr, "... matched: %d (%.0f%%)\n", matched, (float(matched) / entries * 100.0f));
 		fprintf(stderr, "... entries: %d\n", entries);
@@ -313,7 +313,7 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
-				pronounce(dict, rules, as_dictionary, mode == mode_type::compare_entries, mismatched_only);
+				pronounce(dict, rules, as_dictionary, mode, mismatched_only);
 			}
 			else
 			{
@@ -331,7 +331,7 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(dict, engine.pronunciation(), as_dictionary, mode == mode_type::compare_entries, mismatched_only);
+				pronounce(dict, engine.pronunciation(), as_dictionary, mode, mismatched_only);
 			}
 			break;
 		case mode_type::from_document:
