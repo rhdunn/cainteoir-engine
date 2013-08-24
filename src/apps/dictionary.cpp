@@ -250,8 +250,8 @@ int main(int argc, char ** argv)
 			{ 'n', "new-words", no_argument, nullptr,
 			  i18n("Only use words not in the loaded dictionary"),
 			  [&new_words](const char *) { new_words = true; }},
-			{ 'P', "phonemeset", required_argument, nullptr,
-			  i18n("The phonemeset to output entries in (default: ipa)"),
+			{ 'P', "phonemeset", required_argument, "PHONEMESET",
+			  i18n("Use PHONEMESET to transcribe phoneme entries (default: ipa)"),
 			  [&phonemeset](const char *arg) { phonemeset = arg; }},
 		}};
 
