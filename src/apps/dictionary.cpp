@@ -111,7 +111,7 @@ static bool pronounce(const tts::dictionary &dict,
                       bool as_dictionary,
                       mode_type mode)
 {
-	if (pronunciation.type == tts::dictionary::say_as && mode == mode_type::compare_entries)
+	if (pronunciation.type == tts::dictionary::say_as && mode != mode_type::pronounce_entries)
 	{
 		auto entry = dict.lookup(pronunciation.text);
 		if (entry.type == tts::dictionary::no_match)
