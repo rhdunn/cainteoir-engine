@@ -109,10 +109,17 @@ static bool pronounce(const tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_writer> &writer,
                       const char *phonemeset,
                       bool as_dictionary,
-                      mode_type mode)
+                      mode_type mode,
+                      int depth = 0)
 {
 	if (pronunciation.type == tts::dictionary::say_as && mode != mode_type::pronounce_entries)
 	{
+		if (depth == 5)
+		{
+			fprintf(stderr, "error: too much recursion for entry '%s'.\n", word->str().c_str());
+			return false;
+		}
+
 		auto entry = dict.lookup(pronunciation.text);
 		if (entry.type == tts::dictionary::no_match)
 		{
@@ -121,7 +128,7 @@ static bool pronounce(const tts::dictionary &dict,
 		}
 
 		return pronounce(dict, word, entry,
-		                 rules, writer, phonemeset, as_dictionary, mode);
+		                 rules, writer, phonemeset, as_dictionary, mode, depth + 1);
 	}
 
 	std::list<tts::phoneme> pronounced;
