@@ -102,6 +102,70 @@ static void list_entries(const tts::dictionary &dict,
 	}
 }
 
+static bool pronounce(const std::shared_ptr<cainteoir::buffer> &word,
+                      const tts::dictionary::entry &pronunciation,
+                      std::shared_ptr<tts::phoneme_reader> &rules,
+                      std::shared_ptr<tts::phoneme_writer> &writer,
+                      const char *phonemeset,
+                      bool as_dictionary,
+                      mode_type mode)
+{
+	std::list<tts::phoneme> pronounced;
+	rules->reset(word);
+	while (rules->read())
+		pronounced.push_back(*rules);
+
+	bool match = matches(pronounced, pronunciation.phonemes);
+	if (mode == mode_type::mismatched_entries && match)
+		return true;
+
+	if (as_dictionary)
+	{
+		int n = fprintf(stdout, "%s", word->str().c_str());
+		if (n < 8) fprintf(stdout, "\t");
+		fprintf(stdout, "\t/");
+	}
+	else
+		fprintf(stdout, "\"%s\" => /", word->str().c_str());
+
+	if (mode == mode_type::compare_entries)
+	{
+		for (auto p : pronunciation.phonemes)
+			writer->write(p);
+		fprintf(stdout, "/ ... ");
+		if (match)
+		{
+			fprintf(stdout, "matched\n");
+		}
+		else
+		{
+			fprintf(stdout, "mismatched; got /");
+			for (auto p : pronounced)
+				writer->write(p);
+			fprintf(stdout, "/\n");
+		}
+	}
+	else
+	{
+		if (mode == mode_type::mismatched_entries)
+		{
+			for (auto p : pronunciation.phonemes)
+				writer->write(p);
+		}
+		else
+		{
+			for (auto p : pronounced)
+				writer->write(p);
+		}
+		if (as_dictionary)
+			fprintf(stdout, "/\n");
+		else
+			fprintf(stdout, "/ [%s]\n", phonemeset);
+	}
+
+	return match;
+}
+
 static void pronounce(const tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_reader> rules,
                       std::shared_ptr<tts::phoneme_writer> writer,
@@ -116,59 +180,9 @@ static void pronounce(const tts::dictionary &dict,
 
 	for (auto &entry : dict)
 	{
-		std::list<tts::phoneme> pronounced;
-		rules->reset(entry.first);
-		while (rules->read())
-			pronounced.push_back(*rules);
-
-		bool match = matches(pronounced, entry.second.phonemes);
-		if (mode == mode_type::mismatched_entries && match)
-			continue;
-
-		if (as_dictionary)
-		{
-			int n = fprintf(stdout, "%s", entry.first->str().c_str());
-			if (n < 8) fprintf(stdout, "\t");
-			fprintf(stdout, "\t/");
-		}
-		else
-			fprintf(stdout, "\"%s\" => /", entry.first->str().c_str());
-
-		if (mode == mode_type::compare_entries)
-		{
-			for (auto p : entry.second.phonemes)
-				writer->write(p);
-			fprintf(stdout, "/ ... ");
-			if (match)
-			{
-				fprintf(stdout, "matched\n");
-				++matched;
-			}
-			else
-			{
-				fprintf(stdout, "mismatched; got /");
-				for (auto p : pronounced)
-					writer->write(p);
-				fprintf(stdout, "/\n");
-			}
-		}
-		else
-		{
-			if (mode == mode_type::mismatched_entries)
-			{
-				for (auto p : entry.second.phonemes)
-					writer->write(p);
-			}
-			else
-			{
-				for (auto p : pronounced)
-					writer->write(p);
-			}
-			if (as_dictionary)
-				fprintf(stdout, "/\n");
-			else
-				fprintf(stdout, "/ [%s]\n", phonemeset);
-		}
+		if (pronounce(entry.first, entry.second,
+		              rules, writer, phonemeset, as_dictionary, mode))
+			++matched;
 		++entries;
 	}
 
