@@ -1,16 +1,20 @@
-.TH METADATA 1 "APRIL 2011" Linux "User Manuals"
+.TH METADATA 1 "AUGUST 2013" "Cainteoir Text-to-Speech" "Cainteoir Manuals"
 .SH NAME
 metadata \- extract RDF metadata for documents
 .SH SYNOPSIS
 .B metadata [OPTION..]
-.I document
+.I DOCUMENT
 .SH DESCRIPTION
 .B metadata
 Extract the metadata from ePub, RDF/XML, HTML and other documents,
 producing RDF statements or other metadata formats.
 .SH OPTIONS
+.IP "-h, --help"
+Show a command-line option usage help message.
 .IP "--ntriple"
 Generate RDF N-Triple statements.
+.IP "-t, --time"
+Display how long it takes to extract the document metadata.
 .IP "--turtle"
 Generate RDF Turtle statements. NOTE: These statements are not in
 a compact form.
