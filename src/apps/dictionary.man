@@ -82,5 +82,19 @@ for thousand (_10^3), million (_10^6) and so on.
 Used to denote a joining word (typically the word for "and") if a number requires
 it. For example, the number 1024 is typically pronuonced "one thousand and twenty
 four" in Brittish English.
+.SH EXAMPLES
+.IP "echo 'hello world' | dictionary -pD -l en"
+Pronounce the words "hello" and "world" using an English eSpeak voice.
+.IP "dictionary -pnD -l en -d words.dict WutheringHeights.epub"
+Pronounce the words in "WutheringHeights.epub" that do not appear in "words.dict"
+using an English eSpeak voice.
+.IP "dictionary -tc -d espeak.dict -P ipa"
+Compare the pronunciations of the words in the "espeak.dict" dictionary with the
+default text-to-speech voice, transcribing the phonemes in IPA (International
+Phonetic Alphabet). Print out the matching and mismatching entries, along with
+the time taken to do the comparison.
+.IP "dictionary -v english -mD -d espeak.dict -P espeak/en | sed -e 's,/,,g'"
+Output words from espeak.dict that the "english" eSpeak voice mispronounces in
+the format used by the en_extra eSpeak dictionary file.
 .SH AUTHOR
 Reece H. Dunn <msclrhd@gmail.com>
