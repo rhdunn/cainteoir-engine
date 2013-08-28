@@ -1,9 +1,9 @@
-.TH CAINTEOIR 1 "APRIL 2011" Linux "User Manuals"
+.TH CAINTEOIR 1 "AUGUST 2013" "Cainteoir Text-to-Speech" "Cainteoir Manuals"
 .SH NAME
 cainteoir \- listen to and record electronic books and documents
 .SH SYNOPSIS
 .B cainteoir [OPTION..]
-.I document
+.I DOCUMENT
 .SH DESCRIPTION
 .B cainteoir
 is a command\-line interface for Cainteoir Text-to-Speech.
@@ -19,6 +19,8 @@ List the table of contents for the specified document.
 Start reading/recording from the specified table of content entry.
 If not specified, this defaults to the start of the document. The
 value is the number provided from the table of contents output.
+.IP "-h, --help"
+Show a command-line option usage help message.
 .IP "-l LANG, --language=LANG"
 Select a text-to-speech voice that can speak in the specified
 language.
@@ -55,6 +57,10 @@ is the number provided from the table of contents output.
 Select the text-to-speech voice with the specified name.
 .IP "-V VOLUME, --volume=VOLUME"
 Set the voice's volume to the specified value.
+.SH PLAYER COMMANDS
+These commands are available when listening to or recording a document:
+.IP "q"
+Stops the reading or recording and exits the application.
 .SH AUTHOR
 Reece H. Dunn <msclrhd@gmail.com>
 .SH "SEE ALSO"
