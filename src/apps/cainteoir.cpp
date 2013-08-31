@@ -177,7 +177,8 @@ int main(int argc, char ** argv)
 			return 0;
 
 		if (toc_range.second != -1) ++toc_range.second;
-		if (!strcmp(outformat, "wave")) outformat = "wav";
+		if (outformat && !strcmp(outformat, "wave"))
+			outformat = "wav";
 
 		rdf::graph metadata;
 		cainteoir::supportedDocumentFormats(metadata, cainteoir::text_support);
