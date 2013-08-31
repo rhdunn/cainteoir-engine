@@ -242,7 +242,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
                  const std::initializer_list<tts::feature> &x_features,
                  const std::initializer_list<std::pair<tts::feature, tts::feature>> &y_features,
                  const std::initializer_list<tts::feature> &z_features,
-                 const std::initializer_list<tts::feature> &extra = {})
+                 const std::initializer_list<tts::feature> &extra)
 {
 	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\">\n", stdout);
 	if (caption)
