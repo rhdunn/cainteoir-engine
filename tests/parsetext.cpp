@@ -208,42 +208,33 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		lang::tag locale = { "en" };
+		const char *locale_name = "en";
 		mode_type type = mode_type::parse_text;
 		tts::word_stream::number_scale scale = tts::word_stream::short_scale;
 		bool document_object = false;
 
 		const option_group general_options = { nullptr, {
-			{ 'd', "document-object", no_argument, nullptr,
-			  i18n("Process events through a cainteoir::document object"),
-			  [&document_object](const char *) { document_object = true; }},
-			{ 'l', "locale", required_argument, "LOCALE",
-			  i18n("Use LOCALE for processing numbers"),
-			  [&locale](const char *arg) { locale = lang::make_lang(arg); }},
-			{ 0, "short-scale", no_argument, nullptr,
-			  i18n("Use the short scale for processing numbers"),
-			  [&scale](const char *) { scale = tts::word_stream::short_scale; }},
-			{ 0, "long-scale", no_argument, nullptr,
-			  i18n("Use the long scale for processing numbers"),
-			  [&scale](const char *) { scale = tts::word_stream::long_scale; }},
+			{ 'd', "document-object", document_object, true,
+			  i18n("Process events through a cainteoir::document object") },
+			{ 'l', "locale", locale_name, "LOCALE",
+			  i18n("Use LOCALE for processing numbers") },
+			{ 0, "short-scale", scale, tts::word_stream::short_scale,
+			  i18n("Use the short scale for processing numbers") },
+			{ 0, "long-scale", scale, tts::word_stream::long_scale,
+			  i18n("Use the long scale for processing numbers") },
 		}};
 
 		const option_group mode_options = { i18n("Processing Mode:"), {
-			{ 0, "parsetext", no_argument, nullptr,
-			  i18n("Split the text into lexical segments"),
-			  [&type](const char *) { type = mode_type::parse_text; }},
-			{ 0, "wordstream", no_argument, nullptr,
-			  i18n("Convert the document into a sequence of words"),
-			  [&type](const char *) { type = mode_type::word_stream; }},
-			{ 0, "phonemestream", no_argument, nullptr,
-			  i18n("Convert the document into phonetic pronunciations"),
-			  [&type](const char *) { type = mode_type::phoneme_stream; }},
-			{ 0, "contextanalysis", no_argument, nullptr,
-			  i18n("Apply context analysis on the document"),
-			  [&type](const char *) { type = mode_type::context_analysis; }},
-			{ 0, "pronounce", no_argument, nullptr,
-			  i18n("Pronounce all the words in the document"),
-			  [&type](const char *) { type = mode_type::pronounce; }},
+			{ 0, "parsetext", type, mode_type::parse_text,
+			  i18n("Split the text into lexical segments") },
+			{ 0, "wordstream", type, mode_type::word_stream,
+			  i18n("Convert the document into a sequence of words") },
+			{ 0, "phonemestream", type, mode_type::phoneme_stream,
+			  i18n("Convert the document into phonetic pronunciations") },
+			{ 0, "contextanalysis", type, mode_type::context_analysis,
+			  i18n("Apply context analysis on the document") },
+			{ 0, "pronounce", type, mode_type::pronounce,
+			  i18n("Pronounce all the words in the document") },
 		}};
 
 		const std::initializer_list<const char *> usage = {
@@ -257,6 +248,8 @@ int main(int argc, char ** argv)
 
 		if (argc == 0)
 			throw std::runtime_error("no document specified");
+
+		lang::tag locale = lang::make_lang(locale_name);
 
 		rdf::graph metadata;
 		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());

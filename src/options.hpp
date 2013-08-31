@@ -28,14 +28,103 @@
 #include <getopt.h>
 #include <stdio.h>
 
+enum class argument_t
+{
+	none,
+	string,
+	integer,
+};
+
 struct option_t
 {
+	typedef uint32_t value_t;
+
 	char short_name;
 	const char *long_name;
-	int has_argument;
+	argument_t has_argument;
 	const char *arg_name;
 	const char *help_string;
-	std::function<void (const char *)> handler;
+
+	void *data;
+	value_t value;
+	char data_size;
+
+	// no argument
+	template <typename T>
+	option_t(char aShortName,
+	         const char *aLongName,
+	         T &aData,
+	         const T &aDataValue,
+                 const char *aHelpString)
+		: short_name(aShortName)
+		, long_name(aLongName)
+		, has_argument(argument_t::none)
+		, arg_name(nullptr)
+		, help_string(aHelpString)
+		, data(&aData)
+		, value((value_t)aDataValue)
+		, data_size(sizeof(T))
+	{
+		static_assert(sizeof(T) <= sizeof(value),
+		              "T is too big to be used as an option value.");
+	}
+
+	// string argument
+	option_t(char aShortName,
+	         const char *aLongName,
+	         const char * &aData,
+	         const char *aArgName,
+                 const char *aHelpString)
+		: short_name(aShortName)
+		, long_name(aLongName)
+		, has_argument(argument_t::string)
+		, arg_name(aArgName)
+		, help_string(aHelpString)
+		, data(&aData)
+		, value(0)
+		, data_size(0)
+	{
+	}
+
+	// integer argument
+	template <typename T,
+	          class = typename std::enable_if<std::is_integral<T>::value>::type>
+	option_t(char aShortName,
+	         const char *aLongName,
+	         T &aData,
+	         const char *aArgName,
+                 const char *aHelpString)
+		: short_name(aShortName)
+		, long_name(aLongName)
+		, has_argument(argument_t::integer)
+		, arg_name(aArgName)
+		, help_string(aHelpString)
+		, data(&aData)
+		, value(0)
+		, data_size(0)
+	{
+	}
+
+	void operator()(const char *arg) const
+	{
+		switch (has_argument)
+		{
+		case argument_t::none:
+			switch (data_size)
+			{
+			case 1: *(uint8_t  *)data = value; break;
+			case 2: *(uint16_t *)data = value; break;
+			case 4: *(uint32_t *)data = value; break;
+			}
+			break;
+		case argument_t::string:
+			*(const char **)data = arg;
+			break;
+		case argument_t::integer:
+			*(int *)data = atoi(arg);
+			break;
+		}
+	}
 };
 
 void print_help(const option_t &opt)
@@ -102,7 +191,7 @@ bool parse_command_line(const std::initializer_list<option_group> &groups,
 {
 	std::string options_short = "h";
 	std::vector<option> options;
-	std::function<void (const char *)> handlers[256];
+	const option_t *option_table[256];
 	int index = 200;
 
 	options.push_back({ "help", no_argument, nullptr, 'h' });
@@ -114,12 +203,12 @@ bool parse_command_line(const std::initializer_list<option_group> &groups,
 			if (opt.short_name)
 			{
 				options_short.push_back(opt.short_name);
-				if (opt.has_argument == required_argument)
+				if (opt.has_argument != argument_t::none)
 					options_short.push_back(':');
 			}
 			if (opt.long_name)
-				options.push_back({ opt.long_name, opt.has_argument, nullptr, c });
-			handlers[c] = opt.handler;
+				options.push_back({ opt.long_name, opt.has_argument == argument_t::none ? no_argument : required_argument, nullptr, c });
+			option_table[c] = &opt;
 		}
 	}
 	options.push_back({ nullptr, 0, nullptr, 0 });
@@ -138,8 +227,8 @@ bool parse_command_line(const std::initializer_list<option_group> &groups,
 			return false;
 		default:
 			{
-				const auto &handler = handlers[(uint8_t)c];
-				if (handler) handler(optarg);
+				const auto &opt = option_table[(uint8_t)c];
+				if (opt) (*opt)(optarg);
 			}
 			break;
 		}

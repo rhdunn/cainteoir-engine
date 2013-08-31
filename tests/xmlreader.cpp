@@ -120,15 +120,12 @@ int main(int argc, char ** argv)
 		bool silent = false;
 
 		const option_group general_options = { nullptr, {
-			{ 't', "time", no_argument, nullptr,
-			  i18n("Time how long it takes to parse the document"),
-			  [&time](const char *) { time = true; }},
-			{ 's', "silent", required_argument, nullptr,
-			  i18n("Don't print out the document events"),
-			  [&silent](const char *) { silent = true; }},
-			{ 'r', "repeat", required_argument, "REPEAT",
-			  i18n("Repeat parsing the document REPEAT times"),
-			  [&repeatCount](const char *arg) { repeatCount = atoi(arg); }},
+			{ 't', "time", time, true,
+			  i18n("Time how long it takes to parse the document") },
+			{ 's', "silent", silent, true,
+			  i18n("Don't print out the document events") },
+			{ 'r', "repeat", repeatCount, "REPEAT",
+			  i18n("Repeat parsing the document REPEAT times") },
 		}};
 
 		const std::initializer_list<const char *> usage = {

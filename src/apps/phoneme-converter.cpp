@@ -422,18 +422,14 @@ int main(int argc, char ** argv)
 		bool show_features = false;
 
 		const option_group general_options = { nullptr, {
-			{ 'c', "chart", no_argument, nullptr,
-			  i18n("Display the phoneme scheme as an IPA chart"),
-			  [&mode](const char *) { mode = phoneme_mode::chart; }},
-			{ 's', "separate", no_argument, nullptr,
-			  i18n("Display each phoneme on a new line"),
-			  [&mode](const char *) { mode = phoneme_mode::separate; }},
-			{ 'f', "features", no_argument, nullptr,
-			  i18n("Show the features along with the transcription"),
-			  [&show_features](const char *) { show_features = true; }},
-			{ 0, "no-pauses", no_argument, nullptr,
-			  i18n("Do not process pause phonemes"),
-			  [&no_pauses](const char *) { no_pauses = true; }},
+			{ 'c', "chart", mode, phoneme_mode::chart,
+			  i18n("Display the phoneme scheme as an IPA chart") },
+			{ 's', "separate", mode, phoneme_mode::separate,
+			  i18n("Display each phoneme on a new line") },
+			{ 'f', "features", show_features, true,
+			  i18n("Show the features along with the transcription") },
+			{ 0, "no-pauses", no_pauses, true,
+			  i18n("Do not process pause phonemes") },
 		}};
 
 		const std::initializer_list<const char *> usage = {
