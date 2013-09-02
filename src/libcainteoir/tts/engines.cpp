@@ -33,6 +33,11 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
+static const decltype(tts::create_espeak_engine) *create_engines[] =
+{
+	tts::create_espeak_engine,
+};
+
 static inline double percentageof(size_t a, size_t b)
 {
 	return (double(a) / b) * 100.0;
@@ -254,15 +259,22 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 
 tts::engines::engines(rdf::graph &metadata)
 	: selectedVoice(nullptr)
+	, active(nullptr)
 {
 	std::string uri;
 	std::string default_voice;
-	active = tts::create_espeak_engine(metadata, uri, default_voice);
-	if (active)
+	for (const auto &create_engine : create_engines)
 	{
-		enginelist[uri] = active;
-		if (!select_voice(metadata, rdf::uri(uri, default_voice)))
-			throw std::runtime_error(i18n("default voice not found."));
+		auto engine = create_engine(metadata, uri, default_voice);
+		if (engine)
+		{
+			enginelist[uri] = engine;
+			if (!active)
+			{
+				if (!select_voice(metadata, rdf::uri(uri, default_voice)))
+					throw std::runtime_error(i18n("default voice not found."));
+			}
+		}
 	}
 
 	if (!active)
