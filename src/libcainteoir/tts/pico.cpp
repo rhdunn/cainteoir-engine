@@ -128,7 +128,7 @@ private:
 	void set_voice(const voice_data *data);
 	void free_voice();
 
-	void speak_text(const char *text, pico_Int16 length, tts::engine_callback *callback);
+	bool speak_text(const char *text, pico_Int16 length, tts::engine_callback *callback);
 
 	void check_return(int ret);
 
@@ -208,12 +208,13 @@ bool pico_engine::select_voice(const char *voicename)
 
 void pico_engine::speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback)
 {
-	speak_text(text->begin(), text->size(), callback);
-
-	// Pico will only process the current sentence if it finds the next sentence
-	// break or a NULL character. Therefore, we force Pico to read the rest of the
-	// current buffer:
-	speak_text("\0", 1, callback);
+	if (speak_text(text->begin(), text->size(), callback))
+	{
+		// Pico will only process the current sentence if it finds the next sentence
+		// break or a NULL character. Therefore, we force Pico to read the rest of the
+		// current buffer:
+		speak_text("\0", 1, callback);
+	}
 }
 
 std::shared_ptr<tts::phoneme_reader> pico_engine::pronunciation()
@@ -272,7 +273,7 @@ void pico_engine::free_voice()
 	}
 }
 
-void pico_engine::speak_text(const char *text, pico_Int16 length, tts::engine_callback *callback)
+bool pico_engine::speak_text(const char *text, pico_Int16 length, tts::engine_callback *callback)
 {
 	short outbuf[MAX_OUTBUF_SIZE/2];
 	pico_Int16 bytes_sent;
@@ -289,12 +290,19 @@ void pico_engine::speak_text(const char *text, pico_Int16 length, tts::engine_ca
 		int status = PICO_STEP_BUSY;
 		while (status == PICO_STEP_BUSY)
 		{
+			if (callback->state() == tts::stopped)
+			{
+				check_return(pico_resetEngine(mEngine, PICO_RESET_SOFT));
+				return false;
+			}
+
 			status = pico_getData(mEngine, outbuf, MAX_OUTBUF_SIZE, &bytes_recv, &out_data_type);
 			if (status != PICO_STEP_BUSY && status != PICO_STEP_IDLE)
 				check_return(status);
 			if (bytes_recv) callback->onaudiodata(outbuf, bytes_recv/2);
 		}
 	}
+	return true;
 }
 
 void pico_engine::check_return(int ret)
