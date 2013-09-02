@@ -273,118 +273,20 @@ private:
 class espeak_engine : public tts::engine
 {
 public:
-	espeak_engine(rdf::graph &metadata, std::string &baseuri, std::string &default_voice)
-		: mRate(std::make_shared<espeak_parameter>(i18n("Speed"), "wpm", espeakRATE, 80, 450, 1))
-		, mVolume(std::make_shared<espeak_parameter>(i18n("Volume"), "%", espeakVOLUME, 0, 200, 1))
-		, mPitch(std::make_shared<espeak_parameter>(i18n("Base Pitch"), "", espeakPITCH, 0, 100, 1))
-		, mPitchRange(std::make_shared<espeak_parameter>(i18n("Pitch Variation"), "", espeakRANGE, 0, 100, 1))
-		, mWordGap(std::make_shared<espeak_parameter>(i18n("Word Gap"), "ms", espeakWORDGAP, 0, 500, 10))
-	{
-		baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
-		default_voice = "default";
-
-		int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, nullptr, espeakINITIALIZE_DONT_EXIT);
-		espeak_SetSynthCallback(espeak_tts_callback);
-
-		rdf::uri    espeak = rdf::uri(baseuri, std::string());
-		rdf::uri    jonsd  = metadata.genid();
-		std::string info   = espeak_Info(nullptr);
-
-		metadata.statement(jonsd, rdf::rdf("type"), rdf::foaf("Person"));
-		metadata.statement(jonsd, rdf::foaf("name"), rdf::literal("Jonathan Duddington"));
-		metadata.statement(jonsd, rdf::foaf("title"), rdf::literal("Mr."));
-		metadata.statement(jonsd, rdf::foaf("givenName"), rdf::literal("Jonathan"));
-		metadata.statement(jonsd, rdf::foaf("familyName"), rdf::literal("Duddington"));
-		metadata.statement(jonsd, rdf::foaf("gender"), rdf::literal("male"));
-		metadata.statement(jonsd, rdf::foaf("isPrimaryTopicOf"), rdf::uri("http://sourceforge.net/users/jonsd", std::string()));
-
-		metadata.statement(espeak, rdf::rdf("type"), rdf::tts("Engine"));
-		metadata.statement(espeak, rdf::tts("name"), rdf::literal("eSpeak"));
-		metadata.statement(espeak, rdf::tts("version"), rdf::literal(info.substr(0, info.find(' '))));
-		metadata.statement(espeak, rdf::dc("source"), rdf::uri("http://espeak.sourceforge.net/", std::string()));
-		metadata.statement(espeak, rdf::dc("creator"), jonsd);
-
-		for (const espeak_VOICE **data = espeak_ListVoices(nullptr); *data; ++data)
-		{
-			std::string id = (*data)->name;
-			if (id == "french (Belgium)")
-				id = "french-belgium";
-
-			rdf::uri voice = rdf::uri(baseuri, id);
-			metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
-			metadata.statement(voice, rdf::dc("language"), rdf::literal(correct_lang((*data)->languages+1)));
-			metadata.statement(voice, rdf::tts("name"), rdf::literal((*data)->name));
-			metadata.statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male"));
-			if ((*data)->age)
-				metadata.statement(voice, rdf::tts("age"), rdf::literal((*data)->age, rdf::xsd("int")));
-
-			metadata.statement(voice, rdf::tts("frequency"), rdf::literal(frequency, rdf::tts("hertz")));
-			metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
-			metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
-
-			metadata.statement(voice, rdf::tts("voiceOf"), espeak);
-			metadata.statement(espeak, rdf::tts("hasVoice"), voice);
-		}
-
-#if defined(HAVE_MBROLA)
-		for (auto &mbrola : mbrola_voices)
-		{
-			if (is_mbrola_voice_available(mbrola.voice))
-			{
-				rdf::uri voice = rdf::uri(baseuri, mbrola.name);
-				metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
-				metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola.language));
-				metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola.name));
-				metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola.gender));
-
-				metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola.frequency, rdf::tts("hertz")));
-				metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
-				metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
-
-				metadata.statement(voice, rdf::tts("voiceOf"), espeak);
-			}
-		}
-#endif
-	}
-
-	~espeak_engine()
-	{
-		espeak_Terminate();
-	}
+	espeak_engine(rdf::graph &metadata, std::string &baseuri, std::string &default_voice);
+	~espeak_engine();
 
 	/** @name cainteoir::tts_engine */
 	//@{
 
-	bool select_voice(const char *voicename)
-	{
-		return espeak_SetVoiceByName(voicename) == EE_OK;
-	}
+	bool select_voice(const char *voicename);
 
-	void speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback)
-	{
-		std::string txt = text->str(); // null-terminate the text buffer
-		espeak_Synth(txt.c_str() + offset, txt.size() - offset, 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, nullptr, callback);
-		espeak_Synchronize();
-	}
+	void speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback);
 
-	std::shared_ptr<tts::phoneme_reader> pronunciation()
-	{
-		return std::make_shared<espeak_pronunciation>();
-	}
+	std::shared_ptr<tts::phoneme_reader> pronunciation();
 
 	std::shared_ptr<tts::parameter>
-	parameter(tts::parameter::type aType)
-	{
-		switch (aType)
-		{
-		case tts::parameter::rate:        return mRate;
-		case tts::parameter::volume:      return mVolume;
-		case tts::parameter::pitch:       return mPitch;
-		case tts::parameter::pitch_range: return mPitchRange;
-		case tts::parameter::word_gap:    return mWordGap;
-		default:                          return std::shared_ptr<tts::parameter>();
-		}
-	}
+	parameter(tts::parameter::type aType);
 
 	//@}
 private:
@@ -394,6 +296,116 @@ private:
 	std::shared_ptr<tts::parameter> mPitchRange;
 	std::shared_ptr<tts::parameter> mWordGap;
 };
+
+espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::string &default_voice)
+	: mRate(std::make_shared<espeak_parameter>(i18n("Speed"), "wpm", espeakRATE, 80, 450, 1))
+	, mVolume(std::make_shared<espeak_parameter>(i18n("Volume"), "%", espeakVOLUME, 0, 200, 1))
+	, mPitch(std::make_shared<espeak_parameter>(i18n("Base Pitch"), "", espeakPITCH, 0, 100, 1))
+	, mPitchRange(std::make_shared<espeak_parameter>(i18n("Pitch Variation"), "", espeakRANGE, 0, 100, 1))
+	, mWordGap(std::make_shared<espeak_parameter>(i18n("Word Gap"), "ms", espeakWORDGAP, 0, 500, 10))
+{
+	baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
+	default_voice = "default";
+
+	int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, nullptr, espeakINITIALIZE_DONT_EXIT);
+	espeak_SetSynthCallback(espeak_tts_callback);
+
+	rdf::uri    espeak = rdf::uri(baseuri, std::string());
+	rdf::uri    jonsd  = metadata.genid();
+	std::string info   = espeak_Info(nullptr);
+
+	metadata.statement(jonsd, rdf::rdf("type"), rdf::foaf("Person"));
+	metadata.statement(jonsd, rdf::foaf("name"), rdf::literal("Jonathan Duddington"));
+	metadata.statement(jonsd, rdf::foaf("title"), rdf::literal("Mr."));
+	metadata.statement(jonsd, rdf::foaf("givenName"), rdf::literal("Jonathan"));
+	metadata.statement(jonsd, rdf::foaf("familyName"), rdf::literal("Duddington"));
+	metadata.statement(jonsd, rdf::foaf("gender"), rdf::literal("male"));
+	metadata.statement(jonsd, rdf::foaf("isPrimaryTopicOf"), rdf::uri("http://sourceforge.net/users/jonsd", std::string()));
+
+	metadata.statement(espeak, rdf::rdf("type"), rdf::tts("Engine"));
+	metadata.statement(espeak, rdf::tts("name"), rdf::literal("eSpeak"));
+	metadata.statement(espeak, rdf::tts("version"), rdf::literal(info.substr(0, info.find(' '))));
+	metadata.statement(espeak, rdf::dc("source"), rdf::uri("http://espeak.sourceforge.net/", std::string()));
+	metadata.statement(espeak, rdf::dc("creator"), jonsd);
+
+	for (const espeak_VOICE **data = espeak_ListVoices(nullptr); *data; ++data)
+	{
+		std::string id = (*data)->name;
+		if (id == "french (Belgium)")
+			id = "french-belgium";
+
+		rdf::uri voice = rdf::uri(baseuri, id);
+		metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
+		metadata.statement(voice, rdf::dc("language"), rdf::literal(correct_lang((*data)->languages+1)));
+		metadata.statement(voice, rdf::tts("name"), rdf::literal((*data)->name));
+		metadata.statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male"));
+		if ((*data)->age)
+			metadata.statement(voice, rdf::tts("age"), rdf::literal((*data)->age, rdf::xsd("int")));
+
+		metadata.statement(voice, rdf::tts("frequency"), rdf::literal(frequency, rdf::tts("hertz")));
+		metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
+		metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
+
+		metadata.statement(voice, rdf::tts("voiceOf"), espeak);
+		metadata.statement(espeak, rdf::tts("hasVoice"), voice);
+	}
+
+#if defined(HAVE_MBROLA)
+	for (auto &mbrola : mbrola_voices)
+	{
+		if (is_mbrola_voice_available(mbrola.voice))
+		{
+			rdf::uri voice = rdf::uri(baseuri, mbrola.name);
+			metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
+			metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola.language));
+			metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola.name));
+			metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola.gender));
+
+			metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola.frequency, rdf::tts("hertz")));
+			metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
+			metadata.statement(voice, rdf::tts("audio-format"),  rdf::tts("s16le"));
+
+			metadata.statement(voice, rdf::tts("voiceOf"), espeak);
+		}
+	}
+#endif
+}
+
+espeak_engine::~espeak_engine()
+{
+	espeak_Terminate();
+}
+
+bool espeak_engine::select_voice(const char *voicename)
+{
+	return espeak_SetVoiceByName(voicename) == EE_OK;
+}
+
+void espeak_engine::speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback)
+{
+	std::string txt = text->str(); // null-terminate the text buffer
+	espeak_Synth(txt.c_str() + offset, txt.size() - offset, 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, nullptr, callback);
+	espeak_Synchronize();
+}
+
+std::shared_ptr<tts::phoneme_reader> espeak_engine::pronunciation()
+{
+	return std::make_shared<espeak_pronunciation>();
+}
+
+std::shared_ptr<tts::parameter>
+espeak_engine::parameter(tts::parameter::type aType)
+{
+	switch (aType)
+	{
+	case tts::parameter::rate:        return mRate;
+	case tts::parameter::volume:      return mVolume;
+	case tts::parameter::pitch:       return mPitch;
+	case tts::parameter::pitch_range: return mPitchRange;
+	case tts::parameter::word_gap:    return mWordGap;
+	default:                          return std::shared_ptr<tts::parameter>();
+	}
+}
 
 tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri, std::string &default_voice)
 {
