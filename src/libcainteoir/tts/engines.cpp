@@ -32,10 +32,12 @@ static const int CHARACTERS_PER_WORD = 6;
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
+namespace css = cainteoir::css;
 
 static const decltype(tts::create_espeak_engine) *create_engines[] =
 {
 	tts::create_espeak_engine,
+	tts::create_pico_engine,
 };
 
 static inline double percentageof(size_t a, size_t b)

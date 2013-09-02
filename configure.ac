@@ -181,6 +181,44 @@ AC_SUBST(ESPEAK_CFLAGS)
 AC_SUBST(ESPEAK_LIBS)
 
 dnl ================================================================
+dnl pico tts engine checks.
+dnl ================================================================
+
+AC_ARG_WITH([pico],
+    [AS_HELP_STRING([--with-pico], [support for pico text-to-speech @<:@default=yes@:>@])],
+    [])
+
+AC_MSG_CHECKING([location of Pico voices])
+if test "$with_pico" = "no"; then
+    echo "Disabling pico support"
+    have_pico=no
+    PICO_LANG_DIR=
+    AC_MSG_RESULT([disabled])
+else
+    AC_CHECK_HEADERS(picoapi.h,
+        [
+            PICO_CFLAGS="-DHAVE_PICO"
+            PICO_LIBS="-lttspico"
+            have_pico=yes
+            if test "$with_pico" = "yes" -o "$with_pico" = "" ; then
+                PICO_LANG_DIR=/usr/share/pico/lang
+                AC_MSG_RESULT([${PICO_LANG_DIR} (default location)])
+            else
+                PICO_LANG_DIR=$with_pico
+                AC_MSG_RESULT([${PICO_LANG_DIR}])
+           fi
+        ],[
+            have_pico=no
+            PICO_LANG_DIR=
+            AC_MSG_RESULT([disabled])
+        ])
+fi
+
+AC_SUBST(PICO_CFLAGS)
+AC_SUBST(PICO_LIBS)
+AC_SUBST(PICO_LANG_DIR)
+
+dnl ================================================================
 dnl MBROLA tts synthesizer checks.
 dnl ================================================================
 
@@ -358,7 +396,8 @@ AC_MSG_NOTICE([
         Compiler flags:                ${CXXFLAGS}
 
         eSpeak support:                ${have_espeak}
-        MBROLA support:                ${have_mbrola} (voice directory: ${MBROLA_DIR})
+        MBROLA support:                ${have_mbrola}	(voice directory: ${MBROLA_DIR})
+        Pico support:                  ${have_pico}	(voice directory: ${PICO_LANG_DIR})
 
         PulseAudio support:            ${have_pulseaudio}
         ALSA support:                  ${have_alsa}

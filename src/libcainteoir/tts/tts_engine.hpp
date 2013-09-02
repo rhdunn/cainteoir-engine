@@ -63,6 +63,8 @@ namespace cainteoir { namespace tts
 	};
 
 	engine *create_espeak_engine(rdf::graph &aMetadata, std::string &uri, std::string &default_voice);
+
+	engine *create_pico_engine(rdf::graph &aMetadata, std::string &uri, std::string &default_voice);
 }}
 
 #endif

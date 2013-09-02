@@ -10,6 +10,7 @@ AM_LDFLAGS  = ${LTLIBINTL}
 AM_CXXFLAGS = \
 	-Isrc/include -Isrc -Iucd-tools/src/include \
 	-DMBROLA_DIR=\"$(MBROLA_DIR)\" \
+	-DPICO_LANG_DIR=\"$(PICO_LANG_DIR)\" \
 	-DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
 
 ACLOCAL_AMFLAGS = -I m4
@@ -246,6 +247,7 @@ src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION)
 	${ZLIB_LIBS} \
 	${POPPLER_LIBS} \
 	${ESPEAK_LIBS} \
+	${PICO_LIBS} \
 	${LTLIBINTL}
 
 src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
@@ -254,7 +256,8 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 	${VORBIS_CFLAGS} \
 	${ZLIB_CFLAGS} \
 	${POPPLER_CFLAGS} \
-	${ESPEAK_CFLAGS}
+	${ESPEAK_CFLAGS} \
+	${PICO_CFLAGS}
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
 	ucd-tools/src/include/ucd/ucd.h \
@@ -321,17 +324,21 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/rdf/metadata.cpp \
 	\
-	src/libcainteoir/tts/context_analysis.cpp \
-	src/libcainteoir/tts/dictionary.cpp \
+	src/libcainteoir/tts/tts_engine.hpp \
 	src/libcainteoir/tts/engines.cpp \
 	src/libcainteoir/tts/espeak.cpp \
+	src/libcainteoir/tts/pico.cpp \
+	\
 	src/libcainteoir/tts/explicit_feature_phonemeset.cpp \
-	src/libcainteoir/tts/letter_to_phoneme.cpp \
 	src/libcainteoir/tts/phoneme.cpp \
-	src/libcainteoir/tts/phoneme_stream.cpp \
 	src/libcainteoir/tts/phonemeset.cpp \
+	\
+	src/libcainteoir/tts/dictionary.cpp \
+	src/libcainteoir/tts/letter_to_phoneme.cpp \
+	\
+	src/libcainteoir/tts/context_analysis.cpp \
+	src/libcainteoir/tts/phoneme_stream.cpp \
 	src/libcainteoir/tts/text_reader.cpp \
-	src/libcainteoir/tts/tts_engine.hpp \
 	src/libcainteoir/tts/word_stream.cpp \
 	\
 	src/libcainteoir/unicode/utf8.cpp
