@@ -273,7 +273,7 @@ private:
 class espeak_engine : public tts::engine
 {
 public:
-	espeak_engine(rdf::graph &metadata, std::string &baseuri)
+	espeak_engine(rdf::graph &metadata, std::string &baseuri, std::string &default_voice)
 		: mRate(std::make_shared<espeak_parameter>(i18n("Speed"), "wpm", espeakRATE, 80, 450, 1))
 		, mVolume(std::make_shared<espeak_parameter>(i18n("Volume"), "%", espeakVOLUME, 0, 200, 1))
 		, mPitch(std::make_shared<espeak_parameter>(i18n("Base Pitch"), "", espeakPITCH, 0, 100, 1))
@@ -281,6 +281,7 @@ public:
 		, mWordGap(std::make_shared<espeak_parameter>(i18n("Word Gap"), "ms", espeakWORDGAP, 0, 500, 10))
 	{
 		baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
+		default_voice = "default";
 
 		int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, nullptr, espeakINITIALIZE_DONT_EXIT);
 		espeak_SetSynthCallback(espeak_tts_callback);
@@ -394,14 +395,14 @@ private:
 	std::shared_ptr<tts::parameter> mWordGap;
 };
 
-tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
+tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri, std::string &default_voice)
 {
-	return new espeak_engine(aMetadata, uri);
+	return new espeak_engine(aMetadata, uri, default_voice);
 }
 
 #else
 
-tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri)
+tts::engine *tts::create_espeak_engine(rdf::graph &aMetadata, std::string &uri, std::string &default_voice)
 {
 	return nullptr;
 }

@@ -62,7 +62,7 @@ namespace cainteoir { namespace tts
 		virtual std::shared_ptr<cainteoir::tts::parameter> parameter(cainteoir::tts::parameter::type aType) = 0;
 	};
 
-	engine *create_espeak_engine(rdf::graph &aMetadata, std::string &uri);
+	engine *create_espeak_engine(rdf::graph &aMetadata, std::string &uri, std::string &default_voice);
 }}
 
 #endif

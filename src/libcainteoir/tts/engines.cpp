@@ -256,11 +256,12 @@ tts::engines::engines(rdf::graph &metadata)
 	: selectedVoice(nullptr)
 {
 	std::string uri;
-	active = tts::create_espeak_engine(metadata, uri);
+	std::string default_voice;
+	active = tts::create_espeak_engine(metadata, uri, default_voice);
 	if (active)
 	{
 		enginelist[uri] = active;
-		if (!select_voice(metadata, rdf::uri(uri, "default")))
+		if (!select_voice(metadata, rdf::uri(uri, default_voice)))
 			throw std::runtime_error(i18n("default voice not found."));
 	}
 
