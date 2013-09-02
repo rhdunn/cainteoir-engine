@@ -214,26 +214,26 @@ int main(int argc, char ** argv)
 		bool document_object = false;
 
 		const option_group general_options = { nullptr, {
-			{ 'd', "document-object", document_object, true,
+			{ 'd', "document-object", bind_value(document_object, true),
 			  i18n("Process events through a cainteoir::document object") },
 			{ 'l', "locale", locale_name, "LOCALE",
 			  i18n("Use LOCALE for processing numbers") },
-			{ 0, "short-scale", scale, tts::word_stream::short_scale,
+			{ 0, "short-scale", bind_value(scale, tts::word_stream::short_scale),
 			  i18n("Use the short scale for processing numbers") },
-			{ 0, "long-scale", scale, tts::word_stream::long_scale,
+			{ 0, "long-scale", bind_value(scale, tts::word_stream::long_scale),
 			  i18n("Use the long scale for processing numbers") },
 		}};
 
 		const option_group mode_options = { i18n("Processing Mode:"), {
-			{ 0, "parsetext", type, mode_type::parse_text,
+			{ 0, "parsetext", bind_value(type, mode_type::parse_text),
 			  i18n("Split the text into lexical segments") },
-			{ 0, "wordstream", type, mode_type::word_stream,
+			{ 0, "wordstream", bind_value(type, mode_type::word_stream),
 			  i18n("Convert the document into a sequence of words") },
-			{ 0, "phonemestream", type, mode_type::phoneme_stream,
+			{ 0, "phonemestream", bind_value(type, mode_type::phoneme_stream),
 			  i18n("Convert the document into phonetic pronunciations") },
-			{ 0, "contextanalysis", type, mode_type::context_analysis,
+			{ 0, "contextanalysis", bind_value(type, mode_type::context_analysis),
 			  i18n("Apply context analysis on the document") },
-			{ 0, "pronounce", type, mode_type::pronounce,
+			{ 0, "pronounce", bind_value(type, mode_type::pronounce),
 			  i18n("Pronounce all the words in the document") },
 		}};
 

@@ -122,7 +122,7 @@ int main(int argc, char ** argv)
 		std::pair<size_t, size_t> toc_range = { -1, -1 };
 
 		const option_group general_options = { nullptr, {
-			{ 'M', "metadata", action, show_metadata,
+			{ 'M', "metadata", bind_value(action, show_metadata),
 			  i18n("Show the RDF metadata for the engine and voices") },
 		}};
 
@@ -139,12 +139,12 @@ int main(int argc, char ** argv)
 			  i18n("Set the voice's pitch to vary by RANGE") },
 			{ 'V', "volume", volume, "VOLUME",
 			  i18n("Set the voice's volume to VOLUME percent") },
-			{ 'm', "monotone", range, 0,
+			{ 'm', "monotone", bind_value(range, 0),
 			  i18n("Set the voice to monotone (pitch varies by 0)") },
 		}};
 
 		const option_group toc_options = { i18n("Table of Contents:"), {
-			{ 'c', "contents", action, show_contents,
+			{ 'c', "contents", bind_value(action, show_contents),
 			  i18n("List the table of contents for the specified document") },
 			{ 'f', "from", toc_range.first, "FROM",
 			  i18n("Start reading/recoding from contents marker FROM") },
@@ -155,11 +155,14 @@ int main(int argc, char ** argv)
 		const option_group recording_options = { i18n("Recording:"), {
 			{ 'o', "output", outfile, "FILE",
 			  i18n("Recorded audio is written to FILE") },
-			{ 0, "stdout", outfile, "-",
+			{ 0, "stdout", bind_value(outfile, "-"),
 			  i18n("Recorded audio is written to the standard output") },
 			{ 'r', "record", outformat, "FORMAT",
 			  i18n("Record the audio as a FORMAT file (default: wav)") },
 		}};
+
+		option_t opt( 0, "stdout", bind_value(outfile, "-"),
+			  i18n("Recorded audio is written to the standard output"));
 
 		const std::initializer_list<option_group> options = {
 			general_options,

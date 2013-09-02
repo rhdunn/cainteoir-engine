@@ -422,13 +422,13 @@ int main(int argc, char ** argv)
 		bool show_features = false;
 
 		const option_group general_options = { nullptr, {
-			{ 'c', "chart", mode, phoneme_mode::chart,
+			{ 'c', "chart", bind_value(mode, phoneme_mode::chart),
 			  i18n("Display the phoneme scheme as an IPA chart") },
-			{ 's', "separate", mode, phoneme_mode::separate,
+			{ 's', "separate", bind_value(mode, phoneme_mode::separate),
 			  i18n("Display each phoneme on a new line") },
-			{ 'f', "features", show_features, true,
+			{ 'f', "features", bind_value(show_features, true),
 			  i18n("Show the features along with the transcription") },
-			{ 0, "no-pauses", no_pauses, true,
+			{ 0, "no-pauses", bind_value(no_pauses, true),
 			  i18n("Do not process pause phonemes") },
 		}};
 

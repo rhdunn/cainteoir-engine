@@ -270,26 +270,26 @@ int main(int argc, char ** argv)
 		const char *phonemeset = "ipa";
 
 		const option_group general_options = { nullptr, {
-			{ 'L', "list", mode, mode_type::list_entries,
+			{ 'L', "list", bind_value(mode, mode_type::list_entries),
 			  i18n("List the entries in the dictionary") },
-			{ 'D', "as-dictionary", as_dictionary, true,
+			{ 'D', "as-dictionary", bind_value(as_dictionary, true),
 			  i18n("List the entries as a Cainteoir Dictionary") },
-			{ 't', "time", time, true,
+			{ 't', "time", bind_value(time, true),
 			  i18n("Time how long it takes to complete the action") },
 			{ 'd', "dictionary", dictionary, "DICTIONARY",
 			  i18n("Use the words in DICTIONARY") },
-			{ 'n', "new-words", new_words, true,
+			{ 'n', "new-words", bind_value(new_words, true),
 			  i18n("Only use words not in the loaded dictionary") },
 			{ 'P', "phonemeset", phonemeset, "PHONEMESET",
 			  i18n("Use PHONEMESET to transcribe phoneme entries (default: ipa)") },
 		}};
 
 		const option_group pronunciation_options = { i18n("Pronunciation:"), {
-			{ 'p', "pronounce", mode, mode_type::pronounce_entries,
+			{ 'p', "pronounce", bind_value(mode, mode_type::pronounce_entries),
 			  i18n("Pronounce the dictionary items using the ruleset/engine") },
-			{ 'c', "compare", mode, mode_type::compare_entries,
+			{ 'c', "compare", bind_value(mode, mode_type::compare_entries),
 			  i18n("Compare dictionary and ruleset/engine pronunciations") },
-			{ 'm', "mismatched", mode, mode_type::mismatched_entries,
+			{ 'm', "mismatched", bind_value(mode, mode_type::mismatched_entries),
 			  i18n("Only display mismatched pronunciations (implies --compare)") },
 			//{ 'r', "ruleset", ruleset, "RULESET",
 			//  i18n("Use the RULESET pronunciation rule file") },

@@ -120,9 +120,9 @@ int main(int argc, char ** argv)
 		bool silent = false;
 
 		const option_group general_options = { nullptr, {
-			{ 't', "time", time, true,
+			{ 't', "time", bind_value(time, true),
 			  i18n("Time how long it takes to parse the document") },
-			{ 's', "silent", silent, true,
+			{ 's', "silent", bind_value(silent, true),
 			  i18n("Don't print out the document events") },
 			{ 'r', "repeat", repeatCount, "REPEAT",
 			  i18n("Repeat parsing the document REPEAT times") },

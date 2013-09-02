@@ -35,9 +35,33 @@ enum class argument_t
 	integer,
 };
 
+template <typename T>
+struct bind_value_t
+{
+	T &data;
+	const T &value;
+
+	bind_value_t(T &aData, const T &aValue)
+		: data(aData)
+		, value(aValue)
+	{
+	}
+};
+
+template <typename T>
+bind_value_t<T> bind_value(T &aData, const T &aValue)
+{
+	return bind_value_t<T>(aData, aValue);
+}
+
+bind_value_t<const char *> bind_value(const char * &aData, const char *aValue)
+{
+	return bind_value_t<const char *>(aData, aValue);
+}
+
 struct option_t
 {
-	typedef uint32_t value_t;
+	typedef uint64_t value_t;
 
 	char short_name;
 	const char *long_name;
@@ -53,16 +77,15 @@ struct option_t
 	template <typename T>
 	option_t(char aShortName,
 	         const char *aLongName,
-	         T &aData,
-	         const T &aDataValue,
+	         bind_value_t<T> aData,
                  const char *aHelpString)
 		: short_name(aShortName)
 		, long_name(aLongName)
 		, has_argument(argument_t::none)
 		, arg_name(nullptr)
 		, help_string(aHelpString)
-		, data(&aData)
-		, value((value_t)aDataValue)
+		, data((void *)&aData.data)
+		, value((value_t)aData.value)
 		, data_size(sizeof(T))
 	{
 		static_assert(sizeof(T) <= sizeof(value),
@@ -115,6 +138,7 @@ struct option_t
 			case 1: *(uint8_t  *)data = value; break;
 			case 2: *(uint16_t *)data = value; break;
 			case 4: *(uint32_t *)data = value; break;
+			case 8: *(uint64_t *)data = value; break;
 			}
 			break;
 		case argument_t::string:

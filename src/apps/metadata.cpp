@@ -51,16 +51,16 @@ int main(int argc, char ** argv)
 		bool print_time = false;
 
 		const option_group general_options = { nullptr, {
-			{ 't', "time", print_time, true,
+			{ 't', "time", bind_value(print_time, true),
 			  i18n("Time how long it takes to extract the metadata") },
 		}};
 
 		const option_group format_options = { i18n("Metadata Format:"), {
-			{ 0, "ntriple", output_type, rdf_ntriple,
+			{ 0, "ntriple", bind_value(output_type, rdf_ntriple),
 			  i18n("Output RDF N-Triple metadata statements") },
-			{ 0, "turtle", output_type, rdf_turtle,
+			{ 0, "turtle", bind_value(output_type, rdf_turtle),
 			  i18n("Output RDF Turtle metadata statements") },
-			{ 0, "vorbis", output_type, vorbis_comments,
+			{ 0, "vorbis", bind_value(output_type, vorbis_comments),
 			  i18n("Output VorbisComment entries") },
 		}};
 

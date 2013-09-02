@@ -83,14 +83,14 @@ int main(int argc, char ** argv)
 		bool show_all = false;
 
 		const option_group general_options = { nullptr, {
-			{ 'a', "all", show_all, true,
+			{ 'a', "all", bind_value(show_all, true),
 			  i18n("Show all words") },
 		}};
 
 		const option_group format_options = { i18n("Format:"), {
-			{ 0, "text", format, text_format,
+			{ 0, "text", bind_value(format, text_format),
 			  i18n("Output a text word list") },
-			{ 0, "html", format, html_format,
+			{ 0, "html", bind_value(format, html_format),
 			  i18n("Output a HTML tag cloud") },
 		}};
 
