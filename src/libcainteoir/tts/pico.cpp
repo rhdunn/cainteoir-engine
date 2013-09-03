@@ -56,11 +56,12 @@ static const voice_data voices[] = {
 class pico_parameter : public tts::parameter
 {
 public:
-	pico_parameter(const char *aName, const char *aUnits, int aMinimum, int aMaximum)
+	pico_parameter(const char *aName, const char *aUnits, int aMinimum, int aMaximum, int aValue)
 		: mName(aName)
 		, mUnits(aUnits)
 		, mMinimum(aMinimum)
 		, mMaximum(aMaximum)
+		, mValue(aValue)
 	{
 	}
 
@@ -86,12 +87,12 @@ public:
 
 	int default_value() const
 	{
-		return minimum();
+		return mValue;
 	}
 
 	int value() const
 	{
-		return minimum();
+		return mValue;
 	}
 
 	bool set_value(int value)
@@ -103,6 +104,7 @@ private:
 	const char *mUnits;
 	int mMinimum;
 	int mMaximum;
+	int mValue;
 };
 
 class pico_engine : public tts::engine
@@ -145,10 +147,10 @@ private:
 };
 
 pico_engine::pico_engine(rdf::graph &metadata, std::string &baseuri, std::string &default_voice)
-	: mRate(std::make_shared<pico_parameter>(i18n("Speed"), "wpm", 80, 450))
-	, mVolume(std::make_shared<pico_parameter>(i18n("Volume"), "%", 0, 200))
-	, mPitch(std::make_shared<pico_parameter>(i18n("Base Pitch"), "", 0, 100))
-	, mPitchRange(std::make_shared<pico_parameter>(i18n("Pitch Variation"), "", 0, 100))
+	: mRate(std::make_shared<pico_parameter>(i18n("Speed"), "wpm", 80, 450, 180)) // based on recording
+	, mVolume(std::make_shared<pico_parameter>(i18n("Volume"), "%", 0, 200, 100))
+	, mPitch(std::make_shared<pico_parameter>(i18n("Base Pitch"), "", 0, 100, 50))
+	, mPitchRange(std::make_shared<pico_parameter>(i18n("Pitch Variation"), "", 0, 100, 50))
 	, mSystem(nullptr)
 	, mEngine(nullptr)
 {
