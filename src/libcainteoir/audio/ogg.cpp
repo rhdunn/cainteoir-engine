@@ -265,11 +265,11 @@ public:
 		if (len == 0)
 			return 0;
 
-		float **buffer = vorbis_analysis_buffer(&vd, len);
+		float *buffer = vorbis_analysis_buffer(&vd, len)[0];
 
 		long i;
 		for (i = 0; i < len/2; ++i)
-			buffer[0][i] = ((data[i*2+1]<<8)|(0x00ff&(int)data[i*2]))/32768.f;
+			buffer[i] = ((data[i*2+1]<<8)|(0x00ff&(int)data[i*2]))/32768.f;
 
 		write_ogg_data(i);
 
