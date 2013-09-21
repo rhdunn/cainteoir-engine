@@ -72,6 +72,7 @@ INSTALL
 aclocal.m4
 autom4te.cache/
 ChangeLog
+compile
 config.h
 config.h.in
 config.h.in~
