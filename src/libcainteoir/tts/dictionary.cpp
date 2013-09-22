@@ -143,3 +143,24 @@ const tts::dictionary::entry &tts::dictionary::lookup(const key_type &aEntry) co
 	const auto &match = mEntries.find(aEntry);
 	return (match == mEntries.end()) ? no_match : match->second;
 }
+
+const std::list<tts::phoneme> &tts::dictionary::pronounce(const std::shared_ptr<buffer> &aText, int depth) const
+{
+	static const std::list<tts::phoneme> empty = {};
+
+	const auto &entry = lookup(aText);
+	switch (entry.type)
+	{
+	case dictionary::phonemes:
+		return entry.phonemes;
+	case dictionary::say_as:
+		if (depth == 5)
+		{
+			fprintf(stderr, "error: too much recursion for entry '%s'.\n", aText->str().c_str());
+			return empty;
+		}
+		return pronounce(entry.text, depth + 1);
+	}
+
+	return empty;
+}

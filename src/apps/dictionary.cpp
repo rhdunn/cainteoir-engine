@@ -104,39 +104,22 @@ static void list_entries(const tts::dictionary &dict,
 
 static bool pronounce(const tts::dictionary &dict,
                       const std::shared_ptr<cainteoir::buffer> &word,
-                      const tts::dictionary::entry &pronunciation,
                       std::shared_ptr<tts::phoneme_reader> &rules,
                       std::shared_ptr<tts::phoneme_writer> &writer,
                       const char *phonemeset,
                       bool as_dictionary,
-                      mode_type mode,
-                      int depth = 0)
+                      mode_type mode)
 {
-	if (pronunciation.type == tts::dictionary::say_as && mode != mode_type::pronounce_entries)
-	{
-		if (depth == 5)
-		{
-			fprintf(stderr, "error: too much recursion for entry '%s'.\n", word->str().c_str());
-			return false;
-		}
-
-		auto entry = dict.lookup(pronunciation.text);
-		if (entry.type == tts::dictionary::no_match)
-		{
-			fprintf(stderr, "error: cannot find '%s' in the dictionary.\n", pronunciation.text->str().c_str());
-			return false;
-		}
-
-		return pronounce(dict, word, entry,
-		                 rules, writer, phonemeset, as_dictionary, mode, depth + 1);
-	}
+	auto phonemes = dict.pronounce(word);
+	if (phonemes.empty())
+		return false;
 
 	std::list<tts::phoneme> pronounced;
 	rules->reset(word);
 	while (rules->read())
 		pronounced.push_back(*rules);
 
-	bool match = matches(pronounced, pronunciation.phonemes);
+	bool match = matches(pronounced, phonemes);
 	if (mode == mode_type::mismatched_entries && match)
 		return true;
 
@@ -151,7 +134,7 @@ static bool pronounce(const tts::dictionary &dict,
 
 	if (mode == mode_type::compare_entries)
 	{
-		for (auto p : pronunciation.phonemes)
+		for (auto p : phonemes)
 			writer->write(p);
 		fprintf(stdout, "/ ... ");
 		if (match)
@@ -170,7 +153,7 @@ static bool pronounce(const tts::dictionary &dict,
 	{
 		if (mode == mode_type::mismatched_entries)
 		{
-			for (auto p : pronunciation.phonemes)
+			for (auto p : phonemes)
 				writer->write(p);
 		}
 		else
@@ -201,7 +184,7 @@ static void pronounce(const tts::dictionary &dict,
 
 	for (auto &entry : dict)
 	{
-		if (pronounce(dict, entry.first, entry.second,
+		if (pronounce(dict, entry.first,
 		              rules, writer, phonemeset, as_dictionary, mode))
 			++matched;
 		++entries;

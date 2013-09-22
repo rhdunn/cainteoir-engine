@@ -74,31 +74,20 @@ bool tts::phoneme_stream::read()
 	return true;
 }
 
-void tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange, int depth)
+void tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange)
 {
-	auto entry = mExceptionDictionary.lookup(aText);
-	switch (entry.type)
-	{
-	case dictionary::no_match:
-		break;
-	case dictionary::phonemes:
-		mEvent = { entry.text, tts::phonemes, aRange, 0 };
-		return;
-	case dictionary::say_as:
-		if (depth == 5)
-		{
-			fprintf(stderr, "error: too much recursion for entry '%s'.\n", aText->str().c_str());
-		}
-		else
-		{
-			pronounce(entry.text, aRange, depth + 1);
-			return;
-		}
-		break;
-	}
-
 	mEvent = { tts::phonemes, aRange, 0 };
-	mRules->reset(aText);
-	while (mRules->read())
-		mEvent.phonemes.push_back(*mRules);
+
+	auto phonemes = mExceptionDictionary.pronounce(aText);
+	if (phonemes.empty())
+	{
+		for (const tts::phoneme &p : phonemes)
+			mEvent.phonemes.push_back(p);
+	}
+	else
+	{
+		mRules->reset(aText);
+		while (mRules->read())
+			mEvent.phonemes.push_back(*mRules);
+	}
 }

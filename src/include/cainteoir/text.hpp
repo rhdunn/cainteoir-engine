@@ -81,7 +81,14 @@ namespace cainteoir { namespace tts
 
 		const_iterator begin() const { return mEntries.begin(); }
 		const_iterator end()   const { return mEntries.end();   }
+
+		const std::list<phoneme> &pronounce(const std::shared_ptr<buffer> &aText) const
+		{
+			return pronounce(aText, 0);
+		}
 	private:
+		const std::list<phoneme> &pronounce(const std::shared_ptr<buffer> &aText, int depth) const;
+
 		void add_entries(const path &aBasePath,
 		                 const std::shared_ptr<buffer> &aDictionary);
 
@@ -232,7 +239,7 @@ namespace cainteoir { namespace tts
 
 		bool read();
 	private:
-		void pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange, int depth = 0);
+		void pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange);
 
 		word_stream mReader;
 		text_event mEvent;
