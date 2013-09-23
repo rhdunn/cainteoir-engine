@@ -37,6 +37,7 @@ enum class mode_type
 {
 	from_document,
 	list_entries,
+	resolve_say_as_entries,
 	pronounce_entries,
 	compare_entries,
 	mismatched_entries,
@@ -58,7 +59,8 @@ static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phone
 static void list_entries(const tts::dictionary &dict,
                          std::shared_ptr<tts::phoneme_writer> writer,
                          const char *phonemeset,
-                         bool as_dictionary)
+                         bool as_dictionary,
+                         mode_type mode)
 {
 	writer->reset(stdout);
 	for (auto &entry : dict)
@@ -68,20 +70,43 @@ static void list_entries(const tts::dictionary &dict,
 			int n = fprintf(stdout, "%s", entry.first->str().c_str());
 			if (n < 8) fprintf(stdout, "\t");
 
-			if (entry.second.type == tts::dictionary::say_as)
-			{
-				fprintf(stdout, "\t%s\n",
-				        entry.second.text->str().c_str());
-			}
-			else
+			if (entry.second.type == tts::dictionary::phonemes)
 			{
 				fprintf(stdout, "\t/");
 				for (auto p : entry.second.phonemes)
 					writer->write(p);
 				fprintf(stdout, "/\n");
 			}
+			else if (mode == mode_type::resolve_say_as_entries)
+			{
+				fprintf(stdout, "\t/");
+				for (auto p : dict.pronounce(entry.first))
+					writer->write(p);
+				fprintf(stdout, "/\n");
+			}
+			else
+			{
+				fprintf(stdout, "\t%s\n",
+				        entry.second.text->str().c_str());
+			}
 		}
-		else if (entry.second.type == tts::dictionary::say_as)
+		else if (entry.second.type == tts::dictionary::phonemes)
+		{
+			fprintf(stdout, "\"%s\" => /",
+			        entry.first->str().c_str());
+			for (auto p : entry.second.phonemes)
+				writer->write(p);
+			fprintf(stdout, "/ [%s]\n", phonemeset);
+		}
+		else if (mode == mode_type::resolve_say_as_entries)
+		{
+			fprintf(stdout, "\"%s\" => /",
+			        entry.first->str().c_str());
+			for (auto p : dict.pronounce(entry.first))
+				writer->write(p);
+			fprintf(stdout, "/ [%s]\n", phonemeset);
+		}
+		else
 		{
 			ucd::codepoint_t cp = 0;
 			cainteoir::utf8::read(entry.second.text->begin(), cp);
@@ -90,14 +115,6 @@ static void list_entries(const tts::dictionary &dict,
 			        entry.first->str().c_str(),
 			        entry.second.text->str().c_str(),
 			        ucd::get_script_string(ucd::lookup_script(cp)));
-		}
-		else
-		{
-			fprintf(stdout, "\"%s\" => /",
-			        entry.first->str().c_str());
-			for (auto p : entry.second.phonemes)
-				writer->write(p);
-			fprintf(stdout, "/ [%s]\n", phonemeset);
 		}
 	}
 }
@@ -255,6 +272,8 @@ int main(int argc, char ** argv)
 		const option_group general_options = { nullptr, {
 			{ 'L', "list", bind_value(mode, mode_type::list_entries),
 			  i18n("List the entries in the dictionary") },
+			{ 'R', "resolve-say-as", bind_value(mode, mode_type::resolve_say_as_entries),
+			  i18n("Look up say-as entries in the dictionary (implies --list)") },
 			{ 'D', "as-dictionary", bind_value(as_dictionary, true),
 			  i18n("List the entries as a Cainteoir Dictionary") },
 			{ 't', "time", bind_value(time, true),
@@ -321,7 +340,8 @@ int main(int argc, char ** argv)
 		switch (mode)
 		{
 		case mode_type::list_entries:
-			list_entries(dict, writer, phonemeset, as_dictionary);
+		case mode_type::resolve_say_as_entries:
+			list_entries(dict, writer, phonemeset, as_dictionary, mode);
 			break;
 		case mode_type::pronounce_entries:
 		case mode_type::compare_entries:
