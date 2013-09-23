@@ -48,7 +48,7 @@ class TestSuite:
 		tmpfile = '/tmp/metadata.txt'
 
 		if sort:
-			os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s "%s" | sort > %s' % (
+			os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s "%s" 2>&1 | sort > %s' % (
 				os.path.join(sys.path[0], '../data'),
 				os.path.join(sys.path[0], '../data'),
 				command,
