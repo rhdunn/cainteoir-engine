@@ -33,5 +33,9 @@ if __name__ == '__main__':
 			# comments:
 			{'test': 'dict/cainteoir/comments.dict', 'result': 'dict/cainteoir/comments.lst'},
 		]},
+		{'name': 'Cainteoir (Say As)', 'type': 'dictionary-expand', 'tests': [
+			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
+			{'test': 'dict/cainteoir/say-as.dict', 'result': 'dict/cainteoir/say-as.lst'},
+		]},
 	]})
 	test.summary()

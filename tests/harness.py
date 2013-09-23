@@ -124,6 +124,10 @@ class TestSuite:
 		write('... checking %s as dictionary entries ... ' % (displayas or filename))
 		self.check_command(filename=filename, expect=expect, command='%s --list --dictionary ' % os.path.join(sys.path[0], '../src/apps/dictionary'), test_expect=test_expect, replacements=replacements, sort=True)
 
+	def check_dictionary_expand(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
+		write('... checking %s as dictionary entries ... ' % (displayas or filename))
+		self.check_command(filename=filename, expect=expect, command='%s --resolve-say-as --dictionary ' % os.path.join(sys.path[0], '../src/apps/dictionary'), test_expect=test_expect, replacements=replacements, sort=True)
+
 	def check_phonemeset(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}, data={}):
 		srcphon = data['from']
 		dstphon = data['to']
@@ -149,6 +153,8 @@ class TestSuite:
 				check = lambda got, exp, expect, displayas, replacements, data: self.check_parsetext(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'dictionary':
 				check = lambda got, exp, expect, displayas, replacements, data: self.check_dictionary(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
+			elif group['type'] == 'dictionary-expand':
+				check = lambda got, exp, expect, displayas, replacements, data: self.check_dictionary_expand(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
 			elif group['type'] == 'phonemeset':
 				check = lambda got, exp, expect, displayas, replacements, data: self.check_phonemeset(got, exp, test_expect=expect, displayas=displayas, replacements=replacements, data=data)
 
