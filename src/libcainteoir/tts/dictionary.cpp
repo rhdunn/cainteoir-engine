@@ -144,7 +144,7 @@ const tts::dictionary::entry &tts::dictionary::lookup(const key_type &aEntry) co
 	return (match == mEntries.end()) ? no_match : match->second;
 }
 
-const std::list<tts::phoneme> &tts::dictionary::pronounce(const std::shared_ptr<buffer> &aText, int depth) const
+const std::list<tts::phoneme> &tts::dictionary::pronounce(const std::shared_ptr<buffer> &aText, int depth)
 {
 	static const std::list<tts::phoneme> empty = {};
 

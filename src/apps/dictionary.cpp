@@ -56,7 +56,7 @@ static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phone
 	return first1 == last1 && first2 == last2;
 }
 
-static void list_entries(const tts::dictionary &dict,
+static void list_entries(tts::dictionary &dict,
                          std::shared_ptr<tts::phoneme_writer> writer,
                          const char *phonemeset,
                          bool as_dictionary,
@@ -119,7 +119,7 @@ static void list_entries(const tts::dictionary &dict,
 	}
 }
 
-static bool pronounce(const tts::dictionary &dict,
+static bool pronounce(tts::dictionary &dict,
                       const std::shared_ptr<cainteoir::buffer> &word,
                       std::shared_ptr<tts::phoneme_reader> &rules,
                       std::shared_ptr<tts::phoneme_writer> &writer,
@@ -187,7 +187,7 @@ static bool pronounce(const tts::dictionary &dict,
 	return match;
 }
 
-static void pronounce(const tts::dictionary &dict,
+static void pronounce(tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_reader> rules,
                       std::shared_ptr<tts::phoneme_writer> writer,
                       const char *phonemeset,
