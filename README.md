@@ -1,5 +1,11 @@
 # Cainteoir Text-to-Speech Engine
 
+- [Building](#building)
+- [Bugs](#bugs)
+- [License Information](#license-information)
+
+----------
+
 The Cainteoir Text-to-Speech engine is a library that provides text-to-speech
 functionality for reading and recording different document formats.
 
