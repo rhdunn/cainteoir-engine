@@ -12,7 +12,7 @@ source code does not contain the generated `configure` files, so to build
 it you need to run:
 
 	./autogen.sh
-	configure --prefix=/usr
+	./configure --prefix=/usr
 	make
 
 The tests can be run by using:
