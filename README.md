@@ -1,5 +1,7 @@
 # Cainteoir Text-to-Speech Engine
 
+- [Build Dependencies](#build-dependencies)
+  - [Debian](#debian)
 - [Building](#building)
 - [Bugs](#bugs)
 - [License Information](#license-information)
@@ -8,6 +10,61 @@
 
 The Cainteoir Text-to-Speech engine is a library that provides text-to-speech
 functionality for reading and recording different document formats.
+
+## Build Dependencies
+
+In order to build eSpeak, you need:
+
+1.  a functional autotools system (`make`, `autoconf`, `automake`, `libtool`,
+    `autopoint` and `pkg-config`);
+2.  a functional c++ compiler;
+3.  the zlib development libraries;
+4.  the shared mime info package.
+
+Optionally, you need:
+
+1.  the pulseaudio development library to enable pulseaudio output;
+2.  the alsa development libraries to enable alsa audio output;
+3.  the vorbis encoder development libraries for ogg/vorbis support;
+4.  the espeak development libraries for espeak support;
+5.  the pico development libraries for svox pico support;
+6.  the poppler development libraries for pdf support;
+
+To build the documentation, you need:
+
+1.  the pandoc program to build the general documentation;
+2.  the doxygen program to build the api documentation;
+3.  the dot program to generate graphs in the api documentation.
+
+### Debian
+
+Core Dependencies:
+
+| Dependency       | Install                                                                    |
+|------------------|----------------------------------------------------------------------------|
+| autotools        | `sudo apt-get install make autoconf automake libtool autopoint pkg-config` |
+| c++ compiler     | `sudo apt-get install gcc g++`                                             |
+| zlib             | `sudo apt-get install zlib1g-dev`                                          |
+| shared mime info | `sudo apt-get install shared-mime-info`                                    |
+
+Optional Libraries:
+
+| Dependency     | Install                                    |
+|----------------|--------------------------------------------|
+| pulseaudio     | `sudo apt-get install libpulse-dev`        |
+| alsa           | `sudo apt-get install libasound2-dev`      |
+| vorbis encoder | `sudo apt-get install libvorbis-dev`       |
+| espeak         | `sudo apt-get install libespeak-dev`       |
+| pico           | `sudo apt-get install libttspico-dev`      |
+| poppler        | `sudo apt-get install libpoppler-glib-dev` |
+
+Documentation Dependencies:
+
+| Dependency | Install                         |
+|------------|---------------------------------|
+| pandoc     | `sudo apt-get install pandoc`   |
+| doxygen    | `sudo apt-get install doxygen`  |
+| pandoc     | `sudo apt-get install graphviz` |
 
 ## Building
 
