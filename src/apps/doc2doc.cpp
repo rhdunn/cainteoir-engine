@@ -21,6 +21,7 @@
 #include "config.h"
 #include "compatibility.hpp"
 #include "i18n.h"
+#include "options.hpp"
 
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/document.hpp>
@@ -177,20 +178,24 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		argc -= 1;
-		argv += 1;
-
-		const char *format   = (argc >= 1) ? argv[0] : nullptr;
-		const char *filename = (argc == 2) ? argv[1] : nullptr;
-
 		decltype(writeTextDocument) *writer = nullptr;
-		if (format)
-		{
-			if (!strcmp(format, "text"))
-				writer = writeTextDocument;
-			else if (!strcmp(format, "html"))
-				writer = writeHtmlDocument;
-		}
+
+		const option_group general_options = { nullptr, {
+			{ 0, "text", bind_value(writer, &writeTextDocument),
+			  i18n("Output as plain text.") },
+			{ 0, "html", bind_value(writer, &writeHtmlDocument),
+			  i18n("Output as a HTML document.") },
+		}};
+
+		const std::initializer_list<const char *> usage = {
+			i18n("doc2doc [OPTION..] DOCUMENT"),
+			i18n("doc2doc [OPTION..]"),
+		};
+
+		if (!parse_command_line({ general_options }, usage, argc, argv))
+			return 0;
+
+		const char *filename = (argc == 1) ? argv[0] : nullptr;
 
 		if (!writer)
 			throw std::runtime_error(i18n("unsupported format to convert to (html and text only)"));
