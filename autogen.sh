@@ -1,8 +1,8 @@
 #!/bin/sh
 
 mkdir -p m4
-ln -sf README.md README
-ln -sf docs/ReleaseNotes.md NEWS
+ln -svf README.md README
+ln -svf docs/ReleaseNotes.md NEWS
 
 if [ -d .git ] ; then
 	git submodule update --init --recursive || exit 1
