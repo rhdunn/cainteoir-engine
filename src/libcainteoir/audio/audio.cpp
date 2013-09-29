@@ -23,6 +23,7 @@
 
 #include <cainteoir/audio.hpp>
 #include <cainteoir/mimetype.hpp>
+#include <stdexcept>
 #include <string.h>
 
 namespace rdf = cainteoir::rdf;
@@ -88,7 +89,17 @@ cainteoir::open_audio_device(
 	int frequency = rql::select_value<int>(data, rql::predicate == rdf::tts("frequency"));
 	const rdf::uri &format = rql::object(rql::select(data, rql::predicate == rdf::tts("audio-format")).front());
 
-	auto audio = create_pulseaudio_device(device, format, channels, frequency, aDocMetadata, aDocument);
+	std::shared_ptr<cainteoir::audio> audio;
+	try
+	{
+		audio = create_pulseaudio_device(device, format, channels, frequency, aDocMetadata, aDocument);
+	}
+	catch (const std::runtime_error &e)
+	{
+		// Failed to create a pulseaudio stream. This is usually when pulseaudio is
+		// not running (i.e. it throws a |connection refused| error).
+	}
+
 	if (!audio.get())
 		audio = create_alsa_device(device, format, channels, frequency, aDocMetadata, aDocument);
 	return audio;

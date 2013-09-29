@@ -53,6 +53,12 @@ public:
 
 		ss.channels = channels;
 		ss.rate = frequency;
+
+		// Cainteoir may be built with the pulseaudio libraries, but the pulseaudio
+		// server may not be running. In that case, calling |open| will fail due to
+		// a |connection refused| error. Call |open| here so that error can be
+		// trapped in the |create_audio| function.
+		open();
 	}
 
 	~pulse_audio()
