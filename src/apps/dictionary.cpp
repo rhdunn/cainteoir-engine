@@ -127,9 +127,13 @@ static bool pronounce(tts::dictionary &dict,
                       bool as_dictionary,
                       mode_type mode)
 {
-	auto phonemes = dict.pronounce(word);
-	if (phonemes.empty())
-		return false;
+	std::list<tts::phoneme> phonemes;
+	if (mode != mode_type::pronounce_entries)
+	{
+		phonemes = dict.pronounce(word);
+		if (phonemes.empty())
+			return false;
+	}
 
 	std::list<tts::phoneme> pronounced;
 	rules->reset(word);
