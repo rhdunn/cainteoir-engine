@@ -56,6 +56,15 @@ static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phone
 	return first1 == last1 && first2 == last2;
 }
 
+static bool is_variant(const cainteoir::buffer &s)
+{
+	for (auto c : s)
+	{
+		if (c == '@') return true;
+	}
+	return false;
+}
+
 static void list_entries(tts::dictionary &dict,
                          std::shared_ptr<tts::phoneme_writer> writer,
                          const char *phonemeset,
@@ -205,6 +214,8 @@ static void pronounce(tts::dictionary &dict,
 
 	for (auto &entry : dict)
 	{
+		if (is_variant(*entry.first)) continue;
+
 		if (pronounce(dict, entry.first,
 		              rules, writer, phonemeset, as_dictionary, mode))
 			++matched;
