@@ -24,14 +24,11 @@ if __name__ == '__main__':
 	test = harness.TestSuite('dictionary', sys.argv)
 	test.run({'name': 'Dictionaries', 'groups': [
 		{'name': 'Cainteoir', 'type': 'dictionary', 'tests': [
-			# say-as (word => word):
-			{'test': '../data/locale/en/cardinal.dict', 'result': 'dict/cainteoir/en-cardinal.lst'},
-			# .import directive:
-			{'test': '../data/locale/en-GB/cardinal.dict', 'result': 'dict/cainteoir/en-GB-cardinal.lst'},
-			# IPA phonemes:
+			{'test': '../data/locale/en/cardinal.dict', 'result': 'dict/cainteoir/en-cardinal.lst'}, # say-as (word => word)
+			{'test': '../data/locale/en-GB/cardinal.dict', 'result': 'dict/cainteoir/en-GB-cardinal.lst'}, # .import directive
 			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
-			# comments:
 			{'test': 'dict/cainteoir/comments.dict', 'result': 'dict/cainteoir/comments.lst'},
+			{'test': 'dict/cainteoir/duplicate-entry.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
 		]},
 		{'name': 'Cainteoir (Say As)', 'type': 'dictionary-expand', 'tests': [
 			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},

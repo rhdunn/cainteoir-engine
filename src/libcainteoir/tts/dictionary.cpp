@@ -59,6 +59,7 @@ void tts::dictionary::add_entry(const key_type &aEntry,
 	{
 		if (!mPhonemes.get())
 			throw std::runtime_error("The dictionary does not specify a phonemeset.");
+		entry.phonemes.clear();
 		mPhonemes->reset(aDefinition);
 		while (mPhonemes->read())
 			entry.phonemes.push_back(*mPhonemes);
