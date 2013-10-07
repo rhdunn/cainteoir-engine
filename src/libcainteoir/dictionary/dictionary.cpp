@@ -79,3 +79,19 @@ const std::list<tts::phoneme> &tts::dictionary::pronounce(const std::shared_ptr<
 
 	return empty;
 }
+
+void tts::formatDictionary(tts::dictionary &dict,
+	                   std::shared_ptr<dictionary_formatter> &formatter,
+	                   std::shared_ptr<phoneme_writer> &writer,
+	                   bool resolve_say_as_entries)
+{
+	for (auto &entry : dict)
+	{
+		if (entry.second.type == tts::dictionary::phonemes)
+			formatter->write_phoneme_entry(entry.first, writer, entry.second.phonemes);
+		else if (resolve_say_as_entries)
+			formatter->write_phoneme_entry(entry.first, writer, dict.pronounce(entry.first));
+		else
+			formatter->write_say_as_entry(entry.first, entry.second.text);
+	}
+}

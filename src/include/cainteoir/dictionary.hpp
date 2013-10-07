@@ -88,10 +88,24 @@ namespace cainteoir { namespace tts
 	bool parseCainteoirDictionary(tts::dictionary &dict,
 	                              const char *aDictionaryPath);
 
-	void writeCainteoirDictionary(tts::dictionary &dict,
-	                              FILE *out,
-	                              std::shared_ptr<tts::phoneme_writer> &writer,
-	                              bool resolve_say_as_entries);
+	struct dictionary_formatter
+	{
+		virtual void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
+		                                 std::shared_ptr<tts::phoneme_writer> &writer,
+		                                 const std::list<tts::phoneme> &phonemes) = 0;
+
+		virtual void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
+                                                const std::shared_ptr<cainteoir::buffer> &say_as) = 0;
+
+		virtual ~dictionary_formatter() {}
+	};
+
+	std::shared_ptr<dictionary_formatter> createCainteoirDictionaryFormatter(FILE *out);
+
+	void formatDictionary(tts::dictionary &dict,
+	                      std::shared_ptr<dictionary_formatter> &formatter,
+	                      std::shared_ptr<phoneme_writer> &writer,
+	                      bool resolve_say_as_entries);
 }}
 
 #endif

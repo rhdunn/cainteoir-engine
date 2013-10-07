@@ -334,7 +334,11 @@ int main(int argc, char ** argv)
 		case mode_type::list_entries:
 		case mode_type::resolve_say_as_entries:
 			if (as_dictionary)
-				tts::writeCainteoirDictionary(dict, stdout, writer, mode == mode_type::resolve_say_as_entries);
+			{
+				auto formatter = tts::createCainteoirDictionaryFormatter(stdout);
+				writer->reset(stdout);
+				tts::formatDictionary(dict, formatter, writer, mode == mode_type::resolve_say_as_entries);
+			}
 			else
 				list_entries(dict, writer, phonemeset, mode == mode_type::resolve_say_as_entries);
 			break;
