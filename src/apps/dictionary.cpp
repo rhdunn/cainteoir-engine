@@ -67,40 +67,14 @@ static bool is_variant(const cainteoir::buffer &s)
 }
 
 static void list_entries(tts::dictionary &dict,
-                         std::shared_ptr<tts::phoneme_writer> writer,
+	                 std::shared_ptr<tts::phoneme_writer> &writer,
                          const char *phonemeset,
-                         bool as_dictionary,
-                         mode_type mode)
+	                 bool resolve_say_as_entries)
 {
 	writer->reset(stdout);
 	for (auto &entry : dict)
 	{
-		if (as_dictionary)
-		{
-			int n = fprintf(stdout, "%s", entry.first->str().c_str());
-			if (n < 8) fprintf(stdout, "\t");
-
-			if (entry.second.type == tts::dictionary::phonemes)
-			{
-				fprintf(stdout, "\t/");
-				for (auto p : entry.second.phonemes)
-					writer->write(p);
-				fprintf(stdout, "/\n");
-			}
-			else if (mode == mode_type::resolve_say_as_entries)
-			{
-				fprintf(stdout, "\t/");
-				for (auto p : dict.pronounce(entry.first))
-					writer->write(p);
-				fprintf(stdout, "/\n");
-			}
-			else
-			{
-				fprintf(stdout, "\t%s\n",
-				        entry.second.text->str().c_str());
-			}
-		}
-		else if (entry.second.type == tts::dictionary::phonemes)
+		if (entry.second.type == tts::dictionary::phonemes)
 		{
 			fprintf(stdout, "\"%s\" => /",
 			        entry.first->str().c_str());
@@ -108,7 +82,7 @@ static void list_entries(tts::dictionary &dict,
 				writer->write(p);
 			fprintf(stdout, "/ [%s]\n", phonemeset);
 		}
-		else if (mode == mode_type::resolve_say_as_entries)
+		else if (resolve_say_as_entries)
 		{
 			fprintf(stdout, "\"%s\" => /",
 			        entry.first->str().c_str());
@@ -359,7 +333,10 @@ int main(int argc, char ** argv)
 		{
 		case mode_type::list_entries:
 		case mode_type::resolve_say_as_entries:
-			list_entries(dict, writer, phonemeset, as_dictionary, mode);
+			if (as_dictionary)
+				tts::writeCainteoirDictionary(dict, stdout, writer, mode == mode_type::resolve_say_as_entries);
+			else
+				list_entries(dict, writer, phonemeset, mode == mode_type::resolve_say_as_entries);
 			break;
 		case mode_type::pronounce_entries:
 		case mode_type::compare_entries:

@@ -85,7 +85,13 @@ namespace cainteoir { namespace tts
 		storage_type mEntries;
 	};
 
-	bool parseCainteoirDictionary(tts::dictionary &dict, const char *aDictionaryPath);
+	bool parseCainteoirDictionary(tts::dictionary &dict,
+	                              const char *aDictionaryPath);
+
+	void writeCainteoirDictionary(tts::dictionary &dict,
+	                              FILE *out,
+	                              std::shared_ptr<tts::phoneme_writer> &writer,
+	                              bool resolve_say_as_entries);
 }}
 
 #endif

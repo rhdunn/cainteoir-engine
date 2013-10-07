@@ -114,3 +114,37 @@ bool tts::parseCainteoirDictionary(tts::dictionary &dict,
 	}
 	return true;
 }
+
+void tts::writeCainteoirDictionary(tts::dictionary &dict,
+                                   FILE *out,
+                                   std::shared_ptr<tts::phoneme_writer> &writer,
+                                   bool resolve_say_as_entries)
+{
+	writer->reset(out);
+	for (auto &entry : dict)
+	{
+		int n = fprintf(out, "%s", entry.first->str().c_str());
+		if (n < 8) fprintf(stdout, "\t");
+
+		if (entry.second.type == tts::dictionary::phonemes)
+		{
+			fprintf(out, "\t/");
+			for (auto p : entry.second.phonemes)
+				writer->write(p);
+			fprintf(out, "/\n");
+		}
+		else if (resolve_say_as_entries)
+		{
+			fprintf(out, "\t/");
+			for (auto p : dict.pronounce(entry.first))
+				writer->write(p);
+			fprintf(out, "/\n");
+		}
+		else
+		{
+			fprintf(out, "\t%s\n",
+			        entry.second.text->str().c_str());
+		}
+	}
+}
+
