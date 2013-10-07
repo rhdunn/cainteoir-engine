@@ -22,12 +22,10 @@
 #include "i18n.h"
 #include "options.hpp"
 
-#include <ucd/ucd.h>
 #include <cainteoir/document.hpp>
 #include <cainteoir/engines.hpp>
 #include <cainteoir/text.hpp>
 #include <cainteoir/path.hpp>
-#include <cainteoir/unicode.hpp>
 #include <cainteoir/stopwatch.hpp>
 #include <stdexcept>
 
@@ -64,42 +62,6 @@ static bool is_variant(const cainteoir::buffer &s)
 		if (c == '@') return true;
 	}
 	return false;
-}
-
-static void list_entries(tts::dictionary &dict,
-	                 std::shared_ptr<tts::phoneme_writer> &writer,
-	                 bool resolve_say_as_entries)
-{
-	writer->reset(stdout);
-	for (auto &entry : dict)
-	{
-		if (entry.second.type == tts::dictionary::phonemes)
-		{
-			fprintf(stdout, "\"%s\" => /",
-			        entry.first->str().c_str());
-			for (auto p : entry.second.phonemes)
-				writer->write(p);
-			fprintf(stdout, "/ [%s]\n", writer->name());
-		}
-		else if (resolve_say_as_entries)
-		{
-			fprintf(stdout, "\"%s\" => /",
-			        entry.first->str().c_str());
-			for (auto p : dict.pronounce(entry.first))
-				writer->write(p);
-			fprintf(stdout, "/ [%s]\n", writer->name());
-		}
-		else
-		{
-			ucd::codepoint_t cp = 0;
-			cainteoir::utf8::read(entry.second.text->begin(), cp);
-
-			fprintf(stdout, "\"%s\" => \"%s\"@%s [say-as]\n",
-			        entry.first->str().c_str(),
-			        entry.second.text->str().c_str(),
-			        ucd::get_script_string(ucd::lookup_script(cp)));
-		}
-	}
 }
 
 static bool pronounce(tts::dictionary &dict,
@@ -328,18 +290,18 @@ int main(int argc, char ** argv)
 				words += from_document(base_dict, dict, argv[i], as_dictionary);
 		}
 
+		std::shared_ptr<tts::dictionary_formatter> formatter;
+		if (as_dictionary)
+			formatter = tts::createCainteoirDictionaryFormatter(stdout);
+		else
+			formatter = tts::createDictionaryEntryFormatter(stdout);
+
 		switch (mode)
 		{
 		case mode_type::list_entries:
 		case mode_type::resolve_say_as_entries:
-			if (as_dictionary)
-			{
-				auto formatter = tts::createCainteoirDictionaryFormatter(stdout);
-				writer->reset(stdout);
-				tts::formatDictionary(dict, formatter, writer, mode == mode_type::resolve_say_as_entries);
-			}
-			else
-				list_entries(dict, writer, mode == mode_type::resolve_say_as_entries);
+			writer->reset(stdout);
+			tts::formatDictionary(dict, formatter, writer, mode == mode_type::resolve_say_as_entries);
 			break;
 		case mode_type::pronounce_entries:
 		case mode_type::compare_entries:

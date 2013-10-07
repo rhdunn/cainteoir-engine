@@ -21,7 +21,9 @@
 #include "config.h"
 #include "compatibility.hpp"
 
+#include <ucd/ucd.h>
 #include <cainteoir/dictionary.hpp>
+#include <cainteoir/unicode.hpp>
 
 namespace tts = cainteoir::tts;
 
@@ -78,6 +80,50 @@ const std::list<tts::phoneme> &tts::dictionary::pronounce(const std::shared_ptr<
 	}
 
 	return empty;
+}
+
+struct dictionary_entry_formatter : public tts::dictionary_formatter
+{
+	dictionary_entry_formatter(FILE *aOut)
+		: mOut(aOut)
+	{
+	}
+
+	void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
+	                         std::shared_ptr<tts::phoneme_writer> &writer,
+	                         const std::list<tts::phoneme> &phonemes);
+
+	void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
+	                        const std::shared_ptr<cainteoir::buffer> &say_as);
+
+	FILE *mOut;
+};
+
+void dictionary_entry_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
+                                                     std::shared_ptr<tts::phoneme_writer> &writer,
+                                                     const std::list<tts::phoneme> &phonemes)
+{
+	fprintf(stdout, "\"%s\" => /", word->str().c_str());
+	for (auto p : phonemes)
+		writer->write(p);
+	fprintf(stdout, "/ [%s]\n", writer->name());
+}
+
+void dictionary_entry_formatter::write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
+                                                    const std::shared_ptr<cainteoir::buffer> &say_as)
+{
+	ucd::codepoint_t cp = 0;
+	cainteoir::utf8::read(say_as->begin(), cp);
+
+	fprintf(stdout, "\"%s\" => \"%s\"@%s [say-as]\n",
+	        word->str().c_str(),
+	        say_as->str().c_str(),
+	        ucd::get_script_string(ucd::lookup_script(cp)));
+}
+
+std::shared_ptr<tts::dictionary_formatter> tts::createDictionaryEntryFormatter(FILE *out)
+{
+	return std::make_shared<dictionary_entry_formatter>(out);
 }
 
 void tts::formatDictionary(tts::dictionary &dict,
