@@ -109,7 +109,7 @@ void dictionary_entry_formatter::write_phoneme_entry(const std::shared_ptr<caint
 	fprintf(stdout, "\"%s\" => /", word->str().c_str());
 	for (auto p : phonemes)
 		writer->write(p);
-	fprintf(stdout, "/ [%s]%a", writer->name(), line_separator);
+	fprintf(stdout, "/ [%s]%s", writer->name(), line_separator);
 }
 
 void dictionary_entry_formatter::write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
