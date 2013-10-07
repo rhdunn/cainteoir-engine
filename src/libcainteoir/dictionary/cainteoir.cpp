@@ -124,32 +124,36 @@ struct cainteoir_formatter : public tts::dictionary_formatter
 
 	void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                         std::shared_ptr<tts::phoneme_writer> &writer,
-	                         const std::list<tts::phoneme> &phonemes);
+	                         const std::list<tts::phoneme> &phonemes,
+	                         const char *line_separator);
 
 	void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
-	                        const std::shared_ptr<cainteoir::buffer> &say_as);
+	                        const std::shared_ptr<cainteoir::buffer> &say_as,
+	                        const char *line_separator);
 
 	FILE *mOut;
 };
 
 void cainteoir_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
                                               std::shared_ptr<tts::phoneme_writer> &writer,
-                                              const std::list<tts::phoneme> &phonemes)
+                                              const std::list<tts::phoneme> &phonemes,
+                                              const char *line_separator)
 {
 	if (fprintf(mOut, "%s", word->str().c_str()) < 8)
 		fprintf(mOut, "\t");
 	fprintf(mOut, "\t/");
 	for (auto p : phonemes)
 		writer->write(p);
-	fprintf(mOut, "/\n");
+	fprintf(mOut, "/%s", line_separator);
 }
 
 void cainteoir_formatter::write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
-                                             const std::shared_ptr<cainteoir::buffer> &say_as)
+                                             const std::shared_ptr<cainteoir::buffer> &say_as,
+                                             const char *line_separator)
 {
 	if (fprintf(mOut, "%s", word->str().c_str()) < 8)
 		fprintf(mOut, "\t");
-	fprintf(mOut, "\t%s\n", say_as->str().c_str());
+	fprintf(mOut, "\t%s%s", say_as->str().c_str(), line_separator);
 }
 
 std::shared_ptr<tts::dictionary_formatter> tts::createCainteoirDictionaryFormatter(FILE *out)

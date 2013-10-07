@@ -67,9 +67,9 @@ static bool is_variant(const cainteoir::buffer &s)
 static bool pronounce(tts::dictionary &dict,
                       const std::shared_ptr<cainteoir::buffer> &word,
                       std::shared_ptr<tts::phoneme_reader> &rules,
+                      std::shared_ptr<tts::dictionary_formatter> &formatter,
                       std::shared_ptr<tts::phoneme_writer> &writer,
                       const char *phonemeset,
-                      bool as_dictionary,
                       mode_type mode)
 {
 	std::list<tts::phoneme> phonemes;
@@ -89,20 +89,9 @@ static bool pronounce(tts::dictionary &dict,
 	if (mode == mode_type::mismatched_entries && match)
 		return true;
 
-	if (as_dictionary)
-	{
-		int n = fprintf(stdout, "%s", word->str().c_str());
-		if (n < 8) fprintf(stdout, "\t");
-		fprintf(stdout, "\t/");
-	}
-	else
-		fprintf(stdout, "\"%s\" => /", word->str().c_str());
-
 	if (mode == mode_type::compare_entries)
 	{
-		for (auto p : phonemes)
-			writer->write(p);
-		fprintf(stdout, "/ ... ");
+		formatter->write_phoneme_entry(word, writer, phonemes, " ... ");
 		if (match)
 		{
 			fprintf(stdout, "matched\n");
@@ -115,32 +104,19 @@ static bool pronounce(tts::dictionary &dict,
 			fprintf(stdout, "/\n");
 		}
 	}
+	else if (mode == mode_type::mismatched_entries)
+		formatter->write_phoneme_entry(word, writer, phonemes);
 	else
-	{
-		if (mode == mode_type::mismatched_entries)
-		{
-			for (auto p : phonemes)
-				writer->write(p);
-		}
-		else
-		{
-			for (auto p : pronounced)
-				writer->write(p);
-		}
-		if (as_dictionary)
-			fprintf(stdout, "/\n");
-		else
-			fprintf(stdout, "/ [%s]\n", phonemeset);
-	}
+		formatter->write_phoneme_entry(word, writer, pronounced);
 
 	return match;
 }
 
 static void pronounce(tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_reader> rules,
+                      std::shared_ptr<tts::dictionary_formatter> &formatter,
                       std::shared_ptr<tts::phoneme_writer> writer,
                       const char *phonemeset,
-                      bool as_dictionary,
                       mode_type mode)
 {
 	writer->reset(stdout);
@@ -153,7 +129,7 @@ static void pronounce(tts::dictionary &dict,
 		if (is_variant(*entry.first)) continue;
 
 		if (pronounce(dict, entry.first,
-		              rules, writer, phonemeset, as_dictionary, mode))
+		              rules, formatter, writer, phonemeset, mode))
 			++matched;
 		++entries;
 	}
@@ -314,7 +290,7 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
-				pronounce(dict, rules, writer, phonemeset, as_dictionary, mode);
+				pronounce(dict, rules, formatter, writer, phonemeset, mode);
 			}
 			else
 			{
@@ -332,7 +308,7 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(dict, engine.pronunciation(), writer, phonemeset, as_dictionary, mode);
+				pronounce(dict, engine.pronunciation(), formatter, writer, phonemeset, mode);
 			}
 			break;
 		case mode_type::from_document:

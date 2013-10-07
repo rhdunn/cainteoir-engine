@@ -92,10 +92,12 @@ namespace cainteoir { namespace tts
 	{
 		virtual void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 		                                 std::shared_ptr<tts::phoneme_writer> &writer,
-		                                 const std::list<tts::phoneme> &phonemes) = 0;
+		                                 const std::list<tts::phoneme> &phonemes,
+		                                 const char *line_separator = "\n") = 0;
 
 		virtual void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
-                                                const std::shared_ptr<cainteoir::buffer> &say_as) = 0;
+                                                const std::shared_ptr<cainteoir::buffer> &say_as,
+		                                const char *line_separator = "\n") = 0;
 
 		virtual ~dictionary_formatter() {}
 	};

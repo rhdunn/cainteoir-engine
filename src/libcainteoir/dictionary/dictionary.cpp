@@ -91,34 +91,39 @@ struct dictionary_entry_formatter : public tts::dictionary_formatter
 
 	void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                         std::shared_ptr<tts::phoneme_writer> &writer,
-	                         const std::list<tts::phoneme> &phonemes);
+	                         const std::list<tts::phoneme> &phonemes,
+	                         const char *line_separator);
 
 	void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
-	                        const std::shared_ptr<cainteoir::buffer> &say_as);
+	                        const std::shared_ptr<cainteoir::buffer> &say_as,
+	                        const char *line_separator);
 
 	FILE *mOut;
 };
 
 void dictionary_entry_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
                                                      std::shared_ptr<tts::phoneme_writer> &writer,
-                                                     const std::list<tts::phoneme> &phonemes)
+                                                     const std::list<tts::phoneme> &phonemes,
+                                                     const char *line_separator)
 {
 	fprintf(stdout, "\"%s\" => /", word->str().c_str());
 	for (auto p : phonemes)
 		writer->write(p);
-	fprintf(stdout, "/ [%s]\n", writer->name());
+	fprintf(stdout, "/ [%s]%a", writer->name(), line_separator);
 }
 
 void dictionary_entry_formatter::write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
-                                                    const std::shared_ptr<cainteoir::buffer> &say_as)
+                                                    const std::shared_ptr<cainteoir::buffer> &say_as,
+                                                    const char *line_separator)
 {
 	ucd::codepoint_t cp = 0;
 	cainteoir::utf8::read(say_as->begin(), cp);
 
-	fprintf(stdout, "\"%s\" => \"%s\"@%s [say-as]\n",
+	fprintf(stdout, "\"%s\" => \"%s\"@%s [say-as]%s",
 	        word->str().c_str(),
 	        say_as->str().c_str(),
-	        ucd::get_script_string(ucd::lookup_script(cp)));
+	        ucd::get_script_string(ucd::lookup_script(cp)),
+	        line_separator);
 }
 
 std::shared_ptr<tts::dictionary_formatter> tts::createDictionaryEntryFormatter(FILE *out)
