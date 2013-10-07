@@ -160,6 +160,8 @@ struct explicit_feature_writer : public tts::phoneme_writer
 
 	bool write(const tts::phoneme &aPhoneme);
 
+	const char *name() const;
+
 	FILE *output;
 };
 
@@ -193,6 +195,11 @@ bool explicit_feature_writer::write(const tts::phoneme &aPhoneme)
 	fputc('}', output);
 
 	return true;
+}
+
+const char *explicit_feature_writer::name() const
+{
+	return "features";
 }
 
 std::shared_ptr<tts::phoneme_reader> tts::createExplicitFeaturePhonemeReader()

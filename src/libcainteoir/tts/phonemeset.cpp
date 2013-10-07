@@ -363,15 +363,19 @@ struct phonemeset_writer: public tts::phoneme_writer
 	std::list<std::pair<tts::phoneme, std::shared_ptr<cainteoir::buffer>>> data;
 	std::list<std::pair<tts::feature, std::pair<modifier_placement, std::shared_ptr<cainteoir::buffer>>>> rule_data;
 	FILE *output;
+	const char *mPhonemeSet;
 
 	phonemeset_writer(const char *aPhonemeSet);
 
 	void reset(FILE *aOutput);
 
 	bool write(const tts::phoneme &aPhoneme);
+
+	const char *name() const;
 };
 
 phonemeset_writer::phonemeset_writer(const char *aPhonemeSet)
+	: mPhonemeSet(aPhonemeSet)
 {
 	auto reader = phoneme_file_reader(aPhonemeSet);
 	while (reader.read())
@@ -452,6 +456,11 @@ bool phonemeset_writer::write(const tts::phoneme &aPhoneme)
 	}
 
 	return false;
+}
+
+const char *phonemeset_writer::name() const
+{
+	return mPhonemeSet;
 }
 
 std::shared_ptr<tts::phoneme_writer> tts::createPhonemeWriter(const char *aPhonemeSet)

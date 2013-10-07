@@ -68,7 +68,6 @@ static bool is_variant(const cainteoir::buffer &s)
 
 static void list_entries(tts::dictionary &dict,
 	                 std::shared_ptr<tts::phoneme_writer> &writer,
-                         const char *phonemeset,
 	                 bool resolve_say_as_entries)
 {
 	writer->reset(stdout);
@@ -80,7 +79,7 @@ static void list_entries(tts::dictionary &dict,
 			        entry.first->str().c_str());
 			for (auto p : entry.second.phonemes)
 				writer->write(p);
-			fprintf(stdout, "/ [%s]\n", phonemeset);
+			fprintf(stdout, "/ [%s]\n", writer->name());
 		}
 		else if (resolve_say_as_entries)
 		{
@@ -88,7 +87,7 @@ static void list_entries(tts::dictionary &dict,
 			        entry.first->str().c_str());
 			for (auto p : dict.pronounce(entry.first))
 				writer->write(p);
-			fprintf(stdout, "/ [%s]\n", phonemeset);
+			fprintf(stdout, "/ [%s]\n", writer->name());
 		}
 		else
 		{
@@ -340,7 +339,7 @@ int main(int argc, char ** argv)
 				tts::formatDictionary(dict, formatter, writer, mode == mode_type::resolve_say_as_entries);
 			}
 			else
-				list_entries(dict, writer, phonemeset, mode == mode_type::resolve_say_as_entries);
+				list_entries(dict, writer, mode == mode_type::resolve_say_as_entries);
 			break;
 		case mode_type::pronounce_entries:
 		case mode_type::compare_entries:
