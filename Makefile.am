@@ -334,7 +334,8 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/tts/phoneme.cpp \
 	src/libcainteoir/tts/phonemeset.cpp \
 	\
-	src/libcainteoir/tts/dictionary.cpp \
+	src/libcainteoir/dictionary/cainteoir.cpp \
+	src/libcainteoir/dictionary/dictionary.cpp \
 	src/libcainteoir/tts/letter_to_phoneme.cpp \
 	\
 	src/libcainteoir/tts/context_analysis.cpp \

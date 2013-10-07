@@ -21,7 +21,6 @@
 #ifndef CAINTEOIR_ENGINE_DICTIONARY_HPP
 #define CAINTEOIR_ENGINE_DICTIONARY_HPP
 
-#include "path.hpp"
 #include "phoneme.hpp"
 
 #include <list>
@@ -63,10 +62,9 @@ namespace cainteoir { namespace tts
 		typedef std::unordered_map<key_type, entry, key_hash, key_equals> storage_type;
 		typedef storage_type::const_iterator const_iterator;
 
-		bool add_entries(const char *aDictionaryPath);
-
 		void add_entry(const key_type &aEntry,
 		               entry_type aType,
+		               std::shared_ptr<phoneme_reader> &phonemeset,
 		               const std::shared_ptr<buffer> &aDefinition);
 
 		const entry &lookup(const key_type &aEntry) const;
@@ -84,12 +82,10 @@ namespace cainteoir { namespace tts
 	private:
 		const std::list<phoneme> &pronounce(const std::shared_ptr<buffer> &aText, int depth);
 
-		void add_entries(const path &aBasePath,
-		                 const std::shared_ptr<buffer> &aDictionary);
-
 		storage_type mEntries;
-		std::shared_ptr<phoneme_reader> mPhonemes;
 	};
+
+	bool parseCainteoirDictionary(tts::dictionary &dict, const char *aDictionaryPath);
 }}
 
 #endif

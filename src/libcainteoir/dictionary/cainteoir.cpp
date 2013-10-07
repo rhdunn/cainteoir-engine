@@ -1,4 +1,4 @@
-/* Pronunciation Dictionary.
+/* Cainteoir Pronunciation Dictionary Format.
  *
  * Copyright (C) 2013 Reece H. Dunn
  *
@@ -23,53 +23,15 @@
 
 #include <cainteoir/dictionary.hpp>
 #include <cainteoir/unicode.hpp>
+#include <cainteoir/path.hpp>
 
 namespace tts = cainteoir::tts;
 
-std::size_t tts::dictionary::key_hash::operator()(const key_type &a) const
+static void parseCainteoirDictionary(tts::dictionary &dict,
+                                     const cainteoir::path &aBasePath,
+                                     const std::shared_ptr<cainteoir::buffer> &aDictionary)
 {
-	// DJB2 Hash Algorithm by Dan Bernstein:
-	std::size_t hash = 5381;
-	for (auto c : *a)
-		hash = hash * 33 + c;
-        return hash;
-}
-
-bool tts::dictionary::add_entries(const char *aDictionaryPath)
-{
-	try
-	{
-		add_entries(path(aDictionaryPath).parent(), make_file_buffer(aDictionaryPath));
-	}
-	catch (const std::exception &e)
-	{
-		return false;
-	}
-	return true;
-}
-
-void tts::dictionary::add_entry(const key_type &aEntry,
-                                entry_type aType,
-                                const std::shared_ptr<buffer> &aDefinition)
-{
-	auto &entry = mEntries[aEntry];
-	entry.type = aType;
-	if (aType == phonemes)
-	{
-		if (!mPhonemes.get())
-			throw std::runtime_error("The dictionary does not specify a phonemeset.");
-		entry.phonemes.clear();
-		mPhonemes->reset(aDefinition);
-		while (mPhonemes->read())
-			entry.phonemes.push_back(*mPhonemes);
-	}
-	else
-		entry.text = aDefinition;
-}
-
-void tts::dictionary::add_entries(const path &aBasePath,
-                                  const std::shared_ptr<buffer> &aDictionary)
-{
+	std::shared_ptr<tts::phoneme_reader> phonemeset;
 	const char *current = aDictionary->begin();
 	const char *last    = aDictionary->end();
 	while (current != last)
@@ -103,19 +65,19 @@ void tts::dictionary::add_entries(const path &aBasePath,
 		while (current != last && (*current == '\r' || *current == '\n'))
 			++current;
 
-		auto entry = make_buffer(begin_entry, end_entry - begin_entry);
+		auto entry = cainteoir::make_buffer(begin_entry, end_entry - begin_entry);
 		if (*begin_entry == '.')
 		{
 			if (entry->compare(".import") == 0)
 			{
 				std::string definition(begin_definition, end_definition);
-				if (!add_entries(aBasePath / definition))
+				if (!tts::parseCainteoirDictionary(dict, aBasePath / definition))
 					fprintf(stderr, "error: unable to load dictionary \"%s\"\n", definition.c_str());
 			}
 			else if (entry->compare(".phonemeset") == 0)
 			{
-				std::string phonemeset(begin_definition, end_definition);
-				mPhonemes = tts::createPhonemeReader(phonemeset.c_str());
+				std::string phonemes(begin_definition, end_definition);
+				phonemeset = tts::createPhonemeReader(phonemes.c_str());
 			}
 		}
 		else if (*begin_definition == '/')
@@ -125,42 +87,30 @@ void tts::dictionary::add_entries(const path &aBasePath,
 				--end_definition;
 
 			if (begin_definition == end_definition) continue;
+			if (!phonemeset.get())
+				throw std::runtime_error("The dictionary does not specify a phonemeset.");
 
 			auto definition = cainteoir::make_buffer(begin_definition, end_definition - begin_definition);
-			add_entry(entry, phonemes, definition);
+			dict.add_entry(entry, tts::dictionary::phonemes, phonemeset, definition);
 		}
 		else
 		{
 			auto definition = cainteoir::make_buffer(begin_definition, end_definition - begin_definition);
-			add_entry(entry, say_as, definition);
+			dict.add_entry(entry, tts::dictionary::say_as, phonemeset, definition);
 		}
 	}
 }
 
-const tts::dictionary::entry &tts::dictionary::lookup(const key_type &aEntry) const
+bool tts::parseCainteoirDictionary(tts::dictionary &dict,
+                                   const char *aDictionaryPath)
 {
-	static const entry no_match = { tts::dictionary::no_match, {} };
-	const auto &match = mEntries.find(aEntry);
-	return (match == mEntries.end()) ? no_match : match->second;
-}
-
-const std::list<tts::phoneme> &tts::dictionary::pronounce(const std::shared_ptr<buffer> &aText, int depth)
-{
-	static const std::list<tts::phoneme> empty = {};
-
-	const auto &entry = lookup(aText);
-	switch (entry.type)
+	try
 	{
-	case dictionary::phonemes:
-		return entry.phonemes;
-	case dictionary::say_as:
-		if (depth == 5)
-		{
-			fprintf(stderr, "error: too much recursion for entry '%s'.\n", aText->str().c_str());
-			return empty;
-		}
-		return pronounce(entry.text, depth + 1);
+		::parseCainteoirDictionary(dict, path(aDictionaryPath).parent(), make_file_buffer(aDictionaryPath));
 	}
-
-	return empty;
+	catch (const std::exception &e)
+	{
+		return false;
+	}
+	return true;
 }

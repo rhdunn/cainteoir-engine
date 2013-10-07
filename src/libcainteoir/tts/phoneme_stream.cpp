@@ -33,7 +33,7 @@ tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aRea
 	: mReader(aReader, aLocale, aScale)
 	, mRules(aRules)
 {
-	if (!mExceptionDictionary.add_entries(aExceptionDictionaryPath))
+	if (!parseCainteoirDictionary(mExceptionDictionary, aExceptionDictionaryPath))
 		fprintf(stderr, "unable to load exception dictionary: %s\n", (const char *)aExceptionDictionaryPath);
 }
 

@@ -22,6 +22,7 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/text.hpp>
+#include <cainteoir/path.hpp>
 #include <stack>
 
 namespace tts = cainteoir::tts;
@@ -257,13 +258,13 @@ tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader,
 {
 	auto locale_path = get_data_path() / "locale";
 
-	if (!mCardinals.add_entries(locale_path / (aLocale.lang + '-' + aLocale.region) / "cardinal.dict"))
-		mCardinals.add_entries(locale_path / aLocale.lang / "cardinal.dict");
-	mCardinals.add_entries(locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "cardinal.dict");
+	if (!parseCainteoirDictionary(mCardinals, locale_path / (aLocale.lang + '-' + aLocale.region) / "cardinal.dict"))
+		parseCainteoirDictionary(mCardinals, locale_path / aLocale.lang / "cardinal.dict");
+	parseCainteoirDictionary(mCardinals, locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "cardinal.dict");
 
-	if (!mOrdinals.add_entries(locale_path / (aLocale.lang + '-' + aLocale.region) / "ordinal.dict"))
-		mOrdinals.add_entries(locale_path / aLocale.lang / "ordinal.dict");
-	mOrdinals.add_entries(locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "ordinal.dict");
+	if (!parseCainteoirDictionary(mOrdinals, locale_path / (aLocale.lang + '-' + aLocale.region) / "ordinal.dict"))
+		parseCainteoirDictionary(mOrdinals, locale_path / aLocale.lang / "ordinal.dict");
+	parseCainteoirDictionary(mOrdinals, locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "ordinal.dict");
 }
 
 bool tts::word_stream::read()

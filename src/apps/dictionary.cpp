@@ -26,6 +26,7 @@
 #include <cainteoir/document.hpp>
 #include <cainteoir/engines.hpp>
 #include <cainteoir/text.hpp>
+#include <cainteoir/path.hpp>
 #include <cainteoir/unicode.hpp>
 #include <cainteoir/stopwatch.hpp>
 #include <stdexcept>
@@ -248,6 +249,7 @@ static uint32_t from_document(const tts::dictionary &base_dict,
 		return 0;
 	}
 
+	std::shared_ptr<tts::phoneme_reader> phonemeset;
 	uint32_t words = 0;
 	tts::text_reader text(reader);
 	while (text.read()) switch (text.event().type)
@@ -261,6 +263,7 @@ static uint32_t from_document(const tts::dictionary &base_dict,
 		{
 			dict.add_entry(text.event().text,
 			               tts::dictionary::say_as,
+			               phonemeset,
 			               text.event().text);
 			++words;
 		}
@@ -332,7 +335,7 @@ int main(int argc, char ** argv)
 		uint32_t words = 0;
 		if (dictionary != nullptr)
 		{
-			if (!base_dict.add_entries(cainteoir::path(dictionary)))
+			if (!parseCainteoirDictionary(base_dict, cainteoir::path(dictionary)))
 			{
 				fprintf(stderr, "cannot load dictionary \"%s\"\n", dictionary);
 				return 0;
