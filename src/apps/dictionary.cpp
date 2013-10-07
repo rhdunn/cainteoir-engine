@@ -196,6 +196,7 @@ int main(int argc, char ** argv)
 		const char *language = nullptr;
 		const char *ruleset = nullptr;
 		const char *dictionary = nullptr;
+		const char *dictionary_format = nullptr;
 		const char *phonemeset = "ipa";
 
 		const option_group general_options = { nullptr, {
@@ -203,8 +204,8 @@ int main(int argc, char ** argv)
 			  i18n("List the entries in the dictionary") },
 			{ 'R', "resolve-say-as", bind_value(mode, mode_type::resolve_say_as_entries),
 			  i18n("Look up say-as entries in the dictionary (implies --list)") },
-			{ 'D', "as-dictionary", bind_value(as_dictionary, true),
-			  i18n("List the entries as a Cainteoir Dictionary") },
+			{ 'D', "as-dictionary", dictionary_format, "FORMAT",
+			  i18n("List the entries in the given dictionary format") },
 			{ 't', "time", bind_value(time, true),
 			  i18n("Time how long it takes to complete the action") },
 			{ 'd', "dictionary", dictionary, "DICTIONARY",
@@ -267,10 +268,17 @@ int main(int argc, char ** argv)
 		}
 
 		std::shared_ptr<tts::dictionary_formatter> formatter;
-		if (as_dictionary)
-			formatter = tts::createCainteoirDictionaryFormatter(stdout);
-		else
+		if (!dictionary_format)
 			formatter = tts::createDictionaryEntryFormatter(stdout);
+		else if (!strcmp(dictionary_format, "cainteoir"))
+			formatter = tts::createCainteoirDictionaryFormatter(stdout);
+		else if (!strcmp(dictionary_format, "espeak"))
+			formatter = tts::createEspeakDictionaryFormatter(stdout);
+		else
+		{
+			fprintf(stderr, "unsupported dictionary format \"%s\"\n", dictionary_format);
+			return 0;
+		}
 
 		switch (mode)
 		{
