@@ -223,6 +223,7 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
 	src/include/cainteoir/content.hpp \
+	src/include/cainteoir/dictionary.hpp \
 	src/include/cainteoir/document.hpp \
 	src/include/cainteoir/encoding.hpp \
 	src/include/cainteoir/engines.hpp \

@@ -21,9 +21,8 @@
 #include "config.h"
 #include "compatibility.hpp"
 
-#include <cainteoir/text.hpp>
+#include <cainteoir/dictionary.hpp>
 #include <cainteoir/unicode.hpp>
-#include <cainteoir/path.hpp>
 
 namespace tts = cainteoir::tts;
 

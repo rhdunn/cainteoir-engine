@@ -23,7 +23,7 @@
 
 #include "document.hpp"
 #include "languages.hpp"
-#include "path.hpp"
+#include "dictionary.hpp"
 #include "phoneme.hpp"
 
 #include <queue>
@@ -33,68 +33,6 @@
 namespace cainteoir { namespace tts
 {
 	std::shared_ptr<phoneme_reader> createPronunciationRules(const char *aRuleSetPath);
-
-	struct dictionary
-	{
-		enum entry_type
-		{
-			no_match,
-			say_as,
-			phonemes,
-		};
-
-		struct entry
-		{
-			entry_type type;
-			std::shared_ptr<buffer> text;
-			std::list<phoneme> phonemes;
-		};
-
-		typedef std::shared_ptr<buffer> key_type;
-
-		struct key_hash : public std::unary_function<key_type, std::size_t>
-		{
-			std::size_t operator()(const key_type &a) const;
-		};
-
-		struct key_equals : public std::binary_function<key_type, key_type, bool>
-		{
-			bool operator()(const key_type &a, const key_type &b) const
-			{
-				return a->compare(*b) == 0;
-			}
-		};
-
-		typedef std::unordered_map<key_type, entry, key_hash, key_equals> storage_type;
-		typedef storage_type::const_iterator const_iterator;
-
-		bool add_entries(const char *aDictionaryPath);
-
-		void add_entry(const key_type &aEntry,
-		               entry_type aType,
-		               const std::shared_ptr<buffer> &aDefinition);
-
-		const entry &lookup(const key_type &aEntry) const;
-
-		std::size_t size()  const { return mEntries.size();  }
-		bool        empty() const { return mEntries.empty(); }
-
-		const_iterator begin() const { return mEntries.begin(); }
-		const_iterator end()   const { return mEntries.end();   }
-
-		const std::list<phoneme> &pronounce(const std::shared_ptr<buffer> &aText)
-		{
-			return pronounce(aText, 0);
-		}
-	private:
-		const std::list<phoneme> &pronounce(const std::shared_ptr<buffer> &aText, int depth);
-
-		void add_entries(const path &aBasePath,
-		                 const std::shared_ptr<buffer> &aDictionary);
-
-		storage_type mEntries;
-		std::shared_ptr<phoneme_reader> mPhonemes;
-	};
 
 	enum event_type
 	{
