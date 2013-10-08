@@ -34,6 +34,20 @@ def replace_strings(string, replacements):
 def write(s):
 	sys.stdout.write(s)
 
+class Command:
+	def __init__(self, command):
+		self.command = 'XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s' % (
+			os.path.join(sys.path[0], '../data'),
+			os.path.join(sys.path[0], '../data'),
+			command)
+
+	def run(self, args, filename, collator):
+		tmpfile = '/tmp/testrun'
+		os.system('%s %s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), filename, collator, tmpfile))
+		with open(tmpfile, 'r') as f:
+			output = [ repr(x.replace('<%s' % filename, '<').replace('[%s' % filename, '[')) for x in f.read().split('\n') if not x == '' ]
+		return output
+
 class TestSuite:
 	def __init__(self, name, args):
 		self.passed = 0
@@ -47,26 +61,14 @@ class TestSuite:
 	def check_command(self, filename, expect, command, test_expect, replacements, sort=False):
 		tmpfile = '/tmp/metadata.txt'
 
+		cmd = Command(command)
 		if sort:
-			os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s "%s" 2>&1 | sort > %s' % (
-				os.path.join(sys.path[0], '../data'),
-				os.path.join(sys.path[0], '../data'),
-				command,
-				filename,
-				tmpfile))
+			got = cmd.run([], filename, 'sort')
 		else:
-			os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s "%s" 2>&1 | tee > %s' % (
-				os.path.join(sys.path[0], '../data'),
-				os.path.join(sys.path[0], '../data'),
-				command,
-				filename,
-				tmpfile))
+			got = cmd.run([], filename, 'tee')
 
 		with open(expect, 'r') as f:
 			expected = [ repr(replace_strings(x.replace('<DATETIME>', date.today().strftime('%Y')), replacements)) for x in f.read().split('\n') if not x == '' ]
-
-		with open(tmpfile, 'r') as f:
-			got = [ repr(x.replace('<%s' % filename, '<').replace('[%s' % filename, '[')) for x in f.read().split('\n') if not x == '' ]
 
 		if test_expect == 'expect-pass':
 			ret = expected == got
