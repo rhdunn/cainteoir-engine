@@ -44,7 +44,10 @@ class Command:
 
 	def run(self, args, filename, data):
 		tmpfile = '/tmp/testrun'
-		os.system('%s %s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), filename, self.collator, tmpfile))
+		if filename:
+			os.system('%s %s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), filename, self.collator, tmpfile))
+		else:
+			os.system('%s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), self.collator, tmpfile))
 		with open(tmpfile, 'r') as f:
 			output = [ repr(x.replace('<%s' % filename, '<').replace('[%s' % filename, '[')) for x in f.read().split('\n') if not x == '' ]
 		return output
@@ -54,7 +57,9 @@ class DictionaryCommand(Command):
 		Command.__init__(self, '../src/apps/dictionary', collator='sort')
 
 	def run(self, args, filename, data):
-		return Command.run(self, args, '--dictionary %s' % filename, data)
+		if filename:
+			return Command.run(self, args, '--dictionary %s' % filename, data)
+		return Command.run(self, args, filename, data)
 
 class ParseTextCommand(Command):
 	def __init__(self, test_type):
@@ -101,7 +106,10 @@ class TestSuite:
 			self.run_only = None
 
 	def check(self, filename, expect, command, args, test_expect, replacements, data, displayas):
-		write('... checking %s ... ' % displayas)
+		if displayas:
+			write('... checking %s ... ' % displayas)
+		else:
+			write('... checking %s ... ' % ' '.join(args))
 		tmpfile = '/tmp/metadata.txt'
 
 		cmd = create_command(command)
@@ -145,16 +153,25 @@ class TestSuite:
 			write('\n')
 			write('testing %s :: %s ...\n' % (data['name'], group['name']))
 
-			args = []
+			group_args = []
 			if 'args' in group:
-				args = group['args']
+				group_args = group['args']
 
 			for test in group['tests']:
 				expect = 'pass'
 				if 'expect' in test.keys():
 					expect = test['expect']
 
-				got = os.path.join(sys.path[0], test['test'])
+				if 'args' in test:
+					args = [x for x in group_args]
+					args.extend([x.replace('${PWD}', sys.path[0]) for x in test['args']])
+				else:
+					args = group_args
+
+				if 'test' in test:
+					got = os.path.join(sys.path[0], test['test'])
+				else:
+					got = None
 				exp = os.path.join(sys.path[0], test['result'])
 
 				replacements = {}
