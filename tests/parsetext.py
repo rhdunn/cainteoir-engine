@@ -94,7 +94,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/split-word.html', 'result': 'parse-text/html/split-word.ws'},
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.ws'},
 		]},
-		{'name': 'Cardinal Numbers', 'type': 'wordstream', 'replace': ['locale', 'scale'], 'tests': [
+		{'name': 'Cardinal Numbers', 'type': 'wordstream', 'tests': [
 			# af -- Afrikaans
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/af.ws', 'locale': 'af', 'scale': 'short'},
 			# cs -- Czech
@@ -115,7 +115,7 @@ if __name__ == '__main__':
 			# sl -- Slovenian
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/sl.ws', 'locale': 'sl', 'scale': 'short'},
 		]},
-		{'name': 'Ordinal Numbers', 'type': 'wordstream', 'replace': ['locale', 'scale'], 'tests': [
+		{'name': 'Ordinal Numbers', 'type': 'wordstream', 'tests': [
 			# en -- English
 			{'test': 'parse-text/ordinal-numbers/numbers.txt', 'result': 'parse-text/ordinal-numbers/en-GB-x-shtscale.ws', 'locale': 'en-GB', 'scale': 'short'},
 			{'test': 'parse-text/ordinal-numbers/numbers.txt', 'result': 'parse-text/ordinal-numbers/en-x-shtscale.ws', 'locale': 'en', 'scale': 'short'},

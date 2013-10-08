@@ -35,18 +35,60 @@ def write(s):
 	sys.stdout.write(s)
 
 class Command:
-	def __init__(self, command):
+	def __init__(self, command, collator='tee'):
 		self.command = 'XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s' % (
 			os.path.join(sys.path[0], '../data'),
 			os.path.join(sys.path[0], '../data'),
-			command)
+			os.path.join(sys.path[0], command))
+		self.collator = collator
 
-	def run(self, args, filename, collator):
+	def run(self, args, filename, data):
 		tmpfile = '/tmp/testrun'
-		os.system('%s %s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), filename, collator, tmpfile))
+		os.system('%s %s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), filename, self.collator, tmpfile))
 		with open(tmpfile, 'r') as f:
 			output = [ repr(x.replace('<%s' % filename, '<').replace('[%s' % filename, '[')) for x in f.read().split('\n') if not x == '' ]
 		return output
+
+class DictionaryCommand(Command):
+	def __init__(self):
+		Command.__init__(self, '../src/apps/dictionary', collator='sort')
+
+	def run(self, args, filename, data):
+		return Command.run(self, args, '--dictionary %s' % filename, data)
+
+class ParseTextCommand(Command):
+	def __init__(self, test_type):
+		Command.__init__(self, 'parsetext --%s' % test_type)
+
+	def run(self, args, filename, data):
+		params = [x for x in args]
+		if 'locale' in data:
+			params.extend(['--locale', data['locale']])
+		if 'scale' in data:
+			params.append('--%s-scale' % data['scale'])
+		return Command.run(self, params, filename, data)
+
+class PhonemeSetCommand(Command):
+	def __init__(self):
+		Command.__init__(self, '../src/apps/phoneme-converter')
+
+	def run(self, args, filename, data):
+		params = [x for x in args]
+		params.extend(['--separate', '--no-pauses', data['from'], data['to']])
+		return Command.run(self, params, filename, data)
+
+def create_command(test_type):
+	if test_type in ['ntriple', 'turtle', 'vorbis']:
+		return Command('../src/apps/metadata --%s' % test_type)
+	if test_type == 'dictionary':
+		return DictionaryCommand()
+	if test_type == 'phonemeset':
+		return PhonemeSetCommand()
+	if test_type in ['events', 'styles', 'xmlreader']:
+		return Command(test_type)
+	if test_type in ['parsetext', 'contextanalysis', 'wordstream']:
+		return ParseTextCommand(test_type)
+	raise Exception('Unsupported command "%s"' % test_type)
 
 class TestSuite:
 	def __init__(self, name, args):
@@ -58,14 +100,12 @@ class TestSuite:
 		else:
 			self.run_only = None
 
-	def check_command(self, filename, expect, command, test_expect, replacements, sort=False):
+	def check(self, filename, expect, command, args, test_expect, replacements, data, displayas):
+		write('... checking %s ... ' % displayas)
 		tmpfile = '/tmp/metadata.txt'
 
-		cmd = Command(command)
-		if sort:
-			got = cmd.run([], filename, 'sort')
-		else:
-			got = cmd.run([], filename, 'tee')
+		cmd = create_command(command)
+		got = cmd.run(args, filename, data)
 
 		with open(expect, 'r') as f:
 			expected = [ repr(replace_strings(x.replace('<DATETIME>', date.today().strftime('%Y')), replacements)) for x in f.read().split('\n') if not x == '' ]
@@ -97,45 +137,6 @@ class TestSuite:
 					write('    | %s\n' % line.replace('\n', ''))
 				write('    %s\n' % ('<'*75))
 
-	def check_metadata(self, filename, expect, formattype, displayas=None, test_expect='expect-pass', replacements={}):
-		write('... checking %s as %s metadata ... ' % ((displayas or filename), formattype))
-		self.check_command(filename=filename, expect=expect, test_expect=test_expect,
-			command='%s --%s' % (os.path.join(sys.path[0], '../src/apps/metadata'), formattype), replacements=replacements)
-
-	def check_events(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
-		write('... checking %s as text/speech events ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'events'), test_expect=test_expect, replacements=replacements)
-
-	def check_xmlreader(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
-		write('... checking %s as xmlreader tags ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'), test_expect=test_expect, replacements=replacements)
-
-	def check_styles(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
-		write('... checking %s as styles tags ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'styles'), test_expect=test_expect, replacements=replacements)
-
-	def check_parsetext(self, filename, expect, parsetype, displayas=None, test_expect='expect-pass', replacements={}):
-		if 'locale' in replacements.keys() and 'scale' in replacements.keys():
-			write('... checking %s as %s tags in %s (%s scale) ... ' % (displayas or filename, parsetype, replacements['locale'], replacements['scale']))
-			self.check_command(filename=filename, expect=expect, command='%s --%s --locale %s --%s-scale' % (os.path.join(sys.path[0], 'parsetext'), parsetype, replacements['locale'], replacements['scale']), test_expect=test_expect, replacements=replacements)
-		else:
-			write('... checking %s as %s tags ... ' % (displayas or filename, parsetype))
-			self.check_command(filename=filename, expect=expect, command='%s --%s' % (os.path.join(sys.path[0], 'parsetext'), parsetype), test_expect=test_expect, replacements=replacements)
-
-	def check_dictionary(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
-		write('... checking %s as dictionary entries ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command='%s --list --dictionary ' % os.path.join(sys.path[0], '../src/apps/dictionary'), test_expect=test_expect, replacements=replacements, sort=True)
-
-	def check_dictionary_expand(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
-		write('... checking %s as dictionary entries ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command='%s --resolve-say-as --dictionary ' % os.path.join(sys.path[0], '../src/apps/dictionary'), test_expect=test_expect, replacements=replacements, sort=True)
-
-	def check_phonemeset(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}, data={}):
-		srcphon = data['from']
-		dstphon = data['to']
-		write('... checking %s from %s to %s ... ' % (displayas or filename, srcphon, dstphon))
-		self.check_command(filename=filename, expect=expect, command='%s --separate --no-pauses %s %s' % (os.path.join(sys.path[0], '../src/apps/phoneme-converter'), srcphon, dstphon), test_expect=test_expect, replacements=replacements)
-
 	def run(self, data):
 		if self.run_only and data['name'] != self.run_only:
 			return
@@ -143,22 +144,10 @@ class TestSuite:
 		for group in data['groups']:
 			write('\n')
 			write('testing %s :: %s ...\n' % (data['name'], group['name']))
-			if group['type'] in ['ntriple', 'turtle', 'vorbis']:
-				check = lambda got, exp, expect, displayas, replacements, data: self.check_metadata(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] == 'events':
-				check = lambda got, exp, expect, displayas, replacements, data: self.check_events(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] == 'xmlreader':
-				check = lambda got, exp, expect, displayas, replacements, data: self.check_xmlreader(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] == 'styles':
-				check = lambda got, exp, expect, displayas, replacements, data: self.check_styles(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] in ['parsetext', 'contextanalysis', 'wordstream']:
-				check = lambda got, exp, expect, displayas, replacements, data: self.check_parsetext(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] == 'dictionary':
-				check = lambda got, exp, expect, displayas, replacements, data: self.check_dictionary(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] == 'dictionary-expand':
-				check = lambda got, exp, expect, displayas, replacements, data: self.check_dictionary_expand(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] == 'phonemeset':
-				check = lambda got, exp, expect, displayas, replacements, data: self.check_phonemeset(got, exp, test_expect=expect, displayas=displayas, replacements=replacements, data=data)
+
+			args = []
+			if 'args' in group:
+				args = group['args']
 
 			for test in group['tests']:
 				expect = 'pass'
@@ -198,7 +187,7 @@ class TestSuite:
 								filename = test[ filename.replace('@', '') ]
 							zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
 					zf.close()
-					check(archive, exp, expect='expect-%s' % expect, displayas=test['test'], replacements=replacements, data=test)
+					self.check(archive, exp, group['type'], args, 'expect-%s' % expect, replacements, test, test['test'])
 				elif 'compress' in group.keys():
 					if group['compress'] == 'gzip':
 						filename = '/tmp/test.gz'
@@ -209,9 +198,9 @@ class TestSuite:
 					elif group['compress'] == 'lzma':
 						filename = '/tmp/test.lzma'
 						os.system('lzma -c %s > %s' % (got, filename))
-					check(filename, exp, expect='expect-%s' % expect, displayas=test['test'], replacements=replacements, data=test)
+					self.check(filename, exp, group['type'], args, 'expect-%s' % expect, replacements, test, test['test'])
 				else:
-					check(got, exp, expect='expect-%s' % expect, displayas=got, replacements=replacements, data=test)
+					self.check(got, exp, group['type'], args, 'expect-%s' % expect, replacements, test, got)
 
 	def summary(self):
 		write('\n')

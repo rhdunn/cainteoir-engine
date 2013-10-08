@@ -23,14 +23,14 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('dictionary', sys.argv)
 	test.run({'name': 'Dictionaries', 'groups': [
-		{'name': 'Cainteoir', 'type': 'dictionary', 'tests': [
+		{'name': 'Cainteoir', 'type': 'dictionary', 'args': ['--list'], 'tests': [
 			{'test': '../data/locale/en/cardinal.dict', 'result': 'dict/cainteoir/en-cardinal.lst'}, # say-as (word => word)
 			{'test': '../data/locale/en-GB/cardinal.dict', 'result': 'dict/cainteoir/en-GB-cardinal.lst'}, # .import directive
 			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
 			{'test': 'dict/cainteoir/comments.dict', 'result': 'dict/cainteoir/comments.lst'},
 			{'test': 'dict/cainteoir/duplicate-entry.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
 		]},
-		{'name': 'Cainteoir (Say As)', 'type': 'dictionary-expand', 'tests': [
+		{'name': 'Resolve Say As', 'type': 'dictionary', 'args': ['--resolve-say-as'], 'tests': [
 			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
 			{'test': 'dict/cainteoir/say-as.dict', 'result': 'dict/cainteoir/say-as.lst'},
 			{'test': 'dict/cainteoir/say-as-nested.dict', 'result': 'dict/cainteoir/say-as-nested.lst'},
