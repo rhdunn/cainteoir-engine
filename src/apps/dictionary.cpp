@@ -190,7 +190,6 @@ int main(int argc, char ** argv)
 	{
 		mode_type mode = mode_type::from_document;
 		bool time = false;
-		bool as_dictionary = false;
 		bool new_words = false;
 		const char *voicename = nullptr;
 		const char *language = nullptr;
@@ -262,9 +261,9 @@ int main(int argc, char ** argv)
 		if (dictionary == nullptr || new_words)
 		{
 			if (argc == 0)
-				words += from_document(base_dict, dict, nullptr, as_dictionary);
+				words += from_document(base_dict, dict, nullptr, dictionary_format != nullptr);
 			else for (int i = 0; i != argc; ++i)
-				words += from_document(base_dict, dict, argv[i], as_dictionary);
+				words += from_document(base_dict, dict, argv[i], dictionary_format != nullptr);
 		}
 
 		std::shared_ptr<tts::dictionary_formatter> formatter;
