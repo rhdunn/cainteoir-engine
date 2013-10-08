@@ -279,6 +279,9 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
+		if (mode == mode_type::from_document && dictionary_format != nullptr)
+			mode = mode_type::list_entries;
+
 		switch (mode)
 		{
 		case mode_type::list_entries:
