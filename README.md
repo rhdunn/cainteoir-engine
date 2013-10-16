@@ -64,7 +64,7 @@ Documentation Dependencies:
 |------------|---------------------------------|
 | pandoc     | `sudo apt-get install pandoc`   |
 | doxygen    | `sudo apt-get install doxygen`  |
-| pandoc     | `sudo apt-get install graphviz` |
+| graphviz   | `sudo apt-get install graphviz` |
 
 ## Building
 
