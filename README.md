@@ -13,7 +13,7 @@ functionality for reading and recording different document formats.
 
 ## Build Dependencies
 
-In order to build eSpeak, you need:
+In order to build cainteoir-engine, you need:
 
 1.  a functional autotools system (`make`, `autoconf`, `automake`, `libtool`,
     `autopoint` and `pkg-config`);
