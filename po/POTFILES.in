@@ -1,5 +1,3 @@
-# List of source files which contain translatable strings.
-src/options.hpp
 src/apps/cainteoir.cpp
 src/apps/dictionary.cpp
 src/apps/doc2doc.cpp
@@ -25,6 +23,9 @@ src/libcainteoir/css/counterstyles.cpp
 src/libcainteoir/css/reader.cpp
 src/libcainteoir/css/style_manager.cpp
 src/libcainteoir/css/units.cpp
+src/libcainteoir/dictionary/cainteoir.cpp
+src/libcainteoir/dictionary/dictionary.cpp
+src/libcainteoir/dictionary/espeak.cpp
 src/libcainteoir/document.cpp
 src/libcainteoir/encoding.cpp
 src/libcainteoir/languages.cpp
@@ -49,7 +50,6 @@ src/libcainteoir/path.cpp
 src/libcainteoir/rdf/formatter.cpp
 src/libcainteoir/rdf/metadata.cpp
 src/libcainteoir/tts/context_analysis.cpp
-src/libcainteoir/tts/dictionary.cpp
 src/libcainteoir/tts/engines.cpp
 src/libcainteoir/tts/espeak.cpp
 src/libcainteoir/tts/explicit_feature_phonemeset.cpp
@@ -57,6 +57,7 @@ src/libcainteoir/tts/letter_to_phoneme.cpp
 src/libcainteoir/tts/phoneme.cpp
 src/libcainteoir/tts/phonemeset.cpp
 src/libcainteoir/tts/phoneme_stream.cpp
+src/libcainteoir/tts/pico.cpp
 src/libcainteoir/tts/text_reader.cpp
 src/libcainteoir/tts/word_stream.cpp
 src/libcainteoir/unicode/utf8.cpp
