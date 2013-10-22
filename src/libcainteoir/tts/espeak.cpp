@@ -173,13 +173,11 @@ public:
 
 	bool read();
 private:
-	int mMode;
 	std::shared_ptr<tts::phoneme_reader> mReader;
 };
 
 espeak_pronunciation::espeak_pronunciation()
-	: mMode(0x0011) // IPA + \u0361 ties
-	, mReader(tts::createPhonemeReader("ipa"))
+	: mReader(tts::createPhonemeReader("ipa"))
 {
 }
 
@@ -191,7 +189,7 @@ void espeak_pronunciation::reset(const std::shared_ptr<cainteoir::buffer> &aBuff
 	const void *data = txt.c_str();
 	while (data != nullptr)
 	{
-		const char *buffer = espeak_TextToPhonemes(&data, espeakCHARS_UTF8, mMode);
+		const char *buffer = espeak_TextToPhonemes(&data, espeakCHARS_UTF8, 0x0011); // IPA + \u0361 ties
 		// NOTE: phoneme output starts with a space, so remove that ...
 		int len = strlen(buffer);
 		if (len > 1)
@@ -202,11 +200,11 @@ void espeak_pronunciation::reset(const std::shared_ptr<cainteoir::buffer> &aBuff
 	std::string txt = aBuffer->str(); // null-terminate the text buffer
 
 	cainteoir::memory_file f;
-	espeak_SetPhonemeTrace(mMode, f);
+	espeak_SetPhonemeTrace(3, f); // IPA
 	espeak_Synth(txt.c_str(), txt.size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, nullptr, nullptr);
 	espeak_Synchronize();
 	espeak_SetPhonemeTrace(0, stdout);
-	mReader->reset(f.buffer());
+	mReader->reset(cainteoir::normalize(f.buffer()));
 #endif
 }
 
