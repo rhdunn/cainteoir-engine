@@ -199,9 +199,12 @@ void espeak_pronunciation::reset(const std::shared_ptr<cainteoir::buffer> &aBuff
 	}
 	mReader->reset(ret.buffer());
 #else
+	std::string txt = aBuffer->str(); // null-terminate the text buffer
+
 	cainteoir::memory_file f;
 	espeak_SetPhonemeTrace(mMode, f);
-	speak(aBuffer, 0, nullptr);
+	espeak_Synth(txt.c_str(), txt.size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, nullptr, nullptr);
+	espeak_Synchronize();
 	espeak_SetPhonemeTrace(0, stdout);
 	mReader->reset(f.buffer());
 #endif
