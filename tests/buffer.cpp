@@ -155,18 +155,6 @@ TEST_CASE("cainteoir::normalize -- U+1680 (OGHAM SPACE MARK)")
 	      "Test String", 11);
 }
 
-TEST_CASE("cainteoir::normalize -- U+180E (MONGOLIAN VOWEL SEPARATOR)")
-{
-	match(cainteoir::normalize(cainteoir::make_buffer("\xE1\xA0\x8E\xE1\xA0\x8E\xE1\xA0\x8Etest", 13)),
-	      "test", 4);
-	match(cainteoir::normalize(cainteoir::make_buffer("test\xE1\xA0\x8E\xE1\xA0\x8E\xE1\xA0\x8E", 13)),
-	      "test", 4);
-	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE1\xA0\x8EString", 13)),
-	      "Test String", 11);
-	match(cainteoir::normalize(cainteoir::make_buffer("Test\xE1\xA0\x8E\xE1\xA0\x8E\xE1\xA0\x8EString", 19)),
-	      "Test String", 11);
-}
-
 TEST_CASE("cainteoir::normalize -- U+2000 (EN QUAD)")
 {
 	match(cainteoir::normalize(cainteoir::make_buffer("\xE2\x80\x80\xE2\x80\x80\xE2\x80\x80test", 13)),
