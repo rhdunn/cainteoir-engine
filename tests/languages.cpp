@@ -49,19 +49,22 @@ void compare(const lang::tag &a, const lang::tag &b)
 #define lang_less(a, b)     assert(      lang::make_lang(a) < lang::make_lang(b))
 #define lang_not_less(a, b) assert_false(lang::make_lang(a) < lang::make_lang(b))
 
-void localized(const char *locale,
-               const char *tag,
+bool use_locale(const char *locale)
+{
+	if (!setlocale(LC_MESSAGES, locale) && !setenv("LANGUAGE", locale, 1) && !setenv("LANG", locale, 1))
+	{
+		printf("unable to set locale to '%s' ... skipping localization tests\n", locale);
+		return false;
+	}
+	return true;
+}
+
+void localized(const char *tag,
                const std::string &language,
                const std::string &script,
                const std::string &region,
                const std::string &display)
 {
-	if (!setlocale(LC_MESSAGES, locale) && !setenv("LANGUAGE", locale, 1) && !setenv("LANG", locale, 1))
-	{
-		printf("unable to set locale to '%s' ... skipping '%s' localization test\n", locale, tag);
-		return;
-	}
-
 	static cainteoir::languages lookup;
 
 	lang::tag l = lang::make_lang(tag);
@@ -384,46 +387,58 @@ TEST_CASE("language-*-region filter")
 	lang_not_less("en-Latn-US", "en-*-US");
 }
 
-TEST_CASE("language localization")
+TEST_CASE("localization [locale=C]")
 {
-	localized("C",          "en", "English",  "", "", "English");
-	localized("en_GB.utf8", "en", "English",  "", "", "English");
-	localized("en_US.utf8", "en", "English",  "", "", "English");
-	localized("de_DE.utf8", "en", "Englisch", "", "", "Englisch");
+	if (!use_locale("C")) return;
 
-	localized("en_US.utf8", "pt", "Portuguese",    "", "", "Portuguese");
-	localized("de_DE.utf8", "pt", "Portugiesisch", "", "", "Portugiesisch");
+	localized("en",       "English",             "",      "",          "English");
+	localized("pt",       "Portuguese",          "",      "",          "Portuguese");
+	localized("zh-cmn",   "Mandarin Chinese",    "",      "",          "Mandarin Chinese");
+	localized("sga-Ogam", "Irish, Old (to 900)", "Ogham", "",          "Irish, Old (to 900)");
+	localized("ja-Latn",  "Japanese",            "Latin", "",          "Japanese");
+	localized("pt-PT",    "Portuguese",          "",      "Portugal",  "Portuguese (Portugal)");
+	localized("pt-BR",    "Portuguese",          "",      "Brazil",    "Portuguese (Brazil)");
+	localized("en-029",   "English",             "",      "Caribbean", "English (Caribbean)");
 }
 
-TEST_CASE("language-extlang localization")
+TEST_CASE("localization [locale=en_GB.utf8]")
 {
-	localized("C",          "zh-cmn", "Mandarin Chinese", "", "", "Mandarin Chinese");
-	localized("en_GB.utf8", "zh-cmn", "Mandarin Chinese", "", "", "Mandarin Chinese");
-	localized("en_US.utf8", "zh-cmn", "Mandarin Chinese", "", "", "Mandarin Chinese");
-	localized("de_DE.utf8", "zh-cmn", "Mandarin Chinese", "", "", "Mandarin Chinese");
+	if (!use_locale("en_GB.utf8")) return;
+
+	localized("en",       "English",             "",      "",          "English");
+	localized("pt",       "Portuguese",          "",      "",          "Portuguese");
+	localized("zh-cmn",   "Mandarin Chinese",    "",      "",          "Mandarin Chinese");
+	localized("sga-Ogam", "Irish, Old (to 900)", "Ogham", "",          "Irish, Old (to 900)");
+	localized("ja-Latn",  "Japanese",            "Latin", "",          "Japanese");
+	localized("pt-PT",    "Portuguese",          "",      "Portugal",  "Portuguese (Portugal)");
+	localized("pt-BR",    "Portuguese",          "",      "Brazil",    "Portuguese (Brazil)");
+	localized("en-029",   "English",             "",      "Caribbean", "English (Caribbean)");
 }
 
-TEST_CASE("language-script localization")
+TEST_CASE("localization [locale=en_US.utf8]")
 {
-	localized("C",          "sga-Ogam", "Irish, Old (to 900)", "Ogham", "", "Irish, Old (to 900)");
-	localized("en_GB.utf8", "sga-Ogam", "Irish, Old (to 900)", "Ogham", "", "Irish, Old (to 900)");
-	localized("en_US.utf8", "sga-Ogam", "Irish, Old (to 900)", "Ogham", "", "Irish, Old (to 900)");
-	localized("de_DE.utf8", "sga-Ogam", "Altirisch (bis 900)", "Ogham", "", "Altirisch (bis 900)");
+	if (!use_locale("en_US.utf8")) return;
 
-	localized("en_US.utf8", "ja-Latn", "Japanese",  "Latin",      "", "Japanese");
-	localized("de_DE.utf8", "ja-Latn", "Japanisch", "Lateinisch", "", "Japanisch");
+	localized("en",       "English",             "",      "",          "English");
+	localized("pt",       "Portuguese",          "",      "",          "Portuguese");
+	localized("zh-cmn",   "Mandarin Chinese",    "",      "",          "Mandarin Chinese");
+	localized("sga-Ogam", "Irish, Old (to 900)", "Ogham", "",          "Irish, Old (to 900)");
+	localized("ja-Latn",  "Japanese",            "Latin", "",          "Japanese");
+	localized("pt-PT",    "Portuguese",          "",      "Portugal",  "Portuguese (Portugal)");
+	localized("pt-BR",    "Portuguese",          "",      "Brazil",    "Portuguese (Brazil)");
+	localized("en-029",   "English",             "",      "Caribbean", "English (Caribbean)");
 }
 
-TEST_CASE("language-region localization")
+TEST_CASE("localization [locale=de_DE.utf8]")
 {
-	localized("C",          "pt-PT", "Portuguese",    "", "Portugal", "Portuguese (Portugal)");
-	localized("en_GB.utf8", "pt-PT", "Portuguese",    "", "Portugal", "Portuguese (Portugal)");
-	localized("en_US.utf8", "pt-PT", "Portuguese",    "", "Portugal", "Portuguese (Portugal)");
-	localized("de_DE.utf8", "pt-PT", "Portugiesisch", "", "Portugal", "Portugiesisch (Portugal)");
+	if (!use_locale("de_DE.utf8")) return;
 
-	localized("en_US.utf8", "pt-BR", "Portuguese",    "", "Brazil",    "Portuguese (Brazil)");
-	localized("de_DE.utf8", "pt-BR", "Portugiesisch", "", "Brasilien", "Portugiesisch (Brasilien)");
-
-	localized("en_US.utf8", "en-029", "English",  "", "Caribbean", "English (Caribbean)");
-	localized("de_DE.utf8", "en-029", "Englisch", "", "Caribbean", "Englisch (Caribbean)");
+	localized("en",       "Englisch",            "",           "",          "Englisch");
+	localized("pt",       "Portugiesisch",       "",           "",          "Portugiesisch");
+	localized("zh-cmn",   "Mandarin Chinese",    "",           "",          "Mandarin Chinese");
+	localized("sga-Ogam", "Altirisch (bis 900)", "Ogham",      "",          "Altirisch (bis 900)");
+	localized("ja-Latn",  "Japanisch",           "Lateinisch", "",          "Japanisch");
+	localized("pt-PT",    "Portugiesisch",       "",           "Portugal",  "Portugiesisch (Portugal)");
+	localized("pt-BR",    "Portugiesisch",       "",           "Brasilien", "Portugiesisch (Brasilien)");
+	localized("en-029",   "Englisch",            "",           "Caribbean", "Englisch (Caribbean)");
 }
