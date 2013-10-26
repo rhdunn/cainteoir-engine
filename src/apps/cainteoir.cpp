@@ -353,7 +353,7 @@ int main(int argc, char ** argv)
 			fprintf(stdout, i18n("Title  : %s\n\n"), title.c_str());
 		}
 
-		std::shared_ptr<cainteoir::tts::speech> speech = tts.speak(out, doc.children(toc_range));
+		std::shared_ptr<cainteoir::tts::speech> speech = tts.speak(out, doc.toc(), doc.children(toc_range));
 		while (speech->is_speaking())
 		{
 			if (show_progress)

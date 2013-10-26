@@ -53,6 +53,10 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	cainteoir::document::const_iterator mFrom;
 	cainteoir::document::const_iterator mTo;
 
+	cainteoir::document::toc_type::const_iterator mTocEntryFrom;
+	cainteoir::document::toc_type::const_iterator mTocEntryTo;
+	const cainteoir::document::toc_entry *mTocEntry;
+
 	tts::state speechState;
 	pthread_t threadId;
 	std::string mErrorMessage;
@@ -71,6 +75,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 
 	speech_impl(tts::engine *aEngine,
 	            std::shared_ptr<cainteoir::audio> aAudio,
+	            const cainteoir::document::toc_type &aToc,
 	            const cainteoir::document::range_type &aRange,
 	            std::shared_ptr<tts::parameter> aRate);
 	~speech_impl();
@@ -98,6 +103,8 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 
 	std::string error_message() const;
 
+	const cainteoir::document::toc_entry &toc_entry() const;
+
 	// tts::callback
 
 	tts::state state() const;
@@ -105,6 +112,8 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	void onaudiodata(short *data, int nsamples);
 
 	void onspeaking(size_t pos, size_t len);
+
+	void onnexttocentry(const cainteoir::document::toc_entry &entry);
 };
 
 static void * speak_tts_thread(void *data)
@@ -126,6 +135,16 @@ static void * speak_tts_thread(void *data)
 				speak->progress(n);
 			}
 
+			if (node.type & cainteoir::events::anchor && speak->mTocEntryFrom != speak->mTocEntryTo)
+			{
+				const auto &toc = *speak->mTocEntryFrom;
+				if (toc.location == node.anchor)
+				{
+					speak->onnexttocentry(toc);
+					++speak->mTocEntryFrom;
+				}
+			}
+
 			if (speak->state() == tts::stopped)
 				break;
 		}
@@ -143,6 +162,7 @@ static void * speak_tts_thread(void *data)
 
 speech_impl::speech_impl(tts::engine *aEngine,
                          std::shared_ptr<cainteoir::audio> aAudio,
+                         const cainteoir::document::toc_type &aToc,
                          const cainteoir::document::range_type &aRange,
                          std::shared_ptr<tts::parameter> aRate)
 	: engine(aEngine)
@@ -154,12 +174,18 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	, wordsPerMinute(aRate ? aRate->value() : 170)
 	, mFrom(aRange.begin())
 	, mTo(aRange.end())
+	, mTocEntryFrom(aToc.begin())
+	, mTocEntryTo(aToc.end())
 {
 	for (auto &node : *this)
 	{
 		if (node.type & cainteoir::events::text)
 			textLen += node.text->size();
 	}
+
+	// The first TOC entry points to the root document, so skip it ...
+	mTocEntry = &*mTocEntryFrom;
+	++mTocEntryFrom;
 
 	started();
 	int ret = pthread_create(&threadId, nullptr, speak_tts_thread, (void *)this);
@@ -233,6 +259,11 @@ std::string speech_impl::error_message() const
 	return mErrorMessage;
 }
 
+const cainteoir::document::toc_entry &speech_impl::toc_entry() const
+{
+	return *mTocEntry;
+}
+
 tts::state speech_impl::state() const
 {
 	return speechState;
@@ -257,6 +288,11 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 	{
 		mTotalTime = (mElapsedTime / mProgress) * 100.0;
 	}
+}
+
+void speech_impl::onnexttocentry(const cainteoir::document::toc_entry &entry)
+{
+	mTocEntry = &entry;
 }
 
 tts::engines::engines(rdf::graph &metadata)
@@ -322,9 +358,10 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 
 std::shared_ptr<tts::speech>
 tts::engines::speak(std::shared_ptr<audio> out,
+                    const cainteoir::document::toc_type &aToc,
                     const cainteoir::document::range_type &aRange)
 {
-	return std::make_shared<speech_impl>(active, out, aRange, parameter(tts::parameter::rate));
+	return std::make_shared<speech_impl>(active, out, aToc, aRange, parameter(tts::parameter::rate));
 }
 
 std::shared_ptr<tts::phoneme_reader>

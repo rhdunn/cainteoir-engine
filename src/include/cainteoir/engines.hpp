@@ -46,6 +46,8 @@ namespace cainteoir { namespace tts
 		virtual size_t position() const = 0;
 
 		virtual std::string error_message() const = 0;
+
+		virtual const document::toc_entry &toc_entry() const = 0;
 	};
 
 	struct parameter
@@ -88,6 +90,7 @@ namespace cainteoir { namespace tts
 
 		std::shared_ptr<speech>
 		speak(std::shared_ptr<audio> out,
+		      const cainteoir::document::toc_type &aToc,
 		      const cainteoir::document::range_type &aRange);
 
 		std::shared_ptr<phoneme_reader>

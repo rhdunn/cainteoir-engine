@@ -71,6 +71,7 @@ namespace cainteoir
 		typedef std::list<document_item> list_type;
 		typedef list_type::const_iterator const_iterator;
 		typedef range<const_iterator> range_type;
+		typedef std::vector<toc_entry> toc_type;
 
 		document(const std::shared_ptr<document_reader> &aReader);
 
@@ -82,7 +83,7 @@ namespace cainteoir
 
 		range_type children() const { return range_type(mChildren.begin(), mChildren.end()); }
 
-		const std::vector<toc_entry> &toc() const { return mToc; }
+		const toc_type &toc() const { return mToc; }
 	private:
 		size_t mLength;
 		list_type mChildren;
