@@ -57,6 +57,8 @@ O	/{lmd,bck,rnd,vcd,vwl}/
 
 @	/{mid,cnt,unr,vcd,vwl}/
 
+a\#	/{sml,cnt,unr,vcd,vwl}/
+
 a	/{low,fnt,unr,vcd,vwl}/
 A	/{low,bck,unr,vcd,vwl}/
 0	/{low,bck,rnd,vcd,vwl}/
