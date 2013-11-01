@@ -184,7 +184,10 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 		accumulator *= 10;
 		accumulator += (c - '0');
 		if (is_fraction)
+		{
+			value   *= 10;
 			divisor *= 10;
+		}
 		break;
 	case ':':
 		value = accumulator * 60;
