@@ -166,6 +166,10 @@ TEST_CASE("time construction")
 
 	test_parser(nullptr, css::time::css_value,  0, css::time::inherit, false);
 	test_parser(nullptr, css::time::smil_value, 0, css::time::inherit, false);
+
+	test_parser("1",       css::time::smil_value,       1, css::time::seconds, false);
+	test_parser("25",      css::time::smil_value,      25, css::time::seconds, false);
+	test_parser("1500000", css::time::smil_value, 1500000, css::time::seconds, false); // 416 hours, 40 min
 }
 
 TEST_CASE("time conversion")

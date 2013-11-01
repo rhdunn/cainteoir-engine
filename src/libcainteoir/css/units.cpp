@@ -171,6 +171,22 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 	: mValue(0)
 	, mUnits(css::time::inherit)
 {
+	if (aValue.empty()) return;
+
+	int value = 0;
+	for (char c : aValue)
+	{
+		if (c >= '0' && c <= '9')
+		{
+			value *= 10;
+			value += (c - '0');
+		}
+		else
+			throw std::runtime_error("invalid character found in time string");
+	}
+
+	mValue = value;
+	mUnits = css::time::seconds;
 }
 
 css::time css::time::as(const type aUnits) const
