@@ -170,6 +170,14 @@ TEST_CASE("time construction")
 	test_parser("1",       css::time::smil_value,       1, css::time::seconds, false);
 	test_parser("25",      css::time::smil_value,      25, css::time::seconds, false);
 	test_parser("1500000", css::time::smil_value, 1500000, css::time::seconds, false); // 416 hours, 40 min
+
+	test_parser( "1.",    css::time::smil_value,  1,     css::time::seconds, false);
+	test_parser( "0.5",   css::time::smil_value,  0.5,   css::time::seconds, false);
+	test_parser(  ".6",   css::time::smil_value,  0.6,   css::time::seconds, false);
+	test_parser( "1.2",   css::time::smil_value,  1.2,   css::time::seconds, false);
+	test_parser("12.345", css::time::smil_value, 12.345, css::time::seconds, false);
+	test_parser( "1..3",  css::time::smil_value,  1,     css::time::inherit, true);  // invalid
+	test_parser( "1.2.3", css::time::smil_value,  1,     css::time::inherit, true);  // invalid
 }
 
 TEST_CASE("time conversion")
