@@ -27,32 +27,20 @@ namespace css = cainteoir::css;
 
 REGISTER_TESTSUITE("content");
 
-static void test_conversion_(float aFromValue, const css::length::type aFromUnits,
-                             float aToValue, const css::length::type aToUnits,
-                             bool throws,
-                             const char *location, int line)
-{
-	try
-	{
-		css::length to = css::length(aFromValue, aFromUnits).as(aToUnits);
-		assert_location(to.units() == aToUnits, location, line);
-		assert_location(to.value() == aToValue, location, line);
-		assert_location(!throws, location, line);
-	}
-	catch (std::exception &e)
-	{
-		assert_location(throws, location, line);
-	}
-}
+template <typename UnitT> struct unit_type;
+template <> struct unit_type<css::length::type> { typedef css::length type; };
+template <> struct unit_type<css::time::type>   { typedef css::time   type; };
 
-static void test_conversion_(float aFromValue, const css::time::type aFromUnits,
-                             float aToValue, const css::time::type aToUnits,
+template <typename UnitT>
+static void test_conversion_(float aFromValue, const UnitT aFromUnits,
+                             float aToValue,   const UnitT aToUnits,
                              bool throws,
                              const char *location, int line)
 {
 	try
 	{
-		css::time to = css::time(aFromValue, aFromUnits).as(aToUnits);
+		typedef typename unit_type<UnitT>::type unit_t;
+		unit_t to = unit_t(aFromValue, aFromUnits).as(aToUnits);
 		assert_location(to.units() == aToUnits, location, line);
 		assert_location(to.value() == aToValue, location, line);
 		assert_location(!throws, location, line);
