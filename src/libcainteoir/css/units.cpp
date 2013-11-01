@@ -176,23 +176,22 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 	int value = 0;
 	int divisor = 1;
 	bool is_fraction = false;
-	for (char c : aValue)
+	for (char c : aValue) switch (c)
 	{
-		if (c >= '0' && c <= '9')
-		{
-			value *= 10;
-			value += (c - '0');
-			if (is_fraction)
-				divisor *= 10;
-		}
-		else if (c == '.')
-		{
-			if (is_fraction)
-				throw std::runtime_error("multiple '.' characters found in time string");
-			is_fraction = true;
-		}
-		else
-			throw std::runtime_error("invalid character found in time string");
+	case '0': case '1': case '2': case '3': case '4':
+	case '5': case '6': case '7': case '8': case '9':
+		value *= 10;
+		value += (c - '0');
+		if (is_fraction)
+			divisor *= 10;
+		break;
+	case '.':
+		if (is_fraction)
+			throw std::runtime_error("multiple '.' characters found in time string");
+		is_fraction = true;
+		break;
+	default:
+		throw std::runtime_error("invalid character found in time string");
 	}
 
 	mValue = float(value) / divisor;
