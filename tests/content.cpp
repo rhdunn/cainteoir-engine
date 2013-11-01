@@ -32,6 +32,17 @@ template <> struct unit_type<css::length::type> { typedef css::length type; };
 template <> struct unit_type<css::time::type>   { typedef css::time   type; };
 
 template <typename UnitT>
+static void test_equal_(const typename unit_type<UnitT>::type aObject,
+                        float aValue, const UnitT aUnits,
+                        const char *location, int line)
+{
+	assert_location(aObject.units() == aUnits, location, line);
+	assert_location(aObject.value() == aValue, location, line);
+}
+
+#define test_equal(a, b, c) test_equal_(a, b, c, __FILE__, __LINE__)
+
+template <typename UnitT>
 static void test_conversion_(float aFromValue, const UnitT aFromUnits,
                              float aToValue,   const UnitT aToUnits,
                              bool throws,
@@ -52,6 +63,17 @@ static void test_conversion_(float aFromValue, const UnitT aFromUnits,
 }
 
 #define test_conversion(a, b, c, d, e) test_conversion_(a, b, c, d, e, __FILE__, __LINE__)
+
+TEST_CASE("length construction")
+{
+	test_equal(css::length(9, css::length::inherit),     9, css::length::inherit);
+	test_equal(css::length(8, css::length::millimeters), 8, css::length::millimeters);
+	test_equal(css::length(7, css::length::centimeters), 7, css::length::centimeters);
+	test_equal(css::length(6, css::length::inches),      6, css::length::inches);
+	test_equal(css::length(5, css::length::points),      5, css::length::points);
+	test_equal(css::length(4, css::length::picas),       4, css::length::picas);
+	test_equal(css::length(3, css::length::pixels),      3, css::length::pixels);
+}
 
 TEST_CASE("length conversion")
 {
@@ -110,6 +132,13 @@ TEST_CASE("length conversion")
 	test_conversion(96, css::length::pixels, 72,    css::length::points,      false);
 	test_conversion(96, css::length::pixels,  6,    css::length::picas,       false);
 	test_conversion( 1, css::length::pixels,  1,    css::length::pixels,      false);
+}
+
+TEST_CASE("time construction")
+{
+	test_equal(css::time(9, css::time::inherit),      9, css::time::inherit);
+	test_equal(css::time(8, css::time::milliseconds), 8, css::time::milliseconds);
+	test_equal(css::time(7, css::time::seconds),      7, css::time::seconds);
 }
 
 TEST_CASE("time conversion")
