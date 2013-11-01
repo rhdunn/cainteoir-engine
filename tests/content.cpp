@@ -230,6 +230,15 @@ TEST_CASE("time parser - HH:MM:SS.mmm (hours, minutes, seconds, milliseconds)")
 	test_parser("140:12:32.5", css::time::smil_value, 504752.5, css::time::seconds, false);
 }
 
+TEST_CASE("time parser - DD:HH:MM:SS.mmm (days, hours, minutes, seconds, milliseconds)")
+{
+	// These are invalid, only upto hours are allowed by SMIL clock values ...
+
+	test_parser( "0:00:00:00", css::time::smil_value, 1, css::time::inherit, true);
+	test_parser( "1:02:03:04", css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("11:22:43:44", css::time::smil_value, 1, css::time::inherit, true);
+}
+
 TEST_CASE("time conversion")
 {
 	test_conversion(1, css::time::inherit, 1, css::time::inherit,      true);

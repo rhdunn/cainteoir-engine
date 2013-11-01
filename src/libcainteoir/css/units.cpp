@@ -176,6 +176,7 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 	int value = 0; // the value to set the time to
 	int accumulator = 0; // the value of the current block
 	int divisor = 1; // the number to divide by to convert value to a fraction
+	int groups = 1; // the number of time groups (separated by a ':' character)
 	bool is_fraction = false;
 	for (char c : aValue) switch (c)
 	{
@@ -190,9 +191,12 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 		}
 		break;
 	case ':':
+		if (groups == 3)
+			throw std::runtime_error("clock values cannot specify days (i.e. have 3 ':' characters)");
 		value += accumulator;
 		value *= 60;
 		accumulator = 0;
+		++groups;
 		break;
 	case '.':
 		if (is_fraction)
