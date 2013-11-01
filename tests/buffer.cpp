@@ -25,15 +25,28 @@
 
 REGISTER_TESTSUITE("buffer");
 
-void match_(const std::shared_ptr<cainteoir::buffer> &got, const char *expected, int len, const char *file, int line)
+void match_(const cainteoir::buffer &got, const char *expected, int len, const char *file, int line)
 {
-	assert_location(len == got->size(), file, line);
-	const char *buffer = got->begin();
-	for (int i = 0; i < got->size(); ++i)
+	assert_location(len == got.size(), file, line);
+	const char *buffer = got.begin();
+	for (int i = 0; i < got.size(); ++i)
 		assert_location(uint8_t(expected[i]) == uint8_t(buffer[i]), file, line);
 }
 
+void match_(const std::shared_ptr<cainteoir::buffer> &got, const char *expected, int len, const char *file, int line)
+{
+	assert_location(got.get(), file, len);
+	match_(*got, expected, len, file, line);
+}
+
 #define match(got, expected, len) match_(got, expected, len, __FILE__, __LINE__)
+
+TEST_CASE("cainteoir::buffer construction")
+{
+	const char *value = "hello there";
+	match(cainteoir::buffer(value), "hello there", 11);
+	match(cainteoir::buffer(value, value+5), "hello", 5);
+}
 
 TEST_CASE("cainteoir::make_buffer")
 {
