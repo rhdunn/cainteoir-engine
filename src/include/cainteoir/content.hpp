@@ -72,6 +72,12 @@ namespace cainteoir { namespace css
 			milliseconds,
 		};
 
+		enum parse_as_type
+		{
+			css_value,
+			smil_value,
+		};
+
 		time()
 			: mValue(0)
 			, mUnits(type::inherit)
@@ -84,7 +90,7 @@ namespace cainteoir { namespace css
 		{
 		}
 
-		time(const char *aValue);
+		time(const char *aValue, const parse_as_type aParseAs);
 
 		time as(const type aUnits) const;
 

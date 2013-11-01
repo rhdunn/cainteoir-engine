@@ -167,7 +167,7 @@ css::length css::length::as(const type aUnits) const
 	throw std::runtime_error("unable to convert to the specified units");
 }
 
-css::time::time(const char *aValue)
+css::time::time(const char *aValue, const parse_as_type aParseAs)
 	: mValue(0)
 	, mUnits(css::time::inherit)
 {

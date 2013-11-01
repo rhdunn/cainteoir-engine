@@ -64,6 +64,26 @@ static void test_conversion_(float aFromValue, const UnitT aFromUnits,
 
 #define test_conversion(a, b, c, d, e) test_conversion_(a, b, c, d, e, __FILE__, __LINE__)
 
+static void test_parser_(const char *aString, const css::time::parse_as_type aParseAs,
+                         float aValue, const css::time::type aUnits,
+                         bool throws,
+                         const char *location, int line)
+{
+	try
+	{
+		css::time value = css::time(aString, aParseAs);
+		assert_location(value.units() == aUnits, location, line);
+		assert_location(value.value() == aValue, location, line);
+		assert_location(!throws, location, line);
+	}
+	catch (std::exception &e)
+	{
+		assert_location(throws, location, line);
+	}
+}
+
+#define test_parser(a, b, c, d, e) test_parser_(a, b, c, d, e, __FILE__, __LINE__)
+
 TEST_CASE("length construction")
 {
 	test_equal(css::length(), 0, css::length::inherit);
@@ -144,7 +164,8 @@ TEST_CASE("time construction")
 	test_equal(css::time(8, css::time::milliseconds), 8, css::time::milliseconds);
 	test_equal(css::time(7, css::time::seconds),      7, css::time::seconds);
 
-	test_equal(css::time(nullptr), 0, css::time::inherit);
+	test_parser(nullptr, css::time::css_value,  0, css::time::inherit, false);
+	test_parser(nullptr, css::time::smil_value, 0, css::time::inherit, false);
 }
 
 TEST_CASE("time conversion")
