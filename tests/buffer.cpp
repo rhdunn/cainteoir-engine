@@ -43,6 +43,11 @@ void match_(const std::shared_ptr<cainteoir::buffer> &got, const char *expected,
 
 TEST_CASE("cainteoir::buffer construction")
 {
+	cainteoir::buffer a(nullptr);
+	assert(a.size() == 0);
+	assert(a.empty());
+	assert(a.begin() == a.end());
+
 	const char *value = "hello there";
 	match(cainteoir::buffer(value), "hello there", 11);
 	match(cainteoir::buffer(value, value+5), "hello", 5);

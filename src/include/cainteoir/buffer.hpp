@@ -34,7 +34,7 @@ namespace cainteoir
 	{
 	public:
 		buffer(const char *f, const char *l) : range<const char *>(f, l) {}
-		buffer(const char *f) : range<const char *>(f, f+strlen(f)) {}
+		buffer(const char *f) : range<const char *>(f, f ? f+strlen(f) : f) {}
 		virtual ~buffer() {}
 
 		typedef int (*match_type)(const char *s1, const char *s2, size_t n);
