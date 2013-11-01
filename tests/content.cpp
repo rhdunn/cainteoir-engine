@@ -130,13 +130,19 @@ TEST_CASE("time conversion")
 	test_conversion(1, css::time::inherit, 1, css::time::milliseconds, true);
 	test_conversion(1, css::time::inherit, 1, css::time::seconds,      true);
 
-	test_conversion(   1, css::time::milliseconds, 1, css::time::inherit,      true);
-	test_conversion(   1, css::time::milliseconds, 1, css::time::milliseconds, false);
-	test_conversion(1000, css::time::milliseconds, 1, css::time::seconds,      false);
+	test_conversion(   1, css::time::milliseconds, 1,     css::time::inherit,      true);
+	test_conversion(   1, css::time::milliseconds, 1,     css::time::milliseconds, false);
+	test_conversion(1000, css::time::milliseconds, 1,     css::time::seconds,      false);
+	test_conversion( 500, css::time::milliseconds, 0.5,   css::time::seconds,      false);
+	test_conversion(  20, css::time::milliseconds, 0.020, css::time::seconds,      false);
+	test_conversion(   1, css::time::milliseconds, 0.001, css::time::seconds,      false);
 
-	test_conversion(1, css::time::seconds,    1, css::time::inherit,      true);
-	test_conversion(1, css::time::seconds, 1000, css::time::milliseconds, false);
-	test_conversion(1, css::time::seconds,    1, css::time::seconds,      false);
+	test_conversion(1,     css::time::seconds,    1, css::time::inherit,      true);
+	test_conversion(1,     css::time::seconds, 1000, css::time::milliseconds, false);
+	test_conversion(0.9,   css::time::seconds,  900, css::time::milliseconds, false);
+	test_conversion(0.06,  css::time::seconds,   60, css::time::milliseconds, false);
+	test_conversion(0.003, css::time::seconds,    3, css::time::milliseconds, false);
+	test_conversion(1,     css::time::seconds,    1, css::time::seconds,      false);
 }
 
 TEST_CASE("style defaults")
