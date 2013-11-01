@@ -163,21 +163,42 @@ TEST_CASE("time construction")
 	test_equal(css::time(9, css::time::inherit),      9, css::time::inherit);
 	test_equal(css::time(8, css::time::milliseconds), 8, css::time::milliseconds);
 	test_equal(css::time(7, css::time::seconds),      7, css::time::seconds);
+}
 
+TEST_CASE("time parser - nullptr")
+{
 	test_parser(nullptr, css::time::css_value,  0, css::time::inherit, false);
 	test_parser(nullptr, css::time::smil_value, 0, css::time::inherit, false);
+}
 
+TEST_CASE("time parser - SS (seconds)")
+{
 	test_parser("1",       css::time::smil_value,       1, css::time::seconds, false);
 	test_parser("25",      css::time::smil_value,      25, css::time::seconds, false);
 	test_parser("1500000", css::time::smil_value, 1500000, css::time::seconds, false); // 416 hours, 40 min
+}
 
+TEST_CASE("time parser - SS.mmm (seconds, milliseconds)")
+{
 	test_parser( "1.",    css::time::smil_value,  1,     css::time::seconds, false);
 	test_parser( "0.5",   css::time::smil_value,  0.5,   css::time::seconds, false);
 	test_parser(  ".6",   css::time::smil_value,  0.6,   css::time::seconds, false);
 	test_parser( "1.2",   css::time::smil_value,  1.2,   css::time::seconds, false);
 	test_parser("12.345", css::time::smil_value, 12.345, css::time::seconds, false);
-	test_parser( "1..3",  css::time::smil_value,  1,     css::time::inherit, true);  // invalid
-	test_parser( "1.2.3", css::time::smil_value,  1,     css::time::inherit, true);  // invalid
+
+	test_parser( "1..3",  css::time::smil_value, 1, css::time::inherit, true);  // invalid
+	test_parser( "1.2.3", css::time::smil_value, 1, css::time::inherit, true);  // invalid
+}
+
+TEST_CASE("time parser - MM:SS (minutes, seconds)")
+{
+	test_parser( "0:23", css::time::smil_value,  23, css::time::seconds, false);
+	test_parser( "1:04", css::time::smil_value,  64, css::time::seconds, false);
+
+	test_parser( "00:23", css::time::smil_value,  23, css::time::seconds, false);
+	test_parser( "01:04", css::time::smil_value,  64, css::time::seconds, false);
+	test_parser( "12:32", css::time::smil_value, 752, css::time::seconds, false);
+	test_parser( "04:00", css::time::smil_value, 240, css::time::seconds, false);
 }
 
 TEST_CASE("time conversion")

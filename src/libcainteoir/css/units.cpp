@@ -173,17 +173,22 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 {
 	if (aValue.empty()) return;
 
-	int value = 0;
-	int divisor = 1;
+	int value = 0; // the value to set the time to
+	int accumulator = 0; // the value of the current block
+	int divisor = 1; // the number to divide by to convert value to a fraction
 	bool is_fraction = false;
 	for (char c : aValue) switch (c)
 	{
 	case '0': case '1': case '2': case '3': case '4':
 	case '5': case '6': case '7': case '8': case '9':
-		value *= 10;
-		value += (c - '0');
+		accumulator *= 10;
+		accumulator += (c - '0');
 		if (is_fraction)
 			divisor *= 10;
+		break;
+	case ':':
+		value = accumulator * 60;
+		accumulator = 0;
 		break;
 	case '.':
 		if (is_fraction)
@@ -194,7 +199,7 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 		throw std::runtime_error("invalid character found in time string");
 	}
 
-	mValue = float(value) / divisor;
+	mValue = float(value + accumulator) / divisor;
 	mUnits = css::time::seconds;
 }
 
