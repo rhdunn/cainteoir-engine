@@ -143,6 +143,8 @@ TEST_CASE("time construction")
 	test_equal(css::time(9, css::time::inherit),      9, css::time::inherit);
 	test_equal(css::time(8, css::time::milliseconds), 8, css::time::milliseconds);
 	test_equal(css::time(7, css::time::seconds),      7, css::time::seconds);
+
+	test_equal(css::time(nullptr), 0, css::time::inherit);
 }
 
 TEST_CASE("time conversion")

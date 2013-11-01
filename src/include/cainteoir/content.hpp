@@ -84,6 +84,8 @@ namespace cainteoir { namespace css
 		{
 		}
 
+		time(const char *aValue);
+
 		time as(const type aUnits) const;
 
 		float value() const { return mValue; }
