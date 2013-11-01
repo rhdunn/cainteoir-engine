@@ -90,7 +90,7 @@ namespace cainteoir { namespace css
 		{
 		}
 
-		time(const char *aValue, const parse_as_type aParseAs);
+		time(const buffer &aValue, const parse_as_type aParseAs);
 
 		time as(const type aUnits) const;
 
