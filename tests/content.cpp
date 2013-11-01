@@ -66,6 +66,8 @@ static void test_conversion_(float aFromValue, const UnitT aFromUnits,
 
 TEST_CASE("length construction")
 {
+	test_equal(css::length(), 0, css::length::inherit);
+
 	test_equal(css::length(9, css::length::inherit),     9, css::length::inherit);
 	test_equal(css::length(8, css::length::millimeters), 8, css::length::millimeters);
 	test_equal(css::length(7, css::length::centimeters), 7, css::length::centimeters);
@@ -136,6 +138,8 @@ TEST_CASE("length conversion")
 
 TEST_CASE("time construction")
 {
+	test_equal(css::time(), 0, css::time::inherit);
+
 	test_equal(css::time(9, css::time::inherit),      9, css::time::inherit);
 	test_equal(css::time(8, css::time::milliseconds), 8, css::time::milliseconds);
 	test_equal(css::time(7, css::time::seconds),      7, css::time::seconds);
