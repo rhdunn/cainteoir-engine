@@ -190,7 +190,8 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 		}
 		break;
 	case ':':
-		value = accumulator * 60;
+		value += accumulator;
+		value *= 60;
 		accumulator = 0;
 		break;
 	case '.':

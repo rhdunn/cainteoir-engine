@@ -192,13 +192,13 @@ TEST_CASE("time parser - SS.mmm (seconds, milliseconds)")
 
 TEST_CASE("time parser - MM:SS (minutes, seconds)")
 {
-	test_parser( "0:23", css::time::smil_value,  23, css::time::seconds, false);
-	test_parser( "1:04", css::time::smil_value,  64, css::time::seconds, false);
+	test_parser("0:23", css::time::smil_value,  23, css::time::seconds, false);
+	test_parser("1:04", css::time::smil_value,  64, css::time::seconds, false);
 
-	test_parser( "00:23", css::time::smil_value,  23, css::time::seconds, false);
-	test_parser( "01:04", css::time::smil_value,  64, css::time::seconds, false);
-	test_parser( "12:32", css::time::smil_value, 752, css::time::seconds, false);
-	test_parser( "04:00", css::time::smil_value, 240, css::time::seconds, false);
+	test_parser("00:23", css::time::smil_value,  23, css::time::seconds, false);
+	test_parser("01:04", css::time::smil_value,  64, css::time::seconds, false);
+	test_parser("12:32", css::time::smil_value, 752, css::time::seconds, false);
+	test_parser("04:00", css::time::smil_value, 240, css::time::seconds, false);
 }
 
 TEST_CASE("time parser - MM:SS.mmm (minutes, seconds)")
@@ -206,10 +206,19 @@ TEST_CASE("time parser - MM:SS.mmm (minutes, seconds)")
 	test_parser( "0:12.5",  css::time::smil_value,  12.5,  css::time::seconds, false);
 	test_parser( "2:01.22", css::time::smil_value, 121.22, css::time::seconds, false);
 
-	test_parser( "00:12.5",   css::time::smil_value,  12.5,   css::time::seconds, false);
-	test_parser( "02:01.22",  css::time::smil_value, 121.22,  css::time::seconds, false);
-	test_parser( "10:30.75",  css::time::smil_value, 630.75,  css::time::seconds, false);
-	test_parser( "03:00.333", css::time::smil_value, 180.333, css::time::seconds, false);
+	test_parser("00:12.5",   css::time::smil_value,  12.5,   css::time::seconds, false);
+	test_parser("02:01.22",  css::time::smil_value, 121.22,  css::time::seconds, false);
+	test_parser("10:30.75",  css::time::smil_value, 630.75,  css::time::seconds, false);
+	test_parser("03:00.333", css::time::smil_value, 180.333, css::time::seconds, false);
+}
+
+TEST_CASE("time parser - HH:MM:SS (hours, minutes, seconds)")
+{
+	test_parser(  "0:00:23", css::time::smil_value,     23, css::time::seconds, false);
+	test_parser(  "1:01:04", css::time::smil_value,   3664, css::time::seconds, false);
+	test_parser( "11:00:23", css::time::smil_value,  39623, css::time::seconds, false);
+	test_parser( "24:42:00", css::time::smil_value,  88920, css::time::seconds, false);
+	test_parser("140:12:32", css::time::smil_value, 504752, css::time::seconds, false);
 }
 
 TEST_CASE("time conversion")
