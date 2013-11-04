@@ -129,7 +129,7 @@ namespace html
 	static const xml::context::entry ruby_node       = {};
 	static const xml::context::entry s_node          = {};
 	static const xml::context::entry samp_node       = {};
-	static const xml::context::entry script_node     = {}; // HTML§14.3.1 -- hidden
+	static const xml::context::entry script_node     = { &cainteoir::hidden }; // HTML§14.3.1
 	static const xml::context::entry section_node    = {};
 	static const xml::context::entry select_node     = {};
 	static const xml::context::entry small_node      = {};
@@ -137,7 +137,7 @@ namespace html
 	static const xml::context::entry span_node       = {};
 	static const xml::context::entry strike_node     = {};
 	static const xml::context::entry strong_node     = { &cainteoir::strong }; // HTML§14.3.4
-	static const xml::context::entry style_node      = {}; // HTML§14.3.1 -- hidden
+	static const xml::context::entry style_node      = { &cainteoir::hidden }; // HTML§14.3.1
 	static const xml::context::entry sub_node        = { &cainteoir::subscript }; // HTML§14.3.4
 	static const xml::context::entry summary_node    = {};
 	static const xml::context::entry sup_node        = { &cainteoir::superscript }; // HTML§14.3.4
@@ -618,26 +618,28 @@ bool html_document_reader::read()
 			reader->read();
 			return true;
 		}
-		else if (ctx.top().ctx == &html::body_node)
+		else if (ctx.top().ctx == &html::body_node && reader->context()->styles)
 		{
-			if (reader->context() == &html::script_node || reader->context() == &html::style_node)
-				skipNode(*reader, reader->nodeName());
-			if (reader->context()->styles)
+			auto style = reader->context()->styles;
+			if (style->display == cainteoir::css::display::none)
 			{
-				if (!reader->context()->styles->list_style_type.empty())
-					ctx.push({ reader->context(), 1 });
-
-				if (reader->context()->styles->role == cainteoir::css::role::heading)
-				{
-					htext.clear();
-					genAnchor = true;
-				}
-
-				type   = events::begin_context;
-				styles = reader->context()->styles;
-				reader->read();
-				return true;
+				skipNode(*reader, reader->nodeName());
+				continue;
 			}
+
+			if (!style->list_style_type.empty())
+				ctx.push({ reader->context(), 1 });
+
+			if (style->role == cainteoir::css::role::heading)
+			{
+				htext.clear();
+				genAnchor = true;
+			}
+
+			type   = events::begin_context;
+			styles = style;
+			reader->read();
+			return true;
 		}
 		break;
 	case xml::reader::textNode:
