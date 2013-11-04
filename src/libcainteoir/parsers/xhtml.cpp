@@ -42,7 +42,7 @@ namespace html
 	static const xml::context::entry area_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry article_node    = {};
 	static const xml::context::entry aside_node      = {};
-	static const xml::context::entry audio_node      = {};
+	static const xml::context::entry audio_node      = { &cainteoir::hidden };
 	static const xml::context::entry b_node          = { &cainteoir::strong }; // HTML§14.3.4
 	static const xml::context::entry base_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry basefont_node   = {};

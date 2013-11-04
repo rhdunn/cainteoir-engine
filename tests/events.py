@@ -111,6 +111,10 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/whitespace.html', 'result': 'html/text-level-semantics/whitespace.events', 'expect': 'fail'},
 			{'test': 'html/text-level-semantics/whitespace.xhtml', 'result': 'html/text-level-semantics/whitespace.events', 'expect': 'fail'},
 		]},
+		{'name': 'embedded content', 'type': 'events', 'tests': [
+			{'test': 'html/embedded/audio.html', 'result': 'html/embedded/audio.events'},
+			{'test': 'html/embedded/audio.xhtml', 'result': 'html/embedded/audio.events'},
+		]},
 		{'name': 'table', 'type': 'events', 'tests': [
 			{'test': 'html/table/simple.html', 'result': 'html/table/simple.events'},
 			{'test': 'html/table/simple.xhtml', 'result': 'html/table/simple.events'},
