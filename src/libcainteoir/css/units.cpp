@@ -36,6 +36,7 @@ enum class time_unit_state : uint8_t
 	minutes,
 	seconds,
 	milliseconds,
+	clock,
 };
 
 #define _ 0
@@ -50,6 +51,7 @@ static const uint8_t time_unit_state_transitions[][26] = {
 	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 5 : minutes (min)
 	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 6 : seconds (s)
 	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 7 : milliseconds (ms)
+	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 8 : clock (e.g. MM:SS)
 };
 
 #undef _
@@ -223,6 +225,17 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 			++digits;
 		break;
 	case ':':
+		switch ((time_unit_state)state)
+		{
+		case time_unit_state::value:
+		case time_unit_state::clock:
+			state = (uint8_t)time_unit_state::clock;
+			break;
+		default:
+			state = (uint8_t)time_unit_state::invalid;
+			break;
+		}
+
 		if (groups == 3)
 			throw std::runtime_error("clock values cannot specify days (i.e. have 3 ':' characters)");
 		if (digits == 0)
@@ -269,6 +282,7 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 		mUnits = css::time::seconds;
 		break;
 	case time_unit_state::value:
+	case time_unit_state::clock:
 	case time_unit_state::seconds:
 		mValue = float(value + accumulator) / divisor;
 		mUnits = css::time::seconds;
