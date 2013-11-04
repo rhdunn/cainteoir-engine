@@ -275,6 +275,20 @@ TEST_CASE("time parser - #ms (milliseconds)")
 	test_parser("9.7ms", css::time::smil_value,  9.7, css::time::milliseconds, false);
 }
 
+TEST_CASE("time parser - invalid suffixes")
+{
+	test_parser("2d",    css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("2ha",   css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("2mun",  css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("2m",    css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("2mi",   css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("2mio",  css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("2mins", css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("2mo",   css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("2mss",  css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("2st",   css::time::smil_value, 1, css::time::inherit, true);
+}
+
 TEST_CASE("time conversion")
 {
 	test_conversion(1, css::time::inherit, 1, css::time::inherit,      true);

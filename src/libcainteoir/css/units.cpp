@@ -277,6 +277,8 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 		mValue = float(value + accumulator) / divisor;
 		mUnits = css::time::milliseconds;
 		break;
+	default:
+		throw std::runtime_error("invalid character found in time string");
 	}
 }
 
