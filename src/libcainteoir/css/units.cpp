@@ -26,6 +26,34 @@
 
 namespace css = cainteoir::css;
 
+enum class time_unit_state : uint8_t
+{
+	invalid,
+	value,
+	hours,
+	intermediate_1,
+	intermediate_2,
+	minutes,
+	seconds,
+	milliseconds,
+};
+
+#define _ 0
+
+static const uint8_t time_unit_state_transitions[][26] = {
+	// a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z
+	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 0 : invalid
+	{  _, _, _, _, _, _, _, 2, _, _, _, _, 3, _, _, _, _, _, 6, _, _, _, _, _, _, _ }, // 1 : value
+	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 2 : hours (h)
+	{  _, _, _, _, _, _, _, _, 4, _, _, _, _, _, _, _, _, _, 7, _, _, _, _, _, _, _ }, // 3 : m...
+	{  _, _, _, _, _, _, _, _, _, _, _, _, _, 5, _, _, _, _, _, _, _, _, _, _, _, _ }, // 4 : mi...
+	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 5 : minutes (min)
+	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 6 : seconds (s)
+	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 7 : milliseconds (ms)
+};
+
+#undef _
+
 css::length css::length::as(const type aUnits) const
 {
 	static constexpr float points_in_pica = 12;
@@ -173,6 +201,7 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 {
 	if (aValue.empty()) return;
 
+	uint8_t state = (uint8_t)time_unit_state::value;
 	int value = 0; // the value to set the time to
 	int accumulator = 0; // the value of the current block
 	int digits = 0; // the number of digits in the current block
@@ -211,6 +240,12 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 			throw std::runtime_error("multiple '.' characters found in time string");
 		is_fraction = true;
 		break;
+	case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g':
+	case 'h': case 'i': case 'j': case 'k': case 'l': case 'm':
+	case 'n': case 'o': case 'p': case 'q': case 'r': case 's': case 't':
+	case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':
+		state = time_unit_state_transitions[state][c - 'a'];
+		break;
 	default:
 		throw std::runtime_error("invalid character found in time string");
 	}
@@ -223,8 +258,26 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 			throw std::runtime_error("an hours, minutes or seconds block must have 2 digits");
 	}
 
-	mValue = float(value + accumulator) / divisor;
-	mUnits = css::time::seconds;
+	switch ((time_unit_state)state)
+	{
+	case time_unit_state::hours:
+		mValue = (float(value + accumulator) / divisor) * 3600.0;
+		mUnits = css::time::seconds;
+		break;
+	case time_unit_state::minutes:
+		mValue = (float(value + accumulator) / divisor) * 60.0;
+		mUnits = css::time::seconds;
+		break;
+	case time_unit_state::value:
+	case time_unit_state::seconds:
+		mValue = float(value + accumulator) / divisor;
+		mUnits = css::time::seconds;
+		break;
+	case time_unit_state::milliseconds:
+		mValue = float(value + accumulator) / divisor;
+		mUnits = css::time::milliseconds;
+		break;
+	}
 }
 
 css::time css::time::as(const type aUnits) const

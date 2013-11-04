@@ -251,6 +251,30 @@ TEST_CASE("time parser - DD:HH:MM:SS.mmm (days, hours, minutes, seconds, millise
 	test_parser("11:22:43:44", css::time::smil_value, 1, css::time::inherit, true);
 }
 
+TEST_CASE("time parser - #h (hours)")
+{
+	test_parser("2h",   css::time::smil_value, 7200, css::time::seconds, false);
+	test_parser("2.5h", css::time::smil_value, 9000, css::time::seconds, false);
+}
+
+TEST_CASE("time parser - #min (seconds)")
+{
+	test_parser("5min",    css::time::smil_value, 300, css::time::seconds, false);
+	test_parser("2.25min", css::time::smil_value, 135, css::time::seconds, false);
+}
+
+TEST_CASE("time parser - #s (seconds)")
+{
+	test_parser("25s",  css::time::smil_value, 25,   css::time::seconds, false);
+	test_parser("1.2s", css::time::smil_value,  1.2, css::time::seconds, false);
+}
+
+TEST_CASE("time parser - #ms (milliseconds)")
+{
+	test_parser("11ms",  css::time::smil_value, 11,   css::time::milliseconds, false);
+	test_parser("9.7ms", css::time::smil_value,  9.7, css::time::milliseconds, false);
+}
+
 TEST_CASE("time conversion")
 {
 	test_conversion(1, css::time::inherit, 1, css::time::inherit,      true);
