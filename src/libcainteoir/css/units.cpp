@@ -185,18 +185,21 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 	case '5': case '6': case '7': case '8': case '9':
 		accumulator *= 10;
 		accumulator += (c - '0');
-		++digits;
 		if (is_fraction)
 		{
 			value   *= 10;
 			divisor *= 10;
 		}
+		else
+			++digits;
 		break;
 	case ':':
 		if (groups == 3)
 			throw std::runtime_error("clock values cannot specify days (i.e. have 3 ':' characters)");
 		if (digits == 0)
 			throw std::runtime_error("no value in a hours, minutes or seconds block");
+		if (groups > 1 && digits != 2)
+			throw std::runtime_error("an hours, minutes or seconds block must have 2 digits");
 		value += accumulator;
 		value *= 60;
 		accumulator = 0;
@@ -212,8 +215,13 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 		throw std::runtime_error("invalid character found in time string");
 	}
 
-	if (digits == 0)
-		throw std::runtime_error("no value in a hours, minutes or seconds block");
+	if (groups > 1)
+	{
+		if (digits == 0)
+			throw std::runtime_error("no value in a hours, minutes or seconds block");
+		if (digits != 2)
+			throw std::runtime_error("an hours, minutes or seconds block must have 2 digits");
+	}
 
 	mValue = float(value + accumulator) / divisor;
 	mUnits = css::time::seconds;
