@@ -165,3 +165,497 @@ void css::style_manager::parse(const std::shared_ptr<buffer> &style)
 		}
 	}
 }
+
+const css::styles cainteoir::unknown =
+{
+	"unknown",
+	css::display::inherit,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{},
+	{},
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::paragraph =
+{
+	"paragraph",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"sans-serif",
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
+	css::role::paragraph,
+	0,
+};
+
+const css::styles cainteoir::heading0 =
+{
+	"heading0",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::center,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::normal,
+	"",
+	"serif",
+	{ 2, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
+	css::role::heading,
+	0,
+};
+
+const css::styles cainteoir::heading1 =
+{
+	"heading1",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::center,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::normal,
+	"",
+	"serif",
+	{ 2, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
+	css::role::heading,
+	1,
+};
+
+const css::styles cainteoir::heading2 =
+{
+	"heading2",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::center,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::normal,
+	"",
+	"serif",
+	{ 1.5, css::length::picas },
+	{ {}, {}, {}, { 2, css::length::picas } },
+	css::role::heading,
+	2,
+};
+
+const css::styles cainteoir::heading3 =
+{
+	"heading3",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::center,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::bold,
+	"",
+	"serif",
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
+	css::role::heading,
+	3,
+};
+
+const css::styles cainteoir::heading4 =
+{
+	"heading4",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::center,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::normal,
+	"",
+	"serif",
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
+	css::role::heading,
+	4,
+};
+
+const css::styles cainteoir::heading5 =
+{
+	"heading5",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::left,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::bold,
+	"",
+	"serif",
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
+	css::role::heading,
+	5,
+};
+
+const css::styles cainteoir::heading6 =
+{
+	"heading6",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::left,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::bold,
+	"",
+	"serif",
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
+	css::role::heading,
+	6,
+};
+
+const css::styles cainteoir::span =
+{
+	"span",
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{},
+	{},
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::sentence =
+{
+	"sentence",
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{},
+	{},
+	css::role::sentence,
+	0,
+};
+
+const css::styles cainteoir::superscript =
+{
+	"superscript",
+	css::display::inlined,
+	css::vertical_align::super,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{ 0.75, css::length::picas },
+	{},
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::subscript =
+{
+	"subscript",
+	css::display::inlined,
+	css::vertical_align::sub,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{ 0.75, css::length::picas },
+	{},
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::emphasized =
+{
+	"emphasized",
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::italic,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{},
+	{},
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::emphasized_block =
+{
+	"emphasized_block",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::italic,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{},
+	{},
+	css::role::paragraph,
+	0,
+};
+
+const css::styles cainteoir::strong =
+{
+	"strong",
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::bold,
+	"",
+	"",
+	{},
+	{},
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::reduced =
+{
+	"reduced",
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::normal,
+	"",
+	"",
+	{},
+	{},
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::underlined =
+{
+	"underlined",
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::underline,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{},
+	{},
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::monospace =
+{
+	"monospace",
+	css::display::inlined,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"monospace",
+	{ 1, css::length::picas },
+	{},
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::monospace_block =
+{
+	"monospace_block",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::preserved,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"monospace",
+	{ 1, css::length::picas },
+	{ {}, {}, {}, { 1, css::length::picas } },
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::bullet_list =
+{
+	"bullet_list",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"disc",
+	"",
+	{},
+	{ {}, {}, {}, { 1, css::length::picas } },
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::number_list =
+{
+	"number_list",
+	css::display::block,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"decimal",
+	"",
+	{},
+	{ {}, {}, {}, { 1, css::length::picas } },
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::list_item =
+{
+	"list_item",
+	css::display::list_item,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"sans-serif",
+	{ 1, css::length::picas },
+	{},
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::table =
+{
+	"table",
+	css::display::table,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{},
+	{},
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::table_row =
+{
+	"table_row",
+	css::display::table_row,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{},
+	{ {}, {}, {}, { 1, css::length::picas } },
+	css::role::none,
+	0,
+};
+
+const css::styles cainteoir::table_cell =
+{
+	"table_cell",
+	css::display::table_cell,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{},
+	{},
+	css::role::none,
+	0,
+};
