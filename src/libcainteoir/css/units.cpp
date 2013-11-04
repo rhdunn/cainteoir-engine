@@ -175,6 +175,7 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 
 	int value = 0; // the value to set the time to
 	int accumulator = 0; // the value of the current block
+	int digits = 0; // the number of digits in the current block
 	int divisor = 1; // the number to divide by to convert value to a fraction
 	int groups = 1; // the number of time groups (separated by a ':' character)
 	bool is_fraction = false;
@@ -184,6 +185,7 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 	case '5': case '6': case '7': case '8': case '9':
 		accumulator *= 10;
 		accumulator += (c - '0');
+		++digits;
 		if (is_fraction)
 		{
 			value   *= 10;
@@ -193,9 +195,12 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 	case ':':
 		if (groups == 3)
 			throw std::runtime_error("clock values cannot specify days (i.e. have 3 ':' characters)");
+		if (digits == 0)
+			throw std::runtime_error("no value in a hours, minutes or seconds block");
 		value += accumulator;
 		value *= 60;
 		accumulator = 0;
+		digits = 0;
 		++groups;
 		break;
 	case '.':
@@ -206,6 +211,9 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 	default:
 		throw std::runtime_error("invalid character found in time string");
 	}
+
+	if (digits == 0)
+		throw std::runtime_error("no value in a hours, minutes or seconds block");
 
 	mValue = float(value + accumulator) / divisor;
 	mUnits = css::time::seconds;
