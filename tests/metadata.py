@@ -143,6 +143,7 @@ if __name__ == '__main__':
 		{'name': 'metadata', 'type': 'turtle', 'tests': [
 			{'test': 'smil/metadata/embedded-rdf.smil', 'result': 'smil/metadata/embedded-rdf.n3', 'expect': 'fail'},
 			{'test': 'smil/metadata/xmllang.smil', 'result': 'smil/metadata/xmllang.n3'},
+			{'test': 'smil/metadata/xmllang-noxmldecl.smil', 'result': 'smil/metadata/xmllang.n3'},
 		]},
 	]})
 	test.run({'name': 'SSML', 'groups': [

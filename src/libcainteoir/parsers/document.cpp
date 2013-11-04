@@ -73,6 +73,12 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		return createZipReader(archive);
 	}
 
+	if (mime::smil.match(aData))
+	{
+		auto reader = cainteoir::createXmlReader(aData, aDefaultEncoding);
+		return createSmilReader(reader, aSubject, aPrimaryMetadata, aTitle);
+	}
+
 	if (mime::xml.match(aData))
 	{
 		auto reader = cainteoir::createXmlReader(aData, aDefaultEncoding);
@@ -98,9 +104,6 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 
 		if (mime::ssml.match(namespaceUri, rootName))
 			return createSsmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
-
-		if (mime::smil.match(namespaceUri, rootName))
-			return createSmilReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
 		if (mime::html.match(aData))
 		{
