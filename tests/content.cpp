@@ -290,6 +290,12 @@ TEST_CASE("time parser - invalid suffixes")
 
 	test_parser("1:15s", css::time::smil_value, 1, css::time::inherit, true);
 	test_parser("1h:15", css::time::smil_value, 1, css::time::inherit, true);
+
+	test_parser("1h5min", css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("1m5in",  css::time::smil_value, 1, css::time::inherit, true);
+
+	test_parser("1h.5",  css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("1m.in", css::time::smil_value, 1, css::time::inherit, true);
 }
 
 TEST_CASE("time conversion")

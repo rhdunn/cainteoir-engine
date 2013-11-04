@@ -214,15 +214,24 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 	{
 	case '0': case '1': case '2': case '3': case '4':
 	case '5': case '6': case '7': case '8': case '9':
-		accumulator *= 10;
-		accumulator += (c - '0');
-		if (is_fraction)
+		switch ((time_unit_state)state)
 		{
-			value   *= 10;
-			divisor *= 10;
+		case time_unit_state::value:
+		case time_unit_state::clock:
+			accumulator *= 10;
+			accumulator += (c - '0');
+			if (is_fraction)
+			{
+				value   *= 10;
+				divisor *= 10;
+			}
+			else
+				++digits;
+			break;
+		default:
+			state = (uint8_t)time_unit_state::invalid;
+			break;
 		}
-		else
-			++digits;
 		break;
 	case ':':
 		switch ((time_unit_state)state)
@@ -249,9 +258,18 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 		++groups;
 		break;
 	case '.':
-		if (is_fraction)
-			throw std::runtime_error("multiple '.' characters found in time string");
-		is_fraction = true;
+		switch ((time_unit_state)state)
+		{
+		case time_unit_state::value:
+		case time_unit_state::clock:
+			if (is_fraction)
+				throw std::runtime_error("multiple '.' characters found in time string");
+			is_fraction = true;
+			break;
+		default:
+			state = (uint8_t)time_unit_state::invalid;
+			break;
+		}
 		break;
 	case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g':
 	case 'h': case 'i': case 'j': case 'k': case 'l': case 'm':
