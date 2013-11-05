@@ -356,12 +356,18 @@ static void parseOpfDublinCore(xml::reader &reader, const rdf::uri &aSubject, rd
 					return;
 				}
 			}
-			else if (reader.context() == &dc::identifier_node && !scheme.empty())
+			else if (reader.context() == &dc::identifier_node && (!scheme.empty() || !id.empty()))
 			{
-				const rdf::uri temp = aGraph.genid();
+				rdf::uri temp;
+				if (id.empty())
+					temp = aGraph.genid();
+				else
+					temp = rdf::uri(aSubject.str(), id);
+
 				aGraph.statement(aSubject, predicate, temp);
 				aGraph.statement(temp, rdf::rdf("value"), rdf::literal(value, lang));
-				aGraph.statement(temp, rdf::opf("scheme"), rdf::literal(scheme));
+				if (!scheme.empty())
+					aGraph.statement(temp, rdf::opf("scheme"), rdf::literal(scheme));
 				return;
 			}
 			else if (reader.context() == &dc::subject_node)

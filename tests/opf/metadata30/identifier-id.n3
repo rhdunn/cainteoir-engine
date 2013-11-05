@@ -2,7 +2,6 @@
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-<> dc:title "Test Case" .
-<> dc:identifier <#id> .
-<#id> rdf:value "dublincore-language.opf" .
-<> tts:mimetype "@mimetype@" .
+<> dc:identifier <#ident> .
+<#ident> rdf:value "urn:uuid:12345" .
+<> tts:mimetype "application/oebps-package+xml" .

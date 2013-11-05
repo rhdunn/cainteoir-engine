@@ -253,6 +253,8 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/creator-id-alternate-script.opf', 'result': 'opf/metadata30/creator-id-alternate-script.n3'},
 			{'test': 'opf/metadata30/creator-id-file-as.opf', 'result': 'opf/metadata30/creator-id-file-as.n3'},
 			{'test': 'opf/metadata30/creator-id-role.opf', 'result': 'opf/metadata30/creator-id-role.n3'},
+			{'test': 'opf/metadata30/identifier-id.opf', 'result': 'opf/metadata30/identifier-id.n3'},
+			{'test': 'opf/metadata30/identifier-type.opf', 'result': 'opf/metadata30/identifier-type.n3'},
 		]},
 		{'name': 'preferred values', 'type': 'turtle', 'tests': [
 			{'test': 'opf/metadata30/contributor-alternate-script.opf', 'result': 'opf/metadata30/contributor-alternate-script.n3'},
@@ -261,11 +263,9 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/creator-alternate-script.opf', 'result': 'opf/metadata30/creator-alternate-script.n3'},
 			{'test': 'opf/metadata30/creator-file-as.opf', 'result': 'opf/metadata30/creator-file-as.n3'},
 			{'test': 'opf/metadata30/creator-role.opf', 'result': 'opf/metadata30/creator-role.n3'},
-		]},
-		{'name': 'metadata 3.0', 'type': 'turtle', 'tests': [
-			# The OPF 3.0 recomended specification uses different properties:
 			{'test': 'opf/metadata30/identifier.opf', 'result': 'opf/metadata30/identifier.n3'},
-			{'test': 'opf/metadata30/identifier-type.opf', 'result': 'opf/metadata30/identifier-type.n3'},
+		]},
+		{'name': '3.0 metadata properties', 'type': 'turtle', 'tests': [
 			{'test': 'opf/metadata30/meta-auth.opf', 'result': 'opf/metadata30/meta-auth.n3'},
 			{'test': 'opf/metadata30/publication-type.opf', 'result': 'opf/metadata30/publication-type.n3'},
 			{'test': 'opf/metadata30/source-identifier.opf', 'result': 'opf/metadata30/source-identifier.n3'},

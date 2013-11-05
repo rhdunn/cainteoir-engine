@@ -2,7 +2,9 @@
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 @prefix onix: <http://www.editeur.org/ONIX/book/codelists/current.html#> .
 @prefix pkg: <http://www.idpf.org/epub/vocab/package/#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-<> dc:identifier "uen:isbn:1234567890" .
+<> dc:identifier <#main> .
+<#main> rdf:value "uen:isbn:1234567890" .
 <#main> pkg:identifier-type "15"^^onix:codelist5 .
 <> tts:mimetype "application/oebps-package+xml" .
