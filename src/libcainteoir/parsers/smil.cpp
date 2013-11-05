@@ -21,20 +21,35 @@
 #include "parsers.hpp"
 #include <stdexcept>
 
-namespace xml   = cainteoir::xml;
-namespace xmlns = cainteoir::xml::xmlns;
-namespace rdf   = cainteoir::rdf;
+namespace xml    = cainteoir::xml;
+namespace xmlns  = cainteoir::xml::xmlns;
+namespace events = cainteoir::events;
+namespace rdf    = cainteoir::rdf;
 
 namespace smil
 {
 	namespace events = cainteoir::events;
 
-	static const xml::context::entry smil_node = {};
+	static const xml::context::entry audio_node    = {};
+	static const xml::context::entry body_node     = {};
+	static const xml::context::entry head_node     = {};
+	static const xml::context::entry metadata_node = {};
+	static const xml::context::entry par_node      = {};
+	static const xml::context::entry seq_node      = {};
+	static const xml::context::entry smil_node     = {};
+	static const xml::context::entry text_node     = {};
 }
 
 static const std::initializer_list<const xml::context::entry_ref> smil_nodes =
 {
-	{ "smil", &smil::smil_node },
+	{ "audio",    &smil::audio_node },
+	{ "body",     &smil::body_node },
+	{ "head",     &smil::head_node },
+	{ "metadata", &smil::metadata_node },
+	{ "par",      &smil::par_node },
+	{ "seq",      &smil::seq_node },
+	{ "smil",     &smil::smil_node },
+	{ "text",     &smil::text_node },
 };
 
 static const std::initializer_list<const xml::context::entry_ref> smil_attrs =
@@ -59,7 +74,7 @@ smil_document_reader::smil_document_reader(const std::shared_ptr<xml::reader> &a
 
 	const xml::context::entry *current = aReader->context();
 
-	while (aReader->read()) switch (aReader->nodeType())
+	while (aReader->read() && current != &smil::body_node) switch (aReader->nodeType())
 	{
 	case xml::reader::attribute:
 		if (current == &smil::smil_node)
@@ -80,6 +95,29 @@ smil_document_reader::smil_document_reader(const std::shared_ptr<xml::reader> &a
 
 bool smil_document_reader::read()
 {
+	while (reader->read()) switch (reader->nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (reader->context()->styles)
+		{
+			type   = events::begin_context;
+			styles = reader->context()->styles;
+			reader->read();
+			return true;
+		}
+		break;
+	case xml::reader::endTagNode:
+		if (reader->context()->styles)
+		{
+			type   = events::end_context;
+			styles = reader->context()->styles;
+			reader->read();
+			return true;
+		}
+		break;
+	default:
+		break;
+	}
 	return false;
 }
 
