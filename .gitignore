@@ -36,6 +36,7 @@ src/apps/phoneme-converter
 src/apps/dictionary
 
 src/examples/doc2doc
+src/examples/musicplayer
 src/examples/tagcloud
 
 tests/*.test

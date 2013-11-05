@@ -385,6 +385,11 @@ noinst_bin_PROGRAMS += src/examples/tagcloud
 src_examples_tagcloud_LDADD   = src/libcainteoir/libcainteoir.la
 src_examples_tagcloud_SOURCES = src/examples/tagcloud.cpp
 
+noinst_bin_PROGRAMS += src/examples/musicplayer
+
+src_examples_musicplayer_LDADD   = src/libcainteoir/libcainteoir.la
+src_examples_musicplayer_SOURCES = src/examples/musicplayer.cpp
+
 ############################# tests ###########################################
 
 CSS_TEST_FILES = $(shell find tests/css/*)
