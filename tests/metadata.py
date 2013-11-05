@@ -224,8 +224,7 @@ if __name__ == '__main__':
 			{'test': 'opf/link/rel-refines.opf', 'result': 'opf/link/rel-about.n3'},
 			{'test': 'opf/link/rel-mediatype.opf', 'result': 'opf/link/rel-mediatype.n3'},
 		]},
-		{'name': 'metadata 3.0', 'type': 'turtle', 'tests': [
-			# The OPF 3.0 working draft uses RDFa-style properties:
+		{'name': 'RDFa', 'type': 'turtle', 'tests': [ # working draft properties
 			{'test': 'opf/metadata30/contributor-alternate-script-rdfa.opf', 'result': 'opf/metadata30/contributor-alternate-script.n3'},
 			{'test': 'opf/metadata30/contributor-file-as-rdfa.opf', 'result': 'opf/metadata30/contributor-file-as.n3'},
 			{'test': 'opf/metadata30/contributor-role-rdfa.opf', 'result': 'opf/metadata30/contributor-role-rdfa.n3'},
@@ -246,10 +245,19 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/onix-record-rdfa.opf', 'result': 'opf/metadata30/onix-record.n3'},
 			{'test': 'opf/metadata30/xml-signature-rdfa.opf', 'result': 'opf/metadata30/xml-signature.n3'},
 			{'test': 'opf/metadata30/xmp-record-rdfa.opf', 'result': 'opf/metadata30/xmp-record.n3'},
-			# The OPF 3.0 recomended specification uses different properties:
+		]},
+		{'name': 'dc:* with @id', 'type': 'turtle', 'tests': [
+			{'test': 'opf/metadata30/contributor-id-alternate-script.opf', 'result': 'opf/metadata30/contributor-id-alternate-script.n3'},
+			{'test': 'opf/metadata30/contributor-id-file-as.opf', 'result': 'opf/metadata30/contributor-id-file-as.n3'},
+			{'test': 'opf/metadata30/contributor-id-role.opf', 'result': 'opf/metadata30/contributor-id-role.n3'},
+		]},
+		{'name': 'preferred values', 'type': 'turtle', 'tests': [
 			{'test': 'opf/metadata30/contributor-alternate-script.opf', 'result': 'opf/metadata30/contributor-alternate-script.n3'},
 			{'test': 'opf/metadata30/contributor-file-as.opf', 'result': 'opf/metadata30/contributor-file-as.n3'},
 			{'test': 'opf/metadata30/contributor-role.opf', 'result': 'opf/metadata30/contributor-role.n3'},
+		]},
+		{'name': 'metadata 3.0', 'type': 'turtle', 'tests': [
+			# The OPF 3.0 recomended specification uses different properties:
 			{'test': 'opf/metadata30/creator-alternate-script.opf', 'result': 'opf/metadata30/creator-alternate-script.n3'},
 			{'test': 'opf/metadata30/creator-file-as.opf', 'result': 'opf/metadata30/creator-file-as.n3'},
 			{'test': 'opf/metadata30/creator-role.opf', 'result': 'opf/metadata30/creator-role.n3'},

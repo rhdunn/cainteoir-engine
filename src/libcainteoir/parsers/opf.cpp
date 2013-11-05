@@ -280,6 +280,7 @@ static void parseOpfLink(xml::reader &reader, const rdf::uri &aSubject, rdf::gra
 
 static void parseOpfDublinCore(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph, const xml::context::entry *ctx)
 {
+	std::string id;
 	std::string lang;
 	std::string value;
 	std::string role;
@@ -294,6 +295,8 @@ static void parseOpfDublinCore(xml::reader &reader, const rdf::uri &aSubject, rd
 	case xml::reader::attribute:
 		if (reader.context() == &opf::prefer_attr)
 			return;
+		else if (reader.context() == &opf::id_attr)
+			id = reader.nodeValue().str();
 		else if (reader.context() == &xml::lang_attr)
 			lang = reader.nodeValue().str();
 		else if (reader.context() == &opf::fileas_attr)
@@ -312,9 +315,14 @@ static void parseOpfDublinCore(xml::reader &reader, const rdf::uri &aSubject, rd
 	case xml::reader::endTagNode:
 		if (reader.context() == ctx)
 		{
-			if ((reader.context() == &dc::contributor_node || reader.context() == &dc::creator_node) && (!role.empty() || !fileas.empty()))
+			if ((reader.context() == &dc::contributor_node || reader.context() == &dc::creator_node) && (!role.empty() || !fileas.empty() || !id.empty()))
 			{
-				const rdf::uri temp = aGraph.genid();
+				rdf::uri temp;
+				if (id.empty())
+					temp = aGraph.genid();
+				else
+					temp = rdf::uri(aSubject.str(), id);
+
 				aGraph.statement(aSubject, predicate, temp);
 				aGraph.statement(temp, rdf::rdf("value"), rdf::literal(value, lang));
 				if (!role.empty())
