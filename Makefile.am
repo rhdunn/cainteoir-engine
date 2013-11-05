@@ -365,11 +365,6 @@ bin_PROGRAMS += src/apps/tagcloud
 src_apps_tagcloud_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_tagcloud_SOURCES = src/apps/tagcloud.cpp
 
-bin_PROGRAMS += src/apps/doc2doc
-
-src_apps_doc2doc_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_doc2doc_SOURCES = src/apps/doc2doc.cpp
-
 bin_PROGRAMS += src/apps/phoneme-converter
 
 src_apps_phoneme_converter_LDADD   = src/libcainteoir/libcainteoir.la
@@ -382,6 +377,13 @@ src_apps_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_dictionary_SOURCES = src/apps/dictionary.cpp
 
 EXTRA_DIST += ${man1_MANS}
+
+############################# examples ########################################
+
+noinst_bin_PROGRAMS += src/examples/doc2doc
+
+src_examples_doc2doc_LDADD   = src/libcainteoir/libcainteoir.la
+src_examples_doc2doc_SOURCES = src/examples/doc2doc.cpp
 
 ############################# tests ###########################################
 

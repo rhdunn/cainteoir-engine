@@ -34,8 +34,9 @@ src/apps/cainteoir
 src/apps/metadata
 src/apps/phoneme-converter
 src/apps/tagcloud
-src/apps/doc2doc
 src/apps/dictionary
+
+src/examples/doc2doc
 
 tests/*.test
 tests/events

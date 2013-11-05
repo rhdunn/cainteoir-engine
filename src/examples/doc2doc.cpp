@@ -18,6 +18,10 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* This is a demonstration of using the Cainteoir Text-to-Speech document reader
+ * APIs to create a document conversion utility.
+ */
+
 #include "config.h"
 #include "compatibility.hpp"
 #include "i18n.h"
