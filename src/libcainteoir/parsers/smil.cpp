@@ -43,23 +43,16 @@ static const std::initializer_list<const xml::context::entry_ref> smil_attrs =
 
 struct smil_document_reader : public cainteoir::document_reader
 {
+	smil_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata);
+
 	bool read();
+
+	std::shared_ptr<xml::reader> reader;
 };
 
-bool smil_document_reader::read()
+smil_document_reader::smil_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata)
+	: reader(aReader)
 {
-	return false;
-}
-
-std::shared_ptr<cainteoir::document_reader>
-cainteoir::createSmilReader(const std::shared_ptr<xml::reader> &aReader,
-                            const rdf::uri &aSubject,
-                            rdf::graph &aPrimaryMetadata,
-                            const std::string &aTitle)
-{
-	if (!aReader)
-		return std::shared_ptr<document_reader>();
-
 	aReader->set_nodes(xmlns::smil, smil_nodes);
 	aReader->set_attrs(xmlns::smil, smil_attrs);
 	aReader->set_attrs(xmlns::xml,  xml::attrs);
@@ -83,5 +76,21 @@ cainteoir::createSmilReader(const std::shared_ptr<xml::reader> &aReader,
 	}
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/smil"));
-	return std::make_shared<smil_document_reader>();
+}
+
+bool smil_document_reader::read()
+{
+	return false;
+}
+
+std::shared_ptr<cainteoir::document_reader>
+cainteoir::createSmilReader(const std::shared_ptr<xml::reader> &aReader,
+                            const rdf::uri &aSubject,
+                            rdf::graph &aPrimaryMetadata,
+                            const std::string &aTitle)
+{
+	if (!aReader)
+		return std::shared_ptr<document_reader>();
+
+	return std::make_shared<smil_document_reader>(aReader, aSubject, aPrimaryMetadata);
 }
