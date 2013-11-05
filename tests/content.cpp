@@ -64,14 +64,14 @@ static void test_conversion_(float aFromValue, const UnitT aFromUnits,
 
 #define test_conversion(a, b, c, d, e) test_conversion_(a, b, c, d, e, __FILE__, __LINE__)
 
-static void test_parser_(const char *aString, const css::time::parse_as_type aParseAs,
+static void test_parser_(const char *aString, decltype(css::parse_smil_time) *time_parser,
                          float aValue, const css::time::type aUnits,
                          bool throws,
                          const char *location, int line)
 {
 	try
 	{
-		css::time value = css::time(aString, aParseAs);
+		css::time value = time_parser(aString);
 		assert_location(value.units() == aUnits, location, line);
 		assert_location(value.value() == aValue, location, line);
 		assert_location(!throws, location, line);
@@ -167,135 +167,134 @@ TEST_CASE("time construction")
 
 TEST_CASE("time parser - nullptr")
 {
-	test_parser(nullptr, css::time::css_value,  0, css::time::inherit, false);
-	test_parser(nullptr, css::time::smil_value, 0, css::time::inherit, false);
+	test_parser(nullptr, css::parse_smil_time, 0, css::time::inherit, false);
 }
 
 TEST_CASE("time parser - SS (seconds)")
 {
-	test_parser("1",       css::time::smil_value,       1, css::time::seconds, false);
-	test_parser("25",      css::time::smil_value,      25, css::time::seconds, false);
-	test_parser("1500000", css::time::smil_value, 1500000, css::time::seconds, false); // 416 hours, 40 min
+	test_parser("1",       css::parse_smil_time,       1, css::time::seconds, false);
+	test_parser("25",      css::parse_smil_time,      25, css::time::seconds, false);
+	test_parser("1500000", css::parse_smil_time, 1500000, css::time::seconds, false); // 416 hours, 40 min
 }
 
 TEST_CASE("time parser - SS.mmm (seconds, milliseconds)")
 {
-	test_parser( "1.",    css::time::smil_value,  1,     css::time::seconds, false);
-	test_parser( "0.5",   css::time::smil_value,  0.5,   css::time::seconds, false);
-	test_parser(  ".6",   css::time::smil_value,  0.6,   css::time::seconds, false);
-	test_parser( "1.2",   css::time::smil_value,  1.2,   css::time::seconds, false);
-	test_parser("12.345", css::time::smil_value, 12.345, css::time::seconds, false);
+	test_parser( "1.",    css::parse_smil_time,  1,     css::time::seconds, false);
+	test_parser( "0.5",   css::parse_smil_time,  0.5,   css::time::seconds, false);
+	test_parser(  ".6",   css::parse_smil_time,  0.6,   css::time::seconds, false);
+	test_parser( "1.2",   css::parse_smil_time,  1.2,   css::time::seconds, false);
+	test_parser("12.345", css::parse_smil_time, 12.345, css::time::seconds, false);
 
-	test_parser( "1..3",  css::time::smil_value, 1, css::time::inherit, true); // invalid
-	test_parser( "1.2.3", css::time::smil_value, 1, css::time::inherit, true); // invalid
+	test_parser( "1..3",  css::parse_smil_time, 1, css::time::inherit, true); // invalid
+	test_parser( "1.2.3", css::parse_smil_time, 1, css::time::inherit, true); // invalid
 }
 
 TEST_CASE("time parser - MM:SS (minutes, seconds)")
 {
-	test_parser("0:23", css::time::smil_value,  23, css::time::seconds, false);
-	test_parser("1:04", css::time::smil_value,  64, css::time::seconds, false);
+	test_parser("0:23", css::parse_smil_time,  23, css::time::seconds, false);
+	test_parser("1:04", css::parse_smil_time,  64, css::time::seconds, false);
 
-	test_parser("00:23", css::time::smil_value,  23, css::time::seconds, false);
-	test_parser("01:04", css::time::smil_value,  64, css::time::seconds, false);
-	test_parser("12:32", css::time::smil_value, 752, css::time::seconds, false);
-	test_parser("04:00", css::time::smil_value, 240, css::time::seconds, false);
+	test_parser("00:23", css::parse_smil_time,  23, css::time::seconds, false);
+	test_parser("01:04", css::parse_smil_time,  64, css::time::seconds, false);
+	test_parser("12:32", css::parse_smil_time, 752, css::time::seconds, false);
+	test_parser("04:00", css::parse_smil_time, 240, css::time::seconds, false);
 
-	test_parser( ":25", css::time::smil_value, 1, css::time::inherit, true); // invalid
-	test_parser( "1:",  css::time::smil_value, 1, css::time::inherit, true); // invalid
+	test_parser( ":25", css::parse_smil_time, 1, css::time::inherit, true); // invalid
+	test_parser( "1:",  css::parse_smil_time, 1, css::time::inherit, true); // invalid
 
-	test_parser( "1:2", css::time::smil_value, 1, css::time::inherit, true); // invalid
+	test_parser( "1:2", css::parse_smil_time, 1, css::time::inherit, true); // invalid
 }
 
 TEST_CASE("time parser - MM:SS.mmm (minutes, seconds)")
 {
-	test_parser( "0:12.5",  css::time::smil_value,  12.5,  css::time::seconds, false);
-	test_parser( "2:01.22", css::time::smil_value, 121.22, css::time::seconds, false);
+	test_parser( "0:12.5",  css::parse_smil_time,  12.5,  css::time::seconds, false);
+	test_parser( "2:01.22", css::parse_smil_time, 121.22, css::time::seconds, false);
 
-	test_parser("00:12.5",   css::time::smil_value,  12.5,   css::time::seconds, false);
-	test_parser("02:01.22",  css::time::smil_value, 121.22,  css::time::seconds, false);
-	test_parser("10:30.75",  css::time::smil_value, 630.75,  css::time::seconds, false);
-	test_parser("03:00.333", css::time::smil_value, 180.333, css::time::seconds, false);
+	test_parser("00:12.5",   css::parse_smil_time,  12.5,   css::time::seconds, false);
+	test_parser("02:01.22",  css::parse_smil_time, 121.22,  css::time::seconds, false);
+	test_parser("10:30.75",  css::parse_smil_time, 630.75,  css::time::seconds, false);
+	test_parser("03:00.333", css::parse_smil_time, 180.333, css::time::seconds, false);
 }
 
 TEST_CASE("time parser - HH:MM:SS (hours, minutes, seconds)")
 {
-	test_parser(  "0:00:23", css::time::smil_value,     23, css::time::seconds, false);
-	test_parser(  "1:01:04", css::time::smil_value,   3664, css::time::seconds, false);
-	test_parser( "11:00:23", css::time::smil_value,  39623, css::time::seconds, false);
-	test_parser( "24:42:00", css::time::smil_value,  88920, css::time::seconds, false);
-	test_parser("140:12:32", css::time::smil_value, 504752, css::time::seconds, false);
+	test_parser(  "0:00:23", css::parse_smil_time,     23, css::time::seconds, false);
+	test_parser(  "1:01:04", css::parse_smil_time,   3664, css::time::seconds, false);
+	test_parser( "11:00:23", css::parse_smil_time,  39623, css::time::seconds, false);
+	test_parser( "24:42:00", css::parse_smil_time,  88920, css::time::seconds, false);
+	test_parser("140:12:32", css::parse_smil_time, 504752, css::time::seconds, false);
 
-	test_parser( ":00:25", css::time::smil_value, 1, css::time::inherit, true); // invalid
-	test_parser( "0::25",  css::time::smil_value, 1, css::time::inherit, true); // invalid
-	test_parser( "0:01:",  css::time::smil_value, 1, css::time::inherit, true); // invalid
+	test_parser( ":00:25", css::parse_smil_time, 1, css::time::inherit, true); // invalid
+	test_parser( "0::25",  css::parse_smil_time, 1, css::time::inherit, true); // invalid
+	test_parser( "0:01:",  css::parse_smil_time, 1, css::time::inherit, true); // invalid
 
-	test_parser( "0:0:25", css::time::smil_value, 1, css::time::inherit, true); // invalid
-	test_parser( "0:00:5", css::time::smil_value, 1, css::time::inherit, true); // invalid
+	test_parser( "0:0:25", css::parse_smil_time, 1, css::time::inherit, true); // invalid
+	test_parser( "0:00:5", css::parse_smil_time, 1, css::time::inherit, true); // invalid
 }
 
 TEST_CASE("time parser - HH:MM:SS.mmm (hours, minutes, seconds, milliseconds)")
 {
-	test_parser(  "0:00:23.1", css::time::smil_value,     23.1, css::time::seconds, false);
-	test_parser(  "1:01:04.2", css::time::smil_value,   3664.2, css::time::seconds, false);
-	test_parser( "11:00:23.3", css::time::smil_value,  39623.3, css::time::seconds, false);
-	test_parser( "24:42:00.4", css::time::smil_value,  88920.4, css::time::seconds, false);
-	test_parser("140:12:32.5", css::time::smil_value, 504752.5, css::time::seconds, false);
+	test_parser(  "0:00:23.1", css::parse_smil_time,     23.1, css::time::seconds, false);
+	test_parser(  "1:01:04.2", css::parse_smil_time,   3664.2, css::time::seconds, false);
+	test_parser( "11:00:23.3", css::parse_smil_time,  39623.3, css::time::seconds, false);
+	test_parser( "24:42:00.4", css::parse_smil_time,  88920.4, css::time::seconds, false);
+	test_parser("140:12:32.5", css::parse_smil_time, 504752.5, css::time::seconds, false);
 }
 
 TEST_CASE("time parser - DD:HH:MM:SS.mmm (days, hours, minutes, seconds, milliseconds)")
 {
 	// These are invalid, only upto hours are allowed by SMIL clock values ...
 
-	test_parser( "0:00:00:00", css::time::smil_value, 1, css::time::inherit, true);
-	test_parser( "1:02:03:04", css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("11:22:43:44", css::time::smil_value, 1, css::time::inherit, true);
+	test_parser( "0:00:00:00", css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser( "1:02:03:04", css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("11:22:43:44", css::parse_smil_time, 1, css::time::inherit, true);
 }
 
 TEST_CASE("time parser - #h (hours)")
 {
-	test_parser("2h",   css::time::smil_value, 7200, css::time::seconds, false);
-	test_parser("2.5h", css::time::smil_value, 9000, css::time::seconds, false);
+	test_parser("2h",   css::parse_smil_time, 7200, css::time::seconds, false);
+	test_parser("2.5h", css::parse_smil_time, 9000, css::time::seconds, false);
 }
 
 TEST_CASE("time parser - #min (seconds)")
 {
-	test_parser("5min",    css::time::smil_value, 300, css::time::seconds, false);
-	test_parser("2.25min", css::time::smil_value, 135, css::time::seconds, false);
+	test_parser("5min",    css::parse_smil_time, 300, css::time::seconds, false);
+	test_parser("2.25min", css::parse_smil_time, 135, css::time::seconds, false);
 }
 
 TEST_CASE("time parser - #s (seconds)")
 {
-	test_parser("25s",  css::time::smil_value, 25,   css::time::seconds, false);
-	test_parser("1.2s", css::time::smil_value,  1.2, css::time::seconds, false);
+	test_parser("25s",  css::parse_smil_time, 25,   css::time::seconds, false);
+	test_parser("1.2s", css::parse_smil_time,  1.2, css::time::seconds, false);
 }
 
 TEST_CASE("time parser - #ms (milliseconds)")
 {
-	test_parser("11ms",  css::time::smil_value, 11,   css::time::milliseconds, false);
-	test_parser("9.7ms", css::time::smil_value,  9.7, css::time::milliseconds, false);
+	test_parser("11ms",  css::parse_smil_time, 11,   css::time::milliseconds, false);
+	test_parser("9.7ms", css::parse_smil_time,  9.7, css::time::milliseconds, false);
 }
 
 TEST_CASE("time parser - invalid suffixes")
 {
-	test_parser("2d",    css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("2ha",   css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("2mun",  css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("2m",    css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("2mi",   css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("2mio",  css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("2mins", css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("2mo",   css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("2mss",  css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("2st",   css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("2d",    css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("2ha",   css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("2mun",  css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("2m",    css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("2mi",   css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("2mio",  css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("2mins", css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("2mo",   css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("2mss",  css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("2st",   css::parse_smil_time, 1, css::time::inherit, true);
 
-	test_parser("1:15s", css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("1h:15", css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("1:15s", css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("1h:15", css::parse_smil_time, 1, css::time::inherit, true);
 
-	test_parser("1h5min", css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("1m5in",  css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("1h5min", css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("1m5in",  css::parse_smil_time, 1, css::time::inherit, true);
 
-	test_parser("1h.5",  css::time::smil_value, 1, css::time::inherit, true);
-	test_parser("1m.in", css::time::smil_value, 1, css::time::inherit, true);
+	test_parser("1h.5",  css::parse_smil_time, 1, css::time::inherit, true);
+	test_parser("1m.in", css::parse_smil_time, 1, css::time::inherit, true);
 }
 
 TEST_CASE("time conversion")

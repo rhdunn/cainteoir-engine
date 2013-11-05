@@ -197,11 +197,9 @@ css::length css::length::as(const type aUnits) const
 	throw std::runtime_error("unable to convert to the specified units");
 }
 
-css::time::time(const buffer &aValue, const parse_as_type aParseAs)
-	: mValue(0)
-	, mUnits(css::time::inherit)
+css::time css::parse_smil_time(const buffer &aValue)
 {
-	if (aValue.empty()) return;
+	if (aValue.empty()) return time();
 
 	uint8_t state = (uint8_t)time_unit_state::value;
 	int value = 0; // the value to set the time to
@@ -289,26 +287,19 @@ css::time::time(const buffer &aValue, const parse_as_type aParseAs)
 			throw std::runtime_error("an hours, minutes or seconds block must have 2 digits");
 	}
 
+	float time_value = float(value + accumulator) / divisor;
 	switch ((time_unit_state)state)
 	{
 	case time_unit_state::hours:
-		mValue = (float(value + accumulator) / divisor) * 3600.0;
-		mUnits = css::time::seconds;
-		break;
+		return css::time(time_value * 3600.0, css::time::seconds);
 	case time_unit_state::minutes:
-		mValue = (float(value + accumulator) / divisor) * 60.0;
-		mUnits = css::time::seconds;
-		break;
+		return css::time(time_value * 60.0, css::time::seconds);
 	case time_unit_state::value:
 	case time_unit_state::clock:
 	case time_unit_state::seconds:
-		mValue = float(value + accumulator) / divisor;
-		mUnits = css::time::seconds;
-		break;
+		return css::time(time_value, css::time::seconds);
 	case time_unit_state::milliseconds:
-		mValue = float(value + accumulator) / divisor;
-		mUnits = css::time::milliseconds;
-		break;
+		return css::time(time_value, css::time::milliseconds);
 	default:
 		throw std::runtime_error("invalid character found in time string");
 	}

@@ -72,12 +72,6 @@ namespace cainteoir { namespace css
 			milliseconds,
 		};
 
-		enum parse_as_type
-		{
-			css_value,
-			smil_value,
-		};
-
 		time()
 			: mValue(0)
 			, mUnits(type::inherit)
@@ -90,8 +84,6 @@ namespace cainteoir { namespace css
 		{
 		}
 
-		time(const buffer &aValue, const parse_as_type aParseAs);
-
 		time as(const type aUnits) const;
 
 		float value() const { return mValue; }
@@ -100,6 +92,8 @@ namespace cainteoir { namespace css
 		float mValue;
 		type  mUnits;
 	};
+
+	time parse_smil_time(const buffer &aValue);
 
 	// Cascading Style Sheets
 
