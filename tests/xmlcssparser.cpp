@@ -53,6 +53,8 @@ int main(int argc, char ** argv)
 			        reader.namespaceUri().c_str(), reader.nodeName().str().c_str());
 			break;
 		case xml::reader::attribute:
+			if (!reader.nodeName().compare("xmlns") || !reader.nodePrefix().compare("xmlns"))
+				continue;
 			fprintf(stdout, "attribute : [%s|%s] = %s\n",
 			        reader.namespaceUri().c_str(), reader.nodeName().str().c_str(),
 			        reader.nodeValue().str().c_str());
