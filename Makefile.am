@@ -514,11 +514,6 @@ noinst_bin_PROGRAMS += tests/trie.test
 tests_trie_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_trie_test_SOURCES = tests/trie.cpp
 
-noinst_bin_PROGRAMS += tests/xmlcssparser
-
-tests_xmlcssparser_LDADD   = src/libcainteoir/libcainteoir.la
-tests_xmlcssparser_SOURCES = tests/xmlcssparser.cpp
-
 noinst_bin_PROGRAMS += tests/styles
 
 tests_styles_LDADD   = src/libcainteoir/libcainteoir.la
