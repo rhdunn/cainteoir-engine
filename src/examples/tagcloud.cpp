@@ -18,6 +18,10 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* This is a demonstration of using the text processing APIs to extract the
+ * words from any supported document to create a simple tag/word cloud.
+ */
+
 #include "config.h"
 #include "compatibility.hpp"
 #include "i18n.h"

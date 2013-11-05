@@ -360,11 +360,6 @@ man1_MANS += src/apps/metadata.man
 src_apps_metadata_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_metadata_SOURCES = src/apps/metadata.cpp
 
-bin_PROGRAMS += src/apps/tagcloud
-
-src_apps_tagcloud_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_tagcloud_SOURCES = src/apps/tagcloud.cpp
-
 bin_PROGRAMS += src/apps/phoneme-converter
 
 src_apps_phoneme_converter_LDADD   = src/libcainteoir/libcainteoir.la
@@ -384,6 +379,11 @@ noinst_bin_PROGRAMS += src/examples/doc2doc
 
 src_examples_doc2doc_LDADD   = src/libcainteoir/libcainteoir.la
 src_examples_doc2doc_SOURCES = src/examples/doc2doc.cpp
+
+noinst_bin_PROGRAMS += src/examples/tagcloud
+
+src_examples_tagcloud_LDADD   = src/libcainteoir/libcainteoir.la
+src_examples_tagcloud_SOURCES = src/examples/tagcloud.cpp
 
 ############################# tests ###########################################
 
