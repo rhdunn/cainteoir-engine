@@ -265,6 +265,7 @@ if __name__ == '__main__':
 	test.run({'name': 'SMIL', 'groups': [
 		{'name': 'EPUB Media Overlays', 'type': 'events', 'tests': [
 			{'test': 'smil/media-overlays/sequential.smil', 'result': 'smil/media-overlays/sequential.events'},
+			{'test': 'smil/media-overlays/parallel.smil', 'result': 'smil/media-overlays/parallel.events'},
 		]},
 	]})
 	test.run({'name': 'SSML', 'groups': [
