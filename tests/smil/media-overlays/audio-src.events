@@ -1,0 +1,9 @@
+begin-context  +parallel
+media-ref [%CWD%/]first.mp3
+end-context
+begin-context  +parallel
+media-ref [%CWD%/]first.mp3
+end-context
+begin-context  +parallel
+media-ref [%CWD%/]second.ogg
+end-context

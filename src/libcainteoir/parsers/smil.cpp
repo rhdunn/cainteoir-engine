@@ -121,6 +121,11 @@ bool smil_document_reader::read()
 			if (reader->context() == &smil::src_attr)
 				src = mBasePath / reader->nodeValue().str();
 		}
+		else if (current == &smil::audio_node)
+		{
+			if (reader->context() == &smil::src_attr)
+				src = mBasePath / reader->nodeValue().str();
+		}
 		break;
 	case xml::reader::endTagNode:
 		if (reader->context()->styles)
@@ -132,6 +137,12 @@ bool smil_document_reader::read()
 		else if (current == &smil::text_node)
 		{
 			type = events::text_ref;
+			anchor = rdf::href(src.str());
+			return true;
+		}
+		else if (current == &smil::audio_node)
+		{
+			type = events::media_ref;
 			anchor = rdf::href(src.str());
 			return true;
 		}
