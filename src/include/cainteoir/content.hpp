@@ -148,7 +148,14 @@ namespace cainteoir { namespace css
 		length bottom;
 	};
 
-	// WAI-ARIA
+	// Extensions (WAI-ARIA, etc.)
+
+	enum class media_synchronisation : uint8_t
+	{
+		inherit,
+		sequential,
+		parallel,
+	};
 
 	enum class role : uint8_t
 	{
@@ -242,6 +249,7 @@ namespace cainteoir { namespace css
 	{
 		std::string name;
 		cainteoir::css::display display;
+		cainteoir::css::media_synchronisation media_synchronisation;
 		cainteoir::css::vertical_align vertical_align;
 		cainteoir::css::text_align text_align;
 		cainteoir::css::text_decoration text_decoration;
@@ -262,6 +270,7 @@ namespace cainteoir { namespace css
 		styles(const std::string &aName)
 			: name(aName)
 			, display(cainteoir::css::display::inherit)
+			, media_synchronisation(cainteoir::css::media_synchronisation::inherit)
 			, vertical_align(cainteoir::css::vertical_align::inherit)
 			, text_align(cainteoir::css::text_align::inherit)
 			, text_decoration(cainteoir::css::text_decoration::inherit)
@@ -276,6 +285,7 @@ namespace cainteoir { namespace css
 
 		styles(const std::string &aName,
 		       cainteoir::css::display aDisplay,
+		       cainteoir::css::media_synchronisation aMediaSynchronisation,
 		       cainteoir::css::vertical_align aVerticalAlign,
 		       cainteoir::css::text_align aTextAlign,
 		       cainteoir::css::text_decoration aTextDecoration,
@@ -291,6 +301,7 @@ namespace cainteoir { namespace css
 		       int aAriaLevel)
 			: name(aName)
 			, display(aDisplay)
+			, media_synchronisation(aMediaSynchronisation)
 			, vertical_align(aVerticalAlign)
 			, text_align(aTextAlign)
 			, text_decoration(aTextDecoration)

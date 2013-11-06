@@ -323,6 +323,7 @@ TEST_CASE("style defaults")
 	css::styles styles("defaults");
 	assert(styles.name == "defaults");
 	assert(styles.display == css::display::inherit);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -351,6 +352,7 @@ TEST_CASE("style - unknown")
 	css::styles styles = cainteoir::unknown;
 	assert(styles.name == "unknown");
 	assert(styles.display == css::display::inherit);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -379,6 +381,7 @@ TEST_CASE("style - hidden")
 	css::styles styles = cainteoir::hidden;
 	assert(styles.name == "hidden");
 	assert(styles.display == css::display::none);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -407,6 +410,7 @@ TEST_CASE("style - paragraph")
 	css::styles styles = cainteoir::paragraph;
 	assert(styles.name == "paragraph");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -435,6 +439,7 @@ TEST_CASE("style - heading0")
 	css::styles styles = cainteoir::heading0;
 	assert(styles.name == "heading0");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::center);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -463,6 +468,7 @@ TEST_CASE("style - heading1")
 	css::styles styles = cainteoir::heading1;
 	assert(styles.name == "heading1");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::center);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -491,6 +497,7 @@ TEST_CASE("style - heading2")
 	css::styles styles = cainteoir::heading2;
 	assert(styles.name == "heading2");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::center);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -519,6 +526,7 @@ TEST_CASE("style - heading3")
 	css::styles styles = cainteoir::heading3;
 	assert(styles.name == "heading3");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::center);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -547,6 +555,7 @@ TEST_CASE("style - heading4")
 	css::styles styles = cainteoir::heading4;
 	assert(styles.name == "heading4");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::center);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -575,6 +584,7 @@ TEST_CASE("style - heading5")
 	css::styles styles = cainteoir::heading5;
 	assert(styles.name == "heading5");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::left);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -603,6 +613,7 @@ TEST_CASE("style - heading6")
 	css::styles styles = cainteoir::heading6;
 	assert(styles.name == "heading6");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::left);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -631,6 +642,7 @@ TEST_CASE("style - span")
 	css::styles styles = cainteoir::span;
 	assert(styles.name == "span");
 	assert(styles.display == css::display::inlined);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -659,6 +671,7 @@ TEST_CASE("style - sentence")
 	css::styles styles = cainteoir::sentence;
 	assert(styles.name == "sentence");
 	assert(styles.display == css::display::inlined);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -687,6 +700,7 @@ TEST_CASE("style - superscript")
 	css::styles styles = cainteoir::superscript;
 	assert(styles.name == "superscript");
 	assert(styles.display == css::display::inlined);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::super);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -715,6 +729,7 @@ TEST_CASE("style - subscript")
 	css::styles styles = cainteoir::subscript;
 	assert(styles.name == "subscript");
 	assert(styles.display == css::display::inlined);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::sub);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -743,6 +758,7 @@ TEST_CASE("style - emphasized")
 	css::styles styles = cainteoir::emphasized;
 	assert(styles.name == "emphasized");
 	assert(styles.display == css::display::inlined);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -771,6 +787,7 @@ TEST_CASE("style - emphasized-block")
 	css::styles styles = cainteoir::emphasized_block;
 	assert(styles.name == "emphasized_block");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -799,6 +816,7 @@ TEST_CASE("style - strong")
 	css::styles styles = cainteoir::strong;
 	assert(styles.name == "strong");
 	assert(styles.display == css::display::inlined);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -827,6 +845,7 @@ TEST_CASE("style - reduced")
 	css::styles styles = cainteoir::reduced;
 	assert(styles.name == "reduced");
 	assert(styles.display == css::display::inlined);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -855,6 +874,7 @@ TEST_CASE("style - underlined")
 	css::styles styles = cainteoir::underlined;
 	assert(styles.name == "underlined");
 	assert(styles.display == css::display::inlined);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::underline);
@@ -883,6 +903,7 @@ TEST_CASE("style - monospace")
 	css::styles styles = cainteoir::monospace;
 	assert(styles.name == "monospace");
 	assert(styles.display == css::display::inlined);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -911,6 +932,7 @@ TEST_CASE("style - monospace-block")
 	css::styles styles = cainteoir::monospace_block;
 	assert(styles.name == "monospace_block");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -939,6 +961,7 @@ TEST_CASE("style - bullet_list")
 	css::styles styles = cainteoir::bullet_list;
 	assert(styles.name == "bullet_list");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -967,6 +990,7 @@ TEST_CASE("style - number_list")
 	css::styles styles = cainteoir::number_list;
 	assert(styles.name == "number_list");
 	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -995,6 +1019,7 @@ TEST_CASE("style - list_item")
 	css::styles styles = cainteoir::list_item;
 	assert(styles.name == "list_item");
 	assert(styles.display == css::display::list_item);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -1023,6 +1048,7 @@ TEST_CASE("style - table")
 	css::styles styles = cainteoir::table;
 	assert(styles.name == "table");
 	assert(styles.display == css::display::table);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -1051,6 +1077,7 @@ TEST_CASE("style - table_row")
 	css::styles styles = cainteoir::table_row;
 	assert(styles.name == "table_row");
 	assert(styles.display == css::display::table_row);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);
@@ -1079,6 +1106,7 @@ TEST_CASE("style - table_cell")
 	css::styles styles = cainteoir::table_cell;
 	assert(styles.name == "table_cell");
 	assert(styles.display == css::display::table_cell);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
 	assert(styles.vertical_align == css::vertical_align::inherit);
 	assert(styles.text_align == css::text_align::inherit);
 	assert(styles.text_decoration == css::text_decoration::inherit);

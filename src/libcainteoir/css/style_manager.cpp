@@ -170,6 +170,7 @@ const css::styles cainteoir::unknown =
 {
 	"unknown",
 	css::display::inherit,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -189,6 +190,7 @@ const css::styles cainteoir::hidden =
 {
 	"hidden",
 	css::display::none,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -208,6 +210,7 @@ const css::styles cainteoir::paragraph =
 {
 	"paragraph",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -227,6 +230,7 @@ const css::styles cainteoir::heading0 =
 {
 	"heading0",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::center,
 	css::text_decoration::inherit,
@@ -246,6 +250,7 @@ const css::styles cainteoir::heading1 =
 {
 	"heading1",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::center,
 	css::text_decoration::inherit,
@@ -265,6 +270,7 @@ const css::styles cainteoir::heading2 =
 {
 	"heading2",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::center,
 	css::text_decoration::inherit,
@@ -284,6 +290,7 @@ const css::styles cainteoir::heading3 =
 {
 	"heading3",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::center,
 	css::text_decoration::inherit,
@@ -303,6 +310,7 @@ const css::styles cainteoir::heading4 =
 {
 	"heading4",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::center,
 	css::text_decoration::inherit,
@@ -322,6 +330,7 @@ const css::styles cainteoir::heading5 =
 {
 	"heading5",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::left,
 	css::text_decoration::inherit,
@@ -341,6 +350,7 @@ const css::styles cainteoir::heading6 =
 {
 	"heading6",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::left,
 	css::text_decoration::inherit,
@@ -360,6 +370,7 @@ const css::styles cainteoir::span =
 {
 	"span",
 	css::display::inlined,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -379,6 +390,7 @@ const css::styles cainteoir::sentence =
 {
 	"sentence",
 	css::display::inlined,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -398,6 +410,7 @@ const css::styles cainteoir::superscript =
 {
 	"superscript",
 	css::display::inlined,
+	css::media_synchronisation::inherit,
 	css::vertical_align::super,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -417,6 +430,7 @@ const css::styles cainteoir::subscript =
 {
 	"subscript",
 	css::display::inlined,
+	css::media_synchronisation::inherit,
 	css::vertical_align::sub,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -436,6 +450,7 @@ const css::styles cainteoir::emphasized =
 {
 	"emphasized",
 	css::display::inlined,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -455,6 +470,7 @@ const css::styles cainteoir::emphasized_block =
 {
 	"emphasized_block",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -474,6 +490,7 @@ const css::styles cainteoir::strong =
 {
 	"strong",
 	css::display::inlined,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -493,6 +510,7 @@ const css::styles cainteoir::reduced =
 {
 	"reduced",
 	css::display::inlined,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -512,6 +530,7 @@ const css::styles cainteoir::underlined =
 {
 	"underlined",
 	css::display::inlined,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::underline,
@@ -531,6 +550,7 @@ const css::styles cainteoir::monospace =
 {
 	"monospace",
 	css::display::inlined,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -550,6 +570,7 @@ const css::styles cainteoir::monospace_block =
 {
 	"monospace_block",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -569,6 +590,7 @@ const css::styles cainteoir::bullet_list =
 {
 	"bullet_list",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -588,6 +610,7 @@ const css::styles cainteoir::number_list =
 {
 	"number_list",
 	css::display::block,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -607,6 +630,7 @@ const css::styles cainteoir::list_item =
 {
 	"list_item",
 	css::display::list_item,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -626,6 +650,7 @@ const css::styles cainteoir::table =
 {
 	"table",
 	css::display::table,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -645,6 +670,7 @@ const css::styles cainteoir::table_row =
 {
 	"table_row",
 	css::display::table_row,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
@@ -664,6 +690,7 @@ const css::styles cainteoir::table_cell =
 {
 	"table_cell",
 	css::display::table_cell,
+	css::media_synchronisation::inherit,
 	css::vertical_align::inherit,
 	css::text_align::inherit,
 	css::text_decoration::inherit,
