@@ -19,6 +19,7 @@
  */
 
 #include "parsers.hpp"
+#include <cainteoir/path.hpp>
 #include <stdexcept>
 
 namespace xml    = cainteoir::xml;
@@ -38,6 +39,8 @@ namespace smil
 	static const xml::context::entry seq_node      = { &cainteoir::sequential };
 	static const xml::context::entry smil_node     = {};
 	static const xml::context::entry text_node     = {};
+
+	static const xml::context::entry src_attr = {};
 }
 
 static const std::initializer_list<const xml::context::entry_ref> smil_nodes =
@@ -54,6 +57,7 @@ static const std::initializer_list<const xml::context::entry_ref> smil_nodes =
 
 static const std::initializer_list<const xml::context::entry_ref> smil_attrs =
 {
+	{ "src", &smil::src_attr },
 };
 
 struct smil_document_reader : public cainteoir::document_reader
@@ -63,10 +67,12 @@ struct smil_document_reader : public cainteoir::document_reader
 	bool read();
 
 	std::shared_ptr<xml::reader> reader;
+	cainteoir::path mBasePath;
 };
 
 smil_document_reader::smil_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata)
 	: reader(aReader)
+	, mBasePath(cainteoir::path(aSubject.str()).parent())
 {
 	aReader->set_nodes(xmlns::smil, smil_nodes);
 	aReader->set_attrs(xmlns::smil, smil_attrs);
@@ -95,9 +101,13 @@ smil_document_reader::smil_document_reader(const std::shared_ptr<xml::reader> &a
 
 bool smil_document_reader::read()
 {
+	const xml::context::entry *current = nullptr;
+	cainteoir::path src;
+
 	while (reader->read()) switch (reader->nodeType())
 	{
 	case xml::reader::beginTagNode:
+		current = reader->context();
 		if (reader->context()->styles)
 		{
 			type   = events::begin_context;
@@ -105,11 +115,24 @@ bool smil_document_reader::read()
 			return true;
 		}
 		break;
+	case xml::reader::attribute:
+		if (current == &smil::text_node)
+		{
+			if (reader->context() == &smil::src_attr)
+				src = mBasePath / reader->nodeValue().str();
+		}
+		break;
 	case xml::reader::endTagNode:
 		if (reader->context()->styles)
 		{
 			type   = events::end_context;
 			styles = reader->context()->styles;
+			return true;
+		}
+		else if (current == &smil::text_node)
+		{
+			type = events::text_ref;
+			anchor = rdf::href(src.str());
 			return true;
 		}
 		break;

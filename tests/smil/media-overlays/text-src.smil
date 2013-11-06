@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<smil xmlns="http://www.w3.org/ns/SMIL" version="3.0">
+	<body>
+		<par>
+			<text src="one.html#text1"/>
+		</par>
+		<par>
+			<text src="one.html#text2"/>
+		</par>
+		<par>
+			<text src="two.html#text1"/>
+		</par>
+	</body>
+</smil>
