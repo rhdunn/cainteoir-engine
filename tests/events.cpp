@@ -58,6 +58,13 @@ void format_style(const css::styles &styles)
 	case css::display::none:       fprintf(stdout, "none"); break;
 	}
 
+	switch (styles.media_synchronisation)
+	{
+	case css::media_synchronisation::inherit:    break;
+	case css::media_synchronisation::sequential: fprintf(stdout, " +sequential"); break;
+	case css::media_synchronisation::parallel:   fprintf(stdout, " +parallel"); break;
+	}
+
 	switch (styles.vertical_align)
 	{
 	case css::vertical_align::inherit:  break;

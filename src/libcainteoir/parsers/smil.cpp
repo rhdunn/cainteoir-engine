@@ -35,7 +35,7 @@ namespace smil
 	static const xml::context::entry head_node     = {};
 	static const xml::context::entry metadata_node = {};
 	static const xml::context::entry par_node      = {};
-	static const xml::context::entry seq_node      = {};
+	static const xml::context::entry seq_node      = { &cainteoir::sequential };
 	static const xml::context::entry smil_node     = {};
 	static const xml::context::entry text_node     = {};
 }

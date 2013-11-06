@@ -375,6 +375,7 @@ namespace cainteoir
 	// supported XML document formats.
 
 	extern const css::styles unknown;
+	extern const css::styles sequential;
 	extern const css::styles hidden;
 	extern const css::styles paragraph;
 	extern const css::styles heading0;

@@ -262,6 +262,11 @@ if __name__ == '__main__':
 			{'test': 'rtf/libreoffice.rtf', 'result': 'rtf/libreoffice.events'},
 		]},
 	]})
+	test.run({'name': 'SMIL', 'groups': [
+		{'name': 'EPUB Media Overlays', 'type': 'events', 'tests': [
+			{'test': 'smil/media-overlays/sequential.smil', 'result': 'smil/media-overlays/sequential.events'},
+		]},
+	]})
 	test.run({'name': 'SSML', 'groups': [
 		{'name': 'document', 'type': 'events', 'tests': [
 			{'test': 'ssml/speak.ssml', 'result': 'ssml/speak.events'},
