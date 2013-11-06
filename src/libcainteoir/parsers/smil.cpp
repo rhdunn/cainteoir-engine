@@ -26,6 +26,7 @@ namespace xml    = cainteoir::xml;
 namespace xmlns  = cainteoir::xml::xmlns;
 namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
+namespace css    = cainteoir::css;
 
 namespace smil
 {
@@ -40,7 +41,9 @@ namespace smil
 	static const xml::context::entry smil_node     = {};
 	static const xml::context::entry text_node     = {};
 
-	static const xml::context::entry src_attr = {};
+	static const xml::context::entry clipBegin_attr = {};
+	static const xml::context::entry clipEnd_attr   = {};
+	static const xml::context::entry src_attr       = {};
 }
 
 static const std::initializer_list<const xml::context::entry_ref> smil_nodes =
@@ -57,7 +60,9 @@ static const std::initializer_list<const xml::context::entry_ref> smil_nodes =
 
 static const std::initializer_list<const xml::context::entry_ref> smil_attrs =
 {
-	{ "src", &smil::src_attr },
+	{ "clipBegin", &smil::clipBegin_attr },
+	{ "clipEnd",   &smil::clipEnd_attr },
+	{ "src",       &smil::src_attr },
 };
 
 struct smil_document_reader : public cainteoir::document_reader
@@ -103,6 +108,8 @@ bool smil_document_reader::read()
 {
 	const xml::context::entry *current = nullptr;
 	cainteoir::path src;
+	css::time clipBegin;
+	css::time clipEnd;
 
 	while (reader->read()) switch (reader->nodeType())
 	{
@@ -125,6 +132,10 @@ bool smil_document_reader::read()
 		{
 			if (reader->context() == &smil::src_attr)
 				src = mBasePath / reader->nodeValue().str();
+			else if (reader->context() == &smil::clipBegin_attr)
+				clipBegin = css::parse_smil_time(*reader->nodeValue().buffer());
+			else if (reader->context() == &smil::clipEnd_attr)
+				clipEnd = css::parse_smil_time(*reader->nodeValue().buffer());
 		}
 		break;
 	case xml::reader::endTagNode:
@@ -144,6 +155,8 @@ bool smil_document_reader::read()
 		{
 			type = events::media_ref;
 			anchor = rdf::href(src.str());
+			media_begin = clipBegin;
+			media_end = clipEnd;
 			return true;
 		}
 		break;

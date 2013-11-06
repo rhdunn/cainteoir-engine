@@ -268,6 +268,7 @@ if __name__ == '__main__':
 			{'test': 'smil/media-overlays/parallel.smil', 'result': 'smil/media-overlays/parallel.events'},
 			{'test': 'smil/media-overlays/text-src.smil', 'result': 'smil/media-overlays/text-src.events'},
 			{'test': 'smil/media-overlays/audio-src.smil', 'result': 'smil/media-overlays/audio-src.events'},
+			{'test': 'smil/media-overlays/audio-clip_range.smil', 'result': 'smil/media-overlays/audio-clip_range.events'},
 		]},
 	]})
 	test.run({'name': 'SSML', 'groups': [

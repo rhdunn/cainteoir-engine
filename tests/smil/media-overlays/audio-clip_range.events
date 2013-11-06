@@ -1,0 +1,24 @@
+begin-context  +parallel
+media-ref [%CWD%/]test.mp3 [from=125ms ; to=2307ms]
+end-context
+begin-context  +parallel
+media-ref [%CWD%/]test.mp3 [from=3s ; to=12.2s]
+end-context
+begin-context  +parallel
+media-ref [%CWD%/]test.mp3 [from=60s ; to=90s]
+end-context
+begin-context  +parallel
+media-ref [%CWD%/]test.mp3 [from=1800s ; to=3600s]
+end-context
+begin-context  +parallel
+media-ref [%CWD%/]test.mp3 [from=1.5s ; to=3s]
+end-context
+begin-context  +parallel
+media-ref [%CWD%/]test.mp3 [from=22s ; to=715.234s]
+end-context
+begin-context  +parallel
+media-ref [%CWD%/]test.mp3 [from=22s ; to=715.234s]
+end-context
+begin-context  +parallel
+media-ref [%CWD%/]test.mp3 [from=44614s ; to=77563.1s]
+end-context
