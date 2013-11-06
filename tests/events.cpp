@@ -143,6 +143,12 @@ int main(int argc, char ** argv)
 				        reader->anchor.ns.c_str(),
 				        reader->anchor.ref.c_str());
 			}
+			if (reader->type & cainteoir::events::media_ref)
+			{
+				fprintf(stdout, "media-ref [%s]%s\n",
+				        reader->anchor.ns.c_str(),
+				        reader->anchor.ref.c_str());
+			}
 			if (reader->type & cainteoir::events::begin_context)
 			{
 				fprintf(stdout, "begin-context ");

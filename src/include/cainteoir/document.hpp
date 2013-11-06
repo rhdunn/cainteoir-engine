@@ -35,6 +35,7 @@ namespace cainteoir
 			toc_entry = 0x0008,
 			anchor = 0x0010,
 			text_ref = 0x0020,
+			media_ref = 0x0040,
 		};
 	}
 
