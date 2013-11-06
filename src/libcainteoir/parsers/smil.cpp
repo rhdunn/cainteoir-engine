@@ -102,7 +102,6 @@ bool smil_document_reader::read()
 		{
 			type   = events::begin_context;
 			styles = reader->context()->styles;
-			reader->read();
 			return true;
 		}
 		break;
@@ -111,7 +110,6 @@ bool smil_document_reader::read()
 		{
 			type   = events::end_context;
 			styles = reader->context()->styles;
-			reader->read();
 			return true;
 		}
 		break;
