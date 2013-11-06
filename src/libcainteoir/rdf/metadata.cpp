@@ -128,7 +128,7 @@ rdf::graph &rdf::graph::add_prefix(const std::string &aPrefix)
 	return *this;
 }
 
-const rdf::uri rdf::graph::href(const std::string &aHref)
+const rdf::uri rdf::href(const std::string &aHref)
 {
 	std::string::size_type index;
 

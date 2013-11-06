@@ -114,7 +114,7 @@ ssml_document_reader::ssml_document_reader(const std::shared_ptr<xml::reader> &a
 		{
 			if (name == "seeAlso" && !content.empty())
 			{
-				aPrimaryMetadata.statement(aSubject, rdf::rdfs("seeAlso"), aPrimaryMetadata.href(content));
+				aPrimaryMetadata.statement(aSubject, rdf::rdfs("seeAlso"), rdf::href(content));
 				name.clear();
 				content.clear();
 			}

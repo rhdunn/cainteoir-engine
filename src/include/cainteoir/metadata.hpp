@@ -294,6 +294,8 @@ namespace cainteoir { namespace rdf
 		std::map<std::string, query::results> subjects;
 	};
 
+	const uri href(const std::string &aHref);
+
 	struct graph : public cainteoir::xml::namespaces
 	{
 		typedef triplestore::size_type size_type;
@@ -340,8 +342,6 @@ namespace cainteoir { namespace rdf
 		//@}
 		/** @name URIs */
 		//@{
-
-		const uri href(const std::string &aHref);
 
 		const rdf::uri genid();
 
