@@ -34,6 +34,17 @@ def replace_strings(string, replacements):
 def write(s):
 	sys.stdout.write(s)
 
+def map_line(line, filename):
+	replacements = [
+		('<%s' % filename, '<'),
+		('[%s' % filename, '[')
+	]
+	if filename:
+		replacements.append((os.path.dirname(filename), '%CWD%'))
+	for src, dst in replacements:
+		line = line.replace(src, dst)
+	return line
+
 class Command:
 	def __init__(self, command, collator='tee'):
 		self.command = 'XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s' % (
@@ -49,7 +60,7 @@ class Command:
 		else:
 			os.system('%s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), self.collator, tmpfile))
 		with open(tmpfile, 'r') as f:
-			output = [ repr(x.replace('<%s' % filename, '<').replace('[%s' % filename, '[')) for x in f.read().split('\n') if not x == '' ]
+			output = [ repr(map_line(x, filename)) for x in f.read().split('\n') if not x == '' ]
 		return output
 
 class DictionaryCommand(Command):
