@@ -44,6 +44,12 @@ namespace cainteoir
 
 		operator const char *() const { return mPath.c_str(); }
 
+		const std::string &str() const { return mPath; }
+
+		std::string::size_type size()  const { return mPath.size(); }
+
+		bool empty() const { return mPath.empty(); }
+
 		path parent() const;
 	private:
 		std::string mPath;
