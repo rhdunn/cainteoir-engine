@@ -51,6 +51,8 @@ namespace cainteoir
 		const cainteoir::css::styles *styles;
 		std::shared_ptr<buffer> text;
 		rdf::uri anchor;
+		cainteoir::css::time media_begin;
+		cainteoir::css::time media_end;
 	};
 
 	struct document_reader : public document_item

@@ -29,6 +29,16 @@ namespace css    = cainteoir::css;
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
+void print_time(const css::time &time)
+{
+	switch (time.units())
+	{
+	case css::time::inherit:      fprintf(stdout, "unspecified"); break;
+	case css::time::seconds:      fprintf(stdout, "%Gs",  time.value()); break;
+	case css::time::milliseconds: fprintf(stdout, "%Gms", time.value()); break;
+	}
+}
+
 void format_style(const css::styles &styles)
 {
 	switch (styles.display)
@@ -145,9 +155,13 @@ int main(int argc, char ** argv)
 			}
 			if (reader->type & cainteoir::events::media_ref)
 			{
-				fprintf(stdout, "media-ref [%s]%s\n",
+				fprintf(stdout, "media-ref [%s]%s [from=",
 				        reader->anchor.ns.c_str(),
 				        reader->anchor.ref.c_str());
+				print_time(reader->media_begin);
+				fprintf(stdout, " ; to=");
+				print_time(reader->media_end);
+				fprintf(stdout, "]\n");
 			}
 			if (reader->type & cainteoir::events::begin_context)
 			{

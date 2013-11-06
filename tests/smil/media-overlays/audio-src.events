@@ -1,9 +1,9 @@
 begin-context  +parallel
-media-ref [%CWD%/]first.mp3
+media-ref [%CWD%/]first.mp3 [from=unspecified ; to=unspecified]
 end-context
 begin-context  +parallel
-media-ref [%CWD%/]first.mp3
+media-ref [%CWD%/]first.mp3 [from=unspecified ; to=unspecified]
 end-context
 begin-context  +parallel
-media-ref [%CWD%/]second.ogg
+media-ref [%CWD%/]second.ogg [from=unspecified ; to=unspecified]
 end-context
