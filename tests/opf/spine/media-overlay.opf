@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+	Test case for epub document metadata.
+
+	Copyright (C) 2013 Reece H. Dunn
+
+	This file is part of cainteoir-engine.
+
+	cainteoir-engine is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	cainteoir-engine is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="id">
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+		<dc:identifier id="id">test-case</dc:identifier>
+		<dc:title>Test Case</dc:title>
+	</metadata>
+	<manifest>
+		<item id="ncx"   href="toc.ncx"    media-type="application/x-dtbncx+xml" />
+		<item id="text1" href="test1.html" media-type="application/xhtml+xml" media-overlay="smil1"/>
+		<item id="smil1" href="test1.smil" media-type="application/smil+xml" />
+		<item id="smil2" href="test2.smil" media-type="application/smil+xml" />
+		<item id="text2" href="test2.html" media-type="application/xhtml+xml" media-overlay="smil2"/>
+	</manifest>
+	<spine toc="ncx">
+		<itemref idref="text1"/>
+		<itemref idref="text2"/>
+	</spine>
+</package>

@@ -57,25 +57,26 @@ namespace opf
 	static const xml::context::entry package_node    = {};
 	static const xml::context::entry spine_node      = {};
 
-	static const xml::context::entry about_attr     = {};
-	static const xml::context::entry content_attr   = {};
-	static const xml::context::entry datatype_attr  = {};
-	static const xml::context::entry event_attr     = {};
-	static const xml::context::entry fileas_attr    = {};
-	static const xml::context::entry href_attr      = {};
-	static const xml::context::entry id_attr        = {};
-	static const xml::context::entry idref_attr     = {};
-	static const xml::context::entry mediatype_attr = {};
-	static const xml::context::entry name_attr      = {};
-	static const xml::context::entry prefer_attr    = {};
-	static const xml::context::entry prefix_attr    = {};
-	static const xml::context::entry property_attr  = {};
-	static const xml::context::entry refines_attr   = {};
-	static const xml::context::entry rel_attr       = {};
-	static const xml::context::entry role_attr      = {};
-	static const xml::context::entry scheme_attr    = {};
-	static const xml::context::entry toc_attr       = {};
-	static const xml::context::entry version_attr   = {};
+	static const xml::context::entry about_attr         = {};
+	static const xml::context::entry content_attr       = {};
+	static const xml::context::entry datatype_attr      = {};
+	static const xml::context::entry event_attr         = {};
+	static const xml::context::entry fileas_attr        = {};
+	static const xml::context::entry href_attr          = {};
+	static const xml::context::entry id_attr            = {};
+	static const xml::context::entry idref_attr         = {};
+	static const xml::context::entry media_overlay_attr = {};
+	static const xml::context::entry mediatype_attr     = {};
+	static const xml::context::entry name_attr          = {};
+	static const xml::context::entry prefer_attr        = {};
+	static const xml::context::entry prefix_attr        = {};
+	static const xml::context::entry property_attr      = {};
+	static const xml::context::entry refines_attr       = {};
+	static const xml::context::entry rel_attr           = {};
+	static const xml::context::entry role_attr          = {};
+	static const xml::context::entry scheme_attr        = {};
+	static const xml::context::entry toc_attr           = {};
+	static const xml::context::entry version_attr       = {};
 }
 
 static const std::initializer_list<const xml::context::entry_ref> dc_nodes =
@@ -112,44 +113,43 @@ static const std::initializer_list<const xml::context::entry_ref> opf_nodes =
 
 static const std::initializer_list<const xml::context::entry_ref> opf_attrs =
 {
-	{ "about",      &opf::about_attr },
-	{ "content",    &opf::content_attr },
-	{ "datatype",   &opf::datatype_attr },
-	{ "event",      &opf::event_attr },
-	{ "file-as",    &opf::fileas_attr },
-	{ "href",       &opf::href_attr },
-	{ "id",         &opf::id_attr },
-	{ "idref",      &opf::idref_attr },
-	{ "media-type", &opf::mediatype_attr },
-	{ "name",       &opf::name_attr },
-	{ "prefer",     &opf::prefer_attr },
-	{ "prefix",     &opf::prefix_attr },
-	{ "property",   &opf::property_attr },
-	{ "refines",    &opf::refines_attr },
-	{ "rel",        &opf::rel_attr },
-	{ "role",       &opf::role_attr },
-	{ "scheme",     &opf::scheme_attr },
-	{ "toc",        &opf::toc_attr },
-	{ "version",    &opf::version_attr },
+	{ "about",         &opf::about_attr },
+	{ "content",       &opf::content_attr },
+	{ "datatype",      &opf::datatype_attr },
+	{ "event",         &opf::event_attr },
+	{ "file-as",       &opf::fileas_attr },
+	{ "href",          &opf::href_attr },
+	{ "id",            &opf::id_attr },
+	{ "idref",         &opf::idref_attr },
+	{ "media-overlay", &opf::media_overlay_attr },
+	{ "media-type",    &opf::mediatype_attr },
+	{ "name",          &opf::name_attr },
+	{ "prefer",        &opf::prefer_attr },
+	{ "prefix",        &opf::prefix_attr },
+	{ "property",      &opf::property_attr },
+	{ "refines",       &opf::refines_attr },
+	{ "rel",           &opf::rel_attr },
+	{ "role",          &opf::role_attr },
+	{ "scheme",        &opf::scheme_attr },
+	{ "toc",           &opf::toc_attr },
+	{ "version",       &opf::version_attr },
 };
 
 struct fileinfo
 {
-	/** @brief The name of the file. */
 	std::string filename;
-
-	/** @brief The mime type of the file. */
 	std::shared_ptr<cainteoir::buffer> mimetype;
-
-	/** @brief The unique id for the file within the current document. */
 	std::string id;
+	std::string media_overlay;
 
 	fileinfo(const std::string &aFileName,
 	         const std::shared_ptr<cainteoir::buffer> &aMimeType,
-	         const std::string &aId)
+	         const std::string &aId,
+	         const std::string &aMediaOverlay)
 		: filename(aFileName)
 		, mimetype(aMimeType)
 		, id(aId)
+		, media_overlay(aMediaOverlay)
 	{
 	}
 
@@ -447,6 +447,7 @@ static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &a
 	std::string id;
 	std::string href;
 	std::shared_ptr<cainteoir::buffer> mediatype;
+	std::string media_overlay;
 
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -457,11 +458,13 @@ static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &a
 			id = reader.nodeValue().str();
 		else if (reader.context() == &opf::mediatype_attr)
 			mediatype = reader.nodeValue().buffer();
+		else if (reader.context() == &opf::media_overlay_attr)
+			media_overlay = reader.nodeValue().str();
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == &opf::item_node)
 		{
-			aItemSet[id] = fileinfo(href, mediatype, id);
+			aItemSet[id] = fileinfo(href, mediatype, id, media_overlay);
 			return;
 		}
 		break;
@@ -520,7 +523,13 @@ static void parseOpfSpine(xml::reader &reader, std::list<std::string> &aSpine, s
 		break;
 	case xml::reader::beginTagNode:
 		if (reader.context() == &opf::itemref_node)
-			aSpine.push_back(parseOpfItemRef(reader));
+		{
+			std::string ref = parseOpfItemRef(reader);
+			fileinfo &info = files[ref];
+			if (!info.media_overlay.empty())
+				aSpine.push_back(info.media_overlay);
+			aSpine.push_back(ref);
+		}
 		break;
 	default:
 		break;
