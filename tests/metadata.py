@@ -328,7 +328,7 @@ if __name__ == '__main__':
 				{'test': 'opf/dc-metadata/xmllang.opf', 'result': 'opf/metadata/xmllang.n3'},
 			]},
 			{'name': 'with-content', 'type': 'turtle', 'tests': [
-				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/metadata/htmlfile-in-spine.n3'},
+				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
 			]},
 		]
 	})

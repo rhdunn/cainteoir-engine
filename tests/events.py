@@ -291,7 +291,7 @@ if __name__ == '__main__':
 			],
 		'groups': [
 			{'name': 'with-content', 'type': 'events', 'tests': [
-				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
+				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub/simple.events'},
 				{'test': 'epub/missing-html-file.opf', 'result': 'epub/missing.events'},
 			]},
 		]
@@ -307,7 +307,7 @@ if __name__ == '__main__':
 			],
 		'groups': [
 			{'name': 'mimetype with extra content at the end', 'type': 'events', 'tests': [
-				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
+				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub/simple.events'},
 				{'test': 'epub/missing-html-file.opf', 'result': 'epub/missing.events'},
 			]},
 		]
@@ -315,7 +315,7 @@ if __name__ == '__main__':
 	test.run({ 'name': 'ePub',
 		'archive':
 			[
-				# incorrectly constructed ePUb document -- the mimetype
+				# incorrectly constructed ePub document -- the mimetype
 				# file is the last entry, not the first:
 				('META-INF/container.xml', 'ocf/simple.ocf'),
 				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
@@ -325,7 +325,7 @@ if __name__ == '__main__':
 			],
 		'groups': [
 			{'name': 'mimetype at end', 'type': 'events', 'tests': [
-				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
+				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub/simple.events'},
 				{'test': 'epub/missing-html-file.opf', 'result': 'epub/missing.events'},
 			]},
 		]
