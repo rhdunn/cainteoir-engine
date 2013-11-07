@@ -280,6 +280,11 @@ if __name__ == '__main__':
 			{'test': 'ssml/emphasis.ssml', 'result': 'ssml/emphasis.events'},
 		]},
 	]})
+	test.run({'name': 'OPF', 'groups': [
+		{'name': 'spine', 'type': 'events', 'tests': [
+			{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc.events'},
+		]},
+	]})
 	test.run({ 'name': 'ePub',
 		'archive':
 			[
