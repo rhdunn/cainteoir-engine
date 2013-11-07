@@ -135,11 +135,17 @@ int main(int argc, char ** argv)
 		{
 			if (reader->type & cainteoir::events::toc_entry && reader->styles)
 			{
-				fprintf(stdout, "toc-entry [%s]%s depth=%d title=\"\"\"%s\"\"\"\n",
+				fprintf(stdout, "toc-entry [%s]%s depth=%d",
 				        reader->anchor.ns.c_str(),
 				        reader->anchor.ref.c_str(),
-				        reader->styles->aria_level,
-				        reader->text->str().c_str());
+				        reader->styles->aria_level);
+				if (reader->text.get())
+				{
+					fprintf(stdout, " title=\"\"\"%s\"\"\"\n",
+					        reader->text->str().c_str());
+				}
+				else
+					fprintf(stdout, " title=(null)\n");
 			}
 			if (reader->type & cainteoir::events::anchor)
 			{
