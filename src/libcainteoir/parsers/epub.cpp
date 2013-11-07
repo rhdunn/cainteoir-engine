@@ -27,6 +27,7 @@
 namespace rdf    = cainteoir::rdf;
 namespace xml    = cainteoir::xml;
 namespace events = cainteoir::events;
+namespace css    = cainteoir::css;
 
 static std::string path_to(const std::string &filename, const std::string &opffile)
 {
@@ -51,6 +52,12 @@ struct epub_document_reader : public cainteoir::document_reader
 	std::shared_ptr<cainteoir::archive> mData;
 	rdf::uri mSubject;
 	const char *mDefaultEncoding;
+
+	std::shared_ptr<cainteoir::document_reader> media_overlay;
+	rdf::uri mTextRef;
+	cainteoir::document_item mMediaItem;
+
+	void next_media_overlay_entry();
 };
 
 epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aDefaultEncoding)
@@ -83,6 +90,22 @@ bool epub_document_reader::read()
 {
 	if (child)
 	{
+		if (child->type & cainteoir::events::anchor)
+		{
+			if (mTextRef == child->anchor)
+			{
+				type        = mMediaItem.type;
+				styles      = mMediaItem.styles;
+				text        = mMediaItem.text;
+				anchor      = mMediaItem.anchor;
+				media_begin = mMediaItem.media_begin;
+				media_end   = mMediaItem.media_end;
+
+				next_media_overlay_entry();
+				return true;
+			}
+		}
+
 		while (child->read())
 		{
 			if (child->type & cainteoir::events::toc_entry)
@@ -142,10 +165,54 @@ bool epub_document_reader::read()
 				is_toc = false;
 				return read();
 			}
+			else if (!opf->text->compare("application/smil+xml"))
+			{
+				anchor = mData->location(filename, opf->anchor.ref);
+
+				rdf::graph innerMetadata;
+				media_overlay = cainteoir::createSmilReader(reader, anchor, innerMetadata, std::string());
+				next_media_overlay_entry();
+			}
 		}
 	}
 
 	return false;
+}
+
+void epub_document_reader::next_media_overlay_entry()
+{
+	if (!media_overlay)
+	{
+		mTextRef = {};
+		mMediaItem = {};
+		return;
+	}
+
+	while (media_overlay->read())
+	{
+		if (media_overlay->type & cainteoir::events::begin_context && media_overlay->styles)
+		{
+			if (media_overlay->styles->media_synchronisation == css::media_synchronisation::parallel)
+			{
+				mTextRef = {};
+				mMediaItem = {};
+			}
+		}
+
+		if (media_overlay->type & cainteoir::events::end_context && media_overlay->styles)
+		{
+			if (media_overlay->styles->media_synchronisation == css::media_synchronisation::parallel)
+				return;
+		}
+
+		if (media_overlay->type & cainteoir::events::text_ref)
+			mTextRef = media_overlay->anchor;
+
+		if (media_overlay->type & cainteoir::events::media_ref)
+			mMediaItem = *media_overlay;
+	}
+
+	media_overlay.reset();
 }
 
 std::shared_ptr<cainteoir::document_reader>
