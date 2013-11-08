@@ -101,8 +101,8 @@ ssml_document_reader::ssml_document_reader(const std::shared_ptr<xml::reader> &a
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		text = reader->nodeValue().normalize();
-		in_header = text->empty();
+		this->content = reader->nodeValue().normalize();
+		in_header = this->content->empty();
 		break;
 	case xml::reader::beginTagNode:
 		current = reader->context();
@@ -147,9 +147,9 @@ bool ssml_document_reader::read()
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		text = reader->nodeValue().content();
+		this->content = reader->nodeValue().content();
 		type = 0;
-		if (text)
+		if (this->content)
 			type |= events::text;
 		if (current != nullptr && current->styles)
 		{

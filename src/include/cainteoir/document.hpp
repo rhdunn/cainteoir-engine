@@ -49,7 +49,7 @@ namespace cainteoir
 
 		uint32_t type;
 		const cainteoir::css::styles *styles;
-		std::shared_ptr<buffer> text;
+		std::shared_ptr<buffer> content;
 		rdf::uri anchor;
 		cainteoir::css::time media_begin;
 		cainteoir::css::time media_end;

@@ -84,10 +84,10 @@ bool ncx_document_reader::read()
 {
 	if (!mTitle.empty())
 	{
-		type   = events::toc_entry;
-		styles = &cainteoir::heading0;
-		text   = cainteoir::make_buffer(mTitle);
-		anchor = mSubject;
+		type    = events::toc_entry;
+		styles  = &cainteoir::heading0;
+		content = cainteoir::make_buffer(mTitle);
+		anchor  = mSubject;
 		mTitle.clear();
 		return true;
 	}
@@ -95,7 +95,7 @@ bool ncx_document_reader::read()
 	const xml::context::entry *current = nullptr;
 	const xml::context::entry *outer   = nullptr;
 
-	text.reset();
+	content.reset();
 	anchor = rdf::uri();
 
 	while (reader->read()) switch (reader->nodeType())
@@ -105,7 +105,7 @@ bool ncx_document_reader::read()
 		if (current == &ncx::text_node)
 		{
 			if (outer == &ncx::navLabel_node)
-				text = reader->nodeValue().buffer();
+				content = reader->nodeValue().buffer();
 			current = outer = nullptr;
 			if (!anchor.empty())
 			{
@@ -132,7 +132,7 @@ bool ncx_document_reader::read()
 				anchor = rdf::uri(src, std::string());
 			else
 				anchor = rdf::uri(src.substr(0, ref), src.substr(ref+1));
-			if (text)
+			if (content)
 			{
 				type = events::toc_entry;
 				switch (mDepth)

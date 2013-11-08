@@ -593,10 +593,10 @@ bool opf_document_reader::read()
 
 	fileinfo &ref = mFiles[*mCurrent++];
 
-	type   = events::toc_entry;
-	styles = &cainteoir::heading1;
-	anchor = rdf::uri(ref.filename, std::string());
-	text   = ref.mimetype;
+	type    = events::toc_entry;
+	styles  = &cainteoir::heading1;
+	anchor  = rdf::uri(ref.filename, std::string());
+	content = ref.mimetype;
 
 	return true;
 }

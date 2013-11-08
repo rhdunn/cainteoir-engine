@@ -72,7 +72,7 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 
 	while (ocf->read() && opf_file.empty())
 	{
-		if (!ocf->text->compare("application/oebps-package+xml"))
+		if (!ocf->content->compare("application/oebps-package+xml"))
 			opf_file = ocf->anchor.str();
 	}
 
@@ -96,7 +96,7 @@ bool epub_document_reader::read()
 			{
 				type        = mMediaItem.type;
 				styles      = mMediaItem.styles;
-				text        = mMediaItem.text;
+				content     = mMediaItem.content;
 				anchor      = mMediaItem.anchor;
 				media_begin = mMediaItem.media_begin;
 				media_end   = mMediaItem.media_end;
@@ -116,9 +116,9 @@ bool epub_document_reader::read()
 						anchor = mSubject;
 					else
 						anchor = mData->location(path_to(child->anchor.ns, opf_file), child->anchor.ref);
-					type   = child->type;
-					styles = child->styles;
-					text   = child->text;
+					type    = child->type;
+					styles  = child->styles;
+					content = child->content;
 					return true;
 				}
 				else
@@ -127,10 +127,10 @@ bool epub_document_reader::read()
 
 			if (child->type)
 			{
-				type   = child->type;
-				styles = child->styles;
-				text   = child->text;
-				anchor = child->anchor;
+				type    = child->type;
+				styles  = child->styles;
+				content = child->content;
+				anchor  = child->anchor;
 				return true;
 			}
 		}
@@ -149,14 +149,14 @@ bool epub_document_reader::read()
 				continue;
 			}
 
-			if (!opf->text->compare("application/x-dtbncx+xml"))
+			if (!opf->content->compare("application/x-dtbncx+xml"))
 			{
 				rdf::graph innerMetadata;
 				child = cainteoir::createNcxReader(reader, mSubject, innerMetadata, std::string());
 				is_toc = true;
 				return read();
 			}
-			else if (!opf->text->compare("application/xhtml+xml"))
+			else if (!opf->content->compare("application/xhtml+xml"))
 			{
 				anchor = mData->location(filename, opf->anchor.ref);
 
@@ -165,7 +165,7 @@ bool epub_document_reader::read()
 				is_toc = false;
 				return read();
 			}
-			else if (!opf->text->compare("application/smil+xml"))
+			else if (!opf->content->compare("application/smil+xml"))
 			{
 				anchor = mData->location(filename, opf->anchor.ref);
 

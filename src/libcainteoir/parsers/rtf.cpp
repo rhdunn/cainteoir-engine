@@ -309,11 +309,11 @@ bool rtf_document_reader::internal_read(rdf::graph *aGraph)
 				mTitle = mTitle.substr(sep + 1);
 		}
 
-		type   = events::toc_entry | events::anchor;
-		styles = &cainteoir::heading0;
-		text   = cainteoir::make_buffer(mTitle);
-		anchor = mSubject;
-		mState = state_text;
+		type    = events::toc_entry | events::anchor;
+		styles  = &cainteoir::heading0;
+		content = cainteoir::make_buffer(mTitle);
+		anchor  = mSubject;
+		mState  = state_text;
 		return true;
 	}
 
@@ -412,15 +412,15 @@ bool rtf_document_reader::internal_read(rdf::graph *aGraph)
 	if (rtf_text.empty())
 	{
 		type = 0;
-		text.reset();
+		content.reset();
 		return false;
 	}
 
 text_event:
-	type   = events::text | events::begin_context | events::end_context;
-	styles = &cainteoir::paragraph;
-	text   = rtf_text.buffer();
-	anchor = rdf::uri();
+	type    = events::text | events::begin_context | events::end_context;
+	styles  = &cainteoir::paragraph;
+	content = rtf_text.buffer();
+	anchor  = rdf::uri();
 	if (aGraph == nullptr)
 		rtf_text.clear();
 	return true;

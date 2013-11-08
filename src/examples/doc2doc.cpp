@@ -68,7 +68,7 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 		}
 		if (reader->type & cainteoir::events::text)
 		{
-			fwrite(reader->text->begin(), 1, reader->text->size(), stdout);
+			fwrite(reader->content->begin(), 1, reader->content->size(), stdout);
 			need_linebreak = true;
 		}
 	}
@@ -151,8 +151,8 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 
 		if (reader->type & cainteoir::events::text)
 		{
-			if (!reader->text->empty())
-				text += reader->text;
+			if (!reader->content->empty())
+				text += reader->content;
 		}
 
 		if (reader->type & cainteoir::events::end_context)

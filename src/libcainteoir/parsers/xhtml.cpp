@@ -574,10 +574,10 @@ bool html_document_reader::read()
 {
 	if (ctx.top().ctx == &html::title_node)
 	{
-		type   = events::toc_entry | events::anchor;
-		styles = &cainteoir::heading0;
-		text   = cainteoir::make_buffer(mTitle);
-		anchor = mSubject;
+		type    = events::toc_entry | events::anchor;
+		styles  = &cainteoir::heading0;
+		content = cainteoir::make_buffer(mTitle);
+		anchor  = mSubject;
 		ctx.pop();
 		return true;
 	}
@@ -612,9 +612,9 @@ bool html_document_reader::read()
 			}
 			else
 				marker = ' ';
-			text   = cainteoir::make_buffer(marker.c_str(), marker.size());
-			type   = events::begin_context | events::text;
-			styles = reader->context()->styles;
+			content = cainteoir::make_buffer(marker.c_str(), marker.size());
+			type    = events::begin_context | events::text;
+			styles  = reader->context()->styles;
 			reader->read();
 			return true;
 		}
@@ -646,11 +646,11 @@ bool html_document_reader::read()
 	case xml::reader::cdataNode:
 		if (ctx.top().ctx == &html::body_node)
 		{
-			text = reader->nodeValue().content();
-			if (text && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
-				text = cainteoir::normalize(text, cainteoir::collapse_space, cainteoir::collapse_space);
+			content = reader->nodeValue().content();
+			if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
+				content = cainteoir::normalize(content, cainteoir::collapse_space, cainteoir::collapse_space);
 
-			bool is_title_header = text && !text->empty() && text->compare(mTitle.c_str()) == 0;
+			bool is_title_header = content && !content->empty() && content->compare(mTitle.c_str()) == 0;
 
 			if (genAnchor)
 			{
@@ -667,10 +667,10 @@ bool html_document_reader::read()
 				}
 			}
 
-			if (text && !text->empty())
+			if (content && !content->empty())
 			{
 				if (!is_title_header)
-					htext += text;
+					htext += content;
 
 				type   = events::text;
 				anchor = rdf::uri();
@@ -680,8 +680,8 @@ bool html_document_reader::read()
 		}
 		else if (ctx.top().ctx->styles && ctx.top().ctx->styles->display != cainteoir::css::display::none)
 		{
-			text = reader->nodeValue().content();
-			if (text)
+			content = reader->nodeValue().content();
+			if (content)
 			{
 				type   = events::text;
 				anchor = rdf::uri();
@@ -704,8 +704,8 @@ bool html_document_reader::read()
 
 				if (styles->role == cainteoir::css::role::heading && !htext.empty())
 				{
-					text = htext.normalize();
-					for (char *c = (char *)text->begin(), *last = (char *)text->end(); c != last; ++c)
+					content = htext.normalize();
+					for (char *c = (char *)content->begin(), *last = (char *)content->end(); c != last; ++c)
 					{
 						switch (*c)
 						{
@@ -716,7 +716,7 @@ bool html_document_reader::read()
 							break;
 						}
 					}
-					if (!text->empty())
+					if (!content->empty())
 					{
 						type |= events::toc_entry;
 						anchor = href;

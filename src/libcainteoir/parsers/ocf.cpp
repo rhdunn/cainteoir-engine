@@ -79,7 +79,7 @@ ocf_reader::ocf_reader(const std::shared_ptr<xml::reader> &aReader)
 
 bool ocf_reader::read()
 {
-	text.reset();
+	content.reset();
 	anchor = rdf::uri();
 
 	const xml::context::entry *ctx = &xml::unknown_context;
@@ -101,7 +101,7 @@ bool ocf_reader::read()
 			if (mReader->context() == &ocf::fullpath_attr)
 				anchor = rdf::uri(mReader->nodeValue().str(), std::string());
 			else if (mReader->context() == &ocf::mediatype_attr)
-				text = mReader->nodeValue().buffer();
+				content = mReader->nodeValue().buffer();
 		}
 		break;
 	default:

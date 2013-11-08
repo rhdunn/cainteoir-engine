@@ -130,8 +130,8 @@ static void * speak_tts_thread(void *data)
 		{
 			if (node.type & cainteoir::events::text)
 			{
-				speak->engine->speak(node.text.get(), 0, speak);
-				n += node.text->size();
+				speak->engine->speak(node.content.get(), 0, speak);
+				n += node.content->size();
 				speak->progress(n);
 			}
 
@@ -180,7 +180,7 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	for (auto &node : *this)
 	{
 		if (node.type & cainteoir::events::text)
-			textLen += node.text->size();
+			textLen += node.content->size();
 	}
 
 	// The first TOC entry points to the root document, so skip it ...

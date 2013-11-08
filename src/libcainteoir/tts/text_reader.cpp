@@ -144,8 +144,8 @@ bool tts::text_reader::read()
 	{
 		if (mReader->type & cainteoir::events::text)
 		{
-			mCurrent = mReader->text->begin();
-			mLast = mReader->text->end();
+			mCurrent = mReader->content->begin();
+			mLast = mReader->content->end();
 			mReaderState = reader_state::have_text;
 		}
 		else if (mReader->type & cainteoir::events::end_context)

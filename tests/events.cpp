@@ -139,10 +139,10 @@ int main(int argc, char ** argv)
 				        reader->anchor.ns.c_str(),
 				        reader->anchor.ref.c_str(),
 				        reader->styles->aria_level);
-				if (reader->text.get())
+				if (reader->content.get())
 				{
 					fprintf(stdout, " title=\"\"\"%s\"\"\"\n",
-					        reader->text->str().c_str());
+					        reader->content->str().c_str());
 				}
 				else
 					fprintf(stdout, " title=(null)\n");
@@ -178,8 +178,8 @@ int main(int argc, char ** argv)
 			}
 			if (reader->type & cainteoir::events::text)
 			{
-				fprintf(stdout, "text(%zu): \"\"\"", reader->text->size());
-				fwrite(reader->text->begin(), 1, reader->text->size(), stdout);
+				fprintf(stdout, "text(%zu): \"\"\"", reader->content->size());
+				fwrite(reader->content->begin(), 1, reader->content->size(), stdout);
 				fwrite("\"\"\"\n", 1, 4, stdout);
 			}
 			if (reader->type & cainteoir::events::end_context)

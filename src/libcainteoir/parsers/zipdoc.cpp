@@ -52,10 +52,10 @@ bool zip_document_reader::read()
 	{
 		if (child->read())
 		{
-			type   = child->type;
-			styles = child->styles;
-			text   = child->text;
-			anchor = child->anchor;
+			type    = child->type;
+			styles  = child->styles;
+			content = child->content;
+			anchor  = child->anchor;
 			return true;
 		}
 		child.reset();
