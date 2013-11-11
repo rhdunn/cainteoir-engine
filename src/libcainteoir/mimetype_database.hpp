@@ -34,6 +34,8 @@ namespace cainteoir { namespace mime
 	static const char *gzip_mimetype   = "application/x-gzip";
 	static const char *html_mimetype   = "text/html";
 	static const char *mhtml_mimetype  = "multipart/related";
+	static const char *mp3_mimetype    = "audio/mpeg";
+	static const char *mp4_mimetype    = "audio/mp4";
 	static const char *ncx_mimetype    = "application/x-dtbncx+xml";
 	static const char *ogg_mimetype    = "audio/x-vorbis+ogg";
 	static const char *opf_mimetype    = "application/oebps-package+xml";

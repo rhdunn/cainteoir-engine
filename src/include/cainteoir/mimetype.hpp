@@ -52,6 +52,8 @@ namespace cainteoir { namespace mime
 	extern const mimetype html;
 	extern const mimetype mhtml;
 	extern const mimetype mime;
+	extern const mimetype mp3;
+	extern const mimetype mp4;
 	extern const mimetype ncx;
 	extern const mimetype ogg;
 	extern const mimetype opf;

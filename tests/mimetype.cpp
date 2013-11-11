@@ -102,6 +102,8 @@ content_type test_mimetypes(const std::shared_ptr<cainteoir::buffer> &data)
 	test_mimetype(data, mime::mhtml);
 	if (test_mimetype(data, mime::mime))
 		type = content_type::mime;
+	test_mimetype(data, mime::mp3);
+	test_mimetype(data, mime::mp4);
 	test_mimetype(data, mime::ncx);
 	test_mimetype(data, mime::ogg);
 	test_mimetype(data, mime::opf);
