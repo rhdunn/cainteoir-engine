@@ -29,11 +29,13 @@
 #include "options.hpp"
 
 #include <cainteoir/audio.hpp>
+#include <cainteoir/mimetype.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
 
-namespace css = cainteoir::css;
+namespace css  = cainteoir::css;
+namespace mime = cainteoir::mime;
 
 void print_time(const css::time &time, const char *name)
 {
@@ -85,6 +87,16 @@ int main(int argc, char ** argv)
 
 		print_time(start, "start time");
 		print_time(end,   "end time  ");
+
+		auto data = cainteoir::make_file_buffer(argv[0]);
+		if (mime::ogg.match(data))
+			fprintf(stdout, "filetype   : Ogg+Vorbis\n");
+		else if (mime::mp3.match(data))
+			fprintf(stdout, "filetype   : mp3\n");
+		else if (mime::mp4.match(data))
+			fprintf(stdout, "filetype   : mp4\n");
+		else
+			fprintf(stdout, "filetype   : unknown\n");
 	}
 	catch (std::runtime_error &e)
 	{
