@@ -1,9 +1,10 @@
 src/apps/cainteoir.cpp
 src/apps/dictionary.cpp
-src/apps/doc2doc.cpp
 src/apps/metadata.cpp
 src/apps/phoneme-converter.cpp
-src/apps/tagcloud.cpp
+src/examples/doc2doc.cpp
+src/examples/musicplayer.cpp
+src/examples/tagcloud.cpp
 src/libcainteoir/audio/alsa.cpp
 src/libcainteoir/audio/audio.cpp
 src/libcainteoir/audio/ogg.cpp
