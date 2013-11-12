@@ -174,24 +174,24 @@ void ffmpeg_player::read()
 	int n = 0;
 	while (av_read_frame(mFormat, &reading) == 0)
 	{
-		if (reading.stream_index == mAudio->index)
+		if (reading.stream_index != mAudio->index)
+			continue;
+
+		AVPacket decoding = reading;
+		while (decoding.size > 0)
 		{
-			AVPacket decoding = reading;
-			while (decoding.size > 0)
+			int got_frame = 0;
+			int ret = avcodec_decode_audio4(mAudio->codec, mFrame, &got_frame, &decoding);
+			if (ret >= 0 && got_frame)
 			{
-				int got_frame = 0;
-				int ret = avcodec_decode_audio4(mAudio->codec, mFrame, &got_frame, &decoding);
-				if (ret >= 0 && got_frame)
-				{
-					decoding.size -= ret;
-					decoding.data += ret;
-					fprintf(stdout, "... frame %d (samples=%d)\r", n++, mFrame->nb_samples);
-				}
-				else
-				{
-					decoding.size = 0;
-					decoding.data = nullptr;
-				}
+				decoding.size -= ret;
+				decoding.data += ret;
+				fprintf(stdout, "... frame %d (samples=%d)\r", n++, mFrame->nb_samples);
+			}
+			else
+			{
+				decoding.size = 0;
+				decoding.data = nullptr;
 			}
 		}
 		av_free_packet(&reading);
