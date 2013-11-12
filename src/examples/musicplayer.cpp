@@ -162,7 +162,6 @@ ffmpeg_player::~ffmpeg_player()
 
 std::shared_ptr<ffmpeg_player> create_media_player(const std::shared_ptr<cainteoir::buffer> &data)
 {
-	avcodec_register_all();
 	av_register_all();
 
 	if (mime::ogg.match(data)) return std::make_shared<ffmpeg_player>(data, "ogg");
