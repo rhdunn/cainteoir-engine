@@ -181,11 +181,11 @@ void ffmpeg_player::read()
 		while (decoding.size > 0)
 		{
 			int got_frame = 0;
-			int ret = avcodec_decode_audio4(mAudio->codec, mFrame, &got_frame, &decoding);
-			if (ret >= 0 && got_frame)
+			int length = avcodec_decode_audio4(mAudio->codec, mFrame, &got_frame, &decoding);
+			if (length >= 0 && got_frame)
 			{
-				decoding.size -= ret;
-				decoding.data += ret;
+				decoding.size -= length;
+				decoding.data += length;
 				fprintf(stdout, "... frame %d (samples=%d)\r", n++, mFrame->nb_samples);
 			}
 			else
