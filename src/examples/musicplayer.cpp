@@ -105,12 +105,15 @@ struct ffmpeg_player
 {
 	ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, const char *aFormat);
 	~ffmpeg_player();
+
+	void read();
 private:
 	std::shared_ptr<buffer_stream> mData;
 	uint8_t *mBuffer;
 	AVIOContext *mIO;
 	AVFormatContext *mFormat;
-	AVCodecContext *mAudio;
+	AVStream *mAudio;
+	AVFrame *mFrame;
 };
 
 ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, const char *aFormat)
@@ -142,22 +145,67 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 		return;
 	fprintf(stdout, "stream %d = audio (%s)\n", index, codec->name);
 
-	mAudio = mFormat->streams[index]->codec;
-	mAudio->codec = codec;
-	if (avcodec_open2(mAudio, codec, nullptr) != 0)
+	mAudio = mFormat->streams[index];
+	mAudio->codec->codec = codec;
+	if (avcodec_open2(mAudio->codec, codec, nullptr) != 0)
 		return;
 
-	fprintf(stdout, "channels    : %d\n", mAudio->channels);
-	fprintf(stdout, "sample rate : %dHz\n", mAudio->sample_rate);
-	fprintf(stdout, "format      : %s\n", av_get_sample_fmt_name(mAudio->sample_fmt));
+	mFrame = avcodec_alloc_frame();
+
+	fprintf(stdout, "channels    : %d\n", mAudio->codec->channels);
+	fprintf(stdout, "sample rate : %dHz\n", mAudio->codec->sample_rate);
+	fprintf(stdout, "format      : %s\n", av_get_sample_fmt_name(mAudio->codec->sample_fmt));
 }
 
 ffmpeg_player::~ffmpeg_player()
 {
-	if (mAudio) avcodec_close(mAudio);
+	if (mFrame) av_free(mFrame);
+	if (mAudio) avcodec_close(mAudio->codec);
 	if (mFormat) avformat_free_context(mFormat);
 	if (mIO) av_free(mIO);
 	if (mBuffer) av_free(mBuffer);
+}
+
+void ffmpeg_player::read()
+{
+	AVPacket reading;
+	av_init_packet(&reading);
+
+	int n = 0;
+	while (av_read_frame(mFormat, &reading) == 0)
+	{
+		if (reading.stream_index == mAudio->index)
+		{
+			AVPacket decoding = reading;
+			while (decoding.size > 0)
+			{
+				int got_frame = 0;
+				int ret = avcodec_decode_audio4(mAudio->codec, mFrame, &got_frame, &decoding);
+				if (ret >= 0 && got_frame)
+				{
+					decoding.size -= ret;
+					decoding.data += ret;
+					fprintf(stdout, "... frame %d (samples=%d)\r", n++, mFrame->nb_samples);
+				}
+				else
+				{
+					decoding.size = 0;
+					decoding.data = nullptr;
+				}
+			}
+		}
+		av_free_packet(&reading);
+	}
+	if (mAudio->codec->codec->capabilities & CODEC_CAP_DELAY)
+	{
+		av_init_packet(&reading);
+		int got_frame = 0;
+		while (avcodec_decode_audio4(mAudio->codec, mFrame, &got_frame, &reading) >= 0 && got_frame)
+		{
+			fprintf(stdout, "... frame %d flushing (samples=%d)\r", n++, mFrame->nb_samples);
+		}
+	}
+	fprintf(stdout, "\n");
 }
 
 std::shared_ptr<ffmpeg_player> create_media_player(const std::shared_ptr<cainteoir::buffer> &data)
@@ -235,6 +283,7 @@ int main(int argc, char ** argv)
 		auto player = create_media_player(data);
 		if (player)
 		{
+			player->read();
 		}
 	}
 	catch (std::runtime_error &e)
