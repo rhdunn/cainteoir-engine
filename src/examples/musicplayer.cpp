@@ -37,7 +37,151 @@
 namespace css  = cainteoir::css;
 namespace mime = cainteoir::mime;
 
-void print_time(const css::time &time, const char *name)
+#ifdef HAVE_FFMPEG
+
+extern "C"
+{
+#include <libavformat/avformat.h>
+}
+
+struct buffer_stream
+{
+	buffer_stream(const std::shared_ptr<cainteoir::buffer> &aBuffer)
+		: mBuffer(aBuffer)
+		, mCurrent(aBuffer->begin())
+	{
+	}
+
+	int read(uint8_t *buf, int size);
+
+	int64_t seek(int64_t offset, int direction);
+private:
+	std::shared_ptr<cainteoir::buffer> mBuffer;
+	const char *mCurrent;
+};
+
+int buffer_stream::read(uint8_t *buf, int size)
+{
+	int avail = mBuffer->end() - mCurrent;
+	if (avail <= 0) return 0;
+
+	memcpy(buf, mCurrent, size);
+	mCurrent += size;
+	return size;
+}
+
+int64_t buffer_stream::seek(int64_t offset, int whence)
+{
+	switch (whence)
+	{
+	case SEEK_SET:
+		mCurrent = mBuffer->begin() + offset;
+		break;
+	case SEEK_CUR:
+		mCurrent += offset;
+		break;
+	case SEEK_END:
+		mCurrent = mBuffer->end() - offset;
+		break;
+	case AVSEEK_SIZE:
+		return mBuffer->size();
+	default:
+		return -1;
+	}
+	return mCurrent - mBuffer->begin();
+}
+
+static int read_buffer(void *opaque, uint8_t *buf, int size)
+{
+	return ((buffer_stream *)opaque)->read(buf, size);
+}
+
+static int64_t seek_buffer(void *opaque, int64_t offset, int whence)
+{
+	return ((buffer_stream *)opaque)->seek(offset, whence);
+}
+
+struct ffmpeg_player
+{
+	ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, const char *aFormat);
+	~ffmpeg_player();
+private:
+	std::shared_ptr<buffer_stream> mData;
+	uint8_t *mBuffer;
+	AVIOContext *mIO;
+	AVFormatContext *mFormat;
+	AVCodecContext *mAudio;
+};
+
+ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, const char *aFormat)
+	: mData(std::make_shared<buffer_stream>(aData))
+	, mBuffer(nullptr)
+	, mIO(nullptr)
+	, mFormat(nullptr)
+	, mAudio(nullptr)
+{
+	AVInputFormat *decoder = av_find_input_format(aFormat);
+	if (decoder == nullptr)
+		return;
+
+	static const int buffer_size = 32768;
+	mBuffer = (uint8_t *)av_malloc(buffer_size + FF_INPUT_BUFFER_PADDING_SIZE);
+	mIO = avio_alloc_context(mBuffer, buffer_size, 0, mData.get(), read_buffer, nullptr, seek_buffer);
+
+	mFormat = avformat_alloc_context();
+	mFormat->pb = mIO;
+	if (avformat_open_input(&mFormat, "stream", decoder, nullptr) != 0)
+		return;
+
+	if (avformat_find_stream_info(mFormat, nullptr) < 0)
+		return;
+
+	AVCodec *codec = nullptr;
+	int index = av_find_best_stream(mFormat, AVMEDIA_TYPE_AUDIO, -1, -1, &codec, 0);
+	if (index < 0)
+		return;
+	fprintf(stdout, "stream %d = audio (%s)\n", index, codec->name);
+
+	mAudio = mFormat->streams[index]->codec;
+	mAudio->codec = codec;
+	if (avcodec_open2(mAudio, codec, nullptr) != 0)
+		return;
+
+	fprintf(stdout, "channels    : %d\n", mAudio->channels);
+	fprintf(stdout, "sample rate : %dHz\n", mAudio->sample_rate);
+	fprintf(stdout, "format      : %s\n", av_get_sample_fmt_name(mAudio->sample_fmt));
+}
+
+ffmpeg_player::~ffmpeg_player()
+{
+	if (mAudio) avcodec_close(mAudio);
+	if (mFormat) avformat_free_context(mFormat);
+	if (mIO) av_free(mIO);
+	if (mBuffer) av_free(mBuffer);
+}
+
+std::shared_ptr<ffmpeg_player> create_media_player(const std::shared_ptr<cainteoir::buffer> &data)
+{
+	avcodec_register_all();
+	av_register_all();
+
+	if (mime::ogg.match(data)) return std::make_shared<ffmpeg_player>(data, "ogg");
+	if (mime::mp3.match(data)) return std::make_shared<ffmpeg_player>(data, "mp3");
+	if (mime::mp4.match(data)) return std::make_shared<ffmpeg_player>(data, "mp4");
+	if (mime::wav.match(data)) return std::make_shared<ffmpeg_player>(data, "wav");
+	return {};
+}
+
+#else
+
+std::shared_ptr<void> create_media_player(const std::shared_ptr<cainteoir::buffer> &data)
+{
+	return {};
+}
+
+#endif
+
+static void print_time(const css::time &time, const char *name)
 {
 	switch (time.units())
 	{
@@ -85,18 +229,14 @@ int main(int argc, char ** argv)
 		css::time start = css::parse_smil_time(start_time);
 		css::time end   = css::parse_smil_time(end_time);
 
-		print_time(start, "start time");
-		print_time(end,   "end time  ");
+		print_time(start, "start time ");
+		print_time(end,   "end time   ");
 
 		auto data = cainteoir::make_file_buffer(argv[0]);
-		if (mime::ogg.match(data))
-			fprintf(stdout, "filetype   : Ogg+Vorbis\n");
-		else if (mime::mp3.match(data))
-			fprintf(stdout, "filetype   : mp3\n");
-		else if (mime::mp4.match(data))
-			fprintf(stdout, "filetype   : mp4\n");
-		else
-			fprintf(stdout, "filetype   : unknown\n");
+		auto player = create_media_player(data);
+		if (player)
+		{
+		}
 	}
 	catch (std::runtime_error &e)
 	{

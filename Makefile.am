@@ -387,7 +387,8 @@ src_examples_tagcloud_SOURCES = src/examples/tagcloud.cpp
 
 noinst_bin_PROGRAMS += src/examples/musicplayer
 
-src_examples_musicplayer_LDADD   = src/libcainteoir/libcainteoir.la
+src_examples_musicplayer_LDADD   = src/libcainteoir/libcainteoir.la ${FFMPEG_LIBS}
+src_examples_musicplayer_CXXFLAGS = ${AM_CXXFLAGS} ${FFMPEG_CFLAGS}
 src_examples_musicplayer_SOURCES = src/examples/musicplayer.cpp
 
 ############################# tests ###########################################

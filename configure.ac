@@ -343,6 +343,30 @@ AC_SUBST(POPPLER_CFLAGS)
 AC_SUBST(POPPLER_LIBS)
 
 dnl ================================================================
+dnl FFmpeg/libav checks.
+dnl ================================================================
+
+AC_ARG_WITH([ffmpeg],
+    [AS_HELP_STRING([--with-ffmpeg], [support ePub Media Overlay audio using FFmpeg/libav @<:@default=yes@:>@])],
+    [])
+
+if test "$with_ffmpeg" = "no"; then
+    echo "Disabling ePub Media Overlay support via the FFmpeg/libav library"
+    have_ffmpeg=no
+else
+    PKG_CHECK_MODULES(FFMPEG, [libavformat libavcodec libavutil],
+        [
+            AC_DEFINE(HAVE_FFMPEG, [], [Do we have the FFmpeg libraries])
+            have_ffmpeg=yes
+        ],[
+            have_ffmpeg=no
+        ])
+fi
+
+AC_SUBST(FFMPEG_CFLAGS)
+AC_SUBST(FFMPEG_LIBS)
+
+dnl ================================================================
 dnl MIME Type Integration.
 dnl ================================================================
 
@@ -404,4 +428,5 @@ AC_MSG_NOTICE([
 
         Ogg/Vorbis support:            ${have_vorbisenc}
         PDF support:                   ${have_poppler}
+        FFmpeg/libav support:          ${have_ffmpeg}
 ])
