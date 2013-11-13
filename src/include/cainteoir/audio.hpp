@@ -37,6 +37,21 @@ namespace cainteoir
 		virtual uint32_t write(const char *data, uint32_t len) = 0;
 	};
 
+	struct audio_player
+	{
+		virtual ~audio_player() {}
+
+		virtual void play(const std::shared_ptr<cainteoir::audio> &out,
+		                  const css::time &start,
+		                  const css::time &end) = 0;
+
+		virtual int channels() const = 0;
+
+		virtual int frequency() const = 0;
+
+		virtual const rdf::uri &format() const = 0;
+	};
+
 	struct vorbis_comment
 	{
 		const std::string label;
@@ -85,6 +100,9 @@ namespace cainteoir
 		const rdf::uri &aFormat,
 		int aChannels,
 		int aFrequency);
+
+	std::shared_ptr<audio_player>
+	create_media_player(const std::shared_ptr<cainteoir::buffer> &data);
 }
 
 #endif

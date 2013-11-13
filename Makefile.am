@@ -242,6 +242,7 @@ libcainteoir_include_HEADERS = \
 lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
 
 src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION) \
+	${FFMPEG_LIBS} \
 	${ALSA_LIBS} \
 	${PULSE_LIBS} \
 	${VORBIS_LIBS} \
@@ -252,6 +253,7 @@ src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION)
 	${LTLIBINTL}
 
 src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
+	${FFMPEG_CFLAGS} \
 	${ALSA_CFLAGS} \
 	${PULSE_CFLAGS} \
 	${VORBIS_CFLAGS} \
@@ -280,6 +282,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	\
 	src/libcainteoir/audio/alsa.cpp \
 	src/libcainteoir/audio/audio.cpp \
+	src/libcainteoir/audio/ffmpeg_player.cpp \
 	src/libcainteoir/audio/ogg.cpp \
 	src/libcainteoir/audio/pulse.cpp \
 	src/libcainteoir/audio/wav.cpp \
@@ -387,8 +390,7 @@ src_examples_tagcloud_SOURCES = src/examples/tagcloud.cpp
 
 noinst_bin_PROGRAMS += src/examples/musicplayer
 
-src_examples_musicplayer_LDADD   = src/libcainteoir/libcainteoir.la ${FFMPEG_LIBS}
-src_examples_musicplayer_CXXFLAGS = ${AM_CXXFLAGS} ${FFMPEG_CFLAGS}
+src_examples_musicplayer_LDADD   = src/libcainteoir/libcainteoir.la
 src_examples_musicplayer_SOURCES = src/examples/musicplayer.cpp
 
 ############################# tests ###########################################
