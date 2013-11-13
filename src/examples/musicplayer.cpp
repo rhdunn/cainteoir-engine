@@ -220,6 +220,8 @@ void ffmpeg_player::read(const std::shared_ptr<cainteoir::audio> &out)
 				decoding.size -= length;
 				decoding.data += length;
 				fprintf(stdout, "... frame %d (samples=%d)\r", n++, mFrame->nb_samples);
+				int len = av_samples_get_buffer_size(nullptr, mAudio->codec->channels, mFrame->nb_samples, mAudio->codec->sample_fmt, 1);
+				out->write((const char *)mFrame->data[0], len);
 			}
 			else
 			{
