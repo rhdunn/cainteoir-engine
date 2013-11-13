@@ -23,6 +23,8 @@
  * formats such as ePub 3 Media Overlays and SMIL.
  */
 
+#define __STDC_FORMAT_MACROS
+
 #include "config.h"
 #include "compatibility.hpp"
 #include "i18n.h"
@@ -33,6 +35,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
+#include <limits>
 
 namespace rdf  = cainteoir::rdf;
 namespace css  = cainteoir::css;
@@ -109,7 +112,7 @@ struct ffmpeg_player
 	ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, const char *aFormat);
 	~ffmpeg_player();
 
-	void read(const std::shared_ptr<cainteoir::audio> &out);
+	void read(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end);
 
 	int channels() const { return mAudio->codec->channels; }
 
@@ -199,8 +202,32 @@ ffmpeg_player::~ffmpeg_player()
 	if (mBuffer) av_free(mBuffer);
 }
 
-void ffmpeg_player::read(const std::shared_ptr<cainteoir::audio> &out)
+void ffmpeg_player::read(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end)
 {
+	uint64_t from;
+	switch (start.units())
+	{
+	case css::time::inherit:
+		from = std::numeric_limits<uint64_t>::min();
+		break;
+	default:
+		from = start.as(css::time::seconds).value() * mAudio->codec->sample_rate;
+		break;
+	}
+
+	uint64_t to;
+	switch (end.units())
+	{
+	case css::time::inherit:
+		to = std::numeric_limits<uint64_t>::max();
+		break;
+	default:
+		to = end.as(css::time::seconds).value() * mAudio->codec->sample_rate;
+		break;
+	}
+
+	fprintf(stdout, "playing sample %" PRIu64 " to %" PRIu64 "\n", from, to);
+
 	AVPacket reading;
 	av_init_packet(&reading);
 
@@ -221,11 +248,12 @@ void ffmpeg_player::read(const std::shared_ptr<cainteoir::audio> &out)
 				decoding.size -= length;
 				decoding.data += length;
 				uint64_t end_samples = samples + mFrame->nb_samples;
-				float start_time = float(samples) / frequency();
-				float end_time   = float(end_samples) / frequency();
-				fprintf(stdout, "... frame %d samples=%d-%d time=%Gs-%Gs\r", n++, samples, end_samples, start_time, end_time);
-				int len = av_samples_get_buffer_size(nullptr, mAudio->codec->channels, mFrame->nb_samples, mAudio->codec->sample_fmt, 1);
-				out->write((const char *)mFrame->data[0], len);
+				if (samples >= from && end_samples <= to)
+				{
+					fprintf(stdout, "... frame %d from sample %" PRIu64 " to %" PRIu64 "\r", n++, samples, end_samples);
+					int len = av_samples_get_buffer_size(nullptr, mAudio->codec->channels, mFrame->nb_samples, mAudio->codec->sample_fmt, 1);
+					out->write((const char *)mFrame->data[0], len);
+				}
 				samples += mFrame->nb_samples;
 			}
 			else
@@ -332,7 +360,7 @@ int main(int argc, char ** argv)
 			auto out = cainteoir::open_audio_device(nullptr, doc, subject, player->format(), player->channels(), player->frequency());
 
 			out->open();
-			player->read(out);
+			player->read(out, start, end);
 			out->close();
 		}
 	}
