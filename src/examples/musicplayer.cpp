@@ -109,7 +109,7 @@ struct ffmpeg_player
 	ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, const char *aFormat);
 	~ffmpeg_player();
 
-	void read();
+	void read(const std::shared_ptr<cainteoir::audio> &out);
 
 	int channels() const { return mAudio->codec->channels; }
 
@@ -199,7 +199,7 @@ ffmpeg_player::~ffmpeg_player()
 	if (mBuffer) av_free(mBuffer);
 }
 
-void ffmpeg_player::read()
+void ffmpeg_player::read(const std::shared_ptr<cainteoir::audio> &out)
 {
 	AVPacket reading;
 	av_init_packet(&reading);
@@ -319,7 +319,14 @@ int main(int argc, char ** argv)
 			fprintf(stdout, "channels   : %d\n",   player->channels());
 			fprintf(stdout, "frequency  : %dHz\n", player->frequency());
 			fprintf(stdout, "format     : %s\n",   player->format().str().c_str());
-			player->read();
+
+			rdf::graph doc;
+			rdf::uri   subject;
+			auto out = cainteoir::open_audio_device(nullptr, doc, subject, player->format(), player->channels(), player->frequency());
+
+			out->open();
+			player->read(out);
+			out->close();
 		}
 	}
 	catch (std::runtime_error &e)
