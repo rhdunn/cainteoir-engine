@@ -205,6 +205,7 @@ void ffmpeg_player::read(const std::shared_ptr<cainteoir::audio> &out)
 	av_init_packet(&reading);
 
 	int n = 0;
+	uint64_t samples = 0;
 	while (av_read_frame(mFormat, &reading) == 0)
 	{
 		if (reading.stream_index != mAudio->index)
@@ -219,9 +220,13 @@ void ffmpeg_player::read(const std::shared_ptr<cainteoir::audio> &out)
 			{
 				decoding.size -= length;
 				decoding.data += length;
-				fprintf(stdout, "... frame %d (samples=%d)\r", n++, mFrame->nb_samples);
+				uint64_t end_samples = samples + mFrame->nb_samples;
+				float start_time = float(samples) / frequency();
+				float end_time   = float(end_samples) / frequency();
+				fprintf(stdout, "... frame %d samples=%d-%d time=%Gs-%Gs\r", n++, samples, end_samples, start_time, end_time);
 				int len = av_samples_get_buffer_size(nullptr, mAudio->codec->channels, mFrame->nb_samples, mAudio->codec->sample_fmt, 1);
 				out->write((const char *)mFrame->data[0], len);
+				samples += mFrame->nb_samples;
 			}
 			else
 			{
