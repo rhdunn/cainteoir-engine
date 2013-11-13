@@ -59,12 +59,32 @@ namespace cainteoir
 		const rdf::uri &aVoice);
 
 	std::shared_ptr<audio>
+	create_audio_file(
+		const char *filename,
+		const char *type,
+		float quality,
+		const rdf::graph &aDocMetadata,
+		const rdf::uri &aDocument,
+		const rdf::uri &aFormat,
+		int aChannels,
+		int aFrequency);
+
+	std::shared_ptr<audio>
 	open_audio_device(
 		const char *device,
 		const rdf::graph &aDocMetadata,
 		const rdf::uri &aDocument,
 		const rdf::graph &aVoiceMetadata,
 		const rdf::uri &aVoice);
+
+	std::shared_ptr<audio>
+	open_audio_device(
+		const char *device,
+		const rdf::graph &aDocMetadata,
+		const rdf::uri &aDocument,
+		const rdf::uri &aFormat,
+		int aChannels,
+		int aFrequency);
 }
 
 #endif

@@ -60,18 +60,32 @@ cainteoir::create_audio_file(
 	const rdf::graph &aVoiceMetadata,
 	const rdf::uri &aVoice)
 {
-	if (filename && !strcmp(filename, "-"))
-		filename = nullptr;
-
 	rql::results data = rql::select(aVoiceMetadata, rql::subject == aVoice);
 	int channels  = rql::select_value<int>(data, rql::predicate == rdf::tts("channels"));
 	int frequency = rql::select_value<int>(data, rql::predicate == rdf::tts("frequency"));
 	const rdf::uri &format = rql::object(rql::select(data, rql::predicate == rdf::tts("audio-format")).front());
 
+	return create_audio_file(filename, type, quality, aDocMetadata, aDocument, format, channels, frequency);
+}
+
+std::shared_ptr<cainteoir::audio>
+cainteoir::create_audio_file(
+	const char *filename,
+	const char *type,
+	float quality,
+	const rdf::graph &aDocMetadata,
+	const rdf::uri &aDocument,
+	const rdf::uri &aFormat,
+	int aChannels,
+	int aFrequency)
+{
+	if (filename && !strcmp(filename, "-"))
+		filename = nullptr;
+
 	if (!strcmp(type, "wav"))
-		return create_wav_file(filename, format, channels, frequency, quality, aDocMetadata, aDocument);
+		return create_wav_file(filename, aFormat, aChannels, aFrequency, quality, aDocMetadata, aDocument);
 	if (!strcmp(type, "ogg"))
-		return create_ogg_file(filename, format, channels, frequency, quality, aDocMetadata, aDocument);
+		return create_ogg_file(filename, aFormat, aChannels, aFrequency, quality, aDocMetadata, aDocument);
 
 	return std::shared_ptr<cainteoir::audio>();
 }
@@ -89,10 +103,22 @@ cainteoir::open_audio_device(
 	int frequency = rql::select_value<int>(data, rql::predicate == rdf::tts("frequency"));
 	const rdf::uri &format = rql::object(rql::select(data, rql::predicate == rdf::tts("audio-format")).front());
 
+	return open_audio_device(device, aDocMetadata, aDocument, format, channels, frequency);
+}
+
+std::shared_ptr<cainteoir::audio>
+cainteoir::open_audio_device(
+	const char *device,
+	const rdf::graph &aDocMetadata,
+	const rdf::uri &aDocument,
+	const rdf::uri &aFormat,
+	int aChannels,
+	int aFrequency)
+{
 	std::shared_ptr<cainteoir::audio> audio;
 	try
 	{
-		audio = create_pulseaudio_device(device, format, channels, frequency, aDocMetadata, aDocument);
+		audio = create_pulseaudio_device(device, aFormat, aChannels, aFrequency, aDocMetadata, aDocument);
 	}
 	catch (const std::runtime_error &e)
 	{
@@ -101,6 +127,6 @@ cainteoir::open_audio_device(
 	}
 
 	if (!audio.get())
-		audio = create_alsa_device(device, format, channels, frequency, aDocMetadata, aDocument);
+		audio = create_alsa_device(device, aFormat, aChannels, aFrequency, aDocMetadata, aDocument);
 	return audio;
 }
