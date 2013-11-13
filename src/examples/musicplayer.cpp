@@ -34,10 +34,13 @@
 #include <iostream>
 #include <cstdio>
 
+namespace rdf  = cainteoir::rdf;
 namespace css  = cainteoir::css;
 namespace mime = cainteoir::mime;
 
 #ifdef HAVE_FFMPEG
+
+#include <endian.h>
 
 extern "C"
 {
@@ -107,6 +110,12 @@ struct ffmpeg_player
 	~ffmpeg_player();
 
 	void read();
+
+	int channels() const { return mAudio->codec->channels; }
+
+	int frequency() const { return mAudio->codec->sample_rate; }
+
+	const rdf::uri &format() const { return mAudioFormat; }
 private:
 	std::shared_ptr<buffer_stream> mData;
 	uint8_t *mBuffer;
@@ -114,6 +123,8 @@ private:
 	AVFormatContext *mFormat;
 	AVStream *mAudio;
 	AVFrame *mFrame;
+	rdf::uri mAudioFormat;
+	bool mIsPlanar;
 };
 
 ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, const char *aFormat)
@@ -122,6 +133,7 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 	, mIO(nullptr)
 	, mFormat(nullptr)
 	, mAudio(nullptr)
+	, mIsPlanar(false)
 {
 	AVInputFormat *decoder = av_find_input_format(aFormat);
 	if (decoder == nullptr)
@@ -152,9 +164,30 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 
 	mFrame = avcodec_alloc_frame();
 
-	fprintf(stdout, "channels    : %d\n", mAudio->codec->channels);
-	fprintf(stdout, "sample rate : %dHz\n", mAudio->codec->sample_rate);
-	fprintf(stdout, "format      : %s\n", av_get_sample_fmt_name(mAudio->codec->sample_fmt));
+	switch (mAudio->codec->sample_fmt)
+	{
+	case AV_SAMPLE_FMT_U8: mAudioFormat = rdf::tts("u8"); break;
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+	case AV_SAMPLE_FMT_S16:  mAudioFormat = rdf::tts("s16le"); break;
+	case AV_SAMPLE_FMT_S16P: mAudioFormat = rdf::tts("s16le"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_S32:  mAudioFormat = rdf::tts("s32le"); break;
+	case AV_SAMPLE_FMT_S32P: mAudioFormat = rdf::tts("s32le"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_FLT:  mAudioFormat = rdf::tts("float32le"); break;
+	case AV_SAMPLE_FMT_FLTP: mAudioFormat = rdf::tts("float32le"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_DBL:  mAudioFormat = rdf::tts("double32le"); break;
+	case AV_SAMPLE_FMT_DBLP: mAudioFormat = rdf::tts("double32le"); mIsPlanar = true; break;
+#else // big endian
+	case AV_SAMPLE_FMT_S16:  mAudioFormat = rdf::tts("s16be"); break;
+	case AV_SAMPLE_FMT_S16P: mAudioFormat = rdf::tts("s16be"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_S32:  mAudioFormat = rdf::tts("s32be"); break;
+	case AV_SAMPLE_FMT_S32P: mAudioFormat = rdf::tts("s32be"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_FLT:  mAudioFormat = rdf::tts("float32be"); break;
+	case AV_SAMPLE_FMT_FLTP: mAudioFormat = rdf::tts("float32be"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_DBL:  mAudioFormat = rdf::tts("double32be"); break;
+	case AV_SAMPLE_FMT_DBLP: mAudioFormat = rdf::tts("double32be"); mIsPlanar = true; break;
+#endif
+	default: throw std::runtime_error("Unsupported sample format in audio file.");
+	}
 }
 
 ffmpeg_player::~ffmpeg_player()
@@ -276,13 +309,16 @@ int main(int argc, char ** argv)
 		css::time start = css::parse_smil_time(start_time);
 		css::time end   = css::parse_smil_time(end_time);
 
-		print_time(start, "start time ");
-		print_time(end,   "end time   ");
+		print_time(start, "start time");
+		print_time(end,   "end time  ");
 
 		auto data = cainteoir::make_file_buffer(argv[0]);
 		auto player = create_media_player(data);
 		if (player)
 		{
+			fprintf(stdout, "channels   : %d\n",   player->channels());
+			fprintf(stdout, "frequency  : %dHz\n", player->frequency());
+			fprintf(stdout, "format     : %s\n",   player->format().str().c_str());
 			player->read();
 		}
 	}
