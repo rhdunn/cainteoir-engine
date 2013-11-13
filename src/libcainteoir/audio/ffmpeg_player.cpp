@@ -181,6 +181,9 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 #endif
 	default: throw std::runtime_error("Unsupported sample format in audio file.");
 	}
+
+	if (mIsPlanar && mAudio->codec->channels > 1)
+		throw std::runtime_error("Multi-channel planar audio is not supported.");
 }
 
 ffmpeg_player::~ffmpeg_player()
