@@ -40,6 +40,46 @@ extern "C"
 #include <libavformat/avformat.h>
 }
 
+struct format_info_t
+{
+	const char *format;
+	AVSampleFormat av_format;
+};
+
+static const format_info_t format_info[] =
+{
+	{ "u8",        AV_SAMPLE_FMT_U8 },
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+	{ "s16le",     AV_SAMPLE_FMT_S16 },
+	{ "s16le",     AV_SAMPLE_FMT_S16P },
+	{ "s32le",     AV_SAMPLE_FMT_S32 },
+	{ "s32le",     AV_SAMPLE_FMT_S32P },
+	{ "float32le", AV_SAMPLE_FMT_FLT },
+	{ "float32le", AV_SAMPLE_FMT_FLTP },
+	{ "float64le", AV_SAMPLE_FMT_DBL },
+	{ "float64le", AV_SAMPLE_FMT_DBLP },
+#else // big endian
+	{ "s16be",     AV_SAMPLE_FMT_S16 },
+	{ "s16be",     AV_SAMPLE_FMT_S16P },
+	{ "s32be",     AV_SAMPLE_FMT_S32 },
+	{ "s32be",     AV_SAMPLE_FMT_S32P },
+	{ "float32be", AV_SAMPLE_FMT_FLT },
+	{ "float32be", AV_SAMPLE_FMT_FLTP },
+	{ "float64be", AV_SAMPLE_FMT_DBL },
+	{ "float64be", AV_SAMPLE_FMT_DBLP },
+#endif
+};
+
+static rdf::uri get_format_uri(AVSampleFormat format)
+{
+	for (const auto &info : format_info)
+	{
+		if (info.av_format == format)
+			return rdf::tts(info.format);
+	}
+	throw std::runtime_error("unsupported audio sample format.");
+}
+
 static uint64_t time_to_samples(const css::time &time, uint64_t sample_rate, uint64_t default_value)
 {
 	switch (time.units())
@@ -164,31 +204,7 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 		return;
 
 	mFrame = avcodec_alloc_frame();
-
-	switch (mAudio->codec->sample_fmt)
-	{
-	case AV_SAMPLE_FMT_U8: mAudioFormat = rdf::tts("u8"); break;
-#if __BYTE_ORDER == __LITTLE_ENDIAN
-	case AV_SAMPLE_FMT_S16:  mAudioFormat = rdf::tts("s16le"); break;
-	case AV_SAMPLE_FMT_S16P: mAudioFormat = rdf::tts("s16le"); break;
-	case AV_SAMPLE_FMT_S32:  mAudioFormat = rdf::tts("s32le"); break;
-	case AV_SAMPLE_FMT_S32P: mAudioFormat = rdf::tts("s32le"); break;
-	case AV_SAMPLE_FMT_FLT:  mAudioFormat = rdf::tts("float32le"); break;
-	case AV_SAMPLE_FMT_FLTP: mAudioFormat = rdf::tts("float32le"); break;
-	case AV_SAMPLE_FMT_DBL:  mAudioFormat = rdf::tts("float64le"); break;
-	case AV_SAMPLE_FMT_DBLP: mAudioFormat = rdf::tts("float64le"); break;
-#else // big endian
-	case AV_SAMPLE_FMT_S16:  mAudioFormat = rdf::tts("s16be"); break;
-	case AV_SAMPLE_FMT_S16P: mAudioFormat = rdf::tts("s16be"); break;
-	case AV_SAMPLE_FMT_S32:  mAudioFormat = rdf::tts("s32be"); break;
-	case AV_SAMPLE_FMT_S32P: mAudioFormat = rdf::tts("s32be"); break;
-	case AV_SAMPLE_FMT_FLT:  mAudioFormat = rdf::tts("float32be"); break;
-	case AV_SAMPLE_FMT_FLTP: mAudioFormat = rdf::tts("float32be"); break;
-	case AV_SAMPLE_FMT_DBL:  mAudioFormat = rdf::tts("float64be"); break;
-	case AV_SAMPLE_FMT_DBLP: mAudioFormat = rdf::tts("float64be"); break;
-#endif
-	default: throw std::runtime_error("Unsupported sample format in audio file.");
-	}
+	mAudioFormat = get_format_uri(mAudio->codec->sample_fmt);
 
 	if (mIsPlanar && mAudio->codec->channels > 1)
 		throw std::runtime_error("Multi-channel planar audio is not supported.");
