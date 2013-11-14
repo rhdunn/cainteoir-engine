@@ -33,6 +33,31 @@ namespace rdf = cainteoir::rdf;
 
 #define check(x) { int err = x; if (err < 0) throw std::runtime_error(std::string(i18n("alsa: ")) + snd_strerror(err)); }
 
+struct format_info_t
+{
+	const char *format;
+	int sample_size;
+	snd_pcm_format_t pcm_format;
+};
+
+static const format_info_t format_info[] =
+{
+	{ "s8",        1, SND_PCM_FORMAT_S8 },
+	{ "u8",        1, SND_PCM_FORMAT_U8 },
+	{ "s16le",     2, SND_PCM_FORMAT_S16_LE },
+	{ "s16be",     2, SND_PCM_FORMAT_S16_BE },
+	{ "u16le",     2, SND_PCM_FORMAT_U16_LE },
+	{ "u16be",     2, SND_PCM_FORMAT_U16_BE },
+	{ "s32le",     4, SND_PCM_FORMAT_S32_LE },
+	{ "s32be",     4, SND_PCM_FORMAT_S32_BE },
+	{ "u32le",     4, SND_PCM_FORMAT_U32_LE },
+	{ "u32be",     4, SND_PCM_FORMAT_U32_BE },
+	{ "float32le", 4, SND_PCM_FORMAT_FLOAT_LE },
+	{ "float32be", 4, SND_PCM_FORMAT_FLOAT_BE },
+	{ "float64le", 8, SND_PCM_FORMAT_FLOAT64_LE },
+	{ "float64be", 8, SND_PCM_FORMAT_FLOAT64_BE },
+};
+
 class alsa_audio : public cainteoir::audio
 {
 	snd_pcm_t *mHandle;
@@ -48,18 +73,16 @@ public:
 		, mChannels(channels)
 		, mDevice(device ? device : "default")
 	{
-		if (format == rdf::tts("s16le"))
+		if (format.ns == rdf::tts.href) for (const auto &info : format_info)
 		{
-			mFormat = SND_PCM_FORMAT_S16_LE;
-			mSampleSize = 2;
+			if (format.ref == info.format)
+			{
+				mFormat = info.pcm_format;
+				mSampleSize = info.sample_size;
+				return;
+			}
 		}
-		else if (format == rdf::tts("float32le"))
-		{
-			mFormat = SND_PCM_FORMAT_FLOAT_LE;
-			mSampleSize = 4;
-		}
-		else
-			throw std::runtime_error(i18n("unsupported audio format."));
+		throw std::runtime_error(i18n("unsupported audio format."));
 	}
 
 	~alsa_audio()
