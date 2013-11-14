@@ -40,6 +40,15 @@ extern "C"
 #include <libavformat/avformat.h>
 }
 
+static uint64_t time_to_samples(const css::time &time, uint64_t sample_rate, uint64_t default_value)
+{
+	switch (time.units())
+	{
+	case css::time::inherit: return default_value;
+	default:                 return time.as(css::time::seconds).value() * sample_rate;
+	}
+}
+
 struct buffer_stream
 {
 	buffer_stream(const std::shared_ptr<cainteoir::buffer> &aBuffer)
@@ -197,27 +206,8 @@ ffmpeg_player::~ffmpeg_player()
 
 void ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end)
 {
-	uint64_t from;
-	switch (start.units())
-	{
-	case css::time::inherit:
-		from = std::numeric_limits<uint64_t>::min();
-		break;
-	default:
-		from = start.as(css::time::seconds).value() * mAudio->codec->sample_rate;
-		break;
-	}
-
-	uint64_t to;
-	switch (end.units())
-	{
-	case css::time::inherit:
-		to = std::numeric_limits<uint64_t>::max();
-		break;
-	default:
-		to = end.as(css::time::seconds).value() * mAudio->codec->sample_rate;
-		break;
-	}
+	uint64_t from = time_to_samples(start, mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::min());
+	uint64_t to   = time_to_samples(end,   mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::max());
 
 	fprintf(stdout, "playing sample %" PRIu64 " to %" PRIu64 "\n", from, to);
 
