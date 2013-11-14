@@ -34,6 +34,23 @@ namespace rdf = cainteoir::rdf;
 #include <string.h>
 #include <stdio.h>
 
+struct format_info_t
+{
+	const char *format;
+	pa_sample_format pa_format;
+};
+
+static const format_info_t format_info[] =
+{
+	{ "u8",        PA_SAMPLE_U8 },
+	{ "s16le",     PA_SAMPLE_S16LE },
+	{ "s16be",     PA_SAMPLE_S16BE },
+	{ "s32le",     PA_SAMPLE_S32LE },
+	{ "s32be",     PA_SAMPLE_S32BE },
+	{ "float32le", PA_SAMPLE_FLOAT32LE },
+	{ "float32be", PA_SAMPLE_FLOAT32BE },
+};
+
 class pulse_audio : public cainteoir::audio
 {
 	pa_simple *pa;
@@ -44,21 +61,24 @@ public:
 		: pa(nullptr)
 		, m_device(device)
 	{
-		if (format == rdf::tts("s16le"))
-			ss.format = PA_SAMPLE_S16LE;
-		else if (format == rdf::tts("float32le"))
-			ss.format = PA_SAMPLE_FLOAT32LE;
-		else
-			throw std::runtime_error(i18n("unsupported audio format."));
+		if (format.ns == rdf::tts.href) for (const auto &info : format_info)
+		{
+			if (format.ref == info.format)
+			{
+				ss.format = info.pa_format;
+				ss.channels = channels;
+				ss.rate = frequency;
 
-		ss.channels = channels;
-		ss.rate = frequency;
+				// Cainteoir may be built with the pulseaudio libraries, but the pulseaudio
+				// server may not be running. In that case, calling |open| will fail due to
+				// a |connection refused| error. Call |open| here so that error can be
+				// trapped in the |create_audio| function.
+				open();
 
-		// Cainteoir may be built with the pulseaudio libraries, but the pulseaudio
-		// server may not be running. In that case, calling |open| will fail due to
-		// a |connection refused| error. Call |open| here so that error can be
-		// trapped in the |create_audio| function.
-		open();
+				return;
+			}
+		}
+		throw std::runtime_error(i18n("unsupported audio format."));
 	}
 
 	~pulse_audio()
