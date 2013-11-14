@@ -35,6 +35,12 @@ namespace cainteoir
 		virtual void close() = 0;
 
 		virtual uint32_t write(const char *data, uint32_t len) = 0;
+
+		virtual int channels() const = 0;
+
+		virtual int frequency() const = 0;
+
+		virtual const rdf::uri &format() const = 0;
 	};
 
 	struct audio_player

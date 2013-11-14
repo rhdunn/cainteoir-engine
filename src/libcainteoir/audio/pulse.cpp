@@ -56,10 +56,12 @@ class pulse_audio : public cainteoir::audio
 	pa_simple *pa;
 	pa_sample_spec ss;
 	const char *m_device;
+	const rdf::uri mFormat;
 public:
 	pulse_audio(const char *device, const rdf::uri &format, int channels, int frequency)
 		: pa(nullptr)
 		, m_device(device)
+		, mFormat(format)
 	{
 		if (format.ns == rdf::tts.href) for (const auto &info : format_info)
 		{
@@ -109,6 +111,12 @@ public:
 	{
 		return pa_simple_write(pa, data, len, nullptr);
 	}
+
+	int channels() const { return ss.channels; }
+
+	int frequency() const { return ss.rate; }
+
+	const rdf::uri &format() const { return mFormat; }
 };
 
 std::shared_ptr<cainteoir::audio>

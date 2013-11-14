@@ -163,6 +163,10 @@ class ogg_audio : public cainteoir::audio
 {
 	FILE *m_file;
 
+	int mChannels;
+	int mFrequency;
+	const rdf::uri mFormat;
+
 	ogg_stream_state os;
 	ogg_page og;
 	ogg_packet op;
@@ -198,8 +202,11 @@ class ogg_audio : public cainteoir::audio
 		}
 	}
 public:
-	ogg_audio(FILE *f, int channels, int frequency, float quality, const std::list<cainteoir::vorbis_comment> &comments)
+	ogg_audio(FILE *f, int channels, int frequency, const rdf::uri &format, float quality, const std::list<cainteoir::vorbis_comment> &comments)
 		: m_file(f)
+		, mChannels(channels)
+		, mFrequency(frequency)
+		, mFormat(format)
 	{
 		vorbis_info_init(&vi);
 		vorbis_encode_init_vbr(&vi, channels, frequency, quality);
@@ -275,6 +282,12 @@ public:
 
 		return len;
 	}
+
+	int channels() const { return mChannels; }
+
+	int frequency() const { return mFrequency; }
+
+	const rdf::uri &format() const { return mFormat; }
 };
 
 std::shared_ptr<cainteoir::audio>
@@ -284,7 +297,7 @@ create_ogg_file(const char *filename, const rdf::uri &format, int channels, int 
 	if (!file) throw std::runtime_error(strerror(errno));
 	if (format != rdf::tts("s16le"))
 		throw std::runtime_error(i18n("unsupported audio format."));
-	return std::make_shared<ogg_audio>(file, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument));
+	return std::make_shared<ogg_audio>(file, channels, frequency, format, quality, cainteoir::vorbis_comments(aMetadata, aDocument));
 }
 
 #else

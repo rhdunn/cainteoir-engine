@@ -66,12 +66,14 @@ class alsa_audio : public cainteoir::audio
 	unsigned int mRate;
 	int mChannels;
 	const char *mDevice;
+	rdf::uri mFormatUri;
 public:
 	alsa_audio(const char *device, const rdf::uri &format, int channels, int frequency)
 		: mHandle(nullptr)
 		, mRate(frequency)
 		, mChannels(channels)
 		, mDevice(device ? device : "default")
+		, mFormatUri(format)
 	{
 		if (format.ns == rdf::tts.href) for (const auto &info : format_info)
 		{
@@ -125,6 +127,12 @@ public:
 		}
 		return ret;
 	}
+
+	int channels() const { return mChannels; }
+
+	int frequency() const { return mRate; }
+
+	const rdf::uri &format() const { return mFormatUri; }
 };
 
 std::shared_ptr<cainteoir::audio>
