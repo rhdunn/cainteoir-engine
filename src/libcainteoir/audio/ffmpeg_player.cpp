@@ -18,8 +18,6 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define __STDC_FORMAT_MACROS
-
 #include "config.h"
 #include "compatibility.hpp"
 #include "i18n.h"
@@ -282,7 +280,6 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 	int index = av_find_best_stream(mFormat, AVMEDIA_TYPE_AUDIO, -1, -1, &codec, 0);
 	if (index < 0)
 		return;
-	fprintf(stdout, "stream %d = audio (%s)\n", index, codec->name);
 
 	mAudio = mFormat->streams[index];
 	mAudio->codec->codec = codec;
@@ -309,8 +306,6 @@ void ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 
 	resampler converter(mAudio->codec, out);
 
-	fprintf(stdout, "playing sample %" PRIu64 " to %" PRIu64 "\n", from, to);
-
 	AVPacket reading;
 	av_init_packet(&reading);
 
@@ -333,7 +328,6 @@ void ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 				uint64_t end_samples = samples + mFrame->nb_samples;
 				if (samples >= from && end_samples <= to)
 				{
-					fprintf(stdout, "... frame %d from sample %" PRIu64 " to %" PRIu64 "\r", n++, samples, end_samples);
 					cainteoir::buffer data = converter.resample(mFrame);
 					out->write((const char *)data.begin(), data.size());
 				}
