@@ -209,6 +209,9 @@ void ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 	uint64_t from = time_to_samples(start, mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::min());
 	uint64_t to   = time_to_samples(end,   mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::max());
 
+	if (out->channels() != channels() || out->frequency() != frequency() || out->format() != format())
+		throw std::runtime_error("cannot convert media to the output format");
+
 	fprintf(stdout, "playing sample %" PRIu64 " to %" PRIu64 "\n", from, to);
 
 	AVPacket reading;
