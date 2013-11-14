@@ -135,7 +135,6 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 	, mIO(nullptr)
 	, mFormat(nullptr)
 	, mAudio(nullptr)
-	, mIsPlanar(false)
 {
 	AVInputFormat *decoder = av_find_input_format(aFormat);
 	if (decoder == nullptr)
@@ -171,22 +170,22 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 	case AV_SAMPLE_FMT_U8: mAudioFormat = rdf::tts("u8"); break;
 #if __BYTE_ORDER == __LITTLE_ENDIAN
 	case AV_SAMPLE_FMT_S16:  mAudioFormat = rdf::tts("s16le"); break;
-	case AV_SAMPLE_FMT_S16P: mAudioFormat = rdf::tts("s16le"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_S16P: mAudioFormat = rdf::tts("s16le"); break;
 	case AV_SAMPLE_FMT_S32:  mAudioFormat = rdf::tts("s32le"); break;
-	case AV_SAMPLE_FMT_S32P: mAudioFormat = rdf::tts("s32le"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_S32P: mAudioFormat = rdf::tts("s32le"); break;
 	case AV_SAMPLE_FMT_FLT:  mAudioFormat = rdf::tts("float32le"); break;
-	case AV_SAMPLE_FMT_FLTP: mAudioFormat = rdf::tts("float32le"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_FLTP: mAudioFormat = rdf::tts("float32le"); break;
 	case AV_SAMPLE_FMT_DBL:  mAudioFormat = rdf::tts("float64le"); break;
-	case AV_SAMPLE_FMT_DBLP: mAudioFormat = rdf::tts("float64le"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_DBLP: mAudioFormat = rdf::tts("float64le"); break;
 #else // big endian
 	case AV_SAMPLE_FMT_S16:  mAudioFormat = rdf::tts("s16be"); break;
-	case AV_SAMPLE_FMT_S16P: mAudioFormat = rdf::tts("s16be"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_S16P: mAudioFormat = rdf::tts("s16be"); break;
 	case AV_SAMPLE_FMT_S32:  mAudioFormat = rdf::tts("s32be"); break;
-	case AV_SAMPLE_FMT_S32P: mAudioFormat = rdf::tts("s32be"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_S32P: mAudioFormat = rdf::tts("s32be"); break;
 	case AV_SAMPLE_FMT_FLT:  mAudioFormat = rdf::tts("float32be"); break;
-	case AV_SAMPLE_FMT_FLTP: mAudioFormat = rdf::tts("float32be"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_FLTP: mAudioFormat = rdf::tts("float32be"); break;
 	case AV_SAMPLE_FMT_DBL:  mAudioFormat = rdf::tts("float64be"); break;
-	case AV_SAMPLE_FMT_DBLP: mAudioFormat = rdf::tts("float64be"); mIsPlanar = true; break;
+	case AV_SAMPLE_FMT_DBLP: mAudioFormat = rdf::tts("float64be"); break;
 #endif
 	default: throw std::runtime_error("Unsupported sample format in audio file.");
 	}
