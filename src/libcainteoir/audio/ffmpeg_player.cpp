@@ -166,7 +166,6 @@ private:
 	AVStream *mAudio;
 	AVFrame *mFrame;
 	rdf::uri mAudioFormat;
-	bool mIsPlanar;
 };
 
 ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, const char *aFormat)
@@ -205,9 +204,6 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 
 	mFrame = avcodec_alloc_frame();
 	mAudioFormat = get_format_uri(mAudio->codec->sample_fmt);
-
-	if (mIsPlanar && mAudio->codec->channels > 1)
-		throw std::runtime_error("Multi-channel planar audio is not supported.");
 }
 
 ffmpeg_player::~ffmpeg_player()
