@@ -29,7 +29,8 @@ Optionally, you need:
 4.  the espeak development libraries for espeak support;
 5.  the pico development libraries for svox pico support;
 6.  the poppler development libraries for pdf support;
-7.  the FFmpeg or libav libraries for ePub 3.0 Media Overlay audio support.
+7.  the FFmpeg/libav libavformat and libavcodec libraries for ePub 3.0 Media Overlay audio support;
+8.  the FFmpeg/libav libavresample library for media audio format conversion (ePub 3.0 Media Overlay support).
 
 To build the documentation, you need:
 
@@ -59,6 +60,7 @@ Optional Libraries:
 | pico           | `sudo apt-get install libttspico-dev`      |
 | poppler        | `sudo apt-get install libpoppler-glib-dev` |
 | ffmpeg/libav   | `sudo apt-get install libavformat-dev libavcodec-dev` |
+| libavresample  | `sudo apt-get install libavresample-dev`   |
 
 Documentation Dependencies:
 

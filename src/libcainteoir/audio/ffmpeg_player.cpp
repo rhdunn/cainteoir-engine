@@ -38,6 +38,11 @@ namespace css = cainteoir::css;
 extern "C"
 {
 #include <libavformat/avformat.h>
+#include <libavutil/channel_layout.h>
+#ifdef HAVE_LIBAVRESAMPLE
+#include <libavresample/avresample.h>
+#include <libavutil/opt.h>
+#endif
 }
 
 struct format_info_t
@@ -78,6 +83,26 @@ static rdf::uri get_format_uri(AVSampleFormat format)
 			return rdf::tts(info.format);
 	}
 	throw std::runtime_error("unsupported audio sample format.");
+}
+
+static AVSampleFormat get_av_sample_format(const rdf::uri &format)
+{
+	if (format.ns == rdf::tts.href) for (const auto &info : format_info)
+	{
+		if (format.ref == info.format)
+			return info.av_format;
+	}
+	throw std::runtime_error("unsupported audio sample format.");
+}
+
+static uint64_t get_channel_layout(int channels)
+{
+	switch (channels)
+	{
+	case 1:  return AV_CH_LAYOUT_MONO;
+	case 2:  return AV_CH_LAYOUT_STEREO;
+	default: throw std::runtime_error("unsupported channel count");
+	}
 }
 
 static uint64_t time_to_samples(const css::time &time, uint64_t sample_rate, uint64_t default_value)
@@ -144,6 +169,68 @@ static int read_buffer(void *opaque, uint8_t *buf, int size)
 static int64_t seek_buffer(void *opaque, int64_t offset, int whence)
 {
 	return ((buffer_stream *)opaque)->seek(offset, whence);
+}
+
+struct resampler
+{
+	resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::audio> &out);
+	~resampler();
+
+	cainteoir::buffer resample(AVFrame *frame);
+private:
+	AVCodecContext *mCodec;
+#ifdef HAVE_LIBAVRESAMPLE
+	AVAudioResampleContext *mContext;
+	std::vector<uint8_t> mBuffer;
+#endif
+};
+
+resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::audio> &out)
+	: mCodec(codec)
+#ifdef HAVE_LIBAVRESAMPLE
+	, mContext(avresample_alloc_context())
+#endif
+{
+#ifdef HAVE_LIBAVRESAMPLE
+	av_opt_set_int(mContext, "in_channel_layout",  get_channel_layout(codec->channels), 0);
+	av_opt_set_int(mContext, "in_sample_rate",     codec->sample_rate, 0);
+	av_opt_set_int(mContext, "in_sample_fmt",      codec->sample_fmt, 0);
+	av_opt_set_int(mContext, "out_channel_layout", get_channel_layout(out->channels()), 0);
+	av_opt_set_int(mContext, "out_sample_rate",    out->frequency(), 0);
+	av_opt_set_int(mContext, "out_sample_fmt",     get_av_sample_format(out->format()), 0);
+
+	if (avresample_open(mContext) != 0)
+		throw std::runtime_error("unable to initialize libavresample instance");
+#else
+	if (out->channels() != 1 && av_sample_fmt_is_planar(mAudio->codec->sample_fmt))
+		throw std::runtime_error("cannot play planar-layout multi-channel audio");
+	if (out->channels() != ctx->channels ||
+	    out->frequency() != ctx->sample_rate ||
+	    out->format() != get_format_uri(ctx->sample_fmt))
+		throw std::runtime_error("cannot convert media to the output format");
+#endif
+}
+
+resampler::~resampler()
+{
+#ifdef HAVE_LIBAVRESAMPLE
+	if (mContext) avresample_free(&mContext);
+#endif
+}
+
+cainteoir::buffer resampler::resample(AVFrame *frame)
+{
+	int len = av_samples_get_buffer_size(nullptr, mCodec->channels, frame->nb_samples, mCodec->sample_fmt, 1);
+#ifdef HAVE_LIBAVRESAMPLE
+	if (len > mBuffer.size())
+		mBuffer.resize(len);
+	char *data = (char *)&mBuffer[0];
+	int ret = avresample_convert(mContext, (uint8_t **)&data, mBuffer.size(), frame->nb_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
+	return cainteoir::buffer(data, data + mBuffer.size());
+#else
+	const char *data = (const char *)frame->data[0];
+	return cainteoir::buffer(data, data + len);
+#endif
 }
 
 struct ffmpeg_player : public cainteoir::audio_player
@@ -220,8 +307,7 @@ void ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 	uint64_t from = time_to_samples(start, mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::min());
 	uint64_t to   = time_to_samples(end,   mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::max());
 
-	if (out->channels() != channels() || out->frequency() != frequency() || out->format() != format())
-		throw std::runtime_error("cannot convert media to the output format");
+	resampler converter(mAudio->codec, out);
 
 	fprintf(stdout, "playing sample %" PRIu64 " to %" PRIu64 "\n", from, to);
 
@@ -248,8 +334,8 @@ void ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 				if (samples >= from && end_samples <= to)
 				{
 					fprintf(stdout, "... frame %d from sample %" PRIu64 " to %" PRIu64 "\r", n++, samples, end_samples);
-					int len = av_samples_get_buffer_size(nullptr, mAudio->codec->channels, mFrame->nb_samples, mAudio->codec->sample_fmt, 1);
-					out->write((const char *)mFrame->data[0], len);
+					cainteoir::buffer data = converter.resample(mFrame);
+					out->write((const char *)data.begin(), data.size());
 				}
 				samples += mFrame->nb_samples;
 			}

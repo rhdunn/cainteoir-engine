@@ -243,6 +243,7 @@ lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
 
 src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION) \
 	${FFMPEG_LIBS} \
+	${AVRESAMPLE_LIBS} \
 	${ALSA_LIBS} \
 	${PULSE_LIBS} \
 	${VORBIS_LIBS} \
@@ -254,6 +255,7 @@ src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION)
 
 src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 	${FFMPEG_CFLAGS} \
+	${AVRESAMPLE_CFLAGS} \
 	${ALSA_CFLAGS} \
 	${PULSE_CFLAGS} \
 	${VORBIS_CFLAGS} \

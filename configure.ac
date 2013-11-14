@@ -361,10 +361,21 @@ else
         ],[
             have_ffmpeg=no
         ])
+
+    PKG_CHECK_MODULES(AVRESAMPLE, [libavresample],
+        [
+            AC_DEFINE(HAVE_LIBAVRESAMPLE, [], [Do we have the libavresample library])
+            have_avresample=yes
+        ],[
+            have_avresample=no
+        ])
 fi
 
 AC_SUBST(FFMPEG_CFLAGS)
 AC_SUBST(FFMPEG_LIBS)
+
+AC_SUBST(AVRESAMPLE_CFLAGS)
+AC_SUBST(AVRESAMPLE_LIBS)
 
 dnl ================================================================
 dnl MIME Type Integration.
@@ -422,11 +433,10 @@ AC_MSG_NOTICE([
         eSpeak support:                ${have_espeak}
         MBROLA support:                ${have_mbrola}	(voice directory: ${MBROLA_DIR})
         Pico support:                  ${have_pico}	(voice directory: ${PICO_LANG_DIR})
-
         PulseAudio support:            ${have_pulseaudio}
         ALSA support:                  ${have_alsa}
-
         Ogg/Vorbis support:            ${have_vorbisenc}
         PDF support:                   ${have_poppler}
         FFmpeg/libav support:          ${have_ffmpeg}
+        libavresample support:         ${have_avresample}
 ])
