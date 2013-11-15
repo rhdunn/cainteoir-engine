@@ -28,9 +28,14 @@ Optionally, you need:
 3.  the vorbis encoder development libraries for ogg/vorbis support;
 4.  the espeak development libraries for espeak support;
 5.  the pico development libraries for svox pico support;
-6.  the poppler development libraries for pdf support;
-7.  the FFmpeg/libav libavformat and libavcodec libraries for ePub 3.0 Media Overlay audio support;
-8.  the FFmpeg/libav libavresample library for media audio format conversion (ePub 3.0 Media Overlay support).
+6.  the poppler development libraries for pdf support.
+
+If you want ePub 3.0 Media Overlay support, you need the following FFmpeg/libav libraries:
+
+1.  libavutil;
+2.  libavcodec;
+3.  libavformat;
+4.  libavresample -- for converting differently sampled audio files to the one used by the TTS voice.
 
 To build the documentation, you need:
 
