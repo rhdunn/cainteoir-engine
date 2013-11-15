@@ -38,6 +38,12 @@ TEST_CASE("C-style string construction")
 	assert(b.size() == 9);
 	assert(b.str() == "test/case");
 	assert(!strcmp(b, "test/case"));
+
+	cainteoir::path c{nullptr};
+	assert(c.empty());
+	assert(c.size() == 0);
+	assert(c.str() == std::string());
+	assert(!strcmp(c, ""));
 }
 
 TEST_CASE("std::string construction")

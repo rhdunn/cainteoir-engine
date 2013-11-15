@@ -35,7 +35,7 @@ namespace cainteoir
 		}
 
 		explicit path(const char *aPath)
-			: mPath(aPath)
+			: mPath(aPath ? aPath : "")
 		{
 		}
 
