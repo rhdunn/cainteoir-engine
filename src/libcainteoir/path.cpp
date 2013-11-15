@@ -25,18 +25,22 @@
 
 cainteoir::path &cainteoir::path::operator/=(const char *aPath)
 {
-	auto end = mPath.end();
-	if (*--end != '/' && *aPath != '/')
+	auto end = --mPath.end();
+	if (*end != '/' && *aPath != '/')
 		mPath.push_back('/');
+	else if (*end == '/' && *aPath == '/')
+		mPath.pop_back();
 	mPath += aPath;
 	return *this;
 }
 
 cainteoir::path &cainteoir::path::operator/=(const std::string &aPath)
 {
-	auto end = mPath.end();
-	if (*--end != '/' && (*aPath.begin()) != '/')
+	auto end = --mPath.end();
+	if (*end != '/' && (*aPath.begin()) != '/')
 		mPath.push_back('/');
+	else if (*end == '/' && (*aPath.begin()) == '/')
+		mPath.pop_back();
 	mPath += aPath;
 	return *this;
 }
