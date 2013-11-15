@@ -79,6 +79,13 @@ namespace cainteoir { namespace tts
 		};
 	};
 
+	enum class media_overlays_mode
+	{
+		tts_only,
+		media_overlays_only,
+		tts_and_media_overlays,
+	};
+
 	struct engines
 	{
 		engines(rdf::graph &metadata);
@@ -91,7 +98,8 @@ namespace cainteoir { namespace tts
 		std::shared_ptr<speech>
 		speak(std::shared_ptr<audio> out,
 		      const cainteoir::document::toc_type &aToc,
-		      const cainteoir::document::range_type &aRange);
+		      const cainteoir::document::range_type &aRange,
+		      media_overlays_mode aMediaOverlays = media_overlays_mode::tts_only);
 
 		std::shared_ptr<phoneme_reader>
 		pronunciation();
