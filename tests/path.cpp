@@ -45,6 +45,17 @@ static const path_join_t path_join_testcases[] =
 	{ "ab/cd", nullptr, "ab/cd" },
 };
 
+static const path_join_t zip_path_testcases[] =
+{
+	{ "file:///home/test/file.zip", "intro.txt", "file:///home/test/file.zip!/intro.txt" },
+	{ "file:///home/test/file.zip", "ab/cd/intro.txt", "file:///home/test/file.zip!/ab/cd/intro.txt" },
+	{ "file:///home/test/file.epub", "intro.txt", "file:///home/test/file.epub!/intro.txt" },
+	{ "file:///home/test/file.odf", "ab/cd/intro.txt", "file:///home/test/file.odf!/ab/cd/intro.txt" },
+	{ "test.zip", "text.txt", "test.zip!/text.txt" },
+	{ "test.zip", "abc/text.txt", "test.zip!/abc/text.txt" },
+	{ "test.zip", "", "test.zip" },
+};
+
 TEST_CASE("C-style string construction")
 {
 	cainteoir::path a{""};
@@ -113,5 +124,15 @@ TEST_CASE("operator/")
 		assert((cainteoir::path(test.base) / test.join).str() == test.result);
 		if (test.join)
 			assert((cainteoir::path(test.base) / std::string(test.join)).str() == test.result);
+	}
+}
+
+TEST_CASE("zip_file / zip_path")
+{
+	for (const auto &test : zip_path_testcases)
+	{
+		cainteoir::path a{test.result};
+		assert(a.zip_file().str() == test.base);
+		assert(a.zip_path().str() == test.join);
 	}
 }

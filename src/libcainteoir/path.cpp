@@ -56,6 +56,20 @@ cainteoir::path cainteoir::path::parent() const
 	return path(mPath.substr(0, pos));
 }
 
+cainteoir::path cainteoir::path::zip_file() const
+{
+	std::string::size_type pos = mPath.rfind('!');
+	if (pos == std::string::npos) return *this;
+	return path(mPath.substr(0, pos));
+}
+
+cainteoir::path cainteoir::path::zip_path() const
+{
+	std::string::size_type pos = mPath.rfind('!');
+	if (pos == std::string::npos) return cainteoir::path(std::string());
+	return path(mPath.substr(pos + 2));
+}
+
 cainteoir::path cainteoir::get_data_path()
 {
 	const char *datadir = getenv("CAINTEOIR_DATA_DIR");

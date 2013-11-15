@@ -51,6 +51,9 @@ namespace cainteoir
 		bool empty() const { return mPath.empty(); }
 
 		path parent() const;
+
+		path zip_file() const;
+		path zip_path() const;
 	private:
 		std::string mPath;
 	};
