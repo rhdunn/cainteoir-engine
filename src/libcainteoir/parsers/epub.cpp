@@ -22,6 +22,7 @@
 #include "i18n.h"
 #include "parsers.hpp"
 
+#include <cainteoir/path.hpp>
 #include <stdexcept>
 
 namespace rdf    = cainteoir::rdf;
@@ -29,22 +30,14 @@ namespace xml    = cainteoir::xml;
 namespace events = cainteoir::events;
 namespace css    = cainteoir::css;
 
-static std::string path_to(const std::string &filename, const std::string &opffile)
-{
-	std::string::size_type pos = opffile.rfind('/');
-	if (pos == std::string::npos)
-		return filename;
-	else
-		return opffile.substr(0, pos + 1) + filename;
-}
-
 struct epub_document_reader : public cainteoir::document_reader
 {
 	epub_document_reader(std::shared_ptr<cainteoir::archive> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aDefaultEncoding);
 
 	bool read();
 
-	std::string opf_file;
+	cainteoir::path opf_file;
+	cainteoir::path opf_root;
 	std::shared_ptr<cainteoir::document_reader> opf;
 	std::shared_ptr<cainteoir::document_reader> child;
 	bool is_toc;
@@ -73,17 +66,18 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 	while (ocf->read() && opf_file.empty())
 	{
 		if (!ocf->content->compare("application/oebps-package+xml"))
-			opf_file = ocf->anchor.str();
+			opf_file = cainteoir::path(ocf->anchor.str());
 	}
 
 	if (opf_file.empty())
 		throw std::runtime_error(i18n("Unsupported ePub content: OPF file not specified."));
 
-	auto reader = cainteoir::createXmlReader(mData->read(opf_file.c_str()), mDefaultEncoding);
+	auto reader = cainteoir::createXmlReader(mData->read(opf_file), mDefaultEncoding);
 	if (!reader)
 		throw std::runtime_error(i18n("Unsupported ePub content: OPF file not found."));
 
 	opf = cainteoir::createOpfReader(reader, aSubject, aPrimaryMetadata, "application/epub+zip");
+	opf_root = opf_file.parent();
 }
 
 bool epub_document_reader::read()
@@ -115,7 +109,10 @@ bool epub_document_reader::read()
 					if (child->anchor == mSubject)
 						anchor = mSubject;
 					else
-						anchor = mData->location(path_to(child->anchor.ns, opf_file), child->anchor.ref);
+					{
+						auto filename = opf_root / child->anchor.ns;
+						anchor = mData->location(filename.str(), child->anchor.ref);
+					}
 					type    = child->type;
 					styles  = child->styles;
 					content = child->content;
@@ -141,11 +138,11 @@ bool epub_document_reader::read()
 	{
 		if (opf->type & cainteoir::events::toc_entry)
 		{
-			std::string filename = path_to(opf->anchor.ns, opf_file);
-			auto reader = cainteoir::createXmlReader(mData->read(filename.c_str()), mDefaultEncoding);
+			cainteoir::path filename = opf_root / opf->anchor.ns;
+			auto reader = cainteoir::createXmlReader(mData->read(filename), mDefaultEncoding);
 			if (!reader)
 			{
-				fprintf(stderr, i18n("document '%s' not found in ePub archive.\n"), filename.c_str());
+				fprintf(stderr, i18n("document '%s' not found in ePub archive.\n"), (const char *)filename);
 				continue;
 			}
 
@@ -158,7 +155,7 @@ bool epub_document_reader::read()
 			}
 			else if (!opf->content->compare("application/xhtml+xml"))
 			{
-				anchor = mData->location(filename, opf->anchor.ref);
+				anchor = mData->location(filename.str(), opf->anchor.ref);
 
 				rdf::graph innerMetadata;
 				child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml");
@@ -167,7 +164,7 @@ bool epub_document_reader::read()
 			}
 			else if (!opf->content->compare("application/smil+xml"))
 			{
-				anchor = mData->location(filename, opf->anchor.ref);
+				anchor = mData->location(filename.str(), opf->anchor.ref);
 
 				rdf::graph innerMetadata;
 				media_overlay = cainteoir::createSmilReader(reader, anchor, innerMetadata, std::string());
