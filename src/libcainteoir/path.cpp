@@ -25,7 +25,7 @@
 
 cainteoir::path &cainteoir::path::operator/=(const char *aPath)
 {
-	if (*aPath == '\0') return *this;
+	if (aPath == nullptr || *aPath == '\0') return *this;
 
 	auto end = --mPath.end();
 	if (*end != '/' && *aPath != '/')

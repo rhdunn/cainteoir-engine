@@ -40,8 +40,9 @@ static const path_join_t path_join_testcases[] =
 	{ "ab/", "cd", "ab/cd" },
 	{ "ab", "/cd", "ab/cd" },
 	{ "ab/", "/cd", "ab/cd" },
-	// empty joining string
+	// empty/null joining string
 	{ "ab/cd", "", "ab/cd" },
+	{ "ab/cd", nullptr, "ab/cd" },
 };
 
 TEST_CASE("C-style string construction")
@@ -96,9 +97,12 @@ TEST_CASE("operator/=")
 		a /= test.join;
 		assert(a.str() == test.result);
 
-		cainteoir::path b{test.base};
-		b /= std::string(test.join);
-		assert(b.str() == test.result);
+		if (test.join)
+		{
+			cainteoir::path b{test.base};
+			b /= std::string(test.join);
+			assert(b.str() == test.result);
+		}
 	}
 }
 
@@ -107,6 +111,7 @@ TEST_CASE("operator/")
 	for (const auto &test : path_join_testcases)
 	{
 		assert((cainteoir::path(test.base) / test.join).str() == test.result);
-		assert((cainteoir::path(test.base) / std::string(test.join)).str() == test.result);
+		if (test.join)
+			assert((cainteoir::path(test.base) / std::string(test.join)).str() == test.result);
 	}
 }
