@@ -25,6 +25,18 @@
 
 REGISTER_TESTSUITE("path");
 
+struct path_join_t
+{
+	const char *base;
+	const char *join;
+	const char *result;
+};
+
+static const path_join_t path_join_testcases[] =
+{
+	{ "ab/cd", "ef", "ab/cd/ef" },
+};
+
 TEST_CASE("C-style string construction")
 {
 	cainteoir::path a{""};
@@ -71,17 +83,23 @@ TEST_CASE("parent")
 
 TEST_CASE("operator/=")
 {
-	cainteoir::path a{"ab/cd"};
+	for (const auto &test : path_join_testcases)
+	{
+		cainteoir::path a{test.base};
+		a /= test.join;
+		assert(a.str() == test.result);
 
-	a /= "ef";
-	assert(a.str() == "ab/cd/ef");
-
-	a /= std::string("ghi");
-	assert(a.str() == "ab/cd/ef/ghi");
+		cainteoir::path b{test.base};
+		b /= std::string(test.join);
+		assert(b.str() == test.result);
+	}
 }
 
 TEST_CASE("operator/")
 {
-	assert((cainteoir::path("ab/cd") / "ef").str() == "ab/cd/ef");
-	assert((cainteoir::path("ab/cd") / std::string("ghi")).str() == "ab/cd/ghi");
+	for (const auto &test : path_join_testcases)
+	{
+		assert((cainteoir::path(test.base) / test.join).str() == test.result);
+		assert((cainteoir::path(test.base) / std::string(test.join)).str() == test.result);
+	}
 }
