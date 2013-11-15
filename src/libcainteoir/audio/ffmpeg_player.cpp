@@ -132,8 +132,9 @@ int buffer_stream::read(uint8_t *buf, int size)
 {
 	int avail = mBuffer->end() - mCurrent;
 	if (avail <= 0) return 0;
+	if (size > avail) size = avail;
 
-	memcpy(buf, mCurrent, size > avail ? avail : size);
+	memcpy(buf, mCurrent, size);
 	mCurrent += size;
 	return size;
 }
