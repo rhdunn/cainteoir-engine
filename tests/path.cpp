@@ -40,6 +40,9 @@ static const path_join_t path_join_testcases[] =
 	{ "ab/", "cd", "ab/cd" },
 	{ "ab", "/cd", "ab/cd" },
 	{ "ab/", "/cd", "ab/cd" },
+	// parent folder ('../') navigation in joining string
+	{ "ab/cd", "../ef", "ab/ef" },
+	{ "ab/cd/ef", "../../ghi", "ab/ghi" },
 	// empty/null joining string
 	{ "ab/cd", "", "ab/cd" },
 	{ "ab/cd", nullptr, "ab/cd" },
