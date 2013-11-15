@@ -445,6 +445,11 @@ noinst_bin_PROGRAMS += tests/buffer.test
 tests_buffer_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_buffer_test_SOURCES = tests/buffer.cpp tests/tester.hpp
 
+noinst_bin_PROGRAMS += tests/path.test
+
+tests_path_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_path_test_SOURCES = tests/path.cpp tests/tester.hpp
+
 noinst_bin_PROGRAMS += tests/rdfmodel.test
 
 tests_rdfmodel_test_LDADD   = src/libcainteoir/libcainteoir.la
@@ -548,6 +553,7 @@ tests/vorbis-comments.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
 
 check: \
 	tests/buffer.check \
+	tests/path.check \
 	tests/utf8.check \
 	tests/encoding.check \
 	tests/rdfmodel.check \
