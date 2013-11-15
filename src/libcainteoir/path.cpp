@@ -43,7 +43,9 @@ cainteoir::path &cainteoir::path::operator/=(const std::string &aPath)
 
 cainteoir::path cainteoir::path::parent() const
 {
-	return path(mPath.substr(0, mPath.rfind('/')));
+	std::string::size_type pos = mPath.rfind('/');
+	if (pos == std::string::npos) return cainteoir::path(std::string());
+	return path(mPath.substr(0, pos));
 }
 
 cainteoir::path cainteoir::get_data_path()

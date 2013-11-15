@@ -65,6 +65,7 @@ TEST_CASE("parent")
 {
 	assert(cainteoir::path("a/b/c").parent().str() == "a/b");
 	assert(cainteoir::path("a/b").parent().str() == "a");
+	assert(cainteoir::path("a").parent().str() == std::string());
 	assert(cainteoir::path("abc/de/fgh-ijk").parent().str() == "abc/de");
 }
 
