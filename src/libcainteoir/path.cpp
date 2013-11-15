@@ -25,6 +25,8 @@
 
 cainteoir::path &cainteoir::path::operator/=(const char *aPath)
 {
+	if (*aPath == '\0') return *this;
+
 	auto end = --mPath.end();
 	if (*end != '/' && *aPath != '/')
 		mPath.push_back('/');
@@ -36,6 +38,8 @@ cainteoir::path &cainteoir::path::operator/=(const char *aPath)
 
 cainteoir::path &cainteoir::path::operator/=(const std::string &aPath)
 {
+	if (aPath.empty()) return *this;
+
 	auto end = --mPath.end();
 	if (*end != '/' && (*aPath.begin()) != '/')
 		mPath.push_back('/');

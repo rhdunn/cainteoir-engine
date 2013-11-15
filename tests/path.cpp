@@ -34,10 +34,14 @@ struct path_join_t
 
 static const path_join_t path_join_testcases[] =
 {
+	// basic test case
 	{ "ab/cd", "ef", "ab/cd/ef" },
+	// '/' at the start/end of the base/joining string
 	{ "ab/", "cd", "ab/cd" },
 	{ "ab", "/cd", "ab/cd" },
 	{ "ab/", "/cd", "ab/cd" },
+	// empty joining string
+	{ "ab/cd", "", "ab/cd" },
 };
 
 TEST_CASE("C-style string construction")
