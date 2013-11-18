@@ -354,7 +354,7 @@ if test "$with_ffmpeg" = "no"; then
     echo "Disabling ePub Media Overlay support via the FFmpeg/libav library"
     have_ffmpeg=no
 else
-    PKG_CHECK_MODULES(FFMPEG, [libavformat libavcodec libavutil],
+    PKG_CHECK_MODULES(FFMPEG, [libavformat >= 0.9 libavcodec >= 0.9 libavutil >= 0.9],
         [
             AC_DEFINE(HAVE_FFMPEG, [], [Do we have the FFmpeg libraries])
             have_ffmpeg=yes

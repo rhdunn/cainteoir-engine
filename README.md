@@ -30,7 +30,8 @@ Optionally, you need:
 5.  the pico development libraries for svox pico support;
 6.  the poppler development libraries for pdf support.
 
-If you want ePub 3.0 Media Overlay support, you need the following FFmpeg/libav libraries:
+If you want ePub 3.0 Media Overlay support, you need FFmpeg or libav v9 or later,
+with the following libraries installed:
 
 1.  libavutil;
 2.  libavcodec;
