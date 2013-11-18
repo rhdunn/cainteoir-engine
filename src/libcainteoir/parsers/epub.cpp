@@ -88,9 +88,11 @@ bool epub_document_reader::read()
 		{
 			if (mTextRef == child->anchor)
 			{
+				auto audiofile = cainteoir::path(mMediaItem.anchor.str()).zip_path();
+
 				type        = mMediaItem.type;
 				styles      = mMediaItem.styles;
-				content     = mMediaItem.content;
+				content     = mData->read(audiofile);
 				anchor      = mMediaItem.anchor;
 				media_begin = mMediaItem.media_begin;
 				media_end   = mMediaItem.media_end;
