@@ -64,6 +64,7 @@ struct zip_data
 	const char *begin;
 	uint32_t compressed;
 	uint32_t uncompressed;
+	std::shared_ptr<cainteoir::buffer> cached;
 };
 
 static const std::initializer_list<cainteoir::decoder_ptr> zip_compression = {
@@ -149,13 +150,15 @@ std::shared_ptr<cainteoir::buffer> zip_archive::read(const char *aFilename) cons
 		return std::shared_ptr<cainteoir::buffer>();
 
 	const zip_data &item = entry->second;
+	if (item.cached) return item.cached;
+
 	auto decoder = *(zip_compression.begin() + item.compression_type);
 	if (item.compression_type >= zip_compression.size() || decoder == nullptr)
 		throw std::runtime_error(i18n("decompression failed (unsupported compression type)"));
 
 	cainteoir::buffer compressed { item.begin, item.begin + item.compressed };
 
-	return decoder(compressed, item.uncompressed);
+	return const_cast<zip_data &>(item).cached = decoder(compressed, item.uncompressed);
 }
 
 const std::list<std::string> &zip_archive::files() const
