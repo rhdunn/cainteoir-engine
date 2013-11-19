@@ -347,16 +347,6 @@ void ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 		}
 		av_free_packet(&reading);
 	}
-	if (mAudio->codec->codec->capabilities & CODEC_CAP_DELAY)
-	{
-		av_init_packet(&reading);
-		int got_frame = 0;
-		while (avcodec_decode_audio4(mAudio->codec, mFrame, &got_frame, &reading) >= 0 && got_frame)
-		{
-			fprintf(stdout, "... frame %d flushing (samples=%d)\r", n++, mFrame->nb_samples);
-		}
-	}
-	fprintf(stdout, "\n");
 }
 
 std::shared_ptr<cainteoir::audio_player>
