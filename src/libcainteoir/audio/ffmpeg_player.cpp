@@ -182,6 +182,7 @@ private:
 #ifdef HAVE_LIBAVRESAMPLE
 	AVAudioResampleContext *mContext;
 	std::vector<uint8_t> mBuffer;
+	int mBytesPerSample;
 #endif
 };
 
@@ -189,6 +190,7 @@ resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::aud
 	: mCodec(codec)
 #ifdef HAVE_LIBAVRESAMPLE
 	, mContext(nullptr)
+	, mBytesPerSample(0)
 #endif
 {
 #ifdef HAVE_LIBAVRESAMPLE
@@ -211,6 +213,8 @@ resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::aud
 
 		if (avresample_open(mContext) != 0)
 			throw std::runtime_error("unable to initialize libavresample instance");
+
+		mBytesPerSample = av_get_bytes_per_sample(codec->sample_fmt);
 	}
 #else
 	if (out->channels() != 1 && av_sample_fmt_is_planar(mAudio->codec->sample_fmt))
@@ -231,17 +235,19 @@ resampler::~resampler()
 
 cainteoir::buffer resampler::resample(AVFrame *frame)
 {
-	int len = av_samples_get_buffer_size(nullptr, mCodec->channels, frame->nb_samples, mCodec->sample_fmt, 1);
 #ifdef HAVE_LIBAVRESAMPLE
 	if (mContext)
 	{
+		int out_linesize = 0;
+		int len = av_samples_get_buffer_size(&out_linesize, mCodec->channels, frame->nb_samples, mCodec->sample_fmt, 0);
 		if (len > mBuffer.size())
 			mBuffer.resize(len);
 		char *data = (char *)&mBuffer[0];
-		int ret = avresample_convert(mContext, (uint8_t **)&data, mBuffer.size(), frame->nb_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
-		return cainteoir::buffer(data, data + mBuffer.size());
+		int ret = avresample_convert(mContext, (uint8_t **)&data, out_linesize, frame->nb_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
+		return cainteoir::buffer(data, data + (ret * mBytesPerSample * mCodec->channels));
 	}
 #endif
+	int len = av_samples_get_buffer_size(nullptr, mCodec->channels, frame->nb_samples, mCodec->sample_fmt, 1);
 	const char *data = (const char *)frame->data[0];
 	return cainteoir::buffer(data, data + len);
 }
