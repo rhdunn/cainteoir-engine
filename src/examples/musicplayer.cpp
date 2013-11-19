@@ -58,14 +58,23 @@ int main(int argc, char ** argv)
 
 	try
 	{
-		const char *start_time = nullptr;
-		const char *end_time   = nullptr;
+		const char *start_time  = nullptr;
+		const char *end_time    = nullptr;
+		const char *format_type = nullptr;
+		int channels = -1;
+		int frequency = -1;
 
 		const option_group general_options = { nullptr, {
 			{ 's', "start", start_time, "TIME",
 			  i18n("The time to start playback from") },
 			{ 'e', "end", end_time, "TIME",
 			  i18n("The time to end playback at") },
+			{ 'f', "frequency", frequency, "FREQUENCY",
+			  i18n("The frequency to play the audio file at") },
+			{ 'c', "channels", channels, "CHANNELS",
+			  i18n("The number of audio channels to use") },
+			{ 'F', "format", format_type, "FORMAT",
+			  i18n("The audio format (s16le, float32le, etc.) to use") },
 		}};
 
 		const std::initializer_list<option_group> options = {
@@ -82,20 +91,28 @@ int main(int argc, char ** argv)
 		css::time start = css::parse_smil_time(start_time);
 		css::time end   = css::parse_smil_time(end_time);
 
-		print_time(start, "start time");
-		print_time(end,   "end time  ");
+		print_time(start, "start time      ");
+		print_time(end,   "end time        ");
 
 		auto data = cainteoir::make_file_buffer(argv[0]);
 		auto player = cainteoir::create_media_player(data);
 		if (player)
 		{
-			fprintf(stdout, "channels   : %d\n",   player->channels());
-			fprintf(stdout, "frequency  : %dHz\n", player->frequency());
-			fprintf(stdout, "format     : %s\n",   player->format().str().c_str());
+			fprintf(stdout, "source channels  : %d\n",   player->channels());
+			fprintf(stdout, "source frequency : %dHz\n", player->frequency());
+			fprintf(stdout, "source format    : %s\n",   player->format().str().c_str());
+
+			if (channels == -1)  channels = player->channels();
+			if (frequency == -1) frequency = player->frequency();
+			rdf::uri format = format_type ? rdf::tts(format_type) : player->format();
+
+			fprintf(stdout, "output channels  : %d\n",   channels);
+			fprintf(stdout, "output frequency : %dHz\n", frequency);
+			fprintf(stdout, "output format    : %s\n",   format.str().c_str());
 
 			rdf::graph doc;
 			rdf::uri   subject;
-			auto out = cainteoir::open_audio_device(nullptr, doc, subject, player->format(), player->channels(), player->frequency());
+			auto out = cainteoir::open_audio_device(nullptr, doc, subject, format, channels, frequency);
 
 			out->open();
 			player->play(out, start, end);
