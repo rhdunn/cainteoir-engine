@@ -121,6 +121,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 static void * speak_tts_thread(void *data)
 {
 	speech_impl *speak = (speech_impl *)data;
+	auto mode = speak->mMediaOverlays;
 
 	try
 	{
@@ -130,9 +131,21 @@ static void * speak_tts_thread(void *data)
 		size_t n = 0;
 		for (auto &node : *speak)
 		{
+			if (node.type & cainteoir::events::media_ref)
+			{
+				if (mode == tts::media_overlays_mode::media_overlays_only ||
+				    mode == tts::media_overlays_mode::tts_and_media_overlays)
+				{
+					auto audio = cainteoir::create_media_player(node.content);
+					if (audio)
+						audio->play(speak->audio, node.media_begin, node.media_end);
+				}
+			}
+
 			if (node.type & cainteoir::events::text)
 			{
-				speak->engine->speak(node.content.get(), 0, speak);
+				if (mode == tts::media_overlays_mode::tts_only)
+					speak->engine->speak(node.content.get(), 0, speak);
 				n += node.content->size();
 				speak->progress(n);
 			}
