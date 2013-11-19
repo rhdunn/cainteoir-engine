@@ -29,6 +29,7 @@ namespace css = cainteoir::css;
 
 #ifdef HAVE_FFMPEG
 
+#include <stdexcept>
 #include <cstdio>
 #include <limits>
 #include <endian.h>
