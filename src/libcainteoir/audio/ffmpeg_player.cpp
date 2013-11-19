@@ -188,19 +188,30 @@ private:
 resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::audio> &out)
 	: mCodec(codec)
 #ifdef HAVE_LIBAVRESAMPLE
-	, mContext(avresample_alloc_context())
+	, mContext(nullptr)
 #endif
 {
 #ifdef HAVE_LIBAVRESAMPLE
-	av_opt_set_int(mContext, "in_channel_layout",  get_channel_layout(codec->channels), 0);
-	av_opt_set_int(mContext, "in_sample_rate",     codec->sample_rate, 0);
-	av_opt_set_int(mContext, "in_sample_fmt",      codec->sample_fmt, 0);
-	av_opt_set_int(mContext, "out_channel_layout", get_channel_layout(out->channels()), 0);
-	av_opt_set_int(mContext, "out_sample_rate",    out->frequency(), 0);
-	av_opt_set_int(mContext, "out_sample_fmt",     get_av_sample_format(out->format()), 0);
+	auto in_channels   = get_channel_layout(codec->channels);
+	auto in_frequency  = codec->sample_rate;
+	auto in_format     = codec->sample_fmt;
+	auto out_channels  = get_channel_layout(out->channels());
+	auto out_frequency = out->frequency();
+	auto out_format    = get_av_sample_format(out->format());
 
-	if (avresample_open(mContext) != 0)
-		throw std::runtime_error("unable to initialize libavresample instance");
+	if (in_channels != out_channels || in_frequency != out_frequency || in_format != out_format)
+	{
+		mContext = avresample_alloc_context();
+		av_opt_set_int(mContext, "in_channel_layout",  in_channels, 0);
+		av_opt_set_int(mContext, "in_sample_rate",     in_frequency, 0);
+		av_opt_set_int(mContext, "in_sample_fmt",      in_format, 0);
+		av_opt_set_int(mContext, "out_channel_layout", out_channels, 0);
+		av_opt_set_int(mContext, "out_sample_rate",    out_frequency, 0);
+		av_opt_set_int(mContext, "out_sample_fmt",     out_format, 0);
+
+		if (avresample_open(mContext) != 0)
+			throw std::runtime_error("unable to initialize libavresample instance");
+	}
 #else
 	if (out->channels() != 1 && av_sample_fmt_is_planar(mAudio->codec->sample_fmt))
 		throw std::runtime_error("cannot play planar-layout multi-channel audio");
@@ -222,15 +233,17 @@ cainteoir::buffer resampler::resample(AVFrame *frame)
 {
 	int len = av_samples_get_buffer_size(nullptr, mCodec->channels, frame->nb_samples, mCodec->sample_fmt, 1);
 #ifdef HAVE_LIBAVRESAMPLE
-	if (len > mBuffer.size())
-		mBuffer.resize(len);
-	char *data = (char *)&mBuffer[0];
-	int ret = avresample_convert(mContext, (uint8_t **)&data, mBuffer.size(), frame->nb_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
-	return cainteoir::buffer(data, data + mBuffer.size());
-#else
+	if (mContext)
+	{
+		if (len > mBuffer.size())
+			mBuffer.resize(len);
+		char *data = (char *)&mBuffer[0];
+		int ret = avresample_convert(mContext, (uint8_t **)&data, mBuffer.size(), frame->nb_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
+		return cainteoir::buffer(data, data + mBuffer.size());
+	}
+#endif
 	const char *data = (const char *)frame->data[0];
 	return cainteoir::buffer(data, data + len);
-#endif
 }
 
 struct ffmpeg_player : public cainteoir::audio_player
