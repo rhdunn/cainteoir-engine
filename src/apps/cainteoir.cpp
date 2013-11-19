@@ -161,9 +161,6 @@ int main(int argc, char ** argv)
 			  i18n("Record the audio as a FORMAT file (default: wav)") },
 		}};
 
-		option_t opt( 0, "stdout", bind_value(outfile, "-"),
-			  i18n("Recorded audio is written to the standard output"));
-
 		const std::initializer_list<option_group> options = {
 			general_options,
 			speech_options,
