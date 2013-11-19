@@ -108,6 +108,8 @@ int main(int argc, char ** argv)
 	try
 	{
 		actions action = speak;
+		bool use_narrator = false;
+		bool use_tts_fallback = false;
 
 		const char *voicename = nullptr;
 		const char *language = nullptr;
@@ -143,6 +145,13 @@ int main(int argc, char ** argv)
 			  i18n("Set the voice to monotone (pitch varies by 0)") },
 		}};
 
+		const option_group narration_options = { i18n("Narration:"), {
+			{ 0, "narrator", bind_value(use_narrator, true),
+			  i18n("Use any narration/embedded audio in the document") },
+			{ 0, "tts-fallback", bind_value(use_tts_fallback, true),
+			  i18n("Use the TTS voice if no narration is provided for text") },
+		}};
+
 		const option_group toc_options = { i18n("Table of Contents:"), {
 			{ 'c', "contents", bind_value(action, show_contents),
 			  i18n("List the table of contents for the specified document") },
@@ -164,6 +173,7 @@ int main(int argc, char ** argv)
 		const std::initializer_list<option_group> options = {
 			general_options,
 			speech_options,
+			narration_options,
 			toc_options,
 			recording_options,
 		};
@@ -179,6 +189,12 @@ int main(int argc, char ** argv)
 		if (toc_range.second != -1) ++toc_range.second;
 		if (outformat && !strcmp(outformat, "wave"))
 			outformat = "wav";
+
+		auto mode = tts::media_overlays_mode::tts_only;
+		if (use_narrator)
+			mode = use_tts_fallback
+			     ? tts::media_overlays_mode::tts_and_media_overlays
+			     : tts::media_overlays_mode::media_overlays_only;
 
 		rdf::graph metadata;
 		cainteoir::supportedDocumentFormats(metadata, cainteoir::text_support);
@@ -350,7 +366,7 @@ int main(int argc, char ** argv)
 			fprintf(stdout, i18n("Title  : %s\n\n"), title.c_str());
 		}
 
-		std::shared_ptr<cainteoir::tts::speech> speech = tts.speak(out, doc.toc(), doc.children(toc_range));
+		auto speech = tts.speak(out, doc.toc(), doc.children(toc_range), mode);
 		while (speech->is_speaking())
 		{
 			if (show_progress)

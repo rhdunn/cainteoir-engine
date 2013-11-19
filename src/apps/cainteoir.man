@@ -30,6 +30,8 @@ and supported voices. This is output as RDF N-Triple statements.
 .IP "-m, --monotone"
 Set the voice to monotone. Equivalent to setting the pitch range
 to 0.
+.IP "--narrator"
+Use any embedded audio found in the document.
 .IP "-o FILE, --output=FILE"
 The file to output to when recording audio. If not specified,
 the author and title are used to create a file in the current
@@ -53,10 +55,31 @@ of a file.
 Read/record upto the specified table of content entry. If not
 specified, this defaults to the end of the document. The value
 is the number provided from the table of contents output.
+.IP "--tts-fallback"
+Use the currently selected TTS voice when there is no embedded
+audio for the current text.
+any embedded audio found in the document.
 .IP "-v VOICE, --voice=VOICE"
 Select the text-to-speech voice with the specified name.
 .IP "-V VOLUME, --volume=VOLUME"
 Set the voice's volume to the specified value.
+.SH AUDIO BOOKS
+With supported audio books -- such as ePub 3.0 documents with Media
+Overlays -- Cainteoir Text-to-Speech allows you to use the audio within
+that document instead of the Text-to-Speech voice. There are 3 possible
+modes of playback:
+.IP "text-to-speech only"
+In this mode, any embedded audio is ignored and the selected TTS voice
+is used to speak the text.
+.IP "narration only"
+In this mode (using the
+.B --narrator
+option), only the embedded audio of the document is used.
+.IP "narration with text-to-speech fallback"
+In this mode (using the
+.B --narrator --tts-fallback
+options), the embedded audio of the document is used if available,
+otherwise the currently selected TTS voice is used.
 .SH PLAYER COMMANDS
 These commands are available when listening to or recording a document:
 .IP "q"
