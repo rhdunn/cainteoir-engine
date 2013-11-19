@@ -358,6 +358,14 @@ else
         [
             AC_DEFINE(HAVE_FFMPEG, [], [Do we have the FFmpeg libraries])
             have_ffmpeg=yes
+
+            # API compatibility checks ...
+
+            CFLAGS="$CFLAGS $FFMPEG_CFLAGS"
+            LIBS="$LIBS $FFMPEG_LIBS"
+
+            AC_CHECK_FUNCS([av_frame_alloc])
+            AC_CHECK_FUNCS([avcodec_alloc_frame])
         ],[
             have_ffmpeg=no
         ])

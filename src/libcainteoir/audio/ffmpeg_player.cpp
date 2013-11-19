@@ -288,7 +288,11 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 	if (avcodec_open2(mAudio->codec, codec, nullptr) != 0)
 		return;
 
+#ifdef HAVE_AV_FRAME_ALLOC
+	mFrame = av_frame_alloc();
+#else
 	mFrame = avcodec_alloc_frame();
+#endif
 	mAudioFormat = get_format_uri(mAudio->codec->sample_fmt);
 }
 
