@@ -440,6 +440,12 @@ AC_ARG_ENABLE([pie],
          CXXFLAGS="$CXXFLAGS -pie -fPIE"
      fi])
 
+AC_ARG_ENABLE([signed-overflow-checks],
+    AS_HELP_STRING([--enable-signed-overflow-checks], [Generate traps for signed overflows]),
+    [if test x$enableval == xyes ; then
+         CXXFLAGS="$CXXFLAGS -ftrapv"
+     fi])
+
 dnl ================================================================
 dnl Generate output.
 dnl ================================================================
