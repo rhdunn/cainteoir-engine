@@ -428,6 +428,12 @@ AC_ARG_ENABLE([all-warnings],
          CXXFLAGS="$CXXFLAGS -Wall -Wextra -Wconversion -Wformat-security"
      fi])
 
+AC_ARG_ENABLE([stack-protection],
+    AS_HELP_STRING([--enable-stack-protection], [Use stack protection to protect against stack smashing]),
+    [if test x$enableval == xyes ; then
+         CXXFLAGS="$CXXFLAGS -fstack-protector-all -Wstack-protector --param ssp-buffer-size=4"
+     fi])
+
 dnl ================================================================
 dnl Generate output.
 dnl ================================================================
