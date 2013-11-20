@@ -345,7 +345,6 @@ void ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 	AVPacket reading;
 	av_init_packet(&reading);
 
-	int n = 0;
 	uint64_t samples = 0;
 	while (av_read_frame(mFormat, &reading) == 0)
 	{
