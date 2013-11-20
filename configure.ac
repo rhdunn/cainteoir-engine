@@ -425,7 +425,13 @@ dnl ================================================================
 AC_ARG_ENABLE([all-warnings],
     AS_HELP_STRING([--enable-all-warnings], [Turn on all compiler warnings]),
     [if test x$enableval == xyes ; then
-         CXXFLAGS="$CXXFLAGS -Wall -Wextra -Wconversion -Wformat-security"
+         CXXFLAGS="$CXXFLAGS -Wall -Wextra -Wconversion"
+     fi])
+
+AC_ARG_ENABLE([format-security],
+    AS_HELP_STRING([--format-security], [Turn on printf format security checks]),
+    [if test x$enableval == xyes ; then
+         CXXFLAGS="$CXXFLAGS -Wformat -Wformat-security -Werror=format-security"
      fi])
 
 AC_ARG_ENABLE([stack-protection],
