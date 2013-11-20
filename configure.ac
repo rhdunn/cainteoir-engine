@@ -434,6 +434,12 @@ AC_ARG_ENABLE([stack-protection],
          CXXFLAGS="$CXXFLAGS -fstack-protector-all -Wstack-protector --param ssp-buffer-size=4"
      fi])
 
+AC_ARG_ENABLE([pie],
+    AS_HELP_STRING([--enable-pie], [Generate a Position Independent Executable (PIE)]),
+    [if test x$enableval == xyes ; then
+         CXXFLAGS="$CXXFLAGS -pie -fPIE"
+     fi])
+
 dnl ================================================================
 dnl Generate output.
 dnl ================================================================
