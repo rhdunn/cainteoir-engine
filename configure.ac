@@ -446,6 +446,12 @@ AC_ARG_ENABLE([signed-overflow-checks],
          CXXFLAGS="$CXXFLAGS -ftrapv"
      fi])
 
+AC_ARG_ENABLE([buffer-checks],
+    AS_HELP_STRING([--enable-buffer-checks], [Generate checks for buffer overflows]),
+    [if test x$enableval == xyes ; then
+         CXXFLAGS="$CXXFLAGS -D_FORTIFY_SOURCE=2 -O2"
+     fi])
+
 dnl ================================================================
 dnl Generate output.
 dnl ================================================================
