@@ -419,6 +419,16 @@ AC_CHECK_PROG(HAVE_DOT,dot,yes,no)
 AC_SUBST(HAVE_DOT)
 
 dnl ================================================================
+dnl Compiler/linker hardening and security
+dnl ================================================================
+
+AC_ARG_ENABLE([all-warnings],
+    AS_HELP_STRING([--enable-all-warnings], [Turn on all compiler warnings]),
+    [if test x$enableval == xyes ; then
+         CXXFLAGS="$CXXFLAGS -Wall -Wextra -Wconversion -Wformat-security"
+     fi])
+
+dnl ================================================================
 dnl Generate output.
 dnl ================================================================
 
