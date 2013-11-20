@@ -201,7 +201,18 @@ resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::aud
 	auto out_frequency = out->frequency();
 	auto out_format    = get_av_sample_format(out->format());
 
-	if (in_channels != out_channels || in_frequency != out_frequency || in_format != out_format)
+	// NOTE: planar mono channel streams are compatible with non-planar mono
+	//       channel streams.
+	bool is_compatible = in_format == out_format;
+	if (in_channels == AV_CH_LAYOUT_MONO && out_channels == AV_CH_LAYOUT_MONO) switch (in_format)
+	{
+	case AV_SAMPLE_FMT_S16P: is_compatible = out_format == AV_SAMPLE_FMT_S16; break;
+	case AV_SAMPLE_FMT_S32P: is_compatible = out_format == AV_SAMPLE_FMT_S32; break;
+	case AV_SAMPLE_FMT_FLTP: is_compatible = out_format == AV_SAMPLE_FMT_FLT; break;
+	case AV_SAMPLE_FMT_DBLP: is_compatible = out_format == AV_SAMPLE_FMT_DBL; break;
+	}
+
+	if (in_channels != out_channels || in_frequency != out_frequency || !is_compatible)
 	{
 		mContext = avresample_alloc_context();
 		av_opt_set_int(mContext, "in_channel_layout",  in_channels, 0);
