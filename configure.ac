@@ -452,6 +452,12 @@ AC_ARG_ENABLE([buffer-checks],
          CXXFLAGS="$CXXFLAGS -D_FORTIFY_SOURCE=2 -O2"
      fi])
 
+AC_ARG_ENABLE([relro],
+    AS_HELP_STRING([--enable-relro], [Prevent certain ELF sections being written to by the application]),
+    [if test x$enableval == xyes ; then
+         CXXFLAGS="$CXXFLAGS -Wl,-z,relro,-z,now"
+     fi])
+
 dnl ================================================================
 dnl Generate output.
 dnl ================================================================
