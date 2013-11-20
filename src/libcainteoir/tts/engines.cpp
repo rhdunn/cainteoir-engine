@@ -192,6 +192,7 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	, mTo(aRange.end())
 	, mTocEntryFrom(aToc.begin())
 	, mTocEntryTo(aToc.end())
+	, mTocEntry(nullptr)
 	, mMediaOverlays(aMediaOverlays)
 {
 	for (auto &node : *this)
@@ -200,9 +201,12 @@ speech_impl::speech_impl(tts::engine *aEngine,
 			textLen += node.content->size();
 	}
 
-	// The first TOC entry points to the root document, so skip it ...
-	mTocEntry = &*mTocEntryFrom;
-	++mTocEntryFrom;
+	if (mTocEntryFrom != mTocEntryTo)
+	{
+		// The first TOC entry points to the root document, so skip it ...
+		mTocEntry = &*mTocEntryFrom;
+		++mTocEntryFrom;
+	}
 
 	started();
 	int ret = pthread_create(&threadId, nullptr, speak_tts_thread, (void *)this);
