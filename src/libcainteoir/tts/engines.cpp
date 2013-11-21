@@ -129,8 +129,22 @@ static void * speak_tts_thread(void *data)
 		speak->started();
 
 		size_t n = 0;
+		int depth = 0;
+		int media_overlay_depth = -1;
 		for (auto &node : *speak)
 		{
+			if (node.type & cainteoir::events::begin_context)
+			{
+				++depth;
+			}
+
+			if (node.type & cainteoir::events::end_context)
+			{
+				if (depth == media_overlay_depth)
+					media_overlay_depth = -1;
+				--depth;
+			}
+
 			if (node.type & cainteoir::events::media_ref)
 			{
 				if (mode == tts::media_overlays_mode::media_overlays_only ||
@@ -138,14 +152,25 @@ static void * speak_tts_thread(void *data)
 				{
 					auto audio = cainteoir::create_media_player(node.content);
 					if (audio)
+					{
 						audio->play(speak->audio, node.media_begin, node.media_end);
+						media_overlay_depth = depth;
+					}
 				}
 			}
 
 			if (node.type & cainteoir::events::text)
 			{
-				if (mode == tts::media_overlays_mode::tts_only)
+				switch (mode)
+				{
+				case tts::media_overlays_mode::tts_only:
 					speak->engine->speak(node.content.get(), 0, speak);
+					break;
+				case tts::media_overlays_mode::tts_and_media_overlays:
+					if (media_overlay_depth == -1)
+						speak->engine->speak(node.content.get(), 0, speak);
+					break;
+				}
 				n += node.content->size();
 				speak->progress(n);
 			}
