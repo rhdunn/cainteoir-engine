@@ -342,10 +342,8 @@ void ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 
 	resampler converter(mAudio->codec, out);
 
-	AVPacket reading;
-	av_init_packet(&reading);
-
 	uint64_t samples = 0;
+	AVPacket reading;
 	while (av_read_frame(mFormat, &reading) == 0)
 	{
 		if (reading.stream_index != mAudio->index)
