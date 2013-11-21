@@ -184,6 +184,7 @@ private:
 	std::vector<uint8_t> mBuffer;
 	int mBytesPerSample;
 	int mChannels;
+	AVSampleFormat mFormat;
 #endif
 };
 
@@ -193,6 +194,7 @@ resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::aud
 	, mContext(nullptr)
 	, mBytesPerSample(0)
 	, mChannels(out->channels())
+	, mFormat(get_av_sample_format(out->format()))
 #endif
 {
 #ifdef HAVE_LIBAVRESAMPLE
@@ -201,17 +203,16 @@ resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::aud
 	auto in_format     = codec->sample_fmt;
 	auto out_channels  = get_channel_layout(out->channels());
 	auto out_frequency = out->frequency();
-	auto out_format    = get_av_sample_format(out->format());
 
 	// NOTE: planar mono channel streams are compatible with non-planar mono
 	//       channel streams.
-	bool is_compatible = in_format == out_format;
+	bool is_compatible = in_format == mFormat;
 	if (in_channels == AV_CH_LAYOUT_MONO && out_channels == AV_CH_LAYOUT_MONO) switch (in_format)
 	{
-	case AV_SAMPLE_FMT_S16P: is_compatible = out_format == AV_SAMPLE_FMT_S16; break;
-	case AV_SAMPLE_FMT_S32P: is_compatible = out_format == AV_SAMPLE_FMT_S32; break;
-	case AV_SAMPLE_FMT_FLTP: is_compatible = out_format == AV_SAMPLE_FMT_FLT; break;
-	case AV_SAMPLE_FMT_DBLP: is_compatible = out_format == AV_SAMPLE_FMT_DBL; break;
+	case AV_SAMPLE_FMT_S16P: is_compatible = mFormat == AV_SAMPLE_FMT_S16; break;
+	case AV_SAMPLE_FMT_S32P: is_compatible = mFormat == AV_SAMPLE_FMT_S32; break;
+	case AV_SAMPLE_FMT_FLTP: is_compatible = mFormat == AV_SAMPLE_FMT_FLT; break;
+	case AV_SAMPLE_FMT_DBLP: is_compatible = mFormat == AV_SAMPLE_FMT_DBL; break;
 	}
 
 	if (in_channels != out_channels || in_frequency != out_frequency || !is_compatible)
@@ -222,12 +223,12 @@ resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::aud
 		av_opt_set_int(mContext, "in_sample_fmt",      in_format, 0);
 		av_opt_set_int(mContext, "out_channel_layout", out_channels, 0);
 		av_opt_set_int(mContext, "out_sample_rate",    out_frequency, 0);
-		av_opt_set_int(mContext, "out_sample_fmt",     out_format, 0);
+		av_opt_set_int(mContext, "out_sample_fmt",     mFormat, 0);
 
 		if (avresample_open(mContext) != 0)
 			throw std::runtime_error("unable to initialize libavresample instance");
 
-		mBytesPerSample = av_get_bytes_per_sample(codec->sample_fmt) * mChannels;
+		mBytesPerSample = av_get_bytes_per_sample(mFormat) * mChannels;
 	}
 #else
 	if (out->channels() != 1 && av_sample_fmt_is_planar(mAudio->codec->sample_fmt))
@@ -252,7 +253,7 @@ cainteoir::buffer resampler::resample(AVFrame *frame)
 	if (mContext)
 	{
 		int out_linesize = 0;
-		int len = av_samples_get_buffer_size(&out_linesize, mChannels, frame->nb_samples, mCodec->sample_fmt, 0);
+		int len = av_samples_get_buffer_size(&out_linesize, mChannels, frame->nb_samples, mFormat, 0);
 		if (len > mBuffer.size())
 			mBuffer.resize(len);
 		char *data = (char *)&mBuffer[0];
