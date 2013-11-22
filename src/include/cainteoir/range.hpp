@@ -25,12 +25,92 @@
 
 namespace cainteoir
 {
+	namespace detail
+	{
+		// Helper class for making integral types iterable.
+		// NOTE: This cannot be random-access because operator[] does not work.
+		template <typename T>
+		struct integral_iterator
+		{
+			typedef std::ptrdiff_t difference_type;
+			typedef std::bidirectional_iterator_tag iterator_category;
+			typedef T value_type;
+			typedef T pointer;
+			typedef T reference;
+
+			integral_iterator(T aValue) : value(aValue) {}
+			integral_iterator(const integral_iterator<T> &other) : value(other.value) {}
+
+			// Access to the underlying integral value to support using the class as
+			// a simple value type.
+			operator T() const { return value; }
+
+			reference operator*()  const { return value; }
+			pointer   operator->() const { return value; }
+
+			integral_iterator<T> &operator=(const integral_iterator<T> &other)
+			{
+				value = other.value;
+				return *this;
+			}
+
+			integral_iterator<T> &operator++()
+			{
+				++value;
+				return *this;
+			}
+
+			integral_iterator<T> operator++(int)
+			{
+				auto ret = *this;
+				++ret.value;
+				return ret;
+			}
+
+			integral_iterator<T> &operator--()
+			{
+				--value;
+				return *this;
+			}
+
+			integral_iterator<T> operator--(int)
+			{
+				auto ret = *this;
+				--ret.value;
+				return ret;
+			}
+
+			bool operator==(const integral_iterator<T> &other) const { return value == other.value; }
+			bool operator!=(const integral_iterator<T> &other) const { return value != other.value; }
+		private:
+			T value;
+		};
+
+#define		MAKE_INTEGRAL_ITERATOR(IntegralType) \
+			template <> struct iterator_type<IntegralType> \
+			{ \
+				typedef integral_iterator<IntegralType> type; \
+			};
+
+		template <typename Iterator> struct iterator_type { typedef Iterator type; };
+		MAKE_INTEGRAL_ITERATOR(  signed short)
+		MAKE_INTEGRAL_ITERATOR(unsigned short)
+		MAKE_INTEGRAL_ITERATOR(  signed int)
+		MAKE_INTEGRAL_ITERATOR(unsigned int)
+		MAKE_INTEGRAL_ITERATOR(  signed long)
+		MAKE_INTEGRAL_ITERATOR(unsigned long)
+		MAKE_INTEGRAL_ITERATOR(  signed long long)
+		MAKE_INTEGRAL_ITERATOR(unsigned long long)
+
+#undef		MAKE_INTEGRAL_ITERATOR
+	}
+
 	template <typename Iterator>
 	class range
 	{
 	public:
-		typedef Iterator iterator;
-		typedef std::reverse_iterator<Iterator> const_reverse_iterator;
+		typedef typename detail::iterator_type<Iterator>::type iterator;
+		typedef std::reverse_iterator<iterator> const_reverse_iterator;
 		typedef std::size_t size_type;
 
 		range(iterator f, iterator l) : first(f), last(l) {}

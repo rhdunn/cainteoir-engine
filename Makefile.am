@@ -440,6 +440,11 @@ EXTRA_DIST += \
 	$(PHONEMESET_TEST_FILES) \
 	tests/*.py
 
+noinst_bin_PROGRAMS += tests/range.test
+
+tests_range_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_range_test_SOURCES = tests/range.cpp tests/tester.hpp
+
 noinst_bin_PROGRAMS += tests/buffer.test
 
 tests_buffer_test_LDADD   = src/libcainteoir/libcainteoir.la
@@ -552,6 +557,7 @@ tests/metadata.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
 tests/vorbis-comments.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
 
 check: \
+	tests/range.check \
 	tests/buffer.check \
 	tests/path.check \
 	tests/utf8.check \
