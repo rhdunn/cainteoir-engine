@@ -125,6 +125,11 @@ namespace cainteoir
 		size_type size() const { return std::distance(first, last); }
 
 		bool empty() const { return first == last; }
+
+		bool contains(iterator pos) const
+		{
+			return first <= pos && pos < last;
+		}
 	protected:
 		iterator first;
 		iterator last;

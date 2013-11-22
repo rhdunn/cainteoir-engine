@@ -70,3 +70,12 @@ TEST_RANGE( int64_t)
 TEST_RANGE(uint64_t)
 
 #undef TEST_RANGE
+
+TEST_CASE("contains - iterator")
+{
+	cainteoir::range<int32_t> a(5, 10);
+	assert(!a.contains(4));
+	assert(a.contains(5));
+	assert(a.contains(9));
+	assert(!a.contains(10));
+}
