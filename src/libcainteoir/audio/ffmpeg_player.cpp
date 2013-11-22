@@ -309,6 +309,8 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 	if (avformat_open_input(&mFormat, "stream", decoder, nullptr) != 0)
 		return;
 
+	// Avoid the `[mp3 @ 0x...] max_analyze_duration reached` warning...
+	mFormat->max_analyze_duration = INT_MAX;
 	if (avformat_find_stream_info(mFormat, nullptr) < 0)
 		return;
 
