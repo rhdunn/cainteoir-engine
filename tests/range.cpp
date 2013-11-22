@@ -39,9 +39,8 @@ TEST_CASE("iterator range")
 	assert(b.begin() != b.end());
 }
 
-TEST_CASE("integral range")
-{
 #define TEST_RANGE(IntegralType) \
+	TEST_CASE("integral range - " # IntegralType) \
 	{ \
 		cainteoir::range<IntegralType> a(0, 0); \
 		assert(a.size() == 0); \
@@ -71,4 +70,3 @@ TEST_RANGE( int64_t)
 TEST_RANGE(uint64_t)
 
 #undef TEST_RANGE
-}
