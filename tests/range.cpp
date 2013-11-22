@@ -41,13 +41,34 @@ TEST_CASE("iterator range")
 
 TEST_CASE("integral range")
 {
-	cainteoir::range<int> a(0, 0);
-	assert(a.size() == 0);
-	assert(a.empty());
-	assert(a.begin() == a.end());
+#define TEST_RANGE(IntegralType) \
+	{ \
+		cainteoir::range<IntegralType> a(0, 0); \
+		assert(a.size() == 0); \
+		assert(a.empty()); \
+		assert(a.begin() == a.end()); \
+		\
+		cainteoir::range<IntegralType> b(10, 14); \
+		assert(b.size() == 4); \
+		assert(!b.empty()); \
+		assert(b.begin() != b.end()); \
+	}
 
-	cainteoir::range<int> b(10, 14);
-	assert(b.size() == 4);
-	assert(!b.empty());
-	assert(b.begin() != b.end());
+TEST_RANGE(  signed short)
+TEST_RANGE(unsigned short)
+TEST_RANGE(  signed int)
+TEST_RANGE(unsigned int)
+TEST_RANGE(  signed long)
+TEST_RANGE(unsigned long)
+TEST_RANGE(  signed long long)
+TEST_RANGE(unsigned long long)
+
+TEST_RANGE( int16_t)
+TEST_RANGE(uint16_t)
+TEST_RANGE( int32_t)
+TEST_RANGE(uint32_t)
+TEST_RANGE( int64_t)
+TEST_RANGE(uint64_t)
+
+#undef TEST_RANGE
 }
