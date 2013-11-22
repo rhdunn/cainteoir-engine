@@ -271,11 +271,11 @@ struct ffmpeg_player : public cainteoir::audio_player
 	ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, const char *aFormat);
 	~ffmpeg_player();
 
-	void play(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end);
+	bool play(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end);
 
-	int channels() const { return mAudio->codec->channels; }
+	int channels() const { return mAudio ? mAudio->codec->channels : 0; }
 
-	int frequency() const { return mAudio->codec->sample_rate; }
+	int frequency() const { return mAudio ? mAudio->codec->sample_rate : 0; }
 
 	const rdf::uri &format() const { return mAudioFormat; }
 private:
@@ -294,6 +294,7 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, co
 	, mIO(nullptr)
 	, mFormat(nullptr)
 	, mAudio(nullptr)
+	, mFrame(nullptr)
 {
 	AVInputFormat *decoder = av_find_input_format(aFormat);
 	if (decoder == nullptr)
@@ -338,8 +339,10 @@ ffmpeg_player::~ffmpeg_player()
 	if (mBuffer) av_free(mBuffer);
 }
 
-void ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end)
+bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end)
 {
+	if (!mFrame) return false;
+
 	uint64_t from = time_to_samples(start, mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::min());
 	uint64_t to   = time_to_samples(end,   mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::max());
 
@@ -377,6 +380,7 @@ void ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 		}
 		av_free_packet(&reading);
 	}
+	return true;
 }
 
 std::shared_ptr<cainteoir::audio_player>

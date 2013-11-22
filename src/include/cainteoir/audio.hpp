@@ -47,7 +47,7 @@ namespace cainteoir
 	{
 		virtual ~audio_player() {}
 
-		virtual void play(const std::shared_ptr<cainteoir::audio> &out,
+		virtual bool play(const std::shared_ptr<cainteoir::audio> &out,
 		                  const css::time &start,
 		                  const css::time &end) = 0;
 
