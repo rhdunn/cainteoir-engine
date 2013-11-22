@@ -1,6 +1,6 @@
 /* Iterator Range API.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -28,16 +28,13 @@ namespace cainteoir
 	template <typename Iterator>
 	class range
 	{
-	protected:
-		Iterator first;
-		Iterator last;
 	public:
-		range(Iterator f, Iterator l) : first(f), last(l) {}
-		virtual ~range() {}
-
 		typedef Iterator iterator;
 		typedef std::reverse_iterator<Iterator> const_reverse_iterator;
 		typedef std::size_t size_type;
+
+		range(iterator f, iterator l) : first(f), last(l) {}
+		virtual ~range() {}
 
 		iterator begin() const { return first; }
 		iterator end()   const { return last; }
@@ -48,6 +45,9 @@ namespace cainteoir
 		size_type size() const { return std::distance(first, last); }
 
 		bool empty() const { return first == last; }
+	protected:
+		iterator first;
+		iterator last;
 	};
 
 	template <typename Container>
