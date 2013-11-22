@@ -110,6 +110,7 @@ int main(int argc, char ** argv)
 		actions action = speak;
 		bool use_narrator = false;
 		bool use_tts_fallback = false;
+		bool show_progress = true;
 
 		const char *voicename = nullptr;
 		const char *language = nullptr;
@@ -126,6 +127,8 @@ int main(int argc, char ** argv)
 		const option_group general_options = { nullptr, {
 			{ 'M', "metadata", bind_value(action, show_metadata),
 			  i18n("Show the RDF metadata for the engine and voices") },
+			{ 'q', "quiet", bind_value(show_progress, false),
+			  i18n("Do not print any output (including current playing/recording time)") },
 		}};
 
 		const option_group speech_options = { i18n("Speech:"), {
@@ -324,7 +327,6 @@ int main(int argc, char ** argv)
 
 		std::shared_ptr<cainteoir::audio> out;
 		const char *state;
-		bool show_progress = true;
 		if (outformat || outfile)
 		{
 			state = i18n("recording");

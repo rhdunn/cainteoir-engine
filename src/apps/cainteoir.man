@@ -41,6 +41,8 @@ Set the voice's base pitch.
 .IP "-P RANGE, --pitch-range=RANGE"
 Set the voice's pitch variance to the specified value (with 0
 being monotone).
+.IP "-q, --quiet"
+Don't display the playing/recording time.
 .IP "-r [FORMAT], --record[=FORMAT]"
 Record the document to the specified audio format ('wav' for wave
 audio, 'ogg' for Ogg/Vorbis audio). If no format is specified,
