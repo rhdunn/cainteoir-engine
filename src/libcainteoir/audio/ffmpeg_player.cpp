@@ -368,11 +368,28 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 				decoding.size -= length;
 				decoding.data += length;
 
-				uint64_t end_samples = samples + mFrame->nb_samples;
-				if (samples >= window.begin() && end_samples < window.end())
+				/*
+				 *       |=====|     : frame
+				 * |===| :     :     : frame.contains(window) == no_overlap
+				 *     |===|   :     : frame.contains(window) == overlap_at_start
+				 *       :   |===|   : frame.contains(window) == overlap_at_end
+				 *     |=========|   : frame.contains(window) == overlap_outer
+				 *       : |=| :     : frame.contains(window) == overlap_inner
+				 */
+				cainteoir::range<uint64_t> frame = { samples, samples + mFrame->nb_samples };
+				switch (window.contains(frame))
 				{
-					cainteoir::buffer data = converter.resample(mFrame);
-					out->write((const char *)data.begin(), data.size());
+				case cainteoir::overlap_at_start: // TODO: adjust out samples
+				case cainteoir::overlap_at_end:   // TODO: adjust out samples
+				case cainteoir::overlap_outer:    // TODO: adjust out samples
+				case cainteoir::overlap_inner:
+					{
+						cainteoir::buffer data = converter.resample(mFrame);
+						out->write((const char *)data.begin(), data.size());
+					}
+					break;
+				case cainteoir::no_overlap:
+					break;
 				}
 
 				samples += mFrame->nb_samples;
