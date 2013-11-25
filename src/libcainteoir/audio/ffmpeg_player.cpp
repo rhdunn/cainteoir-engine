@@ -369,12 +369,12 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 				decoding.data += length;
 
 				/*
-				 *       |=====|     : frame
-				 * |===| :     :     : frame.contains(window) == no_overlap
-				 *     |===|   :     : frame.contains(window) == overlap_at_start
-				 *       :   |===|   : frame.contains(window) == overlap_at_end
-				 *     |=========|   : frame.contains(window) == overlap_outer
-				 *       : |=| :     : frame.contains(window) == overlap_inner
+				 *       |=====|     : window
+				 * |===| :     :     : ... contains(frame) == no_overlap
+				 *     |===|   :     : ... contains(frame) == overlap_at_start
+				 *       :   |===|   : ... contains(frame) == overlap_at_end
+				 *     |=========|   : ... contains(frame) == overlap_outer
+				 *       : |=| :     : ... contains(frame) == overlap_inner
 				 */
 				cainteoir::range<uint64_t> frame = { samples, samples + mFrame->nb_samples };
 				switch (window.contains(frame))
