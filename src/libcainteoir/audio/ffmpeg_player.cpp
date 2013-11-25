@@ -346,7 +346,7 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 	if (!mFrame) return false;
 
 	uint64_t from = time_to_samples(start, mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::min());
-	uint64_t to   = time_to_samples(end,   mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::max());
+	uint64_t to   = time_to_samples(end,   mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::max() - 1) + 1;
 
 	resampler converter(mAudio->codec, out);
 
@@ -366,12 +366,14 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 			{
 				decoding.size -= length;
 				decoding.data += length;
+
 				uint64_t end_samples = samples + mFrame->nb_samples;
-				if (samples >= from && end_samples <= to)
+				if (samples >= from && end_samples < to)
 				{
 					cainteoir::buffer data = converter.resample(mFrame);
 					out->write((const char *)data.begin(), data.size());
 				}
+
 				samples += mFrame->nb_samples;
 			}
 			else
