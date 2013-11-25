@@ -91,28 +91,28 @@ void generate_events(Reader &text)
 			fprintf(stdout, ".%s.%-8s [%d..%d] %s\n",
 			        ucd::get_script_string(ucd::lookup_script(cp)),
 			        token_name[event.type],
-			        event.range.begin(),
-			        event.range.end(),
+			        *event.range.begin(),
+			        *event.range.end(),
 			        event.text->str().c_str());
 			break;
 		case tts::paragraph:
 			fprintf(stdout, ".%-13s [%d..%d] \n",
 			        token_name[event.type],
-			        event.range.begin(),
-			        event.range.end());
+			        *event.range.begin(),
+			        *event.range.end());
 			break;
 		case tts::pause:
 			fprintf(stdout, ".%-13s [%d..%d] %dms\n",
 			        token_name[event.type],
-			        event.range.begin(),
-			        event.range.end(),
+			        *event.range.begin(),
+			        *event.range.end(),
 			        event.duration);
 			break;
 		case tts::phonemes:
 			fprintf(stdout, ".%-13s [%d..%d] /",
 			        token_name[event.type],
-			        event.range.begin(),
-			        event.range.end());
+			        *event.range.begin(),
+			        *event.range.end());
 			for (auto p : event.phonemes)
 				ipa->write(p);
 			fprintf(stdout, "/\n");
@@ -120,8 +120,8 @@ void generate_events(Reader &text)
 		default:
 			fprintf(stdout, ".%-13s [%d..%d] %s\n",
 			        token_name[event.type],
-			        event.range.begin(),
-			        event.range.end(),
+			        *event.range.begin(),
+			        *event.range.end(),
 			        event.text->str().c_str());
 			break;
 		}
