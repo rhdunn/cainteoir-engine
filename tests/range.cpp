@@ -22,6 +22,8 @@
 
 #include "tester.hpp"
 
+PRINTABLE(cainteoir::overlap_status);
+
 REGISTER_TESTSUITE("range");
 
 TEST_CASE("iterator range")
@@ -78,4 +80,43 @@ TEST_CASE("contains - iterator")
 	assert(a.contains(5));
 	assert(a.contains(9));
 	assert(!a.contains(10));
+}
+
+TEST_CASE("contains - range")
+{
+	/* The following diagram illustrates the different test cases to show
+	 * how they relate to each other and cover the different permutations
+	 * and edge cases:
+	 *
+	 *    0  5  10 15 20 25 30 35 40 45 50 +----+-----------------------+
+	 *                |========|           |  a | range to test against |
+	 *                :        :           +----+---------------------- +
+	 *                |========|           |  1 | overlap_inner         |
+	 *                |=====|  :           |  2 | overlap_inner         |
+	 *                :  |=====|           |  3 | overlap_inner         |
+	 *                :  |==|  :           |  4 | overlap_inner         |
+	 *          |==|  :        :           |  5 | no_overlap            |
+	 *          |=====|        :           |  6 | no_overlap            |
+	 *          |========|     :           |  7 | overlap_at_start      |
+	 *                :        :  |==|     |  8 | no_overlap            |
+	 *                :        |=====|     |  9 | no_overlap            |
+	 *                :     |========|     | 10 | overlap_at_end        |
+	 *             |==============|        | 11 | overlap_outer         |
+	 *    0  5  10 15 20 25 30 35 40 45 50 +----+-----------------------+
+	 */
+
+	typedef cainteoir::range<int32_t> range;
+	range a(20, 35);
+
+	assert(a.contains(range(20, 35)) == cainteoir::overlap_inner);    //  1
+	assert(a.contains(range(20, 30)) == cainteoir::overlap_inner);    //  2
+	assert(a.contains(range(25, 35)) == cainteoir::overlap_inner);    //  3
+	assert(a.contains(range(25, 30)) == cainteoir::overlap_inner);    //  4
+	assert(a.contains(range(10, 15)) == cainteoir::no_overlap);       //  5
+	assert(a.contains(range(10, 20)) == cainteoir::no_overlap);       //  6
+	assert(a.contains(range(10, 25)) == cainteoir::overlap_at_start); //  7
+	assert(a.contains(range(40, 45)) == cainteoir::no_overlap);       //  8
+	assert(a.contains(range(35, 45)) == cainteoir::no_overlap);       //  9
+	assert(a.contains(range(30, 45)) == cainteoir::overlap_at_end);   // 10
+	assert(a.contains(range(15, 40)) == cainteoir::overlap_outer);    // 11
 }

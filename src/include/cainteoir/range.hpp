@@ -105,6 +105,15 @@ namespace cainteoir
 #undef		MAKE_INTEGRAL_ITERATOR
 	}
 
+	enum overlap_status
+	{
+		no_overlap,
+		overlap_inner,
+		overlap_outer,
+		overlap_at_start,
+		overlap_at_end,
+	};
+
 	template <typename Iterator>
 	class range
 	{
@@ -129,6 +138,15 @@ namespace cainteoir
 		bool contains(iterator pos) const
 		{
 			return first <= pos && pos < last;
+		}
+
+		overlap_status contains(const range<Iterator> &other) const
+		{
+			if (other.last <= first || other.first >= last)
+				return no_overlap;
+			if (other.first < first)
+				return (other.last > last) ? overlap_outer : overlap_at_start;
+			return (other.last > last) ? overlap_at_end : overlap_inner;
 		}
 	protected:
 		iterator first;
