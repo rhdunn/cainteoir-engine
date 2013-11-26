@@ -176,7 +176,7 @@ struct resampler
 	resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::audio> &out);
 	~resampler();
 
-	cainteoir::range<uint8_t *> resample(AVFrame *frame);
+	cainteoir::range<uint8_t *> resample(AVFrame *frame, size_t delta_start, size_t delta_end);
 private:
 	AVCodecContext *mCodec;
 #ifdef HAVE_LIBAVRESAMPLE
@@ -250,7 +250,7 @@ resampler::~resampler()
 #endif
 }
 
-cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame)
+cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame, size_t delta_start, size_t delta_end)
 {
 	uint8_t *data;
 	int len;
@@ -287,6 +287,16 @@ cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame)
 #ifdef HAVE_LIBAVRESAMPLE
 	}
 #endif
+
+	if (delta_start)
+	{
+		delta_start *= mBytesPerSample;
+		data += delta_start;
+		len  -= delta_start;
+	}
+
+	if (delta_end)
+		len -= (delta_end * mBytesPerSample);
 
 	return { data, data + len };
 }
@@ -404,13 +414,19 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 				cainteoir::range<uint64_t> frame = { samples, samples + mFrame->nb_samples };
 				samples += mFrame->nb_samples;
 
+				size_t delta_start = 0;
+				size_t delta_end   = 0;
 				switch (window.contains(frame))
 				{
-				case cainteoir::overlap_at_start: // TODO: adjust out samples
+				case cainteoir::overlap_at_start:
+					delta_start = window.begin() - frame.begin();
 					break;
-				case cainteoir::overlap_at_end:   // TODO: adjust out samples
+				case cainteoir::overlap_at_end:
+					delta_end = frame.end() - window.end();
 					break;
-				case cainteoir::overlap_outer:    // TODO: adjust out samples
+				case cainteoir::overlap_outer:
+					delta_start = window.begin() - frame.begin();
+					delta_end = frame.end() - window.end();
 					break;
 				case cainteoir::overlap_inner:
 					break;
@@ -418,7 +434,7 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 					continue;
 				}
 
-				auto data = converter.resample(mFrame);
+				auto data = converter.resample(mFrame, delta_start, delta_end);
 				out->write((const char *)data.begin(), data.size());
 			}
 			else
