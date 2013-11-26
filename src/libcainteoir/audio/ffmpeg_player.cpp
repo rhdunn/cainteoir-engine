@@ -176,7 +176,7 @@ struct resampler
 	resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::audio> &out);
 	~resampler();
 
-	cainteoir::buffer resample(AVFrame *frame);
+	cainteoir::range<uint8_t *> resample(AVFrame *frame);
 private:
 	AVCodecContext *mCodec;
 #ifdef HAVE_LIBAVRESAMPLE
@@ -250,7 +250,7 @@ resampler::~resampler()
 #endif
 }
 
-cainteoir::buffer resampler::resample(AVFrame *frame)
+cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame)
 {
 #ifdef HAVE_LIBAVRESAMPLE
 	if (mContext)
@@ -271,14 +271,14 @@ cainteoir::buffer resampler::resample(AVFrame *frame)
 		int len = av_samples_get_buffer_size(&out_linesize, mChannels, out_samples, mFormat, 0);
 		if (len > mBuffer.size())
 			mBuffer.resize(len);
-		char *data = (char *)&mBuffer[0];
+		uint8_t *data = &mBuffer[0];
 		int ret = avresample_convert(mContext, (uint8_t **)&data, out_linesize, out_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
-		return cainteoir::buffer(data, data + (ret * mBytesPerSample));
+		return { data, data + (ret * mBytesPerSample) };
 	}
 #endif
 	int len = av_samples_get_buffer_size(nullptr, mCodec->channels, frame->nb_samples, mCodec->sample_fmt, 1);
-	const char *data = (const char *)frame->data[0];
-	return cainteoir::buffer(data, data + len);
+	uint8_t *data = frame->data[0];
+	return { data, data + len };
 }
 
 struct ffmpeg_player : public cainteoir::audio_player
@@ -408,7 +408,7 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 					continue;
 				}
 
-				cainteoir::buffer data = converter.resample(mFrame);
+				auto data = converter.resample(mFrame);
 				out->write((const char *)data.begin(), data.size());
 			}
 			else
