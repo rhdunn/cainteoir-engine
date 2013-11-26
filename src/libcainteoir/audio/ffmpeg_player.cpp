@@ -392,22 +392,24 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 				 *       : |=| :     : ... contains(frame) == overlap_inner
 				 */
 				cainteoir::range<uint64_t> frame = { samples, samples + mFrame->nb_samples };
+				samples += mFrame->nb_samples;
+
 				switch (window.contains(frame))
 				{
 				case cainteoir::overlap_at_start: // TODO: adjust out samples
+					break;
 				case cainteoir::overlap_at_end:   // TODO: adjust out samples
+					break;
 				case cainteoir::overlap_outer:    // TODO: adjust out samples
+					break;
 				case cainteoir::overlap_inner:
-					{
-						cainteoir::buffer data = converter.resample(mFrame);
-						out->write((const char *)data.begin(), data.size());
-					}
 					break;
 				case cainteoir::no_overlap:
-					break;
+					continue;
 				}
 
-				samples += mFrame->nb_samples;
+				cainteoir::buffer data = converter.resample(mFrame);
+				out->write((const char *)data.begin(), data.size());
 			}
 			else
 			{
