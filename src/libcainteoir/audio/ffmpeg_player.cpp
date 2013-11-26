@@ -184,6 +184,7 @@ private:
 	std::vector<uint8_t> mBuffer;
 	int mBytesPerSample;
 	int mChannels;
+	float mFrequencyScale; // The ratio of output:input frequencies.
 	AVSampleFormat mFormat;
 #endif
 };
@@ -194,6 +195,7 @@ resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::aud
 	, mContext(nullptr)
 	, mBytesPerSample(0)
 	, mChannels(out->channels())
+	, mFrequencyScale(0)
 	, mFormat(get_av_sample_format(out->format()))
 #endif
 {
@@ -229,6 +231,7 @@ resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::aud
 			throw std::runtime_error("unable to initialize libavresample instance");
 
 		mBytesPerSample = av_get_bytes_per_sample(mFormat) * mChannels;
+		mFrequencyScale = float(out_frequency) / in_frequency;
 	}
 #else
 	if (out->channels() != 1 && av_sample_fmt_is_planar(mAudio->codec->sample_fmt))
@@ -252,12 +255,24 @@ cainteoir::buffer resampler::resample(AVFrame *frame)
 #ifdef HAVE_LIBAVRESAMPLE
 	if (mContext)
 	{
+		/*
+		 * The av_samples_get_buffer_size and avresample_convert functions require the
+		 * number of samples in the output stream. This is not provided by ffmpeg/libav.
+		 *
+		 * The number of output samples is dependent on the number of samples in the
+		 * frame which can vary from frame to frame. The following relationship holds:
+		 *
+		 *     out_samples / in_samples =  out_frequency / in_frequency
+		 * ==> out_samples              = (out_frequency / in_frequency) * in_samples
+		 */
+		int out_samples = frame->nb_samples * mFrequencyScale;
+
 		int out_linesize = 0;
-		int len = av_samples_get_buffer_size(&out_linesize, mChannels, frame->nb_samples, mFormat, 0);
+		int len = av_samples_get_buffer_size(&out_linesize, mChannels, out_samples, mFormat, 0);
 		if (len > mBuffer.size())
 			mBuffer.resize(len);
 		char *data = (char *)&mBuffer[0];
-		int ret = avresample_convert(mContext, (uint8_t **)&data, out_linesize, frame->nb_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
+		int ret = avresample_convert(mContext, (uint8_t **)&data, out_linesize, out_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
 		return cainteoir::buffer(data, data + (ret * mBytesPerSample));
 	}
 #endif
