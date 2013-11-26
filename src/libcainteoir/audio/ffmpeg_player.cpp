@@ -276,7 +276,7 @@ cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame, size_t delta_sta
 			mBuffer.resize(len);
 
 		data = &mBuffer[0];
-		len = avresample_convert(mContext, (uint8_t **)&data, out_linesize, out_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
+		len = avresample_convert(mContext, &data, out_linesize, out_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
 		len *= mBytesPerSample;
 	}
 	else
