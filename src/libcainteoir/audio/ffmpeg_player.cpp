@@ -271,9 +271,9 @@ cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame, size_t delta_sta
 		int out_samples = frame->nb_samples * mFrequencyScale;
 
 		int out_linesize = 0;
-		int len = av_samples_get_buffer_size(&out_linesize, mChannels, out_samples, mFormat, 0);
-		if (len > mBuffer.size())
-			mBuffer.resize(len);
+		int out_len = av_samples_get_buffer_size(&out_linesize, mChannels, out_samples, mFormat, 0);
+		if (out_len > mBuffer.size())
+			mBuffer.resize(out_len);
 
 		data = &mBuffer[0];
 		len = avresample_convert(mContext, &data, out_linesize, out_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
