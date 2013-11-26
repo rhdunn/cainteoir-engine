@@ -252,6 +252,9 @@ resampler::~resampler()
 
 cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame)
 {
+	uint8_t *data;
+	int len;
+
 #ifdef HAVE_LIBAVRESAMPLE
 	if (mContext)
 	{
@@ -271,13 +274,20 @@ cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame)
 		int len = av_samples_get_buffer_size(&out_linesize, mChannels, out_samples, mFormat, 0);
 		if (len > mBuffer.size())
 			mBuffer.resize(len);
-		uint8_t *data = &mBuffer[0];
-		int ret = avresample_convert(mContext, (uint8_t **)&data, out_linesize, out_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
-		return { data, data + (ret * mBytesPerSample) };
+
+		data = &mBuffer[0];
+		len = avresample_convert(mContext, (uint8_t **)&data, out_linesize, out_samples, frame->extended_data, frame->linesize[0], frame->nb_samples);
+		len *= mBytesPerSample;
+	}
+	else
+	{
+#endif
+		len = av_samples_get_buffer_size(nullptr, mCodec->channels, frame->nb_samples, mCodec->sample_fmt, 1);
+		data = frame->data[0];
+#ifdef HAVE_LIBAVRESAMPLE
 	}
 #endif
-	int len = av_samples_get_buffer_size(nullptr, mCodec->channels, frame->nb_samples, mCodec->sample_fmt, 1);
-	uint8_t *data = frame->data[0];
+
 	return { data, data + len };
 }
 
