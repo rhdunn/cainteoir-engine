@@ -298,6 +298,9 @@ cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame, size_t delta_sta
 	if (delta_end)
 		len -= (delta_end * mBytesPerSample);
 
+	if (len < 0)
+		throw std::runtime_error("invalid resample output length");
+
 	return { data, data + len };
 }
 
