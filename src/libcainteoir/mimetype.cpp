@@ -37,8 +37,6 @@ static std::initializer_list<const char *> mimetype_list = {
 	m::gzip_mimetype,
 	m::html_mimetype,
 	m::mhtml_mimetype,
-	m::mp3_mimetype,
-	m::mp4_mimetype,
 	m::ncx_mimetype,
 	m::ogg_mimetype,
 	m::opf_mimetype,
@@ -446,8 +444,6 @@ const m::mimetype m::gzip(  "gzip",  m::gzip_mimetype);
 const m::mimetype m::html(  "html",  m::html_mimetype);
 const m::mimetype m::mhtml( "mhtml", m::mhtml_mimetype);
 const m::mimetype m::mime(  "mime",  nullptr, &mime_data);
-const m::mimetype m::mp3(   "mp3",   m::mp3_mimetype);
-const m::mimetype m::mp4(   "mp4",   m::mp4_mimetype);
 const m::mimetype m::ncx(   "ncx",   m::ncx_mimetype);
 const m::mimetype m::ogg(   "ogg",   m::ogg_mimetype);
 const m::mimetype m::opf(   "opf",   m::opf_mimetype);
