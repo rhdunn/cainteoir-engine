@@ -42,9 +42,6 @@ create_alsa_device(const char *device, const rdf::uri &format, int channels, int
 std::shared_ptr<cainteoir::audio>
 create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
-std::shared_ptr<cainteoir::audio_player>
-create_ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &data);
-
 void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 {
 	std::string baseuri = "http://rhdunn.github.com/cainteoir/formats/audio";
@@ -132,10 +129,4 @@ cainteoir::open_audio_device(
 	if (!audio.get())
 		audio = create_alsa_device(device, aFormat, aChannels, aFrequency, aDocMetadata, aDocument);
 	return audio;
-}
-
-std::shared_ptr<cainteoir::audio_player>
-cainteoir::create_media_player(const std::shared_ptr<cainteoir::buffer> &data)
-{
-	return create_ffmpeg_player(data);
 }
