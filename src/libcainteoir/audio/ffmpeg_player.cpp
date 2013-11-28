@@ -452,7 +452,12 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 std::shared_ptr<cainteoir::audio_player>
 create_ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &data)
 {
-	av_register_all();
+	static bool registered = false;
+	if (!registered)
+	{
+		registered = true;
+		av_register_all();
+	}
 	return std::make_shared<ffmpeg_player>(data);
 }
 
