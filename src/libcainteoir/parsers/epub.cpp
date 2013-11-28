@@ -212,6 +212,8 @@ void epub_document_reader::next_media_overlay_entry()
 	}
 
 	media_overlay.reset();
+	mTextRef = {};
+	mMediaItem = {};
 }
 
 std::shared_ptr<cainteoir::document_reader>
