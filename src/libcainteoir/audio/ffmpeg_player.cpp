@@ -436,7 +436,8 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 				}
 
 				auto data = converter.resample(mFrame, delta_start, delta_end);
-				out->write((const char *)data.begin(), data.size());
+				if (!data.empty())
+					out->write((const char *)data.begin(), data.size());
 			}
 			else
 			{
