@@ -43,7 +43,7 @@ std::shared_ptr<cainteoir::audio>
 create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 std::shared_ptr<cainteoir::audio_player>
-create_ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &data, const char *decoder);
+create_ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &data);
 
 void cainteoir::supportedAudioFormats(rdf::graph &metadata)
 {
@@ -137,9 +137,5 @@ cainteoir::open_audio_device(
 std::shared_ptr<cainteoir::audio_player>
 cainteoir::create_media_player(const std::shared_ptr<cainteoir::buffer> &data)
 {
-	if (mime::ogg.match(data)) return create_ffmpeg_player(data, "ogg");
-	if (mime::mp3.match(data)) return create_ffmpeg_player(data, "mp3");
-	if (mime::mp4.match(data)) return create_ffmpeg_player(data, "mp4");
-	if (mime::wav.match(data)) return create_ffmpeg_player(data, "wav");
-	return {};
+	return create_ffmpeg_player(data);
 }

@@ -304,7 +304,7 @@ cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame, size_t delta_sta
 
 struct ffmpeg_player : public cainteoir::audio_player
 {
-	ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, const char *aFormat);
+	ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData);
 	~ffmpeg_player();
 
 	bool play(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end);
@@ -316,7 +316,6 @@ struct ffmpeg_player : public cainteoir::audio_player
 	const rdf::uri &format() const { return mAudioFormat; }
 private:
 	std::shared_ptr<buffer_stream> mData;
-	uint8_t *mBuffer;
 	AVIOContext *mIO;
 	AVFormatContext *mFormat;
 	AVStream *mAudio;
@@ -324,26 +323,28 @@ private:
 	rdf::uri mAudioFormat;
 };
 
-ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData, const char *aFormat)
+ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData)
 	: mData(std::make_shared<buffer_stream>(aData))
-	, mBuffer(nullptr)
 	, mIO(nullptr)
 	, mFormat(nullptr)
 	, mAudio(nullptr)
 	, mFrame(nullptr)
 {
-	AVInputFormat *decoder = av_find_input_format(aFormat);
-	if (decoder == nullptr)
-		return;
-
 	static const int buffer_size = 32768;
-	mBuffer = (uint8_t *)av_malloc(buffer_size + FF_INPUT_BUFFER_PADDING_SIZE);
-	mIO = avio_alloc_context(mBuffer, buffer_size, 0, mData.get(), read_buffer, nullptr, seek_buffer);
+	uint8_t *buffer = (uint8_t *)av_malloc(buffer_size + FF_INPUT_BUFFER_PADDING_SIZE);
+	mIO = avio_alloc_context(buffer, buffer_size, 0, mData.get(), read_buffer, nullptr, seek_buffer);
 
 	mFormat = avformat_alloc_context();
 	mFormat->pb = mIO;
-	if (avformat_open_input(&mFormat, "stream", decoder, nullptr) != 0)
+	if (avformat_open_input(&mFormat, "stream", nullptr, nullptr) != 0)
+	{
+		// NOTE: Calling avformat_open_input with a nullptr AVInputFormat causes
+		// buffer to be managed by the mFormat object, so it does not need to be
+		// freed in the destructor -- doing so causes a double-free memory
+		// corruption error.
+		av_free(buffer);
 		return;
+	}
 
 	// Avoid the `[mp3 @ 0x...] max_analyze_duration reached` warning...
 	mFormat->max_analyze_duration = INT_MAX;
@@ -374,7 +375,6 @@ ffmpeg_player::~ffmpeg_player()
 	if (mAudio) avcodec_close(mAudio->codec);
 	if (mFormat) avformat_free_context(mFormat);
 	if (mIO) av_free(mIO);
-	if (mBuffer) av_free(mBuffer);
 }
 
 bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end)
@@ -450,16 +450,16 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 }
 
 std::shared_ptr<cainteoir::audio_player>
-create_ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &data, const char *decoder)
+create_ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &data)
 {
 	av_register_all();
-	return std::make_shared<ffmpeg_player>(data, decoder);
+	return std::make_shared<ffmpeg_player>(data);
 }
 
 #else
 
 std::shared_ptr<cainteoir::audio_player>
-create_ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &data, const char *decoder)
+create_ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &data)
 {
 	return {};
 }
