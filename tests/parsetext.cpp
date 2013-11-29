@@ -161,8 +161,9 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
                 mode_type type,
                 const lang::tag &locale,
                 tts::word_stream::number_scale scale,
-                int argc,
-                char **argv)
+                const char *ruleset,
+                const char *dictionary,
+                const char *phonemeset)
 {
 	if (type == mode_type::word_stream)
 	{
@@ -171,25 +172,19 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	}
 	else if (type == mode_type::pronounce)
 	{
-		if (argc != 2)
-			return true;
-
 		tts::word_stream text(reader, locale, scale);
-		pronounce(text, argv[1]);
+		pronounce(text, phonemeset);
 	}
 	else if (type == mode_type::phoneme_stream)
 	{
-		if (argc != 3)
-			return true;
-
-		auto rules = tts::createPronunciationRules(argv[1]);
+		auto rules = tts::createPronunciationRules(ruleset);
 		if (!rules.get())
 		{
-			fprintf(stderr, "unable to load pronunciation rules: %s\n", argv[1]);
+			fprintf(stderr, "unable to load pronunciation rules: %s\n", ruleset);
 			return false;
 		}
 
-		tts::phoneme_stream text(reader, locale, scale, rules, cainteoir::path(argv[2]));
+		tts::phoneme_stream text(reader, locale, scale, rules, dictionary);
 		generate_events(text);
 	}
 	else if (type == mode_type::context_analysis)
@@ -209,6 +204,9 @@ int main(int argc, char ** argv)
 {
 	try
 	{
+		const char *ruleset = nullptr;
+		const char *dictionary = nullptr;
+		const char *phonemeset = "ipa";
 		const char *locale_name = "en";
 		mode_type type = mode_type::parse_text;
 		tts::word_stream::number_scale scale = tts::word_stream::short_scale;
@@ -217,12 +215,21 @@ int main(int argc, char ** argv)
 		const option_group general_options = { nullptr, {
 			{ 'd', "document-object", bind_value(document_object, true),
 			  i18n("Process events through a cainteoir::document object") },
+		}};
+
+		const option_group processing_options = { i18n("Processing Options:"), {
 			{ 'l', "locale", locale_name, "LOCALE",
 			  i18n("Use LOCALE for processing numbers") },
 			{ 0, "short-scale", bind_value(scale, tts::word_stream::short_scale),
 			  i18n("Use the short scale for processing numbers") },
 			{ 0, "long-scale", bind_value(scale, tts::word_stream::long_scale),
 			  i18n("Use the long scale for processing numbers") },
+			{ 'd', "dictionary", dictionary, "DICTIONARY",
+			  i18n("Use the DICTIONARY pronunciation dictionary") },
+			{ 'r', "ruleset", ruleset, "RULESET",
+			  i18n("Use the RULESET pronunciation rule file") },
+			{ 'P', "phonemeset", phonemeset, "PHONEMESET",
+			  i18n("Use PHONEMESET to transcribe phonemes as (default: ipa)") },
 		}};
 
 		const option_group mode_options = { i18n("Processing Mode:"), {
@@ -240,11 +247,9 @@ int main(int argc, char ** argv)
 
 		const std::initializer_list<const char *> usage = {
 			i18n("parsetext [OPTION..] DOCUMENT"),
-			i18n("parsetext [OPTION..] --pronounce DOCUMENT PHONEMESET"),
-			i18n("parsetext [OPTION..] --phonemestream DOCUMENT RULESET DICTIONARY"),
 		};
 
-		if (!parse_command_line({ general_options, mode_options }, usage, argc, argv))
+		if (!parse_command_line({ general_options, mode_options, processing_options }, usage, argc, argv))
 			return 0;
 
 		if (argc == 0)
@@ -265,10 +270,10 @@ int main(int argc, char ** argv)
 		{
 			cainteoir::document doc(reader);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
-			show_help = parse_text(docreader, type, locale, scale, argc, argv);
+			show_help = parse_text(docreader, type, locale, scale, ruleset, dictionary, phonemeset);
 		}
 		else
-			show_help = parse_text(reader, type, locale, scale, argc, argv);
+			show_help = parse_text(reader, type, locale, scale, ruleset, dictionary, phonemeset);
 		if (show_help)
 		{
 			print_help({ general_options, mode_options }, usage);
