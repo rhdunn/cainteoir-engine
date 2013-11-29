@@ -247,21 +247,20 @@ int main(int argc, char ** argv)
 
 		const std::initializer_list<const char *> usage = {
 			i18n("parsetext [OPTION..] DOCUMENT"),
+			i18n("parsetext [OPTION..]"),
 		};
 
 		if (!parse_command_line({ general_options, mode_options, processing_options }, usage, argc, argv))
 			return 0;
 
-		if (argc == 0)
-			throw std::runtime_error("no document specified");
-
 		lang::tag locale = lang::make_lang(locale_name);
 
 		rdf::graph metadata;
-		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
+		const char *filename = (argc == 1) ? argv[0] : nullptr;
+		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
 		if (!reader)
 		{
-			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
+			fprintf(stderr, "unsupported document format for file \"%s\"\n", filename ? filename : "<stdin>");
 			return 0;
 		}
 
