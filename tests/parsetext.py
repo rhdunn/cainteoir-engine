@@ -31,6 +31,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.pt'},
 			{'test': 'parse-text/latin/paragraph.txt', 'result': 'parse-text/latin/paragraph.pt'},
 			{'test': 'parse-text/latin/match-limit.txt', 'result': 'parse-text/latin/match-limit.pt'},
+			{'test': 'parse-text/latin/no-newline-at-end.txt', 'result': 'parse-text/latin/no-newline-at-end.pt'},
 		]},
 		{'name': 'Japanese', 'type': 'parsetext', 'tests': [
 			{'test': 'parse-text/japanese/words.txt', 'result': 'parse-text/japanese/words.pt'},
@@ -57,6 +58,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/latin/match-limit.txt', 'result': 'parse-text/latin/match-limit.pt'},
 			{'test': 'parse-text/cardinal-numbers/numbers.txt', 'result': 'parse-text/cardinal-numbers/numbers.ca'},
 			{'test': 'parse-text/ordinal-numbers/numbers.txt', 'result': 'parse-text/ordinal-numbers/numbers.ca'},
+			{'test': 'parse-text/latin/no-newline-at-end.txt', 'result': 'parse-text/latin/no-newline-at-end.pt'},
 		]},
 		{'name': 'Japanese', 'type': 'contextanalysis', 'tests': [
 			{'test': 'parse-text/japanese/words.txt', 'result': 'parse-text/japanese/words.pt'},
@@ -80,6 +82,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.ws'},
 			{'test': 'parse-text/latin/paragraph.txt', 'result': 'parse-text/latin/paragraph.ws'},
 			{'test': 'parse-text/latin/match-limit.txt', 'result': 'parse-text/latin/match-limit.pt'},
+			{'test': 'parse-text/latin/no-newline-at-end.txt', 'result': 'parse-text/latin/no-newline-at-end.pt'},
 		]},
 		{'name': 'Japanese', 'type': 'wordstream', 'tests': [
 			{'test': 'parse-text/japanese/words.txt', 'result': 'parse-text/japanese/words.pt'},

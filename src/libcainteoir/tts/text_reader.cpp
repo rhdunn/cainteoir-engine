@@ -180,7 +180,7 @@ bool tts::text_reader::read()
 	}
 
 	if (mReaderState == reader_state::need_text)
-		return false;
+		return mMatchCurrent == mMatchBuffer ? false : matched();
 
 	ucd::codepoint_t cp = 0;
 	const char *next = nullptr;
