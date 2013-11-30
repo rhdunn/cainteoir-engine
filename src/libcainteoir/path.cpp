@@ -26,6 +26,11 @@
 cainteoir::path &cainteoir::path::operator/=(const char *aPath)
 {
 	if (aPath == nullptr || *aPath == '\0') return *this;
+	if (empty())
+	{
+		mPath = aPath;
+		return *this;
+	}
 
 	while (aPath[0] == '.' && aPath[1] == '.' && aPath[2] == '/')
 	{
@@ -45,6 +50,11 @@ cainteoir::path &cainteoir::path::operator/=(const char *aPath)
 cainteoir::path &cainteoir::path::operator/=(const std::string &aPath)
 {
 	if (aPath.empty()) return *this;
+	if (empty())
+	{
+		mPath = aPath;
+		return *this;
+	}
 
 	std::string::size_type offset = 0;
 	while (aPath.find("../", offset) == offset)

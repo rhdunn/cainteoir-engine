@@ -46,6 +46,7 @@ static const path_join_t path_join_testcases[] =
 	// empty/null joining string
 	{ "ab/cd", "", "ab/cd" },
 	{ "ab/cd", nullptr, "ab/cd" },
+	{ "", "ab/cd", "ab/cd" },
 };
 
 static const path_join_t zip_path_testcases[] =
