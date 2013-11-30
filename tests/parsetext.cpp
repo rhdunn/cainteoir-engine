@@ -45,6 +45,15 @@ enum class mode_type
 	context_analysis,
 };
 
+enum class phoneme_mode
+{
+	events,
+	phonemes,
+	broad_markers,
+	narrow_markers,
+	espeak_markers,
+};
+
 static const char *token_name[] = {
 	"error",
 	"upper",
@@ -127,8 +136,49 @@ void generate_events(Reader &text, const char *phonemeset)
 	}
 }
 
+void generate_phonemes(tts::phoneme_stream &reader, const char *phonemeset, const char *open, const char *close)
+{
+	auto ipa = tts::createPhonemeWriter(phonemeset);
+	ipa->reset(stdout);
+	bool need_open  = true;
+	bool need_space = false;
+	while (reader.read())
+	{
+		auto &event = reader.event();
+		switch (event.type)
+		{
+		case tts::pause:
+			if (!need_open)
+			{
+				fprintf(stdout, "%s\n", close);
+				need_open  = true;
+				need_space = false;
+			}
+			break;
+		case tts::phonemes:
+			if (event.phonemes.empty())
+				continue;
+			if (need_open)
+			{
+				fprintf(stdout, "%s", open);
+				need_open  = false;
+				need_space = false;
+			}
+			if (need_space)
+				fprintf(stdout, " ");
+			for (auto p : event.phonemes)
+				ipa->write(p);
+			need_space = true;
+			break;
+		}
+	}
+	if (!need_open)
+		fprintf(stdout, "%s\n", close);
+}
+
 bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
                 mode_type type,
+                phoneme_mode phonemes,
                 const lang::tag &locale,
                 tts::word_stream::number_scale scale,
                 const char *ruleset,
@@ -144,7 +194,24 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	{
 		auto rules = tts::createPronunciationRules(ruleset);
 		tts::phoneme_stream text(reader, locale, scale, rules, dictionary);
-		generate_events(text, phonemeset);
+		switch (phonemes)
+		{
+		case phoneme_mode::events:
+			generate_events(text, phonemeset);
+			break;
+		case phoneme_mode::phonemes:
+			generate_phonemes(text, phonemeset, nullptr, nullptr);
+			break;
+		case phoneme_mode::broad_markers:
+			generate_phonemes(text, phonemeset, "/", "/");
+			break;
+		case phoneme_mode::narrow_markers:
+			generate_phonemes(text, phonemeset, "[", "]");
+			break;
+		case phoneme_mode::espeak_markers:
+			generate_phonemes(text, phonemeset, "[[", "]]");
+			break;
+		}
 	}
 	else if (type == mode_type::context_analysis)
 	{
@@ -168,6 +235,7 @@ int main(int argc, char ** argv)
 		const char *phonemeset = "ipa";
 		const char *locale_name = "en";
 		mode_type type = mode_type::parse_text;
+		phoneme_mode phonemes = phoneme_mode::events;
 		tts::word_stream::number_scale scale = tts::word_stream::short_scale;
 		bool document_object = false;
 
@@ -202,12 +270,30 @@ int main(int argc, char ** argv)
 			  i18n("Apply context analysis on the document") },
 		}};
 
+		const option_group phoneme_options = { i18n("Phoneme Stream Mode:"), {
+			{ 0, "phonemes", bind_value(phonemes, phoneme_mode::phonemes),
+			  i18n("Show phonemes without event annotations") },
+			{ 0, "broad", bind_value(phonemes, phoneme_mode::broad_markers),
+			  i18n("Use /.../ between phonetic transcriptions") },
+			{ 0, "narrow", bind_value(phonemes, phoneme_mode::narrow_markers),
+			  i18n("Use [...] between phonetic transcriptions") },
+			{ 0, "espeak", bind_value(phonemes, phoneme_mode::espeak_markers),
+			  i18n("Use [[...]] between phonetic transcriptions") },
+		}};
+
 		const std::initializer_list<const char *> usage = {
 			i18n("parsetext [OPTION..] DOCUMENT"),
 			i18n("parsetext [OPTION..]"),
 		};
 
-		if (!parse_command_line({ general_options, mode_options, processing_options }, usage, argc, argv))
+		const std::initializer_list<option_group> options = {
+			general_options,
+			mode_options,
+			processing_options,
+			phoneme_options
+		};
+
+		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
 		lang::tag locale = lang::make_lang(locale_name);
@@ -226,10 +312,10 @@ int main(int argc, char ** argv)
 		{
 			cainteoir::document doc(reader);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
-			show_help = parse_text(docreader, type, locale, scale, ruleset, dictionary, phonemeset);
+			show_help = parse_text(docreader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset);
 		}
 		else
-			show_help = parse_text(reader, type, locale, scale, ruleset, dictionary, phonemeset);
+			show_help = parse_text(reader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset);
 		if (show_help)
 		{
 			print_help({ general_options, mode_options }, usage);
