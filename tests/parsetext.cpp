@@ -71,9 +71,9 @@ static const char *token_name[] = {
 };
 
 template <typename Reader>
-void generate_events(Reader &text)
+void generate_events(Reader &text, const char *phonemeset)
 {
-	auto ipa = tts::createPhonemeWriter("ipa");
+	auto ipa = tts::createPhonemeWriter(phonemeset);
 	ipa->reset(stdout);
 
 	ucd::codepoint_t cp = 0;
@@ -168,7 +168,7 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	if (type == mode_type::word_stream)
 	{
 		tts::word_stream text(reader, locale, scale);
-		generate_events(text);
+		generate_events(text, phonemeset);
 	}
 	else if (type == mode_type::pronounce)
 	{
@@ -179,17 +179,17 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	{
 		auto rules = tts::createPronunciationRules(ruleset);
 		tts::phoneme_stream text(reader, locale, scale, rules, dictionary);
-		generate_events(text);
+		generate_events(text, phonemeset);
 	}
 	else if (type == mode_type::context_analysis)
 	{
 		tts::context_analysis text(reader);
-		generate_events(text);
+		generate_events(text, phonemeset);
 	}
 	else
 	{
 		tts::text_reader text(reader);
-		generate_events(text);
+		generate_events(text, phonemeset);
 	}
 	return false;
 }
