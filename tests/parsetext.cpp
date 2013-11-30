@@ -178,12 +178,6 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	else if (type == mode_type::phoneme_stream)
 	{
 		auto rules = tts::createPronunciationRules(ruleset);
-		if (!rules.get())
-		{
-			fprintf(stderr, "unable to load pronunciation rules: %s\n", ruleset);
-			return false;
-		}
-
 		tts::phoneme_stream text(reader, locale, scale, rules, dictionary);
 		generate_events(text);
 	}
