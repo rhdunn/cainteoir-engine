@@ -184,6 +184,11 @@ namespace cainteoir { namespace tts
 		std::shared_ptr<phoneme_reader> mRules;
 		dictionary mExceptionDictionary;
 	};
+
+	void generate_phonemes(tts::phoneme_stream &reader,
+	                       const char *phonemeset,
+	                       const char *open,
+	                       const char *close);
 }}
 
 #endif

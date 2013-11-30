@@ -93,3 +93,46 @@ void tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 	else
 		fprintf(stderr, "error: cannot pronounce '%s'\n", aText->str().c_str());
 }
+
+void tts::generate_phonemes(tts::phoneme_stream &reader,
+                            const char *phonemeset,
+                            const char *open,
+                            const char *close)
+{
+	auto ipa = tts::createPhonemeWriter(phonemeset);
+	ipa->reset(stdout);
+	bool need_open  = true;
+	bool need_space = false;
+	while (reader.read())
+	{
+		auto &event = reader.event();
+		switch (event.type)
+		{
+		case tts::pause:
+			if (!need_open)
+			{
+				fprintf(stdout, "%s\n", close);
+				need_open  = true;
+				need_space = false;
+			}
+			break;
+		case tts::phonemes:
+			if (event.phonemes.empty())
+				continue;
+			if (need_open)
+			{
+				fprintf(stdout, "%s", open);
+				need_open  = false;
+				need_space = false;
+			}
+			if (need_space)
+				fprintf(stdout, " ");
+			for (auto p : event.phonemes)
+				ipa->write(p);
+			need_space = true;
+			break;
+		}
+	}
+	if (!need_open)
+		fprintf(stdout, "%s\n", close);
+}

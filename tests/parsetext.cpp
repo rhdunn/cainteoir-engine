@@ -136,46 +136,6 @@ void generate_events(Reader &text, const char *phonemeset)
 	}
 }
 
-void generate_phonemes(tts::phoneme_stream &reader, const char *phonemeset, const char *open, const char *close)
-{
-	auto ipa = tts::createPhonemeWriter(phonemeset);
-	ipa->reset(stdout);
-	bool need_open  = true;
-	bool need_space = false;
-	while (reader.read())
-	{
-		auto &event = reader.event();
-		switch (event.type)
-		{
-		case tts::pause:
-			if (!need_open)
-			{
-				fprintf(stdout, "%s\n", close);
-				need_open  = true;
-				need_space = false;
-			}
-			break;
-		case tts::phonemes:
-			if (event.phonemes.empty())
-				continue;
-			if (need_open)
-			{
-				fprintf(stdout, "%s", open);
-				need_open  = false;
-				need_space = false;
-			}
-			if (need_space)
-				fprintf(stdout, " ");
-			for (auto p : event.phonemes)
-				ipa->write(p);
-			need_space = true;
-			break;
-		}
-	}
-	if (!need_open)
-		fprintf(stdout, "%s\n", close);
-}
-
 bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
                 mode_type type,
                 phoneme_mode phonemes,
@@ -200,16 +160,16 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 			generate_events(text, phonemeset);
 			break;
 		case phoneme_mode::phonemes:
-			generate_phonemes(text, phonemeset, nullptr, nullptr);
+			tts::generate_phonemes(text, phonemeset, nullptr, nullptr);
 			break;
 		case phoneme_mode::broad_markers:
-			generate_phonemes(text, phonemeset, "/", "/");
+			tts::generate_phonemes(text, phonemeset, "/", "/");
 			break;
 		case phoneme_mode::narrow_markers:
-			generate_phonemes(text, phonemeset, "[", "]");
+			tts::generate_phonemes(text, phonemeset, "[", "]");
 			break;
 		case phoneme_mode::espeak_markers:
-			generate_phonemes(text, phonemeset, "[[", "]]");
+			tts::generate_phonemes(text, phonemeset, "[[", "]]");
 			break;
 		}
 	}
