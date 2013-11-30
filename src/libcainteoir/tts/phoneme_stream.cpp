@@ -79,7 +79,7 @@ void tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 	mEvent = { tts::phonemes, aRange, 0 };
 
 	auto phonemes = mExceptionDictionary.pronounce(aText);
-	if (phonemes.empty())
+	if (!phonemes.empty())
 	{
 		for (const tts::phoneme &p : phonemes)
 			mEvent.phonemes.push_back(p);
