@@ -43,7 +43,6 @@ enum class mode_type
 	word_stream,
 	phoneme_stream,
 	context_analysis,
-	pronounce,
 };
 
 static const char *token_name[] = {
@@ -128,35 +127,6 @@ void generate_events(Reader &text, const char *phonemeset)
 	}
 }
 
-void pronounce(tts::word_stream &text, const char *phonemeset)
-{
-	rdf::graph metadata;
-	tts::engines engine(metadata);
-	auto reader = engine.pronunciation();
-
-	auto writer = tts::createPhonemeWriter(phonemeset);
-	writer->reset(stdout);
-
-	while (text.read())
-	{
-		auto &event = text.event();
-		switch (event.type)
-		{
-		case tts::word_uppercase:
-		case tts::word_lowercase:
-		case tts::word_capitalized:
-		case tts::word_mixedcase:
-		case tts::word_script:
-			reader->reset(event.text);
-			fprintf(stdout, "%s /", event.text->str().c_str());
-			while (reader->read())
-				writer->write(*reader);
-			fprintf(stdout, "/\n");
-			break;
-		}
-	}
-}
-
 bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
                 mode_type type,
                 const lang::tag &locale,
@@ -169,11 +139,6 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	{
 		tts::word_stream text(reader, locale, scale);
 		generate_events(text, phonemeset);
-	}
-	else if (type == mode_type::pronounce)
-	{
-		tts::word_stream text(reader, locale, scale);
-		pronounce(text, phonemeset);
 	}
 	else if (type == mode_type::phoneme_stream)
 	{
@@ -235,8 +200,6 @@ int main(int argc, char ** argv)
 			  i18n("Convert the document into phonetic pronunciations") },
 			{ 0, "contextanalysis", bind_value(type, mode_type::context_analysis),
 			  i18n("Apply context analysis on the document") },
-			{ 0, "pronounce", bind_value(type, mode_type::pronounce),
-			  i18n("Pronounce all the words in the document") },
 		}};
 
 		const std::initializer_list<const char *> usage = {
