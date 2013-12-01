@@ -111,7 +111,7 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 		case tts::pause:
 			if (!need_open)
 			{
-				fprintf(stdout, "%s\n", close);
+				fprintf(stdout, "%s\n", close ? close : "");
 				need_open  = true;
 				need_space = false;
 			}
@@ -121,7 +121,7 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 				continue;
 			if (need_open)
 			{
-				fprintf(stdout, "%s", open);
+				if (open) fprintf(stdout, "%s", open);
 				need_open  = false;
 				need_space = false;
 			}
@@ -134,5 +134,5 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 		}
 	}
 	if (!need_open)
-		fprintf(stdout, "%s\n", close);
+		fprintf(stdout, "%s\n", close ? close : "");
 }
