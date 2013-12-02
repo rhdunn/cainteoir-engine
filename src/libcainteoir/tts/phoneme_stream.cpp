@@ -97,12 +97,14 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 		default:
 			if (!need_open)
 			{
-				fprintf(stdout, "%s\n", close ? close : "");
+				fprintf(stdout, "%s", close ? close : "");
 				need_open  = true;
 				need_space = false;
 			}
 			if (event.type == tts::paragraph)
-				fprintf(stdout, "\n");
+				fprintf(stdout, "\n\n");
+			else
+				fprintf(stdout, "%s\n", event.text->str().c_str());
 			break;
 		case tts::phonemes:
 			if (event.phonemes.empty())
