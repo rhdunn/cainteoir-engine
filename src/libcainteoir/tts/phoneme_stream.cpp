@@ -101,6 +101,8 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 				need_open  = true;
 				need_space = false;
 			}
+			if (event.type == tts::paragraph)
+				fprintf(stdout, "\n");
 			break;
 		case tts::phonemes:
 			if (event.phonemes.empty())
