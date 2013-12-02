@@ -76,6 +76,8 @@ static const char *token_name[] = {
 	"end-para",
 	"phonemes",
 	"pause",
+	"en-dash",
+	"em-dash",
 };
 
 template <typename Reader>

@@ -57,6 +57,8 @@ namespace cainteoir { namespace tts
 		paragraph,
 		phonemes,
 		pause,
+		en_dash,
+		em_dash,
 	};
 
 	struct text_event

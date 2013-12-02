@@ -74,6 +74,9 @@ static const std::initializer_list<punctuation_t> punctuation =
 	{ 0x001809, tts::full_stop   }, // MONGOLIAN MANCHU FULL STOP
 	{ 0x001944, tts::exclamation }, // LIMBU EXCLAMATION MARK
 	{ 0x001945, tts::question    }, // LIMBU QUESTION MARK
+	{ 0x002012, tts::en_dash     }, // FIGURE DASH
+	{ 0x002013, tts::en_dash     }, // EN DASH
+	{ 0x002014, tts::em_dash     }, // EM DASH
 	{ 0x002026, tts::ellipsis    }, // HORIZONTAL ELLIPSIS
 	{ 0x00204F, tts::semicolon   }, // REVERSED SEMICOLON
 	{ 0x0022EE, tts::ellipsis    }, // VERTICAL ELLIPSIS
@@ -81,6 +84,8 @@ static const std::initializer_list<punctuation_t> punctuation =
 	{ 0x002CFA, tts::question    }, // COPTIC OLD NUBIAN DIRECT QUESTION MARK
 	{ 0x002CFB, tts::question    }, // COPTIC OLD NUBIAN INDIRECT QUESTION MARK
 	{ 0x002CFE, tts::full_stop   }, // COPTIC FULL STOP
+	{ 0x002E3A, tts::em_dash     }, // TWO-EM DASH
+	{ 0x002E3B, tts::em_dash     }, // THREE-EM DASH
 	{ 0x003001, tts::comma       }, // IDEOGRAPHIC COMMA
 	{ 0x003002, tts::full_stop   }, // IDEOGRAPHIC FULL STOP
 	{ 0x00A4FE, tts::comma       }, // LISU PUNCTUATION COMMA
@@ -109,6 +114,7 @@ static const std::initializer_list<punctuation_t> punctuation =
 	{ 0x00FE55, tts::colon       }, // SMALL COLON
 	{ 0x00FE56, tts::question    }, // SMALL QUESTION MARK
 	{ 0x00FE57, tts::exclamation }, // SMALL EXCLAMATION MARK
+	{ 0x00FE58, tts::em_dash     }, // SMALL EM DASH
 	{ 0x00FF01, tts::exclamation }, // FULLWIDTH EXCLAMATION MARK
 	{ 0x00FF0C, tts::comma       }, // FULLWIDTH COMMA
 	{ 0x00FF0E, tts::full_stop   }, // FULLWIDTH FULL STOP
