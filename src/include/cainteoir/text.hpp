@@ -174,7 +174,7 @@ namespace cainteoir { namespace tts
 
 		bool read();
 	private:
-		void pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange);
+		bool pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange);
 
 		word_stream mReader;
 		text_event mEvent;

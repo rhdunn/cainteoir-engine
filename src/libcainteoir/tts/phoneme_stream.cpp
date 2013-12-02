@@ -39,27 +39,24 @@ tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aRea
 
 bool tts::phoneme_stream::read()
 {
-	if (!mReader.read()) return false;
-
-	const tts::text_event &e = mReader.event();
-	switch (e.type)
+	while (mReader.read()) switch (mReader.event().type)
 	{
 	case tts::word_uppercase:
 	case tts::word_lowercase:
 	case tts::word_capitalized:
 	case tts::word_mixedcase:
 	case tts::word_script:
-		pronounce(e.text, e.range);
+		if (pronounce(mReader.event().text, mReader.event().range))
+			return true;
 		break;
 	default:
-		mEvent = e;
-		break;
-	};
-
-	return true;
+		mEvent = mReader.event();
+		return true;
+	}
+	return false;
 }
 
-void tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange)
+bool tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange)
 {
 	mEvent = { tts::phonemes, aRange, 0 };
 
@@ -76,7 +73,11 @@ void tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 			mEvent.phonemes.push_back(*mRules);
 	}
 	else
+	{
 		fprintf(stderr, "error: cannot pronounce '%s'\n", aText->str().c_str());
+		return false;
+	}
+	return true;
 }
 
 void tts::generate_phonemes(tts::phoneme_stream &reader,
