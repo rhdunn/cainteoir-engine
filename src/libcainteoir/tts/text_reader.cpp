@@ -134,6 +134,7 @@ tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
 	mMatch.type = error;
 }
 
+#define LINE_FEED                   0x000A
 #define SOFT_HYPHEN                 0x00AD
 #define RIGHT_SINGLE_QUOTATION_MARK 0x2019
 #define PARAGRAPH_SEPARATOR         0x2029
@@ -186,6 +187,8 @@ bool tts::text_reader::read()
 	const char *next = nullptr;
 	const char *quote_match = nullptr;
 	ucd::script current_script = ucd::Zzzz;
+	int newline_count = 0;
+	uint32_t newline_start = mMatchNext;
 	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
 	{
 		ucd::category category = ucd::lookup_category(cp);
@@ -208,6 +211,19 @@ bool tts::text_reader::read()
 				--mMatchCurrent;
 				return matched();
 			}
+		}
+
+		if (cp == LINE_FEED)
+		{
+			++newline_count;
+		}
+		else if (newline_count >= 2)
+		{
+			mMatch.type = paragraph;
+			mMatch.range = { newline_start, mMatchLast };
+			mNeedEndPara = false;
+			mMatchNext = mMatchLast;
+			return true;
 		}
 
 		uint8_t new_state = state_transitions[mState][category];

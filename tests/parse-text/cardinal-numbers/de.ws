@@ -8,6 +8,7 @@
 .Latn.lower    [14..15] sieben
 .Latn.lower    [16..17] acht
 .Latn.lower    [18..19] neun
+.end-para      [19..21] 
 .Latn.lower    [21..23] zehn
 .Latn.lower    [24..26] elf
 .Latn.lower    [27..29] zwölf
@@ -18,6 +19,7 @@
 .Latn.lower    [42..44] siebzehn
 .Latn.lower    [45..47] achtzehn
 .Latn.lower    [48..50] neunzehn
+.end-para      [50..52] 
 .Latn.lower    [52..54] zwanzig
 .Latn.lower    [55..57] ein
 .Latn.lower    [55..57] und
@@ -74,16 +76,19 @@
 .Latn.lower    [121..123] zwei
 .Latn.lower    [121..123] und
 .Latn.lower    [121..123] neunzig
+.end-para      [123..125] 
 .Latn.lower    [125..128] ein
 .Latn.lower    [125..128] hundert
 .Latn.lower    [129..132] ein
 .Latn.lower    [129..132] hundert
 .Latn.lower    [129..132] eins
+.end-para      [132..134] 
 .Latn.lower    [134..137] zwei
 .Latn.lower    [134..137] hundert
 .Latn.lower    [138..141] zwei
 .Latn.lower    [138..141] hundert
 .Latn.lower    [138..141] fünfzehn
+.end-para      [141..143] 
 .Latn.lower    [143..146] drei
 .Latn.lower    [143..146] hundert
 .Latn.lower    [147..150] drei
@@ -91,6 +96,7 @@
 .Latn.lower    [147..150] vier
 .Latn.lower    [147..150] und
 .Latn.lower    [147..150] vierzig
+.end-para      [150..152] 
 .Latn.lower    [152..155] vier
 .Latn.lower    [152..155] hundert
 .Latn.lower    [156..159] vier
@@ -98,6 +104,7 @@
 .Latn.lower    [156..159] acht
 .Latn.lower    [156..159] und
 .Latn.lower    [156..159] neunzig
+.end-para      [159..161] 
 .Latn.lower    [161..164] fünf
 .Latn.lower    [161..164] hundert
 .Latn.lower    [165..168] fünf
@@ -105,11 +112,13 @@
 .Latn.lower    [165..168] drei
 .Latn.lower    [165..168] und
 .Latn.lower    [165..168] fünfzig
+.end-para      [168..170] 
 .Latn.lower    [170..173] sechs
 .Latn.lower    [170..173] hundert
 .Latn.lower    [174..177] sechs
 .Latn.lower    [174..177] hundert
 .Latn.lower    [174..177] zwei
+.end-para      [177..179] 
 .Latn.lower    [179..182] sieben
 .Latn.lower    [179..182] hundert
 .Latn.lower    [183..186] sieben
@@ -117,6 +126,7 @@
 .Latn.lower    [183..186] acht
 .Latn.lower    [183..186] und
 .Latn.lower    [183..186] fünfzig
+.end-para      [186..188] 
 .Latn.lower    [188..191] acht
 .Latn.lower    [188..191] hundert
 .Latn.lower    [192..195] acht
@@ -124,6 +134,7 @@
 .Latn.lower    [192..195] sieben
 .Latn.lower    [192..195] und
 .Latn.lower    [192..195] sechzig
+.end-para      [195..197] 
 .Latn.lower    [197..200] neun
 .Latn.lower    [197..200] hundert
 .Latn.lower    [201..204] neun
@@ -131,6 +142,7 @@
 .Latn.lower    [201..204] neun
 .Latn.lower    [201..204] und
 .Latn.lower    [201..204] neunzig
+.end-para      [204..206] 
 .Latn.lower    [206..210] ein
 .Latn.lower    [206..210] tausend
 .Latn.lower    [211..215] ein
@@ -145,6 +157,7 @@
 .Latn.lower    [221..225] vier
 .Latn.lower    [221..225] hundert
 .Latn.lower    [221..225] sieben
+.end-para      [225..227] 
 .Latn.lower    [227..232] zwanzig
 .Latn.lower    [227..232] tausend
 .Latn.lower    [227..232] neunzehn
@@ -153,6 +166,7 @@
 .Latn.lower    [233..238] zwanzig
 .Latn.lower    [233..238] tausend
 .Latn.lower    [233..238] fünfzig
+.end-para      [238..240] 
 .Latn.lower    [240..246] ein
 .Latn.lower    [240..246] hundert
 .Latn.lower    [240..246] neunzehn
@@ -160,6 +174,7 @@
 .Latn.lower    [240..246] drei
 .Latn.lower    [240..246] hundert
 .Latn.lower    [240..246] zwei
+.end-para      [246..248] 
 .Latn.lower    [248..255] eine
 .Latn.lower    [248..255] million
 .Latn.lower    [256..263] drei
@@ -177,48 +192,52 @@
 .Latn.lower    [272..279] zehn
 .Latn.lower    [272..279] tausend
 .Latn.lower    [272..279] acht
+.end-para      [279..281] 
 .Latn.lower    [281..289] drei
 .Latn.lower    [281..289] und
 .Latn.lower    [281..289] dreißig
 .Latn.lower    [281..289] million
+.end-para      [289..291] 
 .Latn.lower    [291..300] sieben
 .Latn.lower    [291..300] hundert
 .Latn.lower    [291..300] fünf
 .Latn.lower    [291..300] million
-.Latn.lower    [302..312] zwei
-.Latn.lower    [302..312] milliarde
-.Latn.lower    [313..326] fünf
-.Latn.lower    [313..326] billion
-.Latn.lower    [327..343] drei
-.Latn.lower    [327..343] billiarde
+.end-para      [300..302] 
 .Latn.lower    [302..312] eine
 .Latn.lower    [302..312] milliarde
 .Latn.lower    [313..323] zwei
 .Latn.lower    [313..323] milliarde
+.end-para      [323..325] 
 .Latn.lower    [325..338] eine
 .Latn.lower    [325..338] billion
 .Latn.lower    [339..352] fünf
 .Latn.lower    [339..352] billion
+.end-para      [352..354] 
 .Latn.lower    [354..370] eine
 .Latn.lower    [354..370] billiarde
 .Latn.lower    [371..387] drei
 .Latn.lower    [371..387] billiarde
+.end-para      [387..389] 
 .Latn.lower    [389..408] eine
 .Latn.lower    [389..408] trillion
 .Latn.lower    [409..428] drei
 .Latn.lower    [409..428] trillion
+.end-para      [428..430] 
 .Latn.lower    [430..452] eine
 .Latn.lower    [430..452] trilliarde
 .Latn.lower    [453..475] neun
 .Latn.lower    [453..475] trilliarde
+.end-para      [475..477] 
 .Latn.lower    [477..502] eine
 .Latn.lower    [477..502] quadrillion
 .Latn.lower    [503..528] vier
 .Latn.lower    [503..528] quadrillion
+.end-para      [528..530] 
 .Latn.lower    [530..558] eine
 .Latn.lower    [530..558] quadrilliarde
 .Latn.lower    [559..587] sechs
 .Latn.lower    [559..587] quadrilliarde
+.end-para      [587..589] 
 .Latn.lower    [589..620] eine
 .Latn.lower    [589..620] quintillion
 .Latn.lower    [621..652] acht

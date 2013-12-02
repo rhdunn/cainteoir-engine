@@ -4,6 +4,7 @@
 .Latn.lower    [9..12] and
 .Latn.lower    [13..18] three
 .punctuation   [18..19] .
+.end-para      [19..21] 
 .Latn.capital  [21..28] ordered
 .punctuation   [29..30] .
 .punctuation   [30..31] .
@@ -20,12 +21,14 @@
 .Latn.lower    [65..68] the
 .Latn.lower    [69..74] third
 .punctuation   [74..75] .
+.end-para      [75..77] 
 .Latn.capital  [77..80] the
 .punctuation   [81..82] (
 .Latn.lower    [82..89] logical
 .punctuation   [89..90] )
 .Latn.lower    [91..101] conclusion
 .punctuation   [101..102] .
+.end-para      [102..104] 
 .Latn.capital  [104..108] this
 .punctuation   [108..109] –
 .Latn.lower    [109..111] as
@@ -53,6 +56,7 @@
 .Latn.capital  [169..176] gregory
 .punctuation   [176..177] -
 .Latn.capital  [177..183] harmon
+.end-para      [183..185] 
 .Latn.capital  [185..189] that
 .Latn.lower    [190..192] it
 .Latn.lower    [193..195] be
@@ -65,6 +69,7 @@
 .Latn.lower    [217..220] not
 .punctuation   [220..221] !
 .punctuation   [221..222] ?
+.end-para      [222..224] 
 .Latn.capital  [224..234] horizontal
 .punctuation   [234..235] …
 .Latn.lower    [235..238] and
@@ -72,6 +77,7 @@
 .Latn.lower    [239..247] vertical
 .Latn.lower    [248..256] ellipsis
 .punctuation   [256..257] .
+.end-para      [257..259] 
 .Latn.capital  [259..263] from
 .number        [264..265] 1
 .punctuation   [265..266] .
@@ -83,6 +89,7 @@
 .punctuation   [277..278] .
 .number        [279..280] 7
 .punctuation   [280..281] .
+.end-para      [281..283] 
 .punctuation   [283..284] @
 .punctuation   [284..285] #
 .punctuation   [285..286] %

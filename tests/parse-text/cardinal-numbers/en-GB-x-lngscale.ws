@@ -8,6 +8,7 @@
 .Latn.lower    [14..15] seven
 .Latn.lower    [16..17] eight
 .Latn.lower    [18..19] nine
+.end-para      [19..21] 
 .Latn.lower    [21..23] ten
 .Latn.lower    [24..26] eleven
 .Latn.lower    [27..29] twelve
@@ -18,6 +19,7 @@
 .Latn.lower    [42..44] seventeen
 .Latn.lower    [45..47] eighteen
 .Latn.lower    [48..50] nineteen
+.end-para      [50..52] 
 .Latn.lower    [52..54] twenty
 .Latn.lower    [55..57] twenty
 .Latn.lower    [55..57] one
@@ -58,18 +60,21 @@
 .Latn.lower    [118..120] one
 .Latn.lower    [121..123] ninety
 .Latn.lower    [121..123] two
+.end-para      [123..125] 
 .Latn.lower    [125..128] one
 .Latn.lower    [125..128] hundred
 .Latn.lower    [129..132] one
 .Latn.lower    [129..132] hundred
 .Latn.lower    [129..132] and
 .Latn.lower    [129..132] one
+.end-para      [132..134] 
 .Latn.lower    [134..137] two
 .Latn.lower    [134..137] hundred
 .Latn.lower    [138..141] two
 .Latn.lower    [138..141] hundred
 .Latn.lower    [138..141] and
 .Latn.lower    [138..141] fifteen
+.end-para      [141..143] 
 .Latn.lower    [143..146] three
 .Latn.lower    [143..146] hundred
 .Latn.lower    [147..150] three
@@ -77,6 +82,7 @@
 .Latn.lower    [147..150] and
 .Latn.lower    [147..150] forty
 .Latn.lower    [147..150] four
+.end-para      [150..152] 
 .Latn.lower    [152..155] four
 .Latn.lower    [152..155] hundred
 .Latn.lower    [156..159] four
@@ -84,6 +90,7 @@
 .Latn.lower    [156..159] and
 .Latn.lower    [156..159] ninety
 .Latn.lower    [156..159] eight
+.end-para      [159..161] 
 .Latn.lower    [161..164] five
 .Latn.lower    [161..164] hundred
 .Latn.lower    [165..168] five
@@ -91,12 +98,14 @@
 .Latn.lower    [165..168] and
 .Latn.lower    [165..168] fifty
 .Latn.lower    [165..168] three
+.end-para      [168..170] 
 .Latn.lower    [170..173] six
 .Latn.lower    [170..173] hundred
 .Latn.lower    [174..177] six
 .Latn.lower    [174..177] hundred
 .Latn.lower    [174..177] and
 .Latn.lower    [174..177] two
+.end-para      [177..179] 
 .Latn.lower    [179..182] seven
 .Latn.lower    [179..182] hundred
 .Latn.lower    [183..186] seven
@@ -104,6 +113,7 @@
 .Latn.lower    [183..186] and
 .Latn.lower    [183..186] fifty
 .Latn.lower    [183..186] eight
+.end-para      [186..188] 
 .Latn.lower    [188..191] eight
 .Latn.lower    [188..191] hundred
 .Latn.lower    [192..195] eight
@@ -111,6 +121,7 @@
 .Latn.lower    [192..195] and
 .Latn.lower    [192..195] sixty
 .Latn.lower    [192..195] seven
+.end-para      [195..197] 
 .Latn.lower    [197..200] nine
 .Latn.lower    [197..200] hundred
 .Latn.lower    [201..204] nine
@@ -118,6 +129,7 @@
 .Latn.lower    [201..204] and
 .Latn.lower    [201..204] ninety
 .Latn.lower    [201..204] nine
+.end-para      [204..206] 
 .Latn.lower    [206..210] one
 .Latn.lower    [206..210] thousand
 .Latn.lower    [211..215] one
@@ -134,6 +146,7 @@
 .Latn.lower    [221..225] hundred
 .Latn.lower    [221..225] and
 .Latn.lower    [221..225] seven
+.end-para      [225..227] 
 .Latn.lower    [227..232] twenty
 .Latn.lower    [227..232] thousand
 .Latn.lower    [227..232] and
@@ -143,6 +156,7 @@
 .Latn.lower    [233..238] thousand
 .Latn.lower    [233..238] and
 .Latn.lower    [233..238] fifty
+.end-para      [238..240] 
 .Latn.lower    [240..246] one
 .Latn.lower    [240..246] hundred
 .Latn.lower    [240..246] and
@@ -152,6 +166,7 @@
 .Latn.lower    [240..246] hundred
 .Latn.lower    [240..246] and
 .Latn.lower    [240..246] two
+.end-para      [246..248] 
 .Latn.lower    [248..255] one
 .Latn.lower    [248..255] million
 .Latn.lower    [256..263] three
@@ -170,42 +185,52 @@
 .Latn.lower    [272..279] thousand
 .Latn.lower    [272..279] and
 .Latn.lower    [272..279] eight
+.end-para      [279..281] 
 .Latn.lower    [281..289] thirty
 .Latn.lower    [281..289] three
 .Latn.lower    [281..289] million
+.end-para      [289..291] 
 .Latn.lower    [291..300] seven
 .Latn.lower    [291..300] hundred
 .Latn.lower    [291..300] and
 .Latn.lower    [291..300] five
 .Latn.lower    [291..300] million
+.end-para      [300..302] 
 .Latn.lower    [302..312] one
 .Latn.lower    [302..312] milliard
 .Latn.lower    [313..323] two
 .Latn.lower    [313..323] milliard
+.end-para      [323..325] 
 .Latn.lower    [325..338] one
 .Latn.lower    [325..338] billion
 .Latn.lower    [339..352] five
 .Latn.lower    [339..352] billion
+.end-para      [352..354] 
 .Latn.lower    [354..370] one
 .Latn.lower    [354..370] billiard
 .Latn.lower    [371..387] three
 .Latn.lower    [371..387] billiard
+.end-para      [387..389] 
 .Latn.lower    [389..408] one
 .Latn.lower    [389..408] trillion
 .Latn.lower    [409..428] three
 .Latn.lower    [409..428] trillion
+.end-para      [428..430] 
 .Latn.lower    [430..452] one
 .Latn.lower    [430..452] trilliard
 .Latn.lower    [453..475] nine
 .Latn.lower    [453..475] trilliard
+.end-para      [475..477] 
 .Latn.lower    [477..502] one
 .Latn.lower    [477..502] quadrillion
 .Latn.lower    [503..528] four
 .Latn.lower    [503..528] quadrillion
+.end-para      [528..530] 
 .Latn.lower    [530..558] one
 .Latn.lower    [530..558] quadrilliard
 .Latn.lower    [559..587] six
 .Latn.lower    [559..587] quadrilliard
+.end-para      [587..589] 
 .Latn.lower    [589..620] one
 .Latn.lower    [589..620] quintillion
 .Latn.lower    [621..652] eight
