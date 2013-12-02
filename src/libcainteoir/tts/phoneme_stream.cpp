@@ -51,26 +51,9 @@ bool tts::phoneme_stream::read()
 	case tts::word_script:
 		pronounce(e.text, e.range);
 		break;
-	case tts::comma:
-		mEvent = { tts::pause, e.range, 50 };
-		break;
-	case tts::semicolon:
-	case tts::colon:
-	case tts::ellipsis:
-		mEvent = { tts::pause, e.range, 75 };
-		break;
-	case tts::en_dash:
-	case tts::em_dash:
-	case tts::full_stop:
-	case tts::exclamation:
-	case tts::question:
-		mEvent = { tts::pause, e.range, 150 };
-		break;
-	case tts::paragraph:
-		mEvent = { tts::pause, e.range, 200 };
-		break;
 	default:
-		return read();
+		mEvent = e;
+		break;
 	};
 
 	return true;
@@ -103,6 +86,7 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 {
 	auto ipa = tts::createPhonemeWriter(phonemeset);
 	ipa->reset(stdout);
+
 	bool need_open  = true;
 	bool need_space = false;
 	while (reader.read())
@@ -110,7 +94,7 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 		auto &event = reader.event();
 		switch (event.type)
 		{
-		case tts::pause:
+		default:
 			if (!need_open)
 			{
 				fprintf(stdout, "%s\n", close ? close : "");
@@ -135,6 +119,7 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 			break;
 		}
 	}
+
 	if (!need_open)
 		fprintf(stdout, "%s\n", close ? close : "");
 }

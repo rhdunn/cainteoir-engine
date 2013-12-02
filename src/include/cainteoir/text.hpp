@@ -56,7 +56,6 @@ namespace cainteoir { namespace tts
 		symbol,
 		paragraph,
 		phonemes,
-		pause,
 		en_dash,
 		em_dash,
 	};
@@ -67,11 +66,7 @@ namespace cainteoir { namespace tts
 		std::list<phoneme> phonemes;
 		event_type type;
 		cainteoir::range<uint32_t> range;
-		union
-		{
-			uint32_t codepoint;
-			uint16_t duration;
-		};
+		uint32_t codepoint;
 
 		text_event(const std::shared_ptr<buffer> &aText,
 		           event_type aType,

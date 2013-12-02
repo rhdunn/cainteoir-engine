@@ -75,7 +75,6 @@ static const char *token_name[] = {
 	"symbol",
 	"end-para",
 	"phonemes",
-	"pause",
 	"en-dash",
 	"em-dash",
 };
@@ -110,13 +109,6 @@ void generate_events(Reader &text, const char *phonemeset)
 			        token_name[event.type],
 			        *event.range.begin(),
 			        *event.range.end());
-			break;
-		case tts::pause:
-			fprintf(stdout, ".%-13s [%d..%d] %dms\n",
-			        token_name[event.type],
-			        *event.range.begin(),
-			        *event.range.end(),
-			        event.duration);
 			break;
 		case tts::phonemes:
 			fprintf(stdout, ".%-13s [%d..%d] /",
