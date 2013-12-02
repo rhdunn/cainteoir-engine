@@ -83,7 +83,8 @@ bool tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 void tts::generate_phonemes(tts::phoneme_stream &reader,
                             const char *phonemeset,
                             const char *open,
-                            const char *close)
+                            const char *close,
+                            const char *phrase)
 {
 	auto ipa = tts::createPhonemeWriter(phonemeset);
 	ipa->reset(stdout);
@@ -105,7 +106,7 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 			if (event.type == tts::paragraph)
 				fprintf(stdout, "\n\n");
 			else
-				fprintf(stdout, "%s\n", event.text->str().c_str());
+				fprintf(stdout, "%s%s", event.text->str().c_str(), phrase);
 			break;
 		case tts::phonemes:
 			if (event.phonemes.empty())
