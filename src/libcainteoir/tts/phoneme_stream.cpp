@@ -109,8 +109,6 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 				fprintf(stdout, "%s%s", event.text->str().c_str(), phrase);
 			break;
 		case tts::phonemes:
-			if (event.phonemes.empty())
-				continue;
 			if (need_open)
 			{
 				if (open) fprintf(stdout, "%s", open);
