@@ -140,59 +140,79 @@ static tts::event_type punctuation_type(ucd::codepoint_t cp)
 	return tts::punctuation;
 }
 
-struct full_stop_sequence
+struct punctuation_sequence
 {
-	full_stop_sequence()
+	punctuation_sequence()
+		: mBegin(0)
+		, mEnd(0)
+		, mCount(0)
+		, mCodePoint(0)
 	{
-		begin = end = count = 0;
 	}
 
 	void add(const cainteoir::range<uint32_t> &aRange);
 
 	void flush(std::queue<tts::text_event> &aClause);
+
+	ucd::codepoint_t codepoint() const { return mCodePoint; }
+
+	void set_codepoint(ucd::codepoint_t aCodePoint) { mCodePoint = aCodePoint; }
 private:
-	uint32_t begin;
-	uint32_t end;
-	uint32_t count;
+	uint32_t mBegin;
+	uint32_t mEnd;
+	uint32_t mCount;
+	ucd::codepoint_t mCodePoint;
 };
 
-void full_stop_sequence::add(const cainteoir::range<uint32_t> &aRange)
+void punctuation_sequence::add(const cainteoir::range<uint32_t> &aRange)
 {
-	if (begin == 0)
+	if (mBegin == 0)
 	{
-		begin = aRange.begin();
-		end   = aRange.end();
-		count = 1;
+		mBegin = aRange.begin();
+		mEnd   = aRange.end();
+		mCount = 1;
 	}
 	else
 	{
-		end = aRange.end();
-		++count;
+		mEnd = aRange.end();
+		++mCount;
 	}
 }
 
-void full_stop_sequence::flush(std::queue<tts::text_event> &aClause)
+void punctuation_sequence::flush(std::queue<tts::text_event> &aClause)
 {
-	if (count == 0) return;
+	if (mCount == 0) return;
 
 	#define _(x) std::make_shared<cainteoir::buffer>(x)
 
-	switch (count)
+	if (mCodePoint == '.') switch (mCount)
 	{
 	case 1:
-		aClause.push({ _("."), tts::full_stop, { begin, end }, '.' });
+		aClause.push({ _("."), tts::full_stop, { mBegin, mEnd }, '.' });
 		break;
 	case 2:
-		aClause.push({ _(".."), tts::double_stop, { begin, end }, '.' });
+		aClause.push({ _(".."), tts::double_stop, { mBegin, mEnd }, '.' });
 		break;
 	default:
-		aClause.push({ _("..."), tts::ellipsis, { begin, end }, '.' });
+		aClause.push({ _("..."), tts::ellipsis, { mBegin, mEnd }, '.' });
+		break;
+	}
+	else if (mCodePoint == '-') switch (mCount)
+	{
+	case 1:
+		break;
+	case 2:
+		aClause.push({ _("--"), tts::en_dash, { mBegin, mEnd }, '-' });
+		break;
+	case 3:
+		aClause.push({ _("---"), tts::em_dash, { mBegin, mEnd }, '-' });
 		break;
 	}
 
 	#undef _
 
-	begin = end = count = 0;
+	mBegin = mEnd = mCount = 0;
+	mCodePoint = 0;
 }
 
 enum class clause_state
@@ -229,7 +249,7 @@ bool tts::context_analysis::read()
 bool tts::context_analysis::read_clause()
 {
 	clause_state state = clause_state::start;
-	full_stop_sequence fullstops;
+	punctuation_sequence sequence;
 
 	while (mHaveEvent && state != clause_state::end)
 	{
@@ -299,29 +319,32 @@ bool tts::context_analysis::read_clause()
 			case tts::word_mixedcase:
 			case tts::word_script:
 			case tts::number:
-				fullstops.flush(mClause);
+				sequence.flush(mClause);
 				state = mClause.empty() ? clause_state::start : clause_state::end;
 				continue;
 			case tts::punctuation:
 			case tts::symbol:
 				{
 					tts::event_type type = punctuation_type(event.codepoint);
-					if (type != tts::punctuation)
+					if (type != tts::punctuation || event.codepoint == '-') switch (event.codepoint)
 					{
-						if (event.codepoint == '.')
+					case '.':
+					case '-':
+						if (sequence.codepoint() != event.codepoint)
 						{
-							fullstops.add(event.range);
+							sequence.flush(mClause);
+							sequence.set_codepoint(event.codepoint);
 						}
-						else
-						{
-							fullstops.flush(mClause);
-							mClause.push({ event.text, type, event.range, event.codepoint });
-						}
+						sequence.add(event.range);
+						break;
+					default:
+						sequence.flush(mClause);
+						mClause.push({ event.text, type, event.range, event.codepoint });
 					}
 				}
 				break;
 			case tts::paragraph:
-				fullstops.flush(mClause);
+				sequence.flush(mClause);
 				mClause.push(event);
 				break;
 			};
@@ -329,6 +352,6 @@ bool tts::context_analysis::read_clause()
 		}
 		mHaveEvent = mReader.read();
 	}
-	fullstops.flush(mClause);
+	sequence.flush(mClause);
 	return !mClause.empty();
 }

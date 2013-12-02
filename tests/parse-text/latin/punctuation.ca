@@ -26,6 +26,7 @@
 .Latn.lower    [112..115] can
 .Latn.lower    [116..118] be
 .Latn.lower    [119..123] seen
+.en-dash       [123..125] --
 .Latn.lower    [125..127] is
 .Latn.lower    [128..129] a
 .Latn.lower    [130..138] sentence
@@ -33,9 +34,11 @@
 .Latn.capital  [140..142] so
 .em-dash       [142..143] —
 .Latn.lower    [143..146] too
+.em-dash       [146..149] ---
 .Latn.lower    [149..151] is
 .Latn.lower    [152..156] this
 .full-stop     [156..157] .
+.en-dash       [160..162] --
 .Latn.capital  [163..168] simon
 .Latn.capital  [169..176] gregory
 .Latn.capital  [177..183] harmon
