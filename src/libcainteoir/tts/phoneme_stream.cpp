@@ -59,6 +59,8 @@ bool tts::phoneme_stream::read()
 	case tts::ellipsis:
 		mEvent = { tts::pause, e.range, 75 };
 		break;
+	case tts::en_dash:
+	case tts::em_dash:
 	case tts::full_stop:
 	case tts::exclamation:
 	case tts::question:
