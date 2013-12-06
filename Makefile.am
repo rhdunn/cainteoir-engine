@@ -194,19 +194,24 @@ uninstall-hook-mimetypes:
 if ENABLE_UPDATE_MIME_DATABASE
 	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
 endif
- 
-############################# documentation ###################################
 
-.md.html:
-	pandoc --from markdown --to html $< --output $@
+############################# tools / extensions ##############################
 
-data/languages.dot: data/languages.py data/languages.stat
-	cd data && ./languages.py
+%.dot: %.fsm tools/fsm
+	tools/fsm dot $< > $@
 
 .dot.svg: $<
 	dot -Tsvg -o $@ $<
 
-fsm:	data/parsetext-fsm.svg
+.md.html:
+	pandoc --from markdown --to html $< --output $@
+ 
+############################# documentation ###################################
+
+data/languages.dot: data/languages.py data/languages.stat
+	cd data && ./languages.py
+
+fsm:	src/libcainteoir/tts/text_reader.svg
 
 api:
 	doxygen docs/cainteoir-engine.doxyconf 2>&1 | ( ! grep . )

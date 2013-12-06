@@ -16,14 +16,15 @@
 data/css
 data/languages.dat
 data/supplementalData.xml
-data/languages.dot
-data/*.svg
 src/libcainteoir/parsers/html-entities.dat
 
 # build output:
 
 docs/api/xml/
 docs/api/html/
+
+*.dot
+*.svg
 
 data/languages.rdf.gz
 

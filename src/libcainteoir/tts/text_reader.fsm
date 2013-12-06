@@ -1,0 +1,113 @@
+title:       "Text Parsing Finite State Machine"
+copyright:   "Copyright (C) 2013 Reece H. Dunn"
+author:      "Reece H. Dunn"
+description: "The main logic for parsing text into events."
+
+# Unicode General Categories as specified in the ucd-tools project:
+language:
+- Cc
+- Cf
+- Cn
+- Co
+- Cs
+- Ii
+- Ll
+- Lm
+- Lo
+- Lt
+- Lu
+- Mc
+- Me
+- Mn
+- Nd
+- Nl
+- No
+- Pc
+- Pd
+- Pe
+- Pf
+- Pi
+- Po
+- Ps
+- Sc
+- Sk
+- Sm
+- So
+- Zl
+- Zp
+- Zs
+
+states:
+  S0:
+    name: Start
+    terminal: false
+  L1:
+    name: Upper Case (Initial Character)
+    terminal: true
+  L2:
+    name: Upper Case
+    terminal: true
+  L3:
+    name: Capitalized
+    terminal: true
+  L4:
+    name: Lower Case
+    terminal: true
+  L5:
+    name: Mixed Case
+    terminal: true
+  L6:
+    name: Title Case (Initial Letter)
+    terminal: true
+  L7:
+    name: Script
+    terminal: true
+  N1:
+    name: Number
+    terminal: true
+  P1:
+    name: Punctuation
+    terminal: true
+  Y1:
+    name: Symbol
+    terminal: true
+  E1:
+    name: Error
+    terminal: true
+
+transitions:
+  S0:
+    L1: [ "Lu" ]
+    L4: [ "Ll" ]
+    L6: [ "Lt" ]
+    L7: [ "Lo" ]
+    E1: [ "Lm", "Mc", "Me", "Mn" ]
+    N1: [ "Nd", "Nl", "No" ]
+    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps" ]
+    Y1: [ "Sc", "Sk", "Sm", "So" ]
+  L1:
+    L2: [ "Lu" ]
+    L3: [ "Ll" ]
+    L5: [ "Lt" ]
+  L2:
+    L2: [ "Lu" ]
+    L5: [ "Ll", "Lt" ]
+  L3:
+    L3: [ "Ll" ]
+    L5: [ "Ll", "Lu" ]
+  L4:
+    L4: [ "Ll" ]
+    L5: [ "Lt", "Lu" ]
+  L5:
+    L5: [ "Ll", "Lt", "Lu" ]
+  L6:
+    L3: [ "Ll" ]
+    L5: [ "Ll", "Lu" ]
+  L7:
+    L7: [ "Lo" ]
+  N1:
+    N1: [ "Nd", "Nl", "No" ]
+  E1:
+    E1: [ "Lm", "Mc", "Me", "Mn" ]
+
+# vim: ft=yaml
