@@ -1,6 +1,7 @@
 title:       "Text Parsing Finite State Machine"
 copyright:   "Copyright (C) 2013 Reece H. Dunn"
 author:      "Reece H. Dunn"
+license:     "GPLv3+"
 description: "The main logic for parsing text into events."
 
 # Unicode General Categories as specified in the ucd-tools project:
