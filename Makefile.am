@@ -100,23 +100,6 @@ dist-hook: ChangeLog
 
 EXTRA_DIST += ChangeLog
 
-############################# phonemes ########################################
-
-%.html : %.phon src/apps/phoneme-converter
-	CAINTEOIR_DATA_DIR=`pwd`/data \
-	    src/apps/phoneme-converter --chart \
-	        `echo $< | sed -e 's,data/phonemeset/,,' -e 's,\.phon,,'` \
-	        > /tmp/phonemechart && \
-	    mv /tmp/phonemechart $@
-
-phonemes:	data/phonemeset/ascii-ipa.html \
-		data/phonemeset/ipa.html \
-		data/phonemeset/arpabet.html \
-		data/phonemeset/x-sampa.html \
-		data/phonemeset/cxs.html \
-		data/phonemeset/sampa/en.html \
-		data/phonemeset/sampa/en-US.html
-
 ############################# data ############################################
 
 EXTRA_DIST += \
@@ -197,6 +180,13 @@ endif
 
 ############################# tools / extensions ##############################
 
+%.html: %.phon src/apps/phoneme-converter
+	CAINTEOIR_DATA_DIR=`pwd`/data \
+	    src/apps/phoneme-converter --chart \
+	        `echo $< | sed -e 's,data/phonemeset/,,' -e 's,\.phon,,'` \
+	        > /tmp/phonemechart && \
+	    mv /tmp/phonemechart $@
+
 %.dot: %.fsm tools/fsm
 	tools/fsm dot $< > $@
 
@@ -219,6 +209,14 @@ api:
 doc:	README.html \
 	docs/ReleaseNotes.html \
 	api
+
+phonemes:	data/phonemeset/ascii-ipa.html \
+		data/phonemeset/ipa.html \
+		data/phonemeset/arpabet.html \
+		data/phonemeset/x-sampa.html \
+		data/phonemeset/cxs.html \
+		data/phonemeset/sampa/en.html \
+		data/phonemeset/sampa/en-US.html
 
 ############################# libcainteoir ####################################
 
