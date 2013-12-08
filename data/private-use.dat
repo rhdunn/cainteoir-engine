@@ -68,6 +68,13 @@ Prefix: en-GB
 Comments: Generalised English dialect found in Ireland (not to be confused with the Irish Gaelic language).
 %%
 Type: private
+Subtag: kentish
+Description: Kentish (ca. 450-1100)
+Added: 2013-12-08
+Prefix: ang
+Comments: Old English dialect of South-East England (Kent).
+%%
+Type: private
 Subtag: lancastrian
 Description: Lancastrian
 Added: 2013-03-31
@@ -88,6 +95,13 @@ Prefix: en-GB
 Comments: Dialect local to Sunderland, England.
 %%
 Type: private
+Subtag: mercian
+Description: Mercian (ca. 450-1100)
+Added: 2013-12-08
+Prefix: ang
+Comments: Old English dialect of Central England.
+%%
+Type: private
 Subtag: northamerica
 Description: North American
 Added: 2013-03-31
@@ -100,6 +114,13 @@ Description: Northern English
 Added: 2013-03-31
 Prefix: en-GB
 Comments: Generalised dialect of Northern England.
+%%
+Type: private
+Subtag: northhum
+Description: North-Humbrian (ca. 450-1100)
+Added: 2013-12-08
+Prefix: ang
+Comments: Old English dialect of Northern England.
 %%
 Type: private
 Subtag: rp

@@ -19237,6 +19237,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kenyang</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kentish">
+	<iana:code>kentish</iana:code>
+	<iana:added>2013-12-08</iana:added>
+	<iana:comments xml:lang="en">Old English dialect of South-East England (Kent).</iana:comments>
+	<iana:label xml:lang="en">Kentish (ca. 450-1100)</iana:label>
+	<iana:prefix>ang</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#keo">
 	<iana:code>keo</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -24550,6 +24557,13 @@
 	<iana:label xml:lang="en">Meru</iana:label>
 	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mercian">
+	<iana:code>mercian</iana:code>
+	<iana:added>2013-12-08</iana:added>
+	<iana:comments xml:lang="en">Old English dialect of Central England.</iana:comments>
+	<iana:label xml:lang="en">Mercian (ca. 450-1100)</iana:label>
+	<iana:prefix>ang</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mes">
 	<iana:code>mes</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -29133,6 +29147,13 @@
 	<iana:comments xml:lang="en">Generalised dialect of Northern England.</iana:comments>
 	<iana:label xml:lang="en">Northern English</iana:label>
 	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northhum">
+	<iana:code>northhum</iana:code>
+	<iana:added>2013-12-08</iana:added>
+	<iana:comments xml:lang="en">Old English dialect of Northern England.</iana:comments>
+	<iana:label xml:lang="en">North-Humbrian (ca. 450-1100)</iana:label>
+	<iana:prefix>ang</iana:prefix>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nos">
 	<iana:code>nos</iana:code>
