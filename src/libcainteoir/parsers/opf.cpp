@@ -20,6 +20,7 @@
 
 #include "parsers.hpp"
 #include <stdexcept>
+#include <algorithm>
 
 namespace xml    = cainteoir::xml;
 namespace xmlns  = cainteoir::xml::xmlns;
@@ -142,7 +143,7 @@ struct fileinfo
 	std::string filename;
 	std::shared_ptr<cainteoir::buffer> mimetype;
 	std::string media_overlay;
-	rdf::uri property;
+	std::list<rdf::uri> properties;
 
 	fileinfo(const std::string &aFileName,
 	         const std::shared_ptr<cainteoir::buffer> &aMimeType,
@@ -155,6 +156,28 @@ struct fileinfo
 
 	fileinfo()
 	{
+	}
+
+	bool has_property(const rdf::uri &aUri) const
+	{
+		for (const auto &property : properties)
+		{
+			if (property == aUri)
+				return true;
+		}
+		return false;
+	}
+
+	void remove_property(const rdf::uri &aUri)
+	{
+		for (auto first = properties.begin(), last = properties.end(); first != last; ++first)
+		{
+			if (*first == aUri)
+			{
+				properties.erase(first);
+				return;
+			}
+		}
 	}
 };
 
@@ -472,7 +495,7 @@ static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &a
 
 			std::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
 			if (uri.get() && !uri->ns.empty())
-				info.property = *uri;
+				info.properties.push_back(*uri);
 			return;
 		}
 		break;
@@ -600,10 +623,10 @@ bool opf_document_reader::read()
 		return false;
 
 	fileinfo &ref = mFiles[*mCurrent];
-	if (ref.property == rdf::pkg("nav"))
+	if (ref.has_property(rdf::pkg("nav")))
 	{
 		type = events::toc_entry | events::navigation_document;
-		ref.property = {};
+		ref.remove_property(rdf::pkg("nav"));
 	}
 	else
 	{
