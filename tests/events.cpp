@@ -141,11 +141,14 @@ int main(int argc, char ** argv)
 				        reader->styles->aria_level);
 				if (reader->content.get())
 				{
-					fprintf(stdout, " title=\"\"\"%s\"\"\"\n",
+					fprintf(stdout, " title=\"\"\"%s\"\"\"",
 					        reader->content->str().c_str());
 				}
 				else
-					fprintf(stdout, " title=(null)\n");
+					fprintf(stdout, " title=(null)");
+				if (reader->type & cainteoir::events::navigation_document)
+					fprintf(stdout, " +navigation-document");
+				fprintf(stdout, "\n");
 			}
 			if (reader->type & cainteoir::events::anchor)
 			{

@@ -141,15 +141,18 @@ struct fileinfo
 	std::shared_ptr<cainteoir::buffer> mimetype;
 	std::string id;
 	std::string media_overlay;
+	rdf::uri property;
 
 	fileinfo(const std::string &aFileName,
 	         const std::shared_ptr<cainteoir::buffer> &aMimeType,
 	         const std::string &aId,
-	         const std::string &aMediaOverlay)
+	         const std::string &aMediaOverlay,
+	         const rdf::uri &aProperty)
 		: filename(aFileName)
 		, mimetype(aMimeType)
 		, id(aId)
 		, media_overlay(aMediaOverlay)
+		, property(aProperty)
 	{
 	}
 
@@ -442,12 +445,13 @@ static void parseOpfMetadata(xml::reader &reader, const rdf::uri &aSubject, rdf:
 	}
 }
 
-static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &aItemSet)
+static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &aItemSet, rdf::graph &aGraph)
 {
 	std::string id;
 	std::string href;
 	std::shared_ptr<cainteoir::buffer> mediatype;
 	std::string media_overlay;
+	rdf::uri property;
 
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -460,11 +464,17 @@ static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &a
 			mediatype = reader.nodeValue().buffer();
 		else if (reader.context() == &opf::media_overlay_attr)
 			media_overlay = reader.nodeValue().str();
+		else if (reader.context() == &opf::property_attr)
+		{
+			std::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
+			if (uri.get() && !uri->ns.empty())
+				property = *uri;
+		}
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == &opf::item_node)
 		{
-			aItemSet[id] = fileinfo(href, mediatype, id, media_overlay);
+			aItemSet[id] = fileinfo(href, mediatype, id, media_overlay, property);
 			return;
 		}
 		break;
@@ -473,13 +483,13 @@ static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &a
 	}
 }
 
-static void parseOpfManifest(xml::reader &reader, std::map<std::string, fileinfo> &aItemSet)
+static void parseOpfManifest(xml::reader &reader, std::map<std::string, fileinfo> &aItemSet, rdf::graph &aGraph)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::beginTagNode:
 		if (reader.context() == &opf::item_node)
-			parseOpfItem(reader, aItemSet);
+			parseOpfItem(reader, aItemSet, aGraph);
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == &opf::manifest_node)
@@ -573,7 +583,7 @@ opf_document_reader::opf_document_reader(const std::shared_ptr<xml::reader> &aRe
 		if (aReader->context() == &opf::metadata_node)
 			parseOpfMetadata(*aReader, aSubject, aPrimaryMetadata, aReader->context());
 		else if (aReader->context() == &opf::manifest_node)
-			parseOpfManifest(*aReader, mFiles);
+			parseOpfManifest(*aReader, mFiles, aPrimaryMetadata);
 		else if (aReader->context() == &opf::spine_node)
 			parseOpfSpine(*aReader, mSpine, mFiles);
 		break;
@@ -597,6 +607,8 @@ bool opf_document_reader::read()
 	styles  = &cainteoir::heading1;
 	anchor  = rdf::uri(ref.filename, std::string());
 	content = ref.mimetype;
+	if (ref.property == rdf::pkg("nav"))
+		type |= events::navigation_document;
 
 	return true;
 }

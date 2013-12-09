@@ -36,6 +36,7 @@ namespace cainteoir
 			anchor = 0x0010,
 			text_ref = 0x0020,
 			media_ref = 0x0040,
+			navigation_document = 0x0080,
 		};
 	}
 
