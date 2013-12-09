@@ -165,7 +165,7 @@ bool epub_document_reader::read()
 
 				rdf::graph innerMetadata;
 				child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml");
-				is_toc = false;
+				is_toc = opf->type & cainteoir::events::navigation_document;
 				return read();
 			}
 			else if (!opf->content->compare("application/smil+xml"))
