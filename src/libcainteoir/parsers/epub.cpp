@@ -104,9 +104,9 @@ bool epub_document_reader::read()
 
 		while (child->read())
 		{
-			if (child->type & cainteoir::events::toc_entry)
+			if (is_toc)
 			{
-				if (is_toc)
+				if (child->type & cainteoir::events::toc_entry)
 				{
 					if (child->anchor == mSubject)
 						anchor = mSubject;
@@ -115,22 +115,26 @@ bool epub_document_reader::read()
 						auto filename = opf_root / child->anchor.ns;
 						anchor = mData->location(filename.str(), child->anchor.ref);
 					}
+
 					type    = child->type;
 					styles  = child->styles;
 					content = child->content;
 					return true;
 				}
-				else
-					child->type &= ~cainteoir::events::toc_entry;
 			}
-
-			if (child->type)
+			else
 			{
-				type    = child->type;
-				styles  = child->styles;
-				content = child->content;
-				anchor  = child->anchor;
-				return true;
+				if (child->type & cainteoir::events::toc_entry)
+					child->type &= ~cainteoir::events::toc_entry;
+
+				if (child->type)
+				{
+					type    = child->type;
+					styles  = child->styles;
+					content = child->content;
+					anchor  = child->anchor;
+					return true;
+				}
 			}
 		}
 		child.reset();
