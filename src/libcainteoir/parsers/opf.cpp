@@ -70,6 +70,7 @@ namespace opf
 	static const xml::context::entry name_attr          = {};
 	static const xml::context::entry prefer_attr        = {};
 	static const xml::context::entry prefix_attr        = {};
+	static const xml::context::entry properties_attr    = {};
 	static const xml::context::entry property_attr      = {};
 	static const xml::context::entry refines_attr       = {};
 	static const xml::context::entry rel_attr           = {};
@@ -126,6 +127,7 @@ static const std::initializer_list<const xml::context::entry_ref> opf_attrs =
 	{ "name",          &opf::name_attr },
 	{ "prefer",        &opf::prefer_attr },
 	{ "prefix",        &opf::prefix_attr },
+	{ "properties",    &opf::properties_attr },
 	{ "property",      &opf::property_attr },
 	{ "refines",       &opf::refines_attr },
 	{ "rel",           &opf::rel_attr },
@@ -464,7 +466,7 @@ static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &a
 			mediatype = reader.nodeValue().buffer();
 		else if (reader.context() == &opf::media_overlay_attr)
 			media_overlay = reader.nodeValue().str();
-		else if (reader.context() == &opf::property_attr)
+		else if (reader.context() == &opf::properties_attr)
 		{
 			std::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
 			if (uri.get() && !uri->ns.empty())
