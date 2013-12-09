@@ -493,9 +493,12 @@ static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &a
 			fileinfo &info = aItemSet[id];
 			info = fileinfo(href, mediatype, media_overlay);
 
-			std::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
-			if (uri.get() && !uri->ns.empty())
-				info.properties.push_back(*uri);
+			if (property)
+			{
+				std::shared_ptr<const rdf::uri> uri = aGraph.curie(property->str());
+				if (uri.get() && !uri->ns.empty())
+					info.properties.push_back(*uri);
+			}
 			return;
 		}
 		break;

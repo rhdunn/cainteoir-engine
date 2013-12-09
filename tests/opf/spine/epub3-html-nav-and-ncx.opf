@@ -5,7 +5,7 @@
 		<dc:identifier id="id">test.opf</dc:identifier>
 	</metadata>
 	<manifest>
-		<item id="htmltoc" href="toc.xhtml" media-type="application/xhtml+xml" properties="nav" />
+		<item id="htmltoc" href="toc.xhtml" properties="nav" media-type="application/xhtml+xml" />
 		<item id="test" href="test.xhtml" media-type="application/xhtml+xml" />
 		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
 	</manifest>
