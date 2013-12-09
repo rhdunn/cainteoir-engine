@@ -282,6 +282,7 @@ if __name__ == '__main__':
 	]})
 	test.run({'name': 'OPF', 'groups': [
 		{'name': 'spine', 'type': 'events', 'tests': [
+			{'test': 'opf/spine/no-toc-ncx-in-manifest.opf', 'result': 'opf/spine/single-html-file.events'},
 			{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc.events'},
 			{'test': 'opf/spine/epub3-html-nav.opf', 'result': 'opf/spine/epub3-html-nav.events'},
 			{'test': 'opf/spine/epub3-html-nav-and-ncx.opf', 'result': 'opf/spine/epub3-html-nav-and-ncx.events'},
