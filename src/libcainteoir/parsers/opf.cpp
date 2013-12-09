@@ -603,14 +603,21 @@ bool opf_document_reader::read()
 	if (mCurrent == mSpine.end())
 		return false;
 
-	fileinfo &ref = mFiles[*mCurrent++];
+	fileinfo &ref = mFiles[*mCurrent];
+	if (ref.property == rdf::pkg("nav"))
+	{
+		type = events::toc_entry | events::navigation_document;
+		ref.property = {};
+	}
+	else
+	{
+		type = events::toc_entry;
+		++mCurrent;
+	}
 
-	type    = events::toc_entry;
 	styles  = &cainteoir::heading1;
 	anchor  = rdf::uri(ref.filename, std::string());
 	content = ref.mimetype;
-	if (ref.property == rdf::pkg("nav"))
-		type |= events::navigation_document;
 
 	return true;
 }
