@@ -1,0 +1,3 @@
+toc-entry [toc.ncx] depth=1 title="""application/x-dtbncx+xml"""
+toc-entry [toc.xhtml] depth=1 title="""application/xhtml+xml""" +navigation-document
+toc-entry [test.xhtml] depth=1 title="""application/xhtml+xml"""
