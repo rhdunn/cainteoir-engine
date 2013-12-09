@@ -141,18 +141,15 @@ struct fileinfo
 {
 	std::string filename;
 	std::shared_ptr<cainteoir::buffer> mimetype;
-	std::string id;
 	std::string media_overlay;
 	rdf::uri property;
 
 	fileinfo(const std::string &aFileName,
 	         const std::shared_ptr<cainteoir::buffer> &aMimeType,
-	         const std::string &aId,
 	         const std::string &aMediaOverlay,
 	         const rdf::uri &aProperty)
 		: filename(aFileName)
 		, mimetype(aMimeType)
-		, id(aId)
 		, media_overlay(aMediaOverlay)
 		, property(aProperty)
 	{
@@ -476,7 +473,7 @@ static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &a
 	case xml::reader::endTagNode:
 		if (reader.context() == &opf::item_node)
 		{
-			aItemSet[id] = fileinfo(href, mediatype, id, media_overlay, property);
+			aItemSet[id] = fileinfo(href, mediatype, media_overlay, property);
 			return;
 		}
 		break;
