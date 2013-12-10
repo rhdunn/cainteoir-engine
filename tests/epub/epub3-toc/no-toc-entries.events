@@ -1,4 +1,5 @@
-toc-entry [] depth=0 title="""Test File"""
+toc-entry [] depth=0 title="""Test Case"""
+anchor []
 anchor [!/OEBPS/toc.xhtml]
 begin-context paragraph +sans-serif
 text(18): """Lorem ipsum dolor."""

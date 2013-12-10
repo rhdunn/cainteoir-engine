@@ -26,12 +26,14 @@
 #include <stdexcept>
 
 namespace rdf    = cainteoir::rdf;
+namespace rql    = cainteoir::rdf::query;
 namespace xml    = cainteoir::xml;
 namespace events = cainteoir::events;
 namespace css    = cainteoir::css;
 
 enum class state
 {
+	title,       // The document title toc-entry event.
 	publication, // Processing OPF toc-entry events.
 	toc,         // Processing table of content document (NCX, etc.) events.
 	content,     // Processing content document (HTML, etc.) events.
@@ -57,6 +59,7 @@ struct epub_document_reader : public cainteoir::document_reader
 	std::shared_ptr<cainteoir::document_reader> media_overlay;
 	rdf::uri mTextRef;
 	cainteoir::document_item mMediaItem;
+	std::string mDocTitle;
 
 	void next_media_overlay_entry();
 };
@@ -64,7 +67,7 @@ struct epub_document_reader : public cainteoir::document_reader
 epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aDefaultEncoding)
 	: mData(aData)
 	, mSubject(aSubject)
-	, mState(state::publication)
+	, mState(state::title)
 	, mDefaultEncoding(aDefaultEncoding)
 {
 	auto ocf = cainteoir::createOcfReader(cainteoir::createXmlReader(mData->read("META-INF/container.xml"), mDefaultEncoding));
@@ -86,16 +89,34 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 
 	opf = cainteoir::createOpfReader(reader, aSubject, aPrimaryMetadata, "application/epub+zip");
 	opf_root = opf_file.parent();
+
+	for (auto &query : rql::select(aPrimaryMetadata, rql::subject == aSubject))
+	{
+		if (rql::predicate(query).ns == rdf::dc || rql::predicate(query).ns == rdf::dcterms)
+		{
+			if (rql::predicate(query).ref == "title")
+				mDocTitle = rql::value(query);
+		}
+	}
 }
 
 bool epub_document_reader::read()
 {
 	while (true) switch (mState)
 	{
+	case state::title:
+		styles  = &cainteoir::heading0;
+		type    = events::toc_entry | events::anchor;
+		content = cainteoir::make_buffer(mDocTitle);
+		mState  = state::publication;
+		return true;
 	case state::toc:
 		while (child->read())
 		{
 			if (!(child->type & cainteoir::events::toc_entry))
+				continue;
+
+			if (child->styles == &cainteoir::heading0)
 				continue;
 
 			if (child->anchor == mSubject)

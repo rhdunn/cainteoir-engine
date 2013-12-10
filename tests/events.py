@@ -373,7 +373,7 @@ if __name__ == '__main__':
 			],
 		'groups': [
 			{'name': 'epub3 toc', 'type': 'events', 'tests': [
-				{'test': 'html/sections/div.xhtml', 'result': 'epub/epub3-toc/no-toc-entries.events', 'expect': 'fail'},
+				{'test': 'html/sections/div.xhtml', 'result': 'epub/epub3-toc/no-toc-entries.events'},
 			]},
 		]
 	})

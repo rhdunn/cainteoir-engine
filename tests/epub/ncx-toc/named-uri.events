@@ -1,3 +1,5 @@
+toc-entry [] depth=0 title="""Test Case"""
+anchor []
 toc-entry [!/OEBPS/chapters.xhtml#]ch1 depth=1 title="""Chapter 1"""
 toc-entry [!/OEBPS/chapters.xhtml#]ch2 depth=1 title="""Chapter 2"""
 toc-entry [!/OEBPS/chapters.xhtml#]ch3 depth=1 title="""Chapter 3"""
