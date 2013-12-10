@@ -106,21 +106,21 @@ bool epub_document_reader::read()
 		{
 			if (is_toc)
 			{
-				if (child->type & cainteoir::events::toc_entry)
-				{
-					if (child->anchor == mSubject)
-						anchor = mSubject;
-					else
-					{
-						auto filename = opf_root / child->anchor.ns;
-						anchor = mData->location(filename.str(), child->anchor.ref);
-					}
+				if (!(child->type & cainteoir::events::toc_entry))
+					continue;
 
-					type    = child->type;
-					styles  = child->styles;
-					content = child->content;
-					return true;
+				if (child->anchor == mSubject)
+					anchor = mSubject;
+				else
+				{
+					auto filename = opf_root / child->anchor.ns;
+					anchor = mData->location(filename.str(), child->anchor.ref);
 				}
+
+				type    = child->type;
+				styles  = child->styles;
+				content = child->content;
+				return true;
 			}
 			else
 			{
