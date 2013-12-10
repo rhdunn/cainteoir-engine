@@ -276,22 +276,17 @@ static void parseOpfLink(xml::reader &reader, const rdf::uri &aSubject, rdf::gra
 		{
 			if (!rel.empty() && !href.empty())
 			{
-				std::istringstream ss(rel);
-				while (ss >> rel)
+				aGraph.curie_list(rel, [&](const rdf::uri &aUri)
 				{
-					std::shared_ptr<const rdf::uri> uri = aGraph.curie(rel);
-					if (uri.get() && !uri->ns.empty())
+					if (!id.empty())
 					{
-						if (!id.empty())
-						{
-							const rdf::uri base(aSubject.str(), id);
-							aGraph.statement(about, *uri, base);
-							aGraph.statement(base, rdf::rdf("value"), href);
-						}
-						else
-							aGraph.statement(about, *uri, href);
+						const rdf::uri base(aSubject.str(), id);
+						aGraph.statement(about, aUri, base);
+						aGraph.statement(base, rdf::rdf("value"), href);
 					}
-				}
+					else
+						aGraph.statement(about, aUri, href);
+				});
 			}
 			return;
 		}

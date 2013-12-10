@@ -348,6 +348,9 @@ namespace cainteoir { namespace rdf
 		std::shared_ptr<const uri>
 		curie(const std::string &aCurie);
 
+		void curie_list(const std::string &aCurieList,
+		                const std::function<void (const rdf::uri &aUri)> &onuri);
+
 		//@}
 		/** @name Statements */
 		//@{

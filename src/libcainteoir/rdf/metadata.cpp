@@ -178,6 +178,19 @@ rdf::graph::curie(const std::string &aCurie)
 	return std::make_shared<rdf::uri>(href(uri));
 }
 
+void rdf::graph::curie_list(const std::string &aCurieList,
+                            const std::function<void (const rdf::uri &aUri)> &onuri)
+{
+	std::string rel;
+	std::istringstream ss(aCurieList);
+	while (ss >> rel)
+	{
+		std::shared_ptr<const rdf::uri> uri = curie(rel);
+		if (uri.get() && !uri->ns.empty())
+			onuri(*uri);
+	}
+}
+
 bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject)
 {
 	if (aPredicate.ns == rdf::bnode.href)
