@@ -286,6 +286,7 @@ if __name__ == '__main__':
 			{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc.events'},
 			{'test': 'opf/spine/epub3-html-nav.opf', 'result': 'opf/spine/epub3-html-nav.events'},
 			{'test': 'opf/spine/epub3-html-nav-multiple-properties.opf', 'result': 'opf/spine/epub3-html-nav.events'},
+			{'test': 'opf/spine/epub3-html-nav-empty-properties.opf', 'result': 'opf/spine/epub3-html-nav-empty-properties.events'},
 			{'test': 'opf/spine/epub3-html-nav-and-ncx.opf', 'result': 'opf/spine/epub3-html-nav-and-ncx.events'},
 			{'test': 'opf/spine/media-overlay.opf', 'result': 'opf/spine/media-overlay.events'},
 		]},
