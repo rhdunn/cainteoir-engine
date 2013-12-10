@@ -466,7 +466,7 @@ static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &a
 	std::string href;
 	std::shared_ptr<cainteoir::buffer> mediatype;
 	std::string media_overlay;
-	std::shared_ptr<cainteoir::buffer> property;
+	std::string properties;
 
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -480,20 +480,17 @@ static void parseOpfItem(xml::reader &reader, std::map<std::string, fileinfo> &a
 		else if (reader.context() == &opf::media_overlay_attr)
 			media_overlay = reader.nodeValue().str();
 		else if (reader.context() == &opf::properties_attr)
-			property = reader.nodeValue().buffer();
+			properties = reader.nodeValue().str();
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == &opf::item_node)
 		{
 			fileinfo &info = aItemSet[id];
 			info = fileinfo(href, mediatype, media_overlay);
-
-			if (property)
+			aGraph.curie_list(properties, [&info](const rdf::uri &aUri)
 			{
-				std::shared_ptr<const rdf::uri> uri = aGraph.curie(property->str());
-				if (uri.get() && !uri->ns.empty())
-					info.properties.push_back(*uri);
-			}
+				info.properties.push_back(aUri);
+			});
 			return;
 		}
 		break;
