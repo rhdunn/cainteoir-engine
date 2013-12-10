@@ -30,6 +30,13 @@ namespace xml    = cainteoir::xml;
 namespace events = cainteoir::events;
 namespace css    = cainteoir::css;
 
+enum class state
+{
+	publication, // Processing OPF toc-entry events.
+	content,     // Processing content document (HTML, etc.) events.
+	eof,         // End of the file.
+};
+
 struct epub_document_reader : public cainteoir::document_reader
 {
 	epub_document_reader(std::shared_ptr<cainteoir::archive> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aDefaultEncoding);
@@ -41,6 +48,7 @@ struct epub_document_reader : public cainteoir::document_reader
 	std::shared_ptr<cainteoir::document_reader> opf;
 	std::shared_ptr<cainteoir::document_reader> child;
 	bool is_toc;
+	state mState;
 
 	std::shared_ptr<cainteoir::archive> mData;
 	rdf::uri mSubject;
@@ -57,6 +65,7 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 	: mData(aData)
 	, mSubject(aSubject)
 	, is_toc(false)
+	, mState(state::publication)
 	, mDefaultEncoding(aDefaultEncoding)
 {
 	auto ocf = cainteoir::createOcfReader(cainteoir::createXmlReader(mData->read("META-INF/container.xml"), mDefaultEncoding));
@@ -82,8 +91,9 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 
 bool epub_document_reader::read()
 {
-	if (child)
+	while (true) switch (mState)
 	{
+	case state::content:
 		if (child->type & cainteoir::events::anchor)
 		{
 			if (mTextRef == child->anchor)
@@ -138,11 +148,12 @@ bool epub_document_reader::read()
 			}
 		}
 		child.reset();
-	}
-
-	if (opf) while (opf->read())
-	{
-		if (opf->type & cainteoir::events::toc_entry)
+		mState = state::publication;
+		break;
+	case state::publication:
+		if (!opf->read())
+			mState = state::eof;
+		else if (opf->type & cainteoir::events::toc_entry)
 		{
 			cainteoir::path filename = opf_root / opf->anchor.ns;
 			auto reader = cainteoir::createXmlReader(mData->read(filename), mDefaultEncoding);
@@ -157,7 +168,7 @@ bool epub_document_reader::read()
 				rdf::graph innerMetadata;
 				child = cainteoir::createNcxReader(reader, mSubject, innerMetadata, std::string());
 				is_toc = true;
-				return read();
+				mState = state::content;
 			}
 			else if (!opf->content->compare("application/xhtml+xml"))
 			{
@@ -166,7 +177,7 @@ bool epub_document_reader::read()
 				rdf::graph innerMetadata;
 				child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml");
 				is_toc = opf->type & cainteoir::events::navigation_document;
-				return read();
+				mState = state::content;
 			}
 			else if (!opf->content->compare("application/smil+xml"))
 			{
@@ -177,9 +188,10 @@ bool epub_document_reader::read()
 				next_media_overlay_entry();
 			}
 		}
+		break;
+	case state::eof:
+		return false;
 	}
-
-	return false;
 }
 
 void epub_document_reader::next_media_overlay_entry()
