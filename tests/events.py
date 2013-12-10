@@ -341,6 +341,21 @@ if __name__ == '__main__':
 			]},
 		]
 	})
+	test.run({ 'name': 'ePub',
+		'archive':
+			[
+				('mimetype', 'application/epub+zip'),
+				('META-INF/container.xml', 'ocf/simple.ocf'),
+				('OEBPS/content.opf', 'opf/spine/epub3-html-nav.opf'),
+				('OEBPS/toc.xhtml', '@test'), # replaced with 'test' file in the group tests
+				('OEBPS/test.xhtml', 'html/semantics/simple.xhtml'),
+			],
+		'groups': [
+			{'name': 'epub3 toc', 'type': 'events', 'tests': [
+				{'test': 'html/sections/div.xhtml', 'result': 'epub/epub3-toc/no-toc-entries.events', 'expect': 'fail'},
+			]},
+		]
+	})
 	test.run({ 'name': 'ZIP',
 		'archive':
 			[
