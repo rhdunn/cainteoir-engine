@@ -346,6 +346,26 @@ if __name__ == '__main__':
 			[
 				('mimetype', 'application/epub+zip'),
 				('META-INF/container.xml', 'ocf/simple.ocf'),
+				('OEBPS/content.opf', 'opf/spine/single-html-file-and-toc.opf'),
+				('OEBPS/toc.ncx', '@test'), # replaced with 'test' file in the group tests
+				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
+			],
+		'groups': [
+			{'name': 'epub2 toc', 'type': 'events', 'tests': [
+				{'test': 'ncx/navMap/linear.ncx', 'result': 'epub/ncx-toc/linear.events'},
+				{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'epub/ncx-toc/linear.events'},
+				{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'epub/ncx-toc/linear.events'},
+				{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'epub/ncx-toc/in-subdir.events'},
+				{'test': 'ncx/navMap/named-uri.ncx', 'result': 'epub/ncx-toc/named-uri.events'},
+				{'test': 'ncx/navMap/nested.ncx', 'result': 'epub/ncx-toc/nested.events'},
+			]},
+		]
+	})
+	test.run({ 'name': 'ePub',
+		'archive':
+			[
+				('mimetype', 'application/epub+zip'),
+				('META-INF/container.xml', 'ocf/simple.ocf'),
 				('OEBPS/content.opf', 'opf/spine/epub3-html-nav.opf'),
 				('OEBPS/toc.xhtml', '@test'), # replaced with 'test' file in the group tests
 				('OEBPS/test.xhtml', 'html/semantics/simple.xhtml'),
