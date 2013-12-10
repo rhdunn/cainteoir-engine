@@ -246,6 +246,7 @@ if __name__ == '__main__':
 			{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/navMap/linear.events'},
 			{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'ncx/navMap/linear.events'},
 			{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'ncx/navMap/linear.events'},
+			{'test': 'ncx/navMap/linear-with-title.ncx', 'result': 'ncx/navMap/linear-with-title.events'},
 			{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'ncx/navMap/in-subdir.events'},
 			{'test': 'ncx/navMap/named-uri.ncx', 'result': 'ncx/navMap/named-uri.events'},
 			{'test': 'ncx/navMap/nested.ncx', 'result': 'ncx/navMap/nested.events'},
