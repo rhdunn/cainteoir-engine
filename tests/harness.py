@@ -34,7 +34,7 @@ def replace_strings(string, replacements):
 def write(s):
 	sys.stdout.write(s)
 
-def map_line(line, filename, replacements):
+def map_line(line, replacements):
 	for src, dst in replacements:
 		line = line.replace(src, dst)
 	return line
@@ -58,7 +58,7 @@ class Command:
 			os.system('%s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), self.collator, tmpfile))
 		replaced = self.replacements(filename)
 		with open(tmpfile, 'r') as f:
-			output = [ repr(map_line(x, filename, replaced)) for x in f.read().split('\n') if not x == '' ]
+			output = [ repr(map_line(x, replaced)) for x in f.read().split('\n') if not x == '' ]
 		return output
 
 class MetadataCommand(Command):
