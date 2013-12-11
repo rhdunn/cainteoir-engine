@@ -34,13 +34,7 @@ def replace_strings(string, replacements):
 def write(s):
 	sys.stdout.write(s)
 
-def map_line(line, filename):
-	replacements = [
-		('<%s' % filename, '<'),
-		('[%s' % filename, '[')
-	]
-	if filename:
-		replacements.append((os.path.dirname(filename), '%CWD%'))
+def map_line(line, filename, replacements):
 	for src, dst in replacements:
 		line = line.replace(src, dst)
 	return line
@@ -53,15 +47,36 @@ class Command:
 			os.path.join(sys.path[0], command))
 		self.collator = collator
 
+	def replacements(self, filename):
+		return []
+
 	def run(self, args, filename, data):
 		tmpfile = '/tmp/testrun'
 		if filename:
 			os.system('%s %s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), filename, self.collator, tmpfile))
 		else:
 			os.system('%s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), self.collator, tmpfile))
+		replaced = self.replacements(filename)
 		with open(tmpfile, 'r') as f:
-			output = [ repr(map_line(x, filename)) for x in f.read().split('\n') if not x == '' ]
+			output = [ repr(map_line(x, filename, replaced)) for x in f.read().split('\n') if not x == '' ]
 		return output
+
+class MetadataCommand(Command):
+	def __init__(self, test_type):
+		Command.__init__(self, '../src/apps/metadata --%s' % test_type)
+
+	def replacements(self, filename):
+		return [ ('<%s' % filename, '<') ]
+
+class EventsCommand(Command):
+	def __init__(self):
+		Command.__init__(self, 'events')
+
+	def replacements(self, filename):
+		ret = [ ('[%s' % filename, '[') ]
+		if filename:
+			ret.append((os.path.dirname(filename), '%CWD%'))
+		return ret
 
 class DictionaryCommand(Command):
 	def __init__(self):
@@ -95,12 +110,14 @@ class PhonemeSetCommand(Command):
 
 def create_command(test_type):
 	if test_type in ['ntriple', 'turtle', 'vorbis']:
-		return Command('../src/apps/metadata --%s' % test_type)
+		return MetadataCommand(test_type)
 	if test_type == 'dictionary':
 		return DictionaryCommand()
 	if test_type == 'phonemeset':
 		return PhonemeSetCommand()
-	if test_type in ['events', 'styles', 'xmlreader']:
+	if test_type == 'events':
+		return EventsCommand()
+	if test_type in ['styles', 'xmlreader']:
 		return Command(test_type)
 	if test_type in ['parsetext', 'contextanalysis', 'wordstream']:
 		return ParseTextCommand(test_type)
