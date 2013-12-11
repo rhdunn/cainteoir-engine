@@ -108,6 +108,7 @@ bool epub_document_reader::read()
 		styles  = &cainteoir::heading0;
 		type    = events::toc_entry | events::anchor;
 		content = cainteoir::make_buffer(mDocTitle);
+		anchor  = mSubject;
 		mState  = state::publication;
 		return true;
 	case state::toc:

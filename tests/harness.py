@@ -66,14 +66,26 @@ class MetadataCommand(Command):
 		Command.__init__(self, '../src/apps/metadata --%s' % test_type)
 
 	def replacements(self, filename):
-		return [ ('<%s' % filename, '<') ]
+		# NOTE: The %EMPTY% marker is to differentiate actual empty URIs from URIs
+		# containing just the filename.
+		return [
+			('<>', '<%EMPTY%>'),
+			('<#', '<%EMPTY%#'),
+			('<%s' % filename, '<')
+		]
 
 class EventsCommand(Command):
 	def __init__(self):
 		Command.__init__(self, 'events')
 
 	def replacements(self, filename):
-		ret = [ ('[%s' % filename, '[') ]
+		# NOTE: The %EMPTY% marker is to differentiate actual empty URIs from URIs
+		# containing just the filename.
+		ret = [
+			('[]', '[%EMPTY%]'),
+			('[#', '[%EMPTY%#'),
+			('[%s' % filename, '[')
+		]
 		if filename:
 			ret.append((os.path.dirname(filename), '%CWD%'))
 		return ret
