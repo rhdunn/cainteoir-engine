@@ -140,6 +140,11 @@ if __name__ == '__main__':
 			{'test': 'html/idioms/nav-breadcrumbs.html', 'result': 'html/idioms/nav-breadcrumbs.events'},
 			{'test': 'html/idioms/nav-breadcrumbs.xhtml', 'result': 'html/idioms/nav-breadcrumbs.events'},
 		]},
+		{'name': 'epub3 nav', 'type': 'events', 'tests': [
+			# These are tests for HTML5-based ePub3 navigation (table of content)
+			# documents when parsed as HTML (i.e. not embedded in an ePub document).
+			{'test': 'html/epub3nav/linear.xhtml', 'result': 'html/epub3nav/linear.events'},
+		]},
 	]})
 	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
 		{'name': 'headers', 'type': 'events', 'tests': [
