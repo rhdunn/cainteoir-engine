@@ -1,0 +1,22 @@
+toc-entry [] depth=0 title="""Test File"""
+anchor []
+begin-context heading 1
+anchor [#]genid.h0
+text(6): """Header"""
+toc-entry [#]genid.h0 depth=1 title="""Header"""
+end-context
+begin-context paragraph +sans-serif
+text(5): """Lorem"""
+text(4): """ » """
+text(5): """Ipsum"""
+text(4): """ » """
+text(5): """Dolor"""
+end-context
+begin-context paragraph +sans-serif
+begin-context paragraph +sans-serif
+text(4): """Body"""
+end-context
+end-context
+begin-context paragraph +sans-serif
+text(6): """Footer"""
+end-context

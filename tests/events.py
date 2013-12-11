@@ -135,6 +135,11 @@ if __name__ == '__main__':
 			{'test': 'html/encoding/meta-content-type-lowercase-utf8.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-content-type-lowercase-utf8.html'},
 			{'test': 'html/encoding/meta-content-type-lowercase-win1252.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-content-type-lowercase-win1252.html'},
 		]},
+		{'name': 'idioms', 'type': 'events', 'tests': [
+			# These represent common/known usage patterns for HTML5/WHATWG documents.
+			{'test': 'html/idioms/nav-breadcrumbs.html', 'result': 'html/idioms/nav-breadcrumbs.events'},
+			{'test': 'html/idioms/nav-breadcrumbs.xhtml', 'result': 'html/idioms/nav-breadcrumbs.events'},
+		]},
 	]})
 	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
 		{'name': 'headers', 'type': 'events', 'tests': [
