@@ -194,8 +194,8 @@ int main(int argc, char ** argv)
 		bool document_object = false;
 
 		const option_group general_options = { nullptr, {
-			{ 'd', "document-object", bind_value(document_object, true),
-			  i18n("Process events through a cainteoir::document object") },
+			{ 'm', "document-object", bind_value(document_object, true),
+			  i18n("Process events through a cainteoir::document object model") },
 		}};
 
 		const option_group processing_options = { i18n("Processing Options:"), {
