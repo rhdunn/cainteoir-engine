@@ -143,7 +143,7 @@ if __name__ == '__main__':
 		{'name': 'epub3 nav', 'type': 'events', 'tests': [
 			# These are tests for HTML5-based ePub3 navigation (table of content)
 			# documents when parsed as HTML (i.e. not embedded in an ePub document).
-			{'test': 'html/epub3nav/linear.xhtml', 'result': 'html/epub3nav/linear.events'},
+			{'test': 'html/epub3nav/linear.xhtml', 'result': 'html/epub3nav/linear.events', 'expect': 'fail'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
