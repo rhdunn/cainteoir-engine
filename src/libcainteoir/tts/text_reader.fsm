@@ -95,7 +95,7 @@ transitions:
     L5: [ "Ll", "Lt" ]
   L3:
     L3: [ "Ll" ]
-    L5: [ "Ll", "Lu" ]
+    L5: [ "Lt", "Lu" ]
   L4:
     L4: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
@@ -103,7 +103,7 @@ transitions:
     L5: [ "Ll", "Lt", "Lu" ]
   L6:
     L3: [ "Ll" ]
-    L5: [ "Ll", "Lu" ]
+    L5: [ "Lt", "Lu" ]
   L7:
     L7: [ "Lo" ]
   N1:
