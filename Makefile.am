@@ -187,6 +187,9 @@ endif
 	        > /tmp/phonemechart && \
 	    mv /tmp/phonemechart $@
 
+%.fsm.h: %.fsm tools/fsm
+	tools/fsm header $< > $@
+
 %.dot: %.fsm tools/fsm
 	tools/fsm dot $< > $@
 
@@ -219,6 +222,8 @@ phonemes:	data/phonemeset/ascii-ipa.html \
 		data/phonemeset/sampa/en-US.html
 
 ############################# libcainteoir ####################################
+
+src/libcainteoir/tts/text_reader.cpp: src/libcainteoir/tts/text_reader.fsm.h
 
 libcainteoir_includedir = $(includedir)/cainteoir
 libcainteoir_include_HEADERS = \

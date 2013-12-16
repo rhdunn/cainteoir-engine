@@ -41,3 +41,44 @@ if sys.argv[1] == 'dot':
 		for transition, classes in sorted(transitions.items()):
 			print '%s -> %s [label="%s", color=blue]' % (state, transition, ','.join(classes))
 	print '}'
+elif sys.argv[1] == 'header':
+	states = [ fsm['start_state'] ]
+	states.extend([ state for state in sorted(fsm['states'].keys()) if state != fsm['start_state'] ])
+	print '// Generated from %s' % sys.argv[2]
+	print
+	print 'namespace fsm'
+	print '{'
+	print '	enum class state : uint8_t'
+	print '	{'
+	for state in states:
+		info = fsm['states'][state]
+		print '		%s,' % info['id']
+	print '	};'
+	print
+	print '	static const bool is_terminal[] = {'
+	for state in states:
+		info = fsm['states'][state]
+		print '		%s,' % str(info['terminal']).lower()
+	print '	};'
+	print
+	print '	static const %s values[] = {' % fsm['value_type']
+	for state in states:
+		info = fsm['states'][state]
+		print '		%s,' % info['value']
+	print '	};'
+	print
+	print '	static const state transitions[][%d] = {' % len(fsm['language'])
+	for state in states:
+		info = fsm['states'][state]
+		t = dict([ (lang, fsm['states'][fsm['start_state']]['id']) for lang in fsm['language'] ])
+		if state in fsm['transitions'].keys():
+			transition = fsm['transitions'][state]
+			for new_state, transition_on in sorted(transition.items()):
+				state = fsm['states'][new_state]['id']
+				for lang in transition_on:
+					t[lang] = state
+		data = [ 'state::%s' % t[lang] for lang in fsm['language'] ]
+		print '		// %s' % info['name']
+		print '		{ %s },' % ', '.join(data)
+	print '	};'
+	print '}'

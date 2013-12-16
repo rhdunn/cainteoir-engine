@@ -38,43 +38,71 @@ language:
 - Zp
 - Zs
 
+value_type: tts::event_type
+
+start_state: S0
+
 states:
   S0:
     name: Start
     terminal: false
+    id: start
+    value: tts::error
   L1:
     name: Upper Case (Initial Character)
     terminal: true
+    id: upper_case_initial
+    value: tts::word_uppercase
   L2:
     name: Upper Case
     terminal: true
+    id: upper_case
+    value: tts::word_uppercase
   L3:
     name: Capitalized
     terminal: true
+    id: capitalized
+    value: tts::word_capitalized
   L4:
     name: Lower Case
     terminal: true
+    id: lower_case
+    value: tts::word_lowercase
   L5:
     name: Mixed Case
     terminal: true
+    id: mixed_case
+    value: tts::word_mixedcase
   L6:
     name: Title Case (Initial Letter)
     terminal: true
+    id: title_case_initial
+    value: tts::word_capitalized
   L7:
     name: Script
     terminal: true
+    id: script
+    value: tts::word_script
   N1:
     name: Number
     terminal: true
+    id: number
+    value: tts::number
   P1:
     name: Punctuation
     terminal: true
+    id: punctuation
+    value: tts::punctuation
   Y1:
     name: Symbol
     terminal: true
+    id: symbol
+    value: tts::symbol
   E1:
     name: Error
     terminal: true
+    id: error
+    value: tts::error
 
 transitions:
   S0:

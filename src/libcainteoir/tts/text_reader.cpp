@@ -27,98 +27,14 @@
 
 namespace tts = cainteoir::tts;
 
+#include "text_reader.fsm.h"
+
 enum class tts::text_reader::reader_state
 {
 	need_text,
 	have_text,
 	end_paragraph,
 };
-
-enum class state
-{
-	start,
-	upper_case_initial,
-	upper_case,
-	capitalized,
-	lower_case,
-	mixed_case,
-	number,
-	punctuation,
-	symbol,
-	title_case_initial,
-	script,
-	error_modifier,
-};
-
-static const bool state_is_terminal[] = {
-	false, // 0 = start
-	true,  // A = upper case (initial character)
-	true,  // B = upper case
-	true,  // C = capitalized
-	true,  // D = lower case
-	true,  // E = mixed case
-	true,  // F = number
-	true,  // G = punctuation
-	true,  // H = symbol
-	true,  // I = title case (initial character) -- capitalized
-	true,  // J = script
-	true,  // K = error (unrecognised modifier/marker)
-};
-
-static const tts::event_type state_token[] = {
-	tts::error,
-	tts::word_uppercase,
-	tts::word_uppercase,
-	tts::word_capitalized,
-	tts::word_lowercase,
-	tts::word_mixedcase,
-	tts::number,
-	tts::punctuation,
-	tts::symbol,
-	tts::word_capitalized,
-	tts::word_script,
-	tts::error,
-};
-
-#define A  1
-#define B  2
-#define C  3
-#define D  4
-#define E  5
-#define F  6
-#define G  7
-#define H  8
-#define I  9
-#define J 10
-#define K 11
-
-static const uint8_t state_transitions[][31] = {
-	// Cc Cf Cn Co Cs Ii Ll Lm Lo Lt Lu Mc Me Mn Nd Nl No Pc Pd Pe Pf Pi Po Ps Sc Sk Sm So Zl Zp Zs
-	{  0, 0, 0, 0, 0, 0, D, K, J, I, A, K, K, K, F, F, F, G, G, G, G, G, G, G, H, H, H, H, 0, 0, 0 }, // 0
-	{  0, 0, 0, 0, 0, 0, C, 0, 0, E, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // A
-	{  0, 0, 0, 0, 0, 0, E, 0, 0, E, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // B
-	{  0, 0, 0, 0, 0, 0, C, 0, 0, E, E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // C
-	{  0, 0, 0, 0, 0, 0, D, 0, 0, E, E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // D
-	{  0, 0, 0, 0, 0, 0, E, 0, 0, E, E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // E
-	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, F, F, F, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // F
-	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // G
-	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // H
-	{  0, 0, 0, 0, 0, 0, C, 0, 0, E, E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // I
-	{  0, 0, 0, 0, 0, 0, 0, 0, J, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // J
-	{  0, 0, 0, 0, 0, 0, 0, K, 0, 0, 0, K, K, K, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // K
-};
-
-#undef A
-#undef B
-#undef C
-#undef D
-#undef E
-#undef F
-#undef G
-#undef H
-#undef I
-#undef J
-#undef K
 
 tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
 	: mReader(aReader)
@@ -169,7 +85,7 @@ bool tts::text_reader::read()
 
 	if (mReaderState == reader_state::end_paragraph)
 	{
-		if (state_is_terminal[mState])
+		if (fsm::is_terminal[mState])
 			return matched();
 
 		mMatch.type = paragraph;
@@ -226,15 +142,15 @@ bool tts::text_reader::read()
 			return true;
 		}
 
-		uint8_t new_state = state_transitions[mState][category];
-		switch ((state)mState)
+		uint8_t new_state = (uint8_t)fsm::transitions[mState][category];
+		switch ((fsm::state)mState)
 		{
-		case state::upper_case_initial:
-		case state::upper_case:
-		case state::capitalized:
-		case state::lower_case:
-		case state::mixed_case:
-		case state::title_case_initial:
+		case fsm::state::upper_case_initial:
+		case fsm::state::upper_case:
+		case fsm::state::capitalized:
+		case fsm::state::lower_case:
+		case fsm::state::mixed_case:
+		case fsm::state::title_case_initial:
 			if (cp == '\'' || cp == RIGHT_SINGLE_QUOTATION_MARK)
 			{
 				quote_match = mCurrent;
@@ -244,7 +160,7 @@ bool tts::text_reader::read()
 			else if (cp == SOFT_HYPHEN)
 				continue;
 			break;
-		case state::script:
+		case fsm::state::script:
 			if (current_script != script && current_script != ucd::Zzzz)
 			{
 				// The script has changed, so split the token here.
@@ -253,7 +169,7 @@ bool tts::text_reader::read()
 			break;
 		}
 
-		if (state_is_terminal[mState] && !state_is_terminal[new_state])
+		if (fsm::is_terminal[mState] && !fsm::is_terminal[new_state])
 			return matched();
 
 		++mMatchLast;
@@ -297,7 +213,7 @@ bool tts::text_reader::read()
 
 bool tts::text_reader::matched()
 {
-	mMatch.type = state_token[mState];
+	mMatch.type = fsm::values[mState];
 	mState = 0;
 	mMatch.text = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
 	mMatch.range = { mMatchNext, mMatchLast };

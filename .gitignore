@@ -11,12 +11,13 @@
 *~
 .*.swp
 
-# code generation data:
+# code generation data/output:
 
 data/css
 data/languages.dat
 data/supplementalData.xml
 src/libcainteoir/parsers/html-entities.dat
+*.fsm.h
 
 # build output:
 
