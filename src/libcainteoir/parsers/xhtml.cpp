@@ -331,22 +331,30 @@ struct html_tree_builder
 
 	bool read();
 
-	xml::reader::node_type nodeType() const { return reader->nodeType(); }
+	xml::reader::node_type nodeType() const { return mNodeType; }
 
 	const cainteoir::rope &nodeValue() const { return reader->nodeValue(); }
 
-	const xml::context::entry *context() const { return reader->context(); }
+	const xml::context::entry *context() const { return mContext; }
 private:
 	std::shared_ptr<xml::reader> reader;
 	bool mReprocessToken;
 	std::stack<const xml::context::entry *> mOpenElements;
+	xml::reader::node_type mNodeType;
+	const xml::context::entry *mContext;
 
 	bool next_node();
+	bool before_html();
+
+	decltype(&html_tree_builder::before_html) mInsertionMode;
 };
 
 html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader)
 	: reader(aReader)
 	, mReprocessToken(true) // createXmlReader is pointing to the root html node
+	, mInsertionMode(&html_tree_builder::before_html) // createXmlReader processes doctype & comments
+	, mNodeType(xml::reader::error)
+	, mContext(&xml::unknown_context)
 {
 	reader->set_predefined_entities(xml::html_entities);
 	reader->set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
@@ -359,7 +367,7 @@ html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader
 
 bool html_tree_builder::read()
 {
-	return next_node();
+	return (this->*mInsertionMode)();
 }
 
 bool html_tree_builder::next_node()
@@ -367,21 +375,49 @@ bool html_tree_builder::next_node()
 	if (mReprocessToken)
 	{
 		mReprocessToken = false;
+		mNodeType = reader->nodeType();
+		mContext = reader->context();
 		return true;
 	}
 	if (!reader->read())
 		return false;
 
+	mNodeType = reader->nodeType();
+	mContext = reader->context();
+
 	switch (reader->nodeType())
 	{
 	case xml::reader::beginTagNode:
-		mOpenElements.push(reader->context());
+		mOpenElements.push(mContext);
 		break;
 	case xml::reader::endTagNode:
-		mOpenElements.pop();
+		if (!mOpenElements.empty())
+			mOpenElements.pop();
 		break;
 	}
 	return true;
+}
+
+bool html_tree_builder::before_html()
+{
+	while (next_node()) switch (nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (context() == &html::html_node)
+		{
+			mInsertionMode = &html_tree_builder::next_node;
+			return true;
+		}
+		else
+		{
+			mInsertionMode = &html_tree_builder::next_node;
+			mReprocessToken = true;
+			mNodeType = xml::reader::beginTagNode;
+			mContext = &html::html_node;
+			return true;
+		}
+		break;
+	}
 }
 
 namespace cainteoir

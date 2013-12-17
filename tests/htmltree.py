@@ -23,8 +23,9 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('HTMLTree', sys.argv)
 	test.run({'name': 'HTML', 'groups': [
-		{'name': 'simple', 'type': 'htmlreader', 'tests': [
+		{'name': 'before html', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.tags'},
+			{'test': 'html/tree-construction/html-no-begin-tag.html', 'result': 'html/tree-construction/simple.tags'},
 		]},
 	]})
 	test.summary()
