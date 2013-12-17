@@ -340,15 +340,22 @@ struct html_tree_builder
 	const xml::context::entry *context() const { return reader->context(); }
 private:
 	std::shared_ptr<xml::reader> reader;
+	bool mReprocessToken;
 };
 
 html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader)
 	: reader(aReader)
+	, mReprocessToken(true) // createXmlReader is pointing to the root html node
 {
 }
 
 bool html_tree_builder::read()
 {
+	if (mReprocessToken)
+	{
+		mReprocessToken = false;
+		return true;
+	}
 	return reader->read();
 }
 
