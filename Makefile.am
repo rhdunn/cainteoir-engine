@@ -413,6 +413,8 @@ PARSETEXT_TEST_FILES = $(shell find tests/parse-text/*)
 
 XMLPARSER_TEST_FILES = $(shell find tests/xmlparser/*)
 
+HTMLTREE_TEST_FILES = $(shell find tests/html/tree-construction/*)
+
 PHONEMESET_TEST_FILES = $(shell find tests/phonemeset/*)
 
 DOCUMENT_TEST_FILES = \
@@ -502,6 +504,8 @@ tests_xmlreader_SOURCES = tests/xmlreader.cpp
 
 tests/xmlreader.check: tests/xmlreader ${XMLPARSER_TEST_FILES}
 
+tests/htmltree.check: tests/xmlreader ${HTMLTREE_TEST_FILES}
+
 noinst_bin_PROGRAMS += tests/ttslanguages.test
 
 tests_ttslanguages_test_LDADD   = src/libcainteoir/libcainteoir.la
@@ -581,6 +585,7 @@ check: \
 	tests/vorbis-comments.check \
 	tests/content.check \
 	tests/styles.check \
+	tests/htmltree.check \
 	tests/events.check \
 	tests/phoneme.check \
 	tests/trie.check \

@@ -131,6 +131,8 @@ def create_command(test_type):
 		return EventsCommand()
 	if test_type in ['styles', 'xmlreader']:
 		return Command(test_type)
+	if test_type == 'htmlreader':
+		return Command('xmlreader --html')
 	if test_type in ['parsetext', 'contextanalysis', 'wordstream']:
 		return ParseTextCommand(test_type)
 	raise Exception('Unsupported command "%s"' % test_type)

@@ -1,0 +1,14 @@
+|begin-tag| html
+|begin-tag| head
+|begin-tag| title
+|text| """Test File"""
+|end-tag| title
+|end-tag| head
+|begin-tag| body
+|begin-tag| p
+|text| """This is a test."""
+|end-tag| p
+|end-tag| body
+|end-tag| html
+|text| """
+"""
