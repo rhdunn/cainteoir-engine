@@ -354,6 +354,8 @@ namespace cainteoir { namespace xml
 
 		//@}
 	};
+
+	const char *node_type_name(xml::reader::node_type aType);
 }}
 
 namespace cainteoir

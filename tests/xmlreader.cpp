@@ -27,35 +27,6 @@
 
 namespace xml = cainteoir::xml;
 
-const char * node_type_name(xml::reader::node_type type)
-{
-	switch (type)
-	{
-	case xml::reader::beginTagNode:
-		return "begin-tag";
-	case xml::reader::endTagNode:
-		return "end-tag";
-	case xml::reader::beginProcessingInstructionNode:
-		return "begin-processing-instruction";
-	case xml::reader::endProcessingInstructionNode:
-		return "end-processing-instruction";
-	case xml::reader::commentNode:
-		return "comment";
-	case xml::reader::cdataNode:
-		return "cdata";
-	case xml::reader::textNode:
-		return "text";
-	case xml::reader::doctypeNode:
-		return "doctype";
-	case xml::reader::attribute:
-		return "attribute";
-	case xml::reader::endOfData:
-		return "end-of-data";
-	default:
-		return "unknown";
-	}
-}
-
 void parse_xml(xml::reader &reader, bool silent)
 {
 	while (reader.read())
@@ -67,13 +38,13 @@ void parse_xml(xml::reader &reader, bool silent)
 			if (reader.nodePrefix().empty() && ns.empty())
 			{
 				fprintf(stdout, "|%s| %s\n",
-				        node_type_name(reader.nodeType()),
+				        xml::node_type_name(reader.nodeType()),
 				        reader.nodeName().str().c_str());
 			}
 			else
 			{
 				fprintf(stdout, "|%s| [%s|%s]%s\n",
-				        node_type_name(reader.nodeType()),
+				        xml::node_type_name(reader.nodeType()),
 				        reader.nodePrefix().str().c_str(),
 				        ns.c_str(),
 				        reader.nodeName().str().c_str());
@@ -83,21 +54,21 @@ void parse_xml(xml::reader &reader, bool silent)
 		case xml::reader::cdataNode:
 		case xml::reader::textNode:
 			fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n",
-			        node_type_name(reader.nodeType()),
+			        xml::node_type_name(reader.nodeType()),
 			        reader.nodeValue().str().c_str());
 			break;
 		case xml::reader::attribute:
 			if (reader.nodePrefix().empty() && ns.empty())
 			{
 				fprintf(stdout, "|%s| %s=\"\"\"%s\"\"\"\n",
-				        node_type_name(reader.nodeType()),
+				        xml::node_type_name(reader.nodeType()),
 				        reader.nodeName().str().c_str(),
 				        reader.nodeValue().str().c_str());
 			}
 			else
 			{
 				fprintf(stdout, "|%s| [%s|%s]%s=\"\"\"%s\"\"\"\n",
-				        node_type_name(reader.nodeType()),
+				        xml::node_type_name(reader.nodeType()),
 				        reader.nodePrefix().str().c_str(),
 				        ns.c_str(),
 				        reader.nodeName().str().c_str(),

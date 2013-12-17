@@ -706,6 +706,37 @@ void cainteoir::xml::reader::reset_context()
 	}
 }
 
+const char *cainteoir::xml::node_type_name(cainteoir::xml::reader::node_type aType)
+{
+	switch (aType)
+	{
+	case xml::reader::beginTagNode:
+		return "begin-tag";
+	case xml::reader::endTagNode:
+		return "end-tag";
+	case xml::reader::beginProcessingInstructionNode:
+		return "begin-processing-instruction";
+	case xml::reader::endProcessingInstructionNode:
+		return "end-processing-instruction";
+	case xml::reader::commentNode:
+		return "comment";
+	case xml::reader::cdataNode:
+		return "cdata";
+	case xml::reader::textNode:
+		return "text";
+	case xml::reader::doctypeNode:
+		return "doctype";
+	case xml::reader::attribute:
+		return "attribute";
+	case xml::reader::endOfData:
+		return "end-of-data";
+	case xml::reader::dtdEntity:
+		return "dtd-entity";
+	default:
+		return "unknown";
+	}
+}
+
 /* References
  *
  *    XML  [http://www.w3.org/TR/2008/REC-xml-20081126/] -- Extensible Markup Language (XML) 1.0 (Fifth Edition)
