@@ -333,8 +333,6 @@ struct html_tree_builder
 
 	xml::reader::node_type nodeType() const { return reader->nodeType(); }
 
-	const cainteoir::buffer &nodeName() const { return reader->nodeName(); }
-
 	const cainteoir::rope &nodeValue() const { return reader->nodeValue(); }
 
 	const xml::context::entry *context() const { return reader->context(); }
@@ -349,6 +347,13 @@ html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader
 	: reader(aReader)
 	, mReprocessToken(true) // createXmlReader is pointing to the root html node
 {
+	reader->set_predefined_entities(xml::html_entities);
+	reader->set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
+	reader->set_attrs(std::string(), html_attrs, cainteoir::buffer::ignore_case);
+	reader->set_nodes(xmlns::xhtml,  html_nodes);
+	reader->set_attrs(xmlns::xhtml,  html_attrs);
+	reader->set_nodes(xmlns::html40, html_nodes);
+	reader->set_attrs(xmlns::html40, html_attrs);
 }
 
 bool html_tree_builder::read()
@@ -371,6 +376,17 @@ namespace cainteoir
 	void print_html_tree(const std::shared_ptr<xml::reader> &reader, bool silent);
 }
 
+static const char *node_name(const xml::context::entry *aEntry,
+                             const std::initializer_list<const xml::context::entry_ref> &aEntries)
+{
+	for (const auto &entry : aEntries)
+	{
+		if (entry.data == aEntry)
+			return entry.name;
+	}
+	return "(unknown)";
+}
+
 void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, bool silent)
 {
 	html_tree_builder reader(aReader);
@@ -379,7 +395,7 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
 	default:
 		fprintf(stdout, "|%s| %s\n",
 		        xml::node_type_name(reader.nodeType()),
-		        reader.nodeName().str().c_str());
+		        node_name(reader.context(), html_nodes));
 		break;
 	case xml::reader::commentNode:
 	case xml::reader::cdataNode:
@@ -391,7 +407,7 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
 	case xml::reader::attribute:
 		fprintf(stdout, "|%s| %s=\"\"\"%s\"\"\"\n",
 		        xml::node_type_name(reader.nodeType()),
-		        reader.nodeName().str().c_str(),
+		        node_name(reader.context(), html_attrs),
 		        reader.nodeValue().str().c_str());
 		break;
 	case xml::reader::error:
