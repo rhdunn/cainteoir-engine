@@ -27,6 +27,12 @@
 
 namespace xml = cainteoir::xml;
 
+namespace cainteoir
+{
+	// Internal API helper for testing HTML tree construction...
+	void print_html_tree(const std::shared_ptr<xml::reader> &reader, bool silent);
+}
+
 void parse_xml(xml::reader &reader, bool silent)
 {
 	while (reader.read())
@@ -89,6 +95,7 @@ int main(int argc, char ** argv)
 		int repeatCount = 1;
 		bool time = false;
 		bool silent = false;
+		bool htmlTree = false;
 
 		const option_group general_options = { nullptr, {
 			{ 't', "time", bind_value(time, true),
@@ -97,6 +104,8 @@ int main(int argc, char ** argv)
 			  i18n("Don't print out the document events") },
 			{ 'r', "repeat", repeatCount, "REPEAT",
 			  i18n("Repeat parsing the document REPEAT times") },
+			{ 'H', "html", bind_value(htmlTree, true),
+			  i18n("Use HTML tree construction rules to parse the file") },
 		}};
 
 		const std::initializer_list<const char *> usage = {
@@ -113,8 +122,17 @@ int main(int argc, char ** argv)
 
 		for (int i = 0; i != repeatCount; ++i)
 		{
-			xml::reader reader(cainteoir::make_file_buffer(argv[0]), "windows-1252");
-			parse_xml(reader, silent);
+			auto data = cainteoir::make_file_buffer(argv[0]);
+			if (htmlTree)
+			{
+				auto reader = cainteoir::createXmlReader(data, "windows-1252");
+				cainteoir::print_html_tree(reader, silent);
+			}
+			else
+			{
+				xml::reader reader(data, "windows-1252");
+				parse_xml(reader, silent);
+			}
 		}
 
 		clock_t end_time = ::clock();

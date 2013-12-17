@@ -321,6 +321,47 @@ static const std::initializer_list<const xml::context::entry_ref> meta_names =
 	{ "shs-title",    &html::title_meta },
 };
 
+/******************************************************************************
+ * HTML Tree Construction
+ */
+
+namespace cainteoir
+{
+	void print_html_tree(const std::shared_ptr<xml::reader> &reader, bool silent);
+}
+
+void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &reader, bool silent)
+{
+	while (reader->read()) if (!silent) switch (reader->nodeType())
+	{
+	default:
+		fprintf(stdout, "|%s| %s\n",
+		        xml::node_type_name(reader->nodeType()),
+		        reader->nodeName().str().c_str());
+		break;
+	case xml::reader::commentNode:
+	case xml::reader::cdataNode:
+	case xml::reader::textNode:
+		fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n",
+		        xml::node_type_name(reader->nodeType()),
+		        reader->nodeValue().str().c_str());
+		break;
+	case xml::reader::attribute:
+		fprintf(stdout, "|%s| %s=\"\"\"%s\"\"\"\n",
+		        xml::node_type_name(reader->nodeType()),
+		        reader->nodeName().str().c_str(),
+		        reader->nodeValue().str().c_str());
+		break;
+	case xml::reader::error:
+		fprintf(stdout, "|error| internal parser error\n");
+		break;
+	}
+}
+
+/******************************************************************************
+ * HTML Document Reader
+ */
+
 struct context_data
 {
 	const xml::context::entry *ctx;
