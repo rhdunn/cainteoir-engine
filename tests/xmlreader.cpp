@@ -33,7 +33,7 @@ namespace cainteoir
 	void print_html_tree(const std::shared_ptr<xml::reader> &reader, bool silent);
 }
 
-void parse_xml(xml::reader &reader, bool silent)
+void print_xml_tree(xml::reader &reader, bool silent)
 {
 	while (reader.read())
 	{
@@ -131,7 +131,7 @@ int main(int argc, char ** argv)
 			else
 			{
 				xml::reader reader(data, "windows-1252");
-				parse_xml(reader, silent);
+				print_xml_tree(reader, silent);
 			}
 		}
 
