@@ -343,6 +343,8 @@ private:
 	xml::reader::node_type mNodeType;
 	const xml::context::entry *mContext;
 
+	void insert_open_tag(const xml::context::entry *aOpenTag);
+
 	bool next_node();
 	bool before_html();
 
@@ -370,6 +372,14 @@ bool html_tree_builder::read()
 	return (this->*mInsertionMode)();
 }
 
+void html_tree_builder::insert_open_tag(const xml::context::entry *aOpenTag)
+{
+	mReprocessToken = true;
+	mNodeType = xml::reader::beginTagNode;
+	mContext = aOpenTag;
+	mOpenElements.push(aOpenTag);
+}
+
 bool html_tree_builder::next_node()
 {
 	if (mReprocessToken)
@@ -391,8 +401,7 @@ bool html_tree_builder::next_node()
 		mOpenElements.push(mContext);
 		break;
 	case xml::reader::endTagNode:
-		if (!mOpenElements.empty())
-			mOpenElements.pop();
+		mOpenElements.pop();
 		break;
 	}
 	return true;
@@ -411,9 +420,7 @@ bool html_tree_builder::before_html()
 		else
 		{
 			mInsertionMode = &html_tree_builder::next_node;
-			mReprocessToken = true;
-			mNodeType = xml::reader::beginTagNode;
-			mContext = &html::html_node;
+			insert_open_tag(&html::html_node);
 			return true;
 		}
 		break;
