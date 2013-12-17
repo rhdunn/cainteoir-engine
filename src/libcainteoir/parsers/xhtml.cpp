@@ -341,6 +341,8 @@ struct html_tree_builder
 private:
 	std::shared_ptr<xml::reader> reader;
 	bool mReprocessToken;
+
+	bool next_node();
 };
 
 html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader)
@@ -350,6 +352,11 @@ html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader
 }
 
 bool html_tree_builder::read()
+{
+	return next_node();
+}
+
+bool html_tree_builder::next_node()
 {
 	if (mReprocessToken)
 	{
