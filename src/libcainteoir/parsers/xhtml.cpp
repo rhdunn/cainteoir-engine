@@ -325,32 +325,60 @@ static const std::initializer_list<const xml::context::entry_ref> meta_names =
  * HTML Tree Construction
  */
 
+struct html_tree_builder
+{
+	html_tree_builder(const std::shared_ptr<xml::reader> &aReader);
+
+	bool read();
+
+	xml::reader::node_type nodeType() const { return reader->nodeType(); }
+
+	const cainteoir::buffer &nodeName() const { return reader->nodeName(); }
+
+	const cainteoir::rope &nodeValue() const { return reader->nodeValue(); }
+
+	const xml::context::entry *context() const { return reader->context(); }
+private:
+	std::shared_ptr<xml::reader> reader;
+};
+
+html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader)
+	: reader(aReader)
+{
+}
+
+bool html_tree_builder::read()
+{
+	return reader->read();
+}
+
 namespace cainteoir
 {
 	void print_html_tree(const std::shared_ptr<xml::reader> &reader, bool silent);
 }
 
-void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &reader, bool silent)
+void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, bool silent)
 {
-	while (reader->read()) if (!silent) switch (reader->nodeType())
+	html_tree_builder reader(aReader);
+	while (reader.read()) if (!silent) switch (reader.nodeType())
 	{
 	default:
 		fprintf(stdout, "|%s| %s\n",
-		        xml::node_type_name(reader->nodeType()),
-		        reader->nodeName().str().c_str());
+		        xml::node_type_name(reader.nodeType()),
+		        reader.nodeName().str().c_str());
 		break;
 	case xml::reader::commentNode:
 	case xml::reader::cdataNode:
 	case xml::reader::textNode:
 		fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n",
-		        xml::node_type_name(reader->nodeType()),
-		        reader->nodeValue().str().c_str());
+		        xml::node_type_name(reader.nodeType()),
+		        reader.nodeValue().str().c_str());
 		break;
 	case xml::reader::attribute:
 		fprintf(stdout, "|%s| %s=\"\"\"%s\"\"\"\n",
-		        xml::node_type_name(reader->nodeType()),
-		        reader->nodeName().str().c_str(),
-		        reader->nodeValue().str().c_str());
+		        xml::node_type_name(reader.nodeType()),
+		        reader.nodeName().str().c_str(),
+		        reader.nodeValue().str().c_str());
 		break;
 	case xml::reader::error:
 		fprintf(stdout, "|error| internal parser error\n");
