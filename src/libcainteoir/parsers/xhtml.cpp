@@ -339,6 +339,7 @@ struct html_tree_builder
 private:
 	std::shared_ptr<xml::reader> reader;
 	bool mReprocessToken;
+	std::stack<const xml::context::entry *> mOpenElements;
 
 	bool next_node();
 };
@@ -368,7 +369,19 @@ bool html_tree_builder::next_node()
 		mReprocessToken = false;
 		return true;
 	}
-	return reader->read();
+	if (!reader->read())
+		return false;
+
+	switch (reader->nodeType())
+	{
+	case xml::reader::beginTagNode:
+		mOpenElements.push(reader->context());
+		break;
+	case xml::reader::endTagNode:
+		mOpenElements.pop();
+		break;
+	}
+	return true;
 }
 
 namespace cainteoir
