@@ -366,6 +366,7 @@ private:
 	bool after_head(); // HTML§12.2.5.4.6 - after head
 	bool in_body(); // HTML§12.2.5.4.7 - in body
 	bool after_body(); // HTML§12.2.5.4.19 - after body
+	bool after_after_body(); // HTML§12.2.5.4.22 - after after body
 
 	decltype(&html_tree_builder::before_html) mInsertionMode;
 };
@@ -559,13 +560,18 @@ bool html_tree_builder::after_body()
 	case xml::reader::endTagNode:
 		if (context() == &html::html_node)
 		{
-			mInsertionMode = &html_tree_builder::next_node;
+			mInsertionMode = &html_tree_builder::after_after_body;
 			return true;
 		}
 		return true;
 	default:
 		return true;
 	}
+}
+
+bool html_tree_builder::after_after_body()
+{
+	return false;
 }
 
 namespace cainteoir
