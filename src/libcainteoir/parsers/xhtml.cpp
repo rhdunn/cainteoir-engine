@@ -166,6 +166,7 @@ namespace html
 	static const xml::context::entry href_attr       = {};
 	static const xml::context::entry http_equiv_attr = {};
 	static const xml::context::entry name_attr       = {};
+	static const xml::context::entry rel_attr        = {};
 	static const xml::context::entry src_attr        = {};
 
 	static const xml::context::entry abstract_meta    = {};
@@ -314,6 +315,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 	{ "id",         &xml::id_attr },
 	{ "lang",       &xml::lang_attr },
 	{ "name",       &html::name_attr },
+	{ "rel",        &html::rel_attr },
 	{ "src",        &html::src_attr },
 };
 
