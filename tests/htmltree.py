@@ -23,9 +23,13 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('HTMLTree', sys.argv)
 	test.run({'name': 'HTML', 'groups': [
-		{'name': 'before html', 'type': 'htmlreader', 'tests': [
+		{'name': '12.2.5.4.2: before html', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.tags'},
 			{'test': 'html/tree-construction/2-before_html-anything-else.html', 'result': 'html/tree-construction/simple.tags'},
+		]},
+		{'name': '12.2.5.4.3: before head', 'type': 'htmlreader', 'tests': [
+			{'test': 'html/tree-construction/3-before_head-anything-else.html', 'result': 'html/tree-construction/simple.tags'},
+			{'test': 'html/tree-construction/3-before_head-anything-else-2.html', 'result': 'html/tree-construction/simple.tags'},
 		]},
 	]})
 	test.summary()

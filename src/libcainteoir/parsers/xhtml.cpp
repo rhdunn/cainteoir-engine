@@ -346,7 +346,8 @@ private:
 	void insert_open_tag(const xml::context::entry *aOpenTag);
 
 	bool next_node();
-	bool before_html();
+	bool before_html(); // HTML§12.2.5.4.2 - before html
+	bool before_head(); // HTML§12.2.5.4.3 - before head
 
 	decltype(&html_tree_builder::before_html) mInsertionMode;
 };
@@ -414,13 +415,33 @@ bool html_tree_builder::before_html()
 	case xml::reader::beginTagNode:
 		if (context() == &html::html_node)
 		{
+			mInsertionMode = &html_tree_builder::before_head;
+			return true;
+		}
+		else
+		{
+			mInsertionMode = &html_tree_builder::before_head;
+			insert_open_tag(&html::html_node);
+			return true;
+		}
+		break;
+	}
+}
+
+bool html_tree_builder::before_head()
+{
+	while (next_node()) switch (nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (context() == &html::head_node)
+		{
 			mInsertionMode = &html_tree_builder::next_node;
 			return true;
 		}
 		else
 		{
 			mInsertionMode = &html_tree_builder::next_node;
-			insert_open_tag(&html::html_node);
+			insert_open_tag(&html::head_node);
 			return true;
 		}
 		break;
