@@ -355,10 +355,12 @@ private:
 
 	void insert_open_tag(const xml::context::entry *aOpenTag);
 	void push_open_tag(const xml::context::entry *aOpenTag);
+	void pop_open_tag(const xml::context::entry *aOpenTag);
 
 	bool next_node();
 	bool before_html(); // HTML§12.2.5.4.2 - before html
 	bool before_head(); // HTML§12.2.5.4.3 - before head
+	bool in_head(); // HTML§12.2.5.4.4 - in head
 
 	decltype(&html_tree_builder::before_html) mInsertionMode;
 };
@@ -394,6 +396,11 @@ void html_tree_builder::insert_open_tag(const xml::context::entry *aOpenTag)
 void html_tree_builder::push_open_tag(const xml::context::entry *aOpenTag)
 {
 	mOpenElements.push(aOpenTag);
+}
+
+void html_tree_builder::pop_open_tag(const xml::context::entry *aOpenTag)
+{
+	mOpenElements.pop();
 }
 
 bool html_tree_builder::next_node()
@@ -442,17 +449,47 @@ bool html_tree_builder::before_head()
 	case xml::reader::beginTagNode:
 		if (context() == &html::head_node)
 		{
-			mInsertionMode = &html_tree_builder::next_node;
+			mInsertionMode = &html_tree_builder::in_head;
 			push_open_tag(&html::head_node);
 			return true;
 		}
 		else
 		{
-			mInsertionMode = &html_tree_builder::next_node;
+			mInsertionMode = &html_tree_builder::in_head;
 			insert_open_tag(&html::head_node);
 			push_open_tag(&html::head_node);
 			return true;
 		}
+		break;
+	}
+}
+
+bool html_tree_builder::in_head()
+{
+	while (next_node()) switch (nodeType())
+	{
+	case xml::reader::cdataNode:
+	case xml::reader::textNode:
+	case xml::reader::attribute:
+		return true;
+	case xml::reader::endTagNode:
+		if (context() == &html::head_node)
+		{
+			mInsertionMode = &html_tree_builder::next_node;
+			pop_open_tag(&html::head_node);
+			return true;
+		}
+		else
+			return true;
+		break;
+	case xml::reader::beginTagNode:
+		if (context() == &html::base_node ||
+		    context() == &html::basefont_node ||
+		    context() == &html::bgsound_node ||
+		    context() == &html::link_node ||
+		    context() == &html::meta_node ||
+		    context() == &html::title_node)
+			return true;
 		break;
 	}
 }
