@@ -161,6 +161,7 @@ namespace html
 
 	static const xml::context::entry charset_attr    = {};
 	static const xml::context::entry content_attr    = {};
+	static const xml::context::entry href_attr       = {};
 	static const xml::context::entry http_equiv_attr = {};
 	static const xml::context::entry name_attr       = {};
 
@@ -303,6 +304,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 {
 	{ "charset",    &html::charset_attr },
 	{ "content",    &html::content_attr },
+	{ "href",       &html::href_attr },
 	{ "http-equiv", &html::http_equiv_attr },
 	{ "id",         &xml::id_attr },
 	{ "lang",       &xml::lang_attr },

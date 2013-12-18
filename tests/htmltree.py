@@ -31,5 +31,12 @@ if __name__ == '__main__':
 			{'test': 'html/tree-construction/3-before_head-anything-else.html', 'result': 'html/tree-construction/simple.tags'},
 			{'test': 'html/tree-construction/3-before_head-anything-else-2.html', 'result': 'html/tree-construction/simple.tags'},
 		]},
+		{'name': '12.2.5.4.4: in head', 'type': 'htmlreader', 'tests': [
+			# self-closing elements
+			{'test': 'html/tree-construction/4-in_head-base.html', 'result': 'html/tree-construction/4-in_head-base.tags'},
+			{'test': 'html/tree-construction/4-in_head-base-self-closed.html', 'result': 'html/tree-construction/4-in_head-base.tags'},
+			{'test': 'html/tree-construction/4-in_head-base-title.html', 'result': 'html/tree-construction/4-in_head-base-title.tags'},
+			{'test': 'html/tree-construction/4-in_head-base-self-closed-title.html', 'result': 'html/tree-construction/4-in_head-base-title.tags'},
+		]},
 	]})
 	test.summary()
