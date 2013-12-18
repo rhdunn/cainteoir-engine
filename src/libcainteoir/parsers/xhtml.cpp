@@ -453,6 +453,10 @@ bool html_tree_builder::before_html()
 		}
 		break;
 	}
+	mInsertionMode = &html_tree_builder::before_head;
+	insert_open_tag(&html::html_node);
+	push_open_tag(&html::html_node);
+	return true;
 }
 
 bool html_tree_builder::before_head()

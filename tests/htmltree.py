@@ -26,6 +26,7 @@ if __name__ == '__main__':
 		{'name': '12.2.5.4.2: before html', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.tags'},
 			{'test': 'html/tree-construction/2-before-html/anything-else.html', 'result': 'html/tree-construction/simple.tags'},
+			{'test': 'html/tree-construction/2-before-html/end-of-file.html', 'result': 'html/tree-construction/3-before-head/end-of-file.tags'},
 		]},
 		{'name': '12.2.5.4.3: before head', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/3-before-head/anything-else.html', 'result': 'html/tree-construction/simple.tags'},
