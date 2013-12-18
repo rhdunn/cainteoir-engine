@@ -65,5 +65,9 @@ if __name__ == '__main__':
 			{'test': 'html/tree-construction/4-in-head/anything-else.html', 'result': 'html/tree-construction/simple.tags'},
 			{'test': 'html/tree-construction/4-in-head/anything-else-2.html', 'result': 'html/tree-construction/simple.tags'},
 		]},
+		{'name': '12.2.5.4.6: after head', 'type': 'htmlreader', 'tests': [
+			{'test': 'html/tree-construction/6-after-head/anything-else.html', 'result': 'html/tree-construction/simple.tags'},
+			{'test': 'html/tree-construction/6-after-head/anything-else-2.html', 'result': 'html/tree-construction/simple.tags'},
+		]},
 	]})
 	test.summary()
