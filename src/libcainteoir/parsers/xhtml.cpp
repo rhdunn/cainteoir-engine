@@ -45,7 +45,7 @@ namespace html
 	static const xml::context::entry audio_node      = { &cainteoir::hidden };
 	static const xml::context::entry b_node          = { &cainteoir::strong }; // HTML§14.3.4
 	static const xml::context::entry base_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
-	static const xml::context::entry basefont_node   = {};
+	static const xml::context::entry basefont_node   = { xml::begin_tag_type::open_close }; // HTML§12.2.5.4.4
 	static const xml::context::entry bdi_node        = {};
 	static const xml::context::entry bdo_node        = {};
 	static const xml::context::entry big_node        = {};
@@ -160,6 +160,7 @@ namespace html
 	static const xml::context::entry wbr_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 
 	static const xml::context::entry charset_attr    = {};
+	static const xml::context::entry color_attr      = {};
 	static const xml::context::entry content_attr    = {};
 	static const xml::context::entry href_attr       = {};
 	static const xml::context::entry http_equiv_attr = {};
@@ -303,6 +304,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 {
 	{ "charset",    &html::charset_attr },
+	{ "color",      &html::color_attr },
 	{ "content",    &html::content_attr },
 	{ "href",       &html::href_attr },
 	{ "http-equiv", &html::http_equiv_attr },
