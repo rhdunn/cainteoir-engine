@@ -551,6 +551,10 @@ bool html_tree_builder::in_body()
 	default:
 		return true;
 	}
+	mInsertionMode = &html_tree_builder::after_body;
+	insert_close_tag(&html::body_node);
+	pop_open_tag(&html::body_node);
+	return true;
 }
 
 bool html_tree_builder::after_body()
