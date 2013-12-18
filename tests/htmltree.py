@@ -25,7 +25,7 @@ if __name__ == '__main__':
 	test.run({'name': 'HTML', 'groups': [
 		{'name': 'before html', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.tags'},
-			{'test': 'html/tree-construction/html-no-begin-tag.html', 'result': 'html/tree-construction/simple.tags'},
+			{'test': 'html/tree-construction/2-before_html-anything-else.html', 'result': 'html/tree-construction/simple.tags'},
 		]},
 	]})
 	test.summary()
