@@ -564,9 +564,10 @@ bool html_tree_builder::after_body()
 			return true;
 		}
 		return true;
-	default:
-		return true;
 	}
+	mInsertionMode = &html_tree_builder::after_after_body;
+	insert_close_tag(&html::html_node);
+	return true;
 }
 
 bool html_tree_builder::after_after_body()
