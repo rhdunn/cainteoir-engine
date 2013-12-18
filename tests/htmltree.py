@@ -68,6 +68,7 @@ if __name__ == '__main__':
 		{'name': '12.2.5.4.6: after head', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/6-after-head/anything-else.html', 'result': 'html/tree-construction/simple.tags'},
 			{'test': 'html/tree-construction/6-after-head/anything-else-2.html', 'result': 'html/tree-construction/simple.tags'},
+			{'test': 'html/tree-construction/6-after-head/end-of-file.html', 'result': 'html/tree-construction/6-after-head/end-of-file.tags'},
 		]},
 		{'name': '12.2.5.4.7: in body', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/7-in-body/end-of-file.html', 'result': 'html/tree-construction/7-in-body/end-of-file.tags'},

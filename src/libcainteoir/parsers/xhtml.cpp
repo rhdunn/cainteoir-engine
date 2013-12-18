@@ -423,7 +423,7 @@ bool html_tree_builder::next_node()
 		mReprocessToken = false;
 		mNodeType = reader->nodeType();
 		mContext = reader->context();
-		return true;
+		return mNodeType != xml::reader::endOfData;
 	}
 	if (!reader->read())
 		return false;
@@ -534,6 +534,10 @@ bool html_tree_builder::after_head()
 		}
 		break;
 	}
+	mInsertionMode = &html_tree_builder::in_body;
+	insert_open_tag(&html::body_node);
+	push_open_tag(&html::body_node);
+	return true;
 }
 
 bool html_tree_builder::in_body()
