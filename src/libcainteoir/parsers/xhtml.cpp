@@ -364,6 +364,7 @@ private:
 	bool before_head(); // HTML§12.2.5.4.3 - before head
 	bool in_head(); // HTML§12.2.5.4.4 - in head
 	bool after_head(); // HTML§12.2.5.4.6 - after head
+	bool in_body(); // HTML§12.2.5.4.7 - in body
 
 	decltype(&html_tree_builder::before_html) mInsertionMode;
 };
@@ -518,18 +519,35 @@ bool html_tree_builder::after_head()
 	case xml::reader::beginTagNode:
 		if (context() == &html::body_node)
 		{
-			mInsertionMode = &html_tree_builder::next_node;
+			mInsertionMode = &html_tree_builder::in_body;
 			push_open_tag(&html::body_node);
 			return true;
 		}
 		else
 		{
-			mInsertionMode = &html_tree_builder::next_node;
+			mInsertionMode = &html_tree_builder::in_body;
 			insert_open_tag(&html::body_node);
 			push_open_tag(&html::body_node);
 			return true;
 		}
 		break;
+	}
+}
+
+bool html_tree_builder::in_body()
+{
+	while (next_node()) switch (nodeType())
+	{
+	case xml::reader::endTagNode:
+		if (context() == &html::body_node)
+		{
+			mInsertionMode = &html_tree_builder::next_node;
+			pop_open_tag(&html::body_node);
+			return true;
+		}
+		return true;
+	default:
+		return true;
 	}
 }
 
