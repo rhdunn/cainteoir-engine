@@ -433,12 +433,14 @@ bool html_tree_builder::before_head()
 		if (context() == &html::head_node)
 		{
 			mInsertionMode = &html_tree_builder::next_node;
+			push_open_tag(&html::head_node);
 			return true;
 		}
 		else
 		{
 			mInsertionMode = &html_tree_builder::next_node;
 			insert_open_tag(&html::head_node);
+			push_open_tag(&html::head_node);
 			return true;
 		}
 		break;
