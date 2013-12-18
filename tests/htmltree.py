@@ -30,6 +30,7 @@ if __name__ == '__main__':
 		{'name': '12.2.5.4.3: before head', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/3-before-head/anything-else.html', 'result': 'html/tree-construction/simple.tags'},
 			{'test': 'html/tree-construction/3-before-head/anything-else-2.html', 'result': 'html/tree-construction/simple.tags'},
+			{'test': 'html/tree-construction/3-before-head/end-of-file.html', 'result': 'html/tree-construction/3-before-head/end-of-file.tags'},
 		]},
 		{'name': '12.2.5.4.4: in head - base element', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/4-in-head~base/self-closing.html', 'result': 'html/tree-construction/4-in-head~base/self-closing.tags'},
