@@ -42,6 +42,11 @@ if __name__ == '__main__':
 			{'test': 'html/tree-construction/4-in-head~basefont/self-closed.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing.tags'},
 			{'test': 'html/tree-construction/4-in-head~basefont/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing-title.tags'},
 			{'test': 'html/tree-construction/4-in-head~basefont/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing-title.tags'},
+			# self-closing elements - bgsound
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closing.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing.tags'},
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closed.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing.tags'},
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing-title.tags'},
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing-title.tags'},
 		]},
 	]})
 	test.summary()

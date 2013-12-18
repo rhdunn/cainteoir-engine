@@ -48,6 +48,7 @@ namespace html
 	static const xml::context::entry basefont_node   = { xml::begin_tag_type::open_close }; // HTML§12.2.5.4.4
 	static const xml::context::entry bdi_node        = {};
 	static const xml::context::entry bdo_node        = {};
+	static const xml::context::entry bgsound_node    = { xml::begin_tag_type::open_close }; // HTML§12.2.5.4.4
 	static const xml::context::entry big_node        = {};
 	static const xml::context::entry blockquote_node = {};
 	static const xml::context::entry body_node       = {};
@@ -165,6 +166,7 @@ namespace html
 	static const xml::context::entry href_attr       = {};
 	static const xml::context::entry http_equiv_attr = {};
 	static const xml::context::entry name_attr       = {};
+	static const xml::context::entry src_attr        = {};
 
 	static const xml::context::entry abstract_meta    = {};
 	static const xml::context::entry creator_meta     = {};
@@ -189,6 +191,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 	{ "basefont",   &html::basefont_node }, // html4
 	{ "bdi",        &html::bdi_node },
 	{ "bdo",        &html::bdo_node },
+	{ "bgsound",    &html::bgsound_node }, // html4
 	{ "big",        &html::big_node }, // html4
 	{ "blockquote", &html::blockquote_node },
 	{ "body",       &html::body_node },
@@ -311,6 +314,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 	{ "id",         &xml::id_attr },
 	{ "lang",       &xml::lang_attr },
 	{ "name",       &html::name_attr },
+	{ "src",        &html::src_attr },
 };
 
 static const std::initializer_list<const xml::context::entry_ref> meta_names =
