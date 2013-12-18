@@ -354,6 +354,8 @@ private:
 	const xml::context::entry *mContext;
 
 	void insert_open_tag(const xml::context::entry *aOpenTag);
+	void insert_close_tag(const xml::context::entry *aCloseTag);
+
 	void push_open_tag(const xml::context::entry *aOpenTag);
 	void pop_open_tag(const xml::context::entry *aOpenTag);
 
@@ -391,6 +393,13 @@ void html_tree_builder::insert_open_tag(const xml::context::entry *aOpenTag)
 	mReprocessToken = true;
 	mNodeType = xml::reader::beginTagNode;
 	mContext = aOpenTag;
+}
+
+void html_tree_builder::insert_close_tag(const xml::context::entry *aCloseTag)
+{
+	mReprocessToken = true;
+	mNodeType = xml::reader::endTagNode;
+	mContext = aCloseTag;
 }
 
 void html_tree_builder::push_open_tag(const xml::context::entry *aOpenTag)
@@ -490,6 +499,13 @@ bool html_tree_builder::in_head()
 		    context() == &html::meta_node ||
 		    context() == &html::title_node)
 			return true;
+		else
+		{
+			mInsertionMode = &html_tree_builder::next_node;
+			insert_close_tag(&html::head_node);
+			pop_open_tag(&html::head_node);
+			return true;
+		}
 		break;
 	}
 }

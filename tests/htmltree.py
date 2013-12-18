@@ -61,5 +61,9 @@ if __name__ == '__main__':
 			{'test': 'html/tree-construction/4-in-head~meta/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing-title.tags'},
 			{'test': 'html/tree-construction/4-in-head~meta/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing-title.tags'},
 		]},
+		{'name': '12.2.5.4.4: in head', 'type': 'htmlreader', 'tests': [
+			{'test': 'html/tree-construction/4-in-head/anything-else.html', 'result': 'html/tree-construction/simple.tags'},
+			{'test': 'html/tree-construction/4-in-head/anything-else-2.html', 'result': 'html/tree-construction/simple.tags'},
+		]},
 	]})
 	test.summary()
