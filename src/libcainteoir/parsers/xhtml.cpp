@@ -344,6 +344,7 @@ private:
 	const xml::context::entry *mContext;
 
 	void insert_open_tag(const xml::context::entry *aOpenTag);
+	void push_open_tag(const xml::context::entry *aOpenTag);
 
 	bool next_node();
 	bool before_html(); // HTML§12.2.5.4.2 - before html
@@ -378,6 +379,10 @@ void html_tree_builder::insert_open_tag(const xml::context::entry *aOpenTag)
 	mReprocessToken = true;
 	mNodeType = xml::reader::beginTagNode;
 	mContext = aOpenTag;
+}
+
+void html_tree_builder::push_open_tag(const xml::context::entry *aOpenTag)
+{
 	mOpenElements.push(aOpenTag);
 }
 
@@ -395,16 +400,6 @@ bool html_tree_builder::next_node()
 
 	mNodeType = reader->nodeType();
 	mContext = reader->context();
-
-	switch (reader->nodeType())
-	{
-	case xml::reader::beginTagNode:
-		mOpenElements.push(mContext);
-		break;
-	case xml::reader::endTagNode:
-		mOpenElements.pop();
-		break;
-	}
 	return true;
 }
 
@@ -416,12 +411,14 @@ bool html_tree_builder::before_html()
 		if (context() == &html::html_node)
 		{
 			mInsertionMode = &html_tree_builder::before_head;
+			push_open_tag(&html::html_node);
 			return true;
 		}
 		else
 		{
 			mInsertionMode = &html_tree_builder::before_head;
 			insert_open_tag(&html::html_node);
+			push_open_tag(&html::html_node);
 			return true;
 		}
 		break;
