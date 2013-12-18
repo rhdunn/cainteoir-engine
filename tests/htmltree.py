@@ -31,27 +31,35 @@ if __name__ == '__main__':
 			{'test': 'html/tree-construction/3-before-head/anything-else.html', 'result': 'html/tree-construction/simple.tags'},
 			{'test': 'html/tree-construction/3-before-head/anything-else-2.html', 'result': 'html/tree-construction/simple.tags'},
 		]},
-		{'name': '12.2.5.4.4: in head', 'type': 'htmlreader', 'tests': [
-			# self-closing elements - base
+		{'name': '12.2.5.4.4: in head - base element', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/4-in-head~base/self-closing.html', 'result': 'html/tree-construction/4-in-head~base/self-closing.tags'},
 			{'test': 'html/tree-construction/4-in-head~base/self-closed.html', 'result': 'html/tree-construction/4-in-head~base/self-closing.tags'},
 			{'test': 'html/tree-construction/4-in-head~base/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~base/self-closing-title.tags'},
 			{'test': 'html/tree-construction/4-in-head~base/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~base/self-closing-title.tags'},
-			# self-closing elements - basefont
+		]},
+		{'name': '12.2.5.4.4: in head - basefont element', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/4-in-head~basefont/self-closing.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing.tags'},
 			{'test': 'html/tree-construction/4-in-head~basefont/self-closed.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing.tags'},
 			{'test': 'html/tree-construction/4-in-head~basefont/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing-title.tags'},
 			{'test': 'html/tree-construction/4-in-head~basefont/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing-title.tags'},
-			# self-closing elements - bgsound
+		]},
+		{'name': '12.2.5.4.4: in head - bgsound element', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/4-in-head~bgsound/self-closing.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing.tags'},
 			{'test': 'html/tree-construction/4-in-head~bgsound/self-closed.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing.tags'},
 			{'test': 'html/tree-construction/4-in-head~bgsound/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing-title.tags'},
 			{'test': 'html/tree-construction/4-in-head~bgsound/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing-title.tags'},
-			# self-closing elements - link
+		]},
+		{'name': '12.2.5.4.4: in head - link element', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/4-in-head~link/self-closing.html', 'result': 'html/tree-construction/4-in-head~link/self-closing.tags'},
 			{'test': 'html/tree-construction/4-in-head~link/self-closed.html', 'result': 'html/tree-construction/4-in-head~link/self-closing.tags'},
 			{'test': 'html/tree-construction/4-in-head~link/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~link/self-closing-title.tags'},
 			{'test': 'html/tree-construction/4-in-head~link/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~link/self-closing-title.tags'},
+		]},
+		{'name': '12.2.5.4.4: in head - meta element', 'type': 'htmlreader', 'tests': [
+			{'test': 'html/tree-construction/4-in-head~meta/self-closing.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing.tags'},
+			{'test': 'html/tree-construction/4-in-head~meta/self-closed.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing.tags'},
+			{'test': 'html/tree-construction/4-in-head~meta/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing-title.tags'},
+			{'test': 'html/tree-construction/4-in-head~meta/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing-title.tags'},
 		]},
 	]})
 	test.summary()
