@@ -559,22 +559,35 @@ bool html_tree_builder::after_head()
 
 bool html_tree_builder::in_body()
 {
+	// NOTE: This algorithm currently only ensures that the open and close tags
+	// match up, it does not currently follow the HTML rules (e.g. when to close
+	// 'p' elements).
 	while (next_node()) switch (nodeType())
 	{
+	case xml::reader::beginTagNode:
+		push_open_tag(mContext);
+		return true;
 	case xml::reader::endTagNode:
 		if (context() == &html::body_node)
 		{
 			mInsertionMode = &html_tree_builder::after_body;
 			pop_open_tag(&html::body_node);
-			return true;
+		}
+		else
+		{
+			if (context() != mOpenElements.top())
+				insert_close_tag(mOpenElements.top());
+			pop_open_tag(mContext);
 		}
 		return true;
 	default:
 		return true;
 	}
-	mInsertionMode = &html_tree_builder::after_body;
-	insert_close_tag(&html::body_node);
-	pop_open_tag(&html::body_node);
+	auto top = mOpenElements.top();
+	if (top == &html::body_node)
+		mInsertionMode = &html_tree_builder::after_body;
+	insert_close_tag(top);
+	pop_open_tag(top);
 	return true;
 }
 

@@ -1,0 +1,14 @@
+|begin-tag| html
+|begin-tag| head
+|end-tag| head
+|begin-tag| body
+|begin-tag| p
+|text| """This is a """
+|begin-tag| i
+|text| """test"""
+|end-tag| i
+|end-tag| p
+|text| """
+"""
+|end-tag| body
+|end-tag| html
