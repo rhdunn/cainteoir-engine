@@ -1,0 +1,11 @@
+|begin-tag| html
+|begin-tag| head
+|end-tag| head
+|begin-tag| body
+|begin-tag| pre
+|text| """
+Test
+"""
+|end-tag| pre
+|end-tag| body
+|end-tag| html
