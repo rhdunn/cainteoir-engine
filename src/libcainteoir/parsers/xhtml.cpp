@@ -678,6 +678,8 @@ private:
 	cainteoir::css::style_manager stylemgr;
 
 	std::string parseLangAttr();
+
+	void parse_hidden_node();
 };
 
 static std::string parseHeadNode(html_tree_builder &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
@@ -746,19 +748,6 @@ std::string html_document_reader::parseLangAttr()
 		}
 	}
 	return lang;
-}
-
-static void skipNode(html_tree_builder &reader, const xml::context::entry *ctx)
-{
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::endTagNode:
-		if (reader.context() == ctx)
-			return;
-		break;
-	default:
-		break;
-	}
 }
 
 static void parseMetaNode(html_tree_builder &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
@@ -943,7 +932,7 @@ bool html_document_reader::read()
 			auto style = reader.context()->styles;
 			if (style->display == cainteoir::css::display::none)
 			{
-				skipNode(reader, reader.context());
+				parse_hidden_node();
 				continue;
 			}
 
@@ -1071,6 +1060,23 @@ bool html_document_reader::read()
 	} while (reader.read());
 
 	return false;
+}
+
+void html_document_reader::parse_hidden_node()
+{
+	uint32_t depth = 1;
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		++depth;
+		break;
+	case xml::reader::endTagNode:
+		if (--depth == 0)
+			return;
+		break;
+	default:
+		break;
+	}
 }
 
 std::shared_ptr<cainteoir::document_reader>
