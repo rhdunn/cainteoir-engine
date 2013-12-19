@@ -716,6 +716,7 @@ private:
 
 	std::string parseLangAttr();
 
+	bool generate_title_event();
 	bool parse_node();
 	void parse_hidden_node();
 
@@ -779,7 +780,7 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	}
 
 	ctx.push({ &html::body_node,  &html_document_reader::parse_node, 0 });
-	ctx.push({ &html::title_node, &html_document_reader::parse_node, 0 });
+	ctx.push({ &html::title_node, &html_document_reader::generate_title_event, 0 });
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal(aMimeType));
 }
@@ -934,18 +935,18 @@ bool html_document_reader::read()
 	return (this->*handler)();
 }
 
+bool html_document_reader::generate_title_event()
+{
+	type    = events::toc_entry | events::anchor;
+	styles  = &cainteoir::heading0;
+	content = cainteoir::make_buffer(mTitle);
+	anchor  = mSubject;
+	ctx.pop();
+	return true;
+}
+
 bool html_document_reader::parse_node()
 {
-	if (ctx.top().ctx == &html::title_node)
-	{
-		type    = events::toc_entry | events::anchor;
-		styles  = &cainteoir::heading0;
-		content = cainteoir::make_buffer(mTitle);
-		anchor  = mSubject;
-		ctx.pop();
-		return true;
-	}
-
 	do switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
