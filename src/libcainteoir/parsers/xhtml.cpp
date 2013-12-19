@@ -29,6 +29,12 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
 
+/******************************************************************************
+ * HTML Elements
+ *
+ * This is the set of HTML elements and attributes.
+ */
+
 namespace html
 {
 	// HTML§12.1.2 -- void elements
@@ -333,6 +339,9 @@ static const std::initializer_list<const xml::context::entry_ref> meta_names =
 
 /******************************************************************************
  * HTML Tree Construction
+ *
+ * This is an implementation of the algorithm described in HTML§12.2.5 (Tree
+ * construction) that handles HTML tag soup.
  */
 
 struct html_tree_builder
@@ -629,6 +638,14 @@ bool html_tree_builder::after_after_body()
 	return false;
 }
 
+/******************************************************************************
+ * HTML Tree Construction - test hook
+ *
+ * This code is used by the tests/xmlreader test program to print the events
+ * from the tree construction code, so it can be tested independently of the
+ * document parser code.
+ */
+
 namespace cainteoir
 {
 	void print_html_tree(const std::shared_ptr<xml::reader> &reader, bool silent);
@@ -676,6 +693,10 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
 
 /******************************************************************************
  * HTML Document Reader
+ *
+ * This is the main HTML parser that generates document reader events and RDF
+ * metadata. It uses the HTML Tree Construction code to ensure that the HTML
+ * tag soup is converted to well-formed XML events.
  */
 
 struct context_data
