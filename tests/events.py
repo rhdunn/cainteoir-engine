@@ -62,8 +62,6 @@ if __name__ == '__main__':
 			{'test': 'html/sections/li-only.xhtml', 'result': 'html/sections/li-only.events'},
 			{'test': 'html/sections/menu.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/menu.xhtml', 'result': 'html/sections/ul.events'},
-			{'test': 'html/sections/no-body.html', 'result': 'html/sections/no-body.events'},
-			{'test': 'html/sections/no-body.xhtml', 'result': 'html/sections/no-body.events'},
 			{'test': 'html/sections/ol.html', 'result': 'html/sections/ol.events'},
 			{'test': 'html/sections/ol.xhtml', 'result': 'html/sections/ol.events'},
 			{'test': 'html/sections/ol-cdata.xhtml', 'result': 'html/sections/ol.events'},
