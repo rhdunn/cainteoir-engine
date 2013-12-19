@@ -115,7 +115,7 @@ data/languages.stat: data/languages.dat data/private-use.dat data/languages/*.da
 	touch $@
 
 languages: data/languages.py data/languages.stat
-	cd data && ./languages.py
+	cd data && ${PYTHON} languages.py
 
 data/languages.rdf.gz: data/languages.rdf
 	gzip -n -c $< > $@
@@ -188,10 +188,10 @@ endif
 	    mv /tmp/phonemechart $@
 
 %.fsm.h: %.fsm tools/fsm
-	tools/fsm header $< > $@
+	${PYTHON} tools/fsm header $< > $@
 
 %.dot: %.fsm tools/fsm
-	tools/fsm dot $< > $@
+	${PYTHON} tools/fsm dot $< > $@
 
 .dot.svg: $<
 	dot -Tsvg -o $@ $<
@@ -202,7 +202,7 @@ endif
 ############################# documentation ###################################
 
 data/languages.dot: data/languages.py data/languages.stat
-	cd data && ./languages.py
+	cd data && ${PYTHON} languages.py
 
 fsm:	src/libcainteoir/tts/text_reader.svg
 
@@ -433,7 +433,7 @@ DOCUMENT_TEST_FILES = \
 
 %.check : %.py tests/harness.py
 	rm -f $@
-	(python $< && touch $@) | tee `echo $< | sed -e 's/.py/.results/'`
+	(${PYTHON} $< && touch $@) | tee `echo $< | sed -e 's/.py/.results/'`
 	test -f $@ || false
 
 %.check: %.test

@@ -24,6 +24,50 @@ AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
 
 dnl ================================================================
+dnl Python checks.
+dnl ================================================================
+
+AC_DEFUN([PYTHON2_CHECK],
+    [
+        AC_MSG_CHECKING([for $1])
+        AS_IF([which $1 > /dev/null],
+            [
+                VERSION=`$1 --version 2>&1 | sed -e 's/Python //g'`
+                MAJOR_VERSION=`echo ${VERSION} | sed -e 's/\..*//g'`
+                AC_MSG_RESULT([${VERSION}])
+                AC_MSG_CHECKING([if $1 is a Python 2 interpreter])
+                AS_IF([test ${MAJOR_VERSION} -eq 2],
+                    [
+                        AC_MSG_RESULT([yes])
+                        PYTHON=$1
+                    ],[
+                        AC_MSG_RESULT([no])
+                        PYTHON=no
+                    ])
+            ],[
+                AC_MSG_RESULT([no])
+                PYTHON=no
+            ])
+    ])
+
+AC_ARG_VAR([PYTHON], [the python interpreter to use @<:@default=auto@:>@])
+if test "x${PYTHON}" == "x" ; then
+    # autodetect Python version ...
+    PYTHON2_CHECK(python)
+    if test "x${PYTHON}" == "xno" ; then
+        PYTHON2_CHECK(python2)
+    fi
+else
+    PYTHON2_CHECK(${PYTHON})
+fi
+
+if test "x${PYTHON}" == "xno" ; then
+    AC_MSG_ERROR([unable to find a Python 2 interpreter (use ./configure PYTHON=... to point to the correct Python program)])
+fi
+
+AC_SUBST(PYTHON)
+
+dnl ================================================================
 dnl C++11 support
 dnl ================================================================
 
@@ -483,6 +527,7 @@ AC_MSG_NOTICE([
 
         Compiler:                      ${CXX}
         Compiler flags:                ${CXXFLAGS}
+        Python interpreter:            ${PYTHON}
 
         eSpeak support:                ${have_espeak}
         MBROLA support:                ${have_mbrola}	(voice directory: ${MBROLA_DIR})
