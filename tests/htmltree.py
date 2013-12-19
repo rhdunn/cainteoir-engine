@@ -76,6 +76,7 @@ if __name__ == '__main__':
 		{'name': '12.2.5.4.7: in body', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/7-in-body/end-of-file.html', 'result': 'html/tree-construction/7-in-body/end-of-file.tags'},
 			{'test': 'html/tree-construction/7-in-body/pre-unclosed.html', 'result': 'html/tree-construction/7-in-body/pre-unclosed.tags'},
+			{'test': 'html/tree-construction/7-in-body/pre-unclosed-with-body.html', 'result': 'html/tree-construction/7-in-body/pre-unclosed.tags'},
 			{'test': 'html/tree-construction/7-in-body/nested-unclosed-inner.html', 'result': 'html/tree-construction/7-in-body/nested-unclosed-inner.tags'},
 			{'test': 'html/tree-construction/7-in-body/no-body.html', 'result': 'html/tree-construction/simple.tags'},
 		]},

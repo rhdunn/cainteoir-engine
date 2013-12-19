@@ -570,7 +570,11 @@ bool html_tree_builder::in_body()
 	case xml::reader::endTagNode:
 		if (context() == &html::body_node)
 		{
-			mInsertionMode = &html_tree_builder::after_body;
+			auto top = mOpenElements.top();
+			if (top == &html::body_node)
+				mInsertionMode = &html_tree_builder::after_body;
+			else
+				insert_close_tag(top);
 			pop_open_tag(&html::body_node);
 		}
 		else if (context() == &html::html_node)
