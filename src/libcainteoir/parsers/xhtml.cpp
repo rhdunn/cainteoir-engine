@@ -722,12 +722,6 @@ private:
 	{
 		const xml::context::entry *ctx;
 		uint32_t parameter;
-
-		context_data(const xml::context::entry *aContext, uint32_t aParameter)
-			: ctx(aContext)
-			, parameter(aParameter)
-		{
-		}
 	};
 
 	std::stack<context_data> ctx;
