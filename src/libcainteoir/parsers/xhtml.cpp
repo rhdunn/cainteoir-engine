@@ -714,8 +714,11 @@ private:
 	bool genAnchor;
 	cainteoir::css::style_manager stylemgr;
 
+	std::string mLanguage;
 	std::string parseLangAttr();
 
+	bool parse_document_root();
+	bool parse_html_node();
 	bool generate_title_event();
 	bool parse_node();
 	void parse_hidden_node();
@@ -741,15 +744,8 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 {
 	stylemgr.parse("/css/counterstyles.css");
 
-	std::string lang;
-	reader.read();
-	if (reader.context() == &html::html_node)
-	{
-		lang = parseLangAttr();
-		bool processing = true;
-		while (processing && reader.nodeType() != xml::reader::beginTagNode)
-			processing = reader.read();
-	}
+	ctx.push({ nullptr, &html_document_reader::parse_document_root, 0 });
+	read();
 
 	if (reader.context() == &html::head_node)
 	{
@@ -759,11 +755,11 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 			processing = reader.read();
 	}
 
-	if (lang.empty() && reader.context() == &html::body_node)
-		lang = parseLangAttr();
+	if (mLanguage.empty() && reader.context() == &html::body_node)
+		mLanguage = parseLangAttr();
 
-	if (!lang.empty())
-		aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
+	if (!mLanguage.empty())
+		aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(mLanguage));
 
 	if (!mTitle.empty())
 		aPrimaryMetadata.statement(aSubject, rdf::dc("title"), rdf::literal(mTitle));
@@ -779,7 +775,6 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 			mTitle = mTitle.substr(sep + 1);
 	}
 
-	ctx.push({ &html::body_node,  &html_document_reader::parse_node, 0 });
 	ctx.push({ &html::title_node, &html_document_reader::generate_title_event, 0 });
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal(aMimeType));
@@ -929,10 +924,45 @@ static std::string parseHeadNode(html_tree_builder &reader, const rdf::uri &aSub
 
 bool html_document_reader::read()
 {
-	if (ctx.empty()) return false;
+	while (!ctx.empty())
+	{
+		auto handler = ctx.top().handler;
+		if ((this->*handler)())
+			return true;
+	}
+	return false;
+}
 
-	auto handler = ctx.top().handler;
-	return (this->*handler)();
+bool html_document_reader::parse_document_root()
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (reader.context() == &html::html_node)
+		{
+			ctx.push({ nullptr, &html_document_reader::parse_html_node, 0 });
+			return false;
+		}
+		break;
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_html_node()
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &xml::lang_attr && mLanguage.empty())
+			mLanguage = reader.nodeValue().buffer()->str();
+		break;
+	case xml::reader::beginTagNode:
+		ctx.push({ &html::body_node, &html_document_reader::parse_node, 0 });
+		return true;
+	}
+	ctx.pop();
+	return false;
 }
 
 bool html_document_reader::generate_title_event()
@@ -1115,6 +1145,7 @@ bool html_document_reader::parse_node()
 		break;
 	} while (reader.read());
 
+	ctx.pop();
 	return false;
 }
 
