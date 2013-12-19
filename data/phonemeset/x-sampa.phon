@@ -195,6 +195,7 @@ n=	/{vcd,alv,nas,syl}/
 N=	/{vcd,vel,nas,syl}/
 r\=	/{vcd,alv,apr,syl}/
 l=	/{vcd,alv,lat,apr,syl}/
+_^	/<nsy>/+
 
 m_=	/{vcd,blb,nas,syl}/
 n_=	/{vcd,alv,nas,syl}/
