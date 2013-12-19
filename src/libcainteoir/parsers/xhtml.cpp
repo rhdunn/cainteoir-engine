@@ -715,12 +715,15 @@ private:
 	cainteoir::css::style_manager stylemgr;
 
 	std::string mLanguage;
-	std::string parseLangAttr();
 
-	bool parse_document_root();
-	bool parse_html_node();
-	bool generate_title_event();
-	bool parse_node();
+	bool read_node(rdf::graph *aMetadata);
+
+	bool parse_document_root(rdf::graph *aMetadata);
+	bool parse_html_node(rdf::graph *aMetadata);
+	bool parse_head_node(rdf::graph *aMetadata);
+	bool parse_body_node(rdf::graph *aMetadata);
+	bool generate_title_event(rdf::graph *aMetadata);
+	bool parse_node(rdf::graph *aMetadata);
 	void parse_hidden_node();
 
 	struct context_data
@@ -733,8 +736,6 @@ private:
 	std::stack<context_data> ctx;
 };
 
-static std::string parseHeadNode(html_tree_builder &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
-
 html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle)
 	: reader(aReader)
 	, mSubject(aSubject)
@@ -745,18 +746,7 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	stylemgr.parse("/css/counterstyles.css");
 
 	ctx.push({ nullptr, &html_document_reader::parse_document_root, 0 });
-	read();
-
-	if (reader.context() == &html::head_node)
-	{
-		mTitle = parseHeadNode(reader, aSubject, aPrimaryMetadata);
-		bool processing = true;
-		while (processing && reader.nodeType() != xml::reader::beginTagNode)
-			processing = reader.read();
-	}
-
-	if (mLanguage.empty() && reader.context() == &html::body_node)
-		mLanguage = parseLangAttr();
+	read_node(&aPrimaryMetadata);
 
 	if (!mLanguage.empty())
 		aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(mLanguage));
@@ -778,19 +768,6 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	ctx.push({ &html::title_node, &html_document_reader::generate_title_event, 0 });
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal(aMimeType));
-}
-
-std::string html_document_reader::parseLangAttr()
-{
-	std::string lang;
-	while (reader.read() && reader.nodeType() == xml::reader::attribute)
-	{
-		if (reader.context() == &xml::lang_attr && lang.empty())
-		{
-			lang = reader.nodeValue().buffer()->str();
-		}
-	}
-	return lang;
 }
 
 static void parseMetaNode(html_tree_builder &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
@@ -893,47 +870,23 @@ static void parseMetaNode(html_tree_builder &reader, const rdf::uri &aSubject, r
 	}
 }
 
-static std::string parseHeadNode(html_tree_builder &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
+bool html_document_reader::read()
 {
-	std::string title;
-	const xml::context::entry *context = nullptr;
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::beginTagNode:
-		if (reader.context() == &html::title_node)
-			context = &html::title_node;
-		else if (reader.context() == &html::meta_node)
-			parseMetaNode(reader, aSubject, aGraph);
-		break;
-	case xml::reader::endTagNode:
-		if (reader.context() == &html::head_node)
-			return title;
-		if (reader.context() == &html::title_node)
-			context = &html::head_node;
-		break;
-	case xml::reader::textNode:
-	case xml::reader::cdataNode:
-		if (context == &html::title_node)
-			title = reader.nodeValue().normalize()->str();
-		break;
-	default:
-		break;
-	}
-	return title;
+	return read_node(nullptr);
 }
 
-bool html_document_reader::read()
+bool html_document_reader::read_node(rdf::graph *aMetadata)
 {
 	while (!ctx.empty())
 	{
 		auto handler = ctx.top().handler;
-		if ((this->*handler)())
+		if ((this->*handler)(aMetadata))
 			return true;
 	}
 	return false;
 }
 
-bool html_document_reader::parse_document_root()
+bool html_document_reader::parse_document_root(rdf::graph *aMetadata)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -949,7 +902,56 @@ bool html_document_reader::parse_document_root()
 	return false;
 }
 
-bool html_document_reader::parse_html_node()
+bool html_document_reader::parse_html_node(rdf::graph *aMetadata)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &xml::lang_attr && mLanguage.empty())
+			mLanguage = reader.nodeValue().buffer()->str();
+		break;
+	case xml::reader::beginTagNode:
+		if (reader.context() == &html::head_node)
+			ctx.push({ nullptr, &html_document_reader::parse_head_node, 0 });
+		else if (reader.context() == &html::body_node)
+			ctx.push({ nullptr, &html_document_reader::parse_body_node, 0 });
+		return false;
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_head_node(rdf::graph *aMetadata)
+{
+	const xml::context::entry *context = nullptr;
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (reader.context() == &html::title_node)
+			context = &html::title_node;
+		else if (reader.context() == &html::meta_node)
+			parseMetaNode(reader, mSubject, *aMetadata);
+		break;
+	case xml::reader::endTagNode:
+		if (reader.context() == &html::head_node)
+		{
+			ctx.pop();
+			return false;
+		}
+		else if (reader.context() == &html::title_node)
+			context = nullptr;
+		break;
+	case xml::reader::textNode:
+	case xml::reader::cdataNode:
+		if (context == &html::title_node)
+			mTitle = reader.nodeValue().normalize()->str();
+		break;
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -965,7 +967,7 @@ bool html_document_reader::parse_html_node()
 	return false;
 }
 
-bool html_document_reader::generate_title_event()
+bool html_document_reader::generate_title_event(rdf::graph *aMetadata)
 {
 	type    = events::toc_entry | events::anchor;
 	styles  = &cainteoir::heading0;
@@ -975,7 +977,7 @@ bool html_document_reader::generate_title_event()
 	return true;
 }
 
-bool html_document_reader::parse_node()
+bool html_document_reader::parse_node(rdf::graph *aMetadata)
 {
 	do switch (reader.nodeType())
 	{
