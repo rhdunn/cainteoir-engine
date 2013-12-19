@@ -716,11 +716,13 @@ private:
 
 	std::string parseLangAttr();
 
+	bool parse_node();
 	void parse_hidden_node();
 
 	struct context_data
 	{
 		const xml::context::entry *ctx;
+		decltype(&html_document_reader::parse_node) handler;
 		uint32_t parameter;
 	};
 
@@ -776,8 +778,8 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 			mTitle = mTitle.substr(sep + 1);
 	}
 
-	ctx.push({ &html::body_node, 0 });
-	ctx.push({ &html::title_node, 0 });
+	ctx.push({ &html::body_node,  &html_document_reader::parse_node, 0 });
+	ctx.push({ &html::title_node, &html_document_reader::parse_node, 0 });
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal(aMimeType));
 }
@@ -926,6 +928,14 @@ static std::string parseHeadNode(html_tree_builder &reader, const rdf::uri &aSub
 
 bool html_document_reader::read()
 {
+	if (ctx.empty()) return false;
+
+	auto handler = ctx.top().handler;
+	return (this->*handler)();
+}
+
+bool html_document_reader::parse_node()
+{
 	if (ctx.top().ctx == &html::title_node)
 	{
 		type    = events::toc_entry | events::anchor;
@@ -982,7 +992,7 @@ bool html_document_reader::read()
 			}
 
 			if (!style->list_style_type.empty())
-				ctx.push({ reader.context(), 1 });
+				ctx.push({ reader.context(), &html_document_reader::parse_node, 1 });
 
 			if (style->role == cainteoir::css::role::heading)
 			{
