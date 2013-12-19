@@ -579,8 +579,14 @@ bool html_tree_builder::in_body()
 		}
 		else if (context() == &html::html_node)
 		{
-			mInsertionMode = &html_tree_builder::after_body;
-			insert_close_tag(&html::body_node);
+			auto top = mOpenElements.top();
+			if (top == &html::body_node)
+			{
+				mInsertionMode = &html_tree_builder::after_body;
+				insert_close_tag(&html::body_node);
+			}
+			else
+				insert_close_tag(top);
 			pop_open_tag(&html::body_node);
 		}
 		else
