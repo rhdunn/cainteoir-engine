@@ -573,6 +573,12 @@ bool html_tree_builder::in_body()
 			mInsertionMode = &html_tree_builder::after_body;
 			pop_open_tag(&html::body_node);
 		}
+		else if (context() == &html::html_node)
+		{
+			mInsertionMode = &html_tree_builder::after_body;
+			insert_close_tag(&html::body_node);
+			pop_open_tag(&html::body_node);
+		}
 		else
 		{
 			if (context() != mOpenElements.top())
