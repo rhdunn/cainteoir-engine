@@ -699,18 +699,6 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
  * tag soup is converted to well-formed XML events.
  */
 
-struct context_data
-{
-	const xml::context::entry *ctx;
-	uint32_t parameter;
-
-	context_data(const xml::context::entry *aContext, uint32_t aParameter)
-		: ctx(aContext)
-		, parameter(aParameter)
-	{
-	}
-};
-
 struct html_document_reader : public cainteoir::document_reader
 {
 	html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle);
@@ -724,12 +712,25 @@ private:
 	cainteoir::rope htext;
 	int hid;
 	bool genAnchor;
-	std::stack<context_data> ctx;
 	cainteoir::css::style_manager stylemgr;
 
 	std::string parseLangAttr();
 
 	void parse_hidden_node();
+
+	struct context_data
+	{
+		const xml::context::entry *ctx;
+		uint32_t parameter;
+
+		context_data(const xml::context::entry *aContext, uint32_t aParameter)
+			: ctx(aContext)
+			, parameter(aParameter)
+		{
+		}
+	};
+
+	std::stack<context_data> ctx;
 };
 
 static std::string parseHeadNode(html_tree_builder &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
