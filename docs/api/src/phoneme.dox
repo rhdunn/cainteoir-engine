@@ -296,6 +296,11 @@ There is no audible release.
 
 The consonant either forms the complete syllable or the nucleus of the syllable.
 
+\var   cainteoir::tts::feature cainteoir::tts::non_syllabic
+\brief \b nsy
+
+The vowel is not syllabic, but forms part of a diphthong.
+
 \var   cainteoir::tts::feature cainteoir::tts::murmured
 \brief \b mrm
 

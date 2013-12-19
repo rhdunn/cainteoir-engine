@@ -20,7 +20,7 @@ syn keyword	phonFeature		hgh hlg
 syn keyword	phonFeature		imp
 syn keyword	phonFeature		lat lbd lbv lmd lng low lzd
 syn keyword	phonFeature		mid mrm
-syn keyword	phonFeature		nas nzd
+syn keyword	phonFeature		nas nsy nzd
 syn keyword	phonFeature		orl
 syn keyword	phonFeature		pal pau phr pla pzd
 syn keyword	phonFeature		rfx rnd rzd

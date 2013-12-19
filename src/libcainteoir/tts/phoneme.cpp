@@ -61,6 +61,7 @@ static const std::initializer_list<const std::pair<const char *, tts::feature>> 
 	{ "mid", tts::feature::mid },
 	{ "mrm", tts::feature::murmured },
 	{ "nas", tts::feature::nasal },
+	{ "nsy", tts::feature::non_syllabic },
 	{ "nzd", tts::feature::nasalized },
 	{ "orl", tts::feature::unspecified },
 	{ "pal", tts::feature::palatal },
@@ -180,6 +181,7 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	// syllabicity
 
 	{ "syl", i18n("syllabic") },
+	{ "nsy", i18n("non-syllabic") },
 
 	// co-articulation
 

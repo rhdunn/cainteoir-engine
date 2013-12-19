@@ -487,6 +487,7 @@ TEST_CASE("tts::get_feature_id -- extended abbreviations")
 
 	assert(tts::get_feature_id("dpf") == _(f::falling_diphthong));
 	assert(tts::get_feature_id("dpr") == _(f::rising_diphthong));
+	assert(tts::get_feature_id("nsy") == _(f::non_syllabic));
 
 	assert(tts::get_feature_id("st1") == _(f::primary_stress));
 	assert(tts::get_feature_id("st2") == _(f::secondary_stress));
@@ -566,6 +567,7 @@ TEST_CASE("tts::get_feature_abbreviation")
 	assert(tts::get_feature_abbreviation(f::aspirated)      == "asp");
 	assert(tts::get_feature_abbreviation(f::unreleased)     == "unx");
 	assert(tts::get_feature_abbreviation(f::syllabic)       == "syl");
+	assert(tts::get_feature_abbreviation(f::non_syllabic)   == "nsy");
 	assert(tts::get_feature_abbreviation(f::murmured)       == "mrm");
 	assert(tts::get_feature_abbreviation(f::velarized)      == "vzd");
 	assert(tts::get_feature_abbreviation(f::labialized)     == "lzd");
@@ -649,6 +651,7 @@ TEST_CASE("tts::get_feature_name")
 	assert(tts::get_feature_name(f::aspirated)      == "aspirated");
 	assert(tts::get_feature_name(f::unreleased)     == "unreleased");
 	assert(tts::get_feature_name(f::syllabic)       == "syllabic");
+	assert(tts::get_feature_name(f::non_syllabic)   == "non-syllabic");
 	assert(tts::get_feature_name(f::murmured)       == "murmured");
 	assert(tts::get_feature_name(f::velarized)      == "velarized");
 	assert(tts::get_feature_name(f::labialized)     == "labialized");
@@ -713,7 +716,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		{ "{smh,fnt,rnd,vwl,st1}", { f::semi_high, f::front, f::rounded, f::vowel, f::primary_stress } },
 		{ "{umd,cnt,unr,vwl,st2}", { f::upper_mid, f::center, f::unrounded, f::vowel, f::secondary_stress } },
 		{ "{mid,cnt,rnd,vwl,rzd}", { f::mid, f::center, f::rounded, f::vowel, f::rhoticized } },
-		{ "{lmd,bck,unr,vwl}",     { f::lower_mid, f::back, f::unrounded, f::vowel } },
+		{ "{lmd,bck,unr,vwl,nsy}", { f::lower_mid, f::back, f::unrounded, f::vowel, f::non_syllabic } },
 		{ "{sml,fnt,unr,vwl}",     { f::semi_low, f::front, f::unrounded, f::vowel } },
 		{ "{low,bck,rnd,vwl}",     { f::low, f::back, f::rounded, f::vowel } },
 	};
@@ -882,7 +885,7 @@ TEST_CASE("explicit feature writer -- single phoneme")
 		{ "{smh,fnt,rnd,vwl,st1}", { f::semi_high, f::front, f::rounded, f::vowel, f::primary_stress } },
 		{ "{umd,cnt,unr,vwl,st2}", { f::upper_mid, f::center, f::unrounded, f::vowel, f::secondary_stress } },
 		{ "{mid,cnt,rnd,vwl,rzd}", { f::mid, f::center, f::rounded, f::vowel, f::rhoticized } },
-		{ "{lmd,bck,unr,vwl}",     { f::lower_mid, f::back, f::unrounded, f::vowel } },
+		{ "{lmd,bck,unr,vwl,nsy}", { f::lower_mid, f::back, f::unrounded, f::vowel, f::non_syllabic } },
 		{ "{sml,fnt,unr,vwl}",     { f::semi_low, f::front, f::unrounded, f::vowel } },
 		{ "{low,bck,rnd,vwl}",     { f::low, f::back, f::rounded, f::vowel } },
 	};

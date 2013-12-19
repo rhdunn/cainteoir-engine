@@ -118,6 +118,7 @@ namespace cainteoir { namespace tts
 		// syllabicity
 
 		syllabic,
+		non_syllabic,
 
 		// co-articulation
 
