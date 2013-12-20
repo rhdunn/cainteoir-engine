@@ -731,8 +731,11 @@ private:
 	bool parse_html_node(rdf::graph *aMetadata);
 	bool parse_head_node(rdf::graph *aMetadata);
 	bool parse_body_node(rdf::graph *aMetadata);
-	bool generate_title_event(rdf::graph *aMetadata);
 	bool parse_node(rdf::graph *aMetadata);
+
+	bool generate_title_event(rdf::graph *aMetadata);
+
+	bool parse_node_old(rdf::graph *aMetadata);
 	void parse_hidden_node();
 
 	struct context_data
@@ -969,9 +972,52 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 			mLanguage = reader.nodeValue().buffer()->str();
 		break;
 	case xml::reader::beginTagNode:
-		ctx.push({ &html::body_node, &html_document_reader::parse_node, 0 });
+		ctx.push({ &html::body_node, &html_document_reader::parse_node_old, 0 });
 		reader.hold_event();
 		return true;
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_node(rdf::graph *aMetadata)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::textNode:
+	case xml::reader::cdataNode:
+		content = reader.nodeValue().content();
+		if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
+			content = cainteoir::normalize(content,
+			                               cainteoir::collapse_space,
+			                               cainteoir::collapse_space);
+		if (content && !content->empty())
+		{
+			type   = events::text;
+			anchor = rdf::uri();
+			return true;
+		}
+		break;
+	case xml::reader::beginTagNode:
+		styles = reader.context()->styles;
+		if (styles)
+		{
+			type   = events::begin_context;
+			anchor = rdf::uri();
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+			return true;
+		}
+		break;
+	case xml::reader::endTagNode:
+		if (reader.context() == ctx.top().ctx)
+		{
+			type   = events::end_context;
+			styles = reader.context()->styles;
+			anchor = rdf::uri();
+			ctx.pop();
+			return true;
+		}
+		break;
 	}
 	ctx.pop();
 	return false;
@@ -987,7 +1033,7 @@ bool html_document_reader::generate_title_event(rdf::graph *aMetadata)
 	return true;
 }
 
-bool html_document_reader::parse_node(rdf::graph *aMetadata)
+bool html_document_reader::parse_node_old(rdf::graph *aMetadata)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -1032,14 +1078,15 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 				continue;
 			}
 
-			if (!style->list_style_type.empty())
-				ctx.push({ reader.context(), &html_document_reader::parse_node, 1 });
-
 			if (style->role == cainteoir::css::role::heading)
 			{
 				htext.clear();
 				genAnchor = true;
 			}
+			else if (!style->list_style_type.empty())
+				ctx.push({ reader.context(), &html_document_reader::parse_node_old, 1 });
+			else
+				ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
 
 			type   = events::begin_context;
 			styles = style;
