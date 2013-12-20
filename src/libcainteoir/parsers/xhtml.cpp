@@ -731,6 +731,8 @@ private:
 	bool parse_document_root(rdf::graph *aMetadata);
 	bool parse_html_node(rdf::graph *aMetadata);
 	bool parse_head_node(rdf::graph *aMetadata);
+	bool parse_body_attrs(rdf::graph *aMetadata);
+
 	bool parse_body_node(rdf::graph *aMetadata);
 	bool parse_list_node(rdf::graph *aMetadata);
 	bool parse_heading_node(rdf::graph *aMetadata);
@@ -738,7 +740,6 @@ private:
 
 	bool generate_title_event(rdf::graph *aMetadata);
 
-	bool parse_node_old(rdf::graph *aMetadata);
 	void parse_hidden_node();
 
 	struct context_data
@@ -929,7 +930,7 @@ bool html_document_reader::parse_html_node(rdf::graph *aMetadata)
 		if (reader.context() == &html::head_node)
 			ctx.push({ nullptr, &html_document_reader::parse_head_node, 0 });
 		else if (reader.context() == &html::body_node)
-			ctx.push({ nullptr, &html_document_reader::parse_body_node, 0 });
+			ctx.push({ nullptr, &html_document_reader::parse_body_attrs, 0 });
 		return false;
 	}
 	ctx.pop();
@@ -966,7 +967,7 @@ bool html_document_reader::parse_head_node(rdf::graph *aMetadata)
 	return false;
 }
 
-bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
+bool html_document_reader::parse_body_attrs(rdf::graph *aMetadata)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -975,8 +976,46 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 			mLanguage = reader.nodeValue().buffer()->str();
 		break;
 	case xml::reader::beginTagNode:
-		ctx.push({ &html::body_node, &html_document_reader::parse_node_old, 0 });
+		ctx.push({ &html::body_node, &html_document_reader::parse_body_node, 0 });
 		reader.hold_event();
+		return true;
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		styles = reader.context()->styles;
+		type   = events::begin_context;
+		if (!styles)
+			continue;
+		if (styles->display == css::display::none)
+		{
+			parse_hidden_node();
+			continue;
+		}
+		if (styles->display == css::display::list_item)
+		{
+			content = std::make_shared<cainteoir::buffer>(" ");
+			type    = events::begin_context | events::text;
+			styles  = reader.context()->styles;
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+			return true;
+		}
+		else if (styles->role == css::role::heading)
+		{
+			htext.clear();
+			genAnchor = true;
+			ctx.push({ reader.context(), &html_document_reader::parse_heading_node, 0 });
+		}
+		else if (!styles->list_style_type.empty())
+			ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1 });
+		else
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
 		return true;
 	}
 	ctx.pop();
@@ -1162,50 +1201,6 @@ bool html_document_reader::generate_title_event(rdf::graph *aMetadata)
 	anchor  = mSubject;
 	ctx.pop();
 	return true;
-}
-
-bool html_document_reader::parse_node_old(rdf::graph *aMetadata)
-{
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::beginTagNode:
-		if (reader.context()->styles && reader.context()->styles->display == cainteoir::css::display::list_item)
-		{
-			content = std::make_shared<cainteoir::buffer>(" ");
-			type    = events::begin_context | events::text;
-			styles  = reader.context()->styles;
-			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
-			return true;
-		}
-		else if (ctx.top().ctx == &html::body_node && reader.context()->styles)
-		{
-			auto style = reader.context()->styles;
-			if (style->display == cainteoir::css::display::none)
-			{
-				parse_hidden_node();
-				continue;
-			}
-
-			if (style->role == cainteoir::css::role::heading)
-			{
-				htext.clear();
-				genAnchor = true;
-				ctx.push({ reader.context(), &html_document_reader::parse_heading_node, 0 });
-			}
-			else if (!style->list_style_type.empty())
-				ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1 });
-			else
-				ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
-
-			type   = events::begin_context;
-			styles = style;
-			return true;
-		}
-		break;
-	}
-
-	ctx.pop();
-	return false;
 }
 
 void html_document_reader::parse_hidden_node()
