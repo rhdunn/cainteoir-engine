@@ -354,6 +354,12 @@ static const std::initializer_list<const xml::context::entry_ref> epub_attrs =
 	{ "type", &epub::type_attr },
 };
 
+// epub:type values -- http://www.idpf.org/epub/vocab/structure/
+static const std::initializer_list<std::pair<const char *, css::role>> epub_types =
+{
+	{ "toc", css::role::table_of_contents },
+};
+
 /******************************************************************************
  * HTML Tree Construction
  *
@@ -749,6 +755,17 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
  * tag soup is converted to well-formed XML events.
  */
 
+static css::role lookup_role(const cainteoir::buffer &name,
+                             const std::initializer_list<std::pair<const char *, css::role>> &roles)
+{
+	for (const auto &role : roles)
+	{
+		if (name.compare(role.first) == 0)
+			return role.second;
+	}
+	return css::role::none;
+}
+
 struct html_document_reader : public cainteoir::document_reader
 {
 	html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle);
@@ -765,6 +782,7 @@ private:
 	cainteoir::css::style_manager stylemgr;
 
 	std::string mLanguage;
+	css::role mRole;
 
 	bool read_node(rdf::graph *aMetadata);
 
@@ -776,6 +794,7 @@ private:
 	bool parse_body_node(rdf::graph *aMetadata);
 	bool parse_list_node(rdf::graph *aMetadata);
 	bool parse_heading_node(rdf::graph *aMetadata);
+	bool parse_nav_node(rdf::graph *aMetadata);
 	bool parse_node(rdf::graph *aMetadata);
 
 	bool generate_title_event(rdf::graph *aMetadata);
@@ -798,6 +817,7 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	, href(aSubject.str(), std::string())
 	, hid(0)
 	, genAnchor(false)
+	, mRole(css::role::none)
 {
 	stylemgr.parse("/css/counterstyles.css");
 
@@ -1031,6 +1051,11 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 	case xml::reader::beginTagNode:
 		styles = reader.context()->styles;
 		type   = events::begin_context;
+		if (reader.context() == &html::nav_node)
+		{
+			ctx.push({ reader.context(), &html_document_reader::parse_nav_node, 0 });
+			return false;
+		}
 		if (!styles)
 			continue;
 		if (styles->display == css::display::none)
@@ -1081,7 +1106,10 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 			else
 				content = std::make_shared<cainteoir::buffer>(" ");
 			type    = events::begin_context | events::text;
-			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+			if (mRole == css::role::table_of_contents)
+				ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+			else
+				ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
 			return true;
 		}
 		break;
@@ -1183,6 +1211,37 @@ bool html_document_reader::parse_heading_node(rdf::graph *aMetadata)
 				href.ref = std::string();
 			}
 			return true;
+		}
+		break;
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_nav_node(rdf::graph *aMetadata)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &epub::type_attr)
+			mRole = lookup_role(*reader.nodeValue().normalize(), epub_types);
+		break;
+	case xml::reader::beginTagNode:
+		styles = reader.context()->styles;
+		type   = events::begin_context;
+		if (!styles)
+			continue;
+		if (!styles->list_style_type.empty())
+			ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1 });
+		else
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+		return true;
+	case xml::reader::endTagNode:
+		if (reader.context() == ctx.top().ctx)
+		{
+			mRole  = css::role::none;
+			ctx.pop();
+			return false;
 		}
 		break;
 	}

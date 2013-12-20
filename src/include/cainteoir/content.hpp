@@ -163,6 +163,7 @@ namespace cainteoir { namespace css
 		heading,
 		paragraph,
 		sentence,
+		table_of_contents,
 	};
 
 	// CSS Fonts
