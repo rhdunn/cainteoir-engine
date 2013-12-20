@@ -386,7 +386,7 @@ private:
 	std::shared_ptr<xml::reader> reader;
 	bool mHoldEvent;
 	bool mReprocessToken;
-	std::stack<const xml::context::entry *> mOpenElements;
+	std::list<const xml::context::entry *> mOpenElements;
 	xml::reader::node_type mNodeType;
 	const xml::context::entry *mContext;
 
@@ -395,6 +395,8 @@ private:
 
 	void push_open_tag(const xml::context::entry *aOpenTag);
 	void pop_open_tag(const xml::context::entry *aOpenTag);
+
+	bool in_scope(const xml::context::entry *aElement);
 
 	bool next_node();
 	bool before_html(); // HTML§12.2.5.4.2 - before html
@@ -453,12 +455,22 @@ void html_tree_builder::insert_close_tag(const xml::context::entry *aCloseTag)
 
 void html_tree_builder::push_open_tag(const xml::context::entry *aOpenTag)
 {
-	mOpenElements.push(aOpenTag);
+	mOpenElements.push_back(aOpenTag);
 }
 
 void html_tree_builder::pop_open_tag(const xml::context::entry *aOpenTag)
 {
-	mOpenElements.pop();
+	mOpenElements.pop_back();
+}
+
+bool html_tree_builder::in_scope(const xml::context::entry *aElement)
+{
+	for (const auto &element : mOpenElements)
+	{
+		if (element == aElement)
+			return true;
+	}
+	return false;
 }
 
 bool html_tree_builder::next_node()
@@ -612,7 +624,7 @@ bool html_tree_builder::in_body()
 	case xml::reader::endTagNode:
 		if (context() == &html::body_node)
 		{
-			auto top = mOpenElements.top();
+			auto top = mOpenElements.back();
 			if (top == &html::body_node)
 				mInsertionMode = &html_tree_builder::after_body;
 			else
@@ -621,7 +633,7 @@ bool html_tree_builder::in_body()
 		}
 		else if (context() == &html::html_node)
 		{
-			auto top = mOpenElements.top();
+			auto top = mOpenElements.back();
 			if (top == &html::body_node)
 			{
 				mInsertionMode = &html_tree_builder::after_body;
@@ -631,17 +643,19 @@ bool html_tree_builder::in_body()
 				insert_close_tag(top);
 			pop_open_tag(&html::body_node);
 		}
-		else
+		else if (in_scope(context()))
 		{
-			if (context() != mOpenElements.top())
-				insert_close_tag(mOpenElements.top());
+			if (context() != mOpenElements.back())
+				insert_close_tag(mOpenElements.back());
 			pop_open_tag(mContext);
 		}
+		else
+			continue;
 		return true;
 	default:
 		return true;
 	}
-	auto top = mOpenElements.top();
+	auto top = mOpenElements.back();
 	if (top == &html::body_node)
 		mInsertionMode = &html_tree_builder::after_body;
 	insert_close_tag(top);
