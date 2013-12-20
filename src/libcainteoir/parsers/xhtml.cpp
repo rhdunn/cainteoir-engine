@@ -733,6 +733,7 @@ private:
 	bool parse_head_node(rdf::graph *aMetadata);
 	bool parse_body_node(rdf::graph *aMetadata);
 	bool parse_list_node(rdf::graph *aMetadata);
+	bool parse_heading_node(rdf::graph *aMetadata);
 	bool parse_node(rdf::graph *aMetadata);
 
 	bool generate_title_event(rdf::graph *aMetadata);
@@ -1019,6 +1020,97 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 	return false;
 }
 
+bool html_document_reader::parse_heading_node(rdf::graph *aMetadata)
+{
+	bool is_title_header = false;
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &xml::id_attr)
+		{
+			anchor    = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
+			type      = events::anchor;
+			genAnchor = false;
+			return true;
+		}
+		break;
+	case xml::reader::textNode:
+	case xml::reader::cdataNode:
+		content = reader.nodeValue().content();
+		if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
+			content = cainteoir::normalize(content,
+			                               cainteoir::collapse_space,
+			                               cainteoir::collapse_space);
+		is_title_header = content && !content->empty() && content->compare(mTitle.c_str()) == 0;
+		if (genAnchor)
+		{
+			genAnchor = false;
+			if (!is_title_header)
+			{
+				std::stringstream ref;
+				ref << "genid.h" << hid;
+				++hid;
+
+				anchor = href = rdf::uri(mSubject.str(), ref.str());
+				type   = events::anchor;
+				reader.hold_event();
+				return true;
+			}
+		}
+		if (content && !content->empty())
+		{
+			if (!is_title_header)
+				htext += content;
+
+			type   = events::text;
+			anchor = rdf::uri();
+			return true;
+		}
+		break;
+	case xml::reader::beginTagNode:
+		styles = reader.context()->styles;
+		if (styles)
+		{
+			type   = events::begin_context;
+			anchor = rdf::uri();
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+			return true;
+		}
+		break;
+	case xml::reader::endTagNode:
+		if (reader.context() == ctx.top().ctx)
+		{
+			mTitle.clear();
+			type   = events::end_context;
+			styles = reader.context()->styles;
+			anchor = rdf::uri();
+			ctx.pop();
+			if (!htext.empty())
+			{
+				content = htext.normalize();
+				for (char *c = (char *)content->begin(), *last = (char *)content->end(); c != last; ++c) switch (*c)
+				{
+				case '\n':
+					*c = ' ';
+					break;
+				default:
+					break;
+				}
+				if (!content->empty())
+				{
+					type |= events::toc_entry;
+					anchor = href;
+				}
+				href.ref = std::string();
+			}
+			return true;
+		}
+		break;
+	}
+	ctx.pop();
+	return false;
+}
+
 bool html_document_reader::parse_node(rdf::graph *aMetadata)
 {
 	while (reader.read()) switch (reader.nodeType())
@@ -1076,21 +1168,13 @@ bool html_document_reader::parse_node_old(rdf::graph *aMetadata)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
-	case xml::reader::attribute:
-		if (reader.context() == &xml::id_attr)
-		{
-			anchor    = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
-			type      = events::anchor;
-			genAnchor = false;
-			return true;
-		}
-		break;
 	case xml::reader::beginTagNode:
 		if (reader.context()->styles && reader.context()->styles->display == cainteoir::css::display::list_item)
 		{
 			content = std::make_shared<cainteoir::buffer>(" ");
 			type    = events::begin_context | events::text;
 			styles  = reader.context()->styles;
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
 			return true;
 		}
 		else if (ctx.top().ctx == &html::body_node && reader.context()->styles)
@@ -1106,6 +1190,7 @@ bool html_document_reader::parse_node_old(rdf::graph *aMetadata)
 			{
 				htext.clear();
 				genAnchor = true;
+				ctx.push({ reader.context(), &html_document_reader::parse_heading_node, 0 });
 			}
 			else if (!style->list_style_type.empty())
 				ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1 });
@@ -1116,92 +1201,6 @@ bool html_document_reader::parse_node_old(rdf::graph *aMetadata)
 			styles = style;
 			return true;
 		}
-		break;
-	case xml::reader::textNode:
-	case xml::reader::cdataNode:
-		if (ctx.top().ctx == &html::body_node)
-		{
-			content = reader.nodeValue().content();
-			if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
-				content = cainteoir::normalize(content, cainteoir::collapse_space, cainteoir::collapse_space);
-
-			bool is_title_header = content && !content->empty() && content->compare(mTitle.c_str()) == 0;
-
-			if (genAnchor)
-			{
-				genAnchor = false;
-				if (!is_title_header)
-				{
-					std::stringstream ref;
-					ref << "genid.h" << hid;
-					++hid;
-
-					anchor = href = rdf::uri(mSubject.str(), ref.str());
-					type   = events::anchor;
-					reader.hold_event();
-					return true;
-				}
-			}
-
-			if (content && !content->empty())
-			{
-				if (!is_title_header)
-					htext += content;
-
-				type   = events::text;
-				anchor = rdf::uri();
-				return true;
-			}
-		}
-		else if (ctx.top().ctx->styles && ctx.top().ctx->styles->display != cainteoir::css::display::none)
-		{
-			content = reader.nodeValue().content();
-			if (content)
-			{
-				type   = events::text;
-				anchor = rdf::uri();
-				return true;
-			}
-		}
-		break;
-	case xml::reader::endTagNode:
-		if (ctx.top().ctx == &html::body_node)
-		{
-			if (reader.context()->styles)
-			{
-				type   = events::end_context;
-				styles = reader.context()->styles;
-				anchor = rdf::uri();
-
-				if (styles->role == cainteoir::css::role::heading)
-					mTitle.clear();
-
-				if (styles->role == cainteoir::css::role::heading && !htext.empty())
-				{
-					content = htext.normalize();
-					for (char *c = (char *)content->begin(), *last = (char *)content->end(); c != last; ++c)
-					{
-						switch (*c)
-						{
-						case '\n':
-							*c = ' ';
-							break;
-						default:
-							break;
-						}
-					}
-					if (!content->empty())
-					{
-						type |= events::toc_entry;
-						anchor = href;
-					}
-					href.ref = std::string();
-				}
-				return true;
-			}
-		}
-		break;
-	default:
 		break;
 	}
 
