@@ -661,15 +661,35 @@ namespace cainteoir
 	void print_html_tree(const std::shared_ptr<xml::reader> &reader, bool silent);
 }
 
-static void print_node_name(const xml::context::entry *aEntry,
-                            const std::initializer_list<const xml::context::entry_ref> &aEntries)
+typedef std::pair<const char *, const std::initializer_list<const xml::context::entry_ref> &>
+        context_ns;
+
+static const std::initializer_list<context_ns> node_sets =
 {
-	for (const auto &entry : aEntries)
+	{ nullptr, html_nodes },
+};
+
+static const std::initializer_list<context_ns> attr_sets =
+{
+	{ nullptr, html_attrs },
+	{ "xml",   xml::attrs },
+};
+
+static void print_node_name(const xml::context::entry *aEntry,
+                            const std::initializer_list<context_ns> &aEntries)
+{
+	for (const auto &entry_set : aEntries)
 	{
-		if (entry.data == aEntry)
+		for (const auto &entry : entry_set.second)
 		{
-			fprintf(stdout, "%s", entry.name);
-			return;
+			if (entry.data == aEntry)
+			{
+				if (entry_set.first)
+					fprintf(stdout, "%s:%s", entry_set.first, entry.name);
+				else
+					fprintf(stdout, "%s", entry.name);
+				return;
+			}
 		}
 	}
 	fprintf(stdout, "(unknown)");
@@ -682,7 +702,7 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
 	{
 	default:
 		fprintf(stdout, "|%s| ", xml::node_type_name(reader.nodeType()));
-		print_node_name(reader.context(), html_nodes);
+		print_node_name(reader.context(), node_sets);
 		fprintf(stdout, "\n");
 		break;
 	case xml::reader::commentNode:
@@ -694,7 +714,7 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
 		break;
 	case xml::reader::attribute:
 		fprintf(stdout, "|%s| ", xml::node_type_name(reader.nodeType()));
-		print_node_name(reader.context(), html_attrs);
+		print_node_name(reader.context(), attr_sets);
 		fprintf(stdout, "=\"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
 		break;
 	case xml::reader::error:
