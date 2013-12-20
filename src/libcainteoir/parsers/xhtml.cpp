@@ -795,6 +795,7 @@ private:
 	bool parse_list_node(rdf::graph *aMetadata);
 	bool parse_heading_node(rdf::graph *aMetadata);
 	bool parse_nav_node(rdf::graph *aMetadata);
+	bool parse_toc_node(rdf::graph *aMetadata);
 	bool parse_node(rdf::graph *aMetadata);
 
 	bool generate_title_event(rdf::graph *aMetadata);
@@ -1107,7 +1108,7 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 				content = std::make_shared<cainteoir::buffer>(" ");
 			type    = events::begin_context | events::text;
 			if (mRole == css::role::table_of_contents)
-				ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+				ctx.push({ reader.context(), &html_document_reader::parse_toc_node, 0 });
 			else
 				ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
 			return true;
@@ -1242,6 +1243,53 @@ bool html_document_reader::parse_nav_node(rdf::graph *aMetadata)
 			mRole  = css::role::none;
 			ctx.pop();
 			return false;
+		}
+		break;
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_toc_node(rdf::graph *aMetadata)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &html::href_attr)
+			anchor = href = rdf::uri(reader.nodeValue().str());
+		break;
+	case xml::reader::textNode:
+	case xml::reader::cdataNode:
+		content = reader.nodeValue().content();
+		if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
+			content = cainteoir::normalize(content,
+			                               cainteoir::collapse_space,
+			                               cainteoir::collapse_space);
+		if (content && !content->empty())
+		{
+			type   = events::text | events::toc_entry;
+			styles = &cainteoir::heading1;
+			return true;
+		}
+		break;
+	case xml::reader::beginTagNode:
+		styles = reader.context()->styles;
+		if (styles)
+		{
+			type   = events::begin_context;
+			anchor = rdf::uri();
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+			return true;
+		}
+		break;
+	case xml::reader::endTagNode:
+		if (reader.context() == ctx.top().ctx)
+		{
+			type   = events::end_context;
+			styles = reader.context()->styles;
+			anchor = rdf::uri();
+			ctx.pop();
+			return true;
 		}
 		break;
 	}
