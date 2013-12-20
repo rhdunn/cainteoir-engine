@@ -339,6 +339,22 @@ static const std::initializer_list<const xml::context::entry_ref> meta_names =
 };
 
 /******************************************************************************
+ * ePub Elements
+ *
+ * This is the set of ePub attributes used within HTML documents.
+ */
+
+namespace epub
+{
+	static const xml::context::entry type_attr = {};
+}
+
+static const std::initializer_list<const xml::context::entry_ref> epub_attrs =
+{
+	{ "type", &epub::type_attr },
+};
+
+/******************************************************************************
  * HTML Tree Construction
  *
  * This is an implementation of the algorithm described in HTML§12.2.5 (Tree
@@ -402,6 +418,7 @@ html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader
 	reader->set_nodes(xmlns::html40, html_nodes);
 	reader->set_attrs(xmlns::html40, html_attrs);
 	reader->set_attrs(xmlns::xml,    xml::attrs);
+	reader->set_attrs(xmlns::epub,   epub_attrs);
 }
 
 bool html_tree_builder::read()
@@ -673,6 +690,7 @@ static const std::initializer_list<context_ns> attr_sets =
 {
 	{ nullptr, html_attrs },
 	{ "xml",   xml::attrs },
+	{ "epub",  epub_attrs },
 };
 
 static void print_node_name(const xml::context::entry *aEntry,
