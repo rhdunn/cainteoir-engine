@@ -661,15 +661,18 @@ namespace cainteoir
 	void print_html_tree(const std::shared_ptr<xml::reader> &reader, bool silent);
 }
 
-static const char *node_name(const xml::context::entry *aEntry,
-                             const std::initializer_list<const xml::context::entry_ref> &aEntries)
+static void print_node_name(const xml::context::entry *aEntry,
+                            const std::initializer_list<const xml::context::entry_ref> &aEntries)
 {
 	for (const auto &entry : aEntries)
 	{
 		if (entry.data == aEntry)
-			return entry.name;
+		{
+			fprintf(stdout, "%s", entry.name);
+			return;
+		}
 	}
-	return "(unknown)";
+	fprintf(stdout, "(unknown)");
 }
 
 void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, bool silent)
@@ -678,9 +681,9 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
 	while (reader.read()) if (!silent) switch (reader.nodeType())
 	{
 	default:
-		fprintf(stdout, "|%s| %s\n",
-		        xml::node_type_name(reader.nodeType()),
-		        node_name(reader.context(), html_nodes));
+		fprintf(stdout, "|%s| ", xml::node_type_name(reader.nodeType()));
+		print_node_name(reader.context(), html_nodes);
+		fprintf(stdout, "\n");
 		break;
 	case xml::reader::commentNode:
 	case xml::reader::cdataNode:
@@ -690,10 +693,9 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
 		        reader.nodeValue().str().c_str());
 		break;
 	case xml::reader::attribute:
-		fprintf(stdout, "|%s| %s=\"\"\"%s\"\"\"\n",
-		        xml::node_type_name(reader.nodeType()),
-		        node_name(reader.context(), html_attrs),
-		        reader.nodeValue().str().c_str());
+		fprintf(stdout, "|%s| ", xml::node_type_name(reader.nodeType()));
+		print_node_name(reader.context(), html_attrs);
+		fprintf(stdout, "=\"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
 		break;
 	case xml::reader::error:
 		fprintf(stdout, "|error| internal parser error\n");
