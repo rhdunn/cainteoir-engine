@@ -357,8 +357,11 @@ struct html_tree_builder
 	const xml::context::entry *context() const { return mContext; }
 
 	void set_encoding(const char *encoding) { reader->set_encoding(encoding); }
+
+	void hold_event() { mHoldEvent = true; }
 private:
 	std::shared_ptr<xml::reader> reader;
+	bool mHoldEvent;
 	bool mReprocessToken;
 	std::stack<const xml::context::entry *> mOpenElements;
 	xml::reader::node_type mNodeType;
@@ -384,6 +387,7 @@ private:
 
 html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader)
 	: reader(aReader)
+	, mHoldEvent(false)
 	, mReprocessToken(true) // createXmlReader is pointing to the root html node
 	, mInsertionMode(&html_tree_builder::before_html) // createXmlReader processes doctype & comments
 	, mNodeType(xml::reader::error)
@@ -401,6 +405,11 @@ html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader
 
 bool html_tree_builder::read()
 {
+	if (mHoldEvent)
+	{
+		mHoldEvent = false;
+		return true;
+	}
 	return (this->*mInsertionMode)();
 }
 
@@ -961,6 +970,7 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 		break;
 	case xml::reader::beginTagNode:
 		ctx.push({ &html::body_node, &html_document_reader::parse_node, 0 });
+		reader.hold_event();
 		return true;
 	}
 	ctx.pop();
@@ -979,7 +989,7 @@ bool html_document_reader::generate_title_event(rdf::graph *aMetadata)
 
 bool html_document_reader::parse_node(rdf::graph *aMetadata)
 {
-	do switch (reader.nodeType())
+	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
 		if (reader.context() == &xml::id_attr)
@@ -987,7 +997,6 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			anchor    = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
 			type      = events::anchor;
 			genAnchor = false;
-			reader.read();
 			return true;
 		}
 		break;
@@ -1012,7 +1021,6 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			content = cainteoir::make_buffer(marker.c_str(), marker.size());
 			type    = events::begin_context | events::text;
 			styles  = reader.context()->styles;
-			reader.read();
 			return true;
 		}
 		else if (ctx.top().ctx == &html::body_node && reader.context()->styles)
@@ -1035,7 +1043,6 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 
 			type   = events::begin_context;
 			styles = style;
-			reader.read();
 			return true;
 		}
 		break;
@@ -1060,6 +1067,7 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 
 					anchor = href = rdf::uri(mSubject.str(), ref.str());
 					type   = events::anchor;
+					reader.hold_event();
 					return true;
 				}
 			}
@@ -1071,7 +1079,6 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 
 				type   = events::text;
 				anchor = rdf::uri();
-				reader.read();
 				return true;
 			}
 		}
@@ -1082,7 +1089,6 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			{
 				type   = events::text;
 				anchor = rdf::uri();
-				reader.read();
 				return true;
 			}
 		}
@@ -1120,8 +1126,6 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 					}
 					href.ref = std::string();
 				}
-
-				reader.read();
 				return true;
 			}
 		}
@@ -1130,7 +1134,6 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			type   = events::end_context;
 			styles = reader.context()->styles;
 			anchor = rdf::uri();
-			reader.read();
 			return true;
 		}
 		else if (reader.context() == ctx.top().ctx)
@@ -1139,13 +1142,12 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			styles = reader.context()->styles;
 			anchor = rdf::uri();
 			ctx.pop();
-			reader.read();
 			return true;
 		}
 		break;
 	default:
 		break;
-	} while (reader.read());
+	}
 
 	ctx.pop();
 	return false;
