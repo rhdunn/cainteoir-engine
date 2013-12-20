@@ -28,6 +28,7 @@ namespace xml    = cainteoir::xml;
 namespace xmlns  = cainteoir::xml::xmlns;
 namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
+namespace css    = cainteoir::css;
 
 /******************************************************************************
  * HTML Elements
@@ -731,6 +732,7 @@ private:
 	bool parse_html_node(rdf::graph *aMetadata);
 	bool parse_head_node(rdf::graph *aMetadata);
 	bool parse_body_node(rdf::graph *aMetadata);
+	bool parse_list_node(rdf::graph *aMetadata);
 	bool parse_node(rdf::graph *aMetadata);
 
 	bool generate_title_event(rdf::graph *aMetadata);
@@ -980,6 +982,43 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 	return false;
 }
 
+bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		styles = reader.context()->styles;
+		if (styles && styles->display == css::display::list_item)
+		{
+			auto list_type = ctx.top().ctx->styles->list_style_type;
+			auto counter   = stylemgr.get_counter_style(list_type);
+			if (counter)
+			{
+				int i = ctx.top().parameter++;
+				std::string marker = counter->marker(i);
+				content = cainteoir::make_buffer(marker.c_str(), marker.size());
+			}
+			else
+				content = std::make_shared<cainteoir::buffer>(" ");
+			type    = events::begin_context | events::text;
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+			return true;
+		}
+		break;
+	case xml::reader::endTagNode:
+		if (reader.context() == ctx.top().ctx)
+		{
+			type   = events::end_context;
+			styles = reader.context()->styles;
+			anchor = rdf::uri();
+			ctx.pop();
+			return true;
+		}
+	}
+	ctx.pop();
+	return false;
+}
+
 bool html_document_reader::parse_node(rdf::graph *aMetadata)
 {
 	while (reader.read()) switch (reader.nodeType())
@@ -1049,22 +1088,7 @@ bool html_document_reader::parse_node_old(rdf::graph *aMetadata)
 	case xml::reader::beginTagNode:
 		if (reader.context()->styles && reader.context()->styles->display == cainteoir::css::display::list_item)
 		{
-			std::string marker;
-			auto list_styles = ctx.top().ctx->styles;
-			if (list_styles)
-			{
-				auto counter = stylemgr.get_counter_style(list_styles->list_style_type);
-				if (counter)
-				{
-					int i = ctx.top().parameter++;
-					marker = counter->marker(i);
-				}
-				else
-					marker = ' ';
-			}
-			else
-				marker = ' ';
-			content = cainteoir::make_buffer(marker.c_str(), marker.size());
+			content = std::make_shared<cainteoir::buffer>(" ");
 			type    = events::begin_context | events::text;
 			styles  = reader.context()->styles;
 			return true;
@@ -1084,7 +1108,7 @@ bool html_document_reader::parse_node_old(rdf::graph *aMetadata)
 				genAnchor = true;
 			}
 			else if (!style->list_style_type.empty())
-				ctx.push({ reader.context(), &html_document_reader::parse_node_old, 1 });
+				ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1 });
 			else
 				ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
 
@@ -1175,21 +1199,6 @@ bool html_document_reader::parse_node_old(rdf::graph *aMetadata)
 				}
 				return true;
 			}
-		}
-		else if (reader.context()->styles && reader.context()->styles->display == cainteoir::css::display::list_item && ctx.top().ctx->styles)
-		{
-			type   = events::end_context;
-			styles = reader.context()->styles;
-			anchor = rdf::uri();
-			return true;
-		}
-		else if (reader.context() == ctx.top().ctx)
-		{
-			type   = events::end_context;
-			styles = reader.context()->styles;
-			anchor = rdf::uri();
-			ctx.pop();
-			return true;
 		}
 		break;
 	default:
