@@ -27,6 +27,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/latin/words.txt', 'result': 'parse-text/latin/words.pt'},
 			{'test': 'parse-text/latin/numbers.txt', 'result': 'parse-text/latin/numbers.pt'},
 			{'test': 'parse-text/latin/punctuation.txt', 'result': 'parse-text/latin/punctuation.pt'},
+			{'test': 'parse-text/latin/hyphens.txt', 'result': 'parse-text/latin/hyphens.pt'},
 			{'test': 'parse-text/latin/quotes.txt', 'result': 'parse-text/latin/quotes.pt'},
 			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.pt'},
 			{'test': 'parse-text/latin/paragraph.txt', 'result': 'parse-text/latin/paragraph.pt'},
@@ -52,6 +53,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/latin/words.txt', 'result': 'parse-text/latin/words.ca'},
 			{'test': 'parse-text/latin/numbers.txt', 'result': 'parse-text/latin/numbers.pt'},
 			{'test': 'parse-text/latin/punctuation.txt', 'result': 'parse-text/latin/punctuation.ca'},
+			{'test': 'parse-text/latin/hyphens.txt', 'result': 'parse-text/latin/hyphens.ca'},
 			{'test': 'parse-text/latin/quotes.txt', 'result': 'parse-text/latin/quotes.ca'},
 			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.ca'},
 			{'test': 'parse-text/latin/paragraph.txt', 'result': 'parse-text/latin/paragraph.ca'},
@@ -78,6 +80,7 @@ if __name__ == '__main__':
 		{'name': 'Latin', 'type': 'wordstream', 'tests': [
 			{'test': 'parse-text/latin/words.txt', 'result': 'parse-text/latin/words.ws'},
 			{'test': 'parse-text/latin/punctuation.txt', 'result': 'parse-text/latin/punctuation.ws'},
+			{'test': 'parse-text/latin/hyphens.txt', 'result': 'parse-text/latin/hyphens.ws'},
 			{'test': 'parse-text/latin/quotes.txt', 'result': 'parse-text/latin/quotes.ws'},
 			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.ws'},
 			{'test': 'parse-text/latin/paragraph.txt', 'result': 'parse-text/latin/paragraph.ws'},
