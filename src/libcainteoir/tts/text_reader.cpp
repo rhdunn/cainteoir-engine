@@ -29,17 +29,6 @@ namespace tts = cainteoir::tts;
 
 #include "text_reader.fsm.h"
 
-static fsm::language get_language_code(ucd::codepoint_t cp)
-{
-	switch (cp)
-	{
-	case 0x2029: // Paragraph Separator
-		return fsm::language::PS;
-	default:
-		return (fsm::language)ucd::lookup_category(cp);
-	}
-}
-
 enum class tts::text_reader::reader_state
 {
 	need_text,
@@ -117,7 +106,17 @@ bool tts::text_reader::read()
 	uint32_t newline_start = mMatchNext;
 	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
 	{
-		fsm::language lang = get_language_code(cp);
+		fsm::language lang;
+		switch (cp)
+		{
+		case 0x2029: // Paragraph Separator
+			lang = fsm::language::PS;
+			break;
+		default:
+			lang = (fsm::language)ucd::lookup_category(cp);
+			break;
+		}
+
 		ucd::script script = ucd::lookup_script(cp);
 
 		if (quote_match)
