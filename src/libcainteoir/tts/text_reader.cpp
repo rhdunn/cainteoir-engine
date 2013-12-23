@@ -31,7 +31,13 @@ namespace tts = cainteoir::tts;
 
 static fsm::language get_language_code(ucd::codepoint_t cp)
 {
-	return (fsm::language)ucd::lookup_category(cp);
+	switch (cp)
+	{
+	case 0x2029: // Paragraph Separator
+		return fsm::language::PS;
+	default:
+		return (fsm::language)ucd::lookup_category(cp);
+	}
 }
 
 enum class tts::text_reader::reader_state
@@ -58,7 +64,6 @@ tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
 #define LINE_FEED                   0x000A
 #define SOFT_HYPHEN                 0x00AD
 #define RIGHT_SINGLE_QUOTATION_MARK 0x2019
-#define PARAGRAPH_SEPARATOR         0x2029
 
 bool tts::text_reader::read()
 {
@@ -198,18 +203,7 @@ bool tts::text_reader::read()
 			}
 		}
 		else
-		{
-			if (cp == PARAGRAPH_SEPARATOR)
-			{
-				mCurrent = next;
-				mMatch.type = paragraph;
-				mMatch.range = { mMatchNext, mMatchLast };
-				mNeedEndPara = false;
-				mMatchNext = mMatchLast;
-				return true;
-			}
 			++mMatchNext;
-		}
 	}
 
 	mReaderState = reader_state::need_text;
