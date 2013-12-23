@@ -115,9 +115,8 @@ bool tts::text_reader::read()
 		fsm::language lang;
 		switch (cp)
 		{
-		case 0x2029: // Paragraph Separator
-			lang = fsm::language::PS;
-			break;
+		case 0x002D: lang = fsm::language::HM; break; // Hyphen-Minus
+		case 0x2029: lang = fsm::language::PS; break; // Paragraph Separator
 		default:
 			lang = (fsm::language)ucd::lookup_category(cp);
 			if (lang == fsm::language::Lo)

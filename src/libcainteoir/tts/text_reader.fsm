@@ -42,6 +42,7 @@ language:
   # Unicode Characters
   #     These are Unicode Characters that are not handled generically via their
   #     associated General Category, but instead are handled specifically.
+- "HM" # U+002E : Hyphen-Minus
 - "PS" # U+2029 : Paragraph Separator
 
 value_type: tts::event_type
@@ -127,6 +128,12 @@ states:
     emit: true
     id: paragraph
     value: tts::paragraph
+  H1:
+    name: "Lower Case (Hyphenated)"
+    terminal: false
+    emit: true
+    id: lower_case_hyphen
+    value: tts::word_lowercase
 
 transitions:
   S0:
@@ -137,7 +144,7 @@ transitions:
     L7: [ "Lo" ]
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
-    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps" ]
+    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS" ]
   L1:
@@ -153,6 +160,7 @@ transitions:
   L4:
     L4: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
+    H1: [ "HM" ]
   L5:
     L5: [ "Ll", "Lt", "Lu" ]
   L6:
@@ -164,5 +172,7 @@ transitions:
     N1: [ "Nd", "Nl", "No" ]
   E1:
     E1: [ "Lm", "Mc", "Me", "Mn" ]
+  H1:
+    L4: [ "Ll" ]
 
 # vim: ft=yaml

@@ -1,5 +1,4 @@
-.Latn.lower    [0..2] to
-.Latn.lower    [3..8] night
+.Latn.lower    [0..8] to-night
 .Latn.lower    [9..11] to
 .Latn.lower    [13..18] night
 .Latn.lower    [19..21] to
@@ -93,36 +92,22 @@
 .Latn.lower    [290..292] to
 .Latn.lower    [296..301] night
 .end-para      [301..303] 
-.Latn.lower    [303..307] side
-.Latn.lower    [308..310] by
-.Latn.lower    [311..315] side
-.Latn.lower    [316..320] side
-.Latn.lower    [321..323] by
+.Latn.lower    [303..315] side-by-side
+.Latn.lower    [316..323] side-by
 .Latn.lower    [325..329] side
 .Latn.lower    [330..334] side
-.Latn.lower    [336..338] by
-.Latn.lower    [339..343] side
+.Latn.lower    [336..343] by-side
 .end-para      [343..345] 
-.Latn.lower    [345..351] hyphen
-.Latn.lower    [352..357] ation
+.Latn.lower    [345..357] hyphen-ation
 .Latn.lower    [358..364] hyphen
 .Latn.lower    [366..371] ation
 .end-para      [371..373] 
-.Latn.lower    [373..375] hy
-.Latn.lower    [376..380] phen
-.Latn.lower    [381..382] a
-.Latn.lower    [383..387] tion
-.Latn.lower    [388..390] hy
-.Latn.lower    [391..395] phen
-.Latn.lower    [397..398] a
-.Latn.lower    [399..403] tion
+.Latn.lower    [373..387] hy-phen-a-tion
+.Latn.lower    [388..395] hy-phen
+.Latn.lower    [397..403] a-tion
 .end-para      [403..405] 
-.Latn.lower    [405..408] hyp
-.Latn.lower    [409..412] hen
-.Latn.lower    [413..418] ation
-.Latn.lower    [419..422] hyp
-.Latn.lower    [423..426] hen
+.Latn.lower    [405..418] hyp-hen-ation
+.Latn.lower    [419..426] hyp-hen
 .Latn.lower    [428..433] ation
 .Latn.lower    [434..437] hyp
-.Latn.lower    [439..442] hen
-.Latn.lower    [443..448] ation
+.Latn.lower    [439..448] hen-ation
