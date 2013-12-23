@@ -187,7 +187,7 @@ bool tts::text_reader::read()
 			mNeedEndPara = true;
 		}
 
-		if (mState != 0)
+		if (fsm::emit_character[mState])
 		{
 			mMatch.codepoint = cp;
 			mMatchCurrent = cainteoir::utf8::write(mMatchCurrent, ucd::tolower(cp));

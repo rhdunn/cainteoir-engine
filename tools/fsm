@@ -62,6 +62,12 @@ elif sys.argv[1] == 'header':
 	print '		terminal,'
 	print '	};'
 	print
+	print '	static const bool emit_character[] = {'
+	for state in states:
+		info = fsm['states'][state]
+		print '		%s,' % str(info['emit']).lower()
+	print '	};'
+	print
 	print '	static const %s values[] = {' % fsm['value_type']
 	for state in states:
 		info = fsm['states'][state]
