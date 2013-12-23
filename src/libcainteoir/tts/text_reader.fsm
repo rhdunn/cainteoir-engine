@@ -4,39 +4,41 @@ author:      "Reece H. Dunn"
 license:     "GPLv3+"
 description: "The main logic for parsing text into events."
 
-# Unicode General Categories as specified in the ucd-tools project:
 language:
-- Cc
-- Cf
-- Cn
-- Co
-- Cs
-- Ii
-- Ll
-- Lm
-- Lo
-- Lt
-- Lu
-- Mc
-- Me
-- Mn
-- Nd
-- Nl
-- No
-- Pc
-- Pd
-- Pe
-- Pf
-- Pi
-- Po
-- Ps
-- Sc
-- Sk
-- Sm
-- So
-- Zl
-- Zp
-- Zs
+  # Unicode General Categories
+  #     These are the Unicode General Categories as specified in [http://www.unicode.org/reports/tr44/].
+  #     These must match the order in the ucd::category enumeration.
+- "Cc"
+- "Cf"
+- "Cn"
+- "Co"
+- "Cs"
+- "Ii"
+- "Ll"
+- "Lm"
+- "Lo"
+- "Lt"
+- "Lu"
+- "Mc"
+- "Me"
+- "Mn"
+- "Nd"
+- "Nl"
+- "No"
+- "Pc"
+- "Pd"
+- "Pe"
+- "Pf"
+- "Pi"
+- "Po"
+- "Ps"
+- "Sc"
+- "Sk"
+- "Sm"
+- "So"
+- "Zl"
+- "Zp"
+- "Zs"
 
 value_type: tts::event_type
 

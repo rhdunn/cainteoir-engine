@@ -29,6 +29,11 @@ namespace tts = cainteoir::tts;
 
 #include "text_reader.fsm.h"
 
+static fsm::language get_language_code(ucd::codepoint_t cp)
+{
+	return (fsm::language)ucd::lookup_category(cp);
+}
+
 enum class tts::text_reader::reader_state
 {
 	need_text,
@@ -107,12 +112,12 @@ bool tts::text_reader::read()
 	uint32_t newline_start = mMatchNext;
 	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
 	{
-		ucd::category category = ucd::lookup_category(cp);
-		ucd::script   script   = ucd::lookup_script(cp);
+		fsm::language lang = get_language_code(cp);
+		ucd::script script = ucd::lookup_script(cp);
 
 		if (quote_match)
 		{
-			if (category == ucd::Lu || category == ucd::Ll)
+			if (lang == fsm::language::Lu || lang == fsm::language::Ll)
 			{
 				// The single curly quote is inbetween letters, so keep as part of
 				// the word token.
@@ -142,7 +147,7 @@ bool tts::text_reader::read()
 			return true;
 		}
 
-		uint8_t new_state = (uint8_t)fsm::transitions[mState][category];
+		uint8_t new_state = (uint8_t)fsm::transitions[mState][(int)lang];
 		switch ((fsm::state)mState)
 		{
 		case fsm::state::upper_case_initial:

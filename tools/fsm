@@ -48,6 +48,12 @@ elif sys.argv[1] == 'header':
 	print
 	print 'namespace fsm'
 	print '{'
+	print '	enum class language : uint8_t'
+	print '	{'
+	for lang in fsm['language']:
+		print '		%s,' % lang
+	print '	};'
+	print
 	print '	enum class state : uint8_t'
 	print '	{'
 	for state in states:
