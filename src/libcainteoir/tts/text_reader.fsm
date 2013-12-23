@@ -117,6 +117,7 @@ states:
 
 transitions:
   S0:
+    S0: [ "Cc", "Cf", "Cn", "Co", "Cs", "Ii", "Zl", "Zp", "Zs" ]
     L1: [ "Lu" ]
     L4: [ "Ll" ]
     L6: [ "Lt" ]

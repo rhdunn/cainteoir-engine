@@ -84,7 +84,7 @@ bool tts::text_reader::read()
 
 	if (mReaderState == reader_state::end_paragraph)
 	{
-		if (fsm::is_terminal[mState])
+		if (mState != (int)fsm::state::start)
 			return matched();
 
 		mMatch.type = paragraph;
@@ -176,7 +176,7 @@ bool tts::text_reader::read()
 			break;
 		}
 
-		if (fsm::is_terminal[mState] && !fsm::is_terminal[new_state])
+		if (new_state == (int)fsm::state::terminal)
 			return matched();
 
 		++mMatchLast;

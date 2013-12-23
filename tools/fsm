@@ -59,12 +59,7 @@ elif sys.argv[1] == 'header':
 	for state in states:
 		info = fsm['states'][state]
 		print '		%s,' % info['id']
-	print '	};'
-	print
-	print '	static const bool is_terminal[] = {'
-	for state in states:
-		info = fsm['states'][state]
-		print '		%s,' % str(info['terminal']).lower()
+	print '		terminal,'
 	print '	};'
 	print
 	print '	static const %s values[] = {' % fsm['value_type']
@@ -76,7 +71,7 @@ elif sys.argv[1] == 'header':
 	print '	static const state transitions[][%d] = {' % len(fsm['language'])
 	for state in states:
 		info = fsm['states'][state]
-		t = dict([ (lang, fsm['states'][fsm['start_state']]['id']) for lang in fsm['language'] ])
+		t = dict([ (lang, 'terminal') for lang in fsm['language'] ])
 		if state in fsm['transitions'].keys():
 			transition = fsm['transitions'][state]
 			for new_state, transition_on in sorted(transition.items()):
