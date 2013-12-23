@@ -114,10 +114,15 @@ bool tts::text_reader::read()
 			break;
 		default:
 			lang = (fsm::language)ucd::lookup_category(cp);
+			if (lang == fsm::language::Lo)
+			{
+				ucd::script script = ucd::lookup_script(cp);
+				if (current_script != script && current_script != ucd::Zzzz)
+					lang = fsm::language::Cc; // The script has changed, so split the token here.
+				current_script = script;
+			}
 			break;
 		}
-
-		ucd::script script = ucd::lookup_script(cp);
 
 		if (quote_match)
 		{
@@ -169,13 +174,6 @@ bool tts::text_reader::read()
 			else if (cp == SOFT_HYPHEN)
 				continue;
 			break;
-		case fsm::state::script:
-			if (current_script != script && current_script != ucd::Zzzz)
-			{
-				// The script has changed, so split the token here.
-				new_state = 0;
-			}
-			break;
 		}
 
 		if (fsm::is_terminal[mState] && !fsm::is_terminal[new_state])
@@ -185,7 +183,6 @@ bool tts::text_reader::read()
 
 		if (mState != new_state)
 		{
-			current_script = script;
 			mState = new_state;
 			mNeedEndPara = true;
 		}
