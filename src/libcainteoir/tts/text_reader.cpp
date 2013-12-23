@@ -100,8 +100,14 @@ bool tts::text_reader::read()
 
 	ucd::codepoint_t cp = 0;
 	const char *next = nullptr;
-	const char *quote_match = nullptr;
 	ucd::script current_script = ucd::Zzzz;
+
+	uint8_t saved_state = mState;
+	const char *saved_current = mCurrent;
+	char *saved_match_current = mMatchCurrent;
+	uint32_t saved_match_last = mMatchLast;
+
+	const char *quote_match = nullptr;
 	int newline_count = 0;
 	uint32_t newline_start = mMatchNext;
 	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
@@ -177,7 +183,23 @@ bool tts::text_reader::read()
 		}
 
 		if (new_state == (int)fsm::state::terminal)
+		{
+			if (!fsm::is_terminal[mState])
+			{
+				mState = saved_state;
+				mCurrent = saved_current;
+				mMatchCurrent = saved_match_current + 1;
+				mMatchLast = saved_match_last + 1;
+			}
 			return matched();
+		}
+		else if (fsm::is_terminal[new_state])
+		{
+			saved_state = mState;
+			saved_current = next;
+			saved_match_current = mMatchCurrent;
+			saved_match_last = mMatchLast;
+		}
 
 		++mMatchLast;
 
