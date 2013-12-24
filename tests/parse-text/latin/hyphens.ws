@@ -91,16 +91,23 @@
 .Latn.lower    [290..292] to
 .Latn.lower    [296..301] night
 .end-para      [302..303] 
-.Latn.lower    [303..315] side-by-side
-.Latn.lower    [316..329] side-by-side
-.Latn.lower    [330..343] side-by-side
-.end-para      [344..345] 
-.Latn.lower    [345..357] hyphen-ation
-.Latn.lower    [358..371] hyphen-ation
-.end-para      [372..373] 
-.Latn.lower    [373..387] hy-phen-a-tion
-.Latn.lower    [388..403] hy-phen-a-tion
-.end-para      [404..405] 
-.Latn.lower    [405..418] hyp-hen-ation
-.Latn.lower    [419..433] hyp-hen-ation
-.Latn.lower    [434..448] hyp-hen-ation
+.Latn.capital  [303..311] to-night
+.Latn.capital  [312..321] to-night
+.Latn.capital  [322..324] to
+.Latn.lower    [326..331] night
+.Latn.capital  [332..334] to
+.Latn.lower    [337..342] night
+.end-para      [343..344] 
+.Latn.lower    [344..356] side-by-side
+.Latn.lower    [357..370] side-by-side
+.Latn.lower    [371..384] side-by-side
+.end-para      [385..386] 
+.Latn.lower    [386..398] hyphen-ation
+.Latn.lower    [399..412] hyphen-ation
+.end-para      [413..414] 
+.Latn.lower    [414..428] hy-phen-a-tion
+.Latn.lower    [429..444] hy-phen-a-tion
+.end-para      [445..446] 
+.Latn.lower    [446..459] hyp-hen-ation
+.Latn.lower    [460..474] hyp-hen-ation
+.Latn.lower    [475..489] hyp-hen-ation

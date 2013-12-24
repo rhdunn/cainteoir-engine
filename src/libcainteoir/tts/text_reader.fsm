@@ -155,6 +155,15 @@ states:
     emit: false
     id: lower_case_hyphen_newline
     value: tts::word_lowercase
+  H4:
+    name: "Capitalized with Hyphen"
+    id: capitalized_hyphen
+    value: tts::word_capitalized
+  H5:
+    name: "Capitalized with Hyphen and Newline"
+    emit: false
+    id: capitalized_hyphen_newline
+    value: tts::word_capitalized
   Q1:
     name: Lower Case with Quote
     terminal: false
@@ -225,6 +234,7 @@ transitions:
     L3: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
     Q3: [ "qR", "qQ" ]
+    H4: [ "HM" ]
   L4:
     L4: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
@@ -250,6 +260,11 @@ transitions:
     L4: [ "Ll" ]
   H3:
     L4: [ "Ll" ]
+  H4:
+    L3: [ "Ll" ]
+    H5: [ "LF" ]
+  H5:
+    L3: [ "Ll" ]
   Q1:
     L4: [ "Ll" ]
     L5: [ "Lu" ]
