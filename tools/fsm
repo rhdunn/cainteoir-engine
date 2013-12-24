@@ -33,7 +33,7 @@ if sys.argv[1] == 'dot':
 	print 'digraph "%s" {' % fsm['title']
 	print 'rankdir=LR;'
 	for state, info in sorted(fsm['states'].items()):
-		if info['terminal']:
+		if info.get('terminal', False):
 			print '%s [shape=doublecircle, tooltip="%s"]' % (state, info['name'])
 		else:
 			print '%s [shape=circle, tooltip="%s"]' % (state, info['name'])
