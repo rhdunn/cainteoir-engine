@@ -103,7 +103,7 @@ bool tts::text_reader::read()
 	char *saved_match_current = mMatchCurrent;
 	uint32_t saved_match_last = mMatchLast;
 
-	while ((next = cainteoir::utf8::read(mCurrent, cp)) <= mLast)
+	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
 	{
 		fsm::language lang;
 		switch (cp)
@@ -172,9 +172,6 @@ bool tts::text_reader::read()
 
 		if (data.advance_match_start)
 			++mMatchNext;
-
-		if (data.consume_input)
-			mCurrent = next;
 	}
 
 	mReaderState = reader_state::need_text;
