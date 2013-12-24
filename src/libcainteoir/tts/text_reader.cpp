@@ -110,7 +110,7 @@ bool tts::text_reader::read()
 	const char *quote_match = nullptr;
 	int newline_count = 0;
 	uint32_t newline_start = mMatchNext;
-	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
+	while ((next = cainteoir::utf8::read(mCurrent, cp)) <= mLast)
 	{
 		fsm::language lang;
 		switch (cp)
@@ -177,7 +177,10 @@ bool tts::text_reader::read()
 				cp = '\'';
 			}
 			else if (cp == SOFT_HYPHEN)
+			{
+				mCurrent = next;
 				continue;
+			}
 			break;
 		}
 
@@ -224,6 +227,9 @@ bool tts::text_reader::read()
 
 		if (data.advance_match_start)
 			++mMatchNext;
+
+		if (data.consume_input)
+			mCurrent = next;
 	}
 
 	mReaderState = reader_state::need_text;

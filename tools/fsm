@@ -67,6 +67,7 @@ elif sys.argv[1] == 'header':
 	print '		bool is_terminal;'
 	print '		bool emit_character;'
 	print '		bool advance_match_start;'
+	print '		bool consume_input;'
 	print '		%s value;' % fsm['value_type']
 	print '	};'
 	print
@@ -76,7 +77,8 @@ elif sys.argv[1] == 'header':
 		is_terminal = str(info.get('terminal', False)).lower()
 		emit_character = str(info.get('emit', True)).lower()
 		advance = str(info.get('advance', False)).lower()
-		print '		{ %s, %s, %s, %s },' % (is_terminal, emit_character, advance, info['value'])
+		consume = str(info.get('consume', True)).lower()
+		print '		{ %s, %s, %s, %s, %s },' % (is_terminal, emit_character, advance, consume, info['value'])
 	print '	};'
 	print
 	print '	static const state transitions[][%d] = {' % len(fsm['language'])

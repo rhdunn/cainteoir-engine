@@ -50,14 +50,19 @@ value_type: tts::event_type
 start_state: S0
 
 # terminal (default: false)
-#     if true, the state is an end state where the state machine will return
-#     the matched sequence
+#     if true,  the state is an end state where the state machine will return
+#               the matched sequence
 #
 # emit (default: true)
-#     if true, the character will be written to the output buffer
+#     if true,  the character will be written to the output buffer
 #
 # advance (default: false)
-#     if true, advance the start position of the match range
+#     if true,  advance the start position of the match range
+#
+# consume (default: true)
+#     if true,  the current input character is consumed and the next input
+#               character will be processed
+#     if false, the current input character will be reprocessed
 #
 states:
   S0:
