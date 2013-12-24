@@ -150,6 +150,11 @@ states:
     emit: false
     id: lower_case_softhyphen
     value: tts::word_lowercase
+  H3:
+    name: "Lower Case with Hyphen and Newline"
+    emit: false
+    id: lower_case_hyphen_newline
+    value: tts::word_lowercase
   Q1:
     name: Lower Case with Quote
     terminal: false
@@ -240,7 +245,10 @@ transitions:
     E1: [ "Lm", "Mc", "Me", "Mn" ]
   H1:
     L4: [ "Ll" ]
+    H3: [ "LF" ]
   H2:
+    L4: [ "Ll" ]
+  H3:
     L4: [ "Ll" ]
   Q1:
     L4: [ "Ll" ]
