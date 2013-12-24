@@ -56,10 +56,14 @@ start_state: S0
 # emit (default: true)
 #     if true, the character will be written to the output buffer
 #
+# advance (default: false)
+#     if true, advance the start position of the match range
+#
 states:
   S0:
     name: Start
     emit: false
+    advance: true
     id: start
     value: tts::error
   L1:

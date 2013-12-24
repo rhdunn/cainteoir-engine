@@ -208,7 +208,9 @@ bool tts::text_reader::read()
 			mNeedEndPara = true;
 		}
 
-		if (fsm::data[mState].emit_character)
+		const auto &data = fsm::data[mState];
+
+		if (data.emit_character)
 		{
 			mMatch.codepoint = cp;
 			mMatchCurrent = cainteoir::utf8::write(mMatchCurrent, ucd::tolower(cp));
@@ -219,7 +221,8 @@ bool tts::text_reader::read()
 				return matched();
 			}
 		}
-		else
+
+		if (data.advance_match_start)
 			++mMatchNext;
 	}
 

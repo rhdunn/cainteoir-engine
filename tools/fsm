@@ -66,21 +66,17 @@ elif sys.argv[1] == 'header':
 	print '	{'
 	print '		bool is_terminal;'
 	print '		bool emit_character;'
+	print '		bool advance_match_start;'
 	print '		%s value;' % fsm['value_type']
 	print '	};'
 	print
 	print '	static const data_t data[] = {'
 	for state in states:
 		info = fsm['states'][state]
-		if 'terminal' in info.keys():
-			is_terminal = str(info['terminal']).lower()
-		else:
-			is_terminal = 'false'
-		if 'emit' in info.keys():
-			emit_character = str(info['emit']).lower()
-		else:
-			emit_character = 'true'
-		print '		{ %s, %s, %s },' % (is_terminal, emit_character, info['value'])
+		is_terminal = str(info.get('terminal', False)).lower()
+		emit_character = str(info.get('emit', True)).lower()
+		advance = str(info.get('advance', False)).lower()
+		print '		{ %s, %s, %s, %s },' % (is_terminal, emit_character, advance, info['value'])
 	print '	};'
 	print
 	print '	static const state transitions[][%d] = {' % len(fsm['language'])
