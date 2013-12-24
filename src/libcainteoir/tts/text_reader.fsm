@@ -43,8 +43,10 @@ language:
   #     These are Unicode Characters that are not handled generically via their
   #     associated General Category, but instead are handled specifically.
 - "LF" # U+000A : Line Feed
+- "qQ" # U+0027 : Single Quotation Mark
 - "HM" # U+002D : Hyphen-Minus
 - "SH" # U+00AD : Soft Hyphen
+- "qR" # U+2019 : Right Single Quotation Mark
 - "PS" # U+2029 : Paragraph Separator
 
 value_type: tts::event_type
@@ -74,7 +76,7 @@ states:
     id: start
     value: tts::error
   L1:
-    name: Upper Case (Initial Character)
+    name: Upper Case (Initial Letter)
     terminal: true
     id: upper_case_initial
     value: tts::word_uppercase
@@ -148,6 +150,36 @@ states:
     emit: false
     id: lower_case_softhyphen
     value: tts::word_lowercase
+  Q1:
+    name: Lower Case with Quote
+    terminal: false
+    replacement: 0x0027 # Single Quotation Mark
+    id: lower_case_quote
+    value: tts::word_lowercase
+  Q2:
+    name: Upper Case (Initial Letter) with Quote
+    terminal: false
+    replacement: 0x0027 # Single Quotation Mark
+    id: upper_case_initial_quote
+    value: tts::word_uppercase
+  Q3:
+    name: Capitalized with Quote
+    terminal: false
+    replacement: 0x0027 # Single Quotation Mark
+    id: capitalized_quote
+    value: tts::word_capitalized
+  Q4:
+    name: Mixed Case with Quote
+    terminal: false
+    replacement: 0x0027 # Single Quotation Mark
+    id: mixed_case_quote
+    value: tts::word_mixedcase
+  Q5:
+    name: Upper Case with Quote
+    terminal: false
+    replacement: 0x0027 # Single Quotation Mark
+    id: upper_case_quote
+    value: tts::word_uppercase
 
 transitions:
   S0:
@@ -158,7 +190,7 @@ transitions:
     L7: [ "Lo" ]
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
-    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM" ]
+    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "qQ" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS" ]
     S2: [ "LF" ]
@@ -172,26 +204,31 @@ transitions:
     L7: [ "Lo" ]
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
-    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM" ]
+    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "qQ" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS", "LF" ]
   L1:
     L2: [ "Lu" ]
     L3: [ "Ll" ]
     L5: [ "Lt" ]
+    Q2: [ "qR", "qQ" ]
   L2:
     L2: [ "Lu" ]
     L5: [ "Ll", "Lt" ]
+    Q5: [ "qR", "qQ" ]
   L3:
     L3: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
+    Q3: [ "qR", "qQ" ]
   L4:
     L4: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
     H1: [ "HM" ]
     H2: [ "SH" ]
+    Q1: [ "qR", "qQ" ]
   L5:
     L5: [ "Ll", "Lt", "Lu" ]
+    Q4: [ "qR", "qQ" ]
   L6:
     L3: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
@@ -205,5 +242,18 @@ transitions:
     L4: [ "Ll" ]
   H2:
     L4: [ "Ll" ]
+  Q1:
+    L4: [ "Ll" ]
+    L5: [ "Lu" ]
+  Q2:
+    L2: [ "Lu" ]
+    L3: [ "Ll" ]
+  Q3:
+    L3: [ "Ll" ]
+  Q4:
+    L5: [ "Ll" ]
+  Q5:
+    L2: [ "Lu" ]
+    L5: [ "Ll" ]
 
 # vim: ft=yaml

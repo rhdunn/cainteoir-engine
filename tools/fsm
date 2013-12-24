@@ -68,6 +68,7 @@ elif sys.argv[1] == 'header':
 	print '		bool emit_character;'
 	print '		bool advance_match_start;'
 	print '		bool consume_input;'
+	print '		ucd::codepoint_t replacement_character;'
 	print '		%s value;' % fsm['value_type']
 	print '	};'
 	print
@@ -78,7 +79,8 @@ elif sys.argv[1] == 'header':
 		emit_character = str(info.get('emit', True)).lower()
 		advance = str(info.get('advance', False)).lower()
 		consume = str(info.get('consume', True)).lower()
-		print '		{ %s, %s, %s, %s, %s },' % (is_terminal, emit_character, advance, consume, info['value'])
+		replacement = info.get('replacement', 0)
+		print '		{ %s, %s, %s, %s, 0x%04X, %s },' % (is_terminal, emit_character, advance, consume, replacement, info['value'])
 	print '	};'
 	print
 	print '	static const state transitions[][%d] = {' % len(fsm['language'])

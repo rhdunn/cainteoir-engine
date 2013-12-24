@@ -50,8 +50,6 @@ tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
 	mMatch.type = error;
 }
 
-#define RIGHT_SINGLE_QUOTATION_MARK 0x2019
-
 bool tts::text_reader::read()
 {
 	while (mReaderState == reader_state::need_text && mReader->read())
@@ -105,15 +103,16 @@ bool tts::text_reader::read()
 	char *saved_match_current = mMatchCurrent;
 	uint32_t saved_match_last = mMatchLast;
 
-	const char *quote_match = nullptr;
 	while ((next = cainteoir::utf8::read(mCurrent, cp)) <= mLast)
 	{
 		fsm::language lang;
 		switch (cp)
 		{
 		case 0x000A: lang = fsm::language::LF; break; // Line Feed
+		case 0x0027: lang = fsm::language::qQ; break; // Single Quotation Mark
 		case 0x002D: lang = fsm::language::HM; break; // Hyphen-Minus
 		case 0x00AD: lang = fsm::language::SH; break; // Soft Hyphen
+		case 0x2019: lang = fsm::language::qR; break; // Right Single Quotation Mark
 		case 0x2029: lang = fsm::language::PS; break; // Paragraph Separator
 		default:
 			lang = (fsm::language)ucd::lookup_category(cp);
@@ -127,43 +126,7 @@ bool tts::text_reader::read()
 			break;
 		}
 
-		if (quote_match)
-		{
-			if (lang == fsm::language::Lu || lang == fsm::language::Ll)
-			{
-				// The single curly quote is inbetween letters, so keep as part of
-				// the word token.
-				quote_match = nullptr;
-			}
-			else
-			{
-				// The curly quote is at the end of the word token, so don't make
-				// it part of the word token (keep it as a separate punctuation
-				// token).
-				mCurrent = quote_match;
-				--mMatchCurrent;
-				return matched();
-			}
-		}
-
 		uint8_t new_state = (uint8_t)fsm::transitions[mState][(int)lang];
-		switch ((fsm::state)mState)
-		{
-		case fsm::state::upper_case_initial:
-		case fsm::state::upper_case:
-		case fsm::state::capitalized:
-		case fsm::state::lower_case:
-		case fsm::state::mixed_case:
-		case fsm::state::title_case_initial:
-			if (cp == '\'' || cp == RIGHT_SINGLE_QUOTATION_MARK)
-			{
-				quote_match = mCurrent;
-				new_state = mState;
-				cp = '\'';
-			}
-			break;
-		}
-
 		if (new_state == (int)fsm::state::terminal)
 		{
 			if (!fsm::data[mState].is_terminal)
@@ -195,6 +158,8 @@ bool tts::text_reader::read()
 
 		if (data.emit_character)
 		{
+			if (data.replacement_character)
+				cp = data.replacement_character;
 			mMatch.codepoint = cp;
 			mMatchCurrent = cainteoir::utf8::write(mMatchCurrent, ucd::tolower(cp));
 			if ((mMatchCurrent - mMatchBuffer) >= (sizeof(mMatchBuffer) - 12))
