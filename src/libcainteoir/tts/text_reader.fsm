@@ -49,89 +49,81 @@ value_type: tts::event_type
 
 start_state: S0
 
+# terminal (default: false)
+#     if true, the state is an end state where the state machine will return
+#     the matched sequence
+#
+# emit (default: true)
+#     if true, the character will be written to the output buffer
+#
 states:
   S0:
     name: Start
-    terminal: false
     emit: false
     id: start
     value: tts::error
   L1:
     name: Upper Case (Initial Character)
     terminal: true
-    emit: true
     id: upper_case_initial
     value: tts::word_uppercase
   L2:
     name: Upper Case
     terminal: true
-    emit: true
     id: upper_case
     value: tts::word_uppercase
   L3:
     name: Capitalized
     terminal: true
-    emit: true
     id: capitalized
     value: tts::word_capitalized
   L4:
     name: Lower Case
     terminal: true
-    emit: true
     id: lower_case
     value: tts::word_lowercase
   L5:
     name: Mixed Case
     terminal: true
-    emit: true
     id: mixed_case
     value: tts::word_mixedcase
   L6:
     name: Title Case (Initial Letter)
     terminal: true
-    emit: true
     id: title_case_initial
     value: tts::word_capitalized
   L7:
     name: Script
     terminal: true
-    emit: true
     id: script
     value: tts::word_script
   N1:
     name: Number
     terminal: true
-    emit: true
     id: number
     value: tts::number
   P1:
     name: Punctuation
     terminal: true
-    emit: true
     id: punctuation
     value: tts::punctuation
   Y1:
     name: Symbol
     terminal: true
-    emit: true
     id: symbol
     value: tts::symbol
   E1:
     name: Error
     terminal: true
-    emit: true
     id: error
     value: tts::error
   S1:
     name: Paragraph
     terminal: true
-    emit: true
     id: paragraph
     value: tts::paragraph
   H1:
     name: "Lower Case (Hyphenated)"
-    terminal: false
-    emit: true
     id: lower_case_hyphen
     value: tts::word_lowercase
 

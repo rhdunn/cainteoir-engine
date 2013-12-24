@@ -72,8 +72,14 @@ elif sys.argv[1] == 'header':
 	print '	static const data_t data[] = {'
 	for state in states:
 		info = fsm['states'][state]
-		is_terminal = str(info['terminal']).lower()
-		emit_character = str(info['emit']).lower()
+		if 'terminal' in info.keys():
+			is_terminal = str(info['terminal']).lower()
+		else:
+			is_terminal = 'false'
+		if 'emit' in info.keys():
+			emit_character = str(info['emit']).lower()
+		else:
+			emit_character = 'true'
 		print '		{ %s, %s, %s },' % (is_terminal, emit_character, info['value'])
 	print '	};'
 	print
