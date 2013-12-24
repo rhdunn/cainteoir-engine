@@ -43,7 +43,8 @@ language:
   #     These are Unicode Characters that are not handled generically via their
   #     associated General Category, but instead are handled specifically.
 - "LF" # U+000A : Line Feed
-- "HM" # U+002E : Hyphen-Minus
+- "HM" # U+002D : Hyphen-Minus
+- "SH" # U+00AD : Soft Hyphen
 - "PS" # U+2029 : Paragraph Separator
 
 value_type: tts::event_type
@@ -139,13 +140,18 @@ states:
     id: newline
     value: tts::error
   H1:
-    name: "Lower Case (Hyphenated)"
+    name: "Lower Case with Hyphen"
     id: lower_case_hyphen
+    value: tts::word_lowercase
+  H2:
+    name: "Lower Case with Soft Hyphen"
+    emit: false
+    id: lower_case_softhyphen
     value: tts::word_lowercase
 
 transitions:
   S0:
-    S0: [ "Cc", "Cf", "Cn", "Co", "Cs", "Ii", "Zl", "Zp", "Zs" ]
+    S0: [ "Cc", "Cf", "Cn", "Co", "Cs", "Ii", "Zl", "Zp", "Zs", "SH" ]
     L1: [ "Lu" ]
     L4: [ "Ll" ]
     L6: [ "Lt" ]
@@ -159,7 +165,7 @@ transitions:
   S1:
     S1: [ "PS", "LF" ]
   S2:
-    S0: [ "Cc", "Cf", "Cn", "Co", "Cs", "Ii", "Zl", "Zp", "Zs" ]
+    S0: [ "Cc", "Cf", "Cn", "Co", "Cs", "Ii", "Zl", "Zp", "Zs", "SH" ]
     L1: [ "Lu" ]
     L4: [ "Ll" ]
     L6: [ "Lt" ]
@@ -183,6 +189,7 @@ transitions:
     L4: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
     H1: [ "HM" ]
+    H2: [ "SH" ]
   L5:
     L5: [ "Ll", "Lt", "Lu" ]
   L6:
@@ -195,6 +202,8 @@ transitions:
   E1:
     E1: [ "Lm", "Mc", "Me", "Mn" ]
   H1:
+    L4: [ "Ll" ]
+  H2:
     L4: [ "Ll" ]
 
 # vim: ft=yaml

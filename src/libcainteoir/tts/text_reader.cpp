@@ -50,7 +50,6 @@ tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
 	mMatch.type = error;
 }
 
-#define SOFT_HYPHEN                 0x00AD
 #define RIGHT_SINGLE_QUOTATION_MARK 0x2019
 
 bool tts::text_reader::read()
@@ -114,6 +113,7 @@ bool tts::text_reader::read()
 		{
 		case 0x000A: lang = fsm::language::LF; break; // Line Feed
 		case 0x002D: lang = fsm::language::HM; break; // Hyphen-Minus
+		case 0x00AD: lang = fsm::language::SH; break; // Soft Hyphen
 		case 0x2029: lang = fsm::language::PS; break; // Paragraph Separator
 		default:
 			lang = (fsm::language)ucd::lookup_category(cp);
@@ -160,11 +160,6 @@ bool tts::text_reader::read()
 				quote_match = mCurrent;
 				new_state = mState;
 				cp = '\'';
-			}
-			else if (cp == SOFT_HYPHEN)
-			{
-				mCurrent = next;
-				continue;
 			}
 			break;
 		}

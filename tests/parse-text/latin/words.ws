@@ -68,4 +68,4 @@
 .Latn.capital  [228..233] ǉiǉan
 .end-para      [234..235] 
 .Latn.lower    [235..238] shy
-.Latn.lower    [239..250] hyphenation
+.Latn.lower    [239..251] hyphenation
