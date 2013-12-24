@@ -164,6 +164,11 @@ states:
     emit: false
     id: capitalized_hyphen_newline
     value: tts::word_capitalized
+  H6:
+    name: "Capitalized with Soft Hyphen"
+    emit: false
+    id: capitalized_softhyphen
+    value: tts::word_capitalized
   Q1:
     name: Lower Case with Quote
     terminal: false
@@ -235,6 +240,7 @@ transitions:
     L5: [ "Lt", "Lu" ]
     Q3: [ "qR", "qQ" ]
     H4: [ "HM" ]
+    H6: [ "SH" ]
   L4:
     L4: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
@@ -258,6 +264,7 @@ transitions:
     H3: [ "LF" ]
   H2:
     L4: [ "Ll" ]
+    H3: [ "LF" ]
   H3:
     L4: [ "Ll" ]
   H4:
@@ -265,6 +272,9 @@ transitions:
     H5: [ "LF" ]
   H5:
     L3: [ "Ll" ]
+  H6:
+    L3: [ "Ll" ]
+    H5: [ "LF" ]
   Q1:
     L4: [ "Ll" ]
     L5: [ "Lu" ]
