@@ -7,7 +7,7 @@
 .Latn.lower    [15..19] said
 .Latn.capital  [20..24] jane
 .punctuation   [24..25] .
-.end-para      [25..27] 
+.end-para      [26..27] 
 .punctuation   [27..28] "
 .Latn.capital  [28..31] i'm
 .Latn.lower    [32..36] fine
@@ -16,7 +16,7 @@
 .Latn.lower    [39..46] replied
 .Latn.capital  [47..51] tony
 .punctuation   [51..52] .
-.end-para      [52..54] 
+.end-para      [53..54] 
 .punctuation   [54..55] "
 .punctuation   [55..56] '
 .Latn.lower    [56..59] ave
@@ -30,7 +30,7 @@
 .Latn.lower    [86..91] asked
 .Latn.capital  [92..97] henry
 .punctuation   [97..98] .
-.end-para      [98..100] 
+.end-para      [99..100] 
 .punctuation   [100..101] "
 .Latn.capital  [101..103] no
 .punctuation   [103..104] .

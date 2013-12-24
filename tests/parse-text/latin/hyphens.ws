@@ -5,7 +5,7 @@
 .Latn.lower    [23..28] night
 .Latn.lower    [29..31] to
 .Latn.lower    [34..39] night
-.end-para      [39..41] 
+.end-para      [40..41] 
 .Latn.lower    [41..45] test
 .Latn.lower    [46..49] one
 .Latn.lower    [46..49] hundred
@@ -26,7 +26,7 @@
 .Latn.lower    [77..80] hundred
 .Latn.lower    [77..80] twenty
 .Latn.lower    [77..80] three
-.end-para      [80..82] 
+.end-para      [81..82] 
 .Latn.lower    [82..85] one
 .Latn.lower    [82..85] hundred
 .Latn.lower    [82..85] twenty
@@ -47,7 +47,7 @@
 .Latn.lower    [111..114] twenty
 .Latn.lower    [111..114] three
 .Latn.lower    [117..121] test
-.end-para      [121..123] 
+.end-para      [122..123] 
 .Latn.lower    [123..125] to
 .comma         [125..126] ,
 .Latn.lower    [127..132] night
@@ -60,7 +60,7 @@
 .Latn.lower    [155..157] to
 .comma         [157..158] ,
 .Latn.lower    [161..166] night
-.end-para      [166..168] 
+.end-para      [167..168] 
 .Latn.lower    [168..170] to
 .comma         [171..172] ,
 .Latn.lower    [172..177] night
@@ -73,7 +73,7 @@
 .Latn.lower    [200..202] to
 .comma         [205..206] ,
 .Latn.lower    [206..211] night
-.end-para      [211..213] 
+.end-para      [212..213] 
 .Latn.lower    [213..215] to
 .Latn.lower    [217..222] night
 .Latn.lower    [223..225] to
@@ -82,7 +82,7 @@
 .Latn.lower    [239..244] night
 .Latn.lower    [245..247] to
 .Latn.lower    [251..256] night
-.end-para      [256..258] 
+.end-para      [257..258] 
 .Latn.lower    [258..260] to
 .Latn.lower    [262..267] night
 .Latn.lower    [268..270] to
@@ -91,21 +91,21 @@
 .Latn.lower    [284..289] night
 .Latn.lower    [290..292] to
 .Latn.lower    [296..301] night
-.end-para      [301..303] 
+.end-para      [302..303] 
 .Latn.lower    [303..315] side-by-side
 .Latn.lower    [316..323] side-by
 .Latn.lower    [325..329] side
 .Latn.lower    [330..334] side
 .Latn.lower    [336..343] by-side
-.end-para      [343..345] 
+.end-para      [344..345] 
 .Latn.lower    [345..357] hyphen-ation
 .Latn.lower    [358..364] hyphen
 .Latn.lower    [366..371] ation
-.end-para      [371..373] 
+.end-para      [372..373] 
 .Latn.lower    [373..387] hy-phen-a-tion
 .Latn.lower    [388..395] hy-phen
 .Latn.lower    [397..403] a-tion
-.end-para      [403..405] 
+.end-para      [404..405] 
 .Latn.lower    [405..418] hyp-hen-ation
 .Latn.lower    [419..426] hyp-hen
 .Latn.lower    [428..433] ation

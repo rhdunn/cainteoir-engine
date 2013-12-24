@@ -50,7 +50,7 @@
 .Latn.capital  [147..149] yy
 .Latn.mixed    [150..152] zz
 .Latn.capital  [153..155] zz
-.end-para      [155..157] 
+.end-para      [156..157] 
 .Latn.lower    [157..158] a
 .Latn.lower    [159..161] me
 .Latn.lower    [162..165] cat
@@ -59,15 +59,15 @@
 .Latn.lower    [177..183] sleeps
 .Latn.lower    [184..191] greatly
 .Latn.lower    [192..200] climbing
-.end-para      [200..202] 
+.end-para      [201..202] 
 .Latn.lower    [202..209] lexical
 .punctuation   [209..210] _
 .Latn.lower    [210..214] cast
 .Latn.capital  [215..218] old
 .punctuation   [218..219] _
 .Latn.capital  [219..226] persian
-.end-para      [226..228] 
+.end-para      [227..228] 
 .Latn.capital  [228..233] ǉiǉan
-.end-para      [233..235] 
+.end-para      [234..235] 
 .Latn.lower    [235..238] shy
 .Latn.lower    [239..250] hyphenation

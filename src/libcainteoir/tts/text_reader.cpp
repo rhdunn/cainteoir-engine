@@ -50,7 +50,6 @@ tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
 	mMatch.type = error;
 }
 
-#define LINE_FEED                   0x000A
 #define SOFT_HYPHEN                 0x00AD
 #define RIGHT_SINGLE_QUOTATION_MARK 0x2019
 
@@ -108,13 +107,12 @@ bool tts::text_reader::read()
 	uint32_t saved_match_last = mMatchLast;
 
 	const char *quote_match = nullptr;
-	int newline_count = 0;
-	uint32_t newline_start = mMatchNext;
 	while ((next = cainteoir::utf8::read(mCurrent, cp)) <= mLast)
 	{
 		fsm::language lang;
 		switch (cp)
 		{
+		case 0x000A: lang = fsm::language::LF; break; // Line Feed
 		case 0x002D: lang = fsm::language::HM; break; // Hyphen-Minus
 		case 0x2029: lang = fsm::language::PS; break; // Paragraph Separator
 		default:
@@ -146,19 +144,6 @@ bool tts::text_reader::read()
 				--mMatchCurrent;
 				return matched();
 			}
-		}
-
-		if (cp == LINE_FEED)
-		{
-			++newline_count;
-		}
-		else if (newline_count >= 2)
-		{
-			mMatch.type = paragraph;
-			mMatch.range = { newline_start, mMatchLast };
-			mNeedEndPara = false;
-			mMatchNext = mMatchLast;
-			return true;
 		}
 
 		uint8_t new_state = (uint8_t)fsm::transitions[mState][(int)lang];
