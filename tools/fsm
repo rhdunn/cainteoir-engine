@@ -62,22 +62,19 @@ elif sys.argv[1] == 'header':
 	print '		terminal,'
 	print '	};'
 	print
-	print '	static const bool is_terminal[] = {'
-	for state in states:
-		info = fsm['states'][state]
-		print '		%s,' % str(info['terminal']).lower()
+	print '	struct data_t'
+	print '	{'
+	print '		bool is_terminal;'
+	print '		bool emit_character;'
+	print '		%s value;' % fsm['value_type']
 	print '	};'
 	print
-	print '	static const bool emit_character[] = {'
+	print '	static const data_t data[] = {'
 	for state in states:
 		info = fsm['states'][state]
-		print '		%s,' % str(info['emit']).lower()
-	print '	};'
-	print
-	print '	static const %s values[] = {' % fsm['value_type']
-	for state in states:
-		info = fsm['states'][state]
-		print '		%s,' % info['value']
+		is_terminal = str(info['terminal']).lower()
+		emit_character = str(info['emit']).lower()
+		print '		{ %s, %s, %s },' % (is_terminal, emit_character, info['value'])
 	print '	};'
 	print
 	print '	static const state transitions[][%d] = {' % len(fsm['language'])

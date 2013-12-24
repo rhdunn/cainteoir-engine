@@ -183,7 +183,7 @@ bool tts::text_reader::read()
 
 		if (new_state == (int)fsm::state::terminal)
 		{
-			if (!fsm::is_terminal[mState])
+			if (!fsm::data[mState].is_terminal)
 			{
 				mState = saved_state;
 				mCurrent = saved_current;
@@ -192,7 +192,7 @@ bool tts::text_reader::read()
 			}
 			return matched();
 		}
-		else if (fsm::is_terminal[new_state])
+		else if (fsm::data[new_state].is_terminal)
 		{
 			saved_state = mState;
 			saved_current = next;
@@ -208,7 +208,7 @@ bool tts::text_reader::read()
 			mNeedEndPara = true;
 		}
 
-		if (fsm::emit_character[mState])
+		if (fsm::data[mState].emit_character)
 		{
 			mMatch.codepoint = cp;
 			mMatchCurrent = cainteoir::utf8::write(mMatchCurrent, ucd::tolower(cp));
@@ -229,7 +229,7 @@ bool tts::text_reader::read()
 
 bool tts::text_reader::matched()
 {
-	mMatch.type = fsm::values[mState];
+	mMatch.type = fsm::data[mState].value;
 	mState = 0;
 	mMatch.text = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
 	mMatch.range = { mMatchNext, mMatchLast };
