@@ -4,6 +4,8 @@
 
 ##### C1 Controls and Latin-1 Supplement
 
+.			/{sbr}/
+
 \u00E6			/{sml,fnt,unr,vcd,vwl}/
 \u00E7			/{vls,pal,frc}/
 
