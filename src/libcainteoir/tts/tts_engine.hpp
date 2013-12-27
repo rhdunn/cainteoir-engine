@@ -55,7 +55,7 @@ namespace cainteoir { namespace tts
 	{
 		virtual ~engine() {}
 
-		virtual bool select_voice(const char *voicename) = 0;
+		virtual bool select_voice(const char *voicename, const std::string &phonemeset) = 0;
 
 		virtual void speak(buffer *text, size_t offset, engine_callback *callback) = 0;
 

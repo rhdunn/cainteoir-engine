@@ -290,7 +290,7 @@ public:
 	/** @name cainteoir::tts_engine */
 	//@{
 
-	bool select_voice(const char *voicename);
+	bool select_voice(const char *voicename, const std::string &phonemeset);
 
 	void speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback);
 
@@ -306,6 +306,7 @@ private:
 	std::shared_ptr<tts::parameter> mPitch;
 	std::shared_ptr<tts::parameter> mPitchRange;
 	std::shared_ptr<tts::parameter> mWordGap;
+	std::string mPhonemeSet;
 };
 
 espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::string &default_voice)
@@ -314,6 +315,7 @@ espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::st
 	, mPitch(std::make_shared<espeak_parameter>(i18n("Base Pitch"), "", espeakPITCH, 0, 100, 1))
 	, mPitchRange(std::make_shared<espeak_parameter>(i18n("Pitch Variation"), "", espeakRANGE, 0, 100, 1))
 	, mWordGap(std::make_shared<espeak_parameter>(i18n("Word Gap"), "ms", espeakWORDGAP, 0, 500, 10))
+	, mPhonemeSet("ipa")
 {
 	baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
 	default_voice = "default";
@@ -350,6 +352,7 @@ espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::st
 		metadata.statement(voice, rdf::dc("language"), rdf::literal(correct_lang((*data)->languages+1)));
 		metadata.statement(voice, rdf::tts("name"), rdf::literal((*data)->name));
 		metadata.statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male"));
+		metadata.statement(voice, rdf::tts("phonemeset"), rdf::literal("ipa"));
 		if ((*data)->age)
 			metadata.statement(voice, rdf::tts("age"), rdf::literal((*data)->age, rdf::xsd("int")));
 
@@ -371,6 +374,7 @@ espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::st
 			metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola.language));
 			metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola.name));
 			metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola.gender));
+			metadata.statement(voice, rdf::tts("phonemeset"), rdf::literal("ipa"));
 
 			metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola.frequency, rdf::tts("hertz")));
 			metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
@@ -387,9 +391,14 @@ espeak_engine::~espeak_engine()
 	espeak_Terminate();
 }
 
-bool espeak_engine::select_voice(const char *voicename)
+bool espeak_engine::select_voice(const char *voicename, const std::string &phonemeset)
 {
-	return espeak_SetVoiceByName(voicename) == EE_OK;
+	if (espeak_SetVoiceByName(voicename) == EE_OK)
+	{
+		mPhonemeSet = phonemeset;
+		return true;
+	}
+	return false;
 }
 
 void espeak_engine::speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback)
@@ -401,7 +410,7 @@ void espeak_engine::speak(cainteoir::buffer *text, size_t offset, tts::engine_ca
 
 std::shared_ptr<tts::phoneme_reader> espeak_engine::pronunciation()
 {
-	return std::make_shared<espeak_pronunciation>("ipa");
+	return std::make_shared<espeak_pronunciation>(mPhonemeSet.c_str());
 }
 
 std::shared_ptr<tts::parameter>

@@ -116,7 +116,7 @@ public:
 	/** @name cainteoir::tts_engine */
 	//@{
 
-	bool select_voice(const char *voicename);
+	bool select_voice(const char *voicename, const std::string &phonemeset);
 
 	void speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback);
 
@@ -175,6 +175,7 @@ pico_engine::pico_engine(rdf::graph &metadata, std::string &baseuri, std::string
 		metadata.statement(voice, rdf::dc("language"), rdf::literal(data.language));
 		metadata.statement(voice, rdf::tts("name"), rdf::literal(data.language));
 		metadata.statement(voice, rdf::tts("gender"), rdf::tts("female"));
+		metadata.statement(voice, rdf::tts("phonemeset"), rdf::literal("ipa"));
 
 		metadata.statement(voice, rdf::tts("frequency"), rdf::literal(16000, rdf::tts("hertz")));
 		metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
@@ -195,7 +196,7 @@ pico_engine::~pico_engine()
 	}
 }
 
-bool pico_engine::select_voice(const char *voicename)
+bool pico_engine::select_voice(const char *voicename, const std::string &phonemeset)
 {
 	for (const auto &data : voices)
 	{
