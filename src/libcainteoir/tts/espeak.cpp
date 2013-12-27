@@ -167,24 +167,29 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 class espeak_pronunciation : public tts::phoneme_reader
 {
 public:
-	espeak_pronunciation();
+	espeak_pronunciation(const char *aPhonemeSet);
 
 	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
 
 	bool read();
 private:
 	std::shared_ptr<tts::phoneme_reader> mReader;
+	bool mIPA;
 };
 
-espeak_pronunciation::espeak_pronunciation()
-	: mReader(tts::createPhonemeReader("ipa"))
+espeak_pronunciation::espeak_pronunciation(const char *aPhonemeSet)
+	: mReader(tts::createPhonemeReader(aPhonemeSet))
+	, mIPA(!strcmp(aPhonemeSet, "ipa"))
 {
 }
 
 void espeak_pronunciation::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 {
 #if defined(HAVE_ESPEAK_TEXTTOPHONEMES)
-	static const int PHONEME_MODE = 0x0011; // IPA + \u0361 ties
+	static const int TIE_BARS        = 0x0001;
+	static const int ESPEAK_PHONEMES = 0x0000;
+	static const int IPA_PHONEMES    = 0x0010;
+	static const int PHONEME_MODE    = mIPA ? (IPA_PHONEMES | TIE_BARS) : ESPEAK_PHONEMES;
 
 	cainteoir::rope ret;
 	std::string txt = aBuffer->str(); // null-terminate the text buffer
@@ -199,12 +204,13 @@ void espeak_pronunciation::reset(const std::shared_ptr<cainteoir::buffer> &aBuff
 	}
 	mReader->reset(ret.buffer());
 #else
-	static const int PHONEME_MODE = 4; // IPA (3) + \u0361 ties (1)
+	static const int IPA_PHONEMES    = 4; // IPA + \u0361 ties
+	static const int ESPEAK_PHONEMES = 1; // eSpeak
 
 	std::string txt = aBuffer->str(); // null-terminate the text buffer
 
 	cainteoir::memory_file f;
-	espeak_SetPhonemeTrace(PHONEME_MODE, f);
+	espeak_SetPhonemeTrace(mIPA ? IPA_PHONEMES : ESPEAK_PHONEMES, f);
 	espeak_Synth(txt.c_str(), txt.size(), 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, nullptr, nullptr);
 	espeak_Synchronize();
 	espeak_SetPhonemeTrace(0, stdout);
@@ -395,7 +401,7 @@ void espeak_engine::speak(cainteoir::buffer *text, size_t offset, tts::engine_ca
 
 std::shared_ptr<tts::phoneme_reader> espeak_engine::pronunciation()
 {
-	return std::make_shared<espeak_pronunciation>();
+	return std::make_shared<espeak_pronunciation>("ipa");
 }
 
 std::shared_ptr<tts::parameter>
