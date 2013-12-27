@@ -318,6 +318,10 @@ e\u0361\u0259		/{lmd,fnt,unr,dpr,mid,cnt}/
 e\u035C\u0259		/{lmd,fnt,unr,dpr,mid,cnt}/
 e\u200D\u0259		/{lmd,fnt,unr,dpr,mid,cnt}/
 
+\u0251\u02D0\u0279	/{low,bck,unr,vcd,vwl,rzd}/ # /A:r/ ~ ST/AR/T
+o\u02D0\u0279		/{umd,bck,rnd,vcd,vwl,rzd}/ # /o:r/ ~ F/OR/CE
+\u0254\u02D0\u0279	/{lmd,bck,rnd,vcd,vwl,rzd}/ # /O:r/ ~ N/OR/TH
+
 ##### Triphthongs
 
 a\u026A\u032F\u0259\u032F	/{low,fnt,unr,dpr,smh,rzd}/
