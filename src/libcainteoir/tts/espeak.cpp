@@ -60,6 +60,13 @@ std::string correct_lang(std::string lang)
 	return lang;
 }
 
+std::string phonemeset_from_lang(const std::string &lang)
+{
+	if (lang[0] == 'e' && lang[1] == 'n')
+		return "espeak/en";
+	return "ipa";
+}
+
 #if defined(HAVE_MBROLA)
 struct mbrola_voice
 {
@@ -343,16 +350,17 @@ espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::st
 
 	for (const espeak_VOICE **data = espeak_ListVoices(nullptr); *data; ++data)
 	{
+		std::string lang = correct_lang((*data)->languages+1);
 		std::string id = (*data)->name;
 		if (id == "french (Belgium)")
 			id = "french-belgium";
 
 		rdf::uri voice = rdf::uri(baseuri, id);
 		metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
-		metadata.statement(voice, rdf::dc("language"), rdf::literal(correct_lang((*data)->languages+1)));
+		metadata.statement(voice, rdf::dc("language"), rdf::literal(lang));
 		metadata.statement(voice, rdf::tts("name"), rdf::literal((*data)->name));
 		metadata.statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male"));
-		metadata.statement(voice, rdf::tts("phonemeset"), rdf::literal("ipa"));
+		metadata.statement(voice, rdf::tts("phonemeset"), rdf::literal(phonemeset_from_lang(lang)));
 		if ((*data)->age)
 			metadata.statement(voice, rdf::tts("age"), rdf::literal((*data)->age, rdf::xsd("int")));
 
@@ -374,7 +382,7 @@ espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::st
 			metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola.language));
 			metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola.name));
 			metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola.gender));
-			metadata.statement(voice, rdf::tts("phonemeset"), rdf::literal("ipa"));
+			metadata.statement(voice, rdf::tts("phonemeset"), rdf::literal(phonemeset_from_lang(mbrola.language)));
 
 			metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola.frequency, rdf::tts("hertz")));
 			metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
