@@ -256,6 +256,10 @@ d_Z_j	/{vcd,pla,afr,pzd}/
 
 ##### Diphthongs [5], [6], [8]
 
+eI_^	/{lmd,fnt,unr,dpr,smh}/
+aI_^	/{low,fnt,unr,dpr,smh}/
+OI_^	/{lmd,bck,rnd,dpr,smh,fnt}/
+
 eI)	/{lmd,fnt,unr,dpr,smh}/
 aI)	/{low,fnt,unr,dpr,smh}/
 OI)	/{lmd,bck,rnd,dpr,smh,fnt}/
@@ -264,11 +268,18 @@ e_I	/{lmd,fnt,unr,dpr,smh}/
 a_I	/{low,fnt,unr,dpr,smh}/
 O_I	/{lmd,bck,rnd,dpr,smh,fnt}/
 
+@U_^	/{mid,cnt,unr,dpr,smh,bck}/
+aU_^	/{low,fnt,unr,dpr,smh,bck}/
+
 @U)	/{mid,cnt,unr,dpr,smh,bck}/
 aU)	/{low,fnt,unr,dpr,smh,bck}/
 
 @_U	/{mid,cnt,unr,dpr,smh,bck}/
 a_U	/{low,fnt,unr,dpr,smh,bck}/
+
+I@_^	/{smh,fnt,unr,dpf,mid,cnt}/
+e@_^	/{lmd,fnt,unr,dpr,mid,cnt}/
+U@_^	/{smh,bck,rnd,dpf,mid,cnt}/
 
 I@)	/{smh,fnt,unr,dpf,mid,cnt}/
 e@)	/{lmd,fnt,unr,dpr,mid,cnt}/
@@ -297,8 +308,9 @@ U_@	/{smh,bck,rnd,dpf,mid,cnt}/
 #
 #  6. X-SAMPA does not state how diphthongs should be transcribed, but the
 #     language-specific SAMPA variants do. Therefore, the diphthongs are taken
-#     from the SAMPA specifications. The difference here is that the tie bar
-#     is used to link the two phonemes.
+#     from the SAMPA specifications. The tie bar or non-syllabic diacritic forms
+#     are used to indicate diphthongs, with the non-syllabic diacritic taking
+#     precedence.
 #
 #  7. These symbols are different between X-SAMPA and Conlang X-SAMPA.
 #
