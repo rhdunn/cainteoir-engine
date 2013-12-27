@@ -266,50 +266,62 @@ t\u200D\u0283		/{vls,pla,afr}/
 
 ##### Diphthongs
 
+\u0254\u026A\u032F	/{lmd,bck,rnd,dpr,smh,fnt}/
 \u0254\u0361\u026A	/{lmd,bck,rnd,dpr,smh,fnt}/
 \u0254\u035C\u026A	/{lmd,bck,rnd,dpr,smh,fnt}/
 \u0254\u200D\u026A	/{lmd,bck,rnd,dpr,smh,fnt}/
 
+\u0259\u028A\u032F	/{mid,cnt,unr,dpr,smh,bck}/
 \u0259\u0361\u028A	/{mid,cnt,unr,dpr,smh,bck}/ # [2]
 \u0259\u035C\u028A	/{mid,cnt,unr,dpr,smh,bck}/ # [2]
 \u0259\u200D\u028A	/{mid,cnt,unr,dpr,smh,bck}/ # [2]
+o\u028A\u032F		/{mid,cnt,unr,dpr,smh,bck}/
 o\u0361\u028A		/{mid,cnt,unr,dpr,smh,bck}/
 o\u035C\u028A		/{mid,cnt,unr,dpr,smh,bck}/
 o\u200D\u028A		/{mid,cnt,unr,dpr,smh,bck}/
 
+i\u0259\u032F		/{smh,fnt,unr,dpf,mid,cnt}/
 i\u0361\u0259		/{smh,fnt,unr,dpf,mid,cnt}/ # [2]
 i\u035C\u0259		/{smh,fnt,unr,dpf,mid,cnt}/ # [2]
 i\u200D\u0259		/{smh,fnt,unr,dpf,mid,cnt}/ # [2]
+\u026A\u0259\u032F	/{smh,fnt,unr,dpf,mid,cnt}/
 \u026A\u0361\u0259	/{smh,fnt,unr,dpf,mid,cnt}/
 \u026A\u035C\u0259	/{smh,fnt,unr,dpf,mid,cnt}/
 \u026A\u200D\u0259	/{smh,fnt,unr,dpf,mid,cnt}/
 
+\u028A\u0259\u032F	/{smh,bck,rnd,dpf,mid,cnt}/
 \u028A\u0361\u0259	/{smh,bck,rnd,dpf,mid,cnt}/
 \u028A\u035C\u0259	/{smh,bck,rnd,dpf,mid,cnt}/
 \u028A\u200D\u0259	/{smh,bck,rnd,dpf,mid,cnt}/
 
+a\u026A\u032F		/{low,fnt,unr,dpr,smh}/
 a\u0361\u026A		/{low,fnt,unr,dpr,smh}/
 a\u035C\u026A		/{low,fnt,unr,dpr,smh}/
 a\u200D\u026A		/{low,fnt,unr,dpr,smh}/
 
+a\u028A\u032F		/{low,fnt,unr,dpr,smh,bck}/
 a\u0361\u028A		/{low,fnt,unr,dpr,smh,bck}/
 a\u035C\u028A		/{low,fnt,unr,dpr,smh,bck}/
 a\u200D\u028A		/{low,fnt,unr,dpr,smh,bck}/
 
+e\u026A\u032F		/{lmd,fnt,unr,dpr,smh}/
 e\u0361\u026A		/{lmd,fnt,unr,dpr,smh}/
 e\u035C\u026A		/{lmd,fnt,unr,dpr,smh}/
 e\u200D\u026A		/{lmd,fnt,unr,dpr,smh}/
 
+e\u0259\u032F		/{lmd,fnt,unr,dpr,mid,cnt}/
 e\u0361\u0259		/{lmd,fnt,unr,dpr,mid,cnt}/
 e\u035C\u0259		/{lmd,fnt,unr,dpr,mid,cnt}/
 e\u200D\u0259		/{lmd,fnt,unr,dpr,mid,cnt}/
 
 ##### Triphthongs
 
+a\u026A\u032F\u0259\u032F	/{low,fnt,unr,dpr,smh,rzd}/
 a\u0361\u026A\u0361\u0259	/{low,fnt,unr,dpr,smh,rzd}/
 a\u035C\u026A\u035C\u0259	/{low,fnt,unr,dpr,smh,rzd}/
 a\u200D\u026A\u200D\u0259	/{low,fnt,unr,dpr,smh,rzd}/
 
+a\u028A\u032F\u0259\u032F	/{low,fnt,unr,dpr,smh,bck,rzd}/
 a\u0361\u028A\u0361\u0259	/{low,fnt,unr,dpr,smh,bck,rzd}/
 a\u035C\u028A\u035C\u0259	/{low,fnt,unr,dpr,smh,bck,rzd}/
 a\u200D\u028A\u200D\u0259	/{low,fnt,unr,dpr,smh,bck,rzd}/
