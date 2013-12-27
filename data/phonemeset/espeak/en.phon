@@ -7,7 +7,6 @@
 
 '	/<st1>/<
 ,	/<st2>/<
-:	/<lng>/>
 
 ##### Consonants
 
@@ -44,42 +43,50 @@ h	/{vls,glt,apr}/
 
 ##### Vowels
 
-i	/{hgh,fnt,unr,vcd,vwl}/
-u	/{hgh,bck,rnd,vcd,vwl}/
+i	/{hgh,fnt,unr,vcd,vwl}/ # HAPP/Y/
+i:	/{hgh,fnt,unr,vcd,vwl,lng}/ # FL/EE/CE
+I2	/{hgh,cnt,unr,vcd,vwl}/ # ROS/E/S
+u:	/{hgh,bck,rnd,vcd,vwl,lng}/ # G/OO/SE
 
-I	/{smh,fnt,unr,vcd,vwl}/
-U	/{smh,bck,rnd,vcd,vwl}/
+I	/{smh,fnt,unr,vcd,vwl}/ # K/I/T
+U	/{smh,bck,rnd,vcd,vwl}/ # F/OO/T
 
-E	/{lmd,fnt,unr,vcd,vwl}/
-3	/{lmd,cnt,unr,vcd,vwl}/
-V	/{lmd,bck,unr,vcd,vwl}/
-O	/{lmd,bck,rnd,vcd,vwl}/
+E	/{lmd,fnt,unr,vcd,vwl}/ # DR/E/SS
+3:	/{lmd,cnt,unr,vcd,vwl,lng}/ # N/UR/SE
+V	/{lmd,bck,unr,vcd,vwl}/ # STR/U/T
+O:	/{lmd,bck,rnd,vcd,vwl,lng}/ # TH/OUGH/T
 
-@	/{mid,cnt,unr,vcd,vwl}/
+@	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/
+3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETT/ER/
 
-a\#	/{sml,cnt,unr,vcd,vwl}/
+#a\#	/{sml,cnt,unr,vcd,vwl}/
 
-a	/{low,fnt,unr,vcd,vwl}/
-A	/{low,bck,unr,vcd,vwl}/
-0	/{low,bck,rnd,vcd,vwl}/
+a	/{low,fnt,unr,vcd,vwl}/ # TR/A/P
+A:	/{low,bck,unr,vcd,vwl,lng}/ # P/AL/M
+0	/{low,bck,rnd,vcd,vwl}/ # L/O/T, CL/O/TH
 
 ##### Diphthongs
 
-eI	/{lmd,fnt,unr,dpr,smh}/
-aI	/{low,fnt,unr,dpr,smh}/
-OI	/{lmd,bck,rnd,dpr,smh,fnt}/
+aa	/{low,fnt,unr,vcd,vwl,lng}/ # B/A/TH
+A@	/{low,bck,unr,vcd,vwl,rzd}/ # ST/AR/T
+O@	/{umd,bck,rnd,vcd,vwl,rzd}/ # N/OR/TH
+o@	/{lmd,bck,rnd,vcd,vwl,rzd}/ # F/OR/CE
 
-oU	/{mid,cnt,unr,dpr,smh,bck}/
-aU	/{low,fnt,unr,dpr,smh,bck}/
+eI	/{lmd,fnt,unr,dpr,smh}/ # F/A/CE
+aI	/{low,fnt,unr,dpr,smh}/ # PR/I/CE
+OI	/{lmd,bck,rnd,dpr,smh,fnt}/ # CH/OI/CE
 
-i@	/{smh,fnt,unr,dpf,mid,cnt}/
-e@	/{lmd,fnt,unr,dpr,mid,cnt}/
-U@	/{smh,bck,rnd,dpf,mid,cnt}/
+oU	/{mid,cnt,unr,dpr,smh,bck}/ # G/OA/T
+aU	/{low,fnt,unr,dpr,smh,bck}/ # M/OU/TH
+
+i@3	/{smh,fnt,unr,dpf,mid,cnt}/ # N/EAR/
+e@	/{lmd,fnt,unr,dpr,mid,cnt}/ # SQU/ARE/
+U@	/{smh,bck,rnd,dpf,mid,cnt}/ # C/URE/
 
 ##### Triphthongs
 
-aI@	/{low,fnt,unr,dpr,smh,rzd}/
-aU@	/{low,fnt,unr,dpr,smh,bck,rzd}/
+aI@	/{low,fnt,unr,dpr,smh,rzd}/ # F/IRE/
+aU@	/{low,fnt,unr,dpr,smh,bck,rzd}/ # /HOUR/
 
 ##### Syllabic
 
