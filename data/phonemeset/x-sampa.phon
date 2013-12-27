@@ -267,6 +267,14 @@ I_@	/{smh,fnt,unr,dpf,mid,cnt}/
 e_@	/{lmd,fnt,unr,dpr,mid,cnt}/
 U_@	/{smh,bck,rnd,dpf,mid,cnt}/
 
+##### Triphthongs [5], [6]
+
+aI_^@_^	/{low,fnt,unr,dpr,smh,rzd}/
+aU_^@_^	/{low,fnt,unr,dpr,smh,bck,rzd}/
+
+a_I_@	/{low,fnt,unr,dpr,smh,rzd}/
+a_U_@	/{low,fnt,unr,dpr,smh,bck,rzd}/
+
 ##### Notes:
 #
 #  1. X-SAMPA transcribes this without specifying a voicing [1], but is denoted

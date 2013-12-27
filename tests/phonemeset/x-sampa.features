@@ -181,3 +181,6 @@
 
 {mid,cnt,unr,dpr,smh,bck}
 {low,fnt,unr,dpr,smh,bck}
+
+{low,fnt,unr,dpr,smh,rzd}
+{low,fnt,unr,dpr,smh,bck,rzd}
