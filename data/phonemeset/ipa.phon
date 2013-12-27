@@ -309,6 +309,10 @@ e\u0361\u026A		/{lmd,fnt,unr,dpr,smh}/
 e\u035C\u026A		/{lmd,fnt,unr,dpr,smh}/
 e\u200D\u026A		/{lmd,fnt,unr,dpr,smh}/
 
+\u025B\u0259\u032F	/{lmd,fnt,unr,dpr,mid,cnt}/
+\u025B\u0361\u0259	/{lmd,fnt,unr,dpr,mid,cnt}/
+\u025B\u035C\u0259	/{lmd,fnt,unr,dpr,mid,cnt}/
+\u025B\u200D\u0259	/{lmd,fnt,unr,dpr,mid,cnt}/
 e\u0259\u032F		/{lmd,fnt,unr,dpr,mid,cnt}/
 e\u0361\u0259		/{lmd,fnt,unr,dpr,mid,cnt}/
 e\u035C\u0259		/{lmd,fnt,unr,dpr,mid,cnt}/
