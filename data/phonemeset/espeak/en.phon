@@ -21,6 +21,7 @@ _:_:\u000A	/{pau}/		# clause pause (e.g. comma)
 p	/{vls,blb,stp}/
 b	/{vcd,blb,stp}/
 t	/{vls,alv,stp}/
+t2	/{vls,alv,stp}/ # en-us
 d	/{vcd,alv,stp}/
 k	/{vls,vel,stp}/
 g	/{vcd,vel,stp}/
@@ -42,7 +43,10 @@ x	/{vls,vel,frc}/
 
 m	/{vcd,blb,nas}/
 n	/{vcd,alv,nas}/
+n-	/{vcd,alv,nas}/ # en-us
 N	/{vcd,vel,nas}/
+
+t\#	/{vcd,alv,flp}/ # en-us
 
 r	/{vcd,alv,apr}/
 r-	/{vcd,alv,apr}/
@@ -60,6 +64,7 @@ i:	/{hgh,fnt,unr,vcd,vwl,lng}/ # FL/EE/CE
 i:;	/{hgh,fnt,unr,vcd,vwl,lng}/ # FL/EE/CE
 I2	/{hgh,cnt,unr,vcd,vwl}/ # ROS/E/S
 I2;	/{hgh,cnt,unr,vcd,vwl}/ # ROS/E/S
+I\#	/{hgh,cnt,unr,vcd,vwl}/ # ROS/E/S (en-us)
 u:	/{hgh,bck,rnd,vcd,vwl,lng}/ # G/OO/SE
 
 I	/{smh,fnt,unr,vcd,vwl}/ # K/I/T
@@ -71,6 +76,7 @@ VR	/{smh,bck,rnd,vcd,vwl,rzd}/ # F/UR/ [1]
 E	/{lmd,fnt,unr,vcd,vwl}/ # DR/E/SS
 3:	/{lmd,cnt,unr,vcd,vwl,lng}/ # F/ER/N [1]; N/UR/SE
 V	/{lmd,bck,unr,vcd,vwl}/ # STR/U/T
+O	/{lmd,bck,rnd,vcd,vwl}/ # CL/O/TH (en-us)
 O:	/{lmd,bck,rnd,vcd,vwl,lng}/ # TH/OUGH/T
 
 @	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/
