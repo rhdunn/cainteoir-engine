@@ -7,7 +7,9 @@ _!\u0020	/{pau,est}/	# pause before conjunction
 _:_:\u0020	/{pau,est}/	# pause before conjunction
 _:_:_:\u0020	/{pau,est}/	# pause before conjunction
 _:_:_:_:\u0020	/{pau,est}/	# pause before conjunction
+_:_:		/{pau,est}/	# pause before conjunction
 \u0020_:	/{pau,est}/	# pause before conjunction
+_|		/{pau,est}/	# pause before conjunction
 \u000A		/{pau}/		# clause pause (e.g. comma)
 _:_:\u000A	/{pau}/		# clause pause (e.g. comma)
 
