@@ -22,6 +22,7 @@ t	/{vls,alv,stp}/
 d	/{vcd,alv,stp}/
 k	/{vls,vel,stp}/
 g	/{vcd,vel,stp}/
+g-	/{vcd,vel,stp}/ # en-uk-north
 ?	/{vls,glt,stp}/
 
 tS	/{vls,pla,afr}/
@@ -86,10 +87,13 @@ A:	/{low,bck,unr,vcd,vwl,lng}/ # P/AL/M
 aa	/{low,fnt,unr,vcd,vwl,lng}/ # B/A/TH
 A@	/{low,bck,unr,vcd,vwl,rzd}/ # ST/AR/T
 A@r	/{low,bck,unr,vcd,vwl,rzd}/ # ST/AR/T (en-sc)
+A@r-	/{low,bck,unr,vcd,vwl,rzd}/ # ST/AR/T (en-uk-north)
 O@	/{umd,bck,rnd,vcd,vwl,rzd}/ # N/OR/TH
 O@r	/{umd,bck,rnd,vcd,vwl,rzd}/ # N/OR/TH (en-sc)
+O@r-	/{umd,bck,rnd,vcd,vwl,rzd}/ # N/OR/TH (en-uk-north)
 o@	/{lmd,bck,rnd,vcd,vwl,rzd}/ # F/OR/CE
 o@r	/{lmd,bck,rnd,vcd,vwl,rzd}/ # F/OR/CE (en-sc)
+o@r-	/{lmd,bck,rnd,vcd,vwl,rzd}/ # F/OR/CE (en-uk-north)
 
 eI	/{lmd,fnt,unr,dpr,smh}/ # F/A/CE
 aI	/{low,fnt,unr,dpr,smh}/ # PR/I/CE
