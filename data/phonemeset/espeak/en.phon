@@ -20,6 +20,7 @@ _:_:\u000A	/{pau}/		# clause pause (e.g. comma)
 
 p	/{vls,blb,stp}/
 b	/{vcd,blb,stp}/
+t[	/{vls,dnt,stp}/ # en-wi
 t	/{vls,alv,stp}/
 t2	/{vls,alv,stp}/ # en-us
 d	/{vcd,alv,stp}/
