@@ -61,10 +61,12 @@ u:	/{hgh,bck,rnd,vcd,vwl,lng}/ # G/OO/SE
 
 I	/{smh,fnt,unr,vcd,vwl}/ # K/I/T
 I;	/{smh,fnt,unr,vcd,vwl}/ # K/I/T
+IR	/{smh,fnt,unr,vcd,vwl,rzd}/ # F/IR/ [1]
 U	/{smh,bck,rnd,vcd,vwl}/ # F/OO/T
+VR	/{smh,bck,rnd,vcd,vwl,rzd}/ # F/UR/ [1]
 
 E	/{lmd,fnt,unr,vcd,vwl}/ # DR/E/SS
-3:	/{lmd,cnt,unr,vcd,vwl,lng}/ # N/UR/SE
+3:	/{lmd,cnt,unr,vcd,vwl,lng}/ # F/ER/N [1]; N/UR/SE
 V	/{lmd,bck,unr,vcd,vwl}/ # STR/U/T
 O:	/{lmd,bck,rnd,vcd,vwl,lng}/ # TH/OUGH/T
 
@@ -83,11 +85,15 @@ A:	/{low,bck,unr,vcd,vwl,lng}/ # P/AL/M
 
 aa	/{low,fnt,unr,vcd,vwl,lng}/ # B/A/TH
 A@	/{low,bck,unr,vcd,vwl,rzd}/ # ST/AR/T
+A@r	/{low,bck,unr,vcd,vwl,rzd}/ # ST/AR/T (en-sc)
 O@	/{umd,bck,rnd,vcd,vwl,rzd}/ # N/OR/TH
+O@r	/{umd,bck,rnd,vcd,vwl,rzd}/ # N/OR/TH (en-sc)
 o@	/{lmd,bck,rnd,vcd,vwl,rzd}/ # F/OR/CE
+o@r	/{lmd,bck,rnd,vcd,vwl,rzd}/ # F/OR/CE (en-sc)
 
 eI	/{lmd,fnt,unr,dpr,smh}/ # F/A/CE
 aI	/{low,fnt,unr,dpr,smh}/ # PR/I/CE
+aI2	/{low,fnt,unr,dpr,smh}/ # PR/I/CE ~ en-sc at the end of a word
 OI	/{lmd,bck,rnd,dpr,smh,fnt}/ # CH/OI/CE
 
 oU	/{mid,cnt,unr,dpr,smh,bck}/ # G/OA/T
@@ -105,3 +111,9 @@ aU@	/{low,fnt,unr,dpr,smh,bck,rzd}/ # /HOUR/
 ##### Syllabic
 
 @L	/{vcd,alv,lat,apr,syl}/
+
+##### Notes:
+#
+#  1. The en-sc voice uses different transcriptions for FERN-FIR-FUR as the
+#     Scottish English dialect pronounces these separately. In other dialects,
+#     these are all merged into the NURSE lexical set.
