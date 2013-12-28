@@ -2,8 +2,14 @@
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
-\u0020	/{pau,est}/	# word pause
-\u000A	/{pau}/		# clause pause (e.g. comma)
+\u0020		/{pau,est}/	# word pause
+_!\u0020	/{pau,est}/	# pause before conjunction
+_:_:\u0020	/{pau,est}/	# pause before conjunction
+_:_:_:\u0020	/{pau,est}/	# pause before conjunction
+_:_:_:_:\u0020	/{pau,est}/	# pause before conjunction
+\u0020_:	/{pau,est}/	# pause before conjunction
+\u000A		/{pau}/		# clause pause (e.g. comma)
+_:_:\u000A	/{pau}/		# clause pause (e.g. comma)
 
 '	/<st1>/<
 ,	/<st2>/<
@@ -36,7 +42,9 @@ n	/{vcd,alv,nas}/
 N	/{vcd,vel,nas}/
 
 r	/{vcd,alv,apr}/
+r-	/{vcd,alv,apr}/
 l	/{vcd,alv,lat,apr}/
+_l	/{vcd,alv,lat,apr}/
 w	/{vcd,lbv,apr}/
 j	/{vcd,pal,apr}/
 h	/{vls,glt,apr}/
@@ -44,11 +52,15 @@ h	/{vls,glt,apr}/
 ##### Vowels
 
 i	/{hgh,fnt,unr,vcd,vwl}/ # HAPP/Y/
+i;	/{hgh,fnt,unr,vcd,vwl}/ # HAPP/Y/
 i:	/{hgh,fnt,unr,vcd,vwl,lng}/ # FL/EE/CE
+i:;	/{hgh,fnt,unr,vcd,vwl,lng}/ # FL/EE/CE
 I2	/{hgh,cnt,unr,vcd,vwl}/ # ROS/E/S
+I2;	/{hgh,cnt,unr,vcd,vwl}/ # ROS/E/S
 u:	/{hgh,bck,rnd,vcd,vwl,lng}/ # G/OO/SE
 
 I	/{smh,fnt,unr,vcd,vwl}/ # K/I/T
+I;	/{smh,fnt,unr,vcd,vwl}/ # K/I/T
 U	/{smh,bck,rnd,vcd,vwl}/ # F/OO/T
 
 E	/{lmd,fnt,unr,vcd,vwl}/ # DR/E/SS
@@ -57,9 +69,11 @@ V	/{lmd,bck,unr,vcd,vwl}/ # STR/U/T
 O:	/{lmd,bck,rnd,vcd,vwl,lng}/ # TH/OUGH/T
 
 @	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/
+@-	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/ ~ non-rhotic before /r/
 3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETT/ER/
+3r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETT/ER/ ~ rhoticized in non-rhotic accents before a vowel
 
-#a\#	/{sml,cnt,unr,vcd,vwl}/
+a\#	/{sml,cnt,unr,vcd,vwl}/
 
 a	/{low,fnt,unr,vcd,vwl}/ # TR/A/P
 A:	/{low,bck,unr,vcd,vwl,lng}/ # P/AL/M
