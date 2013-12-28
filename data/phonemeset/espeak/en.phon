@@ -87,9 +87,9 @@ O:	/{lmd,bck,rnd,vcd,vwl,lng}/ # TH/OUGH/T
 3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETT/ER/
 3r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETT/ER/ ~ rhoticized in non-rhotic accents before a vowel
 
+a	/{sml,fnt,unr,vcd,vwl}/ # TR/A/P
 a\#	/{sml,cnt,unr,vcd,vwl}/
 
-a	/{low,fnt,unr,vcd,vwl}/ # TR/A/P
 A:	/{low,bck,unr,vcd,vwl,lng}/ # P/AL/M
 0	/{low,bck,rnd,vcd,vwl}/ # L/O/T, CL/O/TH
 
