@@ -297,6 +297,14 @@ aU_^@_^	/{low,fnt,unr,dpr,smh,bck,rzd}/
 a_I_@	/{low,fnt,unr,dpr,smh,rzd}/
 a_U_@	/{low,fnt,unr,dpr,smh,bck,rzd}/
 
+##### Archaic English
+
+I_r	/{smh,fnt,unr,vcd,vwl,rzd}/ # F/IR/ (pre FERN-FIR-FER merger)
+U_r	/{smh,bck,rnd,vcd,vwl,rzd}/ # F/UR/ (pre FERN-FIR-FUR merger)
+A:_r	/{low,bck,unr,vcd,vwl,rzd}/ # ST/AR/T
+o:_r	/{umd,bck,rnd,vcd,vwl,rzd}/ # F/OR/CE
+O:_r	/{lmd,bck,rnd,vcd,vwl,rzd}/ # N/OR/TH
+
 ##### Notes:
 #
 #  1. X-SAMPA transcribes this without specifying a voicing [1], but is denoted
