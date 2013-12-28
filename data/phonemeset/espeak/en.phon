@@ -73,6 +73,8 @@ O:	/{lmd,bck,rnd,vcd,vwl,lng}/ # TH/OUGH/T
 
 @	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/
 @-	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/ ~ non-rhotic before /r/
+@2	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/ (en-uk-rp)
+@5	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/ (en-uk-rp)
 3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETT/ER/
 3r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETT/ER/ ~ rhoticized in non-rhotic accents before a vowel
 
