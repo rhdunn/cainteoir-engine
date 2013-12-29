@@ -75,10 +75,10 @@ Sets<sup>1</sup>.
 | `/ʊ/`         | `U`  | FOOT        | full, look, could |
 | `/ɛ/`         | `E`  | DRESS       | step, ebb, hem, terror |
 | `/ʌ/`         | `V`  | STRUT       | cub, rub, hum |
+| `/ɔ/`         | `O`  | LONG<sup>1</sup> | long, frog, chocolate |
 | `/æ/`         | `&`  | TRAP        | bad, cab, ham, arrow |
 | `/aː/`        | `a:` | BATH        | staff, clasp, dance |
 | `/ɒ/`         | `Q`  | LOT         | stop, rob, swan |
-| `/ɔ/`         | `O`  | LONG<sup>1</sup> | long |
 | `/ɒː/`        | `Q:` | CLOTH       | cough, laurel, origin |
 
 1.  John Wells' lexical sets cover the LONG vowel as part of the CLOTH vowel.
@@ -114,12 +114,12 @@ BATH contexts, as well as before historic `/r/` in START contexts.
 |---------------|--------|-------------|----------|
 | `/iː/`        | `i:`   | FLEECE      | seed, key, seize |
 | `/uː/`        | `u:`   | GOOSE       | who, group, few |
-| `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
-| `/oːr/`       | `o:_r` | NORTH       | war, storm, for, aural |
-| `/ɔːr/`       | `O:_r` | FORCE       | floor, coarse, ore, oral |
-| `/ɜː/`        | `3:`   | FERN<sup>1</sup> | term, herd, earth |
 | `/ɪr/`        | `I_r`  | FIR<sup>1</sup> | birth, myrrh, mirk |
 | `/ʊr/`        | `U_r`  | FUR<sup>1</sup> | burn, hurl, world |
+| `/oːr/`       | `o:_r` | NORTH       | war, storm, for, aural |
+| `/ɜː/`        | `3:`   | FERN<sup>1</sup> | term, herd, earth |
+| `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
+| `/ɔːr/`       | `O:_r` | FORCE       | floor, coarse, ore, oral |
 | `/ɑː/`        | `A:`   | PALM        | calm, bra, father |
 | `/ɑːr/`       | `A:_r` | START       | far, sharp, farm, safari |
 
@@ -158,21 +158,21 @@ for FIR and FUR.
 
 | Transcription | CXS    | Lexical Set | Examples |
 |---------------|--------|-------------|----------|
+| `/ɪə̯/`        | `I@_^` | NEAR        | beer, pier, fierce, serious |
+| `/ʊə̯/`        | `U@_^` | CURE        | poor, tour, fury |
 | `/eɪ̯/`        | `eI_^` | FACE        | weight, rein, steak |
 | `/əʊ̯/`        | `@U_^` | GOAT        | soap, soul, home |
-| `/aɪ̯/`        | `aI_^` | PRICE       | ripe, tribe, aisle, choir |
-| `/ɔɪ̯/`        | `OI_^` | CHOICE      | boy, void, coin |
-| `/aʊ̯/`        | `aU_^` | MOUTH       | pouch, noun, crowd, flower |
-| `/ɪə̯/`        | `I@_^` | NEAR        | beer, pier, fierce, serious |
 | `/ɛə̯/`        | `E@_^` | SQUARE      | care, air, wear, Mary |
-| `/ʊə̯/`        | `U@_^` | CURE        | poor, tour, fury |
+| `/ɔɪ̯/`        | `OI_^` | CHOICE      | boy, void, coin |
+| `/aɪ̯/`        | `aI_^` | PRICE       | ripe, tribe, aisle, choir |
+| `/aʊ̯/`        | `aU_^` | MOUTH       | pouch, noun, crowd, flower |
 
 ### Triphthongs
 
 | Transcription | CXS       | Lexical Set | Examples |
 |---------------|-----------|-------------|----------|
-| `/aʊ̯ə̯/`       | `aU_^@_^` | HOUR<sup>1</sup> | hour |
 | `/aɪ̯ə̯/`       | `aI_^@_^` | FIRE<sup>1</sup> | fire |
+| `/aʊ̯ə̯/`       | `aU_^@_^` | HOUR<sup>1</sup> | hour |
 
 1.  Triphthongs are not given lexical sets by John Wells.
 
@@ -181,9 +181,9 @@ for FIR and FUR.
 | Transcription | CXS       | Lexical Set | Examples |
 |---------------|-----------|-------------|----------|
 | `/i/`         | `i`       | HAPPY       | silly, Tony, merry |
-| `/ɚ/`         | ```@` ``` | LETTER      | beggar, martyr, visor |
-| `/ə/`         | `@`       | COMMA       | China, sofa |
 | `/ɨ/`         | `i\`      | ROSES<sup>1</sup> | roses, emission, braided |
+| `/ə/`         | `@`       | COMMA       | China, sofa |
+| `/ɚ/`         | ```@` ``` | LETTER      | beggar, martyr, visor |
 
 1.  This reduced vowel is not assigned a lexical set by John Wells. It is
     given one here as it can be realized differently in different accents.
