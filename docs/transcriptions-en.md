@@ -1,5 +1,6 @@
 # English Transcriptions
 
+- [Consonants](#consonants)
 - [Vowels](#vowels)
   - [Short Vowels](#short-vowels)
   - [Long Vowels](#long-vowels)
@@ -9,6 +10,37 @@
 -----
 
 This is a guide to transcribing English pronunciations.
+
+## Consonants
+
+| Transcription | CXS    | Examples |
+|---------------|--------|-------------|
+| `/b/`         | `b`    | buy, cab |
+| `/d/`         | `d`    | dye, cad, do |
+| `/ð/`         | `D`    | thy, breathe, father |
+| `/d͡ʒ/`        | `d_Z`  | giant, badge, jam |
+| `/f/`         | `f`    | phi, cafe, fan |
+| `/ɡ/`         | `g`    | guy, bag |
+| `/h/`         | `h`    | high, ahead |
+| `/j/`         | `j`    | yes, yacht |
+| `/k/`         | `k`    | sky, crack |
+| `/l/`         | `l`    | lie, sly, gal |
+| `/m/`         | `m`    | my, smile, cam |
+| `/n/`         | `n`    | nigh, snide, can |
+| `/ŋ/`         | `N`    | sang, sink, singer |
+| `/θ/`         | `T`    | thigh, math |
+| `/p/`         | `p`    | pie, spy, cap |
+| `/ɹ/`         | `r\`   | rye, try, very |
+| `/s/`         | `s`    | sigh, mass |
+| `/ʃ/`         | `S`    | shy, cash, emotion |
+| `/t/`         | `t`    | tie, sty, cat, atom |
+| `/t͡ʃ/`        | `t_S`  | China, catch |
+| `/v/`         | `v`    | vie, have |
+| `/w/`         | `w`    | why, wye, swine |
+| `/x/`         | `x`    | ugh, lock, Chanukah |
+| `/z/`         | `z`    | zoo, has |
+| `/ʒ/`         | `Z`    | equation, pleasure, vision, beige |
+| `/ʔ/`         | `?`    | uh-oh |
 
 ## Vowels
 
