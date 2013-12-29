@@ -7,6 +7,7 @@
     - [LOT-CLOTH split](#lot-cloth-split)
   - [Long Vowels](#long-vowels)
     - [TRAP-BATH split](#trap-bath-split)
+    - [HORSE-HOARSE merger](#horse-hoarse-merger)
   - [Diphthongs](#diphthongs)
   - [Triphthongs](#triphthongs)
 - [Syllables](#syllables)
@@ -101,8 +102,8 @@ from the LOT vowel.
 | `/iː/`        | `i:`   | FLEECE      | seed, key, seize |
 | `/uː/`        | `u:`   | GOOSE       | who, group, few |
 | `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
-| `/ɔː/`        | `O:`   | NORTH       | war, storm, for, aural |
-| `/ɔː/`        | `O:`   | FORCE       | floor, coarse, ore, oral |
+| `/oːr/`       | `o:_r` | NORTH       | war, storm, for, aural |
+| `/ɔːr/`       | `O:_r` | FORCE       | floor, coarse, ore, oral |
 | `/ɜː/`        | `3:`   | NURSE       | hurt, term, work |
 | `/aː/`        | `a:`   | BATH        | staff, clasp, dance |
 | `/ɑː/`        | `A:`   | PALM        | calm, bra, father |
@@ -118,6 +119,18 @@ BATH contexts, as well as before historic `/r/` in START contexts.
 | TRAP        | `/a/`  | `/æ/`   | `/æ/`  | `/æ/`  |
 | BATH        | `/a/`  | `/aː/`  | `/æ/`  | `/ɑː/` |
 | START       | `/ar/` | `/aːɹ/` | `/ɑɹ/` | `/ɑː/` |
+
+#### HORSE-HOARSE merger
+
+The THOUGHT vowel before historic `/r/` was pronounced differently in NORTH and
+FORCE contexts. This is preserved in some accents, but not in accents that have
+the HORSE-HOARSE merger.
+
+| Lexical Set | EMnE      | GenAm  | RP     |
+|-------------|-----------|--------|--------|
+| THOUGHT     | `/ɔː/`    | `/ɔ/`  | `/ɔː/` |
+| NORTH       | `/oːɹ/`   | `/oɹ/` | `/ɔː/` |
+| FORCE       | `/ɔːɹ/`   | `/ɔɹ/` | `/ɔː/` |
 
 ### Diphthongs
 
@@ -180,5 +193,6 @@ BATH contexts, as well as before historic `/r/` in START contexts.
 3.  [IPA for English](https://en.wikipedia.org/wiki/Help:IPA_for_English). Wikipedia.
 4.  [lot-cloth split](https://en.wikipedia.org/wiki/Phonological_history_of_English_low_back_vowels#Lot.E2.80.93cloth_split). Wikipedia.
 5.  [The development of the Early Modern English phoneme /aː/](https://en.wikipedia.org/wiki/Phonological_history_of_English_short_A#The_development_of_the_Early_Modern_English_phoneme_.2Fa.CB.90.2F). Wikipedia.
+6.  [horse-hoarse merger](https://en.wikipedia.org/wiki/English-language_vowel_changes_before_historic_/r/#Horse.E2.80.93hoarse_merger). Wikipedia.
 
 Copyright (C) 2013 Reece H. Dunn
