@@ -40,6 +40,17 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/cxs.txt', 'result': 'phonemeset/x-sampa.features', 'from': 'cxs', 'to': 'features'},
 		]},
 	]})
+	test.run({'name': 'English', 'groups': [
+		{'name': 'Arpabet', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/arpabet.txt', 'from': 'ipa', 'to': 'arpabet'},
+		]},
+		{'name': 'SAMPA (en)', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/sampa.en.txt', 'from': 'ipa', 'to': 'sampa/en'},
+		]},
+		{'name': 'SAMPA (en-US)', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/sampa.en-US.txt', 'from': 'ipa', 'to': 'sampa/en-US'},
+		]},
+	]})
 	test.run({'name': 'Language-Based Phoneme Set', 'groups': [
 		{'name': 'Arpabet', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/arpabet.features', 'result': 'phonemeset/arpabet.txt', 'from': 'features', 'to': 'arpabet'},

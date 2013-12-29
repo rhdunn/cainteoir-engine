@@ -1,0 +1,63 @@
+KIT lexical set
+FOOT lexical set
+DRESS lexical set
+STRUT lexical set
+LONG lexical set
+TRAP lexical set
+BATH lexical set
+LOT lexical set
+CLOTH lexical set
+FLEECE lexical set
+GOOSE lexical set
+FIR lexical set
+FUR lexical set
+NORTH lexical set
+FERN lexical set
+THOUGHT lexical set
+FORCE lexical set
+PALM lexical set
+START lexical set
+NEAR lexical set
+CURE lexical set
+FACE lexical set
+GOAT lexical set
+SQUARE lexical set
+CHOICE lexical set
+PRICE lexical set
+MOUTH lexical set
+FIRE lexical set
+HOUR lexical set
+HAPPY lexical set
+ROSES lexical set
+COMMA lexical set
+LETTER lexical set
+/b/
+/d/
+/ð/
+/d͡ʒ/
+/f/
+/ɡ/
+/h/
+/j/
+/k/
+/l/
+/l̩/
+/m/
+/m̩/
+/n/
+/n̩/
+/ŋ/
+/θ/
+/p/
+/ɹ/
+/s/
+/ʃ/
+/t/
+/t͡ʃ/
+/v/
+/w/
+/ʍ/
+/x/
+/z/
+/ʒ/
+/ʔ/
