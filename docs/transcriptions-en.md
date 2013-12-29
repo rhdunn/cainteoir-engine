@@ -6,6 +6,7 @@
   - [Short Vowels](#short-vowels)
   - [Long Vowels](#long-vowels)
   - [Diphthongs](#diphthongs)
+- [Syllables](#syllables)
 - [References](#references)
 
 -----
@@ -102,6 +103,14 @@ Sets<sup>1</sup>.
 | `/i/`         | `i`       | HAPPY       | silly, Tony, merry |
 | `/ɚ/`         | ```@` ``` | LETTER      | beggar, martyr, visor |
 | `/ə/`         | `@`       | COMMA       | China, sofa |
+
+## Syllables
+
+| Transcription | CXS | Description |
+|---------------|-----|-------------|
+| `/ˈ/`         | `'` | A syllable with primary stress. |
+| `/ˌ/`         | `,` | A syllable with secondary stress. |
+| `/./`         | `.` | A syllable boundary. |
 
 ## References
 
