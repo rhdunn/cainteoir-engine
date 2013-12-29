@@ -6,6 +6,7 @@
   - [Short Vowels](#short-vowels)
   - [Long Vowels](#long-vowels)
   - [Diphthongs](#diphthongs)
+  - [Triphthongs](#triphthongs)
 - [Syllables](#syllables)
 - [References](#references)
 
@@ -99,6 +100,15 @@ Sets<sup>1</sup>.
 | `/ɪə̯/`        | `I@_^` | NEAR        | beer, pier, fierce, serious |
 | `/ɛə̯/`        | `E@_^` | SQUARE      | care, air, wear, Mary |
 | `/ʊə̯/`        | `U@_^` | CURE        | poor, tour, fury |
+
+### Triphthongs
+
+| Transcription | CXS       | Lexical Set | Examples |
+|---------------|-----------|-------------|----------|
+| `/aʊ̯ə̯/`       | `aU_^@_^` | HOUR<sup>1</sup> | hour |
+| `/aɪ̯ə̯/`       | `aI_^@_^` | FIRE<sup>1</sup> | fire |
+
+1.  Triphthongs are not given lexical sets by John Wells.
 
 ### Reduced Vowels
 
