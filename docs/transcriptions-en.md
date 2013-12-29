@@ -117,6 +117,10 @@ Sets<sup>1</sup>.
 | `/i/`         | `i`       | HAPPY       | silly, Tony, merry |
 | `/ɚ/`         | ```@` ``` | LETTER      | beggar, martyr, visor |
 | `/ə/`         | `@`       | COMMA       | China, sofa |
+| `/ɨ/`         | `i\`      | ROSES<sup>1</sup> | roses, emission, braided |
+
+1.  This reduced vowel is not assigned a lexical set by John Wells. It is
+    given one here as it can be realized differently in different accents.
 
 ## Syllables
 
@@ -126,7 +130,10 @@ Sets<sup>1</sup>.
 | `/ˌ/`         | `,` | A syllable with secondary stress. |
 | `/./`         | `.` | A syllable boundary. |
 
+Copyright (C) 2013 Reece H. Dunn
+
 ## References
 
 1.  [Lexical sets](http://en.wikipedia.org/wiki/Lexical_sets). Wikipedia.
 2.  [Phonological history of wh](https://en.wikipedia.org/wiki/Phonological_history_of_wh). Wikipedia.
+3.  [IPA for English](https://en.wikipedia.org/wiki/Help:IPA_for_English). Wikipedia.
