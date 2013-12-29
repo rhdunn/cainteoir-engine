@@ -1,6 +1,7 @@
 # English Transcriptions
 
 - [Consonants](#consonants)
+  - [Syllabic Consonants](#syllabic-consonants)
 - [Vowels](#vowels)
   - [Short Vowels](#short-vowels)
   - [Long Vowels](#long-vowels)
@@ -41,6 +42,14 @@ This is a guide to transcribing English pronunciations.
 | `/z/`         | `z`    | zoo, has |
 | `/ʒ/`         | `Z`    | equation, pleasure, vision, beige |
 | `/ʔ/`         | `?`    | uh-oh |
+
+### Syllabic Consonants
+
+| Transcription | CXS  | Examples |
+|---------------|------|----------|
+| `/l̩/`         | `l=` | bottle   |
+| `/m̩/`         | `m=` | rhythm   |
+| `/n̩/`         | `n=` | button   |
 
 ## Vowels
 
