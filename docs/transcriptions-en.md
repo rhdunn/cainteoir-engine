@@ -38,11 +38,15 @@ This is a guide to transcribing English pronunciations.
 | `/t/`         | `t`    | tie, sty, cat, atom |
 | `/t͡ʃ/`        | `t_S`  | China, catch |
 | `/v/`         | `v`    | vie, have |
-| `/w/`         | `w`    | why, wye, swine |
+| `/w/`         | `w`    | wye, swine |
+| `/ʍ/`<sup>1</sup> | `W` | why |
 | `/x/`         | `x`    | ugh, lock, Chanukah |
 | `/z/`         | `z`    | zoo, has |
 | `/ʒ/`         | `Z`    | equation, pleasure, vision, beige |
 | `/ʔ/`         | `?`    | uh-oh |
+
+1.  This originates from Old English and may be realized as `/ʍ/`, `/w/`
+    or `/f/` depending on the accent.
 
 ### Syllabic Consonants
 
@@ -114,4 +118,5 @@ Sets<sup>1</sup>.
 
 ## References
 
-1.  [http://en.wikipedia.org/wiki/Lexical_sets](Lexical sets). Wikipedia.
+1.  [Lexical sets](http://en.wikipedia.org/wiki/Lexical_sets). Wikipedia.
+2.  [Phonological history of wh](https://en.wikipedia.org/wiki/Phonological_history_of_wh). Wikipedia.
