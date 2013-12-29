@@ -6,6 +6,7 @@
   - [Short Vowels](#short-vowels)
     - [LOT-CLOTH split](#lot-cloth-split)
   - [Long Vowels](#long-vowels)
+    - [TRAP-BATH split](#trap-bath-split)
   - [Diphthongs](#diphthongs)
   - [Triphthongs](#triphthongs)
 - [Syllables](#syllables)
@@ -95,17 +96,28 @@ from the LOT vowel.
 
 ### Long Vowels
 
-| Transcription | CXS  | Lexical Set | Examples |
-|---------------|------|-------------|----------|
-| `/iː/`        | `i:` | FLEECE      | seed, key, seize |
-| `/uː/`        | `u:` | GOOSE       | who, group, few |
-| `/ɔː/`        | `O:` | THOUGHT     | taut, hawk, broad |
-| `/ɔː/`        | `O:` | NORTH       | war, storm, for, aural |
-| `/ɔː/`        | `O:` | FORCE       | floor, coarse, ore, oral |
-| `/ɜː/`        | `3:` | NURSE       | hurt, term, work |
-| `/ɑː/`        | `A:` | BATH        | staff, clasp, dance |
-| `/ɑː/`        | `A:` | PALM        | calm, bra, father |
-| `/ɑː/`        | `A:` | START       | far, sharp, farm, safari |
+| Transcription | CXS    | Lexical Set | Examples |
+|---------------|--------|-------------|----------|
+| `/iː/`        | `i:`   | FLEECE      | seed, key, seize |
+| `/uː/`        | `u:`   | GOOSE       | who, group, few |
+| `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
+| `/ɔː/`        | `O:`   | NORTH       | war, storm, for, aural |
+| `/ɔː/`        | `O:`   | FORCE       | floor, coarse, ore, oral |
+| `/ɜː/`        | `3:`   | NURSE       | hurt, term, work |
+| `/aː/`        | `a:`   | BATH        | staff, clasp, dance |
+| `/ɑː/`        | `A:`   | PALM        | calm, bra, father |
+| `/ɑːr/`       | `A:_r` | START       | far, sharp, farm, safari |
+
+#### TRAP-BATH split
+
+The TRAP-BATH split is a result of the historic lengthening of the TRAP vowel in
+BATH contexts, as well as before historic `/r/` in START contexts.
+
+| Lexical Set | ME     | EMnE    | GenAm  | RP     |
+|-------------|--------|---------|--------|--------|
+| TRAP        | `/a/`  | `/æ/`   | `/æ/`  | `/æ/`  |
+| BATH        | `/a/`  | `/aː/`  | `/æ/`  | `/ɑː/` |
+| START       | `/ar/` | `/aːɹ/` | `/ɑɹ/` | `/ɑː/` |
 
 ### Diphthongs
 
@@ -167,5 +179,6 @@ from the LOT vowel.
 2.  [Phonological history of wh](https://en.wikipedia.org/wiki/Phonological_history_of_wh). Wikipedia.
 3.  [IPA for English](https://en.wikipedia.org/wiki/Help:IPA_for_English). Wikipedia.
 4.  [lot-cloth split](https://en.wikipedia.org/wiki/Phonological_history_of_English_low_back_vowels#Lot.E2.80.93cloth_split). Wikipedia.
+5.  [The development of the Early Modern English phoneme /aː/](https://en.wikipedia.org/wiki/Phonological_history_of_English_short_A#The_development_of_the_Early_Modern_English_phoneme_.2Fa.CB.90.2F). Wikipedia.
 
 Copyright (C) 2013 Reece H. Dunn
