@@ -8,6 +8,7 @@
   - [Long Vowels](#long-vowels)
     - [TRAP-BATH split](#trap-bath-split)
     - [HORSE-HOARSE merger](#horse-hoarse-merger)
+    - [FERN-FIR-FUR merger](#fern-fir-fur-merger)
   - [Diphthongs](#diphthongs)
   - [Triphthongs](#triphthongs)
 - [Syllables](#syllables)
@@ -104,10 +105,15 @@ from the LOT vowel.
 | `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
 | `/oːr/`       | `o:_r` | NORTH       | war, storm, for, aural |
 | `/ɔːr/`       | `O:_r` | FORCE       | floor, coarse, ore, oral |
-| `/ɜː/`        | `3:`   | NURSE       | hurt, term, work |
+| `/ɜː/`        | `3:`   | FERN<sup>1</sup> | term, herd, earth |
+| `/ɪr/`        | `I_r`  | FIR<sup>1</sup> | birth, myrrh, mirk |
+| `/ʊr/`        | `U_r`  | FUR<sup>1</sup> | burn, hurl, world |
 | `/aː/`        | `a:`   | BATH        | staff, clasp, dance |
 | `/ɑː/`        | `A:`   | PALM        | calm, bra, father |
 | `/ɑːr/`       | `A:_r` | START       | far, sharp, farm, safari |
+
+1.  The NURSE lexical set described by John Wells has been split into three
+    lexical sets to support Scottish and Irish English.
 
 #### TRAP-BATH split
 
@@ -131,6 +137,22 @@ the HORSE-HOARSE merger.
 | THOUGHT     | `/ɔː/`    | `/ɔ/`  | `/ɔː/` |
 | NORTH       | `/oːɹ/`   | `/oɹ/` | `/ɔː/` |
 | FORCE       | `/ɔːɹ/`   | `/ɔɹ/` | `/ɔː/` |
+
+#### FERN-FIR-FUR merger
+
+The FERN-FIR-FUR merger is the merger of the Middle English `/ɛ/`, `/ɪ/` and
+`/ʊ/` before historic `/r/` into the NURSE lexical set. The pre-merged forms
+are found in Scottish English and some variants of Irish English.
+
+To properly describe this variation, the NURSE lexical set is split into its
+pre-merged FERN, FIR, FUR forms, and the Middle English transcriptions are used
+for FIR and FUR.
+
+| Lexical Set | ME     | RP     | ScE    | IrE    |
+|-------------|--------|--------|--------|--------|
+| FERN        | `/ɛr/` | `/ɜː/` | `/ɛɾ/` | `/ɛɹ/` |
+| FIR         | `/ɪr/` | `/ɜː/` | `/ɪɾ/` | `/ɪɹ/` |
+| FUR         | `/ʊr/` | `/ɜː/` | `/ʌɾ/` | `/ʊɹ/` |
 
 ### Diphthongs
 
@@ -180,11 +202,13 @@ the HORSE-HOARSE merger.
 |--------------|-------------- ---------|-------|
 | EMnE         | Early Modern English   | |
 | GenAm        | General American       | |
+| IrE          | Irish English          | |
 | ME           | Middle English         | |
 | NE           | Modern English         | |
 | NRP          | Received Pronunciation | Modern form of RP |
 | OE           | Old English            | |
 | RP           | Received Pronunciation | Archaic form of RP |
+| ScE          | Scottish English       | |
 
 ## References
 
@@ -194,5 +218,6 @@ the HORSE-HOARSE merger.
 4.  [lot-cloth split](https://en.wikipedia.org/wiki/Phonological_history_of_English_low_back_vowels#Lot.E2.80.93cloth_split). Wikipedia.
 5.  [The development of the Early Modern English phoneme /aː/](https://en.wikipedia.org/wiki/Phonological_history_of_English_short_A#The_development_of_the_Early_Modern_English_phoneme_.2Fa.CB.90.2F). Wikipedia.
 6.  [horse-hoarse merger](https://en.wikipedia.org/wiki/English-language_vowel_changes_before_historic_/r/#Horse.E2.80.93hoarse_merger). Wikipedia.
+7.  [fern-fir-fur merger](https://en.wikipedia.org/wiki/English-language_vowel_changes_before_historic_/r/#Fern.E2.80.93fir.E2.80.93fur_merger). Wikipedia.
 
 Copyright (C) 2013 Reece H. Dunn
