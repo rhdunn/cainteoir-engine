@@ -4,10 +4,12 @@
   - [Syllabic Consonants](#syllabic-consonants)
 - [Vowels](#vowels)
   - [Short Vowels](#short-vowels)
+    - [LOT-CLOTH split](#lot-cloth-split)
   - [Long Vowels](#long-vowels)
   - [Diphthongs](#diphthongs)
   - [Triphthongs](#triphthongs)
 - [Syllables](#syllables)
+- [Glossary](#glossary)
 - [References](#references)
 
 -----
@@ -72,7 +74,24 @@ Sets<sup>1</sup>.
 | `/ʌ/`         | `V`  | STRUT       | cub, rub, hum |
 | `/æ/`         | `&`  | TRAP        | bad, cab, ham, arrow |
 | `/ɒ/`         | `Q`  | LOT         | stop, rob, swan |
-| `/ɒ/`         | `Q`  | CLOTH       | cough, long, laurel, origin |
+| `/ɔ/`         | `O`  | LONG<sup>1</sup> | long |
+| `/ɒː/`        | `Q:` | CLOTH       | cough, laurel, origin |
+
+1.  John Wells' lexical sets cover the LONG vowel as part of the CLOTH vowel.
+    This transcription assigns the US-specific CLOTH changes under the LONG
+    vowel.
+
+#### LOT-CLOTH split
+
+The LOT-CLOTH split is a result of the historic lengthening of the LOT vowel in
+CLOTH contexts. As such, it is given the `/ɒː/` transcription to identify it
+from the LOT vowel.
+
+| Lexical Set | EMnE   | GenAm | RP     | NRP   |
+|-------------|--------|-------|--------|-------|
+| LOT         | `/ɒ/`  | `/ɑ/` | `/ɒ/`  | `/ɒ/` |
+| LONG        | `/ɒ/`  | `/ɔ/` | `/ɒ/`  | `/ɒ/` |
+| CLOTH       | `/ɒː/` | `/ɔ/` | `/ɔː/` | `/ɒ/` |
 
 ### Long Vowels
 
@@ -130,10 +149,23 @@ Sets<sup>1</sup>.
 | `/ˌ/`         | `,` | A syllable with secondary stress. |
 | `/./`         | `.` | A syllable boundary. |
 
-Copyright (C) 2013 Reece H. Dunn
+## Glossary
+
+| Abbreviation | Name                   | Notes |
+|--------------|-------------- ---------|-------|
+| EMnE         | Early Modern English   | |
+| GenAm        | General American       | |
+| ME           | Middle English         | |
+| NE           | Modern English         | |
+| NRP          | Received Pronunciation | Modern form of RP |
+| OE           | Old English            | |
+| RP           | Received Pronunciation | Archaic form of RP |
 
 ## References
 
 1.  [Lexical sets](http://en.wikipedia.org/wiki/Lexical_sets). Wikipedia.
 2.  [Phonological history of wh](https://en.wikipedia.org/wiki/Phonological_history_of_wh). Wikipedia.
 3.  [IPA for English](https://en.wikipedia.org/wiki/Help:IPA_for_English). Wikipedia.
+4.  [lot-cloth split](https://en.wikipedia.org/wiki/Phonological_history_of_English_low_back_vowels#Lot.E2.80.93cloth_split). Wikipedia.
+
+Copyright (C) 2013 Reece H. Dunn
