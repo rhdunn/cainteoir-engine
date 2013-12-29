@@ -50,6 +50,9 @@ if __name__ == '__main__':
 		{'name': 'SAMPA (en-US)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/sampa.en-US.txt', 'from': 'ipa', 'to': 'sampa/en-US'},
 		]},
+		{'name': 'eSpeak (en)', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/espeak.en.txt', 'from': 'ipa', 'to': 'espeak/en'},
+		]},
 	]})
 	test.run({'name': 'Language-Based Phoneme Set', 'groups': [
 		{'name': 'Arpabet', 'type': 'phonemeset', 'tests': [
