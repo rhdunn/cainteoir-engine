@@ -170,6 +170,7 @@
 {low,bck,unr,vcd,vwl}
 {low,bck,unr,vcd,vwl,lng}
 {low,bck,rnd,vcd,vwl}
+{low,bck,rnd,vcd,vwl,lng}
 
 {lmd,fnt,unr,dpr,smh}
 {low,fnt,unr,dpr,smh}
@@ -184,3 +185,10 @@
 
 {low,fnt,unr,dpr,smh,rzd}
 {low,fnt,unr,dpr,smh,bck,rzd}
+
+{smh,fnt,unr,vcd,vwl,rzd}
+{smh,bck,rnd,vcd,vwl,rzd}
+
+{low,bck,unr,vcd,vwl,rzd}
+{umd,bck,rnd,vcd,vwl,rzd}
+{lmd,bck,rnd,vcd,vwl,rzd}
