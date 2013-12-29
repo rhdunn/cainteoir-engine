@@ -22,7 +22,7 @@ import sys
 
 if __name__ == '__main__':
 	test = harness.TestSuite('phonemeset', sys.argv)
-	test.run({'name': 'IPA-Base Phoneme Set', 'groups': [
+	test.run({'name': 'IPA-Based Phoneme Set', 'groups': [
 		{'name': 'ASCII-IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ascii-ipa.features', 'result': 'phonemeset/ascii-ipa.txt', 'from': 'features', 'to': 'ascii-ipa'},
 			{'test': 'phonemeset/ascii-ipa.txt', 'result': 'phonemeset/ascii-ipa.features', 'from': 'ascii-ipa', 'to': 'features'},
@@ -40,13 +40,13 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/cxs.txt', 'result': 'phonemeset/x-sampa.features', 'from': 'cxs', 'to': 'features'},
 		]},
 	]})
-	test.run({'name': 'Language-Base Phoneme Set', 'groups': [
+	test.run({'name': 'Language-Based Phoneme Set', 'groups': [
 		{'name': 'Arpabet', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/arpabet.features', 'result': 'phonemeset/arpabet.txt', 'from': 'features', 'to': 'arpabet'},
 			{'test': 'phonemeset/arpabet.txt', 'result': 'phonemeset/arpabet.features', 'from': 'arpabet', 'to': 'features'},
 		]},
 	]})
-	test.run({'name': 'SAMPA-Base Phoneme Set', 'groups': [
+	test.run({'name': 'SAMPA-Based Phoneme Set', 'groups': [
 		{'name': 'English', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/sampa/en.features', 'result': 'phonemeset/sampa/en.txt', 'from': 'features', 'to': 'sampa/en'},
 			{'test': 'phonemeset/sampa/en.txt', 'result': 'phonemeset/sampa/en.features', 'from': 'sampa/en', 'to': 'features'},
