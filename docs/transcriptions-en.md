@@ -1,0 +1,67 @@
+# English Transcriptions
+
+- [Vowels](#vowels)
+  - [Short Vowels](#short-vowels)
+  - [Long Vowels](#long-vowels)
+  - [Diphthongs](#diphthongs)
+- [References](#references)
+
+-----
+
+This is a guide to transcribing English pronunciations.
+
+## Vowels
+
+This transcription of the vowels is based on John Wells' Lexical
+Sets<sup>1</sup>.
+
+### Short Vowels
+
+| Transcription | CXS  | Lexical Set | Examples |
+|---------------|------|-------------|----------|
+| `/ɪ/`         | `I`  | KIT         | ship, rip, dim, spirit |
+| `/ʊ/`         | `U`  | FOOT        | full, look, could |
+| `/ɛ/`         | `E`  | DRESS       | step, ebb, hem, terror |
+| `/ʌ/`         | `V`  | STRUT       | cub, rub, hum |
+| `/æ/`         | `&`  | TRAP        | bad, cab, ham, arrow |
+| `/ɒ/`         | `Q`  | LOT         | stop, rob, swan |
+| `/ɒ/`         | `Q`  | CLOTH       | cough, long, laurel, origin |
+
+### Long Vowels
+
+| Transcription | CXS  | Lexical Set | Examples |
+|---------------|------|-------------|----------|
+| `/iː/`        | `i:` | FLEECE      | seed, key, seize |
+| `/uː/`        | `u:` | GOOSE       | who, group, few |
+| `/ɔː/`        | `O:` | THOUGHT     | taut, hawk, broad |
+| `/ɔː/`        | `O:` | NORTH       | war, storm, for, aural |
+| `/ɔː/`        | `O:` | FORCE       | floor, coarse, ore, oral |
+| `/ɜː/`        | `3:` | NURSE       | hurt, term, work |
+| `/ɑː/`        | `A:` | BATH        | staff, clasp, dance |
+| `/ɑː/`        | `A:` | PALM        | calm, bra, father |
+| `/ɑː/`        | `A:` | START       | far, sharp, farm, safari |
+
+### Diphthongs
+
+| Transcription | CXS    | Lexical Set | Examples |
+|---------------|--------|-------------|----------|
+| `/eɪ̯/`        | `eI_^` | FACE        | weight, rein, steak |
+| `/əʊ̯/`        | `@U_^` | GOAT        | soap, soul, home |
+| `/aɪ̯/`        | `aI_^` | PRICE       | ripe, tribe, aisle, choir |
+| `/ɔɪ̯/`        | `OI_^` | CHOICE      | boy, void, coin |
+| `/aʊ̯/`        | `aU_^` | MOUTH       | pouch, noun, crowd, flower |
+| `/ɪə̯/`        | `I@_^` | NEAR        | beer, pier, fierce, serious |
+| `/ɛə̯/`        | `E@_^` | SQUARE      | care, air, wear, Mary |
+| `/ʊə̯/`        | `U@_^` | CURE        | poor, tour, fury |
+
+### Reduced Vowels
+
+| Transcription | CXS       | Lexical Set | Examples |
+|---------------|-----------|-------------|----------|
+| `/i/`         | `i`       | HAPPY       | silly, Tony, merry |
+| `/ɚ/`         | ```@` ``` | LETTER      | beggar, martyr, visor |
+| `/ə/`         | `@`       | COMMA       | China, sofa |
+
+## References
+
+1.  [http://en.wikipedia.org/wiki/Lexical_sets](Lexical sets). Wikipedia.
