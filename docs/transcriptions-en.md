@@ -5,8 +5,8 @@
 - [Vowels](#vowels)
   - [Short Vowels](#short-vowels)
     - [LOT-CLOTH split](#lot-cloth-split)
-  - [Long Vowels](#long-vowels)
     - [TRAP-BATH split](#trap-bath-split)
+  - [Long Vowels](#long-vowels)
     - [HORSE-HOARSE merger](#horse-hoarse-merger)
     - [FERN-FIR-FUR merger](#fern-fir-fur-merger)
   - [Diphthongs](#diphthongs)
@@ -76,6 +76,7 @@ Sets<sup>1</sup>.
 | `/ɛ/`         | `E`  | DRESS       | step, ebb, hem, terror |
 | `/ʌ/`         | `V`  | STRUT       | cub, rub, hum |
 | `/æ/`         | `&`  | TRAP        | bad, cab, ham, arrow |
+| `/aː/`        | `a:` | BATH        | staff, clasp, dance |
 | `/ɒ/`         | `Q`  | LOT         | stop, rob, swan |
 | `/ɔ/`         | `O`  | LONG<sup>1</sup> | long |
 | `/ɒː/`        | `Q:` | CLOTH       | cough, laurel, origin |
@@ -96,6 +97,17 @@ from the LOT vowel.
 | LONG        | `/ɒ/`  | `/ɔ/` | `/ɒ/`  | `/ɒ/` |
 | CLOTH       | `/ɒː/` | `/ɔ/` | `/ɔː/` | `/ɒ/` |
 
+#### TRAP-BATH split
+
+The TRAP-BATH split is a result of the historic lengthening of the TRAP vowel in
+BATH contexts, as well as before historic `/r/` in START contexts.
+
+| Lexical Set | ME     | EMnE    | GenAm  | RP     |
+|-------------|--------|---------|--------|--------|
+| TRAP        | `/a/`  | `/æ/`   | `/æ/`  | `/æ/`  |
+| BATH        | `/a/`  | `/aː/`  | `/æ/`  | `/ɑː/` |
+| START       | `/ar/` | `/aːɹ/` | `/ɑɹ/` | `/ɑː/` |
+
 ### Long Vowels
 
 | Transcription | CXS    | Lexical Set | Examples |
@@ -108,23 +120,11 @@ from the LOT vowel.
 | `/ɜː/`        | `3:`   | FERN<sup>1</sup> | term, herd, earth |
 | `/ɪr/`        | `I_r`  | FIR<sup>1</sup> | birth, myrrh, mirk |
 | `/ʊr/`        | `U_r`  | FUR<sup>1</sup> | burn, hurl, world |
-| `/aː/`        | `a:`   | BATH        | staff, clasp, dance |
 | `/ɑː/`        | `A:`   | PALM        | calm, bra, father |
 | `/ɑːr/`       | `A:_r` | START       | far, sharp, farm, safari |
 
 1.  The NURSE lexical set described by John Wells has been split into three
     lexical sets to support Scottish and Irish English.
-
-#### TRAP-BATH split
-
-The TRAP-BATH split is a result of the historic lengthening of the TRAP vowel in
-BATH contexts, as well as before historic `/r/` in START contexts.
-
-| Lexical Set | ME     | EMnE    | GenAm  | RP     |
-|-------------|--------|---------|--------|--------|
-| TRAP        | `/a/`  | `/æ/`   | `/æ/`  | `/æ/`  |
-| BATH        | `/a/`  | `/aː/`  | `/æ/`  | `/ɑː/` |
-| START       | `/ar/` | `/aːɹ/` | `/ɑɹ/` | `/ɑː/` |
 
 #### HORSE-HOARSE merger
 
