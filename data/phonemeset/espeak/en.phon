@@ -67,6 +67,7 @@ I2	/{hgh,cnt,unr,vcd,vwl}/ # ROS/E/S
 I2;	/{hgh,cnt,unr,vcd,vwl}/ # ROS/E/S
 I\#	/{hgh,cnt,unr,vcd,vwl}/ # ROS/E/S (en-us)
 u:	/{hgh,bck,rnd,vcd,vwl,lng}/ # G/OO/SE
+@5	/{hgh,bck,rnd,vcd,vwl,lng}/ # G/OO/SE (en-uk-rp) ~ used for 'into', 'onto', etc.
 
 I	/{smh,fnt,unr,vcd,vwl}/ # K/I/T
 I;	/{smh,fnt,unr,vcd,vwl}/ # K/I/T
@@ -83,7 +84,6 @@ O:	/{lmd,bck,rnd,vcd,vwl,lng}/ # TH/OUGH/T
 @	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/
 @-	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/ ~ non-rhotic before /r/
 @2	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/ (en-uk-rp)
-@5	/{mid,cnt,unr,vcd,vwl}/ # COMM/A/ (en-uk-rp)
 3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETT/ER/
 3r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETT/ER/ ~ rhoticized in non-rhotic accents before a vowel
 
