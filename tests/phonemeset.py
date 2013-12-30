@@ -22,7 +22,7 @@ import sys
 
 if __name__ == '__main__':
 	test = harness.TestSuite('phonemeset', sys.argv)
-	test.run({'name': 'IPA-Based Phoneme Set', 'groups': [
+	test.run({'name': 'IPA-Based', 'groups': [
 		{'name': 'ASCII-IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ascii-ipa.features', 'result': 'phonemeset/ascii-ipa.txt', 'from': 'features', 'to': 'ascii-ipa'},
 			{'test': 'phonemeset/ascii-ipa.txt', 'result': 'phonemeset/ascii-ipa.features', 'from': 'ascii-ipa', 'to': 'features'},
@@ -40,29 +40,21 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/cxs.txt', 'result': 'phonemeset/x-sampa.features', 'from': 'cxs', 'to': 'features'},
 		]},
 	]})
-	test.run({'name': 'English', 'groups': [
+	test.run({'name': 'English-Based', 'groups': [
 		{'name': 'Arpabet', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/arpabet.txt', 'from': 'ipa', 'to': 'arpabet'},
 			{'test': 'phonemeset/en/arpabet.txt', 'result': 'phonemeset/en/arpabet.ipa', 'from': 'arpabet', 'to': 'ipa'},
 		]},
 		{'name': 'SAMPA (en)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/sampa.en.txt', 'from': 'ipa', 'to': 'sampa/en'},
+			{'test': 'phonemeset/en/sampa.en.txt', 'result': 'phonemeset/en/sampa.en.ips', 'from': 'sampa/en', 'to': 'ipa'},
 		]},
 		{'name': 'SAMPA (en-US)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/sampa.en-US.txt', 'from': 'ipa', 'to': 'sampa/en-US'},
+			{'test': 'phonemeset/en/sampa.en-US.txt', 'result': 'phonemeset/en/sampa.en-US.ips', 'from': 'sampa/en-US', 'to': 'ipa'},
 		]},
 		{'name': 'eSpeak (en)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/espeak.en.txt', 'from': 'ipa', 'to': 'espeak/en'},
-		]},
-	]})
-	test.run({'name': 'SAMPA-Based Phoneme Set', 'groups': [
-		{'name': 'English', 'type': 'phonemeset', 'tests': [
-			{'test': 'phonemeset/sampa/en.features', 'result': 'phonemeset/sampa/en.txt', 'from': 'features', 'to': 'sampa/en'},
-			{'test': 'phonemeset/sampa/en.txt', 'result': 'phonemeset/sampa/en.features', 'from': 'sampa/en', 'to': 'features'},
-		]},
-		{'name': 'US English', 'type': 'phonemeset', 'tests': [
-			{'test': 'phonemeset/sampa/en-US.features', 'result': 'phonemeset/sampa/en-US.txt', 'from': 'features', 'to': 'sampa/en-US'},
-			{'test': 'phonemeset/sampa/en-US.txt', 'result': 'phonemeset/sampa/en-US.features', 'from': 'sampa/en-US', 'to': 'features'},
 		]},
 	]})
 	test.summary()
