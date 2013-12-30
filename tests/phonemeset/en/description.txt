@@ -52,7 +52,7 @@ LETTER lexical set
 /ɹ/
 /s/
 /ʃ/
-/t/
+/t/ ~ tɾɾ̃
 /t͡ʃ/
 /v/
 /w/
