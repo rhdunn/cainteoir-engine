@@ -55,12 +55,6 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/espeak.en.txt', 'from': 'ipa', 'to': 'espeak/en'},
 		]},
 	]})
-	test.run({'name': 'Language-Based Phoneme Set', 'groups': [
-		{'name': 'Arpabet', 'type': 'phonemeset', 'tests': [
-			{'test': 'phonemeset/arpabet.features', 'result': 'phonemeset/arpabet.txt', 'from': 'features', 'to': 'arpabet'},
-			{'test': 'phonemeset/arpabet.txt', 'result': 'phonemeset/arpabet.features', 'from': 'arpabet', 'to': 'features'},
-		]},
-	]})
 	test.run({'name': 'SAMPA-Based Phoneme Set', 'groups': [
 		{'name': 'English', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/sampa/en.features', 'result': 'phonemeset/sampa/en.txt', 'from': 'features', 'to': 'sampa/en'},
