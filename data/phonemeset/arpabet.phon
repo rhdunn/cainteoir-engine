@@ -7,10 +7,6 @@
 
 ##### Vowels
 
-\u0020AO0	/{lmd,bck,rnd,vcd,vwl}/     # /ɔ/ LONG
-\u0020AO1	/{lmd,bck,rnd,vcd,vwl,st1}/ # /ɔ/ LONG
-\u0020AO2	/{lmd,bck,rnd,vcd,vwl,st2}/ # /ɔ/ LONG
-
 \u0020AO0	/{lmd,bck,rnd,vcd,vwl,lng}/     # /ɔ/ THOUGHT
 \u0020AO1	/{lmd,bck,rnd,vcd,vwl,lng,st1}/ # /ɔ/ THOUGHT
 \u0020AO2	/{lmd,bck,rnd,vcd,vwl,lng,st2}/ # /ɔ/ THOUGHT
@@ -18,6 +14,10 @@
 \u0020AO0	/{low,bck,rnd,vcd,vwl,lng}/     # /ɔ/ CLOTH
 \u0020AO1	/{low,bck,rnd,vcd,vwl,lng,st1}/ # /ɔ/ CLOTH
 \u0020AO2	/{low,bck,rnd,vcd,vwl,lng,st2}/ # /ɔ/ CLOTH
+
+\u0020AO0	/{lmd,bck,rnd,vcd,vwl}/     # /ɔ/ LONG
+\u0020AO1	/{lmd,bck,rnd,vcd,vwl,st1}/ # /ɔ/ LONG
+\u0020AO2	/{lmd,bck,rnd,vcd,vwl,st2}/ # /ɔ/ LONG
 
 \u0020AA0	/{low,bck,unr,vcd,vwl,lng}/     # /ɑ/ PALM
 \u0020AA1	/{low,bck,unr,vcd,vwl,lng,st1}/ # /ɑ/ PALM
@@ -60,13 +60,13 @@
 \u0020AH1	/{lmd,bck,unr,vcd,vwl,st1}/ # /ʌ/ STRUT
 \u0020AH2	/{lmd,bck,unr,vcd,vwl,st2}/ # /ʌ/ STRUT
 
-\u0020AE0	/{sml,fnt,unr,vcd,vwl}/     # /æ/ TRAP
-\u0020AE1	/{sml,fnt,unr,vcd,vwl,st1}/ # /æ/ TRAP
-\u0020AE2	/{sml,fnt,unr,vcd,vwl,st2}/ # /æ/ TRAP
-
 \u0020AE0	/{low,fnt,unr,vcd,vwl,lng}/     # /æ/ BATH
 \u0020AE1	/{low,fnt,unr,vcd,vwl,lng,st1}/ # /æ/ BATH
 \u0020AE2	/{low,fnt,unr,vcd,vwl,lng,st2}/ # /æ/ BATH
+
+\u0020AE0	/{sml,fnt,unr,vcd,vwl}/     # /æ/ TRAP
+\u0020AE1	/{sml,fnt,unr,vcd,vwl,st1}/ # /æ/ TRAP
+\u0020AE2	/{sml,fnt,unr,vcd,vwl,st2}/ # /æ/ TRAP
 
 ##### Diphthongs
 
@@ -92,10 +92,6 @@
 
 ##### R-coloured Vowels
 
-\u0020ER0	/{lmd,cnt,unr,vcd,vwl,lng}/     # /ɝ/ NURSE (FERN)
-\u0020ER1	/{lmd,cnt,unr,vcd,vwl,lng,st1}/ # /ɝ/ NURSE (FERN)
-\u0020ER2	/{lmd,cnt,unr,vcd,vwl,lng,st2}/ # /ɝ/ NURSE (FERN)
-
 \u0020ER0	/{smh,fnt,unr,vcd,vwl,rzd}/     # /ɝ/ NURSE (FIR)
 \u0020ER1	/{smh,fnt,unr,vcd,vwl,rzd,st1}/ # /ɝ/ NURSE (FIR)
 \u0020ER2	/{smh,fnt,unr,vcd,vwl,rzd,st2}/ # /ɝ/ NURSE (FIR)
@@ -103,6 +99,10 @@
 \u0020ER0	/{smh,bck,rnd,vcd,vwl,rzd}/     # /ɝ/ NURSE (FUR)
 \u0020ER1	/{smh,bck,rnd,vcd,vwl,rzd,st1}/ # /ɝ/ NURSE (FUR)
 \u0020ER2	/{smh,bck,rnd,vcd,vwl,rzd,st2}/ # /ɝ/ NURSE (FUR)
+
+\u0020ER0	/{lmd,cnt,unr,vcd,vwl,lng}/     # /ɝ/ NURSE (FERN)
+\u0020ER1	/{lmd,cnt,unr,vcd,vwl,lng,st1}/ # /ɝ/ NURSE (FERN)
+\u0020ER2	/{lmd,cnt,unr,vcd,vwl,lng,st2}/ # /ɝ/ NURSE (FERN)
 
 \u0020ER	/{mid,cnt,unr,vcd,vwl,rzd}/ # /ɚ/ LETTER [1]
 \u0020AXR	/{mid,cnt,unr,vcd,vwl,rzd}/ # /ɚ/ LETTER [1]

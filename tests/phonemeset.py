@@ -43,6 +43,7 @@ if __name__ == '__main__':
 	test.run({'name': 'English', 'groups': [
 		{'name': 'Arpabet', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/arpabet.txt', 'from': 'ipa', 'to': 'arpabet'},
+			{'test': 'phonemeset/en/arpabet.txt', 'result': 'phonemeset/en/arpabet.ipa', 'from': 'arpabet', 'to': 'ipa'},
 		]},
 		{'name': 'SAMPA (en)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/sampa.en.txt', 'from': 'ipa', 'to': 'sampa/en'},
