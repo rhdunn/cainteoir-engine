@@ -47,15 +47,15 @@ if __name__ == '__main__':
 		]},
 		{'name': 'SAMPA (en)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/sampa.en.txt', 'from': 'ipa', 'to': 'sampa/en'},
-			{'test': 'phonemeset/en/sampa.en.txt', 'result': 'phonemeset/en/sampa.en.ips', 'from': 'sampa/en', 'to': 'ipa'},
+			{'test': 'phonemeset/en/sampa.en.txt', 'result': 'phonemeset/en/sampa.en.ipa', 'from': 'sampa/en', 'to': 'ipa'},
 		]},
 		{'name': 'SAMPA (en-US)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/sampa.en-US.txt', 'from': 'ipa', 'to': 'sampa/en-US'},
-			{'test': 'phonemeset/en/sampa.en-US.txt', 'result': 'phonemeset/en/sampa.en-US.ips', 'from': 'sampa/en-US', 'to': 'ipa'},
+			{'test': 'phonemeset/en/sampa.en-US.txt', 'result': 'phonemeset/en/sampa.en-US.ipa', 'from': 'sampa/en-US', 'to': 'ipa'},
 		]},
 		{'name': 'eSpeak (en)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/espeak.en.txt', 'from': 'ipa', 'to': 'espeak/en'},
-			{'test': 'phonemeset/en/espeak.en.txt', 'result': 'phonemeset/en/espeak.en.ips', 'from': 'espeak/en', 'to': 'ipa'},
+			{'test': 'phonemeset/en/espeak.en.txt', 'result': 'phonemeset/en/espeak.en.ipa', 'from': 'espeak/en', 'to': 'ipa'},
 		]},
 	]})
 	test.summary()
