@@ -81,8 +81,8 @@ A@	/{low,bck,unr,vcd,vwl,rzd}/ # START
 
 ##### Diphthongs
 
-i@3	/{smh,fnt,unr,dpf,mid,cnt}/ # NEAR
-U@	/{smh,bck,rnd,dpf,mid,cnt}/ # CURE
+i@	/{smh,fnt,unr,dpf,mid,cnt}/ # NEAR
+o@	/{smh,bck,rnd,dpf,mid,cnt}/ # CURE
 eI	/{lmd,fnt,unr,dpr,smh}/ # FACE
 oU	/{mid,cnt,unr,dpr,smh,bck}/ # GOAT
 e@	/{lmd,fnt,unr,dpr,mid,cnt}/ # SQUARE
@@ -92,12 +92,12 @@ aU	/{low,fnt,unr,dpr,smh,bck}/ # MOUTH
 
 ##### Triphthongs
 
-aI@	/{low,fnt,unr,dpr,smh,rzd}/ # FIRE
+aIa\#	/{low,fnt,unr,dpr,smh,rzd}/ # FIRE
 aU@	/{low,fnt,unr,dpr,smh,bck,rzd}/ # HOUR
 
 ##### Reduced Vowels
 
 i	/{hgh,fnt,unr,vcd,vwl}/ # HAPPY
 I2	/{hgh,cnt,unr,vcd,vwl}/ # ROSES
-@	/{mid,cnt,unr,vcd,vwl}/ # COMMA
-3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER
+a\#	/{mid,cnt,unr,vcd,vwl}/ # COMMA
+a\#	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER

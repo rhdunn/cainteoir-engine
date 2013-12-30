@@ -81,7 +81,7 @@ A@	/{low,bck,unr,vcd,vwl,rzd}/ # START
 
 ##### Diphthongs
 
-i@3	/{smh,fnt,unr,dpf,mid,cnt}/ # NEAR
+i@	/{smh,fnt,unr,dpf,mid,cnt}/ # NEAR
 U@	/{smh,bck,rnd,dpf,mid,cnt}/ # CURE
 eI	/{lmd,fnt,unr,dpr,smh}/ # FACE
 oU	/{mid,cnt,unr,dpr,smh,bck}/ # GOAT

@@ -39,11 +39,13 @@ namespace tts = cainteoir::tts;
 #endif
 
 static const std::map<std::string, std::string> voice_corrections = {
+	{ "en-gb",       "en-GB" },
 	{ "en-sc",       "en-GB-scotland" },
 	{ "en-uk",       "en-GB" },
 	{ "en-uk-north", "en-GB-x-lancastrian" },
 	{ "en-uk-rp",    "en-GB-x-rp" },
 	{ "en-uk-wmids", "en-GB-x-westmids" },
+	{ "en-us",       "en-US" },
 	{ "en-wi",       "en-029" },
 	{ "es-la",       "es-419" },
 	{ "fa-pin",      "fa-Latn" },
@@ -63,7 +65,7 @@ std::string correct_lang(std::string lang)
 std::string phonemeset_from_lang(const std::string &lang)
 {
 	if (lang[0] == 'e' && lang[1] == 'n')
-		return "espeak/en";
+		return "espeak/" + lang;
 	return "ipa";
 }
 
