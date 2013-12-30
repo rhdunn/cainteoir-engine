@@ -63,6 +63,7 @@ U	/{smh,bck,rnd,vcd,vwl}/ # FOOT
 E	/{lmd,fnt,unr,vcd,vwl}/ # DRESS
 V	/{lmd,bck,unr,vcd,vwl}/ # STRUT
 a	/{sml,fnt,unr,vcd,vwl}/ # TRAP
+a\#	/{sml,cnt,unr,vcd,vwl}/ # [3]
 aa	/{low,fnt,unr,vcd,vwl,lng}/ # BATH
 0	/{lmd,bck,rnd,vcd,vwl}/ # LONG
 0	/{low,bck,rnd,vcd,vwl,lng}/ # CLOTH
@@ -114,15 +115,13 @@ i	/{hgh,fnt,unr,vcd,vwl}/ # HAPPY
 i;	/{hgh,fnt,unr,vcd,vwl}/ # HAPPY [1]
 I2	/{hgh,cnt,unr,vcd,vwl}/ # ROSES
 I2;	/{hgh,cnt,unr,vcd,vwl}/ # ROSES [1]
-@	/{mid,cnt,unr,vcd,vwl}/ # COMMA
+@	/{mid,cnt,unr,vcd,vwl}/ # COMMA [3]
 @-	/{mid,cnt,unr,vcd,vwl}/ # COMMA [1] ~ /@-n/
 @r-	/{mid,cnt,unr,vcd,vwl}/ # COMMA [2] ~ /@r-@L/
 @2	/{mid,cnt,unr,vcd,vwl}/ # COMMA
-a\#	/{mid,cnt,unr,vcd,vwl}/ # COMMA
-3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER
+3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER [3]
 3r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER [2]
-a\#	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER
-a\#r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER [2]
+a\#r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER [2], [3]
 
 ##### Notes
 #
@@ -131,3 +130,7 @@ a\#r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER [2]
 #
 # 2.  This accent is rhotic in some contexts -- specifically before vowels --
 #     and eSpeak will insert the /r-/ phoneme in these contexts.
+#
+# 3.  The phoneme ascribed to LETTER and COMMA is /a#/, however in other
+#     LETTER and COMMA vowel contexts, /3/ and /@/ are used instead. Thus,
+#     /3/ and /@/ are used for those lexical sets here.
