@@ -10,66 +10,66 @@
  AH0
  AH1
  AH2
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ AO0
+ AO1
+ AO2
+ AE0
+ AE1
+ AE2
+ AE0
+ AE1
+ AE2
+ AA0
+ AA1
+ AA2
+ AO0
+ AO1
+ AO2
  IY0
  IY1
  IY2
  UW0
  UW1
  UW2
-
-
-
-
-
-
-
-
-
+ ER0
+ ER1
+ ER2
+ ER0
+ ER1
+ ER2
+ AO0 R
+ AO1 R
+ AO2 R
  ER0
  ER1
  ER2
  AO0
  AO1
  AO2
-
-
-
+ AO0 R
+ AO1 R
+ AO2 R
  AA0
  AA1
  AA2
-
-
-
-
-
-
-
-
-
+ AA0 R
+ AA1 R
+ AA2 R
+ IY0 R
+ IY1 R
+ IY2 R
+ UH0 R
+ UH1 R
+ UH2 R
  EY0
  EY1
  EY2
  OW0
  OW1
  OW2
-
-
-
+ EH0 R
+ EH1 R
+ EH2 R
  OY0
  OY1
  OY2
@@ -79,18 +79,18 @@
  AW0
  AW1
  AW2
-
-
-
-
-
-
-
-
-
-
+ AY0 ER0
+ AY1 ER0
+ AY2 ER0
+ AW0 ER0
+ AW1 ER0
+ AW2 ER0
+ IY0
+ IY1
+ IY2
  AX0
- AXR
+ AX0
+ ER
  B
  D
  DH
@@ -116,7 +116,7 @@
  CH
  V
  W
-
+ W
 
  Z
  ZH

@@ -7,79 +7,137 @@
 
 ##### Vowels
 
-\u0020AO0	/{lmd,bck,rnd,vcd,vwl,lng}/ # [5]
-\u0020AO1	/{lmd,bck,rnd,vcd,vwl,lng,st1}/ # [5]
-\u0020AO2	/{lmd,bck,rnd,vcd,vwl,lng,st2}/ # [5]
+\u0020AO0	/{lmd,bck,rnd,vcd,vwl}/     # /ɔ/ LONG
+\u0020AO1	/{lmd,bck,rnd,vcd,vwl,st1}/ # /ɔ/ LONG
+\u0020AO2	/{lmd,bck,rnd,vcd,vwl,st2}/ # /ɔ/ LONG
 
-\u0020AA0	/{low,bck,unr,vcd,vwl,lng}/ # [2], [5]
-\u0020AA1	/{low,bck,unr,vcd,vwl,lng,st1}/ # [2], [5]
-\u0020AA2	/{low,bck,unr,vcd,vwl,lng,st2}/ # [2], [5]
+\u0020AO0	/{lmd,bck,rnd,vcd,vwl,lng}/     # /ɔ/ THOUGHT
+\u0020AO1	/{lmd,bck,rnd,vcd,vwl,lng,st1}/ # /ɔ/ THOUGHT
+\u0020AO2	/{lmd,bck,rnd,vcd,vwl,lng,st2}/ # /ɔ/ THOUGHT
 
-\u0020IY0	/{hgh,fnt,unr,vcd,vwl,lng}/ # [5]
-\u0020IY1	/{hgh,fnt,unr,vcd,vwl,lng,st1}/ # [5]
-\u0020IY2	/{hgh,fnt,unr,vcd,vwl,lng,st2}/ # [5]
+\u0020AO0	/{low,bck,rnd,vcd,vwl,lng}/     # /ɔ/ CLOTH
+\u0020AO1	/{low,bck,rnd,vcd,vwl,lng,st1}/ # /ɔ/ CLOTH
+\u0020AO2	/{low,bck,rnd,vcd,vwl,lng,st2}/ # /ɔ/ CLOTH
 
-\u0020UW0	/{hgh,bck,rnd,vcd,vwl,lng}/ # [5]
-\u0020UW1	/{hgh,bck,rnd,vcd,vwl,lng,st1}/ # [5]
-\u0020UW2	/{hgh,bck,rnd,vcd,vwl,lng,st2}/ # [5]
+\u0020AA0	/{low,bck,unr,vcd,vwl,lng}/     # /ɑ/ PALM
+\u0020AA1	/{low,bck,unr,vcd,vwl,lng,st1}/ # /ɑ/ PALM
+\u0020AA2	/{low,bck,unr,vcd,vwl,lng,st2}/ # /ɑ/ PALM
 
-\u0020EH0	/{lmd,fnt,unr,vcd,vwl}/
-\u0020EH1	/{lmd,fnt,unr,vcd,vwl,st1}/
-\u0020EH2	/{lmd,fnt,unr,vcd,vwl,st2}/
+\u0020AA0	/{low,bck,rnd,vcd,vwl}/     # /ɑ/ LOT
+\u0020AA1	/{low,bck,rnd,vcd,vwl,st1}/ # /ɑ/ LOT
+\u0020AA2	/{low,bck,rnd,vcd,vwl,st2}/ # /ɑ/ LOT
 
-\u0020IH0	/{smh,fnt,unr,vcd,vwl}/
-\u0020IH1	/{smh,fnt,unr,vcd,vwl,st1}/
-\u0020IH2	/{smh,fnt,unr,vcd,vwl,st2}/
+\u0020IY0	/{hgh,fnt,unr,vcd,vwl,lng}/     # /i/ FLEECE
+\u0020IY1	/{hgh,fnt,unr,vcd,vwl,lng,st1}/ # /i/ FLEECE
+\u0020IY2	/{hgh,fnt,unr,vcd,vwl,lng,st2}/ # /i/ FLEECE
 
-\u0020UH0	/{smh,bck,rnd,vcd,vwl}/
-\u0020UH1	/{smh,bck,rnd,vcd,vwl,st1}/
-\u0020UH2	/{smh,bck,rnd,vcd,vwl,st2}/
+\u0020IY0	/{hgh,fnt,unr,vcd,vwl}/     # /i/ HAPPY
+\u0020IY1	/{hgh,fnt,unr,vcd,vwl,st1}/ # /i/ HAPPY
+\u0020IY2	/{hgh,fnt,unr,vcd,vwl,st2}/ # /i/ HAPPY
 
-\u0020AX0	/{sml,cnt,unr,vcd,vwl}/
-\u0020AX0	/{mid,cnt,unr,vcd,vwl}/ # [1]
+\u0020UW0	/{hgh,bck,rnd,vcd,vwl,lng}/     # /u/ GOOSE
+\u0020UW1	/{hgh,bck,rnd,vcd,vwl,lng,st1}/ # /u/ GOOSE
+\u0020UW2	/{hgh,bck,rnd,vcd,vwl,lng,st2}/ # /u/ GOOSE
 
-\u0020AH0	/{lmd,bck,unr,vcd,vwl}/
-\u0020AH1	/{lmd,bck,unr,vcd,vwl,st1}/
-\u0020AH2	/{lmd,bck,unr,vcd,vwl,st2}/
+\u0020EH0	/{lmd,fnt,unr,vcd,vwl}/     # /ɛ/ DRESS
+\u0020EH1	/{lmd,fnt,unr,vcd,vwl,st1}/ # /ɛ/ DRESS
+\u0020EH2	/{lmd,fnt,unr,vcd,vwl,st2}/ # /ɛ/ DRESS
 
-\u0020AE0	/{low,fnt,unr,vcd,vwl}/
-\u0020AE1	/{low,fnt,unr,vcd,vwl,st1}/
-\u0020AE2	/{low,fnt,unr,vcd,vwl,st2}/
+\u0020IH0	/{smh,fnt,unr,vcd,vwl}/     # /ɪ/ KIT
+\u0020IH1	/{smh,fnt,unr,vcd,vwl,st1}/ # /ɪ/ KIT
+\u0020IH2	/{smh,fnt,unr,vcd,vwl,st2}/ # /ɪ/ KIT
+
+\u0020UH0	/{smh,bck,rnd,vcd,vwl}/     # /ʊ/ FOOT
+\u0020UH1	/{smh,bck,rnd,vcd,vwl,st1}/ # /ʊ/ FOOT
+\u0020UH2	/{smh,bck,rnd,vcd,vwl,st2}/ # /ʊ/ FOOT
+
+\u0020AX0	/{mid,cnt,unr,vcd,vwl}/     # /ə/ COMMA
+\u0020AH0	/{mid,cnt,unr,vcd,vwl}/     # /ə/ COMMA
+
+\u0020AX0	/{hgh,cnt,unr,vcd,vwl}/     # /ə/ ROSES
+
+\u0020AH0	/{lmd,bck,unr,vcd,vwl}/     # /ʌ/ STRUT
+\u0020AH1	/{lmd,bck,unr,vcd,vwl,st1}/ # /ʌ/ STRUT
+\u0020AH2	/{lmd,bck,unr,vcd,vwl,st2}/ # /ʌ/ STRUT
+
+\u0020AE0	/{sml,fnt,unr,vcd,vwl}/     # /æ/ TRAP
+\u0020AE1	/{sml,fnt,unr,vcd,vwl,st1}/ # /æ/ TRAP
+\u0020AE2	/{sml,fnt,unr,vcd,vwl,st2}/ # /æ/ TRAP
+
+\u0020AE0	/{low,fnt,unr,vcd,vwl,lng}/     # /æ/ BATH
+\u0020AE1	/{low,fnt,unr,vcd,vwl,lng,st1}/ # /æ/ BATH
+\u0020AE2	/{low,fnt,unr,vcd,vwl,lng,st2}/ # /æ/ BATH
 
 ##### Diphthongs
 
-\u0020EY0	/{lmd,fnt,unr,dpr,smh}/
-\u0020EY1	/{lmd,fnt,unr,dpr,smh,st1}/
-\u0020EY2	/{lmd,fnt,unr,dpr,smh,st2}/
+\u0020EY0	/{lmd,fnt,unr,dpr,smh}/     # /eɪ̯/ FACE
+\u0020EY1	/{lmd,fnt,unr,dpr,smh,st1}/ # /eɪ̯/ FACE
+\u0020EY2	/{lmd,fnt,unr,dpr,smh,st2}/ # /eɪ̯/ FACE
 
-\u0020AY0	/{low,fnt,unr,dpr,smh}/
-\u0020AY1	/{low,fnt,unr,dpr,smh,st1}/
-\u0020AY2	/{low,fnt,unr,dpr,smh,st2}/
+\u0020AY0	/{low,fnt,unr,dpr,smh}/     # /aɪ̯/ PRICE
+\u0020AY1	/{low,fnt,unr,dpr,smh,st1}/ # /aɪ̯/ PRICE
+\u0020AY2	/{low,fnt,unr,dpr,smh,st2}/ # /aɪ̯/ PRICE
 
-\u0020OY0	/{lmd,bck,rnd,dpr,smh,fnt}/
-\u0020OY1	/{lmd,bck,rnd,dpr,smh,fnt,st1}/
-\u0020OY2	/{lmd,bck,rnd,dpr,smh,fnt,st2}/
+\u0020OW0	/{mid,cnt,unr,dpr,smh,bck}/     # /əʊ̯/ GOAT
+\u0020OW1	/{mid,cnt,unr,dpr,smh,bck,st1}/ # /əʊ̯/ GOAT
+\u0020OW2	/{mid,cnt,unr,dpr,smh,bck,st2}/ # /əʊ̯/ GOAT
 
-\u0020OW0	/{mid,cnt,unr,dpr,smh,bck}/
-\u0020OW1	/{mid,cnt,unr,dpr,smh,bck,st1}/
-\u0020OW2	/{mid,cnt,unr,dpr,smh,bck,st2}/
+\u0020AW0	/{low,fnt,unr,dpr,smh,bck}/     # /aʊ̯/ MOUTH
+\u0020AW1	/{low,fnt,unr,dpr,smh,bck,st1}/ # /aʊ̯/ MOUTH
+\u0020AW2	/{low,fnt,unr,dpr,smh,bck,st2}/ # /aʊ̯/ MOUTH
 
-\u0020AW0	/{low,fnt,unr,dpr,smh,bck}/
-\u0020AW1	/{low,fnt,unr,dpr,smh,bck,st1}/
-\u0020AW2	/{low,fnt,unr,dpr,smh,bck,st2}/
+\u0020OY0	/{lmd,bck,rnd,dpr,smh,fnt}/     # /ɔɪ̯/ CHOICE
+\u0020OY1	/{lmd,bck,rnd,dpr,smh,fnt,st1}/ # /ɔɪ̯/ CHOICE
+\u0020OY2	/{lmd,bck,rnd,dpr,smh,fnt,st2}/ # /ɔɪ̯/ CHOICE
 
-##### R-coloured Vowels [4]
+##### R-coloured Vowels
 
-\u0020AXR	/{mid,cnt,unr,vcd,vwl,rzd}/ # [3]
+\u0020ER0	/{lmd,cnt,unr,vcd,vwl,lng}/     # /ɝ/ NURSE (FERN)
+\u0020ER1	/{lmd,cnt,unr,vcd,vwl,lng,st1}/ # /ɝ/ NURSE (FERN)
+\u0020ER2	/{lmd,cnt,unr,vcd,vwl,lng,st2}/ # /ɝ/ NURSE (FERN)
 
-\u0020ER0	/{lmd,cnt,unr,vcd,vwl,lng}/ # [5], [7]
-\u0020ER1	/{lmd,cnt,unr,vcd,vwl,lng,st1}/ # [5], [7]
-\u0020ER2	/{lmd,cnt,unr,vcd,vwl,lng,st2}/ # [5], [7]
+\u0020ER0	/{smh,fnt,unr,vcd,vwl,rzd}/     # /ɝ/ NURSE (FIR)
+\u0020ER1	/{smh,fnt,unr,vcd,vwl,rzd,st1}/ # /ɝ/ NURSE (FIR)
+\u0020ER2	/{smh,fnt,unr,vcd,vwl,rzd,st2}/ # /ɝ/ NURSE (FIR)
 
-\u0020ER	/{mid,cnt,unr,vcd,vwl,rzd}/ # [3]
-\u0020ER0	/{lmd,cnt,unr,vcd,vwl,lng,rzd}/ # [5]
-\u0020ER1	/{lmd,cnt,unr,vcd,vwl,lng,rzd,st1}/ # [5]
-\u0020ER2	/{lmd,cnt,unr,vcd,vwl,lng,rzd,st2}/ # [5]
+\u0020ER0	/{smh,bck,rnd,vcd,vwl,rzd}/     # /ɝ/ NURSE (FUR)
+\u0020ER1	/{smh,bck,rnd,vcd,vwl,rzd,st1}/ # /ɝ/ NURSE (FUR)
+\u0020ER2	/{smh,bck,rnd,vcd,vwl,rzd,st2}/ # /ɝ/ NURSE (FUR)
+
+\u0020ER	/{mid,cnt,unr,vcd,vwl,rzd}/ # /ɚ/ LETTER [1]
+\u0020AXR	/{mid,cnt,unr,vcd,vwl,rzd}/ # /ɚ/ LETTER [1]
+
+\u0020EH0\u0020R	/{lmd,fnt,unr,dpr,mid,cnt}/     # /ɛr/ SQUARE
+\u0020EH1\u0020R	/{lmd,fnt,unr,dpr,mid,cnt,st1}/ # /ɛr/ SQUARE
+\u0020EH2\u0020R	/{lmd,fnt,unr,dpr,mid,cnt,st2}/ # /ɛr/ SQUARE
+
+\u0020UH0\u0020R	/{smh,bck,rnd,dpf,mid,cnt}/     # /ʊr/ CURE
+\u0020UH1\u0020R	/{smh,bck,rnd,dpf,mid,cnt,st1}/ # /ʊr/ CURE
+\u0020UH2\u0020R	/{smh,bck,rnd,dpf,mid,cnt,st2}/ # /ʊr/ CURE
+
+\u0020AO0\u0020R	/{umd,bck,rnd,vcd,vwl,rzd}/     # /ɔr/ NORTH
+\u0020AO1\u0020R	/{umd,bck,rnd,vcd,vwl,rzd,st1}/ # /ɔr/ NORTH
+\u0020AO2\u0020R	/{umd,bck,rnd,vcd,vwl,rzd,st2}/ # /ɔr/ NORTH
+
+\u0020AO0\u0020R	/{lmd,bck,rnd,vcd,vwl,rzd}/     # /ɔr/ NORTH
+\u0020AO1\u0020R	/{lmd,bck,rnd,vcd,vwl,rzd,st1}/ # /ɔr/ NORTH
+\u0020AO2\u0020R	/{lmd,bck,rnd,vcd,vwl,rzd,st2}/ # /ɔr/ NORTH
+
+\u0020AA0\u0020R	/{low,bck,unr,vcd,vwl,rzd}/     # /ɑr/ START
+\u0020AA1\u0020R	/{low,bck,unr,vcd,vwl,rzd,st1}/ # /ɑr/ START
+\u0020AA2\u0020R	/{low,bck,unr,vcd,vwl,rzd,st2}/ # /ɑr/ START
+
+\u0020IY0\u0020R	/{smh,fnt,unr,dpf,mid,cnt}/     # /ɪr/ NEAR
+\u0020IY1\u0020R	/{smh,fnt,unr,dpf,mid,cnt,st1}/ # /ɪr/ NEAR
+\u0020IY2\u0020R	/{smh,fnt,unr,dpf,mid,cnt,st2}/ # /ɪr/ NEAR
+
+\u0020AW0\u0020ER0	/{low,fnt,unr,dpr,smh,bck,rzd}/     # /aʊ̯ɚ/ HOUR
+\u0020AW1\u0020ER0	/{low,fnt,unr,dpr,smh,bck,rzd,st1}/ # /aʊ̯ɚ/ HOUR
+\u0020AW2\u0020ER0	/{low,fnt,unr,dpr,smh,bck,rzd,st2}/ # /aʊ̯ɚ/ HOUR
+
+\u0020AY0\u0020ER0	/{low,fnt,unr,dpr,smh,rzd}/     # /aɪ̯ɚ/ PRICE
+\u0020AY1\u0020ER0	/{low,fnt,unr,dpr,smh,rzd,st1}/ # /aɪ̯ɚ/ PRICE
+\u0020AY2\u0020ER0	/{low,fnt,unr,dpr,smh,rzd,st2}/ # /aɪ̯ɚ/ PRICE
 
 ##### Consonants
 
@@ -104,45 +162,26 @@
 \u0020HH	/{vls,glt,apr}/
 
 \u0020M		/{vcd,blb,nas}/
-\u0020N		/{vcd,alv,nas}/
-\u0020NG	/{vcd,vel,nas}/
-
 \u0020EM	/{vcd,blb,nas,syl}/
+\u0020N		/{vcd,alv,nas}/
 \u0020EN	/{vcd,alv,nas,syl}/
+\u0020NG	/{vcd,vel,nas}/
 \u0020ENG	/{vcd,vel,nas,syl}/
 
-\u0020L		/{vcd,alv,lat,apr,vzd}/ # [6]
-\u0020L		/{vcd,alv,lat,apr}/ # [6]
-\u0020EL	/{vcd,alv,lat,apr,vzd,syl}/ # [6]
-\u0020EL	/{vcd,alv,lat,apr,syl}/ # [6]
+\u0020L		/{vcd,alv,lat,apr}/
+\u0020EL	/{vcd,alv,lat,apr,syl}/
 \u0020R		/{vcd,alv,apr}/
 \u0020DX	/{vcd,alv,flp}/
 \u0020NX	/{vcd,alv,flp,nzd}/
 
 \u0020Y		/{vcd,pal,apr}/
 \u0020W		/{vcd,lbv,apr}/
+\u0020W		/{vls,lbv,apr}/
 \u0020Q		/{vls,glt,stp}/
 
 ##### Notes:
 #
-#  1. Wikipedia uses /AX0/ in the word examples for the /AX/ phoneme.
-#
-#  2. Support English accents that do not have the cot-cart merger.
-#
-#  3. Wikipedia lists this as /AXR/, but uses /ER/ in the examples.
-#
-#  4. The /VV R/ R-coloured vowels are transcribed as /vr/. Since both of these
-#     are formed of two phonemes, only the /VV/ and /R/ phonemes need to be
-#     mapped.
-#
-#  5. Wikipedia lists the IPA transcription without the /{lng}/ feature. However,
-#     in practice, these phonemes are long vowels.
-#
-#  6. Wikipedia lists these as the /{vzd}/ forms in recent versions of the page,
-#     however the /{vzd}/ form is accent and context dependent. As Arpabet does
-#     not make this distinction, both forms are supported.
-#
-#  7. Support English accents that do not rhoticize the /ER/ phoneme.
+#  1. Wikipedia lists this as /AXR/, but uses /ER/ in the examples.
 #
 ##### References:
 #
