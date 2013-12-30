@@ -55,6 +55,7 @@ if __name__ == '__main__':
 		]},
 		{'name': 'eSpeak (en)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/en/ipa.txt', 'result': 'phonemeset/en/espeak.en.txt', 'from': 'ipa', 'to': 'espeak/en'},
+			{'test': 'phonemeset/en/espeak.en.txt', 'result': 'phonemeset/en/espeak.en.ips', 'from': 'espeak/en', 'to': 'ipa'},
 		]},
 	]})
 	test.summary()
