@@ -10,6 +10,7 @@ _:_:_:_:\u0020	/{pau,est}/	# pause before conjunction
 _:_:		/{pau,est}/	# pause before conjunction
 \u0020_:	/{pau,est}/	# pause before conjunction
 _|		/{pau,est}/	# pause before conjunction
+_		/{pau,est}/	# pause before conjunction
 \u000A		/{pau}/		# clause pause (e.g. comma)
 _:_:\u000A	/{pau}/		# clause pause (e.g. comma)
 
@@ -24,6 +25,7 @@ t	/{vls,alv,stp}/
 d	/{vcd,alv,stp}/
 k	/{vls,vel,stp}/
 g	/{vcd,vel,stp}/
+g-	/{vcd,vel,stp}/ # [1]
 ?	/{vls,glt,stp}/
 
 tS	/{vls,pla,afr}/
@@ -57,10 +59,12 @@ h	/{vls,glt,apr}/
 ##### Short Vowels
 
 I	/{smh,fnt,unr,vcd,vwl}/ # KIT
+I;	/{smh,fnt,unr,vcd,vwl}/ # KIT [1]
 U	/{smh,bck,rnd,vcd,vwl}/ # FOOT
 E	/{lmd,fnt,unr,vcd,vwl}/ # DRESS
 V	/{lmd,bck,unr,vcd,vwl}/ # STRUT
 a	/{sml,fnt,unr,vcd,vwl}/ # TRAP
+a\#	/{sml,cnt,unr,vcd,vwl}/
 aa	/{low,fnt,unr,vcd,vwl,lng}/ # BATH
 0	/{lmd,bck,rnd,vcd,vwl}/ # LONG
 0	/{low,bck,rnd,vcd,vwl,lng}/ # CLOTH
@@ -69,23 +73,32 @@ aa	/{low,fnt,unr,vcd,vwl,lng}/ # BATH
 ##### Long Vowels
 
 i:	/{hgh,fnt,unr,vcd,vwl,lng}/ # FLEECE
+i:;	/{hgh,fnt,unr,vcd,vwl,lng}/ # FLEECE [1]
 u:	/{hgh,bck,rnd,vcd,vwl,lng}/ # GOOSE
 3:	/{smh,fnt,unr,vcd,vwl,rzd}/ # NURSE (FIR)
 3:	/{smh,bck,rnd,vcd,vwl,rzd}/ # NURSE (FUR)
 3:	/{lmd,cnt,unr,vcd,vwl,lng}/ # NURSE (FERN)
+3:r-	/{lmd,cnt,unr,vcd,vwl,lng}/ # NURSE (FERN) [2]
 O@	/{umd,bck,rnd,vcd,vwl,rzd}/ # NORTH
+O@r-	/{umd,bck,rnd,vcd,vwl,rzd}/ # NORTH [2]
 o@	/{lmd,bck,rnd,vcd,vwl,rzd}/ # FORCE
+o@r-	/{lmd,bck,rnd,vcd,vwl,rzd}/ # FORCE [2]
 O:	/{lmd,bck,rnd,vcd,vwl,lng}/ # THOUGHT
+O:r-	/{lmd,bck,rnd,vcd,vwl,lng}/ # THOUGHT [2]
 A:	/{low,bck,unr,vcd,vwl,lng}/ # PALM
 A@	/{low,bck,unr,vcd,vwl,rzd}/ # START
+A@r-	/{low,bck,unr,vcd,vwl,rzd}/ # START [2]
 
 ##### Diphthongs
 
 i@	/{smh,fnt,unr,dpf,mid,cnt}/ # NEAR
+i@r-	/{smh,fnt,unr,dpf,mid,cnt}/ # NEAR [2]
 U@	/{smh,bck,rnd,dpf,mid,cnt}/ # CURE
+U@r-	/{smh,bck,rnd,dpf,mid,cnt}/ # CURE [2]
 eI	/{lmd,fnt,unr,dpr,smh}/ # FACE
 oU	/{mid,cnt,unr,dpr,smh,bck}/ # GOAT
 e@	/{lmd,fnt,unr,dpr,mid,cnt}/ # SQUARE
+e@r-	/{lmd,fnt,unr,dpr,mid,cnt}/ # SQUARE [2]
 OI	/{lmd,bck,rnd,dpr,smh,fnt}/ # CHOICE
 aI	/{low,fnt,unr,dpr,smh}/ # PRICE
 aU	/{low,fnt,unr,dpr,smh,bck}/ # MOUTH
@@ -93,11 +106,26 @@ aU	/{low,fnt,unr,dpr,smh,bck}/ # MOUTH
 ##### Triphthongs
 
 aI@	/{low,fnt,unr,dpr,smh,rzd}/ # FIRE
+aI@r-	/{low,fnt,unr,dpr,smh,rzd}/ # FIRE [2]
 aU@	/{low,fnt,unr,dpr,smh,bck,rzd}/ # HOUR
 
 ##### Reduced Vowels
 
 I2	/{hgh,fnt,unr,vcd,vwl}/ # HAPPY
+I2;	/{hgh,fnt,unr,vcd,vwl}/ # HAPPY [1]
+i	/{hgh,fnt,unr,vcd,vwl}/ # HAPPY
 I2	/{hgh,cnt,unr,vcd,vwl}/ # ROSES
+I2;	/{hgh,cnt,unr,vcd,vwl}/ # ROSES [1]
 @	/{mid,cnt,unr,vcd,vwl}/ # COMMA
+@-	/{mid,cnt,unr,vcd,vwl}/ # COMMA [1] ~ /@-n/
+@r-	/{mid,cnt,unr,vcd,vwl}/ # COMMA [2] ~ /@r-@L/
 3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER
+3r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER [2]
+
+##### Notes
+#
+# 1.  eSpeak inserts a /;/ or /-/ between some phonemes to separate some
+#     phoneme pairs that may be ambiguous.
+#
+# 2.  This accent is rhotic in some contexts -- specifically before vowels --
+#     and eSpeak will insert the /r-/ phoneme in these contexts.
