@@ -10,6 +10,7 @@ _:_:_:_:\u0020	/{pau,est}/	# pause before conjunction
 _:_:		/{pau,est}/	# pause before conjunction
 \u0020_:	/{pau,est}/	# pause before conjunction
 _|		/{pau,est}/	# pause before conjunction
+_		/{pau,est}/	# pause before conjunction
 \u000A		/{pau}/		# clause pause (e.g. comma)
 _:_:\u000A	/{pau}/		# clause pause (e.g. comma)
 
@@ -61,6 +62,7 @@ U	/{smh,bck,rnd,vcd,vwl}/ # FOOT
 E	/{lmd,fnt,unr,vcd,vwl}/ # DRESS
 V	/{lmd,bck,unr,vcd,vwl}/ # STRUT
 a	/{sml,fnt,unr,vcd,vwl}/ # TRAP
+a\#	/{sml,cnt,unr,vcd,vwl}/
 aa	/{low,fnt,unr,vcd,vwl,lng}/ # BATH
 0	/{lmd,bck,rnd,vcd,vwl}/ # LONG
 0	/{low,bck,rnd,vcd,vwl,lng}/ # CLOTH
@@ -69,9 +71,12 @@ aa	/{low,fnt,unr,vcd,vwl,lng}/ # BATH
 ##### Long Vowels
 
 i:	/{hgh,fnt,unr,vcd,vwl,lng}/ # FLEECE
+i:;	/{hgh,fnt,unr,vcd,vwl,lng}/ # FLEECE [1]
 u:	/{hgh,bck,rnd,vcd,vwl,lng}/ # GOOSE
 IR	/{smh,fnt,unr,vcd,vwl,rzd}/ # NURSE (FIR)
+IRr-	/{smh,fnt,unr,vcd,vwl,rzd}/ # NURSE (FIR) [2]
 VR	/{smh,bck,rnd,vcd,vwl,rzd}/ # NURSE (FUR)
+VRr-	/{smh,bck,rnd,vcd,vwl,rzd}/ # NURSE (FUR) [2]
 3:	/{lmd,cnt,unr,vcd,vwl,lng}/ # NURSE (FERN)
 O@r	/{umd,bck,rnd,vcd,vwl,rzd}/ # NORTH
 o@r	/{lmd,bck,rnd,vcd,vwl,rzd}/ # FORCE
@@ -83,21 +88,37 @@ A@r	/{low,bck,unr,vcd,vwl,rzd}/ # START
 
 i@3r	/{smh,fnt,unr,dpf,mid,cnt}/ # NEAR
 U@	/{smh,bck,rnd,dpf,mid,cnt}/ # CURE
+U@r-	/{smh,bck,rnd,dpf,mid,cnt}/ # CURE [2]
 eI	/{lmd,fnt,unr,dpr,smh}/ # FACE
 oU	/{mid,cnt,unr,dpr,smh,bck}/ # GOAT
 e@r	/{lmd,fnt,unr,dpr,mid,cnt}/ # SQUARE
+e@rr-	/{lmd,fnt,unr,dpr,mid,cnt}/ # SQUARE [2]
 OI	/{lmd,bck,rnd,dpr,smh,fnt}/ # CHOICE
 aI	/{low,fnt,unr,dpr,smh}/ # PRICE
+aI2	/{low,fnt,unr,dpr,smh}/ # PRICE (at the end of a word)
 aU	/{low,fnt,unr,dpr,smh,bck}/ # MOUTH
 
 ##### Triphthongs
 
 aI@	/{low,fnt,unr,dpr,smh,rzd}/ # FIRE
+aI@r-	/{low,fnt,unr,dpr,smh,rzd}/ # FIRE [2]
 aU@	/{low,fnt,unr,dpr,smh,bck,rzd}/ # HOUR
+aU@r-	/{low,fnt,unr,dpr,smh,bck,rzd}/ # HOUR [2]
 
 ##### Reduced Vowels
 
 i	/{hgh,fnt,unr,vcd,vwl}/ # HAPPY
+i;	/{hgh,fnt,unr,vcd,vwl}/ # HAPPY [1]
 I2	/{hgh,cnt,unr,vcd,vwl}/ # ROSES
 @	/{mid,cnt,unr,vcd,vwl}/ # COMMA
+@-	/{mid,cnt,unr,vcd,vwl}/ # COMMA [1] ~ /@-n/
+@r-	/{mid,cnt,unr,vcd,vwl}/ # COMMA [2]
 3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER
+
+##### Notes
+#
+# 1.  eSpeak inserts a /;/ or /-/ between some phonemes to separate some
+#     phoneme pairs that may be ambiguous.
+#
+# 2.  This accent is rhotic in some contexts -- specifically before vowels --
+#     and eSpeak will insert the /r-/ phoneme in these contexts.
