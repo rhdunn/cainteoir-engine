@@ -71,6 +71,7 @@ struct phoneme_file_reader
 	tts::phoneme phoneme;
 	tts::feature feature;
 	modifier_placement placement;
+	uint8_t backtrack;
 
 	phoneme_file_reader(const char *aPhonemeSet);
 
@@ -87,6 +88,7 @@ phoneme_file_reader::phoneme_file_reader(const char *aPhonemeSet)
 	, features(tts::createExplicitFeaturePhonemeReader())
 	, feature(tts::feature::unspecified)
 	, placement(modifier_placement::before)
+	, backtrack(0)
 {
 	auto location = cainteoir::get_data_path() / "phonemeset" / (std::string(aPhonemeSet) + ".phon");
 	mBuffer = cainteoir::make_file_buffer(location);
@@ -114,10 +116,17 @@ bool phoneme_file_reader::read()
 		case '/':
 			++current;
 			start = current;
+			backtrack = 0;
 			while (current <= last && (*current != '/'))
 				++current;
 			if (*current != '/')
 				throw std::runtime_error("unterminated phoneme group (expecting '/')");
+			else if (*(current + 1) == '~')
+			{
+				current += 2;
+				if (*current == '2') // /.../~2
+					backtrack = 2;
+			}
 			if (*start == '<' && *(current - 1) == '>')
 			{
 				if (current - start != 5)
@@ -215,7 +224,14 @@ struct phonemeset_reader: public tts::phoneme_reader
 	std::pair<const char *, std::pair<modifier_placement, tts::phoneme>>
 	next_match();
 
-	cainteoir::trie<std::pair<modifier_placement, tts::phoneme>> mPhonemes;
+	struct phoneme_t
+	{
+		modifier_placement placement;
+		tts::phoneme phoneme;
+		uint8_t backtrack;
+	};
+
+	cainteoir::trie<phoneme_t> mPhonemes;
 	std::shared_ptr<cainteoir::buffer> mBuffer;
 	const char *mCurrent;
 	const char *mEnd;
@@ -228,10 +244,10 @@ phonemeset_reader::phonemeset_reader(const char *aPhonemeSet)
 	{
 		if (reader.feature == tts::feature::unspecified)
 			mPhonemes.insert(*reader.transcription,
-			                 { modifier_placement::phoneme, reader.phoneme });
+			                 { modifier_placement::phoneme, reader.phoneme, reader.backtrack });
 		else
 			mPhonemes.insert(*reader.transcription,
-			                 { reader.placement, { reader.feature, tts::feature::unspecified, tts::feature::unspecified } });
+			                 { reader.placement, { reader.feature, tts::feature::unspecified, tts::feature::unspecified }, 0 });
 	}
 }
 
@@ -315,9 +331,9 @@ phonemeset_reader::next_match()
 		{
 			if (match)
 			{
-				*(tts::phoneme *)this = match->item.second;
-				mCurrent = pos;
-				return { mCurrent, match->item };
+				*(tts::phoneme *)this = match->item.phoneme;
+				mCurrent = pos - match->item.backtrack;
+				return { mCurrent, { match->item.placement, match->item.phoneme }};
 			}
 
 			uint8_t c = *mCurrent;
@@ -335,7 +351,7 @@ phonemeset_reader::next_match()
 		{
 			entry = next;
 			++mCurrent;
-			if (entry->item.first != modifier_placement::none)
+			if (entry->item.placement != modifier_placement::none)
 			{
 				match = entry;
 				pos = mCurrent;
@@ -344,9 +360,9 @@ phonemeset_reader::next_match()
 	}
 	if (match)
 	{
-		*(tts::phoneme *)this = match->item.second;
-		mCurrent = pos;
-		return { mCurrent, match->item };
+		*(tts::phoneme *)this = match->item.phoneme;
+		mCurrent = pos - match->item.backtrack;
+		return { mCurrent, { match->item.placement, match->item.phoneme }};
 	}
 	return { mCurrent, { modifier_placement::none, {} } };
 }

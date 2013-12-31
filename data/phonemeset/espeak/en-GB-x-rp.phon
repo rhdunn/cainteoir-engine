@@ -96,6 +96,7 @@ e@r-	/{lmd,fnt,unr,dpr,mid,cnt}/ # SQUARE [2]
 OI	/{lmd,bck,rnd,dpr,smh,fnt}/ # CHOICE
 aI	/{low,fnt,unr,dpr,smh}/ # PRICE
 aI;	/{low,fnt,unr,dpr,smh}/ # PRICE [1]
+aI@L	/{low,fnt,unr,dpr,smh}/~2 # PRICE [4]
 aU	/{low,fnt,unr,dpr,smh,bck}/ # MOUTH
 
 ##### Triphthongs
@@ -129,3 +130,9 @@ a\#r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER [2], [3]
 # 3.  The phoneme ascribed to LETTER and COMMA is /a#/, however in other
 #     LETTER and COMMA vowel contexts, /3/ and /@/ are used instead. Thus,
 #     /3/ and /@/ are used for those lexical sets here.
+#
+# 4.  The eSpeak phonemeset is ambiguous for a phoneme like /aI/ and /U/
+#     followed by /@L/. The maximal matches in these cases are /aI@/ and
+#     /U@/ which leaves /L/ as an invalid phoneme. Thus, for example, the
+#     full /aI@L/ is detected as /aI/ and the phoneme parser is informed to
+#     re-parse the last 2 chasracters, so it will process /@L/ correctly.

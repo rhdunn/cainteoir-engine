@@ -54,6 +54,7 @@ h	/{vls,glt,apr}/
 
 I	/{smh,fnt,unr,vcd,vwl}/ # KIT
 U	/{smh,bck,rnd,vcd,vwl}/ # FOOT
+U@L	/{smh,bck,rnd,vcd,vwl}/~2 # FOOT [3]
 E	/{lmd,fnt,unr,vcd,vwl}/ # DRESS
 V	/{lmd,bck,unr,vcd,vwl}/ # STRUT
 a	/{sml,fnt,unr,vcd,vwl}/ # TRAP
@@ -117,3 +118,9 @@ I2	/{hgh,cnt,unr,vcd,vwl}/ # ROSES
 #
 # 2.  This accent is rhotic in some contexts -- specifically before vowels --
 #     and eSpeak will insert the /r-/ phoneme in these contexts.
+#
+# 3.  The eSpeak phonemeset is ambiguous for a phoneme like /aI/ and /U/
+#     followed by /@L/. The maximal matches in these cases are /aI@/ and
+#     /U@/ which leaves /L/ as an invalid phoneme. Thus, for example, the
+#     full /aI@L/ is detected as /aI/ and the phoneme parser is informed to
+#     re-parse the last 2 chasracters, so it will process /@L/ correctly.
