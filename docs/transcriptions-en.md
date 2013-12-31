@@ -199,7 +199,7 @@ for FIR and FUR.
 ## Glossary
 
 | Abbreviation | Name                   | Notes |
-|--------------|-------------- ---------|-------|
+|--------------|------------------------|-------|
 | EMnE         | Early Modern English   | |
 | GenAm        | General American       | |
 | IrE          | Irish English          | |
