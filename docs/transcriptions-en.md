@@ -14,6 +14,8 @@
 - [Syllables](#syllables)
 - [Glossary](#glossary)
 - [References](#references)
+  - [English Phonology](#english-phonology)
+  - [Splits and Mergers](#splits-and-mergers)
 
 -----
 
@@ -212,12 +214,17 @@ for FIR and FUR.
 
 ## References
 
+### English Phonology
+
 1.  [Lexical sets](https://en.wikipedia.org/wiki/Lexical_sets). Wikipedia.
 2.  [IPA for English](https://en.wikipedia.org/wiki/Help:IPA_for_English). Wikipedia.
-3.  [Phonological history of wh](https://en.wikipedia.org/wiki/Phonological_history_of_wh). Wikipedia.
-4.  [lot-cloth split](https://en.wikipedia.org/wiki/Phonological_history_of_English_low_back_vowels#Lot.E2.80.93cloth_split). Wikipedia.
-5.  [The development of the Early Modern English phoneme /aː/](https://en.wikipedia.org/wiki/Phonological_history_of_English_short_A#The_development_of_the_Early_Modern_English_phoneme_.2Fa.CB.90.2F). Wikipedia.
-6.  [horse-hoarse merger](https://en.wikipedia.org/wiki/English-language_vowel_changes_before_historic_/r/#Horse.E2.80.93hoarse_merger). Wikipedia.
-7.  [fern-fir-fur merger](https://en.wikipedia.org/wiki/English-language_vowel_changes_before_historic_/r/#Fern.E2.80.93fir.E2.80.93fur_merger). Wikipedia.
+
+### Splits and Mergers
+
+1.  [Phonological history of wh](https://en.wikipedia.org/wiki/Phonological_history_of_wh). Wikipedia.
+2.  [lot-cloth split](https://en.wikipedia.org/wiki/Phonological_history_of_English_low_back_vowels#Lot.E2.80.93cloth_split). Wikipedia.
+3.  [The development of the Early Modern English phoneme /aː/](https://en.wikipedia.org/wiki/Phonological_history_of_English_short_A#The_development_of_the_Early_Modern_English_phoneme_.2Fa.CB.90.2F). Wikipedia.
+4.  [horse-hoarse merger](https://en.wikipedia.org/wiki/English-language_vowel_changes_before_historic_/r/#Horse.E2.80.93hoarse_merger). Wikipedia.
+5.  [fern-fir-fur merger](https://en.wikipedia.org/wiki/English-language_vowel_changes_before_historic_/r/#Fern.E2.80.93fir.E2.80.93fur_merger). Wikipedia.
 
 Copyright (C) 2013 Reece H. Dunn
