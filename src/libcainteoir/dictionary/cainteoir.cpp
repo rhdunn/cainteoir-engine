@@ -27,43 +27,59 @@
 
 namespace tts = cainteoir::tts;
 
-static void parseCainteoirDictionary(tts::dictionary &dict,
-                                     const cainteoir::path &aBasePath,
-                                     const std::shared_ptr<cainteoir::buffer> &aDictionary)
+struct cainteoir_dictionary_reader
 {
-	std::shared_ptr<tts::phoneme_reader> phonemeset;
-	const char *current = aDictionary->begin();
-	const char *last    = aDictionary->end();
-	while (current != last)
+	cainteoir_dictionary_reader(const cainteoir::path &aDictionaryPath);
+
+	void parse(tts::dictionary &dict);
+private:
+	cainteoir::path mBasePath;
+	std::shared_ptr<cainteoir::buffer> mData;
+	std::shared_ptr<tts::phoneme_reader> mPhonemeSet;
+	const char *mCurrent;
+	const char *mLast;
+};
+
+cainteoir_dictionary_reader::cainteoir_dictionary_reader(const cainteoir::path &aDictionaryPath)
+	: mBasePath(aDictionaryPath.parent())
+	, mData(cainteoir::make_file_buffer(aDictionaryPath))
+{
+	mCurrent = mData->begin();
+	mLast = mData->end();
+}
+
+void cainteoir_dictionary_reader::parse(tts::dictionary &dict)
+{
+	while (mCurrent != mLast)
 	{
-		if (*current == '#')
+		if (*mCurrent == '#')
 		{
-			while (current != last && (*current != '\r' && *current != '\n'))
-				++current;
-			while (current != last && (*current == '\r' || *current == '\n'))
-				++current;
+			while (mCurrent != mLast && (*mCurrent != '\r' && *mCurrent != '\n'))
+				++mCurrent;
+			while (mCurrent != mLast && (*mCurrent == '\r' || *mCurrent == '\n'))
+				++mCurrent;
 			continue;
 		}
 
-		const char *begin_entry = current;
-		const char *end_entry   = current;
-		while (end_entry != last && *end_entry != '\t')
+		const char *begin_entry = mCurrent;
+		const char *end_entry   = mCurrent;
+		while (end_entry != mLast && *end_entry != '\t')
 			++end_entry;
 
-		current = end_entry;
-		while (current != last && *current == '\t')
-			++current;
+		mCurrent = end_entry;
+		while (mCurrent != mLast && *mCurrent == '\t')
+			++mCurrent;
 
-		if (current == last) return;
+		if (mCurrent == mLast) return;
 
-		const char *begin_definition = current;
-		const char *end_definition   = current;
-		while (end_definition != last && *end_definition != '\r' && *end_definition != '\n')
+		const char *begin_definition = mCurrent;
+		const char *end_definition   = mCurrent;
+		while (end_definition != mLast && *end_definition != '\r' && *end_definition != '\n')
 			++end_definition;
 
-		current = end_definition;
-		while (current != last && (*current == '\r' || *current == '\n'))
-			++current;
+		mCurrent = end_definition;
+		while (mCurrent != mLast && (*mCurrent == '\r' || *mCurrent == '\n'))
+			++mCurrent;
 
 		auto entry = cainteoir::make_buffer(begin_entry, end_entry - begin_entry);
 		if (*begin_entry == '.')
@@ -71,13 +87,13 @@ static void parseCainteoirDictionary(tts::dictionary &dict,
 			if (entry->compare(".import") == 0)
 			{
 				std::string definition(begin_definition, end_definition);
-				if (!tts::parseCainteoirDictionary(dict, aBasePath / definition))
+				if (!tts::parseCainteoirDictionary(dict, mBasePath / definition))
 					fprintf(stderr, "error: unable to load dictionary \"%s\"\n", definition.c_str());
 			}
 			else if (entry->compare(".phonemeset") == 0)
 			{
 				std::string phonemes(begin_definition, end_definition);
-				phonemeset = tts::createPhonemeReader(phonemes.c_str());
+				mPhonemeSet = tts::createPhonemeReader(phonemes.c_str());
 			}
 		}
 		else if (*begin_definition == '/')
@@ -87,11 +103,11 @@ static void parseCainteoirDictionary(tts::dictionary &dict,
 				--end_definition;
 
 			if (begin_definition == end_definition) continue;
-			if (!phonemeset.get())
+			if (!mPhonemeSet.get())
 				throw std::runtime_error("The dictionary does not specify a phonemeset.");
 
 			auto definition = cainteoir::make_buffer(begin_definition, end_definition - begin_definition);
-			dict.add_entry(entry, { definition, phonemeset });
+			dict.add_entry(entry, { definition, mPhonemeSet });
 		}
 		else
 		{
@@ -106,7 +122,8 @@ bool tts::parseCainteoirDictionary(tts::dictionary &dict,
 {
 	try
 	{
-		::parseCainteoirDictionary(dict, path(aDictionaryPath).parent(), make_file_buffer(aDictionaryPath));
+		cainteoir_dictionary_reader reader{ path(aDictionaryPath) };
+		reader.parse(dict);
 	}
 	catch (const std::exception &e)
 	{
