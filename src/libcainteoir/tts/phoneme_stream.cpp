@@ -29,12 +29,12 @@ tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aRea
                                     const language::tag &aLocale,
                                     tts::word_stream::number_scale aScale,
                                     const std::shared_ptr<phoneme_reader> &aRules,
-                                    const char *aExceptionDictionaryPath)
+                                    const std::shared_ptr<dictionary_reader> &aExceptionDictionary)
 	: mReader(aReader, aLocale, aScale)
 	, mRules(aRules)
 {
-	if (!parseCainteoirDictionary(mExceptionDictionary, aExceptionDictionaryPath))
-		fprintf(stderr, "unable to load exception dictionary: %s\n", (const char *)aExceptionDictionaryPath);
+	if (aExceptionDictionary) while (aExceptionDictionary->read())
+		mExceptionDictionary.add_entry(aExceptionDictionary->word, aExceptionDictionary->entry);
 }
 
 bool tts::phoneme_stream::read()

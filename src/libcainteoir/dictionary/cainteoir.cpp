@@ -29,11 +29,11 @@
 
 namespace tts = cainteoir::tts;
 
-struct cainteoir_dictionary_reader
+struct cainteoir_dictionary_reader : public tts::dictionary_reader
 {
 	cainteoir_dictionary_reader(const cainteoir::path &aDictionaryPath);
 
-	void parse(tts::dictionary &dict);
+	bool read();
 private:
 	struct dictionary_t
 	{
@@ -62,7 +62,7 @@ cainteoir_dictionary_reader::dictionary_t::dictionary_t(const cainteoir::path &a
 	mLast = mData->end();
 }
 
-void cainteoir_dictionary_reader::parse(tts::dictionary &dict)
+bool cainteoir_dictionary_reader::read()
 {
 	dictionary_t *top = mFiles.empty() ? nullptr : &mFiles.top();
 	while (top)
@@ -92,7 +92,7 @@ void cainteoir_dictionary_reader::parse(tts::dictionary &dict)
 		while (top->mCurrent != top->mLast && *top->mCurrent == '\t')
 			++top->mCurrent;
 
-		if (top->mCurrent == top->mLast) return;
+		if (top->mCurrent == top->mLast) continue;
 
 		const char *begin_definition = top->mCurrent;
 		const char *end_definition   = top->mCurrent;
@@ -103,16 +103,16 @@ void cainteoir_dictionary_reader::parse(tts::dictionary &dict)
 		while (top->mCurrent != top->mLast && (*top->mCurrent == '\r' || *top->mCurrent == '\n'))
 			++top->mCurrent;
 
-		auto entry = cainteoir::make_buffer(begin_entry, end_entry - begin_entry);
+		word = cainteoir::make_buffer(begin_entry, end_entry - begin_entry);
 		if (*begin_entry == '.')
 		{
-			if (entry->compare(".import") == 0)
+			if (word->compare(".import") == 0)
 			{
 				std::string definition(begin_definition, end_definition);
 				mFiles.push({ top->mBasePath / definition });
 				top = &mFiles.top();
 			}
-			else if (entry->compare(".phonemeset") == 0)
+			else if (word->compare(".phonemeset") == 0)
 			{
 				std::string phonemes(begin_definition, end_definition);
 				top->mPhonemeSet = tts::createPhonemeReader(phonemes.c_str());
@@ -128,30 +128,21 @@ void cainteoir_dictionary_reader::parse(tts::dictionary &dict)
 			if (!top->mPhonemeSet.get())
 				throw std::runtime_error("The dictionary does not specify a phonemeset.");
 
-			auto definition = cainteoir::make_buffer(begin_definition, end_definition - begin_definition);
-			dict.add_entry(entry, { definition, top->mPhonemeSet });
+			entry = { cainteoir::make_buffer(begin_definition, end_definition - begin_definition), top->mPhonemeSet };
+			return true;
 		}
 		else
 		{
-			auto definition = cainteoir::make_buffer(begin_definition, end_definition - begin_definition);
-			dict.add_entry(entry, { definition });
+			entry = { cainteoir::make_buffer(begin_definition, end_definition - begin_definition) };
+			return true;
 		}
 	}
+	return false;
 }
 
-bool tts::parseCainteoirDictionary(tts::dictionary &dict,
-                                   const char *aDictionaryPath)
+std::shared_ptr<tts::dictionary_reader> tts::createCainteoirDictionaryReader(const char *aDictionaryPath)
 {
-	try
-	{
-		cainteoir_dictionary_reader reader{ path(aDictionaryPath) };
-		reader.parse(dict);
-	}
-	catch (const std::exception &e)
-	{
-		return false;
-	}
-	return true;
+	return std::make_shared<cainteoir_dictionary_reader>(cainteoir::path(aDictionaryPath));
 }
 
 struct cainteoir_formatter : public tts::dictionary_formatter

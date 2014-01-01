@@ -1,6 +1,6 @@
 /* Test for extracting words, numbers and other entries from a document.
  *
- * Copyright (C) 2012-2013 Reece H. Dunn
+ * Copyright (C) 2012-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -147,7 +147,8 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	else if (type == mode_type::phoneme_stream)
 	{
 		auto rules = tts::createPronunciationRules(ruleset);
-		tts::phoneme_stream text(reader, locale, scale, rules, dictionary);
+		auto dict = tts::createCainteoirDictionaryReader(dictionary);
+		tts::phoneme_stream text(reader, locale, scale, rules, dict);
 		switch (phonemes)
 		{
 		case phoneme_mode::events:

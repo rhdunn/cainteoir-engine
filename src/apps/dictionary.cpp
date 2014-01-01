@@ -243,11 +243,9 @@ int main(int argc, char ** argv)
 		uint32_t words = 0;
 		if (dictionary != nullptr)
 		{
-			if (!parseCainteoirDictionary(base_dict, cainteoir::path(dictionary)))
-			{
-				fprintf(stderr, "cannot load dictionary \"%s\"\n", dictionary);
-				return 0;
-			}
+			auto reader = tts::createCainteoirDictionaryReader(dictionary);
+			while (reader->read())
+				base_dict.add_entry(reader->word, reader->entry);
 			if (!new_words)
 			{
 				dict  = base_dict;

@@ -168,7 +168,7 @@ namespace cainteoir { namespace tts
 		               const language::tag &aLocale,
 		               word_stream::number_scale aScale,
 		               const std::shared_ptr<phoneme_reader> &aRules,
-		               const char *aExceptionDictionaryPath);
+		               const std::shared_ptr<dictionary_reader> &aExceptionDictionary);
 
 		const text_event &event() const { return mEvent; }
 

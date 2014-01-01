@@ -95,8 +95,17 @@ namespace cainteoir { namespace tts
 		storage_type mEntries;
 	};
 
-	bool parseCainteoirDictionary(tts::dictionary &dict,
-	                              const char *aDictionaryPath);
+	struct dictionary_reader
+	{
+		std::shared_ptr<cainteoir::buffer> word;
+		tts::dictionary::entry entry;
+
+		virtual bool read() = 0;
+
+		virtual ~dictionary_reader() {}
+	};
+
+	std::shared_ptr<dictionary_reader> createCainteoirDictionaryReader(const char *aDictionaryPath);
 
 	struct dictionary_formatter
 	{

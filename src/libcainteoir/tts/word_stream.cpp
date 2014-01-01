@@ -1,6 +1,6 @@
 /* Word Stream.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -26,6 +26,21 @@
 #include <stack>
 
 namespace tts = cainteoir::tts;
+
+static bool parseCainteoirDictionary(tts::dictionary &dict, const cainteoir::path &path)
+{
+	try
+	{
+		auto reader = tts::createCainteoirDictionaryReader(path);
+		while (reader->read())
+			dict.add_entry(reader->word, reader->entry);
+	}
+	catch (const std::exception &e)
+	{
+		return false;
+	}
+	return true;
+}
 
 #define _(x) std::make_shared<cainteoir::buffer>(x)
 
