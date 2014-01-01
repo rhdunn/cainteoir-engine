@@ -1,6 +1,6 @@
 /* Test for the exception dictionary API.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -172,10 +172,7 @@ static uint32_t from_document(const tts::dictionary &base_dict,
 	case tts::word_script:
 		if (base_dict.lookup(text.event().text).type == tts::dictionary::no_match)
 		{
-			dict.add_entry(text.event().text,
-			               tts::dictionary::say_as,
-			               phonemeset,
-			               text.event().text);
+			dict.add_entry(text.event().text, { text.event().text });
 			++words;
 		}
 		break;

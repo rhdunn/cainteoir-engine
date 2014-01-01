@@ -1,6 +1,6 @@
 /* Pronunciation Dictionary API.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -42,6 +42,19 @@ namespace cainteoir { namespace tts
 			entry_type type;
 			std::shared_ptr<buffer> text;
 			std::list<phoneme> phonemes;
+
+			entry()
+				: type(dictionary::no_match)
+			{
+			}
+
+			entry(const std::shared_ptr<buffer> &aSayAs)
+				: type(dictionary::say_as)
+				, text(aSayAs)
+			{
+			}
+
+			entry(const std::shared_ptr<buffer> &aPhonemes, std::shared_ptr<phoneme_reader> &aPhonemeSet);
 		};
 
 		typedef std::shared_ptr<buffer> key_type;
@@ -62,10 +75,7 @@ namespace cainteoir { namespace tts
 		typedef std::unordered_map<key_type, entry, key_hash, key_equals> storage_type;
 		typedef storage_type::const_iterator const_iterator;
 
-		void add_entry(const key_type &aEntry,
-		               entry_type aType,
-		               std::shared_ptr<phoneme_reader> &phonemeset,
-		               const std::shared_ptr<buffer> &aDefinition);
+		void add_entry(const key_type &aWord, const entry &aEntry);
 
 		const entry &lookup(const key_type &aEntry) const;
 

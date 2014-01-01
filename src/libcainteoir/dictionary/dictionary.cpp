@@ -1,6 +1,6 @@
 /* Pronunciation Dictionary.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -27,6 +27,14 @@
 
 namespace tts = cainteoir::tts;
 
+tts::dictionary::entry::entry(const std::shared_ptr<buffer> &aPhonemes, std::shared_ptr<phoneme_reader> &aPhonemeSet)
+	: type(tts::dictionary::phonemes)
+{
+	aPhonemeSet->reset(aPhonemes);
+	while (aPhonemeSet->read())
+		phonemes.push_back(*aPhonemeSet);
+}
+
 std::size_t tts::dictionary::key_hash::operator()(const key_type &a) const
 {
 	// DJB2 Hash Algorithm by Dan Bernstein:
@@ -36,27 +44,14 @@ std::size_t tts::dictionary::key_hash::operator()(const key_type &a) const
         return hash;
 }
 
-void tts::dictionary::add_entry(const key_type &aEntry,
-                                entry_type aType,
-                                std::shared_ptr<phoneme_reader> &phonemeset,
-                                const std::shared_ptr<buffer> &aDefinition)
+void tts::dictionary::add_entry(const key_type &aWord, const entry &aEntry)
 {
-	auto &entry = mEntries[aEntry];
-	entry.type = aType;
-	if (aType == phonemes)
-	{
-		entry.phonemes.clear();
-		phonemeset->reset(aDefinition);
-		while (phonemeset->read())
-			entry.phonemes.push_back(*phonemeset);
-	}
-	else
-		entry.text = aDefinition;
+	mEntries[aWord] = aEntry;
 }
 
 const tts::dictionary::entry &tts::dictionary::lookup(const key_type &aEntry) const
 {
-	static const entry no_match = { tts::dictionary::no_match, {} };
+	static const entry no_match = {};
 	const auto &match = mEntries.find(aEntry);
 	return (match == mEntries.end()) ? no_match : match->second;
 }

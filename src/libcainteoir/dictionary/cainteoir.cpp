@@ -1,6 +1,6 @@
 /* Cainteoir Pronunciation Dictionary Format.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -91,12 +91,12 @@ static void parseCainteoirDictionary(tts::dictionary &dict,
 				throw std::runtime_error("The dictionary does not specify a phonemeset.");
 
 			auto definition = cainteoir::make_buffer(begin_definition, end_definition - begin_definition);
-			dict.add_entry(entry, tts::dictionary::phonemes, phonemeset, definition);
+			dict.add_entry(entry, { definition, phonemeset });
 		}
 		else
 		{
 			auto definition = cainteoir::make_buffer(begin_definition, end_definition - begin_definition);
-			dict.add_entry(entry, tts::dictionary::say_as, phonemeset, definition);
+			dict.add_entry(entry, { definition });
 		}
 	}
 }
