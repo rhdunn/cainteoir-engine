@@ -346,6 +346,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/tts/explicit_feature_phonemeset.cpp \
 	src/libcainteoir/tts/phoneme.cpp \
 	src/libcainteoir/tts/phonemeset.cpp \
+	src/libcainteoir/tts/phoneme_stress.cpp \
 	\
 	src/libcainteoir/dictionary/cainteoir.cpp \
 	src/libcainteoir/dictionary/dictionary.cpp \
@@ -543,6 +544,11 @@ noinst_bin_PROGRAMS += tests/phoneme.test
 tests_phoneme_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_phoneme_test_SOURCES = tests/phoneme.cpp
 
+noinst_bin_PROGRAMS += tests/phoneme_stress.test
+
+tests_phoneme_stress_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_phoneme_stress_test_SOURCES = tests/phoneme_stress.cpp
+
 noinst_bin_PROGRAMS += tests/trie.test
 
 tests_trie_test_LDADD   = src/libcainteoir/libcainteoir.la
@@ -590,5 +596,6 @@ check: \
 	tests/phoneme.check \
 	tests/trie.check \
 	tests/phonemeset.check \
+	tests/phoneme_stress.check \
 	tests/dictionary.check \
 	tests/parsetext.check

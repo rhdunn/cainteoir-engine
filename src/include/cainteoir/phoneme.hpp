@@ -1,6 +1,6 @@
 /* Phoneme Model API.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -202,6 +202,8 @@ namespace cainteoir { namespace tts
 	std::shared_ptr<phoneme_writer> createExplicitFeaturePhonemeWriter();
 
 	std::shared_ptr<phoneme_writer> createPhonemeWriter(const char *aPhonemeSet);
+
+	void make_vowel_stressed(std::list<phoneme> &aPhonemes);
 }}
 
 #endif
