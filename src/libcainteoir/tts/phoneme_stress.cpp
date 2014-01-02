@@ -95,7 +95,6 @@ void tts::make_syllable_stressed(std::list<phoneme> &aPhonemes)
 
 	auto onset = aPhonemes.begin();
 	syllable state = syllable::onset;
-	int consonants = 1;
 
 	for (auto current = aPhonemes.begin(), last = aPhonemes.end(); current != last; ++current)
 	{
@@ -103,7 +102,7 @@ void tts::make_syllable_stressed(std::list<phoneme> &aPhonemes)
 		tts::feature current_stress = get_stress(phoneme);
 		if (is_vowel(phoneme) || phoneme.contains(tts::feature::syllabic))
 		{
-			if (state == syllable::nucleus || consonants == 1)
+			if (state == syllable::nucleus) 
 				onset = current;
 			if (current_stress != tts::feature::unspecified)
 			{
@@ -112,11 +111,9 @@ void tts::make_syllable_stressed(std::list<phoneme> &aPhonemes)
 				onset->add(current_stress);
 			}
 			state = syllable::nucleus;
-			consonants = 0;
 		}
 		else
 		{
-			++consonants;
 			if (state == syllable::nucleus)
 				state = syllable::coda;
 			if (state == syllable::coda) // coda = maximal consonant sequence

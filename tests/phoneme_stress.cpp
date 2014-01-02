@@ -100,13 +100,13 @@ TEST_CASE("syllable stress")
 		{ "kghIm",  "kghIm"  }, { "brg@U_^t",  "brg@U_^t"  }, { "strI@_^d",  "strI@_^d"  },
 		{ ",kghIm", ",kghIm" }, { ",brg@U_^t", ",brg@U_^t" }, { ",strI@_^d", ",strI@_^d" },
 		{ "kgh,Im", ",kghIm" }, { "brg,@U_^t", ",brg@U_^t" }, { "str,I@_^d", ",strI@_^d" },
-		// two syllables -- 'CVC.VC
+		// two syllables -- 'CV.CVC
 		{ "t'at3:d", "'tat3:d" },
 		{ "t,at3:d", ",tat3:d" },
-		{ "tat'3:d", "tat'3:d" },
-		{ "tat,3:d", "tat,3:d" },
-		{ "t'at.3:d", "'tat.3:d" },
-		{ "t,at.3:d", ",tat.3:d" },
+		{ "tat'3:d", "ta't3:d" },
+		{ "tat,3:d", "ta,t3:d" },
+		{ "t'a.t3:d", "'ta.t3:d" },
+		{ "t,a.t3:d", ",ta.t3:d" },
 		// two syllables -- 'CVC.CVC
 		{ "s'adl3:z", "'sadl3:z" },
 		{ "s,adl3:z", ",sadl3:z" },
