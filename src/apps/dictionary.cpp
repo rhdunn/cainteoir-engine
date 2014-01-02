@@ -32,6 +32,13 @@
 namespace rdf = cainteoir::rdf;
 namespace tts = cainteoir::tts;
 
+enum class stress_type
+{
+	as_transcribed,
+	vowel,
+	syllable,
+};
+
 enum class mode_type
 {
 	from_document,
@@ -70,6 +77,7 @@ static bool pronounce(tts::dictionary &dict,
                       std::shared_ptr<tts::dictionary_formatter> &formatter,
                       std::shared_ptr<tts::phoneme_writer> &writer,
                       const char *phonemeset,
+                      stress_type stress,
                       mode_type mode)
 {
 	std::list<tts::phoneme> phonemes;
@@ -84,6 +92,16 @@ static bool pronounce(tts::dictionary &dict,
 	rules->reset(word);
 	while (rules->read())
 		pronounced.push_back(*rules);
+
+	switch (stress)
+	{
+	case stress_type::vowel:
+		tts::make_vowel_stressed(pronounced);
+		break;
+	case stress_type::syllable:
+		tts::make_syllable_stressed(pronounced);
+		break;
+	}
 
 	bool match = matches(pronounced, phonemes);
 	if (mode == mode_type::mismatched_entries && match)
@@ -117,6 +135,7 @@ static void pronounce(tts::dictionary &dict,
                       std::shared_ptr<tts::dictionary_formatter> &formatter,
                       std::shared_ptr<tts::phoneme_writer> writer,
                       const char *phonemeset,
+                      stress_type stress,
                       mode_type mode)
 {
 	writer->reset(stdout);
@@ -129,7 +148,7 @@ static void pronounce(tts::dictionary &dict,
 		if (is_variant(*entry.first)) continue;
 
 		if (pronounce(dict, entry.first,
-		              rules, formatter, writer, phonemeset, mode))
+		              rules, formatter, writer, phonemeset, stress, mode))
 			++matched;
 		++entries;
 	}
@@ -185,6 +204,7 @@ int main(int argc, char ** argv)
 {
 	try
 	{
+		stress_type stress = stress_type::as_transcribed;
 		mode_type mode = mode_type::from_document;
 		bool time = false;
 		bool new_words = false;
@@ -212,6 +232,13 @@ int main(int argc, char ** argv)
 			  i18n("Use PHONEMESET to transcribe phoneme entries (default: ipa)") },
 		}};
 
+		const option_group stress_options = { i18n("Stress:"), {
+			{ 0, "vowel-stress", bind_value(stress, stress_type::vowel),
+			  i18n("Place the stress on vowels (e.g. espeak, arpabet)") },
+			{ 0, "syllable-stress", bind_value(stress, stress_type::syllable),
+			  i18n("Place the stress on syllable boundaries") },
+		}};
+
 		const option_group pronunciation_options = { i18n("Pronunciation:"), {
 			{ 'p', "pronounce", bind_value(mode, mode_type::pronounce_entries),
 			  i18n("Pronounce the dictionary items using the ruleset/engine") },
@@ -231,7 +258,7 @@ int main(int argc, char ** argv)
 			i18n("dictionary [OPTION..] DOCUMENT.."),
 		};
 
-		if (!parse_command_line({ general_options, pronunciation_options }, usage, argc, argv))
+		if (!parse_command_line({ general_options, stress_options, pronunciation_options }, usage, argc, argv))
 			return 0;
 
 		auto writer = tts::createPhonemeWriter(phonemeset);
@@ -295,7 +322,7 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
-				pronounce(dict, rules, formatter, writer, phonemeset, mode);
+				pronounce(dict, rules, formatter, writer, phonemeset, stress, mode);
 			}
 			else
 			{
@@ -313,7 +340,7 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(dict, engine.pronunciation(), formatter, writer, phonemeset, mode);
+				pronounce(dict, engine.pronunciation(), formatter, writer, phonemeset, stress, mode);
 			}
 			break;
 		case mode_type::from_document:
