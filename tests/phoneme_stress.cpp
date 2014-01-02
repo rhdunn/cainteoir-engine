@@ -86,11 +86,6 @@ TEST_CASE("syllable stress")
 {
 	static const std::pair<const char *, const char *> testcases[] =
 	{
-		// fully annotated (no change)
-		{ "'pEd.@,lIN", "'pEd.@,lIN" },
-		{ ",pEd.@'lIN", ",pEd.@'lIN" },
-		{ "@'baI_^d.IN,li", "@'baI_^d.IN,li" },
-		{ "@,baI_^d.IN'li", "@,baI_^d.IN'li" },
 		// one syllable -- 'CVC
 		// vowel          | rising diphthong        | falling diphthong
 		{ "'hIm", "'hIm" }, { "'g@U_^t", "'g@U_^t" }, { "'rI@_^d", "'rI@_^d" },
@@ -110,14 +105,20 @@ TEST_CASE("syllable stress")
 		{ "t,at3:d", ",tat3:d" },
 		{ "tat'3:d", "tat'3:d" },
 		{ "tat,3:d", "tat,3:d" },
+		{ "t'at.3:d", "'tat.3:d" },
+		{ "t,at.3:d", ",tat.3:d" },
 		// two syllables -- 'CVC.CVC
 		{ "s'adl3:z", "'sadl3:z" },
 		{ "s,adl3:z", ",sadl3:z" },
 		{ "sadl'3:z", "sad'l3:z" },
 		{ "sadl,3:z", "sad,l3:z" },
+		{ "s'ad.l3:z", "'sad.l3:z" },
+		{ "s,ad.l3:z", ",sad.l3:z" },
 		// syllabic consonant -- 'CVC.C,VC
 		{ "b'Vtn=,IN", "'bVtn=,IN" },
 		{ "b,Vtn='IN", ",bVtn='IN" },
+		{ "b'Vt.n=,IN", "'bVt.n=,IN" },
+		{ "b,Vt.n='IN", ",bVt.n='IN" },
 	};
 
 	auto reader = tts::createPhonemeReader("cxs");
