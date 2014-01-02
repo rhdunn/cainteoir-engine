@@ -28,6 +28,13 @@
 
 namespace tts = cainteoir::tts;
 
+enum syllable : uint8_t
+{
+	onset,
+	nucleus,
+	coda,
+};
+
 static bool is_vowel(const tts::phoneme &aPhoneme)
 {
 	for (const tts::feature f : aPhoneme)
@@ -73,6 +80,42 @@ void tts::make_vowel_stressed(std::list<phoneme> &aPhonemes)
 		{
 			if (stress != tts::feature::unspecified)
 				phoneme.add(stress);
+		}
+	}
+}
+
+void tts::make_syllable_stressed(std::list<phoneme> &aPhonemes)
+{
+	static const tts::phoneme sbr = { tts::feature::syllable_break, tts::feature::unspecified, tts::feature::unspecified };
+
+	auto onset = aPhonemes.begin();
+	syllable state = syllable::onset;
+	int consonants = 1;
+
+	for (auto current = aPhonemes.begin(), last = aPhonemes.end(); current != last; ++current)
+	{
+		auto &phoneme = *current;
+		tts::feature current_stress = get_stress(phoneme);
+		if (is_vowel(phoneme) || phoneme.contains(tts::feature::syllabic))
+		{
+			if (state == syllable::nucleus || consonants == 1)
+				onset = current;
+			if (current_stress != tts::feature::unspecified)
+			{
+				// stressed syllable
+				phoneme.remove(current_stress);
+				onset->add(current_stress);
+			}
+			state = syllable::nucleus;
+			consonants = 0;
+		}
+		else
+		{
+			++consonants;
+			if (state == syllable::nucleus)
+				state = syllable::coda;
+			if (state == syllable::coda) // coda = maximal consonant sequence
+				onset = current;
 		}
 	}
 }

@@ -77,3 +77,62 @@ TEST_CASE("vowel stress")
 		assert(output.buffer()->str() == test.second);
 	}
 }
+
+TEST_CASE("syllable stress")
+{
+	static const std::pair<const char *, const char *> testcases[] =
+	{
+		// fully annotated (no change)
+		{ "'pEd.@,lIN", "'pEd.@,lIN" },
+		{ ",pEd.@'lIN", ",pEd.@'lIN" },
+		{ "@'baI_^d.IN,li", "@'baI_^d.IN,li" },
+		{ "@,baI_^d.IN'li", "@,baI_^d.IN'li" },
+		// one syllable -- 'CVC
+		// vowel          | rising diphthong        | falling diphthong
+		{ "'hIm", "'hIm" }, { "'g@U_^t", "'g@U_^t" }, { "'rI@_^d", "'rI@_^d" },
+		{ "h'Im", "'hIm" }, { "g'@U_^t", "'g@U_^t" }, { "r'I@_^d", "'rI@_^d" },
+		{ "hIm",  "hIm"  }, { "g@U_^t",  "g@U_^t"  }, { "rI@_^d",  "rI@_^d"  },
+		{ ",hIm", ",hIm" }, { ",g@U_^t", ",g@U_^t" }, { ",rI@_^d", ",rI@_^d" },
+		{ "h,Im", ",hIm" }, { "g,@U_^t", ",g@U_^t" }, { "r,I@_^d", ",rI@_^d" },
+		// one syllable -- 'CCCVC
+		// vowel              | rising diphthong            | falling diphthong
+		{ "'kghIm", "'kghIm" }, { "'brg@U_^t", "'brg@U_^t" }, { "'strI@_^d", "'strI@_^d" },
+		{ "kgh'Im", "'kghIm" }, { "brg'@U_^t", "'brg@U_^t" }, { "str'I@_^d", "'strI@_^d" },
+		{ "kghIm",  "kghIm"  }, { "brg@U_^t",  "brg@U_^t"  }, { "strI@_^d",  "strI@_^d"  },
+		{ ",kghIm", ",kghIm" }, { ",brg@U_^t", ",brg@U_^t" }, { ",strI@_^d", ",strI@_^d" },
+		{ "kgh,Im", ",kghIm" }, { "brg,@U_^t", ",brg@U_^t" }, { "str,I@_^d", ",strI@_^d" },
+		// two syllables -- 'CVC.VC
+		{ "t'at3:d", "'tat3:d" },
+		{ "t,at3:d", ",tat3:d" },
+		{ "tat'3:d", "tat'3:d" },
+		{ "tat,3:d", "tat,3:d" },
+		// two syllables -- 'CVC.CVC
+		{ "s'adl3:z", "'sadl3:z" },
+		{ "s,adl3:z", ",sadl3:z" },
+		{ "sadl'3:z", "sad'l3:z" },
+		{ "sadl,3:z", "sad,l3:z" },
+		// syllabic consonant -- 'CVC.C,VC
+		{ "b'Vtn=,IN", "'bVtn=,IN" },
+		{ "b,Vtn='IN", ",bVtn='IN" },
+	};
+
+	auto reader = tts::createPhonemeReader("cxs");
+	auto writer = tts::createPhonemeWriter("cxs");
+
+	for (const auto &test : testcases)
+	{
+		std::list<tts::phoneme> phonemes;
+		reader->reset(std::make_shared<cainteoir::buffer>(test.first));
+		while (reader->read())
+			phonemes.push_back(*reader);
+
+		tts::make_syllable_stressed(phonemes);
+
+		cainteoir::memory_file output;
+		writer->reset(output);
+		for (const auto &phoneme : phonemes)
+			writer->write(phoneme);
+
+		assert(output.buffer()->str() == test.second);
+	}
+}
