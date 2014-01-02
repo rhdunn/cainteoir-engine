@@ -52,7 +52,8 @@ static tts::feature get_stress(const tts::phoneme &aPhoneme)
 	for (const tts::feature f : aPhoneme)
 	{
 		if (f == tts::feature::primary_stress ||
-		    f == tts::feature::secondary_stress)
+		    f == tts::feature::secondary_stress ||
+		    f == tts::feature::syllable_break)
 			return f;
 	}
 	return tts::feature::unspecified;
@@ -66,7 +67,11 @@ void tts::make_vowel_stressed(std::list<phoneme> &aPhonemes)
 	{
 		auto &phoneme = *current;
 		tts::feature current_stress = get_stress(phoneme);
-		if (current_stress != tts::feature::unspecified)
+		if (current_stress == tts::feature::syllable_break)
+		{
+			current = aPhonemes.erase(current);
+		}
+		else if (current_stress != tts::feature::unspecified)
 		{
 			if (is_vowel(phoneme))
 				stress = tts::feature::unspecified;

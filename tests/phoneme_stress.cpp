@@ -55,6 +55,10 @@ TEST_CASE("vowel stress")
 		{ "p,U@_^d", "p,U@_^d" }, // on a vowel -- no change
 		{ ",pU@_^d", "p,U@_^d" }, // on a consonant -- move to next vowel
 		{ ",strU@_^d", "str,U@_^d" }, // on a consonant -- move to next vowel
+		// syllable breaks
+		{ "p'End.IN",    "p'EndIN" },
+		{ "sw'Im.INl,i", "sw'ImINl,i" },
+		{ "d@.naI_^.IN", "d@naI_^IN" },
 	};
 
 	auto reader = tts::createPhonemeReader("cxs");
