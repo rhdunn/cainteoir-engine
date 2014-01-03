@@ -1,6 +1,6 @@
 /* Convert phonemes from one transcription scheme to another.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -413,6 +413,34 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("</html>\n", stdout);
 }
 
+void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
+                    std::shared_ptr<tts::phoneme_writer> &aTo,
+                    const std::shared_ptr<cainteoir::buffer> &aTranscription,
+                    phoneme_mode aMode,
+                    bool aNoPauses,
+                    bool aShowFeatures)
+{
+	auto feat = tts::createExplicitFeaturePhonemeWriter();
+
+	aFrom->reset(aTranscription);
+	aTo->reset(stdout);
+	feat->reset(stdout);
+	while (aFrom->read())
+	{
+		if (!aFrom->contains(tts::feature::silent_pause) || !aNoPauses)
+		{
+			aTo->write(*aFrom);
+			if (aShowFeatures)
+			{
+				fputc('\t', stdout);
+				feat->write(*aFrom);
+			}
+			if (aMode == phoneme_mode::separate)
+				fputc('\n', stdout);
+		}
+	}
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -459,26 +487,10 @@ int main(int argc, char ** argv)
 			}
 			auto from = tts::createPhonemeReader(argv[0]);
 			auto to   = tts::createPhonemeWriter(argv[1]);
-			auto feat = tts::createExplicitFeaturePhonemeWriter();
+			auto data = argc == 3 ? cainteoir::make_file_buffer(argv[2])
+			                      : cainteoir::make_file_buffer(stdin);
 
-			from->reset(argc == 3 ? cainteoir::make_file_buffer(argv[2])
-			                      : cainteoir::make_file_buffer(stdin));
-			to->reset(stdout);
-			feat->reset(stdout);
-			while (from->read())
-			{
-				if (!from->contains(tts::feature::silent_pause) || !no_pauses)
-				{
-					to->write(*from);
-					if (show_features)
-					{
-						fputc('\t', stdout);
-						feat->write(*from);
-					}
-					if (mode == phoneme_mode::separate)
-						fputc('\n', stdout);
-				}
-			}
+			print_phonemes(from, to, data, mode, no_pauses, show_features);
 		}
 	}
 	catch (std::runtime_error &e)
