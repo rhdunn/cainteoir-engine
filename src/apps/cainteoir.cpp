@@ -1,6 +1,6 @@
 /* Cainteoir Command-Line Application.
  *
- * Copyright (C) 2010-2013 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -116,6 +116,7 @@ int main(int argc, char ** argv)
 		const char *language = nullptr;
 		const char *outfile = nullptr;
 		const char *outformat = nullptr;
+		const char *device_name = nullptr;
 
 		int speed = INT_MAX;
 		int pitch = INT_MAX;
@@ -129,6 +130,8 @@ int main(int argc, char ** argv)
 			  i18n("Show the RDF metadata for the engine and voices") },
 			{ 'q', "quiet", bind_value(show_progress, false),
 			  i18n("Do not print any output (including current playing/recording time)") },
+			{ 'D', "device", device_name, "DEVICE",
+			  i18n("Use DEVICE for audio output (ALSA/pulseaudio device name)") },
 		}};
 
 		const option_group speech_options = { i18n("Speech:"), {
@@ -357,7 +360,7 @@ int main(int argc, char ** argv)
 		else
 		{
 			state = i18n("reading");
-			out = cainteoir::open_audio_device(nullptr, metadata, subject, metadata, tts.voice());
+			out = cainteoir::open_audio_device(device_name, metadata, subject, metadata, tts.voice());
 
 			fprintf(stdout, i18n("Reading \"%s\"\n\n"), filename);
 		}
