@@ -203,9 +203,14 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<phoneme_writer> createPhonemeWriter(const char *aPhonemeSet);
 
-	void make_vowel_stressed(std::list<phoneme> &aPhonemes);
+	enum class stress_type
+	{
+		as_transcribed,
+		vowel,
+		syllable,
+	};
 
-	void make_syllable_stressed(std::list<phoneme> &aPhonemes);
+	void make_stressed(std::list<phoneme> &aPhonemes, stress_type aType);
 }}
 
 #endif

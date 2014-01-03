@@ -71,7 +71,7 @@ TEST_CASE("vowel stress")
 		while (reader->read())
 			phonemes.push_back(*reader);
 
-		tts::make_vowel_stressed(phonemes);
+		tts::make_stressed(phonemes, tts::stress_type::vowel);
 
 		cainteoir::memory_file output;
 		writer->reset(output);
@@ -131,7 +131,7 @@ TEST_CASE("syllable stress")
 		while (reader->read())
 			phonemes.push_back(*reader);
 
-		tts::make_syllable_stressed(phonemes);
+		tts::make_stressed(phonemes, tts::stress_type::syllable);
 
 		cainteoir::memory_file output;
 		writer->reset(output);

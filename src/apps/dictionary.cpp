@@ -32,13 +32,6 @@
 namespace rdf = cainteoir::rdf;
 namespace tts = cainteoir::tts;
 
-enum class stress_type
-{
-	as_transcribed,
-	vowel,
-	syllable,
-};
-
 enum class mode_type
 {
 	from_document,
@@ -77,7 +70,7 @@ static bool pronounce(tts::dictionary &dict,
                       std::shared_ptr<tts::dictionary_formatter> &formatter,
                       std::shared_ptr<tts::phoneme_writer> &writer,
                       const char *phonemeset,
-                      stress_type stress,
+                      tts::stress_type stress,
                       mode_type mode)
 {
 	std::list<tts::phoneme> phonemes;
@@ -93,15 +86,7 @@ static bool pronounce(tts::dictionary &dict,
 	while (rules->read())
 		pronounced.push_back(*rules);
 
-	switch (stress)
-	{
-	case stress_type::vowel:
-		tts::make_vowel_stressed(pronounced);
-		break;
-	case stress_type::syllable:
-		tts::make_syllable_stressed(pronounced);
-		break;
-	}
+	tts::make_stressed(pronounced, stress);
 
 	bool match = matches(pronounced, phonemes);
 	if (mode == mode_type::mismatched_entries && match)
@@ -135,7 +120,7 @@ static void pronounce(tts::dictionary &dict,
                       std::shared_ptr<tts::dictionary_formatter> &formatter,
                       std::shared_ptr<tts::phoneme_writer> writer,
                       const char *phonemeset,
-                      stress_type stress,
+                      tts::stress_type stress,
                       mode_type mode)
 {
 	writer->reset(stdout);
@@ -204,7 +189,7 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		stress_type stress = stress_type::as_transcribed;
+		tts::stress_type stress = tts::stress_type::as_transcribed;
 		mode_type mode = mode_type::from_document;
 		bool time = false;
 		bool new_words = false;
@@ -233,9 +218,9 @@ int main(int argc, char ** argv)
 		}};
 
 		const option_group stress_options = { i18n("Stress:"), {
-			{ 0, "vowel-stress", bind_value(stress, stress_type::vowel),
+			{ 0, "vowel-stress", bind_value(stress, tts::stress_type::vowel),
 			  i18n("Place the stress on vowels (e.g. espeak, arpabet)") },
-			{ 0, "syllable-stress", bind_value(stress, stress_type::syllable),
+			{ 0, "syllable-stress", bind_value(stress, tts::stress_type::syllable),
 			  i18n("Place the stress on syllable boundaries") },
 		}};
 

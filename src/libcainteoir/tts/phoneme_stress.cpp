@@ -59,7 +59,7 @@ static tts::feature get_stress(const tts::phoneme &aPhoneme)
 	return tts::feature::unspecified;
 }
 
-void tts::make_vowel_stressed(std::list<phoneme> &aPhonemes)
+static void make_vowel_stressed(std::list<tts::phoneme> &aPhonemes)
 {
 	tts::feature stress = tts::feature::unspecified;
 
@@ -89,7 +89,7 @@ void tts::make_vowel_stressed(std::list<phoneme> &aPhonemes)
 	}
 }
 
-void tts::make_syllable_stressed(std::list<phoneme> &aPhonemes)
+static void make_syllable_stressed(std::list<tts::phoneme> &aPhonemes)
 {
 	static const tts::phoneme sbr = { tts::feature::syllable_break, tts::feature::unspecified, tts::feature::unspecified };
 
@@ -119,5 +119,20 @@ void tts::make_syllable_stressed(std::list<phoneme> &aPhonemes)
 			if (state == syllable::coda) // coda = maximal consonant sequence
 				onset = current;
 		}
+	}
+}
+
+void tts::make_stressed(std::list<phoneme> &aPhonemes, stress_type aType)
+{
+	switch (aType)
+	{
+	case stress_type::as_transcribed:
+		break; // no change
+	case stress_type::vowel:
+		make_vowel_stressed(aPhonemes);
+		break;
+	case stress_type::syllable:
+		make_syllable_stressed(aPhonemes);
+		break;
 	}
 }
