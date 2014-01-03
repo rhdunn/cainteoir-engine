@@ -42,12 +42,20 @@ enum class mode_type
 	mismatched_entries,
 };
 
-static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phoneme> &b)
+static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phoneme> &b, bool ignore_syllable_breaks)
 {
+	static const tts::phoneme sbr = { tts::feature::syllable_break, tts::feature::unspecified, tts::feature::unspecified };
+
 	auto first1 = a.begin(), last1 = a.end();
 	auto first2 = b.begin(), last2 = b.end();
 	while (first1 != last1 && first2 != last2)
 	{
+		if (ignore_syllable_breaks)
+		{
+			if (*first1 == sbr) { ++first1; continue; }
+			if (*first2 == sbr) { ++first2; continue; }
+		}
+
 		if (*first1 != *first2) return false;
 		++first1;
 		++first2;
@@ -71,6 +79,7 @@ static bool pronounce(tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_writer> &writer,
                       const char *phonemeset,
                       tts::stress_type stress,
+                      bool ignore_syllable_breaks,
                       mode_type mode)
 {
 	std::list<tts::phoneme> phonemes;
@@ -88,7 +97,7 @@ static bool pronounce(tts::dictionary &dict,
 
 	tts::make_stressed(pronounced, stress);
 
-	bool match = matches(pronounced, phonemes);
+	bool match = matches(pronounced, phonemes, ignore_syllable_breaks);
 	if (mode == mode_type::mismatched_entries && match)
 		return true;
 
@@ -121,6 +130,7 @@ static void pronounce(tts::dictionary &dict,
                       std::shared_ptr<tts::phoneme_writer> writer,
                       const char *phonemeset,
                       tts::stress_type stress,
+                      bool ignore_syllable_breaks,
                       mode_type mode)
 {
 	writer->reset(stdout);
@@ -133,7 +143,7 @@ static void pronounce(tts::dictionary &dict,
 		if (is_variant(*entry.first)) continue;
 
 		if (pronounce(dict, entry.first,
-		              rules, formatter, writer, phonemeset, stress, mode))
+		              rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode))
 			++matched;
 		++entries;
 	}
@@ -193,6 +203,7 @@ int main(int argc, char ** argv)
 		mode_type mode = mode_type::from_document;
 		bool time = false;
 		bool new_words = false;
+		bool ignore_syllable_breaks = false;
 		const char *voicename = nullptr;
 		const char *language = nullptr;
 		const char *ruleset = nullptr;
@@ -222,6 +233,8 @@ int main(int argc, char ** argv)
 			  i18n("Place the stress on vowels (e.g. espeak, arpabet)") },
 			{ 0, "syllable-stress", bind_value(stress, tts::stress_type::syllable),
 			  i18n("Place the stress on syllable boundaries") },
+			{ 0, "ignore-syllable-breaks", bind_value(ignore_syllable_breaks, true),
+			  i18n("Ignore syllable breaks (/./) when comparing pronunciations.") },
 		}};
 
 		const option_group pronunciation_options = { i18n("Pronunciation:"), {
@@ -307,7 +320,7 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
-				pronounce(dict, rules, formatter, writer, phonemeset, stress, mode);
+				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
 			}
 			else
 			{
@@ -325,7 +338,7 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(dict, engine.pronunciation(), formatter, writer, phonemeset, stress, mode);
+				pronounce(dict, engine.pronunciation(), formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
 			}
 			break;
 		case mode_type::from_document:
