@@ -416,6 +416,23 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
                     std::shared_ptr<tts::phoneme_writer> &aTo,
                     const std::shared_ptr<cainteoir::buffer> &aTranscription,
+                    tts::stress_type aStress)
+{
+	std::list<tts::phoneme> phonemes;
+	aFrom->reset(aTranscription);
+	while (aFrom->read())
+		phonemes.push_back(*aFrom);
+
+	tts::make_stressed(phonemes, aStress);
+
+	aTo->reset(stdout);
+	for (const auto &phoneme : phonemes)
+		aTo->write(phoneme);
+}
+
+void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
+                    std::shared_ptr<tts::phoneme_writer> &aTo,
+                    const std::shared_ptr<cainteoir::buffer> &aTranscription,
                     phoneme_mode aMode,
                     bool aNoPauses,
                     bool aShowFeatures)
@@ -445,6 +462,7 @@ int main(int argc, char ** argv)
 {
 	try
 	{
+		tts::stress_type stress = tts::stress_type::as_transcribed;
 		phoneme_mode mode = phoneme_mode::joined;
 		bool no_pauses = false;
 		bool show_features = false;
@@ -458,6 +476,10 @@ int main(int argc, char ** argv)
 			  i18n("Show the features along with the transcription") },
 			{ 0, "no-pauses", bind_value(no_pauses, true),
 			  i18n("Do not process pause phonemes") },
+			{ 0, "vowel-stress", bind_value(stress, tts::stress_type::vowel),
+			  i18n("Place the stress on vowels (e.g. espeak, arpabet)") },
+			{ 0, "syllable-stress", bind_value(stress, tts::stress_type::syllable),
+			  i18n("Place the stress on syllable boundaries") },
 		}};
 
 		const std::initializer_list<const char *> usage = {
@@ -490,7 +512,10 @@ int main(int argc, char ** argv)
 			auto data = argc == 3 ? cainteoir::make_file_buffer(argv[2])
 			                      : cainteoir::make_file_buffer(stdin);
 
-			print_phonemes(from, to, data, mode, no_pauses, show_features);
+			if (stress == tts::stress_type::as_transcribed)
+				print_phonemes(from, to, data, mode, no_pauses, show_features);
+			else
+				print_phonemes(from, to, data, stress);
 		}
 	}
 	catch (std::runtime_error &e)
