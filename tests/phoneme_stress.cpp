@@ -55,6 +55,9 @@ TEST_CASE("vowel stress")
 		{ "p,U@_^d", "p,U@_^d" }, // on a vowel -- no change
 		{ ",pU@_^d", "p,U@_^d" }, // on a consonant -- move to next vowel
 		{ ",strU@_^d", "str,U@_^d" }, // on a consonant -- move to next vowel
+		// next vowel is not stressed
+		{ "@'lES@", "@l'ES@" },
+		{ "@,lES@", "@l,ES@" },
 		// syllable breaks
 		{ "p'End.IN",    "p'EndIN" },
 		{ "sw'Im.INl,i", "sw'ImINl,i" },

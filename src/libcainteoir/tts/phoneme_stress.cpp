@@ -84,7 +84,10 @@ static void make_vowel_stressed(std::list<tts::phoneme> &aPhonemes)
 		else if (is_vowel(phoneme))
 		{
 			if (stress != tts::feature::unspecified)
+			{
 				phoneme.add(stress);
+				stress = tts::feature::unspecified;
+			}
 		}
 	}
 }
