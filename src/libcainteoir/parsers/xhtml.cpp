@@ -1161,8 +1161,8 @@ bool html_document_reader::parse_heading_node(rdf::graph *aMetadata)
 		content = reader.nodeValue().content();
 		if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
 			content = cainteoir::normalize(content,
-			                               cainteoir::collapse_space,
-			                               cainteoir::collapse_space);
+			                               cainteoir::whitespace::collapse,
+			                               cainteoir::whitespace::collapse);
 		is_title_header = content && !content->empty() && content->compare(mTitle.c_str()) == 0;
 		if (genAnchor)
 		{
@@ -1277,8 +1277,8 @@ bool html_document_reader::parse_toc_node(rdf::graph *aMetadata)
 		content = reader.nodeValue().content();
 		if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
 			content = cainteoir::normalize(content,
-			                               cainteoir::collapse_space,
-			                               cainteoir::collapse_space);
+			                               cainteoir::whitespace::collapse,
+			                               cainteoir::whitespace::collapse);
 		if (content && !content->empty())
 		{
 			type   = events::text | events::toc_entry;
@@ -1320,8 +1320,8 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 		content = reader.nodeValue().content();
 		if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
 			content = cainteoir::normalize(content,
-			                               cainteoir::collapse_space,
-			                               cainteoir::collapse_space);
+			                               cainteoir::whitespace::collapse,
+			                               cainteoir::whitespace::collapse);
 		if (content && !content->empty())
 		{
 			type   = events::text;
