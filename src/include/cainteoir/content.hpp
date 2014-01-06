@@ -138,6 +138,9 @@ namespace cainteoir { namespace css
 	{
 		normal,
 		preserved,
+		preserved_wrap,
+		preserved_line,
+		nowrap,
 	};
 
 	struct box
