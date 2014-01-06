@@ -27,10 +27,22 @@ REGISTER_TESTSUITE("buffer");
 
 void match_(const cainteoir::buffer &got, const char *expected, int len, const char *file, int line)
 {
-	assert_location(len == got.size(), file, line);
+	bool matched = assert_location(len == got.size(), file, line);
 	const char *buffer = got.begin();
 	for (int i = 0; i < got.size(); ++i)
-		assert_location(uint8_t(expected[i]) == uint8_t(buffer[i]), file, line);
+		matched &= assert_location(uint8_t(expected[i]) == uint8_t(buffer[i]), file, line);
+	if (!matched)
+	{
+		fprintf(stdout, "==> failed with test string \"");
+		for (auto c : cainteoir::buffer(expected, expected + len))
+		{
+			if (c > 0x20 && c < 0x80)
+				fprintf(stdout, "%c", c);
+			else
+				fprintf(stdout, "\\x%02X", (uint8_t)c);
+		}
+		fprintf(stdout, "\"\n");
+	}
 }
 
 void match_(const std::shared_ptr<cainteoir::buffer> &got, const char *expected, int len, const char *file, int line)
@@ -482,7 +494,7 @@ TEST_CASE("cainteoir::normalize -- left=preserve, right=collapse, space=pre")
 
 	for (const auto &test : middle_whitespace)
 		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
-		      test.collapsed->begin(), test.collapsed->size());
+		      test.preserved->begin(), test.preserved->size());
 
 	for (const auto &test : whitespace_only)
 		match(cainteoir::normalize(test.preserved, ws, nl, left, right),

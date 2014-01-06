@@ -80,17 +80,20 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 	while (str < l)
 	{
 		next = utf8::read(str, ch);
-		if (ucd::isspace(ch))
+		if (ucd::isspace(ch) && aWhitespace == cainteoir::whitespace::collapse)
+		{
 			ch = ' ';
 
-		uint32_t ch2 = 0;
-		if (ch == ' ' && str < l && utf8::read(next, ch2) && ucd::isspace(ch2))
-			str = next;
-		else
-		{
-			str  = next;
-			last = utf8::write((char *)last, ch);
+			uint32_t ch2 = 0;
+			if (str < l && utf8::read(next, ch2) && ucd::isspace(ch2))
+			{
+				str = next;
+				continue;
+			}
 		}
+
+		str  = next;
+		last = utf8::write((char *)last, ch);
 	}
 
 	if (aTrimRight == cainteoir::whitespace::collapse)
