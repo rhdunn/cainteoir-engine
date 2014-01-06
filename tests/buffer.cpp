@@ -334,64 +334,94 @@ TEST_CASE("cainteoir::normalize")
 		      test.collapsed->begin(), test.collapsed->size());
 }
 
-TEST_CASE("cainteoir::normalize -- keep left")
+TEST_CASE("cainteoir::normalize -- left=remove, right=remove")
+{
+	auto left  = cainteoir::whitespace::remove;
+	auto right = cainteoir::whitespace::remove;
+
+	for (const auto &test : left_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : right_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : middle_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.collapsed->begin(), test.collapsed->size());
+}
+
+TEST_CASE("cainteoir::normalize -- left=keep, right=remove")
 {
 	auto left  = cainteoir::whitespace::keep;
 	auto right = cainteoir::whitespace::remove;
 
-	match(cainteoir::normalize(cainteoir::make_buffer("   test", 7), left, right),
-	      "   test", 7);
-	match(cainteoir::normalize(cainteoir::make_buffer("test   ", 7), left, right),
-	      "test", 4);
-	match(cainteoir::normalize(cainteoir::make_buffer("Test String", 11), left, right),
-	      "Test String", 11);
-	match(cainteoir::normalize(cainteoir::make_buffer("Test   String", 13), left, right),
-	      "Test String", 11);
+	for (const auto &test : left_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.preserved->begin(), test.preserved->size());
+
+	for (const auto &test : right_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : middle_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.collapsed->begin(), test.collapsed->size());
 }
 
-TEST_CASE("cainteoir::normalize -- collapse left")
+TEST_CASE("cainteoir::normalize -- left=collapse, right=remove")
 {
 	auto left  = cainteoir::whitespace::collapse;
 	auto right = cainteoir::whitespace::remove;
 
-	match(cainteoir::normalize(cainteoir::make_buffer("   test", 7), left, right),
-	      " test", 5);
-	match(cainteoir::normalize(cainteoir::make_buffer("test   ", 7), left, right),
-	      "test", 4);
-	match(cainteoir::normalize(cainteoir::make_buffer("Test String", 11), left, right),
-	      "Test String", 11);
-	match(cainteoir::normalize(cainteoir::make_buffer("Test   String", 13), left, right),
-	      "Test String", 11);
+	for (const auto &test : left_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.collapsed->begin(), test.collapsed->size());
+
+	for (const auto &test : right_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : middle_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.collapsed->begin(), test.collapsed->size());
 }
 
-TEST_CASE("cainteoir::normalize -- keep right")
+TEST_CASE("cainteoir::normalize -- left=remove, right=keep")
 {
 	auto left  = cainteoir::whitespace::remove;
 	auto right = cainteoir::whitespace::keep;
 
-	match(cainteoir::normalize(cainteoir::make_buffer("   test", 7), left, right),
-	      "test", 4);
-	match(cainteoir::normalize(cainteoir::make_buffer("test   ", 7), left, right),
-	      "test ", 5); // FIXME: This should be "test   " (7)
-	match(cainteoir::normalize(cainteoir::make_buffer("Test String", 11), left, right),
-	      "Test String", 11);
-	match(cainteoir::normalize(cainteoir::make_buffer("Test   String", 13), left, right),
-	      "Test String", 11);
+	for (const auto &test : left_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : right_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.collapsed->begin(), test.collapsed->size()); // FIXME: should be test.preserved
+
+	for (const auto &test : middle_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.collapsed->begin(), test.collapsed->size());
 }
 
-TEST_CASE("cainteoir::normalize -- collapse right")
+TEST_CASE("cainteoir::normalize -- left=remove, right=collapse")
 {
 	auto left  = cainteoir::whitespace::remove;
 	auto right = cainteoir::whitespace::collapse;
 
-	match(cainteoir::normalize(cainteoir::make_buffer("   test", 7), left, right),
-	      "test", 4);
-	match(cainteoir::normalize(cainteoir::make_buffer("test   ", 7), left, right),
-	      "test ", 5);
-	match(cainteoir::normalize(cainteoir::make_buffer("Test String", 11), left, right),
-	      "Test String", 11);
-	match(cainteoir::normalize(cainteoir::make_buffer("Test   String", 13), left, right),
-	      "Test String", 11);
+	for (const auto &test : left_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : right_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.collapsed->begin(), test.collapsed->size());
+
+	for (const auto &test : middle_whitespace)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.collapsed->begin(), test.collapsed->size());
 }
 
 TEST_CASE("cainteoir::normalize -- spaces only")
