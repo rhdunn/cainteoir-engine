@@ -319,6 +319,85 @@ static const std::initializer_list<normalized_testcase> middle_whitespace =
 	{ "test\xE3\x80\x80\xE3\x80\x80\xE3\x80\x80string", "test string" },
 };
 
+static const std::initializer_list<normalized_testcase> whitespace_only =
+{
+	// U+0009 : CHARACTER TABULATION
+	{ "\x09", " ", "" },
+	{ "\x09\x09\x09", " ", "" },
+	// U+000A : LINE FEED
+	{ "\x0A", " ", "" },
+	{ "\x0A\x0A\x0A", " ", "" },
+	// U+000B : LINE TABULATION
+	{ "\x0B", " ", "" },
+	{ "\x0B\x0B\x0B", " ", "" },
+	// U+000C : FORM FEED
+	{ "\x0C", " ", "" },
+	{ "\x0C\x0C\x0C", " ", "" },
+	// U+000D : CARRIAGE RETURN
+	{ "\x0D", " ", "" },
+	{ "\x0D\x0D\x0D", " ", "" },
+	// U+0020 : SPACE
+	{ "\x20", " ", "" },
+	{ "\x20\x20\x20", " ", "" },
+	// U+0085 : NEXT LINE
+	{ "\xC2\x85", " ", "" },
+	{ "\xC2\x85\xC2\x85\xC2\x85", " ", "" },
+	// U+00A0 : NO-BREAK SPACE
+	{ "\xC2\xA0", " ", "" },
+	{ "\xC2\xA0\xC2\xA0\xC2\xA0", " ", "" },
+	// U+1680 : OGHAM SPACE MARK
+	{ "\xE1\x9A\x80", " ", "" },
+	{ "\xE1\x9A\x80\xE1\x9A\x80\xE1\x9A\x80", " ", "" },
+	// U+2000 : EN QUAD
+	{ "\xE2\x80\x80", " ", "" },
+	{ "\xE2\x80\x80\xE2\x80\x80\xE2\x80\x80", " ", "" },
+	// U+2001 : EM QUAD
+	{ "\xE2\x80\x81", " ", "" },
+	{ "\xE2\x80\x81\xE2\x80\x81\xE2\x80\x81", " ", "" },
+	// U+2002 : EN SPACE
+	{ "\xE2\x80\x82", " ", "" },
+	{ "\xE2\x80\x82\xE2\x80\x82\xE2\x80\x82", " ", "" },
+	// U+2003 : EM SPACE
+	{ "\xE2\x80\x83", " ", "" },
+	{ "\xE2\x80\x83\xE2\x80\x83\xE2\x80\x83", " ", "" },
+	// U+2004 : THREE-PER-EM SPACE
+	{ "\xE2\x80\x84", " ", "" },
+	{ "\xE2\x80\x84\xE2\x80\x84\xE2\x80\x84", " ", "" },
+	// U+2005 : FOUR-PER-EM SPACE
+	{ "\xE2\x80\x85", " ", "" },
+	{ "\xE2\x80\x85\xE2\x80\x85\xE2\x80\x85", " ", "" },
+	// U+2006 : SIX-PER-EM SPACE
+	{ "\xE2\x80\x86", " ", "" },
+	{ "\xE2\x80\x86\xE2\x80\x86\xE2\x80\x86", " ", "" },
+	// U+2007 : FIGURE SPACE
+	{ "\xE2\x80\x87", " ", "" },
+	{ "\xE2\x80\x87\xE2\x80\x87\xE2\x80\x87", " ", "" },
+	// U+2008 : PUNCTUATION SPACE
+	{ "\xE2\x80\x88", " ", "" },
+	{ "\xE2\x80\x88\xE2\x80\x88\xE2\x80\x88", " ", "" },
+	// U+2009 : THIN SPACE
+	{ "\xE2\x80\x89", " ", "" },
+	{ "\xE2\x80\x89\xE2\x80\x89\xE2\x80\x89", " ", "" },
+	// U+200A : HAIR SPACE
+	{ "\xE2\x80\x8A", " ", "" },
+	{ "\xE2\x80\x8A\xE2\x80\x8A\xE2\x80\x8A", " ", "" },
+	// U+2028 : LINE SEPARATOR
+	{ "\xE2\x80\xA8", " ", "" },
+	{ "\xE2\x80\xA8\xE2\x80\xA8\xE2\x80\xA8", " ", "" },
+	// U+2029 : PARAGRAPH SEPARATOR
+	{ "\xE2\x80\xA9", " ", "" },
+	{ "\xE2\x80\xA9\xE2\x80\xA9\xE2\x80\xA9", " ", "" },
+	// U+202F : NARROW NO-BREAK SPACE
+	{ "\xE2\x80\xAF", " ", "" },
+	{ "\xE2\x80\xAF\xE2\x80\xAF\xE2\x80\xAF", " ", "" },
+	// U+205F : MEDIUM MATHEMATICAL SPACE
+	{ "\xE2\x81\x9F", " ", "" },
+	{ "\xE2\x81\x9F\xE2\x81\x9F\xE2\x81\x9F", " ", "" },
+	// U+3000 : IDEOGRAPHIC SPACE
+	{ "\xE3\x80\x80", " ", "" },
+	{ "\xE3\x80\x80\xE3\x80\x80\xE3\x80\x80", " ", "" },
+};
+
 TEST_CASE("cainteoir::normalize")
 {
 	for (const auto &test : left_whitespace)
@@ -332,6 +411,10 @@ TEST_CASE("cainteoir::normalize")
 	for (const auto &test : middle_whitespace)
 		match(cainteoir::normalize(test.preserved),
 		      test.collapsed->begin(), test.collapsed->size());
+
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved),
+		      test.removed->begin(), test.removed->size());
 }
 
 TEST_CASE("cainteoir::normalize -- left=remove, right=remove")
@@ -350,6 +433,10 @@ TEST_CASE("cainteoir::normalize -- left=remove, right=remove")
 	for (const auto &test : middle_whitespace)
 		match(cainteoir::normalize(test.preserved, left, right),
 		      test.collapsed->begin(), test.collapsed->size());
+
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.removed->begin(), test.removed->size());
 }
 
 TEST_CASE("cainteoir::normalize -- left=keep, right=remove")
@@ -368,6 +455,10 @@ TEST_CASE("cainteoir::normalize -- left=keep, right=remove")
 	for (const auto &test : middle_whitespace)
 		match(cainteoir::normalize(test.preserved, left, right),
 		      test.collapsed->begin(), test.collapsed->size());
+
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.removed->begin(), test.removed->size());
 }
 
 TEST_CASE("cainteoir::normalize -- left=collapse, right=remove")
@@ -386,6 +477,10 @@ TEST_CASE("cainteoir::normalize -- left=collapse, right=remove")
 	for (const auto &test : middle_whitespace)
 		match(cainteoir::normalize(test.preserved, left, right),
 		      test.collapsed->begin(), test.collapsed->size());
+
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.removed->begin(), test.removed->size());
 }
 
 TEST_CASE("cainteoir::normalize -- left=remove, right=keep")
@@ -404,6 +499,10 @@ TEST_CASE("cainteoir::normalize -- left=remove, right=keep")
 	for (const auto &test : middle_whitespace)
 		match(cainteoir::normalize(test.preserved, left, right),
 		      test.collapsed->begin(), test.collapsed->size());
+
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.removed->begin(), test.removed->size());
 }
 
 TEST_CASE("cainteoir::normalize -- left=remove, right=collapse")
@@ -422,30 +521,8 @@ TEST_CASE("cainteoir::normalize -- left=remove, right=collapse")
 	for (const auto &test : middle_whitespace)
 		match(cainteoir::normalize(test.preserved, left, right),
 		      test.collapsed->begin(), test.collapsed->size());
-}
 
-TEST_CASE("cainteoir::normalize -- spaces only")
-{
-	auto keep = cainteoir::whitespace::keep;
-	auto remove = cainteoir::whitespace::remove;
-	auto collapse = cainteoir::whitespace::collapse;
-
-	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), remove, remove),
-	      "", 0);
-	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), remove, keep),
-	      "", 0);
-	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), remove, collapse),
-	      "", 0);
-	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), keep, remove),
-	      "", 0);
-	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), keep, keep),
-	      "   ", 3);
-	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), keep, collapse),
-	      "   ", 3);
-	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), collapse, remove),
-	      "", 0);
-	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), collapse, keep),
-	      " ", 1);
-	match(cainteoir::normalize(cainteoir::make_buffer("   ", 3), collapse, collapse),
-	      " ", 1);
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved, left, right),
+		      test.removed->begin(), test.removed->size());
 }
