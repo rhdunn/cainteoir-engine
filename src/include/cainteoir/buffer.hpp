@@ -107,9 +107,11 @@ namespace cainteoir
 		remove,
 	};
 
+	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer);
+
 	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer,
-	                                  whitespace aLeft  = whitespace::remove,
-	                                  whitespace aRight = whitespace::remove);
+	                                  whitespace aLeft,
+	                                  whitespace aRight);
 
 	class memory_file
 	{

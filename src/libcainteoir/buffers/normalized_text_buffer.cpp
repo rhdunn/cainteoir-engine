@@ -105,6 +105,14 @@ normalized_text_buffer::~normalized_text_buffer()
 }
 
 std::shared_ptr<cainteoir::buffer>
+cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
+{
+	return std::make_shared<normalized_text_buffer>(aBuffer,
+	                                                cainteoir::whitespace::remove,
+	                                                cainteoir::whitespace::remove);
+}
+
+std::shared_ptr<cainteoir::buffer>
 cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer,
                      cainteoir::whitespace aLeft,
                      cainteoir::whitespace aRight)
