@@ -102,16 +102,15 @@ namespace cainteoir
 
 	enum class whitespace
 	{
-		keep,
+		preserve,
 		collapse,
-		remove,
 	};
 
 	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer);
 
 	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer,
-	                                  whitespace aLeft,
-	                                  whitespace aRight);
+	                                  whitespace aTrimLeft,
+	                                  whitespace aTrimRight);
 
 	class memory_file
 	{

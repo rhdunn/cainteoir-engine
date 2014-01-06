@@ -31,14 +31,14 @@ class normalized_text_buffer : public cainteoir::buffer
 {
 public:
 	normalized_text_buffer(const std::shared_ptr<buffer> &aBuffer,
-	                       cainteoir::whitespace aLeft,
-	                       cainteoir::whitespace aRight);
+	                       cainteoir::whitespace aTrimLeft,
+	                       cainteoir::whitespace aTrimRight);
 	~normalized_text_buffer();
 };
 
 normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer,
-                                               cainteoir::whitespace aLeft,
-                                               cainteoir::whitespace aRight)
+                                               cainteoir::whitespace aTrimLeft,
+                                               cainteoir::whitespace aTrimRight)
 	: buffer(nullptr, nullptr)
 {
 	if (!aBuffer.get() || aBuffer->empty())
@@ -49,7 +49,7 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 	const char *next = str;
 	uint32_t ch = 0;
 
-	if (aLeft == cainteoir::whitespace::remove)
+	if (aTrimLeft == cainteoir::whitespace::collapse)
 	{
 		// trim space at the start:
 
@@ -62,7 +62,7 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 
 	first = last = new char[l-str+1];
 
-	if (aLeft == cainteoir::whitespace::keep)
+	if (aTrimLeft == cainteoir::whitespace::preserve)
 	{
 		while ((next = utf8::read(str, ch)) && ucd::isspace(ch))
 		{
@@ -89,7 +89,7 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 		}
 	}
 
-	if (aRight == cainteoir::whitespace::remove)
+	if (aTrimRight == cainteoir::whitespace::collapse)
 	{
 		// trim space at the end:
 
@@ -108,14 +108,14 @@ std::shared_ptr<cainteoir::buffer>
 cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
 {
 	return std::make_shared<normalized_text_buffer>(aBuffer,
-	                                                cainteoir::whitespace::remove,
-	                                                cainteoir::whitespace::remove);
+	                                                cainteoir::whitespace::collapse,
+	                                                cainteoir::whitespace::collapse);
 }
 
 std::shared_ptr<cainteoir::buffer>
 cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer,
-                     cainteoir::whitespace aLeft,
-                     cainteoir::whitespace aRight)
+                     cainteoir::whitespace aTrimLeft,
+                     cainteoir::whitespace aTrimRight)
 {
-	return std::make_shared<normalized_text_buffer>(aBuffer, aLeft, aRight);
+	return std::make_shared<normalized_text_buffer>(aBuffer, aTrimLeft, aTrimRight);
 }
