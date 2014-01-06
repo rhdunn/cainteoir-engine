@@ -109,6 +109,8 @@ namespace cainteoir
 	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer);
 
 	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer,
+	                                  whitespace aWhitespace,
+	                                  whitespace aNewlines,
 	                                  whitespace aTrimLeft,
 	                                  whitespace aTrimRight);
 

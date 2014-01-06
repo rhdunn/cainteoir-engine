@@ -419,66 +419,72 @@ TEST_CASE("cainteoir::normalize")
 
 TEST_CASE("cainteoir::normalize -- left=collapse, right=collapse, space=normal")
 {
+	auto ws    = cainteoir::whitespace::collapse;
+	auto nl    = cainteoir::whitespace::collapse;
 	auto left  = cainteoir::whitespace::collapse;
 	auto right = cainteoir::whitespace::collapse;
 
 	for (const auto &test : left_whitespace)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.removed->begin(), test.removed->size());
 
 	for (const auto &test : right_whitespace)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.removed->begin(), test.removed->size());
 
 	for (const auto &test : middle_whitespace)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.collapsed->begin(), test.collapsed->size());
 
 	for (const auto &test : whitespace_only)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.removed->begin(), test.removed->size());
 }
 
 TEST_CASE("cainteoir::normalize -- left=collapse, right=preserve, space=normal")
 {
+	auto ws    = cainteoir::whitespace::collapse;
+	auto nl    = cainteoir::whitespace::collapse;
 	auto left  = cainteoir::whitespace::collapse;
 	auto right = cainteoir::whitespace::preserve;
 
 	for (const auto &test : left_whitespace)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.removed->begin(), test.removed->size());
 
 	for (const auto &test : right_whitespace)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.collapsed->begin(), test.collapsed->size());
 
 	for (const auto &test : middle_whitespace)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.collapsed->begin(), test.collapsed->size());
 
 	for (const auto &test : whitespace_only)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.removed->begin(), test.removed->size());
 }
 
 TEST_CASE("cainteoir::normalize -- left=preserve, right=collapse, space=pre")
 {
+	auto ws    = cainteoir::whitespace::preserve;
+	auto nl    = cainteoir::whitespace::preserve;
 	auto left  = cainteoir::whitespace::preserve;
 	auto right = cainteoir::whitespace::collapse;
 
 	for (const auto &test : left_whitespace)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.preserved->begin(), test.preserved->size());
 
 	for (const auto &test : right_whitespace)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.removed->begin(), test.removed->size());
 
 	for (const auto &test : middle_whitespace)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.collapsed->begin(), test.collapsed->size());
 
 	for (const auto &test : whitespace_only)
-		match(cainteoir::normalize(test.preserved, left, right),
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.removed->begin(), test.removed->size());
 }

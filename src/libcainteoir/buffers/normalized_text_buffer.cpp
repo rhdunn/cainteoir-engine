@@ -31,12 +31,16 @@ class normalized_text_buffer : public cainteoir::buffer
 {
 public:
 	normalized_text_buffer(const std::shared_ptr<buffer> &aBuffer,
+	                       cainteoir::whitespace aWhitespace,
+	                       cainteoir::whitespace aNewlines,
 	                       cainteoir::whitespace aTrimLeft,
 	                       cainteoir::whitespace aTrimRight);
 	~normalized_text_buffer();
 };
 
 normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer,
+                                               cainteoir::whitespace aWhitespace,
+                                               cainteoir::whitespace aNewlines,
                                                cainteoir::whitespace aTrimLeft,
                                                cainteoir::whitespace aTrimRight)
 	: buffer(nullptr, nullptr)
@@ -109,13 +113,17 @@ cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
 {
 	return std::make_shared<normalized_text_buffer>(aBuffer,
 	                                                cainteoir::whitespace::collapse,
+	                                                cainteoir::whitespace::collapse,
+	                                                cainteoir::whitespace::collapse,
 	                                                cainteoir::whitespace::collapse);
 }
 
 std::shared_ptr<cainteoir::buffer>
 cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer,
+                     cainteoir::whitespace aWhitespace,
+                     cainteoir::whitespace aNewlines,
                      cainteoir::whitespace aTrimLeft,
                      cainteoir::whitespace aTrimRight)
 {
-	return std::make_shared<normalized_text_buffer>(aBuffer, aTrimLeft, aTrimRight);
+	return std::make_shared<normalized_text_buffer>(aBuffer, aWhitespace, aNewlines, aTrimLeft, aTrimRight);
 }
