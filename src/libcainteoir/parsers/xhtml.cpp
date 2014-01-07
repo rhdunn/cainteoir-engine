@@ -1373,12 +1373,36 @@ void html_document_reader::parse_hidden_node()
 void html_document_reader::parse_text_node()
 {
 	content = reader.nodeValue().content();
-	if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
-		content = cainteoir::normalize(content,
-		                               cainteoir::whitespace::collapse,
-		                               cainteoir::whitespace::collapse,
+	if (content)
+	{
+		css::whitespace space = css::whitespace::normal;
+		if (styles)
+			space = styles->whitespace;
+
+		cainteoir::whitespace whitespace;
+		cainteoir::whitespace newlines;
+		switch (space)
+		{
+		case css::whitespace::normal:
+		case css::whitespace::nowrap:
+			whitespace = cainteoir::whitespace::collapse;
+			newlines   = cainteoir::whitespace::collapse;
+			break;
+		case css::whitespace::preserved:
+		case css::whitespace::preserved_wrap:
+			whitespace = cainteoir::whitespace::preserve;
+			newlines   = cainteoir::whitespace::preserve;
+			break;
+		case css::whitespace::preserved_line:
+			whitespace = cainteoir::whitespace::collapse;
+			newlines   = cainteoir::whitespace::preserve;
+			break;
+		}
+
+		content = cainteoir::normalize(content, whitespace, newlines,
 		                               cainteoir::whitespace::preserve,
 		                               cainteoir::whitespace::preserve);
+	}
 }
 
 std::shared_ptr<cainteoir::document_reader>
