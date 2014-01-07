@@ -101,8 +101,8 @@ static const std::initializer_list<normalized_testcase> left_whitespace =
 	{ "\x09test", " test", "test" },
 	{ "\x09\x09\x09test", " test", "test" },
 	// U+000A : LINE FEED
-	{ "\x0Atest", " test", "test" },
-	{ "\x0A\x0A\x0Atest", " test", "test" },
+	{ "\x0Atest", " test", "test", true },
+	{ "\x0A\x0A\x0Atest", " test", "test", true },
 	// U+000B : LINE TABULATION
 	{ "\x0Btest", " test", "test" },
 	{ "\x0B\x0B\x0Btest", " test", "test" },
@@ -110,8 +110,8 @@ static const std::initializer_list<normalized_testcase> left_whitespace =
 	{ "\x0Ctest", " test", "test" },
 	{ "\x0C\x0C\x0Ctest", " test", "test" },
 	// U+000D : CARRIAGE RETURN
-	{ "\x0Dtest", " test", "test" },
-	{ "\x0D\x0D\x0Dtest", " test", "test" },
+	{ "\x0Dtest", " test", "test", true },
+	{ "\x0D\x0D\x0Dtest", " test", "test", true },
 	// U+0020 : SPACE
 	{ "\x20test", " test", "test" },
 	{ "\x20\x20\x20test", " test", "test" },
@@ -489,7 +489,7 @@ TEST_CASE("cainteoir::normalize -- left=preserve, right=collapse, space=normal")
 
 	for (const auto &test : left_whitespace)
 		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
-		      test.preserved->begin(), test.preserved->size());
+		      test.collapsed->begin(), test.collapsed->size());
 
 	for (const auto &test : right_whitespace)
 		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
@@ -618,8 +618,18 @@ TEST_CASE("cainteoir::normalize -- left=preserve, right=collapse, space=pre-line
 	auto right = cainteoir::whitespace::collapse;
 
 	for (const auto &test : left_whitespace)
-		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
-		      test.preserved->begin(), test.preserved->size());
+	{
+		if (test.is_newline)
+		{
+			match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+			      test.preserved->begin(), test.preserved->size());
+		}
+		else
+		{
+			match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+			      test.collapsed->begin(), test.collapsed->size());
+		}
+	}
 
 	for (const auto &test : right_whitespace)
 		match(cainteoir::normalize(test.preserved, ws, nl, left, right),

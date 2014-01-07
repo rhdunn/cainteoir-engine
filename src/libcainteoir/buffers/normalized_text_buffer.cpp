@@ -89,15 +89,6 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 
 	first = last = new char[l-str+1];
 
-	if (aTrimLeft == cainteoir::whitespace::preserve)
-	{
-		while ((next = utf8::read(str, ch)) && ucd::isspace(ch))
-		{
-			str  = next;
-			last = utf8::write((char *)last, ch);
-		}
-	}
-
 	// normalise the space within the string:
 
 	while (str < l)
