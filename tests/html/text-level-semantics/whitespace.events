@@ -31,7 +31,7 @@ end-context
 begin-context paragraph +sans-serif
 text(6): """Lorem """
 begin-context span +strong
-text(6): """ ipsum"""
+text(6): """ipsum """
 end-context
 text(6): """dolor."""
 end-context

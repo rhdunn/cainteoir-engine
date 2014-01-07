@@ -24,11 +24,15 @@
 #include <algorithm>
 #include <stack>
 
+#include <cainteoir/unicode.hpp>
+#include <ucd/ucd.h>
+
 namespace xml    = cainteoir::xml;
 namespace xmlns  = cainteoir::xml::xmlns;
 namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
 namespace css    = cainteoir::css;
+namespace utf8   = cainteoir::utf8;
 
 /******************************************************************************
  * HTML Elements
@@ -794,6 +798,7 @@ private:
 	int hid;
 	bool genAnchor;
 	cainteoir::css::style_manager stylemgr;
+	cainteoir::whitespace trim_left;
 
 	std::string mLanguage;
 	css::role mRole;
@@ -833,6 +838,7 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	, href(aSubject.str(), std::string())
 	, hid(0)
 	, genAnchor(false)
+	, trim_left(cainteoir::whitespace::preserve)
 	, mRole(css::role::none)
 {
 	stylemgr.parse("/css/counterstyles.css");
@@ -1400,8 +1406,15 @@ void html_document_reader::parse_text_node()
 		}
 
 		content = cainteoir::normalize(content, whitespace, newlines,
-		                               cainteoir::whitespace::preserve,
+		                               trim_left,
 		                               cainteoir::whitespace::preserve);
+		if (content && content->size() >= 1)
+		{
+			const char *str = utf8::prev(content->end());
+			uint32_t ch;
+			utf8::read(str, ch);
+			trim_left = ucd::isspace(ch) ? cainteoir::whitespace::collapse : cainteoir::whitespace::preserve;
+		}
 	}
 }
 
