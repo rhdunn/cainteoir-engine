@@ -815,6 +815,7 @@ private:
 	bool generate_title_event(rdf::graph *aMetadata);
 
 	void parse_hidden_node();
+	void parse_text_node();
 
 	struct context_data
 	{
@@ -1158,13 +1159,7 @@ bool html_document_reader::parse_heading_node(rdf::graph *aMetadata)
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		content = reader.nodeValue().content();
-		if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
-			content = cainteoir::normalize(content,
-			                               cainteoir::whitespace::collapse,
-			                               cainteoir::whitespace::collapse,
-			                               cainteoir::whitespace::preserve,
-			                               cainteoir::whitespace::preserve);
+		parse_text_node();
 		is_title_header = content && !content->empty() && content->compare(mTitle.c_str()) == 0;
 		if (genAnchor)
 		{
@@ -1276,13 +1271,7 @@ bool html_document_reader::parse_toc_node(rdf::graph *aMetadata)
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		content = reader.nodeValue().content();
-		if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
-			content = cainteoir::normalize(content,
-			                               cainteoir::whitespace::collapse,
-			                               cainteoir::whitespace::collapse,
-			                               cainteoir::whitespace::preserve,
-			                               cainteoir::whitespace::preserve);
+		parse_text_node();
 		if (content && !content->empty())
 		{
 			type   = events::text | events::toc_entry;
@@ -1321,13 +1310,7 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 	{
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		content = reader.nodeValue().content();
-		if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
-			content = cainteoir::normalize(content,
-			                               cainteoir::whitespace::collapse,
-			                               cainteoir::whitespace::collapse,
-			                               cainteoir::whitespace::preserve,
-			                               cainteoir::whitespace::preserve);
+		parse_text_node();
 		if (content && !content->empty())
 		{
 			type   = events::text;
@@ -1385,6 +1368,17 @@ void html_document_reader::parse_hidden_node()
 	default:
 		break;
 	}
+}
+
+void html_document_reader::parse_text_node()
+{
+	content = reader.nodeValue().content();
+	if (content && (!styles || styles->whitespace == cainteoir::css::whitespace::normal))
+		content = cainteoir::normalize(content,
+		                               cainteoir::whitespace::collapse,
+		                               cainteoir::whitespace::collapse,
+		                               cainteoir::whitespace::preserve,
+		                               cainteoir::whitespace::preserve);
 }
 
 std::shared_ptr<cainteoir::document_reader>
