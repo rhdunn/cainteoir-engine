@@ -38,6 +38,29 @@ public:
 	~normalized_text_buffer();
 };
 
+static bool skip_whitespace(uint32_t ch, cainteoir::whitespace aWhitespace, cainteoir::whitespace aNewlines)
+{
+	switch (ucd::lookup_category(ch))
+	{
+	case ucd::Zl: case ucd::Zp: case ucd::Zs:
+		return aWhitespace == cainteoir::whitespace::collapse;
+	case ucd::Cc:
+		switch (ch) // Some control characters are also whitespace characters:
+		{
+		case 0x0A: // U+000A : LINE FEED
+		case 0x0D: // U+000D : CARRIAGE RETURN
+			return aNewlines == cainteoir::whitespace::collapse;
+		case 0x09: // U+0009 : CHARACTER TABULATION
+		case 0x0B: // U+000B : LINE TABULATION
+		case 0x0C: // U+000C : FORM FEED
+		case 0x85: // U+0085 : NEXT LINE
+			return aWhitespace == cainteoir::whitespace::collapse;
+		}
+	default:
+		return false;
+	}
+}
+
 normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer,
                                                cainteoir::whitespace aWhitespace,
                                                cainteoir::whitespace aNewlines,
@@ -80,12 +103,12 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 	while (str < l)
 	{
 		next = utf8::read(str, ch);
-		if (ucd::isspace(ch) && aWhitespace == cainteoir::whitespace::collapse)
+		if (skip_whitespace(ch, aWhitespace, aNewlines))
 		{
 			ch = ' ';
 
 			uint32_t ch2 = 0;
-			if (str < l && utf8::read(next, ch2) && ucd::isspace(ch2))
+			if (str < l && utf8::read(next, ch2) && skip_whitespace(ch2, aWhitespace, aNewlines))
 			{
 				str = next;
 				continue;

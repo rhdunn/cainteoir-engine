@@ -77,17 +77,20 @@ struct normalized_testcase
 	std::shared_ptr<cainteoir::buffer> preserved;
 	std::shared_ptr<cainteoir::buffer> collapsed;
 	std::shared_ptr<cainteoir::buffer> removed;
+	bool is_newline;
 
-	normalized_testcase(const char *aPreserved, const char *aCollapsed)
+	normalized_testcase(const char *aPreserved, const char *aCollapsed, bool aIsNewline=false)
 		: preserved(std::make_shared<cainteoir::buffer>(aPreserved))
 		, collapsed(std::make_shared<cainteoir::buffer>(aCollapsed))
+		, is_newline(aIsNewline)
 	{
 	}
 
-	normalized_testcase(const char *aPreserved, const char *aCollapsed, const char *aRemoved)
+	normalized_testcase(const char *aPreserved, const char *aCollapsed, const char *aRemoved, bool aIsNewline=false)
 		: preserved(std::make_shared<cainteoir::buffer>(aPreserved))
 		, collapsed(std::make_shared<cainteoir::buffer>(aCollapsed))
 		, removed(std::make_shared<cainteoir::buffer>(aRemoved))
+		, is_newline(aIsNewline)
 	{
 	}
 };
@@ -177,8 +180,8 @@ static const std::initializer_list<normalized_testcase> right_whitespace =
 	{ "test\x09", "test ", "test" },
 	{ "test\x09\x09\x09", "test ", "test" },
 	// U+000A : LINE FEED
-	{ "test\x0A", "test ", "test" },
-	{ "test\x0A\x0A\x0A", "test ", "test" },
+	{ "test\x0A", "test ", "test", true },
+	{ "test\x0A\x0A\x0A", "test ", "test", true },
 	// U+000B : LINE TABULATION
 	{ "test\x0B", "test ", "test" },
 	{ "test\x0B\x0B\x0B", "test ", "test" },
@@ -186,8 +189,8 @@ static const std::initializer_list<normalized_testcase> right_whitespace =
 	{ "test\x0C", "test ", "test" },
 	{ "test\x0C\x0C\x0C", "test ", "test" },
 	// U+000D : CARRIAGE RETURN
-	{ "test\x0D", "test ", "test" },
-	{ "test\x0D\x0D\x0D", "test ", "test" },
+	{ "test\x0D", "test ", "test", true },
+	{ "test\x0D\x0D\x0D", "test ", "test", true },
 	// U+0020 : SPACE
 	{ "test\x20", "test ", "test" },
 	{ "test\x20\x20\x20", "test ", "test" },
@@ -258,8 +261,8 @@ static const std::initializer_list<normalized_testcase> middle_whitespace =
 	{ "test\x09string", "test string" },
 	{ "test\x09\x09\x09string", "test string" },
 	// U+000A : LINE FEED
-	{ "test\x0Astring", "test string" },
-	{ "test\x0A\x0A\x0Astring", "test string" },
+	{ "test\x0Astring", "test string", true },
+	{ "test\x0A\x0A\x0Astring", "test string", true },
 	// U+000B : LINE TABULATION
 	{ "test\x0Bstring", "test string" },
 	{ "test\x0B\x0B\x0Bstring", "test string" },
@@ -267,8 +270,8 @@ static const std::initializer_list<normalized_testcase> middle_whitespace =
 	{ "test\x0Cstring", "test string" },
 	{ "test\x0C\x0C\x0Cstring", "test string" },
 	// U+000D : CARRIAGE RETURN
-	{ "test\x0Dstring", "test string" },
-	{ "test\x0D\x0D\x0Dstring", "test string" },
+	{ "test\x0Dstring", "test string", true },
+	{ "test\x0D\x0D\x0Dstring", "test string", true },
 	// U+0020 : SPACE
 	{ "test\x20string", "test string" },
 	{ "test\x20\x20\x20string", "test string" },
@@ -477,6 +480,54 @@ TEST_CASE("cainteoir::normalize -- left=collapse, right=preserve, space=normal")
 		      test.removed->begin(), test.removed->size());
 }
 
+TEST_CASE("cainteoir::normalize -- left=preserve, right=collapse, space=normal")
+{
+	auto ws    = cainteoir::whitespace::collapse;
+	auto nl    = cainteoir::whitespace::collapse;
+	auto left  = cainteoir::whitespace::preserve;
+	auto right = cainteoir::whitespace::collapse;
+
+	for (const auto &test : left_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.preserved->begin(), test.preserved->size());
+
+	for (const auto &test : right_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : middle_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.collapsed->begin(), test.collapsed->size());
+
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+}
+
+TEST_CASE("cainteoir::normalize -- left=collapse, right=collapse, space=pre")
+{
+	auto ws    = cainteoir::whitespace::preserve;
+	auto nl    = cainteoir::whitespace::preserve;
+	auto left  = cainteoir::whitespace::collapse;
+	auto right = cainteoir::whitespace::collapse;
+
+	for (const auto &test : left_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : right_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : middle_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.preserved->begin(), test.preserved->size());
+
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+}
+
 TEST_CASE("cainteoir::normalize -- left=preserve, right=collapse, space=pre")
 {
 	auto ws    = cainteoir::whitespace::preserve;
@@ -495,6 +546,142 @@ TEST_CASE("cainteoir::normalize -- left=preserve, right=collapse, space=pre")
 	for (const auto &test : middle_whitespace)
 		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
 		      test.preserved->begin(), test.preserved->size());
+
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+}
+
+TEST_CASE("cainteoir::normalize -- left=collapse, right=preserve, space=pre")
+{
+	auto ws    = cainteoir::whitespace::preserve;
+	auto nl    = cainteoir::whitespace::preserve;
+	auto left  = cainteoir::whitespace::collapse;
+	auto right = cainteoir::whitespace::preserve;
+
+	for (const auto &test : left_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : right_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.preserved->begin(), test.preserved->size());
+
+	for (const auto &test : middle_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.preserved->begin(), test.preserved->size());
+
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+}
+
+TEST_CASE("cainteoir::normalize -- left=collapse, right=collapse, space=pre-line")
+{
+	auto ws    = cainteoir::whitespace::collapse;
+	auto nl    = cainteoir::whitespace::preserve;
+	auto left  = cainteoir::whitespace::collapse;
+	auto right = cainteoir::whitespace::collapse;
+
+	for (const auto &test : left_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : right_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : middle_whitespace)
+	{
+		if (test.is_newline)
+		{
+			match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+			      test.preserved->begin(), test.preserved->size());
+		}
+		else
+		{
+			match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+			      test.collapsed->begin(), test.collapsed->size());
+		}
+	}
+
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+}
+
+TEST_CASE("cainteoir::normalize -- left=preserve, right=collapse, space=pre-line")
+{
+	auto ws    = cainteoir::whitespace::collapse;
+	auto nl    = cainteoir::whitespace::preserve;
+	auto left  = cainteoir::whitespace::preserve;
+	auto right = cainteoir::whitespace::collapse;
+
+	for (const auto &test : left_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.preserved->begin(), test.preserved->size());
+
+	for (const auto &test : right_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : middle_whitespace)
+	{
+		if (test.is_newline)
+		{
+			match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+			      test.preserved->begin(), test.preserved->size());
+		}
+		else
+		{
+			match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+			      test.collapsed->begin(), test.collapsed->size());
+		}
+	}
+
+	for (const auto &test : whitespace_only)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+}
+
+TEST_CASE("cainteoir::normalize -- left=collapse, right=preserve, space=pre-line")
+{
+	auto ws    = cainteoir::whitespace::collapse;
+	auto nl    = cainteoir::whitespace::preserve;
+	auto left  = cainteoir::whitespace::collapse;
+	auto right = cainteoir::whitespace::preserve;
+
+	for (const auto &test : left_whitespace)
+		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+		      test.removed->begin(), test.removed->size());
+
+	for (const auto &test : right_whitespace)
+	{
+		if (test.is_newline)
+		{
+			match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+			      test.preserved->begin(), test.preserved->size());
+		}
+		else
+		{
+			match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+			      test.collapsed->begin(), test.collapsed->size());
+		}
+	}
+
+	for (const auto &test : middle_whitespace)
+	{
+		if (test.is_newline)
+		{
+			match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+			      test.preserved->begin(), test.preserved->size());
+		}
+		else
+		{
+			match(cainteoir::normalize(test.preserved, ws, nl, left, right),
+			      test.collapsed->begin(), test.collapsed->size());
+		}
+	}
 
 	for (const auto &test : whitespace_only)
 		match(cainteoir::normalize(test.preserved, ws, nl, left, right),
