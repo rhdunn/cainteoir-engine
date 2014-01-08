@@ -1,4 +1,4 @@
-.Latn.capital  [1..6] block
-.Latn.lower    [7..11] test
-.full-stop     [11..12] .
-.end-para      [12..12] 
+.Latn.capital  [0..5] block
+.Latn.lower    [6..10] test
+.full-stop     [10..11] .
+.end-para      [11..11] 

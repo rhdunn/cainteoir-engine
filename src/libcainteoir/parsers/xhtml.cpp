@@ -822,6 +822,8 @@ private:
 	void parse_hidden_node();
 	void parse_text_node();
 
+	void reset_block_scope();
+
 	struct context_data
 	{
 		const xml::context::entry *ctx;
@@ -1085,6 +1087,7 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 			parse_hidden_node();
 			continue;
 		}
+		reset_block_scope();
 		if (styles->display == css::display::list_item)
 		{
 			content = std::make_shared<cainteoir::buffer>(" ");
@@ -1128,6 +1131,7 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 			else
 				content = std::make_shared<cainteoir::buffer>(" ");
 			type    = events::begin_context | events::text;
+			reset_block_scope();
 			if (mRole == css::role::table_of_contents)
 				ctx.push({ reader.context(), &html_document_reader::parse_toc_node, 0 });
 			else
@@ -1142,6 +1146,7 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 			styles = reader.context()->styles;
 			anchor = rdf::uri();
 			ctx.pop();
+			reset_block_scope();
 			return true;
 		}
 	}
@@ -1198,6 +1203,7 @@ bool html_document_reader::parse_heading_node(rdf::graph *aMetadata)
 		{
 			type   = events::begin_context;
 			anchor = rdf::uri();
+			reset_block_scope();
 			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
 			return true;
 		}
@@ -1210,6 +1216,7 @@ bool html_document_reader::parse_heading_node(rdf::graph *aMetadata)
 			styles = reader.context()->styles;
 			anchor = rdf::uri();
 			ctx.pop();
+			reset_block_scope();
 			if (!htext.empty())
 			{
 				content = htext.normalize();
@@ -1249,6 +1256,7 @@ bool html_document_reader::parse_nav_node(rdf::graph *aMetadata)
 		type   = events::begin_context;
 		if (!styles)
 			continue;
+		reset_block_scope();
 		if (!styles->list_style_type.empty())
 			ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1 });
 		else
@@ -1259,6 +1267,7 @@ bool html_document_reader::parse_nav_node(rdf::graph *aMetadata)
 		{
 			mRole  = css::role::none;
 			ctx.pop();
+			reset_block_scope();
 			return false;
 		}
 		break;
@@ -1291,6 +1300,7 @@ bool html_document_reader::parse_toc_node(rdf::graph *aMetadata)
 		{
 			type   = events::begin_context;
 			anchor = rdf::uri();
+			reset_block_scope();
 			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
 			return true;
 		}
@@ -1302,6 +1312,7 @@ bool html_document_reader::parse_toc_node(rdf::graph *aMetadata)
 			styles = reader.context()->styles;
 			anchor = rdf::uri();
 			ctx.pop();
+			reset_block_scope();
 			return true;
 		}
 		break;
@@ -1330,6 +1341,7 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 		{
 			type   = events::begin_context;
 			anchor = rdf::uri();
+			reset_block_scope();
 			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
 			return true;
 		}
@@ -1341,6 +1353,7 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			styles = reader.context()->styles;
 			anchor = rdf::uri();
 			ctx.pop();
+			reset_block_scope();
 			return true;
 		}
 		break;
@@ -1378,7 +1391,7 @@ void html_document_reader::parse_hidden_node()
 
 void html_document_reader::parse_text_node()
 {
-	content = reader.nodeValue().content();
+	content = reader.nodeValue().buffer();
 	if (content)
 	{
 		css::whitespace space = css::whitespace::normal;
@@ -1405,6 +1418,9 @@ void html_document_reader::parse_text_node()
 			break;
 		}
 
+		uint32_t c;
+		utf8::read(content->begin(), c);
+
 		content = cainteoir::normalize(content, whitespace, newlines,
 		                               trim_left,
 		                               cainteoir::whitespace::preserve);
@@ -1415,6 +1431,35 @@ void html_document_reader::parse_text_node()
 			utf8::read(str, ch);
 			trim_left = ucd::isspace(ch) ? cainteoir::whitespace::collapse : cainteoir::whitespace::preserve;
 		}
+		else if (ucd::isspace(c) && trim_left == cainteoir::whitespace::preserve)
+		{
+			content = std::make_shared<cainteoir::buffer>(" ");
+			trim_left = cainteoir::whitespace::collapse;
+		}
+	}
+}
+
+void html_document_reader::reset_block_scope()
+{
+	switch (styles->display)
+	{
+	case css::display::inlined:
+	case css::display::inherit:
+		break;
+	default:
+		switch (styles->whitespace)
+		{
+		case css::whitespace::normal:
+		case css::whitespace::nowrap:
+		case css::whitespace::preserved_line:
+			trim_left = cainteoir::whitespace::collapse;
+			break;
+		case css::whitespace::preserved:
+		case css::whitespace::preserved_wrap:
+			trim_left = cainteoir::whitespace::preserve;
+			break;
+		}
+		break;
 	}
 }
 

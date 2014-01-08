@@ -11,6 +11,7 @@ text(4): """ » """
 text(5): """Ipsum"""
 text(4): """ » """
 text(5): """Dolor"""
+text(1): """ """
 end-context
 begin-context paragraph +sans-serif
 begin-context paragraph +sans-serif
