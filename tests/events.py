@@ -22,14 +22,33 @@ import sys
 
 if __name__ == '__main__':
 	test = harness.TestSuite('events', sys.argv)
+	# These HTML tests cover tests from htmltree.py to ensure that the document
+	# reader is handling them correctly.
+	test.run({'name': 'HTML', 'replace': ['title'], 'groups': [
+		{'name': 'HTML Frame Set', 'type': 'events', 'tests': [
+			{'test': 'html/elements/frameset-lowercase.html', 'result': 'html/elements/frameset.events', 'title': 'frameset-lowercase.html'},
+			{'test': 'html/elements/frameset-uppercase.html', 'result': 'html/elements/frameset.events', 'title': 'frameset-uppercase.html'},
+			{'test': 'html/elements/frameset-rec-html40.html', 'result': 'html/elements/frameset.events', 'title': 'frameset-rec-html40.html'},
+			{'test': 'html/elements/frameset.xhtml', 'result': 'html/elements/frameset.events', 'title': 'frameset.xhtml'},
+			{'test': 'html/elements/frameset-no-namespace.xhtml', 'result': 'html/elements/frameset.events', 'title': 'frameset-no-namespace.xhtml'},
+		]},
+	]})
+	test.run({'name': 'HTML', 'groups': [
+		{'name': 'HTML 4', 'type': 'events', 'tests': [
+			{'test': 'html/elements/html4-lowercase.html', 'result': 'html/elements/html4.events'},
+			{'test': 'html/elements/html4-uppercase.html', 'result': 'html/elements/html4.events'},
+			{'test': 'html/elements/html4-rec-html40.html', 'result': 'html/elements/html4.events'},
+			{'test': 'html/elements/html4.xhtml', 'result': 'html/elements/html4.events'},
+			{'test': 'html/elements/html4-no-namespace.xhtml', 'result': 'html/elements/html4.events'},
+		]},
+		{'name': 'DOCTYPE', 'type': 'events', 'tests': [
+			{'test': 'html/elements/xhtml10-transitional.xhtml', 'result': 'html/elements/html4.events'},
+		]},
+	]})
+	# These are the event-specific tests.
 	test.run({'name': 'HTML', 'groups': [
 		{'name': 'semantics', 'type': 'events', 'tests': [
-			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events'},
-			{'test': 'html/semantics/simple.xhtml', 'result': 'html/semantics/simple.events'},
-			{'test': 'html/semantics/simple-with-doctype.xhtml', 'result': 'html/semantics/simple.events'},
-			{'test': 'html/semantics/simple-no-namespace.xhtml', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/simple-with-xml-magic.html', 'result': 'html/semantics/simple.events'},
-			{'test': 'html/semantics/simple-rec-html40-ns.html', 'result': 'html/semantics/simple.events'}, # MS Word
 			{'test': 'html/semantics/with-style.html', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style-type.html', 'result': 'html/semantics/with-style-type.events'},
