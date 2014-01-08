@@ -86,10 +86,10 @@ if __name__ == '__main__':
 			{'test': 'html/tree-construction/19-after-body/end-of-file.html', 'result': 'html/tree-construction/simple.tags'},
 		]},
 		{'name': 'HTML Frame Set', 'type': 'htmlreader', 'tests': [
-			{'test': 'html/elements/frameset-rec-html40.html', 'result': 'html/elements/frameset-rec-html40.tags'},
+			{'test': 'html/elements/frameset-rec-html40.html', 'result': 'html/elements/frameset.tags'},
 		]},
 		{'name': 'HTML 4', 'type': 'htmlreader', 'tests': [
-			{'test': 'html/elements/html4-rec-html40.html', 'result': 'html/elements/html4-rec-html40.tags'},
+			{'test': 'html/elements/html4-rec-html40.html', 'result': 'html/elements/html4.tags'},
 		]},
 	]})
 	test.summary()
