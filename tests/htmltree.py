@@ -88,13 +88,13 @@ if __name__ == '__main__':
 		{'name': 'HTML Frame Set', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/elements/frameset-lowercase.html', 'result': 'html/elements/frameset.tags'},
 			{'test': 'html/elements/frameset-uppercase.html', 'result': 'html/elements/frameset.tags'},
-			{'test': 'html/elements/frameset-xml-no-namespace.html', 'result': 'html/elements/frameset.tags'},
+			{'test': 'html/elements/frameset-no-namespace.xhtml', 'result': 'html/elements/frameset.tags'},
 			{'test': 'html/elements/frameset-rec-html40.html', 'result': 'html/elements/frameset.tags'},
 		]},
 		{'name': 'HTML 4', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/elements/html4-lowercase.html', 'result': 'html/elements/html4.tags'},
 			{'test': 'html/elements/html4-uppercase.html', 'result': 'html/elements/html4.tags'},
-			{'test': 'html/elements/html4-xml-no-namespace.html', 'result': 'html/elements/html4.tags'},
+			{'test': 'html/elements/html4-no-namespace.xhtml', 'result': 'html/elements/html4.tags'},
 			{'test': 'html/elements/html4-rec-html40.html', 'result': 'html/elements/html4.tags'},
 		]},
 	]})
