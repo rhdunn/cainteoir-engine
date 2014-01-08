@@ -99,5 +99,8 @@ if __name__ == '__main__':
 			{'test': 'html/elements/html4.xhtml', 'result': 'html/elements/html4.tags'},
 			{'test': 'html/elements/html4-no-namespace.xhtml', 'result': 'html/elements/html4.tags'},
 		]},
+		{'name': 'DOCTYPE', 'type': 'htmlreader', 'tests': [
+			{'test': 'html/elements/xhtml10-transitional.xhtml', 'result': 'html/elements/html4.tags'},
+		]},
 	]})
 	test.summary()
