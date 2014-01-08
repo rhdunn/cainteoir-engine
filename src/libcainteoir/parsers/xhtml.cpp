@@ -391,6 +391,12 @@ struct html_tree_builder
 
 	xml::reader::node_type nodeType() const { return mNodeType; }
 
+	bool isXmlNamespaceDecl() const
+	{
+		return !reader->nodePrefix().compare("xmlns") ||
+		      (!reader->nodeName().compare("xmlns") && reader->nodePrefix().empty());
+	}
+
 	const cainteoir::rope &nodeValue() const { return reader->nodeValue(); }
 
 	const xml::context::entry *context() const { return mContext; }
@@ -767,6 +773,8 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
 		        reader.nodeValue().str().c_str());
 		break;
 	case xml::reader::attribute:
+		if (reader.isXmlNamespaceDecl())
+			continue; // xml namespace -- skip
 		fprintf(stdout, "|%s| ", xml::node_type_name(reader.nodeType()));
 		print_node_name(reader.context(), attr_sets);
 		fprintf(stdout, "=\"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
