@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2013 Reece H. Dunn
+# Copyright (C) 2013-2014 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -84,6 +84,12 @@ if __name__ == '__main__':
 		]},
 		{'name': '12.2.5.4.19: after body', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/tree-construction/19-after-body/end-of-file.html', 'result': 'html/tree-construction/simple.tags'},
+		]},
+		{'name': 'HTML Frame Set', 'type': 'htmlreader', 'tests': [
+			{'test': 'html/elements/frameset-rec-html40.html', 'result': 'html/elements/frameset-rec-html40.tags'},
+		]},
+		{'name': 'HTML 4', 'type': 'htmlreader', 'tests': [
+			{'test': 'html/elements/html4-rec-html40.html', 'result': 'html/elements/html4-rec-html40.tags'},
 		]},
 	]})
 	test.summary()

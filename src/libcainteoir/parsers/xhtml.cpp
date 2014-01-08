@@ -172,13 +172,19 @@ namespace html
 	static const xml::context::entry wbr_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 
 	static const xml::context::entry charset_attr    = {};
+	static const xml::context::entry code_attr       = {};
 	static const xml::context::entry color_attr      = {};
 	static const xml::context::entry content_attr    = {};
+	static const xml::context::entry data_attr       = {};
 	static const xml::context::entry href_attr       = {};
 	static const xml::context::entry http_equiv_attr = {};
+	static const xml::context::entry label_attr      = {};
 	static const xml::context::entry name_attr       = {};
 	static const xml::context::entry rel_attr        = {};
+	static const xml::context::entry shape_attr      = {};
 	static const xml::context::entry src_attr        = {};
+	static const xml::context::entry type_attr       = {};
+	static const xml::context::entry value_attr      = {};
 
 	static const xml::context::entry abstract_meta    = {};
 	static const xml::context::entry creator_meta     = {};
@@ -191,8 +197,8 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 {
 	{ "a",          &html::a_node },
 	{ "abbr",       &html::abbr_node },
-	{ "address",    &html::address_node },
 	{ "acronym",    &html::acronym_node }, // html4
+	{ "address",    &html::address_node },
 	{ "applet",     &html::applet_node },
 	{ "area",       &html::area_node },
 	{ "article",    &html::article_node },
@@ -319,15 +325,21 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 {
 	{ "charset",    &html::charset_attr },
+	{ "code",       &html::code_attr },
 	{ "color",      &html::color_attr },
 	{ "content",    &html::content_attr },
+	{ "data",       &html::data_attr },
 	{ "href",       &html::href_attr },
 	{ "http-equiv", &html::http_equiv_attr },
 	{ "id",         &xml::id_attr },
+	{ "label",      &html::label_attr },
 	{ "lang",       &xml::lang_attr },
 	{ "name",       &html::name_attr },
 	{ "rel",        &html::rel_attr },
+	{ "shape",      &html::shape_attr },
 	{ "src",        &html::src_attr },
+	{ "type",       &html::type_attr },
+	{ "value",      &html::value_attr },
 };
 
 static const std::initializer_list<const xml::context::entry_ref> meta_names =
