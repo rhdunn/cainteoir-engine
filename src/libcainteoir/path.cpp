@@ -1,6 +1,6 @@
 /* Path API.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -122,6 +122,8 @@ FILE *cainteoir::create_temp_file(const char *mode)
 	snprintf(tmpfile, 100, "tmp-%04d", tmpid);
 
 	return fopen(cainteoir::get_data_path() / ".." / "cache" / tmpfile, mode);
+#elif HAVE_TMPFILE
+	return tmpfile();
 #elif HAVE_MKSTEMP
 	char name[20] = "";
 	strcpy(name, "/tmp/ctts.XXXXXX");

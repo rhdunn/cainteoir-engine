@@ -1,6 +1,6 @@
 /* Memory Buffer using the C FILE API.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -47,15 +47,9 @@ cainteoir::memory_file::memory_file()
 #ifdef HAVE_OPEN_MEMSTREAM
 	f = open_memstream(&data, &length);
 #else
-#ifndef ANDROID
-	f = tmpfile();
+	f = cainteoir::create_temp_file("w+b");
 #endif
-	if (!f)
-	{
-		f = cainteoir::create_temp_file("w+b");
-		if (!f) throw std::runtime_error(std::string(data) + ": " + strerror(errno));
-	}
-#endif
+	if (!f) throw std::runtime_error(std::string(data) + ": " + strerror(errno));
 }
 
 cainteoir::memory_file::~memory_file()
