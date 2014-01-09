@@ -76,6 +76,7 @@ if __name__ == '__main__':
 			{'test': 'html/tree-construction/6-after-head/end-of-file.html', 'result': 'html/tree-construction/6-after-head/end-of-file.events'},
 		]},
 		{'name': '12.2.5.4.7: in body', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/7-in-body/xml-magic.html', 'result': 'html/tree-construction/7-in-body/xml-magic.events'},
 			{'test': 'html/tree-construction/7-in-body/end-of-file.html', 'result': 'html/tree-construction/7-in-body/end-of-file.events'},
 			{'test': 'html/tree-construction/7-in-body/pre-unclosed.html', 'result': 'html/tree-construction/7-in-body/pre-unclosed.events', 'title': 'pre-unclosed.html'},
 			{'test': 'html/tree-construction/7-in-body/pre-unclosed-with-body.html', 'result': 'html/tree-construction/7-in-body/pre-unclosed.events', 'title': 'pre-unclosed-with-body.html'},
@@ -106,7 +107,6 @@ if __name__ == '__main__':
 		]},
 		# These are the event-specific tests.
 		{'name': 'semantics', 'type': 'events', 'tests': [
-			{'test': 'html/semantics/simple-with-xml-magic.html', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/with-style.html', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style-type.html', 'result': 'html/semantics/with-style-type.events'},
