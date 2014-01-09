@@ -5,5 +5,5 @@ toc-entry [!/OEBPS/chapter2.xhtml] depth=1 title="""Chapter 2"""
 toc-entry [!/OEBPS/chapter3.xhtml] depth=1 title="""Chapter 3"""
 anchor [!/OEBPS/test.html]
 begin-context paragraph +sans-serif
-text(20): """This is a test file."""
+text(15): """This is a test."""
 end-context

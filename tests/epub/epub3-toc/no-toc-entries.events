@@ -6,5 +6,5 @@ text(18): """Lorem ipsum dolor."""
 end-context
 anchor [!/OEBPS/test.xhtml]
 begin-context paragraph +sans-serif
-text(20): """This is a test file."""
+text(15): """This is a test."""
 end-context

@@ -287,7 +287,7 @@ if __name__ == '__main__':
 				('META-INF/container.xml', 'ocf/simple.ocf'),
 				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
 				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/semantics/simple.xhtml')
+				('OEBPS/test.html', 'html/tree-construction/simple.html')
 			],
 		'groups': [
 			{'name': 'metadata', 'type': 'turtle', 'tests': [

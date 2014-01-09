@@ -325,7 +325,7 @@ if __name__ == '__main__':
 				('META-INF/container.xml', 'ocf/simple.ocf'),
 				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
 				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
+				('OEBPS/test.html', 'html/tree-construction/simple.html')
 			],
 		'groups': [
 			{'name': 'with-content', 'type': 'events', 'tests': [
@@ -341,7 +341,7 @@ if __name__ == '__main__':
 				('META-INF/container.xml', 'ocf/simple.ocf'),
 				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
 				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
+				('OEBPS/test.html', 'html/tree-construction/simple.html')
 			],
 		'groups': [
 			{'name': 'mimetype with extra content at the end', 'type': 'events', 'tests': [
@@ -358,7 +358,7 @@ if __name__ == '__main__':
 				('META-INF/container.xml', 'ocf/simple.ocf'),
 				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
 				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
+				('OEBPS/test.html', 'html/tree-construction/simple.html'),
 				('mimetype', 'application/epub+zip'),
 			],
 		'groups': [
@@ -375,7 +375,7 @@ if __name__ == '__main__':
 				('META-INF/container.xml', 'ocf/simple.ocf'),
 				('OEBPS/content.opf', 'opf/spine/single-html-file-and-toc.opf'),
 				('OEBPS/toc.ncx', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
+				('OEBPS/test.html', 'html/tree-construction/simple.html')
 			],
 		'groups': [
 			{'name': 'epub2 toc', 'type': 'events', 'tests': [
@@ -395,7 +395,7 @@ if __name__ == '__main__':
 				('META-INF/container.xml', 'ocf/simple.ocf'),
 				('OEBPS/content.opf', 'opf/spine/epub3-html-nav.opf'),
 				('OEBPS/toc.xhtml', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/test.xhtml', 'html/semantics/simple.xhtml'),
+				('OEBPS/test.xhtml', 'html/tree-construction/simple.html')
 			],
 		'groups': [
 			{'name': 'epub3 toc', 'type': 'events', 'tests': [
@@ -406,7 +406,7 @@ if __name__ == '__main__':
 	test.run({ 'name': 'ZIP',
 		'archive':
 			[
-				('test.xhtml', 'html/semantics/simple.xhtml'),
+				('test.xhtml', 'html/tree-construction/simple.html')
 			],
 		'groups': [
 			{'name': 'single file', 'type': 'events', 'tests': [
@@ -417,8 +417,8 @@ if __name__ == '__main__':
 	test.run({ 'name': 'ZIP',
 		'archive':
 			[
-				('test.xhtml', 'html/semantics/simple.xhtml'),
-				('test.html',  'html/semantics/simple.html'),
+				('test.xhtml', 'html/tree-construction/simple.html'),
+				('test.html',  'html/tree-construction/simple.html'),
 			],
 		'groups': [
 			{'name': 'multiple files', 'type': 'events', 'tests': [
@@ -430,7 +430,7 @@ if __name__ == '__main__':
 		'archive':
 			[
 				('testdir/', ''), # Don't set the directory attribute
-				('testdir/test.xhtml', 'html/semantics/simple.xhtml'),
+				('testdir/test.xhtml', 'html/tree-construction/simple.html'),
 			],
 		'groups': [
 			{'name': 'single file in directory', 'type': 'events', 'tests': [
@@ -442,7 +442,7 @@ if __name__ == '__main__':
 		'archive':
 			[
 				('testdir/', None), # Set the directory attribute
-				('testdir/test.xhtml', 'html/semantics/simple.xhtml'),
+				('testdir/test.xhtml', 'html/tree-construction/simple.html'),
 			],
 		'groups': [
 			{'name': 'single file in directory with directory attribute set', 'type': 'events', 'tests': [
@@ -452,13 +452,13 @@ if __name__ == '__main__':
 	})
 	test.run({'name': 'Compressed', 'groups': [
 		{'name': 'gzip', 'type': 'events', 'compress': 'gzip', 'tests': [
-			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events'},
+			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.events'},
 		]},
 		{'name': 'bzip2', 'type': 'events', 'compress': 'bzip2', 'tests': [
-			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events', 'expect': 'fail'},
+			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.events', 'expect': 'fail'},
 		]},
 		{'name': 'lzma', 'type': 'events', 'compress': 'lzma', 'tests': [
-			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events', 'expect': 'fail'},
+			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.events', 'expect': 'fail'},
 		]},
 	]})
 	test.summary()
