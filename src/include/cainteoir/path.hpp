@@ -74,7 +74,7 @@ namespace cainteoir
 
 	path get_data_path();
 
-	char *get_temp_filename();
+	FILE *create_temp_file(const char *mode);
 }
 
 #endif

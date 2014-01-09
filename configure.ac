@@ -114,11 +114,12 @@ AC_CHECK_HEADERS([iconv.h])
 AC_CHECK_FUNCS([iconv_open])
 
 dnl ================================================================
-dnl setenv checks.
+dnl stdlib.h checks.
 dnl ================================================================
 
 AC_CHECK_HEADERS([stdlib.h])
 AC_CHECK_FUNCS([setenv])
+AC_CHECK_FUNCS([mkstemp])
 
 dnl ================================================================
 dnl open_memstream checks.

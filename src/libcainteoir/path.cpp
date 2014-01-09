@@ -23,6 +23,11 @@
 
 #include <cainteoir/path.hpp>
 
+#if HAVE_MKSTEMP
+#include <string.h>
+#include <unistd.h>
+#endif
+
 cainteoir::path &cainteoir::path::operator/=(const char *aPath)
 {
 	if (aPath == nullptr || *aPath == '\0') return *this;
@@ -104,7 +109,7 @@ cainteoir::path cainteoir::get_data_path()
 	return path(datadir);
 }
 
-char *cainteoir::get_temp_filename()
+FILE *cainteoir::create_temp_file(const char *mode)
 {
 #ifdef ANDROID
 	// Android has buggy support for tempnam in that when it works, the files cannot
@@ -116,8 +121,22 @@ char *cainteoir::get_temp_filename()
 	char tmpfile[100];
 	snprintf(tmpfile, 100, "tmp-%04d", tmpid);
 
-	return strdup(cainteoir::get_data_path() / ".." / "cache" / tmpfile);
+	return fopen(cainteoir::get_data_path() / ".." / "cache" / tmpfile, mode);
+#elif HAVE_MKSTEMP
+	char name[20] = "";
+	strcpy(name, "/tmp/ctts.XXXXXX");
+
+	int fd = mkstemp(name);
+	if (fd == -1) return nullptr;
+
+	FILE *ret = fdopen(fd, mode);
+	if (ret == nullptr)
+	{
+		unlink(name);
+		close(fd);
+	}
+	return ret;
 #else
-	return tempnam("/tmp", nullptr);
+	return fopen(tempnam("/tmp", nullptr), mode);
 #endif
 }

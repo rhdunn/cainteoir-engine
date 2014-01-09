@@ -52,8 +52,7 @@ cainteoir::memory_file::memory_file()
 #endif
 	if (!f)
 	{
-		data = cainteoir::get_temp_filename();
-		f = fopen(data, "w+b");
+		f = cainteoir::create_temp_file("w+b");
 		if (!f) throw std::runtime_error(std::string(data) + ": " + strerror(errno));
 	}
 #endif
