@@ -7,6 +7,7 @@ src/examples/musicplayer.cpp
 src/examples/tagcloud.cpp
 src/libcainteoir/audio/alsa.cpp
 src/libcainteoir/audio/audio.cpp
+src/libcainteoir/audio/ffmpeg_player.cpp
 src/libcainteoir/audio/ogg.cpp
 src/libcainteoir/audio/pulse.cpp
 src/libcainteoir/audio/wav.cpp
@@ -29,6 +30,9 @@ src/libcainteoir/dictionary/dictionary.cpp
 src/libcainteoir/dictionary/espeak.cpp
 src/libcainteoir/document.cpp
 src/libcainteoir/encoding.cpp
+src/libcainteoir/engines/engines.cpp
+src/libcainteoir/engines/espeak.cpp
+src/libcainteoir/engines/pico.cpp
 src/libcainteoir/languages.cpp
 src/libcainteoir/mimetype.cpp
 src/libcainteoir/parsers/document.cpp
@@ -51,14 +55,12 @@ src/libcainteoir/path.cpp
 src/libcainteoir/rdf/formatter.cpp
 src/libcainteoir/rdf/metadata.cpp
 src/libcainteoir/tts/context_analysis.cpp
-src/libcainteoir/tts/engines.cpp
-src/libcainteoir/tts/espeak.cpp
 src/libcainteoir/tts/explicit_feature_phonemeset.cpp
 src/libcainteoir/tts/letter_to_phoneme.cpp
 src/libcainteoir/tts/phoneme.cpp
 src/libcainteoir/tts/phonemeset.cpp
 src/libcainteoir/tts/phoneme_stream.cpp
-src/libcainteoir/tts/pico.cpp
+src/libcainteoir/tts/phoneme_stress.cpp
 src/libcainteoir/tts/text_reader.cpp
 src/libcainteoir/tts/word_stream.cpp
 src/libcainteoir/unicode/utf8.cpp

@@ -338,10 +338,10 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/rdf/metadata.cpp \
 	\
-	src/libcainteoir/tts/tts_engine.hpp \
-	src/libcainteoir/tts/engines.cpp \
-	src/libcainteoir/tts/espeak.cpp \
-	src/libcainteoir/tts/pico.cpp \
+	src/libcainteoir/engines/tts_engine.hpp \
+	src/libcainteoir/engines/engines.cpp \
+	src/libcainteoir/engines/espeak.cpp \
+	src/libcainteoir/engines/pico.cpp \
 	\
 	src/libcainteoir/tts/explicit_feature_phonemeset.cpp \
 	src/libcainteoir/tts/phoneme.cpp \
