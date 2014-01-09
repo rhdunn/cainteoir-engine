@@ -1,4 +1,4 @@
-# Copyright (C) 2013 Reece H. Dunn
+# Copyright (C) 2013-2014 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -9,6 +9,7 @@ _|		/{pau,est}/	# pause before conjunction
 _		/{pau,est}/	# pause before conjunction
 \u000A		/{pau}/		# clause pause (e.g. comma)
 
+;	/{sbr}/ # [1]
 '	/<st1>/<
 ,	/<st2>/<
 
@@ -53,7 +54,6 @@ h	/{vls,glt,apr}/
 ##### Short Vowels
 
 I	/{smh,fnt,unr,vcd,vwl}/ # KIT
-I;	/{smh,fnt,unr,vcd,vwl}/ # KIT [1]
 U	/{smh,bck,rnd,vcd,vwl}/ # FOOT
 E	/{lmd,fnt,unr,vcd,vwl}/ # DRESS
 V	/{lmd,bck,unr,vcd,vwl}/ # STRUT
@@ -67,7 +67,6 @@ aa	/{low,fnt,unr,vcd,vwl,lng}/ # BATH
 ##### Long Vowels
 
 i:	/{hgh,fnt,unr,vcd,vwl,lng}/ # FLEECE
-i:;	/{hgh,fnt,unr,vcd,vwl,lng}/ # FLEECE [1]
 u:	/{hgh,bck,rnd,vcd,vwl,lng}/ # GOOSE
 3:	/{smh,fnt,unr,vcd,vwl,rzd}/ # NURSE (FIR)
 3:	/{smh,bck,rnd,vcd,vwl,rzd}/ # NURSE (FUR)
@@ -107,19 +106,19 @@ aU@	/{low,fnt,unr,dpr,smh,bck,rzd}/ # HOUR
 ##### Reduced Vowels
 
 i	/{hgh,fnt,unr,vcd,vwl}/ # HAPPY
-i;	/{hgh,fnt,unr,vcd,vwl}/ # HAPPY [1]
 I2	/{hgh,cnt,unr,vcd,vwl}/ # ROSES
-I2;	/{hgh,cnt,unr,vcd,vwl}/ # ROSES [1]
 @	/{mid,cnt,unr,vcd,vwl}/ # COMMA
-@-	/{mid,cnt,unr,vcd,vwl}/ # COMMA [1] ~ /@-n/
+@-	/{mid,cnt,unr,vcd,vwl}/ # COMMA ~ /@-n/
 @r-	/{mid,cnt,unr,vcd,vwl}/ # COMMA [2] ~ /@r-@L/
 3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER
 3r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER [2]
 
 ##### Notes
 #
-# 1.  eSpeak inserts a /;/ or /-/ between some phonemes to separate some
-#     phoneme pairs that may be ambiguous.
+# 1.  eSpeak inserts a /;/ between some phonemes to separate some phoneme pairs
+#     that may be ambiguous, especially for /I/, /i/, /i:/, /I2/ and /aI/. When
+#     a /;/ is present that is not needed, eSpeak simply ignores it. Thus, it
+#     functions as a syllable break.
 #
 # 2.  This accent is rhotic in some contexts -- specifically before vowels --
 #     and eSpeak will insert the /r-/ phoneme in these contexts.
