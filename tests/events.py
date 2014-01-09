@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2010-2011 Reece H. Dunn
+# Copyright (C) 2010-2014 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -22,9 +22,71 @@ import sys
 
 if __name__ == '__main__':
 	test = harness.TestSuite('events', sys.argv)
-	# These HTML tests cover tests from htmltree.py to ensure that the document
-	# reader is handling them correctly.
-	test.run({'name': 'HTML', 'replace': ['title'], 'groups': [
+	test.run({'name': 'HTML', 'replace': ['title'], 'title': 'unspecified', 'groups': [
+		# These HTML tests cover tests from htmltree.py to ensure that the document
+		# reader is handling them correctly.
+		{'name': '12.2.5.4.2: before html', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/2-before-html/anything-else.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/2-before-html/end-of-file.html', 'result': 'html/tree-construction/3-before-head/end-of-file.events'},
+		]},
+		{'name': '12.2.5.4.3: before head', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/3-before-head/anything-else.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/3-before-head/anything-else-2.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/3-before-head/end-of-file.html', 'result': 'html/tree-construction/3-before-head/end-of-file.events'},
+		]},
+		{'name': '12.2.5.4.4: in head - base element', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head~base/self-closing.html', 'result': 'html/tree-construction/4-in-head~base/self-closing.events', 'title': 'self-closing.html'},
+			{'test': 'html/tree-construction/4-in-head~base/self-closed.html', 'result': 'html/tree-construction/4-in-head~base/self-closing.events', 'title': 'self-closed.html'},
+			{'test': 'html/tree-construction/4-in-head~base/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~base/self-closing-title.events'},
+			{'test': 'html/tree-construction/4-in-head~base/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~base/self-closing-title.events'},
+		]},
+		{'name': '12.2.5.4.4: in head - basefont element', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head~basefont/self-closing.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing.events', 'title': 'self-closing.html'},
+			{'test': 'html/tree-construction/4-in-head~basefont/self-closed.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing.events', 'title': 'self-closed.html'},
+			{'test': 'html/tree-construction/4-in-head~basefont/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing-title.events'},
+			{'test': 'html/tree-construction/4-in-head~basefont/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing-title.events'},
+		]},
+		{'name': '12.2.5.4.4: in head - bgsound element', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closing.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing.events', 'title': 'self-closing.html'},
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closed.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing.events', 'title': 'self-closed.html'},
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing-title.events'},
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing-title.events'},
+		]},
+		{'name': '12.2.5.4.4: in head - link element', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head~link/self-closing.html', 'result': 'html/tree-construction/4-in-head~link/self-closing.events', 'title': 'self-closing.html'},
+			{'test': 'html/tree-construction/4-in-head~link/self-closed.html', 'result': 'html/tree-construction/4-in-head~link/self-closing.events', 'title': 'self-closed.html'},
+			{'test': 'html/tree-construction/4-in-head~link/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~link/self-closing-title.events'},
+			{'test': 'html/tree-construction/4-in-head~link/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~link/self-closing-title.events'},
+		]},
+		{'name': '12.2.5.4.4: in head - meta element', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head~meta/self-closing.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing.events', 'title': 'self-closing.html'},
+			{'test': 'html/tree-construction/4-in-head~meta/self-closed.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing.events', 'title': 'self-closed.html'},
+			{'test': 'html/tree-construction/4-in-head~meta/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing-title.events'},
+			{'test': 'html/tree-construction/4-in-head~meta/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing-title.events'},
+		]},
+		{'name': '12.2.5.4.4: in head', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head/anything-else.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/4-in-head/anything-else-2.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/4-in-head/end-of-file.html', 'result': 'html/tree-construction/4-in-head/end-of-file.events'},
+		]},
+		{'name': '12.2.5.4.6: after head', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/6-after-head/anything-else.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/6-after-head/anything-else-2.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/6-after-head/end-of-file.html', 'result': 'html/tree-construction/6-after-head/end-of-file.events'},
+		]},
+		{'name': '12.2.5.4.7: in body', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/7-in-body/end-of-file.html', 'result': 'html/tree-construction/7-in-body/end-of-file.events'},
+			{'test': 'html/tree-construction/7-in-body/pre-unclosed.html', 'result': 'html/tree-construction/7-in-body/pre-unclosed.events', 'title': 'pre-unclosed.html'},
+			{'test': 'html/tree-construction/7-in-body/pre-unclosed-with-body.html', 'result': 'html/tree-construction/7-in-body/pre-unclosed.events', 'title': 'pre-unclosed-with-body.html'},
+			{'test': 'html/tree-construction/7-in-body/pre-unclosed-with-html.html', 'result': 'html/tree-construction/7-in-body/pre-unclosed.events', 'title': 'pre-unclosed-with-html.html'},
+			{'test': 'html/tree-construction/7-in-body/nested-unclosed-inner.html', 'result': 'html/tree-construction/7-in-body/nested-unclosed-inner.events', 'expect': 'fail'},
+			{'test': 'html/tree-construction/7-in-body/no-body.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/7-in-body/i-spanning-p-elements.html', 'result': 'html/tree-construction/7-in-body/i-spanning-p-elements.events', 'expect': 'fail'},
+		]},
+		{'name': '12.2.5.4.19: after body', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/19-after-body/end-of-file.html', 'result': 'html/tree-construction/simple.events'},
+		]},
 		{'name': 'HTML Frame Set', 'type': 'events', 'tests': [
 			{'test': 'html/elements/frameset-lowercase.html', 'result': 'html/elements/frameset.events', 'title': 'frameset-lowercase.html'},
 			{'test': 'html/elements/frameset-uppercase.html', 'result': 'html/elements/frameset.events', 'title': 'frameset-uppercase.html'},
@@ -32,8 +94,6 @@ if __name__ == '__main__':
 			{'test': 'html/elements/frameset.xhtml', 'result': 'html/elements/frameset.events', 'title': 'frameset.xhtml'},
 			{'test': 'html/elements/frameset-no-namespace.xhtml', 'result': 'html/elements/frameset.events', 'title': 'frameset-no-namespace.xhtml'},
 		]},
-	]})
-	test.run({'name': 'HTML', 'groups': [
 		{'name': 'HTML 4', 'type': 'events', 'tests': [
 			{'test': 'html/elements/html4-lowercase.html', 'result': 'html/elements/html4.events'},
 			{'test': 'html/elements/html4-uppercase.html', 'result': 'html/elements/html4.events'},
@@ -44,9 +104,7 @@ if __name__ == '__main__':
 		{'name': 'DOCTYPE', 'type': 'events', 'tests': [
 			{'test': 'html/elements/xhtml10-transitional.xhtml', 'result': 'html/elements/html4.events'},
 		]},
-	]})
-	# These are the event-specific tests.
-	test.run({'name': 'HTML', 'groups': [
+		# These are the event-specific tests.
 		{'name': 'semantics', 'type': 'events', 'tests': [
 			{'test': 'html/semantics/simple-with-xml-magic.html', 'result': 'html/semantics/simple.events'},
 			{'test': 'html/semantics/with-style.html', 'result': 'html/semantics/with-style.events'},

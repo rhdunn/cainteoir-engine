@@ -1,0 +1,10 @@
+toc-entry [] depth=0 title="""i-spanning-p-elements.html"""
+anchor []
+begin-context paragraph +sans-serif
+begin-context span +emphasized
+text(4): """Test"""
+end-context
+end-context
+begin-context paragraph +sans-serif
+text(4): """case"""
+end-context
