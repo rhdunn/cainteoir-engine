@@ -137,7 +137,8 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
                 tts::word_stream::number_scale scale,
                 const char *ruleset,
                 const char *dictionary,
-                const char *phonemeset)
+                const char *phonemeset,
+                tts::stress_type stress)
 {
 	if (type == mode_type::word_stream)
 	{
@@ -155,16 +156,16 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 			generate_events(text, phonemeset);
 			break;
 		case phoneme_mode::phonemes:
-			tts::generate_phonemes(text, phonemeset, nullptr, nullptr);
+			tts::generate_phonemes(text, phonemeset, stress, nullptr, nullptr);
 			break;
 		case phoneme_mode::broad_markers:
-			tts::generate_phonemes(text, phonemeset, "/", "/");
+			tts::generate_phonemes(text, phonemeset, stress, "/", "/");
 			break;
 		case phoneme_mode::narrow_markers:
-			tts::generate_phonemes(text, phonemeset, "[", "]");
+			tts::generate_phonemes(text, phonemeset, stress, "[", "]");
 			break;
 		case phoneme_mode::espeak_markers:
-			tts::generate_phonemes(text, phonemeset, "[[", "]]");
+			tts::generate_phonemes(text, phonemeset, stress, "[[", "]]");
 			break;
 		}
 	}
@@ -189,6 +190,7 @@ int main(int argc, char ** argv)
 		const char *dictionary = nullptr;
 		const char *phonemeset = "ipa";
 		const char *locale_name = "en";
+		tts::stress_type stress = tts::stress_type::as_transcribed;
 		mode_type type = mode_type::parse_text;
 		phoneme_mode phonemes = phoneme_mode::events;
 		tts::word_stream::number_scale scale = tts::word_stream::short_scale;
@@ -234,6 +236,10 @@ int main(int argc, char ** argv)
 			  i18n("Use [...] between phonetic transcriptions") },
 			{ 0, "espeak", bind_value(phonemes, phoneme_mode::espeak_markers),
 			  i18n("Use [[...]] between phonetic transcriptions") },
+			{ 0, "vowel-stress", bind_value(stress, tts::stress_type::vowel),
+			  i18n("Place the stress on vowels (e.g. espeak, arpabet)") },
+			{ 0, "syllable-stress", bind_value(stress, tts::stress_type::syllable),
+			  i18n("Place the stress on syllable boundaries") },
 		}};
 
 		const std::initializer_list<const char *> usage = {
@@ -267,10 +273,10 @@ int main(int argc, char ** argv)
 		{
 			cainteoir::document doc(reader);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
-			show_help = parse_text(docreader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset);
+			show_help = parse_text(docreader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, stress);
 		}
 		else
-			show_help = parse_text(reader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset);
+			show_help = parse_text(reader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, stress);
 		if (show_help)
 		{
 			print_help({ general_options, mode_options }, usage);

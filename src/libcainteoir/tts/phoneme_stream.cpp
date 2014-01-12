@@ -82,6 +82,7 @@ bool tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 
 void tts::generate_phonemes(tts::phoneme_stream &reader,
                             const char *phonemeset,
+                            tts::stress_type stress,
                             const char *open,
                             const char *close,
                             const char *phrase)
@@ -117,8 +118,12 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 			}
 			if (need_space)
 				fprintf(stdout, " ");
-			for (auto p : event.phonemes)
-				ipa->write(p);
+			{
+				auto phonemes = event.phonemes;
+				tts::make_stressed(phonemes, stress);
+				for (auto p : phonemes)
+					ipa->write(p);
+			}
 			need_space = true;
 			break;
 		}

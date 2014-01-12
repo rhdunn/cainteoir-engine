@@ -184,6 +184,7 @@ namespace cainteoir { namespace tts
 
 	void generate_phonemes(tts::phoneme_stream &reader,
 	                       const char *phonemeset,
+	                       tts::stress_type stress,
 	                       const char *open,
 	                       const char *close,
 	                       const char *phrase = " ");
