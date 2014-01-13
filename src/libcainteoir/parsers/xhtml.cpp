@@ -78,6 +78,7 @@ namespace html
 	static const xml::context::entry del_node        = {};
 	static const xml::context::entry details_node    = {};
 	static const xml::context::entry dfn_node        = { &cainteoir::emphasized }; // HTML§14.3.4
+	static const xml::context::entry dialog_node     = {};
 	static const xml::context::entry dir_node        = { &cainteoir::bullet_list }; // HTML§14.3.8
 	static const xml::context::entry div_node        = { &cainteoir::paragraph };
 	static const xml::context::entry dl_node         = {};
@@ -115,6 +116,7 @@ namespace html
 	static const xml::context::entry legend_node     = {};
 	static const xml::context::entry li_node         = { &cainteoir::list_item };
 	static const xml::context::entry link_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry main_node       = {};
 	static const xml::context::entry map_node        = {};
 	static const xml::context::entry mark_node       = {};
 	static const xml::context::entry marquee_node    = {};
@@ -233,6 +235,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 	{ "del",        &html::del_node        }, // 4.0        //            //         //
 	{ "details",    &html::details_node    }, // 5.0        //            //         //
 	{ "dfn",        &html::dfn_node        }, // 1.2        //            //         //
+	{ "dialog",     &html::dialog_node     }, // 5.0        //            //         //
 	{ "dir",        &html::dir_node        }, // 1.2        // 4.0        // 5.0     //
 	{ "div",        &html::div_node        }, // 3.2        //            //         //
 	{ "dl",         &html::dl_node         }, // 1.2        //            //         //
@@ -277,6 +280,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 	{ "li",         &html::li_node         }, // 1.2        //            //         //
 	{ "link",       &html::link_node       }, // 1.2        //            //         //
 	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "main",       &html::main_node       }, // 5.0        //            //         //
 	{ "map",        &html::map_node        }, // 3.2        //            //         //
 	{ "mark",       &html::mark_node       }, // 5.0        //            //         //
 	{ "marquee",    &html::marquee_node    }, // ---        //            //         // non-standard
