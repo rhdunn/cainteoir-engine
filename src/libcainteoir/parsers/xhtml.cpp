@@ -195,131 +195,157 @@ namespace html
 
 static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 {
-	{ "a",          &html::a_node },
-	{ "abbr",       &html::abbr_node },
-	{ "acronym",    &html::acronym_node }, // html4
-	{ "address",    &html::address_node },
-	{ "applet",     &html::applet_node },
-	{ "area",       &html::area_node },
-	{ "article",    &html::article_node },
-	{ "aside",      &html::aside_node },
-	{ "audio",      &html::audio_node },
-	{ "b",          &html::b_node },
-	{ "base",       &html::base_node },
-	{ "basefont",   &html::basefont_node }, // html4
-	{ "bdi",        &html::bdi_node },
-	{ "bdo",        &html::bdo_node },
-	{ "bgsound",    &html::bgsound_node }, // html4
-	{ "big",        &html::big_node }, // html4
-	{ "blockquote", &html::blockquote_node },
-	{ "body",       &html::body_node },
-	{ "br",         &html::br_node },
-	{ "button",     &html::button_node },
-	{ "canvas",     &html::canvas_node },
-	{ "caption",    &html::caption_node },
-	{ "center",     &html::center_node }, // html4
-	{ "cite",       &html::cite_node },
-	{ "code",       &html::code_node },
-	{ "col",        &html::col_node },
-	{ "colgroup",   &html::colgroup_node },
-	{ "command",    &html::command_node },
-	{ "data",       &html::data_node },
-	{ "datalist",   &html::datalist_node },
-	{ "dd",         &html::dd_node },
-	{ "del",        &html::del_node },
-	{ "details",    &html::details_node },
-	{ "dfn",        &html::dfn_node },
-	{ "dir",        &html::dir_node },
-	{ "div",        &html::div_node },
-	{ "dl",         &html::dl_node },
-	{ "dt",         &html::dt_node },
-	{ "em",         &html::em_node },
-	{ "embed",      &html::embed_node },
-	{ "fieldset",   &html::fieldset_node },
-	{ "figcaption", &html::figcaption_node },
-	{ "figure",     &html::figure_node },
-	{ "font",       &html::font_node }, // html4
-	{ "footer",     &html::footer_node },
-	{ "form",       &html::form_node },
-	{ "frame",      &html::frame_node }, // html4
-	{ "frameset",   &html::frameset_node }, // html4
-	{ "h1",         &html::h1_node },
-	{ "h2",         &html::h2_node },
-	{ "h3",         &html::h3_node },
-	{ "h4",         &html::h4_node },
-	{ "h5",         &html::h5_node },
-	{ "h6",         &html::h6_node },
-	{ "head",       &html::head_node },
-	{ "header",     &html::header_node },
-	{ "hgroup",     &html::hgroup_node },
-	{ "hr",         &html::hr_node },
-	{ "html",       &html::html_node },
-	{ "i",          &html::i_node },
-	{ "iframe",     &html::iframe_node },
-	{ "img",        &html::img_node },
-	{ "input",      &html::input_node },
-	{ "ins",        &html::ins_node },
-	{ "isindex",    &html::isindex_node }, // html4
-	{ "kbd",        &html::kbd_node },
-	{ "keygen",     &html::keygen_node },
-	{ "label",      &html::label_node },
-	{ "legend",     &html::legend_node },
-	{ "li",         &html::li_node },
-	{ "link",       &html::link_node },
-	{ "map",        &html::map_node },
-	{ "mark",       &html::mark_node },
-	{ "marquee",    &html::marquee_node },
-	{ "menu",       &html::menu_node },
-	{ "meta",       &html::meta_node },
-	{ "meter",      &html::meter_node },
-	{ "nav",        &html::nav_node },
-	{ "noad",       &html::noad_node }, // adsense, e.g. m.fanfiction.net
-	{ "noframes",   &html::noframes_node }, // html4
-	{ "noscript",   &html::noscript_node },
-	{ "object",     &html::object_node },
-	{ "ol",         &html::ol_node },
-	{ "optgroup",   &html::optgroup_node },
-	{ "option",     &html::option_node },
-	{ "output",     &html::output_node },
-	{ "p",          &html::p_node },
-	{ "param",      &html::param_node },
-	{ "pre",        &html::pre_node },
-	{ "progress",   &html::progress_node },
-	{ "q",          &html::q_node },
-	{ "rp",         &html::rp_node },
-	{ "rt",         &html::rt_node },
-	{ "ruby",       &html::ruby_node },
-	{ "s",          &html::s_node },
-	{ "samp",       &html::samp_node },
-	{ "script",     &html::script_node },
-	{ "section",    &html::section_node },
-	{ "select",     &html::select_node },
-	{ "small",      &html::small_node },
-	{ "source",     &html::source_node },
-	{ "span",       &html::span_node },
-	{ "strike",     &html::strike_node }, // html4
-	{ "strong",     &html::strong_node },
-	{ "style",      &html::style_node },
-	{ "sub",        &html::sub_node },
-	{ "summary",    &html::summary_node },
-	{ "sup",        &html::sup_node },
-	{ "table",      &html::table_node },
-	{ "tbody",      &html::tbody_node },
-	{ "td",         &html::td_node },
-	{ "textarea",   &html::textarea_node },
-	{ "tfoot",      &html::tfoot_node },
-	{ "th",         &html::th_node },
-	{ "thead",      &html::thead_node },
-	{ "time",       &html::time_node },
-	{ "title",      &html::title_node },
-	{ "tr",         &html::tr_node },
-	{ "track",      &html::track_node },
-	{ "tt",         &html::tt_node },
-	{ "u",          &html::u_node },
-	{ "ul",         &html::ul_node },
-	{ "var",        &html::var_node },
-	{ "video",      &html::video_node },
-	{ "wbr",        &html::wbr_node },
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "a",          &html::a_node          }, // 1.2        //            //         //
+	{ "abbr",       &html::abbr_node       }, // 4.0        //            //         //
+	{ "acronym",    &html::acronym_node    }, // 4.0        //            // 5.0     //
+	{ "address",    &html::address_node    }, // 1.2        //            //         //
+	{ "applet",     &html::applet_node     }, // 3.2        // 4.0        // 5.0     //
+	{ "area",       &html::area_node       }, // 3.2        //            //         //
+	{ "article",    &html::article_node    }, // 5.0        //            //         //
+	{ "aside",      &html::aside_node      }, // 5.0        //            //         //
+	{ "audio",      &html::audio_node      }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "b",          &html::b_node          }, // 1.2        //            //         //
+	{ "base",       &html::base_node       }, // 1.2        //            //         //
+	{ "basefont",   &html::basefont_node   }, // 3.2        // 4.0        // 5.0     //
+	{ "bdi",        &html::bdi_node        }, // 5.0        //            //         //
+	{ "bdo",        &html::bdo_node        }, // 4.0        //            //         //
+	{ "bgsound",    &html::bgsound_node    }, // ---        //            //         // non-standard
+	{ "big",        &html::big_node        }, // 3.2        //            // 5.0     //
+	{ "blockquote", &html::blockquote_node }, // 1.2        //            //         //
+	{ "body",       &html::body_node       }, // 1.2        //            //         //
+	{ "br",         &html::br_node         }, // 2.0        //            //         //
+	{ "button",     &html::button_node     }, // 4.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "canvas",     &html::canvas_node     }, // 5.0        //            //         //
+	{ "caption",    &html::caption_node    }, // 3.2        //            //         //
+	{ "center",     &html::center_node     }, // 3.2        // 4.0        // 5.0     //
+	{ "cite",       &html::cite_node       }, // 1.2        //            //         //
+	{ "code",       &html::code_node       }, // 1.2        //            //         //
+	{ "col",        &html::col_node        }, // 4.0        //            //         //
+	{ "colgroup",   &html::colgroup_node   }, // 4.0        //            //         //
+	{ "command",    &html::command_node    }, // WHATWG     //            //         // old HTML5 draft
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "data",       &html::data_node       }, // 5.1        //            //         //
+	{ "datalist",   &html::datalist_node   }, // 5.0        //            //         //
+	{ "dd",         &html::dd_node         }, // 1.2        //            //         //
+	{ "del",        &html::del_node        }, // 4.0        //            //         //
+	{ "details",    &html::details_node    }, // 5.0        //            //         //
+	{ "dfn",        &html::dfn_node        }, // 1.2        //            //         //
+	{ "dir",        &html::dir_node        }, // 1.2        // 4.0        // 5.0     //
+	{ "div",        &html::div_node        }, // 3.2        //            //         //
+	{ "dl",         &html::dl_node         }, // 1.2        //            //         //
+	{ "dt",         &html::dt_node         }, // 1.2        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "em",         &html::em_node         }, // 1.2        //            //         //
+	{ "embed",      &html::embed_node      }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "fieldset",   &html::fieldset_node   }, // 4.0        //            //         //
+	{ "figcaption", &html::figcaption_node }, // 5.0        //            //         //
+	{ "figure",     &html::figure_node     }, // 5.0        //            //         //
+	{ "font",       &html::font_node       }, // 3.2        // 4.0        // 5.0     //
+	{ "footer",     &html::footer_node     }, // 5.0        //            //         //
+	{ "form",       &html::form_node       }, // 2.0        //            //         //
+	{ "frame",      &html::frame_node      }, // 4.0        //            // 5.0     //
+	{ "frameset",   &html::frameset_node   }, // 4.0        //            // 5.0     //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "h1",         &html::h1_node         }, // 1.2        //            //         //
+	{ "h2",         &html::h2_node         }, // 1.2        //            //         //
+	{ "h3",         &html::h3_node         }, // 1.2        //            //         //
+	{ "h4",         &html::h4_node         }, // 1.2        //            //         //
+	{ "h5",         &html::h5_node         }, // 1.2        //            //         //
+	{ "h6",         &html::h6_node         }, // 1.2        //            //         //
+	{ "head",       &html::head_node       }, // 1.2        //            //         //
+	{ "header",     &html::header_node     }, // 5.0        //            //         //
+	{ "hgroup",     &html::hgroup_node     }, // WHATWG     //            //         //
+	{ "hr",         &html::hr_node         }, // 2.0        //            //         //
+	{ "html",       &html::html_node       }, // 1.2        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "i",          &html::i_node          }, // 1.2        //            //         //
+	{ "iframe",     &html::iframe_node     }, // 4.0        //            //         //
+	{ "img",        &html::img_node        }, // 1.2        //            //         //
+	{ "input",      &html::input_node      }, // 2.0        //            //         //
+	{ "ins",        &html::ins_node        }, // 4.0        //            //         //
+	{ "isindex",    &html::isindex_node    }, // 1.2        // 4.0        // 5.0     //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "kbd",        &html::kbd_node        }, // 1.2        //            //         //
+	{ "keygen",     &html::keygen_node     }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "label",      &html::label_node      }, // 4.0        //            //         //
+	{ "legend",     &html::legend_node     }, // 4.0        //            //         //
+	{ "li",         &html::li_node         }, // 1.2        //            //         //
+	{ "link",       &html::link_node       }, // 1.2        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "map",        &html::map_node        }, // 3.2        //            //         //
+	{ "mark",       &html::mark_node       }, // 5.0        //            //         //
+	{ "marquee",    &html::marquee_node    }, // ---        //            //         // non-standard
+	{ "menu",       &html::menu_node       }, // 1.2        // 4.0        //         // changed meaning in HTML5
+	{ "meta",       &html::meta_node       }, // 3.2        //            //         //
+	{ "meter",      &html::meter_node      }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "nav",        &html::nav_node        }, // 5.0        //            //         //
+	{ "noad",       &html::noad_node       }, // ---        //            //         // non-standard
+	{ "noframes",   &html::noframes_node   }, // 4.0        //            // 5.0     //
+	{ "noscript",   &html::noscript_node   }, // 4.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "object",     &html::object_node     }, // 4.0        //            //         //
+	{ "ol",         &html::ol_node         }, // 1.2        //            //         //
+	{ "optgroup",   &html::optgroup_node   }, // 4.0        //            //         //
+	{ "option",     &html::option_node     }, // 2.0        //            //         //
+	{ "output",     &html::output_node     }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "p",          &html::p_node          }, // 1.2        //            //         //
+	{ "param",      &html::param_node      }, // 3.2        //            //         //
+	{ "pre",        &html::pre_node        }, // 1.2        //            //         //
+	{ "progress",   &html::progress_node   }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "q",          &html::q_node          }, // 4.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "rp",         &html::rp_node         }, // 5.0        //            //         //
+	{ "rt",         &html::rt_node         }, // 5.0        //            //         //
+	{ "ruby",       &html::ruby_node       }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "s",          &html::s_node          }, // 4.0        // 4.01       //         //
+	{ "samp",       &html::samp_node       }, // 1.2        //            //         //
+	{ "script",     &html::script_node     }, // 3.2        //            //         //
+	{ "section",    &html::section_node    }, // 5.0        //            //         //
+	{ "select",     &html::select_node     }, // 2.0        //            //         //
+	{ "small",      &html::small_node      }, // 3.2        //            //         //
+	{ "source",     &html::source_node     }, // 5.0        //            //         //
+	{ "span",       &html::span_node       }, // 4.0        //            //         //
+	{ "strike",     &html::strike_node     }, // 3.2        // 4.0        // 5.0     //
+	{ "strong",     &html::strong_node     }, // 1.2        //            //         //
+	{ "style",      &html::style_node      }, // 3.2        //            //         //
+	{ "sub",        &html::sub_node        }, // 3.2        //            //         //
+	{ "summary",    &html::summary_node    }, // 5.0        //            //         //
+	{ "sup",        &html::sup_node        }, // 3.2        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "table",      &html::table_node      }, // 3.2        //            //         //
+	{ "tbody",      &html::tbody_node      }, // 4.0        //            //         //
+	{ "td",         &html::td_node         }, // 3.2        //            //         //
+	{ "textarea",   &html::textarea_node   }, // 2.0        //            //         //
+	{ "tfoot",      &html::tfoot_node      }, // 4.0        //            //         //
+	{ "th",         &html::th_node         }, // 3.2        //            //         //
+	{ "thead",      &html::thead_node      }, // 4.0        //            //         //
+	{ "time",       &html::time_node       }, // 5.0        //            //         //
+	{ "title",      &html::title_node      }, // 1.2        //            //         //
+	{ "tr",         &html::tr_node         }, // 3.2        //            //         //
+	{ "track",      &html::track_node      }, // 5.0        //            //         //
+	{ "tt",         &html::tt_node         }, // 1.2        //            // 5.0     //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "u",          &html::u_node          }, // 1.2        // 4.0        //         //
+	{ "ul",         &html::ul_node         }, // 1.2        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "var",        &html::var_node        }, // 1.2        //            //         //
+	{ "video",      &html::video_node      }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "wbr",        &html::wbr_node        }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+
+	// NOTE: HTML 4 is the baseline implementation, so any elements obsoleted in
+	// that specification or earlier are not supported. This also includes the
+	// HTML 3.2 version of ISINDEX.
 };
 
 static const std::initializer_list<const xml::context::entry_ref> html_attrs =
@@ -1495,5 +1521,10 @@ cainteoir::createHtmlReader(const std::shared_ptr<xml::reader> &aReader,
 
 /* References
  *
- *    HTML [http://www.whatwg.org/specs/web-apps/current-work/multipage/] -- HTML Living Standard
+ *    v1.2   : [Hypertext Markup Language (HTML)](http://www.w3.org/MarkUp/draft-ietf-iiir-html-01.txt)
+ *    v2.0   : [HTML 2.0](http://tools.ietf.org/html/rfc1866)
+ *    v3.2   : [HTML 3.2](http://www.w3.org/TR/REC-html32)
+ *    v4.01  : [HTML 4.01](http://www.w3.org/TR/REC-html40)
+ *    v5.0   : [HTML 5](http://www.w3.org/TR/html5/)
+ *    WHATWG : [HTML Living Standard](http://www.whatwg.org/specs/web-apps/current-work/multipage/)
  */
