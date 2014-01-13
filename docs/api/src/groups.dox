@@ -38,7 +38,8 @@ to the broken out specification. These modules are:
   2.  \ref css_counter_styles "CSS Counter Styles".
 
 
-\defgroup css_counter_styles CSS Counter Styles
+\defgroup css_counter_styles Counter Styles
+\ingroup  css
 \see      http://www.w3.org/TR/css-counter-styles-3/
 \brief    Implementation of the CSS Counter Styles Level 3 specification.
 
@@ -47,7 +48,8 @@ Styles Level 3 specification. The CSS parsing of \@counter-style rules
 is handled in the cainteoir::css::style_manager::parse method.
 
 
-\defgroup css_units CSS Values and Units
+\defgroup css_units Values and Units
+\ingroup  css
 \see      http://www.w3.org/TR/css3-values/
 \brief    Implementation of the CSS Values and Units Level 3 specification.
 
