@@ -306,7 +306,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 	{ "rt",         &html::rt_node         }, // 5.0        //            //         //
 	{ "ruby",       &html::ruby_node       }, // 5.0        //            //         //
 	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
-	{ "s",          &html::s_node          }, // 4.0        // 4.01       //         //
+	{ "s",          &html::s_node          }, // 4.0        // 4.01       //         // changed meaning in HTML5
 	{ "samp",       &html::samp_node       }, // 1.2        //            //         //
 	{ "script",     &html::script_node     }, // 3.2        //            //         //
 	{ "section",    &html::section_node    }, // 5.0        //            //         //
