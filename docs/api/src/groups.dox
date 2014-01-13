@@ -85,15 +85,17 @@ This is the C++ API to the various unit types for CSS values.
 \brief    C++11 range-based for loop helpers.
 
 
-\defgroup rdf RDF Model
+\defgroup rdf RDF
 \brief    A C++ representation of the RDF data model.
 
 
-\defgroup rdf_query RDF Query
+\defgroup rdf_query Query
+\ingroup  rdf
 \brief    Perform operations on an RDF triple store.
 
 
-\defgroup rdf_selectors RDF Selectors
+\defgroup rdf_selectors Selectors
+\ingroup  rdf
 \brief    Selectors used to match RDF triples.
 
 
