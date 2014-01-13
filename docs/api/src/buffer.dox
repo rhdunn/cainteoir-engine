@@ -186,22 +186,22 @@ files, use the version of this function that takes a path as that reads
 the content in a single memory-mapped block.
 
 
-\enum  cainteoir::normalize_mode
-\brief Specifies how whitespace should be normalized.
+\enum  cainteoir::whitespace
+\brief Specifies how whitespace should be processed.
 
 \}
 
-\var   cainteoir::normalizie_mode cainteoir::keep_space
+\var   cainteoir::whitespace cainteoir::whitespace::preserve
 \brief The whitespace is preserved.
 
-\var   cainteoir::normalizie_mode cainteoir::collapse_space
+\var   cainteoir::whitespace cainteoir::whitespace::collapse
 \brief Consecutive whitespace is collapsed.
 
 If there is any whitespace, consecutive whitespace is removed such that a
 single whitespace character remains.
 
-\var   cainteoir::normalizie_mode cainteoir::remove_space
-\brief All whitespace is removed.
+For trim options, this indicates that the whitespace on the left/right should
+be removed.
 
 
 \addtogroup buffers
