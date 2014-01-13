@@ -117,6 +117,11 @@
 |end-tag| address
 |text| """
 		"""
+|begin-tag| center
+|text| """Lorem ipsum dolor."""
+|end-tag| center
+|text| """
+		"""
 |begin-tag| div
 |text| """
 			"""

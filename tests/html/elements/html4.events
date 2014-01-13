@@ -48,6 +48,9 @@ begin-context paragraph +emphasized
 text(18): """Lorem ipsum dolor."""
 end-context
 begin-context paragraph +sans-serif
+text(18): """Lorem ipsum dolor."""
+end-context
+begin-context paragraph +sans-serif
 text(3): """one"""
 text(1): """ """
 text(3): """two"""

@@ -67,7 +67,7 @@ namespace html
 	static const xml::context::entry button_node     = {};
 	static const xml::context::entry canvas_node     = {};
 	static const xml::context::entry caption_node    = {};
-	static const xml::context::entry center_node     = {};
+	static const xml::context::entry center_node     = { &cainteoir::paragraph };
 	static const xml::context::entry cite_node       = { &cainteoir::emphasized }; // HTML§14.3.4
 	static const xml::context::entry code_node       = { &cainteoir::monospace  }; // HTML§14.3.4
 	static const xml::context::entry col_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
