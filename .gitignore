@@ -27,6 +27,8 @@ docs/api/html/
 *.dot
 *.svg
 
+!docs/api/src/*.dot
+
 data/languages.rdf.gz
 
 src/libcainteoir/libcainteoir.a

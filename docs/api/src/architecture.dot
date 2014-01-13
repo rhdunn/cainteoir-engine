@@ -1,0 +1,64 @@
+digraph "Architecture" {
+
+	archives               [shape=none, label="Archives", URL="group__archives.html"]
+	audio                  [shape=none, label="Audio", URL="group__audio.html"]
+	buffers                [shape=none, label="Buffers", URL="group__buffers.html"]
+	encoding               [shape=none, label="Character&#x0A;Encoding", URL="group__encoding.html"]
+	css                    [shape=none, label="CSS", URL="group__css.html"]
+	decoders               [shape=none, label="Decoding&#x0A;and&#x0A;Decompression", URL="group__decoders.html"]
+	document_reader        [shape=none, label="Document&#x0A;Reader", URL="group__document__reader.html"]
+	languages              [shape=none, label="Languages", URL="group__languages.html"]
+	mime                   [shape=none, label="MIME", URL="group__mime.html"]
+	phoneme_model          [shape=none, label="Phonetic&#x0A;Model", URL="group__phoneme.html"]
+	phoneme_transcription  [shape=none, label="Phonetic&#x0A;Transcription", URL="group__phonetic__transcription.html"]
+	ranges                 [shape=none, label="Ranges", URL="group__ranges.html"]
+	rdf                    [shape=none, label="RDF", URL="group__rdf.html"]
+	tts_engines            [shape=none, label="Engines", URL="group__tts__engines.html"]
+	xml                    [shape=none, label="XML", URL="group__xml.html"]
+
+	// inheritance
+
+	buffers -> ranges [color=black]
+
+	// usage (API)
+
+	archives -> buffers [color=black]
+	archives -> rdf [color=black]
+
+	decoders -> buffers [color=black]
+
+	encoding -> buffers [color=black]
+
+	document_reader -> buffers [color=black]
+	document_reader -> rdf     [color=black]
+	document_reader -> css     [color=black]
+
+	mime -> buffers [color=black]
+	mime -> rdf [color=black]
+
+	phoneme_transcription -> buffers [color=black]
+	phoneme_transcription -> phoneme_model [color=black]
+
+	xml -> buffers [color=black]
+	xml -> rdf [color=black]
+
+	tts_engines -> document_reader [color=black]
+	tts_engines -> audio [color=black]
+	tts_engines -> rdf [color=black]
+	tts_engines -> phoneme_transcription [color=black]
+
+	// usage (implementation)
+
+	archives -> decoders [color=blue]
+
+	document_reader -> archives [color=blue]
+	document_reader -> encoding [color=blue]
+	document_reader -> decoders [color=blue]
+	document_reader -> xml [color=blue]
+
+	languages -> rdf [color=blue]
+	languages -> document_reader [color=blue]
+
+	xml -> encoding [color=blue]
+
+}

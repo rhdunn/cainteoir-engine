@@ -206,8 +206,11 @@ data/languages.dot: data/languages.py data/languages.stat
 
 fsm:	src/libcainteoir/tts/text_reader.svg
 
-api:
-	doxygen docs/cainteoir-engine.doxyconf 2>&1 | ( ! grep . )
+api:	docs/api/src/architecture.svg
+	doxygen docs/cainteoir-engine.doxyconf 2>&1 #| ( ! grep . )
+
+docs/api/src/architecture.svg: docs/api/src/architecture.dot
+	dot -Tsvg $< | sed -n '4,9999p' > $@
 
 doc:	README.html \
 	docs/ReleaseNotes.html \
