@@ -1,0 +1,37 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2014 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+
+\addtogroup dictionary
+\{
+
+\class cainteoir::tts::dictionary
+\brief Manages a pronunciation dictionary.
+
+\}
+
+
+\addtogroup dictionary
+\{
+
+\class cainteoir::tts::dictionary_reader
+\brief Parse a pronunciation dictionary file.
+
+\}
+
+
+\addtogroup dictionary
+\{
+
+\class cainteoir::tts::dictionary_formatter
+\brief Format dictionary entries in a given file format.
+
+\}
+
+
+*/

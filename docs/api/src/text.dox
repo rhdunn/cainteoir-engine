@@ -1,0 +1,64 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2014 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+
+\addtogroup text_reader
+\{
+
+\enum  cainteoir::tts::event_type
+\brief The matched context for the text_event object.
+
+\}
+
+
+\addtogroup text_reader
+\{
+
+\class cainteoir::tts::text_event
+\brief Information about a text block match.
+
+\}
+
+
+\addtogroup text_reader
+\{
+
+\class cainteoir::tts::text_reader
+\brief Parse text from a document into a sequence of text events.
+
+\}
+
+
+\addtogroup context_analysis
+\{
+
+\class cainteoir::tts::context_analysis
+\brief Perform context analysis on a text event sequence.
+
+\}
+
+
+\addtogroup word_stream
+\{
+
+\class cainteoir::tts::word_stream
+\brief Convert a text event sequence to a word sequence.
+
+\}
+
+
+\addtogroup phoneme_stream
+\{
+
+\class cainteoir::tts::phoneme_stream
+\brief Convert a word sequence to a phoneme sequence.
+
+\}
+
+
+*/

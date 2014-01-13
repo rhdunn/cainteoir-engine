@@ -1,6 +1,6 @@
 /* vim: set ft=cpp.doxygen:
  *
- * Copyright (C) 2012-2013 Reece H. Dunn
+ * Copyright (C) 2012-2014 Reece H. Dunn
  *
  * This API documentation is licensed under the CC BY-SA 2.0 UK License.
  */
@@ -20,6 +20,11 @@
 
 \defgroup encoding Character Encoding
 \brief    Helpers for working with UTF-8 and other character encodings.
+
+
+\defgroup context_analysis Context Analysis
+\ingroup  tts
+\brief    Perform context analysis on text events to associate meaning to them.
 
 
 \defgroup css CSS
@@ -60,6 +65,11 @@ This is the C++ API to the various unit types for CSS values.
 \brief    Decode encoded data and decompress compressed data.
 
 
+\defgroup dictionary Pronunciation Dictionary
+\ingroup  tts
+\brief    Manage pronunciation dictionaries.
+
+
 \defgroup document_reader Document Reader
 \brief    Extract information from a supported document format in a reader-style API.
 
@@ -73,8 +83,17 @@ This is the C++ API to the various unit types for CSS values.
 \brief    MIME type handling.
 
 
+\defgroup path Path
+\brief    A C++ file-system path API.
+
+
 \defgroup phoneme Phonetic Model
 \brief    A C++ representation of phonemes modelled on the International Phonetic Alphabet.
+
+
+\defgroup phoneme_stream Phoneme Stream
+\ingroup  tts
+\brief    Resolve a word event sequence into a sequence of phonemes.
 
 
 \defgroup phonetic_transcription Phonetic Transcription
@@ -99,6 +118,11 @@ This is the C++ API to the various unit types for CSS values.
 \brief    Selectors used to match RDF triples.
 
 
+\defgroup text_reader Text Reader
+\ingroup  tts
+\brief    Text parsing from a document.
+
+
 \defgroup tts Text-to-Speech
 \brief    Text-to-Speech support.
 
@@ -106,6 +130,11 @@ This is the C++ API to the various unit types for CSS values.
 \defgroup tts_engines Engines
 \ingroup  tts
 \brief    High-level interface to Text-to-Speech engines and voices.
+
+
+\defgroup word_stream Word Stream
+\ingroup  tts
+\brief    Resolve a text event sequence into a sequence of words.
 
 
 \defgroup xml XML

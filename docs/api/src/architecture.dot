@@ -6,21 +6,25 @@ digraph "Architecture" {
 	encoding               [shape=none, label="Character&#x0A;Encoding", URL="group__encoding.html"]
 	css                    [shape=none, label="CSS", URL="group__css.html"]
 	decoders               [shape=none, label="Decoding&#x0A;and&#x0A;Decompression", URL="group__decoders.html"]
+	dictionary             [shape=none, label="Pronunciation&#x0A;Dictionary", URL="group__dictionary.html"]
 	document_reader        [shape=none, label="Document&#x0A;Reader", URL="group__document__reader.html"]
 	languages              [shape=none, label="Languages", URL="group__languages.html"]
 	mime                   [shape=none, label="MIME", URL="group__mime.html"]
+	path                   [shape=none, label="Path", URL="group__path.html"]
 	phoneme_model          [shape=none, label="Phonetic&#x0A;Model", URL="group__phoneme.html"]
 	phoneme_transcription  [shape=none, label="Phonetic&#x0A;Transcription", URL="group__phonetic__transcription.html"]
 	ranges                 [shape=none, label="Ranges", URL="group__ranges.html"]
 	rdf                    [shape=none, label="RDF", URL="group__rdf.html"]
+	text_reader            [shape=none, label="Text&#x0A;Reader", URL="group__text__reader.html"]
+	context_analysis       [shape=none, label="Context&#x0A;Analysis", URL="group__context__analysis.html"]
+	word_stream            [shape=none, label="Word&#x0A;Stream", URL="group__word__stream.html"]
+	phoneme_stream         [shape=none, label="Phoneme&#x0A;Stream", URL="group__phoneme__stream.html"]
 	tts_engines            [shape=none, label="Engines", URL="group__tts__engines.html"]
 	xml                    [shape=none, label="XML", URL="group__xml.html"]
 
-	// inheritance
+	// usage (API)
 
 	buffers -> ranges [color=black]
-
-	// usage (API)
 
 	archives -> buffers [color=black]
 	archives -> rdf [color=black]
@@ -28,6 +32,10 @@ digraph "Architecture" {
 	decoders -> buffers [color=black]
 
 	encoding -> buffers [color=black]
+
+	dictionary -> buffers [color=black]
+	dictionary -> phoneme_model [color=black]
+	dictionary -> phoneme_transcription [color=black]
 
 	document_reader -> buffers [color=black]
 	document_reader -> rdf     [color=black]
@@ -42,6 +50,23 @@ digraph "Architecture" {
 	xml -> buffers [color=black]
 	xml -> rdf [color=black]
 
+	text_reader -> buffers [color=black]
+	text_reader -> ranges [color=black]
+	text_reader -> phoneme_model [color=black]
+	text_reader -> document_reader [color=black]
+
+	context_analysis -> document_reader [color=black]
+	context_analysis -> text_reader [color=black]
+
+	word_stream -> document_reader [color=black]
+	word_stream -> text_reader [color=black]
+	word_stream -> languages [color=black]
+
+	phoneme_stream -> document_reader [color=black]
+	phoneme_stream -> text_reader [color=black]
+	phoneme_stream -> languages [color=black]
+	phoneme_stream -> phoneme_transcription [color=blue]
+
 	tts_engines -> document_reader [color=black]
 	tts_engines -> audio [color=black]
 	tts_engines -> rdf [color=black]
@@ -51,13 +76,33 @@ digraph "Architecture" {
 
 	archives -> decoders [color=blue]
 
+	buffers -> path [color=blue]
+
+	css -> path [color=blue]
+
+	dictionary -> path [color=blue]
+
 	document_reader -> archives [color=blue]
 	document_reader -> encoding [color=blue]
 	document_reader -> decoders [color=blue]
+	document_reader -> path [color=blue]
 	document_reader -> xml [color=blue]
 
 	languages -> rdf [color=blue]
 	languages -> document_reader [color=blue]
+	languages -> path [color=blue]
+
+	phoneme_transcription -> path [color=blue]
+
+	tts_engines -> path [color=blue]
+
+	word_stream -> path [color=blue]
+	word_stream -> context_analysis [color=black]
+	word_stream -> dictionary [color=black]
+
+	phoneme_stream -> path [color=blue]
+	phoneme_stream -> word_stream [color=black]
+	phoneme_stream -> dictionary [color=black]
 
 	xml -> encoding [color=blue]
 

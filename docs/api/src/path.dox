@@ -1,0 +1,19 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2014 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+
+\addtogroup path
+\{
+
+\class cainteoir::path
+\brief Represents a file-system path.
+
+\}
+
+
+*/
