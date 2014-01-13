@@ -72,7 +72,6 @@ namespace html
 	static const xml::context::entry code_node       = { &cainteoir::monospace  }; // HTML§14.3.4
 	static const xml::context::entry col_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry colgroup_node   = {};
-	static const xml::context::entry command_node    = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry data_node       = {};
 	static const xml::context::entry datalist_node   = {};
 	static const xml::context::entry dd_node         = {};
@@ -120,6 +119,7 @@ namespace html
 	static const xml::context::entry mark_node       = {};
 	static const xml::context::entry marquee_node    = {};
 	static const xml::context::entry menu_node       = { &cainteoir::bullet_list }; // HTML§14.3.8
+	static const xml::context::entry menuitem_node   = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry meta_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry meter_node      = {};
 	static const xml::context::entry nav_node        = {};
@@ -225,7 +225,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 	{ "code",       &html::code_node       }, // 1.2        //            //         //
 	{ "col",        &html::col_node        }, // 4.0        //            //         //
 	{ "colgroup",   &html::colgroup_node   }, // 4.0        //            //         //
-	{ "command",    &html::command_node    }, // WHATWG     //            //         // old HTML5 draft
+	{ "command",    &html::menuitem_node   }, // WHATWG     //            //         // old HTML5 draft
 	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
 	{ "data",       &html::data_node       }, // 5.1        //            //         //
 	{ "datalist",   &html::datalist_node   }, // 5.0        //            //         //
@@ -281,6 +281,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 	{ "mark",       &html::mark_node       }, // 5.0        //            //         //
 	{ "marquee",    &html::marquee_node    }, // ---        //            //         // non-standard
 	{ "menu",       &html::menu_node       }, // 1.2        // 4.0        //         // changed meaning in HTML5
+	{ "menuitem",   &html::menuitem_node   }, // 5.0        //            //         //
 	{ "meta",       &html::meta_node       }, // 3.2        //            //         //
 	{ "meter",      &html::meter_node      }, // 5.0        //            //         //
 	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
