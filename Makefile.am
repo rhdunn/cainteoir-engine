@@ -210,7 +210,7 @@ api:	docs/api/src/architecture.svg
 	doxygen docs/cainteoir-engine.doxyconf 2>&1 #| ( ! grep . )
 
 docs/api/src/architecture.svg: docs/api/src/architecture.dot
-	dot -Tsvg $< | sed -n '4,9999p' > $@
+	dot -Tsvg $< | sed -n '4,9999p' | sed -e 's/svg width=[^ ]* height=[^ ]*/svg preserveAspectRatio="xMidYMid"/' > $@
 
 doc:	README.html \
 	docs/ReleaseNotes.html \
