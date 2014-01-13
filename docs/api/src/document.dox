@@ -84,8 +84,8 @@ Objects of this type are created by instances of the document_reader interface.
 \brief The \ref css "CSS" styles associated with this document item.
 
 
-\var   std::shared_ptr<cainteoir::buffer> cainteoir::document_item::text
-\brief The text associated with the document event.
+\var   std::shared_ptr<cainteoir::buffer> cainteoir::document_item::content
+\brief The text or audio data associated with the document event.
 
 
 \var   cainteoir::rdf::uri cainteoir::document_item::anchor
