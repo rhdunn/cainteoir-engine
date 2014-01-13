@@ -541,12 +541,17 @@ This is used for generating \\prefix entries in turtle/n3 documents.
 This is used for generating \\prefix entries in turtle/n3 documents.
 
 
-\fn    const rdf::uri rdf::graph::href(const std::string &aHref)
+\addtogroup rdf
+\{
+
+\fn    const rdf::uri cainteoir::rdf::href(const std::string &aHref)
 \brief Convert a href into a URI object.
 
 \param[in] aHref The href to convert.
 
 \return The href as a URI object.
+
+\}
 
 
 \fn    const rdf::uri rdf::graph::genid()
