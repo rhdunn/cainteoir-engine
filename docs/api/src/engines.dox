@@ -7,7 +7,7 @@
 /**
 
 
-\addtogroup tts
+\addtogroup tts_engines
 \{
 
 \struct cainteoir::tts::speech
@@ -96,7 +96,7 @@ is empty.
 \brief The number of parameters in the parameter type enumeration.
 
 
-\addtogroup tts
+\addtogroup tts_engines
 \{
 
 \class cainteoir::tts::parameter
@@ -154,7 +154,7 @@ is empty.
 \retval false If the parameter value was not changed.
 
 
-\addtogroup tts
+\addtogroup tts_engines
 \{
 
 \struct cainteoir::tts::engines
