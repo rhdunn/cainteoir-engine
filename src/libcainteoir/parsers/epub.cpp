@@ -128,7 +128,7 @@ bool epub_document_reader::read()
 				anchor = mData->location(filename.str(), child->anchor.ref);
 			}
 
-			type    = child->type;
+			type    = cainteoir::events::toc_entry;
 			styles  = child->styles;
 			content = child->content;
 			return true;
