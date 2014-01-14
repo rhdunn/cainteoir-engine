@@ -219,6 +219,7 @@ if __name__ == '__main__':
 			# documents when parsed as HTML (i.e. not embedded in an ePub document).
 			{'test': 'html/epub3nav/linear.xhtml', 'result': 'html/epub3nav/linear.events'},
 			{'test': 'html/epub3nav/linear-with-heading.xhtml', 'result': 'html/epub3nav/linear-with-heading.events'},
+			{'test': 'html/epub3nav/nested.xhtml', 'result': 'html/epub3nav/nested.events', 'expect': 'fail'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
@@ -461,6 +462,7 @@ if __name__ == '__main__':
 				{'test': 'html/sections/div.xhtml', 'result': 'epub/epub3-toc/no-toc-entries.events'},
 				{'test': 'html/epub3nav/linear.xhtml', 'result': 'epub/epub3-toc/linear.events'},
 				{'test': 'html/epub3nav/linear-with-heading.xhtml', 'result': 'epub/epub3-toc/linear-with-heading.events', 'expect': 'fail'},
+				{'test': 'html/epub3nav/nested.xhtml', 'result': 'epub/epub3-toc/nested.events', 'expect': 'fail'},
 			]},
 		]
 	})
