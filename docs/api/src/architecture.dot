@@ -90,19 +90,19 @@ digraph "Architecture" {
 
 	languages -> rdf [color=blue]
 	languages -> document_reader [color=blue]
-	languages -> path [color=blue]
+//	languages -> path [color=blue] // transitive dependency
 
 	phoneme_transcription -> path [color=blue]
 
 	tts_engines -> path [color=blue]
 
-	word_stream -> path [color=blue]
+//	word_stream -> path [color=blue] // transitive dependency
 	word_stream -> context_analysis [color=blue]
 	word_stream -> dictionary [color=blue]
 
-	phoneme_stream -> path [color=blue]
+//	phoneme_stream -> path [color=blue] // transitive dependency
 	phoneme_stream -> word_stream [color=blue]
-	phoneme_stream -> dictionary [color=blue]
+//	phoneme_stream -> dictionary [color=blue] // transitive dependency
 
 	xml -> encoding [color=blue]
 
