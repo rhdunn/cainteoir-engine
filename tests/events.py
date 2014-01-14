@@ -218,6 +218,7 @@ if __name__ == '__main__':
 			# These are tests for HTML5-based ePub3 navigation (table of content)
 			# documents when parsed as HTML (i.e. not embedded in an ePub document).
 			{'test': 'html/epub3nav/linear.xhtml', 'result': 'html/epub3nav/linear.events'},
+			{'test': 'html/epub3nav/linear-with-heading.xhtml', 'result': 'html/epub3nav/linear-with-heading.events'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
@@ -459,6 +460,7 @@ if __name__ == '__main__':
 			{'name': 'epub3 toc', 'type': 'events', 'tests': [
 				{'test': 'html/sections/div.xhtml', 'result': 'epub/epub3-toc/no-toc-entries.events'},
 				{'test': 'html/epub3nav/linear.xhtml', 'result': 'epub/epub3-toc/linear.events'},
+				{'test': 'html/epub3nav/linear-with-heading.xhtml', 'result': 'epub/epub3-toc/linear-with-heading.events', 'expect': 'fail'},
 			]},
 		]
 	})

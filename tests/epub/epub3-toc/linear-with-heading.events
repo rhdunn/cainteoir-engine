@@ -1,0 +1,31 @@
+toc-entry [] depth=0 title="""Test Case"""
+anchor []
+toc-entry [!/OEBPS/chapter1.xhtml] depth=1 title="""Chapter 1"""
+toc-entry [!/OEBPS/chapter2.xhtml] depth=1 title="""Chapter 2"""
+toc-entry [!/OEBPS/chapter3.xhtml] depth=1 title="""Chapter 3"""
+anchor [!/OEBPS/toc.xhtml]
+begin-context heading 1
+anchor [!/OEBPS/toc.xhtml#]genid.h0
+text(5): """Title"""
+end-context
+begin-context heading 1
+text(17): """Table of Contents"""
+end-context
+begin-context block +list=decimal
+begin-context list-item +sans-serif
+text(3): """1. """
+text(9): """Chapter 1"""
+end-context
+begin-context list-item +sans-serif
+text(3): """2. """
+text(9): """Chapter 2"""
+end-context
+begin-context list-item +sans-serif
+text(3): """3. """
+text(9): """Chapter 3"""
+end-context
+end-context
+anchor [!/OEBPS/test.xhtml]
+begin-context paragraph +sans-serif
+text(15): """This is a test."""
+end-context

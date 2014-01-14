@@ -1,0 +1,27 @@
+toc-entry [] depth=0 title="""linear-with-heading.xhtml"""
+anchor []
+begin-context heading 1
+anchor [#]genid.h0
+text(5): """Title"""
+toc-entry [#]genid.h0 depth=1 title="""Title"""
+end-context
+begin-context heading 1
+text(17): """Table of Contents"""
+end-context
+begin-context block +list=decimal
+begin-context list-item +sans-serif
+text(3): """1. """
+toc-entry [chapter1.xhtml] depth=1 title="""Chapter 1"""
+text(9): """Chapter 1"""
+end-context
+begin-context list-item +sans-serif
+text(3): """2. """
+toc-entry [chapter2.xhtml] depth=1 title="""Chapter 2"""
+text(9): """Chapter 2"""
+end-context
+begin-context list-item +sans-serif
+text(3): """3. """
+toc-entry [chapter3.xhtml] depth=1 title="""Chapter 3"""
+text(9): """Chapter 3"""
+end-context
+end-context
