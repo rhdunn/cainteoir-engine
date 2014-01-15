@@ -1,5 +1,12 @@
 /* The standard CSS for doxygen 1.8.5 */
 
+html
+{
+	overflow-y: scroll;
+	margin: 0 auto;
+	max-width: 800px;
+}
+
 body, table
 {
 	font-family: sans-serif;
