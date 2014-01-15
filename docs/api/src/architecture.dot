@@ -4,18 +4,23 @@ digraph "Architecture" {
 	buffers                [shape=none, label="Buffers", URL="group__buffers.html"]
 	css                    [shape=none, label="CSS", URL="group__css.html"]
 	dictionary             [shape=none, label="Pronunciation&#x0A;Dictionary", URL="group__dictionary.html"]
-	document_reader        [shape=none, label="Document&#x0A;Reader", URL="group__document__reader.html"]
 	languages              [shape=none, label="Languages", URL="group__languages.html"]
 	path                   [shape=none, label="Path", URL="group__path.html"]
 	phoneme_model          [shape=none, label="Phonetic&#x0A;Model", URL="group__phoneme.html"]
 	phoneme_transcription  [shape=none, label="Phonetic&#x0A;Transcription", URL="group__phonetic__transcription.html"]
 	ranges                 [shape=none, label="Ranges", URL="group__ranges.html"]
 	rdf                    [shape=none, label="RDF", URL="group__rdf.html"]
+	tts_engines            [shape=none, label="Engines", URL="group__tts__engines.html"]
+
+	subgraph { rank=same;
+
+	document_reader        [shape=none, label="Document&#x0A;Reader", URL="group__document__reader.html"]
 	text_reader            [shape=none, label="Text&#x0A;Reader", URL="group__text__reader.html"]
 	context_analysis       [shape=none, label="Context&#x0A;Analysis", URL="group__context__analysis.html"]
 	word_stream            [shape=none, label="Word&#x0A;Stream", URL="group__word__stream.html"]
 	phoneme_stream         [shape=none, label="Phoneme&#x0A;Stream", URL="group__phoneme__stream.html"]
-	tts_engines            [shape=none, label="Engines", URL="group__tts__engines.html"]
+
+	}
 
 	// usage (API)
 
