@@ -23,7 +23,7 @@
 
 
 \defgroup context_analysis Context Analysis
-\ingroup  tts
+\ingroup  text_to_phonemes
 \brief    Perform context analysis on text events to associate meaning to them.
 
 
@@ -67,7 +67,6 @@ This is the C++ API to the various unit types for CSS values.
 
 
 \defgroup dictionary Pronunciation Dictionary
-\ingroup  tts
 \brief    Manage pronunciation dictionaries.
 
 
@@ -93,7 +92,7 @@ This is the C++ API to the various unit types for CSS values.
 
 
 \defgroup phoneme_stream Phoneme Stream
-\ingroup  tts
+\ingroup  text_to_phonemes
 \brief    Resolve a word event sequence into a sequence of phonemes.
 
 
@@ -125,21 +124,20 @@ This is the C++ API to the various unit types for CSS values.
 
 
 \defgroup text_reader Text Reader
-\ingroup  tts
+\ingroup  text_to_phonemes
 \brief    Text parsing from a document.
 
 
-\defgroup tts Text-to-Speech
-\brief    Text-to-Speech support.
+\defgroup text_to_phonemes Text to Phonemes
+\brief    A framework for converting text (as document events) into phonemes.
 
 
-\defgroup tts_engines Engines
-\ingroup  tts
+\defgroup tts_engines Text-to-Speech Engines
 \brief    High-level interface to Text-to-Speech engines and voices.
 
 
 \defgroup word_stream Word Stream
-\ingroup  tts
+\ingroup  text_to_phonemes
 \brief    Resolve a text event sequence into a sequence of words.
 
 
