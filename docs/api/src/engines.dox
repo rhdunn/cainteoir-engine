@@ -1,6 +1,6 @@
 /* vim: set ft=cpp.doxygen:
  *
- * Copyright (C) 2012-2013 Reece H. Dunn
+ * Copyright (C) 2012-2014 Reece H. Dunn
  *
  * This API documentation is licensed under the CC BY-SA 2.0 UK License.
  */
@@ -66,6 +66,15 @@
 
 If there is no error message associated with this session, the return value
 is empty.
+
+
+\fn    const cainteoir::document::toc_entry &cainteoir::tts::speech::toc_entry() const
+\brief Get the toc entry the currently reading text is located in.
+
+\return The toc entry the currently reading text is located in.
+
+This can be used by a text-to-speech UI to provide feedback of which section
+of the document is currently being read.
 
 
 \enum  cainteoir::tts::parameter::type
@@ -157,6 +166,27 @@ is empty.
 \addtogroup tts_engines
 \{
 
+\enum  cainteoir::tts::media_overlays_mode
+\brief The behaviour of the Text-to-Speech engine in the presence of ePub 3 media overlays.
+
+\}
+
+
+\var   cainteoir::tts::media_overlays_mode cainteoir::tts::media_overlays_mode::tts_only
+\brief Use the active Text-to-Speech voice to read all the document text.
+
+
+\var   cainteoir::tts::media_overlays_mode cainteoir::tts::media_overlays_mode::media_overlays_only
+\brief Only use the media overlays audio; don't read any text not annotated with media overlays.
+
+
+\var   cainteoir::tts::media_overlays_mode cainteoir::tts::media_overlays_mode::tts_and_media_overlays
+\brief Use media overlays when the text is annotated with them, otherwise use the active Text-to-Speech voice.
+
+
+\addtogroup tts_engines
+\{
+
 \struct cainteoir::tts::engines
 \brief  Manages the available text-to-speech engines.
 
@@ -189,13 +219,37 @@ is empty.
 \return The currently active voice.
 
 
-\fn    std::shared_ptr<tts::speech> cainteoir::tts::engines::speak(std::shared_ptr<audio> out, const document::range_type &aRange)
+\fn    std::shared_ptr<tts::speech> cainteoir::tts::engines::speak(std::shared_ptr<audio> out, const cainteoir::document::toc_type &aToc, const document::range_type &aRange, tts::media_overlays_mode aMediaOverlays)
 \brief Speak the specified document.
 
-\param[in] out    The audio output device (for reading) or file (for recording).
-\param[in] aRange The start and end points of the document to read.
+\param[in] out            The audio output device (for reading) or file (for recording).
+\param[in] aToc           The table of contents for the document being read.
+\param[in] aRange         The start and end points of the document to read.
+\param[in] aMediaOverlays The behaviour to use when ePub 3 media overlays are encountered.
 
 \return The object associated with this speech session.
+
+
+\fn    std::shared_ptr<tts::phoneme_reader> cainteoir::tts::engines::pronunciation()
+\brief Create an object to convert text to phonemes.
+
+\return An object that can convert text to phonemes.
+
+This uses the text-to-speech engines text to phoneme logic if available to
+pronounce text or words. For example:
+
+\code
+cainteoir::rdf::graph metadata;
+cainteoir::tts::engines tts(metadata);
+
+auto ipa = cainteoir::tts::createPhonemeWriter("ipa");
+ipa->reset(stdout);
+
+auto pronounce = tts.pronunciation();
+pronounce->reset(std::make_shared<cainteoir::buffer>("Hello world!"));
+while (pronounce->read())
+	ipa->write(*pronounce);
+\endcode
 
 
 \fn    std::shared_ptr<tts::parameter> tts::engines::parameter(tts::parameter::type aType)
