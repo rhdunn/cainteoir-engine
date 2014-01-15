@@ -1,4 +1,4 @@
-/* The standard CSS for doxygen 1.8.5 */
+/* Custom stylesheet for doxygen 1.8.5-based Cainteoir Technologies documentation. */
 
 html
 {
@@ -476,7 +476,6 @@ table.memberdecls {
 .mdescLeft, .mdescRight,
 .memItemLeft, .memItemRight,
 .memTemplItemLeft, .memTemplItemRight, .memTemplParams {
-	background-color: #F9FAFC;
 	border: none;
 	margin: 4px;
 	padding: 1px 0 0 8px;
@@ -955,9 +954,6 @@ div.ingroups a
 
 div.header
 {
-        background-image:url('nav_h.png');
-        background-repeat:repeat-x;
-	background-color: #F9FAFC;
 	margin:  0px;
 	border-bottom: 1px solid #C4CFE5;
 }
