@@ -20,6 +20,14 @@ body, table
 	text-shadow: #EEE 1px 1px 1px;
 }
 
+footer
+{
+	border-top: 1px solid #EEE;
+	padding-top: 1em;
+	margin: 1em;
+	clear: both;
+}
+
 /* @group Heading Levels */
 
 h1.groupheader {
