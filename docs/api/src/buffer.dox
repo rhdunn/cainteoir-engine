@@ -1,6 +1,6 @@
 /* vim: set ft=cpp.doxygen:
  *
- * Copyright (C) 2012-2013 Reece H. Dunn
+ * Copyright (C) 2012-2014 Reece H. Dunn
  *
  * This API documentation is licensed under the CC BY-SA 2.0 UK License.
  */
@@ -207,12 +207,10 @@ be removed.
 \addtogroup buffers
 \{
 
-\fn    std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer, normalize_mode aLeft, normalize_mode aRight)
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
 \brief Create a whitespace-normalized buffer.
 
 \param[in] aBuffer The buffer containing the text to normalize.
-\param[in] aLeft   The normalization mode to apply to left-trailing whitespace.
-\param[in] aRight  The normalization mode to apply to right-trailing whitespace.
 
 \return A new buffer with the whitespace normalized.
 
@@ -221,17 +219,63 @@ consecutive whitespace characters within the buffer. Any whitespace
 character is replaced by an ASCII space character.
 
 
-\fn    std::shared_ptr<cainteoir::buffer> cainteoir::copy(const cainteoir::buffer &data, uint32_t size)
-\brief Copy the data in buffer to a memory buffer.
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer, whitespace aWhitespace, whitespace aNewlines, whitespace aTrimLeft, whitespace aTrimRight)
+\brief Create a whitespace-normalized buffer.
 
-\param[in] data The data buffer to be decoded/decompressed.
-\param[in] size The size of the decoded/decompressed data buffer.
+\param[in] aBuffer     The buffer containing the text to normalize.
+\param[in] aWhitespace whitespace::preserve to keep or whitespace::collapse to remove consecutive non-newline whitespace characters
+\param[in] aNewlines   whitespace::preserve to keep or whitespace::collapse to remove consecutive newline characters
+\param[in] aTrimLeft   whitespace::preserve to keep or whitespace::collapse to remove whitespace at the start
+\param[in] aTrimRight  whitespace::preserve to keep or whitespace::collapse to remove whitespace at the end
 
-\return The new data buffer.
+\return A new buffer with the whitespace normalized.
 
-This function has the same signature as the \ref decoders "Decoding and Decompression"
-API for use when no decoding or decompression is required, but the data still needs
-copying.
+The \p aWhitespace and \p aNewlines options configure how consecutive whitespace
+is collapsed, supporting the CSS \c normal, \c pre and \c pre-line whitespace
+modes. If \p aTrimLeft or \p aTrimRight are whitespace::preserve, the whitespace
+rules for \p aWhitespace and \p aNewlines apply.
+
+
+\class cainteoir::memory_file
+\brief Create a file that is stored in memory.
+
+This class is used to create a short-term use \c FILE object to write data to
+and get a cainteoir::buffer with the contents of that object. For example:
+
+\code
+cainteoir::memory_file out;
+fprintf(out, "Hello World!");
+std::shared_ptr<cainteoir::buffer> text = out.buffer(); // contains "Hello World!"
+\endcode
+
+
+\}
+
+
+\fn    cainteoir::memory_file::memory_file()
+\brief Open a new file in memory.
+
+The \c open_memstream POSIX function is used to create the memory file if the
+system supports it, otherwise a temporary file is created.
+
+
+\fn    cainteoir::memory_file::~memory_file()
+\brief Clean up the memory file.
+
+
+\fn    cainteoir::memory_file::operator FILE *() const
+\brief Return a pointer to the \c FILE object.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::memory_file::buffer()
+\brief Create a buffer with the contents of the memory file.
+
+This closes the \c FILE object, so a new memory_file needs to be created after
+this call.
+
+
+\addtogroup buffers
+\{
 
 
 \class cainteoir::rope
@@ -240,6 +284,7 @@ copying.
 This class is for situations where many buffers are created and concatenated
 together. It only concatenates the buffers when requested, performing the
 operation in one pass.
+
 
 \}
 
@@ -313,6 +358,15 @@ then an empty buffer here is returned.
 
 \typedef std::shared_ptr<cainteoir::buffer> (*cainteoir::decoder_ptr)(const buffer &data, uint32_t size)
 \brief   Pointer to a decoding/decompression algorithm.
+
+\param[in] data The data buffer to be decoded/decompressed.
+\param[in] size The size of the decoded/decompressed data buffer.
+
+\return The new data buffer.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::copy(const cainteoir::buffer &data, uint32_t size)
+\brief Copy the data in buffer to a memory buffer.
 
 \param[in] data The data buffer to be decoded/decompressed.
 \param[in] size The size of the decoded/decompressed data buffer.

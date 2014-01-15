@@ -62,6 +62,7 @@ This is the C++ API to the various unit types for CSS values.
 
 
 \defgroup decoders Decoding and Decompression
+\ingroup  buffers
 \brief    Decode encoded data and decompress compressed data.
 
 
