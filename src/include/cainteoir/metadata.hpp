@@ -87,6 +87,7 @@ namespace cainteoir { namespace rdf
 	extern const ns dcterms;
 	extern const ns dtb;
 	extern const ns epub;
+	extern const ns epv;
 	extern const ns foaf;
 	extern const ns iana;
 	extern const ns marc;

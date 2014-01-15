@@ -112,6 +112,7 @@ int main(int argc, char ** argv)
 					<< rdf::dcterms
 					<< rdf::dcam
 					<< rdf::epub
+					<< rdf::epv
 					<< rdf::opf
 					<< rdf::ocf
 					<< rdf::pkg

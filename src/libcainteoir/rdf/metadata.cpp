@@ -56,6 +56,7 @@ const rdf::ns rdf::dcam(   "dcam",   "http://purl.org/dc/dcam/");
 const rdf::ns rdf::dcterms("dct",    "http://purl.org/dc/terms/");
 const rdf::ns rdf::dtb(    "dtb",    "http://www.daisy.org/z3986/2005/dtbook/");
 const rdf::ns rdf::epub(   "epub",   "http://www.idpf.org/2007/ops#");
+const rdf::ns rdf::epv(    "epv",    "http://www.idpf.org/epub/vocab/structure/#");
 const rdf::ns rdf::foaf(   "foaf",   "http://xmlns.com/foaf/0.1/");
 const rdf::ns rdf::iana(   "iana",   "http://reecedunn.co.uk/schema/2013/iana#");
 const rdf::ns rdf::marc(   "marc",   "http://id.loc.gov/vocabulary/");

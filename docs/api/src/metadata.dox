@@ -165,6 +165,10 @@ This comparison will ignore the prefix of the namespace.
 \brief ePub 3.0 (OPS) namespace.
 
 
+\var   const cainteoir::rdf::ns cainteoir::rdf::epv
+\brief ePub 3.0 vocabulary for epub:type relations.
+
+
 \var   const cainteoir::rdf::ns cainteoir::rdf::foaf
 \brief Friend of a Friend (FOAF) namespace.
 

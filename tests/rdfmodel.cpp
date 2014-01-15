@@ -72,6 +72,7 @@ TEST_CASE("RDF namespaces")
 	test_uri(rdf::dcterms("title"), "http://purl.org/dc/terms/title", "http://purl.org/dc/terms/", "title");
 	test_uri(rdf::dtb("uid"), "http://www.daisy.org/z3986/2005/dtbook/uid", "http://www.daisy.org/z3986/2005/dtbook/", "uid");
 	test_uri(rdf::epub("switch"), "http://www.idpf.org/2007/ops#switch", "http://www.idpf.org/2007/ops#", "switch");
+	test_uri(rdf::epv("toc"), "http://www.idpf.org/epub/vocab/structure/#toc", "http://www.idpf.org/epub/vocab/structure/#", "toc");
 	test_uri(rdf::foaf("Person"), "http://xmlns.com/foaf/0.1/Person", "http://xmlns.com/foaf/0.1/", "Person");
 	test_uri(rdf::iana("Language"), "http://reecedunn.co.uk/schema/2013/iana#Language", "http://reecedunn.co.uk/schema/2013/iana#", "Language");
 	test_uri(rdf::media("duration"), "http://www.idpf.org/epub/vocab/overlays/#duration", "http://www.idpf.org/epub/vocab/overlays/#", "duration");
@@ -86,7 +87,7 @@ TEST_CASE("RDF namespaces")
 	test_uri(rdf::skos("Concept"), "http://www.w3.org/2004/02/skos/core#Concept", "http://www.w3.org/2004/02/skos/core#", "Concept");
 	test_uri(rdf::smil("smil"), "http://www.w3.org/ns/SMIL#smil", "http://www.w3.org/ns/SMIL#", "smil");
 	test_uri(rdf::ssml("speak"), "http://www.w3.org/2001/10/synthesis#speak", "http://www.w3.org/2001/10/synthesis#", "speak");
-	test_uri(rdf::subtag("de"), "http://rhdunn.github.com/cainteoir/data/iana/subtag#de", "http://rhdunn.github.com/cainteoir/data/iana/subtag#", "de");
+	test_uri(rdf::subtag("de"), "http://rhdunn.github.com/cainteoir/data/iana/subtags#de", "http://rhdunn.github.com/cainteoir/data/iana/subtags#", "de");
 	test_uri(rdf::tts("Engine"), "http://rhdunn.github.com/2010/12/text-to-speech#Engine", "http://rhdunn.github.com/2010/12/text-to-speech#", "Engine");
 	test_uri(rdf::xhtml("head"), "http://www.w3.org/1999/xhtml#head", "http://www.w3.org/1999/xhtml#", "head");
 	test_uri(rdf::xml("lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
