@@ -42,17 +42,18 @@ h1.groupheader {
 }
 
 .title {
-	font: 400 14px/28px Roboto,sans-serif;
-	font-size: 150%;
-	font-weight: bold;
+	border-bottom: 2px solid #EEE;
+	font-family: serif;
 	margin: 10px 2px;
+	font-size: 200%;
+	font-weight: bold;
 }
 
 h2.groupheader {
 	border-bottom: 1px solid #879ECB;
 	color: #354C7B;
+	font-family: serif;
 	font-size: 150%;
-	font-weight: normal;
 	margin-top: 1.75em;
 	padding-top: 8px;
 	padding-bottom: 4px;
@@ -950,12 +951,6 @@ div.ingroups
 div.ingroups a
 {
 	white-space: nowrap;
-}
-
-div.header
-{
-	margin:  0px;
-	border-bottom: 1px solid #C4CFE5;
 }
 
 div.headertitle
