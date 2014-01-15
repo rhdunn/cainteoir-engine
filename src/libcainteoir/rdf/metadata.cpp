@@ -1,6 +1,6 @@
 /* RDF metadata.
  *
- * Copyright (C) 2011-2013 Reece H. Dunn
+ * Copyright (C) 2011-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -70,6 +70,7 @@ const rdf::ns rdf::pkg(    "pkg",    "http://www.idpf.org/epub/vocab/package/#")
 const rdf::ns rdf::rdf(    "rdf",    "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 const rdf::ns rdf::rdfa(   "rdfa",   "http://www.w3.org/ns/rdfa#");
 const rdf::ns rdf::rdfs(   "rdfs",   "http://www.w3.org/2000/01/rdf-schema#");
+const rdf::ns rdf::ref(    "ref",    "http://reecedunn.co.uk/schema/2014/ref#");
 const rdf::ns rdf::skos(   "skos",   "http://www.w3.org/2004/02/skos/core#");
 const rdf::ns rdf::smil(   "smil",   "http://www.w3.org/ns/SMIL#");
 const rdf::ns rdf::ssml(   "ssml",   "http://www.w3.org/2001/10/synthesis#");

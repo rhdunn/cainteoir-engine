@@ -1,6 +1,6 @@
 /* Metadata Extractor.
  *
- * Copyright (C) 2010-2013 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -125,6 +125,7 @@ int main(int argc, char ** argv)
 					<< rdf::xhtml
 					<< rdf::skos
 					<< rdf::foaf
+					<< rdf::ref
 					<< rdf::tts
 					<< rdf::iana
 					<< rdf::subtag

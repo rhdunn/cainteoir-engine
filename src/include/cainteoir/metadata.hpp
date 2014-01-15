@@ -1,6 +1,6 @@
 /* MetaData API.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -101,6 +101,7 @@ namespace cainteoir { namespace rdf
 	extern const ns rdf;
 	extern const ns rdfa;
 	extern const ns rdfs;
+	extern const ns ref;
 	extern const ns skos;
 	extern const ns smil;
 	extern const ns ssml;

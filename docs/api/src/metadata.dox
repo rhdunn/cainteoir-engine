@@ -1,6 +1,6 @@
 /* vim: set ft=cpp.doxygen:
  *
- * Copyright (C) 2012-2013 Reece H. Dunn
+ * Copyright (C) 2012-2014 Reece H. Dunn
  *
  * This API documentation is licensed under the CC BY-SA 2.0 UK License.
  */
@@ -219,6 +219,10 @@ This comparison will ignore the prefix of the namespace.
 
 \var   const cainteoir::rdf::ns cainteoir::rdf::rdfs
 \brief RDF schema namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::ref
+\brief Metadata for describing Document References such as table of contents.
 
 
 \var   const cainteoir::rdf::ns cainteoir::rdf::skos

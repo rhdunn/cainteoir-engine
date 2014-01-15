@@ -1,6 +1,6 @@
 /* RDF statement tests.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -84,6 +84,7 @@ TEST_CASE("RDF namespaces")
 	test_uri(rdf::rdf("type"), "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "type");
 	test_uri(rdf::rdfa("Error"), "http://www.w3.org/ns/rdfa#Error", "http://www.w3.org/ns/rdfa#", "Error");
 	test_uri(rdf::rdfs("Class"), "http://www.w3.org/2000/01/rdf-schema#Class", "http://www.w3.org/2000/01/rdf-schema#", "Class");
+	test_uri(rdf::ref("level"), "http://reecedunn.co.uk/schema/2014/ref#level", "http://reecedunn.co.uk/schema/2014/ref#", "level");
 	test_uri(rdf::skos("Concept"), "http://www.w3.org/2004/02/skos/core#Concept", "http://www.w3.org/2004/02/skos/core#", "Concept");
 	test_uri(rdf::smil("smil"), "http://www.w3.org/ns/SMIL#smil", "http://www.w3.org/ns/SMIL#", "smil");
 	test_uri(rdf::ssml("speak"), "http://www.w3.org/2001/10/synthesis#speak", "http://www.w3.org/2001/10/synthesis#", "speak");
