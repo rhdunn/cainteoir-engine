@@ -10,22 +10,76 @@
 \addtogroup ranges
 \{
 
-\class cainteoir::range
-\brief A sequence of items between two iterators.
+
+\enum  cainteoir::overlap_status
+\brief The overlapping nature of two ranges,
+
 
 \}
 
 
-\var   Iterator cainteoir::range<Iterator>::first
+\var   cainteoir::overlap_status cainteoir::no_overlap
+\brief The two ranges do not overlap.
+
+
+\var   cainteoir::overlap_status cainteoir::overlap_inner
+\brief The second range (other) is completely contained within the first range (this).
+
+
+\var   cainteoir::overlap_status cainteoir::overlap_outer
+\brief The first range (this) is completely contained within the second range (other).
+
+
+\var   cainteoir::overlap_status cainteoir::overlap_at_start
+\brief The second range (other) overlaps the first range (this) at the start of the first range.
+
+
+\var   cainteoir::overlap_status cainteoir::overlap_at_end
+\brief The second range (other) overlaps the first range (this) at the end of the first range.
+
+
+\addtogroup ranges
+\{
+
+\class cainteoir::range
+\brief A sequence of items between two iterators or integral values.
+
+This can be used to define a range of two iterators or pointers, for example:
+
+\code
+int data = { 1, 2, 3, 4, 5 };
+cainteoir::range<int *> r{ std::begin(data), std::end(data) };
+for (const auto &item : r)
+	std::cout << item << std::endl;
+\endcode
+
+It can also be used to define an integral range, for example:
+
+\code
+for (const auto &item : cainteoir::range<int>(1, 5))
+	std::cout << item << std::endl;
+\endcode
+
+Both these examples display the same output.
+
+
+\}
+
+
+\var   iterator cainteoir::range<Iterator>::first
 \brief The first item in the range.
 
 
-\var   Iterator cainteoir::range<Iterator>::last
+\var   iterator cainteoir::range<Iterator>::last
 \brief One past the last item in the range.
 
 
-\typedef Iterator cainteoir::range<Iterator>::iterator
+\typedef detail::iterator_type<Iterator>::type cainteoir::range<Iterator>::iterator
 \brief   The iterator type for this range object.
+
+
+\typedef std::reverse_iterator<iterator> cainteoir::range<Iterator>::const_reverse_iterator
+\brief   An iterator for iterating backwards through the range.
 
 
 \typedef std::size_t cainteoir::range<Iterator>::size_type
@@ -46,13 +100,25 @@
 \fn    cainteoir::range<Iterator>::iterator cainteoir::range<Iterator>::begin() const
 \brief Get the beginning of the range.
 
-\return An iterator to the beginning of the range.
+\return An iterator at the beginning of the range.
 
 
 \fn    cainteoir::range<Iterator>::iterator cainteoir::range<Iterator>::end() const
 \brief Get the end of the range.
 
-\return An iterator to one past the end of the range.
+\return An iterator at one past the end of the range.
+
+
+\fn    cainteoir::range<Iterator>::const_reverse_iterator cainteoir::range<Iterator>::rbegin() const
+\brief Get the end of the range, iterating backwards.
+
+\return A reverse iterator at the end of the range.
+
+
+\fn    cainteoir::range<Iterator>::const_reverse_iterator cainteoir::range<Iterator>::rend() const
+\brief Get the beginning of the range, iterating backwards.
+
+\return A reverse iterator at the start of the range.
 
 
 \fn    cainteoir::range<Iterator>::size_type cainteoir::range<Iterator>::size() const
@@ -66,6 +132,23 @@
 
 \retval true  If the range is empty.
 \retval false If the range is not empty.
+
+
+\fn    bool cainteoir::range<Iterator>::contains(iterator pos) const
+\brief Does the range contain pos?
+
+\param[in] pos The iterator (for iterator ranges) or integral value (for integral type ranges) to check is located within the range.
+
+\retval true  If \p pos is located within the range.
+\retval false If \p pos is not located within the range.
+
+
+\fn    cainteoir::overlap_status cainteoir::range<Iterator>::contains(const range<Iterator> &other) const
+\brief Does the range contain another range, either partially or completely?
+
+\param[in] other The range to check is contained within this range.
+
+\return The overlapping nature of the two ranges (see cainteoir::overlap_status for a description of the return values).
 
 
 \addtogroup ranges

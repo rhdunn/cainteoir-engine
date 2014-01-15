@@ -25,6 +25,7 @@
 
 namespace cainteoir
 {
+#ifndef DOXYGEN
 	namespace detail
 	{
 		// Helper class for making integral types iterable.
@@ -104,6 +105,7 @@ namespace cainteoir
 
 #undef		MAKE_INTEGRAL_ITERATOR
 	}
+#endif
 
 	enum overlap_status
 	{
