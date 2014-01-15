@@ -67,33 +67,30 @@ TEST_CASE("rdf::uri")
 
 TEST_CASE("RDF namespaces")
 {
+	test_uri(rdf::dc("title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(rdf::dcam("memberOf"), "http://purl.org/dc/dcam/memberOf", "http://purl.org/dc/dcam/", "memberOf");
+	test_uri(rdf::dcterms("title"), "http://purl.org/dc/terms/title", "http://purl.org/dc/terms/", "title");
+	test_uri(rdf::dtb("uid"), "http://www.daisy.org/z3986/2005/dtbook/uid", "http://www.daisy.org/z3986/2005/dtbook/", "uid");
+	test_uri(rdf::epub("switch"), "http://www.idpf.org/2007/ops#switch", "http://www.idpf.org/2007/ops#", "switch");
+	test_uri(rdf::foaf("Person"), "http://xmlns.com/foaf/0.1/Person", "http://xmlns.com/foaf/0.1/", "Person");
+	test_uri(rdf::iana("Language"), "http://reecedunn.co.uk/schema/2013/iana#Language", "http://reecedunn.co.uk/schema/2013/iana#", "Language");
+	test_uri(rdf::media("duration"), "http://www.idpf.org/epub/vocab/overlays/#duration", "http://www.idpf.org/epub/vocab/overlays/#", "duration");
+	test_uri(rdf::ncx("meta"), "http://www.daisy.org/z3986/2005/ncx/meta", "http://www.daisy.org/z3986/2005/ncx/", "meta");
+	test_uri(rdf::ocf("container"), "urn:oasis:names:tc:opendocument:xmlns:container#container", "urn:oasis:names:tc:opendocument:xmlns:container#", "container");
+	test_uri(rdf::opf("package"), "http://www.idpf.org/2007/opf#package", "http://www.idpf.org/2007/opf#", "package");
+	test_uri(rdf::owl("Ontology"), "http://www.w3.org/2002/07/owl#Ontology", "http://www.w3.org/2002/07/owl#", "Ontology");
+	test_uri(rdf::pkg("role"), "http://www.idpf.org/epub/vocab/package/#role", "http://www.idpf.org/epub/vocab/package/#", "role");
 	test_uri(rdf::rdf("type"), "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "type");
 	test_uri(rdf::rdfa("Error"), "http://www.w3.org/ns/rdfa#Error", "http://www.w3.org/ns/rdfa#", "Error");
 	test_uri(rdf::rdfs("Class"), "http://www.w3.org/2000/01/rdf-schema#Class", "http://www.w3.org/2000/01/rdf-schema#", "Class");
-	test_uri(rdf::xsd("string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
-	test_uri(rdf::xml("lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
-	test_uri(rdf::owl("Ontology"), "http://www.w3.org/2002/07/owl#Ontology", "http://www.w3.org/2002/07/owl#", "Ontology");
-
-	test_uri(rdf::dc("title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	test_uri(rdf::dcterms("title"), "http://purl.org/dc/terms/title", "http://purl.org/dc/terms/", "title");
-	test_uri(rdf::dcam("memberOf"), "http://purl.org/dc/dcam/memberOf", "http://purl.org/dc/dcam/", "memberOf");
-
-	test_uri(rdf::dtb("uid"), "http://www.daisy.org/z3986/2005/dtbook/uid", "http://www.daisy.org/z3986/2005/dtbook/", "uid");
-	test_uri(rdf::ncx("meta"), "http://www.daisy.org/z3986/2005/ncx/meta", "http://www.daisy.org/z3986/2005/ncx/", "meta");
-
-	test_uri(rdf::epub("switch"), "http://www.idpf.org/2007/ops#switch", "http://www.idpf.org/2007/ops#", "switch");
-	test_uri(rdf::opf("package"), "http://www.idpf.org/2007/opf#package", "http://www.idpf.org/2007/opf#", "package");
-	test_uri(rdf::ocf("container"), "urn:oasis:names:tc:opendocument:xmlns:container#container", "urn:oasis:names:tc:opendocument:xmlns:container#", "container");
-	test_uri(rdf::pkg("role"), "http://www.idpf.org/epub/vocab/package/#role", "http://www.idpf.org/epub/vocab/package/#", "role");
-	test_uri(rdf::media("duration"), "http://www.idpf.org/epub/vocab/overlays/#duration", "http://www.idpf.org/epub/vocab/overlays/#", "duration");
-
-	test_uri(rdf::ssml("speak"), "http://www.w3.org/2001/10/synthesis#speak", "http://www.w3.org/2001/10/synthesis#", "speak");
-	test_uri(rdf::smil("smil"), "http://www.w3.org/ns/SMIL#smil", "http://www.w3.org/ns/SMIL#", "smil");
-	test_uri(rdf::xhtml("head"), "http://www.w3.org/1999/xhtml#head", "http://www.w3.org/1999/xhtml#", "head");
-
 	test_uri(rdf::skos("Concept"), "http://www.w3.org/2004/02/skos/core#Concept", "http://www.w3.org/2004/02/skos/core#", "Concept");
-	test_uri(rdf::foaf("Person"), "http://xmlns.com/foaf/0.1/Person", "http://xmlns.com/foaf/0.1/", "Person");
+	test_uri(rdf::smil("smil"), "http://www.w3.org/ns/SMIL#smil", "http://www.w3.org/ns/SMIL#", "smil");
+	test_uri(rdf::ssml("speak"), "http://www.w3.org/2001/10/synthesis#speak", "http://www.w3.org/2001/10/synthesis#", "speak");
+	test_uri(rdf::subtag("de"), "http://rhdunn.github.com/cainteoir/data/iana/subtag#de", "http://rhdunn.github.com/cainteoir/data/iana/subtag#", "de");
 	test_uri(rdf::tts("Engine"), "http://rhdunn.github.com/2010/12/text-to-speech#Engine", "http://rhdunn.github.com/2010/12/text-to-speech#", "Engine");
+	test_uri(rdf::xhtml("head"), "http://www.w3.org/1999/xhtml#head", "http://www.w3.org/1999/xhtml#", "head");
+	test_uri(rdf::xml("lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	test_uri(rdf::xsd("string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
 }
 
 TEST_CASE("rdf::href")

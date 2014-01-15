@@ -109,6 +109,11 @@ This is the C++ API to the various unit types for CSS values.
 \brief    A C++ representation of the RDF data model.
 
 
+\defgroup rdfns Namespaces
+\ingroup  rdf
+\brief    Predefined RDF namespaces.
+
+
 \defgroup rdf_query Query
 \ingroup  rdf
 \brief    Perform operations on an RDF triple store.

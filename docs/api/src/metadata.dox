@@ -140,6 +140,70 @@ This comparison will ignore the prefix of the namespace.
 \var   const cainteoir::rdf::ns cainteoir::rdf::bnode
 \brief RDF blank node.
 
+\}
+
+\addtogroup rdfns
+\{
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::dc
+\brief Dublin Core: Elements namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::dcam
+\brief DCMI Abstract Model namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::dcterms
+\brief Dublin Core: Terms namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::dtb
+\brief Daisy Talking Book (DTB) namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::epub
+\brief ePub 3.0 (OPS) namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::foaf
+\brief Friend of a Friend (FOAF) namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::iana
+\brief IANA Language Subtag Repository RDF schema namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::marc
+\brief MARC namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::media
+\brief ePub 3.0 media overlay vocabulary namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::ncx
+\brief Navigation Control File (NCX) namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::ocf
+\brief Open Publication Format (OPF) namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::onix
+\brief ONIX namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::opf
+\brief Open Container Format (OCF) namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::owl
+\brief OWL Ontology namespace.
+
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::pkg
+\brief ePub 3.0 package vocabulary namespace.
+
 
 \var   const cainteoir::rdf::ns cainteoir::rdf::rdf
 \brief RDF syntax namespace.
@@ -153,97 +217,41 @@ This comparison will ignore the prefix of the namespace.
 \brief RDF schema namespace.
 
 
-\var   const cainteoir::rdf::ns cainteoir::rdf::xsd
-\brief XMLSchema namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::xml
-\brief XML namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::owl
-\brief OWL Ontology namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::dc
-\brief Dublin Core: Elements namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::dcterms
-\brief Dublin Core: Terms namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::dcam
-\brief DCMI Abstract Model namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::dtb
-\brief Daisy Talking Book (DTB) namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::ncx
-\brief Navigation Control File (NCX) namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::epub
-\brief ePub 3.0 (OPS) namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::opf
-\brief Open Container Format (OCF) namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::ocf
-\brief Open Publication Format (OPF) namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::pkg
-\brief ePub 3.0 package vocabulary namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::media
-\brief ePub 3.0 media overlay vocabulary namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::onix
-\brief ONIX namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::marc
-\brief MARC namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::ssml
-\brief Speech Synthesis Markup Language (SSML) namespace.
+\var   const cainteoir::rdf::ns cainteoir::rdf::skos
+\brief SKOS namespace.
 
 
 \var   const cainteoir::rdf::ns cainteoir::rdf::smil
 \brief SMIL namespace.
 
 
-\var   const cainteoir::rdf::ns cainteoir::rdf::xhtml
-\brief XML-based HyperText Markup Language (XHTML) namespace.
+\var   const cainteoir::rdf::ns cainteoir::rdf::ssml
+\brief Speech Synthesis Markup Language (SSML) namespace.
 
 
-\var   const cainteoir::rdf::ns cainteoir::rdf::skos
-\brief SKOS namespace.
-
-
-\var   const cainteoir::rdf::ns cainteoir::rdf::foaf
-\brief Friend of a Friend (FOAF) namespace.
+\var   const cainteoir::rdf::ns cainteoir::rdf::subtag
+\brief IANA Language Subtag Repository RDF namespace.
 
 
 \var   const cainteoir::rdf::ns cainteoir::rdf::tts
 \brief Cainteoir Text-to-Speech RDF namespace.
 
 
-\var   const cainteoir::rdf::ns cainteoir::rdf::iana
-\brief IANA Language Subtag Repository RDF schema namespace.
+\var   const cainteoir::rdf::ns cainteoir::rdf::xhtml
+\brief XML-based HyperText Markup Language (XHTML) namespace.
 
 
-\var   const cainteoir::rdf::ns cainteoir::rdf::subtag
-\brief IANA Language Subtag Repository RDF namespace.
+\var   const cainteoir::rdf::ns cainteoir::rdf::xml
+\brief XML namespace.
 
+
+\var   const cainteoir::rdf::ns cainteoir::rdf::xsd
+\brief XMLSchema namespace.
+
+\}
+
+\addtogroup rdf
+\{
 
 \class cainteoir::rdf::literal
 \brief Manages an RDF literal resource.

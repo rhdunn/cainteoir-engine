@@ -82,32 +82,32 @@ namespace cainteoir { namespace rdf
 	}
 
 	extern const ns bnode;
+	extern const ns dc;
+	extern const ns dcam;
+	extern const ns dcterms;
+	extern const ns dtb;
+	extern const ns epub;
+	extern const ns foaf;
+	extern const ns iana;
+	extern const ns marc;
+	extern const ns media;
+	extern const ns ncx;
+	extern const ns ocf;
+	extern const ns onix;
+	extern const ns opf;
+	extern const ns owl;
+	extern const ns pkg;
 	extern const ns rdf;
 	extern const ns rdfa;
 	extern const ns rdfs;
-	extern const ns xsd;
-	extern const ns xml;
-	extern const ns owl;
-	extern const ns dc;
-	extern const ns dcterms;
-	extern const ns dcam;
-	extern const ns dtb;
-	extern const ns ncx;
-	extern const ns epub;
-	extern const ns ocf;
-	extern const ns opf;
-	extern const ns pkg;
-	extern const ns media;
-	extern const ns onix;
-	extern const ns marc;
-	extern const ns ssml;
-	extern const ns smil;
-	extern const ns xhtml;
 	extern const ns skos;
-	extern const ns foaf;
-	extern const ns tts;
-	extern const ns iana;
+	extern const ns smil;
+	extern const ns ssml;
 	extern const ns subtag;
+	extern const ns tts;
+	extern const ns xhtml;
+	extern const ns xml;
+	extern const ns xsd;
 
 	class literal : public resource
 	{

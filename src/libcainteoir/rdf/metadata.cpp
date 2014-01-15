@@ -51,32 +51,32 @@ std::shared_ptr<const rdf::resource> rdf::uri::clone() const
 }
 
 const rdf::ns rdf::bnode(  "_",      "_:");
+const rdf::ns rdf::dc(     "dc",     "http://purl.org/dc/elements/1.1/");
+const rdf::ns rdf::dcam(   "dcam",   "http://purl.org/dc/dcam/");
+const rdf::ns rdf::dcterms("dct",    "http://purl.org/dc/terms/");
+const rdf::ns rdf::dtb(    "dtb",    "http://www.daisy.org/z3986/2005/dtbook/");
+const rdf::ns rdf::epub(   "epub",   "http://www.idpf.org/2007/ops#");
+const rdf::ns rdf::foaf(   "foaf",   "http://xmlns.com/foaf/0.1/");
+const rdf::ns rdf::iana(   "iana",   "http://reecedunn.co.uk/schema/2013/iana#");
+const rdf::ns rdf::marc(   "marc",   "http://id.loc.gov/vocabulary/");
+const rdf::ns rdf::media(  "media",  "http://www.idpf.org/epub/vocab/overlays/#");
+const rdf::ns rdf::ncx(    "ncx",    "http://www.daisy.org/z3986/2005/ncx/");
+const rdf::ns rdf::ocf(    "ocf",    "urn:oasis:names:tc:opendocument:xmlns:container#");
+const rdf::ns rdf::onix(   "onix",   "http://www.editeur.org/ONIX/book/codelists/current.html#");
+const rdf::ns rdf::opf(    "opf",    "http://www.idpf.org/2007/opf#");
+const rdf::ns rdf::owl(    "owl",    "http://www.w3.org/2002/07/owl#");
+const rdf::ns rdf::pkg(    "pkg",    "http://www.idpf.org/epub/vocab/package/#");
 const rdf::ns rdf::rdf(    "rdf",    "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 const rdf::ns rdf::rdfa(   "rdfa",   "http://www.w3.org/ns/rdfa#");
 const rdf::ns rdf::rdfs(   "rdfs",   "http://www.w3.org/2000/01/rdf-schema#");
-const rdf::ns rdf::xsd(    "xsd",    "http://www.w3.org/2001/XMLSchema#");
-const rdf::ns rdf::xml(    "xml",    "http://www.w3.org/XML/1998/namespace#");
-const rdf::ns rdf::owl(    "owl",    "http://www.w3.org/2002/07/owl#");
-const rdf::ns rdf::dc(     "dc",     "http://purl.org/dc/elements/1.1/");
-const rdf::ns rdf::dcterms("dct",    "http://purl.org/dc/terms/");
-const rdf::ns rdf::dcam(   "dcam",   "http://purl.org/dc/dcam/");
-const rdf::ns rdf::dtb(    "dtb",    "http://www.daisy.org/z3986/2005/dtbook/");
-const rdf::ns rdf::ncx(    "ncx",    "http://www.daisy.org/z3986/2005/ncx/");
-const rdf::ns rdf::epub(   "epub",   "http://www.idpf.org/2007/ops#");
-const rdf::ns rdf::opf(    "opf",    "http://www.idpf.org/2007/opf#");
-const rdf::ns rdf::ocf(    "ocf",    "urn:oasis:names:tc:opendocument:xmlns:container#");
-const rdf::ns rdf::pkg(    "pkg",    "http://www.idpf.org/epub/vocab/package/#");
-const rdf::ns rdf::media(  "media",  "http://www.idpf.org/epub/vocab/overlays/#");
-const rdf::ns rdf::onix(   "onix",   "http://www.editeur.org/ONIX/book/codelists/current.html#");
-const rdf::ns rdf::marc(   "marc",   "http://id.loc.gov/vocabulary/");
-const rdf::ns rdf::ssml(   "ssml",   "http://www.w3.org/2001/10/synthesis#");
-const rdf::ns rdf::smil(   "smil",   "http://www.w3.org/ns/SMIL#");
-const rdf::ns rdf::xhtml(  "h",      "http://www.w3.org/1999/xhtml#");
 const rdf::ns rdf::skos(   "skos",   "http://www.w3.org/2004/02/skos/core#");
-const rdf::ns rdf::foaf(   "foaf",   "http://xmlns.com/foaf/0.1/");
-const rdf::ns rdf::tts(    "tts",    "http://rhdunn.github.com/2010/12/text-to-speech#");
-const rdf::ns rdf::iana(   "iana",   "http://reecedunn.co.uk/schema/2013/iana#");
+const rdf::ns rdf::smil(   "smil",   "http://www.w3.org/ns/SMIL#");
+const rdf::ns rdf::ssml(   "ssml",   "http://www.w3.org/2001/10/synthesis#");
 const rdf::ns rdf::subtag( "subtag", "http://rhdunn.github.com/cainteoir/data/iana/subtags#");
+const rdf::ns rdf::tts(    "tts",    "http://rhdunn.github.com/2010/12/text-to-speech#");
+const rdf::ns rdf::xhtml(  "h",      "http://www.w3.org/1999/xhtml#");
+const rdf::ns rdf::xml(    "xml",    "http://www.w3.org/XML/1998/namespace#");
+const rdf::ns rdf::xsd(    "xsd",    "http://www.w3.org/2001/XMLSchema#");
 
 std::shared_ptr<const rdf::resource> rdf::literal::clone() const
 {
