@@ -57,6 +57,8 @@ README.html
 docs/*.html
 docs/*/*.html
 !docs/doxygen/*.html
+!docs/header.html
+!docs/footer.html
 docs/implementation-status/csv2html.stamp
 data/phonemeset/*.html
 data/phonemeset/*/*.html
