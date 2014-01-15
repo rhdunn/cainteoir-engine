@@ -1,6 +1,6 @@
 /* vim: set ft=cpp.doxygen:
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This API documentation is licensed under the CC BY-SA 2.0 UK License.
  */
@@ -583,6 +583,12 @@ for (auto phoneme : { ... })
 
 \retval true  If the phoneme exists in the transcription scheme and was written to the file.
 \retval false If the phoneme does not exist in this transcription scheme.
+
+
+\fn    const char *cainteoir::tts::phoneme_writer::name() const
+\brief Get the name of the phonemeset the writer transcribes phonemes as.
+
+\return The name of the phonemeset associated with the writer.
 
 
 \addtogroup phonetic_transcription
