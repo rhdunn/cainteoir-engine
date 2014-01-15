@@ -1,0 +1,51 @@
+digraph "Document Formats" {
+
+	archives               [shape=none, label="Archives", URL="group__archives.html"]
+	buffers                [shape=none, label="Buffers", URL="group__buffers.html"]
+	encoding               [shape=none, label="Character&#x0A;Encoding", URL="group__encoding.html"]
+	css                    [shape=none, label="CSS", URL="group__css.html"]
+	decoders               [shape=none, label="Decoding&#x0A;and&#x0A;Decompression", URL="group__decoders.html"]
+	document_reader        [shape=none, label="Document&#x0A;Reader", URL="group__document__reader.html"]
+	mime                   [shape=none, label="MIME", URL="group__mime.html"]
+	path                   [shape=none, label="Path", URL="group__path.html"]
+	ranges                 [shape=none, label="Ranges", URL="group__ranges.html"]
+	rdf                    [shape=none, label="RDF", URL="group__rdf.html"]
+	xml                    [shape=none, label="XML", URL="group__xml.html"]
+
+	// usage (API)
+
+	buffers -> ranges [color=black]
+
+	archives -> buffers [color=black]
+	archives -> rdf [color=black]
+
+	decoders -> buffers [color=black]
+
+	encoding -> buffers [color=black]
+
+	document_reader -> buffers [color=black]
+	document_reader -> rdf     [color=black]
+	document_reader -> css     [color=black]
+
+	mime -> buffers [color=black]
+	mime -> rdf [color=black]
+
+	xml -> buffers [color=black]
+	xml -> rdf [color=black]
+
+	// usage (implementation)
+
+	archives -> decoders [color=blue]
+
+	buffers -> path [color=blue]
+
+	css -> path [color=blue]
+
+	document_reader -> archives [color=blue]
+	document_reader -> path [color=blue]
+	document_reader -> xml [color=blue]
+	document_reader -> mime [color=blue]
+
+	xml -> encoding [color=blue]
+
+}

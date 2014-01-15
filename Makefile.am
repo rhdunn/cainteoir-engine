@@ -194,7 +194,7 @@ endif
 	${PYTHON} tools/fsm dot $< > $@
 
 .dot.svg: $<
-	dot -Tsvg -o $@ $<
+	dot -Tsvg $< | sed -n '4,9999p' > $@
 
 .md.html:
 	pandoc --from markdown --to html $< --output $@
@@ -206,11 +206,9 @@ data/languages.dot: data/languages.py data/languages.stat
 
 fsm:	src/libcainteoir/tts/text_reader.svg
 
-api:	docs/api/src/architecture.svg
+api:	docs/api/src/architecture.svg \
+	docs/api/src/document_formats.svg
 	doxygen docs/cainteoir-engine.doxyconf 2>&1 #| ( ! grep . )
-
-docs/api/src/architecture.svg: docs/api/src/architecture.dot
-	dot -Tsvg $< | sed -n '4,9999p' | sed -e 's/svg width=[^ ]* height=[^ ]*/svg preserveAspectRatio="xMidYMid"/' > $@
 
 doc:	README.html \
 	docs/ReleaseNotes.html \
