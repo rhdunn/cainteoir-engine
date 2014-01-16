@@ -147,11 +147,11 @@ class TestSuite:
 		else:
 			self.run_only = None
 
-	def check(self, filename, expect, command, args, test_expect, replacements, data, displayas):
+	def check_(self, filename, expect, command, args, test_expect, replacements, data, displayas):
 		if displayas:
-			write('... checking %s ... ' % displayas)
+			write('... checking %s [%s] ... ' % (displayas, command))
 		else:
-			write('... checking %s ... ' % ' '.join(args))
+			write('... checking %s [%s] ... ' % (' '.join(args), command))
 		tmpfile = '/tmp/metadata.txt'
 
 		cmd = create_command(command)
@@ -186,6 +186,13 @@ class TestSuite:
 				for line in difflib.unified_diff(expected, got, fromfile='expected', tofile='got'):
 					write('    | %s\n' % line.replace('\n', ''))
 				write('    %s\n' % ('<'*75))
+
+	def check(self, filename, expect, command, args, test_expect, replacements, data, displayas):
+		if type(command).__name__ == 'list':
+			for c in command:
+				self.check_(filename, expect, c, args, test_expect, replacements, data, displayas)
+		else:
+			self.check_(filename, expect, command, args, test_expect, replacements, data, displayas)
 
 	def run(self, data):
 		if self.run_only and data['name'] != self.run_only:
