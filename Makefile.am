@@ -206,7 +206,7 @@ data/languages.dot: data/languages.py data/languages.stat
 
 fsm:	src/libcainteoir/tts/text_reader.svg
 
-api:	docs/api/src/architecture.svg
+api:
 	doxygen docs/cainteoir-engine.doxyconf 2>&1 #| ( ! grep . )
 
 doc:	README.html \
