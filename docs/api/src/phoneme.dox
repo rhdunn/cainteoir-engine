@@ -625,4 +625,37 @@ cainteoir-engine data directory.
 
 \}
 
+\addtogroup phoneme
+\{
+
+\enum  cainteoir::tts::stress_type
+\brief Where stress features should be placed.
+
+\}
+
+
+\var   cainteoir::tts::stress_type cainteoir::tts::stress_type::as_transcribed
+\brief The stress features should not be modified.
+
+
+\var   cainteoir::tts::stress_type cainteoir::tts::stress_type::vowel
+\brief The stress features should be placed on stressed vowels.
+
+
+\var   cainteoir::tts::stress_type cainteoir::tts::stress_type::syllable
+\brief The stress features should be placed on syllable boundaries.
+
+
+\addtogroup phoneme
+\{
+
+\fn    void cainteoir::tts::make_stressed(std::list<phoneme> &aPhonemes, cainteoir::tts::stress_type aType)
+\brief Adjust the stress feature placement.
+
+\param[in] aPhonemes The phoneme sequence to adjust the stress feature placement of.
+\param[in] aType     The stress placement to adjust to.
+
+\}
+
+
 */

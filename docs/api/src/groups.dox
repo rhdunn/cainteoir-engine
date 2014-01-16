@@ -92,8 +92,8 @@ to parse the different document formats as follows:
 \brief    A C++ file-system path API.
 
 
-\defgroup phoneme Phonetic Model
-\brief    A C++ representation of phonemes modelled on the International Phonetic Alphabet.
+\defgroup phoneme Phonemes
+\brief    A C++ feature-based representation of phonemes.
 
 
 \defgroup phoneme_stream Phoneme Stream
@@ -101,7 +101,8 @@ to parse the different document formats as follows:
 \brief    Resolve a word event sequence into a sequence of phonemes.
 
 
-\defgroup phonetic_transcription Phonetic Transcription
+\defgroup phonetic_transcription Transcription
+\ingroup  phoneme
 \brief    Read/write phonemes in a given transcription scheme.
 
 
