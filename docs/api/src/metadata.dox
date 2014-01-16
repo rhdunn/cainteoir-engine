@@ -584,6 +584,44 @@ This is used for generating \\prefix entries in turtle/n3 documents.
 \return The CURIE as a URI object.
 
 
+\fn    void rdf::graph::foreach(const rdf::uri &aSubject, const rdf::uri &aPredicate, const std::function<void (const triplestore::value_type &aStatement)> &onlistitem)
+\brief Iterate over the items of an RDF list.
+
+\param[in] aSubject   The subject of the RDF list to iterate over.
+\param[in] aPredicate The predicate of the RDF list to iterate over.
+\param[in] onlistitem The callback function to call on each item in the RDF list.
+
+An RDF list is a chain of nodes where the rdf:first predicate references the
+current value and rdf:rest references the next node in the chain. An rdf:nil
+node is used to terminate the list. The RDF/XML, Turtle and other RDF syntaxes
+provide a higher level way of specifying RDF lists that hide this detail.
+
+This function provides an easy way for iterating over the items in such an RDF
+list. For example:
+
+\code
+rdf::graph g;
+auto reader = cainteoir::createDocumentReader("example19.rdf", g, std::string());
+
+rdf::ns ex(   "ex",    "http://example.org/");
+rdf::ns stuff("stuff", "http://example.org/stuff/1.0/");
+
+g.foreach(ex("basket"), stuff("hasFruit"), [](const std::shared_ptr<const rdf::triple> &subject)
+{
+	std::cout << rql::object(subject).str() << std::endl;
+});
+\endcode
+
+which, when using example19.rdf from the RDF/XML Syntax Specification, will
+print:
+
+\code
+http://example.org/banana
+http://example.org/apple
+http://example.org/pear
+\endcode
+
+
 \fn    bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject)
 \brief Add an RDF statement to the graph.
 

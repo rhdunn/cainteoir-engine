@@ -320,8 +320,7 @@ namespace cainteoir { namespace rdf
 			return triples.subject(s);
 		}
 
-		/** @name Namespaces */
-		//@{
+		// Namespaces
 
 		bool contains(const ns &uri) const;
 
@@ -341,9 +340,7 @@ namespace cainteoir { namespace rdf
 
 		rdf::graph &add_prefix(const std::string &aPrefix);
 
-		//@}
-		/** @name URIs */
-		//@{
+		// URIs
 
 		const rdf::uri genid();
 
@@ -353,15 +350,17 @@ namespace cainteoir { namespace rdf
 		void curie_list(const std::string &aCurieList,
 		                const std::function<void (const rdf::uri &aUri)> &onuri);
 
-		//@}
-		/** @name Statements */
-		//@{
+		// lists
+
+		void foreach(const rdf::uri &aSubject,
+		             const rdf::uri &aPredicate,
+		             const std::function<void (const std::shared_ptr<const triple> &aStatement)> &onlistitem);
+
+		// Statements
 
 		bool statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject);
 
 		bool statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::literal &aObject);
-
-		//@}
 	private:
 		std::string mBaseUri;
 		std::set<std::string> namespaces;

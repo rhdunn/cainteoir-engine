@@ -260,6 +260,27 @@ TEST_CASE("rql::select_value")
 	       == "");
 }
 
+TEST_CASE("rdf::graph::foreach")
+{
+	rdf::graph g;
+	auto reader = cainteoir::createDocumentReader("tests/rdfxml/syntax/example19.rdf", g, std::string());
+	assert(g.size() == 8);
+
+	rdf::ns ex(   "ex",    "http://example.org/");
+	rdf::ns stuff("stuff", "http://example.org/stuff/1.0/");
+
+	std::vector<rdf::uri> fruit;
+	g.foreach(ex("basket"), stuff("hasFruit"), [&fruit](const std::shared_ptr<const rdf::triple> &subject)
+	{
+		fruit.push_back(rql::object(subject));
+	});
+
+	assert(fruit.size() == 3);
+	if (fruit.size() >= 1) match(fruit[0], ex("banana"));
+	if (fruit.size() >= 2) match(fruit[1], ex("apple"));
+	if (fruit.size() >= 3) match(fruit[2], ex("pear"));
+}
+
 TEST_CASE("performance")
 {
 	// Load Time Performance

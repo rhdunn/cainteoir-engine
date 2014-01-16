@@ -193,6 +193,32 @@ void rdf::graph::curie_list(const std::string &aCurieList,
 	}
 }
 
+void rdf::graph::foreach(const rdf::uri &aSubject,
+                         const rdf::uri &aPredicate,
+                         const std::function<void (const std::shared_ptr<const triple> &aStatement)> &onlistitem)
+{
+	auto start = rql::select(*this, rql::subject == aSubject && rql::predicate == aPredicate);
+	if (start.empty()) return;
+
+	const rdf::uri *item = &rql::object(start.front());
+	while (item)
+	{
+		auto first = rql::select(*this, rql::subject == *item && rql::predicate == rdf::rdf("first"));
+		if (!first.empty())
+			onlistitem(first.front());
+
+		auto rest = rql::select(*this, rql::subject == *item && rql::predicate == rdf::rdf("rest"));
+		if (!rest.empty())
+		{
+			item = &rql::object(rest.front());
+			if (*item == rdf::rdf("nil"))
+				item = nullptr;
+		}
+		else
+			item = nullptr;
+	}
+}
+
 bool rdf::graph::statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject)
 {
 	if (aPredicate.ns == rdf::bnode.href)
