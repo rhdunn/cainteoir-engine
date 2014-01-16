@@ -9,6 +9,9 @@ metadata \- extract RDF metadata for documents
 Extract the metadata from ePub, RDF/XML, HTML and other documents,
 producing RDF statements or other metadata formats.
 .SH OPTIONS
+.IP "-a, --all"
+Extract all available metadata, not just the metadata in the header of the
+document.
 .IP "-h, --help"
 Show a command-line option usage help message.
 .IP "--ntriple"

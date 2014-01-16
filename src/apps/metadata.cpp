@@ -49,10 +49,13 @@ int main(int argc, char ** argv)
 		} output_type = rdf_ntriple;
 
 		bool print_time = false;
+		cainteoir::metadata level = cainteoir::metadata::header_only;
 
 		const option_group general_options = { nullptr, {
 			{ 't', "time", bind_value(print_time, true),
 			  i18n("Time how long it takes to extract the metadata") },
+			{ 'a', "all", bind_value(level, cainteoir::metadata::all),
+			  i18n("Extract all available metadata") },
 		}};
 
 		const option_group format_options = { i18n("Metadata Format:"), {
@@ -83,7 +86,7 @@ int main(int argc, char ** argv)
 			cainteoir::createDocumentReader(nullptr, metadata, std::string());
 		else for(int i = 0; i < argc; ++i)
 		{
-			auto reader = cainteoir::createDocumentReader(argv[i], metadata, std::string(), "windows-1252", cainteoir::metadata::all);
+			auto reader = cainteoir::createDocumentReader(argv[i], metadata, std::string(), "windows-1252", level);
 			if (!reader)
 				fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), argv[i]);
 		}
