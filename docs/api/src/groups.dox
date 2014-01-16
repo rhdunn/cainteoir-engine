@@ -69,11 +69,6 @@ This is the C++ API to the various unit types for CSS values.
 \defgroup document_reader Document Reader
 \brief    Extract information from a supported document format in a reader-style API.
 
-The document reader makes use of other components of the Cainteoir Engine API
-to parse the different document formats as follows:
-
-\htmlinclude document_formats.svg
-
 
 \defgroup encoding Character Encoding
 \brief    Helpers for converting text in different character encodings to UTF-8.
