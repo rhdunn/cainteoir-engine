@@ -4,30 +4,18 @@ digraph "Architecture" {
 	css                    [shape=none, label="CSS", URL="group__css.html"]
 	dictionary             [shape=none, label="Pronunciation&#x0A;Dictionary", URL="group__dictionary.html"]
 	languages              [shape=none, label="Languages", URL="group__languages.html"]
-	path                   [shape=none, label="Path", URL="group__path.html"]
 	phoneme_model          [shape=none, label="Phonetic&#x0A;Model", URL="group__phoneme.html"]
 	phoneme_transcription  [shape=none, label="Phonetic&#x0A;Transcription", URL="group__phonetic__transcription.html"]
 	ranges                 [shape=none, label="Ranges", URL="group__ranges.html"]
 	rdf                    [shape=none, label="RDF", URL="group__rdf.html"]
 	unicode                [shape=none, label="Unicode", URL="group__unicode.html"]
-
-	subgraph { rank=same;
-
-	stopwatch              [shape=none, label="Stop&#x0A;Watch", URL="group__stopwatch.html"]
 	tts_engines            [shape=none, label="Engines", URL="group__tts__engines.html"]
 	audio                  [shape=none, label="Audio", URL="group__audio.html"]
-
-	}
-
-	subgraph { rank=same;
-
 	document_reader        [shape=none, label="Document&#x0A;Reader", URL="group__document__reader.html"]
 	text_reader            [shape=none, label="Text&#x0A;Reader", URL="group__text__reader.html"]
 	context_analysis       [shape=none, label="Context&#x0A;Analysis", URL="group__context__analysis.html"]
 	word_stream            [shape=none, label="Word&#x0A;Stream", URL="group__word__stream.html"]
 	phoneme_stream         [shape=none, label="Phoneme&#x0A;Stream", URL="group__phoneme__stream.html"]
-
-	}
 
 	// usage (API)
 
@@ -57,28 +45,5 @@ digraph "Architecture" {
 	tts_engines -> document_reader [color=black]
 	tts_engines -> audio [color=black]
 	tts_engines -> phoneme_transcription [color=black]
-
-	// usage (implementation)
-
-	dictionary -> path [color=blue]
-	dictionary -> unicode [color=blue]
-
-	document_reader -> buffers [color=blue]
-
-	languages -> rdf [color=blue]
-	languages -> document_reader [color=blue]
-
-	phoneme_transcription -> path [color=blue]
-	phoneme_transcription -> unicode [color=blue]
-
-	tts_engines -> path [color=blue]
-	tts_engines -> stopwatch [color=blue]
-
-	text_reader -> unicode [color=blue]
-
-	word_stream -> context_analysis [color=blue]
-	word_stream -> dictionary [color=blue]
-
-	phoneme_stream -> word_stream [color=blue]
 
 }
