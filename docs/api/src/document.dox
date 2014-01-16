@@ -136,6 +136,23 @@ Objects of this type are created by instances of the document_reader interface.
 \addtogroup document_reader
 \{
 
+\enum  cainteoir::metadata
+\brief The amount of metadata to extract from the document.
+
+\}
+
+
+\var   cainteoir::metadata cainteoir::metadata::header_only
+\brief Only extract the metadata contained in the header section of the document.
+
+
+\var   cainteoir::metadata cainteoir::metadata::all
+\brief Extract all the metadata contained in the document.
+
+
+\addtogroup document_reader
+\{
+
 
 \fn    void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities)
 \brief Get the document formats that are supported by libcainteoir.
@@ -144,13 +161,14 @@ Objects of this type are created by instances of the document_reader interface.
 \param[in]  capabilities The document capabilities to query for.
 
 
-\fn    std::shared_ptr<cainteoir::document_reader> cainteoir::createDocumentReader(const char *aFilename, rdf::graph &aPrimaryMetadata, const std::string &aTitle, const char *aDefaultEncoding)
+\fn    std::shared_ptr<cainteoir::document_reader> cainteoir::createDocumentReader(const char *aFilename, rdf::graph &aPrimaryMetadata, const std::string &aTitle, const char *aDefaultEncoding, metadata aMetadata)
 \brief Create a document content reader.
 
 \param[in]  aFilename        The path to the document.
 \param[out] aPrimaryMetadata The main metadata that describes the document.
 \param[in]  aTitle           The document title to use if none is specified.
 \param[in]  aDefaultEncoding The default character encoding to use.
+\param[in]  aMetadata        How much metadata to extract.
 
 \return A reader over the document contents, or a null pointer if the document is not supported.
 
@@ -161,8 +179,13 @@ The top-level ToC entry is determined as follows (in order of preference):
    -  the title specified in aTitle;
    -  the filename of the document.
 
+If aMetadata is metadata::all, document events for the text are not guaranteed
+to be produced. This is because the parsers perform a single-pass over the
+document and document formats that support this option will scan the entire
+document for metadata.
 
-\fn    std::shared_ptr<cainteoir::document_reader> cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle, const char *aDefaultEncoding)
+
+\fn    std::shared_ptr<cainteoir::document_reader> cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle, const char *aDefaultEncoding, metadata aMetadata)
 \brief Create a document content reader.
 
 \param[in]  aData            The document content.
@@ -170,6 +193,7 @@ The top-level ToC entry is determined as follows (in order of preference):
 \param[out] aPrimaryMetadata The main metadata that describes the document.
 \param[in]  aTitle           The document title to use if none is specified.
 \param[in]  aDefaultEncoding The default character encoding to use.
+\param[in]  aMetadata        How much metadata to extract.
 
 \return A reader over the document contents, or a null pointer if the document is not supported.
 

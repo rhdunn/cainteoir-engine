@@ -83,7 +83,7 @@ int main(int argc, char ** argv)
 			cainteoir::createDocumentReader(nullptr, metadata, std::string());
 		else for(int i = 0; i < argc; ++i)
 		{
-			auto reader = cainteoir::createDocumentReader(argv[i], metadata, std::string());
+			auto reader = cainteoir::createDocumentReader(argv[i], metadata, std::string(), "windows-1252", cainteoir::metadata::all);
 			if (!reader)
 				fprintf(stderr, i18n("unsupported document format for file \"%s\"\n"), argv[i]);
 		}

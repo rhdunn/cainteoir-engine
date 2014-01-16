@@ -102,20 +102,28 @@ namespace cainteoir
 		text_support = 2,
 	};
 
+	enum class metadata
+	{
+		header_only,
+		all,
+	};
+
 	void supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities);
 
 	std::shared_ptr<document_reader>
 	createDocumentReader(const char *aFilename,
 	                     rdf::graph &aPrimaryMetadata,
 	                     const std::string &aTitle = std::string(),
-	                     const char *aDefaultEncoding = "windows-1252");
+	                     const char *aDefaultEncoding = "windows-1252",
+	                     metadata aMetadata = metadata::header_only);
 
 	std::shared_ptr<document_reader>
 	createDocumentReader(std::shared_ptr<buffer> &aData,
 	                     const rdf::uri &aSubject,
 	                     rdf::graph &aPrimaryMetadata,
 	                     const std::string &aTitle = std::string(),
-	                     const char *aDefaultEncoding = "windows-1252");
+	                     const char *aDefaultEncoding = "windows-1252",
+	                     metadata aMetadata = metadata::header_only);
 
 	std::shared_ptr<document_reader>
 	createDocumentReader(const document::range_type &aDocumentRange);

@@ -46,7 +46,8 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
                                 const rdf::uri &aSubject,
                                 rdf::graph &aPrimaryMetadata,
                                 const std::string &aTitle,
-                                const char *aDefaultEncoding)
+                                const char *aDefaultEncoding,
+                                metadata aMetadata)
 {
 	if (!aData || aData->empty())
 		return std::shared_ptr<document_reader>();
@@ -141,7 +142,8 @@ std::shared_ptr<cainteoir::document_reader>
 cainteoir::createDocumentReader(const char *aFilename,
                                 rdf::graph &aPrimaryMetadata,
                                 const std::string &aTitle,
-                                const char *aDefaultEncoding)
+                                const char *aDefaultEncoding,
+                                metadata aMetadata)
 {
 	const rdf::uri subject = rdf::uri(aFilename ? aFilename : "stdin", std::string());
 
@@ -151,7 +153,7 @@ cainteoir::createDocumentReader(const char *aFilename,
 	else
 		data = cainteoir::make_file_buffer(stdin);
 
-	return createDocumentReader(data, subject, aPrimaryMetadata, aTitle, aDefaultEncoding);
+	return createDocumentReader(data, subject, aPrimaryMetadata, aTitle, aDefaultEncoding, aMetadata);
 }
 
 void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities)
