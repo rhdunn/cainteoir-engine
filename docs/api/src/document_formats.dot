@@ -10,6 +10,7 @@ digraph "Document Formats" {
 	path                   [shape=none, label="Path", URL="group__path.html"]
 	ranges                 [shape=none, label="Ranges", URL="group__ranges.html"]
 	rdf                    [shape=none, label="RDF", URL="group__rdf.html"]
+	unicode                [shape=none, label="Unicode", URL="group__unicode.html"]
 	xml                    [shape=none, label="XML", URL="group__xml.html"]
 
 	// usage (API)
@@ -45,6 +46,9 @@ digraph "Document Formats" {
 	document_reader -> path [color=blue]
 	document_reader -> xml [color=blue]
 	document_reader -> mime [color=blue]
+	document_reader -> unicode [color=blue]
+
+	mime -> unicode [color=blue]
 
 	xml -> encoding [color=blue]
 

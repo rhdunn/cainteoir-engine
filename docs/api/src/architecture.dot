@@ -11,6 +11,7 @@ digraph "Architecture" {
 	ranges                 [shape=none, label="Ranges", URL="group__ranges.html"]
 	rdf                    [shape=none, label="RDF", URL="group__rdf.html"]
 	tts_engines            [shape=none, label="Engines", URL="group__tts__engines.html"]
+	unicode                [shape=none, label="Unicode", URL="group__unicode.html"]
 
 	subgraph { rank=same;
 
@@ -25,10 +26,10 @@ digraph "Architecture" {
 	// usage (API)
 
 	buffers -> ranges [color=black]
+	buffers -> unicode [color=black]
 
 	dictionary -> phoneme_transcription [color=black]
 
-	document_reader -> buffers [color=black]
 	document_reader -> rdf     [color=black]
 	document_reader -> css     [color=black]
 
@@ -54,13 +55,19 @@ digraph "Architecture" {
 	// usage (implementation)
 
 	dictionary -> path [color=blue]
+	dictionary -> unicode [color=blue]
+
+	document_reader -> buffers [color=blue]
 
 	languages -> rdf [color=blue]
 	languages -> document_reader [color=blue]
 
 	phoneme_transcription -> path [color=blue]
+	phoneme_transcription -> unicode [color=blue]
 
 	tts_engines -> path [color=blue]
+
+	text_reader -> unicode [color=blue]
 
 	word_stream -> context_analysis [color=blue]
 	word_stream -> dictionary [color=blue]

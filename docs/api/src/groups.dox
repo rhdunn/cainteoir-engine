@@ -18,10 +18,6 @@
 \brief    Magage data or string buffers.
 
 
-\defgroup encoding Character Encoding
-\brief    Helpers for working with UTF-8 and other character encodings.
-
-
 \defgroup context_analysis Context Analysis
 \ingroup  text_to_phonemes
 \brief    Perform context analysis on text events to associate meaning to them.
@@ -77,6 +73,10 @@ The document reader makes use of other components of the Cainteoir Engine API
 to parse the different document formats as follows:
 
 \htmlinclude document_formats.svg
+
+
+\defgroup encoding Character Encoding
+\brief    Helpers for converting text in different character encodings to UTF-8.
 
 
 \defgroup languages Languages
@@ -140,6 +140,10 @@ to parse the different document formats as follows:
 
 \defgroup tts_engines Text-to-Speech Engines
 \brief    High-level interface to Text-to-Speech engines and voices.
+
+
+\defgroup unicode Unicode
+\brief    APIs for handling UTF-8 encoded text.
 
 
 \defgroup word_stream Word Stream
