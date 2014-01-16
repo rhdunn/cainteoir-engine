@@ -62,8 +62,11 @@ class Command:
 		return output
 
 class MetadataCommand(Command):
-	def __init__(self, test_type):
-		Command.__init__(self, '../src/apps/metadata --%s' % test_type)
+	def __init__(self, test_type, all_metadata=False):
+		if all_metadata:
+			Command.__init__(self, '../src/apps/metadata --%s' % test_type)
+		else:
+			Command.__init__(self, '../src/apps/metadata --%s --all' % test_type)
 
 	def replacements(self, filename):
 		# NOTE: The %EMPTY% marker is to differentiate actual empty URIs from URIs
@@ -123,6 +126,8 @@ class PhonemeSetCommand(Command):
 def create_command(test_type):
 	if test_type in ['ntriple', 'turtle', 'vorbis']:
 		return MetadataCommand(test_type)
+	if test_type in ['ntriple-all', 'turtle-all']:
+		return MetadataCommand(test_type.replace('-all', ''), all_metadata=True)
 	if test_type == 'dictionary':
 		return DictionaryCommand()
 	if test_type == 'phonemeset':

@@ -23,14 +23,14 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('metadata', sys.argv)
 	test.run({'name': 'RDF/XML', 'groups': [
-		{'name': 'metadata', 'type': 'ntriple', 'tests': [
+		{'name': 'metadata', 'type': ['ntriple', 'ntriple-all'], 'tests': [
 			{'test': 'rdfxml/metadata/empty.rdf', 'result': 'rdfxml/metadata/empty.nt'},
 			{'test': 'rdfxml/metadata/description-empty.rdf', 'result': 'rdfxml/metadata/description-empty.nt'},
 			{'test': 'rdfxml/metadata/about-datatype.rdf', 'result': 'rdfxml/metadata/about-datatype.nt'},
 			{'test': 'rdfxml/metadata/about-predicate_attribute-last_attribute.rdf',  'result': 'rdfxml/metadata/about-predicate_attribute.nt'},
 			{'test': 'rdfxml/metadata/about-predicate_attribute-first_attribute.rdf', 'result': 'rdfxml/metadata/about-predicate_attribute.nt'},
 		]},
-		{'name': 'syntax', 'type': 'ntriple', 'tests': [
+		{'name': 'syntax', 'type': ['ntriple', 'ntriple-all'], 'tests': [
 			{'test': 'rdfxml/syntax/example02.rdf', 'result': 'rdfxml/syntax/example02.nt'},
 			{'test': 'rdfxml/syntax/example05.rdf', 'result': 'rdfxml/syntax/example05.nt'},
 			{'test': 'rdfxml/syntax/example06.rdf', 'result': 'rdfxml/syntax/example06.nt'},
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 			{'test': 'rdfxml/syntax/example18.rdf', 'result': 'rdfxml/syntax/example18.nt'},
 			{'test': 'rdfxml/syntax/example19.rdf', 'result': 'rdfxml/syntax/example19.nt'},
 		]},
-		{'name': 'schema', 'type': 'turtle', 'tests': [
+		{'name': 'schema', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': '../src/schema/dcam.rdf', 'result': 'rdfxml/schema/dcam.n3'},
 			{'test': '../src/schema/dcelements.rdf', 'result': 'rdfxml/schema/dcelements.n3'},
 			{'test': '../src/schema/dcterms.rdf', 'result': 'rdfxml/schema/dcterms.n3'},
@@ -59,14 +59,14 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'HTML', 'replace': ['mimetype'], 'groups': [
-		{'name': 'title metadata', 'type': 'turtle', 'tests': [
+		{'name': 'title metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'html/metadata/title.html', 'result': 'html/metadata/title.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/title.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/title-cdata.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/empty-title.html', 'result': 'html/metadata/empty-title.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/empty-title.xhtml', 'result': 'html/metadata/empty-title.n3', 'mimetype': 'application/xhtml+xml'},
 		]},
-		{'name': 'lang metadata', 'type': 'turtle', 'tests': [
+		{'name': 'lang metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'html/metadata/lang.html', 'result': 'html/metadata/lang.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/lang.xhtml', 'result': 'html/metadata/lang.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/lang-on-body.html', 'result': 'html/metadata/lang-on-body.n3', 'mimetype': 'text/html'},
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 			{'test': 'html/metadata/xmllang.xhtml', 'result': 'html/metadata/xmllang.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/lang-and-xmllang.xhtml', 'result': 'html/metadata/lang.n3', 'mimetype': 'application/xhtml+xml'},
 		]},
-		{'name': 'meta - basic (@name, @content)', 'type': 'turtle', 'tests': [
+		{'name': 'meta - basic (@name, @content)', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'html/metadata/meta/abstract.html', 'result': 'html/metadata/meta/abstract.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/meta/abstract.xhtml', 'result': 'html/metadata/meta/abstract.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/meta/author.html', 'result': 'html/metadata/meta/creator.n3', 'mimetype': 'text/html'},
@@ -94,14 +94,14 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'NCX', 'groups': [
-		{'name': 'metadata', 'type': 'turtle', 'tests': [
+		{'name': 'metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'ncx/metadata/meta.ncx', 'result': 'ncx/metadata/meta.n3'},
 			{'test': 'ncx/metadata/author.ncx', 'result': 'ncx/metadata/author.n3'},
 			{'test': 'ncx/metadata/title.ncx', 'result': 'ncx/metadata/title.n3'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
-		{'name': 'email', 'type': 'turtle', 'tests': [
+		{'name': 'email', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'mime/email/subject.txt', 'result': 'mime/email/subject.n3'},
 			{'test': 'mime/email/from.txt', 'result': 'mime/email/from.n3'},
 			{'test': 'mime/email/from-quoted.txt', 'result': 'mime/email/from.n3'},
@@ -128,7 +128,7 @@ if __name__ == '__main__':
 			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/newsgroups.n3'},
 			{'test': 'mime/email/article-subject-lfonly.txt', 'result': 'mime/email/subject.n3'},
 		]},
-		{'name': 'story-metadata', 'type': 'turtle', 'tests': [
+		{'name': 'story-metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'mime/story-metadata/title.txt', 'result': 'mime/story-metadata/title.n3'},
 			{'test': 'mime/story-metadata/story.txt', 'result': 'mime/story-metadata/title.n3'},
 			{'test': 'mime/story-metadata/author.txt', 'result': 'mime/story-metadata/author.n3'},
@@ -140,14 +140,14 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'SMIL', 'groups': [
-		{'name': 'metadata', 'type': 'turtle', 'tests': [
+		{'name': 'metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'smil/metadata/embedded-rdf.smil', 'result': 'smil/metadata/embedded-rdf.n3', 'expect': 'fail'},
 			{'test': 'smil/metadata/xmllang.smil', 'result': 'smil/metadata/xmllang.n3'},
 			{'test': 'smil/metadata/xmllang-noxmldecl.smil', 'result': 'smil/metadata/xmllang.n3'},
 		]},
 	]})
 	test.run({'name': 'SSML', 'groups': [
-		{'name': 'metadata', 'type': 'turtle', 'tests': [
+		{'name': 'metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'ssml/metadata/xmllang.ssml', 'result': 'ssml/metadata/xmllang.n3'},
 			{'test': 'ssml/metadata/meta-see-also.ssml', 'result': 'ssml/metadata/meta-see-also.n3'},
 			{'test': 'ssml/metadata/meta-http-equiv.ssml', 'result': 'ssml/metadata/meta-http-equiv.n3'},
@@ -156,7 +156,7 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'RTF', 'groups': [
-		{'name': 'metadata', 'type': 'turtle', 'tests': [
+		{'name': 'metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'rtf/info/author.rtf', 'result': 'rtf/info/author.n3'},
 			{'test': 'rtf/info/comment.rtf', 'result': 'rtf/info/comment.n3'},
 			{'test': 'rtf/info/keywords.rtf', 'result': 'rtf/info/keywords.n3'},
@@ -166,7 +166,7 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'OPF', 'replace': ['mimetype'], 'mimetype': 'application/oebps-package+xml', 'groups': [
-		{'name': 'metadata', 'type': 'turtle', 'tests': [
+		{'name': 'metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'opf/metadata/dublincore-contributor.opf', 'result': 'opf/metadata/dublincore-contributor.n3'},
 			{'test': 'opf/metadata/dublincore-coverage.opf', 'result': 'opf/metadata/dublincore-coverage.n3'},
 			{'test': 'opf/metadata/dublincore-creator.opf', 'result': 'opf/metadata/dublincore-creator.n3'},
@@ -185,7 +185,7 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata/whitespace.opf', 'result': 'opf/metadata/whitespace.n3'},
 			{'test': 'opf/metadata/xmllang.opf', 'result': 'opf/metadata/xmllang.n3'},
 		]},
-		{'name': 'dc-metadata', 'type': 'turtle', 'tests': [
+		{'name': 'dc-metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'opf/dc-metadata/dublincore-contributor.opf', 'result': 'opf/metadata/dublincore-contributor.n3'},
 			{'test': 'opf/dc-metadata/dublincore-coverage.opf', 'result': 'opf/metadata/dublincore-coverage.n3'},
 			{'test': 'opf/dc-metadata/dublincore-creator.opf', 'result': 'opf/metadata/dublincore-creator.n3'},
@@ -203,7 +203,7 @@ if __name__ == '__main__':
 			{'test': 'opf/dc-metadata/dublincore-type.opf', 'result': 'opf/metadata/dublincore-type.n3'},
 			{'test': 'opf/dc-metadata/xmllang.opf', 'result': 'opf/metadata/xmllang.n3'},
 		]},
-		{'name': 'meta', 'type': 'turtle', 'tests': [
+		{'name': 'meta', 'type': ['turtle', 'turtle-all'], 'tests': [
 			# metadata patterns
 			{'test': 'opf/meta/name-content.opf', 'result': 'opf/meta/name-content.n3'},
 			{'test': 'opf/meta/property.opf', 'result': 'opf/meta/property.n3'},
@@ -216,7 +216,7 @@ if __name__ == '__main__':
 			{'test': 'opf/meta/package-prefix.opf', 'result': 'opf/meta/prefix.n3'},
 			{'test': 'opf/meta/metadata-prefix.opf', 'result': 'opf/meta/prefix.n3'},
 		]},
-		{'name': 'link', 'type': 'turtle', 'tests': [
+		{'name': 'link', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'opf/link/rel.opf', 'result': 'opf/link/rel.n3'},
 			{'test': 'opf/link/rel-multicurie.opf', 'result': 'opf/link/rel-multicurie.n3'},
 			{'test': 'opf/link/rel-id.opf', 'result': 'opf/link/rel-id.n3'},
@@ -224,7 +224,7 @@ if __name__ == '__main__':
 			{'test': 'opf/link/rel-refines.opf', 'result': 'opf/link/rel-about.n3'},
 			{'test': 'opf/link/rel-mediatype.opf', 'result': 'opf/link/rel-mediatype.n3'},
 		]},
-		{'name': 'RDFa', 'type': 'turtle', 'tests': [
+		{'name': 'RDFa', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'opf/metadata30/contributor-alternate-script-rdfa.opf', 'result': 'opf/metadata30/contributor-alternate-script.n3'},
 			{'test': 'opf/metadata30/contributor-file-as-rdfa.opf', 'result': 'opf/metadata30/contributor-file-as.n3'},
 			{'test': 'opf/metadata30/contributor-role-rdfa.opf', 'result': 'opf/metadata30/contributor-role-rdfa.n3'},
@@ -246,7 +246,7 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/xml-signature-rdfa.opf', 'result': 'opf/metadata30/xml-signature.n3'},
 			{'test': 'opf/metadata30/xmp-record-rdfa.opf', 'result': 'opf/metadata30/xmp-record.n3'},
 		]},
-		{'name': 'dc:* with @id', 'type': 'turtle', 'tests': [
+		{'name': 'dc:* with @id', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'opf/metadata30/contributor-id-alternate-script.opf', 'result': 'opf/metadata30/contributor-id-alternate-script.n3'},
 			{'test': 'opf/metadata30/contributor-id-file-as.opf', 'result': 'opf/metadata30/contributor-id-file-as.n3'},
 			{'test': 'opf/metadata30/contributor-id-role.opf', 'result': 'opf/metadata30/contributor-id-role.n3'},
@@ -256,7 +256,7 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/identifier-id.opf', 'result': 'opf/metadata30/identifier-id.n3'},
 			{'test': 'opf/metadata30/identifier-type.opf', 'result': 'opf/metadata30/identifier-type.n3'},
 		]},
-		{'name': 'preferred values', 'type': 'turtle', 'tests': [
+		{'name': 'preferred values', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'opf/metadata30/contributor-alternate-script.opf', 'result': 'opf/metadata30/contributor-alternate-script.n3'},
 			{'test': 'opf/metadata30/contributor-file-as.opf', 'result': 'opf/metadata30/contributor-file-as.n3'},
 			{'test': 'opf/metadata30/contributor-role.opf', 'result': 'opf/metadata30/contributor-role.n3'},
@@ -265,7 +265,7 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/creator-role.opf', 'result': 'opf/metadata30/creator-role.n3'},
 			{'test': 'opf/metadata30/identifier.opf', 'result': 'opf/metadata30/identifier.n3'},
 		]},
-		{'name': '3.0 metadata properties', 'type': 'turtle', 'tests': [
+		{'name': '3.0 metadata properties', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'opf/metadata30/meta-auth.opf', 'result': 'opf/metadata30/meta-auth.n3'},
 			{'test': 'opf/metadata30/publication-type.opf', 'result': 'opf/metadata30/publication-type.n3'},
 			{'test': 'opf/metadata30/source-identifier.opf', 'result': 'opf/metadata30/source-identifier.n3'},
@@ -290,7 +290,7 @@ if __name__ == '__main__':
 				('OEBPS/test.html', 'html/tree-construction/simple.html')
 			],
 		'groups': [
-			{'name': 'metadata', 'type': 'turtle', 'tests': [
+			{'name': 'metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 				{'test': 'opf/metadata/dublincore-contributor.opf', 'result': 'opf/metadata/dublincore-contributor.n3'},
 				{'test': 'opf/metadata/dublincore-coverage.opf', 'result': 'opf/metadata/dublincore-coverage.n3'},
 				{'test': 'opf/metadata/dublincore-creator.opf', 'result': 'opf/metadata/dublincore-creator.n3'},
@@ -309,7 +309,7 @@ if __name__ == '__main__':
 				{'test': 'opf/metadata/whitespace.opf', 'result': 'opf/metadata/whitespace.n3'},
 				{'test': 'opf/metadata/xmllang.opf', 'result': 'opf/metadata/xmllang.n3'},
 			]},
-			{'name': 'dc-metadata', 'type': 'turtle', 'tests': [
+			{'name': 'dc-metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 				{'test': 'opf/dc-metadata/dublincore-contributor.opf', 'result': 'opf/metadata/dublincore-contributor.n3'},
 				{'test': 'opf/dc-metadata/dublincore-coverage.opf', 'result': 'opf/metadata/dublincore-coverage.n3'},
 				{'test': 'opf/dc-metadata/dublincore-creator.opf', 'result': 'opf/metadata/dublincore-creator.n3'},
@@ -327,7 +327,7 @@ if __name__ == '__main__':
 				{'test': 'opf/dc-metadata/dublincore-type.opf', 'result': 'opf/metadata/dublincore-type.n3'},
 				{'test': 'opf/dc-metadata/xmllang.opf', 'result': 'opf/metadata/xmllang.n3'},
 			]},
-			{'name': 'with-content', 'type': 'turtle', 'tests': [
+			{'name': 'with-content', 'type': ['turtle', 'turtle-all'], 'tests': [
 				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
 			]},
 		]
