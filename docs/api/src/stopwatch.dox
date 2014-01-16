@@ -7,8 +7,13 @@
 /**
 
 
+\addtogroup stopwatch
+\{
+
 \struct cainteoir::stopwatch
 \brief  A helper class to time the duration of an action.
+
+\}
 
 
 \fn    cainteoir::stopwatch::stopwatch()

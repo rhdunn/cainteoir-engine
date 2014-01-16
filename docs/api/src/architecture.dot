@@ -1,6 +1,5 @@
 digraph "Architecture" {
 
-	audio                  [shape=none, label="Audio", URL="group__audio.html"]
 	buffers                [shape=none, label="Buffers", URL="group__buffers.html"]
 	css                    [shape=none, label="CSS", URL="group__css.html"]
 	dictionary             [shape=none, label="Pronunciation&#x0A;Dictionary", URL="group__dictionary.html"]
@@ -10,8 +9,15 @@ digraph "Architecture" {
 	phoneme_transcription  [shape=none, label="Phonetic&#x0A;Transcription", URL="group__phonetic__transcription.html"]
 	ranges                 [shape=none, label="Ranges", URL="group__ranges.html"]
 	rdf                    [shape=none, label="RDF", URL="group__rdf.html"]
-	tts_engines            [shape=none, label="Engines", URL="group__tts__engines.html"]
 	unicode                [shape=none, label="Unicode", URL="group__unicode.html"]
+
+	subgraph { rank=same;
+
+	stopwatch              [shape=none, label="Stop&#x0A;Watch", URL="group__stopwatch.html"]
+	tts_engines            [shape=none, label="Engines", URL="group__tts__engines.html"]
+	audio                  [shape=none, label="Audio", URL="group__audio.html"]
+
+	}
 
 	subgraph { rank=same;
 
@@ -66,6 +72,7 @@ digraph "Architecture" {
 	phoneme_transcription -> unicode [color=blue]
 
 	tts_engines -> path [color=blue]
+	tts_engines -> stopwatch [color=blue]
 
 	text_reader -> unicode [color=blue]
 

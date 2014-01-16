@@ -129,6 +129,10 @@ to parse the different document formats as follows:
 \brief    Selectors used to match RDF triples.
 
 
+\defgroup stopwatch Stop Watch
+\brief    Helper for timing how long has elapsed since a given start time.
+
+
 \defgroup text_reader Text Reader
 \ingroup  text_to_phonemes
 \brief    Text parsing from a document.
