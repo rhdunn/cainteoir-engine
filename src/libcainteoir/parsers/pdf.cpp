@@ -89,7 +89,7 @@ struct pdf_document_reader : public cainteoir::document_reader
 
 	~pdf_document_reader();
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::shared_ptr<cainteoir::buffer> mData;
 	PopplerDocument *mDoc;
@@ -159,7 +159,7 @@ pdf_document_reader::~pdf_document_reader()
 	g_object_unref(mDoc);
 }
 
-bool pdf_document_reader::read()
+bool pdf_document_reader::read(rdf::graph *aMetadata)
 {
 	if (mCurrentPage >= mNumPages)
 		return false;

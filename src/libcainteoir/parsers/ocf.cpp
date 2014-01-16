@@ -55,7 +55,7 @@ struct ocf_reader : public cainteoir::document_reader
 {
 	ocf_reader(const std::shared_ptr<xml::reader> &aReader);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::shared_ptr<xml::reader> mReader;
 };
@@ -77,7 +77,7 @@ ocf_reader::ocf_reader(const std::shared_ptr<xml::reader> &aReader)
 	styles  = &cainteoir::heading1;
 }
 
-bool ocf_reader::read()
+bool ocf_reader::read(rdf::graph *aMetadata)
 {
 	content.reset();
 	anchor = rdf::uri();

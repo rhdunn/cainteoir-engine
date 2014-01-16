@@ -319,7 +319,7 @@ rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::ur
 
 struct rdfxml_document_reader : public cainteoir::document_reader
 {
-	bool read()
+	bool read(rdf::graph *aMetadata)
 	{
 		return false;
 	}

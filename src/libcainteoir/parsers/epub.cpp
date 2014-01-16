@@ -44,7 +44,7 @@ struct epub_document_reader : public cainteoir::document_reader
 {
 	epub_document_reader(std::shared_ptr<cainteoir::archive> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aDefaultEncoding);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	cainteoir::path opf_file;
 	cainteoir::path opf_root;
@@ -100,7 +100,7 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 	}
 }
 
-bool epub_document_reader::read()
+bool epub_document_reader::read(rdf::graph *aMetadata)
 {
 	while (true) switch (mState)
 	{

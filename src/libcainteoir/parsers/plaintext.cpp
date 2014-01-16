@@ -34,7 +34,7 @@ struct plaintext_document_reader : public cainteoir::document_reader
 
 	plaintext_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, const std::string &aTitle);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::shared_ptr<cainteoir::buffer> mData;
 	rdf::uri mSubject;
@@ -57,7 +57,7 @@ plaintext_document_reader::plaintext_document_reader(std::shared_ptr<cainteoir::
 	}
 }
 
-bool plaintext_document_reader::read()
+bool plaintext_document_reader::read(rdf::graph *aMetadata)
 {
 	switch (mState)
 	{

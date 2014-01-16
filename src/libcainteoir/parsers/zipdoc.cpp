@@ -31,7 +31,7 @@ struct zip_document_reader : public cainteoir::document_reader
 {
 	zip_document_reader(std::shared_ptr<cainteoir::archive> &aData);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::shared_ptr<cainteoir::document_reader> child;
 	std::shared_ptr<cainteoir::archive> mData;
@@ -46,7 +46,7 @@ zip_document_reader::zip_document_reader(std::shared_ptr<cainteoir::archive> &aD
 	mCurrent = mFiles.begin();
 }
 
-bool zip_document_reader::read()
+bool zip_document_reader::read(rdf::graph *aMetadata)
 {
 	if (child)
 	{
@@ -72,7 +72,7 @@ bool zip_document_reader::read()
 			if (child)
 			{
 				++mCurrent;
-				return read();
+				return read(aMetadata);
 			}
 		}
 		++mCurrent;

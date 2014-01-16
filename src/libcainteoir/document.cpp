@@ -91,13 +91,13 @@ struct document_range : public cainteoir::document_reader
 	{
 	}
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	cainteoir::document::const_iterator mCurrent;
 	cainteoir::document::const_iterator mLast;
 };
 
-bool document_range::read()
+bool document_range::read(rdf::graph *aMetadata)
 {
 	if (mCurrent == mLast) return false;
 

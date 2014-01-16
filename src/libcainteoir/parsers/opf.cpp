@@ -566,7 +566,7 @@ struct opf_document_reader : public cainteoir::document_reader
 {
 	opf_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::list<std::string> mSpine;
 	std::map<std::string, fileinfo> mFiles;
@@ -612,7 +612,7 @@ opf_document_reader::opf_document_reader(const std::shared_ptr<xml::reader> &aRe
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal(aMimeType));
 }
 
-bool opf_document_reader::read()
+bool opf_document_reader::read(rdf::graph *aMetadata)
 {
 	if (mCurrent == mSpine.end())
 		return false;

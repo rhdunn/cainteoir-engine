@@ -72,7 +72,7 @@ struct ncx_document_reader : public cainteoir::document_reader
 {
 	ncx_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::shared_ptr<xml::reader> reader;
 	rdf::uri mSubject;
@@ -80,7 +80,7 @@ struct ncx_document_reader : public cainteoir::document_reader
 	int mDepth;
 };
 
-bool ncx_document_reader::read()
+bool ncx_document_reader::read(rdf::graph *aMetadata)
 {
 	if (!mTitle.empty())
 	{

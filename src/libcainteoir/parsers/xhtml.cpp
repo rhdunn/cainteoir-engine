@@ -839,7 +839,7 @@ struct html_document_reader : public cainteoir::document_reader
 {
 	html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 private:
 	rdf::uri mSubject;
 	std::string mTitle;
@@ -853,8 +853,6 @@ private:
 
 	std::string mLanguage;
 	css::role mRole;
-
-	bool read_node(rdf::graph *aMetadata);
 
 	bool parse_document_root(rdf::graph *aMetadata);
 	bool parse_html_node(rdf::graph *aMetadata);
@@ -897,7 +895,7 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	stylemgr.parse("/css/counterstyles.css");
 
 	ctx.push({ nullptr, &html_document_reader::parse_document_root, 0 });
-	read_node(&aPrimaryMetadata);
+	read(&aPrimaryMetadata);
 
 	if (!mLanguage.empty())
 		aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(mLanguage));
@@ -1021,12 +1019,7 @@ static void parseMetaNode(html_tree_builder &reader, const rdf::uri &aSubject, r
 	}
 }
 
-bool html_document_reader::read()
-{
-	return read_node(nullptr);
-}
-
-bool html_document_reader::read_node(rdf::graph *aMetadata)
+bool html_document_reader::read(rdf::graph *aMetadata)
 {
 	while (!ctx.empty())
 	{

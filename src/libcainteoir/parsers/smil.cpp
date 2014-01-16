@@ -69,7 +69,7 @@ struct smil_document_reader : public cainteoir::document_reader
 {
 	smil_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::shared_ptr<xml::reader> reader;
 	cainteoir::path mBasePath;
@@ -104,7 +104,7 @@ smil_document_reader::smil_document_reader(const std::shared_ptr<xml::reader> &a
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/smil"));
 }
 
-bool smil_document_reader::read()
+bool smil_document_reader::read(rdf::graph *aMetadata)
 {
 	const xml::context::entry *current = nullptr;
 	cainteoir::path src;

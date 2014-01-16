@@ -264,9 +264,7 @@ struct rtf_document_reader : public cainteoir::document_reader
 
 	rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
 
-	bool read();
-
-	bool internal_read(rdf::graph *aPrimaryMetadata);
+	bool read(rdf::graph *aMetadata);
 
 	rtf_reader rtf;
 	std::shared_ptr<cainteoir::buffer> mData;
@@ -287,17 +285,12 @@ rtf_document_reader::rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 	, mBlockCount(0)
 	, mTitle(aTitle)
 {
-	if (rtf.read() && internal_read(&aPrimaryMetadata))
+	if (rtf.read() && read(&aPrimaryMetadata))
 		mState = state_title;
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/rtf"));
 }
 
-bool rtf_document_reader::read()
-{
-	return internal_read(nullptr);
-}
-
-bool rtf_document_reader::internal_read(rdf::graph *aGraph)
+bool rtf_document_reader::read(rdf::graph *aGraph)
 {
 	if (mState == state_title)
 	{
@@ -421,7 +414,7 @@ text_event:
 	styles  = &cainteoir::paragraph;
 	content = rtf_text.buffer();
 	anchor  = rdf::uri();
-	if (aGraph == nullptr)
+	if (mState != state_rtf)
 		rtf_text.clear();
 	return true;
 }
