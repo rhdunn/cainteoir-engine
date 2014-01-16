@@ -600,15 +600,16 @@ This function provides an easy way for iterating over the items in such an RDF
 list. For example:
 
 \code
-rdf::graph g;
+cainteoir::rdf::graph g;
 auto reader = cainteoir::createDocumentReader("example19.rdf", g, std::string());
 
-rdf::ns ex(   "ex",    "http://example.org/");
-rdf::ns stuff("stuff", "http://example.org/stuff/1.0/");
+cainteoir::rdf::ns ex(   "ex",    "http://example.org/");
+cainteoir::rdf::ns stuff("stuff", "http://example.org/stuff/1.0/");
 
-g.foreach(ex("basket"), stuff("hasFruit"), [](const std::shared_ptr<const rdf::triple> &subject)
+g.foreach(ex("basket"), stuff("hasFruit"),
+          [](const std::shared_ptr<const cainteoir::rdf::triple> &subject)
 {
-	std::cout << rql::object(subject).str() << std::endl;
+	std::cout << cainteoir::rdf::query::object(subject).str() << std::endl;
 });
 \endcode
 
