@@ -1,6 +1,6 @@
 /* Audio API.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -26,15 +26,9 @@
 
 namespace cainteoir
 {
-	struct audio
+	struct audio_info
 	{
-		virtual ~audio() {}
-
-		virtual void open() = 0;
-
-		virtual void close() = 0;
-
-		virtual uint32_t write(const char *data, uint32_t len) = 0;
+		virtual ~audio_info() {}
 
 		virtual int channels() const = 0;
 
@@ -43,19 +37,20 @@ namespace cainteoir
 		virtual const rdf::uri &format() const = 0;
 	};
 
-	struct audio_player
+	struct audio : public audio_info
 	{
-		virtual ~audio_player() {}
+		virtual void open() = 0;
 
+		virtual void close() = 0;
+
+		virtual uint32_t write(const char *data, uint32_t len) = 0;
+	};
+
+	struct audio_player : public audio_info
+	{
 		virtual bool play(const std::shared_ptr<cainteoir::audio> &out,
 		                  const css::time &start,
 		                  const css::time &end) = 0;
-
-		virtual int channels() const = 0;
-
-		virtual int frequency() const = 0;
-
-		virtual const rdf::uri &format() const = 0;
 	};
 
 	struct vorbis_comment
