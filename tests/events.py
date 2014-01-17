@@ -212,7 +212,7 @@ if __name__ == '__main__':
 		{'name': 'idioms', 'type': 'events', 'tests': [
 			# These represent common/known usage patterns for HTML5/WHATWG documents.
 			{'test': 'html/idioms/nav-breadcrumbs.html', 'result': 'html/idioms/nav-breadcrumbs.events'},
-			{'test': 'html/idioms/nav-breadcrumbs.xhtml', 'result': 'html/idioms/nav-breadcrumbs.events'},
+			{'test': 'html/idioms/nav-breadcrumbs.xhtml', 'result': 'html/idioms/nav-breadcrumbs.events', 'expect': 'volatile'},
 		]},
 		{'name': 'epub3 nav', 'type': 'events', 'tests': [
 			# These are tests for HTML5-based ePub3 navigation (table of content)
