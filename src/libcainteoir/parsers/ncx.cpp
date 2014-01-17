@@ -180,8 +180,13 @@ void ncx_document_reader::generate_reference(rdf::graph *aMetadata)
 
 	if (mIsFirst)
 	{
+		const rdf::uri listing = aMetadata->genid();
+		aMetadata->statement(mSubject, rdf::ref("listing"), listing);
+
 		mCurrentReference = aMetadata->genid();
-		aMetadata->statement(mSubject, rdf::ref("entries"), mCurrentReference);
+		aMetadata->statement(listing, rdf::rdf("type"), rdf::ref("Listing"));
+		aMetadata->statement(listing, rdf::ref("type"), rdf::epv("toc"));
+		aMetadata->statement(listing, rdf::ref("entries"), mCurrentReference);
 		mIsFirst = false;
 	}
 	else
@@ -216,9 +221,6 @@ ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aRe
 	std::string name;
 	std::string content;
 	bool in_header = true;
-
-	aPrimaryMetadata.statement(aSubject, rdf::rdf("type"), rdf::ref("Listing"));
-	aPrimaryMetadata.statement(aSubject, rdf::ref("type"), rdf::epv("toc"));
 
 	while (in_header && reader->read()) switch (reader->nodeType())
 	{

@@ -5,25 +5,26 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<> rdf:type ref:Listing .
-<> ref:type epv:toc .
 <> tts:mimetype "application/x-dtbncx+xml" .
-<> ref:entries _:genid1 .
-_:genid1 rdf:first _:genid2 .
-_:genid2 rdf:type ref:Entry .
-_:genid2 ref:level "1"^^xsd:integer .
-_:genid2 ref:target <chapter1.xhtml> .
-_:genid2 dc:title "Chapter 1" .
-_:genid1 rdf:rest _:genid3 .
-_:genid3 rdf:first _:genid4 .
-_:genid4 rdf:type ref:Entry .
-_:genid4 ref:level "1"^^xsd:integer .
-_:genid4 ref:target <chapter2.xhtml> .
-_:genid4 dc:title "Chapter 2" .
-_:genid3 rdf:rest _:genid5 .
-_:genid5 rdf:first _:genid6 .
-_:genid6 rdf:type ref:Entry .
-_:genid6 ref:level "1"^^xsd:integer .
-_:genid6 ref:target <chapter3.xhtml> .
-_:genid6 dc:title "Chapter 3" .
-_:genid5 rdf:rest rdf:nil .
+<> ref:listing _:genid1 .
+_:genid1 rdf:type ref:Listing .
+_:genid1 ref:type epv:toc .
+_:genid1 ref:entries _:genid2 .
+_:genid2 rdf:first _:genid3 .
+_:genid3 rdf:type ref:Entry .
+_:genid3 ref:level "1"^^xsd:integer .
+_:genid3 ref:target <chapter1.xhtml> .
+_:genid3 dc:title "Chapter 1" .
+_:genid2 rdf:rest _:genid4 .
+_:genid4 rdf:first _:genid5 .
+_:genid5 rdf:type ref:Entry .
+_:genid5 ref:level "1"^^xsd:integer .
+_:genid5 ref:target <chapter2.xhtml> .
+_:genid5 dc:title "Chapter 2" .
+_:genid4 rdf:rest _:genid6 .
+_:genid6 rdf:first _:genid7 .
+_:genid7 rdf:type ref:Entry .
+_:genid7 ref:level "1"^^xsd:integer .
+_:genid7 ref:target <chapter3.xhtml> .
+_:genid7 dc:title "Chapter 3" .
+_:genid6 rdf:rest rdf:nil .

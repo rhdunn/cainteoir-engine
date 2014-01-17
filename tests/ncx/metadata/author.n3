@@ -1,10 +1,5 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
-@prefix ref: <http://reecedunn.co.uk/schema/2014/ref#> .
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
-@prefix epv: <http://www.idpf.org/epub/vocab/structure/#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-<> rdf:type ref:Listing .
-<> ref:type epv:toc .
 <> dc:creator "John Doe" .
 <> tts:mimetype "application/x-dtbncx+xml" .
