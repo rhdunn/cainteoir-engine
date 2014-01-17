@@ -57,6 +57,7 @@ TEST_CASE("rdf::uri")
 {
 	assert(format(rdf::rdf("type"))    == "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>");
 	assert(format_ns(rdf::rdf("type")) == "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>");
+	assert(format(rdf::uri("test with spaces")) == "<test\%20with\%20spaces>");
 }
 
 TEST_CASE("rdf::literal")

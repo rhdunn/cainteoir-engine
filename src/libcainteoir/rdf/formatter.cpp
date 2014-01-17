@@ -47,7 +47,19 @@ public:
 		{
 			std::string &prefix = namespaces[uri.ns];
 			if (prefix.empty())
-				os << '<' << uri.str() << '>';
+			{
+				os << '<';
+				for (auto &c : uri.str()) switch (c)
+				{
+				case ' ':
+					os << "\%20";
+					break;
+				default:
+					os << c;
+					break;
+				}
+				os << '>';
+			}
 			else
 				os << prefix << ':' << uri.ref;
 		}
