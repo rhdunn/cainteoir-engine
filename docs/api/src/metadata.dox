@@ -300,7 +300,7 @@ triple.
 \param[in] aLanguage The language \a aValue is written in.
 
 
-\fn    cainteoir::rdf::literal::literal(const T &aValue, const cainteoir::rdf::uri &aType)
+\fn    cainteoir::rdf::literal::literal(const T &aValue, const uri &aType)
 \brief Create a datatype literal resource.
 
 \param[in] aValue The value to store in the literal.
@@ -593,6 +593,13 @@ This is used for generating \\prefix entries in turtle/n3 documents.
 \param[in] aCurie The CURIE to convert.
 
 \return The CURIE as a URI object.
+
+
+\fn    void rdf::graph::curie_list(const std::string &aCurieList, const std::function<void (const rdf::uri &aUri)> &onuri)
+\brief Convert a space-separated CURIE-list into a sequence of URI objects.
+
+\param[in] aCurieList The space-separated CURIE-list to convert.
+\param[in] onuri      The callback to be called when a URI is parsed from the CURIE list.
 
 
 \fn    void rdf::graph::foreach(const rdf::uri &aSubject, const rdf::uri &aPredicate, const std::function<void (const triplestore::value_type &aStatement)> &onlistitem)
