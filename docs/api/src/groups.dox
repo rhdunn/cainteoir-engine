@@ -137,6 +137,10 @@ This is the C++ API to the various unit types for CSS values.
 \brief    A framework for converting text (as document events) into phonemes.
 
 
+\defgroup trie Trie
+\brief    A trie data structure.
+
+
 \defgroup tts_engines Text-to-Speech Engines
 \brief    High-level interface to Text-to-Speech engines and voices.
 
