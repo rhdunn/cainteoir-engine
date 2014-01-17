@@ -450,6 +450,17 @@ subjects.
 \brief Create a new RDF graph object.
 
 
+\fn    rdf::graph::graph(graph &aGraph)
+\brief Create a new RDF graph object suitable for merging with the parent graph.
+
+\param[in] aGraph The graph to share genids with.
+
+The output of the genid function will be unique across this graph and \p aGraph,
+allowing the statements of the two graphs to be merged.
+
+This does not copy the statements of \p aGraph into the new graph.
+
+
 \fn    cainteoir::rdf::graph::size_type cainteoir::rdf::graph::size() const
 \brief Get the number of triples in the graph.
 

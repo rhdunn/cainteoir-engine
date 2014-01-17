@@ -460,3 +460,19 @@ TEST_CASE("rdf::graph -- genid()")
 	test_uri(model2.genid(), "_:genid3", "_:", "genid3");
 	test_uri(model2.genid(), "_:genid4", "_:", "genid4");
 }
+
+TEST_CASE("rdf::graph -- genid() -- tied")
+{
+	rdf::graph model1;
+	rdf::graph model2(model1);
+
+	test_uri(model1.genid(), "_:genid1", "_:", "genid1");
+	test_uri(model1.genid(), "_:genid2", "_:", "genid2");
+	test_uri(model1.genid(), "_:genid3", "_:", "genid3");
+	test_uri(model2.genid(), "_:genid4", "_:", "genid4");
+	test_uri(model2.genid(), "_:genid5", "_:", "genid5");
+	test_uri(model1.genid(), "_:genid6", "_:", "genid6");
+	test_uri(model1.genid(), "_:genid7", "_:", "genid7");
+	test_uri(model2.genid(), "_:genid8", "_:", "genid8");
+	test_uri(model2.genid(), "_:genid9", "_:", "genid9");
+}

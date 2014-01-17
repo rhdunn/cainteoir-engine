@@ -305,6 +305,7 @@ namespace cainteoir { namespace rdf
 		typedef triplestore::const_reference const_reference;
 
 		graph();
+		graph(graph &aGraph);
 
 		size_type size()  const { return triples.size(); }
 		bool      empty() const { return triples.empty(); }
@@ -364,7 +365,7 @@ namespace cainteoir { namespace rdf
 	private:
 		std::string mBaseUri;
 		std::set<std::string> namespaces;
-		int nextid;
+		std::shared_ptr<int> nextid;
 		triplestore triples;
 	};
 

@@ -89,7 +89,15 @@ const rql::detail::subject_t   rql::subject;
 const rql::detail::predicate_t rql::predicate;
 const rql::detail::object_t    rql::object;
 
-rdf::graph::graph() : nextid(1)
+rdf::graph::graph() : nextid(std::make_shared<int>(1))
+{
+	add_namespace("http",   "http:");
+	add_namespace("https",  "https:");
+	add_namespace("mailto", "mailto:");
+	add_namespace("file",   "file:");
+}
+
+rdf::graph::graph(rdf::graph &aGraph) : nextid(aGraph.nextid)
 {
 	add_namespace("http",   "http:");
 	add_namespace("https",  "https:");
@@ -150,8 +158,8 @@ const rdf::uri rdf::href(const std::string &aHref)
 const rdf::uri rdf::graph::genid()
 {
 	std::ostringstream id;
-	id << "genid" << nextid;
-	++nextid;
+	id << "genid" << *nextid;
+	++*nextid;
 	return bnode(id.str());
 }
 
