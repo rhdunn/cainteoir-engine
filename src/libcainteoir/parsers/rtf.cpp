@@ -274,6 +274,7 @@ struct rtf_document_reader : public cainteoir::document_reader
 	int mBlockCount;
 	std::string mTitle;
 	cainteoir::rope rtf_text;
+	bool mClearText;
 };
 
 rtf_document_reader::rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
@@ -284,6 +285,7 @@ rtf_document_reader::rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 	, mState(state_rtf)
 	, mBlockCount(0)
 	, mTitle(aTitle)
+	, mClearText(false)
 {
 	if (rtf.read() && read(&aPrimaryMetadata))
 		mState = state_title;
@@ -312,7 +314,10 @@ bool rtf_document_reader::read(rdf::graph *aGraph)
 
 	std::string info_context;
 	if (!rtf.data()->compare("par") && !rtf_text.empty())
+	{
+		mClearText = true;
 		goto text_event;
+	}
 
 	do switch (rtf.token())
 	{
@@ -414,7 +419,7 @@ text_event:
 	styles  = &cainteoir::paragraph;
 	content = rtf_text.buffer();
 	anchor  = rdf::uri();
-	if (mState != state_rtf)
+	if (mClearText)
 		rtf_text.clear();
 	return true;
 }
