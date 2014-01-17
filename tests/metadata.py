@@ -99,6 +99,24 @@ if __name__ == '__main__':
 			{'test': 'ncx/metadata/author.ncx', 'result': 'ncx/metadata/author.n3'},
 			{'test': 'ncx/metadata/title.ncx', 'result': 'ncx/metadata/title.n3'},
 		]},
+		{'name': 'toc', 'type': 'turtle', 'tests': [
+			{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/simple.n3'},
+			{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'ncx/simple.n3'},
+			{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'ncx/simple.n3'},
+			{'test': 'ncx/navMap/linear-with-title.ncx', 'result': 'ncx/metadata/title.n3'},
+			{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'ncx/simple.n3'},
+			{'test': 'ncx/navMap/named-uri.ncx', 'result': 'ncx/simple.n3'},
+			{'test': 'ncx/navMap/nested.ncx', 'result': 'ncx/simple.n3'},
+		]},
+		{'name': 'toc', 'type': 'turtle-all', 'tests': [
+			{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/navMap/linear.n3'},
+			{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'ncx/navMap/linear.n3'},
+			{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'ncx/navMap/linear.n3'},
+			{'test': 'ncx/navMap/linear-with-title.ncx', 'result': 'ncx/navMap/linear-with-title.n3'},
+			{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'ncx/navMap/in-subdir.n3'},
+			{'test': 'ncx/navMap/named-uri.ncx', 'result': 'ncx/navMap/named-uri.n3'},
+			{'test': 'ncx/navMap/nested.ncx', 'result': 'ncx/navMap/nested.n3'},
+		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
 		{'name': 'email', 'type': ['turtle', 'turtle-all'], 'tests': [

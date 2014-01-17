@@ -74,10 +74,14 @@ struct ncx_document_reader : public cainteoir::document_reader
 
 	bool read(rdf::graph *aMetadata);
 
+	void generate_reference(rdf::graph *aMetadata);
+
 	std::shared_ptr<xml::reader> reader;
 	rdf::uri mSubject;
+	rdf::uri mCurrentReference;
 	std::string mTitle;
 	int mDepth;
+	bool mIsFirst;
 };
 
 bool ncx_document_reader::read(rdf::graph *aMetadata)
@@ -119,6 +123,7 @@ bool ncx_document_reader::read(rdf::graph *aMetadata)
 				case 5:  styles = &cainteoir::heading5; break;
 				default: styles = &cainteoir::heading6; break;
 				}
+				generate_reference(aMetadata);
 				return true;
 			}
 		}
@@ -144,6 +149,7 @@ bool ncx_document_reader::read(rdf::graph *aMetadata)
 				case 5:  styles = &cainteoir::heading5; break;
 				default: styles = &cainteoir::heading6; break;
 				}
+				generate_reference(aMetadata);
 				return true;
 			}
 		}
@@ -163,13 +169,43 @@ bool ncx_document_reader::read(rdf::graph *aMetadata)
 		break;
 	}
 
+	if (!mIsFirst)
+		aMetadata->statement(mCurrentReference, rdf::rdf("rest"), rdf::rdf("nil"));
 	return false;
+}
+
+void ncx_document_reader::generate_reference(rdf::graph *aMetadata)
+{
+	if (!aMetadata) return;
+
+	if (mIsFirst)
+	{
+		mCurrentReference = aMetadata->genid();
+		aMetadata->statement(mSubject, rdf::ref("entries"), mCurrentReference);
+		mIsFirst = false;
+	}
+	else
+	{
+		const rdf::uri next = aMetadata->genid();
+		aMetadata->statement(mCurrentReference, rdf::rdf("rest"), next);
+		mCurrentReference = next;
+	}
+
+	const rdf::uri entry = aMetadata->genid();
+	aMetadata->statement(mCurrentReference, rdf::rdf("first"), entry);
+
+	aMetadata->statement(entry, rdf::rdf("type"), rdf::ref("Entry"));
+	aMetadata->statement(entry, rdf::ref("level"), rdf::literal(mDepth, rdf::xsd("integer")));
+	aMetadata->statement(entry, rdf::ref("target"), anchor);
+	aMetadata->statement(entry, rdf::dc("title"), rdf::literal(content->str()));
 }
 
 ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
 	: reader(aReader)
 	, mSubject(aSubject)
+	, mCurrentReference(aSubject)
 	, mDepth(0)
+	, mIsFirst(true)
 {
 	reader->set_nodes(xmlns::ncx, ncx_nodes);
 	reader->set_attrs(xmlns::ncx, ncx_attrs);
@@ -180,6 +216,9 @@ ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aRe
 	std::string name;
 	std::string content;
 	bool in_header = true;
+
+	aPrimaryMetadata.statement(aSubject, rdf::rdf("type"), rdf::ref("Listing"));
+	aPrimaryMetadata.statement(aSubject, rdf::ref("type"), rdf::epv("toc"));
 
 	while (in_header && reader->read()) switch (reader->nodeType())
 	{

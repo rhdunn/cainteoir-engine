@@ -64,9 +64,9 @@ class Command:
 class MetadataCommand(Command):
 	def __init__(self, test_type, all_metadata=False):
 		if all_metadata:
-			Command.__init__(self, '../src/apps/metadata --%s' % test_type)
-		else:
 			Command.__init__(self, '../src/apps/metadata --%s --all' % test_type)
+		else:
+			Command.__init__(self, '../src/apps/metadata --%s' % test_type)
 
 	def replacements(self, filename):
 		# NOTE: The %EMPTY% marker is to differentiate actual empty URIs from URIs

@@ -1,7 +1,12 @@
+@prefix ref: <http://reecedunn.co.uk/schema/2014/ref#> .
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
 @prefix dtb: <http://www.daisy.org/z3986/2005/dtbook/> .
+@prefix epv: <http://www.idpf.org/epub/vocab/structure/#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<> rdf:type ref:Listing .
+<> ref:type epv:toc .
 <> dtb:uid "12345" .
 <> dtb:generator "cainteoir-engine" .
 <> dtb:depth "1"^^xsd:int .
