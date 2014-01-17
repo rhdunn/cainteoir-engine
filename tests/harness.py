@@ -167,8 +167,13 @@ class TestSuite:
 
 		if test_expect == 'expect-pass':
 			ret = expected == got
+			show_diff = not ret
+		elif test_expect == 'expect-volatile':
+			ret = True # volatile tests may pass or fail depending on the test run
+			show_diff = expected != got
 		else:
 			ret = expected != got
+			show_diff = ret
 
 		if ret:
 			self.passed = self.passed + 1
@@ -177,7 +182,7 @@ class TestSuite:
 			self.failed = self.failed + 1
 			write('failed [%s]\n' % test_expect)
 
-		if not ret or test_expect == 'expect-fail':
+		if show_diff:
 			if diff_program:
 				with open('/tmp/expected', 'w') as f:
 					f.write('\n'.join(expected))
