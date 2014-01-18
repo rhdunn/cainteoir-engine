@@ -35,7 +35,7 @@
 \brief Text data.
 
 \code
-  text <text>
+  text <content>
 \endcode
 
 
@@ -46,7 +46,7 @@ The parameter is the depth of the entry. This corresponds to the depth from the
 heading rendering context.
 
 \code
-  toc-entry <parameter> <anchor> <text>
+  toc-entry <parameter> <anchor> <content>
 \endcode
 
 
@@ -57,6 +57,43 @@ The anchor corresponds to the associated toc-entry.
 
 \code
   anchor <anchor>
+\endcode
+
+
+\var   cainteoir::events::event_type cainteoir::events::text_ref
+\brief A reference to text defined elsewhere.
+
+The anchor refers to a text block defined elsewhere in the document.
+
+This is used in conjunction with media_ref to associate narrated audio with a
+block of text.
+
+\code
+  text-ref <anchor>
+\endcode
+
+
+\var   cainteoir::events::event_type cainteoir::events::media_ref
+\brief A media (audio or video) file.
+
+The anchor refers to the media file being referenced. The point to start playback
+at is media-begin and the point to finish playback is media-end. If the media
+file has been read, content contains the media file data, otherwise content is
+empty.
+
+\code
+  media-ref <anchor> <media-begin> <media-end> <content>
+\endcode
+
+
+\var   cainteoir::events::event_type cainteoir::events::navigation_document
+\brief Indicates the toc-event refers to an ePub 3 navigation documemnt.
+
+The parameter is the depth of the entry. This corresponds to the depth from the
+heading rendering context.
+
+\code
+  toc-entry <parameter> <anchor> <content> +navigation-document
 \endcode
 
 
@@ -92,12 +129,108 @@ Objects of this type are created by instances of the document_reader interface.
 \brief A uri that references the start of this event.
 
 
+\var   cainteoir::css::time cainteoir::document_item::media_begin
+\brief The time to start playback of the media in the content buffer.
+
+If this is cainteoir::css::time::inherit, the playback is from the start of the
+media object.
+
+
+\var   cainteoir::css::time cainteoir::document_item::media_end
+\brief The time to end playback of the media in the content buffer.
+
+If this is cainteoir::css::time::inherit, the playback is to the end of the
+media object.
+
+
+\addtogroup document_reader
+\{
+
+\struct cainteoir::document::toc_entry
+\brief  Represents an item in the document's table of contents.
+
+\}
+
+
+\var   int cainteoir::document::toc_entry::depth
+\brief The level of the entry.
+
+
+\var   cainteoir::rdf::uri cainteoir::document::toc_entry::location
+\brief The location of the entry in the document.
+
+
+\var   std::string cainteoir::document::toc_entry::title
+\brief The title of the entry.
+
+
 \addtogroup document_reader
 \{
 
 \struct cainteoir::document
-\brief  Stores the text from a document.
+\brief  Stores the document_item events from a document.
 
+\}
+
+
+\var   std::list<document_item> cainteoir::document::list_type
+\brief The type used to store the document items.
+
+
+\var   list_type::const_iterator cainteoir::document::const_iterator
+\brief The type used to iterate over document items.
+
+
+\var   range<const_iterator> cainteoir::document::range_type
+\brief A range of document_item objects.
+
+
+\var   std::vector<toc_entry> cainteoir::document::toc_type
+\brief A table of contents data structure.
+
+
+\fn    cainteoir::document::document(const std::shared_ptr<document_reader> &aReader)
+\brief Create a document object with the document_item events from the document_reader.
+
+\param[in] aReader The document reader to read document_item events from.
+
+
+\fn    size_t cainteoir::document::text_length() const
+\brief Get the number of characters in the document.
+
+\return The number of characters in the document.
+
+
+\fn    range_type cainteoir::document::children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const
+\brief Get the document_item objects associated with the document in the specified range.
+
+\param[in] aAnchors The start and end anchor for the range of children to get.
+
+\return A range of document_item objects.
+
+
+\fn    range_type cainteoir::document::children(const std::pair<size_t, size_t> &aTocRange) const
+\brief Get the document_item objects associated with the document in the specified range.
+
+\param[in] aTocRange The start and end indices in the table of contents for the range of children to get.
+
+\return A range of document_item objects.
+
+
+\fn    range_type cainteoir::document::children() const
+\brief Get all the document_item objects associated with the document.
+
+\return A range of document_item objects.
+
+
+\fn    const toc_type &cainteoir::document::toc() const
+\brief Get the table of contents for the document.
+
+\return The table of contents associated with the document.
+
+
+\addtogroup document_reader
+\{
 
 \struct cainteoir::document_reader
 \brief  Provides a reader-style API to the events corresponding to the document.
