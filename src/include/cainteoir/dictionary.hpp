@@ -77,7 +77,7 @@ namespace cainteoir { namespace tts
 
 		void add_entry(const key_type &aWord, const entry &aEntry);
 
-		const entry &lookup(const key_type &aEntry) const;
+		const entry &lookup(const key_type &aWord) const;
 
 		std::size_t size()  const { return mEntries.size();  }
 		bool        empty() const { return mEntries.empty(); }
@@ -85,12 +85,12 @@ namespace cainteoir { namespace tts
 		const_iterator begin() const { return mEntries.begin(); }
 		const_iterator end()   const { return mEntries.end();   }
 
-		const std::list<phoneme> &pronounce(const std::shared_ptr<buffer> &aText)
+		const std::list<phoneme> &pronounce(const std::shared_ptr<buffer> &aWord)
 		{
-			return pronounce(aText, 0);
+			return pronounce(aWord, 0);
 		}
 	private:
-		const std::list<phoneme> &pronounce(const std::shared_ptr<buffer> &aText, int depth);
+		const std::list<phoneme> &pronounce(const std::shared_ptr<buffer> &aWord, int depth);
 
 		storage_type mEntries;
 	};
