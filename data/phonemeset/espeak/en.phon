@@ -41,7 +41,9 @@ n	/{vcd,alv,nas}/
 N	/{vcd,vel,nas}/
 
 r	/{vcd,alv,apr}/
+r-	/{vcd,alv,apr}/
 l	/{vcd,alv,lat,apr}/
+l\#	/{vcd,alv,lat,apr,vzd}/
 w	/{vls,lbv,apr}/
 w	/{vcd,lbv,apr}/
 j	/{vcd,pal,apr}/
@@ -58,6 +60,8 @@ U	/{smh,bck,rnd,vcd,vwl}/ # FOOT
 E	/{lmd,fnt,unr,vcd,vwl}/ # DRESS
 V	/{lmd,bck,unr,vcd,vwl}/ # STRUT
 a	/{sml,fnt,unr,vcd,vwl}/ # TRAP
+aI2	/{sml,fnt,unr,vcd,vwl}/~2 # TRAP [3]
+aa\#	/{sml,fnt,unr,vcd,vwl}/~2 # TRAP [3]
 a\#	/{sml,cnt,unr,vcd,vwl}/
 aa	/{low,fnt,unr,vcd,vwl,lng}/ # BATH
 0	/{lmd,bck,rnd,vcd,vwl}/ # LONG
@@ -76,6 +80,7 @@ O@	/{umd,bck,rnd,vcd,vwl,rzd}/ # NORTH
 O@r-	/{umd,bck,rnd,vcd,vwl,rzd}/ # NORTH [2]
 o@	/{lmd,bck,rnd,vcd,vwl,rzd}/ # FORCE
 o@r-	/{lmd,bck,rnd,vcd,vwl,rzd}/ # FORCE [2]
+O	/{lmd,bck,rnd,vcd,vwl}/
 O:	/{lmd,bck,rnd,vcd,vwl,lng}/ # THOUGHT
 A:	/{low,bck,unr,vcd,vwl,lng}/ # PALM
 A@	/{low,bck,unr,vcd,vwl,rzd}/ # START
@@ -96,6 +101,7 @@ aI	/{low,fnt,unr,dpr,smh}/ # PRICE
 aI;	/{low,fnt,unr,dpr,smh}/ # PRICE [1]
 aI@L	/{low,fnt,unr,dpr,smh}/~2 # PRICE [3]
 aU	/{low,fnt,unr,dpr,smh,bck}/ # MOUTH
+aU@L	/{low,fnt,unr,dpr,smh,bck}/~2 # MOUTH [3]
 
 ##### Triphthongs
 
@@ -112,6 +118,13 @@ I2	/{hgh,cnt,unr,vcd,vwl}/ # ROSES
 @r-	/{mid,cnt,unr,vcd,vwl}/ # COMMA [2] ~ /@r-@L/
 3	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER
 3r-	/{mid,cnt,unr,vcd,vwl,rzd}/ # LETTER [2]
+
+##### Imported Foreign Phonemes
+
+Q	/{umd,bck,unr,vcd,vwl}/     # Spanish
+o:	/{umd,bck,rnd,vcd,vwl,lng}/ # Spanish
+O~	/{lmd,bck,rnd,vcd,vwl,nzd}/ # French
+A~	/{low,bck,unr,vcd,vwl,nzd}/ # French
 
 ##### Notes
 #
