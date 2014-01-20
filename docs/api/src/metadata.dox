@@ -383,6 +383,15 @@ a relation in the RDF graph.
 \brief Extract the object of the RDF triple.
 
 
+\fn    const cainteoir::rdf::literal &cainteoir::rdf::query::literal(const std::shared_ptr<const rdf::triple> &statement)
+\brief Extract the object literal of the RDF triple.
+
+\param[in] statement The RDF triple.
+
+\return The object literal. If the object is a URI resource, an empty literal is returned.
+
+
+
 \fn    const std::string &cainteoir::rdf::query::value(const std::shared_ptr<const rdf::triple> &statement)
 \brief Extract the object literal's value of the RDF triple.
 

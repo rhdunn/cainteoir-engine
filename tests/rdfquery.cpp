@@ -100,6 +100,26 @@ TEST_CASE("rql::object")
 	match(rql::object(g.back()), rdf::uri(std::string(), std::string()));
 }
 
+TEST_CASE("rql::literal")
+{
+	rdf::graph g;
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class")));
+	match(rql::literal(g.back()), rdf::literal());
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::bnode("class")));
+	match(rql::literal(g.back()), rdf::literal());
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property")));
+	match(rql::literal(g.back()), rdf::literal("Property"));
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", "en")));
+	match(rql::literal(g.back()), rdf::literal("Property", "en"));
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", rdf::xsd("string"))));
+	match(rql::literal(g.back()), rdf::literal("Property", rdf::xsd("string")));
+}
+
 TEST_CASE("rql::value")
 {
 	rdf::graph g;

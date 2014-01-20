@@ -263,11 +263,16 @@ namespace cainteoir { namespace rdf
 
 		extern const detail::object_t object;
 
+		inline const rdf::literal &literal(const std::shared_ptr<const rdf::triple> &statement)
+		{
+			static const rdf::literal nil;
+			const rdf::literal *ret = dynamic_cast<const rdf::literal *>(statement->object.get());
+			return ret ? *ret : nil;
+		}
+
 		inline const std::string &value(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			static const std::string nil;
-			const rdf::literal *literal = dynamic_cast<const rdf::literal *>(statement->object.get());
-			return literal ? literal->value : nil;
+			return literal(statement).value;
 		}
 	}
 
