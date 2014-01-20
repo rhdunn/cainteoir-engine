@@ -23,6 +23,7 @@
 
 #include <cainteoir/document.hpp>
 #include <cainteoir/archive.hpp>
+#include <cainteoir/path.hpp>
 
 namespace cainteoir
 {
@@ -56,7 +57,8 @@ namespace cainteoir
 	createNcxReader(const std::shared_ptr<xml::reader> &aReader,
 	                const rdf::uri &aSubject,
 	                rdf::graph &aPrimaryMetadata,
-	                const std::string &aTitle);
+	                const std::string &aTitle,
+	                const cainteoir::path &aBaseUri);
 
 	std::shared_ptr<document_reader>
 	createOcfReader(const std::shared_ptr<xml::reader> &aReader);

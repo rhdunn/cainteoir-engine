@@ -70,7 +70,11 @@ static const std::initializer_list<const xml::context::entry_ref> ncx_attrs =
 
 struct ncx_document_reader : public cainteoir::document_reader
 {
-	ncx_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
+	ncx_document_reader(const std::shared_ptr<xml::reader> &aReader,
+	                    const rdf::uri &aSubject,
+	                    rdf::graph &aPrimaryMetadata,
+	                    const std::string &aTitle,
+	                    const cainteoir::path &aBaseUri);
 
 	bool read(rdf::graph *aMetadata);
 
@@ -80,6 +84,7 @@ struct ncx_document_reader : public cainteoir::document_reader
 	rdf::uri mSubject;
 	rdf::uri mCurrentReference;
 	std::string mTitle;
+	cainteoir::path mBaseUri;
 	int mDepth;
 	bool mIsFirst;
 };
@@ -201,16 +206,21 @@ void ncx_document_reader::generate_reference(rdf::graph *aMetadata)
 
 	aMetadata->statement(entry, rdf::rdf("type"), rdf::ref("Entry"));
 	aMetadata->statement(entry, rdf::ref("level"), rdf::literal(mDepth, rdf::xsd("integer")));
-	aMetadata->statement(entry, rdf::ref("target"), anchor);
+	aMetadata->statement(entry, rdf::ref("target"), rdf::uri((mBaseUri / anchor.ns).str(), anchor.ref));
 	aMetadata->statement(entry, rdf::dc("title"), rdf::literal(content->str()));
 }
 
-ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
+ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aReader,
+                                         const rdf::uri &aSubject,
+                                         rdf::graph &aPrimaryMetadata,
+                                         const std::string &aTitle,
+                                         const cainteoir::path &aBaseUri)
 	: reader(aReader)
 	, mSubject(aSubject)
 	, mCurrentReference(aSubject)
 	, mDepth(0)
 	, mIsFirst(true)
+	, mBaseUri(aBaseUri)
 {
 	reader->set_nodes(xmlns::ncx, ncx_nodes);
 	reader->set_attrs(xmlns::ncx, ncx_attrs);
@@ -288,7 +298,8 @@ std::shared_ptr<cainteoir::document_reader>
 cainteoir::createNcxReader(const std::shared_ptr<xml::reader> &aReader,
                            const rdf::uri &aSubject,
                            rdf::graph &aPrimaryMetadata,
-                           const std::string &aTitle)
+                           const std::string &aTitle,
+                           const cainteoir::path &aBaseUri)
 {
-	return std::make_shared<ncx_document_reader>(aReader, aSubject, aPrimaryMetadata, aTitle);
+	return std::make_shared<ncx_document_reader>(aReader, aSubject, aPrimaryMetadata, aTitle, aBaseUri);
 }

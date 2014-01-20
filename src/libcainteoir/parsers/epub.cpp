@@ -112,7 +112,7 @@ bool epub_document_reader::read(rdf::graph *aMetadata)
 		mState  = state::publication;
 		return true;
 	case state::toc:
-		while (child->read())
+		while (child->read(aMetadata))
 		{
 			if (!(child->type & cainteoir::events::toc_entry))
 				continue;
@@ -187,8 +187,9 @@ bool epub_document_reader::read(rdf::graph *aMetadata)
 
 			if (!opf->content->compare("application/x-dtbncx+xml"))
 			{
+				cainteoir::path location{ mData->location(filename.str(), {}).ns };
 				rdf::graph innerMetadata;
-				child = cainteoir::createNcxReader(reader, mSubject, innerMetadata, std::string());
+				child = cainteoir::createNcxReader(reader, mSubject, innerMetadata, std::string(), location.parent());
 				mState = state::toc;
 			}
 			else if (!opf->content->compare("application/xhtml+xml"))

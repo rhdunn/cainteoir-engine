@@ -94,7 +94,7 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		}
 
 		if (mime::ncx.match(namespaceUri, rootName))
-			return createNcxReader(reader, aSubject, aPrimaryMetadata, aTitle);
+			return createNcxReader(reader, aSubject, aPrimaryMetadata, aTitle, {});
 
 		if (mime::opf.match(namespaceUri, rootName))
 			return createOpfReader(reader, aSubject, aPrimaryMetadata);

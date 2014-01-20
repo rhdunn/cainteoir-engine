@@ -350,4 +350,34 @@ if __name__ == '__main__':
 			]},
 		]
 	})
+	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
+		'archive':
+			[
+				('mimetype', 'application/epub+zip'),
+				('META-INF/container.xml', 'ocf/simple.ocf'),
+				('OEBPS/content.opf', 'opf/spine/single-html-file-and-toc.opf'),
+				('OEBPS/toc.ncx', '@test'), # replaced with 'test' file in the group tests
+				('OEBPS/test.html', 'html/tree-construction/simple.html')
+			],
+		'groups': [
+			{'name': 'metadata', 'type': ['turtle'], 'tests': [
+				{'test': 'ncx/navMap/linear.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+				{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+				{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+				{'test': 'ncx/navMap/linear-with-title.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+				{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+				{'test': 'ncx/navMap/named-uri.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+				{'test': 'ncx/navMap/nested.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			]},
+			{'name': 'metadata', 'type': ['turtle-all'], 'tests': [
+				{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/navMap/linear-epub.n3'},
+				{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'ncx/navMap/linear-epub.n3'},
+				{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'ncx/navMap/linear-epub.n3'},
+				{'test': 'ncx/navMap/linear-with-title.ncx', 'result': 'ncx/navMap/linear-epub.n3'},
+				{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'ncx/navMap/in-subdir-epub.n3'},
+				{'test': 'ncx/navMap/named-uri.ncx', 'result': 'ncx/navMap/named-uri-epub.n3'},
+				{'test': 'ncx/navMap/nested.ncx', 'result': 'ncx/navMap/nested-epub.n3'},
+			]},
+		]
+	})
 	test.summary()
