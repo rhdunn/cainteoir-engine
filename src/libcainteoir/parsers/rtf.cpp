@@ -1,6 +1,6 @@
 /* RichText Document Parser.
  *
- * Copyright (C) 2011-2013 Reece H. Dunn
+ * Copyright (C) 2011-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -304,11 +304,30 @@ bool rtf_document_reader::read(rdf::graph *aGraph)
 				mTitle = mTitle.substr(sep + 1);
 		}
 
-		type    = events::toc_entry | events::anchor;
-		styles  = &cainteoir::heading0;
-		content = cainteoir::make_buffer(mTitle);
-		anchor  = mSubject;
-		mState  = state_text;
+		if (aGraph)
+		{
+			const rdf::uri listing = aGraph->genid();
+			aGraph->statement(mSubject, rdf::ref("listing"), listing);
+
+			const rdf::uri currentReference = aGraph->genid();
+			aGraph->statement(listing, rdf::rdf("type"), rdf::ref("Listing"));
+			aGraph->statement(listing, rdf::ref("type"), rdf::epv("toc"));
+			aGraph->statement(listing, rdf::ref("entries"), currentReference);
+
+			const rdf::uri entry = aGraph->genid();
+			aGraph->statement(currentReference, rdf::rdf("first"), entry);
+
+			aGraph->statement(entry, rdf::rdf("type"), rdf::ref("Entry"));
+			aGraph->statement(entry, rdf::ref("level"), rdf::literal(0, rdf::xsd("integer")));
+			aGraph->statement(entry, rdf::ref("target"), mSubject);
+			aGraph->statement(entry, rdf::dc("title"), rdf::literal(mTitle));
+
+			aGraph->statement(currentReference, rdf::rdf("rest"), rdf::rdf("nil"));
+		}
+
+		type   = events::anchor;
+		anchor = mSubject;
+		mState = state_text;
 		return true;
 	}
 

@@ -174,13 +174,21 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'RTF', 'groups': [
-		{'name': 'metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
+		{'name': 'metadata', 'type': ['turtle'], 'tests': [
 			{'test': 'rtf/info/author.rtf', 'result': 'rtf/info/author.n3'},
 			{'test': 'rtf/info/comment.rtf', 'result': 'rtf/info/comment.n3'},
 			{'test': 'rtf/info/keywords.rtf', 'result': 'rtf/info/keywords.n3'},
 			{'test': 'rtf/info/operator.rtf', 'result': 'rtf/info/operator.n3'},
 			{'test': 'rtf/info/subject.rtf', 'result': 'rtf/info/subject.n3'},
 			{'test': 'rtf/info/title.rtf', 'result': 'rtf/info/title.n3'},
+		]},
+		{'name': 'metadata', 'type': ['turtle-all'], 'tests': [
+			{'test': 'rtf/info/author.rtf', 'result': 'rtf/info/author-toc.n3'},
+			{'test': 'rtf/info/comment.rtf', 'result': 'rtf/info/comment-toc.n3'},
+			{'test': 'rtf/info/keywords.rtf', 'result': 'rtf/info/keywords-toc.n3'},
+			{'test': 'rtf/info/operator.rtf', 'result': 'rtf/info/operator-toc.n3'},
+			{'test': 'rtf/info/subject.rtf', 'result': 'rtf/info/subject-toc.n3'},
+			{'test': 'rtf/info/title.rtf', 'result': 'rtf/info/title-toc.n3'},
 		]},
 	]})
 	test.run({'name': 'OPF', 'replace': ['mimetype'], 'mimetype': 'application/oebps-package+xml', 'groups': [

@@ -1,0 +1,22 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix ref: <http://reecedunn.co.uk/schema/2014/ref#> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix opf: <http://www.idpf.org/2007/opf#> .
+@prefix epv: <http://www.idpf.org/epub/vocab/structure/#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<> dc:creator _:genid1 .
+_:genid1 rdf:value "Anne Onymous" .
+_:genid1 opf:role "aut" .
+<> tts:mimetype "application/rtf" .
+<> ref:listing _:genid2 .
+_:genid2 rdf:type ref:Listing .
+_:genid2 ref:type epv:toc .
+_:genid2 ref:entries _:genid3 .
+_:genid3 rdf:first _:genid4 .
+_:genid4 rdf:type ref:Entry .
+_:genid4 ref:level "0"^^xsd:integer .
+_:genid4 ref:target <> .
+_:genid4 dc:title "author.rtf" .
+_:genid3 rdf:rest rdf:nil .
