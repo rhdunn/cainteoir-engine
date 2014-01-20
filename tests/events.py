@@ -327,17 +327,6 @@ if __name__ == '__main__':
 			{'test': 'http/basic-1.1-lfonly.txt', 'result': 'http/basic.events', 'title': 'basic-1.1-lfonly.txt'},
 		]},
 	]})
-	test.run({'name': 'NCX', 'groups': [
-		{'name': 'toc', 'type': 'events', 'tests': [
-			{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/navMap/linear.events'},
-			{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'ncx/navMap/linear.events'},
-			{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'ncx/navMap/linear.events'},
-			{'test': 'ncx/navMap/linear-with-title.ncx', 'result': 'ncx/navMap/linear-with-title.events'},
-			{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'ncx/navMap/in-subdir.events'},
-			{'test': 'ncx/navMap/named-uri.ncx', 'result': 'ncx/navMap/named-uri.events'},
-			{'test': 'ncx/navMap/nested.ncx', 'result': 'ncx/navMap/nested.events'},
-		]},
-	]})
 	test.run({'name': 'RTF', 'groups': [
 		{'name': 'document', 'type': 'events', 'tests': [
 			{'test': 'rtf/simple.rtf', 'result': 'rtf/simple.events'},
@@ -425,26 +414,6 @@ if __name__ == '__main__':
 			{'name': 'mimetype at end', 'type': 'events', 'tests': [
 				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub/simple.events'},
 				{'test': 'epub/missing-html-file.opf', 'result': 'epub/missing.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ePub',
-		'archive':
-			[
-				('mimetype', 'application/epub+zip'),
-				('META-INF/container.xml', 'ocf/simple.ocf'),
-				('OEBPS/content.opf', 'opf/spine/single-html-file-and-toc.opf'),
-				('OEBPS/toc.ncx', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/test.html', 'html/tree-construction/simple.html')
-			],
-		'groups': [
-			{'name': 'epub2 toc', 'type': 'events', 'tests': [
-				{'test': 'ncx/navMap/linear.ncx', 'result': 'epub/ncx-toc/linear.events'},
-				{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'epub/ncx-toc/linear.events'},
-				{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'epub/ncx-toc/linear.events'},
-				{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'epub/ncx-toc/in-subdir.events'},
-				{'test': 'ncx/navMap/named-uri.ncx', 'result': 'epub/ncx-toc/named-uri.events'},
-				{'test': 'ncx/navMap/nested.ncx', 'result': 'epub/ncx-toc/nested.events'},
 			]},
 		]
 	})

@@ -71,6 +71,15 @@ namespace cainteoir
 			int depth;
 			rdf::uri location;
 			std::string title;
+
+			toc_entry(int aDepth, const rdf::uri &aLocation, const std::string &aTitle)
+				: depth(aDepth)
+				, location(aLocation)
+				, title(aTitle)
+			{
+			}
+
+			toc_entry(const rdf::query::results &aEntry);
 		};
 
 		typedef std::list<document_item> list_type;

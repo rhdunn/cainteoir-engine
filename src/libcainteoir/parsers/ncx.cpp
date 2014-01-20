@@ -118,18 +118,8 @@ bool ncx_document_reader::read(rdf::graph *aMetadata)
 			current = outer = nullptr;
 			if (!anchor.empty())
 			{
-				type = events::toc_entry;
-				switch (mDepth)
-				{
-				case 1:  styles = &cainteoir::heading1; break;
-				case 2:  styles = &cainteoir::heading2; break;
-				case 3:  styles = &cainteoir::heading3; break;
-				case 4:  styles = &cainteoir::heading4; break;
-				case 5:  styles = &cainteoir::heading5; break;
-				default: styles = &cainteoir::heading6; break;
-				}
 				generate_reference(aMetadata);
-				return true;
+				content = {};
 			}
 		}
 		break;
@@ -144,18 +134,8 @@ bool ncx_document_reader::read(rdf::graph *aMetadata)
 				anchor = rdf::uri(src.substr(0, ref), src.substr(ref+1));
 			if (content)
 			{
-				type = events::toc_entry;
-				switch (mDepth)
-				{
-				case 1:  styles = &cainteoir::heading1; break;
-				case 2:  styles = &cainteoir::heading2; break;
-				case 3:  styles = &cainteoir::heading3; break;
-				case 4:  styles = &cainteoir::heading4; break;
-				case 5:  styles = &cainteoir::heading5; break;
-				default: styles = &cainteoir::heading6; break;
-				}
 				generate_reference(aMetadata);
-				return true;
+				anchor = {};
 			}
 		}
 		break;

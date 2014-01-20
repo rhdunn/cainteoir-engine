@@ -1,6 +1,6 @@
 /* Document.
  *
- * Copyright (C) 2010-2013 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -23,7 +23,10 @@
 
 #include <cainteoir/document.hpp>
 
+#include <iostream>
+
 namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
 
 static inline size_t
 anchor(const std::map<std::string, size_t> &anchors, const rdf::uri &anchor)
@@ -40,6 +43,20 @@ get_child(const cainteoir::document::list_type &children, size_t index)
 	cainteoir::document::const_iterator pos = children.begin();
 	std::advance(pos, index);
 	return pos;
+}
+
+cainteoir::document::document::toc_entry::toc_entry(const rql::results &aEntry)
+	: depth(0)
+{
+	for (auto &item : aEntry)
+	{
+		if (rql::predicate(item) == rdf::ref("level"))
+			depth = rql::literal(item).as<int>();
+		else if (rql::predicate(item) == rdf::ref("target"))
+			location = rql::object(item);
+		else if (rql::predicate(item) == rdf::dc("title"))
+			title = rql::value(item);
+	}
 }
 
 cainteoir::document::document(const std::shared_ptr<document_reader> &aReader)
@@ -93,6 +110,28 @@ void cainteoir::document::read(const std::shared_ptr<document_reader> &aReader, 
 		if (aReader->type & cainteoir::events::text)
 			mLength += aReader->content->size();
 	}
+
+	const rdf::uri *toc_entries = nullptr;
+
+	auto listings = rql::select(*aMetadata,
+	                            rql::predicate == rdf::rdf("type") && rql::object == rdf::ref("Listing"));
+	for (auto &query : listings)
+	{
+		auto listing = rql::select(*aMetadata, rql::subject == rql::subject(query));
+		if (rql::contains(listing, rql::predicate == rdf::ref("type") && rql::object == rdf::epv("toc")))
+		{
+			toc_entries = &rql::subject(query);
+			break;
+		}
+	}
+
+	if (!toc_entries) return;
+
+	aMetadata->foreach(*toc_entries, rdf::ref("entries"),
+	                   [&aMetadata, this](const std::shared_ptr<const rdf::triple> &item)
+	{
+		mToc.push_back({ rql::select(*aMetadata, rql::subject == rql::object(item)) });
+	});
 }
 
 struct document_range : public cainteoir::document_reader

@@ -164,6 +164,20 @@ media object.
 \brief The title of the entry.
 
 
+\fn    cainteoir::document::toc_entry::toc_entry(int aDepth, const rdf::uri &aLocation, const std::string &aTitle)
+\brief Create a toc entry object.
+
+\param[in] aDepth    The indentation level for this entry.
+\param[in] aLocation The location in the document this entry refers to.
+\param[in] aTitle    The title of this entry.
+
+
+\fn    cainteoir::document::toc_entry::toc_entry(const rdf::query::results &aEntry)
+\brief Create a toc entry object from a <a href="http://reecedunn.co.uk/schema/2014/ref#Entry">ref:Entry</a>.
+
+\param[in] aEntry The RDF metadata for the <a href="http://reecedunn.co.uk/schema/2014/ref#Entry">ref:Entry</a>.
+
+
 \addtogroup document_reader
 \{
 

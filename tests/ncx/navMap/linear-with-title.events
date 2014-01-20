@@ -1,4 +1,0 @@
-toc-entry [] depth=0 title="""Test File"""
-toc-entry [chapter1.xhtml] depth=1 title="""Chapter 1"""
-toc-entry [chapter2.xhtml] depth=1 title="""Chapter 2"""
-toc-entry [chapter3.xhtml] depth=1 title="""Chapter 3"""
