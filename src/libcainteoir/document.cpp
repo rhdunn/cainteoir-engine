@@ -45,16 +45,14 @@ get_child(const cainteoir::document::list_type &children, size_t index)
 cainteoir::document::document(const std::shared_ptr<document_reader> &aReader)
 	: mLength(0)
 {
-	while (aReader->read())
-	{
-		mChildren.push_back(*aReader);
-		if (aReader->type & cainteoir::events::anchor)
-			mAnchors[aReader->anchor.str()] = mChildren.size();
-		if (aReader->type & cainteoir::events::toc_entry)
-			mToc.push_back({ aReader->styles->aria_level, aReader->anchor, aReader->content->str() });
-		if (aReader->type & cainteoir::events::text)
-			mLength += aReader->content->size();
-	}
+	rdf::graph metadata;
+	read(aReader, &metadata);
+}
+
+cainteoir::document::document(const std::shared_ptr<document_reader> &aReader, rdf::graph &aMetadata)
+	: mLength(0)
+{
+	read(aReader, &aMetadata);
 }
 
 cainteoir::document::range_type
@@ -81,6 +79,20 @@ cainteoir::document::children(const std::pair<size_t, size_t> &aTocRange) const
 	            : mToc[aTocRange.second - 1].location;
 
 	return children(std::pair<const rdf::uri, const rdf::uri>(from, to));
+}
+
+void cainteoir::document::read(const std::shared_ptr<document_reader> &aReader, rdf::graph *aMetadata)
+{
+	while (aReader->read(aMetadata))
+	{
+		mChildren.push_back(*aReader);
+		if (aReader->type & cainteoir::events::anchor)
+			mAnchors[aReader->anchor.str()] = mChildren.size();
+		if (aReader->type & cainteoir::events::toc_entry)
+			mToc.push_back({ aReader->styles->aria_level, aReader->anchor, aReader->content->str() });
+		if (aReader->type & cainteoir::events::text)
+			mLength += aReader->content->size();
+	}
 }
 
 struct document_range : public cainteoir::document_reader

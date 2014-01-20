@@ -195,6 +195,16 @@ media object.
 \param[in] aReader The document reader to read document_item events from.
 
 
+\fn    cainteoir::document::document(const std::shared_ptr<document_reader> &aReader, rdf::graph &aMetadata)
+\brief Create a document object with the document_item events from the document_reader.
+
+\param[in] aReader   The document reader to read document_item events from.
+\param[in] aMetadata The metadata associated with the document.
+
+Any metadata contained within the document that is captured as the document is
+read will be added to \p aMetadata.
+
+
 \fn    size_t cainteoir::document::text_length() const
 \brief Get the number of characters in the document.
 

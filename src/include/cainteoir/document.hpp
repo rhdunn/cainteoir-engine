@@ -79,6 +79,7 @@ namespace cainteoir
 		typedef std::vector<toc_entry> toc_type;
 
 		document(const std::shared_ptr<document_reader> &aReader);
+		document(const std::shared_ptr<document_reader> &aReader, rdf::graph &aMetadata);
 
 		size_t text_length() const { return mLength; }
 
@@ -90,6 +91,8 @@ namespace cainteoir
 
 		const toc_type &toc() const { return mToc; }
 	private:
+		void read(const std::shared_ptr<document_reader> &aReader, rdf::graph *aMetadata);
+
 		size_t mLength;
 		list_type mChildren;
 		std::vector<toc_entry> mToc;
