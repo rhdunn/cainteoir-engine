@@ -227,6 +227,8 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 		}
 		return true;
 	}
+	if (aMetadata)
+		aMetadata->statement(mCurrentReference, rdf::rdf("rest"), rdf::rdf("nil"));
 	return false;
 }
 
