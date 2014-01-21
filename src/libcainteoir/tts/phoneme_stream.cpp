@@ -81,6 +81,7 @@ bool tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 }
 
 void tts::generate_phonemes(tts::phoneme_stream &reader,
+                            FILE *out,
                             const char *phonemeset,
                             tts::stress_type stress,
                             const char *open,
@@ -88,7 +89,7 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
                             const char *phrase)
 {
 	auto ipa = tts::createPhonemeWriter(phonemeset);
-	ipa->reset(stdout);
+	ipa->reset(out);
 
 	bool need_open  = true;
 	bool need_space = false;
@@ -100,24 +101,24 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 		default:
 			if (!need_open)
 			{
-				fprintf(stdout, "%s", close ? close : "");
+				fprintf(out, "%s", close ? close : "");
 				need_open  = true;
 				need_space = false;
 			}
 			if (event.type == tts::paragraph)
-				fprintf(stdout, "\n\n");
+				fprintf(out, "\n\n");
 			else
-				fprintf(stdout, "%s%s", event.text->str().c_str(), phrase);
+				fprintf(out, "%s%s", event.text->str().c_str(), phrase);
 			break;
 		case tts::phonemes:
 			if (need_open)
 			{
-				if (open) fprintf(stdout, "%s", open);
+				if (open) fprintf(out, "%s", open);
 				need_open  = false;
 				need_space = false;
 			}
 			if (need_space)
-				fprintf(stdout, " ");
+				fprintf(out, " ");
 			{
 				auto phonemes = event.phonemes;
 				tts::make_stressed(phonemes, stress);
@@ -130,5 +131,5 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 	}
 
 	if (!need_open)
-		fprintf(stdout, "%s\n", close ? close : "");
+		fprintf(out, "%s\n", close ? close : "");
 }

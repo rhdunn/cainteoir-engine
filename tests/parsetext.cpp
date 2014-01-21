@@ -156,16 +156,16 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 			generate_events(text, phonemeset);
 			break;
 		case phoneme_mode::phonemes:
-			tts::generate_phonemes(text, phonemeset, stress, nullptr, nullptr);
+			tts::generate_phonemes(text, stdout, phonemeset, stress, nullptr, nullptr);
 			break;
 		case phoneme_mode::broad_markers:
-			tts::generate_phonemes(text, phonemeset, stress, "/", "/");
+			tts::generate_phonemes(text, stdout, phonemeset, stress, "/", "/");
 			break;
 		case phoneme_mode::narrow_markers:
-			tts::generate_phonemes(text, phonemeset, stress, "[", "]");
+			tts::generate_phonemes(text, stdout, phonemeset, stress, "[", "]");
 			break;
 		case phoneme_mode::espeak_markers:
-			tts::generate_phonemes(text, phonemeset, stress, "[[", "]]");
+			tts::generate_phonemes(text, stdout, phonemeset, stress, "[[", "]]");
 			break;
 		}
 	}
