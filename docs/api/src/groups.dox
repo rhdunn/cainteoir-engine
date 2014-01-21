@@ -78,6 +78,11 @@ This is the C++ API to the various unit types for CSS values.
 \brief    BCP 47 / RFC 5646 language, region and variant tag processing.
 
 
+\defgroup letter_to_phoneme Letter To Phonemes
+\ingroup  text_to_phonemes
+\brief    Helpers for converting letter sequences to phonemes.
+
+
 \defgroup mime MIME
 \see      http://standards.freedesktop.org/shared-mime-info-spec/0.20/
 \brief    MIME type handling.
