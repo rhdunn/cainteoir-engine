@@ -732,7 +732,7 @@ This enforces the RDF requirement that a predicate cannot be a blank node.
 \addtogroup rdf
 \{
 
-\fn    std::shared_ptr<rdf::formatter> rdf::create_formatter(std::ostream &aStream, rdf::formatter::format_type aFormatType)
+\fn    std::shared_ptr<rdf::formatter> cainteoir::rdf::create_formatter(std::ostream &aStream, rdf::formatter::format_type aFormatType)
 \brief Create an RDF serializer.
 
 \param[in] aStream     The output stream to serialize the RDF data to.
