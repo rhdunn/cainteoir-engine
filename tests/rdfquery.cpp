@@ -280,7 +280,7 @@ TEST_CASE("rql::select_value")
 	       == "");
 }
 
-TEST_CASE("rdf::graph::foreach")
+TEST_CASE("rql::rdf_list_items")
 {
 	rdf::graph g;
 	auto reader = cainteoir::createDocumentReader("tests/rdfxml/syntax/example19.rdf", g, std::string());
@@ -290,7 +290,8 @@ TEST_CASE("rdf::graph::foreach")
 	rdf::ns stuff("stuff", "http://example.org/stuff/1.0/");
 
 	std::vector<rdf::uri> fruit;
-	g.foreach(ex("basket"), stuff("hasFruit"), [&fruit](const std::shared_ptr<const rdf::triple> &subject)
+	rql::rdf_list_items(g, ex("basket"), stuff("hasFruit"),
+	                    [&fruit](const std::shared_ptr<const rdf::triple> &subject)
 	{
 		fruit.push_back(rql::object(subject));
 	});

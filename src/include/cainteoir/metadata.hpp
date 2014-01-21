@@ -356,12 +356,6 @@ namespace cainteoir { namespace rdf
 		void curie_list(const std::string &aCurieList,
 		                const std::function<void (const rdf::uri &aUri)> &onuri);
 
-		// lists
-
-		void foreach(const rdf::uri &aSubject,
-		             const rdf::uri &aPredicate,
-		             const std::function<void (const std::shared_ptr<const triple> &aStatement)> &onlistitem);
-
 		// Statements
 
 		bool statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject);
@@ -376,6 +370,11 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
+		void rdf_list_items(const rdf::graph &aMetadata,
+		                    const rdf::uri &aSubject,
+		                    const rdf::uri &aPredicate,
+		                    const std::function<void (const std::shared_ptr<const triple> &aStatement)> &onlistitem);
+
 #ifndef DOXYGEN
 		namespace detail
 		{

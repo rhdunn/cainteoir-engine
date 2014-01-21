@@ -611,9 +611,10 @@ This is used for generating \\prefix entries in turtle/n3 documents.
 \param[in] onuri      The callback to be called when a URI is parsed from the CURIE list.
 
 
-\fn    void rdf::graph::foreach(const rdf::uri &aSubject, const rdf::uri &aPredicate, const std::function<void (const triplestore::value_type &aStatement)> &onlistitem)
+\fn    void cainteoir::rdf::query::rdf_list_items(const rdf::graph &aMetadata, const rdf::uri &aSubject, const rdf::uri &aPredicate, const std::function<void (const triplestore::value_type &aStatement)> &onlistitem)
 \brief Iterate over the items of an RDF list.
 
+\param[in] aMetadata  The RDF graph containing the list metadata.
 \param[in] aSubject   The subject of the RDF list to iterate over.
 \param[in] aPredicate The predicate of the RDF list to iterate over.
 \param[in] onlistitem The callback function to call on each item in the RDF list.

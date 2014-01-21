@@ -127,8 +127,8 @@ void cainteoir::document::read(const std::shared_ptr<document_reader> &aReader, 
 
 	if (!toc_entries) return;
 
-	aMetadata->foreach(*toc_entries, rdf::ref("entries"),
-	                   [&aMetadata, this](const std::shared_ptr<const rdf::triple> &item)
+	rql::rdf_list_items(*aMetadata, *toc_entries, rdf::ref("entries"),
+	                    [&aMetadata, this](const std::shared_ptr<const rdf::triple> &item)
 	{
 		mToc.push_back({ rql::select(*aMetadata, rql::subject == rql::object(item)) });
 	});
