@@ -74,6 +74,16 @@
 \retval false If the language tags do not match.
 
 
+\fn    bool cainteoir::language::operator<(const tag &a, const tag &b)
+\brief Compare two language tags for ordering.
+
+\param[in] a The fist language tag to compare.
+\param[in] b The second language tag to compare.
+
+\retval true  If \p a compares less than \p b.
+\retval false If \p a compares greater than or equal to \p b.
+
+
 \struct cainteoir::languages
 \brief  Helper for localizing language tags.
 
