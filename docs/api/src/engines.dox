@@ -260,4 +260,20 @@ while (pronounce->read())
 \return The specified parameter.
 
 
+\addtogroup tts_engines
+\{
+
+\fn    const rdf::uri *cainteoir::tts::get_voice_uri(const rdf::graph &aMetadata, const rdf::uri &predicate, const std::string &value)
+\brief Get the RDF statement containing information about the TTS voice.
+
+\param[in] aMetadata The RDF graph containing the TTS metadata.
+\param[in] predicate The RDF predicate to check.
+\param[in] value     The content of the RDF object to match against.
+
+\return The RDF statement containing information about the TTS voice.
+\retval nullptr If no matching voice was found.
+
+\}
+
+
 */
