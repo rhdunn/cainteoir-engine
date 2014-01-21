@@ -1,4 +1,3 @@
-toc-entry [] depth=0 title="""@title@"""
 anchor []
 text(92): """This is not ignored!
 --mimetest

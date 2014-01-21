@@ -238,14 +238,18 @@ class TestSuite:
 					for replacement in data['replace']:
 						if replacement in test.keys():
 							replacements[replacement] = test[replacement]
-						else:
+						elif replacement in data.keys():
 							replacements[replacement] = data[replacement]
+						else:
+							replacements[replacement] = '@REPLACEMENT@'
 				if 'replace' in group.keys():
 					for replacement in group['replace']:
 						if replacement in test.keys():
 							replacements[replacement] = test[replacement]
-						else:
+						elif replacement in data.keys():
 							replacements[replacement] = data[replacement]
+						else:
+							replacements[replacement] = '@REPLACEMENT@'
 
 				if 'archive' in data.keys():
 					archive = '/tmp/test.zip'

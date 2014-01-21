@@ -124,7 +124,7 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'MIME', 'groups': [
-		{'name': 'email', 'type': ['turtle', 'turtle-all'], 'tests': [
+		{'name': 'email', 'type': 'turtle', 'tests': [
 			{'test': 'mime/email/subject.txt', 'result': 'mime/email/subject.n3'},
 			{'test': 'mime/email/from.txt', 'result': 'mime/email/from.n3'},
 			{'test': 'mime/email/from-quoted.txt', 'result': 'mime/email/from.n3'},
@@ -151,7 +151,34 @@ if __name__ == '__main__':
 			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/newsgroups.n3'},
 			{'test': 'mime/email/article-subject-lfonly.txt', 'result': 'mime/email/subject.n3'},
 		]},
-		{'name': 'story-metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
+		{'name': 'email', 'type': 'turtle-all', 'replace': ['title'], 'tests': [
+			{'test': 'mime/email/subject.txt', 'result': 'mime/email/subject-all.n3'},
+			{'test': 'mime/email/from.txt', 'result': 'mime/email/from-all.n3', 'title': 'from.txt'},
+			{'test': 'mime/email/from-quoted.txt', 'result': 'mime/email/from-all.n3', 'title': 'from-quoted.txt'},
+			{'test': 'mime/email/from-inverted.txt', 'result': 'mime/email/from-all.n3', 'title': 'from-inverted.txt'},
+			{'test': 'mime/email/from-escaped-email.txt', 'result': 'mime/email/from-all.n3', 'title': 'from-escaped-email.txt'},
+			{'test': 'mime/email/from-no-email.txt', 'result': 'mime/email/from-no-email-all.n3', 'title': 'from-no-email.txt'},
+			{'test': 'mime/email/from-email-only.txt', 'result': 'mime/email/from-email-only-all.n3', 'title': 'from-email-only.txt'},
+			{'test': 'mime/email/from-email-email.txt', 'result': 'mime/email/from-email-only-all.n3', 'title': 'from-email-email.txt'},
+			{'test': 'mime/email/from-header.txt', 'result': 'mime/email/from-header-all.n3'},
+			{'test': 'mime/email/from-archived.txt', 'result': 'mime/email/from-all.n3', 'title': 'from-archived.txt'},
+			{'test': 'mime/email/newsgroups.txt', 'result': 'mime/email/newsgroups-all.n3', 'title': 'newsgroups.txt'},
+			{'test': 'mime/email/article-subject.txt', 'result': 'mime/email/subject-all.n3'},
+			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
+			{'test': 'mime/email/subject-lfonly.txt', 'result': 'mime/email/subject-all.n3'},
+			{'test': 'mime/email/from-lfonly.txt', 'result': 'mime/email/from-all.n3', 'title': 'from-lfonly.txt'},
+			{'test': 'mime/email/from-quoted-lfonly.txt', 'result': 'mime/email/from-all.n3', 'title': 'from-quoted-lfonly.txt'},
+			{'test': 'mime/email/from-inverted-lfonly.txt', 'result': 'mime/email/from-all.n3', 'title': 'from-inverted-lfonly.txt'},
+			{'test': 'mime/email/from-escaped-email-lfonly.txt', 'result': 'mime/email/from-all.n3', 'title': 'from-escaped-email-lfonly.txt'},
+			{'test': 'mime/email/from-no-email-lfonly.txt', 'result': 'mime/email/from-no-email-all.n3', 'title': 'from-no-email-lfonly.txt'},
+			{'test': 'mime/email/from-email-only-lfonly.txt', 'result': 'mime/email/from-email-only-all.n3', 'title': 'from-email-only-lfonly.txt'},
+			{'test': 'mime/email/from-email-email-lfonly.txt', 'result': 'mime/email/from-email-only-all.n3', 'title': 'from-email-email-lfonly.txt'},
+			{'test': 'mime/email/from-header-lfonly.txt', 'result': 'mime/email/from-header-all.n3'},
+			{'test': 'mime/email/from-archived-lfonly.txt', 'result': 'mime/email/from-all.n3', 'title': 'from-archived-lfonly.txt'},
+			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/newsgroups-all.n3', 'title': 'newsgroups-lfonly.txt'},
+			{'test': 'mime/email/article-subject-lfonly.txt', 'result': 'mime/email/subject-all.n3'},
+		]},
+		{'name': 'story-metadata', 'type': 'turtle', 'tests': [
 			{'test': 'mime/story-metadata/title.txt', 'result': 'mime/story-metadata/title.n3'},
 			{'test': 'mime/story-metadata/story.txt', 'result': 'mime/story-metadata/title.n3'},
 			{'test': 'mime/story-metadata/author.txt', 'result': 'mime/story-metadata/author.n3'},
@@ -160,6 +187,16 @@ if __name__ == '__main__':
 			{'test': 'mime/story-metadata/story-lfonly.txt', 'result': 'mime/story-metadata/title.n3'},
 			{'test': 'mime/story-metadata/author-lfonly.txt', 'result': 'mime/story-metadata/author.n3'},
 			{'test': 'mime/story-metadata/keywords-lfonly.txt', 'result': 'mime/story-metadata/keywords.n3'},
+		]},
+		{'name': 'story-metadata', 'type': 'turtle-all', 'replace': ['title'], 'tests': [
+			{'test': 'mime/story-metadata/title.txt', 'result': 'mime/story-metadata/title-all.n3'},
+			{'test': 'mime/story-metadata/story.txt', 'result': 'mime/story-metadata/title-all.n3'},
+			{'test': 'mime/story-metadata/author.txt', 'result': 'mime/story-metadata/author-all.n3', 'title': 'author.txt'},
+			{'test': 'mime/story-metadata/keywords.txt', 'result': 'mime/story-metadata/keywords-all.n3', 'title': 'keywords.txt'},
+			{'test': 'mime/story-metadata/title-lfonly.txt', 'result': 'mime/story-metadata/title-all.n3'},
+			{'test': 'mime/story-metadata/story-lfonly.txt', 'result': 'mime/story-metadata/title-all.n3'},
+			{'test': 'mime/story-metadata/author-lfonly.txt', 'result': 'mime/story-metadata/author-all.n3', 'title': 'author-lfonly.txt'},
+			{'test': 'mime/story-metadata/keywords-lfonly.txt', 'result': 'mime/story-metadata/keywords-all.n3', 'title': 'keywords-lfonly.txt'},
 		]},
 	]})
 	test.run({'name': 'SMIL', 'groups': [
