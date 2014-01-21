@@ -78,7 +78,10 @@ struct ncx_document_reader : public cainteoir::document_reader
 
 	bool read(rdf::graph *aMetadata);
 
-	void generate_reference(rdf::graph *aMetadata);
+	void generate_reference(rdf::graph *aMetadata,
+	                        int depth,
+	                        const std::string &title,
+	                        const rdf::uri &location);
 
 	std::shared_ptr<xml::reader> reader;
 	rdf::uri mSubject;
@@ -93,12 +96,8 @@ bool ncx_document_reader::read(rdf::graph *aMetadata)
 {
 	if (!mTitle.empty())
 	{
-		type    = events::toc_entry;
-		styles  = &cainteoir::heading0;
-		content = cainteoir::make_buffer(mTitle);
-		anchor  = mSubject;
+		generate_reference(aMetadata, 0, mTitle, mSubject);
 		mTitle.clear();
-		return true;
 	}
 
 	const xml::context::entry *current = nullptr;
@@ -118,7 +117,8 @@ bool ncx_document_reader::read(rdf::graph *aMetadata)
 			current = outer = nullptr;
 			if (!anchor.empty())
 			{
-				generate_reference(aMetadata);
+				generate_reference(aMetadata, mDepth, content->str(),
+				                   rdf::uri((mBaseUri / anchor.ns).str(), anchor.ref));
 				content = {};
 			}
 		}
@@ -134,7 +134,8 @@ bool ncx_document_reader::read(rdf::graph *aMetadata)
 				anchor = rdf::uri(src.substr(0, ref), src.substr(ref+1));
 			if (content)
 			{
-				generate_reference(aMetadata);
+				generate_reference(aMetadata, mDepth, content->str(),
+				                   rdf::uri((mBaseUri / anchor.ns).str(), anchor.ref));
 				anchor = {};
 			}
 		}
@@ -159,7 +160,10 @@ bool ncx_document_reader::read(rdf::graph *aMetadata)
 	return false;
 }
 
-void ncx_document_reader::generate_reference(rdf::graph *aMetadata)
+void ncx_document_reader::generate_reference(rdf::graph *aMetadata,
+                                             int depth,
+                                             const std::string &title,
+                                             const rdf::uri &location)
 {
 	if (!aMetadata) return;
 
@@ -185,9 +189,9 @@ void ncx_document_reader::generate_reference(rdf::graph *aMetadata)
 	aMetadata->statement(mCurrentReference, rdf::rdf("first"), entry);
 
 	aMetadata->statement(entry, rdf::rdf("type"), rdf::ref("Entry"));
-	aMetadata->statement(entry, rdf::ref("level"), rdf::literal(mDepth, rdf::xsd("integer")));
-	aMetadata->statement(entry, rdf::ref("target"), rdf::uri((mBaseUri / anchor.ns).str(), anchor.ref));
-	aMetadata->statement(entry, rdf::dc("title"), rdf::literal(content->str()));
+	aMetadata->statement(entry, rdf::ref("level"), rdf::literal(depth, rdf::xsd("integer")));
+	aMetadata->statement(entry, rdf::ref("target"), location);
+	aMetadata->statement(entry, rdf::dc("title"), rdf::literal(title));
 }
 
 ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aReader,

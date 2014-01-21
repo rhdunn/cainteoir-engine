@@ -94,10 +94,15 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'NCX', 'groups': [
-		{'name': 'metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
+		{'name': 'metadata', 'type': 'turtle', 'tests': [
 			{'test': 'ncx/metadata/meta.ncx', 'result': 'ncx/metadata/meta.n3'},
 			{'test': 'ncx/metadata/author.ncx', 'result': 'ncx/metadata/author.n3'},
 			{'test': 'ncx/metadata/title.ncx', 'result': 'ncx/metadata/title.n3'},
+		]},
+		{'name': 'metadata', 'type': 'turtle-all', 'tests': [
+			{'test': 'ncx/metadata/meta.ncx', 'result': 'ncx/metadata/meta.n3'},
+			{'test': 'ncx/metadata/author.ncx', 'result': 'ncx/metadata/author.n3'},
+			{'test': 'ncx/metadata/title.ncx', 'result': 'ncx/metadata/title-all.n3'},
 		]},
 		{'name': 'toc', 'type': 'turtle', 'tests': [
 			{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/simple.n3'},
@@ -312,7 +317,7 @@ if __name__ == '__main__':
 				('mimetype', 'application/epub+zip'),
 				('META-INF/container.xml', 'ocf/simple.ocf'),
 				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
+				('OEBPS/toc.ncx', 'ncx/metadata/meta.ncx'),
 				('OEBPS/test.html', 'html/tree-construction/simple.html')
 			],
 		'groups': [
@@ -381,7 +386,7 @@ if __name__ == '__main__':
 				{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/navMap/linear-epub.n3'},
 				{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'ncx/navMap/linear-epub.n3'},
 				{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'ncx/navMap/linear-epub.n3'},
-				{'test': 'ncx/navMap/linear-with-title.ncx', 'result': 'ncx/navMap/linear-epub.n3'},
+				{'test': 'ncx/navMap/linear-with-title.ncx', 'result': 'ncx/navMap/linear-with-title-epub.n3'},
 				{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'ncx/navMap/in-subdir-epub.n3'},
 				{'test': 'ncx/navMap/named-uri.ncx', 'result': 'ncx/navMap/named-uri-epub.n3'},
 				{'test': 'ncx/navMap/nested.ncx', 'result': 'ncx/navMap/nested-epub.n3'},
