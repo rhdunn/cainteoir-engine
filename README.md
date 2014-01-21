@@ -71,11 +71,11 @@ Optional Libraries:
 
 Documentation Dependencies:
 
-| Dependency | Install                         |
-|------------|---------------------------------|
-| pandoc     | `sudo apt-get install pandoc`   |
-| doxygen    | `sudo apt-get install doxygen`  |
-| graphviz   | `sudo apt-get install graphviz` |
+| Dependency | Install                              |
+|------------|--------------------------------------|
+| kramdown   | `sudo apt-get install ruby-kramdown` |
+| doxygen    | `sudo apt-get install doxygen`       |
+| graphviz   | `sudo apt-get install graphviz`      |
 
 ## Building
 

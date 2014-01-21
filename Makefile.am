@@ -197,7 +197,7 @@ endif
 	dot -Tsvg $< | sed -n '4,9999p' > $@
 
 .md.html:
-	pandoc --from markdown --to html $< --output $@
+	kramdown $< > $@
  
 ############################# documentation ###################################
 

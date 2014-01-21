@@ -1,8 +1,8 @@
 Release Notes
 =============
 
-Version 0.11: Saturday December 1st 2012 [Nov 2012]
----------------------------------------------------
+Version 0.11: Saturday December 1st 2012 \[Nov 2012\]
+-----------------------------------------------------
 
   *  preserve the event information from the readers into the document model
   *  rework the document event structure to use a CSS-like subset
@@ -13,8 +13,8 @@ Version 0.11: Saturday December 1st 2012 [Nov 2012]
   *  epub3: support for onix and marc metadata
   *  mht: fix reading MHT documents
 
-Version 0.10: Monday October 1st 2012 [Sep 2012]
-------------------------------------------------
+Version 0.10: Monday October 1st 2012 \[Sep 2012\]
+--------------------------------------------------
 
   *  fix compilation on clang 3.2
   *  add support for the mb-cz2 voice
@@ -54,8 +54,8 @@ Version 0.10: Monday October 1st 2012 [Sep 2012]
   *  add support for arpabet, Unicode IPA, x-sampa and sampa-de transcription schemes
   *  add support for en1, us1, us2, us3, de1, de2, de4 and de5 MBROLA voice phoneme transcription schemes
 
-Version 0.9: Tuesday July 31st 2012 [Jul 2012]
-----------------------------------------------
+Version 0.9: Tuesday July 31st 2012 \[Jul 2012\]
+------------------------------------------------
 
   *  doc2doc: improve text formatting
   *  improve argument and error handling for the command-line tools
@@ -77,8 +77,8 @@ Version 0.9: Tuesday July 31st 2012 [Jul 2012]
   *  html: support table markup
   *  ePub: be more relaxed about checking the epub mimetype file
 
-Version 0.8: Friday June 1st 2012 [Jun 2012]
---------------------------------------------
+Version 0.8: Friday June 1st 2012 \[Jun 2012\]
+----------------------------------------------
 
   *  define an archive interface with a zip file implementation
   *  report the filename as a toc entry if no toc is present
@@ -99,8 +99,8 @@ Version 0.8: Friday June 1st 2012 [Jun 2012]
   *  zip:     support reading generic zipped document collections
   *  ePub:    make the ePub parser use the archive interface
 
-Version 0.7: Friday March 30th 2012 [Mar 2012]
-----------------------------------------------
+Version 0.7: Friday March 30th 2012 \[Mar 2012\]
+------------------------------------------------
 
   *  use BCP 47 for interpreting and comparing language tags
   *  translate the language and region names using the iso-codes package
@@ -125,8 +125,8 @@ Version 0.7: Friday March 30th 2012 [Mar 2012]
   *  use std::make_shared instead of allocating the object explicitly
   *  remove the libxml2 dependency and make all xml-based parsers use xmlreader
 
-Version 0.6: Sunday January 29th 2012 [Jan 2012]
-------------------------------------------------
+Version 0.6: Sunday January 29th 2012 \[Jan 2012\]
+--------------------------------------------------
 
   *  languages.rdf -- represent ISO-639-2/B, ISO-639-2/T, ISO-639-3, ISO-639-5,
      espeak and wikimedia language codes;
@@ -151,8 +151,8 @@ Version 0.6: Sunday January 29th 2012 [Jan 2012]
 
   *  release the file handle when finished recording ogg files.
 
-Version 0.5: Monday November 21st 2011 [Nov 2011]
--------------------------------------------------
+Version 0.5: Monday November 21st 2011 \[Nov 2011\]
+---------------------------------------------------
 
   *  use the shared-mime-info database for MIME type detection.
   *  use iconv for character encoding conversions.
@@ -162,8 +162,8 @@ Version 0.5: Monday November 21st 2011 [Nov 2011]
   *  support UND as a language identifier (for Calibri eBooks).
   *  support XML encoded HTML without an associated xmlns.
 
-Version 0.4: Tuesday July 26th 2011 [Jul 2011]
-----------------------------------------------
+Version 0.4: Tuesday July 26th 2011 \[Jul 2011\]
+------------------------------------------------
 
 ### file formats:
 
@@ -177,8 +177,8 @@ Version 0.4: Tuesday July 26th 2011 [Jul 2011]
      specified content range;
   *  support setting the voice reading speed, pitch and volume.
 
-Version 0.3: Friday July 1st 2011 [Jun 2011]
---------------------------------------------
+Version 0.3: Friday July 1st 2011 \[Jun 2011\]
+----------------------------------------------
 
 ### file formats:
 
@@ -194,8 +194,8 @@ Version 0.3: Friday July 1st 2011 [Jun 2011]
 
   *  improved total reading time estimating heuristics.
 
-Version 0.2: Sunday May 29th 2011 [May 2011]
---------------------------------------------
+Version 0.2: Sunday May 29th 2011 \[May 2011\]
+----------------------------------------------
 
 ### file formats:
 
@@ -215,8 +215,8 @@ Version 0.2: Sunday May 29th 2011 [May 2011]
   *  don't output progress when writing audio data to stdout;
   *  don't crash when using the default voice (no dc:language metadata).
 
-Version 0.1: Wednesday April 27th 2011 [Apr 2011]
--------------------------------------------------
+Version 0.1: Wednesday April 27th 2011 \[Apr 2011\]
+---------------------------------------------------
 
 ### cainteoir:
 
