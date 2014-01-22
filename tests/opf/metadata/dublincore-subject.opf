@@ -40,9 +40,4 @@
 		<dc:subject>,, three, four five , ,six </dc:subject>
 		<dc:subject> seven, eight-nine, ten</dc:subject>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

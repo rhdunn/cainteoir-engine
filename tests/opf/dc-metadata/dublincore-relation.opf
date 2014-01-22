@@ -33,9 +33,4 @@
 			<dc:relation xml:lang="zh-TW">related (taiwan)</dc:relation>
 		</dc-metadata>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

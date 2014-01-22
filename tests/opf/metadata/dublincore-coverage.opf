@@ -31,9 +31,4 @@
 		<dc:coverage xml:lang="en-GB">covered (uk)</dc:coverage>
 		<dc:coverage xml:lang="zh-TW">covered (taiwan)</dc:coverage>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

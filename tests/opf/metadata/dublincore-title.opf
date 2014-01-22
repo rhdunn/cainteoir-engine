@@ -31,9 +31,4 @@
 		<dc:title xml:lang="en-GB">Dublin Core British</dc:title>
 		<dc:title xml:lang="zh-TW">Dublin Core Chinese (Taiwan)</dc:title>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>
