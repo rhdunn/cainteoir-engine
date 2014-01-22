@@ -511,4 +511,17 @@ consumer does not have to do this itself.
 \}
 
 
+\addtogroup xml
+\{
+
+\fn    const char *cainteoir::xml::node_type_name(xml::reader::node_type aType)
+\brief Get the display name for the node type.
+
+\param[in] aType The XML node type.
+
+\return The display name for the node type.
+
+\}
+
+
 */
