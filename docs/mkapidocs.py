@@ -45,16 +45,42 @@ class XmlDocument(XmlNode):
 		XmlNode.__init__(self, minidom.parse(filename).documentElement)
 
 
-##### Doxygen XML Parser
+##### C++ Object Model
 
 
-class Item:
-	def __init__(self, kind, name):
-		self.kind = kind
-		self.name = name
+class ScopedItem:
+	def __init__(self, kind, name, parent):
+		self.kind   = kind
+		self.name   = name
+		self.parent = parent
+		self.items  = {}
 
 	def __str__(self):
 		return '%s %s' % (self.kind, self.name)
+
+	def get(self, kind, name, parent):
+		if name in self.items.keys():
+			ret = self.items[name]
+			ret.kind = kind
+		else:
+			ret = ScopedItem(kind, name, parent)
+			self.items[name] = ret
+		return ret
+
+
+global_namespace = ScopedItem('namespace', '', None)
+
+
+def create_scoped_item(kind, name):
+	items = name.split('::')
+	ns = global_namespace
+	for item in items[:-1]:
+		ns = ns.get('namespace', item, ns)
+	return ns.get(kind, items[-1], ns)
+
+
+##### Doxygen XML Parser
+
 
 class Reference:
 	def __init__(self, ref, item):
@@ -84,7 +110,10 @@ def create_item(ref, kind, name):
 		raise Exception('Item not fully defined')
 	item = create_itemref(ref, name)
 	if not item.item:
-		item.item = Item(kind, name)
+		if kind in ['namespace', 'struct', 'class']:
+			item.item = create_scoped_item(kind, name)
+		else:
+			item.item = ScopedItem(kind, name, None)
 	return item
 
 
@@ -190,6 +219,11 @@ def parseDoxygenXml(xml):
 
 ##### Main Entry Point
 
+def printItem(item, level=0):
+	print('%s%s' % (('... '*level), item))
+	for key, child in item.items.items():
+		printItem(child, level + 1)
+
 
 compounds  = []
 for filename in sys.argv[1:]:
@@ -199,4 +233,5 @@ for filename in sys.argv[1:]:
 for ref, item in _items.items():
 	if not item.item:
 		raise Exception('Reference %s does not have a referenced item' % ref)
-	print(item)
+
+printItem(global_namespace)
