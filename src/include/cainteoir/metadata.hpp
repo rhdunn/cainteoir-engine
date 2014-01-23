@@ -178,10 +178,9 @@ namespace cainteoir { namespace rdf
 	template<typename T>
 	inline T literal::as() const
 	{
-		std::istringstream ss(value);
-		T value;
-		ss >> value;
-		return value;
+		T ret;
+		std::istringstream(value) >> ret;
+		return ret;
 	}
 
 	/// @private
@@ -466,31 +465,6 @@ namespace cainteoir { namespace rdf
 			return false;
 		}
 
-#ifndef DOXYGEN
-		namespace detail
-		{
-			template<typename T>
-			struct value_cast
-			{
-				static T cast(const std::string &value)
-				{
-					T ret;
-					std::istringstream(value) >> ret;
-					return ret;
-				}
-			};
-
-			template<>
-			struct value_cast<std::string>
-			{
-				static const std::string & cast(const std::string &value)
-				{
-					return value;
-				}
-			};
-		}
-#endif
-
 		/** @brief Select a value matching the selector.
 		  *
 		  * @param metadata The subgraph to select statements from.
@@ -504,7 +478,7 @@ namespace cainteoir { namespace rdf
 			for (auto &query : metadata)
 			{
 				if (selector(query))
-					return detail::value_cast<T>::cast(value(query));
+					return literal(query).template as<T>();
 			}
 			return T();
 		}
