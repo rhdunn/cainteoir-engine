@@ -33,11 +33,12 @@ namespace css    = cainteoir::css;
 
 enum class state
 {
-	title,       // The document title toc-entry event.
-	publication, // Processing OPF toc-entry events.
-	toc,         // Processing table of content document (NCX, etc.) events.
-	content,     // Processing content document (HTML, etc.) events.
-	eof,         // End of the file.
+	title,           // The document title.
+	publication_toc, // Processing the document's table of contents.
+	publication,     // Processing the document's spine items.
+	toc,             // Processing table of content document (NCX, etc.) events.
+	content,         // Processing content document (HTML, etc.) events.
+	eof,             // End of the file.
 };
 
 struct epub_document_reader : public cainteoir::document_reader
@@ -48,7 +49,6 @@ struct epub_document_reader : public cainteoir::document_reader
 
 	cainteoir::path opf_file;
 	cainteoir::path opf_root;
-	std::shared_ptr<cainteoir::document_reader> opf;
 	std::shared_ptr<cainteoir::document_reader> child;
 	state mState;
 
@@ -56,11 +56,22 @@ struct epub_document_reader : public cainteoir::document_reader
 	rdf::uri mSubject;
 	const char *mDefaultEncoding;
 
+	rdf::graph mManifest;
+	rql::results mManifestItem;
+
 	std::shared_ptr<cainteoir::document_reader> media_overlay;
 	rdf::uri mTextRef;
 	cainteoir::document_item mMediaItem;
 	std::string mDocTitle;
 
+	enum class document_type
+	{
+		toc,
+		text,
+		media_overlay,
+	};
+
+	bool load_document(const rql::results &aItem, document_type aType);
 	void next_media_overlay_entry();
 };
 
@@ -87,7 +98,7 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 	if (!reader)
 		throw std::runtime_error(i18n("Unsupported ePub content: OPF file not found."));
 
-	opf = cainteoir::createOpfReader(reader, aSubject, aPrimaryMetadata, "application/epub+zip");
+	auto opf = cainteoir::createOpfReader(reader, aSubject, aPrimaryMetadata, "application/epub+zip");
 	opf_root = opf_file.parent();
 
 	for (auto &query : rql::select(aPrimaryMetadata, rql::subject == aSubject))
@@ -98,6 +109,11 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 				mDocTitle = rql::value(query);
 		}
 	}
+
+	while (opf->read(&mManifest))
+		;
+
+	mManifestItem = rql::select(mManifest, rql::subject == mSubject && rql::predicate == rdf::ref("spine"));
 }
 
 bool epub_document_reader::read(rdf::graph *aMetadata)
@@ -105,11 +121,9 @@ bool epub_document_reader::read(rdf::graph *aMetadata)
 	while (true) switch (mState)
 	{
 	case state::title:
-		styles  = &cainteoir::heading0;
-		type    = events::toc_entry | events::anchor;
-		content = cainteoir::make_buffer(mDocTitle);
+		type    = events::anchor;
 		anchor  = mSubject;
-		mState  = state::publication;
+		mState  = state::publication_toc;
 		return true;
 	case state::toc:
 		while (child->read(aMetadata))
@@ -172,49 +186,103 @@ bool epub_document_reader::read(rdf::graph *aMetadata)
 		child.reset();
 		mState = state::publication;
 		break;
-	case state::publication:
-		if (!opf->read())
-			mState = state::eof;
-		else if (opf->type & cainteoir::events::toc_entry)
+	case state::publication_toc:
 		{
-			cainteoir::path filename = opf_root / opf->anchor.ns;
-			auto reader = cainteoir::createXmlReader(mData->read(filename), mDefaultEncoding);
-			if (!reader)
+			auto results = rql::select(mManifest, rql::subject == mSubject && rql::predicate == rdf::ref("toc"));
+			if (!results.empty())
 			{
-				fprintf(stderr, i18n("document '%s' not found in ePub archive.\n"), (const char *)filename);
-				continue;
+				auto item = rql::select(mManifest, rql::subject == rql::object(results.front()));
+				if (load_document(item, document_type::toc))
+				{
+					mState = state::toc;
+					continue;
+				}
+			}
+		}
+		mState = state::publication;
+		break;
+	case state::publication:
+		if (mManifestItem.empty())
+			mState = state::eof;
+		else
+		{
+			const rdf::uri &item = rql::object(mManifestItem.front());
+			auto first = rql::select(mManifest, rql::subject == item && rql::predicate == rdf::rdf("first"));
+
+			mManifestItem = rql::select(mManifest, rql::subject == item && rql::predicate == rdf::rdf("rest"));
+			if (!mManifestItem.empty())
+			{
+				if (rql::object(mManifestItem.front()) == rdf::rdf("nil"))
+					mManifestItem.clear();
 			}
 
-			if (!opf->content->compare("application/x-dtbncx+xml"))
+			if (!first.empty())
 			{
-				cainteoir::path location{ mData->location(filename.str(), {}).ns };
-				rdf::graph innerMetadata;
-				child = cainteoir::createNcxReader(reader, mSubject, innerMetadata, std::string(), location.parent());
-				mState = state::toc;
-			}
-			else if (!opf->content->compare("application/xhtml+xml"))
-			{
-				anchor = mData->location(filename.str(), opf->anchor.ref);
-
-				rdf::graph innerMetadata;
-				child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml");
-				mState = (opf->type & cainteoir::events::navigation_document)
-				       ? state::toc
-				       : state::content;
-			}
-			else if (!opf->content->compare("application/smil+xml"))
-			{
-				anchor = mData->location(filename.str(), opf->anchor.ref);
-
-				rdf::graph innerMetadata;
-				media_overlay = cainteoir::createSmilReader(reader, anchor, innerMetadata, std::string());
-				next_media_overlay_entry();
+				auto item = rql::select(mManifest, rql::subject == rql::object(first.front()));
+				if (load_document(item, document_type::text))
+					mState = state::content;
 			}
 		}
 		break;
 	case state::eof:
 		return false;
 	}
+}
+
+bool epub_document_reader::load_document(const rql::results &aItem, document_type aType)
+{
+	auto target = rql::object(rql::select(aItem, rql::predicate == rdf::ref("target")).front());
+	auto mimetype = rql::select_value<std::string>(aItem, rql::predicate == rdf::ref("mimetype"));
+
+	cainteoir::path filename = opf_root / target.ns;
+	auto reader = cainteoir::createXmlReader(mData->read(filename), mDefaultEncoding);
+	if (!reader)
+	{
+		fprintf(stderr, i18n("document '%s' not found in ePub archive.\n"), (const char *)filename);
+		return false;
+	}
+
+	switch (aType)
+	{
+	case document_type::toc:
+		if (mimetype == "application/x-dtbncx+xml")
+		{
+			cainteoir::path location{ mData->location(filename.str(), {}).ns };
+			rdf::graph innerMetadata;
+			child = cainteoir::createNcxReader(reader, mSubject, innerMetadata, std::string(), location.parent());
+		}
+		else if (mimetype == "application/xhtml+xml")
+		{
+			anchor = mData->location(filename.str(), target.ref);
+			rdf::graph innerMetadata;
+			child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml");
+		}
+		else
+			return false;
+		break;
+	case document_type::text:
+		if (mimetype == "application/xhtml+xml")
+		{
+			anchor = mData->location(filename.str(), target.ref);
+			rdf::graph innerMetadata;
+			child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml");
+		}
+		else
+			return false;
+		break;
+	case document_type::media_overlay:
+		if (mimetype == "application/smil+xml")
+		{
+			anchor = mData->location(filename.str(), target.ref);
+			rdf::graph innerMetadata;
+			media_overlay = cainteoir::createSmilReader(reader, anchor, innerMetadata, std::string());
+			next_media_overlay_entry();
+		}
+		else
+			return false;
+		break;
+	}
+	return true;
 }
 
 void epub_document_reader::next_media_overlay_entry()

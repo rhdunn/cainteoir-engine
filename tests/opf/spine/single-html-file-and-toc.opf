@@ -23,7 +23,7 @@
 	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:opf2="http://www.idpf.org/2007/opf">
 		<!-- required elements -->
 		<dc:title>Test Case</dc:title>
-		<dc:identifier id="id">dublincore-language.opf</dc:identifier>
+		<dc:identifier id="id">test.opf</dc:identifier>
 	</metadata>
 	<manifest>
 		<item id="test" href="test.html" media-type="application/xhtml+xml" />

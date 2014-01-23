@@ -356,17 +356,6 @@ if __name__ == '__main__':
 			{'test': 'ssml/emphasis.ssml', 'result': 'ssml/emphasis.events'},
 		]},
 	]})
-	test.run({'name': 'OPF', 'groups': [
-		{'name': 'spine', 'type': 'events', 'tests': [
-			{'test': 'opf/spine/no-toc-ncx-in-manifest.opf', 'result': 'opf/spine/single-html-file.events'},
-			{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc.events'},
-			{'test': 'opf/spine/epub3-html-nav.opf', 'result': 'opf/spine/epub3-html-nav.events'},
-			{'test': 'opf/spine/epub3-html-nav-multiple-properties.opf', 'result': 'opf/spine/epub3-html-nav.events'},
-			{'test': 'opf/spine/epub3-html-nav-empty-properties.opf', 'result': 'opf/spine/epub3-html-nav-empty-properties.events'},
-			{'test': 'opf/spine/epub3-html-nav-and-ncx.opf', 'result': 'opf/spine/epub3-html-nav-and-ncx.events'},
-			{'test': 'opf/spine/media-overlay.opf', 'result': 'opf/spine/media-overlay.events'},
-		]},
-	]})
 	test.run({ 'name': 'ePub',
 		'archive':
 			[
@@ -430,8 +419,8 @@ if __name__ == '__main__':
 			{'name': 'epub3 toc', 'type': 'events', 'tests': [
 				{'test': 'html/sections/div.xhtml', 'result': 'epub/epub3-toc/no-toc-entries.events'},
 				{'test': 'html/epub3nav/linear.xhtml', 'result': 'epub/epub3-toc/linear.events'},
-				{'test': 'html/epub3nav/linear-with-heading.xhtml', 'result': 'epub/epub3-toc/linear-with-heading.events', 'expect': 'fail'},
-				{'test': 'html/epub3nav/nested.xhtml', 'result': 'epub/epub3-toc/nested.events', 'expect': 'fail'},
+				{'test': 'html/epub3nav/linear-with-heading.xhtml', 'result': 'epub/epub3-toc/linear-with-heading.events'},
+				{'test': 'html/epub3nav/nested.xhtml', 'result': 'epub/epub3-toc/nested.events'},
 			]},
 		]
 	})

@@ -347,6 +347,24 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/xml-signature.opf', 'result': 'opf/metadata30/xml-signature.n3'},
 			{'test': 'opf/metadata30/xmp-record.opf', 'result': 'opf/metadata30/xmp-record.n3'},
 		]},
+		{'name': 'manifest', 'type': 'turtle', 'tests': [
+			{'test': 'opf/spine/no-toc-ncx-in-manifest.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'opf/spine/epub3-html-nav.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'opf/spine/epub3-html-nav-multiple-properties.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'opf/spine/epub3-html-nav-empty-properties.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'opf/spine/epub3-html-nav-and-ncx.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'opf/spine/media-overlay.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+		]},
+		{'name': 'manifest', 'type': 'turtle-all', 'tests': [
+			{'test': 'opf/spine/no-toc-ncx-in-manifest.opf', 'result': 'opf/spine/no-toc-ncx-in-manifest-all.n3'},
+			{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc-all.n3'},
+			{'test': 'opf/spine/epub3-html-nav.opf', 'result': 'opf/spine/epub3-html-nav-all.n3'},
+			{'test': 'opf/spine/epub3-html-nav-multiple-properties.opf', 'result': 'opf/spine/epub3-html-nav-multiple-properties-all.n3'},
+			{'test': 'opf/spine/epub3-html-nav-empty-properties.opf', 'result': 'opf/spine/epub3-html-nav-empty-properties-all.n3'},
+			{'test': 'opf/spine/epub3-html-nav-and-ncx.opf', 'result': 'opf/spine/epub3-html-nav-and-ncx-all.n3'},
+			{'test': 'opf/spine/media-overlay.opf', 'result': 'opf/spine/media-overlay-all.n3'},
+		]},
 	]})
 	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
 		'archive':

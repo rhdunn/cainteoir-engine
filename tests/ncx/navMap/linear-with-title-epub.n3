@@ -7,7 +7,7 @@
 
 <> dc:title "Test Case" .
 <> dc:identifier <#id> .
-<#id> rdf:value "dublincore-language.opf" .
+<#id> rdf:value "test.opf" .
 <> tts:mimetype "@mimetype@" .
 <> ref:listing _:genid1 .
 _:genid1 rdf:type ref:Listing .
