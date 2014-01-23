@@ -234,7 +234,7 @@ bool epub_document_reader::load_document(const rql::results &aItem, document_typ
 	auto target = rql::object(rql::select(aItem, rql::predicate == rdf::ref("target")).front());
 	auto mimetype = rql::select_value<std::string>(aItem, rql::predicate == rdf::ref("mimetype"));
 
-	cainteoir::path filename = opf_root / target.ns;
+	cainteoir::path filename = opf_root / target.str();
 	auto reader = cainteoir::createXmlReader(mData->read(filename), mDefaultEncoding);
 	if (!reader)
 	{
