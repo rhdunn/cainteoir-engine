@@ -1,0 +1,23 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix ref: <http://reecedunn.co.uk/schema/2014/ref#> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<> dc:title "Test Case" .
+<> dc:identifier <#id> .
+<#id> rdf:value "test.opf" .
+<> tts:mimetype "@mimetype@" .
+<> ref:hasManifestItem <#test> .
+<#test> rdf:type ref:ManifestItem .
+<#test> ref:target <text/test.html> .
+<#test> ref:mimetype "application/xhtml+xml" .
+<> ref:hasManifestItem <#ncx> .
+<#ncx> rdf:type ref:ManifestItem .
+<#ncx> ref:target <toc.ncx> .
+<#ncx> ref:mimetype "application/x-dtbncx+xml" .
+<> rdf:type ref:Manifest .
+<> ref:spine _:genid1 .
+_:genid1 rdf:first <#test> .
+<> ref:toc <#ncx> .
+_:genid1 rdf:rest rdf:nil .
+

@@ -350,6 +350,7 @@ if __name__ == '__main__':
 		{'name': 'manifest', 'type': 'turtle', 'tests': [
 			{'test': 'opf/spine/no-toc-ncx-in-manifest.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
 			{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'opf/spine/file-in-subdir.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
 			{'test': 'opf/spine/epub3-html-nav.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
 			{'test': 'opf/spine/epub3-html-nav-multiple-properties.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
 			{'test': 'opf/spine/epub3-html-nav-empty-properties.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
@@ -359,6 +360,7 @@ if __name__ == '__main__':
 		{'name': 'manifest', 'type': 'turtle-all', 'tests': [
 			{'test': 'opf/spine/no-toc-ncx-in-manifest.opf', 'result': 'opf/spine/no-toc-ncx-in-manifest-all.n3'},
 			{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc-all.n3'},
+			{'test': 'opf/spine/file-in-subdir.opf', 'result': 'opf/spine/file-in-subdir-all.n3'},
 			{'test': 'opf/spine/epub3-html-nav.opf', 'result': 'opf/spine/epub3-html-nav-all.n3'},
 			{'test': 'opf/spine/epub3-html-nav-multiple-properties.opf', 'result': 'opf/spine/epub3-html-nav-multiple-properties-all.n3'},
 			{'test': 'opf/spine/epub3-html-nav-empty-properties.opf', 'result': 'opf/spine/epub3-html-nav-empty-properties-all.n3'},

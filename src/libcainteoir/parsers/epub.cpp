@@ -263,7 +263,7 @@ bool epub_document_reader::load_document(const rql::results &aItem, document_typ
 	case document_type::text:
 		if (mimetype == "application/xhtml+xml")
 		{
-			anchor = mData->location(filename.str(), target.ref);
+			anchor = mData->location(filename.str(), {});
 			rdf::graph innerMetadata;
 			child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml");
 		}
