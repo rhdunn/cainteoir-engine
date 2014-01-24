@@ -13,7 +13,10 @@
 
 # generated test files:
 
+*.bz2
 *.epub
+*.gz
+*.lzma
 *.zip
 
 # code generation data/output:
@@ -33,8 +36,6 @@ docs/api/html/
 *.svg
 
 !docs/api/src/*.dot
-
-data/languages.rdf.gz
 
 src/libcainteoir/libcainteoir.a
 src/libcainteoir/libcainteoir.la

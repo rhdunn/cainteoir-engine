@@ -39,6 +39,10 @@ def map_line(line, replacements):
 		line = line.replace(src, dst)
 	return line
 
+def match_file_times(srcfile, dstfile):
+	stat = os.stat(srcfile)
+	os.utime(dstfile, (stat.st_atime, stat.st_mtime))
+
 def create_archive(filename):
 	zf = zipfile.ZipFile(filename, mode='w', compression=zipfile.ZIP_STORED)
 	with open('%s.archive' % filename) as f:
@@ -64,14 +68,28 @@ def create_archive(filename):
 			else:
 				raise Exception('Unsupported compression type %s for %s' % (kind, filename))
 	zf.close()
-	# Ensure the created archive accessed and modified times match the
-	# source file. This is so that the Makefile targets do not trigger
-	# unnecessarily.
-	stat = os.stat('%s.archive' % filename)
-	os.utime(filename, (stat.st_atime, stat.st_mtime))
+	match_file_times('%s.archive' % filename, filename)
+
+def gzip_compress(filename):
+	srcfile = '.'.join(filename.split('.')[:-1])
+	os.system('gzip -c %s > %s' % (srcfile, filename))
+	match_file_times(srcfile, filename)
+
+def bzip2_compress(filename):
+	srcfile = '.'.join(filename.split('.')[:-1])
+	os.system('bzip2 -c %s > %s' % (srcfile, filename))
+	match_file_times(srcfile, filename)
+
+def lzma_compress(filename):
+	srcfile = '.'.join(filename.split('.')[:-1])
+	os.system('lzma -c %s > %s' % (srcfile, filename))
+	match_file_times(srcfile, filename)
 
 special_files = {
+	('.bz2',  bzip2_compress),
 	('.epub', create_archive),
+	('.gz',   gzip_compress),
+	('.lzma', lzma_compress),
 	('.zip',  create_archive),
 }
 
@@ -314,17 +332,6 @@ class TestSuite:
 							zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
 					zf.close()
 					self.check(archive, exp, group['type'], args, 'expect-%s' % expect, replacements, test, test['test'])
-				elif 'compress' in group.keys():
-					if group['compress'] == 'gzip':
-						filename = '/tmp/test.gz'
-						os.system('gzip -c %s > %s' % (got, filename))
-					elif group['compress'] == 'bzip2':
-						filename = '/tmp/test.bz2'
-						os.system('bzip2 -c %s > %s' % (got, filename))
-					elif group['compress'] == 'lzma':
-						filename = '/tmp/test.lzma'
-						os.system('lzma -c %s > %s' % (got, filename))
-					self.check(filename, exp, group['type'], args, 'expect-%s' % expect, replacements, test, test['test'])
 				else:
 					self.check(got, exp, group['type'], args, 'expect-%s' % expect, replacements, test, got)
 

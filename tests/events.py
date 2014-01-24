@@ -383,14 +383,10 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'Compressed', 'groups': [
-		{'name': 'gzip', 'type': 'events', 'compress': 'gzip', 'tests': [
-			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.events'},
-		]},
-		{'name': 'bzip2', 'type': 'events', 'compress': 'bzip2', 'tests': [
-			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.events', 'expect': 'fail'},
-		]},
-		{'name': 'lzma', 'type': 'events', 'compress': 'lzma', 'tests': [
-			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.events', 'expect': 'fail'},
+		{'name': 'compression', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/simple.html.gz', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/simple.html.bz2', 'result': 'html/tree-construction/simple.events', 'expect': 'fail'},
+			{'test': 'html/tree-construction/simple.html.lzma', 'result': 'html/tree-construction/simple.events', 'expect': 'fail'},
 		]},
 	]})
 	test.summary()
