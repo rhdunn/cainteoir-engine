@@ -11,6 +11,10 @@
 *~
 .*.swp
 
+# generated test files:
+
+*.epub
+
 # code generation data/output:
 
 data/css

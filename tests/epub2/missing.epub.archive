@@ -1,0 +1,5 @@
+mimetype,text,epub2/mimetype/mimetype.txt
+META-INF/container.xml,deflate,ocf/simple.ocf
+OEBPS/content.opf,deflate,epub2/missing-html-file.opf
+OEBPS/toc.ncx,deflate,ncx/empty-toc-with-title.ncx
+OEBPS/test.html,deflate,html/tree-construction/simple.html

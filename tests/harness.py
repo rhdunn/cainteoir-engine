@@ -39,6 +39,46 @@ def map_line(line, replacements):
 		line = line.replace(src, dst)
 	return line
 
+def create_archive(filename):
+	zf = zipfile.ZipFile(filename, mode='w', compression=zipfile.ZIP_STORED)
+	with open('%s.archive' % filename) as f:
+		for line in f.read().split('\n'):
+			if line == '':
+				continue
+			dstfile, kind, srcfile = line.split(',')
+			if kind == 'text':
+				zfi = zipfile.ZipInfo(dstfile)
+				path = os.path.join(sys.path[0], srcfile)
+				with open(path) as src:
+					zf.writestr(zfi, src.read())
+			elif kind == 'directory':
+				zfi = zipfile.ZipInfo(dstfile)
+				zfi.external_attr = 16
+				zf.writestr(zfi, '')
+			elif kind == 'deflate':
+				path = os.path.join(sys.path[0], srcfile)
+				zf.write(path, dstfile, compress_type=zipfile.ZIP_DEFLATED)
+			else:
+				raise Exception('Unsupported compression type %s for %s' % (kind, filename))
+	zf.close()
+	# Ensure the created archive accessed and modified times match the
+	# source file. This is so that the Makefile targets do not trigger
+	# unnecessarily.
+	stat = os.stat('%s.archive' % filename)
+	os.utime(filename, (stat.st_atime, stat.st_mtime))
+
+special_files = {
+	('.epub', create_archive),
+}
+
+def ensure_file_exists(filename):
+	if not filename:
+		return
+	for ext, creator in special_files:
+		if filename.endswith(ext):
+			creator(filename)
+			return
+
 class Command:
 	def __init__(self, command, collator='tee'):
 		self.command = 'XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s' % (
@@ -158,6 +198,8 @@ class TestSuite:
 		else:
 			write('... checking %s [%s] ... ' % (' '.join(args), command))
 		tmpfile = '/tmp/metadata.txt'
+
+		ensure_file_exists(filename)
 
 		cmd = create_command(command)
 		got = cmd.run(args, filename, data)

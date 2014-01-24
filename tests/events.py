@@ -356,74 +356,22 @@ if __name__ == '__main__':
 			{'test': 'ssml/emphasis.ssml', 'result': 'ssml/emphasis.events'},
 		]},
 	]})
-	test.run({ 'name': 'ePub2',
-		'archive':
-			[
-				('mimetype', 'application/epub+zip'),
-				('META-INF/container.xml', 'ocf/simple.ocf'),
-				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/tree-construction/simple.html')
-			],
-		'groups': [
-			{'name': 'with-content', 'type': 'events', 'tests': [
-				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub2/simple.events'},
-				{'test': 'epub2/missing-html-file.opf', 'result': 'epub2/missing.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ePub2',
-		'archive':
-			[
-				('mimetype', 'application/epub+zip\n'),
-				('META-INF/container.xml', 'ocf/simple.ocf'),
-				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/tree-construction/simple.html')
-			],
-		'groups': [
-			{'name': 'mimetype with extra content at the end', 'type': 'events', 'tests': [
-				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub2/simple.events'},
-				{'test': 'epub2/missing-html-file.opf', 'result': 'epub2/missing.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ePub2',
-		'archive':
-			[
-				# incorrectly constructed ePub document -- the mimetype
-				# file is the last entry, not the first:
-				('META-INF/container.xml', 'ocf/simple.ocf'),
-				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/tree-construction/simple.html'),
-				('mimetype', 'application/epub+zip'),
-			],
-		'groups': [
-			{'name': 'mimetype at end', 'type': 'events', 'tests': [
-				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub2/simple.events'},
-				{'test': 'epub2/missing-html-file.opf', 'result': 'epub2/missing.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ePub3',
-		'archive':
-			[
-				('mimetype', 'application/epub+zip'),
-				('META-INF/container.xml', 'ocf/simple.ocf'),
-				('OEBPS/content.opf', 'opf/spine/epub3-html-nav.opf'),
-				('OEBPS/toc.xhtml', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/test.xhtml', 'html/tree-construction/simple.html')
-			],
-		'groups': [
-			{'name': 'toc', 'type': 'events', 'tests': [
-				{'test': 'html/sections/div.xhtml', 'result': 'epub3/toc/no-toc-entries.events'},
-				{'test': 'html/epub3nav/linear.xhtml', 'result': 'epub3/toc/linear.events'},
-				{'test': 'html/epub3nav/linear-with-heading.xhtml', 'result': 'epub3/toc/linear-with-heading.events'},
-				{'test': 'html/epub3nav/nested.xhtml', 'result': 'epub3/toc/nested.events'},
-			]},
-		]
-	})
+	test.run({ 'name': 'ePub2', 'groups': [
+		{'name': 'packaging', 'type': 'events', 'tests': [
+			{'test': 'epub2/simple.epub', 'result': 'epub2/simple.events'},
+			{'test': 'epub2/mimetype/newline-at-end.epub', 'result': 'epub2/simple.events'},
+			{'test': 'epub2/mimetype-at-end.epub', 'result': 'epub2/simple.events'},
+			{'test': 'epub2/missing.epub', 'result': 'epub2/missing.events'},
+		]},
+	]})
+	test.run({ 'name': 'ePub3', 'groups': [
+		{'name': 'toc', 'type': 'events', 'tests': [
+			{'test': 'epub3/toc/no-toc-entries.epub', 'result': 'epub3/toc/no-toc-entries.events'},
+			{'test': 'epub3/toc/linear.epub', 'result': 'epub3/toc/linear.events'},
+			{'test': 'epub3/toc/linear-with-heading.epub', 'result': 'epub3/toc/linear-with-heading.events'},
+			{'test': 'epub3/toc/nested.epub', 'result': 'epub3/toc/nested.events'},
+		]},
+	]})
 	test.run({ 'name': 'ZIP',
 		'archive':
 			[
