@@ -356,7 +356,7 @@ if __name__ == '__main__':
 			{'test': 'ssml/emphasis.ssml', 'result': 'ssml/emphasis.events'},
 		]},
 	]})
-	test.run({ 'name': 'ePub',
+	test.run({ 'name': 'ePub2',
 		'archive':
 			[
 				('mimetype', 'application/epub+zip'),
@@ -367,12 +367,12 @@ if __name__ == '__main__':
 			],
 		'groups': [
 			{'name': 'with-content', 'type': 'events', 'tests': [
-				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub/simple.events'},
-				{'test': 'epub/missing-html-file.opf', 'result': 'epub/missing.events'},
+				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub2/simple.events'},
+				{'test': 'epub2/missing-html-file.opf', 'result': 'epub2/missing.events'},
 			]},
 		]
 	})
-	test.run({ 'name': 'ePub',
+	test.run({ 'name': 'ePub2',
 		'archive':
 			[
 				('mimetype', 'application/epub+zip\n'),
@@ -383,12 +383,12 @@ if __name__ == '__main__':
 			],
 		'groups': [
 			{'name': 'mimetype with extra content at the end', 'type': 'events', 'tests': [
-				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub/simple.events'},
-				{'test': 'epub/missing-html-file.opf', 'result': 'epub/missing.events'},
+				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub2/simple.events'},
+				{'test': 'epub2/missing-html-file.opf', 'result': 'epub2/missing.events'},
 			]},
 		]
 	})
-	test.run({ 'name': 'ePub',
+	test.run({ 'name': 'ePub2',
 		'archive':
 			[
 				# incorrectly constructed ePub document -- the mimetype
@@ -401,12 +401,12 @@ if __name__ == '__main__':
 			],
 		'groups': [
 			{'name': 'mimetype at end', 'type': 'events', 'tests': [
-				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub/simple.events'},
-				{'test': 'epub/missing-html-file.opf', 'result': 'epub/missing.events'},
+				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'epub2/simple.events'},
+				{'test': 'epub2/missing-html-file.opf', 'result': 'epub2/missing.events'},
 			]},
 		]
 	})
-	test.run({ 'name': 'ePub',
+	test.run({ 'name': 'ePub3',
 		'archive':
 			[
 				('mimetype', 'application/epub+zip'),
@@ -416,11 +416,11 @@ if __name__ == '__main__':
 				('OEBPS/test.xhtml', 'html/tree-construction/simple.html')
 			],
 		'groups': [
-			{'name': 'epub3 toc', 'type': 'events', 'tests': [
-				{'test': 'html/sections/div.xhtml', 'result': 'epub/epub3-toc/no-toc-entries.events'},
-				{'test': 'html/epub3nav/linear.xhtml', 'result': 'epub/epub3-toc/linear.events'},
-				{'test': 'html/epub3nav/linear-with-heading.xhtml', 'result': 'epub/epub3-toc/linear-with-heading.events'},
-				{'test': 'html/epub3nav/nested.xhtml', 'result': 'epub/epub3-toc/nested.events'},
+			{'name': 'toc', 'type': 'events', 'tests': [
+				{'test': 'html/sections/div.xhtml', 'result': 'epub3/toc/no-toc-entries.events'},
+				{'test': 'html/epub3nav/linear.xhtml', 'result': 'epub3/toc/linear.events'},
+				{'test': 'html/epub3nav/linear-with-heading.xhtml', 'result': 'epub3/toc/linear-with-heading.events'},
+				{'test': 'html/epub3nav/nested.xhtml', 'result': 'epub3/toc/nested.events'},
 			]},
 		]
 	})

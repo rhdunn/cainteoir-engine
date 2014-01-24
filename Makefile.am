@@ -419,7 +419,8 @@ HTMLTREE_TEST_FILES = $(shell find tests/html/tree-construction/*)
 PHONEMESET_TEST_FILES = $(shell find tests/phonemeset/*)
 
 DOCUMENT_TEST_FILES = \
-	$(shell find tests/epub/*) \
+	$(shell find tests/epub2/*) \
+	$(shell find tests/epub3/*) \
 	$(shell find tests/ncx/*) \
 	$(shell find tests/ocf/*) \
 	$(shell find tests/opf/*) \
