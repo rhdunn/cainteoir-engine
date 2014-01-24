@@ -48,22 +48,35 @@ class XmlDocument(XmlNode):
 ##### C++ Object Model
 
 
-class ScopedItem:
+class Item:
 	def __init__(self, kind, name, parent):
 		self.kind   = kind
 		self.name   = name
 		self.parent = parent
-		self.items  = {}
 
 	def __str__(self):
 		return '%s %s' % (self.kind, self.name)
 
-	def get(self, kind, name, parent):
+	def __iter__(self):
+		return
+		yield
+
+
+class ScopedItem(Item):
+	def __init__(self, kind, name, parent):
+		Item.__init__(self, kind, name, parent)
+		self.items  = {}
+
+	def __iter__(self):
+		for key, item in self.items.items():
+			yield item
+
+	def get(self, kind, name, item_type):
 		if name in self.items.keys():
 			ret = self.items[name]
 			ret.kind = kind
 		else:
-			ret = ScopedItem(kind, name, parent)
+			ret = item_type(kind, name, self)
 			self.items[name] = ret
 		return ret
 
@@ -75,8 +88,12 @@ def create_scoped_item(kind, name):
 	items = name.split('::')
 	ns = global_namespace
 	for item in items[:-1]:
-		ns = ns.get('namespace', item, ns)
-	return ns.get(kind, items[-1], ns)
+		ns = ns.get('namespace', item, ScopedItem)
+	return ns.get(kind, items[-1], ScopedItem)
+
+
+def create_member_item(kind, name, compound):
+	return compound.get(kind, name, Item)
 
 
 ##### Doxygen XML Parser
@@ -105,22 +122,24 @@ def create_itemref(ref, name):
 	return item
 
 
-def create_item(ref, kind, name):
+def create_item(ref, kind, name, compound=None):
 	if not ref or not kind or not name:
 		raise Exception('Item not fully defined')
 	item = create_itemref(ref, name)
 	if not item.item:
 		if kind in ['namespace', 'struct', 'class']:
 			item.item = create_scoped_item(kind, name)
+		elif compound:
+			item.item = create_member_item(kind, name, compound.item)
 		else:
-			item.item = ScopedItem(kind, name, None)
+			raise Exception('Item %s is not a namespace, struct, class or member object' % name)
 	return item
 
 
 def parseDoxygenXml_memberdef_enum(xml, compound):
 	for child in xml:
 		if child.name == 'name':
-			member = create_item(xml['id'], xml['kind'], child.text())
+			member = create_item(xml['id'], xml['kind'], child.text(), compound)
 		elif child.name in ['enumvalue', 'briefdescription', 'detaileddescription', 'inbodydescription', 'location']:
 			pass
 		else:
@@ -130,7 +149,7 @@ def parseDoxygenXml_memberdef_enum(xml, compound):
 def parseDoxygenXml_memberdef_typedef(xml, compound):
 	for child in xml:
 		if child.name == 'name':
-			member = create_item(xml['id'], xml['kind'], child.text())
+			member = create_item(xml['id'], xml['kind'], child.text(), compound)
 		elif child.name in ['type', 'definition', 'argsstring', 'briefdescription', 'detaileddescription', 'inbodydescription', 'location']:
 			pass
 		else:
@@ -140,7 +159,7 @@ def parseDoxygenXml_memberdef_typedef(xml, compound):
 def parseDoxygenXml_memberdef_variable(xml, compound):
 	for child in xml:
 		if child.name == 'name':
-			member = create_item(xml['id'], xml['kind'], child.text())
+			member = create_item(xml['id'], xml['kind'], child.text(), compound)
 		elif child.name in ['type', 'definition', 'argsstring', 'briefdescription', 'detaileddescription', 'inbodydescription', 'location']:
 			pass
 		else:
@@ -150,7 +169,7 @@ def parseDoxygenXml_memberdef_variable(xml, compound):
 def parseDoxygenXml_memberdef_function(xml, compound):
 	for child in xml:
 		if child.name == 'name':
-			member = create_item(xml['id'], xml['kind'], child.text())
+			member = create_item(xml['id'], xml['kind'], child.text(), compound)
 		elif child.name in ['type', 'definition', 'argsstring', 'param', 'templateparamlist', 'briefdescription', 'detaileddescription', 'inbodydescription', 'location', 'reimplements', 'reimplementedby']:
 			pass
 		else:
@@ -221,7 +240,7 @@ def parseDoxygenXml(xml):
 
 def printItem(item, level=0):
 	print('%s%s' % (('... '*level), item))
-	for key, child in item.items.items():
+	for child in item:
 		printItem(child, level + 1)
 
 
