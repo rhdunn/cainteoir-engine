@@ -47,6 +47,7 @@ class XmlDocument(XmlNode):
 
 ##### C++ Object Model
 
+item_types = {}
 
 class Item:
 	def __init__(self, kind, name, parent):
@@ -55,11 +56,19 @@ class Item:
 		self.parent = parent
 
 	def __str__(self):
-		return '%s %s' % (self.kind, self.name)
+		return self.name
 
 	def __iter__(self):
 		return
 		yield
+
+	def scopedname(self):
+		if self.parent:
+			return '%s::%s' % (self.parent.scopedname(), self.name)
+		return self.name
+
+	def signature(self):
+		return '%s %s' % (self.kind, self.scopedname())
 
 
 class ScopedItem(Item):
@@ -71,25 +80,75 @@ class ScopedItem(Item):
 		for key, item in self.items.items():
 			yield item
 
-	def get(self, kind, name, item_type):
+	def get(self, kind, name):
 		if name in self.items.keys():
 			ret = self.items[name]
-			ret.kind = kind
+			if ret.kind != kind:
+				ret = item_types[kind](kind, name, self)
+				self.items[name] = ret
 		else:
-			ret = item_type(kind, name, self)
+			ret = item_types[kind](kind, name, self)
 			self.items[name] = ret
 		return ret
 
 
+class Class(ScopedItem):
+	def __init__(self, kind, name, parent):
+		ScopedItem.__init__(self, kind, name, parent)
+
+
+class Enum(ScopedItem):
+	def __init__(self, kind, name, parent):
+		ScopedItem.__init__(self, kind, name, parent)
+
+
+class EnumValue(Item):
+	def __init__(self, kind, name, parent):
+		Item.__init__(self, kind, name, parent)
+
+
+class Function(ScopedItem):
+	def __init__(self, kind, name, parent):
+		ScopedItem.__init__(self, kind, name, parent)
+
+
+class Namespace(ScopedItem):
+	def __init__(self, kind, name, parent):
+		ScopedItem.__init__(self, kind, name, parent)
+
+
+class Struct(ScopedItem):
+	def __init__(self, kind, name, parent):
+		ScopedItem.__init__(self, kind, name, parent)
+
+
+class Typedef(Item):
+	def __init__(self, kind, name, parent):
+		Item.__init__(self, kind, name, parent)
+
+
+class Variable(Item):
+	def __init__(self, kind, name, parent):
+		Item.__init__(self, kind, name, parent)
+
+
 global_namespace = ScopedItem('namespace', '', None)
+item_types['class']     = Class
+item_types['enum']      = Enum
+item_types['enumvalue'] = EnumValue
+item_types['function']  = Function
+item_types['namespace'] = Namespace
+item_types['struct']    = Struct
+item_types['typedef']   = Typedef
+item_types['variable']  = Variable
 
 
 def create_scoped_item(kind, name):
 	items = name.split('::')
 	ns = global_namespace
 	for item in items[:-1]:
-		ns = ns.get('namespace', item, ScopedItem)
-	return ns.get(kind, items[-1], ScopedItem)
+		ns = ns.get('namespace', item)
+	return ns.get(kind, items[-1])
 
 
 def create_member_item(kind, name, compound):
@@ -130,10 +189,7 @@ def create_item(ref, kind, name, compound=None):
 		if kind in ['namespace', 'struct', 'class']:
 			item.item = create_scoped_item(kind, name)
 		elif compound:
-			if kind in ['enum']:
-				item.item = compound.item.get(kind, name, ScopedItem)
-			else:
-				item.item = compound.item.get(kind, name, Item)
+			item.item = compound.item.get(kind, name)
 		else:
 			raise Exception('Item %s is not a namespace, struct, class or member object' % name)
 	return item
@@ -253,10 +309,10 @@ def parseDoxygenXml(xml):
 
 ##### Main Entry Point
 
-def printItem(item, level=0):
-	print('%s%s' % (('... '*level), item))
+def printItem(item):
+	print(item.signature())
 	for child in item:
-		printItem(child, level + 1)
+		printItem(child)
 
 
 compounds  = []
