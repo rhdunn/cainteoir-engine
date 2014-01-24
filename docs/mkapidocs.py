@@ -310,7 +310,8 @@ def parseDoxygenXml(xml):
 ##### Main Entry Point
 
 def printItem(item):
-	print(item.signature())
+	if item.name:
+		print(item.signature())
 	for child in item:
 		printItem(child)
 
