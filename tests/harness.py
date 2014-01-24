@@ -315,25 +315,7 @@ class TestSuite:
 						else:
 							replacements[replacement] = '@REPLACEMENT@'
 
-				if 'archive' in data.keys():
-					archive = '/tmp/test.zip'
-					zf = zipfile.ZipFile(archive, mode='w', compression=zipfile.ZIP_STORED)
-					for location, filename in data['archive']:
-						if location == 'mimetype' or location.endswith('/'):
-							zfi = zipfile.ZipInfo(location)
-							if filename:
-								zf.writestr(zfi, filename)
-							else:
-								zfi.external_attr = 16
-								zf.writestr(zfi, '')
-						else:
-							if filename.startswith('@'):
-								filename = test[ filename.replace('@', '') ]
-							zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
-					zf.close()
-					self.check(archive, exp, group['type'], args, 'expect-%s' % expect, replacements, test, test['test'])
-				else:
-					self.check(got, exp, group['type'], args, 'expect-%s' % expect, replacements, test, got)
+				self.check(got, exp, group['type'], args, 'expect-%s' % expect, replacements, test, got)
 
 	def summary(self):
 		write('\n')

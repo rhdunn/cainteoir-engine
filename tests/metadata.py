@@ -366,86 +366,63 @@ if __name__ == '__main__':
 			{'test': 'opf/spine/media-overlay.opf', 'result': 'opf/spine/media-overlay-all.n3'},
 		]},
 	]})
-	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
-		'archive':
-			[
-				('mimetype', 'application/epub+zip'),
-				('META-INF/container.xml', 'ocf/simple.ocf'),
-				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/toc.ncx', 'ncx/metadata/meta.ncx'),
-				('OEBPS/test.html', 'html/tree-construction/simple.html')
-			],
-		'groups': [
-			{'name': 'metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
-				{'test': 'opf/metadata/dublincore-contributor.opf', 'result': 'opf/metadata/dublincore-contributor.n3'},
-				{'test': 'opf/metadata/dublincore-coverage.opf', 'result': 'opf/metadata/dublincore-coverage.n3'},
-				{'test': 'opf/metadata/dublincore-creator.opf', 'result': 'opf/metadata/dublincore-creator.n3'},
-				{'test': 'opf/metadata/dublincore-date.opf', 'result': 'opf/metadata/dublincore-date.n3'},
-				{'test': 'opf/metadata/dublincore-description.opf', 'result': 'opf/metadata/dublincore-description.n3'},
-				{'test': 'opf/metadata/dublincore-format.opf', 'result': 'opf/metadata/dublincore-format.n3'},
-				{'test': 'opf/metadata/dublincore-identifier.opf', 'result': 'opf/metadata/dublincore-identifier.n3'},
-				{'test': 'opf/metadata/dublincore-language.opf', 'result': 'opf/metadata/dublincore-language.n3'},
-				{'test': 'opf/metadata/dublincore-publisher.opf', 'result': 'opf/metadata/dublincore-publisher.n3'},
-				{'test': 'opf/metadata/dublincore-relation.opf', 'result': 'opf/metadata/dublincore-relation.n3'},
-				{'test': 'opf/metadata/dublincore-rights.opf', 'result': 'opf/metadata/dublincore-rights.n3'},
-				{'test': 'opf/metadata/dublincore-source.opf', 'result': 'opf/metadata/dublincore-source.n3'},
-				{'test': 'opf/metadata/dublincore-subject.opf', 'result': 'opf/metadata/dublincore-subject.n3'},
-				{'test': 'opf/metadata/dublincore-title.opf', 'result': 'opf/metadata/dublincore-title.n3'},
-				{'test': 'opf/metadata/dublincore-type.opf', 'result': 'opf/metadata/dublincore-type.n3'},
-				{'test': 'opf/metadata/whitespace.opf', 'result': 'opf/metadata/whitespace.n3'},
-				{'test': 'opf/metadata/xmllang.opf', 'result': 'opf/metadata/xmllang.n3'},
-			]},
-			{'name': 'dc-metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
-				{'test': 'opf/dc-metadata/dublincore-contributor.opf', 'result': 'opf/metadata/dublincore-contributor.n3'},
-				{'test': 'opf/dc-metadata/dublincore-coverage.opf', 'result': 'opf/metadata/dublincore-coverage.n3'},
-				{'test': 'opf/dc-metadata/dublincore-creator.opf', 'result': 'opf/metadata/dublincore-creator.n3'},
-				{'test': 'opf/dc-metadata/dublincore-date.opf', 'result': 'opf/metadata/dublincore-date.n3'},
-				{'test': 'opf/dc-metadata/dublincore-description.opf', 'result': 'opf/metadata/dublincore-description.n3'},
-				{'test': 'opf/dc-metadata/dublincore-format.opf', 'result': 'opf/metadata/dublincore-format.n3'},
-				{'test': 'opf/dc-metadata/dublincore-identifier.opf', 'result': 'opf/metadata/dublincore-identifier.n3'},
-				{'test': 'opf/dc-metadata/dublincore-language.opf', 'result': 'opf/metadata/dublincore-language.n3'},
-				{'test': 'opf/dc-metadata/dublincore-publisher.opf', 'result': 'opf/metadata/dublincore-publisher.n3'},
-				{'test': 'opf/dc-metadata/dublincore-relation.opf', 'result': 'opf/metadata/dublincore-relation.n3'},
-				{'test': 'opf/dc-metadata/dublincore-rights.opf', 'result': 'opf/metadata/dublincore-rights.n3'},
-				{'test': 'opf/dc-metadata/dublincore-source.opf', 'result': 'opf/metadata/dublincore-source.n3'},
-				{'test': 'opf/dc-metadata/dublincore-subject.opf', 'result': 'opf/metadata/dublincore-subject.n3'},
-				{'test': 'opf/dc-metadata/dublincore-title.opf', 'result': 'opf/metadata/dublincore-title.n3'},
-				{'test': 'opf/dc-metadata/dublincore-type.opf', 'result': 'opf/metadata/dublincore-type.n3'},
-				{'test': 'opf/dc-metadata/xmllang.opf', 'result': 'opf/metadata/xmllang.n3'},
-			]},
-			{'name': 'with-content', 'type': ['turtle', 'turtle-all'], 'tests': [
-				{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ePub', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip',
-		'archive':
-			[
-				('mimetype', 'application/epub+zip'),
-				('META-INF/container.xml', 'ocf/simple.ocf'),
-				('OEBPS/content.opf', 'opf/spine/single-html-file-and-toc.opf'),
-				('OEBPS/toc.ncx', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/test.html', 'html/tree-construction/simple.html')
-			],
-		'groups': [
-			{'name': 'metadata', 'type': ['turtle'], 'tests': [
-				{'test': 'ncx/navMap/linear.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
-				{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
-				{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
-				{'test': 'ncx/navMap/linear-with-title.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
-				{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
-				{'test': 'ncx/navMap/named-uri.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
-				{'test': 'ncx/navMap/nested.ncx', 'result': 'opf/spine/single-html-file-and-toc.n3'},
-			]},
-			{'name': 'metadata', 'type': ['turtle-all'], 'tests': [
-				{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/navMap/linear-epub.n3'},
-				{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'ncx/navMap/linear-epub.n3'},
-				{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'ncx/navMap/linear-epub.n3'},
-				{'test': 'ncx/navMap/linear-with-title.ncx', 'result': 'ncx/navMap/linear-with-title-epub.n3'},
-				{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'ncx/navMap/in-subdir-epub.n3'},
-				{'test': 'ncx/navMap/named-uri.ncx', 'result': 'ncx/navMap/named-uri-epub.n3'},
-				{'test': 'ncx/navMap/nested.ncx', 'result': 'ncx/navMap/nested-epub.n3'},
-			]},
-		]
-	})
+	test.run({ 'name': 'ePub2', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip', 'groups': [
+		{'name': 'metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
+			{'test': 'epub2/metadata/dublincore-contributor.epub', 'result': 'opf/metadata/dublincore-contributor.n3'},
+			{'test': 'epub2/metadata/dublincore-coverage.epub', 'result': 'opf/metadata/dublincore-coverage.n3'},
+			{'test': 'epub2/metadata/dublincore-creator.epub', 'result': 'opf/metadata/dublincore-creator.n3'},
+			{'test': 'epub2/metadata/dublincore-date.epub', 'result': 'opf/metadata/dublincore-date.n3'},
+			{'test': 'epub2/metadata/dublincore-description.epub', 'result': 'opf/metadata/dublincore-description.n3'},
+			{'test': 'epub2/metadata/dublincore-format.epub', 'result': 'opf/metadata/dublincore-format.n3'},
+			{'test': 'epub2/metadata/dublincore-identifier.epub', 'result': 'opf/metadata/dublincore-identifier.n3'},
+			{'test': 'epub2/metadata/dublincore-language.epub', 'result': 'opf/metadata/dublincore-language.n3'},
+			{'test': 'epub2/metadata/dublincore-publisher.epub', 'result': 'opf/metadata/dublincore-publisher.n3'},
+			{'test': 'epub2/metadata/dublincore-relation.epub', 'result': 'opf/metadata/dublincore-relation.n3'},
+			{'test': 'epub2/metadata/dublincore-rights.epub', 'result': 'opf/metadata/dublincore-rights.n3'},
+			{'test': 'epub2/metadata/dublincore-source.epub', 'result': 'opf/metadata/dublincore-source.n3'},
+			{'test': 'epub2/metadata/dublincore-subject.epub', 'result': 'opf/metadata/dublincore-subject.n3'},
+			{'test': 'epub2/metadata/dublincore-title.epub', 'result': 'opf/metadata/dublincore-title.n3'},
+			{'test': 'epub2/metadata/dublincore-type.epub', 'result': 'opf/metadata/dublincore-type.n3'},
+			{'test': 'epub2/metadata/whitespace.epub', 'result': 'opf/metadata/whitespace.n3'},
+			{'test': 'epub2/metadata/xmllang.epub', 'result': 'opf/metadata/xmllang.n3'},
+		]},
+		{'name': 'dc-metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
+			{'test': 'epub2/dc-metadata/dublincore-contributor.epub', 'result': 'opf/metadata/dublincore-contributor.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-coverage.epub', 'result': 'opf/metadata/dublincore-coverage.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-creator.epub', 'result': 'opf/metadata/dublincore-creator.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-date.epub', 'result': 'opf/metadata/dublincore-date.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-description.epub', 'result': 'opf/metadata/dublincore-description.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-format.epub', 'result': 'opf/metadata/dublincore-format.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-identifier.epub', 'result': 'opf/metadata/dublincore-identifier.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-language.epub', 'result': 'opf/metadata/dublincore-language.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-publisher.epub', 'result': 'opf/metadata/dublincore-publisher.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-relation.epub', 'result': 'opf/metadata/dublincore-relation.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-rights.epub', 'result': 'opf/metadata/dublincore-rights.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-source.epub', 'result': 'opf/metadata/dublincore-source.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-subject.epub', 'result': 'opf/metadata/dublincore-subject.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-title.epub', 'result': 'opf/metadata/dublincore-title.n3'},
+			{'test': 'epub2/dc-metadata/dublincore-type.epub', 'result': 'opf/metadata/dublincore-type.n3'},
+			{'test': 'epub2/dc-metadata/xmllang.epub', 'result': 'opf/metadata/xmllang.n3'},
+		]},
+		{'name': 'toc', 'type': 'turtle', 'tests': [
+			{'test': 'epub2/simple.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'}, # empty toc
+			{'test': 'epub2/toc/linear.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'epub2/toc/linear-content-before-label.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'epub2/toc/linear-whitespace.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'epub2/toc/linear-with-title.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'epub2/toc/in-subdir.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'epub2/toc/named-uri.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'epub2/toc/nested.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+		]},
+		{'name': 'toc', 'type': 'turtle-all', 'tests': [
+			{'test': 'epub2/simple.epub', 'result': 'epub2/simple-all.n3'}, # empty toc
+			{'test': 'epub2/toc/linear.epub', 'result': 'epub2/toc/linear-all.n3'},
+			{'test': 'epub2/toc/linear-content-before-label.epub', 'result': 'epub2/toc/linear-all.n3'},
+			{'test': 'epub2/toc/linear-whitespace.epub', 'result': 'epub2/toc/linear-all.n3'},
+			{'test': 'epub2/toc/linear-with-title.epub', 'result': 'epub2/toc/linear-with-title-all.n3'},
+			{'test': 'epub2/toc/in-subdir.epub', 'result': 'epub2/toc/in-subdir-all.n3'},
+			{'test': 'epub2/toc/named-uri.epub', 'result': 'epub2/toc/named-uri-all.n3'},
+			{'test': 'epub2/toc/nested.epub', 'result': 'epub2/toc/nested-all.n3'},
+		]},
+	]})
 	test.summary()
