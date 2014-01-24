@@ -271,6 +271,7 @@ def parseDoxygenXml_sectiondef(xml, compound):
 
 
 def parseDoxygenXml_compounddef_namespace(xml):
+	compound = None
 	for child in xml:
 		if child.name == 'compoundname':
 			compound = create_item(xml['id'], xml['kind'], child.text())
@@ -280,9 +281,11 @@ def parseDoxygenXml_compounddef_namespace(xml):
 			pass
 		else:
 			raise Exception('Unknown compounddef node : %s' % child.name)
+	return compound
 
 
 def parseDoxygenXml_compounddef_class(xml):
+	compound = None
 	for child in xml:
 		if child.name == 'compoundname':
 			compound = create_item(xml['id'], xml['kind'], child.text())
@@ -292,15 +295,19 @@ def parseDoxygenXml_compounddef_class(xml):
 			pass
 		else:
 			raise Exception('Unknown compounddef node : %s' % child.name)
+	return compound
 
 
 def parseDoxygenXml(xml):
+	compound = None
 	for child in xml:
 		if child.name == 'compounddef':
+			if compound:
+				raise Exception('A compound was already provided for this file.')
 			if child['kind'] in ['class', 'struct']:
-				parseDoxygenXml_compounddef_class(child)
+				compound = parseDoxygenXml_compounddef_class(child)
 			elif child['kind'] == 'namespace':
-				parseDoxygenXml_compounddef_namespace(child)
+				compound = parseDoxygenXml_compounddef_namespace(child)
 			elif child['kind'] in ['file', 'dir', 'group', 'page']:
 				pass
 			else:
@@ -309,24 +316,22 @@ def parseDoxygenXml(xml):
 			pass
 		else:
 			raise Exception('Unknown doxygen node : %s' % child.name)
+	return compound
 
 
 ##### Main Entry Point
 
-def printItem(item):
-	if item.name:
-		print(item.signature())
-	for child in item:
-		printItem(child)
 
-
-compounds  = []
+compounds = []
 for filename in sys.argv[1:]:
 	doc = XmlDocument(filename)
-	parseDoxygenXml(doc)
+	compound = parseDoxygenXml(doc)
+	if compound:
+		compounds.append(compound.item)
 
 for ref, item in _items.items():
 	if not item.item:
 		raise Exception('Reference %s does not have a referenced item' % ref)
 
-printItem(global_namespace)
+for c in compounds:
+	print(c.signature())
