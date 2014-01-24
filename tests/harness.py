@@ -48,9 +48,12 @@ def create_archive(filename):
 			dstfile, kind, srcfile = line.split(',')
 			if kind == 'text':
 				zfi = zipfile.ZipInfo(dstfile)
-				path = os.path.join(sys.path[0], srcfile)
-				with open(path) as src:
-					zf.writestr(zfi, src.read())
+				if srcfile == '':
+					zf.writestr(zfi, '')
+				else:
+					path = os.path.join(sys.path[0], srcfile)
+					with open(path) as src:
+						zf.writestr(zfi, src.read())
 			elif kind == 'directory':
 				zfi = zipfile.ZipInfo(dstfile)
 				zfi.external_attr = 16
@@ -69,6 +72,7 @@ def create_archive(filename):
 
 special_files = {
 	('.epub', create_archive),
+	('.zip',  create_archive),
 }
 
 def ensure_file_exists(filename):

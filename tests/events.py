@@ -372,53 +372,16 @@ if __name__ == '__main__':
 			{'test': 'epub3/toc/nested.epub', 'result': 'epub3/toc/nested.events'},
 		]},
 	]})
-	test.run({ 'name': 'ZIP',
-		'archive':
-			[
-				('test.xhtml', 'html/tree-construction/simple.html')
-			],
-		'groups': [
-			{'name': 'single file', 'type': 'events', 'tests': [
-				{'test': 'single-file.zip', 'result': 'zip/single-file.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ZIP',
-		'archive':
-			[
-				('test.xhtml', 'html/tree-construction/simple.html'),
-				('test.html',  'html/tree-construction/simple.html'),
-			],
-		'groups': [
-			{'name': 'multiple files', 'type': 'events', 'tests': [
-				{'test': 'multiple-files.zip', 'result': 'zip/multiple-files.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ZIP',
-		'archive':
-			[
-				('testdir/', ''), # Don't set the directory attribute
-				('testdir/test.xhtml', 'html/tree-construction/simple.html'),
-			],
-		'groups': [
-			{'name': 'single file in directory', 'type': 'events', 'tests': [
-				{'test': 'single-file-in-dir.zip', 'result': 'zip/single-file-in-dir.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ZIP',
-		'archive':
-			[
-				('testdir/', None), # Set the directory attribute
-				('testdir/test.xhtml', 'html/tree-construction/simple.html'),
-			],
-		'groups': [
-			{'name': 'single file in directory with directory attribute set', 'type': 'events', 'tests': [
-				{'test': 'single-file-in-dir.zip', 'result': 'zip/single-file-in-dir.events'},
-			]},
-		]
-	})
+	test.run({ 'name': 'ZIP', 'groups': [
+		{'name': 'files', 'type': 'events', 'tests': [
+			{'test': 'zip/single-file.zip', 'result': 'zip/single-file.events'},
+			{'test': 'zip/multiple-files.zip', 'result': 'zip/multiple-files.events'},
+		]},
+		{'name': 'directory', 'type': 'events', 'tests': [
+			{'test': 'zip/single-file-in-dir.zip', 'result': 'zip/single-file-in-dir.events'},
+			{'test': 'zip/single-file-in-dir-asdirectory.zip', 'result': 'zip/single-file-in-dir.events'},
+		]},
+	]})
 	test.run({'name': 'Compressed', 'groups': [
 		{'name': 'gzip', 'type': 'events', 'compress': 'gzip', 'tests': [
 			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.events'},
