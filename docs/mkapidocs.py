@@ -130,17 +130,32 @@ def create_item(ref, kind, name, compound=None):
 		if kind in ['namespace', 'struct', 'class']:
 			item.item = create_scoped_item(kind, name)
 		elif compound:
-			item.item = create_member_item(kind, name, compound.item)
+			if kind in ['enum']:
+				item.item = compound.item.get(kind, name, ScopedItem)
+			else:
+				item.item = compound.item.get(kind, name, Item)
 		else:
 			raise Exception('Item %s is not a namespace, struct, class or member object' % name)
 	return item
+
+
+def parseDoxygenXml_enumvalue(xml, compound):
+	for child in xml:
+		if child.name == 'name':
+			member = create_item(xml['id'], 'enumvalue', child.text(), compound)
+		elif child.name in ['briefdescription', 'detaileddescription', 'initializer']:
+			pass
+		else:
+			raise Exception('Unknown enumvalue node : %s' % child.name)
 
 
 def parseDoxygenXml_memberdef_enum(xml, compound):
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
-		elif child.name in ['enumvalue', 'briefdescription', 'detaileddescription', 'inbodydescription', 'location']:
+		elif child.name == 'enumvalue':
+			parseDoxygenXml_enumvalue(child, member)
+		elif child.name in ['briefdescription', 'detaileddescription', 'inbodydescription', 'location']:
 			pass
 		else:
 			raise Exception('Unknown memberdef node : %s' % child.name)
