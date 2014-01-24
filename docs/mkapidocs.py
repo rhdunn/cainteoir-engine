@@ -63,9 +63,13 @@ class Item:
 		yield
 
 	def scopedname(self):
-		if self.parent:
-			return '%s::%s' % (self.parent.scopedname(), self.name)
-		return self.name
+		name = []
+		parent = self
+		while parent:
+			if parent.name:
+				name.append(parent.name)
+			parent = parent.parent
+		return '::'.join(reversed(name))
 
 	def signature(self):
 		return '%s %s' % (self.kind, self.scopedname())
