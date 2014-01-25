@@ -88,9 +88,6 @@ class ScopedItem(Item):
 	def get(self, kind, name):
 		if name in self.items.keys():
 			ret = self.items[name]
-			if ret.kind != kind and ret.kind == 'namespace':
-				ret = item_types[kind](kind, name, self)
-				self.items[name] = ret
 		else:
 			ret = item_types[kind](kind, name, self)
 			self.items[name] = ret
