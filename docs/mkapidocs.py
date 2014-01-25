@@ -131,7 +131,12 @@ class EnumValue(Item):
 
 class Function(ScopedItem):
 	def __init__(self, kind, name, parent):
-		ScopedItem.__init__(self, kind, name, parent)
+		if name == parent.name and parent.kind in ['class', 'struct']:
+			ScopedItem.__init__(self, 'constructor', name, parent)
+		elif name == '~%s' % parent.name and parent.kind in ['class', 'struct']:
+			ScopedItem.__init__(self, 'destructor', name, parent)
+		else:
+			ScopedItem.__init__(self, kind, name, parent)
 
 
 class Namespace(ScopedItem):
@@ -558,12 +563,13 @@ def writeHtmlDocumentation(item):
 		writeHtmlHeader(f, title, description, keywords, nav)
 		printer.visit(item.brief, classname='about')
 		item_docs = [
-			('Namespaces',   ['namespace']),
-			('Classes',      ['class', 'struct']),
-			('Typedefs',     ['typedef']),
+			('Namespaces', ['namespace']),
+			('Classes', ['class', 'struct']),
+			('Typedefs', ['typedef']),
 			('Enumerations', ['enum']),
-			('Functions',    ['function']),
-			('Attributes',   ['variable']),
+			('Constructors and Destructors', ['constructor', 'destructor']),
+			('Functions', ['function']),
+			('Attributes', ['variable']),
 		]
 		for title, kinds in item_docs:
 			items = [ x for x in item if x.kind in kinds and x.protection == 'public' ]
