@@ -101,7 +101,7 @@ class ScopedItem(Item):
 		self.items  = {}
 
 	def __iter__(self):
-		for key, item in self.items.items():
+		for key, item in sorted(self.items.items()):
 			yield item
 
 	def get(self, kind, name):
@@ -183,6 +183,9 @@ class Reference:
 	def __str__(self):
 		return self.ref
 
+	def accept(self, visitor, kwargs):
+		visitor.onReference(self, **kwargs)
+
 
 _items = {}
 
@@ -219,8 +222,8 @@ class NamedReference:
 		self.ref = create_itemref(ref, None)
 		self.name = name
 
-	def accept(self, visitor):
-		visitor.onNamedReference(self)
+	def accept(self, visitor, kwargs):
+		visitor.onNamedReference(self, **kwargs)
 
 
 class DocText:
@@ -228,13 +231,13 @@ class DocText:
 		self.text = text
 		self.style = style
 
-	def accept(self, visitor):
+	def accept(self, visitor, kwargs):
 		if not self.style:
-			visitor.onText(self)
+			visitor.onText(self, **kwargs)
 		elif self.style == 'bold':
-			visitor.onBoldText(self)
+			visitor.onBoldText(self, **kwargs)
 		elif self.style == 'computeroutput':
-			visitor.onComputerOutput(self)
+			visitor.onComputerOutput(self, **kwargs)
 
 
 class DocLink:
@@ -242,8 +245,8 @@ class DocLink:
 		self.ref = ref
 		self.name = name
 
-	def accept(self, visitor):
-		visitor.onLink(self)
+	def accept(self, visitor, kwargs):
+		visitor.onLink(self, **kwargs)
 
 
 class DocParagraph:
@@ -253,16 +256,16 @@ class DocParagraph:
 	def add(self, item):
 		self.contents.append(item)
 
-	def accept(self, visitor):
-		visitor.onParagraph(self)
+	def accept(self, visitor, kwargs):
+		visitor.onParagraph(self, **kwargs)
 
 
 class DocBriefDescription:
 	def __init__(self, para):
 		self.contents = para.contents
 
-	def accept(self, visitor):
-		visitor.onBriefDescription(self)
+	def accept(self, visitor, kwargs):
+		visitor.onBriefDescription(self, **kwargs)
 
 
 ##### Doxygen XML Parser
@@ -441,21 +444,32 @@ class HtmlPrinter:
 	def __init__(self, f):
 		self.f = f
 
-	def visit(self, node):
-		if not node: return
-		node.accept(self)
+	def visit(self, node, **kwargs):
+		if not node:
+			self.onBlankNode(**kwargs)
+			return
+		node.accept(self, kwargs)
+
+	def onBlankNode(self, classname=None):
+		self.f.write('&#xA0;')
 
 	def onText(self, node):
 		self.f.write(node.text)
 
+	def onComputerOutput(self, node):
+		self.f.write('<code>%s</code>' % (node.text))
+
 	def onLink(self, node):
 		self.f.write('<a href="%s">%s</a>' % (node.ref, node.name))
+
+	def onReference(self, node):
+		self.f.write('<a href="%s">%s</a>' % (link(node.ref), node.item.name))
 
 	def onNamedReference(self, node):
 		self.f.write('<a href="%s">%s</a>' % (link(node.ref), node.name))
 
-	def onBriefDescription(self, node):
-		self.f.write('<blockquote class="about">')
+	def onBriefDescription(self, node, classname):
+		self.f.write('<blockquote class="%s">' % classname)
 		map(self.visit, node.contents)
 		self.f.write('</blockquote>\n')
 
@@ -534,7 +548,24 @@ def writeHtmlDocumentation(item):
 		printer = HtmlPrinter(f)
 
 		writeHtmlHeader(f, title, description, keywords, nav)
-		printer.visit(item.brief)
+		printer.visit(item.brief, classname='about')
+		item_docs = [
+			('Namespaces',   ['namespace']),
+			('Classes',      ['class', 'struct']),
+			('Typedefs',     ['typedef']),
+			('Enumerations', ['enum']),
+			('Functions',    ['function']),
+			('Attributes',   ['variable']),
+		]
+		for title, kinds in item_docs:
+			items = [ x for x in item if x.kind in kinds ]
+			if len(items) > 0:
+				f.write('<h2 class="memberdoc">%s</h2>\n' % title)
+				for child in items:
+					f.write('<pre class="memberdoc">%s ' % child.kind)
+					printer.visit(child.ref)
+					f.write('</pre>')
+					printer.visit(child.brief, classname='memberdoc')
 		writeHtmlFooter(f)
 
 
