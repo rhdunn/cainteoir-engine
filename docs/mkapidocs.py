@@ -67,10 +67,11 @@ item_types = {}
 
 class Item:
 	def __init__(self, kind, name, parent):
-		self.kind   = kind
-		self.name   = name
+		self.kind = kind
+		self.name = name
 		self.parent = parent
-		self.brief  = None
+		self.brief = None
+		self.protection = None
 
 	def __str__(self):
 		return self.name
@@ -301,6 +302,7 @@ def parseDoxygenXml_enumvalue(xml, compound):
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], 'enumvalue', child.text(), compound)
+			member.item.protection = xml['prot']
 		elif child.name == 'briefdescription':
 			parseDoxygenXml_briefdescription(child, member)
 		elif child.name in ['detaileddescription', 'initializer']:
@@ -313,6 +315,7 @@ def parseDoxygenXml_memberdef_enum(xml, compound):
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
+			member.item.protection = xml['prot']
 		elif child.name == 'enumvalue':
 			parseDoxygenXml_enumvalue(child, member)
 		elif child.name == 'briefdescription':
@@ -327,6 +330,7 @@ def parseDoxygenXml_memberdef_typedef(xml, compound):
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
+			member.item.protection = xml['prot']
 		elif child.name == 'briefdescription':
 			parseDoxygenXml_briefdescription(child, member)
 		elif child.name in ['type', 'definition', 'argsstring', 'detaileddescription', 'inbodydescription', 'location']:
@@ -339,6 +343,7 @@ def parseDoxygenXml_memberdef_variable(xml, compound):
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
+			member.item.protection = xml['prot']
 		elif child.name == 'briefdescription':
 			parseDoxygenXml_briefdescription(child, member)
 		elif child.name in ['type', 'definition', 'argsstring', 'detaileddescription', 'inbodydescription', 'location']:
@@ -351,6 +356,7 @@ def parseDoxygenXml_memberdef_function(xml, compound):
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
+			member.item.protection = xml['prot']
 		elif child.name == 'briefdescription':
 			parseDoxygenXml_briefdescription(child, member)
 		elif child.name in ['type', 'definition', 'argsstring', 'param', 'templateparamlist', 'detaileddescription', 'inbodydescription', 'location', 'reimplements', 'reimplementedby']:
@@ -383,6 +389,7 @@ def parseDoxygenXml_compounddef_namespace(xml):
 	for child in xml:
 		if child.name == 'compoundname':
 			compound = create_item(xml['id'], xml['kind'], child.text())
+			compound.item.protection = xml['prot']
 		elif child.name == 'sectiondef':
 			parseDoxygenXml_sectiondef(child, compound)
 		elif child.name == 'briefdescription':
@@ -399,6 +406,7 @@ def parseDoxygenXml_compounddef_class(xml):
 	for child in xml:
 		if child.name == 'compoundname':
 			compound = create_item(xml['id'], xml['kind'], child.text())
+			compound.item.protection = xml['prot']
 		elif child.name == 'sectiondef':
 			parseDoxygenXml_sectiondef(child, compound)
 		elif child.name == 'briefdescription':
@@ -558,7 +566,7 @@ def writeHtmlDocumentation(item):
 			('Attributes',   ['variable']),
 		]
 		for title, kinds in item_docs:
-			items = [ x for x in item if x.kind in kinds ]
+			items = [ x for x in item if x.kind in kinds and x.protection == 'public' ]
 			if len(items) > 0:
 				f.write('<h2 class="memberdoc">%s</h2>\n' % title)
 				for child in items:
