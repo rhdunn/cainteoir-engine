@@ -172,7 +172,7 @@ def create_scoped_item(kind, name):
 	return ns.get(kind, items[-1])
 
 
-##### Doxygen XML Parser
+##### Doxygen Object Model
 
 
 class Reference:
@@ -182,6 +182,36 @@ class Reference:
 
 	def __str__(self):
 		return self.ref
+
+
+_items = {}
+
+
+def create_itemref(ref, name):
+	if not ref:
+		raise Exception('create_itemref: no reference for %s' % name)
+	if ref in _items.keys():
+		item = _items[ref]
+	else:
+		item = Reference(ref, None)
+		_items[ref] = item
+	return item
+
+
+def create_item(ref, kind, name, compound=None):
+	if not ref or not kind or not name:
+		raise Exception('Item not fully defined')
+	item = create_itemref(ref, name)
+	if not item.item:
+		if kind in ['namespace', 'struct', 'class']:
+			item.item = create_scoped_item(kind, name)
+			item.item.ref = item
+		elif compound:
+			item.item = compound.item.get(kind, name)
+			item.item.ref = item
+		else:
+			raise Exception('Item %s is not a namespace, struct, class or member object' % name)
+	return item
 
 
 class NamedReference:
@@ -220,34 +250,7 @@ class DocBriefDescription:
 		visitor.onBriefDescription(self)
 
 
-_items = {}
-
-
-def create_itemref(ref, name):
-	if not ref:
-		raise Exception('create_itemref: no reference for %s' % name)
-	if ref in _items.keys():
-		item = _items[ref]
-	else:
-		item = Reference(ref, None)
-		_items[ref] = item
-	return item
-
-
-def create_item(ref, kind, name, compound=None):
-	if not ref or not kind or not name:
-		raise Exception('Item not fully defined')
-	item = create_itemref(ref, name)
-	if not item.item:
-		if kind in ['namespace', 'struct', 'class']:
-			item.item = create_scoped_item(kind, name)
-			item.item.ref = item
-		elif compound:
-			item.item = compound.item.get(kind, name)
-			item.item.ref = item
-		else:
-			raise Exception('Item %s is not a namespace, struct, class or member object' % name)
-	return item
+##### Doxygen XML Parser
 
 
 def parseDoxygenXml_para(xml):
