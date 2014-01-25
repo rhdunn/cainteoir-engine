@@ -171,7 +171,7 @@ class Reference:
 		self.item = item
 
 	def __str__(self):
-		return '[%s] => %s' % (self.ref, self.item)
+		return self.ref
 
 
 _items = {}
@@ -195,8 +195,10 @@ def create_item(ref, kind, name, compound=None):
 	if not item.item:
 		if kind in ['namespace', 'struct', 'class']:
 			item.item = create_scoped_item(kind, name)
+			item.item.ref = item
 		elif compound:
 			item.item = compound.item.get(kind, name)
+			item.item.ref = item
 		else:
 			raise Exception('Item %s is not a namespace, struct, class or member object' % name)
 	return item
@@ -337,4 +339,4 @@ for ref, item in _items.items():
 		raise Exception('Reference %s does not have a referenced item' % ref)
 
 for c in compounds:
-	print(c.signature())
+	print('%s [%s]' % (c.signature(), c.ref))
