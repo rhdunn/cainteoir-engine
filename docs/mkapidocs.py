@@ -6,6 +6,20 @@ import sys
 from xml.dom import minidom
 
 
+##### Configuration
+
+
+extensionless_links = False
+rootdir = 'docs/api/html'
+stylesheet = 'http://127.0.0.1/css/main.css'
+breadcrumbs = [
+	('/', 'Home'),
+	('/cainteoir', 'Cainteoir Text-to-Speech'),
+	('/cainteoir/api/engine', 'Engine API'),
+]
+end_year = '2014'
+
+
 ##### XML API
 
 
@@ -315,6 +329,90 @@ def parseDoxygenXml(xml):
 	return compound
 
 
+##### Documentation Generators
+
+
+def link(href):
+	if extensionless_links:
+		return href
+	return '%s.html' % href
+
+
+def writeHtmlHeader(f, title, description, keywords, breadcrumbs):
+	f.write('<!DOCTYPE html>\n')
+	f.write('<html xmlns="http://www.w3.org/1999/xhtml" lang="en" prefix="dc: http://purl.org/dc/elements/1.1/ dct: http://purl.org/dc/terms/ doap: http://usefulinc.com/ns/doap# foaf: http://xmlns.com/foaf/0.1/ rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns# rdfs: http://www.w3.org/2000/01/rdf-schema# s: http://schema.org/ v: http://rdf.data-vocabulary.org/# xsd: http://www.w3.org/2001/XMLSchema#" typeof="s:WebPage">\n')
+	f.write('<head>\n')
+	f.write('<meta charset="utf-8"/>\n')
+	f.write('<meta name="viewport" content="width=device-width; initial-scale=1"/>\n')
+	f.write('<meta name="description" content="%s"/>\n' % description)
+	f.write('<meta name="keywords" content="%s"/>\n' % ', '.join(keywords))
+	f.write('<meta name="robots" content="all"/>\n')
+	f.write('<title property="s:name dc:title">%s</title>\n' % title)
+	f.write('<link rel="stylesheet" type="text/css" href="%s"/>\n' % stylesheet)
+	f.write('</head>\n')
+	f.write('<body>\n')
+	f.write('<header role="banner">\n')
+	f.write('<div style="font-size: 1.20em;">Cainteoir</div>\n')
+	f.write('<div style="font-size: 0.86em;">Technologies</div>\n')
+	f.write('</header>\n')
+	f.write('<nav role="navigation" class="breadcrumbs">\n')
+	f.write('  <a rel="s:breadcrumbs" href="#breadcrumb0"></a>\n')
+	f.write('  <ol>\n')
+	for i, data in enumerate(breadcrumbs):
+		href, item_title = data
+		f.write('    <li id="#breadcrumb%d" about="#breadcrumb%d" typeof="v:Breadcrumb">\n' % (i, i))
+		if i == (len(breadcrumbs) - 1):
+			f.write('      <span property="v:title">%s</span>\n' % item_title)
+		else:
+			f.write('      <a rel="v:url" property="v:title" href="%s">%s</a>\n' % (link(href), item_title))
+			f.write('      <a rel="v:child" href="#breadcrumb%d"></a>\n' % (i + 1))
+		f.write('    </li>\n')
+	f.write('  </ol>\n')
+	f.write('</nav>\n')
+	f.write('<div role="main">\n')
+	f.write('<h1>%s</h1>\n' % title)
+
+def writeHtmlFooter(f):
+	f.write('</div>\n')
+	f.write('<footer>\n')
+	f.write('<p style="text-align: center;">\n')
+	f.write('<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/" style="border: 0;"><img alt="CC-BY-SA 3.0" title="Creative Commons Attribution-ShareAlike 3.0 License" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png"/></a>\n')
+	f.write('<a href="http://www.w3.org/html/logo/" style="border: 0;">\n')
+	f.write('<img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-semantics.png" width="80" height="31" alt="HTML5 Powered with CSS3 / Styling, and Semantics" title="HTML5 Powered with CSS3 / Styling, and Semantics"/>\n')
+	f.write('</a>\n')
+	f.write('<img src="http://www.w3.org/Icons/SW/Buttons/sw-rdfa-green.png" alt="RDFa 1.1" title="RDFa 1.1" height="15" width="80" style="padding-top: 8px; padding-bottom: 8px;" />\n')
+	f.write('<span>\n')
+	f.write('<a href="http://jigsaw.w3.org/css-validator/check/referer" style="border: 0;"><img src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS" title="Valid CSS" height="31" width="88" /></a>\n')
+	f.write('</span>\n')
+	f.write('</p>\n')
+	f.write('<p class="copyright" property="dc:rights">Copyright &#169; 2010-%s Reece H. Dunn</p>\n' % end_year)
+	f.write('<p><em>Cainteoir</em> is a registered trademark of Reece Dunn.</p>\n')
+	f.write('<p><em>W3C</em> is a trademark (registered in numerous countries) of the World Wide Web Consortium; marks of W3C are registered and held by its host institutions MIT, ERCIM, and Keio.</p>\n')
+	f.write('<p><em>Android</em> and <em>Google Play</em> are registered trademarks of Google Inc.</p>\n')
+	f.write('<p>All trademarks are property of their respective owners.</p>\n')
+	f.write('<p>This website is generated using the <a href="https://github.com/mojombo/jekyll">Jekyll</a> static site generator with the <a href="https://github.com/rhdunn/website-template">Website Template</a> layouts and plugins.</p>\n')
+	f.write('</footer>\n')
+	f.write('</body>\n')
+	f.write('</html>\n')
+
+
+def writeHtmlDocumentation(item):
+	with open(os.path.join(rootdir, '%s.html' % item.ref), 'w') as f:
+		title = '%s %s Reference' % (item.scopedname(), item.kind.capitalize())
+		description = ''
+		keywords = []
+		nav = [x for x in breadcrumbs]
+		for x in item.ancestors():
+			try:
+				nav.append((x.ref, x.name))
+			except:
+				nav.append(('/', x.name))
+				print('%s | %s' % (item.signature(), x.signature()))
+
+		writeHtmlHeader(f, title, description, keywords, nav)
+		writeHtmlFooter(f)
+
+
 ##### Main Entry Point
 
 
@@ -329,5 +427,7 @@ for ref, item in _items.items():
 	if not item.item:
 		raise Exception('Reference %s does not have a referenced item' % ref)
 
+if not os.path.exists(rootdir):
+	os.mkdir(rootdir)
 for c in compounds:
-	print('%s [%s]' % (c.signature(), c.ref))
+	writeHtmlDocumentation(c)
