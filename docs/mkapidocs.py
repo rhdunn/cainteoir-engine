@@ -39,6 +39,10 @@ class XmlNode:
 			return None
 		return ret
 
+	def children(self):
+		for child in self.node.childNodes:
+			yield XmlNode(child)
+
 	def text(self):
 		return ''.join(self._text(self.node))
 
@@ -66,6 +70,7 @@ class Item:
 		self.kind   = kind
 		self.name   = name
 		self.parent = parent
+		self.brief  = None
 
 	def __str__(self):
 		return self.name
@@ -179,6 +184,42 @@ class Reference:
 		return self.ref
 
 
+class NamedReference:
+	def __init__(self, ref, name):
+		self.ref = create_itemref(ref, None)
+		self.name = name
+
+	def accept(self, visitor):
+		visitor.onNamedReference(self)
+
+
+class DocText:
+	def __init__(self, text):
+		self.text = text
+
+	def accept(self, visitor):
+		visitor.onText(self)
+
+
+class DocParagraph:
+	def __init__(self):
+		self.contents = []
+
+	def add(self, item):
+		self.contents.append(item)
+
+	def accept(self, visitor):
+		visitor.onParagraph(self)
+
+
+class DocBriefDescription:
+	def __init__(self, para):
+		self.contents = para.contents
+
+	def accept(self, visitor):
+		visitor.onBriefDescription(self)
+
+
 _items = {}
 
 
@@ -207,6 +248,28 @@ def create_item(ref, kind, name, compound=None):
 		else:
 			raise Exception('Item %s is not a namespace, struct, class or member object' % name)
 	return item
+
+
+def parseDoxygenXml_para(xml):
+	para = DocParagraph()
+	for child in xml.children():
+		if child.name == '#text':
+			para.add(DocText(child.node.nodeValue))
+		elif child.name == 'ref':
+			para.add(NamedReference(child['refid'], child.text()))
+		else:
+			raise Exception('Unknown element %s on para' % child.name)
+	return para
+
+
+def parseDoxygenXml_briefdescription(xml, item):
+	for child in xml:
+		if child.name == 'para':
+			if item.item.brief:
+				raise Exception('%s already has a brief description' % item.scopedname())
+			item.item.brief = DocBriefDescription(parseDoxygenXml_para(child))
+		else:
+			raise Exception('Unknown element %s on briefdescription' % child.name)
 
 
 def parseDoxygenXml_enumvalue(xml, compound):
@@ -287,7 +350,9 @@ def parseDoxygenXml_compounddef_namespace(xml):
 			compound = create_item(xml['id'], xml['kind'], child.text())
 		elif child.name == 'sectiondef':
 			parseDoxygenXml_sectiondef(child, compound)
-		elif child.name in ['innerclass', 'innernamespace', 'briefdescription', 'detaileddescription', 'location']:
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, compound)
+		elif child.name in ['innerclass', 'innernamespace', 'detaileddescription', 'location']:
 			pass
 		else:
 			raise Exception('Unknown compounddef node : %s' % child.name)
@@ -301,7 +366,9 @@ def parseDoxygenXml_compounddef_class(xml):
 			compound = create_item(xml['id'], xml['kind'], child.text())
 		elif child.name == 'sectiondef':
 			parseDoxygenXml_sectiondef(child, compound)
-		elif child.name in ['includes', 'briefdescription', 'detaileddescription', 'inheritancegraph', 'collaborationgraph', 'location', 'listofallmembers', 'innerclass', 'templateparamlist', 'derivedcompoundref', 'basecompoundref']:
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, compound)
+		elif child.name in ['includes', 'detaileddescription', 'inheritancegraph', 'collaborationgraph', 'location', 'listofallmembers', 'innerclass', 'templateparamlist', 'derivedcompoundref', 'basecompoundref']:
 			pass
 		else:
 			raise Exception('Unknown compounddef node : %s' % child.name)
@@ -336,6 +403,26 @@ def link(href):
 	if extensionless_links:
 		return href
 	return '%s.html' % href
+
+
+class HtmlPrinter:
+	def __init__(self, f):
+		self.f = f
+
+	def visit(self, node):
+		if not node: return
+		node.accept(self)
+
+	def onText(self, node):
+		self.f.write(node.text)
+
+	def onNamedReference(self, node):
+		self.f.write('<a href="%s">%s</a>' % (link(node.ref), node.name))
+
+	def onBriefDescription(self, node):
+		self.f.write('<blockquote class="about">')
+		map(self.visit, node.contents)
+		self.f.write('</blockquote>\n')
 
 
 def writeHtmlHeader(f, title, description, keywords, breadcrumbs):
@@ -409,7 +496,10 @@ def writeHtmlDocumentation(item):
 				nav.append(('/', x.name))
 				print('%s | %s' % (item.signature(), x.signature()))
 
+		printer = HtmlPrinter(f)
+
 		writeHtmlHeader(f, title, description, keywords, nav)
+		printer.visit(item.brief)
 		writeHtmlFooter(f)
 
 
