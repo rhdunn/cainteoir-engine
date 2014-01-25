@@ -5,8 +5,6 @@ import sys
 
 from xml.dom import minidom
 
-yes_no = {'yes': True , 'no': False, '': False}
-
 
 ##### XML API
 
@@ -156,10 +154,6 @@ def create_scoped_item(kind, name):
 	for item in items[:-1]:
 		ns = ns.get('namespace', item)
 	return ns.get(kind, items[-1])
-
-
-def create_member_item(kind, name, compound):
-	return compound.get(kind, name, Item)
 
 
 ##### Doxygen XML Parser
