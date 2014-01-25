@@ -224,11 +224,26 @@ class NamedReference:
 
 
 class DocText:
-	def __init__(self, text):
+	def __init__(self, text, style=None):
 		self.text = text
+		self.style = style
 
 	def accept(self, visitor):
-		visitor.onText(self)
+		if not self.style:
+			visitor.onText(self)
+		elif self.style == 'bold':
+			visitor.onBoldText(self)
+		elif self.style == 'computeroutput':
+			visitor.onComputerOutput(self)
+
+
+class DocLink:
+	def __init__(self, ref, name):
+		self.ref = ref
+		self.name = name
+
+	def accept(self, visitor):
+		visitor.onLink(self)
 
 
 class DocParagraph:
@@ -258,8 +273,12 @@ def parseDoxygenXml_para(xml):
 	for child in xml.children():
 		if child.name == '#text':
 			para.add(DocText(child.node.nodeValue))
+		elif child.name in ['bold', 'computeroutput']:
+			para.add(DocText(child.node.nodeValue, child.name))
 		elif child.name == 'ref':
 			para.add(NamedReference(child['refid'], child.text()))
+		elif child.name == 'ulink':
+			para.add(DocLink(child['url'], child.text()))
 		else:
 			raise Exception('Unknown element %s on para' % child.name)
 	return para
@@ -269,7 +288,7 @@ def parseDoxygenXml_briefdescription(xml, item):
 	for child in xml:
 		if child.name == 'para':
 			if item.item.brief:
-				raise Exception('%s already has a brief description' % item.scopedname())
+				print('warning: %s already has a brief description' % item.item.scopedname())
 			item.item.brief = DocBriefDescription(parseDoxygenXml_para(child))
 		else:
 			raise Exception('Unknown element %s on briefdescription' % child.name)
@@ -279,7 +298,9 @@ def parseDoxygenXml_enumvalue(xml, compound):
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], 'enumvalue', child.text(), compound)
-		elif child.name in ['briefdescription', 'detaileddescription', 'initializer']:
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, member)
+		elif child.name in ['detaileddescription', 'initializer']:
 			pass
 		else:
 			raise Exception('Unknown enumvalue node : %s' % child.name)
@@ -291,7 +312,9 @@ def parseDoxygenXml_memberdef_enum(xml, compound):
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
 		elif child.name == 'enumvalue':
 			parseDoxygenXml_enumvalue(child, member)
-		elif child.name in ['briefdescription', 'detaileddescription', 'inbodydescription', 'location']:
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, member)
+		elif child.name in ['detaileddescription', 'inbodydescription', 'location']:
 			pass
 		else:
 			raise Exception('Unknown memberdef node : %s' % child.name)
@@ -301,7 +324,9 @@ def parseDoxygenXml_memberdef_typedef(xml, compound):
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
-		elif child.name in ['type', 'definition', 'argsstring', 'briefdescription', 'detaileddescription', 'inbodydescription', 'location']:
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, member)
+		elif child.name in ['type', 'definition', 'argsstring', 'detaileddescription', 'inbodydescription', 'location']:
 			pass
 		else:
 			raise Exception('Unknown memberdef node : %s' % child.name)
@@ -311,7 +336,9 @@ def parseDoxygenXml_memberdef_variable(xml, compound):
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
-		elif child.name in ['type', 'definition', 'argsstring', 'briefdescription', 'detaileddescription', 'inbodydescription', 'location']:
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, member)
+		elif child.name in ['type', 'definition', 'argsstring', 'detaileddescription', 'inbodydescription', 'location']:
 			pass
 		else:
 			raise Exception('Unknown memberdef node : %s' % child.name)
@@ -321,7 +348,9 @@ def parseDoxygenXml_memberdef_function(xml, compound):
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
-		elif child.name in ['type', 'definition', 'argsstring', 'param', 'templateparamlist', 'briefdescription', 'detaileddescription', 'inbodydescription', 'location', 'reimplements', 'reimplementedby']:
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, member)
+		elif child.name in ['type', 'definition', 'argsstring', 'param', 'templateparamlist', 'detaileddescription', 'inbodydescription', 'location', 'reimplements', 'reimplementedby']:
 			pass
 		else:
 			raise Exception('Unknown memberdef node : %s' % child.name)
@@ -418,6 +447,9 @@ class HtmlPrinter:
 
 	def onText(self, node):
 		self.f.write(node.text)
+
+	def onLink(self, node):
+		self.f.write('<a href="%s">%s</a>' % (node.ref, node.name))
 
 	def onNamedReference(self, node):
 		self.f.write('<a href="%s">%s</a>' % (link(node.ref), node.name))
@@ -518,7 +550,7 @@ for filename in sys.argv[1:]:
 
 for ref, item in _items.items():
 	if not item.item:
-		raise Exception('Reference %s does not have a referenced item' % ref)
+		print('warning: reference %s does not have a referenced item' % ref)
 
 if not os.path.exists(rootdir):
 	os.mkdir(rootdir)
