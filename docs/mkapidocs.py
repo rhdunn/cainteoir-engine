@@ -394,7 +394,7 @@ def parseDoxygenXml_compounddef_namespace(xml):
 	for child in xml:
 		if child.name == 'compoundname':
 			compound = create_item(xml['id'], xml['kind'], child.text())
-			compound.item.protection = xml['prot']
+			compound.item.protection = 'public'
 		elif child.name == 'sectiondef':
 			parseDoxygenXml_sectiondef(child, compound)
 		elif child.name == 'briefdescription':
