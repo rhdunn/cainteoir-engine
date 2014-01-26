@@ -63,7 +63,19 @@ class XmlDocument(XmlNode):
 
 ##### C++ Object Model
 
+
 item_types = {}
+
+
+class Parameter:
+	def __init__(self):
+		pass
+
+	def accept(self, visitor, kwargs):
+		visitor.onVarType(self.vartype, **kwargs)
+		visitor.onText(' ', **kwargs)
+		visitor.onParameterName(self.name, **kwargs)
+
 
 class Item:
 	def __init__(self, kind, name, parent):
@@ -92,8 +104,12 @@ class Item:
 	def scopedname(self):
 		return '::'.join([ x.name for x in self.ancestors() ])
 
-	def signature(self):
-		return '%s %s' % (self.kind, self.scopedname())
+	def accept(self, visitor, kwargs):
+		visitor.onBeginTypeDecl(**kwargs)
+		visitor.onKeyword(self.kind, **kwargs)
+		visitor.onText(' ', **kwargs)
+		visitor.onScopedItem(self, **kwargs)
+		visitor.onEndTypeDecl(**kwargs)
 
 
 class ScopedItem(Item):
@@ -118,16 +134,10 @@ class Class(ScopedItem):
 	def __init__(self, kind, name, parent):
 		ScopedItem.__init__(self, kind, name, parent)
 
-	def accept(self, visitor, kwargs):
-		visitor.onClass(self, **kwargs)
-
 
 class Enum(ScopedItem):
 	def __init__(self, kind, name, parent):
 		ScopedItem.__init__(self, kind, name, parent)
-
-	def accept(self, visitor, kwargs):
-		visitor.onEnum(self, **kwargs)
 
 
 class EnumValue(Item):
@@ -136,11 +146,6 @@ class EnumValue(Item):
 
 	def accept(self, visitor, kwargs):
 		visitor.onEnumValue(self, **kwargs)
-
-
-class Parameter:
-	def __init__(self):
-		pass
 
 
 class Function(ScopedItem):
@@ -155,29 +160,29 @@ class Function(ScopedItem):
 		self.parameters = []
 
 	def accept(self, visitor, kwargs):
-		visitor.onFunction(self, **kwargs)
-
-	def signature(self):
-		params = ', '.join([ '%s %s' % (p.vartype, p.name) for p in self.parameters ])
+		visitor.onBeginTypeDecl(**kwargs)
 		if self.vartype:
-			return '%s %s(%s)' % (self.vartype, self.scopedname(), params)
-		return '%s(%s)' % (self.scopedname(), params)
+			visitor.onVarType(self.vartype, **kwargs)
+			visitor.onText(' ', **kwargs)
+		visitor.onScopedItem(self, **kwargs)
+		visitor.onOperator('(', **kwargs)
+		for i, param in enumerate(self.parameters):
+			visitor.onParameter(param, **kwargs)
+			if i != (len(self.parameters) - 1):
+				visitor.onOperator(',', **kwargs)
+				visitor.onText(' ', **kwargs)
+		visitor.onOperator(')', **kwargs)
+		visitor.onEndTypeDecl(**kwargs)
 
 
 class Namespace(ScopedItem):
 	def __init__(self, kind, name, parent):
 		ScopedItem.__init__(self, kind, name, parent)
 
-	def accept(self, visitor, kwargs):
-		visitor.onNamespace(self, **kwargs)
-
 
 class Struct(ScopedItem):
 	def __init__(self, kind, name, parent):
 		ScopedItem.__init__(self, kind, name, parent)
-
-	def accept(self, visitor, kwargs):
-		visitor.onStruct(self, **kwargs)
 
 
 class Typedef(Item):
@@ -187,12 +192,25 @@ class Typedef(Item):
 		self.parameters = None
 
 	def accept(self, visitor, kwargs):
-		visitor.onTypedef(self, **kwargs)
-
-	def signature(self):
+		visitor.onBeginTypeDecl(**kwargs)
+		visitor.onKeyword(self.kind, **kwargs)
+		visitor.onText(' ', **kwargs)
+		visitor.onVarType(self.vartype, **kwargs)
+		visitor.onText(' ', **kwargs)
 		if self.parameters:
-			return 'typedef %s (*%s)(%s)' % (self.vartype, self.scopedname(), self.parameters)
-		return 'typedef %s %s' % (self.vartype, self.scopedname())
+			visitor.onOperator('(', **kwargs)
+			visitor.onOperator('*', **kwargs)
+		visitor.onScopedItem(self, **kwargs)
+		if self.parameters:
+			visitor.onOperator(')', **kwargs)
+			visitor.onOperator('(', **kwargs)
+			for i, param in enumerate(self.parameters):
+				visitor.onParameter(param, **kwargs)
+				if i != (len(self.parameters) - 1):
+					visitor.onOperator(',', **kwargs)
+					visitor.onText(' ', **kwargs)
+			visitor.onOperator(')', **kwargs)
+		visitor.onEndTypeDecl(**kwargs)
 
 
 class Variable(Item):
@@ -201,10 +219,11 @@ class Variable(Item):
 		self.vartype = None
 
 	def accept(self, visitor, kwargs):
-		visitor.onVariable(self, **kwargs)
-
-	def signature(self):
-		return '%s %s' % (self.vartype, self.scopedname())
+		visitor.onBeginTypeDecl(**kwargs)
+		visitor.onVarType(self.vartype, **kwargs)
+		visitor.onText(' ', **kwargs)
+		visitor.onMemberName(self, **kwargs)
+		visitor.onEndTypeDecl(**kwargs)
 
 
 global_namespace = ScopedItem('namespace', '', None)
@@ -287,11 +306,11 @@ class DocText:
 
 	def accept(self, visitor, kwargs):
 		if not self.style:
-			visitor.onText(self, **kwargs)
+			visitor.onText(self.text, **kwargs)
 		elif self.style == 'bold':
-			visitor.onBoldText(self, **kwargs)
+			visitor.onBoldText(self.text, **kwargs)
 		elif self.style == 'computeroutput':
-			visitor.onComputerOutput(self, **kwargs)
+			visitor.onComputerOutput(self.text, **kwargs)
 
 
 class DocLink:
@@ -561,11 +580,11 @@ class HtmlPrinter:
 	def onBlankNode(self, classname=None):
 		self.f.write('&#xA0;')
 
-	def onText(self, node):
-		self.f.write(node.text)
+	def onText(self, text):
+		self.f.write(text)
 
-	def onComputerOutput(self, node):
-		self.f.write('<code>%s</code>' % (node.text))
+	def onComputerOutput(self, text):
+		self.f.write('<code>%s</code>' % (text))
 
 	def onLink(self, node):
 		self.f.write('<a href="%s">%s</a>' % (node.ref, node.name))
@@ -581,43 +600,32 @@ class HtmlPrinter:
 		map(self.visit, node.contents)
 		self.f.write('</blockquote>\n')
 
-	def onDeclaredItem(self, node):
-		self.f.write('%s ' % node.kind)
-		self.visit(node.ref)
+	def onBeginTypeDecl(self):
+		pass
 
-	def onTypedef(self, node):
-		if node.parameters:
-			self.f.write('typedef %s (*' % node.vartype)
-			self.visit(node.ref)
-			self.f.write(')(')
-			for i, parameter in enumerate(node.parameters):
-				self.f.write('%s %s' % (parameter.vartype, parameter.name))
-				if i != (len(node.parameters) - 1):
-					self.f.write(', ')
-			self.f.write(')')
-		else:
-			self.f.write('typedef %s ' % node.vartype)
-			self.visit(node.ref)
+	def onEndTypeDecl(self):
+		pass
 
-	def onVariable(self, node):
-		self.f.write('%s ' % node.vartype)
-		self.visit(node.ref)
+	def onKeyword(self, keyword):
+		self.f.write('<span class="keyword">%s</span>' % keyword)
 
-	def onFunction(self, node):
-		if node.vartype:
-			self.f.write('%s ' % node.vartype)
-		self.visit(node.ref)
-		self.f.write('(')
-		for i, parameter in enumerate(node.parameters):
-			self.f.write('%s %s' % (parameter.vartype, parameter.name))
-			if i != (len(node.parameters) - 1):
-				self.f.write(', ')
-		self.f.write(')')
+	def onOperator(self, operator):
+		self.f.write('<span class="operator">%s</span>' % operator)
 
-	onClass = onDeclaredItem
-	onEnum = onDeclaredItem
-	onNamespace = onDeclaredItem
-	onStruct = onDeclaredItem
+	def onParameter(self, item):
+		self.visit(item)
+
+	def onVarType(self, vartype):
+		self.f.write(vartype)
+
+	def onParameterName(self, name):
+		self.f.write(name)
+
+	def onMemberName(self, item):
+		self.f.write(item.name)
+
+	def onScopedItem(self, item):
+		self.visit(item.ref)
 
 
 def writeHtmlHeader(f, title, description, keywords, breadcrumbs):
