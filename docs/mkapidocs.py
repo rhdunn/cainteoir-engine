@@ -138,6 +138,11 @@ class EnumValue(Item):
 		visitor.onEnumValue(self, **kwargs)
 
 
+class Parameter:
+	def __init__(self):
+		pass
+
+
 class Function(ScopedItem):
 	def __init__(self, kind, name, parent):
 		if name == parent.name and parent.kind in ['class', 'struct']:
@@ -146,14 +151,17 @@ class Function(ScopedItem):
 			ScopedItem.__init__(self, 'destructor', name, parent)
 		else:
 			ScopedItem.__init__(self, kind, name, parent)
+		self.return_type = None
+		self.parameters = []
 
 	def accept(self, visitor, kwargs):
-		if self.kind == 'function':
-			visitor.onFunction(self, **kwargs)
-		elif self.kind == 'constructor':
-			visitor.onConstructor(self, **kwargs)
-		elif self.kind == 'destructor':
-			visitor.onDestructor(self, **kwargs)
+		visitor.onFunction(self, **kwargs)
+
+	def signature(self):
+		params = ', '.join([ '%s %s' % (p.vartype, p.name) for p in self.parameters ])
+		if self.return_type:
+			return '%s %s(%s)' % (self.return_type, self.scopedname(), params)
+		return '%s(%s)' % (self.scopedname(), params)
 
 
 class Namespace(ScopedItem):
@@ -386,17 +394,37 @@ def parseDoxygenXml_memberdef_variable(xml, compound):
 			raise Exception('Unknown memberdef node : %s' % child.name)
 
 
+def parseDoxygenXml_param(xml):
+	param = Parameter()
+	for child in xml:
+		if child.name == 'type':
+			param.vartype = child.text()
+		elif child.name == 'declname':
+			param.name = child.text()
+		elif child.name in ['defval', 'defname', 'array']:
+			pass
+		else:
+			raise Exception('Unknown param node : %s' % child.name)
+	return param
+
+
 def parseDoxygenXml_memberdef_function(xml, compound):
+	return_type = None
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
 			member.item.protection = xml['prot']
+		elif child.name == 'param':
+			member.item.parameters.append(parseDoxygenXml_param(child))
 		elif child.name == 'briefdescription':
 			parseDoxygenXml_briefdescription(child, member)
-		elif child.name in ['type', 'definition', 'argsstring', 'param', 'templateparamlist', 'detaileddescription', 'inbodydescription', 'location', 'reimplements', 'reimplementedby']:
+		elif child.name == 'type':
+			return_type = child.text()
+		elif child.name in ['definition', 'argsstring', 'templateparamlist', 'detaileddescription', 'inbodydescription', 'location', 'reimplements', 'reimplementedby']:
 			pass
 		else:
 			raise Exception('Unknown memberdef node : %s' % child.name)
+	member.item.return_type = return_type
 
 
 def parseDoxygenXml_sectiondef(xml, compound):
@@ -519,11 +547,19 @@ class HtmlPrinter:
 		self.f.write('%s ' % node.kind)
 		self.visit(node.ref)
 
+	def onFunction(self, node):
+		if node.return_type:
+			self.f.write('%s ' % node.return_type)
+		self.visit(node.ref)
+		self.f.write('(')
+		for i, parameter in enumerate(node.parameters):
+			self.f.write('%s %s' % (parameter.vartype, parameter.name))
+			if i != (len(node.parameters) - 1):
+				self.f.write(', ')
+		self.f.write(')')
+
 	onClass = onDeclaredItem
-	onConstructor = onDeclaredItem
-	onDestructor = onDeclaredItem
 	onEnum = onDeclaredItem
-	onFunction = onDeclaredItem
 	onNamespace = onDeclaredItem
 	onStruct = onDeclaredItem
 	onTypedef = onDeclaredItem
