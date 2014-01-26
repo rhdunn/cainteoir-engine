@@ -184,11 +184,14 @@ class Typedef(Item):
 	def __init__(self, kind, name, parent):
 		Item.__init__(self, kind, name, parent)
 		self.vartype = None
+		self.parameters = None
 
 	def accept(self, visitor, kwargs):
 		visitor.onTypedef(self, **kwargs)
 
 	def signature(self):
+		if self.parameters:
+			return 'typedef %s (*%s)(%s)' % (self.vartype, self.scopedname(), self.parameters)
 		return 'typedef %s %s' % (self.vartype, self.scopedname())
 
 
@@ -378,19 +381,38 @@ def parseDoxygenXml_memberdef_enum(xml, compound):
 
 def parseDoxygenXml_memberdef_typedef(xml, compound):
 	vartype = None
+	parameters = None
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
 			member.item.protection = xml['prot']
 		elif child.name == 'type':
 			vartype = child.text()
+			if vartype.endswith('(*'):
+				vartype = vartype[:-2]
+		elif child.name == 'argsstring':
+			parameters = child.text()
+			if parameters == '':
+				parameters = None
 		elif child.name == 'briefdescription':
 			parseDoxygenXml_briefdescription(child, member)
-		elif child.name in ['type', 'definition', 'argsstring', 'detaileddescription', 'inbodydescription', 'location']:
+		elif child.name in ['type', 'definition', 'detaileddescription', 'inbodydescription', 'location']:
 			pass
 		else:
 			raise Exception('Unknown memberdef node : %s' % child.name)
 	member.item.vartype = vartype
+	member.item.parameters = []
+	if parameters:
+		for parameter in parameters[2:-1].split(', '):
+			p = parameter.split()
+			param = Parameter()
+			param.vartype = ' '.join(p[:-1])
+			param.name = p[-1]
+			for extra in ['*', '&']:
+				if param.name.startswith(extra):
+					param.varname = param.name[1:]
+					param.type = '%s %s' % (param.vartype, extra)
+			member.item.parameters.append(param)
 
 
 def parseDoxygenXml_memberdef_variable(xml, compound):
@@ -564,8 +586,18 @@ class HtmlPrinter:
 		self.visit(node.ref)
 
 	def onTypedef(self, node):
-		self.f.write('typedef %s ' % node.vartype)
-		self.visit(node.ref)
+		if node.parameters:
+			self.f.write('typedef %s (*' % node.vartype)
+			self.visit(node.ref)
+			self.f.write(')(')
+			for i, parameter in enumerate(node.parameters):
+				self.f.write('%s %s' % (parameter.vartype, parameter.name))
+				if i != (len(node.parameters) - 1):
+					self.f.write(', ')
+			self.f.write(')')
+		else:
+			self.f.write('typedef %s ' % node.vartype)
+			self.visit(node.ref)
 
 	def onVariable(self, node):
 		self.f.write('%s ' % node.vartype)
