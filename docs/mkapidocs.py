@@ -118,15 +118,24 @@ class Class(ScopedItem):
 	def __init__(self, kind, name, parent):
 		ScopedItem.__init__(self, kind, name, parent)
 
+	def accept(self, visitor, kwargs):
+		visitor.onClass(self, **kwargs)
+
 
 class Enum(ScopedItem):
 	def __init__(self, kind, name, parent):
 		ScopedItem.__init__(self, kind, name, parent)
 
+	def accept(self, visitor, kwargs):
+		visitor.onEnum(self, **kwargs)
+
 
 class EnumValue(Item):
 	def __init__(self, kind, name, parent):
 		Item.__init__(self, kind, name, parent)
+
+	def accept(self, visitor, kwargs):
+		visitor.onEnumValue(self, **kwargs)
 
 
 class Function(ScopedItem):
@@ -138,25 +147,45 @@ class Function(ScopedItem):
 		else:
 			ScopedItem.__init__(self, kind, name, parent)
 
+	def accept(self, visitor, kwargs):
+		if self.kind == 'function':
+			visitor.onFunction(self, **kwargs)
+		elif self.kind == 'constructor':
+			visitor.onConstructor(self, **kwargs)
+		elif self.kind == 'destructor':
+			visitor.onDestructor(self, **kwargs)
+
 
 class Namespace(ScopedItem):
 	def __init__(self, kind, name, parent):
 		ScopedItem.__init__(self, kind, name, parent)
+
+	def accept(self, visitor, kwargs):
+		visitor.onNamespace(self, **kwargs)
 
 
 class Struct(ScopedItem):
 	def __init__(self, kind, name, parent):
 		ScopedItem.__init__(self, kind, name, parent)
 
+	def accept(self, visitor, kwargs):
+		visitor.onStruct(self, **kwargs)
+
 
 class Typedef(Item):
 	def __init__(self, kind, name, parent):
 		Item.__init__(self, kind, name, parent)
 
+	def accept(self, visitor, kwargs):
+		visitor.onTypedef(self, **kwargs)
+
 
 class Variable(Item):
 	def __init__(self, kind, name, parent):
 		Item.__init__(self, kind, name, parent)
+
+	def accept(self, visitor, kwargs):
+		visitor.onVariable(self, **kwargs)
 
 
 global_namespace = ScopedItem('namespace', '', None)
@@ -486,6 +515,20 @@ class HtmlPrinter:
 		map(self.visit, node.contents)
 		self.f.write('</blockquote>\n')
 
+	def onDeclaredItem(self, node):
+		self.f.write('%s ' % node.kind)
+		self.visit(node.ref)
+
+	onClass = onDeclaredItem
+	onConstructor = onDeclaredItem
+	onDestructor = onDeclaredItem
+	onEnum = onDeclaredItem
+	onFunction = onDeclaredItem
+	onNamespace = onDeclaredItem
+	onStruct = onDeclaredItem
+	onTypedef = onDeclaredItem
+	onVariable = onDeclaredItem
+
 
 def writeHtmlHeader(f, title, description, keywords, breadcrumbs):
 	f.write('<!DOCTYPE html>\n')
@@ -576,8 +619,8 @@ def writeHtmlDocumentation(item):
 			if len(items) > 0:
 				f.write('<h2 class="memberdoc">%s</h2>\n' % title)
 				for child in items:
-					f.write('<pre class="memberdoc">%s ' % child.kind)
-					printer.visit(child.ref)
+					f.write('<pre class="memberdoc">')
+					printer.visit(child)
 					f.write('</pre>')
 					printer.visit(child.brief, classname='memberdoc')
 		writeHtmlFooter(f)
