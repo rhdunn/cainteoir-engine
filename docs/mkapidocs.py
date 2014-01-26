@@ -408,10 +408,10 @@ def parseDoxygenXml_memberdef_typedef(xml, compound):
 			param = Parameter()
 			param.vartype = ' '.join(p[:-1])
 			param.name = p[-1]
-			for extra in ['*', '&']:
+			for extra in ['*', '&amp;', '&']:
 				if param.name.startswith(extra):
-					param.varname = param.name[1:]
-					param.type = '%s %s' % (param.vartype, extra)
+					param.name = param.name[len(extra):]
+					param.vartype = '%s %s' % (param.vartype, extra)
 			member.item.parameters.append(param)
 
 
