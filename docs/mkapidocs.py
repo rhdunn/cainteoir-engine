@@ -191,9 +191,13 @@ class Typedef(Item):
 class Variable(Item):
 	def __init__(self, kind, name, parent):
 		Item.__init__(self, kind, name, parent)
+		self.vartype = None
 
 	def accept(self, visitor, kwargs):
 		visitor.onVariable(self, **kwargs)
+
+	def signature(self):
+		return '%s %s' % (self.vartype, self.scopedname())
 
 
 global_namespace = ScopedItem('namespace', '', None)
@@ -382,16 +386,20 @@ def parseDoxygenXml_memberdef_typedef(xml, compound):
 
 
 def parseDoxygenXml_memberdef_variable(xml, compound):
+	vartype = None
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
 			member.item.protection = xml['prot']
+		elif child.name == 'type':
+			vartype = child.text()
 		elif child.name == 'briefdescription':
 			parseDoxygenXml_briefdescription(child, member)
-		elif child.name in ['type', 'definition', 'argsstring', 'detaileddescription', 'inbodydescription', 'location']:
+		elif child.name in ['definition', 'argsstring', 'detaileddescription', 'inbodydescription', 'location']:
 			pass
 		else:
 			raise Exception('Unknown memberdef node : %s' % child.name)
+	member.item.vartype = vartype
 
 
 def parseDoxygenXml_param(xml):
@@ -547,6 +555,10 @@ class HtmlPrinter:
 		self.f.write('%s ' % node.kind)
 		self.visit(node.ref)
 
+	def onVariable(self, node):
+		self.f.write('%s ' % node.vartype)
+		self.visit(node.ref)
+
 	def onFunction(self, node):
 		if node.return_type:
 			self.f.write('%s ' % node.return_type)
@@ -563,7 +575,6 @@ class HtmlPrinter:
 	onNamespace = onDeclaredItem
 	onStruct = onDeclaredItem
 	onTypedef = onDeclaredItem
-	onVariable = onDeclaredItem
 
 
 def writeHtmlHeader(f, title, description, keywords, breadcrumbs):
