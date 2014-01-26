@@ -151,7 +151,7 @@ class Function(ScopedItem):
 			ScopedItem.__init__(self, 'destructor', name, parent)
 		else:
 			ScopedItem.__init__(self, kind, name, parent)
-		self.return_type = None
+		self.vartype = None
 		self.parameters = []
 
 	def accept(self, visitor, kwargs):
@@ -159,8 +159,8 @@ class Function(ScopedItem):
 
 	def signature(self):
 		params = ', '.join([ '%s %s' % (p.vartype, p.name) for p in self.parameters ])
-		if self.return_type:
-			return '%s %s(%s)' % (self.return_type, self.scopedname(), params)
+		if self.vartype:
+			return '%s %s(%s)' % (self.vartype, self.scopedname(), params)
 		return '%s(%s)' % (self.scopedname(), params)
 
 
@@ -183,9 +183,13 @@ class Struct(ScopedItem):
 class Typedef(Item):
 	def __init__(self, kind, name, parent):
 		Item.__init__(self, kind, name, parent)
+		self.vartype = None
 
 	def accept(self, visitor, kwargs):
 		visitor.onTypedef(self, **kwargs)
+
+	def signature(self):
+		return 'typedef %s %s' % (self.vartype, self.scopedname())
 
 
 class Variable(Item):
@@ -373,16 +377,20 @@ def parseDoxygenXml_memberdef_enum(xml, compound):
 
 
 def parseDoxygenXml_memberdef_typedef(xml, compound):
+	vartype = None
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
 			member.item.protection = xml['prot']
+		elif child.name == 'type':
+			vartype = child.text()
 		elif child.name == 'briefdescription':
 			parseDoxygenXml_briefdescription(child, member)
 		elif child.name in ['type', 'definition', 'argsstring', 'detaileddescription', 'inbodydescription', 'location']:
 			pass
 		else:
 			raise Exception('Unknown memberdef node : %s' % child.name)
+	member.item.vartype = vartype
 
 
 def parseDoxygenXml_memberdef_variable(xml, compound):
@@ -417,7 +425,7 @@ def parseDoxygenXml_param(xml):
 
 
 def parseDoxygenXml_memberdef_function(xml, compound):
-	return_type = None
+	vartype = None
 	for child in xml:
 		if child.name == 'name':
 			member = create_item(xml['id'], xml['kind'], child.text(), compound)
@@ -427,12 +435,12 @@ def parseDoxygenXml_memberdef_function(xml, compound):
 		elif child.name == 'briefdescription':
 			parseDoxygenXml_briefdescription(child, member)
 		elif child.name == 'type':
-			return_type = child.text()
+			vartype = child.text()
 		elif child.name in ['definition', 'argsstring', 'templateparamlist', 'detaileddescription', 'inbodydescription', 'location', 'reimplements', 'reimplementedby']:
 			pass
 		else:
 			raise Exception('Unknown memberdef node : %s' % child.name)
-	member.item.return_type = return_type
+	member.item.vartype = vartype
 
 
 def parseDoxygenXml_sectiondef(xml, compound):
@@ -555,13 +563,17 @@ class HtmlPrinter:
 		self.f.write('%s ' % node.kind)
 		self.visit(node.ref)
 
+	def onTypedef(self, node):
+		self.f.write('typedef %s ' % node.vartype)
+		self.visit(node.ref)
+
 	def onVariable(self, node):
 		self.f.write('%s ' % node.vartype)
 		self.visit(node.ref)
 
 	def onFunction(self, node):
-		if node.return_type:
-			self.f.write('%s ' % node.return_type)
+		if node.vartype:
+			self.f.write('%s ' % node.vartype)
 		self.visit(node.ref)
 		self.f.write('(')
 		for i, parameter in enumerate(node.parameters):
@@ -574,7 +586,6 @@ class HtmlPrinter:
 	onEnum = onDeclaredItem
 	onNamespace = onDeclaredItem
 	onStruct = onDeclaredItem
-	onTypedef = onDeclaredItem
 
 
 def writeHtmlHeader(f, title, description, keywords, breadcrumbs):
