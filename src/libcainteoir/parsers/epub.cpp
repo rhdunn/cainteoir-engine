@@ -127,26 +127,7 @@ bool epub_document_reader::read(rdf::graph *aMetadata)
 		return true;
 	case state::toc:
 		while (child->read(aMetadata))
-		{
-			if (!(child->type & cainteoir::events::toc_entry))
-				continue;
-
-			if (child->styles == &cainteoir::heading0)
-				continue;
-
-			if (child->anchor == mSubject)
-				anchor = mSubject;
-			else
-			{
-				auto filename = opf_root / child->anchor.ns;
-				anchor = mData->location(filename.str(), child->anchor.ref);
-			}
-
-			type    = cainteoir::events::toc_entry;
-			styles  = child->styles;
-			content = child->content;
-			return true;
-		}
+			;
 		child.reset();
 		mState = state::publication;
 		break;
@@ -171,17 +152,11 @@ bool epub_document_reader::read(rdf::graph *aMetadata)
 
 		while (child->read())
 		{
-			if (child->type & cainteoir::events::toc_entry)
-				child->type &= ~cainteoir::events::toc_entry;
-
-			if (child->type)
-			{
-				type    = child->type;
-				styles  = child->styles;
-				content = child->content;
-				anchor  = child->anchor;
-				return true;
-			}
+			type    = child->type;
+			styles  = child->styles;
+			content = child->content;
+			anchor  = child->anchor;
+			return true;
 		}
 		child.reset();
 		mState = state::publication;

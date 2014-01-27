@@ -133,23 +133,6 @@ int main(int argc, char ** argv)
 
 		while (reader->read())
 		{
-			if (reader->type & cainteoir::events::toc_entry && reader->styles)
-			{
-				fprintf(stdout, "toc-entry [%s]%s depth=%d",
-				        reader->anchor.ns.c_str(),
-				        reader->anchor.ref.c_str(),
-				        reader->styles->aria_level);
-				if (reader->content.get())
-				{
-					fprintf(stdout, " title=\"\"\"%s\"\"\"",
-					        reader->content->str().c_str());
-				}
-				else
-					fprintf(stdout, " title=(null)");
-				if (reader->type & cainteoir::events::navigation_document)
-					fprintf(stdout, " +navigation-document");
-				fprintf(stdout, "\n");
-			}
 			if (reader->type & cainteoir::events::anchor)
 			{
 				fprintf(stdout, "anchor [%s]%s\n",

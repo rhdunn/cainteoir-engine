@@ -105,8 +105,6 @@ void cainteoir::document::read(const std::shared_ptr<document_reader> &aReader, 
 		mChildren.push_back(*aReader);
 		if (aReader->type & cainteoir::events::anchor)
 			mAnchors[aReader->anchor.str()] = mChildren.size();
-		if (aReader->type & cainteoir::events::toc_entry)
-			mToc.push_back({ aReader->styles->aria_level, aReader->anchor, aReader->content->str() });
 		if (aReader->type & cainteoir::events::text)
 			mLength += aReader->content->size();
 	}

@@ -39,17 +39,6 @@
 \endcode
 
 
-\var   cainteoir::events::event_type cainteoir::events::toc_entry
-\brief An entry in the table of contents.
-
-The parameter is the depth of the entry. This corresponds to the depth from the
-heading rendering context.
-
-\code
-  toc-entry <parameter> <anchor> <content>
-\endcode
-
-
 \var   cainteoir::events::event_type cainteoir::events::anchor
 \brief An anchor point in the document.
 
@@ -83,17 +72,6 @@ empty.
 
 \code
   media-ref <anchor> <media-begin> <media-end> <content>
-\endcode
-
-
-\var   cainteoir::events::event_type cainteoir::events::navigation_document
-\brief Indicates the toc-event refers to an ePub 3 navigation documemnt.
-
-The parameter is the depth of the entry. This corresponds to the depth from the
-heading rendering context.
-
-\code
-  toc-entry <parameter> <anchor> <content> +navigation-document
 \endcode
 
 

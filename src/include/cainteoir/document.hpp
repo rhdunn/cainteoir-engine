@@ -32,11 +32,9 @@ namespace cainteoir
 			begin_context = 0x0001,
 			end_context = 0x0002,
 			text = 0x0004,
-			toc_entry = 0x0008,
-			anchor = 0x0010,
-			text_ref = 0x0020,
-			media_ref = 0x0040,
-			navigation_document = 0x0080,
+			anchor = 0x0008,
+			text_ref = 0x0010,
+			media_ref = 0x0020,
 		};
 	}
 
