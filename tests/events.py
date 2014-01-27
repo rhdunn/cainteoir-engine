@@ -105,6 +105,11 @@ if __name__ == '__main__':
 		{'name': 'DOCTYPE', 'type': 'events', 'tests': [
 			{'test': 'html/elements/xhtml10-transitional.xhtml', 'result': 'html/elements/html4.events'},
 		]},
+		{'name': 'HTML 5', 'type': 'events', 'tests': [
+			{'test': 'html/elements/html5-lowercase.html', 'result': 'html/elements/html5.events'},
+			{'test': 'html/elements/html5-uppercase.html', 'result': 'html/elements/html5.events'},
+			{'test': 'html/elements/html5.xhtml', 'result': 'html/elements/html5.events'},
+		]},
 		# These are the event-specific tests.
 		{'name': 'semantics', 'type': 'events', 'tests': [
 			{'test': 'html/semantics/with-style.html', 'result': 'html/semantics/with-style.events'},

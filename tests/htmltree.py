@@ -103,5 +103,10 @@ if __name__ == '__main__':
 		{'name': 'DOCTYPE', 'type': 'htmlreader', 'tests': [
 			{'test': 'html/elements/xhtml10-transitional.xhtml', 'result': 'html/elements/html4.tags'},
 		]},
+		{'name': 'HTML 5', 'type': 'htmlreader', 'tests': [
+			{'test': 'html/elements/html5-lowercase.html', 'result': 'html/elements/html5.tags'},
+			{'test': 'html/elements/html5-uppercase.html', 'result': 'html/elements/html5.tags'},
+			{'test': 'html/elements/html5.xhtml', 'result': 'html/elements/html5.tags'},
+		]},
 	]})
 	test.summary()

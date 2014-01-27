@@ -158,6 +158,7 @@ namespace html
 	static const xml::context::entry table_node      = { &cainteoir::table };
 	static const xml::context::entry tbody_node      = {};
 	static const xml::context::entry td_node         = { &cainteoir::table_cell };
+	static const xml::context::entry template_node   = {};
 	static const xml::context::entry textarea_node   = {};
 	static const xml::context::entry tfoot_node      = {};
 	static const xml::context::entry th_node         = { &cainteoir::table_cell };
@@ -329,6 +330,7 @@ static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 	{ "table",      &html::table_node      }, // 3.2        //            //         //
 	{ "tbody",      &html::tbody_node      }, // 4.0        //            //         //
 	{ "td",         &html::td_node         }, // 3.2        //            //         //
+	{ "template",   &html::template_node   }, // 5.0        //            //         //
 	{ "textarea",   &html::textarea_node   }, // 2.0        //            //         //
 	{ "tfoot",      &html::tfoot_node      }, // 4.0        //            //         //
 	{ "th",         &html::th_node         }, // 3.2        //            //         //
