@@ -1276,7 +1276,6 @@ bool html_document_reader::parse_heading_node(rdf::graph *aMetadata)
 				}
 				if (!content->empty())
 				{
-					type |= events::toc_entry;
 					anchor = href;
 				}
 				href.ref = std::string();
@@ -1335,8 +1334,7 @@ bool html_document_reader::parse_toc_node(rdf::graph *aMetadata)
 		parse_text_node();
 		if (content && !content->empty())
 		{
-			type   = events::text | events::toc_entry;
-			styles = &cainteoir::heading1;
+			type = events::text;
 			return true;
 		}
 		break;
@@ -1410,7 +1408,7 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 
 bool html_document_reader::generate_title_event(rdf::graph *aMetadata)
 {
-	type    = events::toc_entry | events::anchor;
+	type    = events::anchor;
 	styles  = &cainteoir::heading0;
 	content = cainteoir::make_buffer(mTitle);
 	anchor  = mSubject;

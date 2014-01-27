@@ -1,9 +1,7 @@
-toc-entry [] depth=0 title="""Test File"""
 anchor []
 begin-context heading 1
 anchor [#]genid.h0
 text(6): """Header"""
-toc-entry [#]genid.h0 depth=1 title="""Header"""
 end-context
 begin-context paragraph +sans-serif
 text(5): """Lorem"""
