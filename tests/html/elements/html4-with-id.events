@@ -122,6 +122,7 @@ text(11): """twenty-four"""
 text(1): """ """
 end-context
 begin-context block +list=decimal
+anchor [#]bs
 begin-context list-item +sans-serif
 text(3): """1. """
 text(3): """one"""
@@ -132,6 +133,7 @@ text(3): """two"""
 end-context
 end-context
 begin-context block +list=disc
+anchor [#]bv
 begin-context list-item +sans-serif
 text(4): """• """
 text(3): """one"""
@@ -145,6 +147,7 @@ anchor [#]by
 anchor [#]bz
 anchor [#]ca
 begin-context block +list=disc
+anchor [#]cb
 begin-context list-item +sans-serif
 text(4): """• """
 text(3): """one"""
@@ -155,6 +158,9 @@ text(3): """two"""
 end-context
 end-context
 begin-context block +list=disc
+anchor [#]ce
+anchor [#]cf
+anchor [#]cg
 end-context
 begin-context table
 text(4): """Test"""

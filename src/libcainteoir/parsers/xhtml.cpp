@@ -1170,6 +1170,14 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
+	case xml::reader::attribute:
+		if (reader.context() == &xml::id_attr)
+		{
+			anchor = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
+			type   = events::anchor;
+			return true;
+		}
+		break;
 	case xml::reader::beginTagNode:
 		styles = reader.context()->styles;
 		if (styles && styles->display == css::display::list_item)

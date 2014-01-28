@@ -42,6 +42,7 @@ text(18): """Lorem ipsum dolor."""
 end-context
 anchor [#]ba
 begin-context block +list=decimal
+anchor [#]bb
 begin-context list-item +sans-serif
 text(3): """1. """
 text(3): """one"""
@@ -52,6 +53,7 @@ text(3): """two"""
 end-context
 end-context
 begin-context block +list=disc
+anchor [#]be
 begin-context list-item +sans-serif
 text(4): """• """
 text(3): """one"""
@@ -209,6 +211,8 @@ begin-context paragraph +sans-serif
 text(17): """Lorem ipsum dolor"""
 end-context
 begin-context block +list=disc
+anchor [#]ep
+anchor [#]eq
 begin-context list-item +sans-serif
 text(4): """• """
 text(3): """two"""
