@@ -1,4 +1,7 @@
 anchor []
+anchor [#]ab
+anchor [#]ac
+anchor [#]ad
 begin-context heading 1
 anchor [#]ae
 text(4): """Test"""
@@ -37,6 +40,7 @@ text(1): """ """
 text(5): """dolor"""
 text(1): """."""
 end-context
+anchor [#]aq
 begin-context paragraph +emphasized
 text(18): """Lorem ipsum dolor."""
 end-context
@@ -137,6 +141,9 @@ text(4): """• """
 text(3): """two"""
 end-context
 end-context
+anchor [#]by
+anchor [#]bz
+anchor [#]ca
 begin-context block +list=disc
 begin-context list-item +sans-serif
 text(4): """• """
@@ -168,5 +175,22 @@ text(4): """test"""
 end-context
 end-context
 end-context
+anchor [#]cu
 begin-context paragraph +sans-serif
 end-context
+anchor [#]cx
+anchor [#]cy
+anchor [#]cz
+anchor [#]da
+anchor [#]db
+anchor [#]dc
+anchor [#]dd
+anchor [#]de
+anchor [#]df
+anchor [#]dg
+anchor [#]dh
+anchor [#]di
+anchor [#]dj
+anchor [#]dk
+anchor [#]dl
+anchor [#]dm

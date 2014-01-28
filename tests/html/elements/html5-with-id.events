@@ -1,8 +1,11 @@
 anchor []
+anchor [#]ah
+anchor [#]ai
 begin-context heading 1
 anchor [#]aj
 text(4): """Test"""
 end-context
+anchor [#]ak
 begin-context heading 2
 anchor [#]al
 text(4): """Test"""
@@ -10,27 +13,34 @@ end-context
 begin-context heading 3
 text(4): """Test"""
 end-context
+anchor [#]ao
 begin-context heading 4
 anchor [#]ap
 text(4): """Test"""
 end-context
+anchor [#]aq
 begin-context heading 5
 anchor [#]ar
 text(4): """Test"""
 end-context
+anchor [#]as
 begin-context heading 6
 anchor [#]at
 text(4): """Test"""
 end-context
+anchor [#]au
 begin-context paragraph +emphasized
 text(18): """Lorem ipsum dolor."""
 end-context
+anchor [#]aw
 begin-context paragraph +sans-serif
 text(18): """Lorem ipsum dolor."""
 end-context
+anchor [#]ay
 begin-context block +monospace
 text(18): """Lorem ipsum dolor."""
 end-context
+anchor [#]ba
 begin-context block +list=decimal
 begin-context list-item +sans-serif
 text(3): """1. """
@@ -51,6 +61,11 @@ text(4): """• """
 text(3): """two"""
 end-context
 end-context
+anchor [#]bh
+anchor [#]bi
+anchor [#]bj
+anchor [#]bk
+anchor [#]bl
 begin-context paragraph +sans-serif
 text(18): """Lorem ipsum dolor."""
 end-context
@@ -144,6 +159,14 @@ text(1): """ """
 end-context
 begin-context paragraph +sans-serif
 end-context
+anchor [#]cy
+anchor [#]cz
+anchor [#]da
+anchor [#]db
+anchor [#]dc
+anchor [#]dd
+anchor [#]dg
+anchor [#]dh
 begin-context table
 text(4): """Test"""
 text(1): """ """
@@ -163,6 +186,25 @@ text(4): """test"""
 end-context
 end-context
 end-context
+anchor [#]dv
+anchor [#]dw
+anchor [#]dx
+anchor [#]dy
+anchor [#]dz
+anchor [#]ea
+anchor [#]eb
+anchor [#]ec
+anchor [#]ed
+anchor [#]ee
+anchor [#]ef
+anchor [#]eg
+anchor [#]eh
+anchor [#]ei
+anchor [#]ej
+anchor [#]ek
+anchor [#]el
+anchor [#]em
+anchor [#]en
 begin-context paragraph +sans-serif
 text(17): """Lorem ipsum dolor"""
 end-context
@@ -172,11 +214,15 @@ text(4): """• """
 text(3): """two"""
 end-context
 end-context
+anchor [#]es
 begin-context paragraph +sans-serif
 text(4): """Test"""
 end-context
+anchor [#]ev
 begin-context paragraph +sans-serif
 text(4): """Test"""
 end-context
+anchor [#]ex
 begin-context paragraph +sans-serif
 end-context
+anchor [#]ez
