@@ -10,6 +10,7 @@ begin-context heading 2
 anchor [#]al
 text(4): """Test"""
 end-context
+anchor [#]am
 begin-context heading 3
 text(4): """Test"""
 end-context

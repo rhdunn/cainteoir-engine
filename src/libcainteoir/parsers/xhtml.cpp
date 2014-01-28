@@ -1311,6 +1311,12 @@ bool html_document_reader::parse_nav_node(rdf::graph *aMetadata)
 	case xml::reader::attribute:
 		if (reader.context() == &epub::type_attr)
 			mRole = lookup_role(*reader.nodeValue().normalize(), epub_types);
+		else if (reader.context() == &xml::id_attr)
+		{
+			anchor = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
+			type   = events::anchor;
+			return true;
+		}
 		break;
 	case xml::reader::beginTagNode:
 		styles = reader.context()->styles;
