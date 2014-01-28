@@ -498,7 +498,6 @@
 |text| """
 			"""
 |begin-tag| datalist
-|attribute| id="""yesno"""
 |text| """
 				"""
 |begin-tag| option
@@ -603,7 +602,6 @@
 |text| """
 		"""
 |begin-tag| template
-|attribute| id="""test"""
 |begin-tag| p
 |end-tag| p
 |end-tag| template
