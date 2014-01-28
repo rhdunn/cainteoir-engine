@@ -101,6 +101,7 @@ if __name__ == '__main__':
 			{'test': 'html/elements/html4-rec-html40.html', 'result': 'html/elements/html4.events'},
 			{'test': 'html/elements/html4.xhtml', 'result': 'html/elements/html4.events'},
 			{'test': 'html/elements/html4-no-namespace.xhtml', 'result': 'html/elements/html4.events'},
+			{'test': 'html/elements/html4-with-id.xhtml', 'result': 'html/elements/html4-with-id.events'},
 		]},
 		{'name': 'DOCTYPE', 'type': 'events', 'tests': [
 			{'test': 'html/elements/xhtml10-transitional.xhtml', 'result': 'html/elements/html4.events'},
