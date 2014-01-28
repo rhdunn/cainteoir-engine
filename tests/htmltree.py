@@ -108,6 +108,7 @@ if __name__ == '__main__':
 			{'test': 'html/elements/html5-lowercase.html', 'result': 'html/elements/html5.tags'},
 			{'test': 'html/elements/html5-uppercase.html', 'result': 'html/elements/html5.tags'},
 			{'test': 'html/elements/html5.xhtml', 'result': 'html/elements/html5.tags'},
+			{'test': 'html/elements/html5-with-id.xhtml', 'result': 'html/elements/html5-with-id.tags'},
 		]},
 	]})
 	test.summary()

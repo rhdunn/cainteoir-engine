@@ -110,6 +110,7 @@ if __name__ == '__main__':
 			{'test': 'html/elements/html5-lowercase.html', 'result': 'html/elements/html5.events'},
 			{'test': 'html/elements/html5-uppercase.html', 'result': 'html/elements/html5.events'},
 			{'test': 'html/elements/html5.xhtml', 'result': 'html/elements/html5.events'},
+			{'test': 'html/elements/html5-with-id.xhtml', 'result': 'html/elements/html5-with-id.events'},
 		]},
 		# These are the event-specific tests.
 		{'name': 'semantics', 'type': 'events', 'tests': [
