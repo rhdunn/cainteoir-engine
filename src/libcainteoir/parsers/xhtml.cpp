@@ -1397,6 +1397,14 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
+	case xml::reader::attribute:
+		if (reader.context() == &xml::id_attr)
+		{
+			anchor = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
+			type   = events::anchor;
+			return true;
+		}
+		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		parse_text_node();

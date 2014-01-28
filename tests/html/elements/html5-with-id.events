@@ -12,6 +12,7 @@ text(4): """Test"""
 end-context
 anchor [#]am
 begin-context heading 3
+anchor [#]an
 text(4): """Test"""
 end-context
 anchor [#]ao
@@ -31,14 +32,17 @@ text(4): """Test"""
 end-context
 anchor [#]au
 begin-context paragraph +emphasized
+anchor [#]av
 text(18): """Lorem ipsum dolor."""
 end-context
 anchor [#]aw
 begin-context paragraph +sans-serif
+anchor [#]ax
 text(18): """Lorem ipsum dolor."""
 end-context
 anchor [#]ay
 begin-context block +monospace
+anchor [#]az
 text(18): """Lorem ipsum dolor."""
 end-context
 anchor [#]ba
@@ -46,10 +50,12 @@ begin-context block +list=decimal
 anchor [#]bb
 begin-context list-item +sans-serif
 text(3): """1. """
+anchor [#]bc
 text(3): """one"""
 end-context
 begin-context list-item +sans-serif
 text(3): """2. """
+anchor [#]bd
 text(3): """two"""
 end-context
 end-context
@@ -57,10 +63,12 @@ begin-context block +list=disc
 anchor [#]be
 begin-context list-item +sans-serif
 text(4): """• """
+anchor [#]bf
 text(3): """one"""
 end-context
 begin-context list-item +sans-serif
 text(4): """• """
+anchor [#]bg
 text(3): """two"""
 end-context
 end-context
@@ -70,97 +78,135 @@ anchor [#]bj
 anchor [#]bk
 anchor [#]bl
 begin-context paragraph +sans-serif
+anchor [#]bm
 text(18): """Lorem ipsum dolor."""
 end-context
 begin-context paragraph +sans-serif
+anchor [#]bn
+anchor [#]bo
 text(3): """one"""
 text(1): """ """
 begin-context span +emphasized
+anchor [#]bp
 text(3): """two"""
 end-context
 text(1): """ """
 begin-context span +strong
+anchor [#]bq
 text(5): """three"""
 end-context
 text(1): """ """
+anchor [#]br
 text(4): """four"""
 text(1): """ """
+anchor [#]bs
 text(4): """five"""
 text(1): """ """
 begin-context span +emphasized
+anchor [#]bt
 text(3): """six"""
 end-context
 text(1): """ """
+anchor [#]bu
 text(5): """seven"""
 text(1): """ """
 begin-context span +emphasized
+anchor [#]bv
 text(5): """eight"""
 end-context
 text(1): """ """
+anchor [#]bw
 text(4): """nine"""
 text(1): """ """
+anchor [#]bx
 text(3): """ten"""
 text(1): """ """
+anchor [#]by
 text(7): """2014-01"""
 text(1): """ """
 begin-context span +monospace
+anchor [#]bz
 text(6): """twelve"""
 end-context
 text(1): """ """
 begin-context span +emphasized
+anchor [#]ca
 text(8): """thirteen"""
 end-context
 text(1): """ """
+anchor [#]cb
 text(8): """fourteen"""
 text(1): """ """
+anchor [#]cc
 text(7): """fifteen"""
 text(1): """ """
 begin-context span +subscript
+anchor [#]cd
 text(9): """sixteen-a"""
 end-context
 text(1): """ """
 begin-context span +superscript
+anchor [#]ce
 text(9): """sixteen-b"""
 end-context
 text(1): """ """
 begin-context span +emphasized
+anchor [#]cf
 text(9): """seventeen"""
 end-context
 text(1): """ """
 begin-context span +strong
+anchor [#]cg
 text(8): """eighteen"""
 end-context
 text(1): """ """
 begin-context span +underline
+anchor [#]ch
 text(8): """nineteen"""
 end-context
 text(1): """ """
+anchor [#]ci
 text(6): """twenty"""
 text(1): """ """
+anchor [#]cj
 text(10): """twenty-one"""
+anchor [#]ck
 text(10): """twenty-two"""
+anchor [#]cl
 text(12): """twenty-three"""
 text(1): """ """
+anchor [#]cm
 text(11): """twenty-four"""
 text(1): """ """
+anchor [#]cn
 text(11): """twenty-five"""
 text(1): """ """
+anchor [#]co
 text(10): """twenty-six"""
 text(1): """ """
+anchor [#]cp
 text(6): """twenty"""
+anchor [#]cq
 text(5): """seven"""
 text(1): """ """
+anchor [#]cr
 text(6): """twenty"""
+anchor [#]cs
 text(5): """eight"""
 text(1): """ """
 end-context
 begin-context paragraph +sans-serif
+anchor [#]ct
+anchor [#]cu
 text(5): """lorem"""
 text(1): """ """
+anchor [#]cv
 text(5): """ipsum"""
 text(1): """ """
 end-context
 begin-context paragraph +sans-serif
+anchor [#]cw
+anchor [#]cx
 end-context
 anchor [#]cy
 anchor [#]cz
@@ -171,20 +217,33 @@ anchor [#]dd
 anchor [#]dg
 anchor [#]dh
 begin-context table
+anchor [#]di
+anchor [#]dj
 text(4): """Test"""
 text(1): """ """
+anchor [#]dk
+anchor [#]dl
+anchor [#]dm
 begin-context row
+anchor [#]dn
 begin-context cell
+anchor [#]do
 text(4): """test"""
 end-context
 end-context
+anchor [#]dp
 begin-context row
+anchor [#]dq
 begin-context cell
+anchor [#]dr
 text(4): """test"""
 end-context
 end-context
+anchor [#]ds
 begin-context row
+anchor [#]dt
 begin-context cell
+anchor [#]du
 text(4): """test"""
 end-context
 end-context
@@ -209,6 +268,7 @@ anchor [#]el
 anchor [#]em
 anchor [#]en
 begin-context paragraph +sans-serif
+anchor [#]eo
 text(17): """Lorem ipsum dolor"""
 end-context
 begin-context block +list=disc
@@ -216,18 +276,22 @@ anchor [#]ep
 anchor [#]eq
 begin-context list-item +sans-serif
 text(4): """• """
+anchor [#]er
 text(3): """two"""
 end-context
 end-context
 anchor [#]es
 begin-context paragraph +sans-serif
+anchor [#]et
 text(4): """Test"""
 end-context
 anchor [#]ev
 begin-context paragraph +sans-serif
+anchor [#]ew
 text(4): """Test"""
 end-context
 anchor [#]ex
 begin-context paragraph +sans-serif
+anchor [#]ey
 end-context
 anchor [#]ez
