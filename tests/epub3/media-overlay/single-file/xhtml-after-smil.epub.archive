@@ -1,0 +1,5 @@
+mimetype,text,epub2/mimetype/mimetype.txt
+META-INF/container.xml,deflate,ocf/simple.ocf
+OEBPS/content.opf,deflate,epub3/media-overlay/single-file/xhtml-after-smil.opf
+OEBPS/text1.xhtml,deflate,epub3/media-overlay/text1.xhtml
+OEBPS/text1.smil,deflate,epub3/media-overlay/text1.smil

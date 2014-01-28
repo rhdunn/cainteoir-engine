@@ -194,6 +194,16 @@ bool epub_document_reader::read(rdf::graph *aMetadata)
 			if (!first.empty())
 			{
 				auto item = rql::select(mManifest, rql::subject == rql::object(first.front()));
+
+				auto media = rql::select(item, rql::predicate == rdf::ref("media-overlay"));
+				if (!media.empty())
+				{
+					auto item = rql::select(mManifest, rql::subject == rql::object(media.front()));
+
+					if (load_document(item, document_type::media_overlay))
+						next_media_overlay_entry();
+				}
+
 				if (load_document(item, document_type::text))
 					mState = state::content;
 			}
@@ -251,7 +261,6 @@ bool epub_document_reader::load_document(const rql::results &aItem, document_typ
 			anchor = mData->location(filename.str(), target.ref);
 			rdf::graph innerMetadata;
 			media_overlay = cainteoir::createSmilReader(reader, anchor, innerMetadata, std::string());
-			next_media_overlay_entry();
 		}
 		else
 			return false;

@@ -339,6 +339,10 @@ if __name__ == '__main__':
 			{'test': 'epub3/toc/linear-with-heading.epub', 'result': 'epub3/toc/linear-with-heading.events'},
 			{'test': 'epub3/toc/nested.epub', 'result': 'epub3/toc/nested.events'},
 		]},
+		{'name': 'media overlay', 'type': 'events', 'tests': [
+			{'test': 'epub3/media-overlay/single-file/xhtml-before-smil.epub', 'result': 'epub3/media-overlay/single-file/xhtml-before-smil.events'},
+			{'test': 'epub3/media-overlay/single-file/xhtml-after-smil.epub', 'result': 'epub3/media-overlay/single-file/xhtml-before-smil.events'},
+		]},
 	]})
 	test.run({ 'name': 'ZIP', 'groups': [
 		{'name': 'files', 'type': 'events', 'tests': [
