@@ -1,6 +1,6 @@
 /* Document Parser API.
  *
- * Copyright (C) 2010-2013 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -69,13 +69,6 @@ namespace cainteoir
 			int depth;
 			rdf::uri location;
 			std::string title;
-
-			toc_entry(int aDepth, const rdf::uri &aLocation, const std::string &aTitle)
-				: depth(aDepth)
-				, location(aLocation)
-				, title(aTitle)
-			{
-			}
 
 			toc_entry(const rdf::query::results &aEntry);
 		};
