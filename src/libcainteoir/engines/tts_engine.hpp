@@ -47,8 +47,6 @@ namespace cainteoir { namespace tts
 		virtual void onaudiodata(short *data, int nsamples) = 0;
 
 		virtual void onspeaking(size_t pos, size_t len) = 0;
-
-		virtual void onnexttocentry(const document::toc_entry &entry) = 0;
 	};
 
 	struct engine
