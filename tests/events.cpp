@@ -1,6 +1,6 @@
 /* Test for generated speech events.
  *
- * Copyright (C) 2010-2013 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -18,9 +18,15 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "compatibility.hpp"
+#include "i18n.h"
+#include "options.hpp"
+
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/audio.hpp>
 #include <cainteoir/document.hpp>
+
 #include <stdexcept>
 #include <iostream>
 #include <cstdio>
@@ -161,8 +167,24 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		argc -= 1;
-		argv += 1;
+		bool document_object = false;
+
+		const option_group general_options = { nullptr, {
+			{ 'm', "document-object", bind_value(document_object, true),
+			  i18n("Process events through a cainteoir::document object model") },
+		}};
+
+		const std::initializer_list<const char *> usage = {
+			i18n("events [OPTION..] DOCUMENT"),
+			i18n("events [OPTION..]"),
+		};
+
+		const std::initializer_list<option_group> options = {
+			general_options,
+		};
+
+		if (!parse_command_line(options, usage, argc, argv))
+			return 0;
 
 		rdf::graph metadata;
 		const char *filename = (argc == 1) ? argv[0] : nullptr;
@@ -173,7 +195,14 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
-		print_events(reader);
+		if (document_object)
+		{
+			cainteoir::document doc(reader);
+			auto docreader = cainteoir::createDocumentReader(doc.children());
+			print_events(docreader);
+		}
+		else
+			print_events(reader);
 	}
 	catch (std::runtime_error &e)
 	{
