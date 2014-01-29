@@ -61,22 +61,22 @@ namespace cainteoir
 		virtual ~document_reader() {}
 	};
 
+	struct ref_entry
+	{
+		int depth;
+		rdf::uri location;
+		std::string title;
+
+		ref_entry(const rdf::query::results &aEntry);
+	};
+
 	class document
 	{
 	public:
-		struct toc_entry
-		{
-			int depth;
-			rdf::uri location;
-			std::string title;
-
-			toc_entry(const rdf::query::results &aEntry);
-		};
-
 		typedef std::list<document_item> list_type;
 		typedef list_type::const_iterator const_iterator;
 		typedef range<const_iterator> range_type;
-		typedef std::vector<toc_entry> toc_type;
+		typedef std::vector<ref_entry> toc_type;
 
 		document(const std::shared_ptr<document_reader> &aReader);
 		document(const std::shared_ptr<document_reader> &aReader, rdf::graph &aMetadata);
@@ -95,7 +95,7 @@ namespace cainteoir
 
 		size_t mLength;
 		list_type mChildren;
-		std::vector<toc_entry> mToc;
+		std::vector<ref_entry> mToc;
 		std::map<std::string, size_t> mAnchors;
 	};
 

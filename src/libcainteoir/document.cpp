@@ -45,7 +45,7 @@ get_child(const cainteoir::document::list_type &children, size_t index)
 	return pos;
 }
 
-cainteoir::document::document::toc_entry::toc_entry(const rql::results &aEntry)
+cainteoir::ref_entry::ref_entry(const rql::results &aEntry)
 	: depth(0)
 {
 	for (auto &item : aEntry)

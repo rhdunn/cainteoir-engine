@@ -124,26 +124,26 @@ media object.
 \addtogroup document_reader
 \{
 
-\struct cainteoir::document::toc_entry
-\brief  Represents an item in the document's table of contents.
+\struct cainteoir::ref_entry
+\brief  Represents a <a href="http://reecedunn.co.uk/schema/2014/ref#Entry">ref:Entry</a> item.
 
 \}
 
 
-\var   int cainteoir::document::toc_entry::depth
+\var   int cainteoir::ref_entry::depth
 \brief The level of the entry.
 
 
-\var   cainteoir::rdf::uri cainteoir::document::toc_entry::location
+\var   cainteoir::rdf::uri cainteoir::ref_entry::location
 \brief The location of the entry in the document.
 
 
-\var   std::string cainteoir::document::toc_entry::title
+\var   std::string cainteoir::ref_entry::title
 \brief The title of the entry.
 
 
-\fn    cainteoir::document::toc_entry::toc_entry(const rdf::query::results &aEntry)
-\brief Create a toc entry object from a <a href="http://reecedunn.co.uk/schema/2014/ref#Entry">ref:Entry</a>.
+\fn    cainteoir::ref_entry::ref_entry(const rdf::query::results &aEntry)
+\brief Create an entry object from <a href="http://reecedunn.co.uk/schema/2014/ref#Entry">ref:Entry</a> metadata.
 
 \param[in] aEntry The RDF metadata for the <a href="http://reecedunn.co.uk/schema/2014/ref#Entry">ref:Entry</a>.
 

@@ -54,9 +54,9 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	cainteoir::document::const_iterator mFrom;
 	cainteoir::document::const_iterator mTo;
 
-	cainteoir::document::toc_type::const_iterator mTocEntryFrom;
-	cainteoir::document::toc_type::const_iterator mTocEntryTo;
-	const cainteoir::document::toc_entry *mTocEntry;
+	cainteoir::document::toc_type::const_iterator mRefEntryFrom;
+	cainteoir::document::toc_type::const_iterator mRefEntryTo;
+	const cainteoir::ref_entry *mRefEntry;
 
 	tts::state speechState;
 	pthread_t threadId;
@@ -105,7 +105,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 
 	std::string error_message() const;
 
-	const cainteoir::document::toc_entry &context() const;
+	const cainteoir::ref_entry &context() const;
 
 	// tts::callback
 
@@ -114,8 +114,6 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	void onaudiodata(short *data, int nsamples);
 
 	void onspeaking(size_t pos, size_t len);
-
-	void onnexttocentry(const cainteoir::document::toc_entry &entry);
 };
 
 static void * speak_tts_thread(void *data)
@@ -175,13 +173,13 @@ static void * speak_tts_thread(void *data)
 				speak->progress(n);
 			}
 
-			if (node.type & cainteoir::events::anchor && speak->mTocEntryFrom != speak->mTocEntryTo)
+			if (node.type & cainteoir::events::anchor && speak->mRefEntryFrom != speak->mRefEntryTo)
 			{
-				const auto &toc = *speak->mTocEntryFrom;
-				if (toc.location == node.anchor)
+				const auto &ref = *speak->mRefEntryFrom;
+				if (ref.location == node.anchor)
 				{
-					speak->onnexttocentry(toc);
-					++speak->mTocEntryFrom;
+					speak->mRefEntry = &ref;
+					++speak->mRefEntryFrom;
 				}
 			}
 
@@ -215,9 +213,9 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	, wordsPerMinute(aRate ? aRate->value() : 170)
 	, mFrom(aRange.begin())
 	, mTo(aRange.end())
-	, mTocEntryFrom(aToc.begin())
-	, mTocEntryTo(aToc.end())
-	, mTocEntry(nullptr)
+	, mRefEntryFrom(aToc.begin())
+	, mRefEntryTo(aToc.end())
+	, mRefEntry(nullptr)
 	, mMediaOverlays(aMediaOverlays)
 {
 	for (auto &node : *this)
@@ -226,11 +224,11 @@ speech_impl::speech_impl(tts::engine *aEngine,
 			textLen += node.content->size();
 	}
 
-	if (mTocEntryFrom != mTocEntryTo)
+	if (mRefEntryFrom != mRefEntryTo)
 	{
 		// The first TOC entry points to the root document, so skip it ...
-		mTocEntry = &*mTocEntryFrom;
-		++mTocEntryFrom;
+		mRefEntry = &*mRefEntryFrom;
+		++mRefEntryFrom;
 	}
 
 	started();
@@ -305,9 +303,9 @@ std::string speech_impl::error_message() const
 	return mErrorMessage;
 }
 
-const cainteoir::document::toc_entry &speech_impl::context() const
+const cainteoir::ref_entry &speech_impl::context() const
 {
-	return *mTocEntry;
+	return *mRefEntry;
 }
 
 tts::state speech_impl::state() const
@@ -334,11 +332,6 @@ void speech_impl::onspeaking(size_t pos, size_t len)
 	{
 		mTotalTime = (mElapsedTime / mProgress) * 100.0;
 	}
-}
-
-void speech_impl::onnexttocentry(const cainteoir::document::toc_entry &entry)
-{
-	mTocEntry = &entry;
 }
 
 tts::engines::engines(rdf::graph &metadata)

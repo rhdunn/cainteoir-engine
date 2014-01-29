@@ -47,7 +47,7 @@ namespace cainteoir { namespace tts
 
 		virtual std::string error_message() const = 0;
 
-		virtual const document::toc_entry &context() const = 0;
+		virtual const ref_entry &context() const = 0;
 	};
 
 	struct parameter
