@@ -208,13 +208,19 @@ read will be added to \p aMetadata.
 \return A range of document_item objects.
 
 
-\fn    std::vector<ref_entry> cainteoir::document::navigation(const rdf::graph &aMetadata, const rdf::uri &aListing) const
+\addtogroup document_reader
+\{
+
+\fn    std::vector<ref_entry> cainteoir::navigation(const rdf::graph &aMetadata, const rdf::uri &aSubject, const rdf::uri &aListing) const
 \brief Get the navigation reference entries (e.g. table of contents) for the document.
 
 \param[in] aMetadata The RDF metadata containing the navigation information collected from the document.
+\param[in] aSubject  The RDF subject of the document to get the navigation information for.
 \param[in] aListing  The listing type to query for.
 
 \return The navigation entries associated with the document.
+
+\}
 
 
 \fn    size_t cainteoir::document::indexof(const rdf::uri &aAnchor) const

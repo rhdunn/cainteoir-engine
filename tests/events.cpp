@@ -119,10 +119,10 @@ void format_style(const css::styles &styles)
 		fprintf(stdout, " +%s", styles.font_family.c_str());
 }
 
-void print_navigation(const rdf::graph &metadata, const cainteoir::document &doc)
+void print_navigation(const rdf::graph &metadata, const cainteoir::document &doc, const rdf::uri &subject)
 {
 	const rdf::uri type = rdf::epv("toc");
-	for (const auto &entry : doc.navigation(metadata, type))
+	for (const auto &entry : cainteoir::navigation(metadata, subject, type))
 	{
 		fprintf(stdout, "[%s]%s level=%d target=[%s]%s title=\"\"\"%s\"\"\" index=%d\n",
 		        type.ns.c_str(), type.ref.c_str(),
@@ -205,6 +205,7 @@ int main(int argc, char ** argv)
 
 		rdf::graph metadata;
 		const char *filename = (argc == 1) ? argv[0] : nullptr;
+		rdf::uri subject(filename ? filename : std::string(), std::string());
 		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
 		if (!reader)
 		{
@@ -216,7 +217,7 @@ int main(int argc, char ** argv)
 		{
 			cainteoir::document doc(reader, metadata);
 			if (show_navigation)
-				print_navigation(metadata, doc);
+				print_navigation(metadata, doc, subject);
 			else
 			{
 				auto docreader = cainteoir::createDocumentReader(doc.children());

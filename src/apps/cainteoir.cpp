@@ -257,6 +257,7 @@ int main(int argc, char ** argv)
 		if (volume != INT_MAX) tts.parameter(tts::parameter::volume)->set_value(volume);
 
 		const char *filename = (argc == 1) ? argv[0] : nullptr;
+		rdf::uri subject(filename ? filename : std::string(), std::string());
 		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
 		if (!reader)
 		{
@@ -265,7 +266,7 @@ int main(int argc, char ** argv)
 		}
 
 		cainteoir::document doc(reader, metadata);
-		auto listing = doc.navigation(metadata, rdf::epv("toc"));
+		auto listing = cainteoir::navigation(metadata, subject, rdf::epv("toc"));
 
 		if (action == show_contents)
 		{
@@ -283,8 +284,6 @@ int main(int argc, char ** argv)
 
 		std::string author;
 		std::string title;
-		rdf::uri subject(filename ? filename : std::string(), std::string());
-
 		for (auto &query : rql::select(metadata, rql::subject == subject))
 		{
 			if (rql::predicate(query).ns == rdf::dc || rql::predicate(query).ns == rdf::dcterms)

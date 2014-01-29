@@ -92,18 +92,23 @@ cainteoir::document::children(const std::vector<ref_entry> &aListing,
 	return children(std::pair<const rdf::uri, const rdf::uri>(from, to));
 }
 
-std::vector<cainteoir::ref_entry> cainteoir::document::navigation(const rdf::graph &aMetadata, const rdf::uri &aListing) const
+#include <iostream>
+
+std::vector<cainteoir::ref_entry>
+cainteoir::navigation(const rdf::graph &aMetadata,
+                      const rdf::uri &aSubject,
+                      const rdf::uri &aListing)
 {
 	const rdf::uri *toc_entries = nullptr;
 
 	auto listings = rql::select(aMetadata,
-	                            rql::predicate == rdf::rdf("type") && rql::object == rdf::ref("Listing"));
+	                            rql::subject == aSubject && rql::predicate == rdf::ref("listing"));
 	for (auto &query : listings)
 	{
-		auto listing = rql::select(aMetadata, rql::subject == rql::subject(query));
+		auto listing = rql::select(aMetadata, rql::subject == rql::object(query));
 		if (rql::contains(listing, rql::predicate == rdf::ref("type") && rql::object == aListing))
 		{
-			toc_entries = &rql::subject(query);
+			toc_entries = &rql::object(query);
 			break;
 		}
 	}

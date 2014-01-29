@@ -70,6 +70,11 @@ namespace cainteoir
 		ref_entry(const rdf::query::results &aEntry);
 	};
 
+	std::vector<ref_entry>
+	navigation(const rdf::graph &aMetadata,
+	           const rdf::uri &aSubject,
+	           const rdf::uri &aListing);
+
 	class document
 	{
 	public:
@@ -87,8 +92,6 @@ namespace cainteoir
 		                    const std::pair<size_t, size_t> &aRange) const;
 
 		range_type children() const { return range_type(mChildren.begin(), mChildren.end()); }
-
-		std::vector<ref_entry> navigation(const rdf::graph &aMetadata, const rdf::uri &aListing) const;
 
 		size_t indexof(const rdf::uri &aAnchor) const;
 	private:
