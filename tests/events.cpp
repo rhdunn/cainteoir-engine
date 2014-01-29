@@ -119,6 +119,19 @@ void format_style(const css::styles &styles)
 		fprintf(stdout, " +%s", styles.font_family.c_str());
 }
 
+void print_navigation(const cainteoir::document::toc_type &nav)
+{
+	const rdf::uri type = rdf::epv("toc");
+	for (const auto &entry : nav)
+	{
+		fprintf(stdout, "[%s]%s level=%d target=[%s]%s title=\"\"\"%s\"\"\"\n",
+		        type.ns.c_str(), type.ref.c_str(),
+		        entry.depth,
+		        entry.location.ns.c_str(), entry.location.ref.c_str(),
+		        entry.title.c_str());
+	}
+}
+
 void print_events(const std::shared_ptr<cainteoir::document_reader> &reader)
 {
 	while (reader->read())
@@ -168,10 +181,13 @@ int main(int argc, char ** argv)
 	try
 	{
 		bool document_object = false;
+		bool show_navigation = false;
 
 		const option_group general_options = { nullptr, {
 			{ 'm', "document-object", bind_value(document_object, true),
 			  i18n("Process events through a cainteoir::document object model") },
+			{ 'n', "show-navigation", bind_value(show_navigation, true),
+			  i18n("Print the navigation structure, not document content") },
 		}};
 
 		const std::initializer_list<const char *> usage = {
@@ -195,11 +211,16 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
-		if (document_object)
+		if (document_object || show_navigation)
 		{
 			cainteoir::document doc(reader);
-			auto docreader = cainteoir::createDocumentReader(doc.children());
-			print_events(docreader);
+			if (show_navigation)
+				print_navigation(doc.toc());
+			else
+			{
+				auto docreader = cainteoir::createDocumentReader(doc.children());
+				print_events(docreader);
+			}
 		}
 		else
 			print_events(reader);
