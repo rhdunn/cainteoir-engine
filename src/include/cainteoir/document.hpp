@@ -77,7 +77,6 @@ namespace cainteoir
 		typedef list_type::const_iterator const_iterator;
 		typedef range<const_iterator> range_type;
 
-		document(const std::shared_ptr<document_reader> &aReader);
 		document(const std::shared_ptr<document_reader> &aReader, rdf::graph &aMetadata);
 
 		size_t text_length() const { return mLength; }
@@ -91,8 +90,6 @@ namespace cainteoir
 
 		std::vector<ref_entry> navigation(const rdf::graph &aMetadata, const rdf::uri &aListing) const;
 	private:
-		void read(const std::shared_ptr<document_reader> &aReader, rdf::graph *aMetadata);
-
 		size_t mLength;
 		list_type mChildren;
 		std::map<std::string, size_t> mAnchors;

@@ -59,17 +59,17 @@ cainteoir::ref_entry::ref_entry(const rql::results &aEntry)
 	}
 }
 
-cainteoir::document::document(const std::shared_ptr<document_reader> &aReader)
-	: mLength(0)
-{
-	rdf::graph metadata;
-	read(aReader, &metadata);
-}
-
 cainteoir::document::document(const std::shared_ptr<document_reader> &aReader, rdf::graph &aMetadata)
 	: mLength(0)
 {
-	read(aReader, &aMetadata);
+	while (aReader->read(&aMetadata))
+	{
+		mChildren.push_back(*aReader);
+		if (aReader->type & cainteoir::events::anchor)
+			mAnchors[aReader->anchor.str()] = mChildren.size();
+		if (aReader->type & cainteoir::events::text)
+			mLength += aReader->content->size();
+	}
 }
 
 cainteoir::document::range_type
@@ -97,18 +97,6 @@ cainteoir::document::children(const std::vector<ref_entry> &aListing,
 	            : aListing[aRange.second - 1].location;
 
 	return children(std::pair<const rdf::uri, const rdf::uri>(from, to));
-}
-
-void cainteoir::document::read(const std::shared_ptr<document_reader> &aReader, rdf::graph *aMetadata)
-{
-	while (aReader->read(aMetadata))
-	{
-		mChildren.push_back(*aReader);
-		if (aReader->type & cainteoir::events::anchor)
-			mAnchors[aReader->anchor.str()] = mChildren.size();
-		if (aReader->type & cainteoir::events::text)
-			mLength += aReader->content->size();
-	}
 }
 
 std::vector<cainteoir::ref_entry> cainteoir::document::navigation(const rdf::graph &aMetadata, const rdf::uri &aListing) const

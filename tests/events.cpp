@@ -213,7 +213,7 @@ int main(int argc, char ** argv)
 
 		if (document_object || show_navigation)
 		{
-			cainteoir::document doc(reader);
+			cainteoir::document doc(reader, metadata);
 			if (show_navigation)
 				print_navigation(metadata, doc);
 			else

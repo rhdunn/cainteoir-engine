@@ -264,7 +264,7 @@ int main(int argc, char ** argv)
 			return EXIT_FAILURE;
 		}
 
-		cainteoir::document doc(reader);
+		cainteoir::document doc(reader, metadata);
 		auto listing = doc.navigation(metadata, rdf::epv("toc"));
 
 		if (action == show_contents)

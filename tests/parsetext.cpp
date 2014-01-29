@@ -271,7 +271,7 @@ int main(int argc, char ** argv)
 		bool show_help = false;
 		if (document_object)
 		{
-			cainteoir::document doc(reader);
+			cainteoir::document doc(reader, metadata);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
 			show_help = parse_text(docreader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, stress);
 		}
