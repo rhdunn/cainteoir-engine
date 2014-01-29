@@ -68,7 +68,7 @@ If there is no error message associated with this session, the return value
 is empty.
 
 
-\fn    const cainteoir::document::toc_entry &cainteoir::tts::speech::toc_entry() const
+\fn    const cainteoir::document::toc_entry &cainteoir::tts::speech::context() const
 \brief Get the toc entry the currently reading text is located in.
 
 \return The toc entry the currently reading text is located in.

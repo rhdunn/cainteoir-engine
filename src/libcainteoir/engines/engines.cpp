@@ -1,6 +1,6 @@
 /* Espeak Text-to-Speech Engine.
  *
- * Copyright (C) 2010-2013 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -105,7 +105,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 
 	std::string error_message() const;
 
-	const cainteoir::document::toc_entry &toc_entry() const;
+	const cainteoir::document::toc_entry &context() const;
 
 	// tts::callback
 
@@ -305,7 +305,7 @@ std::string speech_impl::error_message() const
 	return mErrorMessage;
 }
 
-const cainteoir::document::toc_entry &speech_impl::toc_entry() const
+const cainteoir::document::toc_entry &speech_impl::context() const
 {
 	return *mTocEntry;
 }

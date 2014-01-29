@@ -1,6 +1,6 @@
 /* Text-to-Speech Engine API.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -47,7 +47,7 @@ namespace cainteoir { namespace tts
 
 		virtual std::string error_message() const = 0;
 
-		virtual const document::toc_entry &toc_entry() const = 0;
+		virtual const document::toc_entry &context() const = 0;
 	};
 
 	struct parameter
