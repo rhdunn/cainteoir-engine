@@ -28,13 +28,6 @@
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 
-static inline size_t
-anchor(const std::map<std::string, size_t> &anchors, const rdf::uri &anchor)
-{
-	auto at = anchors.find(anchor.str());
-	return (at == anchors.end()) ? size_t(-1) : at->second;
-}
-
 static inline cainteoir::document::const_iterator
 get_child(const cainteoir::document::list_type &children, size_t index)
 {
@@ -75,8 +68,8 @@ cainteoir::document::document(const std::shared_ptr<document_reader> &aReader, r
 cainteoir::document::range_type
 cainteoir::document::children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const
 {
-	size_t from = anchor(mAnchors, aAnchors.first);
-	size_t to   = anchor(mAnchors, aAnchors.second);
+	size_t from = indexof(aAnchors.first);
+	size_t to   = indexof(aAnchors.second);
 
 	if (from == size_t(-1)) from = 0;
 	if (from > to) std::swap(from, to);
@@ -124,6 +117,12 @@ std::vector<cainteoir::ref_entry> cainteoir::document::navigation(const rdf::gra
 		nav.push_back({ rql::select(aMetadata, rql::subject == rql::object(item)) });
 	});
 	return nav;
+}
+
+size_t cainteoir::document::indexof(const rdf::uri &aAnchor) const
+{
+	auto at = mAnchors.find(aAnchor.str());
+	return (at == mAnchors.end()) ? size_t(-1) : at->second;
 }
 
 struct document_range : public cainteoir::document_reader

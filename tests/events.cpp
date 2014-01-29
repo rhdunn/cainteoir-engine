@@ -124,11 +124,12 @@ void print_navigation(const rdf::graph &metadata, const cainteoir::document &doc
 	const rdf::uri type = rdf::epv("toc");
 	for (const auto &entry : doc.navigation(metadata, type))
 	{
-		fprintf(stdout, "[%s]%s level=%d target=[%s]%s title=\"\"\"%s\"\"\"\n",
+		fprintf(stdout, "[%s]%s level=%d target=[%s]%s title=\"\"\"%s\"\"\" index=%d\n",
 		        type.ns.c_str(), type.ref.c_str(),
 		        entry.depth,
 		        entry.location.ns.c_str(), entry.location.ref.c_str(),
-		        entry.title.c_str());
+		        entry.title.c_str(),
+		        doc.indexof(entry.location));
 	}
 }
 

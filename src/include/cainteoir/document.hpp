@@ -89,6 +89,8 @@ namespace cainteoir
 		range_type children() const { return range_type(mChildren.begin(), mChildren.end()); }
 
 		std::vector<ref_entry> navigation(const rdf::graph &aMetadata, const rdf::uri &aListing) const;
+
+		size_t indexof(const rdf::uri &aAnchor) const;
 	private:
 		size_t mLength;
 		list_type mChildren;

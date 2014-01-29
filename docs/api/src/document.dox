@@ -169,12 +169,6 @@ media object.
 \brief A range of document_item objects.
 
 
-\fn    cainteoir::document::document(const std::shared_ptr<document_reader> &aReader)
-\brief Create a document object with the document_item events from the document_reader.
-
-\param[in] aReader The document reader to read document_item events from.
-
-
 \fn    cainteoir::document::document(const std::shared_ptr<document_reader> &aReader, rdf::graph &aMetadata)
 \brief Create a document object with the document_item events from the document_reader.
 
@@ -221,6 +215,14 @@ read will be added to \p aMetadata.
 \param[in] aListing  The listing type to query for.
 
 \return The navigation entries associated with the document.
+
+
+\fn    size_t cainteoir::document::indexof(const rdf::uri &aAnchor) const
+\brief Get the index of the document_item referenced by the anchor.
+
+\param[in] aAnchor  The anchor to resolve within the document.
+
+\return The index of the document_item referenced by the anchor.
 
 
 \addtogroup document_reader
