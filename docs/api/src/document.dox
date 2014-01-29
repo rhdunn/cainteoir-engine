@@ -169,10 +169,6 @@ media object.
 \brief A range of document_item objects.
 
 
-\var   std::vector<toc_entry> cainteoir::document::toc_type
-\brief A table of contents data structure.
-
-
 \fn    cainteoir::document::document(const std::shared_ptr<document_reader> &aReader)
 \brief Create a document object with the document_item events from the document_reader.
 
@@ -203,10 +199,11 @@ read will be added to \p aMetadata.
 \return A range of document_item objects.
 
 
-\fn    range_type cainteoir::document::children(const std::pair<size_t, size_t> &aTocRange) const
+\fn    range_type cainteoir::document::children(const std::vector<ref_entry> &aListing, const std::pair<size_t, size_t> &aRange) const
 \brief Get the document_item objects associated with the document in the specified range.
 
-\param[in] aTocRange The start and end indices in the table of contents for the range of children to get.
+\param[in] aListing The navigation listing to resolve the aRange indices with.
+\param[in] aRange   The start and end indices in \p aListing for the range of children to get.
 
 \return A range of document_item objects.
 
@@ -217,10 +214,13 @@ read will be added to \p aMetadata.
 \return A range of document_item objects.
 
 
-\fn    const toc_type &cainteoir::document::toc() const
-\brief Get the table of contents for the document.
+\fn    std::vector<ref_entry> cainteoir::document::navigation(const rdf::graph &aMetadata, const rdf::uri &aListing) const
+\brief Get the navigation reference entries (e.g. table of contents) for the document.
 
-\return The table of contents associated with the document.
+\param[in] aMetadata The RDF metadata containing the navigation information collected from the document.
+\param[in] aListing  The listing type to query for.
+
+\return The navigation entries associated with the document.
 
 
 \addtogroup document_reader

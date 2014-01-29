@@ -123,7 +123,7 @@ int main(int argc, char ** argv)
 		int range = INT_MAX;
 		int volume = INT_MAX;
 
-		std::pair<size_t, size_t> toc_range = { -1, -1 };
+		std::pair<size_t, size_t> nav_range = { -1, -1 };
 
 		const option_group general_options = { nullptr, {
 			{ 'M', "metadata", bind_value(action, show_metadata),
@@ -161,9 +161,9 @@ int main(int argc, char ** argv)
 		const option_group toc_options = { i18n("Table of Contents:"), {
 			{ 'c', "contents", bind_value(action, show_contents),
 			  i18n("List the table of contents for the specified document") },
-			{ 'f', "from", toc_range.first, "FROM",
+			{ 'f', "from", nav_range.first, "FROM",
 			  i18n("Start reading/recoding from contents marker FROM") },
-			{ 't', "to", toc_range.second, "TO",
+			{ 't', "to", nav_range.second, "TO",
 			  i18n("Finish reading/recording after contents marker TO") },
 		}};
 
@@ -192,7 +192,7 @@ int main(int argc, char ** argv)
 		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
-		if (toc_range.second != -1) ++toc_range.second;
+		if (nav_range.second != -1) ++nav_range.second;
 		if (outformat && !strcmp(outformat, "wave"))
 			outformat = "wav";
 
@@ -265,10 +265,12 @@ int main(int argc, char ** argv)
 		}
 
 		cainteoir::document doc(reader);
+		auto listing = doc.navigation(metadata, rdf::epv("toc"));
+
 		if (action == show_contents)
 		{
 			int toc_number = 1;
-			for (auto &entry : doc.toc())
+			for (auto &entry : listing)
 			{
 				printf(" %4d ", toc_number);
 				for (int i = 0; i < entry.depth; ++i)
@@ -371,7 +373,7 @@ int main(int argc, char ** argv)
 			fprintf(stdout, i18n("Title  : %s\n\n"), title.c_str());
 		}
 
-		auto speech = tts.speak(out, doc.toc(), doc.children(toc_range), mode);
+		auto speech = tts.speak(out, listing, doc.children(listing, nav_range), mode);
 		while (speech->is_speaking())
 		{
 			if (show_progress)

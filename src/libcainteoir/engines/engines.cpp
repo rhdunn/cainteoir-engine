@@ -54,8 +54,8 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	cainteoir::document::const_iterator mFrom;
 	cainteoir::document::const_iterator mTo;
 
-	cainteoir::document::toc_type::const_iterator mRefEntryFrom;
-	cainteoir::document::toc_type::const_iterator mRefEntryTo;
+	std::vector<cainteoir::ref_entry>::const_iterator mRefEntryFrom;
+	std::vector<cainteoir::ref_entry>::const_iterator mRefEntryTo;
 	const cainteoir::ref_entry *mRefEntry;
 
 	tts::state speechState;
@@ -76,7 +76,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 
 	speech_impl(tts::engine *aEngine,
 	            std::shared_ptr<cainteoir::audio> aAudio,
-	            const cainteoir::document::toc_type &aToc,
+	            const std::vector<cainteoir::ref_entry> &aListing,
 	            const cainteoir::document::range_type &aRange,
 	            std::shared_ptr<tts::parameter> aRate,
 	            tts::media_overlays_mode aMediaOverlays);
@@ -200,7 +200,7 @@ static void * speak_tts_thread(void *data)
 
 speech_impl::speech_impl(tts::engine *aEngine,
                          std::shared_ptr<cainteoir::audio> aAudio,
-                         const cainteoir::document::toc_type &aToc,
+                         const std::vector<cainteoir::ref_entry> &aListing,
                          const cainteoir::document::range_type &aRange,
                          std::shared_ptr<tts::parameter> aRate,
                          tts::media_overlays_mode aMediaOverlays)
@@ -213,8 +213,8 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	, wordsPerMinute(aRate ? aRate->value() : 170)
 	, mFrom(aRange.begin())
 	, mTo(aRange.end())
-	, mRefEntryFrom(aToc.begin())
-	, mRefEntryTo(aToc.end())
+	, mRefEntryFrom(aListing.begin())
+	, mRefEntryTo(aListing.end())
 	, mRefEntry(nullptr)
 	, mMediaOverlays(aMediaOverlays)
 {
@@ -400,11 +400,11 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 
 std::shared_ptr<tts::speech>
 tts::engines::speak(std::shared_ptr<audio> out,
-                    const cainteoir::document::toc_type &aToc,
+                    const std::vector<cainteoir::ref_entry> &aListing,
                     const cainteoir::document::range_type &aRange,
                     media_overlays_mode aMediaOverlays)
 {
-	return std::make_shared<speech_impl>(active, out, aToc, aRange, parameter(tts::parameter::rate), aMediaOverlays);
+	return std::make_shared<speech_impl>(active, out, aListing, aRange, parameter(tts::parameter::rate), aMediaOverlays);
 }
 
 std::shared_ptr<tts::phoneme_reader>

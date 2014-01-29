@@ -76,7 +76,6 @@ namespace cainteoir
 		typedef std::list<document_item> list_type;
 		typedef list_type::const_iterator const_iterator;
 		typedef range<const_iterator> range_type;
-		typedef std::vector<ref_entry> toc_type;
 
 		document(const std::shared_ptr<document_reader> &aReader);
 		document(const std::shared_ptr<document_reader> &aReader, rdf::graph &aMetadata);
@@ -85,17 +84,17 @@ namespace cainteoir
 
 		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const;
 
-		range_type children(const std::pair<size_t, size_t> &aTocRange) const;
+		range_type children(const std::vector<ref_entry> &aListing,
+		                    const std::pair<size_t, size_t> &aRange) const;
 
 		range_type children() const { return range_type(mChildren.begin(), mChildren.end()); }
 
-		const toc_type &toc() const { return mToc; }
+		std::vector<ref_entry> navigation(const rdf::graph &aMetadata, const rdf::uri &aListing) const;
 	private:
 		void read(const std::shared_ptr<document_reader> &aReader, rdf::graph *aMetadata);
 
 		size_t mLength;
 		list_type mChildren;
-		std::vector<ref_entry> mToc;
 		std::map<std::string, size_t> mAnchors;
 	};
 

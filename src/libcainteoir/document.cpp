@@ -85,15 +85,16 @@ cainteoir::document::children(const std::pair<const rdf::uri, const rdf::uri> &a
 }
 
 cainteoir::document::range_type
-cainteoir::document::children(const std::pair<size_t, size_t> &aTocRange) const
+cainteoir::document::children(const std::vector<ref_entry> &aListing,
+                              const std::pair<size_t, size_t> &aRange) const
 {
-	rdf::uri from = (aTocRange.first <= 0 || aTocRange.first > mToc.size())
+	rdf::uri from = (aRange.first <= 0 || aRange.first > aListing.size())
 	              ? rdf::uri()
-	              : mToc[aTocRange.first - 1].location;
+	              : aListing[aRange.first - 1].location;
 
-	rdf::uri to = (aTocRange.second <= 0 || aTocRange.second > mToc.size())
+	rdf::uri to = (aRange.second <= 0 || aRange.second > aListing.size())
 	            ? rdf::uri()
-	            : mToc[aTocRange.second - 1].location;
+	            : aListing[aRange.second - 1].location;
 
 	return children(std::pair<const rdf::uri, const rdf::uri>(from, to));
 }
@@ -108,28 +109,33 @@ void cainteoir::document::read(const std::shared_ptr<document_reader> &aReader, 
 		if (aReader->type & cainteoir::events::text)
 			mLength += aReader->content->size();
 	}
+}
 
+std::vector<cainteoir::ref_entry> cainteoir::document::navigation(const rdf::graph &aMetadata, const rdf::uri &aListing) const
+{
 	const rdf::uri *toc_entries = nullptr;
 
-	auto listings = rql::select(*aMetadata,
+	auto listings = rql::select(aMetadata,
 	                            rql::predicate == rdf::rdf("type") && rql::object == rdf::ref("Listing"));
 	for (auto &query : listings)
 	{
-		auto listing = rql::select(*aMetadata, rql::subject == rql::subject(query));
-		if (rql::contains(listing, rql::predicate == rdf::ref("type") && rql::object == rdf::epv("toc")))
+		auto listing = rql::select(aMetadata, rql::subject == rql::subject(query));
+		if (rql::contains(listing, rql::predicate == rdf::ref("type") && rql::object == aListing))
 		{
 			toc_entries = &rql::subject(query);
 			break;
 		}
 	}
 
-	if (!toc_entries) return;
+	if (!toc_entries) return {};
 
-	rql::rdf_list_items(*aMetadata, *toc_entries, rdf::ref("entries"),
-	                    [&aMetadata, this](const std::shared_ptr<const rdf::triple> &item)
+	std::vector<cainteoir::ref_entry> nav;
+	rql::rdf_list_items(aMetadata, *toc_entries, rdf::ref("entries"),
+	                    [&aMetadata, &nav](const std::shared_ptr<const rdf::triple> &item)
 	{
-		mToc.push_back({ rql::select(*aMetadata, rql::subject == rql::object(item)) });
+		nav.push_back({ rql::select(aMetadata, rql::subject == rql::object(item)) });
 	});
+	return nav;
 }
 
 struct document_range : public cainteoir::document_reader

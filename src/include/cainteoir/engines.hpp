@@ -97,7 +97,7 @@ namespace cainteoir { namespace tts
 
 		std::shared_ptr<speech>
 		speak(std::shared_ptr<audio> out,
-		      const cainteoir::document::toc_type &aToc,
+		      const std::vector<cainteoir::ref_entry> &aListing,
 		      const cainteoir::document::range_type &aRange,
 		      media_overlays_mode aMediaOverlays = media_overlays_mode::tts_only);
 
