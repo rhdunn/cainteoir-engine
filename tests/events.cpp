@@ -113,6 +113,50 @@ void format_style(const css::styles &styles)
 		fprintf(stdout, " +%s", styles.font_family.c_str());
 }
 
+void print_events(const std::shared_ptr<cainteoir::document_reader> &reader)
+{
+	while (reader->read())
+	{
+		if (reader->type & cainteoir::events::anchor)
+		{
+			fprintf(stdout, "anchor [%s]%s\n",
+			        reader->anchor.ns.c_str(),
+			        reader->anchor.ref.c_str());
+		}
+		if (reader->type & cainteoir::events::text_ref)
+		{
+			fprintf(stdout, "text-ref [%s]%s\n",
+			        reader->anchor.ns.c_str(),
+			        reader->anchor.ref.c_str());
+		}
+		if (reader->type & cainteoir::events::media_ref)
+		{
+			fprintf(stdout, "media-ref [%s]%s [from=",
+			        reader->anchor.ns.c_str(),
+			        reader->anchor.ref.c_str());
+			print_time(reader->media_begin);
+			fprintf(stdout, " ; to=");
+			print_time(reader->media_end);
+			fprintf(stdout, "]\n");
+		}
+		if (reader->type & cainteoir::events::begin_context)
+		{
+			fprintf(stdout, "begin-context ");
+			if (reader->styles)
+				format_style(*reader->styles);
+			fprintf(stdout, "\n");
+		}
+		if (reader->type & cainteoir::events::text)
+		{
+			fprintf(stdout, "text(%zu): \"\"\"", reader->content->size());
+			fwrite(reader->content->begin(), 1, reader->content->size(), stdout);
+			fwrite("\"\"\"\n", 1, 4, stdout);
+		}
+		if (reader->type & cainteoir::events::end_context)
+			fprintf(stdout, "end-context\n");
+	}
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -131,46 +175,7 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
-		while (reader->read())
-		{
-			if (reader->type & cainteoir::events::anchor)
-			{
-				fprintf(stdout, "anchor [%s]%s\n",
-				        reader->anchor.ns.c_str(),
-				        reader->anchor.ref.c_str());
-			}
-			if (reader->type & cainteoir::events::text_ref)
-			{
-				fprintf(stdout, "text-ref [%s]%s\n",
-				        reader->anchor.ns.c_str(),
-				        reader->anchor.ref.c_str());
-			}
-			if (reader->type & cainteoir::events::media_ref)
-			{
-				fprintf(stdout, "media-ref [%s]%s [from=",
-				        reader->anchor.ns.c_str(),
-				        reader->anchor.ref.c_str());
-				print_time(reader->media_begin);
-				fprintf(stdout, " ; to=");
-				print_time(reader->media_end);
-				fprintf(stdout, "]\n");
-			}
-			if (reader->type & cainteoir::events::begin_context)
-			{
-				fprintf(stdout, "begin-context ");
-				if (reader->styles)
-					format_style(*reader->styles);
-				fprintf(stdout, "\n");
-			}
-			if (reader->type & cainteoir::events::text)
-			{
-				fprintf(stdout, "text(%zu): \"\"\"", reader->content->size());
-				fwrite(reader->content->begin(), 1, reader->content->size(), stdout);
-				fwrite("\"\"\"\n", 1, 4, stdout);
-			}
-			if (reader->type & cainteoir::events::end_context)
-				fprintf(stdout, "end-context\n");
-		}
+		print_events(reader);
 	}
 	catch (std::runtime_error &e)
 	{
