@@ -124,8 +124,10 @@ struct option_t
 		, help_string(aHelpString)
 		, data(&aData)
 		, value(0)
-		, data_size(0)
+		, data_size(sizeof(T))
 	{
+		static_assert(sizeof(T) <= sizeof(value),
+		              "T is too big to be used as an option value.");
 	}
 
 	void operator()(const char *arg) const
@@ -145,7 +147,13 @@ struct option_t
 			*(const char **)data = arg;
 			break;
 		case argument_t::integer:
-			*(int *)data = atoi(arg);
+			switch (data_size)
+			{
+			case 1: *(int8_t  *)data = atoi(arg); break;
+			case 2: *(int16_t *)data = atoi(arg); break;
+			case 4: *(int32_t *)data = atoi(arg); break;
+			case 8: *(int64_t *)data = atoi(arg); break;
+			}
 			break;
 		}
 	}
