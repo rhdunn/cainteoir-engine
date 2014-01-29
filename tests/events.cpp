@@ -164,11 +164,9 @@ int main(int argc, char ** argv)
 		argc -= 1;
 		argv += 1;
 
-		if (argc == 0)
-			throw std::runtime_error("no document specified");
-
 		rdf::graph metadata;
-		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
+		const char *filename = (argc == 1) ? argv[0] : nullptr;
+		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
 		if (!reader)
 		{
 			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
