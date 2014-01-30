@@ -1,7 +1,6 @@
 anchor []
 anchor [!/OEBPS/toc.xhtml]
 begin-context heading 1
-anchor [!/OEBPS/toc.xhtml#]genid.h0
 text(5): """Title"""
 end-context
 begin-context heading 1

@@ -388,28 +388,6 @@ static const std::initializer_list<const xml::context::entry_ref> meta_names =
 };
 
 /******************************************************************************
- * ePub Elements
- *
- * This is the set of ePub attributes used within HTML documents.
- */
-
-namespace epub
-{
-	static const xml::context::entry type_attr = {};
-}
-
-static const std::initializer_list<const xml::context::entry_ref> epub_attrs =
-{
-	{ "type", &epub::type_attr },
-};
-
-// epub:type values -- http://www.idpf.org/epub/vocab/structure/
-static const std::initializer_list<std::pair<const char *, css::role>> epub_types =
-{
-	{ "toc", css::role::table_of_contents },
-};
-
-/******************************************************************************
  * HTML Tree Construction
  *
  * This is an implementation of the algorithm described in HTML§12.2.5 (Tree
@@ -481,7 +459,6 @@ html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader
 	reader->set_nodes(xmlns::html40, html_nodes);
 	reader->set_attrs(xmlns::html40, html_attrs);
 	reader->set_attrs(xmlns::xml,    xml::attrs);
-	reader->set_attrs(xmlns::epub,   epub_attrs);
 }
 
 bool html_tree_builder::read()
@@ -765,7 +742,6 @@ static const std::initializer_list<context_ns> attr_sets =
 {
 	{ nullptr, html_attrs },
 	{ "xml",   xml::attrs },
-	{ "epub",  epub_attrs },
 };
 
 static void print_node_name(const xml::context::entry *aEntry,
@@ -826,17 +802,6 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
  * tag soup is converted to well-formed XML events.
  */
 
-static css::role lookup_role(const cainteoir::buffer &name,
-                             const std::initializer_list<std::pair<const char *, css::role>> &roles)
-{
-	for (const auto &role : roles)
-	{
-		if (name.compare(role.first) == 0)
-			return role.second;
-	}
-	return css::role::none;
-}
-
 struct html_document_reader : public cainteoir::document_reader
 {
 	html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle);
@@ -846,15 +811,10 @@ private:
 	rdf::uri mSubject;
 	std::string mTitle;
 	html_tree_builder reader;
-	rdf::uri href;
-	cainteoir::rope htext;
-	int hid;
-	bool genAnchor;
 	cainteoir::css::style_manager stylemgr;
 	cainteoir::whitespace trim_left;
 
 	std::string mLanguage;
-	css::role mRole;
 
 	bool parse_document_root(rdf::graph *aMetadata);
 	bool parse_html_node(rdf::graph *aMetadata);
@@ -863,9 +823,6 @@ private:
 
 	bool parse_body_node(rdf::graph *aMetadata);
 	bool parse_list_node(rdf::graph *aMetadata);
-	bool parse_heading_node(rdf::graph *aMetadata);
-	bool parse_nav_node(rdf::graph *aMetadata);
-	bool parse_toc_node(rdf::graph *aMetadata);
 	bool parse_node(rdf::graph *aMetadata);
 
 	bool generate_title_event(rdf::graph *aMetadata);
@@ -888,11 +845,7 @@ private:
 html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle)
 	: reader(aReader)
 	, mSubject(aSubject)
-	, href(aSubject.str(), std::string())
-	, hid(0)
-	, genAnchor(false)
 	, trim_left(cainteoir::whitespace::preserve)
-	, mRole(css::role::none)
 {
 	stylemgr.parse("/css/counterstyles.css");
 
@@ -1121,7 +1074,7 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 	case xml::reader::attribute:
 		if (reader.context() == &xml::id_attr)
 		{
-			anchor = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
+			anchor = rdf::uri(mSubject.str(), reader.nodeValue().str());
 			type   = events::anchor;
 			return true;
 		}
@@ -1129,11 +1082,6 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 	case xml::reader::beginTagNode:
 		styles = reader.context()->styles;
 		type   = events::begin_context;
-		if (reader.context() == &html::nav_node)
-		{
-			ctx.push({ reader.context(), &html_document_reader::parse_nav_node, 0 });
-			return false;
-		}
 		if (!styles)
 			continue;
 		if (styles->display == css::display::none)
@@ -1149,12 +1097,6 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 			styles  = reader.context()->styles;
 			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
 			return true;
-		}
-		else if (styles->role == css::role::heading)
-		{
-			htext.clear();
-			genAnchor = true;
-			ctx.push({ reader.context(), &html_document_reader::parse_heading_node, 0 });
 		}
 		else if (!styles->list_style_type.empty())
 			ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1 });
@@ -1173,7 +1115,7 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 	case xml::reader::attribute:
 		if (reader.context() == &xml::id_attr)
 		{
-			anchor = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
+			anchor = rdf::uri(mSubject.str(), reader.nodeValue().str());
 			type   = events::anchor;
 			return true;
 		}
@@ -1194,185 +1136,6 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 				content = std::make_shared<cainteoir::buffer>(" ");
 			type    = events::begin_context | events::text;
 			reset_block_scope();
-			if (mRole == css::role::table_of_contents)
-				ctx.push({ reader.context(), &html_document_reader::parse_toc_node, 0 });
-			else
-				ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
-			return true;
-		}
-		break;
-	case xml::reader::endTagNode:
-		if (reader.context() == ctx.top().ctx)
-		{
-			type   = events::end_context;
-			styles = reader.context()->styles;
-			anchor = rdf::uri();
-			ctx.pop();
-			reset_block_scope();
-			return true;
-		}
-	}
-	ctx.pop();
-	return false;
-}
-
-bool html_document_reader::parse_heading_node(rdf::graph *aMetadata)
-{
-	bool is_title_header = false;
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::attribute:
-		if (reader.context() == &xml::id_attr)
-		{
-			anchor    = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
-			type      = events::anchor;
-			genAnchor = false;
-			return true;
-		}
-		break;
-	case xml::reader::textNode:
-	case xml::reader::cdataNode:
-		parse_text_node();
-		is_title_header = content && !content->empty() && content->compare(mTitle.c_str()) == 0;
-		if (genAnchor)
-		{
-			genAnchor = false;
-			if (!is_title_header)
-			{
-				std::stringstream ref;
-				ref << "genid.h" << hid;
-				++hid;
-
-				anchor = href = rdf::uri(mSubject.str(), ref.str());
-				type   = events::anchor;
-				reader.hold_event();
-				return true;
-			}
-		}
-		if (content && !content->empty())
-		{
-			if (!is_title_header)
-				htext += content;
-
-			type   = events::text;
-			anchor = rdf::uri();
-			return true;
-		}
-		break;
-	case xml::reader::beginTagNode:
-		styles = reader.context()->styles;
-		if (styles)
-		{
-			type   = events::begin_context;
-			anchor = rdf::uri();
-			reset_block_scope();
-			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
-			return true;
-		}
-		break;
-	case xml::reader::endTagNode:
-		if (reader.context() == ctx.top().ctx)
-		{
-			mTitle.clear();
-			type   = events::end_context;
-			styles = reader.context()->styles;
-			anchor = rdf::uri();
-			ctx.pop();
-			reset_block_scope();
-			if (!htext.empty())
-			{
-				content = htext.normalize();
-				for (char *c = (char *)content->begin(), *last = (char *)content->end(); c != last; ++c) switch (*c)
-				{
-				case '\n':
-					*c = ' ';
-					break;
-				default:
-					break;
-				}
-				if (!content->empty())
-				{
-					anchor = href;
-				}
-				href.ref = std::string();
-			}
-			return true;
-		}
-		break;
-	}
-	ctx.pop();
-	return false;
-}
-
-bool html_document_reader::parse_nav_node(rdf::graph *aMetadata)
-{
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::attribute:
-		if (reader.context() == &epub::type_attr)
-			mRole = lookup_role(*reader.nodeValue().normalize(), epub_types);
-		else if (reader.context() == &xml::id_attr)
-		{
-			anchor = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
-			type   = events::anchor;
-			return true;
-		}
-		break;
-	case xml::reader::beginTagNode:
-		styles = reader.context()->styles;
-		type   = events::begin_context;
-		if (!styles)
-			continue;
-		reset_block_scope();
-		if (!styles->list_style_type.empty())
-			ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1 });
-		else
-			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
-		return true;
-	case xml::reader::endTagNode:
-		if (reader.context() == ctx.top().ctx)
-		{
-			mRole  = css::role::none;
-			ctx.pop();
-			reset_block_scope();
-			return false;
-		}
-		break;
-	}
-	ctx.pop();
-	return false;
-}
-
-bool html_document_reader::parse_toc_node(rdf::graph *aMetadata)
-{
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::attribute:
-		if (reader.context() == &html::href_attr)
-			anchor = href = rdf::uri(reader.nodeValue().str());
-		else if (reader.context() == &xml::id_attr)
-		{
-			anchor = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
-			type   = events::anchor;
-			return true;
-		}
-		break;
-	case xml::reader::textNode:
-	case xml::reader::cdataNode:
-		parse_text_node();
-		if (content && !content->empty())
-		{
-			type = events::text;
-			return true;
-		}
-		break;
-	case xml::reader::beginTagNode:
-		styles = reader.context()->styles;
-		if (styles)
-		{
-			type   = events::begin_context;
-			anchor = rdf::uri();
-			reset_block_scope();
 			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
 			return true;
 		}
@@ -1387,7 +1150,6 @@ bool html_document_reader::parse_toc_node(rdf::graph *aMetadata)
 			reset_block_scope();
 			return true;
 		}
-		break;
 	}
 	ctx.pop();
 	return false;
@@ -1400,7 +1162,7 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 	case xml::reader::attribute:
 		if (reader.context() == &xml::id_attr)
 		{
-			anchor = href = rdf::uri(mSubject.str(), reader.nodeValue().str());
+			anchor = rdf::uri(mSubject.str(), reader.nodeValue().str());
 			type   = events::anchor;
 			return true;
 		}

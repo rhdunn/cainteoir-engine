@@ -1,6 +1,5 @@
 anchor []
 begin-context heading 1
-anchor [#]genid.h0
 text(6): """Header"""
 end-context
 begin-context paragraph +sans-serif

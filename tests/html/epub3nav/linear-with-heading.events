@@ -1,6 +1,5 @@
 anchor []
 begin-context heading 1
-anchor [#]genid.h0
 text(5): """Title"""
 end-context
 begin-context heading 1

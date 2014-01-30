@@ -1,37 +1,27 @@
 anchor []
 begin-context heading 1
-anchor [#]genid.h0
 text(9): """Heading 1"""
 end-context
 begin-context heading 2
-anchor [#]genid.h1
 text(9): """Heading 2"""
 end-context
 begin-context heading 3
-anchor [#]genid.h2
 text(9): """Heading 3"""
 end-context
 begin-context heading 4
-anchor [#]genid.h3
 text(9): """Heading 4"""
 end-context
 begin-context heading 5
-anchor [#]genid.h4
 text(9): """Heading 5"""
 end-context
 begin-context heading 6
-anchor [#]genid.h5
 text(9): """Heading 6"""
 end-context
 begin-context heading 1
-anchor [#]genid.h6
 end-context
 begin-context heading 2
-anchor [#]genid.h7
 end-context
 begin-context heading 3
-anchor [#]genid.h8
 end-context
 begin-context heading 4
-anchor [#]genid.h9
 end-context
