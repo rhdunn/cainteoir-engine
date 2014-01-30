@@ -181,13 +181,6 @@ if __name__ == '__main__':
 			# These represent common/known usage patterns for HTML5/WHATWG documents.
 			{'test': 'html/idioms/nav-breadcrumbs.xhtml', 'result': 'html/idioms/nav-breadcrumbs.events', 'expect': 'volatile'},
 		]},
-		{'name': 'epub3 nav', 'type': 'events', 'tests': [
-			# These are tests for HTML5-based ePub3 navigation (table of content)
-			# documents when parsed as HTML (i.e. not embedded in an ePub document).
-			{'test': 'html/epub3nav/linear.xhtml', 'result': 'html/epub3nav/linear.events'},
-			{'test': 'html/epub3nav/linear-with-heading.xhtml', 'result': 'html/epub3nav/linear-with-heading.events'},
-			{'test': 'html/epub3nav/nested.xhtml', 'result': 'html/epub3nav/nested.events'},
-		]},
 	]})
 	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
 		{'name': 'headers', 'type': 'events', 'tests': [
@@ -333,12 +326,6 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({ 'name': 'ePub3', 'groups': [
-		{'name': 'toc', 'type': 'events', 'tests': [
-			{'test': 'epub3/toc/no-toc-entries.epub', 'result': 'epub3/toc/no-toc-entries.events'},
-			{'test': 'epub3/toc/linear.epub', 'result': 'epub3/toc/linear.events'},
-			{'test': 'epub3/toc/linear-with-heading.epub', 'result': 'epub3/toc/linear-with-heading.events'},
-			{'test': 'epub3/toc/nested.epub', 'result': 'epub3/toc/nested.events'},
-		]},
 		{'name': 'media overlay', 'type': 'events', 'tests': [
 			{'test': 'epub3/media-overlay/single-file/xhtml-before-smil.epub', 'result': 'epub3/media-overlay/single-file/xhtml-before-smil.events'},
 			{'test': 'epub3/media-overlay/single-file/xhtml-after-smil.epub', 'result': 'epub3/media-overlay/single-file/xhtml-before-smil.events'},
