@@ -330,6 +330,9 @@ if __name__ == '__main__':
 			{'test': 'epub3/media-overlay/single-file/xhtml-before-smil.epub', 'result': 'epub3/media-overlay/single-file/xhtml-before-smil.events'},
 			{'test': 'epub3/media-overlay/single-file/xhtml-after-smil.epub', 'result': 'epub3/media-overlay/single-file/xhtml-before-smil.events'},
 		]},
+		{'name': 'toc navigation', 'type': 'events', 'tests': [
+			{'test': 'epub3/nav-toc/linear.epub', 'result': 'epub3/nav-toc/linear.events'},
+		]},
 	]})
 	test.run({ 'name': 'ZIP', 'groups': [
 		{'name': 'files', 'type': 'events', 'tests': [
