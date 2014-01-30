@@ -1,4 +1,5 @@
 anchor []
+anchor [#]ag
 anchor [#]ah
 anchor [#]ai
 begin-context heading 1
@@ -214,6 +215,8 @@ anchor [#]da
 anchor [#]db
 anchor [#]dc
 anchor [#]dd
+anchor [#]de
+anchor [#]df
 anchor [#]dg
 anchor [#]dh
 begin-context table
@@ -285,6 +288,7 @@ begin-context paragraph +sans-serif
 anchor [#]et
 text(4): """Test"""
 end-context
+anchor [#]eu
 anchor [#]ev
 begin-context paragraph +sans-serif
 anchor [#]ew

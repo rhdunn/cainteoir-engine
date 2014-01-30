@@ -827,9 +827,7 @@ private:
 
 	bool generate_title_event(rdf::graph *aMetadata);
 
-	void parse_hidden_node();
 	void parse_text_node();
-
 	void reset_block_scope();
 
 	struct context_data
@@ -837,6 +835,7 @@ private:
 		const xml::context::entry *ctx;
 		decltype(&html_document_reader::parse_node) handler;
 		uint32_t parameter;
+		bool visible;
 	};
 
 	std::stack<context_data> ctx;
@@ -849,7 +848,7 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 {
 	stylemgr.parse("/css/counterstyles.css");
 
-	ctx.push({ nullptr, &html_document_reader::parse_document_root, 0 });
+	ctx.push({ nullptr, &html_document_reader::parse_document_root, 0, true });
 	read(&aPrimaryMetadata);
 
 	if (!mLanguage.empty())
@@ -869,7 +868,7 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 			mTitle = mTitle.substr(sep + 1);
 	}
 
-	ctx.push({ &html::title_node, &html_document_reader::generate_title_event, 0 });
+	ctx.push({ &html::title_node, &html_document_reader::generate_title_event, 0, true });
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal(aMimeType));
 }
@@ -992,7 +991,7 @@ bool html_document_reader::parse_document_root(rdf::graph *aMetadata)
 	case xml::reader::beginTagNode:
 		if (reader.context() == &html::html_node)
 		{
-			ctx.push({ nullptr, &html_document_reader::parse_html_node, 0 });
+			ctx.push({ nullptr, &html_document_reader::parse_html_node, 0, true });
 			return false;
 		}
 		break;
@@ -1011,9 +1010,9 @@ bool html_document_reader::parse_html_node(rdf::graph *aMetadata)
 		break;
 	case xml::reader::beginTagNode:
 		if (reader.context() == &html::head_node)
-			ctx.push({ nullptr, &html_document_reader::parse_head_node, 0 });
+			ctx.push({ nullptr, &html_document_reader::parse_head_node, 0, true });
 		else if (reader.context() == &html::body_node)
-			ctx.push({ nullptr, &html_document_reader::parse_body_attrs, 0 });
+			ctx.push({ nullptr, &html_document_reader::parse_body_attrs, 0, true });
 		return false;
 	}
 	ctx.pop();
@@ -1059,7 +1058,7 @@ bool html_document_reader::parse_body_attrs(rdf::graph *aMetadata)
 			mLanguage = reader.nodeValue().buffer()->str();
 		break;
 	case xml::reader::beginTagNode:
-		ctx.push({ &html::body_node, &html_document_reader::parse_body_node, 0 });
+		ctx.push({ &html::body_node, &html_document_reader::parse_body_node, 0, true });
 		reader.hold_event();
 		return true;
 	}
@@ -1086,8 +1085,8 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 			continue;
 		if (styles->display == css::display::none)
 		{
-			parse_hidden_node();
-			continue;
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, false });
+			return false;
 		}
 		reset_block_scope();
 		if (styles->display == css::display::list_item)
@@ -1095,13 +1094,13 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 			content = std::make_shared<cainteoir::buffer>(" ");
 			type    = events::begin_context | events::text;
 			styles  = reader.context()->styles;
-			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
 			return true;
 		}
 		else if (!styles->list_style_type.empty())
-			ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1 });
+			ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1, true });
 		else
-			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
 		return true;
 	}
 	ctx.pop();
@@ -1110,6 +1109,7 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 
 bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 {
+	context_data &data = ctx.top();
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
@@ -1136,7 +1136,7 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 				content = std::make_shared<cainteoir::buffer>(" ");
 			type    = events::begin_context | events::text;
 			reset_block_scope();
-			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
 			return true;
 		}
 		break;
@@ -1157,6 +1157,7 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 
 bool html_document_reader::parse_node(rdf::graph *aMetadata)
 {
+	context_data &data = ctx.top();
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
@@ -1169,32 +1170,42 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		parse_text_node();
-		if (content && !content->empty())
+		if (data.visible)
 		{
-			type   = events::text;
-			anchor = rdf::uri();
-			return true;
+			parse_text_node();
+			if (content && !content->empty())
+			{
+				type   = events::text;
+				anchor = rdf::uri();
+				return true;
+			}
 		}
 		break;
 	case xml::reader::beginTagNode:
+		if (!data.visible)
+		{
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, false });
+			return false;
+		}
 		styles = reader.context()->styles;
 		if (styles)
 		{
 			type   = events::begin_context;
 			anchor = rdf::uri();
 			reset_block_scope();
-			ctx.push({ reader.context(), &html_document_reader::parse_node, 0 });
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
 			return true;
 		}
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == ctx.top().ctx)
 		{
+			ctx.pop();
+			if (!data.visible)
+				return false;
 			type   = events::end_context;
 			styles = reader.context()->styles;
 			anchor = rdf::uri();
-			ctx.pop();
 			reset_block_scope();
 			return true;
 		}
@@ -1212,23 +1223,6 @@ bool html_document_reader::generate_title_event(rdf::graph *aMetadata)
 	anchor  = mSubject;
 	ctx.pop();
 	return true;
-}
-
-void html_document_reader::parse_hidden_node()
-{
-	uint32_t depth = 1;
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::beginTagNode:
-		++depth;
-		break;
-	case xml::reader::endTagNode:
-		if (--depth == 0)
-			return;
-		break;
-	default:
-		break;
-	}
 }
 
 void html_document_reader::parse_text_node()
