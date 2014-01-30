@@ -92,8 +92,6 @@ cainteoir::document::children(const std::vector<ref_entry> &aListing,
 	return children(std::pair<const rdf::uri, const rdf::uri>(from, to));
 }
 
-#include <iostream>
-
 std::vector<cainteoir::ref_entry>
 cainteoir::navigation(const rdf::graph &aMetadata,
                       const rdf::uri &aSubject,
