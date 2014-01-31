@@ -1,7 +1,4 @@
 anchor []
-begin-context heading 1
-text(6): """Header"""
-end-context
 begin-context paragraph +sans-serif
 text(5): """Lorem"""
 text(4): """ » """
@@ -9,12 +6,4 @@ text(5): """Ipsum"""
 text(4): """ » """
 text(5): """Dolor"""
 text(1): """ """
-end-context
-begin-context paragraph +sans-serif
-begin-context paragraph +sans-serif
-text(4): """Body"""
-end-context
-end-context
-begin-context paragraph +sans-serif
-text(6): """Footer"""
 end-context
