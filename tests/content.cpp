@@ -463,6 +463,35 @@ TEST_CASE("style - hidden")
 	assert(styles.aria_level == 0);
 }
 
+TEST_CASE("style - block")
+{
+	css::styles styles = cainteoir::block;
+	assert(styles.name == "block");
+	assert(styles.display == css::display::block);
+	assert(styles.media_synchronisation == css::media_synchronisation::inherit);
+	assert(styles.vertical_align == css::vertical_align::inherit);
+	assert(styles.text_align == css::text_align::inherit);
+	assert(styles.text_decoration == css::text_decoration::inherit);
+	assert(styles.whitespace == css::whitespace::normal);
+	assert(styles.font_style == css::font_style::inherit);
+	assert(styles.font_variant_caps == css::font_variant_caps::inherit);
+	assert(styles.font_weight == css::font_weight::inherit);
+	assert(styles.list_style_type.empty());
+	assert(styles.font_family.empty());
+	assert(styles.font_size.units() == css::length::inherit);
+	assert(styles.font_size.value() == 0);
+	assert(styles.margin.left.units() == css::length::inherit);
+	assert(styles.margin.left.value() == 0);
+	assert(styles.margin.top.units() == css::length::inherit);
+	assert(styles.margin.top.value() == 0);
+	assert(styles.margin.right.units() == css::length::inherit);
+	assert(styles.margin.right.value() == 0);
+	assert(styles.margin.bottom.units() == css::length::inherit);
+	assert(styles.margin.bottom.value() == 0);
+	assert(styles.role == css::role::none);
+	assert(styles.aria_level == 0);
+}
+
 TEST_CASE("style - paragraph")
 {
 	css::styles styles = cainteoir::paragraph;

@@ -381,6 +381,7 @@ namespace cainteoir
 	extern const css::styles sequential;
 	extern const css::styles parallel;
 	extern const css::styles hidden;
+	extern const css::styles block;
 	extern const css::styles paragraph;
 	extern const css::styles heading0;
 	extern const css::styles heading1;
