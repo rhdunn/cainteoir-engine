@@ -133,6 +133,7 @@ if __name__ == '__main__':
 			{'test': 'html/sections/li-only.xhtml', 'result': 'html/sections/li-only.events'},
 			{'test': 'html/sections/menu.xhtml', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/nav-breadcrumbs.xhtml', 'result': 'html/sections/nav-breadcrumbs.events', 'expect': 'volatile'},
+			{'test': 'html/sections/nav-list.xhtml', 'result': 'html/sections/nav-list.events'},
 			{'test': 'html/sections/ol.xhtml', 'result': 'html/sections/ol.events'},
 			{'test': 'html/sections/ol-cdata.xhtml', 'result': 'html/sections/ol.events'},
 			{'test': 'html/sections/paragraphs.xhtml', 'result': 'html/sections/paragraphs.events'},
