@@ -536,6 +536,12 @@ subjects.
 \return This graph object (to support method chaining).
 
 
+\fn    const std::string &rdf::graph::get_base() const
+\brief Get the base URI for the graph.
+
+\return The base URI of the graph.
+
+
 \fn    rdf::graph &rdf::graph::add_namespace(const std::string &aPrefix, const std::string &aHref)
 \brief Add a namespace to the graph.
 

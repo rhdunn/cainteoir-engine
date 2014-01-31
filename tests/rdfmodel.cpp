@@ -128,6 +128,7 @@ TEST_CASE("rdf::graph -- curie: base uri")
 {
 	rdf::graph test;
 	test.set_base("http://www.example.org/base");
+	assert(test.get_base() == "http://www.example.org/base");
 
 	test_uri(test.curie("test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
 	test_uri(test.curie("/test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
@@ -140,6 +141,7 @@ TEST_CASE("rdf::graph -- curie: base uri -- tied")
 	g.set_base("http://www.example.org/base");
 
 	rdf::graph test(g);
+	assert(test.get_base() == "http://www.example.org/base");
 
 	test_uri(test.curie("test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
 	test_uri(test.curie("/test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");

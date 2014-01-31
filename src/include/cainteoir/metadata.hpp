@@ -331,6 +331,8 @@ namespace cainteoir { namespace rdf
 
 		rdf::graph &set_base(const std::string &aBase);
 
+		const std::string &get_base() const { return mContext->baseUri; }
+
 		rdf::graph &add_namespace(const std::string &aPrefix, const std::string &aHref);
 
 		rdf::graph &add_namespace(const ns &ns)
