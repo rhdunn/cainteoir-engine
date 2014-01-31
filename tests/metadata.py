@@ -441,4 +441,12 @@ if __name__ == '__main__':
 			{'test': 'epub2/toc/nested.epub', 'result': 'epub2/toc/nested-all.n3'},
 		]},
 	]})
+	test.run({ 'name': 'ePub3', 'replace': ['mimetype'], 'mimetype': 'application/epub+zip', 'groups': [
+		{'name': 'nav-toc', 'type': 'turtle', 'tests': [
+			{'test': 'epub3/nav-toc/linear.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+		]},
+		{'name': 'nav-toc', 'type': 'turtle-all', 'tests': [
+			{'test': 'epub3/nav-toc/linear.epub', 'result': 'epub2/toc/linear-all.n3'},
+		]},
+	]})
 	test.summary()

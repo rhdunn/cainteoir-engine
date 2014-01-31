@@ -90,7 +90,7 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 			auto mime = createMimeInHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle, aDefaultEncoding);
 			if (mime)
 				return mime;
-			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml");
+			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml", {});
 		}
 
 		if (mime::ncx.match(namespaceUri, rootName))
@@ -110,7 +110,7 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 			auto mime = createMimeInHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle, aDefaultEncoding);
 			if (mime)
 				return mime;
-			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml");
+			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml", {});
 		}
 
 		return std::shared_ptr<document_reader>();
@@ -125,7 +125,7 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		if (mime)
 			return mime;
 		auto reader = cainteoir::createXmlReader(aData, aDefaultEncoding);
-		return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "text/html");
+		return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "text/html", {});
 	}
 
 	if (mime::rtf.match(aData))

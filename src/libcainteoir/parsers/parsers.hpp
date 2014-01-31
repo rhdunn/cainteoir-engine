@@ -38,7 +38,8 @@ namespace cainteoir
 	                 const rdf::uri &aSubject,
 	                 rdf::graph &aPrimaryMetadata,
 	                 const std::string &aTitle,
-	                 const char *aMimeType);
+	                 const char *aMimeType,
+	                 const cainteoir::path &aBaseUri);
 
 	std::shared_ptr<document_reader>
 	createMimeReader(std::shared_ptr<buffer> &aData,

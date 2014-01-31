@@ -110,6 +110,7 @@ epub_document_reader::epub_document_reader(std::shared_ptr<cainteoir::archive> &
 		}
 	}
 
+	mManifest.set_base(aPrimaryMetadata.get_base());
 	while (opf->read(&mManifest))
 		;
 
@@ -238,9 +239,9 @@ bool epub_document_reader::load_document(const rql::results &aItem, document_typ
 		}
 		else if (mimetype == "application/xhtml+xml")
 		{
-			anchor = mData->location(filename.str(), target.ref);
+			cainteoir::path location{ mData->location(filename.str(), {}).ns };
 			rdf::graph innerMetadata;
-			child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml");
+			child = cainteoir::createHtmlReader(reader, mSubject, innerMetadata, std::string(), "application/xhtml+xml", location.parent());
 		}
 		else
 			return false;
@@ -250,7 +251,7 @@ bool epub_document_reader::load_document(const rql::results &aItem, document_typ
 		{
 			anchor = mData->location(filename.str(), {});
 			rdf::graph innerMetadata;
-			child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml");
+			child = cainteoir::createHtmlReader(reader, anchor, innerMetadata, std::string(), "application/xhtml+xml", {});
 		}
 		else
 			return false;

@@ -832,7 +832,12 @@ void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, boo
 
 struct html_document_reader : public cainteoir::document_reader
 {
-	html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle);
+	html_document_reader(const std::shared_ptr<xml::reader> &aReader,
+	                     const rdf::uri &aSubject,
+	                     rdf::graph &aPrimaryMetadata,
+	                     const char *aMimeType,
+	                     const std::string &aTitle,
+	                     const cainteoir::path &aBaseUri);
 
 	bool read(rdf::graph *aMetadata);
 private:
@@ -843,6 +848,7 @@ private:
 	cainteoir::css::style_manager stylemgr;
 	cainteoir::whitespace trim_left;
 
+	cainteoir::path mBaseUri;
 	rdf::uri mListing;
 	rdf::uri mCurrentReference;
 	rdf::uri mEntry;
@@ -873,10 +879,16 @@ private:
 	std::stack<context_data> ctx;
 };
 
-html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle)
+html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &aReader,
+                                           const rdf::uri &aSubject,
+                                           rdf::graph &aPrimaryMetadata,
+                                           const char *aMimeType,
+                                           const std::string &aTitle,
+                                           const cainteoir::path &aBaseUri)
 	: reader(aReader)
 	, mSubject(aSubject)
 	, trim_left(cainteoir::whitespace::preserve)
+	, mBaseUri(aBaseUri)
 	, mDepth(0)
 {
 	stylemgr.parse("/css/counterstyles.css");
@@ -1256,7 +1268,7 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 		else if (reader.context() == &html::href_attr && aMetadata && !mEntry.empty())
 		{
 			const rdf::uri target = rdf::href(reader.nodeValue().str());
-			aMetadata->statement(mEntry, rdf::ref("target"), target);
+			aMetadata->statement(mEntry, rdf::ref("target"), rdf::uri((mBaseUri / target.ns).str(), target.ref));
 		}
 		break;
 	case xml::reader::textNode:
@@ -1399,9 +1411,10 @@ cainteoir::createHtmlReader(const std::shared_ptr<xml::reader> &aReader,
                             const rdf::uri &aSubject,
                             rdf::graph &aPrimaryMetadata,
                             const std::string &aTitle,
-	                    const char *aMimeType)
+	                    const char *aMimeType,
+                            const cainteoir::path &aBaseUri)
 {
-	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, aMimeType, aTitle);
+	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, aMimeType, aTitle, aBaseUri);
 }
 
 /* References
