@@ -115,8 +115,10 @@ anchor [#]bh
 text(8): """fourteen"""
 end-context
 text(1): """ """
+begin-context span
 anchor [#]bi
 text(7): """fifteen"""
+end-context
 text(1): """ """
 begin-context span +monospace
 anchor [#]bj

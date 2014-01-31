@@ -6,15 +6,21 @@ end-context
 begin-context block +list=disc
 begin-context list-item +sans-serif
 text(4): """• """
+begin-context span
 text(5): """Lorem"""
 end-context
-begin-context list-item +sans-serif
-text(4): """• """
-text(5): """Ipsum"""
 end-context
 begin-context list-item +sans-serif
 text(4): """• """
+begin-context span
+text(5): """Ipsum"""
+end-context
+end-context
+begin-context list-item +sans-serif
+text(4): """• """
+begin-context span
 text(5): """Dolor"""
+end-context
 end-context
 end-context
 end-context

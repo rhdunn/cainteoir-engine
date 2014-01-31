@@ -100,8 +100,10 @@ text(18): """Lorem ipsum dolor."""
 end-context
 begin-context paragraph +sans-serif
 anchor [#]bn
+begin-context span
 anchor [#]bo
 text(3): """one"""
+end-context
 text(1): """ """
 begin-context span +emphasized
 anchor [#]bp

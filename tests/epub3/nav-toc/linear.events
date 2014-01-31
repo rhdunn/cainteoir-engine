@@ -7,15 +7,21 @@ end-context
 begin-context block +list=decimal
 begin-context list-item +sans-serif
 text(3): """1. """
+begin-context span
 text(9): """Chapter 1"""
+end-context
 end-context
 begin-context list-item +sans-serif
 text(3): """2. """
+begin-context span
 text(9): """Chapter 2"""
+end-context
 end-context
 begin-context list-item +sans-serif
 text(3): """3. """
+begin-context span
 text(9): """Chapter 3"""
+end-context
 end-context
 end-context
 end-context

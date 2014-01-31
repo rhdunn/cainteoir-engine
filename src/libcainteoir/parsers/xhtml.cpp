@@ -45,7 +45,7 @@ namespace html
 	// HTML§12.1.2 -- void elements
 	// HTML§14.3.* -- default rendering (styles)
 
-	static const xml::context::entry a_node          = {};
+	static const xml::context::entry a_node          = { &cainteoir::span };
 	static const xml::context::entry abbr_node       = {};
 	static const xml::context::entry address_node    = { &cainteoir::emphasized_block }; // HTML§14.3.3
 	static const xml::context::entry acronym_node    = {};

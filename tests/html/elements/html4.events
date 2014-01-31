@@ -82,7 +82,9 @@ begin-context span +superscript
 text(8): """fourteen"""
 end-context
 text(1): """ """
+begin-context span
 text(7): """fifteen"""
+end-context
 text(1): """ """
 begin-context span +monospace
 text(7): """sixteen"""
