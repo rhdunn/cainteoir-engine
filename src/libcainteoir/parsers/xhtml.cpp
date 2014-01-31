@@ -1275,7 +1275,8 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 	case xml::reader::cdataNode:
 		if (data.ctx == &html::a_node && aMetadata && !mEntry.empty())
 		{
-			aMetadata->statement(mEntry, rdf::dc("title"), rdf::literal(reader.nodeValue().str()));
+			auto title = reader.nodeValue().normalize();
+			aMetadata->statement(mEntry, rdf::dc("title"), rdf::literal(title->str()));
 		}
 		if (data.visible)
 		{
