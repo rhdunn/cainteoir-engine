@@ -132,6 +132,7 @@ if __name__ == '__main__':
 			{'test': 'html/sections/heading-repeated-with-matching-title.xhtml', 'result': 'html/sections/heading-repeated-with-matching-title.events'},
 			{'test': 'html/sections/li-only.xhtml', 'result': 'html/sections/li-only.events'},
 			{'test': 'html/sections/menu.xhtml', 'result': 'html/sections/ul.events'},
+			{'test': 'html/sections/nav-breadcrumbs.xhtml', 'result': 'html/sections/nav-breadcrumbs.events', 'expect': 'volatile'},
 			{'test': 'html/sections/ol.xhtml', 'result': 'html/sections/ol.events'},
 			{'test': 'html/sections/ol-cdata.xhtml', 'result': 'html/sections/ol.events'},
 			{'test': 'html/sections/paragraphs.xhtml', 'result': 'html/sections/paragraphs.events'},
@@ -176,10 +177,6 @@ if __name__ == '__main__':
 			{'test': 'html/encoding/meta-content-type-win1252.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-content-type-win1252.html'},
 			{'test': 'html/encoding/meta-content-type-lowercase-utf8.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-content-type-lowercase-utf8.html'},
 			{'test': 'html/encoding/meta-content-type-lowercase-win1252.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-content-type-lowercase-win1252.html'},
-		]},
-		{'name': 'idioms', 'type': 'events', 'tests': [
-			# These represent common/known usage patterns for HTML5/WHATWG documents.
-			{'test': 'html/idioms/nav-breadcrumbs.xhtml', 'result': 'html/idioms/nav-breadcrumbs.events', 'expect': 'volatile'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
