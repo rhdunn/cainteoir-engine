@@ -134,9 +134,52 @@ TEST_CASE("rdf::graph -- curie: base uri")
 	test_uri(test.curie("#test"), "http://www.example.org/base#test", "http://www.example.org/base#", "test");
 }
 
+TEST_CASE("rdf::graph -- curie: base uri -- tied")
+{
+	rdf::graph g;
+	g.set_base("http://www.example.org/base");
+
+	rdf::graph test(g);
+
+	test_uri(test.curie("test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
+	test_uri(test.curie("/test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
+	test_uri(test.curie("#test"), "http://www.example.org/base#test", "http://www.example.org/base#", "test");
+}
+
 TEST_CASE("rdf::graph -- curie: uri schemes")
 {
 	rdf::graph test;
+	test.set_base("http://www.example.org/base");
+
+	test_uri(test.curie("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");
+	test_uri(test.curie("http://www.example.org/test/value"), "http://www.example.org/test/value", "http://www.example.org/test/", "value");
+	test_uri(test.curie("http://www.example.org/test#"), "http://www.example.org/test#", "http://www.example.org/test#", "");
+	test_uri(test.curie("http://www.example.org/test#value"), "http://www.example.org/test#value", "http://www.example.org/test#", "value");
+	test_uri(test.curie("http://www.example.org/test/#"), "http://www.example.org/test/#", "http://www.example.org/test/#", "");
+	test_uri(test.curie("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
+
+	test_uri(test.curie("https://www.example.org/test/"), "https://www.example.org/test/", "https://www.example.org/test/", "");
+	test_uri(test.curie("https://www.example.org/test/value"), "https://www.example.org/test/value", "https://www.example.org/test/", "value");
+	test_uri(test.curie("https://www.example.org/test#"), "https://www.example.org/test#", "https://www.example.org/test#", "");
+	test_uri(test.curie("https://www.example.org/test#value"), "https://www.example.org/test#value", "https://www.example.org/test#", "value");
+	test_uri(test.curie("https://www.example.org/test/#"), "https://www.example.org/test/#", "https://www.example.org/test/#", "");
+	test_uri(test.curie("https://www.example.org/test/#value"), "https://www.example.org/test/#value", "https://www.example.org/test/#", "value");
+
+	test_uri(test.curie("mailto:abc@example.com"), "mailto:abc@example.com", "mailto:abc@example.com", "");
+
+	test_uri(test.curie("file:///home/test/"), "file:///home/test/", "file:///home/test/", "");
+	test_uri(test.curie("file:///home/test/value"), "file:///home/test/value", "file:///home/test/", "value");
+	test_uri(test.curie("file:///home/test#"), "file:///home/test#", "file:///home/test#", "");
+	test_uri(test.curie("file:///home/test#value"), "file:///home/test#value", "file:///home/test#", "value");
+	test_uri(test.curie("file:///home/test/#"), "file:///home/test/#", "file:///home/test/#", "");
+	test_uri(test.curie("file:///home/test/#value"), "file:///home/test/#value", "file:///home/test/#", "value");
+}
+
+TEST_CASE("rdf::graph -- curie: uri schemes -- tied")
+{
+	rdf::graph g;
+
+	rdf::graph test(g);
 	test.set_base("http://www.example.org/base");
 
 	test_uri(test.curie("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");

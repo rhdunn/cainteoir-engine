@@ -361,9 +361,15 @@ namespace cainteoir { namespace rdf
 
 		bool statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::literal &aObject);
 	private:
-		std::string mBaseUri;
+		struct context
+		{
+			std::string baseUri;
+			int nextId;
+
+			context() : nextId(1) {}
+		};
+		std::shared_ptr<context> mContext;
 		std::set<std::string> namespaces;
-		std::shared_ptr<int> nextid;
 		triplestore triples;
 	};
 

@@ -89,7 +89,7 @@ const rql::detail::subject_t   rql::subject;
 const rql::detail::predicate_t rql::predicate;
 const rql::detail::object_t    rql::object;
 
-rdf::graph::graph() : nextid(std::make_shared<int>(1))
+rdf::graph::graph() : mContext(std::make_shared<context>())
 {
 	add_namespace("http",   "http:");
 	add_namespace("https",  "https:");
@@ -97,7 +97,7 @@ rdf::graph::graph() : nextid(std::make_shared<int>(1))
 	add_namespace("file",   "file:");
 }
 
-rdf::graph::graph(rdf::graph &aGraph) : nextid(aGraph.nextid)
+rdf::graph::graph(rdf::graph &aGraph) : mContext(aGraph.mContext)
 {
 	add_namespace("http",   "http:");
 	add_namespace("https",  "https:");
@@ -112,7 +112,7 @@ bool rdf::graph::contains(const ns &uri) const
 
 rdf::graph &rdf::graph::set_base(const std::string &aBase)
 {
-	mBaseUri = aBase;
+	mContext->baseUri = aBase;
 	return *this;
 }
 
@@ -158,8 +158,8 @@ const rdf::uri rdf::href(const std::string &aHref)
 const rdf::uri rdf::graph::genid()
 {
 	std::ostringstream id;
-	id << "genid" << *nextid;
-	++*nextid;
+	id << "genid" << mContext->nextId;
+	++mContext->nextId;
 	return bnode(id.str());
 }
 
@@ -184,7 +184,7 @@ rdf::graph::curie(const std::string &aCurie)
 		uri = ns + ref;
 	}
 	else
-		uri = mBaseUri + aCurie;
+		uri = mContext->baseUri + aCurie;
 	return std::make_shared<rdf::uri>(href(uri));
 }
 
