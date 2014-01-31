@@ -838,11 +838,15 @@ struct html_document_reader : public cainteoir::document_reader
 private:
 	rdf::uri mSubject;
 	std::string mTitle;
+	std::string mLanguage;
 	html_tree_builder reader;
 	cainteoir::css::style_manager stylemgr;
 	cainteoir::whitespace trim_left;
 
-	std::string mLanguage;
+	rdf::uri mListing;
+	rdf::uri mCurrentReference;
+	rdf::uri mEntry;
+	int mDepth;
 
 	bool parse_document_root(rdf::graph *aMetadata);
 	bool parse_html_node(rdf::graph *aMetadata);
@@ -873,6 +877,7 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	: reader(aReader)
 	, mSubject(aSubject)
 	, trim_left(cainteoir::whitespace::preserve)
+	, mDepth(0)
 {
 	stylemgr.parse("/css/counterstyles.css");
 
@@ -1096,6 +1101,7 @@ bool html_document_reader::parse_body_attrs(rdf::graph *aMetadata)
 
 bool html_document_reader::parse_section_node(rdf::graph *aMetadata)
 {
+	context_data &data = ctx.top();
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
@@ -1104,6 +1110,14 @@ bool html_document_reader::parse_section_node(rdf::graph *aMetadata)
 			anchor = rdf::uri(mSubject.str(), reader.nodeValue().str());
 			type   = events::anchor;
 			return true;
+		}
+		else if (reader.context() == &epub::type_attr && aMetadata)
+		{
+			mListing = aMetadata->genid();
+			aMetadata->statement(mSubject, rdf::ref("listing"), mListing);
+			aMetadata->statement(mListing, rdf::rdf("type"), rdf::ref("Listing"));
+			aMetadata->statement(mListing, rdf::ref("type"), rdf::epv(reader.nodeValue().str()));
+			mDepth = 1;
 		}
 		break;
 	case xml::reader::beginTagNode:
@@ -1172,6 +1186,26 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 		styles = reader.context()->styles;
 		if (styles && styles->display == css::display::list_item)
 		{
+			if (aMetadata && !mListing.empty())
+			{
+				if (data.parameter == 1)
+				{
+					mCurrentReference = aMetadata->genid();
+					aMetadata->statement(mListing, rdf::ref("entries"), mCurrentReference);
+				}
+				else
+				{
+					const rdf::uri next = aMetadata->genid();
+					aMetadata->statement(mCurrentReference, rdf::rdf("rest"), next);
+					mCurrentReference = next;
+				}
+
+				mEntry = aMetadata->genid();
+				aMetadata->statement(mCurrentReference, rdf::rdf("first"), mEntry);
+				aMetadata->statement(mEntry, rdf::rdf("type"), rdf::ref("Entry"));
+				aMetadata->statement(mEntry, rdf::ref("level"), rdf::literal(mDepth, rdf::xsd("integer")));
+			}
+
 			auto list_type = ctx.top().ctx->styles->list_style_type;
 			auto counter   = stylemgr.get_counter_style(list_type);
 			if (counter)
@@ -1191,6 +1225,10 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 	case xml::reader::endTagNode:
 		if (reader.context() == ctx.top().ctx)
 		{
+			if (aMetadata && !mListing.empty())
+			{
+				aMetadata->statement(mCurrentReference, rdf::rdf("rest"), rdf::rdf("nil"));
+			}
 			type   = events::end_context;
 			styles = reader.context()->styles;
 			anchor = rdf::uri();
@@ -1215,9 +1253,18 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			type   = events::anchor;
 			return true;
 		}
+		else if (reader.context() == &html::href_attr && aMetadata && !mEntry.empty())
+		{
+			const rdf::uri target = rdf::href(reader.nodeValue().str());
+			aMetadata->statement(mEntry, rdf::ref("target"), target);
+		}
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
+		if (data.ctx == &html::a_node && aMetadata && !mEntry.empty())
+		{
+			aMetadata->statement(mEntry, rdf::dc("title"), rdf::literal(reader.nodeValue().str()));
+		}
 		if (data.visible)
 		{
 			parse_text_node();

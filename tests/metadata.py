@@ -58,7 +58,7 @@ if __name__ == '__main__':
 			{'test': '../src/schema/skos.rdf', 'result': 'rdfxml/schema/skos.n3'},
 		]},
 	]})
-	test.run({'name': 'HTML', 'replace': ['mimetype'], 'groups': [
+	test.run({'name': 'HTML', 'replace': ['mimetype', 'title'], 'title': 'Test File', 'groups': [
 		{'name': 'title metadata', 'type': ['turtle', 'turtle-all'], 'tests': [
 			{'test': 'html/metadata/title.html', 'result': 'html/metadata/title.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/title.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml'},
@@ -91,6 +91,20 @@ if __name__ == '__main__':
 			{'test': 'html/metadata/meta/shs-summary.xhtml', 'result': 'html/metadata/meta/description.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'html/metadata/meta/shs-title.html', 'result': 'html/metadata/meta/title.n3', 'mimetype': 'text/html'},
 			{'test': 'html/metadata/meta/shs-title.xhtml', 'result': 'html/metadata/meta/title.n3', 'mimetype': 'application/xhtml+xml'},
+		]},
+		{'name': 'epub3 navigation', 'type': 'turtle', 'tests': [
+			# These tests cover epub3 navigation-like HTML without epub:type="..."
+			{'test': 'html/sections/nav-breadcrumbs.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml'},
+			{'test': 'html/sections/nav-list.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml'},
+			# These tests cover epub3 navigation HTML with epub:type="..."
+			{'test': 'epub3/nav-toc/linear.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml', 'title': 'Test Case'},
+		]},
+		{'name': 'epub3 navigation', 'type': 'turtle-all', 'tests': [
+			# These tests cover epub3 navigation-like HTML without epub:type="..."
+			{'test': 'html/sections/nav-breadcrumbs.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml'},
+			{'test': 'html/sections/nav-list.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml'},
+			# These tests cover epub3 navigation HTML with epub:type="..."
+			{'test': 'epub3/nav-toc/linear.xhtml', 'result': 'epub3/nav-toc/linear-html-all.n3', 'mimetype': 'application/xhtml+xml'},
 		]},
 	]})
 	test.run({'name': 'NCX', 'groups': [
