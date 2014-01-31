@@ -1,4 +1,5 @@
 anchor []
+begin-context block
 begin-context heading 2
 text(10): """Navigation"""
 end-context
@@ -14,5 +15,6 @@ end-context
 begin-context list-item +sans-serif
 text(4): """• """
 text(5): """Dolor"""
+end-context
 end-context
 end-context

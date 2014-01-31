@@ -51,8 +51,8 @@ namespace html
 	static const xml::context::entry acronym_node    = {};
 	static const xml::context::entry applet_node     = {};
 	static const xml::context::entry area_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
-	static const xml::context::entry article_node    = {};
-	static const xml::context::entry aside_node      = {};
+	static const xml::context::entry article_node    = { &cainteoir::block };
+	static const xml::context::entry aside_node      = { &cainteoir::block };
 	static const xml::context::entry audio_node      = { &cainteoir::hidden };
 	static const xml::context::entry b_node          = { &cainteoir::strong }; // HTML§14.3.4
 	static const xml::context::entry base_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
@@ -89,7 +89,7 @@ namespace html
 	static const xml::context::entry figcaption_node = {};
 	static const xml::context::entry figure_node     = {};
 	static const xml::context::entry font_node       = {};
-	static const xml::context::entry footer_node     = {};
+	static const xml::context::entry footer_node     = { &cainteoir::block };
 	static const xml::context::entry form_node       = {};
 	static const xml::context::entry frame_node      = {};
 	static const xml::context::entry frameset_node   = {};
@@ -100,8 +100,8 @@ namespace html
 	static const xml::context::entry h5_node         = { &cainteoir::heading5 };
 	static const xml::context::entry h6_node         = { &cainteoir::heading6 };
 	static const xml::context::entry head_node       = {};
-	static const xml::context::entry header_node     = {};
-	static const xml::context::entry hgroup_node     = {};
+	static const xml::context::entry header_node     = { &cainteoir::block };
+	static const xml::context::entry hgroup_node     = { &cainteoir::block };
 	static const xml::context::entry hr_node         = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry html_node       = {};
 	static const xml::context::entry i_node          = { &cainteoir::emphasized }; // HTML§14.3.4
@@ -116,7 +116,7 @@ namespace html
 	static const xml::context::entry legend_node     = {};
 	static const xml::context::entry li_node         = { &cainteoir::list_item };
 	static const xml::context::entry link_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
-	static const xml::context::entry main_node       = {};
+	static const xml::context::entry main_node       = { &cainteoir::block };
 	static const xml::context::entry map_node        = {};
 	static const xml::context::entry mark_node       = {};
 	static const xml::context::entry marquee_node    = {};
@@ -124,7 +124,7 @@ namespace html
 	static const xml::context::entry menuitem_node   = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry meta_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry meter_node      = {};
-	static const xml::context::entry nav_node        = {};
+	static const xml::context::entry nav_node        = { &cainteoir::block };
 	static const xml::context::entry noad_node       = { xml::begin_tag_type::open_close }; // ad-sense markup? (e.g. m.fanfiction.net)
 	static const xml::context::entry noframes_node   = {};
 	static const xml::context::entry noscript_node   = {};
@@ -144,7 +144,7 @@ namespace html
 	static const xml::context::entry s_node          = {};
 	static const xml::context::entry samp_node       = {};
 	static const xml::context::entry script_node     = { &cainteoir::hidden }; // HTML§14.3.1
-	static const xml::context::entry section_node    = {};
+	static const xml::context::entry section_node    = { &cainteoir::block };
 	static const xml::context::entry select_node     = {};
 	static const xml::context::entry small_node      = {};
 	static const xml::context::entry source_node     = { xml::begin_tag_type::open_close }; // HTML§12.1.2
@@ -849,7 +849,7 @@ private:
 	bool parse_head_node(rdf::graph *aMetadata);
 	bool parse_body_attrs(rdf::graph *aMetadata);
 
-	bool parse_body_node(rdf::graph *aMetadata);
+	bool parse_section_node(rdf::graph *aMetadata);
 	bool parse_list_node(rdf::graph *aMetadata);
 	bool parse_node(rdf::graph *aMetadata);
 
@@ -1086,7 +1086,7 @@ bool html_document_reader::parse_body_attrs(rdf::graph *aMetadata)
 			mLanguage = reader.nodeValue().buffer()->str();
 		break;
 	case xml::reader::beginTagNode:
-		ctx.push({ &html::body_node, &html_document_reader::parse_body_node, 0, true });
+		ctx.push({ &html::body_node, &html_document_reader::parse_section_node, 0, true });
 		reader.hold_event();
 		return true;
 	}
@@ -1094,7 +1094,7 @@ bool html_document_reader::parse_body_attrs(rdf::graph *aMetadata)
 	return false;
 }
 
-bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
+bool html_document_reader::parse_section_node(rdf::graph *aMetadata)
 {
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -1127,9 +1127,29 @@ bool html_document_reader::parse_body_node(rdf::graph *aMetadata)
 		}
 		else if (!styles->list_style_type.empty())
 			ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1, true });
+		else if (reader.context() == &html::article_node ||
+		         reader.context() == &html::aside_node ||
+		         reader.context() == &html::footer_node ||
+		         reader.context() == &html::header_node ||
+		         reader.context() == &html::hgroup_node ||
+		         reader.context() == &html::main_node ||
+		         reader.context() == &html::nav_node ||
+		         reader.context() == &html::section_node)
+			ctx.push({ reader.context(), &html_document_reader::parse_section_node, 0, true });
 		else
 			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
 		return true;
+	case xml::reader::endTagNode:
+		if (reader.context() == ctx.top().ctx &&
+		    reader.context() != &html::body_node)
+		{
+			type   = events::end_context;
+			styles = reader.context()->styles;
+			anchor = rdf::uri();
+			ctx.pop();
+			reset_block_scope();
+			return true;
+		}
 	}
 	ctx.pop();
 	return false;

@@ -1,27 +1,43 @@
 anchor []
+begin-context block
 begin-context heading 1
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 begin-context heading 2
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 begin-context heading 3
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 begin-context heading 4
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 begin-context heading 5
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 begin-context heading 6
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 begin-context paragraph +emphasized
 text(18): """Lorem ipsum dolor."""
 end-context
+end-context
+begin-context block
 begin-context paragraph +sans-serif
 text(18): """Lorem ipsum dolor."""
+end-context
 end-context
 begin-context block +monospace
 text(18): """Lorem ipsum dolor."""

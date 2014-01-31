@@ -1,5 +1,6 @@
 anchor []
 anchor [!/OEBPS/toc.xhtml]
+begin-context block
 begin-context heading 2
 text(17): """Table of Contents"""
 end-context
@@ -15,6 +16,7 @@ end-context
 begin-context list-item +sans-serif
 text(3): """3. """
 text(9): """Chapter 3"""
+end-context
 end-context
 end-context
 anchor [!/OEBPS/test.xhtml]

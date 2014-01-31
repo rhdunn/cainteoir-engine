@@ -1,45 +1,61 @@
 anchor []
 anchor [#]ag
 anchor [#]ah
+begin-context block
 anchor [#]ai
 begin-context heading 1
 anchor [#]aj
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 anchor [#]ak
 begin-context heading 2
 anchor [#]al
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 anchor [#]am
 begin-context heading 3
 anchor [#]an
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 anchor [#]ao
 begin-context heading 4
 anchor [#]ap
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 anchor [#]aq
 begin-context heading 5
 anchor [#]ar
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 anchor [#]as
 begin-context heading 6
 anchor [#]at
 text(4): """Test"""
 end-context
+end-context
+begin-context block
 anchor [#]au
 begin-context paragraph +emphasized
 anchor [#]av
 text(18): """Lorem ipsum dolor."""
 end-context
+end-context
+begin-context block
 anchor [#]aw
 begin-context paragraph +sans-serif
 anchor [#]ax
 text(18): """Lorem ipsum dolor."""
+end-context
 end-context
 anchor [#]ay
 begin-context block +monospace
