@@ -43,32 +43,12 @@
 
 namespace rdf = cainteoir::rdf;
 
-enum envelope_type
-{
-	no_envelope,
-	have_envelope,
-};
-
-struct phoneme_data
-{
-	float duration;
-	::envelope_type envelope_type;
-};
-
-struct envelope_item
+struct envelope_data
 {
 	/** @brief Percentage offset into the phoneme being spoken. */
 	float position;
 	/** @brief Percentage to increase/decrease the current pitch by. */
 	float pitch_variation;
-};
-
-struct voice_data
-{
-	float base_pitch;
-	float min_pitch;
-	float max_pitch;
-	std::map<std::string, phoneme_data> phonemes;
 };
 
 struct mbrola_synthesizer
@@ -83,16 +63,9 @@ struct mbrola_synthesizer
 
 	void read(cainteoir::audio *out);
 
-	void set_pitch(float pitch) { mPitch = pitch; }
-
-	void set_envelope(const std::vector<envelope_item> &envelope) { mEnvelope = envelope; }
-
-	int write(const char *phoneme);
+	int write(const char *phoneme, float duration, float pitch, const std::vector<envelope_data> &envelope);
 private:
 	rdf::uri mVoice;
-	float mPitch;
-	std::vector<envelope_item> mEnvelope;
-	voice_data *mVoiceData;
 };
 
 struct mbrola_error : public std::runtime_error
@@ -138,19 +111,6 @@ static struct datablock *mbr_pending_data_head, *mbr_pending_data_tail;
 /*
  * Private support code.
  */
-
-static std::map<std::string, voice_data> mbrola_voices = {
-	{ "de5", {
-		200.0,
-		200.0,
-		200.0,
-		{
-			{ "aI", { 210.0, have_envelope } },
-			{ "h",  {  85.0, no_envelope } },
-			{ "_",  { 300.0, no_envelope } },
-		},
-	}},
-};
 
 static bool is_mbrola_voice_available(const char *voice_path)
 {
@@ -579,9 +539,6 @@ mbrola_synthesizer::mbrola_synthesizer(const char *voice)
 	mbr_samplerate = wavhdr[24] + (wavhdr[25]<<8) + (wavhdr[26]<<16) + (wavhdr[27]<<24);
 
 	mVoice = rdf::uri("http://rhdunn.github.com/cainteoir/engines/mbrola", voice);
-	mEnvelope = { { 0.0, 100.0 }, { 100.0, 100.0 } }; // monotone (flat envelope)
-	mVoiceData = &mbrola_voices[voice];
-	mPitch = mVoiceData->base_pitch;
 }
 
 mbrola_synthesizer::~mbrola_synthesizer()
@@ -609,22 +566,16 @@ void mbrola_synthesizer::read(cainteoir::audio *out)
 		out->write((const char *)data, read);
 }
 
-int mbrola_synthesizer::write(const char *phoneme)
+int mbrola_synthesizer::write(const char *phoneme, float duration, float pitch, const std::vector<envelope_data> &envelope)
 {
-	phoneme_data &data = mVoiceData->phonemes[phoneme];
-
 	char buffer[256];
 	char *pho = buffer;
 
-	pho += sprintf(pho, "%s %G", phoneme, data.duration);
-	if (data.envelope_type == have_envelope)
+	pho += sprintf(pho, "%s %G", phoneme, duration);
+	for (auto &entry : envelope)
 	{
-		for (auto &entry : mEnvelope)
-		{
-			float pitch = (mPitch * entry.pitch_variation) / 100.0;
-			pho += sprintf(pho, " %G %G", entry.position, pitch);
-		}
-		mPitch = (mPitch * mEnvelope.back().pitch_variation) / 100.0;
+		float new_pitch = (pitch * entry.pitch_variation) / 100.0;
+		pho += sprintf(pho, " %G %G", entry.position, new_pitch);
 	}
 	pho += sprintf(pho, "\n");
 
@@ -652,9 +603,9 @@ int main(int argc, char ** argv)
 		std::shared_ptr<cainteoir::audio> out = cainteoir::open_audio_device(nullptr, metadata, doc, metadata, mbrola.voice());
 		out->open();
 
-		mbrola.write("h");
-		mbrola.write("aI");
-		mbrola.write("_");
+		mbrola.write("h",   85.0f, 200.0f, {});
+		mbrola.write("aI", 210.0f, 200.0f, {{ 0.0f, 100.0f }, { 100.0f, 100.0f }});
+		mbrola.write("_",  300.0f, 200.0f, {});
 
 		mbrola.read(out.get());
 
