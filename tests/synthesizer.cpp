@@ -589,7 +589,18 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		mbrola_synthesizer mbrola("de5");
+		--argc;
+		++argv;
+
+		const char *voice = "en1";
+		if (argc != 0)
+		{
+			voice = argv[0];
+			--argc;
+			++argv;
+		}
+
+		mbrola_synthesizer mbrola(voice);
 
 		rdf::graph metadata;
 		mbrola.metadata(metadata);
@@ -603,8 +614,10 @@ int main(int argc, char ** argv)
 		std::shared_ptr<cainteoir::audio> out = cainteoir::open_audio_device(nullptr, metadata, doc, metadata, mbrola.voice());
 		out->open();
 
-		mbrola.write("h",   85.0f, 200.0f, {});
-		mbrola.write("aI", 210.0f, 200.0f, {{ 0.0f, 100.0f }, { 100.0f, 100.0f }});
+		for (auto && arg : cainteoir::range<char **>(argv, argv + argc))
+		{
+			mbrola.write(arg, 100.0f, 200.0f, {{ 0.0f, 100.0f }, { 100.0f, 100.0f }});
+		}
 		mbrola.write("_",  300.0f, 200.0f, {});
 
 		mbrola.read(out.get());
