@@ -638,9 +638,6 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		rdf::uri doc;
-		rdf::uri voice("http://www.example.com", "en1");
-
 		mbrola_synthesizer mbrola("de5");
 
 		rdf::graph metadata;
@@ -651,6 +648,7 @@ int main(int argc, char ** argv)
 			<< rdf::tts
 			<< metadata;
 
+		rdf::uri doc;
 		std::shared_ptr<cainteoir::audio> out = cainteoir::open_audio_device(nullptr, metadata, doc, metadata, mbrola.voice());
 		out->open();
 
