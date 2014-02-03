@@ -63,6 +63,7 @@ struct epub_document_reader : public cainteoir::document_reader
 	rdf::uri mTextRef;
 	cainteoir::document_item mMediaItem;
 	std::string mDocTitle;
+	cainteoir::path mCurrentOverlay;
 
 	enum class document_type
 	{
@@ -257,11 +258,14 @@ bool epub_document_reader::load_document(const rql::results &aItem, document_typ
 			return false;
 		break;
 	case document_type::media_overlay:
+		if (filename.str() == mCurrentOverlay.str())
+			return false;
 		if (mimetype == "application/smil+xml")
 		{
 			anchor = mData->location(filename.str(), target.ref);
 			rdf::graph innerMetadata;
 			media_overlay = cainteoir::createSmilReader(reader, anchor, innerMetadata, std::string());
+			mCurrentOverlay = filename;
 		}
 		else
 			return false;

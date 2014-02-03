@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="id">
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+		<dc:title>Test Case</dc:title>
+		<dc:identifier id="id">test.opf</dc:identifier>
+	</metadata>
+	<manifest>
+		<item id="smil1" href="text.smil"   media-type="application/smil+xml"  />
+		<item id="smil2" href="text.smil"   media-type="application/smil+xml"  />
+		<item id="text1" href="text1.xhtml" media-type="application/xhtml+xml" media-overlay="smil1" />
+		<item id="text2" href="text2.xhtml" media-type="application/xhtml+xml" media-overlay="smil2" />
+	</manifest>
+	<spine>
+		<itemref idref="text1" />
+		<itemref idref="text2" />
+	</spine>
+</package>
