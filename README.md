@@ -128,7 +128,7 @@ text. It is architectured differently to eSpeak such that:
 1.  The *document processing* phase is separate from the *text processing* phase.
 
     This means that Cainteoir Text-to-Speech can support a wider variety of text
-    formats such as ePub, PDF and RTF, as well as providing support for ePUb 3
+    formats such as ePub, PDF and RTF, as well as providing support for ePub 3
     Media Overlays. The HTML and SSML processing in eSpeak is tied to the text
     processing module which makes it difficult to test and maintain.
 
