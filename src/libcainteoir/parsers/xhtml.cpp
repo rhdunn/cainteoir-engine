@@ -1129,7 +1129,6 @@ bool html_document_reader::parse_section_node(rdf::graph *aMetadata)
 			aMetadata->statement(mSubject, rdf::ref("listing"), mListing);
 			aMetadata->statement(mListing, rdf::rdf("type"), rdf::ref("Listing"));
 			aMetadata->statement(mListing, rdf::ref("type"), rdf::epv(reader.nodeValue().str()));
-			mDepth = 1;
 		}
 		break;
 	case xml::reader::beginTagNode:
@@ -1152,7 +1151,10 @@ bool html_document_reader::parse_section_node(rdf::graph *aMetadata)
 			return true;
 		}
 		else if (!styles->list_style_type.empty())
+		{
 			ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1, true });
+			++mDepth;
+		}
 		else if (reader.context() == &html::article_node ||
 		         reader.context() == &html::aside_node ||
 		         reader.context() == &html::footer_node ||
@@ -1200,7 +1202,7 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 		{
 			if (aMetadata && !mListing.empty())
 			{
-				if (data.parameter == 1)
+				if (data.parameter == 1 && mDepth == 1)
 				{
 					mCurrentReference = aMetadata->genid();
 					aMetadata->statement(mListing, rdf::ref("entries"), mCurrentReference);
@@ -1237,7 +1239,7 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 	case xml::reader::endTagNode:
 		if (reader.context() == ctx.top().ctx)
 		{
-			if (aMetadata && !mListing.empty())
+			if (aMetadata && !mListing.empty() && mDepth == 1)
 			{
 				aMetadata->statement(mCurrentReference, rdf::rdf("rest"), rdf::rdf("nil"));
 			}
@@ -1246,6 +1248,7 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 			anchor = rdf::uri();
 			ctx.pop();
 			reset_block_scope();
+			--mDepth;
 			return true;
 		}
 	}
@@ -1302,7 +1305,10 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			anchor = rdf::uri();
 			reset_block_scope();
 			if (!styles->list_style_type.empty())
+			{
 				ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1, true });
+				++mDepth;
+			}
 			else
 				ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
 			return true;

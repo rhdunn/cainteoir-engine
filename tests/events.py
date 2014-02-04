@@ -335,6 +335,7 @@ if __name__ == '__main__':
 		]},
 		{'name': 'toc navigation', 'type': 'events', 'tests': [
 			{'test': 'epub3/nav-toc/linear.epub', 'result': 'epub3/nav-toc/linear.events'},
+			{'test': 'epub3/nav-toc/nested.epub', 'result': 'epub3/nav-toc/nested.events'},
 		]},
 	]})
 	test.run({ 'name': 'ZIP', 'groups': [

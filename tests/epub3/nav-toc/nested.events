@@ -1,0 +1,46 @@
+anchor []
+anchor [!/OEBPS/toc.xhtml]
+begin-context block
+begin-context heading 2
+text(17): """Table of Contents"""
+end-context
+begin-context block +list=decimal
+begin-context list-item +sans-serif
+text(3): """1. """
+begin-context span
+text(9): """Chapter 1"""
+end-context
+end-context
+begin-context list-item +sans-serif
+text(3): """2. """
+begin-context span
+text(9): """Chapter 2"""
+end-context
+text(1): """ """
+begin-context block +list=decimal
+begin-context list-item +sans-serif
+text(3): """1. """
+begin-context span
+text(11): """Chapter 2.1"""
+end-context
+end-context
+begin-context list-item +sans-serif
+text(3): """2. """
+begin-context span
+text(11): """Chapter 2.2"""
+end-context
+end-context
+end-context
+end-context
+begin-context list-item +sans-serif
+text(3): """3. """
+begin-context span
+text(9): """Chapter 3"""
+end-context
+end-context
+end-context
+end-context
+anchor [!/OEBPS/test.xhtml]
+begin-context paragraph +sans-serif
+text(15): """This is a test."""
+end-context

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	ePub3 table of contents navigation
+	see : epub30-test-0150 from mgylling/epub-testsuite
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+	<head>
+		<title>Test Case</title>
+	</head>
+	<body>
+		<nav epub:type="toc">
+			<h2>Table of Contents</h2>
+			<ol>
+				<li><a href="chapter1.xhtml">Chapter 1</a></li>
+				<li><a href="chapter2.xhtml">Chapter 2</a>
+					<ol>
+						<li><a href="chapter2.xhtml#sec1">Chapter 2.1</a></li>
+						<li><a href="chapter2.xhtml#sec2">Chapter 2.2</a></li>
+					</ol>
+				</li>
+				<li><a href="chapter3.xhtml">Chapter 3</a></li>
+			</ol>
+		</nav>
+	</body>
+</html>
