@@ -1301,7 +1301,10 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			type   = events::begin_context;
 			anchor = rdf::uri();
 			reset_block_scope();
-			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
+			if (!styles->list_style_type.empty())
+				ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1, true });
+			else
+				ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
 			return true;
 		}
 		break;

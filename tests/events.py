@@ -136,6 +136,7 @@ if __name__ == '__main__':
 			{'test': 'html/sections/nav-list.xhtml', 'result': 'html/sections/nav-list.events'},
 			{'test': 'html/sections/ol.xhtml', 'result': 'html/sections/ol.events'},
 			{'test': 'html/sections/ol-cdata.xhtml', 'result': 'html/sections/ol.events'},
+			{'test': 'html/sections/ol-nested.xhtml', 'result': 'html/sections/ol-nested.events'},
 			{'test': 'html/sections/paragraphs.xhtml', 'result': 'html/sections/paragraphs.events'},
 			{'test': 'html/sections/paragraphs-cdata.xhtml', 'result': 'html/sections/paragraphs.events'},
 			{'test': 'html/sections/pre.xhtml', 'result': 'html/sections/pre.events'},
