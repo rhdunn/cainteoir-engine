@@ -852,6 +852,7 @@ private:
 	rdf::uri mListing;
 	rdf::uri mCurrentReference;
 	rdf::uri mEntry;
+	cainteoir::rope mEntryText;
 	int mDepth;
 
 	bool parse_document_root(rdf::graph *aMetadata);
@@ -1218,6 +1219,7 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 				aMetadata->statement(mCurrentReference, rdf::rdf("first"), mEntry);
 				aMetadata->statement(mEntry, rdf::rdf("type"), rdf::ref("Entry"));
 				aMetadata->statement(mEntry, rdf::ref("level"), rdf::literal(mDepth, rdf::xsd("integer")));
+				mEntryText.clear();
 			}
 
 			auto list_type = ctx.top().ctx->styles->list_style_type;
@@ -1276,11 +1278,8 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		if (data.ctx == &html::a_node && aMetadata && !mEntry.empty())
-		{
-			auto title = reader.nodeValue().normalize();
-			aMetadata->statement(mEntry, rdf::dc("title"), rdf::literal(title->str()));
-		}
+		if (aMetadata && !mEntry.empty())
+			mEntryText += reader.nodeValue().buffer();
 		if (data.visible)
 		{
 			parse_text_node();
@@ -1306,6 +1305,13 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			reset_block_scope();
 			if (!styles->list_style_type.empty())
 			{
+				if (aMetadata && !mEntry.empty() && !mEntryText.empty())
+				{
+					auto title = mEntryText.normalize();
+					if (!title->empty())
+						aMetadata->statement(mEntry, rdf::dc("title"), rdf::literal(title->str()));
+					mEntryText.clear();
+				}
 				ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1, true });
 				++mDepth;
 			}
@@ -1324,6 +1330,13 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			styles = reader.context()->styles;
 			anchor = rdf::uri();
 			reset_block_scope();
+			if (reader.context() == &html::li_node && aMetadata && !mEntry.empty() && !mEntryText.empty())
+			{
+				auto title = mEntryText.normalize();
+				if (!title->empty())
+					aMetadata->statement(mEntry, rdf::dc("title"), rdf::literal(title->str()));
+				mEntryText.clear();
+			}
 			return true;
 		}
 		break;

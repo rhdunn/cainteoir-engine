@@ -99,7 +99,9 @@ if __name__ == '__main__':
 			# These tests cover epub3 navigation HTML with epub:type="..."
 			{'test': 'epub3/nav-toc/linear.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml', 'title': 'Test Case'},
 			{'test': 'epub3/nav-toc/linear-whitespace.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml', 'title': 'Test Case'},
+			{'test': 'epub3/nav-toc/linear-with-inner-elements.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml', 'title': 'Test Case'},
 			{'test': 'epub3/nav-toc/nested.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml', 'title': 'Test Case'},
+			{'test': 'epub3/nav-toc/nested-with-inner-elements.xhtml', 'result': 'html/metadata/title.n3', 'mimetype': 'application/xhtml+xml', 'title': 'Test Case'},
 		]},
 		{'name': 'epub3 navigation', 'type': 'turtle-all', 'tests': [
 			# These tests cover epub3 navigation-like HTML without epub:type="..."
@@ -108,7 +110,9 @@ if __name__ == '__main__':
 			# These tests cover epub3 navigation HTML with epub:type="..."
 			{'test': 'epub3/nav-toc/linear.xhtml', 'result': 'epub3/nav-toc/linear-html-all.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'epub3/nav-toc/linear-whitespace.xhtml', 'result': 'epub3/nav-toc/linear-html-all.n3', 'mimetype': 'application/xhtml+xml'},
+			{'test': 'epub3/nav-toc/linear-with-inner-elements.xhtml', 'result': 'epub3/nav-toc/linear-html-all.n3', 'mimetype': 'application/xhtml+xml'},
 			{'test': 'epub3/nav-toc/nested.xhtml', 'result': 'epub3/nav-toc/nested-html-all.n3', 'mimetype': 'application/xhtml+xml'},
+			{'test': 'epub3/nav-toc/nested-with-inner-elements.xhtml', 'result': 'epub3/nav-toc/nested-html-all.n3', 'mimetype': 'application/xhtml+xml'},
 		]},
 	]})
 	test.run({'name': 'NCX', 'groups': [
@@ -449,12 +453,16 @@ if __name__ == '__main__':
 		{'name': 'nav-toc', 'type': 'turtle', 'tests': [
 			{'test': 'epub3/nav-toc/linear.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
 			{'test': 'epub3/nav-toc/linear-whitespace.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'epub3/nav-toc/linear-with-inner-elements.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
 			{'test': 'epub3/nav-toc/nested.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
+			{'test': 'epub3/nav-toc/nested-with-inner-elements.epub', 'result': 'opf/spine/single-html-file-and-toc.n3'},
 		]},
 		{'name': 'nav-toc', 'type': 'turtle-all', 'tests': [
 			{'test': 'epub3/nav-toc/linear.epub', 'result': 'epub2/toc/linear-all.n3'},
 			{'test': 'epub3/nav-toc/linear-whitespace.epub', 'result': 'epub2/toc/linear-all.n3'},
+			{'test': 'epub3/nav-toc/linear-with-inner-elements.epub', 'result': 'epub2/toc/linear-all.n3'},
 			{'test': 'epub3/nav-toc/nested.epub', 'result': 'epub2/toc/nested-all.n3'},
+			{'test': 'epub3/nav-toc/nested-with-inner-elements.epub', 'result': 'epub2/toc/nested-all.n3'},
 		]},
 	]})
 	test.summary()
