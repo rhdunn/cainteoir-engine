@@ -1,0 +1,87 @@
+# Copyright (C) 2013 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+##### SAMPROSA
+
+\u0020	/{pau,est}/	# word pause
+\u000A	/{pau}/		# clause pause (e.g. comma)
+
+\#	/{pau,est}/	# word pause (word boundary)
+...	/{pau}/		# clause pause (e.g. comma) -- silence
+
+##### SAMPROSA
+
+"	/<st1>/<
+%	/<st2>/<
+
+##### Consonants
+
+p	/{vls,blb,stp}/
+b	/{vcd,blb,stp}/
+t	/{vls,alv,stp}/
+d	/{vcd,alv,stp}/
+k	/{vls,vel,stp}/
+g	/{vcd,vel,stp}/
+
+tS	/{vls,pla,afr}/
+dZ	/{vcd,pla,afr}/
+
+f	/{vls,lbd,frc}/
+v	/{vcd,lbd,frc}/
+T	/{vls,dnt,frc}/
+D	/{vcd,dnt,frc}/
+s	/{vls,alv,sib,frc}/
+z	/{vcd,alv,sib,frc}/
+S	/{vls,pla,sib,frc}/
+Z	/{vcd,pla,sib,frc}/
+h	/{vls,glt,frc}/
+
+m	/{vcd,blb,nas}/
+n	/{vcd,alv,nas}/
+N	/{vcd,vel,nas}/
+r	/{vcd,alv,apr}/
+l	/{vcd,alv,lat,apr}/
+w	/{vcd,lbv,apr}/
+j	/{vcd,pal,apr}/
+
+##### Vowels
+
+I	/{smh,fnt,unr,vcd,vwl}/
+E	/{lmd,fnt,unr,vcd,vwl}/
+e	/{lmd,fnt,unr,vcd,vwl}/
+{	/{sml,fnt,unr,vcd,vwl}/
+Q	/{low,bck,rnd,vcd,vwl}/
+V	/{lmd,bck,unr,vcd,vwl}/
+U	/{smh,bck,rnd,vcd,vwl}/
+
+@	/{mid,cnt,unr,vcd,vwl}/
+
+i:	/{hgh,fnt,unr,vcd,vwl,lng}/
+eI	/{lmd,fnt,unr,dpr,smh}/
+aI	/{low,fnt,unr,dpr,smh}/
+OI	/{lmd,bck,rnd,dpr,smh,fnt}/
+
+u:	/{hgh,bck,rnd,vcd,vwl,lng}/
+@U	/{mid,cnt,unr,dpr,smh,bck}/
+aU	/{low,fnt,unr,dpr,smh,bck}/
+
+3:	/{lmd,cnt,unr,vcd,vwl,lng}/
+A:	/{low,bck,unr,vcd,vwl,lng}/
+O:	/{lmd,bck,rnd,vcd,vwl,lng}/
+I@	/{smh,fnt,unr,dpf,mid,cnt}/
+e@	/{lmd,fnt,unr,dpr,mid,cnt}/
+U@	/{smh,bck,rnd,dpf,mid,cnt}/
+
+i	/{hgh,fnt,unr,vcd,vwl}/
+u	/{hgh,bck,rnd,vcd,vwl}/
+
+##### Additional Symbols
+
+?	/{vls,glt,stp}/
+x	/{vls,vel,frc}/
+
+##### References:
+#
+#  1. http://www.phon.ucl.ac.uk/home/sampa/english.htm
+#  2. http://www.phon.ucl.ac.uk/home/sampa/samprosa.htm

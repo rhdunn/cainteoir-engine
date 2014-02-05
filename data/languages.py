@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2012 Reece H. Dunn
+# Copyright (C) 2012-2013 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -68,6 +68,7 @@ typemap = {
 	'extlang':       'ExtLang',
 	'grandfathered': 'Grandfathered',
 	'language':      'Language',
+	'private':       'Private',
 	'redundant':     'Redundant',
 	'region':        'Region',
 	'script':        'Script',
@@ -81,8 +82,7 @@ scopemap = {
 	'private-use':   'PrivateUse',
 }
 
-def read_iana_subtags(path):
-	datasrc='http://www.iana.org/assignments/language-subtag-registry'
+def read_iana_subtags(path, datasrc=None):
 	if not os.path.exists(path):
 		print 'downloading IANA subtag registry file "%s" to "%s" ...' % (datasrc, path)
 		os.system('wget -O %s %s' % (path, datasrc))
@@ -151,10 +151,12 @@ def read_iso_15924(path):
 		tags[alpha4] = name
 	return tags
 
-tags            = read_iana_subtags('languages.dat')
-iso_639_codes   = read_iso_639('../../iso-codes/iso_639/iso_639.xml')
-iso_3166_codes  = read_iso_3166('../../iso-codes/iso_3166/iso_3166.xml')
-iso_15924_codes = read_iso_15924('../../iso-codes/iso_15924/iso_15924.xml')
+tags            = read_iana_subtags('languages.dat', 'http://www.iana.org/assignments/language-subtag-registry')
+tags.update(read_iana_subtags('private-use.dat'))
+
+iso_639_codes   = read_iso_639('/usr/share/xml/iso-codes/iso_639.xml')
+iso_3166_codes  = read_iso_3166('/usr/share/xml/iso-codes/iso_3166.xml')
+iso_15924_codes = read_iso_15924('/usr/share/xml/iso-codes/iso_15924.xml')
 
 for name, tag in sorted(tags.items()):
 	try:
@@ -172,25 +174,48 @@ for name, tag in sorted(tags.items()):
 	except KeyError:
 		pass
 
-for rel, a, b in read_data('languages-extra.dat'):
-	if rel == 'h': # ISO 639-5 Hierarchy
-		tags[a]['Classification'] = b
-	elif rel == 'c':
-		tags[a]['LanguageCollection'] = b
-	elif rel == 'a':
-		tags[a]['Ancestor'] = b
+for filename in os.listdir('languages'):
+	if filename.endswith('.dat'):
+		for rel, a, b in read_data(os.path.join('languages', filename)):
+			if rel == 'h': # ISO 639-5 Hierarchy
+				tags[a]['Classification'] = b
+			elif rel == 'c':
+				tags[a]['LanguageCollection'] = b
+			elif rel == 'a':
+				tags[a]['Ancestor'] = b
+
+# Language <=> Script mapping
+
+datasrc='http://unicode.org/repos/cldr/trunk/common/supplemental/supplementalData.xml'
+path='supplementalData.xml'
+if not os.path.exists(path):
+	print 'downloading file "%s" to "%s" ...' % (datasrc, path)
+	os.system('wget -O %s %s' % (path, datasrc))
+
+doc = minidom.parse(path).documentElement
+for tag in doc.getElementsByTagName('language'):
+	lang    = attr(tag, 'type')
+	scripts = attr(tag, 'scripts')
+	if lang and scripts:
+		tags[lang]['HasScript'] = scripts.split()
+		for script in scripts.split():
+			if not 'IsScriptOf' in tags[script].keys():
+				tags[script]['IsScriptOf'] = []
+			tags[script]['IsScriptOf'].append(lang)
 
 # generate RDF metadata for the language data
 
 tagnames = {
 	'Added':           ('date',      'iana:added'),
-	'Comments':        ('string:en', 'dct:description'),
+	'Comments':        ('string:en', 'iana:comments'),
 	'Deprecated':      ('date',      'iana:deprecated'),
-	'Description':     ('string:en', 'dct:title'),
-	'Macrolanguage':   ('resource',  'iana:macrolanguage'),   # => iana:MacroLanguage
-	'Prefix':          ('string',    'iana:prefix'),          # => Language Tag
-	'Preferred-Value': ('resource',  'iana:preferred-value'), # => subtag
-	'Suppress-Script': ('resource',  'iana:suppress-script'), # => iana:Script
+	'Description':     ('string:en', 'iana:label'),
+	'HasScript':       ('resources', 'iana:hasScript'),      # => iana:Script
+	'IsScriptOf':      ('resources', 'iana:isScriptOf'),     # => iana:Language
+	'Macrolanguage':   ('resource',  'iana:macrolanguage'),  # => iana:MacroLanguage
+	'Prefix':          ('string',    'iana:prefix'),         # => Language Tag
+	'Preferred-Value': ('resource',  'iana:preferredValue'), # => subtag
+	'Suppress-Script': ('resource',  'iana:suppressScript'), # => iana:Script
 }
 
 subtag_uri='http://rhdunn.github.com/cainteoir/data/iana/subtags#'
@@ -200,7 +225,7 @@ with open('languages.rdf', 'w') as f:
 	f.write('<rdf:RDF\n')
 	f.write('	xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"\n')
 	f.write('	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"\n')
-	f.write('	xmlns:iana="http://rhdunn.github.com/cainteoir/schema/iana#"\n')
+	f.write('	xmlns:iana="http://reecedunn.co.uk/schema/2013/iana#"\n')
 	f.write('	xmlns:dc  ="http://purl.org/dc/elements/1.1/"\n')
 	f.write('	xmlns:dct ="http://purl.org/dc/terms/"\n')
 	f.write('	xmlns:cc  ="http://web.resource.org/cc/"\n')
@@ -208,7 +233,7 @@ with open('languages.rdf', 'w') as f:
 
 	for name, tag in sorted(tags.items()):
 		f.write('<iana:%s rdf:about="%s%s">\n' % (tag['Type'], subtag_uri, name))
-		f.write('	<rdf:value>%s</rdf:value>\n' % name)
+		f.write('	<iana:code>%s</iana:code>\n' % name)
 		for key, value in sorted(tag.items()):
 			if key not in ['Type', 'Ancestor', 'Classification', 'LanguageCollection']:
 				reftype, ref = tagnames[key]
@@ -218,24 +243,33 @@ with open('languages.rdf', 'w') as f:
 					f.write('	<%s xml:lang="en">%s</%s>\n' % (ref, value, ref))
 				elif reftype in ['resource']:
 					f.write('	<%s rdf:resource="%s%s"/>\n' % (ref, subtag_uri, value))
+				elif reftype in ['resources']:
+					for v in value:
+						f.write('	<%s rdf:resource="%s%s"/>\n' % (ref, subtag_uri, v))
 		f.write('</iana:%s>\n' % tag['Type'])
 	f.write('</rdf:RDF>\n')
 
 # generate a language code tree ...
 
+attributes = {
+	'Ancestor': 'blue',
+	'Classification': 'green',
+	'LanguageCollection': 'orange',
+	#'Macrolanguage': 'red',
+}
+
 with open('languages.dot', 'w') as f:
 	f.write('digraph "Language Codes" {\n')
 	f.write('	node [shape=box]')
+	nodes = set()
 	for name, tag in sorted(tags.items()):
 		if tag['Type'] in ['Language', 'ExtLang', 'Collection', 'MacroLanguage']:
-			if 'Ancestor' in tag.keys():
-				f.write('	"%s" -> "%s" [color=blue]\n' % (name, tag['Ancestor']))
-			if 'Classification' in tag.keys():
-				f.write('	"%s" -> "%s" [color=green]\n' % (name, tag['Classification']))
-			if 'LanguageCollection' in tag.keys():
-				f.write('	"%s" -> "%s" [color=orange]\n' % (name, tag['LanguageCollection']))
-			if 'Macrolanguage' in tag.keys():
-				f.write('	"%s" -> "%s" [color=red]\n' % (name, tag['Macrolanguage']))
-			f.write('	"%s" [tooltip="%s"]\n' % (name, tag['Description']))
+			for key, color in attributes.items():
+				if key in tag.keys():
+					f.write('	"%s" -> "%s" [color=%s]\n' % (name, tag[key], color))
+					nodes.add(name)
+					nodes.add(tag[key])
+	for name in nodes:
+		f.write('	"%s" [tooltip="%s"]\n' % (name, tags[name]['Description']))
 	f.write('}\n')
 

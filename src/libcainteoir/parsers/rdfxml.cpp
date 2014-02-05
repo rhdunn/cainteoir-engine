@@ -1,6 +1,6 @@
 /* RDF/XML Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -87,7 +87,7 @@ static void parseRdfXmlCollection(xml::reader &reader, rdf::uri first, rdf::grap
 		if (reader.context() == &rdf::about_attr)
 		{
 			std::string about = reader.nodeValue().str();
-			subject = aGraph.href((*about.begin()) == '#' ? base + about : about);
+			subject = rdf::href((*about.begin()) == '#' ? base + about : about);
 		}
 		break;
 	case xml::reader::beginTagNode:
@@ -106,6 +106,8 @@ static void parseRdfXmlCollection(xml::reader &reader, rdf::uri first, rdf::grap
 		if (current != rdf::rdf("Description"))
 			aGraph.statement(subject, rdf::rdf("type"), current);
 		break;
+	default:
+		break;
 	}
 }
 
@@ -121,16 +123,16 @@ static void parseRdfXmlContainer(xml::reader &reader, rdf::graph &aGraph, const 
 		if (reader.context() == &rdf::about_attr)
 		{
 			std::string about = reader.nodeValue().str();
-			subject = aGraph.href((*about.begin()) == '#' ? base + about : about);
+			subject = rdf::href((*about.begin()) == '#' ? base + about : about);
 			aGraph.statement(subject, rdf::rdf("type"), self);
 		}
 		else if (reader.context() == &rdf::resource_attr)
 		{
 			std::string resource = reader.nodeValue().str();
 			if (resource.find("://") == std::string::npos)
-				aGraph.statement(subject, ref, aGraph.href(base + resource));
+				aGraph.statement(subject, ref, rdf::href(base + resource));
 			else
-				aGraph.statement(subject, ref, aGraph.href(resource));
+				aGraph.statement(subject, ref, rdf::href(resource));
 		}
 		break;
 	case xml::reader::beginTagNode:
@@ -149,6 +151,8 @@ static void parseRdfXmlContainer(xml::reader &reader, rdf::graph &aGraph, const 
 		{
 			return;
 		}
+		break;
+	default:
 		break;
 	}
 }
@@ -226,18 +230,20 @@ void parseInnerRdfXml(xml::reader &reader, const rdf::uri &aSubject, rdf::graph 
 					if (!resource.empty())
 					{
 						if (resource.find("://") == std::string::npos)
-							aGraph.statement(aSubject, self, aGraph.href(base + resource));
+							aGraph.statement(aSubject, self, rdf::href(base + resource));
 						else
-							aGraph.statement(aSubject, self, aGraph.href(resource));
+							aGraph.statement(aSubject, self, rdf::href(resource));
 					}
 					else if (!nodeID.empty())
 						aGraph.statement(aSubject, self, rdf::bnode(nodeID));
 					else if (!datatype.empty())
-						aGraph.statement(aSubject, self, rdf::literal(value, aGraph.href(datatype)));
+						aGraph.statement(aSubject, self, rdf::literal(value, rdf::href(datatype)));
 					else if (!value.empty())
 						aGraph.statement(aSubject, self, rdf::literal(value, lang));
 					return;
 				}
+				break;
+			default:
 				break;
 			}
 		}
@@ -263,7 +269,7 @@ rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::ur
 			if (reader.context() == &rdf::about_attr)
 			{
 				std::string about = reader.nodeValue().str();
-				subject = aGraph.href((*about.begin()) == '#' ? base + about : about);
+				subject = rdf::href((*about.begin()) == '#' ? base + about : about);
 			}
 			else if (reader.context() == &rdf::nodeID_attr)
 			{
@@ -273,7 +279,7 @@ rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::ur
 			else if (reader.context() == &rdf::ID_attr)
 			{
 				std::string ID = reader.nodeValue().str();
-				subject = aGraph.href(base + '#' + ID);
+				subject = rdf::href(base + '#' + ID);
 			}
 			else if (reader.context() == &xml::lang_attr)
 				lang = reader.nodeValue().str();
@@ -302,6 +308,8 @@ rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::ur
 				if (uri(reader) == self)
 					return subject;
 				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -311,7 +319,7 @@ rdf::uri parseOuterRdfXml(xml::reader &reader, rdf::graph &aGraph, const rdf::ur
 
 struct rdfxml_document_reader : public cainteoir::document_reader
 {
-	bool read()
+	bool read(rdf::graph *aMetadata)
 	{
 		return false;
 	}
@@ -344,6 +352,8 @@ cainteoir::createRdfXmlReader(const std::shared_ptr<xml::reader> &aReader,
 		parseOuterRdfXml(*aReader, aPrimaryMetadata, uri(*aReader), base, std::string());
 		break;
 	case xml::reader::endTagNode:
+		break;
+	default:
 		break;
 	}
 

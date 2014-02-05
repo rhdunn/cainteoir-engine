@@ -1,6 +1,6 @@
 /* MIME Header Parser.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -24,29 +24,13 @@
 
 #include <cainteoir/mimetype.hpp>
 #include <cainteoir/unicode.hpp>
+#include <ucd/ucd.h>
 #include "parsers.hpp"
 #include <stdexcept>
 
 namespace rdf    = cainteoir::rdf;
 namespace mime   = cainteoir::mime;
 namespace events = cainteoir::events;
-
-namespace cainteoir { namespace utf8
-{
-	static bool isspace(uint32_t c)
-	{
-		switch (c)
-		{
-		case 0x000009: // HORIZONTAL TAB
-		case 0x00000A: // LINE FEED
-		case 0x00000D: // CARRIDGE RETURN
-		case 0x000020: // SPACE
-		case 0x0000A0: // NON-BREAKING SPACE
-			return true;
-		}
-		return false;
-	}
-}}
 
 static inline bool is_mime_header_char(char c)
 {
@@ -124,14 +108,20 @@ struct mime_headers : public cainteoir::buffer
 					while (type <= value.end() && *type != '=')
 						++type;
 
+					if (*type != '=') continue;
+
 					cainteoir::buffer arg(name, type);
 					++type;
 
-					if (*type != '"') continue;
-					++type;
+					char end_of_value = '\n';
+					if (*type == '"')
+					{
+						++type;
+						end_of_value = '"';
+					}
 
 					const char * content = type;
-					while (type <= value.end() && *type != '"')
+					while (type <= value.end() && *type != end_of_value)
 						++type;
 
 					if (!arg.compare("boundary"))
@@ -402,7 +392,7 @@ cainteoir::createMimeInHtmlReader(std::shared_ptr<cainteoir::buffer> &aData,
 
 	uint32_t ch = 0;
 	const char *next = first;
-	while ((next = utf8::read(first, ch)) && utf8::isspace(ch))
+	while ((next = utf8::read(first, ch)) && ucd::isspace(ch))
 		first = next;
 
 	auto text = std::make_shared<buffer>(first, last);

@@ -53,8 +53,11 @@ class wav_audio : public cainteoir::audio
 {
 	FILE *m_file;
 	WaveHeader m_header;
+	const rdf::uri mFormat;
 public:
-	wav_audio(FILE *f, const rdf::uri &format, int channels, int frequency) : m_file(f)
+	wav_audio(FILE *f, const rdf::uri &format, int channels, int frequency)
+		: m_file(f)
+		, mFormat(format)
 	{
 		WaveHeader header = {
 			{ 'R', 'I', 'F', 'F' }, 0x7FFFFFFF, { 'W', 'A', 'V', 'E' },
@@ -107,13 +110,19 @@ public:
 
 		return fwrite(data, 1, len, m_file);
 	}
+
+	int channels() const { return m_header.channels; }
+
+	int frequency() const { return m_header.frequency; }
+
+	const rdf::uri &format() const { return mFormat; }
 };
 
-/// @private
 std::shared_ptr<cainteoir::audio>
 create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
+	if (!file) throw std::runtime_error(strerror(errno));
 	return std::make_shared<wav_audio>(file, format, channels, frequency);
 }
 

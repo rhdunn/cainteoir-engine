@@ -1,6 +1,6 @@
 /* Text Normalization Buffer for XML Strings.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -23,72 +23,69 @@
 
 #include <cainteoir/buffer.hpp>
 #include <cainteoir/unicode.hpp>
+#include <ucd/ucd.h>
 
 namespace utf8 = cainteoir::utf8;
-
-namespace cainteoir { namespace utf8
-{
-	static bool isspace(uint32_t c)
-	{
-		switch (c)
-		{
-		case 0x0009: // CHARACTER TABULATION
-		case 0x000A: // LINE FEED
-		case 0x000B: // LINE TABULATION
-		case 0x000C: // FORM FEED
-		case 0x000D: // CARRIAGE RETURN
-		case 0x0020: // SPACE
-		case 0x0085: // NEXT LINE
-		case 0x00A0: // NO-BREAK SPACE
-		case 0x1680: // OGHAM SPACE MARK
-		case 0x180E: // MONGOLIAN VOWEL SEPARATOR
-		case 0x2000: // EN QUAD
-		case 0x2001: // EM QUAD
-		case 0x2002: // EN SPACE
-		case 0x2003: // EM SPACE
-		case 0x2004: // THREE-PER-EM SPACE
-		case 0x2005: // FOUR-PER-EM SPACE
-		case 0x2006: // SIX-PER-EM SPACE
-		case 0x2007: // FIGURE SPACE
-		case 0x2008: // PUNCTUATION SPACE
-		case 0x2009: // THIN SPACE
-		case 0x200A: // HAIR SPACE
-		case 0x2028: // LINE SEPARATOR
-		case 0x2029: // PARAGRAPH SEPARATOR
-		case 0x202F: // NARROW NO-BREAK SPACE
-		case 0x205F: // MEDIUM MATHEMATICAL SPACE
-		case 0x3000: // IDEOGRAPHICAL SPACE
-			return true;
-		}
-		return false;
-	}
-}}
 
 class normalized_text_buffer : public cainteoir::buffer
 {
 public:
-	normalized_text_buffer(const std::shared_ptr<buffer> &aBuffer);
+	normalized_text_buffer(const std::shared_ptr<buffer> &aBuffer,
+	                       cainteoir::whitespace aWhitespace,
+	                       cainteoir::whitespace aNewlines,
+	                       cainteoir::whitespace aTrimLeft,
+	                       cainteoir::whitespace aTrimRight);
 	~normalized_text_buffer();
 };
 
-normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer)
+static bool skip_whitespace(uint32_t ch, cainteoir::whitespace aWhitespace, cainteoir::whitespace aNewlines)
+{
+	switch (ucd::lookup_category(ch))
+	{
+	case ucd::Zl: case ucd::Zp: case ucd::Zs:
+		return aWhitespace == cainteoir::whitespace::collapse;
+	case ucd::Cc:
+		switch (ch) // Some control characters are also whitespace characters:
+		{
+		case 0x0A: // U+000A : LINE FEED
+		case 0x0D: // U+000D : CARRIAGE RETURN
+			return aNewlines == cainteoir::whitespace::collapse;
+		case 0x09: // U+0009 : CHARACTER TABULATION
+		case 0x0B: // U+000B : LINE TABULATION
+		case 0x0C: // U+000C : FORM FEED
+		case 0x85: // U+0085 : NEXT LINE
+			return aWhitespace == cainteoir::whitespace::collapse;
+		}
+	default:
+		return false;
+	}
+}
+
+normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::buffer> &aBuffer,
+                                               cainteoir::whitespace aWhitespace,
+                                               cainteoir::whitespace aNewlines,
+                                               cainteoir::whitespace aTrimLeft,
+                                               cainteoir::whitespace aTrimRight)
 	: buffer(nullptr, nullptr)
 {
 	if (!aBuffer.get() || aBuffer->empty())
 		return;
 
-	const char *str = aBuffer->begin();
-	const char *l   = aBuffer->end();
-
-	// trim space at the start:
-
-	uint32_t ch = 0;
+	const char *str  = aBuffer->begin();
+	const char *l    = aBuffer->end();
 	const char *next = str;
-	while ((next = utf8::read(str, ch)) && utf8::isspace(ch))
-		str = next;
+	uint32_t ch = 0;
 
-	if (str >= l)
-		return;
+	if (aTrimLeft == cainteoir::whitespace::collapse)
+	{
+		// trim space at the start:
+
+		while ((next = utf8::read(str, ch)) && ucd::isspace(ch))
+			str = next;
+
+		if (str >= l)
+			return;
+	}
 
 	first = last = new char[l-str+1];
 
@@ -97,24 +94,30 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 	while (str < l)
 	{
 		next = utf8::read(str, ch);
-		if (utf8::isspace(ch))
+		if (skip_whitespace(ch, aWhitespace, aNewlines))
+		{
 			ch = ' ';
 
-		uint32_t ch2 = 0;
-		if (ch == ' ' && str < l && utf8::read(next, ch2) && utf8::isspace(ch2))
-			str = next;
-		else
-		{
-			str  = next;
-			last = utf8::write((char *)last, ch);
+			uint32_t ch2 = 0;
+			if (str < l && utf8::read(next, ch2) && skip_whitespace(ch2, aWhitespace, aNewlines))
+			{
+				str = next;
+				continue;
+			}
 		}
+
+		str  = next;
+		last = utf8::write((char *)last, ch);
 	}
 
-	// trim space at the end:
+	if (aTrimRight == cainteoir::whitespace::collapse)
+	{
+		// trim space at the end:
 
-	while (last > first && (next = utf8::prev(last)) && utf8::read(next, ch) && utf8::isspace(ch))
-		last = next;
-	*(char *)last = '\0';
+		while (last > first && (next = utf8::prev(last)) && utf8::read(next, ch) && ucd::isspace(ch))
+			last = next;
+		*(char *)last = '\0';
+	}
 }
 
 normalized_text_buffer::~normalized_text_buffer()
@@ -122,17 +125,22 @@ normalized_text_buffer::~normalized_text_buffer()
 	delete [] first;
 }
 
-/** @brief Create a whitespace-normalized buffer.
-  *
-  * @param[in] aBuffer The buffer containing the text to normalize.
-  *
-  * @return A new buffer with the whitespace normalized.
-  *
-  * This trims whitespace from the start and end of the buffer, as well as
-  * consecutive whitespace characters within the buffer. Any whitespace
-  * character is replaced by an ASCII space character.
-  */
-std::shared_ptr<cainteoir::buffer> cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
+std::shared_ptr<cainteoir::buffer>
+cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer)
 {
-	return std::make_shared<normalized_text_buffer>(aBuffer);
+	return std::make_shared<normalized_text_buffer>(aBuffer,
+	                                                cainteoir::whitespace::collapse,
+	                                                cainteoir::whitespace::collapse,
+	                                                cainteoir::whitespace::collapse,
+	                                                cainteoir::whitespace::collapse);
+}
+
+std::shared_ptr<cainteoir::buffer>
+cainteoir::normalize(const std::shared_ptr<buffer> &aBuffer,
+                     cainteoir::whitespace aWhitespace,
+                     cainteoir::whitespace aNewlines,
+                     cainteoir::whitespace aTrimLeft,
+                     cainteoir::whitespace aTrimRight)
+{
+	return std::make_shared<normalized_text_buffer>(aBuffer, aWhitespace, aNewlines, aTrimLeft, aTrimRight);
 }

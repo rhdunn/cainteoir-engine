@@ -1,6 +1,6 @@
 /* Iterator Range API.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -25,25 +25,134 @@
 
 namespace cainteoir
 {
+#ifndef DOXYGEN
+	namespace detail
+	{
+		// Helper class for making integral types iterable.
+		// NOTE: This cannot be random-access because operator[] does not work.
+		template <typename T>
+		struct integral_iterator
+		{
+			typedef std::ptrdiff_t difference_type;
+			typedef std::bidirectional_iterator_tag iterator_category;
+			typedef T value_type;
+			typedef T pointer;
+			typedef T reference;
+
+			integral_iterator(T aValue) : value(aValue) {}
+			integral_iterator(const integral_iterator<T> &other) : value(other.value) {}
+
+			// Access to the underlying integral value to support using the class as
+			// a simple value type.
+			operator T() const { return value; }
+
+			reference operator*()  const { return value; }
+			pointer   operator->() const { return value; }
+
+			integral_iterator<T> &operator=(const integral_iterator<T> &other)
+			{
+				value = other.value;
+				return *this;
+			}
+
+			integral_iterator<T> &operator++()
+			{
+				++value;
+				return *this;
+			}
+
+			integral_iterator<T> operator++(int)
+			{
+				auto ret = *this;
+				++ret.value;
+				return ret;
+			}
+
+			integral_iterator<T> &operator--()
+			{
+				--value;
+				return *this;
+			}
+
+			integral_iterator<T> operator--(int)
+			{
+				auto ret = *this;
+				--ret.value;
+				return ret;
+			}
+
+			bool operator==(const integral_iterator<T> &other) const { return value == other.value; }
+			bool operator!=(const integral_iterator<T> &other) const { return value != other.value; }
+		private:
+			T value;
+		};
+
+#define		MAKE_INTEGRAL_ITERATOR(IntegralType) \
+			template <> struct iterator_type<IntegralType> \
+			{ \
+				typedef integral_iterator<IntegralType> type; \
+			};
+
+		template <typename Iterator> struct iterator_type { typedef Iterator type; };
+		MAKE_INTEGRAL_ITERATOR(  signed short)
+		MAKE_INTEGRAL_ITERATOR(unsigned short)
+		MAKE_INTEGRAL_ITERATOR(  signed int)
+		MAKE_INTEGRAL_ITERATOR(unsigned int)
+		MAKE_INTEGRAL_ITERATOR(  signed long)
+		MAKE_INTEGRAL_ITERATOR(unsigned long)
+		MAKE_INTEGRAL_ITERATOR(  signed long long)
+		MAKE_INTEGRAL_ITERATOR(unsigned long long)
+
+#undef		MAKE_INTEGRAL_ITERATOR
+	}
+#endif
+
+	enum overlap_status
+	{
+		no_overlap,
+		overlap_inner,
+		overlap_outer,
+		overlap_at_start,
+		overlap_at_end,
+	};
+
 	template <typename Iterator>
 	class range
 	{
-	protected:
-		Iterator first;
-		Iterator last;
 	public:
-		range(Iterator f, Iterator l) : first(f), last(l) {}
-		virtual ~range() {}
-
-		typedef Iterator iterator;
+		typedef typename detail::iterator_type<Iterator>::type iterator;
+		typedef std::reverse_iterator<iterator> const_reverse_iterator;
 		typedef std::size_t size_type;
+
+		range(iterator f, iterator l) : first(f), last(l) {}
+		virtual ~range() {}
 
 		iterator begin() const { return first; }
 		iterator end()   const { return last; }
 
-		size_type size() const { return last - first; }
+		const_reverse_iterator rbegin() const { return const_reverse_iterator(last); }
+		const_reverse_iterator rend()   const { return const_reverse_iterator(first); }
+
+		size_type size() const { return std::distance(first, last); }
 
 		bool empty() const { return first == last; }
+
+		bool contains(iterator pos) const
+		{
+			return first <= pos && pos < last;
+		}
+
+		overlap_status contains(const range<Iterator> &other) const
+		{
+			if (other.last <= first || other.first >= last)
+				return no_overlap;
+			if (other.first < first)
+				return (other.last > last) ? overlap_outer : overlap_at_start;
+			return (other.last > last) ? overlap_at_end : overlap_inner;
+		}
+	protected:
+		iterator first;
+		iterator last;
 	};
 
 	template <typename Container>

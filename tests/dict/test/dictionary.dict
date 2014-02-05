@@ -1,0 +1,9 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Test dictionary
+.phonemeset	ipa
+
+there		/ðˈe͡ə/
+their		there
+there is	/ðˈe͡əz/

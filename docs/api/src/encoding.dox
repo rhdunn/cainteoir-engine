@@ -1,0 +1,72 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2012-2013 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+
+\addtogroup encoding
+\{
+
+\struct cainteoir::encoding
+\brief  Manage the conversion of text in different character encodings to UTF-8.
+
+\}
+
+
+\fn    cainteoir::encoding::encoding(int aCodepage)
+\brief Initialize the encoder with the specified Windows codepage.
+
+\param[in] aCodepage The Windows codepage to use.
+
+
+\fn    cainteoir::encoding::encoding(const char *aEncoding)
+\brief Initialize the encoder with the specified character encoding.
+
+\param[in] aEncoding The character encoding to use.
+
+
+\fn    bool cainteoir::encoding::set_encoding(int aCodepage)
+\brief Set the character encoding to the specified Windows codepage.
+
+\param[in] aCodepage The Windows codepage to change to.
+
+\retval true  If the encoding was changed.
+\retval false If the encoding was not changed.
+
+
+\fn    bool cainteoir::encoding::set_encoding(const char *aEncoding)
+\brief Set the character encoding.
+
+\param[in] aEncoding The character encoding to change to.
+
+\retval true  If the encoding was changed.
+\retval false If the encoding was not changed.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::encoding::lookup(uint8_t c) const
+\brief Lookup the single-byte character.
+
+\param[in] c The character to lookup.
+
+\return The utf-8 representation of c.
+
+
+\fn    std::shared_ptr<cainteoir::buffer> cainteoir::encoding::decode(const std::shared_ptr<cainteoir::buffer> &data) const
+\brief Convert the data buffer to utf-8.
+
+\param[in] data The character buffer to convert.
+
+\return The utf-8 representation of data.
+
+
+\fn    void cainteoir::encoding::decode(const std::shared_ptr<cainteoir::buffer> &data, cainteoir::rope &decoded) const
+\brief Convert the data buffer to utf-8.
+
+\param[in]  data    The character buffer to convert.
+\param[out] decoded The rope to add the utf-8 representation of data to.
+
+
+*/

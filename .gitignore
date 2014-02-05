@@ -3,60 +3,77 @@
 *.o
 *.lo
 *.pyc
+*.check
+*.results
 
 # vi/vim editor files:
 
 *~
 .*.swp
 
-# code generation data:
+# generated test files:
 
+*.bz2
+*.epub
+*.gz
+*.lzma
+*.zip
+
+# code generation data/output:
+
+data/css
 data/languages.dat
-data/languages.dot
-data/*.svg
+data/supplementalData.xml
 src/libcainteoir/parsers/html-entities.dat
+*.fsm.h
 
 # build output:
 
-docs/api/
+docs/api/xml/
+docs/api/html/
 
-data/languages.rdf.gz
+*.dot
+*.svg
+
+!docs/api/src/*.dot
 
 src/libcainteoir/libcainteoir.a
 src/libcainteoir/libcainteoir.la
 
-src/apps/cainteoir/cainteoir
-src/apps/metadata/metadata
-src/apps/tagcloud/tagcloud
-src/apps/doc2doc/doc2doc
+src/apps/cainteoir
+src/apps/metadata
+src/apps/phoneme-converter
+src/apps/dictionary
 
-tests/buffer
-tests/content
-tests/rdfmodel
-tests/rdfquery
-tests/ntriple_formatter
-tests/turtle_formatter
+src/examples/doc2doc
+src/examples/musicplayer
+src/examples/tagcloud
+
+tests/*.test
 tests/events
 tests/xmlreader
-tests/encoding
-tests/languages
-tests/utf8
 tests/parsetext
 tests/mimetype
+tests/styles
+tests/synthesizer
 
 # docs/phonemes output:
 
 README.html
 docs/*.html
 docs/*/*.html
+!docs/doxygen/*.html
+!docs/header.html
+!docs/footer.html
 docs/implementation-status/csv2html.stamp
-data/phonemes/*.html
-data/phonemes/*/*.html
+data/phonemeset/*.html
+data/phonemeset/*/*.html
 
 # autotools output:
 
 Makefile
 Makefile.in
+docs/cainteoir-engine.doxyconf
 
 .libs/
 .deps/
@@ -68,6 +85,7 @@ INSTALL
 aclocal.m4
 autom4te.cache/
 ChangeLog
+compile
 config.h
 config.h.in
 config.h.in~
@@ -82,6 +100,7 @@ libtool
 ltmain.sh
 
 cainteoir-engine-*
+data/languages.stat
 
 # gettext/libintl/autopoint output:
 

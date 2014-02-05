@@ -1,0 +1,345 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2012-2013 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+\addtogroup document_reader
+\{
+
+\enum  cainteoir::events::event_type
+\brief The type of the document event.
+
+\}
+
+
+\var   cainteoir::events::event_type cainteoir::events::begin_context
+\brief The start of a rendering context.
+
+\code
+  context <context> <parameter>
+\endcode
+
+
+\var   cainteoir::events::event_type cainteoir::events::end_context
+\brief The end of a rendering context.
+
+\code
+  end
+\endcode
+
+
+\var   cainteoir::events::event_type cainteoir::events::text
+\brief Text data.
+
+\code
+  text <content>
+\endcode
+
+
+\var   cainteoir::events::event_type cainteoir::events::anchor
+\brief An anchor point in the document.
+
+The anchor corresponds to the associated toc-entry.
+
+\code
+  anchor <anchor>
+\endcode
+
+
+\var   cainteoir::events::event_type cainteoir::events::text_ref
+\brief A reference to text defined elsewhere.
+
+The anchor refers to a text block defined elsewhere in the document.
+
+This is used in conjunction with media_ref to associate narrated audio with a
+block of text.
+
+\code
+  text-ref <anchor>
+\endcode
+
+
+\var   cainteoir::events::event_type cainteoir::events::media_ref
+\brief A media (audio or video) file.
+
+The anchor refers to the media file being referenced. The point to start playback
+at is media-begin and the point to finish playback is media-end. If the media
+file has been read, content contains the media file data, otherwise content is
+empty.
+
+\code
+  media-ref <anchor> <media-begin> <media-end> <content>
+\endcode
+
+
+\addtogroup document_reader
+\{
+
+\struct cainteoir::document_item
+\brief Holds information about a part of a document.
+
+Objects of this type are created by instances of the document_reader interface.
+
+\}
+
+
+\fn    cainteoir::document_item::document_item()
+\brief Initialize the document item object.
+
+
+\var   uint32_t cainteoir::document_item::type
+\see   cainteoir::events::event_type
+\brief The type of the event.
+
+
+\var   const cainteoir::css::styles *cainteoir::document_item::styles
+\brief The \ref css "CSS" styles associated with this document item.
+
+
+\var   std::shared_ptr<cainteoir::buffer> cainteoir::document_item::content
+\brief The text or audio data associated with the document event.
+
+
+\var   cainteoir::rdf::uri cainteoir::document_item::anchor
+\brief A uri that references the start of this event.
+
+
+\var   cainteoir::css::time cainteoir::document_item::media_begin
+\brief The time to start playback of the media in the content buffer.
+
+If this is cainteoir::css::time::inherit, the playback is from the start of the
+media object.
+
+
+\var   cainteoir::css::time cainteoir::document_item::media_end
+\brief The time to end playback of the media in the content buffer.
+
+If this is cainteoir::css::time::inherit, the playback is to the end of the
+media object.
+
+
+\addtogroup document_reader
+\{
+
+\struct cainteoir::ref_entry
+\brief  Represents a <a href="http://reecedunn.co.uk/schema/2014/ref#Entry">ref:Entry</a> item.
+
+\}
+
+
+\var   int cainteoir::ref_entry::depth
+\brief The level of the entry.
+
+
+\var   cainteoir::rdf::uri cainteoir::ref_entry::location
+\brief The location of the entry in the document.
+
+
+\var   std::string cainteoir::ref_entry::title
+\brief The title of the entry.
+
+
+\fn    cainteoir::ref_entry::ref_entry(const rdf::query::results &aEntry)
+\brief Create an entry object from <a href="http://reecedunn.co.uk/schema/2014/ref#Entry">ref:Entry</a> metadata.
+
+\param[in] aEntry The RDF metadata for the <a href="http://reecedunn.co.uk/schema/2014/ref#Entry">ref:Entry</a>.
+
+
+\addtogroup document_reader
+\{
+
+\struct cainteoir::document
+\brief  Stores the document_item events from a document.
+
+\}
+
+
+\var   std::list<document_item> cainteoir::document::list_type
+\brief The type used to store the document items.
+
+
+\var   list_type::const_iterator cainteoir::document::const_iterator
+\brief The type used to iterate over document items.
+
+
+\var   range<const_iterator> cainteoir::document::range_type
+\brief A range of document_item objects.
+
+
+\fn    cainteoir::document::document(const std::shared_ptr<document_reader> &aReader, rdf::graph &aMetadata)
+\brief Create a document object with the document_item events from the document_reader.
+
+\param[in] aReader   The document reader to read document_item events from.
+\param[in] aMetadata The metadata associated with the document.
+
+Any metadata contained within the document that is captured as the document is
+read will be added to \p aMetadata.
+
+
+\fn    size_t cainteoir::document::text_length() const
+\brief Get the number of characters in the document.
+
+\return The number of characters in the document.
+
+
+\fn    range_type cainteoir::document::children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const
+\brief Get the document_item objects associated with the document in the specified range.
+
+\param[in] aAnchors The start and end anchor for the range of children to get.
+
+\return A range of document_item objects.
+
+
+\fn    range_type cainteoir::document::children(const std::vector<ref_entry> &aListing, const std::pair<size_t, size_t> &aRange) const
+\brief Get the document_item objects associated with the document in the specified range.
+
+\param[in] aListing The navigation listing to resolve the aRange indices with.
+\param[in] aRange   The start and end indices in \p aListing for the range of children to get.
+
+\return A range of document_item objects.
+
+
+\fn    range_type cainteoir::document::children() const
+\brief Get all the document_item objects associated with the document.
+
+\return A range of document_item objects.
+
+
+\addtogroup document_reader
+\{
+
+\fn    std::vector<ref_entry> cainteoir::navigation(const rdf::graph &aMetadata, const rdf::uri &aSubject, const rdf::uri &aListing) const
+\brief Get the navigation reference entries (e.g. table of contents) for the document.
+
+\param[in] aMetadata The RDF metadata containing the navigation information collected from the document.
+\param[in] aSubject  The RDF subject of the document to get the navigation information for.
+\param[in] aListing  The listing type to query for.
+
+\return The navigation entries associated with the document.
+
+\}
+
+
+\fn    size_t cainteoir::document::indexof(const rdf::uri &aAnchor) const
+\brief Get the index of the document_item referenced by the anchor.
+
+\param[in] aAnchor  The anchor to resolve within the document.
+
+\return The index of the document_item referenced by the anchor.
+
+
+\addtogroup document_reader
+\{
+
+\struct cainteoir::document_reader
+\brief  Provides a reader-style API to the events corresponding to the document.
+
+\}
+
+
+\fn    cainteoir::document_reader::~document_reader()
+\brief Destroy the document reader object.
+
+
+\fn    bool cainteoir::document_reader::read(rdf::graph *aMetadata)
+\brief Read the next event in the document.
+
+\param[in] aMetadata Any additional metadata.
+
+\retval true  If an event was read.
+\retval false If there are no more events in the document.
+
+If aMetadata is not null, any metadata gathered while reading the next event is
+added to the metadata graph. This allows metadata in the body of the document
+to be extracted, such as RDFa or document reference metadata.
+
+
+\addtogroup document_reader
+\{
+
+\enum  cainteoir::capability_types
+\brief The capabilities provided by different document types.
+
+\}
+
+
+\var   cainteoir::capability_types cainteoir::metadata_support
+\brief The document type provides metadata information that can be extracted.
+
+
+\var   cainteoir::capability_types cainteoir::text_support
+\brief The document type contains text that can be extracted.
+
+
+\addtogroup document_reader
+\{
+
+
+\fn    void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities)
+\brief Get the document formats that are supported by libcainteoir.
+
+\param[out] metadata     The RDF graph to write the format support to.
+\param[in]  capabilities The document capabilities to query for.
+
+
+\fn    std::shared_ptr<cainteoir::document_reader> cainteoir::createDocumentReader(const char *aFilename, rdf::graph &aPrimaryMetadata, const std::string &aTitle, const char *aDefaultEncoding)
+\brief Create a document content reader.
+
+\param[in]  aFilename        The path to the document.
+\param[out] aPrimaryMetadata The main metadata that describes the document.
+\param[in]  aTitle           The document title to use if none is specified.
+\param[in]  aDefaultEncoding The default character encoding to use.
+
+\return A reader over the document contents, or a null pointer if the document is not supported.
+
+If aFilename is null, the file content is read from stdin.
+
+The top-level ToC entry is determined as follows (in order of preference):
+   -  the title specified by the document;
+   -  the title specified in aTitle;
+   -  the filename of the document.
+
+After the call to this method, aPrimaryMetadata contains the metadata located
+in the header section of the document. That is the part of the document before
+the start of any document text.
+
+
+\fn    std::shared_ptr<cainteoir::document_reader> cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle, const char *aDefaultEncoding)
+\brief Create a document content reader.
+
+\param[in]  aData            The document content.
+\param[in]  aSubject         The RDF subject for the document metadata.
+\param[out] aPrimaryMetadata The main metadata that describes the document.
+\param[in]  aTitle           The document title to use if none is specified.
+\param[in]  aDefaultEncoding The default character encoding to use.
+
+\return A reader over the document contents, or a null pointer if the document is not supported.
+
+The top-level ToC entry is determined as follows (in order of preference):
+   -  the title specified by the document;
+   -  the title specified in aTitle;
+   -  the filename of the document.
+
+After the call to this method, aPrimaryMetadata contains the metadata located
+in the header section of the document. That is the part of the document before
+the start of any document text.
+
+
+\fn    std::shared_ptr<cainteoir::document_reader> cainteoir::createDocumentReader(const cainteoir::document::range_type &aDocumentRange)
+\brief Create a document content reader.
+
+\param[in]  aDocumentRange The range of document items to read.
+
+\return A reader over the document item range.
+
+This is used to allow documents that have been parsed into a cainteoir::document
+object to be passed to API that consume a cainteoir::document_reader. It also
+allows a subset of the document to be used (e.g. between two table of content
+entries).
+
+\}
+
+*/

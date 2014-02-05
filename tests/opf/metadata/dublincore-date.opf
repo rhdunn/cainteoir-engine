@@ -50,9 +50,4 @@
 		<dc:date opf2:event="creation">2010-12</dc:date>
 		<dc:date opf2:event="creation">2010-12-31</dc:date>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

@@ -1,6 +1,6 @@
 /* RDF statement tests.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -67,50 +67,47 @@ TEST_CASE("rdf::uri")
 
 TEST_CASE("RDF namespaces")
 {
+	test_uri(rdf::dc("title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
+	test_uri(rdf::dcam("memberOf"), "http://purl.org/dc/dcam/memberOf", "http://purl.org/dc/dcam/", "memberOf");
+	test_uri(rdf::dcterms("title"), "http://purl.org/dc/terms/title", "http://purl.org/dc/terms/", "title");
+	test_uri(rdf::dtb("uid"), "http://www.daisy.org/z3986/2005/dtbook/uid", "http://www.daisy.org/z3986/2005/dtbook/", "uid");
+	test_uri(rdf::epub("switch"), "http://www.idpf.org/2007/ops#switch", "http://www.idpf.org/2007/ops#", "switch");
+	test_uri(rdf::epv("toc"), "http://www.idpf.org/epub/vocab/structure/#toc", "http://www.idpf.org/epub/vocab/structure/#", "toc");
+	test_uri(rdf::foaf("Person"), "http://xmlns.com/foaf/0.1/Person", "http://xmlns.com/foaf/0.1/", "Person");
+	test_uri(rdf::iana("Language"), "http://reecedunn.co.uk/schema/2013/iana#Language", "http://reecedunn.co.uk/schema/2013/iana#", "Language");
+	test_uri(rdf::media("duration"), "http://www.idpf.org/epub/vocab/overlays/#duration", "http://www.idpf.org/epub/vocab/overlays/#", "duration");
+	test_uri(rdf::ncx("meta"), "http://www.daisy.org/z3986/2005/ncx/meta", "http://www.daisy.org/z3986/2005/ncx/", "meta");
+	test_uri(rdf::ocf("container"), "urn:oasis:names:tc:opendocument:xmlns:container#container", "urn:oasis:names:tc:opendocument:xmlns:container#", "container");
+	test_uri(rdf::opf("package"), "http://www.idpf.org/2007/opf#package", "http://www.idpf.org/2007/opf#", "package");
+	test_uri(rdf::owl("Ontology"), "http://www.w3.org/2002/07/owl#Ontology", "http://www.w3.org/2002/07/owl#", "Ontology");
+	test_uri(rdf::pkg("role"), "http://www.idpf.org/epub/vocab/package/#role", "http://www.idpf.org/epub/vocab/package/#", "role");
 	test_uri(rdf::rdf("type"), "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "type");
 	test_uri(rdf::rdfa("Error"), "http://www.w3.org/ns/rdfa#Error", "http://www.w3.org/ns/rdfa#", "Error");
 	test_uri(rdf::rdfs("Class"), "http://www.w3.org/2000/01/rdf-schema#Class", "http://www.w3.org/2000/01/rdf-schema#", "Class");
-	test_uri(rdf::xsd("string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
-	test_uri(rdf::xml("lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
-	test_uri(rdf::owl("Ontology"), "http://www.w3.org/2002/07/owl#Ontology", "http://www.w3.org/2002/07/owl#", "Ontology");
-
-	test_uri(rdf::dc("title"), "http://purl.org/dc/elements/1.1/title", "http://purl.org/dc/elements/1.1/", "title");
-	test_uri(rdf::dcterms("title"), "http://purl.org/dc/terms/title", "http://purl.org/dc/terms/", "title");
-	test_uri(rdf::dcam("memberOf"), "http://purl.org/dc/dcam/memberOf", "http://purl.org/dc/dcam/", "memberOf");
-
-	test_uri(rdf::dtb("uid"), "http://www.daisy.org/z3986/2005/dtbook/uid", "http://www.daisy.org/z3986/2005/dtbook/", "uid");
-	test_uri(rdf::ncx("meta"), "http://www.daisy.org/z3986/2005/ncx/meta", "http://www.daisy.org/z3986/2005/ncx/", "meta");
-
-	test_uri(rdf::epub("switch"), "http://www.idpf.org/2007/ops#switch", "http://www.idpf.org/2007/ops#", "switch");
-	test_uri(rdf::opf("package"), "http://www.idpf.org/2007/opf#package", "http://www.idpf.org/2007/opf#", "package");
-	test_uri(rdf::ocf("container"), "urn:oasis:names:tc:opendocument:xmlns:container#container", "urn:oasis:names:tc:opendocument:xmlns:container#", "container");
-	test_uri(rdf::pkg("role"), "http://www.idpf.org/epub/vocab/package/#role", "http://www.idpf.org/epub/vocab/package/#", "role");
-	test_uri(rdf::media("duration"), "http://www.idpf.org/epub/vocab/overlays/#duration", "http://www.idpf.org/epub/vocab/overlays/#", "duration");
-
-	test_uri(rdf::ssml("speak"), "http://www.w3.org/2001/10/synthesis#speak", "http://www.w3.org/2001/10/synthesis#", "speak");
-	test_uri(rdf::smil("smil"), "http://www.w3.org/ns/SMIL#smil", "http://www.w3.org/ns/SMIL#", "smil");
-	test_uri(rdf::xhtml("head"), "http://www.w3.org/1999/xhtml#head", "http://www.w3.org/1999/xhtml#", "head");
-
+	test_uri(rdf::ref("level"), "http://reecedunn.co.uk/schema/2014/ref#level", "http://reecedunn.co.uk/schema/2014/ref#", "level");
 	test_uri(rdf::skos("Concept"), "http://www.w3.org/2004/02/skos/core#Concept", "http://www.w3.org/2004/02/skos/core#", "Concept");
-	test_uri(rdf::foaf("Person"), "http://xmlns.com/foaf/0.1/Person", "http://xmlns.com/foaf/0.1/", "Person");
+	test_uri(rdf::smil("smil"), "http://www.w3.org/ns/SMIL#smil", "http://www.w3.org/ns/SMIL#", "smil");
+	test_uri(rdf::ssml("speak"), "http://www.w3.org/2001/10/synthesis#speak", "http://www.w3.org/2001/10/synthesis#", "speak");
+	test_uri(rdf::subtag("de"), "http://rhdunn.github.com/cainteoir/data/iana/subtags#de", "http://rhdunn.github.com/cainteoir/data/iana/subtags#", "de");
 	test_uri(rdf::tts("Engine"), "http://rhdunn.github.com/2010/12/text-to-speech#Engine", "http://rhdunn.github.com/2010/12/text-to-speech#", "Engine");
+	test_uri(rdf::xhtml("head"), "http://www.w3.org/1999/xhtml#head", "http://www.w3.org/1999/xhtml#", "head");
+	test_uri(rdf::xml("lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
+	test_uri(rdf::xsd("string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");
 }
 
 TEST_CASE("rdf::href")
 {
-	rdf::graph g;
+	test_uri(rdf::href("http://www.example.com/"), "http://www.example.com/", "http://www.example.com/", "");
+	test_uri(rdf::href("http://www.example.com/value"), "http://www.example.com/value", "http://www.example.com/", "value");
 
-	test_uri(g.href("http://www.example.com/"), "http://www.example.com/", "http://www.example.com/", "");
-	test_uri(g.href("http://www.example.com/value"), "http://www.example.com/value", "http://www.example.com/", "value");
+	test_uri(rdf::href("http://www.example.com/abc/"), "http://www.example.com/abc/", "http://www.example.com/abc/", "");
+	test_uri(rdf::href("http://www.example.com/abc/value"), "http://www.example.com/abc/value", "http://www.example.com/abc/", "value");
 
-	test_uri(g.href("http://www.example.com/abc/"), "http://www.example.com/abc/", "http://www.example.com/abc/", "");
-	test_uri(g.href("http://www.example.com/abc/value"), "http://www.example.com/abc/value", "http://www.example.com/abc/", "value");
+	test_uri(rdf::href("http://www.example.com/def#"), "http://www.example.com/def#", "http://www.example.com/def#", "");
+	test_uri(rdf::href("http://www.example.com/def#value"), "http://www.example.com/def#value", "http://www.example.com/def#", "value");
 
-	test_uri(g.href("http://www.example.com/def#"), "http://www.example.com/def#", "http://www.example.com/def#", "");
-	test_uri(g.href("http://www.example.com/def#value"), "http://www.example.com/def#value", "http://www.example.com/def#", "value");
-
-	test_uri(g.href("http://www.example.com/def/#"), "http://www.example.com/def/#", "http://www.example.com/def/#", "");
-	test_uri(g.href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
+	test_uri(rdf::href("http://www.example.com/def/#"), "http://www.example.com/def/#", "http://www.example.com/def/#", "");
+	test_uri(rdf::href("http://www.example.com/def/#value"), "http://www.example.com/def/#value", "http://www.example.com/def/#", "value");
 }
 
 void test_uri(const std::shared_ptr<const rdf::resource> &node, const std::string &value, const std::string &ns, const std::string &ref)
@@ -131,6 +128,20 @@ TEST_CASE("rdf::graph -- curie: base uri")
 {
 	rdf::graph test;
 	test.set_base("http://www.example.org/base");
+	assert(test.get_base() == "http://www.example.org/base");
+
+	test_uri(test.curie("test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
+	test_uri(test.curie("/test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
+	test_uri(test.curie("#test"), "http://www.example.org/base#test", "http://www.example.org/base#", "test");
+}
+
+TEST_CASE("rdf::graph -- curie: base uri -- tied")
+{
+	rdf::graph g;
+	g.set_base("http://www.example.org/base");
+
+	rdf::graph test(g);
+	assert(test.get_base() == "http://www.example.org/base");
 
 	test_uri(test.curie("test"), "http://www.example.org/basetest", "http://www.example.org/", "basetest");
 	test_uri(test.curie("/test"), "http://www.example.org/base/test", "http://www.example.org/base/", "test");
@@ -140,6 +151,37 @@ TEST_CASE("rdf::graph -- curie: base uri")
 TEST_CASE("rdf::graph -- curie: uri schemes")
 {
 	rdf::graph test;
+	test.set_base("http://www.example.org/base");
+
+	test_uri(test.curie("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");
+	test_uri(test.curie("http://www.example.org/test/value"), "http://www.example.org/test/value", "http://www.example.org/test/", "value");
+	test_uri(test.curie("http://www.example.org/test#"), "http://www.example.org/test#", "http://www.example.org/test#", "");
+	test_uri(test.curie("http://www.example.org/test#value"), "http://www.example.org/test#value", "http://www.example.org/test#", "value");
+	test_uri(test.curie("http://www.example.org/test/#"), "http://www.example.org/test/#", "http://www.example.org/test/#", "");
+	test_uri(test.curie("http://www.example.org/test/#value"), "http://www.example.org/test/#value", "http://www.example.org/test/#", "value");
+
+	test_uri(test.curie("https://www.example.org/test/"), "https://www.example.org/test/", "https://www.example.org/test/", "");
+	test_uri(test.curie("https://www.example.org/test/value"), "https://www.example.org/test/value", "https://www.example.org/test/", "value");
+	test_uri(test.curie("https://www.example.org/test#"), "https://www.example.org/test#", "https://www.example.org/test#", "");
+	test_uri(test.curie("https://www.example.org/test#value"), "https://www.example.org/test#value", "https://www.example.org/test#", "value");
+	test_uri(test.curie("https://www.example.org/test/#"), "https://www.example.org/test/#", "https://www.example.org/test/#", "");
+	test_uri(test.curie("https://www.example.org/test/#value"), "https://www.example.org/test/#value", "https://www.example.org/test/#", "value");
+
+	test_uri(test.curie("mailto:abc@example.com"), "mailto:abc@example.com", "mailto:abc@example.com", "");
+
+	test_uri(test.curie("file:///home/test/"), "file:///home/test/", "file:///home/test/", "");
+	test_uri(test.curie("file:///home/test/value"), "file:///home/test/value", "file:///home/test/", "value");
+	test_uri(test.curie("file:///home/test#"), "file:///home/test#", "file:///home/test#", "");
+	test_uri(test.curie("file:///home/test#value"), "file:///home/test#value", "file:///home/test#", "value");
+	test_uri(test.curie("file:///home/test/#"), "file:///home/test/#", "file:///home/test/#", "");
+	test_uri(test.curie("file:///home/test/#value"), "file:///home/test/#value", "file:///home/test/#", "value");
+}
+
+TEST_CASE("rdf::graph -- curie: uri schemes -- tied")
+{
+	rdf::graph g;
+
+	rdf::graph test(g);
 	test.set_base("http://www.example.org/base");
 
 	test_uri(test.curie("http://www.example.org/test/"), "http://www.example.org/test/", "http://www.example.org/test/", "");
@@ -462,4 +504,20 @@ TEST_CASE("rdf::graph -- genid()")
 	test_uri(model1.genid(), "_:genid5", "_:", "genid5");
 	test_uri(model2.genid(), "_:genid3", "_:", "genid3");
 	test_uri(model2.genid(), "_:genid4", "_:", "genid4");
+}
+
+TEST_CASE("rdf::graph -- genid() -- tied")
+{
+	rdf::graph model1;
+	rdf::graph model2(model1);
+
+	test_uri(model1.genid(), "_:genid1", "_:", "genid1");
+	test_uri(model1.genid(), "_:genid2", "_:", "genid2");
+	test_uri(model1.genid(), "_:genid3", "_:", "genid3");
+	test_uri(model2.genid(), "_:genid4", "_:", "genid4");
+	test_uri(model2.genid(), "_:genid5", "_:", "genid5");
+	test_uri(model1.genid(), "_:genid6", "_:", "genid6");
+	test_uri(model1.genid(), "_:genid7", "_:", "genid7");
+	test_uri(model2.genid(), "_:genid8", "_:", "genid8");
+	test_uri(model2.genid(), "_:genid9", "_:", "genid9");
 }

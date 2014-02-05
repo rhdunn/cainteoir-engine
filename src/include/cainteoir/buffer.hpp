@@ -1,6 +1,6 @@
 /* Data Buffers Core API.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -34,7 +34,7 @@ namespace cainteoir
 	{
 	public:
 		buffer(const char *f, const char *l) : range<const char *>(f, l) {}
-		buffer(const char *f) : range<const char *>(f, f+strlen(f)) {}
+		buffer(const char *f) : range<const char *>(f, f ? f+strlen(f) : f) {}
 		virtual ~buffer() {}
 
 		typedef int (*match_type)(const char *s1, const char *s2, size_t n);
@@ -98,7 +98,35 @@ namespace cainteoir
 
 	std::shared_ptr<buffer> make_file_buffer(FILE *f);
 
+	std::shared_ptr<buffer> make_file_buffer(int fd);
+
+	enum class whitespace
+	{
+		preserve,
+		collapse,
+	};
+
 	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer);
+
+	std::shared_ptr<buffer> normalize(const std::shared_ptr<buffer> &aBuffer,
+	                                  whitespace aWhitespace,
+	                                  whitespace aNewlines,
+	                                  whitespace aTrimLeft,
+	                                  whitespace aTrimRight);
+
+	class memory_file
+	{
+		FILE *f;
+		char *data;
+		size_t length;
+	public:
+		memory_file();
+		~memory_file();
+
+		operator FILE *() const { return f; }
+
+		std::shared_ptr<cainteoir::buffer> buffer();
+	};
 
 	class rope
 	{
@@ -129,9 +157,6 @@ namespace cainteoir
 		std::string str() const { return buffer()->str(); }
 	};
 
-	/** @name Decoding/Decompression API */
-	//@{
-
 	typedef std::shared_ptr<buffer> (*decoder_ptr)(const buffer &data, uint32_t size);
 
 	std::shared_ptr<buffer> copy(const buffer &data, uint32_t size);
@@ -143,8 +168,6 @@ namespace cainteoir
 	std::shared_ptr<buffer> decode_quoted_printable(const buffer &data, uint32_t size);
 
 	std::shared_ptr<buffer> decode_base64(const buffer &data, uint32_t size);
-
-	//@}
 }
 
 #endif

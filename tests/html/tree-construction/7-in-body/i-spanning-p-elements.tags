@@ -1,0 +1,16 @@
+|begin-tag| html
+|begin-tag| head
+|end-tag| head
+|begin-tag| body
+|begin-tag| p
+|begin-tag| i
+|text| """Test"""
+|end-tag| i
+|end-tag| p
+|begin-tag| p
+|text| """case"""
+|end-tag| p
+|text| """
+"""
+|end-tag| body
+|end-tag| html

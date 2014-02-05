@@ -1,0 +1,137 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2014 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+
+\addtogroup path
+\{
+
+\class cainteoir::path
+\brief Represents a file-system path.
+
+\}
+
+
+\fn    cainteoir::path::path()
+\brief Create an empty path object.
+
+
+\fn    cainteoir::path::path(const std::string &aPath)
+\brief Create a path object.
+
+\param[in] aPath The location to set the path object to.
+
+
+\fn    cainteoir::path::path(const char *aPath)
+\brief Create a path object.
+
+\param[in] aPath The location to set the path object to.
+
+
+\fn    path &cainteoir::path::operator/=(const char *aPath)
+\brief Append the path to the end of this path.
+
+\param[in] aPath The path to join at the end of this path.
+
+\return This path object.
+
+
+\fn    path &cainteoir::path::operator/=(const std::string &aPath)
+\brief Append the path to the end of this path.
+
+\param[in] aPath The path to join at the end of this path.
+
+\return This path object.
+
+
+\fn    cainteoir::path::operator const char *() const
+\brief Get a C-style string representation of the path.
+
+\return A C-style string representation of the path.
+
+
+\fn    const std::string &cainteoir::path::str() const
+\brief Get a string representation of the path.
+
+\return A string representation of the path.
+
+
+\fn    std::string::size_type cainteoir::path::size() const
+\brief Get the number of characters in the path.
+
+\return The number of characters in the path.
+
+
+\fn    bool cainteoir::path::empty() const
+\brief Is the path empty?
+
+\retval true  If the path is empty.
+\retval false If the path is not empty.
+
+
+\fn    path cainteoir::path::parent() const
+\brief Get the parent node of the path.
+
+\return The parent node of the path.
+
+If the path is to a file, this returns the directory the file is located in.
+
+If the path is to a directory, this returns the parent directory.
+
+
+\fn    path cainteoir::path::zip_file() const
+\brief Get the path of the zip container.
+
+\return \b zip_file for paths of the form \b zip_file!/zip_path.
+
+
+\fn    path cainteoir::path::zip_path() const
+\brief Get the path of the file in a zip container.
+
+\return \b zip_path for paths of the form \b zip_file!/zip_path.
+
+
+\addtogroup path
+\{
+
+
+\fn    cainteoir::path cainteoir::operator/(const path &a, const char *b)
+\brief Join two paths together.
+
+\param[in] a The path to be placed on the left-hand side.
+\param[in] b The path to be placed on the right-hand side.
+
+\return The joined path of the form \b a/b.
+
+
+\fn    cainteoir::path cainteoir::operator/(const path &a, const std::string &b)
+\brief Join two paths together.
+
+\param[in] a The path to be placed on the left-hand side.
+\param[in] b The path to be placed on the right-hand side.
+
+\return The joined path of the form \b a/b.
+
+
+\fn    cainteoir::path cainteoir::get_data_path()
+\brief Get the path to the Cainteoir Engine data files.
+
+\return The path to the Cainteoir Engine data files.
+
+
+\fn    FILE *cainteoir::create_temp_file(const char *mode)
+\brief Create a temporary file object.
+
+\param[in] mode The mode of the file to create.
+
+\return A file object to a new file created in temporary storage.
+
+
+\}
+
+
+*/

@@ -1,6 +1,6 @@
 /* XHTML Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -24,31 +24,42 @@
 #include <algorithm>
 #include <stack>
 
+#include <cainteoir/unicode.hpp>
+#include <ucd/ucd.h>
+
 namespace xml    = cainteoir::xml;
 namespace xmlns  = cainteoir::xml::xmlns;
 namespace events = cainteoir::events;
 namespace rdf    = cainteoir::rdf;
+namespace css    = cainteoir::css;
+namespace utf8   = cainteoir::utf8;
 
-#ifndef DOXYGEN
+/******************************************************************************
+ * HTML Elements
+ *
+ * This is the set of HTML elements and attributes.
+ */
+
 namespace html
 {
 	// HTML§12.1.2 -- void elements
 	// HTML§14.3.* -- default rendering (styles)
 
-	static const xml::context::entry a_node          = {};
+	static const xml::context::entry a_node          = { &cainteoir::span };
 	static const xml::context::entry abbr_node       = {};
 	static const xml::context::entry address_node    = { &cainteoir::emphasized_block }; // HTML§14.3.3
 	static const xml::context::entry acronym_node    = {};
 	static const xml::context::entry applet_node     = {};
 	static const xml::context::entry area_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
-	static const xml::context::entry article_node    = {};
-	static const xml::context::entry aside_node      = {};
-	static const xml::context::entry audio_node      = {};
+	static const xml::context::entry article_node    = { &cainteoir::block };
+	static const xml::context::entry aside_node      = { &cainteoir::block };
+	static const xml::context::entry audio_node      = { &cainteoir::hidden };
 	static const xml::context::entry b_node          = { &cainteoir::strong }; // HTML§14.3.4
 	static const xml::context::entry base_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
-	static const xml::context::entry basefont_node   = {};
+	static const xml::context::entry basefont_node   = { xml::begin_tag_type::open_close }; // HTML§12.2.5.4.4
 	static const xml::context::entry bdi_node        = {};
 	static const xml::context::entry bdo_node        = {};
+	static const xml::context::entry bgsound_node    = { xml::begin_tag_type::open_close }; // HTML§12.2.5.4.4
 	static const xml::context::entry big_node        = {};
 	static const xml::context::entry blockquote_node = {};
 	static const xml::context::entry body_node       = {};
@@ -56,18 +67,18 @@ namespace html
 	static const xml::context::entry button_node     = {};
 	static const xml::context::entry canvas_node     = {};
 	static const xml::context::entry caption_node    = {};
-	static const xml::context::entry center_node     = {};
+	static const xml::context::entry center_node     = { &cainteoir::paragraph };
 	static const xml::context::entry cite_node       = { &cainteoir::emphasized }; // HTML§14.3.4
 	static const xml::context::entry code_node       = { &cainteoir::monospace  }; // HTML§14.3.4
 	static const xml::context::entry col_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry colgroup_node   = {};
-	static const xml::context::entry command_node    = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry data_node       = {};
 	static const xml::context::entry datalist_node   = {};
 	static const xml::context::entry dd_node         = {};
 	static const xml::context::entry del_node        = {};
 	static const xml::context::entry details_node    = {};
 	static const xml::context::entry dfn_node        = { &cainteoir::emphasized }; // HTML§14.3.4
+	static const xml::context::entry dialog_node     = {};
 	static const xml::context::entry dir_node        = { &cainteoir::bullet_list }; // HTML§14.3.8
 	static const xml::context::entry div_node        = { &cainteoir::paragraph };
 	static const xml::context::entry dl_node         = {};
@@ -78,7 +89,7 @@ namespace html
 	static const xml::context::entry figcaption_node = {};
 	static const xml::context::entry figure_node     = {};
 	static const xml::context::entry font_node       = {};
-	static const xml::context::entry footer_node     = {};
+	static const xml::context::entry footer_node     = { &cainteoir::block };
 	static const xml::context::entry form_node       = {};
 	static const xml::context::entry frame_node      = {};
 	static const xml::context::entry frameset_node   = {};
@@ -89,8 +100,8 @@ namespace html
 	static const xml::context::entry h5_node         = { &cainteoir::heading5 };
 	static const xml::context::entry h6_node         = { &cainteoir::heading6 };
 	static const xml::context::entry head_node       = {};
-	static const xml::context::entry header_node     = {};
-	static const xml::context::entry hgroup_node     = {};
+	static const xml::context::entry header_node     = { &cainteoir::block };
+	static const xml::context::entry hgroup_node     = { &cainteoir::block };
 	static const xml::context::entry hr_node         = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry html_node       = {};
 	static const xml::context::entry i_node          = { &cainteoir::emphasized }; // HTML§14.3.4
@@ -105,13 +116,15 @@ namespace html
 	static const xml::context::entry legend_node     = {};
 	static const xml::context::entry li_node         = { &cainteoir::list_item };
 	static const xml::context::entry link_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry main_node       = { &cainteoir::block };
 	static const xml::context::entry map_node        = {};
 	static const xml::context::entry mark_node       = {};
 	static const xml::context::entry marquee_node    = {};
 	static const xml::context::entry menu_node       = { &cainteoir::bullet_list }; // HTML§14.3.8
+	static const xml::context::entry menuitem_node   = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry meta_node       = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry meter_node      = {};
-	static const xml::context::entry nav_node        = {};
+	static const xml::context::entry nav_node        = { &cainteoir::block };
 	static const xml::context::entry noad_node       = { xml::begin_tag_type::open_close }; // ad-sense markup? (e.g. m.fanfiction.net)
 	static const xml::context::entry noframes_node   = {};
 	static const xml::context::entry noscript_node   = {};
@@ -130,21 +143,22 @@ namespace html
 	static const xml::context::entry ruby_node       = {};
 	static const xml::context::entry s_node          = {};
 	static const xml::context::entry samp_node       = {};
-	static const xml::context::entry script_node     = {}; // HTML§14.3.1 -- hidden
-	static const xml::context::entry section_node    = {};
+	static const xml::context::entry script_node     = { &cainteoir::hidden }; // HTML§14.3.1
+	static const xml::context::entry section_node    = { &cainteoir::block };
 	static const xml::context::entry select_node     = {};
 	static const xml::context::entry small_node      = {};
 	static const xml::context::entry source_node     = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry span_node       = {};
 	static const xml::context::entry strike_node     = {};
 	static const xml::context::entry strong_node     = { &cainteoir::strong }; // HTML§14.3.4
-	static const xml::context::entry style_node      = {}; // HTML§14.3.1 -- hidden
+	static const xml::context::entry style_node      = { &cainteoir::hidden }; // HTML§14.3.1
 	static const xml::context::entry sub_node        = { &cainteoir::subscript }; // HTML§14.3.4
 	static const xml::context::entry summary_node    = {};
 	static const xml::context::entry sup_node        = { &cainteoir::superscript }; // HTML§14.3.4
 	static const xml::context::entry table_node      = { &cainteoir::table };
 	static const xml::context::entry tbody_node      = {};
 	static const xml::context::entry td_node         = { &cainteoir::table_cell };
+	static const xml::context::entry template_node   = {};
 	static const xml::context::entry textarea_node   = {};
 	static const xml::context::entry tfoot_node      = {};
 	static const xml::context::entry th_node         = { &cainteoir::table_cell };
@@ -161,9 +175,19 @@ namespace html
 	static const xml::context::entry wbr_node        = { xml::begin_tag_type::open_close }; // HTML§12.1.2
 
 	static const xml::context::entry charset_attr    = {};
+	static const xml::context::entry code_attr       = {};
+	static const xml::context::entry color_attr      = {};
 	static const xml::context::entry content_attr    = {};
+	static const xml::context::entry data_attr       = {};
+	static const xml::context::entry href_attr       = {};
 	static const xml::context::entry http_equiv_attr = {};
+	static const xml::context::entry label_attr      = {};
 	static const xml::context::entry name_attr       = {};
+	static const xml::context::entry rel_attr        = {};
+	static const xml::context::entry shape_attr      = {};
+	static const xml::context::entry src_attr        = {};
+	static const xml::context::entry type_attr       = {};
+	static const xml::context::entry value_attr      = {};
 
 	static const xml::context::entry abstract_meta    = {};
 	static const xml::context::entry creator_meta     = {};
@@ -171,144 +195,184 @@ namespace html
 	static const xml::context::entry keywords_meta    = {};
 	static const xml::context::entry title_meta       = {};
 }
-#endif
 
 static const std::initializer_list<const xml::context::entry_ref> html_nodes =
 {
-	{ "a",          &html::a_node },
-	{ "abbr",       &html::abbr_node },
-	{ "address",    &html::address_node },
-	{ "acronym",    &html::acronym_node }, // html4
-	{ "applet",     &html::applet_node },
-	{ "area",       &html::area_node },
-	{ "article",    &html::article_node },
-	{ "aside",      &html::aside_node },
-	{ "audio",      &html::audio_node },
-	{ "b",          &html::b_node },
-	{ "base",       &html::base_node },
-	{ "basefont",   &html::basefont_node }, // html4
-	{ "bdi",        &html::bdi_node },
-	{ "bdo",        &html::bdo_node },
-	{ "big",        &html::big_node }, // html4
-	{ "blockquote", &html::blockquote_node },
-	{ "body",       &html::body_node },
-	{ "br",         &html::br_node },
-	{ "button",     &html::button_node },
-	{ "canvas",     &html::canvas_node },
-	{ "caption",    &html::caption_node },
-	{ "center",     &html::center_node }, // html4
-	{ "cite",       &html::cite_node },
-	{ "code",       &html::code_node },
-	{ "col",        &html::col_node },
-	{ "colgroup",   &html::colgroup_node },
-	{ "command",    &html::command_node },
-	{ "data",       &html::data_node },
-	{ "datalist",   &html::datalist_node },
-	{ "dd",         &html::dd_node },
-	{ "del",        &html::del_node },
-	{ "details",    &html::details_node },
-	{ "dfn",        &html::dfn_node },
-	{ "dir",        &html::dir_node },
-	{ "div",        &html::div_node },
-	{ "dl",         &html::dl_node },
-	{ "dt",         &html::dt_node },
-	{ "em",         &html::em_node },
-	{ "embed",      &html::embed_node },
-	{ "fieldset",   &html::fieldset_node },
-	{ "figcaption", &html::figcaption_node },
-	{ "figure",     &html::figure_node },
-	{ "font",       &html::font_node }, // html4
-	{ "footer",     &html::footer_node },
-	{ "form",       &html::form_node },
-	{ "frame",      &html::frame_node }, // html4
-	{ "frameset",   &html::frameset_node }, // html4
-	{ "h1",         &html::h1_node },
-	{ "h2",         &html::h2_node },
-	{ "h3",         &html::h3_node },
-	{ "h4",         &html::h4_node },
-	{ "h5",         &html::h5_node },
-	{ "h6",         &html::h6_node },
-	{ "head",       &html::head_node },
-	{ "header",     &html::header_node },
-	{ "hgroup",     &html::hgroup_node },
-	{ "hr",         &html::hr_node },
-	{ "html",       &html::html_node },
-	{ "i",          &html::i_node },
-	{ "iframe",     &html::iframe_node },
-	{ "img",        &html::img_node },
-	{ "input",      &html::input_node },
-	{ "ins",        &html::ins_node },
-	{ "isindex",    &html::isindex_node }, // html4
-	{ "kbd",        &html::kbd_node },
-	{ "keygen",     &html::keygen_node },
-	{ "label",      &html::label_node },
-	{ "legend",     &html::legend_node },
-	{ "li",         &html::li_node },
-	{ "link",       &html::link_node },
-	{ "map",        &html::map_node },
-	{ "mark",       &html::mark_node },
-	{ "marquee",    &html::marquee_node },
-	{ "menu",       &html::menu_node },
-	{ "meta",       &html::meta_node },
-	{ "meter",      &html::meter_node },
-	{ "nav",        &html::nav_node },
-	{ "noad",       &html::noad_node }, // adsense, e.g. m.fanfiction.net
-	{ "noframes",   &html::noframes_node }, // html4
-	{ "noscript",   &html::noscript_node },
-	{ "object",     &html::object_node },
-	{ "ol",         &html::ol_node },
-	{ "optgroup",   &html::optgroup_node },
-	{ "option",     &html::option_node },
-	{ "output",     &html::output_node },
-	{ "p",          &html::p_node },
-	{ "param",      &html::param_node },
-	{ "pre",        &html::pre_node },
-	{ "progress",   &html::progress_node },
-	{ "q",          &html::q_node },
-	{ "rp",         &html::rp_node },
-	{ "rt",         &html::rt_node },
-	{ "ruby",       &html::ruby_node },
-	{ "s",          &html::s_node },
-	{ "samp",       &html::samp_node },
-	{ "script",     &html::script_node },
-	{ "section",    &html::section_node },
-	{ "select",     &html::select_node },
-	{ "small",      &html::small_node },
-	{ "source",     &html::source_node },
-	{ "span",       &html::span_node },
-	{ "strike",     &html::strike_node }, // html4
-	{ "strong",     &html::strong_node },
-	{ "style",      &html::style_node },
-	{ "sub",        &html::sub_node },
-	{ "summary",    &html::summary_node },
-	{ "sup",        &html::sup_node },
-	{ "table",      &html::table_node },
-	{ "tbody",      &html::tbody_node },
-	{ "td",         &html::td_node },
-	{ "textarea",   &html::textarea_node },
-	{ "tfoot",      &html::tfoot_node },
-	{ "th",         &html::th_node },
-	{ "thead",      &html::thead_node },
-	{ "time",       &html::time_node },
-	{ "title",      &html::title_node },
-	{ "tr",         &html::tr_node },
-	{ "track",      &html::track_node },
-	{ "tt",         &html::tt_node },
-	{ "u",          &html::u_node },
-	{ "ul",         &html::ul_node },
-	{ "var",        &html::var_node },
-	{ "video",      &html::video_node },
-	{ "wbr",        &html::wbr_node },
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "a",          &html::a_node          }, // 1.2        //            //         //
+	{ "abbr",       &html::abbr_node       }, // 4.0        //            //         //
+	{ "acronym",    &html::acronym_node    }, // 4.0        //            // 5.0     //
+	{ "address",    &html::address_node    }, // 1.2        //            //         //
+	{ "applet",     &html::applet_node     }, // 3.2        // 4.0        // 5.0     //
+	{ "area",       &html::area_node       }, // 3.2        //            //         //
+	{ "article",    &html::article_node    }, // 5.0        //            //         //
+	{ "aside",      &html::aside_node      }, // 5.0        //            //         //
+	{ "audio",      &html::audio_node      }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "b",          &html::b_node          }, // 1.2        //            //         //
+	{ "base",       &html::base_node       }, // 1.2        //            //         //
+	{ "basefont",   &html::basefont_node   }, // 3.2        // 4.0        // 5.0     //
+	{ "bdi",        &html::bdi_node        }, // 5.0        //            //         //
+	{ "bdo",        &html::bdo_node        }, // 4.0        //            //         //
+	{ "bgsound",    &html::bgsound_node    }, // ---        //            //         // non-standard
+	{ "big",        &html::big_node        }, // 3.2        //            // 5.0     //
+	{ "blockquote", &html::blockquote_node }, // 1.2        //            //         //
+	{ "body",       &html::body_node       }, // 1.2        //            //         //
+	{ "br",         &html::br_node         }, // 2.0        //            //         //
+	{ "button",     &html::button_node     }, // 4.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "canvas",     &html::canvas_node     }, // 5.0        //            //         //
+	{ "caption",    &html::caption_node    }, // 3.2        //            //         //
+	{ "center",     &html::center_node     }, // 3.2        // 4.0        // 5.0     //
+	{ "cite",       &html::cite_node       }, // 1.2        //            //         //
+	{ "code",       &html::code_node       }, // 1.2        //            //         //
+	{ "col",        &html::col_node        }, // 4.0        //            //         //
+	{ "colgroup",   &html::colgroup_node   }, // 4.0        //            //         //
+	{ "command",    &html::menuitem_node   }, // WHATWG     //            //         // old HTML5 draft
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "data",       &html::data_node       }, // 5.1        //            //         //
+	{ "datalist",   &html::datalist_node   }, // 5.0        //            //         //
+	{ "dd",         &html::dd_node         }, // 1.2        //            //         //
+	{ "del",        &html::del_node        }, // 4.0        //            //         //
+	{ "details",    &html::details_node    }, // 5.0        //            //         //
+	{ "dfn",        &html::dfn_node        }, // 1.2        //            //         //
+	{ "dialog",     &html::dialog_node     }, // 5.0        //            //         //
+	{ "dir",        &html::dir_node        }, // 1.2        // 4.0        // 5.0     //
+	{ "div",        &html::div_node        }, // 3.2        //            //         //
+	{ "dl",         &html::dl_node         }, // 1.2        //            //         //
+	{ "dt",         &html::dt_node         }, // 1.2        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "em",         &html::em_node         }, // 1.2        //            //         //
+	{ "embed",      &html::embed_node      }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "fieldset",   &html::fieldset_node   }, // 4.0        //            //         //
+	{ "figcaption", &html::figcaption_node }, // 5.0        //            //         //
+	{ "figure",     &html::figure_node     }, // 5.0        //            //         //
+	{ "font",       &html::font_node       }, // 3.2        // 4.0        // 5.0     //
+	{ "footer",     &html::footer_node     }, // 5.0        //            //         //
+	{ "form",       &html::form_node       }, // 2.0        //            //         //
+	{ "frame",      &html::frame_node      }, // 4.0        //            // 5.0     //
+	{ "frameset",   &html::frameset_node   }, // 4.0        //            // 5.0     //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "h1",         &html::h1_node         }, // 1.2        //            //         //
+	{ "h2",         &html::h2_node         }, // 1.2        //            //         //
+	{ "h3",         &html::h3_node         }, // 1.2        //            //         //
+	{ "h4",         &html::h4_node         }, // 1.2        //            //         //
+	{ "h5",         &html::h5_node         }, // 1.2        //            //         //
+	{ "h6",         &html::h6_node         }, // 1.2        //            //         //
+	{ "head",       &html::head_node       }, // 1.2        //            //         //
+	{ "header",     &html::header_node     }, // 5.0        //            //         //
+	{ "hgroup",     &html::hgroup_node     }, // WHATWG     //            //         //
+	{ "hr",         &html::hr_node         }, // 2.0        //            //         //
+	{ "html",       &html::html_node       }, // 1.2        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "i",          &html::i_node          }, // 1.2        //            //         //
+	{ "iframe",     &html::iframe_node     }, // 4.0        //            //         //
+	{ "img",        &html::img_node        }, // 1.2        //            //         //
+	{ "input",      &html::input_node      }, // 2.0        //            //         //
+	{ "ins",        &html::ins_node        }, // 4.0        //            //         //
+	{ "isindex",    &html::isindex_node    }, // 1.2        // 4.0        // 5.0     //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "kbd",        &html::kbd_node        }, // 1.2        //            //         //
+	{ "keygen",     &html::keygen_node     }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "label",      &html::label_node      }, // 4.0        //            //         //
+	{ "legend",     &html::legend_node     }, // 4.0        //            //         //
+	{ "li",         &html::li_node         }, // 1.2        //            //         //
+	{ "link",       &html::link_node       }, // 1.2        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "main",       &html::main_node       }, // 5.0        //            //         //
+	{ "map",        &html::map_node        }, // 3.2        //            //         //
+	{ "mark",       &html::mark_node       }, // 5.0        //            //         //
+	{ "marquee",    &html::marquee_node    }, // ---        //            //         // non-standard
+	{ "menu",       &html::menu_node       }, // 1.2        // 4.0        //         // changed meaning in HTML5
+	{ "menuitem",   &html::menuitem_node   }, // 5.0        //            //         //
+	{ "meta",       &html::meta_node       }, // 3.2        //            //         //
+	{ "meter",      &html::meter_node      }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "nav",        &html::nav_node        }, // 5.0        //            //         //
+	{ "noad",       &html::noad_node       }, // ---        //            //         // non-standard
+	{ "noframes",   &html::noframes_node   }, // 4.0        //            // 5.0     //
+	{ "noscript",   &html::noscript_node   }, // 4.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "object",     &html::object_node     }, // 4.0        //            //         //
+	{ "ol",         &html::ol_node         }, // 1.2        //            //         //
+	{ "optgroup",   &html::optgroup_node   }, // 4.0        //            //         //
+	{ "option",     &html::option_node     }, // 2.0        //            //         //
+	{ "output",     &html::output_node     }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "p",          &html::p_node          }, // 1.2        //            //         //
+	{ "param",      &html::param_node      }, // 3.2        //            //         //
+	{ "pre",        &html::pre_node        }, // 1.2        //            //         //
+	{ "progress",   &html::progress_node   }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "q",          &html::q_node          }, // 4.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "rp",         &html::rp_node         }, // 5.0        //            //         //
+	{ "rt",         &html::rt_node         }, // 5.0        //            //         //
+	{ "ruby",       &html::ruby_node       }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "s",          &html::s_node          }, // 4.0        // 4.01       //         // changed meaning in HTML5
+	{ "samp",       &html::samp_node       }, // 1.2        //            //         //
+	{ "script",     &html::script_node     }, // 3.2        //            //         //
+	{ "section",    &html::section_node    }, // 5.0        //            //         //
+	{ "select",     &html::select_node     }, // 2.0        //            //         //
+	{ "small",      &html::small_node      }, // 3.2        //            //         //
+	{ "source",     &html::source_node     }, // 5.0        //            //         //
+	{ "span",       &html::span_node       }, // 4.0        //            //         //
+	{ "strike",     &html::strike_node     }, // 3.2        // 4.0        // 5.0     //
+	{ "strong",     &html::strong_node     }, // 1.2        //            //         //
+	{ "style",      &html::style_node      }, // 3.2        //            //         //
+	{ "sub",        &html::sub_node        }, // 3.2        //            //         //
+	{ "summary",    &html::summary_node    }, // 5.0        //            //         //
+	{ "sup",        &html::sup_node        }, // 3.2        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "table",      &html::table_node      }, // 3.2        //            //         //
+	{ "tbody",      &html::tbody_node      }, // 4.0        //            //         //
+	{ "td",         &html::td_node         }, // 3.2        //            //         //
+	{ "template",   &html::template_node   }, // 5.0        //            //         //
+	{ "textarea",   &html::textarea_node   }, // 2.0        //            //         //
+	{ "tfoot",      &html::tfoot_node      }, // 4.0        //            //         //
+	{ "th",         &html::th_node         }, // 3.2        //            //         //
+	{ "thead",      &html::thead_node      }, // 4.0        //            //         //
+	{ "time",       &html::time_node       }, // 5.0        //            //         //
+	{ "title",      &html::title_node      }, // 1.2        //            //         //
+	{ "tr",         &html::tr_node         }, // 3.2        //            //         //
+	{ "track",      &html::track_node      }, // 5.0        //            //         //
+	{ "tt",         &html::tt_node         }, // 1.2        //            // 5.0     //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "u",          &html::u_node          }, // 1.2        // 4.0        //         //
+	{ "ul",         &html::ul_node         }, // 1.2        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "var",        &html::var_node        }, // 1.2        //            //         //
+	{ "video",      &html::video_node      }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+	{ "wbr",        &html::wbr_node        }, // 5.0        //            //         //
+	// Element    // Context                  // Introduced // Deprecated // Removed // Comment
+
+	// NOTE: HTML 4 is the baseline implementation, so any elements obsoleted in
+	// that specification or earlier are not supported. This also includes the
+	// HTML 3.2 version of ISINDEX.
 };
 
 static const std::initializer_list<const xml::context::entry_ref> html_attrs =
 {
 	{ "charset",    &html::charset_attr },
+	{ "code",       &html::code_attr },
+	{ "color",      &html::color_attr },
 	{ "content",    &html::content_attr },
+	{ "data",       &html::data_attr },
+	{ "href",       &html::href_attr },
 	{ "http-equiv", &html::http_equiv_attr },
 	{ "id",         &xml::id_attr },
+	{ "label",      &html::label_attr },
 	{ "lang",       &xml::lang_attr },
 	{ "name",       &html::name_attr },
+	{ "rel",        &html::rel_attr },
+	{ "shape",      &html::shape_attr },
+	{ "src",        &html::src_attr },
+	{ "type",       &html::type_attr },
+	{ "value",      &html::value_attr },
 };
 
 static const std::initializer_list<const xml::context::entry_ref> meta_names =
@@ -323,44 +387,95 @@ static const std::initializer_list<const xml::context::entry_ref> meta_names =
 	{ "shs-title",    &html::title_meta },
 };
 
-struct context_data
-{
-	const xml::context::entry *ctx;
-	uint32_t parameter;
+/******************************************************************************
+ * ePub3 Attributes
+ *
+ * This is the set of attributes used within ePub3 (X)HTML documents.
+ *
+ * See http://www.idpf.org/epub/30/spec/epub30-contentdocs.html.
+ */
 
-	context_data(const xml::context::entry *aContext, uint32_t aParameter)
-		: ctx(aContext)
-		, parameter(aParameter)
-	{
-	}
+namespace epub
+{
+	static const xml::context::entry case_attr    = {};
+	static const xml::context::entry default_attr = {};
+	static const xml::context::entry switch_attr  = {};
+	static const xml::context::entry trigger_attr = {};
+	static const xml::context::entry type_attr    = {};
+}
+
+static const std::initializer_list<const xml::context::entry_ref> epub_attrs =
+{
+	{ "case",    &epub::case_attr },
+	{ "default", &epub::default_attr },
+	{ "switch",  &epub::switch_attr },
+	{ "trigger", &epub::trigger_attr },
+	{ "type",    &epub::type_attr },
 };
 
-struct html_document_reader : public cainteoir::document_reader
+/******************************************************************************
+ * HTML Tree Construction
+ *
+ * This is an implementation of the algorithm described in HTML§12.2.5 (Tree
+ * construction) that handles HTML tag soup.
+ */
+
+struct html_tree_builder
 {
-	html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle);
+	html_tree_builder(const std::shared_ptr<xml::reader> &aReader);
 
 	bool read();
-private:
-	rdf::uri mSubject;
-	std::string mTitle;
-	std::shared_ptr<xml::reader> reader;
-	rdf::uri href;
-	cainteoir::rope htext;
-	int hid;
-	bool genAnchor;
-	std::stack<context_data> ctx;
 
-	std::string parseLangAttr();
+	xml::reader::node_type nodeType() const { return mNodeType; }
+
+	bool isXmlNamespaceDecl() const
+	{
+		return !reader->nodePrefix().compare("xmlns") ||
+		      (!reader->nodeName().compare("xmlns") && reader->nodePrefix().empty());
+	}
+
+	const cainteoir::rope &nodeValue() const { return reader->nodeValue(); }
+
+	const xml::context::entry *context() const { return mContext; }
+
+	void set_encoding(const char *encoding) { reader->set_encoding(encoding); }
+
+	void hold_event() { mHoldEvent = true; }
+private:
+	std::shared_ptr<xml::reader> reader;
+	bool mHoldEvent;
+	bool mReprocessToken;
+	std::list<const xml::context::entry *> mOpenElements;
+	xml::reader::node_type mNodeType;
+	const xml::context::entry *mContext;
+
+	void insert_open_tag(const xml::context::entry *aOpenTag);
+	void insert_close_tag(const xml::context::entry *aCloseTag);
+
+	void push_open_tag(const xml::context::entry *aOpenTag);
+	void pop_open_tag(const xml::context::entry *aOpenTag);
+
+	bool in_scope(const xml::context::entry *aElement);
+
+	bool next_node();
+	bool before_html(); // HTML§12.2.5.4.2 - before html
+	bool before_head(); // HTML§12.2.5.4.3 - before head
+	bool in_head(); // HTML§12.2.5.4.4 - in head
+	bool after_head(); // HTML§12.2.5.4.6 - after head
+	bool in_body(); // HTML§12.2.5.4.7 - in body
+	bool after_body(); // HTML§12.2.5.4.19 - after body
+	bool after_after_body(); // HTML§12.2.5.4.22 - after after body
+
+	decltype(&html_tree_builder::before_html) mInsertionMode;
 };
 
-static std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph);
-
-html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const char *aMimeType, const std::string &aTitle)
+html_tree_builder::html_tree_builder(const std::shared_ptr<xml::reader> &aReader)
 	: reader(aReader)
-	, mSubject(aSubject)
-	, href(aSubject.str(), std::string())
-	, hid(0)
-	, genAnchor(false)
+	, mHoldEvent(false)
+	, mReprocessToken(true) // createXmlReader is pointing to the root html node
+	, mInsertionMode(&html_tree_builder::before_html) // createXmlReader processes doctype & comments
+	, mNodeType(xml::reader::error)
+	, mContext(&xml::unknown_context)
 {
 	reader->set_predefined_entities(xml::html_entities);
 	reader->set_nodes(std::string(), html_nodes, cainteoir::buffer::ignore_case);
@@ -370,29 +485,420 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 	reader->set_nodes(xmlns::html40, html_nodes);
 	reader->set_attrs(xmlns::html40, html_attrs);
 	reader->set_attrs(xmlns::xml,    xml::attrs);
+	reader->set_attrs(xmlns::epub,   epub_attrs);
+}
 
-	std::string lang;
-	if (reader->context() == &html::html_node)
+bool html_tree_builder::read()
+{
+	if (mHoldEvent)
 	{
-		lang = parseLangAttr();
-		bool processing = true;
-		while (processing && reader->nodeType() != xml::reader::beginTagNode)
-			processing = reader->read();
+		mHoldEvent = false;
+		return true;
 	}
+	return (this->*mInsertionMode)();
+}
 
-	if (reader->context() == &html::head_node)
+void html_tree_builder::insert_open_tag(const xml::context::entry *aOpenTag)
+{
+	mReprocessToken = true;
+	mNodeType = xml::reader::beginTagNode;
+	mContext = aOpenTag;
+}
+
+void html_tree_builder::insert_close_tag(const xml::context::entry *aCloseTag)
+{
+	mReprocessToken = true;
+	mNodeType = xml::reader::endTagNode;
+	mContext = aCloseTag;
+}
+
+void html_tree_builder::push_open_tag(const xml::context::entry *aOpenTag)
+{
+	mOpenElements.push_back(aOpenTag);
+}
+
+void html_tree_builder::pop_open_tag(const xml::context::entry *aOpenTag)
+{
+	mOpenElements.pop_back();
+}
+
+bool html_tree_builder::in_scope(const xml::context::entry *aElement)
+{
+	for (const auto &element : mOpenElements)
 	{
-		mTitle = parseHeadNode(*reader, aSubject, aPrimaryMetadata);
-		bool processing = true;
-		while (processing && reader->nodeType() != xml::reader::beginTagNode)
-			processing = reader->read();
+		if (element == aElement)
+			return true;
 	}
+	return false;
+}
 
-	if (lang.empty() && reader->context() == &html::body_node)
-		lang = parseLangAttr();
+bool html_tree_builder::next_node()
+{
+	if (mReprocessToken)
+	{
+		mReprocessToken = false;
+		mNodeType = reader->nodeType();
+		mContext = reader->context();
+		return mNodeType != xml::reader::endOfData;
+	}
+	if (!reader->read())
+		return false;
 
-	if (!lang.empty())
-		aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(lang));
+	mNodeType = reader->nodeType();
+	mContext = reader->context();
+	return true;
+}
+
+bool html_tree_builder::before_html()
+{
+	while (next_node()) switch (nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (context() == &html::html_node)
+		{
+			mInsertionMode = &html_tree_builder::before_head;
+			push_open_tag(&html::html_node);
+			return true;
+		}
+		else
+		{
+			mInsertionMode = &html_tree_builder::before_head;
+			insert_open_tag(&html::html_node);
+			push_open_tag(&html::html_node);
+			return true;
+		}
+		break;
+	}
+	mInsertionMode = &html_tree_builder::before_head;
+	insert_open_tag(&html::html_node);
+	push_open_tag(&html::html_node);
+	return true;
+}
+
+bool html_tree_builder::before_head()
+{
+	while (next_node()) switch (nodeType())
+	{
+	case xml::reader::attribute:
+		return true;
+	case xml::reader::beginTagNode:
+		if (context() == &html::head_node)
+		{
+			mInsertionMode = &html_tree_builder::in_head;
+			push_open_tag(&html::head_node);
+			return true;
+		}
+		else
+		{
+			mInsertionMode = &html_tree_builder::in_head;
+			insert_open_tag(&html::head_node);
+			push_open_tag(&html::head_node);
+			return true;
+		}
+		break;
+	}
+	mInsertionMode = &html_tree_builder::in_head;
+	insert_open_tag(&html::head_node);
+	push_open_tag(&html::head_node);
+	return true;
+}
+
+bool html_tree_builder::in_head()
+{
+	while (next_node()) switch (nodeType())
+	{
+	case xml::reader::cdataNode:
+	case xml::reader::textNode:
+	case xml::reader::attribute:
+		return true;
+	case xml::reader::endTagNode:
+		if (context() == &html::head_node)
+		{
+			mInsertionMode = &html_tree_builder::after_head;
+			pop_open_tag(&html::head_node);
+			return true;
+		}
+		else
+			return true;
+		break;
+	case xml::reader::beginTagNode:
+		if (context() == &html::base_node ||
+		    context() == &html::basefont_node ||
+		    context() == &html::bgsound_node ||
+		    context() == &html::link_node ||
+		    context() == &html::meta_node ||
+		    context() == &html::title_node)
+			return true;
+		else
+		{
+			mInsertionMode = &html_tree_builder::after_head;
+			insert_close_tag(&html::head_node);
+			pop_open_tag(&html::head_node);
+			return true;
+		}
+		break;
+	}
+	mInsertionMode = &html_tree_builder::after_head;
+	insert_close_tag(&html::head_node);
+	pop_open_tag(&html::head_node);
+	return true;
+}
+
+bool html_tree_builder::after_head()
+{
+	while (next_node()) switch (nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (context() == &html::body_node)
+		{
+			mInsertionMode = &html_tree_builder::in_body;
+			push_open_tag(&html::body_node);
+			return true;
+		}
+		else
+		{
+			mInsertionMode = &html_tree_builder::in_body;
+			insert_open_tag(&html::body_node);
+			push_open_tag(&html::body_node);
+			return true;
+		}
+		break;
+	}
+	mInsertionMode = &html_tree_builder::in_body;
+	insert_open_tag(&html::body_node);
+	push_open_tag(&html::body_node);
+	return true;
+}
+
+bool html_tree_builder::in_body()
+{
+	// NOTE: This algorithm currently only ensures that the open and close tags
+	// match up, it does not currently follow the HTML rules (e.g. when to close
+	// 'p' elements).
+	while (next_node()) switch (nodeType())
+	{
+	case xml::reader::beginTagNode:
+		push_open_tag(mContext);
+		return true;
+	case xml::reader::endTagNode:
+		if (context() == &html::body_node)
+		{
+			auto top = mOpenElements.back();
+			if (top == &html::body_node)
+				mInsertionMode = &html_tree_builder::after_body;
+			else
+				insert_close_tag(top);
+			pop_open_tag(&html::body_node);
+		}
+		else if (context() == &html::html_node)
+		{
+			auto top = mOpenElements.back();
+			if (top == &html::body_node)
+			{
+				mInsertionMode = &html_tree_builder::after_body;
+				insert_close_tag(&html::body_node);
+			}
+			else
+				insert_close_tag(top);
+			pop_open_tag(&html::body_node);
+		}
+		else if (in_scope(context()))
+		{
+			if (context() != mOpenElements.back())
+				insert_close_tag(mOpenElements.back());
+			pop_open_tag(mContext);
+		}
+		else
+			continue;
+		return true;
+	default:
+		return true;
+	}
+	auto top = mOpenElements.back();
+	if (top == &html::body_node)
+		mInsertionMode = &html_tree_builder::after_body;
+	insert_close_tag(top);
+	pop_open_tag(top);
+	return true;
+}
+
+bool html_tree_builder::after_body()
+{
+	while (next_node()) switch (nodeType())
+	{
+	case xml::reader::endTagNode:
+		if (context() == &html::html_node)
+		{
+			mInsertionMode = &html_tree_builder::after_after_body;
+			return true;
+		}
+		return true;
+	}
+	mInsertionMode = &html_tree_builder::after_after_body;
+	insert_close_tag(&html::html_node);
+	return true;
+}
+
+bool html_tree_builder::after_after_body()
+{
+	return false;
+}
+
+/******************************************************************************
+ * HTML Tree Construction - test hook
+ *
+ * This code is used by the tests/xmlreader test program to print the events
+ * from the tree construction code, so it can be tested independently of the
+ * document parser code.
+ */
+
+namespace cainteoir
+{
+	void print_html_tree(const std::shared_ptr<xml::reader> &reader, bool silent);
+}
+
+typedef std::pair<const char *, const std::initializer_list<const xml::context::entry_ref> &>
+        context_ns;
+
+static const std::initializer_list<context_ns> node_sets =
+{
+	{ nullptr, html_nodes },
+};
+
+static const std::initializer_list<context_ns> attr_sets =
+{
+	{ nullptr, html_attrs },
+	{ "xml",   xml::attrs },
+	{ "epub",  epub_attrs },
+};
+
+static void print_node_name(const xml::context::entry *aEntry,
+                            const std::initializer_list<context_ns> &aEntries)
+{
+	for (const auto &entry_set : aEntries)
+	{
+		for (const auto &entry : entry_set.second)
+		{
+			if (entry.data == aEntry)
+			{
+				if (entry_set.first)
+					fprintf(stdout, "%s:%s", entry_set.first, entry.name);
+				else
+					fprintf(stdout, "%s", entry.name);
+				return;
+			}
+		}
+	}
+	fprintf(stdout, "(unknown)");
+}
+
+void cainteoir::print_html_tree(const std::shared_ptr<xml::reader> &aReader, bool silent)
+{
+	html_tree_builder reader(aReader);
+	while (reader.read()) if (!silent) switch (reader.nodeType())
+	{
+	default:
+		fprintf(stdout, "|%s| ", xml::node_type_name(reader.nodeType()));
+		print_node_name(reader.context(), node_sets);
+		fprintf(stdout, "\n");
+		break;
+	case xml::reader::commentNode:
+	case xml::reader::cdataNode:
+	case xml::reader::textNode:
+		fprintf(stdout, "|%s| \"\"\"%s\"\"\"\n",
+		        xml::node_type_name(reader.nodeType()),
+		        reader.nodeValue().str().c_str());
+		break;
+	case xml::reader::attribute:
+		if (reader.isXmlNamespaceDecl())
+			continue; // xml namespace -- skip
+		fprintf(stdout, "|%s| ", xml::node_type_name(reader.nodeType()));
+		print_node_name(reader.context(), attr_sets);
+		fprintf(stdout, "=\"\"\"%s\"\"\"\n", reader.nodeValue().str().c_str());
+		break;
+	case xml::reader::error:
+		fprintf(stdout, "|error| internal parser error\n");
+		break;
+	}
+}
+
+/******************************************************************************
+ * HTML Document Reader
+ *
+ * This is the main HTML parser that generates document reader events and RDF
+ * metadata. It uses the HTML Tree Construction code to ensure that the HTML
+ * tag soup is converted to well-formed XML events.
+ */
+
+struct html_document_reader : public cainteoir::document_reader
+{
+	html_document_reader(const std::shared_ptr<xml::reader> &aReader,
+	                     const rdf::uri &aSubject,
+	                     rdf::graph &aPrimaryMetadata,
+	                     const char *aMimeType,
+	                     const std::string &aTitle,
+	                     const cainteoir::path &aBaseUri);
+
+	bool read(rdf::graph *aMetadata);
+private:
+	rdf::uri mSubject;
+	std::string mTitle;
+	std::string mLanguage;
+	html_tree_builder reader;
+	cainteoir::css::style_manager stylemgr;
+	cainteoir::whitespace trim_left;
+
+	cainteoir::path mBaseUri;
+	rdf::uri mListing;
+	rdf::uri mCurrentReference;
+	rdf::uri mEntry;
+	cainteoir::rope mEntryText;
+	int mDepth;
+
+	bool parse_document_root(rdf::graph *aMetadata);
+	bool parse_html_node(rdf::graph *aMetadata);
+	bool parse_head_node(rdf::graph *aMetadata);
+	bool parse_body_attrs(rdf::graph *aMetadata);
+
+	bool parse_section_node(rdf::graph *aMetadata);
+	bool parse_list_node(rdf::graph *aMetadata);
+	bool parse_node(rdf::graph *aMetadata);
+
+	bool generate_title_event(rdf::graph *aMetadata);
+
+	void parse_text_node();
+	void reset_block_scope();
+
+	struct context_data
+	{
+		const xml::context::entry *ctx;
+		decltype(&html_document_reader::parse_node) handler;
+		uint32_t parameter;
+		bool visible;
+	};
+
+	std::stack<context_data> ctx;
+};
+
+html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &aReader,
+                                           const rdf::uri &aSubject,
+                                           rdf::graph &aPrimaryMetadata,
+                                           const char *aMimeType,
+                                           const std::string &aTitle,
+                                           const cainteoir::path &aBaseUri)
+	: reader(aReader)
+	, mSubject(aSubject)
+	, trim_left(cainteoir::whitespace::preserve)
+	, mBaseUri(aBaseUri)
+	, mDepth(0)
+{
+	stylemgr.parse("/css/counterstyles.css");
+
+	ctx.push({ nullptr, &html_document_reader::parse_document_root, 0, true });
+	read(&aPrimaryMetadata);
+
+	if (!mLanguage.empty())
+		aPrimaryMetadata.statement(aSubject, rdf::dc("language"), rdf::literal(mLanguage));
 
 	if (!mTitle.empty())
 		aPrimaryMetadata.statement(aSubject, rdf::dc("title"), rdf::literal(mTitle));
@@ -408,37 +914,12 @@ html_document_reader::html_document_reader(const std::shared_ptr<xml::reader> &a
 			mTitle = mTitle.substr(sep + 1);
 	}
 
-	ctx.push({ &html::body_node, 0 });
-	ctx.push({ &html::title_node, 0 });
+	ctx.push({ &html::title_node, &html_document_reader::generate_title_event, 0, true });
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal(aMimeType));
 }
 
-std::string html_document_reader::parseLangAttr()
-{
-	std::string lang;
-	while (reader->read() && reader->nodeType() == xml::reader::attribute)
-	{
-		if (reader->context() == &xml::lang_attr && lang.empty())
-		{
-			lang = reader->nodeValue().buffer()->str();
-		}
-	}
-	return lang;
-}
-
-static void skipNode(xml::reader &reader, const cainteoir::buffer name)
-{
-	while (reader.read()) switch (reader.nodeType())
-	{
-	case xml::reader::endTagNode:
-		if (!reader.nodeName().compare(name))
-			return;
-		break;
-	}
-}
-
-static void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
+static void parseMetaNode(html_tree_builder &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
 {
 	static xml::context names(std::string(), meta_names, cainteoir::buffer::ignore_case);
 
@@ -454,7 +935,7 @@ static void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::gr
 			if (content.empty())
 				return;
 
-			if (http_equiv == "Content-Type")
+			if (!strcasecmp(http_equiv.c_str(), "content-type"))
 			{
 				std::string::const_iterator first = content.begin();
 				std::string::const_iterator last  = content.end();
@@ -533,12 +1014,59 @@ static void parseMetaNode(xml::reader &reader, const rdf::uri &aSubject, rdf::gr
 		else if (reader.context() == &html::charset_attr)
 			reader.set_encoding(reader.nodeValue().normalize()->str().c_str());
 		break;
+	default:
+		break;
 	}
 }
 
-static std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
+bool html_document_reader::read(rdf::graph *aMetadata)
 {
-	std::string title;
+	while (!ctx.empty())
+	{
+		auto handler = ctx.top().handler;
+		if ((this->*handler)(aMetadata))
+			return true;
+	}
+	return false;
+}
+
+bool html_document_reader::parse_document_root(rdf::graph *aMetadata)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::beginTagNode:
+		if (reader.context() == &html::html_node)
+		{
+			ctx.push({ nullptr, &html_document_reader::parse_html_node, 0, true });
+			return false;
+		}
+		break;
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_html_node(rdf::graph *aMetadata)
+{
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &xml::lang_attr && mLanguage.empty())
+			mLanguage = reader.nodeValue().buffer()->str();
+		break;
+	case xml::reader::beginTagNode:
+		if (reader.context() == &html::head_node)
+			ctx.push({ nullptr, &html_document_reader::parse_head_node, 0, true });
+		else if (reader.context() == &html::body_node)
+			ctx.push({ nullptr, &html_document_reader::parse_body_attrs, 0, true });
+		return false;
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_head_node(rdf::graph *aMetadata)
+{
 	const xml::context::entry *context = nullptr;
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -546,215 +1074,359 @@ static std::string parseHeadNode(xml::reader &reader, const rdf::uri &aSubject, 
 		if (reader.context() == &html::title_node)
 			context = &html::title_node;
 		else if (reader.context() == &html::meta_node)
-			parseMetaNode(reader, aSubject, aGraph);
+			parseMetaNode(reader, mSubject, *aMetadata);
 		break;
 	case xml::reader::endTagNode:
 		if (reader.context() == &html::head_node)
-			return title;
-		if (reader.context() == &html::title_node)
-			context = &html::head_node;
+		{
+			ctx.pop();
+			return false;
+		}
+		else if (reader.context() == &html::title_node)
+			context = nullptr;
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
 		if (context == &html::title_node)
-			title = reader.nodeValue().normalize()->str();
+			mTitle = reader.nodeValue().normalize()->str();
 		break;
 	}
-	return title;
+	ctx.pop();
+	return false;
 }
 
-bool html_document_reader::read()
+bool html_document_reader::parse_body_attrs(rdf::graph *aMetadata)
 {
-	if (ctx.top().ctx == &html::title_node)
-	{
-		type   = events::toc_entry | events::anchor;
-		styles = &cainteoir::heading0;
-		text   = cainteoir::make_buffer(mTitle);
-		anchor = mSubject;
-		ctx.pop();
-		return true;
-	}
-
-	do switch (reader->nodeType())
+	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
-		if (reader->context() == &xml::id_attr)
+		if (reader.context() == &xml::lang_attr && mLanguage.empty())
+			mLanguage = reader.nodeValue().buffer()->str();
+		break;
+	case xml::reader::beginTagNode:
+		ctx.push({ &html::body_node, &html_document_reader::parse_section_node, 0, true });
+		reader.hold_event();
+		return true;
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_section_node(rdf::graph *aMetadata)
+{
+	context_data &data = ctx.top();
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &xml::id_attr)
 		{
-			anchor    = href = rdf::uri(mSubject.str(), reader->nodeValue().str());
-			type      = events::anchor;
-			genAnchor = false;
-			reader->read();
+			anchor = rdf::uri(mSubject.str(), reader.nodeValue().str());
+			type   = events::anchor;
+			return true;
+		}
+		else if (reader.context() == &epub::type_attr && aMetadata)
+		{
+			mListing = aMetadata->genid();
+			aMetadata->statement(mSubject, rdf::ref("listing"), mListing);
+			aMetadata->statement(mListing, rdf::rdf("type"), rdf::ref("Listing"));
+			aMetadata->statement(mListing, rdf::ref("type"), rdf::epv(reader.nodeValue().str()));
+		}
+		break;
+	case xml::reader::beginTagNode:
+		styles = reader.context()->styles;
+		type   = events::begin_context;
+		if (!styles)
+			continue;
+		if (styles->display == css::display::none)
+		{
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, false });
+			return false;
+		}
+		reset_block_scope();
+		if (styles->display == css::display::list_item)
+		{
+			content = std::make_shared<cainteoir::buffer>(" ");
+			type    = events::begin_context | events::text;
+			styles  = reader.context()->styles;
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
+			return true;
+		}
+		else if (!styles->list_style_type.empty())
+		{
+			ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1, true });
+			++mDepth;
+		}
+		else if (reader.context() == &html::article_node ||
+		         reader.context() == &html::aside_node ||
+		         reader.context() == &html::footer_node ||
+		         reader.context() == &html::header_node ||
+		         reader.context() == &html::hgroup_node ||
+		         reader.context() == &html::main_node ||
+		         reader.context() == &html::nav_node ||
+		         reader.context() == &html::section_node)
+			ctx.push({ reader.context(), &html_document_reader::parse_section_node, 0, true });
+		else
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
+		return true;
+	case xml::reader::endTagNode:
+		if (reader.context() == ctx.top().ctx &&
+		    reader.context() != &html::body_node)
+		{
+			type   = events::end_context;
+			styles = reader.context()->styles;
+			anchor = rdf::uri();
+			ctx.pop();
+			reset_block_scope();
+			return true;
+		}
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
+{
+	context_data &data = ctx.top();
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &xml::id_attr)
+		{
+			anchor = rdf::uri(mSubject.str(), reader.nodeValue().str());
+			type   = events::anchor;
 			return true;
 		}
 		break;
 	case xml::reader::beginTagNode:
-		if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item)
+		styles = reader.context()->styles;
+		if (styles && styles->display == css::display::list_item)
 		{
-			std::ostringstream textval;
-			auto list_styles = ctx.top().ctx->styles;
-			if (list_styles && list_styles->list_style_type)
+			if (aMetadata && !mListing.empty())
 			{
-				auto counter = list_styles->list_style_type;
-				int i = ctx.top().parameter++;
-				int n = counter->symbols.size();
-				textval << counter->prefix;
-				if (n != 0) switch (counter->type)
+				if (data.parameter == 1 && mDepth == 1)
 				{
-				case cainteoir::counter_type::cyclic:
-					textval << counter->symbols[i % n];
-					break;
-				case cainteoir::counter_type::numeric:
-					if (i == 0)
-						textval << counter->symbols[0];
-					else
-					{
-						std::string s;
-						while (i != 0)
-						{
-							s = counter->symbols[i % n] + s;
-							i = i / n;
-						}
-						textval << s;
-					}
-					break;
+					mCurrentReference = aMetadata->genid();
+					aMetadata->statement(mListing, rdf::ref("entries"), mCurrentReference);
 				}
-				textval << counter->suffix;
-			}
-			textval << ' ';
+				else
+				{
+					const rdf::uri next = aMetadata->genid();
+					aMetadata->statement(mCurrentReference, rdf::rdf("rest"), next);
+					mCurrentReference = next;
+				}
 
-			std::string marker = textval.str();
-			text   = cainteoir::make_buffer(marker.c_str(), marker.size());
-			type   = events::begin_context | events::text;
-			styles = reader->context()->styles;
-			reader->read();
+				mEntry = aMetadata->genid();
+				aMetadata->statement(mCurrentReference, rdf::rdf("first"), mEntry);
+				aMetadata->statement(mEntry, rdf::rdf("type"), rdf::ref("Entry"));
+				aMetadata->statement(mEntry, rdf::ref("level"), rdf::literal(mDepth, rdf::xsd("integer")));
+				mEntryText.clear();
+			}
+
+			auto list_type = ctx.top().ctx->styles->list_style_type;
+			auto counter   = stylemgr.get_counter_style(list_type);
+			if (counter)
+			{
+				int i = ctx.top().parameter++;
+				std::string marker = counter->marker(i);
+				content = cainteoir::make_buffer(marker.c_str(), marker.size());
+			}
+			else
+				content = std::make_shared<cainteoir::buffer>(" ");
+			type    = events::begin_context | events::text;
+			reset_block_scope();
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
 			return true;
 		}
-		else if (ctx.top().ctx == &html::body_node)
+		break;
+	case xml::reader::endTagNode:
+		if (reader.context() == ctx.top().ctx)
 		{
-			if (reader->context() == &html::script_node || reader->context() == &html::style_node)
-				skipNode(*reader, reader->nodeName());
-			if (reader->context()->styles)
+			if (aMetadata && !mListing.empty() && mDepth == 1)
 			{
-				if (reader->context()->styles->list_style_type)
-					ctx.push({ reader->context(), 1 });
-
-				if (reader->context()->styles->text_structure == cainteoir::text_structure::heading)
-				{
-					htext.clear();
-					genAnchor = true;
-				}
-
-				type   = events::begin_context;
-				styles = reader->context()->styles;
-				reader->read();
-				return true;
+				aMetadata->statement(mCurrentReference, rdf::rdf("rest"), rdf::rdf("nil"));
 			}
+			type   = events::end_context;
+			styles = reader.context()->styles;
+			anchor = rdf::uri();
+			ctx.pop();
+			reset_block_scope();
+			--mDepth;
+			return true;
+		}
+	}
+	ctx.pop();
+	return false;
+}
+
+bool html_document_reader::parse_node(rdf::graph *aMetadata)
+{
+	context_data &data = ctx.top();
+	while (reader.read()) switch (reader.nodeType())
+	{
+	case xml::reader::attribute:
+		if (reader.context() == &xml::id_attr)
+		{
+			anchor = rdf::uri(mSubject.str(), reader.nodeValue().str());
+			type   = events::anchor;
+			return true;
+		}
+		else if (reader.context() == &html::href_attr && aMetadata && !mEntry.empty())
+		{
+			const rdf::uri target = rdf::href(reader.nodeValue().str());
+			aMetadata->statement(mEntry, rdf::ref("target"), rdf::uri((mBaseUri / target.ns).str(), target.ref));
 		}
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		if (ctx.top().ctx == &html::body_node)
+		if (aMetadata && !mEntry.empty())
+			mEntryText += reader.nodeValue().buffer();
+		if (data.visible)
 		{
-			text = reader->nodeValue().content();
-			bool is_title_header = text && text->compare(mTitle.c_str()) == 0;
-
-			if (genAnchor)
+			parse_text_node();
+			if (content && !content->empty())
 			{
-				genAnchor = false;
-				if (!is_title_header)
-				{
-					std::stringstream ref;
-					ref << "genid.h" << hid;
-					++hid;
-
-					anchor = href = rdf::uri(mSubject.str(), ref.str());
-					type   = events::anchor;
-					return true;
-				}
-			}
-
-			if (text)
-			{
-				if (!is_title_header)
-					htext += text;
-
 				type   = events::text;
 				anchor = rdf::uri();
-				reader->read();
 				return true;
 			}
 		}
-		else if (ctx.top().ctx->styles && ctx.top().ctx->styles->display != cainteoir::display::none)
+		break;
+	case xml::reader::beginTagNode:
+		if (!data.visible)
 		{
-			text = reader->nodeValue().content();
-			if (text)
+			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, false });
+			return false;
+		}
+		styles = reader.context()->styles;
+		if (styles)
+		{
+			type   = events::begin_context;
+			anchor = rdf::uri();
+			reset_block_scope();
+			if (!styles->list_style_type.empty())
 			{
-				type   = events::text;
-				anchor = rdf::uri();
-				reader->read();
-				return true;
+				if (aMetadata && !mEntry.empty() && !mEntryText.empty())
+				{
+					auto title = mEntryText.normalize();
+					if (!title->empty())
+						aMetadata->statement(mEntry, rdf::dc("title"), rdf::literal(title->str()));
+					mEntryText.clear();
+				}
+				ctx.push({ reader.context(), &html_document_reader::parse_list_node, 1, true });
+				++mDepth;
 			}
+			else
+				ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
+			return true;
 		}
 		break;
 	case xml::reader::endTagNode:
-		if (ctx.top().ctx == &html::body_node)
+		if (reader.context() == ctx.top().ctx)
 		{
-			if (reader->context()->styles)
-			{
-				type   = events::end_context;
-				styles = reader->context()->styles;
-				anchor = rdf::uri();
-
-				if (styles->text_structure == cainteoir::text_structure::heading)
-					mTitle.clear();
-
-				if (styles->text_structure == cainteoir::text_structure::heading && !htext.empty())
-				{
-					text = htext.normalize();
-					for (char *c = (char *)text->begin(), *last = (char *)text->end(); c != last; ++c)
-					{
-						switch (*c)
-						{
-						case '\n':
-							*c = ' ';
-							break;
-						default:
-							break;
-						}
-					}
-					if (!text->empty())
-					{
-						type |= events::toc_entry;
-						anchor = href;
-					}
-					href.ref = std::string();
-				}
-
-				reader->read();
-				return true;
-			}
-		}
-		else if (reader->context()->styles && reader->context()->styles->display == cainteoir::display::list_item && ctx.top().ctx->styles)
-		{
-			type   = events::end_context;
-			styles = reader->context()->styles;
-			anchor = rdf::uri();
-			reader->read();
-			return true;
-		}
-		else if (reader->context() == ctx.top().ctx)
-		{
-			type   = events::end_context;
-			styles = reader->context()->styles;
-			anchor = rdf::uri();
 			ctx.pop();
-			reader->read();
+			if (!data.visible)
+				return false;
+			type   = events::end_context;
+			styles = reader.context()->styles;
+			anchor = rdf::uri();
+			reset_block_scope();
+			if (reader.context() == &html::li_node && aMetadata && !mEntry.empty() && !mEntryText.empty())
+			{
+				auto title = mEntryText.normalize();
+				if (!title->empty())
+					aMetadata->statement(mEntry, rdf::dc("title"), rdf::literal(title->str()));
+				mEntryText.clear();
+			}
 			return true;
 		}
 		break;
-	} while (reader->read());
-
+	}
+	ctx.pop();
 	return false;
+}
+
+bool html_document_reader::generate_title_event(rdf::graph *aMetadata)
+{
+	type    = events::anchor;
+	styles  = &cainteoir::heading0;
+	content = cainteoir::make_buffer(mTitle);
+	anchor  = mSubject;
+	ctx.pop();
+	return true;
+}
+
+void html_document_reader::parse_text_node()
+{
+	content = reader.nodeValue().buffer();
+	if (content)
+	{
+		css::whitespace space = css::whitespace::normal;
+		if (styles)
+			space = styles->whitespace;
+
+		cainteoir::whitespace whitespace;
+		cainteoir::whitespace newlines;
+		switch (space)
+		{
+		case css::whitespace::normal:
+		case css::whitespace::nowrap:
+			whitespace = cainteoir::whitespace::collapse;
+			newlines   = cainteoir::whitespace::collapse;
+			break;
+		case css::whitespace::preserved:
+		case css::whitespace::preserved_wrap:
+			whitespace = cainteoir::whitespace::preserve;
+			newlines   = cainteoir::whitespace::preserve;
+			break;
+		case css::whitespace::preserved_line:
+			whitespace = cainteoir::whitespace::collapse;
+			newlines   = cainteoir::whitespace::preserve;
+			break;
+		}
+
+		uint32_t c;
+		utf8::read(content->begin(), c);
+
+		content = cainteoir::normalize(content, whitespace, newlines,
+		                               trim_left,
+		                               cainteoir::whitespace::preserve);
+		if (content && content->size() >= 1)
+		{
+			const char *str = utf8::prev(content->end());
+			uint32_t ch;
+			utf8::read(str, ch);
+			trim_left = ucd::isspace(ch) ? cainteoir::whitespace::collapse : cainteoir::whitespace::preserve;
+		}
+		else if (ucd::isspace(c) && trim_left == cainteoir::whitespace::preserve)
+		{
+			content = std::make_shared<cainteoir::buffer>(" ");
+			trim_left = cainteoir::whitespace::collapse;
+		}
+	}
+}
+
+void html_document_reader::reset_block_scope()
+{
+	switch (styles->display)
+	{
+	case css::display::inlined:
+	case css::display::inherit:
+		break;
+	default:
+		switch (styles->whitespace)
+		{
+		case css::whitespace::normal:
+		case css::whitespace::nowrap:
+		case css::whitespace::preserved_line:
+			trim_left = cainteoir::whitespace::collapse;
+			break;
+		case css::whitespace::preserved:
+		case css::whitespace::preserved_wrap:
+			trim_left = cainteoir::whitespace::preserve;
+			break;
+		}
+		break;
+	}
 }
 
 std::shared_ptr<cainteoir::document_reader>
@@ -762,12 +1434,18 @@ cainteoir::createHtmlReader(const std::shared_ptr<xml::reader> &aReader,
                             const rdf::uri &aSubject,
                             rdf::graph &aPrimaryMetadata,
                             const std::string &aTitle,
-	                    const char *aMimeType)
+	                    const char *aMimeType,
+                            const cainteoir::path &aBaseUri)
 {
-	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, aMimeType, aTitle);
+	return std::make_shared<html_document_reader>(aReader, aSubject, aPrimaryMetadata, aMimeType, aTitle, aBaseUri);
 }
 
-/** References
-  *
-  *    HTML [http://www.whatwg.org/specs/web-apps/current-work/multipage/] -- HTML Living Standard
-  */
+/* References
+ *
+ *    v1.2   : [Hypertext Markup Language (HTML)](http://www.w3.org/MarkUp/draft-ietf-iiir-html-01.txt)
+ *    v2.0   : [HTML 2.0](http://tools.ietf.org/html/rfc1866)
+ *    v3.2   : [HTML 3.2](http://www.w3.org/TR/REC-html32)
+ *    v4.01  : [HTML 4.01](http://www.w3.org/TR/REC-html40)
+ *    v5.0   : [HTML 5](http://www.w3.org/TR/html5/)
+ *    WHATWG : [HTML Living Standard](http://www.whatwg.org/specs/web-apps/current-work/multipage/)
+ */

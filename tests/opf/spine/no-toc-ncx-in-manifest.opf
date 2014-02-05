@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="id" xml:lang="es">
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+		<dc:title>Test Case</dc:title>
+		<dc:identifier id="id">test.opf</dc:identifier>
+	</metadata>
+	<manifest>
+		<item id="test" href="test.xhtml" media-type="application/xhtml+xml" />
+		<!--
+			An NCX file is referenced here but not in the spine to
+			ensure the NCX file is not being processed unless it is
+			referenced by the spine.
+		-->
+		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
+	</manifest>
+	<spine>
+		<itemref idref="test" />
+	</spine>
+</package>

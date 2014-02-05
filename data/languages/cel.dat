@@ -1,0 +1,27 @@
+# Classification and Family Tree for Celtic languages
+#
+# Copyright (C) 2012 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0
+#
+# http://en.wikipedia.org/wiki/Insular_Celtic_languages
+# ... Goidelic (Anglo-Saxon / Gael)
+a:ga:mga
+a:gd:mga
+a:gv:mga
+a:mga:sga
+a:sga:pgl
+c:pgl:cel
+# ... Brythonic (Briton)
+# ... ... Western Brythonic
+a:cy:wlm
+a:wlm:owl
+c:owl:cel
+# ... ... Southwestern Brythonic
+a:br:xbm
+a:xbm:obt
+c:obt:cel
+a:kw:cnx
+a:cnx:oco
+c:oco:cel
+# http://en.wikipedia.org/wiki/Continental_Celtic_languages

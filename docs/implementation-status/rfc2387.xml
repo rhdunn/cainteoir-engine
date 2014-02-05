@@ -1,7 +1,0 @@
-<li id="rfc2387" rel="dct:references">
-	<span typeof="foaf:Document" about="http://www.rfc-editor.org/rfc/rfc2387.txt">
-		<span property="dc:creator">E. Levinson</span>,
-		<a property="dc:title" href="http://www.rfc-editor.org/rfc/rfc2387.txt">The MIME Multipart/Related Content-type</a>.
-		<span property="dc:date" datatype="xsd:date" content="1998-08">1998</span>.
-	</span>
-</li>

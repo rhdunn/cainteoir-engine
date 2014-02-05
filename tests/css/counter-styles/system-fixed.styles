@@ -1,0 +1,10 @@
+@counter-style empty {
+	system: fixed 1;
+	negative: '-' '';
+	prefix: '';
+	suffix: '.';
+	range: auto;
+	symbols: ;
+	additive-symbols: ;
+	fallback: decimal;
+}

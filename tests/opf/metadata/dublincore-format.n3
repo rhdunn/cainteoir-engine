@@ -1,8 +1,10 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
 <> dc:title "Test Case" .
-<> dc:identifier "dublincore-format.opf" .
+<> dc:identifier <#id> .
+<#id> rdf:value "dublincore-format.opf" .
 <> dc:language "en" .
 <> dc:format "xhtml" .
 <> dc:format "text/html" .

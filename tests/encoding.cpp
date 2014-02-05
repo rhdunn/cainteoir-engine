@@ -212,9 +212,31 @@ TEST_CASE("decoding a utf-8 buffer (no conversion)")
 	match(ret.buffer(), "\xE2\x80\x9Cx, y, \xE2\x80\xA6\xE2\x80\x9D");
 }
 
+TEST_CASE("decoding a UTF-8 buffer (no conversion)")
+{
+	cainteoir::encoding e("UTF-8");
+	auto data = std::make_shared<cainteoir::buffer>("\xE2\x80\x9Cx, y, \xE2\x80\xA6\xE2\x80\x9D");
+	assert(e.decode(data).get() == data.get());
+
+	cainteoir::rope ret;
+	e.decode(data, ret);
+	match(ret.buffer(), "\xE2\x80\x9Cx, y, \xE2\x80\xA6\xE2\x80\x9D");
+}
+
 TEST_CASE("decoding a us-ascii buffer (no conversion)")
 {
 	cainteoir::encoding e("us-ascii");
+	auto data = std::make_shared<cainteoir::buffer>("This is a test string!");
+	assert(e.decode(data).get() == data.get());
+
+	cainteoir::rope ret;
+	e.decode(data, ret);
+	match(ret.buffer(), "This is a test string!");
+}
+
+TEST_CASE("decoding a US-ASCII buffer (no conversion)")
+{
+	cainteoir::encoding e("US-ASCII");
 	auto data = std::make_shared<cainteoir::buffer>("This is a test string!");
 	assert(e.decode(data).get() == data.get());
 

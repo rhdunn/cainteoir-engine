@@ -1,9 +1,0 @@
-<li id="nquads2008" rel="dct:references">
-	<span typeof="foaf:Document" about="http://sw.deri.org/2008/07/n-quads/">
-		<span property="dc:creator">Richard Cyganiak</span>,
-		<span property="dc:creator">Andreas Harth</span>,
-		<span property="dc:creator">Aidan Hogan</span>,
-		<a property="dc:title" href="http://sw.deri.org/2008/07/n-quads/">N-Quads</a>.
-		<span property="dc:date" datatype="xsd:date" content="2008-07">2008</span>.
-	</span>
-</li>

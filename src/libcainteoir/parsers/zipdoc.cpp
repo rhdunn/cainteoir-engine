@@ -1,6 +1,6 @@
 /* Zip Document Parser.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -24,14 +24,14 @@
 
 #include <stdexcept>
 
-namespace rdf    = cainteoir::rdf;
-namespace xml    = cainteoir::xml;
+namespace rdf = cainteoir::rdf;
+namespace xml = cainteoir::xml;
 
 struct zip_document_reader : public cainteoir::document_reader
 {
 	zip_document_reader(std::shared_ptr<cainteoir::archive> &aData);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::shared_ptr<cainteoir::document_reader> child;
 	std::shared_ptr<cainteoir::archive> mData;
@@ -46,16 +46,16 @@ zip_document_reader::zip_document_reader(std::shared_ptr<cainteoir::archive> &aD
 	mCurrent = mFiles.begin();
 }
 
-bool zip_document_reader::read()
+bool zip_document_reader::read(rdf::graph *aMetadata)
 {
 	if (child)
 	{
 		if (child->read())
 		{
-			type   = child->type;
-			styles = child->styles;
-			text   = child->text;
-			anchor = child->anchor;
+			type    = child->type;
+			styles  = child->styles;
+			content = child->content;
+			anchor  = child->anchor;
 			return true;
 		}
 		child.reset();
@@ -72,7 +72,7 @@ bool zip_document_reader::read()
 			if (child)
 			{
 				++mCurrent;
-				return read();
+				return read(aMetadata);
 			}
 		}
 		++mCurrent;

@@ -1,0 +1,9 @@
+begin-context  +parallel
+text-ref [%CWD%/one.html#]text1
+end-context
+begin-context  +parallel
+text-ref [%CWD%/one.html#]text2
+end-context
+begin-context  +parallel
+text-ref [%CWD%/two.html#]text1
+end-context

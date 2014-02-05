@@ -1,0 +1,329 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2014 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+
+\addtogroup letter_to_phoneme
+\{
+
+\fn    std::shared_ptr<phoneme_reader> cainteoir::tts::createPronunciationRules(const char *aRuleSetPath)
+\brief Create a letter to phoneme converter.
+
+\param[in] aRuleSetPath The path of the letter to phoneme rules to use.
+
+\return A letter to phoneme converter object.
+
+\}
+
+
+\addtogroup text_reader
+\{
+
+\enum  cainteoir::tts::event_type
+\brief The matched context for the text_event object.
+
+\}
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::error
+\brief The unicode codepoints are invalid or not recognised.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::word_uppercase
+\brief A sequence of upper-case letters.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::word_lowercase
+\brief A sequence of lower-case letters.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::word_capitalized
+\brief An upper-case or title-case letter followed by a sequence of lower-case letters.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::word_mixedcase
+\brief A sequence of lower-case and upper-case letters.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::word_script
+\brief A sequence of CJK or similar script characters.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::number
+\brief A sequence of number characters.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::ordinal_number
+\brief An ordinal number such as 1st, 2nd or 3rd.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::punctuation
+\brief A generic punctuation character.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::comma
+\brief A comma punctuation character.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::semicolon
+\brief A semicolon punctuation character.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::colon
+\brief A colon punctuation character.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::ellipsis
+\brief An ellipsis punctuation character.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::full_stop
+\brief A full stop (period) punctuation character.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::double_stop
+\brief A sequence of two full stop punctuation characters.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::exclamation
+\brief An exclamation mark punctuation character.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::question
+\brief A question mark punctuation character.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::symbol
+\brief A generic symbol character.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::paragraph
+\brief A separator between two paragraphs.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::phonemes
+\brief A sequence of phonemes.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::en_dash
+\brief An en-dash punctuation character.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::em_dash
+\brief An em-dash punctuation character.
+
+
+\addtogroup text_reader
+\{
+
+\class cainteoir::tts::text_event
+\brief Information about a text block match.
+
+\}
+
+
+\var   std::shared_ptr<buffer> cainteoir::tts::text_event::text
+\brief The Unicode codepoints associated with the event.
+
+
+\var   std::list<phoneme> cainteoir::tts::text_event::phonemes
+\brief The sequence of phonemes associated with the cainteoir::tts::phonemes event.
+
+
+\var   cainteoir::tts::event_type cainteoir::tts::text_event::type
+\brief The classification of the event.
+
+
+\var   cainteoir::range<uint32_t> cainteoir::tts::text_event::range
+\brief The start and end character of the event.
+
+The start and end values are the number of Unicode codepoints from the start of
+the document to the relevant position.
+
+
+\var   uint32_t cainteoir::tts::text_event::codepoint
+\brief The Unicode codepoint of the first character in the event.
+
+
+\fn    cainteoir::tts::text_event::text_event(const std::shared_ptr<buffer> &aText, event_type aType, const cainteoir::range<uint32_t> &aRange, uint32_t aCodePoint)
+\brief Create a text event object.
+
+\param[in] aText      The content of the event.
+\param[in] aType      The classification of the event.
+\param[in] aRange     The start and end Unicode codepoint of the event.
+\param[in] aCodePoint The first Unicode codepoint in the event.
+
+
+\fn    cainteoir::tts::text_event::text_event(event_type aType, const cainteoir::range<uint32_t> &aRange, uint32_t aCodePoint)
+\brief Create a text event object.
+
+\param[in] aType      The classification of the event.
+\param[in] aRange     The start and end Unicode codepoint of the event.
+\param[in] aCodePoint The first Unicode codepoint in the event.
+
+
+\fn    cainteoir::tts::text_event::text_event()
+\brief Create an empty text event object.
+
+
+\addtogroup text_reader
+\{
+
+\class cainteoir::tts::text_reader
+\brief Parse text from a document into a sequence of text events.
+
+\}
+
+
+\fn    cainteoir::tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
+\brief Create a text reader object.
+
+\param[in] aReader The document to generate text events from.
+
+
+\fn    const text_event &cainteoir::tts::text_reader::event() const
+\brief Get the current text event.
+
+\return The current text event.
+
+
+\fn    bool cainteoir::tts::text_reader::read()
+\brief Get the next text event.
+
+\retval true  If the next event was read.
+\retval false If there are no more text events.
+
+
+\addtogroup context_analysis
+\{
+
+\class cainteoir::tts::context_analysis
+\brief Perform context analysis on a text event sequence.
+
+\}
+
+
+\fn    cainteoir::tts::context_analysis::context_analysis(const std::shared_ptr<document_reader> &aReader)
+\brief Create a context analysis object.
+
+\param[in] aReader The document to generate text events from.
+
+
+\fn    const text_event &cainteoir::tts::context_analysis::event() const
+\brief Get the current text event.
+
+\return The current text event.
+
+
+\fn    bool cainteoir::tts::context_analysis::read()
+\brief Get the next text event.
+
+\retval true  If the next event was read.
+\retval false If there are no more text events.
+
+
+\addtogroup word_stream
+\{
+
+\enum  cainteoir::tts::word_stream::number_scale
+\brief How to pronounce large numbers.
+
+\}
+
+
+\var   cainteoir::tts::word_stream::number_scale cainteoir::tts::word_stream::short_scale
+\brief The short number scale (10^6 = million, 10^9 = billion, 10^12 = trillion, etc).
+
+
+\var   cainteoir::tts::word_stream::number_scale cainteoir::tts::word_stream::long_scale
+\brief The long number scale (10^6 = million, 10^9 = milliard, 10^12 = billion, etc).
+
+
+\addtogroup word_stream
+\{
+
+\class cainteoir::tts::word_stream
+\brief Convert a text event sequence to a word sequence.
+
+\}
+
+
+\fn    cainteoir::tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader, const language::tag &aLocale, number_scale aScale)
+\brief Create a word stream object.
+
+\param[in] aReader The document to generate text events from.
+\param[in] aLocale The language used to convert numbers, etc. into words.
+\param[in] aScale  The number scale system to use.
+
+
+\fn    const text_event &cainteoir::tts::word_stream::event() const
+\brief Get the current text event.
+
+\return The current text event.
+
+
+\fn    bool cainteoir::tts::word_stream::read()
+\brief Get the next text event.
+
+\retval true  If the next event was read.
+\retval false If there are no more text events.
+
+
+\addtogroup phoneme_stream
+\{
+
+\class cainteoir::tts::phoneme_stream
+\brief Convert a word sequence to a phoneme sequence.
+
+\}
+
+
+\fn    cainteoir::tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aReader, const language::tag &aLocale, word_stream::number_scale aScale, const std::shared_ptr<phoneme_reader> &aRules, const std::shared_ptr<dictionary_reader> &aExceptionDictionary)
+\brief Create a phoneme stream object.
+
+\param[in] aReader              The document to generate text events from.
+\param[in] aLocale              The language used to convert numbers, etc. into words.
+\param[in] aScale               The number scale system to use.
+\param[in] aRules               The letter to phoneme rules to use.
+\param[in] aExceptionDictionary Pronunciation of words that are mispronounced by \p aRules.
+
+
+\fn    const text_event &cainteoir::tts::phoneme_stream::event() const
+\brief Get the current text event.
+
+\return The current text event.
+
+
+\fn    bool cainteoir::tts::phoneme_stream::read()
+\brief Get the next text event.
+
+\retval true  If the next event was read.
+\retval false If there are no more text events.
+
+
+\addtogroup phoneme_stream
+\{
+
+\fn    void cainteoir::tts::generate_phonemes(tts::phoneme_stream &reader, FILE *out, const char *phonemeset, tts::stress_type stress, const char *open, const char *close, const char *phrase)
+\brief Write the phonemes to the specified file.
+
+\param[in] reader     The source of the phonetic transcription.
+\param[in] out        The file to write the transcription to.
+\param[in] phonemeset The phonemeset to transcribe phonemes as.
+\param[in] stress     The placement of stress marks in the phonetic transcription.
+\param[in] open       The characters to use to indicate the start of a phoneme sequence.
+\param[in] close      The characters to use to indicate the end of a phoneme sequence.
+\param[in] phrase     The characters used to separate phrases (full stops, commas, etc.).
+
+This is used to write out the pronunciation from the tts::phoneme_stream object,
+while preserving the punctuation. The punctuation is preserved to allow other
+TTS engines like eSpeak to produce the correct pauses and other prosodic elements.
+
+\}
+
+
+*/

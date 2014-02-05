@@ -1,6 +1,6 @@
 /* Tester -- C++ Test Logic
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -40,9 +40,28 @@ namespace tester
 		const T &operator()() const { return value; }
 	};
 
+	// Holding a reference to a string constant causes issues when comparing
+	// the string, therefore copy it to a std::string.
+	template <int N>
+	struct value_t<char [N]>
+	{
+		const std::string value;
+
+		value_t(const char *v) : value(v)
+		{
+		}
+
+		const std::string &operator()() const { return value; }
+	};
+
 	template <typename T> struct is_printable<value_t<T>>
 	{
 		static const bool value = is_printable<T>::value;
+	};
+
+	template <int N> struct is_printable<value_t<char [N]>>
+	{
+		static const bool value = true;
 	};
 
 	template <typename T>

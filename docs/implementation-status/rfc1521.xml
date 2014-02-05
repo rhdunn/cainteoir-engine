@@ -1,8 +1,0 @@
-<li id="rfc1521" rel="dct:references">
-	<span typeof="foaf:Document" about="http://www.rfc-editor.org/rfc/rfc1521.txt">
-		<span property="dc:creator">N. Borenstein</span>,
-		<span property="dc:creator">N. Freed</span>,
-		<a property="dc:title" href="http://www.rfc-editor.org/rfc/rfc1521.txt">Mechanisms for Specifying and Describing the Format of Internet Message Bodies</a>.
-		<span property="dc:date" datatype="xsd:date" content="1993-09">1993</span>.
-	</span>
-</li>

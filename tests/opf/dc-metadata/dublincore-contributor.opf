@@ -42,9 +42,4 @@
 			<dc:contributor opf2:file-as="King, Martin Luther Jr." opf2:role="aut">Rev. Dr. Martin Luther King Jr.</dc:contributor>
 		</dc-metadata>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

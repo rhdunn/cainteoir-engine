@@ -1,0 +1,5 @@
+anchor []
+text(21): """This is a test file.
+"""
+text(28): """This is the same test file.
+"""

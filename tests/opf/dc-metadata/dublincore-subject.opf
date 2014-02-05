@@ -42,9 +42,4 @@
 			<dc:subject> seven, eight-nine, ten</dc:subject>
 		</dc-metadata>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

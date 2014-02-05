@@ -1,0 +1,9 @@
+|begin-tag| html
+|begin-tag| head
+|begin-tag| bgsound
+|attribute| src="""test.mp3"""
+|end-tag| bgsound
+|end-tag| head
+|begin-tag| body
+|end-tag| body
+|end-tag| html

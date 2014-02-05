@@ -1,6 +1,6 @@
 /* RDF query tests.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -98,6 +98,26 @@ TEST_CASE("rql::object")
 
 	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", rdf::xsd("string"))));
 	match(rql::object(g.back()), rdf::uri(std::string(), std::string()));
+}
+
+TEST_CASE("rql::literal")
+{
+	rdf::graph g;
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::rdf("Class")));
+	match(rql::literal(g.back()), rdf::literal());
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("type"), rdf::bnode("class")));
+	match(rql::literal(g.back()), rdf::literal());
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property")));
+	match(rql::literal(g.back()), rdf::literal("Property"));
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", "en")));
+	match(rql::literal(g.back()), rdf::literal("Property", "en"));
+
+	assert(g.statement(rdf::rdf("Property"), rdf::rdf("label"), rdf::literal("Property", rdf::xsd("string"))));
+	match(rql::literal(g.back()), rdf::literal("Property", rdf::xsd("string")));
 }
 
 TEST_CASE("rql::value")
@@ -260,6 +280,28 @@ TEST_CASE("rql::select_value")
 	       == "");
 }
 
+TEST_CASE("rql::rdf_list_items")
+{
+	rdf::graph g;
+	auto reader = cainteoir::createDocumentReader("tests/rdfxml/syntax/example19.rdf", g, std::string());
+	assert(g.size() == 8);
+
+	rdf::ns ex(   "ex",    "http://example.org/");
+	rdf::ns stuff("stuff", "http://example.org/stuff/1.0/");
+
+	std::vector<rdf::uri> fruit;
+	rql::rdf_list_items(g, ex("basket"), stuff("hasFruit"),
+	                    [&fruit](const std::shared_ptr<const rdf::triple> &subject)
+	{
+		fruit.push_back(rql::object(subject));
+	});
+
+	assert(fruit.size() == 3);
+	if (fruit.size() >= 1) match(fruit[0], ex("banana"));
+	if (fruit.size() >= 2) match(fruit[1], ex("apple"));
+	if (fruit.size() >= 3) match(fruit[2], ex("pear"));
+}
+
 TEST_CASE("performance")
 {
 	// Load Time Performance
@@ -268,8 +310,8 @@ TEST_CASE("performance")
 	rdf::graph data;
 	auto reader = cainteoir::createDocumentReader("data/languages.rdf.gz", data, std::string());
 
-	printf("... ... load time: %G\n", load_time.elapsed());
-	assert(data.size() == 35609);
+	printf("... ... load time: %G (%d triples)\n", load_time.elapsed(), data.size());
+	assert(!data.empty());
 
 	// Select Performance
 
@@ -278,8 +320,8 @@ TEST_CASE("performance")
 	                                     rql::predicate == rdf::rdf("type") &&
 	                                     rql::object    == rdf::iana("Language"));
 
-	printf("... ... select(_, predicate, object) as languages time: %G\n", select1_time.elapsed());
-	assert(languages.size() == 7541);
+	printf("... ... select(_, predicate, object) as languages time: %G (%d triples)\n", select1_time.elapsed(), languages.size());
+	assert(!languages.empty());
 
 	// Select Performance : Subject
 	//
@@ -297,8 +339,8 @@ TEST_CASE("performance")
 	for (auto &lang : languages)
 	{
 		rql::results statements = rql::select(data, rql::subject == rql::subject(lang));
-		auto id   = rql::select_value<std::string>(statements, rql::predicate == rdf::rdf("value"));
-		auto name = rql::select_value<std::string>(statements, rql::predicate == rdf::dcterms("title"));
+		auto id   = rql::select_value<std::string>(statements, rql::predicate == rdf::iana("code"));
+		auto name = rql::select_value<std::string>(statements, rql::predicate == rdf::iana("label"));
 	}
 
 	printf("... ... select(subject, _, _) on each language time: %G\n", select2_time.elapsed());

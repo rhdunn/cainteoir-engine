@@ -1,41 +1,30 @@
-.number        0
-.number        00
-.number        1
-.number        11
-.number        2
-.number        22
-.number        3
-.number        33
-.number        4
-.number        44
-.number        5
-.number        55
-.number        6
-.number        66
-.number        7
-.number        77
-.number        8
-.number        88
-.number        9
-.number        99
-.number        1
-.number        24
-.number        301
-.number        4374
-.number        56025
-.number        603497
-.number        7483028
-.number        84851683
-.number        967834732
-.number        1,024
-.number        23,974
-.number        3,065,748
-.number        1
-.punctuation   ,
-.punctuation   ,
-.number        2
-.number        37
-.punctuation   ,
-.number        8
-.punctuation   ,
-.word          nine
+.number        [0..1] 0
+.number        [2..4] 00
+.number        [5..6] 1
+.number        [7..9] 11
+.number        [10..11] 2
+.number        [12..14] 22
+.number        [15..16] 3
+.number        [17..19] 33
+.number        [20..21] 4
+.number        [22..24] 44
+.number        [25..26] 5
+.number        [27..29] 55
+.number        [30..31] 6
+.number        [32..34] 66
+.number        [35..36] 7
+.number        [37..39] 77
+.number        [40..41] 8
+.number        [42..44] 88
+.number        [45..46] 9
+.number        [47..49] 99
+.end-para      [50..51] 
+.number        [51..52] 1
+.number        [53..55] 24
+.number        [56..59] 301
+.number        [60..64] 4374
+.number        [65..70] 56025
+.number        [71..77] 603497
+.number        [78..85] 7483028
+.number        [86..94] 84851683
+.number        [95..104] 967834732

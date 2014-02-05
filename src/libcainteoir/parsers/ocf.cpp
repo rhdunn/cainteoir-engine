@@ -1,6 +1,6 @@
 /* OCF Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -28,7 +28,6 @@ namespace rdf    = cainteoir::rdf;
 namespace xmlns  = cainteoir::xml::xmlns;
 namespace xml    = cainteoir::xml;
 
-#ifndef DOXYGEN
 namespace ocf
 {
 	static const xml::context::entry container_node = {};
@@ -38,7 +37,6 @@ namespace ocf
 	static const xml::context::entry fullpath_attr  = {};
 	static const xml::context::entry mediatype_attr = {};
 }
-#endif
 
 static const std::initializer_list<const xml::context::entry_ref> ocf_nodes =
 {
@@ -57,7 +55,7 @@ struct ocf_reader : public cainteoir::document_reader
 {
 	ocf_reader(const std::shared_ptr<xml::reader> &aReader);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::shared_ptr<xml::reader> mReader;
 };
@@ -79,9 +77,9 @@ ocf_reader::ocf_reader(const std::shared_ptr<xml::reader> &aReader)
 	styles  = &cainteoir::heading1;
 }
 
-bool ocf_reader::read()
+bool ocf_reader::read(rdf::graph *aMetadata)
 {
-	text.reset();
+	content.reset();
 	anchor = rdf::uri();
 
 	const xml::context::entry *ctx = &xml::unknown_context;
@@ -103,8 +101,10 @@ bool ocf_reader::read()
 			if (mReader->context() == &ocf::fullpath_attr)
 				anchor = rdf::uri(mReader->nodeValue().str(), std::string());
 			else if (mReader->context() == &ocf::mediatype_attr)
-				text = mReader->nodeValue().buffer();
+				content = mReader->nodeValue().buffer();
 		}
+		break;
+	default:
 		break;
 	}
 

@@ -30,9 +30,4 @@
 		<dc:identifier opf:scheme="ISBN">12345678</dc:identifier>
 		<dc:identifier opf2:scheme="ISBN">12345678</dc:identifier>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

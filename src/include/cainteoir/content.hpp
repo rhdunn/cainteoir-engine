@@ -1,6 +1,6 @@
 /* Document Content Rendering Model.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -23,9 +23,80 @@
 
 #include "buffer.hpp"
 #include <vector>
+#include <map>
 
-namespace cainteoir
+namespace cainteoir { namespace css
 {
+	// CSS Values and Units:
+
+	struct length
+	{
+		enum type
+		{
+			inherit,
+			millimeters,
+			centimeters,
+			inches,
+			points,
+			picas,
+			pixels,
+		};
+
+		length()
+			: mValue(0)
+			, mUnits(type::inherit)
+		{
+		}
+
+		length(float aValue, const type aUnits)
+			: mValue(aValue)
+			, mUnits(aUnits)
+		{
+		}
+
+		length as(const type aUnits) const;
+
+		float value() const { return mValue; }
+		type  units() const { return mUnits; }
+	private:
+		float mValue;
+		type  mUnits;
+	};
+
+	struct time
+	{
+		enum type
+		{
+			inherit,
+			seconds,
+			milliseconds,
+		};
+
+		time()
+			: mValue(0)
+			, mUnits(type::inherit)
+		{
+		}
+
+		time(float aValue, const type aUnits)
+			: mValue(aValue)
+			, mUnits(aUnits)
+		{
+		}
+
+		time as(const type aUnits) const;
+
+		float value() const { return mValue; }
+		type  units() const { return mUnits; }
+	private:
+		float mValue;
+		type  mUnits;
+	};
+
+	time parse_smil_time(const buffer &aValue);
+
+	// Cascading Style Sheets
+
 	enum class display : uint8_t
 	{
 		inherit,
@@ -46,28 +117,6 @@ namespace cainteoir
 		super,
 	};
 
-	enum class font_style : uint8_t
-	{
-		inherit,
-		normal,
-		italic,
-		oblique,
-	};
-
-	enum class font_variant : uint8_t
-	{
-		inherit,
-		normal,
-		small_caps,
-	};
-
-	enum class font_weight : uint16_t
-	{
-		inherit,
-		normal = 400,
-		bold = 700,
-	};
-
 	enum class text_align : uint8_t
 	{
 		inherit,
@@ -85,7 +134,33 @@ namespace cainteoir
 		line_through,
 	};
 
-	enum class text_structure : uint8_t
+	enum class whitespace : uint8_t
+	{
+		normal,
+		preserved,
+		preserved_wrap,
+		preserved_line,
+		nowrap,
+	};
+
+	struct box
+	{
+		length left;
+		length top;
+		length right;
+		length bottom;
+	};
+
+	// Extensions (WAI-ARIA, etc.)
+
+	enum class media_synchronisation : uint8_t
+	{
+		inherit,
+		sequential,
+		parallel,
+	};
+
+	enum class role : uint8_t
 	{
 		none,
 		heading,
@@ -93,162 +168,246 @@ namespace cainteoir
 		sentence,
 	};
 
-	enum class counter_type : uint8_t
-	{
-		cyclic,
-		numeric,
-	};
+	// CSS Fonts
 
-	enum class size_units : uint8_t
+	enum class font_style : uint8_t
 	{
 		inherit,
-		millimeters,
-		centimeters,
-		inches,
-		points,
-		picas,
-		pixels,
+		normal,
+		italic,
+		oblique,
+	};
+
+	enum class font_variant_caps : uint8_t
+	{
+		inherit,
+		normal,
+		small_caps,
+	};
+
+	enum class font_weight : uint16_t
+	{
+		inherit,
+		bolder,
+		lighter,
+		thin = 100,
+		ultra_light = 200,
+		light = 300,
+		normal = 400,
+		medium = 500,
+		semi_bold = 600,
+		bold = 700,
+		ultra_bold = 800,
+		heavy = 900,
+	};
+
+	// CSS Counter Styles
+
+	enum class counter_system : uint8_t
+	{
+		cyclic,
+		fixed,
+		symbolic,
+		alphabetic,
+		numeric,
+		additive,
 	};
 
 	struct counter_style
 	{
-		std::string name;
-		cainteoir::counter_type type;
+		typedef int value_t;
+		typedef std::pair<value_t, value_t> range_t;
+
+		cainteoir::css::counter_system system;
+		int initial_symbol_value;
+		std::vector<std::string> symbols;
+		std::vector<std::pair<value_t, std::string>> additive_symbols;
+		std::string negative_prefix;
+		std::string negative_suffix;
 		std::string prefix;
 		std::string suffix;
-		std::vector<std::string> symbols;
-	};
+		range_t range;
+		const counter_style *fallback;
 
-	struct size
-	{
-		size()
-			: mValue(0)
-			, mUnits(size_units::inherit)
+		static const range_t infinite;
+
+		static const range_t get_auto_range(counter_system system);
+
+		counter_style()
+			: system(counter_system::symbolic)
+			, initial_symbol_value(1)
+			, negative_prefix("-")
+			, suffix(".")
+			, range(get_auto_range(counter_system::symbolic))
+			, fallback(nullptr)
 		{
 		}
 
-		size(float aValue, const size_units aUnits)
-			: mValue(aValue)
-			, mUnits(aUnits)
-		{
-		}
-
-		size as(const size_units aUnits) const;
-
-		float      value() const { return mValue; }
-		size_units units() const { return mUnits; }
-	private:
-		float      mValue;
-		size_units mUnits;
+		std::string marker(value_t count) const;
 	};
 
-	struct margin
-	{
-		size left;
-		size top;
-		size right;
-		size bottom;
-	};
+	// Cascading Style Sheets
 
 	struct styles
 	{
 		std::string name;
-		cainteoir::display display;
-		cainteoir::vertical_align vertical_align;
-		cainteoir::text_align text_align;
-		cainteoir::text_decoration text_decoration;
-		cainteoir::font_style font_style;
-		cainteoir::font_variant font_variant;
-		cainteoir::font_weight font_weight;
-		const cainteoir::counter_style *list_style_type;
+		cainteoir::css::display display;
+		cainteoir::css::media_synchronisation media_synchronisation;
+		cainteoir::css::vertical_align vertical_align;
+		cainteoir::css::text_align text_align;
+		cainteoir::css::text_decoration text_decoration;
+		cainteoir::css::whitespace whitespace;
+		cainteoir::css::font_style font_style;
+		cainteoir::css::font_variant_caps font_variant_caps;
+		cainteoir::css::font_weight font_weight;
+		std::string list_style_type;
 		std::string font_family;
-		cainteoir::size font_size;
-		cainteoir::margin margin;
+		cainteoir::css::length font_size;
+		cainteoir::css::box margin;
 
-		// Cainteoir Text-to-Speech specific styles (not in CSS spec):
+		// WAI-ARIA:
 
-		cainteoir::text_structure text_structure;
-		int toc_level;
+		cainteoir::css::role role;
+		int aria_level;
 
 		styles(const std::string &aName)
 			: name(aName)
-			, display(cainteoir::display::inherit)
-			, vertical_align(cainteoir::vertical_align::inherit)
-			, text_align(cainteoir::text_align::inherit)
-			, text_decoration(cainteoir::text_decoration::inherit)
-			, font_style(cainteoir::font_style::inherit)
-			, font_variant(cainteoir::font_variant::inherit)
-			, font_weight(cainteoir::font_weight::inherit)
-			, list_style_type(nullptr)
-			, text_structure(cainteoir::text_structure::none)
-			, toc_level(0)
+			, display(cainteoir::css::display::inherit)
+			, media_synchronisation(cainteoir::css::media_synchronisation::inherit)
+			, vertical_align(cainteoir::css::vertical_align::inherit)
+			, text_align(cainteoir::css::text_align::inherit)
+			, text_decoration(cainteoir::css::text_decoration::inherit)
+			, whitespace(cainteoir::css::whitespace::normal)
+			, font_style(cainteoir::css::font_style::inherit)
+			, font_variant_caps(cainteoir::css::font_variant_caps::inherit)
+			, font_weight(cainteoir::css::font_weight::inherit)
+			, role(cainteoir::css::role::none)
+			, aria_level(0)
 		{
 		}
 
 		styles(const std::string &aName,
-		       cainteoir::display aDisplay,
-		       cainteoir::vertical_align aVerticalAlign,
-		       cainteoir::text_align aTextAlign,
-		       cainteoir::text_decoration aTextDecoration,
-		       cainteoir::font_style aFontStyle,
-		       cainteoir::font_variant aFontVariant,
-		       cainteoir::font_weight aFontWeight,
-		       const cainteoir::counter_style *aListStyleType,
+		       cainteoir::css::display aDisplay,
+		       cainteoir::css::media_synchronisation aMediaSynchronisation,
+		       cainteoir::css::vertical_align aVerticalAlign,
+		       cainteoir::css::text_align aTextAlign,
+		       cainteoir::css::text_decoration aTextDecoration,
+		       cainteoir::css::whitespace aWhiteSpace,
+		       cainteoir::css::font_style aFontStyle,
+		       cainteoir::css::font_variant_caps aFontVariantCaps,
+		       cainteoir::css::font_weight aFontWeight,
+		       const std::string &aListStyleType,
 		       const std::string &aFontFamily,
-		       const cainteoir::size &aFontSize,
-		       const cainteoir::margin &aMargin,
-		       const cainteoir::text_structure aTextStructure,
-		       int aTocLevel)
+		       const cainteoir::css::length &aFontSize,
+		       const cainteoir::css::box &aMargin,
+		       const cainteoir::css::role aRole,
+		       int aAriaLevel)
 			: name(aName)
 			, display(aDisplay)
+			, media_synchronisation(aMediaSynchronisation)
 			, vertical_align(aVerticalAlign)
 			, text_align(aTextAlign)
 			, text_decoration(aTextDecoration)
+			, whitespace(aWhiteSpace)
 			, font_style(aFontStyle)
-			, font_variant(aFontVariant)
+			, font_variant_caps(aFontVariantCaps)
 			, font_weight(aFontWeight)
 			, list_style_type(aListStyleType)
 			, font_family(aFontFamily)
 			, font_size(aFontSize)
 			, margin(aMargin)
-			, text_structure(aTextStructure)
-			, toc_level(aTocLevel)
+			, role(aRole)
+			, aria_level(aAriaLevel)
 		{
 		}
 	};
 
-	namespace counter
+	struct reader
 	{
-		extern const counter_style decimal;
-		extern const counter_style disc;
-	}
+		enum token_type
+		{
+			identifier,
+			at_keyword,
+			string,
+			integer,
+			open_block,
+			close_block,
+			colon,
+			semicolon,
+			comma,
+			error,
+		};
 
-	extern const styles unknown;
-	extern const styles paragraph;
-	extern const styles heading0;
-	extern const styles heading1;
-	extern const styles heading2;
-	extern const styles heading3;
-	extern const styles heading4;
-	extern const styles heading5;
-	extern const styles heading6;
-	extern const styles span;
-	extern const styles sentence;
-	extern const styles superscript;
-	extern const styles subscript;
-	extern const styles emphasized;
-	extern const styles emphasized_block;
-	extern const styles strong;
-	extern const styles reduced;
-	extern const styles underlined;
-	extern const styles monospace;
-	extern const styles monospace_block;
-	extern const styles bullet_list;
-	extern const styles number_list;
-	extern const styles list_item;
-	extern const styles table;
-	extern const styles table_row;
-	extern const styles table_cell;
+		cainteoir::buffer value;
+		token_type type;
+
+		bool read();
+
+		reader(std::shared_ptr<cainteoir::buffer> aData);
+	private:
+		std::shared_ptr<cainteoir::buffer> mData;
+		const char *mCurrent;
+	};
+
+	struct style_manager
+	{
+		const counter_style *get_counter_style(const std::string &aName) const;
+
+		counter_style *create_counter_style(const std::string &aName);
+
+		const std::map<std::string, const counter_style *> &counter_styles() const
+		{
+			return mCounterStyles;
+		}
+
+		void parse(const char *css_file);
+
+		void parse(const std::shared_ptr<buffer> &style);
+	private:
+		std::list<std::shared_ptr<counter_style>>    mCounterStyleRegistry;
+		std::map<std::string, const counter_style *> mCounterStyles;
+	};
+}}
+
+#ifndef DOXYGEN
+namespace cainteoir
+{
+	// These style definitions are defined here temporarily. They will be
+	// removed once the CSS infrastructure is in place and a common XML
+	// document reader is using that CSS infrastructure to process all the
+	// supported XML document formats.
+
+	extern const css::styles unknown;
+	extern const css::styles sequential;
+	extern const css::styles parallel;
+	extern const css::styles hidden;
+	extern const css::styles block;
+	extern const css::styles paragraph;
+	extern const css::styles heading0;
+	extern const css::styles heading1;
+	extern const css::styles heading2;
+	extern const css::styles heading3;
+	extern const css::styles heading4;
+	extern const css::styles heading5;
+	extern const css::styles heading6;
+	extern const css::styles span;
+	extern const css::styles sentence;
+	extern const css::styles superscript;
+	extern const css::styles subscript;
+	extern const css::styles emphasized;
+	extern const css::styles emphasized_block;
+	extern const css::styles strong;
+	extern const css::styles reduced;
+	extern const css::styles underlined;
+	extern const css::styles monospace;
+	extern const css::styles monospace_block;
+	extern const css::styles bullet_list;
+	extern const css::styles number_list;
+	extern const css::styles list_item;
+	extern const css::styles table;
+	extern const css::styles table_row;
+	extern const css::styles table_cell;
 }
+#endif
 
 #endif

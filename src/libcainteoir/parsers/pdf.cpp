@@ -1,6 +1,6 @@
 /* Portable Document Format Reader.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -89,7 +89,7 @@ struct pdf_document_reader : public cainteoir::document_reader
 
 	~pdf_document_reader();
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::shared_ptr<cainteoir::buffer> mData;
 	PopplerDocument *mDoc;
@@ -100,6 +100,7 @@ struct pdf_document_reader : public cainteoir::document_reader
 	int mCurrentPage;
 
 	rdf::uri mSubject;
+	rdf::uri mCurrentReference;
 	state mState;
 	std::string mTitle;
 };
@@ -110,7 +111,9 @@ pdf_document_reader::pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 	, mState(state_title)
 	, mTitle(aTitle)
 {
-	g_type_init();
+	#if !GLIB_CHECK_VERSION(2, 36, 0)
+		g_type_init();
+	#endif
 
 	mDoc = poppler_document_new_from_data((char *)aData->begin(), aData->size(), nullptr, nullptr);
 	if (!mDoc)
@@ -157,22 +160,40 @@ pdf_document_reader::~pdf_document_reader()
 	g_object_unref(mDoc);
 }
 
-bool pdf_document_reader::read()
+bool pdf_document_reader::read(rdf::graph *aMetadata)
 {
-	if (mCurrentPage >= mNumPages)
-		return false;
-
-	switch (mState)
+	while (mCurrentPage < mNumPages) switch (mState)
 	{
 	case state_title:
-		type   = events::toc_entry | events::anchor;
-		styles = &cainteoir::heading1;
-		text   = cainteoir::make_buffer(mTitle);
-		anchor = mSubject;
+		if (aMetadata)
+		{
+			const rdf::uri listing = aMetadata->genid();
+			aMetadata->statement(mSubject, rdf::ref("listing"), listing);
+
+			mCurrentReference = aMetadata->genid();
+			aMetadata->statement(listing, rdf::rdf("type"), rdf::ref("Listing"));
+			aMetadata->statement(listing, rdf::ref("type"), rdf::epv("toc"));
+			aMetadata->statement(listing, rdf::ref("entries"), mCurrentReference);
+
+			const rdf::uri entry = aMetadata->genid();
+			aMetadata->statement(mCurrentReference, rdf::rdf("first"), entry);
+
+			aMetadata->statement(entry, rdf::rdf("type"), rdf::ref("Entry"));
+			aMetadata->statement(entry, rdf::ref("level"), rdf::literal(0, rdf::xsd("integer")));
+			aMetadata->statement(entry, rdf::ref("target"), mSubject);
+			aMetadata->statement(entry, rdf::dc("title"), rdf::literal(mTitle));
+		}
 		mState = mIndex.empty() ? state_text : state_toc;
 		break;
 	case state_toc:
 		{
+			const rdf::uri next = aMetadata->genid();
+			aMetadata->statement(mCurrentReference, rdf::rdf("rest"), next);
+			mCurrentReference = next;
+
+			const rdf::uri entry = aMetadata->genid();
+			aMetadata->statement(mCurrentReference, rdf::rdf("first"), entry);
+
 			gchar *title = (*mCurrentIndex)->goto_dest.title;
 			int page = (*mCurrentIndex)->goto_dest.dest->page_num;
 
@@ -180,10 +201,10 @@ bool pdf_document_reader::read()
 			int len = snprintf(pagenum, sizeof(pagenum), "page%05d", page);
 			pagenum[len] = '\0';
 
-			type   = events::toc_entry;
-			styles = &cainteoir::heading1;
-			text   = cainteoir::normalize(std::make_shared<cainteoir::buffer>(title));
-			anchor = rdf::uri(mSubject.str(), pagenum);
+			aMetadata->statement(entry, rdf::rdf("type"), rdf::ref("Entry"));
+			aMetadata->statement(entry, rdf::ref("level"), rdf::literal(1, rdf::xsd("integer")));
+			aMetadata->statement(entry, rdf::ref("target"), rdf::uri(mSubject.str(), pagenum));
+			aMetadata->statement(entry, rdf::dc("title"), rdf::literal(cainteoir::normalize(std::make_shared<cainteoir::buffer>(title))->str()));
 
 			if (++mCurrentIndex == mIndex.end())
 				mState = state_text;
@@ -197,16 +218,18 @@ bool pdf_document_reader::read()
 			int len = snprintf(pagenum, sizeof(pagenum), "page%05d", mCurrentPage);
 			pagenum[len] = '\0';
 
-			type   = events::text | events::anchor;
-			text   = std::make_shared<glib_buffer>(poppler_page_get_text(page));
-			anchor = rdf::uri(mSubject.str(), pagenum);
-			mState = state_text;
+			type    = events::text | events::anchor;
+			content = std::make_shared<glib_buffer>(poppler_page_get_text(page));
+			anchor  = rdf::uri(mSubject.str(), pagenum);
+			mState  = state_text;
 
 			g_object_unref(page);
 		}
-		break;
+		return true;
 	}
-	return true;
+	if (aMetadata)
+		aMetadata->statement(mCurrentReference, rdf::rdf("rest"), rdf::rdf("nil"));
+	return false;
 }
 
 std::shared_ptr<cainteoir::document_reader>

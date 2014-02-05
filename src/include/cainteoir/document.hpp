@@ -1,6 +1,6 @@
 /* Document Parser API.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -32,8 +32,9 @@ namespace cainteoir
 			begin_context = 0x0001,
 			end_context = 0x0002,
 			text = 0x0004,
-			toc_entry = 0x0008,
-			anchor = 0x0010,
+			anchor = 0x0008,
+			text_ref = 0x0010,
+			media_ref = 0x0020,
 		};
 	}
 
@@ -46,84 +47,57 @@ namespace cainteoir
 		}
 
 		uint32_t type;
-		const cainteoir::styles *styles;
-		std::shared_ptr<buffer> text;
+		const cainteoir::css::styles *styles;
+		std::shared_ptr<buffer> content;
 		rdf::uri anchor;
+		cainteoir::css::time media_begin;
+		cainteoir::css::time media_end;
 	};
+
+	struct document_reader : public document_item
+	{
+		virtual bool read(rdf::graph *aMetadata=nullptr) = 0;
+
+		virtual ~document_reader() {}
+	};
+
+	struct ref_entry
+	{
+		int depth;
+		rdf::uri location;
+		std::string title;
+
+		ref_entry(const rdf::query::results &aEntry);
+	};
+
+	std::vector<ref_entry>
+	navigation(const rdf::graph &aMetadata,
+	           const rdf::uri &aSubject,
+	           const rdf::uri &aListing);
 
 	class document
 	{
 	public:
 		typedef std::list<document_item> list_type;
 		typedef list_type::const_iterator const_iterator;
-		typedef std::pair<const_iterator, const_iterator> range_type;
+		typedef range<const_iterator> range_type;
 
-		document() : mLength(0) {}
-
-		void clear()
-		{
-			mLength = 0;
-			mChildren.clear();
-			mAnchors.clear();
-		}
+		document(const std::shared_ptr<document_reader> &aReader, rdf::graph &aMetadata);
 
 		size_t text_length() const { return mLength; }
 
-		void add(const document_item &aItem)
-		{
-			mChildren.push_back(aItem);
-			if (aItem.type & cainteoir::events::anchor)
-				mAnchors[aItem.anchor.str()] = mChildren.size();
-			if (aItem.type & cainteoir::events::text)
-				mLength += aItem.text->size();
-		}
+		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const;
 
-		size_t anchor(const rdf::uri &aAnchor) const
-		{
-			auto at = mAnchors.find(aAnchor.str());
-			return (at == mAnchors.end()) ? size_t(-1) : at->second;
-		}
+		range_type children(const std::vector<ref_entry> &aListing,
+		                    const std::pair<size_t, size_t> &aRange) const;
 
-		const list_type & children() const
-		{
-			return mChildren;
-		}
+		range_type children() const { return range_type(mChildren.begin(), mChildren.end()); }
 
-		range_type children(const rdf::uri &aFrom, const rdf::uri &aTo) const
-		{
-			size_t from = anchor(aFrom);
-			size_t to   = anchor(aTo);
-
-			if (from == size_t(-1)) from = 0;
-			if (from > to) std::swap(from, to);
-
-			return range_type(get_child(from), get_child(to));
-		}
-
-		range_type children(const std::pair<const rdf::uri, const rdf::uri> &aAnchors) const
-		{
-			return children(aAnchors.first, aAnchors.second);
-		}
+		size_t indexof(const rdf::uri &aAnchor) const;
 	private:
-		const_iterator get_child(size_t index) const
-		{
-			if (index == size_t(-1)) return children().end();
-
-			const_iterator pos = children().begin();
-			std::advance(pos, index);
-			return pos;
-		}
-
 		size_t mLength;
 		list_type mChildren;
 		std::map<std::string, size_t> mAnchors;
-	};
-
-	struct document_reader : public document_item
-	{
-		virtual bool read() = 0;
-
-		virtual ~document_reader() {}
 	};
 
 	enum capability_types
@@ -146,6 +120,9 @@ namespace cainteoir
 	                     rdf::graph &aPrimaryMetadata,
 	                     const std::string &aTitle = std::string(),
 	                     const char *aDefaultEncoding = "windows-1252");
+
+	std::shared_ptr<document_reader>
+	createDocumentReader(const document::range_type &aDocumentRange);
 }
 
 #endif

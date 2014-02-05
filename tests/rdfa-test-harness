@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+# Copyright (C) Reece H. Dunn
+# License: GPLv3+
+#
+# Shell harness for running rdfa.info tests.
+#
+# Usage (from the rdfa-website directory):
+#     bin/run-suite ../cainteoir-engine/tests/rdfa-test-harness
+
+TEST_SERVER=localhost:9292
+EXTRACTOR=`dirname $0`/../src/apps/metadata/metadata
+
+HOST_LANGUAGE=
+VERSION=
+URI=
+
+while test $# -gt 0
+do
+	if [ "$1" == "--host-language" ] ; then
+		shift
+		HOST_LANGUAGE=$1
+	elif [ "$1" == "--version" ] ; then
+		shift
+		VERSION=$1
+	elif [ "$1" == "--uri" ] ; then
+		shift
+		URI=`echo $1 | sed -e "s/rdfa\.info/${TEST_SERVER}/g"`
+	fi
+	shift
+done
+
+wget -q -O "/tmp/rdfa-test-case" ${URI}
+${EXTRACTOR} "/tmp/rdfa-test-case"
+
+# echo "<> <#host-language> \"$HOST_LANGUAGE\" ."
+# echo "<> <#version> \"$VERSION\" ."
+# echo "<> <#uri> \"$URI\" ."

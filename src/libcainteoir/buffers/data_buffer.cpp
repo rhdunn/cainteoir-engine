@@ -1,6 +1,6 @@
 /* Memory (Data) Buffer.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -23,14 +23,6 @@
 
 #include <cainteoir/buffer.hpp>
 
-/** @class cainteoir::data_buffer
-  * @brief A buffer allocated in memory of a given size.
-  */
-
-/** @brief Create a memory buffer of the requested size.
-  *
-  * @param[in] aSize The size of the buffer to create.
-  */
 cainteoir::data_buffer::data_buffer(unsigned int aSize)
 	: buffer(nullptr, nullptr)
 {
@@ -38,19 +30,11 @@ cainteoir::data_buffer::data_buffer(unsigned int aSize)
 	last = first + aSize;
 }
 
-/** @brief Clean up the buffer.
-  */
 cainteoir::data_buffer::~data_buffer()
 {
 	delete [] first;
 }
 
-/** @brief Create a data buffer with the content of the string.
-  *
-  * @param[in] aString The content of the buffer.
-  *
-  * @return A new data buffer with the content of @a aString.
-  */
 std::shared_ptr<cainteoir::buffer> cainteoir::make_buffer(const std::string &aString)
 {
 	std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(aString.size() + 1);
@@ -58,13 +42,6 @@ std::shared_ptr<cainteoir::buffer> cainteoir::make_buffer(const std::string &aSt
 	return data;
 }
 
-/** @brief Create a data buffer with the content of the string.
-  *
-  * @param[in] aString The content of the buffer.
-  * @param[in] aLength The length of the string (or number of bytes of the string to copy).
-  *
-  * @return A new data buffer with the content of @a aString.
-  */
 std::shared_ptr<cainteoir::buffer> cainteoir::make_buffer(const char *aString, int aLength)
 {
 	std::shared_ptr<cainteoir::buffer> data = std::make_shared<cainteoir::data_buffer>(aLength);

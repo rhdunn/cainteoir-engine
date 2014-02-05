@@ -1,0 +1,36 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Rules for the short number scale (billion, trillion, ...).
+
+_10^9		billion
+_10^12		trillion
+_10^15		quadrillion
+_10^18		quintillion
+_10^21		sextillion
+_10^24		septillion
+_10^27		octillion
+_10^30		nonillion
+_10^33		decillion
+_10^36		undecillion
+_10^39		duodecillion
+_10^42		tredecillion
+_10^45		quattuordecillion
+_10^48		quinquadecillion
+_10^51		sedecillion
+_10^54		septendecillion
+_10^57		octodecillion
+_10^60		novendecillion
+_10^63		vigintillion
+_10^66		unvigintillion
+_10^69		duovigintillion
+_10^72		tresvigintillion
+_10^75		quattuorvigintillion
+_10^78		quinquavigintillion
+_10^81		sesvigintillion
+_10^84		septemvigintillion
+_10^87		octovigintillion
+_10^90		novemvigintillion
+_10^93		trigintillion
+_10^96		untrigintillion
+_10^99		duotrigintillion

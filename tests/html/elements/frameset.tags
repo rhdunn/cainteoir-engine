@@ -1,0 +1,22 @@
+|begin-tag| html
+|begin-tag| head
+|end-tag| head
+|begin-tag| body
+|begin-tag| frameset
+|text| """
+		"""
+|begin-tag| frame
+|attribute| src="""test.html"""
+|text| """
+		"""
+|begin-tag| noframes
+|text| """Fallback"""
+|end-tag| noframes
+|text| """
+	"""
+|end-tag| frame
+|end-tag| frameset
+|text| """
+"""
+|end-tag| body
+|end-tag| html

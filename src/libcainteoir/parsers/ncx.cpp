@@ -1,6 +1,6 @@
 /* NCX Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -29,7 +29,6 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
-#ifndef DOXYGEN
 namespace ncx
 {
 	static const xml::context::entry content_node   = {};
@@ -47,7 +46,6 @@ namespace ncx
 	static const xml::context::entry name_attr    = {};
 	static const xml::context::entry src_attr     = {};
 }
-#endif
 
 static const std::initializer_list<const xml::context::entry_ref> ncx_nodes =
 {
@@ -72,32 +70,40 @@ static const std::initializer_list<const xml::context::entry_ref> ncx_attrs =
 
 struct ncx_document_reader : public cainteoir::document_reader
 {
-	ncx_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
+	ncx_document_reader(const std::shared_ptr<xml::reader> &aReader,
+	                    const rdf::uri &aSubject,
+	                    rdf::graph &aPrimaryMetadata,
+	                    const std::string &aTitle,
+	                    const cainteoir::path &aBaseUri);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
+
+	void generate_reference(rdf::graph *aMetadata,
+	                        int depth,
+	                        const std::string &title,
+	                        const rdf::uri &location);
 
 	std::shared_ptr<xml::reader> reader;
 	rdf::uri mSubject;
+	rdf::uri mCurrentReference;
 	std::string mTitle;
+	cainteoir::path mBaseUri;
 	int mDepth;
+	bool mIsFirst;
 };
 
-bool ncx_document_reader::read()
+bool ncx_document_reader::read(rdf::graph *aMetadata)
 {
 	if (!mTitle.empty())
 	{
-		type   = events::toc_entry;
-		styles = &cainteoir::heading0;
-		text   = cainteoir::make_buffer(mTitle);
-		anchor = mSubject;
+		generate_reference(aMetadata, 0, mTitle, mSubject);
 		mTitle.clear();
-		return true;
 	}
 
 	const xml::context::entry *current = nullptr;
 	const xml::context::entry *outer   = nullptr;
 
-	text.reset();
+	content.reset();
 	anchor = rdf::uri();
 
 	while (reader->read()) switch (reader->nodeType())
@@ -107,21 +113,13 @@ bool ncx_document_reader::read()
 		if (current == &ncx::text_node)
 		{
 			if (outer == &ncx::navLabel_node)
-				text = reader->nodeValue().buffer();
+				content = reader->nodeValue().buffer();
 			current = outer = nullptr;
 			if (!anchor.empty())
 			{
-				type = events::toc_entry;
-				switch (mDepth)
-				{
-				case 1:  styles = &cainteoir::heading1; break;
-				case 2:  styles = &cainteoir::heading2; break;
-				case 3:  styles = &cainteoir::heading3; break;
-				case 4:  styles = &cainteoir::heading4; break;
-				case 5:  styles = &cainteoir::heading5; break;
-				default: styles = &cainteoir::heading6; break;
-				}
-				return true;
+				generate_reference(aMetadata, mDepth, content->str(),
+				                   rdf::uri((mBaseUri / anchor.ns).str(), anchor.ref));
+				content = {};
 			}
 		}
 		break;
@@ -134,19 +132,11 @@ bool ncx_document_reader::read()
 				anchor = rdf::uri(src, std::string());
 			else
 				anchor = rdf::uri(src.substr(0, ref), src.substr(ref+1));
-			if (text)
+			if (content)
 			{
-				type = events::toc_entry;
-				switch (mDepth)
-				{
-				case 1:  styles = &cainteoir::heading1; break;
-				case 2:  styles = &cainteoir::heading2; break;
-				case 3:  styles = &cainteoir::heading3; break;
-				case 4:  styles = &cainteoir::heading4; break;
-				case 5:  styles = &cainteoir::heading5; break;
-				default: styles = &cainteoir::heading6; break;
-				}
-				return true;
+				generate_reference(aMetadata, mDepth, content->str(),
+				                   rdf::uri((mBaseUri / anchor.ns).str(), anchor.ref));
+				anchor = {};
 			}
 		}
 		break;
@@ -161,15 +151,60 @@ bool ncx_document_reader::read()
 		if (reader->context() == &ncx::navPoint_node)
 			--mDepth;
 		break;
+	default:
+		break;
 	}
 
+	if (!mIsFirst)
+		aMetadata->statement(mCurrentReference, rdf::rdf("rest"), rdf::rdf("nil"));
 	return false;
 }
 
-ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
+void ncx_document_reader::generate_reference(rdf::graph *aMetadata,
+                                             int depth,
+                                             const std::string &title,
+                                             const rdf::uri &location)
+{
+	if (!aMetadata) return;
+
+	if (mIsFirst)
+	{
+		const rdf::uri listing = aMetadata->genid();
+		aMetadata->statement(mSubject, rdf::ref("listing"), listing);
+
+		mCurrentReference = aMetadata->genid();
+		aMetadata->statement(listing, rdf::rdf("type"), rdf::ref("Listing"));
+		aMetadata->statement(listing, rdf::ref("type"), rdf::epv("toc"));
+		aMetadata->statement(listing, rdf::ref("entries"), mCurrentReference);
+		mIsFirst = false;
+	}
+	else
+	{
+		const rdf::uri next = aMetadata->genid();
+		aMetadata->statement(mCurrentReference, rdf::rdf("rest"), next);
+		mCurrentReference = next;
+	}
+
+	const rdf::uri entry = aMetadata->genid();
+	aMetadata->statement(mCurrentReference, rdf::rdf("first"), entry);
+
+	aMetadata->statement(entry, rdf::rdf("type"), rdf::ref("Entry"));
+	aMetadata->statement(entry, rdf::ref("level"), rdf::literal(depth, rdf::xsd("integer")));
+	aMetadata->statement(entry, rdf::ref("target"), location);
+	aMetadata->statement(entry, rdf::dc("title"), rdf::literal(title));
+}
+
+ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aReader,
+                                         const rdf::uri &aSubject,
+                                         rdf::graph &aPrimaryMetadata,
+                                         const std::string &aTitle,
+                                         const cainteoir::path &aBaseUri)
 	: reader(aReader)
 	, mSubject(aSubject)
+	, mCurrentReference(aSubject)
 	, mDepth(0)
+	, mIsFirst(true)
+	, mBaseUri(aBaseUri)
 {
 	reader->set_nodes(xmlns::ncx, ncx_nodes);
 	reader->set_attrs(xmlns::ncx, ncx_attrs);
@@ -179,7 +214,6 @@ ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aRe
 
 	std::string name;
 	std::string content;
-	std::string title;
 	bool in_header = true;
 
 	while (in_header && reader->read()) switch (reader->nodeType())
@@ -237,6 +271,8 @@ ncx_document_reader::ncx_document_reader(const std::shared_ptr<xml::reader> &aRe
 			outer = nullptr;
 		current = nullptr;
 		break;
+	default:
+		break;
 	}
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/x-dtbncx+xml"));
@@ -246,7 +282,8 @@ std::shared_ptr<cainteoir::document_reader>
 cainteoir::createNcxReader(const std::shared_ptr<xml::reader> &aReader,
                            const rdf::uri &aSubject,
                            rdf::graph &aPrimaryMetadata,
-                           const std::string &aTitle)
+                           const std::string &aTitle,
+                           const cainteoir::path &aBaseUri)
 {
-	return std::make_shared<ncx_document_reader>(aReader, aSubject, aPrimaryMetadata, aTitle);
+	return std::make_shared<ncx_document_reader>(aReader, aSubject, aPrimaryMetadata, aTitle, aBaseUri);
 }

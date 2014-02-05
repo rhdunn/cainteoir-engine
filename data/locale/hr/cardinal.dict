@@ -1,0 +1,46 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Rules for pronouncing cardinal numbers in Croatian.
+
+0		nula
+1		jeden
+2		dva
+3		tri
+4		četiri
+5		pet
+6		šest
+7		sedam
+8		osam
+9		devet
+10		deset
+11		jedanaest
+12		dvanaest
+13		trinaest
+14		četrnaest
+15		petnaest
+16		šesnaest
+17		sedamaest
+18		osamnaest
+19		devetnaest
+
+_2x		dvadeset
+_3x		trideset
+_4x		četrdeset
+_5x		pedeset
+_6x		šezdeset
+_7x		sedamdeset
+_8x		osamdeset
+_9x		devedeset
+
+_10^2		sto
+_10^3		tisuću
+_10^6		milijun
+_10^9		milijardi
+_10^12		bilijun
+_10^15		bilijardi
+_10^18		trilijun
+_10^21		trilijardi
+_10^24		quadrilijun
+_10^27		quadrilijardi
+_10^30		quintilijun

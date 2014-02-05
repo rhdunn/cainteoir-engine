@@ -34,22 +34,27 @@ namespace cainteoir { namespace language
 		std::string script;
 		std::string region;
 		std::string variant;
+		std::string private_use;
 
 		tag(const std::string &l,
 		    const std::string &e = std::string(),
 		    const std::string &s = std::string(),
 		    const std::string &r = std::string(),
-		    const std::string &v = std::string())
+		    const std::string &v = std::string(),
+		    const std::string &p = std::string())
 			: lang(l)
 			, extlang(e)
 			, script(s)
 			, region(r)
 			, variant(v)
+			, private_use(p)
 		{
 		}
 	};
 
 	bool operator==(const tag &a, const tag &b);
+
+	bool operator<(const tag &a, const tag &b);
 
 	tag make_lang(const std::string &lang);
 }}
@@ -58,11 +63,11 @@ namespace cainteoir
 {
 	struct languages
 	{
-		const char *language(const language::tag &id) const;
+		std::string language(const language::tag &id) const;
 
-		const char *script(const language::tag &id) const;
+		std::string script(const language::tag &id) const;
 
-		const char *region(const language::tag &id) const;
+		std::string region(const language::tag &id) const;
 
 		std::string operator()(const std::string & langid);
 	};

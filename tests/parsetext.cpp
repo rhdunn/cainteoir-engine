@@ -1,6 +1,6 @@
 /* Test for extracting words, numbers and other entries from a document.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -20,330 +20,267 @@
 
 #include "config.h"
 #include "compatibility.hpp"
+#include "i18n.h"
+#include "options.hpp"
 
+#include <ucd/ucd.h>
 #include <cainteoir/document.hpp>
+#include <cainteoir/unicode.hpp>
+#include <cainteoir/text.hpp>
+#include <cainteoir/path.hpp>
+#include <cainteoir/engines.hpp>
+
 #include <stdexcept>
 #include <cstdio>
 
-namespace rdf    = cainteoir::rdf;
-namespace events = cainteoir::events;
+namespace rdf  = cainteoir::rdf;
+namespace tts  = cainteoir::tts;
+namespace lang = cainteoir::language;
 
-enum text_block_t
+enum class mode_type
 {
-	word,
-	number,
-	punctuation,
-	symbol,
-	skip,
-	error,
+	parse_text,
+	word_stream,
+	phoneme_stream,
+	context_analysis,
 };
 
-#define S    1 // Skip
-#define P    2 // Punctuation
-#define Y    3 // Symbol
-#define W    4 // Word
-#define N    5 // Number
-#define E    6 // Error
-#define N0   7 // Number (State 0)
-#define W0   8 // Word (State 0)
-#define _  255 // end of state machine
-
-// 0 : Start
-const uint8_t state0_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,
-	/* 1x */ S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,
-	/* 2x */ S,  P,  P,  P,  Y,  P,  P,  P,  P,  P,  P,  Y,  P,  P,  P,  P,
-	/* 3x */ N,  N,  N,  N,  N,  N,  N,  N,  N,  N,  P,  P,  Y,  Y,  Y,  P,
-	/* 4x */ P,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 5x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  P,  P,  P,  Y,  P,
-	/* 6x */ Y,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 7x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  P,  Y,  P,  Y,  S,
-	/* 8x */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* 9x */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Ax */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Bx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Cx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Dx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Ex */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Fx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-};
-
-// 1 : Skip
-const uint8_t state1_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,
-	/* 1x */ S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,  S,
-	/* 2x */ S,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 5x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 6x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 7x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  S,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-// 2 : Punctuation
-// 3 : Symbol
-const uint8_t state2_3_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 5x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 6x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 7x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-// 4 : Word
-const uint8_t state4_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  W0, _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 5x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  _,  _,  _,  _,  _,
-	/* 6x */ _,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 7x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  _,  _,  _,  _,  _,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-// 5 : Number
-const uint8_t state5_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  N0, _,  _,  _,
-	/* 3x */ N,  N,  N,  N,  N,  N,  N,  N,  N,  N,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 5x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 6x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 7x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-// 6 : Error
-const uint8_t state6_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 5x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 6x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 7x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 8x */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* 9x */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Ax */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Bx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Cx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Dx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Ex */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-	/* Fx */ E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,  E,
-};
-
-// 7 : Number (State 0)
-const uint8_t state7_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ N,  N,  N,  N,  N,  N,  N,  N,  N,  N,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 5x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 6x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 7x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-// 8 : Word (State 0)
-const uint8_t state8_transitions[256] = {
-	//       00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
-	/* 0x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 1x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 2x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 3x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 4x */ _,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 5x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  _,  _,  _,  _,  _,
-	/* 6x */ _,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,
-	/* 7x */ W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  W,  _,  _,  _,  _,  _,
-	/* 8x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* 9x */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ax */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Bx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Cx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Dx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Ex */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-	/* Fx */ _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,  _,
-};
-
-const uint8_t *state_transitions[] = {
-	state0_transitions,
-	state1_transitions,
-	state2_3_transitions,
-	state2_3_transitions,
-	state4_transitions,
-	state5_transitions,
-	state6_transitions,
-	state7_transitions,
-	state8_transitions,
-};
-
-const int state_value[] =
+enum class phoneme_mode
 {
-	-1, // Start
-	skip,
-	punctuation,
-	symbol,
-	word,
-	number,
-	error,
-	-1, // Number (State 0)
-	-1, // Word (State 0)
+	events,
+	phonemes,
+	broad_markers,
+	narrow_markers,
+	espeak_markers,
 };
 
-class text_reader
-{
-public:
-	text_reader();
-
-	void set_buffer(const std::shared_ptr<cainteoir::buffer> &aText);
-
-	bool read();
-private:
-	std::shared_ptr<cainteoir::buffer> data;
-	const uint8_t *begin;
-	const uint8_t *end;
+static const char *token_name[] = {
+	"error",
+	"upper",
+	"lower",
+	"capital",
+	"mixed",
+	"script",
+	"number",
+	"ordinal",
+	"punctuation",
+	"comma",
+	"semicolon",
+	"colon",
+	"ellipsis",
+	"full-stop",
+	"double-stop",
+	"exclamation",
+	"question",
+	"symbol",
+	"end-para",
+	"phonemes",
+	"en-dash",
+	"em-dash",
 };
 
-text_reader::text_reader()
-	: begin(nullptr)
-	, end(nullptr)
+template <typename Reader>
+void generate_events(Reader &text, const char *phonemeset)
 {
-}
+	auto ipa = tts::createPhonemeWriter(phonemeset);
+	ipa->reset(stdout);
 
-void text_reader::set_buffer(const std::shared_ptr<cainteoir::buffer> &aText)
-{
-	data  = aText;
-	begin = (const uint8_t *)aText->begin();
-	end   = (const uint8_t *)aText->end();
-}
-
-bool text_reader::read()
-{
-	uint8_t state = 0;
-	int match_value = -1;
-	const uint8_t *match_first = begin;
-	const uint8_t *match_last  = begin;
-
-	while (begin != end && state != 255)
+	ucd::codepoint_t cp = 0;
+	while (text.read())
 	{
-		state = state_transitions[state][*begin++];
-
-		int value = state_value[state];
-		if (value != -1) // terminal node
+		auto &event = text.event();
+		switch (event.type)
 		{
-			match_last  = begin;
-			match_value = value;
+		case tts::word_uppercase:
+		case tts::word_lowercase:
+		case tts::word_capitalized:
+		case tts::word_mixedcase:
+		case tts::word_script:
+			cainteoir::utf8::read(event.text->begin(), cp);
+			fprintf(stdout, ".%s.%-8s [%d..%d] %s\n",
+			        ucd::get_script_string(ucd::lookup_script(cp)),
+			        token_name[event.type],
+			        *event.range.begin(),
+			        *event.range.end(),
+			        event.text->str().c_str());
+			break;
+		case tts::paragraph:
+			fprintf(stdout, ".%-13s [%d..%d] \n",
+			        token_name[event.type],
+			        *event.range.begin(),
+			        *event.range.end());
+			break;
+		case tts::phonemes:
+			fprintf(stdout, ".%-13s [%d..%d] /",
+			        token_name[event.type],
+			        *event.range.begin(),
+			        *event.range.end());
+			for (auto p : event.phonemes)
+				ipa->write(p);
+			fprintf(stdout, "/\n");
+			break;
+		default:
+			fprintf(stdout, ".%-13s [%d..%d] %s\n",
+			        token_name[event.type],
+			        *event.range.begin(),
+			        *event.range.end(),
+			        event.text->str().c_str());
+			break;
 		}
 	}
+}
 
-	begin = match_last;
-
-	cainteoir::buffer match((const char *)match_first, (const char *)match_last);
-	const char *type_name = nullptr;
-	switch (match_value)
+bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
+                mode_type type,
+                phoneme_mode phonemes,
+                const lang::tag &locale,
+                tts::word_stream::number_scale scale,
+                const char *ruleset,
+                const char *dictionary,
+                const char *phonemeset,
+                tts::stress_type stress)
+{
+	if (type == mode_type::word_stream)
 	{
-	case skip:        return true;
-	case symbol:      type_name = ".symbol        "; break;
-	case punctuation: type_name = ".punctuation   "; break;
-	case word:        type_name = ".word          "; break;
-	case number:      type_name = ".number        "; break;
-	case error:       type_name = ".error         "; break;
-	case -1:          return false;
+		tts::word_stream text(reader, locale, scale);
+		generate_events(text, phonemeset);
 	}
-
-	fputs(type_name, stdout);
-	fwrite(match.begin(), 1, match.size(), stdout);
-	if (match_value == error)
+	else if (type == mode_type::phoneme_stream)
 	{
-		fputc('\t', stdout);
-		for (auto &c : match)
-			fprintf(stdout, "\\x%02X", (c & 0xFF));
+		auto rules = tts::createPronunciationRules(ruleset);
+		auto dict = tts::createCainteoirDictionaryReader(dictionary);
+		tts::phoneme_stream text(reader, locale, scale, rules, dict);
+		switch (phonemes)
+		{
+		case phoneme_mode::events:
+			generate_events(text, phonemeset);
+			break;
+		case phoneme_mode::phonemes:
+			tts::generate_phonemes(text, stdout, phonemeset, stress, nullptr, nullptr);
+			break;
+		case phoneme_mode::broad_markers:
+			tts::generate_phonemes(text, stdout, phonemeset, stress, "/", "/");
+			break;
+		case phoneme_mode::narrow_markers:
+			tts::generate_phonemes(text, stdout, phonemeset, stress, "[", "]");
+			break;
+		case phoneme_mode::espeak_markers:
+			tts::generate_phonemes(text, stdout, phonemeset, stress, "[[", "]]");
+			break;
+		}
 	}
-	fputc('\n', stdout);
-
-	return true;
+	else if (type == mode_type::context_analysis)
+	{
+		tts::context_analysis text(reader);
+		generate_events(text, phonemeset);
+	}
+	else
+	{
+		tts::text_reader text(reader);
+		generate_events(text, phonemeset);
+	}
+	return false;
 }
 
 int main(int argc, char ** argv)
 {
 	try
 	{
-		argc -= 1;
-		argv += 1;
+		const char *ruleset = nullptr;
+		const char *dictionary = nullptr;
+		const char *phonemeset = "ipa";
+		const char *locale_name = "en";
+		tts::stress_type stress = tts::stress_type::as_transcribed;
+		mode_type type = mode_type::parse_text;
+		phoneme_mode phonemes = phoneme_mode::events;
+		tts::word_stream::number_scale scale = tts::word_stream::short_scale;
+		bool document_object = false;
 
-		if (argc == 0)
-			throw std::runtime_error("no document specified");
+		const option_group general_options = { nullptr, {
+			{ 'm', "document-object", bind_value(document_object, true),
+			  i18n("Process events through a cainteoir::document object model") },
+		}};
+
+		const option_group processing_options = { i18n("Processing Options:"), {
+			{ 'l', "locale", locale_name, "LOCALE",
+			  i18n("Use LOCALE for processing numbers") },
+			{ 0, "short-scale", bind_value(scale, tts::word_stream::short_scale),
+			  i18n("Use the short scale for processing numbers") },
+			{ 0, "long-scale", bind_value(scale, tts::word_stream::long_scale),
+			  i18n("Use the long scale for processing numbers") },
+			{ 'd', "dictionary", dictionary, "DICTIONARY",
+			  i18n("Use the DICTIONARY pronunciation dictionary") },
+			{ 'r', "ruleset", ruleset, "RULESET",
+			  i18n("Use the RULESET pronunciation rule file") },
+			{ 'P', "phonemeset", phonemeset, "PHONEMESET",
+			  i18n("Use PHONEMESET to transcribe phonemes as (default: ipa)") },
+		}};
+
+		const option_group mode_options = { i18n("Processing Mode:"), {
+			{ 0, "parsetext", bind_value(type, mode_type::parse_text),
+			  i18n("Split the text into lexical segments") },
+			{ 0, "wordstream", bind_value(type, mode_type::word_stream),
+			  i18n("Convert the document into a sequence of words") },
+			{ 0, "phonemestream", bind_value(type, mode_type::phoneme_stream),
+			  i18n("Convert the document into phonetic pronunciations") },
+			{ 0, "contextanalysis", bind_value(type, mode_type::context_analysis),
+			  i18n("Apply context analysis on the document") },
+		}};
+
+		const option_group phoneme_options = { i18n("Phoneme Stream Mode:"), {
+			{ 0, "phonemes", bind_value(phonemes, phoneme_mode::phonemes),
+			  i18n("Show phonemes without event annotations") },
+			{ 0, "broad", bind_value(phonemes, phoneme_mode::broad_markers),
+			  i18n("Use /.../ between phonetic transcriptions") },
+			{ 0, "narrow", bind_value(phonemes, phoneme_mode::narrow_markers),
+			  i18n("Use [...] between phonetic transcriptions") },
+			{ 0, "espeak", bind_value(phonemes, phoneme_mode::espeak_markers),
+			  i18n("Use [[...]] between phonetic transcriptions") },
+			{ 0, "vowel-stress", bind_value(stress, tts::stress_type::vowel),
+			  i18n("Place the stress on vowels (e.g. espeak, arpabet)") },
+			{ 0, "syllable-stress", bind_value(stress, tts::stress_type::syllable),
+			  i18n("Place the stress on syllable boundaries") },
+		}};
+
+		const std::initializer_list<const char *> usage = {
+			i18n("parsetext [OPTION..] DOCUMENT"),
+			i18n("parsetext [OPTION..]"),
+		};
+
+		const std::initializer_list<option_group> options = {
+			general_options,
+			mode_options,
+			processing_options,
+			phoneme_options
+		};
+
+		if (!parse_command_line(options, usage, argc, argv))
+			return 0;
+
+		lang::tag locale = lang::make_lang(locale_name);
 
 		rdf::graph metadata;
-		auto reader = cainteoir::createDocumentReader(argv[0], metadata, std::string());
+		const char *filename = (argc == 1) ? argv[0] : nullptr;
+		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
 		if (!reader)
 		{
-			fprintf(stderr, "unsupported document format for file \"%s\"\n", argv[0]);
+			fprintf(stderr, "unsupported document format for file \"%s\"\n", filename ? filename : "<stdin>");
 			return 0;
 		}
 
-		text_reader text;
-		while (reader->read())
+		bool show_help = false;
+		if (document_object)
 		{
-			if (reader->type & cainteoir::events::text)
-			{
-				text.set_buffer(reader->text);
-				while (text.read())
-				{
-				}
-			}
+			cainteoir::document doc(reader, metadata);
+			auto docreader = cainteoir::createDocumentReader(doc.children());
+			show_help = parse_text(docreader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, stress);
+		}
+		else
+			show_help = parse_text(reader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, stress);
+		if (show_help)
+		{
+			print_help({ general_options, mode_options }, usage);
+			return 0;
 		}
 	}
 	catch (std::runtime_error &e)

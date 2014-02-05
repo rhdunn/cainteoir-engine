@@ -1,6 +1,6 @@
 /* ZIP File Reader API.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -25,7 +25,10 @@
 #include <cainteoir/archive.hpp>
 #include <stdexcept>
 
-#define ZIP_HEADER_MAGIC 0x04034b50
+#define ZIP_HEADER_MAGIC      0x04034b50
+#define DATA_DESCRIPTOR_MAGIC 0x08074b50
+
+#define DATA_DESCRIPTOR_FLAG  0x0008
 
 #pragma pack(push, 1)
 
@@ -45,7 +48,24 @@ struct zip_header
 	uint16_t len_extra;
 };
 
+struct zip_data_descriptor
+{
+	uint32_t magic;
+	uint32_t crc32;
+	uint32_t compressed;
+	uint32_t uncompressed;
+};
+
 #pragma pack(pop)
+
+struct zip_data
+{
+	uint16_t compression_type;
+	const char *begin;
+	uint32_t compressed;
+	uint32_t uncompressed;
+	std::shared_ptr<cainteoir::buffer> cached;
+};
 
 static const std::initializer_list<cainteoir::decoder_ptr> zip_compression = {
 	&cainteoir::copy, // 0 - uncompressed
@@ -75,7 +95,7 @@ public:
 	const std::list<std::string> &files() const;
 private:
 	std::shared_ptr<cainteoir::buffer> mData;
-	std::map<std::string, const zip_header *> data;
+	std::map<std::string, zip_data> data;
 	std::list<std::string> filelist;
 	std::string base;
 };
@@ -90,10 +110,31 @@ zip_archive::zip_archive(std::shared_ptr<cainteoir::buffer> aData, const cainteo
 		const char *ptr = (const char *)hdr + sizeof(zip_header);
 		std::string filename(ptr, ptr + hdr->len_filename);
 
-		data[filename] = hdr;
+		zip_data &item = data[filename];
 		filelist.push_back(filename);
 
-		hdr = (const zip_header *)(ptr + hdr->len_filename + hdr->len_extra + hdr->compressed);
+		item.compression_type = hdr->compression_type;
+		item.begin = ptr + hdr->len_filename + hdr->len_extra;
+		if ((hdr->flags & DATA_DESCRIPTOR_FLAG) == DATA_DESCRIPTOR_FLAG)
+		{
+			const char *magic = item.begin;
+			while (magic < aData->end() && *(const uint32_t *)magic != DATA_DESCRIPTOR_MAGIC)
+				++magic;
+
+			const zip_data_descriptor *descriptor = (const zip_data_descriptor *)magic;
+			if (magic >= aData->end())
+				throw std::runtime_error(i18n("zip file data descriptor entry not found"));
+
+			item.compressed = descriptor->compressed;
+			item.uncompressed = descriptor->uncompressed;
+			hdr = (const zip_header *)(item.begin + item.compressed + sizeof(zip_data_descriptor));
+		}
+		else
+		{
+			item.compressed = hdr->compressed;
+			item.uncompressed = hdr->uncompressed;
+			hdr = (const zip_header *)(item.begin + item.compressed);
+		}
 	}
 }
 
@@ -108,15 +149,16 @@ std::shared_ptr<cainteoir::buffer> zip_archive::read(const char *aFilename) cons
 	if (entry == data.end())
 		return std::shared_ptr<cainteoir::buffer>();
 
-	const zip_header * hdr = entry->second;
-	auto decoder = *(zip_compression.begin() + hdr->compression_type);
-	if (hdr->compression_type >= zip_compression.size() || decoder == nullptr)
+	const zip_data &item = entry->second;
+	if (item.cached) return item.cached;
+
+	auto decoder = *(zip_compression.begin() + item.compression_type);
+	if (item.compression_type >= zip_compression.size() || decoder == nullptr)
 		throw std::runtime_error(i18n("decompression failed (unsupported compression type)"));
 
-	const char *ptr = (const char *)hdr + sizeof(zip_header) + hdr->len_filename + hdr->len_extra;
-	cainteoir::buffer compressed { ptr, ptr + hdr->compressed };
+	cainteoir::buffer compressed { item.begin, item.begin + item.compressed };
 
-	return decoder(compressed, hdr->uncompressed);
+	return const_cast<zip_data &>(item).cached = decoder(compressed, item.uncompressed);
 }
 
 const std::list<std::string> &zip_archive::files() const
@@ -124,13 +166,6 @@ const std::list<std::string> &zip_archive::files() const
 	return filelist;
 }
 
-/** @brief Create an archive for extracting files in a ZIP file.
-  *
-  * @param[in] aData    A buffer containing the zip file contents.
-  * @param[in] aSubject The uri to identify the zip file (its location on disk).
-  *
-  * @return An archive object to access the zip file contents.
-  */
 std::shared_ptr<cainteoir::archive>
 cainteoir::create_zip_archive(std::shared_ptr<buffer> aData, const rdf::uri &aSubject)
 {

@@ -1,0 +1,21 @@
+@counter-style empty1 {
+	system: symbolic;
+	negative: '-' '';
+	prefix: '';
+	suffix: '.';
+	range: auto;
+	symbols: ;
+	additive-symbols: ;
+	fallback: decimal;
+}
+
+@counter-style empty2 {
+	system: symbolic;
+	negative: '-' '';
+	prefix: '';
+	suffix: '.';
+	range: auto;
+	symbols: ;
+	additive-symbols: ;
+	fallback: decimal;
+}

@@ -1,6 +1,6 @@
 /* Compressed Stream (No Compression)
  *
- * Copyright (C) 2010 Reece H. Dunn
+ * Copyright (C) 2010, 2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -20,14 +20,7 @@
 
 #include <cainteoir/buffer.hpp>
 
-/** @brief Copy the data in buffer to a memory buffer.
-  *
-  * @param[in] data The data buffer to be decoded/decompressed.
-  * @param[in] size The size of the decoded/decompressed data buffer.
-  *
-  * @return The new data buffer.
-  */
-std::shared_ptr<cainteoir::buffer> cainteoir::copy(const cainteoir::buffer &compressed, uint32_t uncompressed)
+std::shared_ptr<cainteoir::buffer> cainteoir::copy(const cainteoir::buffer &data, uint32_t size)
 {
-	return cainteoir::make_buffer(compressed.begin(), compressed.size());
+	return cainteoir::make_buffer(data.begin(), data.size());
 }

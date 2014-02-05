@@ -1,6 +1,6 @@
 /* RichText Document Parser.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -246,6 +246,8 @@ static void skipRtfBlock(rtf_reader &rtf)
 		break;
 	case rtf_reader::end_block:
 		return;
+	default:
+		break;
 	}
 }
 
@@ -262,9 +264,7 @@ struct rtf_document_reader : public cainteoir::document_reader
 
 	rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
 
-	bool read();
-
-	bool internal_read(rdf::graph *aPrimaryMetadata);
+	bool read(rdf::graph *aMetadata);
 
 	rtf_reader rtf;
 	std::shared_ptr<cainteoir::buffer> mData;
@@ -274,6 +274,7 @@ struct rtf_document_reader : public cainteoir::document_reader
 	int mBlockCount;
 	std::string mTitle;
 	cainteoir::rope rtf_text;
+	bool mClearText;
 };
 
 rtf_document_reader::rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle)
@@ -284,18 +285,14 @@ rtf_document_reader::rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 	, mState(state_rtf)
 	, mBlockCount(0)
 	, mTitle(aTitle)
+	, mClearText(false)
 {
-	if (rtf.read() && internal_read(&aPrimaryMetadata))
+	if (rtf.read() && read(&aPrimaryMetadata))
 		mState = state_title;
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/rtf"));
 }
 
-bool rtf_document_reader::read()
-{
-	return internal_read(nullptr);
-}
-
-bool rtf_document_reader::internal_read(rdf::graph *aGraph)
+bool rtf_document_reader::read(rdf::graph *aGraph)
 {
 	if (mState == state_title)
 	{
@@ -307,9 +304,28 @@ bool rtf_document_reader::internal_read(rdf::graph *aGraph)
 				mTitle = mTitle.substr(sep + 1);
 		}
 
-		type   = events::toc_entry | events::anchor;
-		styles = &cainteoir::heading0;
-		text   = cainteoir::make_buffer(mTitle);
+		if (aGraph)
+		{
+			const rdf::uri listing = aGraph->genid();
+			aGraph->statement(mSubject, rdf::ref("listing"), listing);
+
+			const rdf::uri currentReference = aGraph->genid();
+			aGraph->statement(listing, rdf::rdf("type"), rdf::ref("Listing"));
+			aGraph->statement(listing, rdf::ref("type"), rdf::epv("toc"));
+			aGraph->statement(listing, rdf::ref("entries"), currentReference);
+
+			const rdf::uri entry = aGraph->genid();
+			aGraph->statement(currentReference, rdf::rdf("first"), entry);
+
+			aGraph->statement(entry, rdf::rdf("type"), rdf::ref("Entry"));
+			aGraph->statement(entry, rdf::ref("level"), rdf::literal(0, rdf::xsd("integer")));
+			aGraph->statement(entry, rdf::ref("target"), mSubject);
+			aGraph->statement(entry, rdf::dc("title"), rdf::literal(mTitle));
+
+			aGraph->statement(currentReference, rdf::rdf("rest"), rdf::rdf("nil"));
+		}
+
+		type   = events::anchor;
 		anchor = mSubject;
 		mState = state_text;
 		return true;
@@ -317,7 +333,10 @@ bool rtf_document_reader::internal_read(rdf::graph *aGraph)
 
 	std::string info_context;
 	if (!rtf.data()->compare("par") && !rtf_text.empty())
+	{
+		mClearText = true;
 		goto text_event;
+	}
 
 	do switch (rtf.token())
 	{
@@ -410,16 +429,16 @@ bool rtf_document_reader::internal_read(rdf::graph *aGraph)
 	if (rtf_text.empty())
 	{
 		type = 0;
-		text.reset();
+		content.reset();
 		return false;
 	}
 
 text_event:
-	type   = events::text | events::begin_context | events::end_context;
-	styles = &cainteoir::paragraph;
-	text   = rtf_text.buffer();
-	anchor = rdf::uri();
-	if (aGraph == nullptr)
+	type    = events::text | events::begin_context | events::end_context;
+	styles  = &cainteoir::paragraph;
+	content = rtf_text.buffer();
+	anchor  = rdf::uri();
+	if (mClearText)
 		rtf_text.clear();
 	return true;
 }

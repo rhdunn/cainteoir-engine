@@ -1,0 +1,7 @@
+anchor []
+begin-context paragraph +sans-serif
+text(5): """Lorem"""
+end-context
+begin-context paragraph +sans-serif
+text(5): """dolor"""
+end-context

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2010-2011 Reece H. Dunn
+# Copyright (C) 2010-2014 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -22,103 +22,155 @@ import sys
 
 if __name__ == '__main__':
 	test = harness.TestSuite('events', sys.argv)
-	test.run({'name': 'HTML', 'groups': [
+	test.run({'name': 'HTML', 'replace': ['title'], 'title': 'unspecified', 'groups': [
+		# These HTML tests cover tests from htmltree.py to ensure that the document
+		# reader is handling them correctly.
+		{'name': '12.2.5.4.2: before html', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/simple.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/2-before-html/anything-else.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/2-before-html/end-of-file.html', 'result': 'html/tree-construction/3-before-head/end-of-file.events'},
+		]},
+		{'name': '12.2.5.4.3: before head', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/3-before-head/anything-else.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/3-before-head/anything-else-2.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/3-before-head/end-of-file.html', 'result': 'html/tree-construction/3-before-head/end-of-file.events'},
+		]},
+		{'name': '12.2.5.4.4: in head - base element', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head~base/self-closing.html', 'result': 'html/tree-construction/4-in-head~base/self-closing.events', 'title': 'self-closing.html'},
+			{'test': 'html/tree-construction/4-in-head~base/self-closed.html', 'result': 'html/tree-construction/4-in-head~base/self-closing.events', 'title': 'self-closed.html'},
+			{'test': 'html/tree-construction/4-in-head~base/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~base/self-closing-title.events'},
+			{'test': 'html/tree-construction/4-in-head~base/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~base/self-closing-title.events'},
+		]},
+		{'name': '12.2.5.4.4: in head - basefont element', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head~basefont/self-closing.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing.events', 'title': 'self-closing.html'},
+			{'test': 'html/tree-construction/4-in-head~basefont/self-closed.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing.events', 'title': 'self-closed.html'},
+			{'test': 'html/tree-construction/4-in-head~basefont/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing-title.events'},
+			{'test': 'html/tree-construction/4-in-head~basefont/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~basefont/self-closing-title.events'},
+		]},
+		{'name': '12.2.5.4.4: in head - bgsound element', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closing.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing.events', 'title': 'self-closing.html'},
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closed.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing.events', 'title': 'self-closed.html'},
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing-title.events'},
+			{'test': 'html/tree-construction/4-in-head~bgsound/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~bgsound/self-closing-title.events'},
+		]},
+		{'name': '12.2.5.4.4: in head - link element', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head~link/self-closing.html', 'result': 'html/tree-construction/4-in-head~link/self-closing.events', 'title': 'self-closing.html'},
+			{'test': 'html/tree-construction/4-in-head~link/self-closed.html', 'result': 'html/tree-construction/4-in-head~link/self-closing.events', 'title': 'self-closed.html'},
+			{'test': 'html/tree-construction/4-in-head~link/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~link/self-closing-title.events'},
+			{'test': 'html/tree-construction/4-in-head~link/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~link/self-closing-title.events'},
+		]},
+		{'name': '12.2.5.4.4: in head - meta element', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head~meta/self-closing.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing.events', 'title': 'self-closing.html'},
+			{'test': 'html/tree-construction/4-in-head~meta/self-closed.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing.events', 'title': 'self-closed.html'},
+			{'test': 'html/tree-construction/4-in-head~meta/self-closing-title.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing-title.events'},
+			{'test': 'html/tree-construction/4-in-head~meta/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing-title.events'},
+		]},
+		{'name': '12.2.5.4.4: in head', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/4-in-head/anything-else.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/4-in-head/anything-else-2.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/4-in-head/end-of-file.html', 'result': 'html/tree-construction/4-in-head/end-of-file.events'},
+		]},
+		{'name': '12.2.5.4.6: after head', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/6-after-head/anything-else.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/6-after-head/anything-else-2.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/6-after-head/end-of-file.html', 'result': 'html/tree-construction/6-after-head/end-of-file.events'},
+		]},
+		{'name': '12.2.5.4.7: in body', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/7-in-body/xml-magic.html', 'result': 'html/tree-construction/7-in-body/xml-magic.events'},
+			{'test': 'html/tree-construction/7-in-body/end-of-file.html', 'result': 'html/tree-construction/7-in-body/end-of-file.events'},
+			{'test': 'html/tree-construction/7-in-body/pre-unclosed.html', 'result': 'html/tree-construction/7-in-body/pre-unclosed.events', 'title': 'pre-unclosed.html'},
+			{'test': 'html/tree-construction/7-in-body/pre-unclosed-with-body.html', 'result': 'html/tree-construction/7-in-body/pre-unclosed.events', 'title': 'pre-unclosed-with-body.html'},
+			{'test': 'html/tree-construction/7-in-body/pre-unclosed-with-html.html', 'result': 'html/tree-construction/7-in-body/pre-unclosed.events', 'title': 'pre-unclosed-with-html.html'},
+			{'test': 'html/tree-construction/7-in-body/nested-unclosed-inner.html', 'result': 'html/tree-construction/7-in-body/nested-unclosed-inner.events', 'expect': 'fail'},
+			{'test': 'html/tree-construction/7-in-body/no-body.html', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/7-in-body/i-spanning-p-elements.html', 'result': 'html/tree-construction/7-in-body/i-spanning-p-elements.events', 'expect': 'fail'},
+		]},
+		{'name': '12.2.5.4.19: after body', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/19-after-body/end-of-file.html', 'result': 'html/tree-construction/simple.events'},
+		]},
+		{'name': 'HTML Frame Set', 'type': 'events', 'tests': [
+			{'test': 'html/elements/frameset-lowercase.html', 'result': 'html/elements/frameset.events', 'title': 'frameset-lowercase.html'},
+			{'test': 'html/elements/frameset-uppercase.html', 'result': 'html/elements/frameset.events', 'title': 'frameset-uppercase.html'},
+			{'test': 'html/elements/frameset-rec-html40.html', 'result': 'html/elements/frameset.events', 'title': 'frameset-rec-html40.html'},
+			{'test': 'html/elements/frameset.xhtml', 'result': 'html/elements/frameset.events', 'title': 'frameset.xhtml'},
+			{'test': 'html/elements/frameset-no-namespace.xhtml', 'result': 'html/elements/frameset.events', 'title': 'frameset-no-namespace.xhtml'},
+		]},
+		{'name': 'HTML 4', 'type': 'events', 'tests': [
+			{'test': 'html/elements/html4-lowercase.html', 'result': 'html/elements/html4.events'},
+			{'test': 'html/elements/html4-uppercase.html', 'result': 'html/elements/html4.events'},
+			{'test': 'html/elements/html4-rec-html40.html', 'result': 'html/elements/html4.events'},
+			{'test': 'html/elements/html4.xhtml', 'result': 'html/elements/html4.events'},
+			{'test': 'html/elements/html4-no-namespace.xhtml', 'result': 'html/elements/html4.events'},
+			{'test': 'html/elements/html4-with-id.xhtml', 'result': 'html/elements/html4-with-id.events'},
+		]},
+		{'name': 'DOCTYPE', 'type': 'events', 'tests': [
+			{'test': 'html/elements/xhtml10-transitional.xhtml', 'result': 'html/elements/html4.events'},
+		]},
+		{'name': 'HTML 5', 'type': 'events', 'tests': [
+			{'test': 'html/elements/html5-lowercase.html', 'result': 'html/elements/html5.events'},
+			{'test': 'html/elements/html5-uppercase.html', 'result': 'html/elements/html5.events'},
+			{'test': 'html/elements/html5.xhtml', 'result': 'html/elements/html5.events'},
+			{'test': 'html/elements/html5-with-id.xhtml', 'result': 'html/elements/html5-with-id.events'},
+		]},
+		# These are the event-specific tests.
 		{'name': 'semantics', 'type': 'events', 'tests': [
-			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events'},
-			{'test': 'html/semantics/simple.xhtml', 'result': 'html/semantics/simple.events'},
-			{'test': 'html/semantics/simple-with-doctype.xhtml', 'result': 'html/semantics/simple.events'},
-			{'test': 'html/semantics/simple-no-namespace.xhtml', 'result': 'html/semantics/simple.events'},
-			{'test': 'html/semantics/simple-with-xml-magic.html', 'result': 'html/semantics/simple.events'},
-			{'test': 'html/semantics/simple-rec-html40-ns.html', 'result': 'html/semantics/simple.events'}, # MS Word
-			{'test': 'html/semantics/with-style.html', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
-			{'test': 'html/semantics/with-style-type.html', 'result': 'html/semantics/with-style-type.events'},
 			{'test': 'html/semantics/with-style-type.xhtml', 'result': 'html/semantics/with-style-type.events'},
-			{'test': 'html/semantics/meta-content-type.html', 'result': 'html/semantics/meta-content-type.events'},
 			{'test': 'html/semantics/meta-content-type.xhtml', 'result': 'html/semantics/meta-content-type.events'},
-			{'test': 'html/semantics/link-rel-stylesheet.html', 'result': 'html/semantics/link-rel-stylesheet.events'},
 			{'test': 'html/semantics/link-rel-stylesheet.xhtml', 'result': 'html/semantics/link-rel-stylesheet.events'},
 		]},
 		{'name': 'scripting', 'type': 'events', 'tests': [
-			{'test': 'html/scripting/with-script.html', 'result': 'html/scripting/with-script.events'},
 			{'test': 'html/scripting/with-script.xhtml', 'result': 'html/scripting/with-script.events'},
-			{'test': 'html/scripting/with-script-type.html', 'result': 'html/scripting/with-script-type.events'},
 			{'test': 'html/scripting/with-script-type.xhtml', 'result': 'html/scripting/with-script-type.events'},
 		]},
 		{'name': 'sections', 'type': 'events', 'tests': [
-			{'test': 'html/sections/dir.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/dir.xhtml', 'result': 'html/sections/ul.events'},
-			{'test': 'html/sections/div.html', 'result': 'html/sections/div.events'},
 			{'test': 'html/sections/div.xhtml', 'result': 'html/sections/div.events'},
-			{'test': 'html/sections/headings.html', 'result': 'html/sections/headings.events'},
 			{'test': 'html/sections/headings.xhtml', 'result': 'html/sections/headings.events'},
-			{'test': 'html/sections/headings-with-id.html', 'result': 'html/sections/headings-with-id.events'},
 			{'test': 'html/sections/headings-with-id.xhtml', 'result': 'html/sections/headings-with-id.events'},
-			{'test': 'html/sections/heading-with-matching-title.html', 'result': 'html/sections/heading-with-matching-title.events'},
 			{'test': 'html/sections/heading-with-matching-title.xhtml', 'result': 'html/sections/heading-with-matching-title.events'},
-			{'test': 'html/sections/heading-repeated-with-matching-title.html', 'result': 'html/sections/heading-repeated-with-matching-title.events'},
 			{'test': 'html/sections/heading-repeated-with-matching-title.xhtml', 'result': 'html/sections/heading-repeated-with-matching-title.events'},
-			{'test': 'html/sections/li-only.html', 'result': 'html/sections/li-only.events'},
 			{'test': 'html/sections/li-only.xhtml', 'result': 'html/sections/li-only.events'},
-			{'test': 'html/sections/menu.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/menu.xhtml', 'result': 'html/sections/ul.events'},
-			{'test': 'html/sections/no-body.html', 'result': 'html/sections/no-body.events'},
-			{'test': 'html/sections/no-body.xhtml', 'result': 'html/sections/no-body.events'},
-			{'test': 'html/sections/ol.html', 'result': 'html/sections/ol.events'},
+			{'test': 'html/sections/nav-breadcrumbs.xhtml', 'result': 'html/sections/nav-breadcrumbs.events', 'expect': 'volatile'},
+			{'test': 'html/sections/nav-list.xhtml', 'result': 'html/sections/nav-list.events'},
 			{'test': 'html/sections/ol.xhtml', 'result': 'html/sections/ol.events'},
 			{'test': 'html/sections/ol-cdata.xhtml', 'result': 'html/sections/ol.events'},
-			{'test': 'html/sections/paragraphs.html', 'result': 'html/sections/paragraphs.events'},
+			{'test': 'html/sections/ol-nested.xhtml', 'result': 'html/sections/ol-nested.events'},
 			{'test': 'html/sections/paragraphs.xhtml', 'result': 'html/sections/paragraphs.events'},
 			{'test': 'html/sections/paragraphs-cdata.xhtml', 'result': 'html/sections/paragraphs.events'},
-			{'test': 'html/sections/pre.html', 'result': 'html/sections/pre.events'},
 			{'test': 'html/sections/pre.xhtml', 'result': 'html/sections/pre.events'},
-			{'test': 'html/sections/pre-only-element.html', 'result': 'html/sections/pre-only-element.events'},
-			{'test': 'html/sections/ul.html', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/ul.xhtml', 'result': 'html/sections/ul.events'},
 			{'test': 'html/sections/ul-cdata.xhtml', 'result': 'html/sections/ul.events'},
-			{'test': 'html/sections/unclosed-head.html', 'result': 'html/sections/unclosed-head.events'},
-			{'test': 'html/sections/html-only.html', 'result': 'html/sections/html-only.events'},
+			{'test': 'html/sections/ul-nested.xhtml', 'result': 'html/sections/ul-nested.events'},
 		]},
 		{'name': 'text-level semantics', 'type': 'events', 'tests': [
-			{'test': 'html/text-level-semantics/address.html', 'result': 'html/text-level-semantics/address.events'},
 			{'test': 'html/text-level-semantics/address.xhtml', 'result': 'html/text-level-semantics/address.events'},
-			{'test': 'html/text-level-semantics/b.html', 'result': 'html/text-level-semantics/b.events'},
 			{'test': 'html/text-level-semantics/b.xhtml', 'result': 'html/text-level-semantics/b.events'},
-			{'test': 'html/text-level-semantics/cite.html', 'result': 'html/text-level-semantics/cite.events'},
 			{'test': 'html/text-level-semantics/cite.xhtml', 'result': 'html/text-level-semantics/cite.events'},
-			{'test': 'html/text-level-semantics/code.html', 'result': 'html/text-level-semantics/code.events'},
 			{'test': 'html/text-level-semantics/code.xhtml', 'result': 'html/text-level-semantics/code.events'},
-			{'test': 'html/text-level-semantics/dfn.html', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/dfn.xhtml', 'result': 'html/text-level-semantics/em.events'},
-			{'test': 'html/text-level-semantics/em.html', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/em.xhtml', 'result': 'html/text-level-semantics/em.events'},
-			{'test': 'html/text-level-semantics/i.html', 'result': 'html/text-level-semantics/i.events'},
 			{'test': 'html/text-level-semantics/i.xhtml', 'result': 'html/text-level-semantics/i.events'},
-			{'test': 'html/text-level-semantics/span.html', 'result': 'html/text-level-semantics/span.events'},
 			{'test': 'html/text-level-semantics/span.xhtml', 'result': 'html/text-level-semantics/span.events'},
-			{'test': 'html/text-level-semantics/strong.html', 'result': 'html/text-level-semantics/strong.events'},
 			{'test': 'html/text-level-semantics/strong.xhtml', 'result': 'html/text-level-semantics/strong.events'},
-			{'test': 'html/text-level-semantics/sub.html', 'result': 'html/text-level-semantics/sub.events'},
 			{'test': 'html/text-level-semantics/sub.xhtml', 'result': 'html/text-level-semantics/sub.events'},
-			{'test': 'html/text-level-semantics/sup.html', 'result': 'html/text-level-semantics/sup.events'},
 			{'test': 'html/text-level-semantics/sup.xhtml', 'result': 'html/text-level-semantics/sup.events'},
-			{'test': 'html/text-level-semantics/tt.html', 'result': 'html/text-level-semantics/tt.events'},
 			{'test': 'html/text-level-semantics/tt.xhtml', 'result': 'html/text-level-semantics/tt.events'},
-			{'test': 'html/text-level-semantics/u.html', 'result': 'html/text-level-semantics/u.events'},
 			{'test': 'html/text-level-semantics/u.xhtml', 'result': 'html/text-level-semantics/u.events'},
-			{'test': 'html/text-level-semantics/var.html', 'result': 'html/text-level-semantics/em.events'},
 			{'test': 'html/text-level-semantics/var.xhtml', 'result': 'html/text-level-semantics/em.events'},
+			{'test': 'html/text-level-semantics/whitespace.xhtml', 'result': 'html/text-level-semantics/whitespace.events'},
+		]},
+		{'name': 'embedded content', 'type': 'events', 'tests': [
+			{'test': 'html/embedded/audio.xhtml', 'result': 'html/embedded/audio.events'},
 		]},
 		{'name': 'table', 'type': 'events', 'tests': [
-			{'test': 'html/table/simple.html', 'result': 'html/table/simple.events'},
 			{'test': 'html/table/simple.xhtml', 'result': 'html/table/simple.events'},
 		]},
 		{'name': 'phrasing content', 'type': 'events', 'tests': [
-			{'test': 'html/phrasing-content/br.html', 'result': 'html/phrasing-content/br.events'},
 			{'test': 'html/phrasing-content/br.xhtml', 'result': 'html/phrasing-content/br.events'},
 		]},
 		{'name': 'entities', 'type': 'events', 'tests': [
-			{'test': 'html/entities.html', 'result': 'html/entities.events'},
 			{'test': 'html/entities.xhtml', 'result': 'html/entities.events'},
 		]},
 		{'name': 'encoding', 'replace': ['title'], 'type': 'events', 'tests': [
@@ -126,6 +178,8 @@ if __name__ == '__main__':
 			{'test': 'html/encoding/meta-charset-win1252.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-charset-win1252.html'},
 			{'test': 'html/encoding/meta-content-type-utf8.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-content-type-utf8.html'},
 			{'test': 'html/encoding/meta-content-type-win1252.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-content-type-win1252.html'},
+			{'test': 'html/encoding/meta-content-type-lowercase-utf8.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-content-type-lowercase-utf8.html'},
+			{'test': 'html/encoding/meta-content-type-lowercase-win1252.html', 'result': 'html/encoding/encoding.events', 'title': 'meta-content-type-lowercase-win1252.html'},
 		]},
 	]})
 	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
@@ -149,6 +203,7 @@ if __name__ == '__main__':
 			{'test': 'mime/email/from-email-email.txt', 'result': 'mime/email/content.events', 'title': 'from-email-email.txt'},
 			{'test': 'mime/email/from-subject.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
 			{'test': 'mime/email/from-header.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
+			{'test': 'mime/email/from-archived.txt', 'result': 'mime/email/content.events', 'title': 'from-archived.txt'},
 			{'test': 'mime/email/date-jan.txt', 'result': 'mime/email/content.events', 'title': 'date-jan.txt'},
 			{'test': 'mime/email/mdate-jan.txt', 'result': 'mime/email/content.events', 'title': 'mdate-jan.txt'},
 			{'test': 'mime/email/newsgroups.txt', 'result': 'mime/email/content.events', 'title': 'newsgroups.txt'},
@@ -164,6 +219,7 @@ if __name__ == '__main__':
 			{'test': 'mime/email/from-email-email-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'from-email-email-lfonly.txt'},
 			{'test': 'mime/email/from-subject-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
 			{'test': 'mime/email/from-header-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'Test Case'},
+			{'test': 'mime/email/from-archived-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'from-archived-lfonly.txt'},
 			{'test': 'mime/email/date-jan-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'date-jan-lfonly.txt'},
 			{'test': 'mime/email/mdate-jan-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'mdate-jan-lfonly.txt'},
 			{'test': 'mime/email/newsgroups-lfonly.txt', 'result': 'mime/email/content.events', 'title': 'newsgroups-lfonly.txt'},
@@ -190,8 +246,11 @@ if __name__ == '__main__':
 			{'test': 'mime/multipart/related-6.txt', 'result': 'mime/multipart/related-html.events', 'title': 'related-6.txt'},
 			{'test': 'mime/multipart/alternative-1.txt', 'result': 'mime/multipart/mixed.events', 'title': 'alternative-1.txt'},
 			{'test': 'mime/multipart/alternative-2.txt', 'result': 'mime/multipart/mixed.events', 'title': 'alternative-2.txt'},
+			{'test': 'mime/multipart/alternative-3.txt', 'result': 'mime/multipart/mixed.events', 'title': 'alternative-3.txt'},
 			{'test': 'mime/multipart/no-boundary-1.txt', 'result': 'mime/multipart/no-boundary.events', 'title': 'no-boundary-1.txt'},
 			{'test': 'mime/multipart/no-boundary-2.txt', 'result': 'mime/multipart/no-boundary.events', 'title': 'no-boundary-2.txt'},
+			{'test': 'mime/multipart/mail-archive.txt', 'result': 'mime/multipart/mail-archive.events', 'title': 'mail-archive.txt', 'expect': 'fail'},
+			{'test': 'mime/multipart/debian-bug-mail.txt', 'result': 'mime/multipart/debian-bug-mail.events', 'title': 'debian-bug-mail.txt'},
 		]},
 		{'name': 'quoted-printable', 'type': 'events', 'tests': [
 			{'test': 'mime/quoted-printable/ascii.txt', 'result': 'mime/quoted-printable/ascii.events', 'title': 'ascii.txt'},
@@ -228,16 +287,6 @@ if __name__ == '__main__':
 			{'test': 'http/basic-1.1-lfonly.txt', 'result': 'http/basic.events', 'title': 'basic-1.1-lfonly.txt'},
 		]},
 	]})
-	test.run({'name': 'NCX', 'groups': [
-		{'name': 'toc', 'type': 'events', 'tests': [
-			{'test': 'ncx/navMap/linear.ncx', 'result': 'ncx/navMap/linear.events'},
-			{'test': 'ncx/navMap/linear-content-before-label.ncx', 'result': 'ncx/navMap/linear.events'},
-			{'test': 'ncx/navMap/linear-whitespace.ncx', 'result': 'ncx/navMap/linear.events'},
-			{'test': 'ncx/navMap/in-subdir.ncx', 'result': 'ncx/navMap/in-subdir.events'},
-			{'test': 'ncx/navMap/named-uri.ncx', 'result': 'ncx/navMap/named-uri.events'},
-			{'test': 'ncx/navMap/nested.ncx', 'result': 'ncx/navMap/nested.events'},
-		]},
-	]})
 	test.run({'name': 'RTF', 'groups': [
 		{'name': 'document', 'type': 'events', 'tests': [
 			{'test': 'rtf/simple.rtf', 'result': 'rtf/simple.events'},
@@ -249,6 +298,15 @@ if __name__ == '__main__':
 			{'test': 'rtf/libreoffice.rtf', 'result': 'rtf/libreoffice.events'},
 		]},
 	]})
+	test.run({'name': 'SMIL', 'groups': [
+		{'name': 'EPUB Media Overlays', 'type': 'events', 'tests': [
+			{'test': 'smil/media-overlays/sequential.smil', 'result': 'smil/media-overlays/sequential.events'},
+			{'test': 'smil/media-overlays/parallel.smil', 'result': 'smil/media-overlays/parallel.events'},
+			{'test': 'smil/media-overlays/text-src.smil', 'result': 'smil/media-overlays/text-src.events'},
+			{'test': 'smil/media-overlays/audio-src.smil', 'result': 'smil/media-overlays/audio-src.events'},
+			{'test': 'smil/media-overlays/audio-clip_range.smil', 'result': 'smil/media-overlays/audio-clip_range.events'},
+		]},
+	]})
 	test.run({'name': 'SSML', 'groups': [
 		{'name': 'document', 'type': 'events', 'tests': [
 			{'test': 'ssml/speak.ssml', 'result': 'ssml/speak.events'},
@@ -258,112 +316,44 @@ if __name__ == '__main__':
 			{'test': 'ssml/emphasis.ssml', 'result': 'ssml/emphasis.events'},
 		]},
 	]})
-	test.run({ 'name': 'ePub',
-		'archive':
-			[
-				('mimetype', 'application/epub+zip'),
-				('META-INF/container.xml', 'ocf/simple.ocf'),
-				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
-			],
-		'groups': [
-			{'name': 'with-content', 'type': 'events', 'tests': [
-				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
-				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ePub',
-		'archive':
-			[
-				('mimetype', 'application/epub+zip\n'),
-				('META-INF/container.xml', 'ocf/simple.ocf'),
-				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
-			],
-		'groups': [
-			{'name': 'mimetype with extra content at the end', 'type': 'events', 'tests': [
-				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
-				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ePub',
-		'archive':
-			[
-				# incorrectly constructed ePUb document -- the mimetype
-				# file is the last entry, not the first:
-				('META-INF/container.xml', 'ocf/simple.ocf'),
-				('OEBPS/content.opf', '@test'), # replaced with 'test' file in the group tests
-				('OEBPS/toc.ncx', 'ncx/empty-toc-with-title.ncx'),
-				('OEBPS/test.html', 'html/semantics/simple.xhtml'),
-				('mimetype', 'application/epub+zip'),
-			],
-		'groups': [
-			{'name': 'mimetype at end', 'type': 'events', 'tests': [
-				{'test': 'epub/metadata/htmlfile-in-spine.opf', 'result': 'epub/simple.events'},
-				{'test': 'epub/missing-html-file.opf', 'result': 'epub/simple.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ZIP',
-		'archive':
-			[
-				('test.xhtml', 'html/semantics/simple.xhtml'),
-			],
-		'groups': [
-			{'name': 'single file', 'type': 'events', 'tests': [
-				{'test': 'single-file.zip', 'result': 'zip/single-file.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ZIP',
-		'archive':
-			[
-				('test.xhtml', 'html/semantics/simple.xhtml'),
-				('test.html',  'html/semantics/simple.html'),
-			],
-		'groups': [
-			{'name': 'multiple files', 'type': 'events', 'tests': [
-				{'test': 'multiple-files.zip', 'result': 'zip/multiple-files.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ZIP',
-		'archive':
-			[
-				('testdir/', ''), # Don't set the directory attribute
-				('testdir/test.xhtml', 'html/semantics/simple.xhtml'),
-			],
-		'groups': [
-			{'name': 'single file in directory', 'type': 'events', 'tests': [
-				{'test': 'single-file-in-dir.zip', 'result': 'zip/single-file-in-dir.events'},
-			]},
-		]
-	})
-	test.run({ 'name': 'ZIP',
-		'archive':
-			[
-				('testdir/', None), # Set the directory attribute
-				('testdir/test.xhtml', 'html/semantics/simple.xhtml'),
-			],
-		'groups': [
-			{'name': 'single file in directory with directory attribute set', 'type': 'events', 'tests': [
-				{'test': 'single-file-in-dir.zip', 'result': 'zip/single-file-in-dir.events'},
-			]},
-		]
-	})
+	test.run({ 'name': 'ePub2', 'groups': [
+		{'name': 'packaging', 'type': 'events', 'tests': [
+			{'test': 'epub2/simple.epub', 'result': 'epub2/simple.events'},
+			{'test': 'epub2/mimetype/newline-at-end.epub', 'result': 'epub2/simple.events'},
+			{'test': 'epub2/mimetype-at-end.epub', 'result': 'epub2/simple.events'},
+			{'test': 'epub2/missing.epub', 'result': 'epub2/missing.events'},
+			{'test': 'epub2/file-in-subdir.epub', 'result': 'epub2/file-in-subdir.events'},
+		]},
+	]})
+	test.run({ 'name': 'ePub3', 'groups': [
+		{'name': 'media overlay', 'type': 'events', 'tests': [
+			{'test': 'epub3/media-overlay/single-file/xhtml-before-smil.epub', 'result': 'epub3/media-overlay/single-file/xhtml-before-smil.events'},
+			{'test': 'epub3/media-overlay/single-file/xhtml-after-smil.epub', 'result': 'epub3/media-overlay/single-file/xhtml-before-smil.events'},
+			{'test': 'epub3/media-overlay/single-file/text-but-no-audio.epub', 'result': 'epub3/media-overlay/single-file/text-but-no-audio.events'},
+			{'test': 'epub3/media-overlay/multiple-files/multiple.epub', 'result': 'epub3/media-overlay/multiple-files/multiple.events'},
+			{'test': 'epub3/media-overlay/multiple-files/spanning.epub', 'result': 'epub3/media-overlay/multiple-files/multiple.events'},
+			{'test': 'epub3/media-overlay/multiple-files/spanning-different-id.epub', 'result': 'epub3/media-overlay/multiple-files/multiple.events'},
+		]},
+		{'name': 'toc navigation', 'type': 'events', 'tests': [
+			{'test': 'epub3/nav-toc/linear.epub', 'result': 'epub3/nav-toc/linear.events'},
+			{'test': 'epub3/nav-toc/nested.epub', 'result': 'epub3/nav-toc/nested.events'},
+		]},
+	]})
+	test.run({ 'name': 'ZIP', 'groups': [
+		{'name': 'files', 'type': 'events', 'tests': [
+			{'test': 'zip/single-file.zip', 'result': 'zip/single-file.events'},
+			{'test': 'zip/multiple-files.zip', 'result': 'zip/multiple-files.events'},
+		]},
+		{'name': 'directory', 'type': 'events', 'tests': [
+			{'test': 'zip/single-file-in-dir.zip', 'result': 'zip/single-file-in-dir.events'},
+			{'test': 'zip/single-file-in-dir-asdirectory.zip', 'result': 'zip/single-file-in-dir.events'},
+		]},
+	]})
 	test.run({'name': 'Compressed', 'groups': [
-		{'name': 'gzip', 'type': 'events', 'compress': 'gzip', 'tests': [
-			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events'},
-		]},
-		{'name': 'bzip2', 'type': 'events', 'compress': 'bzip2', 'tests': [
-			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events', 'expect': 'fail'},
-		]},
-		{'name': 'lzma', 'type': 'events', 'compress': 'lzma', 'tests': [
-			{'test': 'html/semantics/simple.html', 'result': 'html/semantics/simple.events', 'expect': 'fail'},
+		{'name': 'compression', 'type': 'events', 'tests': [
+			{'test': 'html/tree-construction/simple.html.gz', 'result': 'html/tree-construction/simple.events'},
+			{'test': 'html/tree-construction/simple.html.bz2', 'result': 'html/tree-construction/simple.events', 'expect': 'fail'},
+			{'test': 'html/tree-construction/simple.html.lzma', 'result': 'html/tree-construction/simple.events', 'expect': 'fail'},
 		]},
 	]})
 	test.summary()

@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<smil xmlns="http://www.w3.org/ns/SMIL" version="3.0">
+	<body>
+		<par><audio src="test.mp3" clipBegin="125ms" clipEnd="2307ms"/></par>
+		<par><audio src="test.mp3" clipBegin="3s" clipEnd="12.2s"/></par>
+		<par><audio src="test.mp3" clipBegin="1min" clipEnd="1.5min"/></par>
+		<par><audio src="test.mp3" clipBegin="0.5h" clipEnd="1h"/></par>
+		<par><audio src="test.mp3" clipBegin="1.5" clipEnd="3"/></par>
+		<par><audio src="test.mp3" clipBegin="00:22" clipEnd="11:55.234"/></par>
+		<par><audio src="test.mp3" clipBegin="0:00:22" clipEnd="00:11:55.234"/></par>
+		<par><audio src="test.mp3" clipBegin="12:23:34" clipEnd="21:32:43.1"/></par>
+	</body>
+</smil>

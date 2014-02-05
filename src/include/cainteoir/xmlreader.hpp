@@ -134,7 +134,15 @@ namespace cainteoir { namespace xml
 
 	enum class begin_tag_type
 	{
+		/** @brief The begin tag opens an element block.
+		  */
 		open,
+
+		/** @brief The begin tag creates a self-contained element block.
+		  *
+		  * This makes \<node\> behave the same way as \<node/\>, allowing
+		  * support for void elements as per HTML§12.1.2.
+		  */
 		open_close,
 	};
 
@@ -143,7 +151,7 @@ namespace cainteoir { namespace xml
 		struct entry
 		{
 			xml::begin_tag_type begin_tag_type;
-			const cainteoir::styles *styles;
+			const cainteoir::css::styles *styles;
 
 			entry(xml::begin_tag_type aBeginTagType = xml::begin_tag_type::open)
 				: begin_tag_type(aBeginTagType)
@@ -151,7 +159,7 @@ namespace cainteoir { namespace xml
 			{
 			}
 
-			entry(const cainteoir::styles *aStyles,
+			entry(const cainteoir::css::styles *aStyles,
 			      xml::begin_tag_type aBeginTagType = xml::begin_tag_type::open)
 				: begin_tag_type(aBeginTagType)
 				, styles(aStyles)
@@ -225,7 +233,7 @@ namespace cainteoir { namespace xml
 			dtdEntity,
 		};
 
-		reader(std::shared_ptr<cainteoir::buffer> aData, const char *aDefaultEncoding, const detail::entity_set *aPredefinedEntities[52] = xml_entities);
+		reader(const std::shared_ptr<cainteoir::buffer> &aData, const char *aDefaultEncoding, const detail::entity_set *aPredefinedEntities[52] = xml_entities);
 
 		void set_predefined_entities(const detail::entity_set *aPredefinedEntities[52]) { mPredefinedEntities = aPredefinedEntities; }
 
@@ -288,6 +296,8 @@ namespace cainteoir { namespace xml
 
 		cainteoir::buffer identifier();
 
+		std::shared_ptr<cainteoir::buffer> unquoted_node_value();
+
 		void read_node_value(char terminator1, char terminator2 = '\0');
 
 		void read_tag(node_type aType);
@@ -319,6 +329,7 @@ namespace cainteoir { namespace xml
 #endif
 
 		std::shared_ptr<cainteoir::buffer> mData;
+		const char *mEnd;
 		ParserContext mState;
 		ParserContext mSavedState;
 		const detail::entity_set **mPredefinedEntities;
@@ -343,7 +354,16 @@ namespace cainteoir { namespace xml
 
 		//@}
 	};
+
+	const char *node_type_name(xml::reader::node_type aType);
 }}
+
+namespace cainteoir
+{
+	std::shared_ptr<xml::reader>
+	createXmlReader(const std::shared_ptr<buffer> &aData,
+	                const char *aDefaultEncoding);
+}
 
 /** References
   *

@@ -1,0 +1,8 @@
+/** @brief A filled circle.
+  * @see   http://www.w3.org/TR/css-counter-styles-3/#simple-symbolic
+  */
+@counter-style disc {
+	system: cyclic;
+	symbols: '•';
+	suffix: '';
+}

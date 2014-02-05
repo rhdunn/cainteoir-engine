@@ -4,11 +4,13 @@ localedir  = $(datadir)/locale
 xdgdatadir = @XDGDATADIR@
 mimedir    = $(xdgdatadir)/mime
 xmldir     = $(mimedir)/packages
+vimdir     = $(prefix)/share/vim
 
 AM_LDFLAGS  = ${LTLIBINTL}
 AM_CXXFLAGS = \
-	-Isrc/include -Isrc \
+	-Isrc/include -Isrc -Iucd-tools/src/include \
 	-DMBROLA_DIR=\"$(MBROLA_DIR)\" \
+	-DPICO_LANG_DIR=\"$(PICO_LANG_DIR)\" \
 	-DDATADIR='"$(datadir)"' -DLOCALEDIR=\"$(localedir)\"
 
 ACLOCAL_AMFLAGS = -I m4
@@ -27,6 +29,18 @@ EXTRA_DIST = config.rpath ChangeLog
 CLEANFILES =
 SUFFIXES = .html .phon .md
 SUBDIRS = po
+
+install-data-hook: \
+	install-data-hook-mimetypes \
+	install-data-hook-locale \
+	install-data-hook-phonemeset
+
+uninstall-hook: \
+	uninstall-hook-mimetypes
+
+uninstall-local: \
+	uninstall-local-locale \
+	uninstall-local-phonemeset
 
 ############################# libtool #########################################
 
@@ -86,23 +100,22 @@ dist-hook: ChangeLog
 
 EXTRA_DIST += ChangeLog
 
-############################# phonemes ########################################
-
-.phon.html:
-	data/phonemes/mkchart.py $< > $@
-
-phonemes:	data/phonemes/ascii-ipa.html \
-		data/phonemes/ipa.html \
-		data/phonemes/x-sampa.html \
-		data/phonemes/arpabet.html \
-		data/phonemes/sampa/de.html \
-		data/phonemes/sampa/en.html
-
 ############################# data ############################################
 
 EXTRA_DIST += \
 	data/languages.rdf \
+	data/locale/* \
+	data/phonemeset/* \
 	src/schema/*.rdf
+
+data/languages.dat:
+	wget -O $@ http://www.iana.org/assignments/language-subtag-registry
+
+data/languages.stat: data/languages.dat data/private-use.dat data/languages/*.dat
+	touch $@
+
+languages: data/languages.py data/languages.stat
+	cd data && ${PYTHON} languages.py
 
 data/languages.rdf.gz: data/languages.rdf
 	gzip -n -c $< > $@
@@ -111,51 +124,106 @@ pkgdata_DATA += \
 	data/languages.rdf.gz \
 	src/schema/text-to-speech.rdf
 
+cssdir = $(pkgdatadir)/css
+css_DATA = data/css/*.css
+EXTRA_DIST += $(css_DATA)
+
+install-data-hook-locale:
+	cd data && (find locale -type f | grep -vF "/." | \
+		tar -cO -T - --no-recursion | \
+		tar -C $(DESTDIR)$(pkgdatadir) -xvf - > $(DESTDIR)$(pkgdatadir)/locale.installed)
+
+uninstall-local-locale:
+	cd $(DESTDIR)$(pkgdatadir); \
+	cat locale.installed | sed -e 's/ /\\ /g' | xargs rm -f; \
+	rm -f locale.installed
+
+install-data-hook-phonemeset:
+	cd data && (find phonemeset -type f | grep -vF "/." | \
+		tar -cO -T - --no-recursion | \
+		tar -C $(DESTDIR)$(pkgdatadir) -xvf - > $(DESTDIR)$(pkgdatadir)/phonemeset.installed)
+
+uninstall-local-phonemeset:
+	cd $(DESTDIR)$(pkgdatadir); \
+	cat phonemeset.installed | sed -e 's/ /\\ /g' | xargs rm -f; \
+	rm -f phonemeset.installed
+
+vim_registrydir = $(vimdir)/registry
+vim_registry_DATA = data/vim/registry/*.yaml
+EXTRA_DIST += $(vim_registry_DATA)
+
+vim_addons_ftdetectdir = $(vimdir)/addons/ftdetect
+vim_addons_ftdetect_DATA = data/vim/ftdetect/*.vim
+EXTRA_DIST += $(vim_addons_ftdetect_DATA)
+
+vim_addons_syntaxdir = $(vimdir)/addons/syntax
+vim_addons_syntax_DATA = data/vim/syntax/*.vim
+EXTRA_DIST += $(vim_addons_syntax_DATA)
+
 ############################# mimetypes #######################################
 
-EXTRA_DIST += data/mime/packages/cainteoir-data.xml
-
 xml_DATA = data/mime/packages/cainteoir-data.xml
+EXTRA_DIST += $(xml_DATA)
 
 mimetypes:
 	$(UPDATE_MIME_DATABASE) data/mime/
 
-install-data-hook:
+install-data-hook-mimetypes:
 if ENABLE_UPDATE_MIME_DATABASE
 	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
 endif
  
-uninstall-hook:
+uninstall-hook-mimetypes:
 if ENABLE_UPDATE_MIME_DATABASE
 	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
 endif
+
+############################# tools / extensions ##############################
+
+%.html: %.phon src/apps/phoneme-converter
+	CAINTEOIR_DATA_DIR=`pwd`/data \
+	    src/apps/phoneme-converter --chart \
+	        `echo $< | sed -e 's,data/phonemeset/,,' -e 's,\.phon,,'` \
+	        > /tmp/phonemechart && \
+	    mv /tmp/phonemechart $@
+
+%.fsm.h: %.fsm tools/fsm
+	${PYTHON} tools/fsm header $< > $@
+
+%.dot: %.fsm tools/fsm
+	${PYTHON} tools/fsm dot $< > $@
+
+.dot.svg: $<
+	dot -Tsvg $< | sed -n '4,9999p' > $@
+
+.md.html:
+	kramdown $< > $@
  
 ############################# documentation ###################################
 
-.md.html:
-	pandoc --from markdown --to html $< --output $@
+data/languages.dot: data/languages.py data/languages.stat
+	cd data && ${PYTHON} languages.py
 
-.dot.svg:
-	dot -Tsvg -o $@ $<
-
-docs/implementation-status/csv2html.stamp: \
-	docs/implementation-status/csv2html.py \
-	docs/implementation-status/*.xml \
-	docs/implementation-status/*.csv
-	cd docs/implementation-status && ./csv2html.py
-	touch docs/implementation-status/csv2html.stamp
-
-fsm:	data/parsetext-fsm.svg
+fsm:	src/libcainteoir/tts/text_reader.svg
 
 api:
-	doxygen docs/cainteoir-engine.doxyconf
+	doxygen docs/cainteoir-engine.doxyconf 2>&1 #| ( ! grep . )
 
-doc:	docs/implementation-status/csv2html.stamp \
-	README.html \
+doc:	README.html \
 	docs/ReleaseNotes.html \
 	api
 
+phonemes:	data/phonemeset/ascii-ipa.html \
+		data/phonemeset/ipa.html \
+		data/phonemeset/arpabet.html \
+		data/phonemeset/x-sampa.html \
+		data/phonemeset/cxs.html \
+		data/phonemeset/sampa/en.html \
+		data/phonemeset/sampa/en-US.html
+
 ############################# libcainteoir ####################################
+
+src/libcainteoir/tts/text_reader.cpp: src/libcainteoir/tts/text_reader.fsm.h
 
 libcainteoir_includedir = $(includedir)/cainteoir
 libcainteoir_include_HEADERS = \
@@ -163,50 +231,75 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/audio.hpp \
 	src/include/cainteoir/buffer.hpp \
 	src/include/cainteoir/content.hpp \
+	src/include/cainteoir/dictionary.hpp \
 	src/include/cainteoir/document.hpp \
 	src/include/cainteoir/encoding.hpp \
 	src/include/cainteoir/engines.hpp \
 	src/include/cainteoir/languages.hpp \
 	src/include/cainteoir/metadata.hpp \
 	src/include/cainteoir/mimetype.hpp \
+	src/include/cainteoir/path.hpp \
+	src/include/cainteoir/phoneme.hpp \
 	src/include/cainteoir/range.hpp \
 	src/include/cainteoir/stopwatch.hpp \
+	src/include/cainteoir/text.hpp \
+	src/include/cainteoir/trie.hpp \
 	src/include/cainteoir/unicode.hpp \
 	src/include/cainteoir/xmlreader.hpp
 
 lib_LTLIBRARIES += src/libcainteoir/libcainteoir.la
 
 src_libcainteoir_libcainteoir_la_LDFLAGS = -version-info $(LIBCAINTEOIR_VERSION) \
+	${FFMPEG_LIBS} \
+	${AVRESAMPLE_LIBS} \
+	${ALSA_LIBS} \
 	${PULSE_LIBS} \
 	${VORBIS_LIBS} \
 	${ZLIB_LIBS} \
 	${POPPLER_LIBS} \
 	${ESPEAK_LIBS} \
+	${PICO_LIBS} \
 	${LTLIBINTL}
 
 src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
+	${FFMPEG_CFLAGS} \
+	${AVRESAMPLE_CFLAGS} \
+	${ALSA_CFLAGS} \
 	${PULSE_CFLAGS} \
 	${VORBIS_CFLAGS} \
 	${ZLIB_CFLAGS} \
 	${POPPLER_CFLAGS} \
-	${ESPEAK_CFLAGS}
+	${ESPEAK_CFLAGS} \
+	${PICO_CFLAGS}
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
-	src/i18n.h \
-	src/compatibility.h \
+	ucd-tools/src/include/ucd/ucd.h \
+	ucd-tools/src/case.cpp \
+	ucd-tools/src/categories.cpp \
+	ucd-tools/src/ctype.cpp \
+	ucd-tools/src/scripts.cpp \
+	ucd-tools/src/tostring.cpp \
 	\
+	src/i18n.h \
+	src/compatibility.hpp \
+	\
+	src/libcainteoir/document.cpp \
 	src/libcainteoir/encoding.cpp \
 	src/libcainteoir/languages.cpp \
 	src/libcainteoir/mimetype_database.hpp \
 	src/libcainteoir/mimetype.cpp \
+	src/libcainteoir/path.cpp \
 	\
+	src/libcainteoir/audio/alsa.cpp \
 	src/libcainteoir/audio/audio.cpp \
+	src/libcainteoir/audio/ffmpeg_player.cpp \
 	src/libcainteoir/audio/ogg.cpp \
 	src/libcainteoir/audio/pulse.cpp \
 	src/libcainteoir/audio/wav.cpp \
 	\
 	src/libcainteoir/buffers/buffer.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \
+	src/libcainteoir/buffers/memory_file.cpp \
 	src/libcainteoir/buffers/mmap_buffer.cpp \
 	src/libcainteoir/buffers/normalized_text_buffer.cpp \
 	src/libcainteoir/buffers/rope.cpp \
@@ -216,9 +309,15 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/compression/none.cpp \
 	src/libcainteoir/compression/quoted_printable.cpp \
 	\
-	src/libcainteoir/parsers/parsers.hpp \
+	src/libcainteoir/css/counterstyles.cpp \
+	src/libcainteoir/css/reader.cpp \
+	src/libcainteoir/css/style_manager.cpp \
+	src/libcainteoir/css/units.cpp \
+	\
 	src/libcainteoir/parsers/html-entities.h \
-	src/libcainteoir/parsers/content.cpp \
+	src/libcainteoir/parsers/xml-entities.h \
+	\
+	src/libcainteoir/parsers/parsers.hpp \
 	src/libcainteoir/parsers/document.cpp \
 	src/libcainteoir/parsers/epub.cpp \
 	src/libcainteoir/parsers/mime.cpp \
@@ -239,134 +338,265 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/rdf/formatter.cpp \
 	src/libcainteoir/rdf/metadata.cpp \
 	\
-	src/libcainteoir/tts/tts_engine.hpp \
-	src/libcainteoir/tts/engines.cpp \
-	src/libcainteoir/tts/espeak.cpp \
+	src/libcainteoir/engines/tts_engine.hpp \
+	src/libcainteoir/engines/engines.cpp \
+	src/libcainteoir/engines/espeak.cpp \
+	src/libcainteoir/engines/pico.cpp \
+	\
+	src/libcainteoir/tts/explicit_feature_phonemeset.cpp \
+	src/libcainteoir/tts/phoneme.cpp \
+	src/libcainteoir/tts/phonemeset.cpp \
+	src/libcainteoir/tts/phoneme_stress.cpp \
+	\
+	src/libcainteoir/dictionary/cainteoir.cpp \
+	src/libcainteoir/dictionary/dictionary.cpp \
+	src/libcainteoir/dictionary/espeak.cpp \
+	src/libcainteoir/tts/letter_to_phoneme.cpp \
+	\
+	src/libcainteoir/tts/context_analysis.cpp \
+	src/libcainteoir/tts/phoneme_stream.cpp \
+	src/libcainteoir/tts/text_reader.cpp \
+	src/libcainteoir/tts/word_stream.cpp \
 	\
 	src/libcainteoir/unicode/utf8.cpp
 
 ############################# applications ####################################
 
-bin_PROGRAMS += src/apps/cainteoir/cainteoir
-man1_MANS += src/apps/cainteoir/cainteoir.man
+bin_PROGRAMS += src/apps/cainteoir
+man1_MANS += src/apps/cainteoir.man
 
-src_apps_cainteoir_cainteoir_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_cainteoir_cainteoir_SOURCES = src/apps/cainteoir/main.cpp
+src_apps_cainteoir_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_cainteoir_SOURCES = src/apps/cainteoir.cpp
 
-bin_PROGRAMS += src/apps/metadata/metadata
-man1_MANS += src/apps/metadata/metadata.man
+bin_PROGRAMS += src/apps/metadata
+man1_MANS += src/apps/metadata.man
 
-src_apps_metadata_metadata_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_metadata_metadata_SOURCES = src/apps/metadata/main.cpp
+src_apps_metadata_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_metadata_SOURCES = src/apps/metadata.cpp
 
-bin_PROGRAMS += src/apps/tagcloud/tagcloud
+bin_PROGRAMS += src/apps/phoneme-converter
 
-src_apps_tagcloud_tagcloud_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_tagcloud_tagcloud_SOURCES = src/apps/tagcloud/main.cpp
+src_apps_phoneme_converter_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_phoneme_converter_SOURCES = src/apps/phoneme-converter.cpp
 
-bin_PROGRAMS += src/apps/doc2doc/doc2doc
+bin_PROGRAMS += src/apps/dictionary
+man1_MANS += src/apps/dictionary.man
 
-src_apps_doc2doc_doc2doc_LDADD   = src/libcainteoir/libcainteoir.la
-src_apps_doc2doc_doc2doc_SOURCES = src/apps/doc2doc/main.cpp
+src_apps_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_dictionary_SOURCES = src/apps/dictionary.cpp
 
 EXTRA_DIST += ${man1_MANS}
 
+############################# examples ########################################
+
+noinst_bin_PROGRAMS += src/examples/doc2doc
+
+src_examples_doc2doc_LDADD   = src/libcainteoir/libcainteoir.la
+src_examples_doc2doc_SOURCES = src/examples/doc2doc.cpp
+
+noinst_bin_PROGRAMS += src/examples/tagcloud
+
+src_examples_tagcloud_LDADD   = src/libcainteoir/libcainteoir.la
+src_examples_tagcloud_SOURCES = src/examples/tagcloud.cpp
+
+noinst_bin_PROGRAMS += src/examples/musicplayer
+
+src_examples_musicplayer_LDADD   = src/libcainteoir/libcainteoir.la
+src_examples_musicplayer_SOURCES = src/examples/musicplayer.cpp
+
 ############################# tests ###########################################
 
-noinst_bin_PROGRAMS += tests/buffer
+CSS_TEST_FILES = $(shell find tests/css/*)
 
-tests_buffer_LDADD   = src/libcainteoir/libcainteoir.la
-tests_buffer_SOURCES = tests/buffer.cpp tests/tester.hpp
+DICTIONARY_TEST_FILES = $(shell find tests/dict/*)
 
-noinst_bin_PROGRAMS += tests/rdfmodel
+PARSETEXT_TEST_FILES = $(shell find tests/parse-text/*)
 
-tests_rdfmodel_LDADD   = src/libcainteoir/libcainteoir.la
-tests_rdfmodel_SOURCES = tests/rdfmodel.cpp tests/tester.hpp
+XMLPARSER_TEST_FILES = $(shell find tests/xmlparser/*)
 
-noinst_bin_PROGRAMS += tests/rdfquery
+HTMLTREE_TEST_FILES = $(shell find tests/html/tree-construction/*)
 
-tests_rdfquery_LDADD   = src/libcainteoir/libcainteoir.la
-tests_rdfquery_SOURCES = tests/rdfquery.cpp tests/tester.hpp
+PHONEMESET_TEST_FILES = $(shell find tests/phonemeset/*)
 
-noinst_bin_PROGRAMS += tests/ntriple_formatter
+DOCUMENT_TEST_FILES = \
+	$(shell find tests/epub2/*) \
+	$(shell find tests/epub3/*) \
+	$(shell find tests/ncx/*) \
+	$(shell find tests/ocf/*) \
+	$(shell find tests/opf/*) \
+	$(shell find tests/rdfxml/*) \
+	$(shell find tests/rtf/*) \
+	$(shell find tests/ssml/*) \
+	$(shell find tests/smil/*) \
+	$(shell find tests/html/*) \
+	$(shell find tests/http/*) \
+	$(shell find tests/mime/*) \
+	$(shell find tests/zip/*)
 
-tests_ntriple_formatter_LDADD   = src/libcainteoir/libcainteoir.la
-tests_ntriple_formatter_SOURCES = tests/ntriple_formatter.cpp tests/tester.hpp
+%.check : %.py tests/harness.py
+	rm -f $@
+	(${PYTHON} $< && touch $@) | tee `echo $< | sed -e 's/.py/.results/'`
+	test -f $@ || false
 
-noinst_bin_PROGRAMS += tests/turtle_formatter
+%.check: %.test
+	rm -f $@
+	(XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data $< && touch $@) | tee `echo $< | sed -e 's/.test/.results/'`
+	test -f $@ || false
 
-tests_turtle_formatter_LDADD   = src/libcainteoir/libcainteoir.la
-tests_turtle_formatter_SOURCES = tests/turtle_formatter.cpp tests/tester.hpp
+EXTRA_DIST += \
+	$(CSS_TEST_FILES) \
+	$(DICTIONARY_TEST_FILES) \
+	$(PARSETEXT_TEST_FILES) \
+	$(XMLPARSER_TEST_FILES) \
+	$(DOCUMENT_TEST_FILES) \
+	$(PHONEMESET_TEST_FILES) \
+	tests/*.py
+
+noinst_bin_PROGRAMS += tests/range.test
+
+tests_range_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_range_test_SOURCES = tests/range.cpp tests/tester.hpp
+
+noinst_bin_PROGRAMS += tests/buffer.test
+
+tests_buffer_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_buffer_test_SOURCES = tests/buffer.cpp tests/tester.hpp
+
+noinst_bin_PROGRAMS += tests/path.test
+
+tests_path_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_path_test_SOURCES = tests/path.cpp tests/tester.hpp
+
+noinst_bin_PROGRAMS += tests/rdfmodel.test
+
+tests_rdfmodel_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_rdfmodel_test_SOURCES = tests/rdfmodel.cpp tests/tester.hpp
+
+noinst_bin_PROGRAMS += tests/rdfquery.test
+
+tests_rdfquery_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_rdfquery_test_SOURCES = tests/rdfquery.cpp tests/tester.hpp
+
+noinst_bin_PROGRAMS += tests/ntriple_formatter.test
+
+tests_ntriple_formatter_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_ntriple_formatter_test_SOURCES = tests/ntriple_formatter.cpp tests/tester.hpp
+
+noinst_bin_PROGRAMS += tests/turtle_formatter.test
+
+tests_turtle_formatter_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_turtle_formatter_test_SOURCES = tests/turtle_formatter.cpp tests/tester.hpp
 
 noinst_bin_PROGRAMS += tests/events
 
 tests_events_LDADD   = src/libcainteoir/libcainteoir.la
 tests_events_SOURCES = tests/events.cpp
 
-noinst_bin_PROGRAMS += tests/encoding
+tests/events.check: tests/events data/css ${DOCUMENT_TEST_FILES}
 
-tests_encoding_LDADD   = src/libcainteoir/libcainteoir.la
-tests_encoding_SOURCES = tests/encoding.cpp
+noinst_bin_PROGRAMS += tests/encoding.test
+
+tests_encoding_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_encoding_test_SOURCES = tests/encoding.cpp
 
 noinst_bin_PROGRAMS += tests/xmlreader
 
 tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
 tests_xmlreader_SOURCES = tests/xmlreader.cpp
 
-noinst_bin_PROGRAMS += tests/languages
+tests/xmlreader.check: tests/xmlreader ${XMLPARSER_TEST_FILES}
 
-tests_languages_LDADD   = src/libcainteoir/libcainteoir.la
-tests_languages_SOURCES = tests/languages.cpp
+tests/htmltree.check: tests/xmlreader ${HTMLTREE_TEST_FILES}
 
-noinst_bin_PROGRAMS += tests/utf8
+noinst_bin_PROGRAMS += tests/ttslanguages.test
 
-tests_utf8_LDADD   = src/libcainteoir/libcainteoir.la
-tests_utf8_SOURCES = tests/utf8.cpp
+tests_ttslanguages_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_ttslanguages_test_SOURCES = tests/ttslanguages.cpp
+
+noinst_bin_PROGRAMS += tests/languages.test
+
+tests_languages_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_languages_test_SOURCES = tests/languages.cpp
+
+noinst_bin_PROGRAMS += tests/utf8.test
+
+tests_utf8_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_utf8_test_SOURCES = tests/utf8.cpp
 
 noinst_bin_PROGRAMS += tests/parsetext
 
 tests_parsetext_LDADD   = src/libcainteoir/libcainteoir.la
 tests_parsetext_SOURCES = tests/parsetext.cpp
 
+tests/parsetext.check: tests/parsetext ${PARSETEXT_TEST_FILES}
+
 noinst_bin_PROGRAMS += tests/mimetype
 
 tests_mimetype_LDADD   = src/libcainteoir/libcainteoir.la
 tests_mimetype_SOURCES = tests/mimetype.cpp
 
-noinst_bin_PROGRAMS += tests/content
+noinst_bin_PROGRAMS += tests/content.test
 
-tests_content_LDADD   = src/libcainteoir/libcainteoir.la
-tests_content_SOURCES = tests/content.cpp
+tests_content_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_content_test_SOURCES = tests/content.cpp
 
-TEST_FILES = \
-	tests/epub/* \
-	tests/ncx/* \
-	tests/ocf/* \
-	tests/opf/* \
-	tests/rdfxml/* \
-	tests/rtf/* \
-	tests/ssml/* \
-	tests/smil/* \
-	tests/html/* \
-	tests/http/* \
-	tests/mime/* \
-	tests/xmlparser/* \
-	tests/*.py
+noinst_bin_PROGRAMS += tests/phoneme.test
 
-EXTRA_DIST += $(TEST_FILES)
+tests_phoneme_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_phoneme_test_SOURCES = tests/phoneme.cpp
 
-check: mimetypes tests/rdfmodel tests/rdfquery tests/ntriple_formatter tests/turtle_formatter src/apps/metadata/metadata tests/events tests/xmlreader $(TEST_FILES)
-	tests/buffer
-	tests/utf8
-	tests/encoding
-	tests/rdfmodel
-	tests/ntriple_formatter
-	tests/turtle_formatter
-	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ tests/rdfquery
-	XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data tests/languages
-	python tests/xmlreader.py
-	python tests/metadata.py
-	python tests/vorbis-comments.py
-	tests/content
-	python tests/events.py
-	python tests/parsetext.py
+noinst_bin_PROGRAMS += tests/phoneme_stress.test
+
+tests_phoneme_stress_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_phoneme_stress_test_SOURCES = tests/phoneme_stress.cpp
+
+noinst_bin_PROGRAMS += tests/trie.test
+
+tests_trie_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_trie_test_SOURCES = tests/trie.cpp
+
+noinst_bin_PROGRAMS += tests/styles
+
+tests_styles_LDADD   = src/libcainteoir/libcainteoir.la
+tests_styles_SOURCES = tests/styles.cpp
+
+tests/styles.check: tests/styles ${CSS_TEST_FILES}
+
+noinst_bin_PROGRAMS += tests/synthesizer
+
+tests_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
+tests_synthesizer_SOURCES = tests/synthesizer.cpp
+
+tests/dictionary.check: src/apps/dictionary ${DICTIONARY_TEST_FILES}
+
+tests/phonemeset.check: src/apps/phoneme-converter ${PHONEMESET_TEST_FILES}
+
+tests/metadata.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
+
+tests/vorbis-comments.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
+
+check: \
+	tests/range.check \
+	tests/buffer.check \
+	tests/path.check \
+	tests/utf8.check \
+	tests/encoding.check \
+	tests/rdfmodel.check \
+	tests/ntriple_formatter.check \
+	tests/turtle_formatter.check \
+	tests/rdfquery.check \
+	tests/languages.check \
+	tests/ttslanguages.check \
+	tests/xmlreader.check \
+	tests/metadata.check \
+	tests/vorbis-comments.check \
+	tests/content.check \
+	tests/styles.check \
+	tests/htmltree.check \
+	tests/events.check \
+	tests/phoneme.check \
+	tests/trie.check \
+	tests/phonemeset.check \
+	tests/phoneme_stress.check \
+	tests/dictionary.check \
+	tests/parsetext.check

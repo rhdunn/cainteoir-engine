@@ -1,0 +1,39 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix ref: <http://reecedunn.co.uk/schema/2014/ref#> .
+@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix epv: <http://www.idpf.org/epub/vocab/structure/#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<> dc:title "Test Case" .
+<> dc:identifier <#id> .
+<#id> rdf:value "test.opf" .
+<> tts:mimetype "@mimetype@" .
+<> ref:listing _:genid1 .
+_:genid1 rdf:type ref:Listing .
+_:genid1 ref:type epv:toc .
+_:genid1 ref:entries _:genid2 .
+_:genid2 rdf:first _:genid3 .
+_:genid3 rdf:type ref:Entry .
+_:genid3 ref:level "0"^^xsd:integer .
+_:genid3 ref:target <> .
+_:genid3 dc:title "Test File" .
+_:genid2 rdf:rest _:genid4 .
+_:genid4 rdf:first _:genid5 .
+_:genid5 rdf:type ref:Entry .
+_:genid5 ref:level "1"^^xsd:integer .
+_:genid5 ref:target <!/OEBPS/chapter1.xhtml> .
+_:genid5 dc:title "Chapter 1" .
+_:genid4 rdf:rest _:genid6 .
+_:genid6 rdf:first _:genid7 .
+_:genid7 rdf:type ref:Entry .
+_:genid7 ref:level "1"^^xsd:integer .
+_:genid7 ref:target <!/OEBPS/chapter2.xhtml> .
+_:genid7 dc:title "Chapter 2" .
+_:genid6 rdf:rest _:genid8 .
+_:genid8 rdf:first _:genid9 .
+_:genid9 rdf:type ref:Entry .
+_:genid9 ref:level "1"^^xsd:integer .
+_:genid9 ref:target <!/OEBPS/chapter3.xhtml> .
+_:genid9 dc:title "Chapter 3" .
+_:genid8 rdf:rest rdf:nil .

@@ -2,6 +2,9 @@
 
 PACKAGE=cainteoir-engine
 DPUT_PPA=cainteoir-ppa
+ANDROID_VERSION=8
+ANDROID_COMPILER=4.6
+ANDROID_ARCHS="armeabi armeabi-v7a x86 mips"
 
 doclean() {
 	rm -vf ../{libcainteoir{0,-dev},cainteoir-data,cainteoir,metadata}_*.deb
@@ -79,11 +82,19 @@ doppa() {
 doallppa() {
 	for DISTRO in oneiric precise quantal raring ; do
 		doppa ${DISTRO}
+doandroid() {
+	./autogen.sh || exit 1
+	for arch in ${ANDROID_ARCHS} ; do
+		echo "===== android ${arch} ====="
+		android/ndk-configure android-${ANDROID_VERSION} ${arch} ${ANDROID_COMPILER} || exit 1
+		make || exit 1
+		sudo make install || exit 1
 	done
 }
 
 case "$1" in
 	allppa)    doallppa ;;
+	android)   doandroid ;;
 	clean)     doclean ;;
 	deb)       builddeb $2 -us -uc ;;
 	debsrc)    builddeb $2 -S -sa ;;
@@ -98,6 +109,7 @@ case "$1" in
 where <command> is one of:
 
     allppa         Publish to the Cainteoir Text-to-Speech Ubuntu PPA for all supported distributions.
+    android        Build the library for android.
     clean          Clean the build tree and generated files.
     deb <dist>     Create a (development build) debian binary package.
     debsrc <dist>  Create a debian source package.

@@ -1,0 +1,313 @@
+# Copyright (C) 2013 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+##### SAMPROSA
+
+\u0020	/{pau,est}/	# word pause
+\u000A	/{pau}/		# clause pause (e.g. comma)
+
+\#	/{pau,est}/	# word pause (word boundary)
+...	/{pau}/		# clause pause (e.g. comma) -- silence
+
+##### Lower Case ASCII
+
+a	/{low,fnt,unr,vcd,vwl}/
+b	/{vcd,blb,stp}/
+c	/{vls,pal,stp}/
+d	/{vcd,alv,stp}/
+e	/{umd,fnt,unr,vcd,vwl}/
+f	/{vls,lbd,frc}/
+g	/{vcd,vel,stp}/
+h	/{vls,glt,apr}/
+i	/{hgh,fnt,unr,vcd,vwl}/
+j	/{vcd,pal,apr}/
+k	/{vls,vel,stp}/
+l	/{vcd,alv,lat,apr}/
+m	/{vcd,blb,nas}/
+n	/{vcd,alv,nas}/
+o	/{umd,bck,rnd,vcd,vwl}/
+p	/{vls,blb,stp}/
+q	/{vls,uvl,stp}/
+r	/{vcd,alv,trl}/
+s	/{vls,alv,sib,frc}/
+t	/{vls,alv,stp}/
+u	/{hgh,bck,rnd,vcd,vwl}/
+v	/{vcd,lbd,frc}/
+w	/{vcd,lbv,apr}/
+x	/{vls,vel,frc}/
+y	/{hgh,fnt,rnd,vcd,vwl}/
+z	/{vcd,alv,sib,frc}/
+
+##### Consonants (Pulmonic)
+
+t`	/{vls,rfx,stp}/
+d`	/{vcd,rfx,stp}/
+J\	/{vcd,pal,stp}/
+G\	/{vcd,uvl,stp}/
+?	/{vls,glt,stp}/ # [4]
+
+F	/{vcd,lbd,nas}/ # [1]
+n`	/{vcd,rfx,nas}/ # [1]
+J	/{vcd,pal,nas}/ # [1]
+N	/{vcd,vel,nas}/ # [1]
+N\	/{vcd,uvl,nas}/ # [1]
+
+B\	/{vcd,blb,trl}/ # [1]
+R\	/{vcd,uvl,trl}/ # [1]
+
+4	/{vcd,alv,flp}/ # [1], [2]
+r`	/{vcd,rfx,flp}/ # [1]
+
+p\	/{vls,blb,frc}/
+B	/{vcd,blb,frc}/
+T	/{vls,dnt,frc}/
+D	/{vcd,dnt,frc}/
+S	/{vls,pla,sib,frc}/
+Z	/{vcd,pla,sib,frc}/
+s`	/{vls,rfx,sib,frc}/
+z`	/{vcd,rfx,sib,frc}/
+C	/{vls,pal,frc}/
+j\	/{vcd,pal,frc}/
+G	/{vcd,vel,frc}/
+X	/{vls,uvl,frc}/
+R	/{vcd,uvl,frc}/
+X\	/{vls,phr,frc}/
+?\	/{vcd,phr,frc}/
+h\	/{vcd,glt,frc}/
+
+K	/{vls,alv,lat,frc}/
+K\	/{vcd,alv,lat,frc}/
+
+P	/{vcd,lbd,apr}/ # [1]
+v\	/{vcd,lbd,apr}/ # [1]
+r\	/{vcd,alv,apr}/ # [1]
+r\`	/{vcd,rfx,apr}/ # [1]
+M\	/{vcd,vel,apr}/ # [1]
+
+l`	/{vcd,rfx,lat,apr}/ # [1]
+L	/{vcd,pal,lat,apr}/ # [1]
+L\	/{vcd,vel,lat,apr}/ # [1]
+
+##### Clicks
+
+O\	/{vls,blb,clk}/
+|\	/{vls,dnt,clk}/
+!\	/{vls,alv,clk}/
+=\	/{vls,pal,clk}/ # [3]
+|\|\	/{vls,alv,lat,clk}/
+
+##### Ejectives and Implosives
+
+p_>	/{vls,blb,ejc}/
+b_<	/{vcd,blb,imp}/
+t_d_>	/{vls,dnt,ejc}/
+d_d_<	/{vcd,dnt,imp}/
+t_>	/{vls,alv,ejc}/
+d_<	/{vcd,alv,imp}/
+t`_>	/{vls,rfx,ejc}/
+c_>	/{vls,pal,ejc}/
+J\_<	/{vcd,pal,imp}/
+k_>	/{vls,vel,ejc}/
+g_<	/{vcd,vel,imp}/
+q_>	/{vls,uvl,ejc}/
+G\_0_<	/{vls,uvl,imp}/
+G\_<	/{vcd,uvl,imp}/
+
+##### Vowels
+
+M	/{hgh,bck,unr,vcd,vwl}/
+1	/{hgh,cnt,unr,vcd,vwl}/
+}	/{hgh,cnt,rnd,vcd,vwl}/
+
+I	/{smh,fnt,unr,vcd,vwl}/
+Y	/{smh,fnt,rnd,vcd,vwl}/
+U	/{smh,bck,rnd,vcd,vwl}/
+
+2	/{umd,fnt,rnd,vcd,vwl}/
+@\	/{umd,cnt,unr,vcd,vwl}/
+8	/{umd,cnt,rnd,vcd,vwl}/
+7	/{umd,bck,unr,vcd,vwl}/
+
+@	/{mid,cnt,unr,vcd,vwl}/
+
+E	/{lmd,fnt,unr,vcd,vwl}/
+9	/{lmd,fnt,rnd,vcd,vwl}/
+3	/{lmd,cnt,unr,vcd,vwl}/
+3\	/{lmd,cnt,rnd,vcd,vwl}/
+V	/{lmd,bck,unr,vcd,vwl}/
+O	/{lmd,bck,rnd,vcd,vwl}/
+
+{	/{sml,fnt,unr,vcd,vwl}/
+6	/{sml,cnt,unr,vcd,vwl}/
+
+&	/{low,fnt,rnd,vcd,vwl}/
+A	/{low,bck,unr,vcd,vwl}/
+Q	/{low,bck,rnd,vcd,vwl}/
+
+##### Other Symbols
+
+W	/{vls,lbv,apr}/
+H	/{vcd,pal,apr,lzd}/
+H\	/{vls,epg,frc}/
+<\	/{vcd,epg,frc}/
+>\	/{vls,epg,stp}/
+
+s\	/{vls,pla,frc,pzd}/
+z\	/{vcd,pla,frc,pzd}/
+l\	/{vcd,alv,lat,flp}/
+x\	/{vls,pla,sib,frc,vzd}/
+
+##### Suprasegmentals
+
+.	/{sbr}/
+
+"	/<st1>/<
+%	/<st2>/<
+
+:	/<lng>/>
+:\	/<hlg>/>
+_X	/<est>/>
+
+##### Diacritics
+
+m_0	/{vls,blb,nas}/
+n_0	/{vls,alv,nas}/
+n`_0	/{vls,rfx,nas}/
+J_0	/{vls,pal,nas}/
+N_0	/{vls,vel,nas}/
+r_0	/{vls,alv,trl}/
+j_0	/{vls,pal,apr}/
+l_0	/{vls,alv,lat,apr}/
+
+p_h	/{vls,blb,stp,asp}/
+t_h	/{vls,alv,stp,asp}/
+k_h	/{vls,vel,stp,asp}/
+s_h	/{vls,alv,sib,frc,asp}/
+s`_h	/{vls,rfx,sib,frc,asp}/
+f_h	/{vls,lbd,frc,asp}/
+x_h	/{vls,vel,frc,asp}/
+
+n_-	/{vcd,pla,nas}/
+T_-	/{vls,alv,frc}/
+D_-	/{vcd,alv,frc}/
+
+m=	/{vcd,blb,nas,syl}/
+n=	/{vcd,alv,nas,syl}/
+N=	/{vcd,vel,nas,syl}/
+r\=	/{vcd,alv,apr,syl}/
+l=	/{vcd,alv,lat,apr,syl}/
+_^	/<nsy>/+
+
+m_=	/{vcd,blb,nas,syl}/
+n_=	/{vcd,alv,nas,syl}/
+N_=	/{vcd,vel,nas,syl}/
+r\_=	/{vcd,alv,apr,syl}/
+l_=	/{vcd,alv,lat,apr,syl}/
+
+@`	/{mid,cnt,unr,vcd,vwl,rzd}/
+3`	/{lmd,cnt,unr,vcd,vwl,rzd}/
+
+_w	/<lzd>/+
+'	/<pzd>/+
+_j	/<pzd>/+
+_G	/<vzd>/+
+_?\	/<fzd>/+
+
+n_d	/{vcd,dnt,nas}/
+p_d	/{vls,lbd,stp}/
+b_d	/{vcd,lbd,stp}/
+t_d	/{vls,dnt,stp}/
+d_d	/{vcd,dnt,stp}/
+s_d	/{vls,dnt,sib,frc}/
+z_d	/{vcd,dnt,sib,frc}/
+l_d	/{vcd,dnt,lat,apr}/
+
+~	/<nzd>/+
+_~	/<nzd>/+
+_}	/<unx>/+
+_l	/<lat>/+
+
+5	/{vcd,alv,lat,apr,vzd}/
+
+B_o	/{vcd,blb,apr}/
+D_o	/{vcd,dnt,apr}/
+R_o	/{vcd,uvl,apr}/
+?\_o	/{vcd,phr,apr}/
+<\_o	/{vcd,epg,apr}/
+
+##### Affricates [5]
+
+t_s	/{vls,alv,afr}/
+d_z	/{vcd,alv,afr}/
+t_S	/{vls,pla,afr}/
+d_Z	/{vcd,pla,afr}/
+
+##### Diphthongs [5], [6]
+
+eI_^	/{lmd,fnt,unr,dpr,smh}/
+aI_^	/{low,fnt,unr,dpr,smh}/
+OI_^	/{lmd,bck,rnd,dpr,smh,fnt}/
+
+e_I	/{lmd,fnt,unr,dpr,smh}/
+a_I	/{low,fnt,unr,dpr,smh}/
+O_I	/{lmd,bck,rnd,dpr,smh,fnt}/
+
+@U_^	/{mid,cnt,unr,dpr,smh,bck}/
+aU_^	/{low,fnt,unr,dpr,smh,bck}/
+
+@_U	/{mid,cnt,unr,dpr,smh,bck}/
+a_U	/{low,fnt,unr,dpr,smh,bck}/
+
+I@_^	/{smh,fnt,unr,dpf,mid,cnt}/
+e@_^	/{lmd,fnt,unr,dpr,mid,cnt}/
+U@_^	/{smh,bck,rnd,dpf,mid,cnt}/
+
+I_@	/{smh,fnt,unr,dpf,mid,cnt}/
+e_@	/{lmd,fnt,unr,dpr,mid,cnt}/
+U_@	/{smh,bck,rnd,dpf,mid,cnt}/
+
+##### Triphthongs [5], [6]
+
+aI_^@_^	/{low,fnt,unr,dpr,smh,rzd}/
+aU_^@_^	/{low,fnt,unr,dpr,smh,bck,rzd}/
+
+a_I_@	/{low,fnt,unr,dpr,smh,rzd}/
+a_U_@	/{low,fnt,unr,dpr,smh,bck,rzd}/
+
+##### Archaic English
+
+I_r	/{smh,fnt,unr,vcd,vwl,rzd}/ # F/IR/ (pre FERN-FIR-FER merger)
+U_r	/{smh,bck,rnd,vcd,vwl,rzd}/ # F/UR/ (pre FERN-FIR-FUR merger)
+A:_r	/{low,bck,unr,vcd,vwl,rzd}/ # ST/AR/T
+o:_r	/{umd,bck,rnd,vcd,vwl,rzd}/ # F/OR/CE
+O:_r	/{lmd,bck,rnd,vcd,vwl,rzd}/ # N/OR/TH
+
+##### Notes:
+#
+#  1. X-SAMPA transcribes this without specifying a voicing [1], but is denoted
+#     as being voiced by Wikipedia.
+#
+#  2. X-SAMPA transcribes this as a tap, however IPA does not distinguish between
+#     taps and flaps.
+#
+#  3. X-SAMPA transcribes this as palatoalveolar, but IPA classifies it as palatal.
+#
+#  4. This is not listed in the X-SAMPA page, but is in the Wikipedia X-SAMPA page
+#     and the English SAMPA page.
+#
+#  5. The affricates and diphthongs are not explicitly specified by X-SAMPA. It
+#     specifies a tie bar for linked phonemes. Wikipedia does not use tie bars
+#     for the affricates, but this is ambiguous.
+#
+#  6. X-SAMPA does not state how diphthongs should be transcribed, but the
+#     language-specific SAMPA variants do. Therefore, the diphthongs are taken
+#     from the SAMPA specifications. The tie bar or non-syllabic diacritic forms
+#     are used to indicate diphthongs, with the non-syllabic diacritic taking
+#     precedence.
+#
+##### References:
+#
+#  1. http://www.phon.ucl.ac.uk/home/sampa/x-sampa.htm
+#  2. http://www.phon.ucl.ac.uk/home/sampa/ipasam-x.pdf
+#  3. http://en.wikipedia.org/wiki/X-SAMPA

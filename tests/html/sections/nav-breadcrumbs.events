@@ -1,0 +1,17 @@
+anchor []
+begin-context block
+begin-context paragraph +sans-serif
+begin-context span
+text(5): """Lorem"""
+end-context
+text(4): """ » """
+begin-context span
+text(5): """Ipsum"""
+end-context
+text(4): """ » """
+begin-context span
+text(5): """Dolor"""
+end-context
+text(1): """ """
+end-context
+end-context

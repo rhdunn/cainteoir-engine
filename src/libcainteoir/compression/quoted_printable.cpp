@@ -1,6 +1,6 @@
 /* Encoded Stream (Quoted Printable)
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -69,13 +69,6 @@ struct quoted_printable : public cainteoir::data_buffer
 	}
 };
 
-/** @brief Decode a quoted printable encoded data buffer.
-  *
-  * @param[in] data The data buffer to be decoded/decompressed.
-  * @param[in] size The size of the decoded/decompressed data buffer.
-  *
-  * @return The decoded data buffer.
-  */
 std::shared_ptr<cainteoir::buffer> cainteoir::decode_quoted_printable(const cainteoir::buffer &data, uint32_t size)
 {
 	return std::make_shared<quoted_printable>(data);

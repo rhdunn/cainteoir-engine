@@ -118,22 +118,9 @@ AC_DEFUN([CXX11_NULLPTR], [
 		[AC_LANG_PROGRAM(
 			[[]],
 			[[const char *ptr = nullptr;]])],
-		[AC_MSG_RESULT([yes])
-		 AC_DEFINE([HAVE_CXX11_NULLPTR],[1],[Define to 1 if the nullptr keyword is not supported.])],
+		[AC_MSG_RESULT([yes])],
 		[AC_MSG_RESULT([no])
-		 dnl Check if a workaround for a gcc bug is needed
-		 AC_MSG_CHECKING([if $CXX supports implicit conversions for ==/!=])
-		 AC_COMPILE_IFELSE(
-			[AC_LANG_PROGRAM(
-				[[const struct nullptr_t]
-				 [{]
-				 [	template<class T> inline operator T*() const { return 0; }]
-				 [} nullptr = {};]],
-				[[const char *ptr = "testing";]
-				 [return (ptr != nullptr) ? 0 : 1]])],
-			[AC_MSG_RESULT([yes])
-			 AC_DEFINE([HAVE_CXX11_IMPLICIT_NULLPTR_COMPARE],[1],[Define to 1 if the nullptr workaround needs ==/!= definitions.])],
-			[AC_MSG_RESULT([no])])])
+		 AC_MSG_ERROR([C++11 nullptr not supported by $CXX.])])
 	AC_LANG_POP(C++)])
 
 dnl ================================================================
@@ -251,6 +238,33 @@ AC_DEFUN([CXX11_CONSTEXPR], [
 	AC_LANG_POP(C++)])
 
 dnl ================================================================
+dnl C++11 lambda
+dnl ================================================================
+
+AC_DEFUN([CXX11_LAMBDA], [
+	AC_LANG_PUSH(C++)
+	AC_MSG_CHECKING([if $CXX supports C++11 lambda])
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM(
+			[[auto f = [](int x) -> int { return x; };]])],
+		[AC_MSG_RESULT([yes])],
+		[AC_MSG_RESULT([no])
+		 AC_MSG_ERROR([C++11 lambda not supported by $CXX.])])
+	AC_LANG_POP(C++)])
+
+AC_DEFUN([CXX11_LAMBDA_CAPTURE], [
+	AC_LANG_PUSH(C++)
+	AC_MSG_CHECKING([if $CXX supports C++11 lambda captures])
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM(
+			[[int val = 0;]
+			 [auto f = [&val](int x) { val = x; };]])],
+		[AC_MSG_RESULT([yes])],
+		[AC_MSG_RESULT([no])
+		 AC_MSG_ERROR([C++11 lambda captures not supported by $CXX.])])
+	AC_LANG_POP(C++)])
+
+dnl ================================================================
 dnl C++11 std::initializer_list
 dnl ================================================================
 
@@ -363,7 +377,7 @@ AC_DEFUN([CXX11_REQUIRE_STD_END], [
 			[[#include <iterator>]],
 			[[int data[] = { 1, 2, 3, 4, 5 };]
 			 [int *last  = std::end(data);]])],
-		[AC_MSG_RESULT([yes])
-		 AC_DEFINE([HAVE_CXX11_STD_END],[1],[Define to 1 if std::end is supported.])],
-		[AC_MSG_RESULT([no])])
+		[AC_MSG_RESULT([yes])],
+		[AC_MSG_RESULT([no])
+		 AC_MSG_ERROR([C++11 std::end not supported by $CXX.])])
 	AC_LANG_POP(C++)])

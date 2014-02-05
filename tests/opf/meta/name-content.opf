@@ -23,9 +23,4 @@
 	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
 		<meta name="price" content="£5.99"/>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

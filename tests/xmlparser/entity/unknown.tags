@@ -1,3 +1,9 @@
+unrecognised entity '1234'
+unrecognised entity 'unknownEntity'
+unrecognised entity '1234'
+unrecognised entity 'unknownEntity'
+unrecognised entity '1234'
+unrecognised entity 'unknownEntity'
 |begin-tag| div
 |text| """
 [] -- numbers

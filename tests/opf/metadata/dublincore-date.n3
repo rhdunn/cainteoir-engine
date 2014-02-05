@@ -4,7 +4,8 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
 <> dc:title "Test Case" .
-<> dc:identifier "dublincore-date.opf" .
+<> dc:identifier <#id> .
+<#id> rdf:value "dublincore-date.opf" .
 <> dc:language "en" .
 <> dc:date "2010" .
 <> dc:date "2010-12" .

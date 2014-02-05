@@ -1,6 +1,6 @@
 /* Localization Helpers.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -21,6 +21,8 @@
 #ifndef CAINTEOIR_ENGINE_I18N_H
 #define CAINTEOIR_ENGINE_I88N_H
 
+#ifdef ENABLE_NLS
+
 #include <libintl.h>
 
 /** @brief Translate a string to the user's language.
@@ -40,5 +42,12 @@
   * @return    The text in the user's language.
   */
 #define i18nc(context, text) gettext(text)
+
+#else
+
+#define i18n(text) text
+#define i18nc(context, text) text
+
+#endif
 
 #endif

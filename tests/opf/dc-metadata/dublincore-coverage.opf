@@ -33,9 +33,4 @@
 			<dc:coverage xml:lang="zh-TW">covered (taiwan)</dc:coverage>
 		</dc-metadata>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

@@ -1,0 +1,49 @@
+# Classification and Family Tree for West Germanic languages
+#
+# Copyright (C) 2012 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0
+#
+# http://en.wikipedia.org/wiki/West_Germanic_languages
+# ... Ingvaeonic
+a:en:enm
+a:sco:enm
+a:yol:enm
+a:enm:ang
+c:ang:gmw
+a:fy:ofs
+a:frr:ofs
+a:stq:ofs
+c:ofs:gmw
+a:frs:nds
+a:pdt:nds
+a:wep:nds
+a:nds:gml
+a:gml:osx
+c:osx:gmw
+# ... Istvaeonic
+a:af:dum
+a:nl:dum
+a:dum:odt
+a:odt:frk
+c:frk:gmw
+# ... Erminonic
+a:bar:gmh
+a:cim:gmh
+a:de:gmh
+a:gct:gmh
+a:geh:gmh
+a:gsw:gmh
+a:ksh:gmh
+a:lb:gmh
+a:mhn:gmh
+a:pdc:gmh
+a:pfl:gmh
+a:sli:gmh
+a:swg:gmh
+a:sxu:gmh
+a:vmf:gmh
+a:wae:gmh
+a:gmh:goh
+a:yi:goh
+c:goh:gmw

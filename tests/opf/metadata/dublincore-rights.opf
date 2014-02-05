@@ -31,9 +31,4 @@
 		<dc:rights xml:lang="en-GB">right (uk)</dc:rights>
 		<dc:rights xml:lang="zh-TW">right (taiwan)</dc:rights>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

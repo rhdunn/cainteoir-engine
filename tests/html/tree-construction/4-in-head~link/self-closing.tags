@@ -1,0 +1,9 @@
+|begin-tag| html
+|begin-tag| head
+|begin-tag| link
+|attribute| rel="""stylesheet"""
+|end-tag| link
+|end-tag| head
+|begin-tag| body
+|end-tag| body
+|end-tag| html

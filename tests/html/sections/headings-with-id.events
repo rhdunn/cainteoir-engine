@@ -1,9 +1,7 @@
-toc-entry [] depth=0 title="""Test File"""
 anchor []
 begin-context heading 1
 anchor [#]h1
 text(9): """Heading 1"""
-toc-entry [#]h1 depth=1 title="""Heading 1"""
 end-context
 begin-context paragraph +sans-serif
 text(4): """Text"""
@@ -11,7 +9,6 @@ end-context
 begin-context heading 2
 anchor [#]h11
 text(11): """Heading 1.1"""
-toc-entry [#]h11 depth=2 title="""Heading 1.1"""
 end-context
 begin-context paragraph +sans-serif
 text(4): """Text"""
@@ -19,7 +16,6 @@ end-context
 begin-context heading 2
 anchor [#]h12
 text(11): """Heading 1.2"""
-toc-entry [#]h12 depth=2 title="""Heading 1.2"""
 end-context
 begin-context paragraph +sans-serif
 text(4): """Text"""
@@ -27,7 +23,6 @@ end-context
 begin-context heading 1
 anchor [#]h2
 text(9): """Heading 2"""
-toc-entry [#]h2 depth=1 title="""Heading 2"""
 end-context
 begin-context paragraph +sans-serif
 text(4): """Text"""

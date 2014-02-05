@@ -4,7 +4,8 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
 <> dc:title "Test Case" .
-<> dc:identifier "dublincore-creator.opf" .
+<> dc:identifier <#id> .
+<#id> rdf:value "dublincore-creator.opf" .
 <> dc:language "en" .
 <> dc:creator "Anne Onymous" .
 <> dc:creator _:genid1 .

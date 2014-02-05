@@ -1,6 +1,6 @@
 /* SSML Document Parser.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -29,7 +29,6 @@ namespace xmlns  = cainteoir::xml::xmlns;
 namespace rdf    = cainteoir::rdf;
 namespace events = cainteoir::events;
 
-#ifndef DOXYGEN
 namespace ssml
 {
 	static const xml::context::entry emphasis_node  = { &cainteoir::emphasized };
@@ -46,7 +45,6 @@ namespace ssml
 	static const xml::context::entry emphasis_reduced = { &cainteoir::reduced };
 	static const xml::context::entry emphasis_none    = { &cainteoir::span };
 }
-#endif
 
 static const std::initializer_list<const xml::context::entry_ref> ssml_nodes =
 {
@@ -68,7 +66,7 @@ struct ssml_document_reader : public cainteoir::document_reader
 {
 	ssml_document_reader(const std::shared_ptr<xml::reader> &aReader, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::shared_ptr<xml::reader> reader;
 };
@@ -103,8 +101,8 @@ ssml_document_reader::ssml_document_reader(const std::shared_ptr<xml::reader> &a
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		text = reader->nodeValue().normalize();
-		in_header = text->empty();
+		this->content = reader->nodeValue().normalize();
+		in_header = this->content->empty();
 		break;
 	case xml::reader::beginTagNode:
 		current = reader->context();
@@ -116,18 +114,20 @@ ssml_document_reader::ssml_document_reader(const std::shared_ptr<xml::reader> &a
 		{
 			if (name == "seeAlso" && !content.empty())
 			{
-				aPrimaryMetadata.statement(aSubject, rdf::rdfs("seeAlso"), aPrimaryMetadata.href(content));
+				aPrimaryMetadata.statement(aSubject, rdf::rdfs("seeAlso"), rdf::href(content));
 				name.clear();
 				content.clear();
 			}
 		}
+		break;
+	default:
 		break;
 	}
 
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/ssml+xml"));
 }
 
-bool ssml_document_reader::read()
+bool ssml_document_reader::read(rdf::graph *aMetadata)
 {
 	const xml::context::entry *current = nullptr;
 
@@ -147,9 +147,9 @@ bool ssml_document_reader::read()
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		text = reader->nodeValue().content();
+		this->content = reader->nodeValue().content();
 		type = 0;
-		if (text)
+		if (this->content)
 			type |= events::text;
 		if (current != nullptr && current->styles)
 		{
@@ -176,6 +176,8 @@ bool ssml_document_reader::read()
 			reader->read();
 			return true;
 		}
+		break;
+	default:
 		break;
 	} while (reader->read());
 

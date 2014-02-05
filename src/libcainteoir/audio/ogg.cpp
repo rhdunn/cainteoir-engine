@@ -43,28 +43,6 @@ static std::string now()
 	return date;
 }
 
-/** @struct cainteoir::vorbis_comment
-  * @brief  A vorbis comment.
-  * @see    http://www.xiph.org/vorbis/doc/v-comment.html
-  */
-
-/** @var   cainteoir::vorbis_comment::label
-  * @brief The name of the comment, e.g. TITLE.
-  */
-
-/** @var   cainteoir::vorbis_comment::value
-  * @brief The content of the comment, e.g. "Moonlight Sonata".
-  */
-
-/** @brief Convert an RDF graph to a set of Vorbis Comments.
-  * @see   http://www.xiph.org/vorbis/doc/v-comment.html
-  * @see   http://wiki.xiph.org/Metadata
-  *
-  * @param[in] aMetadata The RDF metadata used to create the vorbis comments.
-  * @param[in] aDocument The URI of the document in the RDF graph to convert to vorbis comments.
-  *
-  * @return The vorbis comments in (label, value) form for @a aDocument.
-  */
 std::list<cainteoir::vorbis_comment>
 cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
@@ -185,6 +163,10 @@ class ogg_audio : public cainteoir::audio
 {
 	FILE *m_file;
 
+	int mChannels;
+	int mFrequency;
+	const rdf::uri mFormat;
+
 	ogg_stream_state os;
 	ogg_page og;
 	ogg_packet op;
@@ -220,8 +202,11 @@ class ogg_audio : public cainteoir::audio
 		}
 	}
 public:
-	ogg_audio(FILE *f, int channels, int frequency, float quality, const std::list<cainteoir::vorbis_comment> &comments)
+	ogg_audio(FILE *f, int channels, int frequency, const rdf::uri &format, float quality, const std::list<cainteoir::vorbis_comment> &comments)
 		: m_file(f)
+		, mChannels(channels)
+		, mFrequency(frequency)
+		, mFormat(format)
 	{
 		vorbis_info_init(&vi);
 		vorbis_encode_init_vbr(&vi, channels, frequency, quality);
@@ -287,31 +272,36 @@ public:
 		if (len == 0)
 			return 0;
 
-		float **buffer = vorbis_analysis_buffer(&vd, len);
+		float *buffer = vorbis_analysis_buffer(&vd, len)[0];
 
 		long i;
 		for (i = 0; i < len/2; ++i)
-			buffer[0][i] = ((data[i*2+1]<<8)|(0x00ff&(int)data[i*2]))/32768.f;
+			buffer[i] = ((data[i*2+1]<<8)|(uint8_t)data[i*2])/32768.f;
 
 		write_ogg_data(i);
 
 		return len;
 	}
+
+	int channels() const { return mChannels; }
+
+	int frequency() const { return mFrequency; }
+
+	const rdf::uri &format() const { return mFormat; }
 };
 
-/// @private
 std::shared_ptr<cainteoir::audio>
 create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
+	if (!file) throw std::runtime_error(strerror(errno));
 	if (format != rdf::tts("s16le"))
 		throw std::runtime_error(i18n("unsupported audio format."));
-	return std::make_shared<ogg_audio>(file, channels, frequency, quality, cainteoir::vorbis_comments(aMetadata, aDocument));
+	return std::make_shared<ogg_audio>(file, channels, frequency, format, quality, cainteoir::vorbis_comments(aMetadata, aDocument));
 }
 
 #else
 
-/// @private
 std::shared_ptr<cainteoir::audio>
 create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {

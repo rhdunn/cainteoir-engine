@@ -1,6 +1,6 @@
 /* Plain Text Document Reader.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -34,7 +34,7 @@ struct plaintext_document_reader : public cainteoir::document_reader
 
 	plaintext_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, const std::string &aTitle);
 
-	bool read();
+	bool read(rdf::graph *aMetadata);
 
 	std::shared_ptr<cainteoir::buffer> mData;
 	rdf::uri mSubject;
@@ -57,26 +57,46 @@ plaintext_document_reader::plaintext_document_reader(std::shared_ptr<cainteoir::
 	}
 }
 
-bool plaintext_document_reader::read()
+bool plaintext_document_reader::read(rdf::graph *aMetadata)
 {
 	switch (mState)
 	{
 	case state_title:
-		type   = events::toc_entry | events::anchor;
-		styles = &cainteoir::heading0;
-		text   = cainteoir::make_buffer(mTitle);
-		anchor = mSubject;
-		mState = mData->empty() ? state_eof : state_text;
-		break;
+		if (aMetadata)
+		{
+			const rdf::uri listing = aMetadata->genid();
+			aMetadata->statement(mSubject, rdf::ref("listing"), listing);
+
+			const rdf::uri currentReference = aMetadata->genid();
+			aMetadata->statement(listing, rdf::rdf("type"), rdf::ref("Listing"));
+			aMetadata->statement(listing, rdf::ref("type"), rdf::epv("toc"));
+			aMetadata->statement(listing, rdf::ref("entries"), currentReference);
+
+			const rdf::uri entry = aMetadata->genid();
+			aMetadata->statement(currentReference, rdf::rdf("first"), entry);
+
+			aMetadata->statement(entry, rdf::rdf("type"), rdf::ref("Entry"));
+			aMetadata->statement(entry, rdf::ref("level"), rdf::literal(0, rdf::xsd("integer")));
+			aMetadata->statement(entry, rdf::ref("target"), mSubject);
+			aMetadata->statement(entry, rdf::dc("title"), rdf::literal(mTitle));
+
+			aMetadata->statement(currentReference, rdf::rdf("rest"), rdf::rdf("nil"));
+		}
+		type    = events::anchor;
+//		styles  = &cainteoir::heading0;
+//		content = cainteoir::make_buffer(mTitle);
+		anchor  = mSubject;
+		mState  = mData->empty() ? state_eof : state_text;
+		return true;
 	case state_text:
-		type   = events::text;
-		text   = mData;
-		anchor = rdf::uri();
-		mState = state_eof;
+		type    = events::text;
+		content = mData;
+		anchor  = rdf::uri();
+		mState  = state_eof;
 		break;
 	case state_eof:
 		type = 0;
-		text.reset();
+		content.reset();
 		return false;
 	}
 	return true;

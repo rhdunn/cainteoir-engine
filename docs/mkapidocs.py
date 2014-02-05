@@ -5,20 +5,43 @@ import sys
 
 from xml.dom import minidom
 
-def xmlstr(x):
-	return x.replace('&', '&amp;').replace('<', '&lt;')
 
-class Node:
+##### Configuration
+
+
+extensionless_links = False
+rootdir = 'docs/api/html'
+stylesheet = 'http://127.0.0.1/css/main.css'
+breadcrumbs = [
+	('/', 'Home'),
+	('/cainteoir', 'Cainteoir Text-to-Speech'),
+	('/cainteoir/api/engine', 'Engine API'),
+]
+end_year = '2014'
+
+
+##### XML API
+
+
+class XmlNode:
 	def __init__(self, node):
 		self.node = node
 		self.name = node.nodeName
 
-	def children(self):
-		ret = []
+	def __iter__(self):
 		for child in self.node.childNodes:
 			if child.nodeType == child.ELEMENT_NODE:
-				ret.append(Node(child))
+				yield XmlNode(child)
+
+	def __getitem__(self, name):
+		ret = self.node.getAttribute(name)
+		if ret == '':
+			return None
 		return ret
+
+	def children(self):
+		for child in self.node.childNodes:
+			yield XmlNode(child)
 
 	def text(self):
 		return ''.join(self._text(self.node))
@@ -27,436 +50,695 @@ class Node:
 		ret = []
 		for child in node.childNodes:
 			if child.nodeType == child.TEXT_NODE:
-				ret.append(xmlstr(child.nodeValue))
+				ret.append(child.nodeValue)
 			elif child.nodeType == child.ELEMENT_NODE:
 				ret.extend(self._text(child))
 		return ret
 
-	def __getitem__(self, name):
-		return self.node.getAttribute(name)
 
-class Document(Node):
+class XmlDocument(XmlNode):
 	def __init__(self, filename):
-		Node.__init__(self, minidom.parse(filename).documentElement)
+		XmlNode.__init__(self, minidom.parse(filename).documentElement)
 
-class KindInfo:
-	def __init__(self, single, plural, category=None):
-		self.single = single
-		self.plural = plural
-		self.category = category
 
-kinds = {
-	# kind               # single             # plural
-	'attrib':    KindInfo( 'Attribute',         'Attributes'         ),
-	'class':     KindInfo( 'Class',             'Classes'            ),
-	'define':    KindInfo( 'Definition',        'Definitions'        ),
-	'dir':       KindInfo( 'Directory',         'Directories'        ),
-	'enum':      KindInfo( 'Enumeration',       'Enumerations'       ),
-	'enumvalue': KindInfo( 'Enumeration Value', 'Enumeration Values' ),
-	'file':      KindInfo( 'File',              'Files'              ),
-	'func':      KindInfo( 'Function',          'Functions'          ),
-	'function':  KindInfo( 'Function',          'Functions'          ),
-	'method':    KindInfo( 'Member Function',   'Member Functions'   ),
-	'namespace': KindInfo( 'Namespace',         'Namespaces'         ),
-	'page':      KindInfo( 'Page',              'Pages'              ),
-	'struct':    KindInfo( 'Structure',         'Structures'         ),
-	'type':      KindInfo( 'Type',              'Types'              ),
-	'typedef':   KindInfo( 'Type',              'Types'              ),
-	'var':       KindInfo( 'Variable',          'Variables'          ),
-	'variable':  KindInfo( 'Variable',          'Variables'          ),
-}
+##### C++ Object Model
 
-protection_kinds = {
-	# kind               # single             # plural
-	'public':    KindInfo( 'Public',            'Public'),
-	'protected': KindInfo( 'Protected',         'Protected'),
-	'private':   KindInfo( 'Private',           'Private'),
-}
 
-section_kinds = { 'user-defined': KindInfo(None, 'User Defined') }
-for kindname, kind in kinds.items():
-	section_kinds[kindname] = kind
-	for protname, prot in protection_kinds.items():
-		section_kinds['%s-%s' % (protname, kindname)] = KindInfo(
-			'%s %s' % (prot.single, kind.single),
-			'%s %s' % (prot.plural, kind.plural))
-		section_kinds['%s-static-%s' % (protname, kindname)] = KindInfo(
-			'%s Static %s' % (prot.single, kind.single),
-			'%s Static %s' % (prot.plural, kind.plural))
+item_types = {}
 
-def parseDoxygenId(ref):
-	kind = None
-	for kindname in [u'struct', u'class', u'dir', u'namespace']:
-		if ref.startswith(kindname):
-			ref = ref[len(kindname):]
-			kind = kindname
-	if not kind:
-		if u'_8' in ref:
-			kind = u'file'
-		elif ref in [u'deprecated', u'todo']:
-			kind = u'page'
-	if not kind:
-		raise Exception('Unable to determine the kind for id "%s"' % ref)
-	ret = []
-	for item in ref.split(u'_1'):
-		if item == '':
-			continue
-		for match, replace in [(u'__', u'_')]:
-			item = item.replace(match, replace)
-		ret.append(item)
-	return kind, ret[:-1], ret[-1]
 
-doxygen_formatting_tags = {
-	'emphasis':       ('inline', 'em'),
-	'itemizedlist':   ('block',  'ul'),
-	'listitem':       ('block',  'li'),
-	'para':           ('block',  'p'),
-	'programlisting': ('block',  'pre'),
-}
-
-class DoxyString:
-	def __init__(self, node, doc):
-		self.items = []
-		self._parseNode(node, doc)
-
-	def _parseNode(self, node, doc):
-		for child in node.node.childNodes:
-			if child.nodeType == child.TEXT_NODE:
-				self.items.append(xmlstr(child.nodeValue))
-			elif child.nodeType == child.ELEMENT_NODE:
-				if child.nodeName == 'ref':
-					self.items.append(doc[child.getAttribute('refid')])
-				elif child.nodeName in doxygen_formatting_tags.keys():
-					kind, tag = doxygen_formatting_tags[child.nodeName]
-					if kind == 'inline':
-						self.items.append('<%s>%s</%s>' % (tag, Node(child).text(), tag))
-					elif kind == 'block':
-						self.items.append('<%s>' % tag)
-						self._parseNode(Node(child), doc)
-						self.items.append('</%s>' % tag)
-				elif child.nodeName in ['codeline', 'highlight', 'ulink']:
-					self._parseNode(Node(child), doc)
-				elif child.nodeName in ['sp', 'simplesectsep']:
-					self.items.append(' ')
-				elif child.nodeName in ['parameterlist', 'simplesect', 'xrefsect']:
-					pass
-				else:
-					raise Exception('Unsupported element %s' % child.nodeName)
-
-	def __str__(self):
-		return ''.join([str(x) for x in self.items])
-
-class DocInheritance:
-	def __init__(self, item, protection, virtual, name):
-		self.item = item
-		self.protection = protection
-		self.virtual = virtual
-		self.name = name
-
-	def __str__(self):
-		return '<a href="%s.html">%s</a>' % (self.item.ref, self.name)
-
-class DocSection:
-	def __init__(self, kind):
-		self.kind = kind
-		self.name = section_kinds[kind].plural
-		self.members = []
-
-class DocItem:
-	def __init__(self, ref, kind, name, compound):
-		self.kind = kind
-		self.shortdoc = None
-		self.longdoc = []
-		self.docsections = []
-		self.ref = ref
-		self.name = name
-		self.compound = compound
-		_, self.scope, self.shortname = parseDoxygenId(ref)
-		self.protection = 'public'
-		is_std_doc  = len(self.scope) > 0 and self.scope[0] == 'std'
-		is_std_ns   = self.kind == 'namespace' and self.name == 'std'
-		self.stdlib = is_std_doc or is_std_ns
-		self.visited = False
-
-class DocCompound(DocItem):
-	def __init__(self, ref, kind, name):
-		DocItem.__init__(self, ref, kind, name, True)
-		self.members = []
-		self.base = []
-		self.derived = []
-
-	def __str__(self):
-		return '<a href="%s.html">%s</a>' % (self.ref, self.name)
-
-class DocMember(DocItem):
-	def __init__(self, ref, kind, name):
-		DocItem.__init__(self, ref, kind, name, False)
-		self.typeof = ''
-		self.argstr = ''
-
-	def __str__(self):
-		return '<a href="#%s">%s</a>' % (self.ref, self.name)
-
-class Documentation:
+class Parameter:
 	def __init__(self):
-		self.items = {}
+		pass
 
-	def create(self, ref, kind, name):
-		if ref in self.items.keys():
-			return self.items[ref]
-		if kind == 'class':     self.items[ref] = DocCompound(ref, kind, name)
-		if kind == 'define':    self.items[ref] = DocMember(ref, kind, name)
-		if kind == 'dir':       self.items[ref] = DocCompound(ref, kind, name)
-		if kind == 'enum':      self.items[ref] = DocMember(ref, kind, name)
-		if kind == 'enumvalue': self.items[ref] = DocMember(ref, kind, name)
-		if kind == 'file':      self.items[ref] = DocCompound(ref, kind, name)
-		if kind == 'function':  self.items[ref] = DocMember(ref, kind, name)
-		if kind == 'namespace': self.items[ref] = DocCompound(ref, kind, name)
-		if kind == 'page':      self.items[ref] = DocCompound(ref, kind, name)
-		if kind == 'struct':    self.items[ref] = DocCompound(ref, kind, name)
-		if kind == 'typedef':   self.items[ref] = DocMember(ref, kind, name)
-		if kind == 'variable':  self.items[ref] = DocMember(ref, kind, name)
-		if ref not in self.items.keys():
-			raise Exception('Unsupported kind "%s"' % kind)
-		return self.items[ref]
+	def accept(self, visitor, kwargs):
+		visitor.onVarType(self.vartype, **kwargs)
+		visitor.onText(' ', **kwargs)
+		visitor.onParameterName(self.name, **kwargs)
+
+
+class Item:
+	def __init__(self, kind, name, parent):
+		self.kind = kind
+		self.name = name
+		self.parent = parent
+		self.brief = None
+		self.protection = None
+
+	def __str__(self):
+		return self.name
 
 	def __iter__(self):
-		for item in self.items.values():
+		return
+		yield
+
+	def ancestors(self):
+		ret = []
+		parent = self
+		while parent:
+			if parent.name:
+				ret.append(parent)
+			parent = parent.parent
+		return reversed(ret)
+
+	def scopedname(self):
+		return '::'.join([ x.name for x in self.ancestors() ])
+
+	def accept(self, visitor, kwargs):
+		visitor.onBeginTypeDecl(**kwargs)
+		visitor.onKeyword(self.kind, **kwargs)
+		visitor.onText(' ', **kwargs)
+		visitor.onScopedItem(self, **kwargs)
+		visitor.onEndTypeDecl(**kwargs)
+
+
+class ScopedItem(Item):
+	def __init__(self, kind, name, parent):
+		Item.__init__(self, kind, name, parent)
+		self.items  = {}
+
+	def __iter__(self):
+		for key, item in sorted(self.items.items()):
 			yield item
 
-	def __getitem__(self, ref):
-		return self.items[ref]
+	def get(self, kind, name):
+		if name in self.items.keys():
+			ret = self.items[name]
+		else:
+			ret = item_types[kind](kind, name, self)
+			self.items[name] = ret
+		return ret
 
-def parseDoxygenMember(member, m, doc):
-	m.protection = member['prot']
-	for node in member.children():
-		if node.name == 'briefdescription':
-			para = node.children()
-			if len(para) != 0:
-				m.shortdoc = DoxyString(para[0], doc)
-				m.longdoc.append(m.shortdoc)
-		elif node.name == 'detaileddescription':
-			paras = node.children()
-			if len(paras) != 0:
-				for para in paras:
-					for child in para.children():
-						if child.name == 'parameterlist':
-							for param in child.children():
-								for item in param.children():
-									if item.name == 'parameternamelist':
-										title = item.children()[0].text()
-									if item.name == 'parameterdescription':
-										desc = item
-								m.docsections.append((title, DoxyString(desc, doc)))
-						elif child.name == 'xrefsect':
-							for xref in child.children():
-								if xref.name == 'xreftitle':
-									title = xref.text()
-								if xref.name == 'xrefdescription':
-									desc = xref
-							m.docsections.append((title, DoxyString(desc, doc)))
-						elif child.name == 'simplesect':
-							if child['kind'] == 'return':
-								m.docsections.append(('Returns', DoxyString(child, doc)))
-							elif child['kind'] == 'see':
-								m.docsections.append(('See', DoxyString(child, doc)))
-							else:
-								raise Exception('Unsupported simplesect (kind=%s)' % child['kind'])
-					m.longdoc.append(DoxyString(para, doc))
-		elif node.name == 'type':
-			m.typeof = DoxyString(node, doc)
-		elif node.name == 'argsstring':
-			m.argstr = DoxyString(node, doc)
 
-def parseDoxygenCompound(xmlroot, c, doc):
-	print 'parsing %s.xml' % c.ref
-	xml = Document(os.path.join(xmlroot, '%s.xml' % c.ref))
-	compound = xml.children()[0]
+class Class(ScopedItem):
+	def __init__(self, kind, name, parent):
+		ScopedItem.__init__(self, kind, name, parent)
 
-	if compound['id'] != c.ref or compound['kind'] != c.kind:
-		raise Exception('Compound documentation file mismatch for %s' % c.ref)
 
-	c.protection = compound['prot']
-	for node in compound.children():
-		if node.name == 'basecompoundref':
-			ref = node['refid']
-			if ref != '':
-				c.base.append(DocInheritance(doc[ref], node['prot'], node['virt'], node.text()))
-		elif node.name == 'derivedcompoundref':
-			ref = node['refid']
-			if ref != '':
-				c.derived.append(DocInheritance(doc[ref], node['prot'], node['virt'], node.text()))
-		elif node.name == 'briefdescription':
-			para = node.children()
-			if len(para) != 0:
-				c.shortdoc = para[0].text()
-				c.longdoc.append(c.shortdoc)
-		elif node.name == 'detaileddescription':
-			paras = node.children()
-			if len(paras) != 0:
-				for para in paras:
-					t = para.text()
-					if t:
-						c.longdoc.append(t)
-		elif node.name == 'sectiondef':
-			s = DocSection(node['kind'])
-			c.members.append(s)
-			for sec in node.children():
-				if sec.name == 'memberdef':
-					m = doc[sec['id']]
-					s.members.append(m)
-					parseDoxygenMember(sec, m, doc)
-				elif sec.name == 'header':
-					s.name = sec.text()
-				else:
-					raise Exception('Unsupported element %s' % sec.name)
-		elif node.name in ['innerclass', 'innernamespace']:
-			kind = node.name.replace('inner', '')
-			s = None
-			for sec in c.members:
-				if sec.kind == kind:
-					s = sec
-			if not s:
-				s = DocSection(kind)
-				c.members.append(s)
-			m = doc[node['refid']]
-			if node['prot'] != '':
-				m.protection = node['prot']
-			s.members.append(m)
+class Enum(ScopedItem):
+	def __init__(self, kind, name, parent):
+		ScopedItem.__init__(self, kind, name, parent)
 
-def parseDoxygenDocumentation(xmlroot):
-	print 'parsing index.xml'
-	xml = Document(os.path.join(xmlroot, 'index.xml'))
-	doc = Documentation()
-	for compound in xml.children():
-		for node in compound.children():
-			if node.name == 'name':
-				c = doc.create(compound['refid'], compound['kind'], node.text())
-			elif node.name == 'member':
-				for membernode in node.children():
-					if membernode.name == 'name':
-						membername = membernode.text()
-						m = doc.create(node['refid'], node['kind'], membernode.text())
-						if m.kind == 'function' and c.kind in ['class', 'struct']:
-							m.kind = 'method'
 
-	for c in doc:
-		if c.compound:
-			parseDoxygenCompound(xmlroot, c, doc)
-		scope = []
-		namespace = []
-		for ns in c.scope:
-			scope.append(ns)
-			for kind in ['namespace', 'class', 'struct']:
-				scopename = '%s%s' % (kind, '_1_1'.join([x.replace('_', '__') for x in scope]))
-				try:
-					value = doc[scopename]
-					namespace.append(value)
-				except KeyError:
-					pass
-		c.scope = namespace
+class EnumValue(Item):
+	def __init__(self, kind, name, parent):
+		Item.__init__(self, kind, name, parent)
 
-	return doc
+	def accept(self, visitor, kwargs):
+		visitor.onEnumValue(self, **kwargs)
 
-def printHeirarchy(f, item, depth):
-	if item.compound and not item.visited:
-		item.visited = True
-		kindname = kinds[item.kind].single
-		f.write('<tr>')
-		f.write('<td title="%s %s">%s<a href="%s.html">%s</a></td>' % (item.kind, item.name, '&#xA0;&#xA0;&#xA0;'*depth, item.ref, item.shortname))
-		f.write('<td>%s</td>' % item.shortdoc)
-		f.write('</tr>\n')
-		for s in item.members:
-			for i in s.members:
-				printHeirarchy(f, i, depth+1)
 
-protection_scope = ['public', 'protected']
+class Function(ScopedItem):
+	def __init__(self, kind, name, parent):
+		if name == parent.name and parent.kind in ['class', 'struct']:
+			ScopedItem.__init__(self, 'constructor', name, parent)
+		elif name == '~%s' % parent.name and parent.kind in ['class', 'struct']:
+			ScopedItem.__init__(self, 'destructor', name, parent)
+		else:
+			ScopedItem.__init__(self, kind, name, parent)
+		self.vartype = None
+		self.parameters = []
 
-docroot = sys.argv[2]
-doc = parseDoxygenDocumentation(sys.argv[1])
+	def accept(self, visitor, kwargs):
+		visitor.onBeginTypeDecl(**kwargs)
+		if self.vartype:
+			visitor.onVarType(self.vartype, **kwargs)
+			visitor.onText(' ', **kwargs)
+		visitor.onScopedItem(self, **kwargs)
+		visitor.onOperator('(', **kwargs)
+		for i, param in enumerate(self.parameters):
+			visitor.onParameter(param, **kwargs)
+			if i != (len(self.parameters) - 1):
+				visitor.onOperator(',', **kwargs)
+				visitor.onText(' ', **kwargs)
+		visitor.onOperator(')', **kwargs)
+		visitor.onEndTypeDecl(**kwargs)
 
-print 'writing index.html ...'
-with open(os.path.join(docroot, 'index.html'), 'w') as f:
-	f.write('---\n')
-	f.write('layout: rdfa\n')
-	f.write('title: Cainteoir Text-to-Speech API\n')
-	f.write('nav:\n')
-	f.write('  - { title: Home , url: ../index.html }\n')
-	f.write('  - { title: API }\n')
-	f.write('---\n')
-	f.write('<h1>Cainteoir Text-to-Speech API</h1>\n')
-	f.write('<table width="100%">\n')
-	for item in doc:
-		if item.kind == 'namespace' and not item.stdlib and len(item.scope) == 0:
-			printHeirarchy(f, item, 0)
-	f.write('</table>')
 
-for item in doc:
-	if item.kind in ['struct', 'class', 'namespace'] and item.visited:
-		print 'writing %s ...' % item.ref
-		with open(os.path.join(docroot, '%s.html' % item.ref), 'w') as f:
-			title = '%s %s Documentation' % (item.name, kinds[item.kind].single)
-			f.write('---\n')
-			f.write('layout: rdfa\n')
-			f.write('title: Cainteoir Text-to-Speech API &mdash; %s\n' % title)
-			f.write('nav:\n')
-			f.write('  - { title: Home , url: ../index.html }\n')
-			f.write('  - { title: API , url: index.html }\n')
-			for s in item.scope:
-				f.write('  - { title: "%s" , url: %s.html }\n' % (s.shortname, s.ref))
-			f.write('  - { title: "%s" }\n' % item.shortname)
-			f.write('---\n')
-			f.write('<h1>%s</h1>\n' % title)
-			f.write('<p><code>%s %s %s</code></p>\n' % (item.protection, item.kind, item.shortname))
-			if item.shortdoc:
-				if len(item.longdoc) != 1:
-					f.write('<blockquote>%s <a href="#detailed_description">More...</a></blockquote>' % item.shortdoc)
-				else:
-					f.write('<blockquote>%s</blockquote>' % item.shortdoc)
-			items = [x for x in item.base if x.item.protection in protection_scope and x.item.visited ]
-			if len(items) != 0:
-				f.write('<h2 id="base">Inherited From</h2>\n')
-				f.write('<ul>\n')
-				for base in items:
-					f.write('<li>%s</li>\n' % base)
-				f.write('</ul>\n')
-			items = [x for x in item.derived if x.item.protection in protection_scope and x.item.visited ]
-			if len(items) != 0:
-				f.write('<h2 id="derived">Inherited By</h2>\n')
-				f.write('<ul>\n')
-				for derived in items:
-					f.write('<li>%s</li>\n' % derived)
-				f.write('</ul>\n')
-			for group in item.members:
-				members = [m for m in group.members if m.protection in protection_scope]
-				if len(members) != 0:
-					f.write('<h2 id="%s">%s</h2>\n' % (group.kind, group.name))
-					for member in members:
-						if member.compound:
-							f.write('<p><code>%s</code></p>\n' % member)
-						else:
-							f.write('<p><code>%s %s %s</code></p>\n' % (member.typeof, member, member.argstr))
-						if member.shortdoc:
-							f.write('<blockquote>%s</blockquote>\n' % member.shortdoc)
-			if len(item.longdoc) > 1:
-				f.write('<h2 id="detailed_description">Detailed Description</h2>\n')
-				f.write('<blockquote>\n')
-				for para in item.longdoc:
-					f.write('<p>%s</p>\n' % para)
-				f.write('</blockquote>\n')
-			if len(item.members) != 0:
-				f.write('<h2 id="members">Documentation</h2>\n')
-				for group in item.members:
-					for member in group.members:
-						if member.protection in protection_scope and not member.compound:
-							f.write('<p id="%s"><code>%s %s %s %s</code></p>\n' % (member.ref, member.protection, member.typeof, member.name, member.argstr))
-							f.write('<blockquote>\n')
-							for para in member.longdoc:
-								f.write('<p>%s</p>\n' % para)
-							f.write('</blockquote>\n')
-							if len(member.docsections) != 0:
-								f.write('<dl class="memberdoc">\n')
-								for name, sec in member.docsections:
-									f.write('<dt>%s</dt>' % name)
-									f.write('<dd>%s</dd>\n' % sec)
-								f.write('</dl>\n')
+class Namespace(ScopedItem):
+	def __init__(self, kind, name, parent):
+		ScopedItem.__init__(self, kind, name, parent)
+
+
+class Struct(ScopedItem):
+	def __init__(self, kind, name, parent):
+		ScopedItem.__init__(self, kind, name, parent)
+
+
+class Typedef(Item):
+	def __init__(self, kind, name, parent):
+		Item.__init__(self, kind, name, parent)
+		self.vartype = None
+		self.parameters = None
+
+	def accept(self, visitor, kwargs):
+		visitor.onBeginTypeDecl(**kwargs)
+		visitor.onKeyword(self.kind, **kwargs)
+		visitor.onText(' ', **kwargs)
+		visitor.onVarType(self.vartype, **kwargs)
+		visitor.onText(' ', **kwargs)
+		if self.parameters:
+			visitor.onOperator('(', **kwargs)
+			visitor.onOperator('*', **kwargs)
+		visitor.onScopedItem(self, **kwargs)
+		if self.parameters:
+			visitor.onOperator(')', **kwargs)
+			visitor.onOperator('(', **kwargs)
+			for i, param in enumerate(self.parameters):
+				visitor.onParameter(param, **kwargs)
+				if i != (len(self.parameters) - 1):
+					visitor.onOperator(',', **kwargs)
+					visitor.onText(' ', **kwargs)
+			visitor.onOperator(')', **kwargs)
+		visitor.onEndTypeDecl(**kwargs)
+
+
+class Variable(Item):
+	def __init__(self, kind, name, parent):
+		Item.__init__(self, kind, name, parent)
+		self.vartype = None
+
+	def accept(self, visitor, kwargs):
+		visitor.onBeginTypeDecl(**kwargs)
+		visitor.onVarType(self.vartype, **kwargs)
+		visitor.onText(' ', **kwargs)
+		visitor.onMemberName(self, **kwargs)
+		visitor.onEndTypeDecl(**kwargs)
+
+
+global_namespace = ScopedItem('namespace', '', None)
+item_types['class']     = Class
+item_types['enum']      = Enum
+item_types['enumvalue'] = EnumValue
+item_types['function']  = Function
+item_types['namespace'] = Namespace
+item_types['struct']    = Struct
+item_types['typedef']   = Typedef
+item_types['variable']  = Variable
+
+
+def create_scoped_item(kind, name):
+	items = name.split('::')
+	ns = global_namespace
+	for item in items[:-1]:
+		ns = ns.get('namespace', item)
+	return ns.get(kind, items[-1])
+
+
+##### Doxygen Object Model
+
+
+class Reference:
+	def __init__(self, ref, item):
+		self.ref  = ref
+		self.item = item
+
+	def __str__(self):
+		return self.ref
+
+	def accept(self, visitor, kwargs):
+		visitor.onReference(self, **kwargs)
+
+
+_items = {}
+
+
+def create_itemref(ref, name):
+	if not ref:
+		raise Exception('create_itemref: no reference for %s' % name)
+	if ref in _items.keys():
+		item = _items[ref]
+	else:
+		item = Reference(ref, None)
+		_items[ref] = item
+	return item
+
+
+def create_item(ref, kind, name, compound=None):
+	if not ref or not kind or not name:
+		raise Exception('Item not fully defined')
+	item = create_itemref(ref, name)
+	if not item.item:
+		if kind in ['namespace', 'struct', 'class']:
+			item.item = create_scoped_item(kind, name)
+			item.item.ref = item
+		elif compound:
+			item.item = compound.item.get(kind, name)
+			item.item.ref = item
+		else:
+			raise Exception('Item %s is not a namespace, struct, class or member object' % name)
+	return item
+
+
+class NamedReference:
+	def __init__(self, ref, name):
+		self.ref = create_itemref(ref, None)
+		self.name = name
+
+	def accept(self, visitor, kwargs):
+		visitor.onNamedReference(self, **kwargs)
+
+
+class DocText:
+	def __init__(self, text, style=None):
+		self.text = text
+		self.style = style
+
+	def accept(self, visitor, kwargs):
+		if not self.style:
+			visitor.onText(self.text, **kwargs)
+		elif self.style == 'bold':
+			visitor.onBoldText(self.text, **kwargs)
+		elif self.style == 'computeroutput':
+			visitor.onComputerOutput(self.text, **kwargs)
+
+
+class DocLink:
+	def __init__(self, ref, name):
+		self.ref = ref
+		self.name = name
+
+	def accept(self, visitor, kwargs):
+		visitor.onLink(self, **kwargs)
+
+
+class DocParagraph:
+	def __init__(self):
+		self.contents = []
+
+	def add(self, item):
+		self.contents.append(item)
+
+	def accept(self, visitor, kwargs):
+		visitor.onParagraph(self, **kwargs)
+
+
+class DocBriefDescription:
+	def __init__(self, para):
+		self.contents = para.contents
+
+	def accept(self, visitor, kwargs):
+		visitor.onBriefDescription(self, **kwargs)
+
+
+##### Doxygen XML Parser
+
+
+def parseDoxygenXml_para(xml):
+	para = DocParagraph()
+	for child in xml.children():
+		if child.name == '#text':
+			para.add(DocText(child.node.nodeValue))
+		elif child.name in ['bold', 'computeroutput']:
+			para.add(DocText(child.node.nodeValue, child.name))
+		elif child.name == 'ref':
+			para.add(NamedReference(child['refid'], child.text()))
+		elif child.name == 'ulink':
+			para.add(DocLink(child['url'], child.text()))
+		else:
+			raise Exception('Unknown element %s on para' % child.name)
+	return para
+
+
+def parseDoxygenXml_briefdescription(xml, item):
+	for child in xml:
+		if child.name == 'para':
+			if item.item.brief:
+				print('warning: %s already has a brief description' % item.item.scopedname())
+			item.item.brief = DocBriefDescription(parseDoxygenXml_para(child))
+		else:
+			raise Exception('Unknown element %s on briefdescription' % child.name)
+
+
+def parseDoxygenXml_enumvalue(xml, compound):
+	for child in xml:
+		if child.name == 'name':
+			member = create_item(xml['id'], 'enumvalue', child.text(), compound)
+			member.item.protection = xml['prot']
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, member)
+		elif child.name in ['detaileddescription', 'initializer']:
+			pass
+		else:
+			raise Exception('Unknown enumvalue node : %s' % child.name)
+
+
+def parseDoxygenXml_memberdef_enum(xml, compound):
+	for child in xml:
+		if child.name == 'name':
+			member = create_item(xml['id'], xml['kind'], child.text(), compound)
+			member.item.protection = xml['prot']
+		elif child.name == 'enumvalue':
+			parseDoxygenXml_enumvalue(child, member)
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, member)
+		elif child.name in ['detaileddescription', 'inbodydescription', 'location']:
+			pass
+		else:
+			raise Exception('Unknown memberdef node : %s' % child.name)
+
+
+def parseDoxygenXml_memberdef_typedef(xml, compound):
+	vartype = None
+	parameters = None
+	for child in xml:
+		if child.name == 'name':
+			member = create_item(xml['id'], xml['kind'], child.text(), compound)
+			member.item.protection = xml['prot']
+		elif child.name == 'type':
+			vartype = child.text()
+			if vartype.endswith('(*'):
+				vartype = vartype[:-2]
+		elif child.name == 'argsstring':
+			parameters = child.text()
+			if parameters == '':
+				parameters = None
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, member)
+		elif child.name in ['type', 'definition', 'detaileddescription', 'inbodydescription', 'location']:
+			pass
+		else:
+			raise Exception('Unknown memberdef node : %s' % child.name)
+	member.item.vartype = vartype
+	member.item.parameters = []
+	if parameters:
+		for parameter in parameters[2:-1].split(', '):
+			p = parameter.split()
+			param = Parameter()
+			param.vartype = ' '.join(p[:-1])
+			param.name = p[-1]
+			for extra in ['*', '&amp;', '&']:
+				if param.name.startswith(extra):
+					param.name = param.name[len(extra):]
+					param.vartype = '%s %s' % (param.vartype, extra)
+			member.item.parameters.append(param)
+
+
+def parseDoxygenXml_memberdef_variable(xml, compound):
+	vartype = None
+	for child in xml:
+		if child.name == 'name':
+			member = create_item(xml['id'], xml['kind'], child.text(), compound)
+			member.item.protection = xml['prot']
+		elif child.name == 'type':
+			vartype = child.text()
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, member)
+		elif child.name in ['definition', 'argsstring', 'detaileddescription', 'inbodydescription', 'location']:
+			pass
+		else:
+			raise Exception('Unknown memberdef node : %s' % child.name)
+	member.item.vartype = vartype
+
+
+def parseDoxygenXml_param(xml):
+	param = Parameter()
+	for child in xml:
+		if child.name == 'type':
+			param.vartype = child.text()
+		elif child.name == 'declname':
+			param.name = child.text()
+		elif child.name in ['defval', 'defname', 'array']:
+			pass
+		else:
+			raise Exception('Unknown param node : %s' % child.name)
+	return param
+
+
+def parseDoxygenXml_memberdef_function(xml, compound):
+	vartype = None
+	for child in xml:
+		if child.name == 'name':
+			member = create_item(xml['id'], xml['kind'], child.text(), compound)
+			member.item.protection = xml['prot']
+		elif child.name == 'param':
+			member.item.parameters.append(parseDoxygenXml_param(child))
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, member)
+		elif child.name == 'type':
+			vartype = child.text()
+		elif child.name in ['definition', 'argsstring', 'templateparamlist', 'detaileddescription', 'inbodydescription', 'location', 'reimplements', 'reimplementedby']:
+			pass
+		else:
+			raise Exception('Unknown memberdef node : %s' % child.name)
+	member.item.vartype = vartype
+
+
+def parseDoxygenXml_sectiondef(xml, compound):
+	for child in xml:
+		if child.name == 'memberdef':
+			if child['kind'] == 'variable':
+				parseDoxygenXml_memberdef_variable(child, compound)
+			elif child['kind'] == 'function':
+				parseDoxygenXml_memberdef_function(child, compound)
+			elif child['kind'] == 'typedef':
+				parseDoxygenXml_memberdef_typedef(child, compound)
+			elif child['kind'] == 'enum':
+				parseDoxygenXml_memberdef_enum(child, compound)
+			else:
+				raise Exception('Unknown memberdef : %s' % child['kind'])
+		elif child.name in ['header']:
+			pass
+		else:
+			raise Exception('Unknown sectiondef node : %s' % child.name)
+
+
+def parseDoxygenXml_compounddef_namespace(xml):
+	compound = None
+	for child in xml:
+		if child.name == 'compoundname':
+			compound = create_item(xml['id'], xml['kind'], child.text())
+			compound.item.protection = 'public'
+		elif child.name == 'sectiondef':
+			parseDoxygenXml_sectiondef(child, compound)
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, compound)
+		elif child.name in ['innerclass', 'innernamespace', 'detaileddescription', 'location']:
+			pass
+		else:
+			raise Exception('Unknown compounddef node : %s' % child.name)
+	return compound
+
+
+def parseDoxygenXml_compounddef_class(xml):
+	compound = None
+	for child in xml:
+		if child.name == 'compoundname':
+			compound = create_item(xml['id'], xml['kind'], child.text())
+			compound.item.protection = xml['prot']
+		elif child.name == 'sectiondef':
+			parseDoxygenXml_sectiondef(child, compound)
+		elif child.name == 'briefdescription':
+			parseDoxygenXml_briefdescription(child, compound)
+		elif child.name in ['includes', 'detaileddescription', 'inheritancegraph', 'collaborationgraph', 'location', 'listofallmembers', 'innerclass', 'templateparamlist', 'derivedcompoundref', 'basecompoundref']:
+			pass
+		else:
+			raise Exception('Unknown compounddef node : %s' % child.name)
+	return compound
+
+
+def parseDoxygenXml(xml):
+	compound = None
+	for child in xml:
+		if child.name == 'compounddef':
+			if compound:
+				raise Exception('A compound was already provided for this file.')
+			if child['kind'] in ['class', 'struct']:
+				compound = parseDoxygenXml_compounddef_class(child)
+			elif child['kind'] == 'namespace':
+				compound = parseDoxygenXml_compounddef_namespace(child)
+			elif child['kind'] in ['file', 'dir', 'group', 'page']:
+				pass
+			else:
+				raise Exception('Unknown compounddef : %s' % child['kind'])
+		elif child.name == 'compound':
+			pass
+		else:
+			raise Exception('Unknown doxygen node : %s' % child.name)
+	return compound
+
+
+##### Documentation Generators
+
+
+def link(href):
+	if extensionless_links:
+		return href
+	return '%s.html' % href
+
+
+class HtmlPrinter:
+	def __init__(self, f):
+		self.f = f
+
+	def visit(self, node, **kwargs):
+		if not node:
+			self.onBlankNode(**kwargs)
+			return
+		node.accept(self, kwargs)
+
+	def onBlankNode(self, classname=None):
+		self.f.write('&#xA0;')
+
+	def onText(self, text):
+		self.f.write(text)
+
+	def onComputerOutput(self, text):
+		self.f.write('<code>%s</code>' % (text))
+
+	def onLink(self, node):
+		self.f.write('<a href="%s">%s</a>' % (node.ref, node.name))
+
+	def onReference(self, node):
+		self.f.write('<a href="%s">%s</a>' % (link(node.ref), node.item.name))
+
+	def onNamedReference(self, node):
+		self.f.write('<a href="%s">%s</a>' % (link(node.ref), node.name))
+
+	def onBriefDescription(self, node, classname):
+		self.f.write('<blockquote class="%s">' % classname)
+		map(self.visit, node.contents)
+		self.f.write('</blockquote>\n')
+
+	def onBeginTypeDecl(self):
+		pass
+
+	def onEndTypeDecl(self):
+		pass
+
+	def onKeyword(self, keyword):
+		self.f.write('<span class="keyword">%s</span>' % keyword)
+
+	def onOperator(self, operator):
+		self.f.write('<span class="operator">%s</span>' % operator)
+
+	def onParameter(self, item):
+		self.visit(item)
+
+	def onVarType(self, vartype):
+		self.f.write(vartype)
+
+	def onParameterName(self, name):
+		self.f.write(name)
+
+	def onMemberName(self, item):
+		self.f.write(item.name)
+
+	def onScopedItem(self, item):
+		self.visit(item.ref)
+
+
+def writeHtmlHeader(f, title, description, keywords, breadcrumbs):
+	f.write('<!DOCTYPE html>\n')
+	f.write('<html xmlns="http://www.w3.org/1999/xhtml" lang="en" prefix="dc: http://purl.org/dc/elements/1.1/ dct: http://purl.org/dc/terms/ doap: http://usefulinc.com/ns/doap# foaf: http://xmlns.com/foaf/0.1/ rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns# rdfs: http://www.w3.org/2000/01/rdf-schema# s: http://schema.org/ v: http://rdf.data-vocabulary.org/# xsd: http://www.w3.org/2001/XMLSchema#" typeof="s:WebPage">\n')
+	f.write('<head>\n')
+	f.write('<meta charset="utf-8"/>\n')
+	f.write('<meta name="viewport" content="width=device-width; initial-scale=1"/>\n')
+	f.write('<meta name="description" content="%s"/>\n' % description)
+	f.write('<meta name="keywords" content="%s"/>\n' % ', '.join(keywords))
+	f.write('<meta name="robots" content="all"/>\n')
+	f.write('<title property="s:name dc:title">%s</title>\n' % title)
+	f.write('<link rel="stylesheet" type="text/css" href="%s"/>\n' % stylesheet)
+	f.write('</head>\n')
+	f.write('<body>\n')
+	f.write('<header role="banner">\n')
+	f.write('<div style="font-size: 1.20em;">Cainteoir</div>\n')
+	f.write('<div style="font-size: 0.86em;">Technologies</div>\n')
+	f.write('</header>\n')
+	f.write('<nav role="navigation" class="breadcrumbs">\n')
+	f.write('  <a rel="s:breadcrumbs" href="#breadcrumb0"></a>\n')
+	f.write('  <ol>\n')
+	for i, data in enumerate(breadcrumbs):
+		href, item_title = data
+		f.write('    <li id="#breadcrumb%d" about="#breadcrumb%d" typeof="v:Breadcrumb">\n' % (i, i))
+		if i == (len(breadcrumbs) - 1):
+			f.write('      <span property="v:title">%s</span>\n' % item_title)
+		else:
+			f.write('      <a rel="v:url" property="v:title" href="%s">%s</a>\n' % (link(href), item_title))
+			f.write('      <a rel="v:child" href="#breadcrumb%d"></a>\n' % (i + 1))
+		f.write('    </li>\n')
+	f.write('  </ol>\n')
+	f.write('</nav>\n')
+	f.write('<div role="main">\n')
+	f.write('<h1>%s</h1>\n' % title)
+
+def writeHtmlFooter(f):
+	f.write('</div>\n')
+	f.write('<footer>\n')
+	f.write('<p style="text-align: center;">\n')
+	f.write('<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/" style="border: 0;"><img alt="CC-BY-SA 3.0" title="Creative Commons Attribution-ShareAlike 3.0 License" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png"/></a>\n')
+	f.write('<a href="http://www.w3.org/html/logo/" style="border: 0;">\n')
+	f.write('<img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-semantics.png" width="80" height="31" alt="HTML5 Powered with CSS3 / Styling, and Semantics" title="HTML5 Powered with CSS3 / Styling, and Semantics"/>\n')
+	f.write('</a>\n')
+	f.write('<img src="http://www.w3.org/Icons/SW/Buttons/sw-rdfa-green.png" alt="RDFa 1.1" title="RDFa 1.1" height="15" width="80" style="padding-top: 8px; padding-bottom: 8px;" />\n')
+	f.write('<span>\n')
+	f.write('<a href="http://jigsaw.w3.org/css-validator/check/referer" style="border: 0;"><img src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS" title="Valid CSS" height="31" width="88" /></a>\n')
+	f.write('</span>\n')
+	f.write('</p>\n')
+	f.write('<p class="copyright" property="dc:rights">Copyright &#169; 2010-%s Reece H. Dunn</p>\n' % end_year)
+	f.write('<p><em>Cainteoir</em> is a registered trademark of Reece Dunn.</p>\n')
+	f.write('<p><em>W3C</em> is a trademark (registered in numerous countries) of the World Wide Web Consortium; marks of W3C are registered and held by its host institutions MIT, ERCIM, and Keio.</p>\n')
+	f.write('<p><em>Android</em> and <em>Google Play</em> are registered trademarks of Google Inc.</p>\n')
+	f.write('<p>All trademarks are property of their respective owners.</p>\n')
+	f.write('<p>This website is generated using the <a href="https://github.com/mojombo/jekyll">Jekyll</a> static site generator with the <a href="https://github.com/rhdunn/website-template">Website Template</a> layouts and plugins.</p>\n')
+	f.write('</footer>\n')
+	f.write('</body>\n')
+	f.write('</html>\n')
+
+
+def writeHtmlDocumentation(item):
+	with open(os.path.join(rootdir, '%s.html' % item.ref), 'w') as f:
+		title = '%s %s Reference' % (item.scopedname(), item.kind.capitalize())
+		description = ''
+		keywords = []
+		nav = [x for x in breadcrumbs]
+		for x in item.ancestors():
+			try:
+				nav.append((x.ref, x.name))
+			except:
+				nav.append(('/', x.name))
+				print('%s | %s' % (item.signature(), x.signature()))
+
+		printer = HtmlPrinter(f)
+
+		writeHtmlHeader(f, title, description, keywords, nav)
+		printer.visit(item.brief, classname='about')
+		item_docs = [
+			('Namespaces', ['namespace']),
+			('Classes', ['class', 'struct']),
+			('Typedefs', ['typedef']),
+			('Enumerations', ['enum']),
+			('Constructors and Destructors', ['constructor', 'destructor']),
+			('Functions', ['function']),
+			('Attributes', ['variable']),
+		]
+		for title, kinds in item_docs:
+			items = [ x for x in item if x.kind in kinds and x.protection == 'public' ]
+			if len(items) > 0:
+				f.write('<h2 class="memberdoc">%s</h2>\n' % title)
+				for child in items:
+					f.write('<pre class="memberdoc">')
+					printer.visit(child)
+					f.write('</pre>')
+					printer.visit(child.brief, classname='memberdoc')
+		writeHtmlFooter(f)
+
+
+##### Main Entry Point
+
+
+compounds = []
+for filename in sys.argv[1:]:
+	doc = XmlDocument(filename)
+	compound = parseDoxygenXml(doc)
+	if compound:
+		compounds.append(compound.item)
+
+for ref, item in _items.items():
+	if not item.item:
+		print('warning: reference %s does not have a referenced item' % ref)
+
+if not os.path.exists(rootdir):
+	os.mkdir(rootdir)
+for c in compounds:
+	writeHtmlDocumentation(c)

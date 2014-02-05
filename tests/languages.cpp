@@ -40,24 +40,31 @@ void compare(const lang::tag &a, const lang::tag &b)
 	assert(a.script  == b.script);
 	assert(a.region  == b.region);
 	assert(a.variant == b.variant);
+	assert(a.private_use == b.private_use);
 }
 
 #define lang_match(a, b)    assert(      lang::make_lang(a) == lang::make_lang(b))
 #define lang_mismatch(a, b) assert_false(lang::make_lang(a) == lang::make_lang(b))
 
-void localized(const char *locale,
-               const char *tag,
+#define lang_less(a, b)     assert(      lang::make_lang(a) < lang::make_lang(b))
+#define lang_not_less(a, b) assert_false(lang::make_lang(a) < lang::make_lang(b))
+
+bool use_locale(const char *locale)
+{
+	if (!setlocale(LC_MESSAGES, locale) && !setenv("LANGUAGE", locale, 1) && !setenv("LANG", locale, 1))
+	{
+		printf("unable to set locale to '%s' ... skipping localization tests\n", locale);
+		return false;
+	}
+	return true;
+}
+
+void localized(const char *tag,
                const std::string &language,
                const std::string &script,
                const std::string &region,
                const std::string &display)
 {
-	if (!setlocale(LC_MESSAGES, locale) || !setenv("LANGUAGE", locale, 1) || !setenv("LANG", locale, 1))
-	{
-		printf("unable to set locale to '%s' ... skipping '%s' localization test\n", locale, tag);
-		return;
-	}
-
 	static cainteoir::languages lookup;
 
 	lang::tag l = lang::make_lang(tag);
@@ -118,6 +125,44 @@ TEST_CASE("language-region-script-variant codes")
 	compare(lang::make_lang("de-Latn-CH-scouse"), { "de", "", "Latn", "CH", "scouse" });
 }
 
+TEST_CASE("language-x-privateuse codes")
+{
+	compare(lang::make_lang("en-x-test"), { "en", "", "", "", "", "test" });
+	compare(lang::make_lang("EN-X-TEST"), { "en", "", "", "", "", "test" });
+}
+
+TEST_CASE("language-region-x-privateuse codes")
+{
+	compare(lang::make_lang("en-US-x-test"), { "en", "", "", "US", "", "test" });
+	compare(lang::make_lang("EN-us-X-TEST"), { "en", "", "", "US", "", "test" });
+}
+
+TEST_CASE("language-script-x-privateuse codes")
+{
+	compare(lang::make_lang("zh-Hans-x-test"),     { "zh", "", "Hans", "", "", "test" });
+	compare(lang::make_lang("zh-HANS-X-TEST"),     { "zh", "", "Hans", "", "", "test" });
+	compare(lang::make_lang("ZH-hans-x-testcase"), { "zh", "", "Hans", "", "", "testcase" });
+
+	compare(lang::make_lang("jp-Kana-x-test"),           { "jp", "", "Kana", "", "",     "test" });
+	compare(lang::make_lang("jp-Kana-Hans-x-test"),      { "jp", "", "Kana", "", "Hans", "test" });
+	compare(lang::make_lang("jp-Hira-Kana-Hans-x-test"), { "jp", "", "Hira", "", "Kana", "test" });
+}
+
+TEST_CASE("language-region-script-x-privateuse codes")
+{
+	compare(lang::make_lang("zh-CN-Hant-x-test"),     { "zh", "", "Hant", "CN", "", "test" });
+	compare(lang::make_lang("zh-cn-HANT-x-test"),     { "zh", "", "Hant", "CN", "", "test" });
+	compare(lang::make_lang("ZH-CN-hant-x-testcase"), { "zh", "", "Hant", "CN", "", "testcase" });
+
+	compare(lang::make_lang("es-419-Latn-x-test"), { "es", "", "Latn", "419", "", "test" });
+}
+
+TEST_CASE("language-region-script-variant codes")
+{
+	compare(lang::make_lang("de-Latn-CH-1901-x-test"),   { "de", "", "Latn", "CH", "1901",   "test" });
+	compare(lang::make_lang("de-Latn-CH-scouse-x-test"), { "de", "", "Latn", "CH", "scouse", "test" });
+}
+
 TEST_CASE("grandfathered language codes")
 {
 	compare(lang::make_lang("art-lojban"),  { "jbo" });
@@ -157,7 +202,7 @@ TEST_CASE("extlang codes in the IANA language subtag repository")
 	                                   rql::object    == rdf::iana("ExtLang")))
 	{
 		rql::results ext = rql::select(data, rql::subject == rql::subject(statement));
-		auto extlang  = rql::select_value<std::string>(ext, rql::predicate == rdf::rdf("value"));
+		auto extlang  = rql::select_value<std::string>(ext, rql::predicate == rdf::iana("code"));
 		auto prefix   = rql::select_value<std::string>(ext, rql::predicate == rdf::iana("prefix"));
 		auto language = prefix + "-" + extlang;
 
@@ -165,18 +210,6 @@ TEST_CASE("extlang codes in the IANA language subtag repository")
 		compare(lang::make_lang(extlang),  { prefix, extlang });
 		compare(lang::make_lang(language), { prefix, extlang });
 	}
-}
-
-TEST_CASE("eSpeak voice language codes")
-{
-	compare(lang::make_lang("es-la"),       { "es", "", "", "419" });
-	compare(lang::make_lang("en-sc"),       { "en", "", "", "", "scotland" });
-	compare(lang::make_lang("en-uk"),       { "en", "", "", "GB" });
-	compare(lang::make_lang("en-uk-north"), { "en", "", "", "GB" });
-	compare(lang::make_lang("en-uk-rp"),    { "en", "", "", "GB" });
-	compare(lang::make_lang("en-uk-wmids"), { "en", "", "", "GB" });
-	compare(lang::make_lang("en-wi"),       { "en", "", "", "029" });
-	compare(lang::make_lang("hy-west"),     { "hy" });
 }
 
 TEST_CASE("posix locale codes from /usr/share/locale")
@@ -192,6 +225,17 @@ TEST_CASE("posix locale codes from /usr/share/locale")
 	compare(lang::make_lang("uz@cyrillic"), { "uz", "", "Cyrl" });
 }
 
+TEST_CASE("Android resource language-region codes")
+{
+	// regular:
+	compare(lang::make_lang("en-rGB"), { "en", "", "", "GB" });
+	compare(lang::make_lang("zh-rCN"), { "zh", "", "", "CN" });
+	compare(lang::make_lang("zh-rTW"), { "zh", "", "", "TW" });
+
+	// irregular:
+	compare(lang::make_lang("es-rUS"), { "es", "", "", "419" });
+}
+
 TEST_CASE("language tag equality")
 {
 	lang_match(   "en", "en");
@@ -199,10 +243,18 @@ TEST_CASE("language tag equality")
 	lang_mismatch("af", "nl");
 }
 
+TEST_CASE("language tag ordering")
+{
+	lang_not_less("en", "en");
+	lang_not_less("de", "de");
+
+	lang_less(    "af", "nl");
+	lang_not_less("nl", "af");
+}
+
 TEST_CASE("language-region tag equality")
 {
 	lang_match(   "en-GB", "en-GB");
-	lang_match(   "en-GB", "en-UK");
 	lang_mismatch("en-GB", "en-US");
 
 	lang_match("en", "en-US");
@@ -210,6 +262,19 @@ TEST_CASE("language-region tag equality")
 
 	lang_mismatch("es", "en-GB");
 	lang_mismatch("en-GB", "es");
+}
+
+TEST_CASE("language-region tag ordering")
+{
+	lang_not_less("en-GB", "en-GB");
+	lang_less(    "en-GB", "en-US");
+	lang_not_less("en-US", "en-GB");
+
+	lang_less(    "en", "en-US");
+	lang_not_less("en-US", "en");
+
+	lang_not_less("es", "en-GB");
+	lang_less(    "en-GB", "es");
 }
 
 TEST_CASE("language-script tag equality")
@@ -224,6 +289,19 @@ TEST_CASE("language-script tag equality")
 	lang_mismatch("el-Grek", "fr");
 }
 
+TEST_CASE("language-script tag ordering")
+{
+	lang_not_less("el-Grek", "el-Grek");
+	lang_less(    "el-Grek", "el-Latn");
+	lang_not_less("el-Latn", "el-Grek");
+
+	lang_less(    "el", "el-Grek");
+	lang_not_less("el-Grek", "el");
+
+	lang_not_less("fr", "el-Grek");
+	lang_less(    "el-Grek", "fr");
+}
+
 TEST_CASE("language-script-region tag equality")
 {
 	lang_match(   "zh-Hans-HK", "zh-Hans-HK");
@@ -235,6 +313,21 @@ TEST_CASE("language-script-region tag equality")
 
 	lang_match("zh-Hans-HK", "zh");
 	lang_match("zh", "zh-Hans-HK");
+}
+
+TEST_CASE("language-script-region tag ordering")
+{
+	lang_not_less("zh-Hans-HK", "zh-Hans-HK");
+	lang_less(    "zh-Hans-HK", "zh-Hant-HK");
+	lang_not_less("zh-Hant-HK", "zh-Hans-HK");
+	lang_less(    "zh-Hans-CN", "zh-Hans-HK");
+	lang_not_less("zh-Hans-HK", "zh-Hans-CN");
+
+	lang_not_less("zh-Hans-HK", "zh-Hans");
+	lang_less(    "zh-Hans", "zh-Hans-HK");
+
+	lang_not_less("zh-Hans-HK", "zh");
+	lang_less(    "zh", "zh-Hans-HK");
 }
 
 TEST_CASE("language-script-region-variant tag equality")
@@ -255,6 +348,32 @@ TEST_CASE("language-script-region-variant tag equality")
 	lang_match("de", "de-Latn-CH-1901");
 }
 
+TEST_CASE("language-script-region-variant tag ordering")
+{
+	lang_not_less("de-Latn-CH-1901", "de-Latn-CH-1901");
+
+	lang_less(    "de-Latn-CH-1901", "de-Latn-CH-scouse");
+	lang_not_less("de-Latn-CH-scouse", "de-Latn-CH-1901");
+
+	lang_not_less("de-Latn-DE-1901",  "de-Latn-CH-1901");
+	lang_less(    "de-Latn-CH-1901",  "de-Latn-DE-1901");
+
+	lang_less(    "de-Latf-CH-1901",  "de-Latn-CH-1901");
+	lang_not_less("de-Latn-CH-1901",  "de-Latf-CH-1901");
+
+	lang_not_less("gmh-Latn-CH-1901", "de-Latn-CH-1901");
+	lang_less(    "de-Latn-CH-1901", "gmh-Latn-CH-1901");
+
+	lang_not_less("de-Latn-CH-1901", "de-Latn-CH");
+	lang_less(    "de-Latn-CH", "de-Latn-CH-1901");
+
+	lang_not_less("de-Latn-CH-1901", "de-Latn");
+	lang_less(    "de-Latn", "de-Latn-CH-1901");
+
+	lang_not_less("de-Latn-CH-1901", "de");
+	lang_less(    "de", "de-Latn-CH-1901");
+}
+
 TEST_CASE("language-*-region filter")
 {
 	compare(lang::make_lang("en-*-US"), { "en", "", "*", "US" });
@@ -263,48 +382,63 @@ TEST_CASE("language-*-region filter")
 
 	lang_match("en-*-US", "en-Latn-US");
 	lang_match("en-Latn-US", "en-*-US");
+
+	lang_less(    "en-*-US", "en-Latn-US");
+	lang_not_less("en-Latn-US", "en-*-US");
 }
 
-TEST_CASE("language localization")
+TEST_CASE("localization [locale=C]")
 {
-	localized("C",          "en", "English",  "", "", "English");
-	localized("en_GB.utf8", "en", "English",  "", "", "English");
-	localized("en_US.utf8", "en", "English",  "", "", "English");
-	localized("de_DE.utf8", "en", "Englisch", "", "", "Englisch");
+	if (!use_locale("C")) return;
 
-	localized("en_US.utf8", "pt", "Portuguese",    "", "", "Portuguese");
-	localized("de_DE.utf8", "pt", "Portugiesisch", "", "", "Portugiesisch");
+	localized("en",       "English",             "",      "",          "English");
+	localized("pt",       "Portuguese",          "",      "",          "Portuguese");
+	localized("zh-cmn",   "Mandarin Chinese",    "",      "",          "Mandarin Chinese");
+	localized("sga-Ogam", "Irish, Old (to 900)", "Ogham", "",          "Irish, Old (to 900)");
+	localized("ja-Latn",  "Japanese",            "Latin", "",          "Japanese");
+	localized("pt-PT",    "Portuguese",          "",      "Portugal",  "Portuguese (Portugal)");
+	localized("pt-BR",    "Portuguese",          "",      "Brazil",    "Portuguese (Brazil)");
+	localized("en-029",   "English",             "",      "Caribbean", "English (Caribbean)");
 }
 
-TEST_CASE("language-extlang localization")
+TEST_CASE("localization [locale=en_GB.utf8]")
 {
-	localized("C",          "zh-cmn", "Mandarin Chinese", "", "", "Mandarin Chinese");
-	localized("en_GB.utf8", "zh-cmn", "Mandarin Chinese", "", "", "Mandarin Chinese");
-	localized("en_US.utf8", "zh-cmn", "Mandarin Chinese", "", "", "Mandarin Chinese");
-	localized("de_DE.utf8", "zh-cmn", "Mandarin Chinese", "", "", "Mandarin Chinese");
+	if (!use_locale("en_GB.utf8")) return;
+
+	localized("en",       "English",             "",      "",          "English");
+	localized("pt",       "Portuguese",          "",      "",          "Portuguese");
+	localized("zh-cmn",   "Mandarin Chinese",    "",      "",          "Mandarin Chinese");
+	localized("sga-Ogam", "Irish, Old (to 900)", "Ogham", "",          "Irish, Old (to 900)");
+	localized("ja-Latn",  "Japanese",            "Latin", "",          "Japanese");
+	localized("pt-PT",    "Portuguese",          "",      "Portugal",  "Portuguese (Portugal)");
+	localized("pt-BR",    "Portuguese",          "",      "Brazil",    "Portuguese (Brazil)");
+	localized("en-029",   "English",             "",      "Caribbean", "English (Caribbean)");
 }
 
-TEST_CASE("language-script localization")
+TEST_CASE("localization [locale=en_US.utf8]")
 {
-	localized("C",          "sga-Ogam", "Irish, Old (to 900)", "Ogham", "", "Irish, Old (to 900)");
-	localized("en_GB.utf8", "sga-Ogam", "Irish, Old (to 900)", "Ogham", "", "Irish, Old (to 900)");
-	localized("en_US.utf8", "sga-Ogam", "Irish, Old (to 900)", "Ogham", "", "Irish, Old (to 900)");
-	localized("de_DE.utf8", "sga-Ogam", "Altirisch (bis 900)", "Ogham", "", "Altirisch (bis 900)");
+	if (!use_locale("en_US.utf8")) return;
 
-	localized("en_US.utf8", "ja-Latn", "Japanese",  "Latin",      "", "Japanese");
-	localized("de_DE.utf8", "ja-Latn", "Japanisch", "Lateinisch", "", "Japanisch");
+	localized("en",       "English",             "",      "",          "English");
+	localized("pt",       "Portuguese",          "",      "",          "Portuguese");
+	localized("zh-cmn",   "Mandarin Chinese",    "",      "",          "Mandarin Chinese");
+	localized("sga-Ogam", "Irish, Old (to 900)", "Ogham", "",          "Irish, Old (to 900)");
+	localized("ja-Latn",  "Japanese",            "Latin", "",          "Japanese");
+	localized("pt-PT",    "Portuguese",          "",      "Portugal",  "Portuguese (Portugal)");
+	localized("pt-BR",    "Portuguese",          "",      "Brazil",    "Portuguese (Brazil)");
+	localized("en-029",   "English",             "",      "Caribbean", "English (Caribbean)");
 }
 
-TEST_CASE("language-region localization")
+TEST_CASE("localization [locale=de_DE.utf8]")
 {
-	localized("C",          "pt-PT", "Portuguese",    "", "Portugal", "Portuguese (Portugal)");
-	localized("en_GB.utf8", "pt-PT", "Portuguese",    "", "Portugal", "Portuguese (Portugal)");
-	localized("en_US.utf8", "pt-PT", "Portuguese",    "", "Portugal", "Portuguese (Portugal)");
-	localized("de_DE.utf8", "pt-PT", "Portugiesisch", "", "Portugal", "Portugiesisch (Portugal)");
+	if (!use_locale("de_DE.utf8")) return;
 
-	localized("en_US.utf8", "pt-BR", "Portuguese",    "", "Brazil",    "Portuguese (Brazil)");
-	localized("de_DE.utf8", "pt-BR", "Portugiesisch", "", "Brasilien", "Portugiesisch (Brasilien)");
-
-	localized("en_US.utf8", "en-029", "English",  "", "Caribbean", "English (Caribbean)");
-	localized("de_DE.utf8", "en-029", "Englisch", "", "Caribbean", "Englisch (Caribbean)");
+	localized("en",       "Englisch",            "",           "",          "Englisch");
+	localized("pt",       "Portugiesisch",       "",           "",          "Portugiesisch");
+	localized("zh-cmn",   "Mandarin Chinese",    "",           "",          "Mandarin Chinese");
+	localized("sga-Ogam", "Altirisch (bis 900)", "Ogham",      "",          "Altirisch (bis 900)");
+	localized("ja-Latn",  "Japanisch",           "Lateinisch", "",          "Japanisch");
+	localized("pt-PT",    "Portugiesisch",       "",           "Portugal",  "Portugiesisch (Portugal)");
+	localized("pt-BR",    "Portugiesisch",       "",           "Brasilien", "Portugiesisch (Brasilien)");
+	localized("en-029",   "Englisch",            "",           "Caribbean", "Englisch (Caribbean)");
 }

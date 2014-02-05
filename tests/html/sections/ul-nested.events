@@ -1,0 +1,29 @@
+anchor []
+begin-context block +list=disc
+begin-context list-item +sans-serif
+text(4): """• """
+text(5): """Lorem"""
+end-context
+begin-context list-item +sans-serif
+text(4): """• """
+text(6): """ipsum """
+begin-context block +list=disc
+begin-context list-item +sans-serif
+text(4): """• """
+text(3): """one"""
+end-context
+begin-context list-item +sans-serif
+text(4): """• """
+text(3): """two"""
+end-context
+begin-context list-item +sans-serif
+text(4): """• """
+text(5): """three"""
+end-context
+end-context
+end-context
+begin-context list-item +sans-serif
+text(4): """• """
+text(5): """dolor"""
+end-context
+end-context

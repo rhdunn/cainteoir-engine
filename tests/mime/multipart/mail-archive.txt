@@ -1,0 +1,9 @@
+From jane@example.com Wed Apr 3 09:23:43
+Subject: Test
+
+This is a test file.
+
+From jason@example.com Wed Apr 3 09:25:32
+Subject: Test 2
+
+This is the same test file.

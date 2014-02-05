@@ -31,9 +31,4 @@
 		<dc:publisher xml:lang="en-GB">ThePub (UK)</dc:publisher>
 		<dc:publisher xml:lang="zh-TW">ThePub (Taiwan)</dc:publisher>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

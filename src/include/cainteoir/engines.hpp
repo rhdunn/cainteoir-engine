@@ -1,6 +1,6 @@
 /* Text-to-Speech Engine API.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -23,6 +23,7 @@
 
 #include "audio.hpp"
 #include "document.hpp"
+#include "phoneme.hpp"
 
 namespace cainteoir { namespace tts
 {
@@ -45,6 +46,8 @@ namespace cainteoir { namespace tts
 		virtual size_t position() const = 0;
 
 		virtual std::string error_message() const = 0;
+
+		virtual const ref_entry &context() const = 0;
 	};
 
 	struct parameter
@@ -76,6 +79,13 @@ namespace cainteoir { namespace tts
 		};
 	};
 
+	enum class media_overlays_mode
+	{
+		tts_only,
+		media_overlays_only,
+		tts_and_media_overlays,
+	};
+
 	struct engines
 	{
 		engines(rdf::graph &metadata);
@@ -86,15 +96,13 @@ namespace cainteoir { namespace tts
 		const rdf::uri & voice() const { return *selectedVoice; }
 
 		std::shared_ptr<speech>
-		speak(const std::shared_ptr<document> &doc,
-		      std::shared_ptr<audio> out,
-		      size_t offset = 0);
+		speak(std::shared_ptr<audio> out,
+		      const std::vector<cainteoir::ref_entry> &aListing,
+		      const cainteoir::document::range_type &aRange,
+		      media_overlays_mode aMediaOverlays = media_overlays_mode::tts_only);
 
-		std::shared_ptr<speech>
-		speak(const std::shared_ptr<document> &doc,
-		      std::shared_ptr<audio> out,
-		      cainteoir::document::const_iterator from,
-		      cainteoir::document::const_iterator to);
+		std::shared_ptr<phoneme_reader>
+		pronunciation();
 
 		std::shared_ptr<cainteoir::tts::parameter>
 		parameter(cainteoir::tts::parameter::type aType);
@@ -103,6 +111,10 @@ namespace cainteoir { namespace tts
 		engine *active;
 		const rdf::uri *selectedVoice;
 	};
+
+	const rdf::uri *get_voice_uri(const rdf::graph &aMetadata,
+	                              const rdf::uri &predicate,
+	                              const std::string &value);
 }}
 
 #endif

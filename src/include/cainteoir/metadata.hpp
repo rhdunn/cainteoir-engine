@@ -1,6 +1,6 @@
 /* MetaData API.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -82,32 +82,34 @@ namespace cainteoir { namespace rdf
 	}
 
 	extern const ns bnode;
+	extern const ns dc;
+	extern const ns dcam;
+	extern const ns dcterms;
+	extern const ns dtb;
+	extern const ns epub;
+	extern const ns epv;
+	extern const ns foaf;
+	extern const ns iana;
+	extern const ns marc;
+	extern const ns media;
+	extern const ns ncx;
+	extern const ns ocf;
+	extern const ns onix;
+	extern const ns opf;
+	extern const ns owl;
+	extern const ns pkg;
 	extern const ns rdf;
 	extern const ns rdfa;
 	extern const ns rdfs;
-	extern const ns xsd;
-	extern const ns xml;
-	extern const ns owl;
-	extern const ns dc;
-	extern const ns dcterms;
-	extern const ns dcam;
-	extern const ns dtb;
-	extern const ns ncx;
-	extern const ns epub;
-	extern const ns ocf;
-	extern const ns opf;
-	extern const ns pkg;
-	extern const ns media;
-	extern const ns onix;
-	extern const ns marc;
-	extern const ns ssml;
-	extern const ns smil;
-	extern const ns xhtml;
+	extern const ns ref;
 	extern const ns skos;
-	extern const ns foaf;
-	extern const ns tts;
-	extern const ns iana;
+	extern const ns smil;
+	extern const ns ssml;
 	extern const ns subtag;
+	extern const ns tts;
+	extern const ns xhtml;
+	extern const ns xml;
+	extern const ns xsd;
 
 	class literal : public resource
 	{
@@ -176,10 +178,9 @@ namespace cainteoir { namespace rdf
 	template<typename T>
 	inline T literal::as() const
 	{
-		std::istringstream ss(value);
-		T value;
-		ss >> value;
-		return value;
+		T ret;
+		std::istringstream(value) >> ret;
+		return ret;
 	}
 
 	/// @private
@@ -255,24 +256,23 @@ namespace cainteoir { namespace rdf
 		}
 #endif
 
-		/** @name Selectors
-		  */
-		//@{
-
 		extern const detail::subject_t subject;
 
 		extern const detail::predicate_t predicate;
 
 		extern const detail::object_t object;
 
-		inline const std::string &value(const std::shared_ptr<const rdf::triple> &statement)
+		inline const rdf::literal &literal(const std::shared_ptr<const rdf::triple> &statement)
 		{
-			static const std::string nil;
-			const rdf::literal *literal = dynamic_cast<const rdf::literal *>(statement->object.get());
-			return literal ? literal->value : nil;
+			static const rdf::literal nil;
+			const rdf::literal *ret = dynamic_cast<const rdf::literal *>(statement->object.get());
+			return ret ? *ret : nil;
 		}
 
-		//@}
+		inline const std::string &value(const std::shared_ptr<const rdf::triple> &statement)
+		{
+			return literal(statement).value;
+		}
 	}
 
 	namespace query
@@ -300,6 +300,8 @@ namespace cainteoir { namespace rdf
 		std::map<std::string, query::results> subjects;
 	};
 
+	const uri href(const std::string &aHref);
+
 	struct graph : public cainteoir::xml::namespaces
 	{
 		typedef triplestore::size_type size_type;
@@ -307,6 +309,7 @@ namespace cainteoir { namespace rdf
 		typedef triplestore::const_reference const_reference;
 
 		graph();
+		graph(graph &aGraph);
 
 		size_type size()  const { return triples.size(); }
 		bool      empty() const { return triples.empty(); }
@@ -322,12 +325,13 @@ namespace cainteoir { namespace rdf
 			return triples.subject(s);
 		}
 
-		/** @name Namespaces */
-		//@{
+		// Namespaces
 
 		bool contains(const ns &uri) const;
 
 		rdf::graph &set_base(const std::string &aBase);
+
+		const std::string &get_base() const { return mContext->baseUri; }
 
 		rdf::graph &add_namespace(const std::string &aPrefix, const std::string &aHref);
 
@@ -343,38 +347,40 @@ namespace cainteoir { namespace rdf
 
 		rdf::graph &add_prefix(const std::string &aPrefix);
 
-		//@}
-		/** @name URIs */
-		//@{
-
-		const uri href(const std::string &aHref);
+		// URIs
 
 		const rdf::uri genid();
 
 		std::shared_ptr<const uri>
 		curie(const std::string &aCurie);
 
-		//@}
-		/** @name Statements */
-		//@{
+		void curie_list(const std::string &aCurieList,
+		                const std::function<void (const rdf::uri &aUri)> &onuri);
+
+		// Statements
 
 		bool statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject);
 
 		bool statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::literal &aObject);
-
-		//@}
 	private:
-		std::string mBaseUri;
+		struct context
+		{
+			std::string baseUri;
+			int nextId;
+
+			context() : nextId(1) {}
+		};
+		std::shared_ptr<context> mContext;
 		std::set<std::string> namespaces;
-		int nextid;
 		triplestore triples;
 	};
 
 	namespace query
 	{
-		/** @name Selectors
-		  */
-		//@{
+		void rdf_list_items(const rdf::graph &aMetadata,
+		                    const rdf::uri &aSubject,
+		                    const rdf::uri &aPredicate,
+		                    const std::function<void (const std::shared_ptr<const triple> &aStatement)> &onlistitem);
 
 #ifndef DOXYGEN
 		namespace detail
@@ -436,8 +442,6 @@ namespace cainteoir { namespace rdf
 			return detail::both_t<Selector1, Selector2>(a, b);
 		}
 
-		//@}
-
 		template<typename TripleStore, typename Selector>
 		inline results select(const TripleStore &metadata, const Selector &selector)
 		{
@@ -469,31 +473,6 @@ namespace cainteoir { namespace rdf
 			return false;
 		}
 
-#ifndef DOXYGEN
-		namespace detail
-		{
-			template<typename T>
-			struct value_cast
-			{
-				static T cast(const std::string &value)
-				{
-					T ret;
-					std::istringstream(value) >> ret;
-					return ret;
-				}
-			};
-
-			template<>
-			struct value_cast<std::string>
-			{
-				static const std::string & cast(const std::string &value)
-				{
-					return value;
-				}
-			};
-		}
-#endif
-
 		/** @brief Select a value matching the selector.
 		  *
 		  * @param metadata The subgraph to select statements from.
@@ -507,7 +486,7 @@ namespace cainteoir { namespace rdf
 			for (auto &query : metadata)
 			{
 				if (selector(query))
-					return detail::value_cast<T>::cast(value(query));
+					return literal(query).template as<T>();
 			}
 			return T();
 		}

@@ -1,0 +1,7 @@
+anchor []
+begin-context paragraph +sans-serif
+text(10): """This is a """
+begin-context span +emphasized
+text(4): """test"""
+end-context
+end-context

@@ -1,0 +1,10 @@
+@counter-style disc {
+	system: cyclic;
+	negative: '-' '';
+	prefix: '';
+	suffix: '';
+	range: auto;
+	symbols: '•' ;
+	additive-symbols: ;
+	fallback: decimal;
+}

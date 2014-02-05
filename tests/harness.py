@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2010-2011 Reece H. Dunn
+# Copyright (C) 2010-2013 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -34,6 +34,176 @@ def replace_strings(string, replacements):
 def write(s):
 	sys.stdout.write(s)
 
+def map_line(line, replacements):
+	for src, dst in replacements:
+		line = line.replace(src, dst)
+	return line
+
+def match_file_times(srcfile, dstfile):
+	stat = os.stat(srcfile)
+	os.utime(dstfile, (stat.st_atime, stat.st_mtime))
+
+def create_archive(filename):
+	zf = zipfile.ZipFile(filename, mode='w', compression=zipfile.ZIP_STORED)
+	with open('%s.archive' % filename) as f:
+		for line in f.read().split('\n'):
+			if line == '':
+				continue
+			dstfile, kind, srcfile = line.split(',')
+			if kind == 'text':
+				zfi = zipfile.ZipInfo(dstfile)
+				if srcfile == '':
+					zf.writestr(zfi, '')
+				else:
+					path = os.path.join(sys.path[0], srcfile)
+					with open(path) as src:
+						zf.writestr(zfi, src.read())
+			elif kind == 'directory':
+				zfi = zipfile.ZipInfo(dstfile)
+				zfi.external_attr = 16
+				zf.writestr(zfi, '')
+			elif kind == 'deflate':
+				path = os.path.join(sys.path[0], srcfile)
+				zf.write(path, dstfile, compress_type=zipfile.ZIP_DEFLATED)
+			else:
+				raise Exception('Unsupported compression type %s for %s' % (kind, filename))
+	zf.close()
+	match_file_times('%s.archive' % filename, filename)
+
+def gzip_compress(filename):
+	srcfile = '.'.join(filename.split('.')[:-1])
+	os.system('gzip -c %s > %s' % (srcfile, filename))
+	match_file_times(srcfile, filename)
+
+def bzip2_compress(filename):
+	srcfile = '.'.join(filename.split('.')[:-1])
+	os.system('bzip2 -c %s > %s' % (srcfile, filename))
+	match_file_times(srcfile, filename)
+
+def lzma_compress(filename):
+	srcfile = '.'.join(filename.split('.')[:-1])
+	os.system('lzma -c %s > %s' % (srcfile, filename))
+	match_file_times(srcfile, filename)
+
+special_files = {
+	('.bz2',  bzip2_compress),
+	('.epub', create_archive),
+	('.gz',   gzip_compress),
+	('.lzma', lzma_compress),
+	('.zip',  create_archive),
+}
+
+def ensure_file_exists(filename):
+	if not filename or filename == '/tmp/test.zip':
+		return
+	for ext, creator in special_files:
+		if filename.endswith(ext):
+			creator(filename)
+			return
+
+class Command:
+	def __init__(self, command, collator='tee'):
+		self.command = 'XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=%s %s' % (
+			os.path.join(sys.path[0], '../data'),
+			os.path.join(sys.path[0], '../data'),
+			os.path.join(sys.path[0], command))
+		self.collator = collator
+
+	def replacements(self, filename):
+		return []
+
+	def run(self, args, filename, data):
+		tmpfile = '/tmp/testrun'
+		if filename:
+			os.system('%s %s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), filename, self.collator, tmpfile))
+		else:
+			os.system('%s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), self.collator, tmpfile))
+		replaced = self.replacements(filename)
+		with open(tmpfile, 'r') as f:
+			output = [ repr(map_line(x, replaced)) for x in f.read().split('\n') if not x == '' ]
+		return output
+
+class MetadataCommand(Command):
+	def __init__(self, test_type, all_metadata=False):
+		if all_metadata:
+			Command.__init__(self, '../src/apps/metadata --%s --all' % test_type)
+		else:
+			Command.__init__(self, '../src/apps/metadata --%s' % test_type)
+
+	def replacements(self, filename):
+		# NOTE: The %EMPTY% marker is to differentiate actual empty URIs from URIs
+		# containing just the filename.
+		return [
+			('<>', '<%EMPTY%>'),
+			('<#', '<%EMPTY%#'),
+			('<%s' % filename, '<')
+		]
+
+class EventsCommand(Command):
+	def __init__(self):
+		Command.__init__(self, 'events')
+
+	def replacements(self, filename):
+		# NOTE: The %EMPTY% marker is to differentiate actual empty URIs from URIs
+		# containing just the filename.
+		ret = [
+			('[]', '[%EMPTY%]'),
+			('[#', '[%EMPTY%#'),
+			('[%s' % filename, '[')
+		]
+		if filename:
+			ret.append((os.path.dirname(filename), '%CWD%'))
+		return ret
+
+class DictionaryCommand(Command):
+	def __init__(self):
+		Command.__init__(self, '../src/apps/dictionary', collator='sort')
+
+	def run(self, args, filename, data):
+		if filename:
+			return Command.run(self, args, '--dictionary %s' % filename, data)
+		return Command.run(self, args, filename, data)
+
+class ParseTextCommand(Command):
+	def __init__(self, test_type):
+		Command.__init__(self, 'parsetext --%s' % test_type)
+
+	def run(self, args, filename, data):
+		params = [x for x in args]
+		if 'locale' in data:
+			params.extend(['--locale', data['locale']])
+		if 'scale' in data:
+			params.append('--%s-scale' % data['scale'])
+		return Command.run(self, params, filename, data)
+
+class PhonemeSetCommand(Command):
+	def __init__(self):
+		Command.__init__(self, '../src/apps/phoneme-converter')
+
+	def run(self, args, filename, data):
+		params = [x for x in args]
+		params.extend(['--separate', '--no-pauses', data['from'], data['to']])
+		return Command.run(self, params, filename, data)
+
+def create_command(test_type):
+	if test_type in ['ntriple', 'turtle', 'vorbis']:
+		return MetadataCommand(test_type)
+	if test_type in ['ntriple-all', 'turtle-all']:
+		return MetadataCommand(test_type.replace('-all', ''), all_metadata=True)
+	if test_type == 'dictionary':
+		return DictionaryCommand()
+	if test_type == 'phonemeset':
+		return PhonemeSetCommand()
+	if test_type == 'events':
+		return EventsCommand()
+	if test_type in ['styles', 'xmlreader']:
+		return Command(test_type)
+	if test_type == 'htmlreader':
+		return Command('xmlreader --html')
+	if test_type in ['parsetext', 'contextanalysis', 'wordstream']:
+		return ParseTextCommand(test_type)
+	raise Exception('Unsupported command "%s"' % test_type)
+
 class TestSuite:
 	def __init__(self, name, args):
 		self.passed = 0
@@ -44,25 +214,30 @@ class TestSuite:
 		else:
 			self.run_only = None
 
-	def check_command(self, filename, expect, command, test_expect, replacements):
+	def check_(self, filename, expect, command, args, test_expect, replacements, data, displayas):
+		if displayas:
+			write('... checking %s [%s] ... ' % (displayas, command))
+		else:
+			write('... checking %s [%s] ... ' % (' '.join(args), command))
 		tmpfile = '/tmp/metadata.txt'
 
-		os.system('XDG_DATA_DIRS=%s:/usr/local/share/:/usr/share/ %s "%s" > %s' % (
-			os.path.join(sys.path[0], '../data'),
-			command,
-			filename,
-			tmpfile))
+		ensure_file_exists(filename)
+
+		cmd = create_command(command)
+		got = cmd.run(args, filename, data)
 
 		with open(expect, 'r') as f:
 			expected = [ repr(replace_strings(x.replace('<DATETIME>', date.today().strftime('%Y')), replacements)) for x in f.read().split('\n') if not x == '' ]
 
-		with open(tmpfile, 'r') as f:
-			got = [ repr(x.replace('<%s' % filename, '<').replace('[%s' % filename, '[')) for x in f.read().split('\n') if not x == '' ]
-
 		if test_expect == 'expect-pass':
 			ret = expected == got
+			show_diff = not ret
+		elif test_expect == 'expect-volatile':
+			ret = True # volatile tests may pass or fail depending on the test run
+			show_diff = expected != got
 		else:
 			ret = expected != got
+			show_diff = ret
 
 		if ret:
 			self.passed = self.passed + 1
@@ -71,7 +246,7 @@ class TestSuite:
 			self.failed = self.failed + 1
 			write('failed [%s]\n' % test_expect)
 
-		if not ret or test_expect == 'expect-fail':
+		if show_diff:
 			if diff_program:
 				with open('/tmp/expected', 'w') as f:
 					f.write('\n'.join(expected))
@@ -86,44 +261,40 @@ class TestSuite:
 					write('    | %s\n' % line.replace('\n', ''))
 				write('    %s\n' % ('<'*75))
 
-	def check_metadata(self, filename, expect, formattype, displayas=None, test_expect='expect-pass', replacements={}):
-		write('... checking %s as %s metadata ... ' % ((displayas or filename), formattype))
-		self.check_command(filename=filename, expect=expect, test_expect=test_expect,
-			command='%s --%s' % (os.path.join(sys.path[0], '../src/apps/metadata/metadata'), formattype), replacements=replacements)
-
-	def check_events(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
-		write('... checking %s as text/speech events ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'events'), test_expect=test_expect, replacements=replacements)
-
-	def check_xmlreader(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
-		write('... checking %s as xmlreader tags ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'xmlreader'), test_expect=test_expect, replacements=replacements)
-
-	def check_parsetext(self, filename, expect, displayas=None, test_expect='expect-pass', replacements={}):
-		write('... checking %s as parsetext tags ... ' % (displayas or filename))
-		self.check_command(filename=filename, expect=expect, command=os.path.join(sys.path[0], 'parsetext'), test_expect=test_expect, replacements=replacements)
+	def check(self, filename, expect, command, args, test_expect, replacements, data, displayas):
+		if type(command).__name__ == 'list':
+			for c in command:
+				self.check_(filename, expect, c, args, test_expect, replacements, data, displayas)
+		else:
+			self.check_(filename, expect, command, args, test_expect, replacements, data, displayas)
 
 	def run(self, data):
 		if self.run_only and data['name'] != self.run_only:
 			return
 
 		for group in data['groups']:
+			write('\n')
 			write('testing %s :: %s ...\n' % (data['name'], group['name']))
-			if group['type'] in ['ntriple', 'turtle', 'vorbis']:
-				check = lambda got, exp, expect, displayas, replacements: self.check_metadata(got, exp, group['type'], test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] == 'events':
-				check = lambda got, exp, expect, displayas, replacements: self.check_events(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] == 'xmlreader':
-				check = lambda got, exp, expect, displayas, replacements: self.check_xmlreader(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
-			elif group['type'] == 'parsetext':
-				check = lambda got, exp, expect, displayas, replacements: self.check_parsetext(got, exp, test_expect=expect, displayas=displayas, replacements=replacements)
+
+			group_args = []
+			if 'args' in group:
+				group_args = group['args']
 
 			for test in group['tests']:
 				expect = 'pass'
 				if 'expect' in test.keys():
 					expect = test['expect']
 
-				got = os.path.join(sys.path[0], test['test'])
+				if 'args' in test:
+					args = [x for x in group_args]
+					args.extend([x.replace('${PWD}', sys.path[0]) for x in test['args']])
+				else:
+					args = group_args
+
+				if 'test' in test:
+					got = os.path.join(sys.path[0], test['test'])
+				else:
+					got = None
 				exp = os.path.join(sys.path[0], test['result'])
 
 				replacements = {}
@@ -131,47 +302,23 @@ class TestSuite:
 					for replacement in data['replace']:
 						if replacement in test.keys():
 							replacements[replacement] = test[replacement]
-						else:
+						elif replacement in data.keys():
 							replacements[replacement] = data[replacement]
+						else:
+							replacements[replacement] = '@REPLACEMENT@'
 				if 'replace' in group.keys():
 					for replacement in group['replace']:
 						if replacement in test.keys():
 							replacements[replacement] = test[replacement]
-						else:
+						elif replacement in data.keys():
 							replacements[replacement] = data[replacement]
-
-				if 'archive' in data.keys():
-					archive = '/tmp/test.zip'
-					zf = zipfile.ZipFile(archive, mode='w', compression=zipfile.ZIP_STORED)
-					for location, filename in data['archive']:
-						if location == 'mimetype' or location.endswith('/'):
-							zfi = zipfile.ZipInfo(location)
-							if filename:
-								zf.writestr(zfi, filename)
-							else:
-								zfi.external_attr = 16
-								zf.writestr(zfi, '')
 						else:
-							if filename.startswith('@'):
-								filename = test[ filename.replace('@', '') ]
-							zf.write(os.path.join(sys.path[0], filename), location, compress_type=zipfile.ZIP_DEFLATED)
-					zf.close()
-					check(archive, exp, expect='expect-%s' % expect, displayas=test['test'], replacements=replacements)
-				elif 'compress' in group.keys():
-					if group['compress'] == 'gzip':
-						filename = '/tmp/test.gz'
-						os.system('gzip -c %s > %s' % (got, filename))
-					elif group['compress'] == 'bzip2':
-						filename = '/tmp/test.bz2'
-						os.system('bzip2 -c %s > %s' % (got, filename))
-					elif group['compress'] == 'lzma':
-						filename = '/tmp/test.lzma'
-						os.system('lzma -c %s > %s' % (got, filename))
-					check(filename, exp, expect='expect-%s' % expect, displayas=test['test'], replacements=replacements)
-				else:
-					check(got, exp, expect='expect-%s' % expect, displayas=got, replacements=replacements)
+							replacements[replacement] = '@REPLACEMENT@'
+
+				self.check(got, exp, group['type'], args, 'expect-%s' % expect, replacements, test, got)
 
 	def summary(self):
+		write('\n')
 		write('========== summary of the %s test results ==========\n' % self.name)
 		write('  %s passed\n' % str(self.passed).rjust(4))
 		write('  %s failed\n' % str(self.failed).rjust(4))

@@ -1,0 +1,65 @@
+@counter-style range1 {
+	system: symbolic;
+	negative: '-' '';
+	prefix: '';
+	suffix: '.';
+	range: 1 10;
+	symbols: ;
+	additive-symbols: ;
+	fallback: decimal;
+}
+
+@counter-style range2 {
+	system: symbolic;
+	negative: '-' '';
+	prefix: '';
+	suffix: '.';
+	range: -10 10;
+	symbols: ;
+	additive-symbols: ;
+	fallback: decimal;
+}
+
+@counter-style range3 {
+	system: symbolic;
+	negative: '-' '';
+	prefix: '';
+	suffix: '.';
+	range: infinite 10;
+	symbols: ;
+	additive-symbols: ;
+	fallback: decimal;
+}
+
+@counter-style range4 {
+	system: symbolic;
+	negative: '-' '';
+	prefix: '';
+	suffix: '.';
+	range: 0 infinite;
+	symbols: ;
+	additive-symbols: ;
+	fallback: decimal;
+}
+
+@counter-style range5 {
+	system: symbolic;
+	negative: '-' '';
+	prefix: '';
+	suffix: '.';
+	range: infinite infinite;
+	symbols: ;
+	additive-symbols: ;
+	fallback: decimal;
+}
+
+@counter-style range6 {
+	system: symbolic;
+	negative: '-' '';
+	prefix: '';
+	suffix: '.';
+	range: auto;
+	symbols: ;
+	additive-symbols: ;
+	fallback: decimal;
+}

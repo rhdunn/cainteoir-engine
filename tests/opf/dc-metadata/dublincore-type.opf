@@ -30,9 +30,4 @@
 			<dc:type>http://purl.org/dc/dcmitype/Text</dc:type>
 		</dc-metadata>
 	</metadata>
-	<manifest>
-		<item id="ncx"  href="toc.ncx"  media-type="application/x-dtbncx+xml" />
-	</manifest>
-	<spine toc="ncx">
-	</spine>
 </package>

@@ -1,6 +1,6 @@
 /* Audio API.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -26,15 +26,31 @@
 
 namespace cainteoir
 {
-	struct audio
+	struct audio_info
 	{
-		virtual ~audio() {}
+		virtual ~audio_info() {}
 
+		virtual int channels() const = 0;
+
+		virtual int frequency() const = 0;
+
+		virtual const rdf::uri &format() const = 0;
+	};
+
+	struct audio : public audio_info
+	{
 		virtual void open() = 0;
 
 		virtual void close() = 0;
 
 		virtual uint32_t write(const char *data, uint32_t len) = 0;
+	};
+
+	struct audio_player : public audio_info
+	{
+		virtual bool play(const std::shared_ptr<cainteoir::audio> &out,
+		                  const css::time &start,
+		                  const css::time &end) = 0;
 	};
 
 	struct vorbis_comment
@@ -59,14 +75,35 @@ namespace cainteoir
 		const rdf::uri &aVoice);
 
 	std::shared_ptr<audio>
-	open_audio_device(
-		const char *device,
+	create_audio_file(
+		const char *filename,
 		const char *type,
 		float quality,
 		const rdf::graph &aDocMetadata,
 		const rdf::uri &aDocument,
+		const rdf::uri &aFormat,
+		int aChannels,
+		int aFrequency);
+
+	std::shared_ptr<audio>
+	open_audio_device(
+		const char *device,
+		const rdf::graph &aDocMetadata,
+		const rdf::uri &aDocument,
 		const rdf::graph &aVoiceMetadata,
 		const rdf::uri &aVoice);
+
+	std::shared_ptr<audio>
+	open_audio_device(
+		const char *device,
+		const rdf::graph &aDocMetadata,
+		const rdf::uri &aDocument,
+		const rdf::uri &aFormat,
+		int aChannels,
+		int aFrequency);
+
+	std::shared_ptr<audio_player>
+	create_media_player(const std::shared_ptr<cainteoir::buffer> &data);
 }
 
 #endif

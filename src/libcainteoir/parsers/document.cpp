@@ -1,6 +1,6 @@
 /* Document Parser.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -41,21 +41,6 @@ cainteoir::createXmlReader(const std::shared_ptr<buffer> &aData, const char *aDe
 	return reader;
 }
 
-/** @brief Create a document content reader.
-  *
-  * @param[in]  aData            The document content.
-  * @param[in]  aSubject         The RDF subject for the document metadata.
-  * @param[out] aPrimaryMetadata The main metadata that describes the document.
-  * @param[in]  aTitle           The document title to use if none is specified.
-  * @param[in]  aDefaultEncoding The default character encoding to use.
-  *
-  * @return A reader over the document contents, or a null pointer if the document is not supported.
-  *
-  * The top-level ToC entry is determined as follows (in order of preference):
-  *    -  the title specified by the document;
-  *    -  the title specified in aTitle;
-  *    -  the filename of the document.
-  */
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
                                 const rdf::uri &aSubject,
@@ -88,6 +73,12 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		return createZipReader(archive);
 	}
 
+	if (mime::smil.match(aData))
+	{
+		auto reader = cainteoir::createXmlReader(aData, aDefaultEncoding);
+		return createSmilReader(reader, aSubject, aPrimaryMetadata, aTitle);
+	}
+
 	if (mime::xml.match(aData))
 	{
 		auto reader = cainteoir::createXmlReader(aData, aDefaultEncoding);
@@ -99,11 +90,11 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 			auto mime = createMimeInHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle, aDefaultEncoding);
 			if (mime)
 				return mime;
-			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml");
+			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml", {});
 		}
 
 		if (mime::ncx.match(namespaceUri, rootName))
-			return createNcxReader(reader, aSubject, aPrimaryMetadata, aTitle);
+			return createNcxReader(reader, aSubject, aPrimaryMetadata, aTitle, {});
 
 		if (mime::opf.match(namespaceUri, rootName))
 			return createOpfReader(reader, aSubject, aPrimaryMetadata);
@@ -114,15 +105,12 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		if (mime::ssml.match(namespaceUri, rootName))
 			return createSsmlReader(reader, aSubject, aPrimaryMetadata, aTitle);
 
-		if (mime::smil.match(namespaceUri, rootName))
-			return createSmilReader(reader, aSubject, aPrimaryMetadata, aTitle);
-
 		if (mime::html.match(aData))
 		{
 			auto mime = createMimeInHtmlReader(aData, aSubject, aPrimaryMetadata, aTitle, aDefaultEncoding);
 			if (mime)
 				return mime;
-			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml");
+			return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "application/xhtml+xml", {});
 		}
 
 		return std::shared_ptr<document_reader>();
@@ -137,7 +125,7 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 		if (mime)
 			return mime;
 		auto reader = cainteoir::createXmlReader(aData, aDefaultEncoding);
-		return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "text/html");
+		return createHtmlReader(reader, aSubject, aPrimaryMetadata, aTitle, "text/html", {});
 	}
 
 	if (mime::rtf.match(aData))
@@ -149,22 +137,6 @@ cainteoir::createDocumentReader(std::shared_ptr<buffer> &aData,
 	return createPlainTextReader(aData, aSubject, aPrimaryMetadata, aTitle);
 }
 
-/** @brief Create a document content reader.
-  *
-  * @param[in]  aFilename        The path to the document.
-  * @param[out] aPrimaryMetadata The main metadata that describes the document.
-  * @param[in]  aTitle           The document title to use if none is specified.
-  * @param[in]  aDefaultEncoding The default character encoding to use.
-  *
-  * @return A reader over the document contents, or a null pointer if the document is not supported.
-  *
-  * If aFilename is null, the file content is read from stdin.
-  *
-  * The top-level ToC entry is determined as follows (in order of preference):
-  *    -  the title specified by the document;
-  *    -  the title specified in aTitle;
-  *    -  the filename of the document.
-  */
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createDocumentReader(const char *aFilename,
                                 rdf::graph &aPrimaryMetadata,
@@ -182,11 +154,6 @@ cainteoir::createDocumentReader(const char *aFilename,
 	return createDocumentReader(data, subject, aPrimaryMetadata, aTitle, aDefaultEncoding);
 }
 
-/** @brief Get the document formats that are supported by libcainteoir.
-  *
-  * @param[out] metadata     The RDF graph to write the format support to.
-  * @param[in]  capabilities The document capabilities to query for.
-  */
 void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types capabilities)
 {
 	std::string baseuri = "http://rhdunn.github.com/cainteoir/formats/document";
@@ -220,116 +187,3 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
 		mime::text.metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 	}
 }
-
-/** @struct cainteoir::document
-  * @brief  Stores the text from a document.
-  * @deprecated Use the document_reader API instead.
-  */
-
-/** @struct cainteoir::document_item
-  * @brief Holds information about a part of a document.
-  *
-  * Objects of this type are created by instances of the document_reader interface.
-  */
-
-/** @fn    cainteoir::document_item::document_item()
-  * @brief Initialize the document item object.
-  */
-
-/** @var   uint32_t cainteoir::document_item::type
-  * @brief The type of the event.
-  *
-  * @see cainteoir::events::event_type
-  */
-
-/** @var   cainteoir::events::context cainteoir::document_item::context
-  * @brief The associated rendering context.
-  */
-
-/** @var   uint32_t cainteoir::document_item::parameter
-  * @brief A context-dependent parameter for the rendering context.
-  */
-
-/** @var   std::shared_ptr<cainteoir::buffer> cainteoir::document_item::text
-  * @brief The text associated with the document event.
-  */
-
-/** @var   cainteoir::rdf::uri cainteoir::document_item::anchor
-  * @brief A uri that references the start of this event.
-  */
-
-/** @struct cainteoir::document_reader
-  * @brief  Provides a reader-style API to the events corresponding to the document.
-  */
-
-/** @fn    cainteoir::document_reader::~document_reader()
-  * @brief Destroy the document reader object.
-  */
-
-/** @fn    bool cainteoir::document_reader::read()
-  * @brief Read the next event in the document.
-  *
-  * @retval true  If an event was read.
-  * @retval false If there are no more events in the document.
-  */
-
-/** @enum  cainteoir::events::event_type
-  * @brief The type of the document event.
-  */
-
-/** @var   cainteoir::events::event_type cainteoir::events::begin_context
-  * @brief The start of a rendering context.
-  *
-  * @code
-  *   context <context> <parameter>
-  * @endcode
-  */
-
-/** @var   cainteoir::events::event_type cainteoir::events::end_context
-  * @brief The end of a rendering context.
-  *
-  * @code
-  *   end
-  * @endcode
-  */
-
-/** @var   cainteoir::events::event_type cainteoir::events::text
-  * @brief Text data.
-  *
-  * @code
-  *   text <text>
-  * @endcode
-  */
-
-/** @var   cainteoir::events::event_type cainteoir::events::toc_entry
-  * @brief An entry in the table of contents.
-  *
-  * The parameter is the depth of the entry. This corresponds to the depth from the
-  * heading rendering context.
-  *
-  * @code
-  *   toc-entry <parameter> <anchor> <text>
-  * @endcode
-  */
-
-/** @var   cainteoir::events::event_type cainteoir::events::anchor
-  * @brief An anchor point in the document.
-  *
-  * The anchor corresponds to the associated toc-entry.
-  *
-  * @code
-  *   anchor <anchor>
-  * @endcode
-  */
-
-/** @enum  cainteoir::capability_types
-  * @brief The capabilities provided by different document types.
-  */
-
-/** @var   cainteoir::capability_types cainteoir::metadata_support
-  * @brief The document type provides metadata information that can be extracted.
-  */
-
-/** @var   cainteoir::capability_types cainteoir::text_support
-  * @brief The document type contains text that can be extracted.
-  */
