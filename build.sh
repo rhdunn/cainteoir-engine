@@ -21,6 +21,15 @@ dodist() {
 }
 
 builddeb() {
+	if [[ `which debuild` ]] ; then
+		DEBUILD=debuild
+	elif [[ `which dpkg-buildpackage` ]] ; then
+		DEBUILD=dpkg-buildpackage
+	else
+		echo "debuild or dpkg-buildpackage is needed to build the deb file"
+		exit 1
+	fi
+
 	DIST=$1
 	shift
 	doclean
@@ -32,7 +41,7 @@ builddeb() {
 	fi
 	if [[ ! -e builddeb.failed ]] ; then
 		echo "... building debian packages ($@) ..."
-		debuild $@ || touch builddeb.failed
+		${DEBUILD} $@ || touch builddeb.failed
 	fi
 	if [[ ! -e builddeb.failed ]] ; then
 		echo "... validating debian packages ..."
