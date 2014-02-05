@@ -305,6 +305,11 @@
 	<iana:added>2012-11-01</iana:added>
 	<iana:label xml:lang="en">Caucasian Albanian</iana:label>
 </iana:Script>
+<iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Ahom">
+	<iana:code>Ahom</iana:code>
+	<iana:added>2013-12-02</iana:added>
+	<iana:label xml:lang="en">Ahom</iana:label>
+</iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Arab">
 	<iana:code>Arab</iana:code>
 	<iana:added>2005-10-16</iana:added>
@@ -1205,6 +1210,11 @@
 	<iana:label xml:lang="en">Han (Traditional variant)</iana:label>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#zh"/>
 </iana:Script>
+<iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Hatr">
+	<iana:code>Hatr</iana:code>
+	<iana:added>2013-12-02</iana:added>
+	<iana:label xml:lang="en">Hatran</iana:label>
+</iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Hebr">
 	<iana:code>Hebr</iana:code>
 	<iana:added>2005-10-16</iana:added>
@@ -2072,7 +2082,7 @@
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Mend">
 	<iana:code>Mend</iana:code>
 	<iana:added>2010-04-10</iana:added>
-	<iana:label xml:lang="en">Mende</iana:label>
+	<iana:label xml:lang="en">Mende Kikakui</iana:label>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Merc">
 	<iana:code>Merc</iana:code>
@@ -2090,6 +2100,11 @@
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Malayalam</iana:label>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ml"/>
+</iana:Script>
+<iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Modi">
+	<iana:code>Modi</iana:code>
+	<iana:added>2013-12-02</iana:added>
+	<iana:label xml:lang="en">Modi, Moḍī</iana:label>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Mong">
 	<iana:code>Mong</iana:code>
@@ -2113,6 +2128,11 @@
 	<iana:added>2007-01-26</iana:added>
 	<iana:label xml:lang="en">Meitei Mayek (Meithei, Meetei)</iana:label>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mni"/>
+</iana:Script>
+<iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Mult">
+	<iana:code>Mult</iana:code>
+	<iana:added>2013-12-02</iana:added>
+	<iana:label xml:lang="en">Multani</iana:label>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Mymr">
 	<iana:code>Mymr</iana:code>
@@ -2326,6 +2346,11 @@
 	<iana:code>Palm</iana:code>
 	<iana:added>2010-04-10</iana:added>
 	<iana:label xml:lang="en">Palmyrene</iana:label>
+</iana:Script>
+<iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Pauc">
+	<iana:code>Pauc</iana:code>
+	<iana:added>2013-12-02</iana:added>
+	<iana:label xml:lang="en">Pau Cin Hau</iana:label>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Perm">
 	<iana:code>Perm</iana:code>
@@ -2573,6 +2598,11 @@
 	<iana:added>2011-01-07</iana:added>
 	<iana:label xml:lang="en">Sharada, Śāradā</iana:label>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sa"/>
+</iana:Script>
+<iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Sidd">
+	<iana:code>Sidd</iana:code>
+	<iana:added>2013-12-02</iana:added>
+	<iana:label xml:lang="en">Siddham, Siddhaṃ, Siddhamātṛkā</iana:label>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Sind">
 	<iana:code>Sind</iana:code>
@@ -5963,6 +5993,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Bavarian</iana:label>
 </iana:Language>
+<iana:Variant rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#barla">
+	<iana:code>barla</iana:code>
+	<iana:added>2013-12-10</iana:added>
+	<iana:comments xml:lang="en">Barlavento is one of the two main dialect groups of Kabuverdianu.</iana:comments>
+	<iana:label xml:lang="en">The Barlavento dialect group of Kabuverdianu</iana:label>
+	<iana:prefix>kea</iana:prefix>
+</iana:Variant>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bas">
 	<iana:code>bas</iana:code>
 	<iana:added>2005-10-16</iana:added>
@@ -7791,7 +7828,7 @@
 <iana:Variant rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bohoric">
 	<iana:code>bohoric</iana:code>
 	<iana:added>2012-06-27</iana:added>
-	<iana:comments xml:lang="en">The subtag represents the alphabet codified by Adam Bohorič in 1584 and used from the first printed Slovene book and up to the mid- 19th century.</iana:comments>
+	<iana:comments xml:lang="en">The subtag represents the alphabet codified by Adam Bohorič in 1584 and used from the first printed Slovene book and up to the mid-19th century.</iana:comments>
 	<iana:label xml:lang="en">Slovene in Bohorič alphabet</iana:label>
 	<iana:prefix>sl</iana:prefix>
 </iana:Variant>
@@ -12895,6 +12932,12 @@
 	<iana:label xml:lang="en">Ekajuk</iana:label>
 	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
+<iana:Variant rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ekavsk">
+	<iana:code>ekavsk</iana:code>
+	<iana:added>2013-12-02</iana:added>
+	<iana:label xml:lang="en">Serbian with Ekavian pronunciation</iana:label>
+	<iana:prefix>sr-Cyrl</iana:prefix>
+</iana:Variant>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ekc">
 	<iana:code>ekc</iana:code>
 	<iana:added>2013-09-10</iana:added>
@@ -17267,6 +17310,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Biseni</iana:label>
 </iana:Language>
+<iana:Variant rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ijekavsk">
+	<iana:code>ijekavsk</iana:code>
+	<iana:added>2013-12-02</iana:added>
+	<iana:label xml:lang="en">Serbian with Ijekavian pronunciation</iana:label>
+	<iana:prefix>sr-Cyrl</iana:prefix>
+</iana:Variant>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ijj">
 	<iana:code>ijj</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -35966,6 +36015,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Seeku</iana:label>
 </iana:Language>
+<iana:Variant rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sotav">
+	<iana:code>sotav</iana:code>
+	<iana:added>2013-12-10</iana:added>
+	<iana:comments xml:lang="en">Sotavento is one of the two main dialect groups of Kabuverdianu.</iana:comments>
+	<iana:label xml:lang="en">The Sotavento dialect group of Kabuverdianu</iana:label>
+	<iana:prefix>kea</iana:prefix>
+</iana:Variant>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sou">
 	<iana:code>sou</iana:code>
 	<iana:added>2009-07-29</iana:added>
