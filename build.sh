@@ -82,6 +82,9 @@ doppa() {
 doallppa() {
 	for DISTRO in oneiric precise quantal raring ; do
 		doppa ${DISTRO}
+	done
+}
+
 doandroid() {
 	./autogen.sh || exit 1
 	for arch in ${ANDROID_ARCHS} ; do
