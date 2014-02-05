@@ -1,6 +1,46 @@
 Release Notes
 =============
 
+Version 0.12: Wednesday February 5th 2014 \[Feb 2014\]
+------------------------------------------------------
+
+  *  support using Pico TTS
+  *  espeak: support pronouncing text via the Cainteoir TTS API
+  *  audio: support ALSA output
+  *  support private use language tags
+  *  improve mapping eSpeak's language codes to RFC5656 language codes
+  *  various API changes and enhancements
+  *  improved and extended the API documentation
+  *  improved CSS Counter Styles Level 3 support
+  *  make use of the ucd-tools project for handling Unicode codepoint classification
+
+### new applications
+
+  *  dictionary: manage pronunciation dictionaries
+  *  phoneme-converter: convert between different phonetic transcriptions
+
+### text-to-speech support
+
+  *  support tokenizing text into groups (words, numbers, punctuation, etc.)
+  *  support basic context analysis (cardinal/ordinal number detection)
+  *  support converting cardinal and ordinal numbers to words
+  *  support a feature-based phonetic model and different phonetic transcription schemes
+  *  support using a pronunciation dictionary to look up word pronunciations
+
+### document support
+
+  *  epub: support ePub3 Media Overlays [1]
+  *  epub: support ePub3 navigation documents [1]
+  *  html: improved the whitespace normalization logic [1]
+  *  html: improved parsing HTML documents [1]
+  *  html: fixed handling of unquoted percentage characters in attributes
+  *  opf: correctly handle @id attributes on dublin-core elements (dc:*).
+  *  zip/epub: support ZIP archives containing data descriptors
+  *  email: support archived email files
+  *  email: support Debian bugmail mbox files
+
+1. This feature was funded by the [CSIR](http://www.csir.co.za) (Council for Scientific and Industrial Research).
+
 Version 0.11: Saturday December 1st 2012 \[Nov 2012\]
 -----------------------------------------------------
 
