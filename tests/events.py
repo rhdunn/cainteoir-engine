@@ -329,6 +329,7 @@ if __name__ == '__main__':
 		{'name': 'media overlay', 'type': 'events', 'tests': [
 			{'test': 'epub3/media-overlay/single-file/xhtml-before-smil.epub', 'result': 'epub3/media-overlay/single-file/xhtml-before-smil.events'},
 			{'test': 'epub3/media-overlay/single-file/xhtml-after-smil.epub', 'result': 'epub3/media-overlay/single-file/xhtml-before-smil.events'},
+			{'test': 'epub3/media-overlay/single-file/text-but-no-audio.epub', 'result': 'epub3/media-overlay/single-file/text-but-no-audio.events'},
 			{'test': 'epub3/media-overlay/multiple-files/multiple.epub', 'result': 'epub3/media-overlay/multiple-files/multiple.events'},
 			{'test': 'epub3/media-overlay/multiple-files/spanning.epub', 'result': 'epub3/media-overlay/multiple-files/multiple.events'},
 			{'test': 'epub3/media-overlay/multiple-files/spanning-different-id.epub', 'result': 'epub3/media-overlay/multiple-files/multiple.events'},
