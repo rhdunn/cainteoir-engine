@@ -159,7 +159,7 @@ doppa() {
 }
 
 doallppa() {
-	for DISTRO in oneiric precise quantal raring ; do
+	for DISTRO in precise quantal raring saucy trusty ; do
 		doppa ${DISTRO}
 	done
 }
