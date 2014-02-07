@@ -159,7 +159,7 @@ if __name__ == '__main__':
 			{'test': 'html/text-level-semantics/tt.xhtml', 'result': 'html/text-level-semantics/tt.events'},
 			{'test': 'html/text-level-semantics/u.xhtml', 'result': 'html/text-level-semantics/u.events'},
 			{'test': 'html/text-level-semantics/var.xhtml', 'result': 'html/text-level-semantics/em.events'},
-			{'test': 'html/text-level-semantics/whitespace.xhtml', 'result': 'html/text-level-semantics/whitespace.events'},
+			{'test': 'html/text-level-semantics/whitespace.xhtml', 'result': 'html/text-level-semantics/whitespace.events', 'expect': 'volatile'},
 		]},
 		{'name': 'embedded content', 'type': 'events', 'tests': [
 			{'test': 'html/embedded/audio.xhtml', 'result': 'html/embedded/audio.events'},
