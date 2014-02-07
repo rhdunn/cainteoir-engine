@@ -433,12 +433,12 @@ DOCUMENT_TEST_FILES = \
 	$(shell find tests/mime/*) \
 	$(shell find tests/zip/*)
 
-%.check : %.py tests/harness.py
+%.check : %.py tests/harness.py mimetypes
 	rm -f $@
 	(${PYTHON} $< && touch $@) | tee `echo $< | sed -e 's/.py/.results/'`
 	test -f $@ || false
 
-%.check: %.test
+%.check: %.test mimetypes
 	rm -f $@
 	(XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data $< && touch $@) | tee `echo $< | sed -e 's/.test/.results/'`
 	test -f $@ || false
