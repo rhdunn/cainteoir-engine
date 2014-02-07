@@ -112,16 +112,21 @@ class Command:
 	def replacements(self, filename):
 		return []
 
+	def collate(self, output):
+		if self.collator == 'sort':
+			return sorted(output)
+		return output
+
 	def run(self, args, filename, data):
 		tmpfile = '/tmp/testrun'
 		if filename:
-			os.system('%s %s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), filename, self.collator, tmpfile))
+			os.system('%s %s %s 2>&1 | tee > %s' % (self.command, ' '.join(args), filename, tmpfile))
 		else:
-			os.system('%s %s 2>&1 | %s > %s' % (self.command, ' '.join(args), self.collator, tmpfile))
+			os.system('%s %s 2>&1 | tee > %s' % (self.command, ' '.join(args), tmpfile))
 		replaced = self.replacements(filename)
 		with open(tmpfile, 'r') as f:
 			output = [ repr(map_line(x, replaced)) for x in f.read().split('\n') if not x == '' ]
-		return output
+		return self.collate(output)
 
 class MetadataCommand(Command):
 	def __init__(self, test_type, all_metadata=False):
@@ -227,7 +232,7 @@ class TestSuite:
 		got = cmd.run(args, filename, data)
 
 		with open(expect, 'r') as f:
-			expected = [ repr(replace_strings(x.replace('<DATETIME>', date.today().strftime('%Y')), replacements)) for x in f.read().split('\n') if not x == '' ]
+			expected = cmd.collate([ repr(replace_strings(x.replace('<DATETIME>', date.today().strftime('%Y')), replacements)) for x in f.read().split('\n') if not x == '' ])
 
 		if test_expect == 'expect-pass':
 			ret = expected == got
