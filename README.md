@@ -20,8 +20,9 @@ In order to build cainteoir-engine, you need:
 1.  a functional autotools system (`make`, `autoconf`, `automake`, `libtool`,
     `autopoint` and `pkg-config`);
 2.  a functional c++ compiler;
-3.  the zlib development libraries;
-4.  the shared mime info package.
+3.  the Python YAML parser library;
+4.  the zlib development libraries;
+5.  the shared mime info package.
 
 Optionally, you need:
 
@@ -54,6 +55,7 @@ Core Dependencies:
 |------------------|----------------------------------------------------------------------------|
 | autotools        | `sudo apt-get install make autoconf automake libtool autopoint pkg-config` |
 | c++ compiler     | `sudo apt-get install gcc g++`                                             |
+| python yaml      | `sudo apt-get install python-yaml`                                         |
 | zlib             | `sudo apt-get install zlib1g-dev`                                          |
 | shared mime info | `sudo apt-get install shared-mime-info`                                    |
 
