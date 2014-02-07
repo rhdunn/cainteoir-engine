@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 7.0.50~),
                libpulse-dev, libvorbis-dev, libpoppler-glib-dev, 
                shared-mime-info, iso-codes,
                libespeak-dev,
-               python (>= 2.6)
+               python (>= 2.6), python-yaml
 Standards-Version: 3.9.3
 Vcs-Git: git://github.com/rhdunn/cainteoir-engine.git
 Vcs-browser: https://github.com/rhdunn/cainteoir-engine
