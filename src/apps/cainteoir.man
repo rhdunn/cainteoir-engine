@@ -1,4 +1,4 @@
-.TH CAINTEOIR 1 "AUGUST 2013" "Cainteoir Text-to-Speech" "Cainteoir Manuals"
+.TH CAINTEOIR 1 "FEBRUARY 2014" "Cainteoir Text-to-Speech" "Cainteoir Manuals"
 .SH NAME
 cainteoir \- listen to and record electronic books and documents
 .SH SYNOPSIS
@@ -15,6 +15,9 @@ voice is found, the default voice is used.
 .SH OPTIONS
 .IP "-c, --contents"
 List the table of contents for the specified document.
+.IP "-D DEVICE, --device=DEVICE"
+Use the DEVICE ALSA/pulseaudio device name for audio output, e.g.
+when the default device does not work.
 .IP "-f FROM, --from=FROM"
 Start reading/recording from the specified table of content entry.
 If not specified, this defaults to the start of the document. The

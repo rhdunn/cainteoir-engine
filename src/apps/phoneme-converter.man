@@ -1,0 +1,39 @@
+.TH PHONEME-CONVERTER 1 "FEBRUARY 2014" "Cainteoir Text-to-Speech" "Cainteoir Manuals"
+.SH NAME
+phoneme-converter \- convert from one phoneme transcription to another
+.SH SYNOPSIS
+.P
+.B phoneme-converter [OPTION..]
+.I FROM
+.I TO
+.I TRANSCRIPTION
+.P
+.B phoneme-converter [OPTION..]
+.I FROM
+.I TO
+.P
+.B phoneme-converter --chart
+.I PHONEMESET
+.SH DESCRIPTION
+.B metadata
+Extract the metadata from ePub, RDF/XML, HTML and other documents,
+producing RDF statements or other metadata formats.
+.SH OPTIONS
+.IP "-c, --chart"
+Generate a phoneme chart for the specified phonemeset.
+.IP "-f, --features"
+Show the phonetic features along with the transcription.
+.IP "-h, --help"
+Show a command-line option usage help message.
+.IP "--no-pauses"
+Do not process pause phonemes.
+.IP "-s, --separate"
+Display each phoneme on a new line.
+.IP "--syllable-stress"
+Adjust the placement of stresses such that they are on syllable boundaries.
+.IP "--vowel-stress"
+Adjust the placement of stresses such that they are on vowels (e.g. eSpeak,
+arpabet). Although eSpeak supports stresses placed on consonants, it places them
+on vowels in its dictionaries and pronunciation rule files.
+.SH AUTHOR
+Reece H. Dunn <msclrhd@gmail.com>
