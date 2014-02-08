@@ -3,8 +3,6 @@ description: "allow syntax highlighting for Cainteoir Text-to-Speech voice/langu
 files:
   - ftdetect/dictfiletype.vim
   - ftdetect/featuresfiletype.vim
-  - ftdetect/ltphonfiletype.vim
   - ftdetect/phonfiletype.vim
   - syntax/dict.vim
-  - syntax/ltphon.vim
   - syntax/phon.vim
