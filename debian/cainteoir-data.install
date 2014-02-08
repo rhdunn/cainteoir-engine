@@ -1,2 +1,4 @@
-usr/share/cainteoir-engine/text-to-speech.rdf
 usr/share/cainteoir-engine/languages.rdf.gz
+usr/share/cainteoir-engine/css/*
+usr/share/cainteoir-engine/phonemeset/*
+usr/share/cainteoir-engine/locale/*
