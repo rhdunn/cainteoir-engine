@@ -14,6 +14,16 @@ Vcs-Git: git://github.com/rhdunn/cainteoir-engine.git
 Vcs-browser: https://github.com/rhdunn/cainteoir-engine
 Homepage: http://rhdunn.github.com/cainteoir
 
+Package: vim-syntax-cainteoir
+Architecture: all
+Section: libs
+Depends: ${misc:Depends}
+Recommends: vim-addon-manager
+Description: Cainteoir Text-to-Speech syntax files for Vim
+ This package provides syntax files for:
+ - Cainteoir pronunciation dictionary files
+ - Phoneme transcription definition files
+
 Package: cainteoir-data
 Architecture: all
 Section: libs
