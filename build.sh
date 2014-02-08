@@ -25,6 +25,7 @@ dodist() {
 }
 
 dopredebbuild() {
+	DIST=$1
 	doclean
 	cp debian/changelog{,.downstream}
 	sed -i -e "s/~unstable\([0-9]*\)) unstable;/~${DIST}\1) ${DIST};/" debian/changelog
@@ -35,6 +36,7 @@ dopredebbuild() {
 }
 
 dopostdebbuild() {
+	DIST=$1
 	if [[ -e debian/$DIST.patch ]] ; then
 		patch -Rf -p1 -i debian/$DIST.patch || touch builddeb.failed
 	fi
@@ -57,7 +59,7 @@ builddeb() {
 
 	DIST=$1
 	shift
-	dopredebbuild
+	dopredebbuild ${DIST}
 	if [[ ! -e builddeb.failed ]] ; then
 		echo "... building debian packages ($@) ..."
 		${DEBUILD} $@ || touch builddeb.failed
@@ -66,7 +68,7 @@ builddeb() {
 		echo "... validating debian packages ..."
 		lintian -Ivi ../${PACKAGE}_*.dsc || touch builddeb.failed
 	fi
-	dopostdebbuild
+	dopostdebbuild ${DIST}
 }
 
 dopbuild() {
@@ -118,11 +120,11 @@ dopbuild() {
 			;;
 		build)
 			mkdir -pv ${OUTPUT}
-			dopredebbuild
+			dopredebbuild ${RELEASE}
 			if [[ ! -e builddeb.failed ]] ; then
 				(pdebuild --buildresult ${OUTPUT} -- --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" || touch builddeb.failed) 2>&1 | tee ${OUTPUT}/build.log
 			fi
-			dopostdebbuild
+			dopostdebbuild ${RELEASE}
 			;;
 	esac
 }
