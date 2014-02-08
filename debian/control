@@ -62,3 +62,10 @@ Description: Extract metadata associated with a document.
  Extract the metadata from various document formats including ePub, RDF/XML
  and SMIL. Supports generating RDF N-Truple, RDF Turtle and VorbisComment
  metadata formats.
+
+Package: phoneme-converter
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libcainteoir0 (= ${binary:Version})
+Description: Convert from one phoneme transcription scheme to another.
+ Supports IPA, ASCII-IPA (Kirshenbaum), X-SAMPA, CXS (Conlang X-SAMPA), Arpabet
+ and other phoneme transcription schemes.

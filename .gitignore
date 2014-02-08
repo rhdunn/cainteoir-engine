@@ -135,6 +135,7 @@ debian/libcainteoir-dev/
 debian/cainteoir/
 debian/cainteoir-dictionary/
 debian/metadata/
+debian/phoneme-converter/
 
 debian/*.debhelper.log
 debian/*.substvars
