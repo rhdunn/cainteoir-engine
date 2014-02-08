@@ -375,6 +375,7 @@ src_apps_metadata_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_metadata_SOURCES = src/apps/metadata.cpp
 
 bin_PROGRAMS += src/apps/phoneme-converter
+man1_MANS += src/apps/phoneme-converter.man
 
 src_apps_phoneme_converter_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_phoneme_converter_SOURCES = src/apps/phoneme-converter.cpp
