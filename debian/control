@@ -48,6 +48,13 @@ Description: Read and record documents using text-to-speech.
  .
  This is the command-line interface to the Cainteoir Text-to-Speech engine.
 
+Package: cainteoir-dictionary
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libcainteoir0 (= ${binary:Version})
+Description: Manage Text-to-Speech pronunciation dictionaries.
+ Create, manage and test pronunciation dictionaries for Text-to-Speech programs
+ like eSpeak and Cainteoir.
+
 Package: metadata
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libcainteoir0 (= ${binary:Version})

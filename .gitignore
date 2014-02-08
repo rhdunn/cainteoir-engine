@@ -133,6 +133,7 @@ debian/cainteoir-data/
 debian/libcainteoir0/
 debian/libcainteoir-dev/
 debian/cainteoir/
+debian/cainteoir-dictionary/
 debian/metadata/
 
 debian/*.debhelper.log
