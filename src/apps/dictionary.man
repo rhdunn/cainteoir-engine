@@ -1,4 +1,4 @@
-.TH DICTIONARY 1 "AUGUST 2013" "Cainteoir Text-to-Speech" "Cainteoir Manuals"
+.TH DICTIONARY 1 "FEBRUARY 2014" "Cainteoir Text-to-Speech" "Cainteoir Manuals"
 .SH NAME
 dictionary \- create, manage and test pronunciation dictionaries
 .SH SYNOPSIS
