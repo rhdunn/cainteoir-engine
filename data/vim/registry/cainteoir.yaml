@@ -1,8 +1,8 @@
 addon: cainteoir
 description: "allow syntax highlighting for Cainteoir Text-to-Speech voice/language files"
 files:
-  - ftdetect/dictfiletype.vim
-  - ftdetect/featuresfiletype.vim
-  - ftdetect/phonfiletype.vim
+  - ftdetect/dictfiletype.vim     # *.dict -- Cainteoir Text-to-Speech Dictionary file
+  - ftdetect/featuresfiletype.vim # *.features -- used in the test files
+  - ftdetect/phonfiletype.vim     # *.phon -- Phoneme transcription definition file
   - syntax/dict.vim
   - syntax/phon.vim
