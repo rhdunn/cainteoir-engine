@@ -119,9 +119,13 @@ dopbuild() {
 	OUTPUT=${PBUILD_DIR}/${REF}
 
 	case "${COMMAND}" in
-		create)
-			mkdir -pv ${PBUILD_IMGDIR}
-			sudo pbuilder ${COMMAND} --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}"
+		create|update)
+			if [[ -e ${BASETGZ} ]] ; then
+				sudo pbuilder --update --override-config --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}"
+			else
+				mkdir -pv ${PBUILD_IMGDIR}
+				sudo pbuilder --create --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}"
+			fi
 			;;
 		build)
 			mkdir -pv ${OUTPUT}
