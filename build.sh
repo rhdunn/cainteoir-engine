@@ -3,8 +3,7 @@
 PACKAGE=cainteoir-engine
 DPUT_PPA=cainteoir-ppa
 
-PBUILD_IMGDIR=/opt/data/pbuilder
-PBUILD_OUTDIR=../pbuilder-output/${PACKAGE}
+PBUILD_DIR=/opt/data/pbuilder
 
 ANDROID_VERSION=8
 ANDROID_COMPILER=4.6
@@ -110,8 +109,8 @@ dopbuild() {
 	esac
 
 	REF=${DIST}-${RELEASE}-${ARCH}
-	BASETGZ=${PBUILD_IMGDIR}/${REF}.tgz
-	OUTPUT=${PBUILD_OUTDIR}/${REF}
+	BASETGZ=${PBUILD_DIR}/${REF}.tgz
+	OUTPUT=${PBUILD_DIR}/${REF}
 
 	case "${COMMAND}" in
 		create)
