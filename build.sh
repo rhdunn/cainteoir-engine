@@ -46,7 +46,7 @@ dopostdebbuild() {
 	fi
 }
 
-doscanpacakges() {
+doscanpackages() {
 	pushd $1
 	dpkg-scanpackages . /dev/null | gzip -9 > Packages.gz
 	popd
@@ -138,7 +138,7 @@ dopbuild() {
 				(pdebuild --buildresult ${OUTPUT} $@ -- --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" --bindmounts "${OUTPUT}" || touch builddeb.failed) 2>&1 | tee build.log
 			fi
 			if [[ ! -e builddeb.failed ]] ; then
-				doscanpacakges ${OUTPUT}
+				doscanpackages ${OUTPUT}
 			fi
 			dopostdebbuild ${RELEASE}
 			;;
