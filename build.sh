@@ -121,17 +121,17 @@ dopbuild() {
 	case "${COMMAND}" in
 		create|update)
 			if [[ -e ${BASETGZ} ]] ; then
-				sudo pbuilder --update --override-config --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}"
+				sudo pbuilder --update --override-config --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" --bindmounts "${OUTPUT}" --othermirror "deb file:${OUTPUT} ./"
 			else
 				mkdir -pv ${PBUILD_IMGDIR}
-				sudo pbuilder --create --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}"
+				sudo pbuilder --create --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" --bindmounts "${OUTPUT}" --othermirror "deb file:${OUTPUT} ./"
 			fi
 			;;
 		build)
 			mkdir -pv ${OUTPUT}
 			dopredebbuild ${RELEASE}
 			if [[ ! -e builddeb.failed ]] ; then
-				(pdebuild --buildresult ${OUTPUT} -- --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" || touch builddeb.failed) 2>&1 | tee build.log
+				(pdebuild --buildresult ${OUTPUT} -- --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" --bindmounts "${OUTPUT}" || touch builddeb.failed) 2>&1 | tee build.log
 			fi
 			if [[ ! -e builddeb.failed ]] ; then
 				doscanpacakges ${OUTPUT}
