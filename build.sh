@@ -127,7 +127,7 @@ dopbuild() {
 			if [[ -e ${BASETGZ} ]] ; then
 				sudo pbuilder --update --override-config --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" --bindmounts "${OUTPUT}" --othermirror "deb file:${OUTPUT} ./"
 			else
-				mkdir -pv ${PBUILD_IMGDIR}
+				mkdir -pv ${PBUILD_DIR}
 				sudo pbuilder --create --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" --bindmounts "${OUTPUT}" --othermirror "deb file:${OUTPUT} ./"
 			fi
 			;;
