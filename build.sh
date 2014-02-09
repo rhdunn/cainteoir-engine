@@ -121,7 +121,7 @@ dopbuild() {
 			mkdir -pv ${OUTPUT}
 			dopredebbuild ${RELEASE}
 			if [[ ! -e builddeb.failed ]] ; then
-				(pdebuild --buildresult ${OUTPUT} -- --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" || touch builddeb.failed) 2>&1 | tee ${OUTPUT}/build.log
+				(pdebuild --buildresult ${OUTPUT} -- --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" || touch builddeb.failed) 2>&1 | tee build.log
 			fi
 			dopostdebbuild ${RELEASE}
 			;;

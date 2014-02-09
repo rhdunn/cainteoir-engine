@@ -5,6 +5,7 @@
 *.pyc
 *.check
 *.results
+build.log
 
 # vi/vim editor files:
 
