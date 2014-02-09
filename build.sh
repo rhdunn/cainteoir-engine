@@ -118,6 +118,10 @@ dopbuild() {
 	BASETGZ=${PBUILD_DIR}/${REF}.tgz
 	OUTPUT=${PBUILD_DIR}/${REF}
 
+	shift
+	shift
+	shift
+
 	case "${COMMAND}" in
 		create|update)
 			if [[ -e ${BASETGZ} ]] ; then
@@ -131,7 +135,7 @@ dopbuild() {
 			mkdir -pv ${OUTPUT}
 			dopredebbuild ${RELEASE}
 			if [[ ! -e builddeb.failed ]] ; then
-				(pdebuild --buildresult ${OUTPUT} -- --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" --bindmounts "${OUTPUT}" || touch builddeb.failed) 2>&1 | tee build.log
+				(pdebuild --buildresult ${OUTPUT} $@ -- --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" --bindmounts "${OUTPUT}" || touch builddeb.failed) 2>&1 | tee build.log
 			fi
 			if [[ ! -e builddeb.failed ]] ; then
 				doscanpacakges ${OUTPUT}
@@ -188,17 +192,25 @@ doandroid() {
 	done
 }
 
-case "$1" in
+COMMAND=$1
+ARG1=$2
+ARG2=$3
+
+shift
+shift
+shift
+
+case "$COMMAND" in
 	allppa)    doallppa ;;
 	android)   doandroid ;;
 	clean)     doclean ;;
-	deb)       builddeb $2 -us -uc ;;
-	debsrc)    builddeb $2 -S -sa ;;
+	deb)       builddeb ${ARG1} -us -uc ;;
+	debsrc)    builddeb ${ARG1} -S -sa ;;
 	dist)      dodist ;;
-	mkimage)   dopbuild create $2 $3 ;;
-	pbuild)    dopbuild build  $2 $3 ;;
-	ppa)       doppa $2 ;;
-	release)   dorelease $2 ;;
+	mkimage)   dopbuild create ${ARG1} ${ARG2} ;;
+	pbuild)    dopbuild build  ${ARG1} ${ARG2} $@ ;;
+	ppa)       doppa ${ARG1} ;;
+	release)   dorelease ${ARG1} ;;
 	install)   doinstall ;;
 	uninstall) douninstall ;;
 	help|*)
@@ -216,7 +228,7 @@ where <command> is one of:
     install        Installs the built debian packages.
     mkimage <dist> <arch>
                    Create a pbuilder image.
-    pbuild <dist> <arch>
+    pbuild <dist> <arch> <pdebuild-options>
                    Build the debian package under a pbuilder environment.
     ppa <dist>     Publish to the Cainteoir Text-to-Speech Ubuntu PPA for <dist>.
     release        Create a (release build) debian binary package.
@@ -235,6 +247,10 @@ To publish to Debian, run:
 To publish to the Ubuntu PPA for a specific distribution, run:
     `basename $0` release
     `basename $0` ppa <dist-name>
+
+To create signed Ubuntu raring amd64 *.deb packages for use with pbuilder, run:
+    `basename $0` pbuild raring amd64 --auto-debsign
+    `basename $0` mkimage raring amd64
 "
 		;;
 esac
