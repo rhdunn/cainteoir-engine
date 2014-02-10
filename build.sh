@@ -11,7 +11,7 @@ ANDROID_ARCHS="armeabi armeabi-v7a x86 mips"
 
 doclean() {
 	rm -vf ../{libcainteoir{0,-dev},cainteoir-data,cainteoir,metadata}_*.deb
-	rm -vf ../${PACKAGE}_*.{tar.gz,dsc,build,changes}
+	rm -vf ../${PACKAGE}_*.{tar.{g,x}z,dsc,build,changes}
 	git clean -fxd
 }
 
