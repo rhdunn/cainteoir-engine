@@ -37,6 +37,13 @@ list_rm() {
 	done
 }
 
+list_mv() {
+	DEST=$1
+	while read FILE ; do
+		mv -v ${FILE} ${DEST}/ 2>/dev/null
+	done
+}
+
 dodist() {
 	( ./autogen.sh && ./configure --prefix=/usr && make dist ) || exit 1
 	tar -xf ${PACKAGE}-*.tar.gz || exit 1
@@ -154,6 +161,8 @@ dopbuild() {
 	BASE=${BUILD_DIR}/${REF}
 	BASETGZ=${BASE}.tar.gz
 
+	mkdir -pv ${BUILD_DIR}/{debs/${RELEASE},build/${RELEASE}}
+
 	case "${COMMAND}" in
 		create|update)
 			if [[ -e ${BASETGZ} ]] ; then
@@ -165,7 +174,10 @@ dopbuild() {
 		build)
 			doclean ${RELEASE} ${ARCH}
 			dopredebbuild ${RELEASE}
+			VERSION=$(dpkg-parsechangelog|sed -n 's/^Version: \(.*:\|\)//p')
 			sbuild --build=${ARCH} --chroot=${REF}-sbuild
+			pkg_list_debs ../${PACKAGE}_${VERSION}_${ARCH}.changes | list_mv ${BUILD_DIR}/debs/${RELEASE}
+			pkg_list ../${PACKAGE}_${VERSION}_${ARCH}.changes | list_mv ${BUILD_DIR}/build/${RELEASE}
 			dopostdebbuild ${RELEASE}
 			;;
 	esac
