@@ -4,6 +4,7 @@ PACKAGE=cainteoir-engine
 DPUT_PPA=cainteoir-ppa
 
 BUILD_DIR=/opt/data/sbuild
+SIGN_KEY=E8E1DB43
 
 ANDROID_VERSION=8
 ANDROID_COMPILER=4.6
@@ -44,6 +45,34 @@ list_mv() {
 	done
 }
 
+repo() {
+	BASEDIR=${BUILD_DIR}/packages
+	DIST=$2
+	mkdir -pv ${BASEDIR}/conf
+	if [[ ! `grep -P "^Codename: ${DIST}$" ${BASEDIR}/conf/distributions` ]] ; then
+		echo "Origin: Local" >> ${BASEDIR}/conf/distributions
+		echo "Codename: ${DIST}" >> ${BASEDIR}/conf/distributions
+		echo "Architectures: i386 amd64" >> ${BASEDIR}/conf/distributions
+		echo "Components: main" >> ${BASEDIR}/conf/distributions
+		echo "SignWith: ${SIGN_KEY}" >> ${BASEDIR}/conf/distributions
+		echo "" >> ${BASEDIR}/conf/distributions
+	fi
+	case $1 in
+		add)
+			reprepro -Vb ${BASEDIR} remove $2 `basename $3 | sed -e 's,_.*,,g'`
+			reprepro -Vb ${BASEDIR} includedeb $2 $3 && rm $3
+			;;
+		add-list)
+			while read FILE ; do
+				repo add $2 $FILE
+			done
+			;;
+		del)
+			reprepro -Vb ${BASEDIR} remove $2 $3
+			;;
+	esac
+}
+
 dodist() {
 	( ./autogen.sh && ./configure --prefix=/usr && make dist ) || exit 1
 	tar -xf ${PACKAGE}-*.tar.gz || exit 1
@@ -72,12 +101,6 @@ dopostdebbuild() {
 		rm builddeb.failed
 		exit 1
 	fi
-}
-
-doscanpackages() {
-	pushd $1
-	dpkg-scanpackages . /dev/null | gzip -9 > Packages.gz
-	popd
 }
 
 doclean() {
@@ -161,7 +184,7 @@ dopbuild() {
 	BASE=${BUILD_DIR}/${REF}
 	BASETGZ=${BASE}.tar.gz
 
-	mkdir -pv ${BUILD_DIR}/{debs/${RELEASE},build/${RELEASE}}
+	mkdir -pv ${BUILD_DIR}/build/${RELEASE}
 
 	case "${COMMAND}" in
 		create|update)
@@ -176,9 +199,8 @@ dopbuild() {
 			dopredebbuild ${RELEASE}
 			VERSION=$(dpkg-parsechangelog|sed -n 's/^Version: \(.*:\|\)//p')
 			sbuild --build=${ARCH} --chroot=${REF}-sbuild
-			pkg_list_debs ../${PACKAGE}_${VERSION}_${ARCH}.changes | list_mv ${BUILD_DIR}/debs/${RELEASE}
+			pkg_list_debs ../${PACKAGE}_${VERSION}_${ARCH}.changes | repo add-list ${RELEASE}
 			pkg_list ../${PACKAGE}_${VERSION}_${ARCH}.changes | list_mv ${BUILD_DIR}/build/${RELEASE}
-			doscanpackages ${BUILD_DIR}/debs/${RELEASE}
 			dopostdebbuild ${RELEASE}
 			;;
 	esac
