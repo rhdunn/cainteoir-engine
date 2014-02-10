@@ -9,10 +9,32 @@ ANDROID_VERSION=8
 ANDROID_COMPILER=4.6
 ANDROID_ARCHS="armeabi armeabi-v7a x86 mips"
 
-doclean() {
-	rm -vf ../{libcainteoir{0,-dev},cainteoir-data,cainteoir,metadata}_*.deb
-	rm -vf ../${PACKAGE}_*.{tar.{g,x}z,dsc,build,changes}
-	git clean -fxd
+case `uname -m` in
+	x86_64)
+		HOST_ARCH=amd64
+		;;
+	*)
+		HOST_ARCH=i386
+		;;
+esac
+
+pkg_list_debs() {
+	BASEDIR=`dirname $1`
+	grep "\.deb$" $1 2>/dev/null | grep -P " (optional|extra) " | sed -e "s,.* ,${BASEDIR}/,g"
+}
+
+pkg_list() {
+	BASEDIR=`dirname $1`
+	VERSION=$(dpkg-parsechangelog|sed -n 's/^Version: \(.*:\|\)//p')
+	pkg_list_debs $1
+	find ${BASEDIR}/${PACKAGE}_*.{dsc,tar.*} 2>/dev/null
+	find ${BASEDIR}/${PACKAGE}_*_${ARCH}*.{build,changes} 2>/dev/null
+}
+
+list_rm() {
+	while read FILE ; do
+		rm -v ${FILE}
+	done
 }
 
 dodist() {
@@ -51,6 +73,15 @@ doscanpackages() {
 	popd
 }
 
+doclean() {
+	DIST=$1
+	ARCH=$2
+	git clean -fxd
+	dopredebbuild ${DIST}
+	pkg_list ../${PACKAGE}_*_${ARCH}.changes | list_rm
+	dopostdebbuild ${DIST}
+}
+
 builddeb() {
 	if [[ `which debuild` ]] ; then
 		DEBUILD=debuild
@@ -62,8 +93,10 @@ builddeb() {
 	fi
 
 	DIST=$1
+	ARCH=$2
 	shift
-	doclean
+	shift
+	doclean ${DIST} ${ARCH}
 	dopredebbuild ${DIST}
 	if [[ ! -e builddeb.failed ]] ; then
 		echo "... building debian packages ($@) ..."
@@ -130,7 +163,7 @@ dopbuild() {
 			fi
 			;;
 		build)
-			doclean
+			doclean ${RELEASE} ${ARCH}
 			dopredebbuild ${RELEASE}
 			sbuild --build=${ARCH} --chroot=${REF}-sbuild
 			dopostdebbuild ${RELEASE}
@@ -196,9 +229,9 @@ shift
 case "$COMMAND" in
 	allppa)    doallppa ;;
 	android)   doandroid ;;
-	clean)     doclean ;;
-	deb)       builddeb ${ARG1} -us -uc ;;
-	debsrc)    builddeb ${ARG1} -S -sa ;;
+	clean)     doclean ${ARG1} ${ARG2} ;;
+	deb)       builddeb ${ARG1} ${HOST_ARCH} -us -uc ;;
+	debsrc)    builddeb ${ARG1} source -S -sa ;;
 	dist)      dodist ;;
 	mkimage)   dopbuild create ${ARG1} ${ARG2} ;;
 	pbuild)    dopbuild build  ${ARG1} ${ARG2} $@ ;;
@@ -213,7 +246,8 @@ where <command> is one of:
 
     allppa         Publish to the Cainteoir Text-to-Speech Ubuntu PPA for all supported distributions.
     android        Build the library for android.
-    clean          Clean the build tree and generated files.
+    clean <dist> <arch>
+                   Clean the build tree and generated files.
     deb <dist>     Create a (development build) debian binary package.
     debsrc <dist>  Create a debian source package.
     dist           Create (and test) a distribution source tarball.
