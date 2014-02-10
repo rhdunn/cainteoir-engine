@@ -178,6 +178,7 @@ dopbuild() {
 			sbuild --build=${ARCH} --chroot=${REF}-sbuild
 			pkg_list_debs ../${PACKAGE}_${VERSION}_${ARCH}.changes | list_mv ${BUILD_DIR}/debs/${RELEASE}
 			pkg_list ../${PACKAGE}_${VERSION}_${ARCH}.changes | list_mv ${BUILD_DIR}/build/${RELEASE}
+			doscanpackages ${BUILD_DIR}/debs/${RELEASE}
 			dopostdebbuild ${RELEASE}
 			;;
 	esac
