@@ -3,7 +3,7 @@
 PACKAGE=cainteoir-engine
 DPUT_PPA=cainteoir-ppa
 
-PBUILD_DIR=/opt/data/pbuilder
+BUILD_DIR=/opt/data/sbuild
 
 ANDROID_VERSION=8
 ANDROID_COMPILER=4.6
@@ -107,39 +107,31 @@ dopbuild() {
 		debian)
 			MIRROR=ftp://mirror.ox.ac.uk/debian/
 			KEYRING=/usr/share/keyrings/debian-archive-keyring.gpg
+			COMPONENTS=main
 			;;
 		ubuntu)
 			MIRROR=ftp://archive.ubuntu.com/ubuntu/
 			KEYRING=/usr/share/keyrings/ubuntu-archive-keyring.gpg
+			# NOTE: debfoster is located in universe (required when using sbuild) ...
+			COMPONENTS=main,universe
 			;;
 	esac
 
-	REF=${DIST}-${RELEASE}-${ARCH}
-	BASETGZ=${PBUILD_DIR}/${REF}.tgz
-	OUTPUT=${PBUILD_DIR}/${REF}
-
-	shift
-	shift
-	shift
+	REF=${RELEASE}-${ARCH}
+	BASE=${BUILD_DIR}/${REF}
+	BASETGZ=${BASE}.tar.gz
 
 	case "${COMMAND}" in
 		create|update)
 			if [[ -e ${BASETGZ} ]] ; then
-				sudo pbuilder --update --override-config --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" --bindmounts "${OUTPUT}" --othermirror "deb file:${OUTPUT} ./"
+				sudo sbuild-update -udcar ${REF}-sbuild
 			else
-				mkdir -pv ${PBUILD_DIR}
-				sudo pbuilder --create --distribution ${RELEASE} --mirror ${MIRROR} --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" --bindmounts "${OUTPUT}" --othermirror "deb file:${OUTPUT} ./"
+				sudo sbuild-createchroot --arch=${ARCH} --keyring=${KEYRING} --components ${COMPONENTS} --make-sbuild-tarball=${BASETGZ} ${RELEASE} ${BASE} ${MIRROR}
 			fi
 			;;
 		build)
-			mkdir -pv ${OUTPUT}
 			dopredebbuild ${RELEASE}
-			if [[ ! -e builddeb.failed ]] ; then
-				(pdebuild --buildresult ${OUTPUT} $@ -- --basetgz ${BASETGZ} --debootstrapopts "--keyring=${KEYRING}" --bindmounts "${OUTPUT}" || touch builddeb.failed) 2>&1 | tee build.log
-			fi
-			if [[ ! -e builddeb.failed ]] ; then
-				doscanpackages ${OUTPUT}
-			fi
+			sbuild --build=${ARCH} --chroot=${REF}-sbuild
 			dopostdebbuild ${RELEASE}
 			;;
 	esac
