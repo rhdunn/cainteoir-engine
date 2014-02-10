@@ -25,7 +25,6 @@ dodist() {
 
 dopredebbuild() {
 	DIST=$1
-	doclean
 	cp debian/changelog{,.downstream}
 	sed -i -e "s/~unstable\([0-9]*\)) unstable;/~${DIST}\1) ${DIST};/" debian/changelog
 	sed -i -e "s/(\([0-9\.\-]*\)) unstable;/(\1~${DIST}1) ${DIST};/" debian/changelog
@@ -64,6 +63,7 @@ builddeb() {
 
 	DIST=$1
 	shift
+	doclean
 	dopredebbuild ${DIST}
 	if [[ ! -e builddeb.failed ]] ; then
 		echo "... building debian packages ($@) ..."
@@ -130,6 +130,7 @@ dopbuild() {
 			fi
 			;;
 		build)
+			doclean
 			dopredebbuild ${RELEASE}
 			sbuild --build=${ARCH} --chroot=${REF}-sbuild
 			dopostdebbuild ${RELEASE}
