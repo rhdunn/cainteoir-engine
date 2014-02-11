@@ -206,7 +206,7 @@ dopbuild() {
 			doclean ${RELEASE} ${ARCH}
 			dopredebbuild ${RELEASE}
 			VERSION=$(dpkg-parsechangelog|sed -n 's/^Version: \(.*:\|\)//p')
-			sbuild --build=${ARCH} --chroot=${REF}-sbuild --chroot-setup-commands="/home/sbuild/`basename $0` prebuild ${RELEASE} ${ARCH} sbuild"
+			sbuild -A --build=${ARCH} --chroot=${REF}-sbuild --chroot-setup-commands="/home/sbuild/`basename $0` prebuild ${RELEASE} ${ARCH} sbuild"
 			pkg_list_debs ../${PACKAGE}_${VERSION}_${ARCH}.changes | repo add-list ${RELEASE}
 			pkg_list ../${PACKAGE}_${VERSION}_${ARCH}.changes | list_mv ${BUILD_DIR}/build/${RELEASE}
 			dopostdebbuild ${RELEASE}
