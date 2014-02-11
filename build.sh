@@ -73,6 +73,13 @@ repo() {
 	esac
 }
 
+repo_publish() {
+	sudo mkdir -pv $1/packages
+	sudo rm -rf $1/packages/*
+	sudo cp ${BUILD_DIR}/${SIGN_KEY}.key $1/packages
+	sudo cp -Rv ${BUILD_DIR}/packages $1
+}
+
 dodist() {
 	( ./autogen.sh && ./configure --prefix=/usr && make dist ) || exit 1
 	tar -xf ${PACKAGE}-*.tar.gz || exit 1
@@ -196,11 +203,8 @@ dopbuild() {
 			sudo sbuild-shell source:${RELEASE}-${ARCH}-sbuild
 			;;
 		build)
-			sudo mkdir -pv /home/sbuild/packages
+			repo_publish /home/sbuild
 			sudo cp $0 /home/sbuild
-			sudo cp ${BUILD_DIR}/${SIGN_KEY}.key /home/sbuild
-			sudo rm -rf /home/sbuild/packages/*
-			sudo cp -Rv ${BUILD_DIR}/packages /home/sbuild
 
 			mkdir -pv ${BUILD_DIR}/build/${RELEASE}
 			doclean ${RELEASE} ${ARCH}
@@ -217,7 +221,7 @@ dopbuild() {
 			else
 				echo "... updating /etc/apt/sources.list"
 				echo "deb file:/home/sbuild/packages ${RELEASE}-ppa main" >> /etc/apt/sources.list
-				apt-key add /home/sbuild/${SIGN_KEY}.key
+				apt-key add /home/sbuild/packages/${SIGN_KEY}.key
 				apt-get update
 			fi
 			;;
@@ -289,8 +293,9 @@ case "$COMMAND" in
 	image-edit) dopbuild edit ${ARG1} ${ARG2} ;;
 	mkimage)   dopbuild create ${ARG1} ${ARG2} ;;
 	pbuild)    dopbuild build  ${ARG1} ${ARG2} $@ ;;
-	prebuild)  dopbuild prebuild ${ARG1} ${ARG2} $@ ;; # Helper command used by sbuild
 	ppa)       doppa ${ARG1} ;;
+	prebuild)  dopbuild prebuild ${ARG1} ${ARG2} $@ ;; # Helper command used by sbuild
+	publish)   repo_publish ${ARG1} ;;
 	release)   dorelease ${ARG1} ;;
 	install)   doinstall ;;
 	uninstall) douninstall ;;
