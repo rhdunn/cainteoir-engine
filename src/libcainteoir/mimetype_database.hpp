@@ -1,6 +1,6 @@
 /* Shared Mime Type Information Database Support.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -96,8 +96,8 @@ namespace cainteoir { namespace mime
 		/** @brief The filename patterns for files matching this mimetype. */
 		std::vector<std::string> globs;
 
-		/** @brief The mimetype aliases for this mimetype. */
-		std::vector<std::string> aliases;
+		/** @brief The mimetypes for this entry. */
+		std::vector<std::string> mimetypes;
 	};
 
 	struct mime_cache
@@ -120,7 +120,7 @@ namespace cainteoir { namespace mime
 
 	class mimetype_database
 	{
-		std::map<std::string, mime_info> database;
+		std::map<std::string, std::shared_ptr<mime_info>> database;
 
 		void read_aliases_from_cache(mime_cache &cache);
 
@@ -135,6 +135,8 @@ namespace cainteoir { namespace mime
 		void read_xmlns_from_cache(mime_cache &cache);
 
 		std::string read_comment_from_mimeinfo_file(const std::string &filename);
+
+		std::shared_ptr<mime_info> &operator()(const char *mimetype);
 	public:
 		mimetype_database();
 
