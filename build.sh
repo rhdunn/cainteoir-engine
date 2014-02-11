@@ -194,6 +194,9 @@ dopbuild() {
 				sudo sbuild-createchroot --arch=${ARCH} --keyring=${KEYRING} --components ${COMPONENTS} --make-sbuild-tarball=${BASETGZ} ${RELEASE} ${BASE} ${MIRROR}
 			fi
 			;;
+		edit|login)
+			sudo sbuild-shell source:${RELEASE}-${ARCH}-sbuild
+			;;
 		build)
 			doclean ${RELEASE} ${ARCH}
 			dopredebbuild ${RELEASE}
@@ -268,6 +271,7 @@ case "$COMMAND" in
 	deb)       builddeb ${ARG1} ${HOST_ARCH} -us -uc ;;
 	debsrc)    builddeb ${ARG1} source -S -sa ;;
 	dist)      dodist ;;
+	image-edit) dopbuild edit ${ARG1} ${ARG2} ;;
 	mkimage)   dopbuild create ${ARG1} ${ARG2} ;;
 	pbuild)    dopbuild build  ${ARG1} ${ARG2} $@ ;;
 	ppa)       doppa ${ARG1} ;;
@@ -287,11 +291,13 @@ where <command> is one of:
     debsrc <dist>  Create a debian source package.
     dist           Create (and test) a distribution source tarball.
     help           Show this help screen.
+    image-edit <dist> <arch>
+                   Open a shell to an sbuild image.
     install        Installs the built debian packages.
     mkimage <dist> <arch>
-                   Create a pbuilder image.
+                   Create an sbuild image.
     pbuild <dist> <arch> <pdebuild-options>
-                   Build the debian package under a pbuilder environment.
+                   Build the debian package under an sbuild environment.
     ppa <dist>     Publish to the Cainteoir Text-to-Speech Ubuntu PPA for <dist>.
     release        Create a (release build) debian binary package.
     uninstall      Uninstalls the debian packages installed by 'install'.
