@@ -1,6 +1,6 @@
 /* Mime Type Support.
  *
- * Copyright (C) 2011-2013 Reece H. Dunn
+ * Copyright (C) 2011-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -139,11 +139,10 @@ void cainteoir::mime::mimetype_database::read_aliases_from_cache(mime_cache &cac
 		const char *alias = cache.str(offset);
 		const char *mime  = cache.str(offset + 4);
 
-		for (auto &mimetype : mimetype_list)
-		{
-			if (!strcmp(mimetype, mime))
-				database[mime].aliases.push_back(alias);
-		}
+		auto &data = (*this)(mime);
+		data->mimetypes.push_back(alias);
+		database[alias] = data;
+
 		offset += 8;
 	}
 }
@@ -159,14 +158,8 @@ void cainteoir::mime::mimetype_database::read_reverse_suffix_tree_from_cache(mim
 		if (c == 0) // leaf node
 		{
 			const char *mime = cache.str(offset + 4);
-			for (auto &mimetype : mimetype_list)
-			{
-				if (!strcmp(mimetype, mime))
-				{
-					std::string s = '*' + suffix;
-					database[mime].globs.push_back(s);
-				}
-			}
+			std::string s = '*' + suffix;
+			(*this)(mime)->globs.push_back(s);
 		}
 		else
 		{
@@ -213,14 +206,8 @@ void cainteoir::mime::mimetype_database::read_magic_from_cache(mime_cache &cache
 	for (; count > 0; --count)
 	{
 		const char *mime  = cache.str(offset + 4);
-		for (auto &mimetype : mimetype_list)
-		{
-			if (!strcmp(mimetype, mime))
-			{
-				std::vector<magic> &magic_list = database[mime].magic;
-				read_matchlets_from_cache(cache, cache.u32(offset + 8), cache.u32(offset + 12), magic_list, std::vector<matchlet>());
-			}
-		}
+		std::vector<magic> &magic_list = (*this)(mime)->magic;
+		read_matchlets_from_cache(cache, cache.u32(offset + 8), cache.u32(offset + 12), magic_list, std::vector<matchlet>());
 		offset += 16;
 	}
 }
@@ -237,14 +224,8 @@ void cainteoir::mime::mimetype_database::read_xmlns_from_cache(mime_cache &cache
 		const char *name = cache.str(offset + 4);
 		const char *mime = cache.str(offset + 8);
 
-		for (auto &mimetype : mimetype_list)
-		{
-			if (!strcmp(mimetype, mime))
-			{
-				database[mime].xmlns = ns;
-				database[mime].localname = name;
-			}
-		}
+		(*this)(mime)->xmlns = ns;
+		(*this)(mime)->localname = name;
 		offset += 12;
 	}
 }
@@ -309,6 +290,17 @@ std::string cainteoir::mime::mimetype_database::read_comment_from_mimeinfo_file(
 	return "";
 }
 
+std::shared_ptr<cainteoir::mime::mime_info> &cainteoir::mime::mimetype_database::operator()(const char *mimetype)
+{
+	auto &mime = database[mimetype];
+	if (!mime.get())
+	{
+		mime = std::make_shared<mime_info>();
+		mime->mimetypes.push_back(mimetype);
+	}
+	return mime;
+}
+
 cainteoir::mime::mimetype_database::mimetype_database()
 {
 	for (auto &dir : get_mime_dirs())
@@ -325,7 +317,7 @@ cainteoir::mime::mimetype_database::mimetype_database()
 			read_xmlns_from_cache(cache);
 
 			for (auto &mimetype : mimetype_list)
-				database[mimetype].label = read_comment_from_mimeinfo_file(dir + mimetype + ".xml");
+				(*this)(mimetype)->label = read_comment_from_mimeinfo_file(dir + mimetype + ".xml");
 		}
 		catch (const std::runtime_error &)
 		{
@@ -340,7 +332,7 @@ const cainteoir::mime::mime_info &cainteoir::mime::mimetype_database::operator[]
 	auto entry = database.find(mimetype);
 	if (entry == database.end())
 		throw std::runtime_error(std::string(mimetype) + ": mimetype not found in the mimetype database.");
-	return entry->second;
+	return *entry->second;
 }
 
 cainteoir::mime::mimetype_database cainteoir::mime::mimetypes;
@@ -384,9 +376,8 @@ void cainteoir::mime::mimetype::metadata(rdf::graph &aGraph, const std::string &
 	aGraph.statement(ref, rdf::tts("name"), rdf::literal(name));
 	aGraph.statement(ref, rdf::dc("title"), rdf::literal(mime->label));
 	aGraph.statement(ref, rdf::dc("description"), rdf::literal(mime->label));
-	aGraph.statement(ref, rdf::tts("mimetype"), rdf::literal(mime_type));
-	for (auto &alias : mime->aliases)
-		aGraph.statement(ref, rdf::tts("mimetype"), rdf::literal(alias));
+	for (auto &mimetype : mime->mimetypes)
+		aGraph.statement(ref, rdf::tts("mimetype"), rdf::literal(mimetype));
 	for (auto &glob : mime->globs)
 		aGraph.statement(ref, rdf::tts("extension"), rdf::literal(glob));
 }
