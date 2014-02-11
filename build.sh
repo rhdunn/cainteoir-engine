@@ -47,7 +47,7 @@ list_mv() {
 
 repo() {
 	BASEDIR=${BUILD_DIR}/packages
-	DIST=$2
+	DIST=$2-ppa
 	mkdir -pv ${BASEDIR}/conf
 	if [[ ! `grep -P "^Codename: ${DIST}$" ${BASEDIR}/conf/distributions` ]] ; then
 		echo "Origin: Local" >> ${BASEDIR}/conf/distributions
@@ -59,8 +59,8 @@ repo() {
 	fi
 	case $1 in
 		add)
-			reprepro -Vb ${BASEDIR} remove $2 `basename $3 | sed -e 's,_.*,,g'`
-			reprepro -Vb ${BASEDIR} includedeb $2 $3 && rm $3
+			reprepro -Vb ${BASEDIR} remove ${DIST} `basename $3 | sed -e 's,_.*,,g'`
+			reprepro -Vb ${BASEDIR} includedeb ${DIST} $3 && rm $3
 			;;
 		add-list)
 			while read FILE ; do
@@ -68,7 +68,7 @@ repo() {
 			done
 			;;
 		del)
-			reprepro -Vb ${BASEDIR} remove $2 $3
+			reprepro -Vb ${BASEDIR} remove ${DIST} $3
 			;;
 	esac
 }
