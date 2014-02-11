@@ -184,8 +184,6 @@ dopbuild() {
 	BASE=${BUILD_DIR}/${REF}
 	BASETGZ=${BASE}.tar.gz
 
-	mkdir -pv ${BUILD_DIR}/build/${RELEASE}
-
 	case "${COMMAND}" in
 		create|update)
 			if [[ -e ${BASETGZ} ]] ; then
@@ -198,13 +196,30 @@ dopbuild() {
 			sudo sbuild-shell source:${RELEASE}-${ARCH}-sbuild
 			;;
 		build)
+			sudo mkdir -pv /home/sbuild/packages
+			sudo cp $0 /home/sbuild
+			sudo cp ${BUILD_DIR}/${SIGN_KEY}.key /home/sbuild
+			sudo rm -rf /home/sbuild/packages/*
+			sudo cp -Rv ${BUILD_DIR}/packages /home/sbuild
+
+			mkdir -pv ${BUILD_DIR}/build/${RELEASE}
 			doclean ${RELEASE} ${ARCH}
 			dopredebbuild ${RELEASE}
 			VERSION=$(dpkg-parsechangelog|sed -n 's/^Version: \(.*:\|\)//p')
-			sbuild --build=${ARCH} --chroot=${REF}-sbuild
+			sbuild --build=${ARCH} --chroot=${REF}-sbuild --chroot-setup-commands="/home/sbuild/`basename $0` prebuild ${RELEASE} ${ARCH} sbuild"
 			pkg_list_debs ../${PACKAGE}_${VERSION}_${ARCH}.changes | repo add-list ${RELEASE}
 			pkg_list ../${PACKAGE}_${VERSION}_${ARCH}.changes | list_mv ${BUILD_DIR}/build/${RELEASE}
 			dopostdebbuild ${RELEASE}
+			;;
+		prebuild)
+			if [[ "$4" == "sbuild" ]] ; then
+				sudo $0 prebuild ${RELEASE} ${ARCH} sbuild-sudo
+			else
+				echo "... updating /etc/apt/sources.list"
+				echo "deb file:/home/sbuild/packages ${RELEASE}-ppa main" >> /etc/apt/sources.list
+				apt-key add /home/sbuild/${SIGN_KEY}.key
+				apt-get update
+			fi
 			;;
 	esac
 }
@@ -274,6 +289,7 @@ case "$COMMAND" in
 	image-edit) dopbuild edit ${ARG1} ${ARG2} ;;
 	mkimage)   dopbuild create ${ARG1} ${ARG2} ;;
 	pbuild)    dopbuild build  ${ARG1} ${ARG2} $@ ;;
+	prebuild)  dopbuild prebuild ${ARG1} ${ARG2} $@ ;; # Helper command used by sbuild
 	ppa)       doppa ${ARG1} ;;
 	release)   dorelease ${ARG1} ;;
 	install)   doinstall ;;
