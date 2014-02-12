@@ -1,3 +1,9 @@
+cainteoir-engine (0.12.1~unstable0) unstable; urgency=low
+ 
+  * New upstream release.
+ 
+ -- Reece H. Dunn <msclrhd@gmail.com>  Wed, 15 Feb 2014 12:27:00 +0000
+
 cainteoir-engine (0.11~unstable1) unstable; urgency=low
  
   * test/tester.hpp: improve floating point comparison for 32-bit builds.
