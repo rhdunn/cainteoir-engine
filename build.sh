@@ -269,7 +269,7 @@ doppa() {
 	# files, so a "~<distro-name>N" is appended.
 	DIST=$1
 	VER=`cat debian/changelog | grep ") unstable" | head -n 1 | sed -e "s/.*(//" -e "s/~unstable\([0-9]*\)) unstable;.*/~${DIST}\1/" -e "s/) unstable;.*/~${DIST}1/"`
-	builddeb $DIST -S -sa || exit 1
+	builddeb ${DIST} source -S -sa || exit 1
 	dput ${DPUT_PPA} ../${PACKAGE}_${VER}_source.changes
 }
 
