@@ -1,0 +1,25 @@
+From 6e0fba351158170352a78c2d1b3d30361e155826 Mon Sep 17 00:00:00 2001
+From: "Reece H. Dunn" <msclrhd@gmail.com>
+Date: Wed, 12 Feb 2014 11:15:43 +0000
+Subject: [PATCH] debian: add libav (ePub 3 Media Overlay) support
+
+---
+ debian/control | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/debian/control b/debian/control
+index b7b8b78..0cc8576 100644
+--- a/debian/control
++++ b/debian/control
+@@ -8,7 +8,8 @@ Build-Depends: debhelper (>= 7.0.50~),
+                libvorbis-dev, libpoppler-glib-dev,
+                shared-mime-info, iso-codes,
+                libespeak-dev,
++               libavformat-dev (>= 9.0), libavcodec-dev (>= 9.0), libavresample-dev (>= 9.0),
+                python (>= 2.6), python-yaml
+ Standards-Version: 3.9.3
+ Vcs-Git: git://github.com/rhdunn/cainteoir-engine.git
+ Vcs-browser: https://github.com/rhdunn/cainteoir-engine
+-- 
+1.8.5.3
+
