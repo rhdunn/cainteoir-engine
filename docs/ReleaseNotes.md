@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+Version 0.12.1: Wednesday February 12th 2014 \[Feb 2014\]
+---------------------------------------------------------
+
+  *  fix running `make check` on clean machines
+  *  fix dictionary (output order independent) tests [Debian Wheezy]
+  *  fix mimetype alias resolution [shared-mime-info >= 1.1]
+  *  clean up the Vim syntax support files
+  *  update the man documentation for the cainteoir and dictionary programs
+  *  add a man file for the phoneme-converter program
+
 Version 0.12: Wednesday February 5th 2014 \[Feb 2014\]
 ------------------------------------------------------
 
