@@ -80,6 +80,24 @@ repo_publish() {
 	sudo cp -Rv ${BUILD_DIR}/packages $1
 }
 
+patchset_apply() {
+	PATCHSET=$1
+	if [[ -e ${PATCHSET} ]] ; then
+		cat ${PATCHSET} | while read PATCH ; do
+			patch -f -p1 -i `dirname ${PATCHSET}`/${PATCH}
+		done
+	fi
+}
+
+patchset_revert() {
+	PATCHSET=$1
+	if [[ -e ${PATCHSET} ]] ; then
+		tac ${PATCHSET} | while read PATCH ; do
+			patch -Rf -p1 -i `dirname ${PATCHSET}`/${PATCH}
+		done
+	fi
+}
+
 dodist() {
 	( ./autogen.sh && ./configure --prefix=/usr && make dist ) || exit 1
 	tar -xf ${PACKAGE}-*.tar.gz || exit 1
@@ -93,16 +111,12 @@ dopredebbuild() {
 	cp debian/changelog{,.downstream}
 	sed -i -e "s/~unstable\([0-9]*\)) unstable;/~${DIST}\1) ${DIST};/" debian/changelog
 	sed -i -e "s/(\([0-9\.\-]*\)) unstable;/(\1~${DIST}1) ${DIST};/" debian/changelog
-	if [[ -e debian/$DIST.patch ]] ; then
-		patch -f -p1 -i debian/$DIST.patch || touch builddeb.failed
-	fi
+	patchset_apply debian/patches/${DIST}.patchset
 }
 
 dopostdebbuild() {
 	DIST=$1
-	if [[ -e debian/$DIST.patch ]] ; then
-		patch -Rf -p1 -i debian/$DIST.patch || touch builddeb.failed
-	fi
+	patchset_revert debian/patches/${DIST}.patchset
 	mv debian/changelog{.downstream,}
 	if [[ -e builddeb.failed ]] ; then
 		rm builddeb.failed
