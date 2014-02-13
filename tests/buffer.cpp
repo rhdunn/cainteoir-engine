@@ -432,6 +432,21 @@ TEST_CASE("cainteoir::normalize")
 		      test.removed->begin(), test.removed->size());
 }
 
+TEST_CASE("cainteoir::normalize -- whitespace at end")
+{
+	auto collapse = cainteoir::whitespace::collapse;
+	auto preserve = cainteoir::whitespace::preserve;
+
+	// If the last character of the buffer is a whitespace character and the
+	// character after it is also a whitespace character, this would cause
+	// normalize to skip the whitespace character when it should keep it.
+
+	const char *ws = "Lorem  "; // two spaces at the end = 7 characters
+	auto test = std::make_shared<cainteoir::buffer>(ws, ws + 6);
+	match(cainteoir::normalize(test, collapse, collapse, collapse, preserve),
+	      ws, 6);
+}
+
 TEST_CASE("cainteoir::normalize -- left=collapse, right=collapse, space=normal")
 {
 	auto ws    = cainteoir::whitespace::collapse;
