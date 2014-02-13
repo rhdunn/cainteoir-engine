@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.12.2: Thursday February 13th 2014 \[Feb 2014\]
+--------------------------------------------------------
+
+  *  html: fix intermitent whitespace normalization issues
+  *  pdf: fix a crash when aMetadata is null (e.g. metadata without the --all argument)
+
 Version 0.12.1: Wednesday February 12th 2014 \[Feb 2014\]
 ---------------------------------------------------------
 

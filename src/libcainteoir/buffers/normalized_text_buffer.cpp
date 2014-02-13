@@ -99,7 +99,7 @@ normalized_text_buffer::normalized_text_buffer(const std::shared_ptr<cainteoir::
 			ch = ' ';
 
 			uint32_t ch2 = 0;
-			if (str < l && utf8::read(next, ch2) && skip_whitespace(ch2, aWhitespace, aNewlines))
+			if (next < l && utf8::read(next, ch2) && skip_whitespace(ch2, aWhitespace, aNewlines))
 			{
 				str = next;
 				continue;

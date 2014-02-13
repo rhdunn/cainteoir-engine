@@ -344,7 +344,7 @@ int main(int argc, char ** argv)
 		case mode_type::from_document:
 			fflush(stdout);
 			fprintf(stderr, "... words:   %d\n", words);
-			fprintf(stderr, "... indexed: %d\n", dict.size());
+			fprintf(stderr, "... indexed: %zd\n", dict.size());
 			break;
 		}
 

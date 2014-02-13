@@ -186,6 +186,7 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 		mState = mIndex.empty() ? state_text : state_toc;
 		break;
 	case state_toc:
+		if (aMetadata)
 		{
 			const rdf::uri next = aMetadata->genid();
 			aMetadata->statement(mCurrentReference, rdf::rdf("rest"), next);
@@ -205,10 +206,9 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 			aMetadata->statement(entry, rdf::ref("level"), rdf::literal(1, rdf::xsd("integer")));
 			aMetadata->statement(entry, rdf::ref("target"), rdf::uri(mSubject.str(), pagenum));
 			aMetadata->statement(entry, rdf::dc("title"), rdf::literal(cainteoir::normalize(std::make_shared<cainteoir::buffer>(title))->str()));
-
-			if (++mCurrentIndex == mIndex.end())
-				mState = state_text;
 		}
+		if (++mCurrentIndex == mIndex.end())
+			mState = state_text;
 		break;
 	case state_text:
 		{
