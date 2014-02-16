@@ -211,10 +211,8 @@ the document to the relevant position.
 \{
 
 
-\fn    cainteoir::tts::context_analysis(const std::shared_ptr<document_reader> &aReader)
+\fn    cainteoir::tts::context_analysis()
 \brief Create a context analysis object.
-
-\param[in] aReader The document to generate text events from.
 
 \return The context analysis object.
 
@@ -243,10 +241,9 @@ the document to the relevant position.
 \{
 
 
-\fn    cainteoir::tts::numbers_to_words(const std::shared_ptr<document_reader> &aReader, const language::tag &aLocale, number_scale aScale)
+\fn    cainteoir::tts::numbers_to_words(const language::tag &aLocale, number_scale aScale)
 \brief Create a number to word converter.
 
-\param[in] aReader The document to generate text events from.
 \param[in] aLocale The language used to convert numbers, etc. into words.
 \param[in] aScale  The number scale system to use.
 
@@ -260,12 +257,9 @@ the document to the relevant position.
 \{
 
 
-\fn    cainteoir::tts::words_to_phonemes(const std::shared_ptr<document_reader> &aReader, const language::tag &aLocale, word_stream::number_scale aScale, const std::shared_ptr<phoneme_reader> &aRules, const std::shared_ptr<dictionary_reader> &aExceptionDictionary)
+\fn    cainteoir::tts::words_to_phonemes(const std::shared_ptr<phoneme_reader> &aRules, const std::shared_ptr<dictionary_reader> &aExceptionDictionary)
 \brief Create a phoneme stream object.
 
-\param[in] aReader              The document to generate text events from.
-\param[in] aLocale              The language used to convert numbers, etc. into words.
-\param[in] aScale               The number scale system to use.
 \param[in] aRules               The letter to phoneme rules to use.
 \param[in] aExceptionDictionary Pronunciation of words that are mispronounced by \p aRules.
 

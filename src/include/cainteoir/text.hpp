@@ -96,6 +96,8 @@ namespace cainteoir { namespace tts
 
 	struct text_reader
 	{
+		virtual void bind(const std::shared_ptr<tts::text_reader> &aReader) = 0;
+
 		virtual const text_event &event() const = 0;
 
 		virtual bool read() = 0;
@@ -113,19 +115,22 @@ namespace cainteoir { namespace tts
 	create_text_reader(const std::shared_ptr<document_reader> &aReader);
 
 	std::shared_ptr<text_reader>
-	context_analysis(const std::shared_ptr<document_reader> &aReader);
+	context_analysis();
 
 	std::shared_ptr<text_reader>
-	numbers_to_words(const std::shared_ptr<document_reader> &aReader,
-	                 const language::tag &aLocale,
+	numbers_to_words(const language::tag &aLocale,
 	                 number_scale aScale);
 
 	std::shared_ptr<text_reader>
-	words_to_phonemes(const std::shared_ptr<document_reader> &aReader,
-	                  const language::tag &aLocale,
-	                  number_scale aScale,
-	                  const std::shared_ptr<phoneme_reader> &aRules,
+	words_to_phonemes(const std::shared_ptr<phoneme_reader> &aRules,
 	                  const std::shared_ptr<dictionary_reader> &aExceptionDictionary);
+
+	inline std::shared_ptr<text_reader>
+	operator|(const std::shared_ptr<text_reader> &a, const std::shared_ptr<text_reader> &b)
+	{
+		b->bind(a);
+		return b;
+	}
 
 	void generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
 	                       FILE *out,

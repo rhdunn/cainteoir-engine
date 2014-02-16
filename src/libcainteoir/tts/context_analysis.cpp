@@ -226,7 +226,9 @@ enum class clause_state
 struct context_analysis : public tts::text_reader
 {
 public:
-	context_analysis(const std::shared_ptr<cainteoir::document_reader> &aReader);
+	context_analysis();
+
+	void bind(const std::shared_ptr<tts::text_reader> &aReader);
 
 	const tts::text_event &event() const { return mClause.front(); }
 
@@ -239,9 +241,14 @@ private:
 	std::queue<tts::text_event> mClause;
 };
 
-context_analysis::context_analysis(const std::shared_ptr<cainteoir::document_reader> &aReader)
-	: mReader(tts::create_text_reader(aReader))
+context_analysis::context_analysis()
+	: mHaveEvent(false)
 {
+}
+
+void context_analysis::bind(const std::shared_ptr<tts::text_reader> &aReader)
+{
+	mReader = aReader;
 	mHaveEvent = mReader->read();
 }
 
@@ -372,7 +379,7 @@ bool context_analysis::read_clause()
 	return !mClause.empty();
 }
 
-std::shared_ptr<tts::text_reader> tts::context_analysis(const std::shared_ptr<document_reader> &aReader)
+std::shared_ptr<tts::text_reader> tts::context_analysis()
 {
-	return std::make_shared<::context_analysis>(aReader);
+	return std::make_shared<::context_analysis>();
 }
