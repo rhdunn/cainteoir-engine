@@ -70,6 +70,51 @@ bool tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 		return true;
 	}
 
+	// Try looking up hyphenated words individually ...
+
+	try
+	{
+		const char *first = aText->begin();
+		const char *last  = aText->end();
+		while (first <= last)
+		{
+			// Get the next word ...
+
+			const char *next = first;
+			while (next <= last && *next != '-')
+				++next;
+			if (*next == '-')
+				++next;
+
+			auto word = std::make_shared<cainteoir::buffer>(first, next-1);
+
+			// Try pronouncing the word ...
+
+			auto phonemes = mExceptionDictionary.pronounce(word);
+			if (!phonemes.empty())
+			{
+				for (const tts::phoneme &p : phonemes)
+					mEvent.phonemes.push_back(p);
+			}
+			else if (mRules.get())
+			{
+				mRules->reset(word);
+				while (mRules->read())
+					mEvent.phonemes.push_back(*mRules);
+			}
+			else
+				throw tts::phoneme_error("unable to pronounce the hyphenated word");
+
+			first = next;
+		}
+
+		return true;
+	}
+	catch (const tts::phoneme_error &e)
+	{
+		mEvent.phonemes.clear();
+	}
+
 	// Try using pronunciation rules ...
 
 	if (mRules.get()) try
