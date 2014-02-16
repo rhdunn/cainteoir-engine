@@ -79,16 +79,15 @@ static const char *token_name[] = {
 	"em-dash",
 };
 
-template <typename Reader>
-void generate_events(Reader &text, const char *phonemeset)
+void generate_events(const std::shared_ptr<tts::text_reader> &text, const char *phonemeset)
 {
 	auto ipa = tts::createPhonemeWriter(phonemeset);
 	ipa->reset(stdout);
 
 	ucd::codepoint_t cp = 0;
-	while (text.read())
+	while (text->read())
 	{
-		auto &event = text.event();
+		auto &event = text->event();
 		switch (event.type)
 		{
 		case tts::word_uppercase:
@@ -143,7 +142,7 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	if (type == mode_type::word_stream)
 	{
 		auto text = tts::numbers_to_words(reader, locale, scale);
-		generate_events(*text, phonemeset);
+		generate_events(text, phonemeset);
 	}
 	else if (type == mode_type::phoneme_stream)
 	{
@@ -153,7 +152,7 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		switch (phonemes)
 		{
 		case phoneme_mode::events:
-			generate_events(*text, phonemeset);
+			generate_events(text, phonemeset);
 			break;
 		case phoneme_mode::phonemes:
 			tts::generate_phonemes(text, stdout, phonemeset, stress, nullptr, nullptr);
@@ -172,12 +171,12 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	else if (type == mode_type::context_analysis)
 	{
 		auto text = tts::context_analysis(reader);
-		generate_events(*text, phonemeset);
+		generate_events(text, phonemeset);
 	}
 	else
 	{
 		auto text = tts::create_text_reader(reader);
-		generate_events(*text, phonemeset);
+		generate_events(text, phonemeset);
 	}
 	return false;
 }
