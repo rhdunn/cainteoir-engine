@@ -179,12 +179,6 @@ the document to the relevant position.
 \}
 
 
-\fn    cainteoir::tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
-\brief Create a text reader object.
-
-\param[in] aReader The document to generate text events from.
-
-
 \fn    const text_event &cainteoir::tts::text_reader::event() const
 \brief Get the current text event.
 
@@ -198,6 +192,19 @@ the document to the relevant position.
 \retval false If there are no more text events.
 
 
+\addtogroup text_reader
+\{
+
+
+\fn    std::shared_ptr<tts::text_reader> cainteoir::tts::create_text_reader(const std::shared_ptr<document_reader> &aReader)
+\brief Create a text reader object.
+
+\param[in] aReader The document to generate text events from.
+
+\return The new text reader object.
+
+
+\}
 \addtogroup context_analysis
 \{
 

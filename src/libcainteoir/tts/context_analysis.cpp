@@ -1,6 +1,6 @@
 /* Context Analysis.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -224,9 +224,9 @@ enum class clause_state
 };
 
 tts::context_analysis::context_analysis(const std::shared_ptr<document_reader> &aReader)
-	: mReader(aReader)
+	: mReader(tts::create_text_reader(aReader))
 {
-	mHaveEvent = mReader.read();
+	mHaveEvent = mReader->read();
 }
 
 bool tts::context_analysis::read()
@@ -253,7 +253,7 @@ bool tts::context_analysis::read_clause()
 
 	while (mHaveEvent && state != clause_state::end)
 	{
-		auto &event = mReader.event();
+		auto &event = mReader->event();
 		switch (state)
 		{
 		case clause_state::start:
@@ -350,7 +350,7 @@ bool tts::context_analysis::read_clause()
 			};
 			break;
 		}
-		mHaveEvent = mReader.read();
+		mHaveEvent = mReader->read();
 	}
 	sequence.flush(mClause);
 	return !mClause.empty();

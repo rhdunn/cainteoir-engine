@@ -176,8 +176,8 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	}
 	else
 	{
-		tts::text_reader text(reader);
-		generate_events(text, phonemeset);
+		auto text = tts::create_text_reader(reader);
+		generate_events(*text, phonemeset);
 	}
 	return false;
 }

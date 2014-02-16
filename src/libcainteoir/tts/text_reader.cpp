@@ -1,6 +1,6 @@
 /* Text Processing.
  *
- * Copyright (C) 2012-2013 Reece H. Dunn
+ * Copyright (C) 2012-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -26,17 +26,43 @@
 #include <cainteoir/unicode.hpp>
 
 namespace tts = cainteoir::tts;
+namespace css = cainteoir::css;
 
 #include "text_reader.fsm.h"
 
-enum class tts::text_reader::reader_state
+struct text_reader : public tts::text_reader
 {
-	need_text,
-	have_text,
-	end_paragraph,
+	text_reader(const std::shared_ptr<cainteoir::document_reader> &aReader);
+
+	const tts::text_event &event() const { return mMatch; }
+
+	bool read();
+private:
+	bool matched();
+
+	enum class reader_state
+	{
+		need_text,
+		have_text,
+		end_paragraph,
+	};
+
+	std::shared_ptr<cainteoir::document_reader> mReader;
+	tts::text_event mMatch;
+
+	char mMatchBuffer[512];
+	char *mMatchCurrent;
+	uint32_t mMatchNext;
+	uint32_t mMatchLast;
+
+	bool mNeedEndPara;
+	const char *mCurrent;
+	const char *mLast;
+	reader_state mReaderState;
+	uint8_t mState;
 };
 
-tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
+text_reader::text_reader(const std::shared_ptr<cainteoir::document_reader> &aReader)
 	: mReader(aReader)
 	, mMatchCurrent(mMatchBuffer)
 	, mNeedEndPara(false)
@@ -47,10 +73,10 @@ tts::text_reader::text_reader(const std::shared_ptr<document_reader> &aReader)
 	, mMatchNext(0)
 	, mMatchLast(0)
 {
-	mMatch.type = error;
+	mMatch.type = tts::error;
 }
 
-bool tts::text_reader::read()
+bool text_reader::read()
 {
 	while (mReaderState == reader_state::need_text && mReader->read())
 	{
@@ -83,7 +109,7 @@ bool tts::text_reader::read()
 		if (mState != (int)fsm::state::start)
 			return matched();
 
-		mMatch.type = paragraph;
+		mMatch.type = tts::paragraph;
 		mMatch.range = { mMatchNext, mMatchLast };
 		mReaderState = reader_state::need_text;
 		mNeedEndPara = false;
@@ -178,13 +204,18 @@ bool tts::text_reader::read()
 	return read();
 }
 
-bool tts::text_reader::matched()
+bool text_reader::matched()
 {
 	mMatch.type = fsm::data[mState].value;
 	mState = 0;
-	mMatch.text = make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
+	mMatch.text = cainteoir::make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer);
 	mMatch.range = { mMatchNext, mMatchLast };
 	mMatchCurrent = mMatchBuffer;
 	mMatchNext = mMatchLast;
 	return true;
+}
+
+std::shared_ptr<tts::text_reader> tts::create_text_reader(const std::shared_ptr<document_reader> &aReader)
+{
+	return std::make_shared<::text_reader>(aReader);
 }

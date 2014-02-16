@@ -1,6 +1,6 @@
 /* Text Processing API.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -96,30 +96,15 @@ namespace cainteoir { namespace tts
 
 	struct text_reader
 	{
-		text_reader(const std::shared_ptr<document_reader> &aReader);
+		virtual const text_event &event() const = 0;
 
-		const text_event &event() const { return mMatch; }
+		virtual bool read() = 0;
 
-		bool read();
-	private:
-		bool matched();
-
-		enum class reader_state;
-
-		std::shared_ptr<document_reader> mReader;
-		text_event mMatch;
-
-		char mMatchBuffer[512];
-		char *mMatchCurrent;
-		uint32_t mMatchNext;
-		uint32_t mMatchLast;
-
-		bool mNeedEndPara;
-		const char *mCurrent;
-		const char *mLast;
-		reader_state mReaderState;
-		uint8_t mState;
+		virtual ~text_reader() {}
 	};
+
+	std::shared_ptr<text_reader>
+	create_text_reader(const std::shared_ptr<document_reader> &aReader);
 
 	struct context_analysis
 	{
@@ -133,7 +118,7 @@ namespace cainteoir { namespace tts
 		bool read_clause();
 
 		bool mHaveEvent;
-		text_reader mReader;
+		std::shared_ptr<text_reader> mReader;
 		std::queue<text_event> mClause;
 	};
 

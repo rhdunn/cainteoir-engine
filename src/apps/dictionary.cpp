@@ -176,17 +176,17 @@ static uint32_t from_document(const tts::dictionary &base_dict,
 
 	std::shared_ptr<tts::phoneme_reader> phonemeset;
 	uint32_t words = 0;
-	tts::text_reader text(reader);
-	while (text.read()) switch (text.event().type)
+	auto text = tts::create_text_reader(reader);
+	while (text->read()) switch (text->event().type)
 	{
 	case tts::word_uppercase:
 	case tts::word_lowercase:
 	case tts::word_capitalized:
 	case tts::word_mixedcase:
 	case tts::word_script:
-		if (base_dict.lookup(text.event().text).type == tts::dictionary::no_match)
+		if (base_dict.lookup(text->event().text).type == tts::dictionary::no_match)
 		{
-			dict.add_entry(text.event().text, { text.event().text });
+			dict.add_entry(text->event().text, { text->event().text });
 			++words;
 		}
 		break;
