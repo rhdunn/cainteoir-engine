@@ -205,32 +205,21 @@ the document to the relevant position.
 
 
 \}
+
+
 \addtogroup context_analysis
 \{
 
-\class cainteoir::tts::context_analysis
-\brief Perform context analysis on a text event sequence.
 
-\}
-
-
-\fn    cainteoir::tts::context_analysis::context_analysis(const std::shared_ptr<document_reader> &aReader)
+\fn    cainteoir::tts::context_analysis(const std::shared_ptr<document_reader> &aReader)
 \brief Create a context analysis object.
 
 \param[in] aReader The document to generate text events from.
 
-
-\fn    const text_event &cainteoir::tts::context_analysis::event() const
-\brief Get the current text event.
-
-\return The current text event.
+\return The context analysis object.
 
 
-\fn    bool cainteoir::tts::context_analysis::read()
-\brief Get the next text event.
-
-\retval true  If the next event was read.
-\retval false If there are no more text events.
+\}
 
 
 \addtogroup word_stream

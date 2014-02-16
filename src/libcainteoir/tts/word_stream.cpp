@@ -269,7 +269,7 @@ static const std::string number_scale_str[] =
 tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader,
                               const language::tag &aLocale,
                               number_scale aScale)
-	: mReader(aReader)
+	: mReader(tts::context_analysis(aReader))
 {
 	auto locale_path = get_data_path() / "locale";
 
@@ -286,9 +286,9 @@ bool tts::word_stream::read()
 {
 	if (mEntries.empty())
 	{
-		if (mReader.read())
+		if (mReader->read())
 		{
-			auto &event = mReader.event();
+			auto &event = mReader->event();
 			switch (event.type)
 			{
 			case tts::number:

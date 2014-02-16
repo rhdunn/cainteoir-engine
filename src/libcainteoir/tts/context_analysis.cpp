@@ -223,13 +223,29 @@ enum class clause_state
 	end,          // next event is a word
 };
 
-tts::context_analysis::context_analysis(const std::shared_ptr<document_reader> &aReader)
+struct context_analysis : public tts::text_reader
+{
+public:
+	context_analysis(const std::shared_ptr<cainteoir::document_reader> &aReader);
+
+	const tts::text_event &event() const { return mClause.front(); }
+
+	bool read();
+private:
+	bool read_clause();
+
+	bool mHaveEvent;
+	std::shared_ptr<tts::text_reader> mReader;
+	std::queue<tts::text_event> mClause;
+};
+
+context_analysis::context_analysis(const std::shared_ptr<cainteoir::document_reader> &aReader)
 	: mReader(tts::create_text_reader(aReader))
 {
 	mHaveEvent = mReader->read();
 }
 
-bool tts::context_analysis::read()
+bool context_analysis::read()
 {
 	if (mClause.empty())
 	{
@@ -246,7 +262,7 @@ bool tts::context_analysis::read()
 	return true;
 }
 
-bool tts::context_analysis::read_clause()
+bool context_analysis::read_clause()
 {
 	clause_state state = clause_state::start;
 	punctuation_sequence sequence;
@@ -354,4 +370,9 @@ bool tts::context_analysis::read_clause()
 	}
 	sequence.flush(mClause);
 	return !mClause.empty();
+}
+
+std::shared_ptr<tts::text_reader> tts::context_analysis(const std::shared_ptr<document_reader> &aReader)
+{
+	return std::make_shared<::context_analysis>(aReader);
 }

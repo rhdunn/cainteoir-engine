@@ -171,8 +171,8 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	}
 	else if (type == mode_type::context_analysis)
 	{
-		tts::context_analysis text(reader);
-		generate_events(text, phonemeset);
+		auto text = tts::context_analysis(reader);
+		generate_events(*text, phonemeset);
 	}
 	else
 	{
