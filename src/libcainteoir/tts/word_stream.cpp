@@ -266,12 +266,30 @@ static const std::string number_scale_str[] =
 	"x-lngscale",
 };
 
-tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader,
-                              const language::tag &aLocale,
-                              number_scale aScale)
+struct numbers_to_words : public tts::text_reader
+{
+public:
+	numbers_to_words(const std::shared_ptr<cainteoir::document_reader> &aReader,
+	                 const cainteoir::language::tag &aLocale,
+	                 tts::number_scale aScale);
+
+	const tts::text_event &event() const { return mEntries.front(); }
+
+	bool read();
+private:
+	std::shared_ptr<tts::text_reader> mReader;
+	std::queue<tts::text_event> mEntries;
+
+	tts::dictionary mCardinals;
+	tts::dictionary mOrdinals;
+};
+
+numbers_to_words::numbers_to_words(const std::shared_ptr<cainteoir::document_reader> &aReader,
+                                   const cainteoir::language::tag &aLocale,
+                                   tts::number_scale aScale)
 	: mReader(tts::context_analysis(aReader))
 {
-	auto locale_path = get_data_path() / "locale";
+	auto locale_path = cainteoir::get_data_path() / "locale";
 
 	if (!parseCainteoirDictionary(mCardinals, locale_path / (aLocale.lang + '-' + aLocale.region) / "cardinal.dict"))
 		parseCainteoirDictionary(mCardinals, locale_path / aLocale.lang / "cardinal.dict");
@@ -282,7 +300,7 @@ tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader,
 	parseCainteoirDictionary(mOrdinals, locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "ordinal.dict");
 }
 
-bool tts::word_stream::read()
+bool numbers_to_words::read()
 {
 	if (mEntries.empty())
 	{
@@ -315,4 +333,12 @@ bool tts::word_stream::read()
 		return read();
 
 	return true;
+}
+
+std::shared_ptr<tts::text_reader>
+tts::numbers_to_words(const std::shared_ptr<document_reader> &aReader,
+                      const language::tag &aLocale,
+                      number_scale aScale)
+{
+	return std::make_shared<::numbers_to_words>(aReader, aLocale, aScale);
 }

@@ -134,7 +134,7 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
                 mode_type type,
                 phoneme_mode phonemes,
                 const lang::tag &locale,
-                tts::word_stream::number_scale scale,
+                tts::number_scale scale,
                 const char *ruleset,
                 const char *dictionary,
                 const char *phonemeset,
@@ -142,8 +142,8 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 {
 	if (type == mode_type::word_stream)
 	{
-		tts::word_stream text(reader, locale, scale);
-		generate_events(text, phonemeset);
+		auto text = tts::numbers_to_words(reader, locale, scale);
+		generate_events(*text, phonemeset);
 	}
 	else if (type == mode_type::phoneme_stream)
 	{
@@ -193,7 +193,7 @@ int main(int argc, char ** argv)
 		tts::stress_type stress = tts::stress_type::as_transcribed;
 		mode_type type = mode_type::parse_text;
 		phoneme_mode phonemes = phoneme_mode::events;
-		tts::word_stream::number_scale scale = tts::word_stream::short_scale;
+		tts::number_scale scale = tts::short_scale;
 		bool document_object = false;
 
 		const option_group general_options = { nullptr, {
@@ -204,9 +204,9 @@ int main(int argc, char ** argv)
 		const option_group processing_options = { i18n("Processing Options:"), {
 			{ 'l', "locale", locale_name, "LOCALE",
 			  i18n("Use LOCALE for processing numbers") },
-			{ 0, "short-scale", bind_value(scale, tts::word_stream::short_scale),
+			{ 0, "short-scale", bind_value(scale, tts::short_scale),
 			  i18n("Use the short scale for processing numbers") },
-			{ 0, "long-scale", bind_value(scale, tts::word_stream::long_scale),
+			{ 0, "long-scale", bind_value(scale, tts::long_scale),
 			  i18n("Use the long scale for processing numbers") },
 			{ 'd', "dictionary", dictionary, "DICTIONARY",
 			  i18n("Use the DICTIONARY pronunciation dictionary") },

@@ -103,42 +103,29 @@ namespace cainteoir { namespace tts
 		virtual ~text_reader() {}
 	};
 
+	enum number_scale
+	{
+		short_scale,
+		long_scale,
+	};
+
 	std::shared_ptr<text_reader>
 	create_text_reader(const std::shared_ptr<document_reader> &aReader);
 
 	std::shared_ptr<text_reader>
 	context_analysis(const std::shared_ptr<document_reader> &aReader);
 
-	struct word_stream
-	{
-	public:
-		enum number_scale
-		{
-			short_scale,
-			long_scale,
-		};
-
-		word_stream(const std::shared_ptr<document_reader> &aReader,
-		            const language::tag &aLocale,
-		            number_scale aScale);
-
-		const text_event &event() const { return mEntries.front(); }
-
-		bool read();
-	private:
-		std::shared_ptr<text_reader> mReader;
-		std::queue<text_event> mEntries;
-
-		dictionary mCardinals;
-		dictionary mOrdinals;
-	};
+	std::shared_ptr<text_reader>
+	numbers_to_words(const std::shared_ptr<document_reader> &aReader,
+	                 const language::tag &aLocale,
+	                 number_scale aScale);
 
 	struct phoneme_stream
 	{
 	public:
 		phoneme_stream(const std::shared_ptr<document_reader> &aReader,
 		               const language::tag &aLocale,
-		               word_stream::number_scale aScale,
+		               number_scale aScale,
 		               const std::shared_ptr<phoneme_reader> &aRules,
 		               const std::shared_ptr<dictionary_reader> &aExceptionDictionary);
 
@@ -148,7 +135,7 @@ namespace cainteoir { namespace tts
 	private:
 		bool pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange);
 
-		word_stream mReader;
+		std::shared_ptr<text_reader> mReader;
 		text_event mEvent;
 		std::shared_ptr<phoneme_reader> mRules;
 		dictionary mExceptionDictionary;

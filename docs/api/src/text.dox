@@ -225,48 +225,35 @@ the document to the relevant position.
 \addtogroup word_stream
 \{
 
-\enum  cainteoir::tts::word_stream::number_scale
+\enum  cainteoir::tts::number_scale
 \brief How to pronounce large numbers.
 
 \}
 
 
-\var   cainteoir::tts::word_stream::number_scale cainteoir::tts::word_stream::short_scale
+\var   cainteoir::tts::number_scale cainteoir::tts::short_scale
 \brief The short number scale (10^6 = million, 10^9 = billion, 10^12 = trillion, etc).
 
 
-\var   cainteoir::tts::word_stream::number_scale cainteoir::tts::word_stream::long_scale
+\var   cainteoir::tts::number_scale cainteoir::tts::long_scale
 \brief The long number scale (10^6 = million, 10^9 = milliard, 10^12 = billion, etc).
 
 
 \addtogroup word_stream
 \{
 
-\class cainteoir::tts::word_stream
-\brief Convert a text event sequence to a word sequence.
 
-\}
-
-
-\fn    cainteoir::tts::word_stream::word_stream(const std::shared_ptr<document_reader> &aReader, const language::tag &aLocale, number_scale aScale)
-\brief Create a word stream object.
+\fn    cainteoir::tts::numbers_to_words(const std::shared_ptr<document_reader> &aReader, const language::tag &aLocale, number_scale aScale)
+\brief Create a number to word converter.
 
 \param[in] aReader The document to generate text events from.
 \param[in] aLocale The language used to convert numbers, etc. into words.
 \param[in] aScale  The number scale system to use.
 
-
-\fn    const text_event &cainteoir::tts::word_stream::event() const
-\brief Get the current text event.
-
-\return The current text event.
+\return The number to word converter.
 
 
-\fn    bool cainteoir::tts::word_stream::read()
-\brief Get the next text event.
-
-\retval true  If the next event was read.
-\retval false If there are no more text events.
+\}
 
 
 \addtogroup phoneme_stream

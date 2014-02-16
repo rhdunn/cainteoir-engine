@@ -27,10 +27,10 @@ namespace tts = cainteoir::tts;
 
 tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aReader,
                                     const language::tag &aLocale,
-                                    tts::word_stream::number_scale aScale,
+                                    tts::number_scale aScale,
                                     const std::shared_ptr<phoneme_reader> &aRules,
                                     const std::shared_ptr<dictionary_reader> &aExceptionDictionary)
-	: mReader(aReader, aLocale, aScale)
+	: mReader(tts::numbers_to_words(aReader, aLocale, aScale))
 	, mRules(aRules)
 {
 	if (aExceptionDictionary) while (aExceptionDictionary->read())
@@ -39,18 +39,18 @@ tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aRea
 
 bool tts::phoneme_stream::read()
 {
-	while (mReader.read()) switch (mReader.event().type)
+	while (mReader->read()) switch (mReader->event().type)
 	{
 	case tts::word_uppercase:
 	case tts::word_lowercase:
 	case tts::word_capitalized:
 	case tts::word_mixedcase:
 	case tts::word_script:
-		if (pronounce(mReader.event().text, mReader.event().range))
+		if (pronounce(mReader->event().text, mReader->event().range))
 			return true;
 		break;
 	default:
-		mEvent = mReader.event();
+		mEvent = mReader->event();
 		return true;
 	}
 	return false;
