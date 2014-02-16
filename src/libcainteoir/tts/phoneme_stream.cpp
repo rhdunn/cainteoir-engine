@@ -65,19 +65,19 @@ bool tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 	{
 		for (const tts::phoneme &p : phonemes)
 			mEvent.phonemes.push_back(p);
+		return true;
 	}
-	else if (mRules.get())
+
+	if (mRules.get())
 	{
 		mRules->reset(aText);
 		while (mRules->read())
 			mEvent.phonemes.push_back(*mRules);
+		return true;
 	}
-	else
-	{
-		fprintf(stderr, "error: cannot pronounce '%s'\n", aText->str().c_str());
-		return false;
-	}
-	return true;
+
+	fprintf(stderr, "error: cannot pronounce '%s'\n", aText->str().c_str());
+	return false;
 }
 
 void tts::generate_phonemes(tts::phoneme_stream &reader,
