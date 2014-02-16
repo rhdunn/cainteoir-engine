@@ -19,6 +19,7 @@
  */
 
 #include "config.h"
+#include "i18n.h"
 #include "compatibility.hpp"
 
 #include <cainteoir/text.hpp>
@@ -47,7 +48,7 @@ void ruleset::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 
 bool ruleset::read()
 {
-	return false;
+	throw tts::phoneme_error(i18n("unable to pronounce the text"));
 }
 
 std::shared_ptr<tts::phoneme_reader> tts::createPronunciationRules(const char *aRuleSetPath)

@@ -60,6 +60,8 @@ bool tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 {
 	mEvent = { tts::phonemes, aRange, 0 };
 
+	// Try looking up the pronunciation in the exception dictionary ...
+
 	auto phonemes = mExceptionDictionary.pronounce(aText);
 	if (!phonemes.empty())
 	{
@@ -68,13 +70,22 @@ bool tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 		return true;
 	}
 
-	if (mRules.get())
+	// Try using pronunciation rules ...
+
+	if (mRules.get()) try
 	{
 		mRules->reset(aText);
 		while (mRules->read())
 			mEvent.phonemes.push_back(*mRules);
 		return true;
 	}
+	catch (const tts::phoneme_error &e)
+	{
+		// Unable to pronounce the word using the ruleset, so fall
+		// through to the failure logic below.
+	}
+
+	// TODO: Should use spelling logic here to spell out the unpronouncible word.
 
 	fprintf(stderr, "error: cannot pronounce '%s'\n", aText->str().c_str());
 	return false;
