@@ -120,28 +120,14 @@ namespace cainteoir { namespace tts
 	                 const language::tag &aLocale,
 	                 number_scale aScale);
 
-	struct phoneme_stream
-	{
-	public:
-		phoneme_stream(const std::shared_ptr<document_reader> &aReader,
-		               const language::tag &aLocale,
-		               number_scale aScale,
-		               const std::shared_ptr<phoneme_reader> &aRules,
-		               const std::shared_ptr<dictionary_reader> &aExceptionDictionary);
+	std::shared_ptr<text_reader>
+	words_to_phonemes(const std::shared_ptr<document_reader> &aReader,
+	                  const language::tag &aLocale,
+	                  number_scale aScale,
+	                  const std::shared_ptr<phoneme_reader> &aRules,
+	                  const std::shared_ptr<dictionary_reader> &aExceptionDictionary);
 
-		const text_event &event() const { return mEvent; }
-
-		bool read();
-	private:
-		bool pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange);
-
-		std::shared_ptr<text_reader> mReader;
-		text_event mEvent;
-		std::shared_ptr<phoneme_reader> mRules;
-		dictionary mExceptionDictionary;
-	};
-
-	void generate_phonemes(tts::phoneme_stream &reader,
+	void generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
 	                       FILE *out,
 	                       const char *phonemeset,
 	                       tts::stress_type stress,

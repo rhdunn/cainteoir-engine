@@ -1,6 +1,6 @@
 /* Phoneme Stream.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -25,11 +25,32 @@
 
 namespace tts = cainteoir::tts;
 
-tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aReader,
-                                    const language::tag &aLocale,
-                                    tts::number_scale aScale,
-                                    const std::shared_ptr<phoneme_reader> &aRules,
-                                    const std::shared_ptr<dictionary_reader> &aExceptionDictionary)
+struct words_to_phonemes : public tts::text_reader
+{
+public:
+	words_to_phonemes(const std::shared_ptr<cainteoir::document_reader> &aReader,
+	                  const cainteoir::language::tag &aLocale,
+	                  tts::number_scale aScale,
+	                  const std::shared_ptr<tts::phoneme_reader> &aRules,
+	                  const std::shared_ptr<tts::dictionary_reader> &aExceptionDictionary);
+
+	const tts::text_event &event() const { return mEvent; }
+
+	bool read();
+private:
+	bool pronounce(const std::shared_ptr<cainteoir::buffer> &aText, const cainteoir::range<uint32_t> &aRange);
+
+	std::shared_ptr<tts::text_reader> mReader;
+	tts::text_event mEvent;
+	std::shared_ptr<tts::phoneme_reader> mRules;
+	tts::dictionary mExceptionDictionary;
+};
+
+words_to_phonemes::words_to_phonemes(const std::shared_ptr<cainteoir::document_reader> &aReader,
+                                     const cainteoir::language::tag &aLocale,
+                                     tts::number_scale aScale,
+                                     const std::shared_ptr<tts::phoneme_reader> &aRules,
+                                     const std::shared_ptr<tts::dictionary_reader> &aExceptionDictionary)
 	: mReader(tts::numbers_to_words(aReader, aLocale, aScale))
 	, mRules(aRules)
 {
@@ -37,7 +58,8 @@ tts::phoneme_stream::phoneme_stream(const std::shared_ptr<document_reader> &aRea
 		mExceptionDictionary.add_entry(aExceptionDictionary->word, aExceptionDictionary->entry);
 }
 
-bool tts::phoneme_stream::read()
+bool
+words_to_phonemes::read()
 {
 	while (mReader->read()) switch (mReader->event().type)
 	{
@@ -56,7 +78,9 @@ bool tts::phoneme_stream::read()
 	return false;
 }
 
-bool tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const range<uint32_t> &aRange)
+bool
+words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
+                             const cainteoir::range<uint32_t> &aRange)
 {
 	mEvent = { tts::phonemes, aRange, 0 };
 
@@ -136,7 +160,17 @@ bool tts::phoneme_stream::pronounce(const std::shared_ptr<buffer> &aText, const 
 	return false;
 }
 
-void tts::generate_phonemes(tts::phoneme_stream &reader,
+std::shared_ptr<tts::text_reader>
+tts::words_to_phonemes(const std::shared_ptr<document_reader> &aReader,
+                       const language::tag &aLocale,
+                       number_scale aScale,
+                       const std::shared_ptr<phoneme_reader> &aRules,
+                       const std::shared_ptr<dictionary_reader> &aExceptionDictionary)
+{
+	return std::make_shared<::words_to_phonemes>(aReader, aLocale, aScale, aRules, aExceptionDictionary);
+}
+
+void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
                             FILE *out,
                             const char *phonemeset,
                             tts::stress_type stress,
@@ -149,9 +183,9 @@ void tts::generate_phonemes(tts::phoneme_stream &reader,
 
 	bool need_open  = true;
 	bool need_space = false;
-	while (reader.read())
+	while (reader->read())
 	{
-		auto &event = reader.event();
+		auto &event = reader->event();
 		switch (event.type)
 		{
 		default:

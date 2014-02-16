@@ -149,11 +149,11 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	{
 		auto rules = tts::createPronunciationRules(ruleset);
 		auto dict = tts::createCainteoirDictionaryReader(dictionary);
-		tts::phoneme_stream text(reader, locale, scale, rules, dict);
+		auto text = tts::words_to_phonemes(reader, locale, scale, rules, dict);
 		switch (phonemes)
 		{
 		case phoneme_mode::events:
-			generate_events(text, phonemeset);
+			generate_events(*text, phonemeset);
 			break;
 		case phoneme_mode::phonemes:
 			tts::generate_phonemes(text, stdout, phonemeset, stress, nullptr, nullptr);
