@@ -446,7 +446,16 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 	{
 		if (!aFrom->contains(tts::feature::silent_pause) || !aNoPauses)
 		{
-			aTo->write(*aFrom);
+			try
+			{
+				aTo->write(*aFrom);
+			}
+			catch (const tts::phoneme_error &e)
+			{
+				fflush(stdout);
+				fprintf(stderr, "\nerror: %s\n", e.what());
+				fflush(stderr);
+			}
 			if (aShowFeatures)
 			{
 				fputc('\t', stdout);
