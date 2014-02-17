@@ -130,4 +130,9 @@ if __name__ == '__main__':
 			{'test': 'parse-text/ordinal-numbers/numbers.txt', 'result': 'parse-text/ordinal-numbers/en-x-shtscale.ws', 'locale': 'en', 'scale': 'short'},
 		]},
 	]})
+	test.run({'name': 'Phoneme Stream', 'groups': [
+		{'name': 'English', 'type': 'phonemestream', 'tests': [
+			{'test': 'parse-text/phonemes/in-dictionary.txt', 'result': 'parse-text/phonemes/in-dictionary.ps', 'dictionary': 'dict/cainteoir/words.dict'}
+		]},
+	]})
 	test.summary()

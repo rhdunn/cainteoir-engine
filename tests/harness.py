@@ -179,6 +179,8 @@ class ParseTextCommand(Command):
 			params.extend(['--locale', data['locale']])
 		if 'scale' in data:
 			params.append('--%s-scale' % data['scale'])
+		if 'dictionary' in data:
+			params.extend(['--dictionary', os.path.join(sys.path[0], data['dictionary'])])
 		return Command.run(self, params, filename, data)
 
 class PhonemeSetCommand(Command):
@@ -205,7 +207,7 @@ def create_command(test_type):
 		return Command(test_type)
 	if test_type == 'htmlreader':
 		return Command('xmlreader --html')
-	if test_type in ['parsetext', 'contextanalysis', 'wordstream']:
+	if test_type in ['parsetext', 'contextanalysis', 'wordstream', 'phonemestream']:
 		return ParseTextCommand(test_type)
 	raise Exception('Unsupported command "%s"' % test_type)
 

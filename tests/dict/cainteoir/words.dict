@@ -1,0 +1,10 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Test dictionary with duplicate entries.
+.phonemeset	cxs
+
+a		/@/
+is		/'Iz/
+test		/'tEst/
+this		/'TIs/
