@@ -40,9 +40,10 @@ namespace lang = cainteoir::language;
 enum class mode_type
 {
 	parse_text,
+	context_analysis,
 	word_stream,
 	phoneme_stream,
-	context_analysis,
+	prosody_stream,
 };
 
 enum class phoneme_mode
@@ -146,7 +147,8 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		          | tts::numbers_to_words(locale, scale);
 		generate_events(text, phonemeset);
 	}
-	else if (type == mode_type::phoneme_stream)
+	else if (type == mode_type::phoneme_stream ||
+	         type == mode_type::prosody_stream)
 	{
 		auto rules = tts::createPronunciationRules(ruleset);
 		auto dict = tts::createCainteoirDictionaryReader(dictionary);
@@ -154,6 +156,8 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		          | tts::context_analysis()
 		          | tts::numbers_to_words(locale, scale)
 		          | tts::words_to_phonemes(rules, dict);
+		if (type == mode_type::prosody_stream)
+			text = text | tts::adjust_stress();
 		switch (phonemes)
 		{
 		case phoneme_mode::events:
@@ -230,6 +234,8 @@ int main(int argc, char ** argv)
 			  i18n("Convert the document into phonetic pronunciations") },
 			{ 0, "contextanalysis", bind_value(type, mode_type::context_analysis),
 			  i18n("Apply context analysis on the document") },
+			{ 0, "prosodystream", bind_value(type, mode_type::prosody_stream),
+			  i18n("Convert the document into phonetic pronunciations with adjusted stress patterns") },
 		}};
 
 		const option_group phoneme_options = { i18n("Phoneme Stream Mode:"), {
