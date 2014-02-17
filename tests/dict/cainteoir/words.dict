@@ -5,6 +5,11 @@
 .phonemeset	cxs
 
 a		/@/
+and		/'and/
+by		/'baI_^/
 is		/'Iz/
+side		/'saI_^d/
+side-by-side	/'saI_^d.baI_^,saI_^d/
 test		/'tEst/
-this		/'TIs/
+that		/'Dat/
+this		/'DIs/
