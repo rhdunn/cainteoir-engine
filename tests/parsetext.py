@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2012 Reece H. Dunn
+# Copyright (C) 2012-2014 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -132,7 +132,8 @@ if __name__ == '__main__':
 	]})
 	test.run({'name': 'Phoneme Stream', 'groups': [
 		{'name': 'English', 'type': 'phonemestream', 'tests': [
-			{'test': 'parse-text/phonemes/in-dictionary.txt', 'result': 'parse-text/phonemes/in-dictionary.ps', 'dictionary': 'dict/cainteoir/words.dict'}
+			{'test': 'parse-text/phonemes/in-dictionary.txt', 'result': 'parse-text/phonemes/in-dictionary.ps', 'dictionary': 'dict/cainteoir/words.dict'},
+			{'test': 'parse-text/phonemes/missing-word.txt', 'result': 'parse-text/phonemes/missing-word.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 		]},
 	]})
 	test.summary()
