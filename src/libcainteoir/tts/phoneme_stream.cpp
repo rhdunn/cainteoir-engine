@@ -30,28 +30,36 @@ struct hyphenated_word
 	hyphenated_word(const std::shared_ptr<cainteoir::buffer> &aText)
 		: first(aText->begin())
 		, last(aText->end())
+		, next(first)
 	{
+		advance();
 	}
 
 	bool have_word() { return first <= last; }
 
 	std::shared_ptr<cainteoir::buffer> next_word();
 private:
+	void advance();
+
 	const char *first;
 	const char *last;
+	const char *next;
 };
 
 std::shared_ptr<cainteoir::buffer> hyphenated_word::next_word()
 {
-	const char *next = first;
+	auto ret = std::make_shared<cainteoir::buffer>(first, next-1);
+	advance();
+	return ret;
+}
+
+void hyphenated_word::advance()
+{
+	first = next;
 	while (next <= last && *next != '-')
 		++next;
 	if (*next == '-')
 		++next;
-
-	auto ret = std::make_shared<cainteoir::buffer>(first, next-1);
-	first = next;
-	return ret;
 }
 
 struct words_to_phonemes : public tts::text_reader
@@ -127,7 +135,7 @@ words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
 	// Try looking up hyphenated words individually ...
 
 	hyphenated_word hyphenated{ aText };
-	try
+	if (hyphenated.have_word()) try
 	{
 		while (hyphenated.have_word())
 		{
