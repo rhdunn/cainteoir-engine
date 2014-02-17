@@ -25,6 +25,35 @@
 
 namespace tts = cainteoir::tts;
 
+struct hyphenated_word
+{
+	hyphenated_word(const std::shared_ptr<cainteoir::buffer> &aText)
+		: first(aText->begin())
+		, last(aText->end())
+	{
+	}
+
+	bool have_word() { return first <= last; }
+
+	std::shared_ptr<cainteoir::buffer> next_word();
+private:
+	const char *first;
+	const char *last;
+};
+
+std::shared_ptr<cainteoir::buffer> hyphenated_word::next_word()
+{
+	const char *next = first;
+	while (next <= last && *next != '-')
+		++next;
+	if (*next == '-')
+		++next;
+
+	auto ret = std::make_shared<cainteoir::buffer>(first, next-1);
+	first = next;
+	return ret;
+}
+
 struct words_to_phonemes : public tts::text_reader
 {
 public:
@@ -97,21 +126,12 @@ words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
 
 	// Try looking up hyphenated words individually ...
 
+	hyphenated_word hyphenated{ aText };
 	try
 	{
-		const char *first = aText->begin();
-		const char *last  = aText->end();
-		while (first <= last)
+		while (hyphenated.have_word())
 		{
-			// Get the next word ...
-
-			const char *next = first;
-			while (next <= last && *next != '-')
-				++next;
-			if (*next == '-')
-				++next;
-
-			auto word = std::make_shared<cainteoir::buffer>(first, next-1);
+			auto word = hyphenated.next_word();
 
 			// Try pronouncing the word ...
 
@@ -129,8 +149,6 @@ words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
 			}
 			else
 				throw tts::phoneme_error("unable to pronounce the hyphenated word");
-
-			first = next;
 		}
 
 		return true;
