@@ -80,7 +80,7 @@ static const char *token_name[] = {
 	"em-dash",
 };
 
-void generate_events(const std::shared_ptr<tts::text_reader> &text, const char *phonemeset)
+void generate_events(const std::shared_ptr<tts::text_reader> &text, const char *phonemeset, tts::stress_type stress)
 {
 	auto ipa = tts::createPhonemeWriter(phonemeset);
 	ipa->reset(stdout);
@@ -115,8 +115,12 @@ void generate_events(const std::shared_ptr<tts::text_reader> &text, const char *
 			        token_name[event.type],
 			        *event.range.begin(),
 			        *event.range.end());
-			for (auto p : event.phonemes)
-				ipa->write(p);
+			{
+				auto phonemes = event.phonemes;
+				tts::make_stressed(phonemes, stress);
+				for (auto p : phonemes)
+					ipa->write(p);
+			}
 			fprintf(stdout, "/\n");
 			break;
 		default:
@@ -145,7 +149,7 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		auto text = tts::create_text_reader(reader)
 		          | tts::context_analysis()
 		          | tts::numbers_to_words(locale, scale);
-		generate_events(text, phonemeset);
+		generate_events(text, phonemeset, stress);
 	}
 	else if (type == mode_type::phoneme_stream ||
 	         type == mode_type::prosody_stream)
@@ -161,7 +165,7 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		switch (phonemes)
 		{
 		case phoneme_mode::events:
-			generate_events(text, phonemeset);
+			generate_events(text, phonemeset, stress);
 			break;
 		case phoneme_mode::phonemes:
 			tts::generate_phonemes(text, stdout, phonemeset, stress, nullptr, nullptr);
@@ -181,12 +185,12 @@ bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	{
 		auto text = tts::create_text_reader(reader)
 		          | tts::context_analysis();
-		generate_events(text, phonemeset);
+		generate_events(text, phonemeset, stress);
 	}
 	else
 	{
 		auto text = tts::create_text_reader(reader);
-		generate_events(text, phonemeset);
+		generate_events(text, phonemeset, stress);
 	}
 	return false;
 }
