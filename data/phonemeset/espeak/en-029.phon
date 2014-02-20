@@ -9,7 +9,7 @@ _|		/{pau,est}/	# pause before conjunction
 _		/{pau,est}/	# pause before conjunction
 \u000A		/{pau}/		# clause pause (e.g. comma)
 
-;	/{sbr}/ # [1]
+;	/<pzd>/>
 '	/<st1>/<
 ,	/<st2>/<
 
@@ -114,14 +114,9 @@ I2	/{hgh,cnt,unr,vcd,vwl}/ # ROSES
 
 ##### Notes
 #
-# 1.  eSpeak inserts a /;/ between some phonemes to separate some phoneme pairs
-#     that may be ambiguous, especially for /I/, /i/, /i:/, /I2/ and /aI/. When
-#     a /;/ is present that is not needed, eSpeak simply ignores it. Thus, it
-#     functions as a syllable break.
-#
-# 2.  This accent is rhotic in some contexts -- specifically before vowels --
+# 1.  This accent is rhotic in some contexts -- specifically before vowels --
 #     and eSpeak will insert the /r-/ phoneme in these contexts.
 #
-# 3.  The phoneme ascribed to LETTER and COMMA is /a#/, however in other
+# 2.  The phoneme ascribed to LETTER and COMMA is /a#/, however in other
 #     LETTER and COMMA vowel contexts, /3/ and /@/ are used instead. Thus,
 #     /3/ and /@/ are used for those lexical sets here.
