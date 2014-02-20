@@ -91,9 +91,17 @@ static bool pronounce(tts::dictionary &dict,
 	}
 
 	std::list<tts::phoneme> pronounced;
-	rules->reset(word);
-	while (rules->read())
-		pronounced.push_back(*rules);
+	try
+	{
+		rules->reset(word);
+		while (rules->read())
+			pronounced.push_back(*rules);
+	}
+	catch (const tts::phoneme_error &e)
+	{
+		fprintf(stderr, "cannot pronounce '%s': %s\n", word->str().c_str(), e.what());
+		return false;
+	}
 
 	tts::make_stressed(pronounced, stress);
 
