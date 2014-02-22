@@ -33,8 +33,6 @@ namespace cainteoir { namespace tts
 		unspecified,
 
 		vowel,
-		rising_diphthong,
-		falling_diphthong,
 
 		// phonation
 
@@ -64,7 +62,6 @@ namespace cainteoir { namespace tts
 
 		plosive,
 		fricative,
-		affricate,
 		nasal,
 		approximant,
 		trill,

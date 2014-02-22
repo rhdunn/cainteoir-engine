@@ -95,8 +95,6 @@ void adjust_stress::adjust_phonemes(std::list<tts::phoneme> &aPhonemes)
 			is_stressed = true;
 			break;
 		case tts::feature::vowel:
-		case tts::feature::rising_diphthong:
-		case tts::feature::falling_diphthong:
 			is_vowel = true;
 			break;
 		}

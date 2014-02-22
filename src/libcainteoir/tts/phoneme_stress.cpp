@@ -39,9 +39,7 @@ static bool is_vowel(const tts::phoneme &aPhoneme)
 {
 	for (const tts::feature f : aPhoneme)
 	{
-		if (f == tts::feature::vowel ||
-		    f == tts::feature::rising_diphthong ||
-		    f == tts::feature::falling_diphthong)
+		if (f == tts::feature::vowel)
 			return true;
 	}
 	return false;

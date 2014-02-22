@@ -114,16 +114,6 @@ The articulation occurs with the glottis.
 
 Identifies a vowel-based phoneme.
 
-\var   cainteoir::tts::feature cainteoir::tts::rising_diphthong
-\brief \b dpr
-
-Identifies a diphthong vowel pair which glides from open to close.
-
-\var   cainteoir::tts::feature cainteoir::tts::falling_diphthong
-\brief \b dpf
-
-Identifies a diphthong vowel pair which glides from close to open.
-
 \var   cainteoir::tts::feature cainteoir::tts::lateral
 \brief \b lat
 
@@ -140,11 +130,6 @@ All airflow is blocked, either by the lips, tongue or glottis.
 
 The airflow is forced through a narrow gap between two articulators, creating
 a turbulant airflow.
-
-\var   cainteoir::tts::feature cainteoir::tts::affricate
-\brief \b afr
-
-The onset is plosive, while the release is fricative.
 
 \var   cainteoir::tts::feature cainteoir::tts::nasal
 \brief \b nas

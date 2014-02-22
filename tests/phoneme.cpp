@@ -1,6 +1,6 @@
 /* Test for the phoneme model.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -482,11 +482,8 @@ TEST_CASE("tts::get_feature_id -- extended abbreviations")
 
 	assert(tts::get_feature_id("sml") == _(f::semi_low));
 	assert(tts::get_feature_id("sib") == _(f::sibilant));
-	assert(tts::get_feature_id("afr") == _(f::affricate));
 	assert(tts::get_feature_id("epg") == _(f::epiglottal));
 
-	assert(tts::get_feature_id("dpf") == _(f::falling_diphthong));
-	assert(tts::get_feature_id("dpr") == _(f::rising_diphthong));
 	assert(tts::get_feature_id("nsy") == _(f::non_syllabic));
 
 	assert(tts::get_feature_id("st1") == _(f::primary_stress));
@@ -523,13 +520,10 @@ TEST_CASE("tts::get_feature_abbreviation")
 	assert(tts::get_feature_abbreviation(f::glottal)         == "glt");
 
 	assert(tts::get_feature_abbreviation(f::vowel)             == "vwl");
-	assert(tts::get_feature_abbreviation(f::falling_diphthong) == "dpf");
-	assert(tts::get_feature_abbreviation(f::rising_diphthong)  == "dpr");
 	assert(tts::get_feature_abbreviation(f::lateral)           == "lat");
 
 	assert(tts::get_feature_abbreviation(f::plosive)     == "stp");
 	assert(tts::get_feature_abbreviation(f::fricative)   == "frc");
-	assert(tts::get_feature_abbreviation(f::affricate)   == "afr");
 	assert(tts::get_feature_abbreviation(f::nasal)       == "nas");
 	assert(tts::get_feature_abbreviation(f::approximant) == "apr");
 	assert(tts::get_feature_abbreviation(f::trill)       == "trl");
@@ -606,14 +600,11 @@ TEST_CASE("tts::get_feature_name")
 	assert(tts::get_feature_name(f::epiglottal)      == "epiglottal");
 	assert(tts::get_feature_name(f::glottal)         == "glottal");
 
-	assert(tts::get_feature_name(f::vowel)             == "vowel");
-	assert(tts::get_feature_name(f::falling_diphthong) == "falling diphthong");
-	assert(tts::get_feature_name(f::rising_diphthong)  == "rising diphthong");
-	assert(tts::get_feature_name(f::lateral)           == "lateral");
+	assert(tts::get_feature_name(f::vowel)   == "vowel");
+	assert(tts::get_feature_name(f::lateral) == "lateral");
 
 	assert(tts::get_feature_name(f::plosive)     == "plosive");
 	assert(tts::get_feature_name(f::fricative)   == "fricative");
-	assert(tts::get_feature_name(f::affricate)   == "affricate");
 	assert(tts::get_feature_name(f::nasal)       == "nasal");
 	assert(tts::get_feature_name(f::approximant) == "approximant");
 	assert(tts::get_feature_name(f::trill)       == "trill");
@@ -695,7 +686,6 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		// consonants ...
 		{ "{vcd,blb,stp,asp}",     { f::voiced, f::bilabial, f::plosive, f::aspirated } },
 		{ "{vls,lbd,frc,unx}",     { f::voiceless, f::labio_dental, f::fricative, f::unreleased } },
-		{ "{vls,lbd,afr,unx}",     { f::voiceless, f::labio_dental, f::affricate, f::unreleased } },
 		{ "{vcd,dnt,nas,syl}",     { f::voiced, f::dental, f::nasal, f::syllabic } },
 		{ "{vls,alv,apr,mrm}",     { f::voiceless, f::alveolar, f::approximant, f::murmured } },
 		{ "{vcd,lbd,lat,frc}",     { f::voiced, f::labio_dental, f::lateral, f::fricative } },
@@ -870,7 +860,6 @@ TEST_CASE("explicit feature writer -- single phoneme")
 		{ "{vcd,dnt,nas,syl}",     { f::voiced, f::dental, f::nasal, f::syllabic } },
 		{ "{vls,alv,apr,mrm}",     { f::voiceless, f::alveolar, f::approximant, f::murmured } },
 		{ "{vcd,lbd,lat,frc}",     { f::voiced, f::labio_dental, f::lateral, f::fricative } },
-		{ "{vcd,lbd,lat,afr}",     { f::voiced, f::labio_dental, f::lateral, f::affricate } },
 		{ "{vls,rfx,trl,vzd}",     { f::voiceless, f::retroflex, f::trill, f::velarized } },
 		{ "{vcd,pla,flp,lzd}",     { f::voiced, f::palato_alveolar, f::flap, f::labialized } },
 		{ "{vls,pal,clk}",         { f::voiceless, f::palatal, f::click } },

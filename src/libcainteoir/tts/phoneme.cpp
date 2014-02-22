@@ -1,6 +1,6 @@
 /* Phoneme Model.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -29,7 +29,6 @@
 namespace tts = cainteoir::tts;
 
 static const std::initializer_list<const std::pair<const char *, tts::feature>> abbreviations = {
-	{ "afr", tts::feature::affricate },
 	{ "alv", tts::feature::alveolar },
 	{ "apr", tts::feature::approximant },
 	{ "asp", tts::feature::aspirated },
@@ -39,8 +38,6 @@ static const std::initializer_list<const std::pair<const char *, tts::feature>> 
 	{ "cnt", tts::feature::center },
 	{ "ctl", tts::feature::unspecified },
 	{ "dnt", tts::feature::dental },
-	{ "dpf", tts::feature::falling_diphthong },
-	{ "dpr", tts::feature::rising_diphthong },
 	{ "ejc", tts::feature::ejective },
 	{ "epg", tts::feature::epiglottal },
 	{ "est", tts::feature::extra_short },
@@ -96,8 +93,6 @@ static const std::pair<const char *, const char *> feature_data[] = {
 	{ nullptr, nullptr },
 
 	{ "vwl", i18n("vowel") },
-	{ "dpr", i18n("rising diphthong") },
-	{ "dpf", i18n("falling diphthong") },
 
 	// phonation
 
@@ -127,7 +122,6 @@ static const std::pair<const char *, const char *> feature_data[] = {
 
 	{ "stp", i18n("plosive") },
 	{ "frc", i18n("fricative") },
-	{ "afr", i18n("affricate") },
 	{ "nas", i18n("nasal") },
 	{ "apr", i18n("approximant") },
 	{ "trl", i18n("trill") },

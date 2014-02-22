@@ -1,4 +1,4 @@
-# Copyright (C) 2013 Reece H. Dunn
+# Copyright (C) 2013-2014 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -155,7 +155,7 @@
 
 ##### Cyrillic
 
-\u1D19			/{vcd,epg,trl}/ # [3]
+\u1D19			/{vcd,epg,trl}/ # [2]
 
 ##### Mathematical Operators
 
@@ -164,7 +164,7 @@
 
 ##### Latin Extended-D
 
-\uA78E			/{vls,rfx,lat,frc}/ # [3]
+\uA78E			/{vls,rfx,lat,frc}/ # [2]
 
 ##### C0 Controls and Basic Latin [1]
 
@@ -238,106 +238,6 @@ z\u032A			/{vcd,dnt,sib,frc}/
 
 |			/{vls,dnt,clk}/
 
-##### Affricates
-
-d\u0361z		/{vcd,alv,afr}/
-d\u035Cz		/{vcd,alv,afr}/
-d\u200Dz		/{vcd,alv,afr}/
-
-d\u0361\u0291		/{vcd,pla,afr,pzd}/
-d\u035C\u0291		/{vcd,pla,afr,pzd}/
-d\u200D\u0291		/{vcd,pla,afr,pzd}/
-
-d\u0361\u0292		/{vcd,pla,afr}/
-d\u035C\u0292		/{vcd,pla,afr}/
-d\u200D\u0292		/{vcd,pla,afr}/
-
-t\u0361s		/{vls,alv,afr}/
-t\u035Cs		/{vls,alv,afr}/
-t\u200Ds		/{vls,alv,afr}/
-
-t\u0361\u0255		/{vls,pla,afr,pzd}/
-t\u035C\u0255		/{vls,pla,afr,pzd}/
-t\u200D\u0255		/{vls,pla,afr,pzd}/
-
-t\u0361\u0283		/{vls,pla,afr}/
-t\u035C\u0283		/{vls,pla,afr}/
-t\u200D\u0283		/{vls,pla,afr}/
-
-##### Diphthongs
-
-\u0254\u026A\u032F	/{lmd,bck,rnd,dpr,smh,fnt}/
-\u0254\u0361\u026A	/{lmd,bck,rnd,dpr,smh,fnt}/
-\u0254\u035C\u026A	/{lmd,bck,rnd,dpr,smh,fnt}/
-\u0254\u200D\u026A	/{lmd,bck,rnd,dpr,smh,fnt}/
-
-\u0259\u028A\u032F	/{mid,cnt,unr,dpr,smh,bck}/
-\u0259\u0361\u028A	/{mid,cnt,unr,dpr,smh,bck}/ # [2]
-\u0259\u035C\u028A	/{mid,cnt,unr,dpr,smh,bck}/ # [2]
-\u0259\u200D\u028A	/{mid,cnt,unr,dpr,smh,bck}/ # [2]
-o\u028A\u032F		/{mid,cnt,unr,dpr,smh,bck}/
-o\u0361\u028A		/{mid,cnt,unr,dpr,smh,bck}/
-o\u035C\u028A		/{mid,cnt,unr,dpr,smh,bck}/
-o\u200D\u028A		/{mid,cnt,unr,dpr,smh,bck}/
-
-\u026A\u0259\u032F	/{smh,fnt,unr,dpf,mid,cnt}/
-\u026A\u0361\u0259	/{smh,fnt,unr,dpf,mid,cnt}/
-\u026A\u035C\u0259	/{smh,fnt,unr,dpf,mid,cnt}/
-\u026A\u200D\u0259	/{smh,fnt,unr,dpf,mid,cnt}/
-i\u0259\u032F		/{smh,fnt,unr,dpf,mid,cnt}/
-i\u0361\u0259		/{smh,fnt,unr,dpf,mid,cnt}/ # [2]
-i\u035C\u0259		/{smh,fnt,unr,dpf,mid,cnt}/ # [2]
-i\u200D\u0259		/{smh,fnt,unr,dpf,mid,cnt}/ # [2]
-
-\u028A\u0259\u032F	/{smh,bck,rnd,dpf,mid,cnt}/
-\u028A\u0361\u0259	/{smh,bck,rnd,dpf,mid,cnt}/
-\u028A\u035C\u0259	/{smh,bck,rnd,dpf,mid,cnt}/
-\u028A\u200D\u0259	/{smh,bck,rnd,dpf,mid,cnt}/
-
-a\u026A\u032F		/{low,fnt,unr,dpr,smh}/
-a\u0361\u026A		/{low,fnt,unr,dpr,smh}/
-a\u035C\u026A		/{low,fnt,unr,dpr,smh}/
-a\u200D\u026A		/{low,fnt,unr,dpr,smh}/
-
-a\u028A\u032F		/{low,fnt,unr,dpr,smh,bck}/
-a\u0361\u028A		/{low,fnt,unr,dpr,smh,bck}/
-a\u035C\u028A		/{low,fnt,unr,dpr,smh,bck}/
-a\u200D\u028A		/{low,fnt,unr,dpr,smh,bck}/
-
-e\u026A\u032F		/{lmd,fnt,unr,dpr,smh}/
-e\u0361\u026A		/{lmd,fnt,unr,dpr,smh}/
-e\u035C\u026A		/{lmd,fnt,unr,dpr,smh}/
-e\u200D\u026A		/{lmd,fnt,unr,dpr,smh}/
-
-\u025B\u0259\u032F	/{lmd,fnt,unr,dpr,mid,cnt}/
-\u025B\u0361\u0259	/{lmd,fnt,unr,dpr,mid,cnt}/
-\u025B\u035C\u0259	/{lmd,fnt,unr,dpr,mid,cnt}/
-\u025B\u200D\u0259	/{lmd,fnt,unr,dpr,mid,cnt}/
-e\u0259\u032F		/{lmd,fnt,unr,dpr,mid,cnt}/
-e\u0361\u0259		/{lmd,fnt,unr,dpr,mid,cnt}/
-e\u035C\u0259		/{lmd,fnt,unr,dpr,mid,cnt}/
-e\u200D\u0259		/{lmd,fnt,unr,dpr,mid,cnt}/
-
-##### Archaic English
-
-\u026Ar			/{smh,fnt,unr,vcd,vwl,rzd}/ # /Ir/ ~ F/IR/ (pre FERN-FIR-FER merger)
-\u028Ar			/{smh,bck,rnd,vcd,vwl,rzd}/ # /Ur/ ~ F/UR/ (pre FERN-FIR-FUR merger)
-\u0251\u02D0r		/{low,bck,unr,vcd,vwl,rzd}/ # /A:r/ ~ ST/AR/T
-o\u02D0r		/{umd,bck,rnd,vcd,vwl,rzd}/ # /o:r/ ~ F/OR/CE
-\u0254\u02D0r		/{lmd,bck,rnd,vcd,vwl,rzd}/ # /O:r/ ~ N/OR/TH
-
-##### Triphthongs
-
-a\u026A\u032F\u0259\u032F	/{low,fnt,unr,dpr,smh,rzd}/
-a\u0361\u026A\u0361\u0259	/{low,fnt,unr,dpr,smh,rzd}/
-a\u035C\u026A\u035C\u0259	/{low,fnt,unr,dpr,smh,rzd}/
-a\u200D\u026A\u200D\u0259	/{low,fnt,unr,dpr,smh,rzd}/
-
-a\u028A\u032F\u0259\u032F	/{low,fnt,unr,dpr,smh,bck,rzd}/
-a\u0361\u028A\u0361\u0259	/{low,fnt,unr,dpr,smh,bck,rzd}/
-a\u035C\u028A\u035C\u0259	/{low,fnt,unr,dpr,smh,bck,rzd}/
-a\u200D\u028A\u200D\u0259	/{low,fnt,unr,dpr,smh,bck,rzd}/
-
 ##### Syllabic Consonants
 
 \u014B\u0329		/{vcd,vel,nas,syl}/
@@ -360,9 +260,7 @@ n\u0329			/{vcd,alv,nas,syl}/
 #     that the best characters are used, the Basic Latin forms are placed
 #     at the end of the list as earlier items in the list take precedence.
 #
-#  2. This is an alternate transcription used by `espeak --ipa`.
-#
-#  3. This is an unofficial symbol, as the IPA does not provide a symbol for
+#  2. This is an unofficial symbol, as the IPA does not provide a symbol for
 #     this phoneme.
 #
 ##### References:

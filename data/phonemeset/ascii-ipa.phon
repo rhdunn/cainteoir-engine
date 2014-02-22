@@ -1,4 +1,4 @@
-# Copyright (C) 2013 Reece H. Dunn
+# Copyright (C) 2013-2014 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -179,22 +179,6 @@ m-	/{vcd,blb,nas,syl}/
 n-	/{vcd,alv,nas,syl}/
 N-	/{vcd,vel,nas,syl}/
 r-	/{vcd,alv,apr,syl}/
-
-ts	/{vls,alv,afr}/
-dz	/{vcd,alv,afr}/
-tS	/{vls,pla,afr}/
-dZ	/{vcd,pla,afr}/
-
-eI	/{lmd,fnt,unr,dpr,smh}/
-aI	/{low,fnt,unr,dpr,smh}/
-OI	/{lmd,bck,rnd,dpr,smh,fnt}/
-
-I@	/{smh,fnt,unr,dpf,mid,cnt}/
-e@	/{lmd,fnt,unr,dpr,mid,cnt}/
-U@	/{smh,bck,rnd,dpf,mid,cnt}/
-
-oU	/{mid,cnt,unr,dpr,smh,bck}/
-aU	/{low,fnt,unr,dpr,smh,bck}/
 
 \u0020	/{pau,est}/	# word pause
 \u000A	/{pau}/		# clause pause (e.g. comma)
