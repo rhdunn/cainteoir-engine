@@ -68,6 +68,11 @@ static const std::initializer_list<tts::feature> place_of_articulation = {
 	f::glottal,
 };
 
+static const std::initializer_list<tts::feature> voicing = {
+	f::voiceless,
+	f::voiced,
+};
+
 static const std::initializer_list<tts::feature> vowel_backness = {
 	f::front,
 	f::center,
@@ -234,7 +239,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("<body>\n", stdout);
 
 	print_chart(ipa, i18n("Pulmonic Consonants"),
-	            place_of_articulation, manner_of_articulation_pulmonic, {}, {});
+	            place_of_articulation, manner_of_articulation_pulmonic, voicing, {});
 
 	print_chart(ipa, i18n("Vowels"),
 	            vowel_backness, vowel_height, roundness, {});
