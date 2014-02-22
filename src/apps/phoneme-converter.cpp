@@ -80,13 +80,13 @@ static const std::initializer_list<tts::feature> vowel_backness = {
 };
 
 static const std::initializer_list<std::pair<tts::feature, tts::feature>> vowel_height = {
-	{ f::high,      f::vowel },
-	{ f::semi_high, f::vowel },
-	{ f::upper_mid, f::vowel },
-	{ f::mid,       f::vowel },
-	{ f::lower_mid, f::vowel },
-	{ f::semi_low,  f::vowel },
-	{ f::low,       f::vowel },
+	{ f::high,      f::unspecified },
+	{ f::semi_high, f::unspecified },
+	{ f::upper_mid, f::unspecified },
+	{ f::mid,       f::unspecified },
+	{ f::lower_mid, f::unspecified },
+	{ f::semi_low,  f::unspecified },
+	{ f::low,       f::unspecified },
 };
 
 static const std::initializer_list<tts::feature> roundness = {
@@ -242,7 +242,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	            place_of_articulation, manner_of_articulation_pulmonic, voicing, {});
 
 	print_chart(ipa, i18n("Vowels"),
-	            vowel_backness, vowel_height, roundness, { f::voiced });
+	            vowel_backness, vowel_height, roundness, { f::voiced, f::vowel });
 
 	print_chart(ipa, i18n("Non-Pulmonic Consonants"),
 	            place_of_articulation, manner_of_articulation_non_pulmonic, {}, {});
