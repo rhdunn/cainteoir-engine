@@ -44,6 +44,9 @@ static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner
 	{ f::approximant, f::unspecified },
 	{ f::flap,        f::unspecified },
 	{ f::trill,       f::unspecified },
+	{ f::lateral,     f::fricative },
+	{ f::lateral,     f::approximant },
+	{ f::lateral,     f::flap },
 };
 
 static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation_non_pulmonic = {
