@@ -242,7 +242,7 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	            place_of_articulation, manner_of_articulation_pulmonic, voicing, {});
 
 	print_chart(ipa, i18n("Vowels"),
-	            vowel_backness, vowel_height, roundness, {});
+	            vowel_backness, vowel_height, roundness, { f::voiced });
 
 	print_chart(ipa, i18n("Non-Pulmonic Consonants"),
 	            place_of_articulation, manner_of_articulation_non_pulmonic, {}, {});
