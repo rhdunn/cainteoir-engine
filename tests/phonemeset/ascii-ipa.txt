@@ -117,13 +117,6 @@ r-
 S;
 Z;
 
-ts
-dz
-tS
-dZ
-tS;
-dZ;
-
 i
 i:
 y
@@ -168,14 +161,3 @@ a.
 A
 A:
 A.
-
-eI
-aI
-OI
-
-I@
-e@
-U@
-
-oU
-aU

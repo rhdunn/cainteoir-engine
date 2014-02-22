@@ -31,11 +31,6 @@
 {vls,epg,stp}
 {vls,glt,stp}
 
-{vls,alv,afr}
-{vcd,alv,afr}
-{vls,pla,afr}
-{vcd,pla,afr}
-
 {vls,blb,frc}
 {vcd,blb,frc}
 {vls,lbd,frc}
@@ -124,8 +119,6 @@
 
 {vls,pla,sib,frc,pzd}
 {vcd,pla,sib,frc,pzd}
-{vls,pla,afr,pzd}
-{vcd,pla,afr,pzd}
 
 {hgh,fnt,unr,vcd,vwl}
 {hgh,fnt,unr,vcd,vwl,lng}
@@ -171,24 +164,3 @@
 {low,bck,unr,vcd,vwl,lng}
 {low,bck,rnd,vcd,vwl}
 {low,bck,rnd,vcd,vwl,lng}
-
-{lmd,fnt,unr,dpr,smh}
-{low,fnt,unr,dpr,smh}
-{lmd,bck,rnd,dpr,smh,fnt}
-
-{smh,fnt,unr,dpf,mid,cnt}
-{lmd,fnt,unr,dpr,mid,cnt}
-{smh,bck,rnd,dpf,mid,cnt}
-
-{mid,cnt,unr,dpr,smh,bck}
-{low,fnt,unr,dpr,smh,bck}
-
-{low,fnt,unr,dpr,smh,rzd}
-{low,fnt,unr,dpr,smh,bck,rzd}
-
-{smh,fnt,unr,vcd,vwl,rzd}
-{smh,bck,rnd,vcd,vwl,rzd}
-
-{low,bck,unr,vcd,vwl,rzd}
-{umd,bck,rnd,vcd,vwl,rzd}
-{lmd,bck,rnd,vcd,vwl,rzd}
