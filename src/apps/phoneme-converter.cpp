@@ -171,13 +171,13 @@ void print_name(tts::phoneme p, int colspan = 1)
 }
 
 void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
-                 const char *caption,
+                 const char *caption, const char *id,
                  const std::initializer_list<tts::feature> &x_features,
                  const std::initializer_list<std::pair<tts::feature, tts::feature>> &y_features,
                  const std::initializer_list<tts::feature> &z_features,
                  const std::initializer_list<tts::feature> &extra)
 {
-	fputs("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\">\n", stdout);
+	fprintf(stdout, "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\" id=\"%s\">\n", id);
 	if (caption)
 		fprintf(stdout, "<caption>%s</caption>", caption);
 	fputs("<tr>\n", stdout);
@@ -234,20 +234,19 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("    td, th  { text-align: left; vertical-align: top; border: 1px solid black; padding: 0.2em; }\n", stdout);
 	fputs("    caption { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }\n", stdout);
 	fputs("    .chart { font-family: 'Doulos SIL', 'Charis SIL', Gentium; }\n", stdout);
-	fputs("    .chart .unr { text-align: left;  border-right: 0; }\n", stdout);
-	fputs("    .chart .rnd { text-align: right; border-left:  0; }\n", stdout);
-	fputs("    select { width: 100%; }\n", stdout);
+	fputs("    #pulmonic .vls, #vowels .unr { text-align: left;  border-right: 0; }\n", stdout);
+	fputs("    #pulmonic .vcd, #vowels .rnd { text-align: right; border-left:  0; }\n", stdout);
 	fputs("</style>\n", stdout);
 	fputs("</head>\n", stdout);
 	fputs("<body>\n", stdout);
 
-	print_chart(ipa, i18n("Pulmonic Consonants"),
+	print_chart(ipa, i18n("Pulmonic Consonants"), "pulmonic",
 	            place_of_articulation, manner_of_articulation_pulmonic, voicing, {});
 
-	print_chart(ipa, i18n("Vowels"),
+	print_chart(ipa, i18n("Vowels"), "vowels",
 	            vowel_backness, vowel_height, roundness, { f::voiced, f::vowel });
 
-	print_chart(ipa, i18n("Non-Pulmonic Consonants"),
+	print_chart(ipa, i18n("Non-Pulmonic Consonants"), "non-pulmonic",
 	            place_of_articulation, manner_of_articulation_non_pulmonic, {}, {});
 
 	fputs("</body>\n", stdout);
