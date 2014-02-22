@@ -49,14 +49,7 @@ static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner
 	{ f::lateral,     f::flap },
 };
 
-static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation_non_pulmonic = {
-	{ f::voiceless, f::ejective },
-	{ f::voiced,    f::implosive },
-	{ f::voiceless, f::implosive },
-	{ f::voiceless, f::click },
-};
-
-static const std::initializer_list<tts::feature> place_of_articulation = {
+static const std::initializer_list<tts::feature> place_of_articulation_pulmonic = {
 	f::bilabial,
 	f::labio_dental,
 	f::dental,
@@ -69,6 +62,23 @@ static const std::initializer_list<tts::feature> place_of_articulation = {
 	f::pharyngeal,
 	f::epiglottal,
 	f::glottal,
+};
+
+static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation_non_pulmonic = {
+	{ f::voiceless, f::ejective },
+	{ f::voiced,    f::implosive },
+	{ f::voiceless, f::implosive },
+	{ f::voiceless, f::click },
+};
+
+static const std::initializer_list<tts::feature> place_of_articulation_non_pulmonic = {
+	f::bilabial,
+	f::dental,
+	f::alveolar,
+	f::retroflex,
+	f::palatal,
+	f::velar,
+	f::uvular,
 };
 
 static const std::initializer_list<tts::feature> voicing = {
@@ -241,13 +251,13 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("<body>\n", stdout);
 
 	print_chart(ipa, i18n("Pulmonic Consonants"), "pulmonic",
-	            place_of_articulation, manner_of_articulation_pulmonic, voicing, {});
+	            place_of_articulation_pulmonic, manner_of_articulation_pulmonic, voicing, {});
 
 	print_chart(ipa, i18n("Vowels"), "vowels",
 	            vowel_backness, vowel_height, roundness, { f::voiced, f::vowel });
 
 	print_chart(ipa, i18n("Non-Pulmonic Consonants"), "non-pulmonic",
-	            place_of_articulation, manner_of_articulation_non_pulmonic, {}, {});
+	            place_of_articulation_non_pulmonic, manner_of_articulation_non_pulmonic, {}, {});
 
 	fputs("</body>\n", stdout);
 	fputs("</html>\n", stdout);
