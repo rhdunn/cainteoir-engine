@@ -36,7 +36,7 @@ enum class phoneme_mode
 
 typedef tts::feature f;
 
-static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation_pulmonic = {
+static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation = {
 	{ f::nasal,       f::unspecified },
 	{ f::plosive,     f::unspecified },
 	{ f::sibilant,    f::fricative },
@@ -47,9 +47,12 @@ static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner
 	{ f::lateral,     f::fricative },
 	{ f::lateral,     f::approximant },
 	{ f::lateral,     f::flap },
+	{ f::ejective,    f::unspecified },
+	{ f::implosive,   f::unspecified },
+	{ f::click,       f::unspecified },
 };
 
-static const std::initializer_list<tts::feature> place_of_articulation_pulmonic = {
+static const std::initializer_list<tts::feature> place_of_articulation = {
 	f::bilabial,
 	f::labio_dental,
 	f::dental,
@@ -62,23 +65,6 @@ static const std::initializer_list<tts::feature> place_of_articulation_pulmonic 
 	f::pharyngeal,
 	f::epiglottal,
 	f::glottal,
-};
-
-static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation_non_pulmonic = {
-	{ f::voiceless, f::ejective },
-	{ f::voiced,    f::implosive },
-	{ f::voiceless, f::implosive },
-	{ f::voiceless, f::click },
-};
-
-static const std::initializer_list<tts::feature> place_of_articulation_non_pulmonic = {
-	f::bilabial,
-	f::dental,
-	f::alveolar,
-	f::retroflex,
-	f::palatal,
-	f::velar,
-	f::uvular,
 };
 
 static const std::initializer_list<tts::feature> voicing = {
@@ -244,20 +230,17 @@ void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *na
 	fputs("    td, th  { text-align: left; vertical-align: top; border: 1px solid black; padding: 0.2em; }\n", stdout);
 	fputs("    caption { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }\n", stdout);
 	fputs("    .chart { font-family: 'Doulos SIL', 'Charis SIL', Gentium; }\n", stdout);
-	fputs("    #pulmonic .vls, #vowels .unr { text-align: left;  border-right: 0; }\n", stdout);
-	fputs("    #pulmonic .vcd, #vowels .rnd { text-align: right; border-left:  0; }\n", stdout);
+	fputs("    #consonants .vls, #vowels .unr { text-align: left;  border-right: 0; }\n", stdout);
+	fputs("    #consonants .vcd, #vowels .rnd { text-align: right; border-left:  0; }\n", stdout);
 	fputs("</style>\n", stdout);
 	fputs("</head>\n", stdout);
 	fputs("<body>\n", stdout);
 
-	print_chart(ipa, i18n("Pulmonic Consonants"), "pulmonic",
-	            place_of_articulation_pulmonic, manner_of_articulation_pulmonic, voicing, {});
+	print_chart(ipa, i18n("Consonants"), "consonants",
+	            place_of_articulation, manner_of_articulation, voicing, {});
 
 	print_chart(ipa, i18n("Vowels"), "vowels",
 	            vowel_backness, vowel_height, roundness, { f::voiced, f::vowel });
-
-	print_chart(ipa, i18n("Non-Pulmonic Consonants"), "non-pulmonic",
-	            place_of_articulation_non_pulmonic, manner_of_articulation_non_pulmonic, {}, {});
 
 	fputs("</body>\n", stdout);
 	fputs("</html>\n", stdout);
