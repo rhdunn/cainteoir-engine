@@ -1,6 +1,6 @@
 /* Tester -- C++ Test Logic
  *
- * Copyright (C) 2011-2013 Reece H. Dunn
+ * Copyright (C) 2011-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -231,6 +231,15 @@ bool assert_(E expression, const char *ref, bool expected, const char *file, int
 #define assert_false(e) assert_(CAPTURE(e), "assert_false(" #e ")", false, __FILE__, __LINE__)
 
 #define assert_location(e, file, line) assert_(CAPTURE(e), "assert(" #e ")", true, file, line)
+
+#define assert_throws(e, type, message) \
+	try { \
+		e; \
+		assert_(CAPTURE(false), "assert_throws(" #e ")", true, __FILE__, __LINE__); \
+	} catch (const std::exception &ex) { \
+		assert_(CAPTURE(typeid(ex).name() == typeid(type).name()), "assert_throws(" #e ") [exception type]", true, __FILE__, __LINE__); \
+		assert_(CAPTURE(ex.what() == std::string(message)), "assert_throws(" #e ") [exception message]", true, __FILE__, __LINE__); \
+	}
 
 #define PRINTABLE(type) \
 	namespace tester \
