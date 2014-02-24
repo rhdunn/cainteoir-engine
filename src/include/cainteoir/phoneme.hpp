@@ -26,6 +26,44 @@
 #include <stdexcept>
 #include <cstdint>
 
+namespace cainteoir { namespace ipa
+{
+	struct phoneme
+	{
+		typedef uint16_t value_type;
+
+		phoneme(value_type value = 0)
+			: mValue(value)
+		{
+		}
+
+		value_type get(value_type mask) const { return mValue & mask; }
+
+		phoneme &set(value_type value)
+		{
+			mValue |= value;
+			return *this;
+		}
+
+		phoneme &set(value_type value, value_type mask)
+		{
+			mValue = (mValue & ~mask) | (value & mask);
+			return *this;
+		}
+
+		phoneme &clear(value_type value)
+		{
+			mValue &= ~value;
+			return *this;
+		}
+
+		bool operator==(const phoneme &rhs) const { return mValue == rhs.mValue; }
+		bool operator!=(const phoneme &rhs) const { return mValue != rhs.mValue; }
+	private:
+		value_type mValue;
+	};
+}}
+
 namespace cainteoir { namespace tts
 {
 	enum class feature : uint8_t

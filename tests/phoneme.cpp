@@ -26,8 +26,91 @@
 REGISTER_TESTSUITE("phoneme");
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 typedef tts::feature f;
+
+TEST_CASE("ipa::phoneme -- object size")
+{
+	assert(sizeof(ipa::phoneme) == 2);
+}
+
+TEST_CASE("ipa::phoneme -- construction")
+{
+	assert(ipa::phoneme() == ipa::phoneme(0x0000));
+	assert(ipa::phoneme(0x1234) == ipa::phoneme(0x1234));
+	assert(ipa::phoneme(0x4532) != ipa::phoneme(0x8372));
+
+	ipa::phoneme a(0x1234);
+	ipa::phoneme b(0x4532);
+
+	assert(ipa::phoneme(a) == ipa::phoneme(0x1234));
+	assert(ipa::phoneme(b) != ipa::phoneme(0x8372));
+}
+
+TEST_CASE("ipa::phoneme -- assignment")
+{
+	ipa::phoneme p;
+
+	p = ipa::phoneme(0x1234);
+	assert(p == ipa::phoneme(0x1234));
+
+	p = ipa::phoneme(0xFFFF);
+	assert(p == ipa::phoneme(0xFFFF));
+
+	p = ipa::phoneme(0x0000);
+	assert(p == ipa::phoneme(0x0000));
+}
+
+TEST_CASE("ipa::phoneme -- get")
+{
+	assert(ipa::phoneme(0xFFFF).get(0xFFFF) == 0xFFFF);
+	assert(ipa::phoneme(0xFFFF).get(0x1234) == 0x1234);
+	assert(ipa::phoneme(0xFFFF).get(0x0000) == 0x0000);
+
+	assert(ipa::phoneme(0x6789).get(0xFFFF) == 0x6789);
+	assert(ipa::phoneme(0x6789).get(0x6700) == 0x6700);
+	assert(ipa::phoneme(0x6789).get(0x0000) == 0x0000);
+
+	// calling get does not change the phoneme ...
+
+	ipa::phoneme a(0xFFFF);
+	a.get(0x0000);
+	assert(a == ipa::phoneme(0xFFFF));
+}
+
+TEST_CASE("ipa::phoneme -- set")
+{
+	assert(ipa::phoneme(0x0000).set(0xFFFF) == ipa::phoneme(0xFFFF));
+	assert(ipa::phoneme(0x0000).set(0xFF00) == ipa::phoneme(0xFF00));
+	assert(ipa::phoneme(0x0000).set(0x0000) == ipa::phoneme(0x0000));
+
+	assert(ipa::phoneme(0xFFFF).set(0xFFFF) == ipa::phoneme(0xFFFF));
+	assert(ipa::phoneme(0xFFFF).set(0xFF00) == ipa::phoneme(0xFFFF));
+	assert(ipa::phoneme(0xFFFF).set(0x0000) == ipa::phoneme(0xFFFF));
+}
+
+TEST_CASE("ipa::phoneme -- set with bit mask")
+{
+	assert(ipa::phoneme(0x0000).set(0xFFFF, 0xFFFF) == ipa::phoneme(0xFFFF));
+	assert(ipa::phoneme(0x0000).set(0xFFFF, 0xFF00) == ipa::phoneme(0xFF00));
+	assert(ipa::phoneme(0x0000).set(0xFFFF, 0x0000) == ipa::phoneme(0x0000));
+
+	assert(ipa::phoneme(0xFFFF).set(0x0000, 0xFFFF) == ipa::phoneme(0x0000));
+	assert(ipa::phoneme(0xFFFF).set(0x0000, 0xFF00) == ipa::phoneme(0x00FF));
+	assert(ipa::phoneme(0xFFFF).set(0x0000, 0x0000) == ipa::phoneme(0xFFFF));
+}
+
+TEST_CASE("ipa::phoneme -- clear")
+{
+	assert(ipa::phoneme(0x0000).clear(0xFFFF) == ipa::phoneme(0x0000));
+	assert(ipa::phoneme(0x0000).clear(0xFF00) == ipa::phoneme(0x0000));
+	assert(ipa::phoneme(0x0000).clear(0x0000) == ipa::phoneme(0x0000));
+
+	assert(ipa::phoneme(0xFFFF).clear(0xFFFF) == ipa::phoneme(0x0000));
+	assert(ipa::phoneme(0xFFFF).clear(0xFF00) == ipa::phoneme(0x00FF));
+	assert(ipa::phoneme(0xFFFF).clear(0x0000) == ipa::phoneme(0xFFFF));
+}
 
 TEST_CASE("phoneme object size")
 {
