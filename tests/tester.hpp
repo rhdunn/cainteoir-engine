@@ -21,6 +21,7 @@
 #ifndef TESTER_HPP
 #define TESTER_HPP
 
+#include <typeinfo>
 #include <iostream>
 #include <cassert>
 
@@ -318,7 +319,24 @@ int main(int argc, const char ** argv)
 	for (test_case *test = test_case_first; test; test = test->next)
 	{
 		std::cout << "... testing " << test->name << std::endl;
-		(*test->test)();
+		try
+		{
+			(*test->test)();
+		}
+		catch (const std::exception &e)
+		{
+			std::cout << "error: a "
+			          << typeid(e).name()
+			          << " exception was thrown: "
+			          << e.what()
+			          << std::endl;
+			++failed;
+		}
+		catch (...)
+		{
+			std::cout << "error: an unknown exception was thrown" << std::endl;
+			++failed;
+		}
 	}
 
 	printf("\n========== summary of the %s test results ==========\n", testsuite_name);
