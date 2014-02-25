@@ -80,6 +80,9 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "rzd", ipa::rhoticized, ipa::rhoticized },
 	{ "smh", ipa::semi_high, ipa::vowel_height },
 	{ "sml", ipa::semi_low, ipa::vowel_height }, // extension
+	{ "st1", ipa::primary_stress, ipa::stress }, // extension
+	{ "st2", ipa::secondary_stress, ipa::stress }, // extension
+	{ "st3", ipa::extra_stress, ipa::stress }, // extension
 	{ "stp", ipa::plosive, ipa::manner_of_articulation },
 	{ "syl", ipa::syllabic, ipa::syllabic },
 	{ "trl", ipa::trill, ipa::manner_of_articulation },

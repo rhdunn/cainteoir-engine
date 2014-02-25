@@ -40,13 +40,12 @@ namespace cainteoir { namespace ipa
 		lax                    = 0x00001000,
 		front                  = 0x00002000,
 		back                   = 0x00004000,
-		//                     = 0x00008000,
-		length                 = 0x00030000,
-		aspirated              = 0x00040000,
+		length                 = 0x00018000,
+		stress                 = 0x00600000,
 		unexploded             = 0x00080000,
 		syllabic               = 0x00100000,
 		murmured               = 0x00200000,
-		//                     = 0x00400000,
+		aspirated              = 0x00400000,
 		velarized              = 0x00800000,
 		labialized             = 0x01000000,
 		palatalized            = 0x02000000,
@@ -106,12 +105,19 @@ namespace cainteoir { namespace ipa
 		center         = front | back,
 		//             = back
 
+		// stress
+
+		unstressed       = 0x00000000,
+		primary_stress   = 0x00200000,
+		secondary_stress = 0x00400000,
+		extra_stress     = 0x00600000,
+
 		// length
 
 		extra_short = 0x00010000,
 		short_      = 0x00000000,
-		half_long   = 0x00030000,
-		long_       = 0x00020000,
+		half_long   = 0x00018000,
+		long_       = 0x00008000,
 	};
 
 	struct phoneme
