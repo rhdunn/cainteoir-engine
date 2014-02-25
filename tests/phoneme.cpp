@@ -130,21 +130,21 @@ TEST_CASE("kirshenbaum -- invalid")
 
 
 #define KIRSHENBAUM_BIN1(abbr, label, value) /* Enable Binary Feature */ \
-	TEST_CASE("kirshenbaum -- " abbr " (" label ")") \
+	TEST_CASE("kirshenbaum -- " abbr " = " label) \
 	{ \
 		assert(ipa::phoneme(0x00000000).set(abbr) == ipa::phoneme(value)); \
 		assert(ipa::phoneme(0xFFFFFFFF).set(abbr) == ipa::phoneme(0xFFFFFFFF)); \
 	}
 
 #define KIRSHENBAUM_BIN0(abbr, label, value) /* Disable Binary Feature */ \
-	TEST_CASE("kirshenbaum -- " abbr " (" label ")") \
+	TEST_CASE("kirshenbaum -- " abbr " = " label) \
 	{ \
 		assert(ipa::phoneme(0x00000000).set(abbr) == ipa::phoneme(0x00000000)); \
 		assert(ipa::phoneme(0xFFFFFFFF).set(abbr) == ipa::phoneme(0xFFFFFFFF & ~value)); \
 	} \
 
 #define KIRSHENBAUM_RNGD(abbr, label, value, mask) /* Ranged (Value + Mask) Feature */ \
-	TEST_CASE("kirshenbaum -- " abbr " (" label ")") \
+	TEST_CASE("kirshenbaum -- " abbr " = " label) \
 	{ \
 		assert(ipa::phoneme(0x00000000).set(abbr) == ipa::phoneme(value)); \
 		assert(ipa::phoneme(0xFFFFFFFF).set(abbr) == ipa::phoneme((0xFFFFFFFF & ~mask) | value)); \
@@ -156,13 +156,16 @@ KIRSHENBAUM_RNGD("blb", "bilabial", ipa::bilabial, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("lbd", "labio-dental", ipa::labio_dental, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("dnt", "dental", ipa::dental, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("alv", "alveolar", ipa::alveolar, ipa::place_of_articulation)
-KIRSHENBAUM_RNGD("rfx", "retroflex", ipa::retroflex, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("pla", "palato-alveolar", ipa::palato_alveolar, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("rfx", "retroflex", ipa::retroflex, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("alp", "alveolo-palatal [extension]", ipa::alveolo_palatal, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("pal", "palatal", ipa::palatal, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("lbp", "labio-palatal [extension]", ipa::labio_palatal, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("vel", "velar", ipa::velar, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("lbv", "labio-velar", ipa::labio_velar, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("uvl", "uvular", ipa::uvular, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("phr", "pharyngeal", ipa::pharyngeal, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("epg", "epiglottal [extension]", ipa::epiglottal, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("glt", "glottal", ipa::glottal, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("stp", "stop", ipa::plosive, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("frc", "fricative", ipa::fricative, ipa::manner_of_articulation)

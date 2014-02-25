@@ -37,6 +37,7 @@ struct feature_data
 };
 
 static const std::initializer_list<const feature_data> kirshenbaum = {
+	{ "alp", ipa::alveolo_palatal, ipa::place_of_articulation },
 	{ "alv", ipa::alveolar, ipa::place_of_articulation },
 	{ "apr", ipa::approximant, ipa::manner_of_articulation },
 	{ "asp", ipa::aspirated, ipa::aspirated },
@@ -47,6 +48,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "ctl", 0, ipa::lateral },
 	{ "dnt", ipa::dental, ipa::place_of_articulation },
 	{ "ejc", ipa::ejective, ipa::manner_of_articulation },
+	{ "epg", ipa::epiglottal, ipa::place_of_articulation },
 	{ "flp", ipa::flap, ipa::manner_of_articulation },
 	{ "fnt", ipa::front, ipa::vowel_backness },
 	{ "frc", ipa::fricative, ipa::manner_of_articulation },
@@ -56,6 +58,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "imp", ipa::implosive, ipa::manner_of_articulation },
 	{ "lat", ipa::lateral, ipa::lateral },
 	{ "lbd", ipa::labio_dental, ipa::place_of_articulation },
+	{ "lbp", ipa::labio_palatal, ipa::place_of_articulation },
 	{ "lbv", ipa::labio_velar, ipa::place_of_articulation },
 	{ "lmd", ipa::lower_mid, ipa::vowel_height },
 	{ "lng", ipa::long_, ipa::long_ },
