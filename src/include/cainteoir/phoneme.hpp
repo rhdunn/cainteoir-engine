@@ -65,7 +65,8 @@ namespace cainteoir { namespace ipa
 		upper_mid = 0x00000200,
 		mid = 0x00000300,
 		lower_mid = 0x00000400,
-		low = 0x00000500,
+		semi_low = 0x00000500,
+		low = 0x00000600,
 
 		vowel_backness = 0x00001800,
 		front = 0x00000800,
