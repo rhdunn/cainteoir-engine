@@ -32,60 +32,60 @@ namespace cainteoir { namespace ipa
 	{
 		// features
 
-		place_of_articulation  = 0x0000000F,
-		manner_of_articulation = 0x000000F0,
-		high                   = 0x00000100,
-		mid                    = 0x00000200,
-		low                    = 0x00000400,
-		lax                    = 0x00001000,
-		front                  = 0x00002000,
-		back                   = 0x00004000,
-		length                 = 0x00018000,
-		stress                 = 0x00600000,
-		unexploded             = 0x00080000,
-		syllabic               = 0x00100000,
-		murmured               = 0x00200000,
-		aspirated              = 0x00400000,
-		velarized              = 0x00800000,
-		labialized             = 0x01000000,
-		palatalized            = 0x02000000,
-		rhoticized             = 0x04000000,
-		nasalized              = 0x08000000,
-		pharyngealized         = 0x10000000,
-		rounded                = 0x20000000,
-		lateral                = 0x40000000,
-		voiced                 = 0x80000000,
+		place_of_articulation  = UINT64_C(0x000000000000000F),
+		manner_of_articulation = UINT64_C(0x00000000000000F0),
+		high                   = UINT64_C(0x0000000000000100),
+		mid                    = UINT64_C(0x0000000000000200),
+		low                    = UINT64_C(0x0000000000000400),
+		lax                    = UINT64_C(0x0000000000001000),
+		front                  = UINT64_C(0x0000000000002000),
+		back                   = UINT64_C(0x0000000000004000),
+		length                 = UINT64_C(0x0000000000018000),
+		stress                 = UINT64_C(0x0000000000600000),
+		unexploded             = UINT64_C(0x0000000000080000),
+		syllabic               = UINT64_C(0x0000000000100000),
+		murmured               = UINT64_C(0x0000000000200000),
+		aspirated              = UINT64_C(0x0000000000400000),
+		velarized              = UINT64_C(0x0000000000800000),
+		labialized             = UINT64_C(0x0000000001000000),
+		palatalized            = UINT64_C(0x0000000002000000),
+		rhoticized             = UINT64_C(0x0000000004000000),
+		nasalized              = UINT64_C(0x0000000008000000),
+		pharyngealized         = UINT64_C(0x0000000010000000),
+		rounded                = UINT64_C(0x0000000020000000),
+		lateral                = UINT64_C(0x0000000040000000),
+		voiced                 = UINT64_C(0x0000000080000000),
 
 		// place of articulation
 
-		bilabial        = 0x00000000,
-		labio_dental    = 0x00000001,
-		dental          = 0x00000002,
-		alveolar        = 0x00000003,
-		palato_alveolar = 0x00000004,
-		retroflex       = 0x00000005,
-		alveolo_palatal = 0x00000006,
-		palatal         = 0x00000007,
-		labio_palatal   = 0x00000008,
-		velar           = 0x00000009,
-		labio_velar     = 0x0000000A,
-		uvular          = 0x0000000B,
-		pharyngeal      = 0x0000000C,
-		epiglottal      = 0x0000000D,
-		glottal         = 0x0000000E,
+		bilabial        = UINT64_C(0x0000000000000000),
+		labio_dental    = UINT64_C(0x0000000000000001),
+		dental          = UINT64_C(0x0000000000000002),
+		alveolar        = UINT64_C(0x0000000000000003),
+		palato_alveolar = UINT64_C(0x0000000000000004),
+		retroflex       = UINT64_C(0x0000000000000005),
+		alveolo_palatal = UINT64_C(0x0000000000000006),
+		palatal         = UINT64_C(0x0000000000000007),
+		labio_palatal   = UINT64_C(0x0000000000000008),
+		velar           = UINT64_C(0x0000000000000009),
+		labio_velar     = UINT64_C(0x000000000000000A),
+		uvular          = UINT64_C(0x000000000000000B),
+		pharyngeal      = UINT64_C(0x000000000000000C),
+		epiglottal      = UINT64_C(0x000000000000000D),
+		glottal         = UINT64_C(0x000000000000000E),
 
 		// manner of articulation
 
-		plosive     = 0x00000000,
-		fricative   = 0x00000010,
-		nasal       = 0x00000020,
-		approximant = 0x00000030,
-		vowel       = 0x00000040,
-		trill       = 0x00000050,
-		flap        = 0x00000060,
-		click       = 0x00000070,
-		ejective    = 0x00000080,
-		implosive   = 0x00000090,
+		plosive     = UINT64_C(0x0000000000000000),
+		fricative   = UINT64_C(0x0000000000000010),
+		nasal       = UINT64_C(0x0000000000000020),
+		approximant = UINT64_C(0x0000000000000030),
+		vowel       = UINT64_C(0x0000000000000040),
+		trill       = UINT64_C(0x0000000000000050),
+		flap        = UINT64_C(0x0000000000000060),
+		click       = UINT64_C(0x0000000000000070),
+		ejective    = UINT64_C(0x0000000000000080),
+		implosive   = UINT64_C(0x0000000000000090),
 
 		// vowel height
 
@@ -107,22 +107,22 @@ namespace cainteoir { namespace ipa
 
 		// stress
 
-		unstressed       = 0x00000000,
-		primary_stress   = 0x00200000,
-		secondary_stress = 0x00400000,
-		extra_stress     = 0x00600000,
+		unstressed       = UINT64_C(0x0000000000000000),
+		primary_stress   = UINT64_C(0x0000000000200000),
+		secondary_stress = UINT64_C(0x0000000000400000),
+		extra_stress     = UINT64_C(0x0000000000600000),
 
 		// length
 
-		extra_short = 0x00010000,
-		short_      = 0x00000000,
-		half_long   = 0x00018000,
-		long_       = 0x00008000,
+		extra_short = UINT64_C(0x0000000000010000),
+		short_      = UINT64_C(0x0000000000000000),
+		half_long   = UINT64_C(0x0000000000018000),
+		long_       = UINT64_C(0x0000000000008000),
 	};
 
 	struct phoneme
 	{
-		typedef uint32_t value_type;
+		typedef uint64_t value_type;
 
 		phoneme(value_type value = 0)
 			: mValue(value)

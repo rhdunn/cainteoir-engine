@@ -33,86 +33,111 @@ typedef tts::feature f;
 
 TEST_CASE("ipa::phoneme -- object size")
 {
-	assert(sizeof(ipa::phoneme) == 4);
+	assert(sizeof(ipa::phoneme) == 8);
 }
 
 TEST_CASE("ipa::phoneme -- construction")
 {
-	assert(ipa::phoneme() == ipa::phoneme(0x0000000));
-	assert(ipa::phoneme(0x12341234) == ipa::phoneme(0x12341234));
-	assert(ipa::phoneme(0x45326218) != ipa::phoneme(0x83726218));
+	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
+	const ipa::phoneme::value_type val1 = UINT16_C(0x1234567812345678);
+	const ipa::phoneme::value_type val2 = UINT16_C(0x8765432187654321);
 
-	ipa::phoneme a(0x12341234);
-	ipa::phoneme b(0x45321234);
+	assert(ipa::phoneme() == ipa::phoneme(zero));
+	assert(ipa::phoneme(val1) == ipa::phoneme(val1));
+	assert(ipa::phoneme(val1) != ipa::phoneme(val2));
 
-	assert(ipa::phoneme(a) == ipa::phoneme(0x12341234));
-	assert(ipa::phoneme(b) != ipa::phoneme(0x83727157));
+	ipa::phoneme a(val1);
+	ipa::phoneme b(val2);
+
+	assert(ipa::phoneme(a) == ipa::phoneme(val1));
+	assert(ipa::phoneme(b) != ipa::phoneme(val1));
 }
 
 TEST_CASE("ipa::phoneme -- assignment")
 {
+	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
+	const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type val1 = UINT16_C(0x1234567812345678);
+
 	ipa::phoneme p;
 
-	p = ipa::phoneme(0x12341234);
-	assert(p == ipa::phoneme(0x12341234));
+	p = ipa::phoneme(val1);
+	assert(p == ipa::phoneme(val1));
 
-	p = ipa::phoneme(0xFFFFFFFF);
-	assert(p == ipa::phoneme(0xFFFFFFFF));
+	p = ipa::phoneme(fill);
+	assert(p == ipa::phoneme(fill));
 
-	p = ipa::phoneme(0x00000000);
-	assert(p == ipa::phoneme(0x00000000));
+	p = ipa::phoneme(zero);
+	assert(p == ipa::phoneme(zero));
 }
 
 TEST_CASE("ipa::phoneme -- get")
 {
-	assert(ipa::phoneme(0xFFFFFFFF).get(0xFFFFFFFF) == 0xFFFFFFFF);
-	assert(ipa::phoneme(0xFFFFFFFF).get(0x12341234) == 0x12341234);
-	assert(ipa::phoneme(0xFFFFFFFF).get(0x00000000) == 0x00000000);
+	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
+	const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type val1 = UINT16_C(0x1234567812345678);
+	const ipa::phoneme::value_type mask = UINT16_C(0x1200000000000000);
 
-	assert(ipa::phoneme(0x67891234).get(0xFFFFFFFF) == 0x67891234);
-	assert(ipa::phoneme(0x67891234).get(0x67000000) == 0x67000000);
-	assert(ipa::phoneme(0x67891234).get(0x00000000) == 0x00000000);
+	assert(ipa::phoneme(fill).get(fill) == fill);
+	assert(ipa::phoneme(fill).get(val1) == val1);
+	assert(ipa::phoneme(fill).get(zero) == zero);
+
+	assert(ipa::phoneme(val1).get(fill) == val1);
+	assert(ipa::phoneme(val1).get(mask) == mask);
+	assert(ipa::phoneme(val1).get(zero) == zero);
 
 	// calling get does not change the phoneme ...
 
-	ipa::phoneme a(0xFFFFFFFF);
-	a.get(0x00000000);
-	assert(a == ipa::phoneme(0xFFFFFFFF));
+	ipa::phoneme a(fill);
+	a.get(zero);
+	assert(a == ipa::phoneme(fill));
 }
 
 TEST_CASE("ipa::phoneme -- set")
 {
-	const uint32_t zero = 0x00000000;
+	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
+	const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type mask = UINT16_C(0xFF00000000000000);
 
-	assert(ipa::phoneme(0x00000000).set(0xFFFFFFFF) == ipa::phoneme(0xFFFFFFFF));
-	assert(ipa::phoneme(0x00000000).set(0xFF000000) == ipa::phoneme(0xFF000000));
-	assert(ipa::phoneme(0x00000000).set(zero)   == ipa::phoneme(0x00000000));
+	assert(ipa::phoneme(zero).set(fill) == ipa::phoneme(fill));
+	assert(ipa::phoneme(zero).set(mask) == ipa::phoneme(mask));
+	assert(ipa::phoneme(zero).set(zero) == ipa::phoneme(zero));
 
-	assert(ipa::phoneme(0xFFFFFFFF).set(0xFFFFFFFF) == ipa::phoneme(0xFFFFFFFF));
-	assert(ipa::phoneme(0xFFFFFFFF).set(0xFF000000) == ipa::phoneme(0xFFFFFFFF));
-	assert(ipa::phoneme(0xFFFFFFFF).set(zero)   == ipa::phoneme(0xFFFFFFFF));
+	assert(ipa::phoneme(fill).set(fill) == ipa::phoneme(fill));
+	assert(ipa::phoneme(fill).set(mask) == ipa::phoneme(fill));
+	assert(ipa::phoneme(fill).set(zero) == ipa::phoneme(fill));
 }
 
 TEST_CASE("ipa::phoneme -- set with bit mask")
 {
-	assert(ipa::phoneme(0x00000000).set(0xFFFFFFFF, 0xFFFFFFFF) == ipa::phoneme(0xFFFFFFFF));
-	assert(ipa::phoneme(0x00000000).set(0xFFFFFFFF, 0xFF000000) == ipa::phoneme(0xFF000000));
-	assert(ipa::phoneme(0x00000000).set(0xFFFFFFFF, 0x00000000) == ipa::phoneme(0x00000000));
+	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
+	const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type mask = UINT16_C(0xFF00000000000000);
+	const ipa::phoneme::value_type invm = UINT16_C(0x00FFFFFFFFFFFFFF);
 
-	assert(ipa::phoneme(0xFFFFFFFF).set(0x00000000, 0xFFFFFFFF) == ipa::phoneme(0x00000000));
-	assert(ipa::phoneme(0xFFFFFFFF).set(0x00000000, 0xFF000000) == ipa::phoneme(0x00FFFFFF));
-	assert(ipa::phoneme(0xFFFFFFFF).set(0x00000000, 0x00000000) == ipa::phoneme(0xFFFFFFFF));
+	assert(ipa::phoneme(zero).set(fill, fill) == ipa::phoneme(fill));
+	assert(ipa::phoneme(zero).set(fill, mask) == ipa::phoneme(mask));
+	assert(ipa::phoneme(zero).set(fill, zero) == ipa::phoneme(zero));
+
+	assert(ipa::phoneme(fill).set(zero, fill) == ipa::phoneme(zero));
+	assert(ipa::phoneme(fill).set(zero, mask) == ipa::phoneme(invm));
+	assert(ipa::phoneme(fill).set(zero, zero) == ipa::phoneme(fill));
 }
 
 TEST_CASE("ipa::phoneme -- clear")
 {
-	assert(ipa::phoneme(0x00000000).clear(0xFFFFFFFF) == ipa::phoneme(0x00000000));
-	assert(ipa::phoneme(0x00000000).clear(0xFF000000) == ipa::phoneme(0x00000000));
-	assert(ipa::phoneme(0x00000000).clear(0x00000000) == ipa::phoneme(0x00000000));
+	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
+	const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type mask = UINT16_C(0xFF00000000000000);
+	const ipa::phoneme::value_type invm = UINT16_C(0x00FFFFFFFFFFFFFF);
 
-	assert(ipa::phoneme(0xFFFFFFFF).clear(0xFFFFFFFF) == ipa::phoneme(0x00000000));
-	assert(ipa::phoneme(0xFFFFFFFF).clear(0xFF000000) == ipa::phoneme(0x00FFFFFF));
-	assert(ipa::phoneme(0xFFFFFFFF).clear(0x00000000) == ipa::phoneme(0xFFFFFFFF));
+	assert(ipa::phoneme(zero).clear(fill) == ipa::phoneme(zero));
+	assert(ipa::phoneme(zero).clear(mask) == ipa::phoneme(zero));
+	assert(ipa::phoneme(zero).clear(zero) == ipa::phoneme(zero));
+
+	assert(ipa::phoneme(fill).clear(fill) == ipa::phoneme(zero));
+	assert(ipa::phoneme(fill).clear(mask) == ipa::phoneme(invm));
+	assert(ipa::phoneme(fill).clear(zero) == ipa::phoneme(fill));
 }
 
 TEST_CASE("kirshenbaum -- invalid")
