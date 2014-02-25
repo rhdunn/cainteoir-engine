@@ -27,6 +27,91 @@
 #include <string.h>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
+
+struct feature_data
+{
+	const char *abbreviation;
+	ipa::phoneme::value_type value;
+	ipa::phoneme::value_type mask;
+};
+
+static const std::initializer_list<const feature_data> kirshenbaum = {
+	{ "alv", ipa::alveolar, ipa::place_of_articulation },
+	{ "apr", ipa::approximant, ipa::manner_of_articulation },
+	{ "asp", ipa::aspirated, ipa::aspirated },
+	{ "bck", ipa::back, ipa::vowel_backness },
+	{ "blb", ipa::bilabial, ipa::place_of_articulation },
+	{ "clk", ipa::click, ipa::manner_of_articulation },
+	{ "cnt", ipa::center, ipa::vowel_backness },
+	{ "ctl", 0, ipa::lateral },
+	{ "dnt", ipa::dental, ipa::place_of_articulation },
+	{ "ejc", ipa::ejective, ipa::manner_of_articulation },
+	{ "flp", ipa::flap, ipa::manner_of_articulation },
+	{ "fnt", ipa::front, ipa::vowel_backness },
+	{ "frc", ipa::fricative, ipa::manner_of_articulation },
+	{ "fzd", ipa::pharyngealized, ipa::pharyngealized },
+	{ "glt", ipa::glottal, ipa::place_of_articulation },
+	{ "hgh", ipa::high, ipa::vowel_height },
+	{ "imp", ipa::implosive, ipa::manner_of_articulation },
+	{ "lat", ipa::lateral, ipa::lateral },
+	{ "lbd", ipa::labio_dental, ipa::place_of_articulation },
+	{ "lbv", ipa::labio_velar, ipa::place_of_articulation },
+	{ "lmd", ipa::lower_mid, ipa::vowel_height },
+	{ "lng", ipa::long_, ipa::long_ },
+	{ "low", ipa::low, ipa::vowel_height },
+	{ "lzd", ipa::labialized, ipa::labialized },
+	{ "mid", ipa::mid, ipa::vowel_height },
+	{ "mrm", ipa::murmured, ipa::murmured },
+	{ "nas", ipa::nasal, ipa::manner_of_articulation },
+	{ "nzd", ipa::nasalized, ipa::nasalized },
+	{ "orl", 0, 0 }, // ignored -- Kirshenbaum uses {stp}/{nas} instead of {orl,stp}/{nas,stp}.
+	{ "pal", ipa::palatal, ipa::place_of_articulation },
+	{ "phr", ipa::pharyngeal, ipa::place_of_articulation },
+	{ "pla", ipa::palato_alveolar, ipa::place_of_articulation },
+	{ "pzd", ipa::palatalized, ipa::palatalized },
+	{ "rfx", ipa::retroflex, ipa::place_of_articulation },
+	{ "rnd", ipa::rounded, ipa::rounded },
+	{ "rzd", ipa::rhoticized, ipa::rhoticized },
+	{ "smh", ipa::semi_high, ipa::vowel_height },
+	{ "stp", ipa::plosive, ipa::manner_of_articulation },
+	{ "syl", ipa::syllabic, ipa::syllabic },
+	{ "trl", ipa::trill, ipa::manner_of_articulation },
+	{ "umd", ipa::upper_mid, ipa::vowel_height },
+	{ "unr", 0, ipa::rounded },
+	{ "unx", ipa::unexploded, ipa::unexploded },
+	{ "uvl", ipa::uvular, ipa::place_of_articulation },
+	{ "vcd", ipa::voiced, ipa::voiced },
+	{ "vel", ipa::velar, ipa::place_of_articulation },
+	{ "vls", 0, ipa::voiced },
+	{ "vzd", ipa::velarized, ipa::velarized },
+};
+
+ipa::phoneme &ipa::phoneme::set(const char *feature)
+{
+	if (!feature) throw tts::phoneme_error("unknown phoneme feature '(null)'");
+
+	int begin = 0;
+	int end = kirshenbaum.size() - 1;
+
+	while (begin <= end)
+	{
+		int pos = (begin + end) / 2;
+		auto &item = *(kirshenbaum.begin() + pos);
+
+		int comp = strcmp(item.abbreviation, feature);
+		if (comp == 0)
+			return set(item.value, item.mask);
+		else if (comp < 0)
+			begin = pos + 1;
+		else
+			end = pos - 1;
+	}
+
+	char msg[64];
+	sprintf(msg, i18n("unknown phoneme feature '%s'"), feature);
+	throw tts::phoneme_error(msg);
+}
 
 static const std::initializer_list<const std::pair<const char *, tts::feature>> abbreviations = {
 	{ "alv", tts::feature::alveolar },

@@ -28,9 +28,66 @@
 
 namespace cainteoir { namespace ipa
 {
+	enum feature
+	{
+		place_of_articulation = 0x0000000F,
+		bilabial = 0x00000000,
+		labio_dental = 0x00000001,
+		dental = 0x00000002,
+		alveolar = 0x00000003,
+		retroflex = 0x00000004,
+		palato_alveolar = 0x00000005,
+		palatal = 0x00000006,
+		velar = 0x00000007,
+		labio_velar = 0x00000008,
+		uvular = 0x00000009,
+		pharyngeal = 0x0000000A,
+		glottal = 0x0000000B,
+
+		manner_of_articulation = 0x000000F0,
+		plosive = 0x00000000,
+		fricative = 0x00000010,
+		nasal = 0x00000020,
+		approximant = 0x00000030,
+		vowel = 0x00000040,
+		trill = 0x00000050,
+		flap = 0x00000060,
+		click = 0x00000070,
+		ejective = 0x00000080,
+		implosive = 0x00000090,
+
+		vowel_height = 0x00000700,
+		high = 0x00000000,
+		semi_high = 0x00000100,
+		upper_mid = 0x00000200,
+		mid = 0x00000300,
+		lower_mid = 0x00000400,
+		low = 0x00000500,
+
+		vowel_backness = 0x00001800,
+		front = 0x00000800,
+		center = 0x00001800,
+		back = 0x00001000,
+
+		aspirated = 0x00040000,
+		unexploded = 0x00080000,
+		syllabic = 0x00100000,
+		murmured = 0x00200000,
+		long_ = 0x00400000,
+		velarized = 0x00800000,
+		labialized = 0x01000000,
+		palatalized = 0x02000000,
+		rhoticized = 0x04000000,
+		nasalized = 0x08000000,
+		pharyngealized = 0x10000000,
+		rounded = 0x20000000,
+		lateral = 0x40000000,
+		voiced = 0x80000000,
+	};
+
 	struct phoneme
 	{
-		typedef uint16_t value_type;
+		typedef uint32_t value_type;
 
 		phoneme(value_type value = 0)
 			: mValue(value)
@@ -50,6 +107,8 @@ namespace cainteoir { namespace ipa
 			mValue = (mValue & ~mask) | (value & mask);
 			return *this;
 		}
+
+		phoneme &set(const char *feature);
 
 		phoneme &clear(value_type value)
 		{

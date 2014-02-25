@@ -19,6 +19,7 @@
  */
 
 #include <cainteoir/phoneme.hpp>
+#include <stdexcept>
 #include <cstdio>
 
 #include "tester.hpp"
@@ -32,85 +33,171 @@ typedef tts::feature f;
 
 TEST_CASE("ipa::phoneme -- object size")
 {
-	assert(sizeof(ipa::phoneme) == 2);
+	assert(sizeof(ipa::phoneme) == 4);
 }
 
 TEST_CASE("ipa::phoneme -- construction")
 {
-	assert(ipa::phoneme() == ipa::phoneme(0x0000));
-	assert(ipa::phoneme(0x1234) == ipa::phoneme(0x1234));
-	assert(ipa::phoneme(0x4532) != ipa::phoneme(0x8372));
+	assert(ipa::phoneme() == ipa::phoneme(0x0000000));
+	assert(ipa::phoneme(0x12341234) == ipa::phoneme(0x12341234));
+	assert(ipa::phoneme(0x45326218) != ipa::phoneme(0x83726218));
 
-	ipa::phoneme a(0x1234);
-	ipa::phoneme b(0x4532);
+	ipa::phoneme a(0x12341234);
+	ipa::phoneme b(0x45321234);
 
-	assert(ipa::phoneme(a) == ipa::phoneme(0x1234));
-	assert(ipa::phoneme(b) != ipa::phoneme(0x8372));
+	assert(ipa::phoneme(a) == ipa::phoneme(0x12341234));
+	assert(ipa::phoneme(b) != ipa::phoneme(0x83727157));
 }
 
 TEST_CASE("ipa::phoneme -- assignment")
 {
 	ipa::phoneme p;
 
-	p = ipa::phoneme(0x1234);
-	assert(p == ipa::phoneme(0x1234));
+	p = ipa::phoneme(0x12341234);
+	assert(p == ipa::phoneme(0x12341234));
 
-	p = ipa::phoneme(0xFFFF);
-	assert(p == ipa::phoneme(0xFFFF));
+	p = ipa::phoneme(0xFFFFFFFF);
+	assert(p == ipa::phoneme(0xFFFFFFFF));
 
-	p = ipa::phoneme(0x0000);
-	assert(p == ipa::phoneme(0x0000));
+	p = ipa::phoneme(0x00000000);
+	assert(p == ipa::phoneme(0x00000000));
 }
 
 TEST_CASE("ipa::phoneme -- get")
 {
-	assert(ipa::phoneme(0xFFFF).get(0xFFFF) == 0xFFFF);
-	assert(ipa::phoneme(0xFFFF).get(0x1234) == 0x1234);
-	assert(ipa::phoneme(0xFFFF).get(0x0000) == 0x0000);
+	assert(ipa::phoneme(0xFFFFFFFF).get(0xFFFFFFFF) == 0xFFFFFFFF);
+	assert(ipa::phoneme(0xFFFFFFFF).get(0x12341234) == 0x12341234);
+	assert(ipa::phoneme(0xFFFFFFFF).get(0x00000000) == 0x00000000);
 
-	assert(ipa::phoneme(0x6789).get(0xFFFF) == 0x6789);
-	assert(ipa::phoneme(0x6789).get(0x6700) == 0x6700);
-	assert(ipa::phoneme(0x6789).get(0x0000) == 0x0000);
+	assert(ipa::phoneme(0x67891234).get(0xFFFFFFFF) == 0x67891234);
+	assert(ipa::phoneme(0x67891234).get(0x67000000) == 0x67000000);
+	assert(ipa::phoneme(0x67891234).get(0x00000000) == 0x00000000);
 
 	// calling get does not change the phoneme ...
 
-	ipa::phoneme a(0xFFFF);
-	a.get(0x0000);
-	assert(a == ipa::phoneme(0xFFFF));
+	ipa::phoneme a(0xFFFFFFFF);
+	a.get(0x00000000);
+	assert(a == ipa::phoneme(0xFFFFFFFF));
 }
 
 TEST_CASE("ipa::phoneme -- set")
 {
-	assert(ipa::phoneme(0x0000).set(0xFFFF) == ipa::phoneme(0xFFFF));
-	assert(ipa::phoneme(0x0000).set(0xFF00) == ipa::phoneme(0xFF00));
-	assert(ipa::phoneme(0x0000).set(0x0000) == ipa::phoneme(0x0000));
+	const uint32_t zero = 0x00000000;
 
-	assert(ipa::phoneme(0xFFFF).set(0xFFFF) == ipa::phoneme(0xFFFF));
-	assert(ipa::phoneme(0xFFFF).set(0xFF00) == ipa::phoneme(0xFFFF));
-	assert(ipa::phoneme(0xFFFF).set(0x0000) == ipa::phoneme(0xFFFF));
+	assert(ipa::phoneme(0x00000000).set(0xFFFFFFFF) == ipa::phoneme(0xFFFFFFFF));
+	assert(ipa::phoneme(0x00000000).set(0xFF000000) == ipa::phoneme(0xFF000000));
+	assert(ipa::phoneme(0x00000000).set(zero)   == ipa::phoneme(0x00000000));
+
+	assert(ipa::phoneme(0xFFFFFFFF).set(0xFFFFFFFF) == ipa::phoneme(0xFFFFFFFF));
+	assert(ipa::phoneme(0xFFFFFFFF).set(0xFF000000) == ipa::phoneme(0xFFFFFFFF));
+	assert(ipa::phoneme(0xFFFFFFFF).set(zero)   == ipa::phoneme(0xFFFFFFFF));
 }
 
 TEST_CASE("ipa::phoneme -- set with bit mask")
 {
-	assert(ipa::phoneme(0x0000).set(0xFFFF, 0xFFFF) == ipa::phoneme(0xFFFF));
-	assert(ipa::phoneme(0x0000).set(0xFFFF, 0xFF00) == ipa::phoneme(0xFF00));
-	assert(ipa::phoneme(0x0000).set(0xFFFF, 0x0000) == ipa::phoneme(0x0000));
+	assert(ipa::phoneme(0x00000000).set(0xFFFFFFFF, 0xFFFFFFFF) == ipa::phoneme(0xFFFFFFFF));
+	assert(ipa::phoneme(0x00000000).set(0xFFFFFFFF, 0xFF000000) == ipa::phoneme(0xFF000000));
+	assert(ipa::phoneme(0x00000000).set(0xFFFFFFFF, 0x00000000) == ipa::phoneme(0x00000000));
 
-	assert(ipa::phoneme(0xFFFF).set(0x0000, 0xFFFF) == ipa::phoneme(0x0000));
-	assert(ipa::phoneme(0xFFFF).set(0x0000, 0xFF00) == ipa::phoneme(0x00FF));
-	assert(ipa::phoneme(0xFFFF).set(0x0000, 0x0000) == ipa::phoneme(0xFFFF));
+	assert(ipa::phoneme(0xFFFFFFFF).set(0x00000000, 0xFFFFFFFF) == ipa::phoneme(0x00000000));
+	assert(ipa::phoneme(0xFFFFFFFF).set(0x00000000, 0xFF000000) == ipa::phoneme(0x00FFFFFF));
+	assert(ipa::phoneme(0xFFFFFFFF).set(0x00000000, 0x00000000) == ipa::phoneme(0xFFFFFFFF));
 }
 
 TEST_CASE("ipa::phoneme -- clear")
 {
-	assert(ipa::phoneme(0x0000).clear(0xFFFF) == ipa::phoneme(0x0000));
-	assert(ipa::phoneme(0x0000).clear(0xFF00) == ipa::phoneme(0x0000));
-	assert(ipa::phoneme(0x0000).clear(0x0000) == ipa::phoneme(0x0000));
+	assert(ipa::phoneme(0x00000000).clear(0xFFFFFFFF) == ipa::phoneme(0x00000000));
+	assert(ipa::phoneme(0x00000000).clear(0xFF000000) == ipa::phoneme(0x00000000));
+	assert(ipa::phoneme(0x00000000).clear(0x00000000) == ipa::phoneme(0x00000000));
 
-	assert(ipa::phoneme(0xFFFF).clear(0xFFFF) == ipa::phoneme(0x0000));
-	assert(ipa::phoneme(0xFFFF).clear(0xFF00) == ipa::phoneme(0x00FF));
-	assert(ipa::phoneme(0xFFFF).clear(0x0000) == ipa::phoneme(0xFFFF));
+	assert(ipa::phoneme(0xFFFFFFFF).clear(0xFFFFFFFF) == ipa::phoneme(0x00000000));
+	assert(ipa::phoneme(0xFFFFFFFF).clear(0xFF000000) == ipa::phoneme(0x00FFFFFF));
+	assert(ipa::phoneme(0xFFFFFFFF).clear(0x00000000) == ipa::phoneme(0xFFFFFFFF));
 }
+
+TEST_CASE("kirshenbaum -- invalid")
+{
+	using tts::phoneme_error;
+	assert_throws(ipa::phoneme().set(nullptr), phoneme_error, "unknown phoneme feature '(null)'");
+	assert_throws(ipa::phoneme().set("aaa"), phoneme_error, "unknown phoneme feature 'aaa'");
+	assert_throws(ipa::phoneme().set("xyz"), phoneme_error, "unknown phoneme feature 'xyz'");
+	assert_throws(ipa::phoneme().set("STP"), phoneme_error, "unknown phoneme feature 'STP'");
+	assert_throws(ipa::phoneme().set("stP"), phoneme_error, "unknown phoneme feature 'stP'");
+	assert_throws(ipa::phoneme().set("st5"), phoneme_error, "unknown phoneme feature 'st5'");
+	assert_throws(ipa::phoneme().set("st%"), phoneme_error, "unknown phoneme feature 'st%'");
+	assert_throws(ipa::phoneme().set("aspirated"), phoneme_error, "unknown phoneme feature 'aspirated'");
+}
+
+
+#define KIRSHENBAUM_BIN1(abbr, label, value) /* Enable Binary Feature */ \
+	TEST_CASE("kirshenbaum -- " abbr " (" label ")") \
+	{ \
+		assert(ipa::phoneme(0x00000000).set(abbr) == ipa::phoneme(value)); \
+		assert(ipa::phoneme(0xFFFFFFFF).set(abbr) == ipa::phoneme(0xFFFFFFFF)); \
+	}
+
+#define KIRSHENBAUM_BIN0(abbr, label, value) /* Disable Binary Feature */ \
+	TEST_CASE("kirshenbaum -- " abbr " (" label ")") \
+	{ \
+		assert(ipa::phoneme(0x00000000).set(abbr) == ipa::phoneme(0x00000000)); \
+		assert(ipa::phoneme(0xFFFFFFFF).set(abbr) == ipa::phoneme(0xFFFFFFFF & ~value)); \
+	} \
+
+#define KIRSHENBAUM_RNGD(abbr, label, value, mask) /* Ranged (Value + Mask) Feature */ \
+	TEST_CASE("kirshenbaum -- " abbr " (" label ")") \
+	{ \
+		assert(ipa::phoneme(0x00000000).set(abbr) == ipa::phoneme(value)); \
+		assert(ipa::phoneme(0xFFFFFFFF).set(abbr) == ipa::phoneme((0xFFFFFFFF & ~mask) | value)); \
+	} \
+
+KIRSHENBAUM_BIN1("vcd", "voiced", ipa::voiced)
+KIRSHENBAUM_BIN0("vls", "voiceless", ipa::voiced)
+KIRSHENBAUM_RNGD("blb", "bilabial", ipa::bilabial, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("lbd", "labio-dental", ipa::labio_dental, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("dnt", "dental", ipa::dental, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("alv", "alveolar", ipa::alveolar, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("rfx", "retroflex", ipa::retroflex, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("pla", "palato-alveolar", ipa::palato_alveolar, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("pal", "palatal", ipa::palatal, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("vel", "velar", ipa::velar, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("lbv", "labio-velar", ipa::labio_velar, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("uvl", "uvular", ipa::uvular, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("phr", "pharyngeal", ipa::pharyngeal, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("glt", "glottal", ipa::glottal, ipa::place_of_articulation)
+KIRSHENBAUM_RNGD("stp", "stop", ipa::plosive, ipa::manner_of_articulation)
+KIRSHENBAUM_RNGD("frc", "fricative", ipa::fricative, ipa::manner_of_articulation)
+KIRSHENBAUM_RNGD("nas", "nasal", ipa::nasal, ipa::manner_of_articulation)
+KIRSHENBAUM_BIN1("orl", "oral", 0) // Not Supported -- Kirshenbaum does not use {orl,stp}/{nas,stp}
+KIRSHENBAUM_RNGD("apr", "approximant", ipa::approximant, ipa::manner_of_articulation)
+KIRSHENBAUM_BIN1("lat", "lateral", ipa::lateral)
+KIRSHENBAUM_BIN0("ctl", "central", ipa::lateral)
+KIRSHENBAUM_RNGD("trl", "trill", ipa::trill, ipa::manner_of_articulation)
+KIRSHENBAUM_RNGD("flp", "flap", ipa::flap, ipa::manner_of_articulation)
+KIRSHENBAUM_RNGD("clk", "click", ipa::click, ipa::manner_of_articulation)
+KIRSHENBAUM_RNGD("ejc", "ejective", ipa::ejective, ipa::manner_of_articulation)
+KIRSHENBAUM_RNGD("imp", "implosive", ipa::implosive, ipa::manner_of_articulation)
+KIRSHENBAUM_RNGD("hgh", "high", ipa::high, ipa::vowel_height)
+KIRSHENBAUM_RNGD("smh", "semi-high", ipa::semi_high, ipa::vowel_height)
+KIRSHENBAUM_RNGD("umd", "upper-mid", ipa::upper_mid, ipa::vowel_height)
+KIRSHENBAUM_RNGD("mid", "mid", ipa::mid, ipa::vowel_height)
+KIRSHENBAUM_RNGD("lmd", "lower-mid", ipa::lower_mid, ipa::vowel_height)
+KIRSHENBAUM_RNGD("low", "low", ipa::low, ipa::vowel_height)
+KIRSHENBAUM_RNGD("fnt", "front", ipa::front, ipa::vowel_backness)
+KIRSHENBAUM_RNGD("cnt", "center", ipa::center, ipa::vowel_backness)
+KIRSHENBAUM_RNGD("bck", "back", ipa::back, ipa::vowel_backness)
+KIRSHENBAUM_BIN1("rnd", "rounded", ipa::rounded)
+KIRSHENBAUM_BIN0("unr", "unrounded", ipa::rounded)
+KIRSHENBAUM_BIN1("asp", "aspirated", ipa::aspirated)
+KIRSHENBAUM_BIN1("unx", "unexploded", ipa::unexploded)
+KIRSHENBAUM_BIN1("syl", "syllabic", ipa::syllabic)
+KIRSHENBAUM_BIN1("mrm", "murmured", ipa::murmured)
+KIRSHENBAUM_BIN1("lng", "long", ipa::long_)
+KIRSHENBAUM_BIN1("vzd", "velarized", ipa::velarized)
+KIRSHENBAUM_BIN1("lzd", "labialized", ipa::labialized)
+KIRSHENBAUM_BIN1("pzd", "palatalized", ipa::palatalized)
+KIRSHENBAUM_BIN1("rzd", "rhoticized", ipa::rhoticized)
+KIRSHENBAUM_BIN1("nzd", "nasalized", ipa::nasalized)
+KIRSHENBAUM_BIN1("fzd", "pharyngealized", ipa::pharyngealized)
 
 TEST_CASE("phoneme object size")
 {
