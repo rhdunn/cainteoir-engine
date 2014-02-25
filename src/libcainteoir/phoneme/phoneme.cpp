@@ -49,19 +49,21 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "dnt", ipa::dental, ipa::place_of_articulation },
 	{ "ejc", ipa::ejective, ipa::manner_of_articulation },
 	{ "epg", ipa::epiglottal, ipa::place_of_articulation }, // extension
+	{ "est", ipa::extra_short, ipa::length }, // extension
 	{ "flp", ipa::flap, ipa::manner_of_articulation },
 	{ "fnt", ipa::front, ipa::vowel_backness },
 	{ "frc", ipa::fricative, ipa::manner_of_articulation },
 	{ "fzd", ipa::pharyngealized, ipa::pharyngealized },
 	{ "glt", ipa::glottal, ipa::place_of_articulation },
 	{ "hgh", ipa::high, ipa::vowel_height },
+	{ "hlg", ipa::half_long, ipa::length }, // extension
 	{ "imp", ipa::implosive, ipa::manner_of_articulation },
 	{ "lat", ipa::lateral, ipa::lateral },
 	{ "lbd", ipa::labio_dental, ipa::place_of_articulation },
 	{ "lbp", ipa::labio_palatal, ipa::place_of_articulation }, // extension
 	{ "lbv", ipa::labio_velar, ipa::place_of_articulation },
 	{ "lmd", ipa::lower_mid, ipa::vowel_height },
-	{ "lng", ipa::long_, ipa::long_ },
+	{ "lng", ipa::long_, ipa::length },
 	{ "low", ipa::low, ipa::vowel_height },
 	{ "lzd", ipa::labialized, ipa::labialized },
 	{ "mid", ipa::mid, ipa::vowel_height },

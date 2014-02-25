@@ -41,13 +41,12 @@ namespace cainteoir { namespace ipa
 		front                  = 0x00002000,
 		back                   = 0x00004000,
 		//                     = 0x00008000,
-		//                     = 0x00010000,
-		//                     = 0x00020000,
+		length                 = 0x00030000,
 		aspirated              = 0x00040000,
 		unexploded             = 0x00080000,
 		syllabic               = 0x00100000,
 		murmured               = 0x00200000,
-		long_                  = 0x00400000,
+		//                     = 0x00400000,
 		velarized              = 0x00800000,
 		labialized             = 0x01000000,
 		palatalized            = 0x02000000,
@@ -106,6 +105,13 @@ namespace cainteoir { namespace ipa
 		//             = front
 		center         = front | back,
 		//             = back
+
+		// length
+
+		extra_short = 0x00010000,
+		short_      = 0x00000000,
+		half_long   = 0x00030000,
+		long_       = 0x00020000,
 	};
 
 	struct phoneme
