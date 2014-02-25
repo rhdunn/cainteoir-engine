@@ -38,9 +38,8 @@ namespace cainteoir { namespace ipa
 		mid                    = 0x00000200,
 		low                    = 0x00000400,
 		lax                    = 0x00001000,
-		vowel_backness         = 0x00006000,
-		//                     = 0x00002000,
-		//                     = 0x00004000,
+		front                  = 0x00002000,
+		back                   = 0x00004000,
 		//                     = 0x00008000,
 		//                     = 0x00010000,
 		//                     = 0x00020000,
@@ -100,9 +99,8 @@ namespace cainteoir { namespace ipa
 
 		// vowel backness
 
-		front  = 0x00000000,
-		center = 0x00002000,
-		back   = 0x00004000,
+		vowel_backness = front | back,
+		center         = front | back,
 	};
 
 	struct phoneme
