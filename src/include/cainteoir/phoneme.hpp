@@ -34,8 +34,11 @@ namespace cainteoir { namespace ipa
 
 		place_of_articulation  = 0x0000000F,
 		manner_of_articulation = 0x000000F0,
-		vowel_height           = 0x00000700,
-		vowel_backness         = 0x00001800,
+		high                   = 0x00000100,
+		mid                    = 0x00000200,
+		low                    = 0x00000400,
+		lax                    = 0x00001000,
+		vowel_backness         = 0x00006000,
 		//                     = 0x00002000,
 		//                     = 0x00004000,
 		//                     = 0x00008000,
@@ -89,19 +92,17 @@ namespace cainteoir { namespace ipa
 
 		// vowel height
 
-		high      = 0x00000000,
-		semi_high = 0x00000100,
-		upper_mid = 0x00000200,
-		mid       = 0x00000300,
-		lower_mid = 0x00000400,
-		semi_low  = 0x00000500,
-		low       = 0x00000600,
+		vowel_height = high | mid | low | lax,
+		semi_high    = high | lax,
+		upper_mid    = high | mid,
+		lower_mid    = low  | mid,
+		semi_low     = low  | lax,
 
 		// vowel backness
 
-		front  = 0x00000800,
-		center = 0x00001800,
-		back   = 0x00001000,
+		front  = 0x00000000,
+		center = 0x00002000,
+		back   = 0x00004000,
 	};
 
 	struct phoneme
