@@ -92,15 +92,20 @@ namespace cainteoir { namespace ipa
 		// vowel height
 
 		vowel_height = high | mid | low | lax,
+		//           = high
 		semi_high    = high | lax,
 		upper_mid    = high | mid,
+		//           = mid
 		lower_mid    = low  | mid,
 		semi_low     = low  | lax,
+		//           = low
 
 		// vowel backness
 
 		vowel_backness = front | back,
+		//             = front
 		center         = front | back,
+		//             = back
 	};
 
 	struct phoneme
