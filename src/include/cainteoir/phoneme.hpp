@@ -28,97 +28,94 @@
 
 namespace cainteoir { namespace ipa
 {
-	enum feature
-	{
-		// features
+	// features
 
-		place_of_articulation  = UINT64_C(0x000000000000000F),
-		manner_of_articulation = UINT64_C(0x00000000000000F0),
-		high                   = UINT64_C(0x0000000000000100),
-		mid                    = UINT64_C(0x0000000000000200),
-		low                    = UINT64_C(0x0000000000000400),
-		lax                    = UINT64_C(0x0000000000001000),
-		front                  = UINT64_C(0x0000000000002000),
-		back                   = UINT64_C(0x0000000000004000),
-		length                 = UINT64_C(0x0000000000018000),
-		stress                 = UINT64_C(0x0000000000600000),
-		unexploded             = UINT64_C(0x0000000000080000),
-		syllabic               = UINT64_C(0x0000000000100000),
-		murmured               = UINT64_C(0x0000000000200000),
-		aspirated              = UINT64_C(0x0000000000400000),
-		velarized              = UINT64_C(0x0000000000800000),
-		labialized             = UINT64_C(0x0000000001000000),
-		palatalized            = UINT64_C(0x0000000002000000),
-		rhoticized             = UINT64_C(0x0000000004000000),
-		nasalized              = UINT64_C(0x0000000008000000),
-		pharyngealized         = UINT64_C(0x0000000010000000),
-		rounded                = UINT64_C(0x0000000020000000),
-		lateral                = UINT64_C(0x0000000040000000),
-		voiced                 = UINT64_C(0x0000000080000000),
+	constexpr uint64_t place_of_articulation  = UINT64_C(0x000000000000000F);
+	constexpr uint64_t manner_of_articulation = UINT64_C(0x00000000000000F0);
+	constexpr uint64_t high                   = UINT64_C(0x0000000000000100);
+	constexpr uint64_t mid                    = UINT64_C(0x0000000000000200);
+	constexpr uint64_t low                    = UINT64_C(0x0000000000000400);
+	constexpr uint64_t lax                    = UINT64_C(0x0000000000001000);
+	constexpr uint64_t front                  = UINT64_C(0x0000000000002000);
+	constexpr uint64_t back                   = UINT64_C(0x0000000000004000);
+	constexpr uint64_t length                 = UINT64_C(0x0000000000018000);
+	constexpr uint64_t stress                 = UINT64_C(0x0000000000600000);
+	constexpr uint64_t unexploded             = UINT64_C(0x0000000000080000);
+	constexpr uint64_t syllabic               = UINT64_C(0x0000000000100000);
+	constexpr uint64_t murmured               = UINT64_C(0x0000000000200000);
+	constexpr uint64_t aspirated              = UINT64_C(0x0000000000400000);
+	constexpr uint64_t velarized              = UINT64_C(0x0000000000800000);
+	constexpr uint64_t labialized             = UINT64_C(0x0000000001000000);
+	constexpr uint64_t palatalized            = UINT64_C(0x0000000002000000);
+	constexpr uint64_t rhoticized             = UINT64_C(0x0000000004000000);
+	constexpr uint64_t nasalized              = UINT64_C(0x0000000008000000);
+	constexpr uint64_t pharyngealized         = UINT64_C(0x0000000010000000);
+	constexpr uint64_t rounded                = UINT64_C(0x0000000020000000);
+	constexpr uint64_t lateral                = UINT64_C(0x0000000040000000);
+	constexpr uint64_t voiced                 = UINT64_C(0x0000000080000000);
 
-		// place of articulation
+	// place of articulation
 
-		bilabial        = UINT64_C(0x0000000000000000),
-		labio_dental    = UINT64_C(0x0000000000000001),
-		dental          = UINT64_C(0x0000000000000002),
-		alveolar        = UINT64_C(0x0000000000000003),
-		palato_alveolar = UINT64_C(0x0000000000000004),
-		retroflex       = UINT64_C(0x0000000000000005),
-		alveolo_palatal = UINT64_C(0x0000000000000006),
-		palatal         = UINT64_C(0x0000000000000007),
-		labio_palatal   = UINT64_C(0x0000000000000008),
-		velar           = UINT64_C(0x0000000000000009),
-		labio_velar     = UINT64_C(0x000000000000000A),
-		uvular          = UINT64_C(0x000000000000000B),
-		pharyngeal      = UINT64_C(0x000000000000000C),
-		epiglottal      = UINT64_C(0x000000000000000D),
-		glottal         = UINT64_C(0x000000000000000E),
+	constexpr uint64_t bilabial        = UINT64_C(0x0000000000000000);
+	constexpr uint64_t labio_dental    = UINT64_C(0x0000000000000001);
+	constexpr uint64_t dental          = UINT64_C(0x0000000000000002);
+	constexpr uint64_t alveolar        = UINT64_C(0x0000000000000003);
+	constexpr uint64_t palato_alveolar = UINT64_C(0x0000000000000004);
+	constexpr uint64_t retroflex       = UINT64_C(0x0000000000000005);
+	constexpr uint64_t alveolo_palatal = UINT64_C(0x0000000000000006);
+	constexpr uint64_t palatal         = UINT64_C(0x0000000000000007);
+	constexpr uint64_t labio_palatal   = UINT64_C(0x0000000000000008);
+	constexpr uint64_t velar           = UINT64_C(0x0000000000000009);
+	constexpr uint64_t labio_velar     = UINT64_C(0x000000000000000A);
+	constexpr uint64_t uvular          = UINT64_C(0x000000000000000B);
+	constexpr uint64_t pharyngeal      = UINT64_C(0x000000000000000C);
+	constexpr uint64_t epiglottal      = UINT64_C(0x000000000000000D);
+	constexpr uint64_t glottal         = UINT64_C(0x000000000000000E);
 
-		// manner of articulation
+	// manner of articulation
 
-		plosive     = UINT64_C(0x0000000000000000),
-		fricative   = UINT64_C(0x0000000000000010),
-		nasal       = UINT64_C(0x0000000000000020),
-		approximant = UINT64_C(0x0000000000000030),
-		vowel       = UINT64_C(0x0000000000000040),
-		trill       = UINT64_C(0x0000000000000050),
-		flap        = UINT64_C(0x0000000000000060),
-		click       = UINT64_C(0x0000000000000070),
-		ejective    = UINT64_C(0x0000000000000080),
-		implosive   = UINT64_C(0x0000000000000090),
+	constexpr uint64_t plosive     = UINT64_C(0x0000000000000000);
+	constexpr uint64_t fricative   = UINT64_C(0x0000000000000010);
+	constexpr uint64_t nasal       = UINT64_C(0x0000000000000020);
+	constexpr uint64_t approximant = UINT64_C(0x0000000000000030);
+	constexpr uint64_t vowel       = UINT64_C(0x0000000000000040);
+	constexpr uint64_t trill       = UINT64_C(0x0000000000000050);
+	constexpr uint64_t flap        = UINT64_C(0x0000000000000060);
+	constexpr uint64_t click       = UINT64_C(0x0000000000000070);
+	constexpr uint64_t ejective    = UINT64_C(0x0000000000000080);
+	constexpr uint64_t implosive   = UINT64_C(0x0000000000000090);
 
-		// vowel height
+	// vowel height
 
-		vowel_height = high | mid | low | lax,
-		//           = high
-		semi_high    = high | lax,
-		upper_mid    = high | mid,
-		//           = mid
-		lower_mid    = low  | mid,
-		semi_low     = low  | lax,
-		//           = low
+	constexpr uint64_t vowel_height = high | mid | low | lax;
+	//                              = high
+	constexpr uint64_t semi_high    = high | lax;
+	constexpr uint64_t upper_mid    = high | mid;
+	//                              = mid
+	constexpr uint64_t lower_mid    = low  | mid;
+	constexpr uint64_t semi_low     = low  | lax;
+	//                              = low
 
-		// vowel backness
+	// vowel backness
 
-		vowel_backness = front | back,
-		//             = front
-		center         = front | back,
-		//             = back
+	constexpr uint64_t vowel_backness = front | back;
+	//                                = front
+	constexpr uint64_t center         = front | back;
+	//                                = back
 
-		// stress
+	// stress
 
-		unstressed       = UINT64_C(0x0000000000000000),
-		primary_stress   = UINT64_C(0x0000000000200000),
-		secondary_stress = UINT64_C(0x0000000000400000),
-		extra_stress     = UINT64_C(0x0000000000600000),
+	constexpr uint64_t unstressed       = UINT64_C(0x0000000000000000);
+	constexpr uint64_t primary_stress   = UINT64_C(0x0000000000200000);
+	constexpr uint64_t secondary_stress = UINT64_C(0x0000000000400000);
+	constexpr uint64_t extra_stress     = UINT64_C(0x0000000000600000);
 
-		// length
+	// length
 
-		extra_short = UINT64_C(0x0000000000010000),
-		short_      = UINT64_C(0x0000000000000000),
-		half_long   = UINT64_C(0x0000000000018000),
-		long_       = UINT64_C(0x0000000000008000),
-	};
+	constexpr uint64_t extra_short = UINT64_C(0x0000000000010000);
+	constexpr uint64_t short_      = UINT64_C(0x0000000000000000);
+	constexpr uint64_t half_long   = UINT64_C(0x0000000000018000);
+	constexpr uint64_t long_       = UINT64_C(0x0000000000008000);
 
 	struct phoneme
 	{

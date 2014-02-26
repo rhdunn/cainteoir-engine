@@ -157,22 +157,28 @@ TEST_CASE("kirshenbaum -- invalid")
 #define KIRSHENBAUM_BIN1(abbr, label, value) /* Enable Binary Feature */ \
 	TEST_CASE("kirshenbaum -- " abbr " = " label) \
 	{ \
-		assert(ipa::phoneme(0x00000000).set(abbr) == ipa::phoneme(value)); \
-		assert(ipa::phoneme(0xFFFFFFFF).set(abbr) == ipa::phoneme(0xFFFFFFFF)); \
+		const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000); \
+		const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF); \
+		assert(ipa::phoneme(zero).set(abbr) == ipa::phoneme(value)); \
+		assert(ipa::phoneme(fill).set(abbr) == ipa::phoneme(fill)); \
 	}
 
 #define KIRSHENBAUM_BIN0(abbr, label, value) /* Disable Binary Feature */ \
 	TEST_CASE("kirshenbaum -- " abbr " = " label) \
 	{ \
-		assert(ipa::phoneme(0x00000000).set(abbr) == ipa::phoneme(0x00000000)); \
-		assert(ipa::phoneme(0xFFFFFFFF).set(abbr) == ipa::phoneme(0xFFFFFFFF & ~value)); \
+		const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000); \
+		const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF); \
+		assert(ipa::phoneme(zero).set(abbr) == ipa::phoneme(zero)); \
+		assert(ipa::phoneme(fill).set(abbr) == ipa::phoneme(fill & ~value)); \
 	} \
 
 #define KIRSHENBAUM_RNGD(abbr, label, value, mask) /* Ranged (Value + Mask) Feature */ \
 	TEST_CASE("kirshenbaum -- " abbr " = " label) \
 	{ \
-		assert(ipa::phoneme(0x00000000).set(abbr) == ipa::phoneme(value)); \
-		assert(ipa::phoneme(0xFFFFFFFF).set(abbr) == ipa::phoneme((0xFFFFFFFF & ~mask) | value)); \
+		const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000); \
+		const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF); \
+		assert(ipa::phoneme(zero).set(abbr) == ipa::phoneme(value)); \
+		assert(ipa::phoneme(fill).set(abbr) == ipa::phoneme((fill & ~mask) | value)); \
 	} \
 
 KIRSHENBAUM_BIN1("vcd", "voiced", ipa::voiced)
