@@ -45,18 +45,16 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t front                  = UINT64_C(0x0000000000040000);
 	constexpr uint64_t back                   = UINT64_C(0x0000000000080000);
 	constexpr uint64_t rounded                = UINT64_C(0x0000000000100000);
-	// diacritics ---------------------------------------- 00000003FFE00000
+	// diacritics ---------------------------------------- 000000FFFFE00000
 	constexpr uint64_t syllabic               = UINT64_C(0x0000000000200000);
 	constexpr uint64_t release                = UINT64_C(0x0000000001C00000);
 	constexpr uint64_t phonation              = UINT64_C(0x000000000E000000);
 	constexpr uint64_t articulation           = UINT64_C(0x00000000F0000000);
-	constexpr uint64_t velarized              = UINT64_C(0x0000000100000000);
-	constexpr uint64_t labialized             = UINT64_C(0x0000000200000000);
-	constexpr uint64_t palatalized            = UINT64_C(0x0000000400000000);
-	constexpr uint64_t rhoticized             = UINT64_C(0x0000000800000000);
-	constexpr uint64_t nasalized              = UINT64_C(0x0000001000000000);
-	constexpr uint64_t pharyngealized         = UINT64_C(0x0000002000000000);
-	// reserved (unassigned) ----------------------------- 0FFFFFC000000000
+	constexpr uint64_t rounding               = UINT64_C(0x0000000300000000);
+	constexpr uint64_t coarticulation         = UINT64_C(0x0000001C00000000);
+	constexpr uint64_t rhoticized             = UINT64_C(0x0000002000000000);
+	constexpr uint64_t tongue_root            = UINT64_C(0x000000C000000000);
+	// reserved (unassigned) ----------------------------- 0FFFFF0000000000
 	// suprasegmentals ----------------------------------- F000000000000000
 	constexpr uint64_t stress                 = UINT64_C(0x3000000000000000);
 	constexpr uint64_t length                 = UINT64_C(0xC000000000000000);
@@ -145,6 +143,25 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t mid_centralized = UINT64_C(0x0000000080000000);
 	constexpr uint64_t raised          = UINT64_C(0x0000000090000000);
 	constexpr uint64_t lowered         = UINT64_C(0x00000000A0000000);
+
+	// diacritics -- rounding (co-articulation)
+
+	constexpr uint64_t more_rounded = UINT64_C(0x0000000100000000);
+	constexpr uint64_t less_rounded = UINT64_C(0x0000000200000000);
+
+	// diacritics -- co-articulation
+
+	constexpr uint64_t labialized                  = UINT64_C(0x0000000400000000);
+	constexpr uint64_t palatalized                 = UINT64_C(0x0000000800000000);
+	constexpr uint64_t velarized                   = UINT64_C(0x0000000C00000000);
+	constexpr uint64_t pharyngealized              = UINT64_C(0x0000001000000000);
+	constexpr uint64_t velarized_or_pharyngealized = UINT64_C(0x0000001400000000);
+	constexpr uint64_t nasalized                   = UINT64_C(0x0000001800000000);
+
+	// diacritics -- tongue root (co-articulation)
+
+	constexpr uint64_t advanced_tongue_root  = UINT64_C(0x0000004000000000);
+	constexpr uint64_t retracted_tongue_root = UINT64_C(0x0000008000000000);
 
 	// suprasegmentals -- stress
 
