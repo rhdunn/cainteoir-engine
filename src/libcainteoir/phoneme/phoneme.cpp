@@ -50,6 +50,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "ejc", ipa::ejective, ipa::manner_of_articulation },
 	{ "epg", ipa::epiglottal, ipa::place_of_articulation }, // extension
 	{ "est", ipa::extra_short, ipa::length }, // extension
+	{ "fbr", ipa::foot_break, ipa::phoneme_type }, // extension
 	{ "flp", ipa::flap, ipa::manner_of_articulation },
 	{ "fnt", ipa::front, ipa::vowel_backness },
 	{ "frc", ipa::fricative, ipa::manner_of_articulation },
@@ -57,6 +58,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "glt", ipa::glottal, ipa::place_of_articulation },
 	{ "hgh", ipa::high, ipa::vowel_height },
 	{ "hlg", ipa::half_long, ipa::length }, // extension
+	{ "ibr", ipa::intonation_break, ipa::phoneme_type }, // extension
 	{ "imp", ipa::implosive, ipa::manner_of_articulation },
 	{ "lat", ipa::lateral, ipa::lateral },
 	{ "lbd", ipa::labio_dental, ipa::place_of_articulation },
@@ -64,6 +66,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "lbv", ipa::labio_velar, ipa::place_of_articulation },
 	{ "lmd", ipa::lower_mid, ipa::vowel_height },
 	{ "lng", ipa::long_, ipa::length },
+	{ "lnk", ipa::linking, ipa::phoneme_type }, // extension
 	{ "low", ipa::low, ipa::vowel_height },
 	{ "lzd", ipa::labialized, ipa::labialized },
 	{ "mid", ipa::mid, ipa::vowel_height },
@@ -72,12 +75,14 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "nzd", ipa::nasalized, ipa::nasalized },
 	{ "orl", 0, 0 }, // ignored -- Kirshenbaum uses {stp}/{nas} instead of {orl,stp}/{nas,stp}.
 	{ "pal", ipa::palatal, ipa::place_of_articulation },
+	{ "pau", ipa::pause, ipa::phoneme_type }, // extension
 	{ "phr", ipa::pharyngeal, ipa::place_of_articulation },
 	{ "pla", ipa::palato_alveolar, ipa::place_of_articulation },
 	{ "pzd", ipa::palatalized, ipa::palatalized },
 	{ "rfx", ipa::retroflex, ipa::place_of_articulation },
 	{ "rnd", ipa::rounded, ipa::rounded },
 	{ "rzd", ipa::rhoticized, ipa::rhoticized },
+	{ "sbr", ipa::syllable_break, ipa::phoneme_type }, // extension
 	{ "smh", ipa::semi_high, ipa::vowel_height },
 	{ "sml", ipa::semi_low, ipa::vowel_height }, // extension
 	{ "st1", ipa::primary_stress, ipa::stress }, // extension

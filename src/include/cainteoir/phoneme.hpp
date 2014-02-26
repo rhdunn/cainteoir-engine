@@ -60,6 +60,11 @@ namespace cainteoir { namespace ipa
 
 	constexpr uint64_t consonant        = UINT64_C(0x0000000000000000);
 	constexpr uint64_t vowel            = UINT64_C(0x1000000000000000);
+	constexpr uint64_t pause            = UINT64_C(0x2000000000000000);
+	constexpr uint64_t syllable_break   = UINT64_C(0x3000000000000000);
+	constexpr uint64_t linking          = UINT64_C(0x4000000000000000);
+	constexpr uint64_t foot_break       = UINT64_C(0x5000000000000000);
+	constexpr uint64_t intonation_break = UINT64_C(0x6000000000000000);
 
 	// place of articulation
 
