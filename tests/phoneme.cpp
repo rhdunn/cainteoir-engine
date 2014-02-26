@@ -20,6 +20,7 @@
 
 #include <cainteoir/phoneme.hpp>
 #include <stdexcept>
+#include <iomanip>
 #include <cstdio>
 
 #include "tester.hpp"
@@ -30,6 +31,20 @@ namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
 typedef tts::feature f;
+
+namespace cainteoir { namespace ipa
+{
+	std::ostream &operator<<(std::ostream &os, const phoneme &value)
+	{
+		auto fill = os.fill();
+		return os << "0x"
+		          << std::hex << std::setw(16) << std::setfill('0') << std::uppercase
+		          << value.get(UINT16_C(0xFFFFFFFFFFFFFFFF))
+		          << std::dec << std::setw(0) << std::setfill(fill) << std::nouppercase;
+	}
+}}
+
+PRINTABLE(ipa::phoneme);
 
 TEST_CASE("ipa::phoneme -- object size")
 {
