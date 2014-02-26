@@ -45,6 +45,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "blb", ipa::bilabial, ipa::place_of_articulation },
 	{ "clk", ipa::click, ipa::manner_of_articulation },
 	{ "cnt", ipa::center, ipa::vowel_backness },
+	{ "crv", ipa::creaky_voice, ipa::phonation }, // extension
 	{ "ctl", 0, ipa::lateral },
 	{ "dnt", ipa::dental, ipa::place_of_articulation },
 	{ "ejc", ipa::ejective, ipa::manner_of_articulation },
@@ -71,7 +72,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "ltr", ipa::lateral_release, ipa::release }, // extension
 	{ "lzd", ipa::labialized, ipa::labialized },
 	{ "mid", ipa::mid, ipa::vowel_height },
-	{ "mrm", ipa::murmured, ipa::murmured },
+	{ "mrm", ipa::breathy_voice, ipa::phonation },
 	{ "nas", ipa::nasal, ipa::manner_of_articulation },
 	{ "nsy", 0, ipa::syllabic },
 	{ "nzd", ipa::nasalized, ipa::nasalized },
@@ -86,12 +87,14 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "rnd", ipa::rounded, ipa::rounded },
 	{ "rzd", ipa::rhoticized, ipa::rhoticized },
 	{ "sbr", ipa::syllable_break, ipa::phoneme_type }, // extension
+	{ "slv", ipa::slack_voice, ipa::phonation }, // extension
 	{ "smh", ipa::semi_high, ipa::vowel_height },
 	{ "sml", ipa::semi_low, ipa::vowel_height }, // extension
 	{ "st1", ipa::primary_stress, ipa::stress }, // extension
 	{ "st2", ipa::secondary_stress, ipa::stress }, // extension
 	{ "st3", ipa::extra_stress, ipa::stress }, // extension
 	{ "stp", ipa::plosive, ipa::manner_of_articulation },
+	{ "stv", ipa::stiff_voice, ipa::phonation }, // extension
 	{ "syl", ipa::syllabic, ipa::syllabic },
 	{ "trl", ipa::trill, ipa::manner_of_articulation },
 	{ "umd", ipa::upper_mid, ipa::vowel_height },

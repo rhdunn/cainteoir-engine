@@ -45,17 +45,17 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t front                  = UINT64_C(0x0000000000040000);
 	constexpr uint64_t back                   = UINT64_C(0x0000000000080000);
 	constexpr uint64_t rounded                = UINT64_C(0x0000000000100000);
-	// diacritics ---------------------------------------- 00000000FFE00000
+	// diacritics ---------------------------------------- 00000003FFE00000
 	constexpr uint64_t syllabic               = UINT64_C(0x0000000000200000);
 	constexpr uint64_t release                = UINT64_C(0x0000000001C00000);
-	constexpr uint64_t murmured               = UINT64_C(0x0000000002000000);
-	constexpr uint64_t velarized              = UINT64_C(0x0000000004000000);
-	constexpr uint64_t labialized             = UINT64_C(0x0000000008000000);
-	constexpr uint64_t palatalized            = UINT64_C(0x0000000010000000);
-	constexpr uint64_t rhoticized             = UINT64_C(0x0000000020000000);
-	constexpr uint64_t nasalized              = UINT64_C(0x0000000040000000);
-	constexpr uint64_t pharyngealized         = UINT64_C(0x0000000080000000);
-	// reserved (unassigned) ----------------------------- 0FFFFFFF00000000
+	constexpr uint64_t phonation              = UINT64_C(0x000000000E000000);
+	constexpr uint64_t velarized              = UINT64_C(0x0000000010000000);
+	constexpr uint64_t labialized             = UINT64_C(0x0000000020000000);
+	constexpr uint64_t palatalized            = UINT64_C(0x0000000040000000);
+	constexpr uint64_t rhoticized             = UINT64_C(0x0000000080000000);
+	constexpr uint64_t nasalized              = UINT64_C(0x0000000100000000);
+	constexpr uint64_t pharyngealized         = UINT64_C(0x0000000200000000);
+	// reserved (unassigned) ----------------------------- 0FFFFFFC00000000
 	// suprasegmentals ----------------------------------- F000000000000000
 	constexpr uint64_t stress                 = UINT64_C(0x3000000000000000);
 	constexpr uint64_t length                 = UINT64_C(0xC000000000000000);
@@ -124,6 +124,13 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t unexploded      = UINT64_C(0x0000000000800000);
 	constexpr uint64_t nasal_release   = UINT64_C(0x0000000000C00000);
 	constexpr uint64_t lateral_release = UINT64_C(0x0000000001400000);
+
+	// diacritics -- phonation
+
+	constexpr uint64_t slack_voice   = UINT64_C(0x0000000002000000);
+	constexpr uint64_t stiff_voice   = UINT64_C(0x0000000004000000);
+	constexpr uint64_t breathy_voice = UINT64_C(0x0000000006000000);
+	constexpr uint64_t creaky_voice  = UINT64_C(0x0000000008000000);
 
 	// suprasegmentals -- stress
 
