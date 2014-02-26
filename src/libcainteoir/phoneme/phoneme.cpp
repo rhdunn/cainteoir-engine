@@ -113,7 +113,22 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "stp", ipa::plosive, ipa::manner_of_articulation },
 	{ "stv", ipa::stiff_voice, ipa::phonation }, // extension
 	{ "syl", ipa::syllabic, ipa::syllabic },
+	{ "te1", ipa::tone_end_bottom, ipa::tone_end }, // extension
+	{ "te2", ipa::tone_end_low, ipa::tone_end }, // extension
+	{ "te3", ipa::tone_end_mid, ipa::tone_end }, // extension
+	{ "te4", ipa::tone_end_high, ipa::tone_end }, // extension
+	{ "te5", ipa::tone_end_top, ipa::tone_end }, // extension
+	{ "tm1", ipa::tone_middle_bottom, ipa::tone_middle }, // extension
+	{ "tm2", ipa::tone_middle_low, ipa::tone_middle }, // extension
+	{ "tm3", ipa::tone_middle_mid, ipa::tone_middle }, // extension
+	{ "tm4", ipa::tone_middle_high, ipa::tone_middle }, // extension
+	{ "tm5", ipa::tone_middle_top, ipa::tone_middle }, // extension
 	{ "trl", ipa::trill, ipa::manner_of_articulation },
+	{ "ts1", ipa::tone_start_bottom, ipa::tone_start }, // extension
+	{ "ts2", ipa::tone_start_low, ipa::tone_start }, // extension
+	{ "ts3", ipa::tone_start_mid, ipa::tone_start }, // extension
+	{ "ts4", ipa::tone_start_high, ipa::tone_start }, // extension
+	{ "ts5", ipa::tone_start_top, ipa::tone_start }, // extension
 	{ "umd", ipa::upper_mid, ipa::vowel_height },
 	{ "unr", 0, ipa::rounded },
 	{ "unx", ipa::unexploded, ipa::release },

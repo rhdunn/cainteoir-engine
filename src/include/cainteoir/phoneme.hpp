@@ -54,8 +54,11 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t coarticulation         = UINT64_C(0x0000001C00000000);
 	constexpr uint64_t rhoticized             = UINT64_C(0x0000002000000000);
 	constexpr uint64_t tongue_root            = UINT64_C(0x000000C000000000);
-	// reserved (unassigned) ----------------------------- 0FFFFF0000000000
-	// suprasegmentals ----------------------------------- F000000000000000
+	// reserved (unassigned) ----------------------------- 000EFF0000000000
+	// suprasegmentals ----------------------------------- FFF1000000000000
+	constexpr uint64_t tone_start             = UINT64_C(0x0031000000000000);
+	constexpr uint64_t tone_middle            = UINT64_C(0x01C0000000000000);
+	constexpr uint64_t tone_end               = UINT64_C(0x0E00000000000000);
 	constexpr uint64_t stress                 = UINT64_C(0x3000000000000000);
 	constexpr uint64_t length                 = UINT64_C(0xC000000000000000);
 
@@ -166,6 +169,26 @@ namespace cainteoir { namespace ipa
 
 	constexpr uint64_t advanced_tongue_root  = UINT64_C(0x0000004000000000);
 	constexpr uint64_t retracted_tongue_root = UINT64_C(0x0000008000000000);
+
+	// suprasegmentals -- tone
+
+	constexpr uint64_t tone_start_top     = UINT64_C(0x0001000000000000);
+	constexpr uint64_t tone_start_high    = UINT64_C(0x0010000000000000);
+	constexpr uint64_t tone_start_mid     = UINT64_C(0x0011000000000000);
+	constexpr uint64_t tone_start_low     = UINT64_C(0x0020000000000000);
+	constexpr uint64_t tone_start_bottom  = UINT64_C(0x0021000000000000);
+
+	constexpr uint64_t tone_middle_top    = UINT64_C(0x0040000000000000);
+	constexpr uint64_t tone_middle_high   = UINT64_C(0x0080000000000000);
+	constexpr uint64_t tone_middle_mid    = UINT64_C(0x00C0000000000000);
+	constexpr uint64_t tone_middle_low    = UINT64_C(0x0100000000000000);
+	constexpr uint64_t tone_middle_bottom = UINT64_C(0x0140000000000000);
+
+	constexpr uint64_t tone_end_top       = UINT64_C(0x0200000000000000);
+	constexpr uint64_t tone_end_high      = UINT64_C(0x0400000000000000);
+	constexpr uint64_t tone_end_mid       = UINT64_C(0x0600000000000000);
+	constexpr uint64_t tone_end_low       = UINT64_C(0x0800000000000000);
+	constexpr uint64_t tone_end_bottom    = UINT64_C(0x0A00000000000000);
 
 	// suprasegmentals -- stress
 
