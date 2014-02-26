@@ -52,6 +52,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "ctl", 0, ipa::lateral },
 	{ "czd", ipa::centralized, ipa::articulation }, // extension
 	{ "dnt", ipa::dental, ipa::place_of_articulation },
+	{ "dst", ipa::downstep, ipa::phoneme_type }, // extension
 	{ "dzd", ipa::dentalized, ipa::articulation }, // extension
 	{ "ejc", ipa::ejective, ipa::manner_of_articulation },
 	{ "epg", ipa::epiglottal, ipa::place_of_articulation }, // extension
@@ -61,6 +62,8 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "fnt", ipa::front, ipa::vowel_backness },
 	{ "frc", ipa::fricative, ipa::manner_of_articulation },
 	{ "fzd", ipa::pharyngealized, ipa::coarticulation },
+	{ "glf", ipa::global_fall, ipa::phoneme_type }, // extension
+	{ "glr", ipa::global_rise, ipa::phoneme_type }, // extension
 	{ "glt", ipa::glottal, ipa::place_of_articulation },
 	{ "hgh", ipa::high, ipa::vowel_height },
 	{ "hlg", ipa::half_long, ipa::length }, // extension
@@ -114,6 +117,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "umd", ipa::upper_mid, ipa::vowel_height },
 	{ "unr", 0, ipa::rounded },
 	{ "unx", ipa::unexploded, ipa::release },
+	{ "ust", ipa::upstep, ipa::phoneme_type }, // extension
 	{ "uvl", ipa::uvular, ipa::place_of_articulation },
 	{ "vcd", ipa::voiced, ipa::voiced },
 	{ "vel", ipa::velar, ipa::place_of_articulation },

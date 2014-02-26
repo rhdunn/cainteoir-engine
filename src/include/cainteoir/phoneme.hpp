@@ -68,6 +68,10 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t linking          = UINT64_C(0x0000000000000004);
 	constexpr uint64_t foot_break       = UINT64_C(0x0000000000000005);
 	constexpr uint64_t intonation_break = UINT64_C(0x0000000000000006);
+	constexpr uint64_t global_rise      = UINT64_C(0x0000000000000007);
+	constexpr uint64_t global_fall      = UINT64_C(0x0000000000000008);
+	constexpr uint64_t upstep           = UINT64_C(0x0000000000000009);
+	constexpr uint64_t downstep         = UINT64_C(0x000000000000000A);
 
 	// place of articulation
 
