@@ -40,7 +40,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "alp", ipa::alveolo_palatal, ipa::place_of_articulation }, // extension
 	{ "alv", ipa::alveolar, ipa::place_of_articulation },
 	{ "apr", ipa::approximant, ipa::manner_of_articulation },
-	{ "asp", ipa::aspirated, ipa::aspirated },
+	{ "asp", ipa::aspirated, ipa::release },
 	{ "bck", ipa::back, ipa::vowel_backness },
 	{ "blb", ipa::bilabial, ipa::place_of_articulation },
 	{ "clk", ipa::click, ipa::manner_of_articulation },
@@ -68,12 +68,14 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "lng", ipa::long_, ipa::length },
 	{ "lnk", ipa::linking, ipa::phoneme_type }, // extension
 	{ "low", ipa::low, ipa::vowel_height },
+	{ "ltr", ipa::lateral_release, ipa::release }, // extension
 	{ "lzd", ipa::labialized, ipa::labialized },
 	{ "mid", ipa::mid, ipa::vowel_height },
 	{ "mrm", ipa::murmured, ipa::murmured },
 	{ "nas", ipa::nasal, ipa::manner_of_articulation },
 	{ "nsy", 0, ipa::syllabic },
 	{ "nzd", ipa::nasalized, ipa::nasalized },
+	{ "nzr", ipa::nasal_release, ipa::release }, // extension
 	{ "orl", 0, 0 }, // ignored -- Kirshenbaum uses {stp}/{nas} instead of {orl,stp}/{nas,stp}.
 	{ "pal", ipa::palatal, ipa::place_of_articulation },
 	{ "pau", ipa::pause, ipa::phoneme_type }, // extension
@@ -94,7 +96,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "trl", ipa::trill, ipa::manner_of_articulation },
 	{ "umd", ipa::upper_mid, ipa::vowel_height },
 	{ "unr", 0, ipa::rounded },
-	{ "unx", ipa::unexploded, ipa::unexploded },
+	{ "unx", ipa::unexploded, ipa::release },
 	{ "uvl", ipa::uvular, ipa::place_of_articulation },
 	{ "vcd", ipa::voiced, ipa::voiced },
 	{ "vel", ipa::velar, ipa::place_of_articulation },

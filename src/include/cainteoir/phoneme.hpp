@@ -40,10 +40,9 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t back                   = UINT64_C(0x0000000000004000);
 	constexpr uint64_t length                 = UINT64_C(0x0000000000018000);
 	constexpr uint64_t stress                 = UINT64_C(0x0000000000060000);
-	constexpr uint64_t unexploded             = UINT64_C(0x0000000000080000);
-	constexpr uint64_t syllabic               = UINT64_C(0x0000000000100000);
-	constexpr uint64_t murmured               = UINT64_C(0x0000000000200000);
-	constexpr uint64_t aspirated              = UINT64_C(0x0000000000400000);
+	constexpr uint64_t syllabic               = UINT64_C(0x0000000000080000);
+	constexpr uint64_t release                = UINT64_C(0x0000000000300000);
+	constexpr uint64_t murmured               = UINT64_C(0x0000000000400000);
 	constexpr uint64_t velarized              = UINT64_C(0x0000000000800000);
 	constexpr uint64_t labialized             = UINT64_C(0x0000000001000000);
 	constexpr uint64_t palatalized            = UINT64_C(0x0000000002000000);
@@ -114,19 +113,26 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t center         = front | back;
 	//                                = back
 
-	// stress
+	// suprasegmentals -- stress
 
 	constexpr uint64_t unstressed       = UINT64_C(0x0000000000000000);
 	constexpr uint64_t primary_stress   = UINT64_C(0x0000000000020000);
 	constexpr uint64_t secondary_stress = UINT64_C(0x0000000000040000);
 	constexpr uint64_t extra_stress     = UINT64_C(0x0000000000060000);
 
-	// length
+	// suprasegmentals -- length
 
 	constexpr uint64_t extra_short = UINT64_C(0x0000000000010000);
 	constexpr uint64_t short_      = UINT64_C(0x0000000000000000);
 	constexpr uint64_t half_long   = UINT64_C(0x0000000000018000);
 	constexpr uint64_t long_       = UINT64_C(0x0000000000008000);
+
+	// diacritics -- release
+
+	constexpr uint64_t aspirated       = UINT64_C(0x0000000000000000);
+	constexpr uint64_t unexploded      = UINT64_C(0x0000000000100000);
+	constexpr uint64_t nasal_release   = UINT64_C(0x0000000000200000);
+	constexpr uint64_t lateral_release = UINT64_C(0x0000000000300000);
 
 	struct phoneme
 	{
