@@ -39,7 +39,7 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t front                  = UINT64_C(0x0000000000002000);
 	constexpr uint64_t back                   = UINT64_C(0x0000000000004000);
 	constexpr uint64_t length                 = UINT64_C(0x0000000000018000);
-	constexpr uint64_t stress                 = UINT64_C(0x0000000000600000);
+	constexpr uint64_t stress                 = UINT64_C(0x0000000000060000);
 	constexpr uint64_t unexploded             = UINT64_C(0x0000000000080000);
 	constexpr uint64_t syllabic               = UINT64_C(0x0000000000100000);
 	constexpr uint64_t murmured               = UINT64_C(0x0000000000200000);
@@ -106,9 +106,9 @@ namespace cainteoir { namespace ipa
 	// stress
 
 	constexpr uint64_t unstressed       = UINT64_C(0x0000000000000000);
-	constexpr uint64_t primary_stress   = UINT64_C(0x0000000000200000);
-	constexpr uint64_t secondary_stress = UINT64_C(0x0000000000400000);
-	constexpr uint64_t extra_stress     = UINT64_C(0x0000000000600000);
+	constexpr uint64_t primary_stress   = UINT64_C(0x0000000000020000);
+	constexpr uint64_t secondary_stress = UINT64_C(0x0000000000040000);
+	constexpr uint64_t extra_stress     = UINT64_C(0x0000000000060000);
 
 	// length
 
