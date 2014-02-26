@@ -45,17 +45,17 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t front                  = UINT64_C(0x0000000000040000);
 	constexpr uint64_t back                   = UINT64_C(0x0000000000080000);
 	constexpr uint64_t rounded                = UINT64_C(0x0000000000100000);
-	// diacritics ---------------------------------------- 000000007FE00000
+	// diacritics ---------------------------------------- 00000000FFE00000
 	constexpr uint64_t syllabic               = UINT64_C(0x0000000000200000);
-	constexpr uint64_t release                = UINT64_C(0x0000000000C00000);
-	constexpr uint64_t murmured               = UINT64_C(0x0000000001000000);
-	constexpr uint64_t velarized              = UINT64_C(0x0000000002000000);
-	constexpr uint64_t labialized             = UINT64_C(0x0000000004000000);
-	constexpr uint64_t palatalized            = UINT64_C(0x0000000008000000);
-	constexpr uint64_t rhoticized             = UINT64_C(0x0000000010000000);
-	constexpr uint64_t nasalized              = UINT64_C(0x0000000020000000);
-	constexpr uint64_t pharyngealized         = UINT64_C(0x0000000040000000);
-	// reserved (unassigned) ----------------------------- 0FFFFFFF80000000
+	constexpr uint64_t release                = UINT64_C(0x0000000001C00000);
+	constexpr uint64_t murmured               = UINT64_C(0x0000000002000000);
+	constexpr uint64_t velarized              = UINT64_C(0x0000000004000000);
+	constexpr uint64_t labialized             = UINT64_C(0x0000000008000000);
+	constexpr uint64_t palatalized            = UINT64_C(0x0000000010000000);
+	constexpr uint64_t rhoticized             = UINT64_C(0x0000000020000000);
+	constexpr uint64_t nasalized              = UINT64_C(0x0000000040000000);
+	constexpr uint64_t pharyngealized         = UINT64_C(0x0000000080000000);
+	// reserved (unassigned) ----------------------------- 0FFFFFFF00000000
 	// suprasegmentals ----------------------------------- F000000000000000
 	constexpr uint64_t stress                 = UINT64_C(0x3000000000000000);
 	constexpr uint64_t length                 = UINT64_C(0xC000000000000000);
@@ -120,10 +120,10 @@ namespace cainteoir { namespace ipa
 
 	// diacritics -- release
 
-	constexpr uint64_t aspirated       = UINT64_C(0x0000000000000000);
-	constexpr uint64_t unexploded      = UINT64_C(0x0000000000400000);
-	constexpr uint64_t nasal_release   = UINT64_C(0x0000000000800000);
-	constexpr uint64_t lateral_release = UINT64_C(0x0000000000C00000);
+	constexpr uint64_t aspirated       = UINT64_C(0x0000000000400000);
+	constexpr uint64_t unexploded      = UINT64_C(0x0000000000800000);
+	constexpr uint64_t nasal_release   = UINT64_C(0x0000000000C00000);
+	constexpr uint64_t lateral_release = UINT64_C(0x0000000001400000);
 
 	// suprasegmentals -- stress
 
