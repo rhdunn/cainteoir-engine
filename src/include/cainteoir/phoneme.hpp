@@ -53,6 +53,13 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t rounded                = UINT64_C(0x0000000020000000);
 	constexpr uint64_t lateral                = UINT64_C(0x0000000040000000);
 	constexpr uint64_t voiced                 = UINT64_C(0x0000000080000000);
+	//                                                   0x0FFFFFFF00000000
+	constexpr uint64_t phoneme_type           = UINT64_C(0xF000000000000000);
+
+	// phoneme type
+
+	constexpr uint64_t consonant        = UINT64_C(0x0000000000000000);
+	constexpr uint64_t vowel            = UINT64_C(0x1000000000000000);
 
 	// place of articulation
 
@@ -78,12 +85,11 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t fricative   = UINT64_C(0x0000000000000010);
 	constexpr uint64_t nasal       = UINT64_C(0x0000000000000020);
 	constexpr uint64_t approximant = UINT64_C(0x0000000000000030);
-	constexpr uint64_t vowel       = UINT64_C(0x0000000000000040);
-	constexpr uint64_t trill       = UINT64_C(0x0000000000000050);
-	constexpr uint64_t flap        = UINT64_C(0x0000000000000060);
-	constexpr uint64_t click       = UINT64_C(0x0000000000000070);
-	constexpr uint64_t ejective    = UINT64_C(0x0000000000000080);
-	constexpr uint64_t implosive   = UINT64_C(0x0000000000000090);
+	constexpr uint64_t trill       = UINT64_C(0x0000000000000040);
+	constexpr uint64_t flap        = UINT64_C(0x0000000000000050);
+	constexpr uint64_t click       = UINT64_C(0x0000000000000060);
+	constexpr uint64_t ejective    = UINT64_C(0x0000000000000070);
+	constexpr uint64_t implosive   = UINT64_C(0x0000000000000080);
 
 	// vowel height
 

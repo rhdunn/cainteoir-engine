@@ -93,6 +93,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "vcd", ipa::voiced, ipa::voiced },
 	{ "vel", ipa::velar, ipa::place_of_articulation },
 	{ "vls", 0, ipa::voiced },
+	{ "vwl", ipa::vowel, ipa::phoneme_type },
 	{ "vzd", ipa::velarized, ipa::velarized },
 };
 

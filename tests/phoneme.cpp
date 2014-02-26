@@ -203,6 +203,7 @@ KIRSHENBAUM_RNGD("frc", "fricative", ipa::fricative, ipa::manner_of_articulation
 KIRSHENBAUM_RNGD("nas", "nasal", ipa::nasal, ipa::manner_of_articulation)
 KIRSHENBAUM_BIN1("orl", "oral", 0) // Not Supported -- Kirshenbaum does not use {orl,stp}/{nas,stp}
 KIRSHENBAUM_RNGD("apr", "approximant", ipa::approximant, ipa::manner_of_articulation)
+KIRSHENBAUM_RNGD("vwl", "vowel", ipa::vowel, ipa::phoneme_type)
 KIRSHENBAUM_BIN1("lat", "lateral", ipa::lateral)
 KIRSHENBAUM_BIN0("ctl", "central", ipa::lateral)
 KIRSHENBAUM_RNGD("trl", "trill", ipa::trill, ipa::manner_of_articulation)
