@@ -24,41 +24,41 @@ if __name__ == '__main__':
 	test = harness.TestSuite('dictionary', sys.argv)
 	test.run({'name': 'Dictionary', 'groups': [
 		{'name': 'Cainteoir', 'type': 'dictionary', 'args': ['--list'], 'tests': [
-			{'test': '../data/locale/en/cardinal.dict', 'result': 'dict/cainteoir/en-cardinal.lst'}, # say-as (word => word)
-			{'test': '../data/locale/en-GB/cardinal.dict', 'result': 'dict/cainteoir/en-GB-cardinal.lst'}, # .import directive
-			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
-			{'test': 'dict/cainteoir/comments.dict', 'result': 'dict/cainteoir/comments.lst'},
-			{'test': 'dict/cainteoir/duplicate-entry.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
-		]},
+			{'test': '../data/locale/en/cardinal.dict', 'result': 'dict/cainteoir/en-cardinal.lst', 'expect': 'fail'}, # say-as (word => word)
+			{'test': '../data/locale/en-GB/cardinal.dict', 'result': 'dict/cainteoir/en-GB-cardinal.lst', 'expect': 'fail'}, # .import directive
+			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst', 'expect': 'fail'},
+			{'test': 'dict/cainteoir/comments.dict', 'result': 'dict/cainteoir/comments.lst', 'expect': 'fail'},
+			{'test': 'dict/cainteoir/duplicate-entry.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst', 'expect': 'fail'},
+		], 'expect': 'fail'},
 		{'name': 'Resolve Say As', 'type': 'dictionary', 'args': ['--resolve-say-as'], 'tests': [
-			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
-			{'test': 'dict/cainteoir/say-as.dict', 'result': 'dict/cainteoir/say-as.lst'},
-			{'test': 'dict/cainteoir/say-as-nested.dict', 'result': 'dict/cainteoir/say-as-nested.lst'},
-			{'test': 'dict/cainteoir/say-as-infinite-recursion.dict', 'result': 'dict/cainteoir/say-as-infinite-recursion.lst'},
-		]},
+			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst', 'expect': 'fail'},
+			{'test': 'dict/cainteoir/say-as.dict', 'result': 'dict/cainteoir/say-as.lst', 'expect': 'fail'},
+			{'test': 'dict/cainteoir/say-as-nested.dict', 'result': 'dict/cainteoir/say-as-nested.lst', 'expect': 'fail'},
+			{'test': 'dict/cainteoir/say-as-infinite-recursion.dict', 'result': 'dict/cainteoir/say-as-infinite-recursion.lst', 'expect': 'fail'},
+		], 'expect': 'fail'},
 		{'name': 'Command Line', 'type': 'dictionary', 'tests': [
 			# --dictionary
-			{'result': 'dict/test/dictionary.stats', 'args': ['-d', '${PWD}/dict/test/dictionary.dict']},
-			{'result': 'dict/test/dictionary.stats', 'args': ['--dictionary', '${PWD}/dict/test/dictionary.dict']},
-			{'result': 'dict/test/dictionary.stats', 'args': ['--dictionary=${PWD}/dict/test/dictionary.dict']},
+			{'result': 'dict/test/dictionary.stats', 'args': ['-d', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+			{'result': 'dict/test/dictionary.stats', 'args': ['--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+			{'result': 'dict/test/dictionary.stats', 'args': ['--dictionary=${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
 			# --list
-			{'result': 'dict/test/dictionary.lst', 'args': ['-L', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
-			{'result': 'dict/test/dictionary.lst', 'args': ['--list', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
+			{'result': 'dict/test/dictionary.lst', 'args': ['-L', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+			{'result': 'dict/test/dictionary.lst', 'args': ['--list', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
 			# --resolve-say-as
-			{'result': 'dict/test/dictionary-resolved.lst', 'args': ['-R', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
-			{'result': 'dict/test/dictionary-resolved.lst', 'args': ['--resolve-say-as', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
+			{'result': 'dict/test/dictionary-resolved.lst', 'args': ['-R', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+			{'result': 'dict/test/dictionary-resolved.lst', 'args': ['--resolve-say-as', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
 			# --as-dictionary cainteoir
-			{'result': 'dict/test/dictionary.cainteoir', 'args': ['-D', 'cainteoir', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
-			{'result': 'dict/test/dictionary.cainteoir', 'args': ['--as-dictionary', 'cainteoir', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
-			{'result': 'dict/test/dictionary.cainteoir', 'args': ['--as-dictionary=cainteoir', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
+			{'result': 'dict/test/dictionary.cainteoir', 'args': ['-D', 'cainteoir', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+			{'result': 'dict/test/dictionary.cainteoir', 'args': ['--as-dictionary', 'cainteoir', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+			{'result': 'dict/test/dictionary.cainteoir', 'args': ['--as-dictionary=cainteoir', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
 			# --as-dictionary espeak
-			{'result': 'dict/test/dictionary.espeak', 'args': ['-D', 'espeak', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
-			{'result': 'dict/test/dictionary.espeak', 'args': ['--as-dictionary', 'espeak', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
-			{'result': 'dict/test/dictionary.espeak', 'args': ['--as-dictionary=espeak', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
+			{'result': 'dict/test/dictionary.espeak', 'args': ['-D', 'espeak', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+			{'result': 'dict/test/dictionary.espeak', 'args': ['--as-dictionary', 'espeak', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+			{'result': 'dict/test/dictionary.espeak', 'args': ['--as-dictionary=espeak', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
 			# --phonemeset espeak/en
-			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '-P', 'espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
-			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '--phonemeset', 'espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
-			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '--phonemeset=espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
-		]},
+			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '-P', 'espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '--phonemeset', 'espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '--phonemeset=espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+		], 'expect': 'fail'},
 	]})
 	test.summary()
