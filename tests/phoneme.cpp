@@ -266,6 +266,7 @@ KIRSHENBAUM_RNGD("te4", "high end tone [extension]", ipa::tone_end_high, ipa::to
 KIRSHENBAUM_RNGD("te3", "mid end tone [extension]", ipa::tone_end_mid, ipa::tone_end)
 KIRSHENBAUM_RNGD("te2", "low end tone [extension]", ipa::tone_end_low, ipa::tone_end)
 KIRSHENBAUM_RNGD("te1", "extra-low (bottom) end tone [extension]", ipa::tone_end_bottom, ipa::tone_end)
+KIRSHENBAUM_BIN1("tie", "tied (affricate/diphthong/...) [extension]", ipa::joined_to_next_phoneme)
 KIRSHENBAUM_BIN1("syl", "syllabic", ipa::syllabic)
 KIRSHENBAUM_BIN0("nsy", "non-syllabic [extension]", ipa::syllabic)
 KIRSHENBAUM_RNGD("asp", "aspirated", ipa::aspirated, ipa::release)

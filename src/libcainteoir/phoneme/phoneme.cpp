@@ -118,6 +118,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "te3", ipa::tone_end_mid, ipa::tone_end }, // extension
 	{ "te4", ipa::tone_end_high, ipa::tone_end }, // extension
 	{ "te5", ipa::tone_end_top, ipa::tone_end }, // extension
+	{ "tie", ipa::joined_to_next_phoneme, ipa::joined_to_next_phoneme }, // extension
 	{ "tm1", ipa::tone_middle_bottom, ipa::tone_middle }, // extension
 	{ "tm2", ipa::tone_middle_low, ipa::tone_middle }, // extension
 	{ "tm3", ipa::tone_middle_mid, ipa::tone_middle }, // extension
