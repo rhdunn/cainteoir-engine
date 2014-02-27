@@ -134,10 +134,10 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "unx", ipa::unexploded, ipa::release },
 	{ "ust", ipa::upstep, ipa::phoneme_type }, // extension
 	{ "uvl", ipa::uvular, ipa::place_of_articulation },
-	{ "vcd", ipa::voiced, ipa::voiced },
+	{ "vcd", ipa::voiced, ipa::phonation },
 	{ "vel", ipa::velar, ipa::place_of_articulation },
 	{ "vfz", ipa::velarized_or_pharyngealized, ipa::coarticulation }, // extension
-	{ "vls", 0, ipa::voiced },
+	{ "vls", ipa::voiceless, ipa::phonation },
 	{ "vwl", ipa::vowel, ipa::phoneme_type },
 	{ "vzd", ipa::velarized, ipa::coarticulation },
 };

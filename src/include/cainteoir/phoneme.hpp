@@ -35,7 +35,7 @@ namespace cainteoir { namespace ipa
 	// ... consonants ------------------------------------ 0000000000003FF0
 	constexpr uint64_t place_of_articulation  = UINT64_C(0x00000000000000F0);
 	constexpr uint64_t manner_of_articulation = UINT64_C(0x0000000000000F00);
-	constexpr uint64_t voiced                 = UINT64_C(0x0000000000001000);
+	//                                                     0000000000001000
 	constexpr uint64_t lateral                = UINT64_C(0x0000000000002000);
 	// ... vowels ---------------------------------------- 00000000001FC000
 	constexpr uint64_t high                   = UINT64_C(0x0000000000004000);
@@ -133,10 +133,14 @@ namespace cainteoir { namespace ipa
 
 	// diacritics -- phonation
 
-	constexpr uint64_t slack_voice   = UINT64_C(0x0000000002000000);
-	constexpr uint64_t stiff_voice   = UINT64_C(0x0000000004000000);
-	constexpr uint64_t breathy_voice = UINT64_C(0x0000000006000000);
-	constexpr uint64_t creaky_voice  = UINT64_C(0x0000000008000000);
+	constexpr uint64_t voiceless     = UINT64_C(0x0000000000000000);
+	constexpr uint64_t breathy_voice = UINT64_C(0x0000000002000000);
+	constexpr uint64_t slack_voice   = UINT64_C(0x0000000004000000);
+	constexpr uint64_t modal_voice   = UINT64_C(0x0000000006000000);
+	constexpr uint64_t stiff_voice   = UINT64_C(0x0000000008000000);
+	constexpr uint64_t creaky_voice  = UINT64_C(0x000000000A000000);
+	constexpr uint64_t voiced        = modal_voice; // alias
+	constexpr uint64_t murmured      = breathy_voice; // alias
 
 	// diacritics -- articulation
 
