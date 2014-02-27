@@ -219,6 +219,8 @@ namespace cainteoir { namespace ipa
 
 		value_type get(value_type mask) const { return mValue & mask; }
 
+		bool get(const char *feature) const;
+
 		phoneme &set(value_type value)
 		{
 			mValue |= value;

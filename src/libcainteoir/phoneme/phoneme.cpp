@@ -143,6 +143,32 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "vzd", ipa::velarized, ipa::coarticulation },
 };
 
+bool ipa::phoneme::get(const char *feature) const
+{
+	if (!feature) throw tts::phoneme_error("unknown phoneme feature '(null)'");
+
+	int begin = 0;
+	int end = kirshenbaum.size() - 1;
+
+	while (begin <= end)
+	{
+		int pos = (begin + end) / 2;
+		auto &item = *(kirshenbaum.begin() + pos);
+
+		int comp = strcmp(item.abbreviation, feature);
+		if (comp == 0)
+			return (item.mask == 0) ? false : (get(item.mask) == item.value);
+		else if (comp < 0)
+			begin = pos + 1;
+		else
+			end = pos - 1;
+	}
+
+	char msg[64];
+	sprintf(msg, i18n("unknown phoneme feature '%s'"), feature);
+	throw tts::phoneme_error(msg);
+}
+
 ipa::phoneme &ipa::phoneme::set(const char *feature)
 {
 	if (!feature) throw tts::phoneme_error("unknown phoneme feature '(null)'");

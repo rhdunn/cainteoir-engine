@@ -174,6 +174,8 @@ TEST_CASE("kirshenbaum -- invalid")
 	{ \
 		const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000); \
 		const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF); \
+		assert(!ipa::phoneme(zero).get(abbr)); \
+		assert(ipa::phoneme(fill).get(abbr)); \
 		assert(ipa::phoneme(zero).set(abbr) == ipa::phoneme(value)); \
 		assert(ipa::phoneme(fill).set(abbr) == ipa::phoneme(fill)); \
 	}
@@ -183,6 +185,8 @@ TEST_CASE("kirshenbaum -- invalid")
 	{ \
 		const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000); \
 		const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF); \
+		assert(ipa::phoneme(zero).get(abbr)); \
+		assert(!ipa::phoneme(fill).get(abbr)); \
 		assert(ipa::phoneme(zero).set(abbr) == ipa::phoneme(zero)); \
 		assert(ipa::phoneme(fill).set(abbr) == ipa::phoneme(fill & ~value)); \
 	} \
@@ -192,8 +196,26 @@ TEST_CASE("kirshenbaum -- invalid")
 	{ \
 		const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000); \
 		const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF); \
+		if (value) { \
+			assert(!ipa::phoneme(zero).get(abbr)); \
+			assert(ipa::phoneme((fill & ~mask) | value).get(abbr)); \
+		} else { \
+			assert(ipa::phoneme(zero).get(abbr)); \
+			assert(!ipa::phoneme(fill).get(abbr)); \
+		} \
 		assert(ipa::phoneme(zero).set(abbr) == ipa::phoneme(value)); \
 		assert(ipa::phoneme(fill).set(abbr) == ipa::phoneme((fill & ~mask) | value)); \
+	} \
+
+#define KIRSHENBAUM_NULL(abbr, label, value, mask) /* Unsupported Feature */ \
+	TEST_CASE("kirshenbaum -- " abbr " = " label) \
+	{ \
+		const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000); \
+		const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF); \
+		assert(!ipa::phoneme(zero).get(abbr)); \
+		assert(!ipa::phoneme(fill).get(abbr)); \
+		assert(ipa::phoneme(zero).set(abbr) == ipa::phoneme(value)); \
+		assert(ipa::phoneme(fill).set(abbr) == ipa::phoneme(fill)); \
 	} \
 
 KIRSHENBAUM_RNGD("blb", "bilabial", ipa::bilabial, ipa::place_of_articulation)
@@ -214,7 +236,7 @@ KIRSHENBAUM_RNGD("glt", "glottal", ipa::glottal, ipa::place_of_articulation)
 KIRSHENBAUM_RNGD("stp", "stop", ipa::plosive, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("frc", "fricative", ipa::fricative, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("nas", "nasal", ipa::nasal, ipa::manner_of_articulation)
-KIRSHENBAUM_BIN1("orl", "oral", 0) // Not Supported -- Kirshenbaum does not use {orl,stp}/{nas,stp}
+KIRSHENBAUM_NULL("orl", "oral", 0, 0) // Not Supported -- Kirshenbaum does not use {orl,stp}/{nas,stp}
 KIRSHENBAUM_RNGD("apr", "approximant", ipa::approximant, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("vwl", "vowel", ipa::vowel, ipa::phoneme_type)
 KIRSHENBAUM_BIN1("lat", "lateral", ipa::lateral)
