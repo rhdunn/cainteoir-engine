@@ -1,6 +1,6 @@
 /* Explicit Feature Phoneme Set.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -26,6 +26,31 @@
 #include <utility>
 
 namespace tts = cainteoir::tts;
+
+static const std::initializer_list<const char *> kirshenbaum = {
+	"adv", "alp", "alv", "apc", "apr", "asp", "atr",
+	"bck", "blb",
+	"clk", "cnt", "crv", "ctl", "czd",
+	"dnt", "dst", "dzd",
+	"ejc", "epg", "est",
+	"fbr", "flp", "fnt", "frc", "fzd",
+	"glf", "glr", "glt",
+	"hgh", "hlg",
+	"ibr", "imp",
+	"lat", "lbd", "lbp", "lbv", "lgl", "lmd", "lmn", "lng", "lnk", "low", "lrd", "ltr", "lwr", "lzd",
+	"mcz", "mid", "mrd", "mrm",
+	"nas", "nsy", "nzd", "nzr",
+	"orl",
+	"pal", "pau", "phr", "pla", "pzd",
+	"ret", "rfx", "rnd", "rsd", "rtr", "rzd",
+	"sbr", "slv", "smh", "sml", "st1", "st2", "st3", "stp", "stv", "syl",
+	"te1", "te2", "te3", "te4", "te5",
+	"tie",
+	"tm1", "tm2", "tm3", "tm4", "tm5", "trl",
+	"ts1", "ts2", "ts3", "ts4", "ts5",
+	"umd", "unr", "unx", "ust", "uvl",
+	"vcd", "vel", "vfz", "vls", "vwl", "vzd",
+};
 
 struct explicit_feature_reader : public tts::phoneme_reader
 {
@@ -108,28 +133,7 @@ bool explicit_feature_reader::read()
 				if (abbrev_pos != 2)
 					throw tts::phoneme_error(i18n("a phoneme feature must be 3 characters long"));
 
-				auto match = tts::get_feature_id(abbrev);
-				if (!match.first)
-				{
-					if (abbrev[0] == 'l' && abbrev[1] == 'b' && abbrev[2] == 'v')
-					{
-						// Special handling for 'lbv' ...
-						if (!p.add(tts::feature::velar) ||
-						    !p.add(tts::feature::labialized))
-							throw tts::phoneme_error(i18n("a phoneme must specify no more than 8 features"));
-					}
-					else
-					{
-						char msg[64];
-						sprintf(msg, i18n("unknown phoneme feature '%s'"), abbrev);
-						throw tts::phoneme_error(msg);
-					}
-				}
-				if (match.second != tts::feature::unspecified)
-				{
-					if (!p.add(match.second))
-						throw tts::phoneme_error(i18n("a phoneme must specify no more than 8 features"));
-				}
+				p.set(abbrev);
 
 				if (*mCurrent == ',')
 					s = in_phoneme;
@@ -182,10 +186,9 @@ bool explicit_feature_writer::write(const tts::phoneme &aPhoneme)
 	bool need_comma = false;
 
 	fputc('{', output);
-	for (auto f : aPhoneme)
+	for (auto abbreviation : kirshenbaum)
 	{
-		const char *abbreviation = tts::get_feature_abbreviation(f);
-		if (abbreviation)
+		if (aPhoneme.get(abbreviation))
 		{
 			if (need_comma) fputc(',', output);
 			fputs(abbreviation, output);

@@ -24,6 +24,7 @@
 #include <cainteoir/text.hpp>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 struct adjust_stress : public tts::text_reader
 {
@@ -86,18 +87,8 @@ void adjust_stress::adjust_phonemes(std::list<tts::phoneme> &aPhonemes)
 	{
 		auto &phoneme = *current;
 
-		bool is_stressed = false;
-		bool is_vowel = false;
-		for (const tts::feature f : phoneme) switch (f)
-		{
-		case tts::feature::primary_stress:
-		case tts::feature::secondary_stress:
-			is_stressed = true;
-			break;
-		case tts::feature::vowel:
-			is_vowel = true;
-			break;
-		}
+		bool is_stressed = phoneme.get(ipa::stress) != ipa::unstressed;
+		bool is_vowel = phoneme.get(ipa::phoneme_type) == ipa::vowel;
 
 		if (is_stressed && syllable_count == 0)
 			stress_placement = current;
@@ -110,8 +101,7 @@ void adjust_stress::adjust_phonemes(std::list<tts::phoneme> &aPhonemes)
 	{
 		if (syllable_count == 1 && is_stressed)
 		{
-			stress_placement->remove(tts::feature::primary_stress);
-			stress_placement->remove(tts::feature::secondary_stress);
+			stress_placement->set(ipa::stress, ipa::unstressed);
 			is_stressed = false;
 		}
 	}

@@ -31,6 +31,7 @@
 
 namespace rdf = cainteoir::rdf;
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 enum class mode_type
 {
@@ -44,16 +45,14 @@ enum class mode_type
 
 static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phoneme> &b, bool ignore_syllable_breaks)
 {
-	static const tts::phoneme sbr = { tts::feature::syllable_break, tts::feature::unspecified, tts::feature::unspecified };
-
 	auto first1 = a.begin(), last1 = a.end();
 	auto first2 = b.begin(), last2 = b.end();
 	while (first1 != last1 && first2 != last2)
 	{
 		if (ignore_syllable_breaks)
 		{
-			if (*first1 == sbr) { ++first1; continue; }
-			if (*first2 == sbr) { ++first2; continue; }
+			if (*first1 == ipa::syllable_break) { ++first1; continue; }
+			if (*first2 == ipa::syllable_break) { ++first2; continue; }
 		}
 
 		if (*first1 != *first2) return false;

@@ -27,6 +27,7 @@
 #include <string.h>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 enum syllable : uint8_t
 {
@@ -35,56 +36,36 @@ enum syllable : uint8_t
 	coda,
 };
 
-static bool is_vowel(const tts::phoneme &aPhoneme)
-{
-	for (const tts::feature f : aPhoneme)
-	{
-		if (f == tts::feature::vowel)
-			return true;
-	}
-	return false;
-}
-
-static tts::feature get_stress(const tts::phoneme &aPhoneme)
-{
-	for (const tts::feature f : aPhoneme)
-	{
-		if (f == tts::feature::primary_stress ||
-		    f == tts::feature::secondary_stress ||
-		    f == tts::feature::syllable_break)
-			return f;
-	}
-	return tts::feature::unspecified;
-}
-
 static void make_vowel_stressed(std::list<tts::phoneme> &aPhonemes)
 {
-	tts::feature stress = tts::feature::unspecified;
+	tts::phoneme::value_type stress = ipa::unstressed;
 
 	for (auto current = aPhonemes.begin(), last = aPhonemes.end(); current != last; ++current)
 	{
 		auto &phoneme = *current;
-		tts::feature current_stress = get_stress(phoneme);
-		if (current_stress == tts::feature::syllable_break)
+		if (phoneme.get(ipa::phoneme_type) == ipa::syllable_break)
 		{
 			current = aPhonemes.erase(current);
+			continue;
 		}
-		else if (current_stress != tts::feature::unspecified)
+
+		tts::phoneme::value_type current_stress = phoneme.get(ipa::stress);
+		if (current_stress != ipa::unstressed)
 		{
-			if (is_vowel(phoneme))
-				stress = tts::feature::unspecified;
+			if (phoneme.get(ipa::phoneme_type) == ipa::vowel)
+				stress = ipa::unstressed;
 			else
 			{
 				stress = current_stress;
-				phoneme.remove(stress);
+				phoneme.set(ipa::stress, ipa::unstressed);
 			}
 		}
-		else if (is_vowel(phoneme))
+		else if (phoneme.get(ipa::phoneme_type) == ipa::vowel)
 		{
-			if (stress != tts::feature::unspecified)
+			if (stress != ipa::unstressed)
 			{
-				phoneme.add(stress);
-				stress = tts::feature::unspecified;
+				phoneme.set(ipa::stress, stress);
+				stress = ipa::unstressed;
 			}
 		}
 	}
@@ -92,24 +73,22 @@ static void make_vowel_stressed(std::list<tts::phoneme> &aPhonemes)
 
 static void make_syllable_stressed(std::list<tts::phoneme> &aPhonemes)
 {
-	static const tts::phoneme sbr = { tts::feature::syllable_break, tts::feature::unspecified, tts::feature::unspecified };
-
 	auto onset = aPhonemes.begin();
 	syllable state = syllable::onset;
 
 	for (auto current = aPhonemes.begin(), last = aPhonemes.end(); current != last; ++current)
 	{
 		auto &phoneme = *current;
-		tts::feature current_stress = get_stress(phoneme);
-		if (is_vowel(phoneme) || phoneme.contains(tts::feature::syllabic))
+		tts::phoneme::value_type current_stress = phoneme.get(ipa::stress);
+		if (phoneme.get(ipa::phoneme_type) == ipa::vowel || phoneme.get(ipa::syllabic))
 		{
 			if (state == syllable::nucleus) 
 				onset = current;
-			if (current_stress != tts::feature::unspecified)
+			if (current_stress != ipa::unstressed)
 			{
 				// stressed syllable
-				phoneme.remove(current_stress);
-				onset->add(current_stress);
+				phoneme.set(ipa::stress, ipa::unstressed);
+				onset->set(ipa::stress, current_stress);
 			}
 			state = syllable::nucleus;
 		}

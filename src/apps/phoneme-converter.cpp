@@ -26,225 +26,13 @@
 #include <cainteoir/phoneme.hpp>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 enum class phoneme_mode
 {
 	joined,
 	separate,
-	chart,
 };
-
-typedef tts::feature f;
-
-static const std::initializer_list<std::pair<tts::feature, tts::feature>> manner_of_articulation = {
-	{ f::nasal,       f::unspecified },
-	{ f::plosive,     f::unspecified },
-	{ f::sibilant,    f::fricative },
-	{ f::fricative,   f::unspecified },
-	{ f::approximant, f::unspecified },
-	{ f::flap,        f::unspecified },
-	{ f::trill,       f::unspecified },
-	{ f::lateral,     f::fricative },
-	{ f::lateral,     f::approximant },
-	{ f::lateral,     f::flap },
-	{ f::ejective,    f::unspecified },
-	{ f::implosive,   f::unspecified },
-	{ f::click,       f::unspecified },
-};
-
-static const std::initializer_list<tts::feature> place_of_articulation = {
-	f::bilabial,
-	f::labio_dental,
-	f::dental,
-	f::alveolar,
-	f::palato_alveolar,
-	f::retroflex,
-	f::palatal,
-	f::velar,
-	f::uvular,
-	f::pharyngeal,
-	f::epiglottal,
-	f::glottal,
-};
-
-static const std::initializer_list<tts::feature> voicing = {
-	f::voiceless,
-	f::voiced,
-};
-
-static const std::initializer_list<tts::feature> vowel_backness = {
-	f::front,
-	f::center,
-	f::back,
-};
-
-static const std::initializer_list<std::pair<tts::feature, tts::feature>> vowel_height = {
-	{ f::high,      f::unspecified },
-	{ f::semi_high, f::unspecified },
-	{ f::upper_mid, f::unspecified },
-	{ f::mid,       f::unspecified },
-	{ f::lower_mid, f::unspecified },
-	{ f::semi_low,  f::unspecified },
-	{ f::low,       f::unspecified },
-};
-
-static const std::initializer_list<tts::feature> roundness = {
-	f::unrounded,
-	f::rounded,
-};
-
-void print(const std::shared_ptr<cainteoir::buffer> &data)
-{
-	for (auto c : *data) switch (c)
-	{
-	case '<':
-		fputs("&lt;", stdout);
-		break;
-	case '>':
-		fputs("&gt;", stdout);
-		break;
-	case '&':
-		fputs("&amp;", stdout);
-		break;
-	default:
-		fputc(c, stdout);
-		break;
-	}
-}
-
-void print(const std::shared_ptr<tts::phoneme_writer> &ipa, tts::phoneme p)
-{
-	fputs("<td class=\"", stdout);
-	bool need_space = false;
-	for (auto feature : p)
-	{
-		if (feature != f::unspecified)
-		{
-			if (need_space) fputc(' ', stdout);
-			fputs(tts::get_feature_abbreviation(feature), stdout);
-			need_space = true;
-		}
-	}
-	fputs("\">", stdout);
-
-	cainteoir::memory_file out;
-	ipa->reset(out);
-	if (!ipa->write(p))
-		fputs("\xC2\xA0", out);
-	print(out.buffer());
-
-	fputs("</td>\n", stdout);
-}
-
-void print_name(tts::phoneme p, int colspan = 1)
-{
-	if (colspan == 1)
-		fputs("<th title=\"", stdout);
-	else
-		fprintf(stdout, "<th colspan=\"%d\" title=\"", colspan);
-	bool need_space = false;
-	for (auto feature : p)
-	{
-		if (feature != f::unspecified)
-		{
-			if (need_space) fputc(' ', stdout);
-			fputs(tts::get_feature_name(feature), stdout);
-			need_space = true;
-		}
-	}
-	fputs("\">", stdout);
-	need_space = false;
-	for (auto feature : p)
-	{
-		if (feature != f::unspecified)
-		{
-			if (need_space) fputc(' ', stdout);
-			fputs(tts::get_feature_abbreviation(feature), stdout);
-			need_space = true;
-		}
-	}
-	fputs("</th>\n", stdout);
-}
-
-void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa,
-                 const char *caption, const char *id,
-                 const std::initializer_list<tts::feature> &x_features,
-                 const std::initializer_list<std::pair<tts::feature, tts::feature>> &y_features,
-                 const std::initializer_list<tts::feature> &z_features,
-                 const std::initializer_list<tts::feature> &extra)
-{
-	fprintf(stdout, "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" class=\"chart\" id=\"%s\">\n", id);
-	if (caption)
-		fprintf(stdout, "<caption>%s</caption>", caption);
-	fputs("<tr>\n", stdout);
-	fputs("<th>&#xA0;</th>\n", stdout);
-	int colspan = z_features.size() == 0 ? 1 : 2;
-	for (auto x : x_features)
-		print_name({ x, f::unspecified, f::unspecified }, colspan);
-	fputs("</tr>\n", stdout);
-	for (auto y : y_features)
-	{
-		fputs("<tr>\n", stdout);
-		if (y.second == f::unspecified)
-			print_name({ y.first, f::unspecified, f::unspecified });
-		else
-			print_name({ y.first, y.second, f::unspecified });
-		for (auto x : x_features)
-		{
-			if (z_features.size() == 0)
-			{
-				tts::phoneme p;
-				if (y.second == f::unspecified)
-					p = { x, y.first, f::unspecified };
-				else
-					p = { x, y.first, y.second };
-				for (auto e : extra)
-					p.add(e);
-				print(ipa, p);
-			}
-			else for (auto z : z_features)
-			{
-				tts::phoneme p;
-				if (y.second == f::unspecified)
-					p = { x, y.first, z };
-				else
-					p = { x, y.first, y.second, z };
-				for (auto e : extra)
-					p.add(e);
-				print(ipa, p);
-			}
-		}
-		fputs("</tr>\n", stdout);
-	}
-	fputs("</table>\n", stdout);
-}
-
-void print_chart(const std::shared_ptr<tts::phoneme_writer> &ipa, const char *name)
-{
-	fputs("<html>\n", stdout);
-	fputs("<head>\n", stdout);
-	fputs("<meta charset=\"UTF-8\"/>\n", stdout);
-	fprintf(stdout, "<title>Phoneme Chart : %s</title>\n", name);
-	fputs("<style type=\"text/css\">\n", stdout);
-	fputs("    table   { border: 1px solid black; font-size: 14px; }\n", stdout);
-	fputs("    td, th  { text-align: left; vertical-align: top; border: 1px solid black; padding: 0.2em; }\n", stdout);
-	fputs("    caption { text-align: left; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; }\n", stdout);
-	fputs("    .chart { font-family: 'Doulos SIL', 'Charis SIL', Gentium; }\n", stdout);
-	fputs("    #consonants .vls, #vowels .unr { text-align: left;  border-right: 0; }\n", stdout);
-	fputs("    #consonants .vcd, #vowels .rnd { text-align: right; border-left:  0; }\n", stdout);
-	fputs("</style>\n", stdout);
-	fputs("</head>\n", stdout);
-	fputs("<body>\n", stdout);
-
-	print_chart(ipa, i18n("Consonants"), "consonants",
-	            place_of_articulation, manner_of_articulation, voicing, {});
-
-	print_chart(ipa, i18n("Vowels"), "vowels",
-	            vowel_backness, vowel_height, roundness, { f::voiced, f::vowel });
-
-	fputs("</body>\n", stdout);
-	fputs("</html>\n", stdout);
-}
 
 void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
                     std::shared_ptr<tts::phoneme_writer> &aTo,
@@ -277,7 +65,7 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 	feat->reset(stdout);
 	while (aFrom->read())
 	{
-		if (!aFrom->contains(tts::feature::silent_pause) || !aNoPauses)
+		if (aFrom->get(ipa::phoneme_type) != ipa::pause || !aNoPauses)
 		{
 			try
 			{
@@ -310,8 +98,6 @@ int main(int argc, char ** argv)
 		bool show_features = false;
 
 		const option_group general_options = { nullptr, {
-			{ 'c', "chart", bind_value(mode, phoneme_mode::chart),
-			  i18n("Display the phoneme scheme as an IPA chart") },
 			{ 's', "separate", bind_value(mode, phoneme_mode::separate),
 			  i18n("Display each phoneme on a new line") },
 			{ 'f', "features", bind_value(show_features, true),
@@ -327,38 +113,25 @@ int main(int argc, char ** argv)
 		const std::initializer_list<const char *> usage = {
 			i18n("phoneme-converter [OPTION..] FROM TO TRANSCRIPTION"),
 			i18n("phoneme-converter [OPTION..] FROM TO"),
-			i18n("phoneme-converter --chart PHONEMESET"),
 		};
 
 		if (!parse_command_line({ general_options }, usage, argc, argv))
 			return 0;
 
-		if (mode == phoneme_mode::chart)
+		if (argc != 2 && argc != 3)
 		{
-			if (argc != 1)
-			{
-				print_help({ general_options }, usage);
-				return 0;
-			}
-			print_chart(tts::createPhonemeWriter(argv[0]), argv[0]);
+			print_help({ general_options }, usage);
+			return 0;
 		}
-		else
-		{
-			if (argc != 2 && argc != 3)
-			{
-				print_help({ general_options }, usage);
-				return 0;
-			}
-			auto from = tts::createPhonemeReader(argv[0]);
-			auto to   = tts::createPhonemeWriter(argv[1]);
-			auto data = argc == 3 ? cainteoir::make_file_buffer(argv[2])
-			                      : cainteoir::make_file_buffer(stdin);
+		auto from = tts::createPhonemeReader(argv[0]);
+		auto to   = tts::createPhonemeWriter(argv[1]);
+		auto data = argc == 3 ? cainteoir::make_file_buffer(argv[2])
+		                      : cainteoir::make_file_buffer(stdin);
 
-			if (stress == tts::stress_type::as_transcribed)
-				print_phonemes(from, to, data, mode, no_pauses, show_features);
-			else
-				print_phonemes(from, to, data, stress);
-		}
+		if (stress == tts::stress_type::as_transcribed)
+			print_phonemes(from, to, data, mode, no_pauses, show_features);
+		else
+			print_phonemes(from, to, data, stress);
 	}
 	catch (std::runtime_error &e)
 	{
