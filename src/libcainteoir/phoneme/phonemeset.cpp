@@ -29,13 +29,23 @@ namespace tts = cainteoir::tts;
 std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader(const char *aPhonemeSet)
 {
 	if (!strcmp(aPhonemeSet, "features"))
-		return tts::createExplicitFeaturePhonemeReader();
+		return createExplicitFeaturePhonemeReader();
+
+	phoneme_file_reader phonemes(aPhonemeSet);
+	if (phonemes.phoneme_type == "ipa")
+		return createIpaPhonemeReader(phonemes, aPhonemeSet);
+
 	throw std::runtime_error("the phonemeset is not supported");
 }
 
 std::shared_ptr<tts::phoneme_writer> tts::createPhonemeWriter(const char *aPhonemeSet)
 {
 	if (!strcmp(aPhonemeSet, "features"))
-		return tts::createExplicitFeaturePhonemeWriter();
+		return createExplicitFeaturePhonemeWriter();
+
+	phoneme_file_reader phonemes(aPhonemeSet);
+	if (phonemes.phoneme_type == "ipa")
+		return createIpaPhonemeWriter(phonemes, aPhonemeSet);
+
 	throw std::runtime_error("the phonemeset is not supported");
 }

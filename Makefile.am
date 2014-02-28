@@ -341,8 +341,10 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/engines/pico.cpp \
 	\
 	src/libcainteoir/phoneme/explicit_feature_phonemeset.cpp \
+	src/libcainteoir/phoneme/ipa_phonemeset.cpp \
 	src/libcainteoir/phoneme/phoneme.cpp \
 	src/libcainteoir/phoneme/phonemeset.cpp \
+	src/libcainteoir/phoneme/phoneme_file_reader.cpp \
 	src/libcainteoir/phoneme/phoneme_stress.cpp \
 	\
 	src/libcainteoir/dictionary/cainteoir.cpp \

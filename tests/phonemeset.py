@@ -28,6 +28,11 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'IPA-Based', 'groups': [
+		{'name': 'IPA', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/phonemes.features', 'result': 'phonemeset/phonemes.ipa', 'from': 'features', 'to': 'ipa'},
+		]},
+	]})
+	test.run({'name': 'IPA-Based', 'groups': [
 		{'name': 'ASCII-IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ascii-ipa.features', 'result': 'phonemeset/ascii-ipa.txt', 'from': 'features', 'to': 'ascii-ipa', 'expect': 'fail'},
 			{'test': 'phonemeset/ascii-ipa.txt', 'result': 'phonemeset/ascii-ipa.features', 'from': 'ascii-ipa', 'to': 'features', 'expect': 'fail'},

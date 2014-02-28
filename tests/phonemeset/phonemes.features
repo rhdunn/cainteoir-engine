@@ -32,8 +32,8 @@
 {vls,pla,sib,frc}
 {vcd,pla,sib,frc}
 {vls,rfx,sib,frc}
-{vls,rfx,sib,frc}
-{vcd,alp,sib,frc}
+{vcd,rfx,sib,frc}
+{vls,alp,sib,frc}
 {vcd,alp,sib,frc}
 {vls,pal,frc}
 {vcd,pal,frc}

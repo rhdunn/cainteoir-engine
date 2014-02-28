@@ -22,12 +22,32 @@
 #define CAINTEOIR_ENGINE_PHONEME_PHONEMESET_HPP
 
 #include <cainteoir/phoneme.hpp>
+#include <vector>
 
 namespace cainteoir { namespace tts
 {
 	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();
-
 	std::shared_ptr<phoneme_writer> createExplicitFeaturePhonemeWriter();
+
+	struct phoneme_file_reader
+	{
+		std::string phoneme_type;
+
+		std::shared_ptr<buffer> transcription;
+		std::vector<phoneme> phonemes;
+
+		phoneme_file_reader(const std::string &aPhonemeSet);
+
+		bool read();
+	private:
+		std::shared_ptr<phoneme_reader> mFeatures;
+		std::shared_ptr<buffer> mBuffer;
+		const char *mCurrent;
+		const char *mLast;
+	};
+
+	std::shared_ptr<phoneme_reader> createIpaPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName);
+	std::shared_ptr<phoneme_writer> createIpaPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName);
 }}
 
 #endif
