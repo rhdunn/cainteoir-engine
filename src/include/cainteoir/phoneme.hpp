@@ -36,16 +36,16 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t place_of_articulation  = UINT64_C(0x00000000000000F0);
 	constexpr uint64_t manner_of_articulation = UINT64_C(0x0000000000000F00);
 	constexpr uint64_t lateral                = UINT64_C(0x0000000000001000);
-	// ... vowels ---------------------------------------- 00000000000FE000
-	constexpr uint64_t rounded                = UINT64_C(0x0000000000002000);
+	constexpr uint64_t sibilant               = UINT64_C(0x0000000000002000);
+	// ... vowels ---------------------------------------- 00000000000FC000
 	constexpr uint64_t high                   = UINT64_C(0x0000000000004000);
 	constexpr uint64_t mid                    = UINT64_C(0x0000000000008000);
 	constexpr uint64_t low                    = UINT64_C(0x0000000000010000);
 	constexpr uint64_t lax                    = UINT64_C(0x0000000000020000);
 	constexpr uint64_t front                  = UINT64_C(0x0000000000040000);
 	constexpr uint64_t back                   = UINT64_C(0x0000000000080000);
-	// diacritics ---------------------------------------- 000000FFFFF00000
-	constexpr uint64_t joined_to_next_phoneme = UINT64_C(0x0000000000100000);
+	constexpr uint64_t rounded                = UINT64_C(0x0000000000100000);
+	// diacritics ---------------------------------------- 000001FFFFE00000
 	constexpr uint64_t syllabic               = UINT64_C(0x0000000000200000);
 	constexpr uint64_t release                = UINT64_C(0x0000000001C00000);
 	constexpr uint64_t phonation              = UINT64_C(0x000000000E000000);
@@ -54,7 +54,8 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t coarticulation         = UINT64_C(0x0000001C00000000);
 	constexpr uint64_t rhoticized             = UINT64_C(0x0000002000000000);
 	constexpr uint64_t tongue_root            = UINT64_C(0x000000C000000000);
-	// reserved (unassigned) ----------------------------- 000EFF0000000000
+	constexpr uint64_t joined_to_next_phoneme = UINT64_C(0x0000010000000000);
+	// reserved (unassigned) ----------------------------- 000EFE0000000000
 	// suprasegmentals ----------------------------------- FFF1000000000000
 	constexpr uint64_t tone_start             = UINT64_C(0x0031000000000000);
 	constexpr uint64_t tone_middle            = UINT64_C(0x01C0000000000000);

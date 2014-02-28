@@ -104,6 +104,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "rtr", ipa::retracted_tongue_root, ipa::tongue_root }, // extension
 	{ "rzd", ipa::rhoticized, ipa::rhoticized },
 	{ "sbr", ipa::syllable_break, ipa::phoneme_type }, // extension
+	{ "sib", ipa::sibilant, ipa::sibilant }, // extension
 	{ "slv", ipa::slack_voice, ipa::phonation }, // extension
 	{ "smh", ipa::semi_high, ipa::vowel_height },
 	{ "sml", ipa::semi_low, ipa::vowel_height }, // extension

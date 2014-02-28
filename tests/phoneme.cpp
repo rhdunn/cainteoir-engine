@@ -237,13 +237,14 @@ KIRSHENBAUM_RNGD("nas", "nasal", ipa::nasal, ipa::manner_of_articulation)
 KIRSHENBAUM_NULL("orl", "oral", 0, 0) // Not Supported -- Kirshenbaum does not use {orl,stp}/{nas,stp}
 KIRSHENBAUM_RNGD("apr", "approximant", ipa::approximant, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("vwl", "vowel", ipa::vowel, ipa::phoneme_type)
-KIRSHENBAUM_BIN1("lat", "lateral", ipa::lateral)
-KIRSHENBAUM_BIN0("ctl", "central", ipa::lateral)
 KIRSHENBAUM_RNGD("trl", "trill", ipa::trill, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("flp", "flap", ipa::flap, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("clk", "click", ipa::click, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("ejc", "ejective", ipa::ejective, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("imp", "implosive", ipa::implosive, ipa::manner_of_articulation)
+KIRSHENBAUM_BIN1("sib", "sibilant [extension]", ipa::sibilant)
+KIRSHENBAUM_BIN1("lat", "lateral", ipa::lateral)
+KIRSHENBAUM_BIN0("ctl", "central", ipa::lateral)
 KIRSHENBAUM_RNGD("hgh", "high", ipa::high, ipa::vowel_height)
 KIRSHENBAUM_RNGD("smh", "semi-high", ipa::semi_high, ipa::vowel_height)
 KIRSHENBAUM_RNGD("sml", "semi-low [extension]", ipa::semi_low, ipa::vowel_height)
@@ -360,7 +361,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		"orl",
 		"pal", "pau", "phr", "pla", "pzd",
 		"ret", "rfx", "rnd", "rsd", "rtr", "rzd",
-		"sbr", "slv", "smh", "sml", "st1", "st2", "st3", "stp", "stv", "syl",
+		"sbr", "sib", "slv", "smh", "sml", "st1", "st2", "st3", "stp", "stv", "syl",
 		"te1", "te2", "te3", "te4", "te5",
 		"tie",
 		"tm1", "tm2", "tm3", "tm4", "tm5", "trl",
