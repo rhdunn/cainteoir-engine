@@ -23,11 +23,6 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/phoneme.hpp>
-#include <cainteoir/path.hpp>
-#include <cainteoir/unicode.hpp>
-#include <cainteoir/trie.hpp>
-#include <utility>
-#include <stdlib.h>
 
 namespace tts = cainteoir::tts;
 
