@@ -22,7 +22,7 @@
 #include "i18n.h"
 #include "compatibility.hpp"
 
-#include <cainteoir/phoneme.hpp>
+#include "phonemeset.hpp"
 #include <utility>
 
 namespace tts = cainteoir::tts;

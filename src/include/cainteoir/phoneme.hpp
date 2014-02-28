@@ -269,8 +269,6 @@ namespace cainteoir { namespace tts
 		virtual ~phoneme_reader() {}
 	};
 
-	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();
-
 	std::shared_ptr<phoneme_reader> createPhonemeReader(const char *aPhonemeSet);
 
 	struct phoneme_writer
@@ -283,8 +281,6 @@ namespace cainteoir { namespace tts
 
 		virtual ~phoneme_writer() {}
 	};
-
-	std::shared_ptr<phoneme_writer> createExplicitFeaturePhonemeWriter();
 
 	std::shared_ptr<phoneme_writer> createPhonemeWriter(const char *aPhonemeSet);
 

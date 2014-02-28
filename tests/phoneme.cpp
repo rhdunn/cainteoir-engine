@@ -324,7 +324,7 @@ KIRSHENBAUM_RNGD("rtr", "retracted tongue root [extension]", ipa::retracted_tong
 
 TEST_CASE("explicit feature reader -- no input")
 {
-	std::shared_ptr<tts::phoneme_reader> reader = tts::createExplicitFeaturePhonemeReader();
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader("features");
 	assert(reader.get());
 	assert(*reader == tts::phoneme());
 
@@ -370,7 +370,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		"vcd", "vel", "vfz", "vls", "vwl", "vzd",
 	};
 
-	std::shared_ptr<tts::phoneme_reader> reader = tts::createExplicitFeaturePhonemeReader();
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader("features");
 	for (const auto &test : kirshenbaum)
 	{
 		char phoneme[] = { '{', test[0], test[1], test[2], '}', 0 };
@@ -388,7 +388,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 
 TEST_CASE("explicit feature reader -- multiple phonemes")
 {
-	std::shared_ptr<tts::phoneme_reader> reader = tts::createExplicitFeaturePhonemeReader();
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader("features");
 
 	const char *test = "{vls,alv,stp}{low,fnt,unr,vwl}{vcd,vel,stp}"; // = /t&g/
 	reader->reset(std::make_shared<cainteoir::buffer>(test));
@@ -408,7 +408,7 @@ TEST_CASE("explicit feature reader -- multiple phonemes")
 
 TEST_CASE("explicit feature reader -- multiple phonemes with whitespace")
 {
-	std::shared_ptr<tts::phoneme_reader> reader = tts::createExplicitFeaturePhonemeReader();
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader("features");
 
 	const char *test = "\r\t{vls,alv,stp}\n {low,fnt,unr,vwl}\r\n{vcd,vel,stp}"; // = /t&g/
 	reader->reset(std::make_shared<cainteoir::buffer>(test));
@@ -461,7 +461,7 @@ TEST_CASE("explicit feature reader -- phoneme errors")
 		{ "{st%}",                     "unknown phoneme feature 'st%'" },
 	};
 
-	std::shared_ptr<tts::phoneme_reader> reader = tts::createExplicitFeaturePhonemeReader();
+	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader("features");
 
 	for (const auto &test : phonemes)
 	{
@@ -475,7 +475,7 @@ TEST_CASE("explicit feature reader -- phoneme errors")
 
 TEST_CASE("explicit feature writer -- no input")
 {
-	std::shared_ptr<tts::phoneme_writer> writer = tts::createExplicitFeaturePhonemeWriter();
+	std::shared_ptr<tts::phoneme_writer> writer = tts::createPhonemeWriter("features");
 	assert(writer.get());
 
 	assert(!writer->write({ ipa::voiceless | ipa::glottal | ipa::plosive }));

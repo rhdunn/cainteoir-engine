@@ -58,7 +58,7 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
                     bool aNoPauses,
                     bool aShowFeatures)
 {
-	auto feat = tts::createExplicitFeaturePhonemeWriter();
+	auto feat = tts::createPhonemeWriter("features");
 
 	aFrom->reset(aTranscription);
 	aTo->reset(stdout);

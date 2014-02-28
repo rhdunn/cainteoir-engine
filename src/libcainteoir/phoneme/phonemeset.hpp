@@ -1,4 +1,4 @@
-/* Phoneme Set Reader/Writer.
+/* Phonemeset API.
  *
  * Copyright (C) 2013-2014 Reece H. Dunn
  *
@@ -18,24 +18,16 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "config.h"
-#include "i18n.h"
-#include "compatibility.hpp"
+#ifndef CAINTEOIR_ENGINE_PHONEME_PHONEMESET_HPP
+#define CAINTEOIR_ENGINE_PHONEME_PHONEMESET_HPP
 
-#include "phonemeset.hpp"
+#include <cainteoir/phoneme.hpp>
 
-namespace tts = cainteoir::tts;
-
-std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader(const char *aPhonemeSet)
+namespace cainteoir { namespace tts
 {
-	if (!strcmp(aPhonemeSet, "features"))
-		return tts::createExplicitFeaturePhonemeReader();
-	throw std::runtime_error("the phonemeset is not supported");
-}
+	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();
 
-std::shared_ptr<tts::phoneme_writer> tts::createPhonemeWriter(const char *aPhonemeSet)
-{
-	if (!strcmp(aPhonemeSet, "features"))
-		return tts::createExplicitFeaturePhonemeWriter();
-	throw std::runtime_error("the phonemeset is not supported");
-}
+	std::shared_ptr<phoneme_writer> createExplicitFeaturePhonemeWriter();
+}}
+
+#endif
