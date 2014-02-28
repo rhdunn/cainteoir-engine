@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2013 Reece H. Dunn
+# Copyright (C) 2013-2014 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -22,6 +22,11 @@ import sys
 
 if __name__ == '__main__':
 	test = harness.TestSuite('phonemeset', sys.argv)
+	test.run({'name': 'Feature-Based', 'groups': [
+		{'name': 'Features', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/phonemes.features', 'result': 'phonemeset/phonemes.features', 'from': 'features', 'to': 'features'},
+		]},
+	]})
 	test.run({'name': 'IPA-Based', 'groups': [
 		{'name': 'ASCII-IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ascii-ipa.features', 'result': 'phonemeset/ascii-ipa.txt', 'from': 'features', 'to': 'ascii-ipa', 'expect': 'fail'},

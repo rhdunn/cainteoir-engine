@@ -27,29 +27,41 @@
 
 namespace tts = cainteoir::tts;
 
-static const std::initializer_list<const char *> kirshenbaum = {
-	"adv", "alp", "alv", "apc", "apr", "asp", "atr",
-	"bck", "blb",
-	"clk", "cnt", "crv", "ctl", "czd",
-	"dnt", "dst", "dzd",
-	"ejc", "epg", "est",
-	"fbr", "flp", "fnt", "frc", "fzd",
-	"glf", "glr", "glt",
-	"hgh", "hlg",
-	"ibr", "imp",
-	"lat", "lbd", "lbp", "lbv", "lgl", "lmd", "lmn", "lng", "lnk", "low", "lrd", "ltr", "lwr", "lzd",
-	"mcz", "mid", "mrd", "mrm",
-	"nas", "nsy", "nzd", "nzr",
-	"orl",
-	"pal", "pau", "phr", "pla", "pzd",
-	"ret", "rfx", "rnd", "rsd", "rtr", "rzd",
-	"sbr", "slv", "smh", "sml", "st1", "st2", "st3", "stp", "stv", "syl",
-	"te1", "te2", "te3", "te4", "te5",
-	"tie",
-	"tm1", "tm2", "tm3", "tm4", "tm5", "trl",
-	"ts1", "ts2", "ts3", "ts4", "ts5",
-	"umd", "unr", "unx", "ust", "uvl",
-	"vcd", "vel", "vfz", "vls", "vwl", "vzd",
+static const std::initializer_list<const char *> voicing = {
+	"vcd",
+	"vls",
+};
+
+static const std::initializer_list<const char *> place_of_articulation = {
+	"blb",
+	"lbd",
+	"dnt",
+	"alv",
+	"pla",
+	"rfx",
+	"alp",
+	"pal",
+	"lbp",
+	"vel",
+	"lbv",
+	"uvl",
+	"phr",
+	"epg",
+	"glt",
+};
+
+static const std::initializer_list<const char *> articulation_pre = {
+	"lat",
+	"sib",
+};
+
+static const std::initializer_list<const char *> manner_of_articulation = {
+	"nas",
+	"stp",
+	"frc",
+	"apr",
+	"trl",
+	"flp",
 };
 
 struct explicit_feature_reader : public tts::phoneme_reader
@@ -166,6 +178,8 @@ struct explicit_feature_writer : public tts::phoneme_writer
 
 	const char *name() const;
 
+	void write_feature(const tts::phoneme &aPhoneme, const std::initializer_list<const char *> &features, bool &need_comma);
+
 	FILE *output;
 };
 
@@ -186,15 +200,10 @@ bool explicit_feature_writer::write(const tts::phoneme &aPhoneme)
 	bool need_comma = false;
 
 	fputc('{', output);
-	for (auto abbreviation : kirshenbaum)
-	{
-		if (aPhoneme.get(abbreviation))
-		{
-			if (need_comma) fputc(',', output);
-			fputs(abbreviation, output);
-			need_comma = true;
-		}
-	}
+	write_feature(aPhoneme, voicing, need_comma);
+	write_feature(aPhoneme, place_of_articulation, need_comma);
+	write_feature(aPhoneme, articulation_pre, need_comma);
+	write_feature(aPhoneme, manner_of_articulation, need_comma);
 	fputc('}', output);
 
 	return true;
@@ -203,6 +212,20 @@ bool explicit_feature_writer::write(const tts::phoneme &aPhoneme)
 const char *explicit_feature_writer::name() const
 {
 	return "features";
+}
+
+void explicit_feature_writer::write_feature(const tts::phoneme &aPhoneme, const std::initializer_list<const char *> &features, bool &need_comma)
+{
+	for (auto &&abbreviation : features)
+	{
+		if (aPhoneme.get(abbreviation))
+		{
+			if (need_comma) fputc(',', output);
+			fputs(abbreviation, output);
+			need_comma = true;
+			return;
+		}
+	}
 }
 
 std::shared_ptr<tts::phoneme_reader> tts::createExplicitFeaturePhonemeReader()
