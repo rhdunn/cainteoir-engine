@@ -26,8 +26,7 @@
 
 namespace cainteoir { namespace tts
 {
-	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();
-	std::shared_ptr<phoneme_writer> createExplicitFeaturePhonemeWriter();
+	std::pair<bool, phoneme> read_explicit_feature(const char * &mCurrent, const char *mEnd);
 
 	struct phoneme_file_reader
 	{
@@ -45,6 +44,9 @@ namespace cainteoir { namespace tts
 		const char *mCurrent;
 		const char *mLast;
 	};
+
+	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();
+	std::shared_ptr<phoneme_writer> createExplicitFeaturePhonemeWriter();
 
 	std::shared_ptr<phoneme_reader> createIpaPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_writer> createIpaPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName);

@@ -64,47 +64,20 @@ static const std::initializer_list<const char *> manner_of_articulation = {
 	"flp",
 };
 
-struct explicit_feature_reader : public tts::phoneme_reader
+enum state_t
 {
-	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
-
-	bool read();
-
-	enum state_t
-	{
-		begin_phoneme,
-		in_phoneme,
-		in_feature,
-	};
-
-	std::shared_ptr<cainteoir::buffer> mBuffer;
-	const char *mCurrent;
-	const char *mEnd;
+	begin_phoneme,
+	in_phoneme,
+	in_feature,
 };
 
-void explicit_feature_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
-{
-	mBuffer = aBuffer;
-	if (mBuffer.get())
-	{
-		mCurrent = mBuffer->begin();
-		mEnd = mBuffer->end();
-	}
-	else
-	{
-		mCurrent = mEnd = nullptr;
-	}
-}
-
-bool explicit_feature_reader::read()
+std::pair<bool, tts::phoneme> tts::read_explicit_feature(const char * &mCurrent, const char *mEnd)
 {
 	state_t s = begin_phoneme;
 	char abbrev[4] = { '\0', '\0', '\0', '\0' };
 	int abbrev_pos = 0;
 
 	tts::phoneme p;
-	*(tts::phoneme *)this = tts::phoneme();
-
 	while (mCurrent < mEnd)
 	{
 		switch (s)
@@ -151,9 +124,8 @@ bool explicit_feature_reader::read()
 					s = in_phoneme;
 				else
 				{
-					*(tts::phoneme *)this = p;
 					++mCurrent;
-					return true;
+					return { true, p };
 				}
 				break;
 			}
@@ -165,7 +137,40 @@ bool explicit_feature_reader::read()
 	if (s != begin_phoneme)
 		throw tts::phoneme_error(i18n("unexpected end of phoneme (expecting '}')"));
 
-	return false;
+	return { false, {}};
+}
+
+struct explicit_feature_reader : public tts::phoneme_reader
+{
+	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
+
+	bool read();
+
+	std::shared_ptr<cainteoir::buffer> mBuffer;
+	const char *mCurrent;
+	const char *mEnd;
+};
+
+void explicit_feature_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
+{
+	mBuffer = aBuffer;
+	if (mBuffer.get())
+	{
+		mCurrent = mBuffer->begin();
+		mEnd = mBuffer->end();
+	}
+	else
+	{
+		mCurrent = mEnd = nullptr;
+	}
+}
+
+bool explicit_feature_reader::read()
+{
+	*(tts::phoneme *)this = tts::phoneme();
+	auto ret = tts::read_explicit_feature(mCurrent, mEnd);
+	*(tts::phoneme *)this = ret.second;
+	return ret.first;
 }
 
 struct explicit_feature_writer : public tts::phoneme_writer
