@@ -140,6 +140,32 @@ std::pair<bool, tts::phoneme> tts::read_explicit_feature(const char * &mCurrent,
 	return { false, {}};
 }
 
+static void write_feature(FILE *output, const tts::phoneme &aPhoneme, const std::initializer_list<const char *> &features, bool &need_comma)
+{
+	for (auto &&abbreviation : features)
+	{
+		if (aPhoneme.get(abbreviation))
+		{
+			if (need_comma) fputc(',', output);
+			fputs(abbreviation, output);
+			need_comma = true;
+			return;
+		}
+	}
+}
+
+void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
+{
+	bool need_comma = false;
+
+	fputc('{', output);
+	write_feature(output, aPhoneme, voicing, need_comma);
+	write_feature(output, aPhoneme, place_of_articulation, need_comma);
+	write_feature(output, aPhoneme, articulation_pre, need_comma);
+	write_feature(output, aPhoneme, manner_of_articulation, need_comma);
+	fputc('}', output);
+}
+
 struct explicit_feature_reader : public tts::phoneme_reader
 {
 	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
@@ -183,8 +209,6 @@ struct explicit_feature_writer : public tts::phoneme_writer
 
 	const char *name() const;
 
-	void write_feature(const tts::phoneme &aPhoneme, const std::initializer_list<const char *> &features, bool &need_comma);
-
 	FILE *output;
 };
 
@@ -202,35 +226,13 @@ bool explicit_feature_writer::write(const tts::phoneme &aPhoneme)
 {
 	if (!output) return false;
 
-	bool need_comma = false;
-
-	fputc('{', output);
-	write_feature(aPhoneme, voicing, need_comma);
-	write_feature(aPhoneme, place_of_articulation, need_comma);
-	write_feature(aPhoneme, articulation_pre, need_comma);
-	write_feature(aPhoneme, manner_of_articulation, need_comma);
-	fputc('}', output);
-
+	tts::write_explicit_feature(output, aPhoneme);
 	return true;
 }
 
 const char *explicit_feature_writer::name() const
 {
 	return "features";
-}
-
-void explicit_feature_writer::write_feature(const tts::phoneme &aPhoneme, const std::initializer_list<const char *> &features, bool &need_comma)
-{
-	for (auto &&abbreviation : features)
-	{
-		if (aPhoneme.get(abbreviation))
-		{
-			if (need_comma) fputc(',', output);
-			fputs(abbreviation, output);
-			need_comma = true;
-			return;
-		}
-	}
 }
 
 std::shared_ptr<tts::phoneme_reader> tts::createExplicitFeaturePhonemeReader()

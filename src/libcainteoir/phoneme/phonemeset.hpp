@@ -27,6 +27,7 @@
 namespace cainteoir { namespace tts
 {
 	std::pair<bool, phoneme> read_explicit_feature(const char * &mCurrent, const char *mEnd);
+	void write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme);
 
 	struct phoneme_file_reader
 	{
