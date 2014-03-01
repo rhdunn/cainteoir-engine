@@ -32,5 +32,9 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/phonemes.features', 'result': 'phonemeset/phonemes.ipa', 'from': 'features', 'to': 'ipa'},
 			{'test': 'phonemeset/phonemes.ipa', 'result': 'phonemeset/phonemes.features', 'from': 'ipa', 'to': 'features'},
 		]},
+		{'name': 'X-SAMPA', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/phonemes.features', 'result': 'phonemeset/phonemes.x-sampa', 'from': 'features', 'to': 'x-sampa'},
+			{'test': 'phonemeset/phonemes.x-sampa', 'result': 'phonemeset/phonemes.features', 'from': 'x-sampa', 'to': 'features'},
+		]},
 	]})
 	test.summary()
