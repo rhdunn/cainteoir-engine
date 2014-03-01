@@ -23,6 +23,7 @@
 
 #include <cainteoir/phoneme.hpp>
 #include <vector>
+#include <stack>
 
 namespace cainteoir { namespace tts
 {
@@ -40,9 +41,16 @@ namespace cainteoir { namespace tts
 
 		bool read();
 	private:
-		std::shared_ptr<buffer> mBuffer;
-		const char *mCurrent;
-		const char *mLast;
+		struct context_t
+		{
+			std::shared_ptr<buffer> mBuffer;
+			const char *mCurrent;
+			const char *mLast;
+
+			context_t(const std::string &aPhonemeSet);
+		};
+
+		std::stack<context_t> mFiles;
 	};
 
 	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();

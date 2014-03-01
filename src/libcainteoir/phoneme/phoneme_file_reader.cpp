@@ -76,67 +76,114 @@ static ucd::codepoint_t hex_to_unicode(const char * &current, const char *last)
 	return strtoul(escaped, nullptr, 16);
 }
 
-tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
+tts::phoneme_file_reader::context_t::context_t(const std::string &aPhonemeSet)
 {
 	auto location = get_data_path() / "phonemeset" / (aPhonemeSet + ".phon");
 	mBuffer = make_file_buffer(location);
 	mCurrent = mBuffer->begin();
 	mLast = mBuffer->end();
+}
 
+tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
+{
+	mFiles.push({ aPhonemeSet });
 	phoneme_type = "ipa";
 }
 
 bool tts::phoneme_file_reader::read()
 {
-	const char *start = nullptr;
-	while (mCurrent <= mLast) switch (*mCurrent)
+	context_t *top = &mFiles.top();
+	while (top)
 	{
-	case '#':
-		while (mCurrent <= mLast && (*mCurrent != '\n'))
-			++mCurrent;
-		break;
-	case ' ': case '\t': case '\r': case '\n':
-		++mCurrent;
-		break;
-	case '/':
-		++mCurrent;
-		start = mCurrent;
-		while (mCurrent <= mLast && (*mCurrent != '/'))
-			++mCurrent;
-		if (mCurrent == mLast)
-			throw std::runtime_error("unterminated phoneme group (expecting '/')");
-		phonemes.clear();
-		while (start < mCurrent)
+		if (top->mCurrent >= top->mLast)
 		{
-			auto ret = tts::read_explicit_feature(start, mCurrent);
-			if (ret.first)
-				phonemes.push_back(ret.second);
+			mFiles.pop();
+			top = mFiles.empty() ? nullptr : &mFiles.top();
+			continue;
 		}
-		++mCurrent;
-		return true;
-	default:
+
+		const char *start = nullptr;
+		while (top->mCurrent <= top->mLast) switch (*top->mCurrent)
 		{
-			char data[64];
-			char *end = data;
-			while (mCurrent <= mLast && end <= data + 60 &&
-			       classification[*mCurrent] != type::whitespace)
+		case '#':
+			while (top->mCurrent <= top->mLast && (*top->mCurrent != '\n'))
+				++top->mCurrent;
+			break;
+		case ' ': case '\t': case '\r': case '\n':
+			++top->mCurrent;
+			break;
+		case '/':
+			++top->mCurrent;
+			start = top->mCurrent;
+			while (top->mCurrent <= top->mLast && (*top->mCurrent != '/'))
+				++top->mCurrent;
+			if (top->mCurrent == top->mLast)
+				throw std::runtime_error("unterminated phoneme group (expecting '/')");
+			phonemes.clear();
+			while (start < top->mCurrent)
 			{
-				if (*mCurrent == '\\')
-				{
-					++mCurrent;
-					if (mCurrent <= mLast && *mCurrent == 'u')
-					{
-						++mCurrent;
-						end = cainteoir::utf8::write(end, hex_to_unicode(mCurrent, mLast));
-						continue;
-					}
-				}
-				*end++ = *mCurrent++;
+				auto ret = tts::read_explicit_feature(start, top->mCurrent);
+				if (ret.first)
+					phonemes.push_back(ret.second);
 			}
-			if (mCurrent <= mLast)
-				transcription = cainteoir::make_buffer(data, end-data);
+			++top->mCurrent;
+			return true;
+		case '.':
+			{
+				const char *begin_entry = top->mCurrent;
+				const char *end_entry   = top->mCurrent;
+				while (end_entry != top->mLast &&
+				       classification[*end_entry] != type::whitespace)
+					++end_entry;
+
+				top->mCurrent = end_entry;
+				while (top->mCurrent != top->mLast && *top->mCurrent == '\t')
+					++top->mCurrent;
+
+				const char *begin_definition = top->mCurrent;
+				const char *end_definition   = top->mCurrent;
+				while (end_definition != top->mLast &&
+				       classification[*end_definition] != type::whitespace)
+					++end_definition;
+
+				top->mCurrent = end_definition;
+				while (top->mCurrent != top->mLast &&
+				      (*top->mCurrent == '\r' || *top->mCurrent == '\n'))
+					++top->mCurrent;
+
+				std::string entry(begin_entry, end_entry);
+				if (entry == ".import")
+				{
+					std::string definition(begin_definition, end_definition);
+					mFiles.push({ definition });
+					top = &mFiles.top();
+				}
+			}
+			break;
+		default:
+			{
+				char data[64];
+				char *end = data;
+				while (top->mCurrent <= top->mLast && end <= data + 60 &&
+				       classification[*top->mCurrent] != type::whitespace)
+				{
+					if (*top->mCurrent == '\\')
+					{
+						++top->mCurrent;
+						if (top->mCurrent <= top->mLast && *top->mCurrent == 'u')
+						{
+							++top->mCurrent;
+							end = cainteoir::utf8::write(end, hex_to_unicode(top->mCurrent, top->mLast));
+							continue;
+						}
+					}
+					*end++ = *top->mCurrent++;
+				}
+				if (top->mCurrent <= top->mLast)
+					transcription = cainteoir::make_buffer(data, end-data);
+			}
+			break;
 		}
-		break;
 	}
 	return false;
 }
