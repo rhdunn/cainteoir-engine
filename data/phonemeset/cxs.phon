@@ -19,7 +19,7 @@ d	/{vcd,alv,stp}/
 e	/{umd,fnt,unr,vcd,vwl}/
 f	/{vls,lbd,frc}/
 g	/{vcd,vel,stp}/
-h	/{vls,glt,apr}/
+h	/{vls,glt,frc}/
 i	/{hgh,fnt,unr,vcd,vwl}/
 j	/{vcd,pal,apr}/
 k	/{vls,vel,stp}/
@@ -43,23 +43,24 @@ z	/{vcd,alv,sib,frc}/
 
 t`	/{vls,rfx,stp}/
 d`	/{vcd,rfx,stp}/
-J\	/{vcd,pal,stp}/
-G\	/{vcd,uvl,stp}/
+J\\	/{vcd,pal,stp}/
+G\\	/{vcd,uvl,stp}/
 ?	/{vls,glt,stp}/ # [4]
 
 F	/{vcd,lbd,nas}/ # [1]
 n`	/{vcd,rfx,nas}/ # [1]
 J	/{vcd,pal,nas}/ # [1]
 N	/{vcd,vel,nas}/ # [1]
-N\	/{vcd,uvl,nas}/ # [1]
+N\\	/{vcd,uvl,nas}/ # [1]
 
-B\	/{vcd,blb,trl}/ # [1]
-R\	/{vcd,uvl,trl}/ # [1]
+B\\	/{vcd,blb,trl}/ # [1]
+R\\	/{vcd,uvl,trl}/ # [1]
 
+b\\	/{vcd,lbd,flp}/ # [7]
 4	/{vcd,alv,flp}/ # [1], [2]
 r`	/{vcd,rfx,flp}/ # [1]
 
-p\	/{vls,blb,frc}/
+p\\	/{vls,blb,frc}/
 B	/{vcd,blb,frc}/
 T	/{vls,dnt,frc}/
 D	/{vcd,dnt,frc}/
@@ -68,34 +69,34 @@ Z	/{vcd,pla,sib,frc}/
 s`	/{vls,rfx,sib,frc}/
 z`	/{vcd,rfx,sib,frc}/
 C	/{vls,pal,frc}/
-j\	/{vcd,pal,frc}/
+j\\	/{vcd,pal,frc}/
 G	/{vcd,vel,frc}/
 X	/{vls,uvl,frc}/
 R	/{vcd,uvl,frc}/
-X\	/{vls,phr,frc}/
-?\	/{vcd,phr,frc}/
-h\	/{vcd,glt,frc}/
+X\\	/{vls,phr,frc}/
+?\\	/{vcd,phr,frc}/
+h\\	/{vcd,glt,frc}/
 
 K	/{vls,alv,lat,frc}/
-K\	/{vcd,alv,lat,frc}/
+K\\	/{vcd,alv,lat,frc}/
 
 P	/{vcd,lbd,apr}/ # [1]
-v\	/{vcd,lbd,apr}/ # [1]
-r\	/{vcd,alv,apr}/ # [1]
-r\`	/{vcd,rfx,apr}/ # [1]
-M\	/{vcd,vel,apr}/ # [1]
+v\\	/{vcd,lbd,apr}/ # [1]
+r\\	/{vcd,alv,apr}/ # [1]
+r\\`	/{vcd,rfx,apr}/ # [1]
+M\\	/{vcd,vel,apr}/ # [1]
 
 l`	/{vcd,rfx,lat,apr}/ # [1]
 L	/{vcd,pal,lat,apr}/ # [1]
-L\	/{vcd,vel,lat,apr}/ # [1]
+L\\	/{vcd,vel,lat,apr}/ # [1]
 
 ##### Clicks
 
-O\	/{vls,blb,clk}/
-|\	/{vls,dnt,clk}/
-!\	/{vls,alv,clk}/
-=\	/{vls,pal,clk}/ # [3]
-|\|\	/{vls,alv,lat,clk}/
+O\\	/{vls,blb,clk}/
+|\\	/{vls,dnt,clk}/
+!\\	/{vls,alv,clk}/
+=\\	/{vls,pal,clk}/ # [3]
+|\\|\\	/{vls,alv,lat,clk}/
 
 ##### Ejectives and Implosives
 
@@ -107,25 +108,25 @@ t_>	/{vls,alv,ejc}/
 d_<	/{vcd,alv,imp}/
 t`_>	/{vls,rfx,ejc}/
 c_>	/{vls,pal,ejc}/
-J\_<	/{vcd,pal,imp}/
+J\\_<	/{vcd,pal,imp}/
 k_>	/{vls,vel,ejc}/
 g_<	/{vcd,vel,imp}/
 q_>	/{vls,uvl,ejc}/
-G\_0_<	/{vls,uvl,imp}/
-G\_<	/{vcd,uvl,imp}/
+G\\_0_<	/{vls,uvl,imp}/
+G\\_<	/{vcd,uvl,imp}/
 
 ##### Vowels
 
 M	/{hgh,bck,unr,vcd,vwl}/
-i\	/{hgh,cnt,unr,vcd,vwl}/
-u\	/{hgh,cnt,rnd,vcd,vwl}/
+i\\	/{hgh,cnt,unr,vcd,vwl}/
+u\\	/{hgh,cnt,rnd,vcd,vwl}/
 
 I	/{smh,fnt,unr,vcd,vwl}/
 Y	/{smh,fnt,rnd,vcd,vwl}/
 U	/{smh,bck,rnd,vcd,vwl}/
 
 2	/{umd,fnt,rnd,vcd,vwl}/
-@\	/{umd,cnt,unr,vcd,vwl}/
+@\\	/{umd,cnt,unr,vcd,vwl}/
 8	/{umd,cnt,rnd,vcd,vwl}/
 7	/{umd,bck,unr,vcd,vwl}/
 
@@ -134,43 +135,33 @@ U	/{smh,bck,rnd,vcd,vwl}/
 E	/{lmd,fnt,unr,vcd,vwl}/
 9	/{lmd,fnt,rnd,vcd,vwl}/
 3	/{lmd,cnt,unr,vcd,vwl}/
-3\	/{lmd,cnt,rnd,vcd,vwl}/
+3\\	/{lmd,cnt,rnd,vcd,vwl}/
 V	/{lmd,bck,unr,vcd,vwl}/
 O	/{lmd,bck,rnd,vcd,vwl}/
 
 &	/{sml,fnt,unr,vcd,vwl}/
 6	/{sml,cnt,unr,vcd,vwl}/
 
-&\	/{low,fnt,rnd,vcd,vwl}/ # [5]
+&\\	/{low,fnt,rnd,vcd,vwl}/ # [5]
 A	/{low,bck,unr,vcd,vwl}/
 Q	/{low,bck,rnd,vcd,vwl}/
 
 ##### Other Symbols
 
 W	/{vls,lbv,apr}/
-H	/{vcd,pal,apr,lzd}/
-H\	/{vls,epg,frc}/
-<\	/{vcd,epg,frc}/
->\	/{vls,epg,stp}/
+H	/{vcd,lbp,apr}/
+H\\	/{vls,epg,frc}/
+<\\	/{vcd,epg,frc}/
+>\\	/{vls,epg,stp}/
 
-s\	/{vls,pla,frc,pzd}/
-z\	/{vcd,pla,frc,pzd}/
-l\	/{vcd,alv,lat,flp}/
-x\	/{vls,pla,sib,frc,vzd}/
+s\\	/{vls,alp,sib,frc}/
+z\\	/{vcd,alp,sib,frc}/
+l\\	/{vcd,alv,lat,flp}/
+x\\	/{vls,pla,sib,frc,vzd}/
 
 ##### Suprasegmentals
 
 .	/{sbr}/
-
-'	/<st1>/< # [6]
-,	/<st2>/< # [6]
-
-"	/<st1>/<
-%	/<st2>/<
-
-:	/<lng>/>
-:\	/<hlg>/>
-_X	/<est>/>
 
 ##### Diacritics
 
@@ -198,23 +189,17 @@ D_-	/{vcd,alv,frc}/
 m=	/{vcd,blb,nas,syl}/
 n=	/{vcd,alv,nas,syl}/
 N=	/{vcd,vel,nas,syl}/
-r\=	/{vcd,alv,apr,syl}/
+r\\=	/{vcd,alv,apr,syl}/
 l=	/{vcd,alv,lat,apr,syl}/
-_^	/<nsy>/+
 
 m_=	/{vcd,blb,nas,syl}/
 n_=	/{vcd,alv,nas,syl}/
 N_=	/{vcd,vel,nas,syl}/
-r\_=	/{vcd,alv,apr,syl}/
+r\\_=	/{vcd,alv,apr,syl}/
 l_=	/{vcd,alv,lat,apr,syl}/
 
 @`	/{mid,cnt,unr,vcd,vwl,rzd}/
 3`	/{lmd,cnt,unr,vcd,vwl,rzd}/
-
-_w	/<lzd>/+
-_j	/<pzd>/+ # [6]
-_G	/<vzd>/+
-_?\	/<fzd>/+
 
 n_d	/{vcd,dnt,nas}/
 p_d	/{vls,lbd,stp}/
@@ -225,18 +210,13 @@ s_d	/{vls,dnt,sib,frc}/
 z_d	/{vcd,dnt,sib,frc}/
 l_d	/{vcd,dnt,lat,apr}/
 
-~	/<nzd>/+
-_~	/<nzd>/+
-_}	/<unx>/+
-_l	/<lat>/+
-
 5	/{vcd,alv,lat,apr,vzd}/
 
 B_o	/{vcd,blb,apr}/
 D_o	/{vcd,dnt,apr}/
 R_o	/{vcd,uvl,apr}/
-?\_o	/{vcd,phr,apr}/
-<\_o	/{vcd,epg,apr}/
+?\\_o	/{vcd,phr,apr}/
+<\\_o	/{vcd,epg,apr}/
 
 ##### Notes:
 #
@@ -256,6 +236,9 @@ R_o	/{vcd,uvl,apr}/
 #  6. Conlang X-SAMPA supports using `'` and `,` for stress markers, which clash
 #     with the X-SAMPA palatalisation variant `'`. Therefore, only X-SAMPA `_j`
 #     is used for palatalisation.
+#
+#  7. X-SAMPA does not have an entry for this phoneme, so the one from Z-SAMPA
+#     is used instead.
 #
 ##### References:
 #
