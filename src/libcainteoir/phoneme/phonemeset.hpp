@@ -29,6 +29,34 @@
 
 namespace cainteoir { namespace tts
 {
+	/*
+	 * The following diagram details the collaboration between the different helper functions
+	 * and the phonemeset types:
+	 *
+	 *========================================================================================*
+	 *                                                                                        *
+	 * /==============[ READER ]==============\   /===============[ WRITER ]================\ *
+	 * |                                      |   |                                         | *
+	 *                                                                                        *
+	 *   [feature]                                                              [feature]     *
+	 *       |                                                                      |         *
+	 *       v                                                                      v         *
+	 * read_explicit_feature <-------- phoneme_file_reader           write_explicit_feature   *
+	 *       ^                                  ^                                   ^         *
+	 *       |                                  |                                   |         *
+	 *       |                    +-------------+------------+                      |         *
+	 *       |                    |             |            |                      |         *
+	 * [kirshenbaum] ---> transcription_reader  |  transcription_writer <---- [kirshenbaum]   *
+	 *                     ^      ^             |            ^      ^                         *
+	 *                     |      |      [arpabet-based]     |      |                         *
+	 *                     |      |                          |      |                         *
+	 *                     | [ipa-based]                [ipa-based] |                         *
+	 *                     |                                        |                         *
+	 *                  [espeak]                                 [espeak]                     *
+	 *                                                                                        *
+	 *========================================================================================*
+	 */
+
 	std::pair<bool, phoneme> read_explicit_feature(const char * &mCurrent, const char *mEnd);
 	void write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme);
 
