@@ -40,7 +40,6 @@ namespace cainteoir { namespace tts
 
 		bool read();
 	private:
-		std::shared_ptr<phoneme_reader> mFeatures;
 		std::shared_ptr<buffer> mBuffer;
 		const char *mCurrent;
 		const char *mLast;

@@ -77,7 +77,6 @@ static ucd::codepoint_t hex_to_unicode(const char * &current, const char *last)
 }
 
 tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
-	: mFeatures(createExplicitFeaturePhonemeReader())
 {
 	auto location = get_data_path() / "phonemeset" / (aPhonemeSet + ".phon");
 	mBuffer = make_file_buffer(location);
@@ -106,10 +105,13 @@ bool tts::phoneme_file_reader::read()
 			++mCurrent;
 		if (mCurrent == mLast)
 			throw std::runtime_error("unterminated phoneme group (expecting '/')");
-		mFeatures->reset(std::make_shared<buffer>(start, mCurrent));
 		phonemes.clear();
-		while (mFeatures->read())
-			phonemes.push_back(*mFeatures);
+		while (start < mCurrent)
+		{
+			auto ret = tts::read_explicit_feature(start, mCurrent);
+			if (ret.first)
+				phonemes.push_back(ret.second);
+		}
 		++mCurrent;
 		return true;
 	default:
