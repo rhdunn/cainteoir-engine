@@ -30,8 +30,10 @@ if __name__ == '__main__':
 	test.run({'name': 'IPA-Based', 'groups': [
 		{'name': 'IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/phonemes.features', 'result': 'phonemeset/phonemes.ipa', 'from': 'features', 'to': 'ipa'},
+			{'test': 'phonemeset/phonemes.ipa', 'result': 'phonemeset/phonemes.features', 'from': 'ipa', 'to': 'features'},
 		]},
 	]})
+	"""
 	test.run({'name': 'IPA-Based', 'groups': [
 		{'name': 'ASCII-IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ascii-ipa.features', 'result': 'phonemeset/ascii-ipa.txt', 'from': 'features', 'to': 'ascii-ipa', 'expect': 'fail'},
@@ -50,4 +52,5 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/cxs.txt', 'result': 'phonemeset/x-sampa.features', 'from': 'cxs', 'to': 'features', 'expect': 'fail'},
 		]},
 	]})
+	"""
 	test.summary()

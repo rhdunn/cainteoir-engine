@@ -1,4 +1,4 @@
-/* Phoneme Set Reader/Writer.
+/* IPA-Based Phoneme Set Reader/Writer.
  *
  * Copyright (C) 2013-2014 Reece H. Dunn
  *
@@ -23,6 +23,7 @@
 #include "compatibility.hpp"
 
 #include "phonemeset.hpp"
+#include <cainteoir/trie.hpp>
 #include <map>
 
 namespace tts = cainteoir::tts;
@@ -34,20 +35,90 @@ struct ipa_reader : public tts::phoneme_reader
 	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
 
 	bool read();
+private:
+	struct phoneme_t
+	{
+		tts::phoneme phoneme;
+
+		phoneme_t(const tts::phoneme &aPhoneme = tts::phoneme(-1))
+			: phoneme(aPhoneme)
+		{
+		}
+	};
+
+	cainteoir::trie<phoneme_t> mPhonemes;
+	std::shared_ptr<cainteoir::buffer> mBuffer;
+	const char *mCurrent;
+	const char *mEnd;
 };
 
 ipa_reader::ipa_reader(tts::phoneme_file_reader &aPhonemeSet)
 {
 	while (aPhonemeSet.read())
-		;
+	{
+		if (aPhonemeSet.phonemes.size() != 1)
+			throw std::runtime_error("ipa-style phonemesets only support mapping to one phoneme");
+
+		mPhonemes.insert(*aPhonemeSet.transcription, { aPhonemeSet.phonemes.front() });
+	}
 }
 
 void ipa_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 {
+	mBuffer = aBuffer;
+	if (mBuffer.get())
+	{
+		mCurrent = mBuffer->begin();
+		mEnd = mBuffer->end();
+	}
+	else
+		mCurrent = mEnd = nullptr;
 }
 
 bool ipa_reader::read()
 {
+	const auto *entry = mPhonemes.root();
+	decltype(mPhonemes.root()) match = nullptr;
+	const char *pos = mCurrent;
+	while (mCurrent < mEnd)
+	{
+		const auto *next = entry->get(*mCurrent);
+		if (next == nullptr)
+		{
+			if (match)
+			{
+				mCurrent = pos;
+				*(tts::phoneme *)this = match->item.phoneme;
+				return true;
+			}
+
+			uint8_t c = *mCurrent;
+			++mCurrent;
+
+			char msg[64];
+			if (c <= 0x20 || c >= 0x80)
+				sprintf(msg, i18n("unrecognised character 0x%02X"), c);
+			else
+				sprintf(msg, i18n("unrecognised character %c"), c);
+			throw tts::phoneme_error(msg);
+		}
+		else
+		{
+			entry = next;
+			++mCurrent;
+			if (entry->item.phoneme != tts::phoneme(-1))
+			{
+				match = entry;
+				pos = mCurrent;
+			}
+		}
+	}
+	if (match)
+	{
+		mCurrent = pos;
+		*(tts::phoneme *)this = match->item.phoneme;
+		return true;
+	}
 	return false;
 }
 
