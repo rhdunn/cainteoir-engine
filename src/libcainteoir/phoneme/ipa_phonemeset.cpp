@@ -23,8 +23,6 @@
 #include "compatibility.hpp"
 
 #include "phonemeset.hpp"
-#include <cainteoir/trie.hpp>
-#include <map>
 
 namespace tts = cainteoir::tts;
 
@@ -36,31 +34,15 @@ struct ipa_reader : public tts::phoneme_reader
 
 	bool read();
 private:
-	struct phoneme_t
-	{
-		tts::phoneme phoneme;
-
-		phoneme_t(const tts::phoneme &aPhoneme = tts::phoneme(-1))
-			: phoneme(aPhoneme)
-		{
-		}
-	};
-
-	cainteoir::trie<phoneme_t> mPhonemes;
+	tts::transcription_reader mPhonemes;
 	std::shared_ptr<cainteoir::buffer> mBuffer;
 	const char *mCurrent;
 	const char *mEnd;
 };
 
 ipa_reader::ipa_reader(tts::phoneme_file_reader &aPhonemeSet)
+	: mPhonemes(aPhonemeSet)
 {
-	while (aPhonemeSet.read())
-	{
-		if (aPhonemeSet.phonemes.size() != 1)
-			throw std::runtime_error("ipa-style phonemesets only support mapping to one phoneme");
-
-		mPhonemes.insert(*aPhonemeSet.transcription, { aPhonemeSet.phonemes.front() });
-	}
 }
 
 void ipa_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
@@ -77,49 +59,10 @@ void ipa_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 
 bool ipa_reader::read()
 {
-	const auto *entry = mPhonemes.root();
-	decltype(mPhonemes.root()) match = nullptr;
-	const char *pos = mCurrent;
-	while (mCurrent < mEnd)
-	{
-		const auto *next = entry->get(*mCurrent);
-		if (next == nullptr)
-		{
-			if (match)
-			{
-				mCurrent = pos;
-				*(tts::phoneme *)this = match->item.phoneme;
-				return true;
-			}
-
-			uint8_t c = *mCurrent;
-			++mCurrent;
-
-			char msg[64];
-			if (c <= 0x20 || c >= 0x80)
-				sprintf(msg, i18n("unrecognised character 0x%02X"), c);
-			else
-				sprintf(msg, i18n("unrecognised character %c"), c);
-			throw tts::phoneme_error(msg);
-		}
-		else
-		{
-			entry = next;
-			++mCurrent;
-			if (entry->item.phoneme != tts::phoneme(-1))
-			{
-				match = entry;
-				pos = mCurrent;
-			}
-		}
-	}
-	if (match)
-	{
-		mCurrent = pos;
-		*(tts::phoneme *)this = match->item.phoneme;
-		return true;
-	}
-	return false;
+	auto ret = mPhonemes.read(mCurrent, mEnd);
+	if (ret.first)
+		*(tts::phoneme *)this = ret.second;
+	return ret.first;
 }
 
 struct ipa_writer : public tts::phoneme_writer
@@ -135,20 +78,13 @@ private:
 	const char *mPhonemeSet;
 	FILE *mOutput;
 
-	std::map<tts::phoneme, std::shared_ptr<cainteoir::buffer>> mPhonemes;
+	tts::transcription_writer mPhonemes;
 };
 
 ipa_writer::ipa_writer(tts::phoneme_file_reader &aPhonemeSet, const char *aName)
-	: mPhonemeSet(aName)
+	: mPhonemes(aPhonemeSet)
 	, mOutput(nullptr)
 {
-	while (aPhonemeSet.read())
-	{
-		if (aPhonemeSet.phonemes.size() != 1)
-			throw std::runtime_error("ipa-style phonemesets only support mapping to one phoneme");
-
-		mPhonemes[aPhonemeSet.phonemes.front()] = aPhonemeSet.transcription;
-	}
 }
 
 void ipa_writer::reset(FILE *aOutput)
@@ -158,13 +94,7 @@ void ipa_writer::reset(FILE *aOutput)
 
 bool ipa_writer::write(const tts::phoneme &aPhoneme)
 {
-	auto match = mPhonemes.find(aPhoneme);
-	if (match != mPhonemes.end())
-	{
-		fwrite(match->second->begin(), 1, match->second->size(), mOutput);
-		return true;
-	}
-	return false;
+	return mPhonemes.write(mOutput, aPhoneme);
 }
 
 const char *ipa_writer::name() const

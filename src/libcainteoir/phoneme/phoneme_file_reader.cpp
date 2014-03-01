@@ -187,3 +187,81 @@ bool tts::phoneme_file_reader::read()
 	}
 	return false;
 }
+
+tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhonemeSet)
+{
+	while (aPhonemeSet.read())
+	{
+		if (aPhonemeSet.phonemes.size() != 1)
+			throw std::runtime_error("ipa-style phonemesets only support mapping to one phoneme");
+
+		mPhonemes.insert(*aPhonemeSet.transcription, { aPhonemeSet.phonemes.front() });
+	}
+}
+
+std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCurrent, const char *mEnd) const
+{
+	const auto *entry = mPhonemes.root();
+	decltype(mPhonemes.root()) match = nullptr;
+	const char *pos = mCurrent;
+	while (mCurrent < mEnd)
+	{
+		const auto *next = entry->get(*mCurrent);
+		if (next == nullptr)
+		{
+			if (match)
+			{
+				mCurrent = pos;
+				return { true, match->item.phoneme };
+			}
+
+			uint8_t c = *mCurrent;
+			++mCurrent;
+
+			char msg[64];
+			if (c <= 0x20 || c >= 0x80)
+				sprintf(msg, i18n("unrecognised character 0x%02X"), c);
+			else
+				sprintf(msg, i18n("unrecognised character %c"), c);
+			throw tts::phoneme_error(msg);
+		}
+		else
+		{
+			entry = next;
+			++mCurrent;
+			if (entry->item.phoneme != tts::phoneme(-1))
+			{
+				match = entry;
+				pos = mCurrent;
+			}
+		}
+	}
+	if (match)
+	{
+		mCurrent = pos;
+		return { true, match->item.phoneme };
+	}
+	return { false, tts::phoneme(-1) };
+}
+
+tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhonemeSet)
+{
+	while (aPhonemeSet.read())
+	{
+		if (aPhonemeSet.phonemes.size() != 1)
+			throw std::runtime_error("ipa-style phonemesets only support mapping to one phoneme");
+
+		mPhonemes[aPhonemeSet.phonemes.front()] = aPhonemeSet.transcription;
+	}
+}
+
+bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhoneme) const
+{
+	auto match = mPhonemes.find(aPhoneme);
+	if (match != mPhonemes.end())
+	{
+		fwrite(match->second->begin(), 1, match->second->size(), aOutput);
+		return true;
+	}
+	return false;
+}

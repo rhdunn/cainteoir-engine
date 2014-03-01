@@ -22,8 +22,10 @@
 #define CAINTEOIR_ENGINE_PHONEME_PHONEMESET_HPP
 
 #include <cainteoir/phoneme.hpp>
+#include <cainteoir/trie.hpp>
 #include <vector>
 #include <stack>
+#include <map>
 
 namespace cainteoir { namespace tts
 {
@@ -51,6 +53,34 @@ namespace cainteoir { namespace tts
 		};
 
 		std::stack<context_t> mFiles;
+	};
+
+	struct transcription_reader
+	{
+		struct phoneme_t
+		{
+			tts::phoneme phoneme;
+
+			phoneme_t(const tts::phoneme &aPhoneme = tts::phoneme(-1))
+				: phoneme(aPhoneme)
+			{
+			}
+		};
+
+		transcription_reader(tts::phoneme_file_reader &aPhonemeSet);
+
+		std::pair<bool, tts::phoneme> read(const char * &mCurrent, const char *mEnd) const;
+	private:
+		cainteoir::trie<phoneme_t> mPhonemes;
+	};
+
+	struct transcription_writer
+	{
+		transcription_writer(tts::phoneme_file_reader &aPhonemeSet);
+
+		bool write(FILE *aOutput, const tts::phoneme &aPhoneme) const;
+	private:
+		std::map<tts::phoneme, std::shared_ptr<cainteoir::buffer>> mPhonemes;
 	};
 
 	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();
