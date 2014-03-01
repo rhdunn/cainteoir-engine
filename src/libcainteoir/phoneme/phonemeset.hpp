@@ -35,7 +35,7 @@ namespace cainteoir { namespace tts
 	 *
 	 *========================================================================================*
 	 *                                                                                        *
-	 * /==============[ READER ]==============\   /===============[ WRITER ]================\ *
+	 * .==============[ READER ]==============.   .===============[ WRITER ]================. *
 	 * |                                      |   |                                         | *
 	 *                                                                                        *
 	 *   [feature]                                                              [feature]     *
@@ -44,13 +44,13 @@ namespace cainteoir { namespace tts
 	 * read_explicit_feature <-------- phoneme_file_reader           write_explicit_feature   *
 	 *       ^                                  ^                                   ^         *
 	 *       |                                  |                                   |         *
-	 *       |                    +-------------+------------+                      |         *
+	 *       |                    .-------------+------------.                      |         *
 	 *       |                    |             |            |                      |         *
 	 * [kirshenbaum] ---> transcription_reader  |  transcription_writer <---- [kirshenbaum]   *
 	 *                     ^      ^             |            ^      ^                         *
-	 *                     |      |      [arpabet-based]     |      |                         *
+	 *                     |      |         [arpabet]        |      |                         *
 	 *                     |      |                          |      |                         *
-	 *                     | [ipa-based]                [ipa-based] |                         *
+	 *                     |    [ipa]                      [ipa]    |                         *
 	 *                     |                                        |                         *
 	 *                  [espeak]                                 [espeak]                     *
 	 *                                                                                        *
