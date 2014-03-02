@@ -97,8 +97,8 @@ L\\	/{vcd,vel,lat,apr}/ # [1]
 O\\	/{vls,blb,clk}/
 |\\	/{vls,dnt,clk}/
 !\\	/{vls,alv,clk}/
-=\\	/{vls,pal,clk}/ # [3]
 |\\|\\	/{vls,alv,lat,clk}/
+=\\	/{vls,pal,clk}/ # [3]
 
 ##### Ejectives and Implosives
 

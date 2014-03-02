@@ -74,3 +74,9 @@
 {vcd,vel,lat,apr}
 
 {vcd,alv,lat,flp}
+
+{vls,blb,clk}
+{vls,dnt,clk}
+{vls,alv,clk}
+{vls,alv,lat,clk}
+{vls,pal,clk}

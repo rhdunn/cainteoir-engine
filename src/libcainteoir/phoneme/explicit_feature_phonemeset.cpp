@@ -62,6 +62,7 @@ static const std::initializer_list<const char *> manner_of_articulation = {
 	"apr",
 	"trl",
 	"flp",
+	"clk",
 };
 
 enum state_t

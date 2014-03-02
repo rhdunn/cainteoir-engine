@@ -92,6 +92,7 @@ z<lat>	/{vcd,alv,lat,frc}/
 t`	/{vls,alv,ejc}/ # [2]
 d`	/{vcd,alv,imp}/ # [2], [11]
 t!	/{vls,alv,clk}/ # [12]
+t<lat>!	/{vls,alv,lat,clk}/ # [12]
 
 n.	/{vcd,rfx,nas}/ # [2]
 t.	/{vls,rfx,stp}/

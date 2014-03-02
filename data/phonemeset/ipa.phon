@@ -86,6 +86,14 @@ l			/{vcd,alv,lat,apr}/
 
 \u027A			/{vcd,alv,lat,flp}/
 
+# Non-Pulmonic Consonants
+
+\u0298			/{vls,blb,clk}/
+\u01C0			/{vls,dnt,clk}/
+\u01C3			/{vls,alv,clk}/
+\u01C1			/{vls,alv,lat,clk}/
+\u01C2			/{vls,pal,clk}/
+
 ##### References:
 #
 #  1. http://en.wikipedia.org/wiki/International_Phonetic_Alphabet
