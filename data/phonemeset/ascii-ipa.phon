@@ -2,6 +2,8 @@
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
+.type	kirshenbaum
+
 ##### Appendix B : Segment Symbols
 
 a	/{low,fnt,unr,vcd,vwl}/ # [22], [23]
@@ -62,12 +64,6 @@ Z	/{vcd,pla,sib,frc}/
 *	/{vcd,alv,flp}/
 
 ##### Appendix C : Diacritics
-
-:	/<lng>/>
-'	/<st1>/<
-,	/<st2>/<
-
-;	/<pzd>/+
 
 ##### Appendix E : Segment List [10], [28]
 

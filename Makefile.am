@@ -342,6 +342,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	\
 	src/libcainteoir/phoneme/explicit_feature_phonemeset.cpp \
 	src/libcainteoir/phoneme/ipa_phonemeset.cpp \
+	src/libcainteoir/phoneme/kirshenbaum_phonemeset.cpp \
 	src/libcainteoir/phoneme/phoneme.cpp \
 	src/libcainteoir/phoneme/phonemeset.cpp \
 	src/libcainteoir/phoneme/phoneme_file_reader.cpp \

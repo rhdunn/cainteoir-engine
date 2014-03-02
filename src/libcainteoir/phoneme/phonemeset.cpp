@@ -34,6 +34,8 @@ std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader(const char *aPhone
 	phoneme_file_reader phonemes(aPhonemeSet);
 	if (phonemes.phoneme_type == "ipa")
 		return createIpaPhonemeReader(phonemes, aPhonemeSet);
+	if (phonemes.phoneme_type == "kirshenbaum")
+		return createKirshenbaumPhonemeReader(phonemes, aPhonemeSet);
 
 	throw std::runtime_error("the phonemeset is not supported");
 }
@@ -46,6 +48,8 @@ std::shared_ptr<tts::phoneme_writer> tts::createPhonemeWriter(const char *aPhone
 	phoneme_file_reader phonemes(aPhonemeSet);
 	if (phonemes.phoneme_type == "ipa")
 		return createIpaPhonemeWriter(phonemes, aPhonemeSet);
+	if (phonemes.phoneme_type == "kirshenbaum")
+		return createKirshenbaumPhonemeWriter(phonemes, aPhonemeSet);
 
 	throw std::runtime_error("the phonemeset is not supported");
 }

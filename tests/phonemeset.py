@@ -40,5 +40,9 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/phonemes.features', 'result': 'phonemeset/phonemes.x-sampa', 'from': 'features', 'to': 'cxs'},
 			{'test': 'phonemeset/phonemes.x-sampa', 'result': 'phonemeset/phonemes.features', 'from': 'cxs', 'to': 'features'},
 		]},
+		{'name': 'ASCII-IPA', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/phonemes.features', 'result': 'phonemeset/phonemes.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa'},
+			{'test': 'phonemeset/phonemes.ascii-ipa', 'result': 'phonemeset/phonemes.features', 'from': 'ascii-ipa', 'to': 'features'},
+		]},
 	]})
 	test.summary()

@@ -124,6 +124,9 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<phoneme_reader> createIpaPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_writer> createIpaPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName);
+
+	std::shared_ptr<phoneme_reader> createKirshenbaumPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName);
+	std::shared_ptr<phoneme_writer> createKirshenbaumPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName);
 }}
 
 #endif
