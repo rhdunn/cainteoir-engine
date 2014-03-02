@@ -45,7 +45,6 @@
 {vcd,phr,frc}
 {vls,epg,frc}
 {vcd,epg,frc}
-{vls,glt,frc}
 {vcd,glt,frc}
 
 {vcd,lbd,apr}
@@ -56,6 +55,7 @@
 {vcd,vel,apr}
 {vls,lbv,apr}
 {vcd,lbv,apr}
+{vls,glt,apr}
 
 {vcd,lbd,flp}
 {vcd,alv,flp}

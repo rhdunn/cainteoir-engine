@@ -56,7 +56,6 @@ x			/{vls,vel,frc}/
 \u0295			/{vcd,phr,frc}/
 \u029C			/{vls,epg,frc}/
 \u02A2			/{vcd,epg,frc}/
-h			/{vls,glt,frc}/
 \u0266			/{vcd,glt,frc}/
 
 \u028B			/{vcd,lbd,apr}/
@@ -67,6 +66,7 @@ j			/{vcd,pal,apr}/
 \u0270			/{vcd,vel,apr}/
 \u028D			/{vls,lbv,apr}/
 w			/{vcd,lbv,apr}/
+h			/{vls,glt,apr}/
 
 \u2C71			/{vcd,lbd,flp}/
 \u027E			/{vcd,alv,flp}/

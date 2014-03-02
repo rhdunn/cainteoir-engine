@@ -102,9 +102,12 @@ r.	/{vcd,rfx,apr}/ # [2]
 l.	/{vcd,rfx,lat,apr}/ # [2], [4]
 *.	/{vcd,rfx,flp}/ # [2]
 
+S;	/{vls,alp,sib,frc}/
+Z;	/{vcd,alp,sib,frc}/
+
 n^	/{vcd,pal,nas}/ # [2]
 C<vcd>	/{vcd,pal,frc}/ # [3]
-j<rnd>	/{vcd,pal,apr,lzd}/ # [2], [13]
+j<rnd>	/{vcd,lbp,apr}/ # [2], [13]
 l^	/{vcd,pal,lat,apr}/ # [2]
 c`	/{vls,pal,ejc}/ # [14]
 J`	/{vcd,pal,imp}/ # [2]
