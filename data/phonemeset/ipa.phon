@@ -94,6 +94,12 @@ l			/{vcd,alv,lat,apr}/
 \u01C1			/{vls,alv,lat,clk}/
 \u01C2			/{vls,pal,clk}/
 
+\u0253			/{vcd,blb,imp}/
+\u0257			/{vcd,alv,imp}/
+\u0284			/{vcd,pal,imp}/
+\u0260			/{vcd,vel,imp}/
+\u029B			/{vcd,uvl,imp}/
+
 ##### References:
 #
 #  1. http://en.wikipedia.org/wiki/International_Phonetic_Alphabet

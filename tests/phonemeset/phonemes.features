@@ -80,3 +80,9 @@
 {vls,alv,clk}
 {vls,alv,lat,clk}
 {vls,pal,clk}
+
+{vcd,blb,imp}
+{vcd,alv,imp}
+{vcd,pal,imp}
+{vcd,vel,imp}
+{vcd,uvl,imp}
