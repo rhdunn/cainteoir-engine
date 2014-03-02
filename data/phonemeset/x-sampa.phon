@@ -126,7 +126,7 @@ Y	/{smh,fnt,rnd,vcd,vwl}/
 U	/{smh,bck,rnd,vcd,vwl}/
 
 2	/{umd,fnt,rnd,vcd,vwl}/
-@\	/{umd,cnt,unr,vcd,vwl}/
+@\\	/{umd,cnt,unr,vcd,vwl}/
 8	/{umd,cnt,rnd,vcd,vwl}/
 7	/{umd,bck,unr,vcd,vwl}/
 
