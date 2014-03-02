@@ -2,6 +2,8 @@
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
+.type			ipa
+
 \u000A			/{pau}/		# clause pause
 \u0020			/{pau,est}/	# word pause
 

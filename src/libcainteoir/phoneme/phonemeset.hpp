@@ -71,6 +71,13 @@ namespace cainteoir { namespace tts
 
 		bool read();
 	private:
+		enum class state
+		{
+			prelude,
+			transcription,
+			phonemes,
+		};
+
 		struct context_t
 		{
 			std::shared_ptr<buffer> mBuffer;
@@ -81,6 +88,7 @@ namespace cainteoir { namespace tts
 		};
 
 		std::stack<context_t> mFiles;
+		state mState;
 	};
 
 	struct transcription_reader

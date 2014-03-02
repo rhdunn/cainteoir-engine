@@ -85,9 +85,12 @@ tts::phoneme_file_reader::context_t::context_t(const std::string &aPhonemeSet)
 }
 
 tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
+	: mState(state::prelude)
 {
 	mFiles.push({ aPhonemeSet });
-	phoneme_type = "ipa";
+	read();
+	if (phoneme_type.empty())
+		throw std::runtime_error("phonemeset type is not specified");
 }
 
 bool tts::phoneme_file_reader::read()
@@ -113,21 +116,29 @@ bool tts::phoneme_file_reader::read()
 			++top->mCurrent;
 			break;
 		case '/':
-			++top->mCurrent;
-			start = top->mCurrent;
-			while (top->mCurrent <= top->mLast && (*top->mCurrent != '/'))
-				++top->mCurrent;
-			if (top->mCurrent == top->mLast)
-				throw std::runtime_error("unterminated phoneme group (expecting '/')");
-			phonemes.clear();
-			while (start < top->mCurrent)
+			switch (mState)
 			{
-				auto ret = tts::read_explicit_feature(start, top->mCurrent);
-				if (ret.first)
-					phonemes.push_back(ret.second);
+			case state::phonemes:
+				++top->mCurrent;
+				start = top->mCurrent;
+				while (top->mCurrent <= top->mLast && (*top->mCurrent != '/'))
+					++top->mCurrent;
+				if (top->mCurrent == top->mLast)
+					throw std::runtime_error("unterminated phoneme group (expecting '/')");
+				phonemes.clear();
+				while (start < top->mCurrent)
+				{
+					auto ret = tts::read_explicit_feature(start, top->mCurrent);
+					if (ret.first)
+						phonemes.push_back(ret.second);
+				}
+				++top->mCurrent;
+				mState = state::transcription;
+				return true;
+			default:
+				throw std::runtime_error("expected transcription before phonemes");
 			}
-			++top->mCurrent;
-			return true;
+			break;
 		case '.':
 			{
 				const char *begin_entry = top->mCurrent;
@@ -158,29 +169,42 @@ bool tts::phoneme_file_reader::read()
 					mFiles.push({ definition });
 					top = &mFiles.top();
 				}
+				else if (entry == ".type")
+					phoneme_type = std::string(begin_definition, end_definition);
 			}
 			break;
 		default:
+			switch (mState)
 			{
-				char data[64];
-				char *end = data;
-				while (top->mCurrent <= top->mLast && end <= data + 60 &&
-				       classification[*top->mCurrent] != type::whitespace)
+			case state::prelude:
+				mState = state::transcription;
+				return true;
+			case state::transcription:
 				{
-					if (*top->mCurrent == '\\')
+					char data[64];
+					char *end = data;
+					while (top->mCurrent <= top->mLast && end <= data + 60 &&
+					       classification[*top->mCurrent] != type::whitespace)
 					{
-						++top->mCurrent;
-						if (top->mCurrent <= top->mLast && *top->mCurrent == 'u')
+						if (*top->mCurrent == '\\')
 						{
 							++top->mCurrent;
-							end = cainteoir::utf8::write(end, hex_to_unicode(top->mCurrent, top->mLast));
-							continue;
+							if (top->mCurrent <= top->mLast && *top->mCurrent == 'u')
+							{
+								++top->mCurrent;
+								end = cainteoir::utf8::write(end, hex_to_unicode(top->mCurrent, top->mLast));
+								continue;
+							}
 						}
+						*end++ = *top->mCurrent++;
 					}
-					*end++ = *top->mCurrent++;
+					if (top->mCurrent <= top->mLast)
+						transcription = cainteoir::make_buffer(data, end-data);
+					mState = state::phonemes;
 				}
-				if (top->mCurrent <= top->mLast)
-					transcription = cainteoir::make_buffer(data, end-data);
+				break;
+			default:
+				throw std::runtime_error("expected phonemes after a transcription");
 			}
 			break;
 		}
