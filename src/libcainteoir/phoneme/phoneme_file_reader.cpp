@@ -95,7 +95,7 @@ bool tts::phoneme_file_reader::read()
 	context_t *top = &mFiles.top();
 	while (top)
 	{
-		if (top->mCurrent >= top->mLast)
+		if (top->mCurrent == top->mLast)
 		{
 			mFiles.pop();
 			top = mFiles.empty() ? nullptr : &mFiles.top();
@@ -103,7 +103,7 @@ bool tts::phoneme_file_reader::read()
 		}
 
 		const char *start = nullptr;
-		while (top->mCurrent <= top->mLast) switch (*top->mCurrent)
+		while (top->mCurrent < top->mLast) switch (*top->mCurrent)
 		{
 		case '#':
 			while (top->mCurrent <= top->mLast && (*top->mCurrent != '\n'))
