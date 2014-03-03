@@ -4,10 +4,10 @@
 
 .import	x-sampa
 
-i\\	/{hgh,cnt,unr,vcd,vwl}/
-u\\	/{hgh,cnt,rnd,vcd,vwl}/
-&	/{sml,fnt,unr,vcd,vwl}/
-&\\	/{low,fnt,rnd,vcd,vwl}/
+i\\	/{hgh,cnt,unr,vwl}/
+u\\	/{hgh,cnt,rnd,vwl}/
+&	/{sml,fnt,unr,vwl}/
+&\\	/{low,fnt,rnd,vwl}/
 
 ##### References:
 #

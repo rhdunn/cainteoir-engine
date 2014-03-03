@@ -66,6 +66,31 @@ static const std::initializer_list<const char *> manner_of_articulation = {
 	"imp",
 };
 
+static const std::initializer_list<const char *> vowel_backness = {
+	"fnt",
+	"cnt",
+	"bck",
+};
+
+static const std::initializer_list<const char *> vowel_height = {
+	"hgh",
+	"smh",
+	"umd",
+	"mid",
+	"lmd",
+	"sml",
+	"low",
+};
+
+static const std::initializer_list<const char *> rounding = {
+	"unr",
+	"rnd",
+};
+
+static const std::initializer_list<const char *> phoneme_type = {
+	"vwl",
+};
+
 enum state_t
 {
 	begin_phoneme,
@@ -161,10 +186,20 @@ void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
 	bool need_comma = false;
 
 	fputc('{', output);
-	write_feature(output, aPhoneme, voicing, need_comma);
-	write_feature(output, aPhoneme, place_of_articulation, need_comma);
-	write_feature(output, aPhoneme, articulation_pre, need_comma);
-	write_feature(output, aPhoneme, manner_of_articulation, need_comma);
+	if (aPhoneme.get(ipa::phoneme_type) == ipa::vowel)
+	{
+		write_feature(output, aPhoneme, vowel_height, need_comma);
+		write_feature(output, aPhoneme, vowel_backness, need_comma);
+		write_feature(output, aPhoneme, rounding, need_comma);
+	}
+	else
+	{
+		write_feature(output, aPhoneme, voicing, need_comma);
+		write_feature(output, aPhoneme, place_of_articulation, need_comma);
+		write_feature(output, aPhoneme, articulation_pre, need_comma);
+		write_feature(output, aPhoneme, manner_of_articulation, need_comma);
+	}
+	write_feature(output, aPhoneme, phoneme_type, need_comma);
 	fputc('}', output);
 }
 

@@ -14,31 +14,31 @@
 
 ##### Lower Case ASCII
 
-a	/{low,fnt,unr,vcd,vwl}/
+a	/{low,fnt,unr,vwl}/
 b	/{vcd,blb,stp}/
 c	/{vls,pal,stp}/
 d	/{vcd,alv,stp}/
-e	/{umd,fnt,unr,vcd,vwl}/
+e	/{umd,fnt,unr,vwl}/
 f	/{vls,lbd,frc}/
 g	/{vcd,vel,stp}/
 h	/{vls,glt,apr}/
-i	/{hgh,fnt,unr,vcd,vwl}/
+i	/{hgh,fnt,unr,vwl}/
 j	/{vcd,pal,apr}/
 k	/{vls,vel,stp}/
 l	/{vcd,alv,lat,apr}/
 m	/{vcd,blb,nas}/
 n	/{vcd,alv,nas}/
-o	/{umd,bck,rnd,vcd,vwl}/
+o	/{umd,bck,rnd,vwl}/
 p	/{vls,blb,stp}/
 q	/{vls,uvl,stp}/
 r	/{vcd,alv,trl}/
 s	/{vls,alv,sib,frc}/
 t	/{vls,alv,stp}/
-u	/{hgh,bck,rnd,vcd,vwl}/
+u	/{hgh,bck,rnd,vwl}/
 v	/{vcd,lbd,frc}/
 w	/{vcd,lbv,apr}/
 x	/{vls,vel,frc}/
-y	/{hgh,fnt,rnd,vcd,vwl}/
+y	/{hgh,fnt,rnd,vwl}/
 z	/{vcd,alv,sib,frc}/
 
 ##### Consonants (Pulmonic)
@@ -119,34 +119,34 @@ G\\_<	/{vcd,uvl,imp}/
 
 ##### Vowels
 
-M	/{hgh,bck,unr,vcd,vwl}/
-1	/{hgh,cnt,unr,vcd,vwl}/
-}	/{hgh,cnt,rnd,vcd,vwl}/
+M	/{hgh,bck,unr,vwl}/
+1	/{hgh,cnt,unr,vwl}/
+}	/{hgh,cnt,rnd,vwl}/
 
-I	/{smh,fnt,unr,vcd,vwl}/
-Y	/{smh,fnt,rnd,vcd,vwl}/
-U	/{smh,bck,rnd,vcd,vwl}/
+I	/{smh,fnt,unr,vwl}/
+Y	/{smh,fnt,rnd,vwl}/
+U	/{smh,bck,rnd,vwl}/
 
-2	/{umd,fnt,rnd,vcd,vwl}/
-@\\	/{umd,cnt,unr,vcd,vwl}/
-8	/{umd,cnt,rnd,vcd,vwl}/
-7	/{umd,bck,unr,vcd,vwl}/
+2	/{umd,fnt,rnd,vwl}/
+@\\	/{umd,cnt,unr,vwl}/
+8	/{umd,cnt,rnd,vwl}/
+7	/{umd,bck,unr,vwl}/
 
-@	/{mid,cnt,unr,vcd,vwl}/
+@	/{mid,cnt,unr,vwl}/
 
-E	/{lmd,fnt,unr,vcd,vwl}/
-9	/{lmd,fnt,rnd,vcd,vwl}/
-3	/{lmd,cnt,unr,vcd,vwl}/
-3\\	/{lmd,cnt,rnd,vcd,vwl}/
-V	/{lmd,bck,unr,vcd,vwl}/
-O	/{lmd,bck,rnd,vcd,vwl}/
+E	/{lmd,fnt,unr,vwl}/
+9	/{lmd,fnt,rnd,vwl}/
+3	/{lmd,cnt,unr,vwl}/
+3\\	/{lmd,cnt,rnd,vwl}/
+V	/{lmd,bck,unr,vwl}/
+O	/{lmd,bck,rnd,vwl}/
 
-{	/{sml,fnt,unr,vcd,vwl}/
-6	/{sml,cnt,unr,vcd,vwl}/
+{	/{sml,fnt,unr,vwl}/
+6	/{sml,cnt,unr,vwl}/
 
-&	/{low,fnt,rnd,vcd,vwl}/
-A	/{low,bck,unr,vcd,vwl}/
-Q	/{low,bck,rnd,vcd,vwl}/
+&	/{low,fnt,rnd,vwl}/
+A	/{low,bck,unr,vwl}/
+Q	/{low,bck,rnd,vwl}/
 
 ##### Other Symbols
 
@@ -200,8 +200,8 @@ N_=	/{vcd,vel,nas,syl}/
 r\\_=	/{vcd,alv,apr,syl}/
 l_=	/{vcd,alv,lat,apr,syl}/
 
-@`	/{mid,cnt,unr,vcd,vwl,rzd}/
-3`	/{lmd,cnt,unr,vcd,vwl,rzd}/
+@`	/{mid,cnt,unr,vwl,rzd}/
+3`	/{lmd,cnt,unr,vwl,rzd}/
 
 n_d	/{vcd,dnt,nas}/
 p_d	/{vls,lbd,stp}/
