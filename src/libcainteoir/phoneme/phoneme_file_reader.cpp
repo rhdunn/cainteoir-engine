@@ -71,7 +71,7 @@ static ucd::codepoint_t hex_to_unicode(const char * &current, const char *last)
 	char escaped[9] = {0};
 	char *end = escaped;
 	while (current <= last && end <= end + 9 &&
-	       classification[*current] == type::hexadecimal)
+	       classification[*current] == ::type::hexadecimal)
 		*end++ = *current++;
 	return strtoul(escaped, nullptr, 16);
 }
@@ -85,8 +85,12 @@ tts::phoneme_file_reader::context_t::context_t(const std::string &aPhonemeSet)
 }
 
 tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
-	: mState(state::prelude)
+	: applicator(0)
+	, type(placement::primary)
+	, mState(state::prelude)
 {
+	feature[0] = feature[1] = feature[2] = feature[3] = 0;
+
 	mFiles.push({ aPhonemeSet });
 	read();
 	if (phoneme_type.empty())
@@ -118,7 +122,7 @@ bool tts::phoneme_file_reader::read()
 		case '/':
 			switch (mState)
 			{
-			case state::phonemes:
+			case state::have_transcription:
 				++top->mCurrent;
 				start = top->mCurrent;
 				while (top->mCurrent <= top->mLast && (*top->mCurrent != '/'))
@@ -133,10 +137,37 @@ bool tts::phoneme_file_reader::read()
 						phonemes.push_back(ret.second);
 				}
 				++top->mCurrent;
-				mState = state::transcription;
+				type = placement::primary;
+				mState = state::need_transcription;
 				return true;
 			default:
 				throw std::runtime_error("expected transcription before phonemes");
+			}
+			break;
+		case '<':
+		case '>':
+			switch (mState)
+			{
+			case state::have_transcription:
+				type = (*top->mCurrent == '<') ? placement::before : placement::after;
+				++top->mCurrent;
+				while (top->mCurrent != top->mLast && *top->mCurrent == '\t')
+					++top->mCurrent;
+				switch (*top->mCurrent)
+				{
+				case '=':
+				case '+':
+				case '-':
+					applicator = *top->mCurrent++;
+					break;
+				default:
+					throw std::runtime_error("unrecognised combiner syntax");
+				}
+				read_feature(feature);
+				mState = state::need_transcription;
+				return true;
+			default:
+				throw std::runtime_error("expected transcription before combiner");
 			}
 			break;
 		case '.':
@@ -144,7 +175,7 @@ bool tts::phoneme_file_reader::read()
 				const char *begin_entry = top->mCurrent;
 				const char *end_entry   = top->mCurrent;
 				while (end_entry != top->mLast &&
-				       classification[*end_entry] != type::whitespace)
+				       classification[*end_entry] != ::type::whitespace)
 					++end_entry;
 
 				top->mCurrent = end_entry;
@@ -154,7 +185,7 @@ bool tts::phoneme_file_reader::read()
 				const char *begin_definition = top->mCurrent;
 				const char *end_definition   = top->mCurrent;
 				while (end_definition != top->mLast &&
-				       classification[*end_definition] != type::whitespace)
+				       classification[*end_definition] != ::type::whitespace)
 					++end_definition;
 
 				top->mCurrent = end_definition;
@@ -177,14 +208,14 @@ bool tts::phoneme_file_reader::read()
 			switch (mState)
 			{
 			case state::prelude:
-				mState = state::transcription;
+				mState = state::need_transcription;
 				return true;
-			case state::transcription:
+			case state::need_transcription:
 				{
 					char data[64];
 					char *end = data;
 					while (top->mCurrent <= top->mLast && end <= data + 60 &&
-					       classification[*top->mCurrent] != type::whitespace)
+					       classification[*top->mCurrent] != ::type::whitespace)
 					{
 						if (*top->mCurrent == '\\')
 						{
@@ -200,11 +231,11 @@ bool tts::phoneme_file_reader::read()
 					}
 					if (top->mCurrent <= top->mLast)
 						transcription = cainteoir::make_buffer(data, end-data);
-					mState = state::phonemes;
+					mState = state::have_transcription;
 				}
 				break;
 			default:
-				throw std::runtime_error("expected phonemes after a transcription");
+				throw std::runtime_error("consecutive transcription entries found");
 			}
 			break;
 		}
@@ -212,19 +243,106 @@ bool tts::phoneme_file_reader::read()
 	return false;
 }
 
+void tts::phoneme_file_reader::read_feature(char (&aFeature)[4])
+{
+	context_t *top = &mFiles.top();
+
+	char *end = aFeature;
+	while (top->mCurrent <= top->mLast && end <= aFeature + 3 &&
+	       classification[*top->mCurrent] != ::type::whitespace)
+		*end++ = *top->mCurrent++;
+
+	// check if the feature is valid ...
+	ipa::phoneme().get(aFeature);
+}
+
 tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhonemeSet)
 {
-	while (aPhonemeSet.read())
+	while (aPhonemeSet.read()) switch (aPhonemeSet.type)
 	{
+	case tts::placement::primary:
 		if (aPhonemeSet.phonemes.size() != 1)
 			throw std::runtime_error("ipa-style phonemesets only support mapping to one phoneme");
 
 		mPhonemes.insert(*aPhonemeSet.transcription, { aPhonemeSet.phonemes.front() });
+		break;
+	case tts::placement::after:
+		switch (aPhonemeSet.applicator)
+		{
+		case '=':
+			mPhonemes.insert(*aPhonemeSet.transcription, { aPhonemeSet.type, aPhonemeSet.feature });
+			break;
+		}
+		break;
 	}
 }
 
 std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCurrent, const char *mEnd) const
 {
+	placement state = placement::before;
+	const char *pos = mCurrent;
+	tts::phoneme p;
+	while (true)
+	{
+		auto match = next_match(mCurrent, mEnd);
+		switch (state)
+		{
+		case placement::before:
+			switch (match.second.type)
+			{
+			case placement::error:
+				{
+					mCurrent = match.first;
+					uint8_t c = *mCurrent;
+					++mCurrent;
+
+					char msg[64];
+					if (c <= 0x20 || c >= 0x80)
+						sprintf(msg, i18n("unrecognised character 0x%02X"), c);
+					else
+						sprintf(msg, i18n("unrecognised character %c"), c);
+					throw tts::phoneme_error(msg);
+				}
+				break;
+			case placement::before:
+				throw std::runtime_error("placement before not supported in transcription_reader");
+			case placement::primary:
+				p = match.second.phoneme;
+				state = placement::after;
+				pos = match.first;
+				break;
+			case placement::after:
+				throw tts::phoneme_error("no phoneme before post-phoneme modifiers");
+			case placement::none:
+				return { false, tts::phoneme(-1) };
+			}
+			break;
+		case placement::after:
+			switch (match.second.type)
+			{
+			case placement::none:
+			case placement::error:
+			case placement::before:
+			case placement::primary:
+				mCurrent = pos;
+				return { true, p };
+			case placement::after:
+				p.set(match.second.feature);
+				pos = match.first;
+				break;
+			}
+			break;
+		}
+		mCurrent = match.first;
+	}
+}
+
+std::pair<const char *, const tts::transcription_reader::phoneme_t &>
+tts::transcription_reader::next_match(const char *mCurrent, const char *mEnd) const
+{
+	static const phoneme_t no_match = {};
+	static const phoneme_t error = { placement::error };
+
 	const auto *entry = mPhonemes.root();
 	decltype(mPhonemes.root()) match = nullptr;
 	const char *pos = mCurrent;
@@ -234,26 +352,15 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 		if (next == nullptr)
 		{
 			if (match)
-			{
-				mCurrent = pos;
-				return { true, match->item.phoneme };
-			}
+				return { pos, match->item };
 
-			uint8_t c = *mCurrent;
-			++mCurrent;
-
-			char msg[64];
-			if (c <= 0x20 || c >= 0x80)
-				sprintf(msg, i18n("unrecognised character 0x%02X"), c);
-			else
-				sprintf(msg, i18n("unrecognised character %c"), c);
-			throw tts::phoneme_error(msg);
+			return { pos, error };
 		}
 		else
 		{
 			entry = next;
 			++mCurrent;
-			if (entry->item.phoneme != tts::phoneme(-1))
+			if (entry->item.type != placement::none)
 			{
 				match = entry;
 				pos = mCurrent;
@@ -261,30 +368,44 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 		}
 	}
 	if (match)
-	{
-		mCurrent = pos;
-		return { true, match->item.phoneme };
-	}
-	return { false, tts::phoneme(-1) };
+		return { pos, match->item };
+	return { mEnd, no_match };
 }
 
 tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhonemeSet)
 {
-	while (aPhonemeSet.read())
+	while (aPhonemeSet.read()) switch (aPhonemeSet.type)
 	{
+	case tts::placement::primary:
 		if (aPhonemeSet.phonemes.size() != 1)
 			throw std::runtime_error("ipa-style phonemesets only support mapping to one phoneme");
 
 		mPhonemes[aPhonemeSet.phonemes.front()] = aPhonemeSet.transcription;
+		break;
+	case tts::placement::after:
+		switch (aPhonemeSet.applicator)
+		{
+		case '=':
+			mAfter.push_back(feature_rule_t(aPhonemeSet.feature, aPhonemeSet.transcription));
+			break;
+		}
+		break;
 	}
 }
 
 bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhoneme) const
 {
-	auto match = mPhonemes.find(aPhoneme);
+	tts::phoneme main{ aPhoneme.get(ipa::main) };
+
+	auto match = mPhonemes.find(main);
 	if (match != mPhonemes.end())
 	{
 		fwrite(match->second->begin(), 1, match->second->size(), aOutput);
+		for (auto && rule : mAfter)
+		{
+			if (aPhoneme.get(rule.feature))
+				fwrite(rule.transcription->begin(), 1, rule.transcription->size(), aOutput);
+		}
 		return true;
 	}
 	return false;

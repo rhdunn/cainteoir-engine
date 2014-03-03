@@ -153,8 +153,8 @@ Q	/{low,bck,rnd,vwl}/
 W	/{vls,lbv,apr}/
 H	/{vcd,lbp,apr}/
 H\\	/{vls,epg,frc}/
-<\\	/{vcd,epg,frc}/
->\\	/{vls,epg,stp}/
+\<\\	/{vcd,epg,frc}/
+\>\\	/{vls,epg,stp}/
 
 s\\	/{vls,alp,sib,frc}/
 z\\	/{vcd,alp,sib,frc}/
@@ -218,7 +218,7 @@ B_o	/{vcd,blb,apr}/
 D_o	/{vcd,dnt,apr}/
 R_o	/{vcd,uvl,apr}/
 ?\\_o	/{vcd,phr,apr}/
-<\\_o	/{vcd,epg,apr}/
+\<\\_o	/{vcd,epg,apr}/
 
 ##### Notes:
 #

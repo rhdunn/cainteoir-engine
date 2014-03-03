@@ -60,12 +60,24 @@ namespace cainteoir { namespace tts
 	std::pair<bool, phoneme> read_explicit_feature(const char * &mCurrent, const char *mEnd);
 	void write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme);
 
+	enum class placement
+	{
+		none,
+		before,
+		primary,
+		after,
+		error,
+	};
+
 	struct phoneme_file_reader
 	{
 		std::string phoneme_type;
 
 		std::shared_ptr<buffer> transcription;
 		std::vector<phoneme> phonemes;
+		char applicator;
+		char feature[4];
+		placement type;
 
 		phoneme_file_reader(const std::string &aPhonemeSet);
 
@@ -74,8 +86,8 @@ namespace cainteoir { namespace tts
 		enum class state
 		{
 			prelude,
-			transcription,
-			phonemes,
+			need_transcription,
+			have_transcription,
 		};
 
 		struct context_t
@@ -89,6 +101,8 @@ namespace cainteoir { namespace tts
 
 		std::stack<context_t> mFiles;
 		state mState;
+
+		void read_feature(char (&aFeature)[4]);
 	};
 
 	struct transcription_reader
@@ -96,10 +110,31 @@ namespace cainteoir { namespace tts
 		struct phoneme_t
 		{
 			tts::phoneme phoneme;
+			placement type;
+			char feature[4];
 
-			phoneme_t(const tts::phoneme &aPhoneme = tts::phoneme(-1))
-				: phoneme(aPhoneme)
+			phoneme_t(placement aType = placement::none)
+				: phoneme(-1)
+				, type(aType)
 			{
+				feature[0] = feature[1] = feature[2] = feature[3] = 0;
+			}
+
+			phoneme_t(const tts::phoneme &aPhoneme)
+				: phoneme(aPhoneme)
+				, type(placement::primary)
+			{
+				feature[0] = feature[1] = feature[2] = feature[3] = 0;
+			}
+
+			phoneme_t(placement aType, const char (&aFeature)[4])
+				: phoneme(-1)
+				, type(aType)
+			{
+				feature[0] = aFeature[0];
+				feature[1] = aFeature[1];
+				feature[2] = aFeature[2];
+				feature[3] = aFeature[3];
 			}
 		};
 
@@ -108,6 +143,9 @@ namespace cainteoir { namespace tts
 		std::pair<bool, tts::phoneme> read(const char * &mCurrent, const char *mEnd) const;
 	private:
 		cainteoir::trie<phoneme_t> mPhonemes;
+
+		std::pair<const char *, const phoneme_t &>
+		next_match(const char *mCurrent, const char *mEnd) const;
 	};
 
 	struct transcription_writer
@@ -116,7 +154,23 @@ namespace cainteoir { namespace tts
 
 		bool write(FILE *aOutput, const tts::phoneme &aPhoneme) const;
 	private:
+		struct feature_rule_t
+		{
+			char feature[4];
+			std::shared_ptr<cainteoir::buffer> transcription;
+
+			feature_rule_t(const char (&aFeature)[4], const std::shared_ptr<cainteoir::buffer> aTranscription)
+				: transcription(aTranscription)
+			{
+				feature[0] = aFeature[0];
+				feature[1] = aFeature[1];
+				feature[2] = aFeature[2];
+				feature[3] = aFeature[3];
+			}
+		};
+
 		std::map<tts::phoneme, std::shared_ptr<cainteoir::buffer>> mPhonemes;
+		std::list<feature_rule_t> mAfter;
 	};
 
 	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();

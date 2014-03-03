@@ -30,7 +30,8 @@ namespace cainteoir { namespace ipa
 {
 	// features
 
-	// main ---------------------------------------------- 00000000000FFFFF
+	constexpr uint64_t main                   = UINT64_C(0x00000000003FFFFF);
+	// main ---------------------------------------------- 00000000003FFFFF
 	constexpr uint64_t phoneme_type           = UINT64_C(0x000000000000000F);
 	// ... consonants ------------------------------------ 0000000000007FF0
 	constexpr uint64_t place_of_articulation  = UINT64_C(0x00000000000000F0);
