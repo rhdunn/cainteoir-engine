@@ -294,10 +294,10 @@ KIRSHENBAUM_RNGD("asp", "aspirated", ipa::aspirated, ipa::release)
 KIRSHENBAUM_RNGD("unx", "unexploded", ipa::unexploded, ipa::release)
 KIRSHENBAUM_RNGD("nzr", "nasal release [extension]", ipa::nasal_release, ipa::release)
 KIRSHENBAUM_RNGD("ltr", "lateral release [extension]", ipa::lateral_release, ipa::release)
-KIRSHENBAUM_RNGD("vls", "voiceless", ipa::voiceless, ipa::phonation)
+KIRSHENBAUM_BIN0("vls", "voiceless", ipa::voiced)
 KIRSHENBAUM_RNGD("mrm", "murmured (breathy voice) (murmured)", ipa::breathy_voice, ipa::phonation)
 KIRSHENBAUM_RNGD("slv", "slack voice [extension]", ipa::slack_voice, ipa::phonation)
-KIRSHENBAUM_RNGD("vcd", "voiced (modal voice)", ipa::voiced, ipa::phonation)
+KIRSHENBAUM_BIN1("vcd", "voiced", ipa::voiced)
 KIRSHENBAUM_RNGD("stv", "stiff voice [extension]", ipa::stiff_voice, ipa::phonation)
 KIRSHENBAUM_RNGD("crv", "creaky voice [extension]", ipa::creaky_voice, ipa::phonation)
 KIRSHENBAUM_RNGD("dzd", "dentalized (dental diacritic) [extension]", ipa::dentalized, ipa::articulation)
@@ -394,7 +394,7 @@ TEST_CASE("explicit feature reader -- multiple phonemes")
 	reader->reset(std::make_shared<cainteoir::buffer>(test));
 
 	assert(reader->read());
-	assert(*reader == tts::phoneme(ipa::voiceless | ipa::alveolar | ipa::plosive));
+	assert(*reader == tts::phoneme(ipa::alveolar | ipa::plosive));
 
 	assert(reader->read());
 	assert(*reader == tts::phoneme(ipa::low | ipa::front | ipa::vowel));
@@ -414,7 +414,7 @@ TEST_CASE("explicit feature reader -- multiple phonemes with whitespace")
 	reader->reset(std::make_shared<cainteoir::buffer>(test));
 
 	assert(reader->read());
-	assert(*reader == tts::phoneme(ipa::voiceless | ipa::alveolar | ipa::plosive));
+	assert(*reader == tts::phoneme(ipa::alveolar | ipa::plosive));
 
 	assert(reader->read());
 	assert(*reader == tts::phoneme(ipa::low | ipa::front | ipa::vowel));
@@ -478,7 +478,7 @@ TEST_CASE("explicit feature writer -- no input")
 	std::shared_ptr<tts::phoneme_writer> writer = tts::createPhonemeWriter("features");
 	assert(writer.get());
 
-	assert(!writer->write({ ipa::voiceless | ipa::glottal | ipa::plosive }));
+	assert(!writer->write({ ipa::glottal | ipa::plosive }));
 
 	cainteoir::memory_file output;
 	writer->reset(output);
@@ -487,5 +487,5 @@ TEST_CASE("explicit feature writer -- no input")
 	assert(data->empty());
 
 	writer->reset(nullptr);
-	assert(!writer->write({ ipa::voiceless | ipa::glottal | ipa::plosive }));
+	assert(!writer->write({ ipa::glottal | ipa::plosive }));
 }
