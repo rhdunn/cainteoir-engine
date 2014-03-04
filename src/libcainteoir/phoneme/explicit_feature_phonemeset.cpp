@@ -93,6 +93,7 @@ static const std::initializer_list<const char *> phoneme_type = {
 
 static const std::initializer_list<const char *> phonation = {
 	"slv",
+	"stv",
 };
 
 enum state_t

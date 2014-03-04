@@ -14,17 +14,21 @@
 {vls,blb,stp}
 {vcd,blb,stp,slv}
 {vcd,blb,stp}
+{vcd,blb,stp,stv}
 {vls,alv,stp}
 {vcd,alv,stp,slv}
 {vcd,alv,stp}
+{vcd,alv,stp,stv}
 {vls,rfx,stp}
 {vcd,rfx,stp,slv}
 {vcd,rfx,stp}
+{vcd,rfx,stp,stv}
 {vls,pal,stp}
 {vcd,pal,stp}
 {vls,vel,stp}
 {vcd,vel,stp,slv}
 {vcd,vel,stp}
+{vcd,vel,stp,stv}
 {vls,uvl,stp}
 {vcd,uvl,stp}
 {vls,epg,stp}
@@ -39,6 +43,7 @@
 {vls,alv,sib,frc}
 {vcd,alv,sib,frc,slv}
 {vcd,alv,sib,frc}
+{vcd,alv,sib,frc,stv}
 {vls,pla,sib,frc}
 {vcd,pla,sib,frc}
 {vls,rfx,sib,frc}
@@ -101,6 +106,7 @@
 {vcd,uvl,imp}
 
 {hgh,fnt,unr,vwl}
+{hgh,fnt,unr,vwl,stv}
 {hgh,fnt,rnd,vwl}
 {hgh,cnt,unr,vwl}
 {hgh,cnt,rnd,vwl}

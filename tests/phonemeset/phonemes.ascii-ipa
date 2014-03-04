@@ -14,17 +14,21 @@ n"
 p
 b<vls>
 b
+b<vcd>
 t
 d<vls>
 d
+d<vcd>
 t.
 d.<vls>
 d.
+d.<vcd>
 c
 J
 k
 g<vls>
 g
+g<vcd>
 q
 G
 {vls,epg,stp}
@@ -39,6 +43,7 @@ D
 s
 z<vls>
 z
+z<vcd>
 S
 Z
 s.
@@ -101,6 +106,7 @@ g`
 G`
 
 i
+i<vcd>
 y
 i"
 u"
