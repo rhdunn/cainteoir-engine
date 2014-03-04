@@ -170,6 +170,8 @@ x\\	/{vls,pla,sib,frc,vzd}/
 _0	>	=slv
 _v	>	=stv
 
+_t	>	=mrm
+
 p_h	/{vls,blb,stp,asp}/
 t_h	/{vls,alv,stp,asp}/
 k_h	/{vls,vel,stp,asp}/

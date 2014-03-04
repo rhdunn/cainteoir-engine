@@ -1,5 +1,6 @@
 m<vls>
 m
+m<?>
 M
 n<vls>
 n
@@ -15,10 +16,12 @@ p
 b<vls>
 b
 b<vcd>
+b<?>
 t
 d<vls>
 d
 d<vcd>
+d<?>
 t.
 d.<vls>
 d.
@@ -29,6 +32,7 @@ k
 g<vls>
 g
 g<vcd>
+g<?>
 q
 G
 {vls,epg,stp}
@@ -119,6 +123,7 @@ I.
 U
 
 e
+e<?>
 Y
 @<umd>
 @.<umd>
@@ -140,6 +145,7 @@ O
 
 a<vls>
 a
+a<?>
 a.
 A
 A.

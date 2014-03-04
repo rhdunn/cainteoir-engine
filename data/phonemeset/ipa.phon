@@ -139,6 +139,7 @@ a			/{low,fnt,unr,vwl}/
 
 # Diacritics
 
+\u0324	>	=mrm
 \u0325	>	=slv # combining ring below
 \u032C	>	=stv
 
