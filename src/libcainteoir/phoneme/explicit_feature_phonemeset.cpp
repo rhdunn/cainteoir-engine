@@ -95,6 +95,7 @@ static const std::initializer_list<const char *> phonation = {
 	"slv",
 	"stv",
 	"mrm",
+	"crv",
 };
 
 enum state_t

@@ -171,6 +171,7 @@ _0	>	=slv
 _v	>	=stv
 
 _t	>	=mrm
+_k	>	=crv
 
 p_h	/{vls,blb,stp,asp}/
 t_h	/{vls,alv,stp,asp}/
