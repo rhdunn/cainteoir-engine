@@ -91,6 +91,10 @@ static const std::initializer_list<const char *> phoneme_type = {
 	"vwl",
 };
 
+static const std::initializer_list<const char *> phonation = {
+	"slv",
+};
+
 enum state_t
 {
 	begin_phoneme,
@@ -200,6 +204,7 @@ void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
 		write_feature(output, aPhoneme, manner_of_articulation, need_comma);
 	}
 	write_feature(output, aPhoneme, phoneme_type, need_comma);
+	write_feature(output, aPhoneme, phonation, need_comma);
 	fputc('}', output);
 }
 

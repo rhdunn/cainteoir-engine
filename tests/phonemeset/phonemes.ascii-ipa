@@ -1,20 +1,29 @@
+m<vls>
 m
 M
+n<vls>
 n
+n.<vls>
 n.
+n^<vls>
 n^
+N<vls>
 N
 n"
 
 p
+b<vls>
 b
 t
+d<vls>
 d
 t.
+d.<vls>
 d.
 c
 J
 k
+g<vls>
 g
 q
 G
@@ -28,6 +37,7 @@ v
 T
 D
 s
+z<vls>
 z
 S
 Z
@@ -50,6 +60,7 @@ h<?>
 r<lbd>
 r
 r.
+j<vls>
 j
 j<rnd>
 j<vel>
@@ -62,12 +73,14 @@ h
 *.
 
 b<trl>
+r<trl><vls>
 r<trl>
 r"
 
 s<lat>
 z<lat>
 
+l<vls>
 l
 l.
 l^
@@ -92,6 +105,7 @@ y
 i"
 u"
 u-
+u<vls>
 u
 
 I
@@ -105,6 +119,7 @@ Y
 o-
 o
 
+@<vls>
 @
 
 E
@@ -117,6 +132,7 @@ O
 &
 &"
 
+a<vls>
 a
 a.
 A

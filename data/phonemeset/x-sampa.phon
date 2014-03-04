@@ -167,14 +167,7 @@ x\\	/{vls,pla,sib,frc,vzd}/
 
 ##### Diacritics
 
-m_0	/{vls,blb,nas}/
-n_0	/{vls,alv,nas}/
-n`_0	/{vls,rfx,nas}/
-J_0	/{vls,pal,nas}/
-N_0	/{vls,vel,nas}/
-r_0	/{vls,alv,trl}/
-j_0	/{vls,pal,apr}/
-l_0	/{vls,alv,lat,apr}/
+_0	>	=slv
 
 p_h	/{vls,blb,stp,asp}/
 t_h	/{vls,alv,stp,asp}/

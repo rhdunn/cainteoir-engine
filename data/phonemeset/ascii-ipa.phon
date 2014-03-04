@@ -65,6 +65,8 @@ Z	/{vcd,pla,sib,frc}/
 
 ##### Appendix C : Diacritics
 
+\<vls>	>	=slv
+
 ##### Appendix E : Segment List [10], [28]
 
 b<trl>	/{vcd,blb,trl}/ # [2]
@@ -155,15 +157,6 @@ o-	/{umd,bck,unr,vwl}/
 A.	/{low,bck,rnd,vwl}/
 
 ##### Additional Phonemes [25]
-
-m<vls>	/{vls,blb,nas}/
-n<vls>	/{vls,alv,nas}/
-n.<vls>	/{vls,rfx,nas}/
-n^<vls>	/{vls,pal,nas}/
-N<vls>	/{vls,vel,nas}/
-
-l<vls>	/{vls,alv,lat,apr}/
-j<vls>	/{vls,pal,apr}/
 
 p<h>	/{vls,blb,stp,asp}/
 t<h>	/{vls,alv,stp,asp}/

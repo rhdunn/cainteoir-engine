@@ -1,20 +1,29 @@
+{vcd,blb,nas,slv}
 {vcd,blb,nas}
 {vcd,lbd,nas}
+{vcd,alv,nas,slv}
 {vcd,alv,nas}
+{vcd,rfx,nas,slv}
 {vcd,rfx,nas}
+{vcd,pal,nas,slv}
 {vcd,pal,nas}
+{vcd,vel,nas,slv}
 {vcd,vel,nas}
 {vcd,uvl,nas}
 
 {vls,blb,stp}
+{vcd,blb,stp,slv}
 {vcd,blb,stp}
 {vls,alv,stp}
+{vcd,alv,stp,slv}
 {vcd,alv,stp}
 {vls,rfx,stp}
+{vcd,rfx,stp,slv}
 {vcd,rfx,stp}
 {vls,pal,stp}
 {vcd,pal,stp}
 {vls,vel,stp}
+{vcd,vel,stp,slv}
 {vcd,vel,stp}
 {vls,uvl,stp}
 {vcd,uvl,stp}
@@ -28,6 +37,7 @@
 {vls,dnt,frc}
 {vcd,dnt,frc}
 {vls,alv,sib,frc}
+{vcd,alv,sib,frc,slv}
 {vcd,alv,sib,frc}
 {vls,pla,sib,frc}
 {vcd,pla,sib,frc}
@@ -50,6 +60,7 @@
 {vcd,lbd,apr}
 {vcd,alv,apr}
 {vcd,rfx,apr}
+{vcd,pal,apr,slv}
 {vcd,pal,apr}
 {vcd,lbp,apr}
 {vcd,vel,apr}
@@ -62,12 +73,14 @@
 {vcd,rfx,flp}
 
 {vcd,blb,trl}
+{vcd,alv,trl,slv}
 {vcd,alv,trl}
 {vcd,uvl,trl}
 
 {vls,alv,lat,frc}
 {vcd,alv,lat,frc}
 
+{vcd,alv,lat,apr,slv}
 {vcd,alv,lat,apr}
 {vcd,rfx,lat,apr}
 {vcd,pal,lat,apr}
@@ -92,6 +105,7 @@
 {hgh,cnt,unr,vwl}
 {hgh,cnt,rnd,vwl}
 {hgh,bck,unr,vwl}
+{hgh,bck,rnd,vwl,slv}
 {hgh,bck,rnd,vwl}
 
 {smh,fnt,unr,vwl}
@@ -105,6 +119,7 @@
 {umd,bck,unr,vwl}
 {umd,bck,rnd,vwl}
 
+{mid,cnt,unr,vwl,slv}
 {mid,cnt,unr,vwl}
 
 {lmd,fnt,unr,vwl}
@@ -117,6 +132,7 @@
 {sml,fnt,unr,vwl}
 {sml,cnt,unr,vwl}
 
+{low,fnt,unr,vwl,slv}
 {low,fnt,unr,vwl}
 {low,fnt,rnd,vwl}
 {low,bck,unr,vwl}
