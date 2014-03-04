@@ -1,40 +1,21 @@
-m_0
 m
-m_t
 F
-n_0
 n
-n`_0
 n`
-J_0
 J
-N_0
 N
 N\
 
 p
-b_0
 b
-b_v
-b_t
-b_k
 t
-d_0
 d
-d_v
-d_t
-d_k
 t`
-d`_0
 d`
-d`_v
 c
 J\
 k
-g_0
 g
-g_v
-g_t
 q
 G\
 >\
@@ -47,9 +28,7 @@ v
 T
 D
 s
-z_0
 z
-z_v
 S
 Z
 s`
@@ -71,7 +50,6 @@ h\
 v\
 r\
 r\`
-j_0
 j
 H
 M\
@@ -84,14 +62,12 @@ b\
 r`
 
 B\
-r_0
 r
 R\
 
 K
 K\
 
-l_0
 l
 l`
 L
@@ -112,12 +88,10 @@ g_<
 G\_<
 
 i
-i_v
 y
 1
 }
 M
-u_0
 u
 
 I
@@ -125,14 +99,12 @@ Y
 U
 
 e
-e_t
 2
 @\
 8
 7
 o
 
-@_0
 @
 
 E
@@ -145,10 +117,42 @@ O
 {
 6
 
-a_0
 a
-a_t
-a_k
 &
 A
 Q
+
+m_0
+n_0
+n`_0
+J_0
+N_0
+b_0
+d_0
+d`_0
+g_0
+z_0
+j_0
+r_0
+l_0
+u_0
+@_0
+a_0
+
+b_v
+d_v
+d`_v
+g_v
+z_v
+i_v
+
+m_t
+b_t
+d_t
+g_t
+e_t
+a_t
+
+b_k
+d_k
+a_k

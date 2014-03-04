@@ -1,40 +1,21 @@
-{vcd,blb,nas,slv}
 {vcd,blb,nas}
-{vcd,blb,nas,mrm}
 {vcd,lbd,nas}
-{vcd,alv,nas,slv}
 {vcd,alv,nas}
-{vcd,rfx,nas,slv}
 {vcd,rfx,nas}
-{vcd,pal,nas,slv}
 {vcd,pal,nas}
-{vcd,vel,nas,slv}
 {vcd,vel,nas}
 {vcd,uvl,nas}
 
 {vls,blb,stp}
-{vcd,blb,stp,slv}
 {vcd,blb,stp}
-{vcd,blb,stp,stv}
-{vcd,blb,stp,mrm}
-{vcd,blb,stp,crv}
 {vls,alv,stp}
-{vcd,alv,stp,slv}
 {vcd,alv,stp}
-{vcd,alv,stp,stv}
-{vcd,alv,stp,mrm}
-{vcd,alv,stp,crv}
 {vls,rfx,stp}
-{vcd,rfx,stp,slv}
 {vcd,rfx,stp}
-{vcd,rfx,stp,stv}
 {vls,pal,stp}
 {vcd,pal,stp}
 {vls,vel,stp}
-{vcd,vel,stp,slv}
 {vcd,vel,stp}
-{vcd,vel,stp,stv}
-{vcd,vel,stp,mrm}
 {vls,uvl,stp}
 {vcd,uvl,stp}
 {vls,epg,stp}
@@ -47,9 +28,7 @@
 {vls,dnt,frc}
 {vcd,dnt,frc}
 {vls,alv,sib,frc}
-{vcd,alv,sib,frc,slv}
 {vcd,alv,sib,frc}
-{vcd,alv,sib,frc,stv}
 {vls,pla,sib,frc}
 {vcd,pla,sib,frc}
 {vls,rfx,sib,frc}
@@ -71,7 +50,6 @@
 {vcd,lbd,apr}
 {vcd,alv,apr}
 {vcd,rfx,apr}
-{vcd,pal,apr,slv}
 {vcd,pal,apr}
 {vcd,lbp,apr}
 {vcd,vel,apr}
@@ -84,14 +62,12 @@
 {vcd,rfx,flp}
 
 {vcd,blb,trl}
-{vcd,alv,trl,slv}
 {vcd,alv,trl}
 {vcd,uvl,trl}
 
 {vls,alv,lat,frc}
 {vcd,alv,lat,frc}
 
-{vcd,alv,lat,apr,slv}
 {vcd,alv,lat,apr}
 {vcd,rfx,lat,apr}
 {vcd,pal,lat,apr}
@@ -112,12 +88,10 @@
 {vcd,uvl,imp}
 
 {hgh,fnt,unr,vwl}
-{hgh,fnt,unr,vwl,stv}
 {hgh,fnt,rnd,vwl}
 {hgh,cnt,unr,vwl}
 {hgh,cnt,rnd,vwl}
 {hgh,bck,unr,vwl}
-{hgh,bck,rnd,vwl,slv}
 {hgh,bck,rnd,vwl}
 
 {smh,fnt,unr,vwl}
@@ -125,14 +99,12 @@
 {smh,bck,rnd,vwl}
 
 {umd,fnt,unr,vwl}
-{umd,fnt,unr,vwl,mrm}
 {umd,fnt,rnd,vwl}
 {umd,cnt,unr,vwl}
 {umd,cnt,rnd,vwl}
 {umd,bck,unr,vwl}
 {umd,bck,rnd,vwl}
 
-{mid,cnt,unr,vwl,slv}
 {mid,cnt,unr,vwl}
 
 {lmd,fnt,unr,vwl}
@@ -145,11 +117,42 @@
 {sml,fnt,unr,vwl}
 {sml,cnt,unr,vwl}
 
-{low,fnt,unr,vwl,slv}
 {low,fnt,unr,vwl}
-{low,fnt,unr,vwl,mrm}
-{low,fnt,unr,vwl,crv}
 {low,fnt,rnd,vwl}
 {low,bck,unr,vwl}
 {low,bck,rnd,vwl}
 
+{vcd,blb,nas,slv}
+{vcd,alv,nas,slv}
+{vcd,rfx,nas,slv}
+{vcd,pal,nas,slv}
+{vcd,vel,nas,slv}
+{vcd,blb,stp,slv}
+{vcd,alv,stp,slv}
+{vcd,rfx,stp,slv}
+{vcd,vel,stp,slv}
+{vcd,alv,sib,frc,slv}
+{vcd,pal,apr,slv}
+{vcd,alv,trl,slv}
+{vcd,alv,lat,apr,slv}
+{hgh,bck,rnd,vwl,slv}
+{mid,cnt,unr,vwl,slv}
+{low,fnt,unr,vwl,slv}
+
+{vcd,blb,stp,stv}
+{vcd,alv,stp,stv}
+{vcd,rfx,stp,stv}
+{vcd,vel,stp,stv}
+{vcd,alv,sib,frc,stv}
+{hgh,fnt,unr,vwl,stv}
+
+{vcd,blb,nas,mrm}
+{vcd,blb,stp,mrm}
+{vcd,alv,stp,mrm}
+{vcd,vel,stp,mrm}
+{umd,fnt,unr,vwl,mrm}
+{low,fnt,unr,vwl,mrm}
+
+{vcd,blb,stp,crv}
+{vcd,alv,stp,crv}
+{low,fnt,unr,vwl,crv}
