@@ -142,6 +142,7 @@ a			/{low,fnt,unr,vwl}/
 \u02B0	>	=asp
 \u02E1	>	=ltr
 
+\u031A	>	=unx
 \u0324	>	=mrm
 \u0325	>	=slv # combining ring below
 \u032C	>	=stv

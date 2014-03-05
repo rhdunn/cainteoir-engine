@@ -171,3 +171,7 @@
 
 {vls,alv,stp,ltr}
 {vcd,alv,stp,ltr}
+
+{vls,blb,stp,unx}
+{vls,alv,stp,unx}
+{vls,vel,stp,unx}
