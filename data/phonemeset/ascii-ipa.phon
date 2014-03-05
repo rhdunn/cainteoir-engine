@@ -68,9 +68,10 @@ Z	/{vcd,pla,sib,frc}/
 \<h>	>	=asp
 \<?>	>	=mrm
 
-\<vls>	>	=slv
-\<vcd>	>	=stv
 \<crv>	>	=crv
+\<nzr>	>	=nzr
+\<vcd>	>	=stv
+\<vls>	>	=slv
 
 ##### Appendix E : Segment List [10], [28]
 

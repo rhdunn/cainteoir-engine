@@ -165,3 +165,6 @@
 {vls,rfx,sib,frc,asp}
 {vls,alp,sib,frc,asp}
 {vls,vel,frc,asp}
+
+{vls,alv,stp,nzr}
+{vcd,alv,stp,nzr}
