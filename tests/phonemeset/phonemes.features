@@ -175,3 +175,8 @@
 {vls,blb,stp,unx}
 {vls,alv,stp,unx}
 {vls,vel,stp,unx}
+
+{vls,blb,stp,lzd}
+{vcd,blb,stp,lzd}
+{vls,vel,stp,lzd}
+{vls,vel,frc,lzd}

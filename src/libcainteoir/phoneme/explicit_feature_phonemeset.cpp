@@ -105,6 +105,10 @@ static const std::initializer_list<const char *> phonation = {
 	"crv",
 };
 
+static const std::initializer_list<const char *> coarticulation = {
+	"lzd",
+};
+
 enum state_t
 {
 	begin_phoneme,
@@ -216,6 +220,7 @@ void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
 	write_feature(output, aPhoneme, phoneme_type, need_comma);
 	write_feature(output, aPhoneme, release, need_comma);
 	write_feature(output, aPhoneme, phonation, need_comma);
+	write_feature(output, aPhoneme, coarticulation, need_comma);
 	fputc('}', output);
 }
 
