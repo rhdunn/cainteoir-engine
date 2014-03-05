@@ -187,3 +187,6 @@
 {vls,vel,stp,pzd}
 {vcd,lbd,frc,pzd}
 {vls,alv,sib,frc,pzd}
+
+{vls,alv,stp,vzd}
+{vcd,alv,stp,vzd}

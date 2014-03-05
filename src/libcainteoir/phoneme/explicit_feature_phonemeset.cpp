@@ -108,6 +108,7 @@ static const std::initializer_list<const char *> phonation = {
 static const std::initializer_list<const char *> coarticulation = {
 	"lzd",
 	"pzd",
+	"vzd",
 };
 
 enum state_t
