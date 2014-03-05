@@ -168,3 +168,6 @@
 
 {vls,alv,stp,nzr}
 {vcd,alv,stp,nzr}
+
+{vls,alv,stp,ltr}
+{vcd,alv,stp,ltr}

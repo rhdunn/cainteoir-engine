@@ -140,6 +140,7 @@ a			/{low,fnt,unr,vwl}/
 # Diacritics
 
 \u02B0	>	=asp
+\u02E1	>	=ltr
 
 \u0324	>	=mrm
 \u0325	>	=slv # combining ring below

@@ -175,6 +175,7 @@ _t	>	=mrm
 _k	>	=crv
 
 _n	>	=nzr
+_l	>	=ltr
 
 n_-	/{vcd,pla,nas}/
 T_-	/{vls,alv,frc}/

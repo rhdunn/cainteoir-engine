@@ -68,7 +68,10 @@ Z	/{vcd,pla,sib,frc}/
 \<h>	>	=asp
 \<?>	>	=mrm
 
+##### Feature Modifiers
+
 \<crv>	>	=crv
+\<ltr>	>	=ltr
 \<nzr>	>	=nzr
 \<vcd>	>	=stv
 \<vls>	>	=slv
