@@ -236,7 +236,6 @@ KIRSHENBAUM_RNGD("frc", "fricative", ipa::fricative, ipa::manner_of_articulation
 KIRSHENBAUM_RNGD("nas", "nasal", ipa::nasal, ipa::manner_of_articulation)
 KIRSHENBAUM_NULL("orl", "oral", 0, 0) // Not Supported -- Kirshenbaum does not use {orl,stp}/{nas,stp}
 KIRSHENBAUM_RNGD("apr", "approximant", ipa::approximant, ipa::manner_of_articulation)
-KIRSHENBAUM_RNGD("vwl", "vowel", ipa::vowel, ipa::phoneme_type)
 KIRSHENBAUM_RNGD("trl", "trill", ipa::trill, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("flp", "flap", ipa::flap, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("clk", "click", ipa::click, ipa::manner_of_articulation)
@@ -263,6 +262,8 @@ KIRSHENBAUM_RNGD("st3", "extra stress [extension]", ipa::extra_stress, ipa::stre
 KIRSHENBAUM_RNGD("est", "extra-short [extension]", ipa::extra_short, ipa::length)
 KIRSHENBAUM_RNGD("hlg", "half-long [extension]", ipa::half_long, ipa::length)
 KIRSHENBAUM_RNGD("lng", "long", ipa::long_, ipa::length)
+KIRSHENBAUM_RNGD("con", "consonant [extension]", 0, ipa::phoneme_type)
+KIRSHENBAUM_RNGD("vwl", "vowel", ipa::vowel, ipa::phoneme_type)
 KIRSHENBAUM_RNGD("pau", "pause (silence) [extension]", ipa::pause, ipa::phoneme_type)
 KIRSHENBAUM_RNGD("sbr", "syllable break [extension]", ipa::syllable_break, ipa::phoneme_type)
 KIRSHENBAUM_RNGD("lnk", "linking (no break) [extension]", ipa::linking, ipa::phoneme_type)
@@ -348,7 +349,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 	static const std::initializer_list<const char *> kirshenbaum = {
 		"adv", "alp", "alv", "apc", "apr", "asp", "atr",
 		"bck", "blb",
-		"clk", "cnt", "crv", "ctl", "czd",
+		"clk", "cnt", "con", "crv", "ctl", "czd",
 		"dnt", "dst", "dzd",
 		"ejc", "epg", "est",
 		"fbr", "flp", "fnt", "frc", "fzd",

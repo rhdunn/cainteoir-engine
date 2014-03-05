@@ -48,6 +48,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "blb", ipa::bilabial, ipa::place_of_articulation },
 	{ "clk", ipa::click, ipa::manner_of_articulation },
 	{ "cnt", ipa::center, ipa::vowel_backness },
+	{ "con", 0, ipa::phoneme_type }, // extension
 	{ "crv", ipa::creaky_voice, ipa::phonation }, // extension
 	{ "ctl", 0, ipa::lateral },
 	{ "czd", ipa::centralized, ipa::articulation }, // extension
