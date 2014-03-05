@@ -156,3 +156,12 @@
 {vcd,blb,stp,crv}
 {vcd,alv,stp,crv}
 {low,fnt,unr,vwl,crv}
+
+{vls,blb,stp,asp}
+{vls,alv,stp,asp}
+{vls,vel,stp,asp}
+{vls,lbd,frc,asp}
+{vls,alv,sib,frc,asp}
+{vls,rfx,sib,frc,asp}
+{vls,alp,sib,frc,asp}
+{vls,vel,frc,asp}

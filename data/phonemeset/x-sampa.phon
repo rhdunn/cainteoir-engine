@@ -169,17 +169,10 @@ x\\	/{vls,pla,sib,frc,vzd}/
 
 _0	>	=slv
 _v	>	=stv
+_h	>	=asp
 
 _t	>	=mrm
 _k	>	=crv
-
-p_h	/{vls,blb,stp,asp}/
-t_h	/{vls,alv,stp,asp}/
-k_h	/{vls,vel,stp,asp}/
-s_h	/{vls,alv,sib,frc,asp}/
-s`_h	/{vls,rfx,sib,frc,asp}/
-f_h	/{vls,lbd,frc,asp}/
-x_h	/{vls,vel,frc,asp}/
 
 n_-	/{vcd,pla,nas}/
 T_-	/{vls,alv,frc}/
