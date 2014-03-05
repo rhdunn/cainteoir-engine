@@ -180,3 +180,10 @@
 {vcd,blb,stp,lzd}
 {vls,vel,stp,lzd}
 {vls,vel,frc,lzd}
+
+{vcd,alv,nas,pzd}
+{vls,alv,stp,pzd}
+{vcd,alv,stp,pzd}
+{vls,vel,stp,pzd}
+{vcd,lbd,frc,pzd}
+{vls,alv,sib,frc,pzd}
