@@ -176,11 +176,13 @@ _k	>	=crv
 _w	>	=lzd
 _j	>	=pzd
 _G	>	=vzd
+_?\\	>	=fzd
 
 _n	>	=nzr
 _l	>	=ltr
 _}	>	=unx
-_?\\	>	=fzd
+
+_e	>	=vfz
 
 n_-	/{vcd,pla,nas}/
 T_-	/{vls,alv,frc}/

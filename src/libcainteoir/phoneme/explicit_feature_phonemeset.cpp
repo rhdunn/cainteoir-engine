@@ -110,6 +110,7 @@ static const std::initializer_list<const char *> coarticulation = {
 	"pzd",
 	"vzd",
 	"fzd",
+	"vfz",
 };
 
 enum state_t
