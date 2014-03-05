@@ -2,7 +2,7 @@
 " Language:	Phoneme Transcription
 " Filenames:    *.phon
 " Maintainer:	Reece H. Dunn <msclrhd@gmail.com>
-" Last Change:	2014 Mar 04
+" Last Change:	2014 Mar 05
 
 " Quit when a (custom) syntax file was already loaded
 if exists("b:current_syntax")
@@ -10,7 +10,7 @@ if exists("b:current_syntax")
 endif
 
 syn keyword	phonUnused		ctl orl
-syn keyword	phonConsonant		vls vcd
+syn keyword	phonConsonant		con vls vcd
 syn keyword	phonConsonant		blb lbd dnt alv pla rfx pal vel uvl phr glt
 syn keyword	phonConsonant		alp lbp lbv epg
 syn keyword	phonConsonant		nas stp frc sib apr trl flp lat clk imp
