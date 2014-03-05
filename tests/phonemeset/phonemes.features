@@ -204,3 +204,6 @@
 {umd,fnt,unr,vwl,nzd}
 {umd,bck,rnd,vwl,nzd}
 {lmd,bck,rnd,vwl,nzd}
+
+{mid,cnt,unr,vwl,rzd}
+{lmd,cnt,unr,vwl,rzd}
