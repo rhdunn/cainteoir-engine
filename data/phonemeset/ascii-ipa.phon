@@ -58,7 +58,7 @@ X	/{vls,uvl,frc}/
 Y	/{umd,fnt,rnd,vwl}/ # [9]
 Z	/{vcd,pla,sib,frc}/
 
-?	/{vls,glt,stp}/ # [2]
+\?	/{vls,glt,stp}/ # [2]
 @	/{mid,cnt,unr,vwl}/
 &	/{sml,fnt,unr,vwl}/ # [22]
 *	/{vcd,alv,flp}/

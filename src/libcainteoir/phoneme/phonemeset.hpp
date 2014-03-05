@@ -77,6 +77,7 @@ namespace cainteoir { namespace tts
 		std::vector<phoneme> phonemes;
 		char applicator;
 		char feature[4];
+		char context[4];
 		placement type;
 
 		phoneme_file_reader(const std::string &aPhonemeSet);
@@ -88,6 +89,7 @@ namespace cainteoir { namespace tts
 			prelude,
 			need_transcription,
 			have_transcription,
+			have_context,
 		};
 
 		struct context_t
@@ -107,34 +109,40 @@ namespace cainteoir { namespace tts
 
 	struct transcription_reader
 	{
+		struct phoneme_rule_t
+		{
+			char feature[4];
+			char context[4];
+
+			phoneme_rule_t(const char (&aFeature)[4], const char (&aContext)[4])
+			{
+				feature[0] = aFeature[0];
+				feature[1] = aFeature[1];
+				feature[2] = aFeature[2];
+				feature[3] = aFeature[3];
+				context[0] = aContext[0];
+				context[1] = aContext[1];
+				context[2] = aContext[2];
+				context[3] = aContext[3];
+			}
+		};
+
 		struct phoneme_t
 		{
 			tts::phoneme phoneme;
 			placement type;
-			char feature[4];
+			std::list<phoneme_rule_t> rule;
 
 			phoneme_t(placement aType = placement::none)
 				: phoneme(-1)
 				, type(aType)
 			{
-				feature[0] = feature[1] = feature[2] = feature[3] = 0;
 			}
 
 			phoneme_t(const tts::phoneme &aPhoneme)
 				: phoneme(aPhoneme)
 				, type(placement::primary)
 			{
-				feature[0] = feature[1] = feature[2] = feature[3] = 0;
-			}
-
-			phoneme_t(placement aType, const char (&aFeature)[4])
-				: phoneme(-1)
-				, type(aType)
-			{
-				feature[0] = aFeature[0];
-				feature[1] = aFeature[1];
-				feature[2] = aFeature[2];
-				feature[3] = aFeature[3];
 			}
 		};
 
@@ -157,15 +165,22 @@ namespace cainteoir { namespace tts
 		struct feature_rule_t
 		{
 			char feature[4];
+			char context[4];
 			std::shared_ptr<cainteoir::buffer> transcription;
 
-			feature_rule_t(const char (&aFeature)[4], const std::shared_ptr<cainteoir::buffer> aTranscription)
+			feature_rule_t(const char (&aFeature)[4],
+			               const char (&aContext)[4],
+			               const std::shared_ptr<cainteoir::buffer> aTranscription)
 				: transcription(aTranscription)
 			{
 				feature[0] = aFeature[0];
 				feature[1] = aFeature[1];
 				feature[2] = aFeature[2];
 				feature[3] = aFeature[3];
+				context[0] = aContext[0];
+				context[1] = aContext[1];
+				context[2] = aContext[2];
+				context[3] = aContext[3];
 			}
 		};
 

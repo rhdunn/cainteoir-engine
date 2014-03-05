@@ -66,6 +66,31 @@ static const type classification[256] = {
 #undef H
 #undef S
 
+#define _ 0
+
+static const uint8_t feature_char[256] = {
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+	/* 0x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 2x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 3x */ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _, _, _, _, _, _,
+	/* 4x */ _, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	/* 5x */ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _, _, _, _, _,
+	/* 6x */ _, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	/* 7x */ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _, _, _, _, _,
+	/* 8x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 9x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ax */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Bx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Cx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Dx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ex */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Fx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+};
+
+#undef _
+
 static ucd::codepoint_t hex_to_unicode(const char * &current, const char *last)
 {
 	char escaped[9] = {0};
@@ -90,6 +115,7 @@ tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
 	, mState(state::prelude)
 {
 	feature[0] = feature[1] = feature[2] = feature[3] = 0;
+	context[0] = context[1] = context[2] = context[3] = 0;
 
 	mFiles.push({ aPhonemeSet });
 	read();
@@ -99,6 +125,9 @@ tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
 
 bool tts::phoneme_file_reader::read()
 {
+	feature[0] = feature[1] = feature[2] = feature[3] = 0;
+	context[0] = context[1] = context[2] = context[3] = 0;
+
 	context_t *top = &mFiles.top();
 	while (top)
 	{
@@ -144,11 +173,24 @@ bool tts::phoneme_file_reader::read()
 				throw std::runtime_error("expected transcription before phonemes");
 			}
 			break;
+		case '?':
+			switch (mState)
+			{
+			case state::have_transcription:
+				++top->mCurrent;
+				read_feature(context);
+				mState = state::have_context;
+				break;
+			default:
+				throw std::runtime_error("unexpected context rule");
+			}
+			break;
 		case '<':
 		case '>':
 			switch (mState)
 			{
 			case state::have_transcription:
+			case state::have_context:
 				type = (*top->mCurrent == '<') ? placement::before : placement::after;
 				++top->mCurrent;
 				while (top->mCurrent != top->mLast && *top->mCurrent == '\t')
@@ -235,7 +277,7 @@ bool tts::phoneme_file_reader::read()
 				}
 				break;
 			default:
-				throw std::runtime_error("consecutive transcription entries found");
+				throw std::runtime_error("transcription without phoneme or diacritic rule");
 			}
 			break;
 		}
@@ -249,7 +291,7 @@ void tts::phoneme_file_reader::read_feature(char (&aFeature)[4])
 
 	char *end = aFeature;
 	while (top->mCurrent <= top->mLast && end <= aFeature + 3 &&
-	       classification[*top->mCurrent] != ::type::whitespace)
+	       feature_char[*top->mCurrent])
 		*end++ = *top->mCurrent++;
 
 	// check if the feature is valid ...
@@ -270,7 +312,9 @@ tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhone
 		switch (aPhonemeSet.applicator)
 		{
 		case '=':
-			mPhonemes.insert(*aPhonemeSet.transcription, { aPhonemeSet.type, aPhonemeSet.feature });
+			auto &phoneme = mPhonemes.insert(*aPhonemeSet.transcription);
+			phoneme.type = aPhonemeSet.type;
+			phoneme.rule.push_back({ aPhonemeSet.feature, aPhonemeSet.context });
 			break;
 		}
 		break;
@@ -327,8 +371,15 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 				mCurrent = pos;
 				return { true, p };
 			case placement::after:
-				p.set(match.second.feature);
-				pos = match.first;
+				for (const auto &rule : match.second.rule)
+				{
+					if (rule.context[0] == 0 || p.get(rule.context))
+					{
+						p.set(rule.feature);
+						pos = match.first;
+						break;
+					}
+				}
 				break;
 			}
 			break;
@@ -386,7 +437,7 @@ tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhone
 		switch (aPhonemeSet.applicator)
 		{
 		case '=':
-			mAfter.push_back(feature_rule_t(aPhonemeSet.feature, aPhonemeSet.transcription));
+			mAfter.push_back({ aPhonemeSet.feature, aPhonemeSet.context, aPhonemeSet.transcription });
 			break;
 		}
 		break;
@@ -403,7 +454,7 @@ bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhonem
 		fwrite(match->second->begin(), 1, match->second->size(), aOutput);
 		for (auto && rule : mAfter)
 		{
-			if (aPhoneme.get(rule.feature))
+			if ((rule.context[0] == 0 || aPhoneme.get(rule.context)) && aPhoneme.get(rule.feature))
 				fwrite(rule.transcription->begin(), 1, rule.transcription->size(), aOutput);
 		}
 		return true;

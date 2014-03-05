@@ -47,7 +47,7 @@ t`	/{vls,rfx,stp}/
 d`	/{vcd,rfx,stp}/
 J\\	/{vcd,pal,stp}/
 G\\	/{vcd,uvl,stp}/
-?	/{vls,glt,stp}/ # [4]
+\?	/{vls,glt,stp}/ # [4]
 
 F	/{vcd,lbd,nas}/ # [1]
 n`	/{vcd,rfx,nas}/ # [1]
@@ -76,7 +76,7 @@ G	/{vcd,vel,frc}/
 X	/{vls,uvl,frc}/
 R	/{vcd,uvl,frc}/
 X\\	/{vls,phr,frc}/
-?\\	/{vcd,phr,frc}/
+\?\\	/{vcd,phr,frc}/
 h\\	/{vcd,glt,frc}/
 
 K	/{vls,alv,lat,frc}/
@@ -213,7 +213,7 @@ l_d	/{vcd,dnt,lat,apr}/
 B_o	/{vcd,blb,apr}/
 D_o	/{vcd,dnt,apr}/
 R_o	/{vcd,uvl,apr}/
-?\\_o	/{vcd,phr,apr}/
+\?\\_o	/{vcd,phr,apr}/
 \<\\_o	/{vcd,epg,apr}/
 
 ##### Notes:
