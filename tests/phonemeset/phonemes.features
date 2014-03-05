@@ -198,3 +198,9 @@
 
 {vcd,alv,sib,frc,vfz}
 {vcd,alv,lat,apr,vfz}
+
+{vcd,lbd,frc,nzd}
+{vcd,alv,sib,frc,nzd}
+{umd,fnt,unr,vwl,nzd}
+{umd,bck,rnd,vwl,nzd}
+{lmd,bck,rnd,vwl,nzd}

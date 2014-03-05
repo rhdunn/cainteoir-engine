@@ -146,6 +146,7 @@ a			/{low,fnt,unr,vwl}/
 \u02E1	>	=ltr
 \u02E4	>	=fzd
 
+\u0303	>	=nzd
 \u031A	>	=unx
 \u0324	>	=mrm
 \u0325	>	=slv # below

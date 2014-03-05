@@ -65,6 +65,7 @@ Z	/{vcd,pla,sib,frc}/
 
 ##### Appendix C : Diacritics
 
+~	?vwl>	=nzd
 ~	?con>	=vzd
 
 ;	>	=pzd
@@ -78,6 +79,7 @@ Z	/{vcd,pla,sib,frc}/
 
 \<crv>	>	=crv
 \<ltr>	>	=ltr
+\<nzd>	?con>	=nzd # see ~ for vwl
 \<nzr>	>	=nzr
 \<unx>	>	=unx
 \<vcd>	>	=stv
