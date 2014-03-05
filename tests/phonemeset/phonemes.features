@@ -190,3 +190,8 @@
 
 {vls,alv,stp,vzd}
 {vcd,alv,stp,vzd}
+
+{vls,blb,stp,fzd}
+{vcd,blb,stp,fzd}
+{vls,alv,stp,fzd}
+{vcd,alv,stp,fzd}

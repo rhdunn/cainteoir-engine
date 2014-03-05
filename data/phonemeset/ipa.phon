@@ -144,6 +144,7 @@ a			/{low,fnt,unr,vwl}/
 \u02B7	>	=lzd
 \u02E0	>	=vzd
 \u02E1	>	=ltr
+\u02E4	>	=fzd
 
 \u031A	>	=unx
 \u0324	>	=mrm
