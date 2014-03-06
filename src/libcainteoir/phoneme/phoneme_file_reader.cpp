@@ -110,14 +110,9 @@ tts::phoneme_file_reader::context_t::context_t(const std::string &aPhonemeSet)
 }
 
 tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
-	: conditional(0)
-	, applicator(0)
-	, type(placement::primary)
+	: type(placement::primary)
 	, mState(state::prelude)
 {
-	feature[0] = feature[1] = feature[2] = feature[3] = 0;
-	context[0] = context[1] = context[2] = context[3] = 0;
-
 	mFiles.push({ aPhonemeSet });
 	read();
 	if (phoneme_type.empty())
@@ -126,9 +121,8 @@ tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
 
 bool tts::phoneme_file_reader::read()
 {
-	conditional = applicator = 0;
-	feature[0] = feature[1] = feature[2] = feature[3] = 0;
-	context[0] = context[1] = context[2] = context[3] = 0;
+	feature = {};
+	context = {};
 
 	context_t *top = &mFiles.top();
 	while (top)
@@ -180,7 +174,6 @@ bool tts::phoneme_file_reader::read()
 			switch (mState)
 			{
 			case state::have_transcription:
-				conditional = *top->mCurrent++;
 				read_feature(context);
 				mState = state::have_context;
 				break;
@@ -196,17 +189,6 @@ bool tts::phoneme_file_reader::read()
 			case state::have_context:
 				type = (*top->mCurrent == '<') ? placement::before : placement::after;
 				++top->mCurrent;
-				while (top->mCurrent != top->mLast && *top->mCurrent == '\t')
-					++top->mCurrent;
-				switch (*top->mCurrent)
-				{
-				case '=':
-				case '+':
-					applicator = *top->mCurrent++;
-					break;
-				default:
-					throw std::runtime_error("unrecognised combiner syntax");
-				}
 				read_feature(feature);
 				mState = state::need_transcription;
 				return true;
@@ -287,17 +269,22 @@ bool tts::phoneme_file_reader::read()
 	return false;
 }
 
-void tts::phoneme_file_reader::read_feature(char (&aFeature)[4])
+void tts::phoneme_file_reader::read_feature(feature_t &aFeature)
 {
 	context_t *top = &mFiles.top();
 
-	char *end = aFeature;
-	while (top->mCurrent <= top->mLast && end <= aFeature + 3 &&
+	while (top->mCurrent != top->mLast && (*top->mCurrent == '\t' || *top->mCurrent == ' '))
+		++top->mCurrent;
+
+	aFeature.context = *top->mCurrent++;
+
+	char *end = aFeature.feature;
+	while (top->mCurrent <= top->mLast && end <= aFeature.feature + 3 &&
 	       feature_char[*top->mCurrent])
 		*end++ = *top->mCurrent++;
 
 	// check if the feature is valid ...
-	ipa::phoneme().get(aFeature);
+	ipa::phoneme().get(aFeature.feature);
 }
 
 tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhonemeSet)
@@ -311,7 +298,7 @@ tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhone
 		mPhonemes.insert(*aPhonemeSet.transcription, { aPhonemeSet.phonemes.front() });
 		break;
 	case tts::placement::after:
-		switch (aPhonemeSet.applicator)
+		switch (aPhonemeSet.feature.context)
 		{
 		case '=':
 		case '+':
@@ -376,7 +363,7 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 			case placement::after:
 				for (const auto &rule : match.second.rule)
 				{
-					if (rule.context[0] == 0 || p.get(rule.context))
+					if (rule.context.in(p))
 					{
 						p.set(rule.feature);
 						pos = match.first;
@@ -437,7 +424,7 @@ tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhone
 		mPhonemes[aPhonemeSet.phonemes.front()] = aPhonemeSet.transcription;
 		break;
 	case tts::placement::after:
-		switch (aPhonemeSet.applicator)
+		switch (aPhonemeSet.feature.context)
 		{
 		case '=':
 			mAfter.push_back({ aPhonemeSet.feature, aPhonemeSet.context, aPhonemeSet.transcription });

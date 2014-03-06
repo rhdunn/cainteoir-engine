@@ -69,16 +69,42 @@ namespace cainteoir { namespace tts
 		error,
 	};
 
+	struct feature_t
+	{
+		char context;
+		char feature[4];
+
+		feature_t()
+			: context(0)
+		{
+			feature[0] = feature[1] = feature[2] = feature[3] = 0;
+		}
+
+		feature_t(char aContext, const char (&aFeature)[4])
+			: context(aContext)
+		{
+			feature[0] = aFeature[0];
+			feature[1] = aFeature[1];
+			feature[2] = aFeature[2];
+			feature[3] = aFeature[3];
+		}
+
+		bool in(const tts::phoneme &aPhoneme) const
+		{
+			return context == 0 || aPhoneme.get(feature);
+		}
+
+		operator const char *() const { return feature; }
+	};
+
 	struct phoneme_file_reader
 	{
 		std::string phoneme_type;
 
 		std::shared_ptr<buffer> transcription;
 		std::vector<phoneme> phonemes;
-		char conditional;
-		char applicator;
-		char feature[4];
-		char context[4];
+		feature_t feature;
+		feature_t context;
 		placement type;
 
 		phoneme_file_reader(const std::string &aPhonemeSet);
@@ -105,26 +131,20 @@ namespace cainteoir { namespace tts
 		std::stack<context_t> mFiles;
 		state mState;
 
-		void read_feature(char (&aFeature)[4]);
+		void read_feature(feature_t &aFeature);
 	};
 
 	struct transcription_reader
 	{
 		struct phoneme_rule_t
 		{
-			char feature[4];
-			char context[4];
+			feature_t feature;
+			feature_t context;
 
-			phoneme_rule_t(const char (&aFeature)[4], const char (&aContext)[4])
+			phoneme_rule_t(const feature_t &aFeature, const feature_t &aContext)
+				: feature(aFeature)
+				, context(aContext)
 			{
-				feature[0] = aFeature[0];
-				feature[1] = aFeature[1];
-				feature[2] = aFeature[2];
-				feature[3] = aFeature[3];
-				context[0] = aContext[0];
-				context[1] = aContext[1];
-				context[2] = aContext[2];
-				context[3] = aContext[3];
 			}
 		};
 
@@ -165,23 +185,17 @@ namespace cainteoir { namespace tts
 	private:
 		struct feature_rule_t
 		{
-			char feature[4];
-			char context[4];
+			feature_t feature;
+			feature_t context;
 			std::shared_ptr<cainteoir::buffer> transcription;
 
-			feature_rule_t(const char (&aFeature)[4],
-			               const char (&aContext)[4],
+			feature_rule_t(const feature_t &aFeature,
+			               const feature_t &aContext,
 			               const std::shared_ptr<cainteoir::buffer> aTranscription)
-				: transcription(aTranscription)
+				: feature(aFeature)
+				, context(aContext)
+				, transcription(aTranscription)
 			{
-				feature[0] = aFeature[0];
-				feature[1] = aFeature[1];
-				feature[2] = aFeature[2];
-				feature[3] = aFeature[3];
-				context[0] = aContext[0];
-				context[1] = aContext[1];
-				context[2] = aContext[2];
-				context[3] = aContext[3];
 			}
 		};
 
