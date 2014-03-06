@@ -70,9 +70,7 @@ Z	/{vcd,pla,sib,frc}/
 
 !	?vls>	stp => clk
 
-`	?vls>	=ejc
-`	?vcd>	stp => imp
-
+[	>	=dzd
 ;	>	=pzd
 
 \<H>	>	=fzd
@@ -80,6 +78,9 @@ Z	/{vcd,pla,sib,frc}/
 \<r>	>	=rzd
 \<w>	>	=lzd
 \<?>	>	=mrm
+
+`	?vls>	=ejc
+`	?vcd>	stp => imp
 
 ##### Feature Modifiers
 
@@ -94,23 +95,17 @@ Z	/{vcd,pla,sib,frc}/
 
 ##### Appendix E : Segment List [10], [28]
 
+t[!	/{vls,dnt,clk}/
+l!	/{vls,alv,lat,clk}/ # [19]
+
 b<trl>	/{vcd,blb,trl}/ # [2]
 
-p[	/{vls,lbd,stp}/
-b[	/{vcd,lbd,stp}/
 r<lbd>	/{vcd,lbd,apr}/ # [2]
 *<lbd>	/{vcd,lbd,flp}/
-
-n[	/{vcd,dnt,nas}/ # [2]
-t[	/{vls,dnt,stp}/
-d[	/{vcd,dnt,stp}/
-r[	/{vcd,dnt,apr}/ # [2]
-l[	/{vcd,dnt,lat,apr}/ # [4]
 
 r<trl>	/{vcd,alv,trl}/ # [2], [8]
 s<lat>	/{vls,alv,lat,frc}/ # [6]
 z<lat>	/{vcd,alv,lat,frc}/
-l!	/{vls,alv,lat,clk}/ # [19]
 
 n.	/{vcd,rfx,nas}/ # [2]
 t.	/{vls,rfx,stp}/

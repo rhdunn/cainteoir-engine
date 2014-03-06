@@ -223,3 +223,16 @@
 
 {mid,cnt,unr,vwl,rzd}
 {lmd,cnt,unr,vwl,rzd}
+
+{vcd,alv,nas,dzd}
+{vls,blb,stp,dzd}
+{vcd,blb,stp,dzd}
+{vls,alv,stp,dzd}
+{vcd,alv,stp,dzd}
+{vls,alv,sib,frc,dzd}
+{vcd,alv,sib,frc,dzd}
+{vcd,alv,lat,apr,dzd}
+{vcd,alv,trl,dzd}
+
+{vcd,alv,imp,dzd}
+{vls,alv,stp,ejc,dzd}

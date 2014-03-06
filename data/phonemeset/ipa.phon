@@ -142,7 +142,6 @@ a			/{low,fnt,unr,vwl}/
 \u02B0	>	=asp
 \u02B2	>	=pzd
 \u02B7	>	=lzd
-\u02BC	>	=ejc
 \u02DE	>	=rzd
 \u02E0	>	=vzd
 \u02E1	>	=ltr
@@ -152,11 +151,14 @@ a			/{low,fnt,unr,vwl}/
 \u031A	>	=unx
 \u0324	>	=mrm
 \u0325	>	=slv # below
+\u032A	>	=dzd
 \u032C	>	=stv
 \u0330	>	=crv
 \u0334	>	=vfz
 
 \u207F	>	=nzr
+
+\u02BC	>	=ejc
 
 ##### References:
 #

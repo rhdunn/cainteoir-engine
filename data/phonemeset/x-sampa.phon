@@ -100,11 +100,6 @@ O\\	/{vls,blb,clk}/
 |\\|\\	/{vls,alv,lat,clk}/
 =\\	/{vls,pal,clk}/ # [3]
 
-##### Ejectives and Implosives
-
-_<	>	stp => imp
-_>	>	=ejc
-
 ##### Vowels
 
 M	/{hgh,bck,unr,vwl}/
@@ -167,6 +162,7 @@ _j	>	=pzd
 _G	>	=vzd
 _?\\	>	=fzd
 
+_d	>	=dzd
 ~	>	=nzd
 _n	>	=nzr
 _l	>	=ltr
@@ -193,15 +189,6 @@ l_=	/{vcd,alv,lat,apr,syl}/
 @`	/{mid,cnt,unr,vwl,rzd}/
 3`	/{lmd,cnt,unr,vwl,rzd}/
 
-n_d	/{vcd,dnt,nas}/
-p_d	/{vls,lbd,stp}/
-b_d	/{vcd,lbd,stp}/
-t_d	/{vls,dnt,stp}/
-d_d	/{vcd,dnt,stp}/
-s_d	/{vls,dnt,sib,frc}/
-z_d	/{vcd,dnt,sib,frc}/
-l_d	/{vcd,dnt,lat,apr}/
-
 5	/{vcd,alv,lat,apr,vzd}/
 
 B_o	/{vcd,blb,apr}/
@@ -209,6 +196,11 @@ D_o	/{vcd,dnt,apr}/
 R_o	/{vcd,uvl,apr}/
 \?\\_o	/{vcd,phr,apr}/
 \<\\_o	/{vcd,epg,apr}/
+
+##### Ejectives and Implosives
+
+_<	>	stp => imp
+_>	>	=ejc
 
 ##### Notes:
 #
