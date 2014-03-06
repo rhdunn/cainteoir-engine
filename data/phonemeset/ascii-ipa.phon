@@ -111,7 +111,7 @@ r<trl>	/{vcd,alv,trl}/ # [2], [8]
 s<lat>	/{vls,alv,lat,frc}/ # [6]
 z<lat>	/{vcd,alv,lat,frc}/
 t!	/{vls,alv,clk}/ # [12]
-t<lat>!	/{vls,alv,lat,clk}/ # [12]
+l!	/{vls,alv,lat,clk}/ # [19]
 
 n.	/{vcd,rfx,nas}/ # [2]
 t.	/{vls,rfx,stp}/
@@ -147,7 +147,6 @@ H<vcd>	/{vcd,phr,frc}/
 h<?>	/{vcd,glt,frc}/ # [2], [26]
 
 *<lat>	/{vcd,alv,lat,flp}/ # [2], [19]
-l!	/{vcd,alv,lat,clk}/ # [2], [19]
 
 I.	/{smh,fnt,rnd,vwl}/ # [20]
 &.	/{low,fnt,rnd,vwl}/ # [14], [22], [23], [24]
