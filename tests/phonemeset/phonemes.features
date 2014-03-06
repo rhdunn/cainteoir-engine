@@ -87,6 +87,22 @@
 {vcd,vel,imp}
 {vcd,uvl,imp}
 
+{vls,blb,stp,ejc}
+{vls,alv,stp,ejc}
+{vls,rfx,stp,ejc}
+{vls,pal,stp,ejc}
+{vls,vel,stp,ejc}
+{vls,uvl,stp,ejc}
+{vls,lbd,frc,ejc}
+{vls,dnt,frc,ejc}
+{vls,alv,sib,frc,ejc}
+{vls,alv,lat,frc,ejc}
+{vls,pla,sib,frc,ejc}
+{vls,rfx,sib,frc,ejc}
+{vls,alp,sib,frc,ejc}
+{vls,vel,frc,ejc}
+{vls,uvl,frc,ejc}
+
 {hgh,fnt,unr,vwl}
 {hgh,fnt,rnd,vwl}
 {hgh,cnt,unr,vwl}

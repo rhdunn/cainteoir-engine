@@ -137,11 +137,12 @@ a			/{low,fnt,unr,vwl}/
 \u0251			/{low,bck,unr,vwl}/
 \u0252			/{low,bck,rnd,vwl}/
 
-# Diacritics
+# Diacritics / Modifiers
 
 \u02B0	>	=asp
 \u02B2	>	=pzd
 \u02B7	>	=lzd
+\u02BC	>	=ejc
 \u02DE	>	=rzd
 \u02E0	>	=vzd
 \u02E1	>	=ltr

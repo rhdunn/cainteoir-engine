@@ -89,6 +89,7 @@ static const std::initializer_list<const char *> rounding = {
 
 static const std::initializer_list<const char *> phoneme_type = {
 	"vwl",
+	"ejc",
 };
 
 static const std::initializer_list<const char *> release = {

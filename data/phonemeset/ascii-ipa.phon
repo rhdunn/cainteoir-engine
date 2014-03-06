@@ -68,6 +68,8 @@ Z	/{vcd,pla,sib,frc}/
 ~	?vwl>	=nzd
 ~	?con>	=vzd
 
+`	?vls>	=ejc
+
 ;	>	=pzd
 
 \<H>	>	=fzd
@@ -90,7 +92,6 @@ Z	/{vcd,pla,sib,frc}/
 ##### Appendix E : Segment List [10], [28]
 
 b<trl>	/{vcd,blb,trl}/ # [2]
-p`	/{vls,blb,ejc}/ # [2]
 b`	/{vcd,blb,imp}/ # [2]
 p!	/{vls,blb,clk}/ # [2]
 
@@ -104,14 +105,12 @@ t[	/{vls,dnt,stp}/
 d[	/{vcd,dnt,stp}/
 r[	/{vcd,dnt,apr}/ # [2]
 l[	/{vcd,dnt,lat,apr}/ # [4]
-t[`	/{vls,dnt,ejc}/ # [2]
 d[`	/{vcd,dnt,imp}/ # [2], [11]
 t[!	/{vls,dnt,clk}/ # [12]
 
 r<trl>	/{vcd,alv,trl}/ # [2], [8]
 s<lat>	/{vls,alv,lat,frc}/ # [6]
 z<lat>	/{vcd,alv,lat,frc}/
-t`	/{vls,alv,ejc}/ # [2]
 d`	/{vcd,alv,imp}/ # [2], [11]
 t!	/{vls,alv,clk}/ # [12]
 t<lat>!	/{vls,alv,lat,clk}/ # [12]
@@ -132,13 +131,11 @@ n^	/{vcd,pal,nas}/ # [2]
 C<vcd>	/{vcd,pal,frc}/ # [3]
 j<rnd>	/{vcd,lbp,apr}/ # [2], [13]
 l^	/{vcd,pal,lat,apr}/ # [2]
-c`	/{vls,pal,ejc}/ # [14]
 J`	/{vcd,pal,imp}/ # [2]
 c!	/{vls,pal,clk}/ # [2], [12]
 
 j<vel>	/{vcd,vel,apr}/ # [2]
 g`	/{vcd,vel,imp}/ # [2]
-k`	/{vls,vel,ejc}/ # [2], [15]
 
 n<lbv>	/{vcd,lbv,nas}/ # [2]
 t<lbv>	/{vls,lbv,stp}/
@@ -149,7 +146,6 @@ n"	/{vcd,uvl,nas}/
 Q"	/{vcd,uvl,frc}/ # [16]
 g"	/{vcd,uvl,apr}/ # [2], [16], [17]
 r"	/{vcd,uvl,trl}/ # [2], [16], [17]
-q`	/{vls,uvl,ejc}/ # [18]
 G`	/{vcd,uvl,imp}/
 
 H<vcd>	/{vcd,phr,frc}/

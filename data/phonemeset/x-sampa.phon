@@ -102,18 +102,13 @@ O\\	/{vls,blb,clk}/
 
 ##### Ejectives and Implosives
 
-p_>	/{vls,blb,ejc}/
+_>	>	=ejc
+
 b_<	/{vcd,blb,imp}/
-t_d_>	/{vls,dnt,ejc}/
 d_d_<	/{vcd,dnt,imp}/
-t_>	/{vls,alv,ejc}/
 d_<	/{vcd,alv,imp}/
-t`_>	/{vls,rfx,ejc}/
-c_>	/{vls,pal,ejc}/
 J\\_<	/{vcd,pal,imp}/
-k_>	/{vls,vel,ejc}/
 g_<	/{vcd,vel,imp}/
-q_>	/{vls,uvl,ejc}/
 G\\_0_<	/{vls,uvl,imp}/
 G\\_<	/{vcd,uvl,imp}/
 
