@@ -102,15 +102,8 @@ O\\	/{vls,blb,clk}/
 
 ##### Ejectives and Implosives
 
+_<	>	stp => imp
 _>	>	=ejc
-
-b_<	/{vcd,blb,imp}/
-d_d_<	/{vcd,dnt,imp}/
-d_<	/{vcd,alv,imp}/
-J\\_<	/{vcd,pal,imp}/
-g_<	/{vcd,vel,imp}/
-G\\_0_<	/{vls,uvl,imp}/
-G\\_<	/{vcd,uvl,imp}/
 
 ##### Vowels
 
