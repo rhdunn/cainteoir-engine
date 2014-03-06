@@ -71,8 +71,7 @@ namespace cainteoir { namespace tts
 
 	struct feature_t
 	{
-		char context;
-		char feature[4];
+		friend struct phoneme_file_reader;
 
 		feature_t()
 			: context(0)
@@ -95,6 +94,11 @@ namespace cainteoir { namespace tts
 		}
 
 		operator const char *() const { return feature; }
+
+		const char type() const { return context; }
+	private:
+		char context;
+		char feature[4];
 	};
 
 	struct phoneme_file_reader

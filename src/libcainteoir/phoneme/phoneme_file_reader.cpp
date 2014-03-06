@@ -298,7 +298,7 @@ tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhone
 		mPhonemes.insert(*aPhonemeSet.transcription, { aPhonemeSet.phonemes.front() });
 		break;
 	case tts::placement::after:
-		switch (aPhonemeSet.feature.context)
+		switch (aPhonemeSet.feature.type())
 		{
 		case '=':
 		case '+':
@@ -424,7 +424,7 @@ tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhone
 		mPhonemes[aPhonemeSet.phonemes.front()] = aPhonemeSet.transcription;
 		break;
 	case tts::placement::after:
-		switch (aPhonemeSet.feature.context)
+		switch (aPhonemeSet.feature.type())
 		{
 		case '=':
 			mAfter.push_back({ aPhonemeSet.feature, aPhonemeSet.context, aPhonemeSet.transcription });
