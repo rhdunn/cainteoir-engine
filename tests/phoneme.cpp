@@ -239,7 +239,7 @@ KIRSHENBAUM_RNGD("apr", "approximant", ipa::approximant, ipa::manner_of_articula
 KIRSHENBAUM_RNGD("trl", "trill", ipa::trill, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("flp", "flap", ipa::flap, ipa::manner_of_articulation)
 KIRSHENBAUM_RNGD("clk", "click", ipa::click, ipa::manner_of_articulation)
-KIRSHENBAUM_RNGD("ejc", "ejective", ipa::ejective, ipa::manner_of_articulation)
+KIRSHENBAUM_BIN1("ejc", "ejective", ipa::ejective)
 KIRSHENBAUM_RNGD("imp", "implosive", ipa::implosive, ipa::manner_of_articulation)
 KIRSHENBAUM_BIN1("sib", "sibilant [extension]", ipa::sibilant)
 KIRSHENBAUM_BIN1("lat", "lateral", ipa::lateral)

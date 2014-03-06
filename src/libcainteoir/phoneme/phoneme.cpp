@@ -55,7 +55,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "dnt", ipa::dental, ipa::place_of_articulation },
 	{ "dst", ipa::downstep, ipa::phoneme_type }, // extension
 	{ "dzd", ipa::dentalized, ipa::articulation }, // extension
-	{ "ejc", ipa::ejective, ipa::manner_of_articulation },
+	{ "ejc", ipa::ejective, ipa::ejective },
 	{ "epg", ipa::epiglottal, ipa::place_of_articulation }, // extension
 	{ "est", ipa::extra_short, ipa::length }, // extension
 	{ "fbr", ipa::foot_break, ipa::phoneme_type }, // extension

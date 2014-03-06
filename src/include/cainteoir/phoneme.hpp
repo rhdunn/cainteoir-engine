@@ -30,24 +30,25 @@ namespace cainteoir { namespace ipa
 {
 	// features
 
-	constexpr uint64_t main                   = UINT64_C(0x00000000003FFFFF);
-	// main ---------------------------------------------- 00000000003FFFFF
+	constexpr uint64_t main                   = UINT64_C(0x00000000001FFFFF);
+	// main ---------------------------------------------- 00000000001FFFFF
 	constexpr uint64_t phoneme_type           = UINT64_C(0x000000000000000F);
-	// ... consonants ------------------------------------ 0000000000007FF0
+	// ... consonants ------------------------------------ 0000000000003FF0
 	constexpr uint64_t place_of_articulation  = UINT64_C(0x00000000000000F0);
-	constexpr uint64_t manner_of_articulation = UINT64_C(0x0000000000000F00);
-	constexpr uint64_t lateral                = UINT64_C(0x0000000000001000);
-	constexpr uint64_t sibilant               = UINT64_C(0x0000000000002000);
-	constexpr uint64_t voiced                 = UINT64_C(0x0000000000004000);
-	// ... vowels ---------------------------------------- 00000000003F8000
+	constexpr uint64_t manner_of_articulation = UINT64_C(0x0000000000000700);
+	constexpr uint64_t lateral                = UINT64_C(0x0000000000000800);
+	constexpr uint64_t sibilant               = UINT64_C(0x0000000000001000);
+	constexpr uint64_t voiced                 = UINT64_C(0x0000000000002000);
+	// ... vowels ---------------------------------------- 00000000001FC000
+	constexpr uint64_t rounded                = UINT64_C(0x0000000000004000);
 	constexpr uint64_t high                   = UINT64_C(0x0000000000008000);
 	constexpr uint64_t mid                    = UINT64_C(0x0000000000010000);
 	constexpr uint64_t low                    = UINT64_C(0x0000000000020000);
 	constexpr uint64_t lax                    = UINT64_C(0x0000000000040000);
 	constexpr uint64_t front                  = UINT64_C(0x0000000000080000);
 	constexpr uint64_t back                   = UINT64_C(0x0000000000100000);
-	constexpr uint64_t rounded                = UINT64_C(0x0000000000200000);
-	// diacritics ---------------------------------------- 000001FFFFC00000
+	// diacritics ---------------------------------------- 000003FFFFE00000
+	constexpr uint64_t ejective               = UINT64_C(0x0000000000200000);
 	constexpr uint64_t release                = UINT64_C(0x0000000001C00000);
 	constexpr uint64_t phonation              = UINT64_C(0x000000000E000000);
 	constexpr uint64_t articulation           = UINT64_C(0x00000000F0000000);
@@ -106,8 +107,7 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t trill       = UINT64_C(0x0000000000000400);
 	constexpr uint64_t flap        = UINT64_C(0x0000000000000500);
 	constexpr uint64_t click       = UINT64_C(0x0000000000000600);
-	constexpr uint64_t ejective    = UINT64_C(0x0000000000000700);
-	constexpr uint64_t implosive   = UINT64_C(0x0000000000000800);
+	constexpr uint64_t implosive   = UINT64_C(0x0000000000000700);
 
 	// vowel height
 
