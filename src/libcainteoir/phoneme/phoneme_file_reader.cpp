@@ -110,7 +110,8 @@ tts::phoneme_file_reader::context_t::context_t(const std::string &aPhonemeSet)
 }
 
 tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
-	: applicator(0)
+	: conditional(0)
+	, applicator(0)
 	, type(placement::primary)
 	, mState(state::prelude)
 {
@@ -125,6 +126,7 @@ tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
 
 bool tts::phoneme_file_reader::read()
 {
+	conditional = applicator = 0;
 	feature[0] = feature[1] = feature[2] = feature[3] = 0;
 	context[0] = context[1] = context[2] = context[3] = 0;
 
@@ -173,11 +175,12 @@ bool tts::phoneme_file_reader::read()
 				throw std::runtime_error("expected transcription before phonemes");
 			}
 			break;
+		case '-':
 		case '?':
 			switch (mState)
 			{
 			case state::have_transcription:
-				++top->mCurrent;
+				conditional = *top->mCurrent++;
 				read_feature(context);
 				mState = state::have_context;
 				break;
@@ -199,7 +202,6 @@ bool tts::phoneme_file_reader::read()
 				{
 				case '=':
 				case '+':
-				case '-':
 					applicator = *top->mCurrent++;
 					break;
 				default:
@@ -312,6 +314,7 @@ tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhone
 		switch (aPhonemeSet.applicator)
 		{
 		case '=':
+		case '+':
 			auto &phoneme = mPhonemes.insert(*aPhonemeSet.transcription);
 			phoneme.type = aPhonemeSet.type;
 			phoneme.rule.push_back({ aPhonemeSet.feature, aPhonemeSet.context });
@@ -439,6 +442,9 @@ tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhone
 		case '=':
 			mAfter.push_back({ aPhonemeSet.feature, aPhonemeSet.context, aPhonemeSet.transcription });
 			break;
+		case '+':
+			mModifiers.push_back({ aPhonemeSet.feature, aPhonemeSet.context, aPhonemeSet.transcription });
+			break;
 		}
 		break;
 	}
@@ -448,7 +454,22 @@ bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhonem
 {
 	tts::phoneme main{ aPhoneme.get(ipa::main) };
 
+	std::vector<std::shared_ptr<cainteoir::buffer>> append;
+
 	auto match = mPhonemes.find(main);
+	if (match == mPhonemes.end()) for (auto && rule : mModifiers)
+	{
+		if (main.get(rule.feature))
+		{
+			main.set(rule.context);
+			append.push_back(rule.transcription);
+
+			match = mPhonemes.find(main);
+			if (match != mPhonemes.end())
+				break;
+		}
+	}
+
 	if (match != mPhonemes.end())
 	{
 		fwrite(match->second->begin(), 1, match->second->size(), aOutput);
@@ -457,6 +478,8 @@ bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhonem
 			if ((rule.context[0] == 0 || aPhoneme.get(rule.context)) && aPhoneme.get(rule.feature))
 				fwrite(rule.transcription->begin(), 1, rule.transcription->size(), aOutput);
 		}
+		for (auto && transcription : append)
+			fwrite(transcription->begin(), 1, transcription->size(), aOutput);
 		return true;
 	}
 	return false;

@@ -75,6 +75,7 @@ namespace cainteoir { namespace tts
 
 		std::shared_ptr<buffer> transcription;
 		std::vector<phoneme> phonemes;
+		char conditional;
 		char applicator;
 		char feature[4];
 		char context[4];
@@ -186,6 +187,7 @@ namespace cainteoir { namespace tts
 
 		std::map<tts::phoneme, std::shared_ptr<cainteoir::buffer>> mPhonemes;
 		std::list<feature_rule_t> mAfter;
+		std::list<feature_rule_t> mModifiers;
 	};
 
 	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();
