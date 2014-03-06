@@ -108,6 +108,7 @@ namespace cainteoir { namespace tts
 		std::shared_ptr<buffer> transcription;
 		std::vector<phoneme> phonemes;
 		feature_t feature;
+		feature_t change_to;
 		feature_t context;
 		placement type;
 
@@ -140,14 +141,20 @@ namespace cainteoir { namespace tts
 
 	struct transcription_reader
 	{
+		transcription_reader(tts::phoneme_file_reader &aPhonemeSet);
+
+		std::pair<bool, tts::phoneme> read(const char * &mCurrent, const char *mEnd) const;
+	private:
 		struct phoneme_rule_t
 		{
 			feature_t feature;
-			feature_t context;
+			feature_t context1;
+			feature_t context2;
 
-			phoneme_rule_t(const feature_t &aFeature, const feature_t &aContext)
+			phoneme_rule_t(const feature_t &aFeature, const feature_t &aContext1, const feature_t &aContext2 = {})
 				: feature(aFeature)
-				, context(aContext)
+				, context1(aContext1)
+				, context2(aContext2)
 			{
 			}
 		};
@@ -171,10 +178,6 @@ namespace cainteoir { namespace tts
 			}
 		};
 
-		transcription_reader(tts::phoneme_file_reader &aPhonemeSet);
-
-		std::pair<bool, tts::phoneme> read(const char * &mCurrent, const char *mEnd) const;
-	private:
 		cainteoir::trie<phoneme_t> mPhonemes;
 
 		std::pair<const char *, const phoneme_t &>
@@ -190,15 +193,15 @@ namespace cainteoir { namespace tts
 		struct feature_rule_t
 		{
 			feature_t feature;
+			feature_t change_to;
 			feature_t context;
 			std::shared_ptr<cainteoir::buffer> transcription;
 
-			feature_rule_t(const feature_t &aFeature,
-			               const feature_t &aContext,
-			               const std::shared_ptr<cainteoir::buffer> aTranscription)
-				: feature(aFeature)
-				, context(aContext)
-				, transcription(aTranscription)
+			feature_rule_t(const phoneme_file_reader &aRule)
+				: feature(aRule.feature)
+				, change_to(aRule.change_to)
+				, context(aRule.context)
+				, transcription(aRule.transcription)
 			{
 			}
 		};

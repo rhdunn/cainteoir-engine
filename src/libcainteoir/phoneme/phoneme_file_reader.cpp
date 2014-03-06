@@ -122,6 +122,7 @@ tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
 bool tts::phoneme_file_reader::read()
 {
 	feature = {};
+	change_to = {};
 	context = {};
 
 	context_t *top = &mFiles.top();
@@ -169,7 +170,6 @@ bool tts::phoneme_file_reader::read()
 				throw std::runtime_error("expected transcription before phonemes");
 			}
 			break;
-		case '-':
 		case '?':
 			switch (mState)
 			{
@@ -190,6 +190,24 @@ bool tts::phoneme_file_reader::read()
 				type = (*top->mCurrent == '<') ? placement::before : placement::after;
 				++top->mCurrent;
 				read_feature(feature);
+				if (feature.context == 0) // syntax: feature => feature
+				{
+					while (top->mCurrent != top->mLast &&
+					     (*top->mCurrent == '\t' || *top->mCurrent == ' '))
+						++top->mCurrent;
+
+					if (!((top->mCurrent + 2) < top->mLast &&
+					       top->mCurrent[0] == '=' &&
+					       top->mCurrent[1] == '>'))
+						throw std::runtime_error("expected '=>' in a modification rule");
+
+					top->mCurrent += 2;
+					while (top->mCurrent != top->mLast &&
+					     (*top->mCurrent == '\t' || *top->mCurrent == ' '))
+						++top->mCurrent;
+
+					read_feature(change_to);
+				}
 				mState = state::need_transcription;
 				return true;
 			default:
@@ -276,7 +294,16 @@ void tts::phoneme_file_reader::read_feature(feature_t &aFeature)
 	while (top->mCurrent != top->mLast && (*top->mCurrent == '\t' || *top->mCurrent == ' '))
 		++top->mCurrent;
 
-	aFeature.context = *top->mCurrent++;
+	switch (*top->mCurrent)
+	{
+	case '?':
+	case '=':
+		aFeature.context = *top->mCurrent++;
+		break;
+	default:
+		aFeature.context = 0;
+		break;
+	}
 
 	char *end = aFeature.feature;
 	while (top->mCurrent <= top->mLast && end <= aFeature.feature + 3 &&
@@ -298,13 +325,15 @@ tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhone
 		mPhonemes.insert(*aPhonemeSet.transcription, { aPhonemeSet.phonemes.front() });
 		break;
 	case tts::placement::after:
+		auto &phoneme = mPhonemes.insert(*aPhonemeSet.transcription);
+		phoneme.type = aPhonemeSet.type;
 		switch (aPhonemeSet.feature.type())
 		{
 		case '=':
-		case '+':
-			auto &phoneme = mPhonemes.insert(*aPhonemeSet.transcription);
-			phoneme.type = aPhonemeSet.type;
 			phoneme.rule.push_back({ aPhonemeSet.feature, aPhonemeSet.context });
+			break;
+		default:
+			phoneme.rule.push_back({ aPhonemeSet.change_to, aPhonemeSet.feature, aPhonemeSet.context });
 			break;
 		}
 		break;
@@ -363,7 +392,7 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 			case placement::after:
 				for (const auto &rule : match.second.rule)
 				{
-					if (rule.context.in(p))
+					if (rule.context1.in(p) && rule.context2.in(p))
 					{
 						p.set(rule.feature);
 						pos = match.first;
@@ -427,10 +456,10 @@ tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhone
 		switch (aPhonemeSet.feature.type())
 		{
 		case '=':
-			mAfter.push_back({ aPhonemeSet.feature, aPhonemeSet.context, aPhonemeSet.transcription });
+			mAfter.push_back({ aPhonemeSet });
 			break;
-		case '+':
-			mModifiers.push_back({ aPhonemeSet.feature, aPhonemeSet.context, aPhonemeSet.transcription });
+		default:
+			mModifiers.push_back({ aPhonemeSet });
 			break;
 		}
 		break;
@@ -446,9 +475,9 @@ bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhonem
 	auto match = mPhonemes.find(main);
 	if (match == mPhonemes.end()) for (auto && rule : mModifiers)
 	{
-		if (main.get(rule.feature))
+		if (rule.context.in(main) && rule.change_to.in(main))
 		{
-			main.set(rule.context);
+			main.set(rule.feature);
 			append.push_back(rule.transcription);
 
 			match = mPhonemes.find(main);
@@ -462,7 +491,7 @@ bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhonem
 		fwrite(match->second->begin(), 1, match->second->size(), aOutput);
 		for (auto && rule : mAfter)
 		{
-			if ((rule.context[0] == 0 || aPhoneme.get(rule.context)) && aPhoneme.get(rule.feature))
+			if (rule.context.in(aPhoneme) && aPhoneme.get(rule.feature))
 				fwrite(rule.transcription->begin(), 1, rule.transcription->size(), aOutput);
 		}
 		for (auto && transcription : append)
