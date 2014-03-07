@@ -139,14 +139,6 @@ a			/{low,fnt,unr,vwl}/
 
 # Diacritics / Modifiers
 
-\u02B0	>	=asp
-\u02B2	>	=pzd
-\u02B7	>	=lzd
-\u02DE	>	=rzd
-\u02E0	>	=vzd
-\u02E1	>	=ltr
-\u02E4	>	=fzd
-
 \u0303	>	=nzd
 \u031A	>	=unx
 \u031C	>	=lrd
@@ -163,7 +155,14 @@ a			/{low,fnt,unr,vwl}/
 
 \u207F	>	=nzr
 
+\u02B0	>	=asp
+\u02B2	>	=pzd
+\u02B7	>	=lzd
 \u02BC	>	=ejc
+\u02DE	>	=rzd
+\u02E0	>	=vzd
+\u02E1	>	=ltr
+\u02E4	>	=fzd
 
 ##### References:
 #
