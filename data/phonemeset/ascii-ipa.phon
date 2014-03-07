@@ -84,6 +84,7 @@ Z	/{vcd,pla,sib,frc}/
 
 ##### Feature Modifiers
 
+\<apc>	>	=apc
 \<crv>	>	=crv
 \<ltr>	>	=ltr
 \<nzd>	?con>	=nzd # see ~ for vwl
