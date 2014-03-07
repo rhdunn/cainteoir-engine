@@ -131,6 +131,10 @@ static const std::initializer_list<const char *> rounding = {
 	"lrd",
 };
 
+static const std::initializer_list<const char *> positional = {
+	"adv",
+};
+
 enum state_t
 {
 	begin_phoneme,
@@ -244,6 +248,7 @@ void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
 	write_feature(output, aPhoneme, phonation, need_comma);
 	write_feature(output, aPhoneme, articulation, need_comma);
 	write_feature(output, aPhoneme, coarticulation, need_comma);
+	write_feature(output, aPhoneme, positional, need_comma);
 	write_feature(output, aPhoneme, rhoticized, need_comma);
 	write_feature(output, aPhoneme, rounding, need_comma);
 	fputc('}', output);

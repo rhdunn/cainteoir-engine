@@ -82,6 +82,7 @@ Z	/{vcd,pla,sib,frc}/
 
 ##### Feature Modifiers
 
+\<adv>	>	=adv
 \<apc>	>	=apc
 \<crv>	>	=crv
 \<lgl>	>	=lgl

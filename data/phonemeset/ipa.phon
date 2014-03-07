@@ -142,6 +142,7 @@ a			/{low,fnt,unr,vwl}/
 \u0303	>	=nzd
 \u031A	>	=unx
 \u031C	>	=lrd
+\u031F	>	=adv
 \u0324	>	=mrm
 \u0325	>	=slv # below
 \u032A	>	=dzd

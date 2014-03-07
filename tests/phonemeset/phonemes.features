@@ -272,3 +272,7 @@
 {vcd,dnt,frc,lgl}
 {vcd,alv,trl,lgl}
 {vls,dnt,clk,lgl}
+
+{vls,alv,stp,adv}
+{vls,vel,stp,adv}
+{hgh,bck,rnd,vwl,adv}
