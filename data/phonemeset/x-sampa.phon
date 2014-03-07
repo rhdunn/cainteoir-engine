@@ -158,6 +158,7 @@ _c	>	=lrd
 _+	>	=adv
 _-	>	=ret
 _"	>	=czd
+_x	>	=mcz # [6]
 `	>	=rzd
 
 _t	>	=mrm
@@ -218,6 +219,9 @@ _>	>	=ejc
 #
 #  5. X-SAMPA does not have an entry for this phoneme, so the one from Z-SAMPA
 #     is used instead.
+#
+#  6. X-SAMPA does not have an entry for this phoneme, so the one from CXS is
+#     used instead.
 #
 ##### References:
 #

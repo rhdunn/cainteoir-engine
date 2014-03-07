@@ -296,3 +296,6 @@
 {lmd,fnt,unr,vwl,czd}
 {lmd,bck,rnd,vwl,czd}
 {low,fnt,unr,vwl,czd}
+
+{umd,fnt,unr,vwl,mcz}
+{hgh,bck,unr,vwl,mcz}
