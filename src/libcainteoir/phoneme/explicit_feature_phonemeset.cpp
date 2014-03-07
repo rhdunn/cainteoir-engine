@@ -128,6 +128,7 @@ static const std::initializer_list<const char *> rhoticized = {
 
 static const std::initializer_list<const char *> rounding = {
 	"mrd",
+	"lrd",
 };
 
 enum state_t

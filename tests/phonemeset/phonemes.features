@@ -202,6 +202,11 @@
 {vls,vel,stp,mrd}
 {vls,vel,frc,mrd}
 
+{vls,blb,stp,lrd}
+{vcd,blb,stp,lrd}
+{vls,vel,stp,lrd}
+{vls,vel,frc,lrd}
+
 {vcd,alv,nas,pzd}
 {vls,alv,stp,pzd}
 {vcd,alv,stp,pzd}

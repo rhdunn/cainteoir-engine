@@ -86,6 +86,7 @@ Z	/{vcd,pla,sib,frc}/
 \<crv>	>	=crv
 \<lgl>	>	=lgl
 \<lmn>	>	=lmn
+\<lrd>	>	=lrd
 \<ltr>	>	=ltr
 \<mrd>	>	=mrd
 \<nzd>	?con>	=nzd # see ~ for vwl
