@@ -239,3 +239,6 @@
 
 {vls,alv,stp,apc}
 {vcd,alv,stp,apc}
+
+{vls,alv,stp,lmn}
+{vcd,alv,stp,lmn}

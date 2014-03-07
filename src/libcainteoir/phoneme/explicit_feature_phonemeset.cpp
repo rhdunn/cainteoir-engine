@@ -109,6 +109,7 @@ static const std::initializer_list<const char *> phonation = {
 static const std::initializer_list<const char *> articulation = {
 	"dzd",
 	"apc",
+	"lmn",
 };
 
 static const std::initializer_list<const char *> coarticulation = {
