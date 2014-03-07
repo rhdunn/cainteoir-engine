@@ -189,9 +189,6 @@ N_=	/{vcd,vel,nas,syl}/
 r\\_=	/{vcd,alv,apr,syl}/
 l_=	/{vcd,alv,lat,apr,syl}/
 
-@`	/{mid,cnt,unr,vwl,rzd}/
-3`	/{lmd,cnt,unr,vwl,rzd}/
-
 5	/{vcd,alv,lat,apr,vzd}/
 
 B_o	/{vcd,blb,apr}/
