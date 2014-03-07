@@ -237,8 +237,23 @@
 {vls,alv,stp,ejc,dzd}
 {vcd,alv,imp,dzd}
 
+{vcd,blb,nas,apc}
+{vls,blb,stp,apc}
+{vcd,blb,stp,apc}
 {vls,alv,stp,apc}
 {vcd,alv,stp,apc}
+{vls,blb,frc,apc}
+{vcd,blb,frc,apc}
+{vcd,blb,trl,apc}
+{vls,blb,clk,apc}
 
 {vls,alv,stp,lmn}
 {vcd,alv,stp,lmn}
+
+{vcd,alv,nas,lgl}
+{vls,alv,stp,lgl}
+{vcd,alv,stp,lgl}
+{vls,dnt,frc,lgl}
+{vcd,dnt,frc,lgl}
+{vcd,alv,trl,lgl}
+{vls,dnt,clk,lgl}

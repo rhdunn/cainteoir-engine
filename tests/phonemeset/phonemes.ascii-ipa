@@ -237,8 +237,23 @@ r<trl>[
 t[`
 d[`
 
+m<apc>
+p<apc>
+b<apc>
 t<apc>
 d<apc>
+P<apc>
+B<apc>
+b<trl><apc>
+p!<apc>
 
 t<lmn>
 d<lmn>
+
+n<lgl>
+t<lgl>
+d<lgl>
+T<lgl>
+D<lgl>
+r<trl><lgl>
+t[!<lgl>

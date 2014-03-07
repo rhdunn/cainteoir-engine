@@ -68,8 +68,6 @@ Z	/{vcd,pla,sib,frc}/
 ~	?vwl>	=nzd
 ~	?con>	=vzd
 
-!	?vls>	stp => clk
-
 [	>	=dzd
 ;	>	=pzd
 
@@ -86,6 +84,7 @@ Z	/{vcd,pla,sib,frc}/
 
 \<apc>	>	=apc
 \<crv>	>	=crv
+\<lgl>	>	=lgl
 \<lmn>	>	=lmn
 \<ltr>	>	=ltr
 \<nzd>	?con>	=nzd # see ~ for vwl
@@ -97,8 +96,11 @@ Z	/{vcd,pla,sib,frc}/
 
 ##### Appendix E : Segment List [10], [28]
 
+p!	/{vls,blb,clk}/
 t[!	/{vls,dnt,clk}/
+t!	/{vls,alv,clk}/
 l!	/{vls,alv,lat,clk}/ # [19]
+c!	/{vls,pal,clk}/
 
 b<trl>	/{vcd,blb,trl}/ # [2]
 

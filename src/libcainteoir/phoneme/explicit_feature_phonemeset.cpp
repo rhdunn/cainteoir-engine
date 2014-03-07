@@ -110,6 +110,7 @@ static const std::initializer_list<const char *> articulation = {
 	"dzd",
 	"apc",
 	"lmn",
+	"lgl",
 };
 
 static const std::initializer_list<const char *> coarticulation = {
