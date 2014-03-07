@@ -276,3 +276,11 @@
 {vls,alv,stp,adv}
 {vls,vel,stp,adv}
 {hgh,bck,rnd,vwl,adv}
+
+{vcd,alv,nas,ret}
+{vls,alv,stp,ret}
+{vls,vel,stp,ret}
+{vls,dnt,frc,ret}
+{vcd,dnt,frc,ret}
+{vls,alv,sib,frc,ret}
+{low,fnt,unr,vwl,ret}

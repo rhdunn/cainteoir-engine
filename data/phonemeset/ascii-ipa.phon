@@ -92,6 +92,7 @@ Z	/{vcd,pla,sib,frc}/
 \<mrd>	>	=mrd
 \<nzd>	?con>	=nzd # see ~ for vwl
 \<nzr>	>	=nzr
+\<ret>	>	=ret
 \<unx>	>	=unx
 \<vcd>	>	=stv
 \<vfz>	>	=vfz

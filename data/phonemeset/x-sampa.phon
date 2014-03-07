@@ -156,6 +156,7 @@ _h	>	=asp
 _O	>	=mrd
 _c	>	=lrd
 _+	>	=adv
+_-	>	=ret
 `	>	=rzd
 
 _t	>	=mrm
@@ -175,10 +176,6 @@ _l	>	=ltr
 _}	>	=unx
 
 _e	>	=vfz
-
-n_-	/{vcd,pla,nas}/
-T_-	/{vls,alv,frc}/
-D_-	/{vcd,alv,frc}/
 
 m=	/{vcd,blb,nas,syl}/
 n=	/{vcd,alv,nas,syl}/
