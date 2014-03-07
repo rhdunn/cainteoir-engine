@@ -155,6 +155,7 @@ a			/{low,fnt,unr,vwl}/
 \u032C	>	=stv
 \u0330	>	=crv
 \u0334	>	=vfz
+\u0339	>	=mrd
 \u033A	>	=apc
 \u033B	>	=lmn
 \u033C	>	=lgl

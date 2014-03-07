@@ -82,7 +82,7 @@ static const std::initializer_list<const char *> vowel_height = {
 	"low",
 };
 
-static const std::initializer_list<const char *> rounding = {
+static const std::initializer_list<const char *> vowel_rounding = {
 	"unr",
 	"rnd",
 };
@@ -124,6 +124,10 @@ static const std::initializer_list<const char *> coarticulation = {
 
 static const std::initializer_list<const char *> rhoticized = {
 	"rzd",
+};
+
+static const std::initializer_list<const char *> rounding = {
+	"mrd",
 };
 
 enum state_t
@@ -225,7 +229,7 @@ void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
 	{
 		write_feature(output, aPhoneme, vowel_height, need_comma);
 		write_feature(output, aPhoneme, vowel_backness, need_comma);
-		write_feature(output, aPhoneme, rounding, need_comma);
+		write_feature(output, aPhoneme, vowel_rounding, need_comma);
 	}
 	else
 	{
@@ -240,6 +244,7 @@ void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
 	write_feature(output, aPhoneme, articulation, need_comma);
 	write_feature(output, aPhoneme, coarticulation, need_comma);
 	write_feature(output, aPhoneme, rhoticized, need_comma);
+	write_feature(output, aPhoneme, rounding, need_comma);
 	fputc('}', output);
 }
 
