@@ -134,6 +134,7 @@ static const std::initializer_list<const char *> rounding = {
 static const std::initializer_list<const char *> positional = {
 	"adv",
 	"ret",
+	"czd",
 };
 
 enum state_t

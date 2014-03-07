@@ -140,6 +140,7 @@ a			/{low,fnt,unr,vwl}/
 # Diacritics / Modifiers
 
 \u0303	>	=nzd
+\u0308	>	=czd
 \u031A	>	=unx
 \u031C	>	=lrd
 \u031F	>	=adv
