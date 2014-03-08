@@ -85,7 +85,7 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 				fputc('\t', stdout);
 				feat->write(*aFrom);
 			}
-			if (aMode == phoneme_mode::separate)
+			if (aMode == phoneme_mode::separate && !aFrom->get(ipa::joined_to_next_phoneme))
 				fputc('\n', stdout);
 		}
 	}

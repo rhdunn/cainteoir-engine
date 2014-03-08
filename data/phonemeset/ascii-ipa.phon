@@ -198,6 +198,7 @@ A.	/{low,bck,rnd,vwl}/
 
 \u0020	/{pau,est}/	# word pause
 \u000A	/{pau}/		# clause pause (e.g. comma)
+_	>	=tie
 
 ##### Notes:
 #
