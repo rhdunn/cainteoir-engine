@@ -156,6 +156,12 @@ static const std::initializer_list<const char *> stress = {
 	"st3",
 };
 
+static const std::initializer_list<const char *> length = {
+	"est",
+	"hlg",
+	"lng",
+};
+
 enum state_t
 {
 	begin_phoneme,
@@ -275,6 +281,7 @@ void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
 	write_feature(output, aPhoneme, tongue_root, need_comma);
 	write_feature(output, aPhoneme, syllabicity, need_comma);
 	write_feature(output, aPhoneme, stress, need_comma);
+	write_feature(output, aPhoneme, length, need_comma);
 	fputc('}', output);
 }
 

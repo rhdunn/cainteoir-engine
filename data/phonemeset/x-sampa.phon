@@ -150,6 +150,10 @@ x\\	/{vls,pla,sib,frc,vzd}/
 %	<	=st2
 ""	<	=st3
 
+_X	>	=est
+:\\	>	=hlg
+:	>	=lng
+
 .	/{sbr}/
 
 ##### Diacritics

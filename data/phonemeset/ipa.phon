@@ -137,15 +137,10 @@ a			/{low,fnt,unr,vwl}/
 \u0251			/{low,bck,unr,vwl}/
 \u0252			/{low,bck,rnd,vwl}/
 
-# Suprasegmentals
-
-\u02C8		<	=st1
-\u02CC		<	=st2
-\u02C8\u02C8	<	=st3
-
-# Diacritics / Modifiers
+# Diacritics, Modifiers & Suprasegmentals
 
 \u0303	>	=nzd
+\u0306	>	=est
 \u0308	>	=czd
 \u0318	>	=atr
 \u0319	>	=rtr
@@ -175,10 +170,16 @@ a			/{low,fnt,unr,vwl}/
 \u02B2	>	=pzd
 \u02B7	>	=lzd
 \u02BC	>	=ejc
+\u02C8	<	=st1
+\u02CC	<	=st2
+\u02D0	>	=lng
+\u02D1	>	=hlg
 \u02DE	>	=rzd
 \u02E0	>	=vzd
 \u02E1	>	=ltr
 \u02E4	>	=fzd
+
+\u02C8\u02C8	<	=st3
 
 ##### References:
 #

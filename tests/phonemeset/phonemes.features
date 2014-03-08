@@ -347,3 +347,12 @@
 
 {vls,vel,stp,st3}
 {hgh,fnt,unr,vwl,st3}
+
+{low,fnt,unr,vwl,est}
+{hgh,fnt,unr,vwl,est}
+
+{low,fnt,unr,vwl,hlg}
+{hgh,fnt,unr,vwl,hlg}
+
+{low,fnt,unr,vwl,lng}
+{hgh,fnt,unr,vwl,lng}

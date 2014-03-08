@@ -69,6 +69,8 @@ Z	/{vcd,pla,sib,frc}/
 ,	<	=st2
 ''	<	=st3
 
+:	>	=lng
+
 ~	?vwl>	=nzd
 ~	?con>	=vzd
 
@@ -93,6 +95,8 @@ Z	/{vcd,pla,sib,frc}/
 \<atr>	>	=atr
 \<crv>	>	=crv
 \<czd>	>	=czd
+\<est>	>	=est
+\<hlg>	>	=hlg
 \<lgl>	>	=lgl
 \<lmn>	>	=lmn
 \<lrd>	>	=lrd
