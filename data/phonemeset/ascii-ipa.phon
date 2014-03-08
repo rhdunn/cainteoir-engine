@@ -96,6 +96,7 @@ Z	/{vcd,pla,sib,frc}/
 \<lwr>	>	=lwr
 \<mcz>	>	=mcz
 \<mrd>	>	=mrd
+\<nsy>	>	=nsy
 \<nzd>	?con>	=nzd # see ~ for vwl
 \<nzr>	>	=nzr
 \<ret>	>	=ret

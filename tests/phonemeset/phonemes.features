@@ -329,3 +329,12 @@
 {vcd,vel,nas,syl}
 {vcd,alv,apr,syl}
 {vcd,alv,lat,apr,syl}
+
+{hgh,fnt,unr,vwl,nsy}
+{hgh,fnt,rnd,vwl,nsy}
+{hgh,bck,unr,vwl,nsy}
+{hgh,bck,rnd,vwl,nsy}
+{smh,fnt,unr,vwl,nsy}
+{smh,bck,rnd,vwl,nsy}
+{mid,cnt,unr,vwl,nsy}
+{low,bck,unr,vwl,nsy}

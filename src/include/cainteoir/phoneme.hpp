@@ -57,8 +57,8 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t rhoticized             = UINT64_C(0x0000002000000000);
 	constexpr uint64_t tongue_root            = UINT64_C(0x000000C000000000);
 	constexpr uint64_t joined_to_next_phoneme = UINT64_C(0x0000010000000000);
-	constexpr uint64_t syllabic               = UINT64_C(0x0000020000000000);
-	// reserved (unassigned) ----------------------------- 000EFC0000000000
+	constexpr uint64_t syllabicity            = UINT64_C(0x0000060000000000);
+	// reserved (unassigned) ----------------------------- 000EF80000000000
 	// suprasegmentals ----------------------------------- FFF1000000000000
 	constexpr uint64_t tone_start             = UINT64_C(0x0031000000000000);
 	constexpr uint64_t tone_middle            = UINT64_C(0x01C0000000000000);
@@ -174,6 +174,11 @@ namespace cainteoir { namespace ipa
 
 	constexpr uint64_t advanced_tongue_root  = UINT64_C(0x0000004000000000);
 	constexpr uint64_t retracted_tongue_root = UINT64_C(0x0000008000000000);
+
+	// diacritics -- syllabicity
+
+	constexpr uint64_t syllabic               = UINT64_C(0x0000020000000000);
+	constexpr uint64_t non_syllabic           = UINT64_C(0x0000040000000000);
 
 	// suprasegmentals -- tone
 

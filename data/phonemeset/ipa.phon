@@ -154,6 +154,7 @@ a			/{low,fnt,unr,vwl}/
 \u0329	>	=syl # below
 \u032A	>	=dzd
 \u032C	>	=stv
+\u032F	>	=nsy
 \u0330	>	=crv
 \u0334	>	=vfz
 \u0339	>	=mrd

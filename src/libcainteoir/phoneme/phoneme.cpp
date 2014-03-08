@@ -89,7 +89,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "mrd", ipa::more_rounded, ipa::rounding }, // extension
 	{ "mrm", ipa::breathy_voice, ipa::phonation },
 	{ "nas", ipa::nasal, ipa::manner_of_articulation },
-	{ "nsy", 0, ipa::syllabic },
+	{ "nsy", ipa::non_syllabic, ipa::syllabicity },
 	{ "nzd", ipa::nasalized, ipa::coarticulation },
 	{ "nzr", ipa::nasal_release, ipa::release }, // extension
 	{ "orl", 0, 0 }, // ignored -- Kirshenbaum uses {stp}/{nas} instead of {orl,stp}/{nas,stp}.
@@ -114,7 +114,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "st3", ipa::extra_stress, ipa::stress }, // extension
 	{ "stp", ipa::plosive, ipa::manner_of_articulation },
 	{ "stv", ipa::stiff_voice, ipa::phonation }, // extension
-	{ "syl", ipa::syllabic, ipa::syllabic },
+	{ "syl", ipa::syllabic, ipa::syllabicity },
 	{ "te1", ipa::tone_end_bottom, ipa::tone_end }, // extension
 	{ "te2", ipa::tone_end_low, ipa::tone_end }, // extension
 	{ "te3", ipa::tone_end_mid, ipa::tone_end }, // extension

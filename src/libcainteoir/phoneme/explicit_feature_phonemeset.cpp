@@ -147,6 +147,7 @@ static const std::initializer_list<const char *> tongue_root = {
 
 static const std::initializer_list<const char *> syllabicity = {
 	"syl",
+	"nsy",
 };
 
 enum state_t

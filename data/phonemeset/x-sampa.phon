@@ -158,8 +158,9 @@ _c	>	=lrd
 _+	>	=adv
 _-	>	=ret
 _"	>	=czd
-=	>	=syl
 _x	>	=mcz # [6]
+=	>	=syl
+_^	>	=nsy
 `	>	=rzd
 
 _t	>	=mrm
