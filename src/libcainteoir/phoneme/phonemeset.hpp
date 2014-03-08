@@ -66,6 +66,7 @@ namespace cainteoir { namespace tts
 		before,
 		primary,
 		after,
+		tone,
 		error,
 	};
 
@@ -111,6 +112,7 @@ namespace cainteoir { namespace tts
 		feature_t change_to;
 		feature_t context;
 		placement type;
+		uint8_t tone_level;
 
 		phoneme_file_reader(const std::string &aPhonemeSet);
 
@@ -176,6 +178,12 @@ namespace cainteoir { namespace tts
 				, type(placement::primary)
 			{
 			}
+
+			phoneme_t(uint8_t aToneLevel)
+				: phoneme(aToneLevel)
+				, type(placement::tone)
+			{
+			}
 		};
 
 		cainteoir::trie<phoneme_t> mPhonemes;
@@ -207,6 +215,7 @@ namespace cainteoir { namespace tts
 		};
 
 		std::map<tts::phoneme, std::shared_ptr<cainteoir::buffer>> mPhonemes;
+		std::shared_ptr<cainteoir::buffer> mTones[5];
 		std::list<feature_rule_t> mBefore;
 		std::list<feature_rule_t> mAfter;
 		std::list<feature_rule_t> mModifiers;

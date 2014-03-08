@@ -160,8 +160,16 @@ _X	>	=est
 ||		/{ibr}/
 \<R>		/{glr}/
 \<F>		/{glf}/
-^		/{ust}/
+\^		/{ust}/
 !		/{dst}/
+
+##### Tones
+
+_T	^5
+_H	^4
+_M	^3
+_L	^2
+_B	^1
 
 ##### Diacritics
 

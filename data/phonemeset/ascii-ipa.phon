@@ -10,6 +10,14 @@
 ,	<	=st2
 ''	<	=st3
 
+# Tones
+
+5	^5
+4	^4
+3	^3
+2	^2
+1	^1
+
 ##### Appendix B : Segment Symbols
 
 a	/{low,fnt,unr,vwl}/ # [22], [23]

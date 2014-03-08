@@ -190,6 +190,14 @@ a			/{low,fnt,unr,vwl}/
 
 \u02C8\u02C8	<	=st3
 
+# Tones
+
+\u02E5	^5
+\u02E6	^4
+\u02E7	^3
+\u02E8	^2
+\u02E9	^1
+
 ##### References:
 #
 #  1. http://en.wikipedia.org/wiki/International_Phonetic_Alphabet

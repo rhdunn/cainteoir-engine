@@ -89,7 +89,32 @@ static const uint8_t feature_char[256] = {
 	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
 };
 
+static const uint8_t tone_levels[256] = {
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+	/* 0x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 2x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 3x */ _, 1, 2, 3, 4, 5, _, _, _, _, _, _, _, _, _, _,
+	/* 4x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 5x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 6x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 7x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 8x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 9x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ax */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Bx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Cx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Dx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ex */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Fx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+};
+
 #undef _
+
+static const char *tones_start[]  = { nullptr, "ts1", "ts2", "ts3", "ts4", "ts5" };
+static const char *tones_middle[] = { nullptr, "tm1", "tm2", "tm3", "tm4", "tm5" };
+static const char *tones_end[]    = { nullptr, "te1", "te2", "te3", "te4", "te5" };
 
 static ucd::codepoint_t hex_to_unicode(const char * &current, const char *last)
 {
@@ -111,6 +136,7 @@ tts::phoneme_file_reader::context_t::context_t(const std::string &aPhonemeSet)
 
 tts::phoneme_file_reader::phoneme_file_reader(const std::string &aPhonemeSet)
 	: type(placement::primary)
+	, tone_level(0)
 	, mState(state::prelude)
 {
 	mFiles.push({ aPhonemeSet });
@@ -212,6 +238,21 @@ bool tts::phoneme_file_reader::read()
 				return true;
 			default:
 				throw std::runtime_error("expected transcription before combiner");
+			}
+			break;
+		case '^':
+			switch (mState)
+			{
+			case state::have_transcription:
+				++top->mCurrent;
+				tone_level = tone_levels[*top->mCurrent++];
+				if (tone_level == 0)
+					throw std::runtime_error("unknown tone level");
+				type = placement::tone;
+				mState = state::need_transcription;
+				return true;
+			default:
+				throw std::runtime_error("expected transcription before tone");
 			}
 			break;
 		case '.':
@@ -326,17 +367,22 @@ tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhone
 		break;
 	case tts::placement::before:
 	case tts::placement::after:
-		auto &phoneme = mPhonemes.insert(*aPhonemeSet.transcription);
-		phoneme.type = aPhonemeSet.type;
-		switch (aPhonemeSet.feature.type())
 		{
-		case '=':
-			phoneme.rule.push_back({ aPhonemeSet.feature, aPhonemeSet.context });
-			break;
-		default:
-			phoneme.rule.push_back({ aPhonemeSet.change_to, aPhonemeSet.feature, aPhonemeSet.context });
-			break;
+			auto &phoneme = mPhonemes.insert(*aPhonemeSet.transcription);
+			phoneme.type = aPhonemeSet.type;
+			switch (aPhonemeSet.feature.type())
+			{
+			case '=':
+				phoneme.rule.push_back({ aPhonemeSet.feature, aPhonemeSet.context });
+				break;
+			default:
+				phoneme.rule.push_back({ aPhonemeSet.change_to, aPhonemeSet.feature, aPhonemeSet.context });
+				break;
+			}
 		}
+		break;
+	case tts::placement::tone:
+		mPhonemes.insert(*aPhonemeSet.transcription, { aPhonemeSet.tone_level });
 		break;
 	}
 }
@@ -346,6 +392,9 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 	placement state = placement::before;
 	const char *pos = mCurrent;
 	tts::phoneme p;
+	uint8_t tone_start  = 0;
+	uint8_t tone_middle = 0;
+	uint8_t tone_end    = 0;
 	while (true)
 	{
 		auto match = next_match(mCurrent, mEnd);
@@ -385,6 +434,7 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 				pos = match.first;
 				break;
 			case placement::after:
+			case placement::tone:
 				throw tts::phoneme_error("no phoneme before post-phoneme modifiers");
 			case placement::none:
 				return { false, tts::phoneme(-1) };
@@ -410,6 +460,34 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 					}
 				}
 				break;
+			case placement::tone:
+				tone_start = (uint8_t)match.second.phoneme.get(0xFF);
+				pos = match.first;
+				state = placement::tone;
+				break;
+			}
+			break;
+		case placement::tone:
+			switch (match.second.type)
+			{
+			case placement::tone:
+				if (tone_end == 0)
+					tone_end = (uint8_t)match.second.phoneme.get(0xFF);
+				else if (tone_middle == 0)
+				{
+					tone_middle = tone_end;
+					tone_end = (uint8_t)match.second.phoneme.get(0xFF);
+				}
+				else
+					throw std::runtime_error("more than 3 consecutive tones specified");
+				pos = match.first;
+				break;
+			default:
+				p.set(tones_start[tone_start]);
+				if (tone_middle != 0) p.set(tones_middle[tone_middle]);
+				if (tone_end != 0)    p.set(tones_end[tone_end]);
+				mCurrent = pos;
+				return { true, p };
 			}
 			break;
 		}
@@ -481,6 +559,16 @@ tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhone
 			break;
 		}
 		break;
+	case tts::placement::tone:
+		switch (aPhonemeSet.tone_level)
+		{
+		case 1: mTones[0] = aPhonemeSet.transcription; break;
+		case 2: mTones[1] = aPhonemeSet.transcription; break;
+		case 3: mTones[2] = aPhonemeSet.transcription; break;
+		case 4: mTones[3] = aPhonemeSet.transcription; break;
+		case 5: mTones[4] = aPhonemeSet.transcription; break;
+		}
+		break;
 	}
 }
 
@@ -519,6 +607,34 @@ bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhonem
 		}
 		for (auto && transcription : append)
 			fwrite(transcription->begin(), 1, transcription->size(), aOutput);
+
+		switch (aPhoneme.get(ipa::tone_start))
+		{
+		case ipa::tone_start_top:    fwrite(mTones[4]->begin(), 1, mTones[4]->size(), aOutput); break;
+		case ipa::tone_start_high:   fwrite(mTones[3]->begin(), 1, mTones[3]->size(), aOutput); break;
+		case ipa::tone_start_mid:    fwrite(mTones[2]->begin(), 1, mTones[2]->size(), aOutput); break;
+		case ipa::tone_start_low:    fwrite(mTones[1]->begin(), 1, mTones[1]->size(), aOutput); break;
+		case ipa::tone_start_bottom: fwrite(mTones[0]->begin(), 1, mTones[0]->size(), aOutput); break;
+		}
+
+		switch (aPhoneme.get(ipa::tone_middle))
+		{
+		case ipa::tone_middle_top:    fwrite(mTones[4]->begin(), 1, mTones[4]->size(), aOutput); break;
+		case ipa::tone_middle_high:   fwrite(mTones[3]->begin(), 1, mTones[3]->size(), aOutput); break;
+		case ipa::tone_middle_mid:    fwrite(mTones[2]->begin(), 1, mTones[2]->size(), aOutput); break;
+		case ipa::tone_middle_low:    fwrite(mTones[1]->begin(), 1, mTones[1]->size(), aOutput); break;
+		case ipa::tone_middle_bottom: fwrite(mTones[0]->begin(), 1, mTones[0]->size(), aOutput); break;
+		}
+
+		switch (aPhoneme.get(ipa::tone_end))
+		{
+		case ipa::tone_end_top:    fwrite(mTones[4]->begin(), 1, mTones[4]->size(), aOutput); break;
+		case ipa::tone_end_high:   fwrite(mTones[3]->begin(), 1, mTones[3]->size(), aOutput); break;
+		case ipa::tone_end_mid:    fwrite(mTones[2]->begin(), 1, mTones[2]->size(), aOutput); break;
+		case ipa::tone_end_low:    fwrite(mTones[1]->begin(), 1, mTones[1]->size(), aOutput); break;
+		case ipa::tone_end_bottom: fwrite(mTones[0]->begin(), 1, mTones[0]->size(), aOutput); break;
+		}
+
 		return true;
 	}
 	return false;

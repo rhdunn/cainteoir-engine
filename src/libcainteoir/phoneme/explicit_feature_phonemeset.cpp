@@ -171,6 +171,30 @@ static const std::initializer_list<const char *> length = {
 	"lng",
 };
 
+static const std::initializer_list<const char *> tone_start = {
+	"ts5",
+	"ts4",
+	"ts3",
+	"ts2",
+	"ts1",
+};
+
+static const std::initializer_list<const char *> tone_middle = {
+	"tm5",
+	"tm4",
+	"tm3",
+	"tm2",
+	"tm1",
+};
+
+static const std::initializer_list<const char *> tone_end = {
+	"te5",
+	"te4",
+	"te3",
+	"te2",
+	"te1",
+};
+
 enum state_t
 {
 	begin_phoneme,
@@ -292,6 +316,9 @@ void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
 	write_feature(output, aPhoneme, syllabicity, need_comma);
 	write_feature(output, aPhoneme, stress, need_comma);
 	write_feature(output, aPhoneme, length, need_comma);
+	write_feature(output, aPhoneme, tone_start, need_comma);
+	write_feature(output, aPhoneme, tone_middle, need_comma);
+	write_feature(output, aPhoneme, tone_end, need_comma);
 	fputc('}', output);
 }
 
