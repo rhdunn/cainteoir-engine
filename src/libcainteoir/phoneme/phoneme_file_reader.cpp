@@ -435,6 +435,7 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 				break;
 			case placement::after:
 			case placement::tone:
+				mCurrent = match.first;
 				throw tts::phoneme_error("no phoneme before post-phoneme modifiers");
 			case placement::none:
 				return { false, tts::phoneme(-1) };
@@ -479,7 +480,10 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 					tone_end = (uint8_t)match.second.phoneme.get(0xFF);
 				}
 				else
+				{
+					mCurrent = match.first;
 					throw std::runtime_error("more than 3 consecutive tones specified");
+				}
 				pos = match.first;
 				break;
 			default:

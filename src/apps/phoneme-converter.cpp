@@ -63,20 +63,23 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 	aFrom->reset(aTranscription);
 	aTo->reset(stdout);
 	feat->reset(stdout);
-	while (aFrom->read())
+	while (true)
 	{
+		try
+		{
+			if (!aFrom->read())
+				return;
+		}
+		catch (const tts::phoneme_error &e)
+		{
+			fflush(stdout);
+			fprintf(stderr, "\nerror: %s\n", e.what());
+			fflush(stderr);
+		}
+
 		if (aFrom->get(ipa::phoneme_type) != ipa::pause || !aNoPauses)
 		{
-			try
-			{
-				aTo->write(*aFrom);
-			}
-			catch (const tts::phoneme_error &e)
-			{
-				fflush(stdout);
-				fprintf(stderr, "\nerror: %s\n", e.what());
-				fflush(stderr);
-			}
+			aTo->write(*aFrom);
 			if (aShowFeatures)
 			{
 				fputc('\t', stdout);
