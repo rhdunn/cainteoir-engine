@@ -178,6 +178,7 @@ _l	>	=ltr
 _}	>	=unx
 
 _e	>	=vfz
+_r	>	=rsd
 
 m=	/{vcd,blb,nas,syl}/
 n=	/{vcd,alv,nas,syl}/

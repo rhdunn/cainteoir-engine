@@ -299,3 +299,10 @@
 
 {umd,fnt,unr,vwl,mcz}
 {hgh,bck,unr,vwl,mcz}
+
+{vcd,blb,frc,rsd}
+{vcd,dnt,frc,rsd}
+{vcd,vel,frc,rsd}
+{vcd,alv,apr,rsd}
+{vcd,alv,trl,rsd}
+{umd,fnt,unr,vwl,rsd}
