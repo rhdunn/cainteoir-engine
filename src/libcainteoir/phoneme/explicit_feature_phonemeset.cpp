@@ -142,6 +142,7 @@ static const std::initializer_list<const char *> positional = {
 
 static const std::initializer_list<const char *> tongue_root = {
 	"atr",
+	"rtr",
 };
 
 enum state_t

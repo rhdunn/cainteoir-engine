@@ -142,6 +142,7 @@ a			/{low,fnt,unr,vwl}/
 \u0303	>	=nzd
 \u0308	>	=czd
 \u0318	>	=atr
+\u0319	>	=rtr
 \u031A	>	=unx
 \u031C	>	=lrd
 \u031D	>	=rsd

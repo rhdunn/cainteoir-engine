@@ -181,6 +181,7 @@ _e	>	=vfz
 _r	>	=rsd
 _o	>	=lwr
 _A	>	=atr
+_q	>	=rtr
 
 m=	/{vcd,blb,nas,syl}/
 n=	/{vcd,alv,nas,syl}/

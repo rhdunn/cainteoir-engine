@@ -317,3 +317,9 @@
 {low,fnt,unr,vwl,atr}
 {umd,bck,rnd,vwl,atr}
 {hgh,bck,rnd,vwl,atr}
+
+{hgh,fnt,unr,vwl,rtr}
+{umd,fnt,unr,vwl,rtr}
+{low,fnt,unr,vwl,rtr}
+{umd,bck,rnd,vwl,rtr}
+{hgh,bck,rnd,vwl,rtr}
