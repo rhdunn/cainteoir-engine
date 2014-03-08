@@ -178,12 +178,6 @@ A.	/{low,bck,rnd,vwl}/
 
 ##### Additional Phonemes [25]
 
-l-	/{vcd,alv,lat,apr,syl}/
-m-	/{vcd,blb,nas,syl}/
-n-	/{vcd,alv,nas,syl}/
-N-	/{vcd,vel,nas,syl}/
-r-	/{vcd,alv,apr,syl}/
-
 \u0020	/{pau,est}/	# word pause
 \u000A	/{pau}/		# clause pause (e.g. comma)
 

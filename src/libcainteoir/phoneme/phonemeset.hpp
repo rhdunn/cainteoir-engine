@@ -207,6 +207,7 @@ namespace cainteoir { namespace tts
 		};
 
 		std::map<tts::phoneme, std::shared_ptr<cainteoir::buffer>> mPhonemes;
+		std::list<feature_rule_t> mBefore;
 		std::list<feature_rule_t> mAfter;
 		std::list<feature_rule_t> mModifiers;
 	};

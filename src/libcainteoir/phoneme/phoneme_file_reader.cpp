@@ -324,6 +324,7 @@ tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhone
 
 		mPhonemes.insert(*aPhonemeSet.transcription, { aPhonemeSet.phonemes.front() });
 		break;
+	case tts::placement::before:
 	case tts::placement::after:
 		auto &phoneme = mPhonemes.insert(*aPhonemeSet.transcription);
 		phoneme.type = aPhonemeSet.type;
@@ -368,9 +369,18 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 				}
 				break;
 			case placement::before:
-				throw std::runtime_error("placement before not supported in transcription_reader");
+				for (const auto &rule : match.second.rule)
+				{
+					if (rule.context1.in(p) && rule.context2.in(p))
+					{
+						p.set(rule.feature);
+						pos = match.first;
+						break;
+					}
+				}
+				break;
 			case placement::primary:
-				p = match.second.phoneme;
+				p.set(match.second.phoneme.get(ipa::main), ipa::main);
 				state = placement::after;
 				pos = match.first;
 				break;
@@ -452,6 +462,14 @@ tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhone
 
 		mPhonemes[aPhonemeSet.phonemes.front()] = aPhonemeSet.transcription;
 		break;
+	case tts::placement::before:
+		switch (aPhonemeSet.feature.type())
+		{
+		case '=':
+			mBefore.push_back({ aPhonemeSet });
+			break;
+		}
+		break;
 	case tts::placement::after:
 		switch (aPhonemeSet.feature.type())
 		{
@@ -488,6 +506,11 @@ bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhonem
 
 	if (match != mPhonemes.end())
 	{
+		for (auto && rule : mBefore)
+		{
+			if (rule.context.in(aPhoneme) && aPhoneme.get(rule.feature))
+				fwrite(rule.transcription->begin(), 1, rule.transcription->size(), aOutput);
+		}
 		fwrite(match->second->begin(), 1, match->second->size(), aOutput);
 		for (auto && rule : mAfter)
 		{
