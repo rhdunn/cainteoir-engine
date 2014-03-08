@@ -90,6 +90,15 @@ static const std::initializer_list<const char *> vowel_rounding = {
 static const std::initializer_list<const char *> phoneme_type = {
 	"vwl",
 	"ejc",
+	"pau",
+	"sbr",
+	"lnk",
+	"fbr",
+	"ibr",
+	"glr",
+	"glf",
+	"ust",
+	"dst",
 };
 
 static const std::initializer_list<const char *> release = {
@@ -257,18 +266,19 @@ void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
 	bool need_comma = false;
 
 	fputc('{', output);
-	if (aPhoneme.get(ipa::phoneme_type) == ipa::vowel)
+	switch (aPhoneme.get(ipa::phoneme_type))
 	{
+	case ipa::vowel:
 		write_feature(output, aPhoneme, vowel_height, need_comma);
 		write_feature(output, aPhoneme, vowel_backness, need_comma);
 		write_feature(output, aPhoneme, vowel_rounding, need_comma);
-	}
-	else
-	{
+		break;
+	case ipa::consonant:
 		write_feature(output, aPhoneme, voicing, need_comma);
 		write_feature(output, aPhoneme, place_of_articulation, need_comma);
 		write_feature(output, aPhoneme, articulation_pre, need_comma);
 		write_feature(output, aPhoneme, manner_of_articulation, need_comma);
+		break;
 	}
 	write_feature(output, aPhoneme, phoneme_type, need_comma);
 	write_feature(output, aPhoneme, release, need_comma);

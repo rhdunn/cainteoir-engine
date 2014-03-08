@@ -154,7 +154,14 @@ _X	>	=est
 :\\	>	=hlg
 :	>	=lng
 
-.	/{sbr}/
+\.		/{sbr}/
+-\\		/{lnk}/
+|		/{fbr}/
+||		/{ibr}/
+\<R>		/{glr}/
+\<F>		/{glf}/
+^		/{ust}/
+!		/{dst}/
 
 ##### Diacritics
 

@@ -139,6 +139,15 @@ a			/{low,fnt,unr,vwl}/
 
 # Diacritics, Modifiers & Suprasegmentals
 
+\.			/{sbr}/
+\u203F			/{lnk}/
+\u007C			/{fbr}/
+\u2016			/{ibr}/
+\u2197			/{glr}/
+\u2198			/{glf}/
+\uA71B			/{ust}/
+\uA71C			/{dst}/
+
 \u0303	>	=nzd
 \u0306	>	=est
 \u0308	>	=czd
