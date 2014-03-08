@@ -180,6 +180,7 @@ _}	>	=unx
 _e	>	=vfz
 _r	>	=rsd
 _o	>	=lwr
+_A	>	=atr
 
 m=	/{vcd,blb,nas,syl}/
 n=	/{vcd,alv,nas,syl}/

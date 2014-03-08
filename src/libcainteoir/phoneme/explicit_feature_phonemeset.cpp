@@ -140,6 +140,10 @@ static const std::initializer_list<const char *> positional = {
 	"lwr",
 };
 
+static const std::initializer_list<const char *> tongue_root = {
+	"atr",
+};
+
 enum state_t
 {
 	begin_phoneme,
@@ -256,6 +260,7 @@ void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
 	write_feature(output, aPhoneme, positional, need_comma);
 	write_feature(output, aPhoneme, rhoticized, need_comma);
 	write_feature(output, aPhoneme, rounding, need_comma);
+	write_feature(output, aPhoneme, tongue_root, need_comma);
 	fputc('}', output);
 }
 
