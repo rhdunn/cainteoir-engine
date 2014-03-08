@@ -195,12 +195,6 @@ l_=	/{vcd,alv,lat,apr,syl}/
 
 5	/{vcd,alv,lat,apr,vzd}/
 
-#B_o	/{vcd,blb,apr}/
-#D_o	/{vcd,dnt,apr}/
-#R_o	/{vcd,uvl,apr}/
-#\?\\_o	/{vcd,phr,apr}/
-#\<\\_o	/{vcd,epg,apr}/
-
 ##### Ejectives and Implosives
 
 _<	>	stp => imp
