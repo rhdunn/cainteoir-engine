@@ -4,6 +4,12 @@
 
 .type	kirshenbaum
 
+\#		/{sbr}/
+
+'	<	=st1
+,	<	=st2
+''	<	=st3
+
 ##### Appendix B : Segment Symbols
 
 a	/{low,fnt,unr,vwl}/ # [22], [23]
@@ -64,12 +70,6 @@ Z	/{vcd,pla,sib,frc}/
 *	/{vcd,alv,flp}/
 
 ##### Appendix C : Diacritics
-
-\.		/{sbr}/
-
-'	<	=st1
-,	<	=st2
-''	<	=st3
 
 :	>	=lng
 
