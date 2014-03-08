@@ -306,3 +306,8 @@
 {vcd,alv,apr,rsd}
 {vcd,alv,trl,rsd}
 {umd,fnt,unr,vwl,rsd}
+
+{vcd,blb,frc,lwr}
+{vcd,dnt,frc,lwr}
+{vcd,vel,frc,lwr}
+{umd,fnt,unr,vwl,lwr}

@@ -179,6 +179,7 @@ _}	>	=unx
 
 _e	>	=vfz
 _r	>	=rsd
+_o	>	=lwr
 
 m=	/{vcd,blb,nas,syl}/
 n=	/{vcd,alv,nas,syl}/
@@ -194,11 +195,11 @@ l_=	/{vcd,alv,lat,apr,syl}/
 
 5	/{vcd,alv,lat,apr,vzd}/
 
-B_o	/{vcd,blb,apr}/
-D_o	/{vcd,dnt,apr}/
-R_o	/{vcd,uvl,apr}/
-\?\\_o	/{vcd,phr,apr}/
-\<\\_o	/{vcd,epg,apr}/
+#B_o	/{vcd,blb,apr}/
+#D_o	/{vcd,dnt,apr}/
+#R_o	/{vcd,uvl,apr}/
+#\?\\_o	/{vcd,phr,apr}/
+#\<\\_o	/{vcd,epg,apr}/
 
 ##### Ejectives and Implosives
 

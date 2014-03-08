@@ -144,6 +144,7 @@ a			/{low,fnt,unr,vwl}/
 \u031A	>	=unx
 \u031C	>	=lrd
 \u031D	>	=rsd
+\u031E	>	=lwr
 \u031F	>	=adv
 \u0320	>	=ret
 \u0324	>	=mrm

@@ -137,6 +137,7 @@ static const std::initializer_list<const char *> positional = {
 	"czd",
 	"mcz",
 	"rsd",
+	"lwr",
 };
 
 enum state_t
