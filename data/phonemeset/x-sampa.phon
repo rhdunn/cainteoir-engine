@@ -158,6 +158,7 @@ _c	>	=lrd
 _+	>	=adv
 _-	>	=ret
 _"	>	=czd
+=	>	=syl
 _x	>	=mcz # [6]
 `	>	=rzd
 
@@ -182,20 +183,6 @@ _r	>	=rsd
 _o	>	=lwr
 _A	>	=atr
 _q	>	=rtr
-
-m=	/{vcd,blb,nas,syl}/
-n=	/{vcd,alv,nas,syl}/
-N=	/{vcd,vel,nas,syl}/
-r\\=	/{vcd,alv,apr,syl}/
-l=	/{vcd,alv,lat,apr,syl}/
-
-m_=	/{vcd,blb,nas,syl}/
-n_=	/{vcd,alv,nas,syl}/
-N_=	/{vcd,vel,nas,syl}/
-r\\_=	/{vcd,alv,apr,syl}/
-l_=	/{vcd,alv,lat,apr,syl}/
-
-5	/{vcd,alv,lat,apr,vzd}/
 
 ##### Ejectives and Implosives
 

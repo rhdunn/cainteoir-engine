@@ -151,6 +151,7 @@ a			/{low,fnt,unr,vwl}/
 \u0320	>	=ret
 \u0324	>	=mrm
 \u0325	>	=slv # below
+\u0329	>	=syl # below
 \u032A	>	=dzd
 \u032C	>	=stv
 \u0330	>	=crv

@@ -323,3 +323,9 @@
 {low,fnt,unr,vwl,rtr}
 {umd,bck,rnd,vwl,rtr}
 {hgh,bck,rnd,vwl,rtr}
+
+{vcd,blb,nas,syl}
+{vcd,alv,nas,syl}
+{vcd,vel,nas,syl}
+{vcd,alv,apr,syl}
+{vcd,alv,lat,apr,syl}
