@@ -150,6 +150,12 @@ static const std::initializer_list<const char *> syllabicity = {
 	"nsy",
 };
 
+static const std::initializer_list<const char *> stress = {
+	"st1",
+	"st2",
+	"st3",
+};
+
 enum state_t
 {
 	begin_phoneme,
@@ -268,6 +274,7 @@ void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
 	write_feature(output, aPhoneme, rounding, need_comma);
 	write_feature(output, aPhoneme, tongue_root, need_comma);
 	write_feature(output, aPhoneme, syllabicity, need_comma);
+	write_feature(output, aPhoneme, stress, need_comma);
 	fputc('}', output);
 }
 

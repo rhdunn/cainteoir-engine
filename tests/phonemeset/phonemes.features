@@ -338,3 +338,12 @@
 {smh,bck,rnd,vwl,nsy}
 {mid,cnt,unr,vwl,nsy}
 {low,bck,unr,vwl,nsy}
+
+{vls,vel,stp,st1}
+{hgh,fnt,unr,vwl,st1}
+
+{vls,vel,stp,st2}
+{hgh,fnt,unr,vwl,st2}
+
+{vls,vel,stp,st3}
+{hgh,fnt,unr,vwl,st3}
