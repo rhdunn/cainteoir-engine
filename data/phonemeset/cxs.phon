@@ -2,12 +2,16 @@
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
-.import	x-sampa
+.import	x-sampa~base
 
 i\\	/{hgh,cnt,unr,vwl}/
 u\\	/{hgh,cnt,rnd,vwl}/
 &	/{sml,fnt,unr,vwl}/
 &\\	/{low,fnt,rnd,vwl}/
+
+'	<	=st1
+,	<	=st2
+''	<	=st3
 
 ##### References:
 #

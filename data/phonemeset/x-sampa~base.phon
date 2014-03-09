@@ -1,0 +1,237 @@
+# Copyright (C) 2013-2014 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.type	ipa
+
+##### SAMPROSA
+
+\u0020	/{pau,est}/	# word pause
+\u000A	/{pau}/		# clause pause (e.g. comma)
+
+\#	/{pau,est}/	# word pause (word boundary)
+...	/{pau}/		# clause pause (e.g. comma) -- silence
+
+##### Lower Case ASCII
+
+a	/{low,fnt,unr,vwl}/
+b	/{vcd,blb,stp}/
+c	/{vls,pal,stp}/
+d	/{vcd,alv,stp}/
+e	/{umd,fnt,unr,vwl}/
+f	/{vls,lbd,frc}/
+g	/{vcd,vel,stp}/
+h	/{vls,glt,apr}/
+i	/{hgh,fnt,unr,vwl}/
+j	/{vcd,pal,apr}/
+k	/{vls,vel,stp}/
+l	/{vcd,alv,lat,apr}/
+m	/{vcd,blb,nas}/
+n	/{vcd,alv,nas}/
+o	/{umd,bck,rnd,vwl}/
+p	/{vls,blb,stp}/
+q	/{vls,uvl,stp}/
+r	/{vcd,alv,trl}/
+s	/{vls,alv,sib,frc}/
+t	/{vls,alv,stp}/
+u	/{hgh,bck,rnd,vwl}/
+v	/{vcd,lbd,frc}/
+w	/{vcd,lbv,apr}/
+x	/{vls,vel,frc}/
+y	/{hgh,fnt,rnd,vwl}/
+z	/{vcd,alv,sib,frc}/
+
+##### Consonants (Pulmonic)
+
+t`	/{vls,rfx,stp}/
+d`	/{vcd,rfx,stp}/
+J\\	/{vcd,pal,stp}/
+G\\	/{vcd,uvl,stp}/
+\?	/{vls,glt,stp}/ # [4]
+
+F	/{vcd,lbd,nas}/ # [1]
+n`	/{vcd,rfx,nas}/ # [1]
+J	/{vcd,pal,nas}/ # [1]
+N	/{vcd,vel,nas}/ # [1]
+N\\	/{vcd,uvl,nas}/ # [1]
+
+B\\	/{vcd,blb,trl}/ # [1]
+R\\	/{vcd,uvl,trl}/ # [1]
+
+b\\	/{vcd,lbd,flp}/ # [5]
+4	/{vcd,alv,flp}/ # [1], [2]
+r`	/{vcd,rfx,flp}/ # [1]
+
+p\\	/{vls,blb,frc}/
+B	/{vcd,blb,frc}/
+T	/{vls,dnt,frc}/
+D	/{vcd,dnt,frc}/
+S	/{vls,pla,sib,frc}/
+Z	/{vcd,pla,sib,frc}/
+s`	/{vls,rfx,sib,frc}/
+z`	/{vcd,rfx,sib,frc}/
+C	/{vls,pal,frc}/
+j\\	/{vcd,pal,frc}/
+G	/{vcd,vel,frc}/
+X	/{vls,uvl,frc}/
+R	/{vcd,uvl,frc}/
+X\\	/{vls,phr,frc}/
+\?\\	/{vcd,phr,frc}/
+h\\	/{vcd,glt,frc}/
+
+K	/{vls,alv,lat,frc}/
+K\\	/{vcd,alv,lat,frc}/
+
+P	/{vcd,lbd,apr}/ # [1]
+v\\	/{vcd,lbd,apr}/ # [1]
+r\\	/{vcd,alv,apr}/ # [1]
+r\\`	/{vcd,rfx,apr}/ # [1]
+M\\	/{vcd,vel,apr}/ # [1]
+
+l`	/{vcd,rfx,lat,apr}/ # [1]
+L	/{vcd,pal,lat,apr}/ # [1]
+L\\	/{vcd,vel,lat,apr}/ # [1]
+
+##### Clicks
+
+O\\	/{vls,blb,clk}/
+|\\	/{vls,dnt,clk}/
+!\\	/{vls,alv,clk}/
+|\\|\\	/{vls,alv,lat,clk}/
+=\\	/{vls,pal,clk}/ # [3]
+
+##### Vowels
+
+M	/{hgh,bck,unr,vwl}/
+1	/{hgh,cnt,unr,vwl}/
+}	/{hgh,cnt,rnd,vwl}/
+
+I	/{smh,fnt,unr,vwl}/
+Y	/{smh,fnt,rnd,vwl}/
+U	/{smh,bck,rnd,vwl}/
+
+2	/{umd,fnt,rnd,vwl}/
+@\\	/{umd,cnt,unr,vwl}/
+8	/{umd,cnt,rnd,vwl}/
+7	/{umd,bck,unr,vwl}/
+
+@	/{mid,cnt,unr,vwl}/
+
+E	/{lmd,fnt,unr,vwl}/
+9	/{lmd,fnt,rnd,vwl}/
+3	/{lmd,cnt,unr,vwl}/
+3\\	/{lmd,cnt,rnd,vwl}/
+V	/{lmd,bck,unr,vwl}/
+O	/{lmd,bck,rnd,vwl}/
+
+{	/{sml,fnt,unr,vwl}/
+6	/{sml,cnt,unr,vwl}/
+
+&	/{low,fnt,rnd,vwl}/
+A	/{low,bck,unr,vwl}/
+Q	/{low,bck,rnd,vwl}/
+
+##### Other Symbols
+
+W	/{vls,lbv,apr}/
+H	/{vcd,lbp,apr}/
+H\\	/{vls,epg,frc}/
+\<\\	/{vcd,epg,frc}/
+\>\\	/{vls,epg,stp}/
+
+s\\	/{vls,alp,sib,frc}/
+z\\	/{vcd,alp,sib,frc}/
+l\\	/{vcd,alv,lat,flp}/
+x\\	/{vls,pla,sib,frc,vzd}/
+
+##### Suprasegmentals
+
+_X	>	=est
+:\\	>	=hlg
+:	>	=lng
+
+\.		/{sbr}/
+-\\		/{lnk}/
+|		/{fbr}/
+||		/{ibr}/
+\<R>		/{glr}/
+\<F>		/{glf}/
+\^		/{ust}/
+!		/{dst}/
+
+##### Tones
+
+_T	^5
+_H	^4
+_M	^3
+_L	^2
+_B	^1
+
+##### Diacritics
+
+_0	>	=slv
+_v	>	=stv
+_h	>	=asp
+_O	>	=mrd
+_c	>	=lrd
+_+	>	=adv
+_-	>	=ret
+_"	>	=czd
+_x	>	=mcz # [6]
+=	>	=syl
+_^	>	=nsy
+`	>	=rzd
+
+_t	>	=mrm
+_k	>	=crv
+_N	>	=lgl
+_w	>	=lzd
+_j	>	=pzd
+_G	>	=vzd
+_?\\	>	=fzd
+
+_d	>	=dzd
+_a	>	=apc
+_m	>	=lmn
+~	>	=nzd
+_n	>	=nzr
+_l	>	=ltr
+_}	>	=unx
+
+_e	>	=vfz
+_r	>	=rsd
+_o	>	=lwr
+_A	>	=atr
+_q	>	=rtr
+
+_	>	=tie
+
+##### Ejectives and Implosives
+
+_<	>	stp => imp
+_>	>	=ejc
+
+##### Notes:
+#
+#  1. X-SAMPA transcribes this without specifying a voicing [1], but is denoted
+#     as being voiced by Wikipedia.
+#
+#  2. X-SAMPA transcribes this as a tap, however IPA does not distinguish between
+#     taps and flaps.
+#
+#  3. X-SAMPA transcribes this as palatoalveolar, but IPA classifies it as palatal.
+#
+#  4. This is not listed in the X-SAMPA page, but is in the Wikipedia X-SAMPA page
+#     and the English SAMPA page.
+#
+#  5. X-SAMPA does not have an entry for this phoneme, so the one from Z-SAMPA
+#     is used instead.
+#
+#  6. X-SAMPA does not have an entry for this phoneme, so the one from CXS is
+#     used instead.
+#
+##### References:
+#
+#  1. http://www.phon.ucl.ac.uk/home/sampa/x-sampa.htm
+#  2. http://www.phon.ucl.ac.uk/home/sampa/ipasam-x.pdf
+#  3. http://en.wikipedia.org/wiki/X-SAMPA
