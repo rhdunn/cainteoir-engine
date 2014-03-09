@@ -82,8 +82,9 @@ private:
 };
 
 ipa_writer::ipa_writer(tts::phoneme_file_reader &aPhonemeSet, const char *aName)
-	: mPhonemes(aPhonemeSet)
+	: mPhonemeSet(aName)
 	, mOutput(nullptr)
+	, mPhonemes(aPhonemeSet)
 {
 }
 

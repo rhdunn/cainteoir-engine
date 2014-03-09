@@ -89,8 +89,9 @@ private:
 };
 
 kirshenbaum_writer::kirshenbaum_writer(tts::phoneme_file_reader &aPhonemeSet, const char *aName)
-	: mPhonemes(aPhonemeSet)
+	: mPhonemeSet(aName)
 	, mOutput(nullptr)
+	, mPhonemes(aPhonemeSet)
 {
 }
 
