@@ -189,7 +189,7 @@ class PhonemeSetCommand(Command):
 
 	def run(self, args, filename, data):
 		params = [x for x in args]
-		params.extend(['--separate', '--no-pauses', data['from'], data['to']])
+		params.extend([data['from'], data['to']])
 		return Command.run(self, params, filename, data)
 
 def create_command(test_type):
