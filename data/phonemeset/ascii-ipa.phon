@@ -127,20 +127,21 @@ Z	/{vcd,pla,sib,frc}/
 
 ##### Appendix E : Segment List [10], [28]
 
-p!	/{vls,blb,clk}/
-t[!	/{vls,dnt,clk}/
-t!	/{vls,alv,clk}/
-l!	/{vls,alv,lat,clk}/ # [19]
-c!	/{vls,pal,clk}/
-
 b<trl>	/{vcd,blb,trl}/ # [2]
+p!	/{vls,blb,clk}/
 
 r<lbd>	/{vcd,lbd,apr}/ # [2]
 *<lbd>	/{vcd,lbd,flp}/
 
+t[!	/{vls,dnt,clk}/
+
 r<trl>	/{vcd,alv,trl}/ # [2], [8]
 s<lat>	/{vls,alv,lat,frc}/ # [6]
 z<lat>	/{vcd,alv,lat,frc}/
+t!	/{vls,alv,clk}/
+
+S;	/{vls,alp,sib,frc}/
+Z;	/{vcd,alp,sib,frc}/
 
 n.	/{vcd,rfx,nas}/ # [2]
 t.	/{vls,rfx,stp}/
@@ -151,46 +152,41 @@ r.	/{vcd,rfx,apr}/ # [2]
 l.	/{vcd,rfx,lat,apr}/ # [2], [4]
 *.	/{vcd,rfx,flp}/ # [2]
 
-S;	/{vls,alp,sib,frc}/
-Z;	/{vcd,alp,sib,frc}/
-
 n^	/{vcd,pal,nas}/ # [2]
 C<vcd>	/{vcd,pal,frc}/ # [3]
-j<rnd>	/{vcd,lbp,apr}/ # [2], [13]
 l^	/{vcd,pal,lat,apr}/ # [2]
+c!	/{vls,pal,clk}/
+
+j<rnd>	/{vcd,lbp,apr}/ # [2], [13]
 
 j<vel>	/{vcd,vel,apr}/ # [2]
 
-n<lbv>	/{vcd,lbv,nas}/ # [2]
-t<lbv>	/{vls,lbv,stp}/
-d<lbv>	/{vcd,lbv,stp}/
 w<vls>	/{vls,lbv,apr}/ # [5]
 
-n"	/{vcd,uvl,nas}/
+n"	/{vcd,uvl,nas}/ # [2]
 Q"	/{vcd,uvl,frc}/ # [16]
-g"	/{vcd,uvl,apr}/ # [2], [16], [17]
 r"	/{vcd,uvl,trl}/ # [2], [16], [17]
 
 H<vcd>	/{vcd,phr,frc}/
+
 h<?>	/{vcd,glt,frc}/ # [2], [26]
 
 *<lat>	/{vcd,alv,lat,flp}/ # [2], [19]
 
+l!	/{vls,alv,lat,clk}/ # [19]
+
 I.	/{smh,fnt,rnd,vwl}/ # [20]
-&.	/{low,fnt,rnd,vwl}/ # [14], [22], [23], [24]
 a.	/{low,fnt,rnd,vwl}/ # [14], [22], [23], [24]
 
 i"	/{hgh,cnt,unr,vwl}/
 u"	/{hgh,cnt,rnd,vwl}/
 @<umd>	/{umd,cnt,unr,vwl}/
-R<umd>	/{umd,cnt,unr,vwl,rzd}/
 @.<umd>	/{umd,cnt,rnd,vwl}/ # [27]
 V"	/{lmd,cnt,unr,vwl}/
 O"	/{lmd,cnt,rnd,vwl}/
 &"	/{sml,cnt,unr,vwl}/ # [21], [22]
 
 u-	/{hgh,bck,unr,vwl}/
-U-	/{smh,bck,unr,vwl}/ # [21]
 o-	/{umd,bck,unr,vwl}/
 A.	/{low,bck,rnd,vwl}/
 
@@ -198,6 +194,7 @@ A.	/{low,bck,rnd,vwl}/
 
 \u0020	/{pau,est}/	# word pause
 \u000A	/{pau}/		# clause pause (e.g. comma)
+
 _	>	=tie
 
 ##### Notes:
