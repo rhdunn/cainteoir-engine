@@ -201,7 +201,7 @@ int main(int argc, char ** argv)
 	{
 		const char *ruleset = nullptr;
 		const char *dictionary = nullptr;
-		const char *phonemeset = "features";
+		const char *phonemeset = "ipa";
 		const char *locale_name = "en";
 		tts::stress_type stress = tts::stress_type::as_transcribed;
 		mode_type type = mode_type::parse_text;
