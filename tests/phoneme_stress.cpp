@@ -31,7 +31,6 @@ TEST_CASE("vowel stress")
 {
 	static const std::pair<const char *, const char *> testcases[] =
 	{
-#if 0
 		// vowel - primary
 		{ "p'Ed", "p'Ed" }, // on a vowel -- no change
 		{ "'pEd", "p'Ed" }, // on a consonant -- move to next vowel
@@ -63,11 +62,10 @@ TEST_CASE("vowel stress")
 		{ "p'End.IN",    "p'EndIN" },
 		{ "sw'Im.INl,i", "sw'ImINl,i" },
 		{ "d@.naI_^.IN", "d@naI_^IN" },
-#endif
 	};
 
-	auto reader = tts::createPhonemeReader("features");
-	auto writer = tts::createPhonemeWriter("features");
+	auto reader = tts::createPhonemeReader("cxs");
+	auto writer = tts::createPhonemeWriter("cxs");
 
 	for (const auto &test : testcases)
 	{
@@ -91,7 +89,6 @@ TEST_CASE("syllable stress")
 {
 	static const std::pair<const char *, const char *> testcases[] =
 	{
-#if 0
 		// one syllable -- 'CVC
 		// vowel          | rising diphthong        | falling diphthong
 		{ "'hIm", "'hIm" }, { "'g@U_^t", "'g@U_^t" }, { "'rI@_^d", "'rI@_^d" },
@@ -125,11 +122,10 @@ TEST_CASE("syllable stress")
 		{ "b,Vtn='IN", ",bVtn='IN" },
 		{ "b'Vt.n=,IN", "'bVt.n=,IN" },
 		{ "b,Vt.n='IN", ",bVt.n='IN" },
-#endif
 	};
 
-	auto reader = tts::createPhonemeReader("features");
-	auto writer = tts::createPhonemeWriter("features");
+	auto reader = tts::createPhonemeReader("cxs");
+	auto writer = tts::createPhonemeWriter("cxs");
 
 	for (const auto &test : testcases)
 	{

@@ -57,14 +57,14 @@ static void make_vowel_stressed(std::list<tts::phoneme> &aPhonemes)
 			else
 			{
 				stress = current_stress;
-				phoneme.set(ipa::stress, ipa::unstressed);
+				phoneme.set(ipa::unstressed, ipa::stress);
 			}
 		}
 		else if (phoneme.get(ipa::phoneme_type) == ipa::vowel)
 		{
 			if (stress != ipa::unstressed)
 			{
-				phoneme.set(ipa::stress, stress);
+				phoneme.set(stress, ipa::stress);
 				stress = ipa::unstressed;
 			}
 		}
@@ -87,8 +87,8 @@ static void make_syllable_stressed(std::list<tts::phoneme> &aPhonemes)
 			if (current_stress != ipa::unstressed)
 			{
 				// stressed syllable
-				phoneme.set(ipa::stress, ipa::unstressed);
-				onset->set(ipa::stress, current_stress);
+				phoneme.set(ipa::unstressed, ipa::stress);
+				onset->set(current_stress, ipa::stress);
 			}
 			state = syllable::nucleus;
 		}
