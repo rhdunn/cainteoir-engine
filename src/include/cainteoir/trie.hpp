@@ -1,6 +1,6 @@
 /* Trie Data Structure.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -69,7 +69,8 @@ namespace cainteoir
 
 		const trie_node<T> *root() const { return &mRoot; }
 
-		T &insert(const cainteoir::buffer &str)
+		template <typename Container>
+		T &insert(const Container &str)
 		{
 			trie_node<T> *node = &mRoot;
 			for (char c : str)
@@ -77,12 +78,14 @@ namespace cainteoir
 			return node->item;
 		}
 
-		void insert(const cainteoir::buffer &str, const T &value)
+		template <typename Container>
+		void insert(const Container &str, const T &value)
 		{
 			insert(str) = value;
 		}
 
-		const T &lookup(const cainteoir::buffer &str, const T &no_match = T()) const
+		template <typename Container>
+		const T &lookup(const Container &str, const T &no_match = T()) const
 		{
 			const trie_node<T> *node = &mRoot;
 			for (char c : str)

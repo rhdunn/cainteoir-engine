@@ -1,6 +1,6 @@
 /* Test for the trie data structure.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -54,9 +54,33 @@ TEST_CASE("trie node: insert node")
 	assert(n.get('e')->c == 'e');
 }
 
-TEST_CASE("trie node: string insertion")
+TEST_CASE("trie: cainteoir::buffer insertion")
 {
 	static const std::initializer_list<std::pair<cainteoir::buffer, int>> words =
+	{
+		{ "test", 1 },
+		{ "tear", 2 },
+		{ "tome", 3 },
+		{ "boast", 4 },
+		{ "view", 5 },
+		{ "even", 6 },
+		{ "viewing", 7 },
+	};
+
+	cainteoir::trie<int> n;
+	for (const auto &word : words)
+		n.insert(word.first, word.second);
+
+	for (const auto &word : words)
+		assert(n.lookup(word.first) == word.second);
+
+	assert(n.lookup("team") == 0);
+	assert(n.lookup("nosuchword") == 0);
+}
+
+TEST_CASE("trie: std::string insertion")
+{
+	static const std::initializer_list<std::pair<std::string, int>> words =
 	{
 		{ "test", 1 },
 		{ "tear", 2 },
