@@ -56,4 +56,10 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/ipa/tied-phonemes.ascii-ipa', 'result': 'phonemeset/ipa/tied-phonemes.features', 'from': 'ascii-ipa', 'to': 'features'},
 		]},
 	]})
+	test.run({'name': 'Arpabet-Based', 'groups': [
+		{'name': 'CMU', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/arpabet/cmu-phonemes.ipa', 'result': 'phonemeset/arpabet/cmu-phonemes.cmu', 'from': 'ipa', 'to': 'cmu'},
+			{'test': 'phonemeset/arpabet/cmu-phonemes.cmu', 'result': 'phonemeset/arpabet/cmu-phonemes.ipa', 'from': 'cmu', 'to': 'ipa'},
+		]},
+	]})
 	test.summary()

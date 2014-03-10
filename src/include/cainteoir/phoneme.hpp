@@ -251,6 +251,7 @@ namespace cainteoir { namespace ipa
 		bool operator!=(const phoneme &rhs) const { return mValue != rhs.mValue; }
 
 		bool operator<(const phoneme &rhs) const { return mValue < rhs.mValue; }
+		bool operator>(const phoneme &rhs) const { return mValue > rhs.mValue; }
 	private:
 		value_type mValue;
 	};

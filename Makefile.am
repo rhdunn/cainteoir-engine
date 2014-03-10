@@ -340,6 +340,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/engines/espeak.cpp \
 	src/libcainteoir/engines/pico.cpp \
 	\
+	src/libcainteoir/phoneme/arpabet_phonemeset.cpp \
 	src/libcainteoir/phoneme/explicit_feature_phonemeset.cpp \
 	src/libcainteoir/phoneme/ipa_phonemeset.cpp \
 	src/libcainteoir/phoneme/kirshenbaum_phonemeset.cpp \
