@@ -26,16 +26,16 @@
 
 namespace cainteoir
 {
-	template <typename T>
+	template <typename T, typename Key = char>
 	struct trie_node
 	{
-		char c;
+		Key c;
 		T item;
-		std::list<trie_node<T>> children;
+		std::list<trie_node<T, Key>> children;
 
-		trie_node(char ch): c(ch), item() {}
+		trie_node(const Key &ch): c(ch), item() {}
 
-		const trie_node<T> *get(char ch) const
+		const trie_node<T, Key> *get(const Key &ch) const
 		{
 			auto first = children.begin(), last = children.end();
 			while (first != last)
@@ -46,7 +46,7 @@ namespace cainteoir
 			return nullptr;
 		}
 
-		trie_node<T> *add(char ch)
+		trie_node<T, Key> *add(const Key &ch)
 		{
 			auto first = children.begin(), last = children.end();
 			while (first != last)
@@ -62,18 +62,18 @@ namespace cainteoir
 		}
 	};
 
-	template <typename T>
+	template <typename T, typename Key = char>
 	struct trie
 	{
 		trie() : mRoot(0) {}
 
-		const trie_node<T> *root() const { return &mRoot; }
+		const trie_node<T, Key> *root() const { return &mRoot; }
 
 		template <typename Container>
 		T &insert(const Container &str)
 		{
-			trie_node<T> *node = &mRoot;
-			for (char c : str)
+			trie_node<T, Key> *node = &mRoot;
+			for (auto && c : str)
 				node = node->add(c);
 			return node->item;
 		}
@@ -87,8 +87,8 @@ namespace cainteoir
 		template <typename Container>
 		const T &lookup(const Container &str, const T &no_match = T()) const
 		{
-			const trie_node<T> *node = &mRoot;
-			for (char c : str)
+			const trie_node<T, Key> *node = &mRoot;
+			for (auto && c : str)
 			{
 				node = node->get(c);
 				if (node == nullptr) return no_match;
@@ -96,7 +96,7 @@ namespace cainteoir
 			return node->item;
 		}
 	private:
-		trie_node<T> mRoot;
+		trie_node<T, Key> mRoot;
 	};
 }
 

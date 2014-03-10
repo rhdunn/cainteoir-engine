@@ -23,9 +23,11 @@
 
 #include "tester.hpp"
 
+#include <vector>
+
 REGISTER_TESTSUITE("trie");
 
-TEST_CASE("trie node: root")
+TEST_CASE("trie node (key=char): root")
 {
 	cainteoir::trie_node<int> n('\0');
 	assert(n.c == '\0');
@@ -33,7 +35,7 @@ TEST_CASE("trie node: root")
 	assert(n.children.empty());
 }
 
-TEST_CASE("trie node: insert node")
+TEST_CASE("trie node (key=char): insert node")
 {
 	cainteoir::trie_node<int> n('\0');
 
@@ -54,7 +56,7 @@ TEST_CASE("trie node: insert node")
 	assert(n.get('e')->c == 'e');
 }
 
-TEST_CASE("trie: cainteoir::buffer insertion")
+TEST_CASE("trie (key=char): cainteoir::buffer insertion")
 {
 	static const std::initializer_list<std::pair<cainteoir::buffer, int>> words =
 	{
@@ -78,7 +80,7 @@ TEST_CASE("trie: cainteoir::buffer insertion")
 	assert(n.lookup("nosuchword") == 0);
 }
 
-TEST_CASE("trie: std::string insertion")
+TEST_CASE("trie (key=char): std::string insertion")
 {
 	static const std::initializer_list<std::pair<std::string, int>> words =
 	{
@@ -100,4 +102,55 @@ TEST_CASE("trie: std::string insertion")
 
 	assert(n.lookup("team") == 0);
 	assert(n.lookup("nosuchword") == 0);
+}
+
+TEST_CASE("trie node (key=long): root")
+{
+	cainteoir::trie_node<int, long> n(-1);
+	assert(n.c == -1);
+	assert(n.item == 0);
+	assert(n.children.empty());
+}
+
+TEST_CASE("trie node (key=long): insert node")
+{
+	cainteoir::trie_node<int, long> n(-1);
+
+	assert(n.get(4) == nullptr);
+	assert(n.children.size() == 0);
+
+	assert(n.add(4) != nullptr);
+	assert(n.children.size() == 1);
+	assert(n.add(4) == n.add(4));
+	assert(n.children.size() == 1);
+	assert(n.get(4) == n.add(4));
+	assert(n.children.size() == 1);
+
+	assert(n.add(5) != nullptr);
+	assert(n.get(4) != n.get(5));
+
+	assert(n.get(4)->c == 4);
+	assert(n.get(5)->c == 5);
+}
+
+TEST_CASE("trie (key=long): std::vector insertion")
+{
+	static const std::initializer_list<std::pair<std::vector<long>, int>> words =
+	{
+		{ { 1, 2, 3 }, 1 },
+		{ { 7, 4, 6 }, 2 },
+		{ { 8, 7, 6, 5, 4 }, 3 },
+		{ { 7, 4,  9 }, 4 },
+		{ { 2, 2 }, 5 },
+	};
+
+	cainteoir::trie<int, long> n;
+	for (const auto &word : words)
+		n.insert(word.first, word.second);
+
+	for (const auto &word : words)
+		assert(n.lookup(word.first) == word.second);
+
+	assert(n.lookup(std::vector<long>({ 7, 4 })) == 0);
+	assert(n.lookup(std::vector<long>({ 6, 2, 6 })) == 0);
 }
