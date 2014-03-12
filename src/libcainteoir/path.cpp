@@ -43,7 +43,8 @@ cainteoir::path &cainteoir::path::operator/=(const char *aPath)
 		*this = parent();
 	}
 
-	auto end = --mPath.end();
+	auto end = mPath.end();
+	--end;
 	if (*end != '/' && *aPath != '/')
 		mPath.push_back('/');
 	else if (*end == '/' && *aPath == '/')
@@ -68,7 +69,8 @@ cainteoir::path &cainteoir::path::operator/=(const std::string &aPath)
 		*this = parent();
 	}
 
-	auto end = --mPath.end();
+	auto end = mPath.end();
+	--end;
 	if (*end != '/' && (*aPath.begin()) != '/')
 		mPath.push_back('/');
 	else if (*end == '/' && (*aPath.begin()) == '/')
