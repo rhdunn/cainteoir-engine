@@ -429,7 +429,7 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 				}
 				break;
 			case placement::primary:
-				p.set(match.second.phoneme.get(ipa::main), ipa::main);
+				p.set(match.second.phoneme.get(-1));
 				state = placement::after;
 				pos = match.first;
 				break;
@@ -578,11 +578,18 @@ tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhone
 
 bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhoneme) const
 {
+	auto match = mPhonemes.find(aPhoneme);
+	if (match != mPhonemes.end())
+	{
+		fwrite(match->second->begin(), 1, match->second->size(), aOutput);
+		return true;
+	}
+
 	tts::phoneme main{ aPhoneme.get(ipa::main) };
 
 	std::vector<std::shared_ptr<cainteoir::buffer>> append;
 
-	auto match = mPhonemes.find(main);
+	match = mPhonemes.find(main);
 	if (match == mPhonemes.end()) for (auto && rule : mModifiers)
 	{
 		if (rule.context.in(main) && rule.change_to.in(main))

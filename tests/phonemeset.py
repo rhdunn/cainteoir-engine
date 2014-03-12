@@ -26,6 +26,7 @@ if __name__ == '__main__':
 		{'name': 'Features', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.features', 'from': 'features', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/tied-phonemes.features', 'result': 'phonemeset/ipa/tied-phonemes.features', 'from': 'features', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.features', 'from': 'features', 'to': 'features'},
 		]},
 	]})
 	test.run({'name': 'IPA-Based', 'groups': [
@@ -34,6 +35,8 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/ipa/phonemes.ipa', 'result': 'phonemeset/ipa/phonemes.features', 'from': 'ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/tied-phonemes.features', 'result': 'phonemeset/ipa/tied-phonemes.ipa', 'from': 'features', 'to': 'ipa', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/tied-phonemes.ipa', 'result': 'phonemeset/ipa/tied-phonemes.features', 'from': 'ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.ipa', 'from': 'features', 'to': 'ipa'},
+			{'test': 'phonemeset/ipa/pauses.ipa', 'result': 'phonemeset/ipa/pauses.features', 'from': 'ipa', 'to': 'features'},
 		]},
 		{'name': 'X-SAMPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.x-sampa', 'from': 'features', 'to': 'x-sampa', 'args': ['--separate', '--no-pauses']},
@@ -41,6 +44,8 @@ if __name__ == '__main__':
 			# NOTE: X-SAMPA has ambiguous transcriptions for diacritics vs ties, so these fail to round-trip
 			{'test': 'phonemeset/ipa/tied-phonemes.features', 'result': 'phonemeset/ipa/tied-phonemes.x-sampa', 'from': 'features', 'to': 'x-sampa', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/tied-phonemes.x-sampa', 'result': 'phonemeset/ipa/tied-phonemes.x-sampa-features', 'from': 'x-sampa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.x-sampa', 'from': 'features', 'to': 'x-sampa'},
+			{'test': 'phonemeset/ipa/pauses.x-sampa', 'result': 'phonemeset/ipa/pauses.features', 'from': 'x-sampa', 'to': 'features'},
 		]},
 		{'name': 'CXS', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.cxs', 'from': 'features', 'to': 'cxs', 'args': ['--separate', '--no-pauses']},
@@ -48,18 +53,24 @@ if __name__ == '__main__':
 			# NOTE: X-SAMPA has ambiguous transcriptions for diacritics vs ties, so these fail to round-trip
 			{'test': 'phonemeset/ipa/tied-phonemes.features', 'result': 'phonemeset/ipa/tied-phonemes.cxs', 'from': 'features', 'to': 'cxs', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/tied-phonemes.cxs', 'result': 'phonemeset/ipa/tied-phonemes.cxs-features', 'from': 'cxs', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.cxs', 'from': 'features', 'to': 'cxs'},
+			{'test': 'phonemeset/ipa/pauses.cxs', 'result': 'phonemeset/ipa/pauses.features', 'from': 'cxs', 'to': 'features'},
 		]},
 		{'name': 'ASCII-IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/phonemes.ascii-ipa', 'result': 'phonemeset/ipa/phonemes.features', 'from': 'ascii-ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/tied-phonemes.features', 'result': 'phonemeset/ipa/tied-phonemes.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/tied-phonemes.ascii-ipa', 'result': 'phonemeset/ipa/tied-phonemes.features', 'from': 'ascii-ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa'},
+			{'test': 'phonemeset/ipa/pauses.ascii-ipa', 'result': 'phonemeset/ipa/pauses.features', 'from': 'ascii-ipa', 'to': 'features'},
 		]},
 	]})
 	test.run({'name': 'Arpabet-Based', 'groups': [
 		{'name': 'CMU', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/arpabet/cmu-phonemes.ipa', 'result': 'phonemeset/arpabet/cmu-phonemes.cmu', 'from': 'ipa', 'to': 'cmu'},
 			{'test': 'phonemeset/arpabet/cmu-phonemes.cmu', 'result': 'phonemeset/arpabet/cmu-phonemes.ipa', 'from': 'cmu', 'to': 'ipa'},
+			{'test': 'phonemeset/arpabet/cmu-pauses.ipa', 'result': 'phonemeset/arpabet/cmu-pauses.cmu', 'from': 'ipa', 'to': 'cmu'},
+			{'test': 'phonemeset/arpabet/cmu-pauses.cmu', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'cmu', 'to': 'ipa'},
 		]},
 	]})
 	test.summary()

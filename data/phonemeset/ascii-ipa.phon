@@ -62,7 +62,7 @@ N	/{vcd,vel,nas}/ # [2]
 O	/{lmd,bck,rnd,vwl}/
 P	/{vls,blb,frc}/
 Q	/{vcd,vel,frc}/
-R	/{mid,cnt,unr,vwl,rzd}/ # [7], [8]
+#R	/{mid,cnt,unr,vwl,rzd}/ # [7], [8]
 S	/{vls,pla,sib,frc}/
 T	/{vls,dnt,frc}/
 U	/{smh,bck,rnd,vwl}/
