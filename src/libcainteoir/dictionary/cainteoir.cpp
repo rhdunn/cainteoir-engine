@@ -174,6 +174,7 @@ void cainteoir_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::b
 	fprintf(mOut, "\t/");
 	for (auto p : phonemes)
 		writer->write(p);
+	writer->flush();
 	fprintf(mOut, "/%s", line_separator);
 }
 

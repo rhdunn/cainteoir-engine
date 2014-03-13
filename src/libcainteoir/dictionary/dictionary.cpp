@@ -104,6 +104,7 @@ void dictionary_entry_formatter::write_phoneme_entry(const std::shared_ptr<caint
 	fprintf(stdout, "\"%s\" => /", word->str().c_str());
 	for (auto p : phonemes)
 		writer->write(p);
+	writer->flush();
 	fprintf(stdout, "/ [%s]%s", writer->name(), line_separator);
 }
 

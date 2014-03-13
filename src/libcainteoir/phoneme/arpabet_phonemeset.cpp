@@ -232,8 +232,12 @@ struct arpabet_writer : public tts::phoneme_writer
 
 	bool write(const tts::phoneme &aPhoneme);
 
+	void flush();
+
 	const char *name() const;
 private:
+	void output_phoneme();
+
 	const char *mPhonemeSet;
 	FILE *mOutput;
 
@@ -331,24 +335,35 @@ bool arpabet_writer::write(const tts::phoneme &aPhoneme)
 		mState = state::need_phoneme;
 		break;
 	case state::output_phoneme:
-		if (mNeedSpace)
-			fputc(' ', mOutput);
-		mNeedSpace = true;
-		fwrite(mPosition->item->begin(), 1, mPosition->item->size(), mOutput);
-		switch (mStress)
-		{
-		case ipa::unstressed:       fputc('0', mOutput); break;
-		case ipa::primary_stress:   fputc('1', mOutput); break;
-		case ipa::secondary_stress: fputc('2', mOutput); break;
-		}
-		mState = state::need_phoneme;
+		output_phoneme();
 		break;
 	}
+}
+
+void arpabet_writer::flush()
+{
+	if (mState == state::have_phoneme)
+		output_phoneme();
 }
 
 const char *arpabet_writer::name() const
 {
 	return mPhonemeSet;
+}
+
+void arpabet_writer::output_phoneme()
+{
+	if (mNeedSpace)
+		fputc(' ', mOutput);
+	mNeedSpace = true;
+	fwrite(mPosition->item->begin(), 1, mPosition->item->size(), mOutput);
+	switch (mStress)
+	{
+	case ipa::unstressed:       fputc('0', mOutput); break;
+	case ipa::primary_stress:   fputc('1', mOutput); break;
+	case ipa::secondary_stress: fputc('2', mOutput); break;
+	}
+	mState = state::need_phoneme;
 }
 
 std::shared_ptr<tts::phoneme_reader> tts::createArpabetPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName)

@@ -120,6 +120,7 @@ static bool pronounce(tts::dictionary &dict,
 			fprintf(stdout, "mismatched; got /");
 			for (auto p : pronounced)
 				writer->write(p);
+			writer->flush();
 			fprintf(stdout, "/\n");
 		}
 	}

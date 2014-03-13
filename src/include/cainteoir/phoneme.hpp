@@ -285,6 +285,8 @@ namespace cainteoir { namespace tts
 
 		virtual bool write(const phoneme &aPhoneme) = 0;
 
+		virtual void flush();
+
 		virtual const char *name() const = 0;
 
 		virtual ~phoneme_writer() {}

@@ -72,6 +72,10 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/arpabet/cmu-pauses.ipa', 'result': 'phonemeset/arpabet/cmu-pauses.cmu', 'from': 'ipa', 'to': 'cmu'},
 			{'test': 'phonemeset/arpabet/cmu-pauses.cmu', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'cmu', 'to': 'ipa'},
 			{'test': 'phonemeset/arpabet/cmu-pauses-no-last-eol.cmu', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'cmu', 'to': 'ipa'},
+			# Here, the last phoneme is a complete phoneme and the start of a diphthong.
+			# Therefore, the phoneme cannot be acted on until the next phoneme is read,
+			# but there is no next phoneme.
+			{'test': 'phonemeset/arpabet/cmu-ambiguous-last-phoneme.ipa', 'result': 'phonemeset/arpabet/cmu-ambiguous-last-phoneme.cmu', 'from': 'ipa', 'to': 'cmu'},
 		]},
 	]})
 	test.summary()

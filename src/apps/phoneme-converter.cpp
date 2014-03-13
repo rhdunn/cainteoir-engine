@@ -49,6 +49,7 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 	aTo->reset(stdout);
 	for (const auto &phoneme : phonemes)
 		aTo->write(phoneme);
+	aTo->flush();
 }
 
 void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
@@ -68,7 +69,10 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 		try
 		{
 			if (!aFrom->read())
+			{
+				aTo->flush();
 				return;
+			}
 		}
 		catch (const tts::phoneme_error &e)
 		{

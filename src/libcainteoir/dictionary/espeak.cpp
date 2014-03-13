@@ -63,6 +63,7 @@ void espeak_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buff
 	fprintf(mOut, "\t");
 	for (auto p : phonemes)
 		writer->write(p);
+	writer->flush();
 	fprintf(mOut, "\n");
 }
 

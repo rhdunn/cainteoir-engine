@@ -26,6 +26,10 @@
 
 namespace tts = cainteoir::tts;
 
+void tts::phoneme_writer::flush()
+{
+}
+
 std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader(const char *aPhonemeSet)
 {
 	if (!strcmp(aPhonemeSet, "features"))
