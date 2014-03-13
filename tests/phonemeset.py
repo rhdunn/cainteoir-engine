@@ -71,6 +71,7 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/arpabet/cmu-phonemes.cmu', 'result': 'phonemeset/arpabet/cmu-phonemes.ipa', 'from': 'cmu', 'to': 'ipa'},
 			{'test': 'phonemeset/arpabet/cmu-pauses.ipa', 'result': 'phonemeset/arpabet/cmu-pauses.cmu', 'from': 'ipa', 'to': 'cmu'},
 			{'test': 'phonemeset/arpabet/cmu-pauses.cmu', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'cmu', 'to': 'ipa'},
+			{'test': 'phonemeset/arpabet/cmu-pauses-no-last-eol.cmu', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'cmu', 'to': 'ipa'},
 		]},
 	]})
 	test.summary()

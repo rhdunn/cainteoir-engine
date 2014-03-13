@@ -139,9 +139,11 @@ void arpabet_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 
 bool arpabet_reader::read()
 {
-	while (mCurrent != mEnd) switch (mState)
+	while (true) switch (mState)
 	{
 	case state::need_phoneme:
+		if (mCurrent == mEnd)
+			return false;
 		switch (classification[*mCurrent])
 		{
 		case type::space:
@@ -161,7 +163,9 @@ bool arpabet_reader::read()
 		}
 		break;
 	case state::parsing_phoneme:
-		switch (classification[*mCurrent])
+		if (mCurrent == mEnd)
+			mState = state::emitting_phoneme1;
+		else switch (classification[*mCurrent])
 		{
 		case type::space:
 		case type::newline:
@@ -184,6 +188,8 @@ bool arpabet_reader::read()
 		}
 		break;
 	case state::error:
+		if (mCurrent == mEnd)
+			return false;
 		switch (classification[*mCurrent])
 		{
 		case type::space:
