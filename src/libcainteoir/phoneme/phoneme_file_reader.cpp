@@ -151,7 +151,7 @@ bool tts::phoneme_file_reader::read()
 	change_to = {};
 	context = {};
 
-	context_t *top = &mFiles.top();
+	context_t *top = mFiles.empty() ? nullptr : &mFiles.top();
 	while (top)
 	{
 		if (top->mCurrent == top->mLast)
