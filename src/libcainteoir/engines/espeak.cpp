@@ -30,6 +30,8 @@ namespace tts = cainteoir::tts;
 
 #if defined(HAVE_ESPEAK_SPEAK_LIB_H)
 
+#include <cainteoir/path.hpp>
+
 #include <espeak/speak_lib.h>
 #include <unistd.h>
 #include <sstream>
@@ -60,6 +62,14 @@ std::string correct_lang(std::string lang)
 	if (match != voice_corrections.end())
 		return match->second;
 	return lang;
+}
+
+std::string phonemeset_from_language(const std::string &lang)
+{
+	auto path = cainteoir::get_data_path() / "phonemeset" / "espeak" / (lang + ".phon");
+	if (access(path, R_OK) == 0)
+		return "espeak/" + lang;
+	return "ipa";
 }
 
 #if defined(HAVE_MBROLA)
@@ -355,7 +365,7 @@ espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::st
 		metadata.statement(voice, rdf::dc("language"), rdf::literal(lang));
 		metadata.statement(voice, rdf::tts("name"), rdf::literal((*data)->name));
 		metadata.statement(voice, rdf::tts("gender"), rdf::tts((*data)->gender == 2 ? "female" : "male"));
-		metadata.statement(voice, rdf::tts("phonemeset"), rdf::literal("ipa"));
+		metadata.statement(voice, rdf::tts("phonemeset"), rdf::literal(phonemeset_from_language(lang)));
 		if ((*data)->age)
 			metadata.statement(voice, rdf::tts("age"), rdf::literal((*data)->age, rdf::xsd("int")));
 
@@ -377,7 +387,7 @@ espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::st
 			metadata.statement(voice, rdf::dc("language"), rdf::literal(mbrola.language));
 			metadata.statement(voice, rdf::tts("name"), rdf::literal(mbrola.name));
 			metadata.statement(voice, rdf::tts("gender"), rdf::tts(mbrola.gender));
-			metadata.statement(voice, rdf::tts("phonemeset"), rdf::literal("ipa"));
+			metadata.statement(voice, rdf::tts("phonemeset"), rdf::literal(phonemeset_from_language(mbrola.language)));
 
 			metadata.statement(voice, rdf::tts("frequency"), rdf::literal(mbrola.frequency, rdf::tts("hertz")));
 			metadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
