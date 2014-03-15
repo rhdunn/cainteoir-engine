@@ -81,7 +81,9 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 			fflush(stderr);
 		}
 
-		if (aFrom->get(ipa::phoneme_type) != ipa::pause || !aNoPauses)
+		if (aFrom->get(ipa::phoneme_type) == ipa::pause && aNoPauses)
+			aTo->flush();
+		else
 		{
 			aTo->write(*aFrom);
 			if (aShowFeatures)
