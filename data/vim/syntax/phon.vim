@@ -2,7 +2,7 @@
 " Language:	Phoneme Transcription
 " Filenames:    *.phon
 " Maintainer:	Reece H. Dunn <msclrhd@gmail.com>
-" Last Change:	2014 Mar 05
+" Last Change:	2014 Mar 15
 
 " Quit when a (custom) syntax file was already loaded
 if exists("b:current_syntax")
@@ -33,7 +33,7 @@ syn keyword	phonDiacritic		dzd apc lmn lgl adv ret czd mcz rsd lwr
 syn keyword	phonDiacritic		mrd lrd lzd pzd vzd fzd vfz nzd rzd atr rtr
 
 syn match	phonUnicodeEscape	'\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]'
-syn match	phonEscape		'\\#'
+syn match	phonEscape		'\\.'
 syn match	phonDirective		'\.[a-z]*'
 
 syn region	phonComment		start="#" end="$" keepend contains=@Spell
