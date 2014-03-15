@@ -37,7 +37,7 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/ipa/tied-phonemes.ipa', 'result': 'phonemeset/ipa/tied-phonemes.features', 'from': 'ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.ipa', 'from': 'features', 'to': 'ipa'},
 			{'test': 'phonemeset/ipa/pauses.ipa', 'result': 'phonemeset/ipa/pauses.features', 'from': 'ipa', 'to': 'features'},
-			{'test': 'phonemeset/ipa/ipa-aliases.ipa', 'result': 'phonemeset/ipa/ipa-aliases.features', 'from': 'ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/ipa-aliases.ipa', 'result': 'phonemeset/ipa/ipa-aliases.default', 'from': 'ipa', 'to': 'ipa', 'args': ['--separate', '--no-pauses']},
 		]},
 		{'name': 'X-SAMPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.x-sampa', 'from': 'features', 'to': 'x-sampa', 'args': ['--separate', '--no-pauses']},
