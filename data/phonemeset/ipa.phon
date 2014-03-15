@@ -9,6 +9,7 @@
 
 # Aliases (Old Or Non-Standard)
 
+g			/{vcd,vel,stp}/
 \u01DD			/{mid,cnt,unr,vwl}/
 \u03B5			/{lmd,fnt,unr,vwl}/
 
