@@ -341,12 +341,15 @@
 
 {vls,vel,stp,st1}
 {hgh,fnt,unr,vwl,st1}
+{lmd,cnt,unr,vwl,rzd,st1}
 
 {vls,vel,stp,st2}
 {hgh,fnt,unr,vwl,st2}
+{lmd,cnt,unr,vwl,rzd,st2}
 
 {vls,vel,stp,st3}
 {hgh,fnt,unr,vwl,st3}
+{lmd,cnt,unr,vwl,rzd,st3}
 
 {low,fnt,unr,vwl,est}
 {hgh,fnt,unr,vwl,est}

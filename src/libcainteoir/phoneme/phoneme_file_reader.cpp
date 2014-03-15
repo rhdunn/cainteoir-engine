@@ -578,75 +578,80 @@ tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhone
 
 bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhoneme) const
 {
-	auto match = mPhonemes.find(aPhoneme);
-	if (match != mPhonemes.end())
+	static std::initializer_list<ipa::phoneme::value_type> masks =
 	{
-		fwrite(match->second->begin(), 1, match->second->size(), aOutput);
-		return true;
-	}
+		{ ipa::main | ipa::diacritics | ipa::suprasegmentals },
+		{ ipa::main | ipa::diacritics },
+		{ ipa::main },
+	};
 
-	tts::phoneme main{ aPhoneme.get(ipa::main) };
-
-	std::vector<std::shared_ptr<cainteoir::buffer>> append;
-
-	match = mPhonemes.find(main);
-	if (match == mPhonemes.end()) for (auto && rule : mModifiers)
+	for (auto && mask : masks)
 	{
-		if (rule.context.in(main) && rule.change_to.in(main))
-		{
-			main.set(rule.feature);
-			append.push_back(rule.transcription);
+		tts::phoneme main{ aPhoneme.get(mask) };
 
-			match = mPhonemes.find(main);
-			if (match != mPhonemes.end())
-				break;
-		}
-	}
+		std::vector<std::shared_ptr<cainteoir::buffer>> append;
 
-	if (match != mPhonemes.end())
-	{
-		for (auto && rule : mBefore)
+		auto match = mPhonemes.find(main);
+		if (match == mPhonemes.end()) for (auto && rule : mModifiers)
 		{
-			if (rule.context.in(aPhoneme) && aPhoneme.get(rule.feature))
-				fwrite(rule.transcription->begin(), 1, rule.transcription->size(), aOutput);
-		}
-		fwrite(match->second->begin(), 1, match->second->size(), aOutput);
-		for (auto && rule : mAfter)
-		{
-			if (rule.context.in(aPhoneme) && aPhoneme.get(rule.feature))
-				fwrite(rule.transcription->begin(), 1, rule.transcription->size(), aOutput);
-		}
-		for (auto && transcription : append)
-			fwrite(transcription->begin(), 1, transcription->size(), aOutput);
+			if (rule.context.in(main) && rule.change_to.in(main))
+			{
+				main.set(rule.feature);
+				append.push_back(rule.transcription);
 
-		switch (aPhoneme.get(ipa::tone_start))
-		{
-		case ipa::tone_start_top:    fwrite(mTones[4]->begin(), 1, mTones[4]->size(), aOutput); break;
-		case ipa::tone_start_high:   fwrite(mTones[3]->begin(), 1, mTones[3]->size(), aOutput); break;
-		case ipa::tone_start_mid:    fwrite(mTones[2]->begin(), 1, mTones[2]->size(), aOutput); break;
-		case ipa::tone_start_low:    fwrite(mTones[1]->begin(), 1, mTones[1]->size(), aOutput); break;
-		case ipa::tone_start_bottom: fwrite(mTones[0]->begin(), 1, mTones[0]->size(), aOutput); break;
+				match = mPhonemes.find(main);
+				if (match != mPhonemes.end())
+					break;
+			}
 		}
 
-		switch (aPhoneme.get(ipa::tone_middle))
+		if (match != mPhonemes.end())
 		{
-		case ipa::tone_middle_top:    fwrite(mTones[4]->begin(), 1, mTones[4]->size(), aOutput); break;
-		case ipa::tone_middle_high:   fwrite(mTones[3]->begin(), 1, mTones[3]->size(), aOutput); break;
-		case ipa::tone_middle_mid:    fwrite(mTones[2]->begin(), 1, mTones[2]->size(), aOutput); break;
-		case ipa::tone_middle_low:    fwrite(mTones[1]->begin(), 1, mTones[1]->size(), aOutput); break;
-		case ipa::tone_middle_bottom: fwrite(mTones[0]->begin(), 1, mTones[0]->size(), aOutput); break;
-		}
+			main = { aPhoneme.get(~mask | ipa::phoneme_type) };
 
-		switch (aPhoneme.get(ipa::tone_end))
-		{
-		case ipa::tone_end_top:    fwrite(mTones[4]->begin(), 1, mTones[4]->size(), aOutput); break;
-		case ipa::tone_end_high:   fwrite(mTones[3]->begin(), 1, mTones[3]->size(), aOutput); break;
-		case ipa::tone_end_mid:    fwrite(mTones[2]->begin(), 1, mTones[2]->size(), aOutput); break;
-		case ipa::tone_end_low:    fwrite(mTones[1]->begin(), 1, mTones[1]->size(), aOutput); break;
-		case ipa::tone_end_bottom: fwrite(mTones[0]->begin(), 1, mTones[0]->size(), aOutput); break;
-		}
+			for (auto && rule : mBefore)
+			{
+				if (rule.context.in(main) && main.get(rule.feature))
+					fwrite(rule.transcription->begin(), 1, rule.transcription->size(), aOutput);
+			}
+			fwrite(match->second->begin(), 1, match->second->size(), aOutput);
+			for (auto && rule : mAfter)
+			{
+				if (rule.context.in(main) && main.get(rule.feature))
+					fwrite(rule.transcription->begin(), 1, rule.transcription->size(), aOutput);
+			}
+			for (auto && transcription : append)
+				fwrite(transcription->begin(), 1, transcription->size(), aOutput);
 
-		return true;
+			switch (main.get(ipa::tone_start))
+			{
+			case ipa::tone_start_top:    fwrite(mTones[4]->begin(), 1, mTones[4]->size(), aOutput); break;
+			case ipa::tone_start_high:   fwrite(mTones[3]->begin(), 1, mTones[3]->size(), aOutput); break;
+			case ipa::tone_start_mid:    fwrite(mTones[2]->begin(), 1, mTones[2]->size(), aOutput); break;
+			case ipa::tone_start_low:    fwrite(mTones[1]->begin(), 1, mTones[1]->size(), aOutput); break;
+			case ipa::tone_start_bottom: fwrite(mTones[0]->begin(), 1, mTones[0]->size(), aOutput); break;
+			}
+
+			switch (main.get(ipa::tone_middle))
+			{
+			case ipa::tone_middle_top:    fwrite(mTones[4]->begin(), 1, mTones[4]->size(), aOutput); break;
+			case ipa::tone_middle_high:   fwrite(mTones[3]->begin(), 1, mTones[3]->size(), aOutput); break;
+			case ipa::tone_middle_mid:    fwrite(mTones[2]->begin(), 1, mTones[2]->size(), aOutput); break;
+			case ipa::tone_middle_low:    fwrite(mTones[1]->begin(), 1, mTones[1]->size(), aOutput); break;
+			case ipa::tone_middle_bottom: fwrite(mTones[0]->begin(), 1, mTones[0]->size(), aOutput); break;
+			}
+
+			switch (main.get(ipa::tone_end))
+			{
+			case ipa::tone_end_top:    fwrite(mTones[4]->begin(), 1, mTones[4]->size(), aOutput); break;
+			case ipa::tone_end_high:   fwrite(mTones[3]->begin(), 1, mTones[3]->size(), aOutput); break;
+			case ipa::tone_end_mid:    fwrite(mTones[2]->begin(), 1, mTones[2]->size(), aOutput); break;
+			case ipa::tone_end_low:    fwrite(mTones[1]->begin(), 1, mTones[1]->size(), aOutput); break;
+			case ipa::tone_end_bottom: fwrite(mTones[0]->begin(), 1, mTones[0]->size(), aOutput); break;
+			}
+
+			return true;
+		}
 	}
 	return false;
 }

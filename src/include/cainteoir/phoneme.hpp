@@ -28,9 +28,13 @@
 
 namespace cainteoir { namespace ipa
 {
+	constexpr uint64_t main                   = UINT64_C(0x00000000001FFFFF);
+	constexpr uint64_t diacritics             = UINT64_C(0x000007FFFFE00000);
+	constexpr uint64_t reserved               = UINT64_C(0x000EF80000000000);
+	constexpr uint64_t suprasegmentals        = UINT64_C(0xFFF1000000000000);
+
 	// features
 
-	constexpr uint64_t main                   = UINT64_C(0x00000000001FFFFF);
 	// main ---------------------------------------------- 00000000001FFFFF
 	constexpr uint64_t phoneme_type           = UINT64_C(0x000000000000000F);
 	// ... consonants ------------------------------------ 0000000000003FF0
@@ -47,7 +51,7 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t lax                    = UINT64_C(0x0000000000040000);
 	constexpr uint64_t front                  = UINT64_C(0x0000000000080000);
 	constexpr uint64_t back                   = UINT64_C(0x0000000000100000);
-	// diacritics ---------------------------------------- 000003FFFFE00000
+	// diacritics ---------------------------------------- 000007FFFFE00000
 	constexpr uint64_t ejective               = UINT64_C(0x0000000000200000);
 	constexpr uint64_t release                = UINT64_C(0x0000000001C00000);
 	constexpr uint64_t phonation              = UINT64_C(0x000000000E000000);
