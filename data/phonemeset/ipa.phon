@@ -7,12 +7,17 @@
 \u000A			/{pau}/		# clause pause
 \u0020			/{pau,est}/	# word pause
 
-# Aliases (Old Or Non-Standard)
+# Alternate Unicode Codepoints
 
 g			/{vcd,vel,stp}/
 \u01DD			/{mid,cnt,unr,vwl}/
 \u03B3			/{vcd,vel,frc}/
 \u03B5			/{lmd,fnt,unr,vwl}/
+\u03B9			/{smh,fnt,unr,vwl}/
+
+# Old IPA
+
+\u0269			/{smh,fnt,unr,vwl}/
 
 # Pulmonic Consonants
 
@@ -118,8 +123,8 @@ u			/{hgh,bck,rnd,vwl}/
 
 \u026A			/{smh,fnt,unr,vwl}/
 \u028F			/{smh,fnt,rnd,vwl}/
-\u1D7B			/{smh,cnt,unr,vwl}/
-\u1D7F			/{smh,cnt,rnd,vwl}/
+\u1D7B			/{smh,cnt,unr,vwl}/ # [1]
+\u1D7F			/{smh,cnt,rnd,vwl}/ # [1]
 \u028A			/{smh,bck,rnd,vwl}/
 
 e			/{umd,fnt,unr,vwl}/
@@ -146,7 +151,7 @@ a			/{low,fnt,unr,vwl}/
 \u0251			/{low,bck,unr,vwl}/
 \u0252			/{low,bck,rnd,vwl}/
 
-# Aliases
+# Special Unicode Codepoints For Base Phoneme + Diacritic
 
 \u025A			/{mid,cnt,unr,vwl,rzd}/
 \u025D			/{lmd,cnt,unr,vwl,rzd}/
@@ -214,6 +219,10 @@ a			/{low,fnt,unr,vwl}/
 \u02E8	^2
 \u02E9	^1
 
+##### Notes:
+#
+#  1. This is a non-standard IPA symbol.
+#
 ##### References:
 #
 #  1. http://en.wikipedia.org/wiki/International_Phonetic_Alphabet
