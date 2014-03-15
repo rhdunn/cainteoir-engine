@@ -140,6 +140,7 @@ a			/{low,fnt,unr,vwl}/
 # Aliases
 
 \u025A			/{mid,cnt,unr,vwl,rzd}/
+\u025D			/{lmd,cnt,unr,vwl,rzd}/
 \u026B			/{vcd,alv,lat,apr,vfz}/
 
 # Diacritics, Modifiers & Suprasegmentals
