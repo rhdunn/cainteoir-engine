@@ -108,6 +108,8 @@ M	/{hgh,bck,unr,vwl}/
 
 I	/{smh,fnt,unr,vwl}/
 Y	/{smh,fnt,rnd,vwl}/
+I\\	/{smh,cnt,unr,vwl}/ # [6]
+U\\	/{smh,cnt,rnd,vwl}/ # [6]
 U	/{smh,bck,rnd,vwl}/
 
 2	/{umd,fnt,rnd,vwl}/

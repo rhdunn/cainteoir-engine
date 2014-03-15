@@ -112,6 +112,8 @@
 
 {smh,fnt,unr,vwl}
 {smh,fnt,rnd,vwl}
+{smh,cnt,unr,vwl}
+{smh,cnt,rnd,vwl}
 {smh,bck,rnd,vwl}
 
 {umd,fnt,unr,vwl}

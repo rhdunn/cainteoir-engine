@@ -111,6 +111,8 @@ u			/{hgh,bck,rnd,vwl}/
 
 \u026A			/{smh,fnt,unr,vwl}/
 \u028F			/{smh,fnt,rnd,vwl}/
+\u1D7B			/{smh,cnt,unr,vwl}/
+\u1D7F			/{smh,cnt,rnd,vwl}/
 \u028A			/{smh,bck,rnd,vwl}/
 
 e			/{umd,fnt,unr,vwl}/

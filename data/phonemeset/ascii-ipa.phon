@@ -180,6 +180,8 @@ a.	/{low,fnt,rnd,vwl}/ # [14], [22], [23], [24]
 
 i"	/{hgh,cnt,unr,vwl}/
 u"	/{hgh,cnt,rnd,vwl}/
+I"	/{smh,cnt,unr,vwl}/
+U"	/{smh,cnt,rnd,vwl}/
 @<umd>	/{umd,cnt,unr,vwl}/
 @.<umd>	/{umd,cnt,rnd,vwl}/ # [27]
 V"	/{lmd,cnt,unr,vwl}/
