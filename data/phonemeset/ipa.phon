@@ -11,6 +11,7 @@
 
 g			/{vcd,vel,stp}/
 \u01DD			/{mid,cnt,unr,vwl}/
+\u03B3			/{vcd,vel,frc}/
 \u03B5			/{lmd,fnt,unr,vwl}/
 
 # Pulmonic Consonants
