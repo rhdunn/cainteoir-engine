@@ -7,6 +7,10 @@
 \u000A			/{pau}/		# clause pause
 \u0020			/{pau,est}/	# word pause
 
+# Aliases (Old Or Non-Standard)
+
+\u03B5			/{lmd,fnt,unr,vwl}/
+
 # Pulmonic Consonants
 
 m			/{vcd,blb,nas}/
