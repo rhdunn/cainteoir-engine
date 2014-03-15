@@ -78,4 +78,11 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/arpabet/cmu-ambiguous-last-phoneme.ipa', 'result': 'phonemeset/arpabet/cmu-ambiguous-last-phoneme.cmu', 'from': 'ipa', 'to': 'cmu'},
 		]},
 	]})
+	test.run({'name': 'eSpeak-Based', 'groups': [
+		{'name': 'English', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en'},
+			{'test': 'phonemeset/espeak/en.espeak', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en', 'to': 'ipa'},
+			{'test': 'phonemeset/espeak/en~aliases.espeak', 'result': 'phonemeset/espeak/en~aliases.ipa', 'from': 'espeak/en', 'to': 'ipa'},
+		]},
+	]})
 	test.summary()

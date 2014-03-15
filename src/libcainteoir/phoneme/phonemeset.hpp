@@ -38,21 +38,18 @@ namespace cainteoir { namespace tts
 	 * .==============[ READER ]==============.   .===============[ WRITER ]================. *
 	 * |                                      |   |                                         | *
 	 *                                                                                        *
-	 *   [feature]                                                              [feature]     *
-	 *       |                                                                      |         *
-	 *       v                                                                      v         *
+	 *   [feature]                           [espeak]                           [feature]     *
+	 *       |                                  |                                   |         *
+	 *       v                                  v                                   v         *
 	 * read_explicit_feature <-------- phoneme_file_reader           write_explicit_feature   *
 	 *       ^                                  ^                                   ^         *
 	 *       |                                  |                                   |         *
 	 *       |                    .-------------+------------.                      |         *
 	 *       |                    |             |            |                      |         *
 	 * [kirshenbaum] ---> transcription_reader  |  transcription_writer <---- [kirshenbaum]   *
-	 *                     ^      ^             |            ^      ^                         *
-	 *                     |      |         [arpabet]        |      |                         *
-	 *                     |      |                          |      |                         *
-	 *                     |    [ipa]                      [ipa]    |                         *
-	 *                     |                                        |                         *
-	 *                  [espeak]                                 [espeak]                     *
+	 *                            ^             |            ^                                *
+	 *                            |             |            |                                *
+	 *                          [ipa]       [arpabet]      [ipa]                              *
 	 *                                                                                        *
 	 *========================================================================================*
 	 */
@@ -232,6 +229,9 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<phoneme_reader> createArpabetPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_writer> createArpabetPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName);
+
+	std::shared_ptr<phoneme_reader> createEspeakPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName);
+	std::shared_ptr<phoneme_writer> createEspeakPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName);
 }}
 
 #endif
