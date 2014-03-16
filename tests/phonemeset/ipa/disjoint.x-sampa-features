@@ -19,6 +19,7 @@ error: unrecognised character \
 {vls,uvl,stp,est}
 {vcd,vel,nas,lmn}
 {vcd,vel,stp,vzd}
+{vcd,rfx,flp,rsd}
 
 {mid,cnt,unr,vwl,unx}
 

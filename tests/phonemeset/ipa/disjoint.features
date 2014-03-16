@@ -10,6 +10,7 @@
 {vls,uvl,stp,tie}{vls,uvl,frc}
 {vcd,vel,nas,tie}{vcd,blb,nas}
 {vcd,vel,stp,tie}{vcd,vel,frc}
+{vcd,rfx,flp,tie}{vcd,alv,trl}
 
 {mid,cnt,unr,vwl,tie}{hgh,cnt,rnd,vwl}
 
