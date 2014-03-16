@@ -316,6 +316,10 @@
 {vcd,alv,trl,rsd}
 {umd,fnt,unr,vwl,rsd}
 
+{vcd,alv,trl,slv,rsd}
+{vcd,pal,lat,apr,slv,rsd}
+{vcd,vel,lat,apr,slv,rsd}
+
 {vcd,blb,frc,lwr}
 {vcd,dnt,frc,lwr}
 {vcd,vel,frc,lwr}

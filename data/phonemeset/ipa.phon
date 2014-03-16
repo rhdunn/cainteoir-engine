@@ -169,6 +169,10 @@ a			/{low,fnt,unr,vwl}/
 \u0261\u030A		/{vcd,vel,stp,slv}/
 j\u030A			/{vcd,pal,apr,slv}/
 
+r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
+\u028E\u031D\u030A	/{vcd,pal,lat,apr,slv,rsd}/
+\u029F\u031D\u030A	/{vcd,vel,lat,apr,slv,rsd}/
+
 # Diacritics, Modifiers & Suprasegmentals
 
 \.			/{sbr}/
