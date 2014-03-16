@@ -582,6 +582,7 @@ bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhonem
 	{
 		{ ipa::main | ipa::rhoticized | ipa::phonation | ipa::coarticulation | ipa::raised | ipa::length },
 		{ ipa::main | ipa::rhoticized | ipa::phonation | ipa::coarticulation | ipa::raised },
+		{ ipa::main | ipa::rhoticized | ipa::phonation | ipa::raised },
 		{ ipa::main },
 	};
 

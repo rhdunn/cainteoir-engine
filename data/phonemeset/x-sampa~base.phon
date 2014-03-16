@@ -146,29 +146,6 @@ z\\	/{vcd,alp,sib,frc}/
 l\\	/{vcd,alv,lat,flp}/
 x\\	/{vls,pla,sib,frc,vzd}/
 
-##### Suprasegmentals
-
-_X	>	=est
-:\\	>	=hlg
-:	>	=lng
-
-\.		/{sbr}/
--\\		/{lnk}/
-|		/{fbr}/
-||		/{ibr}/
-\<R>		/{glr}/
-\<F>		/{glf}/
-\^		/{ust}/
-!		/{dst}/
-
-##### Tones
-
-_T	^5
-_H	^4
-_M	^3
-_L	^2
-_B	^1
-
 ##### Diacritics
 
 _0	>	=slv
@@ -212,6 +189,29 @@ _	>	=tie
 
 _<	>	stp => imp
 _>	>	=ejc
+
+##### Suprasegmentals
+
+_X	>	=est
+:\\	>	=hlg
+:	>	=lng
+
+\.		/{sbr}/
+-\\		/{lnk}/
+|		/{fbr}/
+||		/{ibr}/
+\<R>		/{glr}/
+\<F>		/{glf}/
+\^		/{ust}/
+!		/{dst}/
+
+##### Tones
+
+_T	^5
+_H	^4
+_M	^3
+_L	^2
+_B	^1
 
 ##### Notes:
 #

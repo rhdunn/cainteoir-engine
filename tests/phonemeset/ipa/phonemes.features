@@ -319,6 +319,9 @@
 {vcd,alv,trl,slv,rsd}
 {vcd,pal,lat,apr,slv,rsd}
 {vcd,vel,lat,apr,slv,rsd}
+{vcd,vel,lat,apr,slv,lzd,rsd}
+{vcd,vel,lat,apr,slv,rsd,lng}
+{vcd,vel,lat,apr,slv,lzd,rsd,lng}
 
 {vcd,blb,frc,lwr}
 {vcd,dnt,frc,lwr}
