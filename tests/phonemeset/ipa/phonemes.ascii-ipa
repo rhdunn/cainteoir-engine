@@ -151,6 +151,7 @@ d.<vls>
 g<vls>
 z<vls>
 j<vls>
+r<vls>
 r<trl><vls>
 l<vls>
 u<vls>
@@ -197,7 +198,11 @@ k<unx>
 p<w>
 b<w>
 k<w>
+S<w>
+Z<w>
 x<w>
+r<w>
+r<w><vls>
 
 p<mrd>
 b<mrd>
@@ -240,6 +245,7 @@ O~
 
 @<r>
 V"<r>
+A<r>
 
 n[
 p[
@@ -263,6 +269,7 @@ P<apc>
 B<apc>
 b<trl><apc>
 p!<apc>
+*.<apc>
 
 t<lmn>
 d<lmn>

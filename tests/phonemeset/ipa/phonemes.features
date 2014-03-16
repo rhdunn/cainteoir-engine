@@ -151,6 +151,7 @@
 {vcd,vel,stp,slv}
 {vcd,alv,sib,frc,slv}
 {vcd,pal,apr,slv}
+{vcd,alv,apr,slv}
 {vcd,alv,trl,slv}
 {vcd,alv,lat,apr,slv}
 {hgh,bck,rnd,vwl,slv}
@@ -197,7 +198,11 @@
 {vls,blb,stp,lzd}
 {vcd,blb,stp,lzd}
 {vls,vel,stp,lzd}
+{vls,pla,sib,frc,lzd}
+{vcd,pla,sib,frc,lzd}
 {vls,vel,frc,lzd}
+{vcd,alv,apr,lzd}
+{vcd,alv,apr,slv,lzd}
 
 {vls,blb,stp,mrd}
 {vcd,blb,stp,mrd}
@@ -240,6 +245,7 @@
 
 {mid,cnt,unr,vwl,rzd}
 {lmd,cnt,unr,vwl,rzd}
+{low,bck,unr,vwl,rzd}
 
 {vcd,alv,nas,dzd}
 {vls,blb,stp,dzd}
@@ -263,6 +269,7 @@
 {vcd,blb,frc,apc}
 {vcd,blb,trl,apc}
 {vls,blb,clk,apc}
+{vcd,rfx,flp,apc}
 
 {vls,alv,stp,lmn}
 {vcd,alv,stp,lmn}
