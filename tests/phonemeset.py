@@ -61,7 +61,7 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/phonemes.ascii-ipa', 'result': 'phonemeset/ipa/phonemes.features', 'from': 'ascii-ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/disjoint.features', 'result': 'phonemeset/ipa/disjoint.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa', 'args': ['--separate', '--no-pauses']},
-			{'test': 'phonemeset/ipa/disjoint.ascii-ipa', 'result': 'phonemeset/ipa/disjoint.features', 'from': 'ascii-ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/disjoint.ascii-ipa', 'result': 'phonemeset/ipa/disjoint.ascii-ipa-features', 'from': 'ascii-ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa'},
 			{'test': 'phonemeset/ipa/pauses.ascii-ipa', 'result': 'phonemeset/ipa/pauses.features', 'from': 'ascii-ipa', 'to': 'features'},
 		]},
