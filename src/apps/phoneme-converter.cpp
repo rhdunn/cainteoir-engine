@@ -79,6 +79,7 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 			fflush(stdout);
 			fprintf(stderr, "\nerror: %s\n", e.what());
 			fflush(stderr);
+			continue;
 		}
 
 		if (aFrom->get(ipa::phoneme_type) == ipa::pause && aNoPauses)
