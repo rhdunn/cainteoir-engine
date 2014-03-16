@@ -25,7 +25,7 @@ if __name__ == '__main__':
 	test.run({'name': 'Feature-Based', 'groups': [
 		{'name': 'Features', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.features', 'from': 'features', 'to': 'features', 'args': ['--separate', '--no-pauses']},
-			{'test': 'phonemeset/ipa/tied-phonemes.features', 'result': 'phonemeset/ipa/tied-phonemes.features', 'from': 'features', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/disjoint.features', 'result': 'phonemeset/ipa/disjoint.features', 'from': 'features', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.features', 'from': 'features', 'to': 'features'},
 		]},
 	]})
@@ -33,8 +33,8 @@ if __name__ == '__main__':
 		{'name': 'IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.ipa', 'from': 'features', 'to': 'ipa', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/phonemes.ipa', 'result': 'phonemeset/ipa/phonemes.features', 'from': 'ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
-			{'test': 'phonemeset/ipa/tied-phonemes.features', 'result': 'phonemeset/ipa/tied-phonemes.ipa', 'from': 'features', 'to': 'ipa', 'args': ['--separate', '--no-pauses']},
-			{'test': 'phonemeset/ipa/tied-phonemes.ipa', 'result': 'phonemeset/ipa/tied-phonemes.features', 'from': 'ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/disjoint.features', 'result': 'phonemeset/ipa/disjoint.ipa', 'from': 'features', 'to': 'ipa', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/disjoint.ipa', 'result': 'phonemeset/ipa/disjoint.features', 'from': 'ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.ipa', 'from': 'features', 'to': 'ipa'},
 			{'test': 'phonemeset/ipa/pauses.ipa', 'result': 'phonemeset/ipa/pauses.features', 'from': 'ipa', 'to': 'features'},
 			{'test': 'phonemeset/ipa/ipa-aliases.ipa', 'result': 'phonemeset/ipa/ipa-aliases.default', 'from': 'ipa', 'to': 'ipa', 'args': ['--separate', '--no-pauses']},
@@ -43,8 +43,8 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.x-sampa', 'from': 'features', 'to': 'x-sampa', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/phonemes.x-sampa', 'result': 'phonemeset/ipa/phonemes.features', 'from': 'x-sampa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			# NOTE: X-SAMPA has ambiguous transcriptions for diacritics vs ties, so these fail to round-trip
-			{'test': 'phonemeset/ipa/tied-phonemes.features', 'result': 'phonemeset/ipa/tied-phonemes.x-sampa', 'from': 'features', 'to': 'x-sampa', 'args': ['--separate', '--no-pauses']},
-			{'test': 'phonemeset/ipa/tied-phonemes.x-sampa', 'result': 'phonemeset/ipa/tied-phonemes.x-sampa-features', 'from': 'x-sampa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/disjoint.features', 'result': 'phonemeset/ipa/disjoint.x-sampa', 'from': 'features', 'to': 'x-sampa', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/disjoint.x-sampa', 'result': 'phonemeset/ipa/disjoint.x-sampa-features', 'from': 'x-sampa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.x-sampa', 'from': 'features', 'to': 'x-sampa'},
 			{'test': 'phonemeset/ipa/pauses.x-sampa', 'result': 'phonemeset/ipa/pauses.features', 'from': 'x-sampa', 'to': 'features'},
 		]},
@@ -52,16 +52,16 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.cxs', 'from': 'features', 'to': 'cxs', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/phonemes.cxs', 'result': 'phonemeset/ipa/phonemes.features', 'from': 'cxs', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			# NOTE: X-SAMPA has ambiguous transcriptions for diacritics vs ties, so these fail to round-trip
-			{'test': 'phonemeset/ipa/tied-phonemes.features', 'result': 'phonemeset/ipa/tied-phonemes.cxs', 'from': 'features', 'to': 'cxs', 'args': ['--separate', '--no-pauses']},
-			{'test': 'phonemeset/ipa/tied-phonemes.cxs', 'result': 'phonemeset/ipa/tied-phonemes.cxs-features', 'from': 'cxs', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/disjoint.features', 'result': 'phonemeset/ipa/disjoint.cxs', 'from': 'features', 'to': 'cxs', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/disjoint.cxs', 'result': 'phonemeset/ipa/disjoint.cxs-features', 'from': 'cxs', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.cxs', 'from': 'features', 'to': 'cxs'},
 			{'test': 'phonemeset/ipa/pauses.cxs', 'result': 'phonemeset/ipa/pauses.features', 'from': 'cxs', 'to': 'features'},
 		]},
 		{'name': 'ASCII-IPA', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/phonemes.ascii-ipa', 'result': 'phonemeset/ipa/phonemes.features', 'from': 'ascii-ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
-			{'test': 'phonemeset/ipa/tied-phonemes.features', 'result': 'phonemeset/ipa/tied-phonemes.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa', 'args': ['--separate', '--no-pauses']},
-			{'test': 'phonemeset/ipa/tied-phonemes.ascii-ipa', 'result': 'phonemeset/ipa/tied-phonemes.features', 'from': 'ascii-ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/disjoint.features', 'result': 'phonemeset/ipa/disjoint.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa', 'args': ['--separate', '--no-pauses']},
+			{'test': 'phonemeset/ipa/disjoint.ascii-ipa', 'result': 'phonemeset/ipa/disjoint.features', 'from': 'ascii-ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa'},
 			{'test': 'phonemeset/ipa/pauses.ascii-ipa', 'result': 'phonemeset/ipa/pauses.features', 'from': 'ascii-ipa', 'to': 'features'},
 		]},

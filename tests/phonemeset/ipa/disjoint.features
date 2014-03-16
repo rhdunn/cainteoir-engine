@@ -1,0 +1,13 @@
+{vls,alv,stp,dzd,tie}{vls,dnt,frc}
+{vls,alv,stp,dzd,tie}{vls,dnt,frc,asp}
+{vls,alv,stp,dzd,tie}{vls,dnt,frc,ejc}
+{vcd,blb,stp,dzd,tie}{vcd,lbd,frc}
+{vcd,pal,stp,tie}{vcd,pal,frc}
+{vls,vel,stp,tie}{vls,vel,frc}
+{vls,uvl,stp,tie}{vls,uvl,frc}
+{vcd,vel,nas,tie}{vcd,blb,nas}
+{vcd,vel,stp,tie}{vcd,vel,frc}
+
+{mid,cnt,unr,vwl,tie}{hgh,cnt,rnd,vwl}
+
+{low,bck,unr,vwl,tie}{umd,fnt,unr,vwl}
