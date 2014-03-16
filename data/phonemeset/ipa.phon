@@ -9,6 +9,7 @@
 
 # Alternate Unicode Codepoints
 
+\?			/{vls,glt,stp}/
 g			/{vcd,vel,stp}/
 \u01DD			/{mid,cnt,unr,vwl}/
 \u03B3			/{vcd,vel,frc}/
