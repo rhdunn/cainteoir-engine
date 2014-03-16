@@ -161,6 +161,14 @@ a			/{low,fnt,unr,vwl}/
 \u025D			/{lmd,cnt,unr,vwl,rzd}/
 \u026B			/{vcd,alv,lat,apr,vfz}/
 
+# Improvements to Diacritic Placements
+
+\u0273\u030A		/{vcd,rfx,nas,slv}/
+\u0272\u030A		/{vcd,pal,nas,slv}/
+\u014B\u030A		/{vcd,vel,nas,slv}/
+\u0261\u030A		/{vcd,vel,stp,slv}/
+j\u030A			/{vcd,pal,apr,slv}/
+
 # Diacritics, Modifiers & Suprasegmentals
 
 \.			/{sbr}/
