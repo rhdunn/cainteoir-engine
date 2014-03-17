@@ -87,5 +87,10 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/espeak/en.espeak', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en', 'to': 'ipa'},
 			{'test': 'phonemeset/espeak/en~aliases.espeak', 'result': 'phonemeset/espeak/en~aliases.ipa', 'from': 'espeak/en', 'to': 'ipa'},
 		]},
+		{'name': 'English (Brittish)', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB'},
+			{'test': 'phonemeset/espeak/en.espeak', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB', 'to': 'ipa'},
+			{'test': 'phonemeset/espeak/en~aliases.espeak', 'result': 'phonemeset/espeak/en~aliases.ipa', 'from': 'espeak/en-GB', 'to': 'ipa'},
+		]},
 	]})
 	test.summary()
