@@ -20,6 +20,7 @@ g			/{vcd,vel,stp}/
 
 \u0269			/{smh,fnt,unr,vwl}/
 \u0277			/{smh,bck,rnd,vwl}/
+\u027C			/{vcd,alv,trl,rsd}/
 \u0287			/{vls,dnt,clk}/
 \u0296			/{vls,alv,lat,clk}/
 \u0297			/{vls,alv,clk}/
@@ -170,6 +171,7 @@ a			/{low,fnt,unr,vwl}/
 \u0261\u030A		/{vcd,vel,stp,slv}/
 j\u030A			/{vcd,pal,apr,slv}/
 
+r\u031D			/{vcd,alv,trl,rsd}/ # [2]
 r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 \u028E\u031D\u030A	/{vcd,pal,lat,apr,slv,rsd}/
 \u029F\u031D\u030A	/{vcd,vel,lat,apr,slv,rsd}/
@@ -240,6 +242,10 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 ##### Notes:
 #
 #  1. This is a non-standard IPA symbol.
+#
+#  2. The old IPA symbol overrides the official base + diacritic transcription
+#     so the base + diacritic resolution will not work. Therefore, the base +
+#     diacritic transcription is listed explicitly.
 #
 ##### References:
 #
