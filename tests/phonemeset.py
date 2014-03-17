@@ -47,6 +47,7 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/ipa/disjoint.x-sampa', 'result': 'phonemeset/ipa/disjoint.x-sampa-features', 'from': 'x-sampa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.x-sampa', 'from': 'features', 'to': 'x-sampa'},
 			{'test': 'phonemeset/ipa/pauses.x-sampa', 'result': 'phonemeset/ipa/pauses.features', 'from': 'x-sampa', 'to': 'features'},
+			{'test': 'phonemeset/ipa/x-sampa-aliases.x-sampa', 'result': 'phonemeset/ipa/x-sampa-aliases.default', 'from': 'x-sampa', 'to': 'x-sampa', 'args': ['--separate', '--no-pauses']},
 		]},
 		{'name': 'CXS', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.cxs', 'from': 'features', 'to': 'cxs', 'args': ['--separate', '--no-pauses']},
@@ -64,6 +65,7 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/ipa/disjoint.ascii-ipa', 'result': 'phonemeset/ipa/disjoint.ascii-ipa-features', 'from': 'ascii-ipa', 'to': 'features', 'args': ['--separate', '--no-pauses']},
 			{'test': 'phonemeset/ipa/pauses.features', 'result': 'phonemeset/ipa/pauses.ascii-ipa', 'from': 'features', 'to': 'ascii-ipa'},
 			{'test': 'phonemeset/ipa/pauses.ascii-ipa', 'result': 'phonemeset/ipa/pauses.features', 'from': 'ascii-ipa', 'to': 'features'},
+			{'test': 'phonemeset/ipa/x-sampa-aliases.x-sampa', 'result': 'phonemeset/ipa/x-sampa-aliases.default', 'from': 'cxs', 'to': 'cxs', 'args': ['--separate', '--no-pauses']},
 		]},
 	]})
 	test.run({'name': 'Arpabet-Based', 'groups': [
