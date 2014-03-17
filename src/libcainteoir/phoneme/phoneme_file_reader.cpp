@@ -580,9 +580,9 @@ bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhonem
 {
 	static std::initializer_list<ipa::phoneme::value_type> masks =
 	{
-		{ ipa::main | ipa::rhoticized | ipa::phonation | ipa::coarticulation | ipa::raised | ipa::length },
-		{ ipa::main | ipa::rhoticized | ipa::phonation | ipa::coarticulation | ipa::raised },
-		{ ipa::main | ipa::rhoticized | ipa::phonation | ipa::raised },
+		{ ipa::main | ipa::rhoticized | ipa::phonation | ipa::coarticulation | ipa::articulation | ipa::length },
+		{ ipa::main | ipa::rhoticized | ipa::phonation | ipa::coarticulation | ipa::articulation },
+		{ ipa::main | ipa::rhoticized | ipa::phonation | ipa::articulation },
 		{ ipa::main },
 	};
 

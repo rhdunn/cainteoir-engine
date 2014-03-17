@@ -177,6 +177,13 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 \u028E\u031D\u030A	/{vcd,pal,lat,apr,slv,rsd}/
 \u029F\u031D\u030A	/{vcd,vel,lat,apr,slv,rsd}/
 
+\u00E4			/{low,fnt,unr,vwl,czd}/
+\u00EB			/{umd,fnt,unr,vwl,czd}/
+\u00EF			/{hgh,fnt,unr,vwl,czd}/
+\u00F6			/{umd,bck,rnd,vwl,czd}/
+\u00FC			/{hgh,bck,rnd,vwl,czd}/
+\u00FF			/{hgh,fnt,rnd,vwl,czd}/
+
 # Diacritics, Modifiers & Suprasegmentals
 
 \.			/{sbr}/
