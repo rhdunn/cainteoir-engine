@@ -22,6 +22,7 @@ import sys
 
 if __name__ == '__main__':
 	test = harness.TestSuite('phonemeset', sys.argv)
+	"""
 	test.run({'name': 'Feature-Based', 'groups': [
 		{'name': 'Features', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.features', 'from': 'features', 'to': 'features', 'args': ['--separate', '--no-pauses']},
@@ -81,21 +82,19 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/arpabet/cmu-ambiguous-last-phoneme.ipa', 'result': 'phonemeset/arpabet/cmu-ambiguous-last-phoneme.cmu', 'from': 'ipa', 'to': 'cmu'},
 		]},
 	]})
+	"""
 	test.run({'name': 'eSpeak-Based', 'groups': [
 		{'name': 'English', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en'},
-			{'test': 'phonemeset/espeak/en.espeak', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en', 'to': 'ipa'},
-			{'test': 'phonemeset/espeak/en~aliases.espeak', 'result': 'phonemeset/espeak/en~aliases.ipa', 'from': 'espeak/en', 'to': 'ipa'},
+			{'test': 'phonemeset/espeak/en.phoneme', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en', 'to': 'ipa'},
 		]},
 		{'name': 'English (British)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB'},
-			{'test': 'phonemeset/espeak/en.espeak', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB', 'to': 'ipa'},
-			{'test': 'phonemeset/espeak/en~aliases.espeak', 'result': 'phonemeset/espeak/en~aliases.ipa', 'from': 'espeak/en-GB', 'to': 'ipa'},
+			{'test': 'phonemeset/espeak/en.phoneme', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB', 'to': 'ipa'},
 		]},
 		{'name': 'English (American)', 'type': 'phonemeset', 'tests': [
-			{'test': 'phonemeset/espeak/en-US.ipa', 'result': 'phonemeset/espeak/en-US.espeak', 'from': 'ipa', 'to': 'espeak/en-US'},
-			{'test': 'phonemeset/espeak/en-US.espeak', 'result': 'phonemeset/espeak/en-US.ipa', 'from': 'espeak/en-US', 'to': 'ipa'},
-			{'test': 'phonemeset/espeak/en-US~aliases.espeak', 'result': 'phonemeset/espeak/en-US~aliases.ipa', 'from': 'espeak/en-US', 'to': 'ipa'},
+			{'test': 'phonemeset/espeak/en-us.ipa', 'result': 'phonemeset/espeak/en-us.espeak', 'from': 'ipa', 'to': 'espeak/en-US'},
+			{'test': 'phonemeset/espeak/en.phoneme', 'result': 'phonemeset/espeak/en-us.ipa', 'from': 'espeak/en-US', 'to': 'ipa'},
 		]},
 	]})
 	test.summary()
