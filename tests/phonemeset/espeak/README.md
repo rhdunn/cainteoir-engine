@@ -27,8 +27,8 @@ The relationship of these files is:
 	       :     ipa     |     ................
 	       ..............|       ...............
 	                     v       : ipa to      :
-                           LANG.ipa -----------------> LANG.espeak
-                                     : espeak/LANG :
+	                   LANG.ipa -----------------> LANG.espeak
+	                             : espeak/LANG :
 	                             ...............
 
 The `DICT.phoneme`, `LANG.espeak-x` and `LANG.espeak-ipa` files are generated
