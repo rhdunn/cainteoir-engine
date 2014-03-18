@@ -44,7 +44,7 @@ def read_phonemes(filename):
 			language = m.group(1)
 			data = []
 		else:
-			data.extend(line.split())
+			data.extend([x for x in line.split() if x != ':'])
 
 data = dict(read_phonemes(os.path.join(espeak_dir, 'dictsource', 'dict_phonemes')))
 
