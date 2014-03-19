@@ -22,7 +22,6 @@ import sys
 
 if __name__ == '__main__':
 	test = harness.TestSuite('phonemeset', sys.argv)
-	"""
 	test.run({'name': 'Feature-Based', 'groups': [
 		{'name': 'Features', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/ipa/phonemes.features', 'result': 'phonemeset/ipa/phonemes.features', 'from': 'features', 'to': 'features', 'args': ['--separate', '--no-pauses']},
@@ -82,7 +81,12 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/arpabet/cmu-ambiguous-last-phoneme.ipa', 'result': 'phonemeset/arpabet/cmu-ambiguous-last-phoneme.cmu', 'from': 'ipa', 'to': 'cmu'},
 		]},
 	]})
-	"""
+	test.run({'name': 'SAMPA-Based', 'groups': [
+		{'name': 'English', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/sampa/en.ipa', 'result': 'phonemeset/sampa/en.sampa', 'from': 'ipa', 'to': 'sampa/en'},
+			{'test': 'phonemeset/sampa/en.sampa', 'result': 'phonemeset/sampa/en.ipa', 'from': 'sampa/en', 'to': 'ipa'},
+		]},
+	]})
 	test.run({'name': 'eSpeak-Based', 'groups': [
 		{'name': 'English', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en'},
