@@ -4,11 +4,6 @@
 
 .type	ipa
 
-# SAMPROSA
-
-\u0020	/{pau,est}/	# word pause
-\u000A	/{pau}/		# clause pause (e.g. comma)
-
 # Plosives
 
 p	/{vls,blb,stp}/
@@ -63,12 +58,19 @@ a	/{low,fnt,unr,vwl}/
 A	/{low,bck,unr,vwl}/
 Q	/{low,bck,rnd,vwl}/
 
-:	>	=lng
-
 # Additional Symbols
 
 \?	/{vls,glt,stp}/
 x	/{vls,vel,frc}/
+
+# SAMPROSA
+
+\u0020	/{pau,est}/	# word pause
+\u000A	/{pau}/		# clause pause (e.g. comma)
+
+:	>	=lng
+"	<	=st1
+%	<	=st2
 
 ##### References:
 #
