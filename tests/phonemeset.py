@@ -87,18 +87,4 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/sampa/en.sampa', 'result': 'phonemeset/sampa/en.ipa', 'from': 'sampa/en', 'to': 'ipa'},
 		]},
 	]})
-	test.run({'name': 'eSpeak-Based', 'groups': [
-		{'name': 'English', 'type': 'phonemeset', 'tests': [
-			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en'},
-			{'test': 'phonemeset/espeak/en.phoneme', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en', 'to': 'ipa'},
-		]},
-		{'name': 'English (British)', 'type': 'phonemeset', 'tests': [
-			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB'},
-			{'test': 'phonemeset/espeak/en.phoneme', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB', 'to': 'ipa'},
-		]},
-		{'name': 'English (American)', 'type': 'phonemeset', 'tests': [
-			{'test': 'phonemeset/espeak/en-us.ipa', 'result': 'phonemeset/espeak/en-us.espeak', 'from': 'ipa', 'to': 'espeak/en-US'},
-			{'test': 'phonemeset/espeak/en.phoneme', 'result': 'phonemeset/espeak/en-us.ipa', 'from': 'espeak/en-US', 'to': 'ipa'},
-		]},
-	]})
 	test.summary()
