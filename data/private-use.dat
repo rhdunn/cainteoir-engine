@@ -1,6 +1,6 @@
-File-Date: 2013-12-08
+File-Date: 2014-03-23
 Author: Reece H. Dunn
-Copyright: Copyright (C) 2013 Reece H. Dunn
+Copyright: Copyright (C) 2013-2014 Reece H. Dunn
 License: CC-BY-SA 3.0
 Description: Private use BCP47/RFC4646/RFC5646 extensions for describing accents and dialects.
 %%
@@ -27,10 +27,10 @@ Comments: Dialect local to Cumbria, England.
 %%
 Type: private
 Subtag: eastang
-Description: East Anglican
+Description: East Anglian
 Added: 2013-03-31
 Prefix: en-GB
-Comments: Generalised dialect of the East Anglica region of England.
+Comments: Generalised dialect of the East Anglia region of England.
 %%
 Type: private
 Subtag: eastmids
