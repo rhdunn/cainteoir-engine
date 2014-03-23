@@ -64,8 +64,9 @@ Type: private
 Subtag: ireland
 Description: Ireland
 Added: 2013-03-31
-Prefix: en-GB
-Comments: Generalised English dialect found in Ireland (not to be confused with the Irish Gaelic language).
+Deprecated: 2014-03-23
+Preferred-Value: en-IE
+Comments: Use the Ireland country code instead for Irish English.
 %%
 Type: private
 Subtag: kentish
