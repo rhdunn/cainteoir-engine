@@ -149,7 +149,8 @@ Type: private
 Subtag: northeng
 Description: Northern English
 Added: 2013-03-31
-Prefix: en-GB
+Deprecated: 2014-03-23
+Preferred-Value: en-GB-x-north
 Comments: Generalised dialect of Northern England.
 %%
 Type: private
