@@ -44,7 +44,7 @@ static const std::map<std::string, std::string> voice_corrections = {
 	{ "en-gb",       "en-GB" },
 	{ "en-sc",       "en-GB-scotland" },
 	{ "en-uk",       "en-GB" },
-	{ "en-uk-north", "en-GB-x-lancastrian" },
+	{ "en-uk-north", "en-GB-x-lancastr" },
 	{ "en-uk-rp",    "en-GB-x-rp" },
 	{ "en-uk-wmids", "en-GB-x-westmids" },
 	{ "en-us",       "en-US" },
