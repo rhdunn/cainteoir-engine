@@ -68,11 +68,11 @@ Comments: Dialect local to Tyneside, England.
 %%
 Type: private
 Subtag: hueprovince
-Description: Hue
+Description: Central Vietnamese
 Added: 2013-03-31
 Deprecated: 2014-03-23
 Preferred-Value: vi-VN-x-central
-Comments: Dialect local to the Hue province of Vietnam (Central Vietnam).
+Comments: Specified a more general region specifier.
 %%
 Type: private
 Subtag: ireland
@@ -143,7 +143,7 @@ Added: 2013-03-31
 Deprecated: 2014-03-23
 Preferred-Value: en-CA
 Preferred-Value: en-US
-Comments: Generalised dialect of the United States of America and Canada.
+Comments: Invalid region tag (too long) and split into the major countries defined by the private-use tag.
 %%
 Type: private
 Subtag: northeng
@@ -151,7 +151,7 @@ Description: Northern English
 Added: 2013-03-31
 Deprecated: 2014-03-23
 Preferred-Value: en-GB-x-north
-Comments: Generalised dialect of Northern England.
+Comments: Specified a more general region specifier.
 %%
 Type: private
 Subtag: northhum
@@ -169,11 +169,11 @@ Comments: Standard English accent found in Southern England.
 %%
 Type: private
 Subtag: saigon
-Description: Saigon
+Description: Southern Vietnamese
 Added: 2013-04-28
 Deprecated: 2014-03-23
 Preferred-Value: vi-VN-x-south
-Comments: Dialect local to the Saigon region of Vietnam (South Vietnam).
+Comments: Specified a more general region specifier.
 %%
 Type: private
 Subtag: shtscale
@@ -199,7 +199,7 @@ Description: Southern English
 Added: 2013-03-31
 Deprecated: 2014-03-23
 Preferred-Value: en-GB-x-south
-Comments: Generalised dialect of Southern England.
+Comments: Specified a more general region specifier.
 %%
 Type: private
 Subtag: wales
