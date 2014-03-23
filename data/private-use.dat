@@ -197,7 +197,8 @@ Type: private
 Subtag: southeng
 Description: Southern English
 Added: 2013-03-31
-Prefix: en-GB
+Deprecated: 2014-03-23
+Preferred-Value: en-GB-x-south
 Comments: Generalised dialect of Southern England.
 %%
 Type: private
