@@ -219,5 +219,13 @@ Type: private
 Subtag: yorkshire
 Description: Yorkshire
 Added: 2013-03-31
+Deprecated: 2014-03-23
+Preferred-Value: yorkshr
+Comments: Invalid private-use tag (too long).
+%%
+Type: private
+Subtag: yorkshr
+Description: Yorkshire
+Added: 2013-03-31
 Prefix: en-GB
 Comments: Dialect local to Yorkshire, England.
