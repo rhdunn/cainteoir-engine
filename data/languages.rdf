@@ -327,20 +327,29 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dyo"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#fa"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gba"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gjk"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gju"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ha"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#hnd"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#id"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#inh"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#khw"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kk"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ks"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ku"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kvx"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kxp"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ky"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lah"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lki"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#luz"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ms"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mvy"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pa"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#prd"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#prs"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ps"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rmt"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sd"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sdh"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#shi"/>
@@ -541,7 +550,6 @@
 	<iana:code>Brah</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Brahmi</iana:label>
-	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pra"/>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Brai">
 	<iana:code>Brai</iana:code>
@@ -681,9 +689,14 @@
 	<iana:label xml:lang="en">Unified Canadian Aboriginal Syllabics</iana:label>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#chp"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cr"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#crj"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#crk"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#crl"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#crm"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#csw"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#den"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#iu"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nsk"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#oj"/>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Cari">
@@ -743,6 +756,7 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cjs"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ckt"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#crh"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cu"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cv"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dar"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dng"/>
@@ -768,12 +782,14 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mk"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mn"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mns"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mrj"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#myv"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nog"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#os"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ro"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rom"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ru"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rue"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sah"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#se"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sel"/>
@@ -782,7 +798,6 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tg"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tk"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tt"/>
-	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tut"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tyv"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ude"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#udm"/>
@@ -845,8 +860,8 @@
 	<iana:label xml:lang="en">Devanagari (Nagari)</iana:label>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#anp"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#awa"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bap"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bfy"/>
-	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bh"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bhb"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bho"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bjj"/>
@@ -854,11 +869,14 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#brx"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#btv"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbm"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ggn"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gon"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gvr"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#hi"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#hne"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#hoc"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#hoj"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#jml"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kfr"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kok"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kru"/>
@@ -866,7 +884,9 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lif"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mag"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mai"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mgp"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mr"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mrd"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mwr"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ne"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#new"/>
@@ -875,6 +895,15 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sa"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sat"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sd"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#srx"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#taj"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tdg"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tdh"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#thl"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#thq"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#thr"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tkt"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tsf"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#unr"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#unx"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#xsr"/>
@@ -1116,7 +1145,6 @@
 	<iana:code>Glag</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Glagolitic</iana:label>
-	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cu"/>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Goth">
 	<iana:code>Goth</iana:code>
@@ -1133,6 +1161,7 @@
 	<iana:code>Grek</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Greek</iana:label>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bgx"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cop"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#el"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#grc"/>
@@ -1423,12 +1452,12 @@
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Katakana</iana:label>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ain"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ryu"/>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Khar">
 	<iana:code>Khar</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Kharoshthi</iana:label>
-	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pra"/>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Khmr">
 	<iana:code>Khmr</iana:code>
@@ -1463,7 +1492,6 @@
 	<iana:code>Kthi</iana:code>
 	<iana:added>2007-12-05</iana:added>
 	<iana:label xml:lang="en">Kaithi</iana:label>
-	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bh"/>
 </iana:Script>
 <iana:Region rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#LA">
 	<iana:code>LA</iana:code>
@@ -1530,6 +1558,7 @@
 	<iana:code>Laoo</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Lao</iana:label>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kjg"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lo"/>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latf">
@@ -1557,32 +1586,44 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ale"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#amo"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#an"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#aoz"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#arn"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#arp"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#arw"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#asa"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ast"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#atj"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ay"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#az"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bal"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ban"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bas"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bbc"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bbj"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bem"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bez"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bfd"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bi"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bik"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bin"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bkm"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bku"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bla"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bm"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bmq"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bqv"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#br"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bs"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bss"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bto"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#buc"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bug"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bum"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bvb"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bya"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#byv"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bze"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bzx"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ca"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cad"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#car"/>
@@ -1597,8 +1638,9 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#chp"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#chy"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#co"/>
-	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cpe"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cr"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#crj"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#crl"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cs"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#csb"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cy"/>
@@ -1611,7 +1653,9 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dgr"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#din"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dje"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dnj"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dsb"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dtm"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dua"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dyo"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dyu"/>
@@ -1630,7 +1674,7 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ff"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#fi"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#fil"/>
-	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#fiu"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#fit"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#fj"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#fo"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#fon"/>
@@ -1645,12 +1689,15 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gay"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gcr"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gd"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ggn"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gil"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gl"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gn"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gor"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gos"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#grb"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gsw"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gub"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#guz"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gv"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#gwi"/>
@@ -1686,11 +1733,15 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kac"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kaj"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kam"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kao"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kcg"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kck"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kde"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kea"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kfo"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kg"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kge"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kgp"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kha"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#khq"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ki"/>
@@ -1708,14 +1759,17 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ksh"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ku"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kut"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kvr"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kw"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ky"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#la"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lag"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lam"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lb"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lbw"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lg"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#li"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lmo"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ln"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lol"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#loz"/>
@@ -1729,43 +1783,56 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#luy"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lv"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mad"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#maf"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mak"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#man"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mas"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#maz"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mdh"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mdr"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mdt"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#men"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mer"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mfe"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mg"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mgh"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mgy"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mh"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mi"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mic"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#min"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#moe"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#moh"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mos"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ms"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mt"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mua"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mus"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mwk"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mwl"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#mxc"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#na"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nap"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#naq"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nb"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nch"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nd"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nds"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ng"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nhe"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nhw"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nia"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nij"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#niu"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nl"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nmg"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nn"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nr"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nsk"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nso"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nus"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nv"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nxq"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ny"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nym"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#nyn"/>
@@ -1780,19 +1847,28 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pam"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pap"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pau"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pcm"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pko"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pl"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pon"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#prg"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pt"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#puu"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#qu"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#raj"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rap"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rar"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rcf"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rej"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ria"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rm"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rmf"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rmo"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rmu"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rn"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rng"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ro"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rob"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rof"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rom"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rup"/>
@@ -1807,8 +1883,10 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sc"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#scn"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sco"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#scs"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#se"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#see"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sef"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#seh"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ses"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sg"/>
@@ -1819,14 +1897,12 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sl"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sm"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sma"/>
-	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#smi"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#smj"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#smn"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sms"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sn"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#snk"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#so"/>
-	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#son"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sq"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sr"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#srb"/>
@@ -1842,6 +1918,8 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sw"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#swb"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#swc"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#sxn"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#syi"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tbw"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tem"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#teo"/>
@@ -1863,6 +1941,7 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ts"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tsg"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tsi"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ttj"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tum"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tvl"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#twq"/>
@@ -1876,24 +1955,29 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#vai"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ve"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#vi"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#vic"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#vo"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#vot"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#vun"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#wa"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#wae"/>
-	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#wak"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#war"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#was"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#wo"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#xav"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#xh"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#xog"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#xum"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#yao"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#yap"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#yav"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ybb"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#yo"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#yua"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#za"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#zap"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#zea"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#zmi"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#zu"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#zun"/>
 </iana:Script>
@@ -2845,6 +2929,8 @@
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bft"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bo"/>
 	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#dz"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#taj"/>
+	<iana:isScriptOf rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#tsj"/>
 </iana:Script>
 <iana:Script rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#Tirh">
 	<iana:code>Tirh</iana:code>
@@ -4751,6 +4837,7 @@
 	<iana:code>aoz</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Uab Meto</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Collection rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#apa">
 	<iana:code>apa</iana:code>
@@ -4932,6 +5019,11 @@
 	<iana:code>aqr</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Arhâ</iana:label>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#aqt">
+	<iana:code>aqt</iana:code>
+	<iana:added>2014-02-28</iana:added>
+	<iana:label xml:lang="en">Angaité</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#aqz">
 	<iana:code>aqz</iana:code>
@@ -5281,6 +5373,7 @@
 	<iana:code>atj</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Atikamekw</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#atk">
 	<iana:code>atk</iana:code>
@@ -5972,6 +6065,13 @@
 	<iana:label xml:lang="en">Baluchi</iana:label>
 	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:MacroLanguage>
+<iana:Variant rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#balanka">
+	<iana:code>balanka</iana:code>
+	<iana:added>2014-02-15</iana:added>
+	<iana:comments xml:lang="en">Balanka is one of 19 Anii dialects.</iana:comments>
+	<iana:label xml:lang="en">The Balanka dialect of Anii</iana:label>
+	<iana:prefix>blo</iana:prefix>
+</iana:Variant>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ban">
 	<iana:code>ban</iana:code>
 	<iana:added>2005-10-16</iana:added>
@@ -5987,6 +6087,7 @@
 	<iana:code>bap</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Bantawa</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bar">
 	<iana:code>bar</iana:code>
@@ -6100,6 +6201,7 @@
 	<iana:code>bbj</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Ghomálá'</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bbk">
 	<iana:code>bbk</iana:code>
@@ -6590,12 +6692,13 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bfc">
 	<iana:code>bfc</iana:code>
 	<iana:added>2009-07-29</iana:added>
-	<iana:label xml:lang="en">Northern Bai</iana:label>
+	<iana:label xml:lang="en">Panyi Bai</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bfd">
 	<iana:code>bfd</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Bafut</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bfe">
 	<iana:code>bfe</iana:code>
@@ -6833,6 +6936,7 @@
 	<iana:code>bgx</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Balkan Gagauz Turkish</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Grek"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bgy">
 	<iana:code>bgy</iana:code>
@@ -6848,8 +6952,6 @@
 	<iana:code>bh</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Bihari languages</iana:label>
-	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
-	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Kthi"/>
 </iana:Collection>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bha">
 	<iana:code>bha</iana:code>
@@ -7323,6 +7425,7 @@
 	<iana:code>bkm</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kom (Cameroon)</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bkn">
 	<iana:code>bkn</iana:code>
@@ -7609,6 +7712,7 @@
 	<iana:code>bmq</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Bomu</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bmr">
 	<iana:code>bmr</iana:code>
@@ -8528,6 +8632,7 @@
 	<iana:code>bto</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Rinconada Bikol</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#bik"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#btp">
@@ -8648,6 +8753,7 @@
 	<iana:code>bum</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Bulu (Cameroon)</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bun">
 	<iana:code>bun</iana:code>
@@ -8718,6 +8824,7 @@
 	<iana:code>bvb</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Bube</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bvc">
 	<iana:code>bvc</iana:code>
@@ -9198,6 +9305,7 @@
 	<iana:code>byv</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Medumba</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#byw">
 	<iana:code>byw</iana:code>
@@ -9244,6 +9352,7 @@
 	<iana:code>bze</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Jenaama Bozo</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bzf">
 	<iana:code>bzf</iana:code>
@@ -9341,6 +9450,7 @@
 	<iana:code>bzx</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kɛlɛngaxo Bozo</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#bzy">
 	<iana:code>bzy</iana:code>
@@ -9793,6 +9903,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Cen</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#central">
+	<iana:code>central</iana:code>
+	<iana:added>2014-03-23</iana:added>
+	<iana:comments xml:lang="en">Dialect located in the central region of the specified country.</iana:comments>
+	<iana:label xml:lang="en">Central</iana:label>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cet">
 	<iana:code>cet</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -10541,7 +10657,6 @@
 	<iana:code>cpe</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Creoles and pidgins, English based</iana:label>
-	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Collection>
 <iana:Collection rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cpf">
 	<iana:code>cpf</iana:code>
@@ -10660,6 +10775,7 @@
 	<iana:code>crj</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Southern East Cree</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cr"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#crk">
@@ -10673,12 +10789,14 @@
 	<iana:code>crl</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Northern East Cree</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cr"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#crm">
 	<iana:code>crm</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Moose Cree</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Cans"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cr"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#crn">
@@ -10876,6 +10994,7 @@
 	<iana:code>csw</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Swampy Cree</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Cans"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#cr"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#csy">
@@ -10968,7 +11087,7 @@
 	<iana:code>cu</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic</iana:label>
-	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Glag"/>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Cyrl"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cua">
 	<iana:code>cua</iana:code>
@@ -11724,7 +11843,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dhg">
 	<iana:code>dhg</iana:code>
 	<iana:added>2009-07-29</iana:added>
-	<iana:label xml:lang="en">Djangu</iana:label>
+	<iana:label xml:lang="en">Dhangu</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dhi">
 	<iana:code>dhi</iana:code>
@@ -12163,6 +12282,7 @@
 	<iana:code>dnj</iana:code>
 	<iana:added>2013-09-10</iana:added>
 	<iana:label xml:lang="en">Dan</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dnk">
 	<iana:code>dnk</iana:code>
@@ -12491,6 +12611,7 @@
 	<iana:code>dtm</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Tomo Kan Dogon</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#dto">
 	<iana:code>dto</iana:code>
@@ -12793,8 +12914,8 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#eastang">
 	<iana:code>eastang</iana:code>
 	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Generalised dialect of the East Anglica region of England.</iana:comments>
-	<iana:label xml:lang="en">East Anglican</iana:label>
+	<iana:comments xml:lang="en">Generalised dialect of the East Anglia region of England.</iana:comments>
+	<iana:label xml:lang="en">East Anglian</iana:label>
 	<iana:prefix>en-GB</iana:prefix>
 </iana:Private>
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#eastmids">
@@ -13093,6 +13214,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#emo">
 	<iana:code>emo</iana:code>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2014-02-28</iana:deprecated>
 	<iana:label xml:lang="en">Emok</iana:label>
 </iana:Language>
 <iana:Variant rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#emodeng">
@@ -13185,6 +13307,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Tundra Enets</iana:label>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#enl">
+	<iana:code>enl</iana:code>
+	<iana:added>2014-02-28</iana:added>
+	<iana:label xml:lang="en">Enlhet</iana:label>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#enm">
 	<iana:code>enm</iana:code>
 	<iana:added>2005-10-16</iana:added>
@@ -13224,6 +13351,11 @@
 	<iana:code>enw</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Enwan (Akwa Ibom State)</iana:label>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#enx">
+	<iana:code>enx</iana:code>
+	<iana:added>2014-02-28</iana:added>
+	<iana:label xml:lang="en">Enxet</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#eo">
 	<iana:code>eo</iana:code>
@@ -13362,12 +13494,19 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Central Siberian Yupik</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#estuary">
+	<iana:code>estuary</iana:code>
+	<iana:added>2014-03-23</iana:added>
+	<iana:comments xml:lang="en">Generalised dialect found along the River Thames and its estuary.</iana:comments>
+	<iana:label xml:lang="en">Estuary English</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#estury">
 	<iana:code>estury</iana:code>
 	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Generalised dialect found along the River Thames and its estuary.</iana:comments>
-	<iana:label xml:lang="en">Estury English</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
+	<iana:comments xml:lang="en">Mis-spelling of the word 'estuary'.</iana:comments>
+	<iana:label xml:lang="en">Estuary English</iana:label>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#estuary"/>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#esu">
 	<iana:code>esu</iana:code>
@@ -13686,12 +13825,12 @@
 	<iana:code>fit</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Tornedalen Finnish</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Collection rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#fiu">
 	<iana:code>fiu</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Finno-Ugrian languages</iana:label>
-	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Collection>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#fiw">
 	<iana:code>fiw</iana:code>
@@ -13748,7 +13887,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#fly">
 	<iana:code>fly</iana:code>
 	<iana:added>2009-07-29</iana:added>
-	<iana:label xml:lang="en">Tsotsitaal</iana:label>
+	<iana:label xml:lang="en">Flaaitaal</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#fmp">
 	<iana:code>fmp</iana:code>
@@ -14539,6 +14678,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Geser-Gorom</iana:label>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gev">
+	<iana:code>gev</iana:code>
+	<iana:added>2014-02-28</iana:added>
+	<iana:label xml:lang="en">Eviya</iana:label>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gew">
 	<iana:code>gew</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -14614,6 +14758,7 @@
 	<iana:code>ggn</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Eastern Gurung</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ggo">
 	<iana:code>ggo</iana:code>
@@ -14624,7 +14769,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ggr">
 	<iana:code>ggr</iana:code>
 	<iana:added>2009-07-29</iana:added>
-	<iana:comments xml:lang="en">see ggm, gtu, ikr</iana:comments>
+	<iana:comments xml:lang="en">see gtu, ikr</iana:comments>
 	<iana:deprecated>2013-09-10</iana:deprecated>
 	<iana:label xml:lang="en">Aghu Tharnggalu</iana:label>
 </iana:Language>
@@ -14810,6 +14955,7 @@
 	<iana:code>gjk</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kachi Koli</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Arab"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gjm">
 	<iana:code>gjm</iana:code>
@@ -14825,6 +14971,7 @@
 	<iana:code>gju</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Gujari</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Arab"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#raj"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gka">
@@ -14941,6 +15088,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">East Germanic languages</iana:label>
 </iana:Collection>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gmg">
+	<iana:code>gmg</iana:code>
+	<iana:added>2014-02-28</iana:added>
+	<iana:label xml:lang="en">Magɨyi</iana:label>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gmh">
 	<iana:code>gmh</iana:code>
 	<iana:added>2005-10-16</iana:added>
@@ -15201,6 +15353,7 @@
 	<iana:code>gos</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Gronings</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#got">
 	<iana:code>got</iana:code>
@@ -15473,6 +15626,7 @@
 	<iana:code>gub</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Guajajára</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#guc">
 	<iana:code>guc</iana:code>
@@ -15651,6 +15805,7 @@
 	<iana:code>gvr</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Western Gurung</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gvs">
 	<iana:code>gvs</iana:code>
@@ -16394,6 +16549,7 @@
 	<iana:code>hnd</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Southern Hindko</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Arab"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lah"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#hne">
@@ -16567,7 +16723,7 @@
 <iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#hps">
 	<iana:code>hps</iana:code>
 	<iana:added>2009-07-29</iana:added>
-	<iana:label xml:lang="en">Hawai'i Pidgin Sign Language</iana:label>
+	<iana:label xml:lang="en">Hawai'i Sign Language (HSL)</iana:label>
 	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#hps"/>
 	<iana:prefix>sgn</iana:prefix>
 </iana:ExtLang>
@@ -16743,9 +16899,10 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#hueprovince">
 	<iana:code>hueprovince</iana:code>
 	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Dialect local to the Hue province of Vietnam (Central Vietnam).</iana:comments>
-	<iana:label xml:lang="en">Hue</iana:label>
-	<iana:prefix>vi-VN</iana:prefix>
+	<iana:comments xml:lang="en">Specified a more general region specifier.</iana:comments>
+	<iana:deprecated>2014-03-23</iana:deprecated>
+	<iana:label xml:lang="en">Central Vietnamese</iana:label>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#vi-VN-x-central"/>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#huf">
 	<iana:code>huf</iana:code>
@@ -17647,9 +17804,10 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ireland">
 	<iana:code>ireland</iana:code>
 	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Generalised English dialect found in Ireland (not to be confused with the Irish Gaelic language).</iana:comments>
+	<iana:comments xml:lang="en">Use the Ireland country code instead for Irish English.</iana:comments>
+	<iana:deprecated>2014-03-23</iana:deprecated>
 	<iana:label xml:lang="en">Ireland</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#en-IE"/>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#irh">
 	<iana:code>irh</iana:code>
@@ -18429,6 +18587,7 @@
 	<iana:code>jml</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Jumli</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#jmn">
 	<iana:code>jmn</iana:code>
@@ -18791,6 +18950,7 @@
 	<iana:code>kao</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Xaasongaxango</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kap">
 	<iana:code>kap</iana:code>
@@ -19015,6 +19175,7 @@
 	<iana:code>kck</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kalanga</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kcl">
 	<iana:code>kcl</iana:code>
@@ -19515,6 +19676,7 @@
 	<iana:code>kge</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Komering</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kgf">
 	<iana:code>kgf</iana:code>
@@ -19574,6 +19736,7 @@
 	<iana:code>kgp</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kaingang</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kgq">
 	<iana:code>kgq</iana:code>
@@ -19735,6 +19898,7 @@
 	<iana:code>khw</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Khowar</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Arab"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#khx">
 	<iana:code>khx</iana:code>
@@ -19913,6 +20077,7 @@
 	<iana:code>kjg</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Khmu</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Laoo"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kjh">
 	<iana:code>kjh</iana:code>
@@ -21582,6 +21747,7 @@
 	<iana:code>kvr</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kerinci</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ms"/>
 	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kvr"/>
 	<iana:prefix>ms</iana:prefix>
@@ -21615,6 +21781,7 @@
 	<iana:code>kvx</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Parkari Koli</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Arab"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kvy">
 	<iana:code>kvy</iana:code>
@@ -21840,6 +22007,7 @@
 	<iana:code>kxp</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Wadiyara Koli</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Arab"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kxq">
 	<iana:code>kxq</iana:code>
@@ -22243,12 +22411,20 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Laru</iana:label>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lancastrian">
-	<iana:code>lancastrian</iana:code>
-	<iana:added>2013-03-31</iana:added>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lancastr">
+	<iana:code>lancastr</iana:code>
+	<iana:added>2014-03-23</iana:added>
 	<iana:comments xml:lang="en">Dialect local to Lancashire, England.</iana:comments>
 	<iana:label xml:lang="en">Lancastrian</iana:label>
 	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lancastrian">
+	<iana:code>lancastrian</iana:code>
+	<iana:added>2013-03-31</iana:added>
+	<iana:comments xml:lang="en">Invalid private-use tag (too long).</iana:comments>
+	<iana:deprecated>2014-03-23</iana:deprecated>
+	<iana:label xml:lang="en">Lancastrian</iana:label>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lancastr"/>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lap">
 	<iana:code>lap</iana:code>
@@ -22294,7 +22470,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lay">
 	<iana:code>lay</iana:code>
 	<iana:added>2009-07-29</iana:added>
-	<iana:label xml:lang="en">Lama (Myanmar)</iana:label>
+	<iana:label xml:lang="en">Lama Bai</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#laz">
 	<iana:code>laz</iana:code>
@@ -22412,6 +22588,7 @@
 	<iana:code>lbw</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Tolaki</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lbx">
 	<iana:code>lbx</iana:code>
@@ -22589,6 +22766,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#leg">
 	<iana:code>leg</iana:code>
 	<iana:added>2009-07-29</iana:added>
+	<iana:comments xml:lang="en">see enl, enx</iana:comments>
+	<iana:deprecated>2014-02-28</iana:deprecated>
 	<iana:label xml:lang="en">Lengua</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#leh">
@@ -23247,7 +23426,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lmm">
 	<iana:code>lmm</iana:code>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2014-02-28</iana:deprecated>
 	<iana:label xml:lang="en">Lamam</iana:label>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rmx"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lmn">
 	<iana:code>lmn</iana:code>
@@ -23259,6 +23440,7 @@
 	<iana:code>lmo</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Lombard</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lmp">
 	<iana:code>lmp</iana:code>
@@ -23883,6 +24065,7 @@
 	<iana:code>luz</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Southern Luri</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Arab"/>
 </iana:Language>
 <iana:MacroLanguage rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lv">
 	<iana:code>lv</iana:code>
@@ -24037,6 +24220,7 @@
 	<iana:code>maf</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Mafa</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mag">
 	<iana:code>mag</iana:code>
@@ -24122,6 +24306,7 @@
 	<iana:code>maz</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Central Mazahua</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mba">
 	<iana:code>mba</iana:code>
@@ -24477,6 +24662,7 @@
 	<iana:code>mdt</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Mbere</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mdu">
 	<iana:code>mdu</iana:code>
@@ -24881,6 +25067,7 @@
 	<iana:code>mgp</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Eastern Magar</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mgq">
 	<iana:code>mgq</iana:code>
@@ -24928,6 +25115,7 @@
 	<iana:code>mgy</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Mbunga</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mgz">
 	<iana:code>mgz</iana:code>
@@ -24979,6 +25167,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mhh">
 	<iana:code>mhh</iana:code>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2014-02-28</iana:deprecated>
 	<iana:label xml:lang="en">Maskoy Pidgin</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mhi">
@@ -25890,6 +26079,7 @@
 	<iana:code>moe</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Montagnais</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mof">
 	<iana:code>mof</iana:code>
@@ -26275,6 +26465,7 @@
 	<iana:code>mrd</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Western Magar</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mre">
 	<iana:code>mre</iana:code>
@@ -26302,6 +26493,7 @@
 	<iana:code>mrj</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Western Mari</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Cyrl"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#chm"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mrk">
@@ -26904,6 +27096,7 @@
 	<iana:code>mvy</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Indus Kohistani</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Arab"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mvz">
 	<iana:code>mvz</iana:code>
@@ -26966,6 +27159,7 @@
 	<iana:code>mwk</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kita Maninkakan</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#man"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mwl">
@@ -27060,6 +27254,7 @@
 	<iana:code>mxc</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Manyika</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mxd">
 	<iana:code>mxd</iana:code>
@@ -27750,6 +27945,7 @@
 	<iana:code>nch</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Central Huasteca Nahuatl</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nci">
 	<iana:code>nci</iana:code>
@@ -28279,6 +28475,7 @@
 	<iana:code>nhe</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Eastern Huasteca Nahuatl</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nhf">
 	<iana:code>nhf</iana:code>
@@ -28354,6 +28551,7 @@
 	<iana:code>nhw</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Western Huasteca Nahuatl</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nhx">
 	<iana:code>nhx</iana:code>
@@ -28420,6 +28618,7 @@
 	<iana:code>nij</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Ngaju</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nik">
 	<iana:code>nik</iana:code>
@@ -29183,19 +29382,33 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Ngongo</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#north">
+	<iana:code>north</iana:code>
+	<iana:added>2014-03-23</iana:added>
+	<iana:comments xml:lang="en">Dialect located in the northern region of the specified country.</iana:comments>
+	<iana:label xml:lang="en">North</iana:label>
+</iana:Private>
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northamerica">
 	<iana:code>northamerica</iana:code>
 	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Generalised dialect of the United States of America and Canada.</iana:comments>
+	<iana:comments xml:lang="en">Invalid region tag (too long) and split into the major countries defined by the private-use tag.</iana:comments>
+	<iana:deprecated>2014-03-23</iana:deprecated>
 	<iana:label xml:lang="en">North American</iana:label>
-	<iana:prefix>en</iana:prefix>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#en-US"/>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northcnt">
+	<iana:code>northcnt</iana:code>
+	<iana:added>2014-03-23</iana:added>
+	<iana:comments xml:lang="en">Dialect located in the north-central region of the specified country.</iana:comments>
+	<iana:label xml:lang="en">North-Central</iana:label>
 </iana:Private>
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northeng">
 	<iana:code>northeng</iana:code>
 	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Generalised dialect of Northern England.</iana:comments>
+	<iana:comments xml:lang="en">Specified a more general region specifier.</iana:comments>
+	<iana:deprecated>2014-03-23</iana:deprecated>
 	<iana:label xml:lang="en">Northern English</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#en-GB-x-north"/>
 </iana:Private>
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northhum">
 	<iana:code>northhum</iana:code>
@@ -29465,6 +29678,7 @@
 	<iana:code>nsk</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Naskapi</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nsl">
 	<iana:code>nsl</iana:code>
@@ -29887,6 +30101,7 @@
 	<iana:code>nxq</iana:code>
 	<iana:added>2011-08-16</iana:added>
 	<iana:label xml:lang="en">Naxi</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nxr">
 	<iana:code>nxr</iana:code>
@@ -30427,6 +30642,11 @@
 	<iana:code>olr</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Olrat</iana:label>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#olt">
+	<iana:code>olt</iana:code>
+	<iana:added>2014-02-28</iana:added>
+	<iana:label xml:lang="en">Old Lithuanian</iana:label>
 </iana:Language>
 <iana:MacroLanguage rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#om">
 	<iana:code>om</iana:code>
@@ -31270,6 +31490,7 @@
 	<iana:code>pcm</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Nigerian Pidgin</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pcn">
 	<iana:code>pcn</iana:code>
@@ -31759,6 +31980,7 @@
 	<iana:code>pko</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Pökoot</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#kln"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pkp">
@@ -32353,8 +32575,6 @@
 	<iana:code>pra</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Prakrit languages</iana:label>
-	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Brah"/>
-	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Khar"/>
 </iana:Collection>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#prb">
 	<iana:code>prb</iana:code>
@@ -32757,6 +32977,7 @@
 	<iana:code>puu</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Punu</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#puw">
 	<iana:code>puw</iana:code>
@@ -32776,7 +32997,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#puz">
 	<iana:code>puz</iana:code>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2014-02-28</iana:deprecated>
 	<iana:label xml:lang="en">Purum Naga</iana:label>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#pub"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pwa">
 	<iana:code>pwa</iana:code>
@@ -33487,6 +33710,7 @@
 	<iana:code>ria</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Riang (India)</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rie">
 	<iana:code>rie</iana:code>
@@ -33623,6 +33847,7 @@
 	<iana:code>rmf</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kalo Finnish Romani</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rom"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rmg">
@@ -33666,6 +33891,7 @@
 	<iana:code>rmo</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Sinte Romani</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#rom"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rmp">
@@ -33696,11 +33922,13 @@
 	<iana:code>rmt</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Domari</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Arab"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rmu">
 	<iana:code>rmu</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Tavringer Romani</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rmv">
 	<iana:code>rmv</iana:code>
@@ -33750,6 +33978,7 @@
 	<iana:code>rng</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Ronga</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rnl">
 	<iana:code>rnl</iana:code>
@@ -33792,6 +34021,7 @@
 	<iana:code>rob</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Tae'</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#roc">
 	<iana:code>roc</iana:code>
@@ -33954,6 +34184,7 @@
 	<iana:code>rue</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Rusyn</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Cyrl"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ruf">
 	<iana:code>ruf</iana:code>
@@ -34081,6 +34312,7 @@
 	<iana:code>ryu</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Central Okinawan</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Kana"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sa">
 	<iana:code>sa</iana:code>
@@ -34136,9 +34368,10 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#saigon">
 	<iana:code>saigon</iana:code>
 	<iana:added>2013-04-28</iana:added>
-	<iana:comments xml:lang="en">Dialect local to the Saigon region of Vietnam (South Vietnam).</iana:comments>
-	<iana:label xml:lang="en">Saigon</iana:label>
-	<iana:prefix>vi-VN</iana:prefix>
+	<iana:comments xml:lang="en">Specified a more general region specifier.</iana:comments>
+	<iana:deprecated>2014-03-23</iana:deprecated>
+	<iana:label xml:lang="en">Southern Vietnamese</iana:label>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#vi-VN-x-south"/>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#saj">
 	<iana:code>saj</iana:code>
@@ -34170,6 +34403,8 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sap">
 	<iana:code>sap</iana:code>
 	<iana:added>2009-07-29</iana:added>
+	<iana:comments xml:lang="en">see aqt, spn</iana:comments>
+	<iana:deprecated>2014-02-28</iana:deprecated>
 	<iana:label xml:lang="en">Sanapaná</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#saq">
@@ -34452,6 +34687,7 @@
 	<iana:code>scs</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">North Slavey</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#den"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#scu">
@@ -34628,6 +34864,7 @@
 	<iana:code>sef</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Cebaara Senoufo</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#seg">
 	<iana:code>seg</iana:code>
@@ -35706,7 +35943,6 @@
 	<iana:code>smi</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Sami languages</iana:label>
-	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Collection>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#smj">
 	<iana:code>smj</iana:code>
@@ -35988,7 +36224,6 @@
 	<iana:code>son</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Songhai languages</iana:label>
-	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Collection>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#soo">
 	<iana:code>soo</iana:code>
@@ -36027,12 +36262,25 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Southern Thai</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#south">
+	<iana:code>south</iana:code>
+	<iana:added>2014-03-23</iana:added>
+	<iana:comments xml:lang="en">Dialect located in the southern region of the specified country.</iana:comments>
+	<iana:label xml:lang="en">South</iana:label>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#southcnt">
+	<iana:code>southcnt</iana:code>
+	<iana:added>2014-03-23</iana:added>
+	<iana:comments xml:lang="en">Dialect located in the south-central region of the specified country.</iana:comments>
+	<iana:label xml:lang="en">South-Central</iana:label>
+</iana:Private>
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#southeng">
 	<iana:code>southeng</iana:code>
 	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Generalised dialect of Southern England.</iana:comments>
+	<iana:comments xml:lang="en">Specified a more general region specifier.</iana:comments>
+	<iana:deprecated>2014-03-23</iana:deprecated>
 	<iana:label xml:lang="en">Southern English</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#en-GB-x-south"/>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sov">
 	<iana:code>sov</iana:code>
@@ -36103,6 +36351,11 @@
 	<iana:code>spm</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Akukem</iana:label>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#spn">
+	<iana:code>spn</iana:code>
+	<iana:added>2014-02-28</iana:added>
+	<iana:label xml:lang="en">Sanapaná</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#spo">
 	<iana:code>spo</iana:code>
@@ -36354,6 +36607,7 @@
 	<iana:code>srx</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Sirmauri</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sry">
 	<iana:code>sry</iana:code>
@@ -36976,6 +37230,7 @@
 	<iana:code>sxn</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Sangir</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sxo">
 	<iana:code>sxo</iana:code>
@@ -37026,6 +37281,7 @@
 	<iana:code>syi</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Seki</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#syk">
 	<iana:code>syk</iana:code>
@@ -37183,6 +37439,7 @@
 	<iana:code>taj</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Eastern Tamang</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Tibt"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tak">
 	<iana:code>tak</iana:code>
@@ -37544,11 +37801,13 @@
 	<iana:code>tdg</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Western Tamang</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tdh">
 	<iana:code>tdh</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Thulung</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tdi">
 	<iana:code>tdi</iana:code>
@@ -37955,6 +38214,7 @@
 	<iana:code>thl</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Dangaura Tharu</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#thm">
 	<iana:code>thm</iana:code>
@@ -37975,11 +38235,13 @@
 	<iana:code>thq</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kochila Tharu</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#thr">
 	<iana:code>thr</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Rana Tharu</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ths">
 	<iana:code>ths</iana:code>
@@ -38291,11 +38553,17 @@
 	<iana:code>tkt</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kathoriya Tharu</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tku">
 	<iana:code>tku</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Upper Necaxa Totonac</iana:label>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tkv">
+	<iana:code>tkv</iana:code>
+	<iana:added>2014-02-28</iana:added>
+	<iana:label xml:lang="en">Mur Pano</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tkw">
 	<iana:code>tkw</iana:code>
@@ -39167,6 +39435,7 @@
 	<iana:code>tsf</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Southwestern Tamang</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tsg">
 	<iana:code>tsg</iana:code>
@@ -39189,6 +39458,7 @@
 	<iana:code>tsj</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Tshangla</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Tibt"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tsk">
 	<iana:code>tsk</iana:code>
@@ -39323,6 +39593,7 @@
 	<iana:code>ttj</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Tooro</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ttk">
 	<iana:code>ttk</iana:code>
@@ -39491,7 +39762,6 @@
 	<iana:code>tut</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Altaic languages</iana:label>
-	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Cyrl"/>
 </iana:Collection>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#tuu">
 	<iana:code>tuu</iana:code>
@@ -40812,6 +41082,7 @@
 	<iana:code>vic</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Virgin Islands Creole English</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#vid">
 	<iana:code>vid</iana:code>
@@ -41202,7 +41473,6 @@
 	<iana:code>wak</iana:code>
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">Wakashan languages</iana:label>
-	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Collection>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wal">
 	<iana:code>wal</iana:code>
@@ -42344,6 +42614,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kaimbé</iana:label>
 </iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xaj">
+	<iana:code>xaj</iana:code>
+	<iana:added>2014-02-28</iana:added>
+	<iana:label xml:lang="en">Ararandewára</iana:label>
+</iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xal">
 	<iana:code>xal</iana:code>
 	<iana:added>2005-10-16</iana:added>
@@ -42399,6 +42674,7 @@
 	<iana:code>xav</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Xavánte</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xaw">
 	<iana:code>xaw</iana:code>
@@ -42684,7 +42960,7 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xgm">
 	<iana:code>xgm</iana:code>
 	<iana:added>2013-09-10</iana:added>
-	<iana:label xml:lang="en">Guwinmal</iana:label>
+	<iana:label xml:lang="en">Dharumbal</iana:label>
 </iana:Language>
 <iana:Collection rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xgn">
 	<iana:code>xgn</iana:code>
@@ -42790,6 +43066,11 @@
 	<iana:code>xir</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Xiriâna</iana:label>
+</iana:Language>
+<iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xis">
+	<iana:code>xis</iana:code>
+	<iana:added>2014-02-28</iana:added>
+	<iana:label xml:lang="en">Kisan</iana:label>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#xiv">
 	<iana:code>xiv</iana:code>
@@ -44016,6 +44297,7 @@
 	<iana:code>ybb</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Yemba</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ybd">
 	<iana:code>ybd</iana:code>
@@ -44229,6 +44511,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Yagaria</iana:label>
 </iana:Language>
+<iana:ExtLang rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ygs">
+	<iana:code>ygs</iana:code>
+	<iana:added>2014-02-28</iana:added>
+	<iana:label xml:lang="en">Yolŋu Sign Language</iana:label>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ygs"/>
+	<iana:prefix>sgn</iana:prefix>
+</iana:ExtLang>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ygu">
 	<iana:code>ygu</iana:code>
 	<iana:added>2013-09-10</iana:added>
@@ -44696,6 +44985,14 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yorkshire">
 	<iana:code>yorkshire</iana:code>
 	<iana:added>2013-03-31</iana:added>
+	<iana:comments xml:lang="en">Invalid private-use tag (too long).</iana:comments>
+	<iana:deprecated>2014-03-23</iana:deprecated>
+	<iana:label xml:lang="en">Yorkshire</iana:label>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#yorkshr"/>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yorkshr">
+	<iana:code>yorkshr</iana:code>
+	<iana:added>2013-03-31</iana:added>
 	<iana:label xml:lang="en">Yorkshire</iana:label>
 	<iana:prefix>en-GB</iana:prefix>
 </iana:Private>
@@ -44908,6 +45205,7 @@
 	<iana:code>yua</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Yucateco</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yub">
 	<iana:code>yub</iana:code>
@@ -44997,7 +45295,9 @@
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yuu">
 	<iana:code>yuu</iana:code>
 	<iana:added>2009-07-29</iana:added>
+	<iana:deprecated>2014-02-28</iana:deprecated>
 	<iana:label xml:lang="en">Yugh</iana:label>
+	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#yug"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yuw">
 	<iana:code>yuw</iana:code>
@@ -45324,6 +45624,7 @@
 	<iana:code>zea</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Zeeuws</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#zeg">
 	<iana:code>zeg</iana:code>
@@ -45752,6 +46053,7 @@
 	<iana:code>zmi</iana:code>
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Negeri Sembilan Malay</iana:label>
+	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 	<iana:macrolanguage rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#ms"/>
 	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#zmi"/>
 	<iana:prefix>ms</iana:prefix>
