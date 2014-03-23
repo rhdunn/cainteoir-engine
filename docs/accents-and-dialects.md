@@ -59,6 +59,8 @@ This is a list of the accents in Modern English organised by region.
 |                  | ... ... ... ... London | |
 | en-GB-x-cockney  | ... ... ... ... ... [Cockney](https://en.wikipedia.org/wiki/Cockney) (London East End) | |
 | en-GB-x-eastang  | ... ... ... ... [East Anglian](https://en.wikipedia.org/wiki/East_Anglian_English) | |
+| en-GB-x-norfolk  | ... ... ... ... ... [Norfolk](https://en.wikipedia.org/wiki/Norfolk_dialect) | |
+| en-GB-x-suffolk  | ... ... ... ... ... [Suffolk](https://en.wikipedia.org/wiki/Suffolk_dialect) | |
 | en-GB-x-wales    | ... ... [Welsh English](https://en.wikipedia.org/wiki/Welsh_English) | WaE |
 | en-IE            | ... [Irish English](https://en.wikipedia.org/wiki/Hiberno-English) | IrE |
 | en-IN            | ... [Indian English](https://en.wikipedia.org/wiki/Indian_English) | InE |

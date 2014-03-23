@@ -125,6 +125,13 @@ Prefix: ang
 Comments: Old English dialect of Central England.
 %%
 Type: private
+Subtag: norfolk
+Description: Norfolk
+Added: 2014-03-23
+Prefix: en-GB
+Comments: Dialect local to Norfolk, England.
+%%
+Type: private
 Subtag: north
 Description: North
 Added: 2014-03-23
@@ -200,6 +207,13 @@ Added: 2013-03-31
 Deprecated: 2014-03-23
 Preferred-Value: en-GB-x-south
 Comments: Specified a more general region specifier.
+%%
+Type: private
+Subtag: suffolk
+Description: Suffolk
+Added: 2014-03-23
+Prefix: en-GB
+Comments: Dialect local to Suffolk, England.
 %%
 Type: private
 Subtag: wales

@@ -29382,6 +29382,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Ngongo</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#norfolk">
+	<iana:code>norfolk</iana:code>
+	<iana:added>2014-03-23</iana:added>
+	<iana:comments xml:lang="en">Dialect local to Norfolk, England.</iana:comments>
+	<iana:label xml:lang="en">Norfolk</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#north">
 	<iana:code>north</iana:code>
 	<iana:added>2014-03-23</iana:added>
@@ -36907,6 +36914,13 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Suena</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#suffolk">
+	<iana:code>suffolk</iana:code>
+	<iana:added>2014-03-23</iana:added>
+	<iana:comments xml:lang="en">Dialect local to Suffolk, England.</iana:comments>
+	<iana:label xml:lang="en">Suffolk</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sug">
 	<iana:code>sug</iana:code>
 	<iana:added>2009-07-29</iana:added>
