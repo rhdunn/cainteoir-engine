@@ -140,7 +140,9 @@ Type: private
 Subtag: northamerica
 Description: North American
 Added: 2013-03-31
-Prefix: en
+Deprecated: 2014-03-23
+Preferred-Value: en-CA
+Preferred-Value: en-US
 Comments: Generalised dialect of the United States of America and Canada.
 %%
 Type: private
