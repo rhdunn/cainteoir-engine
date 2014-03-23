@@ -40,11 +40,18 @@ Prefix: en-GB
 Comments: Generalised dialect of the East Midlands region of England.
 %%
 Type: private
-Subtag: estury
-Description: Estury English
-Added: 2013-03-31
+Subtag: estuary
+Description: Estuary English
+Added: 2014-03-23
 Prefix: en-GB
 Comments: Generalised dialect found along the River Thames and its estuary.
+%%
+Type: private
+Subtag: estury
+Description: Estuary English
+Added: 2013-03-31
+Preferred-Value: estuary
+Comments: Mis-spelling of the word 'estuary'.
 %%
 Type: private
 Subtag: geordie
