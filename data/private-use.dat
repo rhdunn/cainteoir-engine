@@ -12,6 +12,12 @@ Prefix: en-GB
 Comments: Dialect local to Birmingham, England.
 %%
 Type: private
+Subtag: central
+Description: Central
+Added: 2014-03-23
+Comments: Dialect located in the central region of the specified country.
+%%
+Type: private
 Subtag: cockney
 Description: Cockney
 Added: 2013-03-31
@@ -64,7 +70,8 @@ Type: private
 Subtag: hueprovince
 Description: Hue
 Added: 2013-03-31
-Prefix: vi-VN
+Deprecated: 2014-03-23
+Preferred-Value: vi-VN-x-central
 Comments: Dialect local to the Hue province of Vietnam (Central Vietnam).
 %%
 Type: private
@@ -110,6 +117,18 @@ Prefix: ang
 Comments: Old English dialect of Central England.
 %%
 Type: private
+Subtag: north
+Description: North
+Added: 2014-03-23
+Comments: Dialect located in the northern region of the specified country.
+%%
+Type: private
+Subtag: northcnt
+Description: North-Central
+Added: 2014-03-23
+Comments: Dialect located in the north-central region of the specified country.
+%%
+Type: private
 Subtag: northamerica
 Description: North American
 Added: 2013-03-31
@@ -141,7 +160,8 @@ Type: private
 Subtag: saigon
 Description: Saigon
 Added: 2013-04-28
-Prefix: vi-VN
+Deprecated: 2014-03-23
+Preferred-Value: vi-VN-x-south
 Comments: Dialect local to the Saigon region of Vietnam (South Vietnam).
 %%
 Type: private
@@ -149,6 +169,18 @@ Subtag: shtscale
 Description: Short Scale
 Added: 2013-04-11
 Comments: The short-scale pronunciation system for numbers (e.g. 10^9 is "billion").
+%%
+Type: private
+Subtag: south
+Description: South
+Added: 2014-03-23
+Comments: Dialect located in the southern region of the specified country.
+%%
+Type: private
+Subtag: southcnt
+Description: South-Central
+Added: 2014-03-23
+Comments: Dialect located in the south-central region of the specified country.
 %%
 Type: private
 Subtag: southeng
