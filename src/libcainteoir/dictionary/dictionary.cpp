@@ -26,6 +26,7 @@
 #include <cainteoir/unicode.hpp>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 tts::dictionary::entry::entry(const std::shared_ptr<buffer> &aPhonemes, std::shared_ptr<phoneme_reader> &aPhonemeSet)
 	: type(tts::dictionary::phonemes)
@@ -56,9 +57,9 @@ const tts::dictionary::entry &tts::dictionary::lookup(const key_type &aWord) con
 	return (match == mEntries.end()) ? no_match : match->second;
 }
 
-const std::list<tts::phoneme> &tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord, int depth)
+const std::list<ipa::phoneme> &tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord, int depth)
 {
-	static const std::list<tts::phoneme> empty = {};
+	static const std::list<ipa::phoneme> empty = {};
 
 	const auto &entry = lookup(aWord);
 	switch (entry.type)
@@ -86,7 +87,7 @@ struct dictionary_entry_formatter : public tts::dictionary_formatter
 
 	void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                         std::shared_ptr<tts::phoneme_writer> &writer,
-	                         const std::list<tts::phoneme> &phonemes,
+	                         const std::list<ipa::phoneme> &phonemes,
 	                         const char *line_separator);
 
 	void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
@@ -98,7 +99,7 @@ struct dictionary_entry_formatter : public tts::dictionary_formatter
 
 void dictionary_entry_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
                                                      std::shared_ptr<tts::phoneme_writer> &writer,
-                                                     const std::list<tts::phoneme> &phonemes,
+                                                     const std::list<ipa::phoneme> &phonemes,
                                                      const char *line_separator)
 {
 	fprintf(stdout, "\"%s\" => /", word->str().c_str());

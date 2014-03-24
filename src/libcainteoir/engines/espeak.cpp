@@ -27,6 +27,7 @@
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 #if defined(HAVE_ESPEAK_SPEAK_LIB_H)
 
@@ -233,7 +234,7 @@ void espeak_pronunciation::reset(const std::shared_ptr<cainteoir::buffer> &aBuff
 bool espeak_pronunciation::read()
 {
 	bool ret = mReader->read();
-	*(tts::phoneme *)this = *mReader;
+	*(ipa::phoneme *)this = *mReader;
 	return ret;
 }
 

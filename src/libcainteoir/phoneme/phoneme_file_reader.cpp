@@ -29,6 +29,7 @@
 #include <ucd/ucd.h>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 enum class type : uint8_t
 {
@@ -387,11 +388,11 @@ tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhone
 	}
 }
 
-std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCurrent, const char *mEnd) const
+std::pair<bool, ipa::phoneme> tts::transcription_reader::read(const char * &mCurrent, const char *mEnd) const
 {
 	placement state = placement::before;
 	const char *pos = mCurrent;
-	tts::phoneme p;
+	ipa::phoneme p;
 	uint8_t tone_start  = 0;
 	uint8_t tone_middle = 0;
 	uint8_t tone_end    = 0;
@@ -438,7 +439,7 @@ std::pair<bool, tts::phoneme> tts::transcription_reader::read(const char * &mCur
 				mCurrent = match.first;
 				throw tts::phoneme_error("no phoneme before post-phoneme modifiers");
 			case placement::none:
-				return { false, tts::phoneme(-1) };
+				return { false, ipa::phoneme(-1) };
 			}
 			break;
 		case placement::after:
@@ -576,7 +577,7 @@ tts::transcription_writer::transcription_writer(tts::phoneme_file_reader &aPhone
 	}
 }
 
-bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhoneme) const
+bool tts::transcription_writer::write(FILE *aOutput, const ipa::phoneme &aPhoneme) const
 {
 	static std::initializer_list<ipa::phoneme::value_type> masks =
 	{
@@ -588,7 +589,7 @@ bool tts::transcription_writer::write(FILE *aOutput, const tts::phoneme &aPhonem
 
 	for (auto && mask : masks)
 	{
-		tts::phoneme main{ aPhoneme.get(mask) };
+		ipa::phoneme main{ aPhoneme.get(mask) };
 
 		std::vector<std::shared_ptr<cainteoir::buffer>> append;
 

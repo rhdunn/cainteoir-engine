@@ -24,6 +24,7 @@
 #include <cainteoir/dictionary.hpp>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 static bool is_multiword_entry(const cainteoir::buffer &s)
 {
@@ -43,7 +44,7 @@ struct espeak_formatter : public tts::dictionary_formatter
 
 	void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                         std::shared_ptr<tts::phoneme_writer> &writer,
-	                         const std::list<tts::phoneme> &phonemes,
+	                         const std::list<ipa::phoneme> &phonemes,
 	                         const char *line_separator);
 
 	void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
@@ -55,7 +56,7 @@ struct espeak_formatter : public tts::dictionary_formatter
 
 void espeak_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
                                            std::shared_ptr<tts::phoneme_writer> &writer,
-                                           const std::list<tts::phoneme> &phonemes,
+                                           const std::list<ipa::phoneme> &phonemes,
                                            const char *line_separator)
 {
 	if (fprintf(mOut, is_multiword_entry(*word) ? "(%s)" : "%s", word->str().c_str()) < 8)

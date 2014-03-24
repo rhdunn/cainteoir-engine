@@ -263,8 +263,6 @@ namespace cainteoir { namespace ipa
 
 namespace cainteoir { namespace tts
 {
-	using ipa::phoneme;
-
 	struct phoneme_error : public std::runtime_error
 	{
 		phoneme_error(const std::string &msg) : std::runtime_error(msg)
@@ -272,7 +270,7 @@ namespace cainteoir { namespace tts
 		}
 	};
 
-	struct phoneme_reader : public phoneme
+	struct phoneme_reader : public ipa::phoneme
 	{
 		virtual void reset(const std::shared_ptr<buffer> &aBuffer) = 0;
 
@@ -287,7 +285,7 @@ namespace cainteoir { namespace tts
 	{
 		virtual void reset(FILE *aOutput) = 0;
 
-		virtual bool write(const phoneme &aPhoneme) = 0;
+		virtual bool write(const ipa::phoneme &aPhoneme) = 0;
 
 		virtual void flush();
 
@@ -305,7 +303,7 @@ namespace cainteoir { namespace tts
 		syllable,
 	};
 
-	void make_stressed(std::list<phoneme> &aPhonemes, stress_type aType);
+	void make_stressed(std::list<ipa::phoneme> &aPhonemes, stress_type aType);
 }}
 
 #endif

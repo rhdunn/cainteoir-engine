@@ -41,7 +41,7 @@ namespace cainteoir { namespace tts
 		{
 			entry_type type;
 			std::shared_ptr<buffer> text;
-			std::list<phoneme> phonemes;
+			std::list<ipa::phoneme> phonemes;
 
 			entry()
 				: type(dictionary::no_match)
@@ -85,12 +85,12 @@ namespace cainteoir { namespace tts
 		const_iterator begin() const { return mEntries.begin(); }
 		const_iterator end()   const { return mEntries.end();   }
 
-		const std::list<phoneme> &pronounce(const std::shared_ptr<buffer> &aWord)
+		const std::list<ipa::phoneme> &pronounce(const std::shared_ptr<buffer> &aWord)
 		{
 			return pronounce(aWord, 0);
 		}
 	private:
-		const std::list<phoneme> &pronounce(const std::shared_ptr<buffer> &aWord, int depth);
+		const std::list<ipa::phoneme> &pronounce(const std::shared_ptr<buffer> &aWord, int depth);
 
 		storage_type mEntries;
 	};
@@ -111,7 +111,7 @@ namespace cainteoir { namespace tts
 	{
 		virtual void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 		                                 std::shared_ptr<tts::phoneme_writer> &writer,
-		                                 const std::list<tts::phoneme> &phonemes,
+		                                 const std::list<ipa::phoneme> &phonemes,
 		                                 const char *line_separator = "\n") = 0;
 
 		virtual void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,

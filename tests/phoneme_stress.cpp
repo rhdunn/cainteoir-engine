@@ -26,6 +26,7 @@
 REGISTER_TESTSUITE("phoneme stress");
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 TEST_CASE("vowel stress")
 {
@@ -69,7 +70,7 @@ TEST_CASE("vowel stress")
 
 	for (const auto &test : testcases)
 	{
-		std::list<tts::phoneme> phonemes;
+		std::list<ipa::phoneme> phonemes;
 		reader->reset(std::make_shared<cainteoir::buffer>(test.first));
 		while (reader->read())
 			phonemes.push_back(*reader);
@@ -129,7 +130,7 @@ TEST_CASE("syllable stress")
 
 	for (const auto &test : testcases)
 	{
-		std::list<tts::phoneme> phonemes;
+		std::list<ipa::phoneme> phonemes;
 		reader->reset(std::make_shared<cainteoir::buffer>(test.first));
 		while (reader->read())
 			phonemes.push_back(*reader);

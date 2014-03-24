@@ -36,9 +36,9 @@ enum syllable : uint8_t
 	coda,
 };
 
-static void make_vowel_stressed(std::list<tts::phoneme> &aPhonemes)
+static void make_vowel_stressed(std::list<ipa::phoneme> &aPhonemes)
 {
-	tts::phoneme::value_type stress = ipa::unstressed;
+	ipa::phoneme::value_type stress = ipa::unstressed;
 
 	for (auto current = aPhonemes.begin(), last = aPhonemes.end(); current != last; ++current)
 	{
@@ -49,7 +49,7 @@ static void make_vowel_stressed(std::list<tts::phoneme> &aPhonemes)
 			continue;
 		}
 
-		tts::phoneme::value_type current_stress = phoneme.get(ipa::stress);
+		ipa::phoneme::value_type current_stress = phoneme.get(ipa::stress);
 		if (current_stress != ipa::unstressed)
 		{
 			if (phoneme.get(ipa::phoneme_type) == ipa::vowel)
@@ -71,7 +71,7 @@ static void make_vowel_stressed(std::list<tts::phoneme> &aPhonemes)
 	}
 }
 
-static void make_syllable_stressed(std::list<tts::phoneme> &aPhonemes)
+static void make_syllable_stressed(std::list<ipa::phoneme> &aPhonemes)
 {
 	auto onset = aPhonemes.begin();
 	syllable state = syllable::onset;
@@ -79,7 +79,7 @@ static void make_syllable_stressed(std::list<tts::phoneme> &aPhonemes)
 	for (auto current = aPhonemes.begin(), last = aPhonemes.end(); current != last; ++current)
 	{
 		auto &phoneme = *current;
-		tts::phoneme::value_type current_stress = phoneme.get(ipa::stress);
+		ipa::phoneme::value_type current_stress = phoneme.get(ipa::stress);
 		if (phoneme.get(ipa::phoneme_type) == ipa::vowel || phoneme.get(ipa::syllabic))
 		{
 			if (state == syllable::nucleus) 
@@ -102,7 +102,7 @@ static void make_syllable_stressed(std::list<tts::phoneme> &aPhonemes)
 	}
 }
 
-void tts::make_stressed(std::list<phoneme> &aPhonemes, stress_type aType)
+void tts::make_stressed(std::list<ipa::phoneme> &aPhonemes, stress_type aType)
 {
 	switch (aType)
 	{

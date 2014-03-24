@@ -54,8 +54,8 @@ namespace cainteoir { namespace tts
 	 *========================================================================================*
 	 */
 
-	std::pair<bool, phoneme> read_explicit_feature(const char * &mCurrent, const char *mEnd);
-	void write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme);
+	std::pair<bool, ipa::phoneme> read_explicit_feature(const char * &mCurrent, const char *mEnd);
+	void write_explicit_feature(FILE *output, const ipa::phoneme &aPhoneme);
 
 	enum class placement
 	{
@@ -86,7 +86,7 @@ namespace cainteoir { namespace tts
 			feature[3] = aFeature[3];
 		}
 
-		bool in(const tts::phoneme &aPhoneme) const
+		bool in(const ipa::phoneme &aPhoneme) const
 		{
 			return context == 0 || aPhoneme.get(feature);
 		}
@@ -104,7 +104,7 @@ namespace cainteoir { namespace tts
 		std::string phoneme_type;
 
 		std::shared_ptr<buffer> transcription;
-		std::vector<phoneme> phonemes;
+		std::vector<ipa::phoneme> phonemes;
 		feature_t feature;
 		feature_t change_to;
 		feature_t context;
@@ -142,7 +142,7 @@ namespace cainteoir { namespace tts
 	{
 		transcription_reader(tts::phoneme_file_reader &aPhonemeSet);
 
-		std::pair<bool, tts::phoneme> read(const char * &mCurrent, const char *mEnd) const;
+		std::pair<bool, ipa::phoneme> read(const char * &mCurrent, const char *mEnd) const;
 	private:
 		struct phoneme_rule_t
 		{
@@ -160,7 +160,7 @@ namespace cainteoir { namespace tts
 
 		struct phoneme_t
 		{
-			tts::phoneme phoneme;
+			ipa::phoneme phoneme;
 			placement type;
 			std::list<phoneme_rule_t> rule;
 
@@ -170,7 +170,7 @@ namespace cainteoir { namespace tts
 			{
 			}
 
-			phoneme_t(const tts::phoneme &aPhoneme)
+			phoneme_t(const ipa::phoneme &aPhoneme)
 				: phoneme(aPhoneme)
 				, type(placement::primary)
 			{
@@ -193,7 +193,7 @@ namespace cainteoir { namespace tts
 	{
 		transcription_writer(tts::phoneme_file_reader &aPhonemeSet);
 
-		bool write(FILE *aOutput, const tts::phoneme &aPhoneme) const;
+		bool write(FILE *aOutput, const ipa::phoneme &aPhoneme) const;
 	private:
 		struct feature_rule_t
 		{
@@ -211,7 +211,7 @@ namespace cainteoir { namespace tts
 			}
 		};
 
-		std::map<tts::phoneme, std::shared_ptr<cainteoir::buffer>> mPhonemes;
+		std::map<ipa::phoneme, std::shared_ptr<cainteoir::buffer>> mPhonemes;
 		std::shared_ptr<cainteoir::buffer> mTones[5];
 		std::list<feature_rule_t> mBefore;
 		std::list<feature_rule_t> mAfter;

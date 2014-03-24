@@ -42,11 +42,11 @@ private:
 	struct phoneme_t
 	{
 		bool match;
-		std::vector<tts::phoneme> phonemes;
+		std::vector<ipa::phoneme> phonemes;
 
 		phoneme_t() : match(false) {}
 
-		phoneme_t(const std::vector<tts::phoneme> &aPhonemes)
+		phoneme_t(const std::vector<ipa::phoneme> &aPhonemes)
 			: match(true)
 			, phonemes(aPhonemes)
 		{
@@ -108,11 +108,11 @@ bool espeak_reader::read()
 		switch (*mCurrent)
 		{
 		case ' ':
-			*(tts::phoneme *)this = tts::phoneme(ipa::pause | ipa::extra_short);
+			*(ipa::phoneme *)this = ipa::phoneme(ipa::pause | ipa::extra_short);
 			++mCurrent;
 			return true;
 		case '\n':
-			*(tts::phoneme *)this = tts::phoneme(ipa::pause);
+			*(ipa::phoneme *)this = ipa::phoneme(ipa::pause);
 			++mCurrent;
 			return true;
 		case '\'': case ',': // stress
@@ -167,7 +167,7 @@ bool espeak_reader::read()
 		}
 		else
 		{
-			*(tts::phoneme *)this = mPosition->item.phonemes[mIndex];
+			*(ipa::phoneme *)this = mPosition->item.phonemes[mIndex];
 			if (mIndex == 0) switch (mStress)
 			{
 			case '\'': set("st1"); break;
@@ -187,7 +187,7 @@ struct espeak_writer : public tts::phoneme_writer
 
 	void reset(FILE *aOutput);
 
-	bool write(const tts::phoneme &aPhoneme);
+	bool write(const ipa::phoneme &aPhoneme);
 
 	void flush();
 
@@ -198,7 +198,7 @@ private:
 	const char *mPhonemeSet;
 	FILE *mOutput;
 
-	cainteoir::trie<std::shared_ptr<cainteoir::buffer>, tts::phoneme> mPhonemes;
+	cainteoir::trie<std::shared_ptr<cainteoir::buffer>, ipa::phoneme> mPhonemes;
 
 	enum class state : uint8_t
 	{
@@ -209,7 +209,7 @@ private:
 
 	decltype(mPhonemes.root()) mPosition;
 	state mState;
-	tts::phoneme::value_type mStress;
+	ipa::phoneme::value_type mStress;
 };
 
 espeak_writer::espeak_writer(tts::phoneme_file_reader &aPhonemeSet, const char *aName)
@@ -236,20 +236,20 @@ void espeak_writer::reset(FILE *aOutput)
 	mOutput = aOutput;
 }
 
-bool espeak_writer::write(const tts::phoneme &aPhoneme)
+bool espeak_writer::write(const ipa::phoneme &aPhoneme)
 {
 	while (true) switch (mState)
 	{
 	case state::need_phoneme:
-		if (aPhoneme == tts::phoneme(ipa::pause))
+		if (aPhoneme == ipa::phoneme(ipa::pause))
 			fputc('\n', mOutput);
-		else if (aPhoneme == tts::phoneme(ipa::pause | ipa::extra_short))
+		else if (aPhoneme == ipa::phoneme(ipa::pause | ipa::extra_short))
 			fputc(' ', mOutput);
 		else
 		{
 			mStress = aPhoneme.get(ipa::stress);
 
-			tts::phoneme base { aPhoneme.get(~ipa::stress) };
+			ipa::phoneme base { aPhoneme.get(~ipa::stress) };
 			mPosition = mPhonemes.root()->get(base);
 			if (mPosition != nullptr)
 				mState = state::have_phoneme;

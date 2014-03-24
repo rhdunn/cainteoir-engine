@@ -43,7 +43,7 @@ enum class mode_type
 	mismatched_entries,
 };
 
-static bool matches(const std::list<tts::phoneme> &a, const std::list<tts::phoneme> &b, bool ignore_syllable_breaks)
+static bool matches(const std::list<ipa::phoneme> &a, const std::list<ipa::phoneme> &b, bool ignore_syllable_breaks)
 {
 	auto first1 = a.begin(), last1 = a.end();
 	auto first2 = b.begin(), last2 = b.end();
@@ -81,7 +81,7 @@ static bool pronounce(tts::dictionary &dict,
                       bool ignore_syllable_breaks,
                       mode_type mode)
 {
-	std::list<tts::phoneme> phonemes;
+	std::list<ipa::phoneme> phonemes;
 	if (mode != mode_type::pronounce_entries)
 	{
 		phonemes = dict.pronounce(word);
@@ -89,7 +89,7 @@ static bool pronounce(tts::dictionary &dict,
 			return false;
 	}
 
-	std::list<tts::phoneme> pronounced;
+	std::list<ipa::phoneme> pronounced;
 	try
 	{
 		rules->reset(word);

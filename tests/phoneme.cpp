@@ -327,21 +327,21 @@ TEST_CASE("explicit feature reader -- no input")
 {
 	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader("features");
 	assert(reader.get());
-	assert(*reader == tts::phoneme());
+	assert(*reader == ipa::phoneme());
 
 	assert(!reader->read());
-	assert(*reader == tts::phoneme());
+	assert(*reader == ipa::phoneme());
 
 	reader->reset(std::shared_ptr<cainteoir::buffer>());
 
 	assert(!reader->read());
-	assert(*reader == tts::phoneme());
+	assert(*reader == ipa::phoneme());
 
 	auto test = std::make_shared<cainteoir::buffer>(nullptr, nullptr);
 	reader->reset(test);
 
 	assert(!reader->read());
-	assert(*reader == tts::phoneme());
+	assert(*reader == ipa::phoneme());
 }
 
 TEST_CASE("explicit feature reader -- single phoneme")
@@ -380,10 +380,10 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		reader->reset(std::make_shared<cainteoir::buffer>(phoneme));
 
 		assert(reader->read());
-		assert(*reader == tts::phoneme().set(test));
+		assert(*reader == ipa::phoneme().set(test));
 
 		assert(!reader->read());
-		assert(*reader == tts::phoneme());
+		assert(*reader == ipa::phoneme());
 	}
 }
 
@@ -395,16 +395,16 @@ TEST_CASE("explicit feature reader -- multiple phonemes")
 	reader->reset(std::make_shared<cainteoir::buffer>(test));
 
 	assert(reader->read());
-	assert(*reader == tts::phoneme(ipa::alveolar | ipa::plosive));
+	assert(*reader == ipa::phoneme(ipa::alveolar | ipa::plosive));
 
 	assert(reader->read());
-	assert(*reader == tts::phoneme(ipa::low | ipa::front | ipa::vowel));
+	assert(*reader == ipa::phoneme(ipa::low | ipa::front | ipa::vowel));
 
 	assert(reader->read());
-	assert(*reader == tts::phoneme(ipa::voiced | ipa::velar | ipa::plosive));
+	assert(*reader == ipa::phoneme(ipa::voiced | ipa::velar | ipa::plosive));
 
 	assert(!reader->read());
-	assert(*reader == tts::phoneme());
+	assert(*reader == ipa::phoneme());
 }
 
 TEST_CASE("explicit feature reader -- multiple phonemes with whitespace")
@@ -415,16 +415,16 @@ TEST_CASE("explicit feature reader -- multiple phonemes with whitespace")
 	reader->reset(std::make_shared<cainteoir::buffer>(test));
 
 	assert(reader->read());
-	assert(*reader == tts::phoneme(ipa::alveolar | ipa::plosive));
+	assert(*reader == ipa::phoneme(ipa::alveolar | ipa::plosive));
 
 	assert(reader->read());
-	assert(*reader == tts::phoneme(ipa::low | ipa::front | ipa::vowel));
+	assert(*reader == ipa::phoneme(ipa::low | ipa::front | ipa::vowel));
 
 	assert(reader->read());
-	assert(*reader == tts::phoneme(ipa::voiced | ipa::velar | ipa::plosive));
+	assert(*reader == ipa::phoneme(ipa::voiced | ipa::velar | ipa::plosive));
 
 	assert(!reader->read());
-	assert(*reader == tts::phoneme());
+	assert(*reader == ipa::phoneme());
 }
 
 TEST_CASE("explicit feature reader -- phoneme errors")
@@ -470,7 +470,7 @@ TEST_CASE("explicit feature reader -- phoneme errors")
 		reader->reset(std::make_shared<cainteoir::buffer>(test.first));
 
 		assert_throws(reader->read(), tts::phoneme_error, test.second);
-		assert(*reader == tts::phoneme());
+		assert(*reader == ipa::phoneme());
 	}
 }
 

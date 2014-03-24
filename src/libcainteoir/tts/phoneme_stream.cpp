@@ -127,7 +127,7 @@ words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
 	auto phonemes = mExceptionDictionary.pronounce(aText);
 	if (!phonemes.empty())
 	{
-		for (const tts::phoneme &p : phonemes)
+		for (const auto &p : phonemes)
 			mEvent.phonemes.push_back(p);
 		return true;
 	}
@@ -146,7 +146,7 @@ words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
 			auto phonemes = mExceptionDictionary.pronounce(word);
 			if (!phonemes.empty())
 			{
-				for (const tts::phoneme &p : phonemes)
+				for (const auto &p : phonemes)
 					mEvent.phonemes.push_back(p);
 			}
 			else if (mRules.get())

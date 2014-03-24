@@ -25,6 +25,7 @@
 #include "phonemeset.hpp"
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 struct ipa_reader : public tts::phoneme_reader
 {
@@ -61,7 +62,7 @@ bool ipa_reader::read()
 {
 	auto ret = mPhonemes.read(mCurrent, mEnd);
 	if (ret.first)
-		*(tts::phoneme *)this = ret.second;
+		*(ipa::phoneme *)this = ret.second;
 	return ret.first;
 }
 
@@ -71,7 +72,7 @@ struct ipa_writer : public tts::phoneme_writer
 
 	void reset(FILE *aOutput);
 
-	bool write(const tts::phoneme &aPhoneme);
+	bool write(const ipa::phoneme &aPhoneme);
 
 	const char *name() const;
 private:
@@ -93,7 +94,7 @@ void ipa_writer::reset(FILE *aOutput)
 	mOutput = aOutput;
 }
 
-bool ipa_writer::write(const tts::phoneme &aPhoneme)
+bool ipa_writer::write(const ipa::phoneme &aPhoneme)
 {
 	return mPhonemes.write(mOutput, aPhoneme);
 }

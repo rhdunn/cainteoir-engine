@@ -63,7 +63,7 @@ namespace cainteoir { namespace tts
 	struct text_event
 	{
 		std::shared_ptr<buffer> text;
-		std::list<phoneme> phonemes;
+		std::list<ipa::phoneme> phonemes;
 		event_type type;
 		cainteoir::range<uint32_t> range;
 		uint32_t codepoint;

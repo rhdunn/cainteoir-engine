@@ -26,6 +26,7 @@
 #include <utility>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 static const std::initializer_list<const char *> voicing = {
 	"vcd",
@@ -206,13 +207,13 @@ enum state_t
 	in_feature,
 };
 
-std::pair<bool, tts::phoneme> tts::read_explicit_feature(const char * &mCurrent, const char *mEnd)
+std::pair<bool, ipa::phoneme> tts::read_explicit_feature(const char * &mCurrent, const char *mEnd)
 {
 	state_t s = begin_phoneme;
 	char abbrev[4] = { '\0', '\0', '\0', '\0' };
 	int abbrev_pos = 0;
 
-	tts::phoneme p;
+	ipa::phoneme p;
 	while (mCurrent < mEnd)
 	{
 		switch (s)
@@ -275,7 +276,7 @@ std::pair<bool, tts::phoneme> tts::read_explicit_feature(const char * &mCurrent,
 	return { false, {}};
 }
 
-static void write_feature(FILE *output, const tts::phoneme &aPhoneme, const std::initializer_list<const char *> &features, bool &need_comma)
+static void write_feature(FILE *output, const ipa::phoneme &aPhoneme, const std::initializer_list<const char *> &features, bool &need_comma)
 {
 	for (auto &&abbreviation : features)
 	{
@@ -289,7 +290,7 @@ static void write_feature(FILE *output, const tts::phoneme &aPhoneme, const std:
 	}
 }
 
-void tts::write_explicit_feature(FILE *output, const tts::phoneme &aPhoneme)
+void tts::write_explicit_feature(FILE *output, const ipa::phoneme &aPhoneme)
 {
 	bool need_comma = false;
 
@@ -354,9 +355,9 @@ void explicit_feature_reader::reset(const std::shared_ptr<cainteoir::buffer> &aB
 
 bool explicit_feature_reader::read()
 {
-	*(tts::phoneme *)this = tts::phoneme();
+	*(ipa::phoneme *)this = ipa::phoneme();
 	auto ret = tts::read_explicit_feature(mCurrent, mEnd);
-	*(tts::phoneme *)this = ret.second;
+	*(ipa::phoneme *)this = ret.second;
 	return ret.first;
 }
 
@@ -366,7 +367,7 @@ struct explicit_feature_writer : public tts::phoneme_writer
 
 	void reset(FILE *aOutput);
 
-	bool write(const tts::phoneme &aPhoneme);
+	bool write(const ipa::phoneme &aPhoneme);
 
 	const char *name() const;
 
@@ -383,7 +384,7 @@ void explicit_feature_writer::reset(FILE *aOutput)
 	output = aOutput;
 }
 
-bool explicit_feature_writer::write(const tts::phoneme &aPhoneme)
+bool explicit_feature_writer::write(const ipa::phoneme &aPhoneme)
 {
 	if (!output) return false;
 

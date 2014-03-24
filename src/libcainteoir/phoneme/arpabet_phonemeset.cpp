@@ -81,7 +81,7 @@ private:
 	const char *mCurrent;
 	const char *mEnd;
 
-	cainteoir::trie<std::pair<tts::phoneme, tts::phoneme>> mPhonemes;
+	cainteoir::trie<std::pair<ipa::phoneme, ipa::phoneme>> mPhonemes;
 
 	enum class state : uint8_t
 	{
@@ -108,7 +108,7 @@ arpabet_reader::arpabet_reader(tts::phoneme_file_reader &aPhonemeSet)
 		{
 		case 1:
 			mPhonemes.insert(*aPhonemeSet.transcription,
-			                { aPhonemeSet.phonemes[0], tts::phoneme(-1) });
+			                { aPhonemeSet.phonemes[0], ipa::phoneme(-1) });
 			break;
 		case 2:
 			mPhonemes.insert(*aPhonemeSet.transcription,
@@ -150,7 +150,7 @@ bool arpabet_reader::read()
 			++mCurrent;
 			break;
 		case type::newline:
-			*(tts::phoneme *)this = tts::phoneme(ipa::pause);
+			*(ipa::phoneme *)this = ipa::phoneme(ipa::pause);
 			++mCurrent;
 			return true;
 		case type::stress:
@@ -204,7 +204,7 @@ bool arpabet_reader::read()
 		}
 		break;
 	case state::emitting_phoneme1:
-		*(tts::phoneme *)this = mPosition->item.first;
+		*(ipa::phoneme *)this = mPosition->item.first;
 		switch (mStress)
 		{
 		case '1': set("st1"); break;
@@ -214,7 +214,7 @@ bool arpabet_reader::read()
 		mState = state::emitting_phoneme2;
 		return true;
 	case state::emitting_phoneme2:
-		*(tts::phoneme *)this = mPosition->item.second;
+		*(ipa::phoneme *)this = mPosition->item.second;
 		mPosition = mPhonemes.root();
 		mState = state::need_phoneme;
 		if (get(-1) != -1)
@@ -230,7 +230,7 @@ struct arpabet_writer : public tts::phoneme_writer
 
 	void reset(FILE *aOutput);
 
-	bool write(const tts::phoneme &aPhoneme);
+	bool write(const ipa::phoneme &aPhoneme);
 
 	void flush();
 
@@ -241,7 +241,7 @@ private:
 	const char *mPhonemeSet;
 	FILE *mOutput;
 
-	cainteoir::trie<std::shared_ptr<cainteoir::buffer>, tts::phoneme> mPhonemes;
+	cainteoir::trie<std::shared_ptr<cainteoir::buffer>, ipa::phoneme> mPhonemes;
 
 	enum class state : uint8_t
 	{
@@ -253,7 +253,7 @@ private:
 
 	decltype(mPhonemes.root()) mPosition;
 	state mState;
-	tts::phoneme::value_type mStress;
+	ipa::phoneme::value_type mStress;
 	bool mNeedSpace;
 };
 
@@ -271,13 +271,13 @@ arpabet_writer::arpabet_writer(tts::phoneme_file_reader &aPhonemeSet, const char
 		{
 		case 1:
 			{
-				tts::phoneme index[] = { aPhonemeSet.phonemes[0] };
+				ipa::phoneme index[] = { aPhonemeSet.phonemes[0] };
 				mPhonemes.insert(index, aPhonemeSet.transcription);
 			}
 			break;
 		case 2:
 			{
-				tts::phoneme index[] = { aPhonemeSet.phonemes[0], aPhonemeSet.phonemes[1] };
+				ipa::phoneme index[] = { aPhonemeSet.phonemes[0], aPhonemeSet.phonemes[1] };
 				mPhonemes.insert(index, aPhonemeSet.transcription);
 			}
 			break;
@@ -298,12 +298,12 @@ void arpabet_writer::reset(FILE *aOutput)
 	mNeedSpace = false;
 }
 
-bool arpabet_writer::write(const tts::phoneme &aPhoneme)
+bool arpabet_writer::write(const ipa::phoneme &aPhoneme)
 {
 	while (true) switch (mState)
 	{
 	case state::need_phoneme:
-		if (aPhoneme == tts::phoneme(ipa::pause))
+		if (aPhoneme == ipa::phoneme(ipa::pause))
 			mState = state::have_pause;
 		else
 		{
@@ -312,7 +312,7 @@ bool arpabet_writer::write(const tts::phoneme &aPhoneme)
 			else
 				mStress = -1;
 
-			tts::phoneme base { aPhoneme.get(~ipa::stress) };
+			ipa::phoneme base { aPhoneme.get(~ipa::stress) };
 			mPosition = mPhonemes.root()->get(base);
 			if (mPosition != nullptr)
 				mState = state::have_phoneme;

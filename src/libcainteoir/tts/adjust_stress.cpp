@@ -37,7 +37,7 @@ public:
 
 	bool read();
 private:
-	void adjust_phonemes(std::list<tts::phoneme> &aPhonemes);
+	void adjust_phonemes(std::list<ipa::phoneme> &aPhonemes);
 
 	std::shared_ptr<tts::text_reader> mReader;
 	int  mPrevSyllableCount;
@@ -65,7 +65,7 @@ adjust_stress::read()
 		switch (event.type)
 		{
 		case tts::phonemes:
-			adjust_phonemes(const_cast<std::list<tts::phoneme> &>(event.phonemes));
+			adjust_phonemes(const_cast<std::list<ipa::phoneme> &>(event.phonemes));
 			break;
 		case tts::comma:
 			break;
@@ -79,7 +79,7 @@ adjust_stress::read()
 	return false;
 }
 
-void adjust_stress::adjust_phonemes(std::list<tts::phoneme> &aPhonemes)
+void adjust_stress::adjust_phonemes(std::list<ipa::phoneme> &aPhonemes)
 {
 	auto stress_placement = aPhonemes.end();
 	int syllable_count = 0;

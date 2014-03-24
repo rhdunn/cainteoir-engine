@@ -28,6 +28,7 @@
 #include <stack>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 struct cainteoir_dictionary_reader : public tts::dictionary_reader
 {
@@ -154,7 +155,7 @@ struct cainteoir_formatter : public tts::dictionary_formatter
 
 	void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                         std::shared_ptr<tts::phoneme_writer> &writer,
-	                         const std::list<tts::phoneme> &phonemes,
+	                         const std::list<ipa::phoneme> &phonemes,
 	                         const char *line_separator);
 
 	void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
@@ -166,7 +167,7 @@ struct cainteoir_formatter : public tts::dictionary_formatter
 
 void cainteoir_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
                                               std::shared_ptr<tts::phoneme_writer> &writer,
-                                              const std::list<tts::phoneme> &phonemes,
+                                              const std::list<ipa::phoneme> &phonemes,
                                               const char *line_separator)
 {
 	if (fprintf(mOut, "%s", word->str().c_str()) < 8)
