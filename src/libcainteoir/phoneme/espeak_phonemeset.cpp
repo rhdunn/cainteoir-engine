@@ -140,8 +140,15 @@ bool espeak_reader::read()
 				{
 					if (match == nullptr)
 					{
+						uint8_t c = *mCurrent;
 						++mCurrent;
-						throw tts::phoneme_error("unknown phoneme");
+
+						char msg[64];
+						if (c <= 0x20 || c >= 0x80)
+							sprintf(msg, i18n("unrecognised character 0x%02X"), c);
+						else
+							sprintf(msg, i18n("unrecognised character %c"), c);
+						throw tts::phoneme_error(msg);
 					}
 					else
 						mState = state::emitting_phoneme;
