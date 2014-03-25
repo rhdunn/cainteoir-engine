@@ -104,5 +104,9 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-lancastr'},
 			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB-x-lancastr', 'to': 'ipa'},
 		]},
+		{'name': 'English (Received Pronunciation)', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-rp'},
+			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB-x-rp', 'to': 'ipa'},
+		]},
 	]})
 	test.summary()
