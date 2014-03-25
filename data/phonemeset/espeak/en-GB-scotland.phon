@@ -7,6 +7,7 @@
 # Linking Phonemes
 
 r-	/{vcd,alv,apr}/ # /ɹ/
+g-	/{vcd,vel,stp}/ # /ɡ/
 @-	/{mid,cnt,unr,vwl}/ # /ə/
 ;	// # /j/
 
@@ -63,10 +64,13 @@ a\#:	/{sml,cnt,unr,vwl,lng}/	# /ɐː/
 
 O@	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /oːr/ NORTH
 O@r	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /oːr/ NORTH (en-sc)
+O@r-	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /oːrɹ/
 o@	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /ɔːr/ FORCE
 o@r	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /ɔːr/ FORCE (en-sc)
+o@r-	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /ɔːrɹ/
 A@	/{low,bck,unr,vwl,lng}{vcd,alv,trl}/ # /ɑːr/ START
 A@r	/{low,bck,unr,vwl,lng}{vcd,alv,trl}/ # /ɑːr/ START (en-sc)
+A@r-	/{low,bck,unr,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /ɑːrɹ/
 
 IR	/{smh,fnt,unr,vwl}{vcd,alv,trl}/ # /ɪr/ NURSE (FIR)
 VR	/{smh,bck,rnd,vwl}{vcd,alv,trl}/ # /ʊr/ NURSE (FUR)
@@ -84,11 +88,13 @@ a\#	/{sml,cnt,unr,vwl}/	# /ɐ/  ~A~BOUT
 i@	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/ NEAR
 i@3	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}/ # /ɪɚ̯/
 i@3r	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}/ # /ɪɚ̯/ (en-sc)
+i@3r-	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}{vcd,alv,apr}/ # /ɪɚ̯ɹ/
 U@	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/ CURE
 eI	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/ FACE
 oU	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/ GOAT
 e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE
 e@r	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE (en-sc)
+e@r-	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}{vcd,alv,apr}/ # /ɛə̯ɹ/
 OI	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/ CHOICE
 aI	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PRICE
 aI2	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PRICE (en-sc)
