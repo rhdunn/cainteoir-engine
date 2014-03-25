@@ -57,6 +57,7 @@ private:
 
 	enum class state : uint8_t
 	{
+		start_of_line,
 		need_phoneme,
 		parsing_pause,
 		parsing_phoneme,
@@ -70,7 +71,7 @@ private:
 };
 
 espeak_reader::espeak_reader(tts::phoneme_file_reader &aPhonemeSet, const char *aName)
-	: mState(state::need_phoneme)
+	: mState(state::start_of_line)
 	, mStress(0)
 	, mIndex(0)
 {
@@ -103,6 +104,20 @@ bool espeak_reader::read()
 	decltype(mPhonemes.root()) match = nullptr;
 	while (true) switch (mState)
 	{
+	case state::start_of_line:
+		if (mCurrent == mEnd)
+			return false;
+		switch (*mCurrent)
+		{
+		case ' ':
+			++mCurrent;
+			mState = state::need_phoneme;
+			break;
+		default:
+			mState = state::need_phoneme;
+			break;
+		}
+		break;
 	case state::need_phoneme:
 		if (mCurrent == mEnd)
 			return false;
@@ -115,6 +130,7 @@ bool espeak_reader::read()
 		case '\n':
 			*(ipa::phoneme *)this = ipa::phoneme(ipa::pause);
 			++mCurrent;
+			mState = state::start_of_line;
 			return true;
 		case '\'': case ',': // stress
 			mStress = *mCurrent++;
