@@ -116,14 +116,14 @@ BATH contexts, as well as before historic `/r/` in START contexts.
 |---------------|--------|-------------|----------|
 | `/iː/`        | `i:`   | FLEECE      | seed, key, seize |
 | `/uː/`        | `u:`   | GOOSE       | who, group, few |
-| `/ɪr/`        | `I_r`  | FIR<sup>1</sup> | birth, myrrh, mirk |
-| `/ʊr/`        | `U_r`  | FUR<sup>1</sup> | burn, hurl, world |
-| `/oːr/`       | `o:_r` | NORTH       | war, storm, for, aural |
+| `/ɪr/`        | `Ir`   | FIR<sup>1</sup> | birth, myrrh, mirk |
+| `/ʊr/`        | `Ur`   | FUR<sup>1</sup> | burn, hurl, world |
+| `/oːr/`       | `o:r`  | NORTH       | war, storm, for, aural |
 | `/ɜː/`        | `3:`   | FERN<sup>1</sup> | term, herd, earth |
 | `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
-| `/ɔːr/`       | `O:_r` | FORCE       | floor, coarse, ore, oral |
+| `/ɔːr/`       | `O:r`  | FORCE       | floor, coarse, ore, oral |
 | `/ɑː/`        | `A:`   | PALM        | calm, bra, father |
-| `/ɑːr/`       | `A:_r` | START       | far, sharp, farm, safari |
+| `/ɑːr/`       | `A:r`  | START       | far, sharp, farm, safari |
 
 1.  The NURSE lexical set described by John Wells has been split into three
     lexical sets to support Scottish and Irish English.
