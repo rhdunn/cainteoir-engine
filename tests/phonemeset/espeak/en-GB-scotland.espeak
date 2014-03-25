@@ -52,15 +52,15 @@ A:
 a:
 a#:
 
-O@
-O@
-o@
-o@
-A@
-A@
+O@r
+O@r
+o@r
+o@r
+A@r
+A@r
 
-3:
-3:
+IR
+VR
 3:
 
 i
@@ -71,16 +71,16 @@ I2
 a#
 
 i@
-i@3
-i@3
+i@3r
+i@3r
 U@
 eI
 oU
-e@
-e@
+e@r
+e@r
 OI
-aI
-aI
+aI2
+aI2
 aI@
 aI3
 aU
