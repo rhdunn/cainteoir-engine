@@ -87,4 +87,10 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/sampa/en.sampa', 'result': 'phonemeset/sampa/en.ipa', 'from': 'sampa/en', 'to': 'ipa'},
 		]},
 	]})
+	test.run({'name': 'eSpeak-Based', 'groups': [
+		{'name': 'English', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en'},
+			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en', 'to': 'ipa'},
+		]},
+	]})
 	test.summary()
