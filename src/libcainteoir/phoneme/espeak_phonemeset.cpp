@@ -134,6 +134,7 @@ bool espeak_reader::read()
 		switch (*mCurrent)
 		{
 		case ':':
+		case '!':
 			++mCurrent;
 			mState = state::need_phoneme;
 			break;
