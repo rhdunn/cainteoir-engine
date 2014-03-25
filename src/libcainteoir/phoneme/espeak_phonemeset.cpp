@@ -58,6 +58,7 @@ private:
 	enum class state : uint8_t
 	{
 		need_phoneme,
+		parsing_pause, // _:
 		parsing_phoneme,
 		emitting_phoneme,
 	};
@@ -118,8 +119,27 @@ bool espeak_reader::read()
 		case '\'': case ',': // stress
 			mStress = *mCurrent++;
 			break;
+		case '_':
+			++mCurrent;
+			mState = state::parsing_pause;
+			break;
 		default:
 			mState = state::parsing_phoneme;
+			break;
+		}
+		break;
+	case state::parsing_pause:
+		if (mCurrent == mEnd)
+			return false;
+		switch (*mCurrent)
+		{
+		case ':':
+			++mCurrent;
+			mState = state::need_phoneme;
+			break;
+		default:
+			mState = state::need_phoneme;
+			throw tts::phoneme_error("unrecognised pause -- expected ':' after '_'");
 			break;
 		}
 		break;
