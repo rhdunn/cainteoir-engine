@@ -141,7 +141,6 @@ bool espeak_reader::read()
 			break;
 		default:
 			mState = state::need_phoneme;
-			throw tts::phoneme_error("unrecognised pause -- expected ':' after '_'");
 			break;
 		}
 		break;
