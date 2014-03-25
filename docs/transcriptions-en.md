@@ -119,7 +119,8 @@ BATH contexts, as well as before historic `/r/` in START contexts.
 | `/ɪr/`        | `Ir`   | FIR<sup>1</sup> | birth, myrrh, mirk |
 | `/ʊr/`        | `Ur`   | FUR<sup>1</sup> | burn, hurl, world |
 | `/oːr/`       | `o:r`  | NORTH       | war, storm, for, aural |
-| `/ɜː/`        | `3:`   | FERN<sup>1</sup> | term, herd, earth |
+| `/ɛr/`        | `Er`   | FERN<sup>1</sup> | term, herd, earth |
+| `/ɜː/`        | `3:`   | NURSE<sup>2</sup> | term, herd, birth, burn |
 | `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
 | `/ɔːr/`       | `O:r`  | FORCE       | floor, coarse, ore, oral |
 | `/ɑː/`        | `A:`   | PALM        | calm, bra, father |
@@ -127,6 +128,10 @@ BATH contexts, as well as before historic `/r/` in START contexts.
 
 1.  The NURSE lexical set described by John Wells has been split into three
     lexical sets to support Scottish and Irish English.
+
+2.  The NURSE vowel is given a different transcription from the FUR vowel to
+    differentiate transcriptions that make the FIR-FUR-FERN distinction and
+    those that don't.
 
 #### HORSE-HOARSE merger
 
