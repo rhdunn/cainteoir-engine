@@ -286,6 +286,8 @@ const char *espeak_writer::name() const
 
 void espeak_writer::output_phoneme()
 {
+	mState = state::need_phoneme;
+	if (!mPosition->item) return;
 	switch (mStress)
 	{
 	case ipa::unstressed:       break;
@@ -293,7 +295,6 @@ void espeak_writer::output_phoneme()
 	case ipa::secondary_stress: fputc(',',  mOutput); break;
 	}
 	fwrite(mPosition->item->begin(), 1, mPosition->item->size(), mOutput);
-	mState = state::need_phoneme;
 }
 
 std::shared_ptr<tts::phoneme_reader> tts::createEspeakPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName)
