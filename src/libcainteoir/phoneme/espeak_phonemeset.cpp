@@ -58,7 +58,7 @@ private:
 	enum class state : uint8_t
 	{
 		need_phoneme,
-		parsing_pause, // _:
+		parsing_pause,
 		parsing_phoneme,
 		emitting_phoneme,
 	};
@@ -135,6 +135,7 @@ bool espeak_reader::read()
 		{
 		case ':':
 		case '!':
+		case '|':
 			++mCurrent;
 			mState = state::need_phoneme;
 			break;
