@@ -26,14 +26,14 @@ l	/{vcd,alv,lat,apr}/ # /l/
 m	/{vcd,blb,nas}/ # /m/
 n	/{vcd,alv,nas}/ # /n/
 N	/{vcd,vel,nas}/ # /ŋ/
-T	/{vls,dnt,frc}/ # /θ/
+T	/{vls,alv,stp,dzd}/ # /t̪/
+t[	/{vls,alv,stp,dzd}/ # /t̪/
 p	/{vls,blb,stp}/ # /p/
 r	/{vcd,alv,apr}/ # /ɹ/
 s	/{vls,alv,sib,frc}/ # /s/
 S	/{vls,pla,sib,frc}/ # /ʃ/
 t\#	/{vls,alv,stp}/ # /t/
 t2	/{vls,alv,stp}/ # /t/
-t[	/{vls,alv,stp}/ # /t/
 t	/{vls,alv,stp}/ # /t/
 tS	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
 v	/{vcd,lbd,frc}/ # /v/

@@ -34,6 +34,7 @@ S	/{vls,pla,sib,frc}/ # /ʃ/
 *	/{vcd,alv,flp}/ # /ɾ/
 t\#	/{vcd,alv,flp}/ # /ɾ/
 t2	/{vls,alv,stp}/ # /t/
+t[	/{vls,alv,stp}/ # /t/
 t	/{vls,alv,stp}/ # /t/
 tS	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
 v	/{vcd,lbd,frc}/ # /v/
