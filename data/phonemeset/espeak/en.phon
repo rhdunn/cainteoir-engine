@@ -106,6 +106,7 @@ aU	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/ MOUTH
 
 aI@	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aɪ̯ə̯/
 aI3	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,rzd,nsy}/ # /aɪ̯ɚ̯/
+aI3:	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{lmd,cnt,unr,vwl,lng}/ # /aɪ̯ɜː/
 aU@	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aʊ̯ə̯/
 
 # Foreign

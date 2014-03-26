@@ -108,5 +108,9 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-rp'},
 			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB-x-rp', 'to': 'ipa'},
 		]},
+		{'name': 'English (West Midlands)', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-westmids'},
+			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB-x-westmids', 'to': 'ipa'},
+		]},
 	]})
 	test.summary()
