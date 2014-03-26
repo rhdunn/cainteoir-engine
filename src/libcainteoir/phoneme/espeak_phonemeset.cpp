@@ -59,6 +59,7 @@ private:
 	{
 		start_of_line,
 		need_phoneme,
+		parsing_pause_at_start_of_line,
 		parsing_pause,
 		parsing_phoneme,
 		emitting_phoneme,
@@ -113,6 +114,10 @@ bool espeak_reader::read()
 			++mCurrent;
 			mState = state::need_phoneme;
 			break;
+		case '_':
+			++mCurrent;
+			mState = state::parsing_pause_at_start_of_line;
+			break;
 		default:
 			mState = state::need_phoneme;
 			break;
@@ -141,6 +146,20 @@ bool espeak_reader::read()
 			break;
 		default:
 			mState = state::parsing_phoneme;
+			break;
+		}
+		break;
+	case state::parsing_pause_at_start_of_line:
+		if (mCurrent == mEnd)
+			return false;
+		switch (*mCurrent)
+		{
+		case ':':
+			++mCurrent;
+			mState = state::start_of_line;
+			break;
+		default:
+			mState = state::start_of_line;
 			break;
 		}
 		break;
