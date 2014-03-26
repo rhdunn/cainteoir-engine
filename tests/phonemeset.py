@@ -132,5 +132,8 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/espeak/es.ipa', 'result': 'phonemeset/espeak/es.espeak', 'from': 'ipa', 'to': 'espeak/es-419'},
 			{'test': 'phonemeset/espeak/es', 'result': 'phonemeset/espeak/es.ipa', 'from': 'espeak/es-419', 'to': 'ipa'},
 		]},
+		{'name': 'Language Switching', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/espeak/multi-lang.espeak', 'result': 'phonemeset/espeak/multi-lang.ipa', 'from': 'espeak/en', 'to': 'ipa'},
+		]},
 	]})
 	test.summary()

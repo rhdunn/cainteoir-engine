@@ -35,6 +35,9 @@ struct espeak_reader : public tts::phoneme_reader
 
 	bool read();
 private:
+	void switch_language(const std::string &aLanguage);
+	void parse_phonemes(tts::phoneme_file_reader &aPhonemeSet);
+
 	std::shared_ptr<cainteoir::buffer> mBuffer;
 	const char *mCurrent;
 	const char *mEnd;
@@ -53,7 +56,9 @@ private:
 		}
 	};
 
-	cainteoir::trie<phoneme_t> mPhonemes;
+	std::map<std::string, cainteoir::trie<phoneme_t>> mPhonemes;
+	cainteoir::trie<phoneme_t> *mActivePhonemes;
+	std::string mActiveLanguage;
 
 	enum class state : uint8_t
 	{
@@ -61,11 +66,12 @@ private:
 		need_phoneme,
 		parsing_pause_at_start_of_line,
 		parsing_pause,
+		parsing_language_switch,
 		parsing_phoneme,
 		emitting_phoneme,
 	};
 
-	decltype(mPhonemes.root()) mPosition;
+	decltype(mActivePhonemes->root()) mPosition;
 	state mState;
 	char mStress;
 	int mIndex;
@@ -76,16 +82,39 @@ espeak_reader::espeak_reader(tts::phoneme_file_reader &aPhonemeSet, const char *
 	, mStress(0)
 	, mIndex(0)
 {
+	if (!strcmp(aName, "espeak/"))
+		throw std::runtime_error("espeak phonemeset does not start with 'espeak/'");
+
+	mActiveLanguage = aName + 7;
+	mActiveLanguage = mActiveLanguage.substr(0, mActiveLanguage.find('-'));
+	mActivePhonemes = &mPhonemes[mActiveLanguage];
+	parse_phonemes(aPhonemeSet);
+}
+
+void espeak_reader::switch_language(const std::string &aLanguage)
+{
+	if (mActiveLanguage == aLanguage) return;
+	mActiveLanguage = aLanguage;
+	mActivePhonemes = &mPhonemes[mActiveLanguage];
+	if (mActivePhonemes->root()->children.empty())
+	{
+		tts::phoneme_file_reader phonemes("espeak/" + aLanguage);
+		parse_phonemes(phonemes);
+	}
+}
+
+void espeak_reader::parse_phonemes(tts::phoneme_file_reader &aPhonemeSet)
+{
 	while (aPhonemeSet.read()) switch (aPhonemeSet.type)
 	{
 	case tts::placement::primary:
-		mPhonemes.insert(*aPhonemeSet.transcription, aPhonemeSet.phonemes);
+		mActivePhonemes->insert(*aPhonemeSet.transcription, aPhonemeSet.phonemes);
 		break;
 	default:
 		throw std::runtime_error("espeak-based phonemesets only support primary transcriptions in phoneme definition files");
 	}
 
-	mPosition = mPhonemes.root();
+	mPosition = mActivePhonemes->root();
 }
 
 void espeak_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
@@ -102,7 +131,9 @@ void espeak_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 
 bool espeak_reader::read()
 {
-	decltype(mPhonemes.root()) match = nullptr;
+	char language[4] = { 0 };
+	char *lang_current = language;
+	decltype(mActivePhonemes->root()) match = nullptr;
 	while (true) switch (mState)
 	{
 	case state::start_of_line:
@@ -143,6 +174,10 @@ bool espeak_reader::read()
 		case '_':
 			++mCurrent;
 			mState = state::parsing_pause;
+			break;
+		case '(':
+			++mCurrent;
+			mState = state::parsing_language_switch;
 			break;
 		default:
 			mState = state::parsing_phoneme;
@@ -185,6 +220,7 @@ bool espeak_reader::read()
 		else switch (*mCurrent)
 		{
 		case ' ':
+		case '(':
 		case '\n':
 		case '\'': case ',': // stress
 			mState = state::emitting_phoneme;
@@ -220,12 +256,31 @@ bool espeak_reader::read()
 			break;
 		}
 		break;
+	case state::parsing_language_switch:
+		if (mCurrent == mEnd)
+			return false;
+		switch (*mCurrent)
+		{
+		case ')':
+			*lang_current = 0;
+			switch_language(language);
+			++mCurrent;
+			mPosition = mActivePhonemes->root();
+			mState = state::need_phoneme;
+			break;
+		default:
+			*lang_current++ = *mCurrent++;
+			if (lang_current == std::end(language))
+				throw tts::phoneme_error(i18n("language code is too long"));
+			break;
+		}
+		break;
 	case state::emitting_phoneme:
 		if (mIndex == mPosition->item.phonemes.size())
 		{
 			mStress = 0;
 			mIndex = 0;
-			mPosition = mPhonemes.root();
+			mPosition = mActivePhonemes->root();
 			mState = state::need_phoneme;
 		}
 		else
