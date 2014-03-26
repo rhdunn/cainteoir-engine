@@ -31,7 +31,8 @@ p	/{vls,blb,stp}/ # /p/
 r	/{vcd,alv,apr}/ # /ɹ/
 s	/{vls,alv,sib,frc}/ # /s/
 S	/{vls,pla,sib,frc}/ # /ʃ/
-t\#	/{vls,alv,stp}/ # /t/
+*	/{vcd,alv,flp}/ # /ɾ/
+t\#	/{vcd,alv,flp}/ # /ɾ/
 t2	/{vls,alv,stp}/ # /t/
 t	/{vls,alv,stp}/ # /t/
 tS	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
@@ -64,19 +65,19 @@ A:	/{low,bck,unr,vwl,lng}/ # /ɑː/ PALM
 a:	/{sml,fnt,unr,vwl,lng}/ # /æː/
 a\#:	/{sml,cnt,unr,vwl,lng}/	# /ɐː/
 
-O@	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /oːr/ NORTH
 O@r	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /oːr/ NORTH (en-sc)
+O@	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /oːr/ NORTH
 O@r-	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /oːrɹ/
-o@	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /ɔːr/ FORCE
 o@r	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /ɔːr/ FORCE (en-sc)
+o@	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /ɔːr/ FORCE
 o@r-	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /ɔːrɹ/
-A@	/{low,bck,unr,vwl,lng}{vcd,alv,trl}/ # /ɑːr/ START
 A@r	/{low,bck,unr,vwl,lng}{vcd,alv,trl}/ # /ɑːr/ START (en-sc)
+A@	/{low,bck,unr,vwl,lng}{vcd,alv,trl}/ # /ɑːr/ START
 A@r-	/{low,bck,unr,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /ɑːrɹ/
 
-IR	/{smh,fnt,unr,vwl}{vcd,alv,trl}/ # /ɪr/ NURSE (FIR)
-VR	/{smh,bck,rnd,vwl}{vcd,alv,trl}/ # /ʊr/ NURSE (FUR)
-3:	/{lmd,fnt,unr,vwl}{vcd,alv,trl}/ # /ɛr/ NURSE (FERN)
+IR	/{lmd,cnt,unr,vwl,lng}/ # /ɜː/ NURSE (FIR)
+VR	/{lmd,cnt,unr,vwl,lng}/ # /ɜː/ NURSE (FUR)
+3:	/{lmd,cnt,unr,vwl,lng}/ # /ɜː/ NURSE (FERN)
 
 i	/{hgh,fnt,unr,vwl}/     # /i/  HAPP~Y~
 I\#	/{hgh,cnt,unr,vwl}/	# /ɨ/  RO~SES~
@@ -90,25 +91,25 @@ a\#	/{sml,cnt,unr,vwl}/	# /ɐ/  ~A~BOUT
 # Diphthongs
 
 i@	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/ NEAR
-i@3	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}/ # /ɪɚ̯/
 i@3r	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}/ # /ɪɚ̯/ (en-sc)
+i@3	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}/ # /ɪɚ̯/
 i@3r-	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}{vcd,alv,apr}/ # /ɪɚ̯ɹ/
 U@	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/ CURE
 eI	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/ FACE
 oU	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/ GOAT
-e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE
 e@r	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE (en-sc)
+e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE
 e@r-	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}{vcd,alv,apr}/ # /ɛə̯ɹ/
 OI	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/ CHOICE
-aI	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PRICE
 aI2	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PRICE (en-sc)
+aI	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PRICE
 aU	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/ MOUTH
 
 # Triphthongs
 
 aI@	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aɪ̯ə̯/
 aI3	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,rzd,nsy}/ # /aɪ̯ɚ̯/
-aI3:	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{lmd,fnt,unr,vwl}{vcd,alv,trl}/ # /aɪ̯ɛr/
+aI3:	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{lmd,cnt,unr,vwl,lng}/ # /aɪ̯ɜː/
 aU@	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aʊ̯ə̯/
 
 # Foreign
@@ -124,7 +125,6 @@ R2	/{vcd,alv,trl}/ # /r/
 R	/{vcd,alv,trl}/ # /r/
 z.	/{vcd,rfx,sib,frc}/ # /ʐ/
 tS;	/{vls,alv,stp,tie}{vls,alp,sib,frc}/ # /t͡ɕ/
-*	/{vcd,alv,flp}/ # /ɾ/
 
 u	/{hgh,bck,rnd,vwl}/     # /u/
 e	/{umd,fnt,unr,vwl}/     # /e/
