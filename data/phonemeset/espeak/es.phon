@@ -1,0 +1,55 @@
+# Copyright (C) 2014 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.type	espeak
+
+# Consonants
+
+b	/{vcd,blb,stp}/ # /b/
+B	/{vcd,blb,frc}/ # /β/
+d	/{vcd,alv,stp}/ # /d/
+D	/{vcd,dnt,frc}/ # /ð/
+dZ	/{vcd,alv,stp,tie}{vcd,pla,sib,frc}/ # /d͡ʒ/
+f	/{vls,lbd,frc}/ # /f/
+g	/{vcd,vel,stp}/ # /ɡ/
+h	/{vls,glt,apr}/ # /h/
+j	/{vcd,pal,apr}/ # /j/
+J	/{vcd,pal,stp}/ # /ɟ/
+J^	/{vcd,pal,frc}/ # /ʝ/
+k	/{vls,vel,stp}/ # /k/
+l	/{vcd,alv,lat,apr}/ # /l/
+l^	/{vcd,pal,lat,apr}/ # /ʎ/
+m	/{vcd,blb,nas}/ # /m/
+n	/{vcd,alv,nas}/ # /n/
+N	/{vcd,vel,nas}/ # /ŋ/
+n^	/{vcd,pal,nas}/ # /ɲ/
+p	/{vls,blb,stp}/ # /p/
+Q	/{vcd,vel,frc}/ # /ɣ/
+r	/{vcd,alv,flp}/ # /ɾ/
+R2	/{vcd,alv,trl}/ # /r/
+R	/{vcd,alv,trl}/ # /r/
+s	/{vls,alv,sib,frc}/ # /s/
+S	/{vls,pla,sib,frc}/ # /ʃ/
+t	/{vls,alv,stp}/ # /t/
+T	/{vls,dnt,frc}/ # /θ/
+ts	/{vls,alv,stp,tie}{vls,alv,sib,frc}/ # /t͡s/
+tS	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
+w	/{vcd,lbv,apr}/ # /w/
+x	/{vls,vel,frc}/ # /x/
+
+# Vowels
+
+@	/{mid,cnt,unr,vwl}/ # /ə/
+a	/{low,fnt,unr,vwl}/ # /a/
+aI	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/
+aU	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/
+e	/{umd,fnt,unr,vwl}/ # /e/
+E	/{lmd,fnt,unr,vwl}/ # /ɛ/
+eI	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/
+eU	/{umd,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /eʊ̯/
+i	/{hgh,fnt,unr,vwl}/ # /i/
+o	/{umd,bck,rnd,vwl}/ # /o/
+O	/{lmd,bck,rnd,vwl}/ # /ɔ/
+oI	/{umd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /oɪ̯/
+u	/{hgh,bck,rnd,vwl}/ # /u/
