@@ -85,12 +85,15 @@ namespace cainteoir { namespace tts
 		const_iterator begin() const { return mEntries.begin(); }
 		const_iterator end()   const { return mEntries.end();   }
 
-		const std::list<ipa::phoneme> &pronounce(const std::shared_ptr<buffer> &aWord)
+		bool pronounce(const std::shared_ptr<buffer> &aWord,
+		               std::list<ipa::phoneme> &aPhonemes)
 		{
-			return pronounce(aWord, 0);
+			return pronounce(aWord, aPhonemes, 0);
 		}
 	private:
-		const std::list<ipa::phoneme> &pronounce(const std::shared_ptr<buffer> &aWord, int depth);
+		bool pronounce(const std::shared_ptr<buffer> &aWord,
+		               std::list<ipa::phoneme> &aPhonemes,
+		               int depth);
 
 		storage_type mEntries;
 	};

@@ -57,25 +57,26 @@ const tts::dictionary::entry &tts::dictionary::lookup(const key_type &aWord) con
 	return (match == mEntries.end()) ? no_match : match->second;
 }
 
-const std::list<ipa::phoneme> &tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord, int depth)
+bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
+                                std::list<ipa::phoneme> &aPhonemes,
+                                int depth)
 {
-	static const std::list<ipa::phoneme> empty = {};
-
 	const auto &entry = lookup(aWord);
 	switch (entry.type)
 	{
 	case dictionary::phonemes:
-		return entry.phonemes;
+		aPhonemes = entry.phonemes;
+		return true;
 	case dictionary::say_as:
 		if (depth == 5)
 		{
 			fprintf(stderr, "error: too much recursion for entry '%s'.\n", aWord->str().c_str());
-			return empty;
+			return false;
 		}
-		return pronounce(entry.text, depth + 1);
+		return pronounce(entry.text, aPhonemes, depth + 1);
 	}
 
-	return empty;
+	return false;
 }
 
 struct dictionary_entry_formatter : public tts::dictionary_formatter
@@ -138,7 +139,11 @@ void tts::formatDictionary(tts::dictionary &dict,
 		if (entry.second.type == tts::dictionary::phonemes)
 			formatter->write_phoneme_entry(entry.first, writer, entry.second.phonemes);
 		else if (resolve_say_as_entries)
-			formatter->write_phoneme_entry(entry.first, writer, dict.pronounce(entry.first));
+		{
+			std::list<ipa::phoneme> pronunciation;
+			if (dict.pronounce(entry.first, pronunciation))
+				formatter->write_phoneme_entry(entry.first, writer, pronunciation);
+		}
 		else
 			formatter->write_say_as_entry(entry.first, entry.second.text);
 	}

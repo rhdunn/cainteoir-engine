@@ -24,6 +24,7 @@
 #include <cainteoir/text.hpp>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 struct hyphenated_word
 {
@@ -124,13 +125,8 @@ words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
 
 	// Try looking up the pronunciation in the exception dictionary ...
 
-	auto phonemes = mExceptionDictionary.pronounce(aText);
-	if (!phonemes.empty())
-	{
-		for (const auto &p : phonemes)
-			mEvent.phonemes.push_back(p);
+	if (mExceptionDictionary.pronounce(aText, mEvent.phonemes))
 		return true;
-	}
 
 	// Try looking up hyphenated words individually ...
 
@@ -143,8 +139,8 @@ words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
 
 			// Try pronouncing the word ...
 
-			auto phonemes = mExceptionDictionary.pronounce(word);
-			if (!phonemes.empty())
+			std::list<ipa::phoneme> phonemes;
+			if (mExceptionDictionary.pronounce(word, phonemes))
 			{
 				for (const auto &p : phonemes)
 					mEvent.phonemes.push_back(p);
