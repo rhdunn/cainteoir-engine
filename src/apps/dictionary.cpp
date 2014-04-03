@@ -86,7 +86,21 @@ static bool pronounce(tts::dictionary &dict,
 	{
 		phonemes = dict.pronounce(word);
 		if (phonemes.empty())
+		{
+			auto &entry = dict.lookup(word);
+			switch (entry.type)
+			{
+			case tts::dictionary::say_as:
+				fprintf(stderr, "error: cannot resolve '%s' from '%s'.\n",
+				        entry.text->str().c_str(),
+				        word->str().c_str());
+				break;
+			case tts::dictionary::no_match:
+				fprintf(stderr, "error: no entry for '%s'.\n", word->str().c_str());
+				break;
+			}
 			return false;
+		}
 	}
 
 	std::list<ipa::phoneme> pronounced;
