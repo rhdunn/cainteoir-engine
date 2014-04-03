@@ -5,14 +5,16 @@
 - [Vowels](#vowels)
   - [Short Vowels](#short-vowels)
   - [Long Vowels](#long-vowels)
-    - [LOT-CLOTH split](#lot-cloth-split)
-    - [TRAP-BATH split](#trap-bath-split)
-    - [MEAT-MEET merger](#fern-fir-fur-merger)
   - [R Vowels](#r-vowels)
-    - [HORSE-HOARSE merger](#horse-hoarse-merger)
-    - [FERN-FIR-FUR merger](#fern-fir-fur-merger)
   - [Diphthongs](#diphthongs)
   - [Triphthongs](#triphthongs)
+- [Phonological Splits](#phonological-splits)
+  - [LOT-CLOTH](#lot-cloth)
+  - [TRAP-BATH](#trap-bath)
+- [Phonological Mergers](#phonological-mergers)
+  - [MEAT-MEET](#meat-meet)
+  - [FERN-FIR-FUR](#fern-fir-fur)
+  - [HORSE-HOARSE](#horse-hoarse)
 - [Syllables](#syllables)
 - [Glossary](#glossary)
 - [References](#references)
@@ -115,39 +117,6 @@ Sets<sup>1</sup>.
     it is simpler to treat the merger like the FOOT-STRUT or LOT-CLOTH split and
     have a new MEAT vowel instead of two new lexical sets.
 
-#### LOT-CLOTH split
-
-The LOT-CLOTH split is a result of the historic lengthening of the LOT vowel in
-CLOTH contexts. As such, it is given the `/ɒː/` transcription to identify it
-from the LOT vowel.
-
-| Lexical Set | EMnE   | GenAm | RP     | NRP   |
-|-------------|--------|-------|--------|-------|
-| LOT         | `/ɒ/`  | `/ɑ/` | `/ɒ/`  | `/ɒ/` |
-| LONG        | `/ɒ/`  | `/ɔ/` | `/ɒ/`  | `/ɒ/` |
-| CLOTH       | `/ɒː/` | `/ɔ/` | `/ɔː/` | `/ɒ/` |
-
-#### TRAP-BATH split
-
-The TRAP-BATH split is a result of the historic lengthening of the TRAP vowel in
-BATH contexts, as well as before historic `/r/` in START contexts.
-
-| Lexical Set | ME     | EMnE    | GenAm  | RP     |
-|-------------|--------|---------|--------|--------|
-| TRAP        | `/a/`  | `/æ/`   | `/æ/`  | `/æ/`  |
-| BATH        | `/a/`  | `/aː/`  | `/æ/`  | `/ɑː/` |
-| START       | `/ar/` | `/aːɹ/` | `/ɑɹ/` | `/ɑː/` |
-
-#### MEAT-MEET merger
-
-The MEAT-MEET merger is a result of the Great Vowel Shift.
-
-| Lexical Set | ME     | GenAm  | RP     | IrE    |
-|-------------|--------|--------|--------|--------|
-| FLEECE      | `/eː/` | `/iː/` | `/iː/` | `/iː/` |
-| MEAT        | `/ɛː/` | `/iː/` | `/iː/` | `/eː/` |
-| FACE        | `/ɛː/` | `/eɪ̯/` | `/eɪ̯/` | `/eː/` |
-
 ### R Vowels
 
 R vowels are vowels that are spelled with an `r` at the end. The `r` was
@@ -165,34 +134,6 @@ and Irish accents.
 
 1.  The NURSE lexical set described by John Wells has been split into three
     lexical sets to support Scottish and Irish English.
-
-#### HORSE-HOARSE merger
-
-The THOUGHT vowel before historic `/r/` was pronounced differently in NORTH and
-FORCE contexts. This is preserved in some accents, but not in accents that have
-the HORSE-HOARSE merger.
-
-| Lexical Set | EMnE      | GenAm  | RP     |
-|-------------|-----------|--------|--------|
-| THOUGHT     | `/ɔː/`    | `/ɔ/`  | `/ɔː/` |
-| NORTH       | `/oːɹ/`   | `/oɹ/` | `/ɔː/` |
-| FORCE       | `/ɔːɹ/`   | `/ɔɹ/` | `/ɔː/` |
-
-#### FERN-FIR-FUR merger
-
-The FERN-FIR-FUR merger is the merger of the Middle English `/ɛ/`, `/ɪ/` and
-`/ʊ/` before historic `/r/` into the NURSE lexical set. The pre-merged forms
-are found in Scottish English and some variants of Irish English.
-
-To properly describe this variation, the NURSE lexical set is split into its
-pre-merged FERN, FIR, FUR forms, and the Middle English transcriptions are used
-for FIR and FUR.
-
-| Lexical Set | ME     | RP     | ScE    | IrE    |
-|-------------|--------|--------|--------|--------|
-| FERN        | `/ɛr/` | `/ɜː/` | `/ɛɾ/` | `/ɛɹ/` |
-| FIR         | `/ɪr/` | `/ɜː/` | `/ɪɾ/` | `/ɪɹ/` |
-| FUR         | `/ʊr/` | `/ɜː/` | `/ʌɾ/` | `/ʊɹ/` |
 
 ### Diphthongs
 
@@ -227,6 +168,71 @@ for FIR and FUR.
 
 1.  This reduced vowel is not assigned a lexical set by John Wells. It is
     given one here as it can be realized differently in different accents.
+
+## Phonological Splits
+
+### LOT-CLOTH
+
+The LOT-CLOTH split is a result of the historic lengthening of the LOT vowel in
+CLOTH contexts. As such, it is given the `/ɒː/` transcription to identify it
+from the LOT vowel.
+
+| Lexical Set | EMnE   | GenAm | RP     | NRP   |
+|-------------|--------|-------|--------|-------|
+| LOT         | `/ɒ/`  | `/ɑ/` | `/ɒ/`  | `/ɒ/` |
+| LONG        | `/ɒ/`  | `/ɔ/` | `/ɒ/`  | `/ɒ/` |
+| CLOTH       | `/ɒː/` | `/ɔ/` | `/ɔː/` | `/ɒ/` |
+
+### TRAP-BATH
+
+The TRAP-BATH split is a result of the historic lengthening of the TRAP vowel in
+BATH contexts, as well as before historic `/r/` in START contexts.
+
+| Lexical Set | ME     | EMnE    | GenAm  | RP     |
+|-------------|--------|---------|--------|--------|
+| TRAP        | `/a/`  | `/æ/`   | `/æ/`  | `/æ/`  |
+| BATH        | `/a/`  | `/aː/`  | `/æ/`  | `/ɑː/` |
+| START       | `/ar/` | `/aːɹ/` | `/ɑɹ/` | `/ɑː/` |
+
+## Phonological Mergers
+
+### MEAT-MEET
+
+The MEAT-MEET merger is a result of the Great Vowel Shift.
+
+| Lexical Set | ME     | GenAm  | RP     | IrE    |
+|-------------|--------|--------|--------|--------|
+| FLEECE      | `/eː/` | `/iː/` | `/iː/` | `/iː/` |
+| MEAT        | `/ɛː/` | `/iː/` | `/iː/` | `/eː/` |
+| FACE        | `/ɛː/` | `/eɪ̯/` | `/eɪ̯/` | `/eː/` |
+
+### FERN-FIR-FUR
+
+The FERN-FIR-FUR merger is the merger of the Middle English `/ɛ/`, `/ɪ/` and
+`/ʊ/` before historic `/r/` into the NURSE lexical set. The pre-merged forms
+are found in Scottish English and some variants of Irish English.
+
+To properly describe this variation, the NURSE lexical set is split into its
+pre-merged FERN, FIR, FUR forms, and the Middle English transcriptions are used
+for FIR and FUR.
+
+| Lexical Set | ME     | RP     | ScE    | IrE    |
+|-------------|--------|--------|--------|--------|
+| FERN        | `/ɛr/` | `/ɜː/` | `/ɛɾ/` | `/ɛɹ/` |
+| FIR         | `/ɪr/` | `/ɜː/` | `/ɪɾ/` | `/ɪɹ/` |
+| FUR         | `/ʊr/` | `/ɜː/` | `/ʌɾ/` | `/ʊɹ/` |
+
+### HORSE-HOARSE
+
+The THOUGHT vowel before historic `/r/` was pronounced differently in NORTH and
+FORCE contexts. This is preserved in some accents, but not in accents that have
+the HORSE-HOARSE merger.
+
+| Lexical Set | EMnE      | GenAm  | RP     |
+|-------------|-----------|--------|--------|
+| THOUGHT     | `/ɔː/`    | `/ɔ/`  | `/ɔː/` |
+| NORTH       | `/oːɹ/`   | `/oɹ/` | `/ɔː/` |
+| FORCE       | `/ɔːɹ/`   | `/ɔɹ/` | `/ɔː/` |
 
 ## Syllables
 
