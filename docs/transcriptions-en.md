@@ -21,7 +21,11 @@
 
 -----
 
-This is a guide to transcribing English pronunciations.
+This is a guide to transcribing English pronunciations in an accent-neutral form
+that is capable of representing many accents in a single transcription. It is
+not meant to be an accurate transcription of any given accent, but is such that
+it can be transformed to accent-specific transcriptions using phoneme-to-phoneme
+conversion rules.
 
 ## Consonants
 
