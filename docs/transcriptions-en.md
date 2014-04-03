@@ -1,8 +1,8 @@
 # English Transcriptions
 
-- [Consonants](#consonants)
+- [Phonemes](#phonemes)
+  - [Consonants](#consonants)
   - [Syllabic Consonants](#syllabic-consonants)
-- [Vowels](#vowels)
   - [Short Vowels](#short-vowels)
   - [Long Vowels](#long-vowels)
   - [R Vowels](#r-vowels)
@@ -29,7 +29,11 @@ not meant to be an accurate transcription of any given accent, but is such that
 it can be transformed to accent-specific transcriptions using phoneme-to-phoneme
 conversion rules.
 
-## Consonants
+The classification of the vowels is based on John Wells' lexical sets.
+
+## Phonemes
+
+### Consonants
 
 | Transcription | CXS    | Examples |
 |---------------|--------|-------------|
@@ -71,11 +75,6 @@ conversion rules.
 | `/l̩/`         | `l=` | bottle   |
 | `/m̩/`         | `m=` | rhythm   |
 | `/n̩/`         | `n=` | button   |
-
-## Vowels
-
-This transcription of the vowels is based on John Wells' Lexical
-Sets<sup>1</sup>.
 
 ### Short Vowels
 
