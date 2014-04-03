@@ -4,9 +4,9 @@
   - [Syllabic Consonants](#syllabic-consonants)
 - [Vowels](#vowels)
   - [Short Vowels](#short-vowels)
+  - [Long Vowels](#long-vowels)
     - [LOT-CLOTH split](#lot-cloth-split)
     - [TRAP-BATH split](#trap-bath-split)
-  - [Long Vowels](#long-vowels)
   - [R Vowels](#r-vowels)
     - [HORSE-HOARSE merger](#horse-hoarse-merger)
     - [FERN-FIR-FUR merger](#fern-fir-fur-merger)
@@ -80,13 +80,27 @@ Sets<sup>1</sup>.
 | `/ʌ/`         | `V`  | STRUT       | cub, rub, hum |
 | `/ɔ/`         | `O`  | LONG<sup>1</sup> | long, frog, chocolate |
 | `/æ/`         | `&`  | TRAP        | bad, cab, ham, arrow |
-| `/aː/`        | `a:` | BATH        | staff, clasp, dance |
 | `/ɒ/`         | `Q`  | LOT         | stop, rob, swan |
-| `/ɒː/`        | `Q:` | CLOTH       | cough, laurel, origin |
 
 1.  John Wells' lexical sets cover the LONG vowel as part of the CLOTH vowel.
     This transcription assigns the US-specific CLOTH changes under the LONG
     vowel.
+
+### Long Vowels
+
+| Transcription | CXS    | Lexical Set | Examples |
+|---------------|--------|-------------|----------|
+| `/iː/`        | `i:`   | FLEECE      | seed, key, seize |
+| `/uː/`        | `u:`   | GOOSE       | who, group, few |
+| `/ɜː/`        | `3:`   | NURSE<sup>1</sup> | term, herd, birth, burn |
+| `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
+| `/ɑː/`        | `A:`   | PALM        | calm, bra, father |
+| `/aː/`        | `a:`   | BATH        | staff, clasp, dance |
+| `/ɒː/`        | `Q:`   | CLOTH       | cough, laurel, origin |
+
+1.  In accents that preserve the historically unmerged FIR-FUR-FERN distinction
+    `nurse` is a `FUR` vowel, but the modern sound is a `FERN` sound. Therefore,
+    the NURSE vowel is kept to identify the merged and unmerged transcriptions.
 
 #### LOT-CLOTH split
 
@@ -110,20 +124,6 @@ BATH contexts, as well as before historic `/r/` in START contexts.
 | TRAP        | `/a/`  | `/æ/`   | `/æ/`  | `/æ/`  |
 | BATH        | `/a/`  | `/aː/`  | `/æ/`  | `/ɑː/` |
 | START       | `/ar/` | `/aːɹ/` | `/ɑɹ/` | `/ɑː/` |
-
-### Long Vowels
-
-| Transcription | CXS    | Lexical Set | Examples |
-|---------------|--------|-------------|----------|
-| `/iː/`        | `i:`   | FLEECE      | seed, key, seize |
-| `/uː/`        | `u:`   | GOOSE       | who, group, few |
-| `/ɜː/`        | `3:`   | NURSE<sup>1</sup> | term, herd, birth, burn |
-| `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
-| `/ɑː/`        | `A:`   | PALM        | calm, bra, father |
-
-1.  In accents that preserve the historically unmerged FIR-FUR-FERN distinction
-    `nurse` is a `FUR` vowel, but the modern sound is a `FERN` sound. Therefore,
-    the NURSE vowel is kept to identify the merged and unmerged transcriptions.
 
 ### R Vowels
 
