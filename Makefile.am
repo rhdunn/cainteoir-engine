@@ -165,7 +165,7 @@ EXTRA_DIST += $(vim_addons_syntax_DATA)
 xml_DATA = data/mime/packages/cainteoir-data.xml
 EXTRA_DIST += $(xml_DATA)
 
-mimetypes:
+data/mime/mime.cache: data/mime/packages/cainteoir-data.xml
 	$(UPDATE_MIME_DATABASE) data/mime/
 
 install-data-hook-mimetypes:
@@ -437,12 +437,12 @@ DOCUMENT_TEST_FILES = \
 	$(shell find tests/mime/*) \
 	$(shell find tests/zip/*)
 
-%.check : %.py tests/harness.py mimetypes
+%.check : %.py tests/harness.py data/mime/mime.cache
 	rm -f $@
 	(${PYTHON} $< && touch $@) | tee `echo $< | sed -e 's/.py/.results/'`
 	test -f $@ || false
 
-%.check: %.test mimetypes
+%.check: %.test data/mime/mime.cache
 	rm -f $@
 	(XDG_DATA_DIRS=`pwd`/data/:/usr/local/share/:/usr/share/ CAINTEOIR_DATA_DIR=`pwd`/data $< && touch $@) | tee `echo $< | sed -e 's/.test/.results/'`
 	test -f $@ || false
