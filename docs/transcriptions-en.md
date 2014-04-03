@@ -10,6 +10,7 @@
   - [R Vowels](#r-vowels)
     - [HORSE-HOARSE merger](#horse-hoarse-merger)
     - [FERN-FIR-FUR merger](#fern-fir-fur-merger)
+    - [MEAT-MEET merger](#fern-fir-fur-merger)
   - [Diphthongs](#diphthongs)
   - [Triphthongs](#triphthongs)
 - [Syllables](#syllables)
@@ -90,7 +91,8 @@ Sets<sup>1</sup>.
 
 | Transcription | CXS    | Lexical Set | Examples |
 |---------------|--------|-------------|----------|
-| `/iː/`        | `i:`   | FLEECE      | seed, key, seize |
+| `/ɛː/`        | `E:`   | MEAT<sup>2</sup> | team, beam |
+| `/iː/`        | `i:`   | FLEECE<sup>2</sup> | seed, key, seize |
 | `/uː/`        | `u:`   | GOOSE       | who, group, few |
 | `/ɜː/`        | `3:`   | NURSE<sup>1</sup> | term, herd, birth, burn |
 | `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
@@ -101,6 +103,13 @@ Sets<sup>1</sup>.
 1.  In accents that preserve the historically unmerged FIR-FUR-FERN distinction
     `nurse` is a `FUR` vowel, but the modern sound is a `FERN` sound. Therefore,
     the NURSE vowel is kept to identify the merged and unmerged transcriptions.
+
+2.  Most modern accents do not have a MEAT-MEET distinction, so this is not
+    provided in John Wells' lexical sets where the FLEECE vowel is used for both.
+    However, the distinction is still preserved in some Irish accents. Unlike the
+    NURSE vowel, the FLEECE vowel is consistent with the MEET vowel. Therefore,
+    it is simpler to treat the merger like the FOOT-STRUT or LOT-CLOTH split and
+    have a new MEAT vowel instead of two new lexical sets.
 
 #### LOT-CLOTH split
 
@@ -124,6 +133,16 @@ BATH contexts, as well as before historic `/r/` in START contexts.
 | TRAP        | `/a/`  | `/æ/`   | `/æ/`  | `/æ/`  |
 | BATH        | `/a/`  | `/aː/`  | `/æ/`  | `/ɑː/` |
 | START       | `/ar/` | `/aːɹ/` | `/ɑɹ/` | `/ɑː/` |
+
+#### MEAT-MEET merger
+
+The MEAT-MEET merger is a result of the Great Vowel Shift.
+
+| Lexical Set | ME     | GenAm  | RP     | IrE    |
+|-------------|--------|--------|--------|--------|
+| FLEECE      | `/eː/` | `/iː/` | `/iː/` | `/iː/` |
+| MEAT        | `/ɛː/` | `/iː/` | `/iː/` | `/eː/` |
+| FACE        | `/ɛː/` | `/eɪ̯/` | `/eɪ̯/` | `/eː/` |
 
 ### R Vowels
 
@@ -241,9 +260,11 @@ for FIR and FUR.
 3.  [The development of the Early Modern English phoneme /aː/](https://en.wikipedia.org/wiki/Phonological_history_of_English_short_A#The_development_of_the_Early_Modern_English_phoneme_.2Fa.CB.90.2F). Wikipedia.
 4.  [horse-hoarse merger](https://en.wikipedia.org/wiki/English-language_vowel_changes_before_historic_/r/#Horse.E2.80.93hoarse_merger). Wikipedia.
 5.  [fern-fir-fur merger](https://en.wikipedia.org/wiki/English-language_vowel_changes_before_historic_/r/#Fern.E2.80.93fir.E2.80.93fur_merger). Wikipedia.
+6.  [fleece merger](https://en.wikipedia.org/wiki/Phonological_history_of_English_high_front_vowels#Fleece_merger). Wikipedia.
 
 ### English Accents
 
 1.  [Standard BrE](http://englishspeechservices.com/vowels.htm). English Speech Services.
+2.  [IPA for English dialects](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet_chart_for_English_dialects). Wikipedia.
 
 Copyright (C) 2013-2014 Reece H. Dunn
