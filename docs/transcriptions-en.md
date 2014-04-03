@@ -7,6 +7,7 @@
     - [LOT-CLOTH split](#lot-cloth-split)
     - [TRAP-BATH split](#trap-bath-split)
   - [Long Vowels](#long-vowels)
+  - [R Vowels](#r-vowels)
     - [HORSE-HOARSE merger](#horse-hoarse-merger)
     - [FERN-FIR-FUR merger](#fern-fir-fur-merger)
   - [Diphthongs](#diphthongs)
@@ -116,22 +117,31 @@ BATH contexts, as well as before historic `/r/` in START contexts.
 |---------------|--------|-------------|----------|
 | `/iː/`        | `i:`   | FLEECE      | seed, key, seize |
 | `/uː/`        | `u:`   | GOOSE       | who, group, few |
+| `/ɜː/`        | `3:`   | NURSE<sup>1</sup> | term, herd, birth, burn |
+| `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
+| `/ɑː/`        | `A:`   | PALM        | calm, bra, father |
+
+1.  In accents that preserve the historically unmerged FIR-FUR-FERN distinction
+    `nurse` is a `FUR` vowel, but the modern sound is a `FERN` sound. Therefore,
+    the NURSE vowel is kept to identify the merged and unmerged transcriptions.
+
+### R Vowels
+
+R vowels are vowels that are spelled with an `r` at the end. The `r` was
+pronounced upto the 18th century and is still present in American, Scottish
+and Irish accents.
+
+| Transcription | CXS    | Lexical Set | Examples |
+|---------------|--------|-------------|----------|
 | `/ɪr/`        | `Ir`   | FIR<sup>1</sup> | birth, myrrh, mirk |
 | `/ʊr/`        | `Ur`   | FUR<sup>1</sup> | burn, hurl, world |
-| `/oːr/`       | `o:r`  | NORTH       | war, storm, for, aural |
 | `/ɛr/`        | `Er`   | FERN<sup>1</sup> | term, herd, earth |
-| `/ɜː/`        | `3:`   | NURSE<sup>2</sup> | term, herd, birth, burn |
-| `/ɔː/`        | `O:`   | THOUGHT     | taut, hawk, broad |
+| `/oːr/`       | `o:r`  | NORTH       | war, storm, for, aural |
 | `/ɔːr/`       | `O:r`  | FORCE       | floor, coarse, ore, oral |
-| `/ɑː/`        | `A:`   | PALM        | calm, bra, father |
 | `/ɑːr/`       | `A:r`  | START       | far, sharp, farm, safari |
 
 1.  The NURSE lexical set described by John Wells has been split into three
     lexical sets to support Scottish and Irish English.
-
-2.  The NURSE vowel is given a different transcription from the FUR vowel to
-    differentiate transcriptions that make the FIR-FUR-FERN distinction and
-    those that don't.
 
 #### HORSE-HOARSE merger
 
@@ -232,4 +242,8 @@ for FIR and FUR.
 4.  [horse-hoarse merger](https://en.wikipedia.org/wiki/English-language_vowel_changes_before_historic_/r/#Horse.E2.80.93hoarse_merger). Wikipedia.
 5.  [fern-fir-fur merger](https://en.wikipedia.org/wiki/English-language_vowel_changes_before_historic_/r/#Fern.E2.80.93fir.E2.80.93fur_merger). Wikipedia.
 
-Copyright (C) 2013 Reece H. Dunn
+### English Accents
+
+1.  [Standard BrE](http://englishspeechservices.com/vowels.htm). English Speech Services.
+
+Copyright (C) 2013-2014 Reece H. Dunn
