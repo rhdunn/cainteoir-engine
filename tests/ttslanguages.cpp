@@ -1,6 +1,6 @@
 /* Tests for mapping TTS language codes to BCP47 / RFC4646 / RFC5646.
  *
- * Copyright (C) 3 Reece H. Dunn
+ * Copyright (C) 2013 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
