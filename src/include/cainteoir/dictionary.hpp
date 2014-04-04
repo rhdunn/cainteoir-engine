@@ -28,6 +28,29 @@
 
 namespace cainteoir { namespace tts
 {
+	struct multiword_entry
+	{
+		multiword_entry(const std::shared_ptr<cainteoir::buffer> &aText)
+			: first(aText->begin())
+			, last(aText->end())
+			, next(first)
+		{
+			advance();
+		}
+
+		bool is_multiword() const { return next != last; }
+
+		bool have_word() const { return first != last; }
+
+		std::shared_ptr<cainteoir::buffer> next_word();
+	private:
+		void advance();
+
+		const char *first;
+		const char *last;
+		const char *next;
+	};
+
 	struct dictionary
 	{
 		enum entry_type

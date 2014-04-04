@@ -28,37 +28,16 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct hyphenated_word
+std::shared_ptr<cainteoir::buffer> tts::multiword_entry::next_word()
 {
-	hyphenated_word(const std::shared_ptr<cainteoir::buffer> &aText)
-		: first(aText->begin())
-		, last(aText->end())
-		, next(first)
-	{
-		advance();
-	}
-
-	bool is_hyphenated() const { return next != last; }
-
-	bool have_word() const { return first != last; }
-
-	std::shared_ptr<cainteoir::buffer> next_word();
-private:
-	void advance();
-
-	const char *first;
-	const char *last;
-	const char *next;
-};
-
-std::shared_ptr<cainteoir::buffer> hyphenated_word::next_word()
-{
-	auto ret = std::make_shared<cainteoir::buffer>(first, next);
+	auto ret = (first == last)
+	         ? std::shared_ptr<cainteoir::buffer>()
+	         : std::make_shared<cainteoir::buffer>(first, next);
 	advance();
 	return ret;
 }
 
-void hyphenated_word::advance()
+void tts::multiword_entry::advance()
 {
 	if (*next == '-')
 		++next;
@@ -116,12 +95,12 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
 		return pronounce(entry.text, aPronunciationRules, aPhonemes, depth + 1);
 	case dictionary::no_match:
 		{
-			hyphenated_word hyphenated{ aWord };
-			if (hyphenated.is_hyphenated()) try
+			multiword_entry words{ aWord };
+			if (words.is_multiword()) try
 			{
-				while (hyphenated.have_word())
+				while (words.have_word())
 				{
-					auto word = hyphenated.next_word();
+					auto word = words.next_word();
 
 					std::list<ipa::phoneme> phonemes;
 					if (pronounce(word, aPronunciationRules, phonemes, depth + 1))

@@ -471,6 +471,11 @@ noinst_bin_PROGRAMS += tests/path.test
 tests_path_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_path_test_SOURCES = tests/path.cpp tests/tester.hpp
 
+noinst_bin_PROGRAMS += tests/multiword_entry.test
+
+tests_multiword_entry_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_multiword_entry_test_SOURCES = tests/multiword_entry.cpp tests/tester.hpp
+
 noinst_bin_PROGRAMS += tests/rdfmodel.test
 
 tests_rdfmodel_test_LDADD   = src/libcainteoir/libcainteoir.la
@@ -583,6 +588,7 @@ check: \
 	tests/range.check \
 	tests/buffer.check \
 	tests/path.check \
+	tests/multiword_entry.check \
 	tests/utf8.check \
 	tests/encoding.check \
 	tests/rdfmodel.check \
