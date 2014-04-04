@@ -28,6 +28,45 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
+struct hyphenated_word
+{
+	hyphenated_word(const std::shared_ptr<cainteoir::buffer> &aText)
+		: first(aText->begin())
+		, last(aText->end())
+		, next(first)
+	{
+		advance();
+	}
+
+	bool is_hyphenated() const { return next != last; }
+
+	bool have_word() const { return first != last; }
+
+	std::shared_ptr<cainteoir::buffer> next_word();
+private:
+	void advance();
+
+	const char *first;
+	const char *last;
+	const char *next;
+};
+
+std::shared_ptr<cainteoir::buffer> hyphenated_word::next_word()
+{
+	auto ret = std::make_shared<cainteoir::buffer>(first, next);
+	advance();
+	return ret;
+}
+
+void hyphenated_word::advance()
+{
+	if (*next == '-')
+		++next;
+	first = next;
+	while (next < last && *next != '-')
+		++next;
+}
+
 tts::dictionary::entry::entry(const std::shared_ptr<buffer> &aPhonemes, std::shared_ptr<phoneme_reader> &aPhonemeSet)
 	: type(tts::dictionary::phonemes)
 {
@@ -76,12 +115,41 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
 		}
 		return pronounce(entry.text, aPronunciationRules, aPhonemes, depth + 1);
 	case dictionary::no_match:
-		if (aPronunciationRules.get())
+		{
+			hyphenated_word hyphenated{ aWord };
+			if (hyphenated.is_hyphenated()) try
+			{
+				while (hyphenated.have_word())
+				{
+					auto word = hyphenated.next_word();
+
+					std::list<ipa::phoneme> phonemes;
+					if (pronounce(word, aPronunciationRules, phonemes, depth + 1))
+					{
+						for (const auto &p : phonemes)
+							aPhonemes.push_back(p);
+					}
+					else
+						throw tts::phoneme_error("unable to pronounce the hyphenated word");
+				}
+				return true;
+			}
+			catch (const tts::phoneme_error &e)
+			{
+				aPhonemes.clear();
+			}
+		}
+		if (aPronunciationRules.get()) try
 		{
 			aPronunciationRules->reset(aWord);
 			while (aPronunciationRules->read())
 				aPhonemes.push_back(*aPronunciationRules);
 			return true;
+		}
+		catch (const tts::phoneme_error &e)
+		{
+			// Unable to pronounce the word using the ruleset, so fall
+			// through to the failure logic below.
 		}
 		break;
 	}

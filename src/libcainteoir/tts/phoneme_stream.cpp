@@ -26,43 +26,6 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct hyphenated_word
-{
-	hyphenated_word(const std::shared_ptr<cainteoir::buffer> &aText)
-		: first(aText->begin())
-		, last(aText->end())
-		, next(first)
-	{
-		advance();
-	}
-
-	bool have_word() { return first <= last; }
-
-	std::shared_ptr<cainteoir::buffer> next_word();
-private:
-	void advance();
-
-	const char *first;
-	const char *last;
-	const char *next;
-};
-
-std::shared_ptr<cainteoir::buffer> hyphenated_word::next_word()
-{
-	auto ret = std::make_shared<cainteoir::buffer>(first, next-1);
-	advance();
-	return ret;
-}
-
-void hyphenated_word::advance()
-{
-	first = next;
-	while (next <= last && *next != '-')
-		++next;
-	if (*next == '-')
-		++next;
-}
-
 struct words_to_phonemes : public tts::text_reader
 {
 public:
@@ -122,59 +85,13 @@ words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
                              const cainteoir::range<uint32_t> &aRange)
 {
 	mEvent = { tts::phonemes, aRange, 0 };
-
-	// Try looking up the pronunciation in the exception dictionary ...
-
-	if (mExceptionDictionary.pronounce(aText, {}, mEvent.phonemes))
-		return true;
-
-	// Try looking up hyphenated words individually ...
-
-	hyphenated_word hyphenated{ aText };
-	if (hyphenated.have_word()) try
+	if (!mExceptionDictionary.pronounce(aText, mRules, mEvent.phonemes))
 	{
-		while (hyphenated.have_word())
-		{
-			auto word = hyphenated.next_word();
-
-			// Try pronouncing the word ...
-
-			std::list<ipa::phoneme> phonemes;
-			if (mExceptionDictionary.pronounce(word, mRules, phonemes))
-			{
-				for (const auto &p : phonemes)
-					mEvent.phonemes.push_back(p);
-			}
-			else
-				throw tts::phoneme_error("unable to pronounce the hyphenated word");
-		}
-
-		return true;
+		// TODO: Should support using spelling logic here to spell out the unpronouncible word.
+		fprintf(stderr, "error: cannot pronounce '%s'\n", aText->str().c_str());
+		return false;
 	}
-	catch (const tts::phoneme_error &e)
-	{
-		mEvent.phonemes.clear();
-	}
-
-	// Try using pronunciation rules ...
-
-	if (mRules.get()) try
-	{
-		mRules->reset(aText);
-		while (mRules->read())
-			mEvent.phonemes.push_back(*mRules);
-		return true;
-	}
-	catch (const tts::phoneme_error &e)
-	{
-		// Unable to pronounce the word using the ruleset, so fall
-		// through to the failure logic below.
-	}
-
-	// TODO: Should use spelling logic here to spell out the unpronouncible word.
-
-	fprintf(stderr, "error: cannot pronounce '%s'\n", aText->str().c_str());
-	return false;
+	return true;
 }
 
 std::shared_ptr<tts::text_reader>
