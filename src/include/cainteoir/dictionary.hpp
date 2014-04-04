@@ -86,12 +86,14 @@ namespace cainteoir { namespace tts
 		const_iterator end()   const { return mEntries.end();   }
 
 		bool pronounce(const std::shared_ptr<buffer> &aWord,
+		               const std::shared_ptr<tts::phoneme_reader> &aPronunciationRules,
 		               std::list<ipa::phoneme> &aPhonemes)
 		{
-			return pronounce(aWord, aPhonemes, 0);
+			return pronounce(aWord, aPronunciationRules, aPhonemes, 0);
 		}
 	private:
 		bool pronounce(const std::shared_ptr<buffer> &aWord,
+		               const std::shared_ptr<tts::phoneme_reader> &aPronunciationRules,
 		               std::list<ipa::phoneme> &aPhonemes,
 		               int depth);
 

@@ -125,7 +125,7 @@ words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
 
 	// Try looking up the pronunciation in the exception dictionary ...
 
-	if (mExceptionDictionary.pronounce(aText, mEvent.phonemes))
+	if (mExceptionDictionary.pronounce(aText, {}, mEvent.phonemes))
 		return true;
 
 	// Try looking up hyphenated words individually ...
@@ -140,16 +140,10 @@ words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
 			// Try pronouncing the word ...
 
 			std::list<ipa::phoneme> phonemes;
-			if (mExceptionDictionary.pronounce(word, phonemes))
+			if (mExceptionDictionary.pronounce(word, mRules, phonemes))
 			{
 				for (const auto &p : phonemes)
 					mEvent.phonemes.push_back(p);
-			}
-			else if (mRules.get())
-			{
-				mRules->reset(word);
-				while (mRules->read())
-					mEvent.phonemes.push_back(*mRules);
 			}
 			else
 				throw tts::phoneme_error("unable to pronounce the hyphenated word");

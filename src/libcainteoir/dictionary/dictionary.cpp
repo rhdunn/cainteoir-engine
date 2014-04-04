@@ -58,6 +58,7 @@ const tts::dictionary::entry &tts::dictionary::lookup(const key_type &aWord) con
 }
 
 bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
+                                const std::shared_ptr<tts::phoneme_reader> &aPronunciationRules,
                                 std::list<ipa::phoneme> &aPhonemes,
                                 int depth)
 {
@@ -73,7 +74,16 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
 			fprintf(stderr, "error: too much recursion for entry '%s'.\n", aWord->str().c_str());
 			return false;
 		}
-		return pronounce(entry.text, aPhonemes, depth + 1);
+		return pronounce(entry.text, aPronunciationRules, aPhonemes, depth + 1);
+	case dictionary::no_match:
+		if (aPronunciationRules.get())
+		{
+			aPronunciationRules->reset(aWord);
+			while (aPronunciationRules->read())
+				aPhonemes.push_back(*aPronunciationRules);
+			return true;
+		}
+		break;
 	}
 
 	return false;
@@ -141,7 +151,7 @@ void tts::formatDictionary(tts::dictionary &dict,
 		else if (resolve_say_as_entries)
 		{
 			std::list<ipa::phoneme> pronunciation;
-			if (dict.pronounce(entry.first, pronunciation))
+			if (dict.pronounce(entry.first, {}, pronunciation))
 				formatter->write_phoneme_entry(entry.first, writer, pronunciation);
 		}
 		else

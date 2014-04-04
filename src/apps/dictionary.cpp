@@ -84,7 +84,7 @@ static bool pronounce(tts::dictionary &dict,
 	std::list<ipa::phoneme> phonemes;
 	if (mode != mode_type::pronounce_entries)
 	{
-		if (!dict.pronounce(word, phonemes))
+		if (!dict.pronounce(word, {}, phonemes))
 		{
 			auto &entry = dict.lookup(word);
 			switch (entry.type)
