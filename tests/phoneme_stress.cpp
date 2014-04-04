@@ -28,7 +28,65 @@ REGISTER_TESTSUITE("phoneme stress");
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-TEST_CASE("vowel stress")
+TEST_CASE("as transcribed [stress type]")
+{
+	static const char *testcases[] =
+	{
+		// vowel - primary
+		"p'Ed",
+		"'pEd",
+		"'strEd",
+		// vowel - secondary
+		"p,Ed",
+		",pEd",
+		",strEd",
+		// diphthong (rising) - primary
+		"p'eI_^d",
+		"'peI_^d",
+		"'streI_^d",
+		// diphthong (rising) - secondary
+		"p,eI_^d",
+		",peI_^d",
+		",streI_^d",
+		// diphthong (falling) - primary
+		"p'U@_^d",
+		"'pU@_^d",
+		"'strU@_^d",
+		// diphthong (falling) - secondary
+		"p,U@_^d",
+		",pU@_^d",
+		",strU@_^d",
+		// next vowel is not stressed
+		"@'lES@",
+		"@,lES@",
+		// syllable breaks
+		"p'End.IN",
+		"sw'Im.INl,i",
+		"d@.naI_^.IN",
+	};
+
+	auto reader = tts::createPhonemeReader("cxs");
+	auto writer = tts::createPhonemeWriter("cxs");
+
+	for (const auto &test : testcases)
+	{
+		std::list<ipa::phoneme> phonemes;
+		reader->reset(std::make_shared<cainteoir::buffer>(test));
+		while (reader->read())
+			phonemes.push_back(*reader);
+
+		tts::make_stressed(phonemes, tts::stress_type::as_transcribed);
+
+		cainteoir::memory_file output;
+		writer->reset(output);
+		for (const auto &phoneme : phonemes)
+			writer->write(phoneme);
+
+		assert(output.buffer()->str() == test);
+	}
+}
+
+TEST_CASE("vowel [stress type]")
 {
 	static const std::pair<const char *, const char *> testcases[] =
 	{
@@ -86,7 +144,7 @@ TEST_CASE("vowel stress")
 	}
 }
 
-TEST_CASE("syllable stress")
+TEST_CASE("syllable [stress type]")
 {
 	static const std::pair<const char *, const char *> testcases[] =
 	{
