@@ -203,3 +203,127 @@ TEST_CASE("syllable [stress type]")
 		assert(output.buffer()->str() == test.second);
 	}
 }
+
+TEST_CASE("as transcribed [initial stress]")
+{
+	static const char *testcases[] =
+	{
+		"'maI_^",
+		",maI_^",
+		"maI_^",
+	};
+
+	auto reader = tts::createPhonemeReader("cxs");
+	auto writer = tts::createPhonemeWriter("cxs");
+
+	for (const auto &test : testcases)
+	{
+		std::list<ipa::phoneme> phonemes;
+		reader->reset(std::make_shared<cainteoir::buffer>(test));
+		while (reader->read())
+			phonemes.push_back(*reader);
+
+		std::list<ipa::phoneme> result;
+		tts::make_stressed(phonemes, result, tts::initial_stress::as_transcribed);
+
+		cainteoir::memory_file output;
+		writer->reset(output);
+		for (const auto &phoneme : result)
+			writer->write(phoneme);
+
+		assert(output.buffer()->str() == test);
+	}
+}
+
+TEST_CASE("primary [initial stress]")
+{
+	static const std::pair<const char *, const char *> testcases[] =
+	{
+		{ "'maI_^", "'maI_^" },
+		{ ",maI_^", "'maI_^" },
+		{ "maI_^",  "'maI_^" },
+	};
+
+	auto reader = tts::createPhonemeReader("cxs");
+	auto writer = tts::createPhonemeWriter("cxs");
+
+	for (const auto &test : testcases)
+	{
+		std::list<ipa::phoneme> phonemes;
+		reader->reset(std::make_shared<cainteoir::buffer>(test.first));
+		while (reader->read())
+			phonemes.push_back(*reader);
+
+		std::list<ipa::phoneme> result;
+		tts::make_stressed(phonemes, result, tts::initial_stress::primary);
+
+		cainteoir::memory_file output;
+		writer->reset(output);
+		for (const auto &phoneme : result)
+			writer->write(phoneme);
+
+		assert(output.buffer()->str() == test.second);
+	}
+}
+
+TEST_CASE("secondary [initial stress]")
+{
+	static const std::pair<const char *, const char *> testcases[] =
+	{
+		{ "'maI_^", ",maI_^" },
+		{ ",maI_^", ",maI_^" },
+		{ "maI_^",  ",maI_^" },
+	};
+
+	auto reader = tts::createPhonemeReader("cxs");
+	auto writer = tts::createPhonemeWriter("cxs");
+
+	for (const auto &test : testcases)
+	{
+		std::list<ipa::phoneme> phonemes;
+		reader->reset(std::make_shared<cainteoir::buffer>(test.first));
+		while (reader->read())
+			phonemes.push_back(*reader);
+
+		std::list<ipa::phoneme> result;
+		tts::make_stressed(phonemes, result, tts::initial_stress::secondary);
+
+		cainteoir::memory_file output;
+		writer->reset(output);
+		for (const auto &phoneme : result)
+			writer->write(phoneme);
+
+		assert(output.buffer()->str() == test.second);
+	}
+}
+
+TEST_CASE("unstressed [initial stress]")
+{
+	static const std::pair<const char *, const char *> testcases[] =
+	{
+		{ "'maI_^", "maI_^" },
+		{ ",maI_^", "maI_^" },
+		{ "maI_^",  "maI_^" },
+	};
+
+	auto reader = tts::createPhonemeReader("cxs");
+	auto writer = tts::createPhonemeWriter("cxs");
+
+	for (const auto &test : testcases)
+	{
+		std::list<ipa::phoneme> phonemes;
+		reader->reset(std::make_shared<cainteoir::buffer>(test.first));
+		while (reader->read())
+			phonemes.push_back(*reader);
+
+		std::list<ipa::phoneme> result;
+		tts::make_stressed(phonemes, result, tts::initial_stress::unstressed);
+
+		cainteoir::memory_file output;
+		writer->reset(output);
+		for (const auto &phoneme : result)
+			writer->write(phoneme);
+
+		assert(output.buffer()->str() == test.second);
+	}
+}

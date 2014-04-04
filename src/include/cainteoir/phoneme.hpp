@@ -304,6 +304,18 @@ namespace cainteoir { namespace tts
 	};
 
 	void make_stressed(std::list<ipa::phoneme> &aPhonemes, stress_type aType);
+
+	enum class initial_stress
+	{
+		as_transcribed,
+		primary,
+		secondary,
+		unstressed,
+	};
+
+	void make_stressed(const std::list<ipa::phoneme> &aPhonemes,
+	                   std::list<ipa::phoneme> &aOutput,
+	                   initial_stress aType);
 }}
 
 #endif

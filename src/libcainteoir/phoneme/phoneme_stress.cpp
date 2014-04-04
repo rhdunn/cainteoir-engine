@@ -102,6 +102,57 @@ static void make_syllable_stressed(std::list<ipa::phoneme> &aPhonemes)
 	}
 }
 
+static void make_primary_stressed(const std::list<ipa::phoneme> &aPhonemes, std::list<ipa::phoneme> &aOutput)
+{
+	bool initial = true;
+	for (const auto &p : aPhonemes)
+	{
+		if (initial)
+		{
+			initial = false;
+			auto out = p;
+			out.set(ipa::primary_stress, ipa::stress);
+			aOutput.push_back(out);
+		}
+		else
+			aOutput.push_back(p);
+	}
+}
+
+static void make_secondary_stressed(const std::list<ipa::phoneme> &aPhonemes, std::list<ipa::phoneme> &aOutput)
+{
+	bool initial = true;
+	for (const auto &p : aPhonemes)
+	{
+		if (initial)
+		{
+			initial = false;
+			auto out = p;
+			out.set(ipa::secondary_stress, ipa::stress);
+			aOutput.push_back(out);
+		}
+		else
+			aOutput.push_back(p);
+	}
+}
+
+static void make_initial_unstressed(const std::list<ipa::phoneme> &aPhonemes, std::list<ipa::phoneme> &aOutput)
+{
+	bool initial = true;
+	for (const auto &p : aPhonemes)
+	{
+		if (initial)
+		{
+			initial = false;
+			auto out = p;
+			out.set(0, ipa::stress);
+			aOutput.push_back(out);
+		}
+		else
+			aOutput.push_back(p);
+	}
+}
+
 void tts::make_stressed(std::list<ipa::phoneme> &aPhonemes, stress_type aType)
 {
 	switch (aType)
@@ -113,6 +164,28 @@ void tts::make_stressed(std::list<ipa::phoneme> &aPhonemes, stress_type aType)
 		break;
 	case stress_type::syllable:
 		make_syllable_stressed(aPhonemes);
+		break;
+	}
+}
+
+void tts::make_stressed(const std::list<ipa::phoneme> &aPhonemes,
+                        std::list<ipa::phoneme> &aOutput,
+                        initial_stress aType)
+{
+	switch (aType)
+	{
+	case initial_stress::as_transcribed:
+		for (const auto &p : aPhonemes)
+			aOutput.push_back(p);
+		break;
+	case initial_stress::primary:
+		make_primary_stressed(aPhonemes, aOutput);
+		break;
+	case initial_stress::secondary:
+		make_secondary_stressed(aPhonemes, aOutput);
+		break;
+	case initial_stress::unstressed:
+		make_initial_unstressed(aPhonemes, aOutput);
 		break;
 	}
 }

@@ -34,6 +34,7 @@ namespace cainteoir { namespace tts
 			: first(aText->begin())
 			, last(aText->end())
 			, next(first)
+			, mStressType(tts::initial_stress::as_transcribed)
 		{
 			advance();
 		}
@@ -42,10 +43,13 @@ namespace cainteoir { namespace tts
 
 		bool have_word() const { return first != last; }
 
+		tts::initial_stress stress() const { return mStressType; }
+
 		std::shared_ptr<cainteoir::buffer> next_word();
 	private:
 		void advance();
 
+		tts::initial_stress mStressType;
 		const char *first;
 		const char *last;
 		const char *next;

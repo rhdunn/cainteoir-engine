@@ -30,6 +30,25 @@ namespace ipa = cainteoir::ipa;
 
 std::shared_ptr<cainteoir::buffer> tts::multiword_entry::next_word()
 {
+	switch (*first)
+	{
+	case '\'':
+		mStressType = tts::initial_stress::primary;
+		++first;
+		break;
+	case ',':
+		mStressType = tts::initial_stress::secondary;
+		++first;
+		break;
+	case '.':
+		mStressType = tts::initial_stress::unstressed;
+		++first;
+		break;
+	default:
+		mStressType = tts::initial_stress::as_transcribed;
+		break;
+	}
+
 	auto ret = (first == last)
 	         ? std::shared_ptr<cainteoir::buffer>()
 	         : std::make_shared<cainteoir::buffer>(first, next);
@@ -39,11 +58,28 @@ std::shared_ptr<cainteoir::buffer> tts::multiword_entry::next_word()
 
 void tts::multiword_entry::advance()
 {
-	if (*next == '-')
+	switch (*next)
+	{
+	case '-':
 		++next;
-	first = next;
-	while (next < last && *next != '-')
+		first = next;
+		break;
+	case '\'': case ',': case '.':
+		first = next;
 		++next;
+		break;
+	default:
+		first = next;
+		break;
+	}
+	while (next < last) switch (*next)
+	{
+	case '-': case '\'': case ',': case '.':
+		return;
+	default:
+		++next;
+		break;
+	}
 }
 
 tts::dictionary::entry::entry(const std::shared_ptr<buffer> &aPhonemes, std::shared_ptr<phoneme_reader> &aPhonemeSet)
@@ -104,10 +140,7 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
 
 					std::list<ipa::phoneme> phonemes;
 					if (pronounce(word, aPronunciationRules, phonemes, depth + 1))
-					{
-						for (const auto &p : phonemes)
-							aPhonemes.push_back(p);
-					}
+						tts::make_stressed(phonemes, aPhonemes, words.stress());
 					else
 						throw tts::phoneme_error("unable to pronounce the hyphenated word");
 				}
