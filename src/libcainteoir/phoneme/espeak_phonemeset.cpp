@@ -175,6 +175,10 @@ bool espeak_reader::read()
 			++mCurrent;
 			mState = state::parsing_pause;
 			break;
+		case '|':
+			*(ipa::phoneme *)this = ipa::phoneme(ipa::syllable_break);
+			++mCurrent;
+			return true;
 		case '(':
 			++mCurrent;
 			mState = state::parsing_language_switch;
@@ -363,6 +367,8 @@ bool espeak_writer::write(const ipa::phoneme &aPhoneme)
 			fputc('\n', mOutput);
 		else if (aPhoneme == ipa::phoneme(ipa::pause | ipa::extra_short))
 			fputc(' ', mOutput);
+		else if (aPhoneme == ipa::phoneme(ipa::syllable_break))
+			fputc('|', mOutput);
 		else
 		{
 			mStress = aPhoneme.get(ipa::stress);
