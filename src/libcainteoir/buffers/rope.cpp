@@ -1,6 +1,6 @@
 /* Rope Buffer API.
  *
- * Copyright (C) 2010-2013 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -89,7 +89,7 @@ std::shared_ptr<cainteoir::buffer> cainteoir::make_file_buffer(int fd)
 	cainteoir::rope data;
 	char buffer[1024];
 
-	size_t read = 0;
+	ssize_t read = 0;
 	while ((read = ::read(fd, buffer, sizeof(buffer))) > 0)
 		data += cainteoir::make_buffer(buffer, read);
 
