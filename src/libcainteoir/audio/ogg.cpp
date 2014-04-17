@@ -37,8 +37,8 @@ static std::string now()
 
 	struct tm *d = localtime(&now);
 
-	char date[13];
-	strftime(date, 15, "%Y", d);
+	char date[10];
+	strftime(date, sizeof(date), "%Y", d);
 
 	return date;
 }
