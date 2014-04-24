@@ -1,5 +1,5 @@
 <!-- test case -->
-<!-- hello -->
+<script type="text/javascript" href="hyphenate.js"></script>
 <pre>
 Subject: Test Case
 
