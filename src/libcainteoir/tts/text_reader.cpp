@@ -166,7 +166,7 @@ bool text_reader::read()
 			{
 				mState = saved_state;
 				mCurrent = saved_current;
-				mMatchCurrent = saved_match_current + 1;
+				mMatchCurrent = (char *)cainteoir::utf8::next(saved_match_current);
 				mMatchLast = saved_match_last + 1;
 			}
 			return matched();

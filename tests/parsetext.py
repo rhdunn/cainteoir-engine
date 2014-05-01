@@ -34,6 +34,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/latin/paragraph.txt', 'result': 'parse-text/latin/paragraph.pt'},
 			{'test': 'parse-text/latin/match-limit.txt', 'result': 'parse-text/latin/match-limit.pt'},
 			{'test': 'parse-text/latin/no-newline-at-end.txt', 'result': 'parse-text/latin/no-newline-at-end.pt'},
+			{'test': 'parse-text/latin/accented.txt', 'result': 'parse-text/latin/accented.pt'},
 		]},
 		{'name': 'Japanese', 'type': 'parsetext', 'tests': [
 			{'test': 'parse-text/japanese/words.txt', 'result': 'parse-text/japanese/words.pt'},
