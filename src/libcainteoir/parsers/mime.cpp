@@ -369,8 +369,13 @@ cainteoir::createMimeInHtmlReader(std::shared_ptr<cainteoir::buffer> &aData,
 	do switch (reader->nodeType())
 	{
 	case xml::reader::beginTagNode:
-		if (!reader->nodeName().comparei("pre"))
+		if (!reader->nodeName().comparei("meta") ||
+		    !reader->nodeName().comparei("script"))
+			;
+		else if (!reader->nodeName().comparei("pre"))
 			first = reader->current() + 1;
+		else
+			return std::shared_ptr<cainteoir::document_reader>();
 		break;
 	case xml::reader::endTagNode:
 		if (first && reader->nodeName().comparei("pre"))
