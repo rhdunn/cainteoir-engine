@@ -1300,6 +1300,11 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 		styles = reader.context()->styles;
 		if (styles)
 		{
+			if (styles->display == css::display::none)
+			{
+				ctx.push({ reader.context(), &html_document_reader::parse_node, 0, false });
+				return false;
+			}
 			type   = events::begin_context;
 			anchor = rdf::uri();
 			reset_block_scope();

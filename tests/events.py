@@ -116,12 +116,14 @@ if __name__ == '__main__':
 		{'name': 'semantics', 'type': 'events', 'tests': [
 			{'test': 'html/semantics/with-style.xhtml', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/with-style-type.xhtml', 'result': 'html/semantics/with-style-type.events'},
+			{'test': 'html/semantics/with-style-in-block.xhtml', 'result': 'html/semantics/with-style.events'},
 			{'test': 'html/semantics/meta-content-type.xhtml', 'result': 'html/semantics/meta-content-type.events'},
 			{'test': 'html/semantics/link-rel-stylesheet.xhtml', 'result': 'html/semantics/link-rel-stylesheet.events'},
 		]},
 		{'name': 'scripting', 'type': 'events', 'tests': [
 			{'test': 'html/scripting/with-script.xhtml', 'result': 'html/scripting/with-script.events'},
 			{'test': 'html/scripting/with-script-type.xhtml', 'result': 'html/scripting/with-script-type.events'},
+			{'test': 'html/scripting/with-script-in-block.xhtml', 'result': 'html/scripting/with-script.events'},
 		]},
 		{'name': 'sections', 'type': 'events', 'tests': [
 			{'test': 'html/sections/dir.xhtml', 'result': 'html/sections/ul.events'},
