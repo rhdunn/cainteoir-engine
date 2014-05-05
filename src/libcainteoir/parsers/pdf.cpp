@@ -82,7 +82,7 @@ struct pdf_document_reader : public cainteoir::document_reader
 	{
 		state_title,
 		state_toc,
-		state_text,
+		state_page,
 	};
 
 	pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
@@ -183,7 +183,7 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 			aMetadata->statement(entry, rdf::ref("target"), mSubject);
 			aMetadata->statement(entry, rdf::dc("title"), rdf::literal(mTitle));
 		}
-		mState = mIndex.empty() ? state_text : state_toc;
+		mState = mIndex.empty() ? state_page : state_toc;
 		break;
 	case state_toc:
 		if (aMetadata)
@@ -208,9 +208,9 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 			aMetadata->statement(entry, rdf::dc("title"), rdf::literal(cainteoir::normalize(std::make_shared<cainteoir::buffer>(title))->str()));
 		}
 		if (++mCurrentIndex == mIndex.end())
-			mState = state_text;
+			mState = state_page;
 		break;
-	case state_text:
+	case state_page:
 		{
 			PopplerPage *page = poppler_document_get_page(mDoc, mCurrentPage++);
 
@@ -221,7 +221,7 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 			type    = events::text | events::anchor;
 			content = std::make_shared<glib_buffer>(poppler_page_get_text(page));
 			anchor  = rdf::uri(mSubject.str(), pagenum);
-			mState  = state_text;
+			mState  = state_page;
 
 			g_object_unref(page);
 		}
