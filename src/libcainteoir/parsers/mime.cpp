@@ -353,6 +353,13 @@ cainteoir::createMimeReader(std::shared_ptr<buffer> &aData,
 	return createPlainTextReader(data.second, aSubject, aPrimaryMetadata, title);
 }
 
+enum class state_t
+{
+	before_pre,
+	in_pre,
+	after_pre,
+};
+
 std::shared_ptr<cainteoir::document_reader>
 cainteoir::createMimeInHtmlReader(std::shared_ptr<cainteoir::buffer> &aData,
                                   const rdf::uri &aSubject,
@@ -365,32 +372,43 @@ cainteoir::createMimeInHtmlReader(std::shared_ptr<cainteoir::buffer> &aData,
 
 	const char *first = nullptr;
 	const char *last  = nullptr;
+	state_t state = state_t::before_pre;
 	bool processing   = true;
-	do switch (reader->nodeType())
+	do switch (state)
 	{
-	case xml::reader::beginTagNode:
-		if (!reader->nodeName().comparei("meta") ||
-		    !reader->nodeName().comparei("script"))
-			;
-		else if (!reader->nodeName().comparei("pre"))
-			first = reader->current() + 1;
-		else
-			return std::shared_ptr<cainteoir::document_reader>();
+	case state_t::before_pre:
+		switch (reader->nodeType())
+		{
+		case xml::reader::beginTagNode:
+			if (!reader->nodeName().comparei("meta") ||
+			    !reader->nodeName().comparei("script"))
+				;
+			else if (!reader->nodeName().comparei("pre"))
+			{
+				first = reader->current() + 1;
+				state = state_t::in_pre;
+			}
+			else
+				return std::shared_ptr<cainteoir::document_reader>();
+			break;
+		}
 		break;
-	case xml::reader::endTagNode:
-		if (first && reader->nodeName().comparei("pre"))
-			processing = false;
+	case state_t::in_pre:
+		switch (reader->nodeType())
+		{
+		case xml::reader::endTagNode:
+			if (!reader->nodeName().comparei("pre"))
+				state = state_t::after_pre;
+			break;
+		case xml::reader::textNode:
+		case xml::reader::error: // email address as tag -- Joseph <joe@world.net>
+			last = reader->current();
+			break;
+		}
 		break;
-	case xml::reader::attribute:
-	case xml::reader::commentNode:
-		break;
-	case xml::reader::textNode:
-	case xml::reader::error: // email address as tag -- Joseph <joe@world.net>
-		last = reader->current();
-		break;
-	default:
+	case state_t::after_pre:
 		return std::shared_ptr<cainteoir::document_reader>();
-	} while (processing && reader->read());
+	} while (reader->read());
 
 	if (!first || !last || last < first)
 		return std::shared_ptr<cainteoir::document_reader>();
