@@ -83,6 +83,7 @@ struct pdf_document_reader : public cainteoir::document_reader
 		state_title,
 		state_toc,
 		state_page,
+		state_page_text,
 	};
 
 	pdf_document_reader(std::shared_ptr<cainteoir::buffer> &aData, const rdf::uri &aSubject, rdf::graph &aPrimaryMetadata, const std::string &aTitle);
@@ -212,17 +213,22 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 		break;
 	case state_page:
 		{
-			PopplerPage *page = poppler_document_get_page(mDoc, mCurrentPage++);
-
 			char pagenum[100];
 			int len = snprintf(pagenum, sizeof(pagenum), "page%05d", mCurrentPage);
 			pagenum[len] = '\0';
 
 			type    = events::text | events::anchor;
-			content = std::make_shared<glib_buffer>(poppler_page_get_text(page));
+			content = std::make_shared<cainteoir::buffer>("\n");
 			anchor  = rdf::uri(mSubject.str(), pagenum);
+			mState  = state_page_text;
+		}
+		return true;
+	case state_page_text:
+		{
+			PopplerPage *page = poppler_document_get_page(mDoc, mCurrentPage++);
+			type    = events::text;
+			content = std::make_shared<glib_buffer>(poppler_page_get_text(page));
 			mState  = state_page;
-
 			g_object_unref(page);
 		}
 		return true;
