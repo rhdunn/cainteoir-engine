@@ -214,7 +214,7 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 	case state_page:
 		{
 			char pagenum[100];
-			int len = snprintf(pagenum, sizeof(pagenum), "page%05d", mCurrentPage);
+			int len = snprintf(pagenum, sizeof(pagenum), "page%05d", (mCurrentPage + 1));
 			pagenum[len] = '\0';
 
 			type    = events::text | events::anchor;
