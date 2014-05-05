@@ -145,7 +145,18 @@ const cainteoir::rdf::uri zip_archive::location(const std::string &aFilename, co
 
 std::shared_ptr<cainteoir::buffer> zip_archive::read(const char *aFilename) const
 {
-	auto entry = data.find(aFilename);
+	std::string filename = aFilename;
+	auto entry = data.find(filename);
+	if (entry == data.end())
+	{
+		size_t pos = 0;
+		while ((pos = filename.find("%20", pos)) != std::string::npos)
+		{
+			filename.replace(pos, 3, " ");
+			++pos;
+		}
+		entry = data.find(filename);
+	}
 	if (entry == data.end())
 		return std::shared_ptr<cainteoir::buffer>();
 

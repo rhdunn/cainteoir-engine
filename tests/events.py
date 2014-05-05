@@ -327,6 +327,7 @@ if __name__ == '__main__':
 			{'test': 'epub2/mimetype-at-end.epub', 'result': 'epub2/simple.events'},
 			{'test': 'epub2/missing.epub', 'result': 'epub2/missing.events'},
 			{'test': 'epub2/file-in-subdir.epub', 'result': 'epub2/file-in-subdir.events'},
+			{'test': 'epub2/escaped-space.epub', 'result': 'epub2/escaped-space.events'},
 		]},
 	]})
 	test.run({ 'name': 'ePub3', 'groups': [
