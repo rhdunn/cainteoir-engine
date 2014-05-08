@@ -415,6 +415,11 @@ noinst_bin_PROGRAMS += src/experimental/mbrola
 src_experimental_mbrola_LDADD   = src/libcainteoir/libcainteoir.la
 src_experimental_mbrola_SOURCES = src/experimental/mbrola.cpp
 
+noinst_bin_PROGRAMS += src/experimental/synthesizer
+
+src_experimental_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
+src_experimental_synthesizer_SOURCES = src/experimental/synthesizer.cpp
+
 ############################# tests ###########################################
 
 CSS_TEST_FILES = $(shell find tests/css/*)

@@ -50,6 +50,7 @@ src/examples/musicplayer
 src/examples/tagcloud
 
 src/experimental/mbrola
+src/experimental/synthesizer
 
 tests/*.test
 tests/events
