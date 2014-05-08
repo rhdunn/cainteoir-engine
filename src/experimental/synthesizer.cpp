@@ -18,26 +18,42 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cainteoir/audio.hpp>
 #include <cstdint>
 #include <cstdio>
 #include <cmath>
 
+namespace rdf = cainteoir::rdf;
+
 int main()
 {
-	uint16_t sample_rate = 44100;
-	float frequency = 440.0; // A4
-	float duration = 1.0; // 1 second
-
-	float sample_duration = 1.0 / sample_rate;
-	float t = 0.0;
-	while (true)
+	try
 	{
-		float a = sin(2 * M_PI * frequency * t);
-		fprintf(stdout, "%G\n", a);
+		uint16_t sample_rate = 44100;
+		float frequency = 440.0; // A4
+		float duration = 1.0; // 1 second
 
-		if (t > duration) break;
-		t += sample_duration;
+		rdf::graph metadata;
+		rdf::uri doc;
+		auto out = cainteoir::open_audio_device(nullptr, metadata, doc, rdf::tts("float32le"), 1, sample_rate);
+		out->open();
+
+		float sample_duration = 1.0 / sample_rate;
+		float t = 0.0;
+		while (true)
+		{
+			float a = sin(2 * M_PI * frequency * t);
+			out->write((const char *)&a, sizeof(a));
+
+			if (t > duration) break;
+			t += sample_duration;
+		}
+
+		out->close();
 	}
-
+	catch (std::runtime_error &e)
+	{
+		fprintf(stderr, "error: %s\n", e.what());
+	}
 	return 0;
 }
