@@ -408,6 +408,13 @@ noinst_bin_PROGRAMS += src/examples/musicplayer
 src_examples_musicplayer_LDADD   = src/libcainteoir/libcainteoir.la
 src_examples_musicplayer_SOURCES = src/examples/musicplayer.cpp
 
+############################# experimental ####################################
+
+noinst_bin_PROGRAMS += src/experimental/mbrola
+
+src_experimental_mbrola_LDADD   = src/libcainteoir/libcainteoir.la
+src_experimental_mbrola_SOURCES = src/experimental/mbrola.cpp
+
 ############################# tests ###########################################
 
 CSS_TEST_FILES = $(shell find tests/css/*)
@@ -570,11 +577,6 @@ tests_styles_LDADD   = src/libcainteoir/libcainteoir.la
 tests_styles_SOURCES = tests/styles.cpp
 
 tests/styles.check: tests/styles ${CSS_TEST_FILES}
-
-noinst_bin_PROGRAMS += tests/synthesizer
-
-tests_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
-tests_synthesizer_SOURCES = tests/synthesizer.cpp
 
 tests/dictionary.check: src/apps/dictionary ${DICTIONARY_TEST_FILES}
 

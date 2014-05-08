@@ -49,13 +49,14 @@ src/examples/doc2doc
 src/examples/musicplayer
 src/examples/tagcloud
 
+src/experimental/mbrola
+
 tests/*.test
 tests/events
 tests/xmlreader
 tests/parsetext
 tests/mimetype
 tests/styles
-tests/synthesizer
 
 # docs/phonemes output:
 
