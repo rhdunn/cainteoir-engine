@@ -267,22 +267,6 @@ struct ogg_audio : public cainteoir::audio
 		m_file = nullptr;
 	}
 
-	uint32_t write(const char *data, uint32_t len)
-	{
-		if (len == 0)
-			return 0;
-
-		float *buffer = vorbis_analysis_buffer(&vd, len)[0];
-
-		long i;
-		for (i = 0; i < len/2; ++i)
-			buffer[i] = ((data[i*2+1]<<8)|(uint8_t)data[i*2])/32768.f;
-
-		write_ogg_data(i);
-
-		return len;
-	}
-
 	int channels() const { return mChannels; }
 
 	int frequency() const { return mFrequency; }
