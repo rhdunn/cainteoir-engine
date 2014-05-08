@@ -1,6 +1,6 @@
 /* WAVE Audio File.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -49,6 +49,9 @@ struct WaveHeader
 	uint32_t data_size;
 };
 
+#define WAVE_FORMAT_PCM 0x0001
+#define WAVE_FORMAT_IEEE_FLOAT 0x0003
+
 class wav_audio : public cainteoir::audio
 {
 	FILE *m_file;
@@ -61,15 +64,28 @@ public:
 	{
 		WaveHeader header = {
 			{ 'R', 'I', 'F', 'F' }, 0x7FFFFFFF, { 'W', 'A', 'V', 'E' },
-			{ 'f', 'm', 't', ' ' }, 16, 1, 0, 0, 0, 0, 0,
+			{ 'f', 'm', 't', ' ' }, 16, 0, 0, 0, 0, 0, 0,
 			{ 'd', 'a', 't', 'a' }, 0x7FFFFFFF - sizeof(WaveHeader)
 		};
 
 		header.channels = channels;
 		header.frequency = frequency;
 
-		if (format == rdf::tts("s16le"))
+		if (format == rdf::tts("s8"))
+		{
+			header.sample_size = 8;
+			header.type = WAVE_FORMAT_PCM;
+		}
+		else if (format == rdf::tts("s16le"))
+		{
 			header.sample_size = 16;
+			header.type = WAVE_FORMAT_PCM;
+		}
+		else if (format == rdf::tts("float32le"))
+		{
+			header.sample_size = 32;
+			header.type = WAVE_FORMAT_IEEE_FLOAT;
+		}
 		else
 			throw std::runtime_error(i18n("unsupported audio format."));
 
