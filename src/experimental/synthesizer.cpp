@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 
 		float frequency = 440.0; // A4
 		float duration = 1.0; // 1 second
-		float amplitude = 4.0;
+		float amplitude = 1.0;
 
 		const option_group general_options = { nullptr, {
 			{ 'D', "device", device_name, "DEVICE",
