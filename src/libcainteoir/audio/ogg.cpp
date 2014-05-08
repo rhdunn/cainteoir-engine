@@ -1,6 +1,6 @@
 /* Ogg+Vorbis Audio File.
  *
- * Copyright (C) 2010-2012 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -159,7 +159,7 @@ cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocumen
 #include <stdio.h>
 #include <time.h>
 
-class ogg_audio : public cainteoir::audio
+struct ogg_audio : public cainteoir::audio
 {
 	FILE *m_file;
 
@@ -201,7 +201,7 @@ class ogg_audio : public cainteoir::audio
 			}
 		}
 	}
-public:
+
 	ogg_audio(FILE *f, int channels, int frequency, const rdf::uri &format, float quality, const std::list<cainteoir::vorbis_comment> &comments)
 		: m_file(f)
 		, mChannels(channels)
@@ -290,14 +290,63 @@ public:
 	const rdf::uri &format() const { return mFormat; }
 };
 
+struct ogg_audio_s16le : public ogg_audio
+{
+	ogg_audio_s16le(FILE *f, int channels, int frequency, const rdf::uri &format, float quality, const std::list<cainteoir::vorbis_comment> &comments)
+		: ogg_audio(f, channels, frequency, format, quality, comments)
+	{
+	}
+
+	uint32_t write(const char *data, uint32_t len)
+	{
+		if (len == 0)
+			return 0;
+
+		float *buffer = vorbis_analysis_buffer(&vd, len)[0];
+
+		long i;
+		for (i = 0; i < len/2; ++i)
+			buffer[i] = ((data[i*2+1]<<8)|(uint8_t)data[i*2])/32768.f;
+
+		write_ogg_data(i);
+
+		return len;
+	}
+};
+
+struct ogg_audio_float32le : public ogg_audio
+{
+	ogg_audio_float32le(FILE *f, int channels, int frequency, const rdf::uri &format, float quality, const std::list<cainteoir::vorbis_comment> &comments)
+		: ogg_audio(f, channels, frequency, format, quality, comments)
+	{
+	}
+
+	uint32_t write(const char *data, uint32_t len)
+	{
+		if (len == 0)
+			return 0;
+
+		float *buffer = vorbis_analysis_buffer(&vd, len)[0];
+		memcpy(buffer, data, len);
+
+		write_ogg_data(len / sizeof(float));
+
+		return len;
+	}
+};
+
 std::shared_ptr<cainteoir::audio>
 create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
 	if (!file) throw std::runtime_error(strerror(errno));
-	if (format != rdf::tts("s16le"))
-		throw std::runtime_error(i18n("unsupported audio format."));
-	return std::make_shared<ogg_audio>(file, channels, frequency, format, quality, cainteoir::vorbis_comments(aMetadata, aDocument));
+
+	auto comments = cainteoir::vorbis_comments(aMetadata, aDocument);
+	if (format == rdf::tts("s16le"))
+		return std::make_shared<ogg_audio_s16le>(file, channels, frequency, format, quality, comments);
+	if (format == rdf::tts("float32le"))
+		return std::make_shared<ogg_audio_float32le>(file, channels, frequency, format, quality, comments);
+	throw std::runtime_error(i18n("unsupported audio format."));
 }
 
 #else
