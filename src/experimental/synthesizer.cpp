@@ -20,17 +20,20 @@
 
 #include <cstdint>
 #include <cstdio>
+#include <cmath>
 
 int main()
 {
 	uint16_t sample_rate = 44100;
+	float frequency = 440.0; // A4
 	float duration = 1.0; // 1 second
 
 	float sample_duration = 1.0 / sample_rate;
 	float t = 0.0;
 	while (true)
 	{
-		fprintf(stdout, "%G\n", t);
+		float a = sin(2 * M_PI * frequency * t);
+		fprintf(stdout, "%G\n", a);
 
 		if (t > duration) break;
 		t += sample_duration;
