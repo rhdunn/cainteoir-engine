@@ -18,6 +18,11 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "compatibility.hpp"
+#include "i18n.h"
+#include "options.hpp"
+
 #include <cainteoir/audio.hpp>
 #include <cstdint>
 #include <cstdio>
@@ -25,18 +30,36 @@
 
 namespace rdf = cainteoir::rdf;
 
-int main()
+int main(int argc, char **argv)
 {
 	try
 	{
+		const char *device_name = nullptr;
+
 		uint16_t sample_rate = 44100;
 		float frequency = 440.0; // A4
 		float duration = 1.0; // 1 second
 		float amplitude = 4.0;
 
+		const option_group general_options = { nullptr, {
+			{ 'D', "device", device_name, "DEVICE",
+			  i18n("Use DEVICE for audio output (ALSA/pulseaudio device name)") },
+		}};
+
+		const std::initializer_list<option_group> options = {
+			general_options,
+		};
+
+		const std::initializer_list<const char *> usage = {
+			i18n("synthesizer [OPTION..]"),
+		};
+
+		if (!parse_command_line(options, usage, argc, argv))
+			return 0;
+
 		rdf::graph metadata;
 		rdf::uri doc;
-		auto out = cainteoir::open_audio_device(nullptr, metadata, doc, rdf::tts("float32le"), 1, sample_rate);
+		auto out = cainteoir::open_audio_device(device_name, metadata, doc, rdf::tts("float32le"), 1, sample_rate);
 		out->open();
 
 		float sample_duration = 1.0 / sample_rate;
