@@ -32,6 +32,7 @@ int main()
 		uint16_t sample_rate = 44100;
 		float frequency = 440.0; // A4
 		float duration = 1.0; // 1 second
+		float amplitude = 4.0;
 
 		rdf::graph metadata;
 		rdf::uri doc;
@@ -43,6 +44,7 @@ int main()
 		while (true)
 		{
 			float a = sin(2 * M_PI * frequency * t);
+			a *= amplitude;
 			out->write((const char *)&a, sizeof(a));
 
 			if (t > duration) break;
