@@ -35,8 +35,13 @@ int main(int argc, char **argv)
 	try
 	{
 		const char *device_name = nullptr;
+		const char *outfile = nullptr;
+		const char *outformat = nullptr;
 
+		auto sample_format = rdf::tts("float32le");
+		int channels = 1;
 		uint16_t sample_rate = 44100;
+
 		float frequency = 440.0; // A4
 		float duration = 1.0; // 1 second
 		float amplitude = 4.0;
@@ -46,8 +51,18 @@ int main(int argc, char **argv)
 			  i18n("Use DEVICE for audio output (ALSA/pulseaudio device name)") },
 		}};
 
+		const option_group recording_options = { i18n("Recording:"), {
+			{ 'o', "output", outfile, "FILE",
+			  i18n("Recorded audio is written to FILE") },
+			{ 0, "stdout", bind_value(outfile, "-"),
+			  i18n("Recorded audio is written to the standard output") },
+			{ 'r', "record", outformat, "FORMAT",
+			  i18n("Record the audio as a FORMAT file (default: wav)") },
+		}};
+
 		const std::initializer_list<option_group> options = {
 			general_options,
+			recording_options,
 		};
 
 		const std::initializer_list<const char *> usage = {
@@ -57,9 +72,16 @@ int main(int argc, char **argv)
 		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
+		if (outformat && !strcmp(outformat, "wave"))
+			outformat = "wav";
+
 		rdf::graph metadata;
 		rdf::uri doc;
-		auto out = cainteoir::open_audio_device(device_name, metadata, doc, rdf::tts("float32le"), 1, sample_rate);
+		std::shared_ptr<cainteoir::audio> out;
+		if (outformat || outfile)
+			out = cainteoir::create_audio_file(outfile, outformat ? outformat : "wav", 0.3, metadata, doc, sample_format, channels, sample_rate);
+		else
+			out = cainteoir::open_audio_device(device_name, metadata, doc, sample_format, channels, sample_rate);
 		out->open();
 
 		float sample_duration = 1.0 / sample_rate;
