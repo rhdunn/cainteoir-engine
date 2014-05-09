@@ -33,6 +33,7 @@ enum class argument_t
 	none,
 	string,
 	integer,
+	real,
 };
 
 template <typename T>
@@ -111,7 +112,7 @@ struct option_t
 
 	// integer argument
 	template <typename T,
-	          class = typename std::enable_if<std::is_integral<T>::value>::type>
+	          class = typename std::enable_if<std::is_arithmetic<T>::value>::type>
 	option_t(char aShortName,
 	         const char *aLongName,
 	         T &aData,
@@ -119,7 +120,7 @@ struct option_t
                  const char *aHelpString)
 		: short_name(aShortName)
 		, long_name(aLongName)
-		, has_argument(argument_t::integer)
+		, has_argument(std::is_integral<T>::value ? argument_t::integer : argument_t::real)
 		, arg_name(aArgName)
 		, help_string(aHelpString)
 		, data(&aData)
@@ -153,6 +154,13 @@ struct option_t
 			case 2: *(int16_t *)data = atoi(arg); break;
 			case 4: *(int32_t *)data = atoi(arg); break;
 			case 8: *(int64_t *)data = atoi(arg); break;
+			}
+			break;
+		case argument_t::real:
+			switch (data_size)
+			{
+			case 4: *(float  *)data = atof(arg); break;
+			case 8: *(double *)data = atof(arg); break;
 			}
 			break;
 		}
