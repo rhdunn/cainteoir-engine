@@ -105,11 +105,11 @@ int main(int argc, char **argv)
 		float t = 0.0;
 		for (uint32_t sample : cainteoir::range<uint32_t>(0, sample_rate * duration))
 		{
-			float a = sin(2 * M_PI * frequency * t);
+			float a = sin(2 * M_PI * t);
 			a *= amplitude;
 			out->write((const char *)&a, sizeof(a));
 
-			t += sample_duration;
+			t += sample_duration * frequency;
 		}
 
 		out->close();
