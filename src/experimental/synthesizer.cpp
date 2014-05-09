@@ -51,6 +51,11 @@ int main(int argc, char **argv)
 			  i18n("Use DEVICE for audio output (ALSA/pulseaudio device name)") },
 		}};
 
+		const option_group sound_options = { i18n("Speech:"), {
+			{ 'f', "frequency", frequency, "FREQUENCY",
+			  i18n("Set the frequency (pitch) of the sound to FREQUENCY (default: 440Hz)") },
+		}};
+
 		const option_group recording_options = { i18n("Recording:"), {
 			{ 'o', "output", outfile, "FILE",
 			  i18n("Recorded audio is written to FILE") },
@@ -62,6 +67,7 @@ int main(int argc, char **argv)
 
 		const std::initializer_list<option_group> options = {
 			general_options,
+			sound_options,
 			recording_options,
 		};
 
