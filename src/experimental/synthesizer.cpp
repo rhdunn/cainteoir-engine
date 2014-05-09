@@ -30,6 +30,13 @@
 
 namespace rdf = cainteoir::rdf;
 
+inline float clamp(float value, float min, float max)
+{
+	if (value < min) return min;
+	if (value > max) return max;
+	return value;
+}
+
 int main(int argc, char **argv)
 {
 	try
@@ -51,7 +58,9 @@ int main(int argc, char **argv)
 			  i18n("Use DEVICE for audio output (ALSA/pulseaudio device name)") },
 		}};
 
-		const option_group sound_options = { i18n("Speech:"), {
+		const option_group sound_options = { i18n("Sound:"), {
+			{ 'a', "amplitude", amplitude, "AMPLITUDE",
+			  i18n("Set the amplitude (volume) of the sound to AMPLITUDE (default: 1.0)") },
 			{ 'f', "frequency", frequency, "FREQUENCY",
 			  i18n("Set the frequency (pitch) of the sound to FREQUENCY (default: 440Hz)") },
 		}};
@@ -80,6 +89,8 @@ int main(int argc, char **argv)
 
 		if (outformat && !strcmp(outformat, "wave"))
 			outformat = "wav";
+
+		amplitude = clamp(amplitude, 0.0, 1.0);
 
 		rdf::graph metadata;
 		rdf::uri doc;
