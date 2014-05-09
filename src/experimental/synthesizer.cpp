@@ -103,13 +103,12 @@ int main(int argc, char **argv)
 
 		float sample_duration = 1.0 / sample_rate;
 		float t = 0.0;
-		while (true)
+		for (uint32_t sample : cainteoir::range<uint32_t>(0, sample_rate * duration))
 		{
 			float a = sin(2 * M_PI * frequency * t);
 			a *= amplitude;
 			out->write((const char *)&a, sizeof(a));
 
-			if (t > duration) break;
 			t += sample_duration;
 		}
 
