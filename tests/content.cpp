@@ -372,6 +372,174 @@ TEST_CASE("frequency parser - #kHz (kilohertz)")
 	test_parser("1.5kHz", css::parse_frequency,  1.5, css::frequency::kilohertz, false);
 }
 
+TEST_CASE("frequency parser - musical notes")
+{
+	// Equal-tempered scale; A4 = 440Hz
+	// Reference: http://www.phy.mtu.edu/~suits/notefreqs.html
+
+	test_parser("C0",  css::parse_frequency,   16.35, css::frequency::hertz, false);
+	test_parser("C#0", css::parse_frequency,   17.32, css::frequency::hertz, false);
+	test_parser("Db0", css::parse_frequency,   17.32, css::frequency::hertz, false);
+	test_parser("D0",  css::parse_frequency,   18.35, css::frequency::hertz, false);
+	test_parser("D#0", css::parse_frequency,   19.45, css::frequency::hertz, false);
+	test_parser("Eb0", css::parse_frequency,   19.45, css::frequency::hertz, false);
+	test_parser("E0",  css::parse_frequency,   20.60, css::frequency::hertz, false);
+	test_parser("F0",  css::parse_frequency,   21.83, css::frequency::hertz, false);
+	test_parser("F#0", css::parse_frequency,   23.12, css::frequency::hertz, false);
+	test_parser("Gb0", css::parse_frequency,   23.12, css::frequency::hertz, false);
+	test_parser("G0",  css::parse_frequency,   24.50, css::frequency::hertz, false);
+	test_parser("G#0", css::parse_frequency,   25.96, css::frequency::hertz, false);
+	test_parser("Ab0", css::parse_frequency,   25.96, css::frequency::hertz, false);
+	test_parser("A0",  css::parse_frequency,   27.50, css::frequency::hertz, false);
+	test_parser("A#0", css::parse_frequency,   29.14, css::frequency::hertz, false);
+	test_parser("Bb0", css::parse_frequency,   29.14, css::frequency::hertz, false);
+	test_parser("B0",  css::parse_frequency,   30.87, css::frequency::hertz, false);
+
+	test_parser("C1",  css::parse_frequency,   32.70, css::frequency::hertz, false);
+	test_parser("C#1", css::parse_frequency,   34.65, css::frequency::hertz, false);
+	test_parser("Db1", css::parse_frequency,   34.65, css::frequency::hertz, false);
+	test_parser("D1",  css::parse_frequency,   36.71, css::frequency::hertz, false);
+	test_parser("D#1", css::parse_frequency,   38.89, css::frequency::hertz, false);
+	test_parser("Eb1", css::parse_frequency,   38.89, css::frequency::hertz, false);
+	test_parser("E1",  css::parse_frequency,   41.20, css::frequency::hertz, false);
+	test_parser("F1",  css::parse_frequency,   43.65, css::frequency::hertz, false);
+	test_parser("F#1", css::parse_frequency,   46.25, css::frequency::hertz, false);
+	test_parser("Gb1", css::parse_frequency,   46.25, css::frequency::hertz, false);
+	test_parser("G1",  css::parse_frequency,   49.00, css::frequency::hertz, false);
+	test_parser("G#1", css::parse_frequency,   51.91, css::frequency::hertz, false);
+	test_parser("Ab1", css::parse_frequency,   51.91, css::frequency::hertz, false);
+	test_parser("A1",  css::parse_frequency,   55.00, css::frequency::hertz, false);
+	test_parser("A#1", css::parse_frequency,   58.27, css::frequency::hertz, false);
+	test_parser("Bb1", css::parse_frequency,   58.27, css::frequency::hertz, false);
+	test_parser("B1",  css::parse_frequency,   61.74, css::frequency::hertz, false);
+
+	test_parser("C2",  css::parse_frequency,   65.41, css::frequency::hertz, false);
+	test_parser("C#2", css::parse_frequency,   69.30, css::frequency::hertz, false);
+	test_parser("Db2", css::parse_frequency,   69.30, css::frequency::hertz, false);
+	test_parser("D2",  css::parse_frequency,   73.42, css::frequency::hertz, false);
+	test_parser("D#2", css::parse_frequency,   77.78, css::frequency::hertz, false);
+	test_parser("Eb2", css::parse_frequency,   77.78, css::frequency::hertz, false);
+	test_parser("E2",  css::parse_frequency,   82.41, css::frequency::hertz, false);
+	test_parser("F2",  css::parse_frequency,   87.31, css::frequency::hertz, false);
+	test_parser("F#2", css::parse_frequency,   92.50, css::frequency::hertz, false);
+	test_parser("Gb2", css::parse_frequency,   92.50, css::frequency::hertz, false);
+	test_parser("G2",  css::parse_frequency,   98.00, css::frequency::hertz, false);
+	test_parser("G#2", css::parse_frequency,  103.83, css::frequency::hertz, false);
+	test_parser("Ab2", css::parse_frequency,  103.83, css::frequency::hertz, false);
+	test_parser("A2",  css::parse_frequency,  110.00, css::frequency::hertz, false);
+	test_parser("A#2", css::parse_frequency,  116.54, css::frequency::hertz, false);
+	test_parser("Bb2", css::parse_frequency,  116.54, css::frequency::hertz, false);
+	test_parser("B2",  css::parse_frequency,  123.47, css::frequency::hertz, false);
+
+	test_parser("C3",  css::parse_frequency,  130.81, css::frequency::hertz, false);
+	test_parser("C#3", css::parse_frequency,  138.59, css::frequency::hertz, false);
+	test_parser("Db3", css::parse_frequency,  138.59, css::frequency::hertz, false);
+	test_parser("D3",  css::parse_frequency,  146.83, css::frequency::hertz, false);
+	test_parser("D#3", css::parse_frequency,  155.56, css::frequency::hertz, false);
+	test_parser("Eb3", css::parse_frequency,  155.56, css::frequency::hertz, false);
+	test_parser("E3",  css::parse_frequency,  164.81, css::frequency::hertz, false);
+	test_parser("F3",  css::parse_frequency,  174.61, css::frequency::hertz, false);
+	test_parser("F#3", css::parse_frequency,  185.00, css::frequency::hertz, false);
+	test_parser("Gb3", css::parse_frequency,  185.00, css::frequency::hertz, false);
+	test_parser("G3",  css::parse_frequency,  196.00, css::frequency::hertz, false);
+	test_parser("G#3", css::parse_frequency,  207.65, css::frequency::hertz, false);
+	test_parser("Ab3", css::parse_frequency,  207.65, css::frequency::hertz, false);
+	test_parser("A3",  css::parse_frequency,  220.00, css::frequency::hertz, false);
+	test_parser("A#3", css::parse_frequency,  233.08, css::frequency::hertz, false);
+	test_parser("Bb3", css::parse_frequency,  233.08, css::frequency::hertz, false);
+	test_parser("B3",  css::parse_frequency,  246.94, css::frequency::hertz, false);
+
+	test_parser("C4",  css::parse_frequency,  261.63, css::frequency::hertz, false);
+	test_parser("C#4", css::parse_frequency,  277.18, css::frequency::hertz, false);
+	test_parser("Db4", css::parse_frequency,  277.18, css::frequency::hertz, false);
+	test_parser("D4",  css::parse_frequency,  293.66, css::frequency::hertz, false);
+	test_parser("D#4", css::parse_frequency,  311.13, css::frequency::hertz, false);
+	test_parser("Eb4", css::parse_frequency,  311.13, css::frequency::hertz, false);
+	test_parser("E4",  css::parse_frequency,  329.63, css::frequency::hertz, false);
+	test_parser("F4",  css::parse_frequency,  349.23, css::frequency::hertz, false);
+	test_parser("F#4", css::parse_frequency,  369.99, css::frequency::hertz, false);
+	test_parser("Gb4", css::parse_frequency,  369.99, css::frequency::hertz, false);
+	test_parser("G4",  css::parse_frequency,  392.00, css::frequency::hertz, false);
+	test_parser("G#4", css::parse_frequency,  415.30, css::frequency::hertz, false);
+	test_parser("Ab4", css::parse_frequency,  415.30, css::frequency::hertz, false);
+	test_parser("A4",  css::parse_frequency,  440.00, css::frequency::hertz, false);
+	test_parser("A#4", css::parse_frequency,  466.16, css::frequency::hertz, false);
+	test_parser("Bb4", css::parse_frequency,  466.16, css::frequency::hertz, false);
+	test_parser("B4",  css::parse_frequency,  493.88, css::frequency::hertz, false);
+
+	test_parser("C5",  css::parse_frequency,  523.25, css::frequency::hertz, false);
+	test_parser("C#5", css::parse_frequency,  554.37, css::frequency::hertz, false);
+	test_parser("Db5", css::parse_frequency,  554.37, css::frequency::hertz, false);
+	test_parser("D5",  css::parse_frequency,  587.33, css::frequency::hertz, false);
+	test_parser("D#5", css::parse_frequency,  622.25, css::frequency::hertz, false);
+	test_parser("Eb5", css::parse_frequency,  622.25, css::frequency::hertz, false);
+	test_parser("E5",  css::parse_frequency,  659.25, css::frequency::hertz, false);
+	test_parser("F5",  css::parse_frequency,  698.46, css::frequency::hertz, false);
+	test_parser("F#5", css::parse_frequency,  739.99, css::frequency::hertz, false);
+	test_parser("Gb5", css::parse_frequency,  739.99, css::frequency::hertz, false);
+	test_parser("G5",  css::parse_frequency,  783.99, css::frequency::hertz, false);
+	test_parser("G#5", css::parse_frequency,  830.61, css::frequency::hertz, false);
+	test_parser("Ab5", css::parse_frequency,  830.61, css::frequency::hertz, false);
+	test_parser("A5",  css::parse_frequency,  880.00, css::frequency::hertz, false);
+	test_parser("A#5", css::parse_frequency,  932.33, css::frequency::hertz, false);
+	test_parser("Bb5", css::parse_frequency,  932.33, css::frequency::hertz, false);
+	test_parser("B5",  css::parse_frequency,  987.77, css::frequency::hertz, false);
+
+	test_parser("C6",  css::parse_frequency, 1046.50, css::frequency::hertz, false);
+	test_parser("C#6", css::parse_frequency, 1108.73, css::frequency::hertz, false);
+	test_parser("Db6", css::parse_frequency, 1108.73, css::frequency::hertz, false);
+	test_parser("D6",  css::parse_frequency, 1174.66, css::frequency::hertz, false);
+	test_parser("D#6", css::parse_frequency, 1244.51, css::frequency::hertz, false);
+	test_parser("Eb6", css::parse_frequency, 1244.51, css::frequency::hertz, false);
+	test_parser("E6",  css::parse_frequency, 1318.51, css::frequency::hertz, false);
+	test_parser("F6",  css::parse_frequency, 1396.91, css::frequency::hertz, false);
+	test_parser("F#6", css::parse_frequency, 1479.98, css::frequency::hertz, false);
+	test_parser("Gb6", css::parse_frequency, 1479.98, css::frequency::hertz, false);
+	test_parser("G6",  css::parse_frequency, 1567.98, css::frequency::hertz, false);
+	test_parser("G#6", css::parse_frequency, 1661.22, css::frequency::hertz, false);
+	test_parser("Ab6", css::parse_frequency, 1661.22, css::frequency::hertz, false);
+	test_parser("A6",  css::parse_frequency, 1760.00, css::frequency::hertz, false);
+	test_parser("A#6", css::parse_frequency, 1864.66, css::frequency::hertz, false);
+	test_parser("Bb6", css::parse_frequency, 1864.66, css::frequency::hertz, false);
+	test_parser("B6",  css::parse_frequency, 1975.53, css::frequency::hertz, false);
+
+	test_parser("C7",  css::parse_frequency, 2093.00, css::frequency::hertz, false);
+	test_parser("C#7", css::parse_frequency, 2217.46, css::frequency::hertz, false);
+	test_parser("Db7", css::parse_frequency, 2217.46, css::frequency::hertz, false);
+	test_parser("D7",  css::parse_frequency, 2349.32, css::frequency::hertz, false);
+	test_parser("D#7", css::parse_frequency, 2489.02, css::frequency::hertz, false);
+	test_parser("Eb7", css::parse_frequency, 2489.02, css::frequency::hertz, false);
+	test_parser("E7",  css::parse_frequency, 2637.02, css::frequency::hertz, false);
+	test_parser("F7",  css::parse_frequency, 2793.83, css::frequency::hertz, false);
+	test_parser("F#7", css::parse_frequency, 2959.96, css::frequency::hertz, false);
+	test_parser("Gb7", css::parse_frequency, 2959.96, css::frequency::hertz, false);
+	test_parser("G7",  css::parse_frequency, 3135.96, css::frequency::hertz, false);
+	test_parser("G#7", css::parse_frequency, 3322.44, css::frequency::hertz, false);
+	test_parser("Ab7", css::parse_frequency, 3322.44, css::frequency::hertz, false);
+	test_parser("A7",  css::parse_frequency, 3520.00, css::frequency::hertz, false);
+	test_parser("A#7", css::parse_frequency, 3729.31, css::frequency::hertz, false);
+	test_parser("Bb7", css::parse_frequency, 3729.31, css::frequency::hertz, false);
+	test_parser("B7",  css::parse_frequency, 3951.07, css::frequency::hertz, false);
+
+	test_parser("C8",  css::parse_frequency, 4186.01, css::frequency::hertz, false);
+	test_parser("C#8", css::parse_frequency, 4434.92, css::frequency::hertz, false);
+	test_parser("Db8", css::parse_frequency, 4434.92, css::frequency::hertz, false);
+	test_parser("D8",  css::parse_frequency, 4698.63, css::frequency::hertz, false);
+	test_parser("D#8", css::parse_frequency, 4978.03, css::frequency::hertz, false);
+	test_parser("Eb8", css::parse_frequency, 4978.03, css::frequency::hertz, false);
+	test_parser("E8",  css::parse_frequency, 5274.04, css::frequency::hertz, false);
+	test_parser("F8",  css::parse_frequency, 5587.65, css::frequency::hertz, false);
+	test_parser("F#8", css::parse_frequency, 5919.91, css::frequency::hertz, false);
+	test_parser("Gb8", css::parse_frequency, 5919.91, css::frequency::hertz, false);
+	test_parser("G8",  css::parse_frequency, 6271.93, css::frequency::hertz, false);
+	test_parser("G#8", css::parse_frequency, 6644.88, css::frequency::hertz, false);
+	test_parser("Ab8", css::parse_frequency, 6644.88, css::frequency::hertz, false);
+	test_parser("A8",  css::parse_frequency, 7040.00, css::frequency::hertz, false);
+	test_parser("A#8", css::parse_frequency, 7458.62, css::frequency::hertz, false);
+	test_parser("Bb8", css::parse_frequency, 7458.62, css::frequency::hertz, false);
+	test_parser("B8",  css::parse_frequency, 7902.13, css::frequency::hertz, false);
+}
+
 TEST_CASE("frequency conversion")
 {
 	test_conversion(1, css::frequency::inherit, 1, css::frequency::inherit,   true);
