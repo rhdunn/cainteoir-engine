@@ -29,6 +29,7 @@
 #include <cmath>
 
 namespace rdf = cainteoir::rdf;
+namespace css = cainteoir::css;
 
 inline float clamp(float value, float min, float max)
 {
@@ -44,12 +45,12 @@ int main(int argc, char **argv)
 		const char *device_name = nullptr;
 		const char *outfile = nullptr;
 		const char *outformat = nullptr;
+		const char *frequency_text = nullptr;
 
 		auto sample_format = rdf::tts("float32le");
 		int channels = 1;
 		uint16_t sample_rate = 44100;
 
-		float frequency = 440.0; // A4
 		float duration = 1.0; // 1 second
 		float amplitude = 1.0;
 
@@ -61,7 +62,7 @@ int main(int argc, char **argv)
 		const option_group sound_options = { i18n("Sound:"), {
 			{ 'a', "amplitude", amplitude, "AMPLITUDE",
 			  i18n("Set the amplitude (volume) of the sound to AMPLITUDE") },
-			{ 'f', "frequency", frequency, "FREQUENCY",
+			{ 'f', "frequency", frequency_text, "FREQUENCY",
 			  i18n("Set the frequency (pitch) of the sound to FREQUENCY") },
 			{ 'd', "duration", duration, "DURATION",
 			  i18n("Set the duration of the sound to DURATION") },
@@ -94,6 +95,12 @@ int main(int argc, char **argv)
 		if (outformat && !strcmp(outformat, "wave"))
 			outformat = "wav";
 
+		css::frequency frequency = css::parse_frequency(frequency_text);
+		if (frequency.units() == css::frequency::inherit)
+			frequency = css::frequency(440, css::frequency::hertz);
+		else
+			frequency = frequency.as(css::frequency::hertz);
+
 		amplitude = clamp(amplitude, 0.0, 1.0);
 
 		rdf::graph metadata;
@@ -113,7 +120,7 @@ int main(int argc, char **argv)
 			a *= amplitude;
 			out->write((const char *)&a, sizeof(a));
 
-			t += sample_duration * frequency;
+			t += sample_duration * frequency.value();
 		}
 
 		out->close();
