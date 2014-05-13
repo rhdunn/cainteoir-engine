@@ -83,6 +83,24 @@ static void test_parser_(const char *aString, decltype(css::parse_smil_time) *ti
 	}
 }
 
+static void test_parser_(const char *aString, decltype(css::parse_frequency) *frequency_parser,
+                         float aValue, const css::frequency::type aUnits,
+                         bool throws,
+                         const char *location, int line)
+{
+	try
+	{
+		css::frequency value = frequency_parser(aString);
+		assert_location(value.units() == aUnits, location, line);
+		assert_location(value.value() == aValue, location, line);
+		assert_location(!throws, location, line);
+	}
+	catch (std::exception &e)
+	{
+		assert_location(throws, location, line);
+	}
+}
+
 #define test_parser(a, b, c, d, e) test_parser_(a, b, c, d, e, __FILE__, __LINE__)
 
 TEST_CASE("length construction")
@@ -326,6 +344,32 @@ TEST_CASE("frequency construction")
 	test_equal(css::frequency(9, css::frequency::inherit),   9, css::frequency::inherit);
 	test_equal(css::frequency(8, css::frequency::hertz),     8, css::frequency::hertz);
 	test_equal(css::frequency(7, css::frequency::kilohertz), 7, css::frequency::kilohertz);
+}
+
+TEST_CASE("frequency parser - nullptr")
+{
+	test_parser(nullptr, css::parse_frequency, 0, css::frequency::inherit, false);
+}
+
+TEST_CASE("frequency parser - number (hertz)")
+{
+	test_parser("2",   css::parse_frequency,  2.0, css::frequency::hertz, false);
+	test_parser("37",  css::parse_frequency, 37.0, css::frequency::hertz, false);
+	test_parser("1.5", css::parse_frequency,  1.5, css::frequency::hertz, false);
+}
+
+TEST_CASE("frequency parser - #Hz (hertz)")
+{
+	test_parser("2Hz",   css::parse_frequency,  2.0, css::frequency::hertz, false);
+	test_parser("37Hz",  css::parse_frequency, 37.0, css::frequency::hertz, false);
+	test_parser("1.5Hz", css::parse_frequency,  1.5, css::frequency::hertz, false);
+}
+
+TEST_CASE("frequency parser - #kHz (kilohertz)")
+{
+	test_parser("2kHz",   css::parse_frequency,  2.0, css::frequency::kilohertz, false);
+	test_parser("37kHz",  css::parse_frequency, 37.0, css::frequency::kilohertz, false);
+	test_parser("1.5kHz", css::parse_frequency,  1.5, css::frequency::kilohertz, false);
 }
 
 TEST_CASE("frequency conversion")

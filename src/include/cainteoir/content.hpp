@@ -125,6 +125,8 @@ namespace cainteoir { namespace css
 		type  mUnits;
 	};
 
+	frequency parse_frequency(const buffer &aValue);
+
 	// Cascading Style Sheets
 
 	enum class display : uint8_t

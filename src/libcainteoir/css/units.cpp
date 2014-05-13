@@ -39,6 +39,18 @@ enum class time_unit_state : uint8_t
 	clock,
 };
 
+enum class frequency_unit_state : uint8_t
+{
+	invalid,
+	value,
+	fraction_value,
+	intermediate_1,
+	intermediate_2,
+	kilohertz,
+	intermediate_3,
+	hertz,
+};
+
 #define _ 0
 
 static const uint8_t time_unit_state_transitions[][26] = {
@@ -52,6 +64,18 @@ static const uint8_t time_unit_state_transitions[][26] = {
 	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 6 : seconds (s)
 	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 7 : milliseconds (ms)
 	{  _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ }, // 8 : clock (e.g. MM:SS)
+};
+
+static const uint8_t frequency_unit_state_transitions[][26] = {
+	// .  k  H  z
+	{  _, _, _, _ }, // 0 : invalid
+	{  2, 3, 6, _ }, // 1 : value
+	{  _, 3, 6, _ }, // 2 : fraction value
+	{  _, _, 4, _ }, // 3 : k...
+	{  _, _, _, 5 }, // 4 : kH...
+	{  _, _, _, _ }, // 5 : kilohertz (kHz)
+	{  _, _, _, 7 }, // 6 : H...
+	{  _, _, _, _ }, // 7 : hertz (Hz)
 };
 
 #undef _
@@ -338,6 +362,57 @@ css::time css::time::as(const type aUnits) const
 	}
 
 	throw std::runtime_error("unable to convert to the specified units");
+}
+
+css::frequency css::parse_frequency(const buffer &aValue)
+{
+	if (aValue.empty()) return frequency();
+
+	uint8_t state = (uint8_t)time_unit_state::value;
+	int value = 0; // the value to set the time to
+	int accumulator = 0; // the value of the current block
+	int divisor = 1; // the number to divide by to convert value to a fraction
+	for (char c : aValue) switch (c)
+	{
+	case '0': case '1': case '2': case '3': case '4':
+	case '5': case '6': case '7': case '8': case '9':
+		switch ((frequency_unit_state)state)
+		{
+		case frequency_unit_state::value:
+			accumulator *= 10;
+			accumulator += (c - '0');
+			break;
+		case frequency_unit_state::fraction_value:
+			accumulator *= 10;
+			accumulator += (c - '0');
+			value   *= 10;
+			divisor *= 10;
+			break;
+		default:
+			state = (uint8_t)frequency_unit_state::invalid;
+			break;
+		}
+		break;
+	case '.': state = frequency_unit_state_transitions[state][0]; break;
+	case 'k': state = frequency_unit_state_transitions[state][1]; break;
+	case 'H': state = frequency_unit_state_transitions[state][2]; break;
+	case 'z': state = frequency_unit_state_transitions[state][3]; break;
+	default:
+		throw std::runtime_error("invalid character found in frequency string");
+	}
+
+	float frequency_value = float(value + accumulator) / divisor;
+	switch ((frequency_unit_state)state)
+	{
+	case frequency_unit_state::value:
+	case frequency_unit_state::fraction_value:
+	case frequency_unit_state::hertz:
+		return frequency(frequency_value, css::frequency::hertz);
+	case frequency_unit_state::kilohertz:
+		return frequency(frequency_value, css::frequency::kilohertz);
+	default:
+		throw std::runtime_error("invalid character found in frequency string");
+	}
 }
 
 css::frequency css::frequency::as(const type aUnits) const
