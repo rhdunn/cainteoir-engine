@@ -28,8 +28,9 @@ namespace css = cainteoir::css;
 REGISTER_TESTSUITE("content");
 
 template <typename UnitT> struct unit_type;
-template <> struct unit_type<css::length::type> { typedef css::length type; };
-template <> struct unit_type<css::time::type>   { typedef css::time   type; };
+template <> struct unit_type<css::length::type>    { typedef css::length    type; };
+template <> struct unit_type<css::time::type>      { typedef css::time      type; };
+template <> struct unit_type<css::frequency::type> { typedef css::frequency type; };
 
 template <typename UnitT>
 static void test_equal_(const typename unit_type<UnitT>::type aObject,
@@ -316,6 +317,36 @@ TEST_CASE("time conversion")
 	test_conversion(0.06,  css::time::seconds,   60, css::time::milliseconds, false);
 	test_conversion(0.003, css::time::seconds,    3, css::time::milliseconds, false);
 	test_conversion(1,     css::time::seconds,    1, css::time::seconds,      false);
+}
+
+TEST_CASE("frequency construction")
+{
+	test_equal(css::frequency(), 0, css::frequency::inherit);
+
+	test_equal(css::frequency(9, css::frequency::inherit),   9, css::frequency::inherit);
+	test_equal(css::frequency(8, css::frequency::hertz),     8, css::frequency::hertz);
+	test_equal(css::frequency(7, css::frequency::kilohertz), 7, css::frequency::kilohertz);
+}
+
+TEST_CASE("frequency conversion")
+{
+	test_conversion(1, css::frequency::inherit, 1, css::frequency::inherit,   true);
+	test_conversion(1, css::frequency::inherit, 1, css::frequency::hertz,     true);
+	test_conversion(1, css::frequency::inherit, 1, css::frequency::kilohertz, true);
+
+	test_conversion(   1, css::frequency::hertz, 1,     css::frequency::inherit,   true);
+	test_conversion(   1, css::frequency::hertz, 1,     css::frequency::hertz,     false);
+	test_conversion(1000, css::frequency::hertz, 1,     css::frequency::kilohertz, false);
+	test_conversion( 500, css::frequency::hertz, 0.5,   css::frequency::kilohertz, false);
+	test_conversion(  20, css::frequency::hertz, 0.020, css::frequency::kilohertz, false);
+	test_conversion(   1, css::frequency::hertz, 0.001, css::frequency::kilohertz, false);
+
+	test_conversion(1,     css::frequency::kilohertz,    1, css::frequency::inherit,   true);
+	test_conversion(1,     css::frequency::kilohertz, 1000, css::frequency::hertz,     false);
+	test_conversion(0.9,   css::frequency::kilohertz,  900, css::frequency::hertz,     false);
+	test_conversion(0.06,  css::frequency::kilohertz,   60, css::frequency::hertz,     false);
+	test_conversion(0.003, css::frequency::kilohertz,    3, css::frequency::hertz,     false);
+	test_conversion(1,     css::frequency::kilohertz,    1, css::frequency::kilohertz, false);
 }
 
 TEST_CASE("style defaults")

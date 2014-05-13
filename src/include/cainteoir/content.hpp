@@ -95,6 +95,36 @@ namespace cainteoir { namespace css
 
 	time parse_smil_time(const buffer &aValue);
 
+	struct frequency
+	{
+		enum type
+		{
+			inherit,
+			hertz,
+			kilohertz,
+		};
+
+		frequency()
+			: mValue(0)
+			, mUnits(type::inherit)
+		{
+		}
+
+		frequency(float aValue, const type aUnits)
+			: mValue(aValue)
+			, mUnits(aUnits)
+		{
+		}
+
+		frequency as(const type aUnits) const;
+
+		float value() const { return mValue; }
+		type  units() const { return mUnits; }
+	private:
+		float mValue;
+		type  mUnits;
+	};
+
 	// Cascading Style Sheets
 
 	enum class display : uint8_t

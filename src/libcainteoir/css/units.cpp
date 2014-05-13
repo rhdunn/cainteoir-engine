@@ -339,3 +339,38 @@ css::time css::time::as(const type aUnits) const
 
 	throw std::runtime_error("unable to convert to the specified units");
 }
+
+css::frequency css::frequency::as(const type aUnits) const
+{
+	static constexpr float hertz_in_kilohertz = 1000;
+
+	switch (mUnits)
+	{
+	case hertz:
+		switch (aUnits)
+		{
+		case hertz:
+			return *this;
+		case kilohertz:
+			return frequency(mValue / hertz_in_kilohertz, aUnits);
+		case inherit:
+			break;
+		}
+		break;
+	case kilohertz:
+		switch (aUnits)
+		{
+		case hertz:
+			return frequency(mValue * hertz_in_kilohertz, aUnits);
+		case kilohertz:
+			return *this;
+		case inherit:
+			break;
+		}
+		break;
+	case inherit:
+		break;
+	}
+
+	throw std::runtime_error("unable to convert to the specified units");
+}
