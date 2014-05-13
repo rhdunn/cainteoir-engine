@@ -60,9 +60,11 @@ int main(int argc, char **argv)
 
 		const option_group sound_options = { i18n("Sound:"), {
 			{ 'a', "amplitude", amplitude, "AMPLITUDE",
-			  i18n("Set the amplitude (volume) of the sound to AMPLITUDE (default: 1.0)") },
+			  i18n("Set the amplitude (volume) of the sound to AMPLITUDE") },
 			{ 'f', "frequency", frequency, "FREQUENCY",
-			  i18n("Set the frequency (pitch) of the sound to FREQUENCY (default: 440Hz)") },
+			  i18n("Set the frequency (pitch) of the sound to FREQUENCY") },
+			{ 'd', "duration", duration, "DURATION",
+			  i18n("Set the duration of the sound to DURATION") },
 		}};
 
 		const option_group recording_options = { i18n("Recording:"), {
