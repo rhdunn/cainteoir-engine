@@ -65,6 +65,8 @@ int main(int argc, char **argv)
 			  i18n("Set the frequency (pitch) of the sound to FREQUENCY") },
 			{ 'd', "duration", duration, "DURATION",
 			  i18n("Set the duration of the sound to DURATION") },
+			{ 'R', "sample-rate", sample_rate, "SAMPLERATE",
+			  i18n("Set the sample rate of the output to SAMPLERATE") },
 		}};
 
 		const option_group recording_options = { i18n("Recording:"), {
