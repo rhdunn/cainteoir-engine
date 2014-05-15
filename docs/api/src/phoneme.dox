@@ -470,7 +470,7 @@ contain the same specified features. The ordering of the features does not matte
 For example:
 
 \code
-auto scheme = cainteoir::tts::createExplicitFeaturePhonemeReader();
+auto scheme = cainteoir::tts::createPhonemeReader("features");
 scheme->reset(std::make_shared<cainteoir::buffer>("{vcd,alv,stp}"));
 while (scheme->read())
 {
@@ -506,32 +506,12 @@ data buffer. It will lose any state from reading the current buffer.
 \addtogroup phonetic_transcription
 \{
 
-\fn    std::shared_ptr<phoneme_reader> cainteoir::tts::createExplicitFeaturePhonemeReader()
-\brief Create a phoneme reader that can read Kirshenbum-style explicit features.
-\see   http://www.hpl.hp.com/personal/Evan_Kirshenbaum/IPA/faq.html
-\see   http://www.hpl.hp.com/personal/Evan_Kirshenbaum/IPA/ascii-ipa.pdf
-
-\return A new explicit feature phoneme reader.
-
-In the main part of his document on the ASCII-IPA phoneme transcription scheme,
-Evan Kirshenbaum describes an explicit representation for phonemes. This is where
-each phoneme is specified as a comma-separated list of feature abbreviations
-surrounded by curly braces. For example:
-
-\code
-{vls,alv,stp}{low,fnt,unr,vwl}{vcd,vel,stp}
-\endcode
-
-
 \fn    std::shared_ptr<phoneme_reader> cainteoir::tts::createPhonemeReader(const char *aPhonemeSet)
 \brief Create a phoneme reader using the specified transcription scheme.
 
 \param aPhonemeSet The name of the phoneme set (transcription scheme) to load.
 
-The \c features transcription scheme is the same as using
-cainteoir::tts::createExplicitFeaturePhonemeReader.
-
-For the other transcription schemes, they are loaded from the <code>.phon</code>
+Transcription schemes other than \c features are loaded from the <code>.phon</code>
 file with the same name in the \c phonemeset sub-directory of the
 cainteoir-engine data directory.
 
@@ -542,7 +522,7 @@ cainteoir-engine data directory.
 For example:
 
 \code
-auto scheme = cainteoir::tts::createExplicitFeaturePhonemeWriter();
+auto scheme = cainteoir::tts::createPhonemeWriter("features");
 scheme->reset(stdout);
 for (auto phoneme : { ... })
 	scheme->write(phoneme);
@@ -579,32 +559,12 @@ for (auto phoneme : { ... })
 \addtogroup phonetic_transcription
 \{
 
-\fn    std::shared_ptr<phoneme_writer> cainteoir::tts::createExplicitFeaturePhonemeWriter()
-\brief Create a phoneme writer that can write Kirshenbum-style explicit features.
-\see   http://www.hpl.hp.com/personal/Evan_Kirshenbaum/IPA/faq.html
-\see   http://www.hpl.hp.com/personal/Evan_Kirshenbaum/IPA/ascii-ipa.pdf
-
-\return A new explicit feature phoneme writer.
-
-In the main part of his document on the ASCII-IPA phoneme transcription scheme,
-Evan Kirshenbaum describes an explicit representation for phonemes. This is where
-each phoneme is specified as a comma-separated list of feature abbreviations
-surrounded by curly braces. For example:
-
-\code
-{vls,alv,stp}{low,fnt,unr,vwl}{vcd,vel,stp}
-\endcode
-
-
 \fn    std::shared_ptr<phoneme_writer> cainteoir::tts::createPhonemeWriter(const char *aPhonemeSet)
 \brief Create a phoneme writer using the specified transcription scheme.
 
 \param aPhonemeSet The name of the phoneme set (transcription scheme) to load.
 
-The \c features transcription scheme is the same as using
-cainteoir::tts::createExplicitFeaturePhonemeWriter.
-
-For the other transcription schemes, they are loaded from the <code>.phon</code>
+Transcription schemes other than \c features are loaded from the <code>.phon</code>
 file with the same name in the \c phonemeset sub-directory of the
 cainteoir-engine data directory.
 
