@@ -166,12 +166,15 @@ cainteoir::tts::dictionary::no_match.
 \return An iterator to one past the last entry in the dictionary.
 
 
-\fn    const std::list<phoneme> &cainteoir::tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord)
+\fn    bool cainteoir::tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord, const std::shared_ptr<tts::phoneme_reader> &aPronunciationRules, std::list<ipa::phoneme> &aPhonemes)
 \brief Get the pronunciation for the word in the dictionary.
 
-\param[in] aWord The word to get the pronunciation for.
+\param[in]  aWord               The word to get the pronunciation for.
+\param[in]  aPronunciationRules The letter-to-phoneme rules to use if the word cannot be pronounced.
+\param[out] aPhonemes           The list of phonemes that make up the pronunciation of the word.
 
-\return The list of phonemes that make up the pronunciation of the word.
+\retval true  If the word was pronounced.
+\retval false If the word was not pronounced.
 
 
 \addtogroup dictionary
