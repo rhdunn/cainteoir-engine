@@ -219,11 +219,11 @@ of the document is currently being read.
 \return The currently active voice.
 
 
-\fn    std::shared_ptr<tts::speech> cainteoir::tts::engines::speak(std::shared_ptr<audio> out, const cainteoir::document::toc_type &aToc, const document::range_type &aRange, tts::media_overlays_mode aMediaOverlays)
+\fn    std::shared_ptr<tts::speech> cainteoir::tts::engines::speak(std::shared_ptr<audio> out, const std::vector<cainteoir::ref_entry> &aListing, const document::range_type &aRange, tts::media_overlays_mode aMediaOverlays)
 \brief Speak the specified document.
 
 \param[in] out            The audio output device (for reading) or file (for recording).
-\param[in] aToc           The table of contents for the document being read.
+\param[in] aListing       The table of contents for the document being read.
 \param[in] aRange         The start and end points of the document to read.
 \param[in] aMediaOverlays The behaviour to use when ePub 3 media overlays are encountered.
 
