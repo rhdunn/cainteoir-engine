@@ -63,7 +63,7 @@
 \brief Create a trie object.
 
 
-\fn    T &cainteoir::trie::insert(const cainteoir::buffer &str)
+\fn    T &cainteoir::trie::insert(const Container &str)
 \brief Insert a new item into the trie object.
 
 \param[in] str The string index of the item.
@@ -71,14 +71,14 @@
 \return A reference to the inserted item.
 
 
-\fn    void cainteoir::trie::insert(const cainteoir::buffer &str, const T &value)
+\fn    void cainteoir::trie::insert(const Container &str, const T &value)
 \brief Insert a new item into the trie object.
 
 \param[in] str   The string index of the item.
 \param[in] value The item to be inserted.
 
 
-\fn    const T &cainteoir::trie::lookup(const cainteoir::buffer &str, const T &no_match) const
+\fn    const T &cainteoir::trie::lookup(const Container &str, const T &no_match) const
 \brief Lookup an item by its indexed name.
 
 \param[in] str      The string index of the item.
