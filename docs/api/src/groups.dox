@@ -101,6 +101,10 @@ This is the C++ API to the various unit types for CSS values.
 \brief    Resolve a word event sequence into a sequence of phonemes.
 
 
+\defgroup prosody Prosody
+\brief    A model of the prosodic characteristics of speech.
+
+
 \defgroup phonetic_transcription Transcription
 \ingroup  phoneme
 \brief    Read/write phonemes in a given transcription scheme.

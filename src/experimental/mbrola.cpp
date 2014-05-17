@@ -19,11 +19,7 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * This code is derived in part from the MBROLA wrapper written by Nicolas
- * Pitre for espeak in the src/mbrowrap.cpp source file.
- */
-
+#include <cainteoir/prosody.hpp>
 #include <cainteoir/buffer.hpp>
 #include <cainteoir/audio.hpp>
 #include <stdexcept>
@@ -78,6 +74,11 @@ struct mbrola_error : public std::runtime_error
 	{
 	}
 };
+
+/*
+ * This code is derived in part from the MBROLA wrapper written by Nicolas
+ * Pitre for espeak in the src/mbrowrap.cpp source file.
+ */
 
 /*
  * mbrola instance parameters

@@ -1,0 +1,139 @@
+/* vim: set ft=cpp.doxygen:
+ *
+ * Copyright (C) 2014 Reece H. Dunn
+ *
+ * This API documentation is licensed under the CC BY-SA 2.0 UK License.
+ */
+/**
+
+
+\addtogroup prosody
+\{
+
+\struct cainteoir::tts::envelope_t
+\brief  A point in a pitch envelope.
+
+\}
+
+
+\var   int cainteoir::tts::envelope_t::offset
+\brief The percentage offset.
+
+
+\var   cainteoir::css::frequency cainteoir::tts::envelope_t::pitch
+\brief The pitch at the given offset.
+
+
+\addtogroup prosody
+\{
+
+\struct cainteoir::tts::prosody
+\brief  The prosody information for a given phoneme.
+
+\}
+
+
+\var   cainteoir::ipa::phoneme cainteoir::tts::prosody::phoneme
+\brief The phoneme the prosodic information is to be applied to.
+
+
+\var   cainteoir::css::time cainteoir::tts::prosody::duration
+\brief The length of the phoneme.
+
+
+\var   std::vector<cainteoir::tts::envelope_t> cainteoir::tts::prosody::envelope
+\brief The pitch envelope of the phoneme.
+
+
+\addtogroup prosody
+\{
+
+\struct cainteoir::tts::prosody_reader
+\brief  Read prosody data from a data buffer.
+
+\}
+
+
+\fn    cainteoir::tts::prosody_reader::~prosody_reader()
+\brief Clean up the prosody reader object.
+
+
+\fn    void cainteoir::tts::prosody_reader::reset(const std::shared_ptr<buffer> &aBuffer)
+\brief Read a prosodic entry from the specified data buffer.
+
+\param aBuffer The text buffer containing the phonemes to read from.
+
+This will reset the prosody reader so that it will read prosodic entries from the new
+data buffer. It will lose any state from reading the current buffer.
+
+
+\fn    bool cainteoir::tts::prosody_reader::read()
+\brief Read the next prosodic entry.
+
+\retval true  If a prosodic entry was read.
+\retval false If a prosodic entry was not read.
+
+
+\addtogroup prosody
+\{
+
+\fn    std::shared_ptr<cainteoir::tts::prosody_reader> cainteoir::tts::createPhoReader(const std::shared_ptr<phoneme_reader> &aPhonemeSet)
+\brief Create an MBROLA pho file reader.
+
+\param[in] aPhonemeSet The phoneme set (transcription scheme) used to read the phonemes in the pho file.
+
+\return A prosody reader that can read MBROLA pho file entries.
+
+
+\struct cainteoir::tts::prosody_writer
+\brief  Write prosody data to a file.
+
+\}
+
+
+\fn    cainteoir::tts::prosody_writer::~prosody_writer()
+\brief Cleans up the data associated with the prosody writer.
+
+
+\fn    void cainteoir::tts::prosody_writer::reset(FILE *aOutput)
+\brief Set the file object to write the prosodic entries to.
+
+\param aOutput The file object to write the prosodic entries to.
+
+
+\fn    bool cainteoir::tts::prosody_writer::write(const prosody &aProsody)
+\brief Writes the prosodic entries to the selected file.
+
+\param aProsody The prosodic entries to write.
+
+\retval true  If the prosodic entry was written to the file.
+\retval false If the prosodic entry was not written to the file.
+
+
+\addtogroup prosody
+\{
+
+\fn    std::shared_ptr<cainteoir::tts::prosody_writer> cainteoir::tts::createPhoWriter(const std::shared_ptr<phoneme_writer> &aPhonemeSet)
+\brief Create an MBROLA pho file writer.
+
+\param[in] aPhonemeSet The phoneme set (transcription scheme) used to write the phonemes in the pho file.
+
+\return A prosody writer that can write MBROLA pho file entries.
+
+
+\struct cainteoir::tts::synthesizer
+\brief  A voice synthesizer.
+
+\}
+
+
+\fn    void cainteoir::tts::synthesizer::read(cainteoir::audio *out)
+\brief Write the synthesized audio.
+
+\param out The audio file or device to write the synthesized audio to.
+
+This synthesizes the prosodic entries written to the synthesizer and sends the
+generated audio to the specified file or device.
+
+
+*/
