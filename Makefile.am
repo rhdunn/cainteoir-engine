@@ -583,6 +583,11 @@ noinst_bin_PROGRAMS += tests/styles
 tests_styles_LDADD   = src/libcainteoir/libcainteoir.la
 tests_styles_SOURCES = tests/styles.cpp
 
+noinst_bin_PROGRAMS += tests/pho_file.test
+
+tests_pho_file_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_pho_file_test_SOURCES = tests/pho_file.cpp
+
 tests/styles.check: tests/styles ${CSS_TEST_FILES}
 
 tests/dictionary.check: src/apps/dictionary ${DICTIONARY_TEST_FILES}
@@ -618,4 +623,5 @@ check: \
 	tests/phonemeset.check \
 	tests/phoneme_stress.check \
 	tests/dictionary.check \
+	tests/pho_file.check \
 	tests/parsetext.check

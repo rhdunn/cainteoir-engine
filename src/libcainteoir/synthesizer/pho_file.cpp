@@ -25,6 +25,8 @@
 #include <cainteoir/prosody.hpp>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
+namespace css = cainteoir::css;
 
 std::shared_ptr<tts::prosody_reader>
 tts::createPhoReader(const std::shared_ptr<phoneme_reader> &aPhonemeSet)
@@ -32,8 +34,46 @@ tts::createPhoReader(const std::shared_ptr<phoneme_reader> &aPhonemeSet)
 	return {};
 }
 
+struct pho_writer : public tts::prosody_writer
+{
+	pho_writer(const std::shared_ptr<tts::phoneme_writer> &aPhonemeSet);
+
+	void reset(FILE *aOutput);
+
+	bool write(const tts::prosody &aProsody);
+private:
+	std::shared_ptr<tts::phoneme_writer> mPhonemeSet;
+	FILE *mOutput;
+};
+
+pho_writer::pho_writer(const std::shared_ptr<tts::phoneme_writer> &aPhonemeSet)
+	: mPhonemeSet(aPhonemeSet)
+	, mOutput(nullptr)
+{
+}
+
+void pho_writer::reset(FILE *aOutput)
+{
+	mPhonemeSet->reset(aOutput);
+	mOutput = aOutput;
+}
+
+bool pho_writer::write(const tts::prosody &aProsody)
+{
+	if (!mOutput) return false;
+
+	if (!mPhonemeSet->write(aProsody.phoneme.get(ipa::main | ipa::diacritics)))
+		return false;
+
+	fprintf(mOutput, " %G", aProsody.duration.as(css::time::milliseconds).value());
+	for (auto &entry : aProsody.envelope)
+		fprintf(mOutput, " %d %G", entry.offset, entry.pitch.as(css::frequency::hertz).value());
+	fprintf(mOutput, "\n");
+	return true;
+}
+
 std::shared_ptr<tts::prosody_writer>
 tts::createPhoWriter(const std::shared_ptr<phoneme_writer> &aPhonemeSet)
 {
-	return {};
+	return std::make_shared<pho_writer>(aPhonemeSet);
 }
