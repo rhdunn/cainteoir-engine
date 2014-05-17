@@ -123,7 +123,7 @@ TEST_CASE("writer -- suprasegmentals")
 	match(to_str(pho, { ipa::high | ipa::front | ipa::vowel | ipa::long_,
 	             { 120, css::time::milliseconds },
 	             {}}),
-	      "i 120\n", 6);
+	      "i: 120\n", 7);
 }
 
 TEST_CASE("writer -- tones")

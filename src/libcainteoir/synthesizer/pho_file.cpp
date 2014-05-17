@@ -62,7 +62,7 @@ bool pho_writer::write(const tts::prosody &aProsody)
 {
 	if (!mOutput) return false;
 
-	if (!mPhonemeSet->write(aProsody.phoneme.get(ipa::main | ipa::diacritics)))
+	if (!mPhonemeSet->write(aProsody.phoneme.get(ipa::main | ipa::diacritics | ipa::length)))
 		return false;
 
 	fprintf(mOutput, " %G", aProsody.duration.as(css::time::milliseconds).value());
