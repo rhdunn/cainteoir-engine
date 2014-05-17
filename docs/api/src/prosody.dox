@@ -120,20 +120,7 @@ data buffer. It will lose any state from reading the current buffer.
 
 \return A prosody writer that can write MBROLA pho file entries.
 
-
-\struct cainteoir::tts::synthesizer
-\brief  A voice synthesizer.
-
 \}
-
-
-\fn    void cainteoir::tts::synthesizer::read(cainteoir::audio *out)
-\brief Write the synthesized audio.
-
-\param out The audio file or device to write the synthesized audio to.
-
-This synthesizes the prosodic entries written to the synthesizer and sends the
-generated audio to the specified file or device.
 
 
 */

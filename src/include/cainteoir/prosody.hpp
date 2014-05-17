@@ -61,11 +61,6 @@ namespace cainteoir { namespace tts
 	};
 
 	std::shared_ptr<prosody_writer> createPhoWriter(const std::shared_ptr<phoneme_writer> &aPhonemeSet);
-
-	struct synthesizer : public prosody_writer
-	{
-		virtual void read(cainteoir::audio *out) = 0;
-	};
 }}
 
 #endif
