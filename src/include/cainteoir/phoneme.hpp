@@ -83,6 +83,7 @@ namespace cainteoir { namespace ipa
 	constexpr uint64_t global_fall      = UINT64_C(0x0000000000000008);
 	constexpr uint64_t upstep           = UINT64_C(0x0000000000000009);
 	constexpr uint64_t downstep         = UINT64_C(0x000000000000000A);
+	constexpr uint64_t unspecified      = UINT64_C(0x000000000000000F);
 
 	// place of articulation
 

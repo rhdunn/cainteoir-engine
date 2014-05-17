@@ -35,7 +35,8 @@ namespace cainteoir { namespace tts
 
 	struct prosody
 	{
-		ipa::phoneme phoneme;
+		ipa::phoneme phoneme1;
+		ipa::phoneme phoneme2;
 		css::time duration;
 		std::vector<envelope_t> envelope;
 	};

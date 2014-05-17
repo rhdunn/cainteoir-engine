@@ -33,8 +33,14 @@
 \}
 
 
-\var   cainteoir::ipa::phoneme cainteoir::tts::prosody::phoneme
+\var   cainteoir::ipa::phoneme cainteoir::tts::prosody::phoneme1
 \brief The phoneme the prosodic information is to be applied to.
+
+
+\var   cainteoir::ipa::phoneme cainteoir::tts::prosody::phoneme2
+\brief The phoneme the prosodic information is to be applied to.
+
+This phoneme is used to represent diphthongs and affricates.
 
 
 \var   cainteoir::css::time cainteoir::tts::prosody::duration

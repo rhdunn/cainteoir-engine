@@ -60,7 +60,7 @@ std::shared_ptr<cainteoir::buffer> to_str(std::shared_ptr<tts::prosody_writer> &
 {
 	cainteoir::memory_file output;
 	writer->reset(output);
-	writer->write(prosody);
+	assert(writer->write(prosody));
 	return output.buffer();
 }
 
@@ -86,11 +86,13 @@ TEST_CASE("writer -- basic phonemes")
 	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("cxs"));
 
 	match(to_str(pho, { ipa::voiced | ipa::bilabial | ipa::plosive,
+	                    ipa::unspecified,
 	                    { 80, css::time::milliseconds },
 	                    {}}),
 	      "b 80\n", 5);
 
 	match(to_str(pho, { ipa::high | ipa::front | ipa::vowel,
+	                    ipa::unspecified,
 	                    { 120, css::time::milliseconds },
 	                    {}}),
 	      "i 120\n", 6);
@@ -101,11 +103,13 @@ TEST_CASE("writer -- diacritics")
 	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("cxs"));
 
 	match(to_str(pho, { ipa::bilabial | ipa::plosive | ipa::aspirated,
+	                    ipa::unspecified,
 	                    { 80, css::time::milliseconds },
 	                    {}}),
 	      "p_h 80\n", 7);
 
 	match(to_str(pho, { ipa::high | ipa::front | ipa::vowel | ipa::lowered,
+	                    ipa::unspecified,
 	                    { 120, css::time::milliseconds },
 	                    {}}),
 	      "i_o 120\n", 8);
@@ -116,11 +120,13 @@ TEST_CASE("writer -- suprasegmentals")
 	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("cxs"));
 
 	match(to_str(pho, { ipa::bilabial | ipa::plosive | ipa::primary_stress,
+	                    ipa::unspecified,
 	                    { 80, css::time::milliseconds },
 	                    {}}),
 	      "p 80\n", 5);
 
 	match(to_str(pho, { ipa::high | ipa::front | ipa::vowel | ipa::long_,
+	                    ipa::unspecified,
 	                    { 120, css::time::milliseconds },
 	                    {}}),
 	      "i: 120\n", 7);
@@ -131,14 +137,33 @@ TEST_CASE("writer -- tones")
 	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("cxs"));
 
 	match(to_str(pho, { ipa::bilabial | ipa::plosive | ipa::tone_start_high,
+	                    ipa::unspecified,
 	                    { 80, css::time::milliseconds },
 	                    {}}),
 	      "p 80\n", 5);
 
 	match(to_str(pho, { ipa::high | ipa::front | ipa::vowel | ipa::tone_start_mid,
+	                    ipa::unspecified,
 	                    { 120, css::time::milliseconds },
 	                    {}}),
 	      "i 120\n", 6);
+}
+
+TEST_CASE("writer -- diphthongs and affricates")
+{
+	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("cxs"));
+
+	match(to_str(pho, { ipa::alveolar | ipa::plosive,
+	                    ipa::palato_alveolar | ipa::sibilant | ipa::fricative,
+	                    { 80, css::time::milliseconds },
+	                    {}}),
+	      "tS 80\n", 6);
+
+	match(to_str(pho, { ipa::semi_high | ipa::front | ipa::vowel,
+	                    ipa::mid | ipa::center | ipa::vowel,
+	                    { 120, css::time::milliseconds },
+	                    {}}),
+	      "I@ 120\n", 7);
 }
 
 TEST_CASE("writer -- pitch envelope")
@@ -146,6 +171,7 @@ TEST_CASE("writer -- pitch envelope")
 	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("cxs"));
 
 	match(to_str(pho, { ipa::low | ipa::back | ipa::vowel,
+	                    ipa::unspecified,
 	                    { 120, css::time::milliseconds },
 	                    {
 	                      { 0, { 95, css::frequency::hertz }},
@@ -153,6 +179,7 @@ TEST_CASE("writer -- pitch envelope")
 	      "A 120 0 95\n", 11);
 
 	match(to_str(pho, { ipa::low | ipa::back | ipa::vowel,
+	                    ipa::unspecified,
 	                    { 120, css::time::milliseconds },
 	                    {
 	                      {   0, { 95,   css::frequency::hertz }},
@@ -161,6 +188,7 @@ TEST_CASE("writer -- pitch envelope")
 	      "A 120 0 95 100 55.3\n", 20);
 
 	match(to_str(pho, { ipa::low | ipa::back | ipa::vowel,
+	                    ipa::unspecified,
 	                    { 120, css::time::milliseconds },
 	                    {
 	                      {   0, { 95, css::frequency::hertz }},
