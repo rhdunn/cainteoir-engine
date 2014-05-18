@@ -38,6 +38,7 @@ namespace cainteoir { namespace tts
 {
 	struct synthesizer : public audio_info
 	{
+		virtual bool read(audio *out) = 0;
 	};
 }}
 
@@ -141,11 +142,21 @@ struct mbrola_synthesizer : public tts::synthesizer
 	int frequency() const { return sample_rate; }
 
 	const rdf::uri &format() const { return sample_format; }
+
+	bool read(cainteoir::audio *out);
 private:
 	void flush();
 
+	enum state_t
+	{
+		need_data,
+		have_data,
+	};
+
 	pid_t pid;
 	FILE *pho;
+	pipe_t audio;
+	state_t state;
 
 	int sample_rate;
 	rdf::uri sample_format;
@@ -153,11 +164,11 @@ private:
 
 mbrola_synthesizer::mbrola_synthesizer(const char *database)
 	: pho(nullptr)
+	, state(need_data)
 	, sample_rate(0)
 	, sample_format(rdf::tts("s16le"))
 {
 	pipe_t input;
-	pipe_t audio;
 	pipe_t error;
 
 	pid = fork();
@@ -203,6 +214,18 @@ mbrola_synthesizer::~mbrola_synthesizer()
 	fclose(pho);
 }
 
+bool mbrola_synthesizer::read(cainteoir::audio *out)
+{
+	if (state != have_data) return false;
+	flush();
+
+	short data[1024];
+	ssize_t read;
+	while ((read = audio.read(data, sizeof(data))) > 0)
+		out->write((const char *)data, read);
+	return true;
+}
+
 void mbrola_synthesizer::flush()
 {
 	fputs("#\n", pho);
@@ -242,6 +265,18 @@ int main(int argc, char **argv)
 		fprintf(stdout, "channels    : %d\n", voice->channels());
 		fprintf(stdout, "format      : %s\n", voice->format().str().c_str());
 		fprintf(stdout, "sample rate : %d\n", voice->frequency());
+
+		rdf::graph metadata;
+		rdf::uri doc;
+		auto out = cainteoir::open_audio_device(nullptr, metadata, doc,
+			voice->format(),
+			voice->channels(),
+			voice->frequency());
+		out->open();
+
+		voice->read(out.get());
+
+		out->close();
 	}
 	catch (std::runtime_error &e)
 	{
