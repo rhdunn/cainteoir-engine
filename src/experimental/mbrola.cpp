@@ -31,12 +31,12 @@
 #include <unistd.h>
 
 namespace tts = cainteoir::tts;
+namespace rdf = cainteoir::rdf;
 
 namespace cainteoir { namespace tts
 {
-	struct synthesizer
+	struct synthesizer : public audio_info
 	{
-		virtual ~synthesizer() {}
 	};
 }}
 
@@ -75,6 +75,19 @@ struct pipe_t
 		::close(fds[type]);
 		fds[type] = -1;
 	}
+
+	ssize_t read(void *buf, size_t count)
+	{
+		return ::read(fds[read_fd], buf, count);
+	}
+
+	FILE *open(const char *mode)
+	{
+		FILE *ret = fdopen(fds[(mode[0] == 'r') ? read_fd : write_fd], mode);
+		if (!ret) throw std::runtime_error(strerror(errno));
+		fds[(mode[0] == 'r') ? read_fd : write_fd] = -1;
+		return ret;
+	}
 private:
 	int fds[2];
 };
@@ -82,13 +95,30 @@ private:
 struct mbrola_synthesizer : public tts::synthesizer
 {
 	mbrola_synthesizer(const char *database);
+
+	~mbrola_synthesizer();
+
+	int channels() const { return 1; }
+
+	int frequency() const { return sample_rate; }
+
+	const rdf::uri &format() const { return sample_format; }
 private:
+	void flush();
+
 	pid_t pid;
+	FILE *pho;
+
+	int sample_rate;
+	rdf::uri sample_format;
 };
 
 mbrola_synthesizer::mbrola_synthesizer(const char *database)
+	: pho(nullptr)
+	, sample_rate(0)
+	, sample_format(rdf::tts("s16le"))
 {
-	pipe_t pho;
+	pipe_t input;
 	pipe_t audio;
 	pipe_t error;
 
@@ -96,7 +126,7 @@ mbrola_synthesizer::mbrola_synthesizer(const char *database)
 	if (pid == -1) throw std::runtime_error(strerror(errno));
 	if (pid == 0)
 	{
-		pho.dup(pipe_t::read_fd, STDIN_FILENO);
+		input.dup(pipe_t::read_fd, STDIN_FILENO);
 		audio.dup(pipe_t::write_fd, STDOUT_FILENO);
 		error.dup(pipe_t::write_fd, STDERR_FILENO);
 
@@ -109,9 +139,32 @@ mbrola_synthesizer::mbrola_synthesizer(const char *database)
 		_exit(1);
 	}
 
-	pho.close(pipe_t::read_fd);
+	input.close(pipe_t::read_fd);
 	audio.close(pipe_t::write_fd);
 	error.close(pipe_t::write_fd);
+
+	pho = input.open("w");
+
+	flush();
+	uint8_t header[44];
+	if (audio.read(header, sizeof(header)) != sizeof(header))
+		throw std::runtime_error(strerror(errno));
+
+	if (memcmp(header, "RIFF", 4) != 0 || memcmp(header + 8, "WAVEfmt ", 8) != 0)
+		throw std::runtime_error("mbrola did not return a WAV header.");
+
+	sample_rate = header[24] + (header[25] << 8) + (header[26] << 16) + (header[27] << 24);
+}
+
+mbrola_synthesizer::~mbrola_synthesizer()
+{
+	fclose(pho);
+}
+
+void mbrola_synthesizer::flush()
+{
+	fputs("#\n", pho);
+	fflush(pho);
 }
 
 std::shared_ptr<tts::synthesizer> create_mbrola_voice(const char *voice)
@@ -143,6 +196,10 @@ int main(int argc, char **argv)
 
 		auto voice = create_mbrola_voice(argv[1]);
 		if (!voice) throw std::runtime_error("cannot find the specified MBROLA voice");
+
+		fprintf(stdout, "channels    : %d\n", voice->channels());
+		fprintf(stdout, "format      : %s\n", voice->format().str().c_str());
+		fprintf(stdout, "sample rate : %d\n", voice->frequency());
 	}
 	catch (std::runtime_error &e)
 	{
