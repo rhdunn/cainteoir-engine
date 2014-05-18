@@ -31,12 +31,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+namespace css = cainteoir::css;
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 namespace rdf = cainteoir::rdf;
 
 namespace cainteoir { namespace tts
 {
-	struct synthesizer : public audio_info
+	struct synthesizer : public audio_info , public prosody_writer
 	{
 		virtual bool read(audio *out) = 0;
 	};
@@ -133,9 +135,12 @@ ssize_t pipe_t::read(void *buf, size_t count)
 
 struct mbrola_synthesizer : public tts::synthesizer
 {
-	mbrola_synthesizer(const char *database);
+	mbrola_synthesizer(const char *database, std::shared_ptr<tts::prosody_writer> aWriter);
 
 	~mbrola_synthesizer();
+
+	/** @name audio_info */
+	//@{
 
 	int channels() const { return 1; }
 
@@ -143,7 +148,21 @@ struct mbrola_synthesizer : public tts::synthesizer
 
 	const rdf::uri &format() const { return sample_format; }
 
+	//@}
+	/** @name tts::prosody_writer */
+	//@{
+
+	void reset(FILE *aOutput) {}
+
+	bool write(const tts::prosody &aProsody);
+
+	//@}
+	/** @name tts::synthesizer */
+	//@{
+
 	bool read(cainteoir::audio *out);
+
+	//@}
 private:
 	void flush();
 
@@ -160,13 +179,16 @@ private:
 
 	int sample_rate;
 	rdf::uri sample_format;
+
+	std::shared_ptr<tts::prosody_writer> writer;
 };
 
-mbrola_synthesizer::mbrola_synthesizer(const char *database)
+mbrola_synthesizer::mbrola_synthesizer(const char *aDatabase, std::shared_ptr<tts::prosody_writer> aWriter)
 	: pho(nullptr)
 	, state(need_data)
 	, sample_rate(0)
 	, sample_format(rdf::tts("s16le"))
+	, writer(aWriter)
 {
 	pipe_t input;
 	pipe_t error;
@@ -180,10 +202,10 @@ mbrola_synthesizer::mbrola_synthesizer(const char *database)
 		error.dup(pipe_t::write_fd, STDERR_FILENO);
 
 		execlp("mbrola", "mbrola",
-		       "-e",     // ignore fatal errors on unknown diphones
-		       database, // voice file database
-		       "-",      // pho file input (stdin)
-		       "-.wav",  // audio output (stdout)
+		       "-e",      // ignore fatal errors on unknown diphones
+		       aDatabase, // voice file database
+		       "-",       // pho file input (stdin)
+		       "-.wav",   // audio output (stdout)
                        nullptr);
 		_exit(1);
 	}
@@ -197,14 +219,15 @@ mbrola_synthesizer::mbrola_synthesizer(const char *database)
 	error.set_flags(pipe_t::read_fd,  O_NONBLOCK);
 
 	pho = input.open("w");
+	writer->reset(pho);
 
 	flush();
 	uint8_t header[44];
 	if (audio.read(header, sizeof(header)) != sizeof(header))
-		throw std::runtime_error("mbrola did not return a WAV header.");
+		throw std::runtime_error("MBROLA did not return a WAV header.");
 
 	if (memcmp(header, "RIFF", 4) != 0 || memcmp(header + 8, "WAVEfmt ", 8) != 0)
-		throw std::runtime_error("mbrola did not return a WAV header.");
+		throw std::runtime_error("MBROLA did not return a WAV header.");
 
 	sample_rate = header[24] + (header[25] << 8) + (header[26] << 16) + (header[27] << 24);
 }
@@ -212,6 +235,15 @@ mbrola_synthesizer::mbrola_synthesizer(const char *database)
 mbrola_synthesizer::~mbrola_synthesizer()
 {
 	fclose(pho);
+}
+
+bool mbrola_synthesizer::write(const tts::prosody &aProsody)
+{
+	if (!writer->write(aProsody))
+		return false;
+
+	state = have_data;
+	return true;
 }
 
 bool mbrola_synthesizer::read(cainteoir::audio *out)
@@ -223,6 +255,8 @@ bool mbrola_synthesizer::read(cainteoir::audio *out)
 	ssize_t read;
 	while ((read = audio.read(data, sizeof(data))) > 0)
 		out->write((const char *)data, read);
+
+	state = need_data;
 	return true;
 }
 
@@ -234,10 +268,19 @@ void mbrola_synthesizer::flush()
 
 std::shared_ptr<tts::synthesizer> create_mbrola_voice(const char *voice)
 {
+	if (!voice || strlen(voice) != 3)
+		return {}; // invalid voice name
+
 	char database[256];
 	snprintf(database, sizeof(database), MBROLA_DIR "/%s/%s", voice, voice);
 
-	return std::make_shared<mbrola_synthesizer>(database);
+	char phonemeset[11];
+	snprintf(phonemeset, sizeof(phonemeset), "mbrola/%s", voice);
+
+	auto phonemes = tts::createPhonemeWriter(phonemeset);
+	if (!phonemes) return {};
+
+	return std::make_shared<mbrola_synthesizer>(database, tts::createPhoWriter(phonemes));
 }
 
 #else
@@ -273,6 +316,16 @@ int main(int argc, char **argv)
 			voice->channels(),
 			voice->frequency());
 		out->open();
+
+		voice->write({ ipa::velar | ipa::plosive, ipa::unspecified, // k
+		               { 80, css::time::milliseconds },
+		               {}});
+		voice->write({ ipa::semi_high | ipa::front | ipa::vowel, ipa::unspecified, // I
+		               { 80, css::time::milliseconds },
+		               {}});
+		voice->write({ ipa::alveolar | ipa::plosive, ipa::unspecified, // t
+		               { 80, css::time::milliseconds },
+		               {}});
 
 		voice->read(out.get());
 
