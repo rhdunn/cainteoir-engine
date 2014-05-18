@@ -46,6 +46,62 @@ namespace cainteoir { namespace tts
 
 #if defined(HAVE_MBROLA)
 
+struct procstat_t
+{
+	enum status_t
+	{
+		running,  // R (running)
+		idle,     // S (sleeping)   -- interruptible
+		sleeping, // D (disk sleep) -- uninterruptible
+		zombie,   // Z (zombie)
+		stopped,  // T (traced/stopped on a signal)
+		paging,   // W (paging)
+	};
+
+	procstat_t() : fd(-1) {}
+	~procstat_t() { close(fd); }
+
+	void open(pid_t pid);
+
+	status_t stat() const;
+private:
+	int fd;
+};
+
+void procstat_t::open(pid_t pid)
+{
+	if (fd != -1) close(fd);
+
+	char filename[256];
+	snprintf(filename, sizeof(filename), "/proc/%d/stat", pid);
+	fd = ::open(filename, O_RDONLY);
+	if (fd == -1) throw std::runtime_error(strerror(errno));
+}
+
+procstat_t::status_t procstat_t::stat() const
+{
+	char buffer[20];
+	if (lseek(fd, 0, SEEK_SET) != 0)
+		throw std::runtime_error(strerror(errno));
+	if (read(fd, buffer, sizeof(buffer)) != sizeof(buffer))
+		throw std::runtime_error(strerror(errno));
+
+	char *s = (char *)memchr(buffer, ')', sizeof(buffer));
+	if (!s || (s - buffer) >= sizeof(buffer) - 1 || s[1] != ' ')
+		throw std::runtime_error("unable to determine the state of the MBROLA process");
+	switch (s[2])
+	{
+	case 'R': return running;
+	case 'S': return idle;
+	case 'D': return sleeping;
+	case 'Z': return zombie;
+	case 'T': return stopped;
+	case 'W': return paging;
+	default:
+		throw std::runtime_error("unable to determine the state of the MBROLA process");
+	}
+}
+
 struct pipe_t
 {
 	enum fd_t
@@ -80,7 +136,7 @@ struct pipe_t
 		fds[type] = -1;
 	}
 
-	ssize_t read(void *buf, size_t count);
+	ssize_t read(void *buf, size_t count, const procstat_t &proc);
 
 	FILE *open(const char *mode)
 	{
@@ -103,7 +159,7 @@ private:
 	int fds[2];
 };
 
-ssize_t pipe_t::read(void *buf, size_t count)
+ssize_t pipe_t::read(void *buf, size_t count, const procstat_t &proc)
 {
 	for (;;)
 	{
@@ -114,6 +170,9 @@ ssize_t pipe_t::read(void *buf, size_t count)
 			continue; // normal... try again
 		case EAGAIN:
 			{
+				if (proc.stat() == procstat_t::idle)
+					return 0; // idle... no data
+
 				fd_set rset;
 				FD_ZERO(&rset);
 				FD_SET(fds[read_fd], &rset);
@@ -173,6 +232,7 @@ private:
 	};
 
 	pid_t pid;
+	procstat_t proc;
 	FILE *pho;
 	pipe_t audio;
 	state_t state;
@@ -210,6 +270,8 @@ mbrola_synthesizer::mbrola_synthesizer(const char *aDatabase, std::shared_ptr<tt
 		_exit(1);
 	}
 
+	proc.open(pid);
+
 	input.close(pipe_t::read_fd);
 	audio.close(pipe_t::write_fd);
 	error.close(pipe_t::write_fd);
@@ -223,7 +285,7 @@ mbrola_synthesizer::mbrola_synthesizer(const char *aDatabase, std::shared_ptr<tt
 
 	flush();
 	uint8_t header[44];
-	if (audio.read(header, sizeof(header)) != sizeof(header))
+	if (audio.read(header, sizeof(header), proc) != sizeof(header))
 		throw std::runtime_error("MBROLA did not return a WAV header.");
 
 	if (memcmp(header, "RIFF", 4) != 0 || memcmp(header + 8, "WAVEfmt ", 8) != 0)
@@ -253,7 +315,7 @@ bool mbrola_synthesizer::read(cainteoir::audio *out)
 
 	short data[1024];
 	ssize_t read;
-	while ((read = audio.read(data, sizeof(data))) > 0)
+	while ((read = audio.read(data, sizeof(data), proc)) > 0)
 		out->write((const char *)data, read);
 
 	state = need_data;
