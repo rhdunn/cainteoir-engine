@@ -102,6 +102,7 @@ public:
 	{
 		if (pa)
 		{
+			pa_simple_drain(pa, nullptr);
 			pa_simple_free(pa);
 			pa = nullptr;
 		}
