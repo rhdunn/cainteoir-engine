@@ -42,6 +42,43 @@ namespace cainteoir { namespace tts
 
 #if defined(HAVE_MBROLA)
 
+struct pipe_t
+{
+	enum fd_t
+	{
+		read_fd  = 0,
+		write_fd = 1,
+	};
+
+	pipe_t()
+		: fds{ -1, -1 }
+	{
+		if (pipe(fds) == -1)
+			throw std::runtime_error(strerror(errno));
+	}
+
+	~pipe_t()
+	{
+		::close(fds[read_fd]);
+		::close(fds[write_fd]);
+	}
+
+	void dup(fd_t type, int fd)
+	{
+		if (dup2(fds[type], fd) == -1)
+			throw std::runtime_error(strerror(errno));
+		close(type == read_fd ? write_fd : read_fd);
+	}
+
+	void close(fd_t type)
+	{
+		::close(fds[type]);
+		fds[type] = -1;
+	}
+private:
+	int fds[2];
+};
+
 struct mbrola_synthesizer : public tts::synthesizer
 {
 	mbrola_synthesizer(const char *database);
@@ -51,10 +88,18 @@ private:
 
 mbrola_synthesizer::mbrola_synthesizer(const char *database)
 {
+	pipe_t pho;
+	pipe_t audio;
+	pipe_t error;
+
 	pid = fork();
 	if (pid == -1) throw std::runtime_error(strerror(errno));
 	if (pid == 0)
 	{
+		pho.dup(pipe_t::read_fd, STDIN_FILENO);
+		audio.dup(pipe_t::write_fd, STDOUT_FILENO);
+		error.dup(pipe_t::write_fd, STDERR_FILENO);
+
 		execlp("mbrola", "mbrola",
 		       "-e",     // ignore fatal errors on unknown diphones
 		       database, // voice file database
@@ -63,6 +108,10 @@ mbrola_synthesizer::mbrola_synthesizer(const char *database)
                        nullptr);
 		_exit(1);
 	}
+
+	pho.close(pipe_t::read_fd);
+	audio.close(pipe_t::write_fd);
+	error.close(pipe_t::write_fd);
 }
 
 std::shared_ptr<tts::synthesizer> create_mbrola_voice(const char *voice)
