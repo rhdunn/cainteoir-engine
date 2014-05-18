@@ -29,6 +29,7 @@
 #include <stdexcept>
 
 #include <unistd.h>
+#include <fcntl.h>
 
 namespace tts = cainteoir::tts;
 namespace rdf = cainteoir::rdf;
@@ -76,10 +77,7 @@ struct pipe_t
 		fds[type] = -1;
 	}
 
-	ssize_t read(void *buf, size_t count)
-	{
-		return ::read(fds[read_fd], buf, count);
-	}
+	ssize_t read(void *buf, size_t count);
 
 	FILE *open(const char *mode)
 	{
@@ -88,9 +86,49 @@ struct pipe_t
 		fds[(mode[0] == 'r') ? read_fd : write_fd] = -1;
 		return ret;
 	}
+
+	void set_flags(fd_t type, int flags)
+	{
+		fcntl(fds[type], F_SETFL, fcntl(fds[type], F_GETFL) | flags);
+	}
+
+	void clear_flags(fd_t type, int flags)
+	{
+		fcntl(fds[type], F_SETFL, fcntl(fds[type], F_GETFL) & ~flags);
+	}
 private:
 	int fds[2];
 };
+
+ssize_t pipe_t::read(void *buf, size_t count)
+{
+	for (;;)
+	{
+		ssize_t ret = ::read(fds[read_fd], buf, count);
+		if (ret < 0) switch (errno)
+		{
+		case EINTR:
+			continue; // normal... try again
+		case EAGAIN:
+			{
+				fd_set rset;
+				FD_ZERO(&rset);
+				FD_SET(fds[read_fd], &rset);
+				timeval timeout = { 60, 0 }; // 1 min
+				int ret = select(fds[read_fd] + 1, &rset, nullptr, nullptr, &timeout);
+				if (ret < 0) // error
+					throw std::runtime_error(strerror(errno));
+				if (ret == 0)
+					return 0; // timeout... no data
+			}
+			break;
+		default:
+			throw std::runtime_error(strerror(errno));
+		}
+		else
+			return ret;
+	}
+}
 
 struct mbrola_synthesizer : public tts::synthesizer
 {
@@ -143,12 +181,16 @@ mbrola_synthesizer::mbrola_synthesizer(const char *database)
 	audio.close(pipe_t::write_fd);
 	error.close(pipe_t::write_fd);
 
+	input.set_flags(pipe_t::write_fd, O_NONBLOCK);
+	audio.set_flags(pipe_t::read_fd,  O_NONBLOCK);
+	error.set_flags(pipe_t::read_fd,  O_NONBLOCK);
+
 	pho = input.open("w");
 
 	flush();
 	uint8_t header[44];
 	if (audio.read(header, sizeof(header)) != sizeof(header))
-		throw std::runtime_error(strerror(errno));
+		throw std::runtime_error("mbrola did not return a WAV header.");
 
 	if (memcmp(header, "RIFF", 4) != 0 || memcmp(header + 8, "WAVEfmt ", 8) != 0)
 		throw std::runtime_error("mbrola did not return a WAV header.");
