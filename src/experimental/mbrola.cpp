@@ -23,9 +23,7 @@
 #include "i18n.h"
 #include "options.hpp"
 
-#include <cainteoir/prosody.hpp>
-#include <cainteoir/buffer.hpp>
-#include <cainteoir/audio.hpp>
+#include <cainteoir/engines.hpp>
 #include <stdexcept>
 
 #include <unistd.h>
@@ -35,14 +33,6 @@ namespace css = cainteoir::css;
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 namespace rdf = cainteoir::rdf;
-
-namespace cainteoir { namespace tts
-{
-	struct synthesizer : public audio_info , public prosody_writer
-	{
-		virtual bool read(audio *out) = 0;
-	};
-}}
 
 #if defined(HAVE_MBROLA)
 

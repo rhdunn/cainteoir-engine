@@ -187,6 +187,21 @@ of the document is currently being read.
 \addtogroup tts_engines
 \{
 
+\class cainteoir::tts::synthesizer
+\brief Manages a phoneme to audio synthesizer.
+
+\}
+
+
+\fn    bool cainteoir::tts::synthesizer::read(cainteoir::audio *out)
+\brief Synthesize the pending phonemes to audio.
+
+\param[in] out The audio file or device to send the audio data to.
+
+
+\addtogroup tts_engines
+\{
+
 \struct cainteoir::tts::engines
 \brief  Manages the available text-to-speech engines.
 

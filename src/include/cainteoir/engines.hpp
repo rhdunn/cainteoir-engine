@@ -24,6 +24,7 @@
 #include "audio.hpp"
 #include "document.hpp"
 #include "phoneme.hpp"
+#include "prosody.hpp"
 
 namespace cainteoir { namespace tts
 {
@@ -84,6 +85,11 @@ namespace cainteoir { namespace tts
 		tts_only,
 		media_overlays_only,
 		tts_and_media_overlays,
+	};
+
+	struct synthesizer : public audio_info , public prosody_writer
+	{
+		virtual bool read(audio *out) = 0;
 	};
 
 	struct engines
