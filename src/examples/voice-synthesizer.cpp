@@ -1,4 +1,4 @@
-/* Experimental interface to the MBROLA synthesizer.
+/* Example program for interacting with voice synthesizers.
  *
  * Copyright (C) 2013-2014 Reece H. Dunn
  *
@@ -37,7 +37,7 @@ int main(int argc, char **argv)
 	{
 		if (argc != 2)
 		{
-			fprintf(stderr, "usage: mbrola VOICE_NAME\n");
+			fprintf(stderr, "usage: voice-synthesizer VOICE_NAME\n");
 			return 0;
 		}
 

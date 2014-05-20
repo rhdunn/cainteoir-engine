@@ -48,8 +48,8 @@ src/apps/dictionary
 src/examples/doc2doc
 src/examples/musicplayer
 src/examples/tagcloud
+src/examples/voice-synthesizer
 
-src/experimental/mbrola
 src/experimental/synthesizer
 
 tests/*.test

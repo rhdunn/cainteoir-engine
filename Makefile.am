@@ -411,12 +411,12 @@ noinst_bin_PROGRAMS += src/examples/musicplayer
 src_examples_musicplayer_LDADD   = src/libcainteoir/libcainteoir.la
 src_examples_musicplayer_SOURCES = src/examples/musicplayer.cpp
 
+noinst_bin_PROGRAMS += src/examples/voice-synthesizer
+
+src_examples_voice_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
+src_examples_voice_synthesizer_SOURCES = src/examples/voice-synthesizer.cpp
+
 ############################# experimental ####################################
-
-noinst_bin_PROGRAMS += src/experimental/mbrola
-
-src_experimental_mbrola_LDADD   = src/libcainteoir/libcainteoir.la
-src_experimental_mbrola_SOURCES = src/experimental/mbrola.cpp
 
 noinst_bin_PROGRAMS += src/experimental/synthesizer
 
