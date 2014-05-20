@@ -69,7 +69,7 @@ TEST_CASE("writer -- no input")
 	std::shared_ptr<tts::prosody_writer> writer = tts::createPhoWriter(tts::createPhonemeWriter("cxs"));
 	assert(writer.get());
 
-	assert(!writer->write({ ipa::voiced | ipa::bilabial | ipa::plosive, {}, {}}));
+	assert(!writer->write({ ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, {}, {}}));
 
 	cainteoir::memory_file output;
 	writer->reset(output);
@@ -78,7 +78,7 @@ TEST_CASE("writer -- no input")
 	assert(data->empty());
 
 	writer->reset(nullptr);
-	assert(!writer->write({ ipa::voiced | ipa::bilabial | ipa::plosive, {}, {}}));
+	assert(!writer->write({ ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, {}, {}}));
 }
 
 TEST_CASE("writer -- basic phonemes")
