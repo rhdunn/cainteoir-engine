@@ -54,7 +54,22 @@ void match_(const std::shared_ptr<cainteoir::buffer> &got, const char *expected,
 	match_(*got, expected, len, file, line);
 }
 
-#define match(got, expected, len) match_(got, expected, len, __FILE__, __LINE__)
+void match_(const tts::prosody &got, const tts::prosody &expected, const char *file, int line)
+{
+	assert_location(got.phoneme1 == expected.phoneme1, file, line);
+	assert_location(got.phoneme2 == expected.phoneme2, file, line);
+	assert_location(got.duration.value() == expected.duration.value(), file, line);
+	assert_location(got.duration.units() == expected.duration.units(), file, line);
+	assert_location(got.envelope.size() == expected.envelope.size(), file, line);
+	for (int i = 0; i < std::min(got.envelope.size(), expected.envelope.size()); ++i)
+	{
+		assert_location(got.envelope[i].offset == expected.envelope[i].offset, file, line);
+		assert_location(got.envelope[i].pitch.value() == expected.envelope[i].pitch.value(), file, line);
+		assert_location(got.envelope[i].pitch.units() == expected.envelope[i].pitch.units(), file, line);
+	}
+}
+
+#define match(...) match_(__VA_ARGS__, __FILE__, __LINE__)
 
 std::shared_ptr<cainteoir::buffer> to_str(std::shared_ptr<tts::prosody_writer> &writer, const tts::prosody prosody)
 {
@@ -62,6 +77,27 @@ std::shared_ptr<cainteoir::buffer> to_str(std::shared_ptr<tts::prosody_writer> &
 	writer->reset(output);
 	assert(writer->write(prosody));
 	return output.buffer();
+}
+
+TEST_CASE("reader -- no input")
+{
+	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeReader("cxs"));
+	assert(reader.get());
+	match(*reader, { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit }, {} });
+
+	assert(!reader->read());
+	match(*reader, { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit }, {} });
+
+	reader->reset(std::shared_ptr<cainteoir::buffer>());
+
+	assert(!reader->read());
+	match(*reader, { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit }, {} });
+
+	auto test = std::make_shared<cainteoir::buffer>(nullptr, nullptr);
+	reader->reset(test);
+
+	assert(!reader->read());
+	match(*reader, { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit }, {} });
 }
 
 TEST_CASE("writer -- no input")
