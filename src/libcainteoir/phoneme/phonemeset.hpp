@@ -218,18 +218,23 @@ namespace cainteoir { namespace tts
 		std::list<feature_rule_t> mModifiers;
 	};
 
+	std::shared_ptr<phoneme_parser> createExplicitFeaturePhonemeParser();
 	std::shared_ptr<phoneme_reader> createExplicitFeaturePhonemeReader();
 	std::shared_ptr<phoneme_writer> createExplicitFeaturePhonemeWriter();
 
+	std::shared_ptr<phoneme_parser> createIpaPhonemeParser(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_reader> createIpaPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_writer> createIpaPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName);
 
+	std::shared_ptr<phoneme_parser> createKirshenbaumPhonemeParser(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_reader> createKirshenbaumPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_writer> createKirshenbaumPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName);
 
+	std::shared_ptr<phoneme_parser> createArpabetPhonemeParser(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_reader> createArpabetPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_writer> createArpabetPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName);
 
+	std::shared_ptr<phoneme_parser> createEspeakPhonemeParser(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_reader> createEspeakPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_writer> createEspeakPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName);
 

@@ -377,6 +377,11 @@ const char *explicit_feature_writer::name() const
 	return "features";
 }
 
+std::shared_ptr<tts::phoneme_parser> tts::createExplicitFeaturePhonemeParser()
+{
+	return std::make_shared<explicit_feature_reader>();
+}
+
 std::shared_ptr<tts::phoneme_reader> tts::createExplicitFeaturePhonemeReader()
 {
 	return std::make_shared<phonemeset_reader<explicit_feature_reader>>();

@@ -403,6 +403,11 @@ void espeak_writer::output_phoneme()
 	fwrite(mPosition->item->begin(), 1, mPosition->item->size(), mOutput);
 }
 
+std::shared_ptr<tts::phoneme_parser> tts::createEspeakPhonemeParser(phoneme_file_reader &aPhonemeSet, const char *aName)
+{
+	return std::make_shared<espeak_reader>(aPhonemeSet, aName);
+}
+
 std::shared_ptr<tts::phoneme_reader> tts::createEspeakPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName)
 {
 	return std::make_shared<phonemeset_reader<espeak_reader>>(aPhonemeSet, aName);

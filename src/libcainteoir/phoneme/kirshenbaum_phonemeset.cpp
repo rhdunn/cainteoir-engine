@@ -97,6 +97,11 @@ const char *kirshenbaum_writer::name() const
 	return mPhonemeSet;
 }
 
+std::shared_ptr<tts::phoneme_parser> tts::createKirshenbaumPhonemeParser(phoneme_file_reader &aPhonemeSet, const char *aName)
+{
+	return std::make_shared<kirshenbaum_reader>(aPhonemeSet);
+}
+
 std::shared_ptr<tts::phoneme_reader> tts::createKirshenbaumPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName)
 {
 	return std::make_shared<phonemeset_reader<kirshenbaum_reader>>(aPhonemeSet);

@@ -30,6 +30,24 @@ void tts::phoneme_writer::flush()
 {
 }
 
+std::shared_ptr<tts::phoneme_parser> tts::createPhonemeParser(const char *aPhonemeSet)
+{
+	if (!strcmp(aPhonemeSet, "features"))
+		return createExplicitFeaturePhonemeParser();
+
+	phoneme_file_reader phonemes(aPhonemeSet);
+	if (phonemes.phoneme_type == "ipa")
+		return createIpaPhonemeParser(phonemes, aPhonemeSet);
+	if (phonemes.phoneme_type == "kirshenbaum")
+		return createKirshenbaumPhonemeParser(phonemes, aPhonemeSet);
+	if (phonemes.phoneme_type == "arpabet")
+		return createArpabetPhonemeParser(phonemes, aPhonemeSet);
+	if (phonemes.phoneme_type == "espeak")
+		return createEspeakPhonemeParser(phonemes, aPhonemeSet);
+
+	throw std::runtime_error("the phonemeset is not supported");
+}
+
 std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader(const char *aPhonemeSet)
 {
 	if (!strcmp(aPhonemeSet, "features"))

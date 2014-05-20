@@ -278,6 +278,8 @@ namespace cainteoir { namespace tts
 		virtual ~phoneme_parser() {}
 	};
 
+	std::shared_ptr<tts::phoneme_parser> createPhonemeParser(const char *aPhonemeSet);
+
 	struct phoneme_reader : public ipa::phoneme
 	{
 		virtual void reset(const std::shared_ptr<buffer> &aBuffer) = 0;

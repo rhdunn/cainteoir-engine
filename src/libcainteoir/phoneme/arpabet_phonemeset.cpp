@@ -348,6 +348,11 @@ void arpabet_writer::output_phoneme()
 	mState = state::need_phoneme;
 }
 
+std::shared_ptr<tts::phoneme_parser> tts::createArpabetPhonemeParser(phoneme_file_reader &aPhonemeSet, const char *aName)
+{
+	return std::make_shared<arpabet_reader>(aPhonemeSet);
+}
+
 std::shared_ptr<tts::phoneme_reader> tts::createArpabetPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName)
 {
 	return std::make_shared<phonemeset_reader<arpabet_reader>>(aPhonemeSet);
