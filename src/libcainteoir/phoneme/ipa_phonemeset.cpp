@@ -27,18 +27,13 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct ipa_reader : public tts::phoneme_reader
+struct ipa_reader : public tts::phoneme_parser
 {
 	ipa_reader(tts::phoneme_file_reader &aPhonemeSet);
 
-	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
-
-	bool read();
+	bool parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme);
 private:
 	tts::transcription_reader mPhonemes;
-	std::shared_ptr<cainteoir::buffer> mBuffer;
-	const char *mCurrent;
-	const char *mEnd;
 };
 
 ipa_reader::ipa_reader(tts::phoneme_file_reader &aPhonemeSet)
@@ -46,23 +41,11 @@ ipa_reader::ipa_reader(tts::phoneme_file_reader &aPhonemeSet)
 {
 }
 
-void ipa_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
-{
-	mBuffer = aBuffer;
-	if (mBuffer.get())
-	{
-		mCurrent = mBuffer->begin();
-		mEnd = mBuffer->end();
-	}
-	else
-		mCurrent = mEnd = nullptr;
-}
-
-bool ipa_reader::read()
+bool ipa_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme)
 {
 	auto ret = mPhonemes.read(mCurrent, mEnd);
 	if (ret.first)
-		*(ipa::phoneme *)this = ret.second;
+		aPhoneme = ret.second;
 	return ret.first;
 }
 
@@ -106,7 +89,7 @@ const char *ipa_writer::name() const
 
 std::shared_ptr<tts::phoneme_reader> tts::createIpaPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName)
 {
-	return std::make_shared<ipa_reader>(aPhonemeSet);
+	return std::make_shared<phonemeset_reader<ipa_reader>>(aPhonemeSet);
 }
 
 std::shared_ptr<tts::phoneme_writer> tts::createIpaPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName)
