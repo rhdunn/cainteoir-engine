@@ -168,6 +168,13 @@ namespace cainteoir
 	std::shared_ptr<buffer> decode_quoted_printable(const buffer &data, uint32_t size);
 
 	std::shared_ptr<buffer> decode_base64(const buffer &data, uint32_t size);
+
+	struct parser
+	{
+		virtual bool parse(const char * &aCurrent, const char *aEnd) = 0;
+
+		virtual ~parser() {}
+	};
 }
 
 #endif
