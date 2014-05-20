@@ -232,6 +232,37 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<phoneme_reader> createEspeakPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName);
 	std::shared_ptr<phoneme_writer> createEspeakPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName);
+
+	template<typename Parser>
+	struct phonemeset_reader : public Parser , public tts::phoneme_reader
+	{
+		template<typename... Arg>
+		phonemeset_reader(Arg&&... args)
+			: Parser(args...)
+		{
+		}
+
+		void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
+		{
+			mBuffer = aBuffer;
+			if (mBuffer.get())
+			{
+				mCurrent = mBuffer->begin();
+				mEnd = mBuffer->end();
+			}
+			else
+				mCurrent = mEnd = nullptr;
+		}
+
+		bool read()
+		{
+			return this->parse(mCurrent, mEnd, *this);
+		}
+	private:
+		std::shared_ptr<cainteoir::buffer> mBuffer;
+		const char *mCurrent;
+		const char *mEnd;
+	};
 }}
 
 #endif

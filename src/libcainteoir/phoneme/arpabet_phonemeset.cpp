@@ -69,18 +69,12 @@ static const type classification[256] = {
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct arpabet_reader : public tts::phoneme_reader
+struct arpabet_reader : public tts::phoneme_parser
 {
 	arpabet_reader(tts::phoneme_file_reader &aPhonemeSet);
 
-	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
-
-	bool read();
+	bool parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme);
 private:
-	std::shared_ptr<cainteoir::buffer> mBuffer;
-	const char *mCurrent;
-	const char *mEnd;
-
 	cainteoir::trie<std::pair<ipa::phoneme, ipa::phoneme>> mPhonemes;
 
 	enum class state : uint8_t
@@ -125,19 +119,7 @@ arpabet_reader::arpabet_reader(tts::phoneme_file_reader &aPhonemeSet)
 	mPosition = mPhonemes.root();
 }
 
-void arpabet_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
-{
-	mBuffer = aBuffer;
-	if (mBuffer.get())
-	{
-		mCurrent = mBuffer->begin();
-		mEnd = mBuffer->end();
-	}
-	else
-		mCurrent = mEnd = nullptr;
-}
-
-bool arpabet_reader::read()
+bool arpabet_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme)
 {
 	while (true) switch (mState)
 	{
@@ -150,7 +132,7 @@ bool arpabet_reader::read()
 			++mCurrent;
 			break;
 		case type::newline:
-			*(ipa::phoneme *)this = ipa::phoneme(ipa::pause);
+			aPhoneme = ipa::phoneme(ipa::pause);
 			++mCurrent;
 			return true;
 		case type::stress:
@@ -204,20 +186,20 @@ bool arpabet_reader::read()
 		}
 		break;
 	case state::emitting_phoneme1:
-		*(ipa::phoneme *)this = mPosition->item.first;
+		aPhoneme = mPosition->item.first;
 		switch (mStress)
 		{
-		case '1': set("st1"); break;
-		case '2': set("st2"); break;
+		case '1': aPhoneme.set("st1"); break;
+		case '2': aPhoneme.set("st2"); break;
 		}
 		mStress = 0;
 		mState = state::emitting_phoneme2;
 		return true;
 	case state::emitting_phoneme2:
-		*(ipa::phoneme *)this = mPosition->item.second;
+		aPhoneme = mPosition->item.second;
 		mPosition = mPhonemes.root();
 		mState = state::need_phoneme;
-		if (get(-1) != -1)
+		if (aPhoneme.get(-1) != -1)
 			return true;
 		break;
 	}
@@ -368,7 +350,7 @@ void arpabet_writer::output_phoneme()
 
 std::shared_ptr<tts::phoneme_reader> tts::createArpabetPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName)
 {
-	return std::make_shared<arpabet_reader>(aPhonemeSet);
+	return std::make_shared<phonemeset_reader<arpabet_reader>>(aPhonemeSet);
 }
 
 std::shared_ptr<tts::phoneme_writer> tts::createArpabetPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName)

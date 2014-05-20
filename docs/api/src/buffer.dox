@@ -411,27 +411,6 @@ then an empty buffer here is returned.
 
 
 \}
-\addtogroup buffers
-\{
-
-\class cainteoir::parser
-\brief A generic interface to a content buffer parser.
-
-\}
-
-
-\fn    bool cainteoir::parser::parse(const char * &aCurrent, const char *aEnd)
-\brief Read the next entry in the content buffer.
-
-\param[in,out] aCurrent The current position in the content buffer.
-\param[in]     aEnd     The end of the content buffer.
-
-\retval true If an entry was read.
-\retval false If there are no more entries in the content buffer.
-
-
-\fn    cainteoir::parser::~parser()
-\brief Clean up the parser.
 
 
 */

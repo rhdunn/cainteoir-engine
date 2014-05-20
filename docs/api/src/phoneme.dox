@@ -24,6 +24,30 @@
 \addtogroup phonetic_transcription
 \{
 
+\class cainteoir::tts::phoneme_parser
+\brief Parse phonemes in a phonetic transcriptions.
+
+\}
+
+
+\fn    bool cainteoir::parser::parse(const char * &aCurrent, const char *aEnd, ipa::phoneme &aPhoneme)
+\brief Read the next entry in the content buffer.
+
+\param[in,out] aCurrent The current position in the content buffer.
+\param[in]     aEnd     The end of the content buffer.
+\param[out]    aPhoneme The phoneme that was parsed.
+
+\retval true If an entry was read.
+\retval false If there are no more entries in the content buffer.
+
+
+\fn    cainteoir::phoneme_parser::~phoneme_parser()
+\brief Clean up the phoneme parser.
+
+
+\addtogroup phonetic_transcription
+\{
+
 \struct cainteoir::tts::phoneme_reader
 \brief  Support reading phonemes in a given transcription scheme.
 
