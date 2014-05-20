@@ -328,36 +328,16 @@ void tts::write_explicit_feature(FILE *output, const ipa::phoneme &aPhoneme)
 	fputc('}', output);
 }
 
-struct explicit_feature_reader : public tts::phoneme_reader
+struct explicit_feature_reader : public tts::phoneme_parser
 {
-	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
-
-	bool read();
-
-	std::shared_ptr<cainteoir::buffer> mBuffer;
-	const char *mCurrent;
-	const char *mEnd;
+	bool parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme);
 };
 
-void explicit_feature_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
+bool explicit_feature_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme)
 {
-	mBuffer = aBuffer;
-	if (mBuffer.get())
-	{
-		mCurrent = mBuffer->begin();
-		mEnd = mBuffer->end();
-	}
-	else
-	{
-		mCurrent = mEnd = nullptr;
-	}
-}
-
-bool explicit_feature_reader::read()
-{
-	*(ipa::phoneme *)this = ipa::phoneme();
+	aPhoneme = ipa::phoneme();
 	auto ret = tts::read_explicit_feature(mCurrent, mEnd);
-	*(ipa::phoneme *)this = ret.second;
+	aPhoneme = ret.second;
 	return ret.first;
 }
 
@@ -399,7 +379,7 @@ const char *explicit_feature_writer::name() const
 
 std::shared_ptr<tts::phoneme_reader> tts::createExplicitFeaturePhonemeReader()
 {
-	return std::make_shared<explicit_feature_reader>();
+	return std::make_shared<phonemeset_reader<explicit_feature_reader>>();
 }
 
 std::shared_ptr<tts::phoneme_writer> tts::createExplicitFeaturePhonemeWriter()
