@@ -83,7 +83,7 @@ data buffer. It will lose any state from reading the current buffer.
 \addtogroup prosody
 \{
 
-\fn    std::shared_ptr<cainteoir::tts::prosody_reader> cainteoir::tts::createPhoReader(const std::shared_ptr<phoneme_reader> &aPhonemeSet)
+\fn    std::shared_ptr<cainteoir::tts::prosody_reader> cainteoir::tts::createPhoReader(const std::shared_ptr<phoneme_parser> &aPhonemeSet)
 \brief Create an MBROLA pho file reader.
 
 \param[in] aPhonemeSet The phoneme set (transcription scheme) used to read the phonemes in the pho file.

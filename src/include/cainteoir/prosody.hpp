@@ -67,7 +67,7 @@ namespace cainteoir { namespace tts
 		virtual ~prosody_reader() {}
 	};
 
-	std::shared_ptr<prosody_reader> createPhoReader(const std::shared_ptr<phoneme_reader> &aPhonemeSet);
+	std::shared_ptr<prosody_reader> createPhoReader(const std::shared_ptr<phoneme_parser> &aPhonemeSet);
 
 	struct prosody_writer
 	{
