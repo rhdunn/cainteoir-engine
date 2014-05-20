@@ -27,18 +27,13 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct kirshenbaum_reader : public tts::phoneme_reader
+struct kirshenbaum_reader : public tts::phoneme_parser
 {
 	kirshenbaum_reader(tts::phoneme_file_reader &aPhonemeSet);
 
-	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
-
-	bool read();
+	bool parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme);
 private:
 	tts::transcription_reader mPhonemes;
-	std::shared_ptr<cainteoir::buffer> mBuffer;
-	const char *mCurrent;
-	const char *mEnd;
 };
 
 kirshenbaum_reader::kirshenbaum_reader(tts::phoneme_file_reader &aPhonemeSet)
@@ -46,30 +41,18 @@ kirshenbaum_reader::kirshenbaum_reader(tts::phoneme_file_reader &aPhonemeSet)
 {
 }
 
-void kirshenbaum_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
-{
-	mBuffer = aBuffer;
-	if (mBuffer.get())
-	{
-		mCurrent = mBuffer->begin();
-		mEnd = mBuffer->end();
-	}
-	else
-		mCurrent = mEnd = nullptr;
-}
-
-bool kirshenbaum_reader::read()
+bool kirshenbaum_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme)
 {
 	if (*mCurrent == '{')
 	{
 		auto ret = tts::read_explicit_feature(mCurrent, mEnd);
-		*(ipa::phoneme *)this = ret.second;
+		aPhoneme = ret.second;
 		return ret.first;
 	}
 
 	auto ret = mPhonemes.read(mCurrent, mEnd);
 	if (ret.first)
-		*(ipa::phoneme *)this = ret.second;
+		aPhoneme = ret.second;
 	return ret.first;
 }
 
@@ -116,7 +99,7 @@ const char *kirshenbaum_writer::name() const
 
 std::shared_ptr<tts::phoneme_reader> tts::createKirshenbaumPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName)
 {
-	return std::make_shared<kirshenbaum_reader>(aPhonemeSet);
+	return std::make_shared<phonemeset_reader<kirshenbaum_reader>>(aPhonemeSet);
 }
 
 std::shared_ptr<tts::phoneme_writer> tts::createKirshenbaumPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName)
