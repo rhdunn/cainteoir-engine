@@ -30,7 +30,7 @@
 \}
 
 
-\fn    bool cainteoir::parser::parse(const char * &aCurrent, const char *aEnd, ipa::phoneme &aPhoneme)
+\fn    bool cainteoir::tts::phoneme_parser::parse(const char * &aCurrent, const char *aEnd, ipa::phoneme &aPhoneme)
 \brief Read the next entry in the content buffer.
 
 \param[in,out] aCurrent The current position in the content buffer.
@@ -41,7 +41,7 @@
 \retval false If there are no more entries in the content buffer.
 
 
-\fn    cainteoir::phoneme_parser::~phoneme_parser()
+\fn    cainteoir::tts::phoneme_parser::~phoneme_parser()
 \brief Clean up the phoneme parser.
 
 
