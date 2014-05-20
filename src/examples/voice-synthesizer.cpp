@@ -47,6 +47,7 @@ int main(int argc, char **argv)
 		};
 
 		const std::initializer_list<const char *> usage = {
+			i18n("voice-synthesizer [OPTION..] PHONEME_FILE"),
 			i18n("voice-synthesizer [OPTION..]"),
 		};
 
@@ -60,6 +61,14 @@ int main(int argc, char **argv)
 		fprintf(stdout, "format      : %s\n", voice->format().str().c_str());
 		fprintf(stdout, "sample rate : %d\n", voice->frequency());
 
+		char phonemeset[11];
+		snprintf(phonemeset, sizeof(phonemeset), "mbrola/%s", voicename);
+		auto pho = tts::createPhoReader(tts::createPhonemeParser(phonemeset));
+		if (argc == 1)
+			pho->reset(cainteoir::make_file_buffer(argv[0]));
+		else
+			pho->reset(cainteoir::make_file_buffer(stdin));
+
 		rdf::graph metadata;
 		rdf::uri doc;
 		auto out = cainteoir::open_audio_device(nullptr, metadata, doc,
@@ -68,15 +77,8 @@ int main(int argc, char **argv)
 			voice->frequency());
 		out->open();
 
-		voice->write({ ipa::velar | ipa::plosive, ipa::unspecified, // k
-		               { 80, css::time::milliseconds },
-		               {}});
-		voice->write({ ipa::semi_high | ipa::front | ipa::vowel, ipa::unspecified, // I
-		               { 80, css::time::milliseconds },
-		               {}});
-		voice->write({ ipa::alveolar | ipa::plosive, ipa::unspecified, // t
-		               { 80, css::time::milliseconds },
-		               {}});
+		while (pho->read())
+			voice->write(*pho);
 
 		voice->read(out.get());
 
