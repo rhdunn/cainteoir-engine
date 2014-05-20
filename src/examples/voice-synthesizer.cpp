@@ -35,14 +35,26 @@ int main(int argc, char **argv)
 {
 	try
 	{
-		if (argc != 2)
-		{
-			fprintf(stderr, "usage: voice-synthesizer VOICE_NAME\n");
-			return 0;
-		}
+		const char *voicename = nullptr;
 
-		auto voice = tts::create_mbrola_voice(argv[1]);
-		if (!voice) throw std::runtime_error("cannot find the specified MBROLA voice");
+		const option_group speech_options = { i18n("Speech:"), {
+			{ 'v', "voice", voicename, "VOICE",
+			  i18n("Use the voice named VOICE") },
+		}};
+
+		const std::initializer_list<option_group> options = {
+			speech_options,
+		};
+
+		const std::initializer_list<const char *> usage = {
+			i18n("voice-synthesizer [OPTION..]"),
+		};
+
+		if (!parse_command_line(options, usage, argc, argv))
+			return 0;
+
+		auto voice = tts::create_mbrola_voice(voicename);
+		if (!voice) throw std::runtime_error("cannot find the specified voice");
 
 		fprintf(stdout, "channels    : %d\n", voice->channels());
 		fprintf(stdout, "format      : %s\n", voice->format().str().c_str());
