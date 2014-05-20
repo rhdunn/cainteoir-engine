@@ -66,7 +66,7 @@ void procstat_t::open(pid_t pid)
 
 procstat_t::status_t procstat_t::stat() const
 {
-	char buffer[20];
+	char buffer[120];
 	if (lseek(fd, 0, SEEK_SET) != 0)
 		throw std::runtime_error(strerror(errno));
 	if (read(fd, buffer, sizeof(buffer)) != sizeof(buffer))
