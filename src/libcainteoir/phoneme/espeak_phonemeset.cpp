@@ -27,20 +27,14 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct espeak_reader : public tts::phoneme_reader
+struct espeak_reader : public tts::phoneme_parser
 {
 	espeak_reader(tts::phoneme_file_reader &aPhonemeSet, const char *aName);
 
-	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
-
-	bool read();
+	bool parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme);
 private:
 	void switch_language(const std::string &aLanguage);
 	void parse_phonemes(tts::phoneme_file_reader &aPhonemeSet);
-
-	std::shared_ptr<cainteoir::buffer> mBuffer;
-	const char *mCurrent;
-	const char *mEnd;
 
 	struct phoneme_t
 	{
@@ -117,19 +111,7 @@ void espeak_reader::parse_phonemes(tts::phoneme_file_reader &aPhonemeSet)
 	mPosition = mActivePhonemes->root();
 }
 
-void espeak_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
-{
-	mBuffer = aBuffer;
-	if (mBuffer.get())
-	{
-		mCurrent = mBuffer->begin();
-		mEnd = mBuffer->end();
-	}
-	else
-		mCurrent = mEnd = nullptr;
-}
-
-bool espeak_reader::read()
+bool espeak_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme)
 {
 	char language[4] = { 0 };
 	char *lang_current = language;
@@ -160,11 +142,11 @@ bool espeak_reader::read()
 		switch (*mCurrent)
 		{
 		case ' ':
-			*(ipa::phoneme *)this = ipa::phoneme(ipa::pause | ipa::extra_short);
+			aPhoneme = ipa::phoneme(ipa::pause | ipa::extra_short);
 			++mCurrent;
 			return true;
 		case '\n':
-			*(ipa::phoneme *)this = ipa::phoneme(ipa::pause);
+			aPhoneme = ipa::phoneme(ipa::pause);
 			++mCurrent;
 			mState = state::start_of_line;
 			return true;
@@ -176,7 +158,7 @@ bool espeak_reader::read()
 			mState = state::parsing_pause;
 			break;
 		case '|':
-			*(ipa::phoneme *)this = ipa::phoneme(ipa::syllable_break);
+			aPhoneme = ipa::phoneme(ipa::syllable_break);
 			++mCurrent;
 			return true;
 		case '(':
@@ -289,11 +271,11 @@ bool espeak_reader::read()
 		}
 		else
 		{
-			*(ipa::phoneme *)this = mPosition->item.phonemes[mIndex];
+			aPhoneme = mPosition->item.phonemes[mIndex];
 			if (mIndex == 0) switch (mStress)
 			{
-			case '\'': set("st1"); break;
-			case ',':  set("st2"); break;
+			case '\'': aPhoneme.set("st1"); break;
+			case ',':  aPhoneme.set("st2"); break;
 			}
 			++mIndex;
 			return true;
@@ -423,7 +405,7 @@ void espeak_writer::output_phoneme()
 
 std::shared_ptr<tts::phoneme_reader> tts::createEspeakPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName)
 {
-	return std::make_shared<espeak_reader>(aPhonemeSet, aName);
+	return std::make_shared<phonemeset_reader<espeak_reader>>(aPhonemeSet, aName);
 }
 
 std::shared_ptr<tts::phoneme_writer> tts::createEspeakPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName)
