@@ -28,7 +28,7 @@ namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 namespace css = cainteoir::css;
 
-float parse_number(const char * &current, const char *end)
+static float parse_number(const char * &current, const char *end)
 {
 	int value = 0; // the value of the number
 	int divisor = 1; // the number to divide by to convert value to a fraction
@@ -63,6 +63,8 @@ struct pho_reader : public tts::prosody_reader
 
 	bool read();
 private:
+	bool skip_whitespace();
+
 	std::shared_ptr<tts::phoneme_parser> mPhonemeSet;
 
 	std::shared_ptr<cainteoir::buffer> mBuffer;
@@ -102,7 +104,7 @@ bool pho_reader::read()
 	default:
 		if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme1))
 			return false;
-		if (*mCurrent != ' ')
+		if (*mCurrent != ' ' && *mCurrent != '\t')
 		{
 			if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme2))
 				phoneme2 = ipa::unspecified;
@@ -110,26 +112,36 @@ bool pho_reader::read()
 		else
 			phoneme2 = ipa::unspecified;
 
-		if (*mCurrent != ' ') throw tts::phoneme_error("expected whitespace after the phoneme");
-		++mCurrent;
+		if (!skip_whitespace())
+			throw tts::phoneme_error("expected whitespace after the phoneme");
 
 		duration = css::time(parse_number(mCurrent, mEnd), css::time::milliseconds);
 		envelope.clear();
 
-		while (*mCurrent == ' ')
+		while (skip_whitespace())
 		{
-			++mCurrent;
-
 			float offset = parse_number(mCurrent, mEnd);
 
-			if (*mCurrent != ' ') throw tts::phoneme_error("expected whitespace after the offset");
-			++mCurrent;
+			if (!skip_whitespace())
+				throw tts::phoneme_error("expected whitespace after the offset");
 
 			float pitch = parse_number(mCurrent, mEnd);
 
 			envelope.push_back({ int(offset), { pitch, css::frequency::hertz }});
 		}
 
+		return true;
+	}
+	return false;
+}
+
+bool pho_reader::skip_whitespace()
+{
+	if (*mCurrent == ' ' || *mCurrent == '\t')
+	{
+		++mCurrent;
+		while (*mCurrent == ' ' || *mCurrent == '\t')
+			++mCurrent;
 		return true;
 	}
 	return false;

@@ -107,11 +107,9 @@ TEST_CASE("reader -- no input")
 	match(*reader, { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit }, {} });
 }
 
-TEST_CASE("reader -- phoneme duration")
+TEST_CASE("reader -- |phoneme duration| [phonemes]")
 {
 	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	assert_throws(parse(reader, "b80"), tts::phoneme_error, "expected whitespace after the phoneme");
 
 	match(parse(reader, "b 80"),
 	      { ipa::voiced | ipa::bilabial | ipa::plosive,
@@ -170,7 +168,35 @@ TEST_CASE("reader -- phoneme duration")
 	assert(!reader->read());
 }
 
-TEST_CASE("reader -- phoneme duration (offset pitch)+")
+TEST_CASE("reader -- |phoneme duration| [whitespace]")
+{
+	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
+
+	assert_throws(parse(reader, "b80"), tts::phoneme_error, "expected whitespace after the phoneme");
+
+	match(parse(reader, "b\t80"),
+	      { ipa::voiced | ipa::bilabial | ipa::plosive,
+	        ipa::unspecified,
+	        { 80, css::time::milliseconds },
+	        {}});
+	assert(!reader->read());
+
+	match(parse(reader, "b  80"),
+	      { ipa::voiced | ipa::bilabial | ipa::plosive,
+	        ipa::unspecified,
+	        { 80, css::time::milliseconds },
+	        {}});
+	assert(!reader->read());
+
+	match(parse(reader, "b\t\t80"),
+	      { ipa::voiced | ipa::bilabial | ipa::plosive,
+	        ipa::unspecified,
+	        { 80, css::time::milliseconds },
+	        {}});
+	assert(!reader->read());
+}
+
+TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
 {
 	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
 
@@ -226,6 +252,87 @@ TEST_CASE("reader -- phoneme duration (offset pitch)+")
 	          {  50, { 100, css::frequency::hertz }},
 	          {  75, {  95, css::frequency::hertz }},
 	          { 100, {  95, css::frequency::hertz }},
+	        }});
+	assert(!reader->read());
+}
+
+TEST_CASE("reader -- |phoneme duration (offset pitch)+| [whitespace]")
+{
+	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
+
+	match(parse(reader, "b 80  0  120"),
+	      { ipa::voiced | ipa::bilabial | ipa::plosive,
+	        ipa::unspecified,
+	        { 80, css::time::milliseconds },
+	        {
+	          { 0, { 120, css::frequency::hertz }},
+	        }});
+	assert(!reader->read());
+
+	match(parse(reader, "b 80   0   120"),
+	      { ipa::voiced | ipa::bilabial | ipa::plosive,
+	        ipa::unspecified,
+	        { 80, css::time::milliseconds },
+	        {
+	          { 0, { 120, css::frequency::hertz }},
+	        }});
+	assert(!reader->read());
+
+	match(parse(reader, "b 80\t0\t120"),
+	      { ipa::voiced | ipa::bilabial | ipa::plosive,
+	        ipa::unspecified,
+	        { 80, css::time::milliseconds },
+	        {
+	          { 0, { 120, css::frequency::hertz }},
+	        }});
+	assert(!reader->read());
+
+	match(parse(reader, "b 80\t\t0\t\t120"),
+	      { ipa::voiced | ipa::bilabial | ipa::plosive,
+	        ipa::unspecified,
+	        { 80, css::time::milliseconds },
+	        {
+	          { 0, { 120, css::frequency::hertz }},
+	        }});
+	assert(!reader->read());
+
+	match(parse(reader, "b 80  0  120  100  122.5"),
+	      { ipa::voiced | ipa::bilabial | ipa::plosive,
+	        ipa::unspecified,
+	        { 80, css::time::milliseconds },
+	        {
+	          {   0, { 120,   css::frequency::hertz }},
+	          { 100, { 122.5, css::frequency::hertz }},
+	        }});
+	assert(!reader->read());
+
+	match(parse(reader, "b 80   0   120   100   122.5"),
+	      { ipa::voiced | ipa::bilabial | ipa::plosive,
+	        ipa::unspecified,
+	        { 80, css::time::milliseconds },
+	        {
+	          {   0, { 120,   css::frequency::hertz }},
+	          { 100, { 122.5, css::frequency::hertz }},
+	        }});
+	assert(!reader->read());
+
+	match(parse(reader, "b 80\t0\t120\t100\t122.5"),
+	      { ipa::voiced | ipa::bilabial | ipa::plosive,
+	        ipa::unspecified,
+	        { 80, css::time::milliseconds },
+	        {
+	          {   0, { 120,   css::frequency::hertz }},
+	          { 100, { 122.5, css::frequency::hertz }},
+	        }});
+	assert(!reader->read());
+
+	match(parse(reader, "b 80\t\t0\t\t120\t\t100\t\t122.5"),
+	      { ipa::voiced | ipa::bilabial | ipa::plosive,
+	        ipa::unspecified,
+	        { 80, css::time::milliseconds },
+	        {
+	          {   0, { 120,   css::frequency::hertz }},
+	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
 	assert(!reader->read());
 }
