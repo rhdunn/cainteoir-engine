@@ -35,6 +35,8 @@ int main(int argc, char **argv)
 {
 	try
 	{
+		const char *outfile = nullptr;
+		const char *outformat = nullptr;
 		const char *device_name = nullptr;
 		const char *voicename = nullptr;
 
@@ -48,9 +50,19 @@ int main(int argc, char **argv)
 			  i18n("Use the voice named VOICE") },
 		}};
 
+		const option_group recording_options = { i18n("Recording:"), {
+			{ 'o', "output", outfile, "FILE",
+			  i18n("Recorded audio is written to FILE") },
+			{ 0, "stdout", bind_value(outfile, "-"),
+			  i18n("Recorded audio is written to the standard output") },
+			{ 'r', "record", outformat, "FORMAT",
+			  i18n("Record the audio as a FORMAT file (default: wav)") },
+		}};
+
 		const std::initializer_list<option_group> options = {
 			general_options,
 			speech_options,
+			recording_options,
 		};
 
 		const std::initializer_list<const char *> usage = {
@@ -78,10 +90,17 @@ int main(int argc, char **argv)
 
 		rdf::graph metadata;
 		rdf::uri doc;
-		auto out = cainteoir::open_audio_device(device_name, metadata, doc,
-			voice->format(),
-			voice->channels(),
-			voice->frequency());
+		std::shared_ptr<cainteoir::audio> out;
+		if (outformat || outfile)
+			out = cainteoir::create_audio_file(outfile, outformat ? outformat : "wav", 0.3, metadata, doc,
+				voice->format(),
+				voice->channels(),
+				voice->frequency());
+		else
+			out = cainteoir::open_audio_device(device_name, metadata, doc,
+				voice->format(),
+				voice->channels(),
+				voice->frequency());
 		out->open();
 
 		while (pho->read())
