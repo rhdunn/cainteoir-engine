@@ -35,7 +35,13 @@ int main(int argc, char **argv)
 {
 	try
 	{
+		const char *device_name = nullptr;
 		const char *voicename = nullptr;
+
+		const option_group general_options = { nullptr, {
+			{ 'D', "device", device_name, "DEVICE",
+			  i18n("Use DEVICE for audio output (ALSA/pulseaudio device name)") },
+		}};
 
 		const option_group speech_options = { i18n("Speech:"), {
 			{ 'v', "voice", voicename, "VOICE",
@@ -43,6 +49,7 @@ int main(int argc, char **argv)
 		}};
 
 		const std::initializer_list<option_group> options = {
+			general_options,
 			speech_options,
 		};
 
@@ -71,7 +78,7 @@ int main(int argc, char **argv)
 
 		rdf::graph metadata;
 		rdf::uri doc;
-		auto out = cainteoir::open_audio_device(nullptr, metadata, doc,
+		auto out = cainteoir::open_audio_device(device_name, metadata, doc,
 			voice->format(),
 			voice->channels(),
 			voice->frequency());
