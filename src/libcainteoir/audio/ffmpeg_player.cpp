@@ -173,7 +173,7 @@ static int64_t seek_buffer(void *opaque, int64_t offset, int whence)
 
 struct resampler
 {
-	resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::audio> &out);
+	resampler(AVCodecContext *codec, const cainteoir::audio_info *out);
 	~resampler();
 
 	cainteoir::range<uint8_t *> resample(AVFrame *frame, size_t delta_start, size_t delta_end);
@@ -189,7 +189,7 @@ private:
 #endif
 };
 
-resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::audio> &out)
+resampler::resampler(AVCodecContext *codec, const cainteoir::audio_info *out)
 	: mCodec(codec)
 #ifdef HAVE_LIBAVRESAMPLE
 	, mContext(nullptr)
@@ -385,7 +385,7 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 		time_to_samples(start, mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::min()),
 		time_to_samples(end,   mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::max() - 1) + 1 };
 
-	resampler converter(mAudio->codec, out);
+	resampler converter(mAudio->codec, out.get());
 
 	uint64_t samples = 0;
 	AVPacket reading;
