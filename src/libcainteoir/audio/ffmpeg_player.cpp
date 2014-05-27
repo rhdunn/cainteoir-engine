@@ -302,6 +302,70 @@ cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame, size_t delta_sta
 	return { data, data + len };
 }
 
+struct ffmpeg_frame_reader
+{
+	ffmpeg_frame_reader(AVFormatContext *format, AVStream *audio, AVFrame *frame);
+
+	bool read();
+private:
+	AVFormatContext *mFormat;
+	AVStream *mAudio;
+	AVFrame *mFrame;
+
+	AVPacket mReading;
+	AVPacket mDecoding;
+};
+
+ffmpeg_frame_reader::ffmpeg_frame_reader(AVFormatContext *format, AVStream *audio, AVFrame *frame)
+	: mFormat(format)
+	, mAudio(audio)
+	, mFrame(frame)
+{
+	mReading.size = 0;
+	mReading.data = nullptr;
+
+	mDecoding.size = 0;
+	mDecoding.data = nullptr;
+}
+
+bool ffmpeg_frame_reader::read()
+{
+	while (true)
+	{
+		if (mDecoding.size == 0)
+		{
+			if (mReading.data)
+			{
+				av_free_packet(&mReading);
+				mReading.data = nullptr;
+			}
+
+			if (av_read_frame(mFormat, &mReading) != 0)
+				return false;
+
+			if (mReading.stream_index != mAudio->index)
+				continue;
+
+			mDecoding = mReading;
+		}
+
+		int got_frame = 0;
+		int length = avcodec_decode_audio4(mAudio->codec, mFrame, &got_frame, &mDecoding);
+		if (length >= 0 && got_frame)
+		{
+			mDecoding.size -= length;
+			mDecoding.data += length;
+
+			return true;
+		}
+		else
+		{
+			mDecoding.size = 0;
+			mDecoding.data = nullptr;
+		}
+	}
+}
+
 struct ffmpeg_player : public cainteoir::audio_player
 {
 	ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData);
@@ -388,64 +452,43 @@ bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css
 	resampler converter(mAudio->codec, out.get());
 
 	uint64_t samples = 0;
-	AVPacket reading;
-	while (av_read_frame(mFormat, &reading) == 0)
+	ffmpeg_frame_reader reader(mFormat, mAudio, mFrame);
+	while (reader.read())
 	{
-		if (reading.stream_index != mAudio->index)
-			continue;
+		/*
+		 *       |=====|     : window
+		 * |===| :     :     : ... contains(frame) == no_overlap
+		 *     |===|   :     : ... contains(frame) == overlap_at_start
+		 *       :   |===|   : ... contains(frame) == overlap_at_end
+		 *     |=========|   : ... contains(frame) == overlap_outer
+		 *       : |=| :     : ... contains(frame) == overlap_inner
+		 */
+		cainteoir::range<uint64_t> frame = { samples, samples + mFrame->nb_samples };
+		samples += mFrame->nb_samples;
 
-		AVPacket decoding = reading;
-		while (decoding.size > 0)
+		size_t delta_start = 0;
+		size_t delta_end   = 0;
+		switch (window.contains(frame))
 		{
-			int got_frame = 0;
-			int length = avcodec_decode_audio4(mAudio->codec, mFrame, &got_frame, &decoding);
-			if (length >= 0 && got_frame)
-			{
-				decoding.size -= length;
-				decoding.data += length;
-
-				/*
-				 *       |=====|     : window
-				 * |===| :     :     : ... contains(frame) == no_overlap
-				 *     |===|   :     : ... contains(frame) == overlap_at_start
-				 *       :   |===|   : ... contains(frame) == overlap_at_end
-				 *     |=========|   : ... contains(frame) == overlap_outer
-				 *       : |=| :     : ... contains(frame) == overlap_inner
-				 */
-				cainteoir::range<uint64_t> frame = { samples, samples + mFrame->nb_samples };
-				samples += mFrame->nb_samples;
-
-				size_t delta_start = 0;
-				size_t delta_end   = 0;
-				switch (window.contains(frame))
-				{
-				case cainteoir::overlap_at_start:
-					delta_start = window.begin() - frame.begin();
-					break;
-				case cainteoir::overlap_at_end:
-					delta_end = frame.end() - window.end();
-					break;
-				case cainteoir::overlap_outer:
-					delta_start = window.begin() - frame.begin();
-					delta_end = frame.end() - window.end();
-					break;
-				case cainteoir::overlap_inner:
-					break;
-				case cainteoir::no_overlap:
-					continue;
-				}
-
-				auto data = converter.resample(mFrame, delta_start, delta_end);
-				if (!data.empty())
-					out->write((const char *)data.begin(), data.size());
-			}
-			else
-			{
-				decoding.size = 0;
-				decoding.data = nullptr;
-			}
+		case cainteoir::overlap_at_start:
+			delta_start = window.begin() - frame.begin();
+			break;
+		case cainteoir::overlap_at_end:
+			delta_end = frame.end() - window.end();
+			break;
+		case cainteoir::overlap_outer:
+			delta_start = window.begin() - frame.begin();
+			delta_end = frame.end() - window.end();
+			break;
+		case cainteoir::overlap_inner:
+			break;
+		case cainteoir::no_overlap:
+			continue;
 		}
-		av_free_packet(&reading);
+
+		auto data = converter.resample(mFrame, delta_start, delta_end);
+		if (!data.empty())
+			out->write((const char *)data.begin(), data.size());
 	}
 	return true;
 }
