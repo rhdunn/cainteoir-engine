@@ -52,6 +52,15 @@ int main(int argc, char **argv)
 		fprintf(stdout, "channels    : %d\n", audio->channels());
 		fprintf(stdout, "format      : %s\n", audio->format().str().c_str());
 		fprintf(stdout, "sample rate : %d\n", audio->frequency());
+
+		audio->set_target(audio);
+
+		int frame = 1;
+		while (audio->read())
+		{
+			fprintf(stdout, "frame #%d : size=%zu\n", frame, audio->data.size());
+			++frame;
+		}
 	}
 	catch (std::runtime_error &e)
 	{
