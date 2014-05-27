@@ -46,11 +46,19 @@ namespace cainteoir
 		virtual uint32_t write(const char *data, uint32_t len) = 0;
 	};
 
-	struct audio_player : public audio_info
+	struct audio_reader : public audio_info
 	{
-		virtual bool play(const std::shared_ptr<cainteoir::audio> &out,
-		                  const css::time &start,
-		                  const css::time &end) = 0;
+		cainteoir::range<uint8_t *> data;
+
+		audio_reader() : data(nullptr, nullptr)
+		{
+		}
+
+		virtual void set_interval(const css::time &start, const css::time &end) = 0;
+
+		virtual void set_target(const std::shared_ptr<audio_info> &info) = 0;
+
+		virtual bool read() = 0;
 	};
 
 	struct vorbis_comment
@@ -102,8 +110,8 @@ namespace cainteoir
 		int aChannels,
 		int aFrequency);
 
-	std::shared_ptr<audio_player>
-	create_media_player(const std::shared_ptr<cainteoir::buffer> &data);
+	std::shared_ptr<audio_reader>
+	create_media_reader(const std::shared_ptr<cainteoir::buffer> &data);
 }
 
 #endif

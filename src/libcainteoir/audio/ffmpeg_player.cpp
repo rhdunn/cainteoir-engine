@@ -173,7 +173,7 @@ static int64_t seek_buffer(void *opaque, int64_t offset, int whence)
 
 struct resampler
 {
-	resampler(AVCodecContext *codec, const cainteoir::audio_info *out);
+	resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::audio_info> &out);
 	~resampler();
 
 	cainteoir::range<uint8_t *> resample(AVFrame *frame, size_t delta_start, size_t delta_end);
@@ -189,7 +189,7 @@ private:
 #endif
 };
 
-resampler::resampler(AVCodecContext *codec, const cainteoir::audio_info *out)
+resampler::resampler(AVCodecContext *codec, const std::shared_ptr<cainteoir::audio_info> &out)
 	: mCodec(codec)
 #ifdef HAVE_LIBAVRESAMPLE
 	, mContext(nullptr)
@@ -302,35 +302,44 @@ cainteoir::range<uint8_t *> resampler::resample(AVFrame *frame, size_t delta_sta
 	return { data, data + len };
 }
 
-struct ffmpeg_frame_reader
+struct ffmpeg_audio_reader : public cainteoir::audio_reader
 {
-	cainteoir::range<uint8_t *> data;
+	ffmpeg_audio_reader(const std::shared_ptr<cainteoir::buffer> &data);
+	~ffmpeg_audio_reader();
 
-	ffmpeg_frame_reader(AVFormatContext *format, AVStream *audio, const cainteoir::audio_info *info);
-	~ffmpeg_frame_reader();
+	int channels() const { return mAudio ? mAudio->codec->channels : 0; }
+
+	int frequency() const { return mAudio ? mAudio->codec->sample_rate : 0; }
+
+	const rdf::uri &format() const { return mAudioFormat; }
 
 	void set_interval(const css::time &start, const css::time &end);
 
+	void set_target(const std::shared_ptr<cainteoir::audio_info> &info);
+
 	bool read();
 private:
+	std::shared_ptr<buffer_stream> mData;
+	AVIOContext *mIO;
 	AVFormatContext *mFormat;
 	AVStream *mAudio;
 	AVFrame *mFrame;
+	rdf::uri mAudioFormat;
 
 	cainteoir::range<uint64_t> mWindow;
-	resampler mConverter;
+	std::shared_ptr<resampler> mConverter;
 	uint64_t mSamples;
 	AVPacket mReading;
 	AVPacket mDecoding;
 };
 
-ffmpeg_frame_reader::ffmpeg_frame_reader(AVFormatContext *format, AVStream *audio, const cainteoir::audio_info *info)
-	: data(nullptr, nullptr)
-	, mFormat(format)
-	, mAudio(audio)
+ffmpeg_audio_reader::ffmpeg_audio_reader(const std::shared_ptr<cainteoir::buffer> &data)
+	: mData(std::make_shared<buffer_stream>(data))
+	, mIO(nullptr)
+	, mFormat(nullptr)
+	, mAudio(nullptr)
 	, mFrame(nullptr)
 	, mWindow(0, std::numeric_limits<uint64_t>::max())
-	, mConverter(audio->codec, info)
 	, mSamples(0)
 {
 	mReading.size = 0;
@@ -339,6 +348,39 @@ ffmpeg_frame_reader::ffmpeg_frame_reader(AVFormatContext *format, AVStream *audi
 	mDecoding.size = 0;
 	mDecoding.data = nullptr;
 
+	static const int buffer_size = 32768;
+	uint8_t *buffer = (uint8_t *)av_malloc(buffer_size + FF_INPUT_BUFFER_PADDING_SIZE);
+	mIO = avio_alloc_context(buffer, buffer_size, 0, mData.get(), read_buffer, nullptr, seek_buffer);
+
+	mFormat = avformat_alloc_context();
+	mFormat->pb = mIO;
+	if (avformat_open_input(&mFormat, "stream", nullptr, nullptr) != 0)
+	{
+		// NOTE: Calling avformat_open_input with a nullptr AVInputFormat causes
+		// buffer to be managed by the mFormat object, so it does not need to be
+		// freed in the destructor -- doing so causes a double-free memory
+		// corruption error.
+		av_free(buffer);
+		return;
+	}
+
+	// Avoid the `[mp3 @ 0x...] max_analyze_duration reached` warning...
+	mFormat->max_analyze_duration = INT_MAX;
+	if (avformat_find_stream_info(mFormat, nullptr) < 0)
+		return;
+
+	AVCodec *codec = nullptr;
+	int index = av_find_best_stream(mFormat, AVMEDIA_TYPE_AUDIO, -1, -1, &codec, 0);
+	if (index < 0)
+		return;
+
+	mAudio = mFormat->streams[index];
+	mAudio->codec->codec = codec;
+	if (avcodec_open2(mAudio->codec, codec, nullptr) != 0)
+		return;
+
+	mAudioFormat = get_format_uri(mAudio->codec->sample_fmt);
+
 #ifdef HAVE_AV_FRAME_ALLOC
 	mFrame = av_frame_alloc();
 #else
@@ -346,12 +388,15 @@ ffmpeg_frame_reader::ffmpeg_frame_reader(AVFormatContext *format, AVStream *audi
 #endif
 }
 
-ffmpeg_frame_reader::~ffmpeg_frame_reader()
+ffmpeg_audio_reader::~ffmpeg_audio_reader()
 {
 	if (mFrame) av_free(mFrame);
+	if (mAudio) avcodec_close(mAudio->codec);
+	if (mFormat) avformat_free_context(mFormat);
+	if (mIO) av_free(mIO);
 }
 
-void ffmpeg_frame_reader::set_interval(const css::time &start, const css::time &end)
+void ffmpeg_audio_reader::set_interval(const css::time &start, const css::time &end)
 {
 	mWindow = {
 		time_to_samples(start, mAudio->codec->sample_rate, std::numeric_limits<uint64_t>::min()),
@@ -359,8 +404,15 @@ void ffmpeg_frame_reader::set_interval(const css::time &start, const css::time &
 	};
 }
 
-bool ffmpeg_frame_reader::read()
+void ffmpeg_audio_reader::set_target(const std::shared_ptr<cainteoir::audio_info> &info)
 {
+	mConverter = std::make_shared<resampler>(mAudio->codec, info);
+}
+
+bool ffmpeg_audio_reader::read()
+{
+	if (!mConverter) return false;
+
 	while (true)
 	{
 		if (mDecoding.size == 0)
@@ -418,7 +470,7 @@ bool ffmpeg_frame_reader::read()
 				continue;
 			}
 
-			data = mConverter.resample(mFrame, delta_start, delta_end);
+			data = mConverter->resample(mFrame, delta_start, delta_end);
 			if (!data.empty())
 				return true;
 		}
@@ -430,86 +482,8 @@ bool ffmpeg_frame_reader::read()
 	}
 }
 
-struct ffmpeg_player : public cainteoir::audio_player
-{
-	ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData);
-	~ffmpeg_player();
-
-	bool play(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end);
-
-	int channels() const { return mAudio ? mAudio->codec->channels : 0; }
-
-	int frequency() const { return mAudio ? mAudio->codec->sample_rate : 0; }
-
-	const rdf::uri &format() const { return mAudioFormat; }
-private:
-	std::shared_ptr<buffer_stream> mData;
-	AVIOContext *mIO;
-	AVFormatContext *mFormat;
-	AVStream *mAudio;
-	rdf::uri mAudioFormat;
-};
-
-ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData)
-	: mData(std::make_shared<buffer_stream>(aData))
-	, mIO(nullptr)
-	, mFormat(nullptr)
-	, mAudio(nullptr)
-{
-	static const int buffer_size = 32768;
-	uint8_t *buffer = (uint8_t *)av_malloc(buffer_size + FF_INPUT_BUFFER_PADDING_SIZE);
-	mIO = avio_alloc_context(buffer, buffer_size, 0, mData.get(), read_buffer, nullptr, seek_buffer);
-
-	mFormat = avformat_alloc_context();
-	mFormat->pb = mIO;
-	if (avformat_open_input(&mFormat, "stream", nullptr, nullptr) != 0)
-	{
-		// NOTE: Calling avformat_open_input with a nullptr AVInputFormat causes
-		// buffer to be managed by the mFormat object, so it does not need to be
-		// freed in the destructor -- doing so causes a double-free memory
-		// corruption error.
-		av_free(buffer);
-		return;
-	}
-
-	// Avoid the `[mp3 @ 0x...] max_analyze_duration reached` warning...
-	mFormat->max_analyze_duration = INT_MAX;
-	if (avformat_find_stream_info(mFormat, nullptr) < 0)
-		return;
-
-	AVCodec *codec = nullptr;
-	int index = av_find_best_stream(mFormat, AVMEDIA_TYPE_AUDIO, -1, -1, &codec, 0);
-	if (index < 0)
-		return;
-
-	mAudio = mFormat->streams[index];
-	mAudio->codec->codec = codec;
-	if (avcodec_open2(mAudio->codec, codec, nullptr) != 0)
-		return;
-
-	mAudioFormat = get_format_uri(mAudio->codec->sample_fmt);
-}
-
-ffmpeg_player::~ffmpeg_player()
-{
-	if (mAudio) avcodec_close(mAudio->codec);
-	if (mFormat) avformat_free_context(mFormat);
-	if (mIO) av_free(mIO);
-}
-
-bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end)
-{
-	if (mAudioFormat.empty()) return false;
-
-	ffmpeg_frame_reader reader(mFormat, mAudio, out.get());
-	reader.set_interval(start, end);
-	while (reader.read())
-		out->write((const char *)reader.data.begin(), reader.data.size());
-	return true;
-}
-
-std::shared_ptr<cainteoir::audio_player>
-cainteoir::create_media_player(const std::shared_ptr<cainteoir::buffer> &data)
+std::shared_ptr<cainteoir::audio_reader>
+cainteoir::create_media_reader(const std::shared_ptr<cainteoir::buffer> &data)
 {
 	static bool registered = false;
 	if (!registered)
@@ -517,13 +491,13 @@ cainteoir::create_media_player(const std::shared_ptr<cainteoir::buffer> &data)
 		registered = true;
 		av_register_all();
 	}
-	return std::make_shared<ffmpeg_player>(data);
+	return std::make_shared<ffmpeg_audio_reader>(data);
 }
 
 #else
 
-std::shared_ptr<cainteoir::audio_player>
-cainteoir::create_media_player(const std::shared_ptr<cainteoir::buffer> &data)
+std::shared_ptr<cainteoir::audio_reader>
+cainteoir::create_media_reader(const std::shared_ptr<cainteoir::buffer> &data)
 {
 	return {};
 }

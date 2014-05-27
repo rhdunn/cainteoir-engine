@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 			return 0;
 		}
 
-		auto audio = cainteoir::create_media_player(cainteoir::make_file_buffer(argv[0]));
+		auto audio = cainteoir::create_media_reader(cainteoir::make_file_buffer(argv[0]));
 
 		fprintf(stdout, "channels    : %d\n", audio->channels());
 		fprintf(stdout, "format      : %s\n", audio->format().str().c_str());

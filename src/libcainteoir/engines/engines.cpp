@@ -148,10 +148,13 @@ static void * speak_tts_thread(void *data)
 				if (mode == tts::media_overlays_mode::media_overlays_only ||
 				    mode == tts::media_overlays_mode::tts_and_media_overlays)
 				{
-					auto audio = cainteoir::create_media_player(node.content);
+					auto audio = cainteoir::create_media_reader(node.content);
 					if (audio)
 					{
-						audio->play(speak->audio, node.media_begin, node.media_end);
+						audio->set_interval(node.media_begin, node.media_end);
+						audio->set_target(speak->audio);
+						while (audio->read())
+							speak->audio->write((const char *)audio->data.begin(), audio->data.size());
 						media_overlay_depth = depth;
 					}
 				}

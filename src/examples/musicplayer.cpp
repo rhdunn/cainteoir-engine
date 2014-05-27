@@ -95,7 +95,7 @@ int main(int argc, char ** argv)
 		print_time(end,   "end time        ");
 
 		auto data = cainteoir::make_file_buffer(argv[0]);
-		auto player = cainteoir::create_media_player(data);
+		auto player = cainteoir::create_media_reader(data);
 		if (player)
 		{
 			fprintf(stdout, "source channels  : %d\n",   player->channels());
@@ -115,7 +115,10 @@ int main(int argc, char ** argv)
 			auto out = cainteoir::open_audio_device(nullptr, doc, subject, format, channels, frequency);
 
 			out->open();
-			player->play(out, start, end);
+			player->set_interval(start, end);
+			player->set_target(out);
+			while (player->read())
+				out->write((const char *)player->data.begin(), player->data.size());
 			out->close();
 		}
 	}
