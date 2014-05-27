@@ -306,7 +306,8 @@ struct ffmpeg_frame_reader
 {
 	cainteoir::range<uint8_t *> data;
 
-	ffmpeg_frame_reader(AVFormatContext *format, AVStream *audio, AVFrame *frame, const cainteoir::audio_info *info);
+	ffmpeg_frame_reader(AVFormatContext *format, AVStream *audio, const cainteoir::audio_info *info);
+	~ffmpeg_frame_reader();
 
 	void set_interval(const css::time &start, const css::time &end);
 
@@ -323,11 +324,11 @@ private:
 	AVPacket mDecoding;
 };
 
-ffmpeg_frame_reader::ffmpeg_frame_reader(AVFormatContext *format, AVStream *audio, AVFrame *frame, const cainteoir::audio_info *info)
+ffmpeg_frame_reader::ffmpeg_frame_reader(AVFormatContext *format, AVStream *audio, const cainteoir::audio_info *info)
 	: data(nullptr, nullptr)
 	, mFormat(format)
 	, mAudio(audio)
-	, mFrame(frame)
+	, mFrame(nullptr)
 	, mWindow(0, std::numeric_limits<uint64_t>::max())
 	, mConverter(audio->codec, info)
 	, mSamples(0)
@@ -337,6 +338,17 @@ ffmpeg_frame_reader::ffmpeg_frame_reader(AVFormatContext *format, AVStream *audi
 
 	mDecoding.size = 0;
 	mDecoding.data = nullptr;
+
+#ifdef HAVE_AV_FRAME_ALLOC
+	mFrame = av_frame_alloc();
+#else
+	mFrame = avcodec_alloc_frame();
+#endif
+}
+
+ffmpeg_frame_reader::~ffmpeg_frame_reader()
+{
+	if (mFrame) av_free(mFrame);
 }
 
 void ffmpeg_frame_reader::set_interval(const css::time &start, const css::time &end)
@@ -435,7 +447,6 @@ private:
 	AVIOContext *mIO;
 	AVFormatContext *mFormat;
 	AVStream *mAudio;
-	AVFrame *mFrame;
 	rdf::uri mAudioFormat;
 };
 
@@ -444,7 +455,6 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData)
 	, mIO(nullptr)
 	, mFormat(nullptr)
 	, mAudio(nullptr)
-	, mFrame(nullptr)
 {
 	static const int buffer_size = 32768;
 	uint8_t *buffer = (uint8_t *)av_malloc(buffer_size + FF_INPUT_BUFFER_PADDING_SIZE);
@@ -477,17 +487,11 @@ ffmpeg_player::ffmpeg_player(const std::shared_ptr<cainteoir::buffer> &aData)
 	if (avcodec_open2(mAudio->codec, codec, nullptr) != 0)
 		return;
 
-#ifdef HAVE_AV_FRAME_ALLOC
-	mFrame = av_frame_alloc();
-#else
-	mFrame = avcodec_alloc_frame();
-#endif
 	mAudioFormat = get_format_uri(mAudio->codec->sample_fmt);
 }
 
 ffmpeg_player::~ffmpeg_player()
 {
-	if (mFrame) av_free(mFrame);
 	if (mAudio) avcodec_close(mAudio->codec);
 	if (mFormat) avformat_free_context(mFormat);
 	if (mIO) av_free(mIO);
@@ -495,9 +499,9 @@ ffmpeg_player::~ffmpeg_player()
 
 bool ffmpeg_player::play(const std::shared_ptr<cainteoir::audio> &out, const css::time &start, const css::time &end)
 {
-	if (!mFrame) return false;
+	if (mAudioFormat.empty()) return false;
 
-	ffmpeg_frame_reader reader(mFormat, mAudio, mFrame, out.get());
+	ffmpeg_frame_reader reader(mFormat, mAudio, out.get());
 	reader.set_interval(start, end);
 	while (reader.read())
 		out->write((const char *)reader.data.begin(), reader.data.size());
