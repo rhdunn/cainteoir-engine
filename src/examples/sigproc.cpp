@@ -48,6 +48,8 @@ int main(int argc, char **argv)
 		}
 
 		auto audio = cainteoir::create_media_reader(cainteoir::make_file_buffer(argv[0]));
+		if (!audio)
+			throw std::runtime_error("unable to read the audio file");
 
 		fprintf(stdout, "channels    : %d\n", audio->channels());
 		fprintf(stdout, "format      : %s\n", audio->format().str().c_str());
