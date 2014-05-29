@@ -125,7 +125,7 @@ int main(int argc, char **argv)
 
 		out->close();
 	}
-	catch (std::runtime_error &e)
+	catch (std::exception &e)
 	{
 		fprintf(stderr, "error: %s\n", e.what());
 	}
