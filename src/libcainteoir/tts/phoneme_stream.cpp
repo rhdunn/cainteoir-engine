@@ -26,11 +26,11 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct words_to_phonemes : public tts::text_reader
+struct words_to_phonemes_t : public tts::text_reader
 {
 public:
-	words_to_phonemes(const std::shared_ptr<tts::phoneme_reader> &aRules,
-	                  const std::shared_ptr<tts::dictionary_reader> &aExceptionDictionary);
+	words_to_phonemes_t(const std::shared_ptr<tts::phoneme_reader> &aRules,
+	                    const std::shared_ptr<tts::dictionary_reader> &aExceptionDictionary);
 
 	void bind(const std::shared_ptr<tts::text_reader> &aReader);
 
@@ -46,8 +46,8 @@ private:
 	tts::dictionary mExceptionDictionary;
 };
 
-words_to_phonemes::words_to_phonemes(const std::shared_ptr<tts::phoneme_reader> &aRules,
-                                     const std::shared_ptr<tts::dictionary_reader> &aExceptionDictionary)
+words_to_phonemes_t::words_to_phonemes_t(const std::shared_ptr<tts::phoneme_reader> &aRules,
+                                         const std::shared_ptr<tts::dictionary_reader> &aExceptionDictionary)
 	: mRules(aRules)
 {
 	if (aExceptionDictionary) while (aExceptionDictionary->read())
@@ -55,13 +55,13 @@ words_to_phonemes::words_to_phonemes(const std::shared_ptr<tts::phoneme_reader> 
 }
 
 void
-words_to_phonemes::bind(const std::shared_ptr<tts::text_reader> &aReader)
+words_to_phonemes_t::bind(const std::shared_ptr<tts::text_reader> &aReader)
 {
 	mReader = aReader;
 }
 
 bool
-words_to_phonemes::read()
+words_to_phonemes_t::read()
 {
 	if (mReader) while (mReader->read()) switch (mReader->event().type)
 	{
@@ -81,8 +81,8 @@ words_to_phonemes::read()
 }
 
 bool
-words_to_phonemes::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
-                             const cainteoir::range<uint32_t> &aRange)
+words_to_phonemes_t::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
+                               const cainteoir::range<uint32_t> &aRange)
 {
 	mEvent = { tts::phonemes, aRange, 0 };
 	if (!mExceptionDictionary.pronounce(aText, mRules, mEvent.phonemes))
@@ -98,7 +98,7 @@ std::shared_ptr<tts::text_reader>
 tts::words_to_phonemes(const std::shared_ptr<phoneme_reader> &aRules,
                        const std::shared_ptr<dictionary_reader> &aExceptionDictionary)
 {
-	return std::make_shared<::words_to_phonemes>(aRules, aExceptionDictionary);
+	return std::make_shared<words_to_phonemes_t>(aRules, aExceptionDictionary);
 }
 
 void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,

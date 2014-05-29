@@ -30,9 +30,9 @@ namespace css = cainteoir::css;
 
 #include "text_reader.fsm.h"
 
-struct text_reader : public tts::text_reader
+struct text_reader_t : public tts::text_reader
 {
-	text_reader(const std::shared_ptr<cainteoir::document_reader> &aReader);
+	text_reader_t(const std::shared_ptr<cainteoir::document_reader> &aReader);
 
 	void bind(const std::shared_ptr<tts::text_reader> &aReader);
 
@@ -64,7 +64,7 @@ private:
 	uint8_t mState;
 };
 
-text_reader::text_reader(const std::shared_ptr<cainteoir::document_reader> &aReader)
+text_reader_t::text_reader_t(const std::shared_ptr<cainteoir::document_reader> &aReader)
 	: mReader(aReader)
 	, mMatchCurrent(mMatchBuffer)
 	, mNeedEndPara(false)
@@ -78,12 +78,12 @@ text_reader::text_reader(const std::shared_ptr<cainteoir::document_reader> &aRea
 	mMatch.type = tts::error;
 }
 
-void text_reader::bind(const std::shared_ptr<tts::text_reader> &aReader)
+void text_reader_t::bind(const std::shared_ptr<tts::text_reader> &aReader)
 {
 	throw std::runtime_error("cannot bind to a text_reader object");
 }
 
-bool text_reader::read()
+bool text_reader_t::read()
 {
 	while (mReaderState == reader_state::need_text && mReader->read())
 	{
@@ -211,7 +211,7 @@ bool text_reader::read()
 	return read();
 }
 
-bool text_reader::matched()
+bool text_reader_t::matched()
 {
 	mMatch.type = fsm::data[mState].value;
 	mState = 0;
@@ -224,5 +224,5 @@ bool text_reader::matched()
 
 std::shared_ptr<tts::text_reader> tts::create_text_reader(const std::shared_ptr<document_reader> &aReader)
 {
-	return std::make_shared<::text_reader>(aReader);
+	return std::make_shared<text_reader_t>(aReader);
 }

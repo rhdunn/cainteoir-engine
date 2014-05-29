@@ -26,10 +26,10 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct adjust_stress : public tts::text_reader
+struct adjust_stress_t : public tts::text_reader
 {
 public:
-	adjust_stress();
+	adjust_stress_t();
 
 	void bind(const std::shared_ptr<tts::text_reader> &aReader);
 
@@ -44,20 +44,20 @@ private:
 	bool mPrevIsStressed;
 };
 
-adjust_stress::adjust_stress()
+adjust_stress_t::adjust_stress_t()
 	: mPrevSyllableCount(0)
 	, mPrevIsStressed(false)
 {
 }
 
 void
-adjust_stress::bind(const std::shared_ptr<tts::text_reader> &aReader)
+adjust_stress_t::bind(const std::shared_ptr<tts::text_reader> &aReader)
 {
 	mReader = aReader;
 }
 
 bool
-adjust_stress::read()
+adjust_stress_t::read()
 {
 	if (mReader && mReader->read())
 	{
@@ -79,7 +79,7 @@ adjust_stress::read()
 	return false;
 }
 
-void adjust_stress::adjust_phonemes(std::list<ipa::phoneme> &aPhonemes)
+void adjust_stress_t::adjust_phonemes(std::list<ipa::phoneme> &aPhonemes)
 {
 	auto stress_placement = aPhonemes.end();
 	int syllable_count = 0;
@@ -113,5 +113,5 @@ void adjust_stress::adjust_phonemes(std::list<ipa::phoneme> &aPhonemes)
 std::shared_ptr<tts::text_reader>
 tts::adjust_stress()
 {
-	return std::make_shared<::adjust_stress>();
+	return std::make_shared<adjust_stress_t>();
 }

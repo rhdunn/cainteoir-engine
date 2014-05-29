@@ -266,11 +266,11 @@ static const std::string number_scale_str[] =
 	"x-lngscale",
 };
 
-struct numbers_to_words : public tts::text_reader
+struct numbers_to_words_t : public tts::text_reader
 {
 public:
-	numbers_to_words(const cainteoir::language::tag &aLocale,
-	                 tts::number_scale aScale);
+	numbers_to_words_t(const cainteoir::language::tag &aLocale,
+	                   tts::number_scale aScale);
 
 	void bind(const std::shared_ptr<tts::text_reader> &aReader);
 
@@ -285,8 +285,8 @@ private:
 	tts::dictionary mOrdinals;
 };
 
-numbers_to_words::numbers_to_words(const cainteoir::language::tag &aLocale,
-                                   tts::number_scale aScale)
+numbers_to_words_t::numbers_to_words_t(const cainteoir::language::tag &aLocale,
+                                       tts::number_scale aScale)
 {
 	auto locale_path = cainteoir::get_data_path() / "locale";
 
@@ -299,12 +299,12 @@ numbers_to_words::numbers_to_words(const cainteoir::language::tag &aLocale,
 	parseCainteoirDictionary(mOrdinals, locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "ordinal.dict");
 }
 
-void numbers_to_words::bind(const std::shared_ptr<tts::text_reader> &aReader)
+void numbers_to_words_t::bind(const std::shared_ptr<tts::text_reader> &aReader)
 {
 	mReader = aReader;
 }
 
-bool numbers_to_words::read()
+bool numbers_to_words_t::read()
 {
 	if (mEntries.empty())
 	{
@@ -343,5 +343,5 @@ std::shared_ptr<tts::text_reader>
 tts::numbers_to_words(const language::tag &aLocale,
                       number_scale aScale)
 {
-	return std::make_shared<::numbers_to_words>(aLocale, aScale);
+	return std::make_shared<numbers_to_words_t>(aLocale, aScale);
 }

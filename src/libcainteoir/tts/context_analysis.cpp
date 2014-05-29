@@ -223,10 +223,10 @@ enum class clause_state
 	end,          // next event is a word
 };
 
-struct context_analysis : public tts::text_reader
+struct context_analysis_t : public tts::text_reader
 {
 public:
-	context_analysis();
+	context_analysis_t();
 
 	void bind(const std::shared_ptr<tts::text_reader> &aReader);
 
@@ -241,18 +241,18 @@ private:
 	std::queue<tts::text_event> mClause;
 };
 
-context_analysis::context_analysis()
+context_analysis_t::context_analysis_t()
 	: mHaveEvent(false)
 {
 }
 
-void context_analysis::bind(const std::shared_ptr<tts::text_reader> &aReader)
+void context_analysis_t::bind(const std::shared_ptr<tts::text_reader> &aReader)
 {
 	mReader = aReader;
 	mHaveEvent = mReader->read();
 }
 
-bool context_analysis::read()
+bool context_analysis_t::read()
 {
 	if (mClause.empty())
 	{
@@ -269,7 +269,7 @@ bool context_analysis::read()
 	return true;
 }
 
-bool context_analysis::read_clause()
+bool context_analysis_t::read_clause()
 {
 	clause_state state = clause_state::start;
 	punctuation_sequence sequence;
@@ -381,5 +381,5 @@ bool context_analysis::read_clause()
 
 std::shared_ptr<tts::text_reader> tts::context_analysis()
 {
-	return std::make_shared<::context_analysis>();
+	return std::make_shared<context_analysis_t>();
 }
