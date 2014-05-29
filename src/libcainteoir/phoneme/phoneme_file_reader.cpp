@@ -374,7 +374,7 @@ tts::transcription_reader::transcription_reader(tts::phoneme_file_reader &aPhone
 			switch (aPhonemeSet.feature.type())
 			{
 			case '=':
-				phoneme.rule.push_back({ aPhonemeSet.feature, aPhonemeSet.context });
+				phoneme.rule.push_back({ aPhonemeSet.feature, aPhonemeSet.context, {}});
 				break;
 			default:
 				phoneme.rule.push_back({ aPhonemeSet.change_to, aPhonemeSet.feature, aPhonemeSet.context });

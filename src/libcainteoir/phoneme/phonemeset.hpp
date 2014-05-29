@@ -150,7 +150,7 @@ namespace cainteoir { namespace tts
 			feature_t context1;
 			feature_t context2;
 
-			phoneme_rule_t(const feature_t &aFeature, const feature_t &aContext1, const feature_t &aContext2 = {})
+			phoneme_rule_t(const feature_t &aFeature, const feature_t &aContext1, const feature_t &aContext2)
 				: feature(aFeature)
 				, context1(aContext1)
 				, context2(aContext2)
