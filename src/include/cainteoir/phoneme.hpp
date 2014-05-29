@@ -43,15 +43,15 @@ namespace cainteoir { namespace ipa
 
 	// features
 
-	// main ---------------------------------------------- 00000000001FFFFF
+	// main ------------------------------------------------ 00000000001FFFFF
 	constexpr feature_t phoneme_type           = FEATURE_C(0x000000000000000F);
-	// ... consonants ------------------------------------ 0000000000003FF0
+	// ... consonants -------------------------------------- 0000000000003FF0
 	constexpr feature_t place_of_articulation  = FEATURE_C(0x00000000000000F0);
 	constexpr feature_t manner_of_articulation = FEATURE_C(0x0000000000000700);
 	constexpr feature_t lateral                = FEATURE_C(0x0000000000000800);
 	constexpr feature_t sibilant               = FEATURE_C(0x0000000000001000);
 	constexpr feature_t voiced                 = FEATURE_C(0x0000000000002000);
-	// ... vowels ---------------------------------------- 00000000001FC000
+	// ... vowels ------------------------------------------ 00000000001FC000
 	constexpr feature_t rounded                = FEATURE_C(0x0000000000004000);
 	constexpr feature_t high                   = FEATURE_C(0x0000000000008000);
 	constexpr feature_t mid                    = FEATURE_C(0x0000000000010000);
@@ -59,7 +59,7 @@ namespace cainteoir { namespace ipa
 	constexpr feature_t lax                    = FEATURE_C(0x0000000000040000);
 	constexpr feature_t front                  = FEATURE_C(0x0000000000080000);
 	constexpr feature_t back                   = FEATURE_C(0x0000000000100000);
-	// diacritics ---------------------------------------- 000007FFFFE00000
+	// diacritics ------------------------------------------ 000007FFFFE00000
 	constexpr feature_t ejective               = FEATURE_C(0x0000000000200000);
 	constexpr feature_t release                = FEATURE_C(0x0000000001C00000);
 	constexpr feature_t phonation              = FEATURE_C(0x000000000E000000);
@@ -70,8 +70,8 @@ namespace cainteoir { namespace ipa
 	constexpr feature_t tongue_root            = FEATURE_C(0x000000C000000000);
 	constexpr feature_t joined_to_next_phoneme = FEATURE_C(0x0000010000000000);
 	constexpr feature_t syllabicity            = FEATURE_C(0x0000060000000000);
-	// reserved (unassigned) ----------------------------- 000EF80000000000
-	// suprasegmentals ----------------------------------- FFF1000000000000
+	// reserved (unassigned) ------------------------------- 000EF80000000000
+	// suprasegmentals ------------------------------------- FFF1000000000000
 	constexpr feature_t tone_start             = FEATURE_C(0x0031000000000000);
 	constexpr feature_t tone_middle            = FEATURE_C(0x01C0000000000000);
 	constexpr feature_t tone_end               = FEATURE_C(0x0E00000000000000);
