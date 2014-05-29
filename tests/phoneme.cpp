@@ -37,7 +37,7 @@ namespace cainteoir { namespace ipa
 		auto fill = os.fill();
 		return os << "0x"
 		          << std::hex << std::setw(16) << std::setfill('0') << std::uppercase
-		          << value.get(UINT16_C(0xFFFFFFFFFFFFFFFF))
+		          << value.get(FEATURE_C(0xFFFFFFFFFFFFFFFF))
 		          << std::dec << std::setw(0) << std::setfill(fill) << std::nouppercase;
 	}
 }}
@@ -51,9 +51,9 @@ TEST_CASE("ipa::phoneme -- object size")
 
 TEST_CASE("ipa::phoneme -- construction")
 {
-	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
-	const ipa::phoneme::value_type val1 = UINT16_C(0x1234567812345678);
-	const ipa::phoneme::value_type val2 = UINT16_C(0x8765432187654321);
+	const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000);
+	const ipa::phoneme::value_type val1 = FEATURE_C(0x1234567812345678);
+	const ipa::phoneme::value_type val2 = FEATURE_C(0x8765432187654321);
 
 	assert(ipa::phoneme() == ipa::phoneme(zero));
 	assert(ipa::phoneme(val1) == ipa::phoneme(val1));
@@ -68,9 +68,9 @@ TEST_CASE("ipa::phoneme -- construction")
 
 TEST_CASE("ipa::phoneme -- assignment")
 {
-	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
-	const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF);
-	const ipa::phoneme::value_type val1 = UINT16_C(0x1234567812345678);
+	const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000);
+	const ipa::phoneme::value_type fill = FEATURE_C(0xFFFFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type val1 = FEATURE_C(0x1234567812345678);
 
 	ipa::phoneme p;
 
@@ -86,10 +86,10 @@ TEST_CASE("ipa::phoneme -- assignment")
 
 TEST_CASE("ipa::phoneme -- get")
 {
-	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
-	const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF);
-	const ipa::phoneme::value_type val1 = UINT16_C(0x1234567812345678);
-	const ipa::phoneme::value_type mask = UINT16_C(0x1200000000000000);
+	const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000);
+	const ipa::phoneme::value_type fill = FEATURE_C(0xFFFFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type val1 = FEATURE_C(0x1234567812345678);
+	const ipa::phoneme::value_type mask = FEATURE_C(0x1200000000000000);
 
 	assert(ipa::phoneme(fill).get(fill) == fill);
 	assert(ipa::phoneme(fill).get(val1) == val1);
@@ -108,9 +108,9 @@ TEST_CASE("ipa::phoneme -- get")
 
 TEST_CASE("ipa::phoneme -- set")
 {
-	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
-	const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF);
-	const ipa::phoneme::value_type mask = UINT16_C(0xFF00000000000000);
+	const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000);
+	const ipa::phoneme::value_type fill = FEATURE_C(0xFFFFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type mask = FEATURE_C(0xFF00000000000000);
 
 	assert(ipa::phoneme(zero).set(fill) == ipa::phoneme(fill));
 	assert(ipa::phoneme(zero).set(mask) == ipa::phoneme(mask));
@@ -123,10 +123,10 @@ TEST_CASE("ipa::phoneme -- set")
 
 TEST_CASE("ipa::phoneme -- set with bit mask")
 {
-	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
-	const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF);
-	const ipa::phoneme::value_type mask = UINT16_C(0xFF00000000000000);
-	const ipa::phoneme::value_type invm = UINT16_C(0x00FFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000);
+	const ipa::phoneme::value_type fill = FEATURE_C(0xFFFFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type mask = FEATURE_C(0xFF00000000000000);
+	const ipa::phoneme::value_type invm = FEATURE_C(0x00FFFFFFFFFFFFFF);
 
 	assert(ipa::phoneme(zero).set(fill, fill) == ipa::phoneme(fill));
 	assert(ipa::phoneme(zero).set(fill, mask) == ipa::phoneme(mask));
@@ -139,10 +139,10 @@ TEST_CASE("ipa::phoneme -- set with bit mask")
 
 TEST_CASE("ipa::phoneme -- clear")
 {
-	const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000);
-	const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF);
-	const ipa::phoneme::value_type mask = UINT16_C(0xFF00000000000000);
-	const ipa::phoneme::value_type invm = UINT16_C(0x00FFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000);
+	const ipa::phoneme::value_type fill = FEATURE_C(0xFFFFFFFFFFFFFFFF);
+	const ipa::phoneme::value_type mask = FEATURE_C(0xFF00000000000000);
+	const ipa::phoneme::value_type invm = FEATURE_C(0x00FFFFFFFFFFFFFF);
 
 	assert(ipa::phoneme(zero).clear(fill) == ipa::phoneme(zero));
 	assert(ipa::phoneme(zero).clear(mask) == ipa::phoneme(zero));
@@ -170,8 +170,8 @@ TEST_CASE("kirshenbaum -- invalid")
 #define KIRSHENBAUM_BIN1(abbr, label, value) /* Enable Binary Feature */ \
 	TEST_CASE("kirshenbaum -- " abbr " = " label) \
 	{ \
-		const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000); \
-		const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF); \
+		const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000); \
+		const ipa::phoneme::value_type fill = FEATURE_C(0xFFFFFFFFFFFFFFFF); \
 		assert(!ipa::phoneme(zero).get(abbr)); \
 		assert(ipa::phoneme(fill).get(abbr)); \
 		assert(ipa::phoneme(zero).set(abbr) == ipa::phoneme(value)); \
@@ -181,8 +181,8 @@ TEST_CASE("kirshenbaum -- invalid")
 #define KIRSHENBAUM_BIN0(abbr, label, value) /* Disable Binary Feature */ \
 	TEST_CASE("kirshenbaum -- " abbr " = " label) \
 	{ \
-		const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000); \
-		const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF); \
+		const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000); \
+		const ipa::phoneme::value_type fill = FEATURE_C(0xFFFFFFFFFFFFFFFF); \
 		assert(ipa::phoneme(zero).get(abbr)); \
 		assert(!ipa::phoneme(fill).get(abbr)); \
 		assert(ipa::phoneme(zero).set(abbr) == ipa::phoneme(zero)); \
@@ -192,8 +192,8 @@ TEST_CASE("kirshenbaum -- invalid")
 #define KIRSHENBAUM_RNGD(abbr, label, value, mask) /* Ranged (Value + Mask) Feature */ \
 	TEST_CASE("kirshenbaum -- " abbr " = " label) \
 	{ \
-		const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000); \
-		const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF); \
+		const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000); \
+		const ipa::phoneme::value_type fill = FEATURE_C(0xFFFFFFFFFFFFFFFF); \
 		if (value) { \
 			assert(!ipa::phoneme(zero).get(abbr)); \
 			assert(ipa::phoneme((fill & ~mask) | value).get(abbr)); \
@@ -208,8 +208,8 @@ TEST_CASE("kirshenbaum -- invalid")
 #define KIRSHENBAUM_NULL(abbr, label, value, mask) /* Unsupported Feature */ \
 	TEST_CASE("kirshenbaum -- " abbr " = " label) \
 	{ \
-		const ipa::phoneme::value_type zero = UINT16_C(0x0000000000000000); \
-		const ipa::phoneme::value_type fill = UINT16_C(0xFFFFFFFFFFFFFFFF); \
+		const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000); \
+		const ipa::phoneme::value_type fill = FEATURE_C(0xFFFFFFFFFFFFFFFF); \
 		assert(!ipa::phoneme(zero).get(abbr)); \
 		assert(!ipa::phoneme(fill).get(abbr)); \
 		assert(ipa::phoneme(zero).set(abbr) == ipa::phoneme(value)); \

@@ -28,200 +28,208 @@
 
 namespace cainteoir { namespace ipa
 {
-	constexpr uint64_t main                   = UINT64_C(0x00000000001FFFFF);
-	constexpr uint64_t diacritics             = UINT64_C(0x000007FFFFE00000);
-	constexpr uint64_t reserved               = UINT64_C(0x000EF80000000000);
-	constexpr uint64_t suprasegmentals        = UINT64_C(0xFFF1000000000000);
+	typedef uint64_t feature_t;
+
+	#if __WORDSIZE == 64
+	#   define FEATURE_C(c) c ## UL
+	#else
+	#   define FEATURE_C(c) c ## ULL
+	#endif
+
+	constexpr feature_t main                   = FEATURE_C(0x00000000001FFFFF);
+	constexpr feature_t diacritics             = FEATURE_C(0x000007FFFFE00000);
+	constexpr feature_t reserved               = FEATURE_C(0x000EF80000000000);
+	constexpr feature_t suprasegmentals        = FEATURE_C(0xFFF1000000000000);
 
 	// features
 
 	// main ---------------------------------------------- 00000000001FFFFF
-	constexpr uint64_t phoneme_type           = UINT64_C(0x000000000000000F);
+	constexpr feature_t phoneme_type           = FEATURE_C(0x000000000000000F);
 	// ... consonants ------------------------------------ 0000000000003FF0
-	constexpr uint64_t place_of_articulation  = UINT64_C(0x00000000000000F0);
-	constexpr uint64_t manner_of_articulation = UINT64_C(0x0000000000000700);
-	constexpr uint64_t lateral                = UINT64_C(0x0000000000000800);
-	constexpr uint64_t sibilant               = UINT64_C(0x0000000000001000);
-	constexpr uint64_t voiced                 = UINT64_C(0x0000000000002000);
+	constexpr feature_t place_of_articulation  = FEATURE_C(0x00000000000000F0);
+	constexpr feature_t manner_of_articulation = FEATURE_C(0x0000000000000700);
+	constexpr feature_t lateral                = FEATURE_C(0x0000000000000800);
+	constexpr feature_t sibilant               = FEATURE_C(0x0000000000001000);
+	constexpr feature_t voiced                 = FEATURE_C(0x0000000000002000);
 	// ... vowels ---------------------------------------- 00000000001FC000
-	constexpr uint64_t rounded                = UINT64_C(0x0000000000004000);
-	constexpr uint64_t high                   = UINT64_C(0x0000000000008000);
-	constexpr uint64_t mid                    = UINT64_C(0x0000000000010000);
-	constexpr uint64_t low                    = UINT64_C(0x0000000000020000);
-	constexpr uint64_t lax                    = UINT64_C(0x0000000000040000);
-	constexpr uint64_t front                  = UINT64_C(0x0000000000080000);
-	constexpr uint64_t back                   = UINT64_C(0x0000000000100000);
+	constexpr feature_t rounded                = FEATURE_C(0x0000000000004000);
+	constexpr feature_t high                   = FEATURE_C(0x0000000000008000);
+	constexpr feature_t mid                    = FEATURE_C(0x0000000000010000);
+	constexpr feature_t low                    = FEATURE_C(0x0000000000020000);
+	constexpr feature_t lax                    = FEATURE_C(0x0000000000040000);
+	constexpr feature_t front                  = FEATURE_C(0x0000000000080000);
+	constexpr feature_t back                   = FEATURE_C(0x0000000000100000);
 	// diacritics ---------------------------------------- 000007FFFFE00000
-	constexpr uint64_t ejective               = UINT64_C(0x0000000000200000);
-	constexpr uint64_t release                = UINT64_C(0x0000000001C00000);
-	constexpr uint64_t phonation              = UINT64_C(0x000000000E000000);
-	constexpr uint64_t articulation           = UINT64_C(0x00000000F0000000);
-	constexpr uint64_t rounding               = UINT64_C(0x0000000300000000);
-	constexpr uint64_t coarticulation         = UINT64_C(0x0000001C00000000);
-	constexpr uint64_t rhoticized             = UINT64_C(0x0000002000000000);
-	constexpr uint64_t tongue_root            = UINT64_C(0x000000C000000000);
-	constexpr uint64_t joined_to_next_phoneme = UINT64_C(0x0000010000000000);
-	constexpr uint64_t syllabicity            = UINT64_C(0x0000060000000000);
+	constexpr feature_t ejective               = FEATURE_C(0x0000000000200000);
+	constexpr feature_t release                = FEATURE_C(0x0000000001C00000);
+	constexpr feature_t phonation              = FEATURE_C(0x000000000E000000);
+	constexpr feature_t articulation           = FEATURE_C(0x00000000F0000000);
+	constexpr feature_t rounding               = FEATURE_C(0x0000000300000000);
+	constexpr feature_t coarticulation         = FEATURE_C(0x0000001C00000000);
+	constexpr feature_t rhoticized             = FEATURE_C(0x0000002000000000);
+	constexpr feature_t tongue_root            = FEATURE_C(0x000000C000000000);
+	constexpr feature_t joined_to_next_phoneme = FEATURE_C(0x0000010000000000);
+	constexpr feature_t syllabicity            = FEATURE_C(0x0000060000000000);
 	// reserved (unassigned) ----------------------------- 000EF80000000000
 	// suprasegmentals ----------------------------------- FFF1000000000000
-	constexpr uint64_t tone_start             = UINT64_C(0x0031000000000000);
-	constexpr uint64_t tone_middle            = UINT64_C(0x01C0000000000000);
-	constexpr uint64_t tone_end               = UINT64_C(0x0E00000000000000);
-	constexpr uint64_t stress                 = UINT64_C(0x3000000000000000);
-	constexpr uint64_t length                 = UINT64_C(0xC000000000000000);
+	constexpr feature_t tone_start             = FEATURE_C(0x0031000000000000);
+	constexpr feature_t tone_middle            = FEATURE_C(0x01C0000000000000);
+	constexpr feature_t tone_end               = FEATURE_C(0x0E00000000000000);
+	constexpr feature_t stress                 = FEATURE_C(0x3000000000000000);
+	constexpr feature_t length                 = FEATURE_C(0xC000000000000000);
 
 	// phoneme type
 
-	constexpr uint64_t consonant        = UINT64_C(0x0000000000000000);
-	constexpr uint64_t vowel            = UINT64_C(0x0000000000000001);
-	constexpr uint64_t pause            = UINT64_C(0x0000000000000002);
-	constexpr uint64_t syllable_break   = UINT64_C(0x0000000000000003);
-	constexpr uint64_t linking          = UINT64_C(0x0000000000000004);
-	constexpr uint64_t foot_break       = UINT64_C(0x0000000000000005);
-	constexpr uint64_t intonation_break = UINT64_C(0x0000000000000006);
-	constexpr uint64_t global_rise      = UINT64_C(0x0000000000000007);
-	constexpr uint64_t global_fall      = UINT64_C(0x0000000000000008);
-	constexpr uint64_t upstep           = UINT64_C(0x0000000000000009);
-	constexpr uint64_t downstep         = UINT64_C(0x000000000000000A);
-	constexpr uint64_t unspecified      = UINT64_C(0x000000000000000F);
+	constexpr feature_t consonant        = FEATURE_C(0x0000000000000000);
+	constexpr feature_t vowel            = FEATURE_C(0x0000000000000001);
+	constexpr feature_t pause            = FEATURE_C(0x0000000000000002);
+	constexpr feature_t syllable_break   = FEATURE_C(0x0000000000000003);
+	constexpr feature_t linking          = FEATURE_C(0x0000000000000004);
+	constexpr feature_t foot_break       = FEATURE_C(0x0000000000000005);
+	constexpr feature_t intonation_break = FEATURE_C(0x0000000000000006);
+	constexpr feature_t global_rise      = FEATURE_C(0x0000000000000007);
+	constexpr feature_t global_fall      = FEATURE_C(0x0000000000000008);
+	constexpr feature_t upstep           = FEATURE_C(0x0000000000000009);
+	constexpr feature_t downstep         = FEATURE_C(0x000000000000000A);
+	constexpr feature_t unspecified      = FEATURE_C(0x000000000000000F);
 
 	// place of articulation
 
-	constexpr uint64_t bilabial        = UINT64_C(0x0000000000000000);
-	constexpr uint64_t labio_dental    = UINT64_C(0x0000000000000010);
-	constexpr uint64_t dental          = UINT64_C(0x0000000000000020);
-	constexpr uint64_t alveolar        = UINT64_C(0x0000000000000030);
-	constexpr uint64_t palato_alveolar = UINT64_C(0x0000000000000040);
-	constexpr uint64_t retroflex       = UINT64_C(0x0000000000000050);
-	constexpr uint64_t alveolo_palatal = UINT64_C(0x0000000000000060);
-	constexpr uint64_t palatal         = UINT64_C(0x0000000000000070);
-	constexpr uint64_t labio_palatal   = UINT64_C(0x0000000000000080);
-	constexpr uint64_t velar           = UINT64_C(0x0000000000000090);
-	constexpr uint64_t labio_velar     = UINT64_C(0x00000000000000A0);
-	constexpr uint64_t uvular          = UINT64_C(0x00000000000000B0);
-	constexpr uint64_t pharyngeal      = UINT64_C(0x00000000000000C0);
-	constexpr uint64_t epiglottal      = UINT64_C(0x00000000000000D0);
-	constexpr uint64_t glottal         = UINT64_C(0x00000000000000E0);
+	constexpr feature_t bilabial        = FEATURE_C(0x0000000000000000);
+	constexpr feature_t labio_dental    = FEATURE_C(0x0000000000000010);
+	constexpr feature_t dental          = FEATURE_C(0x0000000000000020);
+	constexpr feature_t alveolar        = FEATURE_C(0x0000000000000030);
+	constexpr feature_t palato_alveolar = FEATURE_C(0x0000000000000040);
+	constexpr feature_t retroflex       = FEATURE_C(0x0000000000000050);
+	constexpr feature_t alveolo_palatal = FEATURE_C(0x0000000000000060);
+	constexpr feature_t palatal         = FEATURE_C(0x0000000000000070);
+	constexpr feature_t labio_palatal   = FEATURE_C(0x0000000000000080);
+	constexpr feature_t velar           = FEATURE_C(0x0000000000000090);
+	constexpr feature_t labio_velar     = FEATURE_C(0x00000000000000A0);
+	constexpr feature_t uvular          = FEATURE_C(0x00000000000000B0);
+	constexpr feature_t pharyngeal      = FEATURE_C(0x00000000000000C0);
+	constexpr feature_t epiglottal      = FEATURE_C(0x00000000000000D0);
+	constexpr feature_t glottal         = FEATURE_C(0x00000000000000E0);
 
 	// manner of articulation
 
-	constexpr uint64_t plosive     = UINT64_C(0x0000000000000000);
-	constexpr uint64_t fricative   = UINT64_C(0x0000000000000100);
-	constexpr uint64_t nasal       = UINT64_C(0x0000000000000200);
-	constexpr uint64_t approximant = UINT64_C(0x0000000000000300);
-	constexpr uint64_t trill       = UINT64_C(0x0000000000000400);
-	constexpr uint64_t flap        = UINT64_C(0x0000000000000500);
-	constexpr uint64_t click       = UINT64_C(0x0000000000000600);
-	constexpr uint64_t implosive   = UINT64_C(0x0000000000000700);
+	constexpr feature_t plosive     = FEATURE_C(0x0000000000000000);
+	constexpr feature_t fricative   = FEATURE_C(0x0000000000000100);
+	constexpr feature_t nasal       = FEATURE_C(0x0000000000000200);
+	constexpr feature_t approximant = FEATURE_C(0x0000000000000300);
+	constexpr feature_t trill       = FEATURE_C(0x0000000000000400);
+	constexpr feature_t flap        = FEATURE_C(0x0000000000000500);
+	constexpr feature_t click       = FEATURE_C(0x0000000000000600);
+	constexpr feature_t implosive   = FEATURE_C(0x0000000000000700);
 
 	// vowel height
 
-	constexpr uint64_t vowel_height = high | mid | low | lax;
+	constexpr feature_t vowel_height = high | mid | low | lax;
 	//                              = high
-	constexpr uint64_t semi_high    = high | lax;
-	constexpr uint64_t upper_mid    = high | mid;
+	constexpr feature_t semi_high    = high | lax;
+	constexpr feature_t upper_mid    = high | mid;
 	//                              = mid
-	constexpr uint64_t lower_mid    = low  | mid;
-	constexpr uint64_t semi_low     = low  | lax;
+	constexpr feature_t lower_mid    = low  | mid;
+	constexpr feature_t semi_low     = low  | lax;
 	//                              = low
 
 	// vowel backness
 
-	constexpr uint64_t vowel_backness = front | back;
+	constexpr feature_t vowel_backness = front | back;
 	//                                = front
-	constexpr uint64_t center         = front | back;
+	constexpr feature_t center         = front | back;
 	//                                = back
 
 	// diacritics -- release
 
-	constexpr uint64_t aspirated       = UINT64_C(0x0000000000400000);
-	constexpr uint64_t unexploded      = UINT64_C(0x0000000000800000);
-	constexpr uint64_t nasal_release   = UINT64_C(0x0000000000C00000);
-	constexpr uint64_t lateral_release = UINT64_C(0x0000000001400000);
+	constexpr feature_t aspirated       = FEATURE_C(0x0000000000400000);
+	constexpr feature_t unexploded      = FEATURE_C(0x0000000000800000);
+	constexpr feature_t nasal_release   = FEATURE_C(0x0000000000C00000);
+	constexpr feature_t lateral_release = FEATURE_C(0x0000000001400000);
 
 	// diacritics -- phonation
 
-	constexpr uint64_t breathy_voice = UINT64_C(0x0000000002000000);
-	constexpr uint64_t slack_voice   = UINT64_C(0x0000000004000000);
-	constexpr uint64_t modal_voice   = UINT64_C(0x0000000006000000);
-	constexpr uint64_t stiff_voice   = UINT64_C(0x0000000008000000);
-	constexpr uint64_t creaky_voice  = UINT64_C(0x000000000A000000);
-	constexpr uint64_t murmured      = breathy_voice; // alias
+	constexpr feature_t breathy_voice = FEATURE_C(0x0000000002000000);
+	constexpr feature_t slack_voice   = FEATURE_C(0x0000000004000000);
+	constexpr feature_t modal_voice   = FEATURE_C(0x0000000006000000);
+	constexpr feature_t stiff_voice   = FEATURE_C(0x0000000008000000);
+	constexpr feature_t creaky_voice  = FEATURE_C(0x000000000A000000);
+	constexpr feature_t murmured      = breathy_voice; // alias
 
 	// diacritics -- articulation
 
-	constexpr uint64_t dentalized      = UINT64_C(0x0000000010000000);
-	constexpr uint64_t linguolabial    = UINT64_C(0x0000000020000000);
-	constexpr uint64_t apical          = UINT64_C(0x0000000030000000);
-	constexpr uint64_t laminal         = UINT64_C(0x0000000040000000);
-	constexpr uint64_t advanced        = UINT64_C(0x0000000050000000);
-	constexpr uint64_t retracted       = UINT64_C(0x0000000060000000);
-	constexpr uint64_t centralized     = UINT64_C(0x0000000070000000);
-	constexpr uint64_t mid_centralized = UINT64_C(0x0000000080000000);
-	constexpr uint64_t raised          = UINT64_C(0x0000000090000000);
-	constexpr uint64_t lowered         = UINT64_C(0x00000000A0000000);
+	constexpr feature_t dentalized      = FEATURE_C(0x0000000010000000);
+	constexpr feature_t linguolabial    = FEATURE_C(0x0000000020000000);
+	constexpr feature_t apical          = FEATURE_C(0x0000000030000000);
+	constexpr feature_t laminal         = FEATURE_C(0x0000000040000000);
+	constexpr feature_t advanced        = FEATURE_C(0x0000000050000000);
+	constexpr feature_t retracted       = FEATURE_C(0x0000000060000000);
+	constexpr feature_t centralized     = FEATURE_C(0x0000000070000000);
+	constexpr feature_t mid_centralized = FEATURE_C(0x0000000080000000);
+	constexpr feature_t raised          = FEATURE_C(0x0000000090000000);
+	constexpr feature_t lowered         = FEATURE_C(0x00000000A0000000);
 
 	// diacritics -- rounding (co-articulation)
 
-	constexpr uint64_t more_rounded = UINT64_C(0x0000000100000000);
-	constexpr uint64_t less_rounded = UINT64_C(0x0000000200000000);
+	constexpr feature_t more_rounded = FEATURE_C(0x0000000100000000);
+	constexpr feature_t less_rounded = FEATURE_C(0x0000000200000000);
 
 	// diacritics -- co-articulation
 
-	constexpr uint64_t labialized                  = UINT64_C(0x0000000400000000);
-	constexpr uint64_t palatalized                 = UINT64_C(0x0000000800000000);
-	constexpr uint64_t velarized                   = UINT64_C(0x0000000C00000000);
-	constexpr uint64_t pharyngealized              = UINT64_C(0x0000001000000000);
-	constexpr uint64_t velarized_or_pharyngealized = UINT64_C(0x0000001400000000);
-	constexpr uint64_t nasalized                   = UINT64_C(0x0000001800000000);
+	constexpr feature_t labialized                  = FEATURE_C(0x0000000400000000);
+	constexpr feature_t palatalized                 = FEATURE_C(0x0000000800000000);
+	constexpr feature_t velarized                   = FEATURE_C(0x0000000C00000000);
+	constexpr feature_t pharyngealized              = FEATURE_C(0x0000001000000000);
+	constexpr feature_t velarized_or_pharyngealized = FEATURE_C(0x0000001400000000);
+	constexpr feature_t nasalized                   = FEATURE_C(0x0000001800000000);
 
 	// diacritics -- tongue root (co-articulation)
 
-	constexpr uint64_t advanced_tongue_root  = UINT64_C(0x0000004000000000);
-	constexpr uint64_t retracted_tongue_root = UINT64_C(0x0000008000000000);
+	constexpr feature_t advanced_tongue_root  = FEATURE_C(0x0000004000000000);
+	constexpr feature_t retracted_tongue_root = FEATURE_C(0x0000008000000000);
 
 	// diacritics -- syllabicity
 
-	constexpr uint64_t syllabic               = UINT64_C(0x0000020000000000);
-	constexpr uint64_t non_syllabic           = UINT64_C(0x0000040000000000);
+	constexpr feature_t syllabic               = FEATURE_C(0x0000020000000000);
+	constexpr feature_t non_syllabic           = FEATURE_C(0x0000040000000000);
 
 	// suprasegmentals -- tone
 
-	constexpr uint64_t tone_start_top     = UINT64_C(0x0001000000000000);
-	constexpr uint64_t tone_start_high    = UINT64_C(0x0010000000000000);
-	constexpr uint64_t tone_start_mid     = UINT64_C(0x0011000000000000);
-	constexpr uint64_t tone_start_low     = UINT64_C(0x0020000000000000);
-	constexpr uint64_t tone_start_bottom  = UINT64_C(0x0021000000000000);
+	constexpr feature_t tone_start_top     = FEATURE_C(0x0001000000000000);
+	constexpr feature_t tone_start_high    = FEATURE_C(0x0010000000000000);
+	constexpr feature_t tone_start_mid     = FEATURE_C(0x0011000000000000);
+	constexpr feature_t tone_start_low     = FEATURE_C(0x0020000000000000);
+	constexpr feature_t tone_start_bottom  = FEATURE_C(0x0021000000000000);
 
-	constexpr uint64_t tone_middle_top    = UINT64_C(0x0040000000000000);
-	constexpr uint64_t tone_middle_high   = UINT64_C(0x0080000000000000);
-	constexpr uint64_t tone_middle_mid    = UINT64_C(0x00C0000000000000);
-	constexpr uint64_t tone_middle_low    = UINT64_C(0x0100000000000000);
-	constexpr uint64_t tone_middle_bottom = UINT64_C(0x0140000000000000);
+	constexpr feature_t tone_middle_top    = FEATURE_C(0x0040000000000000);
+	constexpr feature_t tone_middle_high   = FEATURE_C(0x0080000000000000);
+	constexpr feature_t tone_middle_mid    = FEATURE_C(0x00C0000000000000);
+	constexpr feature_t tone_middle_low    = FEATURE_C(0x0100000000000000);
+	constexpr feature_t tone_middle_bottom = FEATURE_C(0x0140000000000000);
 
-	constexpr uint64_t tone_end_top       = UINT64_C(0x0200000000000000);
-	constexpr uint64_t tone_end_high      = UINT64_C(0x0400000000000000);
-	constexpr uint64_t tone_end_mid       = UINT64_C(0x0600000000000000);
-	constexpr uint64_t tone_end_low       = UINT64_C(0x0800000000000000);
-	constexpr uint64_t tone_end_bottom    = UINT64_C(0x0A00000000000000);
+	constexpr feature_t tone_end_top       = FEATURE_C(0x0200000000000000);
+	constexpr feature_t tone_end_high      = FEATURE_C(0x0400000000000000);
+	constexpr feature_t tone_end_mid       = FEATURE_C(0x0600000000000000);
+	constexpr feature_t tone_end_low       = FEATURE_C(0x0800000000000000);
+	constexpr feature_t tone_end_bottom    = FEATURE_C(0x0A00000000000000);
 
 	// suprasegmentals -- stress
 
-	constexpr uint64_t unstressed       = UINT64_C(0x0000000000000000);
-	constexpr uint64_t primary_stress   = UINT64_C(0x1000000000000000);
-	constexpr uint64_t secondary_stress = UINT64_C(0x2000000000000000);
-	constexpr uint64_t extra_stress     = UINT64_C(0x3000000000000000);
+	constexpr feature_t unstressed       = FEATURE_C(0x0000000000000000);
+	constexpr feature_t primary_stress   = FEATURE_C(0x1000000000000000);
+	constexpr feature_t secondary_stress = FEATURE_C(0x2000000000000000);
+	constexpr feature_t extra_stress     = FEATURE_C(0x3000000000000000);
 
 	// suprasegmentals -- length
 
-	constexpr uint64_t extra_short = UINT64_C(0x4000000000000000);
-	constexpr uint64_t short_      = UINT64_C(0x0000000000000000);
-	constexpr uint64_t half_long   = UINT64_C(0xC000000000000000);
-	constexpr uint64_t long_       = UINT64_C(0x8000000000000000);
+	constexpr feature_t extra_short = FEATURE_C(0x4000000000000000);
+	constexpr feature_t short_      = FEATURE_C(0x0000000000000000);
+	constexpr feature_t half_long   = FEATURE_C(0xC000000000000000);
+	constexpr feature_t long_       = FEATURE_C(0x8000000000000000);
 
 	struct phoneme
 	{
-		typedef uint64_t value_type;
+		typedef feature_t value_type;
 
 		phoneme(value_type value = 0)
 			: mValue(value)
