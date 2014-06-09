@@ -104,6 +104,14 @@ data buffer. It will lose any state from reading the current buffer.
 \return A prosody reader that can read MBROLA pho file entries.
 
 
+\fn    std::shared_ptr<cainteoir::tts::prosody_reader> cainteoir::tts::createDiphoneReader(const std::shared_ptr<prosody_reader> &aProsody)
+\brief Create a phoneme to diphone converter.
+
+\param[in] aProsody The prosody data for the phonemes to convert.
+
+\return A prosody reader that creates the diphone sequences from aProsody.
+
+
 \struct cainteoir::tts::prosody_writer
 \brief  Write prosody data to a file.
 
