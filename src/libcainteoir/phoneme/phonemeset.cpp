@@ -41,7 +41,9 @@ std::shared_ptr<tts::phoneme_parser> tts::createPhonemeParser(const char *aPhone
 	if (phonemes.phoneme_type == "kirshenbaum")
 		return createKirshenbaumPhonemeParser(phonemes, aPhonemeSet);
 	if (phonemes.phoneme_type == "arpabet")
-		return createArpabetPhonemeParser(phonemes, aPhonemeSet);
+		return createArpabetPhonemeParser(phonemes, aPhonemeSet, arpabet_variant::arpabet);
+	if (phonemes.phoneme_type == "festvox")
+		return createArpabetPhonemeParser(phonemes, aPhonemeSet, arpabet_variant::festvox);
 	if (phonemes.phoneme_type == "espeak")
 		return createEspeakPhonemeParser(phonemes, aPhonemeSet);
 
@@ -59,7 +61,9 @@ std::shared_ptr<tts::phoneme_reader> tts::createPhonemeReader(const char *aPhone
 	if (phonemes.phoneme_type == "kirshenbaum")
 		return createKirshenbaumPhonemeReader(phonemes, aPhonemeSet);
 	if (phonemes.phoneme_type == "arpabet")
-		return createArpabetPhonemeReader(phonemes, aPhonemeSet);
+		return createArpabetPhonemeReader(phonemes, aPhonemeSet, arpabet_variant::arpabet);
+	if (phonemes.phoneme_type == "festvox")
+		return createArpabetPhonemeReader(phonemes, aPhonemeSet, arpabet_variant::festvox);
 	if (phonemes.phoneme_type == "espeak")
 		return createEspeakPhonemeReader(phonemes, aPhonemeSet);
 
@@ -77,7 +81,9 @@ std::shared_ptr<tts::phoneme_writer> tts::createPhonemeWriter(const char *aPhone
 	if (phonemes.phoneme_type == "kirshenbaum")
 		return createKirshenbaumPhonemeWriter(phonemes, aPhonemeSet);
 	if (phonemes.phoneme_type == "arpabet")
-		return createArpabetPhonemeWriter(phonemes, aPhonemeSet);
+		return createArpabetPhonemeWriter(phonemes, aPhonemeSet, arpabet_variant::arpabet);
+	if (phonemes.phoneme_type == "festvox")
+		return createArpabetPhonemeWriter(phonemes, aPhonemeSet, arpabet_variant::festvox);
 	if (phonemes.phoneme_type == "espeak")
 		return createEspeakPhonemeWriter(phonemes, aPhonemeSet);
 

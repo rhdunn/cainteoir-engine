@@ -71,7 +71,7 @@ namespace ipa = cainteoir::ipa;
 
 struct arpabet_reader : public tts::phoneme_parser
 {
-	arpabet_reader(tts::phoneme_file_reader &aPhonemeSet);
+	arpabet_reader(tts::phoneme_file_reader &aPhonemeSet, tts::arpabet_variant aVariant);
 
 	bool parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme);
 private:
@@ -89,11 +89,13 @@ private:
 	decltype(mPhonemes.root()) mPosition;
 	state mState;
 	char mStress;
+	tts::arpabet_variant mVariant;
 };
 
-arpabet_reader::arpabet_reader(tts::phoneme_file_reader &aPhonemeSet)
+arpabet_reader::arpabet_reader(tts::phoneme_file_reader &aPhonemeSet, tts::arpabet_variant aVariant)
 	: mState(state::need_phoneme)
 	, mStress(0)
+	, mVariant(aVariant)
 {
 	while (aPhonemeSet.read()) switch (aPhonemeSet.type)
 	{
@@ -208,7 +210,7 @@ bool arpabet_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phonem
 
 struct arpabet_writer : public tts::phoneme_writer
 {
-	arpabet_writer(tts::phoneme_file_reader &aPhonemeSet, const char *aName);
+	arpabet_writer(tts::phoneme_file_reader &aPhonemeSet, const char *aName, tts::arpabet_variant aVariant);
 
 	void reset(FILE *aOutput);
 
@@ -237,14 +239,16 @@ private:
 	state mState;
 	ipa::phoneme::value_type mStress;
 	bool mNeedSpace;
+	tts::arpabet_variant mVariant;
 };
 
-arpabet_writer::arpabet_writer(tts::phoneme_file_reader &aPhonemeSet, const char *aName)
+arpabet_writer::arpabet_writer(tts::phoneme_file_reader &aPhonemeSet, const char *aName, tts::arpabet_variant aVariant)
 	: mPhonemeSet(aName)
 	, mOutput(nullptr)
 	, mState(state::need_phoneme)
 	, mStress(-1)
 	, mNeedSpace(false)
+	, mVariant(aVariant)
 {
 	while (aPhonemeSet.read()) switch (aPhonemeSet.type)
 	{
@@ -341,24 +345,24 @@ void arpabet_writer::output_phoneme()
 	fwrite(mPosition->item->begin(), 1, mPosition->item->size(), mOutput);
 	switch (mStress)
 	{
-	case ipa::unstressed:       fputc('0', mOutput); break;
+	case ipa::unstressed:       if (mVariant == tts::arpabet_variant::arpabet) fputc('0', mOutput); break;
 	case ipa::primary_stress:   fputc('1', mOutput); break;
 	case ipa::secondary_stress: fputc('2', mOutput); break;
 	}
 	mState = state::need_phoneme;
 }
 
-std::shared_ptr<tts::phoneme_parser> tts::createArpabetPhonemeParser(phoneme_file_reader &aPhonemeSet, const char *aName)
+std::shared_ptr<tts::phoneme_parser> tts::createArpabetPhonemeParser(phoneme_file_reader &aPhonemeSet, const char *aName, tts::arpabet_variant aVariant)
 {
-	return std::make_shared<arpabet_reader>(aPhonemeSet);
+	return std::make_shared<arpabet_reader>(aPhonemeSet, aVariant);
 }
 
-std::shared_ptr<tts::phoneme_reader> tts::createArpabetPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName)
+std::shared_ptr<tts::phoneme_reader> tts::createArpabetPhonemeReader(phoneme_file_reader &aPhonemeSet, const char *aName, tts::arpabet_variant aVariant)
 {
-	return std::make_shared<phonemeset_reader<arpabet_reader>>(aPhonemeSet);
+	return std::make_shared<phonemeset_reader<arpabet_reader>>(aPhonemeSet, aVariant);
 }
 
-std::shared_ptr<tts::phoneme_writer> tts::createArpabetPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName)
+std::shared_ptr<tts::phoneme_writer> tts::createArpabetPhonemeWriter(phoneme_file_reader &aPhonemeSet, const char *aName, tts::arpabet_variant aVariant)
 {
-	return std::make_shared<arpabet_writer>(aPhonemeSet, aName);
+	return std::make_shared<arpabet_writer>(aPhonemeSet, aName, aVariant);
 }
