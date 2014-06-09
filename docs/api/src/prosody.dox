@@ -43,6 +43,19 @@
 This phoneme is used to represent diphthongs and affricates.
 
 
+\var   cainteoir::ipa::phoneme cainteoir::tts::prosody::phoneme3
+\brief The phoneme the prosodic information is to be applied to.
+
+This phoneme is used to represent the second phoneme in a diphone.
+
+
+\var   cainteoir::ipa::phoneme cainteoir::tts::prosody::phoneme4
+\brief The phoneme the prosodic information is to be applied to.
+
+This phoneme is used to represent the second phoneme in a diphone for
+diphthongs and affricates.
+
+
 \var   cainteoir::css::time cainteoir::tts::prosody::duration
 \brief The length of the phoneme.
 

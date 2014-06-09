@@ -37,15 +37,21 @@ namespace cainteoir { namespace tts
 	{
 		ipa::phoneme phoneme1;
 		ipa::phoneme phoneme2;
+		ipa::phoneme phoneme3;
+		ipa::phoneme phoneme4;
 		css::time duration;
 		std::vector<envelope_t> envelope;
 
 		prosody(ipa::phoneme aPhoneme1,
 		        ipa::phoneme aPhoneme2,
+		        ipa::phoneme aPhoneme3,
+		        ipa::phoneme aPhoneme4,
 		        css::time aDuration,
 		        const std::initializer_list<envelope_t> &aEnvelope)
 			: phoneme1(aPhoneme1)
 			, phoneme2(aPhoneme2)
+			, phoneme3(aPhoneme3)
+			, phoneme4(aPhoneme4)
 			, duration(aDuration)
 			, envelope(aEnvelope)
 		{
@@ -54,6 +60,8 @@ namespace cainteoir { namespace tts
 		prosody()
 			: phoneme1(ipa::unspecified)
 			, phoneme2(ipa::unspecified)
+			, phoneme3(ipa::unspecified)
+			, phoneme4(ipa::unspecified)
 		{
 		}
 	};

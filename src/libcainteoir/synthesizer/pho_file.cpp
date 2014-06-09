@@ -104,13 +104,35 @@ bool pho_reader::read()
 	default:
 		if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme1))
 			return false;
-		if (*mCurrent != ' ' && *mCurrent != '\t')
+		switch (*mCurrent)
 		{
+		case ' ': case '\t':
+			phoneme2 = ipa::unspecified;
+			phoneme3 = ipa::unspecified;
+			phoneme4 = ipa::unspecified;
+			break;
+		case '-': // diphone
+			++mCurrent;
+			if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme3))
+				return false;
+			switch (*mCurrent)
+			{
+			case ' ': case '\t':
+				phoneme4 = ipa::unspecified;
+				break;
+			default: // diphthong or affricate
+				if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme4))
+					phoneme4 = ipa::unspecified;
+				break;
+			}
+			break;
+		default: // diphthong or affricate
 			if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme2))
 				phoneme2 = ipa::unspecified;
+			phoneme3 = ipa::unspecified;
+			phoneme4 = ipa::unspecified;
+			break;
 		}
-		else
-			phoneme2 = ipa::unspecified;
 
 		if (!skip_whitespace())
 			throw tts::phoneme_error("expected whitespace after the phoneme");
@@ -188,6 +210,19 @@ bool pho_writer::write(const tts::prosody &aProsody)
 	{
 		if (!mPhonemeSet->write(aProsody.phoneme2.get(ipa::main | ipa::diacritics | ipa::length)))
 			return false;
+	}
+
+	if (aProsody.phoneme3 != ipa::unspecified)
+	{
+		fputc('-', mOutput);
+		if (!mPhonemeSet->write(aProsody.phoneme3.get(ipa::main | ipa::diacritics | ipa::length)))
+			return false;
+
+		if (aProsody.phoneme4 != ipa::unspecified)
+		{
+			if (!mPhonemeSet->write(aProsody.phoneme4.get(ipa::main | ipa::diacritics | ipa::length)))
+				return false;
+		}
 	}
 
 	fprintf(mOutput, " %G", aProsody.duration.as(css::time::milliseconds).value());
