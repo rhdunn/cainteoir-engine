@@ -138,11 +138,13 @@ bool arpabet_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phonem
 			++mCurrent;
 			return true;
 		case type::stress:
+			++mCurrent;
 			throw tts::phoneme_error("stress found before phoneme");
 		case type::phoneme:
 			mState = state::parsing_phoneme;
 			break;
 		default:
+			++mCurrent;
 			throw tts::phoneme_error("unknown character in phoneme stream");
 		}
 		break;
@@ -168,6 +170,7 @@ bool arpabet_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phonem
 			++mCurrent;
 			break;
 		default:
+			++mCurrent;
 			throw tts::phoneme_error("unknown character in phoneme stream");
 		}
 		break;
