@@ -1,0 +1,56 @@
+# Copyright (C) 2014 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.type	festvox
+
+uh	/{lmd,bck,unr,vwl}/ # /ʌ/
+e	/{lmd,fnt,unr,vwl}/ # /ɛ/
+a	/{sml,fnt,unr,vwl}/ # /æ/
+o	/{low,bck,rnd,vwl}/ # /ɒ/
+i	/{smh,fnt,unr,vwl}/ # /ɪ/
+u	/{smh,bck,rnd,vwl}/ # /ʊ/
+ii	/{hgh,fnt,unr,vwl,lng}/ # /iː/
+uu	/{hgh,bck,rnd,vwl,lng}/ # /uː/
+oo	/{lmd,bck,rnd,vwl,lng}/ # /ɔː/
+aa	/{low,bck,unr,vwl,lng}/ # /ɑː/
+@@	/{lmd,cnt,unr,vwl,lng}/ # /ɜː/
+ai	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/
+ei	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/
+oi	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/
+au	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/
+ou	/{umd,bck,rnd,vwl}{smh,bck,rnd,vwl,nsy}/ # /oʊ̯/
+e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/
+i@	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/
+u@	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/
+@	/{mid,cnt,unr,vwl}/ # /ə/
+p	/{vls,blb,stp}/ # /p/
+b	/{vcd,blb,stp}/ # /b/
+t	/{vls,alv,stp}/ # /t/
+d	/{vcd,alv,stp}/ # /d/
+k	/{vls,vel,stp}/ # /k/
+g	/{vcd,vel,stp}/ # /ɡ/
+s	/{vls,alv,sib,frc}/ # /s/
+z	/{vcd,alv,sib,frc}/ # /z/
+sh	/{vls,pla,sib,frc}/ # /ʃ/
+zh	/{vcd,pla,sib,frc}/ # /ʒ/
+f	/{vls,lbd,frc}/ # /f/
+v	/{vcd,lbd,frc}/ # /v/
+th	/{vls,dnt,frc}/ # /θ/
+dh	/{vcd,dnt,frc}/ # /ð/
+ch	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
+jh	/{vcd,alv,stp,tie}{vcd,pla,sib,frc}/ # /d͡ʒ/
+h	/{vls,glt,apr}/ # /h/
+m	/{vcd,blb,nas}/ # /m/
+n	/{vcd,alv,nas}/ # /n/
+ng	/{vcd,vel,nas}/ # /ŋ/
+l	/{vcd,alv,lat,apr}/ # /l/
+y	/{vcd,pal,apr}/ # /j/
+r	/{vcd,alv,apr}/ # /ɹ/
+w	/{vcd,lbv,apr}/ # /w/
+
+\#	/{pau,est}/
+
+##### References:
+#
+#  1. http://festvox.org/bsv/x4825.html

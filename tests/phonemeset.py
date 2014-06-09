@@ -86,6 +86,12 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/arpabet/cmu-pauses.ipa', 'result': 'phonemeset/arpabet/cmu-pauses.radio', 'from': 'ipa', 'to': 'radio'},
 			{'test': 'phonemeset/arpabet/cmu-pauses.radio', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'radio', 'to': 'ipa'},
 		]},
+		{'name': 'mrpa', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/arpabet/mrpa-phonemes.ipa', 'result': 'phonemeset/arpabet/mrpa-phonemes.mrpa', 'from': 'ipa', 'to': 'mrpa'},
+			{'test': 'phonemeset/arpabet/mrpa-phonemes.mrpa', 'result': 'phonemeset/arpabet/mrpa-phonemes.ipa', 'from': 'mrpa', 'to': 'ipa'},
+			{'test': 'phonemeset/arpabet/cmu-pauses.ipa', 'result': 'phonemeset/arpabet/cmu-pauses.mrpa', 'from': 'ipa', 'to': 'mrpa'},
+			{'test': 'phonemeset/arpabet/cmu-pauses.mrpa', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'mrpa', 'to': 'ipa'},
+		]},
 	]})
 	test.run({'name': 'SAMPA-Based', 'groups': [
 		{'name': 'English', 'type': 'phonemeset', 'tests': [
