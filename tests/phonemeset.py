@@ -80,6 +80,12 @@ if __name__ == '__main__':
 			# but there is no next phoneme.
 			{'test': 'phonemeset/arpabet/cmu-ambiguous-last-phoneme.ipa', 'result': 'phonemeset/arpabet/cmu-ambiguous-last-phoneme.cmu', 'from': 'ipa', 'to': 'cmu'},
 		]},
+		{'name': 'radio', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/arpabet/radio-phonemes.ipa', 'result': 'phonemeset/arpabet/radio-phonemes.radio', 'from': 'ipa', 'to': 'radio'},
+			{'test': 'phonemeset/arpabet/radio-phonemes.radio', 'result': 'phonemeset/arpabet/radio-phonemes.ipa', 'from': 'radio', 'to': 'ipa'},
+			{'test': 'phonemeset/arpabet/cmu-pauses.ipa', 'result': 'phonemeset/arpabet/cmu-pauses.radio', 'from': 'ipa', 'to': 'radio'},
+			{'test': 'phonemeset/arpabet/cmu-pauses.radio', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'radio', 'to': 'ipa'},
+		]},
 	]})
 	test.run({'name': 'SAMPA-Based', 'groups': [
 		{'name': 'English', 'type': 'phonemeset', 'tests': [
