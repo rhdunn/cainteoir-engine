@@ -1,3 +1,3 @@
-@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix tts: <http://reecedunn.co.uk/schema/2014/tts#> .
 
 <> tts:mimetype "@mimetype@" .

@@ -4,4 +4,4 @@
 <http://example.org/buecher/baum> <http://purl.org/dc/elements/1.1/title> "Der Baum"@de .
 <http://example.org/buecher/baum> <http://purl.org/dc/elements/1.1/description> "Das Buch ist außergewöhnlich"@de .
 <http://example.org/buecher/baum> <http://purl.org/dc/elements/1.1/title> "The Tree"@en .
-<> <http://rhdunn.github.com/2010/12/text-to-speech#mimetype> "application/rdf+xml" .
+<> <http://reecedunn.co.uk/schema/2014/tts#mimetype> "application/rdf+xml" .

@@ -1,3 +1,3 @@
 <http://example.org/thing> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/stuff/1.0/Document> .
 <http://example.org/thing> <http://purl.org/dc/elements/1.1/title> "A marvelous thing" .
-<> <http://rhdunn.github.com/2010/12/text-to-speech#mimetype> "application/rdf+xml" .
+<> <http://reecedunn.co.uk/schema/2014/tts#mimetype> "application/rdf+xml" .

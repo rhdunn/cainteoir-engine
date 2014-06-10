@@ -75,7 +75,7 @@ const rdf::ns rdf::skos(   "skos",   "http://www.w3.org/2004/02/skos/core#");
 const rdf::ns rdf::smil(   "smil",   "http://www.w3.org/ns/SMIL#");
 const rdf::ns rdf::ssml(   "ssml",   "http://www.w3.org/2001/10/synthesis#");
 const rdf::ns rdf::subtag( "subtag", "http://rhdunn.github.com/cainteoir/data/iana/subtags#");
-const rdf::ns rdf::tts(    "tts",    "http://rhdunn.github.com/2010/12/text-to-speech#");
+const rdf::ns rdf::tts(    "tts",    "http://reecedunn.co.uk/schema/2014/tts#");
 const rdf::ns rdf::xhtml(  "h",      "http://www.w3.org/1999/xhtml#");
 const rdf::ns rdf::xml(    "xml",    "http://www.w3.org/XML/1998/namespace#");
 const rdf::ns rdf::xsd(    "xsd",    "http://www.w3.org/2001/XMLSchema#");

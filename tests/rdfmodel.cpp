@@ -89,7 +89,7 @@ TEST_CASE("RDF namespaces")
 	test_uri(rdf::smil("smil"), "http://www.w3.org/ns/SMIL#smil", "http://www.w3.org/ns/SMIL#", "smil");
 	test_uri(rdf::ssml("speak"), "http://www.w3.org/2001/10/synthesis#speak", "http://www.w3.org/2001/10/synthesis#", "speak");
 	test_uri(rdf::subtag("de"), "http://rhdunn.github.com/cainteoir/data/iana/subtags#de", "http://rhdunn.github.com/cainteoir/data/iana/subtags#", "de");
-	test_uri(rdf::tts("Engine"), "http://rhdunn.github.com/2010/12/text-to-speech#Engine", "http://rhdunn.github.com/2010/12/text-to-speech#", "Engine");
+	test_uri(rdf::tts("Engine"), "http://reecedunn.co.uk/schema/2014/tts#Engine", "http://reecedunn.co.uk/schema/2014/tts#", "Engine");
 	test_uri(rdf::xhtml("head"), "http://www.w3.org/1999/xhtml#head", "http://www.w3.org/1999/xhtml#", "head");
 	test_uri(rdf::xml("lang"), "http://www.w3.org/XML/1998/namespace#lang", "http://www.w3.org/XML/1998/namespace#", "lang");
 	test_uri(rdf::xsd("string"), "http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#", "string");

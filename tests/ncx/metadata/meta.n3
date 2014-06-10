@@ -1,4 +1,4 @@
-@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix tts: <http://reecedunn.co.uk/schema/2014/tts#> .
 @prefix dtb: <http://www.daisy.org/z3986/2005/dtbook/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 

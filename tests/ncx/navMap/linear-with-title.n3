@@ -1,6 +1,6 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix ref: <http://reecedunn.co.uk/schema/2014/ref#> .
-@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix tts: <http://reecedunn.co.uk/schema/2014/tts#> .
 @prefix epv: <http://www.idpf.org/epub/vocab/structure/#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .

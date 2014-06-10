@@ -2,4 +2,4 @@
 <http://www.w3.org/TR/rdf-syntax-grammar> <http://example.org/stuff/1.0/editor> _:abc .
 _:abc <http://example.org/stuff/1.0/fullName> "Dave Beckett" .
 _:abc <http://example.org/stuff/1.0/homePage> <http://purl.org/net/dajobe/> .
-<> <http://rhdunn.github.com/2010/12/text-to-speech#mimetype> "application/rdf+xml" .
+<> <http://reecedunn.co.uk/schema/2014/tts#mimetype> "application/rdf+xml" .

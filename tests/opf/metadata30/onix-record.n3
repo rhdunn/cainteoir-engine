@@ -1,4 +1,4 @@
-@prefix tts: <http://rhdunn.github.com/2010/12/text-to-speech#> .
+@prefix tts: <http://reecedunn.co.uk/schema/2014/tts#> .
 @prefix pkg: <http://www.idpf.org/epub/vocab/package/#> .
 
 <> pkg:onix-record <test.xml> .
