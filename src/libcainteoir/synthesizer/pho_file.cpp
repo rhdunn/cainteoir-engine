@@ -114,12 +114,15 @@ bool pho_reader::read()
 			break;
 		case '-': // diphone
 			++mCurrent;
+			if (!mPhonemeSet->parse(mEnd, mEnd, phoneme2))
+				phoneme2 = ipa::unspecified;
 			if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme3))
 				return false;
 			switch (*mCurrent)
 			{
 			case ' ': case '\t':
-				phoneme4 = ipa::unspecified;
+				if (!mPhonemeSet->parse(mEnd, mEnd, phoneme4))
+					phoneme4 = ipa::unspecified;
 				break;
 			default: // diphthong or affricate
 				if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme4))

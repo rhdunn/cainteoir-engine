@@ -155,6 +155,7 @@ bool arpabet_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phonem
 		{
 		case type::space:
 		case type::newline:
+		default:
 			mState = state::emitting_phoneme1;
 			break;
 		case type::stress:
@@ -169,9 +170,6 @@ bool arpabet_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phonem
 			}
 			++mCurrent;
 			break;
-		default:
-			++mCurrent;
-			throw tts::phoneme_error("unknown character in phoneme stream");
 		}
 		break;
 	case state::error:

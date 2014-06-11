@@ -266,6 +266,29 @@ TEST_CASE("reader -- |phoneme duration| [diphones]")
 	assert(!reader->read());
 }
 
+TEST_CASE("reader -- |phoneme duration| [diphones] ~ arpabet")
+{
+	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("radio"));
+
+	match(parse(reader, "hh-aw 55.4"),
+	      { ipa::glottal | ipa::approximant,
+	        ipa::unspecified,
+	        ipa::low | ipa::front | ipa::vowel,
+	        ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic,
+	        { 55.4, css::time::milliseconds },
+	        {}});
+	assert(!reader->read());
+
+	match(parse(reader, "aw-hh 58"),
+	      { ipa::low | ipa::front | ipa::vowel,
+	        ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic,
+	        ipa::glottal | ipa::approximant,
+	        ipa::unspecified,
+	        { 58, css::time::milliseconds },
+	        {}});
+	assert(!reader->read());
+}
+
 TEST_CASE("reader -- |phoneme duration| [whitespace]")
 {
 	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
