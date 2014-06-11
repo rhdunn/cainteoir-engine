@@ -345,6 +345,8 @@ void arpabet_writer::output_phoneme()
 	if (mNeedSpace)
 		fputc(' ', mOutput);
 	mNeedSpace = true;
+	if (!mPosition->item)
+		throw std::runtime_error("unrecognised phoneme");
 	fwrite(mPosition->item->begin(), 1, mPosition->item->size(), mOutput);
 	switch (mStress)
 	{

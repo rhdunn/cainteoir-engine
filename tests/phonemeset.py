@@ -75,6 +75,7 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/arpabet/cmu-pauses.ipa', 'result': 'phonemeset/arpabet/cmu-pauses.cmu', 'from': 'ipa', 'to': 'cmu'},
 			{'test': 'phonemeset/arpabet/cmu-pauses.cmu', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'cmu', 'to': 'ipa'},
 			{'test': 'phonemeset/arpabet/cmu-pauses-no-last-eol.cmu', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'cmu', 'to': 'ipa'},
+			{'test': 'phonemeset/arpabet/cmu-invalid-diphthong.ipa', 'result': 'phonemeset/arpabet/cmu-invalid-diphthong.cmu', 'from': 'ipa', 'to': 'cmu'},
 			# Here, the last phoneme is a complete phoneme and the start of a diphthong.
 			# Therefore, the phoneme cannot be acted on until the next phoneme is read,
 			# but there is no next phoneme.
@@ -85,12 +86,14 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/arpabet/radio-phonemes.radio', 'result': 'phonemeset/arpabet/radio-phonemes.ipa', 'from': 'radio', 'to': 'ipa'},
 			{'test': 'phonemeset/arpabet/cmu-pauses.ipa', 'result': 'phonemeset/arpabet/cmu-pauses.radio', 'from': 'ipa', 'to': 'radio'},
 			{'test': 'phonemeset/arpabet/cmu-pauses.radio', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'radio', 'to': 'ipa'},
+			{'test': 'phonemeset/arpabet/cmu-invalid-diphthong.ipa', 'result': 'phonemeset/arpabet/cmu-invalid-diphthong.cmu', 'from': 'ipa', 'to': 'radio'},
 		]},
 		{'name': 'mrpa', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/arpabet/mrpa-phonemes.ipa', 'result': 'phonemeset/arpabet/mrpa-phonemes.mrpa', 'from': 'ipa', 'to': 'mrpa'},
 			{'test': 'phonemeset/arpabet/mrpa-phonemes.mrpa', 'result': 'phonemeset/arpabet/mrpa-phonemes.ipa', 'from': 'mrpa', 'to': 'ipa'},
 			{'test': 'phonemeset/arpabet/cmu-pauses.ipa', 'result': 'phonemeset/arpabet/cmu-pauses.mrpa', 'from': 'ipa', 'to': 'mrpa'},
 			{'test': 'phonemeset/arpabet/cmu-pauses.mrpa', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'mrpa', 'to': 'ipa'},
+			{'test': 'phonemeset/arpabet/cmu-invalid-diphthong.ipa', 'result': 'phonemeset/arpabet/cmu-invalid-diphthong.cmu', 'from': 'ipa', 'to': 'mrpa'},
 		]},
 	]})
 	test.run({'name': 'SAMPA-Based', 'groups': [
