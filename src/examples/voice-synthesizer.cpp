@@ -116,7 +116,11 @@ int main(int argc, char **argv)
 			return 0;
 		}
 
-		auto voice = tts::create_mbrola_voice(voicename);
+		const rdf::uri *voiceref = nullptr;
+		if (voicename)
+			voiceref = tts::get_voice_uri(metadata, rdf::tts("name"), voicename);
+
+		auto voice = tts::create_voice_synthesizer(metadata, voiceref);
 		if (!voice) throw std::runtime_error("cannot find the specified voice");
 
 		fprintf(stdout, "channels    : %d\n", voice->channels());

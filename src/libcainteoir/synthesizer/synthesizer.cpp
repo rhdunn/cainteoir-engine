@@ -25,9 +25,25 @@
 #include "synthesizer.hpp"
 
 namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
-void tts::read_voice_metadata(rdf::graph &aMetadata)
+void
+tts::read_voice_metadata(rdf::graph &aMetadata)
 {
 	read_mbrola_voices(aMetadata);
+}
+
+std::shared_ptr<tts::synthesizer>
+tts::create_voice_synthesizer(rdf::graph &aMetadata, const rdf::uri *voice)
+{
+	if (!voice) return {};
+
+	const std::string name = rql::select_value<std::string>(aMetadata,
+		rql::subject == *voice && rql::predicate == rdf::tts("name"));
+
+	const std::string &synthesizer = voice->ns;
+	if (synthesizer == "http://reecedunn.co.uk/tts/synthesizer/mbrola#")
+		return create_mbrola_synthesizer(name.c_str());
+	return {};
 }

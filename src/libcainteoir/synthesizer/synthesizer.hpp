@@ -28,6 +28,8 @@ namespace cainteoir { namespace tts
 	// MBROLA
 
 	void read_mbrola_voices(rdf::graph &aMetadata);
+
+	std::shared_ptr<synthesizer> create_mbrola_synthesizer(const char *voice);
 }}
 
 #endif
