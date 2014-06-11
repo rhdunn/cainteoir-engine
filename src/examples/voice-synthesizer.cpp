@@ -25,11 +25,18 @@
 
 #include <cainteoir/engines.hpp>
 #include <stdexcept>
+#include <iostream>
 
 namespace css = cainteoir::css;
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 namespace rdf = cainteoir::rdf;
+
+enum class actions
+{
+	speak,
+	show_metadata,
+};
 
 int main(int argc, char **argv)
 {
@@ -39,8 +46,11 @@ int main(int argc, char **argv)
 		const char *outformat = nullptr;
 		const char *device_name = nullptr;
 		const char *voicename = nullptr;
+		actions action = actions::speak;
 
 		const option_group general_options = { nullptr, {
+			{ 'M', "metadata", bind_value(action, actions::show_metadata),
+			  i18n("Show the RDF metadata for the engine and voices") },
 			{ 'D', "device", device_name, "DEVICE",
 			  i18n("Use DEVICE for audio output (ALSA/pulseaudio device name)") },
 		}};
@@ -73,6 +83,39 @@ int main(int argc, char **argv)
 		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
+		rdf::graph metadata;
+		tts::read_voice_metadata(metadata);
+
+		if (action == actions::show_metadata)
+		{
+			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
+				<< rdf::rdf
+				<< rdf::rdfa
+				<< rdf::rdfs
+				<< rdf::xsd
+				<< rdf::xml
+				<< rdf::owl
+				<< rdf::dc
+				<< rdf::dcterms
+				<< rdf::dcam
+				<< rdf::epub
+				<< rdf::opf
+				<< rdf::ocf
+				<< rdf::pkg
+				<< rdf::media
+				<< rdf::ncx
+				<< rdf::dtb
+				<< rdf::smil
+				<< rdf::xhtml
+				<< rdf::skos
+				<< rdf::foaf
+				<< rdf::tts
+				<< rdf::iana
+				<< rdf::subtag
+				<< metadata;
+			return 0;
+		}
+
 		auto voice = tts::create_mbrola_voice(voicename);
 		if (!voice) throw std::runtime_error("cannot find the specified voice");
 
@@ -88,7 +131,6 @@ int main(int argc, char **argv)
 		else
 			pho->reset(cainteoir::make_file_buffer(stdin));
 
-		rdf::graph metadata;
 		rdf::uri doc;
 		std::shared_ptr<cainteoir::audio> out;
 		if (outformat || outfile)

@@ -92,6 +92,8 @@ namespace cainteoir { namespace tts
 		virtual bool read(audio *out) = 0;
 	};
 
+	void read_voice_metadata(rdf::graph &aMetadata);
+
 	std::shared_ptr<synthesizer> create_mbrola_voice(const char *voice);
 
 	struct engines

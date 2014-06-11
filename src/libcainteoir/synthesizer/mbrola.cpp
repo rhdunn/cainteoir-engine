@@ -21,6 +21,7 @@
 #include "config.h"
 #include "compatibility.hpp"
 
+#include "synthesizer.hpp"
 #include <cainteoir/engines.hpp>
 #include <stdexcept>
 
@@ -31,6 +32,43 @@ namespace rdf = cainteoir::rdf;
 
 #include <unistd.h>
 #include <fcntl.h>
+
+void
+tts::read_mbrola_voices(rdf::graph &aMetadata)
+{
+	std::string baseuri = "http://reecedunn.co.uk/tts/synthesizer/mbrola#";
+
+	rdf::uri mbrola = rdf::uri(baseuri, std::string());
+	aMetadata.statement(mbrola, rdf::rdf("type"), rdf::tts("Synthesizer"));
+	aMetadata.statement(mbrola, rdf::tts("name"), rdf::literal("MBROLA"));
+
+	static const auto voices = { "en1" };
+	for (auto && name : voices)
+	{
+		char database[256];
+		snprintf(database, sizeof(database), MBROLA_DIR "/%s/%s", name, name);
+
+		if (access(database, R_OK) == 0)
+		{
+			char phonemeset[11];
+			snprintf(phonemeset, sizeof(phonemeset), "mbrola/%s", name);
+
+			int frequency = 16000;
+
+			rdf::uri voice = rdf::uri(baseuri, name);
+			aMetadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
+			aMetadata.statement(voice, rdf::tts("name"), rdf::literal(name));
+			aMetadata.statement(voice, rdf::tts("phonemeset"), rdf::literal(phonemeset));
+
+			aMetadata.statement(voice, rdf::tts("frequency"), rdf::literal(frequency, rdf::tts("hertz")));
+			aMetadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
+			aMetadata.statement(voice, rdf::tts("audioFormat"),  rdf::tts("s16le"));
+
+			aMetadata.statement(voice, rdf::tts("voiceOf"), mbrola);
+			aMetadata.statement(mbrola, rdf::tts("hasVoice"), voice);
+		}
+	}
+}
 
 struct procstat_t
 {
@@ -333,6 +371,11 @@ tts::create_mbrola_voice(const char *voice)
 }
 
 #else
+
+void
+tts::read_mbrola_voices(rdf::graph &aMetadata)
+{
+}
 
 std::shared_ptr<tts::synthesizer>
 tts::create_mbrola_voice(const char *voice)
