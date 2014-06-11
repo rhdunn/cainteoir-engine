@@ -643,6 +643,14 @@ TEST_CASE("writer -- basic phonemes (arpabet)")
 	                    { 80, css::time::milliseconds },
 	                    {}}),
 	      "hh 80\n", 6);
+
+	match(to_str(pho, { ipa::low | ipa::front | ipa::vowel,
+	                    ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic,
+	                    ipa::unspecified,
+	                    ipa::unspecified,
+	                    { 80, css::time::milliseconds },
+	                    {}}),
+	      "aw 80\n", 6);
 }
 
 TEST_CASE("writer -- basic phonemes (diphone)")

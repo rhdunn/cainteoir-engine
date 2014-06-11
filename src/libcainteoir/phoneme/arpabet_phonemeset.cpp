@@ -331,7 +331,7 @@ bool arpabet_writer::write(const ipa::phoneme &aPhoneme)
 
 void arpabet_writer::flush()
 {
-	if (mState == state::have_phoneme)
+	if (mState == state::have_phoneme || mState == state::output_phoneme)
 		output_phoneme();
 }
 
