@@ -184,6 +184,20 @@ TEST_CASE("reader -- |phoneme duration| [phonemes]")
 	assert(!reader->read());
 }
 
+TEST_CASE("reader -- |phoneme duration| [arpabet]")
+{
+	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("radio"));
+
+	match(parse(reader, "hh 55.4"),
+	      { ipa::glottal | ipa::approximant,
+	        ipa::unspecified,
+	        ipa::unspecified,
+	        ipa::unspecified,
+	        { 55.4, css::time::milliseconds },
+	        {}});
+	assert(!reader->read());
+}
+
 TEST_CASE("reader -- |phoneme duration| [diphones]")
 {
 	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
@@ -616,6 +630,19 @@ TEST_CASE("writer -- basic phonemes (phoneme)")
 	                    { 120, css::time::milliseconds },
 	                    {}}),
 	      "i 120\n", 6);
+}
+
+TEST_CASE("writer -- basic phonemes (arpabet)")
+{
+	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("radio"));
+
+	match(to_str(pho, { ipa::glottal | ipa::approximant,
+	                    ipa::unspecified,
+	                    ipa::unspecified,
+	                    ipa::unspecified,
+	                    { 80, css::time::milliseconds },
+	                    {}}),
+	      "hh 80\n", 6);
 }
 
 TEST_CASE("writer -- basic phonemes (diphone)")

@@ -225,6 +225,8 @@ bool pho_writer::write(const tts::prosody &aProsody)
 		}
 	}
 
+	mPhonemeSet->flush();
+
 	fprintf(mOutput, " %G", aProsody.duration.as(css::time::milliseconds).value());
 	for (auto &entry : aProsody.envelope)
 		fprintf(mOutput, " %d %G", entry.offset, entry.pitch.as(css::frequency::hertz).value());
