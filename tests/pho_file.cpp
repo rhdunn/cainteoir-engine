@@ -196,6 +196,15 @@ TEST_CASE("reader -- |phoneme duration| [arpabet]")
 	        { 55.4, css::time::milliseconds },
 	        {}});
 	assert(!reader->read());
+
+	match(parse(reader, "aw 58"),
+	      { ipa::low | ipa::front | ipa::vowel,
+	        ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic,
+	        ipa::unspecified,
+	        ipa::unspecified,
+	        { 58, css::time::milliseconds },
+	        {}});
+	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration| [diphones]")

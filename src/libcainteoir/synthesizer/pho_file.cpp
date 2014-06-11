@@ -107,7 +107,8 @@ bool pho_reader::read()
 		switch (*mCurrent)
 		{
 		case ' ': case '\t':
-			phoneme2 = ipa::unspecified;
+			if (!mPhonemeSet->parse(mEnd, mEnd, phoneme2))
+				phoneme2 = ipa::unspecified;
 			phoneme3 = ipa::unspecified;
 			phoneme4 = ipa::unspecified;
 			break;
