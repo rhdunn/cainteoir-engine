@@ -213,6 +213,8 @@ bool pho_writer::write(const tts::prosody &aProsody)
 			return false;
 	}
 
+	mPhonemeSet->flush();
+
 	if (aProsody.phoneme3 != ipa::unspecified)
 	{
 		fputc('-', mOutput);
@@ -224,9 +226,9 @@ bool pho_writer::write(const tts::prosody &aProsody)
 			if (!mPhonemeSet->write(aProsody.phoneme4.get(ipa::main | ipa::diacritics | ipa::length)))
 				return false;
 		}
-	}
 
-	mPhonemeSet->flush();
+		mPhonemeSet->flush();
+	}
 
 	fprintf(mOutput, " %G", aProsody.duration.as(css::time::milliseconds).value());
 	for (auto &entry : aProsody.envelope)

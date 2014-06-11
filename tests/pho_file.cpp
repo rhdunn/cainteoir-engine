@@ -184,7 +184,7 @@ TEST_CASE("reader -- |phoneme duration| [phonemes]")
 	assert(!reader->read());
 }
 
-TEST_CASE("reader -- |phoneme duration| [arpabet]")
+TEST_CASE("reader -- |phoneme duration| [phonemes] ~ arpabet")
 {
 	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("radio"));
 
@@ -641,7 +641,7 @@ TEST_CASE("writer -- basic phonemes (phoneme)")
 	      "i 120\n", 6);
 }
 
-TEST_CASE("writer -- basic phonemes (arpabet)")
+TEST_CASE("writer -- basic phonemes (phoneme) ~ arpabet")
 {
 	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("radio"));
 
@@ -673,6 +673,27 @@ TEST_CASE("writer -- basic phonemes (diphone)")
 	                    { 80, css::time::milliseconds },
 	                    {}}),
 	      "b-i 80\n", 7);
+}
+
+TEST_CASE("writer -- basic phonemes (diphone) ~ arpabet")
+{
+	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("radio"));
+
+	match(to_str(pho, { ipa::glottal | ipa::approximant,
+	                    ipa::unspecified,
+	                    ipa::low | ipa::front | ipa::vowel,
+	                    ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic,
+	                    { 80, css::time::milliseconds },
+	                    {}}),
+	      "hh-aw 80\n", 9);
+
+	match(to_str(pho, { ipa::low | ipa::front | ipa::vowel,
+	                    ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic,
+	                    ipa::glottal | ipa::approximant,
+	                    ipa::unspecified,
+	                    { 80, css::time::milliseconds },
+	                    {}}),
+	      "aw-hh 80\n", 9);
 }
 
 TEST_CASE("writer -- diacritics (phoneme)")
