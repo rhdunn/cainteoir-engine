@@ -31,6 +31,7 @@ namespace css = cainteoir::css;
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
 
 enum class actions
 {
@@ -127,9 +128,9 @@ int main(int argc, char **argv)
 		fprintf(stdout, "format      : %s\n", voice->format().str().c_str());
 		fprintf(stdout, "sample rate : %d\n", voice->frequency());
 
-		char phonemeset[11];
-		snprintf(phonemeset, sizeof(phonemeset), "mbrola/%s", voicename);
-		auto pho = tts::createPhoReader(tts::createPhonemeParser(phonemeset));
+		const std::string phonemeset = rql::select_value<std::string>(metadata,
+			rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
+		auto pho = tts::createPhoReader(tts::createPhonemeParser(phonemeset.c_str()));
 		if (argc == 1)
 			pho->reset(cainteoir::make_file_buffer(argv[0]));
 		else
