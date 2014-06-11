@@ -36,8 +36,9 @@ namespace rql = cainteoir::rdf::query;
 enum class actions
 {
 	show_metadata,
-	synthesize,
 	print_pho,
+	print_diphones,
+	synthesize,
 };
 
 static void show_metadata(rdf::graph &metadata)
@@ -71,10 +72,14 @@ static void show_metadata(rdf::graph &metadata)
 
 static void
 print_pho(const char *filename,
+          bool diphones,
           const char *src_phonemeset,
           const char *dst_phonemeset)
 {
 	auto pho = tts::createPhoReader(tts::createPhonemeParser(src_phonemeset));
+	if (diphones)
+		pho = tts::createDiphoneReader(pho);
+
 	if (filename)
 		pho->reset(cainteoir::make_file_buffer(filename));
 	else
@@ -149,6 +154,8 @@ int main(int argc, char **argv)
 			  i18n("Show the RDF metadata for the engine and voices") },
 			{ 0, "pho", bind_value(action, actions::print_pho),
 			  i18n("Output the PHO file contents to stdout") },
+			{ 0, "diphones", bind_value(action, actions::print_diphones),
+			  i18n("Output the PHO file contents to stdout as diphones") },
 			{ 'P', "phonemeset", src_phonemeset, "PHONEMESET",
 			  i18n("Use PHONEMESET to read phonemes in (default: ipa)") },
 			{ 0, "output-phonemeset", dst_phonemeset, "PHONEMESET",
@@ -194,7 +201,10 @@ int main(int argc, char **argv)
 			show_metadata(metadata);
 			break;
 		case actions::print_pho:
-			print_pho(argc == 1 ? argv[0] : nullptr, src_phonemeset, dst_phonemeset);
+			print_pho(argc == 1 ? argv[0] : nullptr, false, src_phonemeset, dst_phonemeset);
+			break;
+		case actions::print_diphones:
+			print_pho(argc == 1 ? argv[0] : nullptr, true, src_phonemeset, dst_phonemeset);
 			break;
 		case actions::synthesize:
 			synthesize(metadata, voicename, argc == 1 ? argv[0] : nullptr, outformat, outfile, device_name);
