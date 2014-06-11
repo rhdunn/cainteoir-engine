@@ -35,9 +35,83 @@ namespace rql = cainteoir::rdf::query;
 
 enum class actions
 {
-	speak,
 	show_metadata,
+	synthesize,
 };
+
+static void show_metadata(rdf::graph &metadata)
+{
+	(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
+		<< rdf::rdf
+		<< rdf::rdfa
+		<< rdf::rdfs
+		<< rdf::xsd
+		<< rdf::xml
+		<< rdf::owl
+		<< rdf::dc
+		<< rdf::dcterms
+		<< rdf::dcam
+		<< rdf::epub
+		<< rdf::opf
+		<< rdf::ocf
+		<< rdf::pkg
+		<< rdf::media
+		<< rdf::ncx
+		<< rdf::dtb
+		<< rdf::smil
+		<< rdf::xhtml
+		<< rdf::skos
+		<< rdf::foaf
+		<< rdf::tts
+		<< rdf::iana
+		<< rdf::subtag
+		<< metadata;
+}
+
+static void
+synthesize(rdf::graph &metadata,
+           const char *voicename,
+           const char *filename,
+           const char *outformat,
+           const char *outfile,
+           const char *device_name)
+{
+	const rdf::uri *voiceref = nullptr;
+	if (voicename)
+		voiceref = tts::get_voice_uri(metadata, rdf::tts("name"), voicename);
+
+	auto voice = tts::create_voice_synthesizer(metadata, voiceref);
+	if (!voice) throw std::runtime_error("cannot find the specified voice");
+
+	const std::string phonemeset = rql::select_value<std::string>(metadata,
+		rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
+	auto pho = tts::createPhoReader(tts::createPhonemeParser(phonemeset.c_str()));
+	if (filename)
+		pho->reset(cainteoir::make_file_buffer(filename));
+	else
+		pho->reset(cainteoir::make_file_buffer(stdin));
+
+	rdf::uri doc;
+	std::shared_ptr<cainteoir::audio> out;
+	if (outformat || outfile)
+		out = cainteoir::create_audio_file(outfile, outformat ? outformat : "wav", 0.3, metadata, doc,
+			voice->format(),
+			voice->channels(),
+			voice->frequency());
+	else
+		out = cainteoir::open_audio_device(device_name, metadata, doc,
+			voice->format(),
+			voice->channels(),
+			voice->frequency());
+	out->open();
+
+	while (pho->read())
+		voice->write(*pho);
+
+	voice->read(out.get());
+
+	out->close();
+}
 
 int main(int argc, char **argv)
 {
@@ -47,7 +121,7 @@ int main(int argc, char **argv)
 		const char *outformat = nullptr;
 		const char *device_name = nullptr;
 		const char *voicename = nullptr;
-		actions action = actions::speak;
+		actions action = actions::synthesize;
 
 		const option_group general_options = { nullptr, {
 			{ 'M', "metadata", bind_value(action, actions::show_metadata),
@@ -87,75 +161,15 @@ int main(int argc, char **argv)
 		rdf::graph metadata;
 		tts::read_voice_metadata(metadata);
 
-		if (action == actions::show_metadata)
+		switch (action)
 		{
-			(*rdf::create_formatter(std::cout, rdf::formatter::turtle))
-				<< rdf::rdf
-				<< rdf::rdfa
-				<< rdf::rdfs
-				<< rdf::xsd
-				<< rdf::xml
-				<< rdf::owl
-				<< rdf::dc
-				<< rdf::dcterms
-				<< rdf::dcam
-				<< rdf::epub
-				<< rdf::opf
-				<< rdf::ocf
-				<< rdf::pkg
-				<< rdf::media
-				<< rdf::ncx
-				<< rdf::dtb
-				<< rdf::smil
-				<< rdf::xhtml
-				<< rdf::skos
-				<< rdf::foaf
-				<< rdf::tts
-				<< rdf::iana
-				<< rdf::subtag
-				<< metadata;
-			return 0;
+		case actions::show_metadata:
+			show_metadata(metadata);
+			break;
+		case actions::synthesize:
+			synthesize(metadata, voicename, argc == 1 ? argv[0] : nullptr, outformat, outfile, device_name);
+			break;
 		}
-
-		const rdf::uri *voiceref = nullptr;
-		if (voicename)
-			voiceref = tts::get_voice_uri(metadata, rdf::tts("name"), voicename);
-
-		auto voice = tts::create_voice_synthesizer(metadata, voiceref);
-		if (!voice) throw std::runtime_error("cannot find the specified voice");
-
-		fprintf(stdout, "channels    : %d\n", voice->channels());
-		fprintf(stdout, "format      : %s\n", voice->format().str().c_str());
-		fprintf(stdout, "sample rate : %d\n", voice->frequency());
-
-		const std::string phonemeset = rql::select_value<std::string>(metadata,
-			rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
-		auto pho = tts::createPhoReader(tts::createPhonemeParser(phonemeset.c_str()));
-		if (argc == 1)
-			pho->reset(cainteoir::make_file_buffer(argv[0]));
-		else
-			pho->reset(cainteoir::make_file_buffer(stdin));
-
-		rdf::uri doc;
-		std::shared_ptr<cainteoir::audio> out;
-		if (outformat || outfile)
-			out = cainteoir::create_audio_file(outfile, outformat ? outformat : "wav", 0.3, metadata, doc,
-				voice->format(),
-				voice->channels(),
-				voice->frequency());
-		else
-			out = cainteoir::open_audio_device(device_name, metadata, doc,
-				voice->format(),
-				voice->channels(),
-				voice->frequency());
-		out->open();
-
-		while (pho->read())
-			voice->write(*pho);
-
-		voice->read(out.get());
-
-		out->close();
 	}
 	catch (std::runtime_error &e)
 	{
