@@ -37,6 +37,7 @@ enum class actions
 {
 	show_metadata,
 	synthesize,
+	print_pho,
 };
 
 static void show_metadata(rdf::graph &metadata)
@@ -66,6 +67,24 @@ static void show_metadata(rdf::graph &metadata)
 		<< rdf::iana
 		<< rdf::subtag
 		<< metadata;
+}
+
+static void
+print_pho(const char *filename,
+          const char *src_phonemeset,
+          const char *dst_phonemeset)
+{
+	auto pho = tts::createPhoReader(tts::createPhonemeParser(src_phonemeset));
+	if (filename)
+		pho->reset(cainteoir::make_file_buffer(filename));
+	else
+		pho->reset(cainteoir::make_file_buffer(stdin));
+
+	auto out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset ? dst_phonemeset : src_phonemeset));
+	out->reset(stdout);
+
+	while (pho->read())
+		out->write(*pho);
 }
 
 static void
@@ -121,11 +140,19 @@ int main(int argc, char **argv)
 		const char *outformat = nullptr;
 		const char *device_name = nullptr;
 		const char *voicename = nullptr;
+		const char *src_phonemeset = "ipa";
+		const char *dst_phonemeset = nullptr;
 		actions action = actions::synthesize;
 
 		const option_group general_options = { nullptr, {
 			{ 'M', "metadata", bind_value(action, actions::show_metadata),
 			  i18n("Show the RDF metadata for the engine and voices") },
+			{ 0, "pho", bind_value(action, actions::print_pho),
+			  i18n("Output the PHO file contents to stdout") },
+			{ 'P', "phonemeset", src_phonemeset, "PHONEMESET",
+			  i18n("Use PHONEMESET to read phonemes in (default: ipa)") },
+			{ 0, "output-phonemeset", dst_phonemeset, "PHONEMESET",
+			  i18n("Use PHONEMESET to display phonemes in (default: phonemeset)") },
 			{ 'D', "device", device_name, "DEVICE",
 			  i18n("Use DEVICE for audio output (ALSA/pulseaudio device name)") },
 		}};
@@ -165,6 +192,9 @@ int main(int argc, char **argv)
 		{
 		case actions::show_metadata:
 			show_metadata(metadata);
+			break;
+		case actions::print_pho:
+			print_pho(argc == 1 ? argv[0] : nullptr, src_phonemeset, dst_phonemeset);
 			break;
 		case actions::synthesize:
 			synthesize(metadata, voicename, argc == 1 ? argv[0] : nullptr, outformat, outfile, device_name);
