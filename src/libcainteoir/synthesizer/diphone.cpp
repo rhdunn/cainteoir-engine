@@ -37,26 +37,55 @@ struct diphone_reader : public tts::prosody_reader
 	bool read();
 private:
 	std::shared_ptr<tts::prosody_reader> mProsody;
+	float mRemainingDuration;
+	bool mLastDiphone;
 };
 
 diphone_reader::diphone_reader(const std::shared_ptr<tts::prosody_reader> &aProsody)
 	: mProsody(aProsody)
+	, mLastDiphone(true)
+	, mRemainingDuration(0)
 {
 }
 
 void diphone_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 {
 	mProsody->reset(aBuffer);
+	mLastDiphone = false;
+
+	phoneme1 = ipa::unspecified;
+	phoneme2 = ipa::unspecified;
+	phoneme3 = ipa::pause | ipa::extra_short;
+	phoneme4 = ipa::unspecified;
 }
 
 bool diphone_reader::read()
 {
-	bool next = mProsody->read();
-	if (next)
+	phoneme1 = phoneme3;
+	phoneme2 = phoneme4;
+
+	float currentDuration = mRemainingDuration;
+
+	if (mProsody->read())
 	{
-		*((tts::prosody *)this) = *mProsody;
+		phoneme3 = mProsody->phoneme1;
+		phoneme4 = mProsody->phoneme2;
+
+		mRemainingDuration = mProsody->duration.as(css::time::milliseconds).value() / 2;
+		currentDuration += mRemainingDuration;
 	}
-	return next;
+	else if (mLastDiphone)
+		return false;
+	else
+	{
+		mLastDiphone = true;
+		phoneme3 = ipa::pause | ipa::extra_short;
+		phoneme4 = ipa::unspecified;
+	}
+
+	duration = { currentDuration, css::time::milliseconds };
+
+	return true;
 }
 
 std::shared_ptr<tts::prosody_reader>

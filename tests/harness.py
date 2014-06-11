@@ -192,6 +192,18 @@ class PhonemeSetCommand(Command):
 		params.extend([data['from'], data['to']])
 		return Command.run(self, params, filename, data)
 
+class DiphoneCommand(Command):
+	def __init__(self):
+		Command.__init__(self, '../src/examples/voice-synthesizer')
+
+	def run(self, args, filename, data):
+		params = [x for x in args]
+		if 'phonemeset' in data:
+			params.extend(['--phonemeset', data['phonemeset']])
+		params.extend(['--diphones'])
+		return Command.run(self, params, filename, data)
+
+
 def create_command(test_type):
 	if test_type in ['ntriple', 'turtle', 'vorbis']:
 		return MetadataCommand(test_type)
@@ -201,6 +213,8 @@ def create_command(test_type):
 		return DictionaryCommand()
 	if test_type == 'phonemeset':
 		return PhonemeSetCommand()
+	if test_type == 'diphones':
+		return DiphoneCommand()
 	if test_type == 'events':
 		return EventsCommand()
 	if test_type in ['styles', 'xmlreader']:

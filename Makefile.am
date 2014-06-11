@@ -446,6 +446,8 @@ HTMLTREE_TEST_FILES = $(shell find tests/html/tree-construction/*)
 
 PHONEMESET_TEST_FILES = $(shell find tests/phonemeset/*)
 
+DIPHONE_TEST_FILES = $(shell find tests/diphone/*)
+
 DOCUMENT_TEST_FILES = \
 	$(shell find tests/epub2/*) \
 	$(shell find tests/epub3/*) \
@@ -478,6 +480,7 @@ EXTRA_DIST += \
 	$(XMLPARSER_TEST_FILES) \
 	$(DOCUMENT_TEST_FILES) \
 	$(PHONEMESET_TEST_FILES) \
+	$(DIPHONE_TEST_FILES) \
 	tests/*.py
 
 noinst_bin_PROGRAMS += tests/range.test
@@ -608,6 +611,8 @@ tests/metadata.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
 
 tests/vorbis-comments.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
 
+tests/diphones.check: src/examples/voice-synthesizer ${DIPHONE_TEST_FILES}
+
 check: \
 	tests/range.check \
 	tests/buffer.check \
@@ -634,4 +639,5 @@ check: \
 	tests/phoneme_stress.check \
 	tests/dictionary.check \
 	tests/pho_file.check \
+	tests/diphones.check \
 	tests/parsetext.check
