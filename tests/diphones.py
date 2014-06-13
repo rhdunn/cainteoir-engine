@@ -30,6 +30,8 @@ if __name__ == '__main__':
 		]},
 		{'name': 'Intonation', 'type': 'diphones', 'tests': [
 			{'test': 'diphone/intonation/between-consonants-at-50-percent.pho', 'result': 'diphone/intonation/between-consonants-at-50-percent.dipho', 'phonemeset': 'radio'},
+			{'test': 'diphone/intonation/multiple-vowels-at-50-percent.pho', 'result': 'diphone/intonation/multiple-vowels-at-50-percent.dipho', 'phonemeset': 'radio'},
+			{'test': 'diphone/intonation/multiple-vowels-mismatched-start-end-points.pho', 'result': 'diphone/intonation/multiple-vowels-mismatched-start-end-points.dipho', 'phonemeset': 'radio'},
 		]},
 	]})
 	test.summary()

@@ -80,7 +80,17 @@ bool diphone_reader::read()
 
 		for (auto && env : mProsody->envelope)
 		{
-			if (env.offset <= 50)
+			if (env.offset == 0 && !envelope.empty() && envelope.back().offset == 50)
+			{
+				css::frequency pitch = envelope.back().pitch;
+				if (pitch.units() != env.pitch.units() || pitch.value() != env.pitch.value())
+				{
+					fflush(stdout);
+					fprintf(stderr, "warning: mismatched start/end pitch points\n");
+					fflush(stderr);
+				}
+			}
+			else if (env.offset <= 50)
 			{
 				envelope.push_back({ env.offset + 50, env.pitch });
 			}
