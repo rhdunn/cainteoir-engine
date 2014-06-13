@@ -78,6 +78,7 @@ bool diphone_reader::read()
 		mRemainingDuration = mProsody->duration.as(css::time::milliseconds).value() / 2;
 		currentDuration += mRemainingDuration;
 
+		bool haveMidpoint = false;
 		for (auto && env : mProsody->envelope)
 		{
 			if (env.offset == 0 && !envelope.empty() && envelope.back().offset == 50)
@@ -90,13 +91,26 @@ bool diphone_reader::read()
 					fflush(stderr);
 				}
 			}
-			else if (env.offset <= 50)
+			else if (env.offset < 50)
 			{
 				envelope.push_back({ env.offset + 50, env.pitch });
 			}
-
-			if (env.offset >= 50)
+			else if (env.offset == 50)
 			{
+				haveMidpoint = true;
+				envelope.push_back({ 100, env.pitch });
+				mRemainingEnvelope.push_back({ 0, env.pitch });
+			}
+			else // if (env.offset >= 50)
+			{
+				if (!haveMidpoint)
+				{
+					haveMidpoint = true;
+					float pitch = env.pitch.value();
+
+					envelope.push_back({ 100, { pitch, css::frequency::hertz }});
+					mRemainingEnvelope.push_back({ 0, { pitch, css::frequency::hertz }});
+				}
 				mRemainingEnvelope.push_back({ env.offset - 50, env.pitch });
 			}
 		}
