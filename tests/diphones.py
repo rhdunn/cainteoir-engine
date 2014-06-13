@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 014 Reece H. Dunn
+# Copyright (C) 2014 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
