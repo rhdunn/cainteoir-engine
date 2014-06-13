@@ -106,10 +106,19 @@ bool diphone_reader::read()
 				if (!haveMidpoint)
 				{
 					haveMidpoint = true;
-					float pitch = env.pitch.value();
+					float pitch2 = env.pitch.value();
+					float pitch1 = envelope.empty() ? pitch2 : envelope.back().pitch.value();
+					if (pitch1 != pitch2)
+					{
+						int offset2 = envelope.back().offset - 50;
+						int offset1 = env.offset;
 
-					envelope.push_back({ 100, { pitch, css::frequency::hertz }});
-					mRemainingEnvelope.push_back({ 0, { pitch, css::frequency::hertz }});
+						float dPitch = (pitch2 - pitch1) / (offset2 - offset1);
+						pitch1 = ((50 - offset1) * dPitch) + pitch1;
+					}
+
+					envelope.push_back({ 100, { pitch1, css::frequency::hertz }});
+					mRemainingEnvelope.push_back({ 0, { pitch1, css::frequency::hertz }});
 				}
 				mRemainingEnvelope.push_back({ env.offset - 50, env.pitch });
 			}

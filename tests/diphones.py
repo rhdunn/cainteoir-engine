@@ -35,6 +35,7 @@ if __name__ == '__main__':
 		]},
 		{'name': 'Intonation (between 50%)', 'type': 'diphones', 'tests': [
 			{'test': 'diphone/intonation/between-consonants-between-50-percent-flat.pho', 'result': 'diphone/intonation/between-consonants-between-50-percent-flat.dipho', 'phonemeset': 'radio'},
+			{'test': 'diphone/intonation/between-consonants-between-50-percent-linear.pho', 'result': 'diphone/intonation/between-consonants-between-50-percent-linear.dipho', 'phonemeset': 'radio'},
 		]},
 	]})
 	test.summary()
