@@ -25,6 +25,8 @@ if __name__ == '__main__':
 	test.run({'name': 'Diphones', 'groups': [
 		{'name': 'Duration', 'type': 'diphones', 'tests': [
 			{'test': 'diphone/duration/no-pauses.pho', 'result': 'diphone/duration/no-pauses.dipho', 'phonemeset': 'radio'},
+			{'test': 'diphone/duration/pause-before.pho', 'result': 'diphone/duration/pause-before.dipho', 'phonemeset': 'radio'},
+			{'test': 'diphone/duration/pause-after.pho', 'result': 'diphone/duration/pause-after.dipho', 'phonemeset': 'radio'},
 		]},
 	]})
 	test.summary()
