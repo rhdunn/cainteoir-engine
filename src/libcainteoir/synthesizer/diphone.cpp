@@ -38,6 +38,7 @@ struct diphone_reader : public tts::prosody_reader
 private:
 	std::shared_ptr<tts::prosody_reader> mProsody;
 	float mRemainingDuration;
+	std::vector<tts::envelope_t> mRemainingEnvelope;
 	bool mLastDiphone;
 };
 
@@ -66,6 +67,9 @@ bool diphone_reader::read()
 
 	float currentDuration = mRemainingDuration;
 
+	envelope = mRemainingEnvelope;
+	mRemainingEnvelope.clear();
+
 	if (mProsody->read())
 	{
 		phoneme3 = mProsody->phoneme1;
@@ -73,6 +77,19 @@ bool diphone_reader::read()
 
 		mRemainingDuration = mProsody->duration.as(css::time::milliseconds).value() / 2;
 		currentDuration += mRemainingDuration;
+
+		for (auto && env : mProsody->envelope)
+		{
+			if (env.offset <= 50)
+			{
+				envelope.push_back({ env.offset + 50, env.pitch });
+			}
+
+			if (env.offset >= 50)
+			{
+				mRemainingEnvelope.push_back({ env.offset - 50, env.pitch });
+			}
+		}
 	}
 	else if (mLastDiphone)
 		return false;

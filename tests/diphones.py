@@ -28,5 +28,8 @@ if __name__ == '__main__':
 			{'test': 'diphone/duration/pause-before.pho', 'result': 'diphone/duration/pause-before.dipho', 'phonemeset': 'radio'},
 			{'test': 'diphone/duration/pause-after.pho', 'result': 'diphone/duration/pause-after.dipho', 'phonemeset': 'radio'},
 		]},
+		{'name': 'Intonation', 'type': 'diphones', 'tests': [
+			{'test': 'diphone/intonation/between-consonants-at-50-percent.pho', 'result': 'diphone/intonation/between-consonants-at-50-percent.dipho', 'phonemeset': 'radio'},
+		]},
 	]})
 	test.summary()
