@@ -232,21 +232,19 @@ struct mbrola_synthesizer : public tts::synthesizer
 	const rdf::uri &format() const { return sample_format; }
 
 	//@}
-	/** @name tts::prosody_writer */
-	//@{
-
-	void reset(FILE *aOutput) {}
-
-	bool write(const tts::prosody &aProsody);
-
-	//@}
 	/** @name tts::synthesizer */
 	//@{
 
-	bool read(cainteoir::audio *out);
+	void bind(const std::shared_ptr<tts::prosody_reader> &aProsody);
+
+	bool synthesize(cainteoir::audio *out);
 
 	//@}
 private:
+	bool write(const tts::prosody &aProsody);
+
+	bool read(cainteoir::audio *out);
+
 	void flush();
 
 	enum state_t
@@ -264,6 +262,7 @@ private:
 	int sample_rate;
 	rdf::uri sample_format;
 
+	std::shared_ptr<tts::prosody_reader> prosody;
 	std::shared_ptr<tts::prosody_writer> writer;
 };
 
@@ -321,6 +320,21 @@ mbrola_synthesizer::mbrola_synthesizer(const char *aDatabase, std::shared_ptr<tt
 mbrola_synthesizer::~mbrola_synthesizer()
 {
 	fclose(pho);
+}
+
+void mbrola_synthesizer::bind(const std::shared_ptr<tts::prosody_reader> &aProsody)
+{
+	prosody = aProsody;
+}
+
+bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
+{
+	if (!prosody || !out) return false;
+
+	while (prosody->read())
+		write(*prosody);
+
+	return read(out);
 }
 
 bool mbrola_synthesizer::write(const tts::prosody &aProsody)

@@ -87,9 +87,11 @@ namespace cainteoir { namespace tts
 		tts_and_media_overlays,
 	};
 
-	struct synthesizer : public audio_info , public prosody_writer
+	struct synthesizer : public audio_info
 	{
-		virtual bool read(audio *out) = 0;
+		virtual void bind(const std::shared_ptr<prosody_reader> &aProsody) = 0;
+
+		virtual bool synthesize(audio *out) = 0;
 	};
 
 	void read_voice_metadata(rdf::graph &aMetadata);

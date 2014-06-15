@@ -127,13 +127,10 @@ synthesize(rdf::graph &metadata,
 			voice->format(),
 			voice->channels(),
 			voice->frequency());
+
 	out->open();
-
-	while (pho->read())
-		voice->write(*pho);
-
-	voice->read(out.get());
-
+	voice->bind(pho);
+	voice->synthesize(out.get());
 	out->close();
 }
 
