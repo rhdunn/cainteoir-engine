@@ -30,6 +30,10 @@ namespace cainteoir { namespace tts
 	void read_mbrola_voices(rdf::graph &aMetadata);
 
 	std::shared_ptr<synthesizer> create_mbrola_synthesizer(const char *voice);
+
+	// Cainteoir Text-to-Speech
+
+	void read_cainteoir_voices(rdf::graph &aMetadata);
 }}
 
 #endif

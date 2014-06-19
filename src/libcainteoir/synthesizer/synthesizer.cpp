@@ -32,6 +32,7 @@ void
 tts::read_voice_metadata(rdf::graph &aMetadata)
 {
 	read_mbrola_voices(aMetadata);
+	read_cainteoir_voices(aMetadata);
 }
 
 std::shared_ptr<tts::synthesizer>

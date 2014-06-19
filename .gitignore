@@ -18,6 +18,7 @@
 *.gz
 *.lzma
 *.zip
+*.vdb
 
 # code generation data/output:
 
