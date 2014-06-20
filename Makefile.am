@@ -209,9 +209,13 @@ fsm:	src/libcainteoir/tts/text_reader.svg
 api:
 	doxygen docs/cainteoir-engine.doxyconf 2>&1 #| ( ! grep . )
 
-doc:	README.html \
-	docs/ReleaseNotes.html \
-	api
+html:	README.html \
+	docs/accents-and-dialects.html \
+	docs/transcriptions-en.html \
+	docs/voicedb-format.html \
+	docs/ReleaseNotes.html
+
+doc:	html api
 
 phonemes:	data/phonemeset/ascii-ipa.html \
 		data/phonemeset/ipa.html \
