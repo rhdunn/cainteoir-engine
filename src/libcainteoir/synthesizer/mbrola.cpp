@@ -392,7 +392,7 @@ tts::read_mbrola_voices(rdf::graph &aMetadata)
 }
 
 std::shared_ptr<tts::synthesizer>
-tts::create_mbrola_voice(const char *voice)
+tts::create_mbrola_synthesizer(const char *voice)
 {
 	return {};
 }
