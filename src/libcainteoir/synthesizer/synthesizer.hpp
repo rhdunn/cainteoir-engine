@@ -29,13 +29,13 @@ namespace cainteoir { namespace tts
 
 	void read_mbrola_voices(rdf::graph &aMetadata);
 
-	std::shared_ptr<synthesizer> create_mbrola_synthesizer(const char *voice);
+	std::shared_ptr<synthesizer> create_mbrola_synthesizer(rdf::graph &aMetadata, const rdf::uri &aVoice);
 
 	// Cainteoir Text-to-Speech
 
 	void read_cainteoir_voices(rdf::graph &aMetadata);
 
-	std::shared_ptr<synthesizer> create_cainteoir_synthesizer(const char *data);
+	std::shared_ptr<synthesizer> create_cainteoir_synthesizer(rdf::graph &aMetadata, const rdf::uri &aVoice);
 }}
 
 #endif

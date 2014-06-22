@@ -27,6 +27,7 @@
 
 namespace tts = cainteoir::tts;
 namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
 
 #if defined(HAVE_MBROLA)
 
@@ -53,12 +54,16 @@ tts::read_mbrola_voices(rdf::graph &aMetadata)
 			char phonemeset[11];
 			snprintf(phonemeset, sizeof(phonemeset), "mbrola/%s", name);
 
+			char database[256];
+			snprintf(database, sizeof(database), MBROLA_DIR "/%s/%s", name, name);
+
 			int frequency = 16000;
 
 			rdf::uri voice = rdf::uri(baseuri, name);
 			aMetadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
 			aMetadata.statement(voice, rdf::tts("name"), rdf::literal(name));
 			aMetadata.statement(voice, rdf::tts("phonemeset"), rdf::literal(phonemeset));
+			aMetadata.statement(voice, rdf::tts("data"), rdf::literal(database));
 
 			aMetadata.statement(voice, rdf::tts("frequency"), rdf::literal(frequency, rdf::tts("hertz")));
 			aMetadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
@@ -367,21 +372,16 @@ void mbrola_synthesizer::flush()
 }
 
 std::shared_ptr<tts::synthesizer>
-tts::create_mbrola_synthesizer(const char *voice)
+tts::create_mbrola_synthesizer(rdf::graph &aMetadata, const rdf::uri &aVoice)
 {
-	if (!voice || strlen(voice) != 3)
-		return {}; // invalid voice name
+	const auto voice = rql::select(aMetadata, rql::subject == aVoice);
+	const std::string database = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("data"));
+	const std::string phonemeset = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("phonemeset"));
 
-	char database[256];
-	snprintf(database, sizeof(database), MBROLA_DIR "/%s/%s", voice, voice);
-
-	char phonemeset[11];
-	snprintf(phonemeset, sizeof(phonemeset), "mbrola/%s", voice);
-
-	auto phonemes = tts::createPhonemeWriter(phonemeset);
+	auto phonemes = tts::createPhonemeWriter(phonemeset.c_str());
 	if (!phonemes) return {};
 
-	return std::make_shared<mbrola_synthesizer>(database, tts::createPhoWriter(phonemes));
+	return std::make_shared<mbrola_synthesizer>(database.c_str(), tts::createPhoWriter(phonemes));
 }
 
 #else
@@ -392,7 +392,7 @@ tts::read_mbrola_voices(rdf::graph &aMetadata)
 }
 
 std::shared_ptr<tts::synthesizer>
-tts::create_mbrola_synthesizer(const char *voice)
+tts::create_mbrola_synthesizer(rdf::graph &aMetadata, const rdf::uri &aVoice)
 {
 	return {};
 }

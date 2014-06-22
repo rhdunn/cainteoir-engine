@@ -122,7 +122,7 @@ tts::read_cainteoir_voices(rdf::graph &aMetadata)
 }
 
 std::shared_ptr<tts::synthesizer>
-tts::create_cainteoir_synthesizer(const char *data)
+tts::create_cainteoir_synthesizer(rdf::graph &aMetadata, const rdf::uri &aVoice)
 {
 	return {};
 }
