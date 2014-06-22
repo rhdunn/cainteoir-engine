@@ -24,7 +24,6 @@
 #include "audio.hpp"
 #include "document.hpp"
 #include "phoneme.hpp"
-#include "synthesizer.hpp"
 
 namespace cainteoir { namespace tts
 {
@@ -86,17 +85,6 @@ namespace cainteoir { namespace tts
 		media_overlays_only,
 		tts_and_media_overlays,
 	};
-
-	struct synthesizer : public audio_info
-	{
-		virtual void bind(const std::shared_ptr<prosody_reader> &aProsody) = 0;
-
-		virtual bool synthesize(audio *out) = 0;
-	};
-
-	void read_voice_metadata(rdf::graph &aMetadata);
-
-	std::shared_ptr<synthesizer> create_voice_synthesizer(rdf::graph &aMetadata, const rdf::uri *voice);
 
 	struct engines
 	{

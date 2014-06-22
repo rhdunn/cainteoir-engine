@@ -1,4 +1,4 @@
-/* Prosodic Model API.
+/* PHoneme/Prosody Synthesizer API.
  *
  * Copyright (C) 2014 Reece H. Dunn
  *
@@ -18,8 +18,8 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAINTEOIR_ENGINE_PROSODY_HPP
-#define CAINTEOIR_ENGINE_PROSODY_HPP
+#ifndef CAINTEOIR_ENGINE_SYNTHESIZER_HPP
+#define CAINTEOIR_ENGINE_SYNTHESIZER_HPP
 
 #include "phoneme.hpp"
 #include "content.hpp"
@@ -89,6 +89,17 @@ namespace cainteoir { namespace tts
 	};
 
 	std::shared_ptr<prosody_writer> createPhoWriter(const std::shared_ptr<phoneme_writer> &aPhonemeSet);
+
+	struct synthesizer : public audio_info
+	{
+		virtual void bind(const std::shared_ptr<prosody_reader> &aProsody) = 0;
+
+		virtual bool synthesize(audio *out) = 0;
+	};
+
+	void read_voice_metadata(rdf::graph &aMetadata);
+
+	std::shared_ptr<synthesizer> create_voice_synthesizer(rdf::graph &aMetadata, const rdf::uri *voice);
 }}
 
 #endif

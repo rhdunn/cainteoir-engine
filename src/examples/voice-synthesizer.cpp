@@ -23,6 +23,7 @@
 #include "i18n.h"
 #include "options.hpp"
 
+#include <cainteoir/synthesizer.hpp>
 #include <cainteoir/engines.hpp>
 #include <stdexcept>
 #include <iostream>

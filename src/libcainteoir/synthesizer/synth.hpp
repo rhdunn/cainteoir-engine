@@ -18,10 +18,10 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAINTEOIR_SYNTHESIZER_SYNTHESIZER_HPP
-#define CAINTEOIR_SYNTHESIZER_SYNTHESIZER_HPP
+#ifndef CAINTEOIR_SYNTHESIZER_SYNTH_HPP
+#define CAINTEOIR_SYNTHESIZER_SYNTH_HPP
 
-#include <cainteoir/engines.hpp>
+#include <cainteoir/synthesizer.hpp>
 
 namespace cainteoir { namespace tts
 {

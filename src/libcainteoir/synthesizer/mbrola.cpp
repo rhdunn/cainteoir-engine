@@ -22,7 +22,6 @@
 #include "compatibility.hpp"
 
 #include "synth.hpp"
-#include <cainteoir/engines.hpp>
 #include <stdexcept>
 
 namespace tts = cainteoir::tts;
