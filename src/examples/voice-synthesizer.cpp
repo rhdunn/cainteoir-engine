@@ -72,13 +72,13 @@ static void show_metadata(rdf::graph &metadata)
 }
 
 static void
-print_pho(const char *filename,
-          bool diphones,
-          const char *src_phonemeset,
-          const char *dst_phonemeset)
+print(const char *filename,
+      actions action,
+      const char *src_phonemeset,
+      const char *dst_phonemeset)
 {
 	auto pho = tts::createPhoReader(tts::createPhonemeParser(src_phonemeset));
-	if (diphones)
+	if (action == actions::print_diphones)
 		pho = tts::createDiphoneReader(pho);
 
 	if (filename)
@@ -199,10 +199,8 @@ int main(int argc, char **argv)
 			show_metadata(metadata);
 			break;
 		case actions::print_pho:
-			print_pho(argc == 1 ? argv[0] : nullptr, false, src_phonemeset, dst_phonemeset);
-			break;
 		case actions::print_diphones:
-			print_pho(argc == 1 ? argv[0] : nullptr, true, src_phonemeset, dst_phonemeset);
+			print(argc == 1 ? argv[0] : nullptr, action, src_phonemeset, dst_phonemeset);
 			break;
 		case actions::synthesize:
 			synthesize(metadata, voicename, argc == 1 ? argv[0] : nullptr, outformat, outfile, device_name);
