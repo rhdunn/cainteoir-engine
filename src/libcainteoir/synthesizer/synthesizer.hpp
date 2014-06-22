@@ -34,6 +34,8 @@ namespace cainteoir { namespace tts
 	// Cainteoir Text-to-Speech
 
 	void read_cainteoir_voices(rdf::graph &aMetadata);
+
+	std::shared_ptr<synthesizer> create_cainteoir_synthesizer(const char *data);
 }}
 
 #endif

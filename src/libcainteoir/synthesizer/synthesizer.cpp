@@ -40,11 +40,21 @@ tts::create_voice_synthesizer(rdf::graph &aMetadata, const rdf::uri *voice)
 {
 	if (!voice) return {};
 
-	const std::string name = rql::select_value<std::string>(aMetadata,
-		rql::subject == *voice && rql::predicate == rdf::tts("name"));
-
 	const std::string &synthesizer = voice->ns;
+
 	if (synthesizer == "http://reecedunn.co.uk/tts/synthesizer/mbrola#")
+	{
+		const std::string name = rql::select_value<std::string>(aMetadata,
+			rql::subject == *voice && rql::predicate == rdf::tts("name"));
 		return create_mbrola_synthesizer(name.c_str());
+	}
+
+	if (synthesizer == "http://reecedunn.co.uk/tts/synthesizer/cainteoir#")
+	{
+		const std::string data = rql::select_value<std::string>(aMetadata,
+			rql::subject == *voice && rql::predicate == rdf::tts("data"));
+		return create_cainteoir_synthesizer(data.c_str());
+	}
+
 	return {};
 }

@@ -120,3 +120,9 @@ tts::read_cainteoir_voices(rdf::graph &aMetadata)
 	}
 	closedir(dir);
 }
+
+std::shared_ptr<tts::synthesizer>
+tts::create_cainteoir_synthesizer(const char *data)
+{
+	return {};
+}
