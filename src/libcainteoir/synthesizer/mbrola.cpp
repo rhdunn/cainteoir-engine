@@ -21,7 +21,7 @@
 #include "config.h"
 #include "compatibility.hpp"
 
-#include "synthesizer.hpp"
+#include "synth.hpp"
 #include <cainteoir/engines.hpp>
 #include <stdexcept>
 

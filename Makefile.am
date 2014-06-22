@@ -241,9 +241,9 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/mimetype.hpp \
 	src/include/cainteoir/path.hpp \
 	src/include/cainteoir/phoneme.hpp \
-	src/include/cainteoir/prosody.hpp \
 	src/include/cainteoir/range.hpp \
 	src/include/cainteoir/stopwatch.hpp \
+	src/include/cainteoir/synthesizer.hpp \
 	src/include/cainteoir/text.hpp \
 	src/include/cainteoir/trie.hpp \
 	src/include/cainteoir/unicode.hpp \
@@ -366,7 +366,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/tts/text_reader.cpp \
 	src/libcainteoir/tts/word_stream.cpp \
 	\
-	src/libcainteoir/synthesizer/synthesizer.hpp \
+	src/libcainteoir/synthesizer/synth.hpp \
 	src/libcainteoir/synthesizer/synthesizer.cpp \
 	src/libcainteoir/synthesizer/pho_file.cpp \
 	src/libcainteoir/synthesizer/diphone.cpp \

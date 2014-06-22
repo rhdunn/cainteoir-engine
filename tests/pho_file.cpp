@@ -18,7 +18,7 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cainteoir/prosody.hpp>
+#include <cainteoir/synthesizer.hpp>
 
 #include "tester.hpp"
 

@@ -22,7 +22,7 @@
 #include "compatibility.hpp"
 #include "i18n.h"
 
-#include "synthesizer.hpp"
+#include "synth.hpp"
 
 namespace rdf = cainteoir::rdf;
 namespace tts = cainteoir::tts;

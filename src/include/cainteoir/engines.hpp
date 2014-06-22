@@ -24,7 +24,7 @@
 #include "audio.hpp"
 #include "document.hpp"
 #include "phoneme.hpp"
-#include "prosody.hpp"
+#include "synthesizer.hpp"
 
 namespace cainteoir { namespace tts
 {

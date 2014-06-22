@@ -22,7 +22,7 @@
 #include "i18n.h"
 #include "compatibility.hpp"
 
-#include "synthesizer.hpp"
+#include "synth.hpp"
 #include <cainteoir/engines.hpp>
 #include <cainteoir/path.hpp>
 

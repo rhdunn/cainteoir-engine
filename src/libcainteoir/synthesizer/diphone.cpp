@@ -22,7 +22,7 @@
 #include "i18n.h"
 #include "compatibility.hpp"
 
-#include <cainteoir/prosody.hpp>
+#include <cainteoir/synthesizer.hpp>
 
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
