@@ -29,8 +29,8 @@
 #include <dirent.h>
 
 namespace tts = cainteoir::tts;
-namespace ipa = cainteoir::ipa;
-namespace css = cainteoir::css;
+namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
 
 void
 tts::read_cainteoir_voices(rdf::graph &aMetadata)
@@ -120,8 +120,187 @@ tts::read_cainteoir_voices(rdf::graph &aMetadata)
 	closedir(dir);
 }
 
+struct diphone_entry
+{
+	uint16_t start;
+	uint16_t mid;
+	uint16_t end;
+};
+
+struct cainteoir_synthesizer : public tts::synthesizer
+{
+	cainteoir_synthesizer(const std::shared_ptr<cainteoir::buffer> &aData,
+	                      const std::shared_ptr<tts::phoneme_reader> &aPhonemeSet);
+
+	/** @name audio_info */
+	//@{
+
+	int channels() const { return 1; }
+
+	int frequency() const { return mSampleRate; }
+
+	const rdf::uri &format() const { return mSampleFormat; }
+
+	//@}
+	/** @name tts::synthesizer */
+	//@{
+
+	void bind(const std::shared_ptr<tts::prosody_reader> &aProsody);
+
+	bool synthesize(cainteoir::audio *out);
+
+	//@}
+private:
+	std::shared_ptr<cainteoir::buffer> mData;
+	std::shared_ptr<tts::phoneme_reader> mPhonemeSet;
+	int mFrequency;
+	int mSampleRate;
+	rdf::uri mSampleFormat;
+
+	std::map<std::string, diphone_entry> mDiphones;
+	uint16_t mFrames;
+	uint8_t  mLpcOrder;
+	uint32_t mCoefficientMin;
+	uint32_t mCoefficientRange;
+	const uint32_t *mLpcResidualOffsets;
+	const uint8_t  *mLpcResidualSizes;
+	const uint16_t *mLpcCoefficients;
+	const uint8_t  *mLpcResidualData;
+};
+
+cainteoir_synthesizer::cainteoir_synthesizer(const std::shared_ptr<cainteoir::buffer> &aData,
+                                             const std::shared_ptr<tts::phoneme_reader> &aPhonemeSet)
+	: mData(aData)
+	, mPhonemeSet(aPhonemeSet)
+	, mSampleFormat(rdf::tts("s16le"))
+	, mFrames(0)
+	, mLpcOrder(0)
+	, mCoefficientMin(0)
+	, mCoefficientRange(0)
+	, mLpcResidualOffsets(nullptr)
+	, mLpcResidualSizes(nullptr)
+	, mLpcCoefficients(nullptr)
+	, mLpcResidualData(nullptr)
+{
+	const uint8_t *data = (const uint8_t *)mData->begin() + 13; // skip to sample-rate
+	mFrequency = *(const uint16_t *)data;
+	data += 2;
+
+	while (*data != 0) ++data; // name
+	++data;
+
+	while (*data != 0) ++data; // company
+	++data;
+
+	while (*data != 0) ++data; // locale
+	++data;
+
+	while (*data != 0) ++data; // phonemeset
+	++data;
+
+	data += 2; // gender & age
+
+	const uint8_t *end = (const uint8_t *)mData->end();
+	uint16_t entries = 0;
+	while (data < end)
+	{
+		if (data[0] == 'I' && data[1] == 'D' && data[2] == 'X') switch (data[3])
+		{
+		case 0: // Diphone Index
+			data += 4;
+			entries = *(const uint16_t *)data;
+			data += 2;
+			for (; entries > 0; --entries)
+			{
+				const char *name = (const char *)data;
+				while (*data != 0) ++data;
+				++data;
+
+				uint16_t start = *(const uint16_t *)data;
+				uint16_t mid   = start + data[2];
+				uint16_t end   = mid   + data[3];
+				data += 4;
+
+				mDiphones[name] = { start, mid, end };
+			}
+			break;
+		case 1: // LPC Residual Index
+			data += 4;
+			entries = *(const uint16_t *)data;
+			data += 2;
+			mLpcResidualOffsets = (const uint32_t *)data;
+			data += entries * sizeof(uint32_t);
+			break;
+		case 2: // LPC Residual Sizes
+			data += 4;
+			entries = *(const uint16_t *)data;
+			data += 2;
+			mLpcResidualSizes = (const uint8_t *)data;
+			data += entries;
+			break;
+		default: // Unknown
+			data += 4;
+			break;
+		}
+		else if (data[0] == 'D' && data[1] == 'A' && data[2] == 'T') switch (data[3])
+		{
+		case 0: // Residual Excited LPC (ulaw)
+		case 1: // Residual Excited LPC (G.721)
+			data += 4;
+			mFrames = *(const uint16_t *)data;
+			mLpcOrder = *(const uint8_t *)(data + 2);
+			mCoefficientMin = *(const uint32_t *)(data + 3);
+			mCoefficientRange = *(const uint32_t *)(data + 7);
+			data += 11;
+			break;
+		default: // Unknown
+			data += 4;
+			break;
+		}
+		else if (data[0] == 'L' && data[1] == 'P' && data[2] == 'C')
+		{
+			data += 3;
+			mLpcCoefficients = (const uint16_t *)data;
+			data += (mFrames * mLpcOrder * sizeof(uint16_t));
+		}
+		else if (data[0] == 'R' && data[1] == 'E' && data[2] == 'S')
+		{
+			data += 3;
+			mLpcResidualData = data;
+			data = end;
+		}
+		else
+			++data;
+	}
+}
+
+void cainteoir_synthesizer::bind(const std::shared_ptr<tts::prosody_reader> &aProsody)
+{
+}
+
+bool cainteoir_synthesizer::synthesize(cainteoir::audio *out)
+{
+	return false;
+}
+
 std::shared_ptr<tts::synthesizer>
 tts::create_cainteoir_synthesizer(rdf::graph &aMetadata, const rdf::uri &aVoice)
 {
-	return {};
+	const auto voice = rql::select(aMetadata, rql::subject == aVoice);
+	const std::string database = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("data"));
+	const std::string phonemeset = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("phonemeset"));
+
+	auto data = cainteoir::make_file_buffer(database.c_str());
+	if (!data) return {};
+
+	const char *header = data->begin();
+
+	if (strncmp(header, "VOICEDB", 7) != 0 ||
+	    *(const uint16_t *)(header + 7) != 0x3031)
+		return {}; // magic signature mismatched
+
+	auto phonemes = tts::createPhonemeReader(phonemeset.c_str());
+	if (!phonemes) return {};
+
+	return std::make_shared<cainteoir_synthesizer>(data, phonemes);
 }
