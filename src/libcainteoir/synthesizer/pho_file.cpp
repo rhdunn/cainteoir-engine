@@ -28,6 +28,40 @@ namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 namespace css = cainteoir::css;
 
+bool
+tts::write_diphone(const tts::prosody &aProsody,
+                   const std::shared_ptr<tts::phoneme_writer> &aPhonemeSet,
+                   FILE *aOutput)
+{
+	if (!aOutput) return false;
+
+	if (!aPhonemeSet->write(aProsody.phoneme1.get(ipa::main | ipa::diacritics | ipa::length)))
+		return false;
+
+	if (aProsody.phoneme2 != ipa::unspecified)
+	{
+		if (!aPhonemeSet->write(aProsody.phoneme2.get(ipa::main | ipa::diacritics | ipa::length)))
+			return false;
+	}
+
+	aPhonemeSet->flush();
+
+	if (aProsody.phoneme3 != ipa::unspecified)
+	{
+		fputc('-', aOutput);
+		if (!aPhonemeSet->write(aProsody.phoneme3.get(ipa::main | ipa::diacritics | ipa::length)))
+			return false;
+
+		if (aProsody.phoneme4 != ipa::unspecified)
+		{
+			if (!aPhonemeSet->write(aProsody.phoneme4.get(ipa::main | ipa::diacritics | ipa::length)))
+				return false;
+		}
+
+		aPhonemeSet->flush();
+	}
+}
+
 static float parse_number(const char * &current, const char *end)
 {
 	int value = 0; // the value of the number
@@ -205,33 +239,8 @@ void pho_writer::reset(FILE *aOutput)
 
 bool pho_writer::write(const tts::prosody &aProsody)
 {
-	if (!mOutput) return false;
-
-	if (!mPhonemeSet->write(aProsody.phoneme1.get(ipa::main | ipa::diacritics | ipa::length)))
+	if (!tts::write_diphone(aProsody, mPhonemeSet, mOutput))
 		return false;
-
-	if (aProsody.phoneme2 != ipa::unspecified)
-	{
-		if (!mPhonemeSet->write(aProsody.phoneme2.get(ipa::main | ipa::diacritics | ipa::length)))
-			return false;
-	}
-
-	mPhonemeSet->flush();
-
-	if (aProsody.phoneme3 != ipa::unspecified)
-	{
-		fputc('-', mOutput);
-		if (!mPhonemeSet->write(aProsody.phoneme3.get(ipa::main | ipa::diacritics | ipa::length)))
-			return false;
-
-		if (aProsody.phoneme4 != ipa::unspecified)
-		{
-			if (!mPhonemeSet->write(aProsody.phoneme4.get(ipa::main | ipa::diacritics | ipa::length)))
-				return false;
-		}
-
-		mPhonemeSet->flush();
-	}
 
 	fprintf(mOutput, " %G", aProsody.duration.as(css::time::milliseconds).value());
 	for (auto &entry : aProsody.envelope)

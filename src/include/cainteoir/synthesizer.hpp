@@ -66,6 +66,11 @@ namespace cainteoir { namespace tts
 		}
 	};
 
+	bool
+	write_diphone(const tts::prosody &aProsody,
+	              const std::shared_ptr<tts::phoneme_writer> &aPhonemeSet,
+	              FILE *aOutput);
+
 	struct prosody_reader : public prosody
 	{
 		virtual void reset(const std::shared_ptr<buffer> &aBuffer) = 0;
