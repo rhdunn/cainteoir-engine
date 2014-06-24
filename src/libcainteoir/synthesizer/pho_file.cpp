@@ -35,26 +35,26 @@ tts::write_diphone(const tts::prosody &aProsody,
 {
 	if (!aOutput) return false;
 
-	if (!aPhonemeSet->write(aProsody.phoneme1.get(ipa::main | ipa::diacritics | ipa::length)))
+	if (!aPhonemeSet->write(aProsody.first.phoneme1.get(ipa::main | ipa::diacritics | ipa::length)))
 		return false;
 
-	if (aProsody.phoneme2 != ipa::unspecified)
+	if (aProsody.first.phoneme2 != ipa::unspecified)
 	{
-		if (!aPhonemeSet->write(aProsody.phoneme2.get(ipa::main | ipa::diacritics | ipa::length)))
+		if (!aPhonemeSet->write(aProsody.first.phoneme2.get(ipa::main | ipa::diacritics | ipa::length)))
 			return false;
 	}
 
 	aPhonemeSet->flush();
 
-	if (aProsody.phoneme3 != ipa::unspecified)
+	if (aProsody.second.phoneme1 != ipa::unspecified)
 	{
 		fputc('-', aOutput);
-		if (!aPhonemeSet->write(aProsody.phoneme3.get(ipa::main | ipa::diacritics | ipa::length)))
+		if (!aPhonemeSet->write(aProsody.second.phoneme1.get(ipa::main | ipa::diacritics | ipa::length)))
 			return false;
 
-		if (aProsody.phoneme4 != ipa::unspecified)
+		if (aProsody.second.phoneme2 != ipa::unspecified)
 		{
-			if (!aPhonemeSet->write(aProsody.phoneme4.get(ipa::main | ipa::diacritics | ipa::length)))
+			if (!aPhonemeSet->write(aProsody.second.phoneme2.get(ipa::main | ipa::diacritics | ipa::length)))
 				return false;
 		}
 
@@ -136,39 +136,39 @@ bool pho_reader::read()
 		++mCurrent;
 		break;
 	default:
-		if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme1))
+		if (!mPhonemeSet->parse(mCurrent, mEnd, first.phoneme1))
 			return false;
 		switch (*mCurrent)
 		{
 		case ' ': case '\t':
-			if (!mPhonemeSet->parse(mEnd, mEnd, phoneme2))
-				phoneme2 = ipa::unspecified;
-			phoneme3 = ipa::unspecified;
-			phoneme4 = ipa::unspecified;
+			if (!mPhonemeSet->parse(mEnd, mEnd, first.phoneme2))
+				first.phoneme2 = ipa::unspecified;
+			second.phoneme1 = ipa::unspecified;
+			second.phoneme2 = ipa::unspecified;
 			break;
 		case '-': // diphone
 			++mCurrent;
-			if (!mPhonemeSet->parse(mEnd, mEnd, phoneme2))
-				phoneme2 = ipa::unspecified;
-			if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme3))
+			if (!mPhonemeSet->parse(mEnd, mEnd, first.phoneme2))
+				first.phoneme2 = ipa::unspecified;
+			if (!mPhonemeSet->parse(mCurrent, mEnd, second.phoneme1))
 				return false;
 			switch (*mCurrent)
 			{
 			case ' ': case '\t':
-				if (!mPhonemeSet->parse(mEnd, mEnd, phoneme4))
-					phoneme4 = ipa::unspecified;
+				if (!mPhonemeSet->parse(mEnd, mEnd, second.phoneme2))
+					second.phoneme2 = ipa::unspecified;
 				break;
 			default: // diphthong or affricate
-				if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme4))
-					phoneme4 = ipa::unspecified;
+				if (!mPhonemeSet->parse(mCurrent, mEnd, second.phoneme2))
+					second.phoneme2 = ipa::unspecified;
 				break;
 			}
 			break;
 		default: // diphthong or affricate
-			if (!mPhonemeSet->parse(mCurrent, mEnd, phoneme2))
-				phoneme2 = ipa::unspecified;
-			phoneme3 = ipa::unspecified;
-			phoneme4 = ipa::unspecified;
+			if (!mPhonemeSet->parse(mCurrent, mEnd, first.phoneme2))
+				first.phoneme2 = ipa::unspecified;
+			second.phoneme1 = ipa::unspecified;
+			second.phoneme2 = ipa::unspecified;
 			break;
 		}
 

@@ -56,8 +56,8 @@ void match_(const std::shared_ptr<cainteoir::buffer> &got, const char *expected,
 
 void match_(const tts::prosody &got, const tts::prosody &expected, const char *file, int line)
 {
-	assert_location(got.phoneme1 == expected.phoneme1, file, line);
-	assert_location(got.phoneme2 == expected.phoneme2, file, line);
+	assert_location(got.first.phoneme1 == expected.first.phoneme1, file, line);
+	assert_location(got.first.phoneme2 == expected.first.phoneme2, file, line);
 	assert_location(got.duration.value() == expected.duration.value(), file, line);
 	assert_location(got.duration.units() == expected.duration.units(), file, line);
 	assert_location(got.envelope.size() == expected.envelope.size(), file, line);

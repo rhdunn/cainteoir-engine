@@ -47,10 +47,8 @@ diphone_reader::diphone_reader(const std::shared_ptr<tts::prosody_reader> &aPros
 	, mLastDiphone(false)
 	, mRemainingDuration(0)
 {
-	phoneme1 = ipa::unspecified;
-	phoneme2 = ipa::unspecified;
-	phoneme3 = ipa::pause | ipa::extra_short;
-	phoneme4 = ipa::unspecified;
+	first  = {};
+	second = { ipa::pause | ipa::extra_short, ipa::unspecified };
 }
 
 void diphone_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
@@ -58,16 +56,13 @@ void diphone_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 	mProsody->reset(aBuffer);
 	mLastDiphone = false;
 
-	phoneme1 = ipa::unspecified;
-	phoneme2 = ipa::unspecified;
-	phoneme3 = ipa::pause | ipa::extra_short;
-	phoneme4 = ipa::unspecified;
+	first  = {};
+	second = { ipa::pause | ipa::extra_short, ipa::unspecified };
 }
 
 bool diphone_reader::read()
 {
-	phoneme1 = phoneme3;
-	phoneme2 = phoneme4;
+	first = second;
 
 	float currentDuration = mRemainingDuration;
 
@@ -76,8 +71,7 @@ bool diphone_reader::read()
 
 	if (mProsody->read())
 	{
-		phoneme3 = mProsody->phoneme1;
-		phoneme4 = mProsody->phoneme2;
+		second = mProsody->first;
 
 		mRemainingDuration = mProsody->duration.as(css::time::milliseconds).value() / 2;
 		currentDuration += mRemainingDuration;
@@ -133,8 +127,7 @@ bool diphone_reader::read()
 	else
 	{
 		mLastDiphone = true;
-		phoneme3 = ipa::pause | ipa::extra_short;
-		phoneme4 = ipa::unspecified;
+		second = { ipa::pause | ipa::extra_short, ipa::unspecified };
 	}
 
 	duration = { currentDuration, css::time::milliseconds };
