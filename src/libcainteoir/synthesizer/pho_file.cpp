@@ -175,7 +175,7 @@ bool pho_reader::read()
 		if (!skip_whitespace())
 			throw tts::phoneme_error("expected whitespace after the phoneme");
 
-		duration = css::time(parse_number(mCurrent, mEnd), css::time::milliseconds);
+		first.duration = css::time(parse_number(mCurrent, mEnd), css::time::milliseconds);
 		envelope.clear();
 
 		while (skip_whitespace())
@@ -242,7 +242,7 @@ bool pho_writer::write(const tts::prosody &aProsody)
 	if (!tts::write_diphone(aProsody, mPhonemeSet, mOutput))
 		return false;
 
-	fprintf(mOutput, " %G", aProsody.duration.as(css::time::milliseconds).value());
+	fprintf(mOutput, " %G", aProsody.first.duration.as(css::time::milliseconds).value());
 	for (auto &entry : aProsody.envelope)
 		fprintf(mOutput, " %d %G", entry.offset, entry.pitch.as(css::frequency::hertz).value());
 	fprintf(mOutput, "\n");

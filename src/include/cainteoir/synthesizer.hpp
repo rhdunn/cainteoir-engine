@@ -31,10 +31,12 @@ namespace cainteoir { namespace tts
 	{
 		ipa::phoneme phoneme1;
 		ipa::phoneme phoneme2;
+		css::time duration;
 
-		phone(ipa::phoneme aPhoneme1, ipa::phoneme aPhoneme2)
+		phone(ipa::phoneme aPhoneme1, ipa::phoneme aPhoneme2, css::time aDuration)
 			: phoneme1(aPhoneme1)
 			, phoneme2(aPhoneme2)
+			, duration(aDuration)
 		{
 		}
 
@@ -55,18 +57,13 @@ namespace cainteoir { namespace tts
 	{
 		phone first;
 		phone second;
-		css::time duration;
 		std::vector<envelope_t> envelope;
 
-		prosody(ipa::phoneme aPhoneme1,
-		        ipa::phoneme aPhoneme2,
-		        ipa::phoneme aPhoneme3,
-		        ipa::phoneme aPhoneme4,
-		        css::time aDuration,
+		prosody(const phone &aFirst,
+		        const phone &aSecond,
 		        const std::initializer_list<envelope_t> &aEnvelope)
-			: first(aPhoneme1, aPhoneme2)
-			, second(aPhoneme3, aPhoneme4)
-			, duration(aDuration)
+			: first(aFirst)
+			, second(aSecond)
 			, envelope(aEnvelope)
 		{
 		}
