@@ -39,6 +39,7 @@ enum class actions
 	show_metadata,
 	print_pho,
 	print_diphones,
+	print_diphones_after_reset,
 	synthesize,
 };
 
@@ -85,6 +86,9 @@ print(const char *filename,
 		pho->reset(cainteoir::make_file_buffer(filename));
 	else
 		pho->reset(cainteoir::make_file_buffer(stdin));
+
+	if (action == actions::print_diphones_after_reset)
+		pho = tts::createDiphoneReader(pho);
 
 	auto out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset ? dst_phonemeset : src_phonemeset));
 	out->reset(stdout);
@@ -154,6 +158,8 @@ int main(int argc, char **argv)
 			  i18n("Output the PHO file contents to stdout") },
 			{ 0, "diphones", bind_value(action, actions::print_diphones),
 			  i18n("Output the PHO file contents to stdout as diphones") },
+			{ 0, "diphones-after-reset", bind_value(action, actions::print_diphones_after_reset),
+			  i18n("Output the PHO file contents to stdout as diphones after initialization") },
 			{ 'P', "phonemeset", src_phonemeset, "PHONEMESET",
 			  i18n("Use PHONEMESET to read phonemes in (default: ipa)") },
 			{ 0, "output-phonemeset", dst_phonemeset, "PHONEMESET",
@@ -200,6 +206,7 @@ int main(int argc, char **argv)
 			break;
 		case actions::print_pho:
 		case actions::print_diphones:
+		case actions::print_diphones_after_reset:
 			print(argc == 1 ? argv[0] : nullptr, action, src_phonemeset, dst_phonemeset);
 			break;
 		case actions::synthesize:

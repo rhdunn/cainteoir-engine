@@ -23,17 +23,17 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('diphones', sys.argv)
 	test.run({'name': 'Diphones', 'groups': [
-		{'name': 'Duration', 'type': 'diphones', 'tests': [
+		{'name': 'Duration', 'type': ['diphones', 'diphones-after-reset'], 'tests': [
 			{'test': 'diphone/duration/no-pauses.pho', 'result': 'diphone/duration/no-pauses.dipho', 'phonemeset': 'radio'},
 			{'test': 'diphone/duration/pause-before.pho', 'result': 'diphone/duration/pause-before.dipho', 'phonemeset': 'radio'},
 			{'test': 'diphone/duration/pause-after.pho', 'result': 'diphone/duration/pause-after.dipho', 'phonemeset': 'radio'},
 		]},
-		{'name': 'Intonation (at 50%)', 'type': 'diphones', 'tests': [
+		{'name': 'Intonation (at 50%)', 'type': ['diphones', 'diphones-after-reset'], 'tests': [
 			{'test': 'diphone/intonation/between-consonants-at-50-percent.pho', 'result': 'diphone/intonation/between-consonants-at-50-percent.dipho', 'phonemeset': 'radio'},
 			{'test': 'diphone/intonation/multiple-vowels-at-50-percent.pho', 'result': 'diphone/intonation/multiple-vowels-at-50-percent.dipho', 'phonemeset': 'radio'},
 			{'test': 'diphone/intonation/multiple-vowels-mismatched-start-end-points.pho', 'result': 'diphone/intonation/multiple-vowels-mismatched-start-end-points.dipho', 'phonemeset': 'radio'},
 		]},
-		{'name': 'Intonation (between 50%)', 'type': 'diphones', 'tests': [
+		{'name': 'Intonation (between 50%)', 'type': ['diphones', 'diphones-after-reset'], 'tests': [
 			{'test': 'diphone/intonation/between-consonants-between-50-percent-flat.pho', 'result': 'diphone/intonation/between-consonants-between-50-percent-flat.dipho', 'phonemeset': 'radio'},
 			{'test': 'diphone/intonation/between-consonants-between-50-percent-linear.pho', 'result': 'diphone/intonation/between-consonants-between-50-percent-linear.dipho', 'phonemeset': 'radio'},
 		]},

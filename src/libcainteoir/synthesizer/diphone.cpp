@@ -44,9 +44,13 @@ private:
 
 diphone_reader::diphone_reader(const std::shared_ptr<tts::prosody_reader> &aProsody)
 	: mProsody(aProsody)
-	, mLastDiphone(true)
+	, mLastDiphone(false)
 	, mRemainingDuration(0)
 {
+	phoneme1 = ipa::unspecified;
+	phoneme2 = ipa::unspecified;
+	phoneme3 = ipa::pause | ipa::extra_short;
+	phoneme4 = ipa::unspecified;
 }
 
 void diphone_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
