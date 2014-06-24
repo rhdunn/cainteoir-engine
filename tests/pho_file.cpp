@@ -58,6 +58,8 @@ void match_(const tts::prosody &got, const tts::prosody &expected, const char *f
 {
 	assert_location(got.first.phoneme1 == expected.first.phoneme1, file, line);
 	assert_location(got.first.phoneme2 == expected.first.phoneme2, file, line);
+	assert_location(got.second.phoneme1 == expected.second.phoneme1, file, line);
+	assert_location(got.second.phoneme2 == expected.second.phoneme2, file, line);
 	assert_location(got.duration.value() == expected.duration.value(), file, line);
 	assert_location(got.duration.units() == expected.duration.units(), file, line);
 	assert_location(got.envelope.size() == expected.envelope.size(), file, line);
