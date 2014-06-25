@@ -193,8 +193,8 @@ class PhonemeSetCommand(Command):
 		return Command.run(self, params, filename, data)
 
 class DiphoneCommand(Command):
-	def __init__(self, mode):
-		Command.__init__(self, '../src/examples/voice-synthesizer --%s' % mode)
+	def __init__(self):
+		Command.__init__(self, '../src/examples/voice-synthesizer --diphone')
 
 	def run(self, args, filename, data):
 		params = [x for x in args]
@@ -212,8 +212,8 @@ def create_command(test_type):
 		return DictionaryCommand()
 	if test_type == 'phonemeset':
 		return PhonemeSetCommand()
-	if test_type in ['diphones', 'diphones-after-reset']:
-		return DiphoneCommand(test_type)
+	if test_type == 'diphones':
+		return DiphoneCommand()
 	if test_type == 'events':
 		return EventsCommand()
 	if test_type in ['styles', 'xmlreader']:

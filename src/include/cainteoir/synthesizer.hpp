@@ -80,16 +80,17 @@ namespace cainteoir { namespace tts
 
 	struct prosody_reader : public prosody
 	{
-		virtual void reset(const std::shared_ptr<buffer> &aBuffer) = 0;
-
 		virtual bool read() = 0;
 
 		virtual ~prosody_reader() {}
 	};
 
-	std::shared_ptr<prosody_reader> createPhoReader(const std::shared_ptr<phoneme_parser> &aPhonemeSet);
+	std::shared_ptr<prosody_reader>
+	createPhoReader(const std::shared_ptr<phoneme_parser> &aPhonemeSet,
+	                const std::shared_ptr<buffer> &aBuffer);
 
-	std::shared_ptr<prosody_reader> createDiphoneReader(const std::shared_ptr<prosody_reader> &aProsody);
+	std::shared_ptr<prosody_reader>
+	createDiphoneReader(const std::shared_ptr<prosody_reader> &aProsody);
 
 	struct prosody_writer
 	{

@@ -32,8 +32,6 @@ struct diphone_reader : public tts::prosody_reader
 {
 	diphone_reader(const std::shared_ptr<tts::prosody_reader> &aProsody);
 
-	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
-
 	bool read();
 private:
 	std::shared_ptr<tts::prosody_reader> mProsody;
@@ -46,15 +44,6 @@ diphone_reader::diphone_reader(const std::shared_ptr<tts::prosody_reader> &aPros
 	: mProsody(aProsody)
 	, mLastDiphone(false)
 {
-	first  = {};
-	second = { ipa::pause | ipa::extra_short, ipa::unspecified, { 0, css::time::milliseconds } };
-}
-
-void diphone_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
-{
-	mProsody->reset(aBuffer);
-	mLastDiphone = false;
-
 	first  = {};
 	second = { ipa::pause | ipa::extra_short, ipa::unspecified, { 0, css::time::milliseconds } };
 }

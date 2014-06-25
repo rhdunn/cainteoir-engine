@@ -83,11 +83,14 @@ std::shared_ptr<cainteoir::buffer> to_str(std::shared_ptr<tts::prosody_writer> &
 	return output.buffer();
 }
 
-const tts::prosody &parse(std::shared_ptr<tts::prosody_reader> &reader, const char *str)
+const tts::prosody parse(const char *str, const char *phonemeset = "cxs", bool read = true)
 {
-	reader->reset(std::make_shared<cainteoir::buffer>(str));
-	assert(reader->read());
-	return *reader;
+	auto reader = tts::createPhoReader(tts::createPhonemeParser(phonemeset),
+	                                   std::make_shared<cainteoir::buffer>(str));
+	assert(reader->read() == read);
+	tts::prosody ret = *reader;
+	assert(!reader->read());
+	return ret;
 }
 
 TEST_CASE("reader -- no input")
@@ -98,20 +101,10 @@ TEST_CASE("reader -- no input")
 		{}
 	};
 
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-	assert(reader.get());
-	match(*reader, unspecified);
+	assert(!tts::createPhoReader(tts::createPhonemeParser("cxs"), {}).get());
 
-	assert(!reader->read());
-	match(*reader, unspecified);
-
-	reader->reset(std::shared_ptr<cainteoir::buffer>());
-
-	assert(!reader->read());
-	match(*reader, unspecified);
-
-	auto test = std::make_shared<cainteoir::buffer>(nullptr, nullptr);
-	reader->reset(test);
+	auto reader = tts::createPhoReader(tts::createPhonemeParser("cxs"),
+		std::make_shared<cainteoir::buffer>(nullptr, nullptr));
 
 	assert(!reader->read());
 	match(*reader, unspecified);
@@ -125,313 +118,254 @@ TEST_CASE("reader -- comment")
 		{}
 	};
 
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	reader->reset(std::make_shared<cainteoir::buffer>("; this is a comment"));
-	assert(!reader->read());
-	match(*reader, unspecified);
-
-	reader->reset(std::make_shared<cainteoir::buffer>("; another comment\n"));
-	assert(!reader->read());
-	match(*reader, unspecified);
-
-	reader->reset(std::make_shared<cainteoir::buffer>("; comment 3\r\n"));
-	assert(!reader->read());
-	match(*reader, unspecified);
+	match(parse("; this is a comment", "cxs", false), unspecified);
+	match(parse("; another comment\n", "cxs", false), unspecified);
+	match(parse("; comment 3r\n", "cxs", false), unspecified);
 }
 
 TEST_CASE("reader -- |phoneme duration| [phonemes]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	match(parse(reader, "b 80"),
+	match(parse("b 80"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "b 55.4"),
+	match(parse("b 55.4"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 55.4, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "i 110"),
+	match(parse("i 110"),
 	      { { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 110, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "p_h 80"),
+	match(parse("p_h 80"),
 	      { { ipa::bilabial | ipa::plosive | ipa::aspirated, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "i_o 120"),
+	match(parse("i_o 120"),
 	      { { ipa::high | ipa::front | ipa::vowel | ipa::lowered, ipa::unspecified, { 120, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "i: 120"),
+	match(parse("i: 120"),
 	      { { ipa::high | ipa::front | ipa::vowel | ipa::long_, ipa::unspecified, { 120, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "tS 80"),
+	match(parse("tS 80"),
 	      { { ipa::alveolar | ipa::plosive, ipa::palato_alveolar | ipa::sibilant | ipa::fricative, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "I@ 120"),
+	match(parse("I@ 120"),
 	      { { ipa::semi_high | ipa::front | ipa::vowel, ipa::mid | ipa::center | ipa::vowel, { 120, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration| [phonemes] ~ arpabet")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("radio"));
-
-	match(parse(reader, "hh 55.4"),
+	match(parse("hh 55.4", "radio"),
 	      { { ipa::glottal | ipa::approximant, ipa::unspecified, { 55.4, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "aw 58"),
+	match(parse("aw 58", "radio"),
 	      { { ipa::low | ipa::front | ipa::vowel, ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic, { 58, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration| [diphones]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	match(parse(reader, "b-i 80"),
+	match(parse("b-i 80"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "b-i 60-20"),
+	match(parse("b-i 60-20"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 60, css::time::milliseconds } },
 	        { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 20, css::time::milliseconds } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "i-p_h 80"),
+	match(parse("i-p_h 80"),
 	      { { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::bilabial | ipa::plosive | ipa::aspirated, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "p-i_o 120"),
+	match(parse("p-i_o 120"),
 	      { { ipa::bilabial | ipa::plosive, ipa::unspecified, { 120, css::time::milliseconds } },
 	        { ipa::high | ipa::front | ipa::vowel | ipa::lowered, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "p-i: 120"),
+	match(parse("p-i: 120"),
 	      { { ipa::bilabial | ipa::plosive, ipa::unspecified, { 120, css::time::milliseconds } },
 	        { ipa::high | ipa::front | ipa::vowel | ipa::long_, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "i-tS 80"),
+	match(parse("i-tS 80"),
 	      { { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::alveolar | ipa::plosive, ipa::palato_alveolar | ipa::sibilant | ipa::fricative, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "p-I@ 120"),
+	match(parse("p-I@ 120"),
 	      { { ipa::bilabial | ipa::plosive, ipa::unspecified, { 120, css::time::milliseconds } },
 	        { ipa::semi_high | ipa::front | ipa::vowel, ipa::mid | ipa::center | ipa::vowel, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration| [diphones] ~ arpabet")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("radio"));
-
-	match(parse(reader, "hh-aw 55.4"),
+	match(parse("hh-aw 55.4", "radio"),
 	      { { ipa::glottal | ipa::approximant, ipa::unspecified, { 55.4, css::time::milliseconds } },
 	        { ipa::low | ipa::front | ipa::vowel, ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "aw-hh 58"),
+	match(parse("aw-hh 58", "radio"),
 	      { { ipa::low | ipa::front | ipa::vowel, ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic, { 58, css::time::milliseconds } },
 	        { ipa::glottal | ipa::approximant, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "hh-aw 55.4-11.5"),
+	match(parse("hh-aw 55.4-11.5", "radio"),
 	      { { ipa::glottal | ipa::approximant, ipa::unspecified, { 55.4, css::time::milliseconds } },
 	        { ipa::low | ipa::front | ipa::vowel, ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic, { 11.5, css::time::milliseconds } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "aw-hh 58-32"),
+	match(parse("aw-hh 58-32", "radio"),
 	      { { ipa::low | ipa::front | ipa::vowel, ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic, { 58, css::time::milliseconds } },
 	        { ipa::glottal | ipa::approximant, ipa::unspecified, { 32, css::time::milliseconds } },
 	        {}});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration| [whitespace]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
+	assert_throws(parse("b80"), tts::phoneme_error, "expected whitespace after the phoneme");
 
-	assert_throws(parse(reader, "b80"), tts::phoneme_error, "expected whitespace after the phoneme");
-
-	match(parse(reader, "b\t80"),
+	match(parse("b\t80"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "b  80"),
+	match(parse("b  80"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "b\t\t80"),
+	match(parse("b\t\t80"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 \r"),
+	match(parse("b 80 \r"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 \n"),
+	match(parse("b 80 \n"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 "),
+	match(parse("b 80 "),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration| [comment]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	match(parse(reader, "b 80; a comment"),
+	match(parse("b 80; a comment"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 ; comment"),
+	match(parse("b 80 ; comment"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration (offset pitch){1}| [phonemes]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	assert_throws(parse(reader, "b 80 0"),
+	assert_throws(parse("b 80 0"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 \r"),
+	assert_throws(parse("b 80 0 \r"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 \n"),
+	assert_throws(parse("b 80 0 \n"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 "),
+	assert_throws(parse("b 80 0 "),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0; comment"),
+	assert_throws(parse("b 80 0; comment"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 ; comment"),
+	assert_throws(parse("b 80 0 ; comment"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	match(parse(reader, "b 80 0 120"),
+	match(parse("b 80 0 120"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration (offset pitch){2}| [phonemes]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	assert_throws(parse(reader, "b 80 0 120 100"),
+	assert_throws(parse("b 80 0 120 100"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 100 \r"),
+	assert_throws(parse("b 80 0 120 100 \r"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 100 \n"),
+	assert_throws(parse("b 80 0 120 100 \n"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 100 "),
+	assert_throws(parse("b 80 0 120 100 "),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 100; comment"),
+	assert_throws(parse("b 80 0 120 100; comment"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 100 ; comment"),
+	assert_throws(parse("b 80 0 120 100 ; comment"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	match(parse(reader, "b 80 0 120 100 122.5"),
+	match(parse("b 80 0 120 100 122.5"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          {   0, { 120,   css::frequency::hertz }},
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration (offset pitch){3}| [phonemes]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	assert_throws(parse(reader, "b 80 0 124.5 50 100 100"),
+	assert_throws(parse("b 80 0 124.5 50 100 100"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 124.5 50 100 100 \r"),
+	assert_throws(parse("b 80 0 124.5 50 100 100 \r"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 124.5 50 100 100 \n"),
+	assert_throws(parse("b 80 0 124.5 50 100 100 \n"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 124.5 50 100 100 "),
+	assert_throws(parse("b 80 0 124.5 50 100 100 "),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 124.5 50 100 100; comment"),
+	assert_throws(parse("b 80 0 124.5 50 100 100; comment"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 124.5 50 100 100 ; comment"),
+	assert_throws(parse("b 80 0 124.5 50 100 100 ; comment"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	match(parse(reader, "b 80 0 124.5 50 100 100 90"),
+	match(parse("b 80 0 124.5 50 100 100 90"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
@@ -439,32 +373,29 @@ TEST_CASE("reader -- |phoneme duration (offset pitch){3}| [phonemes]")
 	          {  50, { 100,   css::frequency::hertz }},
 	          { 100, {  90,   css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration (offset pitch){4}| [phonemes]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	assert_throws(parse(reader, "b 80 0 120 33 100 66 115 100"),
+	assert_throws(parse("b 80 0 120 33 100 66 115 100"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 33 100 66 115 100 \r"),
+	assert_throws(parse("b 80 0 120 33 100 66 115 100 \r"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 33 100 66 115 100 \n"),
+	assert_throws(parse("b 80 0 120 33 100 66 115 100 \n"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 33 100 66 115 100 "),
+	assert_throws(parse("b 80 0 120 33 100 66 115 100 "),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 33 100 66 115 100; comment"),
+	assert_throws(parse("b 80 0 120 33 100 66 115 100; comment"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 33 100 66 115 100 ; comment"),
+	assert_throws(parse("b 80 0 120 33 100 66 115 100 ; comment"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	match(parse(reader, "b 80 0 120 33 100 66 115 100 125"),
+	match(parse("b 80 0 120 33 100 66 115 100 125"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
@@ -473,32 +404,29 @@ TEST_CASE("reader -- |phoneme duration (offset pitch){4}| [phonemes]")
 	          {  66, { 115, css::frequency::hertz }},
 	          { 100, { 125, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration (offset pitch){5}| [phonemes]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	assert_throws(parse(reader, "b 80 0 120 25 110 50 100 75 95 100"),
+	assert_throws(parse("b 80 0 120 25 110 50 100 75 95 100"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 25 110 50 100 75 95 100 \r"),
+	assert_throws(parse("b 80 0 120 25 110 50 100 75 95 100 \r"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 25 110 50 100 75 95 100 \n"),
+	assert_throws(parse("b 80 0 120 25 110 50 100 75 95 100 \n"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 25 110 50 100 75 95 100 "),
+	assert_throws(parse("b 80 0 120 25 110 50 100 75 95 100 "),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 25 110 50 100 75 95 100; comment"),
+	assert_throws(parse("b 80 0 120 25 110 50 100 75 95 100; comment"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	assert_throws(parse(reader, "b 80 0 120 25 110 50 100 75 95 100 ; comment"),
+	assert_throws(parse("b 80 0 120 25 110 50 100 75 95 100 ; comment"),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
-	match(parse(reader, "b 80 0 120 25 110 50 100 75 95 100 95"),
+	match(parse("b 80 0 120 25 110 50 100 75 95 100 95"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
@@ -508,31 +436,26 @@ TEST_CASE("reader -- |phoneme duration (offset pitch){5}| [phonemes]")
 	          {  75, {  95, css::frequency::hertz }},
 	          { 100, {  95, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration (offset pitch)+| [diphones]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	match(parse(reader, "i-b 80 0 120"),
+	match(parse("i-b 80 0 120"),
 	      { { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "i-b 80 0 120 100 122.5"),
+	match(parse("i-b 80 0 120 100 122.5"),
 	      { { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          {   0, { 120,   css::frequency::hertz }},
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "i-b 80 0 124.5 50 100 100 90"),
+	match(parse("i-b 80 0 124.5 50 100 100 90"),
 	      { { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 0, css::time::inherit } },
 	        {
@@ -540,9 +463,8 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [diphones]")
 	          {  50, { 100,   css::frequency::hertz }},
 	          { 100, {  90,   css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "i-b 80 0 120 33 100 66 115 100 125"),
+	match(parse("i-b 80 0 120 33 100 66 115 100 125"),
 	      { { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 0, css::time::inherit } },
 	        {
@@ -551,9 +473,8 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [diphones]")
 	          {  66, { 115, css::frequency::hertz }},
 	          { 100, { 125, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "i-b 80 0 120 25 110 50 100 75 95 100 95"),
+	match(parse("i-b 80 0 120 25 110 50 100 75 95 100 95"),
 	      { { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 0, css::time::inherit } },
 	        {
@@ -563,215 +484,181 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [diphones]")
 	          {  75, {  95, css::frequency::hertz }},
 	          { 100, {  95, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration (offset pitch){1}| [whitespace]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	match(parse(reader, "b 80  0  120"),
+	match(parse("b 80  0  120"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80   0   120"),
+	match(parse("b 80   0   120"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80\t0\t120"),
+	match(parse("b 80\t0\t120"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80\t\t0\t\t120"),
+	match(parse("b 80\t\t0\t\t120"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 0 120 \r"),
+	match(parse("b 80 0 120 \r"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 0 120 \n"),
+	match(parse("b 80 0 120 \n"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 0 120 "),
+	match(parse("b 80 0 120 "),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration (offset pitch){1}| [comment]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	match(parse(reader, "b 80 0 120; comment"),
+	match(parse("b 80 0 120; comment"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 0 120 ; comment"),
+	match(parse("b 80 0 120 ; comment"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration (offset pitch){2}| [whitespace]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	match(parse(reader, "b 80  0  120  100  122.5"),
+	match(parse("b 80  0  120  100  122.5"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          {   0, { 120,   css::frequency::hertz }},
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80   0   120   100   122.5"),
+	match(parse("b 80   0   120   100   122.5"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          {   0, { 120,   css::frequency::hertz }},
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80\t0\t120\t100\t122.5"),
+	match(parse("b 80\t0\t120\t100\t122.5"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          {   0, { 120,   css::frequency::hertz }},
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80\t\t0\t\t120\t\t100\t\t122.5"),
+	match(parse("b 80\t\t0\t\t120\t\t100\t\t122.5"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          {   0, { 120,   css::frequency::hertz }},
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 0 120 100 122.5 \r"),
+	match(parse("b 80 0 120 100 122.5 \r"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          {   0, { 120,   css::frequency::hertz }},
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 0 120 100 122.5 \n"),
+	match(parse("b 80 0 120 100 122.5 \n"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          {   0, { 120,   css::frequency::hertz }},
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 0 120 100 122.5 "),
+	match(parse("b 80 0 120 100 122.5 "),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          {   0, { 120,   css::frequency::hertz }},
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration (offset pitch){2}| [comment]")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	match(parse(reader, "b 80 0 120 100 122.5; comment"),
+	match(parse("b 80 0 120 100 122.5; comment"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          {   0, { 120,   css::frequency::hertz }},
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80 0 120 100 122.5 ; comment"),
+	match(parse("b 80 0 120 100 122.5 ; comment"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {
 	          {   0, { 120,   css::frequency::hertz }},
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
-	assert(!reader->read());
 }
 
 TEST_CASE("reader -- blank line")
 {
-	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
-
-	match(parse(reader, "\nb 80"),
+	match(parse("\nb 80"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "\r\nb 80"),
+	match(parse("\r\nb 80"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "\n\nb 80"),
+	match(parse("\n\nb 80"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80\n"),
+	match(parse("b 80\n"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 
-	match(parse(reader, "b 80\r\n"),
+	match(parse("b 80\r\n"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
-	assert(!reader->read());
 }
 
 TEST_CASE("writer -- no input")

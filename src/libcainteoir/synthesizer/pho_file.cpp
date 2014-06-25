@@ -91,9 +91,8 @@ static float parse_number(const char * &current, const char *end)
 
 struct pho_reader : public tts::prosody_reader
 {
-	pho_reader(const std::shared_ptr<tts::phoneme_parser> &aPhonemeSet);
-
-	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
+	pho_reader(const std::shared_ptr<tts::phoneme_parser> &aPhonemeSet,
+	           const std::shared_ptr<cainteoir::buffer> &aBuffer);
 
 	bool read();
 private:
@@ -106,23 +105,13 @@ private:
 	const char *mEnd;
 };
 
-pho_reader::pho_reader(const std::shared_ptr<tts::phoneme_parser> &aPhonemeSet)
+pho_reader::pho_reader(const std::shared_ptr<tts::phoneme_parser> &aPhonemeSet,
+                       const std::shared_ptr<cainteoir::buffer> &aBuffer)
 	: mPhonemeSet(aPhonemeSet)
-	, mCurrent(nullptr)
-	, mEnd(nullptr)
+	, mBuffer(aBuffer)
+	, mCurrent(aBuffer->begin())
+	, mEnd(aBuffer->end())
 {
-}
-
-void pho_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
-{
-	mBuffer = aBuffer;
-	if (mBuffer.get())
-	{
-		mCurrent = mBuffer->begin();
-		mEnd = mBuffer->end();
-	}
-	else
-		mCurrent = mEnd = nullptr;
 }
 
 bool pho_reader::read()
@@ -219,9 +208,11 @@ bool pho_reader::skip_whitespace()
 }
 
 std::shared_ptr<tts::prosody_reader>
-tts::createPhoReader(const std::shared_ptr<phoneme_parser> &aPhonemeSet)
+tts::createPhoReader(const std::shared_ptr<phoneme_parser> &aPhonemeSet,
+                     const std::shared_ptr<cainteoir::buffer> &aBuffer)
 {
-	return std::make_shared<pho_reader>(aPhonemeSet);
+	if (!aBuffer.get()) return {};
+	return std::make_shared<pho_reader>(aPhonemeSet, aBuffer);
 }
 
 struct pho_writer : public tts::prosody_writer
