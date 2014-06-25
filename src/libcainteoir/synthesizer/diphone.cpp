@@ -45,10 +45,9 @@ private:
 diphone_reader::diphone_reader(const std::shared_ptr<tts::prosody_reader> &aProsody)
 	: mProsody(aProsody)
 	, mLastDiphone(false)
-	, mRemainingDuration(0)
 {
 	first  = {};
-	second = { ipa::pause | ipa::extra_short, ipa::unspecified, { 0, css::time::inherit } };
+	second = { ipa::pause | ipa::extra_short, ipa::unspecified, { 0, css::time::milliseconds } };
 }
 
 void diphone_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
@@ -57,14 +56,12 @@ void diphone_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 	mLastDiphone = false;
 
 	first  = {};
-	second = { ipa::pause | ipa::extra_short, ipa::unspecified, { 0, css::time::inherit } };
+	second = { ipa::pause | ipa::extra_short, ipa::unspecified, { 0, css::time::milliseconds } };
 }
 
 bool diphone_reader::read()
 {
 	first = second;
-
-	float currentDuration = mRemainingDuration;
 
 	envelope = mRemainingEnvelope;
 	mRemainingEnvelope.clear();
@@ -72,9 +69,7 @@ bool diphone_reader::read()
 	if (mProsody->read())
 	{
 		second = mProsody->first;
-
-		mRemainingDuration = mProsody->first.duration.as(css::time::milliseconds).value() / 2;
-		currentDuration += mRemainingDuration;
+		second.duration = { second.duration.value() / 2, second.duration.units() };
 
 		bool haveMidpoint = false;
 		for (auto && env : mProsody->envelope)
@@ -127,11 +122,8 @@ bool diphone_reader::read()
 	else
 	{
 		mLastDiphone = true;
-		second = { ipa::pause | ipa::extra_short, ipa::unspecified, { 0, css::time::inherit } };
+		second = { ipa::pause | ipa::extra_short, ipa::unspecified, { 0, css::time::milliseconds } };
 	}
-
-	first.duration = { currentDuration, css::time::milliseconds };
-	second.duration = { 0, css::time::inherit };
 
 	return true;
 }
