@@ -153,7 +153,6 @@ struct cainteoir_synthesizer : public tts::synthesizer
 private:
 	std::shared_ptr<cainteoir::buffer> mData;
 	std::shared_ptr<tts::phoneme_reader> mPhonemeSet;
-	int mFrequency;
 	int mSampleRate;
 	rdf::uri mSampleFormat;
 
@@ -183,7 +182,7 @@ cainteoir_synthesizer::cainteoir_synthesizer(const std::shared_ptr<cainteoir::bu
 	, mLpcResidualData(nullptr)
 {
 	const uint8_t *data = (const uint8_t *)mData->begin() + 13; // skip to sample-rate
-	mFrequency = *(const uint16_t *)data;
+	mSampleRate = *(const uint16_t *)data;
 	data += 2;
 
 	while (*data != 0) ++data; // name
