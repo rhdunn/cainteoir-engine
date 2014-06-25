@@ -286,6 +286,24 @@ TEST_CASE("reader -- |phoneme duration| [whitespace]")
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
 	assert(!reader->read());
+
+	match(parse(reader, "b 80 \r"),
+	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
+	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
+	        {}});
+	assert(!reader->read());
+
+	match(parse(reader, "b 80 \n"),
+	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
+	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
+	        {}});
+	assert(!reader->read());
+
+	match(parse(reader, "b 80 "),
+	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
+	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
+	        {}});
+	assert(!reader->read());
 }
 
 TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
