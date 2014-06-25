@@ -306,11 +306,20 @@ TEST_CASE("reader -- |phoneme duration| [whitespace]")
 	assert(!reader->read());
 }
 
-TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
+TEST_CASE("reader -- |phoneme duration (offset pitch){1}| [phonemes]")
 {
 	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
 
 	assert_throws(parse(reader, "b 80 0"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 \r"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 \n"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 "),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
 	match(parse(reader, "b 80 0 120"),
@@ -320,8 +329,22 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
 	assert(!reader->read());
+}
+
+TEST_CASE("reader -- |phoneme duration (offset pitch){2}| [phonemes]")
+{
+	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
 
 	assert_throws(parse(reader, "b 80 0 120 100"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 120 100 \r"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 120 100 \n"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 120 100 "),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
 	match(parse(reader, "b 80 0 120 100 122.5"),
@@ -332,8 +355,22 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
 	assert(!reader->read());
+}
+
+TEST_CASE("reader -- |phoneme duration (offset pitch){3}| [phonemes]")
+{
+	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
 
 	assert_throws(parse(reader, "b 80 0 124.5 50 100 100"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 124.5 50 100 100 \r"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 124.5 50 100 100 \n"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 124.5 50 100 100 "),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
 	match(parse(reader, "b 80 0 124.5 50 100 100 90"),
@@ -345,8 +382,22 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
 	          { 100, {  90,   css::frequency::hertz }},
 	        }});
 	assert(!reader->read());
+}
+
+TEST_CASE("reader -- |phoneme duration (offset pitch){4}| [phonemes]")
+{
+	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
 
 	assert_throws(parse(reader, "b 80 0 120 33 100 66 115 100"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 120 33 100 66 115 100 \r"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 120 33 100 66 115 100 \n"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 120 33 100 66 115 100 "),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
 	match(parse(reader, "b 80 0 120 33 100 66 115 100 125"),
@@ -359,8 +410,22 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
 	          { 100, { 125, css::frequency::hertz }},
 	        }});
 	assert(!reader->read());
+}
+
+TEST_CASE("reader -- |phoneme duration (offset pitch){5}| [phonemes]")
+{
+	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
 
 	assert_throws(parse(reader, "b 80 0 120 25 110 50 100 75 95 100"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 120 25 110 50 100 75 95 100 \r"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 120 25 110 50 100 75 95 100 \n"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
+	assert_throws(parse(reader, "b 80 0 120 25 110 50 100 75 95 100 "),
 	              tts::phoneme_error, "expected whitespace after the offset");
 
 	match(parse(reader, "b 80 0 120 25 110 50 100 75 95 100 95"),

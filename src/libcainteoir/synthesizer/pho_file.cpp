@@ -187,9 +187,6 @@ bool pho_reader::read()
 		envelope.clear();
 		while (skip_whitespace())
 		{
-			if (mCurrent == mEnd || *mCurrent == '\r' || *mCurrent == '\n')
-				return true;
-
 			float offset = parse_number(mCurrent, mEnd);
 
 			if (!skip_whitespace())
@@ -212,6 +209,10 @@ bool pho_reader::skip_whitespace()
 		++mCurrent;
 		while (*mCurrent == ' ' || *mCurrent == '\t')
 			++mCurrent;
+
+		if (mCurrent == mEnd || *mCurrent == '\r' || *mCurrent == '\n')
+			return false;
+
 		return true;
 	}
 	return false;
