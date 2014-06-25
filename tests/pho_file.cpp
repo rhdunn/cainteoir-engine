@@ -310,6 +310,9 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
 {
 	std::shared_ptr<tts::prosody_reader> reader = tts::createPhoReader(tts::createPhonemeParser("cxs"));
 
+	assert_throws(parse(reader, "b 80 0"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
 	match(parse(reader, "b 80 0 120"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
@@ -317,6 +320,9 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
 	          { 0, { 120, css::frequency::hertz }},
 	        }});
 	assert(!reader->read());
+
+	assert_throws(parse(reader, "b 80 0 120 100"),
+	              tts::phoneme_error, "expected whitespace after the offset");
 
 	match(parse(reader, "b 80 0 120 100 122.5"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
@@ -326,6 +332,9 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
 	          { 100, { 122.5, css::frequency::hertz }},
 	        }});
 	assert(!reader->read());
+
+	assert_throws(parse(reader, "b 80 0 124.5 50 100 100"),
+	              tts::phoneme_error, "expected whitespace after the offset");
 
 	match(parse(reader, "b 80 0 124.5 50 100 100 90"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
@@ -337,6 +346,9 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
 	        }});
 	assert(!reader->read());
 
+	assert_throws(parse(reader, "b 80 0 120 33 100 66 115 100"),
+	              tts::phoneme_error, "expected whitespace after the offset");
+
 	match(parse(reader, "b 80 0 120 33 100 66 115 100 125"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
@@ -347,6 +359,9 @@ TEST_CASE("reader -- |phoneme duration (offset pitch)+| [phonemes]")
 	          { 100, { 125, css::frequency::hertz }},
 	        }});
 	assert(!reader->read());
+
+	assert_throws(parse(reader, "b 80 0 120 25 110 50 100 75 95 100"),
+	              tts::phoneme_error, "expected whitespace after the offset");
 
 	match(parse(reader, "b 80 0 120 25 110 50 100 75 95 100 95"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
