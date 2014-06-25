@@ -176,8 +176,15 @@ bool pho_reader::read()
 			throw tts::phoneme_error("expected whitespace after the phoneme");
 
 		first.duration = css::time(parse_number(mCurrent, mEnd), css::time::milliseconds);
-		envelope.clear();
+		if (*mCurrent == '-')
+		{
+			++mCurrent;
+			second.duration = css::time(parse_number(mCurrent, mEnd), css::time::milliseconds);
+		}
+		else
+			second.duration = {};
 
+		envelope.clear();
 		while (skip_whitespace())
 		{
 			float offset = parse_number(mCurrent, mEnd);
@@ -243,8 +250,12 @@ bool pho_writer::write(const tts::prosody &aProsody)
 		return false;
 
 	fprintf(mOutput, " %G", aProsody.first.duration.as(css::time::milliseconds).value());
+	if (aProsody.second.duration.units() != css::time::inherit)
+		fprintf(mOutput, "-%G", aProsody.second.duration.as(css::time::milliseconds).value());
+
 	for (auto &entry : aProsody.envelope)
 		fprintf(mOutput, " %d %G", entry.offset, entry.pitch.as(css::frequency::hertz).value());
+
 	fprintf(mOutput, "\n");
 	return true;
 }

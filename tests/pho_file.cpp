@@ -197,6 +197,12 @@ TEST_CASE("reader -- |phoneme duration| [diphones]")
 	        {}});
 	assert(!reader->read());
 
+	match(parse(reader, "b-i 60-20"),
+	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 60, css::time::milliseconds } },
+	        { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 20, css::time::milliseconds } },
+	        {}});
+	assert(!reader->read());
+
 	match(parse(reader, "i-p_h 80"),
 	      { { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 80, css::time::milliseconds } },
 	        { ipa::bilabial | ipa::plosive | ipa::aspirated, ipa::unspecified, { 0, css::time::inherit } },
@@ -241,6 +247,18 @@ TEST_CASE("reader -- |phoneme duration| [diphones] ~ arpabet")
 	match(parse(reader, "aw-hh 58"),
 	      { { ipa::low | ipa::front | ipa::vowel, ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic, { 58, css::time::milliseconds } },
 	        { ipa::glottal | ipa::approximant, ipa::unspecified, { 0, css::time::inherit } },
+	        {}});
+	assert(!reader->read());
+
+	match(parse(reader, "hh-aw 55.4-11.5"),
+	      { { ipa::glottal | ipa::approximant, ipa::unspecified, { 55.4, css::time::milliseconds } },
+	        { ipa::low | ipa::front | ipa::vowel, ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic, { 11.5, css::time::milliseconds } },
+	        {}});
+	assert(!reader->read());
+
+	match(parse(reader, "aw-hh 58-32"),
+	      { { ipa::low | ipa::front | ipa::vowel, ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic, { 58, css::time::milliseconds } },
+	        { ipa::glottal | ipa::approximant, ipa::unspecified, { 32, css::time::milliseconds } },
 	        {}});
 	assert(!reader->read());
 }
@@ -572,6 +590,11 @@ TEST_CASE("writer -- basic phonemes (diphone)")
 	                    { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 0, css::time::inherit } },
 	                    {}}),
 	      "b-i 80\n", 7);
+
+	match(to_str(pho, { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
+	                    { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 30, css::time::milliseconds } },
+	                    {}}),
+	      "b-i 80-30\n", 10);
 }
 
 TEST_CASE("writer -- basic phonemes (diphone) ~ arpabet")
@@ -587,6 +610,16 @@ TEST_CASE("writer -- basic phonemes (diphone) ~ arpabet")
 	                    { ipa::glottal | ipa::approximant, ipa::unspecified, { 0, css::time::inherit } },
 	                    {}}),
 	      "aw-hh 80\n", 9);
+
+	match(to_str(pho, { { ipa::glottal | ipa::approximant, ipa::unspecified, { 50, css::time::milliseconds } },
+	                    { ipa::low | ipa::front | ipa::vowel, ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic, { 40, css::time::milliseconds } },
+	                    {}}),
+	      "hh-aw 50-40\n", 12);
+
+	match(to_str(pho, { { ipa::low | ipa::front | ipa::vowel, ipa::semi_high | ipa::back | ipa::rounded | ipa::vowel | ipa::non_syllabic, { 80, css::time::milliseconds } },
+	                    { ipa::glottal | ipa::approximant, ipa::unspecified, { 22, css::time::milliseconds } },
+	                    {}}),
+	      "aw-hh 80-22\n", 12);
 }
 
 TEST_CASE("writer -- diacritics (phoneme)")
