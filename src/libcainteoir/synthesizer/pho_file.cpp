@@ -210,7 +210,7 @@ bool pho_reader::skip_whitespace()
 		while (*mCurrent == ' ' || *mCurrent == '\t')
 			++mCurrent;
 
-		if (mCurrent == mEnd || *mCurrent == '\r' || *mCurrent == '\n')
+		if (mCurrent == mEnd || *mCurrent == '\r' || *mCurrent == '\n' || *mCurrent == ';')
 			return false;
 
 		return true;
