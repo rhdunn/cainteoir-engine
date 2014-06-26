@@ -74,14 +74,9 @@ static void show_metadata(rdf::graph &metadata)
 static std::shared_ptr<tts::prosody_reader>
 create_reader(const char *filename, const char *phonemeset, actions action)
 {
-	std::shared_ptr<tts::prosody_reader> pho;
-	if (filename)
-		pho = tts::createPhoReader(tts::createPhonemeParser(phonemeset),
-		                           cainteoir::make_file_buffer(filename));
-	else
-		pho = tts::createPhoReader(tts::createPhonemeParser(phonemeset),
-		                           cainteoir::make_file_buffer(stdin));
+	auto data = filename ? cainteoir::make_file_buffer(filename) : cainteoir::make_file_buffer(stdin);
 
+	auto pho = tts::createPhoReader(tts::createPhonemeParser(phonemeset), data);
 	if (action == actions::print_diphones)
 		pho = tts::createDiphoneReader(pho);
 
