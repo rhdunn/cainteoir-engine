@@ -455,6 +455,8 @@ PHONEMESET_TEST_FILES = $(shell find tests/phonemeset/*)
 
 DIPHONE_TEST_FILES = $(shell find tests/diphone/*)
 
+PROSODY_TEST_FILES = $(shell find tests/prosody/*)
+
 DOCUMENT_TEST_FILES = \
 	$(shell find tests/epub2/*) \
 	$(shell find tests/epub3/*) \
@@ -620,6 +622,8 @@ tests/vorbis-comments.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
 
 tests/diphones.check: src/examples/voice-synthesizer ${DIPHONE_TEST_FILES}
 
+tests/prosody.check: src/examples/voice-synthesizer ${PROSODY_TEST_FILES}
+
 check: \
 	tests/range.check \
 	tests/buffer.check \
@@ -645,6 +649,7 @@ check: \
 	tests/phonemeset.check \
 	tests/phoneme_stress.check \
 	tests/dictionary.check \
+	tests/parsetext.check \
 	tests/pho_file.check \
 	tests/diphones.check \
-	tests/parsetext.check
+	tests/prosody.check

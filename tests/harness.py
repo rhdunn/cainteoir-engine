@@ -202,6 +202,21 @@ class DiphoneCommand(Command):
 			params.extend(['--phonemeset', data['phonemeset']])
 		return Command.run(self, params, filename, data)
 
+class ProsodyCommand(Command):
+	def __init__(self):
+		Command.__init__(self, '../src/examples/voice-synthesizer --pho')
+
+	def run(self, args, filename, data):
+		params = [x for x in args]
+		if 'locale' in data:
+			params.extend(['--locale', data['locale']])
+		if 'scale' in data:
+			params.append('--%s-scale' % data['scale'])
+		if 'dictionary' in data:
+			params.extend(['--dictionary', os.path.join(sys.path[0], data['dictionary'])])
+		if 'phonemeset' in data:
+			params.extend(['--phonemeset', data['phonemeset']])
+		return Command.run(self, params, filename, data)
 
 def create_command(test_type):
 	if test_type in ['ntriple', 'turtle', 'vorbis']:
@@ -222,6 +237,8 @@ def create_command(test_type):
 		return Command('xmlreader --html')
 	if test_type in ['parsetext', 'contextanalysis', 'wordstream', 'phonemestream']:
 		return ParseTextCommand(test_type)
+	if test_type == 'prosody':
+		return ProsodyCommand()
 	raise Exception('Unsupported command "%s"' % test_type)
 
 class TestSuite:

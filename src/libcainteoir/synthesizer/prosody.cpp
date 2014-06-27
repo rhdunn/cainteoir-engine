@@ -26,6 +26,7 @@
 
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
+namespace css = cainteoir::css;
 
 struct prosody_reader_t : public tts::prosody_reader
 {
@@ -33,7 +34,11 @@ struct prosody_reader_t : public tts::prosody_reader
 
 	bool read();
 private:
+	bool next_event();
+
 	std::shared_ptr<tts::text_reader> mTextReader;
+	std::list<ipa::phoneme>::const_iterator mCurrent;
+	std::list<ipa::phoneme>::const_iterator mLast;
 };
 
 prosody_reader_t::prosody_reader_t(const std::shared_ptr<tts::text_reader> &aTextReader)
@@ -43,6 +48,31 @@ prosody_reader_t::prosody_reader_t(const std::shared_ptr<tts::text_reader> &aTex
 
 bool prosody_reader_t::read()
 {
+	if (mCurrent == mLast)
+	{
+		if (!next_event()) return false;
+	}
+
+	first.phoneme1 = *mCurrent++;
+	first.duration = css::time(80, css::time::milliseconds);
+
+	return true;
+}
+
+bool prosody_reader_t::next_event()
+{
+	while (mTextReader->read())
+	{
+		auto &event = mTextReader->event();
+		if (event.type == tts::event_type::phonemes)
+		{
+			mCurrent = event.phonemes.begin();
+			mLast    = event.phonemes.end();
+			if (mCurrent != mLast)
+				return true;
+		}
+	}
+
 	return false;
 }
 
