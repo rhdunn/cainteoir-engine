@@ -72,15 +72,10 @@ static void show_metadata(rdf::graph &metadata)
 }
 
 static std::shared_ptr<tts::prosody_reader>
-create_reader(const char *filename, const char *phonemeset, actions action)
+create_reader(const char *filename, const char *phonemeset)
 {
 	auto data = filename ? cainteoir::make_file_buffer(filename) : cainteoir::make_file_buffer(stdin);
-
-	auto pho = tts::createPhoReader(tts::createPhonemeParser(phonemeset), data);
-	if (action == actions::print_diphones)
-		pho = tts::createDiphoneReader(pho);
-
-	return pho;
+	return tts::createPhoReader(tts::createPhonemeParser(phonemeset), data);
 }
 
 static void
@@ -89,7 +84,10 @@ print(const char *filename,
       const char *src_phonemeset,
       const char *dst_phonemeset)
 {
-	auto pho = create_reader(filename, src_phonemeset, action);
+	auto pho = create_reader(filename, src_phonemeset);
+	if (action == actions::print_diphones)
+		pho = tts::createDiphoneReader(pho);
+
 	auto out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset ? dst_phonemeset : src_phonemeset));
 	out->reset(stdout);
 
@@ -115,7 +113,7 @@ synthesize(rdf::graph &metadata,
 
 	const std::string phonemeset = rql::select_value<std::string>(metadata,
 		rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
-	auto pho = create_reader(filename, phonemeset.c_str(), action);
+	auto pho = create_reader(filename, phonemeset.c_str());
 
 	rdf::uri doc;
 	std::shared_ptr<cainteoir::audio> out;
