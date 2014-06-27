@@ -91,7 +91,8 @@ create_reader(const char *filename,
 	if (input == input_type::document)
 	{
 		rdf::graph metadata;
-		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
+		rdf::uri   uri(filename ? filename : "", std::string());
+		auto reader = cainteoir::createDocumentReader(data, uri, metadata, std::string());
 		if (!reader)
 			throw std::runtime_error("unsupported document format");
 
@@ -102,6 +103,8 @@ create_reader(const char *filename,
 		          | tts::numbers_to_words(locale, scale)
 		          | tts::words_to_phonemes(rules, dict)
 		          | tts::adjust_stress();
+
+		return tts::createProsodyReader(text);
 	}
 	return tts::createPhoReader(tts::createPhonemeParser(phonemeset), data);
 }
