@@ -194,7 +194,7 @@ class PhonemeSetCommand(Command):
 
 class DiphoneCommand(Command):
 	def __init__(self):
-		Command.__init__(self, '../src/examples/voice-synthesizer --diphone')
+		Command.__init__(self, '../src/examples/voice-synthesizer --as-pho --diphone')
 
 	def run(self, args, filename, data):
 		params = [x for x in args]

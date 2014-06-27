@@ -28,11 +28,12 @@
 #include <stdexcept>
 #include <iostream>
 
-namespace css = cainteoir::css;
-namespace tts = cainteoir::tts;
-namespace ipa = cainteoir::ipa;
-namespace rdf = cainteoir::rdf;
-namespace rql = cainteoir::rdf::query;
+namespace css  = cainteoir::css;
+namespace tts  = cainteoir::tts;
+namespace ipa  = cainteoir::ipa;
+namespace rdf  = cainteoir::rdf;
+namespace rql  = cainteoir::rdf::query;
+namespace lang = cainteoir::language;
 
 enum class actions
 {
@@ -40,6 +41,12 @@ enum class actions
 	print_pho,
 	print_diphones,
 	synthesize,
+};
+
+enum class input_type
+{
+	document,
+	pho_file,
 };
 
 static void show_metadata(rdf::graph &metadata)
@@ -72,19 +79,45 @@ static void show_metadata(rdf::graph &metadata)
 }
 
 static std::shared_ptr<tts::prosody_reader>
-create_reader(const char *filename, const char *phonemeset)
+create_reader(const char *filename,
+              const char *phonemeset,
+              input_type input,
+              const char *ruleset,
+              const char *dictionary,
+              const lang::tag &locale,
+              tts::number_scale scale)
 {
 	auto data = filename ? cainteoir::make_file_buffer(filename) : cainteoir::make_file_buffer(stdin);
+	if (input == input_type::document)
+	{
+		rdf::graph metadata;
+		auto reader = cainteoir::createDocumentReader(filename, metadata, std::string());
+		if (!reader)
+			throw std::runtime_error("unsupported document format");
+
+		auto rules = tts::createPronunciationRules(ruleset);
+		auto dict = tts::createCainteoirDictionaryReader(dictionary);
+		auto text = tts::create_text_reader(reader)
+		          | tts::context_analysis()
+		          | tts::numbers_to_words(locale, scale)
+		          | tts::words_to_phonemes(rules, dict)
+		          | tts::adjust_stress();
+	}
 	return tts::createPhoReader(tts::createPhonemeParser(phonemeset), data);
 }
 
 static void
 print(const char *filename,
+      input_type input,
+      const char *ruleset,
+      const char *dictionary,
+      const lang::tag &locale,
+      tts::number_scale scale,
       actions action,
       const char *src_phonemeset,
       const char *dst_phonemeset)
 {
-	auto pho = create_reader(filename, src_phonemeset);
+	auto pho = create_reader(filename, src_phonemeset, input, ruleset, dictionary, locale, scale);
 	if (action == actions::print_diphones)
 		pho = tts::createDiphoneReader(pho);
 
@@ -99,7 +132,11 @@ static void
 synthesize(rdf::graph &metadata,
            const char *voicename,
            const char *filename,
-           actions action,
+           input_type input,
+           const char *ruleset,
+           const char *dictionary,
+           const lang::tag &locale,
+           tts::number_scale scale,
            const char *outformat,
            const char *outfile,
            const char *device_name)
@@ -113,7 +150,7 @@ synthesize(rdf::graph &metadata,
 
 	const std::string phonemeset = rql::select_value<std::string>(metadata,
 		rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
-	auto pho = create_reader(filename, phonemeset.c_str());
+	auto pho = create_reader(filename, phonemeset.c_str(), input, ruleset, dictionary, locale, scale);
 
 	rdf::uri doc;
 	std::shared_ptr<cainteoir::audio> out;
@@ -144,15 +181,14 @@ int main(int argc, char **argv)
 		const char *voicename = nullptr;
 		const char *src_phonemeset = "ipa";
 		const char *dst_phonemeset = nullptr;
+		const char *ruleset = nullptr;
+		const char *dictionary = nullptr;
+		const char *locale_name = "en";
+		tts::number_scale scale = tts::short_scale;
 		actions action = actions::synthesize;
+		input_type input = input_type::document;
 
 		const option_group general_options = { nullptr, {
-			{ 'M', "metadata", bind_value(action, actions::show_metadata),
-			  i18n("Show the RDF metadata for the engine and voices") },
-			{ 0, "pho", bind_value(action, actions::print_pho),
-			  i18n("Output the PHO file contents to stdout") },
-			{ 0, "diphones", bind_value(action, actions::print_diphones),
-			  i18n("Output the PHO file contents to stdout as diphones") },
 			{ 'P', "phonemeset", src_phonemeset, "PHONEMESET",
 			  i18n("Use PHONEMESET to read phonemes in (default: ipa)") },
 			{ 0, "output-phonemeset", dst_phonemeset, "PHONEMESET",
@@ -161,9 +197,33 @@ int main(int argc, char **argv)
 			  i18n("Use DEVICE for audio output (ALSA/pulseaudio device name)") },
 		}};
 
+		const option_group input_options = { i18n("Input:"), {
+			{ 0, "as-pho", bind_value(input, input_type::pho_file),
+			  i18n("Process the input file as an MBROLA pho file.") },
+		}};
+
+		const option_group output_options = { i18n("Output:"), {
+			{ 'M', "metadata", bind_value(action, actions::show_metadata),
+			  i18n("Show the RDF metadata for the engine and voices") },
+			{ 0, "pho", bind_value(action, actions::print_pho),
+			  i18n("Output the PHO file contents to stdout") },
+			{ 0, "diphones", bind_value(action, actions::print_diphones),
+			  i18n("Output the PHO file contents to stdout as diphones") },
+		}};
+
 		const option_group speech_options = { i18n("Speech:"), {
 			{ 'v', "voice", voicename, "VOICE",
 			  i18n("Use the voice named VOICE") },
+			{ 'l', "locale", locale_name, "LOCALE",
+			  i18n("Use LOCALE for processing numbers") },
+			{ 0, "short-scale", bind_value(scale, tts::short_scale),
+			  i18n("Use the short scale for processing numbers") },
+			{ 0, "long-scale", bind_value(scale, tts::long_scale),
+			  i18n("Use the long scale for processing numbers") },
+			{ 'd', "dictionary", dictionary, "DICTIONARY",
+			  i18n("Use the DICTIONARY pronunciation dictionary") },
+			{ 'r', "ruleset", ruleset, "RULESET",
+			  i18n("Use the RULESET pronunciation rule file") },
 		}};
 
 		const option_group recording_options = { i18n("Recording:"), {
@@ -177,6 +237,8 @@ int main(int argc, char **argv)
 
 		const std::initializer_list<option_group> options = {
 			general_options,
+			input_options,
+			output_options,
 			speech_options,
 			recording_options,
 		};
@@ -189,6 +251,8 @@ int main(int argc, char **argv)
 		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
+		lang::tag locale = lang::make_lang(locale_name);
+
 		rdf::graph metadata;
 		tts::read_voice_metadata(metadata);
 
@@ -199,10 +263,10 @@ int main(int argc, char **argv)
 			break;
 		case actions::print_pho:
 		case actions::print_diphones:
-			print(argc == 1 ? argv[0] : nullptr, action, src_phonemeset, dst_phonemeset);
+			print(argc == 1 ? argv[0] : nullptr, input, ruleset, dictionary, locale, scale, action, src_phonemeset, dst_phonemeset);
 			break;
 		case actions::synthesize:
-			synthesize(metadata, voicename, argc == 1 ? argv[0] : nullptr, action, outformat, outfile, device_name);
+			synthesize(metadata, voicename, argc == 1 ? argv[0] : nullptr, input, ruleset, dictionary, locale, scale, outformat, outfile, device_name);
 			break;
 		}
 	}
