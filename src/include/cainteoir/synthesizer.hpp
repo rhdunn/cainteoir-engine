@@ -23,6 +23,7 @@
 
 #include "phoneme.hpp"
 #include "content.hpp"
+#include "text.hpp"
 #include "audio.hpp"
 
 namespace cainteoir { namespace tts
@@ -91,6 +92,9 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<prosody_reader>
 	createDiphoneReader(const std::shared_ptr<prosody_reader> &aProsody);
+
+	std::shared_ptr<prosody_reader>
+	createProsodyReader(const std::shared_ptr<text_reader> &aTextReader);
 
 	struct prosody_writer
 	{

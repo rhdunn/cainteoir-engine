@@ -366,11 +366,12 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/tts/text_reader.cpp \
 	src/libcainteoir/tts/word_stream.cpp \
 	\
-	src/libcainteoir/synthesizer/synth.hpp \
-	src/libcainteoir/synthesizer/synthesizer.cpp \
 	src/libcainteoir/synthesizer/pho_file.cpp \
 	src/libcainteoir/synthesizer/diphone.cpp \
+	src/libcainteoir/synthesizer/prosody.cpp \
 	\
+	src/libcainteoir/synthesizer/synth.hpp \
+	src/libcainteoir/synthesizer/synthesizer.cpp \
 	src/libcainteoir/synthesizer/cainteoir.cpp \
 	src/libcainteoir/synthesizer/mbrola.cpp \
 	\
