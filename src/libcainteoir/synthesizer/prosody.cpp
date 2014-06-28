@@ -58,6 +58,8 @@ bool prosody_reader_t::read()
 	{
 		if (first.phoneme1.get(ipa::joined_to_next_phoneme) == ipa::joined_to_next_phoneme)
 			first.phoneme2 = *mCurrent++;
+		else if (mCurrent->get(ipa::syllabicity) == ipa::non_syllabic)
+			first.phoneme2 = *mCurrent++;
 		else
 			first.phoneme2 = { ipa::unspecified };
 	}
