@@ -123,6 +123,14 @@ TEST_CASE("reader -- comment")
 	match(parse("; comment 3r\n", "cxs", false), unspecified);
 }
 
+TEST_CASE("reader -- |phoneme|")
+{
+	match(parse("."),
+	      { { ipa::syllable_break, ipa::unspecified, { 0, css::time::inherit } },
+	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
+	        {}});
+}
+
 TEST_CASE("reader -- |phoneme duration| [phonemes]")
 {
 	match(parse("b 80"),
@@ -242,7 +250,7 @@ TEST_CASE("reader -- |phoneme duration| [diphones] ~ arpabet")
 
 TEST_CASE("reader -- |phoneme duration| [whitespace]")
 {
-	assert_throws(parse("b80"), tts::phoneme_error, "expected whitespace after the phoneme");
+	assert_throws(parse("b80"), tts::phoneme_error, "unrecognised character 0");
 
 	match(parse("b\t80"),
 	      { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
@@ -687,6 +695,11 @@ TEST_CASE("writer -- no input")
 TEST_CASE("writer -- basic phonemes (phoneme)")
 {
 	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("cxs"));
+
+	match(to_str(pho, { { ipa::syllable_break, ipa::unspecified, { 0, css::time::inherit } },
+	                    { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
+	                    {}}),
+	      ".\n", 2);
 
 	match(to_str(pho, { { ipa::voiced | ipa::bilabial | ipa::plosive, ipa::unspecified, { 80, css::time::milliseconds } },
 	                    { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },

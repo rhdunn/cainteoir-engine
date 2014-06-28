@@ -162,7 +162,10 @@ bool pho_reader::read()
 		}
 
 		if (!skip_whitespace())
-			throw tts::phoneme_error("expected whitespace after the phoneme");
+		{
+			first.duration = {};
+			return true;
+		}
 
 		first.duration = css::time(parse_number(mCurrent, mEnd), css::time::milliseconds);
 		if (*mCurrent == '-')
@@ -244,9 +247,12 @@ bool pho_writer::write(const tts::prosody &aProsody)
 	if (!tts::write_diphone(aProsody, mPhonemeSet, mOutput))
 		return false;
 
-	fprintf(mOutput, " %G", aProsody.first.duration.as(css::time::milliseconds).value());
-	if (aProsody.second.duration.units() != css::time::inherit)
-		fprintf(mOutput, "-%G", aProsody.second.duration.as(css::time::milliseconds).value());
+	if (aProsody.first.duration.units() != css::time::inherit)
+	{
+		fprintf(mOutput, " %G", aProsody.first.duration.as(css::time::milliseconds).value());
+		if (aProsody.second.duration.units() != css::time::inherit)
+			fprintf(mOutput, "-%G", aProsody.second.duration.as(css::time::milliseconds).value());
+	}
 
 	for (auto &entry : aProsody.envelope)
 		fprintf(mOutput, " %d %G", entry.offset, entry.pitch.as(css::frequency::hertz).value());
