@@ -54,6 +54,16 @@ bool prosody_reader_t::read()
 	}
 
 	first.phoneme1 = *mCurrent++;
+	if (mCurrent != mLast)
+	{
+		if (first.phoneme1.get(ipa::joined_to_next_phoneme) == ipa::joined_to_next_phoneme)
+			first.phoneme2 = *mCurrent++;
+		else
+			first.phoneme2 = { ipa::unspecified };
+	}
+	else
+		first.phoneme2 = { ipa::unspecified };
+
 	first.duration = css::time(80, css::time::milliseconds);
 
 	return true;
