@@ -140,6 +140,7 @@ synthesize(rdf::graph &metadata,
            const char *dictionary,
            const lang::tag &locale,
            tts::number_scale scale,
+           const char *src_phonemeset,
            const char *outformat,
            const char *outfile,
            const char *device_name)
@@ -153,7 +154,7 @@ synthesize(rdf::graph &metadata,
 
 	const std::string phonemeset = rql::select_value<std::string>(metadata,
 		rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
-	auto pho = create_reader(filename, phonemeset.c_str(), input, ruleset, dictionary, locale, scale);
+	auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, ruleset, dictionary, locale, scale);
 
 	rdf::uri doc;
 	std::shared_ptr<cainteoir::audio> out;
@@ -269,7 +270,7 @@ int main(int argc, char **argv)
 			print(argc == 1 ? argv[0] : nullptr, input, ruleset, dictionary, locale, scale, action, src_phonemeset, dst_phonemeset);
 			break;
 		case actions::synthesize:
-			synthesize(metadata, voicename, argc == 1 ? argv[0] : nullptr, input, ruleset, dictionary, locale, scale, outformat, outfile, device_name);
+			synthesize(metadata, voicename, argc == 1 ? argv[0] : nullptr, input, ruleset, dictionary, locale, scale, src_phonemeset, outformat, outfile, device_name);
 			break;
 		}
 	}
