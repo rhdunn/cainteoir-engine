@@ -66,7 +66,10 @@ bool prosody_reader_t::read()
 	else
 		first.phoneme2 = { ipa::unspecified };
 
-	first.duration = css::time(80, css::time::milliseconds);
+	if (first.phoneme1 == ipa::syllable_break)
+		first.duration = {};
+	else
+		first.duration = css::time(80, css::time::milliseconds);
 
 	return true;
 }
