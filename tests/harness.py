@@ -352,7 +352,17 @@ class TestSuite:
 						else:
 							replacements[replacement] = '@REPLACEMENT@'
 
-				self.check(got, exp, group['type'], args, 'expect-%s' % expect, replacements, test, got)
+				config = {}
+				for key, value in data.items():
+					if key not in ['name', 'groups']:
+						config[key] = value
+				for key, value in group.items():
+					if key not in ['name', 'type', 'tests']:
+						config[key] = value
+				for key, value in test.items():
+					config[key] = value
+
+				self.check(got, exp, group['type'], args, 'expect-%s' % expect, replacements, config, got)
 
 	def summary(self):
 		write('\n')
