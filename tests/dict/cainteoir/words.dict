@@ -1,17 +1,66 @@
 .author		Reece H. Dunn
 .copyright	Copyright (C) 2013 Reece H. Dunn
 .license	GPLv3+
-.description	Test dictionary with duplicate entries.
+.description	Test dictionary containing a sample word set with phoneme coverage.
 .phonemeset	cxs
 
 a		/@/
 and		/'and/
+bath		/'ba:T/		# Lexical Set
+beige		/'beI_^Z/
+bottle		/'bQ.tl=/	# Syllabic
+button		/'bU.tn=/	# Syllabic
 by		/'baI_^/
 chip		/'t_SIp/
+choice		/'t_SOI_^s/	# Lexical Set
+cloth		/'klQ:T/	# Lexical Set
+comma		/'kQ.m@/	# Reduced Vowel
+cure		/'kjU@_^/	# Lexical Set
+dress		/'drEs/		# Lexical Set
+face		/'feI_^s/	# Lexical Set
+fern		/'fErn/		# Lexical Set (Extended)
+fir		/'fIr/		# Lexical Set (Extended)
+fire		/'faI_^@_^/	# Triphthong
+fleece		/'fli:s/	# Lexical Set
+foot		/'fUt/		# Lexical Set
+force		/'fO:rs/	# Lexical Set (Extended)
+fur		/'fUr/		# Lexical Set (Extended)
+goat		/'g@U_^t/	# Lexical Set
+goose		/'gu:s/		# Lexical Set
+happy		/'h&.pi/	# Reduced Vowel
+has		/'haz/
+hour		/'aU_^@_^/	# Triphthong
 is		/'Iz/
 judge		/'d_ZUd_Z/
+kit		/'kIt/		# Lexical Set
+letter		/'lE.t@`/	# Reduced Vowel
+long		/'lON/		# Lexical Set (Extended)
+lot		/'lQt/		# Lexical Set
+meat		/'mE:t/		# Lexical Set (Extended)
+mouth		/'maU_^T/	# Lexical Set
+near		/'nI@_^/	# Lexical Set
+north		/'no:rT/	# Lexical Set
+nurse		/'n3:s/		# Lexical Set
+palm		/'pA:m/		# Lexical Set
+price		/'praI_^s/	# Lexical Set
+rhythmn		/'rI.Dm=/	# Syllabic
+roses		/'roU_^.zi\z/	# Reduced Vowel
+rye		/'r\aI_^/
+sang		/'saN/
+shy		/'SaI_^/
 side		/'saI_^d/
 side-by-side	/'saI_^d.baI_^,saI_^d/
+square		/'skwE@_^/	# Lexical Set
+start		/'stA:rt/	# Lexical Set
+strut		/'strVt/	# Lexical Set
 test		/'tEst/
 that		/'Dat/
+thought		/'TO:t/		# Lexical Set
 this		/'DIs/
+trap		/'tr&p/		# Lexical Set
+ugh		/'Ux/
+uh-oh		/@?'oU_^/
+vie		/'vaI_^/
+wye		/'waI_^/
+why		/'WaI_^/
+yes		/'jEs/
