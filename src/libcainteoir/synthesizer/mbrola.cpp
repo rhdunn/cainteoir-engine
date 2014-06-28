@@ -30,6 +30,7 @@ namespace rql = cainteoir::rdf::query;
 
 #if defined(HAVE_MBROLA)
 
+#include <sys/wait.h>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -164,7 +165,7 @@ struct pipe_t
 		fds[type] = -1;
 	}
 
-	ssize_t read(void *buf, size_t count, const procstat_t &proc);
+	ssize_t read(void *buf, size_t count, const procstat_t &proc, timeval timeout = { 60, 0 });
 
 	FILE *open(const char *mode)
 	{
@@ -187,7 +188,7 @@ private:
 	int fds[2];
 };
 
-ssize_t pipe_t::read(void *buf, size_t count, const procstat_t &proc)
+ssize_t pipe_t::read(void *buf, size_t count, const procstat_t &proc, timeval timeout)
 {
 	for (;;)
 	{
@@ -204,7 +205,6 @@ ssize_t pipe_t::read(void *buf, size_t count, const procstat_t &proc)
 				fd_set rset;
 				FD_ZERO(&rset);
 				FD_SET(fds[read_fd], &rset);
-				timeval timeout = { 60, 0 }; // 1 min
 				int ret = select(fds[read_fd] + 1, &rset, nullptr, nullptr, &timeout);
 				if (ret < 0) // error
 					throw std::runtime_error(strerror(errno));
@@ -261,6 +261,7 @@ private:
 	procstat_t proc;
 	FILE *pho;
 	pipe_t audio;
+	pipe_t error;
 	state_t state;
 
 	int sample_rate;
@@ -278,7 +279,6 @@ mbrola_synthesizer::mbrola_synthesizer(const char *aDatabase, std::shared_ptr<tt
 	, writer(aWriter)
 {
 	pipe_t input;
-	pipe_t error;
 
 	pid = fork();
 	if (pid == -1) throw std::runtime_error(strerror(errno));
@@ -355,10 +355,15 @@ bool mbrola_synthesizer::read(cainteoir::audio *out)
 	if (state != have_data) return false;
 	flush();
 
+	char message[512];
 	short data[1024];
 	ssize_t read;
 	while ((read = audio.read(data, sizeof(data), proc)) > 0)
+	{
 		out->write((const char *)data, read);
+		if ((read = error.read(message, sizeof(message), proc, { 0, 50 })) != 0)
+			fputs(message, stderr);
+	}
 
 	state = need_data;
 	return true;
