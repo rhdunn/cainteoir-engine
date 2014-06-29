@@ -19,7 +19,7 @@ ai	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/
 ei	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/
 oi	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/
 au	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/
-ou	/{umd,bck,rnd,vwl}{smh,bck,rnd,vwl,nsy}/ # /oʊ̯/
+ou	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/
 e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/
 i@	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/
 u@	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/
