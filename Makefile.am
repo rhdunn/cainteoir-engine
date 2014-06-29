@@ -605,6 +605,11 @@ noinst_bin_PROGRAMS += tests/styles
 tests_styles_LDADD   = src/libcainteoir/libcainteoir.la
 tests_styles_SOURCES = tests/styles.cpp
 
+noinst_bin_PROGRAMS += tests/duration.test
+
+tests_duration_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_duration_test_SOURCES = tests/duration.cpp
+
 noinst_bin_PROGRAMS += tests/pho_file.test
 
 tests_pho_file_test_LDADD   = src/libcainteoir/libcainteoir.la
@@ -652,4 +657,5 @@ check: \
 	tests/parsetext.check \
 	tests/pho_file.check \
 	tests/diphones.check \
+	tests/duration.check \
 	tests/prosody.check

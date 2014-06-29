@@ -48,6 +48,27 @@ namespace cainteoir { namespace tts
 		}
 	};
 
+	struct duration
+	{
+		css::time mean;
+		css::time sdev;
+
+		duration()
+		{
+		}
+
+		duration(css::time aMean, css::time aStdDev)
+			: mean(aMean)
+			, sdev(aStdDev.as(aMean.units()))
+		{
+		}
+
+		css::time value(float zscore) const
+		{
+			return { mean.value() + (zscore * sdev.value()), mean.units() };
+		}
+	};
+
 	struct envelope_t
 	{
 		int offset;
