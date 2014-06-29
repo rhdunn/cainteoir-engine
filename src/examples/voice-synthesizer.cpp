@@ -110,20 +110,10 @@ create_reader(const char *filename,
 }
 
 static void
-print(const char *filename,
-      input_type input,
-      const char *ruleset,
-      const char *dictionary,
-      const lang::tag &locale,
-      tts::number_scale scale,
-      actions action,
+print(const std::shared_ptr<tts::prosody_reader> &pho,
       const char *src_phonemeset,
       const char *dst_phonemeset)
 {
-	auto pho = create_reader(filename, src_phonemeset, input, ruleset, dictionary, locale, scale);
-	if (action == actions::print_diphones)
-		pho = tts::createDiphoneReader(pho);
-
 	auto out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset ? dst_phonemeset : src_phonemeset));
 	out->reset(stdout);
 
@@ -132,31 +122,14 @@ print(const char *filename,
 }
 
 static void
-synthesize(rdf::graph &metadata,
-           const char *voicename,
-           const char *filename,
-           input_type input,
-           const char *ruleset,
-           const char *dictionary,
-           const lang::tag &locale,
-           tts::number_scale scale,
-           const char *src_phonemeset,
+synthesize(const std::shared_ptr<tts::synthesizer> &voice,
+           const std::shared_ptr<tts::prosody_reader> &pho,
            const char *outformat,
            const char *outfile,
            const char *device_name)
 {
-	const rdf::uri *voiceref = nullptr;
-	if (voicename)
-		voiceref = tts::get_voice_uri(metadata, rdf::tts("name"), voicename);
-
-	auto voice = tts::create_voice_synthesizer(metadata, voiceref);
-	if (!voice) throw std::runtime_error("cannot find the specified voice");
-
-	const std::string phonemeset = rql::select_value<std::string>(metadata,
-		rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
-	auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, ruleset, dictionary, locale, scale);
-
-	rdf::uri doc;
+	rdf::graph metadata;
+	rdf::uri   doc;
 	std::shared_ptr<cainteoir::audio> out;
 	if (outformat || outfile)
 		out = cainteoir::create_audio_file(outfile, outformat ? outformat : "wav", 0.3, metadata, doc,
@@ -267,10 +240,29 @@ int main(int argc, char **argv)
 			break;
 		case actions::print_pho:
 		case actions::print_diphones:
-			print(argc == 1 ? argv[0] : nullptr, input, ruleset, dictionary, locale, scale, action, src_phonemeset, dst_phonemeset);
+			{
+				auto pho = create_reader(argc == 1 ? argv[0] : nullptr, src_phonemeset, input, ruleset, dictionary, locale, scale);
+				if (action == actions::print_diphones)
+					pho = tts::createDiphoneReader(pho);
+
+				print(pho, src_phonemeset, dst_phonemeset);
+			}
 			break;
 		case actions::synthesize:
-			synthesize(metadata, voicename, argc == 1 ? argv[0] : nullptr, input, ruleset, dictionary, locale, scale, src_phonemeset, outformat, outfile, device_name);
+			{
+				const rdf::uri *voiceref = nullptr;
+				if (voicename)
+					voiceref = tts::get_voice_uri(metadata, rdf::tts("name"), voicename);
+
+				auto voice = tts::create_voice_synthesizer(metadata, voiceref);
+				if (!voice) throw std::runtime_error("cannot find the specified voice");
+
+				const std::string phonemeset = rql::select_value<std::string>(metadata,
+					rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
+				auto pho = create_reader(argc == 1 ? argv[0] : nullptr, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, ruleset, dictionary, locale, scale);
+
+				synthesize(voice, pho, outformat, outfile, device_name);
+			}
 			break;
 		}
 	}
