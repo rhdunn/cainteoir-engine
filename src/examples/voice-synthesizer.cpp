@@ -233,6 +233,7 @@ int main(int argc, char **argv)
 		rdf::graph metadata;
 		tts::read_voice_metadata(metadata);
 
+		const char *filename = argc == 1 ? argv[0] : nullptr;
 		switch (action)
 		{
 		case actions::show_metadata:
@@ -241,7 +242,7 @@ int main(int argc, char **argv)
 		case actions::print_pho:
 		case actions::print_diphones:
 			{
-				auto pho = create_reader(argc == 1 ? argv[0] : nullptr, src_phonemeset, input, ruleset, dictionary, locale, scale);
+				auto pho = create_reader(filename, src_phonemeset, input, ruleset, dictionary, locale, scale);
 				if (action == actions::print_diphones)
 					pho = tts::createDiphoneReader(pho);
 
@@ -259,7 +260,7 @@ int main(int argc, char **argv)
 
 				const std::string phonemeset = rql::select_value<std::string>(metadata,
 					rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
-				auto pho = create_reader(argc == 1 ? argv[0] : nullptr, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, ruleset, dictionary, locale, scale);
+				auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, ruleset, dictionary, locale, scale);
 
 				synthesize(voice, pho, outformat, outfile, device_name);
 			}
