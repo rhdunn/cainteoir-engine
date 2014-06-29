@@ -23,7 +23,7 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('prosody', sys.argv)
 	test.run({'name': 'Prosody', 'phonemeset': 'cxs', 'dictionary': 'dict/cainteoir/words.dict', 'groups': [
-		{'name': 'Phoneme Grouping', 'type': 'prosody', 'tests': [
+		{'name': 'Phoneme Grouping', 'type': 'prosody', 'fixed-duration': '80ms', 'tests': [
 			{'test': 'prosody/grouping/simple-phonemes.txt', 'result': 'prosody/grouping/simple-phonemes.pho'},
 			{'test': 'prosody/grouping/multiple-words.txt', 'result': 'prosody/grouping/multiple-words.pho'},
 			{'test': 'prosody/grouping/affricates.txt', 'result': 'prosody/grouping/affricates.pho'},
