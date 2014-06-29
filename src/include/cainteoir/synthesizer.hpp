@@ -69,6 +69,16 @@ namespace cainteoir { namespace tts
 		}
 	};
 
+	struct duration_model
+	{
+		virtual const duration &lookup(const phone &p) const = 0;
+
+		virtual ~duration_model() {}
+	};
+
+	std::shared_ptr<duration_model>
+	createFixedDurationModel(css::time aDuration);
+
 	struct envelope_t
 	{
 		int offset;
