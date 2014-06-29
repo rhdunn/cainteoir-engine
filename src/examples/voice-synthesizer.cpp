@@ -82,6 +82,7 @@ static std::shared_ptr<tts::prosody_reader>
 create_reader(const char *filename,
               const char *phonemeset,
               input_type input,
+              const std::shared_ptr<tts::duration_model> &durations,
               const char *ruleset,
               const char *dictionary,
               const lang::tag &locale,
@@ -104,7 +105,7 @@ create_reader(const char *filename,
 		          | tts::words_to_phonemes(rules, dict)
 		          | tts::adjust_stress();
 
-		return tts::createProsodyReader(text);
+		return tts::createProsodyReader(text, durations);
 	}
 	return tts::createPhoReader(tts::createPhonemeParser(phonemeset), data);
 }
@@ -242,7 +243,8 @@ int main(int argc, char **argv)
 		case actions::print_pho:
 		case actions::print_diphones:
 			{
-				auto pho = create_reader(filename, src_phonemeset, input, ruleset, dictionary, locale, scale);
+				auto dur = tts::createFixedDurationModel({ 80, css::time::milliseconds });
+				auto pho = create_reader(filename, src_phonemeset, input, dur, ruleset, dictionary, locale, scale);
 				if (action == actions::print_diphones)
 					pho = tts::createDiphoneReader(pho);
 
@@ -260,7 +262,9 @@ int main(int argc, char **argv)
 
 				const std::string phonemeset = rql::select_value<std::string>(metadata,
 					rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
-				auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, ruleset, dictionary, locale, scale);
+
+				auto dur = tts::createFixedDurationModel({ 80, css::time::milliseconds });
+				auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, dur, ruleset, dictionary, locale, scale);
 
 				synthesize(voice, pho, outformat, outfile, device_name);
 			}

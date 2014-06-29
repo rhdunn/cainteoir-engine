@@ -125,7 +125,8 @@ namespace cainteoir { namespace tts
 	createDiphoneReader(const std::shared_ptr<prosody_reader> &aProsody);
 
 	std::shared_ptr<prosody_reader>
-	createProsodyReader(const std::shared_ptr<text_reader> &aTextReader);
+	createProsodyReader(const std::shared_ptr<text_reader> &aTextReader,
+	                    const std::shared_ptr<duration_model> &aDurationModel);
 
 	struct prosody_writer
 	{
