@@ -111,10 +111,11 @@ void generate_events(const std::shared_ptr<tts::text_reader> &text, const char *
 			        *event.range.end());
 			break;
 		case tts::phonemes:
-			fprintf(stdout, ".%-13s [%d..%d] /",
+			fprintf(stdout, ".%-13s [%d..%d] %s /",
 			        token_name[event.type],
 			        *event.range.begin(),
-			        *event.range.end());
+			        *event.range.end(),
+			        event.text ? event.text->str().c_str() : "(null)");
 			{
 				auto phonemes = event.phonemes;
 				tts::make_stressed(phonemes, stress);

@@ -38,8 +38,6 @@ public:
 
 	bool read();
 private:
-	bool pronounce(const std::shared_ptr<cainteoir::buffer> &aText, const cainteoir::range<uint32_t> &aRange);
-
 	std::shared_ptr<tts::text_reader> mReader;
 	tts::text_event mEvent;
 	std::shared_ptr<tts::phoneme_reader> mRules;
@@ -70,28 +68,18 @@ words_to_phonemes_t::read()
 	case tts::word_capitalized:
 	case tts::word_mixedcase:
 	case tts::word_script:
-		if (pronounce(mReader->event().text, mReader->event().range))
+		mEvent = mReader->event();
+		mEvent.type = tts::phonemes;
+		if (mExceptionDictionary.pronounce(mEvent.text, mRules, mEvent.phonemes))
 			return true;
+		// TODO: Should support using spelling logic here to spell out the unpronouncible word.
+		fprintf(stderr, "error: cannot pronounce '%s'\n", mEvent.text->str().c_str());
 		break;
 	default:
 		mEvent = mReader->event();
 		return true;
 	}
 	return false;
-}
-
-bool
-words_to_phonemes_t::pronounce(const std::shared_ptr<cainteoir::buffer> &aText,
-                               const cainteoir::range<uint32_t> &aRange)
-{
-	mEvent = { tts::phonemes, aRange, 0 };
-	if (!mExceptionDictionary.pronounce(aText, mRules, mEvent.phonemes))
-	{
-		// TODO: Should support using spelling logic here to spell out the unpronouncible word.
-		fprintf(stderr, "error: cannot pronounce '%s'\n", aText->str().c_str());
-		return false;
-	}
-	return true;
 }
 
 std::shared_ptr<tts::text_reader>
