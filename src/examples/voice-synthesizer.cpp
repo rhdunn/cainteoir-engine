@@ -79,10 +79,13 @@ static void show_metadata(rdf::graph &metadata)
 }
 
 static std::shared_ptr<tts::duration_model>
-create_duration_model(const char *fixed_duration)
+create_duration_model(const char *fixed_duration,
+                      const char *duration_model)
 {
 	if (fixed_duration)
 		return tts::createFixedDurationModel(css::parse_smil_time(cainteoir::buffer(fixed_duration)));
+	if (duration_model)
+		return tts::createDurationModel(cainteoir::make_file_buffer(duration_model));
 	return {};
 }
 
@@ -173,6 +176,7 @@ int main(int argc, char **argv)
 		const char *dictionary = nullptr;
 		const char *locale_name = "en";
 		const char *fixed_duration = nullptr;
+		const char *duration_model = nullptr;
 		tts::number_scale scale = tts::short_scale;
 		actions action = actions::synthesize;
 		input_type input = input_type::document;
@@ -216,6 +220,8 @@ int main(int argc, char **argv)
 		}};
 
 		const option_group prosody_options = { i18n("Prosody:"), {
+			{ 0, "duration-model", duration_model, "MODEL",
+			  i18n("Use the duration model in the specified file") },
 			{ 0, "fixed-duration", fixed_duration, "DURATION",
 			  i18n("Make each phoneme DURATION long") },
 		}};
@@ -260,7 +266,7 @@ int main(int argc, char **argv)
 		case actions::print_pho:
 		case actions::print_diphones:
 			{
-				auto dur = create_duration_model(fixed_duration);
+				auto dur = create_duration_model(fixed_duration, duration_model);
 				auto pho = create_reader(filename, src_phonemeset, input, dur, ruleset, dictionary, locale, scale);
 				if (action == actions::print_diphones)
 					pho = tts::createDiphoneReader(pho);
@@ -280,7 +286,7 @@ int main(int argc, char **argv)
 				const std::string phonemeset = rql::select_value<std::string>(metadata,
 					rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
 
-				auto dur = create_duration_model(fixed_duration);
+				auto dur = create_duration_model(fixed_duration, duration_model);
 				auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, dur, ruleset, dictionary, locale, scale);
 
 				synthesize(voice, pho, outformat, outfile, device_name);

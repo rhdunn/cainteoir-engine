@@ -79,6 +79,9 @@ namespace cainteoir { namespace tts
 	std::shared_ptr<duration_model>
 	createFixedDurationModel(css::time aDuration);
 
+	std::shared_ptr<duration_model>
+	createDurationModel(const std::shared_ptr<buffer> &aDurationModel);
+
 	struct envelope_t
 	{
 		int offset;
