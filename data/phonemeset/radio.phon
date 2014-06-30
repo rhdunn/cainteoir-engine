@@ -10,6 +10,7 @@ ah	/{lmd,bck,unr,vwl}/ # /ʌ/
 ao	/{lmd,bck,rnd,vwl}/ # /ɔ/
 aw	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/
 ax	/{mid,cnt,unr,vwl}/ # /ə/
+axr	/{mid,cnt,unr,vwl,rzd}/ # /ɚ/
 ay	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/
 b	/{vcd,blb,stp}/ # /b/
 ch	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
