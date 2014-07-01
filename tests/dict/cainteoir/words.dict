@@ -16,7 +16,7 @@ choice		/'t_SOI_^s/	# Lexical Set
 cloth		/'klQ:T/	# Lexical Set
 comma		/'kQ.m@/	# Reduced Vowel
 cure		/'kjU@_^/	# Lexical Set
-dress		/'drEs/		# Lexical Set
+dress		/'dr\Es/	# Lexical Set
 face		/'feI_^s/	# Lexical Set
 fern		/'fErn/		# Lexical Set (Extended)
 fir		/'fIr/		# Lexical Set (Extended)
@@ -42,9 +42,9 @@ near		/'nI@_^/	# Lexical Set
 north		/'no:rT/	# Lexical Set
 nurse		/'n3:s/		# Lexical Set
 palm		/'pA:m/		# Lexical Set
-price		/'praI_^s/	# Lexical Set
-rhythmn		/'rI.Dm=/	# Syllabic
-roses		/'roU_^.zi\z/	# Reduced Vowel
+price		/'pr\aI_^s/	# Lexical Set
+rhythmn		/'r\I.Dm=/	# Syllabic
+roses		/'r\oU_^.zi\z/	# Reduced Vowel
 rye		/'r\aI_^/
 sang		/'saN/
 shy		/'SaI_^/
@@ -52,12 +52,12 @@ side		/'saI_^d/
 side-by-side	/'saI_^d.baI_^,saI_^d/
 square		/'skwE@_^/	# Lexical Set
 start		/'stA:rt/	# Lexical Set
-strut		/'strVt/	# Lexical Set
+strut		/'str\Vt/	# Lexical Set
 test		/'tEst/
 that		/'Dat/
 thought		/'TO:t/		# Lexical Set
 this		/'DIs/
-trap		/'tr&p/		# Lexical Set
+trap		/'tr\&p/	# Lexical Set
 ugh		/'Ux/
 uh-oh		/@?'oU_^/
 vie		/'vaI_^/
