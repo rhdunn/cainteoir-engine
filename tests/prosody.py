@@ -29,5 +29,8 @@ if __name__ == '__main__':
 			{'test': 'prosody/grouping/affricates.txt', 'result': 'prosody/grouping/affricates.pho'},
 			{'test': 'prosody/grouping/lexical-sets.txt', 'result': 'prosody/grouping/lexical-sets.pho'},
 		]},
+		{'name': 'Duration Model', 'type': 'prosody', 'tests': [
+			{'test': 'prosody/grouping/lexical-sets.txt', 'result': 'prosody/grouping/lexical-sets-duration-model.pho', 'duration-model': '../data/durations/en/default.dur'},
+		]},
 	]})
 	test.summary()
