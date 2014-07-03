@@ -75,7 +75,6 @@ static const char *token_name[] = {
 	"question",
 	"symbol",
 	"end-para",
-	"phonemes",
 	"en-dash",
 	"em-dash",
 };
@@ -97,32 +96,29 @@ void generate_events(const std::shared_ptr<tts::text_reader> &text, const char *
 		case tts::word_mixedcase:
 		case tts::word_script:
 			cainteoir::utf8::read(event.text->begin(), cp);
-			fprintf(stdout, ".%s.%-8s [%d..%d] %s\n",
+			fprintf(stdout, ".%s.%-8s [%d..%d] %s",
 			        ucd::get_script_string(ucd::lookup_script(cp)),
 			        token_name[event.type],
 			        *event.range.begin(),
 			        *event.range.end(),
 			        event.text->str().c_str());
+			if (!event.phonemes.empty())
+			{
+				fputc(' ', stdout);
+				fputc('/', stdout);
+				auto phonemes = event.phonemes;
+				tts::make_stressed(phonemes, stress);
+				for (auto p : phonemes)
+					ipa->write(p);
+				fputc('/', stdout);
+			}
+			fputc('\n', stdout);
 			break;
 		case tts::paragraph:
 			fprintf(stdout, ".%-13s [%d..%d] \n",
 			        token_name[event.type],
 			        *event.range.begin(),
 			        *event.range.end());
-			break;
-		case tts::phonemes:
-			fprintf(stdout, ".%-13s [%d..%d] %s /",
-			        token_name[event.type],
-			        *event.range.begin(),
-			        *event.range.end(),
-			        event.text ? event.text->str().c_str() : "(null)");
-			{
-				auto phonemes = event.phonemes;
-				tts::make_stressed(phonemes, stress);
-				for (auto p : phonemes)
-					ipa->write(p);
-			}
-			fprintf(stdout, "/\n");
 			break;
 		default:
 			fprintf(stdout, ".%-13s [%d..%d] %s\n",

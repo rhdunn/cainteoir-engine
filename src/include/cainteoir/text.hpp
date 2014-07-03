@@ -55,7 +55,6 @@ namespace cainteoir { namespace tts
 		question,
 		symbol,
 		paragraph,
-		phonemes,
 		en_dash,
 		em_dash,
 	};

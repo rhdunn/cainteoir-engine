@@ -69,7 +69,6 @@ words_to_phonemes_t::read()
 	case tts::word_mixedcase:
 	case tts::word_script:
 		mEvent = mReader->event();
-		mEvent.type = tts::phonemes;
 		if (mExceptionDictionary.pronounce(mEvent.text, mRules, mEvent.phonemes))
 			return true;
 		// TODO: Should support using spelling logic here to spell out the unpronouncible word.
@@ -119,7 +118,11 @@ void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
 			else
 				fprintf(out, "%s%s", event.text->str().c_str(), phrase);
 			break;
-		case tts::phonemes:
+		case tts::word_uppercase:
+		case tts::word_lowercase:
+		case tts::word_capitalized:
+		case tts::word_mixedcase:
+		case tts::word_script:
 			if (need_open)
 			{
 				if (open) fprintf(out, "%s", open);

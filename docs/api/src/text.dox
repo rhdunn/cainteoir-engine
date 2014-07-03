@@ -105,10 +105,6 @@
 \brief A separator between two paragraphs.
 
 
-\var   cainteoir::tts::event_type cainteoir::tts::phonemes
-\brief A sequence of phonemes.
-
-
 \var   cainteoir::tts::event_type cainteoir::tts::en_dash
 \brief An en-dash punctuation character.
 
@@ -131,7 +127,7 @@
 
 
 \var   std::list<phoneme> cainteoir::tts::text_event::phonemes
-\brief The sequence of phonemes associated with the cainteoir::tts::phonemes event.
+\brief The sequence of phonemes associated with the event.
 
 
 \var   cainteoir::tts::event_type cainteoir::tts::text_event::type

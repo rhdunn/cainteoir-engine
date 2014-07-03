@@ -84,13 +84,10 @@ bool prosody_reader_t::next_event()
 	while (mTextReader->read())
 	{
 		auto &event = mTextReader->event();
-		if (event.type == tts::event_type::phonemes)
-		{
-			mCurrent = event.phonemes.begin();
-			mLast    = event.phonemes.end();
-			if (mCurrent != mLast)
-				return true;
-		}
+		mCurrent = event.phonemes.begin();
+		mLast    = event.phonemes.end();
+		if (mCurrent != mLast)
+			return true;
 	}
 
 	return false;

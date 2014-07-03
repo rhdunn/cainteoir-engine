@@ -64,14 +64,16 @@ adjust_stress_t::read()
 		auto &event = mReader->event();
 		switch (event.type)
 		{
-		case tts::phonemes:
-			adjust_phonemes(const_cast<std::list<ipa::phoneme> &>(event.phonemes));
-			break;
 		case tts::comma:
 			break;
 		default:
-			mPrevSyllableCount = 0;
-			mPrevIsStressed = false;
+			if (event.phonemes.empty())
+			{
+				mPrevSyllableCount = 0;
+				mPrevIsStressed = false;
+			}
+			else
+				adjust_phonemes(const_cast<std::list<ipa::phoneme> &>(event.phonemes));
 			break;
 		}
 		return true;
