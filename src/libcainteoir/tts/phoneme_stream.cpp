@@ -69,11 +69,12 @@ words_to_phonemes_t::read()
 	case tts::word_mixedcase:
 	case tts::word_script:
 		mEvent = mReader->event();
-		if (mExceptionDictionary.pronounce(mEvent.text, mRules, mEvent.phonemes))
-			return true;
-		// TODO: Should support using spelling logic here to spell out the unpronouncible word.
-		fprintf(stderr, "error: cannot pronounce '%s'\n", mEvent.text->str().c_str());
-		break;
+		if (!mExceptionDictionary.pronounce(mEvent.text, mRules, mEvent.phonemes))
+		{
+			// TODO: Should support using spelling logic here to spell out the unpronouncible word.
+			fprintf(stderr, "error: cannot pronounce '%s'\n", mEvent.text->str().c_str());
+		}
+		return true;
 	default:
 		mEvent = mReader->event();
 		return true;
