@@ -101,3 +101,8 @@
 .punctuation   [293..294] ]
 .punctuation   [295..296] {
 .punctuation   [296..297] }
+.end-para      [298..299] 
+.Latn.capital  [299..303] this
+.punctuation   [303..304] :
+.Latn.lower    [305..309] that
+.punctuation   [309..310] .

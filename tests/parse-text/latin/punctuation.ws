@@ -77,3 +77,8 @@
 .Latn.lower    [279..280] seven
 .full-stop     [280..281] .
 .end-para      [282..283] 
+.end-para      [298..299] 
+.Latn.capital  [299..303] this
+.colon         [303..304] :
+.Latn.lower    [305..309] that
+.full-stop     [309..310] .
