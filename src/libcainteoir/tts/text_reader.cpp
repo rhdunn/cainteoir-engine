@@ -155,7 +155,7 @@ bool text_reader_t::read()
 			lang = fsm::language::SH;
 			break;
 		case 0x2019: // RIGHT SINGLE QUOTATION MARK
-			lang = fsm::language::qR;
+			lang = fsm::language::RQ;
 			break;
 		// Extended Classifications
 		case 0x003A: // COLON

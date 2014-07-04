@@ -46,7 +46,7 @@ language:
 - "AP" # U+0027 : Apostrophe
 - "HM" # U+002D : Hyphen-Minus
 - "SH" # U+00AD : Soft Hyphen
-- "qR" # U+2019 : Right Single Quotation Mark
+- "RQ" # U+2019 : Right Single Quotation Mark
   # Extended Classifications
   #     These are classsifications for particular groups of characters at a
   #     finer grain than the general categories.
@@ -242,7 +242,7 @@ transitions:
     L7: [ "Lo" ]
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
-    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "AP" ]
+    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "RQ", "AP" ]
     P2: [ "EX" ]
     P3: [ "CO" ]
     P4: [ "FS" ]
@@ -261,7 +261,7 @@ transitions:
     L7: [ "Lo" ]
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
-    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "AP" ]
+    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "RQ", "AP" ]
     P2: [ "EX" ]
     P3: [ "CO" ]
     P4: [ "FS" ]
@@ -273,15 +273,15 @@ transitions:
     L2: [ "Lu" ]
     L3: [ "Ll" ]
     L5: [ "Lt" ]
-    Q2: [ "qR", "AP" ]
+    Q2: [ "RQ", "AP" ]
   L2:
     L2: [ "Lu" ]
     L5: [ "Ll", "Lt" ]
-    Q5: [ "qR", "AP" ]
+    Q5: [ "RQ", "AP" ]
   L3:
     L3: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
-    Q3: [ "qR", "AP" ]
+    Q3: [ "RQ", "AP" ]
     H4: [ "HM" ]
     H6: [ "SH" ]
   L4:
@@ -289,10 +289,10 @@ transitions:
     L5: [ "Lt", "Lu" ]
     H1: [ "HM" ]
     H2: [ "SH" ]
-    Q1: [ "qR", "AP" ]
+    Q1: [ "RQ", "AP" ]
   L5:
     L5: [ "Ll", "Lt", "Lu" ]
-    Q4: [ "qR", "AP" ]
+    Q4: [ "RQ", "AP" ]
   L6:
     L3: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
