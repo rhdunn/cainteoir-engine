@@ -59,7 +59,6 @@ context_analysis_t::context_analysis_t()
 void context_analysis_t::bind(const std::shared_ptr<tts::text_reader> &aReader)
 {
 	mReader = aReader;
-	mHaveEvent = mReader->read();
 }
 
 bool context_analysis_t::read()
@@ -107,26 +106,16 @@ bool context_analysis_t::read_clause()
 {
 	clause_state state = clause_state::start;
 
+	mHaveEvent = mReader->read();
 	while (mHaveEvent && state != clause_state::end)
 	{
 		auto &event = mReader->event();
+
 		switch (event.type)
 		{
-		case tts::word_uppercase:
-		case tts::word_lowercase:
-		case tts::word_capitalized:
-		case tts::word_mixedcase:
-		case tts::word_script:
-		case tts::number:
-			switch (state)
-			{
-			case clause_state::start:
-				mClause.push_back(event);
-				break;
-			case clause_state::clause_break:
-				state = mClause.empty() ? clause_state::start : clause_state::end;
-				continue;
-			}
+		case tts::punctuation:
+		case tts::symbol:
+			if (!mClause.empty()) return true;
 			break;
 		case tts::exclamation:
 		case tts::question:
@@ -139,26 +128,10 @@ bool context_analysis_t::read_clause()
 		case tts::en_dash:
 		case tts::ellipsis:
 		case tts::paragraph:
-			switch (state)
-			{
-			case clause_state::start:
-				state = clause_state::clause_break;
-				continue;
-			case clause_state::clause_break:
-				mClause.push_back(event);
-				break;
-			}
-			break;
-		case tts::punctuation:
-		case tts::symbol:
-			switch (state)
-			{
-			case clause_state::start:
-				state = clause_state::clause_break;
-				continue;
-			case clause_state::clause_break:
-				break;
-			}
+			mClause.push_back(event);
+			return true;
+		default:
+			mClause.push_back(event);
 			break;
 		}
 
