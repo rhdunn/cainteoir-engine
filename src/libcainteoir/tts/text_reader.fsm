@@ -45,6 +45,7 @@ language:
 - "LF" # U+000A : Line Feed
 - "AP" # U+0027 : Apostrophe
 - "HM" # U+002D : Hyphen-Minus
+- "FS" # U+002E : Full Stop
 - "SH" # U+00AD : Soft Hyphen
 - "RQ" # U+2019 : Right Single Quotation Mark
   # Extended Classifications
@@ -177,6 +178,33 @@ states:
     terminal: true
     id: ellipsis
     value: tts::ellipsis
+  P11:
+    name: Full Stop
+    terminal: true
+    id: ascii_full_stop
+    value: tts::full_stop
+  P12:
+    name: Full Stop with space
+    terminal: false
+    emit: false
+    id: ascii_full_stop_space
+    value: tts::full_stop
+  P13:
+    name: Double Stop
+    terminal: true
+    id: ascii_double_stop
+    value: tts::double_stop
+  P14:
+    name: Double Stop with space
+    terminal: false
+    emit: false
+    id: ascii_double_stop_space
+    value: tts::double_stop
+  P15:
+    name: Ellipsis
+    terminal: true
+    id: ascii_ellipsis
+    value: tts::ellipsis
   Y1:
     name: Symbol
     terminal: true
@@ -291,6 +319,7 @@ transitions:
     P8: [ "Xn" ]
     P9: [ "Xm" ]
     P10: [ "Xe" ]
+    P11: [ "FS" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "Xp" ]
     S2: [ "LF" ]
@@ -315,6 +344,7 @@ transitions:
     P8: [ "Xn" ]
     P9: [ "Xm" ]
     P10: [ "Xe" ]
+    P11: [ "FS" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "Xp", "LF" ]
     H7: [ "HM" ]
@@ -349,6 +379,16 @@ transitions:
     L7: [ "Lo" ]
   N1:
     N1: [ "Nd", "Nl", "No" ]
+  P11:
+    P12: [ "Zs" ]
+    P13: [ "FS" ]
+  P12:
+    P13: [ "FS" ]
+  P13:
+    P14: [ "Zs" ]
+    P15: [ "FS" ]
+  P14:
+    P15: [ "FS" ]
   E1:
     E1: [ "Lm", "Mc", "Me", "Mn" ]
   H1:

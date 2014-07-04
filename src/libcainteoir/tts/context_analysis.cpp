@@ -241,6 +241,7 @@ bool context_analysis_t::read_clause()
 			case tts::exclamation:
 			case tts::question:
 			case tts::comma:
+			case tts::full_stop:
 			case tts::colon:
 			case tts::semicolon:
 			case tts::em_dash:
@@ -248,22 +249,6 @@ bool context_analysis_t::read_clause()
 			case tts::ellipsis:
 				sequence.flush(mClause);
 				mClause.push(event);
-				break;
-			case tts::full_stop:
-				switch (event.codepoint)
-				{
-				case '.':
-					if (sequence.codepoint() != event.codepoint)
-					{
-						sequence.flush(mClause);
-						sequence.set_codepoint(event.codepoint);
-					}
-					sequence.add(event.range);
-					break;
-				default:
-					sequence.flush(mClause);
-					mClause.push({ event.text, event.type, event.range, event.codepoint });
-				}
 				break;
 			case tts::paragraph:
 				sequence.flush(mClause);

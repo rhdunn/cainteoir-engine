@@ -151,6 +151,9 @@ bool text_reader_t::read()
 		case 0x002D: // HYPHEN-MINUS
 			lang = fsm::language::HM;
 			break;
+		case 0x002E: // FULL STOP
+			lang = fsm::language::FS;
+			break;
 		case 0x00AD: // SOFT HYPHEN
 			lang = fsm::language::SH;
 			break;
@@ -165,9 +168,6 @@ bool text_reader_t::read()
 		case 0x2026: // HORIZONTAL ELLIPSIS
 		case 0x22EE: // VERTICAL ELLIPSIS
 			lang = fsm::language::Xe;
-			break;
-		case 0x002E: // FULL STOP
-			lang = fsm::language::Xf;
 			break;
 		case 0x003A: // COLON
 			lang = fsm::language::Xl;
