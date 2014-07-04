@@ -26,70 +26,6 @@
 
 namespace tts = cainteoir::tts;
 
-struct punctuation_sequence
-{
-	punctuation_sequence()
-		: mBegin(0)
-		, mEnd(0)
-		, mCount(0)
-		, mCodePoint(0)
-	{
-	}
-
-	void add(const cainteoir::range<uint32_t> &aRange);
-
-	void flush(std::queue<tts::text_event> &aClause);
-
-	ucd::codepoint_t codepoint() const { return mCodePoint; }
-
-	void set_codepoint(ucd::codepoint_t aCodePoint) { mCodePoint = aCodePoint; }
-private:
-	uint32_t mBegin;
-	uint32_t mEnd;
-	uint32_t mCount;
-	ucd::codepoint_t mCodePoint;
-};
-
-void punctuation_sequence::add(const cainteoir::range<uint32_t> &aRange)
-{
-	if (mBegin == 0)
-	{
-		mBegin = aRange.begin();
-		mEnd   = aRange.end();
-		mCount = 1;
-	}
-	else
-	{
-		mEnd = aRange.end();
-		++mCount;
-	}
-}
-
-void punctuation_sequence::flush(std::queue<tts::text_event> &aClause)
-{
-	if (mCount == 0) return;
-
-	#define _(x) std::make_shared<cainteoir::buffer>(x)
-
-	if (mCodePoint == '.') switch (mCount)
-	{
-	case 1:
-		aClause.push({ _("."), tts::full_stop, { mBegin, mEnd }, '.' });
-		break;
-	case 2:
-		aClause.push({ _(".."), tts::double_stop, { mBegin, mEnd }, '.' });
-		break;
-	default:
-		aClause.push({ _("..."), tts::ellipsis, { mBegin, mEnd }, '.' });
-		break;
-	}
-
-	#undef _
-
-	mBegin = mEnd = mCount = 0;
-	mCodePoint = 0;
-}
-
 enum class clause_state
 {
 	start,        // sequence of words
@@ -147,7 +83,6 @@ bool context_analysis_t::read()
 bool context_analysis_t::read_clause()
 {
 	clause_state state = clause_state::start;
-	punctuation_sequence sequence;
 
 	while (mHaveEvent && state != clause_state::end)
 	{
@@ -235,7 +170,6 @@ bool context_analysis_t::read_clause()
 			case tts::word_mixedcase:
 			case tts::word_script:
 			case tts::number:
-				sequence.flush(mClause);
 				state = mClause.empty() ? clause_state::start : clause_state::end;
 				continue;
 			case tts::exclamation:
@@ -247,11 +181,7 @@ bool context_analysis_t::read_clause()
 			case tts::em_dash:
 			case tts::en_dash:
 			case tts::ellipsis:
-				sequence.flush(mClause);
-				mClause.push(event);
-				break;
 			case tts::paragraph:
-				sequence.flush(mClause);
 				mClause.push(event);
 				break;
 			};
@@ -259,7 +189,6 @@ bool context_analysis_t::read_clause()
 		}
 		mHaveEvent = mReader->read();
 	}
-	sequence.flush(mClause);
 	return !mClause.empty();
 }
 
