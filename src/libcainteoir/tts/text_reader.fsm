@@ -226,6 +226,21 @@ states:
     emit: false
     id: capitalized_softhyphen
     value: tts::word_capitalized
+  H7:
+    name: "Hyphen"
+    terminal: true
+    id: hyphen
+    value: tts::punctuation
+  H8:
+    name: "En Dash (Hyphen)"
+    terminal: true
+    id: en_dash_hyphen
+    value: tts::en_dash
+  H9:
+    name: "Em Dash (Hyphen)"
+    terminal: true
+    id: em_dash_hyphen
+    value: tts::em_dash
   Q1:
     name: Lower Case with Quote
     terminal: false
@@ -266,7 +281,7 @@ transitions:
     L7: [ "Lo" ]
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
-    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "RQ", "AP" ]
+    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
     P2: [ "Xx" ]
     P3: [ "Xc" ]
     P4: [ "Xf" ]
@@ -279,6 +294,7 @@ transitions:
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "Xp" ]
     S2: [ "LF" ]
+    H7: [ "HM" ]
   S1:
     S1: [ "Xp", "LF" ]
   S2:
@@ -289,7 +305,7 @@ transitions:
     L7: [ "Lo" ]
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
-    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "RQ", "AP" ]
+    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
     P2: [ "Xx" ]
     P3: [ "Xc" ]
     P4: [ "Xf" ]
@@ -301,6 +317,7 @@ transitions:
     P10: [ "Xe" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "Xp", "LF" ]
+    H7: [ "HM" ]
   L1:
     L2: [ "Lu" ]
     L3: [ "Ll" ]
@@ -350,6 +367,10 @@ transitions:
   H6:
     L3: [ "Ll" ]
     H5: [ "LF" ]
+  H7:
+    H8: [ "HM" ]
+  H8:
+    H9: [ "HM" ]
   Q1:
     L4: [ "Ll" ]
     L5: [ "Lu" ]

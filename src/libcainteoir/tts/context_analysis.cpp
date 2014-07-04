@@ -83,17 +83,6 @@ void punctuation_sequence::flush(std::queue<tts::text_event> &aClause)
 		aClause.push({ _("..."), tts::ellipsis, { mBegin, mEnd }, '.' });
 		break;
 	}
-	else if (mCodePoint == '-') switch (mCount)
-	{
-	case 1:
-		break;
-	case 2:
-		aClause.push({ _("--"), tts::en_dash, { mBegin, mEnd }, '-' });
-		break;
-	case 3:
-		aClause.push({ _("---"), tts::em_dash, { mBegin, mEnd }, '-' });
-		break;
-	}
 
 	#undef _
 
@@ -257,6 +246,7 @@ bool context_analysis_t::read_clause()
 			case tts::em_dash:
 			case tts::en_dash:
 			case tts::ellipsis:
+				sequence.flush(mClause);
 				mClause.push(event);
 				break;
 			case tts::full_stop:
@@ -273,17 +263,6 @@ bool context_analysis_t::read_clause()
 				default:
 					sequence.flush(mClause);
 					mClause.push({ event.text, event.type, event.range, event.codepoint });
-				}
-				break;
-			case tts::punctuation:
-				if (event.codepoint == '-')
-				{
-					if (sequence.codepoint() != event.codepoint)
-					{
-						sequence.flush(mClause);
-						sequence.set_codepoint(event.codepoint);
-					}
-					sequence.add(event.range);
 				}
 				break;
 			case tts::paragraph:
