@@ -1,5 +1,5 @@
 title:       "Text Parsing Finite State Machine"
-copyright:   "Copyright (C) 2013 Reece H. Dunn"
+copyright:   "Copyright (C) 2013-2014 Reece H. Dunn"
 author:      "Reece H. Dunn"
 license:     "GPLv3+"
 description: "The main logic for parsing text into events."
