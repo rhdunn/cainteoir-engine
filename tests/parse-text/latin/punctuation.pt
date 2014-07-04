@@ -42,7 +42,7 @@
 .Latn.lower    [130..138] sentence
 .full-stop     [138..139] .
 .Latn.capital  [140..142] so
-.punctuation   [142..143] —
+.em-dash       [142..143] —
 .Latn.lower    [143..146] too
 .punctuation   [146..147] -
 .punctuation   [147..148] -
