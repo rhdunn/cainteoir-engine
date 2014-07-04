@@ -50,12 +50,12 @@ language:
   # Extended Classifications
   #     These are classsifications for particular groups of characters at a
   #     finer grain than the general categories.
-- "CN" # Colons
-- "CO" # Commas
-- "EX" # Exclamation Marks
-- "FS" # Full Stops (Periods)
-- "PS" # Paragraph Separators
-- "SC" # Semicolons
+- "Xc" # Commas
+- "Xe" # Exclamation Marks
+- "Xf" # Full Stops (Periods)
+- "Xl" # Colons
+- "Xp" # Paragraph Separators
+- "Xs" # Semicolons
 
 value_type: tts::event_type
 
@@ -243,16 +243,16 @@ transitions:
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
     P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "RQ", "AP" ]
-    P2: [ "EX" ]
-    P3: [ "CO" ]
-    P4: [ "FS" ]
-    P5: [ "CN" ]
-    P6: [ "SC" ]
+    P2: [ "Xe" ]
+    P3: [ "Xc" ]
+    P4: [ "Xf" ]
+    P5: [ "Xl" ]
+    P6: [ "Xs" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
-    S1: [ "PS" ]
+    S1: [ "Xp" ]
     S2: [ "LF" ]
   S1:
-    S1: [ "PS", "LF" ]
+    S1: [ "Xp", "LF" ]
   S2:
     S0: [ "Cc", "Cf", "Cn", "Co", "Cs", "Ii", "Zl", "Zp", "Zs", "SH" ]
     L1: [ "Lu" ]
@@ -262,13 +262,13 @@ transitions:
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
     P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "RQ", "AP" ]
-    P2: [ "EX" ]
-    P3: [ "CO" ]
-    P4: [ "FS" ]
-    P5: [ "CN" ]
-    P6: [ "SC" ]
+    P2: [ "Xe" ]
+    P3: [ "Xc" ]
+    P4: [ "Xf" ]
+    P5: [ "Xl" ]
+    P6: [ "Xs" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
-    S1: [ "PS", "LF" ]
+    S1: [ "Xp", "LF" ]
   L1:
     L2: [ "Lu" ]
     L3: [ "Ll" ]

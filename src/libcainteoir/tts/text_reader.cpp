@@ -159,23 +159,23 @@ bool text_reader_t::read()
 			break;
 		// Extended Classifications
 		case 0x003A: // COLON
-			lang = fsm::language::CN;
+			lang = fsm::language::Xl;
 			break;
 		case 0x002C: // COMMA
 		case 0x3001: // IDEOGRAPHIC COMMA
-			lang = fsm::language::CO;
+			lang = fsm::language::Xc;
 			break;
 		case 0x0021: // EXCLAMATION MARK
-			lang = fsm::language::EX;
+			lang = fsm::language::Xe;
 			break;
 		case 0x002E: // FULL STOP
-			lang = fsm::language::FS;
+			lang = fsm::language::Xf;
 			break;
 		case 0x2029: // PARAGRAPH SEPARATOR
-			lang = fsm::language::PS;
+			lang = fsm::language::Xp;
 			break;
 		case 0x003B: // SEMICOLON
-			lang = fsm::language::SC;
+			lang = fsm::language::Xs;
 			break;
 		// Unicode General Category
 		default:
