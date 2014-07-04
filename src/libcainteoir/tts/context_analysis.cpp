@@ -49,7 +49,7 @@ private:
 
 	bool mHaveEvent;
 	std::shared_ptr<tts::text_reader> mReader;
-	std::queue<tts::text_event> mClause;
+	std::list<tts::text_event> mClause;
 };
 
 context_analysis_t::context_analysis_t()
@@ -73,7 +73,7 @@ bool context_analysis_t::read()
 		return !mClause.empty();
 	}
 
-	mClause.pop();
+	mClause.pop_front();
 	if (mClause.empty())
 		return read();
 
@@ -97,7 +97,7 @@ bool context_analysis_t::read_clause()
 			switch (state)
 			{
 			case clause_state::start:
-				mClause.push(event);
+				mClause.push_back(event);
 				break;
 			case clause_state::number:
 				if (event.text->compare("st") == 0 ||
@@ -110,7 +110,7 @@ bool context_analysis_t::read_clause()
 					n.range = { n.range.begin(), event.range.end() };
 				}
 				else
-					mClause.push(event);
+					mClause.push_back(event);
 				state = clause_state::start;
 				break;
 			case clause_state::clause_break:
@@ -122,11 +122,11 @@ bool context_analysis_t::read_clause()
 			switch (state)
 			{
 			case clause_state::start:
-				mClause.push(event);
+				mClause.push_back(event);
 				state = clause_state::number;
 				break;
 			case clause_state::number:
-				mClause.push(event);
+				mClause.push_back(event);
 				state = clause_state::start;
 				break;
 			case clause_state::clause_break:
@@ -154,7 +154,7 @@ bool context_analysis_t::read_clause()
 				state = clause_state::clause_break;
 				continue;
 			case clause_state::clause_break:
-				mClause.push(event);
+				mClause.push_back(event);
 				break;
 			}
 			break;
