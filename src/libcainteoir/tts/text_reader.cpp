@@ -171,6 +171,9 @@ bool text_reader_t::read()
 		case 0x003A: // COLON
 			lang = fsm::language::Xl;
 			break;
+		case 0x2013: // EN DASH
+			lang = fsm::language::Xn;
+			break;
 		case 0x2029: // PARAGRAPH SEPARATOR
 			lang = fsm::language::Xp;
 			break;

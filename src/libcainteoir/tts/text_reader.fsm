@@ -54,6 +54,7 @@ language:
 - "Xe" # Exclamation Marks
 - "Xf" # Full Stops (Periods)
 - "Xl" # Colons
+- "Xn" # En Dash
 - "Xp" # Paragraph Separators
 - "Xq" # Question Marks
 - "Xs" # Semicolons
@@ -159,6 +160,11 @@ states:
     terminal: true
     id: question_mark
     value: tts::question
+  P8:
+    name: En Dash
+    terminal: true
+    id: en_dash
+    value: tts::en_dash
   Y1:
     name: Symbol
     terminal: true
@@ -255,6 +261,7 @@ transitions:
     P5: [ "Xl" ]
     P6: [ "Xs" ]
     P7: [ "Xq" ]
+    P8: [ "Xn" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "Xp" ]
     S2: [ "LF" ]
@@ -275,6 +282,7 @@ transitions:
     P5: [ "Xl" ]
     P6: [ "Xs" ]
     P7: [ "Xq" ]
+    P8: [ "Xn" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "Xp", "LF" ]
   L1:

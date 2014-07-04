@@ -30,7 +30,7 @@
 .full-stop     [101..102] .
 .end-para      [103..104] 
 .Latn.capital  [104..108] this
-.punctuation   [108..109] –
+.en-dash       [108..109] –
 .Latn.lower    [109..111] as
 .Latn.lower    [112..115] can
 .Latn.lower    [116..118] be
