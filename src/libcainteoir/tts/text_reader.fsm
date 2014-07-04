@@ -43,7 +43,7 @@ language:
   #     These are Unicode Characters that are not handled generically via their
   #     associated General Category, but instead are handled specifically.
 - "LF" # U+000A : Line Feed
-- "qQ" # U+0027 : Single Quotation Mark
+- "AP" # U+0027 : Apostrophe
 - "HM" # U+002D : Hyphen-Minus
 - "SH" # U+00AD : Soft Hyphen
 - "qR" # U+2019 : Right Single Quotation Mark
@@ -242,7 +242,7 @@ transitions:
     L7: [ "Lo" ]
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
-    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "qQ" ]
+    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "AP" ]
     P2: [ "EX" ]
     P3: [ "CO" ]
     P4: [ "FS" ]
@@ -261,7 +261,7 @@ transitions:
     L7: [ "Lo" ]
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
-    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "qQ" ]
+    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "AP" ]
     P2: [ "EX" ]
     P3: [ "CO" ]
     P4: [ "FS" ]
@@ -273,15 +273,15 @@ transitions:
     L2: [ "Lu" ]
     L3: [ "Ll" ]
     L5: [ "Lt" ]
-    Q2: [ "qR", "qQ" ]
+    Q2: [ "qR", "AP" ]
   L2:
     L2: [ "Lu" ]
     L5: [ "Ll", "Lt" ]
-    Q5: [ "qR", "qQ" ]
+    Q5: [ "qR", "AP" ]
   L3:
     L3: [ "Ll" ]
     L5: [ "Lt", "Lu" ]
-    Q3: [ "qR", "qQ" ]
+    Q3: [ "qR", "AP" ]
     H4: [ "HM" ]
     H6: [ "SH" ]
   L4:
@@ -289,10 +289,10 @@ transitions:
     L5: [ "Lt", "Lu" ]
     H1: [ "HM" ]
     H2: [ "SH" ]
-    Q1: [ "qR", "qQ" ]
+    Q1: [ "qR", "AP" ]
   L5:
     L5: [ "Ll", "Lt", "Lu" ]
-    Q4: [ "qR", "qQ" ]
+    Q4: [ "qR", "AP" ]
   L6:
     L3: [ "Ll" ]
     L5: [ "Lt", "Lu" ]

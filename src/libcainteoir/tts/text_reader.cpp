@@ -146,7 +146,7 @@ bool text_reader_t::read()
 			lang = fsm::language::LF;
 			break;
 		case 0x0027: // APOSTROPHE
-			lang = fsm::language::qQ;
+			lang = fsm::language::AP;
 			break;
 		case 0x002D: // HYPHEN-MINUS
 			lang = fsm::language::HM;
