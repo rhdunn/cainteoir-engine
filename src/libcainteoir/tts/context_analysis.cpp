@@ -29,7 +29,6 @@ namespace tts = cainteoir::tts;
 enum class clause_state
 {
 	start,        // sequence of words
-	number,       // number (maybe an ordinal number)
 	clause_break, // sequence of punctuation
 	end,          // next event is a word
 };
@@ -69,6 +68,30 @@ bool context_analysis_t::read()
 	{
 		if (!read_clause()) return false;
 
+		for (auto current = mClause.begin(), last = mClause.end(); current != last;)
+		{
+			if (current->type == tts::number)
+			{
+				auto number = current;
+				++current;
+				if (current != last && current->type == tts::word_lowercase)
+				{
+					const auto &text = current->text;
+					if (text->compare("st") == 0 ||
+					    text->compare("nd") == 0 ||
+					    text->compare("rd") == 0 ||
+					    text->compare("th") == 0)
+					{
+						number->type = tts::ordinal_number;
+						number->range = { number->range.begin(), current->range.end() };
+						current = mClause.erase(current);
+					}
+				}
+				continue;
+			}
+			++current;
+		}
+
 		// Don't pop the first matching item:
 		return !mClause.empty();
 	}
@@ -99,20 +122,6 @@ bool context_analysis_t::read_clause()
 			case clause_state::start:
 				mClause.push_back(event);
 				break;
-			case clause_state::number:
-				if (event.text->compare("st") == 0 ||
-				    event.text->compare("nd") == 0 ||
-				    event.text->compare("rd") == 0 ||
-				    event.text->compare("th") == 0)
-				{
-					auto &n = mClause.back();
-					n.type = tts::ordinal_number;
-					n.range = { n.range.begin(), event.range.end() };
-				}
-				else
-					mClause.push_back(event);
-				state = clause_state::start;
-				break;
 			case clause_state::clause_break:
 				state = mClause.empty() ? clause_state::start : clause_state::end;
 				continue;
@@ -123,11 +132,6 @@ bool context_analysis_t::read_clause()
 			{
 			case clause_state::start:
 				mClause.push_back(event);
-				state = clause_state::number;
-				break;
-			case clause_state::number:
-				mClause.push_back(event);
-				state = clause_state::start;
 				break;
 			case clause_state::clause_break:
 				state = mClause.empty() ? clause_state::start : clause_state::end;
@@ -150,9 +154,6 @@ bool context_analysis_t::read_clause()
 			case clause_state::start:
 				state = clause_state::clause_break;
 				continue;
-			case clause_state::number:
-				state = clause_state::clause_break;
-				continue;
 			case clause_state::clause_break:
 				mClause.push_back(event);
 				break;
@@ -163,9 +164,6 @@ bool context_analysis_t::read_clause()
 			switch (state)
 			{
 			case clause_state::start:
-				state = clause_state::clause_break;
-				continue;
-			case clause_state::number:
 				state = clause_state::clause_break;
 				continue;
 			case clause_state::clause_break:
