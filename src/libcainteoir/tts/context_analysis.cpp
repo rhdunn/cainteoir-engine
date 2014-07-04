@@ -87,106 +87,93 @@ bool context_analysis_t::read_clause()
 	while (mHaveEvent && state != clause_state::end)
 	{
 		auto &event = mReader->event();
-		switch (state)
+		switch (event.type)
 		{
-		case clause_state::start:
-			switch (event.type)
+		case tts::word_uppercase:
+		case tts::word_lowercase:
+		case tts::word_capitalized:
+		case tts::word_mixedcase:
+		case tts::word_script:
+			switch (state)
 			{
-			case tts::word_uppercase:
-			case tts::word_lowercase:
-			case tts::word_capitalized:
-			case tts::word_mixedcase:
-			case tts::word_script:
+			case clause_state::start:
 				mClause.push(event);
 				break;
-			case tts::number:
+			case clause_state::number:
+				if (event.text->compare("st") == 0 ||
+				    event.text->compare("nd") == 0 ||
+				    event.text->compare("rd") == 0 ||
+				    event.text->compare("th") == 0)
+				{
+					auto &n = mClause.back();
+					n.type = tts::ordinal_number;
+					n.range = { n.range.begin(), event.range.end() };
+				}
+				else
+					mClause.push(event);
+				state = clause_state::start;
+				break;
+			case clause_state::clause_break:
+				state = mClause.empty() ? clause_state::start : clause_state::end;
+				continue;
+			}
+			break;
+		case tts::number:
+			switch (state)
+			{
+			case clause_state::start:
 				mClause.push(event);
 				state = clause_state::number;
 				break;
-			case tts::punctuation:
-			case tts::exclamation:
-			case tts::question:
-			case tts::comma:
-			case tts::full_stop:
-			case tts::colon:
-			case tts::semicolon:
-			case tts::em_dash:
-			case tts::en_dash:
-			case tts::ellipsis:
-			case tts::symbol:
-			case tts::paragraph:
-				state = clause_state::clause_break;
-				continue;
-			};
-			break;
-		case clause_state::number:
-			switch (event.type)
-			{
-			case tts::word_uppercase:
-			case tts::word_lowercase:
-			case tts::word_capitalized:
-			case tts::word_mixedcase:
-				{
-					if (event.text->compare("st") == 0 ||
-					    event.text->compare("nd") == 0 ||
-					    event.text->compare("rd") == 0 ||
-					    event.text->compare("th") == 0)
-					{
-						auto &n = mClause.back();
-						n.type = tts::ordinal_number;
-						n.range = { n.range.begin(), event.range.end() };
-					}
-					else
-						mClause.push(event);
-					state = clause_state::start;
-				}
-				break;
-			case tts::punctuation:
-			case tts::exclamation:
-			case tts::question:
-			case tts::comma:
-			case tts::full_stop:
-			case tts::colon:
-			case tts::semicolon:
-			case tts::em_dash:
-			case tts::en_dash:
-			case tts::ellipsis:
-			case tts::symbol:
-			case tts::paragraph:
-				state = clause_state::clause_break;
-				continue;
-			default:
+			case clause_state::number:
 				mClause.push(event);
 				state = clause_state::start;
 				break;
-			}
-			break;
-		case clause_state::clause_break:
-			switch (event.type)
-			{
-			case tts::word_uppercase:
-			case tts::word_lowercase:
-			case tts::word_capitalized:
-			case tts::word_mixedcase:
-			case tts::word_script:
-			case tts::number:
+			case clause_state::clause_break:
 				state = mClause.empty() ? clause_state::start : clause_state::end;
 				continue;
-			case tts::exclamation:
-			case tts::question:
-			case tts::comma:
-			case tts::full_stop:
-			case tts::colon:
-			case tts::semicolon:
-			case tts::em_dash:
-			case tts::en_dash:
-			case tts::ellipsis:
-			case tts::paragraph:
+			}
+			break;
+		case tts::exclamation:
+		case tts::question:
+		case tts::comma:
+		case tts::full_stop:
+		case tts::double_stop:
+		case tts::colon:
+		case tts::semicolon:
+		case tts::em_dash:
+		case tts::en_dash:
+		case tts::ellipsis:
+		case tts::paragraph:
+			switch (state)
+			{
+			case clause_state::start:
+				state = clause_state::clause_break;
+				continue;
+			case clause_state::number:
+				state = clause_state::clause_break;
+				continue;
+			case clause_state::clause_break:
 				mClause.push(event);
 				break;
-			};
+			}
+			break;
+		case tts::punctuation:
+		case tts::symbol:
+			switch (state)
+			{
+			case clause_state::start:
+				state = clause_state::clause_break;
+				continue;
+			case clause_state::number:
+				state = clause_state::clause_break;
+				continue;
+			case clause_state::clause_break:
+				break;
+			}
 			break;
 		}
+
 		mHaveEvent = mReader->read();
 	}
 	return !mClause.empty();
