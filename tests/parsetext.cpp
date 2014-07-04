@@ -79,56 +79,61 @@ static const char *token_name[] = {
 	"em-dash",
 };
 
+static void
+print_event(const tts::text_event &event,
+            const std::shared_ptr<tts::phoneme_writer> &phonemeset,
+            tts::stress_type stress)
+{
+	ucd::codepoint_t cp = 0;
+	switch (event.type)
+	{
+	case tts::word_uppercase:
+	case tts::word_lowercase:
+	case tts::word_capitalized:
+	case tts::word_mixedcase:
+	case tts::word_script:
+		cainteoir::utf8::read(event.text->begin(), cp);
+		fprintf(stdout, ".%s.%-8s [%d..%d] %s",
+		        ucd::get_script_string(ucd::lookup_script(cp)),
+		        token_name[event.type],
+		        *event.range.begin(),
+		        *event.range.end(),
+		        event.text->str().c_str());
+		if (!event.phonemes.empty())
+		{
+			fputc(' ', stdout);
+			fputc('/', stdout);
+			auto phonemes = event.phonemes;
+			tts::make_stressed(phonemes, stress);
+			for (auto p : phonemes)
+				phonemeset->write(p);
+			fputc('/', stdout);
+		}
+		fputc('\n', stdout);
+		break;
+	case tts::paragraph:
+		fprintf(stdout, ".%-13s [%d..%d] \n",
+		        token_name[event.type],
+		        *event.range.begin(),
+		        *event.range.end());
+		break;
+	default:
+		fprintf(stdout, ".%-13s [%d..%d] %s\n",
+		        token_name[event.type],
+		        *event.range.begin(),
+		        *event.range.end(),
+		        event.text->str().c_str());
+		break;
+	}
+}
+
 void generate_events(const std::shared_ptr<tts::text_reader> &text, const char *phonemeset, tts::stress_type stress)
 {
-	auto ipa = tts::createPhonemeWriter(phonemeset);
-	ipa->reset(stdout);
+	auto writer = tts::createPhonemeWriter(phonemeset);
+	writer->reset(stdout);
 
-	ucd::codepoint_t cp = 0;
 	while (text->read())
-	{
-		auto &event = text->event();
-		switch (event.type)
-		{
-		case tts::word_uppercase:
-		case tts::word_lowercase:
-		case tts::word_capitalized:
-		case tts::word_mixedcase:
-		case tts::word_script:
-			cainteoir::utf8::read(event.text->begin(), cp);
-			fprintf(stdout, ".%s.%-8s [%d..%d] %s",
-			        ucd::get_script_string(ucd::lookup_script(cp)),
-			        token_name[event.type],
-			        *event.range.begin(),
-			        *event.range.end(),
-			        event.text->str().c_str());
-			if (!event.phonemes.empty())
-			{
-				fputc(' ', stdout);
-				fputc('/', stdout);
-				auto phonemes = event.phonemes;
-				tts::make_stressed(phonemes, stress);
-				for (auto p : phonemes)
-					ipa->write(p);
-				fputc('/', stdout);
-			}
-			fputc('\n', stdout);
-			break;
-		case tts::paragraph:
-			fprintf(stdout, ".%-13s [%d..%d] \n",
-			        token_name[event.type],
-			        *event.range.begin(),
-			        *event.range.end());
-			break;
-		default:
-			fprintf(stdout, ".%-13s [%d..%d] %s\n",
-			        token_name[event.type],
-			        *event.range.begin(),
-			        *event.range.end(),
-			        event.text->str().c_str());
-			break;
-		}
-	}
+		print_event(text->event(), writer, stress);
 }
 
 bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
