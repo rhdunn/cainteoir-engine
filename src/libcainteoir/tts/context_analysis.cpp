@@ -34,7 +34,6 @@ struct punctuation_t
 
 static const std::initializer_list<punctuation_t> punctuation =
 {
-	{ 0x00002E, tts::full_stop   }, // FULL STOP
 	{ 0x00003A, tts::colon       }, // COLON
 	{ 0x00003B, tts::semicolon   }, // SEMICOLON
 	{ 0x00003F, tts::question    }, // QUESTION MARK
@@ -212,6 +211,7 @@ bool context_analysis_t::read_clause()
 			case tts::punctuation:
 			case tts::exclamation:
 			case tts::comma:
+			case tts::full_stop:
 			case tts::symbol:
 			case tts::paragraph:
 				state = clause_state::clause_break;
@@ -243,6 +243,7 @@ bool context_analysis_t::read_clause()
 			case tts::punctuation:
 			case tts::exclamation:
 			case tts::comma:
+			case tts::full_stop:
 			case tts::symbol:
 			case tts::paragraph:
 				state = clause_state::clause_break;
@@ -269,13 +270,29 @@ bool context_analysis_t::read_clause()
 			case tts::comma:
 				mClause.push(event);
 				break;
+			case tts::full_stop:
+				switch (event.codepoint)
+				{
+				case '.':
+				case '-':
+					if (sequence.codepoint() != event.codepoint)
+					{
+						sequence.flush(mClause);
+						sequence.set_codepoint(event.codepoint);
+					}
+					sequence.add(event.range);
+					break;
+				default:
+					sequence.flush(mClause);
+					mClause.push({ event.text, event.type, event.range, event.codepoint });
+				}
+				break;
 			case tts::punctuation:
 			case tts::symbol:
 				{
 					tts::event_type type = punctuation_type(event.codepoint);
 					if (type != tts::punctuation || event.codepoint == '-') switch (event.codepoint)
 					{
-					case '.':
 					case '-':
 						if (sequence.codepoint() != event.codepoint)
 						{

@@ -52,6 +52,7 @@ language:
   #     finer grain than the general categories.
 - "CO" # Commas
 - "EX" # Exclamation Marks
+- "FS" # Full Stops (Periods)
 - "PS" # Paragraph Separators
 
 value_type: tts::event_type
@@ -135,6 +136,11 @@ states:
     terminal: true
     id: comma
     value: tts::comma
+  P4:
+    name: Full Stop
+    terminal: true
+    id: full_stop
+    value: tts::full_stop
   Y1:
     name: Symbol
     terminal: true
@@ -227,6 +233,7 @@ transitions:
     P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "qQ" ]
     P2: [ "EX" ]
     P3: [ "CO" ]
+    P4: [ "FS" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS" ]
     S2: [ "LF" ]
@@ -243,6 +250,7 @@ transitions:
     P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "qQ" ]
     P2: [ "EX" ]
     P3: [ "CO" ]
+    P4: [ "FS" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS", "LF" ]
   L1:

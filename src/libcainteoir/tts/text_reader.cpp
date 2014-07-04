@@ -162,8 +162,11 @@ bool text_reader_t::read()
 		case 0x3001: // IDEOGRAPHIC COMMA
 			lang = fsm::language::CO;
 			break;
-		case 0x0021: // Exclamation Mark
+		case 0x0021: // EXCLAMATION MARK
 			lang = fsm::language::EX;
+			break;
+		case 0x002E: // FULL STOP
+			lang = fsm::language::FS;
 			break;
 		case 0x2029: // PARAGRAPH SEPARATOR
 			lang = fsm::language::PS;
