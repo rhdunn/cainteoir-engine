@@ -127,7 +127,10 @@ print_event(const tts::text_event &event,
 	}
 }
 
-void generate_events(const std::shared_ptr<tts::text_reader> &text, const char *phonemeset, tts::stress_type stress)
+static void
+generate_events(const std::shared_ptr<tts::text_reader> &text,
+                const char *phonemeset,
+                tts::stress_type stress)
 {
 	auto writer = tts::createPhonemeWriter(phonemeset);
 	writer->reset(stdout);
@@ -136,15 +139,16 @@ void generate_events(const std::shared_ptr<tts::text_reader> &text, const char *
 		print_event(text->event(), writer, stress);
 }
 
-bool parse_text(std::shared_ptr<cainteoir::document_reader> reader,
-                mode_type type,
-                phoneme_mode phonemes,
-                const lang::tag &locale,
-                tts::number_scale scale,
-                const char *ruleset,
-                const char *dictionary,
-                const char *phonemeset,
-                tts::stress_type stress)
+static bool
+parse_text(std::shared_ptr<cainteoir::document_reader> reader,
+           mode_type type,
+           phoneme_mode phonemes,
+           const lang::tag &locale,
+           tts::number_scale scale,
+           const char *ruleset,
+           const char *dictionary,
+           const char *phonemeset,
+           tts::stress_type stress)
 {
 	if (type == mode_type::word_stream)
 	{
