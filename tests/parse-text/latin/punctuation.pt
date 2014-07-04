@@ -1,5 +1,5 @@
 .Latn.capital  [0..3] one
-.punctuation   [3..4] ,
+.comma         [3..4] ,
 .Latn.lower    [5..8] two
 .Latn.lower    [9..12] and
 .Latn.lower    [13..18] three

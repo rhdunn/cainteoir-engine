@@ -34,7 +34,6 @@ struct punctuation_t
 
 static const std::initializer_list<punctuation_t> punctuation =
 {
-	{ 0x00002C, tts::comma       }, // COMMA
 	{ 0x00002E, tts::full_stop   }, // FULL STOP
 	{ 0x00003A, tts::colon       }, // COLON
 	{ 0x00003B, tts::semicolon   }, // SEMICOLON
@@ -43,7 +42,6 @@ static const std::initializer_list<punctuation_t> punctuation =
 	{ 0x002014, tts::em_dash     }, // EM DASH
 	{ 0x002026, tts::ellipsis    }, // HORIZONTAL ELLIPSIS
 	{ 0x0022EE, tts::ellipsis    }, // VERTICAL ELLIPSIS
-	{ 0x003001, tts::comma       }, // IDEOGRAPHIC COMMA
 };
 
 static tts::event_type punctuation_type(ucd::codepoint_t cp)
@@ -213,6 +211,7 @@ bool context_analysis_t::read_clause()
 				break;
 			case tts::punctuation:
 			case tts::exclamation:
+			case tts::comma:
 			case tts::symbol:
 			case tts::paragraph:
 				state = clause_state::clause_break;
@@ -243,6 +242,7 @@ bool context_analysis_t::read_clause()
 				break;
 			case tts::punctuation:
 			case tts::exclamation:
+			case tts::comma:
 			case tts::symbol:
 			case tts::paragraph:
 				state = clause_state::clause_break;
@@ -266,6 +266,7 @@ bool context_analysis_t::read_clause()
 				state = mClause.empty() ? clause_state::start : clause_state::end;
 				continue;
 			case tts::exclamation:
+			case tts::comma:
 				mClause.push(event);
 				break;
 			case tts::punctuation:

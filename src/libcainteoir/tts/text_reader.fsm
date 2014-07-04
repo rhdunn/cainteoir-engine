@@ -50,6 +50,7 @@ language:
   # Extended Classifications
   #     These are classsifications for particular groups of characters at a
   #     finer grain than the general categories.
+- "CO" # Commas
 - "EX" # Exclamation Marks
 - "PS" # Paragraph Separators
 
@@ -129,6 +130,11 @@ states:
     terminal: true
     id: exclamation_mark
     value: tts::exclamation
+  P3:
+    name: Comma
+    terminal: true
+    id: comma
+    value: tts::comma
   Y1:
     name: Symbol
     terminal: true
@@ -220,6 +226,7 @@ transitions:
     N1: [ "Nd", "Nl", "No" ]
     P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "qQ" ]
     P2: [ "EX" ]
+    P3: [ "CO" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS" ]
     S2: [ "LF" ]
@@ -235,6 +242,7 @@ transitions:
     N1: [ "Nd", "Nl", "No" ]
     P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "qQ" ]
     P2: [ "EX" ]
+    P3: [ "CO" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS", "LF" ]
   L1:
