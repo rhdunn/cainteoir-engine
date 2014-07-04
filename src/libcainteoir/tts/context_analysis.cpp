@@ -117,16 +117,6 @@ bool context_analysis_t::read_clause()
 		case tts::word_capitalized:
 		case tts::word_mixedcase:
 		case tts::word_script:
-			switch (state)
-			{
-			case clause_state::start:
-				mClause.push_back(event);
-				break;
-			case clause_state::clause_break:
-				state = mClause.empty() ? clause_state::start : clause_state::end;
-				continue;
-			}
-			break;
 		case tts::number:
 			switch (state)
 			{
