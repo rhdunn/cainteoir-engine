@@ -55,6 +55,7 @@ language:
 - "EX" # Exclamation Marks
 - "FS" # Full Stops (Periods)
 - "PS" # Paragraph Separators
+- "SC" # Semicolons
 
 value_type: tts::event_type
 
@@ -147,6 +148,11 @@ states:
     terminal: true
     id: colon
     value: tts::colon
+  P6:
+    name: Semicolon
+    terminal: true
+    id: semicolon
+    value: tts::semicolon
   Y1:
     name: Symbol
     terminal: true
@@ -241,6 +247,7 @@ transitions:
     P3: [ "CO" ]
     P4: [ "FS" ]
     P5: [ "CN" ]
+    P6: [ "SC" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS" ]
     S2: [ "LF" ]
@@ -259,6 +266,7 @@ transitions:
     P3: [ "CO" ]
     P4: [ "FS" ]
     P5: [ "CN" ]
+    P6: [ "SC" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS", "LF" ]
   L1:

@@ -11,7 +11,7 @@
 .full-stop     [31..32] .
 .Latn.lower    [33..36] the
 .Latn.lower    [37..42] first
-.punctuation   [42..43] ;
+.semicolon     [42..43] ;
 .Latn.lower    [44..47] the
 .Latn.lower    [48..54] second
 .full-stop     [55..56] .

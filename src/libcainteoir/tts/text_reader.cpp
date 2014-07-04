@@ -174,6 +174,9 @@ bool text_reader_t::read()
 		case 0x2029: // PARAGRAPH SEPARATOR
 			lang = fsm::language::PS;
 			break;
+		case 0x003B: // SEMICOLON
+			lang = fsm::language::SC;
+			break;
 		// Unicode General Category
 		default:
 			lang = (fsm::language)ucd::lookup_category(cp);
