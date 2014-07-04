@@ -158,9 +158,6 @@ bool text_reader_t::read()
 			lang = fsm::language::RQ;
 			break;
 		// Extended Classifications
-		case 0x003A: // COLON
-			lang = fsm::language::Xl;
-			break;
 		case 0x002C: // COMMA
 		case 0x3001: // IDEOGRAPHIC COMMA
 			lang = fsm::language::Xc;
@@ -171,8 +168,14 @@ bool text_reader_t::read()
 		case 0x002E: // FULL STOP
 			lang = fsm::language::Xf;
 			break;
+		case 0x003A: // COLON
+			lang = fsm::language::Xl;
+			break;
 		case 0x2029: // PARAGRAPH SEPARATOR
 			lang = fsm::language::Xp;
+			break;
+		case 0x003F: // QUESTION MARK
+			lang = fsm::language::Xq;
 			break;
 		case 0x003B: // SEMICOLON
 			lang = fsm::language::Xs;

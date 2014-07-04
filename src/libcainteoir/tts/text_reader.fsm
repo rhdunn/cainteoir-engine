@@ -55,6 +55,7 @@ language:
 - "Xf" # Full Stops (Periods)
 - "Xl" # Colons
 - "Xp" # Paragraph Separators
+- "Xq" # Question Marks
 - "Xs" # Semicolons
 
 value_type: tts::event_type
@@ -153,6 +154,11 @@ states:
     terminal: true
     id: semicolon
     value: tts::semicolon
+  P7:
+    name: Question Mark
+    terminal: true
+    id: question_mark
+    value: tts::question
   Y1:
     name: Symbol
     terminal: true
@@ -248,6 +254,7 @@ transitions:
     P4: [ "Xf" ]
     P5: [ "Xl" ]
     P6: [ "Xs" ]
+    P7: [ "Xq" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "Xp" ]
     S2: [ "LF" ]
@@ -267,6 +274,7 @@ transitions:
     P4: [ "Xf" ]
     P5: [ "Xl" ]
     P6: [ "Xs" ]
+    P7: [ "Xq" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "Xp", "LF" ]
   L1:

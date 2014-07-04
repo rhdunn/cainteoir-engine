@@ -64,11 +64,11 @@
 .Latn.capital  [197..200] why
 .Latn.lower    [201..203] is
 .Latn.lower    [204..208] that
-.punctuation   [208..209] ?
+.question      [208..209] ?
 .Latn.capital  [210..216] surely
 .Latn.lower    [217..220] not
 .exclamation   [220..221] !
-.punctuation   [221..222] ?
+.question      [221..222] ?
 .end-para      [223..224] 
 .Latn.capital  [224..234] horizontal
 .punctuation   [234..235] …
