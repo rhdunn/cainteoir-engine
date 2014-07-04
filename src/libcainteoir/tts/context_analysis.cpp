@@ -26,13 +26,6 @@
 
 namespace tts = cainteoir::tts;
 
-enum class clause_state
-{
-	start,        // sequence of words
-	clause_break, // sequence of punctuation
-	end,          // next event is a word
-};
-
 struct context_analysis_t : public tts::text_reader
 {
 public:
@@ -44,8 +37,6 @@ public:
 
 	bool read();
 private:
-	bool read_clause();
-
 	std::shared_ptr<tts::text_reader> mReader;
 	std::list<tts::text_event> mClause;
 };
@@ -63,7 +54,7 @@ bool context_analysis_t::read()
 {
 	if (mClause.empty())
 	{
-		if (!read_clause()) return false;
+		if (!tts::next_clause(mReader, mClause)) return false;
 
 		for (auto current = mClause.begin(), last = mClause.end(); current != last;)
 		{
@@ -98,43 +89,6 @@ bool context_analysis_t::read()
 		return read();
 
 	return true;
-}
-
-bool context_analysis_t::read_clause()
-{
-	clause_state state = mReader->read() ? clause_state::start : clause_state::end;
-	while (state != clause_state::end)
-	{
-		auto &event = mReader->event();
-
-		switch (event.type)
-		{
-		case tts::punctuation:
-		case tts::symbol:
-			if (!mClause.empty()) return true;
-			break;
-		case tts::exclamation:
-		case tts::question:
-		case tts::comma:
-		case tts::full_stop:
-		case tts::double_stop:
-		case tts::colon:
-		case tts::semicolon:
-		case tts::em_dash:
-		case tts::en_dash:
-		case tts::ellipsis:
-		case tts::paragraph:
-			mClause.push_back(event);
-			return true;
-		default:
-			mClause.push_back(event);
-			break;
-		}
-
-		if (!mReader->read())
-			state = clause_state::end;
-	}
-	return !mClause.empty();
 }
 
 std::shared_ptr<tts::text_reader> tts::context_analysis()

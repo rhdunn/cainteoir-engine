@@ -362,6 +362,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	\
 	src/libcainteoir/tts/adjust_stress.cpp \
 	src/libcainteoir/tts/context_analysis.cpp \
+	src/libcainteoir/tts/next_clause.cpp \
 	src/libcainteoir/tts/phoneme_stream.cpp \
 	src/libcainteoir/tts/text_reader.cpp \
 	src/libcainteoir/tts/word_stream.cpp \

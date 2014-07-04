@@ -113,6 +113,10 @@ namespace cainteoir { namespace tts
 	std::shared_ptr<text_reader>
 	create_text_reader(const std::shared_ptr<document_reader> &aReader);
 
+	bool
+	next_clause(const std::shared_ptr<text_reader> &aReader,
+	            std::list<text_event> &aClause);
+
 	std::shared_ptr<text_reader>
 	context_analysis();
 
