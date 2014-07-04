@@ -60,14 +60,14 @@
 .Latn.capital  [185..189] that
 .Latn.lower    [190..192] it
 .Latn.lower    [193..195] be
-.punctuation   [195..196] !
+.exclamation   [195..196] !
 .Latn.capital  [197..200] why
 .Latn.lower    [201..203] is
 .Latn.lower    [204..208] that
 .punctuation   [208..209] ?
 .Latn.capital  [210..216] surely
 .Latn.lower    [217..220] not
-.punctuation   [220..221] !
+.exclamation   [220..221] !
 .punctuation   [221..222] ?
 .end-para      [223..224] 
 .Latn.capital  [224..234] horizontal

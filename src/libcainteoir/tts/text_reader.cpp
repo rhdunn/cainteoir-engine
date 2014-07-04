@@ -157,10 +157,14 @@ bool text_reader_t::read()
 		case 0x2019: // RIGHT SINGLE QUOTATION MARK
 			lang = fsm::language::qR;
 			break;
+		// Extended Classifications
+		case 0x0021: // Exclamation Mark
+			lang = fsm::language::EX;
+			break;
 		case 0x2029: // PARAGRAPH SEPARATOR
 			lang = fsm::language::PS;
 			break;
-		// Unicode Category
+		// Unicode General Category
 		default:
 			lang = (fsm::language)ucd::lookup_category(cp);
 			if (lang == fsm::language::Lo)

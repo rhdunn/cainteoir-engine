@@ -34,7 +34,6 @@ struct punctuation_t
 
 static const std::initializer_list<punctuation_t> punctuation =
 {
-	{ 0x000021, tts::exclamation }, // EXCLAMATION MARK
 	{ 0x00002C, tts::comma       }, // COMMA
 	{ 0x00002E, tts::full_stop   }, // FULL STOP
 	{ 0x00003A, tts::colon       }, // COLON
@@ -213,6 +212,7 @@ bool context_analysis_t::read_clause()
 				state = clause_state::number;
 				break;
 			case tts::punctuation:
+			case tts::exclamation:
 			case tts::symbol:
 			case tts::paragraph:
 				state = clause_state::clause_break;
@@ -242,6 +242,7 @@ bool context_analysis_t::read_clause()
 				}
 				break;
 			case tts::punctuation:
+			case tts::exclamation:
 			case tts::symbol:
 			case tts::paragraph:
 				state = clause_state::clause_break;
@@ -264,6 +265,9 @@ bool context_analysis_t::read_clause()
 				sequence.flush(mClause);
 				state = mClause.empty() ? clause_state::start : clause_state::end;
 				continue;
+			case tts::exclamation:
+				mClause.push(event);
+				break;
 			case tts::punctuation:
 			case tts::symbol:
 				{

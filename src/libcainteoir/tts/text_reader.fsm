@@ -47,7 +47,11 @@ language:
 - "HM" # U+002D : Hyphen-Minus
 - "SH" # U+00AD : Soft Hyphen
 - "qR" # U+2019 : Right Single Quotation Mark
-- "PS" # U+2029 : Paragraph Separator
+  # Extended Classifications
+  #     These are classsifications for particular groups of characters at a
+  #     finer grain than the general categories.
+- "EX" # Exclamation Marks
+- "PS" # Paragraph Separators
 
 value_type: tts::event_type
 
@@ -120,6 +124,11 @@ states:
     terminal: true
     id: punctuation
     value: tts::punctuation
+  P2:
+    name: Exclamation Mark
+    terminal: true
+    id: exclamation_mark
+    value: tts::exclamation
   Y1:
     name: Symbol
     terminal: true
@@ -210,6 +219,7 @@ transitions:
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
     P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "qQ" ]
+    P2: [ "EX" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS" ]
     S2: [ "LF" ]
@@ -224,6 +234,7 @@ transitions:
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
     P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "qR", "qQ" ]
+    P2: [ "EX" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS", "LF" ]
   L1:
