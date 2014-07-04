@@ -71,9 +71,9 @@
 .question      [221..222] ?
 .end-para      [223..224] 
 .Latn.capital  [224..234] horizontal
-.punctuation   [234..235] …
+.ellipsis      [234..235] …
 .Latn.lower    [235..238] and
-.symbol        [238..239] ⋮
+.ellipsis      [238..239] ⋮
 .Latn.lower    [239..247] vertical
 .Latn.lower    [248..256] ellipsis
 .full-stop     [256..257] .

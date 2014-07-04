@@ -34,8 +34,6 @@ struct punctuation_t
 
 static const std::initializer_list<punctuation_t> punctuation =
 {
-	{ 0x002026, tts::ellipsis    }, // HORIZONTAL ELLIPSIS
-	{ 0x0022EE, tts::ellipsis    }, // VERTICAL ELLIPSIS
 };
 
 static tts::event_type punctuation_type(ucd::codepoint_t cp)
@@ -212,6 +210,7 @@ bool context_analysis_t::read_clause()
 			case tts::semicolon:
 			case tts::em_dash:
 			case tts::en_dash:
+			case tts::ellipsis:
 			case tts::symbol:
 			case tts::paragraph:
 				state = clause_state::clause_break;
@@ -249,6 +248,7 @@ bool context_analysis_t::read_clause()
 			case tts::semicolon:
 			case tts::em_dash:
 			case tts::en_dash:
+			case tts::ellipsis:
 			case tts::symbol:
 			case tts::paragraph:
 				state = clause_state::clause_break;
@@ -278,6 +278,7 @@ bool context_analysis_t::read_clause()
 			case tts::semicolon:
 			case tts::em_dash:
 			case tts::en_dash:
+			case tts::ellipsis:
 				mClause.push(event);
 				break;
 			case tts::full_stop:

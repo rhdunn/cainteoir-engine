@@ -51,6 +51,7 @@ language:
   #     These are classsifications for particular groups of characters at a
   #     finer grain than the general categories.
 - "Xc" # Commas
+- "Xe" # Ellipsis
 - "Xf" # Full Stops (Periods)
 - "Xl" # Colons
 - "Xm" # Em Dash
@@ -171,6 +172,11 @@ states:
     terminal: true
     id: em_dash
     value: tts::em_dash
+  P10:
+    name: Ellipsis
+    terminal: true
+    id: ellipsis
+    value: tts::ellipsis
   Y1:
     name: Symbol
     terminal: true
@@ -269,6 +275,7 @@ transitions:
     P7: [ "Xq" ]
     P8: [ "Xn" ]
     P9: [ "Xm" ]
+    P10: [ "Xe" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "Xp" ]
     S2: [ "LF" ]
@@ -291,6 +298,7 @@ transitions:
     P7: [ "Xq" ]
     P8: [ "Xn" ]
     P9: [ "Xm" ]
+    P10: [ "Xe" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "Xp", "LF" ]
   L1:
