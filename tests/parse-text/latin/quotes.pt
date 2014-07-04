@@ -16,10 +16,10 @@
 .Latn.capital  [28..32] test
 .punctuation   [32..33] ’
 .punctuation   [34..35] '
-.Latn.lower    [35..39] test
+.Latn.mixed    [35..39] test
 .punctuation   [39..40] '
 .punctuation   [41..42] ‘
-.Latn.lower    [42..46] test
+.Latn.mixed    [42..46] test
 .punctuation   [46..47] ’
 .punctuation   [48..49] '
 .Latn.upper    [49..53] test
@@ -49,9 +49,9 @@
 .punctuation   [116..117] '
 .Latn.capital  [118..124] dancin
 .punctuation   [124..125] ’
-.Latn.lower    [126..132] dancin
+.Latn.mixed    [126..132] dancin
 .punctuation   [132..133] '
-.Latn.lower    [134..140] dancin
+.Latn.mixed    [134..140] dancin
 .punctuation   [140..141] ’
 .Latn.upper    [142..148] dancin
 .punctuation   [148..149] '

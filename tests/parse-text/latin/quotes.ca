@@ -5,8 +5,8 @@
 .Latn.lower    [14..18] test
 .Latn.capital  [21..25] test
 .Latn.capital  [28..32] test
-.Latn.lower    [35..39] test
-.Latn.lower    [42..46] test
+.Latn.mixed    [35..39] test
+.Latn.mixed    [42..46] test
 .Latn.upper    [49..53] test
 .Latn.upper    [56..60] test
 .end-para      [62..63] 
@@ -21,8 +21,8 @@
 .Latn.lower    [102..108] dancin
 .Latn.capital  [110..116] dancin
 .Latn.capital  [118..124] dancin
-.Latn.lower    [126..132] dancin
-.Latn.lower    [134..140] dancin
+.Latn.mixed    [126..132] dancin
+.Latn.mixed    [134..140] dancin
 .Latn.upper    [142..148] dancin
 .Latn.upper    [150..156] dancin
 .end-para      [158..159] 

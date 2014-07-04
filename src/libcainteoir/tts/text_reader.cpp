@@ -217,7 +217,7 @@ bool text_reader_t::read()
 		}
 		else if (fsm::data[new_state].is_terminal)
 		{
-			saved_state = mState;
+			saved_state = new_state;
 			saved_current = next;
 			saved_match_current = mMatchCurrent;
 			saved_match_last = mMatchLast;
