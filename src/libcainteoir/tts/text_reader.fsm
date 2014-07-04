@@ -51,7 +51,6 @@ language:
   #     These are classsifications for particular groups of characters at a
   #     finer grain than the general categories.
 - "Xc" # Commas
-- "Xe" # Exclamation Marks
 - "Xf" # Full Stops (Periods)
 - "Xl" # Colons
 - "Xm" # Em Dash
@@ -59,6 +58,7 @@ language:
 - "Xp" # Paragraph Separators
 - "Xq" # Question Marks
 - "Xs" # Semicolons
+- "Xx" # Exclamation Marks
 
 value_type: tts::event_type
 
@@ -261,7 +261,7 @@ transitions:
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
     P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "RQ", "AP" ]
-    P2: [ "Xe" ]
+    P2: [ "Xx" ]
     P3: [ "Xc" ]
     P4: [ "Xf" ]
     P5: [ "Xl" ]
@@ -283,7 +283,7 @@ transitions:
     E1: [ "Lm", "Mc", "Me", "Mn" ]
     N1: [ "Nd", "Nl", "No" ]
     P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "HM", "RQ", "AP" ]
-    P2: [ "Xe" ]
+    P2: [ "Xx" ]
     P3: [ "Xc" ]
     P4: [ "Xf" ]
     P5: [ "Xl" ]

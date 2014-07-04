@@ -162,9 +162,6 @@ bool text_reader_t::read()
 		case 0x3001: // IDEOGRAPHIC COMMA
 			lang = fsm::language::Xc;
 			break;
-		case 0x0021: // EXCLAMATION MARK
-			lang = fsm::language::Xe;
-			break;
 		case 0x002E: // FULL STOP
 			lang = fsm::language::Xf;
 			break;
@@ -185,6 +182,9 @@ bool text_reader_t::read()
 			break;
 		case 0x003B: // SEMICOLON
 			lang = fsm::language::Xs;
+			break;
+		case 0x0021: // EXCLAMATION MARK
+			lang = fsm::language::Xx;
 			break;
 		// Unicode General Category
 		default:
