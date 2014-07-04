@@ -141,12 +141,26 @@ bool text_reader_t::read()
 		fsm::language lang;
 		switch (cp)
 		{
-		case 0x000A: lang = fsm::language::LF; break; // Line Feed
-		case 0x0027: lang = fsm::language::qQ; break; // Single Quotation Mark
-		case 0x002D: lang = fsm::language::HM; break; // Hyphen-Minus
-		case 0x00AD: lang = fsm::language::SH; break; // Soft Hyphen
-		case 0x2019: lang = fsm::language::qR; break; // Right Single Quotation Mark
-		case 0x2029: lang = fsm::language::PS; break; // Paragraph Separator
+		// Special Case Characters
+		case 0x000A: // LINE FEED (LF)
+			lang = fsm::language::LF;
+			break;
+		case 0x0027: // APOSTROPHE
+			lang = fsm::language::qQ;
+			break;
+		case 0x002D: // HYPHEN-MINUS
+			lang = fsm::language::HM;
+			break;
+		case 0x00AD: // SOFT HYPHEN
+			lang = fsm::language::SH;
+			break;
+		case 0x2019: // RIGHT SINGLE QUOTATION MARK
+			lang = fsm::language::qR;
+			break;
+		case 0x2029: // PARAGRAPH SEPARATOR
+			lang = fsm::language::PS;
+			break;
+		// Unicode Category
 		default:
 			lang = (fsm::language)ucd::lookup_category(cp);
 			if (lang == fsm::language::Lo)
