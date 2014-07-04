@@ -263,7 +263,6 @@ bool context_analysis_t::read_clause()
 				switch (event.codepoint)
 				{
 				case '.':
-				case '-':
 					if (sequence.codepoint() != event.codepoint)
 					{
 						sequence.flush(mClause);
@@ -277,23 +276,14 @@ bool context_analysis_t::read_clause()
 				}
 				break;
 			case tts::punctuation:
-			case tts::symbol:
+				if (event.codepoint == '-')
 				{
-					tts::event_type type = tts::punctuation;
-					if (type != tts::punctuation || event.codepoint == '-') switch (event.codepoint)
+					if (sequence.codepoint() != event.codepoint)
 					{
-					case '-':
-						if (sequence.codepoint() != event.codepoint)
-						{
-							sequence.flush(mClause);
-							sequence.set_codepoint(event.codepoint);
-						}
-						sequence.add(event.range);
-						break;
-					default:
 						sequence.flush(mClause);
-						mClause.push({ event.text, type, event.range, event.codepoint });
+						sequence.set_codepoint(event.codepoint);
 					}
+					sequence.add(event.range);
 				}
 				break;
 			case tts::paragraph:
