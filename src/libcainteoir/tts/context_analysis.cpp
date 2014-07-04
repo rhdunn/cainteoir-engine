@@ -26,28 +26,6 @@
 
 namespace tts = cainteoir::tts;
 
-struct punctuation_t
-{
-	ucd::codepoint_t codepoint;
-	tts::event_type event;
-};
-
-static const std::initializer_list<punctuation_t> punctuation =
-{
-};
-
-static tts::event_type punctuation_type(ucd::codepoint_t cp)
-{
-	for (auto &item : punctuation)
-	{
-		if (cp == item.codepoint)
-			return item.event;
-		if (cp < item.codepoint)
-			return tts::punctuation;
-	}
-	return tts::punctuation;
-}
-
 struct punctuation_sequence
 {
 	punctuation_sequence()
@@ -301,7 +279,7 @@ bool context_analysis_t::read_clause()
 			case tts::punctuation:
 			case tts::symbol:
 				{
-					tts::event_type type = punctuation_type(event.codepoint);
+					tts::event_type type = tts::punctuation;
 					if (type != tts::punctuation || event.codepoint == '-') switch (event.codepoint)
 					{
 					case '-':
