@@ -46,13 +46,11 @@ public:
 private:
 	bool read_clause();
 
-	bool mHaveEvent;
 	std::shared_ptr<tts::text_reader> mReader;
 	std::list<tts::text_event> mClause;
 };
 
 context_analysis_t::context_analysis_t()
-	: mHaveEvent(false)
 {
 }
 
@@ -104,10 +102,8 @@ bool context_analysis_t::read()
 
 bool context_analysis_t::read_clause()
 {
-	clause_state state = clause_state::start;
-
-	mHaveEvent = mReader->read();
-	while (mHaveEvent && state != clause_state::end)
+	clause_state state = mReader->read() ? clause_state::start : clause_state::end;
+	while (state != clause_state::end)
 	{
 		auto &event = mReader->event();
 
@@ -135,7 +131,8 @@ bool context_analysis_t::read_clause()
 			break;
 		}
 
-		mHaveEvent = mReader->read();
+		if (!mReader->read())
+			state = clause_state::end;
 	}
 	return !mClause.empty();
 }
