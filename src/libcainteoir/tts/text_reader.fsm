@@ -50,6 +50,7 @@ language:
   # Extended Classifications
   #     These are classsifications for particular groups of characters at a
   #     finer grain than the general categories.
+- "CN" # Colons
 - "CO" # Commas
 - "EX" # Exclamation Marks
 - "FS" # Full Stops (Periods)
@@ -141,6 +142,11 @@ states:
     terminal: true
     id: full_stop
     value: tts::full_stop
+  P5:
+    name: Colon
+    terminal: true
+    id: colon
+    value: tts::colon
   Y1:
     name: Symbol
     terminal: true
@@ -234,6 +240,7 @@ transitions:
     P2: [ "EX" ]
     P3: [ "CO" ]
     P4: [ "FS" ]
+    P5: [ "CN" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS" ]
     S2: [ "LF" ]
@@ -251,6 +258,7 @@ transitions:
     P2: [ "EX" ]
     P3: [ "CO" ]
     P4: [ "FS" ]
+    P5: [ "CN" ]
     Y1: [ "Sc", "Sk", "Sm", "So" ]
     S1: [ "PS", "LF" ]
   L1:

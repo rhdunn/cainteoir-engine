@@ -158,6 +158,9 @@ bool text_reader_t::read()
 			lang = fsm::language::qR;
 			break;
 		// Extended Classifications
+		case 0x003A: // COLON
+			lang = fsm::language::CN;
+			break;
 		case 0x002C: // COMMA
 		case 0x3001: // IDEOGRAPHIC COMMA
 			lang = fsm::language::CO;
