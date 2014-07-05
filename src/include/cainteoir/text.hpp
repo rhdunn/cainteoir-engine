@@ -132,7 +132,7 @@ namespace cainteoir { namespace tts
 	numbers_to_words(const language::tag &aLocale,
 	                 number_scale aScale);
 
-	std::shared_ptr<text_reader>
+	std::shared_ptr<clause_processor>
 	words_to_phonemes(const std::shared_ptr<phoneme_reader> &aRules,
 	                  const std::shared_ptr<dictionary_reader> &aExceptionDictionary);
 

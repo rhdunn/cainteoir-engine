@@ -26,20 +26,14 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct words_to_phonemes_t : public tts::text_reader
+struct words_to_phonemes_t : public tts::clause_processor
 {
 public:
 	words_to_phonemes_t(const std::shared_ptr<tts::phoneme_reader> &aRules,
 	                    const std::shared_ptr<tts::dictionary_reader> &aExceptionDictionary);
 
-	void bind(const std::shared_ptr<tts::text_reader> &aReader);
-
-	const tts::text_event &event() const { return mEvent; }
-
-	bool read();
+	void process(std::list<tts::text_event> &aClause);
 private:
-	std::shared_ptr<tts::text_reader> mReader;
-	tts::text_event mEvent;
 	std::shared_ptr<tts::phoneme_reader> mRules;
 	tts::dictionary mExceptionDictionary;
 };
@@ -53,36 +47,29 @@ words_to_phonemes_t::words_to_phonemes_t(const std::shared_ptr<tts::phoneme_read
 }
 
 void
-words_to_phonemes_t::bind(const std::shared_ptr<tts::text_reader> &aReader)
+words_to_phonemes_t::process(std::list<tts::text_event> &aClause)
 {
-	mReader = aReader;
-}
-
-bool
-words_to_phonemes_t::read()
-{
-	if (mReader) while (mReader->read()) switch (mReader->event().type)
+	for (auto current = aClause.begin(), last = aClause.end(); current != last; ++current)
 	{
-	case tts::word_uppercase:
-	case tts::word_lowercase:
-	case tts::word_capitalized:
-	case tts::word_mixedcase:
-	case tts::word_script:
-		mEvent = mReader->event();
-		if (!mExceptionDictionary.pronounce(mEvent.text, mRules, mEvent.phonemes))
+		switch (current->type)
 		{
-			// TODO: Should support using spelling logic here to spell out the unpronouncible word.
-			fprintf(stderr, "error: cannot pronounce '%s'\n", mEvent.text->str().c_str());
+		case tts::word_uppercase:
+		case tts::word_lowercase:
+		case tts::word_capitalized:
+		case tts::word_mixedcase:
+		case tts::word_script:
+			if (!mExceptionDictionary.pronounce(current->text, mRules, current->phonemes))
+			{
+				// TODO: Should support using spelling logic
+				// here to spell out the unpronouncible word.
+				fprintf(stderr, "error: cannot pronounce '%s'\n", current->text->str().c_str());
+			}
+			break;
 		}
-		return true;
-	default:
-		mEvent = mReader->event();
-		return true;
 	}
-	return false;
 }
 
-std::shared_ptr<tts::text_reader>
+std::shared_ptr<tts::clause_processor>
 tts::words_to_phonemes(const std::shared_ptr<phoneme_reader> &aRules,
                        const std::shared_ptr<dictionary_reader> &aExceptionDictionary)
 {

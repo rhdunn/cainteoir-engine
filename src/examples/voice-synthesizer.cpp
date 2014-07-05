@@ -113,7 +113,7 @@ create_reader(const char *filename,
 		auto text = tts::create_text_reader(reader)
 		          | tts::create_text_reader(tts::context_analysis())
 		          | tts::create_text_reader(tts::numbers_to_words(locale, scale))
-		          | tts::words_to_phonemes(rules, dict)
+		          | tts::create_text_reader(tts::words_to_phonemes(rules, dict))
 		          | tts::adjust_stress();
 
 		if (!durations)
