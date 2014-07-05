@@ -120,9 +120,6 @@ namespace cainteoir { namespace tts
 		virtual ~clause_processor() {}
 	};
 
-	std::shared_ptr<text_reader>
-	create_text_reader(const std::shared_ptr<clause_processor> &aProcessor);
-
 	std::shared_ptr<clause_processor>
 	context_analysis();
 
