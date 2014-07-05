@@ -26,20 +26,15 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct adjust_stress_t : public tts::text_reader
+struct adjust_stress_t : public tts::clause_processor
 {
 public:
 	adjust_stress_t();
 
-	void bind(const std::shared_ptr<tts::text_reader> &aReader);
-
-	const tts::text_event &event() const { return mReader->event(); }
-
-	bool read();
+	void process(std::list<tts::text_event> &aClause);
 private:
 	void adjust_phonemes(std::list<ipa::phoneme> &aPhonemes);
 
-	std::shared_ptr<tts::text_reader> mReader;
 	int  mPrevSyllableCount;
 	bool mPrevIsStressed;
 };
@@ -51,34 +46,25 @@ adjust_stress_t::adjust_stress_t()
 }
 
 void
-adjust_stress_t::bind(const std::shared_ptr<tts::text_reader> &aReader)
+adjust_stress_t::process(std::list<tts::text_event> &aClause)
 {
-	mReader = aReader;
-}
-
-bool
-adjust_stress_t::read()
-{
-	if (mReader && mReader->read())
+	for (auto current = aClause.begin(), last = aClause.end(); current != last; ++current)
 	{
-		auto &event = mReader->event();
-		switch (event.type)
+		switch (current->type)
 		{
 		case tts::comma:
 			break;
 		default:
-			if (event.phonemes.empty())
+			if (current->phonemes.empty())
 			{
 				mPrevSyllableCount = 0;
 				mPrevIsStressed = false;
 			}
 			else
-				adjust_phonemes(const_cast<std::list<ipa::phoneme> &>(event.phonemes));
+				adjust_phonemes(current->phonemes);
 			break;
 		}
-		return true;
 	}
-	return false;
 }
 
 void adjust_stress_t::adjust_phonemes(std::list<ipa::phoneme> &aPhonemes)
@@ -112,7 +98,7 @@ void adjust_stress_t::adjust_phonemes(std::list<ipa::phoneme> &aPhonemes)
 	mPrevIsStressed = is_stressed;
 }
 
-std::shared_ptr<tts::text_reader>
+std::shared_ptr<tts::clause_processor>
 tts::adjust_stress()
 {
 	return std::make_shared<adjust_stress_t>();

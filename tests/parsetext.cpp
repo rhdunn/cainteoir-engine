@@ -167,7 +167,7 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		          | tts::create_text_reader(tts::numbers_to_words(locale, scale))
 		          | tts::create_text_reader(tts::words_to_phonemes(rules, dict));
 		if (type == mode_type::prosody_stream)
-			text = text | tts::adjust_stress();
+			text = text | tts::create_text_reader(tts::adjust_stress());
 		switch (phonemes)
 		{
 		case phoneme_mode::events:

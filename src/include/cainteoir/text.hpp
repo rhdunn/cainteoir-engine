@@ -136,7 +136,7 @@ namespace cainteoir { namespace tts
 	words_to_phonemes(const std::shared_ptr<phoneme_reader> &aRules,
 	                  const std::shared_ptr<dictionary_reader> &aExceptionDictionary);
 
-	std::shared_ptr<tts::text_reader>
+	std::shared_ptr<clause_processor>
 	adjust_stress();
 
 	inline std::shared_ptr<text_reader>
