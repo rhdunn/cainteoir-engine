@@ -182,31 +182,30 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	{
 		auto rules = tts::createPronunciationRules(ruleset);
 		auto dict = tts::createCainteoirDictionaryReader(dictionary);
-		auto processor = std::make_shared<tts::clause_processor_chain>()
+		auto processor = tts::clause_processor_chain()
 		              << tts::context_analysis()
 		              << tts::numbers_to_words(locale, scale)
 		              << tts::words_to_phonemes(rules, dict);
 		if (type == mode_type::prosody_stream)
 			processor << tts::adjust_stress();
 
-		auto text = tts::create_text_reader(reader)
-		          | tts::create_text_reader(processor);
+		auto text = tts::create_text_reader(reader);
 		switch (phonemes)
 		{
 		case phoneme_mode::events:
-			generate_events(text, phonemeset, stress);
+			generate_events(text, processor, phonemeset, stress);
 			break;
 		case phoneme_mode::phonemes:
-			tts::generate_phonemes(text, stdout, phonemeset, stress, nullptr, nullptr);
+			tts::generate_phonemes(text, processor, stdout, phonemeset, stress, nullptr, nullptr);
 			break;
 		case phoneme_mode::broad_markers:
-			tts::generate_phonemes(text, stdout, phonemeset, stress, "/", "/");
+			tts::generate_phonemes(text, processor, stdout, phonemeset, stress, "/", "/");
 			break;
 		case phoneme_mode::narrow_markers:
-			tts::generate_phonemes(text, stdout, phonemeset, stress, "[", "]");
+			tts::generate_phonemes(text, processor, stdout, phonemeset, stress, "[", "]");
 			break;
 		case phoneme_mode::espeak_markers:
-			tts::generate_phonemes(text, stdout, phonemeset, stress, "[[", "]]");
+			tts::generate_phonemes(text, processor, stdout, phonemeset, stress, "[[", "]]");
 			break;
 		}
 	}

@@ -171,6 +171,7 @@ namespace cainteoir { namespace tts
 	}
 
 	void generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
+	                       clause_processor_chain &processor,
 	                       FILE *out,
 	                       const char *phonemeset,
 	                       tts::stress_type stress,
