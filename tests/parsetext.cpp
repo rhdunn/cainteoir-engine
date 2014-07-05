@@ -139,6 +139,24 @@ generate_events(const std::shared_ptr<tts::text_reader> &text,
 		print_event(text->event(), writer, stress);
 }
 
+static void
+generate_events(const std::shared_ptr<tts::text_reader> &text,
+                tts::clause_processor_chain &processor,
+                const char *phonemeset,
+                tts::stress_type stress)
+{
+	auto writer = tts::createPhonemeWriter(phonemeset);
+	writer->reset(stdout);
+
+	std::list<tts::text_event> clause;
+	while (tts::next_clause(text, clause))
+	{
+		processor.process(clause);
+		for (auto && event : clause)
+			print_event(event, writer, stress);
+	}
+}
+
 static bool
 parse_text(std::shared_ptr<cainteoir::document_reader> reader,
            mode_type type,
@@ -152,13 +170,12 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 {
 	if (type == mode_type::word_stream)
 	{
-		auto processor = std::make_shared<tts::clause_processor_chain>()
+		auto processor = tts::clause_processor_chain()
 		              << tts::context_analysis()
 		              << tts::numbers_to_words(locale, scale);
 
-		auto text = tts::create_text_reader(reader)
-		          | tts::create_text_reader(processor);
-		generate_events(text, phonemeset, stress);
+		auto text = tts::create_text_reader(reader);
+		generate_events(text, processor, phonemeset, stress);
 	}
 	else if (type == mode_type::phoneme_stream ||
 	         type == mode_type::prosody_stream)
@@ -195,12 +212,11 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	}
 	else if (type == mode_type::context_analysis)
 	{
-		auto processor = std::make_shared<tts::clause_processor_chain>()
+		auto processor = tts::clause_processor_chain()
 		              << tts::context_analysis();
 
-		auto text = tts::create_text_reader(reader)
-		          | tts::create_text_reader(processor);
-		generate_events(text, phonemeset, stress);
+		auto text = tts::create_text_reader(reader);
+		generate_events(text, processor, phonemeset, stress);
 	}
 	else
 	{
