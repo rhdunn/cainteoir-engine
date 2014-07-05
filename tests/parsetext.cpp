@@ -40,6 +40,7 @@ namespace lang = cainteoir::language;
 enum class mode_type
 {
 	parse_text,
+	clauses,
 	context_analysis,
 	word_stream,
 	phoneme_stream,
@@ -143,7 +144,8 @@ static void
 generate_events(const std::shared_ptr<tts::text_reader> &text,
                 std::shared_ptr<tts::clause_processor> &processor,
                 const char *phonemeset,
-                tts::stress_type stress)
+                tts::stress_type stress,
+                bool clause_divider = false)
 {
 	auto writer = tts::createPhonemeWriter(phonemeset);
 	writer->reset(stdout);
@@ -151,9 +153,12 @@ generate_events(const std::shared_ptr<tts::text_reader> &text,
 	std::list<tts::text_event> clause;
 	while (tts::next_clause(text, clause))
 	{
-		processor->process(clause);
+		if (processor)
+			processor->process(clause);
 		for (auto && event : clause)
 			print_event(event, writer, stress);
+		if (clause_divider)
+			fprintf(stdout, "--------------------------------------------------\n");
 	}
 }
 
@@ -220,6 +225,12 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		auto text = tts::create_text_reader(reader);
 		generate_events(text, processor, phonemeset, stress);
 	}
+	else if (type == mode_type::clauses)
+	{
+		auto text = tts::create_text_reader(reader);
+		std::shared_ptr<tts::clause_processor> processor;
+		generate_events(text, processor, phonemeset, stress, true);
+	}
 	else
 	{
 		auto text = tts::create_text_reader(reader);
@@ -265,6 +276,8 @@ int main(int argc, char ** argv)
 		const option_group mode_options = { i18n("Processing Mode:"), {
 			{ 0, "parsetext", bind_value(type, mode_type::parse_text),
 			  i18n("Split the text into lexical segments") },
+			{ 0, "clauses", bind_value(type, mode_type::clauses),
+			  i18n("Split the output of parsetext into clauses") },
 			{ 0, "wordstream", bind_value(type, mode_type::word_stream),
 			  i18n("Convert the document into a sequence of words") },
 			{ 0, "phonemestream", bind_value(type, mode_type::phoneme_stream),

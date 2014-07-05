@@ -239,7 +239,7 @@ def create_command(test_type):
 		return Command(test_type)
 	if test_type == 'htmlreader':
 		return Command('xmlreader --html')
-	if test_type in ['parsetext', 'contextanalysis', 'wordstream', 'phonemestream']:
+	if test_type in ['parsetext', 'clauses', 'contextanalysis', 'wordstream', 'phonemestream']:
 		return ParseTextCommand(test_type)
 	if test_type == 'prosody':
 		return ProsodyCommand()
