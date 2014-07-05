@@ -9,6 +9,7 @@
 .Latn.lower    [32..35] eighth
 .Latn.lower    [36..39] ninth
 .end-para      [40..41] 
+--------------------------------------------------
 .Latn.lower    [41..45] tenth
 .Latn.lower    [46..50] eleventh
 .Latn.lower    [51..55] twelfth
@@ -20,6 +21,7 @@
 .Latn.lower    [81..85] eighteenth
 .Latn.lower    [86..90] nineteenth
 .end-para      [91..92] 
+--------------------------------------------------
 .Latn.lower    [92..96] twentieth
 .Latn.lower    [97..101] twenty
 .Latn.lower    [97..101] first
@@ -61,18 +63,21 @@
 .Latn.lower    [207..211] ninety
 .Latn.lower    [207..211] second
 .end-para      [212..213] 
+--------------------------------------------------
 .Latn.lower    [213..218] one
 .Latn.lower    [213..218] hundredth
 .Latn.lower    [219..224] one
 .Latn.lower    [219..224] hundred
 .Latn.lower    [219..224] first
 .end-para      [225..226] 
+--------------------------------------------------
 .Latn.lower    [226..231] two
 .Latn.lower    [226..231] hundredth
 .Latn.lower    [232..237] two
 .Latn.lower    [232..237] hundred
 .Latn.lower    [232..237] fifteenth
 .end-para      [238..239] 
+--------------------------------------------------
 .Latn.lower    [239..244] three
 .Latn.lower    [239..244] hundredth
 .Latn.lower    [245..250] three
@@ -80,6 +85,7 @@
 .Latn.lower    [245..250] forty
 .Latn.lower    [245..250] fourth
 .end-para      [251..252] 
+--------------------------------------------------
 .Latn.lower    [252..257] four
 .Latn.lower    [252..257] hundredth
 .Latn.lower    [258..263] four
@@ -87,6 +93,7 @@
 .Latn.lower    [258..263] ninety
 .Latn.lower    [258..263] eighth
 .end-para      [264..265] 
+--------------------------------------------------
 .Latn.lower    [265..270] five
 .Latn.lower    [265..270] hundredth
 .Latn.lower    [271..276] five
@@ -94,12 +101,14 @@
 .Latn.lower    [271..276] fifty
 .Latn.lower    [271..276] third
 .end-para      [277..278] 
+--------------------------------------------------
 .Latn.lower    [278..283] six
 .Latn.lower    [278..283] hundredth
 .Latn.lower    [284..289] six
 .Latn.lower    [284..289] hundred
 .Latn.lower    [284..289] second
 .end-para      [290..291] 
+--------------------------------------------------
 .Latn.lower    [291..296] seven
 .Latn.lower    [291..296] hundredth
 .Latn.lower    [297..302] seven
@@ -107,6 +116,7 @@
 .Latn.lower    [297..302] fifty
 .Latn.lower    [297..302] eighth
 .end-para      [303..304] 
+--------------------------------------------------
 .Latn.lower    [304..309] eight
 .Latn.lower    [304..309] hundredth
 .Latn.lower    [310..315] eight
@@ -114,9 +124,11 @@
 .Latn.lower    [310..315] sixty
 .Latn.lower    [310..315] seventh
 .end-para      [316..317] 
+--------------------------------------------------
 .Latn.lower    [317..322] nine
 .Latn.lower    [317..322] hundredth
 .Latn.lower    [323..328] nine
 .Latn.lower    [323..328] hundred
 .Latn.lower    [323..328] ninety
 .Latn.lower    [323..328] ninth
+--------------------------------------------------

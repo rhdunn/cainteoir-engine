@@ -9,6 +9,7 @@
 .Latn.lower    [16..17] osam
 .Latn.lower    [18..19] devet
 .end-para      [20..21] 
+--------------------------------------------------
 .Latn.lower    [21..23] deset
 .Latn.lower    [24..26] jedanaest
 .Latn.lower    [27..29] dvanaest
@@ -20,6 +21,7 @@
 .Latn.lower    [45..47] osamnaest
 .Latn.lower    [48..50] devetnaest
 .end-para      [51..52] 
+--------------------------------------------------
 .Latn.lower    [52..54] dvadeset
 .Latn.lower    [55..57] dvadeset
 .Latn.lower    [55..57] jeden
@@ -61,18 +63,21 @@
 .Latn.lower    [121..123] devedeset
 .Latn.lower    [121..123] dva
 .end-para      [124..125] 
+--------------------------------------------------
 .Latn.lower    [125..128] jeden
 .Latn.lower    [125..128] sto
 .Latn.lower    [129..132] jeden
 .Latn.lower    [129..132] sto
 .Latn.lower    [129..132] jeden
 .end-para      [133..134] 
+--------------------------------------------------
 .Latn.lower    [134..137] dva
 .Latn.lower    [134..137] sto
 .Latn.lower    [138..141] dva
 .Latn.lower    [138..141] sto
 .Latn.lower    [138..141] petnaest
 .end-para      [142..143] 
+--------------------------------------------------
 .Latn.lower    [143..146] tri
 .Latn.lower    [143..146] sto
 .Latn.lower    [147..150] tri
@@ -80,6 +85,7 @@
 .Latn.lower    [147..150] četrdeset
 .Latn.lower    [147..150] četiri
 .end-para      [151..152] 
+--------------------------------------------------
 .Latn.lower    [152..155] četiri
 .Latn.lower    [152..155] sto
 .Latn.lower    [156..159] četiri
@@ -87,6 +93,7 @@
 .Latn.lower    [156..159] devedeset
 .Latn.lower    [156..159] osam
 .end-para      [160..161] 
+--------------------------------------------------
 .Latn.lower    [161..164] pet
 .Latn.lower    [161..164] sto
 .Latn.lower    [165..168] pet
@@ -94,12 +101,14 @@
 .Latn.lower    [165..168] pedeset
 .Latn.lower    [165..168] tri
 .end-para      [169..170] 
+--------------------------------------------------
 .Latn.lower    [170..173] šest
 .Latn.lower    [170..173] sto
 .Latn.lower    [174..177] šest
 .Latn.lower    [174..177] sto
 .Latn.lower    [174..177] dva
 .end-para      [178..179] 
+--------------------------------------------------
 .Latn.lower    [179..182] sedam
 .Latn.lower    [179..182] sto
 .Latn.lower    [183..186] sedam
@@ -107,6 +116,7 @@
 .Latn.lower    [183..186] pedeset
 .Latn.lower    [183..186] osam
 .end-para      [187..188] 
+--------------------------------------------------
 .Latn.lower    [188..191] osam
 .Latn.lower    [188..191] sto
 .Latn.lower    [192..195] osam
@@ -114,6 +124,7 @@
 .Latn.lower    [192..195] šezdeset
 .Latn.lower    [192..195] sedam
 .end-para      [196..197] 
+--------------------------------------------------
 .Latn.lower    [197..200] devet
 .Latn.lower    [197..200] sto
 .Latn.lower    [201..204] devet
@@ -121,6 +132,7 @@
 .Latn.lower    [201..204] devedeset
 .Latn.lower    [201..204] devet
 .end-para      [205..206] 
+--------------------------------------------------
 .Latn.lower    [206..210] jeden
 .Latn.lower    [206..210] tisuću
 .Latn.lower    [211..215] jeden
@@ -136,6 +148,7 @@
 .Latn.lower    [221..225] sto
 .Latn.lower    [221..225] sedam
 .end-para      [226..227] 
+--------------------------------------------------
 .Latn.lower    [227..232] dvadeset
 .Latn.lower    [227..232] tisuću
 .Latn.lower    [227..232] devetnaest
@@ -144,6 +157,7 @@
 .Latn.lower    [233..238] tisuću
 .Latn.lower    [233..238] pedeset
 .end-para      [239..240] 
+--------------------------------------------------
 .Latn.lower    [240..246] jeden
 .Latn.lower    [240..246] sto
 .Latn.lower    [240..246] devetnaest
@@ -152,6 +166,7 @@
 .Latn.lower    [240..246] sto
 .Latn.lower    [240..246] dva
 .end-para      [247..248] 
+--------------------------------------------------
 .Latn.lower    [248..255] jeden
 .Latn.lower    [248..255] milijun
 .Latn.lower    [256..263] tri
@@ -169,51 +184,62 @@
 .Latn.lower    [272..279] tisuću
 .Latn.lower    [272..279] osam
 .end-para      [280..281] 
+--------------------------------------------------
 .Latn.lower    [281..289] trideset
 .Latn.lower    [281..289] tri
 .Latn.lower    [281..289] milijun
 .end-para      [290..291] 
+--------------------------------------------------
 .Latn.lower    [291..300] sedam
 .Latn.lower    [291..300] sto
 .Latn.lower    [291..300] pet
 .Latn.lower    [291..300] milijun
 .end-para      [301..302] 
+--------------------------------------------------
 .Latn.lower    [302..312] jeden
 .Latn.lower    [302..312] milijardi
 .Latn.lower    [313..323] dva
 .Latn.lower    [313..323] milijardi
 .end-para      [324..325] 
+--------------------------------------------------
 .Latn.lower    [325..338] jeden
 .Latn.lower    [325..338] bilijun
 .Latn.lower    [339..352] pet
 .Latn.lower    [339..352] bilijun
 .end-para      [353..354] 
+--------------------------------------------------
 .Latn.lower    [354..370] jeden
 .Latn.lower    [354..370] bilijardi
 .Latn.lower    [371..387] tri
 .Latn.lower    [371..387] bilijardi
 .end-para      [388..389] 
+--------------------------------------------------
 .Latn.lower    [389..408] jeden
 .Latn.lower    [389..408] trilijun
 .Latn.lower    [409..428] tri
 .Latn.lower    [409..428] trilijun
 .end-para      [429..430] 
+--------------------------------------------------
 .Latn.lower    [430..452] jeden
 .Latn.lower    [430..452] trilijardi
 .Latn.lower    [453..475] devet
 .Latn.lower    [453..475] trilijardi
 .end-para      [476..477] 
+--------------------------------------------------
 .Latn.lower    [477..502] jeden
 .Latn.lower    [477..502] quadrilijun
 .Latn.lower    [503..528] četiri
 .Latn.lower    [503..528] quadrilijun
 .end-para      [529..530] 
+--------------------------------------------------
 .Latn.lower    [530..558] jeden
 .Latn.lower    [530..558] quadrilijardi
 .Latn.lower    [559..587] šest
 .Latn.lower    [559..587] quadrilijardi
 .end-para      [588..589] 
+--------------------------------------------------
 .Latn.lower    [589..620] jeden
 .Latn.lower    [589..620] quintilijun
 .Latn.lower    [621..652] osam
 .Latn.lower    [621..652] quintilijun
+--------------------------------------------------
