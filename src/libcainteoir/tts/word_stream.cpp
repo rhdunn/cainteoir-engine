@@ -140,6 +140,7 @@ static std::stack<number_block> parse_number(const tts::text_event &number, uint
 }
 
 static void push_word_(std::list<tts::text_event> &events,
+                       std::list<tts::text_event>::iterator &current,
                        const tts::dictionary &words,
                        const std::shared_ptr<cainteoir::buffer> &entry,
                        cainteoir::range<uint32_t> range)
@@ -148,22 +149,27 @@ static void push_word_(std::list<tts::text_event> &events,
 	if (word.type != tts::dictionary::say_as)
 		return;
 
-	events.push_back(tts::text_event(word.text, tts::word_lowercase, range, 0));
+	current = events.insert(current, tts::text_event(word.text, tts::word_lowercase, range, 0));
+	++current;
 }
 
 static void parse_number(std::list<tts::text_event> &events,
-                         const tts::text_event &number,
+                         std::list<tts::text_event>::iterator &current,
                          const tts::dictionary &cardinals,
                          const tts::dictionary &ordinals)
 {
-	std::stack<number_block> blocks = parse_number(number, groups.size());
+	std::stack<number_block> blocks = parse_number(*current, groups.size());
+	auto range = current->range;
+	auto text  = current->text;
+	current = events.erase(current);
+
 	bool swap_tens_units = cardinals.lookup(units_tens_separator).type == tts::dictionary::say_as;
 	bool need_zero = true;
 	bool need_and = false;
 	while (!blocks.empty())
 	{
-		#define push_cardinal(w) push_word_(events, cardinals, w, number.range)
-		#define push_ordinal(w)  push_word_(events, ordinals,  w, number.range)
+		#define push_cardinal(w) push_word_(events, current, cardinals, w, range)
+		#define push_ordinal(w)  push_word_(events, current, ordinals,  w, range)
 
 		auto item = blocks.top();
 		blocks.pop();
@@ -177,7 +183,7 @@ static void parse_number(std::list<tts::text_event> &events,
 			fprintf(stderr, "language does not support 10^%d numbers ... speaking digits instead\n", item.rank * 3);
 			fflush(stderr);
 
-			for (char c : *number.text)
+			for (char c : *text)
 			{
 				push_cardinal(single_digits[c - '0']);
 			}
@@ -310,20 +316,19 @@ bool numbers_to_words_t::read()
 	{
 		if (mReader && mReader->read())
 		{
-			auto &event = mReader->event();
-			switch (event.type)
+			mEntries.push_back(mReader->event());
+			auto current = --mEntries.end();
+
+			switch (current->type)
 			{
 			case tts::number:
-				parse_number(mEntries, event, mCardinals, mCardinals);
+				parse_number(mEntries, current, mCardinals, mCardinals);
 				break;
 			case tts::ordinal_number:
 				if (!mOrdinals.empty())
-					parse_number(mEntries, event, mCardinals, mOrdinals);
+					parse_number(mEntries, current, mCardinals, mOrdinals);
 				else
-					parse_number(mEntries, event, mCardinals, mCardinals);
-				break;
-			default:
-				mEntries.push_back(event);
+					parse_number(mEntries, current, mCardinals, mCardinals);
 				break;
 			}
 		}
