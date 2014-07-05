@@ -53,6 +53,29 @@ if __name__ == '__main__':
 	test.run({'name': 'Clauses', 'groups': [
 		{'name': 'Latin', 'type': 'clauses', 'tests': [
 			{'test': 'parse-text/latin/words.txt', 'result': 'parse-text/latin/words.nc'},
+			{'test': 'parse-text/latin/numbers.txt', 'result': 'parse-text/latin/numbers.nc'},
+			{'test': 'parse-text/latin/punctuation.txt', 'result': 'parse-text/latin/punctuation.nc'},
+			{'test': 'parse-text/latin/hyphens.txt', 'result': 'parse-text/latin/hyphens.nc'},
+			{'test': 'parse-text/latin/shy-hyphens.txt', 'result': 'parse-text/latin/shy-hyphens.nc'},
+			{'test': 'parse-text/latin/quotes.txt', 'result': 'parse-text/latin/quotes.nc'},
+			{'test': 'parse-text/latin/symbols.txt', 'result': 'parse-text/latin/symbols.nc'},
+			{'test': 'parse-text/latin/paragraph.txt', 'result': 'parse-text/latin/paragraph.nc'},
+			{'test': 'parse-text/latin/match-limit.txt', 'result': 'parse-text/latin/match-limit.nc'},
+			{'test': 'parse-text/latin/no-newline-at-end.txt', 'result': 'parse-text/latin/no-newline-at-end.nc'},
+			{'test': 'parse-text/latin/accented.txt', 'result': 'parse-text/latin/accented.nc'},
+		]},
+		{'name': 'Japanese', 'type': 'clauses', 'tests': [
+			{'test': 'parse-text/japanese/words.txt', 'result': 'parse-text/japanese/words.nc'},
+			{'test': 'parse-text/japanese/mixed-script.txt', 'result': 'parse-text/japanese/mixed-script.nc'},
+		]},
+		{'name': 'HTML', 'type': 'clauses', 'tests': [
+			{'test': 'parse-text/html/block-first-empty.html', 'result': 'parse-text/html/block-first-empty.nc'},
+			{'test': 'parse-text/html/block-nested.html', 'result': 'parse-text/html/block-nested.nc'},
+			{'test': 'parse-text/html/paragraph.html', 'result': 'parse-text/html/paragraph.nc'},
+			{'test': 'parse-text/html/paragraph-singleword.html', 'result': 'parse-text/html/paragraph-singleword.nc'},
+			{'test': 'parse-text/html/msword.html', 'result': 'parse-text/html/msword.nc'},
+			{'test': 'parse-text/html/split-word.html', 'result': 'parse-text/html/split-word.nc'},
+			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.nc'},
 		]},
 	]})
 	test.run({'name': 'Context Analysis', 'groups': [
