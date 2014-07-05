@@ -152,9 +152,12 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 {
 	if (type == mode_type::word_stream)
 	{
+		auto processor = std::make_shared<tts::clause_processor_chain>()
+		              << tts::context_analysis()
+		              << tts::numbers_to_words(locale, scale);
+
 		auto text = tts::create_text_reader(reader)
-		          | tts::create_text_reader(tts::context_analysis())
-		          | tts::create_text_reader(tts::numbers_to_words(locale, scale));
+		          | tts::create_text_reader(processor);
 		generate_events(text, phonemeset, stress);
 	}
 	else if (type == mode_type::phoneme_stream ||
@@ -162,12 +165,15 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	{
 		auto rules = tts::createPronunciationRules(ruleset);
 		auto dict = tts::createCainteoirDictionaryReader(dictionary);
-		auto text = tts::create_text_reader(reader)
-		          | tts::create_text_reader(tts::context_analysis())
-		          | tts::create_text_reader(tts::numbers_to_words(locale, scale))
-		          | tts::create_text_reader(tts::words_to_phonemes(rules, dict));
+		auto processor = std::make_shared<tts::clause_processor_chain>()
+		              << tts::context_analysis()
+		              << tts::numbers_to_words(locale, scale)
+		              << tts::words_to_phonemes(rules, dict);
 		if (type == mode_type::prosody_stream)
-			text = text | tts::create_text_reader(tts::adjust_stress());
+			processor << tts::adjust_stress();
+
+		auto text = tts::create_text_reader(reader)
+		          | tts::create_text_reader(processor);
 		switch (phonemes)
 		{
 		case phoneme_mode::events:
@@ -189,8 +195,11 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	}
 	else if (type == mode_type::context_analysis)
 	{
+		auto processor = std::make_shared<tts::clause_processor_chain>()
+		              << tts::context_analysis();
+
 		auto text = tts::create_text_reader(reader)
-		          | tts::create_text_reader(tts::context_analysis());
+		          | tts::create_text_reader(processor);
 		generate_events(text, phonemeset, stress);
 	}
 	else

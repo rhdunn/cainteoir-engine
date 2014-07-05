@@ -139,6 +139,29 @@ namespace cainteoir { namespace tts
 	std::shared_ptr<clause_processor>
 	adjust_stress();
 
+	struct clause_processor_chain : public clause_processor
+	{
+		void add(const std::shared_ptr<clause_processor> &aProcessor)
+		{
+			mProcessors.push_back(aProcessor);
+		}
+
+		void process(std::list<text_event> &aClause)
+		{
+			for (auto &&processor : mProcessors)
+				processor->process(aClause);
+		}
+	private:
+		std::list<std::shared_ptr<clause_processor>> mProcessors;
+	};
+
+	inline std::shared_ptr<clause_processor_chain>
+	operator<<(const std::shared_ptr<clause_processor_chain> &a, const std::shared_ptr<clause_processor> &b)
+	{
+		a->add(b);
+		return a;
+	}
+
 	inline std::shared_ptr<text_reader>
 	operator|(const std::shared_ptr<text_reader> &a, const std::shared_ptr<text_reader> &b)
 	{

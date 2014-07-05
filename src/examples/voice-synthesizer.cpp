@@ -110,11 +110,14 @@ create_reader(const char *filename,
 
 		auto rules = tts::createPronunciationRules(ruleset);
 		auto dict = tts::createCainteoirDictionaryReader(dictionary);
+		auto processor = std::make_shared<tts::clause_processor_chain>()
+		              << tts::context_analysis()
+		              << tts::numbers_to_words(locale, scale)
+		              << tts::words_to_phonemes(rules, dict)
+		              << tts::adjust_stress();
+
 		auto text = tts::create_text_reader(reader)
-		          | tts::create_text_reader(tts::context_analysis())
-		          | tts::create_text_reader(tts::numbers_to_words(locale, scale))
-		          | tts::create_text_reader(tts::words_to_phonemes(rules, dict))
-		          | tts::create_text_reader(tts::adjust_stress());
+		          | tts::create_text_reader(processor);
 
 		if (!durations)
 			throw std::runtime_error("A duration model was not specified.");
