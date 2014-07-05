@@ -77,7 +77,7 @@ tts::words_to_phonemes(const std::shared_ptr<phoneme_reader> &aRules,
 }
 
 void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
-                            tts::clause_processor_chain &processor,
+                            std::shared_ptr<tts::clause_processor> &processor,
                             FILE *out,
                             const char *phonemeset,
                             tts::stress_type stress,
@@ -94,7 +94,7 @@ void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
 	std::list<tts::text_event> clause;
 	while (tts::next_clause(reader, clause))
 	{
-		processor.process(clause);
+		processor->process(clause);
 		for (auto && event : clause) switch (event.type)
 		{
 		default:

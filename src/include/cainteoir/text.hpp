@@ -141,10 +141,9 @@ namespace cainteoir { namespace tts
 
 	struct clause_processor_chain : public clause_processor
 	{
-		clause_processor_chain &operator<<(const std::shared_ptr<clause_processor> &aProcessor)
+		void add(const std::shared_ptr<clause_processor> &aProcessor)
 		{
 			mProcessors.push_back(aProcessor);
-			return *this;
 		}
 
 		void process(std::list<text_event> &aClause)
@@ -159,7 +158,7 @@ namespace cainteoir { namespace tts
 	inline std::shared_ptr<clause_processor_chain>
 	operator<<(const std::shared_ptr<clause_processor_chain> &a, const std::shared_ptr<clause_processor> &b)
 	{
-		*a << b;
+		a->add(b);
 		return a;
 	}
 
@@ -171,7 +170,7 @@ namespace cainteoir { namespace tts
 	}
 
 	void generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
-	                       clause_processor_chain &processor,
+	                       std::shared_ptr<clause_processor> &processor,
 	                       FILE *out,
 	                       const char *phonemeset,
 	                       tts::stress_type stress,

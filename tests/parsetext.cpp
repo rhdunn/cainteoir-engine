@@ -141,7 +141,7 @@ generate_events(const std::shared_ptr<tts::text_reader> &text,
 
 static void
 generate_events(const std::shared_ptr<tts::text_reader> &text,
-                tts::clause_processor_chain &processor,
+                std::shared_ptr<tts::clause_processor> &processor,
                 const char *phonemeset,
                 tts::stress_type stress)
 {
@@ -151,7 +151,7 @@ generate_events(const std::shared_ptr<tts::text_reader> &text,
 	std::list<tts::text_event> clause;
 	while (tts::next_clause(text, clause))
 	{
-		processor.process(clause);
+		processor->process(clause);
 		for (auto && event : clause)
 			print_event(event, writer, stress);
 	}
@@ -170,9 +170,10 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 {
 	if (type == mode_type::word_stream)
 	{
-		auto processor = tts::clause_processor_chain()
-		              << tts::context_analysis()
-		              << tts::numbers_to_words(locale, scale);
+		std::shared_ptr<tts::clause_processor> processor
+			=  std::make_shared<tts::clause_processor_chain>()
+			<< tts::context_analysis()
+			<< tts::numbers_to_words(locale, scale);
 
 		auto text = tts::create_text_reader(reader);
 		generate_events(text, processor, phonemeset, stress);
@@ -182,12 +183,13 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	{
 		auto rules = tts::createPronunciationRules(ruleset);
 		auto dict = tts::createCainteoirDictionaryReader(dictionary);
-		auto processor = tts::clause_processor_chain()
-		              << tts::context_analysis()
-		              << tts::numbers_to_words(locale, scale)
-		              << tts::words_to_phonemes(rules, dict);
+		std::shared_ptr<tts::clause_processor> processor
+			=  std::make_shared<tts::clause_processor_chain>()
+			<< tts::context_analysis()
+			<< tts::numbers_to_words(locale, scale)
+			<< tts::words_to_phonemes(rules, dict);
 		if (type == mode_type::prosody_stream)
-			processor << tts::adjust_stress();
+			std::dynamic_pointer_cast<tts::clause_processor_chain>(processor) << tts::adjust_stress();
 
 		auto text = tts::create_text_reader(reader);
 		switch (phonemes)
@@ -211,8 +213,9 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	}
 	else if (type == mode_type::context_analysis)
 	{
-		auto processor = tts::clause_processor_chain()
-		              << tts::context_analysis();
+		std::shared_ptr<tts::clause_processor> processor
+			=  std::make_shared<tts::clause_processor_chain>()
+			<< tts::context_analysis();
 
 		auto text = tts::create_text_reader(reader);
 		generate_events(text, processor, phonemeset, stress);

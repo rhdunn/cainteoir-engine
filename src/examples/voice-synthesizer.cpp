@@ -110,11 +110,12 @@ create_reader(const char *filename,
 
 		auto rules = tts::createPronunciationRules(ruleset);
 		auto dict = tts::createCainteoirDictionaryReader(dictionary);
-		auto processor = std::make_shared<tts::clause_processor_chain>()
-		              << tts::context_analysis()
-		              << tts::numbers_to_words(locale, scale)
-		              << tts::words_to_phonemes(rules, dict)
-		              << tts::adjust_stress();
+		std::shared_ptr<tts::clause_processor> processor
+			=  std::make_shared<tts::clause_processor_chain>()
+			<< tts::context_analysis()
+			<< tts::numbers_to_words(locale, scale)
+			<< tts::words_to_phonemes(rules, dict)
+			<< tts::adjust_stress();
 
 		auto text = tts::create_text_reader(reader)
 		          | tts::create_text_reader(processor);
