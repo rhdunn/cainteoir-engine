@@ -132,7 +132,7 @@ namespace cainteoir { namespace tts
 	std::shared_ptr<clause_processor>
 	context_analysis();
 
-	std::shared_ptr<text_reader>
+	std::shared_ptr<clause_processor>
 	numbers_to_words(const language::tag &aLocale,
 	                 number_scale aScale);
 

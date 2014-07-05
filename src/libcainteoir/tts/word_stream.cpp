@@ -272,17 +272,15 @@ static const std::string number_scale_str[] =
 	"x-lngscale",
 };
 
-struct numbers_to_words_t : public tts::text_reader
+struct numbers_to_words_t : public tts::clause_processor
 {
 public:
 	numbers_to_words_t(const cainteoir::language::tag &aLocale,
 	                   tts::number_scale aScale);
 
-	void bind(const std::shared_ptr<tts::text_reader> &aReader);
+	void chain(const std::shared_ptr<tts::clause_processor> &aProcessor);
 
-	const tts::text_event &event() const { return mEntries.front(); }
-
-	bool read();
+	void process(std::list<tts::text_event> &aClause);
 private:
 	std::shared_ptr<tts::text_reader> mReader;
 	std::list<tts::text_event> mEntries;
@@ -305,46 +303,33 @@ numbers_to_words_t::numbers_to_words_t(const cainteoir::language::tag &aLocale,
 	parseCainteoirDictionary(mOrdinals, locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "ordinal.dict");
 }
 
-void numbers_to_words_t::bind(const std::shared_ptr<tts::text_reader> &aReader)
+void numbers_to_words_t::chain(const std::shared_ptr<tts::clause_processor> &aProcessor)
 {
-	mReader = aReader;
 }
 
-bool numbers_to_words_t::read()
+void numbers_to_words_t::process(std::list<tts::text_event> &aClause)
 {
-	if (mEntries.empty())
+	for (auto current = aClause.begin(), last = aClause.end(); current != last;)
 	{
-		if (mReader && mReader->read())
+		switch (current->type)
 		{
-			mEntries.push_back(mReader->event());
-			auto current = --mEntries.end();
-
-			switch (current->type)
-			{
-			case tts::number:
+		case tts::number:
+			parse_number(mEntries, current, mCardinals, mCardinals);
+			break;
+		case tts::ordinal_number:
+			if (!mOrdinals.empty())
+				parse_number(mEntries, current, mCardinals, mOrdinals);
+			else
 				parse_number(mEntries, current, mCardinals, mCardinals);
-				break;
-			case tts::ordinal_number:
-				if (!mOrdinals.empty())
-					parse_number(mEntries, current, mCardinals, mOrdinals);
-				else
-					parse_number(mEntries, current, mCardinals, mCardinals);
-				break;
-			}
+			break;
+		default:
+			++current;
+			break;
 		}
-
-		// Don't pop the first matching item:
-		return !mEntries.empty();
 	}
-
-	mEntries.pop_front();
-	if (mEntries.empty())
-		return read();
-
-	return true;
 }
 
-std::shared_ptr<tts::text_reader>
+std::shared_ptr<tts::clause_processor>
 tts::numbers_to_words(const language::tag &aLocale,
                       number_scale aScale)
 {
