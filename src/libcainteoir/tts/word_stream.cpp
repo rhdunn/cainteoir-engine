@@ -139,7 +139,7 @@ static std::stack<number_block> parse_number(const tts::text_event &number, uint
 	return blocks;
 }
 
-static void push_word_(std::queue<tts::text_event> &events,
+static void push_word_(std::list<tts::text_event> &events,
                        const tts::dictionary &words,
                        const std::shared_ptr<cainteoir::buffer> &entry,
                        cainteoir::range<uint32_t> range)
@@ -148,10 +148,10 @@ static void push_word_(std::queue<tts::text_event> &events,
 	if (word.type != tts::dictionary::say_as)
 		return;
 
-	events.push(tts::text_event(word.text, tts::word_lowercase, range, 0));
+	events.push_back(tts::text_event(word.text, tts::word_lowercase, range, 0));
 }
 
-static void parse_number(std::queue<tts::text_event> &events,
+static void parse_number(std::list<tts::text_event> &events,
                          const tts::text_event &number,
                          const tts::dictionary &cardinals,
                          const tts::dictionary &ordinals)
@@ -279,7 +279,7 @@ public:
 	bool read();
 private:
 	std::shared_ptr<tts::text_reader> mReader;
-	std::queue<tts::text_event> mEntries;
+	std::list<tts::text_event> mEntries;
 
 	tts::dictionary mCardinals;
 	tts::dictionary mOrdinals;
@@ -323,7 +323,7 @@ bool numbers_to_words_t::read()
 					parse_number(mEntries, event, mCardinals, mCardinals);
 				break;
 			default:
-				mEntries.push(event);
+				mEntries.push_back(event);
 				break;
 			}
 		}
@@ -332,7 +332,7 @@ bool numbers_to_words_t::read()
 		return !mEntries.empty();
 	}
 
-	mEntries.pop();
+	mEntries.pop_front();
 	if (mEntries.empty())
 		return read();
 
