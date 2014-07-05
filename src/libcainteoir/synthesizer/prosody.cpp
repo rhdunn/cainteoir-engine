@@ -31,6 +31,7 @@ namespace css = cainteoir::css;
 struct prosody_reader_t : public tts::prosody_reader
 {
 	prosody_reader_t(const std::shared_ptr<tts::text_reader> &aTextReader,
+	                 const std::shared_ptr<tts::clause_processor> &aProcessor,
 	                 const std::shared_ptr<tts::duration_model> &aDurationModel);
 
 	bool read();
@@ -38,15 +39,19 @@ private:
 	bool next_event();
 
 	std::shared_ptr<tts::text_reader> mTextReader;
+	std::shared_ptr<tts::clause_processor> mProcessor;
 	std::shared_ptr<tts::duration_model> mDurationModel;
 
+	std::list<tts::text_event> mClause;
 	std::list<ipa::phoneme>::const_iterator mCurrent;
 	std::list<ipa::phoneme>::const_iterator mLast;
 };
 
 prosody_reader_t::prosody_reader_t(const std::shared_ptr<tts::text_reader> &aTextReader,
+                                   const std::shared_ptr<tts::clause_processor> &aProcessor,
                                    const std::shared_ptr<tts::duration_model> &aDurationModel)
 	: mTextReader(aTextReader)
+	, mProcessor(aProcessor)
 	, mDurationModel(aDurationModel)
 {
 }
@@ -81,13 +86,26 @@ bool prosody_reader_t::read()
 
 bool prosody_reader_t::next_event()
 {
-	while (mTextReader->read())
+	if (!mClause.empty())
+		mClause.pop_front();
+
+	while (true)
 	{
-		auto &event = mTextReader->event();
+		if (mClause.empty())
+		{
+			if (!tts::next_clause(mTextReader, mClause))
+				return false;
+			mProcessor->process(mClause);
+		}
+
+		auto &event = mClause.front();
+
 		mCurrent = event.phonemes.begin();
 		mLast    = event.phonemes.end();
 		if (mCurrent != mLast)
 			return true;
+
+		mClause.pop_front();
 	}
 
 	return false;
@@ -95,7 +113,8 @@ bool prosody_reader_t::next_event()
 
 std::shared_ptr<tts::prosody_reader>
 tts::createProsodyReader(const std::shared_ptr<text_reader> &aTextReader,
+                         const std::shared_ptr<clause_processor> &aProcessor,
                          const std::shared_ptr<duration_model> &aDurationModel)
 {
-	return std::make_shared<prosody_reader_t>(aTextReader, aDurationModel);
+	return std::make_shared<prosody_reader_t>(aTextReader, aProcessor, aDurationModel);
 }

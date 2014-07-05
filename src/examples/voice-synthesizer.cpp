@@ -117,12 +117,11 @@ create_reader(const char *filename,
 			<< tts::words_to_phonemes(rules, dict)
 			<< tts::adjust_stress();
 
-		auto text = tts::create_text_reader(reader)
-		          | tts::create_text_reader(processor);
+		auto text = tts::create_text_reader(reader);
 
 		if (!durations)
 			throw std::runtime_error("A duration model was not specified.");
-		return tts::createProsodyReader(text, durations);
+		return tts::createProsodyReader(text, processor, durations);
 	}
 	return tts::createPhoReader(tts::createPhonemeParser(phonemeset), data);
 }
