@@ -91,213 +91,172 @@ states:
   L1:
     name: Upper Case (Initial Letter)
     terminal: true
-    id: upper_case_initial
     value: tts::word_uppercase
   L2:
     name: Upper Case
     terminal: true
-    id: upper_case
     value: tts::word_uppercase
   L3:
     name: Capitalized
     terminal: true
-    id: capitalized
     value: tts::word_capitalized
   L4:
     name: Lower Case
     terminal: true
-    id: lower_case
     value: tts::word_lowercase
   L5:
     name: Mixed Case
     terminal: true
-    id: mixed_case
     value: tts::word_mixedcase
   L6:
     name: Title Case (Initial Letter)
     terminal: true
-    id: title_case_initial
     value: tts::word_capitalized
   L7:
     name: Script
     terminal: true
-    id: script
     value: tts::word_script
   N1:
     name: Number
     terminal: true
-    id: number
     value: tts::number
   P1:
     name: Punctuation
     terminal: true
-    id: punctuation
     value: tts::punctuation
   P2:
     name: Exclamation Mark
     terminal: true
-    id: exclamation_mark
     value: tts::exclamation
   P3:
     name: Comma
     terminal: true
-    id: comma
     value: tts::comma
   P4:
     name: Full Stop
     terminal: true
-    id: full_stop
     value: tts::full_stop
   P5:
     name: Colon
     terminal: true
-    id: colon
     value: tts::colon
   P6:
     name: Semicolon
     terminal: true
-    id: semicolon
     value: tts::semicolon
   P7:
     name: Question Mark
     terminal: true
-    id: question_mark
     value: tts::question
   P8:
     name: En Dash
     terminal: true
-    id: en_dash
     value: tts::en_dash
   P9:
     name: Em Dash
     terminal: true
-    id: em_dash
     value: tts::em_dash
   P10:
     name: Ellipsis
     terminal: true
-    id: ellipsis
     value: tts::ellipsis
   P11:
     name: Full Stop
     terminal: true
-    id: ascii_full_stop
     value: tts::full_stop
   P12:
     name: Full Stop with space
     terminal: false
     emit: false
-    id: ascii_full_stop_space
     value: tts::full_stop
   P13:
     name: Double Stop
     terminal: true
-    id: ascii_double_stop
     value: tts::double_stop
   P14:
     name: Double Stop with space
     terminal: false
     emit: false
-    id: ascii_double_stop_space
     value: tts::double_stop
   P15:
     name: Ellipsis
     terminal: true
-    id: ascii_ellipsis
     value: tts::ellipsis
   Y1:
     name: Symbol
     terminal: true
-    id: symbol
     value: tts::symbol
   E1:
     name: Error
     terminal: true
-    id: error
     value: tts::error
   S1:
     name: Paragraph
     terminal: true
-    id: paragraph
     value: tts::paragraph
   S2:
     name: Newline
     emit: false
     advance: true
-    id: newline
     value: tts::error
   H1:
     name: "Lower Case with Hyphen"
-    id: lower_case_hyphen
     value: tts::word_lowercase
   H2:
     name: "Lower Case with Soft Hyphen"
     emit: false
-    id: lower_case_softhyphen
     value: tts::word_lowercase
   H3:
     name: "Lower Case with Hyphen and Newline"
     emit: false
-    id: lower_case_hyphen_newline
     value: tts::word_lowercase
   H4:
     name: "Capitalized with Hyphen"
-    id: capitalized_hyphen
     value: tts::word_capitalized
   H5:
     name: "Capitalized with Hyphen and Newline"
     emit: false
-    id: capitalized_hyphen_newline
     value: tts::word_capitalized
   H6:
     name: "Capitalized with Soft Hyphen"
     emit: false
-    id: capitalized_softhyphen
     value: tts::word_capitalized
   H7:
     name: "Hyphen"
     terminal: true
-    id: hyphen
     value: tts::punctuation
   H8:
     name: "En Dash (Hyphen)"
     terminal: true
-    id: en_dash_hyphen
     value: tts::en_dash
   H9:
     name: "Em Dash (Hyphen)"
     terminal: true
-    id: em_dash_hyphen
     value: tts::em_dash
   Q1:
     name: Lower Case with Quote
     terminal: false
     replacement: 0x0027 # Single Quotation Mark
-    id: lower_case_quote
     value: tts::word_lowercase
   Q2:
     name: Upper Case (Initial Letter) with Quote
     terminal: false
     replacement: 0x0027 # Single Quotation Mark
-    id: upper_case_initial_quote
     value: tts::word_uppercase
   Q3:
     name: Capitalized with Quote
     terminal: false
     replacement: 0x0027 # Single Quotation Mark
-    id: capitalized_quote
     value: tts::word_capitalized
   Q4:
     name: Mixed Case with Quote
     terminal: false
     replacement: 0x0027 # Single Quotation Mark
-    id: mixed_case_quote
     value: tts::word_mixedcase
   Q5:
     name: Upper Case with Quote
     terminal: false
     replacement: 0x0027 # Single Quotation Mark
-    id: upper_case_quote
     value: tts::word_uppercase
 
 transitions:

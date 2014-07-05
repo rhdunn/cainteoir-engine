@@ -2,7 +2,7 @@
 #
 # Tool for processing Finite State Machine definition files.
 #
-# Copyright (C) 2013 Reece H. Dunn
+# Copyright (C) 2013-2014 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -58,7 +58,7 @@ elif sys.argv[1] == 'header':
 	print '	{'
 	for state in states:
 		info = fsm['states'][state]
-		print '		%s,' % info['id']
+		print '		%s,' % info.get('id', state)
 	print '		terminal,'
 	print '	};'
 	print
@@ -88,7 +88,7 @@ elif sys.argv[1] == 'header':
 		if state in fsm['transitions'].keys():
 			transition = fsm['transitions'][state]
 			for new_state, transition_on in sorted(transition.items()):
-				state = fsm['states'][new_state]['id']
+				state = fsm['states'][new_state].get('id', new_state)
 				for lang in transition_on:
 					t[lang] = state
 		data = [ 'state::%s' % t[lang] for lang in fsm['language'] ]
