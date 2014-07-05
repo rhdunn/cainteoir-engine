@@ -26,9 +26,7 @@
 #include "dictionary.hpp"
 #include "phoneme.hpp"
 
-#include <queue>
 #include <list>
-#include <unordered_map>
 
 namespace cainteoir { namespace tts
 {
