@@ -50,6 +50,11 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.pt'},
 		]},
 	]})
+	test.run({'name': 'Clauses', 'groups': [
+		{'name': 'Latin', 'type': 'clauses', 'tests': [
+			{'test': 'parse-text/latin/words.txt', 'result': 'parse-text/latin/words.nc'},
+		]},
+	]})
 	test.run({'name': 'Context Analysis', 'groups': [
 		{'name': 'Latin', 'type': 'contextanalysis', 'tests': [
 			{'test': 'parse-text/latin/words.txt', 'result': 'parse-text/latin/words.ca'},

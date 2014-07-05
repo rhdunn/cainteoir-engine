@@ -48,7 +48,6 @@ tts::next_clause(const std::shared_ptr<tts::text_reader> &aReader,
 		{
 		case tts::punctuation:
 		case tts::symbol:
-			if (!aClause.empty()) return true;
 			break;
 		case tts::exclamation:
 		case tts::question:
