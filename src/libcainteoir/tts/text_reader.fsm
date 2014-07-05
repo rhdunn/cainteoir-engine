@@ -249,10 +249,6 @@ groups:
         terminal: false
         emit: false
         value: tts::double_stop
-      P15:
-        name: Ellipsis
-        terminal: true
-        value: tts::ellipsis
     transitions:
       P11:
         P12: [ "Zs" ]
@@ -261,9 +257,9 @@ groups:
         P13: [ "FS" ]
       P13:
         P14: [ "Zs" ]
-        P15: [ "FS" ]
+        P10: [ "FS" ]
       P14:
-        P15: [ "FS" ]
+        P10: [ "FS" ]
 
   #############################################################################
 
