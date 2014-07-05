@@ -30,16 +30,10 @@ struct context_analysis_t : public tts::clause_processor
 {
 	context_analysis_t();
 
-	void chain(const std::shared_ptr<tts::clause_processor> &aProcessor);
-
 	void process(std::list<tts::text_event> &aClause);
 };
 
 context_analysis_t::context_analysis_t()
-{
-}
-
-void context_analysis_t::chain(const std::shared_ptr<tts::clause_processor> &aProcessor)
 {
 }
 

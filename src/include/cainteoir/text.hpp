@@ -119,8 +119,6 @@ namespace cainteoir { namespace tts
 
 	struct clause_processor
 	{
-		virtual void chain(const std::shared_ptr<tts::clause_processor> &aProcessor) = 0;
-
 		virtual void process(std::list<text_event> &aClause) = 0;
 
 		virtual ~clause_processor() {}

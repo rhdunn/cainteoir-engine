@@ -278,8 +278,6 @@ public:
 	numbers_to_words_t(const cainteoir::language::tag &aLocale,
 	                   tts::number_scale aScale);
 
-	void chain(const std::shared_ptr<tts::clause_processor> &aProcessor);
-
 	void process(std::list<tts::text_event> &aClause);
 private:
 	std::shared_ptr<tts::text_reader> mReader;
@@ -301,10 +299,6 @@ numbers_to_words_t::numbers_to_words_t(const cainteoir::language::tag &aLocale,
 	if (!parseCainteoirDictionary(mOrdinals, locale_path / (aLocale.lang + '-' + aLocale.region) / "ordinal.dict"))
 		parseCainteoirDictionary(mOrdinals, locale_path / aLocale.lang / "ordinal.dict");
 	parseCainteoirDictionary(mOrdinals, locale_path / (aLocale.lang + '-' + number_scale_str[aScale]) / "ordinal.dict");
-}
-
-void numbers_to_words_t::chain(const std::shared_ptr<tts::clause_processor> &aProcessor)
-{
 }
 
 void numbers_to_words_t::process(std::list<tts::text_event> &aClause)
