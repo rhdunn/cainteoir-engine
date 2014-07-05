@@ -213,15 +213,11 @@ groups:
         name: "En Dash (Hyphen)"
         terminal: true
         value: tts::en_dash
-      H9:
-        name: "Em Dash (Hyphen)"
-        terminal: true
-        value: tts::em_dash
     transitions:
       H7:
         H8: [ "HM" ]
       H8:
-        H9: [ "HM" ]
+        P9: [ "HM" ]
 
   #############################################################################
 
