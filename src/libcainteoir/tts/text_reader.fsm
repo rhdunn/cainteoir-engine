@@ -66,317 +66,387 @@ value_type: tts::event_type
 
 start_state: S0
 
-# terminal (default: false)
-#     if true,  the state is an end state where the state machine will return
-#               the matched sequence
+# State Options:
 #
-# emit (default: true)
-#     if true,  the character will be written to the output buffer
+#     terminal (default: false)
+#         if true,  the state is an end state where the state machine will return
+#                   the matched sequence
 #
-# advance (default: false)
-#     if true,  advance the start position of the match range
+#     emit (default: true)
+#         if true,  the character will be written to the output buffer
 #
-states:
-  S0:
-    name: Start
-    emit: false
-    advance: true
-    id: start
-    value: tts::error
-  L1:
-    name: Upper Case (Initial Letter)
-    terminal: true
-    value: tts::word_uppercase
-  L2:
-    name: Upper Case
-    terminal: true
-    value: tts::word_uppercase
-  L3:
-    name: Capitalized
-    terminal: true
-    value: tts::word_capitalized
-  L4:
-    name: Lower Case
-    terminal: true
-    value: tts::word_lowercase
-  L5:
-    name: Mixed Case
-    terminal: true
-    value: tts::word_mixedcase
-  L6:
-    name: Title Case (Initial Letter)
-    terminal: true
-    value: tts::word_capitalized
-  L7:
-    name: Script
-    terminal: true
-    value: tts::word_script
-  N1:
-    name: Number
-    terminal: true
-    value: tts::number
-  P1:
-    name: Punctuation
-    terminal: true
-    value: tts::punctuation
-  P2:
-    name: Exclamation Mark
-    terminal: true
-    value: tts::exclamation
-  P3:
-    name: Comma
-    terminal: true
-    value: tts::comma
-  P4:
-    name: Full Stop
-    terminal: true
-    value: tts::full_stop
-  P5:
-    name: Colon
-    terminal: true
-    value: tts::colon
-  P6:
-    name: Semicolon
-    terminal: true
-    value: tts::semicolon
-  P7:
-    name: Question Mark
-    terminal: true
-    value: tts::question
-  P8:
-    name: En Dash
-    terminal: true
-    value: tts::en_dash
-  P9:
-    name: Em Dash
-    terminal: true
-    value: tts::em_dash
-  P10:
-    name: Ellipsis
-    terminal: true
-    value: tts::ellipsis
-  P11:
-    name: Full Stop
-    terminal: true
-    value: tts::full_stop
-  P12:
-    name: Full Stop with space
-    terminal: false
-    emit: false
-    value: tts::full_stop
-  P13:
-    name: Double Stop
-    terminal: true
-    value: tts::double_stop
-  P14:
-    name: Double Stop with space
-    terminal: false
-    emit: false
-    value: tts::double_stop
-  P15:
-    name: Ellipsis
-    terminal: true
-    value: tts::ellipsis
-  Y1:
-    name: Symbol
-    terminal: true
-    value: tts::symbol
-  E1:
-    name: Error
-    terminal: true
-    value: tts::error
-  S1:
-    name: Paragraph
-    terminal: true
-    value: tts::paragraph
-  S2:
-    name: Newline
-    emit: false
-    advance: true
-    value: tts::error
-  H1:
-    name: "Lower Case with Hyphen"
-    value: tts::word_lowercase
-  H2:
-    name: "Lower Case with Soft Hyphen"
-    emit: false
-    value: tts::word_lowercase
-  H3:
-    name: "Lower Case with Hyphen and Newline"
-    emit: false
-    value: tts::word_lowercase
-  H4:
-    name: "Capitalized with Hyphen"
-    value: tts::word_capitalized
-  H5:
-    name: "Capitalized with Hyphen and Newline"
-    emit: false
-    value: tts::word_capitalized
-  H6:
-    name: "Capitalized with Soft Hyphen"
-    emit: false
-    value: tts::word_capitalized
-  H7:
-    name: "Hyphen"
-    terminal: true
-    value: tts::punctuation
-  H8:
-    name: "En Dash (Hyphen)"
-    terminal: true
-    value: tts::en_dash
-  H9:
-    name: "Em Dash (Hyphen)"
-    terminal: true
-    value: tts::em_dash
-  Q1:
-    name: Lower Case with Quote
-    terminal: false
-    replacement: 0x0027 # Single Quotation Mark
-    value: tts::word_lowercase
-  Q2:
-    name: Upper Case (Initial Letter) with Quote
-    terminal: false
-    replacement: 0x0027 # Single Quotation Mark
-    value: tts::word_uppercase
-  Q3:
-    name: Capitalized with Quote
-    terminal: false
-    replacement: 0x0027 # Single Quotation Mark
-    value: tts::word_capitalized
-  Q4:
-    name: Mixed Case with Quote
-    terminal: false
-    replacement: 0x0027 # Single Quotation Mark
-    value: tts::word_mixedcase
-  Q5:
-    name: Upper Case with Quote
-    terminal: false
-    replacement: 0x0027 # Single Quotation Mark
-    value: tts::word_uppercase
+#     advance (default: false)
+#         if true,  advance the start position of the match range
 
-transitions:
-  S0:
-    S0: [ "Cc", "Cf", "Cn", "Co", "Cs", "Ii", "Zl", "Zp", "Zs", "SH" ]
-    L1: [ "Lu" ]
-    L4: [ "Ll" ]
-    L6: [ "Lt" ]
-    L7: [ "Lo" ]
-    E1: [ "Lm", "Mc", "Me", "Mn" ]
-    N1: [ "Nd", "Nl", "No" ]
-    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
-    P2: [ "Xx" ]
-    P3: [ "Xc" ]
-    P4: [ "Xf" ]
-    P5: [ "Xl" ]
-    P6: [ "Xs" ]
-    P7: [ "Xq" ]
-    P8: [ "Xn" ]
-    P9: [ "Xm" ]
-    P10: [ "Xe" ]
-    P11: [ "FS" ]
-    Y1: [ "Sc", "Sk", "Sm", "So" ]
-    S1: [ "Xp" ]
-    S2: [ "LF" ]
-    H7: [ "HM" ]
-  S1:
-    S1: [ "Xp", "LF" ]
-  S2:
-    S0: [ "Cc", "Cf", "Cn", "Co", "Cs", "Ii", "Zl", "Zp", "Zs", "SH" ]
-    L1: [ "Lu" ]
-    L4: [ "Ll" ]
-    L6: [ "Lt" ]
-    L7: [ "Lo" ]
-    E1: [ "Lm", "Mc", "Me", "Mn" ]
-    N1: [ "Nd", "Nl", "No" ]
-    P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
-    P2: [ "Xx" ]
-    P3: [ "Xc" ]
-    P4: [ "Xf" ]
-    P5: [ "Xl" ]
-    P6: [ "Xs" ]
-    P7: [ "Xq" ]
-    P8: [ "Xn" ]
-    P9: [ "Xm" ]
-    P10: [ "Xe" ]
-    P11: [ "FS" ]
-    Y1: [ "Sc", "Sk", "Sm", "So" ]
-    S1: [ "Xp", "LF" ]
-    H7: [ "HM" ]
-  L1:
-    L2: [ "Lu" ]
-    L3: [ "Ll" ]
-    L5: [ "Lt" ]
-    Q2: [ "RQ", "AP" ]
-  L2:
-    L2: [ "Lu" ]
-    L5: [ "Ll", "Lt" ]
-    Q5: [ "RQ", "AP" ]
-  L3:
-    L3: [ "Ll" ]
-    L5: [ "Lt", "Lu" ]
-    Q3: [ "RQ", "AP" ]
-    H4: [ "HM" ]
-    H6: [ "SH" ]
-  L4:
-    L4: [ "Ll" ]
-    L5: [ "Lt", "Lu" ]
-    H1: [ "HM" ]
-    H2: [ "SH" ]
-    Q1: [ "RQ", "AP" ]
-  L5:
-    L5: [ "Ll", "Lt", "Lu" ]
-    Q4: [ "RQ", "AP" ]
-  L6:
-    L3: [ "Ll" ]
-    L5: [ "Lt", "Lu" ]
-  L7:
-    L7: [ "Lo" ]
-  N1:
-    N1: [ "Nd", "Nl", "No" ]
-  P11:
-    P12: [ "Zs" ]
-    P13: [ "FS" ]
-  P12:
-    P13: [ "FS" ]
-  P13:
-    P14: [ "Zs" ]
-    P15: [ "FS" ]
-  P14:
-    P15: [ "FS" ]
-  E1:
-    E1: [ "Lm", "Mc", "Me", "Mn" ]
-  H1:
-    L4: [ "Ll" ]
-    H3: [ "LF" ]
-  H2:
-    L4: [ "Ll" ]
-    H3: [ "LF" ]
-  H3:
-    L4: [ "Ll" ]
-  H4:
-    L3: [ "Ll" ]
-    H5: [ "LF" ]
-  H5:
-    L3: [ "Ll" ]
-  H6:
-    L3: [ "Ll" ]
-    H5: [ "LF" ]
-  H7:
-    H8: [ "HM" ]
-  H8:
-    H9: [ "HM" ]
-  Q1:
-    L4: [ "Ll" ]
-    L5: [ "Lu" ]
-  Q2:
-    L2: [ "Lu" ]
-    L3: [ "Ll" ]
-  Q3:
-    L3: [ "Ll" ]
-  Q4:
-    L5: [ "Ll" ]
-  Q5:
-    L2: [ "Lu" ]
-    L5: [ "Ll" ]
+groups:
+
+  #############################################################################
+
+  - name: Whitespace
+    states:
+      S0:
+        name: Start
+        emit: false
+        advance: true
+        id: start
+        value: tts::error
+      S1:
+        name: Paragraph
+        terminal: true
+        value: tts::paragraph
+      S2:
+        name: Newline
+        emit: false
+        advance: true
+        value: tts::error
+    transitions:
+      S0:
+        S0: [ "Cc", "Cf", "Cn", "Co", "Cs", "Ii", "Zl", "Zp", "Zs", "SH" ]
+        L1: [ "Lu" ]
+        L4: [ "Ll" ]
+        L6: [ "Lt" ]
+        L7: [ "Lo" ]
+        E1: [ "Lm", "Mc", "Me", "Mn" ]
+        N1: [ "Nd", "Nl", "No" ]
+        P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
+        P2: [ "Xx" ]
+        P3: [ "Xc" ]
+        P4: [ "Xf" ]
+        P5: [ "Xl" ]
+        P6: [ "Xs" ]
+        P7: [ "Xq" ]
+        P8: [ "Xn" ]
+        P9: [ "Xm" ]
+        P10: [ "Xe" ]
+        P11: [ "FS" ]
+        Y1: [ "Sc", "Sk", "Sm", "So" ]
+        S1: [ "Xp" ]
+        S2: [ "LF" ]
+        H7: [ "HM" ]
+      S1:
+        S1: [ "Xp", "LF" ]
+      S2:
+        S0: [ "Cc", "Cf", "Cn", "Co", "Cs", "Ii", "Zl", "Zp", "Zs", "SH" ]
+        L1: [ "Lu" ]
+        L4: [ "Ll" ]
+        L6: [ "Lt" ]
+        L7: [ "Lo" ]
+        E1: [ "Lm", "Mc", "Me", "Mn" ]
+        N1: [ "Nd", "Nl", "No" ]
+        P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
+        P2: [ "Xx" ]
+        P3: [ "Xc" ]
+        P4: [ "Xf" ]
+        P5: [ "Xl" ]
+        P6: [ "Xs" ]
+        P7: [ "Xq" ]
+        P8: [ "Xn" ]
+        P9: [ "Xm" ]
+        P10: [ "Xe" ]
+        P11: [ "FS" ]
+        Y1: [ "Sc", "Sk", "Sm", "So" ]
+        S1: [ "Xp", "LF" ]
+        H7: [ "HM" ]
+
+  #############################################################################
+
+  - name: Error
+    states:
+      E1:
+        name: Error
+        terminal: true
+        value: tts::error
+    transitions:
+      E1:
+        E1: [ "Lm", "Mc", "Me", "Mn" ]
+
+  #############################################################################
+
+  - name: General Punctuation
+    states:
+      P1:
+        name: Punctuation
+        terminal: true
+        value: tts::punctuation
+      P2:
+        name: Exclamation Mark
+        terminal: true
+        value: tts::exclamation
+      P3:
+        name: Comma
+        terminal: true
+        value: tts::comma
+      P4:
+        name: Full Stop
+        terminal: true
+        value: tts::full_stop
+      P5:
+        name: Colon
+        terminal: true
+        value: tts::colon
+      P6:
+        name: Semicolon
+        terminal: true
+        value: tts::semicolon
+      P7:
+        name: Question Mark
+        terminal: true
+        value: tts::question
+
+  #############################################################################
+
+  - name: Hyphen Dashes
+    states:
+      P8:
+        name: En Dash
+        terminal: true
+        value: tts::en_dash
+      P9:
+        name: Em Dash
+        terminal: true
+        value: tts::em_dash
+      H7:
+        name: "Hyphen"
+        terminal: true
+        value: tts::punctuation
+      H8:
+        name: "En Dash (Hyphen)"
+        terminal: true
+        value: tts::en_dash
+      H9:
+        name: "Em Dash (Hyphen)"
+        terminal: true
+        value: tts::em_dash
+    transitions:
+      H7:
+        H8: [ "HM" ]
+      H8:
+        H9: [ "HM" ]
+
+  #############################################################################
+
+  - name: Ellipsis and Double Stop
+    states:
+      P10:
+        name: Ellipsis
+        terminal: true
+        value: tts::ellipsis
+      P11:
+        name: Full Stop
+        terminal: true
+        value: tts::full_stop
+      P12:
+        name: Full Stop with space
+        terminal: false
+        emit: false
+        value: tts::full_stop
+      P13:
+        name: Double Stop
+        terminal: true
+        value: tts::double_stop
+      P14:
+        name: Double Stop with space
+        terminal: false
+        emit: false
+        value: tts::double_stop
+      P15:
+        name: Ellipsis
+        terminal: true
+        value: tts::ellipsis
+    transitions:
+      P11:
+        P12: [ "Zs" ]
+        P13: [ "FS" ]
+      P12:
+        P13: [ "FS" ]
+      P13:
+        P14: [ "Zs" ]
+        P15: [ "FS" ]
+      P14:
+        P15: [ "FS" ]
+
+  #############################################################################
+
+  - name: Symbols
+    states:
+      Y1:
+        name: Symbol
+        terminal: true
+        value: tts::symbol
+
+  #############################################################################
+
+  - name: Numbers
+    states:
+      N1:
+        name: Number
+        terminal: true
+        value: tts::number
+    transitions:
+      N1:
+        N1: [ "Nd", "Nl", "No" ]
+
+  #############################################################################
+
+  - name: Upper Case
+    states:
+      L1:
+        name: Upper Case (Initial Letter)
+        terminal: true
+        value: tts::word_uppercase
+      L2:
+        name: Upper Case
+        terminal: true
+        value: tts::word_uppercase
+      Q2:
+        name: Upper Case (Initial Letter) with Quote
+        terminal: false
+        replacement: 0x0027 # Single Quotation Mark
+        value: tts::word_uppercase
+      Q5:
+        name: Upper Case with Quote
+        terminal: false
+        replacement: 0x0027 # Single Quotation Mark
+        value: tts::word_uppercase
+    transitions:
+      L1:
+        L2: [ "Lu" ]
+        L3: [ "Ll" ]
+        L5: [ "Lt" ]
+        Q2: [ "RQ", "AP" ]
+      L2:
+        L2: [ "Lu" ]
+        L5: [ "Ll", "Lt" ]
+        Q5: [ "RQ", "AP" ]
+      Q2:
+        L2: [ "Lu" ]
+        L3: [ "Ll" ]
+      Q5:
+        L2: [ "Lu" ]
+        L5: [ "Ll" ]
+
+  #############################################################################
+
+  - name: Lower Case
+    states:
+      L4:
+        name: Lower Case
+        terminal: true
+        value: tts::word_lowercase
+      Q1:
+        name: Lower Case with Quote
+        terminal: false
+        replacement: 0x0027 # Single Quotation Mark
+        value: tts::word_lowercase
+      H1:
+        name: "Lower Case with Hyphen"
+        value: tts::word_lowercase
+      H2:
+        name: "Lower Case with Soft Hyphen"
+        emit: false
+        value: tts::word_lowercase
+      H3:
+        name: "Lower Case with Hyphen and Newline"
+        emit: false
+        value: tts::word_lowercase
+    transitions:
+      L4:
+        L4: [ "Ll" ]
+        L5: [ "Lt", "Lu" ]
+        Q1: [ "RQ", "AP" ]
+        H1: [ "HM" ]
+        H2: [ "SH" ]
+      Q1:
+        L4: [ "Ll" ]
+        L5: [ "Lu" ]
+      H1:
+        L4: [ "Ll" ]
+        H3: [ "LF" ]
+      H2:
+        L4: [ "Ll" ]
+        H3: [ "LF" ]
+      H3:
+        L4: [ "Ll" ]
+
+  #############################################################################
+
+  - name: Capitalized
+    states:
+      L3:
+        name: Capitalized
+        terminal: true
+        value: tts::word_capitalized
+      L6:
+        name: Title Case (Initial Letter)
+        terminal: true
+        value: tts::word_capitalized
+      Q3:
+        name: Capitalized with Quote
+        terminal: false
+        replacement: 0x0027 # Single Quotation Mark
+        value: tts::word_capitalized
+      H4:
+        name: "Capitalized with Hyphen"
+        value: tts::word_capitalized
+      H5:
+        name: "Capitalized with Hyphen and Newline"
+        emit: false
+        value: tts::word_capitalized
+      H6:
+        name: "Capitalized with Soft Hyphen"
+        emit: false
+        value: tts::word_capitalized
+    transitions:
+      L3:
+        L3: [ "Ll" ]
+        L5: [ "Lt", "Lu" ]
+        Q3: [ "RQ", "AP" ]
+        H4: [ "HM" ]
+        H6: [ "SH" ]
+      L6:
+        L3: [ "Ll" ]
+        L5: [ "Lt", "Lu" ]
+      Q3:
+        L3: [ "Ll" ]
+      H4:
+        L3: [ "Ll" ]
+        H5: [ "LF" ]
+      H5:
+        L3: [ "Ll" ]
+      H6:
+        L3: [ "Ll" ]
+        H5: [ "LF" ]
+
+  #############################################################################
+
+  - name: Mixed Case
+    states:
+      L5:
+        name: Mixed Case
+        terminal: true
+        value: tts::word_mixedcase
+      Q4:
+        name: Mixed Case with Quote
+        terminal: false
+        replacement: 0x0027 # Single Quotation Mark
+        value: tts::word_mixedcase
+    transitions:
+      L5:
+        L5: [ "Ll", "Lt", "Lu" ]
+        Q4: [ "RQ", "AP" ]
+      Q4:
+        L5: [ "Ll" ]
+
+  #############################################################################
+
+  - name: Script
+    states:
+      L7:
+        name: Script
+        terminal: true
+        value: tts::word_script
+    transitions:
+      L7:
+        L7: [ "Lo" ]
 
 # vim: ft=yaml

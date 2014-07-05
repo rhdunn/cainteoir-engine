@@ -32,18 +32,25 @@ fsm = read_fsm(sys.argv[2])
 if sys.argv[1] == 'dot':
 	print 'digraph "%s" {' % fsm['title']
 	print 'rankdir=LR;'
-	for state, info in sorted(fsm['states'].items()):
-		if info.get('terminal', False):
-			print '%s [shape=doublecircle, tooltip="%s"]' % (state, info['name'])
-		else:
-			print '%s [shape=circle, tooltip="%s"]' % (state, info['name'])
-	for state, transitions in sorted(fsm['transitions'].items()):
-		for transition, classes in sorted(transitions.items()):
-			print '%s -> %s [label="%s", color=blue]' % (state, transition, ','.join(classes))
+	for group in fsm['groups']:
+		print '// %s' % group['name']
+		for state, info in sorted(group['states'].items()):
+			if info.get('terminal', False):
+				print '%s [shape=doublecircle, tooltip="%s"]' % (state, info['name'])
+			else:
+				print '%s [shape=circle, tooltip="%s"]' % (state, info['name'])
+		for state, transitions in sorted(group.get('transitions', {}).items()):
+			for transition, classes in sorted(transitions.items()):
+				print '%s -> %s [label="%s", color=blue]' % (state, transition, ','.join(classes))
 	print '}'
 elif sys.argv[1] == 'header':
+	data = {}
+	transitions = {}
 	states = [ fsm['start_state'] ]
-	states.extend([ state for state in sorted(fsm['states'].keys()) if state != fsm['start_state'] ])
+	for group in fsm['groups']:
+		data.update(group['states'])
+		transitions.update(group.get('transitions', {}))
+		states.extend([ state for state in sorted(group['states'].keys()) if state != fsm['start_state'] ])
 	print '// Generated from %s' % sys.argv[2]
 	print
 	print 'namespace fsm'
@@ -57,7 +64,7 @@ elif sys.argv[1] == 'header':
 	print '	enum class state : uint8_t'
 	print '	{'
 	for state in states:
-		info = fsm['states'][state]
+		info = data[state]
 		print '		%s,' % info.get('id', state)
 	print '		terminal,'
 	print '	};'
@@ -73,7 +80,7 @@ elif sys.argv[1] == 'header':
 	print
 	print '	static const data_t data[] = {'
 	for state in states:
-		info = fsm['states'][state]
+		info = data[state]
 		is_terminal = str(info.get('terminal', False)).lower()
 		emit_character = str(info.get('emit', True)).lower()
 		advance = str(info.get('advance', False)).lower()
@@ -83,16 +90,16 @@ elif sys.argv[1] == 'header':
 	print
 	print '	static const state transitions[][%d] = {' % len(fsm['language'])
 	for state in states:
-		info = fsm['states'][state]
+		info = data[state]
 		t = dict([ (lang, 'terminal') for lang in fsm['language'] ])
-		if state in fsm['transitions'].keys():
-			transition = fsm['transitions'][state]
+		if state in transitions.keys():
+			transition = transitions[state]
 			for new_state, transition_on in sorted(transition.items()):
-				state = fsm['states'][new_state].get('id', new_state)
+				state = data[new_state].get('id', new_state)
 				for lang in transition_on:
 					t[lang] = state
-		data = [ 'state::%s' % t[lang] for lang in fsm['language'] ]
+		row = [ 'state::%s' % t[lang] for lang in fsm['language'] ]
 		print '		// %s' % info['name']
-		print '		{ %s },' % ', '.join(data)
+		print '		{ %s },' % ', '.join(row)
 	print '	};'
 	print '}'
