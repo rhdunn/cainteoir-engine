@@ -76,11 +76,6 @@ start_state: S0
 # advance (default: false)
 #     if true,  advance the start position of the match range
 #
-# consume (default: true)
-#     if true,  the current input character is consumed and the next input
-#               character will be processed
-#     if false, the current input character will be reprocessed
-#
 states:
   S0:
     name: Start
