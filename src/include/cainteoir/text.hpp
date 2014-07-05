@@ -117,6 +117,15 @@ namespace cainteoir { namespace tts
 	next_clause(const std::shared_ptr<text_reader> &aReader,
 	            std::list<text_event> &aClause);
 
+	struct clause_processor
+	{
+		virtual void chain(const std::shared_ptr<tts::clause_processor> &aProcessor) = 0;
+
+		virtual void process(std::list<text_event> &aClause) = 0;
+
+		virtual ~clause_processor() {}
+	};
+
 	std::shared_ptr<text_reader>
 	context_analysis();
 
