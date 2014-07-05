@@ -141,9 +141,10 @@ namespace cainteoir { namespace tts
 
 	struct clause_processor_chain : public clause_processor
 	{
-		void add(const std::shared_ptr<clause_processor> &aProcessor)
+		clause_processor_chain &operator<<(const std::shared_ptr<clause_processor> &aProcessor)
 		{
 			mProcessors.push_back(aProcessor);
+			return *this;
 		}
 
 		void process(std::list<text_event> &aClause)
@@ -158,7 +159,7 @@ namespace cainteoir { namespace tts
 	inline std::shared_ptr<clause_processor_chain>
 	operator<<(const std::shared_ptr<clause_processor_chain> &a, const std::shared_ptr<clause_processor> &b)
 	{
-		a->add(b);
+		*a << b;
 		return a;
 	}
 
