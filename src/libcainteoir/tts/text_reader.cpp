@@ -34,8 +34,6 @@ struct text_reader_t : public tts::text_reader
 {
 	text_reader_t(const std::shared_ptr<cainteoir::document_reader> &aReader);
 
-	void bind(const std::shared_ptr<tts::text_reader> &aReader);
-
 	const tts::text_event &event() const { return mMatch; }
 
 	bool read();
@@ -76,11 +74,6 @@ text_reader_t::text_reader_t(const std::shared_ptr<cainteoir::document_reader> &
 	, mMatchLast(0)
 {
 	mMatch.type = tts::error;
-}
-
-void text_reader_t::bind(const std::shared_ptr<tts::text_reader> &aReader)
-{
-	throw std::runtime_error("cannot bind to a text_reader object");
 }
 
 bool text_reader_t::read()

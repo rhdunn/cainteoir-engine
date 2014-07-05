@@ -93,8 +93,6 @@ namespace cainteoir { namespace tts
 
 	struct text_reader
 	{
-		virtual void bind(const std::shared_ptr<tts::text_reader> &aReader) = 0;
-
 		virtual const text_event &event() const = 0;
 
 		virtual bool read() = 0;
@@ -160,13 +158,6 @@ namespace cainteoir { namespace tts
 	{
 		a->add(b);
 		return a;
-	}
-
-	inline std::shared_ptr<text_reader>
-	operator|(const std::shared_ptr<text_reader> &a, const std::shared_ptr<text_reader> &b)
-	{
-		b->bind(a);
-		return b;
 	}
 
 	void generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
