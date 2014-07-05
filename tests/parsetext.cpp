@@ -153,7 +153,7 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	if (type == mode_type::word_stream)
 	{
 		auto text = tts::create_text_reader(reader)
-		          | tts::context_analysis()
+		          | tts::create_text_reader(tts::context_analysis())
 		          | tts::numbers_to_words(locale, scale);
 		generate_events(text, phonemeset, stress);
 	}
@@ -163,7 +163,7 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		auto rules = tts::createPronunciationRules(ruleset);
 		auto dict = tts::createCainteoirDictionaryReader(dictionary);
 		auto text = tts::create_text_reader(reader)
-		          | tts::context_analysis()
+		          | tts::create_text_reader(tts::context_analysis())
 		          | tts::numbers_to_words(locale, scale)
 		          | tts::words_to_phonemes(rules, dict);
 		if (type == mode_type::prosody_stream)
@@ -190,7 +190,7 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	else if (type == mode_type::context_analysis)
 	{
 		auto text = tts::create_text_reader(reader)
-		          | tts::context_analysis();
+		          | tts::create_text_reader(tts::context_analysis());
 		generate_events(text, phonemeset, stress);
 	}
 	else

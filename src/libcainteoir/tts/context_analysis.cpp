@@ -26,54 +26,17 @@
 
 namespace tts = cainteoir::tts;
 
-struct context_analysis_t : public tts::text_reader, public tts::clause_processor
+struct context_analysis_t : public tts::clause_processor
 {
-public:
 	context_analysis_t();
-
-	// tts::text_reader
-
-	void bind(const std::shared_ptr<tts::text_reader> &aReader);
-
-	const tts::text_event &event() const { return mClause.front(); }
-
-	bool read();
-
-	// tts::clause_processor
 
 	void chain(const std::shared_ptr<tts::clause_processor> &aProcessor);
 
 	void process(std::list<tts::text_event> &aClause);
-private:
-	std::shared_ptr<tts::text_reader> mReader;
-	std::list<tts::text_event> mClause;
 };
 
 context_analysis_t::context_analysis_t()
 {
-}
-
-void context_analysis_t::bind(const std::shared_ptr<tts::text_reader> &aReader)
-{
-	mReader = aReader;
-}
-
-bool context_analysis_t::read()
-{
-	if (mClause.empty())
-	{
-		if (!tts::next_clause(mReader, mClause)) return false;
-		process(mClause);
-
-		// Don't pop the first matching item:
-		return !mClause.empty();
-	}
-
-	mClause.pop_front();
-	if (mClause.empty())
-		return read();
-
-	return true;
 }
 
 void context_analysis_t::chain(const std::shared_ptr<tts::clause_processor> &aProcessor)
@@ -107,7 +70,7 @@ void context_analysis_t::process(std::list<tts::text_event> &aClause)
 	}
 }
 
-std::shared_ptr<tts::text_reader> tts::context_analysis()
+std::shared_ptr<tts::clause_processor> tts::context_analysis()
 {
 	return std::make_shared<context_analysis_t>();
 }
