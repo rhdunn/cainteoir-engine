@@ -53,7 +53,6 @@ tts::next_clause(const std::shared_ptr<tts::text_reader> &aReader,
 		case tts::question:
 		case tts::comma:
 		case tts::full_stop:
-		case tts::double_stop:
 		case tts::colon:
 		case tts::semicolon:
 		case tts::em_dash:
