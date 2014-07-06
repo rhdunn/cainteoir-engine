@@ -404,11 +404,6 @@ namespace cainteoir { namespace css
 #ifndef DOXYGEN
 namespace cainteoir
 {
-	// These style definitions are defined here temporarily. They will be
-	// removed once the CSS infrastructure is in place and a common XML
-	// document reader is using that CSS infrastructure to process all the
-	// supported XML document formats.
-
 	extern const css::styles unknown;
 	extern const css::styles sequential;
 	extern const css::styles parallel;
