@@ -499,6 +499,18 @@ All namespaces associated with the top-most scope block are removed.
 \enum  cainteoir::xml::begin_tag_type
 \brief Specifies how begin tags are interpreted.
 
+
+\var   cainteoir::xml::begin_tag_type cainteoir::xml::open
+\brief The begin tag opens an element block.
+
+
+\var   cainteoir::xml::begin_tag_type cainteoir::xml::open_close
+\brief The begin tag creates a self-contained element block.
+
+This makes \<node\> behave the same way as \<node/\>, allowing
+support for void elements as per HTML§12.1.2.
+
+
 \fn    std::shared_ptr<cainteoir::xml::reader> cainteoir::createXmlReader(const std::shared_ptr<buffer> &aData, const char *aDefaultEncoding)
 \brief Create a new XML document reader.
 
