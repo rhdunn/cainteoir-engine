@@ -204,7 +204,7 @@ int main(int argc, char ** argv)
 
 		rdf::graph metadata;
 		cainteoir::supportedDocumentFormats(metadata, cainteoir::text_support);
-		cainteoir::supportedAudioFormats(metadata);
+		cainteoir::supported_audio_formats(metadata);
 
 		cainteoir::tts::engines tts(metadata);
 

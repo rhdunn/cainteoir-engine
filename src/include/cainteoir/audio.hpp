@@ -70,7 +70,7 @@ namespace cainteoir
 	std::list<vorbis_comment>
 	vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
-	void supportedAudioFormats(rdf::graph &metadata);
+	void supported_audio_formats(rdf::graph &metadata);
 
 	std::shared_ptr<audio>
 	create_audio_file(

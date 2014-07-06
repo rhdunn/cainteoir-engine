@@ -42,7 +42,7 @@ create_alsa_device(const char *device, const rdf::uri &format, int channels, int
 std::shared_ptr<cainteoir::audio>
 create_pulseaudio_device(const char *device, const rdf::uri &format, int channels, int frequency, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
-void cainteoir::supportedAudioFormats(rdf::graph &metadata)
+void cainteoir::supported_audio_formats(rdf::graph &metadata)
 {
 	std::string baseuri = "http://rhdunn.github.com/cainteoir/formats/audio";
 

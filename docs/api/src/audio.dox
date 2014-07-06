@@ -96,7 +96,7 @@
 \return The vorbis comments in (label, value) form for @a aDocument.
 
 
-\fn    void cainteoir::supportedAudioFormats(rdf::graph &metadata)
+\fn    void cainteoir::supported_audio_formats(rdf::graph &metadata)
 \brief Get the audio formats that are supported by libcainteoir.
 
 \param[out] metadata The RDF graph to write the format support to.
