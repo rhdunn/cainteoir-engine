@@ -201,6 +201,15 @@ endif
  
 ############################# documentation ###################################
 
+DOC_HEADER_FILES = $(shell find src/include/cainteoir/*.hpp)
+
+docs/api/xml/index.xml: ${DOC_HEADER_FILES}
+	rm -rf docs/api/xml
+	cldoc generate -std=c++11 -DHAVE_TIME -isystem -- \
+		--type xml \
+		--output docs/api \
+		${DOC_HEADER_FILES}
+
 data/languages.dot: data/languages.py data/languages.stat
 	cd data && ${PYTHON} languages.py
 
