@@ -202,11 +202,13 @@ endif
 ############################# documentation ###################################
 
 DOC_HEADER_FILES = $(shell find src/include/cainteoir/*.hpp)
+DOC_SOURCE_FILES = $(shell find docs/api/src/*.md)
 
-docs/api/xml/index.xml: ${DOC_HEADER_FILES}
+docs/api/xml/index.xml: ${DOC_HEADER_FILES} ${DOC_SOURCE_FILES}
 	rm -rf docs/api/xml
 	cldoc generate -std=c++11 -DHAVE_TIME -isystem -- \
 		--type xml \
+		--merge ${DOC_SOURCE_FILES} \
 		--output docs/api \
 		${DOC_HEADER_FILES}
 
