@@ -208,7 +208,7 @@ docs/api/xml/index.xml: ${DOC_HEADER_FILES} ${DOC_SOURCE_FILES}
 	rm -rf docs/api/xml
 	cldoc generate -std=c++11 -DHAVE_TIME -isystem -- \
 		--type xml \
-		--merge ${DOC_SOURCE_FILES} \
+		--merge docs/api/src \
 		--output docs/api \
 		${DOC_HEADER_FILES}
 
