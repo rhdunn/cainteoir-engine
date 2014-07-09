@@ -221,7 +221,6 @@ api:
 	doxygen docs/cainteoir-engine.doxyconf 2>&1 #| ( ! grep . )
 
 html:	README.html \
-	docs/accents-and-dialects.html \
 	docs/voicedb-format.html \
 	docs/ReleaseNotes.html
 
