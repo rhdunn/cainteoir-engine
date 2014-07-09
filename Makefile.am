@@ -222,7 +222,6 @@ api:
 
 html:	README.html \
 	docs/accents-and-dialects.html \
-	docs/transcriptions-en.html \
 	docs/voicedb-format.html \
 	docs/ReleaseNotes.html
 
