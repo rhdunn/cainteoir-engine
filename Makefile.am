@@ -218,6 +218,7 @@ docs/api/html/index.html: ${DOC_HEADER_FILES} ${DOC_SOURCE_FILES}
 		--type html \
 		--merge docs/api/src \
 		--output docs/api/html \
+		--report \
 		${DOC_HEADER_FILES}
 
 data/languages.dot: data/languages.py data/languages.stat
