@@ -38,6 +38,10 @@ Helper functions for manipulating UTF-8 character sequences.
 
 Support for parsing XML documents.
 
+#<cldoc:cainteoir::xml::xmlns>
+
+Predefined XML namespaces.
+
 # License
 
 This API documentation is licensed under the CC BY-SA 2.0 UK License.
