@@ -25,11 +25,8 @@
 
 namespace cainteoir
 {
-#ifndef DOXYGEN
 	namespace detail
 	{
-		// Helper class for making integral types iterable.
-		// NOTE: This cannot be random-access because operator[] does not work.
 		template <typename T>
 		struct integral_iterator
 		{
@@ -42,8 +39,6 @@ namespace cainteoir
 			integral_iterator(T aValue) : value(aValue) {}
 			integral_iterator(const integral_iterator<T> &other) : value(other.value) {}
 
-			// Access to the underlying integral value to support using the class as
-			// a simple value type.
 			operator T() const { return value; }
 
 			reference operator*()  const { return value; }
@@ -105,7 +100,6 @@ namespace cainteoir
 
 #undef		MAKE_INTEGRAL_ITERATOR
 	}
-#endif
 
 	enum overlap_status
 	{

@@ -25,7 +25,6 @@
 
 namespace cainteoir
 {
-#ifndef DOXYGEN
 	namespace detail
 	{
 		struct decoder
@@ -35,7 +34,6 @@ namespace cainteoir
 			virtual ~decoder() {}
 		};
 	}
-#endif
 
 	struct encoding
 	{

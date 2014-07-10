@@ -183,7 +183,6 @@ namespace cainteoir { namespace rdf
 		return ret;
 	}
 
-	/// @private
 	template<>
 	inline std::string literal::as<std::string>() const
 	{
@@ -213,7 +212,6 @@ namespace cainteoir { namespace rdf
 
 	namespace query
 	{
-#ifndef DOXYGEN
 		namespace detail
 		{
 			struct subject_t
@@ -254,7 +252,6 @@ namespace cainteoir { namespace rdf
 				object_t() {}
 			};
 		}
-#endif
 
 		extern const detail::subject_t subject;
 
@@ -325,8 +322,6 @@ namespace cainteoir { namespace rdf
 			return triples.subject(s);
 		}
 
-		// Namespaces
-
 		bool contains(const ns &uri) const;
 
 		rdf::graph &set_base(const std::string &aBase);
@@ -347,8 +342,6 @@ namespace cainteoir { namespace rdf
 
 		rdf::graph &add_prefix(const std::string &aPrefix);
 
-		// URIs
-
 		const rdf::uri genid();
 
 		std::shared_ptr<const uri>
@@ -356,8 +349,6 @@ namespace cainteoir { namespace rdf
 
 		void curie_list(const std::string &aCurieList,
 		                const std::function<void (const rdf::uri &aUri)> &onuri);
-
-		// Statements
 
 		bool statement(const rdf::uri &aSubject, const rdf::uri &aPredicate, const rdf::uri &aObject);
 
@@ -382,7 +373,6 @@ namespace cainteoir { namespace rdf
 		                    const rdf::uri &aPredicate,
 		                    const std::function<void (const std::shared_ptr<const triple> &aStatement)> &onlistitem);
 
-#ifndef DOXYGEN
 		namespace detail
 		{
 			template<typename Selector, typename Value>
@@ -404,7 +394,6 @@ namespace cainteoir { namespace rdf
 				const Value &value;
 			};
 		}
-#endif
 
 		template<typename Selector, typename Value>
 		detail::matches_t<Selector, Value> matches(const Selector &aSelector, const Value &aValue)
@@ -412,7 +401,6 @@ namespace cainteoir { namespace rdf
 			return detail::matches_t<Selector, Value>(aSelector, aValue);
 		}
 
-#ifndef DOXYGEN
 		namespace detail
 		{
 			template<typename Selector1, typename Selector2>
@@ -434,7 +422,6 @@ namespace cainteoir { namespace rdf
 				Selector2 b;
 			};
 		}
-#endif
 
 		template<typename Selector1, typename Selector2>
 		detail::both_t<Selector1, Selector2> both(const Selector1 &a, const Selector2 &b)
@@ -454,8 +441,6 @@ namespace cainteoir { namespace rdf
 			return ret;
 		}
 
-		// Optimize selecting all triples for a given statement ...
-		/// @private
 		inline results select(const graph &metadata,
 		                      const query::detail::matches_t<query::detail::subject_t, const rdf::uri &> &m)
 		{
@@ -473,13 +458,6 @@ namespace cainteoir { namespace rdf
 			return false;
 		}
 
-		/** @brief Select a value matching the selector.
-		  *
-		  * @param metadata The subgraph to select statements from.
-		  * @param selector The selector used to choose statements in the graph.
-		  *
-		  * @return The first literal value matching the selector.
-		  */
 		template<typename T, typename TripleStore, typename Selector>
 		T select_value(const TripleStore &metadata, const Selector &selector)
 		{
@@ -492,7 +470,6 @@ namespace cainteoir { namespace rdf
 		}
 	}
 
-#ifndef DOXYGEN
 	inline query::detail::matches_t<query::detail::subject_t, const rdf::uri &>
 	operator==(const query::detail::subject_t &selector, const rdf::uri &value)
 	{
@@ -520,7 +497,6 @@ namespace cainteoir { namespace rdf
 		return query::detail::both_t<query::detail::matches_t<Selector1, const rdf::uri &>,
 		                             query::detail::matches_t<Selector2, const rdf::uri &>>(a, b);
 	}
-#endif
 
 	struct formatter
 	{

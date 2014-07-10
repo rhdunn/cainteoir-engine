@@ -92,7 +92,6 @@ namespace cainteoir { namespace xml
 			return lookup(aPrefix.str());
 		}
 	private:
-#ifndef DOXYGEN
 		struct namespace_item
 		{
 			long block;
@@ -104,13 +103,11 @@ namespace cainteoir { namespace xml
 			{
 			}
 		};
-#endif
 
 		std::list<namespace_item> mNamespaces;
 		long mBlockNumber;
 	};
 
-#ifndef DOXYGEN
 	namespace detail
 	{
 		struct entity
@@ -125,7 +122,6 @@ namespace cainteoir { namespace xml
 			const entity * last;
 		};
 	}
-#endif
 
 	extern const detail::entity_set *xml_entities[52];
 	extern const detail::entity_set *html_entities[52];
@@ -278,9 +274,6 @@ namespace cainteoir { namespace xml
 
 		void set_begin_tag_type(begin_tag_type aType);
 	private:
-		/** @name parser internals/helpers */
-		//@{
-
 		void skip_whitespace();
 
 		bool expect_next(char c);
@@ -301,14 +294,13 @@ namespace cainteoir { namespace xml
 			ParsingText,
 			ParsingXml,
 			ParsingXmlTagAttributes,
-			ParsingXmlContainedTagAttributes, // implicit end tag
+			ParsingXmlContainedTagAttributes,
 			ParsingXmlProcessingInstructionAttributes,
 			ParsingProcessingInstructionAttributes,
 			ParsingXmlNamespaces,
 			ParsingDtd,
 		};
 
-#ifndef DOXYGEN
 		struct ParserContext
 		{
 			ParserState state;
@@ -318,7 +310,6 @@ namespace cainteoir { namespace xml
 
 			ParserContext(ParserState aState, const char *aCurrent);
 		};
-#endif
 
 		std::shared_ptr<cainteoir::buffer> mData;
 		const char *mEnd;
@@ -333,18 +324,12 @@ namespace cainteoir { namespace xml
 		std::map<std::string, std::string> mDoctypeEntities;
 		encoding mEncoding;
 
-		//@}
-		/** @name reader data */
-		//@{
-
 		cainteoir::rope mNodeValue;
 		node_type mNodeType;
 
 		xml::context mNodes;
 		xml::context mAttrs;
 		const xml::context::entry *mContext;
-
-		//@}
 	};
 
 	const char *node_type_name(xml::reader::node_type aType);
@@ -356,11 +341,5 @@ namespace cainteoir
 	createXmlReader(const std::shared_ptr<buffer> &aData,
 	                const char *aDefaultEncoding);
 }
-
-/** References
-  *
-  *    XML  [http://www.w3.org/TR/2008/REC-xml-20081126/] -- Extensible Markup Language (XML) 1.0 (Fifth Edition)
-  *    HTML [http://www.whatwg.org/specs/web-apps/current-work/multipage/] -- HTML Living Standard
-  */
 
 #endif

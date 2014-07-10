@@ -27,8 +27,6 @@
 
 namespace cainteoir { namespace css
 {
-	// CSS Values and Units:
-
 	struct length
 	{
 		enum type
@@ -127,8 +125,6 @@ namespace cainteoir { namespace css
 
 	frequency parse_frequency(const buffer &aValue);
 
-	// Cascading Style Sheets
-
 	enum class display : uint8_t
 	{
 		inherit,
@@ -183,8 +179,6 @@ namespace cainteoir { namespace css
 		length bottom;
 	};
 
-	// Extensions (WAI-ARIA, etc.)
-
 	enum class media_synchronisation : uint8_t
 	{
 		inherit,
@@ -199,8 +193,6 @@ namespace cainteoir { namespace css
 		paragraph,
 		sentence,
 	};
-
-	// CSS Fonts
 
 	enum class font_style : uint8_t
 	{
@@ -232,8 +224,6 @@ namespace cainteoir { namespace css
 		ultra_bold = 800,
 		heavy = 900,
 	};
-
-	// CSS Counter Styles
 
 	enum class counter_system : uint8_t
 	{
@@ -278,8 +268,6 @@ namespace cainteoir { namespace css
 		std::string marker(value_t count) const;
 	};
 
-	// Cascading Style Sheets
-
 	struct styles
 	{
 		std::string name;
@@ -296,8 +284,6 @@ namespace cainteoir { namespace css
 		std::string font_family;
 		cainteoir::css::length font_size;
 		cainteoir::css::box margin;
-
-		// WAI-ARIA:
 
 		cainteoir::css::role role;
 		int aria_level;
@@ -401,7 +387,6 @@ namespace cainteoir { namespace css
 	};
 }}
 
-#ifndef DOXYGEN
 namespace cainteoir
 {
 	extern const css::styles unknown;
@@ -435,6 +420,5 @@ namespace cainteoir
 	extern const css::styles table_row;
 	extern const css::styles table_cell;
 }
-#endif
 
 #endif
