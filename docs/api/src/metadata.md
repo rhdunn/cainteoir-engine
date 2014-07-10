@@ -35,13 +35,13 @@ Create a new URI object.
 @aNS  The namespace of the URI.
 @aRef The reference of the URI.
 
-#<cldoc:rdf::uri::empty>
+#<cldoc:cainteoir::rdf::uri::empty>
 
 Is the URI empty?
 
 @return `true` if the namespace and reference of the URI are empty, `false` otherwise.
 
-#<cldoc:rdf::uri::str>
+#<cldoc:cainteoir::rdf::uri::str>
 
 Convert the URI to a string.
 
@@ -373,11 +373,11 @@ An iterator over RDF triples.
 
 A reference to an RDF triple.
 
-#<cldoc:rdf::graph::graph>
+#<cldoc:cainteoir::rdf::graph::graph>
 
 Create a new RDF graph object.
 
-#<cldoc:rdf::graph::graph>
+#<cldoc:cainteoir::rdf::graph::graph>
 
 Create a new RDF graph object suitable for merging with the parent graph.
 @aGraph The graph to share genids with.
@@ -563,7 +563,7 @@ This enforces the RDF requirement that a predicate cannot be a blank node.
 
 @return `true` if the statement was added to the graph, `false` otherwise.
 
-#<cldoc:rdf::graph::statement>
+#<cldoc:cainteoir::rdf::graph::statement>
 
 Add an RDF statement to the graph.
 @aSubject   The subject of the statement.
