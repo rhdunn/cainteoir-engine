@@ -212,6 +212,14 @@ docs/api/xml/index.xml: ${DOC_HEADER_FILES} ${DOC_SOURCE_FILES}
 		--output docs/api \
 		${DOC_HEADER_FILES}
 
+docs/api/html/index.html: ${DOC_HEADER_FILES} ${DOC_SOURCE_FILES}
+	rm -rf docs/api/html
+	cldoc generate -std=c++11 -DHAVE_TIME -isystem -- \
+		--type html \
+		--merge docs/api/src \
+		--output docs/api/html \
+		${DOC_HEADER_FILES}
+
 data/languages.dot: data/languages.py data/languages.stat
 	cd data && ${PYTHON} languages.py
 

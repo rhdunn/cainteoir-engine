@@ -485,8 +485,7 @@ dnl ================================================================
 
 AC_CONFIG_FILES([
 	Makefile
-	po/Makefile.in
-	docs/cainteoir-engine.doxyconf])
+	po/Makefile.in])
 AC_OUTPUT
 
 AC_MSG_NOTICE([

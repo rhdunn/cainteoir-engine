@@ -63,21 +63,13 @@ tests/styles
 
 # docs/phonemes output:
 
-README.html
-docs/*.html
-docs/*/*.html
-!docs/doxygen/*.html
-!docs/header.html
-!docs/footer.html
+*.html
 docs/implementation-status/csv2html.stamp
-data/phonemeset/*.html
-data/phonemeset/*/*.html
 
 # autotools output:
 
 Makefile
 Makefile.in
-docs/cainteoir-engine.doxyconf
 
 .libs/
 .deps/
