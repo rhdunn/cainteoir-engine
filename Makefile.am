@@ -198,47 +198,6 @@ endif
 
 .md.html:
 	kramdown $< > $@
- 
-############################# documentation ###################################
-
-DOC_HEADER_FILES = $(shell find src/include/cainteoir/*.hpp)
-DOC_SOURCE_FILES = $(shell find docs/api/src/*.md)
-
-docs/api/xml/index.xml: ${DOC_HEADER_FILES} ${DOC_SOURCE_FILES}
-	rm -rf docs/api/xml
-	cldoc generate -std=c++11 -DHAVE_TIME -isystem -- \
-		--type xml \
-		--merge docs/api/src \
-		--output docs/api \
-		${DOC_HEADER_FILES}
-
-docs/api/html/index.html: ${DOC_HEADER_FILES} ${DOC_SOURCE_FILES}
-	rm -rf docs/api/html
-	cldoc generate -std=c++11 -DHAVE_TIME -isystem -- \
-		--type html \
-		--merge docs/api/src \
-		--output docs/api/html \
-		--report \
-		${DOC_HEADER_FILES}
-
-data/languages.dot: data/languages.py data/languages.stat
-	cd data && ${PYTHON} languages.py
-
-fsm:	src/libcainteoir/tts/text_reader.svg
-
-api:
-	doxygen docs/cainteoir-engine.doxyconf 2>&1 #| ( ! grep . )
-
-html:	README.html \
-	docs/voicedb-format.html \
-	docs/ReleaseNotes.html
-
-doc:	html api
-
-phonemes:	data/phonemeset/ascii-ipa.html \
-		data/phonemeset/ipa.html \
-		data/phonemeset/x-sampa.html \
-		data/phonemeset/cxs.html
 
 ############################# libcainteoir ####################################
 
@@ -398,6 +357,45 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/synthesizer/mbrola.cpp \
 	\
 	src/libcainteoir/unicode/utf8.cpp
+
+############################# documentation ###################################
+
+DOC_SOURCE_FILES = $(libcainteoir_include_HEADERS:src/include/cainteoir/%.hpp=docs/api/src/%.md)
+
+docs/api/xml/index.xml: ${libcainteoir_include_HEADERS} ${DOC_SOURCE_FILES}
+	rm -rf docs/api/xml
+	cldoc generate -std=c++11 -DHAVE_TIME -isystem -- \
+		--type xml \
+		--merge docs/api/src \
+		--output docs/api \
+		${libcainteoir_include_HEADERS}
+
+docs/api/html/index.html: ${libcainteoir_include_HEADERS} ${DOC_SOURCE_FILES}
+	rm -rf docs/api/xml
+	cldoc generate -std=c++11 -DHAVE_TIME -isystem -- \
+		--type html \
+		--merge docs/api/src \
+		--output docs/api/html \
+		${libcainteoir_include_HEADERS}
+
+data/languages.dot: data/languages.py data/languages.stat
+	cd data && ${PYTHON} languages.py
+
+fsm:	src/libcainteoir/tts/text_reader.svg
+
+api:
+	doxygen docs/cainteoir-engine.doxyconf 2>&1 #| ( ! grep . )
+
+html:	README.html \
+	docs/voicedb-format.html \
+	docs/ReleaseNotes.html
+
+doc:	html api
+
+phonemes:	data/phonemeset/ascii-ipa.html \
+		data/phonemeset/ipa.html \
+		data/phonemeset/x-sampa.html \
+		data/phonemeset/cxs.html
 
 ############################# applications ####################################
 
