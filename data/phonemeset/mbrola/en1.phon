@@ -47,8 +47,8 @@ u:	/{hgh,bck,rnd,vwl,lng}/
 I	/{smh,fnt,unr,vwl}/
 U	/{smh,bck,rnd,vwl}/
 
-e	/{umd,fnt,unr,vwl}/
 e	/{lmd,fnt,unr,vwl}/ # /E/ -> /e/
+e	/{umd,fnt,unr,vwl}/
 
 @	/{mid,cnt,unr,vwl}/
 
