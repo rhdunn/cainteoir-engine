@@ -127,6 +127,7 @@ void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
 				tts::make_stressed(phonemes, stress);
 				for (auto p : phonemes)
 					ipa->write(p);
+				ipa->flush();
 			}
 			need_space = true;
 			break;
