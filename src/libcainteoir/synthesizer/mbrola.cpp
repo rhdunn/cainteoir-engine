@@ -30,9 +30,12 @@ namespace rql = cainteoir::rdf::query;
 
 #if defined(HAVE_MBROLA)
 
+#include <cainteoir/path.hpp>
+
 #include <sys/wait.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <dirent.h>
 
 void
 tts::read_mbrola_voices(rdf::graph &aMetadata)
@@ -43,29 +46,36 @@ tts::read_mbrola_voices(rdf::graph &aMetadata)
 	aMetadata.statement(mbrola, rdf::rdf("type"), rdf::tts("Synthesizer"));
 	aMetadata.statement(mbrola, rdf::tts("name"), rdf::literal("MBROLA"));
 
-	static const auto voices = { "en1" };
-	for (auto && name : voices)
+	auto voices = cainteoir::get_data_path() / "voices" / "mbrola";
+
+	DIR *dir = opendir(voices.str().c_str());
+	struct dirent *ent = nullptr;
+	if (dir) while ((ent = readdir(dir)) != nullptr)
 	{
+		if (ent->d_name[0] == '.') continue;
+
+		char *ext = strstr(ent->d_name, ".rdf");
+		if (ext == nullptr) continue;
+
+		auto info = voices / ent->d_name;
+		*ext = 0;
+
+		const char *name = ent->d_name;
+
 		char database[256];
 		snprintf(database, sizeof(database), MBROLA_DIR "/%s/%s", name, name);
 
 		if (access(database, R_OK) == 0)
 		{
-			char phonemeset[11];
-			snprintf(phonemeset, sizeof(phonemeset), "mbrola/%s", name);
+			auto metadata = cainteoir::createDocumentReader(info.str().c_str(), aMetadata);
 
 			char database[256];
 			snprintf(database, sizeof(database), MBROLA_DIR "/%s/%s", name, name);
 
-			int frequency = 16000;
-
 			rdf::uri voice = rdf::uri(baseuri, name);
-			aMetadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
-			aMetadata.statement(voice, rdf::tts("name"), rdf::literal(name));
-			aMetadata.statement(voice, rdf::tts("phonemeset"), rdf::literal(phonemeset));
 			aMetadata.statement(voice, rdf::tts("data"), rdf::literal(database));
 
-			aMetadata.statement(voice, rdf::tts("frequency"), rdf::literal(frequency, rdf::tts("hertz")));
+			aMetadata.statement(voice, rdf::tts("frequency"), rdf::literal(16000, rdf::tts("hertz")));
 			aMetadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
 			aMetadata.statement(voice, rdf::tts("audioFormat"),  rdf::tts("s16le"));
 
