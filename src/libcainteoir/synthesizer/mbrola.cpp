@@ -232,7 +232,9 @@ ssize_t pipe_t::read(void *buf, size_t count, const procstat_t &proc, timeval ti
 
 struct mbrola_synthesizer : public tts::synthesizer
 {
-	mbrola_synthesizer(const char *database, std::shared_ptr<tts::prosody_writer> aWriter);
+	mbrola_synthesizer(const char *database,
+	                   std::shared_ptr<tts::prosody_writer> aWriter,
+	                   const char *aVolumeScale);
 
 	~mbrola_synthesizer();
 
@@ -281,7 +283,7 @@ private:
 	std::shared_ptr<tts::prosody_writer> writer;
 };
 
-mbrola_synthesizer::mbrola_synthesizer(const char *aDatabase, std::shared_ptr<tts::prosody_writer> aWriter)
+mbrola_synthesizer::mbrola_synthesizer(const char *aDatabase, std::shared_ptr<tts::prosody_writer> aWriter, const char *aVolumeScale)
 	: pho(nullptr)
 	, state(need_data)
 	, sample_rate(0)
@@ -299,10 +301,11 @@ mbrola_synthesizer::mbrola_synthesizer(const char *aDatabase, std::shared_ptr<tt
 		error.dup(pipe_t::write_fd, STDERR_FILENO);
 
 		execlp("mbrola", "mbrola",
-		       "-e",      // ignore fatal errors on unknown diphones
-		       aDatabase, // voice file database
-		       "-",       // pho file input (stdin)
-		       "-.wav",   // audio output (stdout)
+		       "-e",               // ignore fatal errors on unknown diphones
+		       "-v", aVolumeScale, // volume scale factor
+		       aDatabase,          // voice file database
+		       "-",                // pho file input (stdin)
+		       "-.wav",            // audio output (stdout)
                        nullptr);
 		_exit(1);
 	}
@@ -391,11 +394,12 @@ tts::create_mbrola_synthesizer(rdf::graph &aMetadata, const rdf::uri &aVoice)
 	const auto voice = rql::select(aMetadata, rql::subject == aVoice);
 	const std::string database = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("data"));
 	const std::string phonemeset = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("phonemeset"));
+	const std::string volumeScale = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("volumeScale"));
 
 	auto phonemes = tts::createPhonemeWriter(phonemeset.c_str());
 	if (!phonemes) return {};
 
-	return std::make_shared<mbrola_synthesizer>(database.c_str(), tts::createPhoWriter(phonemes));
+	return std::make_shared<mbrola_synthesizer>(database.c_str(), tts::createPhoWriter(phonemes), volumeScale.c_str());
 }
 
 #else
