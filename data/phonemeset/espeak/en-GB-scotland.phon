@@ -96,7 +96,8 @@ i@3r	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}/ # /ɪɚ̯/ (en-sc)
 i@3r-	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}{vcd,alv,apr}/ # /ɪɚ̯ɹ/
 U@	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/ CURE
 eI	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/ FACE
-oU	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/ GOAT
+oU	/{umd,bck,rnd,vwl}{smh,bck,rnd,vwl,nsy}/ # /oʊ̯/ GOAT (AmE)
+oU	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/ GOAT (BrE)
 e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE
 e@r	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE (en-sc)
 e@r-	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}{vcd,alv,apr}/ # /ɛə̯ɹ/
