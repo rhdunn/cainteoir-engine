@@ -56,9 +56,9 @@ if __name__ == '__main__':
 			{'result': 'dict/test/dictionary.espeak', 'args': ['--as-dictionary', 'espeak', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
 			{'result': 'dict/test/dictionary.espeak', 'args': ['--as-dictionary=espeak', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
 			# --phonemeset espeak/en
-			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '-P', 'espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
-			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '--phonemeset', 'espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
-			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '--phonemeset=espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict'], 'expect': 'fail'},
+			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '-P', 'espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
+			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '--phonemeset', 'espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
+			{'result': 'dict/test/dictionary-espeak-en.lst', 'args': ['--list', '--phonemeset=espeak/en', '--dictionary', '${PWD}/dict/test/dictionary.dict']},
 		]},
 	]})
 	test.summary()
