@@ -32,6 +32,9 @@ enum class phoneme_mode
 {
 	joined,
 	separate,
+	broad_markers,
+	narrow_markers,
+	espeak_markers,
 };
 
 void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
@@ -52,6 +55,38 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 	aTo->flush();
 }
 
+void print_open_marker(phoneme_mode aMode)
+{
+	switch (aMode)
+	{
+	case phoneme_mode::broad_markers:
+		fprintf(stdout, "/");
+		break;
+	case phoneme_mode::narrow_markers:
+		fprintf(stdout, "[");
+		break;
+	case phoneme_mode::espeak_markers:
+		fprintf(stdout, "[[");
+		break;
+	}
+}
+
+void print_close_marker(phoneme_mode aMode)
+{
+	switch (aMode)
+	{
+	case phoneme_mode::broad_markers:
+		fprintf(stdout, "/");
+		break;
+	case phoneme_mode::narrow_markers:
+		fprintf(stdout, "]");
+		break;
+	case phoneme_mode::espeak_markers:
+		fprintf(stdout, "]]");
+		break;
+	}
+}
+
 void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
                     std::shared_ptr<tts::phoneme_writer> &aTo,
                     const std::shared_ptr<cainteoir::buffer> &aTranscription,
@@ -60,6 +95,7 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
                     bool aShowFeatures)
 {
 	auto feat = tts::createPhonemeWriter("features");
+	bool need_open_marker = true;
 
 	aFrom->reset(aTranscription);
 	aTo->reset(stdout);
@@ -86,6 +122,17 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 			aTo->flush();
 		else
 		{
+			if (need_open_marker)
+			{
+				print_open_marker(aMode);
+				need_open_marker = false;
+			}
+			if (aFrom->get(ipa::phoneme_type | ipa::length) == (ipa::pause))
+			{
+				aTo->flush();
+				print_close_marker(aMode);
+				need_open_marker = true;
+			}
 			aTo->write(*aFrom);
 			if (aShowFeatures)
 			{
@@ -114,10 +161,22 @@ int main(int argc, char ** argv)
 			  i18n("Show the features along with the transcription") },
 			{ 0, "no-pauses", bind_value(no_pauses, true),
 			  i18n("Do not process pause phonemes") },
+		}};
+
+		const option_group stress_options = { i18n("Phoneme Stress Placement:"), {
 			{ 0, "vowel-stress", bind_value(stress, tts::stress_type::vowel),
 			  i18n("Place the stress on vowels (e.g. espeak, arpabet)") },
 			{ 0, "syllable-stress", bind_value(stress, tts::stress_type::syllable),
 			  i18n("Place the stress on syllable boundaries") },
+		}};
+
+		const option_group marker_options = { i18n("Phoneme Markers:"), {
+			{ 0, "broad", bind_value(mode, phoneme_mode::broad_markers),
+			  i18n("Use /.../ between phonetic transcriptions") },
+			{ 0, "narrow", bind_value(mode, phoneme_mode::narrow_markers),
+			  i18n("Use [...] between phonetic transcriptions") },
+			{ 0, "espeak", bind_value(mode, phoneme_mode::espeak_markers),
+			  i18n("Use [[...]] between phonetic transcriptions") },
 		}};
 
 		const std::initializer_list<const char *> usage = {
@@ -125,7 +184,7 @@ int main(int argc, char ** argv)
 			i18n("phoneme-converter [OPTION..] FROM TO"),
 		};
 
-		if (!parse_command_line({ general_options }, usage, argc, argv))
+		if (!parse_command_line({ general_options, stress_options, marker_options }, usage, argc, argv))
 			return 0;
 
 		if (argc != 2 && argc != 3)
