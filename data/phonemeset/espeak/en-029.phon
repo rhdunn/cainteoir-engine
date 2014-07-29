@@ -65,15 +65,15 @@ A:	/{low,bck,unr,vwl,lng}/ # /ɑː/ PALM
 a:	/{sml,fnt,unr,vwl,lng}/ # /æː/
 a\#:	/{sml,cnt,unr,vwl,lng}/	# /ɐː/
 
-O@r	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /oːr/ NORTH (en-sc)
-O@	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /oːr/ NORTH
-O@r-	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /oːrɹ/
-o@r	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /ɔːr/ FORCE (en-sc)
-o@	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /ɔːr/ FORCE
-o@r-	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /ɔːrɹ/
-A@r	/{low,bck,unr,vwl,lng}{vcd,alv,trl}/ # /ɑːr/ START (en-sc)
-A@	/{low,bck,unr,vwl,lng}{vcd,alv,trl}/ # /ɑːr/ START
-A@r-	/{low,bck,unr,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /ɑːrɹ/
+O@r	/{umd,bck,rnd,vwl,rtc,lng}/ # /oːʳ/ NORTH (en-sc)
+O@	/{umd,bck,rnd,vwl,rtc,lng}/ # /oːʳ/ NORTH
+O@r-	/{umd,bck,rnd,vwl,rtc,lng}{vcd,alv,apr}/ # /oːʳɹ/
+o@r	/{lmd,bck,rnd,vwl,rtc,lng}/ # /ɔːʳ/ FORCE (en-sc)
+o@	/{lmd,bck,rnd,vwl,rtc,lng}/ # /ɔːʳ/ FORCE
+o@r-	/{lmd,bck,rnd,vwl,rtc,lng}{vcd,alv,apr}/ # /ɔːʳɹ/
+A@r	/{low,bck,unr,vwl,rtc,lng}/ # /ɑːʳ/ START (en-sc)
+A@	/{low,bck,unr,vwl,rtc,lng}/ # /ɑːʳ/ START
+A@r-	/{low,bck,unr,vwl,rtc,lng}{vcd,alv,apr}/ # /ɑːʳɹ/
 
 IR	/{lmd,cnt,unr,vwl,lng}/ # /ɜː/ NURSE (FIR)
 VR	/{lmd,cnt,unr,vwl,lng}/ # /ɜː/ NURSE (FUR)

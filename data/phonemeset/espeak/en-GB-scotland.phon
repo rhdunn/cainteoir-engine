@@ -65,19 +65,19 @@ A:	/{low,bck,unr,vwl,lng}/ # /ɑː/ PALM
 a:	/{sml,fnt,unr,vwl,lng}/ # /æː/
 a\#:	/{sml,cnt,unr,vwl,lng}/	# /ɐː/
 
-O@	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /oːr/ NORTH
-O@r	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /oːr/ NORTH (en-sc)
-O@r-	/{umd,bck,rnd,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /oːrɹ/
-o@	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /ɔːr/ FORCE
-o@r	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}/ # /ɔːr/ FORCE (en-sc)
-o@r-	/{lmd,bck,rnd,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /ɔːrɹ/
-A@	/{low,bck,unr,vwl,lng}{vcd,alv,trl}/ # /ɑːr/ START
-A@r	/{low,bck,unr,vwl,lng}{vcd,alv,trl}/ # /ɑːr/ START (en-sc)
-A@r-	/{low,bck,unr,vwl,lng}{vcd,alv,trl}{vcd,alv,apr}/ # /ɑːrɹ/
+O@	/{umd,bck,rnd,vwl,rtc,lng}/ # /oːʳ/ NORTH
+O@r	/{umd,bck,rnd,vwl,rtc,lng}/ # /oːʳ/ NORTH (en-sc)
+O@r-	/{umd,bck,rnd,vwl,rtc,lng}{vcd,alv,apr}/ # /oːʳɹ/
+o@	/{lmd,bck,rnd,vwl,rtc,lng}/ # /ɔːʳ/ FORCE
+o@r	/{lmd,bck,rnd,vwl,rtc,lng}/ # /ɔːʳ/ FORCE (en-sc)
+o@r-	/{lmd,bck,rnd,vwl,rtc,lng}{vcd,alv,apr}/ # /ɔːʳɹ/
+A@	/{low,bck,unr,vwl,rtc,lng}/ # /ɑːʳ/ START
+A@r	/{low,bck,unr,vwl,rtc,lng}/ # /ɑːʳ/ START (en-sc)
+A@r-	/{low,bck,unr,vwl,rtc,lng}{vcd,alv,apr}/ # /ɑːʳɹ/
 
-IR	/{smh,fnt,unr,vwl}{vcd,alv,trl}/ # /ɪr/ NURSE (FIR)
-VR	/{smh,bck,rnd,vwl}{vcd,alv,trl}/ # /ʊr/ NURSE (FUR)
-3:	/{lmd,fnt,unr,vwl}{vcd,alv,trl}/ # /ɛr/ NURSE (FERN)
+IR	/{smh,fnt,unr,vwl,rtc}/ # /ɪʳ/ NURSE (FIR)
+VR	/{smh,bck,rnd,vwl,rtc}/ # /ʊʳ/ NURSE (FUR)
+3:	/{lmd,fnt,unr,vwl,rtc}/ # /ɛʳ/ NURSE (FERN)
 
 i	/{hgh,fnt,unr,vwl}/     # /i/  HAPP~Y~
 I\#	/{hgh,cnt,unr,vwl}/	# /ɨ/  RO~SES~
