@@ -222,6 +222,7 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 \u0361	>	=tie
 
 \u207F	>	=nzr
+\u02DE	>	=rzd
 
 \u02D0	>	=lng
 \u02D1	>	=hlg
@@ -232,7 +233,6 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 \u02BC	>	=ejc
 \u02C8	<	=st1
 \u02CC	<	=st2
-\u02DE	>	=rzd
 \u02E0	>	=vzd
 \u02E1	>	=ltr
 \u02E4	>	=fzd

@@ -243,9 +243,17 @@
 {umd,bck,rnd,vwl,nzd}
 {lmd,bck,rnd,vwl,nzd}
 
+{smh,fnt,unr,vwl,rzd}
+{smh,bck,rnd,vwl,rzd}
+{umd,bck,rnd,vwl,rzd}
+{umd,bck,rnd,vwl,rzd,lng}
 {mid,cnt,unr,vwl,rzd}
+{lmd,fnt,unr,vwl,rzd}
 {lmd,cnt,unr,vwl,rzd}
+{lmd,bck,rnd,vwl,rzd}
+{lmd,bck,rnd,vwl,rzd,lng}
 {low,bck,unr,vwl,rzd}
+{low,bck,unr,vwl,rzd,lng}
 
 {vcd,alv,nas,dzd}
 {vls,blb,stp,dzd}
