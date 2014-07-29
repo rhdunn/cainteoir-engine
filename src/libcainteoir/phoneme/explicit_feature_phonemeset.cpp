@@ -134,6 +134,7 @@ static const std::initializer_list<const char *> coarticulation = {
 
 static const std::initializer_list<const char *> rhoticized = {
 	"rzd",
+	"rtc",
 };
 
 static const std::initializer_list<const char *> rounding = {

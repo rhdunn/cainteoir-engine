@@ -59,7 +59,7 @@ namespace cainteoir { namespace ipa
 	constexpr feature_t lax                    = FEATURE_C(0x0000000000040000);
 	constexpr feature_t front                  = FEATURE_C(0x0000000000080000);
 	constexpr feature_t back                   = FEATURE_C(0x0000000000100000);
-	// diacritics ------------------------------------------ 000007FFFFE00000
+	// diacritics ------------------------------------------ 00000FFFFFE00000
 	constexpr feature_t ejective               = FEATURE_C(0x0000000000200000);
 	constexpr feature_t release                = FEATURE_C(0x0000000001C00000);
 	constexpr feature_t phonation              = FEATURE_C(0x000000000E000000);
@@ -70,7 +70,8 @@ namespace cainteoir { namespace ipa
 	constexpr feature_t tongue_root            = FEATURE_C(0x000000C000000000);
 	constexpr feature_t joined_to_next_phoneme = FEATURE_C(0x0000010000000000);
 	constexpr feature_t syllabicity            = FEATURE_C(0x0000060000000000);
-	// reserved (unassigned) ------------------------------- 000EF80000000000
+	constexpr feature_t rhotic                 = FEATURE_C(0x0000080000000000);
+	// reserved (unassigned) ------------------------------- 000EF00000000000
 	// suprasegmentals ------------------------------------- FFF1000000000000
 	constexpr feature_t tone_start             = FEATURE_C(0x0031000000000000);
 	constexpr feature_t tone_middle            = FEATURE_C(0x01C0000000000000);

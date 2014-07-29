@@ -30,7 +30,7 @@ syn keyword	phonDiacritic		syl nsy
 syn keyword	phonDiacritic		asp unx nzr ltr
 syn keyword	phonDiacritic		mrm slv stv crv
 syn keyword	phonDiacritic		dzd apc lmn lgl adv ret czd mcz rsd lwr
-syn keyword	phonDiacritic		mrd lrd lzd pzd vzd fzd vfz nzd rzd atr rtr
+syn keyword	phonDiacritic		mrd lrd lzd pzd vzd fzd vfz nzd rzd atr rtr rtc
 
 syn match	phonUnicodeEscape	'\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]'
 syn match	phonEscape		'\\.'

@@ -322,6 +322,7 @@ KIRSHENBAUM_RNGD("nzd", "nasalized", ipa::nasalized, ipa::coarticulation)
 KIRSHENBAUM_BIN1("rzd", "rhoticized", ipa::rhoticized)
 KIRSHENBAUM_RNGD("atr", "advanced tongue root [extension]", ipa::advanced_tongue_root, ipa::tongue_root)
 KIRSHENBAUM_RNGD("rtr", "retracted tongue root [extension]", ipa::retracted_tongue_root, ipa::tongue_root)
+KIRSHENBAUM_BIN1("rtc", "rhotic [extension]", ipa::rhotic)
 
 TEST_CASE("explicit feature reader -- no input")
 {
@@ -361,7 +362,7 @@ TEST_CASE("explicit feature reader -- single phoneme")
 		"nas", "nsy", "nzd", "nzr",
 		"orl",
 		"pal", "pau", "phr", "pla", "pzd",
-		"ret", "rfx", "rnd", "rsd", "rtr", "rzd",
+		"ret", "rfx", "rnd", "rsd", "rtc", "rtr", "rzd",
 		"sbr", "sib", "slv", "smh", "sml", "st1", "st2", "st3", "stp", "stv", "syl",
 		"te1", "te2", "te3", "te4", "te5",
 		"tie",
