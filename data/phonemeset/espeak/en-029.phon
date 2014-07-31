@@ -101,6 +101,7 @@ eI	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/ FACE
 oU	/{umd,bck,rnd,vwl}{smh,bck,rnd,vwl,nsy}/ # /oʊ̯/ GOAT (AmE)
 oU	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/ GOAT (BrE)
 e@r	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE (en-sc)
+e@:	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE (old espeak versions)
 e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE
 e@r-	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}{vcd,alv,apr}/ # /ɛə̯ɹ/
 OI	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/ CHOICE
