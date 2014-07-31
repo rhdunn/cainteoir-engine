@@ -86,6 +86,7 @@ I2	/{hgh,cnt,unr,vwl}/	# /ɨ/  RO~SES~
 @2	/{mid,cnt,unr,vwl}/     # /ə/  COMM~A~
 @	/{mid,cnt,unr,vwl}/     # /ə/  COMM~A~
 3	/{mid,cnt,unr,vwl,rzd}/ # /ɚ/  LETT~ER~
+a2	/{sml,cnt,unr,vwl}/	# /ɐ/  ~A~BOUT (espeak 1.43.10 and earlier)
 a\#	/{sml,cnt,unr,vwl}/	# /ɐ/  ~A~BOUT
 @5	/{hgh,bck,rnd,vwl}/     # /u/  INT~O~
 
