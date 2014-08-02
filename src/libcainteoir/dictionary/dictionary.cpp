@@ -113,7 +113,7 @@ const tts::dictionary::entry &tts::dictionary::lookup(const key_type &aWord) con
 
 bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
                                 const std::shared_ptr<tts::phoneme_reader> &aPronunciationRules,
-                                std::list<ipa::phoneme> &aPhonemes,
+                                ipa::phonemes &aPhonemes,
                                 int depth)
 {
 	const auto &entry = lookup(aWord);
@@ -138,7 +138,7 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
 				{
 					auto word = words.next_word();
 
-					std::list<ipa::phoneme> phonemes;
+					ipa::phonemes phonemes;
 					if (pronounce(word, aPronunciationRules, phonemes, depth + 1))
 						tts::make_stressed(phonemes, aPhonemes, words.stress());
 					else
@@ -178,7 +178,7 @@ struct dictionary_entry_formatter : public tts::dictionary_formatter
 
 	void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                         std::shared_ptr<tts::phoneme_writer> &writer,
-	                         const std::list<ipa::phoneme> &phonemes,
+	                         const ipa::phonemes &phonemes,
 	                         const char *line_separator);
 
 	void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
@@ -190,7 +190,7 @@ struct dictionary_entry_formatter : public tts::dictionary_formatter
 
 void dictionary_entry_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
                                                      std::shared_ptr<tts::phoneme_writer> &writer,
-                                                     const std::list<ipa::phoneme> &phonemes,
+                                                     const ipa::phonemes &phonemes,
                                                      const char *line_separator)
 {
 	fprintf(stdout, "\"%s\" => /", word->str().c_str());
@@ -230,7 +230,7 @@ void tts::formatDictionary(tts::dictionary &dict,
 			formatter->write_phoneme_entry(entry.first, writer, entry.second.phonemes);
 		else if (resolve_say_as_entries)
 		{
-			std::list<ipa::phoneme> pronunciation;
+			ipa::phonemes pronunciation;
 			if (dict.pronounce(entry.first, {}, pronunciation))
 				formatter->write_phoneme_entry(entry.first, writer, pronunciation);
 		}

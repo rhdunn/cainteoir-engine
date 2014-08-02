@@ -155,7 +155,7 @@ struct cainteoir_formatter : public tts::dictionary_formatter
 
 	void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                         std::shared_ptr<tts::phoneme_writer> &writer,
-	                         const std::list<ipa::phoneme> &phonemes,
+	                         const ipa::phonemes &phonemes,
 	                         const char *line_separator);
 
 	void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
@@ -167,7 +167,7 @@ struct cainteoir_formatter : public tts::dictionary_formatter
 
 void cainteoir_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
                                               std::shared_ptr<tts::phoneme_writer> &writer,
-                                              const std::list<ipa::phoneme> &phonemes,
+                                              const ipa::phonemes &phonemes,
                                               const char *line_separator)
 {
 	if (fprintf(mOut, "%s", word->str().c_str()) < 8)

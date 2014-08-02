@@ -269,6 +269,8 @@ namespace cainteoir { namespace ipa
 	private:
 		value_type mValue;
 	};
+
+	typedef std::list<phoneme> phonemes;
 }}
 
 namespace cainteoir { namespace tts
@@ -322,7 +324,7 @@ namespace cainteoir { namespace tts
 		syllable,
 	};
 
-	void make_stressed(std::list<ipa::phoneme> &aPhonemes, stress_type aType);
+	void make_stressed(ipa::phonemes &aPhonemes, stress_type aType);
 
 	enum class initial_stress
 	{
@@ -332,8 +334,8 @@ namespace cainteoir { namespace tts
 		unstressed,
 	};
 
-	void make_stressed(const std::list<ipa::phoneme> &aPhonemes,
-	                   std::list<ipa::phoneme> &aOutput,
+	void make_stressed(const ipa::phonemes &aPhonemes,
+	                   ipa::phonemes &aOutput,
 	                   initial_stress aType);
 }}
 

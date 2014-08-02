@@ -36,7 +36,7 @@ enum syllable : uint8_t
 	coda,
 };
 
-static void make_vowel_stressed(std::list<ipa::phoneme> &aPhonemes)
+static void make_vowel_stressed(ipa::phonemes &aPhonemes)
 {
 	ipa::phoneme::value_type stress = ipa::unstressed;
 
@@ -71,7 +71,7 @@ static void make_vowel_stressed(std::list<ipa::phoneme> &aPhonemes)
 	}
 }
 
-static void make_syllable_stressed(std::list<ipa::phoneme> &aPhonemes)
+static void make_syllable_stressed(ipa::phonemes &aPhonemes)
 {
 	auto onset = aPhonemes.begin();
 	syllable state = syllable::onset;
@@ -102,7 +102,7 @@ static void make_syllable_stressed(std::list<ipa::phoneme> &aPhonemes)
 	}
 }
 
-static void make_primary_stressed(const std::list<ipa::phoneme> &aPhonemes, std::list<ipa::phoneme> &aOutput)
+static void make_primary_stressed(const ipa::phonemes &aPhonemes, ipa::phonemes &aOutput)
 {
 	bool initial = true;
 	for (const auto &p : aPhonemes)
@@ -119,7 +119,7 @@ static void make_primary_stressed(const std::list<ipa::phoneme> &aPhonemes, std:
 	}
 }
 
-static void make_secondary_stressed(const std::list<ipa::phoneme> &aPhonemes, std::list<ipa::phoneme> &aOutput)
+static void make_secondary_stressed(const ipa::phonemes &aPhonemes, ipa::phonemes &aOutput)
 {
 	bool initial = true;
 	for (const auto &p : aPhonemes)
@@ -136,7 +136,7 @@ static void make_secondary_stressed(const std::list<ipa::phoneme> &aPhonemes, st
 	}
 }
 
-static void make_initial_unstressed(const std::list<ipa::phoneme> &aPhonemes, std::list<ipa::phoneme> &aOutput)
+static void make_initial_unstressed(const ipa::phonemes &aPhonemes, ipa::phonemes &aOutput)
 {
 	bool initial = true;
 	for (const auto &p : aPhonemes)
@@ -153,7 +153,7 @@ static void make_initial_unstressed(const std::list<ipa::phoneme> &aPhonemes, st
 	}
 }
 
-void tts::make_stressed(std::list<ipa::phoneme> &aPhonemes, stress_type aType)
+void tts::make_stressed(ipa::phonemes &aPhonemes, stress_type aType)
 {
 	switch (aType)
 	{
@@ -168,8 +168,8 @@ void tts::make_stressed(std::list<ipa::phoneme> &aPhonemes, stress_type aType)
 	}
 }
 
-void tts::make_stressed(const std::list<ipa::phoneme> &aPhonemes,
-                        std::list<ipa::phoneme> &aOutput,
+void tts::make_stressed(const ipa::phonemes &aPhonemes,
+                        ipa::phonemes &aOutput,
                         initial_stress aType)
 {
 	switch (aType)

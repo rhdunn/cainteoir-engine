@@ -42,7 +42,7 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
                     const std::shared_ptr<cainteoir::buffer> &aTranscription,
                     tts::stress_type aStress)
 {
-	std::list<ipa::phoneme> phonemes;
+	ipa::phonemes phonemes;
 	aFrom->reset(aTranscription);
 	while (aFrom->read())
 		phonemes.push_back(*aFrom);

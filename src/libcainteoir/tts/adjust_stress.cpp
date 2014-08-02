@@ -33,7 +33,7 @@ public:
 
 	void process(std::list<tts::text_event> &aClause);
 private:
-	void adjust_phonemes(std::list<ipa::phoneme> &aPhonemes);
+	void adjust_phonemes(ipa::phonemes &aPhonemes);
 
 	int  mPrevSyllableCount;
 	bool mPrevIsStressed;
@@ -67,7 +67,7 @@ adjust_stress_t::process(std::list<tts::text_event> &aClause)
 	}
 }
 
-void adjust_stress_t::adjust_phonemes(std::list<ipa::phoneme> &aPhonemes)
+void adjust_stress_t::adjust_phonemes(ipa::phonemes &aPhonemes)
 {
 	auto stress_placement = aPhonemes.end();
 	int syllable_count = 0;

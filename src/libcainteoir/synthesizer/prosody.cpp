@@ -43,8 +43,8 @@ private:
 	std::shared_ptr<tts::duration_model> mDurationModel;
 
 	std::list<tts::text_event> mClause;
-	std::list<ipa::phoneme>::const_iterator mCurrent;
-	std::list<ipa::phoneme>::const_iterator mLast;
+	ipa::phonemes::const_iterator mCurrent;
+	ipa::phonemes::const_iterator mLast;
 };
 
 prosody_reader_t::prosody_reader_t(const std::shared_ptr<tts::text_reader> &aTextReader,
