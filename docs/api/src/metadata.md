@@ -247,13 +247,13 @@ Create a value literal resource.
 
 Create a language literal resource.
 @aValue    The value to store in the literal.
-@aLanguage The language \a aValue is written in.
+@aLanguage The language `aValue` is written in.
 
 #<cldoc:cainteoir::rdf::literal::literal>
 
 Create a datatype literal resource.
 @aValue The value to store in the literal.
-@aType  The datatype of \a aValue.
+@aType  The datatype of `aValue`.
 
 #<cldoc:cainteoir::rdf::literal::operator=>
 
@@ -382,7 +382,7 @@ Create a new RDF graph object.
 Create a new RDF graph object suitable for merging with the parent graph.
 @aGraph The graph to share genids with.
 
-The output of the genid function will be unique across this graph and \p aGraph,
+The output of the genid function will be unique across this graph and `aGraph`,
 allowing the statements of the two graphs to be merged.
 
 This does not copy the statements of <aGraph> into the new graph.

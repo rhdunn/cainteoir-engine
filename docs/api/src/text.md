@@ -192,7 +192,7 @@ Create a number to word converter.
 
 Create a phoneme stream object.
 @aRules               The letter to phoneme rules to use.
-@aExceptionDictionary Pronunciation of words that are mispronounced by \p aRules.
+@aExceptionDictionary Pronunciation of words that are mispronounced by `aRules`.
 
 @return The phoneme stream object.
 

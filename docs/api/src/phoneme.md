@@ -30,7 +30,7 @@ Create a phoneme parser using the specified transcription scheme.
 @aPhonemeSet The name of the phoneme set (transcription scheme) to load.
 
 Transcription schemes other than `features` are loaded from the `.phon`
-file with the same name in the \c phonemeset sub-directory of the
+file with the same name in the `phonemeset` sub-directory of the
 cainteoir-engine data directory.
 
 #<cldoc:cainteoir::tts::phoneme_reader>
@@ -71,7 +71,7 @@ Create a phoneme reader using the specified transcription scheme.
 @aPhonemeSet The name of the phoneme set (transcription scheme) to load.
 
 Transcription schemes other than `features` are loaded from the `.phon`
-file with the same name in the \c phonemeset sub-directory of the
+file with the same name in the `phonemeset` sub-directory of the
 cainteoir-engine data directory.
 
 #<cldoc:cainteoir::tts::phoneme_writer>
@@ -112,7 +112,7 @@ Create a phoneme writer using the specified transcription scheme.
 @aPhonemeSet The name of the phoneme set (transcription scheme) to load.
 
 Transcription schemes other than `features` are loaded from the `.phon`
-file with the same name in the \c phonemeset sub-directory of the
+file with the same name in the `phonemeset` sub-directory of the
 cainteoir-engine data directory.
 
 #<cldoc:cainteoir::tts::stress_type>

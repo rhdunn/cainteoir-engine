@@ -168,14 +168,14 @@ Clean up the dictionary formatter object.
 Write a phoneme entry in the given phonemeset.
 @word           The word of the entry being written.
 @writer         The phonemeset to transcribe the phonemes in.
-@phonemes       The pronunciation of \p word being written.
+@phonemes       The pronunciation of `word` being written.
 @line_separator The character(s) to use at the end of each line.
 
 #<cldoc:cainteoir::tts::dictionary_formatter::write_say_as_entry>
 
 Write a say as entry.
 @word           The word of the entry being written.
-@say_as         The word to pronounce \p word as.
+@say_as         The word to pronounce `word` as.
 @line_separator The character(s) to use at the end of each line.
 
 #<cldoc:cainteoir::tts::createCainteoirDictionaryReader>
