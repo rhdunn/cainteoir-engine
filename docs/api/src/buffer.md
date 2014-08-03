@@ -114,7 +114,7 @@ system supports it, otherwise a temporary file is created.
 
 Clean up the memory file.
 
-#<cldoc:cainteoir::memory_file::operator struct _IO_FILE *>
+#<cldoc:cainteoir::memory_file::operator FILE *>
 
 Return a pointer to the `FILE` object.
 
