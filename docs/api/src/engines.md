@@ -157,15 +157,6 @@ Only use the media overlays audio; don't read any text not annotated with media 
 
 Use media overlays when the text is annotated with them, otherwise use the active Text-to-Speech voice.
 
-#<cldoc:cainteoir::tts::synthesizer>
-
-Manages a phoneme to audio synthesizer.
-
-#<cldoc:cainteoir::tts::synthesizer::read>
-
-Synthesize the pending phonemes to audio.
-@out The audio file or device to send the audio data to.
-
 #<cldoc:cainteoir::tts::engines>
 
 Manages the available text-to-speech engines.

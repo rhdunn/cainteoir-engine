@@ -83,6 +83,20 @@ Create an MBROLA pho file writer.
 
 @return A prosody writer that can write MBROLA pho file entries.
 
+#<cldoc:cainteoir::tts::synthesizer>
+
+Manages a phoneme to audio synthesizer.
+
+#<cldoc:cainteoir::tts::synthesizer::bind>
+
+Associate the synthesizer with the phonemes to be synthesized.
+@aProsody The phonemes and associated prosody.
+
+#<cldoc:cainteoir::tts::synthesizer::synthesize>
+
+Synthesize the pending phonemes to audio.
+@out The audio file or device to send the audio data to.
+
 # License
 
 This API documentation is licensed under the CC BY-SA 2.0 UK License.
