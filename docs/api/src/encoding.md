@@ -31,7 +31,7 @@ Set the character encoding.
 Lookup the single-byte character.
 @c The character to lookup.
 
-@return The UTF-8 representation of <c>.
+@return The UTF-8 representation of `c`.
 
 #<cldoc:cainteoir::encoding::decode>
 

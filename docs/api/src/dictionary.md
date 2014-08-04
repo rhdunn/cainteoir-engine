@@ -43,7 +43,7 @@ Create a <cainteoir::tts::dictionary::say_as> entry.
 
 Create a cainteoir::tts::dictionary::phonemes entry.
 @aPhonemes   The pronunciation of the entry as a phonetic transciption in the given phonemeset.
-@aPhonemeSet The phonemeset used to read <aPhonemes>.
+@aPhonemeSet The phonemeset used to read `aPhonemes`.
 
 #<cldoc:cainteoir::tts::dictionary::key_hash>
 
@@ -95,7 +95,7 @@ Add or update a dictionary entry.
 Get the pronunciation entry associated with the word.
 @aWord The word to lookup.
 
-If <aWord> does not exist in the dictionary, the returned entry has the type of
+If `aWord` does not exist in the dictionary, the returned entry has the type of
 <cainteoir::tts::dictionary::no_match>.
 
 @return The pronunciation entry associated with the word.

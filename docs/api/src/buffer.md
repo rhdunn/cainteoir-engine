@@ -217,7 +217,7 @@ be removed.
 Create a data buffer with the content of the string.
 @aString The content of the buffer.
 
-@return A new data buffer with the content of <aString>.
+@return A new data buffer with the content of `aString`.
 
 #<cldoc:cainteoir::make_buffer>
 
@@ -225,7 +225,7 @@ Create a data buffer with the content of the string.
 @aString The content of the buffer.
 @aLength The length of the string (or number of bytes of the string to copy).
 
-@return A new data buffer with the content of <aString>.
+@return A new data buffer with the content of `aString`.
 
 #<cldoc:cainteoir::make_file_buffer>
 
@@ -281,10 +281,10 @@ Create a whitespace-normalized buffer.
 @aTrimLeft   <whitespace::preserve> to keep or <whitespace::collapse> to remove whitespace at the start
 @aTrimRight  <whitespace::preserve> to keep or <whitespace::collapse> to remove whitespace at the end
 
-The <aWhitespace> and <aNewlines> options configure how consecutive whitespace
+The `aWhitespace` and `aNewlines` options configure how consecutive whitespace
 is collapsed, supporting the CSS `normal`, `pre` and `pre-line` whitespace
-modes. If <aTrimLeft> or <aTrimRight> are <whitespace::preserve>, the whitespace
-rules for <aWhitespace> and <aNewlines> apply.
+modes. If `aTrimLeft` or `aTrimRight` are <whitespace::preserve>, the whitespace
+rules for `aWhitespace` and `aNewlines` apply.
 
 @return A new buffer with the whitespace normalized.
 

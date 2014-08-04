@@ -12,14 +12,14 @@ Create a trie node object.
 Get the child node that is associated with the specified character.
 @ch The character of the child node to locate.
 
-@return The node associated with <ch>, or `nullptr` if no matching node was found.
+@return The node associated with `ch`, or `nullptr` if no matching node was found.
 
 #<cldoc:cainteoir::trie_node::add>
 
 Add a child node associated with the specified character.
 @ch The character to be associated with the child node.
 
-@return The new node associated with <ch>.
+@return The new node associated with `ch`.
 
 #<cldoc:cainteoir::trie_node::c>
 

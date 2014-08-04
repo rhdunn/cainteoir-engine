@@ -91,7 +91,7 @@ Convert an RDF graph to a set of Vorbis Comments.
 @aMetadata The RDF metadata used to create the vorbis comments.
 @aDocument The URI of the document in the RDF graph to convert to vorbis comments.
 
-@return The vorbis comments in (label, value) form for <aDocument>.
+@return The vorbis comments in (label, value) form for `aDocument`.
 
 #<cldoc:cainteoir::supported_audio_formats>
 

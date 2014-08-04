@@ -54,7 +54,7 @@ Create an MBROLA pho file reader.
 Create a phoneme to diphone converter.
 @aProsody The prosody data for the phonemes to convert.
 
-@return A prosody reader that creates the diphone sequences from <aProsody>.
+@return A prosody reader that creates the diphone sequences from `aProsody`.
 
 #<cldoc:cainteoir::tts::prosody_writer>
 

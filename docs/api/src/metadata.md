@@ -385,7 +385,7 @@ Create a new RDF graph object suitable for merging with the parent graph.
 The output of the genid function will be unique across this graph and `aGraph`,
 allowing the statements of the two graphs to be merged.
 
-This does not copy the statements of <aGraph> into the new graph.
+This does not copy the statements of `aGraph` into the new graph.
 
 #<cldoc:cainteoir::rdf::graph::size>
 
@@ -580,7 +580,7 @@ Match statements whos selector matches the value.
 @aSelector The selector to extract data from the statement.
 @aValue    The value to match against.
 
-@return A function object for matching triples where <aSelector> returns <aValue>.
+@return A function object for matching triples where `aSelector` returns `aValue`.
 
 #<cldoc:cainteoir::rdf::query::both>
 
@@ -588,7 +588,7 @@ Match statements that match both selectors.
 @a The first selector to match a statement against.
 @b The second selector to match a statement against.
 
-@return A function object for matching triples that match both <a> and <b> selectors.
+@return A function object for matching triples that match both `a` and `b` selectors.
 
 #<cldoc:cainteoir::rdf::query::select>
 

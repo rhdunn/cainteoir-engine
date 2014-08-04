@@ -59,7 +59,7 @@ Compare two language tags for ordering.
 @a The fist language tag to compare.
 @b The second language tag to compare.
 
-@return `true` if <a> compares less than <b>.
+@return `true` if `a` compares less than `b`.
 
 #<cldoc:cainteoir::languages>
 

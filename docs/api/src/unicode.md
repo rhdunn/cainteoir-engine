@@ -7,7 +7,7 @@ Write a UTF-8 character to an output buffer.
 This function does not null-terminate out and does not check that there is
 enough space in out to write all the UTF-8 characters (up-to 4 characters).
 
-@return A pointer to the new position within <out> after writing the UTF-8 character.
+@return A pointer to the new position within `out` after writing the UTF-8 character.
 
 #<cldoc:cainteoir::utf8::read>
 
@@ -15,7 +15,7 @@ Read a UTF-8 character from an input buffer.
 @in The input buffer to read the UTF-8 character from.
 @c  The UTF-32 unicode code-point.
 
-@return A pointer to the new position within <in> after reading the UTF-8 character.
+@return A pointer to the new position within `in` after reading the UTF-8 character.
 
 #<cldoc:cainteoir::utf8::next>
 

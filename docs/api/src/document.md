@@ -134,7 +134,7 @@ Create a document object with the <document_item> events from the <document_read
 @aMetadata The metadata associated with the document.
 
 Any metadata contained within the document that is captured as the document is
-read will be added to <aMetadata>.
+read will be added to `aMetadata`.
 
 #<cldoc:cainteoir::document::text_length>
 
@@ -153,7 +153,7 @@ Get the <document_item> objects associated with the document in the specified ra
 
 Get the <document_item> objects associated with the document in the specified range.
 @aListing The navigation listing to resolve the aRange indices with.
-@aRange   The start and end indices in <aListing> for the range of children to get.
+@aRange   The start and end indices in `aListing` for the range of children to get.
 
 @return A range of <document_item> objects.
 
@@ -192,7 +192,7 @@ Destroy the document reader object.
 Read the next event in the document.
 @aMetadata Any additional metadata.
 
-If <aMetadata> is not null, any metadata gathered while reading the next event
+If `aMetadata` is not null, any metadata gathered while reading the next event
 is added to the metadata graph. This allows metadata in the body of the
 document to be extracted, such as RDFa or document reference metadata.
 
@@ -224,14 +224,14 @@ Create a document content reader.
 @aTitle           The document title to use if none is specified.
 @aDefaultEncoding The default character encoding to use.
 
-If <aFilename> is null, the file content is read from stdin.
+If `aFilename` is null, the file content is read from stdin.
 
 The top-level ToC entry is determined as follows (in order of preference):
 *  the title specified by the document;
 *  the title specified in aTitle;
 *  the filename of the document.
 
-After the call to this method, <aPrimaryMetadata> contains the metadata located
+After the call to this method, `aPrimaryMetadata` contains the metadata located
 in the header section of the document. That is the part of the document before
 the start of any document text.
 
@@ -252,7 +252,7 @@ The top-level ToC entry is determined as follows (in order of preference):
 *  the title specified in aTitle;
 *  the filename of the document.
 
-After the call to this method, <aPrimaryMetadata> contains the metadata located
+After the call to this method, `aPrimaryMetadata` contains the metadata located
 in the header section of the document. That is the part of the document before
 the start of any document text.
 
