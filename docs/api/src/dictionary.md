@@ -47,22 +47,22 @@ Create a cainteoir::tts::dictionary::phonemes entry.
 
 #<cldoc:cainteoir::tts::dictionary::key_hash>
 
-Generate the hash of a <key_type> object.
+Generate the hash of a <cainteoir::tts::dictionary::key_type> object.
 
 #<cldoc:cainteoir::tts::dictionary::key_hash::operator()>
 
-Generate the hash of a <key_type> object.
-@a The <key_type> object to hash.
+Generate the hash of a <cainteoir::tts::dictionary::key_type> object.
+@a The <cainteoir::tts::dictionary::key_type> object to hash.
 
-@return The hash of the <key_type> object.
+@return The hash of the <cainteoir::tts::dictionary::key_type> object.
 
 #<cldoc:cainteoir::tts::dictionary::key_equals>
 
-Compare two <key_type> objects for equality.
+Compare two <cainteoir::tts::dictionary::key_type> objects for equality.
 
 #<cldoc:cainteoir::tts::dictionary::key_equals::operator()>
 
-Compare two <key_type> objects for equality.
+Compare two <cainteoir::tts::dictionary::key_type> objects for equality.
 @a The first key value to compare.
 @b The second key value to compare.
 
@@ -183,7 +183,7 @@ Write a say as entry.
 Read entries from a Cainteoir Dictionary file.
 @aDictionaryPath The location of the dictionary to read.
 
-@return A <dictionary_reader> object to read the entries in the dictionary file.
+@return A <cainteoir::tts::dictionary_reader> object to read the entries in the dictionary file.
 
 #<cldoc:cainteoir::tts::createCainteoirDictionaryFormatter>
 

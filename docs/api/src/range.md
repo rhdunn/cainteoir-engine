@@ -119,8 +119,8 @@ Does the range contain pos?
 Does the range contain another range, either partially or completely?
 @other The range to check is contained within this range.
 
-@return The overlapping nature of the two ranges (see <overlap_status> for a
-        description of the return values).
+@return The overlapping nature of the two ranges (see <cainteoir::overlap_status>
+        for a description of the return values).
 
 #<cldoc:cainteoir::reverse>
 

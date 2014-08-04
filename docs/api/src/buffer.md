@@ -122,7 +122,7 @@ Return a pointer to the `FILE` object.
 
 Create a buffer with the contents of the memory file.
 
-This closes the `FILE` object, so a new <memory_file> needs to be created after
+This closes the `FILE` object, so a new `memory_file` needs to be created after
 this call.
 
 #<cldoc:cainteoir::rope>
@@ -276,14 +276,14 @@ character is replaced by an ASCII space character.
 
 Create a whitespace-normalized buffer.
 @aBuffer     The buffer containing the text to normalize.
-@aWhitespace <whitespace::preserve> to keep or <whitespace::collapse> to remove consecutive non-newline whitespace characters
-@aNewlines   <whitespace::preserve> to keep or <whitespace::collapse> to remove consecutive newline characters
-@aTrimLeft   <whitespace::preserve> to keep or <whitespace::collapse> to remove whitespace at the start
-@aTrimRight  <whitespace::preserve> to keep or <whitespace::collapse> to remove whitespace at the end
+@aWhitespace <cainteoir::whitespace::preserve> to keep or <cainteoir::whitespace::collapse> to remove consecutive non-newline whitespace characters
+@aNewlines   <cainteoir::whitespace::preserve> to keep or <cainteoir::whitespace::collapse> to remove consecutive newline characters
+@aTrimLeft   <cainteoir::whitespace::preserve> to keep or <cainteoir::whitespace::collapse> to remove whitespace at the start
+@aTrimRight  <cainteoir::whitespace::preserve> to keep or <cainteoir::whitespace::collapse> to remove whitespace at the end
 
 The `aWhitespace` and `aNewlines` options configure how consecutive whitespace
 is collapsed, supporting the CSS `normal`, `pre` and `pre-line` whitespace
-modes. If `aTrimLeft` or `aTrimRight` are <whitespace::preserve>, the whitespace
+modes. If `aTrimLeft` or `aTrimRight` are <cainteoir::whitespace::preserve>, the whitespace
 rules for `aWhitespace` and `aNewlines` apply.
 
 @return A new buffer with the whitespace normalized.

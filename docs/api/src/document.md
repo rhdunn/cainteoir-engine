@@ -34,8 +34,8 @@ A reference to text defined elsewhere.
 
 The anchor refers to a text block defined elsewhere in the document.
 
-This is used in conjunction with <media_ref> to associate narrated audio with a
-block of text.
+This is used in conjunction with <cainteoir::events::media_ref> to associate
+narrated audio with a block of text.
 
 	text-ref <anchor>
 
@@ -54,7 +54,7 @@ empty.
 
 Holds information about a part of a document.
 
-Objects of this type are created by instances of the <document_reader> interface.
+Objects of this type are created by instances of the <cainteoir::document_reader> interface.
 
 #<cldoc:cainteoir::document_item::document_item>
 
@@ -113,7 +113,7 @@ Create an entry object from [ref:Entry](http://reecedunn.co.uk/schema/2014/ref#E
 
 #<cldoc:cainteoir::document>
 
-Stores the <document_item> events from a document.
+Stores the <cainteoir::document_item> events from a document.
 
 #<cldoc:cainteoir::document::list_type>
 
@@ -125,12 +125,12 @@ The type used to iterate over document items.
 
 #<cldoc:cainteoir::document::range_type>
 
-A range of <document_item> objects.
+A range of <cainteoir::document_item> objects.
 
 #<cldoc:cainteoir::document::document>
 
-Create a document object with the <document_item> events from the <document_reader>.
-@aReader   The document reader to read <document_item> events from.
+Create a document object with the <cainteoir::document_item> events from the <cainteoir::document_reader>.
+@aReader   The document reader to read <cainteoir::document_item> events from.
 @aMetadata The metadata associated with the document.
 
 Any metadata contained within the document that is captured as the document is
@@ -144,24 +144,24 @@ Get the number of characters in the document.
 
 #<cldoc:cainteoir::document::children>
 
-Get the <document_item> objects associated with the document in the specified range.
+Get the <cainteoir::document_item> objects associated with the document in the specified range.
 @aAnchors The start and end anchor for the range of children to get.
 
-@return A range of <document_item> objects.
+@return A range of <cainteoir::document_item> objects.
 
 #<cldoc:cainteoir::document::children>
 
-Get the <document_item> objects associated with the document in the specified range.
+Get the <cainteoir::document_item> objects associated with the document in the specified range.
 @aListing The navigation listing to resolve the aRange indices with.
 @aRange   The start and end indices in `aListing` for the range of children to get.
 
-@return A range of <document_item> objects.
+@return A range of <cainteoir::document_item> objects.
 
 #<cldoc:cainteoir::document::children>
 
-Get all the <document_item> objects associated with the document.
+Get all the <cainteoir::document_item> objects associated with the document.
 
-@return A range of <document_item> objects.
+@return A range of <cainteoir::document_item> objects.
 
 #<cldoc:cainteoir::navigation>
 
@@ -174,10 +174,10 @@ Get the navigation reference entries (e.g. table of contents) for the document.
 
 #<cldoc:cainteoir::document::indexof>
 
-Get the index of the <document_item> referenced by the anchor.
+Get the index of the <cainteoir::document_item> referenced by the anchor.
 @aAnchor  The anchor to resolve within the document.
 
-@return The index of the <document_item> referenced by the anchor.
+@return The index of the <cainteoir::document_item> referenced by the anchor.
 
 #<cldoc:cainteoir::document_reader>
 
@@ -264,9 +264,10 @@ the start of any document text.
 Create a document content reader.
 @aDocumentRange The range of document items to read.
 
-This is used to allow documents that have been parsed into a <document> object
-to be passed to API that consume a <document_reader>. It also allows a subset
-of the document to be used (e.g. between two table of content entries).
+This is used to allow documents that have been parsed into a <cainteoir::document>
+object to be passed to API that consume a <cainteoir::document_reader>. It also
+allows a subset of the document to be used (e.g. between two table of content
+entries).
 
 @return A reader over the document item range.
 

@@ -7,7 +7,7 @@ Create a letter to phoneme converter.
 
 #<cldoc:cainteoir::tts::event_type>
 
-The matched context for the <text_event> object.
+The matched context for the <cainteoir::tts::text_event> object.
 
 #<cldoc:cainteoir::tts::error>
 
@@ -207,9 +207,10 @@ Write the phonemes to the specified file.
 @close      The characters to use to indicate the end of a phoneme sequence.
 @phrase     The characters used to separate phrases (full stops, commas, etc.).
 
-This is used to write out the pronunciation from the <phoneme_stream> object,
-while preserving the punctuation. The punctuation is preserved to allow other
-TTS engines like eSpeak to produce the correct pauses and other prosodic elements.
+This is used to write out the pronunciation from the <cainteoir::tts::text_reader>
+object in the given `phonemeset` transcription, while preserving the punctuation.
+The punctuation is preserved to allow other TTS engines like eSpeak to produce the
+correct pauses and other prosodic elements.
 
 # License
 
