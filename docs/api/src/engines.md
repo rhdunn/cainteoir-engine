@@ -170,7 +170,7 @@ Create a new text-to-speech engine manager object.
 
 Clean up the engines.
 
-#<cldoc:tts::engines::select_voice>
+#<cldoc:cainteoir::tts::engines::select_voice>
 
 Change the voice used to read the documents.
 @aMetadata The RDF graph containing the engine and voice metadata.
