@@ -1,189 +1,204 @@
-#<cldoc:cainteoir::css::length>
+# cainteoir::css::length {: .doc }
 
 Represents a CSS length.
 
-#<cldoc:cainteoir::css::length::type>
+# cainteoir::css::length::type {: .doc }
 
 The units in which the length is specified.
 
-#<cldoc:cainteoir::css::length::inherit>
+# cainteoir::css::length::inherit {: .doc }
 
 The length value is inherited from the parent object.
 
-#<cldoc:cainteoir::css::length::millimeters>
+# cainteoir::css::length::millimeters {: .doc }
 
 The `mm` unit type.
 
-#<cldoc:cainteoir::css::length::centimeters>
+# cainteoir::css::length::centimeters {: .doc }
 
 The `cm` unit type.
 
-#<cldoc:cainteoir::css::length::inches>
+# cainteoir::css::length::inches {: .doc }
 
 The `in` unit type.
 
-#<cldoc:cainteoir::css::length::points>
+# cainteoir::css::length::points {: .doc }
 
 The `pt` unit type.
 
-#<cldoc:cainteoir::css::length::picas>
+# cainteoir::css::length::picas {: .doc }
 
 The `pc` unit type.
 
-#<cldoc:cainteoir::css::length::pixels>
+# cainteoir::css::length::pixels {: .doc }
 
 The `px` unit type.
 
-#<cldoc:cainteoir::css::length::length>
+# cainteoir::css::length::length {: .doc }
 
 Create a default valued length object.
 
-#<cldoc:cainteoir::css::length::length>
+# cainteoir::css::length::length {: .doc }
 
 Create a length object.
-@aValue The size of the length.
-@aUnits The units the length is specified in.
 
-#<cldoc:cainteoir::css::length::as>
+@aValue
+: The size of the length.
+
+@aUnits
+: The units the length is specified in.
+
+# cainteoir::css::length::as {: .doc }
 
 Convert the length to the specified units.
-@aUnits The units to convert to.
 
-@return A new length object in the specified units.
+@aUnits
+: The units to convert to.
 
-#<cldoc:cainteoir::css::length::units>
+@return
+: A new length object in the specified units.
+
+# cainteoir::css::length::units {: .doc }
 
 Gets the units the length is specified in.
 
-@return The units the length is specified in.
+@return
+: The units the length is specified in.
 
-#<cldoc:cainteoir::css::length::value>
+# cainteoir::css::length::value {: .doc }
 
 Gets the scalar value of the length.
 
-@return The scalar value of the length.
+@return
+: The scalar value of the length.
 
-#<cldoc:cainteoir::css::box>
+# cainteoir::css::box {: .doc }
 
 Represents a CSS rectangle.
 
-#<cldoc:cainteoir::css::box::left>
+# cainteoir::css::box::left {: .doc }
 
 The left edge.
 
-#<cldoc:cainteoir::css::box::top>
+# cainteoir::css::box::top {: .doc }
 
 The top edge.
 
-#<cldoc:cainteoir::css::box::right>
+# cainteoir::css::box::right {: .doc }
 
 The right edge.
 
-#<cldoc:cainteoir::css::box::bottom>
+# cainteoir::css::box::bottom {: .doc }
 
 The bottom edge.
 
-#<cldoc:cainteoir::css::counter_system>
+# cainteoir::css::counter_system {: .doc }
 
 The algorithm used to construct the counter's representation.
 
-#<cldoc:cainteoir::css::counter_system::cyclic>
+# cainteoir::css::counter_system::cyclic {: .doc }
 
 Repeatedly cycles through the specified symbols.
 
-#<cldoc:cainteoir::css::counter_system::fixed>
+# cainteoir::css::counter_system::fixed {: .doc }
 
 Runs through the symbols once, then falls back.
 
-#<cldoc:cainteoir::css::counter_system::symbolic>
+# cainteoir::css::counter_system::symbolic {: .doc }
 
 As cyclic, but doubles, triples, etc. the symbols on each pass.
 
-#<cldoc:cainteoir::css::counter_system::alphabetic>
+# cainteoir::css::counter_system::alphabetic {: .doc }
 
 As with numeric, but using an alphabet instead of numeric digits.
 
-#<cldoc:cainteoir::css::counter_system::numeric>
+# cainteoir::css::counter_system::numeric {: .doc }
 
 Interprets the symbols as digits to a place value numbering system.
 
-#<cldoc:cainteoir::css::counter_system::additive>
+# cainteoir::css::counter_system::additive {: .doc }
 
 Uses a combination of symbols where their sum is the counter value.
 
-#<cldoc:cainteoir::css::counter_style>
+# cainteoir::css::counter_style {: .doc }
 
 Represents a `@counter-style` CSS rule.
 
-#<cldoc:cainteoir::css::counter_style::value_t>
+# cainteoir::css::counter_style::value_t {: .doc }
 
 The type used for counter values.
 
-#<cldoc:cainteoir::css::counter_style::range_t>
+# cainteoir::css::counter_style::range_t {: .doc }
 
 The type used to specify counter ranges.
 
-#<cldoc:cainteoir::css::counter_style::system>
+# cainteoir::css::counter_style::system {: .doc }
 
 The algorithm to use to format the counter value.
 
-#<cldoc:cainteoir::css::counter_style::initial_symbol_value>
+# cainteoir::css::counter_style::initial_symbol_value {: .doc }
 
 The value of the first symbol (for the fixed system).
 
-#<cldoc:cainteoir::css::counter_style::symbols>
+# cainteoir::css::counter_style::symbols {: .doc }
 
 The set of symbols to use for non-additive systems.
 
-#<cldoc:cainteoir::css::counter_style::additive_symbols>
+# cainteoir::css::counter_style::additive_symbols {: .doc }
 
 The set of symbols to use for the additive system.
 
-#<cldoc:cainteoir::css::counter_style::negative_prefix>
+# cainteoir::css::counter_style::negative_prefix {: .doc }
 
 The string to use to denote negative numbers (before the number).
 
-#<cldoc:cainteoir::css::counter_style::negative_suffix>
+# cainteoir::css::counter_style::negative_suffix {: .doc }
 
 The string to use to denote negative numbers (after the number).
 
-#<cldoc:cainteoir::css::counter_style::prefix>
+# cainteoir::css::counter_style::prefix {: .doc }
 
 The string to use at the start of the formatted counter value.
 
-#<cldoc:cainteoir::css::counter_style::suffix>
+# cainteoir::css::counter_style::suffix {: .doc }
 
 The string to use at the end of the formatted counter value.
 
-#<cldoc:cainteoir::css::counter_style::range>
+# cainteoir::css::counter_style::range {: .doc }
 
 Defines the range over which the counter style is defined.
 
-#<cldoc:cainteoir::css::counter_style::fallback>
+# cainteoir::css::counter_style::fallback {: .doc }
 
 The counter to use when this counter cannot represent a value.
 
-#<cldoc:cainteoir::css::counter_style::infinite>
+# cainteoir::css::counter_style::infinite {: .doc }
 
 The value for the `infinite infinite` range.
 
-#<cldoc:cainteoir::css::counter_style::get_auto_range>
+# cainteoir::css::counter_style::get_auto_range {: .doc }
 
 The range to use for auto ranges based on the counter system.
-@system The counter system to get the auto range for.
 
-@return The range to use for the auto range.
+@system
+: The counter system to get the auto range for.
 
-#<cldoc:cainteoir::css::counter_style::counter_style>
+@return
+: The range to use for the auto range.
+
+# cainteoir::css::counter_style::counter_style {: .doc }
 
 Construct a counter style with default values.
 
-#<cldoc:cainteoir::css::counter_style::marker>
+# cainteoir::css::counter_style::marker {: .doc }
 
 Format a count value using the counter style.
-@count The numeric value of the counter to format.
 
-@return The formatted value.
+@count
+: The numeric value of the counter to format.
+
+@return
+: The formatted value.
 
 # License
 

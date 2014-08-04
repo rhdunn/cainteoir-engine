@@ -1,50 +1,70 @@
-#<cldoc:cainteoir::encoding>
+# cainteoir::encoding {: .doc }
 
 Manage the conversion of text in different character encodings to UTF-8.
 
-#<cldoc:cainteoir::encoding::encoding>
+# cainteoir::encoding::encoding {: .doc }
 
 Initialize the encoder with the specified Windows codepage.
-@aCodepage The Windows codepage to use.
 
-#<cldoc:cainteoir::encoding::encoding>
+@aCodepage
+: The Windows codepage to use.
+
+# cainteoir::encoding::encoding {: .doc }
 
 Initialize the encoder with the specified character encoding.
-@aEncoding The character encoding to use.
 
-#<cldoc:cainteoir::encoding::set_encoding>
+@aEncoding
+: The character encoding to use.
+
+# cainteoir::encoding::set_encoding {: .doc }
 
 Set the character encoding to the specified Windows codepage.
-@aCodepage The Windows codepage to change to.
 
-@return `true` if the encoding was changed, `false` otherwise.
+@aCodepage
+: The Windows codepage to change to.
 
-#<cldoc:cainteoir::encoding::set_encoding>
+@return
+: `true` if the encoding was changed, `false` otherwise.
+
+# cainteoir::encoding::set_encoding {: .doc }
 
 Set the character encoding.
-@aEncoding The character encoding to change to.
 
-@return `true` if the encoding was changed, `false` otherwise.
+@aEncoding
+: The character encoding to change to.
 
-#<cldoc:cainteoir::encoding::lookup>
+@return
+: `true` if the encoding was changed, `false` otherwise.
+
+# cainteoir::encoding::lookup {: .doc }
 
 Lookup the single-byte character.
-@c The character to lookup.
 
-@return The UTF-8 representation of `c`.
+@c
+: The character to lookup.
 
-#<cldoc:cainteoir::encoding::decode>
+@return
+: The UTF-8 representation of `c`.
 
-Convert the data buffer to UTF-8.
-@data The character buffer to convert.
-
-@return The UTF-8 representation of data.
-
-#<cldoc:cainteoir::encoding::decode>
+# cainteoir::encoding::decode {: .doc }
 
 Convert the data buffer to UTF-8.
-@data    The character buffer to convert.
-@decoded The rope to add the UTF-8 representation of data to.
+
+@data
+: The character buffer to convert.
+
+@return
+: The UTF-8 representation of data.
+
+# cainteoir::encoding::decode {: .doc }
+
+Convert the data buffer to UTF-8.
+
+@data
+: The character buffer to convert.
+
+@decoded
+: The rope to add the UTF-8 representation of data to.
 
 # License
 

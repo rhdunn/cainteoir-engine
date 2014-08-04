@@ -1,72 +1,90 @@
-#<cldoc:cainteoir::trie_node>
+# cainteoir::trie_node {: .doc }
 
 A node in a trie data structure.
 
-#<cldoc:cainteoir::trie_node::trie_node>
+# cainteoir::trie_node::trie_node {: .doc }
 
 Create a trie node object.
-@ch The character associated with the node.
 
-#<cldoc:cainteoir::trie_node::get>
+@ch
+: The character associated with the node.
+
+# cainteoir::trie_node::get {: .doc }
 
 Get the child node that is associated with the specified character.
-@ch The character of the child node to locate.
 
-@return The node associated with `ch`, or `nullptr` if no matching node was found.
+@ch
+: The character of the child node to locate.
 
-#<cldoc:cainteoir::trie_node::add>
+@return
+: The node associated with `ch`, or `nullptr` if no matching node was found.
+
+# cainteoir::trie_node::add {: .doc }
 
 Add a child node associated with the specified character.
 @ch The character to be associated with the child node.
 
 @return The new node associated with `ch`.
 
-#<cldoc:cainteoir::trie_node::c>
+# cainteoir::trie_node::c {: .doc }
 
 The character associated with the node.
 
-#<cldoc:cainteoir::trie_node::children>
+# cainteoir::trie_node::children {: .doc }
 
 The list of child nodes from this node.
 
-#<cldoc:cainteoir::trie_node::item>
+# cainteoir::trie_node::item {: .doc }
 
 The value associated with the node.
 
-#<cldoc:cainteoir::trie>
+# cainteoir::trie {: .doc }
 
 A trie data structure.
 
-#<cldoc:cainteoir::trie::trie>
+# cainteoir::trie::trie {: .doc }
 
 Create a trie object.
 
-#<cldoc:cainteoir::trie::insert>
+# cainteoir::trie::insert {: .doc }
 
 Insert a new item into the trie object.
-@str The string index of the item.
 
-@return A reference to the inserted item.
+@str
+: The string index of the item.
 
-#<cldoc:cainteoir::trie::insert>
+@return
+: A reference to the inserted item.
+
+# cainteoir::trie::insert {: .doc }
 
 Insert a new item into the trie object.
-@str   The string index of the item.
-@value The item to be inserted.
 
-#<cldoc:cainteoir::trie::lookup>
+@str
+: The string index of the item.
+
+@value
+: The item to be inserted.
+
+# cainteoir::trie::lookup {: .doc }
 
 Lookup an item by its indexed name.
-@str      The string index of the item.
-@no_match The value to return if an item does not exist at the string index.
 
-@return The matching entry value.
+@str
+: The string index of the item.
 
-#<cldoc:cainteoir::trie::root>
+@no_match
+: The value to return if an item does not exist at the string index.
+
+@return
+: The matching entry value.
+
+# cainteoir::trie::root {: .doc }
 
 Get the root node.
 
-@return The root node of the trie object.
+@return
+: The root node of the trie object.
 
 # License
 

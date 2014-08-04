@@ -1,101 +1,120 @@
-#<cldoc:cainteoir::tts::envelope_t>
+# cainteoir::tts::envelope_t {: .doc }
 
 A point in a pitch envelope.
 
-#<cldoc:cainteoir::tts::envelope_t::offset>
+# cainteoir::tts::envelope_t::offset {: .doc }
 
 The percentage offset.
 
-#<cldoc:cainteoir::tts::envelope_t::pitch>
+# cainteoir::tts::envelope_t::pitch {: .doc }
 
 The pitch at the given offset.
 
-#<cldoc:cainteoir::tts::prosody>
+# cainteoir::tts::prosody {: .doc }
 
 The prosody information for a given phoneme.
 
-#<cldoc:cainteoir::tts::prosody::first>
+# cainteoir::tts::prosody::first {: .doc }
 
 The phoneme the prosodic information is to be applied to.
 
-#<cldoc:cainteoir::tts::prosody::second>
+# cainteoir::tts::prosody::second {: .doc }
 
 The phoneme the prosodic information is to be applied to.
 
 This phoneme is used to represent the second phoneme in a diphone.
 
-#<cldoc:cainteoir::tts::prosody::envelope>
+# cainteoir::tts::prosody::envelope {: .doc }
 
 The pitch envelope of the phoneme.
 
-#<cldoc:cainteoir::tts::prosody_reader>
+# cainteoir::tts::prosody_reader {: .doc }
 
 Read prosody data from a data buffer.
 
-#<cldoc:cainteoir::tts::prosody_reader::~prosody_reader>
+# cainteoir::tts::prosody_reader::~prosody_reader {: .doc }
 
 Clean up the prosody reader object.
 
-#<cldoc:cainteoir::tts::prosody_reader::read>
+# cainteoir::tts::prosody_reader::read {: .doc }
 
 Read the next prosodic entry.
 
-@return `true` if a prosodic entry was read, `false` otherwise.
+@return
+: `true` if a prosodic entry was read, `false` otherwise.
 
-#<cldoc:cainteoir::tts::createPhoReader>
+# cainteoir::tts::createPhoReader {: .doc }
 
 Create an MBROLA pho file reader.
-@aPhonemeSet The phoneme set (transcription scheme) used to read the phonemes in the pho file.
 
-@return A prosody reader that can read MBROLA pho file entries.
+@aPhonemeSet
+: The phoneme set (transcription scheme) used to read the phonemes in the pho file.
 
-#<cldoc:cainteoir::tts::createDiphoneReader>
+@return
+: A prosody reader that can read MBROLA pho file entries.
+
+# cainteoir::tts::createDiphoneReader {: .doc }
 
 Create a phoneme to diphone converter.
-@aProsody The prosody data for the phonemes to convert.
 
-@return A prosody reader that creates the diphone sequences from `aProsody`.
+@aProsody
+: The prosody data for the phonemes to convert.
 
-#<cldoc:cainteoir::tts::prosody_writer>
+@return
+: A prosody reader that creates the diphone sequences from `aProsody`.
+
+# cainteoir::tts::prosody_writer {: .doc }
 
 Write prosody data to a file.
 
-#<cldoc:cainteoir::tts::prosody_writer::~prosody_writer>
+# cainteoir::tts::prosody_writer::~prosody_writer {: .doc }
 
 Cleans up the data associated with the prosody writer.
 
-#<cldoc:cainteoir::tts::prosody_writer::reset>
+# cainteoir::tts::prosody_writer::reset {: .doc }
 
 Set the file object to write the prosodic entries to.
-@aOutput The file object to write the prosodic entries to.
 
-#<cldoc:cainteoir::tts::prosody_writer::write>
+@aOutput
+: The file object to write the prosodic entries to.
+
+# cainteoir::tts::prosody_writer::write {: .doc }
 
 Writes the prosodic entries to the selected file.
-@aProsody The prosodic entries to write.
 
-@return `true` if the prosodic entry was written to the file, `false` otherwise.
+@aProsody
+: The prosodic entries to write.
 
-#<cldoc:cainteoir::tts::createPhoWriter>
+@return
+: `true` if the prosodic entry was written to the file, `false` otherwise.
+
+# cainteoir::tts::createPhoWriter {: .doc }
 
 Create an MBROLA pho file writer.
-@aPhonemeSet The phoneme set (transcription scheme) used to write the phonemes in the pho file.
 
-@return A prosody writer that can write MBROLA pho file entries.
+@aPhonemeSet
+: The phoneme set (transcription scheme) used to write the phonemes in the pho file.
 
-#<cldoc:cainteoir::tts::synthesizer>
+@return
+: A prosody writer that can write MBROLA pho file entries.
+
+# cainteoir::tts::synthesizer {: .doc }
 
 Manages a phoneme to audio synthesizer.
 
-#<cldoc:cainteoir::tts::synthesizer::bind>
+# cainteoir::tts::synthesizer::bind {: .doc }
 
 Associate the synthesizer with the phonemes to be synthesized.
-@aProsody The phonemes and associated prosody.
 
-#<cldoc:cainteoir::tts::synthesizer::synthesize>
+@aProsody
+: The phonemes and associated prosody.
+
+# cainteoir::tts::synthesizer::synthesize {: .doc }
 
 Synthesize the pending phonemes to audio.
-@out The audio file or device to send the audio data to.
+
+@out
+: The audio file or device to send the audio data to.
 
 # License
 

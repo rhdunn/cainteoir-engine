@@ -1,117 +1,137 @@
-#<cldoc:cainteoir::mime::mimetype>
+# cainteoir::mime::mimetype {: .doc }
 
 Manage a document MIME type with file content detection.
 
-#<cldoc:cainteoir::mime::mimetype::name>
+# cainteoir::mime::mimetype::name {: .doc }
 
 The name of this mimetype/content.
 
-#<cldoc:cainteoir::mime::mimetype::mime_type>
+# cainteoir::mime::mimetype::mime_type {: .doc }
 
 The primary mimetype string.
 
-#<cldoc:cainteoir::mime::mimetype::mimetype>
+# cainteoir::mime::mimetype::mimetype {: .doc }
 
 Create a MIME type manager object.
-@aName     The document type name.
-@aMimeType The primary MIME type string.
-@aInfo     The internal MIME type detection information.
 
-#<cldoc:cainteoir::mime::mimetype::match>
+@aName
+: The document type name.
+
+@aMimeType
+: The primary MIME type string.
+
+@aInfo
+: The internal MIME type detection information.
+
+# cainteoir::mime::mimetype::match {: .doc }
 
 Does the document content match this MIME type?
-@data The document content to check.
 
-@return `true` if the content matches this MIME type, `false` otherwise.
+@data
+: The document content to check.
 
-#<cldoc:cainteoir::mime::mimetype::match>
+@return
+: `true` if the content matches this MIME type, `false` otherwise.
+
+# cainteoir::mime::mimetype::match {: .doc }
 
 Does the XML namespace match this MIME type?
-@uri  The URI of the XML namespace.
-@name The localname of the root XML element.
 
-@return `true` if the XML namespace matches this MIME type, `false` otherwise.
+@uri
+: The URI of the XML namespace.
 
-#<cldoc:cainteoir::mime::mimetype::metadata>
+@name
+: The localname of the root XML element.
+
+@return
+: `true` if the XML namespace matches this MIME type, `false` otherwise.
+
+# cainteoir::mime::mimetype::metadata {: .doc }
 
 Get the RDF metadata for this MIME type.
-@aGraph  The RDF graph to write the metadata to.
-@baseuri The base URI to use for the RDF subject associated with this MIME type.
-@type    The rdf:type of the RDF subject associated with this MIME type.
 
-#<cldoc:cainteoir::mime::email>
+@aGraph
+: The RDF graph to write the metadata to.
+
+@baseuri
+: The base URI to use for the RDF subject associated with this MIME type.
+
+@type
+: The rdf:type of the RDF subject associated with this MIME type.
+
+# cainteoir::mime::email {: .doc }
 
 Email mbox (mime) document.
 
-#<cldoc:cainteoir::mime::epub>
+# cainteoir::mime::epub {: .doc }
 
 Electronic publication (ePub) document.
 
-#<cldoc:cainteoir::mime::gzip>
+# cainteoir::mime::gzip {: .doc }
 
 GZIP compressed document.
 
-#<cldoc:cainteoir::mime::html>
+# cainteoir::mime::html {: .doc }
 
 HTML document.
 
-#<cldoc:cainteoir::mime::mhtml>
+# cainteoir::mime::mhtml {: .doc }
 
 Single-page HTML document.
 
-#<cldoc:cainteoir::mime::mime>
+# cainteoir::mime::mime {: .doc }
 
 MIME/HTTP/NEWS headers.
 
-#<cldoc:cainteoir::mime::ncx>
+# cainteoir::mime::ncx {: .doc }
 
 Navigation control document.
 
-#<cldoc:cainteoir::mime::ogg>
+# cainteoir::mime::ogg {: .doc }
 
 Ogg/Vorbis audio.
 
-#<cldoc:cainteoir::mime::opf>
+# cainteoir::mime::opf {: .doc }
 
 Open package format document.
 
-#<cldoc:cainteoir::mime::pdf>
+# cainteoir::mime::pdf {: .doc }
 
 Portable document format.
 
-#<cldoc:cainteoir::mime::rdfxml>
+# cainteoir::mime::rdfxml {: .doc }
 
 RDF/XML document.
 
-#<cldoc:cainteoir::mime::rtf>
+# cainteoir::mime::rtf {: .doc }
 
 Rich text document.
 
-#<cldoc:cainteoir::mime::smil>
+# cainteoir::mime::smil {: .doc }
 
 SMIL document.
 
-#<cldoc:cainteoir::mime::ssml>
+# cainteoir::mime::ssml {: .doc }
 
 Speech synthesis markup document.
 
-#<cldoc:cainteoir::mime::text>
+# cainteoir::mime::text {: .doc }
 
 Plain text document.
 
-#<cldoc:cainteoir::mime::wav>
+# cainteoir::mime::wav {: .doc }
 
 Wave audio.
 
-#<cldoc:cainteoir::mime::xhtml>
+# cainteoir::mime::xhtml {: .doc }
 
 XHTML document.
 
-#<cldoc:cainteoir::mime::xml>
+# cainteoir::mime::xml {: .doc }
 
 Extensible markup language document.
 
-#<cldoc:cainteoir::mime::zip>
+# cainteoir::mime::zip {: .doc }
 
 ZIP (compressed) archive.
 

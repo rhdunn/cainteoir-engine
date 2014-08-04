@@ -1,26 +1,26 @@
-#<cldoc:cainteoir::events::event_type>
+#cainteoir::events::event_type {: .doc }
 
 The type of the document event.
 
-#<cldoc:cainteoir::events::begin_context>
+# cainteoir::events::begin_context {: .doc }
 
 The start of a rendering context.
 
 	context <context> <parameter>
 
-#<cldoc:cainteoir::events::end_context>
+# cainteoir::events::end_context {: .doc }
 
 The end of a rendering context.
 
 	end
 
-#<cldoc:cainteoir::events::text>
+# cainteoir::events::text {: .doc }
 
 Text data.
 
 	text <content>
 
-#<cldoc:cainteoir::events::anchor>
+# cainteoir::events::anchor {: .doc }
 
 An anchor point in the document.
 
@@ -28,18 +28,18 @@ The anchor corresponds to the associated toc-entry.
 
 	anchor <anchor>
 
-#<cldoc:cainteoir::events::text_ref>
+# cainteoir::events::text_ref {: .doc }
 
 A reference to text defined elsewhere.
 
 The anchor refers to a text block defined elsewhere in the document.
 
-This is used in conjunction with <cainteoir::events::media_ref> to associate
-narrated audio with a block of text.
+This is used in conjunction with [media_ref](^^cainteoir::events::media_ref)
+to associate narrated audio with a block of text.
 
 	text-ref <anchor>
 
-#<cldoc:cainteoir::events::media_ref>
+# cainteoir::events::media_ref {: .doc }
 
 A media (audio or video) file.
 
@@ -50,179 +50,227 @@ empty.
 
 	media-ref <anchor> <media-begin> <media-end> <content>
 
-#<cldoc:cainteoir::document_item>
+# cainteoir::document_item {: .doc }
 
 Holds information about a part of a document.
 
-Objects of this type are created by instances of the <cainteoir::document_reader> interface.
+Objects of this type are created by instances of the
+[document_reader](^^cainteoir::document_reader) interface.
 
-#<cldoc:cainteoir::document_item::document_item>
+# cainteoir::document_item::document_item {: .doc }
 
 Initialize the document item object.
 
-#<cldoc:cainteoir::document_item::type>
+# cainteoir::document_item::type {: .doc }
 
 The type of the event.
 
-#<cldoc:cainteoir::document_item::styles>
+# cainteoir::document_item::styles {: .doc }
 
 The CSS styles associated with this document item.
 
-#<cldoc:cainteoir::document_item::content>
+# cainteoir::document_item::content {: .doc }
 
 The text or audio data associated with the document event.
 
-#<cldoc:cainteoir::document_item::anchor>
+# cainteoir::document_item::anchor {: .doc }
 
 A uri that references the start of this event.
 
-#<cldoc:cainteoir::document_item::media_begin>
+# cainteoir::document_item::media_begin {: .doc }
 
 The time to start playback of the media in the content buffer.
 
-If this is <cainteoir::css::time::inherit>, the playback is from the start of the
-media object.
+If this is [css::time::inherit](^^cainteoir::css::time::inherit), the playback
+is from the start of the media object.
 
-#<cldoc:cainteoir::document_item::media_end>
+# cainteoir::document_item::media_end {: .doc }
 
 The time to end playback of the media in the content buffer.
 
-If this is <cainteoir::css::time::inherit>, the playback is to the end of the
-media object.
+If this is [css::time::inherit](^^cainteoir::css::time::inherit), the playback
+is to the end of the media object.
 
-#<cldoc:cainteoir::ref_entry>
+# cainteoir::ref_entry {: .doc }
 
 Represents a [ref:Entry](http://reecedunn.co.uk/schema/2014/ref#Entry) item.
 
-#<cldoc:cainteoir::ref_entry::depth>
+# cainteoir::ref_entry::depth {: .doc }
 
 The level of the entry.
 
-#<cldoc:cainteoir::ref_entry::location>
+# cainteoir::ref_entry::location {: .doc }
 
 The location of the entry in the document.
 
-#<cldoc:cainteoir::ref_entry::title>
+# cainteoir::ref_entry::title {: .doc }
 
 The title of the entry.
 
-#<cldoc:cainteoir::ref_entry::ref_entry>
+# cainteoir::ref_entry::ref_entry {: .doc }
 
 Create an entry object from [ref:Entry](http://reecedunn.co.uk/schema/2014/ref#Entry) metadata.
-@aEntry The RDF metadata for the [ref:Entry](http://reecedunn.co.uk/schema/2014/ref#Entry).
 
-#<cldoc:cainteoir::document>
+@aEntry
+: The RDF metadata for the [ref:Entry](http://reecedunn.co.uk/schema/2014/ref#Entry).
 
-Stores the <cainteoir::document_item> events from a document.
+# cainteoir::document {: .doc }
 
-#<cldoc:cainteoir::document::list_type>
+Stores the [document_item](^^cainteoir::document_item) events from a document.
+
+# cainteoir::document::list_type {: .doc }
 
 The type used to store the document items.
 
-#<cldoc:cainteoir::document::const_iterator>
+# cainteoir::document::const_iterator {: .doc }
 
 The type used to iterate over document items.
 
-#<cldoc:cainteoir::document::range_type>
+# cainteoir::document::range_type {: .doc }
 
-A range of <cainteoir::document_item> objects.
+A range of [document_item](^^cainteoir::document_item) objects.
 
-#<cldoc:cainteoir::document::document>
+# cainteoir::document::document {: .doc }
 
-Create a document object with the <cainteoir::document_item> events from the <cainteoir::document_reader>.
-@aReader   The document reader to read <cainteoir::document_item> events from.
-@aMetadata The metadata associated with the document.
+Create a document object with the [document_item](^^cainteoir::document_item)
+events from the [document_reader](^^cainteoir::document_reader).
+
+@aReader
+: The document reader to read [document_item](^^cainteoir::document_item)
+  events from.
+
+@aMetadata
+: The metadata associated with the document.
 
 Any metadata contained within the document that is captured as the document is
 read will be added to `aMetadata`.
 
-#<cldoc:cainteoir::document::text_length>
+# cainteoir::document::text_length {: .doc }
 
 Get the number of characters in the document.
 
 @return The number of characters in the document.
 
-#<cldoc:cainteoir::document::children>
+# cainteoir::document::children {: .doc }
 
-Get the <cainteoir::document_item> objects associated with the document in the specified range.
-@aAnchors The start and end anchor for the range of children to get.
+Get the [document_item](^^cainteoir::document_item) objects associated with the
+document in the specified range.
 
-@return A range of <cainteoir::document_item> objects.
+@aAnchors
+: The start and end anchor for the range of children to get.
 
-#<cldoc:cainteoir::document::children>
+@return
+: A range of [document_item](^^cainteoir::document_item) objects.
 
-Get the <cainteoir::document_item> objects associated with the document in the specified range.
-@aListing The navigation listing to resolve the aRange indices with.
-@aRange   The start and end indices in `aListing` for the range of children to get.
+# cainteoir::document::children {: .doc }
 
-@return A range of <cainteoir::document_item> objects.
+Get the [document_item](^^cainteoir::document_item) objects associated with the
+document in the specified range.
 
-#<cldoc:cainteoir::document::children>
+@aListing
+: The navigation listing to resolve the aRange indices with.
 
-Get all the <cainteoir::document_item> objects associated with the document.
+@aRange
+: The start and end indices in `aListing` for the range of children to get.
 
-@return A range of <cainteoir::document_item> objects.
+@return
+: A range of [document_item](^^cainteoir::document_item) objects.
 
-#<cldoc:cainteoir::navigation>
+# cainteoir::document::children {: .doc }
+
+Get all the [document_item](^^cainteoir::document_item) objects associated with
+the document.
+
+@return
+: A range of [document_item](^^cainteoir::document_item) objects.
+
+# cainteoir::navigation {: .doc }
 
 Get the navigation reference entries (e.g. table of contents) for the document.
-@aMetadata The RDF metadata containing the navigation information collected from the document.
-@aSubject  The RDF subject of the document to get the navigation information for.
-@aListing  The listing type to query for.
 
-@return The navigation entries associated with the document.
+@aMetadata
+: The RDF metadata containing the navigation information collected from the document.
 
-#<cldoc:cainteoir::document::indexof>
+@aSubject
+: The RDF subject of the document to get the navigation information for.
 
-Get the index of the <cainteoir::document_item> referenced by the anchor.
-@aAnchor  The anchor to resolve within the document.
+@aListing
+: The listing type to query for.
 
-@return The index of the <cainteoir::document_item> referenced by the anchor.
+@return
+: The navigation entries associated with the document.
 
-#<cldoc:cainteoir::document_reader>
+# cainteoir::document::indexof {: .doc }
+
+Get the index of the [document_item](^^cainteoir::document_item) referenced by
+the anchor.
+
+@aAnchor
+: The anchor to resolve within the document.
+
+@return
+: The index of the [document_item](^^cainteoir::document_item) referenced by
+  the anchor.
+
+# cainteoir::document_reader {: .doc }
 
 Provides a reader-style API to the events corresponding to the document.
 
-#<cldoc:cainteoir::document_reader::~document_reader>
+# cainteoir::document_reader::~document_reader {: .doc }
 
 Destroy the document reader object.
 
-#<cldoc:cainteoir::document_reader::read>
+# cainteoir::document_reader::read {: .doc }
 
 Read the next event in the document.
-@aMetadata Any additional metadata.
+
+@aMetadata
+: Any additional metadata.
 
 If `aMetadata` is not null, any metadata gathered while reading the next event
 is added to the metadata graph. This allows metadata in the body of the
 document to be extracted, such as RDFa or document reference metadata.
 
-@return `true` if an event was read, `false` if there are no more events in the document.
+@return
+: `true` if an event was read, `false` if there are no more events in the document.
 
-#<cldoc:cainteoir::capability_types>
+# cainteoir::capability_types {: .doc }
 
 The capabilities provided by different document types.
 
-#<cldoc:cainteoir::metadata_support>
+# cainteoir::metadata_support {: .doc }
 
 The document type provides metadata information that can be extracted.
 
-#<cldoc:cainteoir::text_support>
+# cainteoir::text_support {: .doc }
 
 The document type contains text that can be extracted.
 
-#<cldoc:cainteoir::supportedDocumentFormats>
+# cainteoir::supportedDocumentFormats {: .doc }
 
 Get the document formats that are supported by libcainteoir.
-@metadata     The RDF graph to write the format support to.
-@capabilities The document capabilities to query for.
 
-#<cldoc:cainteoir::createDocumentReader>
+@metadata
+: The RDF graph to write the format support to.
+
+@capabilities
+: The document capabilities to query for.
+
+# cainteoir::createDocumentReader {: .doc }
 
 Create a document content reader.
-@aFilename        The path to the document.
-@aPrimaryMetadata The main metadata that describes the document.
-@aTitle           The document title to use if none is specified.
-@aDefaultEncoding The default character encoding to use.
+
+@aFilename
+: The path to the document.
+
+@aPrimaryMetadata
+: The main metadata that describes the document.
+
+@aTitle
+: The document title to use if none is specified.
+
+@aDefaultEncoding
+: The default character encoding to use.
 
 If `aFilename` is null, the file content is read from stdin.
 
@@ -235,17 +283,28 @@ After the call to this method, `aPrimaryMetadata` contains the metadata located
 in the header section of the document. That is the part of the document before
 the start of any document text.
 
-@return A reader over the document contents, or a null pointer if the document
-        is not supported.
+@return
+: A reader over the document contents, or a null pointer if the document
+  is not supported.
 
-#<cldoc:cainteoir::createDocumentReader>
+# cainteoir::createDocumentReader {: .doc }
 
 Create a document content reader.
-@aData            The document content.
-@aSubject         The RDF subject for the document metadata.
-@aPrimaryMetadata The main metadata that describes the document.
-@aTitle           The document title to use if none is specified.
-@aDefaultEncoding The default character encoding to use.
+
+@aData
+: The document content.
+
+@aSubject
+: The RDF subject for the document metadata.
+
+@aPrimaryMetadata
+: The main metadata that describes the document.
+
+@aTitle
+: The document title to use if none is specified.
+
+@aDefaultEncoding
+: The default character encoding to use.
 
 The top-level ToC entry is determined as follows (in order of preference):
 *  the title specified by the document;
@@ -256,20 +315,24 @@ After the call to this method, `aPrimaryMetadata` contains the metadata located
 in the header section of the document. That is the part of the document before
 the start of any document text.
 
-@return A reader over the document contents, or a null pointer if the document
-        is not supported.
+@return
+: A reader over the document contents, or a null pointer if the document
+  is not supported.
 
-#<cldoc:cainteoir::createDocumentReader>
+# cainteoir::createDocumentReader {: .doc }
 
 Create a document content reader.
-@aDocumentRange The range of document items to read.
 
-This is used to allow documents that have been parsed into a <cainteoir::document>
-object to be passed to API that consume a <cainteoir::document_reader>. It also
-allows a subset of the document to be used (e.g. between two table of content
-entries).
+@aDocumentRange
+: The range of document items to read.
 
-@return A reader over the document item range.
+This is used to allow documents that have been parsed into a
+[document](^^cainteoir::document) object to be passed to API that consume a
+[document_reader](^^cainteoir::document_reader). It also allows a subset of
+the document to be used (e.g. between two table of content entries).
+
+@return
+: A reader over the document item range.
 
 # License
 

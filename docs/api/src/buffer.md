@@ -1,98 +1,134 @@
-#<cldoc:cainteoir::buffer>
+# cainteoir::buffer {: .doc }
 
 Represents a data or string buffer.
 
 This class does not manage the lifetime of the data held within it, however
 derived classes may manage the lifetime.
 
-#<cldoc:cainteoir::buffer::buffer>
+# cainteoir::buffer::buffer {: .doc }
 
 Create a new data buffer from a range.
-@f The start of the buffer.
-@l The end of the buffer.
 
-#<cldoc:cainteoir::buffer::buffer>
+@f
+: The start of the buffer.
+
+@l
+: The end of the buffer.
+
+# cainteoir::buffer::buffer {: .doc }
 
 Create a new data buffer from a string.
-@f The null-terminated string to create the buffer from.
 
-#<cldoc:cainteoir::buffer::~buffer>
+@f
+: The null-terminated string to create the buffer from.
+
+# cainteoir::buffer::~buffer {: .doc }
 
 Clean up the buffer.
 
-#<cldoc:cainteoir::buffer::match_type>
+# cainteoir::buffer::match_type {: .doc }
 
 Pointer to a string comparison function.
-@s1 The first string to compare.
-@s2 The second string to compare.
-@n  The number of characters to compare.
 
-#<cldoc:cainteoir::buffer::match_case>
+@s1
+: The first string to compare.
+
+@s2
+: The second string to compare.
+
+@n
+: The number of characters to compare.
+
+# cainteoir::buffer::match_case {: .doc }
 
 Perform case-sensitive string comparison.
 
-#<cldoc:cainteoir::buffer::ignore_case>
+# cainteoir::buffer::ignore_case {: .doc }
 
 Perform case-insensitive string comparison.
 
-#<cldoc:cainteoir::buffer::startswith>
+# cainteoir::buffer::startswith {: .doc }
 
 Does the buffer start with the specified string?
-@str   The string to check for.
-@match The comparison method to use (case sensitive or insensitive).
 
-@return `true` if the buffer starts with the specified string, `false` otherwise.
+@str
+: The string to check for.
 
-#<cldoc:cainteoir::buffer::compare>
+@match
+: The comparison method to use (case sensitive or insensitive).
 
-Compare the buffer with a string.
-@str   The string to compare with.
-@match The comparison method to use (case sensitive or insensitive).
+@return
+: `true` if the buffer starts with the specified string, `false` otherwise.
 
-@return `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
-
-#<cldoc:cainteoir::buffer::compare>
+# cainteoir::buffer::compare {: .doc }
 
 Compare the buffer with a string.
-@str   The string to compare with.
-@match The comparison method to use (case sensitive or insensitive).
 
-@return `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
+@str
+: The string to compare with.
 
-#<cldoc:cainteoir::buffer::comparei>
+@match
+: The comparison method to use (case sensitive or insensitive).
+
+@return
+: `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
+
+# cainteoir::buffer::compare {: .doc }
+
+Compare the buffer with a string.
+
+@str
+: The string to compare with.
+
+@match
+: The comparison method to use (case sensitive or insensitive).
+
+@return
+: `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
+
+# cainteoir::buffer::comparei {: .doc }
 
 Compare the buffer with a string, ignoring case differences.
-@str The string to compare with.
 
-@return `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
+@str
+: The string to compare with.
 
-#<cldoc:cainteoir::buffer::comparei>
+@return
+: `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
+
+# cainteoir::buffer::comparei {: .doc }
 
 Compare the buffer with a string, ignoring case differences.
-@str The string to compare with.
 
-@return `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
+@str
+: The string to compare with.
 
-#<cldoc:cainteoir::buffer::str>
+@return
+: `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
+
+# cainteoir::buffer::str {: .doc }
 
 Convert the buffer to a C++ string.
 
-@return The buffer as a C++ string.
+@return
+: The buffer as a C++ string.
 
-#<cldoc:cainteoir::data_buffer>
+# cainteoir::data_buffer {: .doc }
 
 A buffer allocated in memory of a given size.
 
-#<cldoc:cainteoir::data_buffer::data_buffer>
+# cainteoir::data_buffer::data_buffer {: .doc }
 
 Create a memory buffer of the requested size.
-@aSize The size of the buffer to create.
 
-#<cldoc:cainteoir::data_buffer::~data_buffer>
+@aSize
+: The size of the buffer to create.
+
+# cainteoir::data_buffer::~data_buffer {: .doc }
 
 Clean up the buffer.
 
-#<cldoc:cainteoir::memory_file>
+# cainteoir::memory_file {: .doc }
 
 Create a file that is stored in memory.
 
@@ -103,29 +139,29 @@ and get a cainteoir::buffer with the contents of that object. For example:
 	fprintf(out, "Hello World!");
 	std::shared_ptr<cainteoir::buffer> text = out.buffer(); // contains "Hello World!"
 
-#<cldoc:cainteoir::memory_file::memory_file>
+# cainteoir::memory_file::memory_file {: .doc }
 
 Open a new file in memory.
 
 The `open_memstream` POSIX function is used to create the memory file if the
 system supports it, otherwise a temporary file is created.
 
-#<cldoc:cainteoir::memory_file::~memory_file>
+# cainteoir::memory_file::~memory_file {: .doc }
 
 Clean up the memory file.
 
-#<cldoc:cainteoir::memory_file::operator FILE *>
+# cainteoir::memory_file::operator FILE * {: .doc }
 
 Return a pointer to the `FILE` object.
 
-#<cldoc:cainteoir::memory_file::buffer>
+# cainteoir::memory_file::buffer {: .doc }
 
 Create a buffer with the contents of the memory file.
 
 This closes the `FILE` object, so a new `memory_file` needs to be created after
 this call.
 
-#<cldoc:cainteoir::rope>
+# cainteoir::rope {: .doc }
 
 Manage a list of buffers.
 
@@ -133,76 +169,88 @@ This class is for situations where many buffers are created and concatenated
 together. It only concatenates the buffers when requested, performing the
 operation in one pass.
 
-#<cldoc:cainteoir::rope::rope>
+# cainteoir::rope::rope {: .doc }
 
 Create an empty rope object.
 
-#<cldoc:cainteoir::rope::size>
+# cainteoir::rope::size {: .doc }
 
 Get the number of bytes in the rope buffers.
 
-@return The number of bytes in the rope buffers.
+@return
+: The number of bytes in the rope buffers.
 
-#<cldoc:cainteoir::rope::empty>
+# cainteoir::rope::empty {: .doc }
 
 Is the rope empty?
 
-@return `true` if the rope does not contain any buffer objects, `false` otherwise.
+@return
+: `true` if the rope does not contain any buffer objects, `false` otherwise.
 
-#<cldoc:cainteoir::rope::clear>
+# cainteoir::rope::clear {: .doc }
 
 Empty the rope.
 
-#<cldoc:cainteoir::rope::operator=>
+# cainteoir::rope::operator= {: .doc }
 
 Set the rope to the content of the buffer.
-@item The buffer content to set the rope to.
 
-@return This rope object (for method chaining).
+@item
+: The buffer content to set the rope to.
 
-#<cldoc:cainteoir::rope::operator+=>
+@return
+: This rope object (for method chaining).
+
+# cainteoir::rope::operator+= {: .doc }
 
 Append the content of the buffer to the rope.
-@item The buffer content to append.
 
-@return This rope object (for method chaining).
+@item
+: The buffer content to append.
 
-#<cldoc:cainteoir::rope::buffer>
+@return
+: This rope object (for method chaining).
+
+# cainteoir::rope::buffer {: .doc }
 
 Get a buffer to the entire rope content.
 
-@return The entire rope content.
+@return
+: The entire rope content.
 
-#<cldoc:cainteoir::rope::content>
+# cainteoir::rope::content {: .doc }
 
 Get the content of the rope.
 
 This differs from the buffer method in that if the rope only contains whitespace
 then an empty buffer here is returned.
 
-@return The entire rope content.
+@return
+: The entire rope content.
 
-#<cloc:cainteoir::rope::normalize>
+# cainteoir::rope::normalize {: .doc }
 
 Get the rope buffer in its whitespace-normalized form.
 
-@return The rope buffer in its whitespace-normalized form.
+@return
+: The rope buffer in its whitespace-normalized form.
 
-#<cldoc:cainteoir::rope::str>
+# cainteoir::rope::str {: .doc }
 
 Get the buffer as a C++ string.
 
-@return The buffer as a C++ string.
+@return
+: The buffer as a C++ string.
 
-#<cldoc:cainteoir::whitespace>
+# cainteoir::whitespace {: .doc }
 
 Specifies how whitespace should be processed.
 
-#<cldoc:cainteoir::whitespace::preserve>
+# cainteoir::whitespace::preserve {: .doc }
 
 The whitespace is preserved.
 
-#<cldoc:cainteoir::whitespace::collapse>
+# cainteoir::whitespace::collapse {: .doc }
 
 Consecutive whitespace is collapsed.
 
@@ -212,129 +260,198 @@ single whitespace character remains.
 For trim options, this indicates that the whitespace on the left/right should
 be removed.
 
-#<cldoc:cainteoir::make_buffer>
+# cainteoir::make_buffer {: .doc }
 
 Create a data buffer with the content of the string.
-@aString The content of the buffer.
 
-@return A new data buffer with the content of `aString`.
+@aString
+: The content of the buffer.
 
-#<cldoc:cainteoir::make_buffer>
+@return
+: A new data buffer with the content of `aString`.
+
+# cainteoir::make_buffer {: .doc }
 
 Create a data buffer with the content of the string.
-@aString The content of the buffer.
-@aLength The length of the string (or number of bytes of the string to copy).
 
-@return A new data buffer with the content of `aString`.
+@aString
+: The content of the buffer.
 
-#<cldoc:cainteoir::make_file_buffer>
+@aLength
+: The length of the string (or number of bytes of the string to copy).
+
+@return
+: A new data buffer with the content of `aString`.
+
+# cainteoir::make_file_buffer {: .doc }
 
 Create a buffer from a file.
-@path The path of the file to read the data from.
+
+@path
+: The path of the file to read the data from.
 
 This function creates a memory mapped view of the file for optimal reading
 of file contents.
 
-@return A buffer containing the content of the specified file.
+@return
+: A buffer containing the content of the specified file.
 
-#<cldoc:cainteoir::make_file_buffer>
+# cainteoir::make_file_buffer {: .doc }
 
 Create a buffer from a file.
-@f The file to read the data from.
+
+@f
+: The file to read the data from.
 
 This function reads the data from the file in chunks. It is useful for
 files that are buffered (stdin, pipes, sockets, etc.). For regular
 files, use the version of this function that takes a path as that reads
 the content in a single memory-mapped block.
 
-@return A buffer containing the content of the specified file.
+@return
+: A buffer containing the content of the specified file.
 
-#<cldoc:cainteoir::make_file_buffer>
+# cainteoir::make_file_buffer {: .doc }
 
 Create a buffer from a file descriptor.
-@fd The file descriptor to read the data from.
+
+@fd
+: The file descriptor to read the data from.
 
 This function reads the data from the file in chunks. It is useful for
 files that are buffered (stdin, pipes, sockets, etc.). For regular
 files, use the version of this function that takes a path as that reads
 the content in a single memory-mapped block.
 
-@return A buffer containing the content of the specified file descriptor.
+@return
+: A buffer containing the content of the specified file descriptor.
 
-#<cldoc:cainteoir::normalize>
+# cainteoir::normalize {: .doc }
 
 Create a whitespace-normalized buffer.
-@aBuffer The buffer containing the text to normalize.
+
+@aBuffer
+: The buffer containing the text to normalize.
 
 This trims whitespace from the start and end of the buffer, as well as
 consecutive whitespace characters within the buffer. Any whitespace
 character is replaced by an ASCII space character.
 
-@return A new buffer with the whitespace normalized.
+@return
+: A new buffer with the whitespace normalized.
 
-#<cldoc:cainteoir::normalize>
+# cainteoir::normalize {: .doc }
 
 Create a whitespace-normalized buffer.
-@aBuffer     The buffer containing the text to normalize.
-@aWhitespace <cainteoir::whitespace::preserve> to keep or <cainteoir::whitespace::collapse> to remove consecutive non-newline whitespace characters
-@aNewlines   <cainteoir::whitespace::preserve> to keep or <cainteoir::whitespace::collapse> to remove consecutive newline characters
-@aTrimLeft   <cainteoir::whitespace::preserve> to keep or <cainteoir::whitespace::collapse> to remove whitespace at the start
-@aTrimRight  <cainteoir::whitespace::preserve> to keep or <cainteoir::whitespace::collapse> to remove whitespace at the end
+
+@aBuffer
+: The buffer containing the text to normalize.
+
+@aWhitespace
+: [preserve](^^cainteoir::whitespace::preserve) to keep or
+  [collapse](^^cainteoir::whitespace::collapse) to remove consecutive
+  non-newline whitespace characters
+
+@aNewlines
+: [preserve](^^cainteoir::whitespace::preserve) to keep or
+  [collapse](^^cainteoir::whitespace::collapse) to remove consecutive
+  newline characters
+
+@aTrimLeft
+: [preserve](^^cainteoir::whitespace::preserve) to keep or
+  [collapse](^^cainteoir::whitespace::collapse) to remove whitespace
+  at the start
+
+@aTrimRight
+: [preserve](^^cainteoir::whitespace::preserve) to keep or
+  [collapse](^^cainteoir::whitespace::collapse) to remove whitespace
+  at the end
 
 The `aWhitespace` and `aNewlines` options configure how consecutive whitespace
 is collapsed, supporting the CSS `normal`, `pre` and `pre-line` whitespace
-modes. If `aTrimLeft` or `aTrimRight` are <cainteoir::whitespace::preserve>, the whitespace
-rules for `aWhitespace` and `aNewlines` apply.
+modes. If `aTrimLeft` or `aTrimRight` are [preserve](^^cainteoir::whitespace::preserve),
+the whitespace rules for `aWhitespace` and `aNewlines` apply.
 
-@return A new buffer with the whitespace normalized.
+@return
+: A new buffer with the whitespace normalized.
 
-#<cldoc:cainteoir::decoder_ptr>
+# cainteoir::decoder_ptr {: .doc }
 
 Pointer to a decoding/decompression algorithm.
-@data The data buffer to be decoded/decompressed.
-@size The size of the decoded/decompressed data buffer.
 
-@return The new data buffer.
+@data
+: The data buffer to be decoded/decompressed.
 
-#<cldoc:cainteoir::copy>
+@size
+: The size of the decoded/decompressed data buffer.
+
+@return
+: The new data buffer.
+
+# cainteoir::copy {: .doc }
 
 Copy the data in buffer to a memory buffer.
-@data The data buffer to be decoded/decompressed.
-@size The size of the decoded/decompressed data buffer.
 
-@return The new data buffer.
+@data
+: The data buffer to be decoded/decompressed.
 
-#<cldoc:cainteoir::inflate_zlib>
+@size
+: The size of the decoded/decompressed data buffer.
+
+@return
+: The new data buffer.
+
+# cainteoir::inflate_zlib {: .doc }
 
 Inflate a zlib compressed data buffer.
-@data The data buffer to be decoded/decompressed.
-@size The size of the decoded/decompressed data buffer.
 
-@return The uncompressed data buffer.
+@data
+: The data buffer to be decoded/decompressed.
 
-#<cldoc:cainteoir::inflate_gzip>
+@size
+: The size of the decoded/decompressed data buffer.
+
+@return
+: The uncompressed data buffer.
+
+# cainteoir::inflate_gzip {: .doc }
 
 Inflate a gzip compressed data buffer.
-@data The data buffer to be decoded/decompressed.
-@size The size of the decoded/decompressed data buffer.
 
-@return The uncompressed data buffer.
+@data
+: The data buffer to be decoded/decompressed.
 
-#<cldoc:cainteoir::decode_quoted_printable>
+@size
+: The size of the decoded/decompressed data buffer.
+
+@return
+: The uncompressed data buffer.
+
+# cainteoir::decode_quoted_printable {: .doc }
 
 Decode a quoted printable encoded data buffer.
-@data The data buffer to be decoded/decompressed.
-@size The size of the decoded/decompressed data buffer.
 
-@return The decoded data buffer.
+@data
+: The data buffer to be decoded/decompressed.
 
-#<cldoc:cainteoir::decode_base64>
+@size
+: The size of the decoded/decompressed data buffer.
+
+@return
+: The decoded data buffer.
+
+# cainteoir::decode_base64 {: .doc }
 
 Decode a base64 encoded data buffer.
-@data The data buffer to be decoded/decompressed.
-@size The size of the decoded/decompressed data buffer.
 
-@return The decoded data buffer.
+@data
+: The data buffer to be decoded/decompressed.
+
+@size
+: The size of the decoded/decompressed data buffer.
+
+@return
+: The decoded data buffer.
 
 # License
 

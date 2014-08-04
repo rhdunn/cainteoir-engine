@@ -1,468 +1,578 @@
-#<cldoc:cainteoir::xml::lookup_entity>
+# cainteoir::xml::lookup_entity {: .doc }
 
 Find the predefined entity in the entity table.
-@entities The entity table to use to resolve the entity.
-@data     The name of the entity without the surruonding & and ; characters.
 
-@return The UTF-8 encoded characters represented by the named entity, or null if it does not exist.
+@entities
+: The entity table to use to resolve the entity.
 
-#<cldoc:cainteoir::xml::xmlns::dc>
+@data
+: The name of the entity without the surruonding & and ; characters.
+
+@return
+: The UTF-8 encoded characters represented by the named entity, or null if it does not exist.
+
+# cainteoir::xml::xmlns::dc {: .doc }
 
 Dublin Core Elements namespace.
 
-#<cldoc:cainteoir::xml::xmlns::dcam>
+# cainteoir::xml::xmlns::dcam {: .doc }
 
 Dublin Core Abstract Model namespace.
 
-#<cldoc:cainteoir::xml::xmlns::dct>
+# cainteoir::xml::xmlns::dct {: .doc }
 
 Dublin Core Terms namespace.
 
-#<cldoc:cainteoir::xml::xmlns::dtb>
+# cainteoir::xml::xmlns::dtb {: .doc }
 
 Daisy Talking Book namespace.
 
-#<cldoc:cainteoir::xml::xmlns::epub>
+# cainteoir::xml::xmlns::epub {: .doc }
 
 ePub (Open Package Specification) namespace.
 
-#<cldoc:cainteoir::xml::xmlns::foaf>
+# cainteoir::xml::xmlns::foaf {: .doc }
 
 Friend of a Friend namespace.
 
-#<cldoc:cainteoir::xml::xmlns::html40>
+# cainteoir::xml::xmlns::html40 {: .doc }
 
 XML-based Hyper-Text Markup Language 4.0 (MS Word HTML) namespace.
 
-#<cldoc:cainteoir::xml::xmlns::media>
+# cainteoir::xml::xmlns::media {: .doc }
 
 ePub Media Overlays namespace.
 
-#<cldoc:cainteoir::xml::xmlns::ncx>
+# cainteoir::xml::xmlns::ncx {: .doc }
 
 Navigation Control File namespace.
 
-#<cldoc:cainteoir::xml::xmlns::ocf>
+# cainteoir::xml::xmlns::ocf {: .doc }
 
 Open Container Format namespace.
 
-#<cldoc:cainteoir::xml::xmlns::opf>
+# cainteoir::xml::xmlns::opf {: .doc }
 
 Open Packaging Format namespace.
 
-#<cldoc:cainteoir::xml::xmlns::owl>
+# cainteoir::xml::xmlns::owl {: .doc }
 
 Ontology Web Language namespace.
 
-#<cldoc:cainteoir::xml::xmlns::pkg>
+# cainteoir::xml::xmlns::pkg {: .doc }
 
 ePub Package namespace.
 
-#<cldoc:cainteoir::xml::xmlns::rdf>
+# cainteoir::xml::xmlns::rdf {: .doc }
 
 Resource Description Framework namespace.
 
-#<cldoc:cainteoir::xml::xmlns::rdfa>
+# cainteoir::xml::xmlns::rdfa {: .doc }
 
 RDF/attributes namespace.
 
-#<cldoc:cainteoir::xml::xmlns::rdfs>
+# cainteoir::xml::xmlns::rdfs {: .doc }
 
 RDF Schema namespace.
 
-#<cldoc:cainteoir::xml::xmlns::skos>
+# cainteoir::xml::xmlns::skos {: .doc }
 
 Simple Knowledge Organization System namespace.
 
-#<cldoc:cainteoir::xml::xmlns::smil>
+# cainteoir::xml::xmlns::smil {: .doc }
 
 Synchronized Multimedia Integration Language namespace.
 
-#<cldoc:cainteoir::xml::xmlns::ssml>
+# cainteoir::xml::xmlns::ssml {: .doc }
 
 Speech Synthesis Markup Language namespace.
 
-#<cldoc:cainteoir::xml::xmlns::tts>
+# cainteoir::xml::xmlns::tts {: .doc }
 
 Cainteoir Text-to-Speech namespace.
 
-#<cldoc:cainteoir::xml::xmlns::xhtml>
+# cainteoir::xml::xmlns::xhtml {: .doc }
 
 XML-based Hyper-Text Markup Language namespace.
 
-#<cldoc:cainteoir::xml::xmlns::xml>
+# cainteoir::xml::xmlns::xml {: .doc }
 
 eXtensible Markup Language namespace.
 
-#<cldoc:cainteoir::xml::xmlns::xsd>
+# cainteoir::xml::xmlns::xsd {: .doc }
 
 XML Schema namespace.
 
-#<cldoc:cainteoir::xml::namespaces>
+# cainteoir::xml::namespaces {: .doc }
 
 Manage a set of XML namespaces.
 
-#<cldoc:cainteoir::xml::namespaces::namespaces>
+# cainteoir::xml::namespaces::namespaces {: .doc }
 
 Initialize a new namespace manager object.
 
-#<cldoc:cainteoir::xml::namespaces::add_namespace>
+# cainteoir::xml::namespaces::add_namespace {: .doc }
 
 Add a namespace to the current scope.
-@aPrefix The prefix of the namespace.
-@aHref   The URI of the namespace.
 
-@return This namespace manager object (to support method chaining).
+@aPrefix
+: The prefix of the namespace.
 
-#<cldoc:cainteoir::xml::namespaces::add_namespace>
+@aHref
+: The URI of the namespace.
 
-Add a namespace to the current scope.
-@aPrefix The prefix of the namespace.
-@aHref   The URI of the namespace.
+@return
+: This namespace manager object (to support method chaining).
 
-@return This namespace manager object (to support method chaining).
-
-#<cldoc:cainteoir::xml::namespaces::add_namespace>
+# cainteoir::xml::namespaces::add_namespace {: .doc }
 
 Add a namespace to the current scope.
-@aNS The namespace to add.
 
-@return This namespace manager object (to support method chaining).
+@aPrefix
+: The prefix of the namespace.
 
-#<cldoc:cainteoir::xml::namespaces::push_block>
+@aHref
+: The URI of the namespace.
+
+@return
+: This namespace manager object (to support method chaining).
+
+# cainteoir::xml::namespaces::add_namespace {: .doc }
+
+Add a namespace to the current scope.
+
+@aNS
+: The namespace to add.
+
+@return
+: This namespace manager object (to support method chaining).
+
+# cainteoir::xml::namespaces::push_block {: .doc }
 
 Add a new scope block.
 
-#<cldoc:cainteoir::xml::namespaces::pop_block>
+# cainteoir::xml::namespaces::pop_block {: .doc }
 
 Remove a new scope block.
 
 All namespaces associated with the top-most scope block are removed.
 
-#<cldoc:cainteoir::xml::namespaces::lookup>
+# cainteoir::xml::namespaces::lookup {: .doc }
 
 Resolve the namespace prefix to a URI.
-@aPrefix The namespace prefix to resolve.
 
-@return The URI associated with the specified namespace prefix.
+@aPrefix
+: The namespace prefix to resolve.
 
-#<cldoc:cainteoir::xml::namespaces::lookup>
+@return
+: The URI associated with the specified namespace prefix.
+
+# cainteoir::xml::namespaces::lookup {: .doc }
 
 Resolve the namespace prefix to a URI.
-@aPrefix The namespace prefix to resolve.
 
-@return The URI associated with the specified namespace prefix.
+@aPrefix
+: The namespace prefix to resolve.
 
-#<cldoc:cainteoir::xml::unknown_context>
+@return
+: The URI associated with the specified namespace prefix.
+
+# cainteoir::xml::unknown_context {: .doc }
 
 The specified element/attribute was not found.
 
-#<cldoc:cainteoir::xml::base_attr>
+# cainteoir::xml::base_attr {: .doc }
 
 The `@xml:base` attribute.
 
-#<cldoc:cainteoir::xml::id_attr>
+# cainteoir::xml::id_attr {: .doc }
 
 The `@xml:id` attribute.
 
-#<cldoc:cainteoir::xml::lang_attr>
+# cainteoir::xml::lang_attr {: .doc }
 
 The `@xml:lang` attribute.
 
-#<cldoc:cainteoir::xml::space_attr>
+# cainteoir::xml::space_attr {: .doc }
 
 The `@xml:space` attribute.
 
-#<cldoc:cainteoir::xml::attrs>
+# cainteoir::xml::attrs {: .doc }
 
 Attributes in the XML namespace.
 
-#<cldoc:cainteoir::xml::context>
+# cainteoir::xml::context {: .doc }
 
 Manage looking up XML elements and attributes.
 
-#<cldoc:cainteoir::xml::context::context>
+# cainteoir::xml::context::context {: .doc }
 
 Create an empty context manager object.
 
-#<cldoc:cainteoir::xml::context::context>
+# cainteoir::xml::context::context {: .doc }
 
 Create a context manager object.
-@aNS     The namespace to associate the entries with.
-@entries The elements or attributes associated with the namespace.
-@match   The comparison method to use (case sensitive or insensitive).
 
-#<cldoc:cainteoir::xml::context::context>
+@aNS
+: The namespace to associate the entries with.
+
+@entries
+: The elements or attributes associated with the namespace.
+
+@match
+: The comparison method to use (case sensitive or insensitive).
+
+# cainteoir::xml::context::context {: .doc }
 
 Create a context manager object.
-@aNS     The namespace to associate the entries with.
-@entries The elements or attributes associated with the namespace.
-@match   The comparison method to use (case sensitive or insensitive).
 
-#<cldoc:cainteoir::xml::context::set>
+@aNS
+: The namespace to associate the entries with.
+
+@entries
+: The elements or attributes associated with the namespace.
+
+@match
+: The comparison method to use (case sensitive or insensitive).
+
+# cainteoir::xml::context::set {: .doc }
 
 Set the context entries to use for the specified namespace.
-@aNS     The namespace to associate the entries with.
-@entries The elements or attributes associated with the namespace.
-@match   The comparison method to use (case sensitive or insensitive).
 
-#<cldoc:cainteoir::xml::context::set>
+@aNS
+: The namespace to associate the entries with.
+
+@entries
+: The elements or attributes associated with the namespace.
+
+@match
+: The comparison method to use (case sensitive or insensitive).
+
+# cainteoir::xml::context::set {: .doc }
 
 Set the context entries to use for the specified namespace.
-@aNS     The namespace to associate the entries with.
-@entries The elements or attributes associated with the namespace.
-@match   The comparison method to use (case sensitive or insensitive).
 
-#<cldoc:cainteoir::xml::context::lookup>
+@aNS
+: The namespace to associate the entries with.
+
+@entries
+: The elements or attributes associated with the namespace.
+
+@match
+: The comparison method to use (case sensitive or insensitive).
+
+# cainteoir::xml::context::lookup {: .doc }
 
 Find the entry for the specified element or attribute.
-@aNS   The namespace of the element/attribute.
-@aNode The element/attribute name.
 
-@return The entry associated with the element/attribute.
+@aNS
+: The namespace of the element/attribute.
 
-#<cldoc:cainteoir::xml::reader>
+@aNode
+: The element/attribute name.
+
+@return
+: The entry associated with the element/attribute.
+
+# cainteoir::xml::reader {: .doc }
 
 Parse an XML document.
 
-#<cldoc:cainteoir::xml::reader::reader>
+# cainteoir::xml::reader::reader {: .doc }
 
 Create a new XML document reader.
-@aData               The XML document contents.
-@aDefaultEncoding    The character encoding to use by default.
-@aPredefinedEntities The DTD entities to use by default.
 
-#<cldoc:cainteoir::xml::reader::set_predefined_entities>
+@aData
+: The XML document contents.
+
+@aDefaultEncoding
+: The character encoding to use by default.
+
+@aPredefinedEntities
+: The DTD entities to use by default.
+
+# cainteoir::xml::reader::set_predefined_entities {: .doc }
 
 Set the DTD entities to use by default.
-@aPredefinedEntities The DTD entities to use by default.
 
-#<cldoc:cainteoir::xml::reader::read>
+@aPredefinedEntities
+: The DTD entities to use by default.
+
+# cainteoir::xml::reader::read {: .doc }
 
 Read the next node in the XML document.
 
-@return `true` if the next node was read, `false` if there are no more nodes to read.
+@return
+: `true` if the next node was read, `false` if there are no more nodes to read.
 
-#<cldoc:cainteoir::xml::reader::nodeValue>
+# cainteoir::xml::reader::nodeValue {: .doc }
 
 Get the content of the current node.
 
-@return The content of the current node.
+@return
+: The content of the current node.
 
-#<cldoc:cainteoir::xml::reader::nodeName>
+# cainteoir::xml::reader::nodeName {: .doc }
 
 Get the name of the current node.
 
-@return The name of the current node.
+@return
+: The name of the current node.
 
-#<cldoc:cainteoir::xml::reader::nodePrefix>
+# cainteoir::xml::reader::nodePrefix {: .doc }
 
 Get the namespace prefix of the current node.
 
-@return The namespace prefix of the current node.
+@return
+: The namespace prefix of the current node.
 
-#<cldoc:cainteoir::xml::reader::namespaceUri>
+# cainteoir::xml::reader::namespaceUri {: .doc }
 
 Get the namespace URI of the current node.
 
-@return The namespace URI of the current node.
+@return
+: The namespace URI of the current node.
 
-#<cldoc:cainteoir::xml::reader::nodeType>
+# cainteoir::xml::reader::nodeType {: .doc }
 
 Get the type of the current node.
 
-@return The type of the current node.
+@return
+: The type of the current node.
 
-#<cldoc:cainteoir::xml::reader::isPlainText>
+# cainteoir::xml::reader::isPlainText {: .doc }
 
 Is the document plain text?
 
-@return `true` if the document is plain text, `false` otherwise.
+@return
+: `true` if the document is plain text, `false` otherwise.
 
-#<cldoc:cainteoir::xml::reader::context>
+# cainteoir::xml::reader::context {: .doc }
 
 Get the context entry for the current node.
 
-@return The context entry for the current node.
+@return
+: The context entry for the current node.
 
-#<cldoc:cainteoir::xml::reader::set_nodes>
-
-Set the context entries for resolving the namespace's elements.
-@aNS     The namespace to associate the entries with.
-@entries The elements associated with the namespace.
-@match   The comparison method to use (case sensitive or insensitive).
-
-#<cldoc:cainteoir::xml::reader::set_nodes>
+# cainteoir::xml::reader::set_nodes {: .doc }
 
 Set the context entries for resolving the namespace's elements.
-@aNS     The namespace to associate the entries with.
-@entries The elements associated with the namespace.
-@match   The comparison method to use (case sensitive or insensitive).
 
-#<cldoc:cainteoir::xml::reader::set_attrs>
+@aNS
+: The namespace to associate the entries with.
+
+@entries
+: The elements associated with the namespace.
+
+@match
+: The comparison method to use (case sensitive or insensitive).
+
+# cainteoir::xml::reader::set_nodes {: .doc }
+
+Set the context entries for resolving the namespace's elements.
+
+@aNS
+: The namespace to associate the entries with.
+
+@entries
+: The elements associated with the namespace.
+
+@match
+: The comparison method to use (case sensitive or insensitive).
+
+# cainteoir::xml::reader::set_attrs {: .doc }
 
 Set the context entries for resolving the namespace's attributes.
-@aNS     The namespace to associate the entries with.
-@entries The attributes associated with the namespace.
-@match   The comparison method to use (case sensitive or insensitive).
 
-#<cldoc:cainteoir::xml::reader::set_attrs>
+@aNS
+: The namespace to associate the entries with.
+
+@entries
+: The attributes associated with the namespace.
+
+@match
+: The comparison method to use (case sensitive or insensitive).
+
+# cainteoir::xml::reader::set_attrs {: .doc }
 
 Set the context entries for resolving the namespace's attributes.
-@aNS     The namespace to associate the entries with.
-@entries The attributes associated with the namespace.
-@match   The comparison method to use (case sensitive or insensitive).
 
-#<cldoc:cainteoir::xml::reader::set_encoding>
+@aNS
+: The namespace to associate the entries with.
+
+@entries
+: The attributes associated with the namespace.
+
+@match
+: The comparison method to use (case sensitive or insensitive).
+
+# cainteoir::xml::reader::set_encoding {: .doc }
 
 Change the character encoding used by the parser.
-@encoding The character encoding to change to.
 
-@return `true` if the character encoding was changed, `false` otherwise.
+@encoding
+: The character encoding to change to.
 
-#<cldoc:cainteoir::xml::reader::current>
+@return
+: `true` if the character encoding was changed, `false` otherwise.
+
+# cainteoir::xml::reader::current {: .doc }
 
 Get the current position in the XML document.
 
-@return The current position in the XML document.
+@return
+: The current position in the XML document.
 
-#<cldoc:cainteoir::xml::reader::set_begin_tag_type>
+# cainteoir::xml::reader::set_begin_tag_type {: .doc }
 
 Set the way begin tags are interpreted.
-@aType The way begin tags are to be interpreted.
 
-#<cldoc:cainteoir::xml::ns>
+@aType
+: The way begin tags are to be interpreted.
+
+# cainteoir::xml::ns {: .doc }
 
 Manages an XML namespace.
 
-#<cldoc:cainteoir::xml::ns::prefix>
+# cainteoir::xml::ns::prefix {: .doc }
 
 The default prefix for the namespace.
 
-#<cldoc:cainteoir::xml::ns::href>
+# cainteoir::xml::ns::href {: .doc }
 
 The URI of the namespace.
 
-#<cldoc:cainteoir::xml::ns::ns>
+# cainteoir::xml::ns::ns {: .doc }
 
 Create a new XML namespace object.
-@aPrefix The prefix to use for the namespace.
-@aHref   The URI of the namespace.
 
-#<cldoc:cainteoir::xml::xml_entities>
+@aPrefix
+: The prefix to use for the namespace.
+
+@aHref
+: The URI of the namespace.
+
+# cainteoir::xml::xml_entities {: .doc }
 
 XML 1.0 entities.
 
-#<cldoc:cainteoir::xml::html_entities>
+# cainteoir::xml::html_entities {: .doc }
 
 HTML 5.0 entities.
 
-#<cldoc:cainteoir::xml::context::entry>
+# cainteoir::xml::context::entry {: .doc }
 
 Identifies an XML element or attribute.
 
-#<cldoc:cainteoir::xml::context::entry::begin_tag_type>
+# cainteoir::xml::context::entry::begin_tag_type {: .doc }
 
 Denotes whether the element is self-closing or not.
 
-#<cldoc:cainteoir::xml::context::entry::styles>
+# cainteoir::xml::context::entry::styles {: .doc }
 
 The CSS styles associated with the element.
 
-#<cldoc:cainteoir::xml::context::entry_ref>
+# cainteoir::xml::context::entry_ref {: .doc }
 
 Associates an element/attribute name with its entry object.
 
-#<cldoc:cainteoir::xml::context::entry_ref::name>
+# cainteoir::xml::context::entry_ref::name {: .doc }
 
 The name of the element/attribute.
 
-#<cldoc:cainteoir::xml::context::entry_ref::data>
+# cainteoir::xml::context::entry_ref::data {: .doc }
 
 The entry data associated with the element/attribute.
 
-#<cldoc:cainteoir::xml::reader::node_type>
+# cainteoir::xml::reader::node_type {: .doc }
 
 Specifies the type of the XML node.
 
-#<cldoc:cainteoir::xml::reader::beginTagNode>
+# cainteoir::xml::reader::beginTagNode {: .doc }
 
 An start of an element.
 
-#<cldoc:cainteoir::xml::reader::endTagNode>
+# cainteoir::xml::reader::endTagNode {: .doc }
 
 An end of an element.
 
-#<cldoc:cainteoir::xml::reader::beginProcessingInstructionNode>
+# cainteoir::xml::reader::beginProcessingInstructionNode {: .doc }
 
 The start of a processing instruction.
 
-#<cldoc:cainteoir::xml::reader::endProcessingInstructionNode>
+# cainteoir::xml::reader::endProcessingInstructionNode {: .doc }
 
 The end of a processing instruction.
 
-#<cldoc:cainteoir::xml::reader::commentNode>
+# cainteoir::xml::reader::commentNode {: .doc }
 
 A comment.
 
-#<cldoc:cainteoir::xml::reader::cdataNode>
+# cainteoir::xml::reader::cdataNode {: .doc }
 
 A CDATA section.
 
-#<cldoc:cainteoir::xml::reader::textNode>
+# cainteoir::xml::reader::textNode {: .doc }
 
 A block of text.
 
-#<cldoc:cainteoir::xml::reader::error>
+# cainteoir::xml::reader::error {: .doc }
 
 An error occurred parsing the XML; the XML may be malformed.
 
-#<cldoc:cainteoir::xml::reader::doctypeNode>
+# cainteoir::xml::reader::doctypeNode {: .doc }
 
 A DOCTYPE.
 
-#<cldoc:cainteoir::xml::reader::attribute>
+# cainteoir::xml::reader::attribute {: .doc }
 
 An attribute on an element or processing instruction.
 
-#<cldoc:cainteoir::xml::reader::endOfData>
+# cainteoir::xml::reader::endOfData {: .doc }
 
 The document has no more XML data.
 
-#<cldoc:cainteoir::xml::reader::dtdEntity>
+# cainteoir::xml::reader::dtdEntity {: .doc }
 
 An ENTITY reference declaration.
 
-#<cldoc:cainteoir::xml::begin_tag_type>
+# cainteoir::xml::begin_tag_type {: .doc }
 
 Specifies how begin tags are interpreted.
 
-#<cldoc:cainteoir::xml::begin_tag_type::open>
+# cainteoir::xml::begin_tag_type::open {: .doc }
 
 The begin tag opens an element block.
 
-#<cldoc:cainteoir::xml::begin_tag_type::open_close>
+# cainteoir::xml::begin_tag_type::open_close {: .doc }
 
 The begin tag creates a self-contained element block.
 
 This makes `<node>` behave the same way as `<node/>`, allowing
 support for void elements as per HTML§12.1.2.
 
-#<cldoc:cainteoir::createXmlReader>
+# cainteoir::createXmlReader {: .doc }
 
 Create a new XML document reader.
-@aData            The XML document contents.
-@aDefaultEncoding The character encoding to use by default.
+
+@aData
+: The XML document contents.
+
+@aDefaultEncoding
+: The character encoding to use by default.
 
 This function moves the reader to the first open tag element, so an XML document
 consumer does not have to do this itself.
 
-#<cldoc:cainteoir::xml::node_type_name>
+# cainteoir::xml::node_type_name {: .doc }
 
 Get the display name for the node type.
-@aType The XML node type.
 
-@return The display name for the node type.
+@aType
+: The XML node type.
+
+@return
+: The display name for the node type.
 
 # License
 

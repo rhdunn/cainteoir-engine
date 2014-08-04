@@ -1,28 +1,28 @@
-#<cldoc:cainteoir::overlap_status>
+# cainteoir::overlap_status {: .doc }
 
 The overlapping nature of two ranges,
 
-#<cldoc:cainteoir::no_overlap>
+# cainteoir::no_overlap {: .doc }
 
 The two ranges do not overlap.
 
-#<cldoc:cainteoir::overlap_inner>
+# cainteoir::overlap_inner {: .doc }
 
 The second range (other) is completely contained within the first range (this).
 
-#<cldoc:cainteoir::overlap_outer>
+# cainteoir::overlap_outer {: .doc }
 
 The first range (this) is completely contained within the second range (other).
 
-#<cldoc:cainteoir::overlap_at_start>
+# cainteoir::overlap_at_start {: .doc }
 
 The second range (other) overlaps the first range (this) at the start of the first range.
 
-#<cldoc:cainteoir::overlap_at_end>
+# cainteoir::overlap_at_end {: .doc }
 
 The second range (other) overlaps the first range (this) at the end of the first range.
 
-#<cldoc:cainteoir::range>
+# cainteoir::range {: .doc }
 
 A sequence of items between two iterators or integral values.
 
@@ -40,92 +40,109 @@ It can also be used to define an integral range, for example:
 
 Both these examples display the same output.
 
-#<cldoc:cainteoir::range::first>
+# cainteoir::range::first {: .doc }
 
 The first item in the range.
 
-#<cldoc:cainteoir::range::last>
+# cainteoir::range::last {: .doc }
 
 One past the last item in the range.
 
-#<cldoc:cainteoir::range::iterator>
+# cainteoir::range::iterator {: .doc }
 
 The iterator type for this range object.
 
-#<cldoc:cainteoir::range::const_reverse_iterator>
+# cainteoir::range::const_reverse_iterator {: .doc }
 
 An iterator for iterating backwards through the range.
 
-#<cldoc:cainteoir::range::size_type>
+# cainteoir::range::size_type {: .doc }
 
 The type used to represent sizes.
 
-#<cldoc:cainteoir::range::range>
+# cainteoir::range::range {: .doc }
 
 Create a new range object.
-@f The first item in the range.
-@l One past the last item in the range.
 
-#<cldoc:cainteoir::range::~range>
+@f
+: The first item in the range.
+
+@l
+: One past the last item in the range.
+
+# cainteoir::range::~range {: .doc }
 
 Clean up the range object.
 
-#<cldoc:cainteoir::range::begin>
+# cainteoir::range::begin {: .doc }
 
 Get the beginning of the range.
 
-@return An iterator at the beginning of the range.
+@return
+: An iterator at the beginning of the range.
 
-#<cldoc:cainteoir::range::end>
+# cainteoir::range::end {: .doc }
 
 Get the end of the range.
 
-@return An iterator at one past the end of the range.
+@return
+: An iterator at one past the end of the range.
 
-#<cldoc:cainteoir::range::rbegin>
+# cainteoir::range::rbegin {: .doc }
 
 Get the end of the range, iterating backwards.
 
-@return A reverse iterator at the end of the range.
+@return
+: A reverse iterator at the end of the range.
 
-#<cldoc:cainteoir::range::rend>
+# cainteoir::range::rend {: .doc }
 
 Get the beginning of the range, iterating backwards.
 
-@return A reverse iterator at the start of the range.
+@return
+: A reverse iterator at the start of the range.
 
-#<cldoc:cainteoir::range::size>
+# cainteoir::range::size {: .doc }
 
 Get the number of items in the range.
 
-@return The number of items in the range.
+@return
+: The number of items in the range.
 
-#<cldoc:cainteoir::range::empty>
+# cainteoir::range::empty {: .doc }
 
 Is the range empty?
 
-@return `true` if the range is empty, `false` otherwise.
+@return
+: `true` if the range is empty, `false` otherwise.
 
-#<cldoc:cainteoir::range::contains>
+# cainteoir::range::contains {: .doc }
 
 Does the range contain pos?
-@pos The iterator (for iterator ranges) or integral value (for integral type
-     ranges) to check is located within the range.
+
+@pos
+: The iterator (for iterator ranges) or integral value (for integral type
+  ranges) to check is located within the range.
 
 @return `true` if <pos> is located within the range, `false` otherwise.
 
-#<cldoc:cainteoir::range::contains>
+# cainteoir::range::contains {: .doc }
 
 Does the range contain another range, either partially or completely?
-@other The range to check is contained within this range.
 
-@return The overlapping nature of the two ranges (see <cainteoir::overlap_status>
-        for a description of the return values).
+@other
+: The range to check is contained within this range.
 
-#<cldoc:cainteoir::reverse>
+@return
+: The overlapping nature of the two ranges (see [overlap_status](^^cainteoir::overlap_status)
+  for a description of the return values).
+
+# cainteoir::reverse {: .doc }
 
 Traverse the container in reverse order.
-@c The container to traverse in reverse order.
+
+@c
+: The container to traverse in reverse order.
 
 This is useful in conjunction with the C++11 range-based for loop, for example:
 
@@ -133,7 +150,8 @@ This is useful in conjunction with the C++11 range-based for loop, for example:
 	for (auto &item : cainteoir::reverse(v))
 		std::cout << item << std::endl;
 
-@return A range object for traversing the container in reverse order.
+@return
+: A range object for traversing the container in reverse order.
 
 # License
 

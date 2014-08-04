@@ -1,213 +1,260 @@
-#<cldoc:cainteoir::tts::createPronunciationRules>
+# cainteoir::tts::createPronunciationRules {: .doc }
 
 Create a letter to phoneme converter.
-@aRuleSetPath The path of the letter to phoneme rules to use.
 
-@return A letter to phoneme converter object.
+@aRuleSetPath
+: The path of the letter to phoneme rules to use.
 
-#<cldoc:cainteoir::tts::event_type>
+@return
+: A letter to phoneme converter object.
 
-The matched context for the <cainteoir::tts::text_event> object.
+# cainteoir::tts::event_type {: .doc }
 
-#<cldoc:cainteoir::tts::error>
+The matched context for the [text_event](^^cainteoir::tts::text_event) object.
+
+# cainteoir::tts::error {: .doc }
 
 The unicode codepoints are invalid or not recognised.
 
-#<cldoc:cainteoir::tts::word_uppercase>
+# cainteoir::tts::word_uppercase {: .doc }
 
 A sequence of upper-case letters.
 
-#<cldoc:cainteoir::tts::word_lowercase>
+# cainteoir::tts::word_lowercase {: .doc }
 
 A sequence of lower-case letters.
 
-#<cldoc:cainteoir::tts::word_capitalized>
+# cainteoir::tts::word_capitalized {: .doc }
 
 An upper-case or title-case letter followed by a sequence of lower-case letters.
 
-#<cldoc:cainteoir::tts::word_mixedcase>
+# cainteoir::tts::word_mixedcase {: .doc }
 
 A sequence of lower-case and upper-case letters.
 
-#<cldoc:cainteoir::tts::word_script>
+# cainteoir::tts::word_script {: .doc }
 
 A sequence of CJK or similar script characters.
 
-#<cldoc:cainteoir::tts::number>
+# cainteoir::tts::number {: .doc }
 
 A sequence of number characters.
 
-#<cldoc:cainteoir::tts::ordinal_number>
+# cainteoir::tts::ordinal_number {: .doc }
 
 An ordinal number such as 1st, 2nd or 3rd.
 
-#<cldoc:cainteoir::tts::punctuation>
+# cainteoir::tts::punctuation {: .doc }
 
 A generic punctuation character.
 
-#<cldoc:cainteoir::tts::comma>
+# cainteoir::tts::comma {: .doc }
 
 A comma punctuation character.
 
-#<cldoc:cainteoir::tts::semicolon>
+# cainteoir::tts::semicolon {: .doc }
 
 A semicolon punctuation character.
 
-#<cldoc:cainteoir::tts::colon>
+# cainteoir::tts::colon {: .doc }
 
 A colon punctuation character.
 
-#<cldoc:cainteoir::tts::ellipsis>
+# cainteoir::tts::ellipsis {: .doc }
 
 An ellipsis punctuation character.
 
-#<cldoc:cainteoir::tts::full_stop>
+# cainteoir::tts::full_stop {: .doc }
 
 A full stop (period) punctuation character.
 
-#<cldoc:cainteoir::tts::double_stop>
+# cainteoir::tts::double_stop {: .doc }
 
 A sequence of two full stop punctuation characters.
 
-#<cldoc:cainteoir::tts::exclamation>
+# cainteoir::tts::exclamation {: .doc }
 
 An exclamation mark punctuation character.
 
-#<cldoc:cainteoir::tts::question>
+# cainteoir::tts::question {: .doc }
 
 A question mark punctuation character.
 
-#<cldoc:cainteoir::tts::symbol>
+# cainteoir::tts::symbol {: .doc }
 
 A generic symbol character.
 
-#<cldoc:cainteoir::tts::paragraph>
+# cainteoir::tts::paragraph {: .doc }
 
 A separator between two paragraphs.
 
-#<cldoc:cainteoir::tts::en_dash>
+# cainteoir::tts::en_dash {: .doc }
 
 An en-dash punctuation character.
 
-#<cldoc:cainteoir::tts::em_dash>
+# cainteoir::tts::em_dash {: .doc }
 
 An em-dash punctuation character.
 
-#<cldoc:cainteoir::tts::text_event>
+# cainteoir::tts::text_event {: .doc }
 
 Information about a text block match.
 
-#<cldoc:cainteoir::tts::text_event::text>
+# cainteoir::tts::text_event::text {: .doc }
 
 The Unicode codepoints associated with the event.
 
-#<cldoc:cainteoir::tts::text_event::phonemes>
+# cainteoir::tts::text_event::phonemes {: .doc }
 
 The sequence of phonemes associated with the event.
 
-#<cldoc:cainteoir::tts::text_event::type>
+# cainteoir::tts::text_event::type {: .doc }
 
 The classification of the event.
 
-#<cldoc:cainteoir::tts::text_event::range>
+# cainteoir::tts::text_event::range {: .doc }
 
 The start and end character of the event.
 
 The start and end values are the number of Unicode codepoints from the start of
 the document to the relevant position.
 
-#<cldoc:cainteoir::tts::text_event::codepoint>
+# cainteoir::tts::text_event::codepoint {: .doc }
 
 The Unicode codepoint of the first character in the event.
 
-#<cldoc:cainteoir::tts::text_event::text_event>
+# cainteoir::tts::text_event::text_event {: .doc }
 
 Create a text event object.
-@aText      The content of the event.
-@aType      The classification of the event.
-@aRange     The start and end Unicode codepoint of the event.
-@aCodePoint The first Unicode codepoint in the event.
 
-#<cldoc:cainteoir::tts::text_event::text_event>
+@aText
+: The content of the event.
+
+@aType
+: The classification of the event.
+
+@aRange
+: The start and end Unicode codepoint of the event.
+
+@aCodePoint
+: The first Unicode codepoint in the event.
+
+# cainteoir::tts::text_event::text_event {: .doc }
 
 Create a text event object.
-@aType      The classification of the event.
-@aRange     The start and end Unicode codepoint of the event.
-@aCodePoint The first Unicode codepoint in the event.
 
-#<cldoc:cainteoir::tts::text_event::text_event>
+@aType
+: The classification of the event.
+
+@aRange
+: The start and end Unicode codepoint of the event.
+
+@aCodePoint
+: The first Unicode codepoint in the event.
+
+# cainteoir::tts::text_event::text_event {: .doc }
 
 Create an empty text event object.
 
-#<cldoc:cainteoir::tts::text_reader>
+# cainteoir::tts::text_reader {: .doc }
 
 Parse text from a document into a sequence of text events.
 
-#<cldoc:cainteoir::tts::text_reader::event>
+# cainteoir::tts::text_reader::event {: .doc }
 
 Get the current text event.
 
-@return The current text event.
+@return
+: The current text event.
 
-#<cldoc:cainteoir::tts::text_reader::read>
+# cainteoir::tts::text_reader::read {: .doc }
 
 Get the next text event.
 
-@return `true` if the next event was read, `false` if there are no more text events.
+@return
+: `true` if the next event was read, `false` if there are no more text events.
 
-#<cldoc:cainteoir::tts::create_text_reader>
+# cainteoir::tts::create_text_reader {: .doc }
 
 Create a text reader object.
-@aReader The document to generate text events from.
 
-@return The new text reader object.
+@aReader
+: The document to generate text events from.
 
-#<cldoc:cainteoir::tts::context_analysis>
+@return
+: The new text reader object.
+
+# cainteoir::tts::context_analysis {: .doc }
 
 Create a context analysis object.
 
-@return The context analysis object.
+@return
+: The context analysis object.
 
-#<cldoc:cainteoir::tts::number_scale>
+# cainteoir::tts::number_scale {: .doc }
 
 How to pronounce large numbers.
 
-#<cldoc:cainteoir::tts::short_scale>
+# cainteoir::tts::short_scale {: .doc }
 
 The short number scale (`10^6` = million, `10^9` = billion, `10^12` = trillion, etc).
 
-#<cldoc:cainteoir::tts::long_scale>
+# cainteoir::tts::long_scale {: .doc }
 
 The long number scale (`10^6` = million, `10^9` = milliard, `10^12` = billion, etc).
 
-#<cldoc:cainteoir::tts::numbers_to_words>
+# cainteoir::tts::numbers_to_words {: .doc }
 
 Create a number to word converter.
-@aLocale The language used to convert numbers, etc. into words.
-@aScale  The number scale system to use.
 
-@return The number to word converter.
+@aLocale
+: The language used to convert numbers, etc. into words.
 
-#<cldoc:cainteoir::tts::words_to_phonemes>
+@aScale
+: The number scale system to use.
+
+@return
+: The number to word converter.
+
+# cainteoir::tts::words_to_phonemes {: .doc }
 
 Create a phoneme stream object.
-@aRules               The letter to phoneme rules to use.
-@aExceptionDictionary Pronunciation of words that are mispronounced by `aRules`.
 
-@return The phoneme stream object.
+@aRules
+: The letter to phoneme rules to use.
 
-#<cldoc:cainteoir::tts::generate_phonemes>
+@aExceptionDictionary
+: Pronunciation of words that are mispronounced by `aRules`.
+
+@return
+: The phoneme stream object.
+
+# cainteoir::tts::generate_phonemes {: .doc }
 
 Write the phonemes to the specified file.
-@reader     The source of the phonetic transcription.
-@out        The file to write the transcription to.
-@phonemeset The phonemeset to transcribe phonemes as.
-@stress     The placement of stress marks in the phonetic transcription.
-@open       The characters to use to indicate the start of a phoneme sequence.
-@close      The characters to use to indicate the end of a phoneme sequence.
-@phrase     The characters used to separate phrases (full stops, commas, etc.).
 
-This is used to write out the pronunciation from the <cainteoir::tts::text_reader>
+@reader
+: The source of the phonetic transcription.
+
+@out
+: The file to write the transcription to.
+
+@phonemeset
+: The phonemeset to transcribe phonemes as.
+
+@stress
+: The placement of stress marks in the phonetic transcription.
+
+@open
+: The characters to use to indicate the start of a phoneme sequence.
+
+@close
+: The characters to use to indicate the end of a phoneme sequence.
+
+@phrase
+: The characters used to separate phrases (full stops, commas, etc.).
+
+This is used to write out the pronunciation from the [text_reader](^^cainteoir::tts::text_reader)
 object in the given `phonemeset` transcription, while preserving the punctuation.
 The punctuation is preserved to allow other TTS engines like eSpeak to produce the
 correct pauses and other prosodic elements.
