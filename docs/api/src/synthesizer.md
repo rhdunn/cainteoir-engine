@@ -14,32 +14,15 @@ The pitch at the given offset.
 
 The prosody information for a given phoneme.
 
-#<cldoc:cainteoir::tts::prosody::phoneme1>
+#<cldoc:cainteoir::tts::prosody::first>
 
 The phoneme the prosodic information is to be applied to.
 
-#<cldoc:cainteoir::tts::prosody::phoneme2>
-
-The phoneme the prosodic information is to be applied to.
-
-This phoneme is used to represent diphthongs and affricates.
-
-#<cldoc:cainteoir::tts::prosody::phoneme3>
+#<cldoc:cainteoir::tts::prosody::second>
 
 The phoneme the prosodic information is to be applied to.
 
 This phoneme is used to represent the second phoneme in a diphone.
-
-#<cldoc:cainteoir::tts::prosody::phoneme4>
-
-The phoneme the prosodic information is to be applied to.
-
-This phoneme is used to represent the second phoneme in a diphone for
-diphthongs and affricates.
-
-#<cldoc:cainteoir::tts::prosody::duration>
-
-The length of the phoneme.
 
 #<cldoc:cainteoir::tts::prosody::envelope>
 
@@ -52,14 +35,6 @@ Read prosody data from a data buffer.
 #<cldoc:cainteoir::tts::prosody_reader::~prosody_reader>
 
 Clean up the prosody reader object.
-
-#<cldoc:cainteoir::tts::prosody_reader::reset>
-
-Read a prosodic entry from the specified data buffer.
-@aBuffer The text buffer containing the phonemes to read from.
-
-This will reset the prosody reader so that it will read prosodic entries from the new
-data buffer. It will lose any state from reading the current buffer.
 
 #<cldoc:cainteoir::tts::prosody_reader::read>
 
