@@ -66,27 +66,27 @@ of the document is currently being read.
 
 Identifies the parameter.
 
-#<cldoc:cainteoir::tts::parameter::type::rate>
+#<cldoc:cainteoir::tts::parameter::rate>
 
 How fast the voice speaks.
 
-#<cldoc:cainteoir::tts::parameter::type::volume>
+#<cldoc:cainteoir::tts::parameter::volume>
 
 The volume of the voice audio.
 
-#<cldoc:cainteoir::tts::parameter::type::pitch>
+#<cldoc:cainteoir::tts::parameter::pitch>
 
 The base pitch to render the voice at.
 
-#<cldoc:cainteoir::tts::parameter::type::pitch_range>
+#<cldoc:cainteoir::tts::parameter::pitch_range>
 
 How varied the pitch is due to prosody variations.
 
-#<cldoc:cainteoir::tts::parameter::type::word_gap>
+#<cldoc:cainteoir::tts::parameter::word_gap>
 
 How long to pause between each word.
 
-#<cldoc:cainteoir::tts::parameter::type::number_of_parameters>
+#<cldoc:cainteoir::tts::parameter::number_of_parameters>
 
 The number of parameters in the parameter type enumeration.
 

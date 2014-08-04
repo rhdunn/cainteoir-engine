@@ -9,87 +9,87 @@ Create a letter to phoneme converter.
 
 The matched context for the <text_event> object.
 
-#<cldoc:cainteoir::tts::event_type::error>
+#<cldoc:cainteoir::tts::error>
 
 The unicode codepoints are invalid or not recognised.
 
-#<cldoc:cainteoir::tts::event_type::word_uppercase>
+#<cldoc:cainteoir::tts::word_uppercase>
 
 A sequence of upper-case letters.
 
-#<cldoc:cainteoir::tts::event_type::word_lowercase>
+#<cldoc:cainteoir::tts::word_lowercase>
 
 A sequence of lower-case letters.
 
-#<cldoc:cainteoir::tts::event_type::word_capitalized>
+#<cldoc:cainteoir::tts::word_capitalized>
 
 An upper-case or title-case letter followed by a sequence of lower-case letters.
 
-#<cldoc:cainteoir::tts::event_type::word_mixedcase>
+#<cldoc:cainteoir::tts::word_mixedcase>
 
 A sequence of lower-case and upper-case letters.
 
-#<cldoc:cainteoir::tts::event_type::word_script>
+#<cldoc:cainteoir::tts::word_script>
 
 A sequence of CJK or similar script characters.
 
-#<cldoc:cainteoir::tts::event_type::number>
+#<cldoc:cainteoir::tts::number>
 
 A sequence of number characters.
 
-#<cldoc:cainteoir::tts::event_type::ordinal_number>
+#<cldoc:cainteoir::tts::ordinal_number>
 
 An ordinal number such as 1st, 2nd or 3rd.
 
-#<cldoc:cainteoir::tts::event_type::punctuation>
+#<cldoc:cainteoir::tts::punctuation>
 
 A generic punctuation character.
 
-#<cldoc:cainteoir::tts::event_type::comma>
+#<cldoc:cainteoir::tts::comma>
 
 A comma punctuation character.
 
-#<cldoc:cainteoir::tts::event_type::semicolon>
+#<cldoc:cainteoir::tts::semicolon>
 
 A semicolon punctuation character.
 
-#<cldoc:cainteoir::tts::event_type::colon>
+#<cldoc:cainteoir::tts::colon>
 
 A colon punctuation character.
 
-#<cldoc:cainteoir::tts::event_type::ellipsis>
+#<cldoc:cainteoir::tts::ellipsis>
 
 An ellipsis punctuation character.
 
-#<cldoc:cainteoir::tts::event_type::full_stop>
+#<cldoc:cainteoir::tts::full_stop>
 
 A full stop (period) punctuation character.
 
-#<cldoc:cainteoir::tts::event_type::double_stop>
+#<cldoc:cainteoir::tts::double_stop>
 
 A sequence of two full stop punctuation characters.
 
-#<cldoc:cainteoir::tts::event_type::exclamation>
+#<cldoc:cainteoir::tts::exclamation>
 
 An exclamation mark punctuation character.
 
-#<cldoc:cainteoir::tts::event_type::question>
+#<cldoc:cainteoir::tts::question>
 
 A question mark punctuation character.
 
-#<cldoc:cainteoir::tts::event_type::symbol>
+#<cldoc:cainteoir::tts::symbol>
 
 A generic symbol character.
 
-#<cldoc:cainteoir::tts::event_type::paragraph>
+#<cldoc:cainteoir::tts::paragraph>
 
 A separator between two paragraphs.
 
-#<cldoc:cainteoir::tts::event_type::en_dash>
+#<cldoc:cainteoir::tts::en_dash>
 
 An en-dash punctuation character.
 
-#<cldoc:cainteoir::tts::event_type::em_dash>
+#<cldoc:cainteoir::tts::em_dash>
 
 An em-dash punctuation character.
 
@@ -172,11 +172,11 @@ Create a context analysis object.
 
 How to pronounce large numbers.
 
-#<cldoc:cainteoir::tts::number_scale::short_scale>
+#<cldoc:cainteoir::tts::short_scale>
 
 The short number scale (`10^6` = million, `10^9` = billion, `10^12` = trillion, etc).
 
-#<cldoc:cainteoir::tts::number_scale::long_scale>
+#<cldoc:cainteoir::tts::long_scale>
 
 The long number scale (`10^6` = million, `10^9` = milliard, `10^12` = billion, etc).
 

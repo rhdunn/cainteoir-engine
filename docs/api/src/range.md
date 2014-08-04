@@ -2,23 +2,23 @@
 
 The overlapping nature of two ranges,
 
-#<cldoc:cainteoir::overlap_status::no_overlap>
+#<cldoc:cainteoir::no_overlap>
 
 The two ranges do not overlap.
 
-#<cldoc:cainteoir::overlap_status::overlap_inner>
+#<cldoc:cainteoir::overlap_inner>
 
 The second range (other) is completely contained within the first range (this).
 
-#<cldoc:cainteoir::overlap_status::overlap_outer>
+#<cldoc:cainteoir::overlap_outer>
 
 The first range (this) is completely contained within the second range (other).
 
-#<cldoc:cainteoir::overlap_status::overlap_at_start>
+#<cldoc:cainteoir::overlap_at_start>
 
 The second range (other) overlaps the first range (this) at the start of the first range.
 
-#<cldoc:cainteoir::overlap_status::overlap_at_end>
+#<cldoc:cainteoir::overlap_at_end>
 
 The second range (other) overlaps the first range (this) at the end of the first range.
 

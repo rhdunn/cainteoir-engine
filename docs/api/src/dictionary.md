@@ -2,11 +2,11 @@
 
 The type of the associated dictionary entry.
 
-#<cldoc:cainteoir::tts::dictionary::entry_type::no_match>
+#<cldoc:cainteoir::tts::dictionary::no_match>
 
 There is no matching entry for the word in the dictionary.
 
-#<cldoc:cainteoir::tts::dictionary::entry_type::say_as>
+#<cldoc:cainteoir::tts::dictionary::say_as>
 
 The entry is pronounced as another entry in the dictionary.
 

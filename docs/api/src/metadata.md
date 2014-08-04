@@ -669,11 +669,11 @@ Serialize an RDF graph.
 
 The format used to serialize the RDF statements as.
 
-#<cldoc:cainteoir::rdf::formatter::format_type::ntriple>
+#<cldoc:cainteoir::rdf::formatter::ntriple>
 
 N-Triple serialization format.
 
-#<cldoc:cainteoir::rdf::formatter::format_type::turtle>
+#<cldoc:cainteoir::rdf::formatter::turtle>
 
 Turtle serialization format.
 

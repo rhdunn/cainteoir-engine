@@ -385,51 +385,51 @@ The entry data associated with the element/attribute.
 
 Specifies the type of the XML node.
 
-#<cldoc:cainteoir::xml::reader::node_type::beginTagNode>
+#<cldoc:cainteoir::xml::reader::beginTagNode>
 
 An start of an element.
 
-#<cldoc:cainteoir::xml::reader::node_type::endTagNode>
+#<cldoc:cainteoir::xml::reader::endTagNode>
 
 An end of an element.
 
-#<cldoc:cainteoir::xml::reader::node_type::beginProcessingInstructionNode>
+#<cldoc:cainteoir::xml::reader::beginProcessingInstructionNode>
 
 The start of a processing instruction.
 
-#<cldoc:cainteoir::xml::reader::node_type::endProcessingInstructionNode>
+#<cldoc:cainteoir::xml::reader::endProcessingInstructionNode>
 
 The end of a processing instruction.
 
-#<cldoc:cainteoir::xml::reader::node_type::commentNode>
+#<cldoc:cainteoir::xml::reader::commentNode>
 
 A comment.
 
-#<cldoc:cainteoir::xml::reader::node_type::cdataNode>
+#<cldoc:cainteoir::xml::reader::cdataNode>
 
 A CDATA section.
 
-#<cldoc:cainteoir::xml::reader::node_type::textNode>
+#<cldoc:cainteoir::xml::reader::textNode>
 
 A block of text.
 
-#<cldoc:cainteoir::xml::reader::node_type::error>
+#<cldoc:cainteoir::xml::reader::error>
 
 An error occurred parsing the XML; the XML may be malformed.
 
-#<cldoc:cainteoir::xml::reader::node_type::doctypeNode>
+#<cldoc:cainteoir::xml::reader::doctypeNode>
 
 A DOCTYPE.
 
-#<cldoc:cainteoir::xml::reader::node_type::attribute>
+#<cldoc:cainteoir::xml::reader::attribute>
 
 An attribute on an element or processing instruction.
 
-#<cldoc:cainteoir::xml::reader::node_type::endOfData>
+#<cldoc:cainteoir::xml::reader::endOfData>
 
 The document has no more XML data.
 
-#<cldoc:cainteoir::xml::reader::node_type::dtdEntity>
+#<cldoc:cainteoir::xml::reader::dtdEntity>
 
 An ENTITY reference declaration.
 

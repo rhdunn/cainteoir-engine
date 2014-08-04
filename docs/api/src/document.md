@@ -202,11 +202,11 @@ document to be extracted, such as RDFa or document reference metadata.
 
 The capabilities provided by different document types.
 
-#<cldoc:cainteoir::capability_types::metadata_support>
+#<cldoc:cainteoir::metadata_support>
 
 The document type provides metadata information that can be extracted.
 
-#<cldoc:cainteoir::capability_types::text_support>
+#<cldoc:cainteoir::text_support>
 
 The document type contains text that can be extracted.
 
