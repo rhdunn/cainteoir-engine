@@ -125,8 +125,6 @@ GENERATE_PERLMOD       = NO
 
 GENERATE_XML           = YES
 XML_OUTPUT             = xml
-XML_SCHEMA             =
-XML_DTD                =
 XML_PROGRAMLISTING     = NO
 
 GENERATE_AUTOGEN_DEF   = NO
