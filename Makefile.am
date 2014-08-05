@@ -360,7 +360,9 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 
 ############################# documentation ###################################
 
-DOC_SOURCE_FILES = $(libcainteoir_include_HEADERS:src/include/cainteoir/%.hpp=docs/api/src/%.md)
+DOC_SOURCE_FILES = \
+	$(libcainteoir_include_HEADERS:src/include/cainteoir/%.hpp=docs/api/src/%.md) \
+	docs/api/src/namespaces.md
 
 docs/api/xml/index.xml: docs/api/cainteoir-engine.doxyconf ${libcainteoir_include_HEADERS}
 	rm -rf docs/api/xml
