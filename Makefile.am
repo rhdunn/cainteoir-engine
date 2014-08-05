@@ -362,29 +362,21 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 
 DOC_SOURCE_FILES = $(libcainteoir_include_HEADERS:src/include/cainteoir/%.hpp=docs/api/src/%.md)
 
-docs/api/xml/index.xml: ${libcainteoir_include_HEADERS} ${DOC_SOURCE_FILES}
+docs/api/xml/index.xml: docs/api/cainteoir-engine.doxyconf ${libcainteoir_include_HEADERS}
 	rm -rf docs/api/xml
-	cldoc generate -std=c++11 -DHAVE_TIME -isystem -- \
-		--type xml \
-		--merge docs/api/src \
-		--output docs/api \
-		${libcainteoir_include_HEADERS}
+	doxygen docs/api/cainteoir-engine.doxyconf
 
-docs/api/html/index.html: ${libcainteoir_include_HEADERS} ${DOC_SOURCE_FILES}
-	rm -rf docs/api/xml
-	cldoc generate -std=c++11 -DHAVE_TIME -isystem -- \
-		--type html \
-		--merge docs/api/src \
-		--output docs/api/html \
-		${libcainteoir_include_HEADERS}
+docs/api/html.stamp: docs/api/xml/index.xml ${DOC_SOURCE_FILES}
+	rm -rf docs/api/html
+	${PYTHON} ${DOCGEN}/doxygen.py docs/api/xml/*.xml ${DOC_SOURCE_FILES}
+	touch $@
 
 data/languages.dot: data/languages.py data/languages.stat
 	cd data && ${PYTHON} languages.py
 
 fsm:	src/libcainteoir/tts/text_reader.svg
 
-api:
-	doxygen docs/cainteoir-engine.doxyconf 2>&1 #| ( ! grep . )
+api:	docs/api/html.stamp
 
 html:	README.html \
 	docs/voicedb-format.html \

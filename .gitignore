@@ -32,6 +32,7 @@ src/libcainteoir/parsers/html-entities.dat
 
 docs/api/xml/
 docs/api/html/
+docs/api/html.stamp
 
 *.dot
 *.svg

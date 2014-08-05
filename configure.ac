@@ -68,6 +68,23 @@ fi
 AC_SUBST(PYTHON)
 
 dnl ================================================================
+dnl documentation generator checks.
+dnl ================================================================
+
+AC_ARG_WITH([docgen],
+    [AS_HELP_STRING([--with-docgen], [the path to document generator (for api docs) @<:@default=disabled@:>@])],
+    [])
+
+if test "x$with_docgen" = "x"; then
+    have_docgen=no
+else
+    DOCGEN=$with_docgen
+    have_docgen=$with_docgen
+fi
+
+AC_SUBST(DOCGEN)
+
+dnl ================================================================
 dnl C++11 support
 dnl ================================================================
 
@@ -498,6 +515,7 @@ AC_MSG_NOTICE([
         Compiler:                      ${CXX}
         Compiler flags:                ${CXXFLAGS}
         Python interpreter:            ${PYTHON}
+        Documentation Generator:       ${have_docgen}
 
         eSpeak support:                ${have_espeak}
         MBROLA support:                ${have_mbrola}	(voice directory: ${MBROLA_DIR})
