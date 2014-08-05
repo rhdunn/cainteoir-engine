@@ -53,7 +53,7 @@ An application-specific custom subtag.
 
 Extract language tag information from a BCP 47 language id.
 
-@code
+@lang
 : The language identifier, e.g. "es-MX".
 
 @return
