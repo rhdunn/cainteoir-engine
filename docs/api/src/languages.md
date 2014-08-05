@@ -64,7 +64,7 @@ Extract language tag information from a BCP 47 language id.
 Compare two language tags for equality.
 
 @a
-: The fist language tag to compare.
+: The first language tag to compare.
 
 @b
 : The second language tag to compare.
@@ -77,7 +77,7 @@ Compare two language tags for equality.
 Compare two language tags for ordering.
 
 @a
-: The fist language tag to compare.
+: The first language tag to compare.
 
 @b
 : The second language tag to compare.
