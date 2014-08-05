@@ -124,7 +124,7 @@ Does the range contain pos?
 : The iterator (for iterator ranges) or integral value (for integral type
   ranges) to check is located within the range.
 
-@return `true` if <pos> is located within the range, `false` otherwise.
+@return `true` if `pos` is located within the range, `false` otherwise.
 
 # cainteoir::range::contains {: .doc }
 
