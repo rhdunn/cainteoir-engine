@@ -1,6 +1,6 @@
 # cainteoir::overlap_status {: .doc }
 
-The overlapping nature of two ranges,
+The overlapping nature of two ranges.
 
 # cainteoir::no_overlap {: .doc }
 
