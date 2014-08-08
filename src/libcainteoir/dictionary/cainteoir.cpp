@@ -97,10 +97,24 @@ bool cainteoir_dictionary_reader::read()
 
 		const char *begin_definition = top->mCurrent;
 		const char *end_definition   = top->mCurrent;
-		while (end_definition != top->mLast && *end_definition != '\r' && *end_definition != '\n')
+		while (end_definition != top->mLast && *end_definition != '\r' && *end_definition != '\n' && *end_definition != '#')
 			++end_definition;
 
 		top->mCurrent = end_definition;
+
+		if (*end_definition == '#')
+		{
+			--end_definition;
+
+			// remove trailing whitespace ...
+			while (end_definition != begin_definition && (*end_definition == ' ' || *end_definition == '\t'))
+				--end_definition;
+			++end_definition;
+
+			while (top->mCurrent != top->mLast && *top->mCurrent != '\r' && *top->mCurrent != '\n')
+				++top->mCurrent;
+		}
+
 		while (top->mCurrent != top->mLast && (*top->mCurrent == '\r' || *top->mCurrent == '\n'))
 			++top->mCurrent;
 

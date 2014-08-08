@@ -35,6 +35,7 @@ if __name__ == '__main__':
 			{'test': 'dict/cainteoir/say-as.dict', 'result': 'dict/cainteoir/say-as.lst'},
 			{'test': 'dict/cainteoir/say-as-nested.dict', 'result': 'dict/cainteoir/say-as-nested.lst'},
 			{'test': 'dict/cainteoir/say-as-infinite-recursion.dict', 'result': 'dict/cainteoir/say-as-infinite-recursion.lst'},
+			{'test': 'dict/cainteoir/say-as-comment.dict', 'result': 'dict/cainteoir/say-as.lst'},
 		]},
 		{'name': 'Command Line', 'type': 'dictionary', 'tests': [
 			# --dictionary

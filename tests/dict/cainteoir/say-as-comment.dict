@@ -1,0 +1,8 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Test dictionary for say-as entries with a following comment.
+.phonemeset	ipa
+
+sally		/ˈsali/
+sallie		sally     # This is a comment.
