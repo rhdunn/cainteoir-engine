@@ -271,18 +271,21 @@ int main(int argc, char ** argv)
 		const char *phonemeset = "ipa";
 
 		const option_group general_options = { nullptr, {
-			{ 'R', "resolve-say-as", bind_value(mode, mode_type::resolve_say_as_entries),
-			  i18n("Look up say-as entries in the dictionary (implies --list)") },
-			{ 'D', "as-dictionary", dictionary_format, "FORMAT",
-			  i18n("List the entries in the given dictionary format") },
 			{ 't', "time", bind_value(time, true),
 			  i18n("Time how long it takes to complete the action") },
 			{ 'd', "dictionary", dictionary, "DICTIONARY",
 			  i18n("Use the words in DICTIONARY") },
-			{ 'f', "filter-words", bind_value(word_mode, word_mode_type::in_dictionary_and_document),
-			  i18n("Only use words not in the loaded dictionary") },
+		}};
+
+		const option_group output_options = { i18n("Output:"), {
+			{ 'D', "as-dictionary", dictionary_format, "FORMAT",
+			  i18n("List the entries in the given dictionary format") },
 			{ 'P', "phonemeset", phonemeset, "PHONEMESET",
 			  i18n("Use PHONEMESET to transcribe phoneme entries (default: ipa)") },
+			{ 'R', "resolve-say-as", bind_value(mode, mode_type::resolve_say_as_entries),
+			  i18n("Look up say-as entries in the dictionary (implies --list)") },
+			{ 'f', "filter-words", bind_value(word_mode, word_mode_type::in_dictionary_and_document),
+			  i18n("Only use words not in the loaded dictionary") },
 		}};
 
 		const option_group stress_options = { i18n("Stress:"), {
@@ -320,7 +323,7 @@ int main(int argc, char ** argv)
 			i18n("dictionary [OPTION..] DOCUMENT.."),
 		};
 
-		if (!parse_command_line({ general_options, stress_options, action_options, pronunciation_options }, usage, argc, argv))
+		if (!parse_command_line({ general_options, output_options, stress_options, action_options, pronunciation_options }, usage, argc, argv))
 			return 0;
 
 		auto writer = tts::createPhonemeWriter(phonemeset);
