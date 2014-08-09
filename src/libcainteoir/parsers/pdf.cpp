@@ -23,7 +23,7 @@
 
 #include "parsers.hpp"
 
-#ifdef HAVE_POPPLER
+#ifdef HAVE_POPPLER_GLIB
 
 #include "poppler/glib/poppler-document.h"
 #include <stdexcept>

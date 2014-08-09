@@ -364,7 +364,7 @@ if test "$with_poppler" = "no"; then
 else
     PKG_CHECK_MODULES(POPPLER, [poppler-glib >= 0.16],
         [
-            AC_DEFINE(HAVE_POPPLER, [], [Do we have poppler glib bindings])
+            AC_DEFINE(HAVE_POPPLER_GLIB, [], [Do we have poppler glib bindings])
             have_poppler=yes
         ],[
             have_poppler=no
