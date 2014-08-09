@@ -265,6 +265,12 @@ bool parse_command_line(const std::initializer_list<option_group> &groups,
 		case 'h':
 			print_help(groups, usage);
 			return false;
+		case '?':
+			fprintf(stderr, "error: unrecognised option: -%c\n", optopt);
+			break;
+		case ':':
+			fprintf(stderr, "error: option -%c requires an argument\n", optopt);
+			break;
 		default:
 			{
 				const auto &opt = option_table[(uint8_t)c];
