@@ -303,9 +303,9 @@ int main(int argc, char ** argv)
 			{ 'R', "resolve-say-as", bind_value(mode, mode_type::resolve_say_as_entries),
 			  i18n("Look up say-as entries in the dictionary (implies --list)") },
 			{ 'p', "pronounce", bind_value(mode, mode_type::pronounce_entries),
-			  i18n("Pronounce the dictionary items using the ruleset/engine") },
+			  i18n("Use the Pronunciation options to pronounce the entries") },
 			{ 'c', "compare", bind_value(mode, mode_type::compare_entries),
-			  i18n("Compare dictionary and ruleset/engine pronunciations") },
+			  i18n("Compare dictionary and Pronunciation options pronunciation") },
 			{ 'm', "mismatched", bind_value(mode, mode_type::mismatched_entries),
 			  i18n("Only display mismatched pronunciations (implies --compare)") },
 		}};
