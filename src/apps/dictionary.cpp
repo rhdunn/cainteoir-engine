@@ -286,6 +286,8 @@ int main(int argc, char ** argv)
 			  i18n("Look up say-as entries in the dictionary (implies --list)") },
 			{ 'f', "filter-words", bind_value(word_mode, word_mode_type::in_dictionary_and_document),
 			  i18n("Only use dictionary entries that are in the input documents") },
+			{ 'n', "new-words", bind_value(word_mode, word_mode_type::only_in_document),
+			  i18n("Only use words not in the loaded dictionary") },
 		}};
 
 		const option_group stress_options = { i18n("Stress:"), {
@@ -300,8 +302,6 @@ int main(int argc, char ** argv)
 		const option_group action_options = { i18n("Action:"), {
 			{ 'L', "list", bind_value(mode, mode_type::list_entries),
 			  i18n("List the entries in the dictionary") },
-			{ 'n', "new-words", bind_value(word_mode, word_mode_type::only_in_document),
-			  i18n("Only use words not in the loaded dictionary") },
 			{ 'p', "pronounce", bind_value(mode, mode_type::pronounce_entries),
 			  i18n("Pronounce the dictionary items using the ruleset/engine") },
 			{ 'c', "compare", bind_value(mode, mode_type::compare_entries),
