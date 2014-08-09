@@ -271,8 +271,6 @@ int main(int argc, char ** argv)
 		const char *phonemeset = "ipa";
 
 		const option_group general_options = { nullptr, {
-			{ 'L', "list", bind_value(mode, mode_type::list_entries),
-			  i18n("List the entries in the dictionary") },
 			{ 'R', "resolve-say-as", bind_value(mode, mode_type::resolve_say_as_entries),
 			  i18n("Look up say-as entries in the dictionary (implies --list)") },
 			{ 'D', "as-dictionary", dictionary_format, "FORMAT",
@@ -281,8 +279,6 @@ int main(int argc, char ** argv)
 			  i18n("Time how long it takes to complete the action") },
 			{ 'd', "dictionary", dictionary, "DICTIONARY",
 			  i18n("Use the words in DICTIONARY") },
-			{ 'n', "new-words", bind_value(word_mode, word_mode_type::only_in_document),
-			  i18n("Only use words not in the loaded dictionary") },
 			{ 'f', "filter-words", bind_value(word_mode, word_mode_type::in_dictionary_and_document),
 			  i18n("Only use words not in the loaded dictionary") },
 			{ 'P', "phonemeset", phonemeset, "PHONEMESET",
@@ -298,13 +294,20 @@ int main(int argc, char ** argv)
 			  i18n("Ignore syllable breaks (/./) when comparing pronunciations.") },
 		}};
 
-		const option_group pronunciation_options = { i18n("Pronunciation:"), {
+		const option_group action_options = { i18n("Action:"), {
+			{ 'L', "list", bind_value(mode, mode_type::list_entries),
+			  i18n("List the entries in the dictionary") },
+			{ 'n', "new-words", bind_value(word_mode, word_mode_type::only_in_document),
+			  i18n("Only use words not in the loaded dictionary") },
 			{ 'p', "pronounce", bind_value(mode, mode_type::pronounce_entries),
 			  i18n("Pronounce the dictionary items using the ruleset/engine") },
 			{ 'c', "compare", bind_value(mode, mode_type::compare_entries),
 			  i18n("Compare dictionary and ruleset/engine pronunciations") },
 			{ 'm', "mismatched", bind_value(mode, mode_type::mismatched_entries),
 			  i18n("Only display mismatched pronunciations (implies --compare)") },
+		}};
+
+		const option_group pronunciation_options = { i18n("Pronunciation:"), {
 			//{ 'r', "ruleset", ruleset, "RULESET",
 			//  i18n("Use the RULESET pronunciation rule file") },
 			{ 'v', "voice", voicename, "VOICE",
@@ -317,7 +320,7 @@ int main(int argc, char ** argv)
 			i18n("dictionary [OPTION..] DOCUMENT.."),
 		};
 
-		if (!parse_command_line({ general_options, stress_options, pronunciation_options }, usage, argc, argv))
+		if (!parse_command_line({ general_options, stress_options, action_options, pronunciation_options }, usage, argc, argv))
 			return 0;
 
 		auto writer = tts::createPhonemeWriter(phonemeset);
