@@ -43,6 +43,12 @@ enum class mode_type
 	mismatched_entries,
 };
 
+enum class word_mode_type
+{
+	merge,
+	only_in_document, // new words
+};
+
 static bool matches(const ipa::phonemes &a, const ipa::phonemes &b, bool ignore_syllable_breaks)
 {
 	auto first1 = a.begin(), last1 = a.end();
@@ -223,7 +229,7 @@ int main(int argc, char ** argv)
 		tts::stress_type stress = tts::stress_type::as_transcribed;
 		mode_type mode = mode_type::from_document;
 		bool time = false;
-		bool new_words = false;
+		word_mode_type word_mode = word_mode_type::merge;
 		bool ignore_syllable_breaks = false;
 		const char *voicename = nullptr;
 		const char *language = nullptr;
@@ -243,7 +249,7 @@ int main(int argc, char ** argv)
 			  i18n("Time how long it takes to complete the action") },
 			{ 'd', "dictionary", dictionary, "DICTIONARY",
 			  i18n("Use the words in DICTIONARY") },
-			{ 'n', "new-words", bind_value(new_words, true),
+			{ 'n', "new-words", bind_value(word_mode, word_mode_type::only_in_document),
 			  i18n("Only use words not in the loaded dictionary") },
 			{ 'P', "phonemeset", phonemeset, "PHONEMESET",
 			  i18n("Use PHONEMESET to transcribe phoneme entries (default: ipa)") },
@@ -292,14 +298,14 @@ int main(int argc, char ** argv)
 			auto reader = tts::createCainteoirDictionaryReader(dictionary);
 			while (reader->read())
 				base_dict.add_entry(reader->word, reader->entry);
-			if (!new_words)
+			if (word_mode == word_mode_type::merge)
 			{
 				dict  = base_dict;
 				words = dict.size();
 			}
 		}
 
-		if (dictionary == nullptr || new_words)
+		if (dictionary == nullptr || word_mode == word_mode_type::only_in_document)
 		{
 			if (argc == 0)
 				words += from_document(base_dict, dict, nullptr, dictionary_format != nullptr);
