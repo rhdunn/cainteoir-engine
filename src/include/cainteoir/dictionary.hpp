@@ -81,6 +81,12 @@ namespace cainteoir { namespace tts
 			{
 			}
 
+			entry(const ipa::phonemes &aPhonemes)
+				: type(dictionary::phonemes)
+				, phonemes(aPhonemes)
+			{
+			}
+
 			entry(const std::shared_ptr<buffer> &aPhonemes, std::shared_ptr<phoneme_reader> &aPhonemeSet);
 		};
 

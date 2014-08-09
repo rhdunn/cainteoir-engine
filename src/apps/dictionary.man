@@ -1,4 +1,4 @@
-.TH DICTIONARY 1 "FEBRUARY 2014" "Cainteoir Text-to-Speech" "Cainteoir Manuals"
+.TH DICTIONARY 1 "AUGUST 2014" "Cainteoir Text-to-Speech" "Cainteoir Manuals"
 .SH NAME
 dictionary \- create, manage and test pronunciation dictionaries
 .SH SYNOPSIS
@@ -16,6 +16,9 @@ Use the specified pronunciation dictionary file. Currently, only the Cainteoir
 dictionary format is supported.
 .IP "-D FORMAT, --as-dictionary FORMAT"
 Print out the entries in the given dictionary format.
+.IP "-f, --filter-words"
+Create a new dictionary that contains words from the specified dictionary
+that are in the document.
 .IP "-h, --help"
 Show a command-line option usage help message.
 .IP "--ignore-syllable-breaks"
@@ -121,5 +124,8 @@ significant.
 .IP "dictionary -v english -m -D espeak -d espeak.dict -P espeak/en"
 Output words from espeak.dict that the "english" eSpeak voice mispronounces in
 the format used by the en_extra eSpeak dictionary file.
+.IP "echo 'hello world' | dictionary -f -d english.dict -D cainteoir"
+Extract the pronunciation for 'hello' and 'world' from the "english.dict"
+dictionary.
 .SH AUTHOR
 Reece H. Dunn <msclrhd@gmail.com>

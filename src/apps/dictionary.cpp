@@ -47,6 +47,7 @@ enum class word_mode_type
 {
 	merge,
 	only_in_document, // new words
+	in_dictionary_and_document,
 };
 
 static bool matches(const ipa::phonemes &a, const ipa::phonemes &b, bool ignore_syllable_breaks)
@@ -184,10 +185,11 @@ static void pronounce(tts::dictionary &dict,
 	}
 }
 
-static uint32_t from_document(const tts::dictionary &base_dict,
+static uint32_t from_document(tts::dictionary &base_dict,
                               tts::dictionary &dict,
                               const char *filename,
-                              bool silent)
+                              bool silent,
+                              word_mode_type word_mode)
 {
 	if (!silent)
 		fprintf(stdout, "reading %s\n", (filename == nullptr) ? "<stdin>" : filename);
@@ -211,10 +213,40 @@ static uint32_t from_document(const tts::dictionary &base_dict,
 	case tts::word_capitalized:
 	case tts::word_mixedcase:
 	case tts::word_script:
-		if (base_dict.lookup(text->event().text).type == tts::dictionary::no_match)
 		{
-			dict.add_entry(text->event().text, { text->event().text });
-			++words;
+			auto &match = base_dict.lookup(text->event().text);
+			switch (match.type)
+			{
+			case tts::dictionary::no_match:
+				if (word_mode == word_mode_type::only_in_document)
+				{
+					dict.add_entry(text->event().text, { text->event().text });
+					++words;
+				}
+				else
+				{
+					fprintf(stderr, "error: cannot find '%s' in the dictionary\n", text->event().text->str().c_str());
+				}
+				break;
+			case tts::dictionary::say_as:
+				if (word_mode == word_mode_type::in_dictionary_and_document)
+				{
+					ipa::phonemes pronunciation;
+					if (base_dict.pronounce(text->event().text, {}, pronunciation))
+					{
+						dict.add_entry(text->event().text, { pronunciation });
+						++words;
+					}
+				}
+				break;
+			case tts::dictionary::phonemes:
+				if (word_mode == word_mode_type::in_dictionary_and_document)
+				{
+					dict.add_entry(text->event().text, match );
+					++words;
+				}
+				break;
+			}
 		}
 		break;
 	}
@@ -250,6 +282,8 @@ int main(int argc, char ** argv)
 			{ 'd', "dictionary", dictionary, "DICTIONARY",
 			  i18n("Use the words in DICTIONARY") },
 			{ 'n', "new-words", bind_value(word_mode, word_mode_type::only_in_document),
+			  i18n("Only use words not in the loaded dictionary") },
+			{ 'f', "filter-words", bind_value(word_mode, word_mode_type::in_dictionary_and_document),
 			  i18n("Only use words not in the loaded dictionary") },
 			{ 'P', "phonemeset", phonemeset, "PHONEMESET",
 			  i18n("Use PHONEMESET to transcribe phoneme entries (default: ipa)") },
@@ -305,12 +339,12 @@ int main(int argc, char ** argv)
 			}
 		}
 
-		if (dictionary == nullptr || word_mode == word_mode_type::only_in_document)
+		if (dictionary == nullptr || word_mode != word_mode_type::merge)
 		{
 			if (argc == 0)
-				words += from_document(base_dict, dict, nullptr, dictionary_format != nullptr);
+				words += from_document(base_dict, dict, nullptr, dictionary_format != nullptr, word_mode);
 			else for (int i = 0; i != argc; ++i)
-				words += from_document(base_dict, dict, argv[i], dictionary_format != nullptr);
+				words += from_document(base_dict, dict, argv[i], dictionary_format != nullptr, word_mode);
 		}
 
 		std::shared_ptr<tts::dictionary_formatter> formatter;
