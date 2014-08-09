@@ -285,7 +285,7 @@ int main(int argc, char ** argv)
 			{ 'R', "resolve-say-as", bind_value(mode, mode_type::resolve_say_as_entries),
 			  i18n("Look up say-as entries in the dictionary (implies --list)") },
 			{ 'f', "filter-words", bind_value(word_mode, word_mode_type::in_dictionary_and_document),
-			  i18n("Only use words not in the loaded dictionary") },
+			  i18n("Only use dictionary entries that are in the input documents") },
 		}};
 
 		const option_group stress_options = { i18n("Stress:"), {
