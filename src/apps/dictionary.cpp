@@ -282,8 +282,6 @@ int main(int argc, char ** argv)
 			  i18n("List the entries in the given dictionary format") },
 			{ 'P', "phonemeset", phonemeset, "PHONEMESET",
 			  i18n("Use PHONEMESET to transcribe phoneme entries (default: ipa)") },
-			{ 'R', "resolve-say-as", bind_value(mode, mode_type::resolve_say_as_entries),
-			  i18n("Look up say-as entries in the dictionary (implies --list)") },
 			{ 'f', "filter-words", bind_value(word_mode, word_mode_type::in_dictionary_and_document),
 			  i18n("Only use dictionary entries that are in the input documents") },
 			{ 'n', "new-words", bind_value(word_mode, word_mode_type::only_in_document),
@@ -302,6 +300,8 @@ int main(int argc, char ** argv)
 		const option_group action_options = { i18n("Action:"), {
 			{ 'L', "list", bind_value(mode, mode_type::list_entries),
 			  i18n("List the entries in the dictionary") },
+			{ 'R', "resolve-say-as", bind_value(mode, mode_type::resolve_say_as_entries),
+			  i18n("Look up say-as entries in the dictionary (implies --list)") },
 			{ 'p', "pronounce", bind_value(mode, mode_type::pronounce_entries),
 			  i18n("Pronounce the dictionary items using the ruleset/engine") },
 			{ 'c', "compare", bind_value(mode, mode_type::compare_entries),
