@@ -50,6 +50,45 @@ enum class word_mode_type
 	in_dictionary_and_document,
 };
 
+struct dictionary_phoneme_reader : public tts::phoneme_reader
+{
+	dictionary_phoneme_reader(const char *aDictionary);
+
+	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
+
+	bool read();
+private:
+	tts::dictionary mDictionary;
+	ipa::phonemes mPhonemes;
+	ipa::phonemes::const_iterator mCurrent;
+	ipa::phonemes::const_iterator mLast;
+};
+
+dictionary_phoneme_reader::dictionary_phoneme_reader(const char *aDictionary)
+{
+	auto reader = tts::createCainteoirDictionaryReader(aDictionary);
+	while (reader->read())
+		mDictionary.add_entry(reader->word, reader->entry);
+}
+
+void dictionary_phoneme_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
+{
+	mPhonemes.clear();
+	if (!mDictionary.pronounce(aBuffer, {}, mPhonemes))
+		throw tts::phoneme_error("the word is not in the dictionary");
+
+	mCurrent = mPhonemes.begin();
+	mLast = mPhonemes.end();
+}
+
+bool dictionary_phoneme_reader::read()
+{
+	if (mCurrent == mLast)
+		return false;
+	*(ipa::phoneme *)this = *mCurrent++;
+	return true;
+}
+
 static bool matches(const ipa::phonemes &a, const ipa::phonemes &b, bool ignore_syllable_breaks)
 {
 	auto first1 = a.begin(), last1 = a.end();
@@ -269,6 +308,7 @@ int main(int argc, char ** argv)
 		const char *dictionary = nullptr;
 		const char *dictionary_format = nullptr;
 		const char *phonemeset = "ipa";
+		const char *source_dictionary = nullptr;
 
 		const option_group general_options = { nullptr, {
 			{ 't', "time", bind_value(time, true),
@@ -311,6 +351,8 @@ int main(int argc, char ** argv)
 		}};
 
 		const option_group pronunciation_options = { i18n("Pronunciation:"), {
+			{ 's', "source-dictionary", source_dictionary, "DICTIONARY",
+			  i18n("Use the pronunciation of the words in DICTIONARY") },
 			//{ 'r', "ruleset", ruleset, "RULESET",
 			//  i18n("Use the RULESET pronunciation rule file") },
 			{ 'v', "voice", voicename, "VOICE",
@@ -379,7 +421,12 @@ int main(int argc, char ** argv)
 		case mode_type::pronounce_entries:
 		case mode_type::compare_entries:
 		case mode_type::mismatched_entries:
-			if (ruleset != nullptr)
+			if (source_dictionary != nullptr)
+			{
+				auto rules = std::make_shared<dictionary_phoneme_reader>(source_dictionary);
+				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
+			}
+			else if (ruleset != nullptr)
 			{
 				auto rules = tts::createPronunciationRules(ruleset);
 				if (!rules.get())
