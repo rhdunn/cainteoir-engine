@@ -23,190 +23,13 @@
 
 #include <cainteoir/dictionary.hpp>
 #include <cainteoir/unicode.hpp>
-#include <cainteoir/path.hpp>
+
+#include "../cainteoir_file_reader.hpp"
 
 #include <stack>
 
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
-
-struct dict_file_reader
-{
-	enum token_type
-	{
-		end_of_file,
-		directive,
-		directive_contents,
-		text,
-		phonemes,
-	};
-
-	dict_file_reader(const cainteoir::path &aFilePath);
-
-	bool read();
-
-	const token_type type() const { return mType; }
-
-	const cainteoir::buffer &match() const { return mMatch; }
-private:
-	enum state
-	{
-		start,
-		in_comment,
-		in_directive,
-		pre_directive_body,
-		in_directive_body,
-		in_text,
-		in_phonemes,
-	};
-
-	std::shared_ptr<cainteoir::buffer> mData;
-	const char *mCurrent;
-	const char *mLast;
-	state mState;
-
-	token_type mType;
-	cainteoir::buffer mMatch;
-};
-
-dict_file_reader::dict_file_reader(const cainteoir::path &aFilePath)
-	: mData(cainteoir::make_file_buffer(aFilePath))
-	, mState(start)
-	, mType(end_of_file)
-	, mMatch(nullptr, nullptr)
-{
-	mCurrent = mData->begin();
-	mLast = mData->end();
-}
-
-bool dict_file_reader::read()
-{
-	const char *begin_match = nullptr;
-	while (mCurrent != mLast) switch (mState)
-	{
-	case start:
-		switch (*mCurrent)
-		{
-		case '\r': case '\n': case '\t': case ' ':
-			++mCurrent;
-			break;
-		case '#':
-			mState = in_comment;
-			break;
-		case '.':
-			begin_match = mCurrent;
-			mState = in_directive;
-			break;
-		case '/':
-			++mCurrent;
-			begin_match = mCurrent;
-			mState = in_phonemes;
-			break;
-		default:
-			begin_match = mCurrent;
-			mState = in_text;
-			break;
-		}
-		break;
-	case in_comment:
-		switch (*mCurrent)
-		{
-		case '\r': case '\n':
-			mState = start;
-			break;
-		default:
-			++mCurrent;
-			break;
-		}
-		break;
-	case in_directive:
-		switch (*mCurrent)
-		{
-		case '\r': case '\n': case '#':
-			fprintf(stderr, "error: missing directive body\n");
-			mState = start;
-			break;
-		case '\t':
-			mState = pre_directive_body;
-			mMatch = cainteoir::buffer(begin_match, mCurrent);
-			mType = directive;
-			return true;
-		default:
-			++mCurrent;
-			break;
-		}
-		break;
-	case pre_directive_body:
-		switch (*mCurrent)
-		{
-		case '\r': case '\n': case '#':
-			fprintf(stderr, "error: missing directive body\n");
-			mState = start;
-			break;
-		case '\t':
-			++mCurrent;
-			break;
-		default:
-			begin_match = mCurrent;
-			mState = in_directive_body;
-			break;
-		}
-		break;
-	case in_directive_body:
-		switch (*mCurrent)
-		{
-		case '\r': case '\n': case '#':
-			mState = start;
-			mMatch = cainteoir::buffer(begin_match, mCurrent);
-			mType = directive_contents;
-			return true;
-		default:
-			++mCurrent;
-			break;
-		}
-		break;
-	case in_phonemes:
-		switch (*mCurrent)
-		{
-		case '\r': case '\n': case '\t': case '#':
-			fprintf(stderr, "error: missing end of phoneme block (missing closing '/')\n");
-			mState = start;
-			break;
-		case '/':
-			mState = start;
-			mMatch = cainteoir::buffer(begin_match, mCurrent);
-			mType = phonemes;
-			++mCurrent;
-			return true;
-		default:
-			++mCurrent;
-			break;
-		}
-		break;
-	case in_text:
-		switch (*mCurrent)
-		{
-		case '\r': case '\n': case '\t': case '#':
-			// skip any trailing whitespace ...
-			--mCurrent;
-			while (mCurrent != begin_match && (*mCurrent == ' '))
-				--mCurrent;
-			++mCurrent;
-			// return the matching token ...
-			mState = start;
-			mMatch = cainteoir::buffer(begin_match, mCurrent);
-			mType = text;
-			return true;
-		default:
-			++mCurrent;
-			break;
-		}
-		break;
-	}
-
-	mType = end_of_file;
-	return false;
-}
 
 struct cainteoir_dictionary_reader : public tts::dictionary_reader
 {
@@ -220,7 +43,7 @@ private:
 
 		bool read() { return mReader.read(); }
 
-		const dict_file_reader::token_type type() const { return mReader.type(); }
+		const cainteoir_file_reader::token_type type() const { return mReader.type(); }
 
 		const cainteoir::buffer &match() const { return mReader.match(); }
 
@@ -230,7 +53,7 @@ private:
 		}
 
 		cainteoir::path mBasePath;
-		dict_file_reader mReader;
+		cainteoir_file_reader mReader;
 		std::shared_ptr<tts::phoneme_reader> mPhonemeSet;
 	};
 
@@ -260,10 +83,10 @@ bool cainteoir_dictionary_reader::read()
 			continue;
 		}
 
-		if (top->type() == dict_file_reader::directive)
+		if (top->type() == cainteoir_file_reader::directive)
 		{
 			auto directive = top->match();
-			if (!top->read() || top->type() != dict_file_reader::directive_contents)
+			if (!top->read() || top->type() != cainteoir_file_reader::directive_contents)
 			{
 				fprintf(stderr, "error: missing directive body\n");
 				continue;
@@ -279,15 +102,15 @@ bool cainteoir_dictionary_reader::read()
 				top->mPhonemeSet = tts::createPhonemeReader(top->match().str().c_str());
 			}
 		}
-		else if (top->type() == dict_file_reader::text)
+		else if (top->type() == cainteoir_file_reader::text)
 		{
 			word = top->buffer();
 			if (top->read()) switch (top->type())
 			{
-			case dict_file_reader::text:
+			case cainteoir_file_reader::text:
 				entry = { top->buffer() };
 				return true;
-			case dict_file_reader::phonemes:
+			case cainteoir_file_reader::phonemes:
 				if (top->match().empty())
 					continue;
 				if (!top->mPhonemeSet.get())

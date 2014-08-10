@@ -268,6 +268,8 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/mimetype_database.hpp \
 	src/libcainteoir/mimetype.cpp \
 	src/libcainteoir/path.cpp \
+	src/libcainteoir/cainteoir_file_reader.hpp \
+	src/libcainteoir/cainteoir_file_reader.cpp \
 	\
 	src/libcainteoir/audio/alsa.cpp \
 	src/libcainteoir/audio/audio.cpp \
