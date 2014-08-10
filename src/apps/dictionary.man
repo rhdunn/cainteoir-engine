@@ -30,6 +30,9 @@ Use a text-to-speech voice matching the specified language to pronounce words.
 Print out the entries in the dictionary. This is primarily used in tests.
 .IP "-m, --mismatched"
 Only display mis-pronounced words. This option implies the --compare option.
+.IP "-M PHONEME_MAP, --phoneme-map PHONEME_MAP"
+Use the phoneme-to-phoneme rules in PHONEME_MAP to convert the phonemes
+produced by --voice, --language or --source-dictionary.
 .IP "-n, --new-words"
 Only add words that are not in the specified dictionary.
 .IP "-p, --pronounce"

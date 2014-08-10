@@ -309,12 +309,15 @@ int main(int argc, char ** argv)
 		const char *dictionary_format = nullptr;
 		const char *phonemeset = "ipa";
 		const char *source_dictionary = nullptr;
+		const char *phoneme_map = nullptr;
 
 		const option_group general_options = { nullptr, {
 			{ 't', "time", bind_value(time, true),
 			  i18n("Time how long it takes to complete the action") },
 			{ 'd', "dictionary", dictionary, "DICTIONARY",
 			  i18n("Use the words in DICTIONARY") },
+			{ 'M', "phoneme-map", phoneme_map, "PHONEME_MAP",
+			  i18n("Use PHONEME_MAP to convert phonemes (e.g. accent conversion)") },
 		}};
 
 		const option_group output_options = { i18n("Output:"), {
@@ -423,7 +426,9 @@ int main(int argc, char ** argv)
 		case mode_type::mismatched_entries:
 			if (source_dictionary != nullptr)
 			{
-				auto rules = std::make_shared<dictionary_phoneme_reader>(source_dictionary);
+				std::shared_ptr<tts::phoneme_reader> rules = std::make_shared<dictionary_phoneme_reader>(source_dictionary);
+				if (phoneme_map)
+					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
 				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
 			}
 			else if (ruleset != nullptr)
@@ -434,6 +439,8 @@ int main(int argc, char ** argv)
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);
 					return 0;
 				}
+				if (phoneme_map)
+					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
 				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
 			}
 			else
@@ -452,7 +459,10 @@ int main(int argc, char ** argv)
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}
-				pronounce(dict, engine.pronunciation(), formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
+				auto rules = engine.pronunciation();
+				if (phoneme_map)
+					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
+				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
 			}
 			break;
 		case mode_type::from_document:
