@@ -153,6 +153,7 @@ int main(int argc, char ** argv)
 		phoneme_mode mode = phoneme_mode::joined;
 		bool no_pauses = false;
 		bool show_features = false;
+		const char *phoneme_map = nullptr;
 
 		const option_group general_options = { nullptr, {
 			{ 's', "separate", bind_value(mode, phoneme_mode::separate),
@@ -161,6 +162,8 @@ int main(int argc, char ** argv)
 			  i18n("Show the features along with the transcription") },
 			{ 0, "no-pauses", bind_value(no_pauses, true),
 			  i18n("Do not process pause phonemes") },
+			{ 'M', "phoneme-map", phoneme_map, "PHONEME_MAP",
+			  i18n("Use PHONEME_MAP to convert phonemes (e.g. accent conversion)") },
 		}};
 
 		const option_group stress_options = { i18n("Phoneme Stress Placement:"), {
@@ -196,6 +199,9 @@ int main(int argc, char ** argv)
 		auto to   = tts::createPhonemeWriter(argv[1]);
 		auto data = argc == 3 ? cainteoir::make_file_buffer(argv[2])
 		                      : cainteoir::make_file_buffer(stdin);
+
+		if (phoneme_map)
+			from = tts::createPhonemeToPhonemeConverter(phoneme_map, from);
 
 		if (stress == tts::stress_type::as_transcribed)
 			print_phonemes(from, to, data, mode, no_pauses, show_features);

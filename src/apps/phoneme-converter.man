@@ -25,6 +25,9 @@ Generate a phoneme chart for the specified phonemeset.
 Show the phonetic features along with the transcription.
 .IP "-h, --help"
 Show a command-line option usage help message.
+.IP "-M PHONEME_MAP, --phoneme-map PHONEME_MAP"
+Use the phoneme-to-phoneme rules in PHONEME_MAP to convert the phonemes
+produced by the FROM phoneme set.
 .IP "--no-pauses"
 Do not process pause phonemes.
 .IP "-s, --separate"
