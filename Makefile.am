@@ -333,6 +333,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/phoneme/phonemeset.cpp \
 	src/libcainteoir/phoneme/phoneme_file_reader.cpp \
 	src/libcainteoir/phoneme/phoneme_stress.cpp \
+	src/libcainteoir/phoneme/phoneme_to_phoneme.cpp \
 	\
 	src/libcainteoir/dictionary/cainteoir.cpp \
 	src/libcainteoir/dictionary/dictionary.cpp \
