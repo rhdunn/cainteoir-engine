@@ -26,6 +26,7 @@
 enum state_t
 {
 	start,
+	in_line_contents,
 	in_comment,
 	in_directive,
 	pre_directive_body,
@@ -61,6 +62,26 @@ bool cainteoir_file_reader::read()
 		case '.':
 			begin_match = mCurrent;
 			mState = in_directive;
+			break;
+		case '/':
+			++mCurrent;
+			begin_match = mCurrent;
+			mState = in_phonemes;
+			break;
+		default:
+			begin_match = mCurrent;
+			mState = in_text;
+			break;
+		}
+		break;
+	case in_line_contents:
+		switch (*mCurrent)
+		{
+		case '\r': case '\n': case '#':
+			mState = start;
+			break;
+		case '\t': case ' ':
+			++mCurrent;
 			break;
 		case '/':
 			++mCurrent;
@@ -138,7 +159,7 @@ bool cainteoir_file_reader::read()
 			mState = start;
 			break;
 		case '/':
-			mState = start;
+			mState = in_line_contents;
 			mMatch = cainteoir::buffer(begin_match, mCurrent);
 			mType = phonemes;
 			++mCurrent;
@@ -158,7 +179,7 @@ bool cainteoir_file_reader::read()
 				--mCurrent;
 			++mCurrent;
 			// return the matching token ...
-			mState = start;
+			mState = (*mCurrent == '\t') ? in_line_contents : start;
 			mMatch = cainteoir::buffer(begin_match, mCurrent);
 			mType = text;
 			return true;
