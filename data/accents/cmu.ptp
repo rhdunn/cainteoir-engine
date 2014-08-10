@@ -1,0 +1,39 @@
+# Phoneme-to-Phoneme rules for the General American accent used by the
+# CMU Pronunciation Dictionary.
+#
+# Copyright (C) 2014 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.phonemeset	ipa
+
+# Short Vowels
+
+/ɒ/		/ɑ/ # LOT
+
+# Long Vowels
+
+/ɛː/		/i/ # FLEECE (MEAT)
+/iː/		/i/ # FLEECE (MEET)
+/uː/		/u/ # GOOSE
+/ɜː/		/ɝ/ # NURSE
+/ɔː/		/ɔ/ # THOUGHT
+/ɑː/		/ɑ/ # PALM
+/ɒː/		/ɔ/ # CLOTH
+/aː/		/æ/ # BATH
+
+# R-coloured Vowels
+
+/ɪʳ/		/ɝ/  # NURSE (FIR)
+/ʊʳ/		/ɝ/  # NURSE (FUR)
+/ɛʳ/		/ɝ/  # NURSE (FERN)
+/oːʳ/		/ɔɹ/ # NORTH
+/ɔːʳ/		/ɔɹ/ # FORCE
+/ɑːʳ/		/ɑɹ/ # START
+
+# Diphthongs
+
+/ɪə̯/		/iɹ/ # NEAR
+/ʊə̯/		/ʊɹ/ # CURE
+/əʊ̯/		/oʊ̯/ # GOAT
+/ɛə̯/		/ɛɹ/ # GOAT
