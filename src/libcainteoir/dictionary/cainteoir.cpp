@@ -30,6 +30,184 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
+struct dict_file_reader
+{
+	enum token_type
+	{
+		end_of_file,
+		directive,
+		directive_contents,
+		text,
+		phonemes,
+	};
+
+	dict_file_reader(const cainteoir::path &aFilePath);
+
+	bool read();
+
+	const token_type type() const { return mType; }
+
+	const cainteoir::buffer &match() const { return mMatch; }
+private:
+	enum state
+	{
+		start,
+		in_comment,
+		in_directive,
+		pre_directive_body,
+		in_directive_body,
+		in_text,
+		in_phonemes,
+	};
+
+	std::shared_ptr<cainteoir::buffer> mData;
+	const char *mCurrent;
+	const char *mLast;
+	state mState;
+
+	token_type mType;
+	cainteoir::buffer mMatch;
+};
+
+dict_file_reader::dict_file_reader(const cainteoir::path &aFilePath)
+	: mData(cainteoir::make_file_buffer(aFilePath))
+	, mState(start)
+	, mType(end_of_file)
+	, mMatch(nullptr, nullptr)
+{
+	mCurrent = mData->begin();
+	mLast = mData->end();
+}
+
+bool dict_file_reader::read()
+{
+	const char *begin_match = nullptr;
+	while (mCurrent != mLast) switch (mState)
+	{
+	case start:
+		switch (*mCurrent)
+		{
+		case '\r': case '\n': case '\t': case ' ':
+			++mCurrent;
+			break;
+		case '#':
+			mState = in_comment;
+			break;
+		case '.':
+			begin_match = mCurrent;
+			mState = in_directive;
+			break;
+		case '/':
+			++mCurrent;
+			begin_match = mCurrent;
+			mState = in_phonemes;
+			break;
+		default:
+			begin_match = mCurrent;
+			mState = in_text;
+			break;
+		}
+		break;
+	case in_comment:
+		switch (*mCurrent)
+		{
+		case '\r': case '\n':
+			mState = start;
+			break;
+		default:
+			++mCurrent;
+			break;
+		}
+		break;
+	case in_directive:
+		switch (*mCurrent)
+		{
+		case '\r': case '\n': case '#':
+			fprintf(stderr, "error: missing directive body\n");
+			mState = start;
+			break;
+		case '\t':
+			mState = pre_directive_body;
+			mMatch = cainteoir::buffer(begin_match, mCurrent);
+			mType = directive;
+			return true;
+		default:
+			++mCurrent;
+			break;
+		}
+		break;
+	case pre_directive_body:
+		switch (*mCurrent)
+		{
+		case '\r': case '\n': case '#':
+			fprintf(stderr, "error: missing directive body\n");
+			mState = start;
+			break;
+		case '\t':
+			++mCurrent;
+			break;
+		default:
+			begin_match = mCurrent;
+			mState = in_directive_body;
+			break;
+		}
+		break;
+	case in_directive_body:
+		switch (*mCurrent)
+		{
+		case '\r': case '\n': case '#':
+			mState = start;
+			mMatch = cainteoir::buffer(begin_match, mCurrent);
+			mType = directive_contents;
+			return true;
+		default:
+			++mCurrent;
+			break;
+		}
+		break;
+	case in_phonemes:
+		switch (*mCurrent)
+		{
+		case '\r': case '\n': case '\t': case '#':
+			fprintf(stderr, "error: missing end of phoneme block (missing closing '/')\n");
+			mState = start;
+			break;
+		case '/':
+			mState = start;
+			mMatch = cainteoir::buffer(begin_match, mCurrent);
+			mType = phonemes;
+			++mCurrent;
+			return true;
+		default:
+			++mCurrent;
+			break;
+		}
+		break;
+	case in_text:
+		switch (*mCurrent)
+		{
+		case '\r': case '\n': case '\t': case '#':
+			// skip any trailing whitespace ...
+			--mCurrent;
+			while (mCurrent != begin_match && (*mCurrent == ' '))
+				--mCurrent;
+			++mCurrent;
+			// return the matching token ...
+			mState = start;
+			mMatch = cainteoir::buffer(begin_match, mCurrent);
+			mType = text;
+			return true;
+		default:
+			++mCurrent;
+			break;
+		}
+		break;
+	}
+
+	mType = end_of_file;
+	return false;
+}
+
 struct cainteoir_dictionary_reader : public tts::dictionary_reader
 {
 	cainteoir_dictionary_reader(const cainteoir::path &aDictionaryPath);
@@ -40,11 +218,20 @@ private:
 	{
 		dictionary_t(const cainteoir::path &aDictionaryPath);
 
+		bool read() { return mReader.read(); }
+
+		const dict_file_reader::token_type type() const { return mReader.type(); }
+
+		const cainteoir::buffer &match() const { return mReader.match(); }
+
+		std::shared_ptr<cainteoir::buffer> buffer() const
+		{
+			return cainteoir::make_buffer(mReader.match().begin(), mReader.match().size());
+		}
+
 		cainteoir::path mBasePath;
-		std::shared_ptr<cainteoir::buffer> mData;
+		dict_file_reader mReader;
 		std::shared_ptr<tts::phoneme_reader> mPhonemeSet;
-		const char *mCurrent;
-		const char *mLast;
 	};
 
 	std::stack<dictionary_t> mFiles;
@@ -57,10 +244,8 @@ cainteoir_dictionary_reader::cainteoir_dictionary_reader(const cainteoir::path &
 
 cainteoir_dictionary_reader::dictionary_t::dictionary_t(const cainteoir::path &aDictionaryPath)
 	: mBasePath(aDictionaryPath.parent())
-	, mData(cainteoir::make_file_buffer(aDictionaryPath))
+	, mReader(aDictionaryPath)
 {
-	mCurrent = mData->begin();
-	mLast = mData->end();
 }
 
 bool cainteoir_dictionary_reader::read()
@@ -68,88 +253,54 @@ bool cainteoir_dictionary_reader::read()
 	dictionary_t *top = mFiles.empty() ? nullptr : &mFiles.top();
 	while (top)
 	{
-		if (top->mCurrent == top->mLast)
+		if (!top->read())
 		{
 			mFiles.pop();
 			top = mFiles.empty() ? nullptr : &mFiles.top();
 			continue;
 		}
 
-		if (*top->mCurrent == '#')
+		if (top->type() == dict_file_reader::directive)
 		{
-			while (top->mCurrent != top->mLast && (*top->mCurrent != '\r' && *top->mCurrent != '\n'))
-				++top->mCurrent;
-			while (top->mCurrent != top->mLast && (*top->mCurrent == '\r' || *top->mCurrent == '\n'))
-				++top->mCurrent;
-			continue;
-		}
-
-		const char *begin_entry = top->mCurrent;
-		const char *end_entry   = top->mCurrent;
-		while (end_entry != top->mLast && *end_entry != '\t')
-			++end_entry;
-
-		top->mCurrent = end_entry;
-		while (top->mCurrent != top->mLast && *top->mCurrent == '\t')
-			++top->mCurrent;
-
-		if (top->mCurrent == top->mLast) continue;
-
-		const char *begin_definition = top->mCurrent;
-		const char *end_definition   = top->mCurrent;
-		while (end_definition != top->mLast && *end_definition != '\r' && *end_definition != '\n' && *end_definition != '#')
-			++end_definition;
-
-		top->mCurrent = end_definition;
-
-		if (*end_definition == '#')
-		{
-			--end_definition;
-
-			// remove trailing whitespace ...
-			while (end_definition != begin_definition && (*end_definition == ' ' || *end_definition == '\t'))
-				--end_definition;
-			++end_definition;
-
-			while (top->mCurrent != top->mLast && *top->mCurrent != '\r' && *top->mCurrent != '\n')
-				++top->mCurrent;
-		}
-
-		while (top->mCurrent != top->mLast && (*top->mCurrent == '\r' || *top->mCurrent == '\n'))
-			++top->mCurrent;
-
-		word = cainteoir::make_buffer(begin_entry, end_entry - begin_entry);
-		if (*begin_entry == '.')
-		{
-			if (word->compare(".import") == 0)
+			auto directive = top->match();
+			if (!top->read() || top->type() != dict_file_reader::directive_contents)
 			{
-				std::string definition(begin_definition, end_definition);
-				mFiles.push({ top->mBasePath / definition });
+				fprintf(stderr, "error: missing directive body\n");
+				continue;
+			}
+
+			if (directive.compare(".import") == 0)
+			{
+				mFiles.push({ top->mBasePath / top->match().str() });
 				top = &mFiles.top();
 			}
-			else if (word->compare(".phonemeset") == 0)
+			else if (directive.compare(".phonemeset") == 0)
 			{
-				std::string phonemes(begin_definition, end_definition);
-				top->mPhonemeSet = tts::createPhonemeReader(phonemes.c_str());
+				top->mPhonemeSet = tts::createPhonemeReader(top->match().str().c_str());
 			}
 		}
-		else if (*begin_definition == '/')
+		else if (top->type() == dict_file_reader::text)
 		{
-			++begin_definition;
-			while (end_definition != begin_definition && *end_definition != '/')
-				--end_definition;
+			word = top->buffer();
+			if (top->read()) switch (top->type())
+			{
+			case dict_file_reader::text:
+				entry = { top->buffer() };
+				return true;
+			case dict_file_reader::phonemes:
+				if (top->match().empty())
+					continue;
+				if (!top->mPhonemeSet.get())
+					throw std::runtime_error("The dictionary does not specify a phonemeset.");
+				entry = { top->buffer(), top->mPhonemeSet };
+				return true;
+			}
 
-			if (begin_definition == end_definition) continue;
-			if (!top->mPhonemeSet.get())
-				throw std::runtime_error("The dictionary does not specify a phonemeset.");
-
-			entry = { cainteoir::make_buffer(begin_definition, end_definition - begin_definition), top->mPhonemeSet };
-			return true;
+			throw std::runtime_error("Unknown content in the dictionary file.");
 		}
 		else
 		{
-			entry = { cainteoir::make_buffer(begin_definition, end_definition - begin_definition) };
-			return true;
+			throw std::runtime_error("Unknown content in the dictionary file.");
 		}
 	}
 	return false;
