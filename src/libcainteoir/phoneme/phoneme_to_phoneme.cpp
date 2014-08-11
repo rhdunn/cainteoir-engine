@@ -23,10 +23,11 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/phoneme.hpp>
+#include <cainteoir/trie.hpp>
 
 #include "../cainteoir_file_reader.hpp"
 
-#include <map>
+#include <list>
 
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
@@ -40,8 +41,15 @@ struct phoneme_to_phoneme : public tts::phoneme_reader
 
 	bool read();
 private:
+	bool next_phoneme(ipa::phoneme &phoneme);
+
 	std::shared_ptr<tts::phoneme_reader> mPhonemes;
-	std::map<ipa::phoneme, ipa::phoneme> mPhonemeMap;
+	cainteoir::trie<ipa::phonemes, ipa::phoneme> mPhonemeMap;
+	std::list<ipa::phoneme> mReadQueue;
+
+	ipa::phonemes::const_iterator mCurrentPhoneme;
+	ipa::phonemes::const_iterator mLastPhoneme;
+	ipa::phoneme::value_type mInitialPhonemeProsody;
 };
 
 phoneme_to_phoneme::phoneme_to_phoneme(const char *aPhonemeToPhonemeRules,
@@ -70,12 +78,13 @@ phoneme_to_phoneme::phoneme_to_phoneme(const char *aPhonemeToPhonemeRules,
 		else if (rules.type() == cainteoir_file_reader::phonemes)
 		{
 			phonemes->reset(cainteoir::make_buffer(rules.match().begin(), rules.match().size()));
-			if (!phonemes->read())
-				throw std::runtime_error("Unknown content in the phoneme-to-phoneme rule file.");
 
-			ipa::phoneme from = *phonemes;
-			if (phonemes->read())
-				continue; // mapping multiple phonemes is not currently supported.
+			auto entry = const_cast<cainteoir::trie_node<ipa::phonemes, ipa::phoneme> *>(mPhonemeMap.root());
+			while (phonemes->read())
+				entry = entry->add(*phonemes);
+
+			if (entry == mPhonemeMap.root())
+				throw std::runtime_error("Unknown content in the phoneme-to-phoneme rule file.");
 
 			if (!rules.read() || rules.type() != cainteoir_file_reader::phonemes)
 			{
@@ -83,14 +92,12 @@ phoneme_to_phoneme::phoneme_to_phoneme(const char *aPhonemeToPhonemeRules,
 			}
 
 			phonemes->reset(cainteoir::make_buffer(rules.match().begin(), rules.match().size()));
-			if (!phonemes->read())
+
+			while (phonemes->read())
+				entry->item.push_back(*phonemes);
+
+			if (entry->item.empty())
 				throw std::runtime_error("Unknown content in the phoneme-to-phoneme rule file.");
-
-			ipa::phoneme to = *phonemes;
-			if (phonemes->read())
-				continue; // mapping multiple phonemes is not currently supported.
-
-			mPhonemeMap[from] = to;
 		}
 		else
 		{
@@ -108,16 +115,70 @@ bool phoneme_to_phoneme::read()
 {
 	static constexpr auto mask = ipa::main | ipa::diacritics | ipa::length;
 
+	if (mCurrentPhoneme != mLastPhoneme)
+	{
+		*(ipa::phoneme *)this = *mCurrentPhoneme;
+		if (mInitialPhonemeProsody != ipa::unspecified)
+		{
+			set(mInitialPhonemeProsody, ~mask);
+			mInitialPhonemeProsody = ipa::unspecified;
+		}
+
+		++mCurrentPhoneme;
+		return true;
+	}
+
+	auto entry = mPhonemeMap.root();
+	decltype(entry) match = nullptr;
+	bool is_first_phoneme = true;
+
+	ipa::phoneme phoneme = ipa::unspecified;
+	while (next_phoneme(phoneme))
+	{
+		if (is_first_phoneme)
+		{
+			mInitialPhonemeProsody = phoneme.get(~mask);
+			is_first_phoneme = false;
+		}
+
+		entry = entry->get(phoneme.get(mask));
+		if (entry == nullptr)
+		{
+			if (match)
+			{
+				mCurrentPhoneme = match->item.begin();
+				mLastPhoneme = match->item.end();
+				return read();
+			}
+			else
+			{
+				mReadQueue.push_back(phoneme);
+				next_phoneme(phoneme);
+				*(ipa::phoneme *)this = phoneme;
+			}
+			return true;
+		}
+		if (!entry->item.empty())
+			match = entry;
+		mReadQueue.push_back(phoneme);
+	}
+
+	return false;
+}
+
+bool phoneme_to_phoneme::next_phoneme(ipa::phoneme &phoneme)
+{
+	if (!mReadQueue.empty())
+	{
+		phoneme = mReadQueue.front();
+		mReadQueue.pop_front();
+		return true;
+	}
+
 	if (!mPhonemes->read())
 		return false;
 
-	*(ipa::phoneme *)this = *mPhonemes;
-
-	auto match = mPhonemeMap.find(mPhonemes->get(mask));
-	if (match != mPhonemeMap.end())
-	{
-		set(match->second.get(mask), mask);
-	}
+	phoneme = *mPhonemes;
 	return true;
 }
 
