@@ -29,6 +29,7 @@ if __name__ == '__main__':
 		{'name': 'English', 'type': 'phonemeset', 'tests': [
 			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.cmu', 'from': 'ipa', 'to': 'ipa', 'accent': 'cmu'},
 			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-GB-x-rp', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-rp'},
+			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-US', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-US'},
 		]},
 	]})
 	test.summary()

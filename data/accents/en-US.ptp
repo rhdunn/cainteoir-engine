@@ -1,0 +1,53 @@
+# General American (GenAm) accent map for English.
+#
+# Copyright (C) 2014 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.phonemeset	ipa
+
+# Consonants
+
+/ʍ/		/w/
+
+# Short Vowels
+
+/ɒ/		/ɑ/ # LOT
+
+# Long Vowels
+
+/ɛː/		/i/ # FLEECE (MEAT)
+/iː/		/i/ # FLEECE (MEET)
+/uː/		/u/ # GOOSE
+/ɜː/		/ɝ/ # NURSE
+/ɔː/		/ɔ/ # THOUGHT
+/ɑː/		/ɑ/ # PALM
+/ɒː/		/ɔ/ # CLOTH
+/aː/		/æ/ # BATH
+
+# R-coloured Vowels
+
+/ɪʳ/		/ɝ/  # NURSE (FIR)
+/ʊʳ/		/ɝ/  # NURSE (FUR)
+/ɛʳ/		/ɝ/  # NURSE (FERN)
+/oːʳ/		/oɹ/ # NORTH
+/ɔːʳ/		/ɔɹ/ # FORCE
+/ɑːʳ/		/ɑɹ/ # START
+
+# Diphthongs
+
+/ɪə̯/		/ɪɹ/ # NEAR
+/ʊə̯/		/ʊɹ/ # CURE
+/əʊ̯/		/oʊ̯/ # GOAT
+/ɛə̯/		/ɛɹ/ # SQUARE
+/aɪ̯/		/aɪ̯/ # PRICE ~ Fix for partial FIRE match.
+/aʊ̯/		/aʊ̯/ # MOUTH ~ Fix for partial HOUR match.
+
+# Triphthongs
+
+/aɪ̯ə̯/		/aɪ̯ɹ/ # FIRE
+/aʊ̯ə̯/		/aʊ̯ɹ/ # HOUR
+
+# Reduced Vowels
+
+/ɨ/		/ɪ/ # ROSES
