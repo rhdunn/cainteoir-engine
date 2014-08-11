@@ -1,0 +1,39 @@
+# Received Pronunciation (RP) accent map for English.
+#
+# Copyright (C) 2014 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.phonemeset	ipa
+
+# Consonants
+
+/ʍ/		/w/
+
+# Short Vowels
+
+/ɔ/		/ɒ/ # LONG
+
+# Long Vowels
+
+/ɛː/		/iː/ # FLEECE (MEAT)
+/ɒː/		/ɒ/  # CLOTH
+/aː/		/ɑː/ # BATH
+
+# R-coloured Vowels
+
+/ɪʳ/		/ɜː/ # NURSE (FIR)
+/ʊʳ/		/ɜː/ # NURSE (FUR)
+/ɛʳ/		/ɜː/ # NURSE (FERN)
+/oːʳ/		/ɔː/ # NORTH
+/ɔːʳ/		/ɔː/ # FORCE
+/ɑːʳ/		/ɑː/ # START
+
+# Diphthongs
+
+/ɔɪ̯/		/ɔɪ̯/ # CHOICE ~ To avoid being overridden by the LONG vowel.
+
+# Reduced Vowels
+
+/ɨ/		/ɪ/ # ROSES
+/ɚ/		/ə/ # LETTER
