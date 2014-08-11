@@ -33,6 +33,7 @@ SUBDIRS = po
 install-data-hook: \
 	install-data-hook-mimetypes \
 	install-data-hook-locale \
+	install-data-hook-accents \
 	install-data-hook-phonemeset
 
 uninstall-hook: \
@@ -40,6 +41,7 @@ uninstall-hook: \
 
 uninstall-local: \
 	uninstall-local-locale \
+	uninstall-local-accents \
 	uninstall-local-phonemeset
 
 ############################# libtool #########################################
@@ -147,6 +149,16 @@ uninstall-local-phonemeset:
 	cd $(DESTDIR)$(pkgdatadir); \
 	cat phonemeset.installed | sed -e 's/ /\\ /g' | xargs rm -f; \
 	rm -f phonemeset.installed
+
+install-data-hook-accents:
+	cd data && (find accents -type f | grep -vF "/." | \
+		tar -cO -T - --no-recursion | \
+		tar -C $(DESTDIR)$(pkgdatadir) -xvf - > $(DESTDIR)$(pkgdatadir)/accents.installed)
+
+uninstall-local-accents:
+	cd $(DESTDIR)$(pkgdatadir); \
+	cat accents.installed | sed -e 's/ /\\ /g' | xargs rm -f; \
+	rm -f acccents.installed
 
 vim_registrydir = $(vimdir)/registry
 vim_registry_DATA = data/vim/registry/*.yaml
