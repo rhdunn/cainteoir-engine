@@ -40,6 +40,7 @@ t	/{vls,alv,stp}/ # /t/
 tS	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
 v	/{vcd,lbd,frc}/ # /v/
 w	/{vcd,lbv,apr}/ # /w/
+w\#	/{vls,lbv,apr}/ # /ʍ/
 z	/{vcd,alv,sib,frc}/ # /z/
 Z	/{vcd,pla,sib,frc}/ # /ʒ/
 
