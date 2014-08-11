@@ -132,6 +132,7 @@ bool phoneme_to_phoneme::read()
 	decltype(entry) match = nullptr;
 	bool is_first_phoneme = true;
 
+	std::list<ipa::phoneme> read_queue;
 	ipa::phoneme phoneme = ipa::unspecified;
 	while (next_phoneme(phoneme))
 	{
@@ -144,6 +145,13 @@ bool phoneme_to_phoneme::read()
 		entry = entry->get(phoneme.get(mask));
 		if (entry == nullptr)
 		{
+			while (!read_queue.empty())
+			{
+				mReadQueue.push_back(read_queue.front());
+				read_queue.pop_front();
+			}
+			mReadQueue.push_back(phoneme);
+
 			if (match)
 			{
 				mCurrentPhoneme = match->item.begin();
@@ -152,15 +160,18 @@ bool phoneme_to_phoneme::read()
 			}
 			else
 			{
-				mReadQueue.push_back(phoneme);
 				next_phoneme(phoneme);
 				*(ipa::phoneme *)this = phoneme;
 			}
 			return true;
 		}
 		if (!entry->item.empty())
+		{
+			read_queue.clear();
 			match = entry;
-		mReadQueue.push_back(phoneme);
+		}
+		else
+			read_queue.push_back(phoneme);
 	}
 
 	return false;
