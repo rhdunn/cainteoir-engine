@@ -310,6 +310,7 @@ int main(int argc, char ** argv)
 		const char *phonemeset = "ipa";
 		const char *source_dictionary = nullptr;
 		const char *phoneme_map = nullptr;
+		const char *accent = nullptr;
 
 		const option_group general_options = { nullptr, {
 			{ 't', "time", bind_value(time, true),
@@ -318,6 +319,8 @@ int main(int argc, char ** argv)
 			  i18n("Use the words in DICTIONARY") },
 			{ 'M', "phoneme-map", phoneme_map, "PHONEME_MAP",
 			  i18n("Use PHONEME_MAP to convert phonemes (e.g. accent conversion)") },
+			{ 'a', "accent", accent, "ACCENT",
+			  i18n("Use ACCENT to convert phonemes to the specified accent") },
 		}};
 
 		const option_group output_options = { i18n("Output:"), {
@@ -429,6 +432,8 @@ int main(int argc, char ** argv)
 				std::shared_ptr<tts::phoneme_reader> rules = std::make_shared<dictionary_phoneme_reader>(source_dictionary);
 				if (phoneme_map)
 					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
+				if (accent)
+					rules = tts::createAccentConverter(accent, rules);
 				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
 			}
 			else if (ruleset != nullptr)
@@ -441,6 +446,8 @@ int main(int argc, char ** argv)
 				}
 				if (phoneme_map)
 					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
+				if (accent)
+					rules = tts::createAccentConverter(accent, rules);
 				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
 			}
 			else
@@ -462,6 +469,8 @@ int main(int argc, char ** argv)
 				auto rules = engine.pronunciation();
 				if (phoneme_map)
 					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
+				if (accent)
+					rules = tts::createAccentConverter(accent, rules);
 				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
 			}
 			break;

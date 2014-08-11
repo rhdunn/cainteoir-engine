@@ -133,3 +133,11 @@ tts::createPhonemeToPhonemeConverter(const char *aPhonemeToPhonemeRules,
 {
 	return std::make_shared<phoneme_to_phoneme>(aPhonemeToPhonemeRules, aPhonemes);
 }
+
+std::shared_ptr<tts::phoneme_reader>
+tts::createAccentConverter(const char *aAccent,
+                           const std::shared_ptr<phoneme_reader> &aPhonemes)
+{
+	auto accent = cainteoir::get_data_path() / "accents" / (std::string(aAccent) + ".ptp");
+	return std::make_shared<phoneme_to_phoneme>(accent, aPhonemes);
+}

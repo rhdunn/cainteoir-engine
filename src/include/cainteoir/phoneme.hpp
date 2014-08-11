@@ -306,6 +306,10 @@ namespace cainteoir { namespace tts
 	createPhonemeToPhonemeConverter(const char *aPhonemeToPhonemeRules,
 	                                const std::shared_ptr<phoneme_reader> &aPhonemes);
 
+	std::shared_ptr<phoneme_reader>
+	createAccentConverter(const char *aAccent,
+	                      const std::shared_ptr<phoneme_reader> &aPhonemes);
+
 	struct phoneme_writer
 	{
 		virtual void reset(FILE *aOutput) = 0;

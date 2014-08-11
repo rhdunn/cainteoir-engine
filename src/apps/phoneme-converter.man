@@ -19,6 +19,10 @@ phoneme-converter \- convert from one phoneme transcription to another
 Extract the metadata from ePub, RDF/XML, HTML and other documents,
 producing RDF statements or other metadata formats.
 .SH OPTIONS
+.IP "-a ACCENT, --accent ACCENT"
+Use the phoneme-to-phoneme rules for the specified accent to convert the phonemes
+produced by the FROM phoneme set. This is the name of a supported accent (e.g.
+en-GB-rp or cmu), not a path to a phoneme-to-phoneme conversion file.
 .IP "-c, --chart"
 Generate a phoneme chart for the specified phonemeset.
 .IP "-f, --features"

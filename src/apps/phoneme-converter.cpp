@@ -154,6 +154,7 @@ int main(int argc, char ** argv)
 		bool no_pauses = false;
 		bool show_features = false;
 		const char *phoneme_map = nullptr;
+		const char *accent = nullptr;
 
 		const option_group general_options = { nullptr, {
 			{ 's', "separate", bind_value(mode, phoneme_mode::separate),
@@ -164,6 +165,8 @@ int main(int argc, char ** argv)
 			  i18n("Do not process pause phonemes") },
 			{ 'M', "phoneme-map", phoneme_map, "PHONEME_MAP",
 			  i18n("Use PHONEME_MAP to convert phonemes (e.g. accent conversion)") },
+			{ 'a', "accent", accent, "ACCENT",
+			  i18n("Use ACCENT to convert phonemes to the specified accent") },
 		}};
 
 		const option_group stress_options = { i18n("Phoneme Stress Placement:"), {
@@ -202,6 +205,8 @@ int main(int argc, char ** argv)
 
 		if (phoneme_map)
 			from = tts::createPhonemeToPhonemeConverter(phoneme_map, from);
+		if (accent)
+			from = tts::createAccentConverter(accent, from);
 
 		if (stress == tts::stress_type::as_transcribed)
 			print_phonemes(from, to, data, mode, no_pauses, show_features);
