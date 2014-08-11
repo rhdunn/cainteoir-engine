@@ -174,6 +174,25 @@ bool phoneme_to_phoneme::read()
 			read_queue.push_back(phoneme);
 	}
 
+	while (!read_queue.empty())
+	{
+		mReadQueue.push_back(read_queue.front());
+		read_queue.pop_front();
+	}
+
+	if (match)
+	{
+		mCurrentPhoneme = match->item.begin();
+		mLastPhoneme = match->item.end();
+		return read();
+	}
+
+	if (next_phoneme(phoneme))
+	{
+		*(ipa::phoneme *)this = phoneme;
+		return true;
+	}
+
 	return false;
 }
 

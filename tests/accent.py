@@ -23,6 +23,9 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('accent', sys.argv)
 	test.run({'name': 'Accents', 'groups': [
+		{'name': 'Phoneme-to-Phoneme', 'type': 'phonemeset', 'tests': [
+			{'test': 'accent/match-at-end.ipa', 'result': 'accent/match-at-end.cmu', 'from': 'ipa', 'to': 'ipa', 'accent': 'cmu'},
+		]},
 		{'name': 'English', 'type': 'phonemeset', 'tests': [
 			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.cmu', 'from': 'ipa', 'to': 'ipa', 'accent': 'cmu'},
 		]},
