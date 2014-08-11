@@ -131,7 +131,7 @@ css_DATA = data/css/*.css
 EXTRA_DIST += $(css_DATA)
 
 install-data-hook-locale:
-	cd data && (find locale -type f | grep -vF "/." | \
+	cd data && (find -L locale -type f | grep -vF "/." | \
 		tar -cO -T - --no-recursion | \
 		tar -C $(DESTDIR)$(pkgdatadir) -xvf - > $(DESTDIR)$(pkgdatadir)/locale.installed)
 
@@ -141,7 +141,7 @@ uninstall-local-locale:
 	rm -f locale.installed
 
 install-data-hook-phonemeset:
-	cd data && (find phonemeset -type f | grep -vF "/." | \
+	cd data && (find -L phonemeset -type f | grep -vF "/." | \
 		tar -cO -T - --no-recursion | \
 		tar -C $(DESTDIR)$(pkgdatadir) -xvf - > $(DESTDIR)$(pkgdatadir)/phonemeset.installed)
 
@@ -151,7 +151,7 @@ uninstall-local-phonemeset:
 	rm -f phonemeset.installed
 
 install-data-hook-accents:
-	cd data && (find accents -type f | grep -vF "/." | \
+	cd data && (find -L accents -type f | grep -vF "/." | \
 		tar -cO -T - --no-recursion | \
 		tar -C $(DESTDIR)$(pkgdatadir) -xvf - > $(DESTDIR)$(pkgdatadir)/accents.installed)
 
