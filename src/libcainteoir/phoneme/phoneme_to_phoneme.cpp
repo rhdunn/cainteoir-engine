@@ -75,10 +75,7 @@ phoneme_to_phoneme::phoneme_to_phoneme(const char *aPhonemeToPhonemeRules,
 
 			ipa::phoneme from = *phonemes;
 			if (phonemes->read())
-			{
-				fprintf(stderr, "error: mapping multiple phonemes is not currently supported.\n");
-				continue;
-			}
+				continue; // mapping multiple phonemes is not currently supported.
 
 			if (!rules.read() || rules.type() != cainteoir_file_reader::phonemes)
 			{
@@ -91,10 +88,7 @@ phoneme_to_phoneme::phoneme_to_phoneme(const char *aPhonemeToPhonemeRules,
 
 			ipa::phoneme to = *phonemes;
 			if (phonemes->read())
-			{
-				fprintf(stderr, "error: mapping multiple phonemes is not currently supported.\n");
-				continue;
-			}
+				continue; // mapping multiple phonemes is not currently supported.
 
 			mPhonemeMap[from] = to;
 		}
