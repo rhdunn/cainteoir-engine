@@ -482,6 +482,8 @@ HTMLTREE_TEST_FILES = $(shell find tests/html/tree-construction/*)
 
 PHONEMESET_TEST_FILES = $(shell find tests/phonemeset/*)
 
+ACCENT_TEST_FILES = $(shell find tests/accent/*)
+
 DIPHONE_TEST_FILES = $(shell find tests/diphone/*)
 
 PROSODY_TEST_FILES = $(shell find tests/prosody/*)
@@ -518,7 +520,9 @@ EXTRA_DIST += \
 	$(XMLPARSER_TEST_FILES) \
 	$(DOCUMENT_TEST_FILES) \
 	$(PHONEMESET_TEST_FILES) \
+	$(ACCENT_TEST_FILES) \
 	$(DIPHONE_TEST_FILES) \
+	$(PROSODY_TEST_FILES) \
 	tests/*.py
 
 noinst_bin_PROGRAMS += tests/range.test
@@ -650,6 +654,8 @@ tests/dictionary.check: src/apps/dictionary ${DICTIONARY_TEST_FILES}
 
 tests/phonemeset.check: src/apps/phoneme-converter ${PHONEMESET_TEST_FILES}
 
+tests/accent.check: src/apps/phoneme-converter ${ACCENT_TEST_FILES}
+
 tests/metadata.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
 
 tests/vorbis-comments.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
@@ -681,6 +687,7 @@ check: \
 	tests/phoneme.check \
 	tests/trie.check \
 	tests/phonemeset.check \
+	tests/accent.check \
 	tests/phoneme_stress.check \
 	tests/dictionary.check \
 	tests/parsetext.check \

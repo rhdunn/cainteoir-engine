@@ -190,6 +190,8 @@ class PhonemeSetCommand(Command):
 	def run(self, args, filename, data):
 		params = [x for x in args]
 		params.extend([data['from'], data['to']])
+		if 'accent' in data:
+			params.extend(['--accent', data['accent']])
 		return Command.run(self, params, filename, data)
 
 class DiphoneCommand(Command):
