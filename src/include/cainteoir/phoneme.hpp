@@ -37,8 +37,8 @@ namespace cainteoir { namespace ipa
 	#endif
 
 	constexpr feature_t main                   = FEATURE_C(0x00000000001FFFFF);
-	constexpr feature_t diacritics             = FEATURE_C(0x000007FFFFE00000);
-	constexpr feature_t reserved               = FEATURE_C(0x000EF80000000000);
+	constexpr feature_t diacritics             = FEATURE_C(0x00000FFFFFE00000);
+	constexpr feature_t reserved               = FEATURE_C(0x000EF00000000000);
 	constexpr feature_t suprasegmentals        = FEATURE_C(0xFFF1000000000000);
 
 	// features
