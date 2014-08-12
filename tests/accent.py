@@ -50,5 +50,9 @@ if __name__ == '__main__':
 			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-brummie'},
 			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-GB-x-brummie', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-brummie'},
 		]},
+		{'name': 'English (Caribbean)', 'type': 'phonemeset', 'tests': [
+			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en-029', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-029'},
+			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-029', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-029'},
+		]},
 	]})
 	test.summary()

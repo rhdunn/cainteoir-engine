@@ -1,0 +1,52 @@
+# Accent map for Caribbean English.
+#
+# Copyright (C) 2014 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.phonemeset	ipa
+
+# Consonants
+
+/t/		/t̪/
+/θ/		/t̪/
+/d/		/d̪/
+/ð/		/d̪/
+
+# Short Vowels
+
+/æ/		/a/ # TRAP
+/ɔ/		/ɒ/ # LONG
+
+# Long Vowels
+
+/ɛː/		/iː/ # FLEECE (MEAT)
+/ɒː/		/ɒ/  # CLOTH
+/aː/		/a/  # BATH
+
+# R-coloured Vowels
+
+/ɪʳ/		/ɜː/ # NURSE (FIR)
+/ʊʳ/		/ɜː/ # NURSE (FUR)
+/ɛʳ/		/ɜː/ # NURSE (FERN)
+/ɔːʳ/		/ɔə̯/ # NORTH
+/oːʳ/		/oə̯/ # FORCE
+/ɑːʳ/		/ɑə̯/ # START
+
+# Diphthongs
+
+/əʊ̯/		/oʊ̯/ # GOAT
+/ɛə̯/		/eə̯/ # SQUARE
+/ʊə̯/		/oə̯/ # CURE
+/ɔɪ̯/		/ɔɪ̯/ # CHOICE ~ To avoid being overridden by the LONG vowel.
+/aɪ̯/		/aɪ̯/ # PRICE
+
+# Triphthongs
+
+/aɪ̯ə̯/		/aɪ̯a̯/ # FIRE
+
+# Reduced Vowels
+
+/ɨ/		/ɪ/ # ROSES
+/ə/		/a/ # COMMA
+/ɚ/		/a/ # LETTER
