@@ -42,5 +42,9 @@ if __name__ == '__main__':
 			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.ipa', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-scotland'},
 			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-GB-scotland', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-scotland'},
 		]},
+		{'name': 'English (Lancastrian, Northern Lancashire)', 'type': 'phonemeset', 'tests': [
+			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-lancastr'},
+			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-GB-x-lancastr', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-lancastr'},
+		]},
 	]})
 	test.summary()
