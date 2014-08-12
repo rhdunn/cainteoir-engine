@@ -68,12 +68,12 @@ A:	/{low,bck,unr,vwl,lng}/ # /ɑː/ PALM
 a:	/{sml,fnt,unr,vwl,lng}/ # /æː/
 a\#:	/{sml,cnt,unr,vwl,lng}/	# /ɐː/
 
-O@r	/{umd,bck,rnd,vwl,rtc,lng}/ # /oːʳ/ NORTH (en-sc)
-O@	/{umd,bck,rnd,vwl,rtc,lng}/ # /oːʳ/ NORTH
-O@r-	/{umd,bck,rnd,vwl,rtc,lng}{vcd,alv,apr}/ # /oːʳɹ/
-o@r	/{lmd,bck,rnd,vwl,rtc,lng}/ # /ɔːʳ/ FORCE (en-sc)
-o@	/{lmd,bck,rnd,vwl,rtc,lng}/ # /ɔːʳ/ FORCE
-o@r-	/{lmd,bck,rnd,vwl,rtc,lng}{vcd,alv,apr}/ # /ɔːʳɹ/
+O@r	/{lmd,bck,rnd,vwl,rtc,lng}/ # /ɔːʳ/ NORTH (en-sc)
+O@	/{lmd,bck,rnd,vwl,rtc,lng}/ # /ɔːʳ/ NORTH
+O@r-	/{lmd,bck,rnd,vwl,rtc,lng}{vcd,alv,apr}/ # /ɔːʳɹ/
+o@r	/{umd,bck,rnd,vwl,rtc,lng}/ # /oːʳ/ FORCE (en-sc)
+o@	/{umd,bck,rnd,vwl,rtc,lng}/ # /oːʳ/ FORCE
+o@r-	/{umd,bck,rnd,vwl,rtc,lng}{vcd,alv,apr}/ # /oːʳɹ/
 A@r	/{low,bck,unr,vwl,rtc,lng}/ # /ɑːʳ/ START (en-sc)
 A@	/{low,bck,unr,vwl,rtc,lng}/ # /ɑːʳ/ START
 A@r-	/{low,bck,unr,vwl,rtc,lng}{vcd,alv,apr}/ # /ɑːʳɹ/
