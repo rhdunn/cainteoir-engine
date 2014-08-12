@@ -46,5 +46,9 @@ if __name__ == '__main__':
 			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-lancastr'},
 			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-GB-x-lancastr', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-lancastr'},
 		]},
+		{'name': 'English (Birmingham, West Midlands)', 'type': 'phonemeset', 'tests': [
+			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-brummie'},
+			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-GB-x-brummie', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-brummie'},
+		]},
 	]})
 	test.summary()
