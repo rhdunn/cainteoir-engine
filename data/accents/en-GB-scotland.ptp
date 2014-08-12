@@ -1,0 +1,53 @@
+# Scottish English (ScE) accent map for English.
+#
+# Copyright (C) 2014 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.phonemeset	ipa
+
+# Short Vowels
+
+/æ/		/ɐ̟/ # TRAP
+#/ɒ/		/ɑ/ # LOT
+
+# Long Vowels
+
+/ɛː/		/i/  # FLEECE (MEAT)
+/iː/		/i/  # FLEECE (MEET)
+/uː/		/ʉ/  # GOOSE
+/ɜː/		/ʌɾ/ # NURSE
+/ɔː/		/ɔ/  # THOUGHT
+/ɑː/		/ɐ̟/  # PALM
+/ɒː/		/ɔ/  # CLOTH
+/aː/		/ɐ̟/  # BATH
+
+# R-coloured Vowels
+
+/ɪʳ/		/ɪɾ/ # NURSE (FIR)
+/ʊʳ/		/ʌɾ/ # NURSE (FUR)
+/ɛʳ/		/ɛɾ/ # NURSE (FERN)
+/oːʳ/		/oɾ/ # NORTH
+/ɔːʳ/		/ɔɾ/ # FORCE
+/ɑːʳ/		/ɐ̟ɾ/ # START
+
+# Diphthongs
+
+/eɪ̯/		/e/  # FACE
+/ɪə̯/		/iɾ/ # NEAR
+/ʊə̯/		/uɾ/ # CURE
+/əʊ̯/		/o/  # GOAT
+/ɛə̯/		/eɾ/ # SQUARE
+/ɔɪ̯/		/oi̯/ # CHOICE
+/aɪ̯/		/əi̯/ # PRICE
+/aʊ̯/		/ɘʉ̯/ # MOUTH
+
+# Triphthongs
+
+#/aɪ̯ə̯/		/aɪ̯ɹ/ # FIRE
+#/aʊ̯ə̯/		/aʊ̯ɹ/ # HOUR
+
+# Reduced Vowels
+
+/i/		/e/  # HAPPY
+/ɚ/		/əɾ/ # LETTER
