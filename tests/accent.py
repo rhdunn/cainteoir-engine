@@ -26,7 +26,12 @@ if __name__ == '__main__':
 		{'name': 'Phoneme-to-Phoneme', 'type': 'phonemeset', 'tests': [
 			{'test': 'accent/match-at-end.ipa', 'result': 'accent/match-at-end.cmu', 'from': 'ipa', 'to': 'ipa', 'accent': 'cmu'},
 		]},
-		{'name': 'English', 'type': 'phonemeset', 'tests': [
+		{'name': 'English Consonants', 'type': 'phonemeset', 'tests': [
+			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'cmu'},
+			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-rp'},
+			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-US'},
+		]},
+		{'name': 'English Vowels', 'type': 'phonemeset', 'tests': [
 			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.cmu', 'from': 'ipa', 'to': 'ipa', 'accent': 'cmu'},
 			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-GB-x-rp', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-rp'},
 			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-US', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-US'},
