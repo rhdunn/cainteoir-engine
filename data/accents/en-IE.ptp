@@ -1,0 +1,46 @@
+# Accent map for Irish English (IrE).
+#
+# Copyright (C) 2014 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.phonemeset	ipa
+
+# Short Vowels
+
+/æ/		/a/ # TRAP
+/ɒ/		/ɑ/ # LOT
+/ɔ/		/ɑ/ # LONG
+/ʌ/		/ʊ/ # STRUT
+
+# Long Vowels
+
+/ɛː/		/eː/ # FLEECE (MEAT)
+/oː/		/uː/ # FOOT (FOOT)
+/ɜː/		/ʊɹ/ # NURSE
+/ɒː/		/ɑ/  # CLOTH
+/aː/		/a/  # BATH
+
+# R-coloured Vowels
+
+/ɪʳ/		/ɪɹ/  # NURSE (FIR)
+/ʊʳ/		/ʊɹ/  # NURSE (FUR)
+/ɛʳ/		/ɛɹ/  # NURSE (FERN)
+/ɔːʳ/		/ɑɹ/  # NORTH
+/oːʳ/		/oːɹ/ # FORCE
+/ɑːʳ/		/aːɹ/ # START
+
+# Diphthongs
+
+/eɪ̯/		/eː/  # FACE
+/ɪə̯/		/iːɹ/ # NEAR
+/ʊə̯/		/uːɹ/ # CURE
+/əʊ̯/		/oː/  # GOAT
+/ɛə̯/		/eːɹ/ # SQUARE
+/aɪ̯/		/ɔɪ̯/  # PRICE
+/aʊ̯/		/æu̯/  # MOUTH
+/ɔɪ̯/		/oɪ̯/  # CHOICE
+
+# Reduced Vowels
+
+/ɨ/		/ə/  # ROSES

@@ -62,7 +62,8 @@ if __name__ == '__main__':
 	en['groups'].append(accent('english', 'en-GB-x-brummie',  '... ... ... ... ... Brummie [Birmingham]', consonants='en'))
 	#                                                          ... ... ... Southern England
 	#                                                          ... ... ... ... South East England
-	en['groups'].append(accent('english', 'en-GB-x-rp',       '... ... ... ... ... Archaic Received Pronunciation (RP)', consonants='en'))
+	en['groups'].append(accent('english', 'en-GB-x-rp',       '... ... ... ... ... Received Pronunciation (RP)', consonants='en'))
+	en['groups'].append(accent('english', 'en-IE',            '... Irish English (IrE)', consonants='ipa'))
 	en['groups'].append(accent('english', 'en-US',            '... General American (GenAm) [North America]', consonants='en'))
 	en['groups'].append(accent('english', 'en-029',           '... Caribbean'))
 	test.run(en)
