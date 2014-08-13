@@ -21,38 +21,50 @@ import harness
 import sys
 
 if __name__ == '__main__':
+	def accent(language, locale, name, consonants=None):
+		return {'name': name.replace('... ', ''), 'type': 'phonemeset', 'tests': [
+			{'test': 'accent/{0}/consonants.ipa'.format(language),
+			 'result': 'accent/{0}/consonants.{1}'.format(language, consonants if consonants else locale),
+			 'from': 'ipa',
+			 'to': 'ipa',
+			 'accent': locale},
+			{'test': 'accent/{0}/phonemes.ipa'.format(language),
+			 'result': 'accent/{0}/phonemes.{1}'.format(language, locale),
+			 'from': 'ipa',
+			 'to': 'ipa',
+			 'accent': locale},
+		]}
+
 	test = harness.TestSuite('accent', sys.argv)
-	test.run({'name': 'Accents', 'groups': [
+
+	test.run({'name': 'Edge Cases', 'groups': [
 		{'name': 'Phoneme-to-Phoneme', 'type': 'phonemeset', 'tests': [
 			{'test': 'accent/match-at-end.ipa', 'result': 'accent/match-at-end.cmu', 'from': 'ipa', 'to': 'ipa', 'accent': 'cmu'},
 		]},
+	]})
+
+	test.run({'name': 'Dictionary', 'groups': [
 		{'name': 'CMU Pronunciation Dictionary (General American)', 'type': 'phonemeset', 'tests': [
 			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'cmu'},
 			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.cmu', 'from': 'ipa', 'to': 'ipa', 'accent': 'cmu'},
 		]},
-		{'name': 'English (Archaic Received Pronunciation)', 'type': 'phonemeset', 'tests': [
-			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-rp'},
-			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-GB-x-rp', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-rp'},
-		]},
-		{'name': 'English (General American)', 'type': 'phonemeset', 'tests': [
-			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-US'},
-			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-US', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-US'},
-		]},
-		{'name': 'English (Scottish English)', 'type': 'phonemeset', 'tests': [
-			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.ipa', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-scotland'},
-			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-GB-scotland', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-scotland'},
-		]},
-		{'name': 'English (Lancastrian, Northern Lancashire)', 'type': 'phonemeset', 'tests': [
-			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-lancastr'},
-			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-GB-x-lancastr', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-lancastr'},
-		]},
-		{'name': 'English (Birmingham, West Midlands)', 'type': 'phonemeset', 'tests': [
-			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-brummie'},
-			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-GB-x-brummie', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-GB-x-brummie'},
-		]},
-		{'name': 'English (Caribbean)', 'type': 'phonemeset', 'tests': [
-			{'test': 'accent/english/consonants.ipa', 'result': 'accent/english/consonants.en-029', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-029'},
-			{'test': 'accent/english/phonemes.ipa', 'result': 'accent/english/phonemes.en-029', 'from': 'ipa', 'to': 'ipa', 'accent': 'en-029'},
-		]},
 	]})
+
+	en = {'name': 'English', 'groups': []} #                   English
+	#                                                          ... British English
+	en['groups'].append(accent('english', 'en-GB-scotland',   '... ... Scottish English (ScE)', consonants='ipa'))
+	#                                                          ... ... England
+	#                                                          ... ... ... Northern England
+	#                                                          ... ... ... ... North West England
+	en['groups'].append(accent('english', 'en-GB-x-lancastr', '... ... ... ... ... Lancastrian [Northern Lancashire]', consonants='en'))
+	#                                                          ... ... ... Midlands
+	#                                                          ... ... ... ... West Midlands
+	en['groups'].append(accent('english', 'en-GB-x-brummie',  '... ... ... ... ... Brummie [Birmingham]', consonants='en'))
+	#                                                          ... ... ... Southern England
+	#                                                          ... ... ... ... South East England
+	en['groups'].append(accent('english', 'en-GB-x-rp',       '... ... ... ... ... Archaic Received Pronunciation (RP)', consonants='en'))
+	en['groups'].append(accent('english', 'en-US',            '... General American (GenAm) [North America]', consonants='en'))
+	en['groups'].append(accent('english', 'en-029',           '... Caribbean'))
+	test.run(en)
+
 	test.summary()
