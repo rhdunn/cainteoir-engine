@@ -257,14 +257,16 @@ static uint32_t from_document(tts::dictionary &base_dict,
 			switch (match.type)
 			{
 			case tts::dictionary::no_match:
-				if (word_mode == word_mode_type::only_in_document)
+				switch (word_mode)
 				{
+				case word_mode_type::merge:
+				case word_mode_type::only_in_document:
 					dict.add_entry(text->event().text, { text->event().text });
 					++words;
-				}
-				else
-				{
+					break;
+				default:
 					fprintf(stderr, "error: cannot find '%s' in the dictionary\n", text->event().text->str().c_str());
+					break;
 				}
 				break;
 			case tts::dictionary::say_as:
