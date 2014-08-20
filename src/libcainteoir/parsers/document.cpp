@@ -169,7 +169,7 @@ void cainteoir::supportedDocumentFormats(rdf::graph &metadata, capability_types 
 		mime::ssml .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 		mime::gzip .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 		mime::zip  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
-#ifdef HAVE_POPPLER
+#ifdef HAVE_POPPLER_GLIB
 		mime::pdf  .metadata(metadata, baseuri, rdf::tts("DocumentFormat"));
 #endif
 	}
