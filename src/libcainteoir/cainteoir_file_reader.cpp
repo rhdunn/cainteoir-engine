@@ -142,6 +142,12 @@ bool cainteoir_file_reader::read()
 		switch (*mCurrent)
 		{
 		case '\r': case '\n': case '#':
+			// skip any trailing whitespace ...
+			--mCurrent;
+			while (mCurrent != begin_match && (*mCurrent == ' '))
+				--mCurrent;
+			++mCurrent;
+			// return the matching token ...
 			mState = start;
 			mMatch = cainteoir::buffer(begin_match, mCurrent);
 			mType = directive_contents;
