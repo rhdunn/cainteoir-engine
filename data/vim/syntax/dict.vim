@@ -18,6 +18,7 @@ syn match	dictSayAsDefinition	"\t[^\t#/]*"
 
 syn region	dictComment		start='#' end='$'
 syn region	dictPhonemes		start="/" end="/"
+syn region	dictString		start="\"" end="\""
 syn region	dictDirective		start='^.[a-z]' end='$' contains=dictComment
 
 " Define the default highlighting.
@@ -27,6 +28,7 @@ hi def link dictSpecialEntry		Statement
 hi def link dictPhonemes		Constant
 hi def link dictSayAsDefinition		PreProc
 hi def link dictComment			Comment
+hi def link dictString			String
 
 let b:current_syntax = "dict"
 " vim: ts=8

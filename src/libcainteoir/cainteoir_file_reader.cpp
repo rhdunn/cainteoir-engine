@@ -33,6 +33,7 @@ enum state_t
 	in_directive_body,
 	in_text,
 	in_phonemes,
+	in_directive_string,
 };
 
 cainteoir_file_reader::cainteoir_file_reader(const cainteoir::path &aFilePath)
@@ -132,6 +133,11 @@ bool cainteoir_file_reader::read()
 		case '\t':
 			++mCurrent;
 			break;
+		case '\"':
+			++mCurrent;
+			begin_match = mCurrent;
+			mState = in_directive_string;
+			break;
 		default:
 			begin_match = mCurrent;
 			mState = in_directive_body;
@@ -188,6 +194,24 @@ bool cainteoir_file_reader::read()
 			mState = (*mCurrent == '\t') ? in_line_contents : start;
 			mMatch = cainteoir::buffer(begin_match, mCurrent);
 			mType = text;
+			return true;
+		default:
+			++mCurrent;
+			break;
+		}
+		break;
+	case in_directive_string:
+		switch (*mCurrent)
+		{
+		case '\r': case '\n': case '\t':
+			fprintf(stderr, "error: missing end of string (missing closing '\"')\n");
+			mState = start;
+			break;
+		case '\"':
+			mState = start;
+			mMatch = cainteoir::buffer(begin_match, mCurrent);
+			mType = directive_contents;
+			++mCurrent;
 			return true;
 		default:
 			++mCurrent;
