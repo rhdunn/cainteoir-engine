@@ -2,7 +2,7 @@
 " Language:	Dictionary Entries
 " Filenames:    *.dict
 " Maintainer:	Reece H. Dunn <msclrhd@gmail.com>
-" Last Change:	2014 Aug 11
+" Last Change:	2014 Aug 21
 
 " Quit when a (custom) syntax file was already loaded
 if exists("b:current_syntax")
@@ -14,9 +14,9 @@ syn match	dictSpecialEntry	"_10\^[0-9]*"
 syn match	dictSpecialEntry	"_andDD"
 syn match	dictSpecialEntry	"_DandDD"
 
-syn match	dictDirective		"\.[a-z]*"
 syn match	dictSayAsDefinition	"\t[^\t#/]*"
 
+syn region	dictDirective		start='^.[a-z]' end='$'
 syn region	dictComment		start='#' end='$'
 syn region	dictPhonemes		start="/" end="/"
 
