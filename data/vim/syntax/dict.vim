@@ -16,9 +16,9 @@ syn match	dictSpecialEntry	"_DandDD"
 
 syn match	dictSayAsDefinition	"\t[^\t#/]*"
 
-syn region	dictDirective		start='^.[a-z]' end='$'
 syn region	dictComment		start='#' end='$'
 syn region	dictPhonemes		start="/" end="/"
+syn region	dictDirective		start='^.[a-z]' end='$' contains=dictComment
 
 " Define the default highlighting.
 " Only used when an item doesn't have highlighting yet
