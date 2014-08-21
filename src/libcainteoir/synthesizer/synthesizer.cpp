@@ -25,6 +25,7 @@
 #include "synth.hpp"
 
 #include <cainteoir/path.hpp>
+#include <sys/stat.h>
 #include <dirent.h>
 
 namespace rdf = cainteoir::rdf;
@@ -32,24 +33,30 @@ namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 
 static void
-read_cainteoir_voices(rdf::graph &aMetadata)
+read_cainteoir_voices(const cainteoir::path &aPath, rdf::graph &aMetadata)
 {
-	auto voices = cainteoir::get_data_path() / "voices";
-
-	DIR *dir = opendir(voices.str().c_str());
+	DIR *dir = opendir(aPath.str().c_str());
 	struct dirent *ent = nullptr;
 	if (dir) while ((ent = readdir(dir)) != nullptr)
 	{
 		if (ent->d_name[0] == '.') continue;
 
+		auto path = aPath / ent->d_name;
+
+		struct stat st;
+		if (lstat(path.str().c_str(), &st) == -1) continue;
+
+		if (S_ISDIR(st.st_mode))
+		{
+			read_cainteoir_voices(path, aMetadata);
+			continue;
+		}
+
 		char *ext = strstr(ent->d_name, ".vdb");
 		if (ext == nullptr) continue;
 
-		auto vdb = voices / ent->d_name;
-		*ext = 0;
-
 		uint8_t data[512] = { 0 };
-		FILE *f = fopen(vdb.str().c_str(), "rb");
+		FILE *f = fopen(path.str().c_str(), "rb");
 		size_t n = f ? fread(data, 1, sizeof(data), f) : 0;
 		fclose(f);
 
@@ -76,8 +83,10 @@ read_cainteoir_voices(rdf::graph &aMetadata)
 void
 tts::read_voice_metadata(rdf::graph &aMetadata)
 {
+	auto voices = cainteoir::get_data_path() / "voices";
+
 	read_mbrola_voices(aMetadata);
-	read_cainteoir_voices(aMetadata);
+	read_cainteoir_voices(voices, aMetadata);
 }
 
 std::shared_ptr<tts::synthesizer>
