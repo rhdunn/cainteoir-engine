@@ -24,6 +24,7 @@
 #include "options.hpp"
 
 #include <cainteoir/engines.hpp>
+#include <cainteoir/synthesizer.hpp>
 #include <cainteoir/document.hpp>
 #include <stdexcept>
 #include <iostream>
@@ -45,6 +46,7 @@ enum actions
 	speak,
 	show_metadata,
 	show_contents,
+	compile_voice,
 };
 
 int termchar()
@@ -132,6 +134,8 @@ int main(int argc, char ** argv)
 			  i18n("Do not print any output (including current playing/recording time)") },
 			{ 'D', "device", device_name, "DEVICE",
 			  i18n("Use DEVICE for audio output (ALSA/pulseaudio device name)") },
+			{ 'C', "compile", bind_value(action, compile_voice),
+			  i18n("Convert a voice definition file into the Voice DB format") },
 		}};
 
 		const option_group speech_options = { i18n("Speech:"), {
@@ -186,6 +190,7 @@ int main(int argc, char ** argv)
 
 		const std::initializer_list<const char *> usage = {
 			i18n("cainteoir [OPTION..] DOCUMENT"),
+			i18n("cainteoir [OPTION..] --compile VOICE_FILE"),
 			i18n("cainteoir [OPTION..]"),
 		};
 
@@ -235,6 +240,18 @@ int main(int argc, char ** argv)
 				<< rdf::iana
 				<< rdf::subtag
 				<< metadata;
+			return 0;
+		}
+		else if (action == compile_voice)
+		{
+			const char *filename = (argc == 1) ? argv[0] : nullptr;
+			if (!outfile || !strcmp(outfile, "-"))
+				tts::compile_voice(filename, stdout);
+			else
+			{
+				std::shared_ptr<FILE> out(fopen(outfile, "wb"), fclose);
+				tts::compile_voice(filename, out.get());
+			}
 			return 0;
 		}
 
