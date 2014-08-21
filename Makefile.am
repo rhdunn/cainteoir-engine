@@ -368,7 +368,6 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	\
 	src/libcainteoir/synthesizer/synth.hpp \
 	src/libcainteoir/synthesizer/synthesizer.cpp \
-	src/libcainteoir/synthesizer/cainteoir.cpp \
 	src/libcainteoir/synthesizer/mbrola.cpp \
 	\
 	src/libcainteoir/unicode/utf8.cpp
