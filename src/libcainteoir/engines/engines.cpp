@@ -45,7 +45,7 @@ static inline double percentageof(size_t a, size_t b)
 	return (double(a) / b) * 100.0;
 }
 
-struct speech_impl : public tts::speech , public tts::engine_callback
+struct speech_impl : public tts::speech , public tts::synthesis_callback
 {
 	tts::engine *engine;
 	std::shared_ptr<cainteoir::audio> audio;
@@ -58,7 +58,7 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 	std::vector<cainteoir::ref_entry>::const_iterator mRefEntryTo;
 	const cainteoir::ref_entry *mRefEntry;
 
-	tts::state speechState;
+	tts::state_t speechState;
 	pthread_t threadId;
 	std::string mErrorMessage;
 
@@ -107,13 +107,13 @@ struct speech_impl : public tts::speech , public tts::engine_callback
 
 	const cainteoir::ref_entry &context() const;
 
-	// tts::callback
+	// tts::synthesizer_callback
 
-	tts::state state() const;
+	tts::state_t state() const;
 
 	void onaudiodata(short *data, int nsamples);
 
-	void onspeaking(size_t pos, size_t len);
+	void ontextrange(size_t pos, size_t len);
 };
 
 static void * speak_tts_thread(void *data)
@@ -253,7 +253,7 @@ void speech_impl::started()
 void speech_impl::progress(size_t n)
 {
 	currentOffset = n;
-	onspeaking(0, 0);
+	ontextrange(0, 0);
 }
 
 void speech_impl::finished()
@@ -311,7 +311,7 @@ const cainteoir::ref_entry &speech_impl::context() const
 	return *mRefEntry;
 }
 
-tts::state speech_impl::state() const
+tts::state_t speech_impl::state() const
 {
 	return speechState;
 }
@@ -321,7 +321,7 @@ void speech_impl::onaudiodata(short *data, int nsamples)
 	audio->write((const char *)data, nsamples*2);
 }
 
-void speech_impl::onspeaking(size_t pos, size_t len)
+void speech_impl::ontextrange(size_t pos, size_t len)
 {
 	speakingPos = pos;
 	speakingLen = len;

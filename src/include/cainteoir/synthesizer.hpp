@@ -143,6 +143,24 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<prosody_writer> createPhoWriter(const std::shared_ptr<phoneme_writer> &aPhonemeSet);
 
+	enum state_t
+	{
+		stopped,
+		speaking,
+		paused,
+	};
+
+	struct synthesis_callback
+	{
+		virtual ~synthesis_callback() {}
+
+		virtual state_t state() const = 0;
+
+		virtual void onaudiodata(short *data, int nsamples) = 0;
+
+		virtual void ontextrange(size_t pos, size_t len) = 0;
+	};
+
 	struct synthesizer : public audio_info
 	{
 		virtual void bind(const std::shared_ptr<prosody_reader> &aProsody) = 0;

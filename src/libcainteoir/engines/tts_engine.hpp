@@ -1,6 +1,6 @@
 /* Text-to-Speech Engine API.
  *
- * Copyright (C) 2010-2011 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -24,6 +24,7 @@
 #include <cainteoir/buffer.hpp>
 #include <cainteoir/audio.hpp>
 #include <cainteoir/metadata.hpp>
+#include <cainteoir/synthesizer.hpp>
 #include <cainteoir/engines.hpp>
 
 #include <stdexcept>
@@ -31,31 +32,13 @@
 
 namespace cainteoir { namespace tts
 {
-	enum state
-	{
-		stopped,
-		speaking,
-		paused,
-	};
-
-	struct engine_callback
-	{
-		virtual ~engine_callback() {}
-
-		virtual tts::state state() const = 0;
-
-		virtual void onaudiodata(short *data, int nsamples) = 0;
-
-		virtual void onspeaking(size_t pos, size_t len) = 0;
-	};
-
 	struct engine
 	{
 		virtual ~engine() {}
 
 		virtual bool select_voice(const char *voicename, const std::string &phonemeset) = 0;
 
-		virtual void speak(buffer *text, size_t offset, engine_callback *callback) = 0;
+		virtual void speak(buffer *text, size_t offset, synthesis_callback *callback) = 0;
 
 		virtual std::shared_ptr<phoneme_reader> pronunciation() = 0;
 

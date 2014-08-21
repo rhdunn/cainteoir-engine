@@ -118,7 +118,7 @@ public:
 
 	bool select_voice(const char *voicename, const std::string &phonemeset);
 
-	void speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback);
+	void speak(cainteoir::buffer *text, size_t offset, tts::synthesis_callback *callback);
 
 	std::shared_ptr<tts::phoneme_reader> pronunciation();
 
@@ -130,7 +130,7 @@ private:
 	void set_voice(const voice_data *data);
 	void free_voice();
 
-	bool speak_text(const char *text, pico_Int16 length, tts::engine_callback *callback);
+	bool speak_text(const char *text, pico_Int16 length, tts::synthesis_callback *callback);
 
 	void check_return(int ret);
 
@@ -209,7 +209,7 @@ bool pico_engine::select_voice(const char *voicename, const std::string &phoneme
 	return false;
 }
 
-void pico_engine::speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback)
+void pico_engine::speak(cainteoir::buffer *text, size_t offset, tts::synthesis_callback *callback)
 {
 	if (speak_text(text->begin(), text->size(), callback))
 	{
@@ -276,7 +276,7 @@ void pico_engine::free_voice()
 	}
 }
 
-bool pico_engine::speak_text(const char *text, pico_Int16 length, tts::engine_callback *callback)
+bool pico_engine::speak_text(const char *text, pico_Int16 length, tts::synthesis_callback *callback)
 {
 	short outbuf[MAX_OUTBUF_SIZE/2];
 	pico_Int16 bytes_sent;

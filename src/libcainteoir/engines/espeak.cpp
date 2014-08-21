@@ -1,6 +1,6 @@
 /* Espeak Text-to-Speech Engine.
  *
- * Copyright (C) 2010-2013 Reece H. Dunn
+ * Copyright (C) 2010-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -154,7 +154,7 @@ static bool is_mbrola_voice_available(const char *voice)
 
 static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 {
-	tts::engine_callback *callback = (tts::engine_callback *)event->user_data;
+	tts::synthesis_callback *callback = (tts::synthesis_callback *)event->user_data;
 	if (!callback) return 0;
 
 	if (callback->state() == tts::stopped) return 1;
@@ -162,10 +162,10 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 	for (; event->type != espeakEVENT_LIST_TERMINATED; ++event) switch (event->type)
 	{
 	case espeakEVENT_WORD:
-		callback->onspeaking(event->text_position, event->length);
+		callback->ontextrange(event->text_position, event->length);
 		break;
 	case espeakEVENT_END:
-		callback->onspeaking(event->text_position, 0);
+		callback->ontextrange(event->text_position, 0);
 		break;
 	default:
 		break;
@@ -305,7 +305,7 @@ public:
 
 	bool select_voice(const char *voicename, const std::string &phonemeset);
 
-	void speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback);
+	void speak(cainteoir::buffer *text, size_t offset, tts::synthesis_callback *callback);
 
 	std::shared_ptr<tts::phoneme_reader> pronunciation();
 
@@ -415,7 +415,7 @@ bool espeak_engine::select_voice(const char *voicename, const std::string &phone
 	return false;
 }
 
-void espeak_engine::speak(cainteoir::buffer *text, size_t offset, tts::engine_callback *callback)
+void espeak_engine::speak(cainteoir::buffer *text, size_t offset, tts::synthesis_callback *callback)
 {
 	std::string txt = text->str(); // null-terminate the text buffer
 	espeak_Synth(txt.c_str() + offset, txt.size() - offset, 0, POS_CHARACTER, 0, espeakCHARS_UTF8|espeakENDPAUSE, nullptr, callback);
