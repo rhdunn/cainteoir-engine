@@ -168,6 +168,42 @@ namespace cainteoir
 	std::shared_ptr<buffer> decode_quoted_printable(const buffer &data, uint32_t size);
 
 	std::shared_ptr<buffer> decode_base64(const buffer &data, uint32_t size);
+
+	struct native_endian_buffer
+	{
+		native_endian_buffer(const uint8_t *f, const uint8_t *l)
+			: first(f)
+			, last(l)
+			, current(f)
+		{
+		}
+
+		uint8_t  u8()  { return *current++; }
+		uint16_t u16() { return *read<uint16_t>(); }
+		uint32_t u32() { return *read<uint32_t>(); }
+
+		float f8_8() { return (float)u8() + ((float)u8() / 256); }
+
+		const char *pstr()
+		{
+			const char *ret = (const char *)first + u16();
+			if (ret >= (const char *)last)
+				throw std::runtime_error("end of file");
+			return ret;
+		}
+	private:
+		template <typename T>
+		const T *read()
+		{
+			const T *data = (const T *)current;
+			current += sizeof(T);
+			return data;
+		}
+
+		const uint8_t *first;
+		const uint8_t *last;
+		const uint8_t *current;
+	};
 }
 
 #endif

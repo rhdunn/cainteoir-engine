@@ -62,20 +62,53 @@ read_cainteoir_voices(const cainteoir::path &aPath, rdf::graph &aMetadata)
 
 		if (n == 0) continue;
 
-		const uint8_t *header = data;
+		cainteoir::native_endian_buffer header{ data, data + n };
 
 		// magic
-		if (*header++ != 'V') continue;
-		if (*header++ != 'O') continue;
-		if (*header++ != 'I') continue;
-		if (*header++ != 'C') continue;
-		if (*header++ != 'E') continue;
-		if (*header++ != 'D') continue;
-		if (*header++ != 'B') continue;
+		if (header.u8() != 'V') continue;
+		if (header.u8() != 'O') continue;
+		if (header.u8() != 'I') continue;
+		if (header.u8() != 'C') continue;
+		if (header.u8() != 'E') continue;
+		if (header.u8() != 'D') continue;
+		if (header.u8() != 'B') continue;
+		if (header.u16() != 0x3031) continue; // endianness
 
-		// endianness
-		if (*(const uint16_t *)header != 0x3031) continue;
-		header += 2;
+		const rdf::uri synth{ header.pstr(), {}}; // rdfns
+		const rdf::uri voice{ synth.ns, header.pstr() }; // voice id
+		const char *voice_name = header.pstr(); // name
+		const char *synth_name = header.pstr(); // synthesizer
+		const char *voice_author = header.pstr();
+		const char *phonemeset = header.pstr();
+		uint8_t gender = header.u8();
+		float volume_scale = header.f8_8();
+		uint16_t frequency = header.u16();
+		int channels = header.u8();
+		const char *sample_format = header.pstr();
+
+		aMetadata.statement(synth, rdf::rdf("type"), rdf::tts("Synthesizer"));
+		aMetadata.statement(synth, rdf::tts("name"), rdf::literal(synth_name));
+
+		aMetadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
+		aMetadata.statement(voice, rdf::tts("name"), rdf::literal(voice_name));
+		aMetadata.statement(voice, rdf::dc("creator"), rdf::literal(voice_author));
+		aMetadata.statement(voice, rdf::tts("phonemeset"), rdf::literal(phonemeset));
+		switch (gender)
+		{
+		case 'M':
+			aMetadata.statement(voice, rdf::tts("gender"), rdf::tts("male"));
+			break;
+		case 'F':
+			aMetadata.statement(voice, rdf::tts("gender"), rdf::tts("female"));
+			break;
+		}
+		aMetadata.statement(voice, rdf::tts("volumeScale"), rdf::literal(volume_scale));
+		aMetadata.statement(voice, rdf::tts("frequency"), rdf::literal(frequency, rdf::tts("hertz")));
+		aMetadata.statement(voice, rdf::tts("channels"),  rdf::literal(channels, rdf::xsd("int")));
+		aMetadata.statement(voice, rdf::tts("audioFormat"),  rdf::tts(sample_format));
+
+		aMetadata.statement(voice, rdf::tts("voiceOf"),  synth);
+		aMetadata.statement(synth, rdf::tts("hasVoice"), voice);
 	}
 	closedir(dir);
 }
