@@ -195,13 +195,7 @@ bool cainteoir_file_reader::read()
 	case in_text:
 		switch (*mCurrent)
 		{
-		case '\r': case '\n': case '\t': case '#':
-			// skip any trailing whitespace ...
-			--mCurrent;
-			while (mCurrent != begin_match && (*mCurrent == ' '))
-				--mCurrent;
-			++mCurrent;
-			// return the matching token ...
+		case '\r': case '\n': case '\t': case ' ': case '#':
 			mState = (*mCurrent == '\t') ? in_line_contents : start;
 			mMatch = cainteoir::buffer(begin_match, mCurrent);
 			mType = text;

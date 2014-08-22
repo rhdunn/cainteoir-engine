@@ -31,6 +31,15 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
+static bool is_multiword_entry(const cainteoir::buffer &s)
+{
+	for (auto c : s)
+	{
+		if (c == ' ') return true;
+	}
+	return false;
+}
+
 struct cainteoir_dictionary_reader : public tts::dictionary_reader
 {
 	cainteoir_dictionary_reader(const cainteoir::path &aDictionaryPath);
@@ -102,7 +111,7 @@ bool cainteoir_dictionary_reader::read()
 				top->mPhonemeSet = tts::createPhonemeReader(top->match().str().c_str());
 			}
 		}
-		else if (top->type() == cainteoir_file_reader::text)
+		else if (top->type() == cainteoir_file_reader::text || top->type() == cainteoir_file_reader::string)
 		{
 			word = top->buffer();
 			if (top->read()) switch (top->type())
@@ -158,7 +167,7 @@ void cainteoir_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::b
                                               const ipa::phonemes &phonemes,
                                               const char *line_separator)
 {
-	if (fprintf(mOut, "%s", word->str().c_str()) < 8)
+	if (fprintf(mOut, is_multiword_entry(*word) ? "\"%s\"" : "%s", word->str().c_str()) < 8)
 		fprintf(mOut, "\t");
 	fprintf(mOut, "\t/");
 	for (auto p : phonemes)
@@ -171,7 +180,7 @@ void cainteoir_formatter::write_say_as_entry(const std::shared_ptr<cainteoir::bu
                                              const std::shared_ptr<cainteoir::buffer> &say_as,
                                              const char *line_separator)
 {
-	if (fprintf(mOut, "%s", word->str().c_str()) < 8)
+	if (fprintf(mOut, is_multiword_entry(*word) ? "\"%s\"" : "%s", word->str().c_str()) < 8)
 		fprintf(mOut, "\t");
 	fprintf(mOut, "\t%s%s", say_as->str().c_str(), line_separator);
 }
