@@ -1,0 +1,17 @@
+# MBROLA en1 Voice Definition File
+#
+# Copyright (C) 2004 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.rdfns		"http://reecedunn.co.uk/tts/synthesizer/mbrola#"
+.id		en1 # This is also the MBROLA voice data filename.
+.name		en1
+.synthesizer	MBROLA
+.voice-author	Alan W. Black (CSTR)
+.phonemeset	mbrola/en1
+.gender		male
+.volume-scale	2.0 # Samples default to max. height of 0.25.
+.frequency	16000
+.channels	1
+.sample-format	s16le

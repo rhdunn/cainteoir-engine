@@ -37,54 +37,6 @@ namespace rql = cainteoir::rdf::query;
 #include <fcntl.h>
 #include <dirent.h>
 
-void
-tts::read_mbrola_voices(rdf::graph &aMetadata)
-{
-	std::string baseuri = "http://reecedunn.co.uk/tts/synthesizer/mbrola#";
-
-	rdf::uri mbrola = rdf::uri(baseuri, std::string());
-	aMetadata.statement(mbrola, rdf::rdf("type"), rdf::tts("Synthesizer"));
-	aMetadata.statement(mbrola, rdf::tts("name"), rdf::literal("MBROLA"));
-
-	auto voices = cainteoir::get_data_path() / "voices" / "mbrola";
-
-	DIR *dir = opendir(voices.str().c_str());
-	struct dirent *ent = nullptr;
-	if (dir) while ((ent = readdir(dir)) != nullptr)
-	{
-		if (ent->d_name[0] == '.') continue;
-
-		char *ext = strstr(ent->d_name, ".rdf");
-		if (ext == nullptr) continue;
-
-		auto info = voices / ent->d_name;
-		*ext = 0;
-
-		const char *name = ent->d_name;
-
-		char database[256];
-		snprintf(database, sizeof(database), MBROLA_DIR "/%s/%s", name, name);
-
-		if (access(database, R_OK) == 0)
-		{
-			auto metadata = cainteoir::createDocumentReader(info.str().c_str(), aMetadata);
-
-			char database[256];
-			snprintf(database, sizeof(database), MBROLA_DIR "/%s/%s", name, name);
-
-			rdf::uri voice = rdf::uri(baseuri, name);
-			aMetadata.statement(voice, rdf::tts("data"), rdf::literal(database));
-
-			aMetadata.statement(voice, rdf::tts("frequency"), rdf::literal(16000, rdf::tts("hertz")));
-			aMetadata.statement(voice, rdf::tts("channels"),  rdf::literal(1, rdf::xsd("int")));
-			aMetadata.statement(voice, rdf::tts("audioFormat"),  rdf::tts("s16le"));
-
-			aMetadata.statement(voice, rdf::tts("voiceOf"), mbrola);
-			aMetadata.statement(mbrola, rdf::tts("hasVoice"), voice);
-		}
-	}
-}
-
 struct procstat_t
 {
 	enum status_t
@@ -389,28 +341,31 @@ void mbrola_synthesizer::flush()
 }
 
 std::shared_ptr<tts::synthesizer>
-tts::create_mbrola_synthesizer(rdf::graph &aMetadata, const rdf::uri &aVoice)
+tts::create_mbrola_synthesizer(const std::shared_ptr<cainteoir::buffer> &aData,
+                               const rdf::graph &aMetadata,
+                               const rdf::uri &aVoice)
 {
 	const auto voice = rql::select(aMetadata, rql::subject == aVoice);
-	const std::string database = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("data"));
 	const std::string phonemeset = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("phonemeset"));
 	const std::string volumeScale = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("volumeScale"));
 
 	auto phonemes = tts::createPhonemeWriter(phonemeset.c_str());
 	if (!phonemes) return {};
 
-	return std::make_shared<mbrola_synthesizer>(database.c_str(), tts::createPhoWriter(phonemes), volumeScale.c_str());
+	if (aVoice.ref.size() != 3) return {};
+
+	char database[256];
+	snprintf(database, sizeof(database), MBROLA_DIR "/%s/%s", aVoice.ref.c_str(), aVoice.ref.c_str());
+
+	return std::make_shared<mbrola_synthesizer>(database, tts::createPhoWriter(phonemes), volumeScale.c_str());
 }
 
 #else
 
-void
-tts::read_mbrola_voices(rdf::graph &aMetadata)
-{
-}
-
 std::shared_ptr<tts::synthesizer>
-tts::create_mbrola_synthesizer(rdf::graph &aMetadata, const rdf::uri &aVoice)
+tts::create_mbrola_synthesizer(const std::shared_ptr<cainteoir::buffer> &aData,
+                               const rdf::graph &aMetadata,
+                               const rdf::uri &aVoice)
 {
 	return {};
 }

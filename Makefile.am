@@ -44,6 +44,8 @@ uninstall-local: \
 	uninstall-local-accents \
 	uninstall-local-phonemeset
 
+all-local: voices
+
 ############################# libtool #########################################
 
 EXTRA_DIST += config.guess config.sub ltmain.sh
@@ -467,6 +469,14 @@ noinst_bin_PROGRAMS += src/experimental/synthesizer
 
 src_experimental_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
 src_experimental_synthesizer_SOURCES = src/experimental/synthesizer.cpp
+
+############################# voices ##########################################
+
+voices:	data/voices/mbrola/en1.vdb
+
+data/voices/mbrola/en1.vdb: src/voices/mbrola/en1.voicedef src/apps/cainteoir
+	mkdir -pv data/voices/mbrola
+	src/apps/cainteoir --compile $< -o $@
 
 ############################# tests ###########################################
 

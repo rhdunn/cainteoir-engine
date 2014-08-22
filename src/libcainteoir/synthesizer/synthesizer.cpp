@@ -26,6 +26,7 @@
 
 #include <cainteoir/path.hpp>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <dirent.h>
 
 namespace rdf = cainteoir::rdf;
@@ -86,10 +87,25 @@ read_cainteoir_voices(const cainteoir::path &aPath, rdf::graph &aMetadata)
 		int channels = header.u8();
 		const char *sample_format = header.pstr();
 
+#ifdef HAVE_MBROLA
+		if (strcmp(synth_name, "MBROLA") == 0)
+		{
+			// Special check for MBROLA voices to check if the MBROLA data file
+			// is present...
+
+			char database[256];
+			snprintf(database, sizeof(database), MBROLA_DIR "/%s/%s", voice.ref.c_str(), voice.ref.c_str());
+
+			if (access(database, R_OK) != 0)
+				continue;
+		}
+#endif
+
 		aMetadata.statement(synth, rdf::rdf("type"), rdf::tts("Synthesizer"));
 		aMetadata.statement(synth, rdf::tts("name"), rdf::literal(synth_name));
 
 		aMetadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
+		aMetadata.statement(voice, rdf::tts("data"), rdf::literal(path.str()));
 		aMetadata.statement(voice, rdf::tts("name"), rdf::literal(voice_name));
 		aMetadata.statement(voice, rdf::dc("creator"), rdf::literal(voice_author));
 		aMetadata.statement(voice, rdf::tts("phonemeset"), rdf::literal(phonemeset));
@@ -117,8 +133,6 @@ void
 tts::read_voice_metadata(rdf::graph &aMetadata)
 {
 	auto voices = cainteoir::get_data_path() / "voices";
-
-	read_mbrola_voices(aMetadata);
 	read_cainteoir_voices(voices, aMetadata);
 }
 
@@ -135,10 +149,14 @@ tts::create_voice_synthesizer(rdf::graph &aMetadata, const rdf::uri *aVoice)
 
 	const char *header = data->begin();
 
-	if (strncmp(header, "VOICEDB", 7) == 0 && *(const uint16_t *)(header + 7) == 0x3031)
-		; // Cainteoir Text-to-Speech Voice Database
-	else if (aVoice->ns == "http://reecedunn.co.uk/tts/synthesizer/mbrola#")
-		return create_mbrola_synthesizer(aMetadata, *aVoice);
+	if (strncmp(header, "VOICEDB", 7) != 0 || *(const uint16_t *)(header + 7) != 0x3031)
+		return {};
+
+	const char *synth_name = (const char *)header + *(const uint16_t *)(header + 15); // synthesizer
+#ifdef HAVE_MBROLA
+	if (strcmp(synth_name, "MBROLA") == 0)
+		return create_mbrola_synthesizer(data, aMetadata, *aVoice);
+#endif
 
 	return {};
 }
