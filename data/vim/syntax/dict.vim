@@ -14,8 +14,6 @@ syn match	dictSpecialEntry	"_10\^[0-9]*"
 syn match	dictSpecialEntry	"_andDD"
 syn match	dictSpecialEntry	"_DandDD"
 
-syn match	dictSayAsDefinition	"\t[^\t#/]*"
-
 syn region	dictComment		start='#' end='$'
 syn region	dictPhonemes		start="/" end="/"
 syn region	dictString		start="\"" end="\""
@@ -26,7 +24,6 @@ syn region	dictDirective		start='^\.[a-z]' end='$' contains=dictComment,dictStri
 hi def link dictDirective		PreProc
 hi def link dictSpecialEntry		Statement
 hi def link dictPhonemes		Constant
-hi def link dictSayAsDefinition		PreProc
 hi def link dictComment			Comment
 hi def link dictString			String
 
