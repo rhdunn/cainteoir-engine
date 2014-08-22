@@ -33,6 +33,7 @@ struct cainteoir_file_reader
 		directive_contents,
 		text,
 		phonemes,
+		string,
 	};
 
 	cainteoir_file_reader(const cainteoir::path &aFilePath);

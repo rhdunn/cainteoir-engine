@@ -34,6 +34,7 @@ enum state_t
 	in_text,
 	in_phonemes,
 	in_directive_string,
+	in_string,
 };
 
 cainteoir_file_reader::cainteoir_file_reader(const cainteoir::path &aFilePath)
@@ -69,6 +70,11 @@ bool cainteoir_file_reader::read()
 			begin_match = mCurrent;
 			mState = in_phonemes;
 			break;
+		case '\"':
+			++mCurrent;
+			begin_match = mCurrent;
+			mState = in_string;
+			break;
 		default:
 			begin_match = mCurrent;
 			mState = in_text;
@@ -88,6 +94,11 @@ bool cainteoir_file_reader::read()
 			++mCurrent;
 			begin_match = mCurrent;
 			mState = in_phonemes;
+			break;
+		case '\"':
+			++mCurrent;
+			begin_match = mCurrent;
+			mState = in_string;
 			break;
 		default:
 			begin_match = mCurrent;
@@ -201,6 +212,7 @@ bool cainteoir_file_reader::read()
 		}
 		break;
 	case in_directive_string:
+	case in_string:
 		switch (*mCurrent)
 		{
 		case '\r': case '\n': case '\t':
@@ -208,9 +220,9 @@ bool cainteoir_file_reader::read()
 			mState = start;
 			break;
 		case '\"':
-			mState = start;
+			mType = mState == in_string ? string : directive_contents;
+			mState = mState == in_string ? in_line_contents : start;
 			mMatch = cainteoir::buffer(begin_match, mCurrent);
-			mType = directive_contents;
 			++mCurrent;
 			return true;
 		default:
