@@ -29,6 +29,14 @@ namespace tts = cainteoir::tts;
 static constexpr uint16_t VOICEDB_HEADER_SIZE = 29;
 static constexpr uint16_t STRING_TABLE_HEADER_SIZE = 5;
 
+struct buffer_compare
+{
+	bool operator()(const cainteoir::buffer &a, const cainteoir::buffer &b) const
+	{
+		return a.compare(b) < 0;
+	}
+};
+
 struct binary_file_writer
 {
 	binary_file_writer(FILE *aOutput)
@@ -52,6 +60,7 @@ private:
 	FILE *mOutput;
 	uint16_t mOffset;
 	std::list<cainteoir::buffer> mStrings;
+	std::map<cainteoir::buffer, uint16_t, buffer_compare> mStringTable;
 };
 
 void binary_file_writer::begin_section(const char *magic, uint16_t section_size, bool has_pstr_fields)
@@ -71,6 +80,7 @@ void binary_file_writer::end_section()
 		for (const auto &s : mStrings)
 			str(s);
 		mStrings.clear();
+		mStringTable.clear();
 	}
 }
 
@@ -88,9 +98,16 @@ void binary_file_writer::str(const cainteoir::buffer &data)
 
 void binary_file_writer::pstr(const cainteoir::buffer &data)
 {
-	u16(mOffset);
-	mOffset += data.size() + 1;
-	mStrings.push_back(data);
+	auto &entry = mStringTable[data];
+	if (entry == 0)
+	{
+		entry = mOffset;
+		u16(mOffset);
+		mOffset += data.size() + 1;
+		mStrings.push_back(data);
+	}
+	else
+		u16(entry);
 }
 
 void
