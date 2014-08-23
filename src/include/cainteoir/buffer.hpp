@@ -178,6 +178,13 @@ namespace cainteoir
 		{
 		}
 
+		native_endian_buffer(const std::shared_ptr<buffer> &aData)
+			: first((const uint8_t *)aData->begin())
+			, last((const uint8_t *)aData->end())
+			, current((const uint8_t *)aData->begin())
+		{
+		}
+
 		uint8_t  u8()  { return *current++; }
 		uint16_t u16() { return *read<uint16_t>(); }
 		uint32_t u32() { return *read<uint32_t>(); }
@@ -191,6 +198,15 @@ namespace cainteoir
 				throw std::runtime_error("end of file");
 			return ret;
 		}
+
+		void seek(uint16_t offset)
+		{
+			current = first + offset;
+		}
+
+		bool eof() const { return current >= last; }
+
+		uint32_t magic() { return ((uint32_t)u8() << 16) | ((uint32_t)u8() << 8) | ((uint32_t)u8()); }
 	private:
 		template <typename T>
 		const T *read()

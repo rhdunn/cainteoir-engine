@@ -351,11 +351,13 @@ private:
 	char mDatabase[256];
 	std::string mVolumeScale;
 	std::shared_ptr<tts::prosody_writer> mWriter;
+	std::shared_ptr<cainteoir::buffer> mData;
 };
 
 mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
                            const rdf::graph &aMetadata,
                            const rdf::uri &aVoice)
+	: mData(aData)
 {
 	snprintf(mDatabase, sizeof(mDatabase), MBROLA_DIR "/%s/%s", aVoice.ref.c_str(), aVoice.ref.c_str());
 
@@ -365,6 +367,17 @@ mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 	auto phonemes = tts::createPhonemeWriter(phonemeset.c_str());
 	mVolumeScale = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("volumeScale"));
 	mWriter = tts::createPhoWriter(phonemes);
+
+	cainteoir::native_endian_buffer data(aData);
+	data.seek(tts::VOICEDB_HEADER_SIZE);
+	while (!data.eof()) switch (data.magic())
+	{
+	case tts::STRING_TABLE_MAGIC:
+		data.seek(data.u16());
+		break;
+	default:
+		throw std::runtime_error("unsupported section in MBROLA voice file");
+	}
 }
 
 std::shared_ptr<tts::synthesizer> mbrola_voice::synthesizer()
