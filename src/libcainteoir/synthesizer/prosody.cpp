@@ -93,11 +93,16 @@ tts::createProsodyReader(const std::shared_ptr<phoneme_reader> &aPhonemes,
 	return std::make_shared<phonemes_to_prosody>(aPhonemes, aDurationModel);
 }
 
-struct prosody_reader_t : public tts::prosody_reader
+struct text_to_phonemes : public tts::phoneme_reader
 {
-	prosody_reader_t(const std::shared_ptr<tts::text_reader> &aTextReader,
-	                 const std::shared_ptr<tts::clause_processor> &aProcessor,
-	                 const std::shared_ptr<tts::duration_model> &aDurationModel);
+	text_to_phonemes(const std::shared_ptr<tts::text_reader> &aTextReader,
+	                 const std::shared_ptr<tts::clause_processor> &aProcessor)
+		: mTextReader(aTextReader)
+		, mProcessor(aProcessor)
+	{
+	}
+
+	void reset(const std::shared_ptr<cainteoir::buffer> &aData);
 
 	bool read();
 private:
@@ -105,51 +110,28 @@ private:
 
 	std::shared_ptr<tts::text_reader> mTextReader;
 	std::shared_ptr<tts::clause_processor> mProcessor;
-	std::shared_ptr<tts::duration_model> mDurationModel;
 
 	std::list<tts::text_event> mClause;
 	ipa::phonemes::const_iterator mCurrent;
 	ipa::phonemes::const_iterator mLast;
 };
 
-prosody_reader_t::prosody_reader_t(const std::shared_ptr<tts::text_reader> &aTextReader,
-                                   const std::shared_ptr<tts::clause_processor> &aProcessor,
-                                   const std::shared_ptr<tts::duration_model> &aDurationModel)
-	: mTextReader(aTextReader)
-	, mProcessor(aProcessor)
-	, mDurationModel(aDurationModel)
+void text_to_phonemes::reset(const std::shared_ptr<cainteoir::buffer> &aData)
 {
 }
 
-bool prosody_reader_t::read()
+bool text_to_phonemes::read()
 {
 	if (mCurrent == mLast)
 	{
 		if (!next_event()) return false;
 	}
 
-	first.phoneme1 = *mCurrent++;
-	if (mCurrent != mLast)
-	{
-		if (first.phoneme1.get(ipa::joined_to_next_phoneme) == ipa::joined_to_next_phoneme)
-			first.phoneme2 = *mCurrent++;
-		else if (mCurrent->get(ipa::syllabicity) == ipa::non_syllabic)
-			first.phoneme2 = *mCurrent++;
-		else
-			first.phoneme2 = { ipa::unspecified };
-	}
-	else
-		first.phoneme2 = { ipa::unspecified };
-
-	if (first.phoneme1 == ipa::syllable_break)
-		first.duration = {};
-	else
-		first.duration = mDurationModel->lookup(first).value(0);
-
+	*(ipa::phoneme *)this = *mCurrent++;
 	return true;
 }
 
-bool prosody_reader_t::next_event()
+bool text_to_phonemes::next_event()
 {
 	if (!mClause.empty())
 		mClause.pop_front();
@@ -181,5 +163,6 @@ tts::createProsodyReader(const std::shared_ptr<text_reader> &aTextReader,
                          const std::shared_ptr<clause_processor> &aProcessor,
                          const std::shared_ptr<duration_model> &aDurationModel)
 {
-	return std::make_shared<prosody_reader_t>(aTextReader, aProcessor, aDurationModel);
+	auto phonemes = std::make_shared<text_to_phonemes>(aTextReader, aProcessor);
+	return createProsodyReader(phonemes, aDurationModel);
 }
