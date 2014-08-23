@@ -118,8 +118,8 @@ It has the form:
 | next-section   | u16    |  3     |
 | END OF SECTION |        |  5     |
 
-The `magic` field identifies the section as a data table. See the sub-sections
-for the actual value.
+The `magic` field identifies the section as a data table. This is the string
+"STR".
 
 The `next-section` field is the offset to the next data block.
 
