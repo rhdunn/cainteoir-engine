@@ -47,6 +47,7 @@ enum class input_type
 {
 	document,
 	pho_file,
+	phonemes,
 };
 
 static void show_metadata(rdf::graph &metadata)
@@ -123,6 +124,12 @@ create_reader(const char *filename,
 			throw std::runtime_error("A duration model was not specified.");
 		return tts::createProsodyReader(text, processor, durations);
 	}
+	else if (input == input_type::phonemes)
+	{
+		auto phonemes = tts::createPhonemeReader(phonemeset);
+		phonemes->reset(data);
+		return tts::createProsodyReader(phonemes, durations);
+	}
 	return tts::createPhoReader(tts::createPhonemeParser(phonemeset), data);
 }
 
@@ -196,6 +203,8 @@ int main(int argc, char **argv)
 		const option_group input_options = { i18n("Input:"), {
 			{ 0, "as-pho", bind_value(input, input_type::pho_file),
 			  i18n("Process the input file as an MBROLA pho file.") },
+			{ 0, "as-phonemes", bind_value(input, input_type::phonemes),
+			  i18n("Process the input file as phonemes.") },
 		}};
 
 		const option_group output_options = { i18n("Output:"), {

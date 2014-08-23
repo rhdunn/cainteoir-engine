@@ -28,6 +28,71 @@ namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 namespace css = cainteoir::css;
 
+struct phonemes_to_prosody : public tts::prosody_reader
+{
+	phonemes_to_prosody(const std::shared_ptr<tts::phoneme_reader> &aPhonemes,
+	                    const std::shared_ptr<tts::duration_model> &aDurationModel)
+		: mPhonemes(aPhonemes)
+		, mDurationModel(aDurationModel)
+		, mNeedPhoneme(true)
+	{
+	}
+
+	bool read();
+private:
+	std::shared_ptr<tts::phoneme_reader> mPhonemes;
+	std::shared_ptr<tts::duration_model> mDurationModel;
+	bool mNeedPhoneme;
+};
+
+bool phonemes_to_prosody::read()
+{
+	if (mNeedPhoneme)
+	{
+		if (!mPhonemes->read())
+			return false;
+	}
+
+	first.phoneme1 = *mPhonemes;
+	if (mPhonemes->read())
+	{
+		if (first.phoneme1.get(ipa::joined_to_next_phoneme) == ipa::joined_to_next_phoneme)
+		{
+			first.phoneme2 = *mPhonemes;
+			mNeedPhoneme = true;
+		}
+		else if (mPhonemes->get(ipa::syllabicity) == ipa::non_syllabic)
+		{
+			first.phoneme2 = *mPhonemes;
+			mNeedPhoneme = true;
+		}
+		else
+		{
+			first.phoneme2 = { ipa::unspecified };
+			mNeedPhoneme = false;
+		}
+	}
+	else
+	{
+		first.phoneme2 = { ipa::unspecified };
+		mNeedPhoneme = true;
+	}
+
+	if (first.phoneme1 == ipa::syllable_break)
+		first.duration = {};
+	else
+		first.duration = mDurationModel->lookup(first).value(0);
+
+	return true;
+}
+
+std::shared_ptr<tts::prosody_reader>
+tts::createProsodyReader(const std::shared_ptr<phoneme_reader> &aPhonemes,
+                         const std::shared_ptr<duration_model> &aDurationModel)
+{
+	return std::make_shared<phonemes_to_prosody>(aPhonemes, aDurationModel);
+}
+
 struct prosody_reader_t : public tts::prosody_reader
 {
 	prosody_reader_t(const std::shared_ptr<tts::text_reader> &aTextReader,

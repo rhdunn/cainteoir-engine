@@ -132,6 +132,10 @@ namespace cainteoir { namespace tts
 	                    const std::shared_ptr<clause_processor> &aProcessor,
 	                    const std::shared_ptr<duration_model> &aDurationModel);
 
+	std::shared_ptr<prosody_reader>
+	createProsodyReader(const std::shared_ptr<phoneme_reader> &aPhonemes,
+	                    const std::shared_ptr<duration_model> &aDurationModel);
+
 	struct prosody_writer
 	{
 		virtual void reset(FILE *aOutput) = 0;
