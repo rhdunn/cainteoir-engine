@@ -25,6 +25,8 @@
 #include "../cainteoir_file_reader.hpp"
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
+namespace css = cainteoir::css;
 
 static constexpr uint16_t VOICEDB_HEADER_SIZE = 29;
 static constexpr uint16_t STRING_TABLE_HEADER_SIZE = 5;
@@ -110,10 +112,100 @@ void binary_file_writer::pstr(const cainteoir::buffer &data)
 		u16(entry);
 }
 
+struct unit_t
+{
+	cainteoir::buffer name;
+
+	unit_t()
+		: name(nullptr, nullptr)
+	{
+	}
+};
+
+struct phoneme_t
+{
+	ipa::phoneme phoneme;
+	css::time duration_mean;
+	css::time duration_stdev;
+	std::list<unit_t> units;
+
+	phoneme_t()
+	{
+	}
+};
+
+static phoneme_t
+parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_parser> &parser)
+{
+	enum state_t
+	{
+		in_phoneme,
+		pre_duration_mean,
+		pre_duration_stdev,
+		in_phoneme_body,
+		in_unit,
+	};
+
+	state_t state = in_phoneme;
+	phoneme_t entry;
+	unit_t *unit = nullptr;
+
+	while (reader.read()) switch (reader.type())
+	{
+	case cainteoir_file_reader::text:
+		if (reader.match().compare("end") == 0)
+			return entry;
+		else if (reader.match().compare("unit") == 0)
+		{
+			entry.units.push_back({});
+			unit = &entry.units.back();
+			state = in_unit;
+		}
+		else switch (state)
+		{
+		case pre_duration_mean:
+			entry.duration_mean = css::parse_smil_time(reader.match());
+			state = pre_duration_stdev;
+			break;
+		case pre_duration_stdev:
+			entry.duration_mean = css::parse_smil_time(reader.match());
+			state = in_phoneme_body;
+			break;
+		}
+		break;
+	case cainteoir_file_reader::phonemes:
+		switch (state)
+		{
+		case in_phoneme:
+			{
+				auto begin = reader.match().begin();
+				auto end = reader.match().end();
+				parser->parse(begin, end, entry.phoneme);
+				state = pre_duration_mean;
+			}
+			break;
+		}
+		break;
+	case cainteoir_file_reader::string:
+		switch (state)
+		{
+		case in_unit:
+			unit->name = reader.match();
+			state = in_phoneme_body;
+			break;
+		}
+		break;
+	}
+
+	return entry;
+}
+
 void
 tts::compile_voice(const char *aFileName, FILE *aOutput)
 {
 	if (!aOutput) return;
+
+	auto parser = createPhonemeParser("features");
 
 	cainteoir::buffer rdfns{ nullptr, nullptr };
 	cainteoir::buffer id{ nullptr, nullptr };
@@ -126,6 +218,7 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	uint16_t frequency = 0;
 	uint8_t channels = 0;
 	cainteoir::buffer sample_format{ nullptr, nullptr };
+	std::list<phoneme_t> phonemes;
 
 	auto reader = cainteoir_file_reader(cainteoir::path(aFileName));
 	while (reader.read())
@@ -191,6 +284,13 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 			{
 				reader.read();
 				sample_format = reader.match();
+			}
+		}
+		else if (reader.type() == cainteoir_file_reader::text)
+		{
+			if (reader.match().compare("phoneme") == 0)
+			{
+				phonemes.push_back(parse_phoneme(reader, parser));
 			}
 		}
 	}
