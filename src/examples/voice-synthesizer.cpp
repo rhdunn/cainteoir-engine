@@ -290,6 +290,9 @@ int main(int argc, char **argv)
 					rql::subject == *voiceref && rql::predicate == rdf::tts("phonemeset"));
 
 				auto dur = create_duration_model(fixed_duration, duration_model);
+				if (!dur)
+					dur = voice->durations();
+
 				auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, dur, ruleset, dictionary, locale, scale);
 
 				synthesize(voice->synthesizer(), pho, outformat, outfile, device_name);
