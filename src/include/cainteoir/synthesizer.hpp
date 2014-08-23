@@ -168,9 +168,16 @@ namespace cainteoir { namespace tts
 		virtual bool synthesize(audio *out) = 0;
 	};
 
+	struct voice
+	{
+		virtual ~voice() {}
+
+		virtual std::shared_ptr<tts::synthesizer> synthesizer() = 0;
+	};
+
 	void read_voice_metadata(rdf::graph &aMetadata);
 
-	std::shared_ptr<synthesizer> create_voice_synthesizer(rdf::graph &aMetadata, const rdf::uri *voice);
+	std::shared_ptr<voice> create_voice(rdf::graph &aMetadata, const rdf::uri *voice);
 
 	void compile_voice(const char *aFileName, FILE *aOutput);
 }}

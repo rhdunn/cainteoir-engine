@@ -136,8 +136,8 @@ tts::read_voice_metadata(rdf::graph &aMetadata)
 	read_cainteoir_voices(voices, aMetadata);
 }
 
-std::shared_ptr<tts::synthesizer>
-tts::create_voice_synthesizer(rdf::graph &aMetadata, const rdf::uri *aVoice)
+std::shared_ptr<tts::voice>
+tts::create_voice(rdf::graph &aMetadata, const rdf::uri *aVoice)
 {
 	if (!aVoice) return {};
 
@@ -155,7 +155,7 @@ tts::create_voice_synthesizer(rdf::graph &aMetadata, const rdf::uri *aVoice)
 	const char *synth_name = (const char *)header + *(const uint16_t *)(header + 15); // synthesizer
 #ifdef HAVE_MBROLA
 	if (strcmp(synth_name, "MBROLA") == 0)
-		return create_mbrola_synthesizer(data, aMetadata, *aVoice);
+		return create_mbrola_voice(data, aMetadata, *aVoice);
 #endif
 
 	return {};

@@ -283,7 +283,7 @@ int main(int argc, char **argv)
 				if (voicename)
 					voiceref = tts::get_voice_uri(metadata, rdf::tts("name"), voicename);
 
-				auto voice = tts::create_voice_synthesizer(metadata, voiceref);
+				auto voice = tts::create_voice(metadata, voiceref);
 				if (!voice) throw std::runtime_error("cannot find the specified voice");
 
 				const std::string phonemeset = rql::select_value<std::string>(metadata,
@@ -292,7 +292,7 @@ int main(int argc, char **argv)
 				auto dur = create_duration_model(fixed_duration, duration_model);
 				auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, dur, ruleset, dictionary, locale, scale);
 
-				synthesize(voice, pho, outformat, outfile, device_name);
+				synthesize(voice->synthesizer(), pho, outformat, outfile, device_name);
 			}
 			break;
 		}

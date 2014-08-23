@@ -25,10 +25,10 @@
 
 namespace cainteoir { namespace tts
 {
-	std::shared_ptr<synthesizer>
-	create_mbrola_synthesizer(const std::shared_ptr<cainteoir::buffer> &aData,
-	                          const rdf::graph &aMetadata,
-	                          const rdf::uri &aVoice);
+	std::shared_ptr<voice>
+	create_mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
+	                    const rdf::graph &aMetadata,
+	                    const rdf::uri &aVoice);
 }}
 
 #endif

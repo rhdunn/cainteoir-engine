@@ -340,32 +340,53 @@ void mbrola_synthesizer::flush()
 	fflush(pho);
 }
 
-std::shared_ptr<tts::synthesizer>
-tts::create_mbrola_synthesizer(const std::shared_ptr<cainteoir::buffer> &aData,
-                               const rdf::graph &aMetadata,
-                               const rdf::uri &aVoice)
+struct mbrola_voice : public tts::voice
 {
+	mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
+	             const rdf::graph &aMetadata,
+	             const rdf::uri &aVoice);
+
+	std::shared_ptr<tts::synthesizer> synthesizer();
+private:
+	char mDatabase[256];
+	std::string mVolumeScale;
+	std::shared_ptr<tts::prosody_writer> mWriter;
+};
+
+mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
+                           const rdf::graph &aMetadata,
+                           const rdf::uri &aVoice)
+{
+	snprintf(mDatabase, sizeof(mDatabase), MBROLA_DIR "/%s/%s", aVoice.ref.c_str(), aVoice.ref.c_str());
+
 	const auto voice = rql::select(aMetadata, rql::subject == aVoice);
-	const std::string phonemeset = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("phonemeset"));
-	const std::string volumeScale = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("volumeScale"));
+	const auto phonemeset = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("phonemeset"));
 
 	auto phonemes = tts::createPhonemeWriter(phonemeset.c_str());
-	if (!phonemes) return {};
+	mVolumeScale = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("volumeScale"));
+	mWriter = tts::createPhoWriter(phonemes);
+}
 
+std::shared_ptr<tts::synthesizer> mbrola_voice::synthesizer()
+{
+	return std::make_shared<mbrola_synthesizer>(mDatabase, mWriter, mVolumeScale.c_str());
+}
+
+std::shared_ptr<tts::voice>
+tts::create_mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
+                         const rdf::graph &aMetadata,
+                         const rdf::uri &aVoice)
+{
 	if (aVoice.ref.size() != 3) return {};
-
-	char database[256];
-	snprintf(database, sizeof(database), MBROLA_DIR "/%s/%s", aVoice.ref.c_str(), aVoice.ref.c_str());
-
-	return std::make_shared<mbrola_synthesizer>(database, tts::createPhoWriter(phonemes), volumeScale.c_str());
+	return std::make_shared<mbrola_voice>(aData, aMetadata, aVoice);
 }
 
 #else
 
-std::shared_ptr<tts::synthesizer>
-tts::create_mbrola_synthesizer(const std::shared_ptr<cainteoir::buffer> &aData,
-                               const rdf::graph &aMetadata,
-                               const rdf::uri &aVoice)
+std::shared_ptr<tts::voice>
+tts::create_mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
+                         const rdf::graph &aMetadata,
+                         const rdf::uri &aVoice)
 {
 	return {};
 }
