@@ -1,6 +1,8 @@
 # Voice Database Format
 
 - [Data Types](#data-types)
+- [Structure](#structure)
+  - [MBROLA](#mbrola)
 - [Header](#header)
 - [String Table](#string-table)
 - [Magic Values](#magic-values)
@@ -26,18 +28,33 @@ for different voice formats in a form suitable for reading directly from the fil
 The voice database file has the following general structure:
 
 	Header
-	Index
-	Data
+	Section
+	...
+	Section
 
-The `Header` section specifies the information about the voice and identifies
-the file as a voice database file.
+A `String Table` section follows any section (including the `Header` section)
+that contains `pstr` values.
 
-The `Index` section specifies how to access the phonemes or diphones to be spoken.
+The specific layout is dependent on the synthesizer type.
 
-The `Data` section contains the information needed to generate the audio for the
-specified phonemes or diphones.
+### MBROLA
+
+The MBROLA voice definition files have the following structure:
+
+	Header
+
+These files describe how Cainteoir Text-to-Speech phonemes are mapped to the
+MBROLA PHO file format and the voice-specific phonemes. This is then sent to
+the `mbrola` program to synthesize using the MBROLA voice database file.
+
+The `id` in the Header section is the name of the MBROLA voice database file
+to use.
 
 ## Header
+
+The header section identifies the file as a VoiceDB file and provides
+information about the voice. This information is used to construct the RDF
+metadata associated with the voice.
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
