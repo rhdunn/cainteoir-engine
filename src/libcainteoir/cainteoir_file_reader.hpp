@@ -38,6 +38,8 @@ struct cainteoir_file_reader
 
 	cainteoir_file_reader(const cainteoir::path &aFilePath);
 
+	cainteoir_file_reader(const std::shared_ptr<cainteoir::buffer> &aData);
+
 	bool read();
 
 	const token_type type() const { return mType; }

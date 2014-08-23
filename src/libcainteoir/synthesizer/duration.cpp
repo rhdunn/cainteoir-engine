@@ -23,6 +23,7 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/synthesizer.hpp>
+#include "../cainteoir_file_reader.hpp"
 
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
@@ -49,93 +50,51 @@ private:
 
 duration_model_t::duration_model_t(const std::shared_ptr<cainteoir::buffer> &aDurationModel)
 {
-	const char *current = aDurationModel->begin();
-	const char *end     = aDurationModel->end();
+	cainteoir_file_reader reader(aDurationModel);
 	std::shared_ptr<tts::phoneme_parser> phonemeset;
-	while (current != end) switch (*current)
+	while (reader.read())
 	{
-	case '#':
-		while (current != end && *current != '\n') ++current;
-		break;
-	case '\r': case '\n':
-		++current;
-		break;
-	case '.':
+		if (reader.type() == cainteoir_file_reader::directive)
 		{
-			const char *begin_entry = current;
-			const char *end_entry   = current;
-			while (end_entry != end &&
-			       !(*end_entry == ' ' || *end_entry == '\t'))
-				++end_entry;
-
-			current = end_entry;
-			while (current != end && (*current == ' ' || *current == '\t'))
-				++current;
-
-			const char *begin_definition = current;
-			const char *end_definition   = current;
-			while (end_definition != end &&
-			       !(*end_definition == '\r' || *end_definition == '\n'))
-				++end_definition;
-
-			current = end_definition;
-
-			std::string entry(begin_entry, end_entry);
-			std::string value(begin_definition, end_definition);
-			if (entry == ".type")
+			if (reader.match().compare(".type") == 0)
 			{
-				if (value != "tabular")
+				reader.read();
+				if (reader.match().compare("tabular") != 0)
 					throw std::runtime_error("unsupported duration model type");
 			}
-			else if (entry == ".phonemeset")
-				phonemeset = tts::createPhonemeParser(value.c_str());
-		}
-		break;
-	case '/':
-		{
-			++current;
-			const char *begin_phoneme = current;
-			while (current != end && *current != '/')
-				++current;
-			const char *end_phoneme = current;
-			++current;
-
-			while (current != end && (*current == ' ' || *current == '\t'))
-				++current;
-
-			const char *begin_mean = current;
-			while (current != end && !(*current == ' ' || *current == '\t'))
-				++current;
-			const char *end_mean = current;
-
-			while (current != end && (*current == ' ' || *current == '\t'))
-				++current;
-
-			const char *begin_sdev = current;
-			while (current != end && !(*current == ' ' || *current == '\t' || *current == '\r' || *current == '\n'))
-				++current;
-			const char *end_sdev = current;
-
-			while (current != end && (*current == ' ' || *current == '\t'))
-				++current;
-
-			tts::phone p;
-			if (phonemeset->parse(begin_phoneme, end_phoneme, p.phoneme1))
+			else if (reader.match().compare(".phonemeset") == 0)
 			{
-				if (!phonemeset->parse(begin_phoneme, end_phoneme, p.phoneme2))
+				reader.read();
+				phonemeset = tts::createPhonemeParser(reader.match().str().c_str());
+			}
+		}
+		else if (reader.type() == cainteoir_file_reader::phonemes)
+		{
+			auto phoneme = reader.match();
+
+			if (!reader.read() || reader.type() != cainteoir_file_reader::text)
+				throw std::runtime_error("missing mean duration value");
+			auto mean = css::parse_smil_time(reader.match());
+
+			if (!reader.read() || reader.type() != cainteoir_file_reader::text)
+				throw std::runtime_error("missing standard deviation duration value");
+			auto sdev = css::parse_smil_time(reader.match());
+
+			auto begin_phoneme = phoneme.begin();
+			tts::phone p;
+			if (phonemeset->parse(begin_phoneme, phoneme.end(), p.phoneme1))
+			{
+				if (!phonemeset->parse(begin_phoneme, phoneme.end(), p.phoneme2))
 					p.phoneme2 = ipa::unspecified;
 			}
 
-			if (begin_phoneme != end_phoneme || p.phoneme1 == ipa::unspecified)
+			if (phoneme.empty() || p.phoneme1 == ipa::unspecified)
 				throw std::runtime_error("unrecognised phoneme");
 
-			cainteoir::buffer mean{ begin_mean, end_mean };
-			cainteoir::buffer sdev{ begin_sdev, end_sdev };
-			mDurations.insert({ p, tts::duration{ css::parse_smil_time(mean), css::parse_smil_time(sdev) }});
+			mDurations.insert({ p, tts::duration{ mean, sdev }});
 		}
-		break;
-	default:
-		throw std::runtime_error("unrecognised character in duration file");
+		else
+			throw std::runtime_error("invalid duration model contents");
 	}
 }
 

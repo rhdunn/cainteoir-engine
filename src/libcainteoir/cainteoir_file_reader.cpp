@@ -47,6 +47,16 @@ cainteoir_file_reader::cainteoir_file_reader(const cainteoir::path &aFilePath)
 	mLast = mData->end();
 }
 
+cainteoir_file_reader::cainteoir_file_reader(const std::shared_ptr<cainteoir::buffer> &aData)
+	: mData(aData)
+	, mState(start)
+	, mType(end_of_file)
+	, mMatch(nullptr, nullptr)
+{
+	mCurrent = mData->begin();
+	mLast = mData->end();
+}
+
 bool cainteoir_file_reader::read()
 {
 	const char *begin_match = nullptr;
