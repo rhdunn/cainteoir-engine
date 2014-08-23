@@ -347,6 +347,8 @@ struct mbrola_voice : public tts::voice
 	             const rdf::uri &aVoice);
 
 	std::shared_ptr<tts::synthesizer> synthesizer();
+
+	std::shared_ptr<tts::duration_model> durations() { return mDurations; }
 private:
 	char mDatabase[256];
 	std::string mVolumeScale;

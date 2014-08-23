@@ -173,6 +173,8 @@ namespace cainteoir { namespace tts
 		virtual ~voice() {}
 
 		virtual std::shared_ptr<tts::synthesizer> synthesizer() = 0;
+
+		virtual std::shared_ptr<tts::duration_model> durations() = 0;
 	};
 
 	void read_voice_metadata(rdf::graph &aMetadata);
