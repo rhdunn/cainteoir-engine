@@ -24,12 +24,11 @@
 #include <cainteoir/synthesizer.hpp>
 #include "../cainteoir_file_reader.hpp"
 
+#include "synth.hpp"
+
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 namespace css = cainteoir::css;
-
-static constexpr uint16_t VOICEDB_HEADER_SIZE = 29;
-static constexpr uint16_t STRING_TABLE_HEADER_SIZE = 5;
 
 struct buffer_compare
 {
@@ -69,7 +68,7 @@ void binary_file_writer::begin_section(const char *magic, uint16_t section_size,
 {
 	mOffset += section_size;
 	if (has_pstr_fields)
-		mOffset += STRING_TABLE_HEADER_SIZE;
+		mOffset += tts::STRING_TABLE_HEADER_SIZE;
 	fputs(magic, mOutput);
 }
 
@@ -298,7 +297,7 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	binary_file_writer out(aOutput);
 
 	// Voice Database Header
-	out.begin_section("VOICEDB", VOICEDB_HEADER_SIZE, true);
+	out.begin_section("VOICEDB", tts::VOICEDB_HEADER_SIZE, true);
 	out.u16(0x3031); // endianness
 	out.pstr(rdfns);
 	out.pstr(id);

@@ -25,6 +25,9 @@
 
 namespace cainteoir { namespace tts
 {
+	static constexpr uint16_t VOICEDB_HEADER_SIZE = 29;
+	static constexpr uint16_t STRING_TABLE_HEADER_SIZE = 5;
+
 	std::shared_ptr<voice>
 	create_mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 	                    const rdf::graph &aMetadata,
