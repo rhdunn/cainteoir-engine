@@ -4,6 +4,8 @@
 - [Structure](#structure)
   - [MBROLA](#mbrola)
 - [Header](#header)
+- [Data Table](#data-table)
+  - [Duration Table](#duration-table)
 - [String Table](#string-table)
 - [Magic Values](#magic-values)
 
@@ -19,6 +21,7 @@ for different voice formats in a form suitable for reading directly from the fil
 | u8     | An 8-bit unsigned integer |
 | u16    | A 16-bit unsigned integer |
 | u32    | A 32-bit unsigned integer |
+| u64    | A 64-bit unsigned integer |
 | f8:8   | A fixed point number (8-bit integral part, 8-bit fraction part) |
 | str    | A variable-length UTF-8 string terminated by a NULL (`0`) character |
 | pstr   | A `u16` containing the offset from the start of the file to a `str`. |
@@ -39,16 +42,14 @@ The specific layout is dependent on the synthesizer type.
 
 ### MBROLA
 
-The MBROLA voice definition files have the following structure:
-
-	Header
-
 These files describe how Cainteoir Text-to-Speech phonemes are mapped to the
 MBROLA PHO file format and the voice-specific phonemes. This is then sent to
 the `mbrola` program to synthesize using the MBROLA voice database file.
 
 The `id` in the Header section is the name of the MBROLA voice database file
 to use.
+
+A Duration Table section is used to specify the duration model to be used.
 
 ## Header
 
@@ -101,11 +102,57 @@ and `F` used for female voices.
 The `volume-scale` field is the value used to scale the audio to 0.5 on a scale
 of 0.0 to 1.0. This represents 100% volume.
 
+## Data Table
+
+This is the generic structure of a tabular section. That is, a fixed sized
+array of entities of the same type.
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| magic          | u8[3]  |  0     |
+| num-entries    | u16    |  3     |
+| END OF SECTION |        |  5     |
+
+The `magic` field identifies the section as a data table. See the sub-sections
+for the actual value.
+
+The `num-entries` field is the number of entries there are in this table.
+
+After the section block, `num-entries` entry blocks are written out in order.
+An associated String Table section occurs after the last entry, with the `pstr`
+strings from all the entry blocks included.
+
+### Duration Table
+
+This is the binary representation of a (mean, standard-deviation) duration
+model.
+
+A duration table has the "DUR" magic string, and each entry has the form:
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| phoneme1       | u64    |  0     |
+| phoneme2       | u64    |  8     |
+| duration-mean  | u8     | 16     |
+| duration-stdev | u8     | 17     |
+| END OF ENTRY   |        | 18     |
+
+The `phoneme1` field is the value of the phoneme as represented by the
+`cainteoir::ipa::phoneme` class.
+
+The `phoneme2` field is the value of the phoneme as represented by the
+`cainteoir::ipa::phoneme` class. This is for affricates and diphthongs.
+
+The`duration-mean` field is the average duration of the phoneme in milliseconds.
+
+The`duration-stdev` field is the standard deviation for the duration of the phoneme
+in milliseconds.
+
 ## String Table
 
 A string table is a data table that does not contain a `num-elements` field.
-Each entry is a `str` value that is referenced by a `pstr` field in the
-previous section.
+Instead, it contains an offset to the start of the next section. Each entry
+is a `str` value that is referenced by a `pstr` field in the previous section.
 
 This is designed to make it easy to traverse over the variable-length string
 data.
@@ -131,6 +178,7 @@ creating a new section type to avoid collisions in the magic values.
 
 | Magic | Usage                        |
 |-------|------------------------------|
+| DUR   | Duration Table               |
 | STR   | String Table                 |
 
 Copyright (C) 2014 Reece H. Dunn

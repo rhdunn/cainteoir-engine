@@ -52,6 +52,7 @@ struct binary_file_writer
 	void u8(uint8_t u)   { fputc(u, mOutput); }
 	void u16(uint16_t u) { fwrite(&u, sizeof(u), 1, mOutput); }
 	void u32(uint32_t u) { fwrite(&u, sizeof(u), 1, mOutput); }
+	void u64(uint64_t u) { fwrite(&u, sizeof(u), 1, mOutput); }
 
 	void f8_8(float f);
 
@@ -123,7 +124,8 @@ struct unit_t
 
 struct phoneme_t
 {
-	ipa::phoneme phoneme;
+	ipa::phoneme phoneme1;
+	ipa::phoneme phoneme2;
 	css::time duration_mean;
 	css::time duration_stdev;
 	std::list<unit_t> units;
@@ -178,8 +180,11 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 		case in_phoneme:
 			{
 				auto begin = reader.match().begin();
-				auto end = reader.match().end();
-				parser->parse(begin, end, entry.phoneme);
+				if (parser->parse(begin, reader.match().end(), entry.phoneme1))
+				{
+					if (!parser->parse(begin, reader.match().end(), entry.phoneme2))
+						entry.phoneme2 = ipa::unspecified;
+				}
 				state = pre_duration_mean;
 			}
 			break;
@@ -217,7 +222,9 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	uint16_t frequency = 0;
 	uint8_t channels = 0;
 	cainteoir::buffer sample_format{ nullptr, nullptr };
+
 	std::list<phoneme_t> phonemes;
+	uint16_t duration_entries = 0;
 
 	auto reader = cainteoir_file_reader(cainteoir::path(aFileName));
 	while (reader.read())
@@ -290,6 +297,8 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 			if (reader.match().compare("phoneme") == 0)
 			{
 				phonemes.push_back(parse_phoneme(reader, parser));
+				if (phonemes.back().duration_mean.units() != css::time::inherit)
+					++duration_entries;
 			}
 		}
 	}
@@ -311,4 +320,24 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	out.u8(channels);
 	out.pstr(sample_format);
 	out.end_section();
+
+	if (duration_entries != 0)
+	{
+		out.begin_section("DUR", tts::TABLE_SECTION_SIZE + (duration_entries * tts::DURATION_TABLE_ENTRY_SIZE), false);
+		out.u16(duration_entries);
+		for (const auto &entry : phonemes)
+		{
+			if (entry.duration_mean.units() != css::time::inherit)
+			{
+				out.u64(entry.phoneme1.get(ipa::main | ipa::diacritics | ipa::suprasegmentals));
+				out.u64(entry.phoneme2.get(ipa::main | ipa::diacritics | ipa::suprasegmentals));
+				out.u8((int)entry.duration_mean.as(css::time::milliseconds).value());
+				if (entry.duration_stdev.units() == css::time::inherit)
+					out.u8(0);
+				else
+					out.u8((int)entry.duration_stdev.as(css::time::milliseconds).value());
+			}
+		}
+		out.end_section();
+	}
 }

@@ -24,6 +24,7 @@
 
 #include <cainteoir/synthesizer.hpp>
 #include "../cainteoir_file_reader.hpp"
+#include "synth.hpp"
 
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
@@ -32,6 +33,8 @@ namespace css = cainteoir::css;
 struct duration_model_t : public tts::duration_model
 {
 	duration_model_t(const std::shared_ptr<cainteoir::buffer> &aDurationModel);
+
+	duration_model_t(cainteoir::native_endian_buffer &aData);
 
 	const tts::duration &lookup(const tts::phone &p) const;
 private:
@@ -98,6 +101,20 @@ duration_model_t::duration_model_t(const std::shared_ptr<cainteoir::buffer> &aDu
 	}
 }
 
+duration_model_t::duration_model_t(cainteoir::native_endian_buffer &aData)
+{
+	for (auto i : cainteoir::range<uint16_t>(0, aData.u16()))
+	{
+		tts::phone p;
+		p.phoneme1 = ipa::phoneme{ aData.u64() };
+		p.phoneme2 = ipa::phoneme{ aData.u64() };
+
+		css::time mean{ (float)aData.u8(), css::time::milliseconds };
+		css::time sdev{ (float)aData.u8(), css::time::milliseconds };
+		mDurations.insert({ p, tts::duration{ mean, sdev }});
+	}
+}
+
 const tts::duration &duration_model_t::lookup(const tts::phone &p) const
 {
 	const auto mask = ipa::main | ipa::diacritics | ipa::length; // no tone or stress
@@ -114,4 +131,10 @@ tts::createDurationModel(const std::shared_ptr<cainteoir::buffer> &aDurationMode
 {
 	if (!aDurationModel.get()) return {};
 	return std::make_shared<duration_model_t>(aDurationModel);
+}
+
+std::shared_ptr<tts::duration_model>
+tts::createDurationModel(cainteoir::native_endian_buffer &aData)
+{
+	return std::make_shared<duration_model_t>(aData);
 }

@@ -352,6 +352,7 @@ private:
 	std::string mVolumeScale;
 	std::shared_ptr<tts::prosody_writer> mWriter;
 	std::shared_ptr<cainteoir::buffer> mData;
+	std::shared_ptr<tts::duration_model> mDurations;
 };
 
 mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
@@ -374,6 +375,9 @@ mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 	{
 	case tts::STRING_TABLE_MAGIC:
 		data.seek(data.u16());
+		break;
+	case tts::DURATION_TABLE_MAGIC:
+		mDurations = tts::createDurationModel(data);
 		break;
 	default:
 		throw std::runtime_error("unsupported section in MBROLA voice file");

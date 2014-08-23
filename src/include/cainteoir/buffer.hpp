@@ -188,6 +188,7 @@ namespace cainteoir
 		uint8_t  u8()  { return *current++; }
 		uint16_t u16() { return *read<uint16_t>(); }
 		uint32_t u32() { return *read<uint32_t>(); }
+		uint32_t u64() { return *read<uint64_t>(); }
 
 		float f8_8() { return (float)u8() + ((float)u8() / 256); }
 
