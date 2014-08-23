@@ -2,6 +2,8 @@
 
 - [Data Types](#data-types)
 - [Header](#header)
+- [String Table](#string-table)
+- [Magic Values](#magic-values)
 
 -----
 
@@ -81,5 +83,37 @@ and `F` used for female voices.
 
 The `volume-scale` field is the value used to scale the audio to 0.5 on a scale
 of 0.0 to 1.0. This represents 100% volume.
+
+## String Table
+
+A string table is a data table that does not contain a `num-elements` field.
+Each entry is a `str` value that is referenced by a `pstr` field in the
+previous section.
+
+This is designed to make it easy to traverse over the variable-length string
+data.
+
+It has the form:
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| magic          | u8[3]  |  0     |
+| next-section   | u16    |  3     |
+| END OF SECTION |        |  5     |
+
+The `magic` field identifies the section as a data table. See the sub-sections
+for the actual value.
+
+The `next-section` field is the offset to the next data block.
+
+## Magic Values
+
+This is the list of 3-letter magic values used to identify the different
+section and table types. This list is non-normative and is useful when
+creating a new section type to avoid collisions in the magic values.
+
+| Magic | Usage                        |
+|-------|------------------------------|
+| STR   | String Table                 |
 
 Copyright (C) 2014 Reece H. Dunn

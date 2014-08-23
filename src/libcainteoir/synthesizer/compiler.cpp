@@ -26,6 +26,9 @@
 
 namespace tts = cainteoir::tts;
 
+static constexpr uint16_t VOICEDB_HEADER_SIZE = 29;
+static constexpr uint16_t STRING_TABLE_HEADER_SIZE = 5;
+
 struct binary_file_writer
 {
 	binary_file_writer(FILE *aOutput)
@@ -34,7 +37,7 @@ struct binary_file_writer
 	{
 	}
 
-	void begin_section(const char *magic, uint16_t section_size);
+	void begin_section(const char *magic, uint16_t section_size, bool has_pstr_fields);
 	void end_section();
 
 	void u8(uint8_t u)   { fputc(u, mOutput); }
@@ -51,17 +54,24 @@ private:
 	std::list<cainteoir::buffer> mStrings;
 };
 
-void binary_file_writer::begin_section(const char *magic, uint16_t section_size)
+void binary_file_writer::begin_section(const char *magic, uint16_t section_size, bool has_pstr_fields)
 {
 	mOffset += section_size;
+	if (has_pstr_fields)
+		mOffset += STRING_TABLE_HEADER_SIZE;
 	fputs(magic, mOutput);
 }
 
 void binary_file_writer::end_section()
 {
-	for (const auto &s : mStrings)
-		str(s);
-	mStrings.clear();
+	if (!mStrings.empty())
+	{
+		fputs("STR", mOutput);
+		u16(mOffset);
+		for (const auto &s : mStrings)
+			str(s);
+		mStrings.clear();
+	}
 }
 
 void binary_file_writer::f8_8(float f)
@@ -171,7 +181,7 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	binary_file_writer out(aOutput);
 
 	// Voice Database Header
-	out.begin_section("VOICEDB", 29);
+	out.begin_section("VOICEDB", VOICEDB_HEADER_SIZE, true);
 	out.u16(0x3031); // endianness
 	out.pstr(rdfns);
 	out.pstr(id);
