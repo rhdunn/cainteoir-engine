@@ -79,10 +79,20 @@ bool phonemes_to_prosody::read()
 	}
 
 	if (first.phoneme1 == ipa::syllable_break)
+	{
 		first.duration = {};
-	else
-		first.duration = mDurationModel->lookup(first).value(0);
+		return true;
+	}
 
+	if (first.phoneme1.get(ipa::syllabicity) == ipa::non_syllabic && first.phoneme2 == ipa::unspecified)
+	{
+		// The /aI_^@_^/ (FIRE) phoneme gets split into /aI_^/ and /@_^/, while
+		// the /aU_^@_^/ (HOUR) phoneme gets split into /aU_^/ and /@_^/.
+		// Convert /@_^/ to /@/, allowing the phoneme to be processed.
+		first.phoneme1.clear(ipa::syllabicity);
+	}
+
+	first.duration = mDurationModel->lookup(first).value(0);
 	return true;
 }
 
