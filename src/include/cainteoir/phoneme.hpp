@@ -345,6 +345,14 @@ namespace cainteoir { namespace tts
 	void make_stressed(const ipa::phonemes &aPhonemes,
 	                   ipa::phonemes &aOutput,
 	                   initial_stress aType);
+
+	struct unit_t
+	{
+		const char *name;
+		uint8_t phoneme_start;
+		uint8_t unit_start;
+		uint8_t unit_end;
+	};
 }}
 
 #endif

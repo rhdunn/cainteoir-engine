@@ -30,13 +30,13 @@ namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 namespace css = cainteoir::css;
 
-void tts::read_phoneme_units(cainteoir::native_endian_buffer &data, std::vector<phoneme_unit> &units)
+void tts::read_phoneme_units(cainteoir::native_endian_buffer &data, std::vector<unit_t> &units)
 {
 	uint16_t n = data.u16();
 	units.reserve(n);
 	for (auto i : cainteoir::range<uint16_t>(0, n))
 	{
-		phoneme_unit unit;
+		unit_t unit;
 		unit.name = data.pstr();
 		unit.phoneme_start = data.u8();
 		unit.unit_start = data.u8();

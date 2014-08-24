@@ -356,7 +356,7 @@ private:
 	std::shared_ptr<cainteoir::buffer> mData;
 	std::shared_ptr<tts::duration_model> mDurations;
 
-	std::vector<tts::phoneme_unit> mUnits;
+	std::vector<tts::unit_t> mUnits;
 	cainteoir::range<const tts::phoneme_entry *> mPhonemes;
 };
 

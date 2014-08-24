@@ -44,14 +44,6 @@ namespace cainteoir { namespace tts
 	static constexpr uint32_t PHONEME_UNIT_TABLE_MAGIC = make_magic32('P', 'U', 'T');
 	static constexpr uint32_t PHONEME_TABLE_MAGIC = make_magic32('P', 'H', 'O');
 
-	struct phoneme_unit
-	{
-		const char *name;
-		uint8_t phoneme_start;
-		uint8_t unit_start;
-		uint8_t unit_end;
-	};
-
 #pragma pack(1)
 	struct phoneme_entry
 	{
@@ -65,7 +57,7 @@ namespace cainteoir { namespace tts
 	std::shared_ptr<duration_model>
 	createDurationModel(native_endian_buffer &aData);
 
-	void read_phoneme_units(cainteoir::native_endian_buffer &data, std::vector<phoneme_unit> &units);
+	void read_phoneme_units(cainteoir::native_endian_buffer &data, std::vector<unit_t> &units);
 
 	// Voice Synthesizers //////////////////////////////////////////////////////////////////
 
