@@ -30,6 +30,21 @@ namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 namespace css = cainteoir::css;
 
+void tts::read_phoneme_units(cainteoir::native_endian_buffer &data, std::vector<phoneme_unit> &units)
+{
+	uint16_t n = data.u16();
+	units.reserve(n);
+	for (auto i : cainteoir::range<uint16_t>(0, n))
+	{
+		phoneme_unit unit;
+		unit.name = data.pstr();
+		unit.phoneme_start = data.u8();
+		unit.unit_start = data.u8();
+		unit.unit_end = data.u8();
+		units.push_back(unit);
+	}
+}
+
 struct buffer_compare
 {
 	bool operator()(const cainteoir::buffer &a, const cainteoir::buffer &b) const
@@ -115,9 +130,15 @@ void binary_file_writer::pstr(const cainteoir::buffer &data)
 struct unit_t
 {
 	cainteoir::buffer name;
+	uint8_t phoneme_start;
+	uint8_t unit_start;
+	uint8_t unit_end;
 
 	unit_t()
 		: name(nullptr, nullptr)
+		, phoneme_start(0)
+		, unit_start(0)
+		, unit_end(100)
 	{
 	}
 };
@@ -225,6 +246,7 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 
 	std::list<phoneme_t> phonemes;
 	uint16_t duration_entries = 0;
+	uint16_t unit_entries = 0;
 
 	auto reader = cainteoir_file_reader(cainteoir::path(aFileName));
 	while (reader.read())
@@ -299,6 +321,7 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 				phonemes.push_back(parse_phoneme(reader, parser));
 				if (phonemes.back().duration_mean.units() != css::time::inherit)
 					++duration_entries;
+				unit_entries += phonemes.back().units.size();
 			}
 		}
 	}
@@ -337,6 +360,36 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 				else
 					out.u8((int)entry.duration_stdev.as(css::time::milliseconds).value());
 			}
+		}
+		out.end_section();
+	}
+
+	if (unit_entries != 0)
+	{
+		out.begin_section("PUT", tts::TABLE_SECTION_SIZE + (unit_entries * tts::PHONEME_UNIT_TABLE_ENTRY_SIZE), true);
+		out.u16(unit_entries);
+		for (const auto &entry : phonemes) for (const auto &unit : entry.units)
+		{
+			out.pstr(unit.name);
+			out.u8(unit.phoneme_start);
+			out.u8(unit.unit_start);
+			out.u8(unit.unit_end);
+		}
+		out.end_section();
+	}
+
+	if (!phonemes.empty())
+	{
+		out.begin_section("PHO", tts::TABLE_SECTION_SIZE + (phonemes.size() * tts::PHONEME_TABLE_ENTRY_SIZE), false);
+		out.u16(phonemes.size());
+		uint16_t unit_offset = 0;
+		for (const auto &entry : phonemes)
+		{
+			out.u64(entry.phoneme1.get(ipa::main | ipa::diacritics | ipa::suprasegmentals));
+			out.u64(entry.phoneme2.get(ipa::main | ipa::diacritics | ipa::suprasegmentals));
+			out.u16(unit_offset);
+			out.u8(entry.units.size());
+			unit_offset += entry.units.size();
 		}
 		out.end_section();
 	}

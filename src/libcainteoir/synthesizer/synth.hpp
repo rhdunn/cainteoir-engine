@@ -36,12 +36,36 @@ namespace cainteoir { namespace tts
 	static constexpr uint16_t STRING_TABLE_HEADER_SIZE = 5;
 	static constexpr uint16_t TABLE_SECTION_SIZE = 5;
 	static constexpr uint16_t DURATION_TABLE_ENTRY_SIZE = 18;
+	static constexpr uint16_t PHONEME_UNIT_TABLE_ENTRY_SIZE = 5;
+	static constexpr uint16_t PHONEME_TABLE_ENTRY_SIZE = 19;
 
 	static constexpr uint32_t STRING_TABLE_MAGIC = make_magic32('S', 'T', 'R');
 	static constexpr uint32_t DURATION_TABLE_MAGIC = make_magic32('D', 'U', 'R');
+	static constexpr uint32_t PHONEME_UNIT_TABLE_MAGIC = make_magic32('P', 'U', 'T');
+	static constexpr uint32_t PHONEME_TABLE_MAGIC = make_magic32('P', 'H', 'O');
+
+	struct phoneme_unit
+	{
+		const char *name;
+		uint8_t phoneme_start;
+		uint8_t unit_start;
+		uint8_t unit_end;
+	};
+
+#pragma pack(1)
+	struct phoneme_entry
+	{
+		ipa::phoneme phoneme1;
+		ipa::phoneme phoneme2;
+		uint16_t first_unit;
+		uint8_t num_units;
+	};
+#pragma pack(0)
 
 	std::shared_ptr<duration_model>
 	createDurationModel(native_endian_buffer &aData);
+
+	void read_phoneme_units(cainteoir::native_endian_buffer &data, std::vector<phoneme_unit> &units);
 
 	// Voice Synthesizers //////////////////////////////////////////////////////////////////
 

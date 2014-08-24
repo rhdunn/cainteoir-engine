@@ -6,6 +6,8 @@
 - [Header](#header)
 - [Data Table](#data-table)
   - [Duration Table](#duration-table)
+  - [Phoneme Unit Table](#phoneme-unit-table)
+  - [Phoneme Table](#phoneme-table)
 - [String Table](#string-table)
 - [Magic Values](#magic-values)
 
@@ -50,6 +52,9 @@ The `id` in the Header section is the name of the MBROLA voice database file
 to use.
 
 A Duration Table section is used to specify the duration model to be used.
+
+The Phoneme Table and Phoneme Unit Table sections map Cainteoir Text-to-Speech
+phonemes to the voice-specific MBROLA phonemes.
 
 ## Header
 
@@ -148,6 +153,60 @@ The`duration-mean` field is the average duration of the phoneme in milliseconds.
 The`duration-stdev` field is the standard deviation for the duration of the phoneme
 in milliseconds.
 
+### Phoneme Unit Table
+
+This is the information about how a given unit should be constructed when
+synthesizing the associated phoneme.
+
+A phoneme unit table has the "PUT" magic string, and each entry has the form:
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| name           | pstr   |  0     |
+| phoneme-start  | u8     |  2     |
+| unit-start     | u8     |  3     |
+| unit-end       | u8     |  4     |
+| END OF ENTRY   |        |  5     |
+
+The `name` field is the name of the unit as used to select the unit in the
+phone or diphone synthesis.
+
+The `phoneme-start` field is the percentage offset of the phoneme at which this
+unit is generated. The end of the phoneme is the `phoneme-start` of the next
+unit in the sequence, or `100%` if this is the last unit.
+
+The `unit-start` field is the percentage offset at which this unit starts. This
+allows for partial units to be synthesized.
+
+The `unit-end` field is the percentage offset at which this unit ends. This
+allows for partial units to be synthesized.
+
+### Phoneme Table
+
+This is the information for how to map phonemes to units in unit-based phoneme
+synthesis.
+
+A phoneme table has the "PHO" magic string, and each entry has the form:
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| phoneme1       | u64    |  0     |
+| phoneme2       | u64    |  8     |
+| first-unit     | u16    | 16     |
+| num-units      | u8     | 18     |
+| END OF ENTRY   |        | 19     |
+
+The `phoneme1` field is the value of the phoneme as represented by the
+`cainteoir::ipa::phoneme` class.
+
+The `phoneme2` field is the value of the phoneme as represented by the
+`cainteoir::ipa::phoneme` class. This is for affricates and diphthongs.
+
+The `first-unit` field is the index of the first unit in the Phoneme Unit
+Table.
+
+The`num-units` field is the number of sound units this phoneme is composed of.
+
 ## String Table
 
 A string table is a data table that does not contain a `num-elements` field.
@@ -179,6 +238,8 @@ creating a new section type to avoid collisions in the magic values.
 | Magic | Usage                        |
 |-------|------------------------------|
 | DUR   | Duration Table               |
+| PHO   | Phoneme Table                |
+| PUT   | Phoneme Unit Table           |
 | STR   | String Table                 |
 
 Copyright (C) 2014 Reece H. Dunn

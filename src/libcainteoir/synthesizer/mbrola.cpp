@@ -355,12 +355,16 @@ private:
 	std::shared_ptr<tts::prosody_writer> mWriter;
 	std::shared_ptr<cainteoir::buffer> mData;
 	std::shared_ptr<tts::duration_model> mDurations;
+
+	std::vector<tts::phoneme_unit> mUnits;
+	cainteoir::range<const tts::phoneme_entry *> mPhonemes;
 };
 
 mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
                            const rdf::graph &aMetadata,
                            const rdf::uri &aVoice)
 	: mData(aData)
+	, mPhonemes(nullptr, nullptr)
 {
 	snprintf(mDatabase, sizeof(mDatabase), MBROLA_DIR "/%s/%s", aVoice.ref.c_str(), aVoice.ref.c_str());
 
@@ -380,6 +384,12 @@ mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 		break;
 	case tts::DURATION_TABLE_MAGIC:
 		mDurations = tts::createDurationModel(data);
+		break;
+	case tts::PHONEME_UNIT_TABLE_MAGIC:
+		read_phoneme_units(data, mUnits);
+		break;
+	case tts::PHONEME_TABLE_MAGIC:
+		mPhonemes = data.array<tts::phoneme_entry>();
 		break;
 	default:
 		throw std::runtime_error("unsupported section in MBROLA voice file");

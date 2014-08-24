@@ -192,6 +192,17 @@ namespace cainteoir
 
 		float f8_8() { return (float)u8() + ((float)u8() / 256); }
 
+		template <typename T>
+		range<const T *> array()
+		{
+			uint16_t n = u16();
+			const T *data = (const T *)current;
+			current += n * sizeof(T);
+			if (current > last)
+				throw std::runtime_error("end of file");
+			return { data, data + n };
+		}
+
 		const char *pstr()
 		{
 			const char *ret = (const char *)first + u16();
