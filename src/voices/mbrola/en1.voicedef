@@ -15,3 +15,207 @@
 .frequency	16000
 .channels	1
 .sample-format	s16le
+
+phoneme /{pau,est}/ 100ms # word pause
+	unit "_"
+end
+
+phoneme /{pau}/ 200ms # clause pause
+	unit "_"
+end
+
+# Plosives ####################################################################
+
+phoneme /{vls,blb,stp}/ 80ms # /p/
+	unit "p"
+end
+
+phoneme /{vcd,blb,stp}/ 80ms # /b/
+	unit "b"
+end
+
+phoneme /{vls,alv,stp}/ 70ms # /t/
+	unit "t"
+end
+
+phoneme /{vcd,alv,stp}/ 50ms # /d/
+	unit "t"
+end
+
+phoneme /{vls,vel,stp}/ 90ms # /k/
+	unit "k"
+end
+
+phoneme /{vcd,vel,stp}/ 65ms # /ɡ/
+	unit "g"
+end
+
+# Fricatives ##################################################################
+
+phoneme /{vls,lbd,frc}/ 95ms # /f/
+	unit "f"
+end
+
+phoneme /{vcd,lbd,frc}/ 50ms # /v/
+	unit "v"
+end
+
+phoneme /{vls,dnt,frc}/ 90ms # /θ/
+	unit "T"
+end
+
+phoneme /{vcd,dnt,frc}/ 50ms # /ð/
+	unit "D"
+end
+
+phoneme /{vls,alv,sib,frc}/ 100ms # /s/
+	unit "s"
+end
+
+phoneme /{vcd,alv,sib,frc}/ 70ms # /z/
+	unit "z"
+end
+
+phoneme /{vls,pla,sib,frc}/ 100ms # /ʃ/
+	unit "S"
+end
+
+phoneme /{vcd,pla,sib,frc}/ 70ms # /ʒ/
+	unit "Z"
+end
+
+phoneme /{vls,glt,apr}/ 60ms # /h/
+	unit "h"
+end
+
+# Affricates ##################################################################
+
+phoneme /{vcd,alv,stp,tie}{vcd,pla,sib,frc}/ 95ms # /d͡ʒ/
+	unit "dZ"
+end
+
+phoneme /{vls,alv,stp,tie}{vls,pla,sib,frc}/ 120ms # /t͡ʃ/
+	unit "tS"
+end
+
+# Nasals ######################################################################
+
+phoneme /{vcd,blb,nas}/ 70ms # /m/
+	unit "m"
+end
+
+phoneme /{vcd,alv,nas}/ 70ms # /n/
+	unit "n"
+end
+
+phoneme /{vcd,vel,nas}/ 120ms # /ŋ/
+	unit "N"
+end
+
+# Sonorants ###################################################################
+
+phoneme /{vcd,alv,apr}/ 55ms # /ɹ/
+	unit "r"
+end
+
+phoneme /{vcd,alv,lat,apr}/ 55ms # /l/
+	unit "l"
+end
+
+phoneme /{vcd,alv,lat,apr,vfz}/ 55ms # /ɫ/
+	unit "5"
+end
+
+phoneme /{vcd,lbv,apr}/ 55ms # /w/
+	unit "w"
+end
+
+phoneme /{vcd,pal,apr}/ 50ms # /j/
+	unit "j"
+end
+
+# Short Vowels ################################################################
+
+phoneme /{smh,fnt,unr,vwl}/ 60ms # /ɪ/
+	unit "I"
+end
+
+phoneme /{umd,fnt,unr,vwl}/ 80ms # /e/
+	unit "e"
+end
+
+phoneme /{smh,bck,rnd,vwl}/ 65ms # /ʊ/
+	unit "U"
+end
+
+phoneme /{lmd,bck,unr,vwl}/ 80ms # /ʌ/
+	unit "V"
+end
+
+phoneme /{sml,fnt,unr,vwl}/ 70ms # /æ/
+	unit "{"
+end
+
+phoneme /{low,bck,rnd,vwl}/ 90ms # /ɒ/
+	unit "Q"
+end
+
+phoneme /{mid,cnt,unr,vwl}/ 45ms # /ə/
+	unit "@"
+end
+
+# Long Vowels #################################################################
+
+phoneme /{hgh,fnt,unr,vwl,lng}/ 90ms # /iː/
+	unit "i:"
+end
+
+phoneme /{hgh,bck,rnd,vwl,lng}/ 110ms # /uː/
+	unit "u:"
+end
+
+phoneme /{lmd,cnt,unr,vwl,lng}/ 140ms # /ɜː/
+	unit "3:"
+end
+
+phoneme /{lmd,bck,rnd,vwl,lng}/ 140ms # /ɔː/
+	unit "O:"
+end
+
+phoneme /{low,bck,unr,vwl,lng}/ 155ms # /ɑː/
+	unit "A:"
+end
+
+# Diphthongs ##################################################################
+
+phoneme /{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /eɪ̯/
+	unit "eI"
+end
+
+phoneme /{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 180ms # /ɔɪ̯/
+	unit "OI"
+end
+
+phoneme /{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /aɪ̯/
+	unit "aI"
+end
+
+phoneme /{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 135ms # /əʊ̯/
+	unit "@U"
+end
+
+phoneme /{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 170ms # /aʊ̯/
+	unit "aU"
+end
+
+phoneme /{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /ɪə̯/
+	unit "I@"
+end
+
+phoneme /{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /ʊə̯/
+	unit "U@"
+end
+
+phoneme /{umd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /eə̯/
+	unit "e@"
+end
