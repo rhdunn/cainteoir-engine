@@ -151,10 +151,4 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/espeak/multi-lang.espeak', 'result': 'phonemeset/espeak/multi-lang.ipa', 'from': 'espeak/en', 'to': 'ipa'},
 		]},
 	]})
-	test.run({'name': 'MBROLA-Based', 'groups': [
-		{'name': 'en1', 'type': 'phonemeset', 'tests': [
-			{'test': 'phonemeset/mbrola/en1.ipa', 'result': 'phonemeset/mbrola/en1.mbrola', 'from': 'ipa', 'to': 'mbrola/en1'},
-			{'test': 'phonemeset/mbrola/en1.mbrola', 'result': 'phonemeset/mbrola/en1.ipa', 'from': 'mbrola/en1', 'to': 'ipa'},
-		]},
-	]})
 	test.summary()
