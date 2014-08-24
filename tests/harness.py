@@ -222,6 +222,8 @@ class ProsodyCommand(Command):
 			params.extend(['--fixed-duration', data['fixed-duration']])
 		if 'duration-model' in data:
 			params.extend(['--duration-model', os.path.join(sys.path[0], data['duration-model'])])
+		if 'accent' in data:
+			params.extend(['--accent', data['accent']])
 		return Command.run(self, params, filename, data)
 
 def create_command(test_type):
