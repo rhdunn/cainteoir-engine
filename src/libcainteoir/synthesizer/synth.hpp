@@ -44,16 +44,6 @@ namespace cainteoir { namespace tts
 	static constexpr uint32_t PHONEME_UNIT_TABLE_MAGIC = make_magic32('P', 'U', 'T');
 	static constexpr uint32_t PHONEME_TABLE_MAGIC = make_magic32('P', 'H', 'O');
 
-#pragma pack(1)
-	struct phoneme_entry
-	{
-		ipa::phoneme phoneme1;
-		ipa::phoneme phoneme2;
-		uint16_t first_unit;
-		uint8_t num_units;
-	};
-#pragma pack(0)
-
 	std::shared_ptr<duration_model>
 	createDurationModel(native_endian_buffer &aData);
 

@@ -367,6 +367,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	\
 	src/libcainteoir/synthesizer/pho_file.cpp \
 	src/libcainteoir/synthesizer/diphone.cpp \
+	src/libcainteoir/synthesizer/units.cpp \
 	src/libcainteoir/synthesizer/prosody.cpp \
 	\
 	src/libcainteoir/synthesizer/compiler.cpp \

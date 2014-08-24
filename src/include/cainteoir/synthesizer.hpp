@@ -131,6 +131,21 @@ namespace cainteoir { namespace tts
 	createProsodyReader(const std::shared_ptr<phoneme_reader> &aPhonemes,
 	                    const std::shared_ptr<duration_model> &aDurationModel);
 
+	#pragma pack(1)
+	struct phoneme_units
+	{
+		ipa::phoneme phoneme1;
+		ipa::phoneme phoneme2;
+		uint16_t first_unit;
+		uint8_t num_units;
+	};
+	#pragma pack(0)
+
+	std::shared_ptr<prosody_reader>
+	create_unit_reader(const std::shared_ptr<prosody_reader> &aProsody,
+	                   const std::vector<unit_t> &aUnits,
+	                   const range<const phoneme_units *> &aPhonemes);
+
 	struct prosody_writer
 	{
 		virtual void reset(FILE *aOutput) = 0;
