@@ -2,11 +2,9 @@ kit
 foot
 dress
 strut
-long
 trap
 lot
 
-meat
 fleece
 goose
 nurse
@@ -15,9 +13,6 @@ palm
 bath
 cloth
 
-fir
-fur
-fern
 north
 force
 start
