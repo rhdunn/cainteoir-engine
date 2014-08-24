@@ -31,6 +31,7 @@ if __name__ == '__main__':
 		]},
 		{'name': 'Duration Model', 'type': 'prosody', 'tests': [
 			{'test': 'prosody/grouping/lexical-sets.txt', 'result': 'prosody/grouping/lexical-sets-duration-model.pho', 'duration-model': '../data/durations/en/default.dur', 'accent': 'en-GB-x-rp'},
+			{'test': 'prosody/grouping/unsupported-phonemes.txt', 'result': 'prosody/grouping/unsupported-phonemes.pho', 'duration-model': '../data/durations/en/default.dur'},
 		]},
 	]})
 	test.summary()

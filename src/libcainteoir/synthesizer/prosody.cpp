@@ -23,6 +23,7 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/synthesizer.hpp>
+#include "../phoneme/phonemeset.hpp"
 
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
@@ -93,6 +94,16 @@ bool phonemes_to_prosody::read()
 	}
 
 	first.duration = mDurationModel->lookup(first).value(0);
+	if (first.duration.units() == css::time::inherit)
+	{
+		fprintf(stdout, "Phoneme /");
+		tts::write_explicit_feature(stdout, first.phoneme1);
+		if (first.phoneme2 != ipa::unspecified)
+			tts::write_explicit_feature(stdout, first.phoneme2);
+		fprintf(stdout, "/ is not supported by the duration model.\n");
+		return read();
+	}
+
 	return true;
 }
 
