@@ -2,65 +2,65 @@
 .copyright	Copyright (C) 2013 Reece H. Dunn
 .license	GPLv3+
 .description	Test dictionary containing a sample word set with phoneme coverage.
-.phonemeset	cxs
+.phonemeset	ipa
 
-a		/@/
-and		/'and/
-bath		/'ba:T/		# Lexical Set
-beige		/'beI_^Z/
-bottle		/'bQ.tl=/	# Syllabic
-button		/'bU.tn=/	# Syllabic
-by		/'baI_^/
-chip		/'t_SIp/
-choice		/'t_SOI_^s/	# Lexical Set
-cloth		/'klQ:T/	# Lexical Set
-comma		/'kQ.m@/	# Reduced Vowel
-cure		/'kjU@_^/	# Lexical Set
-dress		/'dr\Es/	# Lexical Set
-face		/'feI_^s/	# Lexical Set
-fern		/'fErn/		# Lexical Set (Extended)
-fir		/'fIr/		# Lexical Set (Extended)
-fire		/'faI_^@_^/	# Triphthong
-fleece		/'fli:s/	# Lexical Set
-foot		/'fUt/		# Lexical Set
-force		/'fO:rs/	# Lexical Set (Extended)
-fur		/'fUr/		# Lexical Set (Extended)
-goat		/'g@U_^t/	# Lexical Set
-goose		/'gu:s/		# Lexical Set
-happy		/'h&.pi/	# Reduced Vowel
-has		/'haz/
-hour		/'aU_^@_^/	# Triphthong
-is		/'Iz/
-judge		/'d_ZUd_Z/
-kit		/'kIt/		# Lexical Set
-letter		/'lE.t@`/	# Reduced Vowel
-long		/'lON/		# Lexical Set (Extended)
-lot		/'lQt/		# Lexical Set
-meat		/'mE:t/		# Lexical Set (Extended)
-mouth		/'maU_^T/	# Lexical Set
-near		/'nI@_^/	# Lexical Set
-north		/'no:rT/	# Lexical Set
-nurse		/'n3:s/		# Lexical Set
-palm		/'pA:m/		# Lexical Set
-price		/'pr\aI_^s/	# Lexical Set
-rhythmn		/'r\I.Dm=/	# Syllabic
-roses		/'r\oU_^.zi\z/	# Reduced Vowel
-rye		/'r\aI_^/
-sang		/'saN/
-shy		/'SaI_^/
-side		/'saI_^d/
-side-by-side	/'saI_^d.baI_^,saI_^d/
-square		/'skwE@_^/	# Lexical Set
-start		/'stA:rt/	# Lexical Set
-strut		/'str\Vt/	# Lexical Set
-test		/'tEst/
-that		/'Dat/
-thought		/'TO:t/		# Lexical Set
-this		/'DIs/
-trap		/'tr\&p/	# Lexical Set
-ugh		/'Ux/
-uh-oh		/@?'oU_^/
-vie		/'vaI_^/
-wye		/'waI_^/
-why		/'WaI_^/
-yes		/'jEs/
+a		/ə/
+and		/ˈand/
+bath		/ˈbaːθ/		# Lexical Set
+beige		/ˈbeɪ̯ʒ/
+bottle		/ˈbɒ.tl̩/	# Syllabic
+button		/ˈbʊ.tn̩/	# Syllabic
+by		/ˈbaɪ̯/
+chip		/ˈt͡ʃɪp/
+choice		/ˈt͡ʃɔɪ̯s/	# Lexical Set
+cloth		/ˈklɒːθ/	# Lexical Set
+comma		/ˈkɒ.mə/	# Reduced Vowel
+cure		/ˈkjʊə̯/		# Lexical Set
+dress		/ˈdɹɛs/		# Lexical Set
+face		/ˈfeɪ̯s/		# Lexical Set
+fern		/ˈfɛrn/		# Lexical Set (Extended)
+fir		/ˈfɪr/		# Lexical Set (Extended)
+fire		/ˈfaɪ̯ə̯/		# Triphthong
+fleece		/ˈfliːs/	# Lexical Set
+foot		/ˈfʊt/		# Lexical Set
+force		/ˈfɔːrs/	# Lexical Set
+fur		/ˈfʊr/		# Lexical Set (Extended)
+goat		/ˈɡəʊ̯t/		# Lexical Set
+goose		/ˈɡuːs/		# Lexical Set
+happy		/ˈhæ.pi/	# Reduced Vowel
+has		/ˈhaz/
+hour		/ˈaʊ̯ə̯/		# Triphthong
+is		/ˈɪz/
+judge		/ˈd͡ʒʊd͡ʒ/
+kit		/ˈkɪt/		# Lexical Set
+letter		/ˈlɛ.tɚ/	# Reduced Vowel
+long		/ˈlɔŋ/		# Lexical Set (Extended)
+lot		/ˈlɒt/		# Lexical Set
+meat		/ˈmɛːt/		# Lexical Set (Extended)
+mouth		/ˈmaʊ̯θ/		# Lexical Set
+near		/ˈnɪə̯/		# Lexical Set
+north		/ˈnoːrθ/	# Lexical Set
+nurse		/ˈnɜːs/		# Lexical Set
+palm		/ˈpɑːm/		# Lexical Set
+price		/ˈpɹaɪ̯s/	# Lexical Set
+rhythmn		/ˈɹɪ.ðm̩/	# Syllabic
+roses		/ˈɹoʊ̯.zɨz/	# Reduced Vowel
+rye		/ˈɹaɪ̯/
+sang		/ˈsaŋ/
+shy		/ˈʃaɪ̯/
+side-by-side	/ˈsaɪ̯d.baɪ̯ˌsaɪ̯d/
+side		/ˈsaɪ̯d/
+square		/ˈskwɛə̯/	# Lexical Set
+start		/ˈstɑːrt/	# Lexical Set
+strut		/ˈstɹʌt/	# Lexical Set
+test		/ˈtɛst/
+that		/ˈðat/
+this		/ˈðɪs/
+thought		/ˈθɔːt/		# Lexical Set
+trap		/ˈtɹæp/		# Lexical Set
+ugh		/ˈʊx/
+uh-oh		/əʔˈoʊ̯/
+vie		/ˈvaɪ̯/
+why		/ˈʍaɪ̯/
+wye		/ˈwaɪ̯/
+yes		/ˈjɛs/
