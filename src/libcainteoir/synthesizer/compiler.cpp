@@ -237,7 +237,7 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	cainteoir::buffer name{ nullptr, nullptr };
 	cainteoir::buffer synthesizer{ nullptr, nullptr };
 	cainteoir::buffer author{ nullptr, nullptr };
-	cainteoir::buffer phonemeset{ nullptr, nullptr };
+	cainteoir::buffer locale{ nullptr, nullptr };
 	uint8_t gender = 0;
 	float volume_scale = 1.0;
 	uint16_t frequency = 0;
@@ -278,10 +278,10 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 				reader.read();
 				author = reader.match();
 			}
-			else if (reader.match().compare(".phonemeset") == 0)
+			else if (reader.match().compare(".locale") == 0)
 			{
 				reader.read();
-				phonemeset = reader.match();
+				locale = reader.match();
 			}
 			else if (reader.match().compare(".gender") == 0)
 			{
@@ -336,7 +336,7 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	out.pstr(name);
 	out.pstr(synthesizer);
 	out.pstr(author);
-	out.pstr(phonemeset);
+	out.pstr(locale);
 	out.u8(gender);
 	out.f8_8(volume_scale);
 	out.u16(frequency);

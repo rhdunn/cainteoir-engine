@@ -80,7 +80,7 @@ read_cainteoir_voices(const cainteoir::path &aPath, rdf::graph &aMetadata)
 		const char *voice_name = header.pstr(); // name
 		const char *synth_name = header.pstr(); // synthesizer
 		const char *voice_author = header.pstr();
-		const char *phonemeset = header.pstr();
+		const char *locale = header.pstr();
 		uint8_t gender = header.u8();
 		float volume_scale = header.f8_8();
 		uint16_t frequency = header.u16();
@@ -108,7 +108,7 @@ read_cainteoir_voices(const cainteoir::path &aPath, rdf::graph &aMetadata)
 		aMetadata.statement(voice, rdf::tts("data"), rdf::literal(path.str()));
 		aMetadata.statement(voice, rdf::tts("name"), rdf::literal(voice_name));
 		aMetadata.statement(voice, rdf::dc("creator"), rdf::literal(voice_author));
-		aMetadata.statement(voice, rdf::tts("phonemeset"), rdf::literal(phonemeset));
+		aMetadata.statement(voice, rdf::dc("language"), rdf::literal(locale));
 		switch (gender)
 		{
 		case 'M':

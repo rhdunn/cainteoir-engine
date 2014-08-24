@@ -71,7 +71,7 @@ metadata associated with the voice.
 | name           | pstr   | 13     |
 | synthesizer    | pstr   | 15     |
 | author         | pstr   | 17     |
-| phonemeset     | pstr   | 19     |
+| locale         | pstr   | 19     |
 | gender         | u8     | 21     |
 | volume-scale   | f8:8   | 22     |
 | frequency      | u16    | 24     |
@@ -98,8 +98,8 @@ used to select the synthesis algorithm, as well as being displayed to the user.
 
 The `author` field is the name of the authors/companies that created the voice.
 
-The `phonemeset` field is the name of the phonemeset used to transcribe
-phonemes or diphones supported by the voice.
+The `locale` field is the name of the BCP 47 language code for the default
+language and accent supported by the voice.
 
 The `gender` field is the gender of the voice, with `M` used for male voices
 and `F` used for female voices.

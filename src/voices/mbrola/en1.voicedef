@@ -9,7 +9,7 @@
 .name		en1
 .synthesizer	MBROLA
 .voice-author	Alan W. Black (CSTR)
-.phonemeset	mbrola/en1
+.locale		en-GB-x-rp # British English (Received Pronunciation)
 .gender		male
 .volume-scale	2.0 # Samples default to max. height of 0.25.
 .frequency	16000
