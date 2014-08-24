@@ -61,7 +61,7 @@ bool unit_writer::write(const ipa::phoneme &aPhoneme)
 		return false;
 
 	fputs(mUnits[index].name, mOutput);
-	return false;
+	return true;
 }
 
 void unit_writer::flush()

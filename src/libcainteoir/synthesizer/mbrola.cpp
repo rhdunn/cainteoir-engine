@@ -186,7 +186,9 @@ struct mbrola_synthesizer : public tts::synthesizer
 {
 	mbrola_synthesizer(const char *database,
 	                   std::shared_ptr<tts::prosody_writer> aWriter,
-	                   const char *aVolumeScale);
+	                   const char *aVolumeScale,
+	                   const std::vector<tts::unit_t> &aUnits,
+	                   cainteoir::range<const tts::phoneme_units *> aPhonemes);
 
 	~mbrola_synthesizer();
 
@@ -233,14 +235,23 @@ private:
 
 	std::shared_ptr<tts::prosody_reader> prosody;
 	std::shared_ptr<tts::prosody_writer> writer;
+
+	const std::vector<tts::unit_t> &mUnits;
+	cainteoir::range<const tts::phoneme_units *> mPhonemes;
 };
 
-mbrola_synthesizer::mbrola_synthesizer(const char *aDatabase, std::shared_ptr<tts::prosody_writer> aWriter, const char *aVolumeScale)
+mbrola_synthesizer::mbrola_synthesizer(const char *aDatabase,
+                                       std::shared_ptr<tts::prosody_writer> aWriter,
+                                       const char *aVolumeScale,
+                                       const std::vector<tts::unit_t> &aUnits,
+                                       cainteoir::range<const tts::phoneme_units *> aPhonemes)
 	: pho(nullptr)
 	, state(need_data)
 	, sample_rate(0)
 	, sample_format(rdf::tts("s16le"))
 	, writer(aWriter)
+	, mUnits(aUnits)
+	, mPhonemes(aPhonemes)
 {
 	pipe_t input;
 
@@ -293,7 +304,7 @@ mbrola_synthesizer::~mbrola_synthesizer()
 
 void mbrola_synthesizer::bind(const std::shared_ptr<tts::prosody_reader> &aProsody)
 {
-	prosody = aProsody;
+	prosody = tts::create_unit_reader(aProsody, mUnits, mPhonemes);
 }
 
 bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
@@ -369,10 +380,9 @@ mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 	snprintf(mDatabase, sizeof(mDatabase), MBROLA_DIR "/%s/%s", aVoice.ref.c_str(), aVoice.ref.c_str());
 
 	const auto voice = rql::select(aMetadata, rql::subject == aVoice);
-	const auto phonemeset = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("phonemeset"));
-
-	auto phonemes = tts::createPhonemeWriter(phonemeset.c_str());
 	mVolumeScale = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("volumeScale"));
+
+	auto phonemes = tts::create_unit_writer(mUnits);
 	mWriter = tts::createPhoWriter(phonemes);
 
 	cainteoir::native_endian_buffer data(aData);
@@ -398,7 +408,7 @@ mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 
 std::shared_ptr<tts::synthesizer> mbrola_voice::synthesizer()
 {
-	return std::make_shared<mbrola_synthesizer>(mDatabase, mWriter, mVolumeScale.c_str());
+	return std::make_shared<mbrola_synthesizer>(mDatabase, mWriter, mVolumeScale.c_str(), mUnits, mPhonemes);
 }
 
 std::shared_ptr<tts::voice>
