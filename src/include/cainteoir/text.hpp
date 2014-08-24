@@ -165,6 +165,10 @@ namespace cainteoir { namespace tts
 	                       const char *open,
 	                       const char *close,
 	                       const char *phrase = " ");
+
+	std::shared_ptr<tts::phoneme_reader>
+	create_phoneme_reader(const std::shared_ptr<text_reader> &aTextReader,
+	                      const std::shared_ptr<clause_processor> &aProcessor);
 }}
 
 #endif

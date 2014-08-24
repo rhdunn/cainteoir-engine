@@ -93,76 +93,11 @@ tts::createProsodyReader(const std::shared_ptr<phoneme_reader> &aPhonemes,
 	return std::make_shared<phonemes_to_prosody>(aPhonemes, aDurationModel);
 }
 
-struct text_to_phonemes : public tts::phoneme_reader
-{
-	text_to_phonemes(const std::shared_ptr<tts::text_reader> &aTextReader,
-	                 const std::shared_ptr<tts::clause_processor> &aProcessor)
-		: mTextReader(aTextReader)
-		, mProcessor(aProcessor)
-	{
-	}
-
-	void reset(const std::shared_ptr<cainteoir::buffer> &aData);
-
-	bool read();
-private:
-	bool next_event();
-
-	std::shared_ptr<tts::text_reader> mTextReader;
-	std::shared_ptr<tts::clause_processor> mProcessor;
-
-	std::list<tts::text_event> mClause;
-	ipa::phonemes::const_iterator mCurrent;
-	ipa::phonemes::const_iterator mLast;
-};
-
-void text_to_phonemes::reset(const std::shared_ptr<cainteoir::buffer> &aData)
-{
-}
-
-bool text_to_phonemes::read()
-{
-	if (mCurrent == mLast)
-	{
-		if (!next_event()) return false;
-	}
-
-	*(ipa::phoneme *)this = *mCurrent++;
-	return true;
-}
-
-bool text_to_phonemes::next_event()
-{
-	if (!mClause.empty())
-		mClause.pop_front();
-
-	while (true)
-	{
-		if (mClause.empty())
-		{
-			if (!tts::next_clause(mTextReader, mClause))
-				return false;
-			mProcessor->process(mClause);
-		}
-
-		auto &event = mClause.front();
-
-		mCurrent = event.phonemes.begin();
-		mLast    = event.phonemes.end();
-		if (mCurrent != mLast)
-			return true;
-
-		mClause.pop_front();
-	}
-
-	return false;
-}
-
 std::shared_ptr<tts::prosody_reader>
 tts::createProsodyReader(const std::shared_ptr<text_reader> &aTextReader,
                          const std::shared_ptr<clause_processor> &aProcessor,
                          const std::shared_ptr<duration_model> &aDurationModel)
 {
-	auto phonemes = std::make_shared<text_to_phonemes>(aTextReader, aProcessor);
+	auto phonemes = create_phoneme_reader(aTextReader, aProcessor);
 	return createProsodyReader(phonemes, aDurationModel);
 }
