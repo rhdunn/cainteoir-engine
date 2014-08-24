@@ -92,12 +92,3 @@ tts::createProsodyReader(const std::shared_ptr<phoneme_reader> &aPhonemes,
 {
 	return std::make_shared<phonemes_to_prosody>(aPhonemes, aDurationModel);
 }
-
-std::shared_ptr<tts::prosody_reader>
-tts::createProsodyReader(const std::shared_ptr<text_reader> &aTextReader,
-                         const std::shared_ptr<clause_processor> &aProcessor,
-                         const std::shared_ptr<duration_model> &aDurationModel)
-{
-	auto phonemes = create_phoneme_reader(aTextReader, aProcessor);
-	return createProsodyReader(phonemes, aDurationModel);
-}
