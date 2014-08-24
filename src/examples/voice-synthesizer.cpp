@@ -97,6 +97,8 @@ create_reader(const char *filename,
               const std::shared_ptr<tts::duration_model> &durations,
               const char *ruleset,
               const char *dictionary,
+              const char *phoneme_map,
+              const char *accent,
               const lang::tag &locale,
               tts::number_scale scale)
 {
@@ -120,6 +122,10 @@ create_reader(const char *filename,
 
 		auto text = tts::create_text_reader(reader);
 		auto phonemes = tts::create_phoneme_reader(text, processor);
+		if (phoneme_map)
+			phonemes = tts::createPhonemeToPhonemeConverter(phoneme_map, phonemes);
+		if (accent)
+			phonemes = tts::createAccentConverter(accent, phonemes);
 
 		if (!durations)
 			throw std::runtime_error("A duration model was not specified.");
@@ -128,6 +134,11 @@ create_reader(const char *filename,
 	else if (input == input_type::phonemes)
 	{
 		auto phonemes = tts::createPhonemeReader(phonemeset);
+		if (phoneme_map)
+			phonemes = tts::createPhonemeToPhonemeConverter(phoneme_map, phonemes);
+		if (accent)
+			phonemes = tts::createAccentConverter(accent, phonemes);
+
 		phonemes->reset(data);
 		return tts::createProsodyReader(phonemes, durations);
 	}
@@ -188,6 +199,8 @@ int main(int argc, char **argv)
 		const char *locale_name = "en";
 		const char *fixed_duration = nullptr;
 		const char *duration_model = nullptr;
+		const char *phoneme_map = nullptr;
+		const char *accent = nullptr;
 		tts::number_scale scale = tts::short_scale;
 		actions action = actions::synthesize;
 		input_type input = input_type::document;
@@ -199,6 +212,10 @@ int main(int argc, char **argv)
 			  i18n("Use PHONEMESET to display phonemes in (default: phonemeset)") },
 			{ 'D', "device", device_name, "DEVICE",
 			  i18n("Use DEVICE for audio output (ALSA/pulseaudio device name)") },
+			{ 'M', "phoneme-map", phoneme_map, "PHONEME_MAP",
+			  i18n("Use PHONEME_MAP to convert phonemes (e.g. accent conversion)") },
+			{ 'a', "accent", accent, "ACCENT",
+			  i18n("Use ACCENT to convert phonemes to the specified accent") },
 		}};
 
 		const option_group input_options = { i18n("Input:"), {
@@ -280,7 +297,7 @@ int main(int argc, char **argv)
 		case actions::print_diphones:
 			{
 				auto dur = create_duration_model(fixed_duration, duration_model);
-				auto pho = create_reader(filename, src_phonemeset, input, dur, ruleset, dictionary, locale, scale);
+				auto pho = create_reader(filename, src_phonemeset, input, dur, ruleset, dictionary, phoneme_map, accent, locale, scale);
 				if (action == actions::print_diphones)
 					pho = tts::createDiphoneReader(pho);
 
@@ -303,7 +320,7 @@ int main(int argc, char **argv)
 				if (!dur)
 					dur = voice->durations();
 
-				auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, dur, ruleset, dictionary, locale, scale);
+				auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, dur, ruleset, dictionary, phoneme_map, accent, locale, scale);
 
 				synthesize(voice->synthesizer(), pho, outformat, outfile, device_name);
 			}
