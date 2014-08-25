@@ -39,7 +39,7 @@ phoneme /{vls,alv,stp}/ 70ms # /t/
 end
 
 phoneme /{vcd,alv,stp}/ 50ms # /d/
-	unit "t"
+	unit "d"
 end
 
 phoneme /{vls,vel,stp}/ 90ms # /k/
