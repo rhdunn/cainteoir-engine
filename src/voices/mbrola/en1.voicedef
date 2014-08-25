@@ -223,3 +223,7 @@ end
 phoneme /{umd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /eə̯/
 	unit "e@"
 end
+
+phoneme /{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /ɛə̯/
+	unit "e@"
+end
