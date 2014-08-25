@@ -152,6 +152,10 @@ phoneme /{mid,cnt,unr,vwl}/ 45ms # /ə/
 	unit "@"
 end
 
+phoneme /{lmd,fnt,unr,vwl}/ 80ms # /ɛ/
+	unit "e"
+end
+
 phoneme /{lmd,bck,unr,vwl}/ 80ms # /ʌ/
 	unit "V"
 end
