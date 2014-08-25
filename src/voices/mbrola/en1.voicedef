@@ -178,12 +178,32 @@ phoneme /{hgh,bck,rnd,vwl,lng}/ 110ms # /uː/
 	unit "u:"
 end
 
+phoneme /{umd,fnt,unr,vwl,lng}/ 120ms # /eː/
+	unit "e"
+end
+
+phoneme /{mid,cnt,unr,vwl,lng}/ 130ms # /əː/
+	unit "3:" # The <@> unit is softer as it is for unstressed positions.
+end
+
+phoneme /{lmd,fnt,unr,vwl,lng}/ 120ms # /ɛː/
+	unit "e"
+end
+
 phoneme /{lmd,cnt,unr,vwl,lng}/ 140ms # /ɜː/
 	unit "3:"
 end
 
 phoneme /{lmd,bck,rnd,vwl,lng}/ 140ms # /ɔː/
 	unit "O:"
+end
+
+phoneme /{sml,fnt,unr,vwl,lng}/ 120ms # /æː/
+	unit "{"
+end
+
+phoneme /{low,bck,rnd,vwl,lng}/ 140ms # /ɒː/
+	unit "Q"
 end
 
 phoneme /{low,bck,unr,vwl,lng}/ 155ms # /ɑː/
