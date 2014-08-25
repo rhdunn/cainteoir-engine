@@ -176,6 +176,10 @@ phoneme /{lmd,fnt,unr,vwl}/ 70ms # /ɛ/
 	unit "E"
 end
 
+phoneme /{lmd,cnt,unr,vwl,rzd}/ 140ms # /ɝ/
+	unit "r="
+end
+
 phoneme /{lmd,bck,rnd,vwl}/ 80ms # /ɔ/
 	unit "O"
 end
