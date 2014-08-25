@@ -164,8 +164,16 @@ phoneme /{mid,cnt,unr,vwl}/ 55ms # /ə/
 	unit "@"
 end
 
+phoneme /{mid,cnt,unr,vwl,rzd}/ 55ms # /ɚ/
+	unit "r="
+end
+
 phoneme /{lmd,fnt,unr,vwl}/ 70ms # /ɛ/
 	unit "E"
+end
+
+phoneme /{lmd,cnt,unr,vwl,rzd}/ 140ms # /ɝ/
+	unit "r="
 end
 
 phoneme /{lmd,bck,rnd,vwl}/ 80ms # /ɔ/
