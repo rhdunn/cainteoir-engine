@@ -136,6 +136,14 @@ end
 
 # Short Vowels ################################################################
 
+phoneme /{hgh,fnt,unr,vwl}/ 60ms # /i/
+	unit "i:"
+end
+
+phoneme /{hgh,bck,rnd,vwl}/ 60ms # /u/
+	unit "u:"
+end
+
 phoneme /{smh,fnt,unr,vwl}/ 60ms # /ɪ/
 	unit "I"
 end
@@ -156,6 +164,10 @@ phoneme /{lmd,fnt,unr,vwl}/ 80ms # /ɛ/
 	unit "e"
 end
 
+phoneme /{lmd,bck,rnd,vwl}/ 80ms # /ɔ/
+	unit "O:"
+end
+
 phoneme /{lmd,bck,unr,vwl}/ 80ms # /ʌ/
 	unit "V"
 end
@@ -168,9 +180,13 @@ phoneme /{low,bck,rnd,vwl}/ 90ms # /ɒ/
 	unit "Q"
 end
 
+phoneme /{low,bck,unr,vwl}/ 90ms # /ɑ/
+	unit "A:"
+end
+
 # Long Vowels #################################################################
 
-phoneme /{hgh,fnt,unr,vwl,lng}/ 90ms # /iː/
+phoneme /{hgh,fnt,unr,vwl,lng}/ 120ms # /iː/
 	unit "i:"
 end
 
