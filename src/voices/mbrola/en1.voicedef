@@ -16,7 +16,7 @@
 .channels	1
 .sample-format	s16le
 
-phoneme /{pau,est}/ 100ms # word pause
+phoneme /{pau,est}/ 25ms # word pause
 	unit "_"
 end
 
