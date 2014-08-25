@@ -140,12 +140,16 @@ phoneme /{smh,fnt,unr,vwl}/ 60ms # /ɪ/
 	unit "I"
 end
 
+phoneme /{smh,bck,rnd,vwl}/ 65ms # /ʊ/
+	unit "U"
+end
+
 phoneme /{umd,fnt,unr,vwl}/ 80ms # /e/
 	unit "e"
 end
 
-phoneme /{smh,bck,rnd,vwl}/ 65ms # /ʊ/
-	unit "U"
+phoneme /{mid,cnt,unr,vwl}/ 45ms # /ə/
+	unit "@"
 end
 
 phoneme /{lmd,bck,unr,vwl}/ 80ms # /ʌ/
@@ -158,10 +162,6 @@ end
 
 phoneme /{low,bck,rnd,vwl}/ 90ms # /ɒ/
 	unit "Q"
-end
-
-phoneme /{mid,cnt,unr,vwl}/ 45ms # /ə/
-	unit "@"
 end
 
 # Long Vowels #################################################################
