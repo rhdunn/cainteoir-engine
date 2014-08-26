@@ -338,7 +338,7 @@ bool mbrola_synthesizer::read(cainteoir::audio *out)
 	{
 		out->write((const char *)data, read);
 		if ((read = error.read(message, sizeof(message), proc, { 0, 50 })) != 0)
-			fputs(message, stderr);
+			fwrite(message, read, 1, stderr);
 	}
 
 	state = need_data;
