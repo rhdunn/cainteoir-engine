@@ -1,0 +1,213 @@
+# MBROLA de8 Voice Definition File
+#
+# Copyright (C) 2004 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.rdfns		"http://reecedunn.co.uk/tts/synthesizer/mbrola#"
+.id		de8 # This is also the MBROLA voice data filename.
+.name		de8
+.synthesizer	MBROLA
+.voice-author	Markus Binsteiner
+.locale		bar # Bavarian
+.gender		male
+.volume-scale	0.625 # Samples default to max. height of 0.8.
+.frequency	16000
+.channels	1
+.sample-format	s16le
+
+phoneme /{pau,est}/ 25ms # word pause
+	unit "_"
+end
+
+phoneme /{pau}/ 200ms # clause pause
+	unit "_"
+end
+
+# Plosives ####################################################################
+
+phoneme /{vcd,blb,stp}/ 80ms # /b/
+	unit "b"
+end
+
+phoneme /{vls,alv,stp}/ 50ms # /t/
+	unit "t"
+end
+
+phoneme /{vcd,alv,stp}/ 80ms # /d/
+	unit "d"
+end
+
+phoneme /{vls,vel,stp}/ 50ms # /k/
+	unit "k"
+end
+
+phoneme /{vcd,vel,stp}/ 80ms # /ɡ/
+	unit "g"
+end
+
+# Fricatives ##################################################################
+
+phoneme /{vls,lbd,frc}/ 95ms # /f/
+	unit "f"
+end
+
+phoneme /{vcd,lbd,frc}/ 50ms # /v/
+	unit "v"
+end
+
+phoneme /{vls,alv,sib,frc}/ 100ms # /s/
+	unit "s"
+end
+
+phoneme /{vls,pla,sib,frc}/ 100ms # /ʃ/
+	unit "S"
+end
+
+phoneme /{vcd,pla,sib,frc}/ 70ms # /ʒ/
+	unit "Z"
+end
+
+phoneme /{vls,vel,frc}/ 60ms # /x/
+	unit "x"
+end
+
+phoneme /{vls,pal,frc}/ 60ms # /ç/
+	unit "C"
+end
+
+phoneme /{vcd,uvl,frc}/ 55ms # /ʁ/
+	unit "R"
+end
+
+phoneme /{vls,glt,apr}/ 60ms # /h/
+	unit "h"
+end
+
+# Nasals ######################################################################
+
+phoneme /{vcd,blb,nas}/ 70ms # /m/
+	unit "m"
+end
+
+phoneme /{vcd,alv,nas}/ 70ms # /n/
+	unit "n"
+end
+
+phoneme /{vcd,vel,nas}/ 120ms # /ŋ/
+	unit "N"
+end
+
+# Sonorants ###################################################################
+
+phoneme /{vcd,alv,lat,apr}/ 55ms # /l/
+	unit "l"
+end
+
+phoneme /{vcd,pal,apr}/ 50ms # /j/
+	unit "j"
+end
+
+# Affricates ##################################################################
+
+phoneme /{vls,blb,stp,tie}{vls,lbd,frc}/ 130ms # /p͡f/
+	unit "pf"
+end
+
+phoneme /{vcd,alv,stp,tie}{vls,alv,sib,frc}/ 130ms # /d͡s/
+	unit "ds"
+end
+
+# Short Vowels ################################################################
+
+phoneme /{smh,fnt,unr,vwl}/ 60ms # /ɪ/
+	unit "I"
+end
+
+phoneme /{smh,bck,rnd,vwl}/ 60ms # /ʊ/
+	unit "U"
+end
+
+phoneme /{umd,fnt,unr,vwl}/ 60ms # /e/
+	unit "e"
+end
+
+phoneme /{lmd,fnt,unr,vwl}/ 60ms # /ɛ/
+	unit "E"
+end
+
+phoneme /{lmd,fnt,rnd,vwl}/ 60ms # /œ/
+	unit "9"
+end
+
+phoneme /{lmd,bck,rnd,vwl}/ 60ms # /ɔ/
+	unit "O"
+end
+
+phoneme /{low,fnt,unr,vwl}/ 60ms # /a/
+	unit "a"
+end
+
+phoneme /{low,bck,unr,vwl}/ 60ms # /ɑ/
+	unit "A"
+end
+
+# Long Vowels #################################################################
+
+phoneme /{hgh,fnt,unr,vwl,lng}/ 100ms # /iː/
+	unit "i:"
+end
+
+phoneme /{umd,fnt,unr,vwl,lng}/ 110ms # /eː/
+	unit "e:"
+end
+
+phoneme /{umd,bck,rnd,vwl,lng}/ 110ms # /oː/
+	unit "o:"
+end
+
+# Diphthongs ##################################################################
+
+phoneme /{smh,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 150ms # /ʊɪ̯/
+	unit "UI"
+end
+
+phoneme /{umd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 150ms # /oɪ̯/
+	unit "oI"
+end
+
+phoneme /{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 150ms # /ɔɪ̯/
+	unit "OI"
+end
+
+phoneme /{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /aɪ̯/
+	unit "aI"
+end
+
+phoneme /{low,bck,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /ɑɪ̯/
+	unit "AI"
+end
+
+phoneme /{lmd,bck,rnd,vwl}{smh,bck,rnd,vwl,nsy}/ 130ms # /ɔʊ̯/
+	unit "OU"
+end
+
+phoneme /{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 130ms # /aʊ̯/
+	unit "aU"
+end
+
+phoneme /{smh,fnt,unr,vwl}{low,bck,unr,vwl,nsy}/ 130ms # /ɪɑ̯/
+	unit "IA"
+end
+
+phoneme /{smh,bck,rnd,vwl}{low,bck,unr,vwl,nsy}/ 130ms # /ʊɑ̯/
+	unit "UA"
+end
+
+phoneme /{umd,fnt,unr,vwl}{low,bck,unr,vwl,nsy}/ 130ms # /eɑ̯/
+	unit "eA"
+end
+
+phoneme /{lmd,bck,unr,vwl}{low,bck,unr,vwl,nsy}/ 130ms # /ɔɑ̯/
+	unit "OA"
+end
