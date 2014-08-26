@@ -1,0 +1,179 @@
+# MBROLA fr2 Voice Definition File
+#
+# Copyright (C) 2004 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.rdfns		"http://reecedunn.co.uk/tts/synthesizer/mbrola#"
+.id		fr2 # This is also the MBROLA voice data filename.
+.name		fr2
+.synthesizer	MBROLA
+.voice-author	Celine Egea
+.locale		fr # French
+.gender		female
+.volume-scale	0.8333 # Samples default to max. height of 0.6.
+.frequency	16000
+.channels	1
+.sample-format	s16le
+
+phoneme /{pau,est}/ 25ms # word pause
+	unit "_"
+end
+
+phoneme /{pau}/ 200ms # clause pause
+	unit "_"
+end
+
+# Plosives ####################################################################
+
+phoneme /{vls,blb,stp}/ 50ms # /p/
+	unit "p"
+end
+
+phoneme /{vcd,blb,stp}/ 80ms # /b/
+	unit "b"
+end
+
+phoneme /{vls,alv,stp}/ 50ms # /t/
+	unit "t"
+end
+
+phoneme /{vcd,alv,stp}/ 80ms # /d/
+	unit "d"
+end
+
+phoneme /{vls,vel,stp}/ 50ms # /k/
+	unit "k"
+end
+
+phoneme /{vcd,vel,stp}/ 80ms # /ɡ/
+	unit "g"
+end
+
+# Fricatives ##################################################################
+
+phoneme /{vls,lbd,frc}/ 95ms # /f/
+	unit "f"
+end
+
+phoneme /{vcd,lbd,frc}/ 50ms # /v/
+	unit "v"
+end
+
+phoneme /{vls,alv,sib,frc}/ 100ms # /s/
+	unit "s"
+end
+
+phoneme /{vcd,alv,sib,frc}/ 70ms # /z/
+	unit "z"
+end
+
+phoneme /{vls,pla,sib,frc}/ 100ms # /ʃ/
+	unit "S"
+end
+
+phoneme /{vcd,pla,sib,frc}/ 70ms # /ʒ/
+	unit "Z"
+end
+
+phoneme /{vcd,uvl,frc}/ 55ms # /ʁ/
+	unit "R"
+end
+
+# Nasals ######################################################################
+
+phoneme /{vcd,blb,nas}/ 70ms # /m/
+	unit "m"
+end
+
+phoneme /{vcd,alv,nas}/ 70ms # /n/
+	unit "n"
+end
+
+phoneme /{vcd,vel,nas}/ 120ms # /ŋ/
+	unit "N"
+end
+
+# Sonorants ###################################################################
+
+phoneme /{vcd,alv,lat,apr}/ 55ms # /l/
+	unit "l"
+end
+
+phoneme /{vcd,lbp,apr}/ 55ms # /ɥ/
+	unit "H"
+end
+
+phoneme /{vcd,lbv,apr}/ 55ms # /w/
+	unit "w"
+end
+
+phoneme /{vcd,pal,apr}/ 50ms # /j/
+	unit "j"
+end
+
+# Short Vowels ################################################################
+
+phoneme /{hgh,fnt,unr,vwl}/ 60ms # /i/
+	unit "i"
+end
+
+phoneme /{hgh,fnt,rnd,vwl}/ 60ms # /y/
+	unit "y"
+end
+
+phoneme /{hgh,bck,rnd,vwl}/ 60ms # /u/
+	unit "u"
+end
+
+phoneme /{umd,fnt,unr,vwl}/ 60ms # /e/
+	unit "e"
+end
+
+phoneme /{umd,fnt,unr,vwl,nzd}/ 60ms # /ẽ/
+	unit "e~"
+end
+
+phoneme /{umd,fnt,rnd,vwl}/ 60ms # /ø/
+	unit "2"
+end
+
+phoneme /{umd,bck,rnd,vwl}/ 60ms # /o/
+	unit "o"
+end
+
+phoneme /{umd,bck,rnd,vwl,nzd}/ 60ms # /õ/
+	unit "o~"
+end
+
+phoneme /{mid,cnt,unr,vwl}/ 60ms # /ə/
+	unit "@"
+end
+
+phoneme /{lmd,fnt,unr,vwl}/ 60ms # /ɛ/
+	unit "E"
+end
+
+phoneme /{lmd,fnt,rnd,vwl}/ 60ms # /œ/
+	unit "9"
+end
+
+phoneme /{lmd,fnt,rnd,vwl,nzd}/ 60ms # /œ̃/
+	unit "9~"
+end
+
+phoneme /{lmd,bck,rnd,vwl}/ 60ms # /ɔ/
+	unit "O"
+end
+
+phoneme /{low,fnt,unr,vwl}/ 60ms # /a/
+	unit "a"
+end
+
+phoneme /{low,fnt,unr,vwl,nzd}/ 60ms # /ã/
+	unit "a~"
+end
+
+phoneme /{low,bck,unr,vwl}/ 60ms # /ɑ/
+	unit "A"
+end
