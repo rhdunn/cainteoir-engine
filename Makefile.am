@@ -478,6 +478,7 @@ voices:	data/voices/mbrola/af1.vdb \
 	data/voices/mbrola/de1.vdb \
 	data/voices/mbrola/de2.vdb \
 	data/voices/mbrola/de3.vdb \
+	data/voices/mbrola/de4.vdb \
 	data/voices/mbrola/en1.vdb \
 	data/voices/mbrola/us1.vdb \
 	data/voices/mbrola/us2.vdb \
@@ -496,6 +497,10 @@ data/voices/mbrola/de2.vdb: src/voices/mbrola/de2.voicedef src/apps/cainteoir
 	src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/de3.vdb: src/voices/mbrola/de3.voicedef src/apps/cainteoir
+	mkdir -pv data/voices/mbrola
+	src/apps/cainteoir --compile $< -o $@
+
+data/voices/mbrola/de4.vdb: src/voices/mbrola/de4.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
 	src/apps/cainteoir --compile $< -o $@
 
