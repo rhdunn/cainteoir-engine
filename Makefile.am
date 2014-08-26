@@ -476,6 +476,7 @@ src_experimental_synthesizer_SOURCES = src/experimental/synthesizer.cpp
 
 voices:	data/voices/mbrola/af1.vdb \
 	data/voices/mbrola/ca1.vdb \
+	data/voices/mbrola/ca2.vdb \
 	data/voices/mbrola/de1.vdb \
 	data/voices/mbrola/de2.vdb \
 	data/voices/mbrola/de3.vdb \
@@ -494,6 +495,10 @@ data/voices/mbrola/af1.vdb: src/voices/mbrola/af1.voicedef src/apps/cainteoir
 	src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/ca1.vdb: src/voices/mbrola/ca1.voicedef src/apps/cainteoir
+	mkdir -pv data/voices/mbrola
+	src/apps/cainteoir --compile $< -o $@
+
+data/voices/mbrola/ca2.vdb: src/voices/mbrola/ca2.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
 	src/apps/cainteoir --compile $< -o $@
 
