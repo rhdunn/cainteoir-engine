@@ -8,7 +8,7 @@
 .id		fr1 # This is also the MBROLA voice data filename.
 .name		fr1
 .synthesizer	MBROLA
-.voice-author	Thierry Dutoit (Faculte Polytechnique de  Mons)
+.voice-author	Thierry Dutoit (Faculte Polytechnique de Mons)
 .locale		fr-BE # French (Belgium)
 .gender		male
 .volume-scale	0.5 # Samples default to max. height of 1.0.
