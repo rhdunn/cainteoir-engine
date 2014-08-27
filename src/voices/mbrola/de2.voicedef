@@ -30,6 +30,10 @@ phoneme /{vls,blb,stp}/ 50ms # /p/
 	unit "p"
 end
 
+phoneme /{vls,blb,stp,asp}/ 80ms # /pʰ/
+	unit "p"
+end
+
 phoneme /{vcd,blb,stp}/ 80ms # /b/
 	unit "b"
 end
@@ -38,11 +42,19 @@ phoneme /{vls,alv,stp}/ 50ms # /t/
 	unit "t"
 end
 
+phoneme /{vls,alv,stp,asp}/ 80ms # /tʰ/
+	unit "t"
+end
+
 phoneme /{vcd,alv,stp}/ 80ms # /d/
 	unit "d"
 end
 
 phoneme /{vls,vel,stp}/ 50ms # /k/
+	unit "k"
+end
+
+phoneme /{vls,vel,stp,asp}/ 80ms # /kʰ/
 	unit "k"
 end
 
