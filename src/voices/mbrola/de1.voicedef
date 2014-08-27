@@ -280,6 +280,10 @@ end
 
 # Diphthongs ##################################################################
 
+phoneme /{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 150ms # /ɔɪ̯/
+	unit "OY"
+end
+
 phoneme /{lmd,bck,rnd,vwl}{smh,fnt,rnd,vwl,nsy}/ 150ms # /ɔʏ̯/
 	unit "OY"
 end
