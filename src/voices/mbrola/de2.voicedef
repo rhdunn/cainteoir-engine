@@ -204,6 +204,10 @@ phoneme /{low,fnt,unr,vwl}/ 60ms # /a/
 	unit "a"
 end
 
+phoneme /{low,bck,rnd,vwl}/ 60ms # /ɒ/
+	unit "O"
+end
+
 # Long Vowels #################################################################
 
 phoneme /{hgh,fnt,unr,vwl,lng}/ 100ms # /iː/
@@ -260,6 +264,10 @@ end
 
 phoneme /{low,fnt,unr,vwl,lng}/ 110ms # /aː/
 	unit "a:"
+end
+
+phoneme /{low,bck,rnd,vwl,lng}/ 120ms # /ɒː/
+	unit "O"
 end
 
 # Diphthongs ##################################################################
