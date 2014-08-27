@@ -152,6 +152,18 @@ end
 
 # Short Vowels ################################################################
 
+phoneme /{hgh,fnt,unr,vwl}/ 60ms # /i/
+	unit "i:"
+end
+
+phoneme /{hgh,fnt,rnd,vwl}/ 60ms # /y/
+	unit "y:"
+end
+
+phoneme /{hgh,bck,rnd,vwl}/ 60ms # /u/
+	unit "u:"
+end
+
 phoneme /{smh,fnt,unr,vwl}/ 60ms # /ɪ/
 	unit "I"
 end
@@ -164,8 +176,20 @@ phoneme /{smh,bck,rnd,vwl}/ 60ms # /ʊ/
 	unit "U"
 end
 
+phoneme /{umd,fnt,unr,vwl}/ 60ms # /e/
+	unit "e:"
+end
+
 phoneme /{umd,fnt,unr,vwl,nzd}/ 60ms # /ẽ/
 	unit "e~"
+end
+
+phoneme /{umd,fnt,rnd,vwl}/ 60ms # /ø/
+	unit "2:"
+end
+
+phoneme /{umd,bck,rnd,vwl}/ 60ms # /o/
+	unit "o:"
 end
 
 phoneme /{umd,bck,rnd,vwl,nzd}/ 60ms # /õ/
