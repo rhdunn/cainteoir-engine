@@ -128,6 +128,10 @@ phoneme /{vcd,alv,lat,apr}/ 55ms # /l/
 	unit "l"
 end
 
+phoneme /{vcd,alv,lat,apr,vfz}/ 55ms # /ɫ/
+	unit "l"
+end
+
 phoneme /{vcd,lbv,apr}/ 55ms # /w/
 	unit "w"
 end
