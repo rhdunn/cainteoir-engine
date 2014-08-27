@@ -216,6 +216,10 @@ phoneme /{lmd,fnt,rnd,vwl,nzd}/ 60ms # /œ̃/
 	unit "9~"
 end
 
+phoneme /{lmd,cnt,unr,vwl}/ 60ms # /ɜ/
+	unit "@"
+end
+
 phoneme /{lmd,bck,rnd,vwl}/ 60ms # /ɔ/
 	unit "O"
 end
@@ -288,6 +292,10 @@ end
 
 phoneme /{lmd,fnt,rnd,vwl,nzd,lng}/ 110ms # /œ̃ː/
 	unit "9~"
+end
+
+phoneme /{lmd,cnt,unr,vwl,lng}/ 140ms # /ɜː/
+	unit "@"
 end
 
 phoneme /{lmd,bck,rnd,vwl,lng}/ 120ms # /ɔː/

@@ -180,6 +180,10 @@ phoneme /{lmd,fnt,rnd,vwl}/ 60ms # /œ/
 	unit "9"
 end
 
+phoneme /{lmd,cnt,unr,vwl}/ 60ms # /ɜ/
+	unit "@"
+end
+
 phoneme /{lmd,bck,rnd,vwl}/ 60ms # /ɔ/
 	unit "O"
 end
