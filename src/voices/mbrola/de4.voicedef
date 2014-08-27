@@ -117,7 +117,7 @@ end
 # Sonorants ###################################################################
 
 phoneme /{vcd,alv,apr}/ 55ms # /ɹ/
-	unit "r"
+	unit "R"
 end
 
 phoneme /{vcd,alv,lat,apr}/ 55ms # /l/
