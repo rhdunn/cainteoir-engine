@@ -120,6 +120,10 @@ phoneme /{vcd,alv,lat,apr,vfz}/ 55ms # /ɫ/
 	unit "l"
 end
 
+phoneme /{vcd,lbv,apr}/ 50ms # /w/
+	unit "u:"
+end
+
 phoneme /{vcd,pal,apr}/ 50ms # /j/
 	unit "j"
 end
