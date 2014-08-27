@@ -50,6 +50,10 @@ phoneme /{vcd,alv,stp}/ 80ms # /d/
 	unit "d"
 end
 
+phoneme /{vcd,alv,flp}/ 80ms # /ɾ/
+	unit "d"
+end
+
 phoneme /{vls,vel,stp}/ 50ms # /k/
 	unit "k"
 end
