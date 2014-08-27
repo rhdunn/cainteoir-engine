@@ -60,6 +60,14 @@ phoneme /{vcd,lbd,frc}/ 50ms # /v/
 	unit "v"
 end
 
+phoneme /{vls,dnt,frc}/ 90ms # /θ/
+	unit "f"
+end
+
+phoneme /{vcd,dnt,frc}/ 50ms # /ð/
+	unit "v"
+end
+
 phoneme /{vls,alv,sib,frc}/ 100ms # /s/
 	unit "s"
 end
