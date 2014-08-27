@@ -250,12 +250,20 @@ phoneme /{umd,fnt,unr,vwl,lng}/ 110ms # /eː/
 	unit "e:"
 end
 
+phoneme /{umd,fnt,unr,vwl,nzd,lng}/ 110ms # /ẽː/
+	unit "e~"
+end
+
 phoneme /{umd,fnt,rnd,vwl,lng}/ 110ms # /øː/
 	unit "2:"
 end
 
 phoneme /{umd,bck,rnd,vwl,lng}/ 110ms # /oː/
 	unit "o:"
+end
+
+phoneme /{umd,bck,rnd,vwl,nzd,lng}/ 110ms # /õː/
+	unit "o~"
 end
 
 phoneme /{mid,cnt,unr,vwl,lng}/ 120ms # /əː/
@@ -266,8 +274,16 @@ phoneme /{lmd,fnt,unr,vwl,lng}/ 110ms # /ɛː/
 	unit "E:"
 end
 
+phoneme /{lmd,fnt,unr,vwl,nzd,lng}/ 110ms # /ɛ̃ː/
+	unit "E~"
+end
+
 phoneme /{lmd,fnt,rnd,vwl,lng}/ 120ms # /œː/
 	unit "9"
+end
+
+phoneme /{lmd,fnt,rnd,vwl,nzd,lng}/ 110ms # /œ̃ː/
+	unit "9~"
 end
 
 phoneme /{lmd,bck,rnd,vwl,lng}/ 120ms # /ɔː/
@@ -280,6 +296,10 @@ end
 
 phoneme /{low,fnt,unr,vwl,lng}/ 110ms # /aː/
 	unit "a:"
+end
+
+phoneme /{low,fnt,unr,vwl,nzd,lng}/ 110ms # /ãː/
+	unit "a~"
 end
 
 # Diphthongs ##################################################################
