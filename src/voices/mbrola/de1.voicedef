@@ -204,6 +204,10 @@ phoneme /{low,fnt,unr,vwl}/ 60ms # /a/
 	unit "a"
 end
 
+phoneme /{low,bck,unr,vwl}/ 60ms # /ɑ/
+	unit "a:"
+end
+
 phoneme /{low,bck,rnd,vwl}/ 60ms # /ɒ/
 	unit "O"
 end
@@ -263,6 +267,10 @@ phoneme /{sml,cnt,unr,vwl,lng}/ 120ms # /ɐː/
 end
 
 phoneme /{low,fnt,unr,vwl,lng}/ 110ms # /aː/
+	unit "a:"
+end
+
+phoneme /{low,bck,unr,vwl,lng}/ 120ms # /ɑː/
 	unit "a:"
 end
 
