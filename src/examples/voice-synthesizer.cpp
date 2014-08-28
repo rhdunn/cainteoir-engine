@@ -40,6 +40,7 @@ enum class actions
 	show_metadata,
 	print_pho,
 	print_diphones,
+	print_units,
 	synthesize,
 };
 
@@ -150,12 +151,9 @@ create_reader(const char *filename,
 
 static void
 print(const std::shared_ptr<tts::prosody_reader> &pho,
-      const char *src_phonemeset,
-      const char *dst_phonemeset)
+      const std::shared_ptr<tts::prosody_writer> &out)
 {
-	auto out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset ? dst_phonemeset : src_phonemeset));
 	out->reset(stdout);
-
 	while (pho->read())
 		out->write(*pho);
 }
@@ -235,6 +233,8 @@ int main(int argc, char **argv)
 			  i18n("Output the PHO file contents to stdout") },
 			{ 0, "diphones", bind_value(action, actions::print_diphones),
 			  i18n("Output the PHO file contents to stdout as diphones") },
+			{ 0, "units", bind_value(action, actions::print_units),
+			  i18n("Output the PHO file contents to stdout as voice units") },
 		}};
 
 		const option_group speech_options = { i18n("Speech:"), {
@@ -298,6 +298,7 @@ int main(int argc, char **argv)
 			break;
 		case actions::print_pho:
 		case actions::print_diphones:
+		case actions::print_units:
 			if (voicename)
 			{
 				auto voiceref = tts::get_voice_uri(metadata, rdf::tts("name"), voicename);
@@ -310,10 +311,23 @@ int main(int argc, char **argv)
 					dur = voice->durations();
 
 				auto pho = create_reader(filename, src_phonemeset, input, dur, ruleset, dictionary, phoneme_map, accent, locale, scale);
-				if (action == actions::print_diphones)
+				std::shared_ptr<tts::prosody_writer> out;
+				switch (action)
+				{
+				case actions::print_pho:
+					out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset ? dst_phonemeset : src_phonemeset));
+					break;
+				case actions::print_diphones:
 					pho = tts::createDiphoneReader(pho);
+					out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset ? dst_phonemeset : src_phonemeset));
+					break;
+				case actions::print_units:
+					pho = voice->unit_reader(pho);
+					out = voice->unit_writer();
+					break;
+				}
 
-				print(pho, src_phonemeset, dst_phonemeset);
+				print(pho, out);
 			}
 			else
 			{
@@ -322,7 +336,8 @@ int main(int argc, char **argv)
 				if (action == actions::print_diphones)
 					pho = tts::createDiphoneReader(pho);
 
-				print(pho, src_phonemeset, dst_phonemeset);
+				auto out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset ? dst_phonemeset : src_phonemeset));
+				print(pho, out);
 			}
 			break;
 		case actions::synthesize:

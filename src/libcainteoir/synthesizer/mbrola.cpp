@@ -360,6 +360,11 @@ struct mbrola_voice : public tts::voice
 	std::shared_ptr<tts::synthesizer> synthesizer();
 
 	std::shared_ptr<tts::duration_model> durations() { return mDurations; }
+
+	std::shared_ptr<tts::prosody_reader>
+	unit_reader(const std::shared_ptr<tts::prosody_reader> &aProsody);
+
+	std::shared_ptr<tts::prosody_writer> unit_writer() { return mWriter; }
 private:
 	char mDatabase[256];
 	std::string mVolumeScale;
@@ -409,6 +414,12 @@ mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 std::shared_ptr<tts::synthesizer> mbrola_voice::synthesizer()
 {
 	return std::make_shared<mbrola_synthesizer>(mDatabase, mWriter, mVolumeScale.c_str(), mUnits, mPhonemes);
+}
+
+std::shared_ptr<tts::prosody_reader>
+mbrola_voice::unit_reader(const std::shared_ptr<tts::prosody_reader> &aProsody)
+{
+	return tts::create_unit_reader(aProsody, mUnits, mPhonemes);
 }
 
 std::shared_ptr<tts::voice>
