@@ -9,6 +9,7 @@
 b	/{vcd,blb,stp}/ # /b/
 B	/{vcd,blb,frc}/ # /β/
 d	/{vcd,alv,stp}/ # /d/
+**	/{vcd,alv,flp}/ # /ɾ/
 D	/{vcd,dnt,frc}/ # /ð/
 dZ	/{vcd,alv,stp,tie}{vcd,pla,sib,frc}/ # /d͡ʒ/
 f	/{vls,lbd,frc}/ # /f/
