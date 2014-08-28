@@ -31,6 +31,8 @@ struct ipa_reader : public tts::phoneme_parser
 {
 	ipa_reader(tts::phoneme_file_reader &aPhonemeSet);
 
+	void initialize();
+
 	bool parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme);
 private:
 	tts::transcription_reader mPhonemes;
@@ -38,6 +40,10 @@ private:
 
 ipa_reader::ipa_reader(tts::phoneme_file_reader &aPhonemeSet)
 	: mPhonemes(aPhonemeSet)
+{
+}
+
+void ipa_reader::initialize()
 {
 }
 

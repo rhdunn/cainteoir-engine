@@ -289,6 +289,8 @@ namespace cainteoir { namespace tts
 
 	struct phoneme_parser
 	{
+		virtual void initialize() = 0;
+
 		virtual bool parse(const char * &aCurrent, const char *aEnd, ipa::phoneme &aPhoneme) = 0;
 
 		virtual ~phoneme_parser() {}

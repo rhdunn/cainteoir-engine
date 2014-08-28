@@ -73,6 +73,8 @@ struct arpabet_reader : public tts::phoneme_parser
 {
 	arpabet_reader(tts::phoneme_file_reader &aPhonemeSet, tts::arpabet_variant aVariant);
 
+	void initialize();
+
 	bool parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme);
 private:
 	cainteoir::trie<std::pair<ipa::phoneme, ipa::phoneme>> mPhonemes;
@@ -119,6 +121,12 @@ arpabet_reader::arpabet_reader(tts::phoneme_file_reader &aPhonemeSet, tts::arpab
 	}
 
 	mPosition = mPhonemes.root();
+}
+
+void arpabet_reader::initialize()
+{
+	mPosition = mPhonemes.root();
+	mState = state::need_phoneme;
 }
 
 bool arpabet_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme)

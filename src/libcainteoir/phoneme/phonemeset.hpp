@@ -264,6 +264,7 @@ namespace cainteoir { namespace tts
 			}
 			else
 				mCurrent = mEnd = nullptr;
+			this->initialize();
 		}
 
 		bool read()

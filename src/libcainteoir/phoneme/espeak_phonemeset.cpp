@@ -31,6 +31,8 @@ struct espeak_reader : public tts::phoneme_parser
 {
 	espeak_reader(tts::phoneme_file_reader &aPhonemeSet, const char *aName);
 
+	void initialize();
+
 	bool parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme);
 private:
 	void switch_language(const std::string &aLanguage);
@@ -52,6 +54,7 @@ private:
 
 	std::map<std::string, cainteoir::trie<phoneme_t>> mPhonemes;
 	cainteoir::trie<phoneme_t> *mActivePhonemes;
+	std::string mDefaultLanguage;
 	std::string mActiveLanguage;
 
 	enum class state : uint8_t
@@ -79,7 +82,7 @@ espeak_reader::espeak_reader(tts::phoneme_file_reader &aPhonemeSet, const char *
 	if (!strcmp(aName, "espeak/"))
 		throw std::runtime_error("espeak phonemeset does not start with 'espeak/'");
 
-	mActiveLanguage = aName + 7;
+	mActiveLanguage = mDefaultLanguage = aName + 7;
 	mActiveLanguage = mActiveLanguage.substr(0, mActiveLanguage.find('-'));
 	mActivePhonemes = &mPhonemes[mActiveLanguage];
 	parse_phonemes(aPhonemeSet);
@@ -109,6 +112,17 @@ void espeak_reader::parse_phonemes(tts::phoneme_file_reader &aPhonemeSet)
 	}
 
 	mPosition = mActivePhonemes->root();
+}
+
+void espeak_reader::initialize()
+{
+	// The parser may be in a language context, so reset to the initial
+	// language ...
+	switch_language(mDefaultLanguage);
+
+	// Reset the parser state information ...
+	mPosition = mActivePhonemes->root();
+	mState = state::start_of_line;
 }
 
 bool espeak_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme)

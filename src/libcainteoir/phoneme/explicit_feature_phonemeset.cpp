@@ -331,8 +331,14 @@ void tts::write_explicit_feature(FILE *output, const ipa::phoneme &aPhoneme)
 
 struct explicit_feature_reader : public tts::phoneme_parser
 {
+	void initialize();
+
 	bool parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme);
 };
+
+void explicit_feature_reader::initialize()
+{
+}
 
 bool explicit_feature_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme)
 {
