@@ -139,6 +139,9 @@ create_reader(const char *filename,
 		if (accent)
 			phonemes = tts::createAccentConverter(accent, phonemes);
 
+		if (!durations)
+			throw std::runtime_error("A duration model was not specified.");
+
 		phonemes->reset(data);
 		return tts::createProsodyReader(phonemes, durations);
 	}
