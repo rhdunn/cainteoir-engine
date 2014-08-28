@@ -298,6 +298,24 @@ int main(int argc, char **argv)
 			break;
 		case actions::print_pho:
 		case actions::print_diphones:
+			if (voicename)
+			{
+				auto voiceref = tts::get_voice_uri(metadata, rdf::tts("name"), voicename);
+
+				auto voice = tts::create_voice(metadata, voiceref);
+				if (!voice) throw std::runtime_error("cannot find the specified voice");
+
+				auto dur = create_duration_model(fixed_duration, duration_model);
+				if (!dur)
+					dur = voice->durations();
+
+				auto pho = create_reader(filename, src_phonemeset, input, dur, ruleset, dictionary, phoneme_map, accent, locale, scale);
+				if (action == actions::print_diphones)
+					pho = tts::createDiphoneReader(pho);
+
+				print(pho, src_phonemeset, dst_phonemeset);
+			}
+			else
 			{
 				auto dur = create_duration_model(fixed_duration, duration_model);
 				auto pho = create_reader(filename, src_phonemeset, input, dur, ruleset, dictionary, phoneme_map, accent, locale, scale);
