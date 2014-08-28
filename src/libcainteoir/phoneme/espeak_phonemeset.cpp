@@ -190,6 +190,7 @@ bool espeak_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme
 		switch (*mCurrent)
 		{
 		case ':':
+		case '!':
 			++mCurrent;
 			mState = state::start_of_line;
 			break;
