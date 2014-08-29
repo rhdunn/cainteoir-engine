@@ -165,7 +165,10 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 		pre_duration_mean,
 		pre_duration_stdev,
 		in_phoneme_body,
-		in_unit,
+		in_unit_offset,
+		in_unit_name,
+		in_unit_start,
+		in_unit_end,
 	};
 
 	state_t state = in_phoneme;
@@ -181,7 +184,7 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 		{
 			entry.units.push_back({});
 			unit = &entry.units.back();
-			state = in_unit;
+			state = in_unit_offset;
 		}
 		else switch (state)
 		{
@@ -191,6 +194,18 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 			break;
 		case pre_duration_stdev:
 			entry.duration_mean = css::parse_smil_time(reader.match());
+			state = in_phoneme_body;
+			break;
+		case in_unit_offset:
+			unit->phoneme_start = strtol(reader.match().str().c_str(), nullptr, 10);
+			state = in_unit_name;
+			break;
+		case in_unit_start:
+			unit->unit_start = strtol(reader.match().str().c_str(), nullptr, 10);
+			state = in_unit_end;
+			break;
+		case in_unit_end:
+			unit->unit_end = strtol(reader.match().str().c_str(), nullptr, 10);
 			state = in_phoneme_body;
 			break;
 		}
@@ -214,9 +229,10 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 	case cainteoir_file_reader::string:
 		switch (state)
 		{
-		case in_unit:
+		case in_unit_offset:
+		case in_unit_name:
 			unit->name = reader.match();
-			state = in_phoneme_body;
+			state = in_unit_start;
 			break;
 		}
 		break;
