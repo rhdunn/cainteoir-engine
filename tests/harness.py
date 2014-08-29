@@ -242,6 +242,8 @@ def create_command(test_type):
 		return ProsodyCommand(input_format='pho', output_format='diphones')
 	if test_type == 'prosody':
 		return ProsodyCommand(output_format='pho')
+	if test_type == 'units':
+		return ProsodyCommand(input_format='phonemes', output_format='units')
 	raise Exception('Unsupported command "%s"' % test_type)
 
 class TestSuite:
