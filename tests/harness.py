@@ -218,6 +218,8 @@ class ProsodyCommand(Command):
 			params.extend(['--dictionary', os.path.join(sys.path[0], data['dictionary'])])
 		if 'phonemeset' in data:
 			params.extend(['--phonemeset', data['phonemeset']])
+		if 'voice' in data:
+			params.extend(['--voice', data['voice']])
 		if 'fixed-duration' in data:
 			params.extend(['--fixed-duration', data['fixed-duration']])
 		if 'duration-model' in data:
