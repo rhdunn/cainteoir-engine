@@ -408,3 +408,23 @@ end
 phoneme /{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 170ms # /aʊ̯/
 	unit "aU"
 end
+
+phoneme /{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /ɪə̯/
+	unit  0 "I"
+	unit 80 "R"
+end
+
+phoneme /{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /ʊə̯/
+	unit  0 "U"
+	unit 80 "R"
+end
+
+phoneme /{umd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /eə̯/
+	unit  0 "E"
+	unit 80 "R"
+end
+
+phoneme /{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /ɛə̯/
+	unit  0 "E"
+	unit 80 "R"
+end
