@@ -35,12 +35,14 @@ tts::write_diphone(const tts::prosody &aProsody,
 {
 	if (!aOutput) return false;
 
-	if (!aPhonemeSet->write(aProsody.first.phoneme1.get(ipa::main | ipa::diacritics | ipa::length)))
+	constexpr auto mask = ~(ipa::stress | ipa::tone_start | ipa::tone_middle | ipa::tone_end);
+
+	if (!aPhonemeSet->write(aProsody.first.phoneme1.get(mask)))
 		return false;
 
 	if (aProsody.first.phoneme2 != ipa::unspecified)
 	{
-		if (!aPhonemeSet->write(aProsody.first.phoneme2.get(ipa::main | ipa::diacritics | ipa::length)))
+		if (!aPhonemeSet->write(aProsody.first.phoneme2.get(mask)))
 			return false;
 	}
 
@@ -49,12 +51,12 @@ tts::write_diphone(const tts::prosody &aProsody,
 	if (aProsody.second.phoneme1 != ipa::unspecified)
 	{
 		fputc('-', aOutput);
-		if (!aPhonemeSet->write(aProsody.second.phoneme1.get(ipa::main | ipa::diacritics | ipa::length)))
+		if (!aPhonemeSet->write(aProsody.second.phoneme1.get(mask)))
 			return false;
 
 		if (aProsody.second.phoneme2 != ipa::unspecified)
 		{
-			if (!aPhonemeSet->write(aProsody.second.phoneme2.get(ipa::main | ipa::diacritics | ipa::length)))
+			if (!aPhonemeSet->write(aProsody.second.phoneme2.get(mask)))
 				return false;
 		}
 
