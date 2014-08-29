@@ -177,8 +177,9 @@ phoneme /{vls,alv,stp,tie}{vls,alv,sib,frc}/ 130ms # /t͡s/
 	unit "ts"
 end
 
-phoneme /{vls,alv,stp,tie}{vls,pla,sib,frc}/ 130ms # /t͡ʃ/
-	unit "tS"
+phoneme /{vls,alv,stp,tie}{vls,pla,sib,frc}/ 120ms # /t͡ʃ/
+	unit  0 "t"
+	unit 50 "S"
 end
 
 phoneme /{vcd,alv,stp,tie}{vcd,pla,sib,frc}/ 95ms # /d͡ʒ/
