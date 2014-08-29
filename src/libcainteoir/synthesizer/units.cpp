@@ -23,6 +23,7 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/synthesizer.hpp>
+#include "../phoneme/phonemeset.hpp"
 
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
@@ -64,7 +65,13 @@ bool unit_reader::read()
 		++index;
 	}
 
-	return false;
+	fprintf(stdout, "Phoneme /");
+	tts::write_explicit_feature(stdout, mProsody->first.phoneme1);
+	if (mProsody->first.phoneme2 != ipa::unspecified)
+		tts::write_explicit_feature(stdout, mProsody->first.phoneme2);
+	fprintf(stdout, "/ is not supported.\n");
+
+	return read();
 }
 
 std::shared_ptr<tts::prosody_reader>
