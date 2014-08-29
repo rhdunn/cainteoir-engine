@@ -39,6 +39,7 @@ struct unit_reader : public tts::prosody_reader
 		, mPhonemes(aPhonemes)
 		, mCurrentUnit(0)
 		, mLastUnit(0)
+		, mRemainingOffset(100)
 	{
 	}
 
@@ -52,6 +53,7 @@ private:
 
 	uint16_t mCurrentUnit;
 	uint16_t mLastUnit;
+	uint8_t  mRemainingOffset;
 };
 
 bool unit_reader::read()
@@ -64,6 +66,12 @@ bool unit_reader::read()
 
 	first.phoneme1 = ipa::unit | mCurrentUnit;
 	++mCurrentUnit;
+
+	uint8_t offset = (mCurrentUnit == mLastUnit) ? mRemainingOffset : mUnits[mCurrentUnit].phoneme_start;
+	mRemainingOffset -= offset;
+
+	first.duration = css::time((mProsody->first.duration.value() * offset) / 100.0,
+	                            mProsody->first.duration.units());
 
 	return true;
 }
@@ -78,12 +86,13 @@ bool unit_reader::next_phoneme()
 	uint16_t index = 0;
 	for (const auto &entry : mPhonemes)
 	{
-		if (mProsody->first.phoneme1.get(mask) == entry.phoneme1 && mProsody->first.phoneme2 == entry.phoneme2)
+		if (mProsody->first.phoneme1.get(mask) == entry.phoneme1 &&
+		    mProsody->first.phoneme2 == entry.phoneme2)
 		{
 			mCurrentUnit = entry.first_unit;
 			mLastUnit = entry.first_unit + entry.num_units;
-			first.duration = mProsody->first.duration;
 			envelope = mProsody->envelope;
+			mRemainingOffset = 100;
 			return true;
 		}
 		++index;
