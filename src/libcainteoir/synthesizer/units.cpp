@@ -52,10 +52,12 @@ bool unit_reader::read()
 	if (!mProsody->read())
 		return false;
 
+	constexpr auto mask = ~ipa::stress;
+
 	uint16_t index = 0;
 	for (const auto &entry : mPhonemes)
 	{
-		if (mProsody->first.phoneme1 == entry.phoneme1 && mProsody->first.phoneme2 == entry.phoneme2)
+		if (mProsody->first.phoneme1.get(mask) == entry.phoneme1 && mProsody->first.phoneme2 == entry.phoneme2)
 		{
 			first.phoneme1 = ipa::unit | entry.first_unit;
 			first.duration = mProsody->first.duration;
