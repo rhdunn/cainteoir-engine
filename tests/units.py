@@ -26,6 +26,7 @@ if __name__ == '__main__':
 		{'name': 'Phoneme Mapping', 'type': 'units', 'fixed-duration': '100ms', 'tests': [
 			{'test': 'units/simple.txt', 'result': 'units/simple.pho', 'voice': 'en1'},
 			{'test': 'units/affricates.txt', 'result': 'units/affricates.pho', 'voice': 'en1'},
+			{'test': 'units/diphthongs.txt', 'result': 'units/diphthongs.pho', 'voice': 'en1'},
 		]},
 	]})
 	test.summary()
