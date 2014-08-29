@@ -122,8 +122,18 @@ phoneme /{vcd,blb,nas}/ 70ms # /m/
 	unit "m"
 end
 
+phoneme /{vcd,blb,nas,syl}/ 70ms # /m̩/
+	unit  0 "@"
+	unit 20 "m"
+end
+
 phoneme /{vcd,alv,nas}/ 70ms # /n/
 	unit "n"
+end
+
+phoneme /{vcd,alv,nas,syl}/ 70ms # /n̩/
+	unit  0 "@"
+	unit 20 "n"
 end
 
 phoneme /{vcd,vel,nas}/ 120ms # /ŋ/
@@ -138,6 +148,11 @@ end
 
 phoneme /{vcd,alv,lat,apr}/ 55ms # /l/
 	unit "l"
+end
+
+phoneme /{vcd,alv,lat,apr,syl}/ 70ms # /l̩/
+	unit  0 "@"
+	unit 20 "l"
 end
 
 phoneme /{vcd,alv,lat,apr,vfz}/ 55ms # /ɫ/
