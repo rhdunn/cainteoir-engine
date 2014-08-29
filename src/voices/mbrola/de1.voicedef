@@ -342,7 +342,8 @@ phoneme /{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /eɪ̯/
 end
 
 phoneme /{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 150ms # /ɔɪ̯/
-	unit "OY"
+	unit  0 "2:"
+	unit 50 "I"
 end
 
 phoneme /{lmd,bck,rnd,vwl}{smh,fnt,rnd,vwl,nsy}/ 150ms # /ɔʏ̯/
