@@ -185,6 +185,11 @@ phoneme /{vls,blb,stp,tie}{vls,pla,sib,frc}/ 130ms # /t͡ʃ/
 	unit "tS"
 end
 
+phoneme /{vcd,alv,stp,tie}{vcd,pla,sib,frc}/ 95ms # /d͡ʒ/
+	unit  0 "t"
+	unit 40 "Z"
+end
+
 # Short Vowels ################################################################
 
 phoneme /{hgh,fnt,unr,vwl}/ 60ms # /i/
