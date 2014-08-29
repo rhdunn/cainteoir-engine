@@ -181,7 +181,8 @@ synthesize(const std::shared_ptr<tts::synthesizer> &voice,
 
 	out->open();
 	voice->bind(pho);
-	voice->synthesize(out.get());
+	while (voice->synthesize(out.get()))
+		;
 	out->close();
 }
 

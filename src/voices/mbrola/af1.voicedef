@@ -21,7 +21,8 @@ phoneme /{pau,est}/ 25ms # word pause
 end
 
 phoneme /{pau}/ 200ms # clause pause
-	unit "_"
+	unit   0 "_"
+	unit 100 "#"
 end
 
 # Plosives ####################################################################

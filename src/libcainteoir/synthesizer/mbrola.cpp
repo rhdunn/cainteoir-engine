@@ -25,6 +25,7 @@
 #include <stdexcept>
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 
@@ -312,7 +313,19 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 	if (!prosody || !out) return false;
 
 	while (prosody->read())
+	{
+		uint16_t index = prosody->first.phoneme1.get(ipa::unit_value);
+		auto &unit = mUnits[index];
+
+		if (unit.name[0] == '#')
+		{
+			if (state == have_data && !read(out))
+				return false;
+			continue;
+		}
+
 		write(*prosody);
+	}
 
 	return read(out);
 }
