@@ -194,22 +194,15 @@ class PhonemeSetCommand(Command):
 			params.extend(['--accent', data['accent']])
 		return Command.run(self, params, filename, data)
 
-class DiphoneCommand(Command):
-	def __init__(self):
-		Command.__init__(self, '../src/examples/voice-synthesizer --as-pho --diphone')
-
-	def run(self, args, filename, data):
-		params = [x for x in args]
-		if 'phonemeset' in data:
-			params.extend(['--phonemeset', data['phonemeset']])
-		return Command.run(self, params, filename, data)
-
 class ProsodyCommand(Command):
-	def __init__(self):
-		Command.__init__(self, '../src/examples/voice-synthesizer --pho')
+	def __init__(self, input_format=None, output_format='pho'):
+		Command.__init__(self, '../src/examples/voice-synthesizer --%s' % output_format)
+		self.input_format = input_format
 
 	def run(self, args, filename, data):
 		params = [x for x in args]
+		if self.input_format:
+			params.append('--as-%s' % self.input_format)
 		if 'locale' in data:
 			params.extend(['--locale', data['locale']])
 		if 'scale' in data:
@@ -237,8 +230,6 @@ def create_command(test_type):
 		return DictionaryCommand()
 	if test_type == 'phonemeset':
 		return PhonemeSetCommand()
-	if test_type == 'diphones':
-		return DiphoneCommand()
 	if test_type == 'events':
 		return EventsCommand()
 	if test_type in ['styles', 'xmlreader']:
@@ -247,8 +238,10 @@ def create_command(test_type):
 		return Command('xmlreader --html')
 	if test_type in ['parsetext', 'clauses', 'contextanalysis', 'wordstream', 'phonemestream']:
 		return ParseTextCommand(test_type)
+	if test_type == 'diphones':
+		return ProsodyCommand(input_format='pho', output_format='diphones')
 	if test_type == 'prosody':
-		return ProsodyCommand()
+		return ProsodyCommand(output_format='pho')
 	raise Exception('Unsupported command "%s"' % test_type)
 
 class TestSuite:
