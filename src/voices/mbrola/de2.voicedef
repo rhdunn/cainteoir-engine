@@ -295,7 +295,8 @@ phoneme /{umd,bck,rnd,vwl,lng}/ 110ms # /oː/
 end
 
 phoneme /{mid,cnt,unr,vwl,lng}/ 120ms # /əː/
-	unit "@"
+	unit  0 "E"
+	unit 80 "R"
 end
 
 phoneme /{lmd,fnt,unr,vwl,lng}/ 110ms # /ɛː/
@@ -304,6 +305,11 @@ end
 
 phoneme /{lmd,fnt,rnd,vwl,lng}/ 120ms # /œː/
 	unit "9"
+end
+
+phoneme /{lmd,cnt,unr,vwl,lng}/ 120ms # /ɜː/
+	unit  0 "E"
+	unit 80 "R"
 end
 
 phoneme /{lmd,bck,unr,vwl,lng}/ 120ms # /ʌː/
