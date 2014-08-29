@@ -364,6 +364,11 @@ end
 
 # Diphthongs ##################################################################
 
+phoneme /{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /eɪ̯/
+	unit  0 "E"
+	unit 80 "j"
+end
+
 phoneme /{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 150ms # /ɔɪ̯/
 	unit "OY"
 end
