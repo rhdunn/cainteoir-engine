@@ -269,11 +269,24 @@ namespace cainteoir { namespace ipa
 		bool operator==(const phoneme &rhs) const { return mValue == rhs.mValue; }
 		bool operator!=(const phoneme &rhs) const { return mValue != rhs.mValue; }
 
+		bool operator==(const value_type &rhs) const { return mValue == rhs; }
+		bool operator!=(const value_type &rhs) const { return mValue != rhs; }
+
 		bool operator<(const phoneme &rhs) const { return mValue < rhs.mValue; }
 		bool operator>(const phoneme &rhs) const { return mValue > rhs.mValue; }
 	private:
 		value_type mValue;
 	};
+
+	inline bool operator==(const phoneme::value_type &lhs, const phoneme &rhs)
+	{
+		return rhs == lhs;
+	}
+
+	inline bool operator!=(const phoneme::value_type &lhs, const phoneme &rhs)
+	{
+		return rhs != lhs;
+	}
 
 	typedef std::list<phoneme> phonemes;
 }}

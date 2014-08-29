@@ -66,6 +66,34 @@ TEST_CASE("ipa::phoneme -- construction")
 	assert(ipa::phoneme(b) != ipa::phoneme(val1));
 }
 
+TEST_CASE("ipa::phoneme -- comparison")
+{
+	const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000);
+	const ipa::phoneme::value_type val1 = FEATURE_C(0x1234567812345678);
+	const ipa::phoneme::value_type val2 = FEATURE_C(0x8765432187654321);
+
+	ipa::phoneme a(val1);
+	ipa::phoneme b(val2);
+
+	assert(a == ipa::phoneme(val1));
+	assert_false(b == ipa::phoneme(val1));
+
+	assert_false(a != ipa::phoneme(val1));
+	assert(b != ipa::phoneme(val1));
+
+	assert(a == val1);
+	assert_false(b == val1);
+
+	assert_false(a != val1);
+	assert(b != val1);
+
+	assert(val1 == a);
+	assert_false(val1 == b);
+
+	assert_false(val1 != a);
+	assert(val1 != b);
+}
+
 TEST_CASE("ipa::phoneme -- assignment")
 {
 	const ipa::phoneme::value_type zero = FEATURE_C(0x0000000000000000);
