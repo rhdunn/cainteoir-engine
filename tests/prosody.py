@@ -22,16 +22,20 @@ import sys
 
 if __name__ == '__main__':
 	test = harness.TestSuite('prosody', sys.argv)
-	test.run({'name': 'Prosody', 'phonemeset': 'cxs', 'dictionary': 'dict/cainteoir/words.dict', 'groups': [
-		{'name': 'Phoneme Grouping', 'type': 'prosody', 'fixed-duration': '80ms', 'tests': [
+	test.run({'name': 'Phonemes', 'phonemeset': 'cxs', 'dictionary': 'dict/cainteoir/words.dict', 'groups': [
+		{'name': 'Grouping', 'type': 'prosody', 'fixed-duration': '80ms', 'tests': [
 			{'test': 'prosody/grouping/simple-phonemes.txt', 'result': 'prosody/grouping/simple-phonemes.pho'},
 			{'test': 'prosody/grouping/multiple-words.txt', 'result': 'prosody/grouping/multiple-words.pho'},
 			{'test': 'prosody/grouping/affricates.txt', 'result': 'prosody/grouping/affricates.pho'},
-			{'test': 'prosody/grouping/lexical-sets.txt', 'result': 'prosody/grouping/lexical-sets.pho', 'accent': 'en-GB-x-rp'},
 		]},
-		{'name': 'Duration Model', 'type': 'prosody', 'tests': [
-			{'test': 'prosody/grouping/lexical-sets.txt', 'result': 'prosody/grouping/lexical-sets-duration-model.pho', 'duration-model': '../data/durations/en/default.dur', 'accent': 'en-GB-x-rp'},
-			{'test': 'prosody/grouping/unsupported-phonemes.txt', 'result': 'prosody/grouping/unsupported-phonemes.pho', 'duration-model': '../data/durations/en/default.dur'},
+	]})
+	test.run({'name': 'Duration', 'phonemeset': 'cxs', 'dictionary': 'dict/cainteoir/words.dict', 'groups': [
+		{'name': 'Fixed', 'type': 'prosody', 'fixed-duration': '80ms', 'tests': [
+			{'test': 'prosody/lexical-sets.txt', 'result': 'prosody/lexical-sets.pho', 'accent': 'en-GB-x-rp'},
+		]},
+		{'name': 'Tabular', 'type': 'prosody', 'duration-model': '../data/durations/en/default.dur', 'tests': [
+			{'test': 'prosody/lexical-sets.txt', 'result': 'prosody/lexical-sets-duration-model.pho', 'accent': 'en-GB-x-rp'},
+			{'test': 'prosody/unsupported-phonemes.txt', 'result': 'prosody/unsupported-phonemes.pho'},
 		]},
 	]})
 	test.summary()
