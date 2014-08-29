@@ -605,6 +605,8 @@ DIPHONE_TEST_FILES = $(shell find tests/diphone/*)
 
 PROSODY_TEST_FILES = $(shell find tests/prosody/*)
 
+PROSODY_TEST_FILES = $(shell find tests/units/*)
+
 DOCUMENT_TEST_FILES = \
 	$(shell find tests/epub2/*) \
 	$(shell find tests/epub3/*) \
@@ -781,6 +783,8 @@ tests/diphones.check: src/examples/voice-synthesizer ${DIPHONE_TEST_FILES}
 
 tests/prosody.check: src/examples/voice-synthesizer ${PROSODY_TEST_FILES}
 
+tests/units.check: src/examples/voice-synthesizer ${UNITS_TEST_FILES}
+
 check: \
 	tests/range.check \
 	tests/buffer.check \
@@ -811,4 +815,5 @@ check: \
 	tests/pho_file.check \
 	tests/diphones.check \
 	tests/duration.check \
-	tests/prosody.check
+	tests/prosody.check \
+	tests/units.check
