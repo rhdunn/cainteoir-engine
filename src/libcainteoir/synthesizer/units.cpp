@@ -37,17 +37,38 @@ struct unit_reader : public tts::prosody_reader
 		: mProsody(aProsody)
 		, mUnits(aUnits)
 		, mPhonemes(aPhonemes)
+		, mCurrentUnit(0)
+		, mLastUnit(0)
 	{
 	}
 
 	bool read();
 private:
+	bool next_phoneme();
+
 	std::shared_ptr<tts::prosody_reader> mProsody;
 	const std::vector<tts::unit_t> &mUnits;
 	cainteoir::range<const tts::phoneme_units *> mPhonemes;
+
+	uint16_t mCurrentUnit;
+	uint16_t mLastUnit;
 };
 
 bool unit_reader::read()
+{
+	if (mCurrentUnit == mLastUnit)
+	{
+		if (!next_phoneme())
+			return false;
+	}
+
+	first.phoneme1 = ipa::unit | mCurrentUnit;
+	++mCurrentUnit;
+
+	return true;
+}
+
+bool unit_reader::next_phoneme()
 {
 	if (!mProsody->read())
 		return false;
@@ -59,7 +80,8 @@ bool unit_reader::read()
 	{
 		if (mProsody->first.phoneme1.get(mask) == entry.phoneme1 && mProsody->first.phoneme2 == entry.phoneme2)
 		{
-			first.phoneme1 = ipa::unit | entry.first_unit;
+			mCurrentUnit = entry.first_unit;
+			mLastUnit = entry.first_unit + entry.num_units;
 			first.duration = mProsody->first.duration;
 			envelope = mProsody->envelope;
 			return true;
@@ -76,7 +98,7 @@ bool unit_reader::read()
 		fprintf(stdout, "/ is not supported.\n");
 	}
 
-	return read();
+	return next_phoneme();
 }
 
 std::shared_ptr<tts::prosody_reader>

@@ -33,5 +33,8 @@ if __name__ == '__main__':
 			{'test': 'units/stress.txt', 'result': 'units/stress.pho', 'voice': 'en1'},
 			{'test': 'units/unsupported.txt', 'result': 'units/unsupported.pho', 'voice': 'en1'},
 		]},
+		{'name': 'Unit Mapping', 'type': 'units', 'fixed-duration': '100ms', 'tests': [
+			{'test': 'units/two-units.txt', 'result': 'units/two-units.pho', 'voice': 'en1'},
+		]},
 	]})
 	test.summary()
