@@ -29,6 +29,7 @@ if __name__ == '__main__':
 			{'test': 'units/diphthongs.txt', 'result': 'units/diphthongs.pho', 'voice': 'en1'},
 			{'test': 'units/triphthongs.txt', 'result': 'units/triphthongs.pho', 'voice': 'en1'},
 			{'test': 'units/long.txt', 'result': 'units/long.pho', 'voice': 'de1'},
+			{'test': 'units/syllable-break.txt', 'result': 'units/syllable-break.pho', 'voice': 'en1'},
 			{'test': 'units/unsupported.txt', 'result': 'units/unsupported.pho', 'voice': 'en1'},
 		]},
 	]})

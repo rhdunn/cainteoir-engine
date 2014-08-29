@@ -65,11 +65,14 @@ bool unit_reader::read()
 		++index;
 	}
 
-	fprintf(stdout, "Phoneme /");
-	tts::write_explicit_feature(stdout, mProsody->first.phoneme1);
-	if (mProsody->first.phoneme2 != ipa::unspecified)
-		tts::write_explicit_feature(stdout, mProsody->first.phoneme2);
-	fprintf(stdout, "/ is not supported.\n");
+	if (!(mProsody->first.phoneme1 == ipa::syllable_break && mProsody->first.phoneme2 == ipa::unspecified))
+	{
+		fprintf(stdout, "Phoneme /");
+		tts::write_explicit_feature(stdout, mProsody->first.phoneme1);
+		if (mProsody->first.phoneme2 != ipa::unspecified)
+			tts::write_explicit_feature(stdout, mProsody->first.phoneme2);
+		fprintf(stdout, "/ is not supported.\n");
+	}
 
 	return read();
 }
