@@ -353,6 +353,11 @@ phoneme /{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /aɪ̯/
 	unit "aI"
 end
 
+phoneme /{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 135ms # /əʊ̯/
+	unit  0 "@"
+	unit 50 "U"
+end
+
 phoneme /{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 170ms # /aʊ̯/
 	unit "aU"
 end
