@@ -405,6 +405,6 @@ phoneme /{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 135ms # /əʊ̯/
 	unit 50 "U"
 end
 
-phoneme /{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 135ms # /əʊ̯/
-	unit "@U"
+phoneme /{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 150ms # /aʊ̯/
+	unit "aU"
 end
