@@ -46,7 +46,7 @@ struct unit_reader : public tts::prosody_reader
 
 	bool read();
 private:
-	bool next_phoneme();
+	bool find_unit();
 
 	std::shared_ptr<tts::prosody_reader> mProsody;
 	const std::vector<tts::unit_t> &mUnits;
@@ -70,9 +70,11 @@ bool unit_reader::read()
 	while (true) switch (mState)
 	{
 	case need_phoneme:
-		if (!next_phoneme())
+		if (!mProsody->read())
 			return false;
-		mState = have_phoneme;
+
+		if (find_unit())
+			mState = have_phoneme;
 		break;
 	case have_phoneme:
 		first.phoneme1 = ipa::unit | (mCurrentUnit << 8);
@@ -90,11 +92,8 @@ bool unit_reader::read()
 	}
 }
 
-bool unit_reader::next_phoneme()
+bool unit_reader::find_unit()
 {
-	if (!mProsody->read())
-		return false;
-
 	constexpr auto mask = ~ipa::stress;
 
 	for (const auto &entry : mPhonemes)
@@ -119,7 +118,7 @@ bool unit_reader::next_phoneme()
 		fprintf(stdout, "/ is not supported.\n");
 	}
 
-	return next_phoneme();
+	return false;
 }
 
 std::shared_ptr<tts::prosody_reader>
