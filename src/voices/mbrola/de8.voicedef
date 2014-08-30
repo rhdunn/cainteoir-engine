@@ -16,15 +16,6 @@
 .channels	1
 .sample-format	s16le
 
-phoneme /{pau,est}/ 25ms # word pause
-	unit "_"
-end
-
-phoneme /{pau}/ 200ms # clause pause
-	unit   0 "_"
-	unit 100 "#"
-end
-
 # Plosives ####################################################################
 
 phoneme /{vcd,blb,stp}/ 80ms # /b/

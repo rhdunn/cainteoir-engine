@@ -314,17 +314,12 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 
 	while (prosody->read())
 	{
-		uint16_t index = prosody->first.phoneme1.get(ipa::unit_value);
-		auto &unit = mUnits[index];
-
-		if (unit.name[0] == '#')
+		write(*prosody);
+		if (prosody->first.phoneme1 == ipa::separator && prosody->first.phoneme2 == ipa::unspecified)
 		{
 			if (state == have_data && !read(out))
 				return false;
-			continue;
 		}
-
-		write(*prosody);
 	}
 
 	return read(out);
