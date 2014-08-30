@@ -120,9 +120,21 @@ const tts::duration &duration_model_t::lookup(const tts::phone &p) const
 	const auto mask = ipa::main | ipa::diacritics | ipa::length; // no tone or stress
 
 	static const tts::duration null_duration;
+	static const tts::duration utterance_pause = { {  25, css::time::milliseconds }, {  5, css::time::milliseconds } };
+	static const tts::duration clause_pause    = { { 200, css::time::milliseconds }, { 50, css::time::milliseconds } };
+
 	auto match = mDurations.find({ p.phoneme1.get(mask), p.phoneme2.get(mask), {}});
 	if (match != mDurations.end())
 		return match->second;
+
+	if (p.phoneme2 == ipa::unspecified) switch (p.phoneme2.get(ipa::phoneme_type | ipa::length))
+	{
+	case ipa::separator | ipa::extra_short:
+		return utterance_pause;
+	case ipa::separator:
+		return clause_pause;
+	}
+
 	return null_duration;
 }
 
