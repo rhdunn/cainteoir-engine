@@ -45,7 +45,7 @@ diphone_reader::diphone_reader(const std::shared_ptr<tts::prosody_reader> &aPros
 	, mLastDiphone(false)
 {
 	first  = {};
-	second = { ipa::pause | ipa::extra_short, ipa::unspecified, { 0, css::time::milliseconds } };
+	second = { ipa::separator | ipa::extra_short, ipa::unspecified, { 0, css::time::milliseconds } };
 }
 
 bool diphone_reader::read()
@@ -111,7 +111,7 @@ bool diphone_reader::read()
 	else
 	{
 		mLastDiphone = true;
-		second = { ipa::pause | ipa::extra_short, ipa::unspecified, { 0, css::time::milliseconds } };
+		second = { ipa::separator | ipa::extra_short, ipa::unspecified, { 0, css::time::milliseconds } };
 	}
 
 	return true;

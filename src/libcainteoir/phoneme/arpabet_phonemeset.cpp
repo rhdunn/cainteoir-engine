@@ -142,7 +142,7 @@ bool arpabet_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phonem
 			++mCurrent;
 			break;
 		case type::newline:
-			aPhoneme = ipa::phoneme(ipa::pause);
+			aPhoneme = ipa::phoneme(ipa::separator);
 			++mCurrent;
 			return true;
 		case type::stress:
@@ -240,7 +240,7 @@ private:
 	{
 		need_phoneme,
 		have_phoneme,
-		have_pause,
+		have_separator,
 		output_phoneme,
 	};
 
@@ -298,8 +298,8 @@ bool arpabet_writer::write(const ipa::phoneme &aPhoneme)
 	while (true) switch (mState)
 	{
 	case state::need_phoneme:
-		if (aPhoneme == ipa::phoneme(ipa::pause))
-			mState = state::have_pause;
+		if (aPhoneme == ipa::phoneme(ipa::separator))
+			mState = state::have_separator;
 		else
 		{
 			if (aPhoneme.get(ipa::phoneme_type) == ipa::vowel)
@@ -324,7 +324,7 @@ bool arpabet_writer::write(const ipa::phoneme &aPhoneme)
 			}
 		}
 		break;
-	case state::have_pause:
+	case state::have_separator:
 		fputc('\n', mOutput);
 		mNeedSpace = false;
 		mState = state::need_phoneme;

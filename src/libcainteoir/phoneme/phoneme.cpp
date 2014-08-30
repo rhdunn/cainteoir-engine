@@ -94,7 +94,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "nzr", ipa::nasal_release, ipa::release }, // extension
 	{ "orl", 0, 0 }, // ignored -- Kirshenbaum uses {stp}/{nas} instead of {orl,stp}/{nas,stp}.
 	{ "pal", ipa::palatal, ipa::place_of_articulation },
-	{ "pau", ipa::pause, ipa::phoneme_type }, // extension
+	{ "pau", ipa::separator, ipa::phoneme_type }, // extension
 	{ "phr", ipa::pharyngeal, ipa::place_of_articulation },
 	{ "pla", ipa::palato_alveolar, ipa::place_of_articulation },
 	{ "pzd", ipa::palatalized, ipa::coarticulation },

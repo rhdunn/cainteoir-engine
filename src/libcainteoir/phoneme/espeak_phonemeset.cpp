@@ -156,11 +156,11 @@ bool espeak_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme
 		switch (*mCurrent)
 		{
 		case ' ':
-			aPhoneme = ipa::phoneme(ipa::pause | ipa::extra_short);
+			aPhoneme = ipa::phoneme(ipa::separator | ipa::extra_short);
 			++mCurrent;
 			return true;
 		case '\n':
-			aPhoneme = ipa::phoneme(ipa::pause);
+			aPhoneme = ipa::phoneme(ipa::separator);
 			++mCurrent;
 			mState = state::start_of_line;
 			return true;
@@ -360,9 +360,9 @@ bool espeak_writer::write(const ipa::phoneme &aPhoneme)
 	while (true) switch (mState)
 	{
 	case state::need_phoneme:
-		if (aPhoneme == ipa::phoneme(ipa::pause))
+		if (aPhoneme == ipa::phoneme(ipa::separator))
 			fputc('\n', mOutput);
-		else if (aPhoneme == ipa::phoneme(ipa::pause | ipa::extra_short))
+		else if (aPhoneme == ipa::phoneme(ipa::separator | ipa::extra_short))
 			fputc(' ', mOutput);
 		else if (aPhoneme == ipa::phoneme(ipa::syllable_break))
 			fputc('|', mOutput);

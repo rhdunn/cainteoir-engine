@@ -88,7 +88,7 @@ namespace cainteoir { namespace ipa
 
 	constexpr feature_t consonant        = FEATURE_C(0x0000000000000000);
 	constexpr feature_t vowel            = FEATURE_C(0x0000000000000001);
-	constexpr feature_t pause            = FEATURE_C(0x0000000000000002);
+	constexpr feature_t separator        = FEATURE_C(0x0000000000000002);
 	constexpr feature_t syllable_break   = FEATURE_C(0x0000000000000003);
 	constexpr feature_t linking          = FEATURE_C(0x0000000000000004);
 	constexpr feature_t foot_break       = FEATURE_C(0x0000000000000005);

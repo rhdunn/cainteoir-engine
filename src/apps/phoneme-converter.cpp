@@ -118,7 +118,7 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 			continue;
 		}
 
-		if (aFrom->get(ipa::phoneme_type) == ipa::pause && aNoPauses)
+		if (aFrom->get(ipa::phoneme_type) == ipa::separator && aNoPauses)
 			aTo->flush();
 		else
 		{
@@ -127,7 +127,7 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 				print_open_marker(aMode);
 				need_open_marker = false;
 			}
-			if (aFrom->get(ipa::phoneme_type | ipa::length) == (ipa::pause))
+			if (aFrom->get(ipa::phoneme_type | ipa::length) == ipa::separator)
 			{
 				aTo->flush();
 				print_close_marker(aMode);
