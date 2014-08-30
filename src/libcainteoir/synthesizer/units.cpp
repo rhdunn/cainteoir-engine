@@ -60,6 +60,7 @@ private:
 	{
 		need_phoneme,
 		have_phoneme,
+		have_unit,
 	};
 
 	state_t mState;
@@ -75,12 +76,15 @@ bool unit_reader::read()
 
 		if (find_unit())
 		{
-			mState = have_phoneme;
+			mState = have_unit;
 			continue;
 		}
 		else if (mProsody->first.phoneme2 == ipa::unspecified) switch (mProsody->first.phoneme1.get(ipa::phoneme_type))
 		{
 		case ipa::syllable_break:
+			continue;
+		case ipa::separator:
+			mState = have_phoneme;
 			continue;
 		}
 
@@ -91,6 +95,13 @@ bool unit_reader::read()
 		fprintf(stdout, "/ is not supported.\n");
 		break;
 	case have_phoneme:
+		first.phoneme1 = mProsody->first.phoneme1;
+		first.phoneme2 = mProsody->first.phoneme2;
+		first.duration = mProsody->first.duration;
+
+		mState = need_phoneme;
+		return true;
+	case have_unit:
 		first.phoneme1 = ipa::unit | (mCurrentUnit << 8);
 		++mCurrentUnit;
 
