@@ -56,7 +56,7 @@ bool unit_writer::write(const ipa::phoneme &aPhoneme)
 	if (aPhoneme.get(ipa::unit) == 0)
 		return false;
 
-	uint16_t index = aPhoneme.get(ipa::unit_value);
+	uint16_t index = aPhoneme.get(ipa::unit_value) >> 8;
 	if (index >= mUnits.size())
 		return false;
 

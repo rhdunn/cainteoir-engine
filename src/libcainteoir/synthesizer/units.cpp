@@ -64,7 +64,7 @@ bool unit_reader::read()
 			return false;
 	}
 
-	first.phoneme1 = ipa::unit | mCurrentUnit;
+	first.phoneme1 = ipa::unit | (mCurrentUnit << 8);
 	++mCurrentUnit;
 
 	uint8_t offset = (mCurrentUnit == mLastUnit) ? mRemainingOffset : mUnits[mCurrentUnit].phoneme_start;

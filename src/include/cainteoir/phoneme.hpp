@@ -39,14 +39,14 @@ namespace cainteoir { namespace ipa
 
 	constexpr feature_t main                   = FEATURE_C(0x00000000001FFFFF);
 	constexpr feature_t diacritics             = FEATURE_C(0x00000FFFFFE00000);
-	constexpr feature_t reserved               = FEATURE_C(0x000CF00000000000);
-	constexpr feature_t units                  = FEATURE_C(0x000200000000FFFF);
+	constexpr feature_t reserved               = FEATURE_C(0x000EF00000000000);
 	constexpr feature_t suprasegmentals        = FEATURE_C(0xFFF1000000000000);
 
 	// features
 
 	// main ------------------------------------------------ 00000000001FFFFF
 	constexpr feature_t phoneme_type           = FEATURE_C(0x000000000000000F);
+	constexpr feature_t unit_value             = FEATURE_C(0x00000000000FFFF0);
 	// ... consonants -------------------------------------- 0000000000003FF0
 	constexpr feature_t place_of_articulation  = FEATURE_C(0x00000000000000F0);
 	constexpr feature_t manner_of_articulation = FEATURE_C(0x0000000000000700);
@@ -73,10 +73,7 @@ namespace cainteoir { namespace ipa
 	constexpr feature_t joined_to_next_phoneme = FEATURE_C(0x0000010000000000);
 	constexpr feature_t syllabicity            = FEATURE_C(0x0000060000000000);
 	constexpr feature_t rhotic                 = FEATURE_C(0x0000080000000000);
-	// reserved (unassigned) ------------------------------- 000CF00000000000
-	// units ----------------------------------------------- 000200000000FFFF
-	constexpr feature_t unit                   = FEATURE_C(0x0002000000000000);
-	constexpr feature_t unit_value             = FEATURE_C(0x000000000000FFFF);
+	// reserved (unassigned) ------------------------------- 000EF00000000000
 	// suprasegmentals ------------------------------------- FFF1000000000000
 	constexpr feature_t tone_start             = FEATURE_C(0x0031000000000000);
 	constexpr feature_t tone_middle            = FEATURE_C(0x01C0000000000000);
@@ -97,6 +94,7 @@ namespace cainteoir { namespace ipa
 	constexpr feature_t global_fall      = FEATURE_C(0x0000000000000008);
 	constexpr feature_t upstep           = FEATURE_C(0x0000000000000009);
 	constexpr feature_t downstep         = FEATURE_C(0x000000000000000A);
+	constexpr feature_t unit             = FEATURE_C(0x000000000000000E);
 	constexpr feature_t unspecified      = FEATURE_C(0x000000000000000F);
 
 	// place of articulation
