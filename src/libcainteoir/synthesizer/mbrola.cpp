@@ -400,7 +400,7 @@ mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 	const auto voice = rql::select(aMetadata, rql::subject == aVoice);
 	mVolumeScale = rql::select_value<std::string>(voice, rql::predicate == rdf::tts("volumeScale"));
 
-	auto phonemes = tts::create_unit_writer(mUnits);
+	auto phonemes = tts::create_unit_writer(mUnits, "_");
 	mWriter = tts::createPhoWriter(phonemes);
 
 	cainteoir::native_endian_buffer data(aData);

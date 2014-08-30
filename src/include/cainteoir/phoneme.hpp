@@ -373,7 +373,7 @@ namespace cainteoir { namespace tts
 	};
 
 	std::shared_ptr<phoneme_writer>
-	create_unit_writer(const std::vector<unit_t> &aUnits);
+	create_unit_writer(const std::vector<unit_t> &aUnits, const char *aPhoneme);
 }}
 
 #endif

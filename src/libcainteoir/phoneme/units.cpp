@@ -29,8 +29,9 @@ namespace ipa = cainteoir::ipa;
 
 struct unit_writer : public tts::phoneme_writer
 {
-	unit_writer(const std::vector<tts::unit_t> &aUnits)
+	unit_writer(const std::vector<tts::unit_t> &aUnits, const char *aPause)
 		: mUnits(aUnits)
+		, mPause(aPause)
 	{
 	}
 
@@ -44,6 +45,7 @@ struct unit_writer : public tts::phoneme_writer
 private:
 	FILE *mOutput;
 	const std::vector<tts::unit_t> &mUnits;
+	const char *mPause;
 };
 
 void unit_writer::reset(FILE *aOutput)
@@ -53,8 +55,16 @@ void unit_writer::reset(FILE *aOutput)
 
 bool unit_writer::write(const ipa::phoneme &aPhoneme)
 {
-	if (aPhoneme.get(ipa::phoneme_type) != ipa::unit)
+	switch (aPhoneme.get(ipa::phoneme_type))
+	{
+	case ipa::unit:
+		break;
+	case ipa::separator:
+		fputs(mPause, mOutput);
+		return true;
+	default:
 		return false;
+	}
 
 	uint16_t index = aPhoneme.get(ipa::unit_value) >> 8;
 	if (index >= mUnits.size())
@@ -69,7 +79,7 @@ void unit_writer::flush()
 }
 
 std::shared_ptr<tts::phoneme_writer>
-tts::create_unit_writer(const std::vector<tts::unit_t> &aUnits)
+tts::create_unit_writer(const std::vector<tts::unit_t> &aUnits, const char *aPause)
 {
-	return std::make_shared<unit_writer>(aUnits);
+	return std::make_shared<unit_writer>(aUnits, aPause);
 }
