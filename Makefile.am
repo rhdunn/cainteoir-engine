@@ -34,6 +34,7 @@ install-data-hook: \
 	install-data-hook-mimetypes \
 	install-data-hook-locale \
 	install-data-hook-accents \
+	install-data-hook-voices \
 	install-data-hook-phonemeset
 
 uninstall-hook: \
@@ -42,6 +43,7 @@ uninstall-hook: \
 uninstall-local: \
 	uninstall-local-locale \
 	uninstall-local-accents \
+	uninstall-local-voices \
 	uninstall-local-phonemeset
 
 all-local: voices
@@ -161,6 +163,16 @@ uninstall-local-accents:
 	cd $(DESTDIR)$(pkgdatadir); \
 	cat accents.installed | sed -e 's/ /\\ /g' | xargs rm -f; \
 	rm -f acccents.installed
+
+install-data-hook-voices:
+	cd data && (find -L voices -type f | grep -vF "/." | \
+		tar -cO -T - --no-recursion | \
+		tar -C $(DESTDIR)$(pkgdatadir) -xvf - > $(DESTDIR)$(pkgdatadir)/voices.installed)
+
+uninstall-local-voices:
+	cd $(DESTDIR)$(pkgdatadir); \
+	cat voices.installed | sed -e 's/ /\\ /g' | xargs rm -f; \
+	rm -f voices.installed
 
 vim_registrydir = $(vimdir)/registry
 vim_registry_DATA = data/vim/registry/*.yaml
