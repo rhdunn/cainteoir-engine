@@ -74,7 +74,21 @@ bool unit_reader::read()
 			return false;
 
 		if (find_unit())
+		{
 			mState = have_phoneme;
+			continue;
+		}
+		else if (mProsody->first.phoneme2 == ipa::unspecified) switch (mProsody->first.phoneme1.get(ipa::phoneme_type))
+		{
+		case ipa::syllable_break:
+			continue;
+		}
+
+		fprintf(stdout, "Phoneme /");
+		tts::write_explicit_feature(stdout, mProsody->first.phoneme1);
+		if (mProsody->first.phoneme2 != ipa::unspecified)
+			tts::write_explicit_feature(stdout, mProsody->first.phoneme2);
+		fprintf(stdout, "/ is not supported.\n");
 		break;
 	case have_phoneme:
 		first.phoneme1 = ipa::unit | (mCurrentUnit << 8);
@@ -107,15 +121,6 @@ bool unit_reader::find_unit()
 			mRemainingOffset = 100;
 			return true;
 		}
-	}
-
-	if (!(mProsody->first.phoneme1 == ipa::syllable_break && mProsody->first.phoneme2 == ipa::unspecified))
-	{
-		fprintf(stdout, "Phoneme /");
-		tts::write_explicit_feature(stdout, mProsody->first.phoneme1);
-		if (mProsody->first.phoneme2 != ipa::unspecified)
-			tts::write_explicit_feature(stdout, mProsody->first.phoneme2);
-		fprintf(stdout, "/ is not supported.\n");
 	}
 
 	return false;
