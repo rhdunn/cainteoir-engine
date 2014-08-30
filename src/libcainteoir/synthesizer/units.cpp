@@ -83,7 +83,6 @@ bool unit_reader::next_phoneme()
 
 	constexpr auto mask = ~ipa::stress;
 
-	uint16_t index = 0;
 	for (const auto &entry : mPhonemes)
 	{
 		if (mProsody->first.phoneme1.get(mask) == entry.phoneme1 &&
@@ -95,7 +94,6 @@ bool unit_reader::next_phoneme()
 			mRemainingOffset = 100;
 			return true;
 		}
-		++index;
 	}
 
 	if (!(mProsody->first.phoneme1 == ipa::syllable_break && mProsody->first.phoneme2 == ipa::unspecified))
