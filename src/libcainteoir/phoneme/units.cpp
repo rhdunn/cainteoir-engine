@@ -53,7 +53,7 @@ void unit_writer::reset(FILE *aOutput)
 
 bool unit_writer::write(const ipa::phoneme &aPhoneme)
 {
-	if (aPhoneme.get(ipa::unit) == 0)
+	if (aPhoneme.get(ipa::phoneme_type) != ipa::unit)
 		return false;
 
 	uint16_t index = aPhoneme.get(ipa::unit_value) >> 8;
