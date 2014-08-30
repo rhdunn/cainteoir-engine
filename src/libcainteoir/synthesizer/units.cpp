@@ -40,6 +40,7 @@ struct unit_reader : public tts::prosody_reader
 		, mCurrentUnit(0)
 		, mLastUnit(0)
 		, mRemainingOffset(100)
+		, mState(need_phoneme)
 	{
 	}
 
@@ -54,26 +55,39 @@ private:
 	uint16_t mCurrentUnit;
 	uint16_t mLastUnit;
 	uint8_t  mRemainingOffset;
+
+	enum state_t
+	{
+		need_phoneme,
+		have_phoneme,
+	};
+
+	state_t mState;
 };
 
 bool unit_reader::read()
 {
-	if (mCurrentUnit == mLastUnit)
+	while (true) switch (mState)
 	{
+	case need_phoneme:
 		if (!next_phoneme())
 			return false;
+		mState = have_phoneme;
+		break;
+	case have_phoneme:
+		first.phoneme1 = ipa::unit | (mCurrentUnit << 8);
+		++mCurrentUnit;
+
+		uint8_t offset = (mCurrentUnit == mLastUnit) ? mRemainingOffset : mUnits[mCurrentUnit].phoneme_start;
+		mRemainingOffset -= offset;
+
+		first.duration = css::time((mProsody->first.duration.value() * offset) / 100.0,
+		                            mProsody->first.duration.units());
+
+		if (mCurrentUnit == mLastUnit)
+			mState = need_phoneme;
+		return true;
 	}
-
-	first.phoneme1 = ipa::unit | (mCurrentUnit << 8);
-	++mCurrentUnit;
-
-	uint8_t offset = (mCurrentUnit == mLastUnit) ? mRemainingOffset : mUnits[mCurrentUnit].phoneme_start;
-	mRemainingOffset -= offset;
-
-	first.duration = css::time((mProsody->first.duration.value() * offset) / 100.0,
-	                            mProsody->first.duration.units());
-
-	return true;
 }
 
 bool unit_reader::next_phoneme()
