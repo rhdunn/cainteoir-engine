@@ -127,7 +127,7 @@ const tts::duration &duration_model_t::lookup(const tts::phone &p) const
 	if (match != mDurations.end())
 		return match->second;
 
-	if (p.phoneme2 == ipa::unspecified) switch (p.phoneme2.get(ipa::phoneme_type | ipa::length))
+	if (p.phoneme2 == ipa::unspecified) switch (p.phoneme1.get(ipa::phoneme_type | ipa::length))
 	{
 	case ipa::separator | ipa::extra_short:
 		return utterance_pause;
