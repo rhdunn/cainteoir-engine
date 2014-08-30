@@ -83,7 +83,8 @@ bool unit_reader::read()
 		{
 		case ipa::syllable_break:
 			continue;
-		case ipa::separator:
+		case ipa::foot_break:
+		case ipa::intonation_break:
 			mState = have_phoneme;
 			continue;
 		}

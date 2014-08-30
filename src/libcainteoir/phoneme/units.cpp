@@ -59,7 +59,8 @@ bool unit_writer::write(const ipa::phoneme &aPhoneme)
 	{
 	case ipa::unit:
 		break;
-	case ipa::separator:
+	case ipa::foot_break:
+	case ipa::intonation_break:
 		fputs(mPause, mOutput);
 		return true;
 	default:

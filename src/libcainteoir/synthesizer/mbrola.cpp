@@ -315,7 +315,7 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 	while (prosody->read())
 	{
 		write(*prosody);
-		if (prosody->first.phoneme1 == ipa::separator && prosody->first.phoneme2 == ipa::unspecified)
+		if (prosody->first.phoneme1 == ipa::intonation_break && prosody->first.phoneme2 == ipa::unspecified)
 		{
 			if (state == have_data && !read(out))
 				return false;

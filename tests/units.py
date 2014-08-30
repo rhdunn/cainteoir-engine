@@ -31,6 +31,7 @@ if __name__ == '__main__':
 			{'test': 'units/long.txt', 'result': 'units/long.pho', 'voice': 'de1'},
 			{'test': 'units/syllable-break.txt', 'result': 'units/syllable-break.pho', 'voice': 'en1'},
 			{'test': 'units/stress.txt', 'result': 'units/stress.pho', 'voice': 'en1'},
+			{'test': 'units/breaks.txt', 'result': 'units/breaks.pho', 'voice': 'en1'},
 			{'test': 'units/unsupported.txt', 'result': 'units/unsupported.pho', 'voice': 'en1'},
 		]},
 		{'name': 'Unit Mapping', 'type': 'units', 'fixed-duration': '100ms', 'tests': [
