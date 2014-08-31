@@ -267,7 +267,8 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	uint8_t channels = 0;
 	cainteoir::buffer sample_format{ nullptr, nullptr };
 
-	css::frequency pitch_mean;
+	css::frequency pitch_base;
+	css::frequency pitch_step;
 	css::frequency pitch_sdev;
 
 	std::list<phoneme_t> phonemes;
@@ -352,9 +353,14 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 			else if (reader.match().compare("pitch") == 0)
 			{
 				if (!reader.read() || reader.type() != cainteoir_file_reader::text)
-					throw std::runtime_error("expected pitch mean value");
+					throw std::runtime_error("expected baseline pitch value");
 
-				pitch_mean = css::parse_frequency(reader.match());
+				pitch_base = css::parse_frequency(reader.match());
+
+				if (!reader.read() || reader.type() != cainteoir_file_reader::text)
+					throw std::runtime_error("expected pitch step value");
+
+				pitch_step = css::parse_frequency(reader.match());
 
 				if (!reader.read() || reader.type() != cainteoir_file_reader::text)
 					throw std::runtime_error("expected pitch standard deviation value");
@@ -382,10 +388,13 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	out.pstr(sample_format);
 	out.end_section();
 
-	if (pitch_mean.units() != css::frequency::inherit && pitch_sdev.units() != css::frequency::inherit)
+	if (pitch_base.units() != css::frequency::inherit &&
+	    pitch_step.units() != css::frequency::inherit &&
+	    pitch_sdev.units() != css::frequency::inherit)
 	{
 		out.begin_section("PTC", tts::PITCH_DATA_SECTION_SIZE, false);
-		out.f16_16(pitch_mean.as(css::frequency::hertz).value());
+		out.f16_16(pitch_base.as(css::frequency::hertz).value());
+		out.f16_16(pitch_step.as(css::frequency::hertz).value());
 		out.f16_16(pitch_sdev.as(css::frequency::hertz).value());
 		out.end_section();
 	}

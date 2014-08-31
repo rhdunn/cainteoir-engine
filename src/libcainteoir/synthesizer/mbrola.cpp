@@ -383,7 +383,8 @@ private:
 
 	std::vector<tts::unit_t> mUnits;
 	cainteoir::range<const tts::phoneme_units *> mPhonemes;
-	css::frequency mPitchMean;
+	css::frequency mPitchBase;
+	css::frequency mPitchStep;
 	css::frequency mPitchSdev;
 };
 
@@ -418,7 +419,8 @@ mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 		mPhonemes = data.array<tts::phoneme_units>();
 		break;
 	case tts::PITCH_DATA_MAGIC:
-		mPitchMean = { data.f16_16(), css::frequency::hertz };
+		mPitchBase = { data.f16_16(), css::frequency::hertz };
+		mPitchStep = { data.f16_16(), css::frequency::hertz };
 		mPitchSdev = { data.f16_16(), css::frequency::hertz };
 		break;
 	default:

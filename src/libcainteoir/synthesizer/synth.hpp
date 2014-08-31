@@ -33,7 +33,7 @@ namespace cainteoir { namespace tts
 	}
 
 	static constexpr uint16_t VOICEDB_HEADER_SIZE = 29;
-	static constexpr uint16_t PITCH_DATA_SECTION_SIZE = 11;
+	static constexpr uint16_t PITCH_DATA_SECTION_SIZE = 15;
 	static constexpr uint16_t STRING_TABLE_HEADER_SIZE = 5;
 	static constexpr uint16_t TABLE_SECTION_SIZE = 5;
 	static constexpr uint16_t DURATION_TABLE_ENTRY_SIZE = 18;

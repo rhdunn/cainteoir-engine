@@ -114,31 +114,40 @@ of 0.0 to 1.0. This represents 100% volume.
 
 ## Pitch Data
 
-This is the mean and standard deviation for the fundamental frequency (F0) of
-the voice, used to determine the pitches in prosody.
-
-Because 95.45% of values fall within 2 standard deviations of the mean, the
-standard deviation is equivalent to 1/4 of the range of the voice. In other
-words, it represents the gap between tone levels such that:
-1.	*Top Tone* = `mean + 2*sdev`
-2.	*High Tone* = `mean + sdev`
-3.	*Mid Tone* = `mean`
-4.	*Low Tone* = `mean - sdev`
-5.	*Bottom Tone* = `mean - 2*sdev`
+This provides information about the fundamental frequency (F0) of the voice,
+used to determine the pitch envelopes of the different phonemes. It describes
+the default speaking pitch of the voice.
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
 | magic          | u8[3]  |  0     |
-| mean           | f16:16 |  3     |
-| sdev           | f16:16 |  7     |
-| END OF HEADER  |        | 11     |
+| baseline       | f16:16 |  3     |
+| step           | f16:16 |  7     |
+| sdev           | f16:16 | 11     |
+| END OF HEADER  |        | 15     |
 
 The `magic` field identifies the file as a voice database file. This is the
 string "PTC".
 
-The `mean` field is the baseline (average) pitch for the voice in Hertz.
+The `baseline` field is the average low pitch of the voice in Hertz. That is,
+this represents the lowest pitch the voice is comfortable speaking.
 
-The `sdev` field is the standard deviation of the pitch from the mean in Hertz.
+The `step` field is the frequency gap between each tone levels.
+
+The `sdev` field is the standard deviation of the pitch around each tone level
+in Hertz.
+
+This model is used as it can be adapted to the different prosody algorighms.
+
+To calculate the average pitch for the IPA tone levels, you can use the following:
+*	*Top Tone* = `baseline + 4*step`
+*	*High Tone* = `baseline + 3*step`
+*	*Mid Tone* = `baseline + 2*step`
+*	*Low Tone* = `baseline + step`
+*	*Bottom Tone* = `baseline`
+
+To use the `INTSINT` prosody model, `T` is the *Top Tone*, `M` is the *Mid Tone*
+and `B` is the *Bottom Tone*.
 
 ## Data Table
 
