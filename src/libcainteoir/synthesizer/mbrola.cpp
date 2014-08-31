@@ -28,6 +28,7 @@ namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
+namespace css = cainteoir::css;
 
 #if defined(HAVE_MBROLA)
 
@@ -382,6 +383,8 @@ private:
 
 	std::vector<tts::unit_t> mUnits;
 	cainteoir::range<const tts::phoneme_units *> mPhonemes;
+	css::frequency mPitchMean;
+	css::frequency mPitchSdev;
 };
 
 mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
@@ -413,6 +416,10 @@ mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 		break;
 	case tts::PHONEME_TABLE_MAGIC:
 		mPhonemes = data.array<tts::phoneme_units>();
+		break;
+	case tts::PITCH_DATA_MAGIC:
+		mPitchMean = { data.f16_16(), css::frequency::hertz };
+		mPitchSdev = { data.f16_16(), css::frequency::hertz };
 		break;
 	default:
 		throw std::runtime_error("unsupported section in MBROLA voice file");

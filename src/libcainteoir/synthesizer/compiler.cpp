@@ -70,6 +70,7 @@ struct binary_file_writer
 	void u64(uint64_t u) { fwrite(&u, sizeof(u), 1, mOutput); }
 
 	void f8_8(float f);
+	void f16_16(float f);
 
 	void  str(const cainteoir::buffer &data);
 	void pstr(const cainteoir::buffer &data);
@@ -105,6 +106,12 @@ void binary_file_writer::f8_8(float f)
 {
 	u8((int8_t)f);
 	u8(f * 256);
+}
+
+void binary_file_writer::f16_16(float f)
+{
+	u16((int16_t)f);
+	u16(f * 65536);
 }
 
 void binary_file_writer::str(const cainteoir::buffer &data)
@@ -260,6 +267,9 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	uint8_t channels = 0;
 	cainteoir::buffer sample_format{ nullptr, nullptr };
 
+	css::frequency pitch_mean;
+	css::frequency pitch_sdev;
+
 	std::list<phoneme_t> phonemes;
 	uint16_t duration_entries = 0;
 	uint16_t unit_entries = 0;
@@ -339,6 +349,18 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 					++duration_entries;
 				unit_entries += phonemes.back().units.size();
 			}
+			else if (reader.match().compare("pitch") == 0)
+			{
+				if (!reader.read() || reader.type() != cainteoir_file_reader::text)
+					throw std::runtime_error("expected pitch mean value");
+
+				pitch_mean = css::parse_frequency(reader.match());
+
+				if (!reader.read() || reader.type() != cainteoir_file_reader::text)
+					throw std::runtime_error("expected pitch standard deviation value");
+
+				pitch_sdev = css::parse_frequency(reader.match());
+			}
 		}
 	}
 
@@ -359,6 +381,14 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	out.u8(channels);
 	out.pstr(sample_format);
 	out.end_section();
+
+	if (pitch_mean.units() != css::frequency::inherit && pitch_sdev.units() != css::frequency::inherit)
+	{
+		out.begin_section("PTC", tts::PITCH_DATA_SECTION_SIZE, false);
+		out.f16_16(pitch_mean.as(css::frequency::hertz).value());
+		out.f16_16(pitch_sdev.as(css::frequency::hertz).value());
+		out.end_section();
+	}
 
 	if (duration_entries != 0)
 	{

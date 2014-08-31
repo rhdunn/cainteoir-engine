@@ -191,6 +191,7 @@ namespace cainteoir
 		uint64_t u64() { return *read<uint64_t>(); }
 
 		float f8_8() { return (float)u8() + ((float)u8() / 256); }
+		float f16_16() { return (float)u16() + ((float)u16() / 65536); }
 
 		template <typename T>
 		range<const T *> array()

@@ -4,6 +4,7 @@
 - [Structure](#structure)
   - [MBROLA](#mbrola)
 - [Header](#header)
+- [Pitch Data](#pitch-data)
 - [Data Table](#data-table)
   - [Duration Table](#duration-table)
   - [Phoneme Unit Table](#phoneme-unit-table)
@@ -25,6 +26,7 @@ for different voice formats in a form suitable for reading directly from the fil
 | u32    | A 32-bit unsigned integer |
 | u64    | A 64-bit unsigned integer |
 | f8:8   | A fixed point number (8-bit integral part, 8-bit fraction part) |
+| f16:16 | A fixed point number (16-bit integral part, 16-bit fraction part) |
 | str    | A variable-length UTF-8 string terminated by a NULL (`0`) character |
 | pstr   | A `u16` containing the offset from the start of the file to a `str`. |
 
@@ -55,6 +57,9 @@ A Duration Table section is used to specify the duration model to be used.
 
 The Phoneme Table and Phoneme Unit Table sections map Cainteoir Text-to-Speech
 phonemes to the voice-specific MBROLA phonemes.
+
+The Pitch Data section specifies the mean and standard deviation of the voice's
+pitch.
 
 ## Header
 
@@ -106,6 +111,34 @@ and `F` used for female voices.
 
 The `volume-scale` field is the value used to scale the audio to 0.5 on a scale
 of 0.0 to 1.0. This represents 100% volume.
+
+## Pitch Data
+
+This is the mean and standard deviation for the fundamental frequency (F0) of
+the voice, used to determine the pitches in prosody.
+
+Because 95.45% of values fall within 2 standard deviations of the mean, the
+standard deviation is equivalent to 1/4 of the range of the voice. In other
+words, it represents the gap between tone levels such that:
+1.	*Top Tone* = `mean + 2*sdev`
+2.	*High Tone* = `mean + sdev`
+3.	*Mid Tone* = `mean`
+4.	*Low Tone* = `mean - sdev`
+5.	*Bottom Tone* = `mean - 2*sdev`
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| magic          | u8[3]  |  0     |
+| mean           | f16:16 |  3     |
+| sdev           | f16:16 |  7     |
+| END OF HEADER  |        | 11     |
+
+The `magic` field identifies the file as a voice database file. This is the
+string "PTC".
+
+The `mean` field is the baseline (average) pitch for the voice in Hertz.
+
+The `sdev` field is the standard deviation of the pitch from the mean in Hertz.
 
 ## Data Table
 
@@ -239,6 +272,7 @@ creating a new section type to avoid collisions in the magic values.
 |-------|------------------------------|
 | DUR   | Duration Table               |
 | PHO   | Phoneme Table                |
+| PTC   | Pitch Data                   |
 | PUT   | Phoneme Unit Table           |
 | STR   | String Table                 |
 

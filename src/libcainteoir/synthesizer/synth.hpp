@@ -33,12 +33,14 @@ namespace cainteoir { namespace tts
 	}
 
 	static constexpr uint16_t VOICEDB_HEADER_SIZE = 29;
+	static constexpr uint16_t PITCH_DATA_SECTION_SIZE = 11;
 	static constexpr uint16_t STRING_TABLE_HEADER_SIZE = 5;
 	static constexpr uint16_t TABLE_SECTION_SIZE = 5;
 	static constexpr uint16_t DURATION_TABLE_ENTRY_SIZE = 18;
 	static constexpr uint16_t PHONEME_UNIT_TABLE_ENTRY_SIZE = 5;
 	static constexpr uint16_t PHONEME_TABLE_ENTRY_SIZE = 19;
 
+	static constexpr uint32_t PITCH_DATA_MAGIC = make_magic32('P', 'T', 'C');
 	static constexpr uint32_t STRING_TABLE_MAGIC = make_magic32('S', 'T', 'R');
 	static constexpr uint32_t DURATION_TABLE_MAGIC = make_magic32('D', 'U', 'R');
 	static constexpr uint32_t PHONEME_UNIT_TABLE_MAGIC = make_magic32('P', 'U', 'T');
