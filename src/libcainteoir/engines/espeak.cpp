@@ -199,9 +199,15 @@ espeak_pronunciation::espeak_pronunciation(const char *aPhonemeSet)
 void espeak_pronunciation::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 {
 #if defined(HAVE_ESPEAK_TEXTTOPHONEMES)
+#if defined (espeakPHONEMES_IPA)
+	static const int TIE_BARS        = espeakPHONEMES_TIE;
+	static const int ESPEAK_PHONEMES = espeakPHONEMES_SHOW;
+	static const int IPA_PHONEMES    = espeakPHONEMES_IPA;
+#else
 	static const int TIE_BARS        = 0x0001;
 	static const int ESPEAK_PHONEMES = 0x0000;
 	static const int IPA_PHONEMES    = 0x0010;
+#endif
 	static const int PHONEME_MODE    = mIPA ? (IPA_PHONEMES | TIE_BARS) : ESPEAK_PHONEMES;
 
 	cainteoir::rope ret;
@@ -217,8 +223,13 @@ void espeak_pronunciation::reset(const std::shared_ptr<cainteoir::buffer> &aBuff
 	}
 	mReader->reset(ret.buffer());
 #else
+#if defined (espeakPHONEMES_IPA)
+	static const int IPA_PHONEMES    = espeakPHONEMES_IPA | espeakPHONEMES_TIE;
+	static const int ESPEAK_PHONEMES = espeakPHONEMES_SHOW;
+#else
 	static const int IPA_PHONEMES    = 4; // IPA + \u0361 ties
 	static const int ESPEAK_PHONEMES = 1; // eSpeak
+#endif
 
 	std::string txt = aBuffer->str(); // null-terminate the text buffer
 
