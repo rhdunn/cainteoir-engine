@@ -149,6 +149,15 @@ To calculate the average pitch for the IPA tone levels, you can use the followin
 To use the `INTSINT` prosody model, `T` is the *Top Tone*, `M` is the *Mid Tone*
 and `B` is the *Bottom Tone*.
 
+The `baseline`, `step` and `sdev` values can be derived from a minimum (`min`)
+and maximum (`max`) pitch value, such that:
+*	`sdev = (max - min)/ 20`
+*	`baseline = min + 2*sdev`
+*	`step = 4 *sdev`
+
+This is because there are 5 tone levels, each with 4 `sdev` sections, with 2
+`sdev` sections either side of the mean value of each tone level.
+
 ## Data Table
 
 This is the generic structure of a tabular section. That is, a fixed sized

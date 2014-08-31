@@ -16,6 +16,8 @@
 .channels	1
 .sample-format	s16le
 
+pitch 75.5Hz 11Hz 2.75Hz # min=70Hz max=125Hz
+
 # Plosives ####################################################################
 
 phoneme /{vls,blb,stp}/ 50ms # /p/
