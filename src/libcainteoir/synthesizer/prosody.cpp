@@ -32,9 +32,11 @@ namespace css = cainteoir::css;
 struct phonemes_to_prosody : public tts::prosody_reader
 {
 	phonemes_to_prosody(const std::shared_ptr<tts::phoneme_reader> &aPhonemes,
-	                    const std::shared_ptr<tts::duration_model> &aDurationModel)
+	                    const std::shared_ptr<tts::duration_model> &aDurationModel,
+	                    tts::probability_distribution aProbabilityDistribution)
 		: mPhonemes(aPhonemes)
 		, mDurationModel(aDurationModel)
+		, mProbabilityDistribution(aProbabilityDistribution)
 		, mNeedPhoneme(true)
 	{
 	}
@@ -43,6 +45,7 @@ struct phonemes_to_prosody : public tts::prosody_reader
 private:
 	std::shared_ptr<tts::phoneme_reader> mPhonemes;
 	std::shared_ptr<tts::duration_model> mDurationModel;
+	tts::probability_distribution mProbabilityDistribution;
 	bool mNeedPhoneme;
 };
 
@@ -98,7 +101,7 @@ bool phonemes_to_prosody::read()
 			return read();
 	}
 
-	first.duration = mDurationModel->lookup(first).value(0);
+	first.duration = mDurationModel->lookup(first, mProbabilityDistribution);
 	if (first.duration.units() == css::time::inherit)
 	{
 		fprintf(stdout, "Phoneme /");
@@ -116,5 +119,5 @@ std::shared_ptr<tts::prosody_reader>
 tts::createProsodyReader(const std::shared_ptr<phoneme_reader> &aPhonemes,
                          const std::shared_ptr<duration_model> &aDurationModel)
 {
-	return std::make_shared<phonemes_to_prosody>(aPhonemes, aDurationModel);
+	return std::make_shared<phonemes_to_prosody>(aPhonemes, aDurationModel, tts::zero_distribution);
 }

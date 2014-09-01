@@ -30,16 +30,16 @@ namespace css = cainteoir::css;
 struct fixed_duration_model : public tts::duration_model
 {
 	fixed_duration_model(css::time aDuration)
-		: mDuration(aDuration, { 0, aDuration.units() })
+		: mDuration(aDuration)
 	{
 	}
 
-	const tts::duration &lookup(const tts::phone &p) const;
+	css::time lookup(const tts::phone &p, tts::probability_distribution d) const;
 private:
-	tts::duration mDuration;
+	css::time mDuration;
 };
 
-const tts::duration &fixed_duration_model::lookup(const tts::phone &p) const
+css::time fixed_duration_model::lookup(const tts::phone &p, tts::probability_distribution d) const
 {
 	return mDuration;
 }

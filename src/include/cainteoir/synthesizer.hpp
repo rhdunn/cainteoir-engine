@@ -80,7 +80,8 @@ namespace cainteoir { namespace tts
 
 	struct duration_model
 	{
-		virtual const duration &lookup(const phone &p) const = 0;
+		virtual css::time
+		lookup(const tts::phone &p, tts::probability_distribution d) const = 0;
 
 		virtual ~duration_model() {}
 	};

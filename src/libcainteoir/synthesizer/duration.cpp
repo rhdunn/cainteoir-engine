@@ -36,7 +36,7 @@ struct duration_model_t : public tts::duration_model
 
 	duration_model_t(cainteoir::native_endian_buffer &aData);
 
-	const tts::duration &lookup(const tts::phone &p) const;
+	css::time lookup(const tts::phone &p, tts::probability_distribution d) const;
 private:
 	struct phone_compare
 	{
@@ -115,27 +115,26 @@ duration_model_t::duration_model_t(cainteoir::native_endian_buffer &aData)
 	}
 }
 
-const tts::duration &duration_model_t::lookup(const tts::phone &p) const
+css::time duration_model_t::lookup(const tts::phone &p, tts::probability_distribution d) const
 {
 	const auto mask = ipa::main | ipa::diacritics | ipa::length; // no tone or stress
 
-	static const tts::duration null_duration;
 	static const tts::duration utterance_pause = { {  25, css::time::milliseconds }, {  5, css::time::milliseconds } };
 	static const tts::duration clause_pause    = { { 200, css::time::milliseconds }, { 50, css::time::milliseconds } };
 
 	auto match = mDurations.find({ p.phoneme1.get(mask), p.phoneme2.get(mask), {}});
 	if (match != mDurations.end())
-		return match->second;
+		return match->second.value(d());
 
 	if (p.phoneme2 == ipa::unspecified) switch (p.phoneme1.get(ipa::phoneme_type))
 	{
 	case ipa::foot_break:
-		return utterance_pause;
+		return utterance_pause.value(d());
 	case ipa::intonation_break:
-		return clause_pause;
+		return clause_pause.value(d());
 	}
 
-	return null_duration;
+	return {};
 }
 
 std::shared_ptr<tts::duration_model>
