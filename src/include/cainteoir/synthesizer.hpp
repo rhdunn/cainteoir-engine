@@ -72,8 +72,6 @@ namespace cainteoir { namespace tts
 
 	typedef zscore<css::time> duration;
 
-	typedef zscore<css::frequency> pitch;
-
 	struct duration_model
 	{
 		virtual const duration &lookup(const phone &p) const = 0;
@@ -86,6 +84,23 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<duration_model>
 	createDurationModel(const std::shared_ptr<buffer> &aDurationModel);
+
+	typedef zscore<css::frequency> pitch;
+
+	struct pitch_model
+	{
+		pitch_model(const css::frequency &aBase,
+		            const css::frequency &aStep,
+		            const css::frequency &aSdev);
+
+		const tts::pitch &tone(ipa::phoneme::value_type aTone) const;
+
+		tts::pitch top;
+		tts::pitch high;
+		tts::pitch mid;
+		tts::pitch low;
+		tts::pitch bottom;
+	};
 
 	struct envelope_t
 	{

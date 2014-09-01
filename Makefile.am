@@ -377,6 +377,8 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/synthesizer/fixed_duration.cpp \
 	src/libcainteoir/synthesizer/duration.cpp \
 	\
+	src/libcainteoir/synthesizer/pitch.cpp \
+	\
 	src/libcainteoir/synthesizer/pho_file.cpp \
 	src/libcainteoir/synthesizer/diphone.cpp \
 	src/libcainteoir/synthesizer/units.cpp \
@@ -762,6 +764,11 @@ noinst_bin_PROGRAMS += tests/zscore.test
 tests_zscore_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_zscore_test_SOURCES = tests/zscore.cpp
 
+noinst_bin_PROGRAMS += tests/pitch_model.test
+
+tests_pitch_model_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_pitch_model_test_SOURCES = tests/pitch_model.cpp
+
 noinst_bin_PROGRAMS += tests/pho_file.test
 
 tests_pho_file_test_LDADD   = src/libcainteoir/libcainteoir.la
@@ -815,5 +822,6 @@ check: \
 	tests/pho_file.check \
 	tests/diphones.check \
 	tests/zscore.check \
+	tests/pitch_model.check \
 	tests/prosody.check \
 	tests/units.check
