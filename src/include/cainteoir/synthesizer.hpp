@@ -161,6 +161,7 @@ namespace cainteoir { namespace tts
 	std::shared_ptr<prosody_reader>
 	createProsodyReader(const std::shared_ptr<phoneme_reader> &aPhonemes,
 	                    const std::shared_ptr<duration_model> &aDurationModel,
+	                    const std::shared_ptr<tts::pitch_model> &aPitchModel,
 	                    tts::probability_distribution aProbabilityDistribution);
 
 	#pragma pack(1)
