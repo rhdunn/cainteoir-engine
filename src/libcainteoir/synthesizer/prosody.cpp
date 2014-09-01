@@ -117,7 +117,8 @@ bool phonemes_to_prosody::read()
 
 std::shared_ptr<tts::prosody_reader>
 tts::createProsodyReader(const std::shared_ptr<phoneme_reader> &aPhonemes,
-                         const std::shared_ptr<duration_model> &aDurationModel)
+                         const std::shared_ptr<duration_model> &aDurationModel,
+                         tts::probability_distribution aProbabilityDistribution)
 {
-	return std::make_shared<phonemes_to_prosody>(aPhonemes, aDurationModel, tts::zero_distribution);
+	return std::make_shared<phonemes_to_prosody>(aPhonemes, aDurationModel, aProbabilityDistribution);
 }

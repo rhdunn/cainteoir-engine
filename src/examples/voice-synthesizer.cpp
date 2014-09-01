@@ -96,6 +96,7 @@ create_reader(const char *filename,
               const char *phonemeset,
               input_type input,
               const std::shared_ptr<tts::duration_model> &durations,
+              tts::probability_distribution probability,
               const char *ruleset,
               const char *dictionary,
               const char *phoneme_map,
@@ -130,7 +131,7 @@ create_reader(const char *filename,
 
 		if (!durations)
 			throw std::runtime_error("A duration model was not specified.");
-		return tts::createProsodyReader(phonemes, durations);
+		return tts::createProsodyReader(phonemes, durations, probability);
 	}
 	else if (input == input_type::phonemes)
 	{
@@ -144,7 +145,7 @@ create_reader(const char *filename,
 			throw std::runtime_error("A duration model was not specified.");
 
 		phonemes->reset(data);
-		return tts::createProsodyReader(phonemes, durations);
+		return tts::createProsodyReader(phonemes, durations, probability);
 	}
 	return tts::createPhoReader(tts::createPhonemeParser(phonemeset), data);
 }
@@ -206,6 +207,7 @@ int main(int argc, char **argv)
 		tts::number_scale scale = tts::short_scale;
 		actions action = actions::synthesize;
 		input_type input = input_type::document;
+		tts::probability_distribution probability = tts::normal_distribution;
 
 		const option_group general_options = { nullptr, {
 			{ 'P', "phonemeset", src_phonemeset, "PHONEMESET",
@@ -218,6 +220,8 @@ int main(int argc, char **argv)
 			  i18n("Use PHONEME_MAP to convert phonemes (e.g. accent conversion)") },
 			{ 'a', "accent", accent, "ACCENT",
 			  i18n("Use ACCENT to convert phonemes to the specified accent") },
+			{ 0, "no-variance", bind_value(probability, tts::zero_distribution),
+			  i18n("Do not produce random variation in pitch and duration values") },
 		}};
 
 		const option_group input_options = { i18n("Input:"), {
@@ -311,7 +315,7 @@ int main(int argc, char **argv)
 				if (!dur)
 					dur = voice->durations();
 
-				auto pho = create_reader(filename, src_phonemeset, input, dur, ruleset, dictionary, phoneme_map, accent, locale, scale);
+				auto pho = create_reader(filename, src_phonemeset, input, dur, probability, ruleset, dictionary, phoneme_map, accent, locale, scale);
 				std::shared_ptr<tts::prosody_writer> out;
 				switch (action)
 				{
@@ -333,7 +337,7 @@ int main(int argc, char **argv)
 			else
 			{
 				auto dur = create_duration_model(fixed_duration, duration_model);
-				auto pho = create_reader(filename, src_phonemeset, input, dur, ruleset, dictionary, phoneme_map, accent, locale, scale);
+				auto pho = create_reader(filename, src_phonemeset, input, dur, probability, ruleset, dictionary, phoneme_map, accent, locale, scale);
 				if (action == actions::print_diphones)
 					pho = tts::createDiphoneReader(pho);
 
@@ -357,7 +361,7 @@ int main(int argc, char **argv)
 				if (!dur)
 					dur = voice->durations();
 
-				auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, dur, ruleset, dictionary, phoneme_map, accent, locale, scale);
+				auto pho = create_reader(filename, src_phonemeset ? src_phonemeset : phonemeset.c_str(), input, dur, probability, ruleset, dictionary, phoneme_map, accent, locale, scale);
 
 				synthesize(voice->synthesizer(), pho, outformat, outfile, device_name);
 			}

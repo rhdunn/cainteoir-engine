@@ -55,9 +55,16 @@ bind_value_t<T> bind_value(T &aData, const T &aValue)
 	return bind_value_t<T>(aData, aValue);
 }
 
-bind_value_t<const char *> bind_value(const char * &aData, const char *aValue)
+template <typename T>
+bind_value_t<const T *> bind_value(const T * &aData, const T *aValue)
 {
-	return bind_value_t<const char *>(aData, aValue);
+	return bind_value_t<const T *>(aData, aValue);
+}
+
+template <typename T>
+bind_value_t<T *> bind_value(T * &aData, T *aValue)
+{
+	return bind_value_t<T *>(aData, aValue);
 }
 
 struct option_t

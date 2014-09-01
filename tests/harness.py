@@ -196,7 +196,7 @@ class PhonemeSetCommand(Command):
 
 class ProsodyCommand(Command):
 	def __init__(self, input_format=None, output_format='pho'):
-		Command.__init__(self, '../src/examples/voice-synthesizer --%s' % output_format)
+		Command.__init__(self, '../src/examples/voice-synthesizer --no-variance --%s' % output_format)
 		self.input_format = input_format
 
 	def run(self, args, filename, data):
