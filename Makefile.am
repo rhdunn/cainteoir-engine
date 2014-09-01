@@ -477,13 +477,6 @@ noinst_bin_PROGRAMS += src/examples/voice-synthesizer
 src_examples_voice_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
 src_examples_voice_synthesizer_SOURCES = src/examples/voice-synthesizer.cpp
 
-############################# experimental ####################################
-
-noinst_bin_PROGRAMS += src/experimental/synthesizer
-
-src_experimental_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
-src_experimental_synthesizer_SOURCES = src/experimental/synthesizer.cpp
-
 ############################# voices ##########################################
 
 voices:	data/voices/mbrola/af1.vdb \
