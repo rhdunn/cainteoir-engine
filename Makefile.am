@@ -467,11 +467,6 @@ noinst_bin_PROGRAMS += src/examples/musicplayer
 src_examples_musicplayer_LDADD   = src/libcainteoir/libcainteoir.la
 src_examples_musicplayer_SOURCES = src/examples/musicplayer.cpp
 
-noinst_bin_PROGRAMS += src/examples/sigproc
-
-src_examples_sigproc_LDADD   = src/libcainteoir/libcainteoir.la
-src_examples_sigproc_SOURCES = src/examples/sigproc.cpp
-
 noinst_bin_PROGRAMS += src/examples/voice-synthesizer
 
 src_examples_voice_synthesizer_LDADD   = src/libcainteoir/libcainteoir.la
