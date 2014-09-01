@@ -159,6 +159,7 @@ struct phoneme_t
 	std::list<unit_t> units;
 
 	phoneme_t()
+		: duration_stdev(5, css::time::milliseconds)
 	{
 	}
 };
