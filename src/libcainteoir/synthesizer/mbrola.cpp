@@ -370,6 +370,8 @@ struct mbrola_voice : public tts::voice
 
 	std::shared_ptr<tts::duration_model> durations() { return mDurations; }
 
+	std::shared_ptr<tts::pitch_model> pitch_model() { return mPitchModel; }
+
 	std::shared_ptr<tts::prosody_reader>
 	unit_reader(const std::shared_ptr<tts::prosody_reader> &aProsody);
 
@@ -383,9 +385,7 @@ private:
 
 	std::vector<tts::unit_t> mUnits;
 	cainteoir::range<const tts::phoneme_units *> mPhonemes;
-	css::frequency mPitchBase;
-	css::frequency mPitchStep;
-	css::frequency mPitchSdev;
+	std::shared_ptr<tts::pitch_model> mPitchModel;
 };
 
 mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
@@ -419,9 +419,12 @@ mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 		mPhonemes = data.array<tts::phoneme_units>();
 		break;
 	case tts::PITCH_DATA_MAGIC:
-		mPitchBase = { data.f16_16(), css::frequency::hertz };
-		mPitchStep = { data.f16_16(), css::frequency::hertz };
-		mPitchSdev = { data.f16_16(), css::frequency::hertz };
+		{
+			css::frequency base{ data.f16_16(), css::frequency::hertz };
+			css::frequency step{ data.f16_16(), css::frequency::hertz };
+			css::frequency sdev{ data.f16_16(), css::frequency::hertz };
+			mPitchModel = std::make_shared<tts::pitch_model>(base, step, sdev);
+		}
 		break;
 	default:
 		throw std::runtime_error("unsupported section in MBROLA voice file");

@@ -224,6 +224,9 @@ namespace cainteoir { namespace tts
 		virtual std::shared_ptr<tts::duration_model>
 		durations() = 0;
 
+		virtual std::shared_ptr<tts::pitch_model>
+		pitch_model() = 0;
+
 		virtual std::shared_ptr<tts::prosody_reader>
 		unit_reader(const std::shared_ptr<tts::prosody_reader> &aProsody) = 0;
 
