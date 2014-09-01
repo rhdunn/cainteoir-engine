@@ -39,7 +39,20 @@ static void test_equal_(const typename unit_type<UnitT>::type aObject,
 	assert_location(aObject.value() == aValue, location, line);
 }
 
-#define test_equal(a, b, c) test_equal_(a, b, c, __FILE__, __LINE__)
+static void test_equal_(const std::vector<tts::envelope_t> &a,
+                        const std::vector<tts::envelope_t> &b,
+                        const char *location, int line)
+{
+	assert_location(a.size() == b.size(), location, line);
+	if (a.size() == b.size()) for (int i = 0; i < a.size(); ++i)
+	{
+		assert_location(a[i].offset == b[i].offset, location, line);
+		assert_location(a[i].pitch.units() == b[i].pitch.units(), location, line);
+		assert_location(a[i].pitch.value() == b[i].pitch.value(), location, line);
+	}
+}
+
+#define test_equal(...) test_equal_(__VA_ARGS__, __FILE__, __LINE__)
 
 TEST_CASE("constructor")
 {
@@ -154,4 +167,92 @@ TEST_CASE("tone - top")
 
 	test_equal(p.tone(ipa::tone_end_top).mean, 190, css::frequency::hertz);
 	test_equal(p.tone(ipa::tone_end_top).sdev, 2.5, css::frequency::hertz);
+}
+
+TEST_CASE("envelope - empty")
+{
+	ipa::phoneme ipa_b = ipa::voiced | ipa::bilabial | ipa::plosive;
+
+	tts::pitch_model p{ { 100, css::frequency::hertz },
+	                    {  20, css::frequency::hertz },
+	                    {   5, css::frequency::hertz } };
+
+	test_equal(p.envelope(ipa_b, tts::zero_distribution), {});
+}
+
+TEST_CASE("envelope - (start,-,-) tone")
+{
+	ipa::phoneme ipa_b = ipa::voiced | ipa::bilabial | ipa::plosive;
+
+	tts::pitch_model p{ { 100, css::frequency::hertz },
+	                    {  20, css::frequency::hertz },
+	                    {   5, css::frequency::hertz } };
+
+	// low tone
+
+	ipa_b.set(ipa::tone_start_low, ipa::tone_start);
+	test_equal(p.envelope(ipa_b, tts::zero_distribution),
+	          {{   0, { 120, css::frequency::hertz }},
+	           { 100, { 120, css::frequency::hertz }}});
+
+	// top tone
+
+	ipa_b.set(ipa::tone_start_top, ipa::tone_start);
+	test_equal(p.envelope(ipa_b, tts::zero_distribution),
+	          {{   0, { 180, css::frequency::hertz }},
+	           { 100, { 180, css::frequency::hertz }}});
+}
+
+TEST_CASE("envelope - (start,-,end) tone")
+{
+	ipa::phoneme ipa_b = ipa::voiced | ipa::bilabial | ipa::plosive;
+
+	tts::pitch_model p{ { 100, css::frequency::hertz },
+	                    {  20, css::frequency::hertz },
+	                    {   5, css::frequency::hertz } };
+
+	// rising tone
+
+	ipa_b.set(ipa::tone_start_low, ipa::tone_start);
+	ipa_b.set(ipa::tone_end_high, ipa::tone_end);
+	test_equal(p.envelope(ipa_b, tts::zero_distribution),
+	          {{   0, { 120, css::frequency::hertz }},
+	           { 100, { 160, css::frequency::hertz }}});
+
+	// falling tone
+
+	ipa_b.set(ipa::tone_start_top, ipa::tone_start);
+	ipa_b.set(ipa::tone_end_mid, ipa::tone_end);
+	test_equal(p.envelope(ipa_b, tts::zero_distribution),
+	          {{   0, { 180, css::frequency::hertz }},
+	           { 100, { 140, css::frequency::hertz }}});
+}
+
+TEST_CASE("envelope - (start,middle,end) tone")
+{
+	ipa::phoneme ipa_b = ipa::voiced | ipa::bilabial | ipa::plosive;
+
+	tts::pitch_model p{ { 100, css::frequency::hertz },
+	                    {  20, css::frequency::hertz },
+	                    {   5, css::frequency::hertz } };
+
+	// peaking tone
+
+	ipa_b.set(ipa::tone_start_bottom, ipa::tone_start);
+	ipa_b.set(ipa::tone_middle_top, ipa::tone_middle);
+	ipa_b.set(ipa::tone_end_high, ipa::tone_end);
+	test_equal(p.envelope(ipa_b, tts::zero_distribution),
+	          {{   0, { 100, css::frequency::hertz }},
+	           {  50, { 180, css::frequency::hertz }},
+	           { 100, { 160, css::frequency::hertz }}});
+
+	// dipping tone
+
+	ipa_b.set(ipa::tone_start_high, ipa::tone_start);
+	ipa_b.set(ipa::tone_middle_low, ipa::tone_middle);
+	ipa_b.set(ipa::tone_end_mid, ipa::tone_end);
+	test_equal(p.envelope(ipa_b, tts::zero_distribution),
+	          {{   0, { 160, css::frequency::hertz }},
+	           {  50, { 120, css::frequency::hertz }},
+	           { 100, { 140, css::frequency::hertz }}});
 }

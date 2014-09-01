@@ -68,3 +68,39 @@ const tts::pitch &tts::pitch_model::tone(ipa::phoneme::value_type aTone) const
 		return null_pitch;
 	}
 }
+
+std::vector<tts::envelope_t>
+tts::pitch_model::envelope(ipa::phoneme aTones,
+                           tts::probability_distribution aProbabilityDistribution) const
+{
+	auto start  = aTones.get(ipa::tone_start);
+	auto middle = aTones.get(ipa::tone_middle);
+	auto end    = aTones.get(ipa::tone_end);
+
+	if (start != 0)
+	{
+		css::frequency a = tone(start).value(aProbabilityDistribution());
+		if (end != 0)
+		{
+			css::frequency c = tone(end).value(aProbabilityDistribution());
+			if (middle != 0)
+			{
+				// peaking/dipping tone
+				css::frequency b = tone(middle).value(aProbabilityDistribution());
+				return {{ 0, a }, { 50, b }, { 100, c }};
+			}
+			else
+			{
+				// rising/falling tone
+				return {{ 0, a }, { 100, c }};
+			}
+		}
+		else
+		{
+			// level tone
+			return {{ 0, a }, { 100, a }};
+		}
+	}
+
+	return {};
+}

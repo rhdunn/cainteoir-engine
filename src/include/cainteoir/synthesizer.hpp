@@ -92,6 +92,12 @@ namespace cainteoir { namespace tts
 	std::shared_ptr<duration_model>
 	createDurationModel(const std::shared_ptr<buffer> &aDurationModel);
 
+	struct envelope_t
+	{
+		int offset;
+		css::frequency pitch;
+	};
+
 	typedef zscore<css::frequency> pitch;
 
 	struct pitch_model
@@ -102,17 +108,15 @@ namespace cainteoir { namespace tts
 
 		const tts::pitch &tone(ipa::phoneme::value_type aTone) const;
 
+		std::vector<envelope_t>
+		envelope(ipa::phoneme aTones,
+		         tts::probability_distribution aProbabilityDistribution) const;
+
 		tts::pitch top;
 		tts::pitch high;
 		tts::pitch mid;
 		tts::pitch low;
 		tts::pitch bottom;
-	};
-
-	struct envelope_t
-	{
-		int offset;
-		css::frequency pitch;
 	};
 
 	struct prosody
