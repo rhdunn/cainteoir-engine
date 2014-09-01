@@ -48,6 +48,12 @@ namespace cainteoir { namespace tts
 		}
 	};
 
+	typedef float (*probability_distribution)();
+
+	float zero_distribution();
+
+	float normal_distribution();
+
 	template <typename UnitT>
 	struct zscore
 	{

@@ -374,9 +374,9 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/tts/text_reader.cpp \
 	src/libcainteoir/tts/word_stream.cpp \
 	\
+	src/libcainteoir/synthesizer/distribution.cpp \
 	src/libcainteoir/synthesizer/fixed_duration.cpp \
 	src/libcainteoir/synthesizer/duration.cpp \
-	\
 	src/libcainteoir/synthesizer/pitch.cpp \
 	\
 	src/libcainteoir/synthesizer/pho_file.cpp \
