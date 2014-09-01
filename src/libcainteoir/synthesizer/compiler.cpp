@@ -200,7 +200,7 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 			state = pre_duration_stdev;
 			break;
 		case pre_duration_stdev:
-			entry.duration_mean = css::parse_smil_time(reader.match());
+			entry.duration_stdev = css::parse_smil_time(reader.match());
 			state = in_phoneme_body;
 			break;
 		case in_unit_offset:
