@@ -37,5 +37,12 @@ if __name__ == '__main__':
 		{'name': 'Unit Mapping', 'type': 'units', 'fixed-duration': '100ms', 'tests': [
 			{'test': 'units/two-units.txt', 'result': 'units/two-units.pho', 'voice': 'en1'},
 		]},
+		{'name': 'Pitch', 'type': 'units', 'fixed-duration': '100ms', 'tests': [
+			{'test': 'units/tone/level.txt', 'result': 'units/tone/level.pho', 'voice': 'en1'},
+			{'test': 'units/tone/rising.txt', 'result': 'units/tone/rising.pho', 'voice': 'en1'},
+			{'test': 'units/tone/falling.txt', 'result': 'units/tone/falling.pho', 'voice': 'en1'},
+			{'test': 'units/tone/peaking.txt', 'result': 'units/tone/peaking.pho', 'voice': 'en1'},
+			{'test': 'units/tone/dipping.txt', 'result': 'units/tone/dipping.pho', 'voice': 'en1'},
+		]},
 	]})
 	test.summary()

@@ -120,7 +120,7 @@ bool unit_reader::read()
 
 bool unit_reader::find_unit()
 {
-	constexpr auto mask = ~ipa::stress;
+	constexpr auto mask = ~(ipa::stress | ipa::tone_start | ipa::tone_middle | ipa::tone_end);
 
 	for (const auto &entry : mPhonemes)
 	{

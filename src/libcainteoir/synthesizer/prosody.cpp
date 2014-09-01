@@ -37,6 +37,7 @@ struct phonemes_to_prosody : public tts::prosody_reader
 	                    tts::probability_distribution aProbabilityDistribution)
 		: mPhonemes(aPhonemes)
 		, mDurationModel(aDurationModel)
+		, mPitchModel(aPitchModel)
 		, mProbabilityDistribution(aProbabilityDistribution)
 		, mNeedPhoneme(true)
 	{
