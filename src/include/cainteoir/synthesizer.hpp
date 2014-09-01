@@ -48,26 +48,29 @@ namespace cainteoir { namespace tts
 		}
 	};
 
-	struct duration
+	template <typename UnitT>
+	struct zscore
 	{
-		css::time mean;
-		css::time sdev;
+		UnitT mean;
+		UnitT sdev;
 
-		duration()
+		zscore()
 		{
 		}
 
-		duration(css::time aMean, css::time aStdDev)
+		zscore(const UnitT &aMean, const UnitT &aStdDev)
 			: mean(aMean)
 			, sdev(aStdDev.as(aMean.units()))
 		{
 		}
 
-		css::time value(float zscore) const
+		UnitT value(float aScore) const
 		{
-			return { mean.value() + (zscore * sdev.value()), mean.units() };
+			return { mean.value() + (aScore * sdev.value()), mean.units() };
 		}
 	};
+
+	typedef zscore<css::time> duration;
 
 	struct duration_model
 	{

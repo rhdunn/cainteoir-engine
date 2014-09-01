@@ -769,10 +769,10 @@ noinst_bin_PROGRAMS += tests/styles
 tests_styles_LDADD   = src/libcainteoir/libcainteoir.la
 tests_styles_SOURCES = tests/styles.cpp
 
-noinst_bin_PROGRAMS += tests/duration.test
+noinst_bin_PROGRAMS += tests/zscore.test
 
-tests_duration_test_LDADD   = src/libcainteoir/libcainteoir.la
-tests_duration_test_SOURCES = tests/duration.cpp
+tests_zscore_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_zscore_test_SOURCES = tests/zscore.cpp
 
 noinst_bin_PROGRAMS += tests/pho_file.test
 
@@ -826,6 +826,6 @@ check: \
 	tests/parsetext.check \
 	tests/pho_file.check \
 	tests/diphones.check \
-	tests/duration.check \
+	tests/zscore.check \
 	tests/prosody.check \
 	tests/units.check
