@@ -111,9 +111,12 @@ void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
 				fprintf(out, "%s%s", event.text->str().c_str(), phrase);
 			else
 			{
+				if (need_space)
+					fprintf(out, " ");
 				for (auto p : event.phonemes)
 					ipa->write(p);
 				ipa->flush();
+				need_space = true;
 			}
 			break;
 		case tts::word_uppercase:
