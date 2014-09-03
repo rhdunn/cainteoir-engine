@@ -32,70 +32,15 @@ public:
 	apply_prosody_t();
 
 	void process(std::list<tts::text_event> &aClause);
-private:
-	void adjust_phonemes(ipa::phonemes &aPhonemes);
-
-	int  mPrevSyllableCount;
-	bool mPrevIsStressed;
 };
 
 apply_prosody_t::apply_prosody_t()
-	: mPrevSyllableCount(0)
-	, mPrevIsStressed(false)
 {
 }
 
 void
 apply_prosody_t::process(std::list<tts::text_event> &aClause)
 {
-	for (auto current = aClause.begin(), last = aClause.end(); current != last; ++current)
-	{
-		switch (current->type)
-		{
-		case tts::comma:
-			break;
-		default:
-			if (current->phonemes.empty())
-			{
-				mPrevSyllableCount = 0;
-				mPrevIsStressed = false;
-			}
-			else
-				adjust_phonemes(current->phonemes);
-			break;
-		}
-	}
-}
-
-void apply_prosody_t::adjust_phonemes(ipa::phonemes &aPhonemes)
-{
-	auto stress_placement = aPhonemes.end();
-	int syllable_count = 0;
-	for (auto current = aPhonemes.begin(), last = aPhonemes.end(); current != last; ++current)
-	{
-		auto &phoneme = *current;
-
-		bool is_stressed = phoneme.get(ipa::stress) != ipa::unstressed;
-		bool is_vowel = phoneme.get(ipa::phoneme_type) == ipa::vowel;
-
-		if (is_stressed && syllable_count == 0)
-			stress_placement = current;
-		if (is_vowel)
-			++syllable_count;
-	}
-
-	bool is_stressed = stress_placement != aPhonemes.end();
-	if (mPrevSyllableCount == 1 && mPrevIsStressed)
-	{
-		if (syllable_count == 1 && is_stressed)
-		{
-			stress_placement->set(ipa::stress, ipa::unstressed);
-			is_stressed = false;
-		}
-	}
-
-	mPrevSyllableCount = syllable_count;
-	mPrevIsStressed = is_stressed;
 }
 
 std::shared_ptr<tts::clause_processor>
