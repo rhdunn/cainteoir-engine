@@ -26,10 +26,10 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct adjust_stress_t : public tts::clause_processor
+struct apply_prosody_t : public tts::clause_processor
 {
 public:
-	adjust_stress_t();
+	apply_prosody_t();
 
 	void process(std::list<tts::text_event> &aClause);
 private:
@@ -39,14 +39,14 @@ private:
 	bool mPrevIsStressed;
 };
 
-adjust_stress_t::adjust_stress_t()
+apply_prosody_t::apply_prosody_t()
 	: mPrevSyllableCount(0)
 	, mPrevIsStressed(false)
 {
 }
 
 void
-adjust_stress_t::process(std::list<tts::text_event> &aClause)
+apply_prosody_t::process(std::list<tts::text_event> &aClause)
 {
 	for (auto current = aClause.begin(), last = aClause.end(); current != last; ++current)
 	{
@@ -67,7 +67,7 @@ adjust_stress_t::process(std::list<tts::text_event> &aClause)
 	}
 }
 
-void adjust_stress_t::adjust_phonemes(ipa::phonemes &aPhonemes)
+void apply_prosody_t::adjust_phonemes(ipa::phonemes &aPhonemes)
 {
 	auto stress_placement = aPhonemes.end();
 	int syllable_count = 0;
@@ -99,7 +99,7 @@ void adjust_stress_t::adjust_phonemes(ipa::phonemes &aPhonemes)
 }
 
 std::shared_ptr<tts::clause_processor>
-tts::adjust_stress()
+tts::apply_prosody()
 {
-	return std::make_shared<adjust_stress_t>();
+	return std::make_shared<apply_prosody_t>();
 }

@@ -132,7 +132,7 @@ namespace cainteoir { namespace tts
 	                  const std::shared_ptr<dictionary_reader> &aExceptionDictionary);
 
 	std::shared_ptr<clause_processor>
-	adjust_stress();
+	apply_prosody();
 
 	struct clause_processor_chain : public clause_processor
 	{

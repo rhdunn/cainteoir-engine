@@ -121,7 +121,7 @@ create_reader(const char *filename,
 			<< tts::context_analysis()
 			<< tts::numbers_to_words(locale, scale)
 			<< tts::words_to_phonemes(rules, dict)
-			<< tts::adjust_stress();
+			<< tts::apply_prosody();
 
 		auto text = tts::create_text_reader(reader);
 		auto phonemes = tts::create_phoneme_reader(text, processor);

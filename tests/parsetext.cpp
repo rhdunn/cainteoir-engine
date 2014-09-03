@@ -192,7 +192,7 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 			<< tts::numbers_to_words(locale, scale)
 			<< tts::words_to_phonemes(rules, dict);
 		if (type == mode_type::prosody_stream)
-			std::dynamic_pointer_cast<tts::clause_processor_chain>(processor) << tts::adjust_stress();
+			std::dynamic_pointer_cast<tts::clause_processor_chain>(processor) << tts::apply_prosody();
 
 		auto text = tts::create_text_reader(reader);
 		switch (phonemes)
