@@ -43,19 +43,33 @@ apply_prosody_t::process(std::list<tts::text_event> &aClause)
 {
 	for (auto current = aClause.begin(), last = aClause.end(); current != last; ++current)
 	{
-		switch (current->type)
+		auto &event = *current;
+		switch (event.type)
 		{
 		case tts::comma:
 		case tts::semicolon:
 		case tts::colon:
 		case tts::ellipsis:
-			(*current).phonemes.push_back(ipa::foot_break);
+			event.phonemes.push_back(ipa::foot_break);
 			break;
 		case tts::full_stop:
 		case tts::exclamation:
 		case tts::question:
 		case tts::paragraph:
-			(*current).phonemes.push_back(ipa::intonation_break);
+			event.phonemes.push_back(ipa::intonation_break);
+			break;
+		case tts::word_uppercase:
+		case tts::word_lowercase:
+		case tts::word_capitalized:
+		case tts::word_mixedcase:
+		case tts::word_script:
+			for (auto &p : event.phonemes)
+			{
+				if (p.get(ipa::phoneme_type | ipa::syllabicity) == ipa::vowel)
+				{
+					p.set(ipa::tone_start_bottom, ipa::tone_start);
+				}
+			}
 			break;
 		}
 	}

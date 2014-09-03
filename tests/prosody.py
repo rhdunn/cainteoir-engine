@@ -38,7 +38,7 @@ if __name__ == '__main__':
 			{'test': 'prosody/unsupported-phonemes.txt', 'result': 'prosody/unsupported-phonemes.pho'},
 		]},
 		{'name': 'Voice', 'type': 'prosody', 'tests': [
-			{'test': 'prosody/lexical-sets.txt', 'result': 'prosody/lexical-sets-en1.pho', 'accent': 'en-GB-x-rp', 'voice': 'en1'},
+			{'test': 'prosody/lexical-sets.txt', 'result': 'prosody/lexical-sets-en1.pho', 'accent': 'en-GB-x-rp', 'voice': 'en1', 'args': ['--no-pitch']},
 		]},
 	]})
 	test.summary()
