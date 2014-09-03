@@ -168,6 +168,7 @@ if __name__ == '__main__':
 	]})
 	test.run({'name': 'Prosody Stream', 'groups': [
 		{'name': 'Pauses', 'type': 'prosodystream', 'tests': [
+			{'test': 'parse-text/prosody/comma.txt', 'result': 'parse-text/prosody/comma.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 			{'test': 'parse-text/prosody/full-stop.txt', 'result': 'parse-text/prosody/full-stop.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 		]},
 	]})
