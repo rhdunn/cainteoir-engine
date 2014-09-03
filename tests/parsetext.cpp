@@ -100,32 +100,32 @@ print_event(const tts::text_event &event,
 		        *event.range.begin(),
 		        *event.range.end(),
 		        event.text->str().c_str());
-		if (!event.phonemes.empty())
-		{
-			fputc(' ', stdout);
-			fputc('/', stdout);
-			auto phonemes = event.phonemes;
-			tts::make_stressed(phonemes, stress);
-			for (auto p : phonemes)
-				phonemeset->write(p);
-			fputc('/', stdout);
-		}
-		fputc('\n', stdout);
 		break;
 	case tts::paragraph:
-		fprintf(stdout, ".%-13s [%d..%d] \n",
+		fprintf(stdout, ".%-13s [%d..%d] ",
 		        token_name[event.type],
 		        *event.range.begin(),
 		        *event.range.end());
 		break;
 	default:
-		fprintf(stdout, ".%-13s [%d..%d] %s\n",
+		fprintf(stdout, ".%-13s [%d..%d] %s",
 		        token_name[event.type],
 		        *event.range.begin(),
 		        *event.range.end(),
 		        event.text->str().c_str());
 		break;
 	}
+	if (!event.phonemes.empty())
+	{
+		fputc(' ', stdout);
+		fputc('/', stdout);
+		auto phonemes = event.phonemes;
+		tts::make_stressed(phonemes, stress);
+		for (auto p : phonemes)
+			phonemeset->write(p);
+		fputc('/', stdout);
+	}
+	fputc('\n', stdout);
 }
 
 static void

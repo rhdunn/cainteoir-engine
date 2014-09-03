@@ -41,6 +41,15 @@ apply_prosody_t::apply_prosody_t()
 void
 apply_prosody_t::process(std::list<tts::text_event> &aClause)
 {
+	for (auto current = aClause.begin(), last = aClause.end(); current != last; ++current)
+	{
+		switch (current->type)
+		{
+		case tts::full_stop:
+			(*current).phonemes.push_back(ipa::intonation_break);
+			break;
+		}
+	}
 }
 
 std::shared_ptr<tts::clause_processor>

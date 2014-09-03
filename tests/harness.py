@@ -236,7 +236,7 @@ def create_command(test_type):
 		return Command(test_type)
 	if test_type == 'htmlreader':
 		return Command('xmlreader --html')
-	if test_type in ['parsetext', 'clauses', 'contextanalysis', 'wordstream', 'phonemestream']:
+	if test_type in ['parsetext', 'clauses', 'contextanalysis', 'wordstream', 'phonemestream', 'prosodystream']:
 		return ParseTextCommand(test_type)
 	if test_type == 'diphones':
 		return ProsodyCommand(input_format='pho', output_format='diphones')
