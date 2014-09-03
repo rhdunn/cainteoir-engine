@@ -175,6 +175,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/prosody/full-stop.txt', 'result': 'parse-text/prosody/full-stop.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 			{'test': 'parse-text/prosody/exclamation.txt', 'result': 'parse-text/prosody/exclamation.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 			{'test': 'parse-text/prosody/question.txt', 'result': 'parse-text/prosody/question.ps', 'dictionary': 'dict/cainteoir/words.dict'},
+			{'test': 'parse-text/prosody/paragraph.txt', 'result': 'parse-text/prosody/paragraph.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 		]},
 	]})
 	test.summary()

@@ -86,6 +86,7 @@ print_event(const tts::text_event &event,
             tts::stress_type stress)
 {
 	ucd::codepoint_t cp = 0;
+	bool need_space = true;
 	switch (event.type)
 	{
 	case tts::word_uppercase:
@@ -106,6 +107,7 @@ print_event(const tts::text_event &event,
 		        token_name[event.type],
 		        *event.range.begin(),
 		        *event.range.end());
+		need_space = false;
 		break;
 	default:
 		fprintf(stdout, ".%-13s [%d..%d] %s",
@@ -117,7 +119,8 @@ print_event(const tts::text_event &event,
 	}
 	if (!event.phonemes.empty())
 	{
-		fputc(' ', stdout);
+		if (need_space)
+			fputc(' ', stdout);
 		fputc('/', stdout);
 		auto phonemes = event.phonemes;
 		tts::make_stressed(phonemes, stress);
