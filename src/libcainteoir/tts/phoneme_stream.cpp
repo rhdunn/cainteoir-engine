@@ -106,8 +106,14 @@ void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
 			}
 			if (event.type == tts::paragraph)
 				fprintf(out, "\n\n");
-			else
+			else if (open)
 				fprintf(out, "%s%s", event.text->str().c_str(), phrase);
+			else
+			{
+				for (auto p : event.phonemes)
+					ipa->write(p);
+				ipa->flush();
+			}
 			break;
 		case tts::word_uppercase:
 		case tts::word_lowercase:
