@@ -102,7 +102,8 @@ void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
 			{
 				fprintf(out, "%s", close ? close : "");
 				need_open  = true;
-				need_space = false;
+				if (open)
+					need_space = false;
 			}
 			if (event.type == tts::paragraph)
 				fprintf(out, "\n\n");
@@ -122,9 +123,12 @@ void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
 		case tts::word_script:
 			if (need_open)
 			{
-				if (open) fprintf(out, "%s", open);
+				if (open)
+				{
+					fprintf(out, "%s", open);
+					need_space = false;
+				}
 				need_open  = false;
-				need_space = false;
 			}
 			if (need_space)
 				fprintf(out, " ");
