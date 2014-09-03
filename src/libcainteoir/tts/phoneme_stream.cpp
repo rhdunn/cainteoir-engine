@@ -107,7 +107,17 @@ void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
 			}
 			if (event.type == tts::paragraph)
 			{
-				fprintf(out, "\n\n");
+				if (open)
+					fprintf(out, "\n\n");
+				else
+				{
+					if (need_space)
+						fprintf(out, " ");
+					for (auto p : event.phonemes)
+						ipa->write(p);
+					ipa->flush();
+					fprintf(out, "\n");
+				}
 				need_space = false;
 			}
 			else if (open)
