@@ -170,6 +170,7 @@ if __name__ == '__main__':
 		{'name': 'Pauses', 'type': 'prosodystream', 'tests': [
 			{'test': 'parse-text/prosody/comma.txt', 'result': 'parse-text/prosody/comma.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 			{'test': 'parse-text/prosody/semi-colon.txt', 'result': 'parse-text/prosody/semi-colon.ps', 'dictionary': 'dict/cainteoir/words.dict'},
+			{'test': 'parse-text/prosody/colon.txt', 'result': 'parse-text/prosody/colon.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 			{'test': 'parse-text/prosody/full-stop.txt', 'result': 'parse-text/prosody/full-stop.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 		]},
 	]})
