@@ -167,12 +167,13 @@ if __name__ == '__main__':
 		]},
 	]})
 	test.run({'name': 'Prosody Stream', 'groups': [
-		{'name': 'Pauses', 'type': 'prosodystream', 'tests': [
+		{'name': 'Punctuation', 'type': 'prosodystream', 'tests': [
 			{'test': 'parse-text/prosody/comma.txt', 'result': 'parse-text/prosody/comma.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 			{'test': 'parse-text/prosody/semi-colon.txt', 'result': 'parse-text/prosody/semi-colon.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 			{'test': 'parse-text/prosody/colon.txt', 'result': 'parse-text/prosody/colon.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 			{'test': 'parse-text/prosody/ellipsis.txt', 'result': 'parse-text/prosody/ellipsis.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 			{'test': 'parse-text/prosody/full-stop.txt', 'result': 'parse-text/prosody/full-stop.ps', 'dictionary': 'dict/cainteoir/words.dict'},
+			{'test': 'parse-text/prosody/exclamation.txt', 'result': 'parse-text/prosody/exclamation.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 		]},
 	]})
 	test.summary()

@@ -52,6 +52,7 @@ apply_prosody_t::process(std::list<tts::text_event> &aClause)
 			(*current).phonemes.push_back(ipa::foot_break);
 			break;
 		case tts::full_stop:
+		case tts::exclamation:
 			(*current).phonemes.push_back(ipa::intonation_break);
 			break;
 		}
