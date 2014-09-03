@@ -46,6 +46,7 @@ apply_prosody_t::process(std::list<tts::text_event> &aClause)
 		switch (current->type)
 		{
 		case tts::comma:
+		case tts::semicolon:
 			(*current).phonemes.push_back(ipa::foot_break);
 			break;
 		case tts::full_stop:
