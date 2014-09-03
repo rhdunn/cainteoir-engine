@@ -106,7 +106,10 @@ void tts::generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
 					need_space = false;
 			}
 			if (event.type == tts::paragraph)
+			{
 				fprintf(out, "\n\n");
+				need_space = false;
+			}
 			else if (open)
 				fprintf(out, "%s%s", event.text->str().c_str(), phrase);
 			else
