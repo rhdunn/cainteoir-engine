@@ -200,6 +200,10 @@ phoneme /{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /aɪ̯/
 	unit "AI"
 end
 
+phoneme /{umd,bck,rnd,vwl}{smh,bck,rnd,vwl,nsy}/ 135ms # /oʊ̯/
+	unit "@U"
+end
+
 phoneme /{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 135ms # /əʊ̯/
 	unit "@U"
 end
