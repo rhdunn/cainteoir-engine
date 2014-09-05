@@ -164,6 +164,7 @@ if __name__ == '__main__':
 			{'test': 'parse-text/phonemes/in-dictionary.txt', 'result': 'parse-text/phonemes/in-dictionary.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 			{'test': 'parse-text/phonemes/missing-word.txt', 'result': 'parse-text/phonemes/missing-word.ps', 'dictionary': 'dict/cainteoir/words.dict'},
 			{'test': 'parse-text/phonemes/hyphenated.txt', 'result': 'parse-text/phonemes/hyphenated.ps', 'dictionary': 'dict/cainteoir/words.dict'},
+			{'test': 'parse-text/phonemes/apostrophe.txt', 'result': 'parse-text/phonemes/apostrophe.ps', 'dictionary': 'dict/cainteoir/say-as-compound.dict'},
 		]},
 	]})
 	test.run({'name': 'Prosody Stream', 'groups': [

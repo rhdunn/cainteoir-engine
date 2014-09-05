@@ -38,11 +38,18 @@ namespace cainteoir { namespace tts
 
 		typedef const value_type &const_reference;
 
-		multiword_entry(const std::shared_ptr<cainteoir::buffer> &aText)
+		enum mode_t
+		{
+			hyphenated,
+			stressed,
+		};
+
+		multiword_entry(const std::shared_ptr<cainteoir::buffer> &aText, mode_t aMode)
 			: first(aText->begin())
 			, last(aText->end())
 			, next(first)
 			, mCurrentWord(0)
+			, mMode(aMode)
 		{
 			mValue.stress = tts::initial_stress::as_transcribed;
 			advance();
@@ -66,6 +73,7 @@ namespace cainteoir { namespace tts
 
 		value_type mValue;
 		size_t mCurrentWord;
+		mode_t mMode;
 	};
 
 	struct dictionary
