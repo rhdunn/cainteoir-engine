@@ -59,205 +59,187 @@ TEST_CASE("single-word [as-entry]")
 {
 	tts::multiword_entry entry{ std::make_shared<cainteoir::buffer>("test") };
 	assert(!entry.is_multiword());
-	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "test", 4);
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 1);
+	assert(entry.position() == 0);
 
+	++entry;
 	assert(!entry.have_word());
-	entry.next_word();
 	assert(!(*entry).word.get());
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 2);
+	assert(entry.position() == 1);
 }
 
 TEST_CASE("single-word [primary-stressed]")
 {
 	tts::multiword_entry entry{ std::make_shared<cainteoir::buffer>("'one") };
 	assert(!entry.is_multiword());
-	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "one", 3);
 	assert((*entry).stress == tts::initial_stress::primary);
-	assert(entry.position() == 1);
+	assert(entry.position() == 0);
 
+	++entry;
 	assert(!entry.have_word());
-	entry.next_word();
 	assert(!(*entry).word.get());
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 2);
+	assert(entry.position() == 1);
 }
 
 TEST_CASE("single-word [secondary-stressed]")
 {
 	tts::multiword_entry entry{ std::make_shared<cainteoir::buffer>(",one") };
 	assert(!entry.is_multiword());
-	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "one", 3);
 	assert((*entry).stress == tts::initial_stress::secondary);
-	assert(entry.position() == 1);
+	assert(entry.position() == 0);
 
+	++entry;
 	assert(!entry.have_word());
-	entry.next_word();
 	assert(!(*entry).word.get());
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 2);
+	assert(entry.position() == 1);
 }
 
 TEST_CASE("single-word [unstressed]")
 {
 	tts::multiword_entry entry{ std::make_shared<cainteoir::buffer>(".one") };
 	assert(!entry.is_multiword());
-	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "one", 3);
 	assert((*entry).stress == tts::initial_stress::unstressed);
-	assert(entry.position() == 1);
+	assert(entry.position() == 0);
 
+	++entry;
 	assert(!entry.have_word());
-	entry.next_word();
 	assert(!(*entry).word.get());
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 2);
+	assert(entry.position() == 1);
 }
 
 TEST_CASE("hyphenated (2 words) [as-entry]")
 {
 	tts::multiword_entry entry{ std::make_shared<cainteoir::buffer>("first-second") };
 	assert(entry.is_multiword());
-	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "first", 5);
+	assert((*entry).stress == tts::initial_stress::as_transcribed);
+	assert(entry.position() == 0);
+
+	++entry;
+	assert(entry.have_word());
+	match((*entry).word, "second", 6);
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 1);
 
-	assert(entry.have_word());
-	entry.next_word();
-	match((*entry).word, "second", 6);
-	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 2);
-
+	++entry;
 	assert(!entry.have_word());
-	entry.next_word();
 	assert(!(*entry).word.get());
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 3);
+	assert(entry.position() == 2);
 }
 
 TEST_CASE("hyphenated (3 words) [as-entry]")
 {
 	tts::multiword_entry entry{ std::make_shared<cainteoir::buffer>("this-and-that") };
 	assert(entry.is_multiword());
-	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "this", 4);
+	assert((*entry).stress == tts::initial_stress::as_transcribed);
+	assert(entry.position() == 0);
+
+	++entry;
+	assert(entry.have_word());
+	match((*entry).word, "and", 3);
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 1);
 
+	++entry;
 	assert(entry.have_word());
-	entry.next_word();
-	match((*entry).word, "and", 3);
+	match((*entry).word, "that", 4);
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 2);
 
-	assert(entry.have_word());
-	entry.next_word();
-	match((*entry).word, "that", 4);
-	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 3);
-
+	++entry;
 	assert(!entry.have_word());
-	entry.next_word();
 	assert(!(*entry).word.get());
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 4);
+	assert(entry.position() == 3);
 }
 
 TEST_CASE("milti-word [primary-stressed]")
 {
 	tts::multiword_entry entry{ std::make_shared<cainteoir::buffer>("one'two") };
 	assert(entry.is_multiword());
-	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "one", 3);
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 1);
+	assert(entry.position() == 0);
 
+	++entry;
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "two", 3);
 	assert((*entry).stress == tts::initial_stress::primary);
-	assert(entry.position() == 2);
+	assert(entry.position() == 1);
 
+	++entry;
 	assert(!entry.have_word());
-	entry.next_word();
 	assert(!(*entry).word.get());
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 3);
+	assert(entry.position() == 2);
 }
 
 TEST_CASE("multi-word [secondary-stressed]")
 {
 	tts::multiword_entry entry{ std::make_shared<cainteoir::buffer>("one,two") };
 	assert(entry.is_multiword());
-	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "one", 3);
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 1);
+	assert(entry.position() == 0);
 
+	++entry;
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "two", 3);
 	assert((*entry).stress == tts::initial_stress::secondary);
-	assert(entry.position() == 2);
+	assert(entry.position() == 1);
 
+	++entry;
 	assert(!entry.have_word());
-	entry.next_word();
 	assert(!(*entry).word.get());
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 3);
+	assert(entry.position() == 2);
 }
 
 TEST_CASE("multi-word [unstressed]")
 {
 	tts::multiword_entry entry{ std::make_shared<cainteoir::buffer>("one.two") };
 	assert(entry.is_multiword());
-	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "one", 3);
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 1);
+	assert(entry.position() == 0);
 
+	++entry;
 	assert(entry.have_word());
-	entry.next_word();
 	match((*entry).word, "two", 3);
 	assert((*entry).stress == tts::initial_stress::unstressed);
-	assert(entry.position() == 2);
+	assert(entry.position() == 1);
 
+	++entry;
 	assert(!entry.have_word());
-	entry.next_word();
 	assert(!(*entry).word.get());
 	assert((*entry).stress == tts::initial_stress::as_transcribed);
-	assert(entry.position() == 3);
+	assert(entry.position() == 2);
 }

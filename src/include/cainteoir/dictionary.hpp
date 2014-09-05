@@ -54,7 +54,7 @@ namespace cainteoir { namespace tts
 
 		bool have_word() const { return first != last; }
 
-		void next_word();
+		void operator++();
 
 		const_reference operator*() const { return mValue; }
 	private:

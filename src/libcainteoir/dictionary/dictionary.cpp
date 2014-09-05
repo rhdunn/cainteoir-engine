@@ -28,31 +28,9 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-void tts::multiword_entry::next_word()
+void tts::multiword_entry::operator++()
 {
 	++mCurrentWord;
-	switch (*first)
-	{
-	case '\'':
-		mValue.stress = tts::initial_stress::primary;
-		++first;
-		break;
-	case ',':
-		mValue.stress = tts::initial_stress::secondary;
-		++first;
-		break;
-	case '.':
-		mValue.stress = tts::initial_stress::unstressed;
-		++first;
-		break;
-	default:
-		mValue.stress = tts::initial_stress::as_transcribed;
-		break;
-	}
-
-	mValue.word = (first == last)
-	      ? std::shared_ptr<cainteoir::buffer>()
-	      : std::make_shared<cainteoir::buffer>(first, next);
 	advance();
 }
 
@@ -74,8 +52,10 @@ void tts::multiword_entry::advance()
 		case start:
 			++first;
 			state = in_word;
+			mValue.stress = tts::initial_stress::as_transcribed;
 			break;
 		case in_word:
+			mValue.word = std::make_shared<cainteoir::buffer>(first, next);
 			return;
 		}
 		break;
@@ -83,19 +63,38 @@ void tts::multiword_entry::advance()
 		switch (state)
 		{
 		case start:
+			++first;
 			state = in_word;
+			mValue.stress = tts::initial_stress::primary;
 			break;
 		case in_word:
+			mValue.word = std::make_shared<cainteoir::buffer>(first, next);
 			return;
 		}
 		break;
-	case ',': case '.':
+	case '.':
 		switch (state)
 		{
 		case start:
+			++first;
 			state = in_word;
+			mValue.stress = tts::initial_stress::unstressed;
 			break;
 		case in_word:
+			mValue.word = std::make_shared<cainteoir::buffer>(first, next);
+			return;
+		}
+		break;
+	case ',':
+		switch (state)
+		{
+		case start:
+			++first;
+			state = in_word;
+			mValue.stress = tts::initial_stress::secondary;
+			break;
+		case in_word:
+			mValue.word = std::make_shared<cainteoir::buffer>(first, next);
 			return;
 		}
 		break;
@@ -104,12 +103,21 @@ void tts::multiword_entry::advance()
 		{
 		case start:
 			state = in_word;
+			mValue.stress = tts::initial_stress::as_transcribed;
 			break;
 		case in_word:
 			break;
 		}
 		break;
 	}
+
+	if (first == last)
+	{
+		mValue.word = {};
+		mValue.stress = tts::initial_stress::as_transcribed;
+	}
+	else
+		mValue.word = std::make_shared<cainteoir::buffer>(first, next);
 }
 
 tts::dictionary::entry::entry(const std::shared_ptr<buffer> &aPhonemes, std::shared_ptr<phoneme_reader> &aPhonemeSet)
@@ -166,10 +174,9 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
 			{
 				while (words.have_word())
 				{
-					words.next_word();
 					const auto &entry = *words;
 
-					if (words.position() != 1 &&
+					if (words.position() != 0 &&
 					    entry.stress == tts::initial_stress::unstressed)
 						aPhonemes.push_back(ipa::syllable_break);
 
@@ -178,6 +185,8 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
 						tts::make_stressed(phonemes, aPhonemes, entry.stress);
 					else
 						throw tts::phoneme_error("unable to pronounce the hyphenated word");
+
+					++words;
 				}
 				return true;
 			}
