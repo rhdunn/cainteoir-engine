@@ -30,13 +30,21 @@ namespace cainteoir { namespace tts
 {
 	struct multiword_entry
 	{
+		struct value_type
+		{
+			tts::initial_stress stress;
+			std::shared_ptr<cainteoir::buffer> word;
+		};
+
+		typedef const value_type &const_reference;
+
 		multiword_entry(const std::shared_ptr<cainteoir::buffer> &aText)
 			: first(aText->begin())
 			, last(aText->end())
 			, next(first)
-			, mStressType(tts::initial_stress::as_transcribed)
 			, mCurrentWord(0)
 		{
+			mValue.stress = tts::initial_stress::as_transcribed;
 			advance();
 		}
 
@@ -48,9 +56,7 @@ namespace cainteoir { namespace tts
 
 		void next_word();
 
-		tts::initial_stress stress() const { return mStressType; }
-
-		const std::shared_ptr<cainteoir::buffer> &word() { return mWord; }
+		const_reference operator*() const { return mValue; }
 	private:
 		void advance();
 
@@ -58,8 +64,7 @@ namespace cainteoir { namespace tts
 		const char *last;
 		const char *next;
 
-		tts::initial_stress mStressType;
-		std::shared_ptr<cainteoir::buffer> mWord;
+		value_type mValue;
 		size_t mCurrentWord;
 	};
 

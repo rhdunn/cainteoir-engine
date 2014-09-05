@@ -34,23 +34,23 @@ void tts::multiword_entry::next_word()
 	switch (*first)
 	{
 	case '\'':
-		mStressType = tts::initial_stress::primary;
+		mValue.stress = tts::initial_stress::primary;
 		++first;
 		break;
 	case ',':
-		mStressType = tts::initial_stress::secondary;
+		mValue.stress = tts::initial_stress::secondary;
 		++first;
 		break;
 	case '.':
-		mStressType = tts::initial_stress::unstressed;
+		mValue.stress = tts::initial_stress::unstressed;
 		++first;
 		break;
 	default:
-		mStressType = tts::initial_stress::as_transcribed;
+		mValue.stress = tts::initial_stress::as_transcribed;
 		break;
 	}
 
-	mWord = (first == last)
+	mValue.word = (first == last)
 	      ? std::shared_ptr<cainteoir::buffer>()
 	      : std::make_shared<cainteoir::buffer>(first, next);
 	advance();
@@ -167,14 +167,15 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
 				while (words.have_word())
 				{
 					words.next_word();
+					const auto &entry = *words;
 
 					if (words.position() != 1 &&
-					    words.stress() == tts::initial_stress::unstressed)
+					    entry.stress == tts::initial_stress::unstressed)
 						aPhonemes.push_back(ipa::syllable_break);
 
 					ipa::phonemes phonemes;
-					if (pronounce(words.word(), aPronunciationRules, phonemes, depth + 1))
-						tts::make_stressed(phonemes, aPhonemes, words.stress());
+					if (pronounce(entry.word, aPronunciationRules, phonemes, depth + 1))
+						tts::make_stressed(phonemes, aPhonemes, entry.stress);
 					else
 						throw tts::phoneme_error("unable to pronounce the hyphenated word");
 				}
