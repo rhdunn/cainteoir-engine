@@ -28,7 +28,7 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-std::shared_ptr<cainteoir::buffer> tts::multiword_entry::next_word()
+void tts::multiword_entry::next_word()
 {
 	++mCurrentWord;
 	switch (*first)
@@ -50,11 +50,10 @@ std::shared_ptr<cainteoir::buffer> tts::multiword_entry::next_word()
 		break;
 	}
 
-	auto ret = (first == last)
-	         ? std::shared_ptr<cainteoir::buffer>()
-	         : std::make_shared<cainteoir::buffer>(first, next);
+	mWord = (first == last)
+	      ? std::shared_ptr<cainteoir::buffer>()
+	      : std::make_shared<cainteoir::buffer>(first, next);
 	advance();
-	return ret;
 }
 
 void tts::multiword_entry::advance()
@@ -167,14 +166,14 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
 			{
 				while (words.have_word())
 				{
-					auto word = words.next_word();
+					words.next_word();
 
 					if (words.position() != 1 &&
 					    words.stress() == tts::initial_stress::unstressed)
 						aPhonemes.push_back(ipa::syllable_break);
 
 					ipa::phonemes phonemes;
-					if (pronounce(word, aPronunciationRules, phonemes, depth + 1))
+					if (pronounce(words.word(), aPronunciationRules, phonemes, depth + 1))
 						tts::make_stressed(phonemes, aPhonemes, words.stress());
 					else
 						throw tts::phoneme_error("unable to pronounce the hyphenated word");

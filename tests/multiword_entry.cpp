@@ -62,12 +62,14 @@ TEST_CASE("single-word [as-entry]")
 	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "test", 4);
+	entry.next_word();
+	match(entry.word(), "test", 4);
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 1);
 
 	assert(!entry.have_word());
-	assert(!entry.next_word().get());
+	entry.next_word();
+	assert(!entry.word().get());
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 2);
 }
@@ -79,12 +81,14 @@ TEST_CASE("single-word [primary-stressed]")
 	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "one", 3);
+	entry.next_word();
+	match(entry.word(), "one", 3);
 	assert(entry.stress() == tts::initial_stress::primary);
 	assert(entry.position() == 1);
 
 	assert(!entry.have_word());
-	assert(!entry.next_word().get());
+	entry.next_word();
+	assert(!entry.word().get());
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 2);
 }
@@ -96,12 +100,14 @@ TEST_CASE("single-word [secondary-stressed]")
 	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "one", 3);
+	entry.next_word();
+	match(entry.word(), "one", 3);
 	assert(entry.stress() == tts::initial_stress::secondary);
 	assert(entry.position() == 1);
 
 	assert(!entry.have_word());
-	assert(!entry.next_word().get());
+	entry.next_word();
+	assert(!entry.word().get());
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 2);
 }
@@ -113,12 +119,14 @@ TEST_CASE("single-word [unstressed]")
 	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "one", 3);
+	entry.next_word();
+	match(entry.word(), "one", 3);
 	assert(entry.stress() == tts::initial_stress::unstressed);
 	assert(entry.position() == 1);
 
 	assert(!entry.have_word());
-	assert(!entry.next_word().get());
+	entry.next_word();
+	assert(!entry.word().get());
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 2);
 }
@@ -130,17 +138,20 @@ TEST_CASE("hyphenated (2 words) [as-entry]")
 	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "first", 5);
+	entry.next_word();
+	match(entry.word(), "first", 5);
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 1);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "second", 6);
+	entry.next_word();
+	match(entry.word(), "second", 6);
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 2);
 
 	assert(!entry.have_word());
-	assert(!entry.next_word().get());
+	entry.next_word();
+	assert(!entry.word().get());
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 3);
 }
@@ -152,22 +163,26 @@ TEST_CASE("hyphenated (3 words) [as-entry]")
 	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "this", 4);
+	entry.next_word();
+	match(entry.word(), "this", 4);
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 1);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "and", 3);
+	entry.next_word();
+	match(entry.word(), "and", 3);
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 2);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "that", 4);
+	entry.next_word();
+	match(entry.word(), "that", 4);
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 3);
 
 	assert(!entry.have_word());
-	assert(!entry.next_word().get());
+	entry.next_word();
+	assert(!entry.word().get());
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 4);
 }
@@ -179,17 +194,20 @@ TEST_CASE("milti-word [primary-stressed]")
 	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "one", 3);
+	entry.next_word();
+	match(entry.word(), "one", 3);
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 1);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "two", 3);
+	entry.next_word();
+	match(entry.word(), "two", 3);
 	assert(entry.stress() == tts::initial_stress::primary);
 	assert(entry.position() == 2);
 
 	assert(!entry.have_word());
-	assert(!entry.next_word().get());
+	entry.next_word();
+	assert(!entry.word().get());
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 3);
 }
@@ -201,17 +219,20 @@ TEST_CASE("multi-word [secondary-stressed]")
 	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "one", 3);
+	entry.next_word();
+	match(entry.word(), "one", 3);
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 1);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "two", 3);
+	entry.next_word();
+	match(entry.word(), "two", 3);
 	assert(entry.stress() == tts::initial_stress::secondary);
 	assert(entry.position() == 2);
 
 	assert(!entry.have_word());
-	assert(!entry.next_word().get());
+	entry.next_word();
+	assert(!entry.word().get());
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 3);
 }
@@ -223,17 +244,20 @@ TEST_CASE("multi-word [unstressed]")
 	assert(entry.position() == 0);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "one", 3);
+	entry.next_word();
+	match(entry.word(), "one", 3);
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 1);
 
 	assert(entry.have_word());
-	match(entry.next_word(), "two", 3);
+	entry.next_word();
+	match(entry.word(), "two", 3);
 	assert(entry.stress() == tts::initial_stress::unstressed);
 	assert(entry.position() == 2);
 
 	assert(!entry.have_word());
-	assert(!entry.next_word().get());
+	entry.next_word();
+	assert(!entry.word().get());
 	assert(entry.stress() == tts::initial_stress::as_transcribed);
 	assert(entry.position() == 3);
 }

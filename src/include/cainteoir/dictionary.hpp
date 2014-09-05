@@ -46,17 +46,21 @@ namespace cainteoir { namespace tts
 
 		bool have_word() const { return first != last; }
 
+		void next_word();
+
 		tts::initial_stress stress() const { return mStressType; }
 
-		std::shared_ptr<cainteoir::buffer> next_word();
+		const std::shared_ptr<cainteoir::buffer> &word() { return mWord; }
 	private:
 		void advance();
 
-		tts::initial_stress mStressType;
-		size_t mCurrentWord;
 		const char *first;
 		const char *last;
 		const char *next;
+
+		tts::initial_stress mStressType;
+		std::shared_ptr<cainteoir::buffer> mWord;
+		size_t mCurrentWord;
 	};
 
 	struct dictionary
