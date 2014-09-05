@@ -35,11 +35,14 @@ namespace cainteoir { namespace tts
 			, last(aText->end())
 			, next(first)
 			, mStressType(tts::initial_stress::as_transcribed)
+			, mCurrentWord(0)
 		{
 			advance();
 		}
 
 		bool is_multiword() const { return next != last; }
+
+		size_t position() const { return mCurrentWord; }
 
 		bool have_word() const { return first != last; }
 
@@ -50,6 +53,7 @@ namespace cainteoir { namespace tts
 		void advance();
 
 		tts::initial_stress mStressType;
+		size_t mCurrentWord;
 		const char *first;
 		const char *last;
 		const char *next;

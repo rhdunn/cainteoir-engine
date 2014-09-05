@@ -30,6 +30,7 @@ namespace ipa = cainteoir::ipa;
 
 std::shared_ptr<cainteoir::buffer> tts::multiword_entry::next_word()
 {
+	++mCurrentWord;
 	switch (*first)
 	{
 	case '\'':
