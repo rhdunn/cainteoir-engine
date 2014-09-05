@@ -59,26 +59,56 @@ std::shared_ptr<cainteoir::buffer> tts::multiword_entry::next_word()
 
 void tts::multiword_entry::advance()
 {
-	switch (*next)
+	enum state_t
+	{
+		start,
+		in_word,
+	};
+
+	state_t state = start;
+	first = next;
+	for (; next < last; ++next) switch (*next)
 	{
 	case '-':
-		++next;
-		first = next;
+		switch (state)
+		{
+		case start:
+			++first;
+			state = in_word;
+			break;
+		case in_word:
+			return;
+		}
 		break;
-	case '\'': case ',': case '.':
-		first = next;
-		++next;
+	case '\'':
+		switch (state)
+		{
+		case start:
+			state = in_word;
+			break;
+		case in_word:
+			return;
+		}
+		break;
+	case ',': case '.':
+		switch (state)
+		{
+		case start:
+			state = in_word;
+			break;
+		case in_word:
+			return;
+		}
 		break;
 	default:
-		first = next;
-		break;
-	}
-	while (next < last) switch (*next)
-	{
-	case '-': case '\'': case ',': case '.':
-		return;
-	default:
-		++next;
+		switch (state)
+		{
+		case start:
+			state = in_word;
+			break;
+		case in_word:
+			break;
+		}
 		break;
 	}
 }
