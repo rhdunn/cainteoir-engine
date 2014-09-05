@@ -139,6 +139,10 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
 				{
 					auto word = words.next_word();
 
+					if (words.position() != 1 &&
+					    words.stress() == tts::initial_stress::unstressed)
+						aPhonemes.push_back(ipa::syllable_break);
+
 					ipa::phonemes phonemes;
 					if (pronounce(word, aPronunciationRules, phonemes, depth + 1))
 						tts::make_stressed(phonemes, aPhonemes, words.stress());
