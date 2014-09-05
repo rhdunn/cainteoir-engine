@@ -1,0 +1,12 @@
+.author		Reece H. Dunn
+.copyright	Copyright (C) 2013 Reece H. Dunn
+.license	GPLv3+
+.description	Test dictionary for say-as entries.
+.phonemeset	ipa
+
+my		/ˈmaɪ̯/
+self		/ˈsɛlf/
+myself		.my'self
+bed		/ˈbɛd/
+room		/ˈɹuːm/
+bedroom		'bed,room
