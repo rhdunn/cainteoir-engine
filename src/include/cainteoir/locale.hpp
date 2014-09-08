@@ -21,9 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_LOCALE_HPP
 #define CAINTEOIR_ENGINE_LOCALE_HPP
 
-#include <string.h>
 #include <string>
-#include <map>
 
 namespace cainteoir { namespace language
 {
