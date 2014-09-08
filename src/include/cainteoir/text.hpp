@@ -22,7 +22,7 @@
 #define CAINTEOIR_ENGINE_TEXT_HPP
 
 #include "document.hpp"
-#include "languages.hpp"
+#include "locale.hpp"
 #include "dictionary.hpp"
 #include "phoneme.hpp"
 

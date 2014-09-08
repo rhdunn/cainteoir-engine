@@ -23,7 +23,7 @@
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/document.hpp>
 #include <cainteoir/engines.hpp>
-#include <cainteoir/languages.hpp>
+#include <cainteoir/locale.hpp>
 #include <iostream>
 #include <cassert>
 #include <cstdlib>

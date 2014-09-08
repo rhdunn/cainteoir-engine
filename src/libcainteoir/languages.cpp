@@ -22,7 +22,7 @@
 #include "compatibility.hpp"
 #include "i18n.h"
 
-#include <cainteoir/languages.hpp>
+#include <cainteoir/locale.hpp>
 #include <cainteoir/document.hpp>
 #include <cainteoir/path.hpp>
 #include <algorithm>

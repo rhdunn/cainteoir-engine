@@ -18,7 +18,7 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cainteoir/languages.hpp>
+#include <cainteoir/locale.hpp>
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/document.hpp>
 #include <iostream>
