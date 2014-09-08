@@ -1,4 +1,4 @@
-/* Language Mapping Support.
+/* BCP 47 Locale Support.
  *
  * Copyright (C) 2011-2012 Reece H. Dunn
  *
@@ -18,8 +18,8 @@
  * along with cainteoir-engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAINTEOIR_ENGINE_LANGUAGES_HPP
-#define CAINTEOIR_ENGINE_LANGUAGES_HPP
+#ifndef CAINTEOIR_ENGINE_LOCALE_HPP
+#define CAINTEOIR_ENGINE_LOCALE_HPP
 
 #include <string.h>
 #include <string>
