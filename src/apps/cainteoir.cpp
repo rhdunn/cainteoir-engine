@@ -25,6 +25,7 @@
 
 #include <cainteoir/engines.hpp>
 #include <cainteoir/synthesizer.hpp>
+#include <cainteoir/language.hpp>
 #include <cainteoir/document.hpp>
 #include <stdexcept>
 #include <iostream>
@@ -245,12 +246,25 @@ int main(int argc, char ** argv)
 		else if (action == compile_voice)
 		{
 			const char *filename = (argc == 1) ? argv[0] : nullptr;
+			decltype(tts::compile_voice) *compile = nullptr;
+
+			const char *ext = strrchr(filename, '.');
+			if (ext == nullptr)
+				return 0;
+
+			if (strcmp(ext, ".voicedef") == 0)
+				compile = tts::compile_voice;
+			else if (strcmp(ext, ".langdef") == 0)
+				compile = tts::compile_language;
+			else
+				return 0;
+
 			if (!outfile || !strcmp(outfile, "-"))
-				tts::compile_voice(filename, stdout);
+				compile(filename, stdout);
 			else
 			{
 				std::shared_ptr<FILE> out(fopen(outfile, "wb"), fclose);
-				tts::compile_voice(filename, out.get());
+				compile(filename, out.get());
 			}
 			return 0;
 		}

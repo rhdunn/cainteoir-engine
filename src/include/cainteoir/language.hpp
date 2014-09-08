@@ -26,6 +26,8 @@
 namespace cainteoir { namespace tts
 {
 	std::shared_ptr<phoneme_reader> createPronunciationRules(const char *aRuleSetPath);
+
+	void compile_language(const char *aFileName, FILE *aOutput);
 }}
 
 #endif

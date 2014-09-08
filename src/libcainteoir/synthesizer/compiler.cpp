@@ -22,6 +22,7 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/synthesizer.hpp>
+#include <cainteoir/language.hpp>
 #include "../cainteoir_file_reader.hpp"
 
 #include "synth.hpp"
@@ -449,4 +450,33 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 		}
 		out.end_section();
 	}
+}
+
+void
+tts::compile_language(const char *aFileName, FILE *aOutput)
+{
+	if (!aOutput) return;
+
+	cainteoir::buffer locale{ nullptr, nullptr };
+
+	auto reader = cainteoir_file_reader(cainteoir::path(aFileName));
+	while (reader.read())
+	{
+		if (reader.type() == cainteoir_file_reader::directive)
+		{
+			if (reader.match().compare(".locale") == 0)
+			{
+				reader.read();
+				locale = reader.match();
+			}
+		}
+	}
+
+	binary_file_writer out(aOutput);
+
+	// Language Database Header
+	out.begin_section("LANGDB", tts::LANGDB_HEADER_SIZE, true);
+	out.u16(0x3031); // endianness
+	out.pstr(locale);
+	out.end_section();
 }
