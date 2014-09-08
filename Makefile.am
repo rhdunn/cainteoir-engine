@@ -239,6 +239,7 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/document.hpp \
 	src/include/cainteoir/encoding.hpp \
 	src/include/cainteoir/engines.hpp \
+	src/include/cainteoir/language.hpp \
 	src/include/cainteoir/locale.hpp \
 	src/include/cainteoir/metadata.hpp \
 	src/include/cainteoir/mimetype.hpp \

@@ -24,6 +24,7 @@
 #include "options.hpp"
 
 #include <cainteoir/synthesizer.hpp>
+#include <cainteoir/language.hpp>
 #include <cainteoir/engines.hpp>
 #include <stdexcept>
 #include <iostream>

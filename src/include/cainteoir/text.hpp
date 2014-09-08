@@ -30,8 +30,6 @@
 
 namespace cainteoir { namespace tts
 {
-	std::shared_ptr<phoneme_reader> createPronunciationRules(const char *aRuleSetPath);
-
 	enum event_type
 	{
 		error,

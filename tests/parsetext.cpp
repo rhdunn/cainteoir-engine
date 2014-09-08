@@ -27,6 +27,7 @@
 #include <cainteoir/document.hpp>
 #include <cainteoir/unicode.hpp>
 #include <cainteoir/text.hpp>
+#include <cainteoir/language.hpp>
 #include <cainteoir/path.hpp>
 #include <cainteoir/engines.hpp>
 

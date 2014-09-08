@@ -25,6 +25,7 @@
 #include <cainteoir/document.hpp>
 #include <cainteoir/engines.hpp>
 #include <cainteoir/text.hpp>
+#include <cainteoir/language.hpp>
 #include <cainteoir/path.hpp>
 #include <cainteoir/stopwatch.hpp>
 #include <stdexcept>
