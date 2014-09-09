@@ -49,3 +49,19 @@ TEST_CASE("consume : single character")
 	test("a", "b", 0, 0, false);
 	test("b", "b", 0, 1, true);
 }
+
+TEST_CASE("consume : multiple characters")
+{
+	test("aa", "aa", 0, 2, true);
+	test("ab", "aa", 0, 0, false);
+	test("ba", "aa", 0, 0, false);
+}
+
+TEST_CASE("consume : utf-8 characters")
+{
+	// NOTE: Matching UTF-8 characters works the same way as matching
+	// multiple characters ...
+
+	test("\xCE\xB1", "\xCE\xB1", 0, 2, true);  // 'α', 'α'
+	test("\xCE\xB1", "\xCE\xB2", 0, 0, false); // 'α', 'β'
+}

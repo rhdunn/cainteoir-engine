@@ -29,15 +29,19 @@ namespace tts = cainteoir::tts;
 bool tts::l2p_transducer::match(const char *start, const char *&current, const char *end) const
 {
 	const char *rule = mRule;
-	while (current <= end)
+	const char *context = current;
+	while (context <= end)
 	{
 		if (*rule == 0)
+		{
+			current = context;
 			return true;
+		}
 
-		if (*current == *rule)
+		if (*context == *rule)
 		{
 			++rule;
-			++current;
+			++context;
 		}
 		else
 			return false;
