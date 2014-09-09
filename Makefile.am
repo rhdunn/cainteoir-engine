@@ -718,6 +718,11 @@ noinst_bin_PROGRAMS += tests/languages.test
 tests_languages_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_languages_test_SOURCES = tests/languages.cpp
 
+noinst_bin_PROGRAMS += tests/l2p_transducer.test
+
+tests_l2p_transducer_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_l2p_transducer_test_SOURCES = tests/l2p_transducer.cpp
+
 noinst_bin_PROGRAMS += tests/utf8.test
 
 tests_utf8_test_LDADD   = src/libcainteoir/libcainteoir.la
@@ -819,6 +824,7 @@ check: \
 	tests/accent.check \
 	tests/phoneme_stress.check \
 	tests/dictionary.check \
+	tests/l2p_transducer.check \
 	tests/parsetext.check \
 	tests/pho_file.check \
 	tests/diphones.check \

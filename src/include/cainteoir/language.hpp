@@ -25,6 +25,18 @@
 
 namespace cainteoir { namespace tts
 {
+	struct l2p_transducer
+	{
+		l2p_transducer(const char *rule)
+			: mRule(rule)
+		{
+		}
+
+		bool match(const char *start, const char *&current, const char *end) const;
+	private:
+		const char *mRule;
+	};
+
 	std::shared_ptr<phoneme_reader> createPronunciationRules(const char *aRuleSetPath);
 
 	void compile_language(const char *aFileName, FILE *aOutput);

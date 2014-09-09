@@ -26,6 +26,25 @@
 
 namespace tts = cainteoir::tts;
 
+bool tts::l2p_transducer::match(const char *start, const char *&current, const char *end) const
+{
+	const char *rule = mRule;
+	while (current <= end)
+	{
+		if (*rule == 0)
+			return true;
+
+		if (*current == *rule)
+		{
+			++rule;
+			++current;
+		}
+		else
+			return false;
+	}
+	return false;
+}
+
 struct ruleset : public tts::phoneme_reader
 {
 	ruleset();
