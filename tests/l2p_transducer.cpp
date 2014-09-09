@@ -65,3 +65,9 @@ TEST_CASE("consume : utf-8 characters")
 	test("\xCE\xB1", "\xCE\xB1", 0, 2, true);  // 'α', 'α'
 	test("\xCE\xB1", "\xCE\xB2", 0, 0, false); // 'α', 'β'
 }
+
+TEST_CASE("consume : from offset")
+{
+	test("a", "ba", 1, 2, true);
+	test("b", "ba", 1, 1, false);
+}
