@@ -208,6 +208,32 @@ int main(int argc, char ** argv)
 			     ? tts::media_overlays_mode::tts_and_media_overlays
 			     : tts::media_overlays_mode::media_overlays_only;
 
+		if (action == compile_voice)
+		{
+			const char *filename = (argc == 1) ? argv[0] : nullptr;
+			decltype(tts::compile_voice) *compile = nullptr;
+
+			const char *ext = strrchr(filename, '.');
+			if (ext == nullptr)
+				return 0;
+
+			if (strcmp(ext, ".voicedef") == 0)
+				compile = tts::compile_voice;
+			else if (strcmp(ext, ".langdef") == 0)
+				compile = tts::compile_language;
+			else
+				return 0;
+
+			if (!outfile || !strcmp(outfile, "-"))
+				compile(filename, stdout);
+			else
+			{
+				std::shared_ptr<FILE> out(fopen(outfile, "wb"), fclose);
+				compile(filename, out.get());
+			}
+			return 0;
+		}
+
 		rdf::graph metadata;
 		cainteoir::supportedDocumentFormats(metadata, cainteoir::text_support);
 		cainteoir::supported_audio_formats(metadata);
@@ -241,31 +267,6 @@ int main(int argc, char ** argv)
 				<< rdf::iana
 				<< rdf::subtag
 				<< metadata;
-			return 0;
-		}
-		else if (action == compile_voice)
-		{
-			const char *filename = (argc == 1) ? argv[0] : nullptr;
-			decltype(tts::compile_voice) *compile = nullptr;
-
-			const char *ext = strrchr(filename, '.');
-			if (ext == nullptr)
-				return 0;
-
-			if (strcmp(ext, ".voicedef") == 0)
-				compile = tts::compile_voice;
-			else if (strcmp(ext, ".langdef") == 0)
-				compile = tts::compile_language;
-			else
-				return 0;
-
-			if (!outfile || !strcmp(outfile, "-"))
-				compile(filename, stdout);
-			else
-			{
-				std::shared_ptr<FILE> out(fopen(outfile, "wb"), fclose);
-				compile(filename, out.get());
-			}
 			return 0;
 		}
 
