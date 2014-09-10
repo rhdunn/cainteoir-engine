@@ -26,9 +26,8 @@
 
 namespace tts = cainteoir::tts;
 
-bool tts::l2p_transducer::match(const char *start, const char *&current, const char *end) const
+bool match_l2p_rule(const char *rule, const char *start, const char *&current, const char *end)
 {
-	const char *rule = mRule;
 	const char *context = current;
 	while (context <= end)
 	{

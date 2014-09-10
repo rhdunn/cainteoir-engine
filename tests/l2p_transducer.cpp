@@ -27,6 +27,8 @@ REGISTER_TESTSUITE("l2p_transducer");
 
 namespace tts = cainteoir::tts;
 
+bool match_l2p_rule(const char *rule, const char *start, const char *&current, const char *end);
+
 void test_(const char *pattern,
            const char *s,
            int offset,
@@ -34,10 +36,9 @@ void test_(const char *pattern,
            bool matches,
            const char *file, int line)
 {
-	tts::l2p_transducer rule(pattern);
 	const char *current = s + offset;
 
-	assert_location(rule.match(s, current, s + strlen(s)) == matches, file, line);
+	assert_location(match_l2p_rule(pattern, s, current, s + strlen(s)) == matches, file, line);
 	assert_location(current == s + match_offset, file, line);
 }
 
