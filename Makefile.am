@@ -588,6 +588,11 @@ data/voices/mbrola/us3.vdb: src/voices/mbrola/us3.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
 	src/apps/cainteoir --compile $< -o $@
 
+############################# language test files #############################
+
+tests/letter2phoneme/context.ldb: tests/letter2phoneme/context.langdef src/apps/cainteoir
+	src/apps/cainteoir --compile $< -o $@
+
 ############################# tests ###########################################
 
 CSS_TEST_FILES = $(shell find tests/css/*)
@@ -608,7 +613,9 @@ DIPHONE_TEST_FILES = $(shell find tests/diphone/*)
 
 PROSODY_TEST_FILES = $(shell find tests/prosody/*)
 
-PROSODY_TEST_FILES = $(shell find tests/units/*)
+UNITS_TEST_FILES = $(shell find tests/units/*)
+
+LETTER2PHONEME_TEST_FILES = $(shell find tests/letter2phoneme/*)
 
 DOCUMENT_TEST_FILES = \
 	$(shell find tests/epub2/*) \
@@ -645,6 +652,8 @@ EXTRA_DIST += \
 	$(ACCENT_TEST_FILES) \
 	$(DIPHONE_TEST_FILES) \
 	$(PROSODY_TEST_FILES) \
+	$(UNITS_TEST_FILES) \
+	$(LETTER2PHONEME_TEST_FILES) \
 	tests/*.py
 
 noinst_bin_PROGRAMS += tests/range.test
@@ -692,8 +701,6 @@ noinst_bin_PROGRAMS += tests/events
 tests_events_LDADD   = src/libcainteoir/libcainteoir.la
 tests_events_SOURCES = tests/events.cpp
 
-tests/events.check: tests/events data/css ${DOCUMENT_TEST_FILES}
-
 noinst_bin_PROGRAMS += tests/encoding.test
 
 tests_encoding_test_LDADD   = src/libcainteoir/libcainteoir.la
@@ -703,10 +710,6 @@ noinst_bin_PROGRAMS += tests/xmlreader
 
 tests_xmlreader_LDADD   = src/libcainteoir/libcainteoir.la
 tests_xmlreader_SOURCES = tests/xmlreader.cpp
-
-tests/xmlreader.check: tests/xmlreader ${XMLPARSER_TEST_FILES}
-
-tests/htmltree.check: tests/xmlreader ${HTMLTREE_TEST_FILES}
 
 noinst_bin_PROGRAMS += tests/ttslanguages.test
 
@@ -732,8 +735,6 @@ noinst_bin_PROGRAMS += tests/parsetext
 
 tests_parsetext_LDADD   = src/libcainteoir/libcainteoir.la
 tests_parsetext_SOURCES = tests/parsetext.cpp
-
-tests/parsetext.check: tests/parsetext ${PARSETEXT_TEST_FILES}
 
 noinst_bin_PROGRAMS += tests/mimetype
 
@@ -779,6 +780,17 @@ noinst_bin_PROGRAMS += tests/pho_file.test
 
 tests_pho_file_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_pho_file_test_SOURCES = tests/pho_file.cpp
+
+tests/events.check: tests/events data/css ${DOCUMENT_TEST_FILES}
+
+tests/xmlreader.check: tests/xmlreader ${XMLPARSER_TEST_FILES}
+
+tests/htmltree.check: tests/xmlreader ${HTMLTREE_TEST_FILES}
+
+tests/parsetext.check: tests/parsetext ${PARSETEXT_TEST_FILES}
+
+tests/letter2phoneme.check: tests/parsetext ${LETTER2PHONEME_TEST_FILES} \
+	tests/letter2phoneme/context.ldb
 
 tests/styles.check: tests/styles ${CSS_TEST_FILES}
 
@@ -826,6 +838,7 @@ check: \
 	tests/dictionary.check \
 	tests/l2p_transducer.check \
 	tests/parsetext.check \
+	tests/letter2phoneme.check \
 	tests/pho_file.check \
 	tests/diphones.check \
 	tests/zscore.check \

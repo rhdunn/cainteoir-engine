@@ -3,6 +3,8 @@
 - [Data Types](#data-types)
 - [Structure](#structure)
 - [Header](#header)
+- [Letter-to-Phoneme Rules](#letter-to-phoneme-rules)
+  - [Pattern](#pattern)
 - [String Table](#string-table)
 - [Magic Values](#magic-values)
 
@@ -44,7 +46,8 @@ information about the language.
 | magic          | u8[6]  |  0     |
 | endianness     | u16    |  6     |
 | locale         | pstr   |  8     |
-| END OF HEADER  |        | 10     |
+| phonemeset     | pstr   | 10     |
+| END OF HEADER  |        | 12     |
 
 The `magic` field identifies the file as a voice database file. This is the
 string "LANGDB".
@@ -55,6 +58,55 @@ whether the file is in little endian (`10`) or big endian (`01`) order.
 The `locale` field is the name of the BCP 47 language code for the language
 supported by this file. This does not cover any accents supported within the
 file.
+
+The `phonemeset` field identifies the format in which the phonemes are
+transcribed.
+
+## Letter-to-Phoneme Rules
+
+This is the representation of the letter-to-phoneme rule group, which holds a
+collection of related rules.
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| magic          | u8[3]  |  0     |
+| num-entries    | u16    |  3     |
+| group          | u8     |  5     |
+| END OF SECTION |        |  6     |
+
+The `magic` field identifies the section as a letter-to-phoneme rules group.
+This is the string "L2P".
+
+The `num-entries` field is the number of entries there are in this table.
+
+The `group` field is the initial character of the context match for the rules
+within this set of rules.
+
+After the section block, `num-entries` entry blocks are written out in order.
+An associated String Table section occurs after the last entry, with the `pstr`
+strings from all the entry blocks included.
+
+Each entry block has the form:
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| pattern        | pstr   |  0     |
+| phonemes       | pstr   |  2     |
+| END OF ENTRY   |        |  4     |
+
+The `pattern` field defines how this letter-to-phoneme entry matches a string
+from the current position within that string.
+
+The `phonenes` field is the phonemes to use if the pattern is matched.
+
+### Pattern
+
+The letter-to-phoneme rule pattern describes how the rule should be matched.
+
+The `context` string occurs first and is any character that is not a control
+character (i.e. is `0x20` or above). This includes characters above `0x7F` to
+support UTF-8 characters, allowing the matching algorithm to operate at the
+byte level.
 
 ## String Table
 
@@ -86,6 +138,7 @@ creating a new section type to avoid collisions in the magic values.
 
 | Magic | Usage                        |
 |-------|------------------------------|
+| L2P   | Letter To Phoneme Rules      |
 | STR   | String Table                 |
 
 Copyright (C) 2014 Reece H. Dunn

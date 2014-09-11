@@ -181,6 +181,8 @@ class ParseTextCommand(Command):
 			params.append('--%s-scale' % data['scale'])
 		if 'dictionary' in data:
 			params.extend(['--dictionary', os.path.join(sys.path[0], data['dictionary'])])
+		if 'ruleset' in data:
+			params.extend(['--ruleset', os.path.join(sys.path[0], data['ruleset'])])
 		return Command.run(self, params, filename, data)
 
 class PhonemeSetCommand(Command):

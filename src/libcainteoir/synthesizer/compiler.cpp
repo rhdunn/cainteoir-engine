@@ -46,14 +46,6 @@ void tts::read_phoneme_units(cainteoir::native_endian_buffer &data, std::vector<
 	}
 }
 
-struct buffer_compare
-{
-	bool operator()(const cainteoir::buffer &a, const cainteoir::buffer &b) const
-	{
-		return a.compare(b) < 0;
-	}
-};
-
 struct binary_file_writer
 {
 	binary_file_writer(FILE *aOutput)
@@ -73,13 +65,16 @@ struct binary_file_writer
 	void f8_8(float f);
 	void f16_16(float f);
 
-	void  str(const cainteoir::buffer &data);
-	void pstr(const cainteoir::buffer &data);
+	void str(const cainteoir::buffer &data) { str(data.str()); }
+	void str(const std::string &data);
+
+	void pstr(const cainteoir::buffer &data) { pstr(data.str()); }
+	void pstr(const std::string &data);
 private:
 	FILE *mOutput;
 	uint16_t mOffset;
-	std::list<cainteoir::buffer> mStrings;
-	std::map<cainteoir::buffer, uint16_t, buffer_compare> mStringTable;
+	std::list<std::string> mStrings;
+	std::map<std::string, uint16_t> mStringTable;
 };
 
 void binary_file_writer::begin_section(const char *magic, uint16_t section_size, bool has_pstr_fields)
@@ -115,13 +110,13 @@ void binary_file_writer::f16_16(float f)
 	u16(f * 65536);
 }
 
-void binary_file_writer::str(const cainteoir::buffer &data)
+void binary_file_writer::str(const std::string &data)
 {
-	fwrite(data.begin(), data.size(), 1, mOutput);
+	fwrite(data.c_str(), data.size(), 1, mOutput);
 	fputc('\0', mOutput);
 }
 
-void binary_file_writer::pstr(const cainteoir::buffer &data)
+void binary_file_writer::pstr(const std::string &data)
 {
 	auto &entry = mStringTable[data];
 	if (entry == 0)
@@ -453,11 +448,36 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 }
 
 void
+parse_rules(cainteoir_file_reader &reader,
+            std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> &l2p_rules)
+{
+	cainteoir::buffer context{ nullptr, nullptr };
+	while (reader.read()) switch (reader.type())
+	{
+	case cainteoir_file_reader::text:
+		if (reader.match().compare("end") == 0)
+			return;
+		context = reader.match();
+		break;
+	case cainteoir_file_reader::phonemes:
+		if (!context.empty())
+		{
+			auto &group = l2p_rules[*context.begin()];
+			group.push_back({ context.str(), reader.match() });
+			context = { nullptr, nullptr };
+		}
+		break;
+	}
+}
+
+void
 tts::compile_language(const char *aFileName, FILE *aOutput)
 {
 	if (!aOutput) return;
 
 	cainteoir::buffer locale{ nullptr, nullptr };
+	cainteoir::buffer phonemeset{ nullptr, nullptr };
+	std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> l2p_rules;
 
 	auto reader = cainteoir_file_reader(cainteoir::path(aFileName));
 	while (reader.read())
@@ -469,6 +489,18 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 				reader.read();
 				locale = reader.match();
 			}
+			else if (reader.match().compare(".phonemeset") == 0)
+			{
+				reader.read();
+				phonemeset = reader.match();
+			}
+		}
+		else if (reader.type() == cainteoir_file_reader::text)
+		{
+			if (reader.match().compare("rules") == 0)
+			{
+				parse_rules(reader, l2p_rules);
+			}
 		}
 	}
 
@@ -478,5 +510,22 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 	out.begin_section("LANGDB", tts::LANGDB_HEADER_SIZE, true);
 	out.u16(0x3031); // endianness
 	out.pstr(locale);
+	out.pstr(phonemeset);
 	out.end_section();
+
+	for (auto &group : l2p_rules)
+	{
+		group.second.push_back({ {}, { nullptr, nullptr }});
+
+		uint16_t entries = group.second.size() * tts::LETTER_TO_PHONEME_TABLE_ENTRY_SIZE;
+		out.begin_section("L2P", tts::LETTER_TO_PHONEME_TABLE_SIZE + entries, true);
+		out.u16(group.second.size());
+		out.u8(group.first);
+		for (const auto &entry : group.second)
+		{
+			out.pstr(entry.first);
+			out.pstr(entry.second);
+		}
+		out.end_section();
+	}
 }

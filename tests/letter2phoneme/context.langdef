@@ -1,0 +1,19 @@
+# Letter-to-Phoneme : Context match test file
+#
+# Copyright (C) 2004 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.locale		en
+.phonemeset	cxs
+
+rules
+	# a #################
+
+	ab	/@b/
+	a	/&/
+
+	# b #################
+
+	b	/b/
+end

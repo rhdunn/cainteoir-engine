@@ -46,12 +46,19 @@ namespace cainteoir { namespace tts
 	static constexpr uint32_t PHONEME_UNIT_TABLE_MAGIC = make_magic32('P', 'U', 'T');
 	static constexpr uint32_t PHONEME_TABLE_MAGIC = make_magic32('P', 'H', 'O');
 
-	static constexpr uint16_t LANGDB_HEADER_SIZE = 10;
-
 	std::shared_ptr<duration_model>
 	createDurationModel(native_endian_buffer &aData);
 
 	void read_phoneme_units(cainteoir::native_endian_buffer &data, std::vector<unit_t> &units);
+
+	// LangDB Data Parser Helpers //////////////////////////////////////////////////////////
+
+	static constexpr uint16_t LANGDB_HEADER_ID = 8; // magic + endianness
+	static constexpr uint16_t LANGDB_HEADER_SIZE = 12;
+	static constexpr uint16_t LETTER_TO_PHONEME_TABLE_SIZE = 6;
+	static constexpr uint16_t LETTER_TO_PHONEME_TABLE_ENTRY_SIZE = 4;
+
+	static constexpr uint32_t LETTER_TO_PHONEME_TABLE_MAGIC = make_magic32('L', '2', 'P');
 
 	// Voice Synthesizers //////////////////////////////////////////////////////////////////
 

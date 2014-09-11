@@ -219,6 +219,8 @@ namespace cainteoir
 
 		bool eof() const { return current >= last; }
 
+		uint16_t offset() const { return current - first; }
+
 		uint32_t magic() { return ((uint32_t)u8() << 16) | ((uint32_t)u8() << 8) | ((uint32_t)u8()); }
 	private:
 		template <typename T>
