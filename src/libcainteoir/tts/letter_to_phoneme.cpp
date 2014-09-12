@@ -105,6 +105,13 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
 			mRuleGroups[id] = offset;
 		}
 		break;
+	case tts::DICTIONARY_TABLE_MAGIC:
+		{
+			uint16_t entries = mRules.u16();
+			uint16_t offset = mRules.offset();
+			mRules.seek(offset + (entries * tts::DICTIONARY_TABLE_ENTRY_SIZE));
+		}
+		break;
 	default:
 		throw std::runtime_error("unsupported section in the language file");
 	}

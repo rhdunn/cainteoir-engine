@@ -478,6 +478,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 	cainteoir::buffer locale{ nullptr, nullptr };
 	cainteoir::buffer phonemeset{ nullptr, nullptr };
 	std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> l2p_rules;
+	tts::dictionary dict;
 
 	auto reader = cainteoir_file_reader(cainteoir::path(aFileName));
 	while (reader.read())
@@ -501,6 +502,13 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 			{
 				parse_rules(reader, l2p_rules);
 			}
+			else if (reader.match().compare("dictionary") == 0)
+			{
+				reader.read();
+				auto dict_reader = tts::createCainteoirDictionaryReader(reader.match().str().c_str());
+				while (dict_reader->read())
+					dict.add_entry(dict_reader->word, dict_reader->entry);
+			}
 		}
 	}
 
@@ -522,6 +530,35 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 		out.u16(group.second.size());
 		out.u8(group.first);
 		for (const auto &entry : group.second)
+		{
+			out.pstr(entry.first);
+			out.pstr(entry.second);
+		}
+		out.end_section();
+	}
+
+	auto writer = tts::createPhonemeWriter(phonemeset.str().c_str());
+	std::map<std::string, std::string> words;
+	for (const auto &entry : dict)
+	{
+		ipa::phonemes phonemes;
+		if (dict.pronounce(entry.first, {}, phonemes))
+		{
+			cainteoir::memory_file out;
+			writer->reset(out);
+			for (const auto &p : phonemes)
+				writer->write(p);
+
+			words[entry.first->str()] = out.buffer()->str();
+		}
+	}
+
+	if (!words.empty())
+	{
+		uint16_t entries = words.size() * tts::DICTIONARY_TABLE_ENTRY_SIZE;
+		out.begin_section("DIC", tts::DICTIONARY_TABLE_SIZE + entries, true);
+		out.u16(words.size());
+		for (const auto &entry : words)
 		{
 			out.pstr(entry.first);
 			out.pstr(entry.second);

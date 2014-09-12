@@ -5,6 +5,7 @@
 - [Header](#header)
 - [Letter-to-Phoneme Rules](#letter-to-phoneme-rules)
   - [Pattern](#pattern)
+- [Dictionary](#dictionary)
 - [String Table](#string-table)
 - [Magic Values](#magic-values)
 
@@ -108,6 +109,39 @@ character (i.e. is `0x20` or above). This includes characters above `0x7F` to
 support UTF-8 characters, allowing the matching algorithm to operate at the
 byte level.
 
+## Dictionary
+
+This is the representation of dictionary entries in an exception dictionary
+associated with the letter-to-phoneme rules.
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| magic          | u8[3]  |  0     |
+| num-entries    | u16    |  3     |
+| END OF SECTION |        |  5     |
+
+The `magic` field identifies the section as a dictionary section. This is the
+string "DIC".
+
+The `num-entries` field is the number of entries there are in this table.
+
+After the section block, `num-entries` entry blocks are written out in order.
+An associated String Table section occurs after the last entry, with the `pstr`
+strings from all the entry blocks included.
+
+Each entry block has the form:
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| word           | pstr   |  0     |
+| phonemes       | pstr   |  2     |
+| END OF ENTRY   |        |  4     |
+
+The `word` field is the word in the dictionary that has the specified
+pronunciation.
+
+The `phonenes` field is the pronunciation of the given word.
+
 ## String Table
 
 A string table is a data table that does not contain a `num-elements` field.
@@ -138,6 +172,7 @@ creating a new section type to avoid collisions in the magic values.
 
 | Magic | Usage                        |
 |-------|------------------------------|
+| DIC   | Dictionary                   |
 | L2P   | Letter To Phoneme Rules      |
 | STR   | String Table                 |
 
