@@ -45,6 +45,9 @@ Pronounce the words from the specified document(s) using a text-to-speech
 engine (--voice or --language) or another dictionary (--source-dictionary).
 .IP "-P PHONEMESET, --phonemeset=PHONEMESET"
 Use the specified phonemeset to transcribe the word pronunciations in.
+.IP "-r, --ruleset"
+Use the specified letter-to-phoneme rules to pronounce new words, or to compare
+dictionary entries against.
 .IP "-R, --resolve-say-as"
 Dictionary entries marked as 'say-as' are resolved until a phoneme entry is
 found. That is, if the entry 'ana' has the say-as value 'anna' then that entry

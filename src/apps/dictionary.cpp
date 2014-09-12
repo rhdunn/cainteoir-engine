@@ -362,8 +362,8 @@ int main(int argc, char ** argv)
 		const option_group pronunciation_options = { i18n("Pronunciation:"), {
 			{ 's', "source-dictionary", source_dictionary, "DICTIONARY",
 			  i18n("Use the pronunciation of the words in DICTIONARY") },
-			//{ 'r', "ruleset", ruleset, "RULESET",
-			//  i18n("Use the RULESET pronunciation rule file") },
+			{ 'r', "ruleset", ruleset, "RULESET",
+			  i18n("Use the RULESET pronunciation rule file") },
 			{ 'v', "voice", voicename, "VOICE",
 			  i18n("Use the TTS voice named VOICE") },
 			{ 'l', "language", language, "LANG",
