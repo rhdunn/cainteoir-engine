@@ -104,10 +104,25 @@ The `phonenes` field is the phonemes to use if the pattern is matched.
 
 The letter-to-phoneme rule pattern describes how the rule should be matched.
 
-The `context` string occurs first and is any character that is not a control
-character (i.e. is `0x20` or above). This includes characters above `0x7F` to
-support UTF-8 characters, allowing the matching algorithm to operate at the
-byte level.
+The rule pattern is a sequence of characters with the following meaning:
+
+| Character    | Description                                         |
+|--------------|-----------------------------------------------------|
+| `\x0`        | The end of the rule pattern.                        |
+| `[a-z]`      | Match the specified character in the given context. |
+| `[\80-\xFF]` | Match the specified character in the given context. |
+| `(`          | Switch to the right context.                        |
+
+The default context state starts at the location where the last match ended, or
+the start of the string if no rules have been checked for the string. A match
+in this state moves the default context to the right.
+
+The right context state starts at the default context location. A match in this
+state moves the right context to the right.
+
+If the end of the rule pattern is reached, the default context location is
+where the current match ends. If any of the pattern characters fail to match,
+there is no match and the last match position is preserved.
 
 ## Dictionary
 

@@ -452,19 +452,29 @@ parse_rules(cainteoir_file_reader &reader,
             std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> &l2p_rules)
 {
 	cainteoir::buffer context{ nullptr, nullptr };
+	cainteoir::buffer right{ nullptr, nullptr };
 	while (reader.read()) switch (reader.type())
 	{
 	case cainteoir_file_reader::text:
 		if (reader.match().compare("end") == 0)
 			return;
-		context = reader.match();
+		if (*reader.match().begin() == '(')
+			right = reader.match();
+		else
+			context = reader.match();
 		break;
 	case cainteoir_file_reader::phonemes:
 		if (!context.empty())
 		{
 			auto &group = l2p_rules[*context.begin()];
-			group.push_back({ context.str(), reader.match() });
+
+			std::string rule = context.str();
+			for (auto c : right)
+				rule.push_back(c);
+
+			group.push_back({ rule, reader.match() });
 			context = { nullptr, nullptr };
+			right = { nullptr, nullptr };
 		}
 		break;
 	}

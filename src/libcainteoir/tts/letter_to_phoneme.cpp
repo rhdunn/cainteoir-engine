@@ -29,22 +29,50 @@ namespace tts = cainteoir::tts;
 
 bool match_l2p_rule(const char *rule, const char *start, const char *&current, const char *end)
 {
-	const char *context = current;
-	while (context <= end)
+	enum state_t
 	{
-		if (*rule == 0)
-		{
-			current = context;
-			return true;
-		}
+		context_match,
+		right_match,
+	};
 
-		if (*context == *rule)
+	state_t state = context_match;
+	const char *context = current;
+	const char *right = current;
+	while (true) switch (*rule)
+	{
+	case 0:
+		current = context;
+		return true;
+	case '(':
+		right = context;
+		state = right_match;
+		++rule;
+		break;
+	default:
+		switch (state)
 		{
-			++rule;
-			++context;
+		case context_match:
+			if (context > end) return false;
+			if (*context == *rule)
+			{
+				++rule;
+				++context;
+			}
+			else
+				return false;
+			break;
+		case right_match:
+			if (right > end) return false;
+			if (*right == *rule)
+			{
+				++rule;
+				++right;
+			}
+			else
+				return false;
+			break;
 		}
-		else
-			return false;
+		break;
 	}
 	return false;
 }
