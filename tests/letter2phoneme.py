@@ -26,6 +26,7 @@ if __name__ == '__main__':
 		{'name': 'Context', 'type': 'phonemestream', 'tests': [
 			{'test': 'letter2phoneme/context.txt', 'result': 'letter2phoneme/context.ps', 'ruleset': 'letter2phoneme/context.ldb'},
 			{'test': 'letter2phoneme/right.txt', 'result': 'letter2phoneme/right.ps', 'ruleset': 'letter2phoneme/context.ldb'},
+			{'test': 'letter2phoneme/left.txt', 'result': 'letter2phoneme/left.ps', 'ruleset': 'letter2phoneme/context.ldb'},
 		]},
 	]})
 	test.summary()

@@ -32,11 +32,13 @@ bool match_l2p_rule(const char *rule, const char *start, const char *&current, c
 	enum state_t
 	{
 		context_match,
+		left_match,
 		right_match,
 	};
 
 	state_t state = context_match;
 	const char *context = current;
+	const char *left = current;
 	const char *right = current;
 	while (true) switch (*rule)
 	{
@@ -48,6 +50,11 @@ bool match_l2p_rule(const char *rule, const char *start, const char *&current, c
 		state = right_match;
 		++rule;
 		break;
+	case ')':
+		state = left_match;
+		++rule;
+		--left;
+		break;
 	default:
 		switch (state)
 		{
@@ -57,6 +64,16 @@ bool match_l2p_rule(const char *rule, const char *start, const char *&current, c
 			{
 				++rule;
 				++context;
+			}
+			else
+				return false;
+			break;
+		case left_match:
+			if (left < start) return false;
+			if (*left == *rule)
+			{
+				++rule;
+				--left;
 			}
 			else
 				return false;

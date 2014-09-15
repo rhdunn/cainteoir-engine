@@ -112,6 +112,7 @@ The rule pattern is a sequence of characters with the following meaning:
 | `[a-z]`      | Match the specified character in the given context. |
 | `[\80-\xFF]` | Match the specified character in the given context. |
 | `(`          | Switch to the right context.                        |
+| `)`          | Switch to the left context.                         |
 
 The default context state starts at the location where the last match ended, or
 the start of the string if no rules have been checked for the string. A match
@@ -119,6 +120,9 @@ in this state moves the default context to the right.
 
 The right context state starts at the default context location. A match in this
 state moves the right context to the right.
+
+The left context state starts at the location just before where the last match
+ended. A match in this state moves the left context to the left.
 
 If the end of the rule pattern is reached, the default context location is
 where the current match ends. If any of the pattern characters fail to match,
