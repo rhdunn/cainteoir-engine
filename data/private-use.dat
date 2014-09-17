@@ -1,4 +1,4 @@
-File-Date: 2014-03-23
+File-Date: 2014-09-17
 Author: Reece H. Dunn
 Copyright: Copyright (C) 2013-2014 Reece H. Dunn
 License: CC-BY-SA 3.0
@@ -23,6 +23,13 @@ Description: Cockney
 Added: 2013-03-31
 Prefix: en-GB
 Comments: Dialect local to working-class London, England.
+%%
+Type: private
+Subtag: crp
+Description: Conservative Received Pronunciation (ca. 1950)
+Added: 2014-09-17
+Prefix: en-GB
+Comments: The archaic version of the accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
 %%
 Type: private
 Subtag: cumbrian
@@ -169,10 +176,10 @@ Comments: Old English dialect of Northern England.
 %%
 Type: private
 Subtag: rp
-Description: Received Pronunciation
+Description: Received Pronunciation (ca. 2000)
 Added: 2013-03-31
 Prefix: en-GB
-Comments: Standard English accent found in Southern England.
+Comments: The modern variant of the accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
 %%
 Type: private
 Subtag: saigon
