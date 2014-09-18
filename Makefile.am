@@ -607,6 +607,8 @@ HTMLTREE_TEST_FILES = $(shell find tests/html/tree-construction/*)
 
 PHONEMESET_TEST_FILES = $(shell find tests/phonemeset/*)
 
+PHONEME_STRESS_TEST_FILES = $(shell find tests/phoneme_stress/*)
+
 ACCENT_TEST_FILES = $(shell find tests/accent/*)
 
 DIPHONE_TEST_FILES = $(shell find tests/diphone/*)
@@ -649,6 +651,7 @@ EXTRA_DIST += \
 	$(XMLPARSER_TEST_FILES) \
 	$(DOCUMENT_TEST_FILES) \
 	$(PHONEMESET_TEST_FILES) \
+	$(PHONEME_STRESS_TEST_FILES) \
 	$(ACCENT_TEST_FILES) \
 	$(DIPHONE_TEST_FILES) \
 	$(PROSODY_TEST_FILES) \
@@ -793,6 +796,8 @@ tests/dictionary.check: src/apps/dictionary ${DICTIONARY_TEST_FILES}
 
 tests/phonemeset.check: src/apps/phoneme-converter ${PHONEMESET_TEST_FILES}
 
+tests/phoneme_stress.check: src/apps/phoneme-converter ${PHONEME_STRESS_TEST_FILES}
+
 tests/accent.check: src/apps/phoneme-converter ${ACCENT_TEST_FILES}
 
 tests/metadata.check: src/apps/metadata ${DOCUMENT_TEST_FILES}
@@ -830,6 +835,7 @@ check: \
 	tests/phonemeset.check \
 	tests/accent.check \
 	tests/make_stressed.check \
+	tests/phoneme_stress.check \
 	tests/dictionary.check \
 	tests/parsetext.check \
 	tests/letter2phoneme.check \
