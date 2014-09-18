@@ -26,4 +26,16 @@ if __name__ == '__main__':
 		{'test': 'phoneme_stress/syllable-stressed.cxs', 'result': 'phoneme_stress/syllable-stressed.syl'},
 		{'test': 'phoneme_stress/vowel-stressed.cxs', 'result': 'phoneme_stress/vowel-stressed.syl'},
 	]})
+	test.run({'name': 'As Transcribed', 'type': 'phonemes', 'args': [], 'from': 'cxs', 'to': 'cxs', 'tests': [
+		{'test': 'phoneme_stress/syllable-stressed.cxs', 'result': 'phoneme_stress/syllable-stressed.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed.cxs', 'result': 'phoneme_stress/vowel-stressed.cxs'},
+	]})
+	test.run({'name': 'Vowel Stress', 'type': 'phonemes', 'args': ['--vowel-stress'], 'from': 'cxs', 'to': 'cxs', 'tests': [
+		{'test': 'phoneme_stress/syllable-stressed.cxs', 'result': 'phoneme_stress/vowel-stressed.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed.cxs', 'result': 'phoneme_stress/vowel-stressed.cxs'},
+	]})
+	test.run({'name': 'Syllable Stress', 'type': 'phonemes', 'args': ['--syllable-stress'], 'from': 'cxs', 'to': 'cxs', 'tests': [
+		{'test': 'phoneme_stress/syllable-stressed.cxs', 'result': 'phoneme_stress/syllable-stressed.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed.cxs', 'result': 'phoneme_stress/syllable-stressed.cxs'},
+	]})
 	test.summary()
