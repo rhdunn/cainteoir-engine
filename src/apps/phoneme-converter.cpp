@@ -71,18 +71,6 @@ void print_phonemes(ipa::phonemes &aPhonemes,
 	aTo->flush();
 }
 
-void print_phonemes(ipa::phonemes &aPhonemes,
-                    std::shared_ptr<tts::phoneme_writer> &aTo,
-                    tts::stress_type aStress)
-{
-	tts::make_stressed(aPhonemes, aStress);
-
-	aTo->reset(stdout);
-	for (const auto &phoneme : aPhonemes)
-		aTo->write(phoneme);
-	aTo->flush();
-}
-
 void print_open_marker(phoneme_mode aMode)
 {
 	switch (aMode)
@@ -251,21 +239,20 @@ int main(int argc, char ** argv)
 			ipa::phonemes phonemes;
 			from->reset(data);
 			while (read_phonemes(from, phonemes))
+			{
+				tts::make_stressed(phonemes, stress);
 				print_phonemes(phonemes, to, syllables);
-		}
-		else if (stress == tts::stress_type::as_transcribed)
-		{
-			ipa::phonemes phonemes;
-			from->reset(data);
-			while (read_phonemes(from, phonemes))
-				print_phonemes(phonemes, to, mode, no_pauses, show_features);
+			}
 		}
 		else
 		{
 			ipa::phonemes phonemes;
 			from->reset(data);
 			while (read_phonemes(from, phonemes))
-				print_phonemes(phonemes, to, stress);
+			{
+				tts::make_stressed(phonemes, stress);
+				print_phonemes(phonemes, to, mode, no_pauses, show_features);
+			}
 		}
 	}
 	catch (std::runtime_error &e)
