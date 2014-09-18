@@ -38,25 +38,19 @@ enum class phoneme_mode
 	syllables,
 };
 
-void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
+void print_phonemes(ipa::phonemes &aPhonemes,
                     std::shared_ptr<tts::phoneme_writer> &aTo,
-                    const std::shared_ptr<cainteoir::buffer> &aTranscription,
                     const std::shared_ptr<tts::syllable_reader> &aSyllables)
 {
-	ipa::phonemes phonemes;
-	aFrom->reset(aTranscription);
-	while (aFrom->read())
-		phonemes.push_back(*aFrom);
-
 	aTo->reset(stdout);
-	aSyllables->reset(phonemes);
+	aSyllables->reset(aPhonemes);
 	aSyllables->read();
-	for (auto p = phonemes.begin(), last = phonemes.end(); p != last;)
+	for (auto p = aPhonemes.begin(), last = aPhonemes.end(); p != last;)
 	{
 		if (p == aSyllables->onset)
 		{
 			aTo->flush();
-			if (p != phonemes.begin())
+			if (p != aPhonemes.begin())
 				fputc('|', stdout);
 		}
 		if (p == aSyllables->nucleus)
@@ -77,20 +71,14 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 	aTo->flush();
 }
 
-void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
+void print_phonemes(ipa::phonemes &aPhonemes,
                     std::shared_ptr<tts::phoneme_writer> &aTo,
-                    const std::shared_ptr<cainteoir::buffer> &aTranscription,
                     tts::stress_type aStress)
 {
-	ipa::phonemes phonemes;
-	aFrom->reset(aTranscription);
-	while (aFrom->read())
-		phonemes.push_back(*aFrom);
-
-	tts::make_stressed(phonemes, aStress);
+	tts::make_stressed(aPhonemes, aStress);
 
 	aTo->reset(stdout);
-	for (const auto &phoneme : phonemes)
+	for (const auto &phoneme : aPhonemes)
 		aTo->write(phoneme);
 	aTo->flush();
 }
@@ -127,9 +115,8 @@ void print_close_marker(phoneme_mode aMode)
 	}
 }
 
-void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
+void print_phonemes(ipa::phonemes &aPhonemes,
                     std::shared_ptr<tts::phoneme_writer> &aTo,
-                    const std::shared_ptr<cainteoir::buffer> &aTranscription,
                     phoneme_mode aMode,
                     bool aNoPauses,
                     bool aShowFeatures)
@@ -137,28 +124,11 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 	auto feat = tts::createPhonemeWriter("features");
 	bool need_open_marker = true;
 
-	aFrom->reset(aTranscription);
 	aTo->reset(stdout);
 	feat->reset(stdout);
-	while (true)
+	for (auto phoneme : aPhonemes)
 	{
-		try
-		{
-			if (!aFrom->read())
-			{
-				aTo->flush();
-				return;
-			}
-		}
-		catch (const tts::phoneme_error &e)
-		{
-			fflush(stdout);
-			fprintf(stderr, "\nerror: %s\n", e.what());
-			fflush(stderr);
-			continue;
-		}
-
-		if (aFrom->get(ipa::phoneme_type) == ipa::separator && aNoPauses)
+		if (phoneme.get(ipa::phoneme_type) == ipa::separator && aNoPauses)
 			aTo->flush();
 		else
 		{
@@ -167,21 +137,46 @@ void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
 				print_open_marker(aMode);
 				need_open_marker = false;
 			}
-			if (aFrom->get(ipa::phoneme_type | ipa::length) == ipa::separator)
+			if (phoneme.get(ipa::phoneme_type | ipa::length) == ipa::separator)
 			{
 				aTo->flush();
 				print_close_marker(aMode);
 				need_open_marker = true;
 			}
-			aTo->write(*aFrom);
+			aTo->write(phoneme);
 			if (aShowFeatures)
 			{
 				fputc('\t', stdout);
-				feat->write(*aFrom);
+				feat->write(phoneme);
 			}
-			if (aMode == phoneme_mode::separate && !aFrom->get(ipa::joined_to_next_phoneme))
+			if (aMode == phoneme_mode::separate && !phoneme.get(ipa::joined_to_next_phoneme))
 				fputc('\n', stdout);
 		}
+	}
+	aTo->flush();
+}
+
+bool read_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
+                   ipa::phonemes &aPhonemes)
+{
+	aPhonemes.clear();
+	while (true)
+	{
+		try
+		{
+			if (!aFrom->read())
+				return !aPhonemes.empty();
+		}
+		catch (const tts::phoneme_error &e)
+		{
+			fflush(stdout);
+			fprintf(stderr, "\nerror: %s\n", e.what());
+			fflush(stderr);
+			continue;
+		}
+		aPhonemes.push_back(*aFrom);
+		if (aFrom->get(ipa::phoneme_type | ipa::length) == ipa::separator)
+			return !aPhonemes.empty();
 	}
 }
 
@@ -253,12 +248,25 @@ int main(int argc, char ** argv)
 		if (mode == phoneme_mode::syllables)
 		{
 			auto syllables = tts::create_syllable_reader();
-			print_phonemes(from, to, data, syllables);
+			ipa::phonemes phonemes;
+			from->reset(data);
+			while (read_phonemes(from, phonemes))
+				print_phonemes(phonemes, to, syllables);
 		}
 		else if (stress == tts::stress_type::as_transcribed)
-			print_phonemes(from, to, data, mode, no_pauses, show_features);
+		{
+			ipa::phonemes phonemes;
+			from->reset(data);
+			while (read_phonemes(from, phonemes))
+				print_phonemes(phonemes, to, mode, no_pauses, show_features);
+		}
 		else
-			print_phonemes(from, to, data, stress);
+		{
+			ipa::phonemes phonemes;
+			from->reset(data);
+			while (read_phonemes(from, phonemes))
+				print_phonemes(phonemes, to, stress);
+		}
 	}
 	catch (std::runtime_error &e)
 	{
