@@ -248,6 +248,13 @@ def create_command(test_type):
 		return ProsodyCommand(input_format='phonemes', output_format='units')
 	raise Exception('Unsupported command "%s"' % test_type)
 
+def enumerate_groups(data):
+	if 'groups' in data.keys():
+		for group in data['groups']:
+			yield '%s :: %s' % (data['name'], group['name']), group
+	else:
+		yield data['name'], data
+
 class TestSuite:
 	def __init__(self, name, args):
 		self.passed = 0
@@ -316,9 +323,9 @@ class TestSuite:
 		if self.run_only and data['name'] != self.run_only:
 			return
 
-		for group in data['groups']:
+		for name, group in enumerate_groups(data):
 			write('\n')
-			write('testing %s :: %s ...\n' % (data['name'], group['name']))
+			write('testing %s ...\n' % name)
 
 			group_args = []
 			if 'args' in group:
