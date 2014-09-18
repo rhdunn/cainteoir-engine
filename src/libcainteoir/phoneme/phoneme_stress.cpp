@@ -73,9 +73,13 @@ bool syllable_reader_t::read()
 			nucleus = current;
 			break;
 		case syllable_t::nucleus:
-			mState = syllable_t::coda;
-			coda = current;
-			return true;
+			if (phoneme.get(ipa::syllabicity) != ipa::non_syllabic)
+			{
+				mState = syllable_t::coda;
+				coda = current;
+				return true;
+			}
+			break;
 		}
 		else if (mState == syllable_t::nucleus)
 		{
