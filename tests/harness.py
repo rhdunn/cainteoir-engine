@@ -230,7 +230,7 @@ def create_command(test_type):
 		return MetadataCommand(test_type.replace('-all', ''), all_metadata=True)
 	if test_type == 'dictionary':
 		return DictionaryCommand()
-	if test_type == 'phonemeset':
+	if test_type in ['phonemeset', 'phonemes']:
 		return PhonemeSetCommand()
 	if test_type == 'events':
 		return EventsCommand()

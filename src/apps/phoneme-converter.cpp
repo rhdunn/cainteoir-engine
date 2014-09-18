@@ -35,7 +35,47 @@ enum class phoneme_mode
 	broad_markers,
 	narrow_markers,
 	espeak_markers,
+	syllables,
 };
+
+void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
+                    std::shared_ptr<tts::phoneme_writer> &aTo,
+                    const std::shared_ptr<cainteoir::buffer> &aTranscription,
+                    const std::shared_ptr<tts::syllable_reader> &aSyllables)
+{
+	ipa::phonemes phonemes;
+	aFrom->reset(aTranscription);
+	while (aFrom->read())
+		phonemes.push_back(*aFrom);
+
+	aTo->reset(stdout);
+	aSyllables->reset(phonemes);
+	aSyllables->read();
+	for (auto p = phonemes.begin(), last = phonemes.end(); p != last;)
+	{
+		if (p == aSyllables->onset)
+		{
+			aTo->flush();
+			if (p != phonemes.begin())
+				fputc('|', stdout);
+		}
+		if (p == aSyllables->nucleus)
+		{
+			aTo->flush();
+			fputc('[', stdout);
+		}
+		if (p == aSyllables->coda)
+		{
+			aTo->flush();
+			fputc(']', stdout);
+			if (aSyllables->read())
+				continue;
+		}
+		aTo->write(*p);
+		++p;
+	}
+	aTo->flush();
+}
 
 void print_phonemes(std::shared_ptr<tts::phoneme_reader> &aFrom,
                     std::shared_ptr<tts::phoneme_writer> &aTo,
@@ -170,6 +210,8 @@ int main(int argc, char ** argv)
 		}};
 
 		const option_group stress_options = { i18n("Phoneme Stress Placement:"), {
+			{ 0, "syllables", bind_value(mode, phoneme_mode::syllables),
+			  i18n("Show the syllable structure") },
 			{ 0, "vowel-stress", bind_value(stress, tts::stress_type::vowel),
 			  i18n("Place the stress on vowels (e.g. espeak, arpabet)") },
 			{ 0, "syllable-stress", bind_value(stress, tts::stress_type::syllable),
@@ -208,7 +250,12 @@ int main(int argc, char ** argv)
 		if (accent)
 			from = tts::createAccentConverter(accent, from);
 
-		if (stress == tts::stress_type::as_transcribed)
+		if (mode == phoneme_mode::syllables)
+		{
+			auto syllables = tts::create_syllable_reader();
+			print_phonemes(from, to, data, syllables);
+		}
+		else if (stress == tts::stress_type::as_transcribed)
 			print_phonemes(from, to, data, mode, no_pauses, show_features);
 		else
 			print_phonemes(from, to, data, stress);

@@ -29,12 +29,61 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-enum syllable : uint8_t
+enum syllable_t : uint8_t
 {
 	onset,
 	nucleus,
 	coda,
 };
+
+struct syllable_reader_t : public tts::syllable_reader
+{
+	syllable_reader_t()
+		: mState(syllable_t::onset)
+	{
+	}
+
+	void reset(const ipa::phonemes &aPhonemes);
+
+	bool read();
+
+	ipa::phonemes::const_iterator last;
+	syllable_t mState;
+};
+
+void syllable_reader_t::reset(const ipa::phonemes &aPhonemes)
+{
+	onset = aPhonemes.begin();
+	last = aPhonemes.end();
+}
+
+bool syllable_reader_t::read()
+{
+	if (mState == syllable_t::coda)
+		onset = coda;
+	for (auto current = onset; current != last; ++current)
+	{
+		auto &phoneme = *current;
+		if (phoneme.get(ipa::phoneme_type) == ipa::vowel)
+		{
+			mState = syllable_t::nucleus;
+			nucleus = current;
+		}
+		else if (mState == syllable_t::nucleus)
+		{
+			mState = syllable_t::coda;
+			coda = current;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+std::shared_ptr<tts::syllable_reader> tts::create_syllable_reader()
+{
+	return std::make_shared<syllable_reader_t>();
+}
 
 static void make_vowel_stressed(ipa::phonemes &aPhonemes)
 {
@@ -74,7 +123,7 @@ static void make_vowel_stressed(ipa::phonemes &aPhonemes)
 static void make_syllable_stressed(ipa::phonemes &aPhonemes)
 {
 	auto onset = aPhonemes.begin();
-	syllable state = syllable::onset;
+	syllable_t state = syllable_t::onset;
 
 	for (auto current = aPhonemes.begin(), last = aPhonemes.end(); current != last; ++current)
 	{
@@ -82,7 +131,7 @@ static void make_syllable_stressed(ipa::phonemes &aPhonemes)
 		ipa::phoneme::value_type current_stress = phoneme.get(ipa::stress);
 		if (phoneme.get(ipa::phoneme_type) == ipa::vowel || phoneme.get(ipa::syllabic))
 		{
-			if (state == syllable::nucleus) 
+			if (state == syllable_t::nucleus)
 				onset = current;
 			if (current_stress != ipa::unstressed)
 			{
@@ -90,13 +139,13 @@ static void make_syllable_stressed(ipa::phonemes &aPhonemes)
 				phoneme.set(ipa::unstressed, ipa::stress);
 				onset->set(current_stress, ipa::stress);
 			}
-			state = syllable::nucleus;
+			state = syllable_t::nucleus;
 		}
 		else
 		{
-			if (state == syllable::nucleus)
-				state = syllable::coda;
-			if (state == syllable::coda) // coda = maximal consonant sequence
+			if (state == syllable_t::nucleus)
+				state = syllable_t::coda;
+			if (state == syllable_t::coda) // coda = maximal consonant sequence
 				onset = current;
 		}
 	}

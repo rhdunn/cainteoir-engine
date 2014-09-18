@@ -343,6 +343,24 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<phoneme_writer> createPhonemeWriter(const char *aPhonemeSet);
 
+	struct syllable
+	{
+		ipa::phonemes::const_iterator onset;
+		ipa::phonemes::const_iterator nucleus;
+		ipa::phonemes::const_iterator coda;
+	};
+
+	struct syllable_reader : public syllable
+	{
+		virtual void reset(const ipa::phonemes &aPhonemes) = 0;
+
+		virtual bool read() = 0;
+
+		virtual ~syllable_reader() {}
+	};
+
+	std::shared_ptr<syllable_reader> create_syllable_reader();
+
 	enum class stress_type
 	{
 		as_transcribed,
