@@ -746,10 +746,10 @@ noinst_bin_PROGRAMS += tests/phoneme.test
 tests_phoneme_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_phoneme_test_SOURCES = tests/phoneme.cpp
 
-noinst_bin_PROGRAMS += tests/phoneme_stress.test
+noinst_bin_PROGRAMS += tests/make_stressed.test
 
-tests_phoneme_stress_test_LDADD   = src/libcainteoir/libcainteoir.la
-tests_phoneme_stress_test_SOURCES = tests/phoneme_stress.cpp
+tests_make_stressed_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_make_stressed_test_SOURCES = tests/make_stressed.cpp
 
 noinst_bin_PROGRAMS += tests/trie.test
 
@@ -829,7 +829,7 @@ check: \
 	tests/trie.check \
 	tests/phonemeset.check \
 	tests/accent.check \
-	tests/phoneme_stress.check \
+	tests/make_stressed.check \
 	tests/dictionary.check \
 	tests/parsetext.check \
 	tests/letter2phoneme.check \
