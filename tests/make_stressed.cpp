@@ -118,9 +118,9 @@ TEST_CASE("vowel [stress type]")
 		{ "@'lES@", "@l'ES@" },
 		{ "@,lES@", "@l,ES@" },
 		// syllable breaks
-		{ "p'End.IN",    "p'EndIN" },
-		{ "sw'Im.INl,i", "sw'ImINl,i" },
-		{ "d@.naI_^.IN", "d@naI_^IN" },
+		{ "p'End.IN",    "p'End.IN" },
+		{ "sw'Im.INl,i", "sw'Im.INl,i" },
+		{ "d@.naI_^.IN", "d@.naI_^.IN" },
 	};
 
 	auto reader = tts::createPhonemeReader("cxs");

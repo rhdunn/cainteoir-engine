@@ -104,12 +104,6 @@ static void make_vowel_stressed(ipa::phonemes &aPhonemes)
 	for (auto current = aPhonemes.begin(), last = aPhonemes.end(); current != last; ++current)
 	{
 		auto &phoneme = *current;
-		if (phoneme.get(ipa::phoneme_type) == ipa::syllable_break)
-		{
-			current = aPhonemes.erase(current);
-			continue;
-		}
-
 		ipa::phoneme::value_type current_stress = phoneme.get(ipa::stress);
 		if (current_stress != ipa::unstressed)
 		{
