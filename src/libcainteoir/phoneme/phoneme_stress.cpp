@@ -53,6 +53,7 @@ struct syllable_reader_t : public tts::syllable_reader
 
 void syllable_reader_t::reset(const ipa::phonemes &aPhonemes)
 {
+	mState = syllable_t::onset;
 	onset = aPhonemes.begin();
 	last = aPhonemes.end();
 }
