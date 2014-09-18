@@ -14,12 +14,6 @@ h[I]ts
 'h[I]ts
 ,h[I]ts
 
-sk[i:]|[I]N
-'sk[i:]|[I]N
-,sk[i:]|[I]N
-sk[i:]|['I]N
-sk[i:]|[,I]N
-
 g[@U_^]t
 'g[@U_^]t
 ,g[@U_^]t
@@ -27,6 +21,18 @@ g[@U_^]t
 f[aI_^@_^]z
 'f[aI_^@_^]z
 ,f[aI_^@_^]z
+
+sk[i:]|[I]N
+'sk[i:]|[I]N
+,sk[i:]|[I]N
+sk[i:]|['I]N
+sk[i:]|[,I]N
+
+m[&]|t[I]N
+'m[&]|t[I]N
+,m[&]|t[I]N
+m[&]|'t[I]N
+m[&]|,t[I]N
 
 [@]|l[E]|S[@]
 [@]|'l[E]|S[@]
