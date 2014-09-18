@@ -13,3 +13,9 @@ str\[,V]t
 h[I]ts
 h['I]ts
 h[,I]ts
+
+sk[i:]|[I]N
+sk['i:]|[I]N
+sk[,i:]|[I]N
+sk[i:]|['I]N
+sk[i:]|[,I]N

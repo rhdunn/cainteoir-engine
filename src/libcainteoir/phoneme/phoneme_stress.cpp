@@ -65,10 +65,17 @@ bool syllable_reader_t::read()
 	for (auto current = onset; current != last; ++current)
 	{
 		auto &phoneme = *current;
-		if (phoneme.get(ipa::phoneme_type) == ipa::vowel)
+		if (phoneme.get(ipa::phoneme_type) == ipa::vowel) switch (mState)
 		{
+		case syllable_t::coda:
+		case syllable_t::onset:
 			mState = syllable_t::nucleus;
 			nucleus = current;
+			break;
+		case syllable_t::nucleus:
+			mState = syllable_t::coda;
+			coda = current;
+			return true;
 		}
 		else if (mState == syllable_t::nucleus)
 		{
