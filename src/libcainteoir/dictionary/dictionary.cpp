@@ -305,3 +305,19 @@ void tts::formatDictionary(tts::dictionary &dict,
 			formatter->write_say_as_entry(entry.first, entry.second.text);
 	}
 }
+
+void tts::formatDictionary(tts::dictionary &dict,
+	                   std::shared_ptr<dictionary_formatter> &formatter,
+	                   std::shared_ptr<phoneme_reader> &reader,
+	                   std::shared_ptr<phoneme_writer> &writer)
+{
+	for (auto &entry : dict)
+	{
+		ipa::phonemes pronunciation;
+		reader->reset(entry.first);
+		while (reader->read())
+			pronunciation.push_back(*reader);
+
+		formatter->write_phoneme_entry(entry.first, writer, pronunciation);
+	}
+}

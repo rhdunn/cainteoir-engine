@@ -190,6 +190,11 @@ namespace cainteoir { namespace tts
 	                      std::shared_ptr<dictionary_formatter> &formatter,
 	                      std::shared_ptr<phoneme_writer> &writer,
 	                      bool resolve_say_as_entries);
+
+	void formatDictionary(tts::dictionary &dict,
+	                      std::shared_ptr<dictionary_formatter> &formatter,
+	                      std::shared_ptr<phoneme_reader> &reader,
+	                      std::shared_ptr<phoneme_writer> &writer);
 }}
 
 #endif

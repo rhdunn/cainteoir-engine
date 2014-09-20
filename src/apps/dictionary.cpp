@@ -53,24 +53,20 @@ enum class word_mode_type
 
 struct dictionary_phoneme_reader : public tts::phoneme_reader
 {
-	dictionary_phoneme_reader(const char *aDictionary);
+	dictionary_phoneme_reader(tts::dictionary &aDictionary)
+		: mDictionary(aDictionary)
+	{
+	}
 
 	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
 
 	bool read();
 private:
-	tts::dictionary mDictionary;
+	tts::dictionary &mDictionary;
 	ipa::phonemes mPhonemes;
 	ipa::phonemes::const_iterator mCurrent;
 	ipa::phonemes::const_iterator mLast;
 };
-
-dictionary_phoneme_reader::dictionary_phoneme_reader(const char *aDictionary)
-{
-	auto reader = tts::createCainteoirDictionaryReader(aDictionary);
-	while (reader->read())
-		mDictionary.add_entry(reader->word, reader->entry);
-}
 
 void dictionary_phoneme_reader::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 {
@@ -425,14 +421,29 @@ int main(int argc, char ** argv)
 		case mode_type::list_entries:
 		case mode_type::resolve_say_as_entries:
 			writer->reset(stdout);
-			tts::formatDictionary(dict, formatter, writer, mode == mode_type::resolve_say_as_entries);
+			if (phoneme_map || accent)
+			{
+				std::shared_ptr<tts::phoneme_reader> rules = std::make_shared<dictionary_phoneme_reader>(dict);
+				if (phoneme_map)
+					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
+				if (accent)
+					rules = tts::createAccentConverter(accent, rules);
+				tts::formatDictionary(dict, formatter, rules, writer);
+			}
+			else
+				tts::formatDictionary(dict, formatter, writer, mode == mode_type::resolve_say_as_entries);
 			break;
 		case mode_type::pronounce_entries:
 		case mode_type::compare_entries:
 		case mode_type::mismatched_entries:
 			if (source_dictionary != nullptr)
 			{
-				std::shared_ptr<tts::phoneme_reader> rules = std::make_shared<dictionary_phoneme_reader>(source_dictionary);
+				tts::dictionary src_dict;
+				auto reader = tts::createCainteoirDictionaryReader(source_dictionary);
+				while (reader->read())
+					src_dict.add_entry(reader->word, reader->entry);
+
+				std::shared_ptr<tts::phoneme_reader> rules = std::make_shared<dictionary_phoneme_reader>(src_dict);
 				if (phoneme_map)
 					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
 				if (accent)
