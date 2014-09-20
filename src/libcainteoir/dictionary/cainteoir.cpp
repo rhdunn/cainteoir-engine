@@ -169,8 +169,9 @@ void cainteoir_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::b
                                               const ipa::phonemes &phonemes,
                                               const char *line_separator)
 {
-	if (fprintf(mOut, is_multiword_entry(*word) ? "\"%s\"" : "%s", word->str().c_str()) < 8)
-		fprintf(mOut, "\t");
+	int n = fprintf(mOut, is_multiword_entry(*word) ? "\"%s\"" : "%s", word->str().c_str());
+	if (n < 16) fprintf(mOut, "\t");
+	if (n <  8) fprintf(mOut, "\t");
 	fprintf(mOut, "\t/");
 	for (auto p : phonemes)
 		writer->write(p);
@@ -182,8 +183,9 @@ void cainteoir_formatter::write_say_as_entry(const std::shared_ptr<cainteoir::bu
                                              const std::shared_ptr<cainteoir::buffer> &say_as,
                                              const char *line_separator)
 {
-	if (fprintf(mOut, is_multiword_entry(*word) ? "\"%s\"" : "%s", word->str().c_str()) < 8)
-		fprintf(mOut, "\t");
+	int n = fprintf(mOut, is_multiword_entry(*word) ? "\"%s\"" : "%s", word->str().c_str());
+	if (n < 16) fprintf(mOut, "\t");
+	if (n <  8) fprintf(mOut, "\t");
 	fprintf(mOut, "\t%s%s", say_as->str().c_str(), line_separator);
 }
 
