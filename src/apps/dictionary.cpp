@@ -154,7 +154,13 @@ static bool pronounce(tts::dictionary &dict,
 	}
 	catch (const tts::phoneme_error &e)
 	{
-		fprintf(stderr, "cannot pronounce '%s': %s\n", word->str().c_str(), e.what());
+		if (mode == mode_type::compare_entries)
+		{
+			formatter->write_phoneme_entry(word, writer, phonemes, " ... ");
+			fprintf(stdout, "cannot pronounce : %s\n", e.what());
+		}
+		else
+			fprintf(stderr, "cannot pronounce '%s': %s\n", word->str().c_str(), e.what());
 		return false;
 	}
 
