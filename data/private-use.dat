@@ -1,8 +1,15 @@
-File-Date: 2014-09-17
+File-Date: 2014-09-23
 Author: Reece H. Dunn
 Copyright: Copyright (C) 2013-2014 Reece H. Dunn
 License: CC-BY-SA 3.0
 Description: Private use BCP47/RFC4646/RFC5646 extensions for describing accents and dialects.
+%%
+Type: private
+Subtag: arp
+Description: Archaic Received Pronunciation (ca. 1930)
+Added: 2014-09-23
+Prefix: en-GB
+Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
 %%
 Type: private
 Subtag: brummie
@@ -29,7 +36,7 @@ Subtag: crp
 Description: Conservative Received Pronunciation (ca. 1950)
 Added: 2014-09-17
 Prefix: en-GB
-Comments: The archaic version of the accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
+Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
 %%
 Type: private
 Subtag: cumbrian
@@ -179,7 +186,7 @@ Subtag: rp
 Description: Received Pronunciation (ca. 2000)
 Added: 2013-03-31
 Prefix: en-GB
-Comments: The modern variant of the accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
+Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
 %%
 Type: private
 Subtag: saigon
