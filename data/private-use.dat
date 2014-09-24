@@ -67,13 +67,6 @@ Prefix: en-GB
 Comments: Generalised dialect found along the River Thames and its estuary.
 %%
 Type: private
-Subtag: estury
-Description: Estuary English
-Added: 2013-03-31
-Preferred-Value: estuary
-Comments: Mis-spelling of the word 'estuary'.
-%%
-Type: private
 Subtag: geordie
 Description: Geordie
 Added: 2013-03-31
@@ -81,42 +74,11 @@ Prefix: en-GB
 Comments: Dialect local to Tyneside, England.
 %%
 Type: private
-Subtag: hueprovince
-Description: Central Vietnamese
-Added: 2013-03-31
-Deprecated: 2014-03-23
-Preferred-Value: vi-VN-x-central
-Comments: Specified a more general region specifier.
-%%
-Type: private
-Subtag: ireland
-Description: Ireland
-Added: 2013-03-31
-Deprecated: 2014-03-23
-Preferred-Value: en-IE
-Comments: Use the Ireland country code instead for Irish English.
-%%
-Type: private
-Subtag: kentish
-Description: Kentish (ca. 450-1100)
-Added: 2013-12-08
-Prefix: ang
-Comments: Old English dialect of South-East England (Kent).
-%%
-Type: private
 Subtag: lancastr
 Description: Lancastrian
 Added: 2014-03-23
 Prefix: en-GB
 Comments: Dialect local to Lancashire, England.
-%%
-Type: private
-Subtag: lancastrian
-Description: Lancastrian
-Added: 2013-03-31
-Deprecated: 2014-03-23
-Preferred-Value: lancastr
-Comments: Invalid private-use tag (too long).
 %%
 Type: private
 Subtag: lngscale
@@ -130,13 +92,6 @@ Description: Mackem
 Added: 2013-03-31
 Prefix: en-GB
 Comments: Dialect local to Sunderland, England.
-%%
-Type: private
-Subtag: mercian
-Description: Mercian (ca. 450-1100)
-Added: 2013-12-08
-Prefix: ang
-Comments: Old English dialect of Central England.
 %%
 Type: private
 Subtag: norfolk
@@ -158,43 +113,11 @@ Added: 2014-03-23
 Comments: Dialect located in the north-central region of the specified country.
 %%
 Type: private
-Subtag: northamerica
-Description: North American
-Added: 2013-03-31
-Deprecated: 2014-03-23
-Preferred-Value: en-CA
-Preferred-Value: en-US
-Comments: Invalid region tag (too long) and split into the major countries defined by the private-use tag.
-%%
-Type: private
-Subtag: northeng
-Description: Northern English
-Added: 2013-03-31
-Deprecated: 2014-03-23
-Preferred-Value: en-GB-x-north
-Comments: Specified a more general region specifier.
-%%
-Type: private
-Subtag: northhum
-Description: North-Humbrian (ca. 450-1100)
-Added: 2013-12-08
-Prefix: ang
-Comments: Old English dialect of Northern England.
-%%
-Type: private
 Subtag: rp
 Description: Received Pronunciation (ca. 2000)
 Added: 2013-03-31
 Prefix: en-GB
 Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
-%%
-Type: private
-Subtag: saigon
-Description: Southern Vietnamese
-Added: 2013-04-28
-Deprecated: 2014-03-23
-Preferred-Value: vi-VN-x-south
-Comments: Specified a more general region specifier.
 %%
 Type: private
 Subtag: shtscale
@@ -213,14 +136,6 @@ Subtag: southcnt
 Description: South-Central
 Added: 2014-03-23
 Comments: Dialect located in the south-central region of the specified country.
-%%
-Type: private
-Subtag: southeng
-Description: Southern English
-Added: 2013-03-31
-Deprecated: 2014-03-23
-Preferred-Value: en-GB-x-south
-Comments: Specified a more general region specifier.
 %%
 Type: private
 Subtag: suffolk
@@ -242,14 +157,6 @@ Description: West Midlands
 Added: 2013-03-31
 Prefix: en-GB
 Comments: Generalised dialect of the West Midlands region of England.
-%%
-Type: private
-Subtag: yorkshire
-Description: Yorkshire
-Added: 2013-03-31
-Deprecated: 2014-03-23
-Preferred-Value: yorkshr
-Comments: Invalid private-use tag (too long).
 %%
 Type: private
 Subtag: yorkshr
