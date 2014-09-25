@@ -5,7 +5,47 @@ License: CC-BY-SA 3.0
 Description: Private use BCP47/RFC4646/RFC5646 extensions for describing accents and dialects.
 %%
 Type: private
+Subtag: east
+Added: 2014-09-25
+Description: Eastern Region
+%%
+Type: private
+Subtag: north
+Added: 2014-09-25
+Description: Northern Region
+%%
+Type: private
+Subtag: northest
+Added: 2014-09-25
+Description: North Eastern Region
+%%
+Type: private
+Subtag: northwst
+Added: 2014-09-25
+Description: North Western Region
+%%
+Type: private
+Subtag: south
+Added: 2014-09-25
+Description: Southern Region
+%%
+Type: private
+Subtag: southest
+Added: 2014-09-25
+Description: South Eastern Region
+%%
+Type: private
+Subtag: southwst
+Added: 2014-09-25
+Description: South Western Region
+%%
+Type: private
 Subtag: wales
 Added: 2014-09-25
 Description: Welsh English
 Prefix: en
+%%
+Type: private
+Subtag: west
+Added: 2014-09-25
+Description: Western Region
