@@ -76,6 +76,24 @@ Description: London
 Prefix: en-GB
 %%
 Type: private
+Subtag: midatl
+Added: 2014-09-25
+Description: Mid-Atlantic USA Division
+Prefix: en-US
+%%
+Type: private
+Subtag: mountain
+Added: 2014-09-25
+Description: Mountain USA Division
+Prefix: en-US
+%%
+Type: private
+Subtag: neweng
+Added: 2014-09-25
+Description: New England
+Prefix: en-US
+%%
+Type: private
 Subtag: north
 Added: 2014-09-25
 Description: Northern Region
@@ -91,9 +109,21 @@ Added: 2014-09-25
 Description: North Western Region
 %%
 Type: private
+Subtag: pacific
+Added: 2014-09-25
+Description: Pacific USA Division
+Prefix: en-US
+%%
+Type: private
 Subtag: south
 Added: 2014-09-25
 Description: Southern Region
+%%
+Type: private
+Subtag: southatl
+Added: 2014-09-25
+Description: South Atlantic USA Division
+Prefix: en-US
 %%
 Type: private
 Subtag: southest
