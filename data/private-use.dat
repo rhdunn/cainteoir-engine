@@ -11,6 +11,12 @@ Description: Central Region
 Description: Midlands
 %%
 Type: private
+Subtag: chighlnd
+Added: 2014-09-25
+Description: Central Highland Region
+Prefix: vi-VN
+%%
+Type: private
 Subtag: cnteast
 Added: 2014-09-25
 Description: East Central Region
@@ -113,6 +119,12 @@ Subtag: pacific
 Added: 2014-09-25
 Description: Pacific USA Division
 Prefix: en-US
+%%
+Type: private
+Subtag: redriver
+Added: 2014-09-25
+Description: Red River Delta Region
+Prefix: vi-VN
 %%
 Type: private
 Subtag: south
