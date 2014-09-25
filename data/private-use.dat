@@ -1,5 +1,11 @@
-File-Date: 2014-09-23
+File-Date: 2014-09-25
 Author: Reece H. Dunn
 Copyright: Copyright (C) 2013-2014 Reece H. Dunn
 License: CC-BY-SA 3.0
 Description: Private use BCP47/RFC4646/RFC5646 extensions for describing accents and dialects.
+%%
+Type: private
+Subtag: wales
+Added: 2014-09-25
+Description: Welsh English
+Prefix: en
