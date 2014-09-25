@@ -64,6 +64,12 @@ Added: 2014-09-25
 Description: Eastern Region
 %%
 Type: private
+Subtag: england
+Added: 2014-09-25
+Description: England
+Prefix: en-GB
+%%
+Type: private
 Subtag: london
 Added: 2014-09-25
 Description: London
@@ -103,7 +109,7 @@ Type: private
 Subtag: wales
 Added: 2014-09-25
 Description: Welsh English
-Prefix: en
+Prefix: en-GB
 %%
 Type: private
 Subtag: west
