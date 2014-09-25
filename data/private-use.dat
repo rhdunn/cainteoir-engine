@@ -64,6 +64,12 @@ Added: 2014-09-25
 Description: Eastern Region
 %%
 Type: private
+Subtag: london
+Added: 2014-09-25
+Description: London
+Prefix: en-GB
+%%
+Type: private
 Subtag: north
 Added: 2014-09-25
 Description: Northern Region
@@ -103,3 +109,9 @@ Type: private
 Subtag: west
 Added: 2014-09-25
 Description: Western Region
+%%
+Type: private
+Subtag: yorkhumb
+Added: 2014-09-25
+Description: Yorkshire and the Humber
+Prefix: en-GB
