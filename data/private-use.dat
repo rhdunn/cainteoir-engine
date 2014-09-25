@@ -5,6 +5,60 @@ License: CC-BY-SA 3.0
 Description: Private use BCP47/RFC4646/RFC5646 extensions for describing accents and dialects.
 %%
 Type: private
+Subtag: central
+Added: 2014-09-25
+Description: Central Region
+Description: Midlands
+%%
+Type: private
+Subtag: cnteast
+Added: 2014-09-25
+Description: East Central Region
+Description: East Midlands
+%%
+Type: private
+Subtag: cntneast
+Added: 2014-09-25
+Description: North East Central Region
+Description: North East Midlands
+%%
+Type: private
+Subtag: cntnorth
+Added: 2014-09-25
+Description: North Central Region
+Description: North Midlands
+%%
+Type: private
+Subtag: cntnwest
+Added: 2014-09-25
+Description: North West Central Region
+Description: North West Midlands
+%%
+Type: private
+Subtag: cntseast
+Added: 2014-09-25
+Description: South East Central Region
+Description: South East Midlands
+%%
+Type: private
+Subtag: cntsouth
+Added: 2014-09-25
+Description: South Central Region
+Description: South Midlands
+%%
+Type: private
+Subtag: cntswest
+Added: 2014-09-25
+Description: South West Central Region
+Description: South West Midlands
+%%
+Type: private
+Subtag: cntwest
+Added: 2014-09-25
+Description: West Central Region
+Description: West Midlands
+%%
+Type: private
 Subtag: east
 Added: 2014-09-25
 Description: Eastern Region
