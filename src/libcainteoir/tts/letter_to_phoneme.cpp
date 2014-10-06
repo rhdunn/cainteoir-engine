@@ -27,7 +27,7 @@
 
 namespace tts = cainteoir::tts;
 
-bool match_l2p_rule(const char *rule, const char *start, const char *&current, const char *end)
+bool match_l2p_rule(const uint8_t *rule, const uint8_t *start, const uint8_t *&current, const uint8_t *end)
 {
 	enum state_t
 	{
@@ -37,9 +37,9 @@ bool match_l2p_rule(const char *rule, const char *start, const char *&current, c
 	};
 
 	state_t state = context_match;
-	const char *context = current;
-	const char *left = current;
-	const char *right = current;
+	const uint8_t *context = current;
+	const uint8_t *left = current;
+	const uint8_t *right = current;
 	while (true) switch (*rule)
 	{
 	case 0:
@@ -110,9 +110,9 @@ private:
 	};
 
 	std::shared_ptr<cainteoir::buffer> mBuffer;
-	const char *mStart;
-	const char *mCurrent;
-	const char *mEnd;
+	const uint8_t *mStart;
+	const uint8_t *mCurrent;
+	const uint8_t *mEnd;
 	const char *mPhonemeCurrent;
 	const char *mPhonemeEnd;
 	state_t mState;
@@ -167,8 +167,8 @@ void ruleset::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 	mBuffer = aBuffer;
 	if (mBuffer.get())
 	{
-		mStart = mCurrent = mBuffer->begin();
-		mEnd = mBuffer->end();
+		mStart = mCurrent = (const uint8_t *)mBuffer->begin();
+		mEnd = (const uint8_t *)mBuffer->end();
 	}
 	else
 		mStart = mCurrent = mEnd = nullptr;
@@ -196,7 +196,7 @@ bool ruleset::read()
 		break;
 	case in_rule_group:
 		{
-			const char *pattern = mRules.pstr();
+			const uint8_t *pattern = (const uint8_t *)mRules.pstr();
 			const char *phonemes = mRules.pstr();
 
 			if (*pattern == 0)
