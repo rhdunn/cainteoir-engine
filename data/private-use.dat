@@ -398,6 +398,12 @@ Comment: Ceremonial county of England
 Prefix: en-GB
 %%
 Type: private
+Subtag: lngscale
+Added: 2014-10-08
+Description: Long Scale
+Comment: The long-scale pronunciation system for numbers (e.g. 10^9 is "milliard").
+%%
+Type: private
 Subtag: midatl
 Added: 2014-09-25
 Description: Mid-Atlantic USA Division
@@ -441,6 +447,12 @@ Subtag: redriver
 Added: 2014-09-25
 Description: Red River Delta Region
 Prefix: vi-VN
+%%
+Type: private
+Subtag: shtscale
+Added: 2014-10-08
+Description: Short Scale
+Comment: The short-scale pronunciation system for numbers (e.g. 10^9 is "billion").
 %%
 Type: private
 Subtag: south
