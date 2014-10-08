@@ -1,4 +1,4 @@
-File-Date: 2014-09-23
+File-Date: 2014-10-08
 Author: Reece H. Dunn
 Copyright: Copyright (C) 2013-2014 Reece H. Dunn
 License: CC-BY-SA 3.0
@@ -7,160 +7,543 @@ Description: Private use BCP47/RFC4646/RFC5646 extensions for describing accents
 Type: private
 Subtag: arp
 Description: Archaic Received Pronunciation (ca. 1930)
-Added: 2014-09-23
+Added: 2014-10-08
 Prefix: en-GB
 Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
 %%
 Type: private
 Subtag: brummie
+Added: 2014-10-08
 Description: Brummie
-Added: 2013-03-31
+Comment: Dialect local to Birmingham, England.
 Prefix: en-GB
-Comments: Dialect local to Birmingham, England.
 %%
 Type: private
 Subtag: central
-Description: Central
-Added: 2014-03-23
-Comments: Dialect located in the central region of the specified country.
+Added: 2014-09-25
+Description: Central Region
+Description: Midlands
+%%
+Type: private
+Subtag: chighlnd
+Added: 2014-09-25
+Description: Central Highland Region
+Prefix: vi-VN
+%%
+Type: private
+Subtag: cnteast
+Added: 2014-09-25
+Description: East Central Region
+Description: East Midlands
+%%
+Type: private
+Subtag: cntneast
+Added: 2014-09-25
+Description: North East Central Region
+Description: North East Midlands
+%%
+Type: private
+Subtag: cntnorth
+Added: 2014-09-25
+Description: North Central Region
+Description: North Midlands
+%%
+Type: private
+Subtag: cntnwest
+Added: 2014-09-25
+Description: North West Central Region
+Description: North West Midlands
+%%
+Type: private
+Subtag: cntseast
+Added: 2014-09-25
+Description: South East Central Region
+Description: South East Midlands
+%%
+Type: private
+Subtag: cntsouth
+Added: 2014-09-25
+Description: South Central Region
+Description: South Midlands
+%%
+Type: private
+Subtag: cntswest
+Added: 2014-09-25
+Description: South West Central Region
+Description: South West Midlands
+%%
+Type: private
+Subtag: cntwest
+Added: 2014-09-25
+Description: West Central Region
+Description: West Midlands
 %%
 Type: private
 Subtag: cockney
+Added: 2014-10-08
 Description: Cockney
-Added: 2013-03-31
+Comment: Dialect local to working-class London, England.
 Prefix: en-GB
-Comments: Dialect local to working-class London, England.
 %%
 Type: private
 Subtag: crp
 Description: Conservative Received Pronunciation (ca. 1950)
-Added: 2014-09-17
+Added: 2014-10-08
 Prefix: en-GB
 Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
 %%
 Type: private
-Subtag: cumbrian
-Description: Cumbrian
-Added: 2013-03-31
-Prefix: en-GB
-Comments: Dialect local to Cumbria, England.
+Subtag: east
+Added: 2014-09-25
+Description: Eastern Region
 %%
 Type: private
-Subtag: eastang
-Description: East Anglian
-Added: 2013-03-31
+Subtag: england
+Added: 2014-09-25
+Description: England
 Prefix: en-GB
-Comments: Generalised dialect of the East Anglia region of England.
-%%
-Type: private
-Subtag: eastmids
-Description: East Midlands
-Added: 2013-03-31
-Prefix: en-GB
-Comments: Generalised dialect of the East Midlands region of England.
 %%
 Type: private
 Subtag: estuary
+Added: 2014-10-08
 Description: Estuary English
-Added: 2014-03-23
+Comment: Generalised dialect found along the River Thames and its estuary.
 Prefix: en-GB
-Comments: Generalised dialect found along the River Thames and its estuary.
+%%
+Type: private
+Subtag: gbcbds
+Added: 2014-10-08
+Description: Bedfordshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcbkm
+Added: 2014-10-08
+Description: Buckinghamshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcbks
+Added: 2014-10-08
+Description: Berkshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcbst
+Added: 2014-10-08
+Description: Bristol
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbccam
+Added: 2014-10-08
+Description: Cambridgeshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcchs
+Added: 2014-10-08
+Description: Cheshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbccma
+Added: 2014-10-08
+Description: Cumbria
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbccon
+Added: 2014-10-08
+Description: Cornwall
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcdev
+Added: 2014-10-08
+Description: Devon
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcdby
+Added: 2014-10-08
+Description: Derbyshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcdor
+Added: 2014-10-08
+Description: Dorset
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcery
+Added: 2014-10-08
+Description: East Riding of Yorkshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcess
+Added: 2014-10-08
+Description: Essex
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcesx
+Added: 2014-10-08
+Description: East Sussex
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcgld
+Added: 2014-10-08
+Description: Greater London
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcgls
+Added: 2014-10-08
+Description: Gloucestershire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcgmn
+Added: 2014-10-08
+Description: Greater Manchester
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcham
+Added: 2014-10-08
+Description: Hampshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbchef
+Added: 2014-10-08
+Description: Herefordshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbchrt
+Added: 2014-10-08
+Description: Hertfordshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbciow
+Added: 2014-10-08
+Description: Isle of Wight
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcken
+Added: 2014-10-08
+Description: Kent
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbclan
+Added: 2014-10-08
+Description: Lancashire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbclec
+Added: 2014-10-08
+Description: Leicestershire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbclin
+Added: 2014-10-08
+Description: Lincolnshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcmer
+Added: 2014-10-08
+Description: Merseyside
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcnbl
+Added: 2014-10-08
+Description: Northumberland
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcnfk
+Added: 2014-10-08
+Description: Norfolk
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcnth
+Added: 2014-10-08
+Description: Northhamptonshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcntt
+Added: 2014-10-08
+Description: Nottinghamshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcnyk
+Added: 2014-10-08
+Description: North Yorkshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcoxf
+Added: 2014-10-08
+Description: Oxfordshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcrut
+Added: 2014-10-08
+Description: Rutland
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcsfk
+Added: 2014-10-08
+Description: Suffolk
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcshr
+Added: 2014-10-08
+Description: Shropshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcsom
+Added: 2014-10-08
+Description: Somerset
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcsry
+Added: 2014-10-08
+Description: Surrey
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcsts
+Added: 2014-10-08
+Description: Staffordshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcsyk
+Added: 2014-10-08
+Description: South Yorkshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbctaw
+Added: 2014-10-08
+Description: Tyne and Wear
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwar
+Added: 2014-10-08
+Description: Warwickshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwil
+Added: 2014-10-08
+Description: Wiltshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwmd
+Added: 2014-10-08
+Description: West Midlands
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwor
+Added: 2014-10-08
+Description: Worcestershire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwsx
+Added: 2014-10-08
+Description: West Sussex
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwyk
+Added: 2014-10-08
+Description: West Yorkshire
+Comment: Ceremonial county of England
+Prefix: en-GB
 %%
 Type: private
 Subtag: geordie
+Added: 2014-10-08
 Description: Geordie
-Added: 2013-03-31
+Comment: Dialect local to Tyneside, England.
 Prefix: en-GB
-Comments: Dialect local to Tyneside, England.
-%%
-Type: private
-Subtag: lancastr
-Description: Lancastrian
-Added: 2014-03-23
-Prefix: en-GB
-Comments: Dialect local to Lancashire, England.
 %%
 Type: private
 Subtag: lngscale
+Added: 2014-10-08
 Description: Long Scale
-Added: 2013-04-11
-Comments: The long-scale pronunciation system for numbers (e.g. 10^9 is "milliard").
+Comment: The long-scale pronunciation system for numbers (e.g. 10^9 is "milliard").
 %%
 Type: private
 Subtag: mackem
+Added: 2014-10-08
 Description: Mackem
-Added: 2013-03-31
+Comment: Dialect local to Sunderland, England.
 Prefix: en-GB
-Comments: Dialect local to Sunderland, England.
 %%
 Type: private
-Subtag: norfolk
-Description: Norfolk
-Added: 2014-03-23
-Prefix: en-GB
-Comments: Dialect local to Norfolk, England.
+Subtag: midatl
+Added: 2014-09-25
+Description: Mid-Atlantic USA Division
+Prefix: en-US
+%%
+Type: private
+Subtag: mountain
+Added: 2014-09-25
+Description: Mountain USA Division
+Prefix: en-US
+%%
+Type: private
+Subtag: neweng
+Added: 2014-09-25
+Description: New England
+Prefix: en-US
 %%
 Type: private
 Subtag: north
-Description: North
-Added: 2014-03-23
-Comments: Dialect located in the northern region of the specified country.
+Added: 2014-09-25
+Description: Northern Region
 %%
 Type: private
-Subtag: northcnt
-Description: North-Central
-Added: 2014-03-23
-Comments: Dialect located in the north-central region of the specified country.
+Subtag: northest
+Added: 2014-09-25
+Description: North Eastern Region
+%%
+Type: private
+Subtag: northwst
+Added: 2014-09-25
+Description: North Western Region
+%%
+Type: private
+Subtag: pacific
+Added: 2014-09-25
+Description: Pacific USA Division
+Prefix: en-US
+%%
+Type: private
+Subtag: redriver
+Added: 2014-09-25
+Description: Red River Delta Region
+Prefix: vi-VN
 %%
 Type: private
 Subtag: rp
 Description: Received Pronunciation (ca. 2000)
-Added: 2013-03-31
+Added: 2014-10-08
 Prefix: en-GB
 Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
 %%
 Type: private
 Subtag: shtscale
+Added: 2014-10-08
 Description: Short Scale
-Added: 2013-04-11
-Comments: The short-scale pronunciation system for numbers (e.g. 10^9 is "billion").
+Comment: The short-scale pronunciation system for numbers (e.g. 10^9 is "billion").
 %%
 Type: private
 Subtag: south
-Description: South
-Added: 2014-03-23
-Comments: Dialect located in the southern region of the specified country.
+Added: 2014-09-25
+Description: Southern Region
 %%
 Type: private
-Subtag: southcnt
-Description: South-Central
-Added: 2014-03-23
-Comments: Dialect located in the south-central region of the specified country.
+Subtag: southatl
+Added: 2014-09-25
+Description: South Atlantic USA Division
+Prefix: en-US
 %%
 Type: private
-Subtag: suffolk
-Description: Suffolk
-Added: 2014-03-23
-Prefix: en-GB
-Comments: Dialect local to Suffolk, England.
+Subtag: southest
+Added: 2014-09-25
+Description: South Eastern Region
+%%
+Type: private
+Subtag: southwst
+Added: 2014-09-25
+Description: South Western Region
 %%
 Type: private
 Subtag: wales
-Description: Wales
-Added: 2013-03-31
+Added: 2014-09-25
+Description: Welsh English
 Prefix: en-GB
-Comments: Generalised English dialect found in Wales (not to be confused with the Welsh language).
 %%
 Type: private
-Subtag: westmids
-Description: West Midlands
-Added: 2013-03-31
-Prefix: en-GB
-Comments: Generalised dialect of the West Midlands region of England.
+Subtag: west
+Added: 2014-09-25
+Description: Western Region
 %%
 Type: private
-Subtag: yorkshr
-Description: Yorkshire
-Added: 2013-03-31
+Subtag: yorkhumb
+Added: 2014-09-25
+Description: Yorkshire and the Humber
 Prefix: en-GB
-Comments: Dialect local to Yorkshire, England.
