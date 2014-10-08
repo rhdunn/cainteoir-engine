@@ -1,8 +1,22 @@
-File-Date: 2014-09-25
+File-Date: 2014-10-08
 Author: Reece H. Dunn
 Copyright: Copyright (C) 2013-2014 Reece H. Dunn
 License: CC-BY-SA 3.0
 Description: Private use BCP47/RFC4646/RFC5646 extensions for describing accents and dialects.
+%%
+Type: private
+Subtag: arp
+Description: Archaic Received Pronunciation (ca. 1930)
+Added: 2014-10-08
+Prefix: en-GB
+Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
+%%
+Type: private
+Subtag: brummie
+Added: 2014-10-08
+Description: Brummie
+Comment: Dialect local to Birmingham, England.
+Prefix: en-GB
 %%
 Type: private
 Subtag: central
@@ -65,6 +79,20 @@ Description: West Central Region
 Description: West Midlands
 %%
 Type: private
+Subtag: cockney
+Added: 2014-10-08
+Description: Cockney
+Comment: Dialect local to working-class London, England.
+Prefix: en-GB
+%%
+Type: private
+Subtag: crp
+Description: Conservative Received Pronunciation (ca. 1950)
+Added: 2014-10-08
+Prefix: en-GB
+Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
+%%
+Type: private
 Subtag: east
 Added: 2014-09-25
 Description: Eastern Region
@@ -73,6 +101,13 @@ Type: private
 Subtag: england
 Added: 2014-09-25
 Description: England
+Prefix: en-GB
+%%
+Type: private
+Subtag: estuary
+Added: 2014-10-08
+Description: Estuary English
+Comment: Generalised dialect found along the River Thames and its estuary.
 Prefix: en-GB
 %%
 Type: private
@@ -398,10 +433,24 @@ Comment: Ceremonial county of England
 Prefix: en-GB
 %%
 Type: private
+Subtag: geordie
+Added: 2014-10-08
+Description: Geordie
+Comment: Dialect local to Tyneside, England.
+Prefix: en-GB
+%%
+Type: private
 Subtag: lngscale
 Added: 2014-10-08
 Description: Long Scale
 Comment: The long-scale pronunciation system for numbers (e.g. 10^9 is "milliard").
+%%
+Type: private
+Subtag: mackem
+Added: 2014-10-08
+Description: Mackem
+Comment: Dialect local to Sunderland, England.
+Prefix: en-GB
 %%
 Type: private
 Subtag: midatl
@@ -447,6 +496,13 @@ Subtag: redriver
 Added: 2014-09-25
 Description: Red River Delta Region
 Prefix: vi-VN
+%%
+Type: private
+Subtag: rp
+Description: Received Pronunciation (ca. 2000)
+Added: 2014-10-08
+Prefix: en-GB
+Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
 %%
 Type: private
 Subtag: shtscale
