@@ -76,9 +76,325 @@ Description: England
 Prefix: en-GB
 %%
 Type: private
-Subtag: london
-Added: 2014-09-25
-Description: London
+Subtag: gbcbds
+Added: 2014-10-08
+Description: Bedfordshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcbkm
+Added: 2014-10-08
+Description: Buckinghamshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcbks
+Added: 2014-10-08
+Description: Berkshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcbst
+Added: 2014-10-08
+Description: Bristol
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbccam
+Added: 2014-10-08
+Description: Cambridgeshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcchs
+Added: 2014-10-08
+Description: Cheshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbccma
+Added: 2014-10-08
+Description: Cumbria
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbccon
+Added: 2014-10-08
+Description: Cornwall
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcdev
+Added: 2014-10-08
+Description: Devon
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcdby
+Added: 2014-10-08
+Description: Derbyshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcdor
+Added: 2014-10-08
+Description: Dorset
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcery
+Added: 2014-10-08
+Description: East Riding of Yorkshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcess
+Added: 2014-10-08
+Description: Essex
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcesx
+Added: 2014-10-08
+Description: East Sussex
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcgld
+Added: 2014-10-08
+Description: Greater London
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcgls
+Added: 2014-10-08
+Description: Gloucestershire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcgmn
+Added: 2014-10-08
+Description: Greater Manchester
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcham
+Added: 2014-10-08
+Description: Hampshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbchef
+Added: 2014-10-08
+Description: Herefordshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbchrt
+Added: 2014-10-08
+Description: Hertfordshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbciow
+Added: 2014-10-08
+Description: Isle of Wight
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcken
+Added: 2014-10-08
+Description: Kent
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbclan
+Added: 2014-10-08
+Description: Lancashire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbclec
+Added: 2014-10-08
+Description: Leicestershire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbclin
+Added: 2014-10-08
+Description: Lincolnshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcmer
+Added: 2014-10-08
+Description: Merseyside
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcnbl
+Added: 2014-10-08
+Description: Northumberland
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcnfk
+Added: 2014-10-08
+Description: Norfolk
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcnth
+Added: 2014-10-08
+Description: Northhamptonshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcntt
+Added: 2014-10-08
+Description: Nottinghamshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcnyk
+Added: 2014-10-08
+Description: North Yorkshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcoxf
+Added: 2014-10-08
+Description: Oxfordshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcrut
+Added: 2014-10-08
+Description: Rutland
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcsfk
+Added: 2014-10-08
+Description: Suffolk
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcshr
+Added: 2014-10-08
+Description: Shropshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcsom
+Added: 2014-10-08
+Description: Somerset
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcsry
+Added: 2014-10-08
+Description: Surrey
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcsts
+Added: 2014-10-08
+Description: Staffordshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcsyk
+Added: 2014-10-08
+Description: South Yorkshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbctaw
+Added: 2014-10-08
+Description: Tyne and Wear
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwar
+Added: 2014-10-08
+Description: Warwickshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwil
+Added: 2014-10-08
+Description: Wiltshire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwmd
+Added: 2014-10-08
+Description: West Midlands
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwor
+Added: 2014-10-08
+Description: Worcestershire
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwsx
+Added: 2014-10-08
+Description: West Sussex
+Comment: Ceremonial county of England
+Prefix: en-GB
+%%
+Type: private
+Subtag: gbcwyk
+Added: 2014-10-08
+Description: West Yorkshire
+Comment: Ceremonial county of England
 Prefix: en-GB
 %%
 Type: private
