@@ -206,20 +206,20 @@ namespace cainteoir
 
 		const char *pstr()
 		{
-			const char *ret = (const char *)first + u16();
+			const char *ret = (const char *)first + u32();
 			if (ret >= (const char *)last)
 				throw std::runtime_error("end of file");
 			return ret;
 		}
 
-		void seek(uint16_t offset)
+		void seek(uint32_t offset)
 		{
 			current = first + offset;
 		}
 
 		bool eof() const { return current >= last; }
 
-		uint16_t offset() const { return current - first; }
+		uint32_t offset() const { return current - first; }
 
 		uint32_t magic() { return ((uint32_t)u8() << 16) | ((uint32_t)u8() << 8) | ((uint32_t)u8()); }
 	private:

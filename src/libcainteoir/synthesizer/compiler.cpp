@@ -72,9 +72,9 @@ struct binary_file_writer
 	void pstr(const std::string &data);
 private:
 	FILE *mOutput;
-	uint16_t mOffset;
+	uint32_t mOffset;
 	std::list<std::string> mStrings;
-	std::map<std::string, uint16_t> mStringTable;
+	std::map<std::string, uint32_t> mStringTable;
 };
 
 void binary_file_writer::begin_section(const char *magic, uint16_t section_size, bool has_pstr_fields)
@@ -90,7 +90,7 @@ void binary_file_writer::end_section()
 	if (!mStrings.empty())
 	{
 		fputs("STR", mOutput);
-		u16(mOffset);
+		u32(mOffset);
 		for (const auto &s : mStrings)
 			str(s);
 		mStrings.clear();
@@ -122,12 +122,12 @@ void binary_file_writer::pstr(const std::string &data)
 	if (entry == 0)
 	{
 		entry = mOffset;
-		u16(mOffset);
+		u32(mOffset);
 		mOffset += data.size() + 1;
 		mStrings.push_back(data);
 	}
 	else
-		u16(entry);
+		u32(entry);
 }
 
 struct unit_t

@@ -23,7 +23,7 @@ Text-to-Speech to store the information needed to convert text to phonemes.
 | f8:8   | A fixed point number (8-bit integral part, 8-bit fraction part) |
 | f16:16 | A fixed point number (16-bit integral part, 16-bit fraction part) |
 | str    | A variable-length UTF-8 string terminated by a NULL (`0`) character |
-| pstr   | A `u16` containing the offset from the start of the file to a `str`. |
+| pstr   | A `u32` containing the offset from the start of the file to a `str`. |
 
 ## Structure
 
@@ -47,8 +47,8 @@ information about the language.
 | magic          | u8[6]  |  0     |
 | endianness     | u16    |  6     |
 | locale         | pstr   |  8     |
-| phonemeset     | pstr   | 10     |
-| END OF HEADER  |        | 12     |
+| phonemeset     | pstr   | 12     |
+| END OF HEADER  |        | 16     |
 
 The `magic` field identifies the file as a voice database file. This is the
 string "LANGDB".
@@ -92,8 +92,8 @@ Each entry block has the form:
 | Field          | Type   | Offset |
 |----------------|--------|--------|
 | pattern        | pstr   |  0     |
-| phonemes       | pstr   |  2     |
-| END OF ENTRY   |        |  4     |
+| phonemes       | pstr   |  4     |
+| END OF ENTRY   |        |  8     |
 
 The `pattern` field defines how this letter-to-phoneme entry matches a string
 from the current position within that string.
@@ -153,8 +153,8 @@ Each entry block has the form:
 | Field          | Type   | Offset |
 |----------------|--------|--------|
 | word           | pstr   |  0     |
-| phonemes       | pstr   |  2     |
-| END OF ENTRY   |        |  4     |
+| phonemes       | pstr   |  4     |
+| END OF ENTRY   |        |  8     |
 
 The `word` field is the word in the dictionary that has the specified
 pronunciation.
@@ -175,8 +175,8 @@ It has the form:
 | Field          | Type   | Offset |
 |----------------|--------|--------|
 | magic          | u8[3]  |  0     |
-| next-section   | u16    |  3     |
-| END OF SECTION |        |  5     |
+| next-section   | u32    |  3     |
+| END OF SECTION |        |  7     |
 
 The `magic` field identifies the section as a data table. This is the string
 "STR".

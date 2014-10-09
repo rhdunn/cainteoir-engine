@@ -139,7 +139,7 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
 	while (!mRules.eof()) switch (mRules.magic())
 	{
 	case tts::STRING_TABLE_MAGIC:
-		mRules.seek(mRules.u16());
+		mRules.seek(mRules.u32());
 		break;
 	case tts::LETTER_TO_PHONEME_TABLE_MAGIC:
 		{

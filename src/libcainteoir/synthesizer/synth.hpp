@@ -32,12 +32,12 @@ namespace cainteoir { namespace tts
 		return ((uint32_t)a << 16) | ((uint32_t)b << 8) | ((uint32_t)c);
 	}
 
-	static constexpr uint16_t VOICEDB_HEADER_SIZE = 29;
+	static constexpr uint16_t VOICEDB_HEADER_SIZE = 43;
 	static constexpr uint16_t PITCH_DATA_SECTION_SIZE = 15;
-	static constexpr uint16_t STRING_TABLE_HEADER_SIZE = 5;
+	static constexpr uint16_t STRING_TABLE_HEADER_SIZE = 7;
 	static constexpr uint16_t TABLE_SECTION_SIZE = 5;
 	static constexpr uint16_t DURATION_TABLE_ENTRY_SIZE = 18;
-	static constexpr uint16_t PHONEME_UNIT_TABLE_ENTRY_SIZE = 5;
+	static constexpr uint16_t PHONEME_UNIT_TABLE_ENTRY_SIZE = 7;
 	static constexpr uint16_t PHONEME_TABLE_ENTRY_SIZE = 19;
 
 	static constexpr uint32_t PITCH_DATA_MAGIC = make_magic32('P', 'T', 'C');
@@ -54,11 +54,11 @@ namespace cainteoir { namespace tts
 	// LangDB Data Parser Helpers //////////////////////////////////////////////////////////
 
 	static constexpr uint16_t LANGDB_HEADER_ID = 8; // magic + endianness
-	static constexpr uint16_t LANGDB_HEADER_SIZE = 12;
+	static constexpr uint16_t LANGDB_HEADER_SIZE = 16;
 	static constexpr uint16_t LETTER_TO_PHONEME_TABLE_SIZE = 6;
-	static constexpr uint16_t LETTER_TO_PHONEME_TABLE_ENTRY_SIZE = 4;
+	static constexpr uint16_t LETTER_TO_PHONEME_TABLE_ENTRY_SIZE = 8;
 	static constexpr uint16_t DICTIONARY_TABLE_SIZE = 5;
-	static constexpr uint16_t DICTIONARY_TABLE_ENTRY_SIZE = 4;
+	static constexpr uint16_t DICTIONARY_TABLE_ENTRY_SIZE = 8;
 
 	static constexpr uint32_t LETTER_TO_PHONEME_TABLE_MAGIC = make_magic32('L', '2', 'P');
 	static constexpr uint32_t DICTIONARY_TABLE_MAGIC = make_magic32('D', 'I', 'C');

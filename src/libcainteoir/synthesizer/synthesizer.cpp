@@ -152,7 +152,7 @@ tts::create_voice(rdf::graph &aMetadata, const rdf::uri *aVoice)
 	if (strncmp(header, "VOICEDB", 7) != 0 || *(const uint16_t *)(header + 7) != 0x3031)
 		return {};
 
-	const char *synth_name = (const char *)header + *(const uint16_t *)(header + 15); // synthesizer
+	const char *synth_name = (const char *)header + *(const uint16_t *)(header + 21); // synthesizer
 #ifdef HAVE_MBROLA
 	if (strcmp(synth_name, "MBROLA") == 0)
 		return create_mbrola_voice(data, aMetadata, *aVoice);

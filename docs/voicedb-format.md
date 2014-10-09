@@ -28,7 +28,7 @@ for different voice formats in a form suitable for reading directly from the fil
 | f8:8   | A fixed point number (8-bit integral part, 8-bit fraction part) |
 | f16:16 | A fixed point number (16-bit integral part, 16-bit fraction part) |
 | str    | A variable-length UTF-8 string terminated by a NULL (`0`) character |
-| pstr   | A `u16` containing the offset from the start of the file to a `str`. |
+| pstr   | A `u32` containing the offset from the start of the file to a `str`. |
 
 ## Structure
 
@@ -72,17 +72,17 @@ metadata associated with the voice.
 | magic          | u8[7]  |  0     |
 | endianness     | u16    |  7     |
 | rdfns          | pstr   |  9     |
-| id             | pstr   | 11     |
-| name           | pstr   | 13     |
-| synthesizer    | pstr   | 15     |
-| author         | pstr   | 17     |
-| locale         | pstr   | 19     |
-| gender         | u8     | 21     |
-| volume-scale   | f8:8   | 22     |
-| frequency      | u16    | 24     |
-| channels       | u8     | 26     |
-| sample-format  | pstr   | 27     |
-| END OF HEADER  |        | 29     |
+| id             | pstr   | 13     |
+| name           | pstr   | 17     |
+| synthesizer    | pstr   | 21     |
+| author         | pstr   | 25     |
+| locale         | pstr   | 29     |
+| gender         | u8     | 33     |
+| volume-scale   | f8:8   | 34     |
+| frequency      | u16    | 36     |
+| channels       | u8     | 38     |
+| sample-format  | pstr   | 39     |
+| END OF HEADER  |        | 43     |
 
 The `magic` field identifies the file as a voice database file. This is the
 string "VOICEDB".
@@ -214,10 +214,10 @@ A phoneme unit table has the "PUT" magic string, and each entry has the form:
 | Field          | Type   | Offset |
 |----------------|--------|--------|
 | name           | pstr   |  0     |
-| phoneme-start  | u8     |  2     |
-| unit-start     | u8     |  3     |
-| unit-end       | u8     |  4     |
-| END OF ENTRY   |        |  5     |
+| phoneme-start  | u8     |  4     |
+| unit-start     | u8     |  5     |
+| unit-end       | u8     |  6     |
+| END OF ENTRY   |        |  7     |
 
 The `name` field is the name of the unit as used to select the unit in the
 phone or diphone synthesis.
@@ -272,8 +272,8 @@ It has the form:
 | Field          | Type   | Offset |
 |----------------|--------|--------|
 | magic          | u8[3]  |  0     |
-| next-section   | u16    |  3     |
-| END OF SECTION |        |  5     |
+| next-section   | u32    |  3     |
+| END OF SECTION |        |  7     |
 
 The `magic` field identifies the section as a data table. This is the string
 "STR".

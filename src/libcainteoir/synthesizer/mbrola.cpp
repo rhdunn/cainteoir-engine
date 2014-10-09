@@ -407,7 +407,7 @@ mbrola_voice::mbrola_voice(const std::shared_ptr<cainteoir::buffer> &aData,
 	while (!data.eof()) switch (data.magic())
 	{
 	case tts::STRING_TABLE_MAGIC:
-		data.seek(data.u16());
+		data.seek(data.u32());
 		break;
 	case tts::DURATION_TABLE_MAGIC:
 		mDurations = tts::createDurationModel(data);
