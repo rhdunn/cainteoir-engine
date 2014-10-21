@@ -50,11 +50,11 @@ src/apps/cainteoir
 src/apps/metadata
 src/apps/phoneme-converter
 src/apps/dictionary
+src/apps/sigproc
 
 src/examples/doc2doc
 src/examples/musicplayer
 src/examples/tagcloud
-src/examples/sigproc
 src/examples/voice-synthesizer
 
 src/experimental/synthesizer

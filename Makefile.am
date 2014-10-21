@@ -451,6 +451,11 @@ man1_MANS += src/apps/dictionary.man
 src_apps_dictionary_LDADD   = src/libcainteoir/libcainteoir.la
 src_apps_dictionary_SOURCES = src/apps/dictionary.cpp
 
+bin_PROGRAMS += src/apps/sigproc
+
+src_apps_sigproc_LDADD   = src/libcainteoir/libcainteoir.la
+src_apps_sigproc_SOURCES = src/apps/sigproc.cpp
+
 EXTRA_DIST += ${man1_MANS}
 
 ############################# examples ########################################
