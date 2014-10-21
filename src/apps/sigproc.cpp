@@ -105,48 +105,14 @@ int main(int argc, char ** argv)
 		css::time start = css::parse_smil_time(start_time);
 		css::time end   = css::parse_smil_time(end_time);
 
-		auto data = cainteoir::make_file_buffer(argv[1]);
-		auto player = cainteoir::create_media_reader(data);
-		if (!player)
-			throw std::runtime_error("unable to read the audio file");
-
-		auto target = cainteoir::create_audio_info(
-			rdf::tts("s16le"),
-			player->channels(),
-			(frequency == -1) ? player->frequency() : frequency);
-
-		std::vector<short> samples;
-		player->set_interval(start, end);
-		player->set_target(target);
-		while (player->read())
-		{
-			const short *current = (const short *)player->data.begin();
-			const short *last    = (const short *)player->data.end();
-			int channels = player->channels();
-			switch (channels)
-			{
-			case 1:
-				samples.insert(samples.end(), current, last);
-				break;
-			default:
-				{
-					uint32_t n = 0;
-					for (; current != last; ++current)
-					{
-						if (n % channels == channel)
-							samples.push_back(*current);
-						++n;
-					}
-				}
-				break;
-			}
-		}
+		auto audio = cainteoir::make_file_buffer(argv[1]);
+		auto data  = cainteoir::read_s16_samples(audio, start, end, channel, frequency);
 
 		if (target_amplitude)
 		{
-			auto range = minmax(samples);
+			auto range = minmax(data.samples);
 			auto scale = calc_scale_factor(target_amplitude, range);
-			for (auto &sample : samples)
+			for (auto &sample : data.samples)
 				sample *= scale;
 		}
 
@@ -158,22 +124,22 @@ int main(int argc, char ** argv)
 			rdf::graph metadata;
 			rdf::uri   subject(argv[1], std::string());
 			auto out = cainteoir::create_audio_file(argv[2], "wav", 0.3, metadata, subject,
-				target->format(),
+				data.info->format(),
 				1,
-				target->frequency());
+				data.info->frequency());
 			if (!out.get())
 				throw std::runtime_error(i18n("unsupported audio file format"));
 
 			out->open();
-			out->write((const char *)&samples[0], samples.size() * 2);
+			out->write((const char *)&data.samples[0], data.samples.size() * 2);
 			out->close();
 		}
 		else if (strcmp(argv[0], "info") == 0)
 		{
-			auto range = minmax(samples);
-			float time = (float)samples.size() / target->frequency();
-			fprintf(stdout, "frequency : %d\n",  target->frequency());
-			fprintf(stdout, "samples   : %zd\n", samples.size());
+			auto range = minmax(data.samples);
+			float time = (float)data.samples.size() / data.info->frequency();
+			fprintf(stdout, "frequency : %d\n",  data.info->frequency());
+			fprintf(stdout, "samples   : %zd\n", data.samples.size());
 			fprintf(stdout, "duration  : %G\n",  time);
 			fprintf(stdout, "minimum   : %d (%.2f%%)\n",  *range.begin(),
 				((float)std::abs(*range.begin()) * 100) / std::numeric_limits<short>::max());

@@ -293,6 +293,40 @@ For example, to play the test.ogg file you can use:
 @return
 : An audio playback object.
 
+# cainteoir::audio_data {: .doc }
+
+Stores audio sample data.
+
+# cainteoir::audio_data::samples {: .doc }
+
+The samples for the audio.
+
+# cainteoir::audio_data::info {: .doc }
+
+Information about the associated audio samples.
+
+# cainteoir::read_s16_samples {: .doc }
+
+Extract the S16 audio samples from an audio data buffer.
+
+@aData
+: The audio data buffer to read.
+
+@aStart
+: The point in the audio object to start reading from.
+
+@aEnd
+: The point in the audio object to end reading at.
+
+@aChannel
+: The index of the audio channel to extract the samples for.
+
+@aFrequency
+: The frequency to extract the samples in.
+
+@return
+: The samples associated with the audio data buffer.
+
 # License
 
 This API documentation is licensed under the CC BY-SA 2.0 UK License.
