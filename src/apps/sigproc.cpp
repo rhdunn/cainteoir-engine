@@ -25,9 +25,22 @@
 
 #include <cainteoir/audio.hpp>
 #include <stdexcept>
+#include <limits>
 
 namespace rdf = cainteoir::rdf;
 namespace css = cainteoir::css;
+
+cainteoir::range<short> minmax(const std::vector<short> &aSamples)
+{
+	short min = std::numeric_limits<short>::max();
+	short max = std::numeric_limits<short>::min();
+	for (auto value : aSamples)
+	{
+		if (value < min) min = value;
+		if (value > max) max = value;
+	}
+	return { min, max };
+}
 
 int main(int argc, char ** argv)
 {
@@ -112,10 +125,15 @@ int main(int argc, char ** argv)
 
 		if (strcmp(argv[0], "info") == 0)
 		{
+			auto range = minmax(samples);
 			float time = (float)samples.size() / target->frequency();
 			fprintf(stdout, "frequency : %d\n",  target->frequency());
 			fprintf(stdout, "samples   : %zd\n", samples.size());
 			fprintf(stdout, "duration  : %G\n",  time);
+			fprintf(stdout, "minimum   : %d (%d%%)\n",  *range.begin(),
+				(std::abs(*range.begin()) * 100) / std::numeric_limits<short>::max());
+			fprintf(stdout, "maximum   : %d (%d%%)\n",  *range.end(),
+				(std::abs(*range.end()) * 100) / std::numeric_limits<short>::max());
 		}
 		else
 			print_help(options, usage);
