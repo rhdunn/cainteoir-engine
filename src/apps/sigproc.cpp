@@ -42,6 +42,21 @@ cainteoir::range<short> minmax(const std::vector<short> &aSamples)
 	return { min, max };
 }
 
+float calc_scale_factor(const char *aTargetAmplitude, const cainteoir::range<short> &aRange)
+{
+	if (!aTargetAmplitude) return 1.0;
+
+	errno = 0;
+	float target = strtof(aTargetAmplitude, nullptr);
+	if (target < 0.0 || target > 1.0 || errno == ERANGE)
+		return 1.0;
+
+	short tgt = target * std::numeric_limits<short>::max();
+	short max = std::max(std::abs(*aRange.begin()), std::abs(*aRange.end()));
+
+	return (float)tgt / max;
+}
+
 int main(int argc, char ** argv)
 {
 	setlocale(LC_MESSAGES, "");
@@ -54,6 +69,7 @@ int main(int argc, char ** argv)
 		const char *end_time    = nullptr;
 		int frequency = -1;
 		int channel = 0;
+		const char *target_amplitude = nullptr;
 
 		const option_group general_options = { nullptr, {
 			{ 's', "start", start_time, "TIME",
@@ -62,6 +78,8 @@ int main(int argc, char ** argv)
 			  i18n("The time to end processing at") },
 			{ 'c', "channel", channel, "CHANNEL",
 			  i18n("The desired audio channel to use") },
+			{ 'a', "amplitude", target_amplitude, "AMPLITUDE",
+			  i18n("The desired maximum amplitude (from 0.0 to 1.0)") },
 			{ 'f', "frequency", frequency, "FREQUENCY",
 			  i18n("The desired audio frequency") },
 		}};
@@ -134,6 +152,7 @@ int main(int argc, char ** argv)
 				(std::abs(*range.begin()) * 100) / std::numeric_limits<short>::max());
 			fprintf(stdout, "maximum   : %d (%d%%)\n",  *range.end(),
 				(std::abs(*range.end()) * 100) / std::numeric_limits<short>::max());
+			fprintf(stdout, "amp scale : %G\n", calc_scale_factor(target_amplitude, range));
 		}
 		else
 			print_help(options, usage);
