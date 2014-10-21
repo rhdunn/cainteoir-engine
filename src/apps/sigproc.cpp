@@ -156,10 +156,10 @@ int main(int argc, char ** argv)
 			fprintf(stdout, "frequency : %d\n",  target->frequency());
 			fprintf(stdout, "samples   : %zd\n", samples.size());
 			fprintf(stdout, "duration  : %G\n",  time);
-			fprintf(stdout, "minimum   : %d (%d%%)\n",  *range.begin(),
-				(std::abs(*range.begin()) * 100) / std::numeric_limits<short>::max());
-			fprintf(stdout, "maximum   : %d (%d%%)\n",  *range.end(),
-				(std::abs(*range.end()) * 100) / std::numeric_limits<short>::max());
+			fprintf(stdout, "minimum   : %d (%.2f%%)\n",  *range.begin(),
+				((float)std::abs(*range.begin()) * 100) / std::numeric_limits<short>::max());
+			fprintf(stdout, "maximum   : %d (%.2f%%)\n",  *range.end(),
+				((float)std::abs(*range.end()) * 100) / std::numeric_limits<short>::max());
 		}
 		else
 			print_help(options, usage);
