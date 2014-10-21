@@ -141,6 +141,14 @@ int main(int argc, char ** argv)
 			}
 		}
 
+		if (target_amplitude)
+		{
+			auto range = minmax(samples);
+			auto scale = calc_scale_factor(target_amplitude, range);
+			for (auto &sample : samples)
+				sample *= scale;
+		}
+
 		if (strcmp(argv[0], "info") == 0)
 		{
 			auto range = minmax(samples);
@@ -152,7 +160,6 @@ int main(int argc, char ** argv)
 				(std::abs(*range.begin()) * 100) / std::numeric_limits<short>::max());
 			fprintf(stdout, "maximum   : %d (%d%%)\n",  *range.end(),
 				(std::abs(*range.end()) * 100) / std::numeric_limits<short>::max());
-			fprintf(stdout, "amp scale : %G\n", calc_scale_factor(target_amplitude, range));
 		}
 		else
 			print_help(options, usage);
