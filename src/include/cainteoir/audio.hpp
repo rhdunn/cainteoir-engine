@@ -72,6 +72,12 @@ namespace cainteoir
 
 	void supported_audio_formats(rdf::graph &metadata);
 
+	std::shared_ptr<audio_info>
+	create_audio_info(
+		const rdf::uri &aFormat,
+		int aChannels,
+		int aFrequency);
+
 	std::shared_ptr<audio>
 	create_audio_file(
 		const char *filename,

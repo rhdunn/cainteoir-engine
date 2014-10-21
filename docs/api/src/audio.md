@@ -118,6 +118,24 @@ Convert an RDF graph to a set of Vorbis Comments.
 Get the audio formats that are supported by libcainteoir.
 @metadata The RDF graph to write the format support to.
 
+# cainteoir::create_audio_info {: .doc }
+
+Create an [audio_info](^^cainteoir::audio_info) object on its own. This can be
+used to specify a custom audio profile for use as the target for a media
+reader.
+
+@aFormat
+: The sample format for the file.
+
+@aChannels
+: The number of channels the audio file will have.
+
+@aFrequency
+: The sample frequency for the file.
+
+@return
+: An audio information object.
+
 # cainteoir::create_audio_file {: .doc }
 
 Create an audio file to write data to.

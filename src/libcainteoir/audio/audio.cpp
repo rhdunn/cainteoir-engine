@@ -50,6 +50,37 @@ void cainteoir::supported_audio_formats(rdf::graph &metadata)
 	mime::ogg.metadata(metadata, baseuri, rdf::tts("AudioFormat"));
 }
 
+struct audio_info_t : public cainteoir::audio_info
+{
+	int channels() const { return mChannels; }
+
+	int frequency() const { return mFrequency; }
+
+	const rdf::uri &format() const { return mFormat; }
+
+	audio_info_t(const rdf::uri &aFormat,
+	             int aChannels,
+	             int aFrequency)
+		: mFormat(aFormat)
+		, mChannels(aChannels)
+		, mFrequency(aFrequency)
+	{
+	}
+private:
+	rdf::uri mFormat;
+	int mChannels;
+	int mFrequency;
+};
+
+std::shared_ptr<cainteoir::audio_info>
+cainteoir::create_audio_info(
+	const rdf::uri &aFormat,
+	int aChannels,
+	int aFrequency)
+{
+	return std::make_shared<audio_info_t>(aFormat, aChannels, aFrequency);
+}
+
 std::shared_ptr<cainteoir::audio>
 cainteoir::create_audio_file(
 	const char *filename,
