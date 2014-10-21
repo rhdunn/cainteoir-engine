@@ -89,13 +89,14 @@ int main(int argc, char ** argv)
 		};
 
 		const std::initializer_list<const char *> usage = {
+			i18n("sigproc [OPTION..] convert AUDIO_FILE OUTPUT_FILE"),
 			i18n("sigproc [OPTION..] info AUDIO_FILE"),
 		};
 
 		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
-		if (argc != 2)
+		if (argc < 2)
 		{
 			print_help(options, usage);
 			return 0;
@@ -149,7 +150,25 @@ int main(int argc, char ** argv)
 				sample *= scale;
 		}
 
-		if (strcmp(argv[0], "info") == 0)
+		if (strcmp(argv[0], "convert") == 0)
+		{
+			if (argc != 3)
+				throw std::runtime_error("no output file specified");
+
+			rdf::graph metadata;
+			rdf::uri   subject(argv[1], std::string());
+			auto out = cainteoir::create_audio_file(argv[2], "wav", 0.3, metadata, subject,
+				target->format(),
+				1,
+				target->frequency());
+			if (!out.get())
+				throw std::runtime_error(i18n("unsupported audio file format"));
+
+			out->open();
+			out->write((const char *)&samples[0], samples.size() * 2);
+			out->close();
+		}
+		else if (strcmp(argv[0], "info") == 0)
 		{
 			auto range = minmax(samples);
 			float time = (float)samples.size() / target->frequency();
