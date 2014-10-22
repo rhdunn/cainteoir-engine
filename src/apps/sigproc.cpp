@@ -89,6 +89,7 @@ int main(int argc, char ** argv)
 	const std::initializer_list<const char *> usage = {
 		i18n("sigproc [OPTION..] convert AUDIO_FILE OUTPUT_FILE"),
 		i18n("sigproc [OPTION..] info AUDIO_FILE"),
+		i18n("sigproc [OPTION..] window WINDOW_FUNCTION WINDOW_SIZE"),
 	};
 
 	try
@@ -115,6 +116,15 @@ int main(int argc, char ** argv)
 			out->open();
 			out->write((const char *)&data.samples[0], data.samples.size() * 2);
 			out->close();
+		}
+		else if (strcmp(argv[0], "window") == 0)
+		{
+			if (argc != 3)
+				throw usage_exception();
+
+			std::vector<float> window = cainteoir::window(argv[1], strtol(argv[2], nullptr, 10));
+			for (auto value : window)
+				fprintf(stdout, "%G\n", value);
 		}
 		else if (strcmp(argv[0], "info") == 0)
 		{
