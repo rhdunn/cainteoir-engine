@@ -96,12 +96,12 @@ int main(int argc, char ** argv)
 		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
-		auto data = read_audio(argv[1], start_time, end_time, channel, frequency, target_amplitude);
-
 		if (strcmp(argv[0], "convert") == 0)
 		{
 			if (argc != 3)
 				throw usage_exception();
+
+			auto data = read_audio(argv[1], start_time, end_time, channel, frequency, target_amplitude);
 
 			rdf::graph metadata;
 			rdf::uri   subject(argv[1], std::string());
@@ -120,6 +120,8 @@ int main(int argc, char ** argv)
 		{
 			if (argc != 3)
 				throw usage_exception();
+
+			auto data = read_audio(argv[1], start_time, end_time, channel, frequency, target_amplitude);
 
 			auto range = cainteoir::minmax(data.samples);
 			float time = (float)data.samples.size() / data.info->frequency();
