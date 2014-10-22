@@ -29,6 +29,29 @@
 namespace rdf = cainteoir::rdf;
 namespace css = cainteoir::css;
 
+static cainteoir::audio_data<short>
+read_audio(const char *filename,
+           const char *start_time,
+           const char *end_time,
+           int channel,
+           int frequency,
+           const char *target_amplitude)
+{
+	css::time start = css::parse_smil_time(start_time);
+	css::time end   = css::parse_smil_time(end_time);
+
+	auto audio = cainteoir::make_file_buffer(filename);
+	auto data  = cainteoir::read_s16_samples(audio, start, end, channel, frequency);
+
+	if (target_amplitude)
+	{
+		auto range = cainteoir::minmax(data.samples);
+		auto scale = cainteoir::scale_factor(target_amplitude, range);
+		for (auto &sample : data.samples)
+			sample *= scale;
+	}
+}
+
 int main(int argc, char ** argv)
 {
 	setlocale(LC_MESSAGES, "");
@@ -74,19 +97,7 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
-		css::time start = css::parse_smil_time(start_time);
-		css::time end   = css::parse_smil_time(end_time);
-
-		auto audio = cainteoir::make_file_buffer(argv[1]);
-		auto data  = cainteoir::read_s16_samples(audio, start, end, channel, frequency);
-
-		if (target_amplitude)
-		{
-			auto range = cainteoir::minmax(data.samples);
-			auto scale = cainteoir::scale_factor(target_amplitude, range);
-			for (auto &sample : data.samples)
-				sample *= scale;
-		}
+		auto data = read_audio(argv[1], start_time, end_time, channel, frequency, target_amplitude);
 
 		if (strcmp(argv[0], "convert") == 0)
 		{
