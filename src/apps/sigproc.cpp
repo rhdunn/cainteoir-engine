@@ -29,6 +29,11 @@
 namespace rdf = cainteoir::rdf;
 namespace css = cainteoir::css;
 
+struct usage_exception : public std::runtime_error
+{
+	usage_exception() : std::runtime_error("usage error") {}
+};
+
 static cainteoir::audio_data<short>
 read_audio(const char *filename,
            const char *start_time,
@@ -58,51 +63,45 @@ int main(int argc, char ** argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
+	const char *start_time  = nullptr;
+	const char *end_time    = nullptr;
+	int frequency = -1;
+	int channel = 0;
+	const char *target_amplitude = nullptr;
+
+	const option_group general_options = { nullptr, {
+		{ 's', "start", start_time, "TIME",
+		  i18n("The time to start processing from") },
+		{ 'e', "end", end_time, "TIME",
+		  i18n("The time to end processing at") },
+		{ 'c', "channel", channel, "CHANNEL",
+		  i18n("The desired audio channel to use") },
+		{ 'a', "amplitude", target_amplitude, "AMPLITUDE",
+		  i18n("The desired maximum amplitude (from 0.0 to 1.0)") },
+		{ 'f', "frequency", frequency, "FREQUENCY",
+		  i18n("The desired audio frequency") },
+	}};
+
+	const std::initializer_list<option_group> options = {
+		general_options,
+	};
+
+	const std::initializer_list<const char *> usage = {
+		i18n("sigproc [OPTION..] convert AUDIO_FILE OUTPUT_FILE"),
+		i18n("sigproc [OPTION..] info AUDIO_FILE"),
+	};
+
 	try
 	{
-		const char *start_time  = nullptr;
-		const char *end_time    = nullptr;
-		int frequency = -1;
-		int channel = 0;
-		const char *target_amplitude = nullptr;
-
-		const option_group general_options = { nullptr, {
-			{ 's', "start", start_time, "TIME",
-			  i18n("The time to start processing from") },
-			{ 'e', "end", end_time, "TIME",
-			  i18n("The time to end processing at") },
-			{ 'c', "channel", channel, "CHANNEL",
-			  i18n("The desired audio channel to use") },
-			{ 'a', "amplitude", target_amplitude, "AMPLITUDE",
-			  i18n("The desired maximum amplitude (from 0.0 to 1.0)") },
-			{ 'f', "frequency", frequency, "FREQUENCY",
-			  i18n("The desired audio frequency") },
-		}};
-
-		const std::initializer_list<option_group> options = {
-			general_options,
-		};
-
-		const std::initializer_list<const char *> usage = {
-			i18n("sigproc [OPTION..] convert AUDIO_FILE OUTPUT_FILE"),
-			i18n("sigproc [OPTION..] info AUDIO_FILE"),
-		};
-
 		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
-
-		if (argc < 2)
-		{
-			print_help(options, usage);
-			return 0;
-		}
 
 		auto data = read_audio(argv[1], start_time, end_time, channel, frequency, target_amplitude);
 
 		if (strcmp(argv[0], "convert") == 0)
 		{
 			if (argc != 3)
-				throw std::runtime_error("no output file specified");
+				throw usage_exception();
 
 			rdf::graph metadata;
 			rdf::uri   subject(argv[1], std::string());
@@ -119,6 +118,9 @@ int main(int argc, char ** argv)
 		}
 		else if (strcmp(argv[0], "info") == 0)
 		{
+			if (argc != 3)
+				throw usage_exception();
+
 			auto range = cainteoir::minmax(data.samples);
 			float time = (float)data.samples.size() / data.info->frequency();
 			fprintf(stdout, "frequency : %d\n",  data.info->frequency());
@@ -130,7 +132,12 @@ int main(int argc, char ** argv)
 				((float)std::abs(*range.end()) * 100) / std::numeric_limits<short>::max());
 		}
 		else
-			print_help(options, usage);
+			throw usage_exception();
+	}
+	catch (usage_exception &e)
+	{
+		print_help(options, usage);
+		return EXIT_FAILURE;
 	}
 	catch (std::runtime_error &e)
 	{
