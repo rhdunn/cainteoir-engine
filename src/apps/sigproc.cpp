@@ -29,21 +29,6 @@
 namespace rdf = cainteoir::rdf;
 namespace css = cainteoir::css;
 
-float calc_scale_factor(const char *aTargetAmplitude, const cainteoir::range<short> &aRange)
-{
-	if (!aTargetAmplitude) return 1.0;
-
-	errno = 0;
-	float target = strtof(aTargetAmplitude, nullptr);
-	if (target < 0.0 || target > 1.0 || errno == ERANGE)
-		return 1.0;
-
-	short tgt = target * std::numeric_limits<short>::max();
-	short max = std::max(std::abs(*aRange.begin()), std::abs(*aRange.end()));
-
-	return (float)tgt / max;
-}
-
 int main(int argc, char ** argv)
 {
 	setlocale(LC_MESSAGES, "");
@@ -98,7 +83,7 @@ int main(int argc, char ** argv)
 		if (target_amplitude)
 		{
 			auto range = cainteoir::minmax(data.samples);
-			auto scale = calc_scale_factor(target_amplitude, range);
+			auto scale = cainteoir::scale_factor(target_amplitude, range);
 			for (auto &sample : data.samples)
 				sample *= scale;
 		}

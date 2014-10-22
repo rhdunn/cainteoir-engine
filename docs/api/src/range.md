@@ -163,6 +163,19 @@ Calculate the minimum and maximum values in a container.
 @return
 : The minimum and maximum values in the container as a range.
 
+# cainteoir::scale_factor {: .doc }
+
+Calculate the value to scale a range to a fraction of the maximum value.
+
+@aScaleToFraction
+: The target fraction of the maximum range value to scale to.
+
+@aRange
+: The range of values to scale.
+
+@return
+: The scale factor to scale each value by.
+
 # License
 
 This API documentation is licensed under the CC BY-SA 2.0 UK License.

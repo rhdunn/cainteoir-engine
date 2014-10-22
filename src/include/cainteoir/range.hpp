@@ -169,6 +169,22 @@ namespace cainteoir
 		}
 		return { min, max };
 	}
+
+	template<typename T>
+	float scale_factor(const char *aScaleToFraction, const range<T> &aRange)
+	{
+		if (!aScaleToFraction) return 1.0;
+
+		errno = 0;
+		float target = strtof(aScaleToFraction, nullptr);
+		if (target < 0.0 || target > 1.0 || errno == ERANGE)
+			return 1.0;
+
+		T tgt = target * std::numeric_limits<T>::max();
+		T max = std::max(std::abs(*aRange.begin()), std::abs(*aRange.end()));
+
+		return (float)tgt / max;
+	}
 }
 
 #endif
