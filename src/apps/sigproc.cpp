@@ -25,22 +25,9 @@
 
 #include <cainteoir/audio.hpp>
 #include <stdexcept>
-#include <limits>
 
 namespace rdf = cainteoir::rdf;
 namespace css = cainteoir::css;
-
-cainteoir::range<short> minmax(const std::vector<short> &aSamples)
-{
-	short min = std::numeric_limits<short>::max();
-	short max = std::numeric_limits<short>::min();
-	for (auto value : aSamples)
-	{
-		if (value < min) min = value;
-		if (value > max) max = value;
-	}
-	return { min, max };
-}
 
 float calc_scale_factor(const char *aTargetAmplitude, const cainteoir::range<short> &aRange)
 {
@@ -110,7 +97,7 @@ int main(int argc, char ** argv)
 
 		if (target_amplitude)
 		{
-			auto range = minmax(data.samples);
+			auto range = cainteoir::minmax(data.samples);
 			auto scale = calc_scale_factor(target_amplitude, range);
 			for (auto &sample : data.samples)
 				sample *= scale;
@@ -136,7 +123,7 @@ int main(int argc, char ** argv)
 		}
 		else if (strcmp(argv[0], "info") == 0)
 		{
-			auto range = minmax(data.samples);
+			auto range = cainteoir::minmax(data.samples);
 			float time = (float)data.samples.size() / data.info->frequency();
 			fprintf(stdout, "frequency : %d\n",  data.info->frequency());
 			fprintf(stdout, "samples   : %zd\n", data.samples.size());

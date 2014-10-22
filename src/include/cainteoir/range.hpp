@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_RANGE_HPP
 
 #include <iterator>
+#include <limits>
 
 namespace cainteoir
 {
@@ -153,6 +154,20 @@ namespace cainteoir
 	range<typename Container::const_reverse_iterator> reverse(const Container &c)
 	{
 		return range<typename Container::const_reverse_iterator>(c.rbegin(), c.rend());
+	}
+
+	template <typename Container>
+	range<typename Container::value_type> minmax(const Container &aValues)
+	{
+		typedef typename Container::value_type value_type;
+		value_type min = std::numeric_limits<value_type>::max();
+		value_type max = std::numeric_limits<value_type>::min();
+		for (auto value : aValues)
+		{
+			if (value < min) min = value;
+			if (value > max) max = value;
+		}
+		return { min, max };
 	}
 }
 

@@ -153,6 +153,16 @@ This is useful in conjunction with the C++11 range-based for loop, for example:
 @return
 : A range object for traversing the container in reverse order.
 
+# cainteoir::minmax {: .doc }
+
+Calculate the minimum and maximum values in a container.
+
+@aValues
+: The values to find the minimum and maximum values in.
+
+@return
+: The minimum and maximum values in the container as a range.
+
 # License
 
 This API documentation is licensed under the CC BY-SA 2.0 UK License.
