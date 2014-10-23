@@ -5,11 +5,9 @@ License: CC-BY-SA 3.0
 Description: Private use BCP47/RFC4646/RFC5646 extensions for describing accents and dialects.
 %%
 Type: private
-Subtag: arp
-Description: Archaic Received Pronunciation (ca. 1930)
-Added: 2014-10-08
-Prefix: en-GB
-Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
+Subtag: arch
+Description: Archaic
+Added: 2014-10-23
 %%
 Type: private
 Subtag: brummie
@@ -86,11 +84,9 @@ Comments: Dialect local to working-class London, England.
 Prefix: en-GB
 %%
 Type: private
-Subtag: crp
-Description: Conservative Received Pronunciation (ca. 1950)
-Added: 2014-10-08
-Prefix: en-GB
-Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
+Subtag: cons
+Description: Conservative
+Added: 2014-10-23
 %%
 Type: private
 Subtag: east
