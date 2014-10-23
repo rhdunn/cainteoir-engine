@@ -55,6 +55,8 @@ read_audio(const char *filename,
 		for (auto &sample : data.samples)
 			sample *= scale;
 	}
+
+	return data;
 }
 
 int main(int argc, char ** argv)
