@@ -266,12 +266,11 @@ with open('languages.dot', 'w') as f:
 	f.write('	node [shape=box]')
 	nodes = set()
 	for name, tag in sorted(tags.items()):
-		if tag['Type'] in ['Language', 'ExtLang', 'Collection', 'MacroLanguage']:
-			for key, color in attributes.items():
-				if key in tag.keys():
-					f.write('	"%s" -> "%s" [color=%s]\n' % (name, tag[key], color))
-					nodes.add(name)
-					nodes.add(tag[key])
+		for key, color in attributes.items():
+			if key in tag.keys():
+				f.write('	"%s" -> "%s" [color=%s]\n' % (name, tag[key], color))
+				nodes.add(name)
+				nodes.add(tag[key])
 	for name in nodes:
 		f.write('	"%s" [tooltip="%s"]\n' % (name, tags[name]['Description']))
 	f.write('}\n')

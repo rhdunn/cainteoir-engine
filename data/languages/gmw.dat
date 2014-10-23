@@ -6,7 +6,8 @@
 #
 # http://en.wikipedia.org/wiki/West_Germanic_languages
 # ... Ingvaeonic
-a:en:enm
+a:en:emodeng
+a:emodeng:enm
 a:sco:enm
 a:yol:enm
 a:enm:ang
