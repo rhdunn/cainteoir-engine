@@ -128,7 +128,7 @@ int main(int argc, char ** argv)
 		}
 		else if (strcmp(argv[0], "info") == 0)
 		{
-			if (argc != 3)
+			if (argc != 2)
 				throw usage_exception();
 
 			auto data = read_audio(argv[1], start_time, end_time, channel, frequency, target_amplitude);
