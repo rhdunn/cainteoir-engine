@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2012-2013 Reece H. Dunn
+# Copyright (C) 2012-2014 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -44,7 +44,10 @@ def fold_lines(path):
 def iana_subtag_entries(path):
 	tag = {}
 	for line in fold_lines(path):
-		if line == '%%':
+		if line.startswith('%%'):
+			if len(line.split()) > 1: # comment
+				continue
+
 			if 'Type' in tag:
 				yield tag
 			tag = {}
