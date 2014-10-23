@@ -13,14 +13,14 @@ Comments: The accent found in upper class and posh speakers, typically attribute
 %%
 Type: private
 Subtag: brummie
-Added: 2014-10-08
+Added: 2013-03-31
 Description: Brummie
 Comments: Dialect local to Birmingham, England.
 Prefix: en-GB
 %%
 Type: private
 Subtag: central
-Added: 2014-09-25
+Added: 2014-03-23
 Description: Central Region
 Description: Midlands
 %%
@@ -80,7 +80,7 @@ Description: West Midlands
 %%
 Type: private
 Subtag: cockney
-Added: 2014-10-08
+Added: 2013-03-31
 Description: Cockney
 Comments: Dialect local to working-class London, England.
 Prefix: en-GB
@@ -105,7 +105,7 @@ Prefix: en-GB
 %%
 Type: private
 Subtag: estuary
-Added: 2014-10-08
+Added: 2014-03-23
 Description: Estuary English
 Comments: Generalised dialect found along the River Thames and its estuary.
 Prefix: en-GB
@@ -434,20 +434,20 @@ Prefix: en-GB
 %%
 Type: private
 Subtag: geordie
-Added: 2014-10-08
+Added: 2013-03-31
 Description: Geordie
 Comments: Dialect local to Tyneside, England.
 Prefix: en-GB
 %%
 Type: private
 Subtag: lngscale
-Added: 2014-10-08
+Added: 2013-04-01
 Description: Long Scale
 Comments: The long-scale pronunciation system for numbers (e.g. 10^9 is "milliard").
 %%
 Type: private
 Subtag: mackem
-Added: 2014-10-08
+Added: 2013-03-31
 Description: Mackem
 Comments: Dialect local to Sunderland, England.
 Prefix: en-GB
@@ -472,7 +472,7 @@ Prefix: en-US
 %%
 Type: private
 Subtag: north
-Added: 2014-09-25
+Added: 2014-03-23
 Description: Northern Region
 %%
 Type: private
@@ -500,19 +500,19 @@ Prefix: vi-VN
 Type: private
 Subtag: rp
 Description: Received Pronunciation (ca. 2000)
-Added: 2014-10-08
+Added: 2013-03-31
 Prefix: en-GB
 Comments: The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.
 %%
 Type: private
 Subtag: shtscale
-Added: 2014-10-08
+Added: 2013-04-11
 Description: Short Scale
 Comments: The short-scale pronunciation system for numbers (e.g. 10^9 is "billion").
 %%
 Type: private
 Subtag: south
-Added: 2014-09-25
+Added: 2014-03-23
 Description: Southern Region
 %%
 Type: private
@@ -533,7 +533,7 @@ Description: South Western Region
 %%
 Type: private
 Subtag: wales
-Added: 2014-09-25
+Added: 2013-03-31
 Description: Welsh English
 Prefix: en-GB
 %%
