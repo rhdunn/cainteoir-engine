@@ -116,16 +116,16 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en-GB-scotland.ipa', 'from': 'espeak/en-GB-scotland', 'to': 'ipa'},
 		]},
 		{'name': 'English (Lancastrian)', 'type': 'phonemeset', 'tests': [
-			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-lancastr'},
-			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB-x-lancastr', 'to': 'ipa'},
+			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-gbclan'},
+			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB-x-gbclan', 'to': 'ipa'},
 		]},
 		{'name': 'English (Received Pronunciation)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-rp'},
 			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB-x-rp', 'to': 'ipa'},
 		]},
 		{'name': 'English (West Midlands)', 'type': 'phonemeset', 'tests': [
-			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-westmids'},
-			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB-x-westmids', 'to': 'ipa'},
+			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-gbcwmd'},
+			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB-x-gbcwmd', 'to': 'ipa'},
 		]},
 		{'name': 'English (American)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/espeak/en-US.ipa', 'result': 'phonemeset/espeak/en-US.espeak', 'from': 'ipa', 'to': 'espeak/en-US'},

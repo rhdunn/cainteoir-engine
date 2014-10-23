@@ -5213,6 +5213,11 @@
 	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Nbat"/>
 	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Palm"/>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#arch">
+	<iana:code>arch</iana:code>
+	<iana:added>2014-10-23</iana:added>
+	<iana:label xml:lang="en">Archaic</iana:label>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ard">
 	<iana:code>ard</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -10084,8 +10089,7 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#central">
 	<iana:code>central</iana:code>
 	<iana:added>2014-03-23</iana:added>
-	<iana:comments xml:lang="en">Dialect located in the central region of the specified country.</iana:comments>
-	<iana:label xml:lang="en">Central</iana:label>
+	<iana:label xml:lang="en">Central Region</iana:label>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cet">
 	<iana:code>cet</iana:code>
@@ -10170,6 +10174,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Chinook</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#chighlnd">
+	<iana:code>chighlnd</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">Central Highland Region</iana:label>
+	<iana:prefix>vi-VN</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#chj">
 	<iana:code>chj</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -10667,6 +10677,46 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Tepetotutla Chinantec</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cnteast">
+	<iana:code>cnteast</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">East Central Region</iana:label>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cntneast">
+	<iana:code>cntneast</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">North East Central Region</iana:label>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cntnorth">
+	<iana:code>cntnorth</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">North Central Region</iana:label>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cntnwest">
+	<iana:code>cntnwest</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">North West Central Region</iana:label>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cntseast">
+	<iana:code>cntseast</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">South East Central Region</iana:label>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cntsouth">
+	<iana:code>cntsouth</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">South Central Region</iana:label>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cntswest">
+	<iana:code>cntswest</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">South West Central Region</iana:label>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cntwest">
+	<iana:code>cntwest</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">West Central Region</iana:label>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cnu">
 	<iana:code>cnu</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -10763,6 +10813,11 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Cofán</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cons">
+	<iana:code>cons</iana:code>
+	<iana:added>2014-10-23</iana:added>
+	<iana:label xml:lang="en">Conservative</iana:label>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#coo">
 	<iana:code>coo</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -11320,13 +11375,6 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Cumeral</iana:label>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cumbrian">
-	<iana:code>cumbrian</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Dialect local to Cumbria, England.</iana:comments>
-	<iana:label xml:lang="en">Cumbrian</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
-</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#cuo">
 	<iana:code>cuo</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -13094,19 +13142,10 @@
 	<iana:added>2013-09-10</iana:added>
 	<iana:label xml:lang="en">Karenggapa</iana:label>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#eastang">
-	<iana:code>eastang</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Generalised dialect of the East Anglia region of England.</iana:comments>
-	<iana:label xml:lang="en">East Anglian</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
-</iana:Private>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#eastmids">
-	<iana:code>eastmids</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Generalised dialect of the East Midlands region of England.</iana:comments>
-	<iana:label xml:lang="en">East Midlands</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#east">
+	<iana:code>east</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">Eastern Region</iana:label>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ebg">
 	<iana:code>ebg</iana:code>
@@ -13486,6 +13525,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Forest Enets</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#england">
+	<iana:code>england</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">England</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#enh">
 	<iana:code>enh</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -13684,13 +13729,6 @@
 	<iana:comments xml:lang="en">Generalised dialect found along the River Thames and its estuary.</iana:comments>
 	<iana:label xml:lang="en">Estuary English</iana:label>
 	<iana:prefix>en-GB</iana:prefix>
-</iana:Private>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#estury">
-	<iana:code>estury</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Mis-spelling of the word 'estuary'.</iana:comments>
-	<iana:label xml:lang="en">Estuary English</iana:label>
-	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#estuary"/>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#esu">
 	<iana:code>esu</iana:code>
@@ -14534,6 +14572,328 @@
 	<iana:deprecated>2012-08-12</iana:deprecated>
 	<iana:label xml:lang="en">Garawa</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcbds">
+	<iana:code>gbcbds</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Bedfordshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcbkm">
+	<iana:code>gbcbkm</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Buckinghamshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcbks">
+	<iana:code>gbcbks</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Berkshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcbst">
+	<iana:code>gbcbst</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Bristol</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbccam">
+	<iana:code>gbccam</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Cambridgeshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcchs">
+	<iana:code>gbcchs</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Cheshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbccma">
+	<iana:code>gbccma</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Cumbria</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbccon">
+	<iana:code>gbccon</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Cornwall</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcdby">
+	<iana:code>gbcdby</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Derbyshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcdev">
+	<iana:code>gbcdev</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Devon</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcdor">
+	<iana:code>gbcdor</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Dorset</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcery">
+	<iana:code>gbcery</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">East Riding of Yorkshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcess">
+	<iana:code>gbcess</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Essex</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcesx">
+	<iana:code>gbcesx</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">East Sussex</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcgld">
+	<iana:code>gbcgld</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Greater London</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcgls">
+	<iana:code>gbcgls</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Gloucestershire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcgmn">
+	<iana:code>gbcgmn</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Greater Manchester</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcham">
+	<iana:code>gbcham</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Hampshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbchef">
+	<iana:code>gbchef</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Herefordshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbchrt">
+	<iana:code>gbchrt</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Hertfordshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbciow">
+	<iana:code>gbciow</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Isle of Wight</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcken">
+	<iana:code>gbcken</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Kent</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbclan">
+	<iana:code>gbclan</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Lancashire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbclec">
+	<iana:code>gbclec</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Leicestershire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbclin">
+	<iana:code>gbclin</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Lincolnshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcmer">
+	<iana:code>gbcmer</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Merseyside</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcnbl">
+	<iana:code>gbcnbl</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Northumberland</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcnfk">
+	<iana:code>gbcnfk</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Norfolk</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcnth">
+	<iana:code>gbcnth</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Northhamptonshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcntt">
+	<iana:code>gbcntt</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Nottinghamshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcnyk">
+	<iana:code>gbcnyk</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">North Yorkshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcoxf">
+	<iana:code>gbcoxf</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Oxfordshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcrut">
+	<iana:code>gbcrut</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Rutland</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcsfk">
+	<iana:code>gbcsfk</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Suffolk</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcshr">
+	<iana:code>gbcshr</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Shropshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcsom">
+	<iana:code>gbcsom</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Somerset</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcsry">
+	<iana:code>gbcsry</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Surrey</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcsts">
+	<iana:code>gbcsts</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Staffordshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcsyk">
+	<iana:code>gbcsyk</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">South Yorkshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbctaw">
+	<iana:code>gbctaw</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Tyne and Wear</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcwar">
+	<iana:code>gbcwar</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Warwickshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcwil">
+	<iana:code>gbcwil</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Wiltshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcwmd">
+	<iana:code>gbcwmd</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">West Midlands</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcwor">
+	<iana:code>gbcwor</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">Worcestershire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcwsx">
+	<iana:code>gbcwsx</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">West Sussex</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbcwyk">
+	<iana:code>gbcwyk</iana:code>
+	<iana:added>2014-10-08</iana:added>
+	<iana:comments xml:lang="en">Ceremonial county of England</iana:comments>
+	<iana:label xml:lang="en">West Yorkshire</iana:label>
+	<iana:prefix>en-GB</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#gbd">
 	<iana:code>gbd</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -17106,14 +17466,6 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">San Francisco Del Mar Huave</iana:label>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#hueprovince">
-	<iana:code>hueprovince</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Specified a more general region specifier.</iana:comments>
-	<iana:deprecated>2014-03-23</iana:deprecated>
-	<iana:label xml:lang="en">Central Vietnamese</iana:label>
-	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#vi-VN-x-central"/>
-</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#huf">
 	<iana:code>huf</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -18012,14 +18364,6 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Iresim</iana:label>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ireland">
-	<iana:code>ireland</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Use the Ireland country code instead for Irish English.</iana:comments>
-	<iana:deprecated>2014-03-23</iana:deprecated>
-	<iana:label xml:lang="en">Ireland</iana:label>
-	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#en-IE"/>
-</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#irh">
 	<iana:code>irh</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -19663,13 +20007,6 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Kenyang</iana:label>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#kentish">
-	<iana:code>kentish</iana:code>
-	<iana:added>2013-12-08</iana:added>
-	<iana:comments xml:lang="en">Old English dialect of South-East England (Kent).</iana:comments>
-	<iana:label xml:lang="en">Kentish (ca. 450-1100)</iana:label>
-	<iana:prefix>ang</iana:prefix>
-</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#keo">
 	<iana:code>keo</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -22635,21 +22972,6 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Laru</iana:label>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lancastr">
-	<iana:code>lancastr</iana:code>
-	<iana:added>2014-03-23</iana:added>
-	<iana:comments xml:lang="en">Dialect local to Lancashire, England.</iana:comments>
-	<iana:label xml:lang="en">Lancastrian</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
-</iana:Private>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lancastrian">
-	<iana:code>lancastrian</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Invalid private-use tag (too long).</iana:comments>
-	<iana:deprecated>2014-03-23</iana:deprecated>
-	<iana:label xml:lang="en">Lancastrian</iana:label>
-	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#lancastr"/>
-</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lap">
 	<iana:code>lap</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -23746,7 +24068,7 @@
 </iana:Language>
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#lngscale">
 	<iana:code>lngscale</iana:code>
-	<iana:added>2013-04-11</iana:added>
+	<iana:added>2013-04-01</iana:added>
 	<iana:comments xml:lang="en">The long-scale pronunciation system for numbers (e.g. 10^9 is "milliard").</iana:comments>
 	<iana:label xml:lang="en">Long Scale</iana:label>
 </iana:Private>
@@ -25026,13 +25348,6 @@
 	<iana:label xml:lang="en">Meru</iana:label>
 	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Latn"/>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mercian">
-	<iana:code>mercian</iana:code>
-	<iana:added>2013-12-08</iana:added>
-	<iana:comments xml:lang="en">Old English dialect of Central England.</iana:comments>
-	<iana:label xml:lang="en">Mercian (ca. 450-1100)</iana:label>
-	<iana:prefix>ang</iana:prefix>
-</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mes">
 	<iana:code>mes</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -25519,6 +25834,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Mandaic</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#midatl">
+	<iana:code>midatl</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">Mid-Atlantic USA Division</iana:label>
+	<iana:prefix>en-US</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mie">
 	<iana:code>mie</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -26397,6 +26718,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Mogum</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mountain">
+	<iana:code>mountain</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">Mountain USA Division</iana:label>
+	<iana:prefix>en-US</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#mov">
 	<iana:code>mov</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -28517,6 +28844,12 @@
 	<iana:label xml:lang="en">Nepal Bhasa; Newari</iana:label>
 	<iana:hasScript rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#Deva"/>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#neweng">
+	<iana:code>neweng</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">New England</iana:label>
+	<iana:prefix>en-US</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nex">
 	<iana:code>nex</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -29629,47 +29962,20 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Ngongo</iana:label>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#norfolk">
-	<iana:code>norfolk</iana:code>
-	<iana:added>2014-03-23</iana:added>
-	<iana:comments xml:lang="en">Dialect local to Norfolk, England.</iana:comments>
-	<iana:label xml:lang="en">Norfolk</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
-</iana:Private>
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#north">
 	<iana:code>north</iana:code>
 	<iana:added>2014-03-23</iana:added>
-	<iana:comments xml:lang="en">Dialect located in the northern region of the specified country.</iana:comments>
-	<iana:label xml:lang="en">North</iana:label>
+	<iana:label xml:lang="en">Northern Region</iana:label>
 </iana:Private>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northamerica">
-	<iana:code>northamerica</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Invalid region tag (too long) and split into the major countries defined by the private-use tag.</iana:comments>
-	<iana:deprecated>2014-03-23</iana:deprecated>
-	<iana:label xml:lang="en">North American</iana:label>
-	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#en-US"/>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northest">
+	<iana:code>northest</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">North Eastern Region</iana:label>
 </iana:Private>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northcnt">
-	<iana:code>northcnt</iana:code>
-	<iana:added>2014-03-23</iana:added>
-	<iana:comments xml:lang="en">Dialect located in the north-central region of the specified country.</iana:comments>
-	<iana:label xml:lang="en">North-Central</iana:label>
-</iana:Private>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northeng">
-	<iana:code>northeng</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Specified a more general region specifier.</iana:comments>
-	<iana:deprecated>2014-03-23</iana:deprecated>
-	<iana:label xml:lang="en">Northern English</iana:label>
-	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#en-GB-x-north"/>
-</iana:Private>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northhum">
-	<iana:code>northhum</iana:code>
-	<iana:added>2013-12-08</iana:added>
-	<iana:comments xml:lang="en">Old English dialect of Northern England.</iana:comments>
-	<iana:label xml:lang="en">North-Humbrian (ca. 450-1100)</iana:label>
-	<iana:prefix>ang</iana:prefix>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#northwst">
+	<iana:code>northwst</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">North Western Region</iana:label>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#nos">
 	<iana:code>nos</iana:code>
@@ -31471,6 +31777,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Pacoh</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pacific">
+	<iana:code>pacific</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">Pacific USA Division</iana:label>
+	<iana:prefix>en-US</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#pad">
 	<iana:code>pad</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -33876,6 +34188,12 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Rembong</iana:label>
 </iana:Language>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#redriver">
+	<iana:code>redriver</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">Red River Delta Region</iana:label>
+	<iana:prefix>vi-VN</iana:prefix>
+</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#ree">
 	<iana:code>ree</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -34368,8 +34686,8 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rp">
 	<iana:code>rp</iana:code>
 	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Standard English accent found in Southern England.</iana:comments>
-	<iana:label xml:lang="en">Received Pronunciation</iana:label>
+	<iana:comments xml:lang="en">The accent found in upper class and posh speakers, typically attributed with the monarchy and BBC English.</iana:comments>
+	<iana:label xml:lang="en">Received Pronunciation (ca. 2000)</iana:label>
 	<iana:prefix>en-GB</iana:prefix>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#rpn">
@@ -34642,14 +34960,6 @@
 	<iana:added>2005-10-16</iana:added>
 	<iana:label xml:lang="en">South American Indian languages</iana:label>
 </iana:Collection>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#saigon">
-	<iana:code>saigon</iana:code>
-	<iana:added>2013-04-28</iana:added>
-	<iana:comments xml:lang="en">Specified a more general region specifier.</iana:comments>
-	<iana:deprecated>2014-03-23</iana:deprecated>
-	<iana:label xml:lang="en">Southern Vietnamese</iana:label>
-	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#vi-VN-x-south"/>
-</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#saj">
 	<iana:code>saj</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -36550,22 +36860,23 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#south">
 	<iana:code>south</iana:code>
 	<iana:added>2014-03-23</iana:added>
-	<iana:comments xml:lang="en">Dialect located in the southern region of the specified country.</iana:comments>
-	<iana:label xml:lang="en">South</iana:label>
+	<iana:label xml:lang="en">Southern Region</iana:label>
 </iana:Private>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#southcnt">
-	<iana:code>southcnt</iana:code>
-	<iana:added>2014-03-23</iana:added>
-	<iana:comments xml:lang="en">Dialect located in the south-central region of the specified country.</iana:comments>
-	<iana:label xml:lang="en">South-Central</iana:label>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#southatl">
+	<iana:code>southatl</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">South Atlantic USA Division</iana:label>
+	<iana:prefix>en-US</iana:prefix>
 </iana:Private>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#southeng">
-	<iana:code>southeng</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Specified a more general region specifier.</iana:comments>
-	<iana:deprecated>2014-03-23</iana:deprecated>
-	<iana:label xml:lang="en">Southern English</iana:label>
-	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#en-GB-x-south"/>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#southest">
+	<iana:code>southest</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">South Eastern Region</iana:label>
+</iana:Private>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#southwst">
+	<iana:code>southwst</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">South Western Region</iana:label>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sov">
 	<iana:code>sov</iana:code>
@@ -37193,13 +37504,6 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Suena</iana:label>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#suffolk">
-	<iana:code>suffolk</iana:code>
-	<iana:added>2014-03-23</iana:added>
-	<iana:comments xml:lang="en">Dialect local to Suffolk, England.</iana:comments>
-	<iana:label xml:lang="en">Suffolk</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
-</iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#sug">
 	<iana:code>sug</iana:code>
 	<iana:added>2009-07-29</iana:added>
@@ -41790,8 +42094,7 @@
 <iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wales">
 	<iana:code>wales</iana:code>
 	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Generalised English dialect found in Wales (not to be confused with the Welsh language).</iana:comments>
-	<iana:label xml:lang="en">Wales</iana:label>
+	<iana:label xml:lang="en">Welsh English</iana:label>
 	<iana:prefix>en-GB</iana:prefix>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wam">
@@ -42050,12 +42353,10 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Cameroon Pidgin</iana:label>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#westmids">
-	<iana:code>westmids</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Generalised dialect of the West Midlands region of England.</iana:comments>
-	<iana:label xml:lang="en">West Midlands</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#west">
+	<iana:code>west</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">Western Region</iana:label>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#wet">
 	<iana:code>wet</iana:code>
@@ -45298,19 +45599,10 @@
 	<iana:added>2009-07-29</iana:added>
 	<iana:label xml:lang="en">Yongkom</iana:label>
 </iana:Language>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yorkshire">
-	<iana:code>yorkshire</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:comments xml:lang="en">Invalid private-use tag (too long).</iana:comments>
-	<iana:deprecated>2014-03-23</iana:deprecated>
-	<iana:label xml:lang="en">Yorkshire</iana:label>
-	<iana:preferredValue rdf:resource="http://rhdunn.github.com/cainteoir/data/iana/subtags#yorkshr"/>
-</iana:Private>
-<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yorkshr">
-	<iana:code>yorkshr</iana:code>
-	<iana:added>2013-03-31</iana:added>
-	<iana:label xml:lang="en">Yorkshire</iana:label>
-	<iana:prefix>en-GB</iana:prefix>
+<iana:Private rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yorkhumb">
+	<iana:code>yorkhumb</iana:code>
+	<iana:added>2014-09-25</iana:added>
+	<iana:label xml:lang="en">Yorkshire and the Humber</iana:label>
 </iana:Private>
 <iana:Language rdf:about="http://rhdunn.github.com/cainteoir/data/iana/subtags#yos">
 	<iana:code>yos</iana:code>

@@ -56,7 +56,7 @@ if __name__ == '__main__':
 	#                                                          ... ... England
 	#                                                          ... ... ... Northern England
 	#                                                          ... ... ... ... North West England
-	en['groups'].append(accent('english', 'en-GB-x-lancastr', '... ... ... ... ... Lancastrian [Northern Lancashire]', consonants='en'))
+	en['groups'].append(accent('english', 'en-GB-x-gbclan',    '... ... ... ... ... Lancastrian [Northern Lancashire]', consonants='en'))
 	#                                                          ... ... ... Midlands
 	#                                                          ... ... ... ... West Midlands
 	en['groups'].append(accent('english', 'en-GB-x-brummie',  '... ... ... ... ... Brummie [Birmingham]', consonants='en'))
