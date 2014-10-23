@@ -72,7 +72,11 @@ void dictionary_phoneme_reader::reset(const std::shared_ptr<cainteoir::buffer> &
 {
 	mPhonemes.clear();
 	if (!mDictionary.pronounce(aBuffer, {}, mPhonemes))
-		throw tts::phoneme_error("the word is not in the dictionary");
+	{
+		char msg[512];
+		snprintf(msg, sizeof(msg), "cannot pronounce \"%s\"", aBuffer->str().c_str());
+		throw tts::phoneme_error(msg);
+	}
 
 	mCurrent = mPhonemes.begin();
 	mLast = mPhonemes.end();
