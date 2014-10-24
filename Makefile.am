@@ -307,6 +307,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	\
 	src/libcainteoir/sigproc/samples.cpp \
 	src/libcainteoir/sigproc/window.cpp \
+	src/libcainteoir/sigproc/window_enumerator.cpp \
 	\
 	src/libcainteoir/buffers/buffer.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \

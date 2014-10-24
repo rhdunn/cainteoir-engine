@@ -1,3 +1,21 @@
+# cainteoir::complex {: .doc }
+
+Stores a `float`-based complex number in cartesian coordinate form.
+
+This is used by the fourier-based signal processing logic to represent complex
+numbers. Although this is equivalent to `std::complex<float>`, the standard
+type is not used because there is no guaranteed memory layout and you cannot
+set the real and imaginary parts directly. This makes it difficult to work
+with and prevents using vectorized assembly instructions.
+
+# cainteoir::complex::re {: .doc }
+
+The real part of the complex number.
+
+# cainteoir::complex::im {: .doc }
+
+The imaginary part of the complex number.
+
 # cainteoir::audio_data {: .doc }
 
 Stores audio sample data.
@@ -78,6 +96,41 @@ The `aName` parameter specifies the window function to create, which can be:
 
 @return
 : The values of the window function at each point in the window.
+
+# cainteoir::window_enumerator {: .doc }
+
+Enumerate over audio samples applying a window function to them.
+
+# cainteoir::window_enumerator::~window_enumerator {: .doc }
+
+Cleanup the enumerator object.
+
+# cainteoir::window_enumerator::next {: .doc }
+
+Get the sample data for the next window.
+
+@return
+: `true` if a window was retrieved, `false` otherwise.
+
+# cainteoir::window_enumerator::data {: .doc }
+
+The data associated with the current window in complex form.
+
+# cainteoir::create_s16_window_enumerator {: .doc }
+
+Create a window enumerator over S16 samples.
+
+@aData
+: The S16 audio samples to enumerate over.
+
+@aWindow
+: The window function to apply to the audio samples.
+
+@aStepSize
+: The number of samples each window is offset by.
+
+@return
+: An object to enumerate the windows in the audio data.
 
 # License
 

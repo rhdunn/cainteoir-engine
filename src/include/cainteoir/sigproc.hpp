@@ -26,6 +26,12 @@
 
 namespace cainteoir
 {
+	struct complex
+	{
+		float re;
+		float im;
+	};
+
 	template <typename T>
 	struct audio_data
 	{
@@ -45,6 +51,20 @@ namespace cainteoir
 
 	std::vector<float>
 	window(const char *aName, uint32_t aWindowSize);
+
+	struct window_enumerator
+	{
+		virtual ~window_enumerator() {}
+
+		virtual bool next() = 0;
+
+		std::vector<complex> data;
+	};
+
+	std::shared_ptr<window_enumerator>
+	create_s16_window_enumerator(const audio_data<short> &aData,
+	                             const std::vector<float> &aWindow,
+	                             uint32_t aStepSize);
 }
 
 #endif
