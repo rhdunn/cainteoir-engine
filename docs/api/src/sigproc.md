@@ -16,6 +16,31 @@ The real part of the complex number.
 
 The imaginary part of the complex number.
 
+# cainteoir::abs {: .doc }
+
+Calculate `|x|` for each value in the array.
+
+This is used to evaluate the power spectrum (spectrogram) and power cepstrum
+of a signal. It is defined as:
+
+	|x| = sqrt(re(x)^2 + im(x)^2)
+
+@aData
+: The values to apply `|x|` to.
+
+# cainteoir::abs2 {: .doc }
+
+Calculate `|x|^2` for each value in the array.
+
+This is used to evaluate the energy spectrum and energy cepstrum of a signal.
+It is defined as:
+
+	|x|^2 = sqrt(re(x)^2 + im(x)^2)^2
+	      = re(x)^2 + im(x)^2
+
+@aData
+: The values to apply `|x|^2` to.
+
 # cainteoir::audio_data {: .doc }
 
 Stores audio sample data.

@@ -32,6 +32,10 @@ namespace cainteoir
 		float im;
 	};
 
+	void abs(std::vector<complex> &aData);
+
+	void abs2(std::vector<complex> &aData);
+
 	template <typename T>
 	struct audio_data
 	{
