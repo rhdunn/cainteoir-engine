@@ -22,7 +22,6 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/audio.hpp>
-#include <cainteoir/sigproc.hpp>
 #include <cainteoir/mimetype.hpp>
 #include <stdexcept>
 #include <string.h>
@@ -161,50 +160,4 @@ cainteoir::open_audio_device(
 	if (!audio.get())
 		audio = create_alsa_device(device, aFormat, aChannels, aFrequency, aDocMetadata, aDocument);
 	return audio;
-}
-
-cainteoir::audio_data<short>
-cainteoir::read_s16_samples(const std::shared_ptr<cainteoir::buffer> &aData,
-                            const css::time &aStart,
-                            const css::time &aEnd,
-                            int aChannel,
-                            int aFrequency)
-{
-	auto player = cainteoir::create_media_reader(aData);
-	if (!player)
-		throw std::runtime_error("unable to read the audio file");
-
-	cainteoir::audio_data<short> data;
-	data.info = cainteoir::create_audio_info(
-		rdf::tts("s16le"),
-		player->channels(),
-		(aFrequency == -1) ? player->frequency() : aFrequency);
-
-	player->set_interval(aStart, aEnd);
-	player->set_target(data.info);
-	while (player->read())
-	{
-		const short *current = (const short *)player->data.begin();
-		const short *last    = (const short *)player->data.end();
-		int channels = player->channels();
-		switch (channels)
-		{
-		case 1:
-			data.samples.insert(data.samples.end(), current, last);
-			break;
-		default:
-			{
-				uint32_t n = 0;
-				for (; current != last; ++current)
-				{
-					if (n % channels == aChannel)
-						data.samples.push_back(*current);
-					++n;
-				}
-			}
-			break;
-		}
-	}
-
-	return data;
 }
