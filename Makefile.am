@@ -304,7 +304,8 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/audio/ogg.cpp \
 	src/libcainteoir/audio/pulse.cpp \
 	src/libcainteoir/audio/wav.cpp \
-	src/libcainteoir/audio/window.cpp \
+	\
+	src/libcainteoir/sigproc/window.cpp \
 	\
 	src/libcainteoir/buffers/buffer.cpp \
 	src/libcainteoir/buffers/data_buffer.cpp \
