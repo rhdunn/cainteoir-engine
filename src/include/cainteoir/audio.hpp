@@ -118,26 +118,6 @@ namespace cainteoir
 
 	std::shared_ptr<audio_reader>
 	create_media_reader(const std::shared_ptr<cainteoir::buffer> &data);
-
-	template <typename T>
-	struct audio_data
-	{
-		std::vector<T> samples;
-		std::shared_ptr<audio_info> info;
-	};
-
-	audio_data<short>
-	read_s16_samples(const std::shared_ptr<cainteoir::buffer> &aData,
-	                 const css::time &aStart,
-	                 const css::time &aEnd,
-	                 int aChannel,
-	                 int aFrequency);
-
-	std::vector<float>
-	cosine_window(float aAlpha, float aBeta, uint32_t aWindowSize);
-
-	std::vector<float>
-	window(const char *aName, uint32_t aWindowSize);
 }
 
 #endif

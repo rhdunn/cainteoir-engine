@@ -21,7 +21,7 @@
 #include "config.h"
 #include "compatibility.hpp"
 
-#include <cainteoir/audio.hpp>
+#include <cainteoir/sigproc.hpp>
 #include <cmath>
 
 std::vector<float>

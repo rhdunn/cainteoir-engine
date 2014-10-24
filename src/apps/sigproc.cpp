@@ -23,7 +23,7 @@
 #include "i18n.h"
 #include "options.hpp"
 
-#include <cainteoir/audio.hpp>
+#include <cainteoir/sigproc.hpp>
 #include <stdexcept>
 
 namespace rdf = cainteoir::rdf;

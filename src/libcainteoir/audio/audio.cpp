@@ -22,6 +22,7 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/audio.hpp>
+#include <cainteoir/sigproc.hpp>
 #include <cainteoir/mimetype.hpp>
 #include <stdexcept>
 #include <string.h>
