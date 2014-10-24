@@ -41,3 +41,11 @@ void cainteoir::abs2(std::vector<complex> &aData)
 		c.im = 0;
 	}
 }
+
+void cainteoir::logr(std::vector<complex> &aData)
+{
+	for (auto & c : aData)
+	{
+		c.re = log(c.re);
+	}
+}

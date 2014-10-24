@@ -41,6 +41,16 @@ It is defined as:
 @aData
 : The values to apply `|x|^2` to.
 
+# cainteoir::logr {: .doc }
+
+Calculate `log` on the real part of each value in the array.
+
+This assumes that the complex number only has a real component (e.g. after
+performing `abs` or `abs2` on the data).
+
+@aData
+: The values to apply `log` to.
+
 # cainteoir::audio_data {: .doc }
 
 Stores audio sample data.

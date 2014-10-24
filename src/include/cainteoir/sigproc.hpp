@@ -36,6 +36,8 @@ namespace cainteoir
 
 	void abs2(std::vector<complex> &aData);
 
+	void logr(std::vector<complex> &aData);
+
 	template <typename T>
 	struct audio_data
 	{
