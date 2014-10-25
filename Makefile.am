@@ -670,6 +670,11 @@ EXTRA_DIST += \
 	$(LETTER2PHONEME_TEST_FILES) \
 	tests/*.py
 
+noinst_bin_PROGRAMS += tests/algorithm
+
+tests_algorithm_LDADD   = src/libcainteoir/libcainteoir.la
+tests_algorithm_SOURCES = tests/algorithm.cpp
+
 noinst_bin_PROGRAMS += tests/complex.test
 
 tests_complex_test_LDADD   = src/libcainteoir/libcainteoir.la

@@ -60,6 +60,7 @@ src/examples/voice-synthesizer
 src/experimental/synthesizer
 
 tests/*.test
+tests/algorithm
 tests/events
 tests/xmlreader
 tests/parsetext
