@@ -71,16 +71,16 @@ static void fft(cainteoir::complex_array &aData, int sign)
 		}
 	}
 
-	uint32_t j = 0;
-	for (uint32_t i = 0; i <= size - 2; ++i)
+	auto b = data;
+	for (auto a = data, end = data + size - 2; a <= end; ++a)
 	{
-		if (i < j)
-			std::swap(aData[i], aData[j]);
+		if (a < b)
+			std::swap(*a, *b);
 
 		uint32_t k = size / 2;
-		for (; k <= j; k /= 2)
-			j -= k;
-		j += k;
+		for (; data + k <= b; k /= 2)
+			b -= k;
+		b += k;
 	}
 }
 
