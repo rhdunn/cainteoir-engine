@@ -52,10 +52,9 @@ static void fft(cainteoir::complex_array &aData, int sign)
 
 		for (uint32_t j = 0; j < le1; ++j)
 		{
-			for (uint32_t i = j; i < size-le1; i += le)
+			for (auto a = &aData[j]; a < &aData[size-le1]; a += le)
 			{
-				cainteoir::complex *a = &aData[i];
-				cainteoir::complex *b = &aData[i + le1];
+				cainteoir::complex *b = a + le1;
 
 				cainteoir::complex p = { a->re + b->re, a->im + b->im };
 				cainteoir::complex q = { a->re - b->re, a->im - b->im };
