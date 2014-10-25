@@ -42,7 +42,7 @@ static void fft(cainteoir::complex_array &aData, int sign)
 
 	uint32_t le  = size;
 	uint32_t le1 = size;
-	for (uint32_t l = 1; l <= m; ++l)
+	for (uint32_t l = 0; l < m; ++l)
 	{
 		le    = le1;
 		le1 >>= 1;
@@ -50,38 +50,38 @@ static void fft(cainteoir::complex_array &aData, int sign)
 		cainteoir::complex u = { 1.0f, 0.0f };
 		cainteoir::complex w = { cosf(M_PI / le1), sign * sinf(M_PI / le1) };
 
-		for (uint32_t j = 1; j <= le1; ++j)
+		for (uint32_t j = 0; j < le1; ++j)
 		{
-			for (uint32_t i = j; i <= size-le1; i += le)
+			for (uint32_t i = j; i < size-le1; i += le)
 			{
 				uint32_t ip = i + le1;
 
 				cainteoir::complex p = {
-					aData[i-1].re + aData[ip-1].re,
-					aData[i-1].im + aData[ip-1].im };
+					aData[i].re + aData[ip].re,
+					aData[i].im + aData[ip].im };
 
 				cainteoir::complex q = {
-					aData[i-1].re - aData[ip-1].re,
-					aData[i-1].im - aData[ip-1].im };
+					aData[i].re - aData[ip].re,
+					aData[i].im - aData[ip].im };
 
-				aData[ip-1].re = q.re*u.re - q.im*u.im;
-				aData[ip-1].im = q.re*u.im + q.im*u.re;
+				aData[ip].re = q.re*u.re - q.im*u.im;
+				aData[ip].im = q.re*u.im + q.im*u.re;
 
-				aData[i-1] = p;
+				aData[i] = p;
 			}
 
 			u = { u.re*w.re - u.im*w.im, u.re*w.im + u.im*w.re };
 		}
 	}
 
-	uint32_t j = 1;
-	for (uint32_t i = 1; i <= size - 1; ++i)
+	uint32_t j = 0;
+	for (uint32_t i = 0; i <= size - 2; ++i)
 	{
 		if (i < j)
-			std::swap(aData[i-1], aData[j-1]);
+			std::swap(aData[i], aData[j]);
 
 		uint32_t k = size / 2;
-		for (; k < j; k /= 2)
+		for (; k <= j; k /= 2)
 			j -= k;
 		j += k;
 	}
