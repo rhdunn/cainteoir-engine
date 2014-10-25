@@ -37,7 +37,7 @@ static void fft(cainteoir::complex_array &aData, int sign)
 	uint32_t size = aData.size();
 	uint32_t m = log2(size);
 
-	if ((uint32_t)pow(2.0f, m) != size)
+	if (size == 0 || (size & (size - 1)) != 0) // if size is not a power of 2 ...
 		throw std::runtime_error("FFT data must have 2^n elements (for any n > 0)");
 
 	uint32_t le  = size;
