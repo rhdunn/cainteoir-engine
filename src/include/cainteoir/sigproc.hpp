@@ -41,6 +41,10 @@ namespace cainteoir
 
 	void logr(complex_array &aData);
 
+	void fft(complex_array &aData);
+
+	void ifft(complex_array &aData);
+
 	template <typename T>
 	struct audio_data
 	{

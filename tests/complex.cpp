@@ -108,3 +108,59 @@ TEST_CASE("logr")
 	cainteoir::logr(a);
 	match(a, b);
 }
+
+TEST_CASE("fft")
+{
+	cainteoir::complex_array a = {
+		{  0.0f,  0.0f },
+		{  1.0f,  0.0f },
+		{  2.0f,  0.0f },
+		{  3.0f,  0.0f },
+		{  4.0f,  0.0f },
+		{  5.0f,  0.0f },
+		{  6.0f,  0.0f },
+		{  7.0f,  0.0f },
+	};
+
+	cainteoir::complex_array b = {
+		{  28.0f,  0.0f },
+		{  -4.0f,  9.6569f },
+		{  -4.0f,  4.0f },
+		{  -4.0f,  1.6569f },
+		{  -4.0f,  0.0f },
+		{  -4.0f, -1.6569f },
+		{  -4.0f, -4.0f },
+		{  -4.0f, -9.6569f },
+	};
+
+	cainteoir::fft(a);
+	match(a, b);
+}
+
+TEST_CASE("ifft")
+{
+	cainteoir::complex_array a = {
+		{  28.0f,  0.0f },
+		{  -4.0f,  9.6569f },
+		{  -4.0f,  4.0f },
+		{  -4.0f,  1.6569f },
+		{  -4.0f,  0.0f },
+		{  -4.0f, -1.6569f },
+		{  -4.0f, -4.0f },
+		{  -4.0f, -9.6569f },
+	};
+
+	cainteoir::complex_array b = {
+		{  0.0f,  0.0f },
+		{  1.0f,  0.0f },
+		{  2.0f,  0.0f },
+		{  3.0f,  0.0f },
+		{  4.0f,  0.0f },
+		{  5.0f,  0.0f },
+		{  6.0f,  0.0f },
+		{  7.0f,  0.0f },
+	};
+
+	cainteoir::ifft(a);
+	match(a, b);
+}

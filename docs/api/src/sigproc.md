@@ -59,6 +59,20 @@ performing `abs` or `abs2` on the data).
 @aData
 : The values to apply `log` to.
 
+# cainteoir::fft {: .doc }
+
+Calculate the fast fourier transform.
+
+@aData
+: The values to perform the FFT on.
+
+# cainteoir::ifft {: .doc }
+
+Calculate the inverse fast fourier transform.
+
+@aData
+: The values to perform the inverse FFT on.
+
 # cainteoir::audio_data {: .doc }
 
 Stores audio sample data.
