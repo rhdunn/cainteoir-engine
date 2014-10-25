@@ -32,11 +32,13 @@ namespace cainteoir
 		float im;
 	};
 
-	void abs(std::vector<complex> &aData);
+	typedef std::vector<complex> complex_array;
 
-	void abs2(std::vector<complex> &aData);
+	void abs(complex_array &aData);
 
-	void logr(std::vector<complex> &aData);
+	void abs2(complex_array &aData);
+
+	void logr(complex_array &aData);
 
 	template <typename T>
 	struct audio_data
@@ -64,7 +66,7 @@ namespace cainteoir
 
 		virtual bool next() = 0;
 
-		std::vector<complex> data;
+		complex_array data;
 	};
 
 	std::shared_ptr<window_enumerator>

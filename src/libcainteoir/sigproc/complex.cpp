@@ -24,7 +24,7 @@
 #include <cainteoir/sigproc.hpp>
 #include <cmath>
 
-void cainteoir::abs(std::vector<complex> &aData)
+void cainteoir::abs(complex_array &aData)
 {
 	for (auto & c : aData)
 	{
@@ -33,7 +33,7 @@ void cainteoir::abs(std::vector<complex> &aData)
 	}
 }
 
-void cainteoir::abs2(std::vector<complex> &aData)
+void cainteoir::abs2(complex_array &aData)
 {
 	for (auto & c : aData)
 	{
@@ -42,7 +42,7 @@ void cainteoir::abs2(std::vector<complex> &aData)
 	}
 }
 
-void cainteoir::logr(std::vector<complex> &aData)
+void cainteoir::logr(complex_array &aData)
 {
 	for (auto & c : aData)
 	{

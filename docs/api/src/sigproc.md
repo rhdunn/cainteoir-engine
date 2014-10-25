@@ -16,6 +16,10 @@ The real part of the complex number.
 
 The imaginary part of the complex number.
 
+# cainteoir::complex_array {: .doc }
+
+An array of complex numbers.
+
 # cainteoir::abs {: .doc }
 
 Calculate `|x|` for each value in the array.
