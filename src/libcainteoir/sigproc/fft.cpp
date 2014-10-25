@@ -40,6 +40,8 @@ static void fft(cainteoir::complex_array &aData, int sign)
 	if (size == 0 || (size & (size - 1)) != 0) // if size is not a power of 2 ...
 		throw std::runtime_error("FFT data must have 2^n elements (for any n > 0)");
 
+	cainteoir::complex *data = &aData[0];
+
 	uint32_t le  = size;
 	uint32_t le1 = size;
 	for (uint32_t l = 0; l < m; ++l)
@@ -50,9 +52,9 @@ static void fft(cainteoir::complex_array &aData, int sign)
 		cainteoir::complex u = { 1.0f, 0.0f };
 		cainteoir::complex w = { cosf(M_PI / le1), sign * sinf(M_PI / le1) };
 
-		for (uint32_t j = 0; j < le1; ++j)
+		for (auto b = data, bend = data + le1; b < bend; ++b)
 		{
-			for (auto a = &aData[j]; a < &aData[size-le1]; a += le)
+			for (auto a = b, aend = data + size - le1; a < aend; a += le)
 			{
 				cainteoir::complex *c = a + le1;
 
