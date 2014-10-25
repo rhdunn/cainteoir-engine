@@ -669,6 +669,11 @@ EXTRA_DIST += \
 	$(LETTER2PHONEME_TEST_FILES) \
 	tests/*.py
 
+noinst_bin_PROGRAMS += tests/complex.test
+
+tests_complex_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_complex_test_SOURCES = tests/complex.cpp tests/tester.hpp
+
 noinst_bin_PROGRAMS += tests/range.test
 
 tests_range_test_LDADD   = src/libcainteoir/libcainteoir.la
@@ -821,6 +826,7 @@ tests/prosody.check: src/examples/voice-synthesizer ${PROSODY_TEST_FILES}
 tests/units.check: src/examples/voice-synthesizer ${UNITS_TEST_FILES}
 
 check: \
+	tests/complex.check \
 	tests/range.check \
 	tests/buffer.check \
 	tests/path.check \
