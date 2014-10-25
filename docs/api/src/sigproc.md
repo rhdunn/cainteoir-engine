@@ -16,6 +16,10 @@ The real part of the complex number.
 
 The imaginary part of the complex number.
 
+# cainteoir::float_array {: .doc }
+
+An array of single precision floating-point numbers.
+
 # cainteoir::complex_array {: .doc }
 
 An array of complex numbers.

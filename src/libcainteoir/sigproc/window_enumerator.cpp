@@ -27,7 +27,7 @@
 struct s16_window_enumerator : public cainteoir::window_enumerator
 {
 	s16_window_enumerator(const cainteoir::audio_data<short> &aData,
-	                      const std::vector<float> &aWindow,
+	                      const cainteoir::float_array &aWindow,
 	                      uint32_t aStepSize);
 
 	bool next();
@@ -39,7 +39,7 @@ private:
 };
 
 s16_window_enumerator::s16_window_enumerator(const cainteoir::audio_data<short> &aData,
-                                             const std::vector<float> &aWindow,
+                                             const cainteoir::float_array &aWindow,
                                              uint32_t aStepSize)
 	: mSamples(aData.samples)
 	, mWindow(aWindow)
@@ -88,7 +88,7 @@ bool s16_window_enumerator::next()
 
 std::shared_ptr<cainteoir::window_enumerator>
 cainteoir::create_s16_window_enumerator(const audio_data<short> &aData,
-                                        const std::vector<float> &aWindow,
+                                        const float_array &aWindow,
                                         uint32_t aStepSize)
 {
 	return std::make_shared<s16_window_enumerator>(aData, aWindow, aStepSize);

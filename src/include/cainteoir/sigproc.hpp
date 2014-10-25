@@ -32,6 +32,7 @@ namespace cainteoir
 		float im;
 	};
 
+	typedef std::vector<float>   float_array;
 	typedef std::vector<complex> complex_array;
 
 	void abs(complex_array &aData);
@@ -54,10 +55,10 @@ namespace cainteoir
 	                 int aChannel,
 	                 int aFrequency);
 
-	std::vector<float>
+	float_array
 	cosine_window(float aAlpha, float aBeta, uint32_t aWindowSize);
 
-	std::vector<float>
+	float_array
 	window(const char *aName, uint32_t aWindowSize);
 
 	struct window_enumerator
@@ -71,7 +72,7 @@ namespace cainteoir
 
 	std::shared_ptr<window_enumerator>
 	create_s16_window_enumerator(const audio_data<short> &aData,
-	                             const std::vector<float> &aWindow,
+	                             const float_array &aWindow,
 	                             uint32_t aStepSize);
 }
 

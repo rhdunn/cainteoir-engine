@@ -24,10 +24,10 @@
 #include <cainteoir/sigproc.hpp>
 #include <cmath>
 
-std::vector<float>
+cainteoir::float_array
 cainteoir::cosine_window(float aAlpha, float aBeta, uint32_t aWindowSize)
 {
-	std::vector<float> window;
+	float_array window;
 	window.resize(aWindowSize);
 
 	float theta = 2 * M_PI / (aWindowSize - 1);
@@ -40,7 +40,7 @@ cainteoir::cosine_window(float aAlpha, float aBeta, uint32_t aWindowSize)
 	return window;
 }
 
-std::vector<float>
+cainteoir::float_array
 cainteoir::window(const char *aName, uint32_t aWindowSize)
 {
 	if (!aName) return {};
