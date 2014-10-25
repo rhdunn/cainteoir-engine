@@ -40,10 +40,12 @@ static void fft(cainteoir::complex_array &aData, int sign)
 	if ((uint32_t)pow(2.0f, m) != size)
 		throw std::runtime_error("FFT data must have 2^n elements (for any n > 0)");
 
+	uint32_t le  = size;
+	uint32_t le1 = size;
 	for (uint32_t l = 1; l <= m; ++l)
 	{
-		uint32_t le  = (uint32_t)pow(2.0f, m + 1 - l);
-		uint32_t le1 = le / 2;
+		le    = le1;
+		le1 >>= 1;
 
 		cainteoir::complex u = { 1.0f, 0.0f };
 		cainteoir::complex w = { cosf(M_PI / le1), sign * sinf(M_PI / le1) };
