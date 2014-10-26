@@ -453,6 +453,139 @@ Decode a base64 encoded data buffer.
 @return
 : The decoded data buffer.
 
+# cainteoir::native_endian_buffer {: .doc }
+
+Parse a binary file in the native (system) endian format.
+
+# cainteoir::native_endian_buffer::native_endian_buffer {: .doc }
+
+Create a new native endian data reader.
+
+@f
+: The start of the binary data.
+
+@l
+: The end of the binary data.
+
+# cainteoir::native_endian_buffer::native_endian_buffer {: .doc }
+
+Create a new native endian data reader.
+
+@aData
+: The binary data.
+
+__NOTE:__ This class does not hold a reference to `aData`.
+
+# cainteoir::native_endian_buffer::u8 {: .doc }
+
+Read the next 8-bit unsigned integer.
+
+@return
+: The next 8-bit unsigned integer.
+
+# cainteoir::native_endian_buffer::u16 {: .doc }
+
+Read the next 16-bit unsigned integer.
+
+@return
+: The next 16-bit unsigned integer.
+
+# cainteoir::native_endian_buffer::u32 {: .doc }
+
+Read the next 32-bit unsigned integer.
+
+@return
+: The next 32-bit unsigned integer.
+
+# cainteoir::native_endian_buffer::u64 {: .doc }
+
+Read the next 64-bit unsigned integer.
+
+@return
+: The next 64-bit unsigned integer.
+
+# cainteoir::native_endian_buffer::f8_8 {: .doc }
+
+Read the next 8:8 encoded floating point number.
+
+This reads a floating point number where the first `u8` is the whole number
+part and the second `u8` is the fraction part such that:
+
+	a:b = a + (b/256)
+
+@return
+: The next 8:8 encoded floating point number.
+
+# cainteoir::native_endian_buffer::f16_16 {: .doc }
+
+Read the next 16:16 encoded floating point number.
+
+This reads a floating point number where the first `u16` is the whole number
+part and the second `u16` is the fraction part such that:
+
+	a:b = a + (b/65536)
+
+@return
+: The next 16:16 encoded floating point number.
+
+# cainteoir::native_endian_buffer::array {: .doc }
+
+Read the next array of the specified type.
+
+This reads an array in the binary file with the specified binary layout:
+
+	u16  n;        // The number of elements in the array.
+	T[n] elements; // The array data.
+
+@return
+: The array of elements.
+
+# cainteoir::native_endian_buffer::pstr {: .doc }
+
+Read the next pointer to a C-style (null terminated) string.
+
+This reads a `u32` pointer to a null terminated string (`char` array).
+
+@return
+: The C-style (null terminated) string.
+
+# cainteoir::native_endian_buffer::seek {: .doc }
+
+Read the next item at the specified offset.
+
+@offset
+: The index to move to.
+
+# cainteoir::native_endian_buffer::eof {: .doc }
+
+Is this the end of the file?
+
+@return
+: `true` if the buffer is at the end of the file, `false` otherwise.
+
+# cainteoir::native_endian_buffer::offset {: .doc }
+
+Return the current read position.
+
+@return
+: The current read position.
+
+# cainteoir::native_endian_buffer::magic {: .doc }
+
+Read the next 3-byte magic value.
+
+This reads a magic byte string `ABC` as a `u32` with the following structure:
+
+| Bit Offset | Byte Value |
+|------------|------------|
+| 24         | 0x00       |
+| 16         | A          |
+| 8          | B          |
+| 0          | C          |
+
+@return
+: The 3-byte magic value.
+
 # License
 
 This API documentation is licensed under the CC BY-SA 2.0 UK License.
