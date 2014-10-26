@@ -1,13 +1,3 @@
-# cainteoir::tts::createPronunciationRules {: .doc }
-
-Create a letter to phoneme converter.
-
-@aRuleSetPath
-: The path of the letter to phoneme rules to use.
-
-@return
-: A letter to phoneme converter object.
-
 # cainteoir::tts::event_type {: .doc }
 
 The matched context for the [text_event](^^cainteoir::tts::text_event) object.
