@@ -70,6 +70,8 @@ int main(int argc, char ** argv)
 	int frequency = -1;
 	int channel = 0;
 	const char *target_amplitude = nullptr;
+	const char *window_name = nullptr;
+	uint32_t window_size = 0;
 
 	const option_group general_options = { nullptr, {
 		{ 's', "start", start_time, "TIME",
@@ -84,14 +86,22 @@ int main(int argc, char ** argv)
 		  i18n("The desired audio frequency") },
 	}};
 
+	const option_group window_options = { i18n("Window:"), {
+		{ 'w', "window", window_name, "WINDOW_NAME",
+		  i18n("The window function to use") },
+		{ 'W', "window-size", window_size, "WINDOW_SIZE",
+		  i18n("The number of samples in the window to use") },
+	}};
+
 	const std::initializer_list<option_group> options = {
 		general_options,
+		window_options,
 	};
 
 	const std::initializer_list<const char *> usage = {
 		i18n("sigproc [OPTION..] convert AUDIO_FILE OUTPUT_FILE"),
 		i18n("sigproc [OPTION..] info AUDIO_FILE"),
-		i18n("sigproc [OPTION..] window WINDOW_FUNCTION WINDOW_SIZE"),
+		i18n("sigproc [OPTION..] window"),
 	};
 
 	try
@@ -124,10 +134,7 @@ int main(int argc, char ** argv)
 		}
 		else if (strcmp(argv[0], "window") == 0)
 		{
-			if (argc != 3)
-				throw usage_exception();
-
-			std::vector<float> window = cainteoir::window(argv[1], strtol(argv[2], nullptr, 10));
+			std::vector<float> window = cainteoir::window(window_name, window_size);
 			for (auto value : window)
 				fprintf(stdout, "%G\n", value);
 		}
