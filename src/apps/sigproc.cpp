@@ -99,6 +99,9 @@ int main(int argc, char ** argv)
 		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
+		if (argc == 0)
+			throw usage_exception();
+
 		if (strcmp(argv[0], "convert") == 0)
 		{
 			if (argc != 3)
