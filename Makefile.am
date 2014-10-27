@@ -246,6 +246,7 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/path.hpp \
 	src/include/cainteoir/phoneme.hpp \
 	src/include/cainteoir/range.hpp \
+	src/include/cainteoir/sigproc.hpp \
 	src/include/cainteoir/stopwatch.hpp \
 	src/include/cainteoir/synthesizer.hpp \
 	src/include/cainteoir/text.hpp \
