@@ -28,5 +28,8 @@ if __name__ == '__main__':
 			{'test': 'letter2phoneme/right.txt', 'result': 'letter2phoneme/right.ps', 'ruleset': 'letter2phoneme/context.ldb'},
 			{'test': 'letter2phoneme/left.txt', 'result': 'letter2phoneme/left.ps', 'ruleset': 'letter2phoneme/context.ldb'},
 		]},
+		{'name': 'Matching', 'type': 'phonemestream', 'tests': [
+			{'test': 'letter2phoneme/position.txt', 'result': 'letter2phoneme/position.ps', 'ruleset': 'letter2phoneme/context.ldb'},
+		]},
 	]})
 	test.summary()

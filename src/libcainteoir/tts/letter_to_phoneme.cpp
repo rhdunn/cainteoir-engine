@@ -55,6 +55,21 @@ bool match_l2p_rule(const uint8_t *rule, const uint8_t *start, const uint8_t *&c
 		++rule;
 		--left;
 		break;
+	case '_':
+		switch (state)
+		{
+		case left_match:
+			if (left != start - 1) return false;
+			++rule;
+			break;
+		case right_match:
+			if (right != end) return false;
+			++rule;
+			break;
+		default:
+			return false;
+		}
+		break;
 	default:
 		switch (state)
 		{
