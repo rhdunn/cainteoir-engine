@@ -61,7 +61,7 @@ bool syllable_reader_t::read()
 	for (auto current = onset; current != last; ++current)
 	{
 		auto &phoneme = *current;
-		switch (phoneme.get(ipa::phoneme_type))
+		switch (phoneme.get(ipa::phoneme_type | ipa::syllabicity))
 		{
 		case ipa::vowel:
 			switch (state)
@@ -71,11 +71,25 @@ bool syllable_reader_t::read()
 				nucleus = current;
 				break;
 			case syllable_t::nucleus:
-				if (phoneme.get(ipa::syllabicity) != ipa::non_syllabic)
-				{
-					coda = end = current;
-					return true;
-				}
+				coda = end = current;
+				return true;
+			case syllable_t::coda_start:
+				coda = end = coda_start;
+				return true;
+			case syllable_t::coda:
+				end = coda_start;
+				coda = --coda_start;
+				return true;
+			}
+			break;
+		case ipa::vowel | ipa::non_syllabic:
+			switch (state)
+			{
+			case syllable_t::onset:
+				state = syllable_t::nucleus;
+				nucleus = current;
+				break;
+			case syllable_t::nucleus:
 				break;
 			case syllable_t::coda_start:
 				coda = end = coda_start;
