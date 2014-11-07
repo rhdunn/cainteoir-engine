@@ -31,6 +31,7 @@ namespace ipa = cainteoir::ipa;
 
 enum syllable_t : uint8_t
 {
+	start,
 	onset,
 	nucleus,
 	coda_start,
@@ -54,7 +55,7 @@ void syllable_reader_t::reset(ipa::phonemes &aPhonemes)
 
 bool syllable_reader_t::read()
 {
-	syllable_t state = syllable_t::onset;
+	syllable_t state = syllable_t::start;
 	ipa::phonemes::iterator coda_start = end;
 	onset = end;
 
@@ -69,6 +70,7 @@ bool syllable_reader_t::read()
 			have_syllable = true;
 			switch (state)
 			{
+			case syllable_t::start:
 			case syllable_t::onset:
 				state = syllable_t::nucleus;
 				nucleus = current;
@@ -89,6 +91,7 @@ bool syllable_reader_t::read()
 			have_syllable = true;
 			switch (state)
 			{
+			case syllable_t::start:
 			case syllable_t::onset:
 				state = syllable_t::nucleus;
 				nucleus = current;
@@ -107,6 +110,7 @@ bool syllable_reader_t::read()
 		case ipa::separator:
 			switch (state)
 			{
+			case syllable_t::start:
 			case syllable_t::onset:
 				onset = coda_start = current;
 				break;
@@ -124,10 +128,14 @@ bool syllable_reader_t::read()
 				return true;
 			}
 			break;
-		default:
+		case ipa::consonant:
 			have_syllable = true;
 			switch (state)
 			{
+			case syllable_t::start:
+				onset = current;
+				state = syllable_t::onset;
+				break;
 			case syllable_t::onset:
 				break;
 			case syllable_t::nucleus:
@@ -140,6 +148,27 @@ bool syllable_reader_t::read()
 				break;
 			case syllable_t::coda:
 				break;
+			}
+			break;
+		default:
+			switch (state)
+			{
+			case syllable_t::start:
+			case syllable_t::onset:
+				onset = coda_start = current;
+				break;
+			case syllable_t::nucleus:
+				coda = current;
+				end = current;
+				return true;
+			case syllable_t::coda_start:
+				coda = coda_start;
+				end = current;
+				return true;
+			case syllable_t::coda:
+				coda = --coda_start;
+				end = current;
+				return true;
 			}
 			break;
 		}
