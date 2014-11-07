@@ -53,15 +53,15 @@ struct syllable_reader_t : public tts::syllable_reader
 
 void syllable_reader_t::reset(ipa::phonemes &aPhonemes)
 {
-	mState = syllable_t::onset;
-	onset = aPhonemes.begin();
+	end  = aPhonemes.begin();
 	last = aPhonemes.end();
 }
 
 bool syllable_reader_t::read()
 {
-	if (mState == syllable_t::coda)
-		onset = coda;
+	mState = syllable_t::onset;
+	onset = end;
+
 	for (auto current = onset; current != last; ++current)
 	{
 		auto &phoneme = *current;
