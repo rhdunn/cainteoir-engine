@@ -44,7 +44,7 @@ void print_phonemes(ipa::phonemes &aPhonemes,
 {
 	aTo->reset(stdout);
 	aSyllables->reset(aPhonemes);
-	aSyllables->read();
+	bool have_syllable = aSyllables->read();
 	for (auto p = aPhonemes.begin(), last = aPhonemes.end(); p != last;)
 	{
 		if (p == aSyllables->onset)
@@ -66,11 +66,18 @@ void print_phonemes(ipa::phonemes &aPhonemes,
 		{
 			aTo->flush();
 			fputc('}', stdout);
-			if (aSyllables->read())
+			if (have_syllable = aSyllables->read())
 				continue;
 		}
 		aTo->write(*p);
 		++p;
+	}
+	if (have_syllable)
+	{
+		 if (aSyllables->coda == aPhonemes.end())
+			fputc(']', stdout);
+		 if (aSyllables->end == aPhonemes.end())
+			fputc('}', stdout);
 	}
 	aTo->flush();
 }

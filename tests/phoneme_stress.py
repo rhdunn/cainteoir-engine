@@ -23,19 +23,43 @@ import sys
 if __name__ == '__main__':
 	test = harness.TestSuite('phoneme-stress', sys.argv)
 	test.run({'name': 'Syllabification', 'type': 'phonemes', 'args': ['--syllables'], 'from': 'cxs', 'to': 'cxs', 'tests': [
-		{'test': 'phoneme_stress/syllable-stressed.cxs', 'result': 'phoneme_stress/syllable-stressed.syl'},
-		{'test': 'phoneme_stress/vowel-stressed.cxs', 'result': 'phoneme_stress/vowel-stressed.syl'},
+		{'test': 'phoneme_stress/syllable-stressed.cxs',            'result': 'phoneme_stress/syllable-stressed.syl'},
+		{'test': 'phoneme_stress/syllable-stressed-cv-nosep.cxs',   'result': 'phoneme_stress/syllable-stressed-cv.syl'},
+		{'test': 'phoneme_stress/syllable-stressed-cvc-nosep.cxs',  'result': 'phoneme_stress/syllable-stressed-cvc.syl'},
+		{'test': 'phoneme_stress/syllable-stressed-cvcc-nosep.cxs', 'result': 'phoneme_stress/syllable-stressed-cvcc.syl'},
+		{'test': 'phoneme_stress/vowel-stressed.cxs',               'result': 'phoneme_stress/vowel-stressed.syl'},
+		{'test': 'phoneme_stress/vowel-stressed-cv-nosep.cxs',      'result': 'phoneme_stress/vowel-stressed-cv.syl'},
+		{'test': 'phoneme_stress/vowel-stressed-cvc-nosep.cxs',     'result': 'phoneme_stress/vowel-stressed-cvc.syl'},
+		{'test': 'phoneme_stress/vowel-stressed-cvcc-nosep.cxs',    'result': 'phoneme_stress/vowel-stressed-cvcc.syl'},
 	]})
 	test.run({'name': 'As Transcribed', 'type': 'phonemes', 'args': [], 'from': 'cxs', 'to': 'cxs', 'tests': [
-		{'test': 'phoneme_stress/syllable-stressed.cxs', 'result': 'phoneme_stress/syllable-stressed.cxs'},
-		{'test': 'phoneme_stress/vowel-stressed.cxs', 'result': 'phoneme_stress/vowel-stressed.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed.cxs',            'result': 'phoneme_stress/syllable-stressed.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed-cv-nosep.cxs',   'result': 'phoneme_stress/syllable-stressed-cv-nosep.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed-cvc-nosep.cxs',  'result': 'phoneme_stress/syllable-stressed-cvc-nosep.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed-cvcc-nosep.cxs', 'result': 'phoneme_stress/syllable-stressed-cvcc-nosep.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed.cxs',               'result': 'phoneme_stress/vowel-stressed.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed-cv-nosep.cxs',      'result': 'phoneme_stress/vowel-stressed-cv-nosep.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed-cvc-nosep.cxs',     'result': 'phoneme_stress/vowel-stressed-cvc-nosep.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed-cvcc-nosep.cxs',    'result': 'phoneme_stress/vowel-stressed-cvcc-nosep.cxs'},
 	]})
 	test.run({'name': 'Vowel Stress', 'type': 'phonemes', 'args': ['--vowel-stress'], 'from': 'cxs', 'to': 'cxs', 'tests': [
-		{'test': 'phoneme_stress/syllable-stressed.cxs', 'result': 'phoneme_stress/vowel-stressed.cxs'},
-		{'test': 'phoneme_stress/vowel-stressed.cxs', 'result': 'phoneme_stress/vowel-stressed.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed.cxs',            'result': 'phoneme_stress/vowel-stressed.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed-cv-nosep.cxs',   'result': 'phoneme_stress/vowel-stressed-cv-nosep.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed-cvc-nosep.cxs',  'result': 'phoneme_stress/vowel-stressed-cvc-nosep.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed-cvcc-nosep.cxs', 'result': 'phoneme_stress/vowel-stressed-cvcc-nosep.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed.cxs',               'result': 'phoneme_stress/vowel-stressed.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed-cv-nosep.cxs',      'result': 'phoneme_stress/vowel-stressed-cv-nosep.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed-cvc-nosep.cxs',     'result': 'phoneme_stress/vowel-stressed-cvc-nosep.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed-cvcc-nosep.cxs',    'result': 'phoneme_stress/vowel-stressed-cvcc-nosep.cxs'},
 	]})
 	test.run({'name': 'Syllable Stress', 'type': 'phonemes', 'args': ['--syllable-stress'], 'from': 'cxs', 'to': 'cxs', 'tests': [
-		{'test': 'phoneme_stress/syllable-stressed.cxs', 'result': 'phoneme_stress/syllable-stressed.cxs'},
-		{'test': 'phoneme_stress/vowel-stressed.cxs', 'result': 'phoneme_stress/syllable-stressed.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed.cxs',            'result': 'phoneme_stress/syllable-stressed.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed-cv-nosep.cxs',   'result': 'phoneme_stress/syllable-stressed-cv-nosep.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed-cvc-nosep.cxs',  'result': 'phoneme_stress/syllable-stressed-cvc-nosep.cxs'},
+		{'test': 'phoneme_stress/syllable-stressed-cvcc-nosep.cxs', 'result': 'phoneme_stress/syllable-stressed-cvcc-nosep.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed.cxs',               'result': 'phoneme_stress/syllable-stressed.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed-cv-nosep.cxs',      'result': 'phoneme_stress/syllable-stressed-cv-nosep.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed-cvc-nosep.cxs',     'result': 'phoneme_stress/syllable-stressed-cvc-nosep.cxs'},
+		{'test': 'phoneme_stress/vowel-stressed-cvcc-nosep.cxs',    'result': 'phoneme_stress/syllable-stressed-cvcc-nosep.cxs'},
 	]})
 	test.summary()
