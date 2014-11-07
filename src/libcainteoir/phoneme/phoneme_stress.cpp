@@ -38,17 +38,11 @@ enum syllable_t : uint8_t
 
 struct syllable_reader_t : public tts::syllable_reader
 {
-	syllable_reader_t()
-		: mState(syllable_t::onset)
-	{
-	}
-
 	void reset(ipa::phonemes &aPhonemes);
 
 	bool read();
 
 	ipa::phonemes::iterator last;
-	syllable_t mState;
 };
 
 void syllable_reader_t::reset(ipa::phonemes &aPhonemes)
@@ -59,7 +53,7 @@ void syllable_reader_t::reset(ipa::phonemes &aPhonemes)
 
 bool syllable_reader_t::read()
 {
-	mState = syllable_t::onset;
+	syllable_t state = syllable_t::onset;
 	onset = end;
 
 	for (auto current = onset; current != last; ++current)
@@ -68,17 +62,16 @@ bool syllable_reader_t::read()
 		switch (phoneme.get(ipa::phoneme_type))
 		{
 		case ipa::vowel:
-			switch (mState)
+			switch (state)
 			{
 			case syllable_t::coda:
 			case syllable_t::onset:
-				mState = syllable_t::nucleus;
+				state = syllable_t::nucleus;
 				nucleus = current;
 				break;
 			case syllable_t::nucleus:
 				if (phoneme.get(ipa::syllabicity) != ipa::non_syllabic)
 				{
-					mState = syllable_t::coda;
 					coda = end = current;
 					return true;
 				}
@@ -86,10 +79,9 @@ bool syllable_reader_t::read()
 			}
 			break;
 		default:
-			switch (mState)
+			switch (state)
 			{
 			case syllable_t::nucleus:
-				mState = syllable_t::coda;
 				coda = end = current;
 				return true;
 			}
