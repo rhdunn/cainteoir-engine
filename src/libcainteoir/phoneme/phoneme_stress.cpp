@@ -33,6 +33,7 @@ enum syllable_t : uint8_t
 {
 	onset,
 	nucleus,
+	coda_start,
 	coda,
 };
 
@@ -76,8 +77,12 @@ bool syllable_reader_t::read()
 					return true;
 				}
 				break;
-			case syllable_t::coda:
+			case syllable_t::coda_start:
 				coda = end = coda_start;
+				return true;
+			case syllable_t::coda:
+				end = coda_start;
+				coda = --coda_start;
 				return true;
 			}
 			break;
@@ -91,8 +96,12 @@ bool syllable_reader_t::read()
 				coda = current;
 				end = current;
 				return true;
-			case syllable_t::coda:
+			case syllable_t::coda_start:
 				coda = coda_start;
+				end = current;
+				return true;
+			case syllable_t::coda:
+				coda = --coda_start;
 				end = current;
 				return true;
 			}
@@ -103,6 +112,10 @@ bool syllable_reader_t::read()
 			case syllable_t::onset:
 				break;
 			case syllable_t::nucleus:
+				state = syllable_t::coda_start;
+				coda_start = current;
+				break;
+			case syllable_t::coda_start:
 				state = syllable_t::coda;
 				coda_start = current;
 				break;
