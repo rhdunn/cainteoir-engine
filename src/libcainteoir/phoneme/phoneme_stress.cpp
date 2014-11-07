@@ -186,31 +186,15 @@ static void make_vowel_stressed(ipa::phonemes &aPhonemes)
 
 static void make_syllable_stressed(ipa::phonemes &aPhonemes)
 {
-	auto onset = aPhonemes.begin();
-	syllable_t state = syllable_t::onset;
-
-	for (auto current = aPhonemes.begin(), last = aPhonemes.end(); current != last; ++current)
+	syllable_reader_t syllable;
+	syllable.reset(aPhonemes);
+	while (syllable.read())
 	{
-		auto &phoneme = *current;
-		ipa::phoneme::value_type current_stress = phoneme.get(ipa::stress);
-		if (phoneme.get(ipa::phoneme_type) == ipa::vowel || phoneme.get(ipa::syllabic))
+		auto stress = syllable.nucleus->get(ipa::stress);
+		if (stress != ipa::unstressed)
 		{
-			if (state == syllable_t::nucleus)
-				onset = current;
-			if (current_stress != ipa::unstressed)
-			{
-				// stressed syllable
-				phoneme.set(ipa::unstressed, ipa::stress);
-				onset->set(current_stress, ipa::stress);
-			}
-			state = syllable_t::nucleus;
-		}
-		else
-		{
-			if (state == syllable_t::nucleus)
-				state = syllable_t::coda;
-			if (state == syllable_t::coda) // coda = maximal consonant sequence
-				onset = current;
+			syllable.nucleus->set(ipa::unstressed, ipa::stress);
+			syllable.onset->set(stress, ipa::stress);
 		}
 	}
 }
