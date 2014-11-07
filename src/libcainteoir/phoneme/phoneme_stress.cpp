@@ -171,29 +171,15 @@ std::shared_ptr<tts::syllable_reader> tts::create_syllable_reader()
 
 static void make_vowel_stressed(ipa::phonemes &aPhonemes)
 {
-	ipa::phoneme::value_type stress = ipa::unstressed;
-
-	for (auto current = aPhonemes.begin(), last = aPhonemes.end(); current != last; ++current)
+	syllable_reader_t syllable;
+	syllable.reset(aPhonemes);
+	while (syllable.read())
 	{
-		auto &phoneme = *current;
-		ipa::phoneme::value_type current_stress = phoneme.get(ipa::stress);
-		if (current_stress != ipa::unstressed)
+		auto stress = syllable.onset->get(ipa::stress);
+		if (stress != ipa::unstressed)
 		{
-			if (phoneme.get(ipa::phoneme_type) == ipa::vowel)
-				stress = ipa::unstressed;
-			else
-			{
-				stress = current_stress;
-				phoneme.set(ipa::unstressed, ipa::stress);
-			}
-		}
-		else if (phoneme.get(ipa::phoneme_type) == ipa::vowel)
-		{
-			if (stress != ipa::unstressed)
-			{
-				phoneme.set(stress, ipa::stress);
-				stress = ipa::unstressed;
-			}
+			syllable.onset->set(ipa::unstressed, ipa::stress);
+			syllable.nucleus->set(stress, ipa::stress);
 		}
 	}
 }
