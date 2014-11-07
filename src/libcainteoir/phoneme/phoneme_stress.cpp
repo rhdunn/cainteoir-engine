@@ -63,6 +63,7 @@ bool syllable_reader_t::read()
 		auto &phoneme = *current;
 		switch (phoneme.get(ipa::phoneme_type | ipa::syllabicity))
 		{
+		case ipa::consonant | ipa::syllabic:
 		case ipa::vowel:
 			switch (state)
 			{
