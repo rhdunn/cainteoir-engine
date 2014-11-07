@@ -54,6 +54,7 @@ void syllable_reader_t::reset(ipa::phonemes &aPhonemes)
 bool syllable_reader_t::read()
 {
 	syllable_t state = syllable_t::onset;
+	ipa::phonemes::iterator coda_start = end;
 	onset = end;
 
 	for (auto current = onset; current != last; ++current)
@@ -64,7 +65,6 @@ bool syllable_reader_t::read()
 		case ipa::vowel:
 			switch (state)
 			{
-			case syllable_t::coda:
 			case syllable_t::onset:
 				state = syllable_t::nucleus;
 				nucleus = current;
@@ -76,19 +76,44 @@ bool syllable_reader_t::read()
 					return true;
 				}
 				break;
+			case syllable_t::coda:
+				coda = end = coda_start;
+				return true;
+			}
+			break;
+		case ipa::separator:
+			switch (state)
+			{
+			case syllable_t::onset:
+				onset = coda_start = current;
+				break;
+			case syllable_t::nucleus:
+				coda = current;
+				end = current;
+				return true;
+			case syllable_t::coda:
+				coda = coda_start;
+				end = current;
+				return true;
 			}
 			break;
 		default:
 			switch (state)
 			{
+			case syllable_t::onset:
+				break;
 			case syllable_t::nucleus:
-				coda = end = current;
-				return true;
+				state = syllable_t::coda;
+				coda_start = current;
+				break;
+			case syllable_t::coda:
+				break;
 			}
 			break;
 		}
 	}
 
+	onset = nucleus = coda = end = last;
 	return false;
 }
 
