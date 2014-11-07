@@ -345,14 +345,14 @@ namespace cainteoir { namespace tts
 
 	struct syllable
 	{
-		ipa::phonemes::const_iterator onset;
-		ipa::phonemes::const_iterator nucleus;
-		ipa::phonemes::const_iterator coda;
+		ipa::phonemes::iterator onset;
+		ipa::phonemes::iterator nucleus;
+		ipa::phonemes::iterator coda;
 	};
 
 	struct syllable_reader : public syllable
 	{
-		virtual void reset(const ipa::phonemes &aPhonemes) = 0;
+		virtual void reset(ipa::phonemes &aPhonemes) = 0;
 
 		virtual bool read() = 0;
 
