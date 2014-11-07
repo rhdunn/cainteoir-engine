@@ -348,6 +348,7 @@ namespace cainteoir { namespace tts
 		ipa::phonemes::iterator onset;
 		ipa::phonemes::iterator nucleus;
 		ipa::phonemes::iterator coda;
+		ipa::phonemes::iterator end;
 	};
 
 	struct syllable_reader : public syllable

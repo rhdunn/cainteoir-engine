@@ -50,8 +50,7 @@ void print_phonemes(ipa::phonemes &aPhonemes,
 		if (p == aSyllables->onset)
 		{
 			aTo->flush();
-			if (p != aPhonemes.begin())
-				fputc('|', stdout);
+			fputc('{', stdout);
 		}
 		if (p == aSyllables->nucleus)
 		{
@@ -62,6 +61,11 @@ void print_phonemes(ipa::phonemes &aPhonemes,
 		{
 			aTo->flush();
 			fputc(']', stdout);
+		}
+		if (p == aSyllables->end)
+		{
+			aTo->flush();
+			fputc('}', stdout);
 			if (aSyllables->read())
 				continue;
 		}
