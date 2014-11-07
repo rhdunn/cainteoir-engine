@@ -220,9 +220,8 @@ bool ruleset::read()
 
 		if (match_l2p_rule(rule, mStart, mCurrent, mEnd))
 		{
-			const char *phonemes = mRules.pstr();
-			mPhonemeCurrent = phonemes;
-			mPhonemeEnd = phonemes + strlen(phonemes);
+			mPhonemeCurrent = mRules.pstr();
+			mPhonemeEnd = mPhonemeCurrent + strlen(mPhonemeCurrent);
 			mState = have_phonemes;
 			continue;
 		}
