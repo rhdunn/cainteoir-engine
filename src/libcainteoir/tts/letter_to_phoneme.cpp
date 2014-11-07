@@ -192,6 +192,7 @@ void ruleset::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 
 bool ruleset::read()
 {
+	const uint8_t *rule = nullptr;
 	while (true) switch (mState)
 	{
 	case need_phonemes:
@@ -210,23 +211,20 @@ bool ruleset::read()
 		}
 		break;
 	case in_rule_group:
+		rule = (const uint8_t *)mRules.pstr();
+		if (*rule == 0)
 		{
-			const uint8_t *pattern = (const uint8_t *)mRules.pstr();
+			++mCurrent;
+			throw tts::phoneme_error(i18n("unable to pronounce the text"));
+		}
+
+		if (match_l2p_rule(rule, mStart, mCurrent, mEnd))
+		{
 			const char *phonemes = mRules.pstr();
-
-			if (*pattern == 0)
-			{
-				++mCurrent;
-				throw tts::phoneme_error(i18n("unable to pronounce the text"));
-			}
-
-			if (match_l2p_rule(pattern, mStart, mCurrent, mEnd))
-			{
-				mPhonemeCurrent = phonemes;
-				mPhonemeEnd = phonemes + strlen(phonemes);
-				mState = have_phonemes;
-				continue;
-			}
+			mPhonemeCurrent = phonemes;
+			mPhonemeEnd = phonemes + strlen(phonemes);
+			mState = have_phonemes;
+			continue;
 		}
 		break;
 	case have_phonemes:
