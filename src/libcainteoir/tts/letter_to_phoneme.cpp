@@ -214,22 +214,21 @@ ruleset::next_match()
 	const uint8_t *rule     = nullptr;
 	const uint8_t *next     = nullptr;
 	const char    *phonemes = nullptr;
+	uint16_t       offset   = 0;
 	while (true) switch (state)
 	{
 	case need_phonemes:
+		if (mCurrent == mEnd) return { nullptr, nullptr };
+
+		offset = mRuleGroups[*mCurrent];
+		if (offset == 0)
 		{
-			if (mCurrent == mEnd) return { nullptr, nullptr };
-
-			uint16_t offset = mRuleGroups[*mCurrent];
-			if (offset == 0)
-			{
-				++mCurrent;
-				throw tts::phoneme_error(i18n("unable to pronounce the text"));
-			}
-
-			mRules.seek(offset);
-			state = in_rule_group;
+			++mCurrent;
+			throw tts::phoneme_error(i18n("unable to pronounce the text"));
 		}
+
+		mRules.seek(offset);
+		state = in_rule_group;
 		break;
 	case in_rule_group:
 		rule = (const uint8_t *)mRules.pstr();
