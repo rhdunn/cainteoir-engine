@@ -48,7 +48,7 @@ private:
 	uint16_t mRuleGroups[256];
 
 	std::pair<const uint8_t *, const char *>
-	next_match();
+	next_match(const uint8_t *current);
 };
 
 ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
@@ -106,7 +106,7 @@ bool ruleset::read()
 {
 	while (!mPhonemeSet->parse(mPhonemeCurrent, mPhonemeEnd, *this))
 	{
-		auto match = next_match();
+		auto match = next_match(mCurrent);
 		if (!match.first)
 			return false;
 
@@ -118,7 +118,7 @@ bool ruleset::read()
 }
 
 std::pair<const uint8_t *, const char *>
-ruleset::next_match()
+ruleset::next_match(const uint8_t *current)
 {
 	static const uint8_t null_rule[] = { 0 };
 
@@ -144,12 +144,12 @@ ruleset::next_match()
 		switch (state)
 		{
 		case need_phonemes:
-			if (mCurrent == mEnd) return { nullptr, nullptr };
+			if (current == mEnd) return { nullptr, nullptr };
 
-			offset = mRuleGroups[*mCurrent];
+			offset = mRuleGroups[*current];
 			if (offset == 0)
 			{
-				++mCurrent;
+				++current;
 				throw tts::phoneme_error(i18n("unable to pronounce the text"));
 			}
 
@@ -160,12 +160,12 @@ ruleset::next_match()
 			rule = (const uint8_t *)mRules.pstr();
 			if (*rule == 0)
 			{
-				++mCurrent;
+				++current;
 				throw tts::phoneme_error(i18n("unable to pronounce the text"));
 			}
 
 			phonemes = mRules.pstr();
-			context = left = right = mCurrent;
+			context = left = right = current;
 			state = context_match;
 			break;
 		default:
