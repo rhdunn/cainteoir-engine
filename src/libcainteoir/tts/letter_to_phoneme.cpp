@@ -204,6 +204,8 @@ bool ruleset::read()
 std::pair<const uint8_t *, const char *>
 ruleset::next_match()
 {
+	static const uint8_t null_rule[] = { 0 };
+
 	enum state_t
 	{
 		need_phonemes,
@@ -211,38 +213,43 @@ ruleset::next_match()
 	};
 
 	state_t state = need_phonemes;
-	const uint8_t *rule     = nullptr;
+	const uint8_t *rule     = null_rule;
 	const uint8_t *next     = nullptr;
 	const char    *phonemes = nullptr;
 	uint16_t       offset   = 0;
-	while (true) switch (state)
+	while (true) switch (*rule)
 	{
-	case need_phonemes:
-		if (mCurrent == mEnd) return { nullptr, nullptr };
-
-		offset = mRuleGroups[*mCurrent];
-		if (offset == 0)
+	case 0:
+		switch (state)
 		{
-			++mCurrent;
-			throw tts::phoneme_error(i18n("unable to pronounce the text"));
-		}
+		case need_phonemes:
+			if (mCurrent == mEnd) return { nullptr, nullptr };
 
-		mRules.seek(offset);
-		state = in_rule_group;
-		break;
-	case in_rule_group:
-		rule = (const uint8_t *)mRules.pstr();
-		if (*rule == 0)
-		{
-			++mCurrent;
-			throw tts::phoneme_error(i18n("unable to pronounce the text"));
-		}
+			offset = mRuleGroups[*mCurrent];
+			if (offset == 0)
+			{
+				++mCurrent;
+				throw tts::phoneme_error(i18n("unable to pronounce the text"));
+			}
 
-		phonemes = mRules.pstr();
-		next     = match_l2p_rule(rule, mStart, mCurrent, mEnd);
-		if (next != nullptr)
-			return { next, phonemes };
-		break;
+			mRules.seek(offset);
+			state = in_rule_group;
+			break;
+		case in_rule_group:
+			rule = (const uint8_t *)mRules.pstr();
+			if (*rule == 0)
+			{
+				++mCurrent;
+				throw tts::phoneme_error(i18n("unable to pronounce the text"));
+			}
+
+			phonemes = mRules.pstr();
+			next     = match_l2p_rule(rule, mStart, mCurrent, mEnd);
+			if (next != nullptr)
+				return { next, phonemes };
+			rule = null_rule;
+			break;
+		}
 	}
 }
 
