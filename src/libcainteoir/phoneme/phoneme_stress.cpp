@@ -210,6 +210,7 @@ bool syllable_reader_t::read()
 		end = last;
 		return true;
 	case syllable_t::coda:
+	case syllable_t::coda_affricate:
 		end = last;
 		coda = --coda_start;
 		return true;
