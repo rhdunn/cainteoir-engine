@@ -27,90 +27,6 @@
 
 namespace tts = cainteoir::tts;
 
-static const uint8_t *
-match_l2p_rule(const uint8_t *rule,
-               const uint8_t *start,
-               const uint8_t *current,
-               const uint8_t *end)
-{
-	enum state_t
-	{
-		context_match,
-		left_match,
-		right_match,
-	};
-
-	state_t state = context_match;
-	const uint8_t *context = current;
-	const uint8_t *left = current;
-	const uint8_t *right = current;
-	while (true) switch (*rule)
-	{
-	case 0:
-		return context;
-	case '(':
-		right = context;
-		state = right_match;
-		++rule;
-		break;
-	case ')':
-		state = left_match;
-		++rule;
-		--left;
-		break;
-	case '_':
-		switch (state)
-		{
-		case left_match:
-			if (left != start - 1) return nullptr;
-			++rule;
-			break;
-		case right_match:
-			if (right != end) return nullptr;
-			++rule;
-			break;
-		default:
-			return nullptr;
-		}
-		break;
-	default:
-		switch (state)
-		{
-		case context_match:
-			if (context > end) return nullptr;
-			if (*context == *rule)
-			{
-				++rule;
-				++context;
-			}
-			else
-				return nullptr;
-			break;
-		case left_match:
-			if (left < start) return nullptr;
-			if (*left == *rule)
-			{
-				++rule;
-				--left;
-			}
-			else
-				return nullptr;
-			break;
-		case right_match:
-			if (right > end) return nullptr;
-			if (*right == *rule)
-			{
-				++rule;
-				++right;
-			}
-			else
-				return nullptr;
-			break;
-		}
-		break;
-	}
-}
-
 struct ruleset : public tts::phoneme_reader
 {
 	ruleset(const std::shared_ptr<cainteoir::buffer> &aData);
@@ -210,11 +126,16 @@ ruleset::next_match()
 	{
 		need_phonemes,
 		in_rule_group,
+		context_match,
+		left_match,
+		right_match,
 	};
 
 	state_t state = need_phonemes;
 	const uint8_t *rule     = null_rule;
-	const uint8_t *next     = nullptr;
+	const uint8_t *context  = nullptr;
+	const uint8_t *left     = nullptr;
+	const uint8_t *right    = nullptr;
 	const char    *phonemes = nullptr;
 	uint16_t       offset   = 0;
 	while (true) switch (*rule)
@@ -244,12 +165,91 @@ ruleset::next_match()
 			}
 
 			phonemes = mRules.pstr();
-			next     = match_l2p_rule(rule, mStart, mCurrent, mEnd);
-			if (next != nullptr)
-				return { next, phonemes };
+			context = left = right = mCurrent;
+			state = context_match;
+			break;
+		default:
+			return { context, phonemes };
+		}
+		break;
+	case '(':
+		right = context;
+		state = right_match;
+		++rule;
+		break;
+	case ')':
+		state = left_match;
+		++rule;
+		--left;
+		break;
+	case '_':
+		switch (state)
+		{
+		case left_match:
+			if (left != mStart - 1)
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			else
+				++rule;
+			break;
+		case right_match:
+			if (right != mEnd)
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			else
+				++rule;
+			break;
+		default:
+			state = in_rule_group;
 			rule = null_rule;
 			break;
 		}
+		break;
+	default:
+		switch (state)
+		{
+		case context_match:
+			if (context <= mEnd && *context == *rule)
+			{
+				++rule;
+				++context;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			break;
+		case left_match:
+			if (left >= mStart && *left == *rule)
+			{
+				++rule;
+				--left;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			break;
+		case right_match:
+			if (right <= mEnd && *right == *rule)
+			{
+				++rule;
+				++right;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			break;
+		}
+		break;
 	}
 }
 
