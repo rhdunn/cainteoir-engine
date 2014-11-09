@@ -119,31 +119,25 @@ struct ruleset : public tts::phoneme_reader
 
 	bool read();
 private:
-	enum state_t
-	{
-		need_phonemes,
-		in_rule_group,
-		have_phonemes,
-	};
-
 	std::shared_ptr<cainteoir::buffer> mBuffer;
 	const uint8_t *mStart;
 	const uint8_t *mCurrent;
 	const uint8_t *mEnd;
 	const char *mPhonemeCurrent;
 	const char *mPhonemeEnd;
-	state_t mState;
 
 	std::shared_ptr<cainteoir::buffer> mData;
 	std::shared_ptr<tts::phoneme_parser> mPhonemeSet;
 	cainteoir::native_endian_buffer mRules;
 	uint16_t mRuleGroups[256];
+
+	std::pair<const uint8_t *, const char *>
+	next_match();
 };
 
 ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
 	: mData(aData)
 	, mRules((const uint8_t *)aData->begin(), (const uint8_t *)aData->end())
-	, mState(need_phonemes)
 {
 	memset(mRuleGroups, 0, sizeof(mRuleGroups));
 
@@ -189,18 +183,42 @@ void ruleset::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 	}
 	else
 		mStart = mCurrent = mEnd = nullptr;
-	mState = need_phonemes;
+	mPhonemeCurrent = mPhonemeEnd = nullptr;
 }
 
 bool ruleset::read()
 {
-	const uint8_t *rule = nullptr;
-	const uint8_t *next = nullptr;
-	while (true) switch (mState)
+	while (!mPhonemeSet->parse(mPhonemeCurrent, mPhonemeEnd, *this))
+	{
+		auto match = next_match();
+		if (!match.first)
+			return false;
+
+		mCurrent        = match.first;
+		mPhonemeCurrent = match.second;
+		mPhonemeEnd     = match.second + strlen(match.second);
+	}
+	return true;
+}
+
+std::pair<const uint8_t *, const char *>
+ruleset::next_match()
+{
+	enum state_t
+	{
+		need_phonemes,
+		in_rule_group,
+	};
+
+	state_t state = need_phonemes;
+	const uint8_t *rule     = nullptr;
+	const uint8_t *next     = nullptr;
+	const char    *phonemes = nullptr;
+	while (true) switch (state)
 	{
 	case need_phonemes:
 		{
-			if (mCurrent == mEnd) return false;
+			if (mCurrent == mEnd) return { nullptr, nullptr };
 
 			uint16_t offset = mRuleGroups[*mCurrent];
 			if (offset == 0)
@@ -210,7 +228,7 @@ bool ruleset::read()
 			}
 
 			mRules.seek(offset);
-			mState = in_rule_group;
+			state = in_rule_group;
 		}
 		break;
 	case in_rule_group:
@@ -221,20 +239,10 @@ bool ruleset::read()
 			throw tts::phoneme_error(i18n("unable to pronounce the text"));
 		}
 
-		next = match_l2p_rule(rule, mStart, mCurrent, mEnd);
+		phonemes = mRules.pstr();
+		next     = match_l2p_rule(rule, mStart, mCurrent, mEnd);
 		if (next != nullptr)
-		{
-			mCurrent = next;
-			mPhonemeCurrent = mRules.pstr();
-			mPhonemeEnd = mPhonemeCurrent + strlen(mPhonemeCurrent);
-			mState = have_phonemes;
-			continue;
-		}
-		break;
-	case have_phonemes:
-		if (mPhonemeSet->parse(mPhonemeCurrent, mPhonemeEnd, *this))
-			return true;
-		mState = need_phonemes;
+			return { next, phonemes };
 		break;
 	}
 }
